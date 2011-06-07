@@ -1,0 +1,218 @@
+/**
+ * @author Hakim El Hattab
+ */
+
+
+/*********************************************
+ * FONT-FACE DEFINITIONS
+ *********************************************/
+
+@font-face {
+	font-family: 'League Gothic';
+	src: url('../assets/fonts/leaguegothic/league_gothic-webfont.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+
+html, body {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	
+	font-family: 'Crimson Text', Times, 'Times New Roman', serif;
+	font-size: 36px;
+	
+	background: #fff;
+	color: #222;
+	
+	width: 100%;
+	height: 100%;
+	
+	background-image: -webkit-gradient(
+		radial, 
+		50% 50%, 0, 
+		50% 50%, 1000, 
+		from(rgba(245,245,245,1.0)), 
+		to(rgba(100,100,100,1.0))
+	);
+
+	background-image: -moz-radial-gradient(
+		50% 50% 90deg,
+		rgba(245,245,245,1.0) 0%, 
+		rgba(100,100,100,1.0) 100%
+	);
+	
+}
+
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+h1, h2, h3, h4 {
+	margin: 0 0 20px 0;
+	font-family: 'League Gothic', Arial, Helvetica, sans-serif;
+	line-height: 0.9em;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: #222;
+	text-shadow: 0px 0px 2px #fff, 0px 0px 4px #bbb;
+}
+
+h1 { font-size: 136px; 	}
+h2 { font-size: 76px;	}
+h3 { font-size: 56px;	}
+h4 { font-size: 36px;	}
+
+h1.inverted,
+h2.inverted,
+h3.inverted,
+h4.inverted {
+	color: #fff;
+	text-shadow: 0px 0px 2px #fff, 0px 0px 2px #888;
+}
+
+
+/*********************************************
+ * SLIDES
+ *********************************************/
+#main {
+	position: absolute;
+	width: 800px;
+	height: 600px;
+	
+	left: 50%;
+	top: 50%;
+	margin-left: -400px;
+	margin-top: -320px;
+	
+	text-align: center;
+	
+	-webkit-perspective: 600px;
+ 	-webkit-perspective-origin: 50% 25%;
+}
+
+#main>section,
+#main>section>section {
+	display: none;
+	
+	position: absolute;
+	width: 100%;
+	min-height: 600px;
+	
+	-webkit-transform-style: preserve-3d;
+	
+	-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985); 
+	   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985); 
+	     -o-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985); 
+	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+#main section.past {
+	display: block;
+	opacity: 0;
+	
+	-webkit-transform: 	translate3d(-100%, 0, 0) 
+						rotateY(-90deg) 
+						translate3d(-100%, 0, 0);
+}
+
+#main section.present {
+	display: block;
+}
+
+#main section.future {
+	display: block;
+	opacity: 0;
+	
+	-webkit-transform: 	translate3d(100%, 0, 0) 
+						rotateY(90deg) 
+						translate3d(100%, 0, 0);
+}
+
+#main section>section.past {
+	display: block;
+	opacity: 0;
+	
+	-webkit-transform: 	translate3d(0, -50%, 0) 
+						rotateX(70deg) 
+						translate3d(0, -50%, 0);
+}
+#main section>section.future {
+	display: block;
+	opacity: 0;
+	
+	-webkit-transform: 	translate3d(0, 50%, 0) 
+						rotateX(-70deg) 
+						translate3d(0, 50%, 0);
+}
+
+
+/*********************************************
+ * DEFAULT ELEMENT STYLES
+ *********************************************/
+
+#main>section {
+	line-height: 1.2em;
+	text-shadow: 0px 0px 2px #fff, 0px 0px 4px #bbb;
+	font-weight: 600;
+}
+
+ol {
+	list-style: decimal;
+	list-style-position: inside;
+}
+
+li, p {
+	margin-bottom: 10px;
+}
+
+a:not(.image) {
+	color: #1b6263;
+	text-decoration: none;
+	border-bottom: 1px dashed rgba(0,0,0,0.3);
+	padding: 1px 3px;
+}
+	
+	a:not(.image):hover {
+		color: #fff;
+		background: #2fa794;
+		text-shadow: none;
+		border: none;
+	}
+
+img {
+	margin: 30px 0 0 0;
+	background: rgba(255,255,255,0.12);
+	border: 4px solid #eee;
+	
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	
+	-webkit-transition: all .11s linear;
+	   -moz-transition: all .11s linear;
+	     -o-transition: all .11s linear;
+	        transition: all .11s linear;
+}
+
+	a.image:hover img {
+		background: rgba(255,255,255,0.2);
+		
+		-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+		   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+		        box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+	}
+
+
+
+
+
+
+
+
+
