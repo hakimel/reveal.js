@@ -123,6 +123,8 @@ h4.inverted {
 
 #main section.present {
 	display: block;
+    position: relative;
+    z-index: 10;
 }
 
 #main section.future {
