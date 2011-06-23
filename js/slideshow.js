@@ -104,9 +104,13 @@ var Slideshow = (function(){
 	 * @param {Object} event
 	 */
 	function onDocumentTouchStart( event ) {
-		
 		// We're only interested in one point taps
-		if (event.touches.length == 1) {
+		if (event.touches.length === 1) {
+			// Never prevent taps on anchors and images
+			if( event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'img' ) {
+				return;
+			}
+			
 			event.preventDefault();
 			
 			var point = {
