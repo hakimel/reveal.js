@@ -49,9 +49,12 @@
  * version 0.3:		
  * - Added licensing terms
  * 
+ * version 0.4:
+ * - Fixed broken links on touch devices.
+ * 
  * 	
  * @author Hakim El Hattab
- * @version 0.3
+ * @version 0.4
  */
 var Slideshow = (function(){
 	
