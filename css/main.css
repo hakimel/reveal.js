@@ -55,12 +55,17 @@ html, body {
  *********************************************/
 h1, h2, h3, h4 {
 	margin: 0 0 20px 0;
+	
+	color: #222;
+	
 	font-family: 'League Gothic', Arial, Helvetica, sans-serif;
 	line-height: 0.9em;
 	letter-spacing: 0.02em;
+	
 	text-transform: uppercase;
-	color: #222;
-	text-shadow: 0px 0px 2px #fff, 0px 0px 4px #bbb;
+	
+	text-shadow: 0px 1px 0px #eee, 
+				 0px 0px 4px #bbb;
 }
 
 h1 { font-size: 136px; 	}
@@ -73,7 +78,8 @@ h2.inverted,
 h3.inverted,
 h4.inverted {
 	color: #fff;
-	text-shadow: 0px 0px 2px #fff, 0px 0px 2px #888;
+	text-shadow: 0px 0px 1px #fff, 
+				 0px 0px 1px #888;
 }
 
 
@@ -183,6 +189,7 @@ a:not(.image) {
 		background: #2fa794;
 		text-shadow: none;
 		border: none;
+		border-radius: 2px;
 	}
 
 img {
