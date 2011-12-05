@@ -138,6 +138,17 @@ h1 {
 	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
+#main section.present {
+	display: block;
+    position: absolute;
+    z-index: 10;
+}
+
+
+/*********************************************
+ * DEFAULT THEME
+ *********************************************/
+
 #main section.past {
 	display: block;
 	opacity: 0;
@@ -145,20 +156,6 @@ h1 {
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
-}
-
-/*********************************************
- * DEFAULT THEME
- *********************************************/
-
-#main section.present {
-	display: block;
-    position: absolute;
-    z-index: 10;
-
-    -webkit-transform-style: flat;
-	   -moz-transform-style: flat;
-	        transform-style: flat;
 }
 
 #main section.future {
@@ -202,6 +199,17 @@ h1 {
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+}
+
+.concave #main section>section.past {
+	-webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
+	   -moz-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
+	        transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
+}
+.concave #main section>section.future {
+	-webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
+	   -moz-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
+	        transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 }
 
 
@@ -433,7 +441,6 @@ img {
 
 	}
 
-
 /*********************************************
  * ROLLING LINKS
  *********************************************/
@@ -460,6 +467,8 @@ img {
     display: block;
     position: relative;
     padding: 0 2px;
+
+	pointer-events: none;
 
     -webkit-transition: all 400ms ease;
        -moz-transition: all 400ms ease;
