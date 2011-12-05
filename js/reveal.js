@@ -25,9 +25,7 @@
  * sexy CSS 3D transforms.
  * 
  * Slides are given unique hash based URL's so that they can be 
- * opened directly. I didn't use the HTML5 History API for this 
- * as it would have required the addition of server side rewrite 
- * rules and hence require more effort for anyone to set up.
+ * opened directly.
  * 
  * Public facing methods:
  * - Reveal.initialize( { ... options ... } );
@@ -48,9 +46,7 @@
  * 
  * version 0.3:		
  * - Added licensing terms
- * 
- * version 0.4:
- * - Fixed broken links on touch devices.
+ * - Fixed broken links on touch devices
  * 
  * version 1.0:
  * - Added controls
@@ -63,15 +59,16 @@
  * 
  * TODO:
  * - Touch/swipe interactions
+ * - Presentation overview via keyboard shortcut
  * 	
- * @author Hakim El Hattab
+ * @author Hakim El Hattab | http://hakim.se
  * @version 1.0
  */
 var Reveal = (function(){
 	
 	var HORIZONTAL_SLIDES_SELECTOR = '#main>section',
 		VERTICAL_SLIDES_SELECTOR = 'section.present>section',
-		
+
 		indexh = 0,
 		indexv = 0,
 
@@ -98,7 +95,7 @@ var Reveal = (function(){
 		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
 		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
 
-		// Set default configuration
+		// Default options
 		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
 		config.controls = options.controls === undefined ? false : options.controls;
 		config.theme = options.theme === undefined ? 'default' : options.theme;
@@ -116,7 +113,7 @@ var Reveal = (function(){
 			linkify();
 		}
 
-		// Read the initial state of the URL (hash)
+		// Read the initial hash
 		readURL();
 	}
 
@@ -310,7 +307,9 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Determine what available routes there are for navigation.
 	 * 
+	 * @return {Object} containing four booleans: left/right/up/down
 	 */
 	function availableRoutes() {
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
