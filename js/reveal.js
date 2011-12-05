@@ -21,21 +21,21 @@
  */
 
 /**
- * Handles the very minimal navigation logic involved in the 
- * slideshow. Including keyboard navigation, touch interaction 
- * and URL history behavior.
+ * Reveal.js is an easy to use HTML based slideshow enhanced by 
+ * sexy CSS 3D transforms.
  * 
  * Slides are given unique hash based URL's so that they can be 
  * opened directly. I didn't use the HTML5 History API for this 
  * as it would have required the addition of server side rewrite 
  * rules and hence require more effort for anyone to set up.
  * 
- * This component can be called from other scripts via a tiny API:
- * - Slideshow.navigateTo( indexh, indexv );
- * - Slideshow.navigateLeft();
- * - Slideshow.navigateRight();
- * - Slideshow.navigateUp();
- * - Slideshow.navigateDown();
+ * Public facing methods:
+ * - Reveal.initialize( { ... options ... } );
+ * - Reveal.navigateTo( indexh, indexv );
+ * - Reveal.navigateLeft();
+ * - Reveal.navigateRight();
+ * - Reveal.navigateUp();
+ * - Reveal.navigateDown();
  * 
  * 
  * version 0.1:
@@ -52,25 +52,83 @@
  * version 0.4:
  * - Fixed broken links on touch devices.
  * 
+ * version 1.0:
+ * - Added controls
+ * - Added initialization options
+ * - Reveal views in fragments
+ * - Revamped, darker, theme
+ * - Tweaked markup styles (a, em, strong, b, i, blockquote, q, pre, ul, ol)
+ * - Support for themes at initialization (default/linear/concave)
+ * - Code highlighting via highlight.js
+ * 
+ * TODO:
+ * - Touch/swipe interactions
  * 	
  * @author Hakim El Hattab
- * @version 0.4
+ * @version 1.0
  */
-var Slideshow = (function(){
+var Reveal = (function(){
 	
-	var indexh = 0,
-		indexv = 0;
+	var HORIZONTAL_SLIDES_SELECTOR = '#main>section',
+		VERTICAL_SLIDES_SELECTOR = 'section.present>section',
+		
+		indexh = 0,
+		indexv = 0,
+
+		config = {},
+		dom = {};
 	
 	/**
 	 * Activates the main program logic.
 	 */
-	function initialize() {
+	function initialize( options ) {
+		// Gather references to DOM elements
+		dom.controls = document.querySelector( '.controls' );
+		dom.controlsLeft = document.querySelector( '.controls .left' );
+		dom.controlsRight = document.querySelector( '.controls .right' );
+		dom.controlsUp = document.querySelector( '.controls .up' );
+		dom.controlsDown = document.querySelector( '.controls .down' );
+
+		// Add event listeners
 		document.addEventListener('keydown', onDocumentKeyDown, false);
 		document.addEventListener('touchstart', onDocumentTouchStart, false);
 		window.addEventListener('hashchange', onWindowHashChange, false);
-		
+		dom.controlsLeft.addEventListener('click', preventAndForward( navigateLeft ), false);
+		dom.controlsRight.addEventListener('click', preventAndForward( navigateRight ), false);
+		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
+		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
+
+		// Set default configuration
+		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
+		config.controls = options.controls === undefined ? false : options.controls;
+		config.theme = options.theme === undefined ? 'default' : options.theme;
+
+		if( config.controls ) {
+			dom.controls.style.display = 'block';
+		}
+
+		if( config.theme !== 'default' ) {
+			document.body.classList.add( config.theme );
+		}
+
+		if( config.rollingLinks ) {
+			// Add some 3D magic to our anchors
+			linkify();
+		}
+
 		// Read the initial state of the URL (hash)
 		readURL();
+	}
+
+	/**
+	 * Prevents an events defaults behavior calls the 
+	 * specified delegate.
+	 */
+	function preventAndForward( delegate ) {
+		return function( event ) {
+			event.preventDefault();
+			delegate.call();
+		}
 	}
 	
 	/**
@@ -153,6 +211,28 @@ var Slideshow = (function(){
 	function onWindowHashChange( event ) {
 		readURL();
 	}
+
+	/**
+	 * Wrap all links in 3D goodness.
+	 */
+	function linkify() {
+		var supports3DTransforms =  document.body.style['webkitPerspective'] !== undefined || 
+                            		document.body.style['MozPerspective'] !== undefined ||
+                            		document.body.style['perspective'] !== undefined;
+
+        if( supports3DTransforms ) {
+        	var nodes = document.querySelectorAll( 'section a:not(.image)' );
+
+	        for( var i = 0, len = nodes.length; i < len; i++ ) {
+	            var node = nodes[i];
+
+	            if( !node.className || !node.className.match( /roll/g ) ) {
+	                node.className += ' roll';
+	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
+	            }
+	        };
+        }
+	}
 	
 	/**
 	 * Updates one dimension of slides by showing the slide
@@ -204,10 +284,44 @@ var Slideshow = (function(){
 	 * set indices. 
 	 */
 	function slide() {
-		indexh = updateSlides( '#main>section', indexh );
-		indexv = updateSlides( 'section.present>section', indexv );
+		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
+		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
+
+		updateControls();
 		
 		writeURL();
+	}
+
+	/**
+	 * Updates the state and link pointers of the controls.
+	 */
+	function updateControls() {
+		var routes = availableRoutes();
+
+		// Remove the 'enabled' class from all directions
+		[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( node ) {
+			node.classList.remove( 'enabled' );
+		} )
+
+		if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
+		if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
+		if( routes.up ) dom.controlsUp.classList.add( 'enabled' );
+		if( routes.down ) dom.controlsDown.classList.add( 'enabled' );
+	}
+
+	/**
+	 * 
+	 */
+	function availableRoutes() {
+		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+		var verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+
+		return {
+			left: indexh > 0,
+			right: indexh < horizontalSlides.length - 1,
+			up: indexv > 0,
+			down: indexv < verticalSlides.length - 1
+		};
 	}
 	
 	/**
@@ -233,10 +347,46 @@ var Slideshow = (function(){
 		
 		// Only include the minimum possible number of components in
 		// the URL
-		if( indexh > 0 || indexv > 0 ) url += indexh
-		if( indexv > 0 ) url += '/' + indexv
+		if( indexh > 0 || indexv > 0 ) url += indexh;
+		if( indexv > 0 ) url += '/' + indexv;
 		
 		window.location.hash = url;
+	}
+
+	/**
+	 * Navigate to the nexy slide fragment.
+	 * 
+	 * @return {Boolean} true if there was a next fragment,
+	 * false otherwise
+	 */
+	function nextFragment() {
+		var fragments = document.querySelectorAll( '.present .fragment:not(.visible)' );
+
+		if( fragments.length ) {
+			fragments[0].classList.add( 'visible' );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Navigate to the previous slide fragment.
+	 * 
+	 * @return {Boolean} true if there was a previous fragment,
+	 * false otherwise
+	 */
+	function previousFragment() {
+		var fragments = document.querySelectorAll( '.present .fragment.visible' );
+
+		if( fragments.length ) {
+			fragments[ fragments.length - 1 ].classList.remove( 'visible' );
+
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**
@@ -253,31 +403,39 @@ var Slideshow = (function(){
 	}
 	
 	function navigateLeft() {
-		indexh --;
-		indexv = 0;
-		slide();
+		// Prioritize hiding fragments
+		if( previousFragment() === false ) {
+			indexh --;
+			indexv = 0;
+			slide();
+		}
 	}
 	function navigateRight() {
-		indexh ++;
-		indexv = 0;
-		slide();
+		// Prioritize revealing fragments
+		if( nextFragment() === false ) {
+			indexh ++;
+			indexv = 0;
+			slide();
+		}
 	}
 	function navigateUp() {
-		indexv --;
-		slide();
+		// Prioritize hiding fragments
+		if( previousFragment() === false ) {
+			indexv --;
+			slide();
+		}
 	}
 	function navigateDown() {
-		indexv ++;
-		slide();
+		// Prioritize revealing fragments
+		if( nextFragment() === false ) {
+			indexv ++;
+			slide();
+		}
 	}
-	
-	// Initialize the program. Done right before returning to ensure
-	// that any inline variable definitions are available to all
-	// functions 
-	initialize();
 	
 	// Expose some methods publicly
 	return {
+		initialize: initialize,
 		navigateTo: navigateTo,
 		navigateLeft: navigateLeft,
 		navigateRight: navigateRight,
