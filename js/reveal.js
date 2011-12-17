@@ -358,13 +358,20 @@ var Reveal = (function(){
 	 * @return {Boolean} true if there was a next fragment,
 	 * false otherwise
 	 */
-	function nextFragment() {
-		var fragments = document.querySelectorAll( '.present .fragment:not(.visible)' );
-
-		if( fragments.length ) {
-			fragments[0].classList.add( 'visible' );
-
-			return true;
+	function nextFragment() {	
+		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+			if( verticalFragments.length ) {
+				verticalFragments[0].classList.add( 'visible' );
+				return true;
+			}
+		}
+		else {
+			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+			if( horizontalFragments.length ) {
+				horizontalFragments[0].classList.add( 'visible' );
+				return true;
+			}
 		}
 
 		return false;
@@ -377,14 +384,21 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function previousFragment() {
-		var fragments = document.querySelectorAll( '.present .fragment.visible' );
-
-		if( fragments.length ) {
-			fragments[ fragments.length - 1 ].classList.remove( 'visible' );
-
-			return true;
+		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+			if( verticalFragments.length ) {
+				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
+				return true;
+			}
 		}
-
+		else {
+			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+			if( horizontalFragments.length ) {
+				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	

@@ -364,7 +364,7 @@ a:not(.image) {
 		border-radius: 2px;
 	}
 
-img {
+section img {
 	margin: 30px 0 0 0;
 	background: rgba(255,255,255,0.12);
 	border: 4px solid #eee;
