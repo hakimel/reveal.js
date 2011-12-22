@@ -135,7 +135,7 @@ var Reveal = (function(){
 	 */
 	function onDocumentKeyDown( event ) {
 		
-		if( event.keyCode >= 37 && event.keyCode <= 40 ) {
+		if( event.keyCode >= 37 && event.keyCode <= 40 && event.target.contentEditable === 'inherit' ) {
 			
 			switch( event.keyCode ) {
 				case 37: navigateLeft(); break; // left
