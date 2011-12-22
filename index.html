@@ -35,6 +35,9 @@
 					reveal.js is an easy to use, HTML based, presentation tool. You'll need a modern browser with 
 					support for CSS 3D transforms to see it in its full glory.
 				</p>
+				<p>
+					<i><small>- <a href="http://hakim.se">Hakim El Hattab</a></small></i>
+				</p>
 			</section>
 			
 			<!-- Example of nested vertical slides -->
@@ -167,13 +170,16 @@ linkify( 'a' );
 			</section>
 			
 		</div>
-
+		
 		<aside class="controls">
 			<a class="left" href="#">&#x25C4;</a>
 			<a class="right" href="#">&#x25BA;</a>
 			<a class="up" href="#">&#x25B2;</a>
 			<a class="down" href="#">&#x25BC;</a>
 		</aside>
+
+		<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+		<progress min=0 max=100 value=0></progress>
 		
 		<script src="js/reveal.js"></script>
 		<script src="lib/highlight.js"></script>
@@ -181,6 +187,9 @@ linkify( 'a' );
 			Reveal.initialize({
 				// Display controls in the bottom right corner
 				controls: true,
+
+				// Display a presentation progress bar
+				progress: true,
 
 				// Apply a 3D roll to links on hover
 				rollingLinks: true,

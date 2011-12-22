@@ -59,6 +59,9 @@
  * - Support for themes at initialization (default/linear/concave)
  * - Code highlighting via highlight.js
  * 
+ * version 1.1:
+ * - Optional progress bar UI element
+ * 
  * TODO:
  * - Touch/swipe interactions
  * - Presentation overview via keyboard shortcut
@@ -77,6 +80,7 @@ var Reveal = (function(){
 
 		// Configurations options, including;
 		// > {Boolean} controls
+		// > {Boolean} progress
 		// > {String} theme
 		// > {Boolean} rollingLinks
 		config = {},
@@ -90,6 +94,7 @@ var Reveal = (function(){
 	 */
 	function initialize( options ) {
 		// Cache references to DOM elements
+		dom.progress = document.querySelector( 'body>progress' );
 		dom.controls = document.querySelector( '.controls' );
 		dom.controlsLeft = document.querySelector( '.controls .left' );
 		dom.controlsRight = document.querySelector( '.controls .right' );
@@ -108,10 +113,16 @@ var Reveal = (function(){
 		// Fall back on default options
 		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
 		config.controls = options.controls === undefined ? false : options.controls;
+		config.progress = options.progress === undefined ? false : options.progress;
 		config.theme = options.theme === undefined ? 'default' : options.theme;
 
 		if( config.controls ) {
 			dom.controls.style.display = 'block';
+		}
+
+		if( config.progress ) {
+			dom.progress.style.display = 'block';
+			dom.progress.max = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1;
 		}
 
 		if( config.theme !== 'default' ) {
@@ -238,8 +249,8 @@ var Reveal = (function(){
 
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {
 	            var node = nodes[i];
-
-	            if( !node.className || !node.className.match( /roll/g ) ) {
+	            
+	            if( node.textContent && ( !node.className || !node.className.match( /roll/g ) ) ) {
 	                node.className += ' roll';
 	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
 	            }
@@ -299,6 +310,11 @@ var Reveal = (function(){
 	function slide() {
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
+
+		// Update progress if enabled
+		if( config.progress ) {
+			dom.progress.value = indexh;
+		}
 
 		updateControls();
 		
