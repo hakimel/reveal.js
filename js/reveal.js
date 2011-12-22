@@ -18,9 +18,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
-
-/**
+ *
+ * 
+ * #############################################################################
+ * 
+ *
  * Reveal.js is an easy to use HTML based slideshow enhanced by 
  * sexy CSS 3D transforms.
  * 
@@ -62,31 +64,39 @@
  * - Presentation overview via keyboard shortcut
  * 	
  * @author Hakim El Hattab | http://hakim.se
- * @version 1.0
+ * @version 1.1
  */
 var Reveal = (function(){
 	
 	var HORIZONTAL_SLIDES_SELECTOR = '#main>section',
 		VERTICAL_SLIDES_SELECTOR = 'section.present>section',
 
+		// The horizontal and verical index of the currently active slide
 		indexh = 0,
 		indexv = 0,
 
+		// Configurations options, including;
+		// > {Boolean} controls
+		// > {String} theme
+		// > {Boolean} rollingLinks
 		config = {},
+
+		// Cached references to DOM elements
 		dom = {};
 	
 	/**
-	 * Activates the main program logic.
+	 * Starts up the slideshow by applying configuration
+	 * options and binding various events.
 	 */
 	function initialize( options ) {
-		// Gather references to DOM elements
+		// Cache references to DOM elements
 		dom.controls = document.querySelector( '.controls' );
 		dom.controlsLeft = document.querySelector( '.controls .left' );
 		dom.controlsRight = document.querySelector( '.controls .right' );
 		dom.controlsUp = document.querySelector( '.controls .up' );
 		dom.controlsDown = document.querySelector( '.controls .down' );
 
-		// Add event listeners
+		// Bind all view events
 		document.addEventListener('keydown', onDocumentKeyDown, false);
 		document.addEventListener('touchstart', onDocumentTouchStart, false);
 		window.addEventListener('hashchange', onWindowHashChange, false);
@@ -95,7 +105,7 @@ var Reveal = (function(){
 		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
 		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
 
-		// Default options
+		// Fall back on default options
 		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
 		config.controls = options.controls === undefined ? false : options.controls;
 		config.theme = options.theme === undefined ? 'default' : options.theme;
@@ -120,6 +130,9 @@ var Reveal = (function(){
 	/**
 	 * Prevents an events defaults behavior calls the 
 	 * specified delegate.
+	 * 
+	 * @param {Function} delegate The method to call 
+	 * after the wrapper has been executed
 	 */
 	function preventAndForward( delegate ) {
 		return function( event ) {
@@ -135,6 +148,9 @@ var Reveal = (function(){
 	 */
 	function onDocumentKeyDown( event ) {
 		
+		// FFT: Use document.querySelector( ':focus' ) === null 
+		// instead of checking contentEditable?
+
 		if( event.keyCode >= 37 && event.keyCode <= 40 && event.target.contentEditable === 'inherit' ) {
 			
 			switch( event.keyCode ) {
@@ -339,7 +355,7 @@ var Reveal = (function(){
 	
 	/**
 	 * Updates the page URL (hash) to reflect the current
-	 * navigational state. 
+	 * state. 
 	 */
 	function writeURL() {
 		var url = '/';
@@ -353,12 +369,13 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Navigate to the nexy slide fragment.
+	 * Navigate to the next slide fragment.
 	 * 
 	 * @return {Boolean} true if there was a next fragment,
 	 * false otherwise
 	 */
-	function nextFragment() {	
+	function nextFragment() {
+		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( verticalFragments.length ) {
@@ -366,6 +383,7 @@ var Reveal = (function(){
 				return true;
 			}
 		}
+		// Horizontal slides:
 		else {
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( horizontalFragments.length ) {
@@ -384,6 +402,7 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function previousFragment() {
+		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( verticalFragments.length ) {
@@ -391,6 +410,7 @@ var Reveal = (function(){
 				return true;
 			}
 		}
+		// Horizontal slides:
 		else {
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( horizontalFragments.length ) {
