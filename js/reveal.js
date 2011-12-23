@@ -86,7 +86,13 @@ var Reveal = (function(){
 		config = {},
 
 		// Cached references to DOM elements
-		dom = {};
+		dom = {},
+
+		// Detect support for CSS 3D transforms
+		supports3DTransforms =  document.body.style['perspectiveProperty'] !== undefined ||
+								document.body.style['WebkitPerspective'] !== undefined || 
+                        		document.body.style['MozPerspective'] !== undefined ||
+                        		document.body.style['msTransform'] !== undefined;
 	
 	/**
 	 * Starts up the slideshow by applying configuration
@@ -116,6 +122,11 @@ var Reveal = (function(){
 		config.controls = options.controls === undefined ? false : options.controls;
 		config.progress = options.progress === undefined ? false : options.progress;
 		config.theme = options.theme === undefined ? 'default' : options.theme;
+
+		// Fall back on the 2D transform theme 'linear'
+		if( supports3DTransforms === false ) {
+			config.theme = 'linear';
+		}
 
 		if( config.controls ) {
 			dom.controls.style.display = 'block';
@@ -240,9 +251,7 @@ var Reveal = (function(){
 	 * Wrap all links in 3D goodness.
 	 */
 	function linkify() {
-		var supports3DTransforms =  document.body.style['webkitPerspective'] !== undefined || 
-                            		document.body.style['MozPerspective'] !== undefined ||
-                            		document.body.style['perspective'] !== undefined;
+		
 
         if( supports3DTransforms ) {
         	var nodes = document.querySelectorAll( 'section a:not(.image)' );

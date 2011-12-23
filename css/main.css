@@ -124,10 +124,11 @@ h1 {
 #main>section,
 #main>section>section {
 	display: none;
-	
 	position: absolute;
 	width: 100%;
 	min-height: 600px;
+
+    z-index: 10;
 	
 	-webkit-transform-style: preserve-3d;
 	   -moz-transform-style: preserve-3d;
@@ -143,8 +144,8 @@ h1 {
 
 #main section.present {
 	display: block;
-    position: absolute;
-    z-index: 10;
+	z-index: 11;
+	opacity: 1;
 }
 
 
@@ -229,30 +230,34 @@ h1 {
  *********************************************/
 
 .linear #main>section.past {
-	-webkit-transform: translate3d(-100%, 0, 0);
-	   -moz-transform: translate3d(-100%, 0, 0);
-	    -ms-transform: translate3d(-100%, 0, 0);
-	        transform: translate3d(-100%, 0, 0);
+	-webkit-transform: translate(-150%, 0);
+	   -moz-transform: translate(-150%, 0);
+	    -ms-transform: translate(-150%, 0);
+	     -o-transform: translate(-150%, 0);
+	        transform: translate(-150%, 0);
 }
 
 .linear #main>section.future {
-	-webkit-transform: translate3d(100%, 0, 0);
-	   -moz-transform: translate3d(100%, 0, 0);
-	    -ms-transform: translate3d(100%, 0, 0);
-	        transform: translate3d(100%, 0, 0);
+	-webkit-transform: translate(150%, 0);
+	   -moz-transform: translate(150%, 0);
+	    -ms-transform: translate(150%, 0);
+	     -o-transform: translate(150%, 0);
+	        transform: translate(150%, 0);
 }
 
 .linear #main section>section.past {
-	-webkit-transform: translate3d(0, -100%, 0);
-	   -moz-transform: translate3d(0, -100%, 0);
-	    -ms-transform: translate3d(0, -100%, 0);
-	        transform: translate3d(0, -100%, 0);
+	-webkit-transform: translate(0, -150%);
+	   -moz-transform: translate(0, -150%);
+	    -ms-transform: translate(0, -150%);
+	     -o-transform: translate(0, -150%);
+	        transform: translate(0, -150%);
 }
 .linear #main section>section.future {
-	-webkit-transform: translate3d(0, 100%, 0);
-	   -moz-transform: translate3d(0, 100%, 0);
-	    -ms-transform: translate3d(0, 100%, 0);
-	        transform: translate3d(0, 100%, 0);
+	-webkit-transform: translate(0, 150%);
+	   -moz-transform: translate(0, 150%);
+	    -ms-transform: translate(0, 150%);
+	     -o-transform: translate(0, 150%);
+	        transform: translate(0, 150%);
 }
 
 
