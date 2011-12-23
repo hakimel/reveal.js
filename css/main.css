@@ -1,5 +1,5 @@
 /**
- * Main styles of reveal.js 
+ * Main styles for reveal.js 
  *
  * @author Hakim El Hattab
  */
@@ -112,10 +112,12 @@ h1 {
 	
 	-webkit-perspective: 600px;
 	   -moz-perspective: 600px;
+	    -ms-perspective: 600px;
 	        perspective: 600px;
 
  	-webkit-perspective-origin: 50% 25%;
  	   -moz-perspective-origin: 50% 25%;
+ 	    -ms-perspective-origin: 50% 25%;
  	        perspective-origin: 50% 25%;
 }
 
@@ -129,10 +131,12 @@ h1 {
 	
 	-webkit-transform-style: preserve-3d;
 	   -moz-transform-style: preserve-3d;
+	    -ms-transform-style: preserve-3d;
 	        transform-style: preserve-3d;
 	
 	-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	    -ms-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	     -o-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
@@ -154,6 +158,7 @@ h1 {
 	
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 }
 
@@ -163,6 +168,7 @@ h1 {
 	
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+	    -ms-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 }
 
@@ -172,6 +178,7 @@ h1 {
 	
 	-webkit-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	   -moz-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
+	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	        transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 }
 #main section>section.future {
@@ -180,6 +187,7 @@ h1 {
 	
 	-webkit-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
 	   -moz-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
+	    -ms-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
 	        transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
 }
 
@@ -191,23 +199,27 @@ h1 {
 .concave #main>section.past {
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+	    -ms-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 }
 
 .concave #main>section.future {
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+	    -ms-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 }
 
 .concave #main section>section.past {
 	-webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	   -moz-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
+	    -ms-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	        transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 }
 .concave #main section>section.future {
 	-webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	   -moz-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
+	    -ms-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	        transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 }
 
@@ -219,23 +231,27 @@ h1 {
 .linear #main>section.past {
 	-webkit-transform: translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0);
+	    -ms-transform: translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0);
 }
 
 .linear #main>section.future {
 	-webkit-transform: translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0);
+	    -ms-transform: translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0);
 }
 
 .linear #main section>section.past {
 	-webkit-transform: translate3d(0, -100%, 0);
 	   -moz-transform: translate3d(0, -100%, 0);
+	    -ms-transform: translate3d(0, -100%, 0);
 	        transform: translate3d(0, -100%, 0);
 }
 .linear #main section>section.future {
 	-webkit-transform: translate3d(0, 100%, 0);
 	   -moz-transform: translate3d(0, 100%, 0);
+	    -ms-transform: translate3d(0, 100%, 0);
 	        transform: translate3d(0, 100%, 0);
 }
 
@@ -249,6 +265,7 @@ h1 {
 
 	-webkit-transition: all .2s ease;
 	   -moz-transition: all .2s ease;
+	    -ms-transition: all .2s ease;
 	     -o-transition: all .2s ease;
 	        transition: all .2s ease;
 }
@@ -354,6 +371,7 @@ a:not(.image) {
 
 	-webkit-transition: all .2s ease;
 	   -moz-transition: all .2s ease;
+	    -ms-transition: all .2s ease;
 	     -o-transition: all .2s ease;
 	        transition: all .2s ease;
 }
@@ -378,6 +396,7 @@ section img {
 	
 	-webkit-transition: all .2s linear;
 	   -moz-transition: all .2s linear;
+	    -ms-transition: all .2s linear;
 	     -o-transition: all .2s linear;
 	        transition: all .2s linear;
 }
@@ -466,6 +485,7 @@ section img {
 
 		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		    -ms-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		     -o-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
@@ -482,10 +502,12 @@ section img {
 
     -webkit-perspective: 400px;
        -moz-perspective: 400px;
+        -ms-perspective: 400px;
             perspective: 400px;
 
     -webkit-perspective-origin: 50% 50%;
        -moz-perspective-origin: 50% 50%;
+        -ms-perspective-origin: 50% 50%;
             perspective-origin: 50% 50%;
 }
 	.roll:hover {
@@ -501,14 +523,17 @@ section img {
 
     -webkit-transition: all 400ms ease;
        -moz-transition: all 400ms ease;
+        -ms-transition: all 400ms ease;
             transition: all 400ms ease;
     
     -webkit-transform-origin: 50% 0%;
        -moz-transform-origin: 50% 0%;
+        -ms-transform-origin: 50% 0%;
             transform-origin: 50% 0%;
     
     -webkit-transform-style: preserve-3d;
        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
             transform-style: preserve-3d;
 }
     .roll:hover span {
@@ -516,6 +541,7 @@ section img {
 
         -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
            -moz-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+            -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
                 transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
     }
 .roll span:after {
@@ -532,10 +558,12 @@ section img {
 
     -webkit-transform-origin: 50% 0%;
        -moz-transform-origin: 50% 0%;
+        -ms-transform-origin: 50% 0%;
             transform-origin: 50% 0%;
 
     -webkit-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
        -moz-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
+        -ms-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
             transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
 }
 
