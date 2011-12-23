@@ -4,6 +4,13 @@ A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Re
 
 Curious about how this looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
 
+# Examples
+
+* http://www.ideapolisagency.com/ from [@achrafkassioui](http://twitter.com/achrafkassioui)
+* http://lucienfrelin.com/ from [@lucienfrelin](http://twitter.com/lucienfrelin)
+
+[Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
+
 # History
 
 ### 1.1 (master)
@@ -32,7 +39,6 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 ### 0.1
 - First release
-
 
 # License
 
