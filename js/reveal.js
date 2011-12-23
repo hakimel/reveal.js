@@ -94,7 +94,8 @@ var Reveal = (function(){
 	 */
 	function initialize( options ) {
 		// Cache references to DOM elements
-		dom.progress = document.querySelector( 'body>progress' );
+		dom.progress = document.querySelector( 'body>.progress' );
+		dom.progressbar = document.querySelector( 'body>.progress span' );
 		dom.controls = document.querySelector( '.controls' );
 		dom.controlsLeft = document.querySelector( '.controls .left' );
 		dom.controlsRight = document.querySelector( '.controls .right' );
@@ -122,7 +123,6 @@ var Reveal = (function(){
 
 		if( config.progress ) {
 			dom.progress.style.display = 'block';
-			dom.progress.max = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1;
 		}
 
 		if( config.theme !== 'default' ) {
@@ -313,7 +313,7 @@ var Reveal = (function(){
 
 		// Update progress if enabled
 		if( config.progress ) {
-			dom.progress.value = indexh;
+			dom.progressbar.style.width = ( indexh / ( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1 ) ) * window.innerWidth + 'px';
 		}
 
 		updateControls();

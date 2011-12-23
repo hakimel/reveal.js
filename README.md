@@ -6,6 +6,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 # Examples
 
+* http://lab.hakim.se/reveal-js/ (original)
 * http://www.ideapolisagency.com/ from [@achrafkassioui](http://twitter.com/achrafkassioui)
 * http://lucienfrelin.com/ from [@lucienfrelin](http://twitter.com/lucienfrelin)
 

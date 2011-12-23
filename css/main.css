@@ -131,9 +131,9 @@ h1 {
 	   -moz-transform-style: preserve-3d;
 	        transform-style: preserve-3d;
 	
-	-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985); 
-	   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985); 
-	     -o-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985); 
+	-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	     -o-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
@@ -447,32 +447,28 @@ section img {
  * PROGRESS BAR
  *********************************************/
 
-progress::-webkit-progress-bar {
-	background: rgba(0,0,0,0.2);
-}
-
-progress::-moz-progress-bar {
-	background: hsl(185, 85%, 50%);
-}
-
-progress::-webkit-progress-value {
-	background: hsl(185, 85%, 50%);
-}
-
-progress {
+.progress {
 	position: absolute;
 	display: none;
 	height: 4px;
 	width: 100%;
 	bottom: 0;
 	left: 0;
-	padding: 0;
-	margin: 0;
 
-	border: 0;
-	outline: 0;
-	background: none;
+	background: rgba(0,0,0,0.2);
 }
+	
+	.progress span {
+		display: block;
+		background: hsl(185, 85%, 50%);
+		height: 100%;
+		width: 0px;
+
+		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		     -o-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	}
 
 /*********************************************
  * ROLLING LINKS
