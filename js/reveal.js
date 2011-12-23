@@ -282,16 +282,23 @@ var Reveal = (function(){
 			index = Math.max(Math.min(index, slides.length - 1), 0);
 			
 			slides[index].setAttribute('class', 'present');
-			
-			// Any element previous to index is given the 'past' class
-			slides.slice(0, index).map(function(element){
-				element.setAttribute('class', 'past');
-			});
-			
-			// Any element subsequent to index is given the 'future' class
-			slides.slice(index + 1).map(function(element){
-				element.setAttribute('class', 'future');
-			});
+
+			for( var i = 0; i < slides.length; i++ ) {
+				var slide = slides[i];
+
+				// Optimization; hide all slides that are three or more steps 
+				// away from the present slide
+				slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
+
+				if( i < index ) {
+					// Any element previous to index is given the 'past' class
+					slide.setAttribute('class', 'past');
+				}
+				else if( i > index ) {
+					// Any element subsequent to index is given the 'future' class
+					slide.setAttribute('class', 'future');
+				}
+			}
 		}
 		else {
 			// Since there are no slides we can't be anywhere beyond the 
