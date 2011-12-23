@@ -261,6 +261,25 @@ h1 {
 }
 
 
+.overview #main section {
+	padding: 20px;
+	opacity: 1;
+	cursor: pointer;
+	background: rgba(0,0,0,0.1);
+}
+.overview #main section>section {
+	opacity: 1;
+	cursor: pointer;
+}
+	.overview #main>section:hover {
+		background: rgba(0,0,0,0.3);
+	}
+
+	.overview #main>section.present {
+		background: rgba(0,0,0,0.3);
+	}
+
+
 /*********************************************
  * VIEW FRAGMENTS
  *********************************************/

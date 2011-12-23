@@ -117,6 +117,8 @@ var Reveal = (function(){
 		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
 		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
 
+
+
 		// Fall back on default options
 		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
 		config.controls = options.controls === undefined ? false : options.controls;
@@ -173,19 +175,30 @@ var Reveal = (function(){
 		// FFT: Use document.querySelector( ':focus' ) === null 
 		// instead of checking contentEditable?
 
-		if( event.keyCode >= 37 && event.keyCode <= 40 && event.target.contentEditable === 'inherit' ) {
-			
-			switch( event.keyCode ) {
-				case 37: navigateLeft(); break; // left
-				case 39: navigateRight(); break; // right
-				case 38: navigateUp(); break; // up
-				case 40: navigateDown(); break; // down
+		if( event.target.contentEditable === 'inherit' ) {
+			if( event.keyCode >= 37 && event.keyCode <= 40 ) {
+				
+				switch( event.keyCode ) {
+					case 37: navigateLeft(); break; // left
+					case 39: navigateRight(); break; // right
+					case 38: navigateUp(); break; // up
+					case 40: navigateDown(); break; // down
+				}
+				
+				slide();
+				
+				event.preventDefault();
+				
 			}
-			
-			slide();
-			
-			event.preventDefault();
-			
+			// Space bar
+			else if ( event.keyCode === 32 && supports3DTransforms ) {
+				if( overviewIsActive() ) {
+					deactivateOverview();
+				}
+				else {
+					activateOverview();
+				}
+			}
 		}
 	}
 	
@@ -251,8 +264,6 @@ var Reveal = (function(){
 	 * Wrap all links in 3D goodness.
 	 */
 	function linkify() {
-		
-
         if( supports3DTransforms ) {
         	var nodes = document.querySelectorAll( 'section a:not(.image)' );
 
@@ -266,7 +277,89 @@ var Reveal = (function(){
 	        };
         }
 	}
+
+	/**
+	 * Displays the overview of slides (quick nav) by 
+	 * scaling down and arranging all slide elements.
+	 * 
+	 * Experimental feature, might be dropped if perf 
+	 * can't be improved.
+	 */
+	function activateOverview() {
+		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+
+		document.body.classList.add( 'overview' );
+
+		for( var i = 0, len = horizontalSlides.length; i < len; i++ ) {
+			var hslide = horizontalSlides[i],
+				htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
+			
+			hslide.setAttribute( 'data-index-h', i );
+			hslide.style.display = 'block';
+			hslide.style.WebkitTransform = htransform;
+			hslide.style.MozTransform = htransform;
+			hslide.style.msTransform = htransform;
+			hslide.style.OTransform = htransform;
+			hslide.style.transform = htransform;
+
+			hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+
+			var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '>section' ) );
+
+			for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
+				var vslide = verticalSlides[j],
+					vtransform = 'translateZ(0px) translate(0%, ' + ( ( j - indexv ) * 105 ) + '%)';
+
+				hslide.setAttribute( 'data-index-v', j );
+				vslide.style.display = 'block';
+				vslide.style.WebkitTransform = vtransform;
+				vslide.style.MozTransform = vtransform;
+				vslide.style.msTransform = vtransform;
+				vslide.style.OTransform = vtransform;
+				vslide.style.transform = vtransform;
+
+				hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+			}
+		}
+	}
 	
+	function deactivateOverview() {
+		var slides = Array.prototype.slice.call( document.querySelectorAll( '#main section' ) );
+
+		document.body.classList.remove( 'overview' );
+
+		for( var i = 0, len = slides.length; i < len; i++ ) {
+			var element = slides[i];
+
+			element.style.WebkitTransform = '';
+			element.style.MozTransform = '';
+			element.style.msTransform = '';
+			element.style.OTransform = '';
+			element.style.transform = '';
+
+			element.removeEventListener( 'click', onOverviewSlideClicked );
+		}
+
+		slide();
+	}
+
+	function overviewIsActive() {
+		return document.body.classList.contains( 'overview' );
+	}
+
+	function onOverviewSlideClicked( event ) {
+		if( overviewIsActive() ) {
+			event.preventDefault();
+
+			deactivateOverview();
+
+			indexh = this.getAttribute( 'data-index-h' );
+			indexv = this.getAttribute( 'data-index-v' );
+
+			slide();
+		}
+	}
+
 	/**
 	 * Updates one dimension of slides by showing the slide
 	 * with the specified index.
@@ -297,7 +390,7 @@ var Reveal = (function(){
 
 				// Optimization; hide all slides that are three or more steps 
 				// away from the present slide
-				slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
+				// slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
@@ -330,6 +423,11 @@ var Reveal = (function(){
 		// Update progress if enabled
 		if( config.progress ) {
 			dom.progressbar.style.width = ( indexh / ( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1 ) ) * window.innerWidth + 'px';
+		}
+
+		// Close the overview if it's active
+		if( overviewIsActive() ) {
+			activateOverview();
 		}
 
 		updateControls();
