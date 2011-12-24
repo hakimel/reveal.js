@@ -61,6 +61,7 @@
  * 
  * version 1.1:
  * - Optional progress bar UI element
+ * - Slide overview available via SPACE
  * 
  * TODO:
  * - Touch/swipe interactions
@@ -286,9 +287,9 @@ var Reveal = (function(){
 	 * can't be improved.
 	 */
 	function activateOverview() {
-		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
-
 		document.body.classList.add( 'overview' );
+
+		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		for( var i = 0, len = horizontalSlides.length; i < len; i++ ) {
 			var hslide = horizontalSlides[i],
@@ -567,7 +568,7 @@ var Reveal = (function(){
 	
 	function navigateLeft() {
 		// Prioritize hiding fragments
-		if( previousFragment() === false ) {
+		if( overviewIsActive() || previousFragment() === false ) {
 			indexh --;
 			indexv = 0;
 			slide();
@@ -575,7 +576,7 @@ var Reveal = (function(){
 	}
 	function navigateRight() {
 		// Prioritize revealing fragments
-		if( nextFragment() === false ) {
+		if( overviewIsActive() || nextFragment() === false ) {
 			indexh ++;
 			indexv = 0;
 			slide();
@@ -583,14 +584,14 @@ var Reveal = (function(){
 	}
 	function navigateUp() {
 		// Prioritize hiding fragments
-		if( previousFragment() === false ) {
+		if( overviewIsActive() || previousFragment() === false ) {
 			indexv --;
 			slide();
 		}
 	}
 	function navigateDown() {
 		// Prioritize revealing fragments
-		if( nextFragment() === false ) {
+		if( overviewIsActive() || nextFragment() === false ) {
 			indexv ++;
 			slide();
 		}
