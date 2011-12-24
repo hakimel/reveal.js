@@ -118,8 +118,6 @@ var Reveal = (function(){
 		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
 		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
 
-
-
 		// Fall back on default options
 		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
 		config.controls = options.controls === undefined ? false : options.controls;
@@ -172,7 +170,6 @@ var Reveal = (function(){
 	 * @param {Object} event
 	 */
 	function onDocumentKeyDown( event ) {
-		
 		// FFT: Use document.querySelector( ':focus' ) === null 
 		// instead of checking contentEditable?
 
@@ -247,10 +244,8 @@ var Reveal = (function(){
 			}
 			
 			slide();
-			
 		}
 	}
-	
 	
 	/**
 	 * Handler for the window level 'hashchange' event.
@@ -410,7 +405,9 @@ var Reveal = (function(){
 
 				// Optimization; hide all slides that are three or more steps 
 				// away from the present slide
-				// slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
+				if( overviewIsActive() === false ) {
+					slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
+				}
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class

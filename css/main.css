@@ -261,11 +261,18 @@ h1 {
 }
 
 
+/*********************************************
+ * OVERVIEW
+ *********************************************/
+
 .overview #main section {
-	padding: 20px;
+	padding: 20px 0;
 	opacity: 1;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
+}
+.overview #main section.present>section.present {
+	background: none;
 }
 .overview #main section>section {
 	opacity: 1;
