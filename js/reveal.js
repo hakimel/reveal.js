@@ -291,7 +291,7 @@ var Reveal = (function(){
 
 		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
-		for( var i = 0, len = horizontalSlides.length; i < len; i++ ) {
+		for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 			var hslide = horizontalSlides[i],
 				htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
 			
@@ -303,15 +303,17 @@ var Reveal = (function(){
 			hslide.style.OTransform = htransform;
 			hslide.style.transform = htransform;
 
+			// Navigate to this slide on click
 			hslide.addEventListener( 'click', onOverviewSlideClicked, true );
 
-			var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '>section' ) );
+			var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( 'section' ) );
 
 			for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 				var vslide = verticalSlides[j],
-					vtransform = 'translateZ(0px) translate(0%, ' + ( ( j - indexv ) * 105 ) + '%)';
+					vtransform = 'translate(0%, ' + ( ( j - indexv ) * 105 ) + '%)';
 
-				hslide.setAttribute( 'data-index-v', j );
+				vslide.setAttribute( 'data-index-h', i );
+				vslide.setAttribute( 'data-index-v', j );
 				vslide.style.display = 'block';
 				vslide.style.WebkitTransform = vtransform;
 				vslide.style.MozTransform = vtransform;
@@ -319,19 +321,25 @@ var Reveal = (function(){
 				vslide.style.OTransform = vtransform;
 				vslide.style.transform = vtransform;
 
-				hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+				// Navigate to this slide on click
+				vslide.addEventListener( 'click', onOverviewSlideClicked, true );
 			}
 		}
 	}
 	
+	/**
+	 * Exits the slide overview and enters the currently
+	 * active slide.
+	 */
 	function deactivateOverview() {
-		var slides = Array.prototype.slice.call( document.querySelectorAll( '#main section' ) );
-
 		document.body.classList.remove( 'overview' );
+
+		var slides = Array.prototype.slice.call( document.querySelectorAll( '#main section' ) );
 
 		for( var i = 0, len = slides.length; i < len; i++ ) {
 			var element = slides[i];
 
+			// Resets all transforms to use the external styles
 			element.style.WebkitTransform = '';
 			element.style.MozTransform = '';
 			element.style.msTransform = '';
@@ -344,11 +352,22 @@ var Reveal = (function(){
 		slide();
 	}
 
+	/**
+	 * Checks if the overview is currently active.
+	 * 
+	 * @return {Boolean} true if the overview is active,
+	 * false otherwise
+	 */
 	function overviewIsActive() {
 		return document.body.classList.contains( 'overview' );
 	}
 
+	/**
+	 * Invoked when a slide is and we're in the overview.
+	 */
 	function onOverviewSlideClicked( event ) {
+		// TODO There's a bug here where the event listeners are not 
+		// removed after deactivating the overview.
 		if( overviewIsActive() ) {
 			event.preventDefault();
 
