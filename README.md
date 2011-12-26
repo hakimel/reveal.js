@@ -18,6 +18,11 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 - Added an optional presentation progress bar
 - Images wrapped in anchors no longer unexpectedly flip in 3D
+- Slides that contain other slides are given the 'stack' class
+- Added 'transition' option for specifying transition styles
+- Added 'theme' option for specifying UI styles
+- New transitions: 'box' & 'page'
+- New theme: 'neon'
 
 ### 1.0
 
