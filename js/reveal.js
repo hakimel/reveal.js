@@ -62,6 +62,9 @@
  * version 1.1:
  * - Optional progress bar UI element
  * - Slide overview available via SPACE
+ * - Added 'transition' option for specifying transition styles
+ * - Added 'theme' option for specifying UI styles
+ * - Slides that contain nested-slides are given the 'stack' class
  * 
  * TODO:
  * - Touch/swipe interactions
@@ -83,6 +86,7 @@ var Reveal = (function(){
 		// > {Boolean} controls
 		// > {Boolean} progress
 		// > {String} theme
+		// > {String} transition
 		// > {Boolean} rollingLinks
 		config = {},
 
@@ -122,11 +126,12 @@ var Reveal = (function(){
 		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
 		config.controls = options.controls === undefined ? false : options.controls;
 		config.progress = options.progress === undefined ? false : options.progress;
+		config.transition = options.transition === undefined ? 'default' : options.transition;
 		config.theme = options.theme === undefined ? 'default' : options.theme;
 
 		// Fall back on the 2D transform theme 'linear'
 		if( supports3DTransforms === false ) {
-			config.theme = 'linear';
+			config.transition = 'linear';
 		}
 
 		if( config.controls ) {
@@ -135,6 +140,10 @@ var Reveal = (function(){
 
 		if( config.progress ) {
 			dom.progress.style.display = 'block';
+		}
+
+		if( config.transition !== 'default' ) {
+			document.body.classList.add( config.transition );
 		}
 
 		if( config.theme !== 'default' ) {
@@ -416,6 +425,11 @@ var Reveal = (function(){
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
 					slide.setAttribute('class', 'future');
+				}
+
+				// If this element contains vertical slides
+				if( slide.querySelector( 'section' ) ) {
+					slide.classList.add( 'stack' );
 				}
 			}
 		}
