@@ -67,6 +67,7 @@
  * - Slides that contain nested-slides are given the 'stack' class
  * 
  * version 1.2:
+ * - Main container was renamed from #main to #reveal
  * 
  * 	
  * @author Hakim El Hattab | http://hakim.se
@@ -74,7 +75,7 @@
  */
 var Reveal = (function(){
 	
-	var HORIZONTAL_SLIDES_SELECTOR = '#main>section',
+	var HORIZONTAL_SLIDES_SELECTOR = '#reveal>section',
 		VERTICAL_SLIDES_SELECTOR = 'section.present>section',
 
 		// The horizontal and verical index of the currently active slide
@@ -337,7 +338,7 @@ var Reveal = (function(){
 	function deactivateOverview() {
 		document.body.classList.remove( 'overview' );
 
-		var slides = Array.prototype.slice.call( document.querySelectorAll( '#main section' ) );
+		var slides = Array.prototype.slice.call( document.querySelectorAll( '#reveal section' ) );
 
 		for( var i = 0, len = slides.length; i < len; i++ ) {
 			var element = slides[i];

@@ -98,7 +98,7 @@ h1 {
  * VIEW FRAGMENTS
  *********************************************/
 
-#main section .fragment {
+#reveal section .fragment {
 	opacity: 0;
 
 	-webkit-transition: all .2s ease;
@@ -107,7 +107,7 @@ h1 {
 	     -o-transition: all .2s ease;
 	        transition: all .2s ease;
 }
-	#main section .fragment.visible {
+	#reveal section .fragment.visible {
 		opacity: 1;
 	}
 
@@ -116,7 +116,7 @@ h1 {
  * DEFAULT ELEMENT STYLES
  *********************************************/
 
-#main>section {
+#reveal>section {
 	line-height: 1.2em;
 	font-weight: normal;
 }
@@ -410,7 +410,7 @@ section img {
  * SLIDES
  *********************************************/
 
-#main {
+#reveal {
 	position: absolute;
 	width: 900px;
 	height: 600px;
@@ -434,8 +434,8 @@ section img {
  	        perspective-origin: 50% 25%;
 }
 
-#main>section,
-#main>section>section {
+#reveal>section,
+#reveal>section>section {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -455,7 +455,7 @@ section img {
 	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-#main section.present {
+#reveal section.present {
 	display: block;
 	z-index: 11;
 	opacity: 1;
@@ -466,7 +466,7 @@ section img {
  * DEFAULT TRANSITION
  *********************************************/
 
-#main section.past {
+#reveal section.past {
 	display: block;
 	opacity: 0;
 	
@@ -475,7 +475,7 @@ section img {
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 }
-#main section.future {
+#reveal section.future {
 	display: block;
 	opacity: 0;
 	
@@ -485,7 +485,7 @@ section img {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 }
 
-#main section>section.past {
+#reveal section>section.past {
 	display: block;
 	opacity: 0;
 	
@@ -494,7 +494,7 @@ section img {
 	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	        transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 }
-#main section>section.future {
+#reveal section>section.future {
 	display: block;
 	opacity: 0;
 	
@@ -509,26 +509,26 @@ section img {
  * CONCAVE TRANSITION
  *********************************************/
 
-.concave #main>section.past {
+.concave #reveal>section.past {
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 }
-.concave #main>section.future {
+.concave #reveal>section.future {
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	    -ms-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 }
 
-.concave #main section>section.past {
+.concave #reveal section>section.past {
 	-webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	   -moz-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	    -ms-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	        transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 }
-.concave #main section>section.future {
+.concave #reveal section>section.future {
 	-webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	   -moz-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	    -ms-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
@@ -540,14 +540,14 @@ section img {
  * LINEAR TRANSITION
  *********************************************/
 
-.linear #main>section.past {
+.linear #reveal>section.past {
 	-webkit-transform: translate(-150%, 0);
 	   -moz-transform: translate(-150%, 0);
 	    -ms-transform: translate(-150%, 0);
 	     -o-transform: translate(-150%, 0);
 	        transform: translate(-150%, 0);
 }
-.linear #main>section.future {
+.linear #reveal>section.future {
 	-webkit-transform: translate(150%, 0);
 	   -moz-transform: translate(150%, 0);
 	    -ms-transform: translate(150%, 0);
@@ -555,14 +555,14 @@ section img {
 	        transform: translate(150%, 0);
 }
 
-.linear #main section>section.past {
+.linear #reveal section>section.past {
 	-webkit-transform: translate(0, -150%);
 	   -moz-transform: translate(0, -150%);
 	    -ms-transform: translate(0, -150%);
 	     -o-transform: translate(0, -150%);
 	        transform: translate(0, -150%);
 }
-.linear #main section>section.future {
+.linear #reveal section>section.future {
 	-webkit-transform: translate(0, 150%);
 	   -moz-transform: translate(0, 150%);
 	    -ms-transform: translate(0, 150%);
@@ -574,7 +574,7 @@ section img {
  * BOX TRANSITION
  *********************************************/
 
-.box #main {
+.box #reveal {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 25%;
@@ -588,14 +588,14 @@ section img {
 	        perspective: 1300px;
 }
 
-.box #main section {
+.box #reveal section {
 	padding: 30px;
 	
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	.box #main section:not(.stack):before {
+	.box #reveal section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -612,7 +612,7 @@ section img {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	.box #main section:not(.stack):after {
+	.box #reveal section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -633,12 +633,12 @@ section img {
 		        transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-.box #main section.stack {
+.box #reveal section.stack {
 	padding: 0;
 	background: none;
 }
 
-.box #main>section.past {
+.box #reveal>section.past {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -650,7 +650,7 @@ section img {
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg);
 }
 
-.box #main>section.future {
+.box #reveal>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -662,7 +662,7 @@ section img {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg);
 }
 
-.box #main section>section.past {
+.box #reveal section>section.past {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -674,7 +674,7 @@ section img {
 	        transform: translate3d(0, -100%, 0) rotateX(90deg);
 }
 
-.box #main section>section.future {
+.box #reveal section>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -691,7 +691,7 @@ section img {
  * PAGE TRANSITION
  *********************************************/
 
-.page #main {
+.page #reveal {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 50%;
@@ -705,17 +705,17 @@ section img {
 	        perspective: 3000px;
 }
 
-.page #main section {
+.page #reveal section {
 	padding: 30px;
 
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	.page #main section.past {
+	.page #reveal section.past {
 		z-index: 12;
 	}
-	.page #main section:not(.stack):before {
+	.page #reveal section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -731,7 +731,7 @@ section img {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	.page #main section:not(.stack):after {
+	.page #reveal section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -748,12 +748,12 @@ section img {
 		-webkit-transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-.page #main section.stack {
+.page #reveal section.stack {
 	padding: 0;
 	background: none;
 }
 
-.page #main>section.past {
+.page #reveal>section.past {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -765,7 +765,7 @@ section img {
 	        transform: translate3d(-40%, 0, 0) rotateY(-80deg);
 }
 
-.page #main>section.future {
+.page #reveal>section.future {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -777,7 +777,7 @@ section img {
 	        transform: translate3d(0, 0, 0);
 }
 
-.page #main section>section.past {
+.page #reveal section>section.past {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -789,7 +789,7 @@ section img {
 	        transform: translate3d(0, -40%, 0) rotateX(80deg);
 }
 
-.page #main section>section.future {
+.page #reveal section>section.future {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -826,28 +826,28 @@ a.image:hover img {
  * OVERVIEW
  *********************************************/
 
-.overview #main section {
+.overview #reveal section {
 	padding: 20px 0;
 	opacity: 1;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
-.overview #main section:after,
-.overview #main section:before {
+.overview #reveal section:after,
+.overview #reveal section:before {
 	display: none !important;
 }
-.overview #main section>section {
+.overview #reveal section>section {
 	opacity: 1;
 	cursor: pointer;
 }
-	.overview #main section:hover {
+	.overview #reveal section:hover {
 		background: rgba(0,0,0,0.3);
 	}
 
-	.overview #main section.present {
+	.overview #reveal section.present {
 		background: rgba(0,0,0,0.3);
 	}
-.overview #main section.stack {
+.overview #reveal section.stack {
 	background: none;
 	padding: 0;
 }
