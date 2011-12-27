@@ -1,6 +1,8 @@
 # reveal.js
 
-A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Requires a browser with support for CSS 3D transforms, querySelector and classList. Does not _rely_ on any external libraries but [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/) is included by default for code highlighting.
+A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Doesn't _rely_ on any external libraries but [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/) is included by default for code highlighting.
+
+Note that this requires a browser with support for CSS 3D transforms and classList. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions.
 
 Curious about how this looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
 
@@ -14,7 +16,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 # History
 
-### 1.2
+### 1.2 (master)
 - Big changes to DOM structure:
   - Previous #main wrapper is now called #reveal
   - Slides were moved one level deeper, into #reveal .slides
