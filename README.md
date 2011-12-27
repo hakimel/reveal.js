@@ -14,7 +14,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 # History
 
-### 1.1 (master)
+### 1.1
 
 - Added an optional presentation progress bar
 - Images wrapped in anchors no longer unexpectedly flip in 3D

@@ -66,12 +66,11 @@
  * - Added 'theme' option for specifying UI styles
  * - Slides that contain nested-slides are given the 'stack' class
  * 
- * TODO:
- * - Touch/swipe interactions
- * - Presentation overview via keyboard shortcut
+ * version 1.2:
+ * 
  * 	
  * @author Hakim El Hattab | http://hakim.se
- * @version 1.1
+ * @version 1.2
  */
 var Reveal = (function(){
 	
