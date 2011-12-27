@@ -67,7 +67,11 @@
  * - Slides that contain nested-slides are given the 'stack' class
  * 
  * version 1.2:
- * - Main container was renamed from #main to #reveal
+ * - Big changes to DOM structure:
+ *   - Previous #main wrapper is now called #reveal
+ *   - Slides were moved one level deeper, into #reveal .slides
+ *   - Controls and progress bar were moved into #reveal
+ * - All CSS is now much more explicit, rooted at #reveal, to prevent conflicts
  * 
  * 	
  * @author Hakim El Hattab | http://hakim.se
@@ -75,8 +79,8 @@
  */
 var Reveal = (function(){
 	
-	var HORIZONTAL_SLIDES_SELECTOR = '#reveal>section',
-		VERTICAL_SLIDES_SELECTOR = 'section.present>section',
+	var HORIZONTAL_SLIDES_SELECTOR = '#reveal .slides>section',
+		VERTICAL_SLIDES_SELECTOR = '#reveal .slides>section.present>section',
 
 		// The horizontal and verical index of the currently active slide
 		indexh = 0,
@@ -105,13 +109,14 @@ var Reveal = (function(){
 	 */
 	function initialize( options ) {
 		// Cache references to DOM elements
-		dom.progress = document.querySelector( 'body>.progress' );
-		dom.progressbar = document.querySelector( 'body>.progress span' );
-		dom.controls = document.querySelector( '.controls' );
-		dom.controlsLeft = document.querySelector( '.controls .left' );
-		dom.controlsRight = document.querySelector( '.controls .right' );
-		dom.controlsUp = document.querySelector( '.controls .up' );
-		dom.controlsDown = document.querySelector( '.controls .down' );
+		dom.wrapper = document.querySelector( '#reveal' );
+		dom.progress = document.querySelector( '#reveal .progress' );
+		dom.progressbar = document.querySelector( '#reveal .progress span' );
+		dom.controls = document.querySelector( '#reveal .controls' );
+		dom.controlsLeft = document.querySelector( '#reveal .controls .left' );
+		dom.controlsRight = document.querySelector( '#reveal .controls .right' );
+		dom.controlsUp = document.querySelector( '#reveal .controls .up' );
+		dom.controlsDown = document.querySelector( '#reveal .controls .down' );
 
 		// Bind all view events
 		document.addEventListener('keydown', onDocumentKeyDown, false);
@@ -143,11 +148,11 @@ var Reveal = (function(){
 		}
 
 		if( config.transition !== 'default' ) {
-			document.body.classList.add( config.transition );
+			dom.wrapper.classList.add( config.transition );
 		}
 
 		if( config.theme !== 'default' ) {
-			document.body.classList.add( config.theme );
+			dom.wrapper.classList.add( config.theme );
 		}
 
 		if( config.rollingLinks ) {
@@ -270,7 +275,7 @@ var Reveal = (function(){
 	 */
 	function linkify() {
         if( supports3DTransforms ) {
-        	var nodes = document.querySelectorAll( 'section a:not(.image)' );
+        	var nodes = document.querySelectorAll( '#reveal .slides section a:not(.image)' );
 
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {
 	            var node = nodes[i];
@@ -291,7 +296,7 @@ var Reveal = (function(){
 	 * can't be improved.
 	 */
 	function activateOverview() {
-		document.body.classList.add( 'overview' );
+		dom.wrapper.classList.add( 'overview' );
 
 		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
@@ -307,8 +312,10 @@ var Reveal = (function(){
 			hslide.style.OTransform = htransform;
 			hslide.style.transform = htransform;
 
-			// Navigate to this slide on click
-			hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+			if( !hslide.classList.contains( 'stack' ) ) {
+				// Navigate to this slide on click
+				hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+			}
 
 			var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( 'section' ) );
 
@@ -336,9 +343,9 @@ var Reveal = (function(){
 	 * active slide.
 	 */
 	function deactivateOverview() {
-		document.body.classList.remove( 'overview' );
+		dom.wrapper.classList.remove( 'overview' );
 
-		var slides = Array.prototype.slice.call( document.querySelectorAll( '#reveal section' ) );
+		var slides = Array.prototype.slice.call( document.querySelectorAll( '#reveal .slides section' ) );
 
 		for( var i = 0, len = slides.length; i < len; i++ ) {
 			var element = slides[i];
@@ -363,7 +370,7 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function overviewIsActive() {
-		return document.body.classList.contains( 'overview' );
+		return dom.wrapper.classList.contains( 'overview' );
 	}
 
 	/**

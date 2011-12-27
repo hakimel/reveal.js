@@ -53,7 +53,10 @@ html {
 /*********************************************
  * HEADERS
  *********************************************/
-h1, h2, h3, h4 {
+#reveal h1, 
+#reveal h2, 
+#reveal h3, 
+#reveal h4 {
 	margin: 0 0 20px 0;
 	
 	color: #eee;
@@ -66,31 +69,31 @@ h1, h2, h3, h4 {
 	text-shadow: 0px 0px 6px rgba(0,0,0,0.2);
 }
 
-h1 { font-size: 136px; 	}
-h2 { font-size: 76px;	}
-h3 { font-size: 56px;	}
-h4 { font-size: 36px;	}
+#reveal h1 { font-size: 136px; 	}
+#reveal h2 { font-size: 76px;	}
+#reveal h3 { font-size: 56px;	}
+#reveal h4 { font-size: 36px;	}
 
-h1.inverted,
-h2.inverted,
-h3.inverted,
-h4.inverted {
+#reveal h1.inverted,
+#reveal h2.inverted,
+#reveal h3.inverted,
+#reveal h4.inverted {
 	color: #fff;
 	text-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
 
-h1 {
+#reveal h1 {
 	text-shadow: 0 1px 0 #ccc,
-               0 2px 0 #c9c9c9,
-               0 3px 0 #bbb,
-               0 4px 0 #b9b9b9,
-               0 5px 0 #aaa,
-               0 6px 1px rgba(0,0,0,.1),
-               0 0 5px rgba(0,0,0,.1),
-               0 1px 3px rgba(0,0,0,.3),
-               0 3px 5px rgba(0,0,0,.2),
-               0 5px 10px rgba(0,0,0,.25),
-               0 20px 20px rgba(0,0,0,.15);
+                 0 2px 0 #c9c9c9,
+                 0 3px 0 #bbb,
+                 0 4px 0 #b9b9b9,
+                 0 5px 0 #aaa,
+                 0 6px 1px rgba(0,0,0,.1),
+                 0 0 5px rgba(0,0,0,.1),
+                 0 1px 3px rgba(0,0,0,.3),
+                 0 3px 5px rgba(0,0,0,.2),
+                 0 5px 10px rgba(0,0,0,.25),
+                 0 20px 20px rgba(0,0,0,.15);
 }
 
 
@@ -98,7 +101,7 @@ h1 {
  * VIEW FRAGMENTS
  *********************************************/
 
-#reveal section .fragment {
+#reveal .slides section .fragment {
 	opacity: 0;
 
 	-webkit-transition: all .2s ease;
@@ -107,7 +110,7 @@ h1 {
 	     -o-transition: all .2s ease;
 	        transition: all .2s ease;
 }
-	#reveal section .fragment.visible {
+	#reveal .slides section .fragment.visible {
 		opacity: 1;
 	}
 
@@ -116,40 +119,43 @@ h1 {
  * DEFAULT ELEMENT STYLES
  *********************************************/
 
-#reveal>section {
+#reveal .slides section {
 	line-height: 1.2em;
 	font-weight: normal;
 }
 
-strong, b {
+#reveal strong, 
+#reveal b {
 	font-weight: bold;
 }
 
-em, i {
+#reveal em, 
+#reveal i {
 	font-style: italic;
 }
 
-ol, ul {
+#reveal ol, 
+#reveal ul {
 	display: inline-block;
 
 	text-align: left;
 	margin: 0 auto;
 }
 
-ol {
+#reveal ol {
 	list-style: decimal;
 	list-style-position: inside;
 }
 
-ul {
+#reveal ul {
 	list-style: disc;
 }
 
-p {
+#reveal p {
 	margin-bottom: 10px;
 }
 
-blockquote {
+#reveal blockquote {
 	display: block;
 	position: relative;
 	width: 70%;
@@ -160,14 +166,14 @@ blockquote {
 	background: rgba(255, 255, 255, 0.05);
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
-	blockquote:before {
+	#reveal blockquote:before {
 		content: '“';
 	}
-	blockquote:after {
+	#reveal blockquote:after {
 		content: '”';
 	}
 
-pre {
+#reveal pre {
 	display: block;
 	position: relative;
 	width: 90%;
@@ -183,27 +189,27 @@ pre {
 	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
 
-code {
+#reveal code {
 	font-family: monospace;
 }
 
-small {
+#reveal small {
 	font-size: 60%;
 	line-height: 1em;
 	vertical-align: top;
 }
 
-q {	
+#reveal q {	
 	font-style: italic;
 }
-	q:before {
+	#reveal q:before {
 		content: '“';
 	}
-	q:after {
+	#reveal q:after {
 		content: '”';
 	}
 
-a:not(.image) {
+#reveal a:not(.image) {
 	color: hsl(185, 85%, 50%);
 	text-decoration: none;
 
@@ -214,7 +220,7 @@ a:not(.image) {
 	        transition: all .2s ease;
 }
 	
-	a:not(.image):hover {
+	#reveal a:not(.image):hover {
 		color: hsl(185, 85%, 70%);
 		background: hsla(185, 25%, 20%, 0.4);
 		text-shadow: none;
@@ -222,7 +228,7 @@ a:not(.image) {
 		border-radius: 2px;
 	}
 
-section img {
+#reveal section img {
 	margin: 30px 0 0 0;
 	background: rgba(255,255,255,0.12);
 	border: 4px solid #eee;
@@ -239,7 +245,7 @@ section img {
 	        transition: all .2s linear;
 }
 
-	a.image:hover img {
+	#reveal a.image:hover img {
 		background: rgba(255,255,255,0.2);
 		border-color: #13DAEC;
 		
@@ -254,7 +260,7 @@ section img {
  * CONTROLS
  *********************************************/
 
-.controls {
+#reveal .controls {
 	display: none;
 	position: fixed;
 	width: 100px;
@@ -264,36 +270,36 @@ section img {
 	bottom: 0;
 }
 	
-	.controls a {
+	#reveal .controls a {
 		font-size: 30px;
 		position: absolute;
 		opacity: 0.1;
 		color: #fff;
 	}
-		.controls a.enabled {
+		#reveal .controls a.enabled {
 			opacity: 0.6;
 			color: hsl(185, 85%, 70%);
 
 			text-shadow: 0px 0px 2px hsla(185, 45%, 70%, 0.3);
 		}
-		.controls a.enabled:active {
+		#reveal .controls a.enabled:active {
 			margin-top: 1px;
 		}
 
-	.controls .left {
+	#reveal .controls .left {
 		top: 30px;
 	}
 
-	.controls .right {
+	#reveal .controls .right {
 		left: 60px;
 		top: 30px;
 	}
 
-	.controls .up {
+	#reveal .controls .up {
 		left: 30px;
 	}
 
-	.controls .down {
+	#reveal .controls .down {
 		left: 30px;
 		top: 60px;
 
@@ -304,7 +310,7 @@ section img {
  * PROGRESS BAR
  *********************************************/
 
-.progress {
+#reveal .progress {
 	position: fixed;
 	display: none;
 	height: 4px;
@@ -315,7 +321,7 @@ section img {
 	background: rgba(0,0,0,0.2);
 }
 	
-	.progress span {
+	#reveal .progress span {
 		display: block;
 		background: hsl(185, 85%, 50%);
 		height: 100%;
@@ -332,7 +338,7 @@ section img {
  * ROLLING LINKS
  *********************************************/
 
-.roll {
+#reveal .roll {
     display: inline-block;
     overflow: hidden;
 
@@ -348,11 +354,11 @@ section img {
         -ms-perspective-origin: 50% 50%;
             perspective-origin: 50% 50%;
 }
-	.roll:hover {
+	#reveal .roll:hover {
 		background: none;
 		text-shadow: none;
 	}
-.roll span {
+#reveal .roll span {
     display: block;
     position: relative;
     padding: 0 2px;
@@ -374,7 +380,7 @@ section img {
         -ms-transform-style: preserve-3d;
             transform-style: preserve-3d;
 }
-    .roll:hover span {
+    #reveal .roll:hover span {
         background: rgba(0,0,0,0.5);
 
         -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
@@ -382,7 +388,7 @@ section img {
             -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
                 transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
     }
-.roll span:after {
+#reveal .roll span:after {
     content: attr(data-title);
 
     display: block;
@@ -410,7 +416,7 @@ section img {
  * SLIDES
  *********************************************/
 
-#reveal {
+#reveal .slides {
 	position: absolute;
 	width: 900px;
 	height: 600px;
@@ -422,6 +428,12 @@ section img {
 	padding: 20px 0px;
 	
 	text-align: center;
+
+	-webkit-transition: -webkit-perspective .4s ease;
+	   -moz-transition: -moz-perspective .4s ease;
+	    -ms-transition: -ms-perspective .4s ease;
+	     -o-transition: -o-perspective .4s ease;
+	        transition: perspective .4s ease;
 	
 	-webkit-perspective: 600px;
 	   -moz-perspective: 600px;
@@ -434,8 +446,8 @@ section img {
  	        perspective-origin: 50% 25%;
 }
 
-#reveal>section,
-#reveal>section>section {
+#reveal .slides>section,
+#reveal .slides>section>section {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -455,7 +467,7 @@ section img {
 	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-#reveal section.present {
+#reveal .slides>section.present {
 	display: block;
 	z-index: 11;
 	opacity: 1;
@@ -466,7 +478,7 @@ section img {
  * DEFAULT TRANSITION
  *********************************************/
 
-#reveal section.past {
+#reveal .slides>section.past {
 	display: block;
 	opacity: 0;
 	
@@ -475,7 +487,7 @@ section img {
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 }
-#reveal section.future {
+#reveal .slides>section.future {
 	display: block;
 	opacity: 0;
 	
@@ -485,7 +497,7 @@ section img {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 }
 
-#reveal section>section.past {
+#reveal .slides>section>section.past {
 	display: block;
 	opacity: 0;
 	
@@ -494,7 +506,7 @@ section img {
 	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	        transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 }
-#reveal section>section.future {
+#reveal .slides>section>section.future {
 	display: block;
 	opacity: 0;
 	
@@ -509,26 +521,26 @@ section img {
  * CONCAVE TRANSITION
  *********************************************/
 
-.concave #reveal>section.past {
+#reveal.concave  .slides>section.past {
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 }
-.concave #reveal>section.future {
+#reveal.concave  .slides>section.future {
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	    -ms-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 }
 
-.concave #reveal section>section.past {
+#reveal.concave  .slides>section>section.past {
 	-webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	   -moz-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	    -ms-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	        transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 }
-.concave #reveal section>section.future {
+#reveal.concave  .slides>section>section.future {
 	-webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	   -moz-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	    -ms-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
@@ -540,14 +552,14 @@ section img {
  * LINEAR TRANSITION
  *********************************************/
 
-.linear #reveal>section.past {
+#reveal.linear .slides>section.past {
 	-webkit-transform: translate(-150%, 0);
 	   -moz-transform: translate(-150%, 0);
 	    -ms-transform: translate(-150%, 0);
 	     -o-transform: translate(-150%, 0);
 	        transform: translate(-150%, 0);
 }
-.linear #reveal>section.future {
+#reveal.linear .slides>section.future {
 	-webkit-transform: translate(150%, 0);
 	   -moz-transform: translate(150%, 0);
 	    -ms-transform: translate(150%, 0);
@@ -555,14 +567,14 @@ section img {
 	        transform: translate(150%, 0);
 }
 
-.linear #reveal section>section.past {
+#reveal.linear .slides>section>section.past {
 	-webkit-transform: translate(0, -150%);
 	   -moz-transform: translate(0, -150%);
 	    -ms-transform: translate(0, -150%);
 	     -o-transform: translate(0, -150%);
 	        transform: translate(0, -150%);
 }
-.linear #reveal section>section.future {
+#reveal.linear .slides>section>section.future {
 	-webkit-transform: translate(0, 150%);
 	   -moz-transform: translate(0, 150%);
 	    -ms-transform: translate(0, 150%);
@@ -574,7 +586,7 @@ section img {
  * BOX TRANSITION
  *********************************************/
 
-.box #reveal {
+#reveal.box .slides {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 25%;
@@ -588,14 +600,14 @@ section img {
 	        perspective: 1300px;
 }
 
-.box #reveal section {
+#reveal.box .slides section {
 	padding: 30px;
 	
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	.box #reveal section:not(.stack):before {
+	#reveal.box .slides section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -612,7 +624,7 @@ section img {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	.box #reveal section:not(.stack):after {
+	#reveal.box .slides section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -633,12 +645,12 @@ section img {
 		        transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-.box #reveal section.stack {
+#reveal.box .slides>section.stack {
 	padding: 0;
 	background: none;
 }
 
-.box #reveal>section.past {
+#reveal.box .slides>section.past {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -650,7 +662,7 @@ section img {
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg);
 }
 
-.box #reveal>section.future {
+#reveal.box .slides>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -662,7 +674,7 @@ section img {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg);
 }
 
-.box #reveal section>section.past {
+#reveal.box .slides>section>section.past {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -674,7 +686,7 @@ section img {
 	        transform: translate3d(0, -100%, 0) rotateX(90deg);
 }
 
-.box #reveal section>section.future {
+#reveal.box .slides>section>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -691,7 +703,7 @@ section img {
  * PAGE TRANSITION
  *********************************************/
 
-.page #reveal {
+#reveal.page .slides {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 50%;
@@ -705,17 +717,17 @@ section img {
 	        perspective: 3000px;
 }
 
-.page #reveal section {
+#reveal.page .slides section {
 	padding: 30px;
 
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	.page #reveal section.past {
+	#reveal.page .slides section.past {
 		z-index: 12;
 	}
-	.page #reveal section:not(.stack):before {
+	#reveal.page .slides section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -731,7 +743,7 @@ section img {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	.page #reveal section:not(.stack):after {
+	#reveal.page .slides section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -748,12 +760,12 @@ section img {
 		-webkit-transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-.page #reveal section.stack {
+#reveal.page .slides>section.stack {
 	padding: 0;
 	background: none;
 }
 
-.page #reveal>section.past {
+#reveal.page .slides>section.past {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -765,7 +777,7 @@ section img {
 	        transform: translate3d(-40%, 0, 0) rotateY(-80deg);
 }
 
-.page #reveal>section.future {
+#reveal.page .slides>section.future {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -777,7 +789,7 @@ section img {
 	        transform: translate3d(0, 0, 0);
 }
 
-.page #reveal section>section.past {
+#reveal.page .slides>section>section.past {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -789,7 +801,7 @@ section img {
 	        transform: translate3d(0, -40%, 0) rotateX(80deg);
 }
 
-.page #reveal section>section.future {
+#reveal.page .slides>section>section.future {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -806,18 +818,18 @@ section img {
  * NEON THEME
  *********************************************/
 
-.neon a,
-.neon a:hover,
-.neon .controls a.enabled {
+#reveal.neon a,
+#reveal.neon a:hover,
+#reveal.neon .controls a.enabled {
 	color: #5de048;
 }
 
-.neon .progress span,
-.neon .roll span:after {
+#reveal.neon .progress span,
+#reveal.neon .roll span:after {
 	background: #5de048;
 }
 
-a.image:hover img {
+#reveal.neon a.image:hover img {
 	border-color: #5de048;
 }
 
@@ -826,28 +838,35 @@ a.image:hover img {
  * OVERVIEW
  *********************************************/
 
-.overview #reveal section {
+#reveal.overview .slides {
+	-webkit-perspective: 700px;
+	   -moz-perspective: 700px;
+	    -ms-perspective: 700px;
+	        perspective: 700px;
+}
+
+#reveal.overview .slides section {
 	padding: 20px 0;
 	opacity: 1;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
-.overview #reveal section:after,
-.overview #reveal section:before {
+#reveal.overview .slides section:after,
+#reveal.overview .slides section:before {
 	display: none !important;
 }
-.overview #reveal section>section {
+#reveal.overview .slides section>section {
 	opacity: 1;
 	cursor: pointer;
 }
-	.overview #reveal section:hover {
+	#reveal.overview .slides section:hover {
 		background: rgba(0,0,0,0.3);
 	}
 
-	.overview #reveal section.present {
+	#reveal.overview .slides section.present {
 		background: rgba(0,0,0,0.3);
 	}
-.overview #reveal section.stack {
+#reveal.overview .slides>section.stack {
 	background: none;
 	padding: 0;
 }

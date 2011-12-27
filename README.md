@@ -14,6 +14,13 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 # History
 
+### 1.2
+- Big changes to DOM structure:
+  - Previous #main wrapper is now called #reveal
+  - Slides were moved one level deeper, into #reveal .slides
+  - Controls and progress bar were moved into #reveal
+- CSS is now much more explicit, rooted at #reveal, to prevent conflicts
+
 ### 1.1
 
 - Added an optional presentation progress bar
