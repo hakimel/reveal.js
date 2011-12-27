@@ -74,12 +74,20 @@
 				<section>
 					<h2>Holistic Overview</h2>
 					<p>
-						Press <em>SPACE</em> to enter the slide overview. This allows you to navigate faster 
-						in larger decks using the keyboard.
+						Press <strong>SPACE</strong> to enter the slide overview.
 					</p>
+				</section>
+
+				<section>
+					<h2>Transition Styles</h2>
 					<p>
-						This feature is highly experimental and will be updated to boost performance.
+						You can select from different transitions, like:
 					</p>
+					<ul>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=cube">Cube</a></li>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=page">Page</a></li>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=concave">Concave</a></li>
+					</ul>
 				</section>
 					
 				<section>
@@ -218,7 +226,7 @@
 				theme: query.theme || 'default', // default/neon
 
 				// Transition style
-				transition: query.transition || 'default' // default/box/page/concave/linear(2d),
+				transition: query.transition || 'default' // default/cube/page/concave/linear(2d),
 			});
 
 			hljs.initHighlightingOnLoad();

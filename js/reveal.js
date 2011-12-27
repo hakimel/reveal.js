@@ -134,6 +134,9 @@ var Reveal = (function(){
 		config.transition = options.transition === undefined ? 'default' : options.transition;
 		config.theme = options.theme === undefined ? 'default' : options.theme;
 
+		// Transition alias
+		if( config.transition === 'box' ) config.transition = 'cube';
+
 		// Fall back on the 2D transform theme 'linear'
 		if( supports3DTransforms === false ) {
 			config.transition = 'linear';

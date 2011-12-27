@@ -586,7 +586,7 @@ html {
  * BOX TRANSITION
  *********************************************/
 
-#reveal.box .slides {
+#reveal.cube .slides {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 25%;
@@ -600,14 +600,14 @@ html {
 	        perspective: 1300px;
 }
 
-#reveal.box .slides section {
+#reveal.cube .slides section {
 	padding: 30px;
 	
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	#reveal.box .slides section:not(.stack):before {
+	#reveal.cube .slides section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -624,7 +624,7 @@ html {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	#reveal.box .slides section:not(.stack):after {
+	#reveal.cube .slides section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -645,12 +645,12 @@ html {
 		        transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-#reveal.box .slides>section.stack {
+#reveal.cube .slides>section.stack {
 	padding: 0;
 	background: none;
 }
 
-#reveal.box .slides>section.past {
+#reveal.cube .slides>section.past {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -662,7 +662,7 @@ html {
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg);
 }
 
-#reveal.box .slides>section.future {
+#reveal.cube .slides>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -674,7 +674,7 @@ html {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg);
 }
 
-#reveal.box .slides>section>section.past {
+#reveal.cube .slides>section>section.past {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -686,7 +686,7 @@ html {
 	        transform: translate3d(0, -100%, 0) rotateX(90deg);
 }
 
-#reveal.box .slides>section>section.future {
+#reveal.cube .slides>section>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
