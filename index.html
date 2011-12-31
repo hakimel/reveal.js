@@ -5,6 +5,9 @@
 		<meta charset="utf-8">
 		
 		<title>reveal.js</title>
+
+		<meta name="description" content="An easy to use CSS 3D slideshow tool for quickly creating good looking HTML presentations.">
+		<meta name="author" content="Hakim El Hattab">
 		
 		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 		
@@ -219,6 +222,9 @@
 				// Display a presentation progress bar
 				progress: true,
 
+				// If true; each slide will be pushed to the browser history
+				history: false,
+
 				// Apply a 3D roll to links on hover
 				rollingLinks: true,
 
@@ -226,11 +232,11 @@
 				theme: query.theme || 'default', // default/neon
 
 				// Transition style
-				transition: query.transition || 'default' // default/cube/page/concave/linear(2d),
+				transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
 			});
 
 			hljs.initHighlightingOnLoad();
 		</script>
-		
+
 	</body>
 </html>

@@ -72,6 +72,7 @@
  *   - Slides were moved one level deeper, into #reveal .slides
  *   - Controls and progress bar were moved into #reveal
  * - All CSS is now much more explicit, rooted at #reveal, to prevent conflicts
+ * - Config option for disabling updates to URL, defaults to true
  * 
  * 	
  * @author Hakim El Hattab | http://hakim.se
@@ -86,13 +87,15 @@ var Reveal = (function(){
 		indexh = 0,
 		indexv = 0,
 
-		// Configurations options, including;
-		// > {Boolean} controls
-		// > {Boolean} progress
-		// > {String} theme
-		// > {String} transition
-		// > {Boolean} rollingLinks
-		config = {},
+		// Configurations options, can be overridden at initialization time 
+		config = {
+			controls: false,
+			progress: false,
+			history: false,
+			transition: 'default',
+			theme: 'default',
+			rollingLinks: true
+		},
 
 		// Cached references to DOM elements
 		dom = {},
@@ -127,15 +130,8 @@ var Reveal = (function(){
 		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
 		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
 
-		// Fall back on default options
-		config.rollingLinks = options.rollingLinks === undefined ? true : options.rollingLinks;
-		config.controls = options.controls === undefined ? false : options.controls;
-		config.progress = options.progress === undefined ? false : options.progress;
-		config.transition = options.transition === undefined ? 'default' : options.transition;
-		config.theme = options.theme === undefined ? 'default' : options.theme;
-
-		// Transition alias
-		if( config.transition === 'box' ) config.transition = 'cube';
+		// Copy options over to our config object
+		extend( config, options );
 
 		// Fall back on the 2D transform theme 'linear'
 		if( supports3DTransforms === false ) {
@@ -165,6 +161,16 @@ var Reveal = (function(){
 
 		// Read the initial hash
 		readURL();
+	}
+
+	/**
+	 * Extend object a with the properties of object b. 
+	 * If there's a conflict, object b takes precedence.
+	 */
+	function extend( a, b ) {
+		for( var i in b ) {
+			a[ i ] = b[ i ];
+		}
 	}
 
 	/**
@@ -529,14 +535,16 @@ var Reveal = (function(){
 	 * state. 
 	 */
 	function writeURL() {
-		var url = '/';
-		
-		// Only include the minimum possible number of components in
-		// the URL
-		if( indexh > 0 || indexv > 0 ) url += indexh;
-		if( indexv > 0 ) url += '/' + indexv;
-		
-		window.location.hash = url;
+		if( config.history ) {
+			var url = '/';
+			
+			// Only include the minimum possible number of components in
+			// the URL
+			if( indexh > 0 || indexv > 0 ) url += indexh;
+			if( indexv > 0 ) url += '/' + indexv;
+			
+			window.location.hash = url;
+		}
 	}
 
 	/**
