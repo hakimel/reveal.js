@@ -11,6 +11,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 * http://lab.hakim.se/reveal-js/ (original)
 * http://www.ideapolisagency.com/ from [@achrafkassioui](http://twitter.com/achrafkassioui)
 * http://lucienfrelin.com/ from [@lucienfrelin](http://twitter.com/lucienfrelin)
+* http://creatorrr.github.com/ThePoet/
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
