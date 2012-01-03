@@ -872,3 +872,27 @@ html {
 }
 
 
+/*********************************************
+ * FALLBACK
+ *********************************************/
+
+.no-transforms {
+	overflow-y: auto;
+}
+
+.no-transforms .slides section {
+	-webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	        transform: none;
+	
+	display: block!important;
+	opacity: 1!important;
+	position: relative!important;
+}
+
+
+
+
+
+

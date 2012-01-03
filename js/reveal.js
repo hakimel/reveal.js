@@ -104,13 +104,26 @@ var Reveal = (function(){
 		supports3DTransforms =  document.body.style['perspectiveProperty'] !== undefined ||
 								document.body.style['WebkitPerspective'] !== undefined || 
                         		document.body.style['MozPerspective'] !== undefined ||
-                        		document.body.style['msTransform'] !== undefined;
+                        		document.body.style['msPerspective'] !== undefined,
+        
+        supports2DTransforms =  document.body.style['transformProperty'] !== undefined ||
+								document.body.style['WebkitTransform'] !== undefined || 
+                        		document.body.style['MozTransform'] !== undefined ||
+                        		document.body.style['msTransform'] !== undefined ||
+                        		document.body.style['OTransform'] !== undefined;
 	
 	/**
 	 * Starts up the slideshow by applying configuration
 	 * options and binding various events.
 	 */
 	function initialize( options ) {
+		
+		if( !supports2DTransforms && !supports3DTransforms ) {
+			document.body.setAttribute( 'class', 'no-transforms' );
+
+			return;
+		}
+
 		// Cache references to DOM elements
 		dom.wrapper = document.querySelector( '#reveal' );
 		dom.progress = document.querySelector( '#reveal .progress' );
