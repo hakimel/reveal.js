@@ -313,7 +313,7 @@ html {
 #reveal .progress {
 	position: fixed;
 	display: none;
-	height: 4px;
+	height: 3px;
 	width: 100%;
 	bottom: 0;
 	left: 0;
