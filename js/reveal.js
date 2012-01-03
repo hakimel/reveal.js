@@ -219,6 +219,8 @@ var Reveal = (function(){
 				else {
 					activateOverview();
 				}
+
+				event.preventDefault();
 			}
 		}
 	}
