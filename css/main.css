@@ -41,7 +41,7 @@ html, body {
 }
 
 html {
-	background: #555a5f;
+	background: #1c1e20;
 	background: -moz-radial-gradient(center, ellipse cover, #555a5f 0%, #1c1e20 100%);
 	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#555a5f), color-stop(100%,#1c1e20));
 	background: -webkit-radial-gradient(center, ellipse cover, #555a5f 0%,#1c1e20 100%);

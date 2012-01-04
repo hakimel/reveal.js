@@ -121,6 +121,8 @@ var Reveal = (function(){
 		if( !supports2DTransforms && !supports3DTransforms ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
+			// If the browser doesn't support transforms we won't be 
+			// using JavaScript to control the presentation
 			return;
 		}
 
@@ -160,11 +162,11 @@ var Reveal = (function(){
 		}
 
 		if( config.transition !== 'default' ) {
-			dom.wrapper.classList.add( config.transition );
+			addClass( dom.wrapper, config.transition );
 		}
 
 		if( config.theme !== 'default' ) {
-			dom.wrapper.classList.add( config.theme );
+			addClass( dom.wrapper, config.theme );
 		}
 
 		if( config.rollingLinks ) {
@@ -304,8 +306,8 @@ var Reveal = (function(){
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {
 	            var node = nodes[i];
 	            
-	            if( node.textContent && ( !node.className || !node.className.match( /roll/g ) ) ) {
-	                node.className += ' roll';
+	            if( node.textContent && ( !node.className || !hasClass( node, 'roll' ) ) ) {
+	                addClass( node, 'roll' );
 	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
 	            }
 	        };
@@ -320,7 +322,7 @@ var Reveal = (function(){
 	 * can't be improved.
 	 */
 	function activateOverview() {
-		dom.wrapper.classList.add( 'overview' );
+		addClass( dom.wrapper, 'overview' );
 
 		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
@@ -336,7 +338,7 @@ var Reveal = (function(){
 			hslide.style.OTransform = htransform;
 			hslide.style.transform = htransform;
 
-			if( !hslide.classList.contains( 'stack' ) ) {
+			if( !hasClass( hslide, 'stack' ) ) {
 				// Navigate to this slide on click
 				hslide.addEventListener( 'click', onOverviewSlideClicked, true );
 			}
@@ -367,7 +369,7 @@ var Reveal = (function(){
 	 * active slide.
 	 */
 	function deactivateOverview() {
-		dom.wrapper.classList.remove( 'overview' );
+		removeClass( dom.wrapper, 'overview' );
 
 		var slides = Array.prototype.slice.call( document.querySelectorAll( '#reveal .slides section' ) );
 
@@ -394,7 +396,7 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function overviewIsActive() {
-		return dom.wrapper.classList.contains( 'overview' );
+		return hasClass( dom.wrapper, 'overview' );
 	}
 
 	/**
@@ -438,7 +440,7 @@ var Reveal = (function(){
 			// Enforce max and minimum index bounds
 			index = Math.max(Math.min(index, slides.length - 1), 0);
 			
-			slides[index].setAttribute('class', 'present');
+			slides[index].className = 'present';
 
 			for( var i = 0; i < slides.length; i++ ) {
 				var slide = slides[i];
@@ -451,16 +453,16 @@ var Reveal = (function(){
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
-					slide.setAttribute('class', 'past');
+					slide.className = 'past';
 				}
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
-					slide.setAttribute('class', 'future');
+					slide.className = 'future';
 				}
 
 				// If this element contains vertical slides
 				if( slide.querySelector( 'section' ) ) {
-					slide.classList.add( 'stack' );
+					addClass( slide, 'stack' );
 				}
 			}
 		}
@@ -505,13 +507,13 @@ var Reveal = (function(){
 
 		// Remove the 'enabled' class from all directions
 		[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( node ) {
-			node.classList.remove( 'enabled' );
+			removeClass( node, 'enabled' );
 		} )
 
-		if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
-		if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
-		if( routes.up ) dom.controlsUp.classList.add( 'enabled' );
-		if( routes.down ) dom.controlsDown.classList.add( 'enabled' );
+		if( routes.left ) addClass( dom.controlsLeft, 'enabled' );
+		if( routes.right ) addClass( dom.controlsRight, 'enabled' );
+		if( routes.up ) addClass( dom.controlsUp, 'enabled' );
+		if( routes.down ) addClass( dom.controlsDown, 'enabled' );
 	}
 
 	/**
@@ -573,7 +575,7 @@ var Reveal = (function(){
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( verticalFragments.length ) {
-				verticalFragments[0].classList.add( 'visible' );
+				addClass( verticalFragments[0], 'visible' );
 				return true;
 			}
 		}
@@ -581,7 +583,7 @@ var Reveal = (function(){
 		else {
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( horizontalFragments.length ) {
-				horizontalFragments[0].classList.add( 'visible' );
+				addClass( horizontalFragments[0], 'visible' );
 				return true;
 			}
 		}
@@ -600,7 +602,7 @@ var Reveal = (function(){
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( verticalFragments.length ) {
-				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
+				removeClass( verticalFragments[ verticalFragments.length - 1 ], 'visible' );
 				return true;
 			}
 		}
@@ -608,12 +610,26 @@ var Reveal = (function(){
 		else {
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( horizontalFragments.length ) {
-				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
+				removeClass( horizontalFragments[ horizontalFragments.length - 1 ], 'visible' );
 				return true;
 			}
 		}
 		
 		return false;
+	}
+	
+	function hasClass( node, klass ) {
+		return !!node.className.match( klass );
+	}
+
+	function addClass( node, klass ) {
+		if( !hasClass( node, klass ) ) {
+			node.className += ' ' + klass;
+		}
+	}
+
+	function removeClass( node, klass ) {
+		node.className = node.className.replace( klass, '' );
 	}
 	
 	/**
