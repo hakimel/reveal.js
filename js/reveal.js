@@ -173,6 +173,11 @@ var Reveal = (function(){
 			// Add some 3D magic to our anchors
 			linkify();
 		}
+		
+		//bind scrolling
+		 if(window.addEventListener){
+		    document.addEventListener('DOMMouseScroll', scrollStep, false);
+		    }
 
 		// Read the initial hash
 		readURL();
@@ -675,6 +680,26 @@ var Reveal = (function(){
 			slide();
 		}
 	}
+	
+	var stepT=0;
+  function scrollStep(e){
+  clearTimeout(stepT);
+  stepT=setTimeout(function(){
+      if(e.detail>0){
+        if(availableRoutes().down){
+          navigateDown()
+          }else{
+          navigateRight()
+          }
+        }else{
+        if(availableRoutes().up){
+          navigateUp()
+          }else{
+          navigateLeft()
+          }
+        }
+      },200);
+    }
 	
 	// Expose some methods publicly
 	return {
