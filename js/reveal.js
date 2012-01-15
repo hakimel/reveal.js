@@ -73,6 +73,7 @@
  *   - Controls and progress bar were moved into #reveal
  * - All CSS is now much more explicit, rooted at #reveal, to prevent conflicts
  * - Config option for disabling updates to URL, defaults to true
+ * - Removed dependency on classList
  * 
  * 	
  * @author Hakim El Hattab | http://hakim.se
@@ -306,7 +307,7 @@ var Reveal = (function(){
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {
 	            var node = nodes[i];
 	            
-	            if( node.textContent && ( !node.className || !hasClass( node, 'roll' ) ) ) {
+	            if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !hasClass( node, 'roll' ) ) ) {
 	                addClass( node, 'roll' );
 	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
 	            }
@@ -617,7 +618,7 @@ var Reveal = (function(){
 		
 		return false;
 	}
-	
+
 	function hasClass( node, klass ) {
 		return !!node.className.match( klass );
 	}
