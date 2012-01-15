@@ -245,7 +245,7 @@ html {
 	        transition: all .2s linear;
 }
 
-	#reveal a.image:hover img {
+	#reveal a:hover img {
 		background: rgba(255,255,255,0.2);
 		border-color: #13DAEC;
 		
@@ -602,6 +602,11 @@ html {
 
 #reveal.cube .slides section {
 	padding: 30px;
+
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	    -ms-backface-visibility: hidden;
+	        backface-visibility: hidden;
 	
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
