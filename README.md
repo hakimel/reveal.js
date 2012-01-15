@@ -16,9 +16,38 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
+# Usage
+
+Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides.
+
+At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal. Note that all config values are optional.
+
+```
+Reveal.initialize({
+  // Display controls in the bottom right corner
+	controls: true,
+
+	// Display a presentation progress bar
+	progress: true,
+
+	// If true; each slide will be pushed to the browser history
+	history: true,
+
+	// Apply a 3D roll to links on hover
+	rollingLinks: true,
+
+	// UI style
+	theme: 'default', // default/neon
+
+	// Transition style
+	transition: 'default' // default/cube/page/concave/linear(2d)
+});
+```
+
 # History
 
-### 1.2 (master)
+#### 1.2 (master)
+
 - Big changes to DOM structure:
   - Previous #main wrapper is now called #reveal
   - Slides were moved one level deeper, into #reveal .slides
@@ -27,7 +56,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 - Config option for disabling updates to URL, defaults to true
 - Anchors with image children no longer rotate in 3D on hover
 
-### 1.1
+#### 1.1
 
 - Added an optional presentation progress bar
 - Images wrapped in anchors no longer unexpectedly flip in 3D
@@ -37,7 +66,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 - New transitions: 'box' & 'page'
 - New theme: 'neon'
 
-### 1.0
+#### 1.0
 
 - New and improved style
 - Added controls in bottom right which indicate where you can navigate
@@ -45,19 +74,21 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 - Code sample syntax highlighting thanks to [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/)
 - Initialization options (toggling controls, toggling rolling links, transition theme)
 
-### 0.3
+#### 0.3
 
 - Added licensing terms
 - Fixed broken links on touch devices
 
-### 0.2
+#### 0.2
 
 - Refactored code and added inline documentation
 - Slides now have unique URL's
 - A basic API to invoke navigation was added
 
-### 0.1
+#### 0.1
+
 - First release
+- Transitions and a white theme
 
 # License
 
