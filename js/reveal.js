@@ -18,10 +18,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
  * 
  * #############################################################################
- * 
  *
  * Reveal.js is an easy to use HTML based slideshow enhanced by 
  * sexy CSS 3D transforms.
@@ -36,45 +34,6 @@
  * - Reveal.navigateRight();
  * - Reveal.navigateUp();
  * - Reveal.navigateDown();
- * 
- * 
- * version 0.1:
- * - First release
- * 
- * version 0.2:		
- * - Refactored code and added inline documentation
- * - Slides now have unique URL's
- * - A basic API to invoke navigation was added
- * 
- * version 0.3:		
- * - Added licensing terms
- * - Fixed broken links on touch devices
- * 
- * version 1.0:
- * - Added controls
- * - Added initialization options
- * - Reveal views in fragments
- * - Revamped, darker, theme
- * - Tweaked markup styles (a, em, strong, b, i, blockquote, q, pre, ul, ol)
- * - Support for themes at initialization (default/linear/concave)
- * - Code highlighting via highlight.js
- * 
- * version 1.1:
- * - Optional progress bar UI element
- * - Slide overview available via SPACE
- * - Added 'transition' option for specifying transition styles
- * - Added 'theme' option for specifying UI styles
- * - Slides that contain nested-slides are given the 'stack' class
- * 
- * version 1.2:
- * - Big changes to DOM structure:
- *   - Previous #main wrapper is now called #reveal
- *   - Slides were moved one level deeper, into #reveal .slides
- *   - Controls and progress bar were moved into #reveal
- * - All CSS is now much more explicit, rooted at #reveal, to prevent conflicts
- * - Config option for disabling updates to URL, defaults to true
- * - Fix 3D link hover for anchors containing images
- * 
  * 	
  * @author Hakim El Hattab | http://hakim.se
  * @version 1.2
