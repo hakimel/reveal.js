@@ -12,6 +12,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 * http://www.ideapolisagency.com/ from [@achrafkassioui](http://twitter.com/achrafkassioui)
 * http://lucienfrelin.com/ from [@lucienfrelin](http://twitter.com/lucienfrelin)
 * http://creatorrr.github.com/ThePoet/
+* http://moduscreate.com/ [@ModusCreate](https://twitter.com/ModusCreate)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
