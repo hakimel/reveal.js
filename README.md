@@ -2,7 +2,7 @@
 
 A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Doesn't _rely_ on any external libraries but [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/) is included by default for code highlighting.
 
-Note that this requires a browser with support for CSS 3D transforms and classList. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions.
+Note that this requires a browser with support for CSS 3D transforms and ``classList``. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions. You could also use a polyfill for ``classList`` to make this work in < iOS 5 and < Safari 5.1, [here's one](https://github.com/remy/polyfills/blob/master/classList.js) from [@remy](https://github.com/remy).
 
 Curious about how this looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
 
@@ -24,6 +24,8 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
   - Slides were moved one level deeper, into #reveal .slides
   - Controls and progress bar were moved into #reveal
 - CSS is now much more explicit, rooted at #reveal, to prevent conflicts
+- Config option for disabling updates to URL, defaults to true
+- Anchors with image children no longer rotate in 3D on hover
 
 ### 1.1
 
