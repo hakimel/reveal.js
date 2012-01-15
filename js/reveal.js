@@ -54,6 +54,7 @@ var Reveal = (function(){
 			history: false,
 			transition: 'default',
 			theme: 'default',
+			mouseWheel: true,
 			rollingLinks: true
 		},
 
@@ -70,7 +71,10 @@ var Reveal = (function(){
 								document.body.style['WebkitTransform'] !== undefined || 
                         		document.body.style['MozTransform'] !== undefined ||
                         		document.body.style['msTransform'] !== undefined ||
-                        		document.body.style['OTransform'] !== undefined;
+                        		document.body.style['OTransform'] !== undefined,
+		
+		// Throttles mouse wheel navigation
+		mouseWheelTimeout = 0;
 	
 	/**
 	 * Starts up the slideshow by applying configuration
@@ -129,15 +133,15 @@ var Reveal = (function(){
 			dom.wrapper.classList.add( config.theme );
 		}
 
+		if( config.mouseWheel ) {
+			document.addEventListener('DOMMouseScroll', onDocumentMouseScroll, false); // FF
+			document.addEventListener('mousewheel', onDocumentMouseScroll, false);
+		}
+
 		if( config.rollingLinks ) {
 			// Add some 3D magic to our anchors
 			linkify();
 		}
-		
-		//bind scrolling
-		 if(window.addEventListener){
-		    document.addEventListener('DOMMouseScroll', scrollStep, false);
-		    }
 
 		// Read the initial hash
 		readURL();
@@ -250,6 +254,24 @@ var Reveal = (function(){
 			
 			slide();
 		}
+	}
+
+	/**
+	 * Handles mouse wheel scrolling, throttled to avoid 
+	 * skipping multiple slides.
+	 */
+	function onDocumentMouseScroll( event ){
+		clearTimeout( mouseWheelTimeout );
+
+		mouseWheelTimeout = setTimeout( function() {
+			var delta = event.detail || -event.wheelDelta;
+			if( delta > 0 ) {
+				availableRoutes().down ? navigateDown() : navigateRight();
+			}
+			else {
+				availableRoutes().up ? navigateUp() : navigateLeft();
+			}
+		}, 100 );
 	}
 	
 	/**
@@ -626,26 +648,6 @@ var Reveal = (function(){
 			slide();
 		}
 	}
-	
-	var stepT=0;
-  function scrollStep(e){
-  clearTimeout(stepT);
-  stepT=setTimeout(function(){
-      if(e.detail>0){
-        if(availableRoutes().down){
-          navigateDown()
-          }else{
-          navigateRight()
-          }
-        }else{
-        if(availableRoutes().up){
-          navigateUp()
-          }else{
-          navigateLeft()
-          }
-        }
-      },200);
-    }
 	
 	// Expose some methods publicly
 	return {

@@ -33,6 +33,9 @@ Reveal.initialize({
 	// If true; each slide will be pushed to the browser history
 	history: true,
 
+	// Flags if mouse wheel navigation should be enabled
+	mouseWheel: true,
+
 	// Apply a 3D roll to links on hover
 	rollingLinks: true,
 
@@ -55,6 +58,7 @@ Reveal.initialize({
 - CSS is now much more explicit, rooted at #reveal, to prevent conflicts
 - Config option for disabling updates to URL, defaults to true
 - Anchors with image children no longer rotate in 3D on hover
+- Support for mouse wheel navigation ([naugtur](https://github.com/naugtur))
 
 #### 1.1
 
