@@ -13,6 +13,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 * http://lucienfrelin.com/ from [@lucienfrelin](http://twitter.com/lucienfrelin)
 * http://creatorrr.github.com/ThePoet/
 * http://moduscreate.com/ [@ModusCreate](https://twitter.com/ModusCreate)
+* [Webapp Development Stack & Tooling](http://dl.dropbox.com/u/39519/talks/jquk-tooling%2Bappstack/index.html) [@paul_irish](https://twitter.com/paul_irish)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
