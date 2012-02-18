@@ -293,7 +293,7 @@ var Reveal = (function(){
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {
 	            var node = nodes[i];
 	            
-	            if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !hasClass( node, 'roll' ) ) ) {
+	            if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
 	                node.classList.add( 'roll' );
 	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
 	            }
