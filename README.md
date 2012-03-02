@@ -9,11 +9,14 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 # Examples
 
 * http://lab.hakim.se/reveal-js/ (original)
-* http://www.ideapolisagency.com/ from [@achrafkassioui](http://twitter.com/achrafkassioui)
-* http://lucienfrelin.com/ from [@lucienfrelin](http://twitter.com/lucienfrelin)
+* http://www.ideapolisagency.com/ by [@achrafkassioui](http://twitter.com/achrafkassioui)
+* http://lucienfrelin.com/ by [@lucienfrelin](http://twitter.com/lucienfrelin)
 * http://creatorrr.github.com/ThePoet/
-* http://moduscreate.com/ [@ModusCreate](https://twitter.com/ModusCreate)
-* [Webapp Development Stack & Tooling](http://dl.dropbox.com/u/39519/talks/jquk-tooling%2Bappstack/index.html) [@paul_irish](https://twitter.com/paul_irish)
+* http://moduscreate.com/ by [@ModusCreate](https://twitter.com/ModusCreate)
+* [Webapp Development Stack & Tooling](http://dl.dropbox.com/u/39519/talks/jquk-tooling%2Bappstack/index.html) by [@paul_irish](https://twitter.com/paul_irish)
+* http://idea.diwank.name/ by [Diwank Singh](http://diwank.name/)
+* http://concurrencykit.org/presentations/lockfree_introduction/ by Samy Al Bahra
+* http://www.thecssninja.com/talks/not_your_average_dnd/ by [@ryanseddon](http://twitter.com/ryanseddon)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
