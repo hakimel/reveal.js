@@ -181,9 +181,11 @@ var Reveal = (function(){
 		// instead of checking contentEditable?
 
 		if( event.target.contentEditable === 'inherit' ) {
-			if( event.keyCode >= 37 && event.keyCode <= 40 ) {
+			if( event.keyCode >= 33 && event.keyCode <= 40 ) {
 				
 				switch( event.keyCode ) {
+					case 33: navigateLeft(); break; // left for wireless presenter
+					case 34: navigateRight(); break; // right for wireless presenter
 					case 37: navigateLeft(); break; // left
 					case 39: navigateRight(); break; // right
 					case 38: navigateUp(); break; // up
