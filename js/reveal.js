@@ -74,7 +74,10 @@ var Reveal = (function(){
                         		document.body.style['OTransform'] !== undefined,
 		
 		// Throttles mouse wheel navigation
-		mouseWheelTimeout = 0;
+		mouseWheelTimeout = 0,
+
+		// Delays updates to the URL due to a Chrome thumbnailer bug
+		writeURLTimeout = 0;
 	
 	/**
 	 * Starts up the slideshow by applying configuration
@@ -490,7 +493,8 @@ var Reveal = (function(){
 
 		updateControls();
 		
-		writeURL();
+		clearTimeout( writeURLTimeout );
+		writeURLTimeout = setTimeout( writeURL, 1500 );
 	}
 
 	/**
