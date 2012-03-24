@@ -64,6 +64,8 @@ Reveal.initialize({
 - Config option for disabling updates to URL, defaults to true
 - Anchors with image children no longer rotate in 3D on hover
 - Support for mouse wheel navigation ([naugtur](https://github.com/naugtur))
+- Delayed updates to URL hash to work around a bug in Chrome
+- Included a classList polyfill for IE9
 
 #### 1.1
 
