@@ -428,8 +428,6 @@ var Reveal = (function(){
 		if( slides.length ) {
 			// Enforce max and minimum index bounds
 			index = Math.max(Math.min(index, slides.length - 1), 0);
-			
-			slides[index].className = 'present';
 
 			for( var i = 0; i < slides.length; i++ ) {
 				var slide = slides[i];
@@ -440,20 +438,27 @@ var Reveal = (function(){
 					slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
 				}
 
+				slides[i].classList.remove( 'past' );
+				slides[i].classList.remove( 'present' );
+				slides[i].classList.remove( 'future' );
+
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
-					slide.className = 'past';
+					slides[i].classList.add( 'past' );
 				}
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
-					slide.className = 'future';
+					slides[i].classList.add( 'future' );
 				}
 
 				// If this element contains vertical slides
 				if( slide.querySelector( 'section' ) ) {
-					slide.classList.add( 'stack' );
+					slides[i].classList.add( 'stack' );
 				}
 			}
+
+			// Mark the current slide as present
+			slides[index].classList.add( 'present' );
 		}
 		else {
 			// Since there are no slides we can't be anywhere beyond the 
