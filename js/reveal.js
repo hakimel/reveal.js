@@ -187,8 +187,8 @@ var Reveal = (function(){
 			if( event.keyCode >= 33 && event.keyCode <= 40 ) {
 				
 				switch( event.keyCode ) {
-					case 33: navigateLeft(); break; // left for wireless presenter
-					case 34: navigateRight(); break; // right for wireless presenter
+					case 33: navigatePrev(); break; // prev for wireless presenter (PgUp)
+					case 34: navigateNext(); break; // next for wireless presenter (PgDn)
 					case 37: navigateLeft(); break; // left
 					case 39: navigateRight(); break; // right
 					case 38: navigateUp(); break; // up
@@ -271,10 +271,10 @@ var Reveal = (function(){
 		mouseWheelTimeout = setTimeout( function() {
 			var delta = event.detail || -event.wheelDelta;
 			if( delta > 0 ) {
-				availableRoutes().down ? navigateDown() : navigateRight();
+				navigateNext();
 			}
 			else {
-				availableRoutes().up ? navigateUp() : navigateLeft();
+				navigatePrev();
 			}
 		}, 100 );
 	}
@@ -659,6 +659,22 @@ var Reveal = (function(){
 			slide();
 		}
 	}
+    function navigatePrev() {
+        if( availableRoutes().up ) navigateUp();
+        else {
+            // Go to last slide in previous vertical stack
+            var pastSlides = document.querySelectorAll('#reveal .slides>section.past');
+            if( pastSlides.length > 0 ) {
+                var prevVerticalSlides = pastSlides[pastSlides.length - 1].querySelectorAll('section');
+                indexv = prevVerticalSlides.length > 0 ? prevVerticalSlides.length - 1 : 0;
+                indexh --;
+                slide();
+            }
+        }
+    }
+    function navigateNext() {
+        availableRoutes().down ? navigateDown() : navigateRight();
+    }
 	
 	// Expose some methods publicly
 	return {
