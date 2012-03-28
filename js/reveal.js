@@ -659,22 +659,41 @@ var Reveal = (function(){
 			slide();
 		}
 	}
-    function navigatePrev() {
-        if( availableRoutes().up ) navigateUp();
-        else {
-            // Go to last slide in previous vertical stack
-            var pastSlides = document.querySelectorAll('#reveal .slides>section.past');
-            if( pastSlides.length > 0 ) {
-                var prevVerticalSlides = pastSlides[pastSlides.length - 1].querySelectorAll('section');
-                indexv = prevVerticalSlides.length > 0 ? prevVerticalSlides.length - 1 : 0;
-                indexh --;
-                slide();
-            }
-        }
-    }
-    function navigateNext() {
-        availableRoutes().down ? navigateDown() : navigateRight();
-    }
+
+	/**
+	 * Navigates backwards, prioritized in the following order:
+	 * 1) Previous fragment
+	 * 2) Previous vertical slide
+	 * 3) Previous horizontal slide
+	 */
+	function navigatePrev() {
+		// Prioritize revealing fragments
+		if( previousFragment() === false ) {
+			if( availableRoutes().up ) {
+				navigateUp();
+			}
+			else {
+				// Fetch the previous horizontal slide, if there is one
+				var previousSlide = document.querySelector( '#reveal .slides>section.past:nth-child(' + indexh + ')' );
+
+				if( previousSlide ) {
+					indexv = ( previousSlide.querySelectorAll('section').length + 1 ) || 0;
+					indexh --;
+					slide();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Same as #navigatePrev() but navigates forwards.
+	 */
+	function navigateNext() {
+		// Prioritize revealing fragments
+		if( nextFragment() === false ) {
+			availableRoutes().down ? navigateDown() : navigateRight();
+		}
+	}
 	
 	// Expose some methods publicly
 	return {

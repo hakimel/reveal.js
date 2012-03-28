@@ -66,6 +66,7 @@ Reveal.initialize({
 - Support for mouse wheel navigation ([naugtur](https://github.com/naugtur))
 - Delayed updates to URL hash to work around a bug in Chrome
 - Included a classList polyfill for IE9
+- Support for wireless presenter keys
 
 #### 1.1
 
