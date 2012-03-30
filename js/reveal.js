@@ -501,6 +501,10 @@ var Reveal = (function(){
 		// Apply the new state
 		for( var i = 0, len = state.length; i < len; i++ ) {
 			document.documentElement.classList.add( state[i] );
+			// dispatch custom event
+			var event = document.createEvent("HTMLEvents");
+			event.initEvent(state[i], true, true);
+			document.dispatchEvent(event);
 		}
 
 		// Update progress if enabled
