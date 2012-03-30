@@ -897,6 +897,29 @@ html {
 }
 
 
+/*********************************************
+ * STATES
+ *********************************************/
+
+.blur body {
+	
+}
+
+.blur #reveal * {
+	color: rgba( 255, 255, 255, 0 );
+	text-shadow: 0px 0px 5px #fff;
+
+	-webkit-transition: color .8s ease,
+						text-shadow .8s ease;
+	   -moz-transition: color .8s ease,
+	   					text-shadow .8s ease;
+	    -ms-transition: color .8s ease,
+	    				text-shadow .8s ease;
+	     -o-transition: color .8s ease,
+	     				text-shadow .8s ease;
+	        transition: color .8s ease,
+	        			text-shadow .8s ease;
+}
 
 
 

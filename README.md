@@ -67,6 +67,7 @@ Reveal.initialize({
 - Delayed updates to URL hash to work around a bug in Chrome
 - Included a classList polyfill for IE9
 - Support for wireless presenter keys
+- States can now be applied as classes on the document element by adding data-state on a slide
 
 #### 1.1
 

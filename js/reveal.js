@@ -58,6 +58,11 @@ var Reveal = (function(){
 			rollingLinks: true
 		},
 
+		// Slides may hold a data-state attribute which we pick up and apply 
+		// as a class to the body. This list contains the combined state of 
+		// all current slides.
+		state = [],
+
 		// Cached references to DOM elements
 		dom = {},
 
@@ -462,6 +467,13 @@ var Reveal = (function(){
 
 			// Mark the current slide as present
 			slides[index].classList.add( 'present' );
+
+			// If this slide has a state associated with it, add it
+			// onto the current state of the deck
+			var slideState = slides[index].dataset.state;
+			if( slideState ) {
+				state = state.concat( slideState.split( ' ' ) );
+			}
 		}
 		else {
 			// Since there are no slides we can't be anywhere beyond the 
@@ -478,8 +490,18 @@ var Reveal = (function(){
 	 * set indices. 
 	 */
 	function slide() {
+		// Clean up the current state
+		while( state.length ) {
+			document.documentElement.classList.remove( state.pop() );
+		}
+
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
+
+		// Apply the new state
+		for( var i = 0, len = state.length; i < len; i++ ) {
+			document.documentElement.classList.add( state[i] );
+		}
 
 		// Update progress if enabled
 		if( config.progress ) {
