@@ -513,8 +513,8 @@ var Reveal = (function(){
 
 			// Dispatch custom event
 			var event = document.createEvent( "HTMLEvents" );
-			event.initEvent( state[i], false, true );
-			dom.wrapper.dispatchEvent( event );
+			event.initEvent( state[i], true, true );
+			document.dispatchEvent( event );
 		}
 
 		// Clean up the remaints of the previous state
