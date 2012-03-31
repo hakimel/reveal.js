@@ -200,8 +200,6 @@ var Reveal = (function(){
 					case 40: navigateDown(); break; // down
 				}
 				
-				slide();
-				
 				event.preventDefault();
 				
 			}
@@ -490,21 +488,38 @@ var Reveal = (function(){
 	 * set indices. 
 	 */
 	function slide() {
-		// Clean up the current state
-		while( state.length ) {
-			document.documentElement.classList.remove( state.pop() );
-		}
+		// Remember the state before this slide
+		var stateBefore = state.concat();
 
+		// Reset the state array
+		state.length = 0;
+
+		// Activate and transition to the new slide
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
 
 		// Apply the new state
-		for( var i = 0, len = state.length; i < len; i++ ) {
+		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
+			// Check if this state existed on the previous slide. If it 
+			// did, we will avoid adding it repeatedly.
+			for( var j = 0; j < stateBefore.length; j++ ) {
+				if( stateBefore[j] === state[i] ) {
+					stateBefore.splice( j, 1 );
+					continue stateLoop;
+				}
+			}
+
 			document.documentElement.classList.add( state[i] );
-			// dispatch custom event
-			var event = document.createEvent("HTMLEvents");
-			event.initEvent(state[i], true, true);
-			document.dispatchEvent(event);
+
+			// Dispatch custom event
+			var event = document.createEvent( "HTMLEvents" );
+			event.initEvent( state[i], false, true );
+			dom.wrapper.dispatchEvent( event );
+		}
+
+		// Clean up the remaints of the previous state
+		while( stateBefore.length ) {
+			document.documentElement.classList.remove( stateBefore.pop() );
 		}
 
 		// Update progress if enabled

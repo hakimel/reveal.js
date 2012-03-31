@@ -114,7 +114,7 @@
 					</ol>
 				</section>
 
-				<section data-state="blur">
+				<section data-state="blurred">
 					<h2>Global State</h2>
 					<p>
 						If you set <code>data-state="something"</code> on a slide, <code>"something"</code>
@@ -252,6 +252,12 @@
 				// Transition style
 				transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
 			});
+
+			// Example of binding an event to a state. This listener will trigger
+			// when the slide with 'data-state="blurred"' is opened.
+			document.querySelector( '#reveal' ).addEventListener( 'blurred', function() {
+				
+			}, false );
 
 			hljs.initHighlightingOnLoad();
 		</script>

@@ -901,11 +901,7 @@ html {
  * STATES
  *********************************************/
 
-.blur body {
-	
-}
-
-.blur #reveal * {
+.blurred #reveal * {
 	color: rgba( 255, 255, 255, 0 );
 	text-shadow: 0px 0px 5px #fff;
 
