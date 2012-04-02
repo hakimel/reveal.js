@@ -18,6 +18,7 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 * http://concurrencykit.org/presentations/lockfree_introduction/ by Samy Al Bahra
 * http://www.thecssninja.com/talks/not_your_average_dnd/ by [@ryanseddon](http://twitter.com/ryanseddon)
 * http://spinscale.github.com/elasticsearch/2012-03-jugm.html by [@spinscale](http://twitter.com/spinscale)
+* [JavaScript Tooling](http://dl.dropbox.com/u/39519/talks/jsconf-tools/index.html) by [@paul_irish](https://twitter.com/paul_irish)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
