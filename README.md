@@ -2,11 +2,11 @@
 
 A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Doesn't _rely_ on any external libraries but [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/) is included by default for code highlighting.
 
-Note that this requires a browser with support for CSS 3D transforms and ``classList``. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions. You could also use a polyfill for ``classList`` to make this work in < iOS 5 and < Safari 5.1, [here's one](https://github.com/remy/polyfills/blob/master/classList.js) from [@remy](https://github.com/remy).
+Note that this requires a browser with support for CSS 3D transforms and ``classList``. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions. A [polyfill for ``classList``](https://github.com/remy/polyfills/blob/master/classList.js) by [@remy](https://github.com/remy) is also incuded to make this work in < iOS 5, < Safari 5.1 and IE.
 
-Curious about how this looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
+Curious about how it looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
 
-# Examples
+## Examples
 
 * http://lab.hakim.se/reveal-js/ (original)
 * http://www.ideapolisagency.com/ by [@achrafkassioui](http://twitter.com/achrafkassioui)
@@ -22,15 +22,31 @@ Curious about how this looks in action? [Check out the demo page](http://lab.hak
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
-# Usage
+## Usage
 
-Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides.
+### Markup
 
-At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal. Note that all config values are optional.
+Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. For example:
+
+```
+<div id="reveal">
+	<div class="slides"> 
+		<section>Single Horizontal Slide</section>
+		<section>
+			<section>Vertical Slide 1</section>
+			<section>Vertical Slide 2</section>
+		</section>
+	</div>
+</div>
+```
+
+### Configuration
+
+At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal by running the following code. Note that all config values are optional.
 
 ```
 Reveal.initialize({
-  // Display controls in the bottom right corner
+	// Display controls in the bottom right corner
 	controls: true,
 
 	// Display a presentation progress bar
@@ -53,9 +69,33 @@ Reveal.initialize({
 });
 ```
 
-# History
+### API
 
-#### 1.2 (master)
+The Reveal class provides a minimal JavaScript API for controlling its navigation:
+
+- Reveal.navigateTo( indexh, indexv );
+- Reveal.navigateLeft();
+- Reveal.navigateRight();
+- Reveal.navigateUp();
+- Reveal.navigateDown();
+
+### States
+
+If you set ``data-state="someState"`` on a slide ``<section>``, "someState" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
+
+Furthermore you can also listen to these changes in state via JavaScript:
+
+```
+document.addEventListener( 'someState', function() {
+	// TODO: Sprinkle magic
+}, false );
+```
+
+## History
+
+#### 1.3 (master)
+
+#### 1.2
 
 - Big changes to DOM structure:
   - Previous #main wrapper is now called #reveal
@@ -104,7 +144,7 @@ Reveal.initialize({
 - First release
 - Transitions and a white theme
 
-# License
+## License
 
 MIT licensed
 
