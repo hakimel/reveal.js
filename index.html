@@ -20,6 +20,9 @@
 	<body>
 		
 		<div id="reveal">
+
+			<!-- Used to fade in a background when a specific slide state is reached -->
+			<div class="state-background"></div>
 			
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
@@ -114,13 +117,30 @@
 					</ol>
 				</section>
 
-				<section data-state="blurred">
-					<h2>Global State</h2>
-					<p>
-						If you set <code>data-state="something"</code> on a slide, <code>"something"</code>
-						will be added as a class to the document element when the slide is open. Like the <code>"blur"</code> 
-						effect on this slide.
-					</p>
+				<section>
+					<section data-state="alert">
+						<h2>Global State</h2>
+						<p>
+							Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+							will be added as a class to the document element when the slide is open. This let's you
+							apply broader style changes, like switching the background.
+						</p>
+						<a href="#/7/1" class="image">
+							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+						</a>
+					</section>
+					<section data-state="blackout">
+						<h2>"blackout"</h2>
+						<a href="#/7/2" class="image">
+							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+						</a>
+					</section>
+					<section data-state="soothe">
+						<h2>"soothe"</h2>
+						<a href="#/7/0" class="image">
+							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" style="-webkit-transform: rotate(180deg);">
+						</a>
+					</section>
 				</section>
 
 				<section>
@@ -252,12 +272,6 @@
 				// Transition style
 				transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
 			});
-
-			// Example of binding an event to a state. This listener will trigger
-			// when the slide with 'data-state="blurred"' is opened.
-			document.addEventListener( 'blurred', function() {
-				
-			}, false );
 
 			hljs.initHighlightingOnLoad();
 		</script>
