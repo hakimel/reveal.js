@@ -36,7 +36,7 @@
  * - Reveal.navigateDown();
  * 	
  * @author Hakim El Hattab | http://hakim.se
- * @version 1.2
+ * @version 1.3
  */
 var Reveal = (function(){
 	
