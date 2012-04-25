@@ -856,6 +856,9 @@ html {
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
+#reveal.overview .slides section .fragment {
+    opacity: 1;
+}
 #reveal.overview .slides section:after,
 #reveal.overview .slides section:before {
 	display: none !important;
