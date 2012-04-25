@@ -21,6 +21,7 @@ Curious about how it looks in action? [Check out the demo page](http://lab.hakim
 * [JavaScript Tooling](http://dl.dropbox.com/u/39519/talks/jsconf-tools/index.html) by [@paul_irish](https://twitter.com/paul_irish)
 * [The Graphical Web: Fostering Creativity](http://vhardy.github.com/presentations/html5-community-meet-up-2012/) by [@vincent_hardy](https://twitter.com/vincent_hardy)
 * [Mobile Web Programming is a Bloody Mess](http://westcoastlogic.com/slides/debug-mobile/) by [@brianleroux](https://twitter.com/brianleroux)
+* [Bio Database Access and Sequence Alignment](http://www.philipbjorge.com/bioinformatics-presentation/) by [Philip Bjorge](https://github.com/philipbjorge)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
