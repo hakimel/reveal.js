@@ -156,7 +156,7 @@ var Reveal = (function(){
 		// instead of checking contentEditable?
 
 		if ( event.target.contentEditable != 'inherit' ||
-			event.shiftKey || event.altKey || event.ctrlKey ) return;
+			event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 				
 		var triggered = false;
 		switch( event.keyCode ) {
