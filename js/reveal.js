@@ -155,33 +155,32 @@ var Reveal = (function(){
 		// FFT: Use document.querySelector( ':focus' ) === null 
 		// instead of checking contentEditable?
 
-		if( event.target.contentEditable === 'inherit' ) {
-			if( event.keyCode >= 33 && event.keyCode <= 40 ) {
+		if ( event.target.contentEditable != 'inherit' ||
+			event.shiftKey || event.altKey || event.ctrlKey ) return;
 				
-				switch( event.keyCode ) {
-					case 33: navigatePrev(); break; // prev for wireless presenter (PgUp)
-					case 34: navigateNext(); break; // next for wireless presenter (PgDn)
-					case 37: navigateLeft(); break; // left
-					case 39: navigateRight(); break; // right
-					case 38: navigateUp(); break; // up
-					case 40: navigateDown(); break; // down
-				}
-				
-				event.preventDefault();
-				
-			}
-			// Space bar
-			else if ( event.keyCode === 32 && supports3DTransforms ) {
-				if( overviewIsActive() ) {
-					deactivateOverview();
-				}
-				else {
-					activateOverview();
-				}
-
-				event.preventDefault();
-			}
+		var triggered = false;
+		switch( event.keyCode ) {
+			case 33: navigatePrev(); triggered = true; break; // prev for wireless presenter (PgUp)
+			case 32: case 34: navigateNext(); triggered = true; break; // next for wireless presenter (PgDn, Space)
+			case 72: case 37: navigateLeft(); triggered = true; break; // h, left
+			case 76: case 39: navigateRight(); triggered = true; break; // l, right
+			case 75: case 38: navigateUp(); triggered = true; break; // k, up
+			case 74: case 40: navigateDown(); triggered = true; break; // j, down
 		}
+		if (triggered) return event.preventDefault()
+
+		if ( event.keyCode === 27 && supports3DTransforms ) {
+
+			if( overviewIsActive() ) {
+				deactivateOverview();
+			}
+			else {
+				activateOverview();
+			}
+	
+			event.preventDefault();
+		}
+
 	}
 	
 	/**
@@ -230,6 +229,7 @@ var Reveal = (function(){
 			slide();
 		}
 	}
+
 
 	/**
 	 * Handles mouse wheel scrolling, throttled to avoid 
