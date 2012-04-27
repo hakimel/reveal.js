@@ -160,8 +160,8 @@ var Reveal = (function(){
 				
 		var triggered = false;
 		switch( event.keyCode ) {
-			case 33: navigatePrev(); triggered = true; break; // prev for wireless presenter (PgUp)
-			case 32: case 34: navigateNext(); triggered = true; break; // next for wireless presenter (PgDn, Space)
+			case 80: case 33: navigatePrev(); triggered = true; break; // prev for wireless presenter (PgUp)
+			case 78: case 32: case 34: navigateNext(); triggered = true; break; // next for wireless presenter (PgDn, Space)
 			case 72: case 37: navigateLeft(); triggered = true; break; // h, left
 			case 76: case 39: navigateRight(); triggered = true; break; // l, right
 			case 75: case 38: navigateUp(); triggered = true; break; // k, up
