@@ -19,10 +19,11 @@ var Reveal = (function(){
 			controls: false,
 			progress: false,
 			history: false,
-			transition: 'default',
-			theme: 'default',
+			loop: false,
 			mouseWheel: true,
-			rollingLinks: true
+			rollingLinks: true,
+			transition: 'default',
+			theme: 'default'
 		},
 
 		// Slides may hold a data-state attribute which we pick up and apply 
@@ -406,19 +407,34 @@ var Reveal = (function(){
 		
 		// Select all slides and convert the NodeList result to
 		// an array
-		var slides = Array.prototype.slice.call( document.querySelectorAll( selector ) );
+		var slides = Array.prototype.slice.call( document.querySelectorAll( selector ) ),
+			slidesLength = slides.length;
 		
-		if( slides.length ) {
-			// Enforce max and minimum index bounds
-			index = Math.max(Math.min(index, slides.length - 1), 0);
+		if( slidesLength ) {
 
-			for( var i = 0; i < slides.length; i++ ) {
+			// Should the index loop?
+			if( config.loop ) {
+				index %= slidesLength;
+
+				if( index < 0 ) {
+					index = slidesLength + index;
+				}
+			}
+			
+			// Enforce max and minimum index bounds
+			index = Math.max( Math.min( index, slidesLength - 1 ), 0 );
+			
+			for( var i = 0; i < slidesLength; i++ ) {
 				var slide = slides[i];
 
 				// Optimization; hide all slides that are three or more steps 
 				// away from the present slide
 				if( overviewIsActive() === false ) {
-					slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
+					// The distance loops so that it measures 1 between the first
+					// and last slides
+					var distance = Math.abs( ( index - i ) % ( slidesLength - 3 ) ) || 0;
+
+					slide.style.display = distance > 3 ? 'none' : 'block';
 				}
 
 				slides[i].classList.remove( 'past' );

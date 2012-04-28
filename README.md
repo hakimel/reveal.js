@@ -58,6 +58,9 @@ Reveal.initialize({
 	// If true; each slide will be pushed to the browser history
 	history: true,
 
+	// Loops the presentation, defaults to false
+	loop: false,
+
 	// Flags if mouse wheel navigation should be enabled
 	mouseWheel: true,
 
@@ -98,6 +101,7 @@ document.addEventListener( 'someState', function() {
 
 #### 1.3 (master)
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
+- Added support for looped presentations via config
 
 #### 1.2
 
