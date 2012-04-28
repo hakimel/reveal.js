@@ -97,6 +97,7 @@ document.addEventListener( 'someState', function() {
 ## History
 
 #### 1.3 (master)
+- Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
 
 #### 1.2
 
@@ -151,4 +152,4 @@ document.addEventListener( 'someState', function() {
 
 MIT licensed
 
-Copyright (C) 2011 Hakim El Hattab, http://hakim.se
+Copyright (C) 2012 Hakim El Hattab, http://hakim.se

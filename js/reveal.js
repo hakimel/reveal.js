@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
- * Copyright (C) 2011 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2012 Hakim El Hattab, http://hakim.se
  */
 var Reveal = (function(){
 	
@@ -37,7 +37,8 @@ var Reveal = (function(){
 		supports3DTransforms =  document.body.style['perspectiveProperty'] !== undefined ||
 								document.body.style['WebkitPerspective'] !== undefined || 
                         		document.body.style['MozPerspective'] !== undefined ||
-                        		document.body.style['msPerspective'] !== undefined,
+                        		document.body.style['msPerspective'] !== undefined ||
+                        		document.body.style['OPerspective'] !== undefined,
         
         supports2DTransforms =  document.body.style['transformProperty'] !== undefined ||
 								document.body.style['WebkitTransform'] !== undefined || 
@@ -155,22 +156,31 @@ var Reveal = (function(){
 		// FFT: Use document.querySelector( ':focus' ) === null 
 		// instead of checking contentEditable?
 
-		if ( event.target.contentEditable != 'inherit' ||
-			event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+		// Disregard the event if the target is editable or a 
+		// modifier is present
+		if ( event.target.contentEditable != 'inherit' || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 				
 		var triggered = false;
+
 		switch( event.keyCode ) {
-			case 80: case 33: navigatePrev(); triggered = true; break; // prev for wireless presenter (PgUp)
-			case 78: case 32: case 34: navigateNext(); triggered = true; break; // next for wireless presenter (PgDn, Space)
-			case 72: case 37: navigateLeft(); triggered = true; break; // h, left
-			case 76: case 39: navigateRight(); triggered = true; break; // l, right
-			case 75: case 38: navigateUp(); triggered = true; break; // k, up
-			case 74: case 40: navigateDown(); triggered = true; break; // j, down
+			// p, page up
+			case 80: case 33: navigatePrev(); triggered = true; break; 
+			// n, page down, space
+			case 78: case 32: case 34: navigateNext(); triggered = true; break;
+			// h, left
+			case 72: case 37: navigateLeft(); triggered = true; break;
+			// l, right
+			case 76: case 39: navigateRight(); triggered = true; break;
+			// k, up
+			case 75: case 38: navigateUp(); triggered = true; break;
+			// j, down
+			case 74: case 40: navigateDown(); triggered = true; break;
 		}
-		if (triggered) return event.preventDefault()
 
-		if ( event.keyCode === 27 && supports3DTransforms ) {
-
+		if( triggered ) {
+			event.preventDefault();
+		}
+		else if ( event.keyCode === 27 && supports3DTransforms ) {
 			if( overviewIsActive() ) {
 				deactivateOverview();
 			}
