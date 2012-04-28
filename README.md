@@ -2,28 +2,9 @@
 
 A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Doesn't _rely_ on any external libraries but [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/) is included by default for code highlighting.
 
-Note that this requires a browser with support for CSS 3D transforms and ``classList``. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions. A [polyfill for ``classList``](https://github.com/remy/polyfills/blob/master/classList.js) by [@remy](https://github.com/remy) is also incuded to make this work in < iOS 5, < Safari 5.1 and IE.
+Note that this requires a browser with support for CSS 3D transforms and ``classList``. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions. A [classList polyfill](https://github.com/remy/polyfills/blob/master/classList.js) from [@remy](https://github.com/remy) is also incuded to make this work in < iOS 5, < Safari 5.1 and IE.
 
 Curious about how it looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
-
-## Examples
-
-* http://lab.hakim.se/reveal-js/ (original)
-* http://www.ideapolisagency.com/ by [@achrafkassioui](http://twitter.com/achrafkassioui)
-* http://lucienfrelin.com/ by [@lucienfrelin](http://twitter.com/lucienfrelin)
-* http://creatorrr.github.com/ThePoet/
-* http://moduscreate.com/ by [@ModusCreate](https://twitter.com/ModusCreate)
-* http://idea.diwank.name/ by [Diwank Singh](http://diwank.name/)
-* [Webapp Development Stack & Tooling](http://dl.dropbox.com/u/39519/talks/jquk-tooling%2Bappstack/index.html) by [@paul_irish](https://twitter.com/paul_irish)
-* [Lock-free algorithms](http://concurrencykit.org/presentations/lockfree_introduction/) by Samy Al Bahra
-* [Not Your Average Drag and Drop](http://www.thecssninja.com/talks/not_your_average_dnd/) by [@ryanseddon](http://twitter.com/ryanseddon)
-* [Elasticsearch](http://spinscale.github.com/elasticsearch/2012-03-jugm.html) by [@spinscale](http://twitter.com/spinscale)
-* [JavaScript Tooling](http://dl.dropbox.com/u/39519/talks/jsconf-tools/index.html) by [@paul_irish](https://twitter.com/paul_irish)
-* [The Graphical Web: Fostering Creativity](http://vhardy.github.com/presentations/html5-community-meet-up-2012/) by [@vincent_hardy](https://twitter.com/vincent_hardy)
-* [Mobile Web Programming is a Bloody Mess](http://westcoastlogic.com/slides/debug-mobile/) by [@brianleroux](https://twitter.com/brianleroux)
-* [Bio Database Access and Sequence Alignment](http://www.philipbjorge.com/bioinformatics-presentation/) by [Philip Bjorge](https://github.com/philipbjorge)
-
-[Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
 ## Usage
 
@@ -96,6 +77,27 @@ document.addEventListener( 'someState', function() {
 	// TODO: Sprinkle magic
 }, false );
 ```
+
+## Examples
+
+* http://lab.hakim.se/reveal-js/ (original)
+* http://www.ideapolisagency.com/ by [@achrafkassioui](http://twitter.com/achrafkassioui)
+* http://lucienfrelin.com/ by [@lucienfrelin](http://twitter.com/lucienfrelin)
+* http://creatorrr.github.com/ThePoet/
+* http://moduscreate.com/ by [@ModusCreate](https://twitter.com/ModusCreate)
+* http://idea.diwank.name/ by [Diwank Singh](http://diwank.name/)
+* [Webapp Development Stack & Tooling](http://dl.dropbox.com/u/39519/talks/jquk-tooling%2Bappstack/index.html) by [@paul_irish](https://twitter.com/paul_irish)
+* [Lock-free algorithms](http://concurrencykit.org/presentations/lockfree_introduction/) by Samy Al Bahra
+* [Not Your Average Drag and Drop](http://www.thecssninja.com/talks/not_your_average_dnd/) by [@ryanseddon](http://twitter.com/ryanseddon)
+* [Elasticsearch](http://spinscale.github.com/elasticsearch/2012-03-jugm.html) by [@spinscale](http://twitter.com/spinscale)
+* [JavaScript Tooling](http://dl.dropbox.com/u/39519/talks/jsconf-tools/index.html) by [@paul_irish](https://twitter.com/paul_irish)
+* [The Graphical Web: Fostering Creativity](http://vhardy.github.com/presentations/html5-community-meet-up-2012/) by [@vincent_hardy](https://twitter.com/vincent_hardy)
+* [Mobile Web Programming is a Bloody Mess](http://westcoastlogic.com/slides/debug-mobile/) by [@brianleroux](https://twitter.com/brianleroux)
+* [Bio Database Access and Sequence Alignment](http://www.philipbjorge.com/bioinformatics-presentation/) by [Philip Bjorge](https://github.com/philipbjorge)
+* [Web vs Native](http://prez.mahemoff.com/state-native/) by [Michael Mahemoff](https://github.com/mahemoff)
+
+[Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
+
 
 ## History
 
