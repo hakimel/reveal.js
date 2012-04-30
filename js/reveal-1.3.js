@@ -1,42 +1,9 @@
-/**
- * Copyright (C) 2011 Hakim El Hattab, http://hakim.se
+/*!
+ * reveal.js 1.3
+ * http://lab.hakim.se/reveal-js
+ * MIT licensed
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- * 
- * #############################################################################
- *
- * Reveal.js is an easy to use HTML based slideshow enhanced by 
- * sexy CSS 3D transforms.
- * 
- * Slides are given unique hash based URL's so that they can be 
- * opened directly.
- * 
- * Public facing methods:
- * - Reveal.initialize( { ... options ... } );
- * - Reveal.navigateTo( indexh, indexv );
- * - Reveal.navigateLeft();
- * - Reveal.navigateRight();
- * - Reveal.navigateUp();
- * - Reveal.navigateDown();
- * 	
- * @author Hakim El Hattab | http://hakim.se
- * @version 1.3
+ * Copyright (C) 2012 Hakim El Hattab, http://hakim.se
  */
 var Reveal = (function(){
 	
@@ -52,10 +19,11 @@ var Reveal = (function(){
 			controls: false,
 			progress: false,
 			history: false,
-			transition: 'default',
-			theme: 'default',
+			loop: false,
 			mouseWheel: true,
-			rollingLinks: true
+			rollingLinks: true,
+			transition: 'default',
+			theme: 'default'
 		},
 
 		// Slides may hold a data-state attribute which we pick up and apply 
@@ -70,7 +38,8 @@ var Reveal = (function(){
 		supports3DTransforms =  document.body.style['perspectiveProperty'] !== undefined ||
 								document.body.style['WebkitPerspective'] !== undefined || 
                         		document.body.style['MozPerspective'] !== undefined ||
-                        		document.body.style['msPerspective'] !== undefined,
+                        		document.body.style['msPerspective'] !== undefined ||
+                        		document.body.style['OPerspective'] !== undefined,
         
         supports2DTransforms =  document.body.style['transformProperty'] !== undefined ||
 								document.body.style['WebkitTransform'] !== undefined || 
@@ -188,33 +157,41 @@ var Reveal = (function(){
 		// FFT: Use document.querySelector( ':focus' ) === null 
 		// instead of checking contentEditable?
 
-		if( event.target.contentEditable === 'inherit' ) {
-			if( event.keyCode >= 33 && event.keyCode <= 40 ) {
+		// Disregard the event if the target is editable or a 
+		// modifier is present
+		if ( event.target.contentEditable != 'inherit' || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 				
-				switch( event.keyCode ) {
-					case 33: navigatePrev(); break; // prev for wireless presenter (PgUp)
-					case 34: navigateNext(); break; // next for wireless presenter (PgDn)
-					case 37: navigateLeft(); break; // left
-					case 39: navigateRight(); break; // right
-					case 38: navigateUp(); break; // up
-					case 40: navigateDown(); break; // down
-				}
-				
-				event.preventDefault();
-				
-			}
-			// Space bar
-			else if ( event.keyCode === 32 && supports3DTransforms ) {
-				if( overviewIsActive() ) {
-					deactivateOverview();
-				}
-				else {
-					activateOverview();
-				}
+		var triggered = false;
 
-				event.preventDefault();
-			}
+		switch( event.keyCode ) {
+			// p, page up
+			case 80: case 33: navigatePrev(); triggered = true; break; 
+			// n, page down, space
+			case 78: case 32: case 34: navigateNext(); triggered = true; break;
+			// h, left
+			case 72: case 37: navigateLeft(); triggered = true; break;
+			// l, right
+			case 76: case 39: navigateRight(); triggered = true; break;
+			// k, up
+			case 75: case 38: navigateUp(); triggered = true; break;
+			// j, down
+			case 74: case 40: navigateDown(); triggered = true; break;
 		}
+
+		if( triggered ) {
+			event.preventDefault();
+		}
+		else if ( event.keyCode === 27 && supports3DTransforms ) {
+			if( overviewIsActive() ) {
+				deactivateOverview();
+			}
+			else {
+				activateOverview();
+			}
+	
+			event.preventDefault();
+		}
+
 	}
 	
 	/**
@@ -263,6 +240,7 @@ var Reveal = (function(){
 			slide();
 		}
 	}
+
 
 	/**
 	 * Handles mouse wheel scrolling, throttled to avoid 
@@ -429,19 +407,34 @@ var Reveal = (function(){
 		
 		// Select all slides and convert the NodeList result to
 		// an array
-		var slides = Array.prototype.slice.call( document.querySelectorAll( selector ) );
+		var slides = Array.prototype.slice.call( document.querySelectorAll( selector ) ),
+			slidesLength = slides.length;
 		
-		if( slides.length ) {
-			// Enforce max and minimum index bounds
-			index = Math.max(Math.min(index, slides.length - 1), 0);
+		if( slidesLength ) {
 
-			for( var i = 0; i < slides.length; i++ ) {
+			// Should the index loop?
+			if( config.loop ) {
+				index %= slidesLength;
+
+				if( index < 0 ) {
+					index = slidesLength + index;
+				}
+			}
+			
+			// Enforce max and minimum index bounds
+			index = Math.max( Math.min( index, slidesLength - 1 ), 0 );
+			
+			for( var i = 0; i < slidesLength; i++ ) {
 				var slide = slides[i];
 
 				// Optimization; hide all slides that are three or more steps 
 				// away from the present slide
 				if( overviewIsActive() === false ) {
-					slide.style.display = Math.abs( index - i ) > 3 ? 'none' : 'block';
+					// The distance loops so that it measures 1 between the first
+					// and last slides
+					var distance = Math.abs( ( index - i ) % ( slidesLength - 3 ) ) || 0;
+
+					slide.style.display = distance > 3 ? 'none' : 'block';
 				}
 
 				slides[i].classList.remove( 'past' );
