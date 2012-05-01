@@ -28,11 +28,10 @@
 			<div class="slides">
 				<section>
 					<h1>Reveal.js</h1>
-					<h3 class="inverted">A CSS 3D Slideshow</h3>
+					<h3 class="inverted">CSS 3D Presentations</h3>
 					<script>
 						// Delicously hacky. Look away.
-						if( navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) )
-						document.write( '<p style="color: rgba(0,0,0,0.3); text-shadow: none;">('+'Tap to navigate'+')</p>' );
+						if( navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) ) document.write( '<p style="color: rgba(0,0,0,0.3); text-shadow: none;">('+'Tap to navigate'+')</p>' );
 					</script>
 				</section>
 				
@@ -95,6 +94,7 @@
 						<li><a href="http://lab.hakim.se/reveal-js/?transition=cube">Cube</a></li>
 						<li><a href="http://lab.hakim.se/reveal-js/?transition=page">Page</a></li>
 						<li><a href="http://lab.hakim.se/reveal-js/?transition=concave">Concave</a></li>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=linear">Linear</a></li>
 					</ul>
 				</section>
 
@@ -148,11 +148,10 @@
 					<p>
 						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
 					</p>
-					<p><code style="font-size: 27px;">
-						document.addEventListener('customevent', function(){<br />
-							alert('event has fired');<br />
-						});
-					</code></p>
+					<pre><code contenteditable style="font-size: 18px; margin-top: 20px;">document.addEventListener( 'customevent', function() {
+	alert( '"customevent" has fired' );
+} );
+					</code></pre>
 				</section>
 
 				<section>
@@ -170,27 +169,27 @@
 				<section>
 					<h2>Pretty Code</h2>
 					<pre><code contenteditable>
-	var supports3DTransforms =  document.body.style['webkitPerspective'] !== undefined || 
-					document.body.style['MozPerspective'] !== undefined ||
-					document.body.style['perspective'] !== undefined;
+var supports3DTransforms =  document.body.style['webkitPerspective'] !== undefined || 
+				document.body.style['MozPerspective'] !== undefined ||
+				document.body.style['perspective'] !== undefined;
 
-	function linkify( selector ) {
-	    if( supports3DTransforms ) {
-	        
-	        var nodes = document.querySelectorAll( selector );
+function linkify( selector ) {
+    if( supports3DTransforms ) {
+        
+        var nodes = document.querySelectorAll( selector );
 
-	        for( var i = 0, len = nodes.length; i < len; i++ ) {
-	            var node = nodes[i];
+        for( var i = 0, len = nodes.length; i < len; i++ ) {
+            var node = nodes[i];
 
-	            if( !node.className || !node.className.match( /roll/g ) ) {
-	                node.className += ' roll';
-	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
-	            }
-	        };
-	    }
-	}
+            if( !node.className || !node.className.match( /roll/g ) ) {
+                node.className += ' roll';
+                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
+            }
+        };
+    }
+}
 
-	linkify( 'a' );
+linkify( 'a' );
 					</code></pre>
 					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
 				</section>
@@ -262,9 +261,9 @@
 				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
 			} );
 
-			document.addEventListener('customevent', function(){
-				alert('event has fired');
-			});
+			document.addEventListener( 'customevent', function() {
+				alert( '"customevent" has fired' );
+			} );
 
 			Reveal.initialize({
 				// Display controls in the bottom right corner
