@@ -461,7 +461,7 @@ var Reveal = (function(){
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
-			var slideState = slides[index].dataset.state;
+			var slideState = slides[index].getAttribute( 'data-state' );
 			if( slideState ) {
 				state = state.concat( slideState.split( ' ' ) );
 			}
