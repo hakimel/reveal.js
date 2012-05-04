@@ -491,6 +491,11 @@ var Reveal = (function(){
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
 
+		// call onSlideChange if someone registered that function
+		if (typeof Reveal.onSlideChange === "function") {
+			Reveal.onSlideChange(indexh, indexv);
+		}
+
 		// Apply the new state
 		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
 			// Check if this state existed on the previous slide. If it 
