@@ -68,15 +68,26 @@ The Reveal class provides a minimal JavaScript API for controlling its navigatio
 
 ### States
 
-If you set ``data-state="someState"`` on a slide ``<section>``, "someState" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
+If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
 
 Furthermore you can also listen to these changes in state via JavaScript:
 
 ```
-document.addEventListener( 'someState', function() {
+Reveal.addEventListener( 'somestate', function() {
 	// TODO: Sprinkle magic
 }, false );
 ```
+
+### Slide change event
+
+An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index of the current slide.
+
+```
+Reveal.addEventListener( 'slidechanged', function( event ) {
+	// event.indexh & event.indexv
+} );
+```
+
 
 ## Examples
 
@@ -104,6 +115,9 @@ document.addEventListener( 'someState', function() {
 #### 1.3 (master)
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
 - Added support for looped presentations via config
+- Fixed IE9 fallback
+- Added event binding methods (Reveal.addEventListener, Reveal.removeEventListener)
+- Added 'slidechanged' event
 
 #### 1.2
 

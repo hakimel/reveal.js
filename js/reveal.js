@@ -78,13 +78,13 @@ var Reveal = (function(){
 		dom.controlsDown = document.querySelector( '#reveal .controls .down' );
 
 		// Bind all view events
-		document.addEventListener('keydown', onDocumentKeyDown, false);
-		document.addEventListener('touchstart', onDocumentTouchStart, false);
-		window.addEventListener('hashchange', onWindowHashChange, false);
-		dom.controlsLeft.addEventListener('click', preventAndForward( navigateLeft ), false);
-		dom.controlsRight.addEventListener('click', preventAndForward( navigateRight ), false);
-		dom.controlsUp.addEventListener('click', preventAndForward( navigateUp ), false);
-		dom.controlsDown.addEventListener('click', preventAndForward( navigateDown ), false);
+		document.addEventListener( 'keydown', onDocumentKeyDown, false );
+		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+		window.addEventListener( 'hashchange', onWindowHashChange, false );
+		dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
+		dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
+		dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
+		dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );
 
 		// Copy options over to our config object
 		extend( config, options );
@@ -504,10 +504,8 @@ var Reveal = (function(){
 
 			document.documentElement.classList.add( state[i] );
 
-			// Dispatch custom event
-			var event = document.createEvent( "HTMLEvents" );
-			event.initEvent( state[i], true, true );
-			document.dispatchEvent( event );
+			// Dispatch custom event matching the state's name
+			dispatchEvent( state[i] );
 		}
 
 		// Clean up the remaints of the previous state
@@ -529,6 +527,12 @@ var Reveal = (function(){
 		
 		clearTimeout( writeURLTimeout );
 		writeURLTimeout = setTimeout( writeURL, 1500 );
+
+		// Dispatch an event notifying observers of the change in slide
+		dispatchEvent( 'slidechanged', {
+			'indexh': indexh, 
+			'indexv': indexv
+		} );
 	}
 
 	/**
@@ -594,6 +598,17 @@ var Reveal = (function(){
 			
 			window.location.hash = url;
 		}
+	}
+
+	/**
+	 * Dispatches an event of the specified type from the 
+	 * #reveal DOM element.
+	 */
+	function dispatchEvent( type, properties ) {
+		var event = document.createEvent( "HTMLEvents", 1, 2 );
+		event.initEvent( type, true, true );
+		extend( event, properties );
+		dom.wrapper.dispatchEvent( event );
 	}
 
 	/**
@@ -736,7 +751,15 @@ var Reveal = (function(){
 		navigateLeft: navigateLeft,
 		navigateRight: navigateRight,
 		navigateUp: navigateUp,
-		navigateDown: navigateDown
+		navigateDown: navigateDown,
+
+		// Forward event binding to the reveal DOM element
+		addEventListener: function( type, listener, useCapture ) {
+			( dom.wrapper || document.querySelector( '#reveal' ) ).addEventListener( type, listener, useCapture );
+		},
+		removeEventListener: function( type, listener, useCapture ) {
+			( dom.wrapper || document.querySelector( '#reveal' ) ).removeEventListener( type, listener, useCapture );
+		}
 	};
 	
 })();
