@@ -236,7 +236,6 @@ html {
 	
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 	   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	     -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 	        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 	
 	-webkit-transition: all .2s linear;
@@ -252,7 +251,6 @@ html {
 		
 		-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 		   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
-		     -o-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 		        box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 	}
 

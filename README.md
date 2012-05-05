@@ -118,6 +118,7 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 - Fixed IE9 fallback
 - Added event binding methods (Reveal.addEventListener, Reveal.removeEventListener)
 - Added 'slidechanged' event
+- Added print styles. Thanks [skypanther](https://github.com/skypanther)
 
 #### 1.2
 
