@@ -145,12 +145,15 @@ ul, ol, div, p {
 	    -ms-transform: none;
 	        transform: none;
 }
-section {
+#reveal section {
 	page-break-after: always !important; 
 	display: block !important;
 }
-section.stack {
+#reveal section.stack {
 	page-break-after: avoid !important; 
+}
+#reveal section .fragment {
+	opacity: 1 !important;
 }
 #reveal section img {
 	display: block;
