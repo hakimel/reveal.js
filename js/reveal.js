@@ -10,6 +10,8 @@ var Reveal = (function(){
 	var HORIZONTAL_SLIDES_SELECTOR = '#reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '#reveal .slides>section.present>section',
 
+		IS_TOUCH_DEVICE = !!( 'ontouchstart' in window ),
+
 		// The horizontal and verical index of the currently active slide
 		indexh = 0,
 		indexv = 0,
@@ -111,8 +113,8 @@ var Reveal = (function(){
 		}
 
 		if( config.mouseWheel ) {
-			document.addEventListener('DOMMouseScroll', onDocumentMouseScroll, false); // FF
-			document.addEventListener('mousewheel', onDocumentMouseScroll, false);
+			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
+			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
 
 		if( config.rollingLinks ) {
@@ -122,6 +124,17 @@ var Reveal = (function(){
 
 		// Read the initial hash
 		readURL();
+
+		// Set up hiding of the browser address bar
+		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
+			// Give the page some scrollable overflow
+			document.documentElement.style.overflow = 'scroll';
+			document.body.style.height = '120%';
+
+			// Events that should trigger the address bar to hide
+			window.addEventListener( 'load', removeAddressBar, false );
+			window.addEventListener( 'orientationchange', removeAddressBar, false );
+		}
 	}
 
 	/**
@@ -146,6 +159,16 @@ var Reveal = (function(){
 			event.preventDefault();
 			delegate.call();
 		}
+	}
+
+	/**
+	 * Causes the address bar to hide on mobile devices, 
+	 * more vertical space ftw.
+	 */
+	function removeAddressBar() {
+		setTimeout( function() {
+			window.scrollTo( 0, 1 );
+		}, 0 );
 	}
 	
 	/**
