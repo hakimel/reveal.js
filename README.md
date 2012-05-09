@@ -106,6 +106,7 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 * [Mobile Web Programming is a Bloody Mess](http://westcoastlogic.com/slides/debug-mobile/) by [@brianleroux](https://twitter.com/brianleroux)
 * [Bio Database Access and Sequence Alignment](http://www.philipbjorge.com/bioinformatics-presentation/) by [Philip Bjorge](https://github.com/philipbjorge)
 * [Web vs Native](http://prez.mahemoff.com/state-native/) by [Michael Mahemoff](https://github.com/mahemoff)
+* [Continuously Integrated JS Development](http://trodrigues.net/presentations/buster-ci/) by [Tiago Rodrigues](https://github.com/trodrigues)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
