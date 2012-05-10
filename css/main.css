@@ -144,12 +144,25 @@ html {
 }
 
 #reveal ol {
-	list-style: decimal;
-	list-style-position: inside;
+	list-style: decimal inside;
 }
 
 #reveal ul {
 	list-style: disc;
+}
+	#reveal ul>li>ul {
+		list-style: square;
+	}
+		#reveal ul>li>ul>li>ul {
+			list-style: circle;
+		}
+
+#reveal ul>li>ul,
+#reveal ol>li>ol,
+#reveal ul>li>ul>li>ul,
+#reveal ol>li>ol>li>ol {
+	display: block;
+	margin-left: 40px;
 }
 
 #reveal p {
