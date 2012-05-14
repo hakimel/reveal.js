@@ -199,6 +199,10 @@ var Reveal = (function(){
 			case 75: case 38: navigateUp(); triggered = true; break;
 			// j, down
 			case 74: case 40: navigateDown(); triggered = true; break;
+			// home
+			case 36: navigateTo(0); triggered = true; break;
+			// end
+			case 35: navigateTo( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length ); triggered = true; break;
 		}
 
 		if( triggered ) {
