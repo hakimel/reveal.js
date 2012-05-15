@@ -200,9 +200,9 @@ var Reveal = (function(){
 			// j, down
 			case 74: case 40: navigateDown(); triggered = true; break;
 			// home
-			case 36: navigateTo(0); triggered = true; break;
+			case 36: navigateTo( 0 ); triggered = true; break;
 			// end
-			case 35: navigateTo( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length ); triggered = true; break;
+			case 35: navigateTo( Number.MAX_VALUE ); triggered = true; break;
 		}
 
 		if( triggered ) {
