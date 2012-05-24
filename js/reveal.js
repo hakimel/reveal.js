@@ -24,6 +24,7 @@ var Reveal = (function(){
 			loop: false,
 			mouseWheel: true,
 			rollingLinks: true,
+			overviewKey: 27,
 			transition: 'default',
 			theme: 'default'
 		},
@@ -102,6 +103,10 @@ var Reveal = (function(){
 
 		if( config.progress ) {
 			dom.progress.style.display = 'block';
+		}
+
+		if( ! config.overviewKey ) {
+			config.overviewKey = 27;
 		}
 
 		if( config.transition !== 'default' ) {
@@ -190,7 +195,7 @@ var Reveal = (function(){
 			// p, page up
 			case 80: case 33: navigatePrev(); triggered = true; break; 
 			// n, page down, space
-			case 78: case 32: case 34: navigateNext(); triggered = true; break;
+			case 78: case 34: navigateNext(); triggered = true; break;
 			// h, left
 			case 72: case 37: navigateLeft(); triggered = true; break;
 			// l, right
@@ -208,7 +213,7 @@ var Reveal = (function(){
 		if( triggered ) {
 			event.preventDefault();
 		}
-		else if ( event.keyCode === 27 && supports3DTransforms ) {
+		else if ( event.keyCode === config.overviewKey && supports3DTransforms ) {
 			if( overviewIsActive() ) {
 				deactivateOverview();
 			}
