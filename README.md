@@ -107,6 +107,7 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 * [Bio Database Access and Sequence Alignment](http://www.philipbjorge.com/bioinformatics-presentation/) by [Philip Bjorge](https://github.com/philipbjorge)
 * [Web vs Native](http://prez.mahemoff.com/state-native/) by [Michael Mahemoff](https://github.com/mahemoff)
 * [Continuously Integrated JS Development](http://trodrigues.net/presentations/buster-ci/) by [Tiago Rodrigues](https://github.com/trodrigues)
+* [To be Future Friendly is to be Device Agnostic](http://dl.dropbox.com/u/409429/presentations/toster-2012/index.html) by [Joe McCann](https://github.com/joemccann)
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
 
