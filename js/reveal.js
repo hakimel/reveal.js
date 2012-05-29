@@ -189,8 +189,8 @@ var Reveal = (function(){
 		switch( event.keyCode ) {
 			// p, page up
 			case 80: case 33: navigatePrev(); triggered = true; break; 
-			// n, page down, space
-			case 78: case 32: case 34: navigateNext(); triggered = true; break;
+			// n, page down
+			case 78: case 34: navigateNext(); triggered = true; break;
 			// h, left
 			case 72: case 37: navigateLeft(); triggered = true; break;
 			// l, right
@@ -203,6 +203,10 @@ var Reveal = (function(){
 			case 36: navigateTo( 0 ); triggered = true; break;
 			// end
 			case 35: navigateTo( Number.MAX_VALUE ); triggered = true; break;
+			// space
+			case 32: overviewIsActive() ? deactivateOverview() : navigateNext(); triggered = true; break;
+			// return
+			case 13: if( overviewIsActive() ) { deactivateOverview(); triggered = true; } break;
 		}
 
 		if( triggered ) {
