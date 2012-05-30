@@ -25,7 +25,8 @@ var Reveal = (function(){
 			mouseWheel: true,
 			rollingLinks: true,
 			transition: 'default',
-			theme: 'default'
+			theme: 'default',
+			swipeDistance: 30
 		},
 
 		// Slides may hold a data-state attribute which we pick up and apply 
@@ -82,6 +83,8 @@ var Reveal = (function(){
 		// Bind all view events
 		document.addEventListener( 'keydown', onDocumentKeyDown, false );
 		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
 		dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
 		dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
@@ -235,6 +238,8 @@ var Reveal = (function(){
 	 * 
 	 * @param {Object} event
 	 */
+	 var touchStart = {}
+	 var gesture = false;
 	function onDocumentTouchStart( event ) {
 		// We're only interested in one point taps
 		if (event.touches.length === 1) {
@@ -245,33 +250,65 @@ var Reveal = (function(){
 			
 			event.preventDefault();
 			
-			var point = {
+			touchStart = {
 				x: event.touches[0].clientX,
 				y: event.touches[0].clientY
 			};
 			
+			slide();
+		}
+	}
+	
+	function onDocumentTouchMove( event ) {
+		
+		event.preventDefault();
+			
+		if(!gesture) {
+			var touch = {
+					x: event.touches[0].clientX,
+					y: event.touches[0].clientY
+				};
+			if((touch.x - touchStart.x) > config.swipeDistance){
+				gesture = true;
+				navigateLeft();
+			} else if((touch.x - touchStart.x) < -config.swipeDistance){
+				gesture = true;
+				navigateRight();
+			} else if((touch.y - touchStart.y) > config.swipeDistance){
+				gesture = true;
+				navigateUp();
+			} else if((touch.y - touchStart.y) < -config.swipeDistance){
+				gesture = true;
+				navigateDown();
+			}
+		}
+	}
+	function onDocumentTouchEnd( event ) {
+		
+		event.preventDefault();
+		
+		if(!gesture){//only check for control tap if no gesture is performed
+		
 			// Define the extent of the areas that may be tapped
 			// to navigate
 			var wt = window.innerWidth * 0.3;
 			var ht = window.innerHeight * 0.3;
 			
-			if( point.x < wt ) {
+			if( touchStart.x < wt ) {
 				navigateLeft();
 			}
-			else if( point.x > window.innerWidth - wt ) {
+			else if( touchStart.x > window.innerWidth - wt ) {
 				navigateRight();
 			}
-			else if( point.y < ht ) {
+			else if( touchStart.y < ht ) {
 				navigateUp();
 			}
-			else if( point.y > window.innerHeight - ht ) {
+			else if( touchStart.y > window.innerHeight - ht ) {
 				navigateDown();
 			}
-			
-			slide();
 		}
+		gesture = false;
 	}
-
 
 	/**
 	 * Handles mouse wheel scrolling, throttled to avoid 
