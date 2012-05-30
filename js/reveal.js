@@ -26,7 +26,7 @@ var Reveal = (function(){
 			rollingLinks: true,
 			transition: 'default',
 			theme: 'default',
-			swipeDistance: 30
+			swipeDist: 30
 		},
 
 		// Slides may hold a data-state attribute which we pick up and apply 
@@ -241,22 +241,15 @@ var Reveal = (function(){
 	 var touchStart = {}
 	 var gesture = false;
 	function onDocumentTouchStart( event ) {
-		// We're only interested in one point taps
-		if (event.touches.length === 1) {
-			// Never prevent taps on anchors and images
-			if( event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'img' ) {
-				return;
+			
+		touchStart = {
+			x: event.touches[0].clientX,
+			y: event.touches[0].clientY
+		};
+		if( event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'img' ) {
+			} else { 
+				event.preventDefault(); 
 			}
-			
-			event.preventDefault();
-			
-			touchStart = {
-				x: event.touches[0].clientX,
-				y: event.touches[0].clientY
-			};
-			
-			slide();
-		}
 	}
 	
 	function onDocumentTouchMove( event ) {
@@ -268,27 +261,28 @@ var Reveal = (function(){
 					x: event.touches[0].clientX,
 					y: event.touches[0].clientY
 				};
-			if((touch.x - touchStart.x) > config.swipeDistance){
+			if((touch.x - touchStart.x) > config.swipeDist){
 				gesture = true;
 				navigateLeft();
-			} else if((touch.x - touchStart.x) < -config.swipeDistance){
+			} else if((touch.x - touchStart.x) < -config.swipeDist){
 				gesture = true;
 				navigateRight();
-			} else if((touch.y - touchStart.y) > config.swipeDistance){
+			} else if((touch.y - touchStart.y) > config.swipeDist){
 				gesture = true;
 				navigateUp();
-			} else if((touch.y - touchStart.y) < -config.swipeDistance){
+			} else if((touch.y - touchStart.y) < -config.swipeDist){
 				gesture = true;
 				navigateDown();
 			}
 		}
 	}
 	function onDocumentTouchEnd( event ) {
-		
-		event.preventDefault();
-		
-		if(!gesture){//only check for control tap if no gesture is performed
-		
+		if(!gesture){
+			// Never prevent taps on anchors and images
+			if( event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'img' ) {
+				return;
+			}
+			
 			// Define the extent of the areas that may be tapped
 			// to navigate
 			var wt = window.innerWidth * 0.3;
@@ -308,6 +302,7 @@ var Reveal = (function(){
 			}
 		}
 		gesture = false;
+		event.preventDefault();
 	}
 
 	/**
