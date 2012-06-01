@@ -88,6 +88,19 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 } );
 ```
 
+### Fragment events
+
+When a slide fragment is either shown or hidden reveal.js will dispatch an event.
+
+```
+Reveal.addEventListener( 'fragmentshown', function( event ) {
+	// event.fragment = the fragment DOM element
+} );
+Reveal.addEventListener( 'fragmenthidden', function( event ) {
+	// event.fragment = the fragment DOM element
+} );
+```
+
 
 ## Examples
 
@@ -126,6 +139,7 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 - Added print styles. Thanks [skypanther](https://github.com/skypanther)
 - The address bar now hides automatically on mobile browsers
 - Space and return keys can be used to exit the overview mode
+- Events for fragment states ('fragmentshown'/'fragmenthidden')
 
 #### 1.2
 

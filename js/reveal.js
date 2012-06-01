@@ -654,6 +654,9 @@ var Reveal = (function(){
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( verticalFragments.length ) {
 				verticalFragments[0].classList.add( 'visible' );
+
+				// Notify subscribers of the change
+				dispatchEvent( 'fragmentshown', { fragment: verticalFragments[0] } );
 				return true;
 			}
 		}
@@ -662,6 +665,9 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( horizontalFragments.length ) {
 				horizontalFragments[0].classList.add( 'visible' );
+
+				// Notify subscribers of the change
+				dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[0] } );
 				return true;
 			}
 		}
@@ -681,6 +687,9 @@ var Reveal = (function(){
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( verticalFragments.length ) {
 				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
+
+				// Notify subscribers of the change
+				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[0] } );
 				return true;
 			}
 		}
@@ -689,6 +698,9 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( horizontalFragments.length ) {
 				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
+
+				// Notify subscribers of the change
+				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[0] } );
 				return true;
 			}
 		}
