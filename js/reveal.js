@@ -26,7 +26,7 @@ var Reveal = (function(){
 			rollingLinks: true,
 			transition: 'default',
 			theme: 'default',
-			swipeDist: 30
+			swipeDist: 40
 		},
 
 		// Slides may hold a data-state attribute which we pick up and apply 
@@ -55,6 +55,8 @@ var Reveal = (function(){
 
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0;
+		
+	
 	
 	/**
 	 * Starts up the slideshow by applying configuration
@@ -80,16 +82,7 @@ var Reveal = (function(){
 		dom.controlsUp = document.querySelector( '#reveal .controls .up' );
 		dom.controlsDown = document.querySelector( '#reveal .controls .down' );
 
-		// Bind all view events
-		document.addEventListener( 'keydown', onDocumentKeyDown, false );
-		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
-		window.addEventListener( 'hashchange', onWindowHashChange, false );
-		dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
-		dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
-		dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
-		dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );
+		addEvents();
 
 		// Copy options over to our config object
 		extend( config, options );
@@ -138,8 +131,34 @@ var Reveal = (function(){
 			window.addEventListener( 'load', removeAddressBar, false );
 			window.addEventListener( 'orientationchange', removeAddressBar, false );
 		}
+		
 	}
-
+	function addEvents() {
+		// Bind all view events
+		document.addEventListener( 'keydown', onDocumentKeyDown, false );
+		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+		window.addEventListener( 'hashchange', onWindowHashChange, false );
+		
+		dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
+		dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
+		dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
+		dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );
+	}
+	function removeEvents(){
+		// Bind all view events
+		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
+		document.removeEventListener( 'touchstart', onDocumentTouchStart, false );
+		document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
+		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
+		window.removeEventListener( 'hashchange', onWindowHashChange, false );
+		
+		dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
+		dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
+		dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
+		dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+	}
 	/**
 	 * Extend object a with the properties of object b. 
 	 * If there's a conflict, object b takes precedence.
@@ -227,7 +246,6 @@ var Reveal = (function(){
 		}
 
 	}
-	
 	/**
 	 * Handler for the document level 'touchstart' event.
 	 * 
@@ -358,6 +376,7 @@ var Reveal = (function(){
 	 * can't be improved.
 	 */
 	function activateOverview() {
+		
 		dom.wrapper.classList.add( 'overview' );
 
 		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
@@ -373,12 +392,12 @@ var Reveal = (function(){
 			hslide.style.msTransform = htransform;
 			hslide.style.OTransform = htransform;
 			hslide.style.transform = htransform;
-
+		
 			if( !hslide.classList.contains( 'stack' ) ) {
 				// Navigate to this slide on click
 				hslide.addEventListener( 'click', onOverviewSlideClicked, true );
 			}
-
+	
 			var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( 'section' ) );
 
 			for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
@@ -397,6 +416,7 @@ var Reveal = (function(){
 				// Navigate to this slide on click
 				vslide.addEventListener( 'click', onOverviewSlideClicked, true );
 			}
+			
 		}
 	}
 	
@@ -806,6 +826,14 @@ var Reveal = (function(){
 			availableRoutes().down ? navigateDown() : navigateRight();
 		}
 	}
+	function overviewToggle (){
+		if( overviewIsActive() ) {
+			deactivateOverview();
+		}
+		else {
+			activateOverview();
+		}
+	}
 	
 	// Expose some methods publicly
 	return {
@@ -815,6 +843,9 @@ var Reveal = (function(){
 		navigateRight: navigateRight,
 		navigateUp: navigateUp,
 		navigateDown: navigateDown,
+		overviewToggle: overviewToggle,
+		addEvents: addEvents,
+		removeEvents: removeEvents,
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
