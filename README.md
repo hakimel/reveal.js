@@ -143,7 +143,7 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 - The address bar now hides automatically on mobile browsers
 - Space and return keys can be used to exit the overview mode
 - Events for fragment states ('fragmentshown'/'fragmenthidden')
-- Support for swipe navigation on touch devices
+- Support for swipe navigation on touch devices. Thanks [akiersky](https://github.com/akiersky)
 - Support for pinch to overview on touch devices
 
 #### 1.2
