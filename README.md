@@ -65,6 +65,7 @@ The Reveal class provides a minimal JavaScript API for controlling its navigatio
 - Reveal.navigateRight();
 - Reveal.navigateUp();
 - Reveal.navigateDown();
+- Reveal.toggleOverview();
 
 ### States
 
@@ -130,7 +131,9 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 
 ## History
 
-#### 1.3 (master)
+#### 1.4 (master/beta)
+
+#### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
 - Added support for looped presentations via config
 - Fixed IE9 fallback
@@ -140,6 +143,8 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 - The address bar now hides automatically on mobile browsers
 - Space and return keys can be used to exit the overview mode
 - Events for fragment states ('fragmentshown'/'fragmenthidden')
+- Support for swipe navigation on touch devices
+- Support for pinch to overview on touch devices
 
 #### 1.2
 
