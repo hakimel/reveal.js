@@ -37,17 +37,20 @@ var Reveal = (function(){
 		dom = {},
 
 		// Detect support for CSS 3D transforms
-		supports3DTransforms =  document.body.style['perspectiveProperty'] !== undefined ||
-								document.body.style['WebkitPerspective'] !== undefined || 
+		supports3DTransforms =  document.body.style['WebkitPerspective'] !== undefined || 
                         		document.body.style['MozPerspective'] !== undefined ||
                         		document.body.style['msPerspective'] !== undefined ||
-                        		document.body.style['OPerspective'] !== undefined,
+                        		document.body.style['OPerspective'] !== undefined ||
+                        		document.body.style['perspective'] !== undefined,
         
-        supports2DTransforms =  document.body.style['transformProperty'] !== undefined ||
-								document.body.style['WebkitTransform'] !== undefined || 
+        supports2DTransforms =  document.body.style['WebkitTransform'] !== undefined || 
                         		document.body.style['MozTransform'] !== undefined ||
                         		document.body.style['msTransform'] !== undefined ||
-                        		document.body.style['OTransform'] !== undefined,
+                        		document.body.style['OTransform'] !== undefined ||
+                        		document.body.style['transform'] !== undefined,
+
+        // Detect support for elem.classList
+        supportsClassList = !!document.body.classList;
 		
 		// Throttles mouse wheel navigation
 		mouseWheelTimeout = 0,
@@ -72,10 +75,10 @@ var Reveal = (function(){
 	 */
 	function initialize( options ) {
 		
-		if( !supports2DTransforms && !supports3DTransforms ) {
+		if( ( !supports2DTransforms && !supports3DTransforms ) || !supportsClassList ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
-			// If the browser doesn't support transforms we won't be 
+			// If the browser doesn't support core features we won't be 
 			// using JavaScript to control the presentation
 			return;
 		}
@@ -95,6 +98,26 @@ var Reveal = (function(){
 		// Copy options over to our config object
 		extend( config, options );
 
+		// Updates the presentation to match the current configuration values
+		configure();
+
+		// Read the initial hash
+		readURL();
+
+		// Set up hiding of the browser address bar
+		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
+			// Give the page some scrollable overflow
+			document.documentElement.style.overflow = 'scroll';
+			document.body.style.height = '120%';
+
+			// Events that should trigger the address bar to hide
+			window.addEventListener( 'load', removeAddressBar, false );
+			window.addEventListener( 'orientationchange', removeAddressBar, false );
+		}
+		
+	}
+
+	function configure() {
 		// Fall back on the 2D transform theme 'linear'
 		if( supports3DTransforms === false ) {
 			config.transition = 'linear';
@@ -125,21 +148,6 @@ var Reveal = (function(){
 			// Add some 3D magic to our anchors
 			linkify();
 		}
-
-		// Read the initial hash
-		readURL();
-
-		// Set up hiding of the browser address bar
-		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
-			// Give the page some scrollable overflow
-			document.documentElement.style.overflow = 'scroll';
-			document.body.style.height = '120%';
-
-			// Events that should trigger the address bar to hide
-			window.addEventListener( 'load', removeAddressBar, false );
-			window.addEventListener( 'orientationchange', removeAddressBar, false );
-		}
-		
 	}
 
 	function addEventListeners() {
@@ -178,6 +186,13 @@ var Reveal = (function(){
 		}
 	}
 
+	/**
+	 * Measures the distance in pixels between point a
+	 * and point b. 
+	 * 
+	 * @param {Object} a point with x/y properties
+	 * @param {Object} b point with x/y properties
+	 */
 	function distanceBetween( a, b ) {
 		var dx = a.x - b.x,
 			dy = a.y - b.y;
