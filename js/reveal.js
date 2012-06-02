@@ -908,6 +908,9 @@ var Reveal = (function(){
 		navigateDown: navigateDown,
 		toggleOverview: toggleOverview,
 
+		addEventListeners: addEventListeners,
+		removeEventListeners: removeEventListeners,
+
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
 			( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
