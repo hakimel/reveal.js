@@ -7,8 +7,8 @@
  */
 var Reveal = (function(){
 	
-	var HORIZONTAL_SLIDES_SELECTOR = '#reveal .slides>section',
-		VERTICAL_SLIDES_SELECTOR = '#reveal .slides>section.present>section',
+	var HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
+		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 
 		IS_TOUCH_DEVICE = !!( 'ontouchstart' in window ),
 
@@ -84,14 +84,14 @@ var Reveal = (function(){
 		}
 
 		// Cache references to DOM elements
-		dom.wrapper = document.querySelector( '#reveal' );
-		dom.progress = document.querySelector( '#reveal .progress' );
-		dom.progressbar = document.querySelector( '#reveal .progress span' );
-		dom.controls = document.querySelector( '#reveal .controls' );
-		dom.controlsLeft = document.querySelector( '#reveal .controls .left' );
-		dom.controlsRight = document.querySelector( '#reveal .controls .right' );
-		dom.controlsUp = document.querySelector( '#reveal .controls .up' );
-		dom.controlsDown = document.querySelector( '#reveal .controls .down' );
+		dom.wrapper = document.querySelector( '.reveal' );
+		dom.progress = document.querySelector( '.reveal .progress' );
+		dom.progressbar = document.querySelector( '.reveal .progress span' );
+		dom.controls = document.querySelector( '.reveal .controls' );
+		dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
+		dom.controlsRight = document.querySelector( '.reveal .controls .right' );
+		dom.controlsUp = document.querySelector( '.reveal .controls .up' );
+		dom.controlsDown = document.querySelector( '.reveal .controls .down' );
 
 		addEventListeners();
 
@@ -402,7 +402,7 @@ var Reveal = (function(){
 	 */
 	function linkify() {
         if( supports3DTransforms ) {
-        	var nodes = document.querySelectorAll( '#reveal .slides section a:not(.image)' );
+        	var nodes = document.querySelectorAll( '.reveal .slides section a:not(.image)' );
 
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {
 	            var node = nodes[i];
@@ -474,7 +474,7 @@ var Reveal = (function(){
 	function deactivateOverview() {
 		dom.wrapper.classList.remove( 'overview' );
 
-		var slides = Array.prototype.slice.call( document.querySelectorAll( '#reveal .slides section' ) );
+		var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
 
 		for( var i = 0, len = slides.length; i < len; i++ ) {
 			var element = slides[i];
@@ -732,7 +732,7 @@ var Reveal = (function(){
 
 	/**
 	 * Dispatches an event of the specified type from the 
-	 * #reveal DOM element.
+	 * reveal DOM element.
 	 */
 	function dispatchEvent( type, properties ) {
 		var event = document.createEvent( "HTMLEvents", 1, 2 );
@@ -865,7 +865,7 @@ var Reveal = (function(){
 			}
 			else {
 				// Fetch the previous horizontal slide, if there is one
-				var previousSlide = document.querySelector( '#reveal .slides>section.past:nth-child(' + indexh + ')' );
+				var previousSlide = document.querySelector( '.reveal .slides>section.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
 					indexv = ( previousSlide.querySelectorAll('section').length + 1 ) || 0;
@@ -910,10 +910,10 @@ var Reveal = (function(){
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
-			( dom.wrapper || document.querySelector( '#reveal' ) ).addEventListener( type, listener, useCapture );
+			( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
 		},
 		removeEventListener: function( type, listener, useCapture ) {
-			( dom.wrapper || document.querySelector( '#reveal' ) ).removeEventListener( type, listener, useCapture );
+			( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
 		}
 	};
 	

@@ -54,10 +54,10 @@ body {
 /*********************************************
  * HEADERS
  *********************************************/
-#reveal h1, 
-#reveal h2, 
-#reveal h3, 
-#reveal h4 {
+.reveal h1, 
+.reveal h2, 
+.reveal h3, 
+.reveal h4 {
 	margin: 0 0 20px 0;
 	
 	color: #eee;
@@ -70,20 +70,20 @@ body {
 	text-shadow: 0px 0px 6px rgba(0,0,0,0.2);
 }
 
-#reveal h1 { font-size: 136px; 	}
-#reveal h2 { font-size: 76px;	}
-#reveal h3 { font-size: 56px;	}
-#reveal h4 { font-size: 36px;	}
+.reveal h1 { font-size: 136px; 	}
+.reveal h2 { font-size: 76px;	}
+.reveal h3 { font-size: 56px;	}
+.reveal h4 { font-size: 36px;	}
 
-#reveal h1.inverted,
-#reveal h2.inverted,
-#reveal h3.inverted,
-#reveal h4.inverted {
+.reveal h1.inverted,
+.reveal h2.inverted,
+.reveal h3.inverted,
+.reveal h4.inverted {
 	color: #fff;
 	text-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
 
-#reveal h1 {
+.reveal h1 {
 	text-shadow: 0 1px 0 #ccc,
                  0 2px 0 #c9c9c9,
                  0 3px 0 #bbb,
@@ -102,7 +102,7 @@ body {
  * VIEW FRAGMENTS
  *********************************************/
 
-#reveal .slides section .fragment {
+.reveal .slides section .fragment {
 	opacity: 0;
 
 	-webkit-transition: all .2s ease;
@@ -111,7 +111,7 @@ body {
 	     -o-transition: all .2s ease;
 	        transition: all .2s ease;
 }
-	#reveal .slides section .fragment.visible {
+	.reveal .slides section .fragment.visible {
 		opacity: 1;
 	}
 
@@ -120,68 +120,68 @@ body {
  * DEFAULT ELEMENT STYLES
  *********************************************/
 
-#reveal .slides section {
+.reveal .slides section {
 	line-height: 1.2em;
 	font-weight: normal;
 }
 
-#reveal strong, 
-#reveal b {
+.reveal strong, 
+.reveal b {
 	font-weight: bold;
 }
 
-#reveal em, 
-#reveal i {
+.reveal em, 
+.reveal i {
 	font-style: italic;
 }
 
-#reveal ol, 
-#reveal ul {
+.reveal ol, 
+.reveal ul {
 	display: inline-block;
 
 	text-align: left;
 	margin: 0 auto;
 }
 
-#reveal ol {
+.reveal ol {
 	list-style: decimal inside;
 }
 
-#reveal ul {
+.reveal ul {
 	list-style: disc;
 }
-	#reveal ul>li>ul {
+	.reveal ul>li>ul {
 		list-style: square;
 	}
-		#reveal ul>li>ul>li>ul {
+		.reveal ul>li>ul>li>ul {
 			list-style: circle;
 		}
 
 /* Brain freeze – there has to be a better way of doing this? */
-#reveal ul ul,
-#reveal ul ol,
+.reveal ul ul,
+.reveal ul ol,
 
-#reveal ol ol,
-#reveal ol ul,
+.reveal ol ol,
+.reveal ol ul,
 
-#reveal ul ul ul,
-#reveal ul ul ol,
-#reveal ul ol ol,
-#reveal ul ol ul,
+.reveal ul ul ul,
+.reveal ul ul ol,
+.reveal ul ol ol,
+.reveal ul ol ul,
 
-#reveal ol ol ol,
-#reveal ol ol ul,
-#reveal ol ul ul,
-#reveal ol ul ol {
+.reveal ol ol ol,
+.reveal ol ol ul,
+.reveal ol ul ul,
+.reveal ol ul ol {
 	display: block;
 	margin-left: 40px;
 }
 
-#reveal p {
+.reveal p {
 	margin-bottom: 10px;
 }
 
-#reveal blockquote {
+.reveal blockquote {
 	display: block;
 	position: relative;
 	width: 70%;
@@ -192,14 +192,14 @@ body {
 	background: rgba(255, 255, 255, 0.05);
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
-	#reveal blockquote:before {
+	.reveal blockquote:before {
 		content: '“';
 	}
-	#reveal blockquote:after {
+	.reveal blockquote:after {
 		content: '”';
 	}
 
-#reveal pre {
+.reveal pre {
 	display: block;
 	position: relative;
 	width: 90%;
@@ -215,27 +215,27 @@ body {
 	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
 
-#reveal code {
+.reveal code {
 	font-family: monospace;
 }
 
-#reveal small {
+.reveal small {
 	font-size: 60%;
 	line-height: 1em;
 	vertical-align: top;
 }
 
-#reveal q {	
+.reveal q {	
 	font-style: italic;
 }
-	#reveal q:before {
+	.reveal q:before {
 		content: '“';
 	}
-	#reveal q:after {
+	.reveal q:after {
 		content: '”';
 	}
 
-#reveal a:not(.image) {
+.reveal a:not(.image) {
 	color: hsl(185, 85%, 50%);
 	text-decoration: none;
 
@@ -246,7 +246,7 @@ body {
 	        transition: all .2s ease;
 }
 	
-	#reveal a:not(.image):hover {
+	.reveal a:not(.image):hover {
 		color: hsl(185, 85%, 70%);
 		background: hsla(185, 25%, 20%, 0.4);
 		text-shadow: none;
@@ -254,7 +254,7 @@ body {
 		border-radius: 2px;
 	}
 
-#reveal section img {
+.reveal section img {
 	margin: 30px 0 0 0;
 	background: rgba(255,255,255,0.12);
 	border: 4px solid #eee;
@@ -270,7 +270,7 @@ body {
 	        transition: all .2s linear;
 }
 
-	#reveal a:hover img {
+	.reveal a:hover img {
 		background: rgba(255,255,255,0.2);
 		border-color: #13DAEC;
 		
@@ -284,7 +284,7 @@ body {
  * CONTROLS
  *********************************************/
 
-#reveal .controls {
+.reveal .controls {
 	display: none;
 	position: fixed;
 	width: 100px;
@@ -295,36 +295,36 @@ body {
 	bottom: 0;
 }
 	
-	#reveal .controls a {
+	.reveal .controls a {
 		font-size: 30px;
 		position: absolute;
 		opacity: 0.1;
 		color: #fff;
 	}
-		#reveal .controls a.enabled {
+		.reveal .controls a.enabled {
 			opacity: 0.6;
 			color: hsl(185, 85%, 70%);
 
 			text-shadow: 0px 0px 2px hsla(185, 45%, 70%, 0.3);
 		}
-		#reveal .controls a.enabled:active {
+		.reveal .controls a.enabled:active {
 			margin-top: 1px;
 		}
 
-	#reveal .controls .left {
+	.reveal .controls .left {
 		top: 30px;
 	}
 
-	#reveal .controls .right {
+	.reveal .controls .right {
 		left: 60px;
 		top: 30px;
 	}
 
-	#reveal .controls .up {
+	.reveal .controls .up {
 		left: 30px;
 	}
 
-	#reveal .controls .down {
+	.reveal .controls .down {
 		left: 30px;
 		top: 60px;
 
@@ -335,7 +335,7 @@ body {
  * PROGRESS BAR
  *********************************************/
 
-#reveal .progress {
+.reveal .progress {
 	position: fixed;
 	display: none;
 	height: 3px;
@@ -346,7 +346,7 @@ body {
 	background: rgba(0,0,0,0.2);
 }
 	
-	#reveal .progress span {
+	.reveal .progress span {
 		display: block;
 		background: hsl(185, 85%, 50%);
 		height: 100%;
@@ -363,7 +363,7 @@ body {
  * ROLLING LINKS
  *********************************************/
 
-#reveal .roll {
+.reveal .roll {
     display: inline-block;
     overflow: hidden;
 
@@ -379,11 +379,11 @@ body {
         -ms-perspective-origin: 50% 50%;
             perspective-origin: 50% 50%;
 }
-	#reveal .roll:hover {
+	.reveal .roll:hover {
 		background: none;
 		text-shadow: none;
 	}
-#reveal .roll span {
+.reveal .roll span {
     display: block;
     position: relative;
     padding: 0 2px;
@@ -405,7 +405,7 @@ body {
         -ms-transform-style: preserve-3d;
             transform-style: preserve-3d;
 }
-    #reveal .roll:hover span {
+    .reveal .roll:hover span {
         background: rgba(0,0,0,0.5);
 
         -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
@@ -413,7 +413,7 @@ body {
             -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
                 transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
     }
-#reveal .roll span:after {
+.reveal .roll span:after {
     content: attr(data-title);
 
     display: block;
@@ -441,7 +441,7 @@ body {
  * SLIDES
  *********************************************/
 
-#reveal .slides {
+.reveal .slides {
 	position: absolute;
 	width: 900px;
 	height: 600px;
@@ -471,8 +471,8 @@ body {
  	        perspective-origin: 50% 25%;
 }
 
-#reveal .slides>section,
-#reveal .slides>section>section {
+.reveal .slides>section,
+.reveal .slides>section>section {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -492,7 +492,7 @@ body {
 	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-#reveal .slides>section.present {
+.reveal .slides>section.present {
 	display: block;
 	z-index: 11;
 	opacity: 1;
@@ -503,7 +503,7 @@ body {
  * DEFAULT TRANSITION
  *********************************************/
 
-#reveal .slides>section.past {
+.reveal .slides>section.past {
 	display: block;
 	opacity: 0;
 	
@@ -512,7 +512,7 @@ body {
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 }
-#reveal .slides>section.future {
+.reveal .slides>section.future {
 	display: block;
 	opacity: 0;
 	
@@ -522,7 +522,7 @@ body {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 }
 
-#reveal .slides>section>section.past {
+.reveal .slides>section>section.past {
 	display: block;
 	opacity: 0;
 	
@@ -531,7 +531,7 @@ body {
 	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	        transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 }
-#reveal .slides>section>section.future {
+.reveal .slides>section>section.future {
 	display: block;
 	opacity: 0;
 	
@@ -546,26 +546,26 @@ body {
  * CONCAVE TRANSITION
  *********************************************/
 
-#reveal.concave  .slides>section.past {
+.reveal.concave  .slides>section.past {
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 }
-#reveal.concave  .slides>section.future {
+.reveal.concave  .slides>section.future {
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	    -ms-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 }
 
-#reveal.concave  .slides>section>section.past {
+.reveal.concave  .slides>section>section.past {
 	-webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	   -moz-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	    -ms-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 	        transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 }
-#reveal.concave  .slides>section>section.future {
+.reveal.concave  .slides>section>section.future {
 	-webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	   -moz-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	    -ms-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
@@ -577,14 +577,14 @@ body {
  * LINEAR TRANSITION
  *********************************************/
 
-#reveal.linear .slides>section.past {
+.reveal.linear .slides>section.past {
 	-webkit-transform: translate(-150%, 0);
 	   -moz-transform: translate(-150%, 0);
 	    -ms-transform: translate(-150%, 0);
 	     -o-transform: translate(-150%, 0);
 	        transform: translate(-150%, 0);
 }
-#reveal.linear .slides>section.future {
+.reveal.linear .slides>section.future {
 	-webkit-transform: translate(150%, 0);
 	   -moz-transform: translate(150%, 0);
 	    -ms-transform: translate(150%, 0);
@@ -592,14 +592,14 @@ body {
 	        transform: translate(150%, 0);
 }
 
-#reveal.linear .slides>section>section.past {
+.reveal.linear .slides>section>section.past {
 	-webkit-transform: translate(0, -150%);
 	   -moz-transform: translate(0, -150%);
 	    -ms-transform: translate(0, -150%);
 	     -o-transform: translate(0, -150%);
 	        transform: translate(0, -150%);
 }
-#reveal.linear .slides>section>section.future {
+.reveal.linear .slides>section>section.future {
 	-webkit-transform: translate(0, 150%);
 	   -moz-transform: translate(0, 150%);
 	    -ms-transform: translate(0, 150%);
@@ -611,7 +611,7 @@ body {
  * BOX TRANSITION
  *********************************************/
 
-#reveal.cube .slides {
+.reveal.cube .slides {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 25%;
@@ -625,7 +625,7 @@ body {
 	        perspective: 1300px;
 }
 
-#reveal.cube .slides section {
+.reveal.cube .slides section {
 	padding: 30px;
 
 	-webkit-backface-visibility: hidden;
@@ -637,7 +637,7 @@ body {
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	#reveal.cube .slides section:not(.stack):before {
+	.reveal.cube .slides section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -654,7 +654,7 @@ body {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	#reveal.cube .slides section:not(.stack):after {
+	.reveal.cube .slides section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -675,12 +675,12 @@ body {
 		        transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-#reveal.cube .slides>section.stack {
+.reveal.cube .slides>section.stack {
 	padding: 0;
 	background: none;
 }
 
-#reveal.cube .slides>section.past {
+.reveal.cube .slides>section.past {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -692,7 +692,7 @@ body {
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg);
 }
 
-#reveal.cube .slides>section.future {
+.reveal.cube .slides>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -704,7 +704,7 @@ body {
 	        transform: translate3d(100%, 0, 0) rotateY(90deg);
 }
 
-#reveal.cube .slides>section>section.past {
+.reveal.cube .slides>section>section.past {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -716,7 +716,7 @@ body {
 	        transform: translate3d(0, -100%, 0) rotateX(90deg);
 }
 
-#reveal.cube .slides>section>section.future {
+.reveal.cube .slides>section>section.future {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -733,7 +733,7 @@ body {
  * PAGE TRANSITION
  *********************************************/
 
-#reveal.page .slides {
+.reveal.page .slides {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 50%;
@@ -747,17 +747,17 @@ body {
 	        perspective: 3000px;
 }
 
-#reveal.page .slides section {
+.reveal.page .slides section {
 	padding: 30px;
 
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
-	#reveal.page .slides section.past {
+	.reveal.page .slides section.past {
 		z-index: 12;
 	}
-	#reveal.page .slides section:not(.stack):before {
+	.reveal.page .slides section:not(.stack):before {
 		content: '';
 		position: absolute;
 		display: block;
@@ -773,7 +773,7 @@ body {
 		     -o-transform: translateZ( -20px );
 		        transform: translateZ( -20px );
 	}
-	#reveal.page .slides section:not(.stack):after {
+	.reveal.page .slides section:not(.stack):after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -790,12 +790,12 @@ body {
 		-webkit-transform: translateZ(-90px) rotateX( 65deg );
 	}
 
-#reveal.page .slides>section.stack {
+.reveal.page .slides>section.stack {
 	padding: 0;
 	background: none;
 }
 
-#reveal.page .slides>section.past {
+.reveal.page .slides>section.past {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -807,7 +807,7 @@ body {
 	        transform: translate3d(-40%, 0, 0) rotateY(-80deg);
 }
 
-#reveal.page .slides>section.future {
+.reveal.page .slides>section.future {
 	-webkit-transform-origin: 100% 0%;
 	   -moz-transform-origin: 100% 0%;
 	    -ms-transform-origin: 100% 0%;
@@ -819,7 +819,7 @@ body {
 	        transform: translate3d(0, 0, 0);
 }
 
-#reveal.page .slides>section>section.past {
+.reveal.page .slides>section>section.past {
 	-webkit-transform-origin: 0% 0%;
 	   -moz-transform-origin: 0% 0%;
 	    -ms-transform-origin: 0% 0%;
@@ -831,7 +831,7 @@ body {
 	        transform: translate3d(0, -40%, 0) rotateX(80deg);
 }
 
-#reveal.page .slides>section>section.future {
+.reveal.page .slides>section>section.future {
 	-webkit-transform-origin: 0% 100%;
 	   -moz-transform-origin: 0% 100%;
 	    -ms-transform-origin: 0% 100%;
@@ -848,18 +848,18 @@ body {
  * NEON THEME
  *********************************************/
 
-#reveal.neon a,
-#reveal.neon a:hover,
-#reveal.neon .controls a.enabled {
+.reveal.neon a,
+.reveal.neon a:hover,
+.reveal.neon .controls a.enabled {
 	color: #5de048;
 }
 
-#reveal.neon .progress span,
-#reveal.neon .roll span:after {
+.reveal.neon .progress span,
+.reveal.neon .roll span:after {
 	background: #5de048;
 }
 
-#reveal.neon a.image:hover img {
+.reveal.neon a.image:hover img {
 	border-color: #5de048;
 }
 
@@ -868,38 +868,38 @@ body {
  * OVERVIEW
  *********************************************/
 
-#reveal.overview .slides {
+.reveal.overview .slides {
 	-webkit-perspective: 700px;
 	   -moz-perspective: 700px;
 	    -ms-perspective: 700px;
 	        perspective: 700px;
 }
 
-#reveal.overview .slides section {
+.reveal.overview .slides section {
 	padding: 20px 0;
 	opacity: 1;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
-#reveal.overview .slides section .fragment {
+.reveal.overview .slides section .fragment {
     opacity: 1;
 }
-#reveal.overview .slides section:after,
-#reveal.overview .slides section:before {
+.reveal.overview .slides section:after,
+.reveal.overview .slides section:before {
 	display: none !important;
 }
-#reveal.overview .slides section>section {
+.reveal.overview .slides section>section {
 	opacity: 1;
 	cursor: pointer;
 }
-	#reveal.overview .slides section:hover {
+	.reveal.overview .slides section:hover {
 		background: rgba(0,0,0,0.3);
 	}
 
-	#reveal.overview .slides section.present {
+	.reveal.overview .slides section.present {
 		background: rgba(0,0,0,0.3);
 	}
-#reveal.overview .slides>section.stack {
+.reveal.overview .slides>section.stack {
 	background: none;
 	padding: 0;
 }
