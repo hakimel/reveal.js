@@ -132,6 +132,8 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 ## History
 
 #### 1.4 (master/beta)
+- Main #reveal container is now selected via a class instead of ID
+- API methods for adding or removing all event listeners
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
