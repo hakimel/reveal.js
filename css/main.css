@@ -144,35 +144,26 @@ body {
 }
 
 .reveal ol {
-	list-style: decimal inside;
+	list-style-type: decimal;
 }
 
 .reveal ul {
-	list-style: disc;
+	list-style-type: disc;
 }
-	.reveal ul>li>ul {
-		list-style: square;
-	}
-		.reveal ul>li>ul>li>ul {
-			list-style: circle;
-		}
 
-/* Brain freeze – there has to be a better way of doing this? */
+.reveal ul ul {
+	list-style-type: square;
+}
+
+.reveal ul ul ul {
+	list-style-type: circle;
+}
+
 .reveal ul ul,
 .reveal ul ol,
 
 .reveal ol ol,
-.reveal ol ul,
-
-.reveal ul ul ul,
-.reveal ul ul ol,
-.reveal ul ol ol,
-.reveal ul ol ul,
-
-.reveal ol ol ol,
-.reveal ol ol ul,
-.reveal ol ul ul,
-.reveal ol ul ol {
+.reveal ol ul {
 	display: block;
 	margin-left: 40px;
 }
