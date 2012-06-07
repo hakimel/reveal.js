@@ -12,7 +12,7 @@ Curious about how it looks in action? [Check out the demo page](http://lab.hakim
 
 Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. For example:
 
-```
+```html
 <div id="reveal">
 	<div class="slides"> 
 		<section>Single Horizontal Slide</section>
@@ -28,7 +28,7 @@ Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`
 
 At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal by running the following code. Note that all config values are optional.
 
-```
+```javascript
 Reveal.initialize({
 	// Display controls in the bottom right corner
 	controls: true,
@@ -73,7 +73,7 @@ If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will
 
 Furthermore you can also listen to these changes in state via JavaScript:
 
-```
+```javascript
 Reveal.addEventListener( 'somestate', function() {
 	// TODO: Sprinkle magic
 }, false );
@@ -83,7 +83,7 @@ Reveal.addEventListener( 'somestate', function() {
 
 An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
 
-```
+```javascript
 Reveal.addEventListener( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
@@ -93,7 +93,7 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 
 When a slide fragment is either shown or hidden reveal.js will dispatch an event.
 
-```
+```javascript
 Reveal.addEventListener( 'fragmentshown', function( event ) {
 	// event.fragment = the fragment DOM element
 } );
@@ -136,6 +136,8 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 #### 1.4 (master/beta)
 - Main #reveal container is now selected via a class instead of ID
 - API methods for adding or removing all event listeners
+- The 'slidechange' event now includes currentSlide and previousSlide
+- Fixed bug where 'slidechange' was firing twice when history was enabled
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
