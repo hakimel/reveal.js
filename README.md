@@ -81,11 +81,11 @@ Reveal.addEventListener( 'somestate', function() {
 
 ### Slide change event
 
-An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index of the current slide.
+An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
 
 ```
 Reveal.addEventListener( 'slidechanged', function( event ) {
-	// event.indexh & event.indexv
+	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
 ```
 

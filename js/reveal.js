@@ -661,11 +661,29 @@ var Reveal = (function(){
 		clearTimeout( writeURLTimeout );
 		writeURLTimeout = setTimeout( writeURL, 1500 );
 
+		// Only fire if the slide index is different from before
 		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
+			// Query all horizontal slides in the deck
+			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+
+			// Find the previous and current horizontal slides
+			var previousHorizontalSlide = horizontalSlides[ indexhBefore ],
+				currentHorizontalSlide = horizontalSlides[ indexh ];
+
+			// Query all vertical slides inside of the previous and current horizontal slides
+			var previousVerticalSlides = previousHorizontalSlide.querySelectorAll( 'section' );
+				currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+
 			// Dispatch an event notifying observers of the change in slide
 			dispatchEvent( 'slidechanged', {
+				// Include the current indices in the event
 				'indexh': indexh, 
-				'indexv': indexv
+				'indexv': indexv,
+
+				// Passes direct references to the slide HTML elements, attempts to find
+				// a vertical slide and falls back on the horizontal parent
+				'previousSlide': previousVerticalSlides[ indexvBefore ] || previousHorizontalSlide,
+				'currentSlide': currentVerticalSlides[ indexv ] || currentHorizontalSlide
 			} );
 		}
 	}
