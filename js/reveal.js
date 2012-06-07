@@ -610,16 +610,19 @@ var Reveal = (function(){
 	 * Updates the visual slides to represent the currently
 	 * set indices. 
 	 */
-	function slide() {
+	function slide( h, v ) {
 		// Remember the state before this slide
 		var stateBefore = state.concat();
 
 		// Reset the state array
 		state.length = 0;
 
+		var indexhBefore = indexh,
+			indexvBefore = indexv;
+
 		// Activate and transition to the new slide
-		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
-		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
+		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
+		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
 
 		// Apply the new state
 		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
@@ -658,11 +661,13 @@ var Reveal = (function(){
 		clearTimeout( writeURLTimeout );
 		writeURLTimeout = setTimeout( writeURL, 1500 );
 
-		// Dispatch an event notifying observers of the change in slide
-		dispatchEvent( 'slidechanged', {
-			'indexh': indexh, 
-			'indexv': indexv
-		} );
+		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
+			// Dispatch an event notifying observers of the change in slide
+			dispatchEvent( 'slidechanged', {
+				'indexh': indexh, 
+				'indexv': indexv
+			} );
+		}
 	}
 
 	/**
@@ -814,40 +819,31 @@ var Reveal = (function(){
 	 * @param {Number} v The vertical index of the slide to show
 	 */
 	function navigateTo( h, v ) {
-		indexh = h === undefined ? indexh : h;
-		indexv = v === undefined ? indexv : v;
-		
-		slide();
+		slide( h, v );
 	}
 	
 	function navigateLeft() {
 		// Prioritize hiding fragments
 		if( overviewIsActive() || previousFragment() === false ) {
-			indexh --;
-			indexv = 0;
-			slide();
+			slide( indexh - 1, 0 );
 		}
 	}
 	function navigateRight() {
 		// Prioritize revealing fragments
 		if( overviewIsActive() || nextFragment() === false ) {
-			indexh ++;
-			indexv = 0;
-			slide();
+			slide( indexh + 1, 0 );
 		}
 	}
 	function navigateUp() {
 		// Prioritize hiding fragments
 		if( overviewIsActive() || previousFragment() === false ) {
-			indexv --;
-			slide();
+			slide( indexh, indexv - 1 );
 		}
 	}
 	function navigateDown() {
 		// Prioritize revealing fragments
 		if( overviewIsActive() || nextFragment() === false ) {
-			indexv ++;
-			slide();
+			slide( indexh, indexv + 1 );
 		}
 	}
 
