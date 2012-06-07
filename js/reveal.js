@@ -20,6 +20,7 @@ var Reveal = (function(){
 		config = {
 			controls: false,
 			progress: false,
+			pagenum: false,
 			history: false,
 			loop: false,
 			mouseWheel: true,
@@ -87,6 +88,7 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.progress = document.querySelector( '.reveal .progress' );
 		dom.progressbar = document.querySelector( '.reveal .progress span' );
+		dom.pagenum = document.querySelector( '.reveal .pagenum span' );
 		dom.controls = document.querySelector( '.reveal .controls' );
 		dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
 		dom.controlsRight = document.querySelector( '.reveal .controls .right' );
@@ -130,6 +132,10 @@ var Reveal = (function(){
 		if( config.progress ) {
 			dom.progress.style.display = 'block';
 		}
+		
+		/* if(config.pagenum) {
+			dom.pagenum.style.display = 'block';
+		} should work but error */
 
 		if( config.transition !== 'default' ) {
 			dom.wrapper.classList.add( config.transition );
@@ -649,6 +655,11 @@ var Reveal = (function(){
 		// Update progress if enabled
 		if( config.progress ) {
 			dom.progressbar.style.width = ( indexh / ( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1 ) ) * window.innerWidth + 'px';
+		}
+		
+		// Update pagenum if enabled
+		if( config.pagenum ) {
+			dom.pagenum.innerHTML = (1+indexh).toString() + ", " + (1+indexv).toString();
 		}
 
 		// Close the overview if it's active
