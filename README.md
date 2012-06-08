@@ -102,6 +102,27 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 } );
 ```
 
+## Speaker Notes
+
+If you're interested in using speaker notes, reveal.js comes with a Node server that allows you to deliver your presentation in one browser while viewing speaker notes in another. 
+
+To include speaker notes in your presentation, simply add an `<aside class="notes">` element to any slide. These notes will be hidden in the main presentation view.
+
+To use the speaker notes server, your `index.html` will need to include script tags for `socket.io/socket.io.js` and `js/slidenotes.js`. If you don't want to use the speaker notes server, you can safely remove these script tags, but they are included by default. 
+
+You'll also need to [install Node.js](http://nodejs.org/); then, install the server dependencies by running `npm install`.
+
+Once Node.js and the dependencies are installed, run the following command from the root directory:
+
+		node slidenotes
+
+By default, the slides will be served at [localhost:1947](http://localhost:1947).
+
+You can change the appearance of the speaker notes by editing the file at `slidenotes/notes.html`.
+
+### Known Issues
+
+- The notes page is supposed to show the current slide and the next slide, but when it first starts, it always shows the first slide in both positions. 
 
 ## Examples
 

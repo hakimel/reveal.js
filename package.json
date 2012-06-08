@@ -1,0 +1,18 @@
+{
+  "author": "Hakim El Hattab",
+  "name": "Reveal.js",
+  "description": "HTML5 Slideware with Presenter Notes",
+  "version": "1.5.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hakimel/reveal.js.git"
+  },
+  "engines": {
+    "node": "~0.6.8"
+  },
+  "dependencies": {
+    "express" : "2.5.9",
+    "socket.io" : "0.9.6"
+  },
+  "devDependencies": {}
+}
