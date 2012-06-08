@@ -118,7 +118,7 @@ Once Node.js and the dependencies are installed, run the following command from 
 
 By default, the slides will be served at [localhost:1947](http://localhost:1947).
 
-You can change the appearance of the speaker notes by editing the file at `slidenotes/notes.html`.
+You can change the appearance of the speaker notes by editing the file at `slidenotes/notes.html`.	
 
 ### Known Issues
 
