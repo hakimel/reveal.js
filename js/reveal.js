@@ -88,7 +88,7 @@ var Reveal = (function(){
 		dom.progress = document.querySelector( '.reveal .progress' );
 		dom.progressbar = document.querySelector( '.reveal .progress span' );
 		
-		if (config.controls) {
+		if ( config.controls ) {
 			dom.controls = document.querySelector( '.reveal .controls' );
 			dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
 			dom.controlsRight = document.querySelector( '.reveal .controls .right' );
@@ -160,7 +160,7 @@ var Reveal = (function(){
 		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
 
-		if (config.controls && dom.controls) {
+		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
 			dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
 			dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
@@ -175,7 +175,7 @@ var Reveal = (function(){
 		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		
-		if (config.controls && dom.controls) {
+		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
 			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
 			dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
@@ -699,7 +699,9 @@ var Reveal = (function(){
 	 * Updates the state and link pointers of the controls.
 	 */
 	function updateControls() {
-		if (!config.controls || !dom.controls) return;
+		if ( !config.controls || !dom.controls ) {
+			return;
+		}
 		
 		var routes = availableRoutes();
 
