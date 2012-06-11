@@ -65,6 +65,8 @@ The Reveal class provides a minimal JavaScript API for controlling its navigatio
 - Reveal.navigateRight();
 - Reveal.navigateUp();
 - Reveal.navigateDown();
+- Reveal.navigatePrev();
+- Reveal.navigateNext();
 - Reveal.toggleOverview();
 
 ### States
