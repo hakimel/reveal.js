@@ -87,11 +87,14 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.progress = document.querySelector( '.reveal .progress' );
 		dom.progressbar = document.querySelector( '.reveal .progress span' );
-		dom.controls = document.querySelector( '.reveal .controls' );
-		dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
-		dom.controlsRight = document.querySelector( '.reveal .controls .right' );
-		dom.controlsUp = document.querySelector( '.reveal .controls .up' );
-		dom.controlsDown = document.querySelector( '.reveal .controls .down' );
+		
+		if ( config.controls ) {
+			dom.controls = document.querySelector( '.reveal .controls' );
+			dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
+			dom.controlsRight = document.querySelector( '.reveal .controls .right' );
+			dom.controlsUp = document.querySelector( '.reveal .controls .up' );
+			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
+		}
 
 		addEventListeners();
 
@@ -123,7 +126,7 @@ var Reveal = (function(){
 			config.transition = 'linear';
 		}
 
-		if( config.controls ) {
+		if( config.controls && dom.controls ) {
 			dom.controls.style.display = 'block';
 		}
 
@@ -156,11 +159,13 @@ var Reveal = (function(){
 		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
-		
-		dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
-		dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
-		dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
-		dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );
+
+		if ( config.controls && dom.controls ) {
+			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
+			dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
+			dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
+			dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );	
+		}
 	}
 
 	function removeEventListeners() {
@@ -170,10 +175,12 @@ var Reveal = (function(){
 		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		
-		dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
-		dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
-		dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
-		dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+		if ( config.controls && dom.controls ) {
+			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
+			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
+			dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
+			dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+		}
 	}
 
 	/**
@@ -692,6 +699,10 @@ var Reveal = (function(){
 	 * Updates the state and link pointers of the controls.
 	 */
 	function updateControls() {
+		if ( !config.controls || !dom.controls ) {
+			return;
+		}
+		
 		var routes = availableRoutes();
 
 		// Remove the 'enabled' class from all directions
