@@ -161,7 +161,6 @@ body {
 
 .reveal ul ul,
 .reveal ul ol,
-
 .reveal ol ol,
 .reveal ol ul {
 	display: block;
@@ -208,6 +207,16 @@ body {
 
 .reveal code {
 	font-family: monospace;
+}
+
+.reveal table th, 
+.reveal table td {
+ 	 text-align: left;
+ 	 padding-right: .3em;
+}
+
+.reveal table th {
+ 	 text-shadow: rgb(255,255,255) 1px 1px 2px;
 }
 
 .reveal small {
