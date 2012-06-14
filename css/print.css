@@ -32,8 +32,8 @@ html {
    This would include navigation, ads, sidebars, etc. */
 .nestedarrow, 
 .controls a, 
-#reveal .progress span, 
-#reveal.overview {
+.reveal .progress span, 
+.reveal.overview {
 	display:none;
 }
 
@@ -74,8 +74,8 @@ a:visited {
 	font-weight: bold;
 	text-decoration: underline;
 }
-#reveal a:link:after, 
-#reveal a:visited:after {
+.reveal a:link:after, 
+.reveal a:visited:after {
 	content: " (" attr(href) ") ";
 	color: #222 !important;
 	font-size: 90%;
@@ -93,7 +93,7 @@ ul, ol, div, p {
 	margin: auto;
 	text-align: left !important;
 }
-#reveal .slides {
+.reveal .slides {
 	position: static;
 	width: auto;
 	height: auto;
@@ -118,8 +118,8 @@ ul, ol, div, p {
 	    -ms-perspective-origin: 50% 50%;
 	        perspective-origin: 50% 50%;
 }
-#reveal .slides>section, #reveal .slides>section>section, 
-#reveal .slides>section.past, #reveal .slides>section.future {
+.reveal .slides>section, .reveal .slides>section>section, 
+.reveal .slides>section.past, .reveal .slides>section.future {
 	visibility: visible;
 	position: static;
 	width: 90%;
@@ -145,17 +145,17 @@ ul, ol, div, p {
 	    -ms-transform: none;
 	        transform: none;
 }
-#reveal section {
+.reveal section {
 	page-break-after: always !important; 
 	display: block !important;
 }
-#reveal section.stack {
+.reveal section.stack {
 	page-break-after: avoid !important; 
 }
-#reveal section .fragment {
+.reveal section .fragment {
 	opacity: 1 !important;
 }
-#reveal section img {
+.reveal section img {
 	display: block;
 	margin: 15px 0px;
 	background: rgba(255,255,255,1);
