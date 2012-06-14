@@ -119,7 +119,10 @@ ul, ol, div, p {
 	        perspective-origin: 50% 50%;
 }
 .reveal .slides>section, .reveal .slides>section>section, 
-.reveal .slides>section.past, .reveal .slides>section.future {
+.reveal .slides>section.past, .reveal .slides>section.future,
+.reveal.linear .slides>section, .reveal.linear .slides>section>section,
+.reveal.linear .slides>section.past, .reveal.linear .slides>section.future {
+	
 	visibility: visible;
 	position: static;
 	width: 90%;
