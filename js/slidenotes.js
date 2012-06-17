@@ -4,7 +4,7 @@
   if (qs.length > 1 && qs[1].match('receiver')) { return; }
 
   var socket = io.connect(window.location.origin);
-  var socketId = socket.socket.sessionid;
+  var socketId = Math.random().toString().slice(2);
   console.log('View slide notes at ' + window.location.origin + '/_notes/' + socketId);
 
   Reveal.addEventListener( 'slidechanged', function( event ) {
