@@ -2,6 +2,7 @@ var express   = require('express');
 var fs        = require('fs');
 var io        = require('socket.io');
 var _         = require('underscore');
+var Mustache  = require('mustache');
 
 var app       = express.createServer();
 var staticDir = express.static;
@@ -29,8 +30,14 @@ app.get("/", function(req, res) {
   fs.createReadStream(opts.baseDir + '/index.html').pipe(res);
 });
 
-app.get("/_notes", function(req, res) {
-  fs.createReadStream(opts.baseDir + 'slidenotes/notes.html').pipe(res);
+app.get("/_notes/:socketId", function(req, res) {
+
+  fs.readFile(opts.baseDir + 'slidenotes/notes.html', function(err, data) {
+    res.send(Mustache.to_html(data.toString(), {
+      socketId : req.params.socketId
+    }));
+  });
+  // fs.createReadStream(opts.baseDir + 'slidenotes/notes.html').pipe(res);
 });
 
 // Actually listen
