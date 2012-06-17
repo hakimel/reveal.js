@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "express" : "2.5.9",
-    "socket.io" : "0.9.6"
+    "socket.io" : "0.9.6",
+    "mustache" : "0.4.0"
   },
   "devDependencies": {}
 }
