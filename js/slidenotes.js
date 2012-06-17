@@ -4,6 +4,8 @@
   if (qs.length > 1 && qs[1].match('receiver')) { return; }
 
   var socket = io.connect(window.location.origin);
+  var socketId = socket.socket.sessionid;
+  console.log('View slide notes at ' + window.location.origin + '/_notes/' + socketId);
 
   Reveal.addEventListener( 'slidechanged', function( event ) {
     var nextindexh;
@@ -24,7 +26,8 @@
       indexh : event.indexh,
       indexv : event.indexv,
       nextindexh : nextindexh,
-      nextindexv : nextindexv
+      nextindexv : nextindexv,
+      socketId : socketId
     };
 
     socket.emit('slidechanged', slideData);
