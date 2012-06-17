@@ -3,8 +3,8 @@
   var qs = window.location.href.split('?');
   if (qs.length > 1 && qs[1].match('receiver')) { return; }
 
-  var socket = io.connect('http://localhost:1947');
-  
+  var socket = io.connect(window.location.origin);
+
   Reveal.addEventListener( 'slidechanged', function( event ) {
     var nextindexh;
     var nextindexv;
