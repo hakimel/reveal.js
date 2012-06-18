@@ -842,6 +842,58 @@ var Reveal = (function(){
 	}
 	
 	/**
+	 * Applies/removes the animation classes on a single element
+	 */
+	function animateElement(element, direction) {
+		var classes = element.getAttribute('data-animation-classes');				
+		if (direction === 1) {
+			element.className += (' ' + classes);
+		} else {
+			classes.split(' ').forEach(function(c) {
+				element.className = element.className.replace(new RegExp(c), ' ');
+			});
+		}
+	}
+	
+	/**
+	 * Animates the current slide, and updates the animation index
+	 */
+	function animateSlide(slide, direction, count) {
+		var index = parseInt(slide.getAttribute('data-animations-next'), 10) || 0;
+		if (direction === 1 && index === count) {
+			slide.setAttribute('data-animations-next', count - 1);
+			return false;
+		} else	if (direction === -1 && index === -1) {
+			slide.setAttribute('data-animations-next', 0);
+			return false;
+		} else {
+			var nodeList = slide.querySelectorAll('[data-animation-index]');
+			for (var i=0; i<nodeList.length; ++i) {
+				var targetIndex = parseInt(nodeList.item(i).getAttribute('data-animation-index'), 10);
+				if (targetIndex === index) {
+					animateElement(nodeList.item(i), direction);
+				}
+			}
+			slide.setAttribute('data-animations-next', index + direction);
+			return true;
+		}
+	}
+	
+	/**
+	 * Updates the animation state
+	 * Returns true if animations are in progress so we don't move to the next/previous slide
+	 */
+	function runAnimations(direction) {
+		var slide = document.querySelector('.reveal .slides .present');
+		var count = parseInt(slide.getAttribute('data-animations'), 10) || 0;
+		if (count === 0) {
+			return false;
+		} else {
+			return animateSlide(slide, direction, count);
+		}
+	}
+	
+	/**
 	 * Triggers a navigation to the specified indices.
 	 * 
 	 * @param {Number} h The horizontal index of the slide to show
@@ -853,13 +905,13 @@ var Reveal = (function(){
 	
 	function navigateLeft() {
 		// Prioritize hiding fragments
-		if( overviewIsActive() || previousFragment() === false ) {
+		if( !runAnimations(-1) && (overviewIsActive() || previousFragment() === false) ) {
 			slide( indexh - 1, 0 );
 		}
 	}
 	function navigateRight() {
 		// Prioritize revealing fragments
-		if( overviewIsActive() || nextFragment() === false ) {
+		if( !runAnimations(1) && (overviewIsActive() || nextFragment() === false) ) {
 			slide( indexh + 1, 0 );
 		}
 	}
