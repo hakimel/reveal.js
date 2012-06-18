@@ -18,7 +18,7 @@ var Reveal = (function(){
 
 		// Configurations options, can be overridden at initialization time 
 		config = {
-			controls: false,
+			controls: true,
 			progress: false,
 			history: false,
 			loop: false,
