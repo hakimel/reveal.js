@@ -867,9 +867,9 @@ var Reveal = (function(){
 			slide.setAttribute('data-animations-next', 0);
 			return false;
 		} else {
-			var nodeList = slide.querySelectorAll('[data-animation-index]');
+			var nodeList = slide.querySelectorAll('[data-animation-classes]');
 			for (var i=0; i<nodeList.length; ++i) {
-				var targetIndex = parseInt(nodeList.item(i).getAttribute('data-animation-index'), 10);
+				var targetIndex = parseInt(nodeList.item(i).getAttribute('data-animation-index'), 10) || 0;
 				if (targetIndex === index) {
 					animateElement(nodeList.item(i), direction);
 				}
