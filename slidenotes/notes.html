@@ -66,7 +66,7 @@
 
     <script>
     var socketId = '{{socketId}}';
-    var socket = io.connect('http://localhost:1947');
+    var socket = io.connect(window.location.origin);
     var notes = document.getElementById('notes');
     var slides = document.getElementById('slides');
     var nextSlide = document.getElementById('next-slide');
