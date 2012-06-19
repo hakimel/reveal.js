@@ -107,6 +107,9 @@ var Reveal = (function(){
 		// Read the initial hash
 		readURL();
 
+		// Make sure that links open in a new window
+		retargetLinks();
+
 		// Set up hiding of the browser address bar
 		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
 			// Give the page some scrollable overflow
@@ -150,6 +153,17 @@ var Reveal = (function(){
 		if( config.rollingLinks ) {
 			// Add some 3D magic to our anchors
 			linkify();
+		}
+	}
+
+	/**
+	 * Add target="_blank" to all links
+	 */
+	function retargetLinks() {
+		var links = document.querySelectorAll( 'a[href]' );
+		for( var i = 0; i < links.length; i++ ) {
+			links[i].setAttribute( 'target', '_blank' );
+			console.log(links[i]);
 		}
 	}
 
