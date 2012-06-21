@@ -53,7 +53,7 @@
 				<section>
 					<h1>30% more fun</h1>
 					<h2>with CSS <span data-animations="1:rotated">transform</span></h2>
-					<h2>and <span data-animations="2:slide-in">animations</span></h2>
+					<h2 data-animations="2:slide-in" class="before-slide">and animations</h2>
 				</section>
 
 				<section>
@@ -71,7 +71,7 @@
 				<section>
 					<h1>Check the source</h1>
 					<h2>and have fun!</h2>
-					<h2>&larr; (and try going back)</h2>
+					<h2>(&larr; and try going back)</h2>
 				</section>
 
 			</div>
@@ -93,6 +93,8 @@
 		<script src="lib/highlight.js"></script>
 		<script src="lib/classList.js"></script>
 		
+		<!-- Include the optional animations module BEFORE including reveal -->
+		<script src="js/reveal.animations.js"></script>
 		<script src="js/reveal.js"></script>
 		
 		<script>

@@ -24,32 +24,59 @@ code.big {
 	Animations
 */
 
-.hidden {
+.reveal .hidden {
 	display: none;
 }
 
-.visible {
+.reveal .visible {
 	display: block;
 }
 
-.bigger {
-	font-size: 1.5em;
+.reveal .bigger {
+	font-size: 2.5em;
 }
 
-.stronger {
-	font-weight: bold;
+.reveal .red {
+	color: #aa0000;
+	text-shadow: 0px 1px 2px white;
 }
 
-	
-@-webkit-keyframes spin {
-   from { -webkit-transform: rotate3d(0, 10, 0, 0deg); }
-   to   { -webkit-transform: rotate3d(0, 10, 0, -30deg); }
+.reveal .green {
+	color: #00aa00;
+	text-shadow: 0px 1px 2px black;
 }
 
-.rotated {
-   -webkit-animation-name: spin;
-   -webkit-animation-duration: 1s;
-   -webkit-animation-timing-function: ease;
-   -webkit-animation-delay: 0;
-   -webkit-animation-iteration-count: 1;
+.reveal .blue {
+	color: #0000aa;
+	text-shadow: 0px 1px 1px white;
+}
+
+.reveal .rotated {
+	display: inline-block;
+	-webkit-transform: rotate(-10deg);
+	color: #aaaa00;
+}
+
+.reveal .before-slide {
+	margin-left: 100%;
+	width: 200% 
+}
+
+.reveal .slide-in {
+	-webkit-animation-name: slidein;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes slidein {
+	from {  
+		margin-left: 100%;  
+		width: 200%  
+	}    
+	to {  
+		margin-left: 0%;  
+		width: 100%;
+	}  
 }

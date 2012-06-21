@@ -774,124 +774,45 @@ var Reveal = (function(){
 		extend( event, properties );
 		dom.wrapper.dispatchEvent( event );
 	}
+	
+	
+	/*
+		In-slide animations
+	*/
+	
+	var animationsEnabled = (RevealModules && RevealModules.Animations);
+
+	function getCurrentSlide() {
+		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+			return document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' );
+		} else {
+			return document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.present' );
+		}
+	}
 
 	/**
-	 * Navigate to the next slide fragment.
+	 * Play the next animation.
 	 * 
-	 * @return {Boolean} true if there was a next fragment,
-	 * false otherwise
+	 * @return {Boolean} true if there was an animation,
+	 * false otherwise (go to the next slide)
 	 */
 	function nextFragment() {
-		// Vertical slides:
-		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
-			if( verticalFragments.length ) {
-				verticalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: verticalFragments[0] } );
-				return true;
-			}
-		}
-		// Horizontal slides:
-		else {
-			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
-			if( horizontalFragments.length ) {
-				horizontalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[0] } );
-				return true;
-			}
-		}
-
-		return false;
+		if (!animationsEnabled) { return false; }
+		var slide = getCurrentSlide();		
+		return RevealModules.Animations.Player(slide).play();
 	}
 
 	/**
-	 * Navigate to the previous slide fragment.
+	 * Rewind the last animation
 	 * 
-	 * @return {Boolean} true if there was a previous fragment,
-	 * false otherwise
+	 * @return {Boolean} true if there was a previous animation,
+	 * false otherwise (go to the previous slide)
 	 */
 	function previousFragment() {
-		// Vertical slides:
-		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
-			if( verticalFragments.length ) {
-				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[0] } );
-				return true;
-			}
-		}
-		// Horizontal slides:
-		else {
-			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
-			if( horizontalFragments.length ) {
-				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[0] } );
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Applies/removes the animation classes on a single element
-	 */
-	function animateElement(element, direction) {
-		var classes = element.getAttribute('data-animation-classes');				
-		if (direction === 1) {
-			element.className += (' ' + classes);
-		} else {
-			classes.split(' ').forEach(function(c) {
-				element.className = element.className.replace(new RegExp(c), ' ');
-			});
-		}
-	}
-	
-	/**
-	 * Animates the current slide, and updates the animation index
-	 */
-	function animateSlide(slide, direction, count) {
-		var index = parseInt(slide.getAttribute('data-animations-next'), 10) || 0;
-		if (direction === 1 && index === count) {
-			slide.setAttribute('data-animations-next', count - 1);
-			return false;
-		} else	if (direction === -1 && index === -1) {
-			slide.setAttribute('data-animations-next', 0);
-			return false;
-		} else {
-			var nodeList = slide.querySelectorAll('[data-animation-classes]');
-			for (var i=0; i<nodeList.length; ++i) {
-				var targetIndex = parseInt(nodeList.item(i).getAttribute('data-animation-index'), 10) || 0;
-				if (targetIndex === index) {
-					animateElement(nodeList.item(i), direction);
-				}
-			}
-			slide.setAttribute('data-animations-next', index + direction);
-			return true;
-		}
-	}
-	
-	/**
-	 * Updates the animation state
-	 * Returns true if animations are in progress so we don't move to the next/previous slide
-	 */
-	function runAnimations(direction) {
-		var slide = document.querySelector('.reveal .slides .present');
-		var count = parseInt(slide.getAttribute('data-animations'), 10) || 0;
-		if (count === 0) {
-			return false;
-		} else {
-			return animateSlide(slide, direction, count);
-		}
-	}
+		if (!animationsEnabled) { return false; }
+		var slide = getCurrentSlide();		
+		return RevealModules.Animations.Player(slide).rewind();
+	}	
 	
 	/**
 	 * Triggers a navigation to the specified indices.
@@ -905,13 +826,13 @@ var Reveal = (function(){
 	
 	function navigateLeft() {
 		// Prioritize hiding fragments
-		if( !runAnimations(-1) && (overviewIsActive() || previousFragment() === false) ) {
+		if( overviewIsActive() || previousFragment() === false ) {
 			slide( indexh - 1, 0 );
 		}
 	}
 	function navigateRight() {
 		// Prioritize revealing fragments
-		if( !runAnimations(1) && (overviewIsActive() || nextFragment() === false) ) {
+		if( overviewIsActive() || nextFragment() === false ) {
 			slide( indexh + 1, 0 );
 		}
 	}
