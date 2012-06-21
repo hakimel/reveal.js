@@ -16,11 +16,15 @@
 	font-size: 1.8em;
 }
 
+code.big {
+	font-size: 1.4em;
+}
+
 /*
 	Animations
 */
 
-.gone {
+.hidden {
 	display: none;
 }
 
@@ -36,6 +40,16 @@
 	font-weight: bold;
 }
 
+	
+@-webkit-keyframes spin {
+   from { -webkit-transform: rotate3d(0, 10, 0, 0deg); }
+   to   { -webkit-transform: rotate3d(0, 10, 0, -30deg); }
+}
+
 .rotated {
-	-webkit-transform:rotate(-30deg);
+   -webkit-animation-name: spin;
+   -webkit-animation-duration: 1s;
+   -webkit-animation-timing-function: ease;
+   -webkit-animation-delay: 0;
+   -webkit-animation-iteration-count: 1;
 }

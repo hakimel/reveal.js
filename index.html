@@ -33,29 +33,45 @@
 			<div class="slides">
 				
 				<section>
-					<h1>Cool animations</h1>
-					<h2>on the next slide</h2>
-				</section>
-
-				<section data-animations="2">
-					<h1>Keep pressing &rarr;</h1>
-					<h2 data-animation-index="0" data-animation-classes="gone">And see what happens</h2>
-					<h2 class="gone" data-animation-index="0" data-animation-classes="visible">Did you see that?</h2>	
-					<p data-animation-index="1" data-animation-classes="bigger stronger">All based on styles</p>	
+					<h1>Animations ahead</h1>
+					<h2>Keep pressing &rarr;</h2>
 				</section>
 
 				<section>
-					<h1>That was easy</h1>
+					<h1>Just a heading</h1>
+					<h2 data-animations="1:hidden">and some text</h2>
+					<h2 data-animations="1:visible" class="hidden">that gets replaced</h2>	
 				</section>
 
-				<section data-animations="1">
-					<h1>Looking at it from a different</h1>
-					<h2 data-animation-index="0" data-animation-classes="rotated">angle</h2>
+				<section>
+					<h2>Elements can have</h2>
+					<h2>several animations</h2>
+					<h3 data-animations="1:green 2:blue">in sequence</h3>
+					<h3 data-animations="3:bigger,red">or at the same time</h3>
+				</section>
+
+				<section>
+					<h1>30% more fun</h1>
+					<h2>with CSS <span data-animations="1:rotated">transform</span></h2>
+					<h2>and <span data-animations="2:slide-in">animations</span></h2>
+				</section>
+
+				<section>
+					<h1>Easy syntax!</h1>
+					<pre><code class="big">
+&lt;section&gt;
+    &lt;p data-animations="1:bigger,red"&gt;some text&lt;/p&gt;
+    &lt;p data-animations="2:slide-in 3:rotate"&gt;and some more&lt;/p&gt;
+&lt;/section&gt;
+					</code></pre>
+					<h3>They're just CSS classes</h3>
+					<h3>that get added / removed</h3>
 				</section>
 
 				<section>
 					<h1>Check the source</h1>
 					<h2>and have fun!</h2>
+					<h2>&larr; (and try going back)</h2>
 				</section>
 
 			</div>
