@@ -12,6 +12,7 @@
 }
 
 .reveal h3 {
+	padding: 0.1em;
 	margin-top: 0.5em;
 	font-size: 1.8em;
 }
@@ -36,25 +37,26 @@ code.big {
 	font-size: 2.5em;
 }
 
-.reveal .red {
-	color: #aa0000;
-	text-shadow: 0px 1px 2px white;
-}
-
-.reveal .green {
-	color: #00aa00;
-	text-shadow: 0px 1px 2px black;
+.reveal .squared {
+	background-color: rgba(0, 0, 0, 0.3);
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
 }
 
 .reveal .blue {
-	color: #0000aa;
-	text-shadow: 0px 1px 1px white;
+	color: #00dddd;
+	text-shadow: 0px 1px 5px black;
+}
+
+.reveal .orange {
+	color: #ff9922;
+	text-shadow: 0px 1px 5px black;
 }
 
 .reveal .rotated {
 	display: inline-block;
 	-webkit-transform: rotate(-10deg);
-	color: #aaaa00;
 }
 
 .reveal .before-slide {
