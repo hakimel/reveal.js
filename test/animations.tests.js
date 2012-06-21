@@ -120,20 +120,20 @@ describe('Animations', function() {
 			expect(RMA.Player(slide).play()).toBe(true);
 			expect(slide.getAttribute('data-animation-index')).toBe('2');
 			expect(RMA.Player(slide).play()).toBe(false);
-			expect(slide.getAttribute('data-animation-index')).toBe('1');
+			expect(slide.getAttribute('data-animation-index')).toBe('2');
 		});
 
 		it('can rewind an animation', function() {
 			var slide = $(
-				'<section data-animation-index="1">' +
+				'<section data-animation-index="2">' +
 				'	<p data-animations="1:green">One</p>' +
 				'	<p data-animations="2:red">One</p>' +
 				'</section>'
 			).get(0);
 			expect(RMA.Player(slide).rewind()).toBe(true);
-			expect(slide.getAttribute('data-animation-index')).toBe('0');
+			expect(slide.getAttribute('data-animation-index')).toBe('1');
 			expect(RMA.Player(slide).rewind()).toBe(true);
-			expect(slide.getAttribute('data-animation-index')).toBe('-1');
+			expect(slide.getAttribute('data-animation-index')).toBe('0');
 			expect(RMA.Player(slide).rewind()).toBe(false);
 			expect(slide.getAttribute('data-animation-index')).toBe('0');
 		});
