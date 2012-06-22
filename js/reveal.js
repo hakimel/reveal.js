@@ -774,72 +774,45 @@ var Reveal = (function(){
 		extend( event, properties );
 		dom.wrapper.dispatchEvent( event );
 	}
+	
+	
+	/*
+		In-slide animations
+	*/
+	
+	var animationsEnabled = (RevealModules && RevealModules.Animations);
+
+	function getCurrentSlide() {
+		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+			return document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' );
+		} else {
+			return document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.present' );
+		}
+	}
 
 	/**
-	 * Navigate to the next slide fragment.
+	 * Play the next animation.
 	 * 
-	 * @return {Boolean} true if there was a next fragment,
-	 * false otherwise
+	 * @return {Boolean} true if there was an animation,
+	 * false otherwise (go to the next slide)
 	 */
 	function nextFragment() {
-		// Vertical slides:
-		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
-			if( verticalFragments.length ) {
-				verticalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: verticalFragments[0] } );
-				return true;
-			}
-		}
-		// Horizontal slides:
-		else {
-			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
-			if( horizontalFragments.length ) {
-				horizontalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[0] } );
-				return true;
-			}
-		}
-
-		return false;
+		if (!animationsEnabled) { return false; }
+		var slide = getCurrentSlide();		
+		return RevealModules.Animations.Player(slide).play();
 	}
 
 	/**
-	 * Navigate to the previous slide fragment.
+	 * Rewind the last animation
 	 * 
-	 * @return {Boolean} true if there was a previous fragment,
-	 * false otherwise
+	 * @return {Boolean} true if there was a previous animation,
+	 * false otherwise (go to the previous slide)
 	 */
 	function previousFragment() {
-		// Vertical slides:
-		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
-			if( verticalFragments.length ) {
-				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[0] } );
-				return true;
-			}
-		}
-		// Horizontal slides:
-		else {
-			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
-			if( horizontalFragments.length ) {
-				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[0] } );
-				return true;
-			}
-		}
-		
-		return false;
-	}
+		if (!animationsEnabled) { return false; }
+		var slide = getCurrentSlide();		
+		return RevealModules.Animations.Player(slide).rewind();
+	}	
 	
 	/**
 	 * Triggers a navigation to the specified indices.

@@ -1,0 +1,66 @@
+/*
+	Just a bit of styling
+*/
+
+.reveal h1 {
+	margin-top: 0.5em;
+}
+
+.reveal h2 {
+	font-size: 2.5em;
+	margin-top: 0.5em;
+}
+
+.reveal h3 {
+	padding: 0.1em;
+	margin-top: 0.5em;
+	font-size: 1.8em;
+}
+
+.reveal a {
+	-webkit-perspective: 0 !important;
+	text-shadow: 0px 1px 5px black;
+}
+
+.reveal code.big {
+	font-size: 1.4em;
+}
+
+/*
+	Basic animations
+	(advanced ones use animate.css)
+*/
+
+.reveal .hidden {
+	display: none;
+}
+
+.reveal .visible {
+	display: block;
+}
+
+.reveal .bigger {
+	font-size: 2.5em;
+}
+
+.reveal .squared {
+	background-color: rgba(0, 0, 0, 0.3);
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.reveal .orange {
+	color: #ff9922;
+	text-shadow: 0px 1px 5px black;
+}
+
+.reveal .rotated {
+	display: inline-block;
+	-webkit-transform: rotate(-10deg);
+}
+
+.reveal .bounceInRight,
+.reveal .bounceInLeft {
+	display: block;
+}
