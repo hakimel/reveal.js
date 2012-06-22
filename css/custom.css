@@ -17,12 +17,18 @@
 	font-size: 1.8em;
 }
 
-code.big {
+.reveal a {
+	-webkit-perspective: 0 !important;
+}
+	
+
+.reveal code.big {
 	font-size: 1.4em;
 }
 
 /*
-	Animations
+	Basic animations
+	(advanced ones use animate.css)
 */
 
 .reveal .hidden {
@@ -54,26 +60,7 @@ code.big {
 	-webkit-transform: rotate(-10deg);
 }
 
-.reveal .before-slide {
-	margin-left: 100%;
-	width: 200% 
-}
-
-.reveal .slide-in {
-	-webkit-animation-name: slidein;
-	-webkit-animation-duration: 0.5s;
-	-webkit-animation-timing-function: ease;
-	-webkit-animation-iteration-count: 1;
-	-webkit-animation-fill-mode: forwards;
-}
-
-@-webkit-keyframes slidein {
-	from {  
-		margin-left: 100%;  
-		width: 200%  
-	}    
-	to {  
-		margin-left: 0%;  
-		width: 100%;
-	}  
+.reveal .bounceInRight,
+.reveal .bounceInLeft {
+	display: block;
 }
