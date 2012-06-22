@@ -19,8 +19,8 @@
 
 .reveal a {
 	-webkit-perspective: 0 !important;
+	text-shadow: 0px 1px 5px black;
 }
-	
 
 .reveal code.big {
 	font-size: 1.4em;
