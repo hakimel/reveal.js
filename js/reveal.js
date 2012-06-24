@@ -822,7 +822,7 @@ var Reveal = (function(){
 				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
 
 				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[0] } );
+				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[ verticalFragments.length - 1 ] } );
 				return true;
 			}
 		}
@@ -833,7 +833,7 @@ var Reveal = (function(){
 				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
 
 				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[0] } );
+				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[ horizontalFragments.length - 1 ] } );
 				return true;
 			}
 		}
