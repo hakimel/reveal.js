@@ -116,7 +116,7 @@ You'll also need to [install Node.js](http://nodejs.org/); then, install the ser
 
 Once Node.js and the dependencies are installed, run the following command from the root directory:
 
-		node slidenotes
+		node lib/slidenotes
 
 By default, the slides will be served at [localhost:1947](http://localhost:1947).
 
