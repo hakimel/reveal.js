@@ -11,7 +11,7 @@
 
 @font-face {
 	font-family: 'League Gothic';
-	src: url('../assets/fonts/leaguegothic/league_gothic-webfont.ttf') format('truetype');
+	src: url('../lib/fonts/leaguegothic/league_gothic-webfont.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
