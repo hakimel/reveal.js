@@ -161,6 +161,7 @@ You can change the appearance of the speaker notes by editing the file at `slide
 - API methods for adding or removing all event listeners
 - The 'slidechange' event now includes currentSlide and previousSlide
 - Fixed bug where 'slidechange' was firing twice when history was enabled
+- Changed /lib structure
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
