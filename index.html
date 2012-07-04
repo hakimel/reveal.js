@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>reveal.js</title>
+		<title>reveal.js - HTML5 Presentations</title>
 
 		<meta name="description" content="An easy to use CSS 3D slideshow tool for quickly creating good looking HTML presentations.">
 		<meta name="author" content="Hakim El Hattab">
@@ -313,11 +313,21 @@ linkify( 'a' );
 				transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
 			});
 
+			// Fire off syntax highlighting for potential code samples in the slides
 			hljs.initHighlightingOnLoad();
-		</script>
 
-		<!-- The next two lines enable the speaker notes server -->
-		<script src="socket.io/socket.io.js"></script>
-		<script src="lib/slidenotes/client.js"></script>
+			// If we're runnning the notes node server we need to include some 
+			// additional JS
+			if( window.location.host === 'localhost:1947' ) {
+				var notes_socket = document.createElement( 'script' );
+				notes_socket.setAttribute( 'src', 'socket.io/socket.io.js' );
+				document.body.appendChild( notes_socket );
+
+				var notes_client = document.createElement( 'script' );
+				notes_client.setAttribute( 'src', 'lib/slidenotes/client.js' );
+				document.body.appendChild( notes_client );
+			}
+		</script>
+		
 	</body>
 </html>
