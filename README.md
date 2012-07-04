@@ -110,8 +110,6 @@ If you're interested in using speaker notes, reveal.js comes with a Node server 
 
 To include speaker notes in your presentation, simply add an `<aside class="notes">` element to any slide. These notes will be hidden in the main presentation view.
 
-To use the speaker notes server, your `index.html` will need to include script tags for `socket.io/socket.io.js` and `js/slidenotes.js`. If you don't want to use the speaker notes server, you can safely remove these script tags, but they are included by default. 
-
 You'll also need to [install Node.js](http://nodejs.org/); then, install the server dependencies by running `npm install`.
 
 Once Node.js and the dependencies are installed, run the following command from the root directory:
@@ -120,7 +118,7 @@ Once Node.js and the dependencies are installed, run the following command from 
 
 By default, the slides will be served at [localhost:1947](http://localhost:1947).
 
-You can change the appearance of the speaker notes by editing the file at `slidenotes/notes.html`.	
+You can change the appearance of the speaker notes by editing the file at `lib/slidenotes/notes.html`.	
 
 ### Known Issues
 
@@ -162,6 +160,7 @@ You can change the appearance of the speaker notes by editing the file at `slide
 - The 'slidechange' event now includes currentSlide and previousSlide
 - Fixed bug where 'slidechange' was firing twice when history was enabled
 - Changed /lib structure
+- Slide notes by [rmurphey](https://github.com/rmurphey)
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
