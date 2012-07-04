@@ -6,22 +6,27 @@
 		<title>reveal.js - Slide Notes</title>
 
 		<style>
-			#notes {
+			body {
 				font-family: Helvetica;
-				font-size: 24px;
-				width: 640px;
 			}
 
-			#wrap-slides {
+			#notes {
+				font-size: 24px;
+				width: 640px;
+				margin-top: 5px;
+			}
+
+			#wrap-current-slide {
 				width: 640px;
 				height: 512px;
 				float: left;
+				overflow: hidden;
 			}
 
-			#slides {
+			#current-slide {
 				width: 1280px;
 				height: 1024px;
-				border: 1px solid black;
+				border: none;
 				-moz-transform: scale(0.5);
 				-moz-transform-origin: 0 0;
 				-o-transform: scale(0.5);
@@ -34,13 +39,14 @@
 				width: 320px;
 				height: 256px;
 				float: left;
-				margin: 0 0 0 50px;
+				margin: 0 0 0 10px;
+				overflow: hidden;
 			}
 
 			#next-slide {
 				width: 1280px;
 				height: 1024px;
-				border: 1px solid black;
+				border: none;
 				-moz-transform: scale(0.25);
 				-moz-transform-origin: 0 0;
 				-o-transform: scale(0.25);
@@ -48,17 +54,35 @@
 				-webkit-transform: scale(0.25);
 				-webkit-transform-origin: 0 0;
 			}
+
+			.slides {
+				position: relative;
+				margin-bottom: 10px;
+				border: 1px solid black;
+				border-radius: 2px;
+				background: rgb(28, 30, 32);
+			}
+
+			.slides span {
+				position: absolute;
+				top: 3px;
+				left: 3px;
+				font-weight: bold;
+				font-size: 14px;
+				color: rgba( 255, 255, 255, 0.9 );
+			}
 		</style>
 	</head>
 
 	<body>
 
-		<div id="wrap-slides">
-			<iframe src="/?receiver" width="1280" height="1024" id="slides"></iframe>
+		<div id="wrap-current-slide" class="slides">
+			<iframe src="/?receiver" width="1280" height="1024" id="current-slide"></iframe>
 		</div>
 
-		<div id="wrap-next-slide">
+		<div id="wrap-next-slide" class="slides">
 			<iframe src="/?receiver" width="640" height="512" id="next-slide"></iframe>
+			<span>UPCOMING</span>
 		</div>
 		<div id="notes"></div>
 
@@ -68,7 +92,7 @@
 		var socketId = '{{socketId}}';
 		var socket = io.connect(window.location.origin);
 		var notes = document.getElementById('notes');
-		var slides = document.getElementById('slides');
+		var currentSlide = document.getElementById('current-slide');
 		var nextSlide = document.getElementById('next-slide');
 
 		socket.on('slidedata', function(data) {
@@ -76,7 +100,7 @@
 			if (data.socketId !== socketId) { return; }
 
 			notes.innerHTML = data.notes;
-			slides.contentWindow.Reveal.navigateTo(data.indexh, data.indexv);
+			currentSlide.contentWindow.Reveal.navigateTo(data.indexh, data.indexv);
 			nextSlide.contentWindow.Reveal.navigateTo(data.nextindexh, data.nextindexv);
 		});
 		</script>
