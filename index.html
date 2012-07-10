@@ -264,68 +264,64 @@ linkify( 'a' );
 		</div>
 
 		<!-- Optional libraries for code syntax highlighting and classList support in IE9 -->
-		<script src="lib/highlight/highlight.js"></script>
-		<script src="lib/polyfills/classList.js"></script>
-		
-		<script src="js/reveal.js"></script>
-		
+		<script src="lib/head/head.min.js"></script>
+
 		<script>
-			// Parse the query string into a key/value object
-			var query = {};
+			// Load the main reveal.js script
+			head.js( 'js/reveal.js', function() {
+				// Parse the query string into a key/value object
+				var query = {};
 
-			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
-				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+				location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+					query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+				} );
+
+				// Fires when a slide with data-state=customevent is activated
+				Reveal.addEventListener( 'customevent', function() {
+					alert( '"customevent" has fired' );
+				} );
+
+				// Fires each time a new slide is activated
+				Reveal.addEventListener( 'slidechanged', function( event ) {
+					// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+				} );
+
+				Reveal.initialize({
+					// Display controls in the bottom right corner
+					controls: true,
+
+					// Display a presentation progress bar
+					progress: true,
+
+					// If true; each slide will be pushed to the browser history
+					history: true,
+
+					// Loops the presentation, defaults to false
+					loop: false,
+
+					// Flags if mouse wheel navigation should be enabled
+					mouseWheel: true,
+
+					// Apply a 3D roll to links on hover
+					rollingLinks: true,
+
+					// UI style
+					theme: query.theme || 'default', // default/neon
+
+					// Transition style
+					transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
+				});
+			} );
+			
+			// Load third party scripts
+			head.js( 'lib/highlight/highlight.js', 'lib/polyfills/classList.js', function() {
+				// Fire off syntax highlighting for potential code samples in the slides
+				hljs.initHighlightingOnLoad();
 			} );
 
-			// Fires when a slide with data-state=customevent is activated
-			Reveal.addEventListener( 'customevent', function() {
-				alert( '"customevent" has fired' );
-			} );
-
-			// Fires each time a new slide is activated
-			Reveal.addEventListener( 'slidechanged', function( event ) {
-				// event.previousSlide, event.currentSlide, event.indexh, event.indexv
-			} );
-
-			Reveal.initialize({
-				// Display controls in the bottom right corner
-				controls: true,
-
-				// Display a presentation progress bar
-				progress: true,
-
-				// If true; each slide will be pushed to the browser history
-				history: true,
-
-				// Loops the presentation, defaults to false
-				loop: false,
-
-				// Flags if mouse wheel navigation should be enabled
-				mouseWheel: true,
-
-				// Apply a 3D roll to links on hover
-				rollingLinks: true,
-
-				// UI style
-				theme: query.theme || 'default', // default/neon
-
-				// Transition style
-				transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
-			});
-
-			// Fire off syntax highlighting for potential code samples in the slides
-			hljs.initHighlightingOnLoad();
-
-			// If we're runnning the notes node server we need to include some 
-			// additional JS
+			// If we're runnning the notes server we need to include some additional JS
 			if( window.location.host === 'localhost:1947' ) {
-				var notes_socket = document.createElement( 'script' );
-				notes_socket.setAttribute( 'src', 'socket.io/socket.io.js' );
-				document.body.appendChild( notes_socket );
-
-				var notes_client = document.createElement( 'script' );
-				notes_client.setAttribute( 'src', 'lib/slidenotes/client.js' );
-				document.body.appendChild( notes_client );
+				head.js( 'socket.io/socket.io.js', 'lib/slidenotes/client.js' );
 			}
 		</script>
 		
