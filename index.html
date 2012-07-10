@@ -48,6 +48,10 @@
 					<p>
 						<i><small>- <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small></i>
 					</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you run the speaker notes server.
+					</aside>
 				</section>
 				
 				<!-- Example of nested vertical slides -->
@@ -268,6 +272,7 @@ linkify( 'a' );
 		<script>
 			// Parse the query string into a key/value object
 			var query = {};
+
 			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
 				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
 			} );
@@ -311,5 +316,8 @@ linkify( 'a' );
 			hljs.initHighlightingOnLoad();
 		</script>
 
+		<!-- the next two lines enable the speaker notes server -->
+		<script src="socket.io/socket.io.js"></script>
+		<script src="js/slidenotes.js"></script>
 	</body>
 </html>
