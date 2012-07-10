@@ -32,12 +32,12 @@ app.get("/", function(req, res) {
 
 app.get("/notes/:socketId", function(req, res) {
 
-	fs.readFile(opts.baseDir + 'plugin/slidenotes/notes.html', function(err, data) {
+	fs.readFile(opts.baseDir + 'plugin/speakernotes/notes.html', function(err, data) {
 		res.send(Mustache.to_html(data.toString(), {
 			socketId : req.params.socketId
 		}));
 	});
-	// fs.createReadStream(opts.baseDir + 'slidenotes/notes.html').pipe(res);
+	// fs.createReadStream(opts.baseDir + 'speakernotes/notes.html').pipe(res);
 });
 
 // Actually listen
@@ -49,7 +49,7 @@ var brown = '\033[33m',
 
 var slidesLocation = "http://localhost" + ( opts.port ? ( ':' + opts.port ) : '' );
 
-console.log( brown + "reveal.js - Slide Notes" + reset );
+console.log( brown + "reveal.js - Speaker Notes" + reset );
 console.log( "1. Open the slides at " + green + slidesLocation + reset );
 console.log( "2. Click on the link your JS console to go to the notes page" );
 console.log( "3. Advance through your slides and your notes will advance automatically" );
