@@ -12,7 +12,7 @@
 
 @font-face {
 	font-family: 'League Gothic';
-	src: url('../lib/leaguegothic/league_gothic-webfont.ttf') format('truetype');
+	src: url('../lib/font/league_gothic-webfont.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }

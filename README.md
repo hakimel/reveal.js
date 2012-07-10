@@ -118,7 +118,7 @@ Once Node.js and the dependencies are installed, run the following command from 
 
 By default, the slides will be served at [localhost:1947](http://localhost:1947).
 
-You can change the appearance of the speaker notes by editing the file at `lib/slidenotes/notes.html`.	
+You can change the appearance of the speaker notes by editing the file at `plugin/slidenotes/notes.html`.	
 
 ### Known Issues
 
@@ -159,7 +159,7 @@ You can change the appearance of the speaker notes by editing the file at `lib/s
 - API methods for adding or removing all event listeners
 - The 'slidechange' event now includes currentSlide and previousSlide
 - Fixed bug where 'slidechange' was firing twice when history was enabled
-- Changed /lib structure
+- Folder structure updates for scalability (see /lib & /plugin)
 - Slide notes by [rmurphey](https://github.com/rmurphey)
 
 #### 1.3

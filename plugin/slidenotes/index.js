@@ -21,7 +21,7 @@ io.sockets.on('connection', function(socket) {
 });
 
 app.configure(function() {
-	[ 'css', 'assets', 'js', 'lib' ].forEach(function(dir) {
+	[ 'css', 'js', 'plugin', 'lib' ].forEach(function(dir) {
 		app.use('/' + dir, staticDir(opts.baseDir + dir));
 	});
 });
@@ -32,7 +32,7 @@ app.get("/", function(req, res) {
 
 app.get("/notes/:socketId", function(req, res) {
 
-	fs.readFile(opts.baseDir + 'lib/slidenotes/notes.html', function(err, data) {
+	fs.readFile(opts.baseDir + 'plugin/slidenotes/notes.html', function(err, data) {
 		res.send(Mustache.to_html(data.toString(), {
 			socketId : req.params.socketId
 		}));
