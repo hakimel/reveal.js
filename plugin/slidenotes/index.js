@@ -43,5 +43,13 @@ app.get("/notes/:socketId", function(req, res) {
 // Actually listen
 app.listen(opts.port || null);
 
-console.log("Open the slides at http://localhost" + (opts.port ? (':' + opts.port) : '') + " and look for a link to the speaker notes in the console");
-console.log("Advance through your slides and your notes will advance automatically");
+var brown = '\033[33m', 
+	green = '\033[32m', 
+	reset = '\033[0m';
+
+var slidesLocation = "http://localhost" + ( opts.port ? ( ':' + opts.port ) : '' );
+
+console.log( brown + "reveal.js - Slide Notes" + reset );
+console.log( "1. Open the slides at " + green + slidesLocation + reset );
+console.log( "2. Click on the link your JS console to go to the notes page" );
+console.log( "3. Advance through your slides and your notes will advance automatically" );
