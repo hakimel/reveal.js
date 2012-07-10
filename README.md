@@ -104,6 +104,12 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 } );
 ```
 
+### Folder Structure
+- **css/** Core styles without which the project does not function
+- **js/** Like above but for JavaScript
+- **plugin/** Components that have been developed as extensions to reveal.js
+- **lib/** All other third party assets (JavaScript, CSS, fonts)
+
 ## Speaker Notes
 
 If you're interested in using speaker notes, reveal.js comes with a Node server that allows you to deliver your presentation in one browser while viewing speaker notes in another. 
