@@ -314,7 +314,8 @@ linkify( 'a' );
 			} );
 			
 			// Load third party scripts
-			head.js( 'lib/js/highlight.js', 'lib/js/classList.js', function() {
+			head.js( 'lib/js/classList.js' );
+			head.js( 'lib/js/highlight.js', function() {
 				// Fire off syntax highlighting for potential code samples in the slides
 				hljs.initHighlightingOnLoad();
 			} );
