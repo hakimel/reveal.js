@@ -153,6 +153,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 * [How To Cope With Graphical Challenges Using Latest Web Technologies](http://alexw.me/playground/slideshows/w3c_netcraft/) by [Alex Wolkov](https://github.com/altryne)
 * [Going Deeper with jQuery Mobile](http://andymatthews.net/downloads/presentations/going-deeper-with-jquery-mobile/) by [Andy Matthews](https://github.com/commadelimited)
 * [Studio Nord](http://studionord.org)
+* [Herrljunga Cider](http://herrljungacider.se/uk/campaign/)
 
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
