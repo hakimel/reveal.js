@@ -168,6 +168,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Fixed bug where 'slidechange' was firing twice when history was enabled
 - Folder structure updates for scalability (see /lib & /plugin)
 - Slide notes by [rmurphey](https://github.com/rmurphey)
+- Bumped up default font-size for code samples
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
