@@ -164,7 +164,7 @@
 						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
 					</p>
 					<pre><code contenteditable style="font-size: 18px; margin-top: 20px;">Reveal.addEventListener( 'customevent', function() {
-	alert( '"customevent" has fired' );
+	console.log( '"customevent" has fired' );
 } );
 					</code></pre>
 				</section>
@@ -271,7 +271,7 @@ function linkify( selector ) {
 
 				// Fires when a slide with data-state=customevent is activated
 				Reveal.addEventListener( 'customevent', function() {
-					alert( '"customevent" has fired' );
+					console.log( '"customevent" has fired' );
 				} );
 
 				// Fires each time a new slide is activated
@@ -299,7 +299,7 @@ function linkify( selector ) {
 					rollingLinks: true,
 
 					// UI style
-					theme: query.theme || 'default', // default/neon
+					theme: query.theme || 'default', // default/neon/beige
 
 					// Transition style
 					transition: query.transition || 'default' // default/cube/page/concave/linear(2d)

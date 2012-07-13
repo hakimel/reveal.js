@@ -139,7 +139,7 @@ var Reveal = (function(){
 		}
 
 		if( config.theme !== 'default' ) {
-			dom.wrapper.classList.add( config.theme );
+			document.documentElement.classList.add( 'theme-' + config.theme );
 		}
 
 		if( config.mouseWheel ) {

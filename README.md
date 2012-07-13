@@ -49,7 +49,7 @@ Reveal.initialize({
 	rollingLinks: true,
 
 	// UI style
-	theme: 'default', // default/neon
+	theme: 'default', // default/neon/beige
 
 	// Transition style
 	transition: 'default' // default/cube/page/concave/linear(2d)
@@ -169,6 +169,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Folder structure updates for scalability (see /lib & /plugin)
 - Slide notes by [rmurphey](https://github.com/rmurphey)
 - Bumped up default font-size for code samples
+- Added beige theme
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
