@@ -16,16 +16,35 @@ var Reveal = (function(){
 		indexh = 0,
 		indexv = 0,
 
-		// Configurations options, can be overridden at initialization time 
+		// Configurations defaults, can be overridden at initialization time 
 		config = {
+			// Display controls in the bottom right corner
 			controls: true,
-			progress: false,
+
+			// Display a presentation progress bar
+			progress: true,
+
+			// Push each slide change to the browser history
 			history: false,
+
+			// Loop the presentation
 			loop: false,
+
+			// Number of milliseconds between automatically proceeding to the 
+			// next slide, disabled when set to 0
+			autoSlide: 0,
+
+			// Enable slide navigation via mouse wheel
 			mouseWheel: true,
+
+			// Apply a 3D roll to links on hover
 			rollingLinks: true,
-			transition: 'default',
-			theme: 'default'
+
+			// UI style
+			theme: 'default', // default/neon/beige
+
+			// Transition style
+			transition: 'default' // default/cube/page/concave/linear(2d)
 		},
 
 		// Slides may hold a data-state attribute which we pick up and apply 
@@ -54,6 +73,9 @@ var Reveal = (function(){
 		
 		// Throttles mouse wheel navigation
 		mouseWheelTimeout = 0,
+
+		// An interval used to automatically move on to the next slide
+		autoSlideTimeout = 0,
 
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0,
@@ -107,6 +129,9 @@ var Reveal = (function(){
 		// Read the initial hash
 		readURL();
 
+		// Start auto-sliding if it's enabled
+		cueAutoSlide();
+
 		// Set up hiding of the browser address bar
 		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
 			// Give the page some scrollable overflow
@@ -121,8 +146,8 @@ var Reveal = (function(){
 	}
 
 	function configure() {
-		// Fall back on the 2D transform theme 'linear'
 		if( supports3DTransforms === false ) {
+			// Fall back on the 2D transform theme 'linear'
 			config.transition = 'linear';
 		}
 
@@ -269,19 +294,20 @@ var Reveal = (function(){
 			case 13: if( overviewIsActive() ) { deactivateOverview(); triggered = true; } break;
 		}
 
+		// If the input resulted in a triggered action we should prevent 
+		// the browsers default behavior
 		if( triggered ) {
 			event.preventDefault();
 		}
 		else if ( event.keyCode === 27 && supports3DTransforms ) {
-			if( overviewIsActive() ) {
-				deactivateOverview();
-			}
-			else {
-				activateOverview();
-			}
+			toggleOverview();
 	
 			event.preventDefault();
 		}
+
+		// If auto-sliding is enabled we need to cue up 
+		// another timeout
+		cueAutoSlide();
 
 	}
 
@@ -840,6 +866,15 @@ var Reveal = (function(){
 		
 		return false;
 	}
+
+	function cueAutoSlide() {
+		clearTimeout( autoSlideTimeout );
+
+		// Cue the next auto-slide if enabled
+		if( config.autoSlide ) {
+			autoSlideTimeout = setTimeout( navigateNext, config.autoSlide );
+		}
+	}
 	
 	/**
 	 * Triggers a navigation to the specified indices.
@@ -909,6 +944,10 @@ var Reveal = (function(){
 		if( nextFragment() === false ) {
 			availableRoutes().down ? navigateDown() : navigateRight();
 		}
+
+		// If auto-sliding is enabled we need to cue up 
+		// another timeout
+		cueAutoSlide();
 	}
 
 	/**

@@ -26,7 +26,7 @@ Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`
 
 ### Configuration
 
-At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal by running the following code. Note that all config values are optional.
+At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
 
 ```javascript
 Reveal.initialize({
@@ -36,13 +36,17 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
-	// If true; each slide will be pushed to the browser history
-	history: true,
+	// Push each slide change to the browser history
+	history: false,
 
-	// Loops the presentation, defaults to false
+	// Loop the presentation
 	loop: false,
 
-	// Flags if mouse wheel navigation should be enabled
+	// Number of milliseconds between automatically proceeding to the 
+	// next slide, disabled when set to 0
+	autoSlide: 0,
+
+	// Enable slide navigation via mouse wheel
 	mouseWheel: true,
 
 	// Apply a 3D roll to links on hover
@@ -170,6 +174,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Slide notes by [rmurphey](https://github.com/rmurphey)
 - Bumped up default font-size for code samples
 - Added beige theme
+- Added 'autoSlide' config
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
