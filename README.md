@@ -13,7 +13,7 @@ Curious about how it looks in action? [Check out the demo page](http://lab.hakim
 Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. For example:
 
 ```html
-<div id="reveal">
+<div class="reveal">
 	<div class="slides"> 
 		<section>Single Horizontal Slide</section>
 		<section>
