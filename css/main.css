@@ -226,6 +226,10 @@ body {
 	vertical-align: top;
 }
 
+.reveal small * {
+	vertical-align: top;
+}
+
 .reveal q {	
 	font-style: italic;
 }
@@ -240,16 +244,16 @@ body {
 	color: hsl(185, 85%, 50%);
 	text-decoration: none;
 
-	-webkit-transition: all .2s ease;
-	   -moz-transition: all .2s ease;
-	    -ms-transition: all .2s ease;
-	     -o-transition: all .2s ease;
-	        transition: all .2s ease;
+	-webkit-transition: color .15s ease;
+	   -moz-transition: color .15s ease;
+	    -ms-transition: color .15s ease;
+	     -o-transition: color .15s ease;
+	        transition: color .15s ease;
 }
 	
 	.reveal a:not(.image):hover {
 		color: hsl(185, 85%, 70%);
-		background: hsla(185, 25%, 20%, 0.4);
+		
 		text-shadow: none;
 		border: none;
 		border-radius: 2px;
