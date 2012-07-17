@@ -765,12 +765,12 @@ var Reveal = (function(){
 	function readURL() {
 		// Break the hash down to separate components
 		var bits = window.location.hash.slice(2).split('/');
-		
+
 		// Read the index components of the hash
-		indexh = parseInt( bits[0] ) || 0 ;
-		indexv = parseInt( bits[1] ) || 0 ;
-		
-		navigateTo( indexh, indexv );
+		var h = parseInt( bits[0] ) || 0 ;
+		var v = parseInt( bits[1] ) || 0 ;
+
+		navigateTo( h, v );
 	}
 	
 	/**
