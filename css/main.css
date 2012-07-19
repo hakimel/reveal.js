@@ -220,6 +220,13 @@ body {
  	 text-shadow: rgb(255,255,255) 1px 1px 2px;
 }
 
+.reveal sup { 
+	vertical-align: super;
+}
+.reveal sub { 
+	vertical-align: sub;
+}
+
 .reveal small {
 	font-size: 60%;
 	line-height: 1em;
