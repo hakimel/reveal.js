@@ -175,6 +175,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Bumped up default font-size for code samples
 - Added beige theme
 - Added 'autoSlide' config
+- Bug fix: The 'slidechanged' event is now firing upon 'hashchange'. Thanks [basecode](https://github.com/basecode)
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
