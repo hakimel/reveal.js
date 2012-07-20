@@ -34,6 +34,9 @@ var Reveal = (function(){
 			// next slide, disabled when set to 0
 			autoSlide: 0,
 
+			// Set to true and hovering over reveal will pause automatic sliding
+			hoverPause: false,
+
 			// Enable slide navigation via mouse wheel
 			mouseWheel: true,
 
@@ -118,13 +121,13 @@ var Reveal = (function(){
 			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
 		}
 
-		addEventListeners();
-
 		// Copy options over to our config object
 		extend( config, options );
 
 		// Updates the presentation to match the current configuration values
 		configure();
+
+		addEventListeners();
 
 		// Read the initial hash
 		readURL();
@@ -184,6 +187,11 @@ var Reveal = (function(){
 		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
+
+		if ( config.autoSlide && config.hoverPause ) {
+			dom.wrapper.addEventListener( 'mouseover', stopAutoSlide, false );
+			dom.wrapper.addEventListener( 'mouseout', cueAutoSlide, false );
+		}
 
 		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
@@ -865,6 +873,10 @@ var Reveal = (function(){
 		}
 		
 		return false;
+	}
+
+	function stopAutoSlide() {
+		clearTimeout( autoSlideTimeout );
 	}
 
 	function cueAutoSlide() {
