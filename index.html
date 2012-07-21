@@ -251,20 +251,20 @@ function linkify( selector ) {
 				<a class="down" href="#">&#x25BC;</a>
 			</aside>
 
-			<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+			<!-- Presentation progress bar -->
 			<div class="progress"><span></span></div>
 			
 		</div>
 
-		<!-- Optional libraries for code syntax highlighting and classList support in IE9 -->
 		<script src="lib/js/head.min.js"></script>
 
 		<script>
-			// Load the main reveal.js script
-			head.js( 'js/reveal.js', function() {
+			// Load reveal.js as well as a classList polyfill if needed
+			head.js( !document.body.classList ? 'lib/js/classList.js' : null )
+				.js( 'js/reveal.js', function() {
+
 				// Parse the query string into a key/value object
 				var query = {};
-
 				location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
 					query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
 				} );
@@ -289,13 +289,12 @@ function linkify( selector ) {
 					theme: query.theme || 'default', // default/neon/beige
 					transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
 				});
+
 			} );
 			
-			// Load third party scripts
-			head.js( 'lib/js/classList.js' );
-			head.js( 'lib/js/highlight.js', function() {
-				// Fire off syntax highlighting for potential code samples in the slides
-				hljs.initHighlightingOnLoad();
+			// Load highlight.js for syntax highlighting of code samples
+			head.js( 'lib/js/highlight.js', function() { 
+				hljs.initHighlightingOnLoad(); 
 			} );
 
 			// If we're runnning the notes server we need to include some additional JS
