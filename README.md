@@ -39,6 +39,9 @@ Reveal.initialize({
 	// Push each slide change to the browser history
 	history: false,
 
+	// Enable keyboard shortcuts for navigation
+	keyboard: true,
+
 	// Loop the presentation
 	loop: false,
 
@@ -168,7 +171,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 #### 1.4 (master/beta)
 - Main #reveal container is now selected via a class instead of ID
 - API methods for adding or removing all event listeners
-- The 'slidechange' event now includes currentSlide and previousSlide
+- The ```slidechange``` event now includes currentSlide and previousSlide
 - Fixed bug where 'slidechange' was firing twice when history was enabled
 - Folder structure updates for scalability (see /lib & /plugin)
 - Slide notes by [rmurphey](https://github.com/rmurphey)
@@ -177,6 +180,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Added 'autoSlide' config
 - Bug fix: The 'slidechanged' event is now firing upon 'hashchange'. Thanks [basecode](https://github.com/basecode)
 - Bug fix: JS error when the 'progress' option was true but there was no progress DOM element
+- ```keyboard``` config flag for disabling all keyboard navigation
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)

@@ -27,6 +27,9 @@ var Reveal = (function(){
 			// Push each slide change to the browser history
 			history: false,
 
+			// Enable keyboard shortcuts for navigation
+			keyboard: true,
+
 			// Loop the presentation
 			loop: false,
 
@@ -179,11 +182,14 @@ var Reveal = (function(){
 	}
 
 	function addEventListeners() {
-		document.addEventListener( 'keydown', onDocumentKeyDown, false );
 		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
+
+		if( config.keyboard ) {
+			document.addEventListener( 'keydown', onDocumentKeyDown, false );
+		}
 
 		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
