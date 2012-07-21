@@ -168,7 +168,10 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 
 ## History
 
-#### 1.4 (master/beta)
+#### 1.5 (master/beta)
+- TBD
+
+#### 1.4
 - Main #reveal container is now selected via a class instead of ID
 - API methods for adding or removing all event listeners
 - The ```slidechange``` event now includes currentSlide and previousSlide
