@@ -155,7 +155,7 @@ var Reveal = (function(){
 			dom.controls.style.display = 'block';
 		}
 
-		if( config.progress ) {
+		if( config.progress && dom.progress ) {
 			dom.progress.style.display = 'block';
 		}
 
@@ -680,7 +680,7 @@ var Reveal = (function(){
 		}
 
 		// Update progress if enabled
-		if( config.progress ) {
+		if( config.progress && dom.progress ) {
 			dom.progressbar.style.width = ( indexh / ( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1 ) ) * window.innerWidth + 'px';
 		}
 

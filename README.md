@@ -176,6 +176,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Added beige theme
 - Added 'autoSlide' config
 - Bug fix: The 'slidechanged' event is now firing upon 'hashchange'. Thanks [basecode](https://github.com/basecode)
+- Bug fix: JS error when the 'progress' option was true but there was no progress DOM element
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
