@@ -67,14 +67,16 @@ Reveal.initialize({
 
 The Reveal class provides a minimal JavaScript API for controlling its navigation:
 
-- Reveal.navigateTo( indexh, indexv );
-- Reveal.navigateLeft();
-- Reveal.navigateRight();
-- Reveal.navigateUp();
-- Reveal.navigateDown();
-- Reveal.navigatePrev();
-- Reveal.navigateNext();
-- Reveal.toggleOverview();
+```javascript
+Reveal.navigateTo( indexh, indexv );
+Reveal.navigateLeft();
+Reveal.navigateRight();
+Reveal.navigateUp();
+Reveal.navigateDown();
+Reveal.navigatePrev();
+Reveal.navigateNext();
+Reveal.toggleOverview();
+```
 
 ### States
 
@@ -172,62 +174,62 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - TBD
 
 #### 1.4
-- Main #reveal container is now selected via a class instead of ID
+- Main ```#reveal container``` is now selected via a class instead of ID
 - API methods for adding or removing all event listeners
 - The ```slidechange``` event now includes currentSlide and previousSlide
-- Fixed bug where 'slidechange' was firing twice when history was enabled
+- Fixed bug where ```slidechange``` was firing twice when history was enabled
 - Folder structure updates for scalability (see /lib & /plugin)
 - Slide notes by [rmurphey](https://github.com/rmurphey)
 - Bumped up default font-size for code samples
 - Added beige theme
-- Added 'autoSlide' config
-- Bug fix: The 'slidechanged' event is now firing upon 'hashchange'. Thanks [basecode](https://github.com/basecode)
-- Bug fix: JS error when the 'progress' option was true but there was no progress DOM element
+- Added ```autoSlide``` config
+- Bug fix: The ```slidechanged``` event is now firing upon ```hashchange```. Thanks [basecode](https://github.com/basecode)
+- Bug fix: JS error when the ```progress``` option was true but there was no progress DOM element
 - ```keyboard``` config flag for disabling all keyboard navigation
 
 #### 1.3
 - Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
 - Added support for looped presentations via config
 - Fixed IE9 fallback
-- Added event binding methods (Reveal.addEventListener, Reveal.removeEventListener)
-- Added 'slidechanged' event
+- Added event binding methods (```Reveal.addEventListener```, ```Reveal.removeEventListener```)
+- Added ```slidechanged``` event
 - Added print styles. Thanks [skypanther](https://github.com/skypanther)
 - The address bar now hides automatically on mobile browsers
 - Space and return keys can be used to exit the overview mode
-- Events for fragment states ('fragmentshown'/'fragmenthidden')
+- Events for fragment states (```fragmentshown``` / ```fragmenthidden```)
 - Support for swipe navigation on touch devices. Thanks [akiersky](https://github.com/akiersky)
 - Support for pinch to overview on touch devices
 
 #### 1.2
 
 - Big changes to DOM structure:
-  - Previous #main wrapper is now called #reveal
-  - Slides were moved one level deeper, into #reveal .slides
-  - Controls and progress bar were moved into #reveal
-- CSS is now much more explicit, rooted at #reveal, to prevent conflicts
+  - Previous ```#main``` wrapper is now called ```#reveal```
+  - Slides were moved one level deeper, into ```#reveal .slides```
+  - Controls and progress bar were moved into ```#reveal```
+- CSS is now much more explicit, rooted at ```#reveal```, to prevent conflicts
 - Config option for disabling updates to URL, defaults to true
 - Anchors with image children no longer rotate in 3D on hover
 - Support for mouse wheel navigation ([naugtur](https://github.com/naugtur))
 - Delayed updates to URL hash to work around a bug in Chrome
-- Included a classList polyfill for IE9
+- Included a ```classList``` polyfill for IE9
 - Support for wireless presenter keys
-- States can now be applied as classes on the document element by adding data-state on a slide
+- States can now be applied as classes on the document element by adding ```data-state``` on a slide
 
 #### 1.1
 
 - Added an optional presentation progress bar
 - Images wrapped in anchors no longer unexpectedly flip in 3D
 - Slides that contain other slides are given the 'stack' class
-- Added 'transition' option for specifying transition styles
-- Added 'theme' option for specifying UI styles
-- New transitions: 'box' & 'page'
-- New theme: 'neon'
+- Added ```transition``` option for specifying transition styles
+- Added ```theme``` option for specifying UI styles
+- New transitions: ```box``` & ```page```
+- New theme: ```neon```
 
 #### 1.0
 
 - New and improved style
 - Added controls in bottom right which indicate where you can navigate
-- Reveal views in iteratively by giving them the .fragment class
+- Reveal views in iteratively by giving them the ```.fragment``` class
 - Code sample syntax highlighting thanks to [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/)
 - Initialization options (toggling controls, toggling rolling links, transition theme)
 
