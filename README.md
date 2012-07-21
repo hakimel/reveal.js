@@ -163,6 +163,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 * [Going Deeper with jQuery Mobile](http://andymatthews.net/downloads/presentations/going-deeper-with-jquery-mobile/) by [Andy Matthews](https://github.com/commadelimited)
 * [Studio Nord](http://studionord.org)
 * [Herrljunga Cider](http://herrljungacider.se/uk/campaign/)
+* [PhoneGap Pain Points](http://phonegap-pain-points.appspot.com/) by [Pamela Fox](https://github.com/pamelafox)
 
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
