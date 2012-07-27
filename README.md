@@ -65,9 +65,10 @@ Reveal.initialize({
 
 ### API
 
-The Reveal class provides a minimal JavaScript API for controlling its navigation:
+The Reveal class provides a minimal JavaScript API for controlling navigation and reading state:
 
 ```javascript
+// Navigation
 Reveal.navigateTo( indexh, indexv );
 Reveal.navigateLeft();
 Reveal.navigateRight();
@@ -76,6 +77,12 @@ Reveal.navigateDown();
 Reveal.navigatePrev();
 Reveal.navigateNext();
 Reveal.toggleOverview();
+
+// Retrieves the previous and current slide elements
+Reveal.getPreviousSlide();
+Reveal.getCurrentSlide();
+
+Reveal.getIndices(); // { h: 0, v: 0 } }
 ```
 
 ### States
@@ -172,7 +179,9 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 ## History
 
 #### 1.5 (master/beta)
-- TBD
+- New API method ```Reveal.getPreviousSlide()```
+- New API method ```Reveal.getCurrentSlide()```
+- New API method ```Reveal.getIndices()```
 
 #### 1.4
 - Main ```#reveal container``` is now selected via a class instead of ID

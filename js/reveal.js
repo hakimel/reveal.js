@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r1
+ * reveal.js 1.5 r2
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -11,10 +11,6 @@ var Reveal = (function(){
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 
 		IS_TOUCH_DEVICE = !!( 'ontouchstart' in window ),
-
-		// The horizontal and verical index of the currently active slide
-		indexh = 0,
-		indexv = 0,
 
 		// Configurations defaults, can be overridden at initialization time 
 		config = {
@@ -49,6 +45,14 @@ var Reveal = (function(){
 			// Transition style
 			transition: 'default' // default/cube/page/concave/linear(2d)
 		},
+
+		// The horizontal and verical index of the currently active slide
+		indexh = 0,
+		indexv = 0,
+
+		// The previous and current slide HTML elements
+		previousSlide,
+		currentSlide,
 
 		// Slides may hold a data-state attribute which we pick up and apply 
 		// as a class to the body. This list contains the combined state of 
@@ -650,6 +654,9 @@ var Reveal = (function(){
 	 * set indices. 
 	 */
 	function slide( h, v ) {
+		// Remember where we were at before
+		previousSlide = currentSlide;
+
 		// Remember the state before this slide
 		var stateBefore = state.concat();
 
@@ -700,30 +707,29 @@ var Reveal = (function(){
 		clearTimeout( writeURLTimeout );
 		writeURLTimeout = setTimeout( writeURL, 1500 );
 
-		// Only fire if the slide index is different from before
+		// Query all horizontal slides in the deck
+		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+
+		// Find the current horizontal slide and any possible vertical slides
+		// within it
+		var currentHorizontalSlide = horizontalSlides[ indexh ],
+			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+
+		// Store references to the previous and current slides
+		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
+
+		// Dispatch an event if the slide changed
 		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
-			// Query all horizontal slides in the deck
-			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
-
-			// Find the previous and current horizontal slides
-			var previousHorizontalSlide = horizontalSlides[ indexhBefore ],
-				currentHorizontalSlide = horizontalSlides[ indexh ];
-
-			// Query all vertical slides inside of the previous and current horizontal slides
-			var previousVerticalSlides = previousHorizontalSlide.querySelectorAll( 'section' );
-				currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
-
-			// Dispatch an event notifying observers of the change in slide
 			dispatchEvent( 'slidechanged', {
-				// Include the current indices in the event
 				'indexh': indexh, 
 				'indexv': indexv,
-
-				// Passes direct references to the slide HTML elements, attempts to find
-				// a vertical slide and falls back on the horizontal parent
-				'previousSlide': previousVerticalSlides[ indexvBefore ] || previousHorizontalSlide,
-				'currentSlide': currentVerticalSlides[ indexv ] || currentHorizontalSlide
+				'previousSlide': previousSlide,
+				'currentSlide': currentSlide
 			} );
+		}
+		else {
+			// Ensure that the previous slide is never the same as the current
+			previousSlide = null;
 		}
 	}
 
@@ -980,8 +986,27 @@ var Reveal = (function(){
 		navigateNext: navigateNext,
 		toggleOverview: toggleOverview,
 
+		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
+
+		// Returns the indices of the current slide
+		getIndices: function() {
+			return { 
+				h: indexh, 
+				v: indexv 
+			};
+		},
+
+		// Returns the previous slide element, may be null
+		getPreviousSlide: function() {
+			return previousSlide
+		},
+
+		// Returns the current slide element
+		getCurrentSlide: function() {
+			return currentSlide
+		},
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
