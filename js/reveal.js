@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r2
+ * reveal.js 1.5 r3
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -730,6 +730,13 @@ var Reveal = (function(){
 		else {
 			// Ensure that the previous slide is never the same as the current
 			previousSlide = null;
+		}
+
+		// Solves an edge case where the previous slide maintains the 
+		// 'present' class when navigating between adjacent vertical 
+		// stacks
+		if( previousSlide ) {
+			previousSlide.classList.remove( 'present' );
 		}
 	}
 

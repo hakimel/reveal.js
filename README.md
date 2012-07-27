@@ -182,6 +182,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - New API method ```Reveal.getPreviousSlide()```
 - New API method ```Reveal.getCurrentSlide()```
 - New API method ```Reveal.getIndices()```
+- Fixes bug where the ```.present``` class was sometimes left on the previous slide
 
 #### 1.4
 - Main ```#reveal container``` is now selected via a class instead of ID
