@@ -777,7 +777,7 @@ body {
 		height: 100%;
 		left: 0;
 		top: 0;
-		background: #232628;
+		background: rgba(0,0,0,0.2);
 
 		-webkit-transform: translateZ( -20px );
 		   -moz-transform: translateZ( -20px );
@@ -853,68 +853,6 @@ body {
 	   -moz-transform: translate3d(0, 0, 0);
 	    -ms-transform: translate3d(0, 0, 0);
 	        transform: translate3d(0, 0, 0);
-}
-
-
-/*********************************************
- * NEON THEME
- *********************************************/
-
-.theme-neon .reveal a,
-.theme-neon .reveal a:hover,
-.theme-neon .reveal .controls a.enabled {
-	color: #5de048;
-}
-
-.theme-neon .reveal .progress span,
-.theme-neon .reveal .roll span:after {
-	background: #5de048;
-}
-
-.theme-neon .reveal a.image:hover img {
-	border-color: #5de048;
-}
-
-
-/*********************************************
- * BEIGE THEME
- *********************************************/
-
-.theme-beige body {
-	color: #333;
-
-	background: #f7f3de;
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(247,242,211,1) 100%);
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(247,242,211,1)));
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-}
-
-.theme-beige .reveal h1,
-.theme-beige .reveal h2,
-.theme-beige .reveal h3,
-.theme-beige .reveal h4,
-.theme-beige .reveal h5,
-.theme-beige .reveal h6 {
-	color: #333;
-	text-shadow: none;
-}
-
-.theme-beige .reveal a,
-.theme-beige .reveal a:hover,
-.theme-beige .reveal .controls a.enabled {
-	color: #8b743d;
-}
-
-.theme-beige .reveal .progress span,
-.theme-beige .reveal .roll span:after {
-	background: #8b743d;
-}
-
-.theme-beige .reveal a.image:hover img {
-	border-color: #8b743d;
 }
 
 
@@ -1012,4 +950,66 @@ body {
 
 .reveal aside.notes {
 	display: none;
+}
+
+
+/*********************************************
+ * NEON THEME
+ *********************************************/
+
+.theme-neon .reveal a,
+.theme-neon .reveal a:hover,
+.theme-neon .reveal .controls a.enabled {
+	color: #5de048;
+}
+
+.theme-neon .reveal .progress span,
+.theme-neon .reveal .roll span:after {
+	background: #5de048;
+}
+
+.theme-neon .reveal a.image:hover img {
+	border-color: #5de048;
+}
+
+
+/*********************************************
+ * BEIGE THEME
+ *********************************************/
+
+.theme-beige body {
+	color: #333;
+
+	background: #f7f3de;
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(247,242,211,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(247,242,211,1)));
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
+	background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
+	background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
+}
+
+.theme-beige .reveal h1,
+.theme-beige .reveal h2,
+.theme-beige .reveal h3,
+.theme-beige .reveal h4,
+.theme-beige .reveal h5,
+.theme-beige .reveal h6 {
+	color: #333;
+	text-shadow: none;
+}
+
+.theme-beige .reveal a,
+.theme-beige .reveal a:hover,
+.theme-beige .reveal .controls a.enabled {
+	color: #8b743d;
+}
+
+.theme-beige .reveal .progress span,
+.theme-beige .reveal .roll span:after {
+	background: #8b743d;
+}
+
+.theme-beige .reveal a.image:hover img {
+	border-color: #8b743d;
 }
