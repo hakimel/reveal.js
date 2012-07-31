@@ -24,6 +24,21 @@ Markup heirarchy needs to be ``<div class="reveal"> <div class="slides"> <sectio
 </div>
 ```
 
+### Markdown
+
+It's possible to write your slides using Markdown. To enable Markdown simply add the ```data-markdown``` attribute to your ```<section>``` elements and reveal.js will automatically load the JavaScript parser. 
+
+This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) which in turn uses [showdown](https://github.com/coreyti/showdown/). Syntax support seems limited judging by my initial tests, this may be due to conflicts with the reveal.js styles. Updates to come.
+
+```html
+<section data-markdown>
+	## Page title
+	
+	A paragraph with some text and a [link](http://hakim.se).
+</section>
+```
+
+
 ### Configuration
 
 At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
