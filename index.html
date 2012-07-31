@@ -259,9 +259,23 @@ function linkify( selector ) {
 		<script src="lib/js/head.min.js"></script>
 
 		<script>
-			// Load reveal.js as well as a classList polyfill if needed
-			head.js( !document.body.classList ? 'lib/js/classList.js' : null )
-				.js( 'js/reveal.js', function() {
+			// All scripts that should be loaded before initializing
+			var scripts = [];
+
+			// If the browser doesn't support classList, load a polyfill
+			if( !document.body.classList ) {
+				scripts.push( 'lib/js/classList.js' );
+			}
+
+			// Load markdown parser if there are slides defined using markdown
+			if( document.querySelector( '[data-markdown]' ) ) {
+				scripts.push( 'lib/js/showdown.js' );
+				scripts.push( 'lib/js/data-markdown.js' );
+			}
+
+			scripts.push( 'js/reveal.js' );
+
+			head.js.apply( null, scripts.concat([ function() {
 
 				// Parse the query string into a key/value object
 				var query = {};
@@ -290,7 +304,7 @@ function linkify( selector ) {
 					transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
 				});
 
-			} );
+			}]));
 			
 			// Load highlight.js for syntax highlighting of code samples
 			head.js( 'lib/js/highlight.js', function() { 
