@@ -101,19 +101,6 @@
 				</section>
 
 				<section>
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like:
-					</p>
-					<ul>
-						<li><a href="http://lab.hakim.se/reveal-js/?transition=cube">Cube</a></li>
-						<li><a href="http://lab.hakim.se/reveal-js/?transition=page">Page</a></li>
-						<li><a href="http://lab.hakim.se/reveal-js/?transition=concave">Concave</a></li>
-						<li><a href="http://lab.hakim.se/reveal-js/?transition=linear">Linear</a></li>
-					</ul>
-				</section>
-
-				<section>
 					<h2>Marvelous Unordered List</h2>
 					<ul>
 						<li>No order here</li>
@@ -130,6 +117,32 @@
 						<li>Two is smaller than...</li>
 						<li>Three!</li>
 					</ol>
+				</section>
+
+				<section data-markdown>
+					## Markdown support
+					
+					For those of you who like that sort of thing. Instructions and a bit more info 
+					available [here](https://github.com/hakimel/reveal.js#markdown).
+
+					<pre><code contenteditable style="margin-top: 20px;">&lt;section data-markdown&gt;
+  ## Markdown support
+  For those of you who like that sort of thing. Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
+&lt;/section&gt;
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Transition Styles</h2>
+					<p>
+						You can select from different transitions, like:
+					</p>
+					<ul>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=cube">Cube</a></li>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=page">Page</a></li>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=concave">Concave</a></li>
+						<li><a href="http://lab.hakim.se/reveal-js/?transition=linear">Linear</a></li>
+					</ul>
 				</section>
 
 				<section>
@@ -259,7 +272,7 @@ function linkify( selector ) {
 		<script src="lib/js/head.min.js"></script>
 
 		<script>
-			// All scripts that should be loaded before initializing
+			// Scripts that should be loaded before initializing
 			var scripts = [];
 
 			// If the browser doesn't support classList, load a polyfill
@@ -273,15 +286,17 @@ function linkify( selector ) {
 				scripts.push( 'lib/js/data-markdown.js' );
 			}
 
+			// If we're runnning the notes server we need to include some additional JS
+			// TODO Is there a better way to determine if we're running the notes server?
+			if( window.location.host === 'localhost:1947' ) {
+				scripts.push( 'socket.io/socket.io.js' );
+				scripts.push( 'plugin/speakernotes/client.js' );
+			}
+
 			scripts.push( 'js/reveal.js' );
 
-			head.js.apply( null, scripts.concat([ function() {
-
-				// Parse the query string into a key/value object
-				var query = {};
-				location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
-					query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
-				} );
+			// Load the scripts and, when completed, initialize reveal.js
+			head.js.apply( null, scripts.concat([function() {
 
 				// Fires when a slide with data-state=customevent is activated
 				Reveal.addEventListener( 'customevent', function() {
@@ -300,8 +315,8 @@ function linkify( selector ) {
 					progress: true,
 					history: true,
 					
-					theme: query.theme || 'default', // default/neon/beige
-					transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
+					theme: Reveal.getQueryHash().theme || 'default', // default/neon/beige
+					transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/linear(2d)
 				});
 
 			}]));
@@ -310,12 +325,6 @@ function linkify( selector ) {
 			head.js( 'lib/js/highlight.js', function() { 
 				hljs.initHighlightingOnLoad(); 
 			} );
-
-			// If we're runnning the notes server we need to include some additional JS
-			// TODO Is there a better way to determine if we're running the notes server?
-			if( window.location.host === 'localhost:1947' ) {
-				head.js( 'socket.io/socket.io.js', 'plugin/speakernotes/client.js' );
-			}
 		</script>
 		
 	</body>

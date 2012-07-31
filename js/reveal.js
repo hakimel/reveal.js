@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r4
+ * reveal.js 1.5 r6
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -1013,6 +1013,17 @@ var Reveal = (function(){
 		// Returns the current slide element
 		getCurrentSlide: function() {
 			return currentSlide
+		},
+
+		// Helper method, retrieves query string as a key/value hash
+		getQueryHash: function() {
+			var query = {};
+
+			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+			} );
+
+			return query;
 		},
 
 		// Forward event binding to the reveal DOM element
