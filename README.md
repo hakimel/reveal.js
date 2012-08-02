@@ -186,6 +186,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 * [Studio Nord](http://studionord.org)
 * [Herrljunga Cider](http://herrljungacider.se/uk/campaign/)
 * [PhoneGap Pain Points](http://phonegap-pain-points.appspot.com/) by [Pamela Fox](https://github.com/pamelafox)
+* [Using HTML5 To Power Your Game Production](http://www.blitzgamesstudios.com/blitztech/html5-presentation) by Richard Hackett
 
 
 [Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
