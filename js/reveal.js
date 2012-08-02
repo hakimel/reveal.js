@@ -1028,10 +1028,26 @@ var Reveal = (function(){
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
+			//start
+			if (addEventListener != null) {
 			( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
+			}
+			
+			else {
+			( dom.wrapper || document.querySelector( '.reveal' ) ).attachEvent( type, listener, useCapture );
+			}
+			//end
 		},
 		removeEventListener: function( type, listener, useCapture ) {
+			//start
+			if (removeEventListener != null) {
 			( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
+			}
+			
+			else {
+			( dom.wrapper || document.querySelector( '.reveal' ) ).detachEvent( type, listener, useCapture );
+			}
+			//end
 		}
 	};
 	
