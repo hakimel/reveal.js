@@ -206,6 +206,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Fixed bug where hovering 3D links in Chrome caused them to disappear
 - Disable 3D links in IE and more accurate CSS feature detection
 - CSS is more relative in sizing to allow for low resolutions. Thanks [StereotypicalApps](https://github.com/StereotypicalApps)
+- PDF export
 
 #### 1.4
 - Main ```#reveal container``` is now selected via a class instead of ID

@@ -216,6 +216,7 @@ body {
 
 .reveal code {
 	font-family: monospace;
+	overflow-x: auto;
 }
 
 .reveal table th, 
@@ -474,6 +475,7 @@ body {
 	top: 50%;
 	margin-top: -320px;
 	padding: 20px 0px;
+	overflow: visible;
 	
 	text-align: center;
 

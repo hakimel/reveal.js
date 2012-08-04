@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r13
+ * reveal.js 1.5 r14
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
