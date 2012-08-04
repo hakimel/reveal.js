@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r10
+ * reveal.js 1.5 r11
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -63,17 +63,17 @@ var Reveal = (function(){
 		dom = {},
 
 		// Detect support for CSS 3D transforms
-		supports3DTransforms =  document.body.style['WebkitPerspective'] !== undefined || 
-                        		document.body.style['MozPerspective'] !== undefined ||
-                        		document.body.style['msPerspective'] !== undefined ||
-                        		document.body.style['OPerspective'] !== undefined ||
-                        		document.body.style['perspective'] !== undefined,
+		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
+                        		'MozPerspective' in document.body.style ||
+                        		'msPerspective' in document.body.style ||
+                        		'OPerspective' in document.body.style ||
+                        		'perspective' in document.body.style,
         
-        supports2DTransforms =  document.body.style['WebkitTransform'] !== undefined || 
-                        		document.body.style['MozTransform'] !== undefined ||
-                        		document.body.style['msTransform'] !== undefined ||
-                        		document.body.style['OTransform'] !== undefined ||
-                        		document.body.style['transform'] !== undefined,
+        supports2DTransforms =  'WebkitTransform' in document.body.style ||
+                        		'MozTransform' in document.body.style ||
+                        		'msTransform' in document.body.style ||
+                        		'OTransform' in document.body.style ||
+                        		'transform' in document.body.style,
 
         // Detect support for elem.classList
         supportsClassList = !!document.body.classList;
@@ -444,7 +444,7 @@ var Reveal = (function(){
 	 * Wrap all links in 3D goodness.
 	 */
 	function linkify() {
-        if( supports3DTransforms ) {
+		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
         	var nodes = document.querySelectorAll( '.reveal .slides section a:not(.image)' );
 
 	        for( var i = 0, len = nodes.length; i < len; i++ ) {

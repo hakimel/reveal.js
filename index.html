@@ -278,31 +278,7 @@ function linkify( selector ) {
 		<script src="lib/js/head.min.js"></script>
 
 		<script>
-			// Scripts that should be loaded before initializing
-			var scripts = [];
-
-			// If the browser doesn't support classList, load a polyfill
-			if( !document.body.classList ) {
-				scripts.push( 'lib/js/classList.js' );
-			}
-
-			// Load markdown parser if there are slides defined using markdown
-			if( document.querySelector( '[data-markdown]' ) ) {
-				scripts.push( 'lib/js/showdown.js' );
-				scripts.push( 'lib/js/data-markdown.js' );
-			}
-
-			// If we're runnning the notes server we need to include some additional JS
-			// TODO Is there a better way to determine if we're running the notes server?
-			if( window.location.host === 'localhost:1947' ) {
-				scripts.push( 'socket.io/socket.io.js' );
-				scripts.push( 'plugin/speakernotes/client.js' );
-			}
-
-			scripts.push( 'js/reveal.js' );
-
-			// Load the scripts and, when completed, initialize reveal.js
-			head.js.apply( null, scripts.concat([function() {
+			head.ready( function() {
 
 				// Fires when a slide with data-state=customevent is activated
 				Reveal.addEventListener( 'customevent', function() {
@@ -325,12 +301,39 @@ function linkify( selector ) {
 					transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/linear(2d)
 				});
 
-			}]));
-			
-			// Load highlight.js for syntax highlighting of code samples
-			head.js( 'lib/js/highlight.js', function() { 
-				hljs.initHighlightingOnLoad(); 
+				// Load highlight.js for syntax highlighting of code samples
+				head.js( 'lib/js/highlight.js', function() { 
+					hljs.initHighlightingOnLoad(); 
+				} );
+
 			} );
+
+			// Scripts that should be loaded before initializing
+			var scripts = [];
+
+			// If the browser doesn't support classList, load a polyfill
+			if( !document.body.classList ) {
+				head.js( 'lib/js/classList.js' );
+			}
+
+			// Load markdown parser if there are slides defined using markdown
+			if( document.querySelector( '[data-markdown]' ) ) {
+				scripts.push( 'lib/js/showdown.js' );
+				scripts.push( 'lib/js/data-markdown.js' );
+			}
+
+			// If we're runnning the notes server we need to include some additional JS
+			// TODO Is there a better way to determine if we're running the notes server?
+			if( window.location.host === 'localhost:1947' ) {
+				scripts.push( 'socket.io/socket.io.js' );
+				scripts.push( 'plugin/speakernotes/client.js' );
+			}
+
+			scripts.push( 'js/reveal.js' );
+
+			// Load the scripts and, when completed, initialize reveal.js
+			head.js.apply( null, scripts );
+			
 		</script>
 
 	</body>
