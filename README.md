@@ -201,6 +201,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Fixed bug where the ```.present``` class was sometimes left on the previous slide
 - Added support for slides written using markdown
 - Added helped method ```Reveal.getQueryHash()```
+- Added EOT font for IE support
 
 #### 1.4
 - Main ```#reveal container``` is now selected via a class instead of ID
