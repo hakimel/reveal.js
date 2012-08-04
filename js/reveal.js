@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r11
+ * reveal.js 1.5 r12
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -476,7 +476,7 @@ var Reveal = (function(){
 				htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
 			
 			hslide.setAttribute( 'data-index-h', i );
-			hslide.style.display = 'block';
+			hslide.style.display = 'inline-block';
 			hslide.style.WebkitTransform = htransform;
 			hslide.style.MozTransform = htransform;
 			hslide.style.msTransform = htransform;
@@ -496,7 +496,7 @@ var Reveal = (function(){
 
 				vslide.setAttribute( 'data-index-h', i );
 				vslide.setAttribute( 'data-index-v', j );
-				vslide.style.display = 'block';
+				vslide.style.display = 'inline-block';
 				vslide.style.WebkitTransform = vtransform;
 				vslide.style.MozTransform = vtransform;
 				vslide.style.msTransform = vtransform;

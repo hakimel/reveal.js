@@ -54,6 +54,12 @@ body {
 	background: radial-gradient(center, ellipse cover,  rgba(85,90,95,1) 0%,rgba(28,30,32,1) 100%);
 }
 
+@media screen and (max-width: 900px) {
+	body {
+		font-size: 30px;
+	}
+}
+
 /*********************************************
  * HEADERS
  *********************************************/
@@ -73,10 +79,10 @@ body {
 	text-shadow: 0px 0px 6px rgba(0,0,0,0.2);
 }
 
-.reveal h1 { font-size: 136px; 	}
-.reveal h2 { font-size: 76px;	}
-.reveal h3 { font-size: 56px;	}
-.reveal h4 { font-size: 36px;	}
+.reveal h1 { font-size: 3.77em; 	}
+.reveal h2 { font-size: 2.11em;	}
+.reveal h3 { font-size: 1.55em;	}
+.reveal h4 { font-size: 1em;	}
 
 .reveal h1.inverted,
 .reveal h2.inverted,
@@ -199,7 +205,7 @@ body {
 	margin: 10px auto;
 
 	text-align: left;
-	font-size: 20px;
+	font-size: 0.55em;
 	font-family: monospace;
 	line-height: 1.2em;
 
@@ -230,7 +236,7 @@ body {
 }
 
 .reveal small {
-	font-size: 60%;
+	font-size: 0.6em;
 	line-height: 1em;
 	vertical-align: top;
 }
@@ -310,7 +316,7 @@ body {
 }
 	
 	.reveal .controls a {
-		font-size: 30px;
+		font-size: 0.83em;
 		position: absolute;
 		opacity: 0.1;
 		color: #fff;
@@ -461,11 +467,11 @@ body {
 
 .reveal .slides {
 	position: absolute;
+	max-width: 900px;
 	width: 60%;
 	height: 60%;
 	left: 50%;
 	top: 50%;
-	margin-left: -30%;
 	margin-top: -320px;
 	padding: 20px 0px;
 	
@@ -482,10 +488,10 @@ body {
 	    -ms-perspective: 600px;
 	        perspective: 600px;
 
- 	-webkit-perspective-origin: 50% 25%;
- 	   -moz-perspective-origin: 50% 25%;
- 	    -ms-perspective-origin: 50% 25%;
- 	        perspective-origin: 50% 25%;
+ 	-webkit-perspective-origin: 0% 25%;
+ 	   -moz-perspective-origin: 0% 25%;
+ 	    -ms-perspective-origin: 0% 25%;
+ 	        perspective-origin: 0% 25%;
 }
 
 .reveal .slides>section,
@@ -513,6 +519,10 @@ body {
 	display: block;
 	z-index: 11;
 	opacity: 1;
+}
+
+.reveal .slides>section {
+	margin-left: -50%;
 }
 
 
