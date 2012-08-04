@@ -322,14 +322,14 @@ function linkify( selector ) {
 				scripts.push( 'lib/js/data-markdown.js' );
 			}
 
+			scripts.push( 'js/reveal.js' );
+
 			// If we're runnning the notes server we need to include some additional JS
 			// TODO Is there a better way to determine if we're running the notes server?
 			if( window.location.host === 'localhost:1947' ) {
 				scripts.push( 'socket.io/socket.io.js' );
 				scripts.push( 'plugin/speakernotes/client.js' );
 			}
-
-			scripts.push( 'js/reveal.js' );
 
 			// Load the scripts and, when completed, initialize reveal.js
 			head.js.apply( null, scripts );
