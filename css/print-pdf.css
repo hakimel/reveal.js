@@ -23,6 +23,7 @@ body {
 	padding: 0;
 	float: none !important;
 	overflow: visible;
+	background: #333;
 }
 
 html {
@@ -110,6 +111,7 @@ ul, ol, div, p {
 	position: static;
 	width: 100%;
 	height: auto;
+	min-height: initial;
 	display: block;
 	overflow: visible;
 
