@@ -886,6 +886,8 @@ body {
 
 .reveal.overview .slides section {
 	padding: 20px 0;
+	max-height: 600px;
+	overflow: hidden;	
 	opacity: 1;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
@@ -911,6 +913,7 @@ body {
 .reveal.overview .slides>section.stack {
 	background: none;
 	padding: 0;
+	overflow: visible;
 }
 
 
