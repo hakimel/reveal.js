@@ -418,6 +418,10 @@ body {
        -moz-transform-style: preserve-3d;
         -ms-transform-style: preserve-3d;
             transform-style: preserve-3d;
+
+    -webkit-backface-visibility: hidden;
+       -moz-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
     .reveal .roll:hover span {
         background: rgba(0,0,0,0.5);
@@ -444,10 +448,10 @@ body {
         -ms-transform-origin: 50% 0%;
             transform-origin: 50% 0%;
 
-    -webkit-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
-       -moz-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
-        -ms-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
-            transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
+    -webkit-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+       -moz-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+        -ms-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+            transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
 }
 
 

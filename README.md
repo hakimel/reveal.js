@@ -203,6 +203,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Added helped method ```Reveal.getQueryHash()```
 - Added EOT font for IE support
 - IE8 support
+- Fixed bug where hovering 3D links in Chrome caused them to disappear
 
 #### 1.4
 - Main ```#reveal container``` is now selected via a class instead of ID
