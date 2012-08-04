@@ -202,6 +202,7 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 - Added support for slides written using markdown
 - Added helped method ```Reveal.getQueryHash()```
 - Added EOT font for IE support
+- IE8 support
 
 #### 1.4
 - Main ```#reveal container``` is now selected via a class instead of ID

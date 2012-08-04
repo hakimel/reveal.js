@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r8
+ * reveal.js 1.5 r9
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -1028,10 +1028,14 @@ var Reveal = (function(){
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
-			( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
+			if( 'addEventListener' in window ) {
+				( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
+			}
 		},
 		removeEventListener: function( type, listener, useCapture ) {
-			( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
+			if( 'addEventListener' in window ) {
+				( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
+			}
 		}
 	};
 	
