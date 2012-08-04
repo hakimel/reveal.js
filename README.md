@@ -141,6 +141,21 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 - **plugin/** Components that have been developed as extensions to reveal.js
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
 
+
+## PDF Export
+
+Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome). 
+Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-13872948.
+
+1. Open the desired presentation with *print-pdf* anywhere in the query, for example: [lab.hakim.se/reveal-js?print-pdf](http://lab.hakim.se/reveal-js?print-pdf)
+2. Open the in-browser print dialog (CMD+P).
+3. Change the **Destination** setting to **Save as PDF**.
+4. Change the **Layout** to **Portrait**.
+5. Change the **Margins** to **None**.
+6. Click **Save**.
+
+![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
+
 ## Speaker Notes
 
 If you're interested in using speaker notes, reveal.js comes with a Node server that allows you to deliver your presentation in one browser while viewing speaker notes in another. 
