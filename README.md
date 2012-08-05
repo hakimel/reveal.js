@@ -157,7 +157,7 @@ By default, the slides will be served at [localhost:1947](http://localhost:1947)
 
 You can change the appearance of the speaker notes by editing the file at `plugin/speakernotes/notes.html`.	
 
-### Multiplexing
+## Multiplexing
 
 The multiplex plugin allows your audience to view the slides on their own phone, tablet or laptop. As the master navigates the slides, all clients will update in real time. See a demo at [http://revealjs.jit.su/](http://revealjs.jit.su)
 
