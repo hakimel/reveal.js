@@ -2,11 +2,8 @@
 	// don't emit events from inside the previews themselves
 	if ( window.location.search.match( /receiver/gi ) ) { return; }
 
-	var socket = io.connect('127.0.0.1:1947');
-	var socketId = Math.random().toString().slice(2);
+	var socket = io.connect(multiplex.url);
 	
-	console.log('View slide notes at ' + window.location.origin + '/notes/' + socketId);
-
 	Reveal.addEventListener( 'slidechanged', function( event ) {
 		var nextindexh;
 		var nextindexv;
@@ -22,12 +19,12 @@
 
 		var notes = slideElement.querySelector('aside.notes');
 		var slideData = {
-			notes : notes ? notes.innerHTML : '',
 			indexh : event.indexh,
 			indexv : event.indexv,
 			nextindexh : nextindexh,
 			nextindexv : nextindexv,
-			socketId : socketId
+			secret: multiplex.secret,
+			socketId : multiplex.id
 		};
 
 		socket.emit('slidechanged', slideData);
