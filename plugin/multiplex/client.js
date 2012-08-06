@@ -7,6 +7,6 @@
 		if (data.socketId !== socketId) { return; }
 		if( window.location.host === 'localhost:1947' ) return;
 
-		Reveal.navigateTo(data.indexh, data.indexv, false);
+		Reveal.navigateTo(data.indexh, data.indexv, 'remote');
 	});
 }());

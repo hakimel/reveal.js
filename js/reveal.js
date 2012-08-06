@@ -653,7 +653,7 @@ var Reveal = (function(){
 	 * Updates the visual slides to represent the currently
 	 * set indices. 
 	 */
-	function slide( h, v, fireEvent ) {
+	function slide( h, v, origin ) {
 		// Remember where we were at before
 		previousSlide = currentSlide;
 
@@ -720,14 +720,13 @@ var Reveal = (function(){
 
 		// Dispatch an event if the slide changed
 		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
-			if( fireEvent !== false ) {
-				dispatchEvent( 'slidechanged', {
-					'indexh': indexh, 
-					'indexv': indexv,
-					'previousSlide': previousSlide,
-					'currentSlide': currentSlide
-				} );
-			}
+			dispatchEvent( 'slidechanged', {
+				'origin': origin,
+				'indexh': indexh, 
+				'indexv': indexv,
+				'previousSlide': previousSlide,
+				'currentSlide': currentSlide
+			} );
 		}
 		else {
 			// Ensure that the previous slide is never the same as the current
@@ -903,8 +902,8 @@ var Reveal = (function(){
 	 * @param {Number} h The horizontal index of the slide to show
 	 * @param {Number} v The vertical index of the slide to show
 	 */
-	function navigateTo( h, v, fireEvent ) {
-		slide( h, v, fireEvent );
+	function navigateTo( h, v, origin ) {
+		slide( h, v, origin );
 	}
 	
 	function navigateLeft() {

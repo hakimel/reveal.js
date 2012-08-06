@@ -27,6 +27,6 @@
 			socketId : multiplex.id
 		};
 
-		socket.emit('slidechanged', slideData);
+		if( event.origin !== 'remote') socket.emit('slidechanged', slideData);
 	} );
 }());
