@@ -124,11 +124,12 @@ var Reveal = (function(){
 			dom.controlsUp = document.querySelector( '.reveal .controls .up' );
 			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
 		}
-
-		addEventListeners();
-
+		
 		// Copy options over to our config object
 		extend( config, options );
+		
+		// Subscribe to input
+		addEventListeners();
 
 		// Updates the presentation to match the current configuration values
 		configure();
