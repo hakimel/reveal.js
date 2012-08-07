@@ -1,8 +1,11 @@
 @charset "UTF-8";
+
 /**
- * Main styles for reveal.js 
- *
- * @author Hakim El Hattab
+ * reveal.js
+ * http://lab.hakim.se/reveal-js
+ * MIT licensed
+ * 
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -12,11 +15,11 @@
 
 @font-face {
     font-family: 'League Gothic';
-    src: url('../lib/font/league_gothic-webfont-webfont.eot');
-    src: url('../lib/font/league_gothic-webfont-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../lib/font/league_gothic-webfont-webfont.woff') format('woff'),
-         url('../lib/font/league_gothic-webfont-webfont.ttf') format('truetype'),
-         url('../lib/font/league_gothic-webfont-webfont.svg#LeagueGothicRegular') format('svg');
+    src: url('../lib/font/league_gothic-webfont.eot');
+    src: url('../lib/font/league_gothic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../lib/font/league_gothic-webfont.woff') format('woff'),
+         url('../lib/font/league_gothic-webfont.ttf') format('truetype'),
+         url('../lib/font/league_gothic-webfont.svg#LeagueGothicRegular') format('svg');
    	 font-weight: normal;
  	 font-style: normal;
 
