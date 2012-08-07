@@ -11,10 +11,15 @@
  *********************************************/
 
 @font-face {
-	font-family: 'League Gothic';
-    src: url('../lib/font/league_gothic-webfont.eot');
-    src: url('../lib/font/league_gothic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../lib/font/league_gothic-webfont.ttf') format('truetype');
+    font-family: 'League Gothic';
+    src: url('../lib/font/league_gothic-webfont-webfont.eot');
+    src: url('../lib/font/league_gothic-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../lib/font/league_gothic-webfont-webfont.woff') format('woff'),
+         url('../lib/font/league_gothic-webfont-webfont.ttf') format('truetype'),
+         url('../lib/font/league_gothic-webfont-webfont.svg#LeagueGothicRegular') format('svg');
+   	 font-weight: normal;
+ 	 font-style: normal;
+
     font-weight: normal;
     font-style: normal;
 }
