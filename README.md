@@ -75,9 +75,6 @@ Reveal.initialize({
 	// Apply a 3D roll to links on hover
 	rollingLinks: true,
 
-	// UI style
-	theme: 'default', // default/neon/beige
-
 	// Transition style
 	transition: 'default' // default/cube/page/concave/linear(2d)
 });
