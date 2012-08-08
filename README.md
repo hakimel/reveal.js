@@ -148,7 +148,7 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 1. Open the desired presentation with *print-pdf* anywhere in the query, for example: [lab.hakim.se/reveal-js?print-pdf](http://lab.hakim.se/reveal-js?print-pdf)
 2. Open the in-browser print dialog (CMD+P).
 3. Change the **Destination** setting to **Save as PDF**.
-4. Change the **Layout** to **Portrait**.
+4. Change the **Layout** to **Landscape**.
 5. Change the **Margins** to **None**.
 6. Click **Save**.
 
