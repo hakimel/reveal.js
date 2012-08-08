@@ -6,9 +6,9 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 
 
 #### More reading in the Wiki:
-- [Changelog](https://github.com/hakimel/reveal.js/wiki/Changelog): Up-to-date version history
-- [Examples](https://github.com/hakimel/reveal.js/wiki/Examples): Presentations created with reveal.js
-- [Browser Support](https://github.com/hakimel/reveal.js/wiki/Changelog): Explanation of browser support and fallbacks
+- [Changelog](https://github.com/hakimel/reveal.js/wiki/Changelog): Up-to-date version history.
+- [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
+- [Browser Support](https://github.com/hakimel/reveal.js/wiki/Changelog): Explanation of browser support and fallbacks.
 
 
 ## Instructions
