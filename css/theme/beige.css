@@ -42,6 +42,19 @@ body {
 	background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
 }
 
+::-moz-selection {
+    background:rgba(79, 64, 28, 0.99);
+	color: white; 
+}
+::-webkit-selection {
+    background:rgba(79, 64, 28, 0.99);
+	color: white; 
+}
+::selection {
+    background:rgba(79, 64, 28, 0.99);
+	color: white; 
+}
+
 
 /*********************************************
  * HEADERS
