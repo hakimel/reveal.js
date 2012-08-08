@@ -1,5 +1,5 @@
 /*!
- * reveal.js 1.5 r15
+ * reveal.js 1.5 r16
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -38,9 +38,6 @@ var Reveal = (function(){
 
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,
-
-			// UI style
-			theme: 'default', // default/neon/beige
 
 			// Transition style
 			transition: 'default' // default/cube/page/concave/linear(2d)
@@ -155,7 +152,6 @@ var Reveal = (function(){
 
 	function configure() {
 		if( supports3DTransforms === false ) {
-			// Fall back on the 2D transform theme 'linear'
 			config.transition = 'linear';
 		}
 
@@ -169,10 +165,6 @@ var Reveal = (function(){
 
 		if( config.transition !== 'default' ) {
 			dom.wrapper.classList.add( config.transition );
-		}
-
-		if( config.theme !== 'default' ) {
-			document.documentElement.classList.add( 'theme-' + config.theme );
 		}
 
 		if( config.mouseWheel ) {
