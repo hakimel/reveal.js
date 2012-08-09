@@ -210,12 +210,12 @@ body {
 
 .reveal table th, 
 .reveal table td {
- 	 text-align: left;
- 	 padding-right: .3em;
+	text-align: left;
+	padding-right: .3em;
 }
 
 .reveal table th {
- 	 text-shadow: rgb(255,255,255) 1px 1px 2px;
+	text-shadow: rgb(255,255,255) 1px 1px 2px;
 }
 
 .reveal sup { 
