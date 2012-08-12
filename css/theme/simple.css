@@ -1,8 +1,10 @@
 /**
- * A beige theme for reveal.js presentations, similar 
- * to the default theme.
+ * A simple theme for reveal.js presentations, similar 
+ * to the default theme. The accent color is darkblue; 
+ * do a find-replace to change it.
  * 
- * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+ * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se; so is the theme - beige.css - that this is based off of.
  */
 
 /*********************************************
@@ -21,7 +23,6 @@
 	font-style: normal;
 }
 
-
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -31,30 +32,23 @@ body {
 	font-size: 36px;
 	font-weight: 200;
 	letter-spacing: -0.02em;
-	color: #333;
+	color: black !important;
 
-	background: #f7f3de;
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(247,242,211,1) 100%);
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(247,242,211,1)));
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
+	background: white;
 }
 
 ::-moz-selection {
-    background:rgba(79, 64, 28, 0.99);
+    background:rgba(0, 0, 0, 0.99);
 	color: white; 
 }
 ::-webkit-selection {
-    background:rgba(79, 64, 28, 0.99);
+    background:rgba(0, 0, 0, 0.99);
 	color: white; 
 }
 ::selection {
-    background:rgba(79, 64, 28, 0.99);
+    background:rgba(0, 0, 0, 0.99);
 	color: white; 
 }
-
 
 /*********************************************
  * HEADERS
@@ -67,7 +61,7 @@ body {
 .reveal h5, 
 .reveal h6 {
 	margin: 0 0 20px 0;
-	color: #333;
+	color: black;
 	font-family: 'League Gothic', Impact, sans-serif;
 	line-height: 0.9em;
 	letter-spacing: 0.02em;
@@ -76,17 +70,7 @@ body {
 }
 
 .reveal h1 {
-	text-shadow: 	0 1px 0 #ccc,
-					0 2px 0 #c9c9c9,
-					0 3px 0 #bbb,
-					0 4px 0 #b9b9b9,
-					0 5px 0 #aaa,
-					0 6px 1px rgba(0,0,0,.1),
-					0 0 5px rgba(0,0,0,.1),
-					0 1px 3px rgba(0,0,0,.3),
-					0 3px 5px rgba(0,0,0,.2),
-					0 5px 10px rgba(0,0,0,.25),
-					0 20px 20px rgba(0,0,0,.15);
+	border-bottom: 5px dashed black;
 }
 
 
@@ -95,7 +79,7 @@ body {
  *********************************************/
 
 .reveal a:not(.image) {
-	color: #8b743d;
+	color: darkblue;
 	text-decoration: none;
 
 	-webkit-transition: color .15s ease;
@@ -112,7 +96,7 @@ body {
 
 .reveal .roll span:after {
 	color: #fff;
-	background: #8b743d;
+	background: darkblue;
 }
 
 
@@ -138,7 +122,7 @@ body {
 
 	.reveal a:hover img {
 		background: rgba(255,255,255,0.2);
-		border-color: #8b743d;
+		border-color: darkblue;
 		
 		-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 		   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
@@ -151,10 +135,11 @@ body {
  *********************************************/
 
 .reveal .controls a {
-	color: #fff;
+	color: black;
 }
 	.reveal .controls a.enabled {
-		color: #8b743d;
+		color: darkblue;
+		opacity: 1;
 		text-shadow: 0px 0px 2px hsla(185, 45%, 70%, 0.3);
 	}
 
@@ -167,7 +152,7 @@ body {
 	background: rgba(0,0,0,0.2);
 }
 	.reveal .progress span {
-		background: #8b743d;
+		background: darkblue;
 
 		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
