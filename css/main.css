@@ -273,7 +273,7 @@ body {
 
 	.reveal a:hover img {
 		background: rgba(255,255,255,0.2);
-		border-color: #13DAEC;
+		border-color: #66B360;
 		
 		-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 		   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
@@ -424,7 +424,7 @@ body {
     padding: 0 2px;
 
     color: #fff;
-    background: hsl(185, 60%, 35%);
+    background: #66B360;
 
     -webkit-transform-origin: 50% 0%;
        -moz-transform-origin: 50% 0%;
