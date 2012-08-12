@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>reveal.js - HTML5 Presentations</title>
+		<title>reveal.js - The HTML Presentation Framework</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -21,9 +21,8 @@
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
 		<script>
-			// If the query includes print-pdf we'll use the PDF print sheet
-			var printStyle = window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper';
-			document.write( '<link rel="stylesheet" href="css/print/' + printStyle + '.css" type="text/css" media="print">' );
+			// If the query includes 'print-pdf' we'll use the PDF print sheet
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
 
 		<!--[if lt IE 9]>
@@ -283,62 +282,29 @@ function linkify( selector ) {
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
 
 		<script>
-			head.ready( function() {
+			
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
 
-				// Fires when a slide with data-state=customevent is activated
-				Reveal.addEventListener( 'customevent', function() {
-					console.log( '"customevent" has fired' );
-				} );
-
-				// Fires each time a new slide is activated
-				Reveal.addEventListener( 'slidechanged', function( event ) {
-					// event.previousSlide, event.currentSlide, event.indexh, event.indexv
-				} );
-
-				// Full list of configuration options available here:
-				// https://github.com/hakimel/reveal.js#configuration
-				Reveal.initialize({
-					controls: true,
-					progress: true,
-					history: true,
-					
-					transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/linear(2d)
-				});
-
-				// Load highlight.js for syntax highlighting of code samples
-				head.js( 'lib/js/highlight.js', function() { 
-					hljs.initHighlightingOnLoad(); 
-				} );
-
-			} );
-
-			// Scripts that should be loaded before initializing
-			var scripts = [];
-
-			// If the browser doesn't support classList, load a polyfill
-			if( !document.body.classList ) {
-				head.js( 'lib/js/classList.js' );
-			}
-
-			// Load markdown parser if there are slides defined using markdown
-			if( document.querySelector( '[data-markdown]' ) ) {
-				scripts.push( 'lib/js/showdown.js' );
-				scripts.push( 'lib/js/data-markdown.js' );
-			}
-
-			scripts.push( 'js/reveal.min.js' );
-
-			// If we're runnning the notes server we need to include some additional JS
-			// TODO Is there a better way to determine if we're running the notes server?
-			if( window.location.host === 'localhost:1947' ) {
-				scripts.push( 'socket.io/socket.io.js' );
-				scripts.push( 'plugin/speakernotes/client.js' );
-			}
-
-			// Load the scripts and, when completed, initialize reveal.js
-			head.js.apply( null, scripts );
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+				]
+			});
 			
 		</script>
 
