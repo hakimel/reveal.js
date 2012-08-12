@@ -80,6 +80,26 @@ Reveal.initialize({
 });
 ```
 
+### Dependencies
+
+Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
+
+```javascript
+Reveal.initialize({
+	dependencies: [
+		{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } }
+	]
+});
+```
+
+You can add your own extensions using the same syntax. The following properties are available for each dependency object:
+- **src**: Path to the script to load
+- **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
+- **callback**: [optional] Function to execute when the script has loaded
+- **condition**: [optional] Function which must return true for the script to be loaded
+
+
 ### API
 
 The Reveal class provides a minimal JavaScript API for controlling navigation and reading state:
