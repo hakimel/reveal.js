@@ -349,7 +349,7 @@ body {
 	
 	.reveal .progress span {
 		display: block;
-		background: hsl(185, 85%, 50%);
+		background: #66B360;
 		height: 100%;
 		width: 0px;
 
