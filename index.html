@@ -208,7 +208,7 @@ function linkify( selector ) {
     
     var nodes = document.querySelectorAll( selector );
 
-    for( var i = 0, len = nodes.length; i < len; i++ ) {
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
       var node = nodes[i];
 
       if( !node.className ) ) {
@@ -250,7 +250,10 @@ function linkify( selector ) {
 				<section>
 					<h2>Export to PDF</h2>
 					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
-					<iframe src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
+					<iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
+					<script>
+						document.getElementById('slideshare').attributeName = 'allowfullscreen';
+					</script>
 				</section>
 				
 				<section>
