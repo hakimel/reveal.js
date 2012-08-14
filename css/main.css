@@ -108,6 +108,12 @@ body {
 	font-weight: normal;
 }
 
+.reveal img {
+	/* preserve aspect ratio and scale image so it's bound within the section */
+	max-width: 100%;
+	max-height: 100%;
+} 
+
 .reveal strong, 
 .reveal b {
 	font-weight: bold;
