@@ -32,6 +32,12 @@ app.configure(function() {
 app.get("/", function(req, res) {
 	fs.createReadStream(opts.baseDir + '/index.html').pipe(res);
 });
+app.get("/fixed.html", function(req, res) {
+	fs.createReadStream(opts.baseDir + '/fixed.html').pipe(res);
+});
+app.get("/fixedmaster.html", function(req, res) {
+	fs.createReadStream(opts.baseDir + '/fixedmaster.html').pipe(res);
+});
 
 app.get("/token", function(req,res) {
 	var ts = new Date().getTime();
