@@ -117,10 +117,10 @@ var Reveal = (function(){
 
 		if ( config.controls ) {
 			dom.controls = document.querySelector( '.reveal .controls' );
-			dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
-			dom.controlsRight = document.querySelector( '.reveal .controls .right' );
-			dom.controlsUp = document.querySelector( '.reveal .controls .up' );
-			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
+			dom.controlsLeft = document.querySelectorAll( '.reveal .left' );
+			dom.controlsRight = document.querySelectorAll( '.reveal .right' );
+			dom.controlsUp = document.querySelectorAll( '.reveal .up' );
+			dom.controlsDown = document.querySelectorAll( '.reveal .down' );
 		}
 
 		// Loads the dependencies and continues to #start() once done
@@ -248,10 +248,14 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
-			dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
-			dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
-			dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );	
+			for (var i = 0; i < dom.controlsLeft.length; ++i)
+                dom.controlsLeft[i].addEventListener( 'click', preventAndForward( navigateLeft ), false );
+			for (var i = 0; i < dom.controlsRight.length; ++i)
+                dom.controlsRight[i].addEventListener( 'click', preventAndForward( navigateRight ), false );
+			for (var i = 0; i < dom.controlsUp.length; ++i)
+                dom.controlsUp[i].addEventListener( 'click', preventAndForward( navigateUp ), false );
+            for (var i = 0; i < dom.controlsDown.length; ++i)
+                dom.controlsDown[i].addEventListener( 'click', preventAndForward( navigateDown ), false );
 		}
 	}
 
@@ -263,10 +267,14 @@ var Reveal = (function(){
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
-			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
-			dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
-			dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+			for (var i = 0; i < dom.controlsLeft.length; ++i)
+                dom.controlsLeft[i].removeEventListener( 'click', preventAndForward( navigateLeft ), false );
+			for (var i = 0; i < dom.controlsRight.length; ++i)
+                dom.controlsRight[i].removeEventListener( 'click', preventAndForward( navigateRight ), false );
+			for (var i = 0; i < dom.controlsUp.length; ++i)
+                dom.controlsUp[i].removeEventListener( 'click', preventAndForward( navigateUp ), false );
+			for (var i = 0; i < dom.controlsDown.length; ++i)
+                dom.controlsDown[i].removeEventListener( 'click', preventAndForward( navigateDown ), false );
 		}
 	}
 
@@ -803,14 +811,19 @@ var Reveal = (function(){
 		var routes = availableRoutes();
 
 		// Remove the 'enabled' class from all directions
-		[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( node ) {
-			node.classList.remove( 'enabled' );
+		[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( nodeList ) {
+			for (var i = 0; i < nodeList.length; ++i)
+                nodeList[i].classList.remove( 'enabled' );
 		} )
 
-		if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
-		if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
-		if( routes.up ) dom.controlsUp.classList.add( 'enabled' );
-		if( routes.down ) dom.controlsDown.classList.add( 'enabled' );
+		if( routes.left ) for (var i = 0; i < dom.controlsLeft.length; ++i)
+            dom.controlsLeft[i].classList.add( 'enabled' );
+		if( routes.right ) for (var i = 0; i < dom.controlsRight.length; ++i)
+            dom.controlsRight[i].classList.add( 'enabled' );
+		if( routes.up ) for (var i = 0; i < dom.controlsUp.length; ++i)
+            dom.controlsUp[i].classList.add( 'enabled' );
+		if( routes.down ) for (var i = 0; i < dom.controlsDown.length; ++i)
+            dom.controlsDown[i].classList.add( 'enabled' );
 	}
 
 	/**
