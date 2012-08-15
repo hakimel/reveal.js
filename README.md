@@ -87,16 +87,15 @@ Reveal.js doesn't _rely_ on any third party scripts to work but a few optional l
 ```javascript
 Reveal.initialize({
 	dependencies: [
-		// syntax highlight for <code> sections
+		// Syntax highlight for <code> elements
 		{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
-		// cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+		// Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
 		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } }
-		// interpret Markdown in <section> elements
+		// Interpret Markdown in <section> elements
 		{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 		{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-		// speaker notes support
+		// Speaker notes support
 		{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
-		// required by speakernotes
 		{ src: 'socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
 	]
 });
