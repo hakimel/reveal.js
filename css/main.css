@@ -575,9 +575,9 @@ body {
 	margin-top: -350px;
 
 	-webkit-perspective-origin: 50% 25%;
- 	   -moz-perspective-origin: 50% 25%;
- 	    -ms-perspective-origin: 50% 25%;
- 	        perspective-origin: 50% 25%;
+	   -moz-perspective-origin: 50% 25%;
+	    -ms-perspective-origin: 50% 25%;
+	        perspective-origin: 50% 25%;
 
 	-webkit-perspective: 1300px;
 	   -moz-perspective: 1300px;
