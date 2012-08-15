@@ -258,33 +258,37 @@ body {
 }
 	
 	.reveal .controls a {
-		font-size: 0.83em;
+		font-family: Courier, monospace;
+		font-size: 1em;
 		position: absolute;
 		opacity: 0.1;
 	}
 		.reveal .controls a.enabled {
 			opacity: 0.6;
 		}
+		.reveal .controls a.enabled:hover {
+			opacity: 1;
+		}
 		.reveal .controls a.enabled:active {
 			margin-top: 1px;
 		}
 
 	.reveal .controls .left {
-		top: 30px;
+		top: 0.83em;
 	}
 
 	.reveal .controls .right {
-		left: 60px;
-		top: 30px;
+		left: 1.66em;
+		top: 0.83em;
 	}
 
 	.reveal .controls .up {
-		left: 30px;
+		left: 0.95em;
 	}
 
 	.reveal .controls .down {
-		left: 30px;
-		top: 60px;
+		left: 0.95em;
+		top: 1.66em;
 	}
 
 
