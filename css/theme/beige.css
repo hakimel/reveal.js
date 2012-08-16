@@ -43,15 +43,15 @@ body {
 }
 
 ::-moz-selection {
-    background:rgba(79, 64, 28, 0.99);
+	background:rgba(79, 64, 28, 0.99);
 	color: white; 
 }
 ::-webkit-selection {
-    background:rgba(79, 64, 28, 0.99);
+	background:rgba(79, 64, 28, 0.99);
 	color: white; 
 }
 ::selection {
-    background:rgba(79, 64, 28, 0.99);
+	background:rgba(79, 64, 28, 0.99);
 	color: white; 
 }
 
