@@ -259,6 +259,7 @@ body {
 }
 	
 	.reveal .controls a {
+		font-family: Arial;
 		font-size: 0.83em;
 		position: absolute;
 		opacity: 0.1;

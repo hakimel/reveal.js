@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.0 r18
+ * reveal.js 2.0 r19
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -544,7 +544,7 @@ var Reveal = (function(){
 
 			for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 				var vslide = verticalSlides[j],
-					vtransform = 'translate(0%, ' + ( ( j - indexv ) * 105 ) + '%)';
+					vtransform = 'translate(0%, ' + ( ( j - ( i === indexh ? indexv : 0 ) ) * 105 ) + '%)';
 
 				vslide.setAttribute( 'data-index-h', i );
 				vslide.setAttribute( 'data-index-v', j );
