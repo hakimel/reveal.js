@@ -100,9 +100,24 @@ body {
 		border-radius: 2px;
 	}
 
+
+.reveal .roll:hover span {
+
+	    -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	       -moz-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	        -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	            transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	}
+
 .reveal .roll span:after {
 	color: #fff;
 	background: hsl(185, 60%, 35%);
+
+
+	-webkit-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	   -moz-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	    -ms-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	        transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
 }
 
 
