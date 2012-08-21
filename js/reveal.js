@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.0 r19
+ * reveal.js 2.0 r20
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -834,14 +834,35 @@ var Reveal = (function(){
 	 * Reads the current URL (hash) and navigates accordingly.
 	 */
 	function readURL() {
-		// Break the hash down to separate components
-		var bits = window.location.hash.slice(2).split('/');
+		var hash = window.location.hash;
 
-		// Read the index components of the hash
-		var h = parseInt( bits[0] ) || 0 ;
-		var v = parseInt( bits[1] ) || 0 ;
+		// Attempt to parse the hash as either an index or name
+		var bits = hash.slice( 2 ).split( '/' ),
+			name = hash.replace( /#|\//gi, '' );
 
-		navigateTo( h, v );
+		// If the first bit is invalid and there is a name we can 
+		// assume that this is a named link
+		if( isNaN( parseInt( bits[0] ) ) && name.length ) {
+			// Find the slide with the specified name
+			var slide = document.querySelector( '#' + name );
+
+			if( slide ) {
+				// Find the position of the named slide and navigate to it
+				var indices = Reveal.getIndices( slide );
+				navigateTo( indices.h, indices.v );
+			}
+			// If the slide doesn't exist, navigate to the current slide
+			else {
+				navigateTo( indexh, indexv );
+			}
+		}
+		else {
+			// Read the index components of the hash
+			var h = parseInt( bits[0] ) || 0,
+				v = parseInt( bits[1] ) || 0;
+
+			navigateTo( h, v );
+		}
 	}
 	
 	/**
@@ -1049,12 +1070,30 @@ var Reveal = (function(){
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
 
-		// Returns the indices of the current slide
-		getIndices: function() {
-			return { 
-				h: indexh, 
-				v: indexv 
-			};
+		// Returns the indices of the current, or specified, slide
+		getIndices: function( slide ) {
+			// By default, return the current indices
+			var h = indexh,
+				v = indexv;
+
+			// If a slide is specified, return the indices of that slide
+			if( slide ) {
+				var isVertical = !!slide.parentNode.nodeName.match( /section/gi );
+				var slideh = isVertical ? slide.parentNode : slide;
+
+				// Select all horizontal slides
+				var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+
+				// Now that we know which the horizontal slide is, get its index
+				h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
+
+				// If this is a vertical slide, grab the vertical index
+				if( isVertical ) {
+					v = Math.max( Array.prototype.slice.call( slide.parentNode.children ).indexOf( slide ), 0 );
+				}
+			}
+
+			return { h: h, v: v };
 		},
 
 		// Returns the previous slide element, may be null
