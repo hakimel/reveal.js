@@ -167,7 +167,7 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 
 ### Internal links
 
-It's easy to link between slides. The first example below targets the index of another slide whereas the second targets a slide with an ID attribute (```<section id="'"some-slide">```):
+It's easy to link between slides. The first example below targets the index of another slide whereas the second targets a slide with an ID attribute (```<section id="some-slide">```):
 
 ```html
 <a href="#/2/2">Link</a>
