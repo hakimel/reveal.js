@@ -11,17 +11,8 @@
  * FONT-FACE DEFINITIONS
  *********************************************/
 
-@font-face {
-	font-family: 'League Gothic';
-	src: url('../../lib/font/league_gothic-webfont.eot');
-	src: url('../../lib/font/league_gothic-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('../../lib/font/league_gothic-webfont.woff') format('woff'),
-		 url('../../lib/font/league_gothic-webfont.ttf') format('truetype'),
-		 url('../../lib/font/league_gothic-webfont.svg#LeagueGothicRegular') format('svg');
+@import url(http://fonts.googleapis.com/css?family=News+Cycle:400,700);
 
-	font-weight: normal;
-	font-style: normal;
-}
 
 /*********************************************
  * GLOBAL STYLES
@@ -62,15 +53,10 @@ body {
 .reveal h6 {
 	margin: 0 0 20px 0;
 	color: black;
-	font-family: 'League Gothic', Impact, sans-serif;
+	font-family: 'News Cycle', Impact, sans-serif;
 	line-height: 0.9em;
-	letter-spacing: 0.02em;
 	
 	text-transform: uppercase;
-}
-
-.reveal h1 {
-	border-bottom: 5px dashed black;
 }
 
 
