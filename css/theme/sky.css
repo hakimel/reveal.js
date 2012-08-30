@@ -127,10 +127,6 @@ body {
 	background: rgba(255, 255, 255, 0.4);
 }
 
-.reveal code {
-	background: rgba(255, 255, 255, 0.6);
-}
-
 .reveal p {
 	margin-bottom: 20px;
 }
