@@ -233,8 +233,9 @@ body {
 }
 
 .reveal small {
+	display: inline-block;
 	font-size: 0.6em;
-	line-height: 1em;
+	line-height: 1.2em;
 	vertical-align: top;
 }
 

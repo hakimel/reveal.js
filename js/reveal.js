@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.0 r20
+ * reveal.js 2.0 r21
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -38,6 +38,9 @@ var Reveal = (function(){
 
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,
+
+			// Transition style (see /css/theme)
+			theme: 'default', 
 
 			// Transition style
 			transition: 'default', // default/cube/page/concave/linear(2d),
@@ -111,6 +114,7 @@ var Reveal = (function(){
 		extend( config, options );
 
 		// Cache references to DOM elements
+		dom.theme = document.querySelector( '#theme' );
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.progress = document.querySelector( '.reveal .progress' );
 		dom.progressbar = document.querySelector( '.reveal .progress span' );
@@ -220,6 +224,10 @@ var Reveal = (function(){
 
 		if( config.progress && dom.progress ) {
 			dom.progress.style.display = 'block';
+		}
+
+		if( config.theme && dom.theme ) {
+			dom.theme.setAttribute( 'href', 'css/theme/' + config.theme + '.css' );
 		}
 
 		if( config.transition !== 'default' ) {
