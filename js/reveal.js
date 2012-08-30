@@ -226,8 +226,12 @@ var Reveal = (function(){
 			dom.progress.style.display = 'block';
 		}
 
+		// Load the theme in the config, if it's not already loaded
 		if( config.theme && dom.theme ) {
-			dom.theme.setAttribute( 'href', 'css/theme/' + config.theme + '.css' );
+			var themeURL = 'css/theme/' + config.theme + '.css';
+			if( dom.theme.getAttribute( 'href' ) !== themeURL ) {
+				dom.theme.setAttribute( 'href', themeURL );
+			}
 		}
 
 		if( config.transition !== 'default' ) {
