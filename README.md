@@ -14,6 +14,11 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 
 Slides are written using HTML or markdown but there's also an online editor for those of you who prefer a more traditional user interface. Give it a try at [www.rvl.io](http://www.rvl.io).
 
+The framework is and will remain free. Donations are available as an optional way of supporting the project. Proceeds go towards futher development, hosting and domain costs for the GUI editor which will be out shortly.
+
+[![Click here to lend your support to: reveal.js and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/18182.png?skin_name=chrome)](http://www.pledgie.com/campaigns/18182)
+
+
 ## Instructions
 
 ### Markup
