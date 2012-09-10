@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.0 r22
+ * reveal.js 2.0 r23
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -340,12 +340,9 @@ var Reveal = (function(){
 	 * @param {Object} event
 	 */
 	function onDocumentKeyDown( event ) {
-		// FFT: Use document.querySelector( ':focus' ) === null 
-		// instead of checking contentEditable?
-
 		// Disregard the event if the target is editable or a 
 		// modifier is present
-		if ( event.target.contentEditable != 'inherit' || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 				
 		var triggered = false;
 
