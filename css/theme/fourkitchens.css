@@ -8,17 +8,20 @@
  * FONT-FACE DEFINITIONS
  *********************************************/
 
-@import url(http://fonts.googleapis.com/css?family=Quicksand:400,700,400italic,700italic);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
-
-
+ @font-face {
+  font-family: 'Bryant';
+  src: url('../webfonts/BryantWebMedium.eot'); /* IE9 Compat Modes */
+  src: url('../webfonts/BryantWebMedium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../webfonts/BryantWebMedium.woff') format('woff'), /* Modern Browsers */
+  url('../webfonts/BryantWebMedium.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 
 body {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Bryant', 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 36px;
 	font-weight: 200;
 	letter-spacing: -0.02em;
@@ -60,7 +63,7 @@ body {
 .reveal h6 {
 	margin: 0 0 20px 0;
 	color: #333;
-	font-family: 'Quicksand', sans-serif;
+	font-family: 'Bryant', 'Helvetica Neue', Helvetica, sans-serif;
 	line-height: 0.9em;
 	letter-spacing: -0.08em;
 	
