@@ -1,19 +1,32 @@
 # reveal.js
 
-A CSS 3D slideshow tool for quickly creating good looking HTML presentations. Doesn't _rely_ on any external libraries but [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/) is included by default for code highlighting.
+A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
 
-Note that this requires a browser with support for CSS 3D transforms and ``classList``. If CSS 3D support is not detected, the presentation will degrade to less exciting 2D transitions. A [classList polyfill](http://purl.eligrey.com/github/classList.js/blob/master/classList.js) is incuded to make this work in < iOS 5, < Safari 5.1 and IE.
+reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a browser with support for CSS 3D transforms but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
 
-Curious about how it looks in action? [Check out the demo page](http://lab.hakim.se/reveal-js/).
 
-## Usage
+#### More reading in the Wiki:
+- [Changelog](https://github.com/hakimel/reveal.js/wiki/Changelog): Up-to-date version history.
+- [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
+- [Browser Support](https://github.com/hakimel/reveal.js/wiki/Changelog): Explanation of browser support and fallbacks.
+
+The framework is and will remain free. Donations are available as an optional way of supporting the project. Proceeds go towards futher development, hosting and domain costs for reveal.js and rvl.io.
+
+[![Click here to lend your support to: reveal.js and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/18182.png?skin_name=chrome)](http://www.pledgie.com/campaigns/18182)
+
+## rvl.io
+
+Slides are written using HTML or markdown but there's also an online editor for those of you who prefer a more traditional user interface. Give it a try at [www.rvl.io](http://www.rvl.io).
+
+
+## Instructions
 
 ### Markup
 
-Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. For example:
+Markup heirarchy needs to be ``<div class="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. The first of the vertical slides is the "root" of the others (at the top), and it will be included in the horizontal sequence. For example:
 
 ```html
-<div id="reveal">
+<div class="reveal">
 	<div class="slides"> 
 		<section>Single Horizontal Slide</section>
 		<section>
@@ -24,9 +37,24 @@ Markup heirarchy needs to be ``<div id="reveal"> <div class="slides"> <section>`
 </div>
 ```
 
+### Markdown
+
+It's possible to write your slides using Markdown. To enable Markdown simply add the ```data-markdown``` attribute to your ```<section>``` elements and reveal.js will automatically load the JavaScript parser. 
+
+This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) which in turn uses [showdown](https://github.com/coreyti/showdown/). This is sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks). Updates to come.
+
+```html
+<section data-markdown>
+	## Page title
+	
+	A paragraph with some text and a [link](http://hakim.se).
+</section>
+```
+
+
 ### Configuration
 
-At the end of your page, after ``<script src="js/reveal.js"></script>``, you need to initialize reveal by running the following code. Note that all config values are optional.
+At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
 
 ```javascript
 Reveal.initialize({
@@ -36,38 +64,79 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
-	// If true; each slide will be pushed to the browser history
-	history: true,
+	// Push each slide change to the browser history
+	history: false,
 
-	// Loops the presentation, defaults to false
+	// Enable keyboard shortcuts for navigation
+	keyboard: true,
+
+	// Loop the presentation
 	loop: false,
 
-	// Flags if mouse wheel navigation should be enabled
+	// Number of milliseconds between automatically proceeding to the 
+	// next slide, disabled when set to 0
+	autoSlide: 0,
+
+	// Enable slide navigation via mouse wheel
 	mouseWheel: true,
 
 	// Apply a 3D roll to links on hover
 	rollingLinks: true,
-
-	// UI style
-	theme: 'default', // default/neon
 
 	// Transition style
 	transition: 'default' // default/cube/page/concave/linear(2d)
 });
 ```
 
+### Dependencies
+
+Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
+
+```javascript
+Reveal.initialize({
+	dependencies: [
+		// Syntax highlight for <code> elements
+		{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+		// Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } }
+		// Interpret Markdown in <section> elements
+		{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		// Speaker notes support
+		{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+		{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+	]
+});
+```
+
+You can add your own extensions using the same syntax. The following properties are available for each dependency object:
+- **src**: Path to the script to load
+- **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
+- **callback**: [optional] Function to execute when the script has loaded
+- **condition**: [optional] Function which must return true for the script to be loaded
+
+
 ### API
 
-The Reveal class provides a minimal JavaScript API for controlling its navigation:
+The Reveal class provides a minimal JavaScript API for controlling navigation and reading state:
 
-- Reveal.navigateTo( indexh, indexv );
-- Reveal.navigateLeft();
-- Reveal.navigateRight();
-- Reveal.navigateUp();
-- Reveal.navigateDown();
-- Reveal.navigatePrev();
-- Reveal.navigateNext();
-- Reveal.toggleOverview();
+```javascript
+// Navigation
+Reveal.navigateTo( indexh, indexv );
+Reveal.navigateLeft();
+Reveal.navigateRight();
+Reveal.navigateUp();
+Reveal.navigateDown();
+Reveal.navigatePrev();
+Reveal.navigateNext();
+Reveal.toggleOverview();
+
+// Retrieves the previous and current slide elements
+Reveal.getPreviousSlide();
+Reveal.getCurrentSlide();
+
+Reveal.getIndices(); // { h: 0, v: 0 } }
+```
 
 ### States
 
@@ -104,107 +173,57 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 } );
 ```
 
+### Internal links
 
-## Examples
+It's easy to link between slides. The first example below targets the index of another slide whereas the second targets a slide with an ID attribute (```<section id="some-slide">```):
 
-* http://lab.hakim.se/reveal-js/ (original)
-* http://www.ideapolisagency.com/ by [@achrafkassioui](http://twitter.com/achrafkassioui)
-* http://lucienfrelin.com/ by [@lucienfrelin](http://twitter.com/lucienfrelin)
-* http://creatorrr.github.com/ThePoet/
-* http://moduscreate.com/ by [@ModusCreate](https://twitter.com/ModusCreate)
-* http://idea.diwank.name/ by [Diwank Singh](http://diwank.name/)
-* [Webapp Development Stack & Tooling](http://dl.dropbox.com/u/39519/talks/jquk-tooling%2Bappstack/index.html) by [Paul Irish](https://github.com/paulirish)
-* [Lock-free algorithms](http://concurrencykit.org/presentations/lockfree_introduction/) by Samy Al Bahra
-* [Not Your Average Drag and Drop](http://www.thecssninja.com/talks/not_your_average_dnd/) by [Ryan Seddon](https://github.com/ryanseddon)
-* [Elasticsearch](http://spinscale.github.com/elasticsearch/2012-03-jugm.html) by [@spinscale](http://twitter.com/spinscale)
-* [JavaScript Tooling](http://dl.dropbox.com/u/39519/talks/jsconf-tools/index.html) by [Paul Irish](https://github.com/paulirish)
-* [The Graphical Web: Fostering Creativity](http://vhardy.github.com/presentations/html5-community-meet-up-2012/) by [Vincent Hardy](https://github.com/vhardy)
-* [Mobile Web Programming is a Bloody Mess](http://westcoastlogic.com/slides/debug-mobile/) by [Brian LeRoux](https://github.com/brianleroux)
-* [Bio Database Access and Sequence Alignment](http://www.philipbjorge.com/bioinformatics-presentation/) by [Philip Bjorge](https://github.com/philipbjorge)
-* [Web vs Native](http://prez.mahemoff.com/state-native/) by [Michael Mahemoff](https://github.com/mahemoff)
-* [Continuously Integrated JS Development](http://trodrigues.net/presentations/buster-ci/) by [Tiago Rodrigues](https://github.com/trodrigues)
-* [To be Future Friendly is to be Device Agnostic](http://dl.dropbox.com/u/409429/presentations/toster-2012/index.html) by [Joe McCann](https://github.com/joemccann)
-* [The Web Development Workflow of 2013](http://dl.dropbox.com/u/39519/talks/fluent/index.html) by [Paul Irish](https://github.com/paulirish)
-* [How To Cope With Graphical Challenges Using Latest Web Technologies](http://alexw.me/playground/slideshows/w3c_netcraft/) by [Alex Wolkov](https://github.com/altryne)
-* [Going Deeper with jQuery Mobile](http://andymatthews.net/downloads/presentations/going-deeper-with-jquery-mobile/) by [Andy Matthews](https://github.com/commadelimited)
-* [Studio Nord](http://studionord.org)
+```html
+<a href="#/2/2">Link</a>
+<a href="#/some-slide">Link</a>
+```
 
+## PDF Export
 
-[Send me a link](http://hakim.se/about/contact) if you used reveal.js for a project or presentation.
+Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome). 
+Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-13872948.
 
+1. Open the desired presentation with *print-pdf* anywhere in the query, for example: [lab.hakim.se/reveal-js?print-pdf](http://lab.hakim.se/reveal-js?print-pdf)
+2. Open the in-browser print dialog (CMD+P).
+3. Change the **Destination** setting to **Save as PDF**.
+4. Change the **Layout** to **Landscape**.
+5. Change the **Margins** to **None**.
+6. Click **Save**.
 
-## History
+![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
 
-#### 1.4 (master/beta)
-- Main #reveal container is now selected via a class instead of ID
-- API methods for adding or removing all event listeners
-- The 'slidechange' event now includes currentSlide and previousSlide
-- Fixed bug where 'slidechange' was firing twice when history was enabled
+## Speaker Notes
 
-#### 1.3
-- Revised keyboard shortcuts, including ESC for overview, N for next, P for previous. Thanks [mahemoff](https://github.com/mahemoff)
-- Added support for looped presentations via config
-- Fixed IE9 fallback
-- Added event binding methods (Reveal.addEventListener, Reveal.removeEventListener)
-- Added 'slidechanged' event
-- Added print styles. Thanks [skypanther](https://github.com/skypanther)
-- The address bar now hides automatically on mobile browsers
-- Space and return keys can be used to exit the overview mode
-- Events for fragment states ('fragmentshown'/'fragmenthidden')
-- Support for swipe navigation on touch devices. Thanks [akiersky](https://github.com/akiersky)
-- Support for pinch to overview on touch devices
+If you're interested in using speaker notes, reveal.js comes with a Node server that allows you to deliver your presentation in one browser while viewing speaker notes in another. 
 
-#### 1.2
+To include speaker notes in your presentation, simply add an `<aside class="notes">` element to any slide. These notes will be hidden in the main presentation view.
 
-- Big changes to DOM structure:
-  - Previous #main wrapper is now called #reveal
-  - Slides were moved one level deeper, into #reveal .slides
-  - Controls and progress bar were moved into #reveal
-- CSS is now much more explicit, rooted at #reveal, to prevent conflicts
-- Config option for disabling updates to URL, defaults to true
-- Anchors with image children no longer rotate in 3D on hover
-- Support for mouse wheel navigation ([naugtur](https://github.com/naugtur))
-- Delayed updates to URL hash to work around a bug in Chrome
-- Included a classList polyfill for IE9
-- Support for wireless presenter keys
-- States can now be applied as classes on the document element by adding data-state on a slide
+You'll also need to [install Node.js](http://nodejs.org/); then, install the server dependencies by running `npm install`.
 
-#### 1.1
+Once Node.js and the dependencies are installed, run the following command from the root directory:
 
-- Added an optional presentation progress bar
-- Images wrapped in anchors no longer unexpectedly flip in 3D
-- Slides that contain other slides are given the 'stack' class
-- Added 'transition' option for specifying transition styles
-- Added 'theme' option for specifying UI styles
-- New transitions: 'box' & 'page'
-- New theme: 'neon'
+		node plugin/speakernotes
 
-#### 1.0
+By default, the slides will be served at [localhost:1947](http://localhost:1947).
 
-- New and improved style
-- Added controls in bottom right which indicate where you can navigate
-- Reveal views in iteratively by giving them the .fragment class
-- Code sample syntax highlighting thanks to [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/)
-- Initialization options (toggling controls, toggling rolling links, transition theme)
+You can change the appearance of the speaker notes by editing the file at `plugin/speakernotes/notes.html`.	
 
-#### 0.3
+### Known Issues
 
-- Added licensing terms
-- Fixed broken links on touch devices
+- The notes page is supposed to show the current slide and the next slide, but when it first starts, it always shows the first slide in both positions. 
 
-#### 0.2
-
-- Refactored code and added inline documentation
-- Slides now have unique URL's
-- A basic API to invoke navigation was added
-
-#### 0.1
-
-- First release
-- Transitions and a white theme
+## Folder Structure
+- **css/** Core styles without which the project does not function
+- **js/** Like above but for JavaScript
+- **plugin/** Components that have been developed as extensions to reveal.js
+- **lib/** All other third party assets (JavaScript, CSS, fonts)
 
 ## License
 
 MIT licensed
 
-Copyright (C) 2012 Hakim El Hattab, http://hakim.se
+Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se

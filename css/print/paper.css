@@ -11,7 +11,7 @@
    beyond the edge of the printed page, and prevents
    unnecessary background images from printing */
 body {
-	background: #fff url(none);
+	background: #fff;
 	font-size: 13pt;
 	width: auto;
 	height: auto;
@@ -32,8 +32,11 @@ html {
    This would include navigation, ads, sidebars, etc. */
 .nestedarrow, 
 .controls a, 
-.reveal .progress span, 
-.reveal.overview {
+.reveal .progress, 
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
 	display:none;
 }
 
