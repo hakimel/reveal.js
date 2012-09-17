@@ -1,16 +1,16 @@
 /*!
- * reveal.js 2.0 r23
+ * reveal.js 2.0 r24
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 var Reveal = (function(){
+
+	'use strict';
 	
 	var HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
-
-		IS_TOUCH_DEVICE = !!( 'ontouchstart' in window ),
 
 		// Configurations defaults, can be overridden at initialization time 
 		config = {
@@ -67,16 +67,16 @@ var Reveal = (function(){
 
 		// Detect support for CSS 3D transforms
 		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
-                        		'MozPerspective' in document.body.style ||
-                        		'msPerspective' in document.body.style ||
-                        		'OPerspective' in document.body.style ||
-                        		'perspective' in document.body.style,
-        
-        supports2DTransforms =  'WebkitTransform' in document.body.style ||
-                        		'MozTransform' in document.body.style ||
-                        		'msTransform' in document.body.style ||
-                        		'OTransform' in document.body.style ||
-                        		'transform' in document.body.style,
+								'MozPerspective' in document.body.style ||
+								'msPerspective' in document.body.style ||
+								'OPerspective' in document.body.style ||
+								'perspective' in document.body.style,
+		
+		supports2DTransforms =  'WebkitTransform' in document.body.style ||
+								'MozTransform' in document.body.style ||
+								'msTransform' in document.body.style ||
+								'OTransform' in document.body.style ||
+								'transform' in document.body.style,
 		
 		// Throttles mouse wheel navigation
 		mouseWheelTimeout = 0,
@@ -321,7 +321,7 @@ var Reveal = (function(){
 		return function( event ) {
 			event.preventDefault();
 			delegate.call();
-		}
+		};
 	}
 
 	/**
@@ -510,17 +510,17 @@ var Reveal = (function(){
 	 */
 	function linkify() {
 		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
-        	var nodes = document.querySelectorAll( '.reveal .slides section a:not(.image)' );
+			var nodes = document.querySelectorAll( '.reveal .slides section a:not(.image)' );
 
-	        for( var i = 0, len = nodes.length; i < len; i++ ) {
-	            var node = nodes[i];
-	            
-	            if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
-	                node.classList.add( 'roll' );
-	                node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
-	            }
-	        };
-        }
+			for( var i = 0, len = nodes.length; i < len; i++ ) {
+				var node = nodes[i];
+				
+				if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
+					node.classList.add( 'roll' );
+					node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
+				}
+			}
+		}
 	}
 
 	/**
@@ -818,7 +818,7 @@ var Reveal = (function(){
 		// Remove the 'enabled' class from all directions
 		[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( node ) {
 			node.classList.remove( 'enabled' );
-		} )
+		} );
 
 		if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
 		if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
@@ -1111,12 +1111,12 @@ var Reveal = (function(){
 
 		// Returns the previous slide element, may be null
 		getPreviousSlide: function() {
-			return previousSlide
+			return previousSlide;
 		},
 
 		// Returns the current slide element
 		getCurrentSlide: function() {
-			return currentSlide
+			return currentSlide;
 		},
 
 		// Helper method, retrieves query string as a key/value hash
