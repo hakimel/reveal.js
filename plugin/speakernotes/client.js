@@ -29,7 +29,7 @@
 			nextindexh : nextindexh,
 			nextindexv : nextindexv,
 			socketId : socketId,
-			markdown : notes ? notes.getAttribute('data-markdown') != null : false
+			markdown : notes ? typeof notes.getAttribute('data-markdown') === 'string' : false
 
 		};
 
