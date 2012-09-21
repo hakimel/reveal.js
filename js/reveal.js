@@ -535,11 +535,12 @@ var Reveal = (function(){
 	 */
 	function activateOverview() {
 
+		// Only proceed if enabled in config
 		if( config.overview ) {
 		
 			dom.wrapper.classList.add( 'overview' );
 
-			var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
 			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 				var hslide = horizontalSlides[i],
@@ -558,7 +559,7 @@ var Reveal = (function(){
 					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
 				}
 		
-				var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( 'section' ) );
+				var verticalSlides = hslide.querySelectorAll( 'section' );
 
 				for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 					var vslide = verticalSlides[j],
@@ -589,10 +590,12 @@ var Reveal = (function(){
 	 */
 	function deactivateOverview() {
 		
+		// Only proceed if enabled in config
 		if( config.overview ) {
 
 			dom.wrapper.classList.remove( 'overview' );
 
+			// Select all slides
 			var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
 
 			for( var i = 0, len = slides.length; i < len; i++ ) {
@@ -833,6 +836,7 @@ var Reveal = (function(){
 			node.classList.remove( 'enabled' );
 		} );
 
+		// Add the 'enabled' class to the available routes
 		if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
 		if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
 		if( routes.up ) dom.controlsUp.classList.add( 'enabled' );
@@ -985,6 +989,9 @@ var Reveal = (function(){
 		return false;
 	}
 
+	/**
+	 * Cues a new automated slide if enabled in the config.
+	 */
 	function cueAutoSlide() {
 		clearTimeout( autoSlideTimeout );
 
