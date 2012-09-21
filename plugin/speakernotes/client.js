@@ -28,7 +28,9 @@
 			indexv : event.indexv,
 			nextindexh : nextindexh,
 			nextindexv : nextindexv,
-			socketId : socketId
+			socketId : socketId,
+			markdown : notes ? notes.getAttribute('data-markdown') != null : false
+
 		};
 
 		socket.emit('slidechanged', slideData);

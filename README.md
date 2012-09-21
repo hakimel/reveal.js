@@ -205,6 +205,8 @@ If you're interested in using speaker notes, reveal.js comes with a Node server 
 
 To include speaker notes in your presentation, simply add an `<aside class="notes">` element to any slide. These notes will be hidden in the main presentation view.
 
+It's also possible to write your notes with Markdown. To enable Markdown, simply add the ```data-markdown``` attribute to your ```<aside>``` elements and reveal.js will automatically load the JavaScript parser.
+
 You'll also need to [install Node.js](http://nodejs.org/); then, install the server dependencies by running `npm install`.
 
 Once Node.js and the dependencies are installed, run the following command from the root directory:
