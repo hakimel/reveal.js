@@ -70,6 +70,9 @@ Reveal.initialize({
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
 
+	// Enable the slide overview mode
+	overview: true,
+
 	// Loop the presentation
 	loop: false,
 

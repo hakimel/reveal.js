@@ -26,6 +26,9 @@ var Reveal = (function(){
 			// Enable keyboard shortcuts for navigation
 			keyboard: true,
 
+			// Enable the slide overview mode
+			overview: true,
+
 			// Loop the presentation
 			loop: false,
 
@@ -531,48 +534,53 @@ var Reveal = (function(){
 	 * can't be improved.
 	 */
 	function activateOverview() {
+
+		if( config.overview ) {
 		
-		dom.wrapper.classList.add( 'overview' );
+			dom.wrapper.classList.add( 'overview' );
 
-		var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
-		for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
-			var hslide = horizontalSlides[i],
-				htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
+			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
+				var hslide = horizontalSlides[i],
+					htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
+				
+				hslide.setAttribute( 'data-index-h', i );
+				hslide.style.display = 'block';
+				hslide.style.WebkitTransform = htransform;
+				hslide.style.MozTransform = htransform;
+				hslide.style.msTransform = htransform;
+				hslide.style.OTransform = htransform;
+				hslide.style.transform = htransform;
 			
-			hslide.setAttribute( 'data-index-h', i );
-			hslide.style.display = 'block';
-			hslide.style.WebkitTransform = htransform;
-			hslide.style.MozTransform = htransform;
-			hslide.style.msTransform = htransform;
-			hslide.style.OTransform = htransform;
-			hslide.style.transform = htransform;
+				if( !hslide.classList.contains( 'stack' ) ) {
+					// Navigate to this slide on click
+					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+				}
 		
-			if( !hslide.classList.contains( 'stack' ) ) {
-				// Navigate to this slide on click
-				hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+				var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( 'section' ) );
+
+				for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
+					var vslide = verticalSlides[j],
+						vtransform = 'translate(0%, ' + ( ( j - ( i === indexh ? indexv : 0 ) ) * 105 ) + '%)';
+
+					vslide.setAttribute( 'data-index-h', i );
+					vslide.setAttribute( 'data-index-v', j );
+					vslide.style.display = 'block';
+					vslide.style.WebkitTransform = vtransform;
+					vslide.style.MozTransform = vtransform;
+					vslide.style.msTransform = vtransform;
+					vslide.style.OTransform = vtransform;
+					vslide.style.transform = vtransform;
+
+					// Navigate to this slide on click
+					vslide.addEventListener( 'click', onOverviewSlideClicked, true );
+				}
+				
 			}
-	
-			var verticalSlides = Array.prototype.slice.call( hslide.querySelectorAll( 'section' ) );
 
-			for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-				var vslide = verticalSlides[j],
-					vtransform = 'translate(0%, ' + ( ( j - ( i === indexh ? indexv : 0 ) ) * 105 ) + '%)';
-
-				vslide.setAttribute( 'data-index-h', i );
-				vslide.setAttribute( 'data-index-v', j );
-				vslide.style.display = 'block';
-				vslide.style.WebkitTransform = vtransform;
-				vslide.style.MozTransform = vtransform;
-				vslide.style.msTransform = vtransform;
-				vslide.style.OTransform = vtransform;
-				vslide.style.transform = vtransform;
-
-				// Navigate to this slide on click
-				vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-			}
-			
 		}
+
 	}
 	
 	/**
@@ -580,24 +588,29 @@ var Reveal = (function(){
 	 * active slide.
 	 */
 	function deactivateOverview() {
-		dom.wrapper.classList.remove( 'overview' );
+		
+		if( config.overview ) {
 
-		var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
+			dom.wrapper.classList.remove( 'overview' );
 
-		for( var i = 0, len = slides.length; i < len; i++ ) {
-			var element = slides[i];
+			var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
 
-			// Resets all transforms to use the external styles
-			element.style.WebkitTransform = '';
-			element.style.MozTransform = '';
-			element.style.msTransform = '';
-			element.style.OTransform = '';
-			element.style.transform = '';
+			for( var i = 0, len = slides.length; i < len; i++ ) {
+				var element = slides[i];
 
-			element.removeEventListener( 'click', onOverviewSlideClicked );
+				// Resets all transforms to use the external styles
+				element.style.WebkitTransform = '';
+				element.style.MozTransform = '';
+				element.style.msTransform = '';
+				element.style.OTransform = '';
+				element.style.transform = '';
+
+				element.removeEventListener( 'click', onOverviewSlideClicked );
+			}
+
+			slide();
+			
 		}
-
-		slide();
 	}
 
 	/**
