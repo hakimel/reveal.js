@@ -15,7 +15,7 @@
 }
 
 body {
-	font-size: 22pt;
+	font-size: 18pt;
 	width: auto;
 	height: auto;
 	border: 0;
@@ -46,8 +46,8 @@ html {
 
 /* SECTION 3: Set body font face, size, and color.
    Consider using a serif font for readability. */
-body, p, td, li, div, a {
-	font-size: 22pt;
+body, p, td, li, div {
+	font-size: 18pt;
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
@@ -155,4 +155,8 @@ ul, ol, div, p {
 
 .reveal small a {
 	font-size: 16pt !important;
+}
+
+pre {
+    font-size: 9pt !important;
 }
