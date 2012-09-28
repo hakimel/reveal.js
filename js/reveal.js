@@ -240,7 +240,6 @@ var Reveal = (function(){
 			}
 		}
 
-
 		if( config.transition !== 'default' ) {
 			dom.wrapper.classList.add( config.transition );
 		}
