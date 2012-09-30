@@ -317,6 +317,7 @@ body {
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
+
 /*********************************************
  * ROLLING LINKS
  *********************************************/
@@ -571,8 +572,9 @@ body {
 	        transform: translate(0, 150%);
 }
 
+
 /*********************************************
- * BOX TRANSITION
+ * CUBE TRANSITION
  *********************************************/
 
 .reveal.cube .slides {
@@ -809,6 +811,56 @@ body {
 
 
 /*********************************************
+ * TILE-FLIP TRANSITION
+ *********************************************/
+
+.reveal.tileflip .slides section.present {
+	-webkit-transform: none;
+	-webkit-transition-duration: 800ms;
+
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+		amount 0, randomness 0, flipAxis 0 1 0, tileOutline 1
+	);
+}
+
+.reveal.tileflip .slides section.past {
+	-webkit-transform: none;
+	-webkit-transition-duration: 800ms;
+	
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+		amount 1, randomness 0, flipAxis 0 1 0, tileOutline 1
+	);
+}
+
+.reveal.tileflip .slides section.future {
+	-webkit-transform: none;
+	-webkit-transition-duration: 800ms;
+
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+		amount 1, randomness 0, flipAxis 0 1 0, tileOutline 1
+	);
+}
+
+.reveal.tileflip .slides>section>section.present {	
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+		amount 0, randomness 2, flipAxis 1 0 0, tileOutline 1
+	);
+}
+
+.reveal.tileflip .slides>section>section.past {	
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
+	);
+}
+
+.reveal.tileflip .slides>section>section.future {	
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
+	);
+}
+
+
+/*********************************************
  * OVERVIEW
  *********************************************/
 
@@ -909,4 +961,5 @@ body {
 .reveal aside.notes {
 	display: none;
 }
+
 
