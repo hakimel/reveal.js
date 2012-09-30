@@ -20,8 +20,8 @@
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
-			// If the query includes 'print-pdf' we'll use the PDF print sheet
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
 
@@ -108,7 +108,7 @@
 				<section>
 					<h2>Works in Mobile Safari</h2>
 					<p>
-						Try it out! You can swipe through the slides pinch your way to the overview.
+						Try it out! You can swipe through the slides and pinch your way to the overview.
 					</p>
 				</section>
 
@@ -284,6 +284,24 @@ function linkify( selector ) {
 						<li><a href="http://hakim.se/projects/reveal-js">Leave feedback on my site</a></li>
 						<li><a href="http://twitter.com/hakimel">Follow me on Twitter</a></li>
 					</ul>
+				</section>
+
+				<section>
+					<h2>It's free</h2>
+					<p>
+						reveal.js and <a href="http://www.rvl.io">rvl.io</a> are entirely free but if you'd like to support the projects you can donate below. 
+						Donations will go towards hosting and domain costs.
+					</p>
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+						<input type="hidden" name="cmd" value="_donations">
+						<input type="hidden" name="business" value="hakim.elhattab@gmail.com">
+						<input type="hidden" name="lc" value="US">
+						<input type="hidden" name="item_name" value="reveal.js / rvl.io">
+						<input type="hidden" name="no_note" value="0">
+						<input type="hidden" name="currency_code" value="USD">
+						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest">
+						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+					</form>
 				</section>
 				
 				<section>
