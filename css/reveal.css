@@ -572,6 +572,39 @@ body {
 	        transform: translate(0, 150%);
 }
 
+/*********************************************
+ * IMMEDIATE TRANSITION
+ *********************************************/
+
+.reveal.immediate .slides>section.past {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+.reveal.immediate .slides>section.future {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+.reveal.immediate .slides>section>section.past {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+.reveal.immediate .slides>section>section.future {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
 
 /*********************************************
  * CUBE TRANSITION
