@@ -811,7 +811,7 @@ body {
 
 
 /*********************************************
- * TILE-FLIP TRANSITION
+ * TILE-FLIP TRANSITION (CSS shader)
  *********************************************/
 
 .reveal.tileflip .slides section.present {
@@ -857,6 +857,25 @@ body {
 	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
 		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
 	);
+}
+
+
+/*********************************************
+ * NO TRANSITION
+ *********************************************/
+
+.reveal.none .slides section {
+	-webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
+
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
 }
 
 
