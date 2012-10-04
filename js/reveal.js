@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r27
+ * reveal.js 2.1 r28
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -483,6 +483,11 @@ var Reveal = (function(){
 				}
 			}
 
+			event.preventDefault();
+		}
+		// There's a bug with swiping on some Android devices unless 
+		// the default action is always prevented
+		else if( navigator.userAgent.match( /android/gi ) ) {
 			event.preventDefault();
 		}
 	}
