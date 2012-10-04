@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r26
+ * reveal.js 2.1 r27
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -171,7 +171,7 @@ var Reveal = (function(){
 
 				// Extension may contain callback functions
 				if( typeof s.callback === 'function' ) {
-					head.ready( s.src.match( /([\w\d_-]*)\.?[^\\\/]*$/i )[0], s.callback );
+					head.ready( s.src.match( /([\w\d_\-]*)\.?[^\\\/]*$/i )[0], s.callback );
 				}
 			}
 		}
@@ -232,8 +232,9 @@ var Reveal = (function(){
 		// Load the theme in the config, if it's not already loaded
 		if( config.theme && dom.theme ) {
 			var themeURL = dom.theme.getAttribute( 'href' );
-			var themeFinder = /[^/]*?(?=\.css)/;
+			var themeFinder = /[^\/]*?(?=\.css)/;
 			var themeName = themeURL.match(themeFinder)[0];
+
 			if(  config.theme !== themeName ) {
 				themeURL = themeURL.replace(themeFinder, config.theme);
 				dom.theme.setAttribute( 'href', themeURL );
@@ -335,6 +336,17 @@ var Reveal = (function(){
 			window.scrollTo( 0, 1 );
 		}, 0 );
 	}
+
+	/**
+	 * Dispatches an event of the specified type from the 
+	 * reveal DOM element.
+	 */
+	function dispatchEvent( type, properties ) {
+		var event = document.createEvent( "HTMLEvents", 1, 2 );
+		event.initEvent( type, true, true );
+		extend( event, properties );
+		dom.wrapper.dispatchEvent( event );
+	}
 	
 	/**
 	 * Handler for the document level 'keydown' event.
@@ -345,30 +357,32 @@ var Reveal = (function(){
 		// Disregard the event if the target is editable or a 
 		// modifier is present
 		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
-				
-		var triggered = false;
+
+		var triggered = true;
 
 		switch( event.keyCode ) {
 			// p, page up
-			case 80: case 33: navigatePrev(); triggered = true; break; 
+			case 80: case 33: navigatePrev(); break; 
 			// n, page down
-			case 78: case 34: navigateNext(); triggered = true; break;
+			case 78: case 34: navigateNext(); break;
 			// h, left
-			case 72: case 37: navigateLeft(); triggered = true; break;
+			case 72: case 37: navigateLeft(); break;
 			// l, right
-			case 76: case 39: navigateRight(); triggered = true; break;
+			case 76: case 39: navigateRight(); break;
 			// k, up
-			case 75: case 38: navigateUp(); triggered = true; break;
+			case 75: case 38: navigateUp(); break;
 			// j, down
-			case 74: case 40: navigateDown(); triggered = true; break;
+			case 74: case 40: navigateDown(); break;
 			// home
-			case 36: navigateTo( 0 ); triggered = true; break;
+			case 36: navigateTo( 0 ); break;
 			// end
-			case 35: navigateTo( Number.MAX_VALUE ); triggered = true; break;
+			case 35: navigateTo( Number.MAX_VALUE ); break;
 			// space
-			case 32: overviewIsActive() ? deactivateOverview() : navigateNext(); triggered = true; break;
+			case 32: overviewIsActive() ? deactivateOverview() : navigateNext(); break;
 			// return
-			case 13: if( overviewIsActive() ) { deactivateOverview(); triggered = true; } break;
+			case 13: overviewIsActive() ? deactivateOverview() : triggered = false; break;
+			default:
+				triggered = false;
 		}
 
 		// If the input resulted in a triggered action we should prevent 
@@ -508,6 +522,24 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Invoked when a slide is and we're in the overview.
+	 */
+	function onOverviewSlideClicked( event ) {
+		// TODO There's a bug here where the event listeners are not 
+		// removed after deactivating the overview.
+		if( overviewIsActive() ) {
+			event.preventDefault();
+
+			deactivateOverview();
+
+			indexh = this.getAttribute( 'data-index-h' );
+			indexv = this.getAttribute( 'data-index-v' );
+
+			slide();
+		}
+	}
+
+	/**
 	 * Wrap all links in 3D goodness.
 	 */
 	function linkify() {
@@ -626,24 +658,6 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Invoked when a slide is and we're in the overview.
-	 */
-	function onOverviewSlideClicked( event ) {
-		// TODO There's a bug here where the event listeners are not 
-		// removed after deactivating the overview.
-		if( overviewIsActive() ) {
-			event.preventDefault();
-
-			deactivateOverview();
-
-			indexh = this.getAttribute( 'data-index-h' );
-			indexv = this.getAttribute( 'data-index-v' );
-
-			slide();
-		}
-	}
-
-	/**
 	 * Updates one dimension of slides by showing the slide
 	 * with the specified index.
 	 * 
@@ -730,8 +744,12 @@ var Reveal = (function(){
 	}
 	
 	/**
-	 * Updates the visual slides to represent the currently
-	 * set indices. 
+	 * Steps from the current point in the presentation to the 
+	 * slide which matches the specified horizontal and vertical 
+	 * indices. 
+	 *
+	 * @param {int} h Horizontal index of the target slide
+	 * @param {int} v Vertical index of the target slide
 	 */
 	function slide( h, v ) {
 		// Remember where we were at before
@@ -777,7 +795,7 @@ var Reveal = (function(){
 			dom.progressbar.style.width = ( indexh / ( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1 ) ) * window.innerWidth + 'px';
 		}
 
-		// Close the overview if it's active
+		// If the overview is active, re-activate it to update positions
 		if( overviewIsActive() ) {
 			activateOverview();
 		}
@@ -848,8 +866,8 @@ var Reveal = (function(){
 	 * @return {Object} containing four booleans: left/right/up/down
 	 */
 	function availableRoutes() {
-		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
-		var verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
 		return {
 			left: indexh > 0,
@@ -871,7 +889,7 @@ var Reveal = (function(){
 
 		// If the first bit is invalid and there is a name we can 
 		// assume that this is a named link
-		if( isNaN( parseInt( bits[0] ) ) && name.length ) {
+		if( isNaN( parseInt( bits[0], 10 ) ) && name.length ) {
 			// Find the slide with the specified name
 			var slide = document.querySelector( '#' + name );
 
@@ -887,8 +905,8 @@ var Reveal = (function(){
 		}
 		else {
 			// Read the index components of the hash
-			var h = parseInt( bits[0] ) || 0,
-				v = parseInt( bits[1] ) || 0;
+			var h = parseInt( bits[0], 10 ) || 0,
+				v = parseInt( bits[1], 10 ) || 0;
 
 			navigateTo( h, v );
 		}
@@ -909,17 +927,6 @@ var Reveal = (function(){
 			
 			window.location.hash = url;
 		}
-	}
-
-	/**
-	 * Dispatches an event of the specified type from the 
-	 * reveal DOM element.
-	 */
-	function dispatchEvent( type, properties ) {
-		var event = document.createEvent( "HTMLEvents", 1, 2 );
-		event.initEvent( type, true, true );
-		extend( event, properties );
-		dom.wrapper.dispatchEvent( event );
 	}
 
 	/**
@@ -1016,18 +1023,21 @@ var Reveal = (function(){
 			slide( indexh - 1, 0 );
 		}
 	}
+
 	function navigateRight() {
 		// Prioritize revealing fragments
 		if( overviewIsActive() || nextFragment() === false ) {
 			slide( indexh + 1, 0 );
 		}
 	}
+
 	function navigateUp() {
 		// Prioritize hiding fragments
 		if( overviewIsActive() || previousFragment() === false ) {
 			slide( indexh, indexv - 1 );
 		}
 	}
+
 	function navigateDown() {
 		// Prioritize revealing fragments
 		if( overviewIsActive() || nextFragment() === false ) {
@@ -1076,13 +1086,17 @@ var Reveal = (function(){
 
 	/**
 	 * Toggles the slide overview mode on and off.
+	 *
+	 * @param {Boolean} override Optional flag which overrides the 
+	 * toggle logic and forcibly sets the desired state. True means 
+	 * overview is open, false means it's closed.
 	 */
-	function toggleOverview() {
-		if( overviewIsActive() ) {
-			deactivateOverview();
+	function toggleOverview( override ) {
+		if( typeof override === 'boolean' ) {
+			override ? activateOverview() : deactivateOverview();
 		}
 		else {
-			activateOverview();
+			overviewIsActive() ? deactivateOverview() : activateOverview();
 		}
 	}
 	
