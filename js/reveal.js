@@ -46,7 +46,7 @@ var Reveal = (function(){
 			theme: 'default', 
 
 			// Transition style
-			transition: 'default', // default/cube/page/concave/linear(2d),
+			transition: 'default', // default/cube/page/concave/linear(2d)/none,
 
 			// Script dependencies to load
 			dependencies: []
