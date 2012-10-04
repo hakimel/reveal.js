@@ -537,6 +537,52 @@ body {
 	        transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 }
 
+/*********************************************
+ * NO TRANSITION ('none')
+ *********************************************/
+
+.reveal.none .slides>section.past {
+	-webkit-transform: translate(0, 0);
+	   -moz-transform: translate(0, 0);
+	    -ms-transform: translate(0, 0);
+	     -o-transform: translate(0, 0);
+	        transform: translate(0, 0);
+}
+.reveal.none .slides>section.future {
+	-webkit-transform: translate(0, 0);
+	   -moz-transform: translate(0, 0);
+	    -ms-transform: translate(0, 0);
+	     -o-transform: translate(0, 0);
+	        transform: translate(0, 0);
+}
+
+.reveal.none .slides>section>section.past {
+	-webkit-transform: translate(0, 0);
+	   -moz-transform: translate(0, 0);
+	    -ms-transform: translate(0, 0);
+	     -o-transform: translate(0, 0);
+	        transform: translate(0, 0);
+}
+.reveal.none .slides>section>section.future {
+	-webkit-transform: translate(0, 0);
+	   -moz-transform: translate(0, 0);
+	    -ms-transform: translate(0, 0);
+	     -o-transform: translate(0, 0);
+	        transform: translate(0, 0);
+}
+
+.reveal.none .slides > section, .reveal.none .slides > section > section {
+  -webkit-transform-style: initial;
+   -moz-transform-style: initial;
+    -ms-transform-style: initial;
+        transform-style: initial;
+
+  -webkit-transition: none;
+     -moz-transition: none;
+      -ms-transition: none;
+       -o-transition: none;
+          transition: none;
+}
 
 /*********************************************
  * LINEAR TRANSITION
