@@ -982,3 +982,107 @@ body {
 }
 
 
+/*********************************************
+ * THUMBNAILS MODE
+ *********************************************/
+
+.thumbs-show, .thumbs-show body {
+	overflow: visible;
+	/*height: auto;*/
+}
+
+.thumbs-show .reveal {
+	overflow: hidden;
+}
+
+.thumbs-show .reveal .slides {
+	position: static;
+
+	margin: 0;
+
+	width: 5440px;
+	max-width: none;
+	height: auto;
+
+	overflow: hidden;
+
+	-webkit-transform-origin: 0 0;
+	   -moz-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	     -o-transform-origin: 0 0;
+	        transform-origin: 0 0;
+
+}
+
+.thumbs-show .reveal .slides > section.stack,
+.thumbs-show .reveal .slides > section.thumbs-slide,
+.thumbs-show .reveal .slides > section > section.thumbs-slide {
+	display: block;
+	position: static;
+	opacity: 1;
+	
+	margin: 0;
+
+	-webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
+}
+
+.thumbs-show .reveal .slides > section.stack {
+	/*margin: 0;*/
+	display: inline;
+	/*overflow: visible;*/
+}
+
+.thumbs-show .reveal .slides > section.thumbs-slide,
+.thumbs-show .reveal .slides > section > section.thumbs-slide {
+	float: left;
+	position: relative;
+
+	width: 900px;
+	height: 600px;
+
+	min-width: 900px;
+	min-height: 600px;
+
+	margin: 150px;
+	padding: 50px;
+
+	overflow: hidden;
+
+	border: 30px solid rgba(50, 50, 50, 0.2);
+	background-color: rgba(150, 150, 150, 0.2);
+}
+
+.thumbs-show .reveal .slides .thumbs-slide:hover {
+	border-color: rgba(150, 150, 150, 0.5);
+}
+
+.thumbs-show .reveal .slides section[data-state="alert"].thumbs-slide {
+	background-color: rgba( 200, 50, 30, 0.6 );
+}
+
+.thumbs-show .reveal .slides section[data-state="soothe"].thumbs-slide {
+	background-color: rgba( 50, 200, 90, 0.4 );
+}
+
+.thumbs-show .reveal .slides section[data-state="blackout"].thumbs-slide {
+	background-color: rgba( 0, 0, 0, 0.6 );
+}
+
+.thumbs-slide:after {
+	content: attr(data-thumbs-index);
+	
+	font-size: 80px;
+	color: #ddd;
+
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
+.slides > .thumbs-slide:first-child:after {
+	content: none;
+}

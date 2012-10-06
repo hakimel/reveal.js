@@ -29,6 +29,9 @@ var Reveal = (function(){
 			// Enable the slide overview mode
 			overview: true,
 
+			// Enable the thumbnails mode
+			thumbnails: true,
+
 			// Loop the presentation
 			loop: false,
 
@@ -264,6 +267,7 @@ var Reveal = (function(){
 
 		if( config.keyboard ) {
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
+			document.addEventListener( 'keydown', onThumbnailKeyDown, false );
 		}
 
 		if ( config.controls && dom.controls ) {
@@ -276,11 +280,42 @@ var Reveal = (function(){
 
 	function removeEventListeners() {
 		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
+		document.removeEventListener( 'keydown', onThumbnailKeyDown, false );
 		document.removeEventListener( 'touchstart', onDocumentTouchStart, false );
 		document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
-		
+
+		if ( config.controls && dom.controls ) {
+			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
+			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
+			dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
+			dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+		}
+	}
+
+	function addMouseEventListeners() {
+		if( config.mouseWheel ) {
+			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
+			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
+		}
+	}
+
+	function removeMouseEventListeners() {
+		document.removeEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
+		document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
+	}
+
+	/**
+	* Removes all the event listeners except for the thumbnails mode toggle key
+	*/
+	function removeNavigationEventListeners() {
+		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
+		document.removeEventListener( 'touchstart', onDocumentTouchStart, false );
+		document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
+		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
+		window.removeEventListener( 'hashchange', onWindowHashChange, false );
+
 		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
 			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
@@ -387,19 +422,34 @@ var Reveal = (function(){
 
 		// If the input resulted in a triggered action we should prevent 
 		// the browsers default behavior
+
+		// If auto-sliding is enabled we need to cue up 
+		// another timeout
 		if( triggered ) {
 			event.preventDefault();
+			cueAutoSlide();
 		}
 		else if ( event.keyCode === 27 && supports3DTransforms ) {
 			toggleOverview();
 	
 			event.preventDefault();
+			cueAutoSlide();
 		}
+	}
 
-		// If auto-sliding is enabled we need to cue up 
-		// another timeout
-		cueAutoSlide();
+	/**
+	 * An additional 'keydown' handler for toggling the thumbnails mode
+	 * 
+	 * @param {Object} event
+	 */
+	function onThumbnailKeyDown( event ) {
+		// Disregard the event if the target is editable or a 
+		// modifier is present
+		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 
+		if(event.keyCode === 90) {
+			toggleThumbnails();
+		}
 	}
 
 	/**
@@ -660,6 +710,190 @@ var Reveal = (function(){
 	 */
 	function overviewIsActive() {
 		return dom.wrapper.classList.contains( 'overview' );
+	}
+
+	/**
+	 * Displays a thumbnail show of slides 
+	 * 
+	 * Experimental feature
+	 */
+	function activateThumbnails() {
+	
+		if(config.thumbnails) {
+			var sections = document.querySelectorAll('section'),
+				thumbs = thumbSlides();
+			
+			stopAutoSlide();
+
+			//Remove listeners
+			removeMouseEventListeners();
+			removeNavigationEventListeners();
+
+			//Remove the data-state
+			document.documentElement.className = '';
+
+			//Classes
+			// document.querySelector('body').classList.add('thumbs-show');
+			document.documentElement.classList.add('thumbs-show');
+
+			//Hide controls and progress
+			if(dom.controls && config.controls) {
+				dom.controls.style.display = 'none';
+			}
+			if( config.progress && dom.progress ) {
+				dom.progressbar.style.display = 'none';
+			}
+
+			//Remove inline styles
+			for(var i = 0; i < sections.length; i++) {
+				var section = sections[i];
+				section.removeAttribute('style');
+			}
+
+			//Event listeners for clicking a thumbnail,
+			//plus thumbnail class and index
+			for(i = 0; i < thumbs.length; i++) {
+				var thumb = thumbs[i];
+				thumb.classList.add('thumbs-slide');
+				thumb.setAttribute('data-thumbs-index', i);
+				thumb.addEventListener('click', onThumbnailsSlideClicked, false) ;
+			}
+
+			//Size for the slide thumbnails
+			//UGLY: these values are copied from reveal.css
+			//BUGGY: a -15px term is added because of the scroll bar, but this value 
+			// may change across different browsers
+			var thumbBaseWidth = (900 + ( 150 + 50 + 30 )*2 ) + 1,
+						thumbsRowNumber = 4,
+						scale = (window.innerWidth - 15) / thumbBaseWidth / thumbsRowNumber, 
+						thumbHeight = (600 + ( 150 + 50 + 30 )*2 ) * scale,
+						totalHeight = thumbHeight * Math.ceil(thumbs.length/thumbsRowNumber);
+
+			//Add CSS to scale the slides.
+			var style = document.createElement('style');
+			style.id = 'scale-style';
+			style.textContent = scaleRule(scale, totalHeight);
+			document.querySelector('body').appendChild(style);
+
+			//Scroll to current slide
+			var position = thumbHeight * 
+				Math.floor(currentSlide.dataset.thumbsIndex/thumbsRowNumber );
+			window.scrollTo(0, position);
+
+		}
+	}
+
+	/**
+	* Exits the thumbnails mode
+	*/
+	function deactivateThumbnails() {
+		if(config.thumbnails) {
+			var thumbs = thumbSlides(),
+				thumb,
+				states;
+
+			// document.querySelector('body').classList.remove('thumbs-show');
+			document.querySelector('body').removeChild(document.querySelector('#scale-style'));
+			document.documentElement.classList.remove('thumbs-show');
+
+			currentSlide.style.display = 'block';
+
+			//Recover the data-state
+			if(currentSlide.getAttribute('data-state')) {
+
+				states = currentSlide.getAttribute('data-state').split(' ');
+
+				for(var i = 0; i < states.length; i++) {
+
+					document.documentElement.classList.add( states[i] );
+					dispatchEvent( states[i] );
+				}
+			}
+
+			//Remove event listeners, classes and data
+			for(var i = 0; i < thumbs.length; i++) {
+				thumb = thumbs[i];
+				thumb.removeEventListener('click', onThumbnailsSlideClicked, false);
+				thumb.classList.remove('thumbs-slide');
+				thumb.removeAttribute('data-thumbs-index');
+			}
+
+			//Recover document event listeners
+			addEventListeners();
+			addMouseEventListeners();
+
+			//Recover controls and progress
+			if(dom.controls && config.controls) {
+				dom.controls.style.display = 'block';
+			}
+			if( config.progress && dom.progress ) {
+				dom.progressbar.style.display = 'block';
+			}
+
+			//Restart autoslide
+			cueAutoSlide();
+		}
+	}
+
+	/**
+	 * Invoked when a slide is clicked in thumbnails mode
+	 */
+	function onThumbnailsSlideClicked() {
+		slide(getIndices(this).h, getIndices(this).v);
+		deactivateThumbnails();
+	}
+
+	/**
+	* Helper to get the slides to be displayed as thumbnails
+	*/
+
+	var thumbSlides = (function() {
+		var thumbs = [],
+			memo;
+
+		//A closure to find the slides only once
+		memo = function () {
+			if(thumbs.length === 0) {
+
+				var sections = document.querySelectorAll('.slides section');
+
+				for(var i = 0; i < sections.length; i++) {
+					var section = sections[i];
+					if(!section.classList.contains('stack')) {
+						thumbs.push(section);
+					}
+				}
+			}
+			return thumbs;
+		};
+		return memo;
+	})();
+
+	/**
+	* Returns the embedded CSS for thumbnails mode
+	*/
+	function scaleRule (scale, height) {
+		return '.thumbs-show .reveal .slides {\n' + 
+					 '	-webkit-transform: scale(' + scale + ');\n' +
+					 '	   -moz-transform: scale(' + scale + ');\n' +
+					 '	    -ms-transform: scale(' + scale + ');\n' +
+					 '	     -o-transform: scale(' + scale + ');\n' +
+					 '	        transform: scale(' + scale + ');\n' +
+					 '}\n' +
+					 '.thumbs-show .reveal {\n' +
+					 '	height: ' + height + 'px;\n' +  
+					 '}';
+	}
+
+	/**
+	 * Toggles the slide thumbnails mode on and off.
+	 */
+	function toggleThumbnails() {
+		if(document.documentElement.classList.contains('thumbs-show')) {
+			deactivateThumbnails();
+		} else {
+			activateThumbnails();
+		}
 	}
 
 	/**
@@ -1011,6 +1245,10 @@ var Reveal = (function(){
 			autoSlideTimeout = setTimeout( navigateNext, config.autoSlide );
 		}
 	}
+
+	function stopAutoSlide() {
+		clearTimeout( autoSlideTimeout );
+	}
 	
 	/**
 	 * Triggers a navigation to the specified indices.
@@ -1104,7 +1342,35 @@ var Reveal = (function(){
 			overviewIsActive() ? deactivateOverview() : activateOverview();
 		}
 	}
-	
+
+	/** 
+	* Returns the indices of the current, or specified, slide
+	*/
+	function getIndices ( slide ) {
+		// By default, return the current indices
+		var h = indexh,
+			v = indexv;
+
+		// If a slide is specified, return the indices of that slide
+		if( slide ) {
+			var isVertical = !!slide.parentNode.nodeName.match( /section/gi );
+			var slideh = isVertical ? slide.parentNode : slide;
+
+			// Select all horizontal slides
+			var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+
+			// Now that we know which the horizontal slide is, get its index
+			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
+
+			// If this is a vertical slide, grab the vertical index
+			if( isVertical ) {
+				v = Math.max( Array.prototype.slice.call( slide.parentNode.children ).indexOf( slide ), 0 );
+			}
+		}
+
+		return { h: h, v: v };
+	}
+
 	// Expose some methods publicly
 	return {
 		initialize: initialize,
@@ -1116,36 +1382,13 @@ var Reveal = (function(){
 		navigatePrev: navigatePrev,
 		navigateNext: navigateNext,
 		toggleOverview: toggleOverview,
+		toggleThumbnails: toggleThumbnails,
+		getIndices: getIndices,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
 
-		// Returns the indices of the current, or specified, slide
-		getIndices: function( slide ) {
-			// By default, return the current indices
-			var h = indexh,
-				v = indexv;
-
-			// If a slide is specified, return the indices of that slide
-			if( slide ) {
-				var isVertical = !!slide.parentNode.nodeName.match( /section/gi );
-				var slideh = isVertical ? slide.parentNode : slide;
-
-				// Select all horizontal slides
-				var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
-
-				// Now that we know which the horizontal slide is, get its index
-				h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
-
-				// If this is a vertical slide, grab the vertical index
-				if( isVertical ) {
-					v = Math.max( Array.prototype.slice.call( slide.parentNode.children ).indexOf( slide ), 0 );
-				}
-			}
-
-			return { h: h, v: v };
-		},
 
 		// Returns the previous slide element, may be null
 		getPreviousSlide: function() {
