@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r28
+ * reveal.js 2.1 r29
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -116,9 +116,61 @@ var Reveal = (function(){
 		// Copy options over to our config object
 		extend( config, options );
 
-		// Cache references to DOM elements
+		// Make sure we've got all the DOM elements we need
+		setupDOM();
+
+		// Hide the address bar in mobile browsers
+		hideAddressBar();
+
+		// Loads the dependencies and continues to #start() once done
+		load();
+		
+	}
+
+	/**
+	 * Finds and stores references to DOM elements which are 
+	 * required by the presentation. If a required element is 
+	 * not found, it is created.
+	 */
+	function setupDOM() {
+		// Cache references to key DOM elements
 		dom.theme = document.querySelector( '#theme' );
 		dom.wrapper = document.querySelector( '.reveal' );
+
+		// Progress bar
+		if( !dom.wrapper.querySelector( '.progress' ) && config.progress ) {
+			var progressElement = document.createElement( 'div' );
+			progressElement.classList.add( 'progress' );
+			progressElement.innerHTML = '<span></span>';
+			dom.wrapper.appendChild( progressElement );
+		}
+
+		// Arrow controls
+		if( !dom.wrapper.querySelector( '.controls' ) && config.controls ) {
+			var controlsElement = document.createElement( 'aside' );
+			controlsElement.classList.add( 'controls' );
+			controlsElement.innerHTML = '<a class="left" href="#">&#x25C4;</a>' +
+										'<a class="right" href="#">&#x25BA;</a>' +
+										'<a class="up" href="#">&#x25B2;</a>' +
+										'<a class="down" href="#">&#x25BC;</a>';
+			dom.wrapper.appendChild( controlsElement );
+		}
+
+		// Presentation background element
+		if( !dom.wrapper.querySelector( '.state-background' ) ) {
+			var backgroundElement = document.createElement( 'div' );
+			backgroundElement.classList.add( 'state-background' );
+			dom.wrapper.appendChild( backgroundElement );
+		}
+
+		// Overlay graphic which is displayed during the paused mode
+		if( !dom.wrapper.querySelector( '.pause-overlay' ) ) {
+			var pausedElement = document.createElement( 'div' );
+			pausedElement.classList.add( 'pause-overlay' );
+			dom.wrapper.appendChild( pausedElement );
+		}
+
+		// Cache references to elements
 		dom.progress = document.querySelector( '.reveal .progress' );
 		dom.progressbar = document.querySelector( '.reveal .progress span' );
 
@@ -129,11 +181,12 @@ var Reveal = (function(){
 			dom.controlsUp = document.querySelector( '.reveal .controls .up' );
 			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
 		}
+	}
 
-		// Loads the dependencies and continues to #start() once done
-		load();
-
-		// Set up hiding of the browser address bar
+	/**
+	 * Hides the address bar if we're on a mobile device.
+	 */
+	function hideAddressBar() {
 		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
 			// Give the page some scrollable overflow
 			document.documentElement.style.overflow = 'scroll';
@@ -143,7 +196,6 @@ var Reveal = (function(){
 			window.addEventListener( 'load', removeAddressBar, false );
 			window.addEventListener( 'orientationchange', removeAddressBar, false );
 		}
-		
 	}
 
 	/**
@@ -378,9 +430,11 @@ var Reveal = (function(){
 			// end
 			case 35: navigateTo( Number.MAX_VALUE ); break;
 			// space
-			case 32: overviewIsActive() ? deactivateOverview() : navigateNext(); break;
+			case 32: isOverviewActive() ? deactivateOverview() : navigateNext(); break;
 			// return
-			case 13: overviewIsActive() ? deactivateOverview() : triggered = false; break;
+			case 13: isOverviewActive() ? deactivateOverview() : triggered = false; break;
+			// b, period
+			case 66: case 190: togglePause(); break;
 			default:
 				triggered = false;
 		}
@@ -532,7 +586,7 @@ var Reveal = (function(){
 	function onOverviewSlideClicked( event ) {
 		// TODO There's a bug here where the event listeners are not 
 		// removed after deactivating the overview.
-		if( overviewIsActive() ) {
+		if( isOverviewActive() ) {
 			event.preventDefault();
 
 			deactivateOverview();
@@ -653,13 +707,63 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Toggles the slide overview mode on and off.
+	 *
+	 * @param {Boolean} override Optional flag which overrides the 
+	 * toggle logic and forcibly sets the desired state. True means 
+	 * overview is open, false means it's closed.
+	 */
+	function toggleOverview( override ) {
+		if( typeof override === 'boolean' ) {
+			override ? activateOverview() : deactivateOverview();
+		}
+		else {
+			isOverviewActive() ? deactivateOverview() : activateOverview();
+		}
+	}
+
+	/**
 	 * Checks if the overview is currently active.
 	 * 
 	 * @return {Boolean} true if the overview is active,
 	 * false otherwise
 	 */
-	function overviewIsActive() {
+	function isOverviewActive() {
 		return dom.wrapper.classList.contains( 'overview' );
+	}
+
+	/**
+	 * Enters the paused mode which fades everything on screen to 
+	 * black.
+	 */
+	function pause() {
+		dom.wrapper.classList.add( 'paused' );
+	}
+
+	/**
+	 * Exits from the paused mode.
+	 */
+	function resume() {
+		dom.wrapper.classList.remove( 'paused' );
+	}
+
+	/**
+	 * Toggles the paused mode on and off.
+	 */
+	function togglePause() {
+		if( isPaused() ) {
+			resume();
+		}
+		else {
+			pause();
+		}
+	}
+
+	/**
+	 * Checks if we are currently in the paused mode.
+	 */
+	function isPaused() {
+		return dom.wrapper.classList.contains( 'paused' );
 	}
 
 	/**
@@ -701,7 +805,7 @@ var Reveal = (function(){
 
 				// Optimization; hide all slides that are three or more steps 
 				// away from the present slide
-				if( overviewIsActive() === false ) {
+				if( isOverviewActive() === false ) {
 					// The distance loops so that it measures 1 between the first
 					// and last slides
 					var distance = Math.abs( ( index - i ) % ( slidesLength - 3 ) ) || 0;
@@ -801,7 +905,7 @@ var Reveal = (function(){
 		}
 
 		// If the overview is active, re-activate it to update positions
-		if( overviewIsActive() ) {
+		if( isOverviewActive() ) {
 			activateOverview();
 		}
 
@@ -1024,28 +1128,28 @@ var Reveal = (function(){
 	
 	function navigateLeft() {
 		// Prioritize hiding fragments
-		if( overviewIsActive() || previousFragment() === false ) {
+		if( isOverviewActive() || previousFragment() === false ) {
 			slide( indexh - 1, 0 );
 		}
 	}
 
 	function navigateRight() {
 		// Prioritize revealing fragments
-		if( overviewIsActive() || nextFragment() === false ) {
+		if( isOverviewActive() || nextFragment() === false ) {
 			slide( indexh + 1, 0 );
 		}
 	}
 
 	function navigateUp() {
 		// Prioritize hiding fragments
-		if( overviewIsActive() || previousFragment() === false ) {
+		if( isOverviewActive() || previousFragment() === false ) {
 			slide( indexh, indexv - 1 );
 		}
 	}
 
 	function navigateDown() {
 		// Prioritize revealing fragments
-		if( overviewIsActive() || nextFragment() === false ) {
+		if( isOverviewActive() || nextFragment() === false ) {
 			slide( indexh, indexv + 1 );
 		}
 	}
@@ -1087,22 +1191,6 @@ var Reveal = (function(){
 		// If auto-sliding is enabled we need to cue up 
 		// another timeout
 		cueAutoSlide();
-	}
-
-	/**
-	 * Toggles the slide overview mode on and off.
-	 *
-	 * @param {Boolean} override Optional flag which overrides the 
-	 * toggle logic and forcibly sets the desired state. True means 
-	 * overview is open, false means it's closed.
-	 */
-	function toggleOverview( override ) {
-		if( typeof override === 'boolean' ) {
-			override ? activateOverview() : deactivateOverview();
-		}
-		else {
-			overviewIsActive() ? deactivateOverview() : activateOverview();
-		}
 	}
 	
 	// Expose some methods publicly

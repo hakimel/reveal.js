@@ -410,6 +410,7 @@ body {
 	margin-top: -320px;
 	padding: 20px 0px;
 	overflow: visible;
+	z-index: 1;
 	
 	text-align: center;
 
@@ -922,6 +923,33 @@ body {
 
 
 /*********************************************
+ * PAUSED MODE
+ *********************************************/
+
+.reveal .pause-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	visibility: hidden;
+	opacity: 0;
+	z-index: 100;
+
+	-webkit-transition: all 1s ease;
+	   -moz-transition: all 1s ease;
+	    -ms-transition: all 1s ease;
+	     -o-transition: all 1s ease;
+	        transition: all 1s ease;
+}
+.reveal.paused .pause-overlay {
+	visibility: visible;
+	opacity: 1;
+}
+
+
+/*********************************************
  * FALLBACK
  *********************************************/
 
@@ -945,10 +973,10 @@ body {
 
 
 /*********************************************
- * DEFAULT STATES
+ * BACKGROUND STATES
  *********************************************/
 
-.state-background {
+.reveal .state-background {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -960,13 +988,13 @@ body {
 	     -o-transition: background 800ms ease;
 	        transition: background 800ms ease;
 }
-.alert .state-background {
+.alert .reveal .state-background {
 	background: rgba( 200, 50, 30, 0.6 );
 }
-.soothe .state-background {
+.soothe .reveal .state-background {
 	background: rgba( 50, 200, 90, 0.4 );
 }
-.blackout .state-background {
+.blackout .reveal .state-background {
 	background: rgba( 0, 0, 0, 0.6 );
 }
 
