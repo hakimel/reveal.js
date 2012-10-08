@@ -35,15 +35,17 @@ Markup heirarchy needs to be ``<div class="reveal"> <div class="slides"> <sectio
 
 ### Markdown
 
-It's possible to write your slides using Markdown. To enable Markdown simply add the ```data-markdown``` attribute to your ```<section>``` elements and reveal.js will automatically load the JavaScript parser. 
+It's possible to write your slides using Markdown. To enable Markdown simply add the ```data-markdown``` attribute to your ```<section>``` elements and reveal.js will automatically load the JavaScript parser. Additionally, you should wrap the contents in a ```<script type="text/template">``` like the example below to avoid HTML parsing errors.
 
-This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) which in turn uses [showdown](https://github.com/coreyti/showdown/). This is sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks). Updates to come.
+This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) which in turn uses [showdown](https://github.com/coreyti/showdown/). This is sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
 
 ```html
 <section data-markdown>
-	## Page title
-	
-	A paragraph with some text and a [link](http://hakim.se).
+	<script type="text/template">
+		## Page title
+		
+		A paragraph with some text and a [link](http://hakim.se).
+	</script>
 </section>
 ```
 
