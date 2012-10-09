@@ -1,3 +1,13 @@
+// Custom reveal.js integration
+(function(){
+	document.querySelector( '.reveal' ).addEventListener( 'click', function( event ) {
+		if( event.altKey ) {
+			event.preventDefault();
+			zoom.to({ element: event.target, pan: false });
+		}
+	} );
+})();
+
 /*!
  * zoom.js 0.2 (modified version for use with reveal.js)
  * http://lab.hakim.se/zoom-js
@@ -41,7 +51,7 @@ var zoom = (function(){
 		if( level !== 1 && event.keyCode === 27 ) {
 			zoom.out();
 		}
-	} );
+	}, false );
 
 	// Monitor mouse movement for panning
 	document.addEventListener( 'mousemove', function( event ) {
@@ -49,7 +59,7 @@ var zoom = (function(){
 			mouseX = event.clientX;
 			mouseY = event.clientY;
 		}
-	} );
+	}, false );
 
 	/**
 	 * Applies the CSS required to zoom in, prioritizes use of CSS3 
@@ -230,28 +240,5 @@ var zoom = (function(){
 		}
 	}
 	
-})();
-
-
-
-
-// Custom reveal.js integration
-(function(){
-	var modifierIsActive = false;
-
-	function updateKeyFlag( event ) {
-		modifierIsActive = event.altKey;
-	}
-
-	document.addEventListener( 'keypress', updateKeyFlag, false );
-	document.addEventListener( 'keydown', updateKeyFlag, false );
-	document.addEventListener( 'keyup', updateKeyFlag, false );
-
-	document.querySelector( '.reveal' ).addEventListener( 'click', function( event ) {
-		if( modifierIsActive ) {
-			event.preventDefault();
-			zoom.to({ element: event.target, pan: false });
-		}
-	} );
 })();
 
