@@ -1,0 +1,12 @@
+{
+	"author": "Andreas Geier",
+	"name": "Wave",
+	"description": "Wave detection for reveal.js",
+	"version": "1.0.0",
+	"engines": {
+		"node": "~0.8.0"
+	},
+	"dependencies": {
+		"express" : "~2.5.9",
+	}
+}
