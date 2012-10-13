@@ -75,7 +75,8 @@ Reveal.initialize({
 	loop: false,
 
 	// Number of milliseconds between automatically proceeding to the 
-	// next slide, disabled when set to 0
+	// next slide, disabled when set to 0, this value can be overwritten
+	// by using a data-autoSlide attribute on your slides
 	autoSlide: 0,
 
 	// Enable slide navigation via mouse wheel

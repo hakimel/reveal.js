@@ -33,7 +33,8 @@ var Reveal = (function(){
 			loop: false,
 
 			// Number of milliseconds between automatically proceeding to the 
-			// next slide, disabled when set to 0
+			// next slide, disabled when set to 0, this value can be overwritten
+			// by using a data-autoSlide attribute on your slides
 			autoSlide: 0,
 
 			// Enable slide navigation via mouse wheel
@@ -51,6 +52,10 @@ var Reveal = (function(){
 			// Script dependencies to load
 			dependencies: []
 		},
+
+		// stores if the next slide should be shown automatically
+		// after n milliseconds
+		autoSlide = config.autoSlide,
 
 		// The horizontal and verical index of the currently active slide
 		indexh = 0,
@@ -99,7 +104,6 @@ var Reveal = (function(){
 			handled: false,
 			threshold: 40
 		};
-	
 	
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -780,7 +784,6 @@ var Reveal = (function(){
 	 * bounds.
 	 */
 	function updateSlides( selector, index ) {
-		
 		// Select all slides and convert the NodeList result to
 		// an array
 		var slides = Array.prototype.slice.call( document.querySelectorAll( selector ) ),
@@ -841,6 +844,16 @@ var Reveal = (function(){
 			if( slideState ) {
 				state = state.concat( slideState.split( ' ' ) );
 			}
+
+			// if this slide has a autoSlide attribtue associated use this as autoSlide value
+			// otherwise use the global configured time
+			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
+			if( slideAutoSlide ) {
+				autoSlide = parseInt(slideAutoSlide);
+			} else {
+				autoSlide = config.autoSlide
+			}
+
 		}
 		else {
 			// Since there are no slides we can't be anywhere beyond the 
@@ -1111,8 +1124,8 @@ var Reveal = (function(){
 		clearTimeout( autoSlideTimeout );
 
 		// Cue the next auto-slide if enabled
-		if( config.autoSlide ) {
-			autoSlideTimeout = setTimeout( navigateNext, config.autoSlide );
+		if( autoSlide ) {
+			autoSlideTimeout = setTimeout( navigateNext, autoSlide );
 		}
 	}
 	
