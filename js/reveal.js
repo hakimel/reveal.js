@@ -34,7 +34,7 @@ var Reveal = (function(){
 
 			// Number of milliseconds between automatically proceeding to the 
 			// next slide, disabled when set to 0, this value can be overwritten
-			// by using a data-duration attribute on your slides
+			// by using a data-autoslide attribute on your slides
 			autoSlide: 0,
 
 			// Enable slide navigation via mouse wheel
@@ -845,9 +845,9 @@ var Reveal = (function(){
 				state = state.concat( slideState.split( ' ' ) );
 			}
 
-			// If this slide has a data-duration attribtue associated use this as 
+			// If this slide has a data-autoslide attribtue associated use this as 
 			// autoSlide value otherwise use the global configured time
-			var slideAutoSlide = slides[index].getAttribute( 'data-duration' );
+			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
 			if( slideAutoSlide ) {
 				autoSlide = parseInt( slideAutoSlide );
 			} else {
