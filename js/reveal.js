@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r31
+ * reveal.js 2.1 r32
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -34,7 +34,7 @@ var Reveal = (function(){
 
 			// Number of milliseconds between automatically proceeding to the 
 			// next slide, disabled when set to 0, this value can be overwritten
-			// by using a data-autoSlide attribute on your slides
+			// by using a data-duration attribute on your slides
 			autoSlide: 0,
 
 			// Enable slide navigation via mouse wheel
@@ -53,7 +53,7 @@ var Reveal = (function(){
 			dependencies: []
 		},
 
-		// stores if the next slide should be shown automatically
+		// Stores if the next slide should be shown automatically
 		// after n milliseconds
 		autoSlide = config.autoSlide,
 
@@ -845,11 +845,11 @@ var Reveal = (function(){
 				state = state.concat( slideState.split( ' ' ) );
 			}
 
-			// if this slide has a autoSlide attribtue associated use this as autoSlide value
-			// otherwise use the global configured time
-			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
+			// If this slide has a data-duration attribtue associated use this as 
+			// autoSlide value otherwise use the global configured time
+			var slideAutoSlide = slides[index].getAttribute( 'data-duration' );
 			if( slideAutoSlide ) {
-				autoSlide = parseInt(slideAutoSlide);
+				autoSlide = parseInt( slideAutoSlide );
 			} else {
 				autoSlide = config.autoSlide
 			}
