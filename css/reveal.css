@@ -577,12 +577,10 @@ body {
  *********************************************/
 
 .reveal.cube .slides {
-	margin-top: -350px;
-
-	-webkit-perspective-origin: 50% 25%;
-	   -moz-perspective-origin: 50% 25%;
-	    -ms-perspective-origin: 50% 25%;
-	        perspective-origin: 50% 25%;
+	-webkit-perspective-origin: 0% 25%;
+	   -moz-perspective-origin: 0% 25%;
+	    -ms-perspective-origin: 0% 25%;
+	        perspective-origin: 0% 25%;
 
 	-webkit-perspective: 1300px;
 	   -moz-perspective: 1300px;
@@ -610,7 +608,7 @@ body {
 		height: 100%;
 		left: 0;
 		top: 0;
-		background: #232628;
+		background: rgba(0,0,0,0.1);
 		border-radius: 4px;
 
 		-webkit-transform: translateZ( -20px );
@@ -699,12 +697,10 @@ body {
  *********************************************/
 
 .reveal.page .slides {
-	margin-top: -350px;
-
-	-webkit-perspective-origin: 50% 50%;
- 	   -moz-perspective-origin: 50% 50%;
- 	    -ms-perspective-origin: 50% 50%;
- 	        perspective-origin: 50% 50%;
+	-webkit-perspective-origin: 0% 50%;
+ 	   -moz-perspective-origin: 0% 50%;
+ 	    -ms-perspective-origin: 0% 50%;
+ 	        perspective-origin: 0% 50%;
 
 	-webkit-perspective: 3000px;
 	   -moz-perspective: 3000px;
@@ -730,7 +726,7 @@ body {
 		height: 100%;
 		left: 0;
 		top: 0;
-		background: rgba(0,0,0,0.2);
+		background: rgba(0,0,0,0.1);
 
 		-webkit-transform: translateZ( -20px );
 		   -moz-transform: translateZ( -20px );
