@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r29
+ * reveal.js 2.1 r30
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -43,7 +43,7 @@ var Reveal = (function(){
 			rollingLinks: true,
 
 			// Transition style (see /css/theme)
-			theme: 'default', 
+			theme: null, 
 
 			// Transition style
 			transition: 'default', // default/cube/page/concave/linear(2d),
