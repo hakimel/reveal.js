@@ -538,6 +538,56 @@ body {
 
 
 /*********************************************
+ * ZOOM TRANSITION
+ *********************************************/
+
+.reveal.zoom .slides>section,
+.reveal.zoom .slides>section>section {
+	-webkit-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	   -moz-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	    -ms-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	     -o-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	        transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+.reveal.zoom .slides>section.past {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(16);
+	   -moz-transform: scale(16);
+	    -ms-transform: scale(16);
+	     -o-transform: scale(16);
+	        transform: scale(16);
+}
+.reveal.zoom .slides>section.future {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(0.2);
+	   -moz-transform: scale(0.2);
+	    -ms-transform: scale(0.2);
+	     -o-transform: scale(0.2);
+	        transform: scale(0.2);
+}
+
+.reveal.zoom .slides>section>section.past {
+	-webkit-transform: translate(0, -150%);
+	   -moz-transform: translate(0, -150%);
+	    -ms-transform: translate(0, -150%);
+	     -o-transform: translate(0, -150%);
+	        transform: translate(0, -150%);
+}
+.reveal.zoom .slides>section>section.future {
+	-webkit-transform: translate(0, 150%);
+	   -moz-transform: translate(0, 150%);
+	    -ms-transform: translate(0, 150%);
+	     -o-transform: translate(0, 150%);
+	        transform: translate(0, 150%);
+}
+
+
+/*********************************************
  * LINEAR TRANSITION
  *********************************************/
 

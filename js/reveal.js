@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r30
+ * reveal.js 2.1 r31
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -46,7 +46,7 @@ var Reveal = (function(){
 			theme: null, 
 
 			// Transition style
-			transition: 'default', // default/cube/page/concave/linear(2d),
+			transition: 'default', // default/cube/page/concave/zoom/linear/none
 
 			// Script dependencies to load
 			dependencies: []

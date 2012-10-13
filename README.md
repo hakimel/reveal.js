@@ -85,7 +85,7 @@ Reveal.initialize({
 	rollingLinks: true,
 
 	// Transition style
-	transition: 'default' // default/cube/page/concave/linear(2d)
+	transition: 'default' // default/cube/page/concave/zoom/linear/none
 });
 ```
 

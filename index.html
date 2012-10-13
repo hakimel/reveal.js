@@ -151,7 +151,9 @@
 						<a href="?transition=cube#/transitions">Cube</a> -
 						<a href="?transition=page#/transitions">Page</a> -
 						<a href="?transition=concave#/transitions">Concave</a> -
+						<a href="?transition=zoom#/transitions">Zoom</a> - 
 						<a href="?transition=linear#/transitions">Linear</a> - 
+						<a href="?transition=none#/transitions">None</a> - 
 						<a href="?#/transitions">Default</a>
 					</p>
 				</section>
@@ -335,7 +337,7 @@ function linkify( selector ) {
 				history: true,
 				
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
