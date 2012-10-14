@@ -102,7 +102,7 @@ var Reveal = (function(){
 			startSpan: 0,
 			startCount: 0,
 			handled: false,
-			threshold: 40
+			threshold: 80
 		};
 	
 	/**
@@ -471,7 +471,7 @@ var Reveal = (function(){
 
 		// If there's two touches we need to memorize the distance 
 		// between those two points to detect pinching
-		if( event.touches.length === 2 ) {
+		if( event.touches.length === 2 && config.overview ) {
 			touch.startSpan = distanceBetween( {
 				x: event.touches[1].clientX,
 				y: event.touches[1].clientY
@@ -493,7 +493,7 @@ var Reveal = (function(){
 
 			// If the touch started off with two points and still has 
 			// two active touches; test for the pinch gesture
-			if( event.touches.length === 2 && touch.startCount === 2 ) {
+			if( event.touches.length === 2 && touch.startCount === 2 && config.overview ) {
 
 				// The current distance in pixels between the two touch points
 				var currentSpan = distanceBetween( {
@@ -517,9 +517,12 @@ var Reveal = (function(){
 					}
 				}
 
+				event.preventDefault();
+
 			}
 			// There was only one touch point, look for a swipe
-			else if( event.touches.length === 1 ) {
+			else if( event.touches.length === 1 && touch.startCount !== 2 ) {
+
 				var deltaX = currentX - touch.startX,
 					deltaY = currentY - touch.startY;
 
@@ -539,9 +542,10 @@ var Reveal = (function(){
 					touch.handled = true;
 					navigateDown();
 				}
-			}
 
-			event.preventDefault();
+				event.preventDefault();
+
+			}
 		}
 		// There's a bug with swiping on some Android devices unless 
 		// the default action is always prevented
