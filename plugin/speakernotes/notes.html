@@ -119,8 +119,8 @@
                           notes.innerHTML = data.notes;
                         }
 
-			currentSlide.contentWindow.Reveal.navigateTo(data.indexh, data.indexv);
-			nextSlide.contentWindow.Reveal.navigateTo(data.nextindexh, data.nextindexv);
+			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
+			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
 		});
 		</script>
 

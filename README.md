@@ -124,13 +124,13 @@ The Reveal class provides a minimal JavaScript API for controlling navigation an
 
 ```javascript
 // Navigation
-Reveal.navigateTo( indexh, indexv );
-Reveal.navigateLeft();
-Reveal.navigateRight();
-Reveal.navigateUp();
-Reveal.navigateDown();
-Reveal.navigatePrev();
-Reveal.navigateNext();
+Reveal.slide( indexh, indexv );
+Reveal.left();
+Reveal.right();
+Reveal.up();
+Reveal.down();
+Reveal.prev();
+Reveal.next();
 Reveal.toggleOverview();
 
 // Retrieves the previous and current slide elements
