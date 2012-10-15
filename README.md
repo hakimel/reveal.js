@@ -104,6 +104,8 @@ Reveal.initialize({
 		// Interpret Markdown in <section> elements
 		{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 		{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		// Zoom in and out with Alt+click
+		{ src: 'plugin/zoom-js/zoom.js', condition: function() { return !!document.body.classList; } },
 		// Speaker notes support
 		{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
 		{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
@@ -231,3 +233,4 @@ You can change the appearance of the speaker notes by editing the file at `plugi
 MIT licensed
 
 Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+
