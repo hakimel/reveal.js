@@ -439,6 +439,8 @@ var Reveal = (function(){
 			case 13: isOverviewActive() ? deactivateOverview() : triggered = false; break;
 			// b, period
 			case 66: case 190: togglePause(); break;
+			// f
+			case 70: enterFullscreen(); break;
 			default:
 				triggered = false;
 		}
@@ -738,6 +740,26 @@ var Reveal = (function(){
 	 */
 	function isOverviewActive() {
 		return dom.wrapper.classList.contains( 'overview' );
+	}
+
+	/**
+	 * Handling the fullscreen functionality via the fullscreen API
+	 * 
+	 * @see http://fullscreen.spec.whatwg.org/ 
+	 * @see https://developer.mozilla.org/en-US/docs/DOM/Using_fullscreen_mode 
+	 */
+	function enterFullscreen() {
+		var element = document.body;
+		
+		// Check which implementation is available
+		var requestMethod = element.requestFullScreen ||
+							element.webkitRequestFullScreen ||
+							element.mozRequestFullScreen ||
+							element.msRequestFullScreen;
+		
+		if( requestMethod ) {
+			requestMethod.apply( element );
+		}
 	}
 
 	/**
@@ -1209,7 +1231,7 @@ var Reveal = (function(){
 		// another timeout
 		cueAutoSlide();
 	}
-	
+
 	// Expose some methods publicly
 	return {
 		initialize: initialize,
