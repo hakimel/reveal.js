@@ -5,7 +5,7 @@
  */
 
 /*********************************************
- * FONT-FACE DEFINITIONS
+ * FONTS
  *********************************************/
 
 @font-face {
@@ -20,16 +20,32 @@
 	font-style: normal;
 }
 
+.reveal {
+	font-family: 'Lato', Times, 'Times New Roman', serif;
+	font-size: 36px;
+	font-weight: 200;
+	letter-spacing: -0.02em;
+}
+
+.reveal h1, 
+.reveal h2, 
+.reveal h3, 
+.reveal h4, 
+.reveal h5, 
+.reveal h6 {
+	font-family: 'League Gothic', Impact, sans-serif;
+	line-height: 0.9em;
+	letter-spacing: 0.02em;
+	
+	text-transform: uppercase;
+}
+
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 
 body {
-	font-family: 'Lato', Times, 'Times New Roman', serif;
-	font-size: 36px;
-	font-weight: 200;
-	letter-spacing: -0.02em;
 	color: #eee;
 
 	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1NTVhNWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWMxZTIwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -55,11 +71,7 @@ body {
 .reveal h6 {
 	margin: 0 0 20px 0;
 	color: #eee;
-	font-family: 'League Gothic', Impact, sans-serif;
-	line-height: 0.9em;
-	letter-spacing: 0.02em;
-	
-	text-transform: uppercase;
+
 	text-shadow: 0px 0px 6px rgba(0,0,0,0.2);
 }
 

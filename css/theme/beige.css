@@ -6,7 +6,7 @@
  */
 
 /*********************************************
- * FONT-FACE DEFINITIONS
+ * FONTS
  *********************************************/
 
 @font-face {
@@ -21,16 +21,32 @@
 	font-style: normal;
 }
 
+.reveal {
+	font-family: 'Lato', Times, 'Times New Roman', serif;
+	font-size: 36px;
+	font-weight: 200;
+	letter-spacing: -0.02em;
+}
+
+.reveal h1, 
+.reveal h2, 
+.reveal h3, 
+.reveal h4, 
+.reveal h5, 
+.reveal h6 {
+	font-family: 'League Gothic', Impact, sans-serif;
+	line-height: 0.9em;
+	letter-spacing: 0.02em;
+	
+	text-transform: uppercase;
+}
+
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 
 body {
-	font-family: 'Lato', Times, 'Times New Roman', serif;
-	font-size: 36px;
-	font-weight: 200;
-	letter-spacing: -0.02em;
 	color: #333;
 
 	background: #f7f3de;
@@ -68,11 +84,6 @@ body {
 .reveal h6 {
 	margin: 0 0 20px 0;
 	color: #333;
-	font-family: 'League Gothic', Impact, sans-serif;
-	line-height: 0.9em;
-	letter-spacing: 0.02em;
-	
-	text-transform: uppercase;
 }
 
 .reveal h1 {

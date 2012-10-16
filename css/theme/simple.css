@@ -8,10 +8,31 @@
  */
 
 /*********************************************
- * FONT-FACE DEFINITIONS
+ * FONTS
  *********************************************/
 
 @import url(http://fonts.googleapis.com/css?family=News+Cycle:400,700);
+
+.reveal {
+	font-family: 'Lato', Times, 'Times New Roman', serif;
+	font-size: 36px;
+	font-weight: 200;
+	letter-spacing: -0.02em;
+}
+
+.reveal h1, 
+.reveal h2, 
+.reveal h3, 
+.reveal h4, 
+.reveal h5, 
+.reveal h6 {
+	margin: 0 0 20px 0;
+	color: black;
+	font-family: 'News Cycle', Impact, sans-serif;
+	line-height: 0.9em;
+	
+	text-transform: uppercase;
+}
 
 
 /*********************************************
@@ -19,10 +40,6 @@
  *********************************************/
 
 body {
-	font-family: 'Lato', Times, 'Times New Roman', serif;
-	font-size: 36px;
-	font-weight: 200;
-	letter-spacing: -0.02em;
 	color: black !important;
 
 	background: white;
@@ -53,10 +70,6 @@ body {
 .reveal h6 {
 	margin: 0 0 20px 0;
 	color: black;
-	font-family: 'News Cycle', Impact, sans-serif;
-	line-height: 0.9em;
-	
-	text-transform: uppercase;
 }
 
 

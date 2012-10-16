@@ -5,12 +5,30 @@
  */
 
 /*********************************************
- * FONT-FACE DEFINITIONS
+ * FONTS
  *********************************************/
 
 @import url(http://fonts.googleapis.com/css?family=Quicksand:400,700,400italic,700italic);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
 
+.reveal {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 36px;
+	font-weight: 200;
+	letter-spacing: -0.02em;
+}
+
+.reveal h1, 
+.reveal h2, 
+.reveal h3, 
+.reveal h4, 
+.reveal h5, 
+.reveal h6 {
+	font-family: 'Quicksand', sans-serif;
+	line-height: 0.9em;
+	letter-spacing: -0.08em;
+	text-transform: uppercase;
+}
 
 
 /*********************************************
@@ -18,10 +36,6 @@
  *********************************************/
 
 body {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 36px;
-	font-weight: 200;
-	letter-spacing: -0.02em;
 	color: #333;
 
 	background: #f7fbfc;
@@ -60,11 +74,6 @@ body {
 .reveal h6 {
 	margin: 0 0 20px 0;
 	color: #333;
-	font-family: 'Quicksand', sans-serif;
-	line-height: 0.9em;
-	letter-spacing: -0.08em;
-	
-	text-transform: uppercase;
 }
 
 
