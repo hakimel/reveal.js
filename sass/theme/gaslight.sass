@@ -1,2 +1,135 @@
+@import compass/css3
+
+@font-face
+  font-family: 'League Gothic'
+  src: url('../../lib/font/league_gothic-webfont.eot')
+  src: url('../../lib/font/league_gothic-webfont.eot?#iefix') format("embedded-opentype"), url('../../lib/font/league_gothic-webfont.woff') format("woff"), url('../../lib/font/league_gothic-webfont.ttf') format("truetype"), url('../../lib/font/league_gothic-webfont.svg#LeagueGothicRegular') format("svg")
+  font-weight: normal
+  font-style: normal
+
 body
-  background-color: #369
+  color: rgba(30, 30, 30, 0.85)
+  font-family: 'ff-din-web', 'League Gothic', Impact, sans-serif
+  font-size: 36px
+  font-weight: 200
+  letter-spacing: -0.02em
+  background: url(http://gaslight.co/assets/home/background.jpg)
+  @include background-size(cover)
+
+#bars
+  width: 100%
+  position: absolute
+  top: 0
+  height: 15px
+  overflow: visible
+  margin: 0
+  padding: 0
+  li
+    width: 33.333%
+    float: left
+    height: 100%
+    list-style: none
+    &.brand1
+      background: #d63f31
+    &.brand2
+      background: #60b6e4
+    &.brand3
+      background: #ebd018
+
+#logo
+  position: absolute
+  right: 1em
+  top: 1em
+  img
+    max-width: 100px
+    opacity: 0.5
+    -webkit-filter: grayscale(0.6)
+
+
+// WTF HERE.
+
+.reveal
+  h1, h2, h3, h4, h5, h6
+    font-family: 'ff-din-web', 'League Gothic', Impact, sans-serif
+    line-height: 0.9em
+    letter-spacing: 0.02em
+    margin: 0 0 20px 0
+    color: #eee
+    text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2)
+    color: rgba(30, 30, 30, 0.85)
+  h1
+    text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15)
+    text-transform: uppercase
+  h1, h2
+    font-family: 'League Gothic', Impact, sans-serif
+    text-transform: uppercase
+    text-shadow: none
+  h3
+    color: rgba(55, 55, 55, 0.9)
+    font-size: 140%
+  h4
+    color: rgba(55, 55, 55, 0.9)
+    font-size: 80%
+  h3, h4, h5, h6
+    text-transform: none
+    letter-spacing: -2px
+    line-height: 1.1em
+  a:not(.image)
+    color: hsl(185, 85%, 50%)
+    text-decoration: none
+    -webkit-transition: color .15s ease
+    -moz-transition: color .15s ease
+    -ms-transition: color .15s ease
+    -o-transition: color .15s ease
+    transition: color .15s ease
+    &:hover
+      color: hsl(185, 85%, 70%)
+      text-shadow: none
+      border: none
+      border-radius: 2px
+  .roll span:after
+    color: #fff
+    background: hsl(185, 60%, 35%)
+  section img
+    margin: 30px 0 0 0
+    background: rgba(255, 255, 255, 0.12)
+    border: 4px solid #eee
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15)
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15)
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15)
+    -webkit-transition: all .2s linear
+    -moz-transition: all .2s linear
+    -ms-transition: all .2s linear
+    -o-transition: all .2s linear
+    transition: all .2s linear
+  a:hover img
+    background: rgba(255, 255, 255, 0.2)
+    border-color: #13DAEC
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55)
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55)
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.55)
+  .controls a
+    color: #fff
+    &.enabled
+      color: hsl(185, 85%, 70%)
+      text-shadow: 0px 0px 2px hsla(185, 45%, 70%, 0.3)
+  .progress
+    background: rgba(0, 0, 0, 0.2)
+    span
+      background: hsl(185, 85%, 50%)
+      -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985)
+      -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985)
+      -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985)
+      -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985)
+      transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985)
+
+  .slides
+    margin-top: -40%
+  code
+    padding-left: .5em
+  .slides section
+    background-color: rgba(255, 255, 255, 0.5)
+    padding: 2em
+    box-sizing: border-box
+    box-shadow: 0px 10px 30px #bbb
+

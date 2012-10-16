@@ -1,2 +1,130 @@
+@font-face {
+  font-family: "League Gothic";
+  src: url("../../lib/font/league_gothic-webfont.eot");
+  src: url("../../lib/font/league_gothic-webfont.eot?#iefix") format("embedded-opentype"), url("../../lib/font/league_gothic-webfont.woff") format("woff"), url("../../lib/font/league_gothic-webfont.ttf") format("truetype"), url("../../lib/font/league_gothic-webfont.svg#LeagueGothicRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
 body {
-  background-color: #336699; }
+  color: rgba(30, 30, 30, 0.85);
+  font-family: "ff-din-web", "League Gothic", Impact, sans-serif;
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  background: url(http://gaslight.co/assets/home/background.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
+#bars {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 15px;
+  overflow: visible;
+  margin: 0;
+  padding: 0; }
+  #bars li {
+    width: 33.333%;
+    float: left;
+    height: 100%;
+    list-style: none; }
+    #bars li.brand1 {
+      background: #d63f31; }
+    #bars li.brand2 {
+      background: #60b6e4; }
+    #bars li.brand3 {
+      background: #ebd018; }
+
+#logo {
+  position: absolute;
+  right: 1em;
+  top: 1em; }
+  #logo img {
+    max-width: 100px;
+    opacity: 0.5;
+    -webkit-filter: grayscale(0.6); }
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  font-family: "ff-din-web", "League Gothic", Impact, sans-serif;
+  line-height: 0.9em;
+  letter-spacing: 0.02em;
+  margin: 0 0 20px 0;
+  color: #eeeeee;
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  color: rgba(30, 30, 30, 0.85); }
+.reveal h1 {
+  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase; }
+.reveal h1, .reveal h2 {
+  font-family: "League Gothic", Impact, sans-serif;
+  text-transform: uppercase;
+  text-shadow: none; }
+.reveal h3 {
+  color: rgba(55, 55, 55, 0.9);
+  font-size: 140%; }
+.reveal h4 {
+  color: rgba(55, 55, 55, 0.9);
+  font-size: 80%; }
+.reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  text-transform: none;
+  letter-spacing: -2px;
+  line-height: 1.1em; }
+.reveal a:not(.image) {
+  color: #13daec;
+  text-decoration: none;
+  -webkit-transition: color 0.15s ease;
+  -moz-transition: color 0.15s ease;
+  -ms-transition: color 0.15s ease;
+  -o-transition: color 0.15s ease;
+  transition: color 0.15s ease; }
+  .reveal a:not(.image):hover {
+    color: #71e9f4;
+    text-shadow: none;
+    border: none;
+    border-radius: 2px; }
+.reveal .roll span:after {
+  color: white;
+  background: #24868f; }
+.reveal section img {
+  margin: 30px 0 0 0;
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #eeeeee;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear; }
+.reveal a:hover img {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #13daec;
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+.reveal .controls a {
+  color: white; }
+  .reveal .controls a.enabled {
+    color: #71e9f4;
+    text-shadow: 0px 0px 2px rgba(144, 207, 213, 0.3); }
+.reveal .progress {
+  background: rgba(0, 0, 0, 0.2); }
+  .reveal .progress span {
+    background: #13daec;
+    -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+.reveal .slides {
+  margin-top: -40%; }
+.reveal code {
+  padding-left: 0.5em; }
+.reveal .slides section {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 2em;
+  box-sizing: border-box;
+  box-shadow: 0px 10px 30px #bbbbbb; }
