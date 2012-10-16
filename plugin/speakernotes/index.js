@@ -21,7 +21,7 @@ io.sockets.on('connection', function(socket) {
 });
 
 app.configure(function() {
-	[ 'css', 'js', 'plugin', 'lib' ].forEach(function(dir) {
+	[ 'css', 'js', 'images', 'plugin', 'lib' ].forEach(function(dir) {
 		app.use('/' + dir, staticDir(opts.baseDir + dir));
 	});
 });
@@ -43,8 +43,8 @@ app.get("/notes/:socketId", function(req, res) {
 // Actually listen
 app.listen(opts.port || null);
 
-var brown = '\033[33m', 
-	green = '\033[32m', 
+var brown = '\033[33m',
+	green = '\033[32m',
 	reset = '\033[0m';
 
 var slidesLocation = "http://localhost" + ( opts.port ? ( ':' + opts.port ) : '' );
