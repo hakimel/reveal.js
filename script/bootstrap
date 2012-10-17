@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -e
+
+echo ""
+echo " Setting up reveal.js for development..."
+echo ""
+
+
+#
+# Check for Bundler
+#
+if test ! $(which bundle)
+then
+  echo "  x You need to install Bundler:"
+  echo "    gem install bundler"
+  exit
+else
+  echo "  + Bundler found."
+fi
+
+#
+# Install gems
+#
+echo "  + Bootstrapping your Rubies."
+bundle install --binstubs --local --path vendor --quiet
+
+echo ""
+echo "Ok, setup complete. Run"
+echo "  foreman start"
+echo "to start the application."
