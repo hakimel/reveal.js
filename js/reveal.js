@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r33
+ * reveal.js 2.1 r34
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -267,6 +267,13 @@ var Reveal = (function(){
 
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
+
+		// Notify listeners that the presentation is ready
+		dispatchEvent( 'ready', {
+			'indexh': indexh, 
+			'indexv': indexv,
+			'currentSlide': currentSlide
+		} );
 	}
 
 	/**

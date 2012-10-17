@@ -154,6 +154,16 @@ Reveal.addEventListener( 'somestate', function() {
 }, false );
 ```
 
+### Ready event
+
+The 'ready' event is fired when reveal.js has loaded all (synchronous) dependencies and is ready to start navigating.
+
+```javascript
+Reveal.addEventListener( 'ready', function( event ) {
+	// event.currentSlide, event.indexh, event.indexv
+} );
+```
+
 ### Slide change event
 
 An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
