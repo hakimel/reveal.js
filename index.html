@@ -350,7 +350,36 @@ function linkify( selector ) {
 					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
 				]
 			});
-			
+
+      // Set up simple postMessage notes system.
+      var url = window.location.href;
+      if(url.indexOf('?' + 'notes' + '=') !== 'true') {
+        var notesPopup = window.open('notes.html');
+        Reveal.addEventListener('slidechanged', function(event) {
+          var nextindexh;
+          var nextindexv;
+          var slideElement = event.currentSlide;
+
+          if (slideElement.nextElementSibling && slideElement.parentNode.nodeName == 'SECTION') {
+            nextindexh = event.indexh;
+            nextindexv = event.indexv + 1;
+          } else {
+            nextindexh = event.indexh + 1;
+            nextindexv = 0;
+          }
+
+          var notes = slideElement.querySelector('aside.notes');
+          var slideData = {
+            notes : notes ? notes.innerHTML : '',
+            indexh : event.indexh,
+            indexv : event.indexv,
+            nextindexh : nextindexh,
+            nextindexv : nextindexv,
+            markdown : notes ? typeof notes.getAttribute('data-markdown') === 'string' : false
+          };
+          notesPopup.postMessage(JSON.stringify(slideData), '*');
+        });
+      }
 		</script>
 
 	</body>

@@ -27,13 +27,13 @@
 				width: 1280px;
 				height: 1024px;
 				border: none;
-				
+
 				-webkit-transform-origin: 0 0;
 				   -moz-transform-origin: 0 0;
 				    -ms-transform-origin: 0 0;
 				     -o-transform-origin: 0 0;
 				        transform-origin: 0 0;
-				 
+
 				-webkit-transform: scale(0.5);
 				   -moz-transform: scale(0.5);
 				    -ms-transform: scale(0.5);
@@ -53,7 +53,7 @@
 				width: 1280px;
 				height: 1024px;
 				border: none;
-				
+
 				-webkit-transform-origin: 0 0;
 				   -moz-transform-origin: 0 0;
 				    -ms-transform-origin: 0 0;
@@ -89,40 +89,33 @@
 	<body>
 
 		<div id="wrap-current-slide" class="slides">
-			<iframe src="/?receiver" width="1280" height="1024" id="current-slide"></iframe>
+			<iframe src="index.html" width="1280" height="1024" id="current-slide"></iframe>
 		</div>
 
 		<div id="wrap-next-slide" class="slides">
-			<iframe src="/?receiver" width="640" height="512" id="next-slide"></iframe>
+			<iframe src="index.html" width="640" height="512" id="next-slide"></iframe>
 			<span>UPCOMING:</span>
 		</div>
 		<div id="notes"></div>
 
-		<script src="/socket.io/socket.io.js"></script>
-                <script src="/lib/js/showdown.js"></script>
-
+    <script src="lib/js/showdown.js"></script>
 		<script>
-		var socketId = '{{socketId}}';
-		var socket = io.connect(window.location.origin);
-		var notes = document.getElementById('notes');
-		var currentSlide = document.getElementById('current-slide');
-		var nextSlide = document.getElementById('next-slide');
-
-		socket.on('slidedata', function(data) {
-			// ignore data from sockets that aren't ours
-			if (data.socketId !== socketId) { return; }
-
-                        if (data.markdown) {
-                          notes.innerHTML = (new Showdown.converter()).makeHtml(data.notes);
-                        }
-                        else {
-                          notes.innerHTML = data.notes;
-                        }
-
-			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
-			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
-		});
+      (function (window, undefined) {
+        var notes = document.getElementById('notes');
+        var currentSlide = document.getElementById('current-slide');
+        var nextSlide = document.getElementById('next-slide');
+        window.addEventListener("message", function(e){
+          var data = JSON.parse(e.data);
+          if (data.markdown) {
+            notes.innerHTML = (new Showdown.converter()).makeHtml(data.notes);
+          }
+          else {
+            notes.innerHTML = data.notes;
+          }
+          currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
+          nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
+        }, false);
+      })(window);
 		</script>
-
 	</body>
 </html>
