@@ -3,3 +3,8 @@
 log/*.log
 tmp/**
 node_modules/
+
+/.bundle
+/.sass-cache
+/bin
+/vendor/ruby

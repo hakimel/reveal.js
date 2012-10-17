@@ -1,0 +1,33 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    chunky_png (1.2.6)
+    compass (0.12.2)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    foreman (0.60.2)
+      thor (>= 0.13.6)
+    fssm (0.2.9)
+    guard (1.4.0)
+      listen (>= 0.4.2)
+      thor (>= 0.14.6)
+    guard-compass (0.0.6)
+      compass (>= 0.10.5)
+      guard (>= 0.2.1)
+    listen (0.5.3)
+    rb-fsevent (0.9.2)
+    sass (3.2.1)
+    terminal-notifier-guard (1.5.3)
+    thor (0.16.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  compass
+  foreman
+  guard
+  guard-compass
+  rb-fsevent (~> 0.9.1)
+  terminal-notifier-guard
