@@ -6,6 +6,8 @@ GEM
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
+    foreman (0.60.2)
+      thor (>= 0.13.6)
     fssm (0.2.9)
     guard (1.4.0)
       listen (>= 0.4.2)
@@ -24,6 +26,7 @@ PLATFORMS
 
 DEPENDENCIES
   compass
+  foreman
   guard
   guard-compass
   rb-fsevent (~> 0.9.1)
