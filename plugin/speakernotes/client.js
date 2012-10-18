@@ -11,7 +11,7 @@
 	// Fires when a fragment is shown
 	Reveal.addEventListener( 'fragmentshown', function( event ) {
 		var fragmentData = {
-			showFragment : true,
+			fragment : 'next',
 			socketId : socketId
 		};
 		socket.emit('fragmentchanged', fragmentData);
@@ -20,7 +20,7 @@
 	// Fires when a fragment is hidden
 	Reveal.addEventListener( 'fragmenthidden', function( event ) {
 		var fragmentData = {
-			hideFragment : true,
+			fragment : 'previous',
 			socketId : socketId
 		};
 		socket.emit('fragmentchanged', fragmentData);

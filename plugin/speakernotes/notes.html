@@ -128,10 +128,10 @@
 			console.dir(data);
 			if (data.socketId !== socketId) { return; }
 
-			if (data.showFragment === true) {
+			if (data.fragment === 'next') {
 				currentSlide.contentWindow.Reveal.nextFragment();
 			}
-			else if (data.hideFragment === true) {
+			else if (data.fragment === 'previous') {
 				currentSlide.contentWindow.Reveal.previousFragment();
 			}
 		});
