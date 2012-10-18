@@ -1293,8 +1293,8 @@ var Reveal = (function(){
 		down: navigateDown,
 		prev: navigatePrev,
 		next: navigateNext,
+		prevFragment: previousFragment,
 		nextFragment: nextFragment,
-		previousFragment: previousFragment,
 
 		// Deprecated aliases
 		navigateTo: slide,
