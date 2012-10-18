@@ -18,6 +18,9 @@ io.sockets.on('connection', function(socket) {
 	socket.on('slidechanged', function(slideData) {
 		socket.broadcast.emit('slidedata', slideData);
 	});
+	socket.on('fragmentchanged', function(fragmentData) {
+		socket.broadcast.emit('fragmentdata', fragmentData);
+	});
 });
 
 app.configure(function() {
