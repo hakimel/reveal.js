@@ -120,9 +120,6 @@ var Reveal = (function(){
 		// Copy options over to our config object
 		extend( config, options );
 
-		// Make sure we've got all the DOM elements we need
-		setupDOM();
-
 		// Hide the address bar in mobile browsers
 		hideAddressBar();
 
@@ -256,6 +253,9 @@ var Reveal = (function(){
 	 * to the current URL deeplink if there is one.
 	 */
 	function start() {
+		// Make sure we've got all the DOM elements we need
+		setupDOM();
+		
 		// Subscribe to input
 		addEventListeners();
 
