@@ -110,6 +110,7 @@
 
 		socket.on('slidedata', function(data) {
 			// ignore data from sockets that aren't ours
+			console.dir(data);
 			if (data.socketId !== socketId) { return; }
 
 			if (data.markdown) {
@@ -121,6 +122,18 @@
 
 			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
 			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
+		});
+		socket.on('fragmentdata', function(data) {
+			// ignore data from sockets that aren't ours
+			console.dir(data);
+			if (data.socketId !== socketId) { return; }
+
+			if (data.showFragment === true) {
+				currentSlide.contentWindow.Reveal.nextFragment();
+			}
+			else if (data.hideFragment === true) {
+				currentSlide.contentWindow.Reveal.previousFragment();
+			}
 		});
 		</script>
 
