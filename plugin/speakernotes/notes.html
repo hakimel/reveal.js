@@ -110,7 +110,6 @@
 
 		socket.on('slidedata', function(data) {
 			// ignore data from sockets that aren't ours
-			console.dir(data);
 			if (data.socketId !== socketId) { return; }
 
 			if (data.markdown) {
@@ -125,7 +124,6 @@
 		});
 		socket.on('fragmentdata', function(data) {
 			// ignore data from sockets that aren't ours
-			console.dir(data);
 			if (data.socketId !== socketId) { return; }
 
 			if (data.fragment === 'next') {
