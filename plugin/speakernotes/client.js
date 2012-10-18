@@ -8,6 +8,25 @@
 	console.log('View slide notes at ' + window.location.origin + '/notes/' + socketId);
 	window.open(window.location.origin + '/notes/' + socketId, 'notes-' + socketId);
 
+	// Fires when a fragment is shown
+	Reveal.addEventListener( 'fragmentshown', function( event ) {
+		var fragmentData = {
+			showFragment : true,
+			socketId : socketId
+		};
+		socket.emit('fragmentchanged', fragmentData);
+	} );
+
+	// Fires when a fragment is hidden
+	Reveal.addEventListener( 'fragmenthidden', function( event ) {
+		var fragmentData = {
+			hideFragment : true,
+			socketId : socketId
+		};
+		socket.emit('fragmentchanged', fragmentData);
+	} );
+
+	// Fires when slide is changed
 	Reveal.addEventListener( 'slidechanged', function( event ) {
 		var nextindexh;
 		var nextindexv;
