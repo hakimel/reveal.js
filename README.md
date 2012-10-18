@@ -182,6 +182,8 @@ It's easy to link between slides. The first example below targets the index of a
 <a href="#/2/2">Link</a>
 <a href="#/some-slide">Link</a>
 ```
+### Fullscreen mode
+Just press »F« on your keyboard to show your presentation in fullscreen mode. Press the »ESC« key to exit fullscreen mode.
 
 ## PDF Export
 
