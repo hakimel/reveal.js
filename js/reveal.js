@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r34
+ * reveal.js 2.1 r35
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  * 
@@ -332,6 +332,10 @@ var Reveal = (function(){
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
 		}
 
+		if ( config.progress && dom.progress ) {
+			dom.progress.addEventListener( 'click', preventAndForward( onProgressClick ), false );
+		}
+
 		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
 			dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
@@ -349,6 +353,10 @@ var Reveal = (function(){
 		document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
+
+		if ( config.progress && dom.progress ) {
+			dom.progress.removeEventListener( 'click', preventAndForward( onProgressClick ), false );
+		}
 		
 		if ( config.controls && dom.controls ) {
 			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
@@ -392,7 +400,7 @@ var Reveal = (function(){
 	function preventAndForward( delegate ) {
 		return function( event ) {
 			event.preventDefault();
-			delegate.call();
+			delegate.call( null, event );
 		};
 	}
 
@@ -1234,8 +1242,8 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Handles mouse wheel scrolling, throttled to avoid 
-	 * skipping multiple slides.
+	 * Handles mouse wheel scrolling, throttled to avoid skipping 
+	 * multiple slides.
 	 */
 	function onDocumentMouseScroll( event ){
 		clearTimeout( mouseWheelTimeout );
@@ -1249,6 +1257,19 @@ var Reveal = (function(){
 				navigatePrev();
 			}
 		}, 100 );
+	}
+
+	/**
+	 * Clicking on the progress bar results in a navigation to the 
+	 * closest approximate horizontal slide using this equation:
+	 *
+	 * ( clickX / presentationWidth ) * numberOfSlides
+	 */
+	function onProgressClick( event ) {
+		var slidesTotal = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
+		var slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
+
+		slide( slideIndex );
 	}
 	
 	/**

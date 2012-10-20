@@ -253,12 +253,12 @@ body {
 .reveal .controls {
 	display: none;
 	position: fixed;
-	width: 100px;
-	height: 100px;
+	width: 90px;
+	height: 90px;
 	z-index: 30;
 
-	right: 0;
-	bottom: 0;
+	right: 10px;
+	bottom: 10px;
 }
 	
 	.reveal .controls a {
@@ -304,8 +304,16 @@ body {
 	width: 100%;
 	bottom: 0;
 	left: 0;
+	z-index: 10;
 }
-	
+	.reveal .progress:after {
+		content: '';
+		display: 'block';
+		position: absolute;
+		height: 20px;
+		width: 100%;
+		top: -20px;
+	}
 	.reveal .progress span {
 		display: block;
 		height: 100%;
