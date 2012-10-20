@@ -96,6 +96,69 @@ body {
 		opacity: 1;
 	}
 
+.reveal .slides section .fragment.grow {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.grow.visible {
+		-webkit-transform: scale( 1.3 );
+		   -moz-transform: scale( 1.3 );
+		    -ms-transform: scale( 1.3 );
+		     -o-transform: scale( 1.3 );
+		        transform: scale( 1.3 );
+	}
+
+.reveal .slides section .fragment.shrink {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.shrink.visible {
+		-webkit-transform: scale( 0.7 );
+		   -moz-transform: scale( 0.7 );
+		    -ms-transform: scale( 0.7 );
+		     -o-transform: scale( 0.7 );
+		        transform: scale( 0.7 );
+	}
+
+.reveal .slides section .fragment.roll-in {
+	opacity: 0;
+
+	-webkit-transform: rotateX( 90deg );
+	   -moz-transform: rotateX( 90deg );
+	    -ms-transform: rotateX( 90deg );
+	     -o-transform: rotateX( 90deg );
+	        transform: rotateX( 90deg );
+}
+	.reveal .slides section .fragment.roll-in.visible {
+		opacity: 1;
+
+		-webkit-transform: rotateX( 0 );
+		   -moz-transform: rotateX( 0 );
+		    -ms-transform: rotateX( 0 );
+		     -o-transform: rotateX( 0 );
+		        transform: rotateX( 0 );
+	}
+
+.reveal .slides section .fragment.fade-out {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.fade-out.visible {
+		opacity: 0;
+	}
+
+.reveal .slides section .fragment.highlight-red,
+.reveal .slides section .fragment.highlight-green,
+.reveal .slides section .fragment.highlight-blue {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.highlight-red.visible {
+		color: #ff2c2d
+	}
+	.reveal .slides section .fragment.highlight-green.visible {
+		color: #17ff2e;
+	}
+	.reveal .slides section .fragment.highlight-blue.visible {
+		color: #1b91ff;
+	}
+
 
 /*********************************************
  * DEFAULT ELEMENT STYLES
