@@ -133,6 +133,8 @@ Reveal.up();
 Reveal.down();
 Reveal.prev();
 Reveal.next();
+Reveal.prevFragment();
+Reveal.nextFragment();
 Reveal.toggleOverview();
 
 // Retrieves the previous and current slide elements
