@@ -664,6 +664,8 @@ var Reveal = (function(){
 
 		updateControls();
 		
+		// Update the URL hash after a delay since updating it mid-transition
+		// is likely to cause visual lag
 		clearTimeout( writeURLTimeout );
 		writeURLTimeout = setTimeout( writeURL, 1500 );
 

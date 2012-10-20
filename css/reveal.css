@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-/**
+/*!
  * reveal.js
  * http://lab.hakim.se/reveal-js
  * MIT licensed
@@ -196,7 +196,7 @@ body {
 	display: block;
 	position: relative;
 	width: 90%;
-	margin: 10px auto;
+	margin: 15px auto;
 
 	text-align: left;
 	font-size: 0.55em;
@@ -206,6 +206,9 @@ body {
 	word-wrap: break-word;
 
 	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+}
+.reveal pre code {
+	padding: 5px;
 }
 
 .reveal code {
