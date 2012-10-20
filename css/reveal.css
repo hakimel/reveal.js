@@ -1013,7 +1013,8 @@ body {
 	padding: 20px 0;
 	max-height: 600px;
 	overflow: hidden;	
-	opacity: 1;
+	opacity: 1!important;
+	visibility: visible!important;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
