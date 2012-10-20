@@ -944,6 +944,8 @@ var Reveal = (function(){
 			if( verticalFragments.length ) {
 				verticalFragments[0].classList.add( 'visible' );
 
+				handleCSSFragments(verticalFragments[0], true);
+
 				// Notify subscribers of the change
 				dispatchEvent( 'fragmentshown', { fragment: verticalFragments[0] } );
 				return true;
@@ -954,6 +956,8 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( horizontalFragments.length ) {
 				horizontalFragments[0].classList.add( 'visible' );
+
+				handleCSSFragments(horizontalFragments[0], false);
 
 				// Notify subscribers of the change
 				dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[0] } );
@@ -977,6 +981,8 @@ var Reveal = (function(){
 			if( verticalFragments.length ) {
 				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
 
+				handleCSSFragments(verticalFragments[ verticalFragments.length - 1 ], true);
+
 				// Notify subscribers of the change
 				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[ verticalFragments.length - 1 ] } );
 				return true;
@@ -988,13 +994,46 @@ var Reveal = (function(){
 			if( horizontalFragments.length ) {
 				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
 
+				handleCSSFragments(horizontalFragments[ horizontalFragments.length - 1 ], true);
+
 				// Notify subscribers of the change
 				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[ horizontalFragments.length - 1 ] } );
 				return true;
 			}
 		}
-		
+
 		return false;
+	}
+
+	/**
+	 * Handles addition or removal of CSS classes when using CSS fragments.
+	 *
+	 * @param {HTMLElement} The element with the "fragment" class that has been made
+	 * visible and is now checked for CSS fragments.
+	 * @param {boolean} If the CSS fragment operation should be applied in reverse order
+	 * (when the fragment is being removed instead of shown), this flag needs to be set to
+	 * true.
+	 *
+	 * @return {void}
+	 */
+	function handleCSSFragments(element, reverse) {
+		if(!element.classList.contains('css-fragment')) {
+			return;
+		}
+
+		var addClass = element.getAttribute('data-add-class');
+		var removeClass = element.getAttribute('data-remove-class');
+		var target = element.getAttribute('data-target');
+
+		if(reverse) {
+			var temp = addClass;
+			addClass = removeClass;
+			removeClass = temp;
+
+		}
+
+		document.querySelectorAll( target )[0].classList.add( addClass );
+		document.querySelectorAll( target )[0].classList.remove( removeClass );
 	}
 
 	/**

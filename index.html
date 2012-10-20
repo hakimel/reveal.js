@@ -36,6 +36,21 @@
 			<div class="slides">
 
 				<section>
+					<h2>CSS Fragments</h2>
+					<p id="someParagraph" class="animate">
+						You can also make text <span id="makeBigger" class="animate">bigger</span>
+						or <span id="makeSmaller" class="animate">smaller</span>...
+					</p>
+
+					<div class="offscreen fragment css-fragment" data-add-class="zoom" data-target="#makeBigger"></div>
+					<div class="fragment css-fragment" data-add-class="shrink" data-target="#makeSmaller">
+						using <span id="removeRed" class="red animate">CSS fragments</span>.
+					</div>
+
+					<div class="offscreen fragment css-fragment" data-remove-class="red" data-target="#removeRed"></div>
+				</section>
+
+				<section>
 					<h1>Reveal.js</h1>
 					<h3>HTML Presentations Made Easy</h3>
 				</section>
@@ -336,7 +351,7 @@ function linkify( selector ) {
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+		<script src="js/reveal.js"></script>
 
 		<script>
 
