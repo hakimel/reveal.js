@@ -4,7 +4,7 @@
  * reveal.js
  * http://lab.hakim.se/reveal-js
  * MIT licensed
- * 
+ *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 
@@ -22,8 +22,8 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
 .reveal dl, .reveal dt, .reveal dd, .reveal ol, .reveal ul, .reveal li,
 .reveal fieldset, .reveal form, .reveal label, .reveal legend,
 .reveal table, .reveal caption, .reveal tbody, .reveal tfoot, .reveal thead, .reveal tr, .reveal th, .reveal td,
-.reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed, 
-.reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup, 
+.reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed,
+.reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup,
 .reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary,
 .reveal time, .reveal mark, .reveal audio, video {
 	margin: 0;
@@ -34,7 +34,7 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
 	vertical-align: baseline;
 }
 
-.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure, 
+.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
 .reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
 	display: block;
 }
@@ -44,7 +44,7 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
  * GLOBAL STYLES
  *********************************************/
 
-html, 
+html,
 body {
 	width: 100%;
 	height: 100%;
@@ -57,10 +57,10 @@ body {
 	line-height: 1;
 }
 
-::selection { 
-	background:#FF5E99; 
-	color:#fff; 
-	text-shadow: none; 
+::selection {
+	background:#FF5E99;
+	color:#fff;
+	text-shadow: none;
 }
 
 @media screen and (max-width: 900px) {
@@ -173,19 +173,19 @@ body {
 	/* preserve aspect ratio and scale image so it's bound within the section */
 	max-width: 100%;
 	max-height: 100%;
-} 
+}
 
-.reveal strong, 
+.reveal strong,
 .reveal b {
 	font-weight: bold;
 }
 
-.reveal em, 
+.reveal em,
 .reveal i {
 	font-style: italic;
 }
 
-.reveal ol, 
+.reveal ol,
 .reveal ul {
 	display: inline-block;
 
@@ -233,7 +233,7 @@ body {
 	width: 70%;
 	margin: 5px auto;
 	padding: 5px;
-	
+
 	font-style: italic;
 	background: rgba(255, 255, 255, 0.05);
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
@@ -245,7 +245,7 @@ body {
 		content: '”';
 	}
 
-.reveal q {	
+.reveal q {
 	font-style: italic;
 }
 	.reveal q:before {
@@ -280,7 +280,7 @@ body {
 	max-height: 400px;
 }
 
-.reveal table th, 
+.reveal table th,
 .reveal table td {
 	text-align: left;
 	padding-right: .3em;
@@ -290,10 +290,10 @@ body {
 	text-shadow: rgb(255,255,255) 1px 1px 2px;
 }
 
-.reveal sup { 
+.reveal sup {
 	vertical-align: super;
 }
-.reveal sub { 
+.reveal sub {
 	vertical-align: sub;
 }
 
@@ -323,7 +323,7 @@ body {
 	right: 10px;
 	bottom: 10px;
 }
-	
+
 	.reveal .controls a {
 		font-family: Arial;
 		font-size: 0.83em;
@@ -485,7 +485,7 @@ body {
 	padding: 20px 0px;
 	overflow: visible;
 	z-index: 1;
-	
+
 	text-align: center;
 
 	-webkit-transition: -webkit-perspective .4s ease;
@@ -493,7 +493,7 @@ body {
 	    -ms-transition: -ms-perspective .4s ease;
 	     -o-transition: -o-perspective .4s ease;
 	        transition: perspective .4s ease;
-	
+
 	-webkit-perspective: 600px;
 	   -moz-perspective: 600px;
 	    -ms-perspective: 600px;
@@ -513,12 +513,12 @@ body {
 	min-height: 600px;
 
 	z-index: 10;
-	
+
 	-webkit-transform-style: preserve-3d;
 	   -moz-transform-style: preserve-3d;
 	    -ms-transform-style: preserve-3d;
 	        transform-style: preserve-3d;
-	
+
 	-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	    -ms-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
@@ -544,7 +544,7 @@ body {
 .reveal .slides>section.past {
 	display: block;
 	opacity: 0;
-	
+
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
@@ -553,7 +553,7 @@ body {
 .reveal .slides>section.future {
 	display: block;
 	opacity: 0;
-	
+
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	    -ms-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
@@ -563,7 +563,7 @@ body {
 .reveal .slides>section>section.past {
 	display: block;
 	opacity: 0;
-	
+
 	-webkit-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	   -moz-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
 	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
@@ -572,7 +572,7 @@ body {
 .reveal .slides>section>section.future {
 	display: block;
 	opacity: 0;
-	
+
 	-webkit-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
 	   -moz-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
 	    -ms-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
@@ -719,7 +719,7 @@ body {
 	   -moz-backface-visibility: hidden;
 	    -ms-backface-visibility: hidden;
 	        backface-visibility: hidden;
-	
+
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
@@ -937,7 +937,7 @@ body {
 	-webkit-transform: none;
 	-webkit-transition-duration: 800ms;
 
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
 		amount 0, randomness 0, flipAxis 0 1 0, tileOutline 1
 	);
 }
@@ -945,8 +945,8 @@ body {
 .reveal.tileflip .slides section.past {
 	-webkit-transform: none;
 	-webkit-transition-duration: 800ms;
-	
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
 		amount 1, randomness 0, flipAxis 0 1 0, tileOutline 1
 	);
 }
@@ -955,25 +955,25 @@ body {
 	-webkit-transform: none;
 	-webkit-transition-duration: 800ms;
 
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
 		amount 1, randomness 0, flipAxis 0 1 0, tileOutline 1
 	);
 }
 
-.reveal.tileflip .slides>section>section.present {	
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+.reveal.tileflip .slides>section>section.present {
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
 		amount 0, randomness 2, flipAxis 1 0 0, tileOutline 1
 	);
 }
 
-.reveal.tileflip .slides>section>section.past {	
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+.reveal.tileflip .slides>section>section.past {
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
 		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
 	);
 }
 
-.reveal.tileflip .slides>section>section.future {	
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), 
+.reveal.tileflip .slides>section>section.future {
+	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
 		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
 	);
 }
@@ -1012,7 +1012,7 @@ body {
 .reveal.overview .slides section {
 	padding: 20px 0;
 	max-height: 600px;
-	overflow: hidden;	
+	overflow: hidden;
 	opacity: 1!important;
 	visibility: visible!important;
 	cursor: pointer;
