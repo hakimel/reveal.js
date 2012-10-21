@@ -105,10 +105,9 @@ Reveal.initialize({
 		{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 		{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 		// Zoom in and out with Alt+click
-		{ src: 'plugin/zoom-js/zoom.js', condition: function() { return !!document.body.classList; } },
-		// Speaker notes support
-		{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
-		{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+		{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+		// Speaker notes
+		{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
 	]
 });
 ```
@@ -230,27 +229,23 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 ![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
 
+
 ## Speaker Notes
 
-If you're interested in using speaker notes, reveal.js comes with a Node server that allows you to deliver your presentation in one browser while viewing speaker notes in another. 
+reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Append ```?notes``` to presentation URL or press the 's' key on your keyboard to open the notes window.
 
-To include speaker notes in your presentation, simply add an `<aside class="notes">` element to any slide. These notes will be hidden in the main presentation view.
+Notes are written using the following markup structure:
 
-It's also possible to write your notes with Markdown. To enable Markdown, add the ```data-markdown``` attribute to your note ```<aside>``` elements.
+```html
+<section>
+	<h2>Some Slide</h2>
 
-You'll also need to [install Node.js](http://nodejs.org/); then, install the server dependencies by running `npm install`.
+	<aside class="notes">
+		Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+	</aside>
+</section>
+```
 
-Once Node.js and the dependencies are installed, run the following command from the root directory:
-
-		node plugin/speakernotes
-
-By default, the slides will be served at [localhost:1947](http://localhost:1947).
-
-You can change the appearance of the speaker notes by editing the file at `plugin/speakernotes/notes.html`.	
-
-### Known Issues
-
-- The notes page is supposed to show the current slide and the next slide, but when it first starts, it always shows the first slide in both positions. 
 
 ## Folder Structure
 - **css/** Core styles without which the project does not function

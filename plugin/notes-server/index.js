@@ -32,12 +32,12 @@ app.get("/", function(req, res) {
 
 app.get("/notes/:socketId", function(req, res) {
 
-	fs.readFile(opts.baseDir + 'plugin/speakernotes/notes.html', function(err, data) {
+	fs.readFile(opts.baseDir + 'plugin/notes-server/notes.html', function(err, data) {
 		res.send(Mustache.to_html(data.toString(), {
 			socketId : req.params.socketId
 		}));
 	});
-	// fs.createReadStream(opts.baseDir + 'speakernotes/notes.html').pipe(res);
+	// fs.createReadStream(opts.baseDir + 'notes-server/notes.html').pipe(res);
 });
 
 // Actually listen

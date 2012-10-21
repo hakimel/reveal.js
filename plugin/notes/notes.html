@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Slide Notes</title>
+
+		<style>
+			body {
+				font-family: Helvetica;
+			}
+
+			#notes {
+				font-size: 24px;
+				width: 640px;
+				margin-top: 5px;
+			}
+
+			#wrap-current-slide {
+				width: 640px;
+				height: 512px;
+				float: left;
+				overflow: hidden;
+			}
+
+			#current-slide {
+				width: 1280px;
+				height: 1024px;
+				border: none;
+
+				-webkit-transform-origin: 0 0;
+					 -moz-transform-origin: 0 0;
+						-ms-transform-origin: 0 0;
+						 -o-transform-origin: 0 0;
+								transform-origin: 0 0;
+
+				-webkit-transform: scale(0.5);
+					 -moz-transform: scale(0.5);
+						-ms-transform: scale(0.5);
+						 -o-transform: scale(0.5);
+								transform: scale(0.5);
+			}
+
+			#wrap-next-slide {
+				width: 448px;
+				height: 358px;
+				float: left;
+				margin: 0 0 0 10px;
+				overflow: hidden;
+			}
+
+			#next-slide {
+				width: 1280px;
+				height: 1024px;
+				border: none;
+
+				-webkit-transform-origin: 0 0;
+					 -moz-transform-origin: 0 0;
+						-ms-transform-origin: 0 0;
+						 -o-transform-origin: 0 0;
+								transform-origin: 0 0;
+
+				-webkit-transform: scale(0.35);
+					 -moz-transform: scale(0.35);
+						-ms-transform: scale(0.35);
+						 -o-transform: scale(0.35);
+								transform: scale(0.35);
+			}
+
+			.slides {
+				position: relative;
+				margin-bottom: 10px;
+				border: 1px solid black;
+				border-radius: 2px;
+				background: rgb(28, 30, 32);
+			}
+
+			.slides span {
+				position: absolute;
+				top: 3px;
+				left: 3px;
+				font-weight: bold;
+				font-size: 14px;
+				color: rgba( 255, 255, 255, 0.9 );
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="wrap-current-slide" class="slides">
+			<iframe src="../../index.html" width="1280" height="1024" id="current-slide"></iframe>
+		</div>
+
+		<div id="wrap-next-slide" class="slides">
+			<iframe src="../../index.html" width="640" height="512" id="next-slide"></iframe>
+			<span>UPCOMING:</span>
+		</div>
+		<div id="notes"></div>
+
+		<script src="../../lib/js/showdown.js"></script>
+		<script>
+			window.addEventListener( 'load', function() {
+
+				(function( window, undefined ) {
+					var notes = document.getElementById( 'notes' ),
+						currentSlide = document.getElementById( 'current-slide' ),
+						nextSlide = document.getElementById( 'next-slide' );
+
+					window.addEventListener( 'message', function( event ) {
+						var data = JSON.parse( event.data );
+
+						if( data.markdown ) {
+							notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+						}
+						else {
+							notes.innerHTML = data.notes;
+						}
+
+						// Kill the slide listeners while responding to the event
+						removeSlideListeners();
+
+						// Update the note slides
+						currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv );
+						nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
+
+						// Resume listening on the next cycle
+						setTimeout( addSlideListeners, 1 );
+
+					}, false );
+
+					function addSlideListeners() {
+						currentSlide.contentWindow.Reveal.addEventListener( 'slidechanged', onNotesSlideChange, false );
+						nextSlide.contentWindow.Reveal.addEventListener( 'slidechanged', onNotesSlideChange, false );
+					}
+
+					function removeSlideListeners() {
+						currentSlide.contentWindow.Reveal.removeEventListener( 'slidechanged', onNotesSlideChange, false );
+						nextSlide.contentWindow.Reveal.removeEventListener( 'slidechanged', onNotesSlideChange, false );
+					}
+
+					function onNotesSlideChange( event ) {
+						window.opener.postMessage( JSON.stringify({
+							indexh : event.indexh,
+							indexv : event.indexv
+						}), '*' );
+					}
+
+					addSlideListeners();
+
+				})( window );
+
+			}, false );
+
+		</script>
+	</body>
+</html>
