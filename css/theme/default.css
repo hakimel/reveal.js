@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
-/*
+/**
  * Default theme for reveal.js.
  * 
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
@@ -16,7 +16,7 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #555a5f;
+  background: #1c1e20;
   background: -moz-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #555a5f), color-stop(100%, #1c1e20));
   background: -webkit-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);

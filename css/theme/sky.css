@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Quicksand:400,700,400italic,700italic);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
-/*
+/**
  * Sky theme for reveal.js.
  * 
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
@@ -9,7 +9,7 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #f7fbfc;
+  background: #add9e4;
   background: -moz-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #f7fbfc), color-stop(100%, #add9e4));
   background: -webkit-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
