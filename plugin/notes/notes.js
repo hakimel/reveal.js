@@ -39,7 +39,7 @@ var RevealNotes = (function() {
 			notesPopup.postMessage( JSON.stringify( slideData ), '*' );
 		}
 
-		// The main presentation is kept in sync when navigating the 
+		// The main presentation is kept in sync when navigating the
 		// note slides so that the popup may be used as a remote
 		window.addEventListener( 'message', function( event ) {
 			var data = JSON.parse( event.data );
@@ -60,7 +60,7 @@ var RevealNotes = (function() {
 
 	// Open the notes when the 's' key is hit
 	document.addEventListener( 'keydown', function( event ) {
-		// Disregard the event if the target is editable or a 
+		// Disregard the event if the target is editable or a
 		// modifier is present
 		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 
