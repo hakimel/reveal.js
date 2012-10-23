@@ -313,7 +313,7 @@ body {
  * CONTROLS
  *********************************************/
 
-.reveal .controls {
+.reveal #controls-default {
 	display: none;
 	position: fixed;
 	width: 110px;
@@ -323,8 +323,11 @@ body {
 	bottom: 10px;
 }
 
-.reveal .controls div {
+.reveal #controls-default div {
 	position: absolute;
+}
+
+.reveal .controls div {
 	opacity: 0.1;
 	width: 0; 
 	height: 0; 
@@ -346,32 +349,41 @@ body {
 	margin-top: 1px;
 }
 
-.reveal .controls div.left {
+.reveal #controls-default div.left {
+	left: 0;
 	top: 42px;
+}
 
+.reveal .controls div.left {
 	border-right-width: 22px;
 	border-right-color: #eee;
 }
 
-.reveal .controls div.right {
+.reveal #controls-default div.right {
 	left: 74px;
 	top: 42px;
+}
 
+.reveal .controls div.right {
 	border-left-width: 22px;
 	border-left-color: #eee;
 }
 
-.reveal .controls div.up {
+.reveal #controls-default div.up {
 	left: 42px;
+}
 
+.reveal .controls div.up {
 	border-bottom-width: 22px;
 	border-bottom-color: #eee;
 }
 
-.reveal .controls div.down {
+.reveal #controls-default div.down {
 	left: 42px;
 	top: 74px;
+}
 
+.reveal .controls div.down {
 	border-top-width: 22px;
 	border-top-color: #eee;
 }

@@ -135,6 +135,16 @@ body {
   border-top-color: #0000f1;
 }
 
+/* for auxiliary/custom controls, match the theme color */
+.reveal .controls div,
+.reveal .controls div.enabled {
+  color: #darkblue;
+}
+
+.reveal .controls div.enabled:hover {
+  color: #0000f1;
+}
+
 /*********************************************
  * PROGRESS BAR
  *********************************************/

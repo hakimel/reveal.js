@@ -142,6 +142,16 @@ body {
 	border-top-color: $linkColorHover;
 }
 
+/* for auxiliary/custom controls, match the theme color */
+.reveal .controls div,
+.reveal .controls div.enabled {
+  color: $linkColor;
+}
+
+.reveal .controls div.enabled:hover {
+  color: $linkColorHover;
+}
+
 
 /*********************************************
  * PROGRESS BAR

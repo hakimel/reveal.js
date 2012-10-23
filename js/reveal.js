@@ -146,10 +146,11 @@ var Reveal = (function(){
 			dom.wrapper.appendChild( progressElement );
 		}
 
-		// Arrow controls
-		if( !dom.wrapper.querySelector( '.controls' ) && config.controls ) {
+		// Default controls
+		if( !dom.wrapper.querySelector( '#controls-default' ) && config.controls ) {
 			var controlsElement = document.createElement( 'aside' );
 			controlsElement.classList.add( 'controls' );
+			controlsElement.id = 'controls-default';
 			controlsElement.innerHTML = '<div class="left"></div>' +
 										'<div class="right"></div>' +
 										'<div class="up"></div>' +
@@ -175,14 +176,12 @@ var Reveal = (function(){
 		dom.progress = document.querySelector( '.reveal .progress' );
 		dom.progressbar = document.querySelector( '.reveal .progress span' );
 
-		if ( config.controls ) {
-			dom.controls = document.querySelector( '.reveal .controls' );
-			dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
-			dom.controlsRight = document.querySelector( '.reveal .controls .right' );
-			dom.controlsUp = document.querySelector( '.reveal .controls .up' );
-			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
+		dom.controls = document.querySelectorAll( '.reveal .controls' );
+		dom.controlsLeft = document.querySelectorAll( '.reveal .controls .left' );
+		dom.controlsRight = document.querySelectorAll( '.reveal .controls .right' );
+		dom.controlsUp = document.querySelectorAll( '.reveal .controls .up' );
+		dom.controlsDown = document.querySelectorAll( '.reveal .controls .down' );
 		}
-	}
 
 	/**
 	 * Hides the address bar if we're on a mobile device.
@@ -284,8 +283,9 @@ var Reveal = (function(){
 			config.transition = 'linear';
 		}
 
-		if( config.controls && dom.controls ) {
-			dom.controls.style.display = 'block';
+		if( dom.controls ) {  // config.controls &&
+			for (var i = 0; i < dom.controls.length; ++i)
+				dom.controls[i].style.display = 'block';
 		}
 
 		if( config.progress && dom.progress ) {
@@ -336,11 +336,15 @@ var Reveal = (function(){
 			dom.progress.addEventListener( 'click', preventAndForward( onProgressClick ), false );
 		}
 
-		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
-			dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
-			dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
-			dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );
+		if ( dom.controls ) {  // config.controls && 
+			for (var i = 0; i < dom.controlsLeft.length; ++i)
+				dom.controlsLeft[i].addEventListener( 'click', preventAndForward( navigateLeft ), false );
+			for (var i = 0; i < dom.controlsRight.length; ++i)
+				dom.controlsRight[i].addEventListener( 'click', preventAndForward( navigateRight ), false );
+			for (var i = 0; i < dom.controlsUp.length; ++i)
+				dom.controlsUp[i].addEventListener( 'click', preventAndForward( navigateUp ), false );
+			for (var i = 0; i < dom.controlsDown.length; ++i)
+				dom.controlsDown[i].addEventListener( 'click', preventAndForward( navigateDown ), false );		
 		}
 	}
 
@@ -358,11 +362,15 @@ var Reveal = (function(){
 			dom.progress.removeEventListener( 'click', preventAndForward( onProgressClick ), false );
 		}
 
-		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
-			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
-			dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
-			dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+		if ( dom.controls ) {
+			for (var i = 0; i < dom.controlsLeft.length; ++i)
+				dom.controlsLeft[i].removeEventListener( 'click', preventAndForward( navigateLeft ), false );
+			for (var i = 0; i < dom.controlsRight.length; ++i)
+				dom.controlsRight[i].removeEventListener( 'click', preventAndForward( navigateRight ), false );
+			for (var i = 0; i < dom.controlsUp.length; ++i)
+				dom.controlsUp[i].removeEventListener( 'click', preventAndForward( navigateUp ), false );
+			for (var i = 0; i < dom.controlsDown.length; ++i)
+				dom.controlsDown[i].removeEventListener( 'click', preventAndForward( navigateDown ), false );
 		}
 	}
 
@@ -814,15 +822,20 @@ var Reveal = (function(){
 			var routes = availableRoutes();
 
 			// Remove the 'enabled' class from all directions
-			[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( node ) {
-				node.classList.remove( 'enabled' );
+			[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( nodeList ) {
+				for (var i = 0; i < nodeList.length; ++i)
+					nodeList[i].classList.remove( 'enabled' );
 			} );
 
 			// Add the 'enabled' class to the available routes
-			if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
-			if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
-			if( routes.up ) dom.controlsUp.classList.add( 'enabled' );
-			if( routes.down ) dom.controlsDown.classList.add( 'enabled' );
+			if( routes.left ) for (var i = 0; i < dom.controlsLeft.length; ++i)
+				dom.controlsLeft[i].classList.add( 'enabled' );
+			if( routes.right ) for (var i = 0; i < dom.controlsRight.length; ++i)
+				dom.controlsRight[i].classList.add( 'enabled' );
+			if( routes.up ) for (var i = 0; i < dom.controlsUp.length; ++i)
+				dom.controlsUp[i].classList.add( 'enabled' );
+			if( routes.down ) for (var i = 0; i < dom.controlsDown.length; ++i)
+				dom.controlsDown[i].classList.add( 'enabled' );
 
 		}
 	}
