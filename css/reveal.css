@@ -319,41 +319,51 @@ body {
 	width: 90px;
 	height: 90px;
 	z-index: 30;
-
 	right: 10px;
 	bottom: 10px;
 }
 
-	.reveal .controls a {
-		font-family: Arial;
-		font-size: 0.83em;
-		position: absolute;
-		opacity: 0.1;
-	}
-		.reveal .controls a.enabled {
-			opacity: 0.6;
-		}
-		.reveal .controls a.enabled:active {
-			margin-top: 1px;
-		}
+.reveal .controls div {
+	position: absolute;
+	opacity: 0.1;
+	width: 0; 
+	height: 0; 
+	border: 12px solid transparent;
+}
 
-	.reveal .controls .left {
-		top: 30px;
-	}
+.reveal .controls div.enabled {
+	opacity: 0.6;
+}
 
-	.reveal .controls .right {
-		left: 60px;
-		top: 30px;
-	}
+.reveal .controls div.enabled:active {
+	margin-top: 1px;
+}
 
-	.reveal .controls .up {
-		left: 30px;
-	}
+.reveal .controls div.left {
+	top: 30px;
 
-	.reveal .controls .down {
-		left: 30px;
-		top: 60px;
-	}
+	border-right-color: #eee;
+}
+
+.reveal .controls div.right {
+	left: 60px;
+	top: 30px;
+
+	border-left-color: #eee;
+}
+
+.reveal .controls div.up {
+	left: 30px;
+
+	border-bottom-color: #eee;
+}
+
+.reveal .controls div.down {
+	left: 30px;
+	top: 60px;
+
+	border-top-color: #eee;
+}
 
 
 /*********************************************

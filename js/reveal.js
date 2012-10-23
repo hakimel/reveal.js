@@ -150,10 +150,10 @@ var Reveal = (function(){
 		if( !dom.wrapper.querySelector( '.controls' ) && config.controls ) {
 			var controlsElement = document.createElement( 'aside' );
 			controlsElement.classList.add( 'controls' );
-			controlsElement.innerHTML = '<a class="left" href="#">&#x25C4;</a>' +
-										'<a class="right" href="#">&#x25BA;</a>' +
-										'<a class="up" href="#">&#x25B2;</a>' +
-										'<a class="down" href="#">&#x25BC;</a>';
+			controlsElement.innerHTML = '<div class="left"></div>' +
+										'<div class="right"></div>' +
+										'<div class="up"></div>' +
+										'<div class="down"></div>';
 			dom.wrapper.appendChild( controlsElement );
 		}
 

@@ -106,13 +106,37 @@ body {
  * NAVIGATION CONTROLS
  *********************************************/
 
-.reveal .controls a {
-	color: $mainColor;
+.reveal .controls div.left {
+	border-right-color: $mainColor;
 }
-	.reveal .controls a.enabled {
-		color: $linkColorHover;
-		text-shadow: 0px 0px 2px hsla(185, 45%, 70%, 0.3);
-	}
+
+.reveal .controls div.right {
+	border-left-color: $mainColor;
+}
+
+.reveal .controls div.up {
+	border-bottom-color: $mainColor;
+}
+
+.reveal .controls div.down {
+	border-top-color: $mainColor;
+}
+
+.reveal .controls div.left.enabled {
+	border-right-color: $linkColorHover;
+}
+
+.reveal .controls div.right.enabled {
+	border-left-color: $linkColorHover;
+}
+
+.reveal .controls div.up.enabled {
+	border-bottom-color: $linkColorHover;
+}
+
+.reveal .controls div.down.enabled {
+	border-top-color: $linkColorHover;
+}
 
 
 /*********************************************
