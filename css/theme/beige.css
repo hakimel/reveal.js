@@ -110,35 +110,39 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls div.left {
-  border-right-color: #333333;
-}
-
-.reveal .controls div.right {
-  border-left-color: #333333;
-}
-
-.reveal .controls div.up {
-  border-bottom-color: #333333;
-}
-
-.reveal .controls div.down {
-  border-top-color: #333333;
-}
-
+.reveal .controls div.left,
 .reveal .controls div.left.enabled {
+  border-right-color: #8b743d;
+}
+
+.reveal .controls div.right,
+.reveal .controls div.right.enabled {
+  border-left-color: #8b743d;
+}
+
+.reveal .controls div.up,
+.reveal .controls div.up.enabled {
+  border-bottom-color: #8b743d;
+}
+
+.reveal .controls div.down,
+.reveal .controls div.down.enabled {
+  border-top-color: #8b743d;
+}
+
+.reveal .controls div.left.enabled:hover {
   border-right-color: #c0a86e;
 }
 
-.reveal .controls div.right.enabled {
+.reveal .controls div.right.enabled:hover {
   border-left-color: #c0a86e;
 }
 
-.reveal .controls div.up.enabled {
+.reveal .controls div.up.enabled:hover {
   border-bottom-color: #c0a86e;
 }
 
-.reveal .controls div.down.enabled {
+.reveal .controls div.down.enabled:hover {
   border-top-color: #c0a86e;
 }
 

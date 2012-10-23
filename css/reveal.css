@@ -316,8 +316,8 @@ body {
 .reveal .controls {
 	display: none;
 	position: fixed;
-	width: 90px;
-	height: 90px;
+	width: 110px;
+	height: 110px;
 	z-index: 30;
 	right: 10px;
 	bottom: 10px;
@@ -329,10 +329,17 @@ body {
 	width: 0; 
 	height: 0; 
 	border: 12px solid transparent;
+
+	-webkit-transition: opacity 0.2s ease;
+	   -moz-transition: opacity 0.2s ease;
+	    -ms-transition: opacity 0.2s ease;
+	     -o-transition: opacity 0.2s ease;
+	        transition: opacity 0.2s ease;
 }
 
 .reveal .controls div.enabled {
 	opacity: 0.6;
+	cursor: pointer;
 }
 
 .reveal .controls div.enabled:active {
@@ -340,28 +347,32 @@ body {
 }
 
 .reveal .controls div.left {
-	top: 30px;
+	top: 42px;
 
+	border-right-width: 22px;
 	border-right-color: #eee;
 }
 
 .reveal .controls div.right {
-	left: 60px;
-	top: 30px;
+	left: 74px;
+	top: 42px;
 
+	border-left-width: 22px;
 	border-left-color: #eee;
 }
 
 .reveal .controls div.up {
-	left: 30px;
+	left: 42px;
 
+	border-bottom-width: 22px;
 	border-bottom-color: #eee;
 }
 
 .reveal .controls div.down {
-	left: 30px;
-	top: 60px;
+	left: 42px;
+	top: 74px;
 
+	border-top-width: 22px;
 	border-top-color: #eee;
 }
 
