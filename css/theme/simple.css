@@ -99,13 +99,36 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls a {
-  color: black;
+.reveal .controls div.left {
+  border-right-color: black;
 }
 
-.reveal .controls a.enabled {
-  color: #0000f1;
-  text-shadow: 0px 0px 2px rgba(144, 207, 213, 0.3);
+.reveal .controls div.right {
+  border-left-color: black;
+}
+
+.reveal .controls div.up {
+  border-bottom-color: black;
+}
+
+.reveal .controls div.down {
+  border-top-color: black;
+}
+
+.reveal .controls div.left.enabled {
+  border-right-color: #0000f1;
+}
+
+.reveal .controls div.right.enabled {
+  border-left-color: #0000f1;
+}
+
+.reveal .controls div.up.enabled {
+  border-bottom-color: #0000f1;
+}
+
+.reveal .controls div.down.enabled {
+  border-top-color: #0000f1;
 }
 
 /*********************************************

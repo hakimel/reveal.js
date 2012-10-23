@@ -110,13 +110,36 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls a {
-  color: #eeeeee;
+.reveal .controls div.left {
+  border-right-color: #eeeeee;
 }
 
-.reveal .controls a.enabled {
-  color: #71e9f4;
-  text-shadow: 0px 0px 2px rgba(144, 207, 213, 0.3);
+.reveal .controls div.right {
+  border-left-color: #eeeeee;
+}
+
+.reveal .controls div.up {
+  border-bottom-color: #eeeeee;
+}
+
+.reveal .controls div.down {
+  border-top-color: #eeeeee;
+}
+
+.reveal .controls div.left.enabled {
+  border-right-color: #71e9f4;
+}
+
+.reveal .controls div.right.enabled {
+  border-left-color: #71e9f4;
+}
+
+.reveal .controls div.up.enabled {
+  border-bottom-color: #71e9f4;
+}
+
+.reveal .controls div.down.enabled {
+  border-top-color: #71e9f4;
 }
 
 /*********************************************
