@@ -1316,6 +1316,8 @@ var Reveal = (function(){
 		down: navigateDown,
 		prev: navigatePrev,
 		next: navigateNext,
+		prevFragment: previousFragment,
+		nextFragment: nextFragment,
 
 		// Deprecated aliases
 		navigateTo: slide,
