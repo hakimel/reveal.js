@@ -112,15 +112,26 @@
 			// ignore data from sockets that aren't ours
 			if (data.socketId !== socketId) { return; }
 
-                        if (data.markdown) {
-                          notes.innerHTML = (new Showdown.converter()).makeHtml(data.notes);
-                        }
-                        else {
-                          notes.innerHTML = data.notes;
-                        }
+			if (data.markdown) {
+				notes.innerHTML = (new Showdown.converter()).makeHtml(data.notes);
+			}
+			else {
+				notes.innerHTML = data.notes;
+			}
 
 			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
 			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
+		});
+		socket.on('fragmentdata', function(data) {
+			// ignore data from sockets that aren't ours
+			if (data.socketId !== socketId) { return; }
+
+			if (data.fragment === 'next') {
+				currentSlide.contentWindow.Reveal.nextFragment();
+			}
+			else if (data.fragment === 'previous') {
+				currentSlide.contentWindow.Reveal.prevFragment();
+			}
 		});
 		</script>
 
