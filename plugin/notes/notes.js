@@ -29,7 +29,6 @@ var RevealNotes = (function() {
 		 *                                 set in the events above to define the needed slideDate.
 		 */
 		function post(eventType) {
-			console.log(eventType);
 			var slideElement = Reveal.getCurrentSlide(),
 				indexh = Reveal.getIndices().h,
 				indexv = Reveal.getIndices().v,

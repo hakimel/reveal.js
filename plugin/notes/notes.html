@@ -109,8 +109,7 @@
 
 					window.addEventListener( 'message', function( event ) {
 						var data = JSON.parse( event.data );
-						console.log(data);
-						// No need for updating the notes in case of fragement changes
+						// No need for updating the notes in case of fragment changes
 						if ( data.notes !== undefined) {
 							if( data.markdown ) {
 								notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
