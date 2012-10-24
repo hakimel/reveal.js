@@ -69,16 +69,6 @@ var RevealNotes = (function() {
 			notesPopup.postMessage( JSON.stringify( slideData ), '*' );
 		}
 
-		// The main presentation is kept in sync when navigating the
-		// note slides so that the popup may be used as a remote
-		window.addEventListener( 'message', function( event ) {
-			var data = JSON.parse( event.data );
-
-			if( data && typeof data.indexh === 'number' && typeof data.indexv === 'number' ) {
-				Reveal.slide( data.indexh, data.indexv );
-			}
-		} );
-
 		// Navigate to the current slide when the notes are loaded
 		notesPopup.addEventListener( 'load', function( event ) {
 			post('slidechanged');
