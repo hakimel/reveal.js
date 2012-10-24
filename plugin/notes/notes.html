@@ -109,12 +109,15 @@
 
 					window.addEventListener( 'message', function( event ) {
 						var data = JSON.parse( event.data );
-
-						if( data.markdown ) {
-							notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
-						}
-						else {
-							notes.innerHTML = data.notes;
+						console.log(data);
+						// No need for updating the notes in case of fragement changes
+						if ( data.notes !== undefined) {
+							if( data.markdown ) {
+								notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+							}
+							else {
+								notes.innerHTML = data.notes;
+							}
 						}
 
 						// Kill the slide listeners while responding to the event
@@ -123,6 +126,14 @@
 						// Update the note slides
 						currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv );
 						nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
+
+						// Showing and hiding fragments
+						if (data.fragment === 'next') {
+							currentSlide.contentWindow.Reveal.nextFragment();
+						}
+						else if (data.fragment === 'prev') {
+							currentSlide.contentWindow.Reveal.prevFragment();
+						}
 
 						// Resume listening on the next cycle
 						setTimeout( addSlideListeners, 1 );
