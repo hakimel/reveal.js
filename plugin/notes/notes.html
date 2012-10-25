@@ -109,44 +109,29 @@
 
 					window.addEventListener( 'message', function( event ) {
 						var data = JSON.parse( event.data );
-
-						if( data.markdown ) {
-							notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+						// No need for updating the notes in case of fragment changes
+						if ( data.notes !== undefined) {
+							if( data.markdown ) {
+								notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+							}
+							else {
+								notes.innerHTML = data.notes;
+							}
 						}
-						else {
-							notes.innerHTML = data.notes;
-						}
-
-						// Kill the slide listeners while responding to the event
-						removeSlideListeners();
 
 						// Update the note slides
 						currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv );
 						nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
 
-						// Resume listening on the next cycle
-						setTimeout( addSlideListeners, 1 );
+						// Showing and hiding fragments
+						if( data.fragment === 'next' ) {
+							currentSlide.contentWindow.Reveal.nextFragment();
+						}
+						else if( data.fragment === 'prev' ) {
+							currentSlide.contentWindow.Reveal.prevFragment();
+						}
 
 					}, false );
-
-					function addSlideListeners() {
-						currentSlide.contentWindow.Reveal.addEventListener( 'slidechanged', onNotesSlideChange, false );
-						nextSlide.contentWindow.Reveal.addEventListener( 'slidechanged', onNotesSlideChange, false );
-					}
-
-					function removeSlideListeners() {
-						currentSlide.contentWindow.Reveal.removeEventListener( 'slidechanged', onNotesSlideChange, false );
-						nextSlide.contentWindow.Reveal.removeEventListener( 'slidechanged', onNotesSlideChange, false );
-					}
-
-					function onNotesSlideChange( event ) {
-						window.opener.postMessage( JSON.stringify({
-							indexh : event.indexh,
-							indexv : event.indexv
-						}), '*' );
-					}
-
-					addSlideListeners();
 
 				})( window );
 
