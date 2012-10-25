@@ -1088,9 +1088,14 @@ var Reveal = (function(){
 	 * @param {Object} event
 	 */
 	function onDocumentKeyDown( event ) {
-		// Disregard the event if the target is editable or a
-		// modifier is present
-		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+		// Check if there's a focused element that could be using 
+		// the keyboard
+		var activeElement = document.activeElement;
+    	var hasFocus = !!( document.activeElement && ( document.activeElement.type || document.activeElement.href || document.activeElement.contentEditable !== 'inherit' ) );
+
+		// Disregard the event if there's a focused element or a 
+		// keyboard modifier key is present
+		if ( hasFocus || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		var triggered = true;
 
