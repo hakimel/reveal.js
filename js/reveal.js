@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r35
+ * reveal.js 2.1 r36
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -268,12 +268,15 @@ var Reveal = (function(){
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
 
-		// Notify listeners that the presentation is ready
-		dispatchEvent( 'ready', {
-			'indexh': indexh, 
-			'indexv': indexv,
-			'currentSlide': currentSlide
-		} );
+		// Notify listeners that the presentation is ready but use a 1ms
+		// timeout to ensure it's not fired synchronously after #initialize()
+		setTimeout( function() {
+			dispatchEvent( 'ready', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
+		}, 1 );
 	}
 
 	/**
