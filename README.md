@@ -236,7 +236,7 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Append ```?notes``` to presentation URL or press the 's' key on your keyboard to open the notes window.
 
-Notes are written using the following markup structure:
+By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown.
 
 ```html
 <section>
@@ -247,6 +247,21 @@ Notes are written using the following markup structure:
 	</aside>
 </section>
 ```
+
+## Server Side Speaker Nodes
+
+In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the requried scripts by adding the following dependencies:
+
+```
+{ src: '/socket.io/socket.io.js', async: true },
+{ src: 'plugin/notes-server/client.js', async: true }
+```
+
+Then:
+
+1. Install [Node.js](http://nodejs.org/)
+2. Run ```npm install```
+3. Run ```node plugin/notes-server```
 
 
 ## Folder Structure
