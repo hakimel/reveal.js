@@ -6,6 +6,7 @@
 
 body {
 	@include bodyBackground();
+	background-color: $backgroundColor;
 }
 
 .reveal {

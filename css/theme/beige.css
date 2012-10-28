@@ -23,6 +23,7 @@ body {
   background: -o-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
   background: -ms-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
   background: radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background-color: #f7f3de;
 }
 
 .reveal {

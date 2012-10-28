@@ -31,19 +31,19 @@ html {
 /* SECTION 2: Remove any elements not needed in print. 
    This would include navigation, ads, sidebars, etc. */
 .nestedarrow, 
-.controls a, 
+.controls, 
 .reveal .progress, 
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
 .state-background {
-	display:none;
+	display: none !important;
 }
 
 /* SECTION 3: Set body font face, size, and color.
    Consider using a serif font for readability. */
 body, p, td, li, div, a {
-	font-size: 13pt;
+	font-size: 16pt!important;
 	font-family: Georgia, "Times New Roman", Times, serif !important;
 	color: #000; 
 }
@@ -77,12 +77,14 @@ a:visited {
 	font-weight: bold;
 	text-decoration: underline;
 }
+/*
 .reveal a:link:after, 
 .reveal a:visited:after {
 	content: " (" attr(href) ") ";
 	color: #222 !important;
 	font-size: 90%;
 }
+*/
 
 
 /* SECTION 6: more reveal.js specific additions by @skypanther */
@@ -121,35 +123,33 @@ ul, ol, div, p {
 	    -ms-perspective-origin: 50% 50%;
 	        perspective-origin: 50% 50%;
 }
-.reveal .slides>section, .reveal .slides>section>section, 
-.reveal .slides>section.past, .reveal .slides>section.future,
-.reveal.linear .slides>section, .reveal.linear .slides>section>section,
-.reveal.linear .slides>section.past, .reveal.linear .slides>section.future {
+.reveal .slides>section, 
+.reveal .slides>section>section {
 	
-	visibility: visible;
-	position: static;
-	width: 90%;
-	height: auto;
-	display: block;
-	overflow: visible;
+	visibility: visible !important;
+	position: static !important;
+	width: 90% !important;
+	height: auto !important;
+	display: block !important;
+	overflow: visible !important;
 
-	left: 0%;
-	top: 0%;
-	margin-left: 0px;
-	margin-top: 0px;
-	padding: 20px 0px;
+	left: 0% !important;
+	top: 0% !important;
+	margin-left: 0px !important;
+	margin-top: 0px !important;
+	padding: 20px 0px !important;
 
-	opacity: 1;
+	opacity: 1 !important;
 
-	-webkit-transform-style: flat;
-	   -moz-transform-style: flat;
-	    -ms-transform-style: flat;
-	        transform-style: flat;
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
 
-	-webkit-transform: none;
-	   -moz-transform: none;
-	    -ms-transform: none;
-	        transform: none;
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
 }
 .reveal section {
 	page-break-after: always !important; 
@@ -160,6 +160,9 @@ ul, ol, div, p {
 }
 .reveal section .fragment {
 	opacity: 1 !important;
+}
+.reveal section:last-of-type {
+	page-break-after: avoid !important; 
 }
 .reveal section img {
 	display: block;
