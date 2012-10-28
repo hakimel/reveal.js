@@ -133,6 +133,16 @@ body {
   border-top-color: #8b7c69;
 }
 
+/* for auxiliary/custom controls, match the theme color */
+.reveal .controls div,
+.reveal .controls div.enabled {
+  color: #51483d;
+}
+
+.reveal .controls div.enabled:hover {
+  color: #8b7c69;
+}
+
 /*********************************************
  * PROGRESS BAR
  *********************************************/

@@ -211,6 +211,36 @@
 				</section>
 
 				<section>
+					<section>
+						<h2>Custom Controls</h2>
+						<h3>You can place extra controls in or around slides</h3>
+						<p>
+							Use the <code>.up</code>, <code>.down</code>,
+							<code>.left</code>, <code>.right</code> classes in a <code>.controls</code> parent and disable the <code>border</code>:
+						</p>
+						<pre><code contenteditable style="font-size: 14px; margin-top: 20px;">&lt;aside class="controls" style="font-size: 4em;"&gt;
+  &lt;div class="left" style="border: none; position: absolute; left: -1em; top: 50%"&gt;&amp;amp;lt;&lt;/div&gt;
+  &lt;div class="right" style="border: none; position: absolute; right: -0.5em; top: 50%"&gt;&amp;amp;gt;&lt;/div&gt;
+&lt;/aside&gt;</code></pre>
+						<aside class="controls" style="font-size: 4em;">
+							<div class="left" style="border: none; position: absolute; left: -1em; top: 50%">&lt;</div>
+							<div class="right" style="border: none; position: absolute; right: -0.5em; top: 50%">&gt;</div>
+						</aside>
+						<footer class="controls" style="position: absolute; bottom: 0; width: 100%; text-align: center;">
+							<div class="up" style="display: inline-block"></div> prev / next <div class="down" style="display: inline-block; vertical-align: -12px"></div>
+						</footer>
+					</section>
+
+					<section>
+						<h2>Or reuse existing controls</h2>
+						<p>To reuse existing controls, have empty <code>div</code>s and leave the <code>border</code> alone.</p>
+						<footer class="controls" style="position: absolute; bottom: 0; width: 100%; text-align: center;">
+							<div class="up" style="display: inline-block"></div> prev / next <div class="down" style="display: inline-block; vertical-align: -12px"></div>
+						</footer>
+					</section>
+				</section>
+
+				<section>
 					<h2>Clever Quotes</h2>
 					<p>
 						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
