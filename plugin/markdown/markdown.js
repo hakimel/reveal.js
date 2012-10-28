@@ -2,6 +2,10 @@
 // Modified by Hakim to handle Markdown indented with tabs
 (function(){
 
+    if( typeof Showdown === 'undefined' ) {
+        throw 'The reveal.js Markdown plugin requires Showdown to be loaded';
+    }
+
     var sections = document.querySelectorAll( '[data-markdown]' );
 
     for( var i = 0, len = sections.length; i < len; i++ ) {
