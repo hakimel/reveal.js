@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r36
+ * reveal.js 2.1 r37
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -1014,28 +1014,28 @@ var Reveal = (function(){
 
 	function navigateLeft() {
 		// Prioritize hiding fragments
-		if( isOverviewActive() || previousFragment() === false ) {
+		if( availableRoutes().left && ( isOverviewActive() || previousFragment() === false ) ) {
 			slide( indexh - 1, 0 );
 		}
 	}
 
 	function navigateRight() {
 		// Prioritize revealing fragments
-		if( isOverviewActive() || nextFragment() === false ) {
+		if( availableRoutes().right && ( isOverviewActive() || nextFragment() === false ) ) {
 			slide( indexh + 1, 0 );
 		}
 	}
 
 	function navigateUp() {
 		// Prioritize hiding fragments
-		if( isOverviewActive() || previousFragment() === false ) {
+		if( availableRoutes().up && ( isOverviewActive() || previousFragment() === false ) ) {
 			slide( indexh, indexv - 1 );
 		}
 	}
 
 	function navigateDown() {
 		// Prioritize revealing fragments
-		if( isOverviewActive() || nextFragment() === false ) {
+		if( availableRoutes().down && ( isOverviewActive() || nextFragment() === false ) ) {
 			slide( indexh, indexv + 1 );
 		}
 	}
@@ -1057,7 +1057,7 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( '.reveal .slides>section.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					indexv = ( previousSlide.querySelectorAll('section').length + 1 ) || 0;
+					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || 0;
 					indexh --;
 					slide();
 				}
