@@ -1157,15 +1157,15 @@ body {
 .zoomed .reveal *,
 .zoomed .reveal *:before,
 .zoomed .reveal *:after {
-	-webkit-transform: initial !important;
-	   -moz-transform: initial !important;
-	    -ms-transform: initial !important;
-	        transform: initial !important;
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
 
-	-webkit-backface-visibility: initial !important;
-	   -moz-backface-visibility: initial !important;
-	    -ms-backface-visibility: initial !important;
-	        backface-visibility: initial !important;
+	-webkit-backface-visibility: visible !important;
+	   -moz-backface-visibility: visible !important;
+	    -ms-backface-visibility: visible !important;
+	        backface-visibility: visible !important;
 }
 
 .zoomed .reveal .progress,
