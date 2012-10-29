@@ -1150,3 +1150,35 @@ body {
 }
 
 
+/*********************************************
+ * ZOOM PLUGIN
+ *********************************************/
+
+.zoomed .reveal *,
+.zoomed .reveal *:before,
+.zoomed .reveal *:after {
+	-webkit-transform: initial !important;
+	   -moz-transform: initial !important;
+	    -ms-transform: initial !important;
+	        transform: initial !important;
+
+	-webkit-backface-visibility: initial !important;
+	   -moz-backface-visibility: initial !important;
+	    -ms-backface-visibility: initial !important;
+	        backface-visibility: initial !important;
+}
+
+.zoomed .reveal .progress,
+.zoomed .reveal .controls {
+	opacity: 0;
+}
+
+.zoomed .reveal .roll span {
+	background: none;
+}
+
+.zoomed .reveal .roll span:after {
+	visibility: hidden;
+}
+
+
