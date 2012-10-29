@@ -231,8 +231,10 @@ var Reveal = (function(){
 
 		// Called once synchronous scritps finish loading
 		function proceed() {
-			// Load asynchronous scripts
-			head.js.apply( null, scriptsAsync );
+			if( scriptsAsync.length ) {
+				// Load asynchronous scripts
+				head.js.apply( null, scriptsAsync );
+			}
 
 			start();
 		}
