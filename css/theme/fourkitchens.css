@@ -164,3 +164,13 @@ body {
 	}
 
 
+/*********************************************
+ * CURRENT SLIDE
+ *********************************************/
+#current-slide {
+ font-size: 40%;
+ position: absolute;
+ top: 38px;
+ left: 28px;
+}
+
