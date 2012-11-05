@@ -60,6 +60,9 @@ var Reveal = (function(){
 		// The horizontal and verical index of the currently active slide
 		indexh = 0,
 		indexv = 0,
+			
+		// the fragment index
+		indexf = 0,
 
 		// The previous and current slide HTML elements
 		previousSlide,
@@ -626,7 +629,7 @@ var Reveal = (function(){
 	 * @param {int} h Horizontal index of the target slide
 	 * @param {int} v Vertical index of the target slide
 	 */
-	function slide( h, v ) {
+	function slide( h, v, f) {
 		// Remember where we were at before
 		previousSlide = currentSlide;
 
@@ -642,6 +645,24 @@ var Reveal = (function(){
 		// Activate and transition to the new slide
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
+		
+		// Show fragment, if specified
+		if ( typeof f !== undefined ) {
+			// Hide all fragments in current slide
+			while ( previousFragment() ) {
+				// loop
+			}
+			if ( f !== 0 ) {
+				var fragmentIndex = 0;
+				while ( indexf < f && nextFragment() ) {
+					fragmentIndex++;
+				}
+				// We cannot trust nextFragment for setting indexf: it can go beyond the max number of fragments available
+				indexf = fragmentIndex;
+			}
+		} else {
+			indexf = 0;
+		}
 
 		// Apply the new state
 		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
@@ -677,10 +698,7 @@ var Reveal = (function(){
 
 		updateControls();
 
-		// Update the URL hash after a delay since updating it mid-transition
-		// is likely to cause visual lag
-		clearTimeout( writeURLTimeout );
-		writeURLTimeout = setTimeout( writeURL, 1500 );
+		updateURL();
 
 		// Query all horizontal slides in the deck
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
@@ -855,9 +873,11 @@ var Reveal = (function(){
 	function readURL() {
 		var hash = window.location.hash;
 
+		var hashParts = hash.split( '?' );
+		
 		// Attempt to parse the hash as either an index or name
-		var bits = hash.slice( 2 ).split( '/' ),
-			name = hash.replace( /#|\//gi, '' );
+		var bits = hashParts[0].slice( 2 ).split( '/' ),
+			name = hashParts[0].replace( /#|\//gi, '' );
 
 		// If the first bit is invalid and there is a name we can
 		// assume that this is a named link
@@ -879,9 +899,21 @@ var Reveal = (function(){
 			// Read the index components of the hash
 			var h = parseInt( bits[0], 10 ) || 0,
 				v = parseInt( bits[1], 10 ) || 0;
+			
+			var f = 0;
+			if ( hashParts.length > 1 ) {
+				f = parseInt( hashParts[1] );
+			}
 
-			slide( h, v );
+			slide( h, v, f );
 		}
+	}
+	
+	function updateURL () {
+		// Update the URL hash after a delay since updating it mid-transition
+		// is likely to cause visual lag
+		clearTimeout( writeURLTimeout );
+		writeURLTimeout = setTimeout( writeURL, 1500 );
 	}
 
 	/**
@@ -896,6 +928,7 @@ var Reveal = (function(){
 			// the URL
 			if( indexh > 0 || indexv > 0 ) url += indexh;
 			if( indexv > 0 ) url += '/' + indexv;
+			if( indexf > 0 ) url += '?' + indexf;
 
 			window.location.hash = url;
 		}
@@ -944,14 +977,15 @@ var Reveal = (function(){
 	 */
 	function nextFragment() {
 		// Vertical slides:
+		var fragment,
+				fragmentFound = false;
+		
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( verticalFragments.length ) {
 				verticalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: verticalFragments[0] } );
-				return true;
+				fragment = verticalFragments[0];
+				fragmentFound = true;
 			}
 		}
 		// Horizontal slides:
@@ -959,14 +993,23 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 			if( horizontalFragments.length ) {
 				horizontalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[0] } );
-				return true;
+				fragment = horizontalFragments[0];
+				fragmentFound = true;
 			}
 		}
+		
+		if ( fragmentFound ) {
+			indexf++;
 
-		return false;
+			// Notify subscribers of the change
+			dispatchEvent( 'fragmentshown', { fragment: fragment, index: indexf } );
+
+			updateURL();
+		} else {
+			indexf = 0;
+		}
+
+		return fragmentFound;
 	}
 
 	/**
@@ -976,15 +1019,16 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function previousFragment() {
+		var fragment,
+				fragmentFound = false;
+
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( verticalFragments.length ) {
 				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[ verticalFragments.length - 1 ] } );
-				return true;
+				fragment = verticalFragments[ verticalFragments.length - 1 ];
+				fragmentFound = true;
 			}
 		}
 		// Horizontal slides:
@@ -992,14 +1036,23 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 			if( horizontalFragments.length ) {
 				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[ horizontalFragments.length - 1 ] } );
-				return true;
+				fragment = horizontalFragments[ horizontalFragments.length - 1 ];
+				fragmentFound = true;
 			}
 		}
 
-		return false;
+		if ( fragmentFound ) {
+			indexf--;
+
+			// Notify subscribers of the change
+			dispatchEvent( 'fragmenthidden', { fragment: fragment, index: indexf } );
+
+			updateURL();
+		} else {
+			indexf = 0;
+		}
+
+		return fragmentFound;
 	}
 
 	/**
@@ -1017,7 +1070,7 @@ var Reveal = (function(){
 	function navigateLeft() {
 		// Prioritize hiding fragments
 		if( availableRoutes().left && ( isOverviewActive() || previousFragment() === false ) ) {
-			slide( indexh - 1, 0 );
+			slide( indexh - 1, 0, Number.MAX_VALUE );
 		}
 	}
 
