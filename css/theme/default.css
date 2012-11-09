@@ -5,9 +5,15 @@
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 @font-face {
-  font-family: 'League Gothic';
-  src: url("../../lib/font/league_gothic-webfont.eot");
-  src: url("../../lib/font/league_gothic-webfont.eot?#iefix") format("embedded-opentype"), url("../../lib/font/league_gothic-webfont.woff") format("woff"), url("../../lib/font/league_gothic-webfont.ttf") format("truetype"), url("../../lib/font/league_gothic-webfont.svg#LeagueGothicRegular") format("svg");
+  font-family: 'Lagom';
+  src: url("../../lib/font/lagom.otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Akkur';
+  src: url("../../lib/font/akkur.otf");
   font-weight: normal;
   font-style: normal;
 }
@@ -17,17 +23,24 @@
  *********************************************/
 body {
   background: #1c1e20;
-  background: -moz-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #555a5f), color-stop(100%, #1c1e20));
-  background: -webkit-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -o-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -ms-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background-image: linear-gradient(left top, rgb(122,179,30) 12%, rgb(141,185,28) 56%);
+  background-image: -o-linear-gradient(left top, rgb(122,179,30) 12%, rgb(141,185,28) 56%);
+  background-image: -moz-linear-gradient(left top, rgb(122,179,30) 12%, rgb(141,185,28) 56%);
+  background-image: -webkit-linear-gradient(left top, rgb(122,179,30) 12%, rgb(141,185,28) 56%);
+  background-image: -ms-linear-gradient(left top, rgb(122,179,30) 12%, rgb(141,185,28) 56%);
+
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    color-stop(0.12, rgb(122,179,30)),
+    color-stop(0.56, rgb(141,185,28))
+  );
   background-color: #2b2b2b;
 }
 
 .reveal {
-  font-family: "Lato", Times, "Times New Roman", serif;
+  font-family: "Akkur", Times, "Times New Roman", serif;
   font-size: 36px;
   font-weight: 200;
   letter-spacing: -0.02em;
@@ -51,23 +64,19 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eeeeee;
-  font-family: "League Gothic", Impact, sans-serif;
+  font-family: "Lagom", Impact, sans-serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-}
-
-.reveal h1 {
-  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
 }
 
 /*********************************************
  * LINKS
  *********************************************/
 .reveal a:not(.image) {
-  color: #13daec;
-  text-decoration: none;
+  color: #333;
+  border-bottom:1px solid #666;
+  text-decoration:none;
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   -ms-transition: color .15s ease;
@@ -76,30 +85,19 @@ body {
 }
 
 .reveal a:not(.image):hover {
-  color: #71e9f4;
+  color: #333;
   text-shadow: none;
   border: none;
 }
 
 .reveal .roll span:after {
   color: #fff;
-  background: #0d99a5;
+  background: #333;
 }
 
 /*********************************************
  * IMAGES
  *********************************************/
-.reveal section img {
-  margin: 15px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #eeeeee;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  -webkit-transition: all .2s linear;
-  -moz-transition: all .2s linear;
-  -ms-transition: all .2s linear;
-  -o-transition: all .2s linear;
-  transition: all .2s linear;
-}
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
@@ -161,3 +159,21 @@ body {
   -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
 }
+
+
+
+/*********************************************
+ * CUSTOM STYLES 
+ *********************************************/
+
+h2 span {color:#74c043;}
+
+#intro-lady {position: absolute; bottom:10px;right:10px;}
+
+#intro h1 {margin-top:20px;}
+#intro h1, #intro h3 {text-align:left;}
+#intro h3 {line-height:1.2em;}
+#intro h3 span {display:block;}
+#intro .bottom {position:absolute; bottom: 10px;}
+
+.hero p {font-size:2.5em;width:100%;height:100%;padding-top:25%;}
