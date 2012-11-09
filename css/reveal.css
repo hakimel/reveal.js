@@ -190,7 +190,7 @@ body {
 	display: inline-block;
 
 	text-align: left;
-	margin: 0 0 0 1em;
+	margin: 0 0 0 25px;
 }
 
 .reveal ol {
@@ -198,8 +198,11 @@ body {
 }
 
 .reveal ul {
-	list-style-type: disc;
+	list-style-type: square;
+	margin: 0 0 25px;
 }
+
+.reveal li {margin: 0 0 8px;}
 
 .reveal ul ul {
 	list-style-type: square;
@@ -258,8 +261,7 @@ body {
 .reveal pre {
 	display: block;
 	position: relative;
-	width: 90%;
-	margin: 15px auto;
+	margin: 15px auto 25px;
 
 	text-align: left;
 	font-size: 0.55em;
@@ -275,9 +277,11 @@ body {
 }
 
 .reveal code {
-	font-family: monospace;
+	font-family: Menlo, monospace;
 	overflow: auto;
 	max-height: 400px;
+	font-size: 18px;
+	margin-top: 20px;
 }
 
 .reveal table th,
@@ -1185,4 +1189,4 @@ body {
 	visibility: hidden;
 }
 
-
+.reveal .left {display:block;text-align:left;}

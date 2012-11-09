@@ -101,7 +101,7 @@ body {
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #13daec;
+  border-color: #8DB91C;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
@@ -110,22 +110,22 @@ body {
  *********************************************/
 .reveal .controls div.left,
 .reveal .controls div.left.enabled {
-  border-right-color: #13daec;
+  border-right-color: #8DB91C;
 }
 
 .reveal .controls div.right,
 .reveal .controls div.right.enabled {
-  border-left-color: #13daec;
+  border-left-color: #8DB91C;
 }
 
 .reveal .controls div.up,
 .reveal .controls div.up.enabled {
-  border-bottom-color: #13daec;
+  border-bottom-color: #8DB91C;
 }
 
 .reveal .controls div.down,
 .reveal .controls div.down.enabled {
-  border-top-color: #13daec;
+  border-top-color: #8DB91C;
 }
 
 .reveal .controls div.left.enabled:hover {
@@ -152,7 +152,7 @@ body {
 }
 
 .reveal .progress span {
-  background: #13daec;
+  background: #8DB91C;
   -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
@@ -174,6 +174,6 @@ h2 span {color:#74c043;}
 #intro h1, #intro h3 {text-align:left;}
 #intro h3 {line-height:1.2em;}
 #intro h3 span {display:block;}
-#intro .bottom {position:absolute; bottom: 10px;}
+#intro .bottom {position:absolute; bottom: 0;}
 
 .hero p {font-size:2.5em;width:100%;height:100%;padding-top:25%;}
