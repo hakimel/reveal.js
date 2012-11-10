@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r42
+ * reveal.js 2.2 r43
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -520,6 +520,35 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Stores the vertical index of a stack so that the same 
+	 * vertical slide can be selected when navigating to and 
+	 * from the stack.
+	 * 
+	 * @param {HTMLElement} stack The vertical stack element
+	 * @param {int} v Index to memorize
+	 */
+	function setPreviousVerticalIndex( stack, v ) {
+		if( stack ) {
+			stack.setAttribute( 'data-previous-indexv', v || 0 );
+		}
+	}
+
+	/**
+	 * Retrieves the vertical index which was stored using 
+	 * #setPreviousVerticalIndex() or 0 if no previous index
+	 * exists.
+	 *
+	 * @param {HTMLElement} stack The vertical stack element
+	 */
+	function getPreviousVerticalIndex( stack ) {
+		if( stack && stack.classList.contains( 'stack' ) ) {
+			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0 );
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Displays the overview of slides (quick nav) by
 	 * scaling down and arranging all slide elements.
 	 *
@@ -547,31 +576,39 @@ var Reveal = (function(){
 				hslide.style.OTransform = htransform;
 				hslide.style.transform = htransform;
 
-				if( !hslide.classList.contains( 'stack' ) ) {
+				if( hslide.classList.contains( 'stack' ) ) {
+
+					var verticalSlides = hslide.querySelectorAll( 'section' );
+
+					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
+						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
+
+						var vslide = verticalSlides[j],
+							vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+
+						vslide.setAttribute( 'data-index-h', i );
+						vslide.setAttribute( 'data-index-v', j );
+						vslide.style.display = 'block';
+						vslide.style.WebkitTransform = vtransform;
+						vslide.style.MozTransform = vtransform;
+						vslide.style.msTransform = vtransform;
+						vslide.style.OTransform = vtransform;
+						vslide.style.transform = vtransform;
+
+						// Navigate to this slide on click
+						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
+					}
+					
+				}
+				else {
+
 					// Navigate to this slide on click
 					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+
 				}
-
-				var verticalSlides = hslide.querySelectorAll( 'section' );
-
-				for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-					var vslide = verticalSlides[j],
-						vtransform = 'translate(0%, ' + ( ( j - ( i === indexh ? indexv : 0 ) ) * 105 ) + '%)';
-
-					vslide.setAttribute( 'data-index-h', i );
-					vslide.setAttribute( 'data-index-v', j );
-					vslide.style.display = 'block';
-					vslide.style.WebkitTransform = vtransform;
-					vslide.style.MozTransform = vtransform;
-					vslide.style.msTransform = vtransform;
-					vslide.style.OTransform = vtransform;
-					vslide.style.transform = vtransform;
-
-					// Navigate to this slide on click
-					vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-				}
-
 			}
+
+			layout();
 
 		}
 
@@ -604,7 +641,7 @@ var Reveal = (function(){
 				element.removeEventListener( 'click', onOverviewSlideClicked );
 			}
 
-			slide();
+			slide( indexh, indexv );
 
 		}
 	}
@@ -706,14 +743,14 @@ var Reveal = (function(){
 		
 		// If no vertical index is specified and the upcoming slide is a 
 		// stack, resume at its previous vertical index
-		if( v === undefined && horizontalSlides[ h ] && horizontalSlides[ h ].classList.contains( 'stack' ) ) {
-			v = parseInt( horizontalSlides[ h ].getAttribute( 'data-previous-indexv' ) || 0 );
+		if( v === undefined ) {
+			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
 		}
 
 		// If we were on a vertical stack, remember what vertical index 
 		// it was on so we can resume at the same position when returning
 		if( previousSlide && previousSlide.parentNode.classList.contains( 'stack' ) ) {
-			previousSlide.parentNode.setAttribute( 'data-previous-indexv', indexv );
+			setPreviousVerticalIndex( previousSlide.parentNode, indexv );
 		}
 
 		// Remember the state before this slide
@@ -1442,10 +1479,7 @@ var Reveal = (function(){
 
 			deactivateOverview();
 
-			indexh = this.getAttribute( 'data-index-h' );
-			indexv = this.getAttribute( 'data-index-v' );
-
-			slide();
+			slide( parseInt( this.getAttribute( 'data-index-h' ) ), parseInt( this.getAttribute( 'data-index-v' ) ) );
 		}
 	}
 

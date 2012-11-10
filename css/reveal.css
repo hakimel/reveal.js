@@ -509,7 +509,6 @@ body {
 	width: 80%;
 	left: 50%;
 	top: 50%;
-	padding: 20px 0px;
 	
 	overflow: visible;
 	z-index: 1;
@@ -537,6 +536,7 @@ body {
 	display: none;
 	position: absolute;
 	width: 100%;
+	padding: 20px 0px;
 
 	z-index: 10;
 	line-height: 1.2em;
@@ -579,8 +579,8 @@ body {
 .reveal.center,
 .reveal.center .slides {
 	min-height: auto;
-	padding: 0;
 }
+
 
 
 /*********************************************
@@ -1056,7 +1056,6 @@ body {
 }
 
 .reveal.overview .slides section {
-	padding: 20px 0;
 	height: 600px;
 	overflow: hidden;
 	opacity: 1!important;
@@ -1078,13 +1077,12 @@ body {
 	.reveal.overview .slides section:hover {
 		background: rgba(0,0,0,0.3);
 	}
-
 	.reveal.overview .slides section.present {
 		background: rgba(0,0,0,0.3);
 	}
 .reveal.overview .slides>section.stack {
-	background: none;
 	padding: 0;
+	background: none;
 	overflow: visible;
 }
 
