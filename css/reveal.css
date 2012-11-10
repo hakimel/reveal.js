@@ -564,16 +564,16 @@ body {
 	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
+.reveal .slides>section {
+	left: -50%;
+	top: -50%;
+}
+
 .reveal .slides>section.present,
 .reveal .slides>section>section.present {
 	display: block;
 	z-index: 11;
 	opacity: 1;
-}
-
-.reveal .slides>section {
-	left: -50%;
-	top: -50%;
 }
 
 .reveal.center,
@@ -610,19 +610,19 @@ body {
 	display: block;
 	opacity: 0;
 
-	-webkit-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
-	   -moz-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
-	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
-	        transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
+	-webkit-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	   -moz-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	    -ms-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	        transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
 }
 .reveal .slides>section>section.future {
 	display: block;
 	opacity: 0;
 
-	-webkit-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
-	   -moz-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
-	    -ms-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
-	        transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
+	-webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	   -moz-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	    -ms-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	        transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
 }
 
 

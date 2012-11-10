@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r43
+ * reveal.js 2.2 r44
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -31,7 +31,7 @@ var Reveal = (function(){
 			overview: true,
 
 			// Vertical centering of slides
-			center: false,
+			center: true,
 
 			// Loop the presentation
 			loop: false,

@@ -72,7 +72,7 @@ Reveal.initialize({
 	overview: true,
 
 	// Vertical centering of slides
-	center: false,
+	center: true,
 
 	// Loop the presentation
 	loop: false,
