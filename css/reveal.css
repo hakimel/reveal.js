@@ -1117,18 +1117,31 @@ body {
 	overflow-y: auto;
 }
 
+.no-transforms .slides {
+	top: 0;
+	left: 50%;
+	margin: 0;
+	text-align: center;
+}
+
 .no-transforms .slides section {
 	display: block!important;
 	opacity: 1!important;
 	position: relative!important;
 	height: auto;
 	min-height: auto;
-	margin-bottom: 100px;
+	top: 0;
+	left: -50%;
+	margin: 70px 0;
 
 	-webkit-transform: none;
 	   -moz-transform: none;
 	    -ms-transform: none;
 	        transform: none;
+}
+
+.no-transforms .slides section section {
+	left: 0;
 }
 
 .no-transition {
