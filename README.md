@@ -206,6 +206,11 @@ The default fragment style is to start out invisible and fade in. This style can
 </section>
 ```
 
+### Overview mode
+
+Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
+as if you were at 1,000 feet above your presentation.
+
 ### Fragment events
 
 When a slide fragment is either shown or hidden reveal.js will dispatch an event.
