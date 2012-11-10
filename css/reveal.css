@@ -346,14 +346,14 @@ body {
 	margin-top: 1px;
 }
 
-.reveal .controls div.left {
+.reveal .controls div.navigate-left {
 	top: 42px;
 
 	border-right-width: 22px;
 	border-right-color: #eee;
 }
 
-.reveal .controls div.right {
+.reveal .controls div.navigate-right {
 	left: 74px;
 	top: 42px;
 
@@ -361,14 +361,14 @@ body {
 	border-left-color: #eee;
 }
 
-.reveal .controls div.up {
+.reveal .controls div.navigate-up {
 	left: 42px;
 
 	border-bottom-width: 22px;
 	border-bottom-color: #eee;
 }
 
-.reveal .controls div.down {
+.reveal .controls div.navigate-down {
 	left: 42px;
 	top: 74px;
 

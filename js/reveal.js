@@ -153,10 +153,10 @@ var Reveal = (function(){
 		if( !dom.wrapper.querySelector( '.controls' ) && config.controls ) {
 			var controlsElement = document.createElement( 'aside' );
 			controlsElement.classList.add( 'controls' );
-			controlsElement.innerHTML = '<div class="left"></div>' +
-										'<div class="right"></div>' +
-										'<div class="up"></div>' +
-										'<div class="down"></div>';
+			controlsElement.innerHTML = '<div class="navigate-left"></div>' +
+										'<div class="navigate-right"></div>' +
+										'<div class="navigate-up"></div>' +
+										'<div class="navigate-down"></div>';
 			dom.wrapper.appendChild( controlsElement );
 		}
 
@@ -180,10 +180,14 @@ var Reveal = (function(){
 
 		if ( config.controls ) {
 			dom.controls = document.querySelector( '.reveal .controls' );
-			dom.controlsLeft = document.querySelector( '.reveal .controls .left' );
-			dom.controlsRight = document.querySelector( '.reveal .controls .right' );
-			dom.controlsUp = document.querySelector( '.reveal .controls .up' );
-			dom.controlsDown = document.querySelector( '.reveal .controls .down' );
+
+			// There can be multiple instances of controls throughout the page
+			dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
+			dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
+			dom.controlsUp = toArray( document.querySelectorAll( '.navigate-up' ) );
+			dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
+			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
+			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
 	}
 
@@ -354,10 +358,12 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.addEventListener( 'click', preventAndForward( navigateLeft ), false );
-			dom.controlsRight.addEventListener( 'click', preventAndForward( navigateRight ), false );
-			dom.controlsUp.addEventListener( 'click', preventAndForward( navigateUp ), false );
-			dom.controlsDown.addEventListener( 'click', preventAndForward( navigateDown ), false );
+			dom.controlsLeft.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateLeft ), false ); 		} );
+			dom.controlsRight.forEach( function( el ) { 	el.addEventListener( 'click', preventAndForward( navigateRight ), false ); 		} );
+			dom.controlsUp.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateUp ), false ); 		} );
+			dom.controlsDown.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateDown ), false ); 		} );
+			dom.controlsPrev.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigatePrev ), false ); 		} );
+			dom.controlsNext.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateNext ), false ); 		} );
 		}
 	}
 
@@ -377,10 +383,12 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.removeEventListener( 'click', preventAndForward( navigateLeft ), false );
-			dom.controlsRight.removeEventListener( 'click', preventAndForward( navigateRight ), false );
-			dom.controlsUp.removeEventListener( 'click', preventAndForward( navigateUp ), false );
-			dom.controlsDown.removeEventListener( 'click', preventAndForward( navigateDown ), false );
+			dom.controlsLeft.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateLeft ), false ); 		} );
+			dom.controlsRight.forEach( function( el ) { 	el.removeEventListener( 'click', preventAndForward( navigateRight ), false ); 		} );
+			dom.controlsUp.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateUp ), false ); 			} );
+			dom.controlsDown.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateDown ), false ); 		} );
+			dom.controlsPrev.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigatePrev ), false ); 		} );
+			dom.controlsNext.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateNext ), false ); 		} );
 		}
 	}
 
@@ -392,6 +400,19 @@ var Reveal = (function(){
 		for( var i in b ) {
 			a[ i ] = b[ i ];
 		}
+	}
+
+	/**
+	 * Converts the target object to an array.
+	 */
+	function toArray( o ) {
+		return Array.prototype.slice.call( o );
+	}
+
+	function each( targets, method, args ) {
+		targets.forEach( function( el ) {
+			el[method].apply( el, args );
+		} );
 	}
 
 	/**
@@ -865,15 +886,23 @@ var Reveal = (function(){
 			var routes = availableRoutes();
 
 			// Remove the 'enabled' class from all directions
-			[ dom.controlsLeft, dom.controlsRight, dom.controlsUp, dom.controlsDown ].forEach( function( node ) {
+			dom.controlsLeft.concat( dom.controlsRight )
+							.concat( dom.controlsUp )
+							.concat( dom.controlsDown )
+							.concat( dom.controlsPrev )
+							.concat( dom.controlsNext ).forEach( function( node ) {
 				node.classList.remove( 'enabled' );
 			} );
 
 			// Add the 'enabled' class to the available routes
-			if( routes.left ) dom.controlsLeft.classList.add( 'enabled' );
-			if( routes.right ) dom.controlsRight.classList.add( 'enabled' );
-			if( routes.up ) dom.controlsUp.classList.add( 'enabled' );
-			if( routes.down ) dom.controlsDown.classList.add( 'enabled' );
+			if( routes.left ) dom.controlsLeft.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
+			if( routes.right ) dom.controlsRight.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
+			if( routes.up ) dom.controlsUp.forEach( function( el ) { 		el.classList.add( 'enabled' );		} );
+			if( routes.down ) dom.controlsDown.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
+
+			// Prev/next buttons
+			if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { 		el.classList.add( 'enabled' );		} );
+			if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
 
 		}
 	}
