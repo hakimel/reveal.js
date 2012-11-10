@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r40
+ * reveal.js 2.2 r41
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -1134,28 +1134,28 @@ var Reveal = (function(){
 
 	function navigateLeft() {
 		// Prioritize hiding fragments
-		if( availableRoutes().left && ( isOverviewActive() || previousFragment() === false ) ) {
+		if( availableRoutes().left && isOverviewActive() || previousFragment() === false ) {
 			slide( indexh - 1, 0 );
 		}
 	}
 
 	function navigateRight() {
 		// Prioritize revealing fragments
-		if( availableRoutes().right && ( isOverviewActive() || nextFragment() === false ) ) {
+		if( availableRoutes().right && isOverviewActive() || nextFragment() === false ) {
 			slide( indexh + 1, 0 );
 		}
 	}
 
 	function navigateUp() {
 		// Prioritize hiding fragments
-		if( availableRoutes().up && ( isOverviewActive() || previousFragment() === false ) ) {
+		if( availableRoutes().up && isOverviewActive() || previousFragment() === false ) {
 			slide( indexh, indexv - 1 );
 		}
 	}
 
 	function navigateDown() {
 		// Prioritize revealing fragments
-		if( availableRoutes().down && ( isOverviewActive() || nextFragment() === false ) ) {
+		if( availableRoutes().down && isOverviewActive() || nextFragment() === false ) {
 			slide( indexh, indexv + 1 );
 		}
 	}
