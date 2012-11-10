@@ -71,6 +71,9 @@ Reveal.initialize({
 	// Enable the slide overview mode
 	overview: true,
 
+	// Vertical centering of slides
+	center: false,
+
 	// Loop the presentation
 	loop: false,
 

@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.1 r37
+ * reveal.js 2.2 r38
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -29,6 +29,7 @@ var Reveal = (function(){
 			// Enable the slide overview mode
 			overview: true,
 
+			// Vertical centering of slides
 			center: false,
 
 			// Loop the presentation
@@ -465,6 +466,7 @@ var Reveal = (function(){
 	 * presentation.
 	 */
 	function layout() {
+
 		if( config.center ) {
 
 			// Select all slides, vertical and horizontal
@@ -476,15 +478,18 @@ var Reveal = (function(){
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
 
+				// Vertical stacks are not centered since their section 
+				// children will be
 				if( slide.classList.contains( 'stack' ) ) {
-					slide.style.marginTop = 0;
+					slide.style.top = 0;
 				}
 				else {
-					slide.style.marginTop = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
+					slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
 				}
 			}
 
 		}
+
 	}
 
 	/**

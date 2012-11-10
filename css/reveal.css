@@ -490,10 +490,10 @@ body {
  *********************************************/
 
 .reveal {
+	position: relative;
 	width: 100%;
 	height: 100%;
-	min-height: 600px;
-	position: relative;
+	min-height: 640px; /* min height + 40 to account for padding */
 }
 
 .reveal .slides {
@@ -504,9 +504,9 @@ body {
 	left: 50%;
 	top: 50%;
 	padding: 20px 0px;
+	
 	overflow: visible;
 	z-index: 1;
-
 	text-align: center;
 
 	-webkit-transition: -webkit-perspective .4s ease;
@@ -520,10 +520,10 @@ body {
 	    -ms-perspective: 600px;
 	        perspective: 600px;
 
-	-webkit-perspective-origin: 0% 0%;
-	   -moz-perspective-origin: 0% 0%;
-	    -ms-perspective-origin: 0% 0%;
-	        perspective-origin: 0% 0%;
+	-webkit-perspective-origin: 0% -25%;
+	   -moz-perspective-origin: 0% -25%;
+	    -ms-perspective-origin: 0% -25%;
+	        perspective-origin: 0% -25%;
 }
 
 .reveal .slides>section,
@@ -566,14 +566,14 @@ body {
 }
 
 .reveal .slides>section {
-	margin-left: -50%;
-	margin-top: -50%;
+	left: -50%;
+	top: -50%;
 }
 
 .reveal.center,
 .reveal.center .slides {
-	padding: 0;
 	min-height: auto;
+	padding: 0;
 }
 
 
