@@ -141,6 +141,12 @@ ul, ol, div, p {
 }
 .reveal section .fragment {
 	opacity: 1 !important;
+	visibility: visible !important;
+	
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
 }
 .reveal img {
 	box-shadow: none;
@@ -152,8 +158,4 @@ ul, ol, div, p {
 
 .reveal small a {
 	font-size: 16pt !important;
-}
-
-pre {
-    font-size: 9pt !important;
 }

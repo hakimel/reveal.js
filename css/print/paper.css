@@ -155,11 +155,14 @@ ul, ol, div, p {
 	page-break-after: always !important; 
 	display: block !important;
 }
-.reveal section.stack {
-	page-break-after: avoid !important; 
-}
 .reveal section .fragment {
 	opacity: 1 !important;
+	visibility: visible !important;
+	
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
 }
 .reveal section:last-of-type {
 	page-break-after: avoid !important; 
