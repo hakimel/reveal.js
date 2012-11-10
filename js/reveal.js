@@ -29,6 +29,8 @@ var Reveal = (function(){
 			// Enable the slide overview mode
 			overview: true,
 
+			center: false,
+
 			// Loop the presentation
 			loop: false,
 
@@ -264,6 +266,10 @@ var Reveal = (function(){
 		// Updates the presentation to match the current configuration values
 		configure();
 
+		// Force an initial layout, will thereafter be invoked as the window
+		// is resized
+		layout();
+
 		// Read the initial hash
 		readURL();
 
@@ -301,6 +307,10 @@ var Reveal = (function(){
 			dom.wrapper.classList.add( config.transition );
 		}
 
+		if( config.center ) {
+			dom.wrapper.classList.add( 'center' );
+		}
+
 		if( config.mouseWheel ) {
 			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
 			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
@@ -332,6 +342,7 @@ var Reveal = (function(){
 		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
+		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.keyboard ) {
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
@@ -358,6 +369,7 @@ var Reveal = (function(){
 		document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
 		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
+		window.removeEventListener( 'resize', onWindowResize, false );
 
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', preventAndForward( onProgressClick ), false );
@@ -445,6 +457,33 @@ var Reveal = (function(){
 					node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
 				}
 			}
+		}
+	}
+
+	/**
+	 * Applies JavaScript-controlled layout rules to the
+	 * presentation.
+	 */
+	function layout() {
+		if( config.center ) {
+
+			// Select all slides, vertical and horizontal
+			var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
+
+			// Determine the minimum top offset for slides
+			var minTop = -dom.wrapper.offsetHeight / 2;
+
+			for( var i = 0, len = slides.length; i < len; i++ ) {
+				var slide = slides[ i ];
+
+				if( slide.classList.contains( 'stack' ) ) {
+					slide.style.marginTop = 0;
+				}
+				else {
+					slide.style.marginTop = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
+				}
+			}
+
 		}
 	}
 
@@ -642,6 +681,8 @@ var Reveal = (function(){
 		// Activate and transition to the new slide
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
+
+		layout();
 
 		// Apply the new state
 		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
@@ -1284,11 +1325,16 @@ var Reveal = (function(){
 
 	/**
 	 * Handler for the window level 'hashchange' event.
-	 *
-	 * @param {Object} event
 	 */
 	function onWindowHashChange( event ) {
 		readURL();
+	}
+
+	/**
+	 * Handler for the window level 'resize' event.
+	 */
+	function onWindowResize( event ) {
+		layout();
 	}
 
 	/**
