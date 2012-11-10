@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r39
+ * reveal.js 2.2 r40
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -9,7 +9,8 @@ var Reveal = (function(){
 
 	'use strict';
 
-	var HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
+	var SLIDES_SELECTOR = '.reveal .slides section',
+		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 
 		// Configurations defaults, can be overridden at initialization time
@@ -469,7 +470,7 @@ var Reveal = (function(){
 	 */
 	function linkify() {
 		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
-			var nodes = document.querySelectorAll( '.reveal .slides section a:not(.image)' );
+			var nodes = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
 
 			for( var i = 0, len = nodes.length; i < len; i++ ) {
 				var node = nodes[i];
@@ -491,7 +492,7 @@ var Reveal = (function(){
 		if( config.center ) {
 
 			// Select all slides, vertical and horizontal
-			var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
+			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
 
 			// Determine the minimum top offset for slides
 			var minTop = -dom.wrapper.offsetHeight / 2;
@@ -583,7 +584,7 @@ var Reveal = (function(){
 			dom.wrapper.classList.remove( 'overview' );
 
 			// Select all slides
-			var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section' ) );
+			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
 
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var element = slides[i];
@@ -732,17 +733,10 @@ var Reveal = (function(){
 			document.documentElement.classList.remove( stateBefore.pop() );
 		}
 
-		// Update progress if enabled
-		if( config.progress && dom.progress ) {
-			dom.progressbar.style.width = ( indexh / ( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length - 1 ) ) * window.innerWidth + 'px';
-		}
-
 		// If the overview is active, re-activate it to update positions
 		if( isOverviewActive() ) {
 			activateOverview();
 		}
-
-		updateControls();
 
 		// Update the URL hash after a delay since updating it mid-transition
 		// is likely to cause visual lag
@@ -780,6 +774,9 @@ var Reveal = (function(){
 		if( previousSlide ) {
 			previousSlide.classList.remove( 'present' );
 		}
+
+		updateControls();
+		updateProgress();
 	}
 
 	/**
@@ -798,7 +795,7 @@ var Reveal = (function(){
 	function updateSlides( selector, index ) {
 		// Select all slides and convert the NodeList result to
 		// an array
-		var slides = Array.prototype.slice.call( document.querySelectorAll( selector ) ),
+		var slides = toArray( document.querySelectorAll( selector ) ),
 			slidesLength = slides.length;
 
 		if( slidesLength ) {
@@ -878,7 +875,48 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Updates the state and link pointers of the controls.
+	 * Updates the progress bar to reflect the current slide.
+	 */
+	function updateProgress() {
+		// Update progress if enabled
+		if( config.progress && dom.progress ) {
+
+			var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+
+			// The number of past and total slides
+			var totalCount = document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+			var pastCount = 0;
+
+			// Step through all slides and count the past ones
+			mainLoop: for( var i = 0; i < horizontalSlides.length; i++ ) {
+
+				var horizontalSlide = horizontalSlides[i];
+				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+
+				for( var j = 0; j < verticalSlides.length; j++ ) {
+
+					// Stop as soon as we arrive at the present
+					if( verticalSlides[j].classList.contains( 'present' ) ) break mainLoop;
+
+					pastCount++
+
+				}
+
+				// Stop as soon as we arrive at the present
+				if( horizontalSlide.classList.contains( 'present' ) ) break;
+
+				// Don't count the wrapping section for vertical slides
+				if( horizontalSlide.classList.contains( 'stack' ) === false ) pastCount++;
+
+			}
+
+			dom.progressbar.style.width = ( pastCount / ( totalCount - 1 ) ) * window.innerWidth + 'px';
+
+		}
+	}
+
+	/**
+	 * Updates the state of all control/navigation arrows.
 	 */
 	function updateControls() {
 		if ( config.controls && dom.controls ) {
@@ -1002,14 +1040,14 @@ var Reveal = (function(){
 			var slideh = isVertical ? slide.parentNode : slide;
 
 			// Select all horizontal slides
-			var horizontalSlides = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 			// Now that we know which the horizontal slide is, get its index
 			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
-				v = Math.max( Array.prototype.slice.call( slide.parentNode.children ).indexOf( slide ), 0 );
+				v = Math.max( toArray( slide.parentNode.children ).indexOf( slide ), 0 );
 			}
 		}
 
@@ -1356,7 +1394,7 @@ var Reveal = (function(){
 	 * ( clickX / presentationWidth ) * numberOfSlides
 	 */
 	function onProgressClick( event ) {
-		var slidesTotal = Array.prototype.slice.call( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
+		var slidesTotal = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
 		var slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
 
 		slide( slideIndex );
