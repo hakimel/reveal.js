@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r38
+ * reveal.js 2.2 r39
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -938,10 +938,15 @@ var Reveal = (function(){
 		if( config.history ) {
 			var url = '/';
 
-			// Only include the minimum possible number of components in
-			// the URL
-			if( indexh > 0 || indexv > 0 ) url += indexh;
-			if( indexv > 0 ) url += '/' + indexv;
+			// If the current slide has an ID, use that as a named link
+			if( currentSlide && typeof currentSlide.getAttribute( 'id' ) === 'string' ) {
+				url = '/' + currentSlide.getAttribute( 'id' );
+			}
+			// Otherwise use the /h/v index
+			else {
+				if( indexh > 0 || indexv > 0 ) url += indexh;
+				if( indexv > 0 ) url += '/' + indexv;
+			}
 
 			window.location.hash = url;
 		}
