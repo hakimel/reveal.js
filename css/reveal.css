@@ -1057,7 +1057,7 @@ body {
 
 .reveal.overview .slides section {
 	padding: 20px 0;
-	max-height: 600px;
+	height: 600px;
 	overflow: hidden;
 	opacity: 1!important;
 	visibility: visible!important;

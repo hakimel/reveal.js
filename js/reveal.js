@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r41
+ * reveal.js 2.2 r42
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -500,6 +500,11 @@ var Reveal = (function(){
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
 
+				// Don't bother update invisible slides
+				if( slide.style.display === 'none' ) {
+					continue;
+				}
+
 				// Vertical stacks are not centered since their section 
 				// children will be
 				if( slide.classList.contains( 'stack' ) ) {
@@ -696,6 +701,21 @@ var Reveal = (function(){
 		// Remember where we were at before
 		previousSlide = currentSlide;
 
+		// Query all horizontal slides in the deck
+		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+		
+		// If no vertical index is specified and the upcoming slide is a 
+		// stack, resume at its previous vertical index
+		if( v === undefined && horizontalSlides[ h ] && horizontalSlides[ h ].classList.contains( 'stack' ) ) {
+			v = parseInt( horizontalSlides[ h ].getAttribute( 'data-previous-indexv' ) || 0 );
+		}
+
+		// If we were on a vertical stack, remember what vertical index 
+		// it was on so we can resume at the same position when returning
+		if( previousSlide && previousSlide.parentNode.classList.contains( 'stack' ) ) {
+			previousSlide.parentNode.setAttribute( 'data-previous-indexv', indexv );
+		}
+
 		// Remember the state before this slide
 		var stateBefore = state.concat();
 
@@ -742,9 +762,6 @@ var Reveal = (function(){
 		// is likely to cause visual lag
 		clearTimeout( writeURLTimeout );
 		writeURLTimeout = setTimeout( writeURL, 1500 );
-
-		// Query all horizontal slides in the deck
-		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
@@ -1135,14 +1152,14 @@ var Reveal = (function(){
 	function navigateLeft() {
 		// Prioritize hiding fragments
 		if( availableRoutes().left && isOverviewActive() || previousFragment() === false ) {
-			slide( indexh - 1, 0 );
+			slide( indexh - 1 );
 		}
 	}
 
 	function navigateRight() {
 		// Prioritize revealing fragments
 		if( availableRoutes().right && isOverviewActive() || nextFragment() === false ) {
-			slide( indexh + 1, 0 );
+			slide( indexh + 1 );
 		}
 	}
 
@@ -1174,10 +1191,10 @@ var Reveal = (function(){
 			}
 			else {
 				// Fetch the previous horizontal slide, if there is one
-				var previousSlide = document.querySelector( '.reveal .slides>section.past:nth-child(' + indexh + ')' );
+				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || 0;
+					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
 					indexh --;
 					slide();
 				}
