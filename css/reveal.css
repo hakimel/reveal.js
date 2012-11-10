@@ -534,7 +534,7 @@ body {
 
 .reveal .slides>section,
 .reveal .slides>section>section {
-	visibility: hidden;
+	display: none;
 	position: absolute;
 	width: 100%;
 
@@ -566,7 +566,7 @@ body {
 
 .reveal .slides>section.present,
 .reveal .slides>section>section.present {
-	visibility: visible;
+	display: block;
 	z-index: 11;
 	opacity: 1;
 }
