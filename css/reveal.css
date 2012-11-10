@@ -57,14 +57,20 @@ body {
 }
 
 ::selection {
-	background:#FF5E99;
-	color:#fff;
+	background: #FF5E99;
+	color: #fff;
 	text-shadow: none;
 }
 
-@media screen and (max-width: 900px) {
-	.reveal {
-		font-size: 30px;
+@media screen and (max-width: 900px), (max-height: 600px) {
+	.reveal .slides {
+		font-size: 0.82em;
+	}
+}
+
+@media screen and (max-width: 700px), (max-height: 400px) {
+	.reveal .slides {
+		font-size: 0.66em;
 	}
 }
 
