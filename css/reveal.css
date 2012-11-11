@@ -169,8 +169,14 @@ body {
  * DEFAULT ELEMENT STYLES
  *********************************************/
 
+/* Fixes issue in Chrome where italic fonts did not appear when printing to PDF */
+.reveal:after {
+  content: '';
+  font-style: italic;
+}
+
+/* Preserve aspect ratio and scale image so it's bound within the section */
 .reveal img {
-	/* preserve aspect ratio and scale image so it's bound within the section */
 	max-width: 100%;
 	max-height: 100%;
 }
