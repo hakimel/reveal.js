@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r44
+ * reveal.js 2.2 r45
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -232,7 +232,7 @@ var Reveal = (function(){
 
 				// Extension may contain callback functions
 				if( typeof s.callback === 'function' ) {
-					head.ready( s.src.match( /([\w\d_\-]*)\.?[^\\\/]*$/i )[0], s.callback );
+					head.ready( s.src.match( /([\w\d_\-]*)\.?js|[^\\\/]*$/i )[0], s.callback );
 				}
 			}
 		}
