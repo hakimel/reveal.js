@@ -219,6 +219,16 @@ The default fragment style is to start out invisible and fade in. This style can
 </section>
 ```
 
+Multiple fragments can be applied to the same element sequentially by wrapping it, this will fade in the text on the first step and fade it back out on the second.
+
+```
+<section>
+	<span class="fragment fade-out">
+		<span class="fragment fade-out">I'll fade in, then out</span>
+	</span>
+</section>
+```
+
 ### Overview mode
 
 Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
