@@ -287,9 +287,9 @@ Then:
 
 ## Development Environment 
 
-reveal.js is built using the task-based command line build tool (grunt.js)[http://gruntjs.com]. Installation instructions here https://github.com/gruntjs/grunt#installing-grunt. With Node.js and grunt installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
+reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](https://github.com/gruntjs/grunt#installing-grunt)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
 
-If you want to customize reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css/js/reveal.js).
+If you want to customise reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css & js/reveal.js).
 
 ### Folder Structure
 - **css/** Core styles without which the project does not function
