@@ -179,6 +179,8 @@ Reveal.addEventListener( 'ready', function( event ) {
 
 An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
 
+Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/issues/226#issuecomment-10261609)), get confused by the transforms and display states of slides. Often times, this can be fixed by calling their update or render function from this callback.
+
 ```javascript
 Reveal.addEventListener( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
