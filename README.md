@@ -88,6 +88,10 @@ Reveal.initialize({
 	// Apply a 3D roll to links on hover
 	rollingLinks: true,
 
+	// Theme. For this to work, you need an id of "theme" added to your stylesheet link, e.g.
+	// <link rel="stylesheet" href="css/theme/default.css" id="theme">
+	theme: Reveal.getQueryHash().theme || 'default',  // available themes are in /css/theme
+
 	// Transition style
 	transition: 'default' // default/cube/page/concave/zoom/linear/none
 });
