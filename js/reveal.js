@@ -196,7 +196,7 @@ var Reveal = (function(){
 	 * Hides the address bar if we're on a mobile device.
 	 */
 	function hideAddressBar() {
-		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
+		if( navigator.userAgent.match( /(iphone|ipod)/i ) ) {
 			// Give the page some scrollable overflow
 			document.documentElement.style.overflow = 'scroll';
 			document.body.style.height = '120%';
