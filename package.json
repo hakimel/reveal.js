@@ -22,6 +22,6 @@
 		"mustache" : "~0.4.0"
 	},
 	"devDependencies": {
-		"grunt-contrib-mincss": "~0.3.2"
+		"grunt-contrib-mincss": "~0.3.1"
 	}
 }
