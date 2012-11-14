@@ -749,7 +749,7 @@ var Reveal = (function(){
 
 		// If we were on a vertical stack, remember what vertical index 
 		// it was on so we can resume at the same position when returning
-		if( previousSlide && previousSlide.parentNode.classList.contains( 'stack' ) ) {
+		if( previousSlide && previousSlide.parentNode && previousSlide.parentNode.classList.contains( 'stack' ) ) {
 			setPreviousVerticalIndex( previousSlide.parentNode, indexv );
 		}
 
