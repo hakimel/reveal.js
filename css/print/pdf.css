@@ -23,7 +23,7 @@ body {
 	padding: 0;
 	float: none !important;
 	overflow: visible;
-	background-image: none;
+	background-image: none !important;
 }
 
 html {
