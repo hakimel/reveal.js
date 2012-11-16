@@ -10,6 +10,7 @@
 
     for( var i = 0, len = sections.length; i < len; i++ ) {
         var section = sections[i];
+        var notes = section.querySelector( 'aside.notes' );
 
         var template = section.querySelector( 'script' );
 
@@ -27,6 +28,8 @@
         }
 
         section.innerHTML = (new Showdown.converter()).makeHtml(text);
+
+        section.appendChild( notes );
     }
 
 })();
