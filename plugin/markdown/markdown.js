@@ -29,7 +29,9 @@
 
         section.innerHTML = (new Showdown.converter()).makeHtml(text);
 
-        section.appendChild( notes );
+        if( notes ) {
+            section.appendChild( notes );
+        }
     }
 
 })();
