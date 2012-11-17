@@ -36,6 +36,9 @@ var Reveal = (function(){
 			// Loop the presentation
 			loop: false,
 
+			// Experimental support for RTL
+			rtl: false,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -141,6 +144,7 @@ var Reveal = (function(){
 		// Cache references to key DOM elements
 		dom.theme = document.querySelector( '#theme' );
 		dom.wrapper = document.querySelector( '.reveal' );
+		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Progress bar
 		if( !dom.wrapper.querySelector( '.progress' ) && config.progress ) {
@@ -311,6 +315,10 @@ var Reveal = (function(){
 
 		if( config.transition !== 'default' ) {
 			dom.wrapper.classList.add( config.transition );
+		}
+
+		if( config.rtl ) {
+			dom.slides.style.direction = 'rtl';
 		}
 
 		if( config.center ) {
