@@ -42,7 +42,7 @@ var Reveal = (function(){
 			autoSlide: 0,
 
 			// Enable slide navigation via mouse wheel
-			mouseWheel: true,
+			mouseWheel: false,
 
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,

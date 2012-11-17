@@ -176,7 +176,8 @@ body {
 }
 
 /* Preserve aspect ratio and scale image so it's bound within the section */
-.reveal img {
+.reveal img,
+.reveal iframe {
 	max-width: 100%;
 	max-height: 100%;
 }
