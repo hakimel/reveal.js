@@ -1,5 +1,5 @@
 /*!
- * reveal.js 2.2 r44
+ * reveal.js
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
@@ -36,13 +36,16 @@ var Reveal = (function(){
 			// Loop the presentation
 			loop: false,
 
+			// Experimental support for RTL
+			rtl: false,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
 			autoSlide: 0,
 
 			// Enable slide navigation via mouse wheel
-			mouseWheel: true,
+			mouseWheel: false,
 
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,
@@ -141,6 +144,7 @@ var Reveal = (function(){
 		// Cache references to key DOM elements
 		dom.theme = document.querySelector( '#theme' );
 		dom.wrapper = document.querySelector( '.reveal' );
+		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Progress bar
 		if( !dom.wrapper.querySelector( '.progress' ) && config.progress ) {
@@ -196,7 +200,7 @@ var Reveal = (function(){
 	 * Hides the address bar if we're on a mobile device.
 	 */
 	function hideAddressBar() {
-		if( navigator.userAgent.match( /(iphone|ipod|android)/i ) ) {
+		if( navigator.userAgent.match( /(iphone|ipod)/i ) ) {
 			// Give the page some scrollable overflow
 			document.documentElement.style.overflow = 'scroll';
 			document.body.style.height = '120%';
@@ -232,7 +236,7 @@ var Reveal = (function(){
 
 				// Extension may contain callback functions
 				if( typeof s.callback === 'function' ) {
-					head.ready( s.src.match( /([\w\d_\-]*)\.?[^\\\/]*$/i )[0], s.callback );
+					head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], s.callback );
 				}
 			}
 		}
@@ -313,6 +317,10 @@ var Reveal = (function(){
 			dom.wrapper.classList.add( config.transition );
 		}
 
+		if( config.rtl ) {
+			dom.slides.style.direction = 'rtl';
+		}
+
 		if( config.center ) {
 			dom.wrapper.classList.add( 'center' );
 		}
@@ -359,12 +367,12 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateLeft ), false ); 		} );
-			dom.controlsRight.forEach( function( el ) { 	el.addEventListener( 'click', preventAndForward( navigateRight ), false ); 		} );
-			dom.controlsUp.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateUp ), false ); 		} );
-			dom.controlsDown.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateDown ), false ); 		} );
-			dom.controlsPrev.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigatePrev ), false ); 		} );
-			dom.controlsNext.forEach( function( el ) { 		el.addEventListener( 'click', preventAndForward( navigateNext ), false ); 		} );
+			dom.controlsLeft.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateLeft ), false ); } );
+			dom.controlsRight.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateRight ), false ); } );
+			dom.controlsUp.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateUp ), false ); } );
+			dom.controlsDown.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateDown ), false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigatePrev ), false ); } );
+			dom.controlsNext.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateNext ), false ); } );
 		}
 	}
 
@@ -384,12 +392,12 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateLeft ), false ); 		} );
-			dom.controlsRight.forEach( function( el ) { 	el.removeEventListener( 'click', preventAndForward( navigateRight ), false ); 		} );
-			dom.controlsUp.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateUp ), false ); 			} );
-			dom.controlsDown.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateDown ), false ); 		} );
-			dom.controlsPrev.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigatePrev ), false ); 		} );
-			dom.controlsNext.forEach( function( el ) { 		el.removeEventListener( 'click', preventAndForward( navigateNext ), false ); 		} );
+			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateLeft ), false ); } );
+			dom.controlsRight.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateRight ), false ); } );
+			dom.controlsUp.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateUp ), false ); } );
+			dom.controlsDown.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateDown ), false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigatePrev ), false ); } );
+			dom.controlsNext.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateNext ), false ); } );
 		}
 	}
 
@@ -542,7 +550,7 @@ var Reveal = (function(){
 	 */
 	function getPreviousVerticalIndex( stack ) {
 		if( stack && stack.classList.contains( 'stack' ) ) {
-			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0 );
+			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
 		}
 
 		return 0;
@@ -749,7 +757,7 @@ var Reveal = (function(){
 
 		// If we were on a vertical stack, remember what vertical index 
 		// it was on so we can resume at the same position when returning
-		if( previousSlide && previousSlide.parentNode.classList.contains( 'stack' ) ) {
+		if( previousSlide && previousSlide.parentNode && previousSlide.parentNode.classList.contains( 'stack' ) ) {
 			setPreviousVerticalIndex( previousSlide.parentNode, indexv );
 		}
 
@@ -912,9 +920,9 @@ var Reveal = (function(){
 			// autoSlide value otherwise use the global configured time
 			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
 			if( slideAutoSlide ) {
-				autoSlide = parseInt( slideAutoSlide );
+				autoSlide = parseInt( slideAutoSlide, 10 );
 			} else {
-				autoSlide = config.autoSlide
+				autoSlide = config.autoSlide;
 			}
 
 		}
@@ -950,17 +958,23 @@ var Reveal = (function(){
 				for( var j = 0; j < verticalSlides.length; j++ ) {
 
 					// Stop as soon as we arrive at the present
-					if( verticalSlides[j].classList.contains( 'present' ) ) break mainLoop;
+					if( verticalSlides[j].classList.contains( 'present' ) ) {
+						break mainLoop;
+					}
 
-					pastCount++
+					pastCount++;
 
 				}
 
 				// Stop as soon as we arrive at the present
-				if( horizontalSlide.classList.contains( 'present' ) ) break;
+				if( horizontalSlide.classList.contains( 'present' ) ) {
+					break;
+				}
 
 				// Don't count the wrapping section for vertical slides
-				if( horizontalSlide.classList.contains( 'stack' ) === false ) pastCount++;
+				if( horizontalSlide.classList.contains( 'stack' ) === false ) {
+					pastCount++;
+				}
 
 			}
 
@@ -987,14 +1001,14 @@ var Reveal = (function(){
 			} );
 
 			// Add the 'enabled' class to the available routes
-			if( routes.left ) dom.controlsLeft.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
-			if( routes.right ) dom.controlsRight.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
-			if( routes.up ) dom.controlsUp.forEach( function( el ) { 		el.classList.add( 'enabled' );		} );
-			if( routes.down ) dom.controlsDown.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
+			if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' );	} );
+			if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+			if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' );	} );
+			if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); } );
 
 			// Prev/next buttons
-			if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { 		el.classList.add( 'enabled' );		} );
-			if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { 	el.classList.add( 'enabled' );		} );
+			if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+			if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
 
 		}
 	}
@@ -1268,7 +1282,7 @@ var Reveal = (function(){
 		// Check if there's a focused element that could be using 
 		// the keyboard
 		var activeElement = document.activeElement;
-    	var hasFocus = !!( document.activeElement && ( document.activeElement.type || document.activeElement.href || document.activeElement.contentEditable !== 'inherit' ) );
+		var hasFocus = !!( document.activeElement && ( document.activeElement.type || document.activeElement.href || document.activeElement.contentEditable !== 'inherit' ) );
 
 		// Disregard the event if there's a focused element or a 
 		// keyboard modifier key is present
@@ -1479,7 +1493,10 @@ var Reveal = (function(){
 
 			deactivateOverview();
 
-			slide( parseInt( this.getAttribute( 'data-index-h' ) ), parseInt( this.getAttribute( 'data-index-v' ) ) );
+			var h = parseInt( event.target.getAttribute( 'data-index-h' ), 10 ),
+				v = parseInt( event.target.getAttribute( 'data-index-v' ), 10 );
+
+			slide( h, v );
 		}
 	}
 

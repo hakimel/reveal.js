@@ -83,7 +83,7 @@ Reveal.initialize({
 	autoSlide: 0,
 
 	// Enable slide navigation via mouse wheel
-	mouseWheel: true,
+	mouseWheel: false,
 
 	// Apply a 3D roll to links on hover
 	rollingLinks: true,
@@ -92,6 +92,8 @@ Reveal.initialize({
 	transition: 'default' // default/cube/page/concave/zoom/linear/none
 });
 ```
+
+Note that the new default vertical centering option will break compatibility with slides that were using transitions with backgrounds (`cube` and `page`). To restore the previous behavior, set `center` to `false`.
 
 ### Dependencies
 
@@ -102,15 +104,22 @@ Reveal.initialize({
 	dependencies: [
 		// Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
 		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+		
 		// Interpret Markdown in <section> elements
 		{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 		{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		
 		// Syntax highlight for <code> elements
 		{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+		
 		// Zoom in and out with Alt+click
 		{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+
 		// Speaker notes
-		{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+		{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+
+		// Remote control your reveal.js presentation using a touch device
+		{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
 	]
 });
 ```
@@ -172,6 +181,8 @@ Reveal.addEventListener( 'ready', function( event ) {
 
 An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
 
+Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/issues/226#issuecomment-10261609)), get confused by the transforms and display states of slides. Often times, this can be fixed by calling their update or render function from this callback.
+
 ```javascript
 Reveal.addEventListener( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
@@ -187,7 +198,7 @@ It's easy to link between slides. The first example below targets the index of a
 <a href="#/some-slide">Link</a>
 ```
 
-You can also add relative navigation links, similar to the built in reveal.js controls, by appending one of the following classes on any element. Note that each element is automatically given an ```enabled``` class when its a valid navigation route based on the current slide.
+You can also add relative navigation links, similar to the built in reveal.js controls, by appending one of the following classes on any element. Note that each element is automatically given an ```enabled``` class when it's a valid navigation route based on the current slide.
 
 ```html
 <a href="#" class="navigate-left">
@@ -216,6 +227,16 @@ The default fragment style is to start out invisible and fade in. This style can
 	<p class="fragment highlight-red">highlight-red</p>
 	<p class="fragment highlight-green">highlight-green</p>
 	<p class="fragment highlight-blue">highlight-blue</p>
+</section>
+```
+
+Multiple fragments can be applied to the same element sequentially by wrapping it, this will fade in the text on the first step and fade it back out on the second.
+
+```
+<section>
+	<span class="fragment fade-out">
+		<span class="fragment fade-out">I'll fade in, then out</span>
+	</span>
 </section>
 ```
 
@@ -285,11 +306,18 @@ Then:
 3. Run ```node plugin/notes-server```
 
 
-## Folder Structure
+## Development Environment 
+
+reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](https://github.com/gruntjs/grunt#installing-grunt)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
+
+If you want to customise reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css & js/reveal.js).
+
+### Folder Structure
 - **css/** Core styles without which the project does not function
 - **js/** Like above but for JavaScript
 - **plugin/** Components that have been developed as extensions to reveal.js
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
+
 
 ## License
 
