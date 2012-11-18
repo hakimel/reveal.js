@@ -1195,8 +1195,15 @@ body {
  * RTL SUPPORT
  *********************************************/
 
-.reveal.rtl {
+.reveal.rtl .slides,
+.reveal.rtl .slides h1,
+.reveal.rtl .slides h2,
+.reveal.rtl .slides h3,
+.reveal.rtl .slides h4,
+.reveal.rtl .slides h5,
+.reveal.rtl .slides h6 {
 	direction: rtl;
+	font-family: sans-serif;
 }
 
 .reveal.rtl pre,
