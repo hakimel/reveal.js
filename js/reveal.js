@@ -318,7 +318,7 @@ var Reveal = (function(){
 		}
 
 		if( config.rtl ) {
-			dom.slides.style.direction = 'rtl';
+			dom.wrapper.classList.add( 'rtl' );
 		}
 
 		if( config.center ) {
