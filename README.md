@@ -205,13 +205,10 @@ You can also add relative navigation links, similar to the built in reveal.js co
 <a href="#" class="navigate-right">
 <a href="#" class="navigate-up">
 <a href="#" class="navigate-down">
-<a href="#" class="navigate-prev"> <!-- Previous vertical slide or horizontal slide -->
+<a href="#" class="navigate-prev"> <!-- Previous vertical or horizontal slide -->
 <a href="#" class="navigate-next"> <!-- Next vertical or horizontal slide -->
 ```
 
-
-### Fullscreen mode
-Just press »F« on your keyboard to show your presentation in fullscreen mode. Press the »ESC« key to exit fullscreen mode.
 
 ### Fragments
 Fragments are used to highlight individual elements on a slide. Every elmement with the class ```fragment``` will be stepped through before moving on to the next slide. Here's an example: http://lab.hakim.se/reveal-js/#/16
@@ -232,18 +229,13 @@ The default fragment style is to start out invisible and fade in. This style can
 
 Multiple fragments can be applied to the same element sequentially by wrapping it, this will fade in the text on the first step and fade it back out on the second.
 
-```
+```html
 <section>
 	<span class="fragment fade-out">
 		<span class="fragment fade-out">I'll fade in, then out</span>
 	</span>
 </section>
 ```
-
-### Overview mode
-
-Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
-as if you were at 1,000 feet above your presentation.
 
 ### Fragment events
 
@@ -257,6 +249,14 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 	// event.fragment = the fragment DOM element
 } );
 ```
+
+### Overview mode
+
+Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
+as if you were at 1,000 feet above your presentation.
+
+### Fullscreen mode
+Just press »F« on your keyboard to show your presentation in fullscreen mode. Press the »ESC« key to exit fullscreen mode.
 
 
 ## PDF Export
@@ -294,7 +294,7 @@ By default notes are written using standard HTML, see below, but you can add a `
 
 In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the requried scripts by adding the following dependencies:
 
-```
+```javascript
 { src: '/socket.io/socket.io.js', async: true },
 { src: 'plugin/notes-server/client.js', async: true }
 ```
