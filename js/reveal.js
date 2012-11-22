@@ -124,6 +124,9 @@ var Reveal = (function(){
 			return;
 		}
 
+		// Force a layout when the whole page, incl fonts, has loaded
+		window.addEventListener( 'load', layout, false );
+
 		// Copy options over to our config object
 		extend( config, options );
 
@@ -367,12 +370,13 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateLeft ), false ); } );
-			dom.controlsRight.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateRight ), false ); } );
-			dom.controlsUp.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateUp ), false ); } );
-			dom.controlsDown.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateDown ), false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigatePrev ), false ); } );
-			dom.controlsNext.forEach( function( el ) { el.addEventListener( 'click', preventAndForward( navigateNext ), false ); } );
+			var actionEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+			dom.controlsLeft.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateLeft ), false ); } );
+			dom.controlsRight.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateRight ), false ); } );
+			dom.controlsUp.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateUp ), false ); } );
+			dom.controlsDown.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateDown ), false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigatePrev ), false ); } );
+			dom.controlsNext.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateNext ), false ); } );
 		}
 	}
 
@@ -392,12 +396,13 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateLeft ), false ); } );
-			dom.controlsRight.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateRight ), false ); } );
-			dom.controlsUp.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateUp ), false ); } );
-			dom.controlsDown.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateDown ), false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigatePrev ), false ); } );
-			dom.controlsNext.forEach( function( el ) { el.removeEventListener( 'click', preventAndForward( navigateNext ), false ); } );
+			var actionEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateLeft ), false ); } );
+			dom.controlsRight.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateRight ), false ); } );
+			dom.controlsUp.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateUp ), false ); } );
+			dom.controlsDown.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateDown ), false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigatePrev ), false ); } );
+			dom.controlsNext.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateNext ), false ); } );
 		}
 	}
 
@@ -776,12 +781,6 @@ var Reveal = (function(){
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
 
-		// No need to proceed if we're navigating to the same slide as 
-		// we're already on, unless a fragment index is specified
-		if( indexh === indexhBefore && indexv === indexvBefore && !f ) {
-			return;
-		}
-
 		layout();
 
 		// Apply the new state
@@ -823,8 +822,9 @@ var Reveal = (function(){
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
 
+		
 		// Show fragment, if specified
-		if ( typeof f !== undefined ) {
+		if( ( indexh !== indexhBefore || indexv !== indexvBefore ) && f ) {
 			var fragments = currentSlide.querySelectorAll( '.fragment' );
 
 			toArray( fragments ).forEach( function( fragment, indexf ) {
