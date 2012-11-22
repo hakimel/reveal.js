@@ -741,8 +741,10 @@ var Reveal = (function(){
 	 *
 	 * @param {int} h Horizontal index of the target slide
 	 * @param {int} v Vertical index of the target slide
+	 * @param {int} f Optional index of a fragment within the 
+	 * target slide to activate
 	 */
-	function slide( h, v ) {
+	function slide( h, v, f ) {
 		// Remember where we were at before
 		previousSlide = currentSlide;
 
@@ -774,12 +776,18 @@ var Reveal = (function(){
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
 
+		// No need to proceed if we're navigating to the same slide as 
+		// we're already on, unless a fragment index is specified
+		if( indexh === indexhBefore && indexv === indexvBefore && !f ) {
+			return;
+		}
+
 		layout();
 
 		// Apply the new state
 		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
 			// Check if this state existed on the previous slide. If it
-			// did, we will avoid adding it repeatedly.
+			// did, we will avoid adding it repeatedly
 			for( var j = 0; j < stateBefore.length; j++ ) {
 				if( stateBefore[j] === state[i] ) {
 					stateBefore.splice( j, 1 );
@@ -805,8 +813,7 @@ var Reveal = (function(){
 
 		// Update the URL hash after a delay since updating it mid-transition
 		// is likely to cause visual lag
-		clearTimeout( writeURLTimeout );
-		writeURLTimeout = setTimeout( writeURL, 1500 );
+		writeURL( 1500 );
 
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
@@ -815,6 +822,20 @@ var Reveal = (function(){
 
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
+
+		// Show fragment, if specified
+		if ( typeof f !== undefined ) {
+			var fragments = currentSlide.querySelectorAll( '.fragment' );
+
+			toArray( fragments ).forEach( function( fragment, indexf ) {
+				if( indexf < f ) {
+					fragment.classList.add( 'visible' );
+				}
+				else {
+					fragment.classList.remove( 'visible' );
+				}
+			} );
+		}
 
 		// Dispatch an event if the slide changed
 		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
@@ -1068,22 +1089,35 @@ var Reveal = (function(){
 	/**
 	 * Updates the page URL (hash) to reflect the current
 	 * state.
+	 *
+	 * @param {Number} delay The time in ms to wait before 
+	 * writing the hash
 	 */
-	function writeURL() {
+	function writeURL( delay ) {
 		if( config.history ) {
-			var url = '/';
 
-			// If the current slide has an ID, use that as a named link
-			if( currentSlide && typeof currentSlide.getAttribute( 'id' ) === 'string' ) {
-				url = '/' + currentSlide.getAttribute( 'id' );
+			// Make sure there's never more than one timeout running
+			clearTimeout( writeURLTimeout );
+
+			// If a delay is specified, timeout this call
+			if( typeof delay === 'number' ) {
+				writeURLTimeout = setTimeout( writeURL, delay );
 			}
-			// Otherwise use the /h/v index
 			else {
-				if( indexh > 0 || indexv > 0 ) url += indexh;
-				if( indexv > 0 ) url += '/' + indexv;
-			}
+				var url = '/';
 
-			window.location.hash = url;
+				// If the current slide has an ID, use that as a named link
+				if( currentSlide && typeof currentSlide.getAttribute( 'id' ) === 'string' ) {
+					url = '/' + currentSlide.getAttribute( 'id' );
+				}
+				// Otherwise use the /h/v index
+				else {
+					if( indexh > 0 || indexv > 0 ) url += indexh;
+					if( indexv > 0 ) url += '/' + indexv;
+				}
+
+				window.location.hash = url;
+			}
 		}
 	}
 

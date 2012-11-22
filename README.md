@@ -137,7 +137,7 @@ The Reveal class provides a minimal JavaScript API for controlling navigation an
 
 ```javascript
 // Navigation
-Reveal.slide( indexh, indexv );
+Reveal.slide( indexh, indexv, indexf );
 Reveal.left();
 Reveal.right();
 Reveal.up();
