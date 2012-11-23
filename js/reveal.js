@@ -575,53 +575,60 @@ var Reveal = (function(){
 
 			dom.wrapper.classList.add( 'overview' );
 
-			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+			// Not the pretties solution, but need to let the overview 
+			// class apply first so that slides are measured accurately 
+			// before we can positon them
+			setTimeout( function(){
 
-			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
-				var hslide = horizontalSlides[i],
-					htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
+				var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
-				hslide.setAttribute( 'data-index-h', i );
-				hslide.style.display = 'block';
-				hslide.style.WebkitTransform = htransform;
-				hslide.style.MozTransform = htransform;
-				hslide.style.msTransform = htransform;
-				hslide.style.OTransform = htransform;
-				hslide.style.transform = htransform;
+				for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
+					var hslide = horizontalSlides[i],
+						htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
 
-				if( hslide.classList.contains( 'stack' ) ) {
+					hslide.setAttribute( 'data-index-h', i );
+					hslide.style.display = 'block';
+					hslide.style.WebkitTransform = htransform;
+					hslide.style.MozTransform = htransform;
+					hslide.style.msTransform = htransform;
+					hslide.style.OTransform = htransform;
+					hslide.style.transform = htransform;
 
-					var verticalSlides = hslide.querySelectorAll( 'section' );
+					if( hslide.classList.contains( 'stack' ) ) {
 
-					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
+						var verticalSlides = hslide.querySelectorAll( 'section' );
 
-						var vslide = verticalSlides[j],
-							vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+						for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
+							var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
-						vslide.setAttribute( 'data-index-h', i );
-						vslide.setAttribute( 'data-index-v', j );
-						vslide.style.display = 'block';
-						vslide.style.WebkitTransform = vtransform;
-						vslide.style.MozTransform = vtransform;
-						vslide.style.msTransform = vtransform;
-						vslide.style.OTransform = vtransform;
-						vslide.style.transform = vtransform;
+							var vslide = verticalSlides[j],
+								vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+
+							vslide.setAttribute( 'data-index-h', i );
+							vslide.setAttribute( 'data-index-v', j );
+							vslide.style.display = 'block';
+							vslide.style.WebkitTransform = vtransform;
+							vslide.style.MozTransform = vtransform;
+							vslide.style.msTransform = vtransform;
+							vslide.style.OTransform = vtransform;
+							vslide.style.transform = vtransform;
+
+							// Navigate to this slide on click
+							vslide.addEventListener( 'click', onOverviewSlideClicked, true );
+						}
+						
+					}
+					else {
 
 						// Navigate to this slide on click
-						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
+						hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+
 					}
-					
 				}
-				else {
 
-					// Navigate to this slide on click
-					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
+				layout();
 
-				}
-			}
-
-			layout();
+			}, 10 );
 
 		}
 
