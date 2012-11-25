@@ -607,8 +607,9 @@ body {
 }
 
 .reveal.center,
-.reveal.center .slides {
-	min-height: auto;
+.reveal.center .slides,
+.reveal.center .slides section {
+	min-height: auto !important;
 }
 
 
@@ -900,6 +901,7 @@ body {
 
 .reveal.page .slides section {
 	padding: 30px;
+	min-height: 600px;
 
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
