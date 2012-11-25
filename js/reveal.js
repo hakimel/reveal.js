@@ -102,6 +102,9 @@ var Reveal = (function(){
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0,
 
+		// A delay used to ativate the overview mode
+		activateOverviewTimeout = 0,
+
 		// Holds information about the currently ongoing touch input
 		touch = {
 			startX: 0,
@@ -575,10 +578,12 @@ var Reveal = (function(){
 
 			dom.wrapper.classList.add( 'overview' );
 
+			clearTimeout( activateOverviewTimeout );
+
 			// Not the pretties solution, but need to let the overview 
 			// class apply first so that slides are measured accurately 
 			// before we can positon them
-			setTimeout( function(){
+			activateOverviewTimeout = setTimeout( function(){
 
 				var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
@@ -616,7 +621,7 @@ var Reveal = (function(){
 							// Navigate to this slide on click
 							vslide.addEventListener( 'click', onOverviewSlideClicked, true );
 						}
-						
+
 					}
 					else {
 
@@ -643,6 +648,8 @@ var Reveal = (function(){
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
+			clearTimeout( activateOverviewTimeout );
+
 			dom.wrapper.classList.remove( 'overview' );
 
 			// Select all slides
@@ -651,6 +658,8 @@ var Reveal = (function(){
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var element = slides[i];
 
+				element.style.display = '';
+
 				// Resets all transforms to use the external styles
 				element.style.WebkitTransform = '';
 				element.style.MozTransform = '';
@@ -658,7 +667,7 @@ var Reveal = (function(){
 				element.style.OTransform = '';
 				element.style.transform = '';
 
-				element.removeEventListener( 'click', onOverviewSlideClicked );
+				element.removeEventListener( 'click', onOverviewSlideClicked, true );
 			}
 
 			slide( indexh, indexv );
@@ -762,7 +771,7 @@ var Reveal = (function(){
 
 		// Query all horizontal slides in the deck
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
-		
+
 		// If no vertical index is specified and the upcoming slide is a 
 		// stack, resume at its previous vertical index
 		if( v === undefined ) {
@@ -829,7 +838,7 @@ var Reveal = (function(){
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
 
-		
+
 		// Show fragment, if specified
 		if( ( indexh !== indexhBefore || indexv !== indexvBefore ) && f ) {
 			var fragments = currentSlide.querySelectorAll( '.fragment' );
@@ -1534,10 +1543,18 @@ var Reveal = (function(){
 
 			deactivateOverview();
 
-			var h = parseInt( event.target.getAttribute( 'data-index-h' ), 10 ),
-				v = parseInt( event.target.getAttribute( 'data-index-v' ), 10 );
+			var element = event.target;
 
-			slide( h, v );
+			while( element && !element.nodeName.match( /section/gi ) ) {
+				element = element.parentNode;
+			}
+
+			if( element.nodeName.match( /section/gi ) ) {
+				var h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
+					v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
+
+				slide( h, v );
+			}
 		}
 	}
 
