@@ -36,7 +36,7 @@ var Reveal = (function(){
 			// Loop the presentation
 			loop: false,
 
-			// Experimental support for RTL
+			// Change the presentation direction to be RTL
 			rtl: false,
 
 			// Number of milliseconds between automatically proceeding to the
