@@ -492,8 +492,13 @@ var Reveal = (function(){
 				var node = nodes[i];
 
 				if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
+                    var span = document.createElement('span');
+                    span.setAttribute('data-title', node.text);
+                    span.innerHTML = node.innerHTML;
+
 					node.classList.add( 'roll' );
-					node.innerHTML = '<span data-title="'+ node.text +'">' + node.innerHTML + '</span>';
+                    node.innerHTML = '';
+                    node.appendChild(span);
 				}
 			}
 		}
