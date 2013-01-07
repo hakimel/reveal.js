@@ -309,6 +309,24 @@ Then:
 3. Run ```node plugin/notes-server```
 
 
+## Theming
+
+The framework comes with a few different themes included:
+
+- default: Gray background, white text, blue links
+- beige: Beige background, dark text, brown links
+- sky: Blue background, thin white text, blue links
+- night: Black background, thick white text, orange links
+- serif: Cappuccino background, gray text, brown links
+- simple: White background, black text, blue links
+
+Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
+
+```html
+<link rel="stylesheet" href="css/theme/default.css" id="theme">
+```
+
+
 ## Development Environment 
 
 reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](https://github.com/gruntjs/grunt#installing-grunt)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
