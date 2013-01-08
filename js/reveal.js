@@ -44,6 +44,11 @@ var Reveal = (function(){
 			// by using a data-autoslide attribute on your slides
 			autoSlide: 0,
 
+            // Automatically reset slideshow when home slide is viewed
+            // Vertical slide stacks will go back to first slide
+            // See Issue: #285
+            autoHome: true,
+
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
 
@@ -549,7 +554,7 @@ var Reveal = (function(){
 	 * @param {int} v Index to memorize
 	 */
 	function setPreviousVerticalIndex( stack, v ) {
-		if( stack ) {
+		if( stack && !config.autoHome ) {
 			stack.setAttribute( 'data-previous-indexv', v || 0 );
 		}
 	}
@@ -562,7 +567,12 @@ var Reveal = (function(){
 	 * @param {HTMLElement} stack The vertical stack element
 	 */
 	function getPreviousVerticalIndex( stack ) {
-		if( stack && stack.classList.contains( 'stack' ) ) {
+        // Force reset if autoHome is enabled (default)
+        if ( config.autoHome ) {
+            return 0;
+        }
+
+        if( stack && stack.classList.contains( 'stack' ) ) {
 			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
 		}
 
@@ -858,6 +868,9 @@ var Reveal = (function(){
 			} );
 		}
 
+        // The routes you can take
+        var routes = availableRoutes();
+
 		// Dispatch an event if the slide changed
 		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
 			dispatchEvent( 'slidechanged', {
@@ -879,8 +892,8 @@ var Reveal = (function(){
 			previousSlide.classList.remove( 'present' );
 		}
 
-		updateControls();
-		updateProgress();
+        updateControls(routes);
+        updateProgress();
 	}
 
 	/**
@@ -1028,12 +1041,10 @@ var Reveal = (function(){
 
 	/**
 	 * Updates the state of all control/navigation arrows.
+     * @param {Object} routes The available routes slides can take ;result of: availableRoutes()
 	 */
-	function updateControls() {
-		if ( config.controls && dom.controls ) {
-
-			var routes = availableRoutes();
-
+	function updateControls(routes) {
+        if ( config.controls && dom.controls ) {
 			// Remove the 'enabled' class from all directions
 			dom.controlsLeft.concat( dom.controlsRight )
 							.concat( dom.controlsUp )

@@ -85,6 +85,11 @@ Reveal.initialize({
 	// by using a data-autoslide attribute on your slides
 	autoSlide: 0,
 
+    // Automatically reset slideshow when home slide is viewed
+	// Vertical slide stacks will go back to first slide
+	// See Issue: [#285](https://github.com/hakimel/reveal.js/issues/285)
+    autoHome: true,
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
