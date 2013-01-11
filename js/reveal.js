@@ -877,6 +877,21 @@ var Reveal = (function(){
 		// stacks
 		if( previousSlide ) {
 			previousSlide.classList.remove( 'present' );
+
+            // Reset all slides upon navigate to home
+            // Issue: #285
+            if ( document.querySelector(HOME_SLIDE_SELECTOR).classList.contains('present') ) {
+                // Launch async task
+                setTimeout(function () {
+                    var slides = toArray( document.querySelectorAll(HORIZONTAL_SLIDES_SELECTOR + '.stack')), i;
+                    for ( i in slides ) {
+                        if (slides[i]) {
+                            // Reset stack
+                            setPreviousVerticalIndex(slides[i], 0);
+                        }
+                    }
+                }, 0);
+            }
 		}
 
 		updateControls();
