@@ -12,6 +12,7 @@ var Reveal = (function(){
 	var SLIDES_SELECTOR = '.reveal .slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
+        HOME_SLIDE_SELECTOR = '.reveal .slides > section:first-child',
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
@@ -43,11 +44,6 @@ var Reveal = (function(){
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
 			autoSlide: 0,
-
-            // Automatically reset slideshow when home slide is viewed
-            // Vertical slide stacks will go back to first slide
-            // See Issue: #285
-            autoHome: true,
 
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
@@ -554,7 +550,7 @@ var Reveal = (function(){
 	 * @param {int} v Index to memorize
 	 */
 	function setPreviousVerticalIndex( stack, v ) {
-		if( stack && !config.autoHome ) {
+		if( stack ) {
 			stack.setAttribute( 'data-previous-indexv', v || 0 );
 		}
 	}
@@ -567,11 +563,6 @@ var Reveal = (function(){
 	 * @param {HTMLElement} stack The vertical stack element
 	 */
 	function getPreviousVerticalIndex( stack ) {
-        // Force reset if autoHome is enabled (default)
-        if ( config.autoHome ) {
-            return 0;
-        }
-
         if( stack && stack.classList.contains( 'stack' ) ) {
 			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
 		}
@@ -890,6 +881,21 @@ var Reveal = (function(){
 		// stacks
 		if( previousSlide ) {
 			previousSlide.classList.remove( 'present' );
+
+            // Reset all slides upon navigate to home
+            // Issue: #285
+            if ( document.querySelector(HOME_SLIDE_SELECTOR).classList.contains('present') ) {
+                // Launch async task
+                setTimeout(function () {
+                    var slides = toArray( document.querySelectorAll(HORIZONTAL_SLIDES_SELECTOR + '.stack')), i;
+                    for ( i in slides ) {
+                        if (slides[i]) {
+                            // Reset stack
+                            setPreviousVerticalIndex(slides[i], 0);
+                        }
+                    }
+                }, 0);
+            }
 		}
 
         updateControls(routes);
