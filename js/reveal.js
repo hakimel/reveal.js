@@ -846,7 +846,7 @@ var Reveal = (function(){
 
 
 		// Show fragment, if specified
-		if( ( indexh !== indexhBefore || indexv !== indexvBefore ) && f ) {
+		if( typeof f !== 'undefined' ) {
 			var fragments = currentSlide.querySelectorAll( '.fragment' );
 
 			toArray( fragments ).forEach( function( fragment, indexf ) {
