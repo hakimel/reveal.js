@@ -1046,6 +1046,36 @@ body {
 	);
 }
 
+/*********************************************
+ * FADE TRANSITION
+ *********************************************/
+
+.reveal.fade .slides section,
+.reveal.fade .slides>section>section {
+    -webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
+
+	-webkit-transition: opacity 0.5s;
+	   -moz-transition: opacity 0.5s;
+	    -ms-transition: opacity 0.5s;
+	     -o-transition: opacity 0.5s;
+	        transition: opacity 0.5s;
+}
+
+
+.reveal.fade.overview .slides section,
+.reveal.fade.overview .slides>section>section,
+.reveal.fade.exit-overview .slides section,
+.reveal.fade.exit-overview .slides>section>section {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
+}
 
 /*********************************************
  * NO TRANSITION
