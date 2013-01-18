@@ -51,11 +51,11 @@ var Reveal = (function(){
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,
 
-			// Transition style (see /css/theme)
+			// Theme (see /css/theme)
 			theme: null,
 
 			// Transition style
-			transition: 'default', // default/cube/page/concave/zoom/linear/none
+			transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 			// Script dependencies to load
 			dependencies: []
@@ -105,6 +105,9 @@ var Reveal = (function(){
 
 		// A delay used to ativate the overview mode
 		activateOverviewTimeout = 0,
+
+		// A delay used to deativate the overview mode
+		deactivateOverviewTimeout = 0,
 
 		// Holds information about the currently ongoing touch input
 		touch = {
@@ -583,8 +586,9 @@ var Reveal = (function(){
 		if( config.overview ) {
 
 			dom.wrapper.classList.add( 'overview' );
-
+			dom.wrapper.classList.remove( 'exit-overview' );
 			clearTimeout( activateOverviewTimeout );
+			clearTimeout( deactivateOverviewTimeout );
 
 			// Not the pretties solution, but need to let the overview 
 			// class apply first so that slides are measured accurately 
@@ -655,8 +659,16 @@ var Reveal = (function(){
 		if( config.overview ) {
 
 			clearTimeout( activateOverviewTimeout );
+			clearTimeout( deactivateOverviewTimeout );
 
 			dom.wrapper.classList.remove( 'overview' );
+			// Temporarily add a class so that transitions can do different things
+			// depending on whether they are exiting/entering overview, or just
+			// moving from slide to slide
+			dom.wrapper.classList.add( 'exit-overview' );
+			deactivateOverviewTimeout = setTimeout( function () {
+				dom.wrapper.classList.remove( 'exit-overview' );
+			}, 10);
 
 			// Select all slides
 			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
