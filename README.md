@@ -234,7 +234,7 @@ Multiple fragments can be applied to the same element sequentially by wrapping i
 
 ```html
 <section>
-	<span class="fragment fade-out">
+	<span class="fragment fade-in">
 		<span class="fragment fade-out">I'll fade in, then out</span>
 	</span>
 </section>
