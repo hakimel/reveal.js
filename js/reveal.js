@@ -103,10 +103,10 @@ var Reveal = (function(){
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0,
 
-		// A delay used to ativate the overview mode
+		// A delay used to activate the overview mode
 		activateOverviewTimeout = 0,
 
-		// A delay used to deativate the overview mode
+		// A delay used to deactivate the overview mode
 		deactivateOverviewTimeout = 0,
 
 		// Holds information about the currently ongoing touch input
@@ -587,6 +587,7 @@ var Reveal = (function(){
 
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'exit-overview' );
+
 			clearTimeout( activateOverviewTimeout );
 			clearTimeout( deactivateOverviewTimeout );
 
@@ -662,10 +663,12 @@ var Reveal = (function(){
 			clearTimeout( deactivateOverviewTimeout );
 
 			dom.wrapper.classList.remove( 'overview' );
+
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
 			// moving from slide to slide
 			dom.wrapper.classList.add( 'exit-overview' );
+
 			deactivateOverviewTimeout = setTimeout( function () {
 				dom.wrapper.classList.remove( 'exit-overview' );
 			}, 10);
