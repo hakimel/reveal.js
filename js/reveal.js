@@ -1383,8 +1383,8 @@ var Reveal = (function(){
 			case 32: isOverviewActive() ? deactivateOverview() : navigateNext(); break;
 			// return
 			case 13: isOverviewActive() ? deactivateOverview() : triggered = false; break;
-			// b, period
-			case 66: case 190: togglePause(); break;
+			// b, period, Logitech presenter tools "black screen" button
+			case 66: case 190: case 191: togglePause(); break;
 			// f
 			case 70: enterFullscreen(); break;
 			default:
