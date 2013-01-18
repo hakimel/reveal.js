@@ -1612,6 +1612,9 @@ var Reveal = (function(){
 		// Toggles the overview mode on/off
 		toggleOverview: toggleOverview,
 
+		// Toggles the "black screen" mode on/off
+		togglePause: togglePause,
+
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
