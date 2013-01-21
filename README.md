@@ -256,7 +256,15 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 ### Overview mode
 
 Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
-as if you were at 1,000 feet above your presentation.
+as if you were at 1,000 feet above your presentation. The overview mode comes with a few API hooks:
+
+```javascript
+Reveal.addEventListener( 'overviewshown', function( event ) { /* ... */ } );
+Reveal.addEventListener( 'overviewhidden', function( event ) { /* ... */ } );
+
+// Toggle the overview mode programmatically
+Reveal.toggleOverview();
+```
 
 ### Fullscreen mode
 Just press »F« on your keyboard to show your presentation in fullscreen mode. Press the »ESC« key to exit fullscreen mode.

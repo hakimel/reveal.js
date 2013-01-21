@@ -622,14 +622,16 @@ var Reveal = (function(){
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
+			var wasActive = dom.wrapper.classList.contains( 'overview' );
+
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'exit-overview' );
 
 			clearTimeout( activateOverviewTimeout );
 			clearTimeout( deactivateOverviewTimeout );
 
-			// Not the pretties solution, but need to let the overview 
-			// class apply first so that slides are measured accurately 
+			// Not the pretties solution, but need to let the overview
+			// class apply first so that slides are measured accurately
 			// before we can position them
 			activateOverviewTimeout = setTimeout( function(){
 
@@ -681,6 +683,15 @@ var Reveal = (function(){
 
 				layout();
 
+				if( !wasActive ) {
+					// Notify observers of the overview showing
+					dispatchEvent( 'overviewshown', {
+						'indexh': indexh,
+						'indexv': indexv,
+						'currentSlide': currentSlide
+					} );
+				}
+
 			}, 10 );
 
 		}
@@ -729,6 +740,13 @@ var Reveal = (function(){
 			}
 
 			slide( indexh, indexv );
+
+			// Notify observers of the overview hiding
+			dispatchEvent( 'overviewhidden', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
 
 		}
 	}
