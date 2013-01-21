@@ -105,7 +105,6 @@
 				// ASEEMK: fix for calling talk may not be at index.html.
 				var iframes = document.querySelectorAll( '.slides iframe' );
 				[].slice.call(iframes).forEach(function (iframe) {
-					console.log(window.opener);
 					iframe.src = window.opener ? window.opener.location.href : '/';
 				});
 
