@@ -1614,6 +1614,7 @@ var Reveal = (function(){
 		next: navigateNext,
 		prevFragment: previousFragment,
 		nextFragment: nextFragment,
+		resize: layout,
 
 		// Deprecated aliases
 		navigateTo: slide,
