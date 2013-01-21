@@ -527,14 +527,14 @@ var Reveal = (function(){
 			for( var i = 0, len = nodes.length; i < len; i++ ) {
 				var node = nodes[i];
 
-				if( node.textContent && !node.querySelector( 'img' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
-                    var span = document.createElement('span');
-                    span.setAttribute('data-title', node.text);
-                    span.innerHTML = node.innerHTML;
+				if( node.textContent && !node.querySelector( '*' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
+					var span = document.createElement('span');
+					span.setAttribute('data-title', node.text);
+					span.innerHTML = node.innerHTML;
 
 					node.classList.add( 'roll' );
-                    node.innerHTML = '';
-                    node.appendChild(span);
+					node.innerHTML = '';
+					node.appendChild(span);
 				}
 			}
 		}
@@ -964,20 +964,20 @@ var Reveal = (function(){
 		if( previousSlide ) {
 			previousSlide.classList.remove( 'present' );
 
-            // Reset all slides upon navigate to home
-            // Issue: #285
-            if ( document.querySelector( HOME_SLIDE_SELECTOR ).classList.contains( 'present' ) ) {
-                // Launch async task
-                setTimeout( function () {
-                    var slides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
-                    for( i in slides ) {
-                        if( slides[i] ) {
-                            // Reset stack
-                            setPreviousVerticalIndex( slides[i], 0 );
-                        }
-                    }
-                }, 0 );
-            }
+			// Reset all slides upon navigate to home
+			// Issue: #285
+			if ( document.querySelector( HOME_SLIDE_SELECTOR ).classList.contains( 'present' ) ) {
+				// Launch async task
+				setTimeout( function () {
+					var slides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
+					for( i in slides ) {
+						if( slides[i] ) {
+							// Reset stack
+							setPreviousVerticalIndex( slides[i], 0 );
+						}
+					}
+				}, 0 );
+			}
 		}
 
 		updateControls();
