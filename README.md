@@ -23,7 +23,7 @@ Markup heirarchy needs to be ``<div class="reveal"> <div class="slides"> <sectio
 
 ```html
 <div class="reveal">
-	<div class="slides"> 
+	<div class="slides">
 		<section>Single Horizontal Slide</section>
 		<section>
 			<section>Vertical Slide 1</section>
@@ -43,7 +43,7 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 <section data-markdown>
 	<script type="text/template">
 		## Page title
-		
+
 		A paragraph with some text and a [link](http://hakim.se).
 	</script>
 </section>
@@ -107,14 +107,14 @@ Reveal.initialize({
 	dependencies: [
 		// Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
 		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-		
+
 		// Interpret Markdown in <section> elements
 		{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 		{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-		
+
 		// Syntax highlight for <code> elements
 		{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-		
+
 		// Zoom in and out with Alt+click
 		{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 
@@ -337,7 +337,7 @@ Each theme is available as a separate stylesheet. To change theme you will need 
 If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
 
 
-## Development Environment 
+## Development Environment
 
 reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](https://github.com/gruntjs/grunt#installing-grunt)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
 
