@@ -34,6 +34,9 @@ var Reveal = (function(){
 			// Vertical centering of slides
 			center: true,
 
+			// Enables touch navigation on devices with touch input
+			touch: true,
+
 			// Loop the presentation
 			loop: false,
 
@@ -375,11 +378,14 @@ var Reveal = (function(){
 	 */
 	function addEventListeners() {
 
-		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-		document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
 		window.addEventListener( 'resize', onWindowResize, false );
+
+		if( config.touch ) {
+			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+			document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+		}
 
 		if( config.keyboard ) {
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
@@ -407,11 +413,14 @@ var Reveal = (function(){
 	function removeEventListeners() {
 
 		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
-		document.removeEventListener( 'touchstart', onDocumentTouchStart, false );
-		document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
-		document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
+
+		if( config.touch ) {
+			document.removeEventListener( 'touchstart', onDocumentTouchStart, false );
+			document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
+			document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
+		}
 
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', preventAndForward( onProgressClick ), false );
