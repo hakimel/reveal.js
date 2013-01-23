@@ -83,17 +83,29 @@
 				font-size: 14px;
 				color: rgba( 255, 255, 255, 0.9 );
 			}
+
+			.error {
+				font-weight: bold;
+				color: red;
+				font-size: 1.5em;
+				text-align: center;
+				margin-top: 10%;
+			}
+
+			.error code {
+				font-family: monospace;
+			}
 		</style>
 	</head>
 
 	<body>
 
 		<div id="wrap-current-slide" class="slides">
-			<iframe width="1280" height="1024" id="current-slide"></iframe>
+			<script>document.write( '<iframe width="1280" height="1024" id="current-slide" src="'+ window.opener.location.href +'"></iframe>' );</script>
 		</div>
 
 		<div id="wrap-next-slide" class="slides">
-			<iframe width="640" height="512" id="next-slide"></iframe>
+			<script>document.write( '<iframe width="640" height="512" id="next-slide" src="'+ window.opener.location.href +'"></iframe>' );</script>
 			<span>UPCOMING:</span>
 		</div>
 		<div id="notes"></div>
@@ -102,45 +114,48 @@
 		<script>
 			window.addEventListener( 'load', function() {
 
-				// ASEEMK: fix for calling talk may not be at index.html.
-				var iframes = document.querySelectorAll( '.slides iframe' );
-				[].slice.call(iframes).forEach(function (iframe) {
-					iframe.src = window.opener ? window.opener.location.href : '/';
-				});
+				if( window.opener && window.opener.location && window.opener.location.href ) {
 
-				(function( window, undefined ) {
-					var notes = document.getElementById( 'notes' ),
-						currentSlide = document.getElementById( 'current-slide' ),
-						nextSlide = document.getElementById( 'next-slide' );
+					(function( window, undefined ) {
+						var notes = document.getElementById( 'notes' ),
+							currentSlide = document.getElementById( 'current-slide' ),
+							nextSlide = document.getElementById( 'next-slide' );
 
-					window.addEventListener( 'message', function( event ) {
-						var data = JSON.parse( event.data );
-						// No need for updating the notes in case of fragment changes
-						if ( data.notes !== undefined) {
-							if( data.markdown ) {
-								notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+						window.addEventListener( 'message', function( event ) {
+							var data = JSON.parse( event.data );
+							// No need for updating the notes in case of fragment changes
+							if ( data.notes !== undefined) {
+								if( data.markdown ) {
+									notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+								}
+								else {
+									notes.innerHTML = data.notes;
+								}
+							}
+
+							// Showing and hiding fragments
+							if( data.fragment === 'next' ) {
+								currentSlide.contentWindow.Reveal.nextFragment();
+							}
+							else if( data.fragment === 'prev' ) {
+								currentSlide.contentWindow.Reveal.prevFragment();
 							}
 							else {
-								notes.innerHTML = data.notes;
+								// Update the note slides
+								currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv );
+								nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
 							}
-						}
 
-						// Showing and hiding fragments
-						if( data.fragment === 'next' ) {
-							currentSlide.contentWindow.Reveal.nextFragment();
-						}
-						else if( data.fragment === 'prev' ) {
-							currentSlide.contentWindow.Reveal.prevFragment();
-						}
-						else {
-							// Update the note slides
-							currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv );
-							nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
-						}
+						}, false );
 
-					}, false );
+					})( window );
 
-				})( window );
+				}
+				else {
+
+					document.body.innerHTML =  '<p class="error">Unable to access <code>window.opener.location</code>.<br>Make sure the presentation is running on a web server.</p>';
+
+				}
 
 			}, false );
 
