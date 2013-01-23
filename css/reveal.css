@@ -189,8 +189,9 @@ body {
   font-style: italic;
 }
 
-/* Preserve aspect ratio and scale image so it's bound within the section */
+/* Ensure certain elements are never larger than the slide itself */
 .reveal img,
+.reveal video,
 .reveal iframe {
 	max-width: 100%;
 	max-height: 100%;
