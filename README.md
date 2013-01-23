@@ -49,37 +49,6 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 </section>
 ```
 
-### Code syntax higlighting
-
-By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for code syntax highlighting. For example, a section like this:
-
-```html
-<section>
-	<p align="left">
-		<code class="clojure">
-			<pre>
-(def lazy-fib
-  (concat
-   [0 1]
-   ((fn rfib [a b]
-        (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
-			</pre>
-		</code>
-	</p>
-</section>
-
-```
-
-Will render like this:
-
-```clojure
-(def lazy-fib
-  (concat
-   [0 1]
-   ((fn rfib [a b]
-        (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
-```
-
 ### Configuration
 
 At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
@@ -282,6 +251,27 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 	// event.fragment = the fragment DOM element
 } );
 ```
+
+### Code syntax higlighting
+
+By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for code syntax highlighting. Below is an example with clojure code that will be syntax highlighted:
+
+```html
+<section>
+	<p align="left">
+		<code>
+			<pre>
+(def lazy-fib
+  (concat
+   [0 1]
+   ((fn rfib [a b]
+        (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
+			</pre>
+		</code>
+	</p>
+</section>
+```
+
 
 ### Overview mode
 
