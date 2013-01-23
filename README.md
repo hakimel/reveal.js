@@ -258,17 +258,13 @@ By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/
 
 ```html
 <section>
-	<p align="left">
-		<code>
-			<pre>
+	<pre><code>
 (def lazy-fib
   (concat
    [0 1]
    ((fn rfib [a b]
         (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
-			</pre>
-		</code>
-	</p>
+	</code></pre>
 </section>
 ```
 
