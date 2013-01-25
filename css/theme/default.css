@@ -5,13 +5,6 @@
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 @font-face {
-  font-family: 'Lagom';
-  src: url("../../lib/font/lagom.otf");
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Akkur';
   src: url("../../lib/font/akkur.otf");
   font-weight: normal;
@@ -64,7 +57,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eeeeee;
-  font-family: "Lagom", Impact, sans-serif;
+  font-family: "Akkur", Impact, sans-serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
