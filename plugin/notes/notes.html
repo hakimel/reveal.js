@@ -95,6 +95,28 @@
 			.error code {
 				font-family: monospace;
 			}
+			.time {
+				text-align: center;
+			}
+			.elapsed, .clock {
+				color: #333;
+				font-size: 2em;
+				text-align: center;
+				display: inline-block;
+				padding: 0.5em;
+				background-color: #eee;
+				border-radius: 10px;
+			}
+			.elapsed h2, .clock h2 {
+				font-size: 0.8em;
+				line-height: 100%;
+				margin: 0;
+				color: #aaa;
+			}
+			.elapsed .mute {
+				color: #ddd;
+			}
+
 		</style>
 	</head>
 
@@ -108,10 +130,24 @@
 			<script>document.write( '<iframe width="640" height="512" id="next-slide" src="'+ window.opener.location.href +'"></iframe>' );</script>
 			<span>UPCOMING:</span>
 		</div>
+		<div class='time'>
+			<div class='clock'>
+				<h2>Time</h2>
+				<span id='clock'>0:00:00 AM</span>
+			</div>
+			<div class='elapsed'>
+				<h2>Elapsed</h2>
+				<span id='hours'>00</span><span id='minutes'>:00</span><span id='seconds'>:00</span>
+			</div>
+		</div>
 		<div id="notes"></div>
 
 		<script src="../../plugin/markdown/showdown.js"></script>
 		<script>
+			function zeroPadInteger(num) {
+				var str = "00" + parseInt(num);
+				return str.substring(str.length - 2);
+			}
 			window.addEventListener( 'load', function() {
 
 				if( window.opener && window.opener.location && window.opener.location.href ) {
@@ -156,6 +192,29 @@
 					document.body.innerHTML =  '<p class="error">Unable to access <code>window.opener.location</code>.<br>Make sure the presentation is running on a web server.</p>';
 
 				}
+
+				var start = new Date(),
+					clockEl = document.getElementById('clock'),
+					hoursEl = document.getElementById('hours'),
+					minutesEl = document.getElementById('minutes'),
+					secondsEl = document.getElementById('seconds');
+
+				setInterval(function() {
+					var diff, hours, minutes, seconds,
+						now = new Date();
+					diff = now.getTime() - start.getTime();
+					hours = parseInt(diff / (1000 * 60 * 60));
+					minutes = parseInt((diff / (1000 * 60)) % 60);
+					seconds = parseInt((diff / 1000) % 60);
+
+					clockEl.innerHTML = now.toLocaleTimeString();
+					hoursEl.innerHTML = zeroPadInteger(hours);
+					hoursEl.className = hours > 0 ? "" : "mute";
+					minutesEl.innerHTML = ":" + zeroPadInteger(minutes);
+					minutesEl.className = minutes > 0 ? "" : "mute";
+					secondsEl.innerHTML = ":" + zeroPadInteger(seconds);
+				}, 1000);
+
 
 			}, false );
 
