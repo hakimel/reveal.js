@@ -17,8 +17,11 @@ var Reveal = (function(){
 		// Configurations defaults, can be overridden at initialization time
 		config = {
 
+			// The "normal" size of the presentation, aspect ratio will be preserved
+			// when the presentation is scaled to fit different resolutions
 			width: 1024,
 			height: 768,
+
 			padding: 0.1,
 
 			// Display controls in the bottom right corner
@@ -552,16 +555,49 @@ var Reveal = (function(){
 	 */
 	function layout() {
 
-		dom.slides.style.width = config.width + 'px';
-		dom.slides.style.height = config.height + 'px';
+		// Available space to scale within
+		var availableWidth = dom.wrapper.offsetWidth,
+			availableHeight = dom.wrapper.offsetHeight;
 
-		var availableWidth = window.innerWidth - ( window.innerWidth * config.padding * 2 ),
-			availableHeight = window.innerHeight - ( window.innerHeight * config.padding * 2 );
+		// Dimensions of the content
+		var slideWidth = config.width,
+			slideHeight = config.height;
 
-		var scale = Math.min( availableWidth / config.width, availableHeight / config.height );
+		// Slide width may be a percentage of available width
+		if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
+			slideWidth = parseInt( slideWidth, 10 ) / 100 * availableWidth;
+		}
 
-		// dom.slides.style.WebkitTransform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
-		dom.slides.style.zoom = scale;
+		// Slide height may be a percentage of available height
+		if( typeof slideHeight === 'string' && /%$/.test( slideHeight ) ) {
+			slideHeight = parseInt( slideHeight, 10 ) / 100 * availableHeight;
+		}
+
+		dom.slides.style.width = slideWidth + 'px';
+		dom.slides.style.height = slideHeight + 'px';
+
+		// Reduce availabe space by padding
+		availableWidth = availableWidth - ( availableHeight * config.padding * 2 );
+		availableHeight = availableHeight - ( availableHeight * config.padding * 2 );
+
+		// Determine scale of content to fit within available space
+		var scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
+
+		// Prefer applying scale via zoom since Chrome blurs scaled content 
+		// with nested transforms
+		if( typeof dom.slides.style.zoom !== 'undefined' ) {
+			dom.slides.style.zoom = scale;
+		}
+		// Apply scale transform as a fallback
+		else {
+			var transform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
+
+			dom.slides.style.WebkitTransform = transform;
+			dom.slides.style.MozTransform = transform;
+			dom.slides.style.msTransform = transform;
+			dom.slides.style.OTransform = transform;
+			dom.slides.style.transform = transform;
+		}
 
 		if( config.center ) {
 
@@ -569,7 +605,7 @@ var Reveal = (function(){
 			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
 
 			// Determine the minimum top offset for slides
-			var minTop = -dom.wrapper.offsetHeight / 2;
+			var minTop = -slideHeight / 2;
 
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
