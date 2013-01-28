@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 		outputCSS: 'css/reveal.min.css',
 
 		meta: {
-			version: '2.2',
+			version: '2.3',
 			banner: 
 				'/*!\n' +
 				' * reveal.js <%= meta.version %> (<%= grunt.template.today("yyyy-mm-dd, HH:MM") %>)\n' +

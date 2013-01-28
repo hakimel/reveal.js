@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2011-2013 Hakim El Hattab, http://hakim.se
  */
 var Reveal = (function(){
 
@@ -16,6 +16,11 @@ var Reveal = (function(){
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
+
+			width: 1024,
+			height: 768,
+			padding: 0.1,
+
 			// Display controls in the bottom right corner
 			controls: true,
 
@@ -546,6 +551,17 @@ var Reveal = (function(){
 	 * presentation.
 	 */
 	function layout() {
+
+		dom.slides.style.width = config.width + 'px';
+		dom.slides.style.height = config.height + 'px';
+
+		var availableWidth = window.innerWidth - ( window.innerWidth * config.padding * 2 ),
+			availableHeight = window.innerHeight - ( window.innerHeight * config.padding * 2 );
+
+		var scale = Math.min( availableWidth / config.width, availableHeight / config.height );
+
+		// dom.slides.style.WebkitTransform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
+		dom.slides.style.zoom = scale;
 
 		if( config.center ) {
 
