@@ -38,33 +38,44 @@
                 <!-- Use external markdown resource, and separate slides by three newlines; vertical slides by two newlines -->
                 <section data-markdown="demo.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
 
-                <!-- Slides are separated by newline + three dashes + newline (regular expression) -->
-                <section data-markdown data-separator="^\n---\n$" data-vertical="^\n--\n$">
+                <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
+                <section data-markdown data-separator="---">
                     <script type="text/template">
-                        1.1
-
-                        --
-
-                        4.1
-
+                        Slide 1
                         ---
-
-                        5.1
+                        Slide 2
+                        ---
+                        Slide 3
                     </script>
                 </section>
 
-                <!-- No "extra" slides, since there are no separators defined -->
+                <!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
+                <section data-markdown data-separator="^\n---\n$" data-vertical="^\n--\n$">
+                    <script type="text/template">
+                        Slide 1.1
+
+                        --
+
+                        Slide 1.2
+
+                        ---
+
+                        Slide 2
+                    </script>
+                </section>
+
+                <!-- No "extra" slides, since there are no separators defined (so they'll become horizontal rulers) -->
                 <section data-markdown>
                     <script type="text/template">
-                        1.1
+                        A
 
                         ---
 
-                        4.1
+                        B
 
                         ---
 
-                        5.1
+                        C
                     </script>
                 </section>
 
