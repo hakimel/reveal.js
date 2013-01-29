@@ -22,7 +22,7 @@ var Reveal = (function(){
 			width: 1024,
 			height: 768,
 
-			padding: 0.1,
+			margin: 0.1,
 
 			// Display controls in the bottom right corner
 			controls: true,
@@ -227,10 +227,6 @@ var Reveal = (function(){
 	function hideAddressBar() {
 
 		if( navigator.userAgent.match( /(iphone|ipod)/i ) ) {
-			// Give the page some scrollable overflow
-			document.documentElement.style.overflow = 'scroll';
-			document.body.style.height = '120%';
-
 			// Events that should trigger the address bar to hide
 			window.addEventListener( 'load', removeAddressBar, false );
 			window.addEventListener( 'orientationchange', removeAddressBar, false );
@@ -505,9 +501,18 @@ var Reveal = (function(){
 	 */
 	function removeAddressBar() {
 
+		if( window.orientation === 0 ) {
+			document.documentElement.style.overflow = 'scroll';
+			document.body.style.height = '120%';
+		}
+		else {
+			document.documentElement.style.overflow = '';
+			document.body.style.height = '100%';
+		}
+
 		setTimeout( function() {
 			window.scrollTo( 0, 1 );
-		}, 0 );
+		}, 10 );
 
 	}
 
@@ -559,6 +564,10 @@ var Reveal = (function(){
 		var availableWidth = dom.wrapper.offsetWidth,
 			availableHeight = dom.wrapper.offsetHeight;
 
+		// Reduce availabe space by margin
+		availableWidth -= ( availableHeight * config.margin );
+		availableHeight -= ( availableHeight * config.margin );
+
 		// Dimensions of the content
 		var slideWidth = config.width,
 			slideHeight = config.height;
@@ -576,16 +585,12 @@ var Reveal = (function(){
 		dom.slides.style.width = slideWidth + 'px';
 		dom.slides.style.height = slideHeight + 'px';
 
-		// Reduce availabe space by padding
-		availableWidth = availableWidth - ( availableHeight * config.padding * 2 );
-		availableHeight = availableHeight - ( availableHeight * config.padding * 2 );
-
 		// Determine scale of content to fit within available space
 		var scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
 
-		// Prefer applying scale via zoom since Chrome blurs scaled content 
+		// Prefer applying scale via zoom since Chrome blurs scaled content
 		// with nested transforms
-		if( typeof dom.slides.style.zoom !== 'undefined' ) {
+		if( typeof dom.slides.style.zoom !== 'undefined' && !navigator.userAgent.match( /(iphone|ipod|android)/gi ) ) {
 			dom.slides.style.zoom = scale;
 		}
 		// Apply scale transform as a fallback
