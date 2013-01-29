@@ -186,6 +186,11 @@ body {
 	max-height: 100%;
 }
 
+/** Prevents layering issues in certain browser/transition combinations */
+.reveal a {
+	position: relative;
+}
+
 .reveal strong,
 .reveal b {
 	font-weight: bold;
