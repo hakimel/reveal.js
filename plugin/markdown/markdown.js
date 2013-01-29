@@ -81,7 +81,7 @@
         return markdownSections;
     };
 
-    var queryMarkdownSlides = function() {
+    var querySlidingMarkdown = function() {
 
         var sections = document.querySelectorAll( '[data-markdown]'),
             section;
@@ -112,11 +112,9 @@
             }
         }
 
-        querySlides();
-
     };
 
-    var querySlides = function() {
+    var queryMarkdownSlides = function() {
 
         var sections = document.querySelectorAll( '[data-markdown]');
 
@@ -141,6 +139,8 @@
         }
 
     };
+
+    querySlidingMarkdown();
 
     queryMarkdownSlides();
 
