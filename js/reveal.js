@@ -19,10 +19,15 @@ var Reveal = (function(){
 
 			// The "normal" size of the presentation, aspect ratio will be preserved
 			// when the presentation is scaled to fit different resolutions
-			width: 1024,
-			height: 768,
+			width: 960,
+			height: 700,
 
+			// Factor of the display size that should remain empty around the content
 			margin: 0.1,
+
+			// Bounds for smallest/largest possible scale to apply to content
+			minScale: 0.2,
+			maxScale: 1.4,
 
 			// Display controls in the bottom right corner
 			controls: true,
@@ -588,6 +593,10 @@ var Reveal = (function(){
 		// Determine scale of content to fit within available space
 		var scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
 
+		// Respect max/min scale settings
+		scale = Math.max( scale, config.minScale );
+		scale = Math.min( scale, config.maxScale );
+
 		// Prefer applying scale via zoom since Chrome blurs scaled content
 		// with nested transforms
 		if( typeof dom.slides.style.zoom !== 'undefined' && !navigator.userAgent.match( /(iphone|ipod|android)/gi ) ) {
@@ -1123,7 +1132,7 @@ var Reveal = (function(){
 			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
 			if( slideAutoSlide ) {
 				autoSlide = parseInt( slideAutoSlide, 10 );
-			} 
+			}
 			else {
 				autoSlide = config.autoSlide;
 			}
