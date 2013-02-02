@@ -5,7 +5,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2011-2013 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -1173,6 +1173,7 @@ body {
 }
 
 .no-transforms .slides {
+	width: 80%;
 	top: 0;
 	left: 50%;
 	margin: 0;

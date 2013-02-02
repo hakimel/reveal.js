@@ -141,7 +141,7 @@ var Reveal = (function(){
 	 */
 	function initialize( options ) {
 
-		if( ( !supports2DTransforms && !supports3DTransforms ) ) {
+		if( !supports2DTransforms && !supports3DTransforms ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
 			// If the browser doesn't support core features we won't be
