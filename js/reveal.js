@@ -94,6 +94,9 @@ var Reveal = (function(){
 		// all current slides.
 		state = [],
 
+		// The current scale of the presentation (see width/height config)
+		scale = 1,
+
 		// Cached references to DOM elements
 		dom = {},
 
@@ -591,7 +594,7 @@ var Reveal = (function(){
 		dom.slides.style.height = slideHeight + 'px';
 
 		// Determine scale of content to fit within available space
-		var scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
+		scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
 
 		// Respect max/min scale settings
 		scale = Math.max( scale, config.minScale );
@@ -1833,6 +1836,11 @@ var Reveal = (function(){
 		// Returns the current slide element
 		getCurrentSlide: function() {
 			return currentSlide;
+		},
+
+		// Returns the current scale of the presentation content
+		getScale: function() {
+			return scale;
 		},
 
 		// Helper method, retrieves query string as a key/value hash

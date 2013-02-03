@@ -592,6 +592,11 @@ body {
 	top: -50%;
 }
 
+.reveal .slides>section.stack {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
 .reveal .slides>section.present,
 .reveal .slides>section>section.present {
 	display: block;
