@@ -632,7 +632,7 @@ var Reveal = (function(){
 					continue;
 				}
 
-				// Vertical stacks are not centered since their section 
+				// Vertical stacks are not centered since their section
 				// children will be
 				if( slide.classList.contains( 'stack' ) ) {
 					slide.style.top = 0;
@@ -663,7 +663,7 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Retrieves the vertical index which was stored using 
+	 * Retrieves the vertical index which was stored using
 	 * #setPreviousVerticalIndex() or 0 if no previous index
 	 * exists.
 	 *
@@ -1548,6 +1548,11 @@ var Reveal = (function(){
 		if ( hasFocus || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		var triggered = true;
+
+		// while paused only allow "unpausing" keyboard events (b and .)
+		if (isPaused() && [66,190,191].indexOf(event.keyCode) === -1 ) {
+			return false;
+		}
 
 		switch( event.keyCode ) {
 			// p, page up
