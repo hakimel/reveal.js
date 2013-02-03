@@ -2,16 +2,17 @@
    by Rob Glazebrook of CSSnewbie.com
    Last Updated: June 4, 2008
 
-   Feel free (nay, compelled) to edit, append, and 
+   Feel free (nay, compelled) to edit, append, and
    manipulate this file as you see fit. */
 
 
 /* SECTION 1: Set default width, margin, float, and
-   background. This prevents elements from extending 
+   background. This prevents elements from extending
    beyond the edge of the printed page, and prevents
    unnecessary background images from printing */
+
 * {
-	-webkit-print-color-adjust: exact; 
+	-webkit-print-color-adjust: exact;
 }
 
 body {
@@ -19,24 +20,22 @@ body {
 	width: auto;
 	height: auto;
 	border: 0;
-	margin: 0 5%;
 	padding: 0;
 	float: none !important;
 	overflow: visible;
-	background-image: none !important;
 }
 
 html {
-	width: auto;
-	height: auto;
+	width: 100%;
+	height: 100%;
 	overflow: visible;
 }
 
-/* SECTION 2: Remove any elements not needed in print. 
+/* SECTION 2: Remove any elements not needed in print.
    This would include navigation, ads, sidebars, etc. */
-.nestedarrow, 
-.controls, 
-.reveal .progress, 
+.nestedarrow,
+.controls,
+.reveal .progress,
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
@@ -60,7 +59,7 @@ h1,h2,h3,h4,h5,h6 {
 /* SECTION 5: Make hyperlinks more usable.
    Ensure links are underlined, and consider appending
    the URL to the end of the link for usability. */
-a:link, 
+a:link,
 a:visited {
 	font-weight: bold;
 	text-decoration: underline;
@@ -106,7 +105,7 @@ ul, ol, div, p {
 }
 .reveal .slides section {
 
-	page-break-after: always !important; 
+	page-break-after: always !important;
 
 	visibility: visible !important;
 	position: static !important;
@@ -137,12 +136,12 @@ ul, ol, div, p {
 .reveal section.stack {
 	margin: 0px !important;
 	padding: 0px !important;
-	page-break-after: avoid !important; 
+	page-break-after: avoid !important;
 }
 .reveal section .fragment {
 	opacity: 1 !important;
 	visibility: visible !important;
-	
+
 	-webkit-transform: none !important;
 	   -moz-transform: none !important;
 	    -ms-transform: none !important;
