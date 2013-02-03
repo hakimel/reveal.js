@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 		}
 
 	});
-	
+
 	// Dependencies
 	grunt.loadNpmTasks( 'grunt-contrib-mincss' );
 
