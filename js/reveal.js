@@ -1829,6 +1829,18 @@ var Reveal = (function(){
 		// Returns the indices of the current, or specified, slide
 		getIndices: getIndices,
 
+		// Returns the slide at the specified index, y is optional
+		getSlide: function( x, y ) {
+			var horizontalSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
+			var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
+
+			if( typeof y !== 'undefined' ) {
+				return verticalSlides ? verticalSlides[ y ] : undefined;
+			}
+
+			return horizontalSlide;
+		},
+
 		// Returns the previous slide element, may be null
 		getPreviousSlide: function() {
 			return previousSlide;
