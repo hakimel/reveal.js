@@ -404,17 +404,17 @@ var Reveal = (function(){
 		}
 
 		if ( config.progress && dom.progress ) {
-			dom.progress.addEventListener( 'click', preventAndForward( onProgressClick ), false );
+			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
 		if ( config.controls && dom.controls ) {
 			var actionEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-			dom.controlsLeft.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateLeft ), false ); } );
-			dom.controlsRight.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateRight ), false ); } );
-			dom.controlsUp.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateUp ), false ); } );
-			dom.controlsDown.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateDown ), false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigatePrev ), false ); } );
-			dom.controlsNext.forEach( function( el ) { el.addEventListener( actionEvent, preventAndForward( navigateNext ), false ); } );
+			dom.controlsLeft.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateLeftClicked, false ); } );
+			dom.controlsRight.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateRightClicked, false ); } );
+			dom.controlsUp.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateUpClicked, false ); } );
+			dom.controlsDown.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateDownClicked, false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.addEventListener( actionEvent, onNavigatePrevClicked, false ); } );
+			dom.controlsNext.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateNextClicked, false ); } );
 		}
 
 	}
@@ -435,17 +435,17 @@ var Reveal = (function(){
 		}
 
 		if ( config.progress && dom.progress ) {
-			dom.progress.removeEventListener( 'click', preventAndForward( onProgressClick ), false );
+			dom.progress.removeEventListener( 'click', onProgressClicked, false );
 		}
 
 		if ( config.controls && dom.controls ) {
 			var actionEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateLeft ), false ); } );
-			dom.controlsRight.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateRight ), false ); } );
-			dom.controlsUp.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateUp ), false ); } );
-			dom.controlsDown.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateDown ), false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigatePrev ), false ); } );
-			dom.controlsNext.forEach( function( el ) { el.removeEventListener( actionEvent, preventAndForward( navigateNext ), false ); } );
+			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateLeftClicked, false ); } );
+			dom.controlsRight.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateRightClicked, false ); } );
+			dom.controlsUp.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateUpClicked, false ); } );
+			dom.controlsDown.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateDownClicked, false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigatePrevClicked, false ); } );
+			dom.controlsNext.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateNextClicked, false ); } );
 		}
 
 	}
@@ -484,22 +484,6 @@ var Reveal = (function(){
 			dy = a.y - b.y;
 
 		return Math.sqrt( dx*dx + dy*dy );
-
-	}
-
-	/**
-	 * Prevents an events defaults behavior calls the
-	 * specified delegate.
-	 *
-	 * @param {Function} delegate The method to call
-	 * after the wrapper has been executed
-	 */
-	function preventAndForward( delegate ) {
-
-		return function( event ) {
-			event.preventDefault();
-			delegate.call( null, event );
-		};
 
 	}
 
@@ -1733,7 +1717,9 @@ var Reveal = (function(){
 	 *
 	 * ( clickX / presentationWidth ) * numberOfSlides
 	 */
-	function onProgressClick( event ) {
+	function onProgressClicked( event ) {
+
+		event.preventDefault();
 
 		var slidesTotal = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
 		var slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
@@ -1741,6 +1727,16 @@ var Reveal = (function(){
 		slide( slideIndex );
 
 	}
+
+	/**
+	 * Event handles for navigation control buttons.
+	 */
+	function onNavigateLeftClicked( event ) { event.preventDefault(); navigateLeft(); }
+	function onNavigateRightClicked( event ) { event.preventDefault(); navigateRight(); }
+	function onNavigateUpClicked( event ) { event.preventDefault(); navigateUp(); }
+	function onNavigateDownClicked( event ) { event.preventDefault(); navigateDown(); }
+	function onNavigatePrevClicked( event ) { event.preventDefault(); navigatePrev(); }
+	function onNavigateNextClicked( event ) { event.preventDefault(); navigateNext(); }
 
 	/**
 	 * Handler for the window level 'hashchange' event.
