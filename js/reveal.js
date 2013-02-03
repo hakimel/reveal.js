@@ -1545,12 +1545,12 @@ var Reveal = (function(){
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if ( hasFocus || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( hasFocus || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		var triggered = true;
 
 		// while paused only allow "unpausing" keyboard events (b and .)
-		if (isPaused() && [66,190,191].indexOf(event.keyCode) === -1 ) {
+		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
 			return false;
 		}
 
