@@ -77,8 +77,7 @@ body {
 	   -moz-hyphens: auto;
 	        hyphens: auto;
 
-	word-break: break-all;
-	word-break: break-word;
+	word-wrap: break-word;
 }
 
 .reveal h1 { font-size: 3.77em; }
