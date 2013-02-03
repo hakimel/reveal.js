@@ -234,7 +234,7 @@ var Reveal = (function(){
 	 */
 	function hideAddressBar() {
 
-		if( navigator.userAgent.match( /(iphone|ipod)/i ) ) {
+		if( /iphone|ipod|android/gi.test( navigator.userAgent ) && !/crios/gi.test( navigator.userAgent ) ) {
 			// Events that should trigger the address bar to hide
 			window.addEventListener( 'load', removeAddressBar, false );
 			window.addEventListener( 'orientationchange', removeAddressBar, false );
@@ -1729,7 +1729,7 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Event handles for navigation control buttons.
+	 * Event handler for navigation control buttons.
 	 */
 	function onNavigateLeftClicked( event ) { event.preventDefault(); navigateLeft(); }
 	function onNavigateRightClicked( event ) { event.preventDefault(); navigateRight(); }
