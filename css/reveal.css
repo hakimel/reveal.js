@@ -181,8 +181,8 @@ body {
 .reveal img,
 .reveal video,
 .reveal iframe {
-	max-width: 100%;
-	max-height: 100%;
+	max-width: 95%;
+	max-height: 95%;
 }
 
 /** Prevents layering issues in certain browser/transition combinations */
@@ -995,55 +995,6 @@ body {
 
 
 /*********************************************
- * TILE-FLIP TRANSITION (CSS shader)
- *********************************************/
-
-.reveal.tileflip .slides section.present {
-	-webkit-transform: none;
-	-webkit-transition-duration: 800ms;
-
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
-		amount 0, randomness 0, flipAxis 0 1 0, tileOutline 1
-	);
-}
-
-.reveal.tileflip .slides section.past {
-	-webkit-transform: none;
-	-webkit-transition-duration: 800ms;
-
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
-		amount 1, randomness 0, flipAxis 0 1 0, tileOutline 1
-	);
-}
-
-.reveal.tileflip .slides section.future {
-	-webkit-transform: none;
-	-webkit-transition-duration: 800ms;
-
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
-		amount 1, randomness 0, flipAxis 0 1 0, tileOutline 1
-	);
-}
-
-.reveal.tileflip .slides>section>section.present {
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
-		amount 0, randomness 2, flipAxis 1 0 0, tileOutline 1
-	);
-}
-
-.reveal.tileflip .slides>section>section.past {
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
-		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
-	);
-}
-
-.reveal.tileflip .slides>section>section.future {
-	-webkit-filter: custom( url(shaders/tile-flip.vs) mix(url(shaders/tile-flip.fs) multiply source-atop), 10 10 border-box detached, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg),
-		amount 1, randomness 2, flipAxis 1 0 0, tileOutline 1
-	);
-}
-
-/*********************************************
  * FADE TRANSITION
  *********************************************/
 
@@ -1073,6 +1024,7 @@ body {
 	     -o-transition: none;
 	        transition: none;
 }
+
 
 /*********************************************
  * NO TRANSITION
