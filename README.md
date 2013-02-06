@@ -401,5 +401,5 @@ If you want to customise reveal.js without running grunt.js you can alter the HT
 
 MIT licensed
 
-Copyright (C) 2011-2013 Hakim El Hattab, http://hakim.se
+Copyright (C) 2013 Hakim El Hattab, http://hakim.se
 
