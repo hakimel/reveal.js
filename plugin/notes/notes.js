@@ -5,7 +5,7 @@
 var RevealNotes = (function() {
 
 	function openNotes() {
-		var jsFileLocation = document.querySelector('script[src*=notes]').src;  // this js file path
+		var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
 		jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
 		var notesPopup = window.open( jsFileLocation + 'notes.html', 'reveal.js - Notes', 'width=1120,height=850' );
 
