@@ -822,7 +822,7 @@ var Reveal = (function(){
 			override ? activateOverview() : deactivateOverview();
 		}
 		else {
-			isOverviewActive() ? deactivateOverview() : activateOverview();
+			isOverview() ? deactivateOverview() : activateOverview();
 		}
 
 	}
@@ -833,7 +833,7 @@ var Reveal = (function(){
 	 * @return {Boolean} true if the overview is active,
 	 * false otherwise
 	 */
-	function isOverviewActive() {
+	function isOverview() {
 
 		return dom.wrapper.classList.contains( 'overview' );
 
@@ -973,7 +973,7 @@ var Reveal = (function(){
 		}
 
 		// If the overview is active, re-activate it to update positions
-		if( isOverviewActive() ) {
+		if( isOverview() ) {
 			activateOverview();
 		}
 
@@ -1084,7 +1084,7 @@ var Reveal = (function(){
 
 				// Optimization; hide all slides that are three or more steps
 				// away from the present slide
-				if( isOverviewActive() === false ) {
+				if( isOverview() === false ) {
 					// The distance loops so that it measures 1 between the first
 					// and last slides
 					var distance = Math.abs( ( index - i ) % ( slidesLength - 3 ) ) || 0;
@@ -1431,7 +1431,7 @@ var Reveal = (function(){
 		clearTimeout( autoSlideTimeout );
 
 		// Cue the next auto-slide if enabled
-		if( autoSlide && !isPaused() && !isOverviewActive() ) {
+		if( autoSlide && !isPaused() && !isOverview() ) {
 			autoSlideTimeout = setTimeout( navigateNext, autoSlide );
 		}
 
@@ -1449,7 +1449,7 @@ var Reveal = (function(){
 	function navigateLeft() {
 
 		// Prioritize hiding fragments
-		if( availableRoutes().left && isOverviewActive() || previousFragment() === false ) {
+		if( availableRoutes().left && isOverview() || previousFragment() === false ) {
 			slide( indexh - 1 );
 		}
 
@@ -1458,7 +1458,7 @@ var Reveal = (function(){
 	function navigateRight() {
 
 		// Prioritize revealing fragments
-		if( availableRoutes().right && isOverviewActive() || nextFragment() === false ) {
+		if( availableRoutes().right && isOverview() || nextFragment() === false ) {
 			slide( indexh + 1 );
 		}
 
@@ -1467,7 +1467,7 @@ var Reveal = (function(){
 	function navigateUp() {
 
 		// Prioritize hiding fragments
-		if( availableRoutes().up && isOverviewActive() || previousFragment() === false ) {
+		if( availableRoutes().up && isOverview() || previousFragment() === false ) {
 			slide( indexh, indexv - 1 );
 		}
 
@@ -1476,7 +1476,7 @@ var Reveal = (function(){
 	function navigateDown() {
 
 		// Prioritize revealing fragments
-		if( availableRoutes().down && isOverviewActive() || nextFragment() === false ) {
+		if( availableRoutes().down && isOverview() || nextFragment() === false ) {
 			slide( indexh, indexv + 1 );
 		}
 
@@ -1572,9 +1572,9 @@ var Reveal = (function(){
 			// end
 			case 35: slide( Number.MAX_VALUE ); break;
 			// space
-			case 32: isOverviewActive() ? deactivateOverview() : navigateNext(); break;
+			case 32: isOverview() ? deactivateOverview() : navigateNext(); break;
 			// return
-			case 13: isOverviewActive() ? deactivateOverview() : triggered = false; break;
+			case 13: isOverview() ? deactivateOverview() : triggered = false; break;
 			// b, period, Logitech presenter tools "black screen" button
 			case 66: case 190: case 191: togglePause(); break;
 			// f
@@ -1779,7 +1779,7 @@ var Reveal = (function(){
 
 		// TODO There's a bug here where the event listeners are not
 		// removed after deactivating the overview.
-		if( isOverviewActive() ) {
+		if( isOverview() ) {
 			event.preventDefault();
 
 			deactivateOverview();
@@ -1837,6 +1837,10 @@ var Reveal = (function(){
 
 		// Toggles the "black screen" mode on/off
 		togglePause: togglePause,
+
+		// State checks
+		isOverview: isOverview,
+		isPaused: isPaused,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
