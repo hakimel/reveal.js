@@ -675,6 +675,9 @@ var Reveal = (function(){
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
+			// Don't auto-slide while in overview mode
+			cancelAutoSlide();
+
 			var wasActive = dom.wrapper.classList.contains( 'overview' );
 
 			dom.wrapper.classList.add( 'overview' );
@@ -794,6 +797,8 @@ var Reveal = (function(){
 
 			slide( indexh, indexv );
 
+			cueAutoSlide();
+
 			// Notify observers of the overview hiding
 			dispatchEvent( 'overviewhidden', {
 				'indexh': indexh,
@@ -862,6 +867,7 @@ var Reveal = (function(){
 	 */
 	function pause() {
 
+		cancelAutoSlide();
 		dom.wrapper.classList.add( 'paused' );
 
 	}
@@ -871,6 +877,7 @@ var Reveal = (function(){
 	 */
 	function resume() {
 
+		cueAutoSlide();
 		dom.wrapper.classList.remove( 'paused' );
 
 	}
@@ -1424,9 +1431,18 @@ var Reveal = (function(){
 		clearTimeout( autoSlideTimeout );
 
 		// Cue the next auto-slide if enabled
-		if( autoSlide ) {
+		if( autoSlide && !isPaused() && !isOverviewActive() ) {
 			autoSlideTimeout = setTimeout( navigateNext, autoSlide );
 		}
+
+	}
+
+	/**
+	 * Cancels any ongoing request to auto-slide.
+	 */
+	function cancelAutoSlide() {
+
+		clearTimeout( autoSlideTimeout );
 
 	}
 
