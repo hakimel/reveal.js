@@ -1529,7 +1529,25 @@ var Reveal = (function(){
 
 	}
 
+	/**
+	 * 
+	 * @return {Boolean} true if current slide is first slide,
+	 * false otherwise
+	 */
 
+	function firstSlide(){
+		return (document.querySelector(SLIDES_SELECTOR + '.past') == null ? true : false);
+	}
+
+	/**
+	 * 
+	 * @return {Boolean} true if current slide is last slide,
+	 * false otherwise
+	 */
+
+	function lastSlide(){
+		return (document.querySelector(SLIDES_SELECTOR + '.future') == null ? true : false);
+	}
 	// --------------------------------------------------------------------//
 	// ----------------------------- EVENTS -------------------------------//
 	// --------------------------------------------------------------------//
@@ -1878,6 +1896,14 @@ var Reveal = (function(){
 		// Returns the current scale of the presentation content
 		getScale: function() {
 			return scale;
+		},
+
+		isFirstSlide: function(){
+			return firstSlide();
+		},
+
+		isLastSlide: function(){
+			return lastSlide();
 		},
 
 		// Helper method, retrieves query string as a key/value hash
