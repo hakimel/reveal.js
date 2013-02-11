@@ -4,12 +4,6 @@
  * 
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
-@font-face {
-  font-family: 'Akkur';
-  src: url("../../lib/font/akkur.otf");
-  font-weight: normal;
-  font-style: normal;
-}
 
 /*********************************************
  * GLOBAL STYLES
@@ -33,7 +27,7 @@ body {
 }
 
 .reveal {
-  font-family: "Akkur", Times, "Times New Roman", serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, serif;
   font-size: 36px;
   font-weight: 200;
   letter-spacing: -0.02em;
@@ -57,7 +51,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eeeeee;
-  font-family: "Akkur", Impact, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
@@ -172,3 +166,6 @@ h2 span {color:#74c043;}
 .hero p {font-size:2.5em;width:100%;height:100%;padding-top:25%;}
 
 .reveal .gap {margin-bottom:50px;}
+
+.reveal section p {text-align:left;margin: 0 0 20px;}
+.reveal section ul {display:block;padding:0 0 0 70px;}

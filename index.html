@@ -6,7 +6,7 @@
 
 		<title>The Spotify Platform presentation</title>
 
-		<meta name="description" content="Understanding all of Spotify's APIs">
+		<meta name="description" content="Understanding everyone's APIs">
 		<meta name="author" content="Andrew Mager">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
 			<div class="slides">
 
 				<section id="intro">
-					<h1>The Spotify Platform</h1>
-					<h3>Fashion Hack 2013</h3>
+					<h1>The Best Music APIs</h1>
+					<h3>#spotifyhackweek</h3>
                     <h3 class="bottom">Andrew Mager (<a href="http://twitter.com/mager">@mager</a>) <span>Hacker Advocate</span></h3>
                     <img src="img/lady.png" id="intro-lady" />
 				</section>
@@ -45,103 +45,34 @@
 					</div>
 				</section>
 
-				<!-- Example of nested vertical slides -->
 				<section data-state="white">
-					<section>
-                        <h2><span>Spotify</span> Play Button</h2>
-                        <img src="img/tumblr.png" id="tumblr" />
-                        <p><a href="http://embed.spotify.com">http://embed.spotify.com</a></p>
-					</section>
-					<section>
-						<h2>Tracks</h2>
-                        <iframe src="https://embed.spotify.com/?uri=spotify:track:5fEWugSKjh5I5DQHl5tkFc&view=coverart" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-                        <pre><code>&lt;iframe src="https://embed.spotify.com/?uri=spotify:track:5fEWugSKjh5I5DQHl5tkFc" width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;</code></pre>
-					</section>
-					<section>
-						<h2>Albums</h2>
-                        <iframe src="https://embed.spotify.com/?uri=spotify:album:7w19PFbxAjwZ7UVNp9z0uT&view=list" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-                        <pre><code>&lt;iframe src="https://embed.spotify.com/?uri=spotify:album:7w19PFbxAjwZ7UVNp9z0uT&view=list" width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;</code></pre>
-					</section>
-					<section>
-						<h2>Playlists</h2>
-                        <iframe src="https://embed.spotify.com/?uri=spotify:user:magerleagues:playlist:5CZ3KO3EExplZOzHDMzgym&view=coverart" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-                        <pre><code>&lt;iframe src="https://embed.spotify.com/?uri=spotify:user:magerleagues:playlist:5CZ3KO3EExplZOzHDMzgym&view=coverart" width="300" height="380" frameborder="0" allowtransparency="true"&gt;&lt;/iframe&gt;</code></pre>
-					</section>
-				</section>
 
-				<section data-state="white">
-                    <section>
-                        <h2><span>Spotify</span> Web API</h2>
-                        <p>A REST interface to search the Spotify catalog</p>
-                        <img src="img/web-api.png" id="web-api" />
-                    </section>
-                    <section>
-                        <h2>Search &amp; Lookup</h2>
-<pre><code>http://ws.spotify.com/service/version/method{.format}?parameters
-
-http://ws.spotify.com/search/1/album.json?q=foo
-http://ws.spotify.com/search/1/artist.json?q=foo
-http://ws.spotify.com/search/1/track.json?q=foo
-
-http://ws.spotify.com/lookup/1/.json?uri={uri}</code></pre>
-                        <ul class="left">
-                            <li>Supports JSON (and XML...)</li>
-                            <li><a href="http://www.spotify.com/us/about/features/advanced-search-syntax/">Advanced search syntax</a></li>
-                            <li>UTF-8 responses</li>
-                            <li>Territory availability</li>
-                            <li>Caching</li>
-                        </ul>
-                        <p><a href="https://developer.spotify.com/technologies/web-api/">https://developer.spotify.com/technologies/web-api/</a></p>
-
-                    </section>
-				</section>
-
-				<section>
-                    <section>
-                        <h2>libspotify</h2>
-                        <p>Embed Spotify in your application or hardware.</p>
-                        <img src="img/boxee.png" />
-                        <p>C library wrapped in Ruby, Python, Java, C#</p>
-                    </section>
-
-                    <section>
-                        <h2>CocoaLibSpotify</h2>
-                        <img src="img/spot-on.png" />
-                        <ul class="left">
-                            <li>Supports iOS, Android</li>
-                            <li>Open source, hosted on <a href="https://github.com/spotify/cocoalibspotify">Github</a></li>
-                        </ul>
-                    </section>
-				</section>
-
-				<section data-state="white">
-                    <section>
-                        <h2>Spotify Apps API</h2>
-                        <img src="img/soundrop.png" />
-                        <p>Apps inside Spotify</p>
-                    </section>
-                    <section>
-                        <h2>Spotify Apps API</h2>
-                        <ul>
-                            <li>Chromium Embedded Framework</li>
-                            <li>HTML 5 support: canvas, drag & drop, geolocation, WebGL, local storage, web workers, sockets</li>
-                            <li>Play music, access and modify playlists, interact with user data</li>
-                            <li>Beta version of async <a href="http://www.hackerden.org/spotify/preview/">1.0 Javascript API</a>.</li>
-                            <li>Beta version of Web Player SDK: (<a href="">Code</a> | <a href="https://developer.spotify.com/technologies/apps/preview/">Docs)</a></li>
-                            <li><a href="http://github.com/spotify/apps-tutorial">Spotify Apps Tutorial</a>: an app that shows you how to make an app. Branch 1.0 uses the asyncronous API.</li>
-                        </ul>
-                    </section>
-				</section>
-
-				<section>
-                    <h1>It's your turn to play</h1>
-                    <h3 class="gap"><a href="http://developer.spotify.com">http://developer.spotify.com</a></h3>
-                    <ul class="left">
-                        <li>Best Spotify Hack: 1 year Premium</li>
-                        <li>Contact: <a href="http://twitter.com/spotifyplatform">@SpotifyPlatform</a>, <a href="mailto:mager@spotify.com">mager@spotify.com</a></li>
+                    <h2>The Echo Nest</h2>
+                    <p>The Echo Nest is the world’s leading music intelligence company. They provide over a trillion data points on over 30 million songs.</p>
+                    <ul>
+                        <li><a href="http://developer.echonest.com/docs/v4">API docs</a>, <a href="https://dl.dropbox.com/u/1452504/echo-nest-api-2013.key">Keynote</a></li>
+                        <li>Hack examples: <a href="http://echonest.com/showcase/">Showcase</a>, <a href="http://static.echonest.com/frog/">Boil The Frog</a>, <a href="http://echonest.com/app/bohemian-rhapsichord/">Bohemian Rhapsichord</a>, <a href="http://labs.echonest.com/Uploader/index.html">Infinite Jukebox</a></li>
+                        <li>API help: <a href="mailto:paul@echonest.com">Paul Lamere</a></li>
                     </ul>
-                    <img src="img/bees.png" />
 
+				</section>
+				<section data-state="white">
+
+                    <h2>Songkick</h2>
+                    <p>The best API for live music. 3 million concerts and over 100,000 setlists. Event details, venue details, similar artists.</p>
+                    <ul>
+                        <li><a href="http://www.songkick.com/developer/">API docs</a></li>
+                        <li>Hack examples: <a href="https://www.hackerleague.org/hackathons/rethink-music-hackers-weekend/hacks/hiptapes">Hiptapes</a>, <a href="https://www.hackerleague.org/hackathons/music-hack-day-london/hacks/spotibrainz">Spotibrainz</a>, <a href="https://www.hackerleague.org/hackathons/music-hack-day-stockholm-13/hacks/gigographics">Gigographics</a></li>
+                        <li>API help: <a href="mailto:sabrina@songkick.com">Sabrina Leandro</a></li>
+                    </ul>
+
+				</section>
+
+				<section>
+                    <h2>libspotify</h2>
+                    <p>Embed Spotify in your application or hardware.</p>
+                    <img src="img/boxee.png" />
+                    <p>C library wrapped in Ruby, Python, Java, C#</p>
 				</section>
 
 			</div>
