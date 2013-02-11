@@ -155,7 +155,7 @@ body {
 
 h2 span {color:#74c043;}
 
-#intro-lady {position: absolute; bottom:10px;right:10px;}
+#intro-lady {position: absolute; top:150px;right:10px;}
 
 #intro h1 {margin-top:20px;}
 #intro h1, #intro h3 {text-align:left;}
