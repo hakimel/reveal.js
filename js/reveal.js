@@ -552,78 +552,82 @@ var Reveal = (function(){
 	 */
 	function layout() {
 
-		// Available space to scale within
-		var availableWidth = dom.wrapper.offsetWidth,
-			availableHeight = dom.wrapper.offsetHeight;
+		if( dom.wrapper ) {
 
-		// Reduce availabe space by margin
-		availableWidth -= ( availableHeight * config.margin );
-		availableHeight -= ( availableHeight * config.margin );
+			// Available space to scale within
+			var availableWidth = dom.wrapper.offsetWidth,
+				availableHeight = dom.wrapper.offsetHeight;
 
-		// Dimensions of the content
-		var slideWidth = config.width,
-			slideHeight = config.height;
+			// Reduce availabe space by margin
+			availableWidth -= ( availableHeight * config.margin );
+			availableHeight -= ( availableHeight * config.margin );
 
-		// Slide width may be a percentage of available width
-		if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
-			slideWidth = parseInt( slideWidth, 10 ) / 100 * availableWidth;
-		}
+			// Dimensions of the content
+			var slideWidth = config.width,
+				slideHeight = config.height;
 
-		// Slide height may be a percentage of available height
-		if( typeof slideHeight === 'string' && /%$/.test( slideHeight ) ) {
-			slideHeight = parseInt( slideHeight, 10 ) / 100 * availableHeight;
-		}
+			// Slide width may be a percentage of available width
+			if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
+				slideWidth = parseInt( slideWidth, 10 ) / 100 * availableWidth;
+			}
 
-		dom.slides.style.width = slideWidth + 'px';
-		dom.slides.style.height = slideHeight + 'px';
+			// Slide height may be a percentage of available height
+			if( typeof slideHeight === 'string' && /%$/.test( slideHeight ) ) {
+				slideHeight = parseInt( slideHeight, 10 ) / 100 * availableHeight;
+			}
 
-		// Determine scale of content to fit within available space
-		scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
+			dom.slides.style.width = slideWidth + 'px';
+			dom.slides.style.height = slideHeight + 'px';
 
-		// Respect max/min scale settings
-		scale = Math.max( scale, config.minScale );
-		scale = Math.min( scale, config.maxScale );
+			// Determine scale of content to fit within available space
+			scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
 
-		// Prefer applying scale via zoom since Chrome blurs scaled content
-		// with nested transforms
-		if( typeof dom.slides.style.zoom !== 'undefined' && !navigator.userAgent.match( /(iphone|ipod|android)/gi ) ) {
-			dom.slides.style.zoom = scale;
-		}
-		// Apply scale transform as a fallback
-		else {
-			var transform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
+			// Respect max/min scale settings
+			scale = Math.max( scale, config.minScale );
+			scale = Math.min( scale, config.maxScale );
 
-			dom.slides.style.WebkitTransform = transform;
-			dom.slides.style.MozTransform = transform;
-			dom.slides.style.msTransform = transform;
-			dom.slides.style.OTransform = transform;
-			dom.slides.style.transform = transform;
-		}
+			// Prefer applying scale via zoom since Chrome blurs scaled content
+			// with nested transforms
+			if( typeof dom.slides.style.zoom !== 'undefined' && !navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi ) ) {
+				dom.slides.style.zoom = scale;
+			}
+			// Apply scale transform as a fallback
+			else {
+				var transform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
 
-		if( config.center ) {
+				dom.slides.style.WebkitTransform = transform;
+				dom.slides.style.MozTransform = transform;
+				dom.slides.style.msTransform = transform;
+				dom.slides.style.OTransform = transform;
+				dom.slides.style.transform = transform;
+			}
 
-			// Select all slides, vertical and horizontal
-			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
+			if( config.center ) {
 
-			// Determine the minimum top offset for slides
-			var minTop = -slideHeight / 2;
+				// Select all slides, vertical and horizontal
+				var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
 
-			for( var i = 0, len = slides.length; i < len; i++ ) {
-				var slide = slides[ i ];
+				// Determine the minimum top offset for slides
+				var minTop = -slideHeight / 2;
 
-				// Don't bother updating invisible slides
-				if( slide.style.display === 'none' ) {
-					continue;
+				for( var i = 0, len = slides.length; i < len; i++ ) {
+					var slide = slides[ i ];
+
+					// Don't bother updating invisible slides
+					if( slide.style.display === 'none' ) {
+						continue;
+					}
+
+					// Vertical stacks are not centered since their section
+					// children will be
+					if( slide.classList.contains( 'stack' ) ) {
+						slide.style.top = 0;
+					}
+					else {
+						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
+					}
 				}
 
-				// Vertical stacks are not centered since their section
-				// children will be
-				if( slide.classList.contains( 'stack' ) ) {
-					slide.style.top = 0;
-				}
-				else {
-					slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
-				}
 			}
 
 		}
