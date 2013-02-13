@@ -439,7 +439,7 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			var actionEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+			var actionEvent = 'ontouchstart' in window && window.ontouchstart != null ? 'touchstart' : 'click';
 			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateLeftClicked, false ); } );
 			dom.controlsRight.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateRightClicked, false ); } );
 			dom.controlsUp.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateUpClicked, false ); } );
