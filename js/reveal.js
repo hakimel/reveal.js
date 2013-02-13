@@ -1529,25 +1529,7 @@ var Reveal = (function(){
 
 	}
 
-	/**
-	 * 
-	 * @return {Boolean} true if current slide is first slide,
-	 * false otherwise
-	 */
 
-	function firstSlide(){
-		return (document.querySelector(SLIDES_SELECTOR + '.past') == null ? true : false);
-	}
-
-	/**
-	 * 
-	 * @return {Boolean} true if current slide is last slide,
-	 * false otherwise
-	 */
-
-	function lastSlide(){
-		return (document.querySelector(SLIDES_SELECTOR + '.future') == null ? true : false);
-	}
 	// --------------------------------------------------------------------//
 	// ----------------------------- EVENTS -------------------------------//
 	// --------------------------------------------------------------------//
@@ -1898,14 +1880,6 @@ var Reveal = (function(){
 			return scale;
 		},
 
-		isFirstSlide: function(){
-			return firstSlide();
-		},
-
-		isLastSlide: function(){
-			return lastSlide();
-		},
-
 		// Helper method, retrieves query string as a key/value hash
 		getQueryHash: function() {
 			var query = {};
@@ -1915,6 +1889,21 @@ var Reveal = (function(){
 			} );
 
 			return query;
+		},
+
+		// Returns true if we're currently on the first slide
+		isFirstSlide: function() {
+			return document.querySelector( SLIDES_SELECTOR + '.past' ) == null ? true : false;
+		},
+
+		// Returns true if we're currently on the last slide
+		isLastSlide: function() {
+			if( currentSlide && currentSlide.classList.contains( '.stack' ) ) {
+				return currentSlide.querySelector( SLIDES_SELECTOR + '.future' ) == null ? true : false;
+			}
+			else {
+				return document.querySelector( SLIDES_SELECTOR + '.future' ) == null ? true : false;
+			}
 		},
 
 		// Forward event binding to the reveal DOM element
