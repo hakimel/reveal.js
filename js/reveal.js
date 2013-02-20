@@ -408,7 +408,7 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			var actionEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+			var actionEvent = 'ontouchstart' in window && window.ontouchstart != null ? 'touchstart' : 'click';
 			dom.controlsLeft.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateLeftClicked, false ); } );
 			dom.controlsRight.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateRightClicked, false ); } );
 			dom.controlsUp.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateUpClicked, false ); } );
