@@ -138,6 +138,30 @@ var Reveal = (function(){
 			handled: false,
 			threshold: 80
 		};
+        /**
+         * Return a sorted fragments list, ordered by an increasing "fragment-pos" attribute.
+         *
+         * Fragments will be revealed in the order that they are returned by
+         * this function, so you can use "fragment-pos" attributes to control
+         * the order of fragment appearance.
+         *
+         * To maintain a sensible default fragment order, fragments are presumed
+         * to be passed in document order. This function adds a "fragment-pos"
+         * attribute to each node if such an attribute is not already present,
+         * and sets that attribute to an integer value which is the position of
+         * the fragment within the fragments list.
+         *
+         */
+        function sort_fragments( fragments ) {
+            var a = toArray(fragments)
+            a.forEach( function (el, idx) {
+                    if (!el.hasAttribute('fragment-pos')) {
+                        el.setAttribute('fragment-pos', idx) }})
+            a.sort(function(l, r) {
+                    return l.getAttribute( 'fragment-pos' )
+                           - r.getAttribute( 'fragment-pos') })
+            return a
+        }
 
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -997,6 +1021,7 @@ var Reveal = (function(){
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
 			var fragments = currentSlide.querySelectorAll( '.fragment' );
+                        fragments = sort_fragments(fragments)
 
 			toArray( fragments ).forEach( function( fragment, indexf ) {
 				if( indexf < f ) {
@@ -1368,6 +1393,7 @@ var Reveal = (function(){
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+                        verticalFragments = sort_fragments(verticalFragments)
 			if( verticalFragments.length ) {
 				verticalFragments[0].classList.add( 'visible' );
 
@@ -1379,6 +1405,7 @@ var Reveal = (function(){
 		// Horizontal slides:
 		else {
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+                        horizontalFragments = sort_fragments(horizontalFragments)
 			if( horizontalFragments.length ) {
 				horizontalFragments[0].classList.add( 'visible' );
 
@@ -1403,6 +1430,7 @@ var Reveal = (function(){
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+                        verticalFragments = sort_fragments(verticalFragments)
 			if( verticalFragments.length ) {
 				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
 
@@ -1414,6 +1442,7 @@ var Reveal = (function(){
 		// Horizontal slides:
 		else {
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+                        horizontalFragments = sort_fragments(horizontalFragments)
 			if( horizontalFragments.length ) {
 				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
 
