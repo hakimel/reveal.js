@@ -138,30 +138,31 @@ var Reveal = (function(){
 			handled: false,
 			threshold: 80
 		};
-        /**
-         * Return a sorted fragments list, ordered by an increasing "fragment-pos" attribute.
-         *
-         * Fragments will be revealed in the order that they are returned by
-         * this function, so you can use "fragment-pos" attributes to control
-         * the order of fragment appearance.
-         *
-         * To maintain a sensible default fragment order, fragments are presumed
-         * to be passed in document order. This function adds a "fragment-pos"
-         * attribute to each node if such an attribute is not already present,
-         * and sets that attribute to an integer value which is the position of
-         * the fragment within the fragments list.
-         *
-         */
-        function sort_fragments( fragments ) {
-            var a = toArray(fragments)
-            a.forEach( function (el, idx) {
-                    if (!el.hasAttribute('fragment-pos')) {
-                        el.setAttribute('fragment-pos', idx) }})
-            a.sort(function(l, r) {
-                    return l.getAttribute( 'fragment-pos' )
-                           - r.getAttribute( 'fragment-pos') })
-            return a
-        }
+
+    /**
+     * Return a sorted fragments list, ordered by an increasing "fragment-pos" attribute.
+     *
+     * Fragments will be revealed in the order that they are returned by
+     * this function, so you can use "fragment-pos" attributes to control
+     * the order of fragment appearance.
+     *
+     * To maintain a sensible default fragment order, fragments are presumed
+     * to be passed in document order. This function adds a "fragment-pos"
+     * attribute to each node if such an attribute is not already present,
+     * and sets that attribute to an integer value which is the position of
+     * the fragment within the fragments list.
+     *
+     */
+    function sort_fragments( fragments ) {
+        var a = toArray(fragments)
+        a.forEach( function (el, idx) {
+                if (!el.hasAttribute('fragment-pos')) {
+                    el.setAttribute('fragment-pos', idx) }})
+        a.sort(function(l, r) {
+                return l.getAttribute( 'fragment-pos' )
+                       - r.getAttribute( 'fragment-pos') })
+        return a
+    }
 
 	/**
 	 * Starts up the presentation if the client is capable.
