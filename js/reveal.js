@@ -129,6 +129,9 @@ var Reveal = (function(){
 		// A delay used to deactivate the overview mode
 		deactivateOverviewTimeout = 0,
 
+		// Flags if the interaction event listeners are bound
+		eventsAreBound = false,
+
 		// Holds information about the currently ongoing touch input
 		touch = {
 			startX: 0,
@@ -390,6 +393,8 @@ var Reveal = (function(){
 	 */
 	function addEventListeners() {
 
+		eventsAreBound = true;
+
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
 		window.addEventListener( 'resize', onWindowResize, false );
 
@@ -423,6 +428,8 @@ var Reveal = (function(){
 	 * Unbinds all event listeners.
 	 */
 	function removeEventListeners() {
+
+		eventsAreBound = false;
 
 		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
@@ -1801,7 +1808,7 @@ var Reveal = (function(){
 
 		// TODO There's a bug here where the event listeners are not
 		// removed after deactivating the overview.
-		if( isOverview() ) {
+		if( eventsAreBound && isOverview() ) {
 			event.preventDefault();
 
 			deactivateOverview();
