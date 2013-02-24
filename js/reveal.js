@@ -335,40 +335,40 @@ var Reveal = (function(){
 	/**
 	 * Applies the configuration settings from the config object.
 	 */
-	function configure() {
+	function configure( options ) {
 
-		if( supports3DTransforms === false ) {
-			config.transition = 'linear';
-		}
+		dom.wrapper.classList.remove( config.transition );
 
-		if( config.controls && dom.controls ) {
-			dom.controls.style.display = 'block';
-		}
+		// New config options may be passed when this method
+		// is invoked through the API after initialization
+		if( typeof options === 'object' ) extend( config, options );
 
-		if( config.progress && dom.progress ) {
-			dom.progress.style.display = 'block';
-		}
+		// Force linear transition based on browser capabilities
+		if( supports3DTransforms === false ) config.transition = 'linear';
 
-		if( config.transition !== 'default' ) {
-			dom.wrapper.classList.add( config.transition );
-		}
+		dom.wrapper.classList.add( config.transition );
 
-		if( config.rtl ) {
-			dom.wrapper.classList.add( 'rtl' );
-		}
+		dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
+		dom.progress.style.display = ( config.progress && dom.progress ) ? 'block' : 'none';
 
-		if( config.center ) {
-			dom.wrapper.classList.add( 'center' );
-		}
+		dom.wrapper.classList.toggle( 'rtl', config.rtl );
+		dom.wrapper.classList.toggle( 'center', config.center );
 
 		if( config.mouseWheel ) {
 			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
 			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
+		else {
+			document.removeEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
+			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
+		}
 
 		// 3D links
 		if( config.rollingLinks ) {
-			linkify();
+			enable3DLinks();
+		}
+		else {
+			disable3DLinks();
 		}
 
 		// Load the theme in the config, if it's not already loaded
@@ -524,23 +524,42 @@ var Reveal = (function(){
 	/**
 	 * Wrap all links in 3D goodness.
 	 */
-	function linkify() {
+	function enable3DLinks() {
 
 		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
-			var nodes = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
+			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
 
-			for( var i = 0, len = nodes.length; i < len; i++ ) {
-				var node = nodes[i];
+			for( var i = 0, len = anchors.length; i < len; i++ ) {
+				var anchor = anchors[i];
 
-				if( node.textContent && !node.querySelector( '*' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
+				if( anchor.textContent && !anchor.querySelector( '*' ) && ( !anchor.className || !anchor.classList.contains( anchor, 'roll' ) ) ) {
 					var span = document.createElement('span');
-					span.setAttribute('data-title', node.text);
-					span.innerHTML = node.innerHTML;
+					span.setAttribute('data-title', anchor.text);
+					span.innerHTML = anchor.innerHTML;
 
-					node.classList.add( 'roll' );
-					node.innerHTML = '';
-					node.appendChild(span);
+					anchor.classList.add( 'roll' );
+					anchor.innerHTML = '';
+					anchor.appendChild(span);
 				}
+			}
+		}
+
+	}
+
+	/**
+	 * Unwrap all 3D links.
+	 */
+	function disable3DLinks() {
+
+		var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
+
+		for( var i = 0, len = anchors.length; i < len; i++ ) {
+			var anchor = anchors[i];
+			var span = anchor.querySelector( 'span' );
+
+			if( span ) {
+				anchor.classList.remove( 'roll' );
+				anchor.innerHTML = span.innerHTML;
 			}
 		}
 
@@ -602,30 +621,29 @@ var Reveal = (function(){
 				dom.slides.style.transform = transform;
 			}
 
-			if( config.center ) {
+			// Select all slides, vertical and horizontal
+			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
 
-				// Select all slides, vertical and horizontal
-				var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
+			for( var i = 0, len = slides.length; i < len; i++ ) {
+				var slide = slides[ i ];
 
-				// Determine the minimum top offset for slides
-				var minTop = -slideHeight / 2;
+				// Don't bother updating invisible slides
+				if( slide.style.display === 'none' ) {
+					continue;
+				}
 
-				for( var i = 0, len = slides.length; i < len; i++ ) {
-					var slide = slides[ i ];
-
-					// Don't bother updating invisible slides
-					if( slide.style.display === 'none' ) {
-						continue;
-					}
-
+				if( config.center ) {
 					// Vertical stacks are not centered since their section
 					// children will be
 					if( slide.classList.contains( 'stack' ) ) {
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
+						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, -slideHeight / 2 ) + 'px';
 					}
+				}
+				else {
+					slide.style.top = '';
 				}
 
 			}
@@ -1812,6 +1830,7 @@ var Reveal = (function(){
 
 	return {
 		initialize: initialize,
+		configure: configure,
 
 		// Navigation methods
 		slide: slide,
