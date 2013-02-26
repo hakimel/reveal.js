@@ -1811,19 +1811,23 @@ var Reveal = (function(){
 		if( eventsAreBound && isOverview() ) {
 			event.preventDefault();
 
-			deactivateOverview();
-
 			var element = event.target;
 
 			while( element && !element.nodeName.match( /section/gi ) ) {
 				element = element.parentNode;
 			}
 
-			if( element.nodeName.match( /section/gi ) ) {
-				var h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
-					v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
+			if( element && !element.classList.contains( 'disabled' ) ) {
 
-				slide( h, v );
+				deactivateOverview();
+
+				if( element.nodeName.match( /section/gi ) ) {
+					var h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
+						v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
+
+					slide( h, v );
+				}
+
 			}
 		}
 

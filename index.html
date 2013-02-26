@@ -373,5 +373,51 @@ function linkify( selector ) {
 
 		</script>
 
+		<!-- Everything below this point is unrelated to the slideshow -->
+
+		<div class="share-reveal" style="display: none; position: absolute; bottom: 10px; left: 50%; margin-left: -205px; z-index: 20;">
+			<a href="http://twitter.com/share" class="twitter-share-button" data-text="reveal.js - an HTML presentation framework from @hakimel." data-url="http://lab.hakim.se/reveal-js" data-count="small" data-related="hakimel"></a>
+
+			<iframe id="facebook-button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fapp.hakim.se%2Freveal-js%2F&layout=button_count&show_faces=false&width=93&action=like&font=arial&colorscheme=light&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:24px; position: relative; top: 4px;" allowTransparency="true"></iframe>
+
+			<a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://lab.hakim.se/reveal-js"></a>
+
+			<a href="https://twitter.com/rvlio" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @rvlio</a>
+		</div>
+
+		<a class="fork-reveal" style="display: none;" href="https://github.com/hakimel/reveal.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
+
+		<script>
+		var _gaq = [['_setAccount', 'UA-15240703-1'], ['_trackPageview']];
+		(function(d, t) {
+		var g = d.createElement(t),
+			s = d.getElementsByTagName(t)[0];
+		g.async = true;
+		g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g, s);
+		})(document, 'script');
+		</script>
+
+		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			(function() {
+				var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+				s.type = 'text/javascript';
+				s.async = true;
+				s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+				t.parentNode.insertBefore(s, t);
+			})();
+		/* ]]> */
+		</script>
+
+		<script>
+			if( !navigator.userAgent.match( /iphone|ipod|android|ipad|blackberry/gi ) && !!document.querySelector ) {
+				document.querySelector( '.share-reveal' ).style.display = 'block';
+				document.querySelector( '.fork-reveal' ).style.display = 'block';
+			}
+		</script>
+
 	</body>
 </html>
