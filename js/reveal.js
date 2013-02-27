@@ -928,8 +928,14 @@ var Reveal = (function(){
 	 */
 	function pause() {
 
+		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+
 		cancelAutoSlide();
 		dom.wrapper.classList.add( 'paused' );
+
+		if( wasPaused === false ) {
+			dispatchEvent( 'paused' );
+		}
 
 	}
 
@@ -938,8 +944,14 @@ var Reveal = (function(){
 	 */
 	function resume() {
 
+		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+
 		cueAutoSlide();
 		dom.wrapper.classList.remove( 'paused' );
+
+		if( wasPaused ) {
+			dispatchEvent( 'resumed' );
+		}
 
 	}
 
