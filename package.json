@@ -1,31 +1,34 @@
 {
-	"name": "reveal.js",
-	"version": "2.3.0",
-	"description": "The HTML Presentation Framework",
-	"homepage": "http://lab.hakim.se/reveal-js",
-	"author": {
-		"name": "Hakim El Hattab",
-		"email": "hakim.elhattab@gmail.com",
-		"web": "http://hakim.se"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/hakimel/reveal.js.git"
-	},
-	"engines": {
-		"node": "~0.8.0"
-	},
-	"scripts": {
-		"test": "grunt lint qunit"
-	},
-	"dependencies": {
-		"underscore" : "~1.3.3",
-		"express" : "~2.5.9",
-		"socket.io" : "~0.9.6",
-		"mustache" : "~0.4.0"
-	},
-	"devDependencies": {
-		"grunt-contrib-mincss": "~0.3.1",
-		"grunt": "~0.3.17"
-	}
+  "name": "reveal.js",
+  "version": "2.3.0",
+  "description": "The HTML Presentation Framework",
+  "homepage": "http://lab.hakim.se/reveal-js",
+  "author": {
+    "name": "Hakim El Hattab",
+    "email": "hakim.elhattab@gmail.com",
+    "web": "http://hakim.se"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hakimel/reveal.js.git"
+  },
+  "engines": {
+    "node": "~0.8.0"
+  },
+  "scripts": {
+    "test": "grunt lint qunit"
+  },
+  "dependencies": {
+    "underscore": "~1.3.3",
+    "express": "~2.5.9",
+    "socket.io": "~0.9.6",
+    "mustache": "~0.4.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-cssmin": "~0.4.1",
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt": "~0.4.0"
+  }
 }
