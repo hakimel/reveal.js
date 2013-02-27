@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		meta: {
-			banner: 
+			banner:
 				'/*!\n' +
 				' * reveal.js <%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd, HH:MM") %>)\n' +
 				' * http://lab.hakim.se/reveal-js\n' +
@@ -25,13 +25,13 @@ module.exports = function(grunt) {
 		},
 
 		uglify: {
-      options: {
-        banner: '<%= meta.banner %> \n'
-      },
-      build: {
-        src: 'js/reveal.js',
-        dest: 'js/reveal.min.js'
-      }
+			options: {
+				banner: '<%= meta.banner %>\n'
+			},
+			build: {
+				src: 'js/reveal.js',
+				dest: 'js/reveal.min.js'
+			}
 		},
 
 		cssmin: {
@@ -80,4 +80,3 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
 
 };
- 
