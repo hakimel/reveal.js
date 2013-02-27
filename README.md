@@ -270,6 +270,16 @@ Multiple fragments can be applied to the same element sequentially by wrapping i
 </section>
 ```
 
+The display order of fragments can be controlled using the ```data-fragment-index``` attribute.
+
+```html
+<section>
+	<p class="fragment" data-fragment-index="3">Appears last</p>
+	<p class="fragment" data-fragment-index="1">Appears first</p>
+	<p class="fragment" data-fragment-index="2">Appears second</p>
+</section>
+```
+
 ### Fragment events
 
 When a slide fragment is either shown or hidden reveal.js will dispatch an event.
