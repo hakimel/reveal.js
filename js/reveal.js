@@ -313,10 +313,6 @@ var Reveal = (function(){
 		// Updates the presentation to match the current configuration values
 		configure();
 
-		// Force an initial layout, will thereafter be invoked as the window
-		// is resized
-		layout();
-
 		// Read the initial hash
 		readURL();
 
@@ -396,6 +392,9 @@ var Reveal = (function(){
 				dom.theme.setAttribute( 'href', themeURL );
 			}
 		}
+
+		// Force a layout to make sure the current config is accounted for
+		layout();
 
 	}
 
