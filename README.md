@@ -49,6 +49,14 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 </section>
 ```
 
+#### External Markdown
+
+You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file.
+
+```html
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
+```
+
 ### Configuration
 
 At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
