@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 		},
 
 		jshint: {
-			files: [ 'gruntfile.js', 'js/reveal.js' ]
+			files: [ 'Gruntfile.js', 'js/reveal.js' ]
 		},
 
 		// Tests will be added soon
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			files: [ 'gruntfile.js', 'js/reveal.js', 'css/reveal.css' ],
+			files: [ 'Gruntfile.js', 'js/reveal.js', 'css/reveal.css' ],
 			tasks: 'default'
 		}
 
