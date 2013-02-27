@@ -354,8 +354,19 @@ var Reveal = (function(){
 		dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
 		dom.progress.style.display = ( config.progress && dom.progress ) ? 'block' : 'none';
 
-		dom.wrapper.classList.toggle( 'rtl', config.rtl );
-		dom.wrapper.classList.toggle( 'center', config.center );
+		if( config.rtl ) {
+			dom.wrapper.classList.add( 'rtl' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'rtl' );
+		}
+
+		if( config.center ) {
+			dom.wrapper.classList.add( 'center' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'center' );
+		}
 
 		if( config.mouseWheel ) {
 			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
