@@ -11,7 +11,7 @@
         var template = section.querySelector( 'script' );
 
         // strip leading whitespace so it isn't evaluated as code
-        var text = ( template || section ).innerHTML;
+        var text = ( template || section ).textContent;
 
         var leadingWs = text.match(/^\n?(\s*)/)[1].length,
             leadingTabs = text.match(/^\n?(\t*)/)[1].length;
