@@ -129,6 +129,9 @@ var Reveal = (function(){
 		// A delay used to deactivate the overview mode
 		deactivateOverviewTimeout = 0,
 
+		// Flags if the interaction event listeners are bound
+		eventsAreBound = false,
+
 		// Holds information about the currently ongoing touch input
 		touch = {
 			startX: 0,
@@ -310,10 +313,6 @@ var Reveal = (function(){
 		// Updates the presentation to match the current configuration values
 		configure();
 
-		// Force an initial layout, will thereafter be invoked as the window
-		// is resized
-		layout();
-
 		// Read the initial hash
 		readURL();
 
@@ -335,40 +334,51 @@ var Reveal = (function(){
 	/**
 	 * Applies the configuration settings from the config object.
 	 */
-	function configure() {
+	function configure( options ) {
 
-		if( supports3DTransforms === false ) {
-			config.transition = 'linear';
-		}
+		dom.wrapper.classList.remove( config.transition );
 
-		if( config.controls && dom.controls ) {
-			dom.controls.style.display = 'block';
-		}
+		// New config options may be passed when this method
+		// is invoked through the API after initialization
+		if( typeof options === 'object' ) extend( config, options );
 
-		if( config.progress && dom.progress ) {
-			dom.progress.style.display = 'block';
-		}
+		// Force linear transition based on browser capabilities
+		if( supports3DTransforms === false ) config.transition = 'linear';
 
-		if( config.transition !== 'default' ) {
-			dom.wrapper.classList.add( config.transition );
-		}
+		dom.wrapper.classList.add( config.transition );
+
+		dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
+		dom.progress.style.display = ( config.progress && dom.progress ) ? 'block' : 'none';
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
 		}
+		else {
+			dom.wrapper.classList.remove( 'rtl' );
+		}
 
 		if( config.center ) {
 			dom.wrapper.classList.add( 'center' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'center' );
 		}
 
 		if( config.mouseWheel ) {
 			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
 			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
+		else {
+			document.removeEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
+			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
+		}
 
 		// 3D links
 		if( config.rollingLinks ) {
-			linkify();
+			enable3DLinks();
+		}
+		else {
+			disable3DLinks();
 		}
 
 		// Load the theme in the config, if it's not already loaded
@@ -383,12 +393,17 @@ var Reveal = (function(){
 			}
 		}
 
+		// Force a layout to make sure the current config is accounted for
+		layout();
+
 	}
 
 	/**
 	 * Binds all event listeners.
 	 */
 	function addEventListeners() {
+
+		eventsAreBound = true;
 
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
 		window.addEventListener( 'resize', onWindowResize, false );
@@ -423,6 +438,8 @@ var Reveal = (function(){
 	 * Unbinds all event listeners.
 	 */
 	function removeEventListeners() {
+
+		eventsAreBound = false;
 
 		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
@@ -524,25 +541,76 @@ var Reveal = (function(){
 	/**
 	 * Wrap all links in 3D goodness.
 	 */
-	function linkify() {
+	function enable3DLinks() {
 
 		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
-			var nodes = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
+			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
 
-			for( var i = 0, len = nodes.length; i < len; i++ ) {
-				var node = nodes[i];
+			for( var i = 0, len = anchors.length; i < len; i++ ) {
+				var anchor = anchors[i];
 
-				if( node.textContent && !node.querySelector( '*' ) && ( !node.className || !node.classList.contains( node, 'roll' ) ) ) {
+				if( anchor.textContent && !anchor.querySelector( '*' ) && ( !anchor.className || !anchor.classList.contains( anchor, 'roll' ) ) ) {
 					var span = document.createElement('span');
-					span.setAttribute('data-title', node.text);
-					span.innerHTML = node.innerHTML;
+					span.setAttribute('data-title', anchor.text);
+					span.innerHTML = anchor.innerHTML;
 
-					node.classList.add( 'roll' );
-					node.innerHTML = '';
-					node.appendChild(span);
+					anchor.classList.add( 'roll' );
+					anchor.innerHTML = '';
+					anchor.appendChild(span);
 				}
 			}
 		}
+
+	}
+
+	/**
+	 * Unwrap all 3D links.
+	 */
+	function disable3DLinks() {
+
+		var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
+
+		for( var i = 0, len = anchors.length; i < len; i++ ) {
+			var anchor = anchors[i];
+			var span = anchor.querySelector( 'span' );
+
+			if( span ) {
+				anchor.classList.remove( 'roll' );
+				anchor.innerHTML = span.innerHTML;
+			}
+		}
+
+	}
+
+	/**
+	 * Return a sorted fragments list, ordered by an increasing
+	 * "data-fragment-index" attribute.
+	 *
+	 * Fragments will be revealed in the order that they are returned by
+	 * this function, so you can use the index attributes to control the 
+	 * order of fragment appearance.
+	 *
+	 * To maintain a sensible default fragment order, fragments are presumed
+	 * to be passed in document order. This function adds a "fragment-index"
+	 * attribute to each node if such an attribute is not already present,
+	 * and sets that attribute to an integer value which is the position of
+	 * the fragment within the fragments list.
+	 */
+	function sortFragments( fragments ) {
+
+		var a = toArray( fragments );
+
+		a.forEach( function( el, idx ) {
+			if( !el.hasAttribute( 'data-fragment-index' ) ) {
+				el.setAttribute( 'data-fragment-index', idx );
+			}
+		} );
+
+		a.sort( function( l, r ) {
+			return l.getAttribute( 'data-fragment-index' ) - r.getAttribute( 'data-fragment-index');
+		} );
+
+		return a
 
 	}
 
@@ -602,30 +670,29 @@ var Reveal = (function(){
 				dom.slides.style.transform = transform;
 			}
 
-			if( config.center ) {
+			// Select all slides, vertical and horizontal
+			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
 
-				// Select all slides, vertical and horizontal
-				var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
+			for( var i = 0, len = slides.length; i < len; i++ ) {
+				var slide = slides[ i ];
 
-				// Determine the minimum top offset for slides
-				var minTop = -slideHeight / 2;
+				// Don't bother updating invisible slides
+				if( slide.style.display === 'none' ) {
+					continue;
+				}
 
-				for( var i = 0, len = slides.length; i < len; i++ ) {
-					var slide = slides[ i ];
-
-					// Don't bother updating invisible slides
-					if( slide.style.display === 'none' ) {
-						continue;
-					}
-
+				if( config.center ) {
 					// Vertical stacks are not centered since their section
 					// children will be
 					if( slide.classList.contains( 'stack' ) ) {
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, minTop ) + 'px';
+						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, -slideHeight / 2 ) + 'px';
 					}
+				}
+				else {
+					slide.style.top = '';
 				}
 
 			}
@@ -871,8 +938,14 @@ var Reveal = (function(){
 	 */
 	function pause() {
 
+		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+
 		cancelAutoSlide();
 		dom.wrapper.classList.add( 'paused' );
+
+		if( wasPaused === false ) {
+			dispatchEvent( 'paused' );
+		}
 
 	}
 
@@ -881,8 +954,14 @@ var Reveal = (function(){
 	 */
 	function resume() {
 
+		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+
 		cueAutoSlide();
 		dom.wrapper.classList.remove( 'paused' );
+
+		if( wasPaused ) {
+			dispatchEvent( 'resumed' );
+		}
 
 	}
 
@@ -996,7 +1075,7 @@ var Reveal = (function(){
 
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
-			var fragments = currentSlide.querySelectorAll( '.fragment' );
+			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
 
 			toArray( fragments ).forEach( function( fragment, indexf ) {
 				if( indexf < f ) {
@@ -1367,7 +1446,8 @@ var Reveal = (function(){
 
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+			var verticalFragments = sortFragments( document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' ) );
+
 			if( verticalFragments.length ) {
 				verticalFragments[0].classList.add( 'visible' );
 
@@ -1378,7 +1458,8 @@ var Reveal = (function(){
 		}
 		// Horizontal slides:
 		else {
-			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+			var horizontalFragments = sortFragments( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' ) );
+
 			if( horizontalFragments.length ) {
 				horizontalFragments[0].classList.add( 'visible' );
 
@@ -1402,7 +1483,8 @@ var Reveal = (function(){
 
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+			var verticalFragments = sortFragments( document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' ) );
+
 			if( verticalFragments.length ) {
 				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
 
@@ -1413,7 +1495,8 @@ var Reveal = (function(){
 		}
 		// Horizontal slides:
 		else {
-			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+			var horizontalFragments = sortFragments( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' ) );
+
 			if( horizontalFragments.length ) {
 				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
 
@@ -1783,10 +1866,8 @@ var Reveal = (function(){
 
 		// TODO There's a bug here where the event listeners are not
 		// removed after deactivating the overview.
-		if( isOverview() ) {
+		if( eventsAreBound && isOverview() ) {
 			event.preventDefault();
-
-			deactivateOverview();
 
 			var element = event.target;
 
@@ -1794,11 +1875,17 @@ var Reveal = (function(){
 				element = element.parentNode;
 			}
 
-			if( element.nodeName.match( /section/gi ) ) {
-				var h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
-					v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
+			if( element && !element.classList.contains( 'disabled' ) ) {
 
-				slide( h, v );
+				deactivateOverview();
+
+				if( element.nodeName.match( /section/gi ) ) {
+					var h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
+						v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
+
+					slide( h, v );
+				}
+
 			}
 		}
 
@@ -1812,6 +1899,7 @@ var Reveal = (function(){
 
 	return {
 		initialize: initialize,
+		configure: configure,
 
 		// Navigation methods
 		slide: slide,

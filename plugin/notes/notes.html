@@ -225,6 +225,13 @@
 
 					}, 1000 );
 
+					// Navigate the main window when the notes slide changes
+					currentSlide.contentWindow.Reveal.addEventListener( 'slidechanged', function( event ) {
+
+						window.opener.Reveal.slide( event.indexh, event.indexv );
+
+					} );
+
 				}
 				else {
 

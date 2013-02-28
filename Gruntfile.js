@@ -3,19 +3,11 @@ module.exports = function(grunt) {
 
 	// Project configuration
 	grunt.initConfig({
-		pkg: '<json:package.json>',
-
-		inputJS: 'js/reveal.js',
-		inputCSS: 'css/reveal.css',
-
-		outputJS: 'js/reveal.min.js',
-		outputCSS: 'css/reveal.min.css',
-
+		pkg: grunt.file.readJSON('package.json'),
 		meta: {
-			version: '2.3',
-			banner: 
+			banner:
 				'/*!\n' +
-				' * reveal.js <%= meta.version %> (<%= grunt.template.today("yyyy-mm-dd, HH:MM") %>)\n' +
+				' * reveal.js <%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd, HH:MM") %>)\n' +
 				' * http://lab.hakim.se/reveal-js\n' +
 				' * MIT licensed\n' +
 				' *\n' +
@@ -23,8 +15,8 @@ module.exports = function(grunt) {
 				' */'
 		},
 
-		lint: {
-			files: [ 'grunt.js', '<%= inputJS %>' ]
+		jshint: {
+			files: [ 'Gruntfile.js', 'js/reveal.js' ]
 		},
 
 		// Tests will be added soon
@@ -32,17 +24,20 @@ module.exports = function(grunt) {
 			files: [ 'test/**/*.html' ]
 		},
 
-		min: {
-			dist: {
-				src: [ '<banner:meta.banner>', '<%= inputJS %>' ],
-				dest: '<%= outputJS %>'
+		uglify: {
+			options: {
+				banner: '<%= meta.banner %>\n'
+			},
+			build: {
+				src: 'js/reveal.js',
+				dest: 'js/reveal.min.js'
 			}
 		},
 
-		mincss: {
+		cssmin: {
 			compress: {
 				files: {
-					'<%= outputCSS %>': [ '<%= inputCSS %>' ]
+					'css/reveal.min.css': [ 'css/reveal.css' ]
 				}
 			}
 		},
@@ -69,16 +64,19 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			files: [ 'grunt.js', '<%= inputJS %>', '<%= inputCSS %>' ],
+			files: [ 'Gruntfile.js', 'js/reveal.js', 'css/reveal.css' ],
 			tasks: 'default'
 		}
 
 	});
 
 	// Dependencies
-	grunt.loadNpmTasks( 'grunt-contrib-mincss' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'lint', 'mincss', 'min' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
 
 };

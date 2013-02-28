@@ -37,7 +37,7 @@ Markup heirarchy needs to be ``<div class="reveal"> <div class="slides"> <sectio
 
 It's possible to write your slides using Markdown. To enable Markdown, add the ```data-markdown``` attribute to your ```<section>``` elements and wrap the contents in a ```<script type="text/template">``` like the example below.
 
-This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) which in turn uses [showdown](https://github.com/coreyti/showdown/). This is sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
+This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) which in turn uses [showdown](https://github.com/coreyti/showdown/). Sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
 
 ```html
 <section data-markdown>
@@ -47,6 +47,14 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 		A paragraph with some text and a [link](http://hakim.se).
 	</script>
 </section>
+```
+
+#### External Markdown
+
+You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file.
+
+```html
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
 ```
 
 ### Configuration
@@ -267,6 +275,16 @@ Multiple fragments can be applied to the same element sequentially by wrapping i
 	<span class="fragment fade-in">
 		<span class="fragment fade-out">I'll fade in, then out</span>
 	</span>
+</section>
+```
+
+The display order of fragments can be controlled using the ```data-fragment-index``` attribute.
+
+```html
+<section>
+	<p class="fragment" data-fragment-index="3">Appears last</p>
+	<p class="fragment" data-fragment-index="1">Appears first</p>
+	<p class="fragment" data-fragment-index="2">Appears second</p>
 </section>
 ```
 
