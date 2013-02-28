@@ -347,11 +347,13 @@ var Reveal = (function(){
 
 		dom.wrapper.classList.add( config.transition );
 
-		if (dom.controls)
+		if( dom.controls ) {
 			dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
+		}
 
-		if (dom.progress)
+		if( dom.progress ) {
 			dom.progress.style.display = ( config.progress && dom.progress ) ? 'block' : 'none';
+		}
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
