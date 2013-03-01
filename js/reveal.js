@@ -44,7 +44,7 @@ var Reveal = (function(){
 			// Enable the slide overview mode
 			overview: true,
 
-			// Vertical centering of slides
+			// Vertical centring of slides
 			center: true,
 
 			// Enables touch navigation on devices with touch input
@@ -81,7 +81,7 @@ var Reveal = (function(){
 		// after n milliseconds
 		autoSlide = config.autoSlide,
 
-		// The horizontal and verical index of the currently active slide
+		// The horizontal and vertical index of the currently active slide
 		indexh = 0,
 		indexv = 0,
 
@@ -276,7 +276,7 @@ var Reveal = (function(){
 			}
 		}
 
-		// Called once synchronous scritps finish loading
+		// Called once synchronous scripts finish loading
 		function proceed() {
 			if( scriptsAsync.length ) {
 				// Load asynchronous scripts
@@ -631,7 +631,7 @@ var Reveal = (function(){
 			var availableWidth = dom.wrapper.offsetWidth,
 				availableHeight = dom.wrapper.offsetHeight;
 
-			// Reduce availabe space by margin
+			// Reduce available space by margin
 			availableWidth -= ( availableHeight * config.margin );
 			availableHeight -= ( availableHeight * config.margin );
 
@@ -687,7 +687,7 @@ var Reveal = (function(){
 				}
 
 				if( config.center ) {
-					// Vertical stacks are not centered since their section
+					// Vertical stacks are not centred since their section
 					// children will be
 					if( slide.classList.contains( 'stack' ) ) {
 						slide.style.top = 0;
