@@ -276,7 +276,7 @@ var Reveal = (function(){
 			}
 		}
 
-		// Called once synchronous scritps finish loading
+		// Called once synchronous scripts finish loading
 		function proceed() {
 			if( scriptsAsync.length ) {
 				// Load asynchronous scripts
