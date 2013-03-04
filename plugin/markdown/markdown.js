@@ -26,7 +26,11 @@
         return text;
 
     };
-
+    
+    var twrap = function(el) {
+      return '<script type="text/template">' + el + '</script>';
+    };
+    
     var slidifyMarkdown = function(markdown, separator, vertical) {
 
         separator = separator || '^\n---\n$';
@@ -74,8 +78,8 @@
         // flatten the hierarchical stack, and insert <section data-markdown> tags
         for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
             markdownSections += typeof sectionStack[k] === 'string'
-                ? '<section data-markdown>' + sectionStack[k] + '</section>'
-                : '<section><section data-markdown>' + sectionStack[k].join('</section><section data-markdown>') + '</section></section>';
+                ? '<section data-markdown>' +  twrap( sectionStack[k] )  + '</section>'
+                : '<section><section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section></section>';
         }
 
         return markdownSections;
