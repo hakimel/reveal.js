@@ -29,6 +29,7 @@
     "grunt-contrib-cssmin": "~0.4.1",
     "grunt-contrib-uglify": "~0.1.1",
     "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-sass": "~0.2.2",
     "grunt": "~0.4.0"
   }
 }
