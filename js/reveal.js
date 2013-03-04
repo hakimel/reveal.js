@@ -416,9 +416,9 @@ var Reveal = (function(){
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) {
-			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-			document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+			dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
+			dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
+			dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
 		}
 
 		if( config.keyboard ) {
@@ -430,13 +430,14 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			var actionEvent = 'ontouchstart' in window && window.ontouchstart != null ? 'touchstart' : 'click';
-			dom.controlsLeft.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateLeftClicked, false ); } );
-			dom.controlsRight.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateRightClicked, false ); } );
-			dom.controlsUp.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateUpClicked, false ); } );
-			dom.controlsDown.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateDownClicked, false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.addEventListener( actionEvent, onNavigatePrevClicked, false ); } );
-			dom.controlsNext.forEach( function( el ) { el.addEventListener( actionEvent, onNavigateNextClicked, false ); } );
+			[ 'touchstart', 'click' ].forEach( function( eventName ) {
+				dom.controlsLeft.forEach( function( el ) { el.addEventListener( eventName, onNavigateLeftClicked, false ); } );
+				dom.controlsRight.forEach( function( el ) { el.addEventListener( eventName, onNavigateRightClicked, false ); } );
+				dom.controlsUp.forEach( function( el ) { el.addEventListener( eventName, onNavigateUpClicked, false ); } );
+				dom.controlsDown.forEach( function( el ) { el.addEventListener( eventName, onNavigateDownClicked, false ); } );
+				dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
+				dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
+			} );
 		}
 
 	}
@@ -453,9 +454,9 @@ var Reveal = (function(){
 		window.removeEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) {
-			document.removeEventListener( 'touchstart', onDocumentTouchStart, false );
-			document.removeEventListener( 'touchmove', onDocumentTouchMove, false );
-			document.removeEventListener( 'touchend', onDocumentTouchEnd, false );
+			dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
+			dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
+			dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 		}
 
 		if ( config.progress && dom.progress ) {
@@ -463,13 +464,14 @@ var Reveal = (function(){
 		}
 
 		if ( config.controls && dom.controls ) {
-			var actionEvent = 'ontouchstart' in window && window.ontouchstart != null ? 'touchstart' : 'click';
-			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateLeftClicked, false ); } );
-			dom.controlsRight.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateRightClicked, false ); } );
-			dom.controlsUp.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateUpClicked, false ); } );
-			dom.controlsDown.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateDownClicked, false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigatePrevClicked, false ); } );
-			dom.controlsNext.forEach( function( el ) { el.removeEventListener( actionEvent, onNavigateNextClicked, false ); } );
+			[ 'touchstart', 'click' ].forEach( function( eventName ) {
+				dom.controlsLeft.forEach( function( el ) { el.removeEventListener( eventName, onNavigateLeftClicked, false ); } );
+				dom.controlsRight.forEach( function( el ) { el.removeEventListener( eventName, onNavigateRightClicked, false ); } );
+				dom.controlsUp.forEach( function( el ) { el.removeEventListener( eventName, onNavigateUpClicked, false ); } );
+				dom.controlsDown.forEach( function( el ) { el.removeEventListener( eventName, onNavigateDownClicked, false ); } );
+				dom.controlsPrev.forEach( function( el ) { el.removeEventListener( eventName, onNavigatePrevClicked, false ); } );
+				dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
+			} );
 		}
 
 	}
@@ -1695,10 +1697,10 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Handler for the document level 'touchstart' event,
-	 * enables support for swipe and pinch gestures.
+	 * Handler for the 'touchstart' event, enables support for 
+	 * swipe and pinch gestures.
 	 */
-	function onDocumentTouchStart( event ) {
+	function onTouchStart( event ) {
 
 		touch.startX = event.touches[0].clientX;
 		touch.startY = event.touches[0].clientY;
@@ -1719,9 +1721,9 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Handler for the document level 'touchmove' event.
+	 * Handler for the 'touchmove' event.
 	 */
-	function onDocumentTouchMove( event ) {
+	function onTouchMove( event ) {
 
 		// Each touch should only trigger one action
 		if( !touch.handled ) {
@@ -1793,9 +1795,9 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Handler for the document level 'touchend' event.
+	 * Handler for the 'touchend' event.
 	 */
-	function onDocumentTouchEnd( event ) {
+	function onTouchEnd( event ) {
 
 		touch.handled = false;
 
