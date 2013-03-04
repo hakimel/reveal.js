@@ -1324,8 +1324,8 @@ var Reveal = (function(){
 			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
 		return {
-			left: indexh > 0,
-			right: indexh < horizontalSlides.length - 1,
+			left: indexh > 0 || config.loop,
+			right: indexh < horizontalSlides.length - 1 || config.loop,
 			up: indexv > 0,
 			down: indexv < verticalSlides.length - 1
 		};
