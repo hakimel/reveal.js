@@ -718,7 +718,7 @@ var Reveal = (function(){
 	 */
 	function setPreviousVerticalIndex( stack, v ) {
 
-		if( stack ) {
+		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' ) {
 			stack.setAttribute( 'data-previous-indexv', v || 0 );
 		}
 
@@ -733,7 +733,7 @@ var Reveal = (function(){
 	 */
 	function getPreviousVerticalIndex( stack ) {
 
-		if( stack && stack.classList.contains( 'stack' ) ) {
+		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
 			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
 		}
 
