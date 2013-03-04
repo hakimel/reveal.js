@@ -77,9 +77,8 @@ var Reveal = (function(){
 			dependencies: []
 		},
 
-		// Stores if the next slide should be shown automatically
-		// after n milliseconds
-		autoSlide = config.autoSlide,
+		// The current auto-slide duration
+		autoSlide = 0,
 
 		// The horizontal and vertical index of the currently active slide
 		indexh = 0,
@@ -316,9 +315,6 @@ var Reveal = (function(){
 		// Read the initial hash
 		readURL();
 
-		// Start auto-sliding if it's enabled
-		cueAutoSlide();
-
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( function() {
@@ -400,6 +396,12 @@ var Reveal = (function(){
 
 		// Force a layout to make sure the current config is accounted for
 		layout();
+
+		// Reflect the current autoSlide value
+		autoSlide = config.autoSlide;
+
+		// Start auto-sliding if it's enabled
+		cueAutoSlide();
 
 	}
 
