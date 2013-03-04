@@ -1543,7 +1543,7 @@ var Reveal = (function(){
 	function navigateLeft() {
 
 		// Prioritize hiding fragments
-		if( availableRoutes().left && isOverview() || previousFragment() === false ) {
+		if( availableRoutes().left && ( isOverview() || previousFragment() === false ) ) {
 			slide( indexh - 1 );
 		}
 
@@ -1552,7 +1552,7 @@ var Reveal = (function(){
 	function navigateRight() {
 
 		// Prioritize revealing fragments
-		if( availableRoutes().right && isOverview() || nextFragment() === false ) {
+		if( availableRoutes().right && ( isOverview() || nextFragment() === false ) ) {
 			slide( indexh + 1 );
 		}
 
