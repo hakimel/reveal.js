@@ -419,6 +419,13 @@ var Reveal = (function(){
 			dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
 			dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
 			dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
+
+			// Support pointer-style touch interaction as well
+			if( window.navigator.msPointerEnabled ) {
+				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
+				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
+				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
+			}
 		}
 
 		if( config.keyboard ) {
@@ -457,6 +464,12 @@ var Reveal = (function(){
 			dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
 			dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 			dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
+
+			if( window.navigator.msPointerEnabled ) {
+				dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
+				dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
+				dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
+			}
 		}
 
 		if ( config.progress && dom.progress ) {
@@ -1800,6 +1813,42 @@ var Reveal = (function(){
 	function onTouchEnd( event ) {
 
 		touch.handled = false;
+
+	}
+
+	/**
+	 * Convert pointer down to touch start.
+	 */
+	function onPointerDown( event ) {
+
+		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
+			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
+			this.onTouchStart( event );
+		}
+
+	}
+
+	/**
+	 * Convert pointer move to touch move.
+	 */
+	function onPointerMove( event ) {
+
+		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
+			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
+			this.onTouchMove( event );
+		}
+
+	}
+
+	/**
+	 * Convert pointer up to touch end.
+	 */
+	function onPointerUp( event ) {
+
+		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
+			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
+			this.onTouchEnd( event );
+		}
 
 	}
 
