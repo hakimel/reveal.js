@@ -27,17 +27,23 @@
 				width: 1280px;
 				height: 1024px;
 				border: none;
-				-moz-transform: scale(0.5);
-				-moz-transform-origin: 0 0;
-				-o-transform: scale(0.5);
-				-o-transform-origin: 0 0;
-				-webkit-transform: scale(0.5);
+				
 				-webkit-transform-origin: 0 0;
+				   -moz-transform-origin: 0 0;
+				    -ms-transform-origin: 0 0;
+				     -o-transform-origin: 0 0;
+				        transform-origin: 0 0;
+				 
+				-webkit-transform: scale(0.5);
+				   -moz-transform: scale(0.5);
+				    -ms-transform: scale(0.5);
+				     -o-transform: scale(0.5);
+				        transform: scale(0.5);
 			}
 
 			#wrap-next-slide {
-				width: 320px;
-				height: 256px;
+				width: 448px;
+				height: 358px;
 				float: left;
 				margin: 0 0 0 10px;
 				overflow: hidden;
@@ -47,12 +53,18 @@
 				width: 1280px;
 				height: 1024px;
 				border: none;
-				-moz-transform: scale(0.25);
-				-moz-transform-origin: 0 0;
-				-o-transform: scale(0.25);
-				-o-transform-origin: 0 0;
-				-webkit-transform: scale(0.25);
+				
 				-webkit-transform-origin: 0 0;
+				   -moz-transform-origin: 0 0;
+				    -ms-transform-origin: 0 0;
+				     -o-transform-origin: 0 0;
+				        transform-origin: 0 0;
+
+				-webkit-transform: scale(0.35);
+				   -moz-transform: scale(0.35);
+				    -ms-transform: scale(0.35);
+				     -o-transform: scale(0.35);
+				        transform: scale(0.35);
 			}
 
 			.slides {
@@ -87,6 +99,7 @@
 		<div id="notes"></div>
 
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="/plugin/markdown/showdown.js"></script>
 
 		<script>
 		var socketId = '{{socketId}}';
@@ -99,9 +112,26 @@
 			// ignore data from sockets that aren't ours
 			if (data.socketId !== socketId) { return; }
 
-			notes.innerHTML = data.notes;
-			currentSlide.contentWindow.Reveal.navigateTo(data.indexh, data.indexv);
-			nextSlide.contentWindow.Reveal.navigateTo(data.nextindexh, data.nextindexv);
+			if (data.markdown) {
+				notes.innerHTML = (new Showdown.converter()).makeHtml(data.notes);
+			}
+			else {
+				notes.innerHTML = data.notes;
+			}
+
+			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
+			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
+		});
+		socket.on('fragmentdata', function(data) {
+			// ignore data from sockets that aren't ours
+			if (data.socketId !== socketId) { return; }
+
+			if (data.fragment === 'next') {
+				currentSlide.contentWindow.Reveal.nextFragment();
+			}
+			else if (data.fragment === 'previous') {
+				currentSlide.contentWindow.Reveal.prevFragment();
+			}
 		});
 		</script>
 

@@ -1,22 +1,42 @@
 @charset "UTF-8";
-/**
- * Main styles for reveal.js 
+
+/*!
+ * reveal.js
+ * http://lab.hakim.se/reveal-js
+ * MIT licensed
  *
- * @author Hakim El Hattab
+ * Copyright (C) 2013 Hakim El Hattab, http://hakim.se
  */
 
 
 /*********************************************
- * FONT-FACE DEFINITIONS
+ * RESET STYLES
  *********************************************/
 
-@font-face {
-	font-family: 'League Gothic';
-    src: url('../lib/font/league_gothic-webfont.eot');
-    src: url('../lib/font/league_gothic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../lib/font/league_gothic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe,
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal blockquote, .reveal pre,
+.reveal a, .reveal abbr, .reveal acronym, .reveal address, .reveal big, .reveal cite, .reveal code,
+.reveal del, .reveal dfn, .reveal em, .reveal img, .reveal ins, .reveal kbd, .reveal q, .reveal s, .reveal samp,
+.reveal small, .reveal strike, .reveal strong, .reveal sub, .reveal sup, .reveal tt, .reveal var,
+.reveal b, .reveal u, .reveal i, .reveal center,
+.reveal dl, .reveal dt, .reveal dd, .reveal ol, .reveal ul, .reveal li,
+.reveal fieldset, .reveal form, .reveal label, .reveal legend,
+.reveal table, .reveal caption, .reveal tbody, .reveal tfoot, .reveal thead, .reveal tr, .reveal th, .reveal td,
+.reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed,
+.reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup,
+.reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary,
+.reveal time, .reveal mark, .reveal audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
+.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
+	display: block;
 }
 
 
@@ -24,81 +44,46 @@
  * GLOBAL STYLES
  *********************************************/
 
-html, body {
-	padding: 0;
-	margin: 0;
+html,
+body {
 	width: 100%;
 	height: 100%;
-	min-height: 600px;
+	overflow: hidden;
 }
 
 body {
 	position: relative;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-	
-	font-family: 'Lato', Times, 'Times New Roman', serif;
-	font-size: 36px;
-	font-weight: 200;
-	letter-spacing: -0.02em;
-	color: #eee;
-
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1NTVhNWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWMxZTIwIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-	background-color: #2b2b2b;
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(85,90,95,1) 0%, rgba(28,30,32,1) 100%);
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(85,90,95,1)), color-stop(100%,rgba(28,30,32,1)));
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(85,90,95,1) 0%,rgba(28,30,32,1) 100%);
-	background: -o-radial-gradient(center, ellipse cover,  rgba(85,90,95,1) 0%,rgba(28,30,32,1) 100%);
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(85,90,95,1) 0%,rgba(28,30,32,1) 100%);
-	background: radial-gradient(center, ellipse cover,  rgba(85,90,95,1) 0%,rgba(28,30,32,1) 100%);
+	line-height: 1;
 }
+
+::selection {
+	background: #FF5E99;
+	color: #fff;
+	text-shadow: none;
+}
+
 
 /*********************************************
  * HEADERS
  *********************************************/
-.reveal h1, 
-.reveal h2, 
-.reveal h3, 
-.reveal h4 {
-	margin: 0 0 20px 0;
-	
-	color: #eee;
-	
-	font-family: 'League Gothic', sans-serif;
-	line-height: 0.9em;
-	letter-spacing: 0.02em;
-	
-	text-transform: uppercase;
-	text-shadow: 0px 0px 6px rgba(0,0,0,0.2);
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+	-webkit-hyphens: auto;
+	   -moz-hyphens: auto;
+	        hyphens: auto;
+
+	word-wrap: break-word;
 }
 
-.reveal h1 { font-size: 136px; 	}
-.reveal h2 { font-size: 76px;	}
-.reveal h3 { font-size: 56px;	}
-.reveal h4 { font-size: 36px;	}
-
-.reveal h1.inverted,
-.reveal h2.inverted,
-.reveal h3.inverted,
-.reveal h4.inverted {
-	color: #fff;
-	text-shadow: 0px 0px 2px rgba(0,0,0,0.2);
-}
-
-.reveal h1 {
-	text-shadow: 0 1px 0 #ccc,
-                 0 2px 0 #c9c9c9,
-                 0 3px 0 #bbb,
-                 0 4px 0 #b9b9b9,
-                 0 5px 0 #aaa,
-                 0 6px 1px rgba(0,0,0,.1),
-                 0 0 5px rgba(0,0,0,.1),
-                 0 1px 3px rgba(0,0,0,.3),
-                 0 3px 5px rgba(0,0,0,.2),
-                 0 5px 10px rgba(0,0,0,.25),
-                 0 20px 20px rgba(0,0,0,.15);
-}
+.reveal h1 { font-size: 3.77em; }
+.reveal h2 { font-size: 2.11em;	}
+.reveal h3 { font-size: 1.55em;	}
+.reveal h4 { font-size: 1em;	}
 
 
 /*********************************************
@@ -118,32 +103,109 @@ body {
 		opacity: 1;
 	}
 
+.reveal .slides section .fragment.grow {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.grow.visible {
+		-webkit-transform: scale( 1.3 );
+		   -moz-transform: scale( 1.3 );
+		    -ms-transform: scale( 1.3 );
+		     -o-transform: scale( 1.3 );
+		        transform: scale( 1.3 );
+	}
+
+.reveal .slides section .fragment.shrink {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.shrink.visible {
+		-webkit-transform: scale( 0.7 );
+		   -moz-transform: scale( 0.7 );
+		    -ms-transform: scale( 0.7 );
+		     -o-transform: scale( 0.7 );
+		        transform: scale( 0.7 );
+	}
+
+.reveal .slides section .fragment.roll-in {
+	opacity: 0;
+
+	-webkit-transform: rotateX( 90deg );
+	   -moz-transform: rotateX( 90deg );
+	    -ms-transform: rotateX( 90deg );
+	     -o-transform: rotateX( 90deg );
+	        transform: rotateX( 90deg );
+}
+	.reveal .slides section .fragment.roll-in.visible {
+		opacity: 1;
+
+		-webkit-transform: rotateX( 0 );
+		   -moz-transform: rotateX( 0 );
+		    -ms-transform: rotateX( 0 );
+		     -o-transform: rotateX( 0 );
+		        transform: rotateX( 0 );
+	}
+
+.reveal .slides section .fragment.fade-out {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.fade-out.visible {
+		opacity: 0;
+	}
+
+.reveal .slides section .fragment.highlight-red,
+.reveal .slides section .fragment.highlight-green,
+.reveal .slides section .fragment.highlight-blue {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.highlight-red.visible {
+		color: #ff2c2d
+	}
+	.reveal .slides section .fragment.highlight-green.visible {
+		color: #17ff2e;
+	}
+	.reveal .slides section .fragment.highlight-blue.visible {
+		color: #1b91ff;
+	}
+
 
 /*********************************************
  * DEFAULT ELEMENT STYLES
  *********************************************/
 
-.reveal .slides section {
-	line-height: 1.2em;
-	font-weight: normal;
+/* Fixes issue in Chrome where italic fonts did not appear when printing to PDF */
+.reveal:after {
+  content: '';
+  font-style: italic;
 }
 
-.reveal strong, 
+/* Ensure certain elements are never larger than the slide itself */
+.reveal img,
+.reveal video,
+.reveal iframe {
+	max-width: 95%;
+	max-height: 95%;
+}
+
+/** Prevents layering issues in certain browser/transition combinations */
+.reveal a {
+	position: relative;
+}
+
+.reveal strong,
 .reveal b {
 	font-weight: bold;
 }
 
-.reveal em, 
+.reveal em,
 .reveal i {
 	font-style: italic;
 }
 
-.reveal ol, 
+.reveal ol,
 .reveal ul {
 	display: inline-block;
 
 	text-align: left;
-	margin: 0 auto;
+	margin: 0 0 0 1em;
 }
 
 .reveal ol {
@@ -172,6 +234,12 @@ body {
 
 .reveal p {
 	margin-bottom: 10px;
+	line-height: 1.2em;
+}
+
+.reveal q,
+.reveal blockquote {
+	quotes: none;
 }
 
 .reveal blockquote {
@@ -180,26 +248,40 @@ body {
 	width: 70%;
 	margin: 5px auto;
 	padding: 5px;
-	
+
 	font-style: italic;
 	background: rgba(255, 255, 255, 0.05);
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
+	.reveal blockquote p:first-child,
+	.reveal blockquote p:last-child {
+		display: inline-block;
+	}
 	.reveal blockquote:before {
-		content: '“';
+		content: '\201C';
 	}
 	.reveal blockquote:after {
-		content: '”';
+		content: '\201D';
+	}
+
+.reveal q {
+	font-style: italic;
+}
+	.reveal q:before {
+		content: '\201C';
+	}
+	.reveal q:after {
+		content: '\201D';
 	}
 
 .reveal pre {
 	display: block;
 	position: relative;
 	width: 90%;
-	margin: 10px auto;
+	margin: 15px auto;
 
 	text-align: left;
-	font-size: 20px;
+	font-size: 0.55em;
 	font-family: monospace;
 	line-height: 1.2em;
 
@@ -207,91 +289,43 @@ body {
 
 	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
+.reveal pre code {
+	padding: 5px;
+}
 
 .reveal code {
 	font-family: monospace;
+	overflow: auto;
+	max-height: 400px;
 }
 
-.reveal table th, 
+.reveal table th,
 .reveal table td {
- 	 text-align: left;
- 	 padding-right: .3em;
+	text-align: left;
+	padding-right: .3em;
 }
 
 .reveal table th {
- 	 text-shadow: rgb(255,255,255) 1px 1px 2px;
+	text-shadow: rgb(255,255,255) 1px 1px 2px;
 }
 
-.reveal sup { 
+.reveal sup {
 	vertical-align: super;
 }
-.reveal sub { 
+.reveal sub {
 	vertical-align: sub;
 }
 
 .reveal small {
-	font-size: 60%;
-	line-height: 1em;
+	display: inline-block;
+	font-size: 0.6em;
+	line-height: 1.2em;
 	vertical-align: top;
 }
 
 .reveal small * {
 	vertical-align: top;
 }
-
-.reveal q {	
-	font-style: italic;
-}
-	.reveal q:before {
-		content: '“';
-	}
-	.reveal q:after {
-		content: '”';
-	}
-
-.reveal a:not(.image) {
-	color: hsl(185, 85%, 50%);
-	text-decoration: none;
-
-	-webkit-transition: color .15s ease;
-	   -moz-transition: color .15s ease;
-	    -ms-transition: color .15s ease;
-	     -o-transition: color .15s ease;
-	        transition: color .15s ease;
-}
-	
-	.reveal a:not(.image):hover {
-		color: hsl(185, 85%, 70%);
-		
-		text-shadow: none;
-		border: none;
-		border-radius: 2px;
-	}
-
-.reveal section img {
-	margin: 30px 0 0 0;
-	background: rgba(255,255,255,0.12);
-	border: 4px solid #eee;
-	
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	
-	-webkit-transition: all .2s linear;
-	   -moz-transition: all .2s linear;
-	    -ms-transition: all .2s linear;
-	     -o-transition: all .2s linear;
-	        transition: all .2s linear;
-}
-
-	.reveal a:hover img {
-		background: rgba(255,255,255,0.2);
-		border-color: #13DAEC;
-		
-		-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
-		   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
-		        box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
-	}
 
 
 /*********************************************
@@ -301,48 +335,65 @@ body {
 .reveal .controls {
 	display: none;
 	position: fixed;
-	width: 100px;
-	height: 100px;
+	width: 110px;
+	height: 110px;
 	z-index: 30;
-
-	right: 0;
-	bottom: 0;
+	right: 10px;
+	bottom: 10px;
 }
-	
-	.reveal .controls a {
-		font-size: 30px;
-		position: absolute;
-		opacity: 0.1;
-		color: #fff;
-	}
-		.reveal .controls a.enabled {
-			opacity: 0.6;
-			color: hsl(185, 85%, 70%);
 
-			text-shadow: 0px 0px 2px hsla(185, 45%, 70%, 0.3);
-		}
-		.reveal .controls a.enabled:active {
-			margin-top: 1px;
-		}
+.reveal .controls div {
+	position: absolute;
+	opacity: 0.1;
+	width: 0; 
+	height: 0; 
+	border: 12px solid transparent;
 
-	.reveal .controls .left {
-		top: 30px;
-	}
+	-webkit-transition: opacity 0.2s ease;
+	   -moz-transition: opacity 0.2s ease;
+	    -ms-transition: opacity 0.2s ease;
+	     -o-transition: opacity 0.2s ease;
+	        transition: opacity 0.2s ease;
+}
 
-	.reveal .controls .right {
-		left: 60px;
-		top: 30px;
-	}
+.reveal .controls div.enabled {
+	opacity: 0.6;
+	cursor: pointer;
+}
 
-	.reveal .controls .up {
-		left: 30px;
-	}
+.reveal .controls div.enabled:active {
+	margin-top: 1px;
+}
 
-	.reveal .controls .down {
-		left: 30px;
-		top: 60px;
+.reveal .controls div.navigate-left {
+	top: 42px;
 
-	}
+	border-right-width: 22px;
+	border-right-color: #eee;
+}
+
+.reveal .controls div.navigate-right {
+	left: 74px;
+	top: 42px;
+
+	border-left-width: 22px;
+	border-left-color: #eee;
+}
+
+.reveal .controls div.navigate-up {
+	left: 42px;
+
+	border-bottom-width: 22px;
+	border-bottom-color: #eee;
+}
+
+.reveal .controls div.navigate-down {
+	left: 42px;
+	top: 74px;
+
+	border-top-width: 22px;
+	border-top-color: #eee;
+}
 
 
 /*********************************************
@@ -356,13 +407,18 @@ body {
 	width: 100%;
 	bottom: 0;
 	left: 0;
-
-	background: rgba(0,0,0,0.2);
+	z-index: 10;
 }
-	
+	.reveal .progress:after {
+		content: '';
+		display: 'block';
+		position: absolute;
+		height: 20px;
+		width: 100%;
+		top: -20px;
+	}
 	.reveal .progress span {
 		display: block;
-		background: hsl(185, 85%, 50%);
 		height: 100%;
 		width: 0px;
 
@@ -373,85 +429,84 @@ body {
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
+
 /*********************************************
  * ROLLING LINKS
  *********************************************/
 
 .reveal .roll {
-    display: inline-block;
-    overflow: hidden;
+	display: inline-block;
+	line-height: 1.2;
+	overflow: hidden;
 
-    vertical-align: top;
+	vertical-align: top;
 
-    -webkit-perspective: 400px;
-       -moz-perspective: 400px;
-        -ms-perspective: 400px;
-            perspective: 400px;
+	-webkit-perspective: 400px;
+	   -moz-perspective: 400px;
+	    -ms-perspective: 400px;
+	        perspective: 400px;
 
-    -webkit-perspective-origin: 50% 50%;
-       -moz-perspective-origin: 50% 50%;
-        -ms-perspective-origin: 50% 50%;
-            perspective-origin: 50% 50%;
+	-webkit-perspective-origin: 50% 50%;
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
 }
 	.reveal .roll:hover {
 		background: none;
 		text-shadow: none;
 	}
 .reveal .roll span {
-    display: block;
-    position: relative;
-    padding: 0 2px;
+	display: block;
+	position: relative;
+	padding: 0 2px;
 
 	pointer-events: none;
 
-    -webkit-transition: all 400ms ease;
-       -moz-transition: all 400ms ease;
-        -ms-transition: all 400ms ease;
-            transition: all 400ms ease;
-    
-    -webkit-transform-origin: 50% 0%;
-       -moz-transform-origin: 50% 0%;
-        -ms-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
-    
-    -webkit-transform-style: preserve-3d;
-       -moz-transform-style: preserve-3d;
-        -ms-transform-style: preserve-3d;
-            transform-style: preserve-3d;
+	-webkit-transition: all 400ms ease;
+	   -moz-transition: all 400ms ease;
+	    -ms-transition: all 400ms ease;
+	        transition: all 400ms ease;
 
-    -webkit-backface-visibility: hidden;
-       -moz-backface-visibility: hidden;
-            backface-visibility: hidden;
+	-webkit-transform-origin: 50% 0%;
+	   -moz-transform-origin: 50% 0%;
+	    -ms-transform-origin: 50% 0%;
+	        transform-origin: 50% 0%;
+
+	-webkit-transform-style: preserve-3d;
+	   -moz-transform-style: preserve-3d;
+	    -ms-transform-style: preserve-3d;
+	        transform-style: preserve-3d;
+
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	        backface-visibility: hidden;
 }
-    .reveal .roll:hover span {
-        background: rgba(0,0,0,0.5);
+	.reveal .roll:hover span {
+	    background: rgba(0,0,0,0.5);
 
-        -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-           -moz-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-            -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-                transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-    }
+	    -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	       -moz-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	        -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	            transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	}
 .reveal .roll span:after {
-    content: attr(data-title);
+	content: attr(data-title);
 
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 0 2px;
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding: 0 2px;
 
-    color: #fff;
-    background: hsl(185, 60%, 35%);
+	-webkit-transform-origin: 50% 0%;
+	   -moz-transform-origin: 50% 0%;
+	    -ms-transform-origin: 50% 0%;
+	        transform-origin: 50% 0%;
 
-    -webkit-transform-origin: 50% 0%;
-       -moz-transform-origin: 50% 0%;
-        -ms-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
-
-    -webkit-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-       -moz-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-        -ms-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-            transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	-webkit-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	   -moz-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	    -ms-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	        transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
 }
 
 
@@ -459,17 +514,21 @@ body {
  * SLIDES
  *********************************************/
 
+.reveal {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
 .reveal .slides {
 	position: absolute;
-	width: 900px;
-	height: 600px;
-	
+	width: 100%;
+	height: 100%;
 	left: 50%;
 	top: 50%;
-	margin-left: -450px;
-	margin-top: -320px;
-	padding: 20px 0px;
-	
+
+	overflow: visible;
+	z-index: 1;
 	text-align: center;
 
 	-webkit-transition: -webkit-perspective .4s ease;
@@ -477,16 +536,16 @@ body {
 	    -ms-transition: -ms-perspective .4s ease;
 	     -o-transition: -o-perspective .4s ease;
 	        transition: perspective .4s ease;
-	
+
 	-webkit-perspective: 600px;
 	   -moz-perspective: 600px;
 	    -ms-perspective: 600px;
 	        perspective: 600px;
 
- 	-webkit-perspective-origin: 50% 25%;
- 	   -moz-perspective-origin: 50% 25%;
- 	    -ms-perspective-origin: 50% 25%;
- 	        perspective-origin: 50% 25%;
+	-webkit-perspective-origin: 0px -100px;
+	   -moz-perspective-origin: 0px -100px;
+	    -ms-perspective-origin: 0px -100px;
+	        perspective-origin: 0px -100px;
 }
 
 .reveal .slides>section,
@@ -494,27 +553,62 @@ body {
 	display: none;
 	position: absolute;
 	width: 100%;
-	min-height: 600px;
+	padding: 20px 0px;
 
-    z-index: 10;
-	
+	z-index: 10;
+	line-height: 1.2em;
+	font-weight: normal;
+
 	-webkit-transform-style: preserve-3d;
 	   -moz-transform-style: preserve-3d;
 	    -ms-transform-style: preserve-3d;
 	        transform-style: preserve-3d;
-	
-	-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-	   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-	    -ms-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-	     -o-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-	        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+
+	-webkit-transition: -webkit-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						-webkit-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	   -moz-transition: -moz-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	   					-moz-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	    -ms-transition: -ms-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	    				-ms-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	     -o-transition: -o-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	     				-o-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	        transition: transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	        			transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-.reveal .slides>section.present {
+.reveal .slides>section {
+	left: -50%;
+	top: -50%;
+}
+
+.reveal .slides>section.stack {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.reveal .slides>section.present,
+.reveal .slides>section>section.present {
 	display: block;
 	z-index: 11;
 	opacity: 1;
 }
+
+.reveal.center,
+.reveal.center .slides,
+.reveal.center .slides section {
+	min-height: auto !important;
+}
+
 
 
 /*********************************************
@@ -524,7 +618,7 @@ body {
 .reveal .slides>section.past {
 	display: block;
 	opacity: 0;
-	
+
 	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	   -moz-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
@@ -533,7 +627,7 @@ body {
 .reveal .slides>section.future {
 	display: block;
 	opacity: 0;
-	
+
 	-webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	    -ms-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
@@ -543,20 +637,20 @@ body {
 .reveal .slides>section>section.past {
 	display: block;
 	opacity: 0;
-	
-	-webkit-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
-	   -moz-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
-	    -ms-transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
-	        transform: translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -50%, 0);
+
+	-webkit-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	   -moz-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	    -ms-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	        transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
 }
 .reveal .slides>section>section.future {
 	display: block;
 	opacity: 0;
-	
-	-webkit-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
-	   -moz-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
-	    -ms-transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
-	        transform: translate3d(0, 50%, 0) rotateX(-70deg) translate3d(0, 50%, 0);
+
+	-webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	   -moz-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	    -ms-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	        transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
 }
 
 
@@ -588,6 +682,47 @@ body {
 	   -moz-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	    -ms-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 	        transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
+}
+
+
+/*********************************************
+ * ZOOM TRANSITION
+ *********************************************/
+
+.reveal.zoom .slides>section.past {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(16);
+	   -moz-transform: scale(16);
+	    -ms-transform: scale(16);
+	     -o-transform: scale(16);
+	        transform: scale(16);
+}
+.reveal.zoom .slides>section.future {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(0.2);
+	   -moz-transform: scale(0.2);
+	    -ms-transform: scale(0.2);
+	     -o-transform: scale(0.2);
+	        transform: scale(0.2);
+}
+
+.reveal.zoom .slides>section>section.past {
+	-webkit-transform: translate(0, -150%);
+	   -moz-transform: translate(0, -150%);
+	    -ms-transform: translate(0, -150%);
+	     -o-transform: translate(0, -150%);
+	        transform: translate(0, -150%);
+}
+.reveal.zoom .slides>section>section.future {
+	-webkit-transform: translate(0, 150%);
+	   -moz-transform: translate(0, 150%);
+	    -ms-transform: translate(0, 150%);
+	     -o-transform: translate(0, 150%);
+	        transform: translate(0, 150%);
 }
 
 
@@ -625,18 +760,12 @@ body {
 	        transform: translate(0, 150%);
 }
 
+
 /*********************************************
- * BOX TRANSITION
+ * CUBE TRANSITION
  *********************************************/
 
 .reveal.cube .slides {
-	margin-top: -350px;
-
-	-webkit-perspective-origin: 50% 25%;
- 	   -moz-perspective-origin: 50% 25%;
- 	    -ms-perspective-origin: 50% 25%;
- 	        perspective-origin: 50% 25%;
-
 	-webkit-perspective: 1300px;
 	   -moz-perspective: 1300px;
 	    -ms-perspective: 1300px;
@@ -645,16 +774,20 @@ body {
 
 .reveal.cube .slides section {
 	padding: 30px;
+	min-height: 600px;
 
 	-webkit-backface-visibility: hidden;
 	   -moz-backface-visibility: hidden;
 	    -ms-backface-visibility: hidden;
 	        backface-visibility: hidden;
-	
+
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
+	.reveal.center.cube .slides section {
+		min-height: auto;
+	}
 	.reveal.cube .slides section:not(.stack):before {
 		content: '';
 		position: absolute;
@@ -663,7 +796,7 @@ body {
 		height: 100%;
 		left: 0;
 		top: 0;
-		background: #232628;
+		background: rgba(0,0,0,0.1);
 		border-radius: 4px;
 
 		-webkit-transform: translateZ( -20px );
@@ -752,12 +885,10 @@ body {
  *********************************************/
 
 .reveal.page .slides {
-	margin-top: -350px;
-
-	-webkit-perspective-origin: 50% 50%;
- 	   -moz-perspective-origin: 50% 50%;
- 	    -ms-perspective-origin: 50% 50%;
- 	        perspective-origin: 50% 50%;
+	-webkit-perspective-origin: 0% 50%;
+	   -moz-perspective-origin: 0% 50%;
+	    -ms-perspective-origin: 0% 50%;
+	        perspective-origin: 0% 50%;
 
 	-webkit-perspective: 3000px;
 	   -moz-perspective: 3000px;
@@ -767,6 +898,7 @@ body {
 
 .reveal.page .slides section {
 	padding: 30px;
+	min-height: 600px;
 
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
@@ -783,7 +915,7 @@ body {
 		height: 100%;
 		left: 0;
 		top: 0;
-		background: rgba(0,0,0,0.2);
+		background: rgba(0,0,0,0.1);
 
 		-webkit-transform: translateZ( -20px );
 		   -moz-transform: translateZ( -20px );
@@ -863,10 +995,66 @@ body {
 
 
 /*********************************************
+ * FADE TRANSITION
+ *********************************************/
+
+.reveal.fade .slides section,
+.reveal.fade .slides>section>section {
+    -webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
+
+	-webkit-transition: opacity 0.5s;
+	   -moz-transition: opacity 0.5s;
+	    -ms-transition: opacity 0.5s;
+	     -o-transition: opacity 0.5s;
+	        transition: opacity 0.5s;
+}
+
+
+.reveal.fade.overview .slides section,
+.reveal.fade.overview .slides>section>section,
+.reveal.fade.exit-overview .slides section,
+.reveal.fade.exit-overview .slides>section>section {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
+}
+
+
+/*********************************************
+ * NO TRANSITION
+ *********************************************/
+
+.reveal.none .slides section {
+	-webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
+
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
+}
+
+
+/*********************************************
  * OVERVIEW
  *********************************************/
 
 .reveal.overview .slides {
+	-webkit-perspective-origin: 0% 0%;
+	   -moz-perspective-origin: 0% 0%;
+	    -ms-perspective-origin: 0% 0%;
+	        perspective-origin: 0% 0%;
+
 	-webkit-perspective: 700px;
 	   -moz-perspective: 700px;
 	    -ms-perspective: 700px;
@@ -874,13 +1062,15 @@ body {
 }
 
 .reveal.overview .slides section {
-	padding: 20px 0;
-	opacity: 1;
+	height: 600px;
+	overflow: hidden;
+	opacity: 1!important;
+	visibility: visible!important;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
 .reveal.overview .slides section .fragment {
-    opacity: 1;
+	opacity: 1;
 }
 .reveal.overview .slides section:after,
 .reveal.overview .slides section:before {
@@ -893,13 +1083,40 @@ body {
 	.reveal.overview .slides section:hover {
 		background: rgba(0,0,0,0.3);
 	}
-
 	.reveal.overview .slides section.present {
 		background: rgba(0,0,0,0.3);
 	}
 .reveal.overview .slides>section.stack {
-	background: none;
 	padding: 0;
+	background: none;
+	overflow: visible;
+}
+
+
+/*********************************************
+ * PAUSED MODE
+ *********************************************/
+
+.reveal .pause-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	visibility: hidden;
+	opacity: 0;
+	z-index: 100;
+
+	-webkit-transition: all 1s ease;
+	   -moz-transition: all 1s ease;
+	    -ms-transition: all 1s ease;
+	     -o-transition: all 1s ease;
+	        transition: all 1s ease;
+}
+.reveal.paused .pause-overlay {
+	visibility: visible;
+	opacity: 1;
 }
 
 
@@ -911,13 +1128,23 @@ body {
 	overflow-y: auto;
 }
 
+.no-transforms .slides {
+	width: 80%;
+	top: 0;
+	left: 50%;
+	margin: 0;
+	text-align: center;
+}
+
 .no-transforms .slides section {
 	display: block!important;
 	opacity: 1!important;
 	position: relative!important;
 	height: auto;
 	min-height: auto;
-	margin-bottom: 100px;
+	top: 0;
+	left: -50%;
+	margin: 70px 0;
 
 	-webkit-transform: none;
 	   -moz-transform: none;
@@ -925,12 +1152,24 @@ body {
 	        transform: none;
 }
 
+.no-transforms .slides section section {
+	left: 0;
+}
+
+.no-transition {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
+}
+
 
 /*********************************************
- * DEFAULT STATES
+ * BACKGROUND STATES
  *********************************************/
 
-.state-background {
+.reveal .state-background {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -942,14 +1181,40 @@ body {
 	     -o-transition: background 800ms ease;
 	        transition: background 800ms ease;
 }
-.alert .state-background {
+.alert .reveal .state-background {
 	background: rgba( 200, 50, 30, 0.6 );
 }
-.soothe .state-background {
+.soothe .reveal .state-background {
 	background: rgba( 50, 200, 90, 0.4 );
 }
-.blackout .state-background {
+.blackout .reveal .state-background {
 	background: rgba( 0, 0, 0, 0.6 );
+}
+
+
+/*********************************************
+ * RTL SUPPORT
+ *********************************************/
+
+.reveal.rtl .slides,
+.reveal.rtl .slides h1,
+.reveal.rtl .slides h2,
+.reveal.rtl .slides h3,
+.reveal.rtl .slides h4,
+.reveal.rtl .slides h5,
+.reveal.rtl .slides h6 {
+	direction: rtl;
+	font-family: sans-serif;
+}
+
+.reveal.rtl pre,
+.reveal.rtl code {
+	direction: ltr;
+}
+
+.reveal.rtl ol,
+.reveal.rtl ul {
+	text-align: right;
 }
 
 
@@ -963,62 +1228,34 @@ body {
 
 
 /*********************************************
- * NEON THEME
+ * ZOOM PLUGIN
  *********************************************/
 
-.theme-neon .reveal a,
-.theme-neon .reveal a:hover,
-.theme-neon .reveal .controls a.enabled {
-	color: #5de048;
+.zoomed .reveal *,
+.zoomed .reveal *:before,
+.zoomed .reveal *:after {
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+
+	-webkit-backface-visibility: visible !important;
+	   -moz-backface-visibility: visible !important;
+	    -ms-backface-visibility: visible !important;
+	        backface-visibility: visible !important;
 }
 
-.theme-neon .reveal .progress span,
-.theme-neon .reveal .roll span:after {
-	background: #5de048;
+.zoomed .reveal .progress,
+.zoomed .reveal .controls {
+	opacity: 0;
 }
 
-.theme-neon .reveal a.image:hover img {
-	border-color: #5de048;
+.zoomed .reveal .roll span {
+	background: none;
+}
+
+.zoomed .reveal .roll span:after {
+	visibility: hidden;
 }
 
 
-/*********************************************
- * BEIGE THEME
- *********************************************/
-
-.theme-beige body {
-	color: #333;
-
-	background: #f7f3de;
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(247,242,211,1) 100%);
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(247,242,211,1)));
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-	background: radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(247,242,211,1) 100%);
-}
-
-.theme-beige .reveal h1,
-.theme-beige .reveal h2,
-.theme-beige .reveal h3,
-.theme-beige .reveal h4,
-.theme-beige .reveal h5,
-.theme-beige .reveal h6 {
-	color: #333;
-	text-shadow: none;
-}
-
-.theme-beige .reveal a,
-.theme-beige .reveal a:hover,
-.theme-beige .reveal .controls a.enabled {
-	color: #8b743d;
-}
-
-.theme-beige .reveal .progress span,
-.theme-beige .reveal .roll span:after {
-	background: #8b743d;
-}
-
-.theme-beige .reveal a.image:hover img {
-	border-color: #8b743d;
-}
