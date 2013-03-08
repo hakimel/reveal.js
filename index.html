@@ -358,6 +358,14 @@ function linkify( selector ) {
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+				globals: {
+					// Generate a unique id and secret at http://revealjs.jit.su/token
+					multiplex: {
+						id: '7d10234555b923e2',
+						secret: '13627859051503309760',
+						url: 'revealjs.jit.su:80'
+					}
+				},
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
@@ -366,8 +374,11 @@ function linkify( selector ) {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: 'socket.io/socket.io.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: 'plugin/multiplex/client.js', async: true, condition: function() { return !!document.body.classList; } },
+					// { src: 'plugin/multiplex/master.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
 

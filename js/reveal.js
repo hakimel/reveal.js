@@ -160,6 +160,9 @@ var Reveal = (function(){
 		// Copy options over to our config object
 		extend( config, options );
 
+		// Push up globals
+		window.globals = config.globals;
+
 		// Hide the address bar in mobile browsers
 		hideAddressBar();
 
@@ -1019,8 +1022,9 @@ var Reveal = (function(){
 	 * @param {int} v Vertical index of the target slide
 	 * @param {int} f Optional index of a fragment within the
 	 * target slide to activate
+	 * @param {int} o Optional origin for use in multimaster environments
 	 */
-	function slide( h, v, f ) {
+	function slide( h, v, f, o ) {
 
 		// Remember where we were at before
 		previousSlide = currentSlide;
@@ -1115,7 +1119,8 @@ var Reveal = (function(){
 				'indexh': indexh,
 				'indexv': indexv,
 				'previousSlide': previousSlide,
-				'currentSlide': currentSlide
+				'currentSlide': currentSlide,
+				'origin': o
 			} );
 		}
 		else {

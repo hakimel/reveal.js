@@ -344,6 +344,17 @@ Reveal.toggleOverview();
 ### Fullscreen mode
 Just press »F« on your keyboard to show your presentation in fullscreen mode. Press the »ESC« key to exit fullscreen mode.
 
+## Multiplexing
+
+The multiplex plugin allows your audience to view the slides on their own phone, tablet or laptop. As the master navigates the slides, all clients will update in real time. See a demo at [http://revealjs.jit.su/](http://revealjs.jit.su)
+
+Configuration is via the multiplex object in index.html. To generate unique secret and token values, visit [revealjs.jit.su/token](revealjs.jit.su/token)
+
+multiplex.secret should only be configured on those pages you wish to be able to control slide navigatoin for all clients. Multi-master configurations work, but if you don't wish your audience to be able to control your slides, set the secret to null. In this master/slave setup, you should create a publicly accessible page with secret set to null, and a protected page containing your secret.
+
+You are very welcome to use the server running at reveal.jit.su, however availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu or run on your own environment.
+
+### Known Issues
 
 ## PDF Export
 
