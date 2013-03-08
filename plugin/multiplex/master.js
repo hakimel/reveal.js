@@ -1,6 +1,7 @@
 (function() {
 	// don't emit events from inside the previews themselves
 	if ( window.location.search.match( /receiver/gi ) ) { return; }
+	var multiplex = window.globals.multiplex;
 
 	var socket = io.connect(multiplex.url);
 	
@@ -27,6 +28,6 @@
 			socketId : multiplex.id
 		};
 
-		if( event.origin !== 'remote') socket.emit('slidechanged', slideData);
+		if( typeof event.origin === 'undefined' && event.origin !== 'remote') socket.emit('slidechanged', slideData);
 	} );
 }());

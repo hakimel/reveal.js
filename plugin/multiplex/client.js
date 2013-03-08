@@ -1,4 +1,5 @@
 (function() {
+	var multiplex = window.globals.multiplex;
 	var socketId = multiplex.id;
 	var socket = io.connect(multiplex.url);
 
@@ -7,6 +8,6 @@
 		if (data.socketId !== socketId) { return; }
 		if( window.location.host === 'localhost:1947' ) return;
 
-		Reveal.navigateTo(data.indexh, data.indexv, 'remote');
+		Reveal.slide(data.indexh, data.indexv, null, 'remote');
 	});
 }());

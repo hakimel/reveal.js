@@ -15,7 +15,6 @@ var opts = {
 
 io.sockets.on('connection', function(socket) {
 	socket.on('slidechanged', function(slideData) {
-		console.log(slideData);
 		if (createHash(slideData.secret) === slideData.socketId) {
 			slideData.secret = null;
 			socket.broadcast.emit(slideData.socketId, slideData);
@@ -31,12 +30,6 @@ app.configure(function() {
 
 app.get("/", function(req, res) {
 	fs.createReadStream(opts.baseDir + '/index.html').pipe(res);
-});
-app.get("/fixed.html", function(req, res) {
-	fs.createReadStream(opts.baseDir + '/fixed.html').pipe(res);
-});
-app.get("/fixedmaster.html", function(req, res) {
-	fs.createReadStream(opts.baseDir + '/fixedmaster.html').pipe(res);
 });
 
 app.get("/token", function(req,res) {
