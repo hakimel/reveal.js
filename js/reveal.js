@@ -609,7 +609,7 @@ var Reveal = (function(){
 	 * "data-fragment-index" attribute.
 	 *
 	 * Fragments will be revealed in the order that they are returned by
-	 * this function, so you can use the index attributes to control the 
+	 * this function, so you can use the index attributes to control the
 	 * order of fragment appearance.
 	 *
 	 * To maintain a sensible default fragment order, fragments are presumed
@@ -1712,7 +1712,7 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Handler for the 'touchstart' event, enables support for 
+	 * Handler for the 'touchstart' event, enables support for
 	 * swipe and pinch gestures.
 	 */
 	function onTouchStart( event ) {
