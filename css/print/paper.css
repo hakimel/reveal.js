@@ -2,12 +2,12 @@
    by Rob Glazebrook of CSSnewbie.com
    Last Updated: June 4, 2008
 
-   Feel free (nay, compelled) to edit, append, and 
+   Feel free (nay, compelled) to edit, append, and
    manipulate this file as you see fit. */
 
 
 /* SECTION 1: Set default width, margin, float, and
-   background. This prevents elements from extending 
+   background. This prevents elements from extending
    beyond the edge of the printed page, and prevents
    unnecessary background images from printing */
 body {
@@ -28,11 +28,11 @@ html {
 	overflow: visible;
 }
 
-/* SECTION 2: Remove any elements not needed in print. 
+/* SECTION 2: Remove any elements not needed in print.
    This would include navigation, ads, sidebars, etc. */
-.nestedarrow, 
-.controls, 
-.reveal .progress, 
+.nestedarrow,
+.controls,
+.reveal .progress,
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
@@ -45,7 +45,7 @@ html {
 body, p, td, li, div, a {
 	font-size: 16pt!important;
 	font-family: Georgia, "Times New Roman", Times, serif !important;
-	color: #000; 
+	color: #000;
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
@@ -71,14 +71,14 @@ h6 { font-size: 18pt !important; font-style: italic; }
 /* SECTION 5: Make hyperlinks more usable.
    Ensure links are underlined, and consider appending
    the URL to the end of the link for usability. */
-a:link, 
+a:link,
 a:visited {
 	color: #000 !important;
 	font-weight: bold;
 	text-decoration: underline;
 }
 /*
-.reveal a:link:after, 
+.reveal a:link:after,
 .reveal a:visited:after {
 	content: " (" attr(href) ") ";
 	color: #222 !important;
@@ -123,9 +123,9 @@ ul, ol, div, p {
 	    -ms-perspective-origin: 50% 50%;
 	        perspective-origin: 50% 50%;
 }
-.reveal .slides>section, 
+.reveal .slides>section,
 .reveal .slides>section>section {
-	
+
 	visibility: visible !important;
 	position: static !important;
 	width: 90% !important;
@@ -152,20 +152,20 @@ ul, ol, div, p {
 	        transform: none !important;
 }
 .reveal section {
-	page-break-after: always !important; 
+	page-break-after: always !important;
 	display: block !important;
 }
 .reveal section .fragment {
 	opacity: 1 !important;
 	visibility: visible !important;
-	
+
 	-webkit-transform: none !important;
 	   -moz-transform: none !important;
 	    -ms-transform: none !important;
 	        transform: none !important;
 }
 .reveal section:last-of-type {
-	page-break-after: avoid !important; 
+	page-break-after: avoid !important;
 }
 .reveal section img {
 	display: block;

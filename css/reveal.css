@@ -345,8 +345,8 @@ body {
 .reveal .controls div {
 	position: absolute;
 	opacity: 0.1;
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border: 12px solid transparent;
 
 	-webkit-transition: opacity 0.2s ease;
