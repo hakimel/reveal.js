@@ -160,9 +160,6 @@ var Reveal = (function(){
 		// Copy options over to our config object
 		extend( config, options );
 
-		// Push up globals
-		window.globals = config.globals;
-
 		// Hide the address bar in mobile browsers
 		hideAddressBar();
 
@@ -2029,6 +2026,11 @@ var Reveal = (function(){
 		// Returns the current scale of the presentation content
 		getScale: function() {
 			return scale;
+		},
+
+		// Returns the current configuration object
+		getConfig: function() {
+			return config;
 		},
 
 		// Helper method, retrieves query string as a key/value hash
