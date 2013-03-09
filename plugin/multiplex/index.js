@@ -46,3 +46,9 @@ var createHash = function(secret) {
 
 // Actually listen
 app.listen(opts.port || null);
+
+var brown = '\033[33m',
+	green = '\033[32m',
+	reset = '\033[0m';
+
+console.log( brown + "reveal.js:" + reset + " Multiplex running on port " + green + opts.port + reset );
