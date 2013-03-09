@@ -382,14 +382,12 @@ In some cases it can be desirable to run notes on a separate device from the one
 
 ```javascript
 Reveal.initialize({
-
 	...
 
 	dependencies: [
 		{ src: 'socket.io/socket.io.js', async: true },
 		{ src: 'plugin/notes-server/client.js', async: true }
 	]
-
 });
 ```
 
@@ -408,7 +406,6 @@ Configuration is via the multiplex object in ```Reveal.initialize```. To generat
 
 ```
 Reveal.initialize({
-
 	...
 
 	// Generate a unique id and secret at revealjs.jit.su/token
@@ -423,7 +420,6 @@ Reveal.initialize({
 		{ src: 'plugin/multiplex/client.js', async: true, condition: function() { return !!document.body.classList; } },
 		{ src: 'plugin/multiplex/master.js', async: true, condition: function() { return !!document.body.classList; } },
 	]
-
 });
 ```
 
