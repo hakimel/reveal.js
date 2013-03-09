@@ -632,7 +632,7 @@ var Reveal = (function(){
 			return l.getAttribute( 'data-fragment-index' ) - r.getAttribute( 'data-fragment-index');
 		} );
 
-		return a
+		return a;
 
 	}
 

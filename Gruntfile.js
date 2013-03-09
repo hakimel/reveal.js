@@ -15,10 +15,6 @@ module.exports = function(grunt) {
 				' */'
 		},
 
-		jshint: {
-			files: [ 'Gruntfile.js', 'js/reveal.js' ]
-		},
-
 		// Tests will be added soon
 		qunit: {
 			files: [ 'test/**/*.html' ]
@@ -54,7 +50,7 @@ module.exports = function(grunt) {
 					'css/theme/moon.css': 'css/theme/source/moon.scss',
 					'css/theme/solarized.css': 'css/theme/source/solarized.scss'
 				}
-			},
+			}
 		},
 
 		jshint: {
@@ -69,13 +65,14 @@ module.exports = function(grunt) {
 				undef: true,
 				eqnull: true,
 				browser: true,
-				expr: true
+				expr: true,
+				globals: {
+					head: false,
+					module: false,
+					console: false
+				}
 			},
-			globals: {
-				head: false,
-				module: false,
-				console: false
-			}
+			files: [ 'Gruntfile.js', 'js/reveal.js' ]
 		},
 
 		watch: {
