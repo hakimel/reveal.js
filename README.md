@@ -404,7 +404,7 @@ The multiplex plugin allows your audience to view the slides on their own phone,
 
 Configuration is via the multiplex object in ```Reveal.initialize```. To generate unique secret and token values, visit [revealjs.jit.su/token](revealjs.jit.su/token). Below is an example configuration with the multiplex plugin enabled:
 
-```
+```javascript
 Reveal.initialize({
 	...
 
@@ -416,9 +416,9 @@ Reveal.initialize({
 	},
 
 	dependencies: [
-		{ src: 'socket.io/socket.io.js', async: true, condition: function() { return !!document.body.classList; } },
-		{ src: 'plugin/multiplex/client.js', async: true, condition: function() { return !!document.body.classList; } },
-		{ src: 'plugin/multiplex/master.js', async: true, condition: function() { return !!document.body.classList; } },
+		{ src: 'socket.io/socket.io.js', async: true },
+		{ src: 'plugin/multiplex/client.js', async: true },
+		{ src: 'plugin/multiplex/master.js', async: true },
 	]
 });
 ```
