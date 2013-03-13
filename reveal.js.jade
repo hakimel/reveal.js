@@ -1,0 +1,59 @@
+!!! 5
+html(lang='en')
+  head
+    title #{title}
+    meta(charset='utf-8')
+    meta(name='author', content=author)
+    meta(name='description', content=description)
+
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black-translucent')
+
+    link(rel='stylesheet', href='css/reveal.css')
+    link(rel='stylesheet', href='css/theme/default.css', id='theme')
+
+    // For syntax highlighting
+    link(rel='stylesheet', href='lib/css/zenburn.css')
+
+    // If the query includes 'print-pdf', use the PDF print sheet
+    script
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+
+    //if lt IE 9
+      script(src='lib/js/html5shiv.js')
+
+  body
+
+    .reveal
+
+      // Any section element inside of this container is displayed as a slide
+      .slides
+
+        - each slide in slides
+          section
+            #{slide.content}
+
+    script(src='lib/js/head.min.js')
+    script(src='js/reveal.min.js')
+
+    script
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
