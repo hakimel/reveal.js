@@ -84,6 +84,18 @@ module.exports = function(grunt) {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
 			}
+		},
+
+		jade: {
+			build: {
+				options: {
+					data: grunt.file.readJSON('options.json'),
+					pretty: true
+				},
+				files: {
+					"slides.html": [ "reveal.js.jade", "slides/*.jade" ]
+				}
+			}
 		}
 
 	});
@@ -97,7 +109,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-jade' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'jade' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
