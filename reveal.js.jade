@@ -29,9 +29,7 @@ html(lang='en')
       // Any section element inside of this container is displayed as a slide
       .slides
 
-        - each slide in slides
-          section
-            #{slide.content}
+        include slides
 
     script(src='lib/js/head.min.js')
     script(src='js/reveal.min.js')
@@ -39,6 +37,7 @@ html(lang='en')
     script
       // Full list of configuration options available here:
       // https://github.com/hakimel/reveal.js#configuration
+      // TODO move these to options.json
       Reveal.initialize({
         controls: true,
         progress: true,

@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 					pretty: true
 				},
 				files: {
-					"slides.html": [ "reveal.js.jade", "slides/*.jade" ]
+					"slides.html": [ "reveal.js.jade" ]
 				}
 			}
 		}
@@ -113,5 +113,16 @@ module.exports = function(grunt) {
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
+
+  // assemble slides document
+  grunt.registerTask( 'precompile', function() {
+    var options = grunt.file.readJSON('options.json');
+
+    var slides = options.slides.reduce(function(result, slide) {
+      return result + "include slides/" + slide + "\n";
+    }, '');
+
+    grunt.file.write('slides.jade', slides);
+  });
 
 };

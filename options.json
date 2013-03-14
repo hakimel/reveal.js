@@ -1,5 +1,9 @@
 {
   "title": "My first presentation",
   "author": "Christoph Wagner",
-  "description": "A presentation about stuff"
+  "description": "A presentation about stuff",
+	"slides": [
+		"title",
+    "slide1"
+	]
 }
