@@ -6,6 +6,8 @@
   },
 	"slides": [
 		"title",
-    "slide1"
+    "slide1",
+    "markdown",
+    "vertical"
 	]
 }
