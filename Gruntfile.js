@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 					pretty: true
 				},
 				files: {
-					"slides.html": [ "reveal.js.jade" ]
+					"slides.html": [ "slides.jade" ]
 				}
 			}
 		}
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-jade' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'jade' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
@@ -119,10 +119,12 @@ module.exports = function(grunt) {
     var options = grunt.file.readJSON('options.json');
 
     var slides = options.slides.reduce(function(result, slide) {
-      return result + "include slides/" + slide + "\n";
-    }, '');
+      return result + "  include slides/" + slide + "\n";
+    }, 'extends layout\n\nblock slides\n');
 
     grunt.file.write('slides.jade', slides);
   });
+
+  grunt.registerTask( 'slides', [ 'precompile', 'jade' ] );
 
 };
