@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 		jade: {
 			build: {
 				options: {
-					data: grunt.file.readJSON('options.json'),
+					data: grunt.file.readJSON('slides.json'),
 					pretty: true
 				},
 				files: {
@@ -116,7 +116,7 @@ module.exports = function(grunt) {
 
   // assemble slides document
   grunt.registerTask( 'precompile', function() {
-    var options = grunt.file.readJSON('options.json');
+    var options = grunt.file.readJSON('slides.json');
 
     var slides = options.slides.reduce(function(result, slide) {
       return result + "  include slides/" + slide + "\n";
