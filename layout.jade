@@ -34,6 +34,8 @@ html(lang='en')
     script(src='lib/js/head.min.js')
     script(src='js/reveal.min.js')
 
+    block options
+
     script
       // Full list of configuration options available here:
       // https://github.com/hakimel/reveal.js#configuration
@@ -59,7 +61,6 @@ html(lang='en')
       }
 
       // copy options from slides.json
-      var options = !{JSON.stringify(locals.options)};
       for (var option in options) defaults[option] = options[option];
 
       Reveal.initialize(defaults);

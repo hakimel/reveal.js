@@ -122,6 +122,8 @@ module.exports = function(grunt) {
       return result + "  include slides/" + slide + "\n";
     }, 'extends layout\n\nblock slides\n');
 
+    slides = slides + "\nblock options\n  script\n    var options = " + JSON.stringify(options.options) + ";";
+
     grunt.file.write('slides.jade', slides);
   });
 
