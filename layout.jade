@@ -37,8 +37,7 @@ html(lang='en')
     script
       // Full list of configuration options available here:
       // https://github.com/hakimel/reveal.js#configuration
-      // TODO move these to options.json
-      Reveal.initialize({
+      var defaults = {
         controls: true,
         progress: true,
         history: true,
@@ -55,4 +54,10 @@ html(lang='en')
           { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
           { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
         ]
-      });
+      }
+
+      // copy options from slides.json
+      var options = !{JSON.stringify(locals.options)};
+      for (var option in options) defaults[option] = options[option];
+
+      Reveal.initialize(defaults);
