@@ -3,11 +3,13 @@
   "author": "Christoph Wagner",
   "description": "A presentation about stuff",
   "options": {
+    "theme": "beige"
   },
 	"slides": [
 		"title",
     "slide1",
     "markdown",
-    "vertical"
+    "vertical",
+    "code"
 	]
 }
