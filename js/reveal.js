@@ -1460,6 +1460,91 @@ var Reveal = (function(){
 
 	}
 
+
+	/**
+	 * Show all slide fragments on the current slide.
+	 *
+	 * @return {Boolean} true if there was at least one next fragment,
+	 * false otherwise
+	 */
+	function allFragments() {
+
+		// Vertical slides:
+		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+
+			if( verticalFragments.length ) {
+                for (var i = verticalFragments.length - 1; i >= 0; i -= 1) {
+                    verticalFragments[i].classList.add( 'visible' );
+                    // Notify subscribers of the change
+                    dispatchEvent( 'fragmentshown', { fragment: verticalFragments[i] } );
+                }
+
+				return true;
+			}
+		}
+		// Horizontal slides:
+		else {
+			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
+
+			if( horizontalFragments.length ) {
+                for (var i = horizontalFragments.length - 1; i >= 0; i -= 1) {
+                    horizontalFragments[i].classList.add( 'visible' );
+                    // Notify subscribers of the change
+                    dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[i] } );
+                }
+
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+
+	/**
+	 * Hide all slide fragments on the current slide.
+	 *
+	 * @return {Boolean} true if there was at least one visible fragment to hide,
+	 * false otherwise
+	 */
+	function noFragments() {
+
+		// Vertical slides:
+		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+
+			if( verticalFragments.length ) {
+                for (var i = verticalFragments.length - 1; i >= 0; i -= 1) {
+                    verticalFragments[i].classList.remove( 'visible' );
+                    // Notify subscribers of the change
+                    dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[i] } );
+                }
+
+				return true;
+			}
+		}
+		// Horizontal slides:
+		else {
+			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+
+			if( horizontalFragments.length ) {
+                for (var i = horizontalFragments.length - 1; i >= 0; i -= 1) {
+                    horizontalFragments[i].classList.remove( 'visible' );
+                    // Notify subscribers of the change
+                    dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[i] } );
+                }
+
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+
 	/**
 	 * Navigate to the next slide fragment.
 	 *
@@ -1575,6 +1660,25 @@ var Reveal = (function(){
 
 	}
 
+	function navigateLeftSlide() {
+
+		// Prioritize hiding fragments
+        if( availableRoutes().left ) { // && ( isOverview() || noFragments() === false ) ) {
+			slide( indexh - 1 );
+		}
+
+	}
+
+	function navigateRightSlide() {
+
+		// Prioritize revealing fragments
+		if( availableRoutes().right ) { //  && ( isOverview() || allFragments() === false ) ) {
+			slide( indexh + 1 );
+		}
+
+	}
+
+
 	function navigateUp() {
 
 		// Prioritize hiding fragments
@@ -1588,6 +1692,24 @@ var Reveal = (function(){
 
 		// Prioritize revealing fragments
 		if( availableRoutes().down && isOverview() || nextFragment() === false ) {
+			slide( indexh, indexv + 1 );
+		}
+
+	}
+
+	function navigateUpSlide() {
+
+		// Prioritize hiding fragments
+		if( availableRoutes().up ) { //  && isOverview() || noFragments() === false ) {
+			slide( indexh, indexv - 1 );
+		}
+
+	}
+
+	function navigateDownSlide() {
+
+		// Prioritize revealing fragments
+		if( availableRoutes().down ) { //  && isOverview() || allFragments() === false ) {
 			slide( indexh, indexv + 1 );
 		}
 
@@ -1636,6 +1758,50 @@ var Reveal = (function(){
 
 	}
 
+	/**
+	 * Navigates backwards, prioritized in the following order:
+	 * 1) Hide all visible fragments
+	 * 2) Previous vertical slide
+	 * 3) Previous horizontal slide
+	 */
+	function navigatePrevSlide() {
+
+		// Prioritize revealing fragments
+		if( noFragments() === false ) {
+			if( availableRoutes().up ) {
+				navigateUp();
+			}
+			else {
+				// Fetch the previous horizontal slide, if there is one
+				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
+
+				if( previousSlide ) {
+					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
+					indexh --;
+					slide();
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Same as #navigatePrev() but navigates forwards.
+	 */
+	function navigateNextSlide() {
+
+		// Prioritize revealing fragments
+		if( allFragments() === false ) {
+			availableRoutes().down ? navigateDownSlide() : navigateRightSlide();
+		}
+
+		// If auto-sliding is enabled we need to cue up
+		// another timeout
+		cueAutoSlide();
+
+	}
+
+
 
 	// --------------------------------------------------------------------//
 	// ----------------------------- EVENTS -------------------------------//
@@ -1655,8 +1821,8 @@ var Reveal = (function(){
 		var hasFocus = !!( document.activeElement && ( document.activeElement.type || document.activeElement.href || document.activeElement.contentEditable !== 'inherit' ) );
 
 		// Disregard the event if there's a focused element or a
-		// keyboard modifier key is present
-		if( hasFocus || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+		// keyboard modifier key is present (other than shift)
+		if( hasFocus || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		var triggered = true;
 
@@ -1667,17 +1833,53 @@ var Reveal = (function(){
 
 		switch( event.keyCode ) {
 			// p, page up
-			case 80: case 33: navigatePrev(); break;
+			case 80: case 33:
+                if(event.shiftKey) {
+                    navigatePrevSlide();
+                }else {
+                    navigatePrev();
+                }
+                break;
 			// n, page down
-			case 78: case 34: navigateNext(); break;
+			case 78: case 34:
+                if(event.shiftKey) {
+                    navigateNextSlide();
+                }else {
+                    navigateNext();
+                }
+                break;
 			// h, left
-			case 72: case 37: navigateLeft(); break;
+			case 72: case 37:
+                if(event.shiftKey) {
+                    navigateLeftSlide();
+                }else {
+                    navigateLeft();
+                }
+                break;
 			// l, right
-			case 76: case 39: navigateRight(); break;
+			case 76: case 39:
+                if(event.shiftKey) {
+                    navigateRightSlide();
+                }else {
+                    navigateRight();
+                }
+                break;
 			// k, up
-			case 75: case 38: navigateUp(); break;
+			case 75: case 38:
+                if(event.shiftKey) {
+                    navigateUpSlide();
+                }else {
+                    navigateUp();
+                }
+                break;
 			// j, down
-			case 74: case 40: navigateDown(); break;
+			case 74: case 40:
+                if(event.shiftKey) {
+                    navigateDownSlide();
+                }else {
+                    navigateDown();
+                }
+                break;
 			// home
 			case 36: slide( 0 ); break;
 			// end
@@ -1969,8 +2171,17 @@ var Reveal = (function(){
 		down: navigateDown,
 		prev: navigatePrev,
 		next: navigateNext,
+		leftSlide: navigateLeftSlide,
+		rightSlide: navigateRightSlide,
+		upSlide: navigateUpSlide,
+		downSlide: navigateDownSlide,
+		prevSlide: navigatePrevSlide,
+		nextSlide: navigateNextSlide,
 		prevFragment: previousFragment,
 		nextFragment: nextFragment,
+		noFragments: noFragments,
+		allFragments: allFragments,
+
 
 		// Deprecated aliases
 		navigateTo: slide,
@@ -1980,6 +2191,13 @@ var Reveal = (function(){
 		navigateDown: navigateDown,
 		navigatePrev: navigatePrev,
 		navigateNext: navigateNext,
+		navigateLeftSlide: navigateLeftSlide,
+		navigateRightSlide: navigateRightSlide,
+		navigateUpSlide: navigateUpSlide,
+		navigateDownSlide: navigateDownSlide,
+		navigatePrevSlide: navigatePrevSlide,
+		navigateNextSlide: navigateNextSlide,
+
 
 		// Forces an update in slide layout
 		layout: layout,
