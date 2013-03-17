@@ -471,16 +471,14 @@ var Reveal = (function(){
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
-		if( config.touch ) {
-			dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
-			dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
-			dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
+		dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
+		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
+		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 
-			if( window.navigator.msPointerEnabled ) {
-				dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
-				dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
-				dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
-			}
+		if( window.navigator.msPointerEnabled ) {
+			dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
+			dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
+			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
 		}
 
 		if ( config.progress && dom.progress ) {
