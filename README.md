@@ -107,7 +107,7 @@ Reveal.initialize({
 
 Note that the new default vertical centering option will break compatibility with slides that were using transitions with backgrounds (`cube` and `page`). To restore the previous behavior, set `center` to `false`.
 
-The configuration can be update after initialization using the ```configure``` method:
+The configuration can be updated after initialization using the ```configure``` method:
 
 ```javascript
 // Turn autoSlide off
@@ -184,7 +184,7 @@ You can add your own extensions using the same syntax. The following properties 
 
 ### API
 
-The Reveal class provides a minimal JavaScript API for controlling navigation and reading state:
+The ``Reveal`` class provides a minimal JavaScript API for controlling navigation and reading state:
 
 ```javascript
 // Navigation
@@ -311,7 +311,7 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 } );
 ```
 
-### Code syntax higlighting
+### Code syntax highlighting
 
 By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for code syntax highlighting. Below is an example with clojure code that will be syntax highlighted:
 
@@ -362,7 +362,7 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 ## Speaker Notes
 
-reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Append ```?notes``` to presentation URL or press the 's' key on your keyboard to open the notes window.
+reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Append ```?notes``` to the presentation URL or press the 's' key on your keyboard to open the notes window.
 
 By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown.
 
@@ -376,9 +376,9 @@ By default notes are written using standard HTML, see below, but you can add a `
 </section>
 ```
 
-## Server Side Speaker Nodes
+## Server Side Speaker Notes
 
-In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the requried scripts by adding the following dependencies:
+In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the required scripts by adding the following dependencies:
 
 ```javascript
 Reveal.initialize({
@@ -423,7 +423,7 @@ Reveal.initialize({
 });
 ```
 
-```multiplex.secret``` should only be configured on those pages you wish to be able to control slide navigatoin for all clients. Multi-master configurations work, but if you don't wish your audience to be able to control your slides, set the secret to null. In this master/slave setup, you should create a publicly accessible page with secret set to null, and a protected page containing your secret.
+```multiplex.secret``` should only be configured on those pages you wish to be able to control slide navigation for all clients. Multi-master configurations work, but if you don't want your audience to be able to control your slides, set the secret to ``null``. In this master/slave setup, you should create a publicly accessible page with secret set to ``null``, and a protected page containing your secret.
 
 You are very welcome to use the server running at reveal.jit.su, however availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu or run on your own environment.
 
