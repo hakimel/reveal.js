@@ -306,9 +306,6 @@ var Reveal = (function(){
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
 
-		// Subscribe to input
-		addEventListeners();
-
 		// Updates the presentation to match the current configuration values
 		configure();
 
@@ -393,6 +390,20 @@ var Reveal = (function(){
 				dom.theme.setAttribute( 'href', themeURL );
 			}
 		}
+
+		postConfigure();
+
+	}
+
+	/**
+	 * Updates various parts of the presentatio after the
+	 * configuration has changed.
+	 */
+	function postConfigure() {
+
+		// Subscribe to input
+		removeEventListeners();
+		addEventListeners();
 
 		// Force a layout to make sure the current config is accounted for
 		layout();
