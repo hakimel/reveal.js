@@ -977,9 +977,9 @@ var Reveal = (function(){
 	function resume() {
 
 		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+		dom.wrapper.classList.remove( 'paused' );
 
 		cueAutoSlide();
-		dom.wrapper.classList.remove( 'paused' );
 
 		if( wasPaused ) {
 			dispatchEvent( 'resumed' );
