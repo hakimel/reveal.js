@@ -25,7 +25,8 @@
     "express": "~2.5.9",
     "mustache": "~0.4.0",
     "socket.io": "~0.9.13",
-    "jade": "0.9.1"
+    "jade": "0.9.1",
+    "markdown-js": "0.0.3"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.2.0",
