@@ -100,7 +100,16 @@ module.exports = function(grunt) {
 					"slides.html": [ "slides.jade" ]
 				}
 			}
-		}
+		},
+
+    connect: {
+      server: {
+        options: {
+          port: 8000,
+          base: '.'
+        }
+      }
+    }
 
 	});
 
@@ -111,6 +120,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-jade' );
+  grunt.loadNpmTasks( 'grunt-contrib-connect' );
 
 	// Default task
 	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
@@ -132,5 +142,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask( 'slides', [ 'precompile', 'jade' ] );
+
+  grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
 
 };
