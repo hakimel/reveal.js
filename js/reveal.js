@@ -1468,13 +1468,13 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function allFragments() {
-
+        var i = 0;
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 
 			if( verticalFragments.length ) {
-                for (var i = verticalFragments.length - 1; i >= 0; i -= 1) {
+                for (i = verticalFragments.length - 1; i >= 0; i -= 1) {
                     verticalFragments[i].classList.add( 'visible' );
                     // Notify subscribers of the change
                     dispatchEvent( 'fragmentshown', { fragment: verticalFragments[i] } );
@@ -1488,7 +1488,7 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' );
 
 			if( horizontalFragments.length ) {
-                for (var i = horizontalFragments.length - 1; i >= 0; i -= 1) {
+                for (i = horizontalFragments.length - 1; i >= 0; i -= 1) {
                     horizontalFragments[i].classList.add( 'visible' );
                     // Notify subscribers of the change
                     dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[i] } );
@@ -1510,13 +1510,13 @@ var Reveal = (function(){
 	 * false otherwise
 	 */
 	function noFragments() {
-
+        var i = 0;
 		// Vertical slides:
 		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
 			var verticalFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 
 			if( verticalFragments.length ) {
-                for (var i = verticalFragments.length - 1; i >= 0; i -= 1) {
+                for (i = verticalFragments.length - 1; i >= 0; i -= 1) {
                     verticalFragments[i].classList.remove( 'visible' );
                     // Notify subscribers of the change
                     dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[i] } );
@@ -1530,7 +1530,7 @@ var Reveal = (function(){
 			var horizontalFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
 
 			if( horizontalFragments.length ) {
-                for (var i = horizontalFragments.length - 1; i >= 0; i -= 1) {
+                for (i = horizontalFragments.length - 1; i >= 0; i -= 1) {
                     horizontalFragments[i].classList.remove( 'visible' );
                     // Notify subscribers of the change
                     dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[i] } );
@@ -1776,9 +1776,10 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
-					indexh --;
-					slide();
+					//indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
+					//indexh --;
+					//slide();
+                    navigateLeftSlide()
 				}
 			}
 		}
