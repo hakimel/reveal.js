@@ -1993,6 +1993,9 @@ var Reveal = (function(){
 		// Forces an update in slide layout
 		layout: layout,
 
+		// Returns an object with the available routes as booleans (left/right/top/bottom)
+		availableRoutes: availableRoutes,
+
 		// Toggles the overview mode on/off
 		toggleOverview: toggleOverview,
 
