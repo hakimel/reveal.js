@@ -289,14 +289,14 @@ body {
 
 	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
-.reveal pre code {
-	padding: 5px;
-}
-
 .reveal code {
 	font-family: monospace;
+}
+.reveal pre code {
+	padding: 5px;
 	overflow: auto;
 	max-height: 400px;
+	word-wrap: normal;
 }
 
 .reveal table th,
