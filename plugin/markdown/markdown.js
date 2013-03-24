@@ -26,11 +26,11 @@
         return text;
 
     };
-    
+
     var twrap = function(el) {
       return '<script type="text/template">' + el + '</script>';
     };
-    
+
     var slidifyMarkdown = function(markdown, separator, vertical) {
 
         separator = separator || '^\n---\n$';
@@ -101,12 +101,22 @@
 
                 xhr.onreadystatechange = function () {
                     if( xhr.readyState === 4 ) {
-                        section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical') );
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical') );
+                        } else {
+                            section.outerHTML = '<section data-state="alert">ERROR: The attempt to fetch ' + url + ' failed with the HTTP status ' + xhr.status +
+                                '. Check your browser\'s JavaScript console for more details.' +
+                                '<p>Remember that you need to serve the presentation HTML from a HTTP server and the Markdown file must be there too.</p></section>';
+                        }
                     }
                 };
 
                 xhr.open('GET', url, false);
-                xhr.send();
+                try {
+                    xhr.send();
+                } catch (e) {
+                    alert('Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e);
+                }
 
             } else if( section.getAttribute('data-separator') ) {
 
