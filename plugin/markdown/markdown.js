@@ -101,12 +101,21 @@
 
                 xhr.onreadystatechange = function () {
                     if( xhr.readyState === 4 ) {
-                        section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical') );
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical') );
+                        } else {
+                            section.outerHTML = '<section data-state="alert">ERROR: The attempt to fetch ' + url + ' failed with the HTTP status ' + xhr.status +
+                                '. Check your browser\'s JavaScript console for more details.</section>';
+                        }
                     }
                 };
 
                 xhr.open('GET', url, false);
-                xhr.send();
+                try {
+                    xhr.send();
+                } catch (e) {
+                    alert('Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e);
+                }
 
             } else if( section.getAttribute('data-separator') ) {
 
