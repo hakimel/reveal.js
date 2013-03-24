@@ -57,6 +57,9 @@ You can write your content as a separate file and have reveal.js load it at runt
 <section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
 ```
 
+Notice that this only works when serving the presentation and the markdown file over HTTP, from the same server (due to the same origin policy).
+If you have Python installed, you can run a HTTP server by executing `python -m SimpleHTTPServer` in this directory.
+
 ### Configuration
 
 At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
