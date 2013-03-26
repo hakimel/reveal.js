@@ -374,6 +374,13 @@ var Reveal = (function(){
 			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
 
+		if( config.keyboard ) {
+			document.addEventListener( 'keydown', onDocumentKeyDown, false );
+		}
+		else {
+			document.removeEventListener( 'keydown', onDocumentKeyDown, false );
+		}
+
 		// 3D links
 		if( config.rollingLinks ) {
 			enable3DLinks();
@@ -2073,3 +2080,4 @@ var Reveal = (function(){
 	};
 
 })();
+
