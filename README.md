@@ -107,6 +107,15 @@ Reveal.initialize({
 
 Note that the new default vertical centering option will break compatibility with slides that were using transitions with backgrounds (`cube` and `page`). To restore the previous behavior, set `center` to `false`.
 
+You can specify a transition to and from a specific slide by using the ```data-transition``` attribute:
+
+```javascript
+<section data-transition="zoom">
+	<h2>This slide will override the presentation transition and zoom!</h2>
+</section>
+```
+
+
 The configuration can be updated after initialization using the ```configure``` method:
 
 ```javascript
