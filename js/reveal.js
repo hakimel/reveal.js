@@ -181,7 +181,7 @@ var Reveal = (function(){
 		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Progress bar
-		if( !dom.wrapper.querySelector( '.progress' ) && config.progress ) {
+		if( !dom.wrapper.querySelector( '.progress' ) ) {
 			var progressElement = document.createElement( 'div' );
 			progressElement.classList.add( 'progress' );
 			progressElement.innerHTML = '<span></span>';
@@ -189,7 +189,7 @@ var Reveal = (function(){
 		}
 
 		// Arrow controls
-		if( !dom.wrapper.querySelector( '.controls' ) && config.controls ) {
+		if( !dom.wrapper.querySelector( '.controls' ) ) {
 			var controlsElement = document.createElement( 'aside' );
 			controlsElement.classList.add( 'controls' );
 			controlsElement.innerHTML = '<div class="navigate-left"></div>' +
