@@ -107,14 +107,6 @@ Reveal.initialize({
 
 Note that the new default vertical centering option will break compatibility with slides that were using transitions with backgrounds (`cube` and `page`). To restore the previous behavior, set `center` to `false`.
 
-You can specify a transition to and from a specific slide by using the ```data-transition``` attribute:
-
-```javascript
-<section data-transition="zoom">
-	<h2>This slide will override the presentation transition and zoom!</h2>
-</section>
-```
-
 
 The configuration can be updated after initialization using the ```configure``` method:
 
@@ -267,6 +259,15 @@ You can also add relative navigation links, similar to the built in reveal.js co
 <a href="#" class="navigate-down">
 <a href="#" class="navigate-prev"> <!-- Previous vertical or horizontal slide -->
 <a href="#" class="navigate-next"> <!-- Next vertical or horizontal slide -->
+```
+
+### Alternating transitions
+The global presentation transition is set using the ```transition``` config value. You can override the global transition for a specific slide by using the ```data-transition``` attribute:
+
+```javascript
+<section data-transition="zoom">
+	<h2>This slide will override the presentation transition and zoom!</h2>
+</section>
 ```
 
 
