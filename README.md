@@ -270,6 +270,8 @@ The global presentation transition is set using the ```transition``` config valu
 </section>
 ```
 
+Note that this does not work with the page and cube transitions.
+
 
 ### Fragments
 Fragments are used to highlight individual elements on a slide. Every elmement with the class ```fragment``` will be stepped through before moving on to the next slide. Here's an example: http://lab.hakim.se/reveal-js/#/16
