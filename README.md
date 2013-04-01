@@ -272,6 +272,13 @@ The global presentation transition is set using the ```transition``` config valu
 
 Note that this does not work with the page and cube transitions.
 
+To apply a random transition to each slide, set transition type to `random` in the config block.
+
+```javascript
+	Reveal.initialize({
+		transition: Reveal.getQueryHash().transition || 'random'
+	});
+```
 
 ### Fragments
 Fragments are used to highlight individual elements on a slide. Every elmement with the class ```fragment``` will be stepped through before moving on to the next slide. Here's an example: http://lab.hakim.se/reveal-js/#/16
