@@ -13,6 +13,7 @@ var Reveal = (function(){
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-child',
+		TRANSITION_ARRAY = ['default','cube','page','concave','zoom','linear','fade','none'],
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
@@ -71,7 +72,7 @@ var Reveal = (function(){
 			theme: null,
 
 			// Transition style
-			transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+			transition: TRANSITION_ARRAY[0], // default/cube/page/concave/zoom/linear/fade/random/none
 
 			// Script dependencies to load
 			dependencies: []
@@ -369,6 +370,18 @@ var Reveal = (function(){
 		else {
 			document.removeEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
 			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
+		}
+
+		// if transition is random, apply random transition to each slide
+		if (config.transition === 'random') {
+			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
+
+			for( var i = 0, len = slides.length; i < len; i++ ) {
+				var slide = slides[ i ],
+					transition = TRANSITION_ARRAY[Math.floor(Math.random()*TRANSITION_ARRAY.length)];
+				// make sure slide does not already have a data-transition
+				if (slide.getAttribute('data-transition' !== null )) slide.setAttribute('data-transition', transition);
+			}
 		}
 
 		// 3D links
