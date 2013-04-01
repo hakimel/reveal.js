@@ -264,7 +264,7 @@ You can also add relative navigation links, similar to the built in reveal.js co
 ### Alternating transitions
 The global presentation transition is set using the ```transition``` config value. You can override the global transition for a specific slide by using the ```data-transition``` attribute:
 
-```javascript
+```html
 <section data-transition="zoom">
 	<h2>This slide will override the presentation transition and zoom!</h2>
 </section>
