@@ -646,6 +646,13 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Returns last element of an array
+	 */
+	function lastElem(array) {
+		return array.slice(-1)[0];
+	}
+
+	/**
 	 * Applies JavaScript-controlled layout rules to the
 	 * presentation.
 	 */
@@ -2043,6 +2050,26 @@ var Reveal = (function(){
 		// Returns the current configuration object
 		getConfig: function() {
 			return config;
+		},
+
+		// Returns an index (1-based) of the current fragment
+		getCurrentFragmentIndex : function() {
+			var visibleFragments;
+			
+			// vertical slides:
+			if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
+				visibleFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+			}
+			// Horizontal slides:
+			else {
+				visibleFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
+			}
+			
+			if( visibleFragments.length) {
+				return visibleFragments.length;
+			} else {
+				return undefined;
+			}
 		},
 
 		// Helper method, retrieves query string as a key/value hash
