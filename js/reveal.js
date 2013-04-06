@@ -1620,9 +1620,8 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
-					indexh --;
-					slide();
+					var prevSlideLastVerticalIndex = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+					slide(indexh - 1, prevSlideLastVerticalIndex);
 				}
 			}
 		}
@@ -1636,7 +1635,18 @@ var Reveal = (function(){
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
-			availableRoutes().down ? navigateDown() : navigateRight();
+			if( availableRoutes().down ) {
+				navigateDown();
+			} else {
+				// Fetch the next horizontal slide, if there is one
+				var nextSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.future:nth-child(' + (indexh + 2) + ')' );
+
+				if( nextSlide ) {
+					// indexv = 0;
+					// indexh ++;
+					slide(indexh + 1, 0);
+				}
+			}
 		}
 
 		// If auto-sliding is enabled we need to cue up
