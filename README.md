@@ -100,7 +100,10 @@ Reveal.initialize({
 	rollingLinks: true,
 
 	// Transition style
-	transition: 'default' // default/cube/page/concave/zoom/linear/fade/none
+	transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+	// Transition speed
+	transitionSpeed: 'default', // default/fast/slow
 
 });
 ```
@@ -267,6 +270,10 @@ The global presentation transition is set using the ```transition``` config valu
 ```html
 <section data-transition="zoom">
 	<h2>This slide will override the presentation transition and zoom!</h2>
+</section>
+
+<section data-transition-speed="fast">
+	<h2>Choose from three transition speeds: default, fast or slow!</h2>
 </section>
 ```
 

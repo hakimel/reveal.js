@@ -566,24 +566,52 @@ body {
 
 	-webkit-transition: -webkit-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 						-webkit-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+						visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	   -moz-transition: -moz-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	   					-moz-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+						-moz-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	    -ms-transition: -ms-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	    				-ms-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+						-ms-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	     -o-transition: -o-transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	     				-o-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+						-o-transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	        transition: transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	        			transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
-	                    opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+						transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
+						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+/* Global transition speed settings */
+.reveal[data-transition-speed="fast"] .slides section {
+	-webkit-transition-duration: 400ms;
+	   -moz-transition-duration: 400ms;
+	    -ms-transition-duration: 400ms;
+	        transition-duration: 400ms;
+}
+.reveal[data-transition-speed="slow"] .slides section {
+	-webkit-transition-duration: 1200ms;
+	   -moz-transition-duration: 1200ms;
+	    -ms-transition-duration: 1200ms;
+	        transition-duration: 1200ms;
+}
+
+/* Slide-specific transition speed overrides */
+.reveal .slides section[data-transition-speed="fast"] {
+	-webkit-transition-duration: 400ms;
+	   -moz-transition-duration: 400ms;
+	    -ms-transition-duration: 400ms;
+	        transition-duration: 400ms;
+}
+.reveal .slides section[data-transition-speed="slow"] {
+	-webkit-transition-duration: 1200ms;
+	   -moz-transition-duration: 1200ms;
+	    -ms-transition-duration: 1200ms;
+	        transition-duration: 1200ms;
 }
 
 .reveal .slides>section {

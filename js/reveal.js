@@ -73,6 +73,9 @@ var Reveal = (function(){
 			// Transition style
 			transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
 
+			// Transition speed
+			transitionSpeed: 'default', // default/fast/slow
+
 			// Script dependencies to load
 			dependencies: []
 		},
@@ -339,6 +342,8 @@ var Reveal = (function(){
 		if( supports3DTransforms === false ) config.transition = 'linear';
 
 		dom.wrapper.classList.add( config.transition );
+
+		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 
 		if( dom.controls ) {
 			dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
