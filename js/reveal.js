@@ -2047,21 +2047,12 @@ var Reveal = (function(){
 
 		// Returns an index (1-based) of the current fragment
 		getCurrentFragmentIndex : function() {
-			var visibleFragments;
-			
-			// vertical slides:
-			if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-				visibleFragments = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' );
-			}
-			// Horizontal slides:
-			else {
-				visibleFragments = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' );
-			}
-			
-			if( visibleFragments.length) {
-				return visibleFragments.length;
-			} else {
-				return undefined;
+			if( currentSlide ) {
+				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
+
+				if( visibleFragments ) {
+					return visibleFragments.length;
+				}
 			}
 		},
 
