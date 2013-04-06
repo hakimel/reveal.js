@@ -646,13 +646,6 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Returns last element of an array
-	 */
-	function lastElem(array) {
-		return array.slice(-1)[0];
-	}
-
-	/**
 	 * Applies JavaScript-controlled layout rules to the
 	 * presentation.
 	 */
