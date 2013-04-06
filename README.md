@@ -414,7 +414,7 @@ Then:
 
 The multiplex plugin allows your audience to view the slides on their own phone, tablet or laptop. As the master navigates the slides, all clients will update in real time. See a demo at [http://revealjs.jit.su/](http://revealjs.jit.su).
 
-Configuration is via the multiplex object in ```Reveal.initialize```. To generate unique secret and token values, visit [revealjs.jit.su/token](revealjs.jit.su/token). Below is an example configuration with the multiplex plugin enabled:
+Configuration is via the multiplex object in ```Reveal.initialize```. To generate unique secret and token values, visit [revealjs.jit.su/token](http://revealjs.jit.su/token). Below is an example configuration with the multiplex plugin enabled:
 
 ```javascript
 Reveal.initialize({
