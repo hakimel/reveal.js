@@ -2050,7 +2050,7 @@ var Reveal = (function(){
 			if( currentSlide ) {
 				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
 
-				if( visibleFragments ) {
+				if( visibleFragments.length ) {
 					return visibleFragments.length;
 				}
 			}
