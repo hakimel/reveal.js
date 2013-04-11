@@ -498,6 +498,10 @@ body {
 	top: 0;
 	padding: 0 2px;
 
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	        backface-visibility: hidden;
+
 	-webkit-transform-origin: 50% 0%;
 	   -moz-transform-origin: 50% 0%;
 	    -ms-transform-origin: 50% 0%;
