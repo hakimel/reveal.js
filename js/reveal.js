@@ -2050,6 +2050,17 @@ var Reveal = (function(){
 			return config;
 		},
 
+		// Returns an index (1-based) of the current fragment
+		getCurrentFragmentIndex : function() {
+			if( currentSlide ) {
+				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
+
+				if( visibleFragments.length ) {
+					return visibleFragments.length;
+				}
+			}
+		},
+
 		// Helper method, retrieves query string as a key/value hash
 		getQueryHash: function() {
 			var query = {};
