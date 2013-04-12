@@ -109,6 +109,17 @@ module.exports = function(grunt) {
           base: '.'
         }
       }
+    },
+
+    zip: {
+      'slides.zip': [
+        'slides.html',
+        'css/**',
+        'js/**',
+        'lib/**',
+        'images/**',
+        'plugin/**'
+      ]
     }
 
 	});
@@ -145,4 +156,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
 
+  grunt.registerTask( 'package', [ 'slides', 'zip' ] );
+
+  // for some reason, loading this above with the other plugins
+  // causes the 'precompile' task to break
+  grunt.loadNpmTasks( 'grunt-zip' );
 };
