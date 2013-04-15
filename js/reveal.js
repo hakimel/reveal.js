@@ -1627,7 +1627,7 @@ var Reveal = (function(){
 				if( previousSlide ) {
 					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
 					indexh --;
-					slide();
+					slide( indexh, indexv );
 				}
 			}
 		}
