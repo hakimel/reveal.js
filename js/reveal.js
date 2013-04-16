@@ -1445,13 +1445,14 @@ var Reveal = (function(){
 	 * index will be for this slide rather than the currently
 	 * active one
 	 *
-	 * @return {Object} { h: <int>, v: <int> }
+	 * @return {Object} { h: <int>, v: <int>, f: <int> }
 	 */
 	function getIndices( slide ) {
 
 		// By default, return the current indices
 		var h = indexh,
-			v = indexv;
+			v = indexv,
+			f;
 
 		// If a slide is specified, return the indices of that slide
 		if( slide ) {
@@ -1470,7 +1471,14 @@ var Reveal = (function(){
 			}
 		}
 
-		return { h: h, v: v };
+		if( !slide && currentSlide ) {
+			var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
+			if( visibleFragments.length ) {
+				f = visibleFragments.length;
+			}
+		}
+
+		return { h: h, v: v, f: f };
 
 	}
 
@@ -2048,17 +2056,6 @@ var Reveal = (function(){
 		// Returns the current configuration object
 		getConfig: function() {
 			return config;
-		},
-
-		// Returns an index (1-based) of the current fragment
-		getCurrentFragmentIndex : function() {
-			if( currentSlide ) {
-				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-
-				if( visibleFragments.length ) {
-					return visibleFragments.length;
-				}
-			}
 		},
 
 		// Helper method, retrieves query string as a key/value hash

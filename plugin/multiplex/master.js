@@ -10,7 +10,7 @@
 			var nextindexh;
 			var nextindexv;
 
-			var fragmentindex = Reveal.getCurrentFragmentIndex();
+			var fragmentindex = Reveal.getIndices().f;
 			if (typeof fragmentindex == 'undefined') {
 				fragmentindex = 0;
 			}
@@ -21,7 +21,7 @@
 			} else {
 				nextindexh = indexh + 1;
 				nextindexv = 0;
-			}	
+			}
 
 			var slideData = {
 				indexh : indexh,
