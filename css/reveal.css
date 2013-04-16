@@ -1240,6 +1240,18 @@ body {
 .blackout .reveal .state-background {
 	background: rgba( 0, 0, 0, 0.6 );
 }
+.whiteout .reveal .state-background {
+	background: rgba( 255, 255, 255, 0.6 );
+}
+.cobalt .reveal .state-background {
+	background: rgba( 22, 152, 213, .6 );
+}
+.mint .reveal .state-background {
+	background: rgba( 22, 213, 75, .6 );
+}
+.submerge .reveal .state-background {
+	background: rgba(12, 25, 77, .6);
+}
 
 
 /*********************************************
