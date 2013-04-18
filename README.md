@@ -378,6 +378,38 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 ![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
 
+## Theming
+
+The framework comes with a few different themes included:
+
+- default: Gray background, white text, blue links
+- beige: Beige background, dark text, brown links
+- sky: Blue background, thin white text, blue links
+- night: Black background, thick white text, orange links
+- serif: Cappuccino background, gray text, brown links
+- simple: White background, black text, blue links
+
+Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
+
+```html
+<link rel="stylesheet" href="css/theme/default.css" id="theme">
+```
+
+If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
+
+
+## Development Environment
+
+reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](http://gruntjs.com/getting-started#installing-the-cli)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
+
+If you want to customise reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css & js/reveal.js).
+
+### Folder Structure
+- **css/** Core styles without which the project does not function
+- **js/** Like above but for JavaScript
+- **plugin/** Components that have been developed as extensions to reveal.js
+- **lib/** All other third party assets (JavaScript, CSS, fonts)
+
 
 ## Speaker Notes
 
@@ -546,38 +578,6 @@ Reveal.initialize({
 	]
 });
 ```
-
-## Theming
-
-The framework comes with a few different themes included:
-
-- default: Gray background, white text, blue links
-- beige: Beige background, dark text, brown links
-- sky: Blue background, thin white text, blue links
-- night: Black background, thick white text, orange links
-- serif: Cappuccino background, gray text, brown links
-- simple: White background, black text, blue links
-
-Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
-
-```html
-<link rel="stylesheet" href="css/theme/default.css" id="theme">
-```
-
-If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
-
-
-## Development Environment
-
-reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](http://gruntjs.com/getting-started#installing-the-cli)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
-
-If you want to customise reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css & js/reveal.js).
-
-### Folder Structure
-- **css/** Core styles without which the project does not function
-- **js/** Like above but for JavaScript
-- **plugin/** Components that have been developed as extensions to reveal.js
-- **lib/** All other third party assets (JavaScript, CSS, fonts)
 
 
 ## License
