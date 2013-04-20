@@ -31,7 +31,29 @@
       return '<script type="text/template">' + el + '</script>';
     };
 
-    var slidifyMarkdown = function(markdown, separator, vertical, state) {
+    var getForwardedAttributes = function(section) {
+        var attributes = section.attributes;
+        var result = [];
+
+        for( var i = 0, len = attributes.length; i < len; i++ ) {
+            var name = attributes[i].name,
+                value = attributes[i].value;
+
+            // disregard attributes that are used for markdown loading/parsing
+            if( /data\-(markdown|separator|vertical)/gi.test( name ) ) continue;
+
+            if( value ) {
+                result.push( name + '=' + value );
+            }
+            else {
+                result.push( name );
+            }
+        }
+
+        return result.join( ' ' );
+    }
+
+    var slidifyMarkdown = function(markdown, separator, vertical, attributes) {
 
         separator = separator || '^\n---\n$';
 
@@ -77,9 +99,16 @@
 
         // flatten the hierarchical stack, and insert <section data-markdown> tags
         for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
-            markdownSections += typeof sectionStack[k] === 'string'
-                ? '<section data-state="' + state + '" data-markdown>' +  twrap( sectionStack[k] )  + '</section>'
-                : '<section data-state="' + state + '"><section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section></section>';
+            // horizontal
+            if( typeof sectionStack[k] === 'string' ) {
+                markdownSections += '<section '+ attributes +' data-markdown>' +  twrap( sectionStack[k] )  + '</section>';
+            }
+            // vertical
+            else {
+                markdownSections += '<section '+ attributes +'>' +
+                                        '<section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section>' +
+                                    '</section>';
+            }
         }
 
         return markdownSections;
@@ -102,7 +131,7 @@
                 xhr.onreadystatechange = function () {
                     if( xhr.readyState === 4 ) {
                         if (xhr.status >= 200 && xhr.status < 300) {
-                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical'), section.getAttribute('data-state'));
+                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical'), getForwardedAttributes(section) );
                         } else {
                             section.outerHTML = '<section data-state="alert">ERROR: The attempt to fetch ' + url + ' failed with the HTTP status ' + xhr.status +
                                 '. Check your browser\'s JavaScript console for more details.' +
@@ -121,7 +150,7 @@
             } else if( section.getAttribute('data-separator') ) {
 
                 var markdown = stripLeadingWhitespace(section);
-                section.outerHTML = slidifyMarkdown( markdown, section.getAttribute('data-separator'), section.getAttribute('data-vertical') );
+                section.outerHTML = slidifyMarkdown( markdown, section.getAttribute('data-separator'), section.getAttribute('data-vertical'), getForwardedAttributes(section) );
 
             }
         }
