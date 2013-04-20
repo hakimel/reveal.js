@@ -31,7 +31,7 @@
       return '<script type="text/template">' + el + '</script>';
     };
 
-    var slidifyMarkdown = function(markdown, separator, vertical) {
+    var slidifyMarkdown = function(markdown, separator, vertical, state) {
 
         separator = separator || '^\n---\n$';
 
@@ -78,8 +78,8 @@
         // flatten the hierarchical stack, and insert <section data-markdown> tags
         for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
             markdownSections += typeof sectionStack[k] === 'string'
-                ? '<section data-markdown>' +  twrap( sectionStack[k] )  + '</section>'
-                : '<section><section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section></section>';
+                ? '<section data-state="' + state + '" data-markdown>' +  twrap( sectionStack[k] )  + '</section>'
+                : '<section data-state="' + state + '"><section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section></section>';
         }
 
         return markdownSections;
@@ -102,7 +102,7 @@
                 xhr.onreadystatechange = function () {
                     if( xhr.readyState === 4 ) {
                         if (xhr.status >= 200 && xhr.status < 300) {
-                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical') );
+                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical'), section.getAttribute('data-state'));
                         } else {
                             section.outerHTML = '<section data-state="alert">ERROR: The attempt to fetch ' + url + ' failed with the HTTP status ' + xhr.status +
                                 '. Check your browser\'s JavaScript console for more details.' +
