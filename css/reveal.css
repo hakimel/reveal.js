@@ -1244,13 +1244,19 @@ body {
 	background: rgba( 255, 255, 255, 0.6 );
 }
 .cobalt .reveal .state-background {
-	background: rgba( 22, 152, 213, .6 );
+	background: rgba( 22, 152, 213, 0.6 );
 }
 .mint .reveal .state-background {
-	background: rgba( 22, 213, 75, .6 );
+	background: rgba( 22, 213, 75, 0.6 );
 }
 .submerge .reveal .state-background {
-	background: rgba(12, 25, 77, .6);
+	background: rgba( 12, 25, 77, 0.6);
+}
+.lila .reveal .state-background {
+	background: rgba( 180, 50, 140, 0.6 );
+}
+.sunset .reveal .state-background {
+	background: rgba( 255, 122, 0, 0.6 );
 }
 
 
