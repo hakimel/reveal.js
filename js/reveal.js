@@ -958,6 +958,7 @@ var Reveal = (function(){
 
 		// Check which implementation is available
 		var requestMethod = element.requestFullScreen ||
+							element.webkitRequestFullscreen ||
 							element.webkitRequestFullScreen ||
 							element.mozRequestFullScreen ||
 							element.msRequestFullScreen;
