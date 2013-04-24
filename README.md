@@ -378,10 +378,42 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 ![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
 
+## Theming
+
+The framework comes with a few different themes included:
+
+- default: Gray background, white text, blue links
+- beige: Beige background, dark text, brown links
+- sky: Blue background, thin white text, blue links
+- night: Black background, thick white text, orange links
+- serif: Cappuccino background, gray text, brown links
+- simple: White background, black text, blue links
+
+Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
+
+```html
+<link rel="stylesheet" href="css/theme/default.css" id="theme">
+```
+
+If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
+
+
+## Development Environment
+
+reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](http://gruntjs.com/getting-started#installing-the-cli)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
+
+If you want to customise reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css & js/reveal.js).
+
+### Folder Structure
+- **css/** Core styles without which the project does not function
+- **js/** Like above but for JavaScript
+- **plugin/** Components that have been developed as extensions to reveal.js
+- **lib/** All other third party assets (JavaScript, CSS, fonts)
+
 
 ## Speaker Notes
 
-reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Append ```?notes``` to the presentation URL or press the 's' key on your keyboard to open the notes window.
+reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the 's' key on your keyboard to open the notes window.
 
 By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown.
 
@@ -419,65 +451,133 @@ Then:
 
 ## Multiplexing
 
-The multiplex plugin allows your audience to view the slides on their own phone, tablet or laptop. As the master navigates the slides, all clients will update in real time. See a demo at [http://revealjs.jit.su/](http://revealjs.jit.su).
+The multiplex plugin allows your audience to view the slides of the presentation you are controlling on their own phone, tablet or laptop. As the master presentation navigates the slides, all client presentations will update in real time. See a demo at [http://revealjs.jit.su/](http://revealjs.jit.su).
 
-Configuration is via the multiplex object in ```Reveal.initialize```. To generate unique secret and token values, visit [revealjs.jit.su/token](http://revealjs.jit.su/token). Below is an example configuration with the multiplex plugin enabled:
+The multiplex plugin needs the following 3 things to operate:
 
+1. Master presentation that has control
+2. Client presentations that follow the master
+3. Socket.io server to broadcast events from the master to the clients
+
+More details:
+
+#### Master presentation
+Served from a static file server accessible (preferably) only to the presenter. This need only be on your (the presenter's) computer. (It's safer to run the master presentation from your own computer, so if the venue's Internet goes down it doesn't stop the show.) An example would be to execute the following commands in the directory of your master presentation: 
+
+1. ```npm install node-static```
+2. ```static```
+
+If you want to use the speaker notes plugin with you master presentation then make sure you have the speaker notes plugin configured correctly along with the configuration shown below, then execute ```node plugin/notes-server``` in the directory of your master presentation. The configuration below will cause it to connect to the socket.io server as a master, as well as launch your speaker-notes/static-file server.
+
+You can then access your master presentation at ```http://localhost:1947```
+
+Example configuration:
 ```javascript
 Reveal.initialize({
-	...
+	// other options
 
-	// Generate a unique id and secret at revealjs.jit.su/token
 	multiplex: {
-		id: '',
-		secret: '',
-		url: 'revealjs.jit.su:80'
+		// Example values. Generate your own.
+		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
+		id: '1ea875674b17ca76', // Obtained from socket.io server
+		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
+	// Optional libraries used to extend on reveal.js
 	dependencies: [
+		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
+
+		// and if you want speaker notes
+		{ src: 'plugin/notes-server/client.js', async: true }
 	]
 });
 ```
 
-```multiplex.secret``` should only be configured on those pages you wish to be able to control slide navigation for all clients. Multi-master configurations work, but if you don't wish your audience to be able to control your slides, set the secret to ``null``. In this master/slave setup, you should create a publicly accessible page with secret set to ``null``, and a protected page containing your secret.
+#### Client presentation
+Served from a publicly accessible static file server. Examples include: GitHub Pages, Amazon S3, Dreamhost, Akamai, etc. The more reliable, the better. Your audience can then access the client presentation via ```http://example.com/path/to/presentation/client/index.html```, with the configuration below causing them to connect to the socket.io server as clients.
 
-You are very welcome to use the socketio server running at reveal.jit.su, however availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu or run on your own environment.
+Example configuration:
+```javascript
+Reveal.initialize({
+	// other options
 
+	multiplex: {
+		// Example values. Generate your own.
+		secret: null, // null so the clients do not have control of the master presentation
+		id: '1ea875674b17ca76', // id, obtained from socket.io server
+		url: 'revealjs.jit.su:80' // Location of socket.io server
+	},
 
-## Theming
-
-The framework comes with a few different themes included:
-
-- default: Gray background, white text, blue links
-- beige: Beige background, dark text, brown links
-- sky: Blue background, thin white text, blue links
-- night: Black background, thick white text, orange links
-- serif: Cappuccino background, gray text, brown links
-- simple: White background, black text, blue links
-
-Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
-
-```html
-<link rel="stylesheet" href="css/theme/default.css" id="theme">
+	// Optional libraries used to extend on reveal.js
+	dependencies: [
+		// other deps
+		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
+		{ src: 'plugin/multiplex/client.js', async: true }
+	]
+});
 ```
 
-If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
+#### Socket.io server
+Server that receives the slideChanged events from the master presentation and broadcasts them out to the connected client presentations. This needs to be publicly accessible. You can run your own socket.io server with the commands:
 
+1. ```npm install```
+2. ```node plugin/multiplex```
 
-## Development Environment
+Or you use the socket.io server at [http://revealjs.jit.su](http://revealjs.jit.su).
 
-reveal.js is built using the task-based command line build tool [grunt.js](http://gruntjs.com) ([installation instructions](http://gruntjs.com/getting-started#installing-the-cli)). With Node.js and grunt.js installed, you need to start by running ```npm install``` in the reveal.js root. When the dependencies have been installed you should run ```grunt watch``` to start monitoring files for changes.
+You'll need to generate a unique secret and token pair for your master and client presentations. To do so, visit ```http://example.com/token```, where ```http://example.com``` is the location of your socket.io server. Or if you're going to use the socket.io server at [http://revealjs.jit.su](http://revealjs.jit.su), visit [http://revealjs.jit.su/token](http://revealjs.jit.su/token).
 
-If you want to customise reveal.js without running grunt.js you can alter the HTML to point to the uncompressed source files (css/reveal.css & js/reveal.js).
+You are very welcome to point your presentations at the Socket.io server running at [http://revealjs.jit.su](http://revealjs.jit.su), but availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu, heroku, your own environment, etc.
 
-### Folder Structure
-- **css/** Core styles without which the project does not function
-- **js/** Like above but for JavaScript
-- **plugin/** Components that have been developed as extensions to reveal.js
-- **lib/** All other third party assets (JavaScript, CSS, fonts)
+##### socket.io server as file static server
+
+The socket.io server can play the role of static file server for your client presentation, as in the example at [http://revealjs.jit.su](http://revealjs.jit.su). (Open [http://revealjs.jit.su](http://revealjs.jit.su) in two browsers. Navigate through the slides on one, and the other will update to match.) 
+
+Example configuration:
+```javascript
+Reveal.initialize({
+	// other options
+
+	multiplex: {
+		// Example values. Generate your own.
+		secret: null, // null so the clients do not have control of the master presentation
+		id: '1ea875674b17ca76', // id, obtained from socket.io server
+		url: 'example.com:80' // Location of your socket.io server
+	},
+
+	// Optional libraries used to extend on reveal.js
+	dependencies: [
+		// other deps
+		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
+		{ src: 'plugin/multiplex/client.js', async: true }
+	]
+```
+
+It can also play the role of static file server for your master presentation and client presentations at the same time (as long as you don't want to use speaker notes). (Open [http://revealjs.jit.su](http://revealjs.jit.su) in two browsers. Navigate through the slides on one, and the other will update to match. Navigate through the slides on the second, and the first will update to match.) This is probably not desirable, because you don't want your audience to mess with your slides while you're presenting. ;)
+
+Example configuration:
+```javascript
+Reveal.initialize({
+	// other options
+
+	multiplex: {
+		// Example values. Generate your own.
+		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
+		id: '1ea875674b17ca76', // Obtained from socket.io server
+		url: 'example.com:80' // Location of your socket.io server
+	},
+
+	// Optional libraries used to extend on reveal.js
+	dependencies: [
+		// other deps
+		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
+		{ src: 'plugin/multiplex/master.js', async: true },
+		{ src: 'plugin/multiplex/client.js', async: true }
+	]
+});
+```
 
 
 ## License

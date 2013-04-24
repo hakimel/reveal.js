@@ -1582,7 +1582,7 @@ var Reveal = (function(){
 	function navigateLeft() {
 
 		// Prioritize hiding fragments
-		if( availableRoutes().left && ( isOverview() || previousFragment() === false ) ) {
+		if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
 			slide( indexh - 1 );
 		}
 
@@ -1591,7 +1591,7 @@ var Reveal = (function(){
 	function navigateRight() {
 
 		// Prioritize revealing fragments
-		if( availableRoutes().right && ( isOverview() || nextFragment() === false ) ) {
+		if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
 			slide( indexh + 1 );
 		}
 
@@ -1600,7 +1600,7 @@ var Reveal = (function(){
 	function navigateUp() {
 
 		// Prioritize hiding fragments
-		if( availableRoutes().up && isOverview() || previousFragment() === false ) {
+		if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
@@ -1609,7 +1609,7 @@ var Reveal = (function(){
 	function navigateDown() {
 
 		// Prioritize revealing fragments
-		if( availableRoutes().down && isOverview() || nextFragment() === false ) {
+		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
 
