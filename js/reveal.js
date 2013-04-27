@@ -713,6 +713,8 @@ var Reveal = (function(){
 
 			}
 
+			updateProgress();
+
 		}
 
 	}
