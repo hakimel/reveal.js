@@ -1328,6 +1328,7 @@ var Reveal = (function(){
 		if ( config.controls && dom.controls ) {
 
 			var routes = availableRoutes();
+			var fragments = availableFragments();
 
 			// Remove the 'enabled' class from all directions
 			dom.controlsLeft.concat( dom.controlsRight )
@@ -1336,6 +1337,7 @@ var Reveal = (function(){
 							.concat( dom.controlsPrev )
 							.concat( dom.controlsNext ).forEach( function( node ) {
 				node.classList.remove( 'enabled' );
+				node.classList.remove( 'fragmented' );
 			} );
 
 			// Add the 'enabled' class to the available routes
@@ -1347,6 +1349,26 @@ var Reveal = (function(){
 			// Prev/next buttons
 			if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
 			if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+
+			// Highlight fragment directions
+			if( currentSlide ) {
+				var isVertical = !!currentSlide.parentNode.nodeName.match( /section/gi );
+
+				// Always apply fragment decorator to prev/next buttons
+				if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+
+				// Apply fragment decorators to directional buttons based on
+				// what slide axis they are in
+				if( isVertical ) {
+					if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+					if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				}
+				else {
+					if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+					if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				}
+			}
 
 		}
 
@@ -1368,6 +1390,29 @@ var Reveal = (function(){
 			up: indexv > 0,
 			down: indexv < verticalSlides.length - 1
 		};
+
+	}
+
+	/**
+	 * Returns an object describing the available fragment
+	 * directions.
+	 *
+	 * @return {Object} two boolean properties: prev/next
+	 */
+	function availableFragments() {
+
+		if( currentSlide ) {
+			var fragments = currentSlide.querySelectorAll( '.fragment' );
+			var hiddenFragments = currentSlide.querySelectorAll( '.fragment:not(.visible)' );
+
+			return {
+				prev: fragments.length - hiddenFragments.length > 0,
+				next: !!hiddenFragments.length
+			};
+		}
+		else {
+			return { prev: false, next: false };
+		}
 
 	}
 
@@ -1506,6 +1551,8 @@ var Reveal = (function(){
 
 				// Notify subscribers of the change
 				dispatchEvent( 'fragmentshown', { fragment: fragments[0] } );
+
+				updateControls();
 				return true;
 			}
 		}
@@ -1530,6 +1577,8 @@ var Reveal = (function(){
 
 				// Notify subscribers of the change
 				dispatchEvent( 'fragmenthidden', { fragment: fragments[ fragments.length - 1 ] } );
+
+				updateControls();
 				return true;
 			}
 		}
@@ -1991,6 +2040,9 @@ var Reveal = (function(){
 
 		// Returns an object with the available routes as booleans (left/right/top/bottom)
 		availableRoutes: availableRoutes,
+
+		// Returns an object with the available fragments as booleans (prev/next)
+		availableFragments: availableFragments,
 
 		// Toggles the overview mode on/off
 		toggleOverview: toggleOverview,

@@ -369,11 +369,11 @@ body {
 	height: 0;
 	border: 12px solid transparent;
 
-	-webkit-transition: opacity 0.2s ease;
-	   -moz-transition: opacity 0.2s ease;
-	    -ms-transition: opacity 0.2s ease;
-	     -o-transition: opacity 0.2s ease;
-	        transition: opacity 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	   -moz-transition: all 0.2s ease;
+	    -ms-transition: all 0.2s ease;
+	     -o-transition: all 0.2s ease;
+	        transition: all 0.2s ease;
 }
 
 .reveal .controls div.enabled {
@@ -385,35 +385,49 @@ body {
 	margin-top: 1px;
 }
 
-.reveal .controls div.navigate-left {
-	top: 42px;
+	.reveal .controls div.navigate-left {
+		top: 42px;
 
-	border-right-width: 22px;
-	border-right-color: #eee;
-}
+		border-right-width: 22px;
+		border-right-color: #eee;
+	}
+		.reveal .controls div.navigate-left.fragmented {
+			left: 4px;
+			border-right-width: 18px;
+		}
 
-.reveal .controls div.navigate-right {
-	left: 74px;
-	top: 42px;
+	.reveal .controls div.navigate-right {
+		left: 74px;
+		top: 42px;
 
-	border-left-width: 22px;
-	border-left-color: #eee;
-}
+		border-left-width: 22px;
+		border-left-color: #eee;
+	}
+		.reveal .controls div.navigate-right.fragmented {
+			border-left-width: 18px;
+		}
 
-.reveal .controls div.navigate-up {
-	left: 42px;
+	.reveal .controls div.navigate-up {
+		left: 42px;
 
-	border-bottom-width: 22px;
-	border-bottom-color: #eee;
-}
+		border-bottom-width: 22px;
+		border-bottom-color: #eee;
+	}
+		.reveal .controls div.navigate-up.fragmented {
+			top: 4px;
+			border-bottom-width: 18px;
+		}
 
-.reveal .controls div.navigate-down {
-	left: 42px;
-	top: 74px;
+	.reveal .controls div.navigate-down {
+		left: 42px;
+		top: 74px;
 
-	border-top-width: 22px;
-	border-top-color: #eee;
-}
+		border-top-width: 22px;
+		border-top-color: #eee;
+	}
+		.reveal .controls div.navigate-down.fragmented {
+			border-top-width: 18px;
+		}
 
 
 /*********************************************
