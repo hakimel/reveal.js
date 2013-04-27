@@ -56,6 +56,9 @@ var Reveal = (function(){
 			// Change the presentation direction to be RTL
 			rtl: false,
 
+			// Turns fragments on and off globally
+			fragments: true,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -1401,7 +1404,7 @@ var Reveal = (function(){
 	 */
 	function availableFragments() {
 
-		if( currentSlide ) {
+		if( currentSlide && config.fragments ) {
 			var fragments = currentSlide.querySelectorAll( '.fragment' );
 			var hiddenFragments = currentSlide.querySelectorAll( '.fragment:not(.visible)' );
 
@@ -1543,7 +1546,7 @@ var Reveal = (function(){
 	 */
 	function nextFragment() {
 
-		if( currentSlide ) {
+		if( currentSlide && config.fragments ) {
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment:not(.visible)' ) );
 
 			if( fragments.length ) {
@@ -1569,7 +1572,7 @@ var Reveal = (function(){
 	 */
 	function previousFragment() {
 
-		if( currentSlide ) {
+		if( currentSlide && config.fragments ) {
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) );
 
 			if( fragments.length ) {
