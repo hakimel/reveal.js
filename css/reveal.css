@@ -369,6 +369,8 @@ body {
 	height: 0;
 	border: 12px solid transparent;
 
+	-moz-transform: scale(.9999);
+
 	-webkit-transition: all 0.2s ease;
 	   -moz-transition: all 0.2s ease;
 	    -ms-transition: all 0.2s ease;
