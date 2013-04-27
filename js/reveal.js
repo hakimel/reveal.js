@@ -1147,6 +1147,10 @@ var Reveal = (function(){
 			}
 		}
 
+		// Handle embedded content
+		stopEmbeddedContent( previousSlide );
+		startEmbeddedContent( currentSlide );
+
 		updateControls();
 		updateProgress();
 
@@ -1415,6 +1419,38 @@ var Reveal = (function(){
 		}
 		else {
 			return { prev: false, next: false };
+		}
+
+	}
+
+	/**
+	 * Start playback of any embedded content inside of
+	 * the targeted slide.
+	 */
+	function startEmbeddedContent( slide ) {
+
+		if( slide ) {
+			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+				if( !el.hasAttribute( 'data-ignore' ) ) {
+					el.play();
+				}
+			} );
+		}
+
+	}
+
+	/**
+	 * Stop playback of any embedded content inside of
+	 * the targeted slide.
+	 */
+	function stopEmbeddedContent( slide ) {
+
+		if( slide ) {
+			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+				if( !el.hasAttribute( 'data-ignore' ) ) {
+					el.pause();
+				}
+			} );
 		}
 
 	}
