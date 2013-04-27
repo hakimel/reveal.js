@@ -1430,11 +1430,19 @@ var Reveal = (function(){
 	function startEmbeddedContent( slide ) {
 
 		if( slide ) {
+			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) ) {
 					el.play();
 				}
 			} );
+
+			// YouTube embeds
+			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
+				if( !el.hasAttribute( 'data-ignore' ) ) {
+					el.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+				}
+			});
 		}
 
 	}
@@ -1446,11 +1454,19 @@ var Reveal = (function(){
 	function stopEmbeddedContent( slide ) {
 
 		if( slide ) {
+			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) ) {
 					el.pause();
 				}
 			} );
+
+			// YouTube embeds
+			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
+				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
+					el.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+				}
+			});
 		}
 
 	}
