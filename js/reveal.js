@@ -1498,27 +1498,14 @@ var Reveal = (function(){
 	 */
 	function nextFragment() {
 
-		// Vertical slides:
-		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = sortFragments( document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' ) );
+		if( currentSlide ) {
+			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment:not(.visible)' ) );
 
-			if( verticalFragments.length ) {
-				verticalFragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: verticalFragments[0] } );
-				return true;
-			}
-		}
-		// Horizontal slides:
-		else {
-			var horizontalFragments = sortFragments( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment:not(.visible)' ) );
-
-			if( horizontalFragments.length ) {
-				horizontalFragments[0].classList.add( 'visible' );
+			if( fragments.length ) {
+				fragments[0].classList.add( 'visible' );
 
 				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: horizontalFragments[0] } );
+				dispatchEvent( 'fragmentshown', { fragment: fragments[0] } );
 				return true;
 			}
 		}
@@ -1535,27 +1522,14 @@ var Reveal = (function(){
 	 */
 	function previousFragment() {
 
-		// Vertical slides:
-		if( document.querySelector( VERTICAL_SLIDES_SELECTOR + '.present' ) ) {
-			var verticalFragments = sortFragments( document.querySelectorAll( VERTICAL_SLIDES_SELECTOR + '.present .fragment.visible' ) );
+		if( currentSlide ) {
+			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) );
 
-			if( verticalFragments.length ) {
-				verticalFragments[ verticalFragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: verticalFragments[ verticalFragments.length - 1 ] } );
-				return true;
-			}
-		}
-		// Horizontal slides:
-		else {
-			var horizontalFragments = sortFragments( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.present .fragment.visible' ) );
-
-			if( horizontalFragments.length ) {
-				horizontalFragments[ horizontalFragments.length - 1 ].classList.remove( 'visible' );
+			if( fragments.length ) {
+				fragments[ fragments.length - 1 ].classList.remove( 'visible' );
 
 				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: horizontalFragments[ horizontalFragments.length - 1 ] } );
+				dispatchEvent( 'fragmenthidden', { fragment: fragments[ fragments.length - 1 ] } );
 				return true;
 			}
 		}
