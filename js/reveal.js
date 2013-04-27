@@ -328,7 +328,8 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Applies the configuration settings from the config object.
+	 * Applies the configuration settings from the config
+	 * object. May be called multiple times.
 	 */
 	function configure( options ) {
 
@@ -396,28 +397,7 @@ var Reveal = (function(){
 			}
 		}
 
-		postConfigure();
-
-	}
-
-	/**
-	 * Updates various parts of the presentatio after the
-	 * configuration has changed.
-	 */
-	function postConfigure() {
-
-		// Subscribe to input
-		removeEventListeners();
-		addEventListeners();
-
-		// Force a layout to make sure the current config is accounted for
-		layout();
-
-		// Reflect the current autoSlide value
-		autoSlide = config.autoSlide;
-
-		// Start auto-sliding if it's enabled
-		cueAutoSlide();
+		sync();
 
 	}
 
@@ -1164,6 +1144,28 @@ var Reveal = (function(){
 
 		updateControls();
 		updateProgress();
+
+	}
+
+	/**
+	 * Syncs the presentation with the current DOM. Useful
+	 * when new slides or control elements are added or when
+	 * the configuration has changed.
+	 */
+	function sync() {
+
+		// Subscribe to input
+		removeEventListeners();
+		addEventListeners();
+
+		// Force a layout to make sure the current config is accounted for
+		layout();
+
+		// Reflect the current autoSlide value
+		autoSlide = config.autoSlide;
+
+		// Start auto-sliding if it's enabled
+		cueAutoSlide();
 
 	}
 
@@ -1983,6 +1985,7 @@ var Reveal = (function(){
 	return {
 		initialize: initialize,
 		configure: configure,
+		sync: sync,
 
 		// Navigation methods
 		slide: slide,
