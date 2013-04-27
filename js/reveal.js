@@ -1432,14 +1432,14 @@ var Reveal = (function(){
 		if( slide ) {
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				if( !el.hasAttribute( 'data-ignore' ) ) {
+				if( el.hasAttribute( 'data-autoplay' ) ) {
 					el.play();
 				}
 			} );
 
 			// YouTube embeds
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
-				if( !el.hasAttribute( 'data-ignore' ) ) {
+				if( el.hasAttribute( 'data-autoplay' ) ) {
 					el.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 				}
 			});
