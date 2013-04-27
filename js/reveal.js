@@ -1169,6 +1169,9 @@ var Reveal = (function(){
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
 
+		updateControls();
+		updateProgress();
+
 	}
 
 	/**
