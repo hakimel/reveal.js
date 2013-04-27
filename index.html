@@ -208,7 +208,8 @@
 					<p>
 						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
 					</p>
-					<pre><code contenteditable style="font-size: 18px; margin-top: 20px;">Reveal.addEventListener( 'customevent', function() {
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+Reveal.addEventListener( 'customevent', function() {
 	console.log( '"customevent" has fired' );
 } );
 					</code></pre>
@@ -228,7 +229,7 @@
 
 				<section>
 					<h2>Pretty Code</h2>
-					<pre><code contenteditable>
+					<pre><code data-trim contenteditable>
 function linkify( selector ) {
   if( supports3DTransforms ) {
 
