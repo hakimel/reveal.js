@@ -1,16 +1,22 @@
 // START CUSTOM REVEAL.JS INTEGRATION
 (function() {
-	[].slice.call( document.querySelectorAll( 'pre code' ) ).forEach( function( element ) {
-		// trim whitespace if data-trim attribute is present
-		if( element.hasAttribute( 'data-trim' ) && typeof element.innerHTML.trim === 'function' ) {
-			element.innerHTML = element.innerHTML.trim();
-		}
+	if( typeof window.addEventListener === 'function' ) {
+		var hljs_nodes = document.querySelectorAll( 'pre code' );
 
-		// re-highlight when focus is lost (for edited code)
-		element.addEventListener( 'focusout', function( event ) {
-			hljs.highlightBlock( event.currentTarget );
-		}, false );
-	} );
+		for( var i = 0, len = hljs_nodes.length; i < len; i++ ) {
+			var element = hljs_nodes[i];
+
+			// trim whitespace if data-trim attribute is present
+			if( element.hasAttribute( 'data-trim' ) && typeof element.innerHTML.trim === 'function' ) {
+				element.innerHTML = element.innerHTML.trim();
+			}
+
+			// re-highlight when focus is lost (for edited code)
+			element.addEventListener( 'focusout', function( event ) {
+				hljs.highlightBlock( event.currentTarget );
+			}, false );
+		}
+	}
 })();
 // END CUSTOM REVEAL.JS INTEGRATION
 
