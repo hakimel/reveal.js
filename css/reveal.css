@@ -364,7 +364,7 @@ body {
 
 .reveal .controls div {
 	position: absolute;
-	opacity: 0.1;
+	opacity: 0.05;
 	width: 0;
 	height: 0;
 	border: 12px solid transparent;
@@ -379,7 +379,7 @@ body {
 }
 
 .reveal .controls div.enabled {
-	opacity: 0.6;
+	opacity: 0.7;
 	cursor: pointer;
 }
 
@@ -394,8 +394,7 @@ body {
 		border-right-color: #eee;
 	}
 		.reveal .controls div.navigate-left.fragmented {
-			left: 4px;
-			border-right-width: 18px;
+			opacity: 0.3;
 		}
 
 	.reveal .controls div.navigate-right {
@@ -406,7 +405,7 @@ body {
 		border-left-color: #eee;
 	}
 		.reveal .controls div.navigate-right.fragmented {
-			border-left-width: 18px;
+			opacity: 0.3;
 		}
 
 	.reveal .controls div.navigate-up {
@@ -416,8 +415,7 @@ body {
 		border-bottom-color: #eee;
 	}
 		.reveal .controls div.navigate-up.fragmented {
-			top: 4px;
-			border-bottom-width: 18px;
+			opacity: 0.3;
 		}
 
 	.reveal .controls div.navigate-down {
@@ -428,7 +426,7 @@ body {
 		border-top-color: #eee;
 	}
 		.reveal .controls div.navigate-down.fragmented {
-			border-top-width: 18px;
+			opacity: 0.3;
 		}
 
 
