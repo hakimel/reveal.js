@@ -933,6 +933,22 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Checks if the current or specified slide is vertical
+	 * (nested within another slide).
+	 *
+	 * @param {HTMLElement} slide [optional] The slide to check
+	 * orientation of
+	 */
+	function isVerticalSlide( slide ) {
+
+		// Prefer slide argument, otherwise use current slide
+		slide = slide ? slide : currentSlide;
+
+		return slide && !!slide.parentNode.nodeName.match( /section/i );
+
+	}
+
+	/**
 	 * Handling the fullscreen functionality via the fullscreen API
 	 *
 	 * @see http://fullscreen.spec.whatwg.org/
@@ -1229,7 +1245,7 @@ var Reveal = (function(){
 					element.style.display = distance > 3 ? 'none' : 'block';
 				}
 
-				var reverse = config.rtl && !element.parentNode.nodeName.match( /section/gi );
+				var reverse = config.rtl && !isVerticalSlide( element );
 
 				element.classList.remove( 'past' );
 				element.classList.remove( 'present' );
@@ -1362,7 +1378,6 @@ var Reveal = (function(){
 
 			// Highlight fragment directions
 			if( currentSlide ) {
-				var isVertical = !!currentSlide.parentNode.nodeName.match( /section/gi );
 
 				// Always apply fragment decorator to prev/next buttons
 				if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
@@ -1370,7 +1385,7 @@ var Reveal = (function(){
 
 				// Apply fragment decorators to directional buttons based on
 				// what slide axis they are in
-				if( isVertical ) {
+				if( isVerticalSlide( currentSlide ) ) {
 					if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
 					if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
 				}
@@ -1576,7 +1591,7 @@ var Reveal = (function(){
 
 		// If a slide is specified, return the indices of that slide
 		if( slide ) {
-			var isVertical = !!slide.parentNode.nodeName.match( /section/gi );
+			var isVertical = isVerticalSlide( slide );
 			var slideh = isVertical ? slide.parentNode : slide;
 
 			// Select all horizontal slides
