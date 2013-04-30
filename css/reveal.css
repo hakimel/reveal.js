@@ -1329,6 +1329,10 @@ body {
 	text-align: right;
 }
 
+.reveal.rtl .progress span {
+	float: right
+}
+
 
 /*********************************************
  * SPEAKER NOTES

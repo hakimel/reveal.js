@@ -787,7 +787,8 @@ var Reveal = (function(){
 
 				for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 					var hslide = horizontalSlides[i],
-						htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * 105 ) + '%, 0%)';
+						hoffset = config.rtl ? -105 : 105,
+						htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
 
 					hslide.setAttribute( 'data-index-h', i );
 					hslide.style.display = 'block';
@@ -1228,22 +1229,24 @@ var Reveal = (function(){
 					element.style.display = distance > 3 ? 'none' : 'block';
 				}
 
-				slides[i].classList.remove( 'past' );
-				slides[i].classList.remove( 'present' );
-				slides[i].classList.remove( 'future' );
+				var reverse = config.rtl && !element.parentNode.nodeName.match( /section/gi );
+
+				element.classList.remove( 'past' );
+				element.classList.remove( 'present' );
+				element.classList.remove( 'future' );
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
-					slides[i].classList.add( 'past' );
+					element.classList.add( reverse ? 'future' : 'past' );
 				}
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
-					slides[i].classList.add( 'future' );
+					element.classList.add( reverse ? 'past' : 'future' );
 				}
 
 				// If this element contains vertical slides
 				if( element.querySelector( 'section' ) ) {
-					slides[i].classList.add( 'stack' );
+					element.classList.add( 'stack' );
 				}
 			}
 
@@ -1391,12 +1394,21 @@ var Reveal = (function(){
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
-		return {
+		var routes = {
 			left: indexh > 0 || config.loop,
 			right: indexh < horizontalSlides.length - 1 || config.loop,
 			up: indexv > 0,
 			down: indexv < verticalSlides.length - 1
 		};
+
+		// reverse horizontal controls for rtl
+		if( config.rtl ) {
+			var left = routes.left;
+			routes.left = routes.right;
+			routes.right = left;
+		}
+
+		return routes;
 
 	}
 
@@ -1667,8 +1679,14 @@ var Reveal = (function(){
 
 	function navigateLeft() {
 
-		// Prioritize hiding fragments
-		if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
+		// Reverse for RTL
+		if( config.rtl ) {
+			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+				slide( indexh + 1 );
+			}
+		}
+		// Normal navigation
+		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
 			slide( indexh - 1 );
 		}
 
@@ -1676,8 +1694,14 @@ var Reveal = (function(){
 
 	function navigateRight() {
 
-		// Prioritize revealing fragments
-		if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+		// Reverse for RTL
+		if( config.rtl ) {
+			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+				slide( indexh - 1 );
+			}
+		}
+		// Normal navigation
+		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
 			slide( indexh + 1 );
 		}
 
