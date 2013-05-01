@@ -1,0 +1,16 @@
+section
+  h2 This slide has some code on it
+  p How to write a Grunt task
+  pre
+    code.
+      grunt.registerTask( 'precompile', function() {
+        var options = grunt.file.readJSON('slides.json');
+
+        var slides = options.slides.reduce(function(result, slide) {
+          return result + "  include slides/" + slide + "\n";
+        }, 'extends layout\n\nblock slides\n');
+
+        slides = slides + "\nblock options\n  script\n    var options = " + JSON.stringify(options.options) + ";";
+
+        grunt.file.write('slides.jade', slides);
+      });

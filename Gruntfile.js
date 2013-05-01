@@ -83,8 +83,44 @@ module.exports = function(grunt) {
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
+			},
+      slides: {
+        files: [ 'slides.json', 'slides/*.jade' ],
+        tasks: 'slides'
+      }
+		},
+
+		jade: {
+			build: {
+				options: {
+					data: grunt.file.readJSON('slides.json'),
+					pretty: true
+				},
+				files: {
+					"slides.html": [ "slides.jade" ]
+				}
 			}
-		}
+		},
+
+    connect: {
+      server: {
+        options: {
+          port: 8000,
+          base: '.'
+        }
+      }
+    },
+
+    zip: {
+      'slides.zip': [
+        'slides.html',
+        'css/**',
+        'js/**',
+        'lib/**',
+        'images/**',
+        'plugin/**'
+      ]
+    }
 
 	});
 
@@ -94,6 +130,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
+	grunt.loadNpmTasks( 'grunt-contrib-jade' );
+  grunt.loadNpmTasks( 'grunt-contrib-connect' );
 
 	// Default task
 	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
@@ -101,4 +139,26 @@ module.exports = function(grunt) {
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
 
+  // assemble slides document
+  grunt.registerTask( 'precompile', function() {
+    var options = grunt.file.readJSON('slides.json');
+
+    var slides = options.slides.reduce(function(result, slide) {
+      return result + "  include slides/" + slide + "\n";
+    }, 'extends layout\n\nblock slides\n');
+
+    slides = slides + "\nblock options\n  script\n    var options = " + JSON.stringify(options.options) + ";";
+
+    grunt.file.write('slides.jade', slides);
+  });
+
+  grunt.registerTask( 'slides', [ 'precompile', 'jade' ] );
+
+  grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+
+  grunt.registerTask( 'package', [ 'slides', 'zip' ] );
+
+  // for some reason, loading this above with the other plugins
+  // causes the 'precompile' task to break
+  grunt.loadNpmTasks( 'grunt-zip' );
 };

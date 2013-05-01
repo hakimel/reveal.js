@@ -1,5 +1,8 @@
 // START CUSTOM REVEAL.JS INTEGRATION
 [].slice.call( document.querySelectorAll( 'pre code' ) ).forEach( function( element ) {
+  element.innerHTML = element.innerHTML.replace(/^\n/,'');   // remove first newline
+  var indent = new RegExp("^" + element.innerHTML.match(/^[ \t]+/), 'gm');
+  element.innerHTML = element.innerHTML.replace(indent, ''); // remove spaces and tabs from beginning of code
 	element.addEventListener( 'focusout', function( event ) {
 		hljs.highlightBlock( event.currentTarget );
 	}, false );
