@@ -159,7 +159,7 @@
 
 		<div id="notes"></div>
 
-		<script src="../../plugin/markdown/showdown.js"></script>
+		<script src="../../plugin/markdown/marked.js"></script>
 		<script>
 
 			window.addEventListener( 'load', function() {
@@ -175,7 +175,7 @@
 						// No need for updating the notes in case of fragment changes
 						if ( data.notes !== undefined) {
 							if( data.markdown ) {
-								notes.innerHTML = (new Showdown.converter()).makeHtml( data.notes );
+								notes.innerHTML = marked( data.notes );
 							}
 							else {
 								notes.innerHTML = data.notes;
