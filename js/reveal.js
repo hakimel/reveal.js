@@ -235,6 +235,18 @@ var Reveal = (function(){
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
 
+		//Auto scape code blocks
+		var cblocks = document.querySelectorAll("pre code");
+		
+		if(cblocks.length) {
+			for(var i=0, len=cblocks.length; i<len; i++) {
+				var thisDom = cblocks[i];
+				var html = thisDom.innerHTML;
+				html = html.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+				thisDom.innerHTML = html;
+			}
+		}		
+
 	}
 
 	/**
