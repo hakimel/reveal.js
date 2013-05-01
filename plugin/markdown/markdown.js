@@ -2,8 +2,8 @@
 // Modified by Hakim to handle Markdown indented with tabs
 (function(){
 
-    if( typeof Showdown === 'undefined' ) {
-        throw 'The reveal.js Markdown plugin requires Showdown to be loaded';
+    if( typeof marked === 'undefined' ) {
+        throw 'The reveal.js Markdown plugin requires marked to be loaded';
     }
 
     var stripLeadingWhitespace = function(section) {
@@ -175,7 +175,7 @@
 
         var markdown = stripLeadingWhitespace(section);
 
-        section.innerHTML = (new Showdown.converter()).makeHtml(markdown);
+        section.innerHTML = marked(markdown);
 
         if( notes ) {
             section.appendChild( notes );
