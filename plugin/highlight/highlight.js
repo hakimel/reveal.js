@@ -11,6 +11,9 @@
 				element.innerHTML = element.innerHTML.trim();
 			}
 
+			// Now escape html
+			element.innerHTML = element.innerHTML.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
 			// re-highlight when focus is lost (for edited code)
 			element.addEventListener( 'focusout', function( event ) {
 				hljs.highlightBlock( event.currentTarget );
