@@ -277,22 +277,10 @@ body {
 	.reveal blockquote p:last-child {
 		display: inline-block;
 	}
-	.reveal blockquote:before {
-		content: '\201C';
-	}
-	.reveal blockquote:after {
-		content: '\201D';
-	}
 
 .reveal q {
 	font-style: italic;
 }
-	.reveal q:before {
-		content: '\201C';
-	}
-	.reveal q:after {
-		content: '\201D';
-	}
 
 .reveal pre {
 	display: block;
