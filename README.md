@@ -409,54 +409,6 @@ Each theme is available as a separate stylesheet. To change theme you will need 
 If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
 
 
-## Installation
-
-The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features as well as the development tasks needed to make changes to the source.
-
-### Basic setup
-
-The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.g
-
-1. Download a copy of reveal.js from <https://github.com/hakimel/reveal.js/archive/master.zip>
-
-2. Unizp and replace the example contents in index.html with your own
-
-3. Open index.html in a browser to view it
-
-
-### Full setup
-
-Some reveal.js features, like external markdown, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
-
-1. Install [Node.js](http://nodejs.org/)
-
-2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
-
-4. Clone the reveal.js repository  
-```
-$ git clone git@github.com:hakimel/reveal.js.git
-```
-
-5. Install dependencies  
-```
-$ npm install
-```
-
-6. Serve the presentation and monitor source files for changes  
-```
-$ grunt serve
-```
-
-7. Open <http://localhost:8000> to view your presentation
-
-
-### Folder Structure
-- **css/** Core styles without which the project does not function
-- **js/** Like above but for JavaScript
-- **plugin/** Components that have been developed as extensions to reveal.js
-- **lib/** All other third party assets (JavaScript, CSS, fonts)
-
-
 ## Speaker Notes
 
 reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the 's' key on your keyboard to open the notes window.
@@ -624,6 +576,54 @@ Reveal.initialize({
 	]
 });
 ```
+
+## Installation
+
+The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features as well as the development tasks needed to make changes to the source.
+
+### Basic setup
+
+The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.g
+
+1. Download a copy of reveal.js from <https://github.com/hakimel/reveal.js/archive/master.zip>
+
+2. Unizp and replace the example contents in index.html with your own
+
+3. Open index.html in a browser to view it
+
+
+### Full setup
+
+Some reveal.js features, like external markdown, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
+
+1. Install [Node.js](http://nodejs.org/)
+
+2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
+
+4. Clone the reveal.js repository  
+```
+$ git clone git@github.com:hakimel/reveal.js.git
+```
+
+5. Install dependencies  
+```
+$ npm install
+```
+
+6. Serve the presentation and monitor source files for changes  
+```
+$ grunt serve
+```
+
+7. Open <http://localhost:8000> to view your presentation
+
+
+### Folder Structure
+- **css/** Core styles without which the project does not function
+- **js/** Like above but for JavaScript
+- **plugin/** Components that have been developed as extensions to reveal.js
+- **lib/** All other third party assets (JavaScript, CSS, fonts)
+
 
 
 ## License
