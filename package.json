@@ -32,6 +32,8 @@
     "grunt-contrib-uglify": "~0.1.1",
     "grunt-contrib-watch": "~0.2.0",
     "grunt-contrib-sass": "~0.2.2",
+    "grunt-contrib-connect": "~0.2.0",
+    "grunt-zip": "~0.7.0",
     "grunt": "~0.4.0"
   },
   "licenses": [
