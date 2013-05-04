@@ -796,6 +796,13 @@ body {
  * LINEAR TRANSITION
  *********************************************/
 
+.reveal.linear section {
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	    -ms-backface-visibility: hidden;
+	        backface-visibility: hidden;
+}
+
 .reveal .slides>section[data-transition=linear].past,
 .reveal.linear .slides>section.past {
 	-webkit-transform: translate(-150%, 0);
