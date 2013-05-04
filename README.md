@@ -10,9 +10,9 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
 - [Browser Support](https://github.com/hakimel/reveal.js/wiki/Browser-Support): Explanation of browser support and fallbacks.
 
-## rvl.io
+## Slides
 
-Slides are written using HTML or markdown but there's also an online editor for those of you who prefer a more traditional user interface. Give it a try at [www.rvl.io](http://www.rvl.io).
+Presentations are written using HTML or markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [http://slid.es](http://slid.es).
 
 
 ## Instructions
