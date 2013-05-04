@@ -748,11 +748,26 @@ var Reveal = (function(){
 	function getPreviousVerticalIndex( stack ) {
 
 		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
-			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
+			if ( stack.hasAttribute( 'data-previous-indexv' ) ) {
+				return parseInt( stack.getAttribute( 'data-previous-indexv' ), 10 );
+			}
+			return getStackStart( stack );
 		}
 
 		return 0;
 
+	}
+
+	/**
+	 * Calculates the starting slide of a stack, based on which one
+	 * has the class '.stack-start' or 0 if no start has been designated.
+	 *
+	 * @param {HTMLElement} stack The vertical stack element
+	 */
+	function getStackStart( stack )  {
+		var stackSections = Array.prototype.slice.call( stack.querySelectorAll('section') );
+		var stackCenter = stackSections.indexOf( stack.querySelector('section.stack-start') );
+		return stackCenter === -1 ? 0 : stackCenter;
 	}
 
 	/**
@@ -1157,7 +1172,7 @@ var Reveal = (function(){
 					for( i in slides ) {
 						if( slides[i] ) {
 							// Reset stack
-							setPreviousVerticalIndex( slides[i], 0 );
+							setPreviousVerticalIndex( slides[i], getStackStart ( slides[i] ) );
 						}
 					}
 				}, 0 );
