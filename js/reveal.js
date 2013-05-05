@@ -748,7 +748,10 @@ var Reveal = (function(){
 	function getPreviousVerticalIndex( stack ) {
 
 		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
-			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
+			// Prefer manually defined start-indexv
+			var attributeName = stack.hasAttribute( 'data-start-indexv' ) ? 'data-start-indexv' : 'data-previous-indexv';
+
+			return parseInt( stack.getAttribute( attributeName ) || 0, 10 );
 		}
 
 		return 0;
