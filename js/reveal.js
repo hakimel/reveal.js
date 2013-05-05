@@ -1629,11 +1629,19 @@ var Reveal = (function(){
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment:not(.visible)' ) );
 
 			if( fragments.length ) {
-				fragments[0].classList.add( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: fragments[0] } );
-
+				// There may be multiple fragments with the same index. We want to display all of them.
+				var nextFragmentIndex = fragments[0].getAttribute( 'data-fragment-index' );
+				
+				toArray( fragments ).forEach( function( thisFragment ) {
+					var f = thisFragment.getAttribute( 'data-fragment-index' );
+					if( f === nextFragmentIndex ) {
+						thisFragment.classList.add( 'visible' );
+						
+						// Notify subscribers of the change
+						dispatchEvent( 'fragmentshown', { fragment: thisFragment } );
+					}
+				} );
+				
 				updateControls();
 				return true;
 			}
@@ -1655,10 +1663,18 @@ var Reveal = (function(){
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) );
 
 			if( fragments.length ) {
-				fragments[ fragments.length - 1 ].classList.remove( 'visible' );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: fragments[ fragments.length - 1 ] } );
+				// There may be multiple fragments with the same index. We want to display all of them.
+				var prevFragmentIndex = fragments[0].getAttribute( 'data-fragment-index' );
+				
+				toArray( fragments ).forEach( function( thisFragment ) {
+					var f = thisFragment.getAttribute( 'data-fragment-index' );
+					if( f === prevFragmentIndex ) {
+						thisFragment.classList.remove( 'visible' );
+						
+						// Notify subscribers of the change
+						dispatchEvent( 'fragmenthidden', { fragment: thisFragment } );
+					}
+				} );
 
 				updateControls();
 				return true;
