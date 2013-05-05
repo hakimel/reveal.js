@@ -11,8 +11,10 @@
 				element.innerHTML = element.innerHTML.trim();
 			}
 
-			// Now escape html
-			element.innerHTML = element.innerHTML.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+			// Now escape html unless prevented by author
+			if( ! element.hasAttribute( 'data-noescape' )) {
+				element.innerHTML = element.innerHTML.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+			}
 
 			// re-highlight when focus is lost (for edited code)
 			element.addEventListener( 'focusout', function( event ) {
