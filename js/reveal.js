@@ -748,13 +748,27 @@ var Reveal = (function(){
 	function getPreviousVerticalIndex( stack ) {
 
 		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
-			// Prefer manually defined start-indexv
-			var attributeName = stack.hasAttribute( 'data-start-indexv' ) ? 'data-start-indexv' : 'data-previous-indexv';
+			// Prefer automatically created previous-indexv
+			var attributeName = stack.hasAttribute( 'data-previous-indexv' ) ? 'data-previous-indexv' : 'data-start-indexv';
 
 			return parseInt( stack.getAttribute( attributeName ) || 0, 10 );
 		}
 
 		return 0;
+
+	}
+
+	/**
+	 * Clears the vertical index which was stored using
+	 * #setPreviousVerticalIndex().
+	 *
+	 * @param {HTMLElement} stack The vertical stack element
+	 */
+	function clearPreviousVerticalIndex ( stack ) {
+
+		if( typeof stack === 'object' && typeof stack.removeAttribute === 'function' ) {
+			stack.removeAttribute( 'data-previous-indexv' );
+		}
 
 	}
 
@@ -1160,7 +1174,7 @@ var Reveal = (function(){
 					for( i in slides ) {
 						if( slides[i] ) {
 							// Reset stack
-							setPreviousVerticalIndex( slides[i], 0 );
+							clearPreviousVerticalIndex( slides[i] );
 						}
 					}
 				}, 0 );
