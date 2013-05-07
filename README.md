@@ -631,9 +631,13 @@ $ grunt serve
 
 ### Features:
 Mouse Pointer, Mouse Click
+
 Slide forward, Slide back
+
 Expose Mode (ESC)
+
 Darken the Screen
+
 
 Works well with Chrome. Linux Mint and Ubuntu-compatible.
 
