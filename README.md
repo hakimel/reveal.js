@@ -625,6 +625,17 @@ $ grunt serve
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
 
 
+## Recommended hardware 
+
+[Equip Wireless Notebook Presenter 4-in-1] (http://www.amazon.com/Equip-Wireless-Notebook-Presenter-2-4GHz/dp/B000L376YE)
+
+### Features:
+Mouse Pointer, Mouse Click
+Slide forward, Slide back
+Expose Mode (ESC)
+Darken the Screen
+
+Works well with Chrome. Linux Mint and Ubuntu-compatible.
 
 ## License
 
