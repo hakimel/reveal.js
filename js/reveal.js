@@ -184,6 +184,11 @@ var Reveal = (function(){
 		// Cache references to key DOM elements
 		dom.theme = document.querySelector( '#theme' );
 		dom.wrapper = document.querySelector( '.reveal' );
+
+        if( window.navigator.msPointerEnabled ) {
+            //if msPointers is present, we need stablis msTouchAction style to none.
+            dom.wrapper.style.msTouchAction = "none";
+        }
 		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Progress bar
