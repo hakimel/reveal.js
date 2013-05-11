@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Poll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        /* Custom container */
+        .container-narrow {
+            margin: 0 auto;
+            max-width: 700px;
+        }
+        .container-narrow > hr {
+            margin: 30px 0;
+        }
+
+        /* Main marketing message and sign up button */
+        .jumbotron {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .jumbotron h1 {
+            font-size: 72px;
+            line-height: 1;
+        }
+
+        /* Supporting marketing content */
+        .marketing {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .marketing .btn {
+            margin-bottom: 15px;
+        }
+        .marketing p + h4 {
+            margin-top: 28px;
+        }
+
+    </style>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-narrow">
+    <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+            <li class="active">
+                <a href="#">About</a>
+            </li>
+        </ul>
+        <h2 class="muted">repoll</h2>
+    </div>
+    <hr>
+    <div class="jumbotron">
+        <h2></h2>
+    </div>
+    <hr>
+    <div class="row-fluid marketing">
+        <!--<a class="btn btn-large btn-info span6" type="submit">vote</a>-->
+        <script id="vote-template" type="text/x-handlebars-tempalte">
+            {{#each this}}
+            <a class="btn btn-large span12" type="submit" data-index="{{@index}}">
+                <i style="background-color:{{color}}; display:inline-block; width:12px; height:12px; margin-right:10px"></i>{{desc}}
+            </a>
+            {{/each}}
+        </script>
+    </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.min.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/plugin/repoll-server/client.js"></script>
+</body>
+</html>
