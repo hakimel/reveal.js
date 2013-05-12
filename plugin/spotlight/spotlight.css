@@ -1,0 +1,14 @@
+.reveal .spotlight {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #000;
+    pointer-events: none;
+    /* this is the sweet spot */
+    background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.8)), color-stop(0.8, rgba(0,0,0,0)));
+    background-image: -moz-radial-gradient(50% 50% 45deg,circle closest-side,transparent 0,transparent 100px,rgba(0, 0, 0, 0.8) 120px);
+    z-index:1;
+}
