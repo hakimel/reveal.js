@@ -20,6 +20,25 @@ exports.template = function(grunt, init, done) {
     init.prompt('name'),
     init.prompt('version'),
     init.prompt('title'),
+    init.prompt('description', 'The best presentation ever.'),
+    init.prompt('author_name'),
+    init.prompt('author_url'),
+    {
+      name: 'author_twitter_handle',
+      message: 'Author twitter user name.',
+      default: function(value, data, done) {
+        var handle = "twitter_handle"
+        if (data.author_name) {
+          handle = data.author_name;
+          handle = handle.toLowerCase()
+                         .replace(/ /g, '_');
+          done(null, handle);
+        } else {
+          done(null, handle);
+        }
+      },
+      warning: 'Don\'t prefix with "@".'
+    },
     {
       name: 'langcode',
       message: 'The language of the default index.html',
