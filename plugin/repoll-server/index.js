@@ -1,23 +1,28 @@
-var express   = require('express');
-var fs        = require('fs');
-var io        = require('socket.io');
-var _         = require('underscore');
-var Mustache  = require('mustache');
+var express   = require('express'),
+    fs        = require('fs'),
+    io        = require('socket.io'),
+    _         = require('underscore'),
+    Mustache  = require('mustache');
 
-var app       = express.createServer();
-var staticDir = express.static;
-
-io            = io.listen(app);
+var app       = express.createServer(),
+    staticDir = express.static,
+    io        = io.listen(app);
 
 var opts = {
-  port :      1984,
-  baseDir :   __dirname + '/../../'
+  port: 1984,
+  baseDir: __dirname + '/../../'
 };
 
-var masters = {};
-var clients = {};
-var chartData = {'chart':'none'};
-var isMasterReady = false;
+
+var path = {
+      root: opts.baseDir,
+      noteDir: opts.baseDir + 'plugin/notes-server/',
+      repollDir: opts.baseDir + 'plugin/repoll-server/'
+    },
+    masters = {},
+    clients = {},
+    chartData = {},
+    isMasterReady = false;
 
 var cacheItem = function(item, cache, callback) {
   if (!(item.id in cache)){
@@ -38,10 +43,11 @@ io.of('/master').on('connection', function(master) {
   master.on('disconnect', function() {
     delete masters[master.id];
     isMasterReady = false;
-    chartData = {'chart':'none'};
+    chartData = {};
     console.log('master disconnected');
-    for (var id in clients)
-      clients[id].emit('master_lost', {});
+    _.each(clients, function(client, id) { 
+      client.emit('master_lost', {});
+    });
   });
 
   master.on('force_disconnect', function() {
@@ -52,8 +58,9 @@ io.of('/master').on('connection', function(master) {
     console.log('master ready event ' + masterData);
     chartData = masterData;
     isMasterReady = true;
-    for (var id in clients)
-      clients[id].emit('master_ready', chartData);
+    _.each(clients, function(client, id) { 
+      client.emit('master_ready', chartData);
+    });
   })
 });
 
@@ -77,9 +84,9 @@ io.of('/client').on('connection', function(client) {
 
   client.on('client_vote', function(data) {
     console.log('client try to vote');
-    for (var id in masters) {
-      masters[id].emit('client_vote', data);
-    }
+    _.each(masters, function(master, id) { 
+      master.emit('client_vote', chartData);
+    });
   });
 });
 
@@ -87,25 +94,68 @@ app.configure(function() {
   [ 'css', 'js', 'images', 'plugin', 'lib' ].forEach(function(dir) {
     app.use('/' + dir, staticDir(opts.baseDir + dir));
   });
+  app.use(express.logger());
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
-app.get("/", function(req, res) {
-  fs.createReadStream(opts.baseDir + '/index.html').pipe(res);
-});
+var Handler = {
+  index: function(req, res, next) {
+    fs.createReadStream(path.root + '/index.html').pipe(res);
+  },
+  client: function(req, res, next) {
+    fs.createReadStream(path.repollDir + '/client.html').pipe(res);
+  },
+  infomation: function(req, res, next) {
+    fs.readFile(path.repollDir + '/infomation.html', function(err, data) {
+      res.send(Mustache.to_html(data.toString(), {
+        isMasterReady: isMasterReady,
+        opts: opts,
+        masters: masters,
+        clients: clients
+      }));
+    });
+  },
+  note: function(req, res, next) {
+    fs.readFile(path.noteDir + '/notes.html', function(err, data) {
+      res.send(Mustache.to_html(data.toString(), {
+        socketId : req.params.socketId
+      }));
+    });
+  }
+};
 
-app.get("/client", function(req, res) {
-  fs.createReadStream(opts.baseDir + 'plugin/repoll-server/client.html').pipe(res);
-});
+var RouteMap = [
+  { url: "/", handler: Handler.index },
+  { url: "/client", handler: Handler.client },
+  { url: "/infomation", handler: Handler.infomation },
+  { url: "/notes/:socketId", handler: Handler.note }
+];
 
-app.get("/notes/:socketId", function(req, res) {
+var beforeMiddleWare = {
+      parseParameter: function(req, res, next) {
+        next();
+      }
+    },
+    afterMiddleWare = {};
 
-  fs.readFile(opts.baseDir + 'plugin/notes-server/notes.html', function(err, data) {
-    res.send(Mustache.to_html(data.toString(), {
-      socketId : req.params.socketId
-    }));
-  });
-  // fs.createReadStream(opts.baseDir + 'notes-server/notes.html').pipe(res);
-});
+var k, m, route;
+for (k in beforeMiddleWare) {
+  if(beforeMiddleWare.hasOwnProperty(k)) {
+    app.use(beforeMiddleWare[k]);
+  }
+}
+for (m in RouteMap) {
+  if(!RouteMap.hasOwnProperty(m)) {
+    continue;
+  }
+  route = RouteMap[m];
+  app[route.method || 'get'](route.url, route.handler);
+};
+for (k in afterMiddleWare) {
+  if(afterMiddleWare.hasOwnProperty(k)) {
+    app.use(afterMiddleWare[k]);
+  }
+}
 
 // Actually listen
 app.listen(opts.port || null);
