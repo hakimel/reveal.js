@@ -16,7 +16,31 @@ exports.template = function(grunt, init, done) {
   "use strict";
 
   // Start prompting..
-  init.process({}, [
+  init.process({
+    "scripts": {
+      "test": "grunt jshint",
+      "start": ""
+    },
+    "engines": {
+      "node": "~0.8.0"
+    },
+    "dependencies": {
+      "underscore": "~1.3.3",
+      "express": "~2.5.9",
+      "mustache": "~0.4.0",
+      "socket.io": "~0.9.13"
+    },
+    "devDependencies": {
+      "grunt-contrib-jshint": "~0.2.0",
+      "grunt-contrib-cssmin": "~0.4.1",
+      "grunt-contrib-uglify": "~0.1.1",
+      "grunt-contrib-watch": "~0.2.0",
+      "grunt-contrib-sass": "~0.2.2",
+      "grunt-contrib-connect": "~0.2.0",
+      "grunt-zip": "~0.7.0",
+      "grunt": "~0.4.0"
+    }
+  }, [
     init.prompt('name'),
     init.prompt('version'),
     init.prompt('title'),
@@ -52,6 +76,9 @@ exports.template = function(grunt, init, done) {
 
     // Actually copy (and process) files...
     init.copyAndProcess(files, props);
+
+    // Generate package.json file.
+    init.writePackageJSON('package.json', props);
 
     done();
   });
