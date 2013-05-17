@@ -69,7 +69,12 @@
 						<li>떡볶이</li>
 					</ul>
 				</section>
-				
+
+        <section>
+            <h2>Repoll</h2>
+            <canvas id="mychart" width="600" height="300"></canvas>
+        </section>
+
 				<section>
 					<h2>Heads Up</h2>
 					<p>
@@ -370,6 +375,8 @@ function linkify( selector ) {
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/nnnick/Chart.js/master/Chart.min.js"></script>
 
 		<script>
 
@@ -392,8 +399,13 @@ function linkify( selector ) {
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+<<<<<<< HEAD
           { src: 'plugin/spotlight/spotlight.js', async: true, condition: function() { return !!document.body.classList; } },
           { src: 'plugin/repoll/repoll.js', async: true, condition: function() { return !!document.body.classList; } }
+=======
+                    { src: 'plugin/spotlight/spotlight.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/repoll/repoll.js', async: true, condition: function() { return !!document.body.classList; } },
+>>>>>>> 33e22d3b77aaac2fc883513e2e7ecb99c961c6af
 					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
 					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
