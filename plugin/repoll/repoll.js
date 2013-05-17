@@ -34,9 +34,9 @@
   });
 
   sio.on('client_vote', function(data) {
-    console.dir(data);
     console.log("client_vote event");
-    chart.Pie(data);
+    chartData[data.selected].value += 1;
+    chart.Pie(chartData);
   });
 
   window.onbeforeunload = function() {
