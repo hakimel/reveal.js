@@ -9,11 +9,7 @@ var voteButtons    = $('.marketing');
 var templateSource = $('#vote-template').html();
 var voteTemplate   = Handlebars.compile(templateSource);
 
-var isDebug = document.location.hostname !== 'repoll.herokuapp.com';
-var sio = io.connect(isDebug ?
-  'http://192.168.0.102:3000/client' :
-  'http://repoll.herokuapp.com/client'
-);
+var sio = io.connect(window.location.origin + '/client');
 
 var masterNotReady = function() {
   console.log('master not ready');
