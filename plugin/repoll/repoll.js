@@ -4,7 +4,23 @@
   var ctx = document.getElementById("myChart").getContext("2d");
   var chart = new Chart(ctx);
 
-  var chartData = {};
+  var chartData = [
+    {
+      value : 0,
+      color : "#F38630",
+      desc : "java"
+    },
+    {
+      value : 0,
+      color : "#E0E4CC",
+      desc : "javascript"
+    },
+    {
+      value : 0,
+      color : "#69D2E7",
+      desc : "ruby"
+    }
+  ];
   var sio = io.connect(window.location.origin + '/master');
 
   sio.on('error', function() {
