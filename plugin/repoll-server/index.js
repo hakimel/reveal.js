@@ -85,7 +85,7 @@ io.of('/client').on('connection', function(client) {
   client.on('client_vote', function(data) {
     console.log('client try to vote');
     _.each(masters, function(master, id) { 
-      master.emit('client_vote', chartData);
+      master.emit('client_vote', data);
     });
   });
 });
