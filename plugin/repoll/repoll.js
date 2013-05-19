@@ -1,47 +1,53 @@
 //기존 코드
 (function() {
   console.log("repoll loaded");
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var chart = new Chart(ctx);
+  head.js(
+    window.location.origin + '/socket.io/socket.io.js',
+    'https://raw.github.com/nnnick/Chart.js/master/Chart.min.js',
+    function() {
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var chart = new Chart(ctx);
 
-  var chartData = [
-    {
-      value : 0,
-      color : "#F38630",
-      desc : "java"
-    },
-    {
-      value : 0,
-      color : "#E0E4CC",
-      desc : "javascript"
-    },
-    {
-      value : 0,
-      color : "#69D2E7",
-      desc : "ruby"
+      var chartData = [
+        {
+          value : 0,
+          color : "#F38630",
+          desc : "java"
+        },
+        {
+          value : 0,
+          color : "#E0E4CC",
+          desc : "javascript"
+        },
+        {
+          value : 0,
+          color : "#69D2E7",
+          desc : "ruby"
+        }
+      ];
+      var sio = io.connect(window.location.origin + '/master');
+
+      sio.on('error', function() {
+        var host = sio.socket.options.host;
+        console.log('error connect to ' + host);
+      });
+
+      sio.on('connect', function() {
+        console.log('socket.io connected to ' + sio.socket.options.host);
+        sio.emit('master_ready', JSON.stringify(chartData));
+      });
+
+      sio.on('client_vote', function(data) {
+        console.log("client_vote event");
+        chartData[data.selected].value += 1;
+        chart.Pie(chartData);
+      });
+
+      window.onbeforeunload = function() {
+        sio.emit('force_disconnect');
+      }
     }
-  ];
-  var sio = io.connect(window.location.origin + '/master');
-
-  sio.on('error', function() {
-    var host = sio.socket.options.host;
-    console.log('error connect to ' + host);
-  });
-
-  sio.on('connect', function() {
-    console.log('socket.io connected to ' + sio.socket.options.host);
-    sio.emit('master_ready', JSON.stringify(chartData));
-  });
-
-  sio.on('client_vote', function(data) {
-    console.log("client_vote event");
-    chartData[data.selected].value += 1;
-    chart.Pie(chartData);
-  });
-
-  window.onbeforeunload = function() {
-    sio.emit('force_disconnect');
-  }
+  );
 })();
 
 //Reveal.js와의 연동처리 부분
