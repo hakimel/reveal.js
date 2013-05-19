@@ -47,6 +47,7 @@ body {
  * LINKS
  *********************************************/
 .reveal a:not(.image) {
+  line-height: 1.3em;
   color: #51483d;
   text-decoration: none;
   -webkit-transition: color .15s ease;
