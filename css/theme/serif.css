@@ -87,6 +87,10 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
+.reveal .controls div {
+  opacity: 0.15;
+}
+
 .reveal .controls div.navigate-left,
 .reveal .controls div.navigate-left.enabled {
   border-right-color: #51483d; }
