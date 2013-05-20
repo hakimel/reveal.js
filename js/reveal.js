@@ -536,6 +536,41 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Retrieves the height of the given element by looking
+	 * at the position and height of its immediate children.
+	 */
+	function getAbsoluteHeight( element ) {
+
+		var height = 0;
+
+		if( element ) {
+			var absoluteChildren = 0;
+
+			toArray( element.childNodes ).forEach( function( child ) {
+
+				if( typeof child.offsetTop === 'number' && child.style ) {
+					// Count # of abs children
+					if( child.style.position === 'absolute' ) {
+						absoluteChildren += 1;
+					}
+
+					height = Math.max( height, child.offsetTop + child.offsetHeight );
+				}
+
+			} );
+
+			// If there are no absolute children, use offsetHeight
+			if( absoluteChildren === 0 ) {
+				height = element.offsetHeight;
+			}
+
+		}
+
+		return height;
+
+	}
+
+	/**
 	 * Causes the address bar to hide on mobile devices,
 	 * more vertical space ftw.
 	 */
@@ -610,26 +645,6 @@ var Reveal = (function(){
 				anchor.innerHTML = span.innerHTML;
 			}
 		}
-
-	}
-
-	/**
-	 * Retrieves the height of the given element by looking
-	 * at the position and height of its immediate children.
-	 */
-	function getAbsoluteHeight( element ) {
-
-		var height = 0;
-
-		if( element ) {
-
-			toArray( element.childNodes ).forEach( function( child ) {
-				height = Math.max( height, child.offsetTop + child.offsetHeight );
-			} );
-
-		}
-
-		return height;
 
 	}
 

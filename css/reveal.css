@@ -649,10 +649,6 @@ body {
 	        transition-duration: 1200ms;
 }
 
-.reveal .slides>section[data-full-height] {
-	height: 100%;
-}
-
 .reveal .slides>section {
 	left: -50%;
 	top: -50%;
