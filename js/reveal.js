@@ -70,6 +70,9 @@ var Reveal = (function(){
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,
 
+			// Opens links in an iframe preview overlay
+			previewLinks: false,
+
 			// Theme (see /css/theme)
 			theme: null,
 
@@ -380,12 +383,21 @@ var Reveal = (function(){
 			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
 
-		// 3D links
+		// Rolling 3D links
 		if( config.rollingLinks ) {
-			enable3DLinks();
+			enableRollingLinks();
 		}
 		else {
-			disable3DLinks();
+			disableRollingLinks();
+		}
+
+		// Iframe link previews
+		if( config.previewLinks ) {
+			enablePreviewLinks();
+		}
+		else {
+			disablePreviewLinks();
+			enablePreviewLinks( '[data-preview-link]' );
 		}
 
 		// Load the theme in the config, if it's not already loaded
@@ -560,7 +572,7 @@ var Reveal = (function(){
 	/**
 	 * Wrap all links in 3D goodness.
 	 */
-	function enable3DLinks() {
+	function enableRollingLinks() {
 
 		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
 			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
@@ -585,7 +597,7 @@ var Reveal = (function(){
 	/**
 	 * Unwrap all 3D links.
 	 */
-	function disable3DLinks() {
+	function disableRollingLinks() {
 
 		var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
 
@@ -597,6 +609,110 @@ var Reveal = (function(){
 				anchor.classList.remove( 'roll' );
 				anchor.innerHTML = span.innerHTML;
 			}
+		}
+
+	}
+
+	/**
+	 * Retrieves the height of the given element by looking
+	 * at the position and height of its immediate children.
+	 */
+	function getAbsoluteHeight( element ) {
+
+		var height = 0;
+
+		if( element ) {
+
+			toArray( element.childNodes ).forEach( function( child ) {
+				height = Math.max( height, child.offsetTop + child.offsetHeight );
+			} );
+
+		}
+
+		return height;
+
+	}
+
+	/**
+	 * Bind preview frame links.
+	 */
+	function enablePreviewLinks( selector ) {
+
+		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
+
+		anchors.forEach( function( element ) {
+			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
+				element.addEventListener( 'click', onPreviewLinkClicked, false );
+			}
+		} );
+
+	}
+
+	/**
+	 * Unbind preview frame links.
+	 */
+	function disablePreviewLinks() {
+
+		var anchors = toArray( document.querySelectorAll( 'a' ) );
+
+		anchors.forEach( function( element ) {
+			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
+				element.removeEventListener( 'click', onPreviewLinkClicked, false );
+			}
+		} );
+
+	}
+
+	/**
+	 * Opens a preview window for the target URL.
+	 */
+	function openPreview( url ) {
+
+		closePreview();
+
+		dom.preview = document.createElement( 'div' );
+		dom.preview.classList.add( 'preview-link-overlay' );
+		dom.wrapper.appendChild( dom.preview );
+
+		dom.preview.innerHTML = [
+			'<header>',
+				'<a class="close" href="#"><span class="icon"></span></a>',
+				'<a class="external" href="'+ url +'" target="_blank"><span class="icon"></span></a>',
+			'</header>',
+			'<div class="spinner"></div>',
+			'<div class="viewport">',
+				'<iframe src="'+ url +'"></iframe>',
+			'</div>'
+		].join('');
+
+		dom.preview.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
+			dom.preview.classList.add( 'loaded' );
+		}, false );
+
+		dom.preview.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			closePreview();
+			event.preventDefault();
+		}, false );
+
+		dom.preview.querySelector( '.external' ).addEventListener( 'click', function( event ) {
+			closePreview();
+		}, false );
+
+		setTimeout( function() {
+			dom.preview.classList.add( 'visible' );
+		}, 1 );
+
+	}
+
+	/**
+	 * Closes the iframe preview window.
+	 */
+	function closePreview() {
+
+		if( dom.preview ) {
+			dom.preview.setAttribute( 'src', '' );
+			dom.preview.parentNode.removeChild( dom.preview );
+			dom.preview = null;
 		}
 
 	}
@@ -707,7 +823,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, -slideHeight / 2 ) + 'px';
+						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - 20, -slideHeight / 2 ) + 'px';
 					}
 				}
 				else {
@@ -2113,6 +2229,20 @@ var Reveal = (function(){
 				}
 
 			}
+		}
+
+	}
+
+	/**
+	 * Handles clicks on links that are set to preview in the
+	 * iframe overlay.
+	 */
+	function onPreviewLinkClicked( event ) {
+
+		var url = event.target.getAttribute( 'href' );
+		if( url ) {
+			openPreview( url );
+			event.preventDefault();
 		}
 
 	}
