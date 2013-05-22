@@ -6,16 +6,19 @@
   <head>
     <meta charset="utf-8">
 
-    <!-- Meta-content (title, meta). -->
-    <!--#include file="_included/meta.html" -->
-
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="stylesheet" href="css/reveal.min.css">
-    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- THEME now expected in meta.html.
+         <link rel="stylesheet" href="css/theme/default.css" id="theme">
+      -->
+
+    <!-- Meta-content (title, meta, style). -->
+    <!--#include file="_included/head.html" -->
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
