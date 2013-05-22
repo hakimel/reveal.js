@@ -6,7 +6,7 @@ var express   = require('express'),
 
 var app       = express.createServer(),
     staticDir = express.static,
-    io        = io.listen(app);
+    sio        = io.listen(app);
 
 var opts = {
   port: 1984,
@@ -32,8 +32,19 @@ var cacheItem = function(item, cache, callback) {
   if (callback) callback();
 }
 
+io.configure(function() {
+  io.set('log level', 1);
+  io.set('transports', [
+    'websocket'
+    ,'flashsocket'
+    ,'htmlfile'
+    ,'xhr-polling'
+    ,'jsonp-polling'
+  ]);
+});
+
 // we need some verification for master. maybe...
-io.of('/master').on('connection', function(master) {
+sio.of('/master').on('connection', function(master) {
   console.log('master connected - ' + master.id);
 
   cacheItem(master, masters, function() {
@@ -55,16 +66,17 @@ io.of('/master').on('connection', function(master) {
   });
 
   master.on('master_ready', function(masterData) {
-    console.log('master ready event ' + masterData);
+    console.log('master ready event ');
+    console.dir(masterData);
     chartData = masterData;
     isMasterReady = true;
-    _.each(clients, function(client, id) { 
+    _.each(clients, function(client) {
       client.emit('master_ready', chartData);
     });
   })
 });
 
-io.of('/client').on('connection', function(client) {
+sio.of('/client').on('connection', function(client) {
   console.log('client connected - ' + client.id);
 
   client.emit('master_ready', chartData);
@@ -84,7 +96,7 @@ io.of('/client').on('connection', function(client) {
 
   client.on('client_vote', function(data) {
     console.log('client try to vote');
-    _.each(masters, function(master, id) { 
+    _.each(masters, function(master) {
       master.emit('client_vote', data);
     });
   });
@@ -99,23 +111,13 @@ app.configure(function() {
 });
 
 var Handler = {
-  index: function(req, res, next) {
+  index: function(req, res) {
     fs.createReadStream(path.root + '/index.html').pipe(res);
   },
-  client: function(req, res, next) {
+  client: function(req, res) {
     fs.createReadStream(path.repollDir + '/client.html').pipe(res);
   },
-  infomation: function(req, res, next) {
-    fs.readFile(path.repollDir + '/infomation.html', function(err, data) {
-      res.send(Mustache.to_html(data.toString(), {
-        isMasterReady: isMasterReady,
-        opts: opts,
-        masters: masters,
-        clients: clients
-      }));
-    });
-  },
-  note: function(req, res, next) {
+  note: function(req, res) {
     fs.readFile(path.noteDir + '/notes.html', function(err, data) {
       res.send(Mustache.to_html(data.toString(), {
         socketId : req.params.socketId
@@ -127,34 +129,23 @@ var Handler = {
 var RouteMap = [
   { url: "/", handler: Handler.index },
   { url: "/client", handler: Handler.client },
-  { url: "/infomation", handler: Handler.infomation },
   { url: "/notes/:socketId", handler: Handler.note }
 ];
 
-var beforeMiddleWare = {
-      parseParameter: function(req, res, next) {
-        next();
-      }
-    },
-    afterMiddleWare = {};
+var middleWare = {
+  parseParameter: function(req, res, next) {
+    next();
+  }
+};
 
 var k, m, route;
-for (k in beforeMiddleWare) {
-  if(beforeMiddleWare.hasOwnProperty(k)) {
-    app.use(beforeMiddleWare[k]);
-  }
-}
+app.use(middleWare.parseParameter);
 for (m in RouteMap) {
   if(!RouteMap.hasOwnProperty(m)) {
     continue;
   }
   route = RouteMap[m];
   app[route.method || 'get'](route.url, route.handler);
-};
-for (k in afterMiddleWare) {
-  if(afterMiddleWare.hasOwnProperty(k)) {
-    app.use(afterMiddleWare[k]);
-  }
 }
 
 // Actually listen

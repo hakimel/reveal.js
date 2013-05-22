@@ -1,4 +1,5 @@
 //기존 코드
+/*
 (function() {
   console.log("repoll loaded");
   head.js(
@@ -49,38 +50,69 @@
     }
   );
 })();
+*/
 
-//Reveal.js와의 연동처리 부분
-(function(){
-	var isEnabled = true;
-  //repoll 모듈
-	var repoll = (function() {
-		var currentSlide;
+//Reveal.js 와의 연동처리 부분
+(function() {
+  "use strict";
 
-		function getSurveyInfo(slideEl){
-			//currentSlide 이걸로
+  var W = window;
+	    //isEnabled = true;
+
+  W.repoll = (function() {
+
+		var pollServer = "",
+        server = "/master",
+        currentSlide;
+
+		var getSurveyInfo = function (slideEl) {
+
+      var titleEle = slideEl.querySelector(".repoll-title"),
+          pollOptions = slideEl.querySelector(".repoll-options"),
+          resultArea = slideEl.querySelector(".repoll-result");
+
+      var opts = Array.prototype.slice.call(pollOptions.children);
 
 			return {
-				title : "", //String
-				options : [
-					{
-						text : ""
-					}
-				]
+				title : titleEle.innerHTML,
+        viewType: resultArea.dataset.viewType,
+				options : opts.map(function(v, i) {
+          return {
+            text: v.innerHTML,
+            index: i
+          }
+        })
 			};
-		}
+		};
 
-		function sendToServer (surveyInfo) {
-			// 소켓 구현	
-		}
+    var connect = function(initData) {
 
-		function listenToServer() {
+      head.js(
+        '/socket.io/socket.io.js',
+        function() {
+          var sio = io.connect(pollServer + server);
+          sio.on('connect', function() {
+            console.log('socket.io connected');
+          });
+          sio.emit('master_ready', initData);
+        }
+      );
+    };
+
+		var sendToServer = function (surveyInfo) {
+      console.log("surveyInfo " + JSON.stringify(surveyInfo));
+			// 소켓 구현
+
+      connect(surveyInfo);
+		};
+
+		var listenToServer = function() {
 			// 소켓 받는다.
 
 			//render()
-		}
+		};
 
-		function render (data) {
+		var render = function (data) {
 			var containerEl;
 			// 데이터 예시
 			// data = [
@@ -97,24 +129,23 @@
 			containerEl	 = currentSlide.querySelector(".repoll-result");
 
 			// ?????.render(contains,data);
-		}
+		};
 
-		function init (slide) {
+		var init = function(slide) {
 			currentSlide = slide;
-			options = slide.dataset;
-
-			sendToServer(getSurveyInfo(slideEl));
+			sendToServer(getSurveyInfo(currentSlide));
 			listenToServer();
-		}
+		};
 
 		return {
 			init : init
 		};
+
 	})();
 
 	if (Reveal.getCurrentSlide().classList.contains("repoll")) {
 		repoll.init(Reveal.getCurrentSlide());
-	};
+	}
 
 	Reveal.addEventListener( 'slidechanged', function( event ) {
     if(event.currentSlide.classList.contains("repoll")){
