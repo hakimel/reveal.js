@@ -4,9 +4,9 @@
 
 - Added a `main-ssi.shtml` which includes `_included/head.html` and `_included/content.html` at the top level. (This `_included` directory is excluded from Git via `.gitignore`.)
 
-- `head.html` should carry `<title>` and `<meta>` entries as in the example `index.html` - and I've also commented out the theme from the main file, so `meta.html` should carry a stylesheet link for that.
+- `head.html` should carry `<title>` and `<meta>` entries as in the example `index.html` - and I've also commented out the theme from the main file, so `head.html` should carry a stylesheet link for that.
 
-- `content.html` should carry the content from the `<div class="reveal">` downwards.
+- `content.html` should carry the content from (and including) the root `<div class="reveal">`.
 
 ## Setup
 
