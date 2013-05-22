@@ -32,9 +32,9 @@ var cacheItem = function(item, cache, callback) {
   if (callback) callback();
 }
 
-io.configure(function() {
-  io.set('log level', 1);
-  io.set('transports', [
+sio.configure(function() {
+  sio.set('log level', 1);
+  sio.set('transports', [
     'websocket'
     ,'flashsocket'
     ,'htmlfile'
