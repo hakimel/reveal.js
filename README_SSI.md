@@ -1,16 +1,26 @@
 `-*- word-wrap: t; -*-`
 
-# Server-Side Includes
+# Server Side Includes
 
-- Added a `main-ssi.shtml` which includes `_included/head.html` and `_included/content.html` at the top level. (This `_included` directory is excluded from Git via `.gitignore`.)
+The file `index-ssi.shtml` is a copy of `index.html` with the actual slide content, and some header content, removed; instead it contains a couple of server side include statements. (it therefore needs to be rendered through a server which supports SSI, such as Apache.)
 
-- `head.html` should carry `<title>` and `<meta>` entries as in the example `index.html` - and I've also commented out the theme from the main file, so `head.html` should carry a stylesheet link for that.
+In the `<head>` section there's this:
 
-- `content.html` should carry the content from (and including) the root `<div class="reveal">`.
+    <!--#include file="_included/head.html" -->
+
+and in the body there's this:
+
+    <!--#include file="_included/content.html" -->
+
+The `_included` subdirectory isn't checked into this repo, and is something you're presumably going to create and populate yourself. (I'm generating slides from Clojure via Hiccup, and have a few Clojure source files, one for each presentation, each of which builds its own `head.html` and `content.html` for me.)
+
+`head.html` should provide the `<title>` and (if required) `<meta ...>` elements. It must also contain a `<link ...>` for the main theme (since it seems reasonable that different presentations might use different styles).
+
+`content.html` contains the actual slides, wrapped in the `<div class="reveal">` element.
 
 ## Setup
 
-Apache needs to be configuted to allow SSI. This is my personal configuration under OS X:
+Apache needs to be configuted to allow SSI. This is my personal configuration (in `/etc/apache2/users/nick`) under OS X:
 
         <Directory "/Users/nick/Sites/">
         	Options Includes Indexes Multiviews
@@ -20,6 +30,10 @@ Apache needs to be configuted to allow SSI. This is my personal configuration un
         	Order allow,deny
         	Allow from all
         </Directory>
+
+With this, and with the `reveal.js` repo. checked out into `~/Sites`, I can access my presentation at:
+
+        http://localhost/~nick/reveal.js/index-ssi.shtml
 
 ## Author
 

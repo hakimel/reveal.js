@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="css/reveal.min.css">
 
-    <!-- THEME now expected in meta.html.
+    <!-- THEME now expected in head.html.
          <link rel="stylesheet" href="css/theme/default.css" id="theme">
       -->
 
