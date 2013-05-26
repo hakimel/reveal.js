@@ -18,6 +18,10 @@ The `_included` subdirectory isn't checked into this repo, and is something you'
 
 `content.html` contains the actual slides, wrapped in the `<div class="reveal">` element.
 
+## Slides in Clojure
+
+See the [companion project](https://github.com/cassiel/reveal-js-demo-slides) for an example slide deck and instructions for generating a presentation as a sub-module of this project.
+
 ## Setup
 
 Apache needs to be configuted to allow SSI. This is my personal configuration (in `/etc/apache2/users/nick`) under OS X:
