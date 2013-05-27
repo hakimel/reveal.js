@@ -20,6 +20,9 @@
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
+    <!-- For spotllight -->
+    <link rel="stylesheet" href="plugin/spotlight/spotlight.css">
+
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
@@ -44,6 +47,33 @@
 						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
 					</p>
 				</section>
+
+				<section class="repoll">
+					<h1>Survay</h1>
+					<h1 class="repoll-title">뭐 먹을 래?</h1>
+					<ul class="repoll-options" data-show="true">
+						<li>밥</li>
+						<li>피자</li>
+					</ul>
+					<div class="repoll-result" data-view-type="pie-chart">
+						
+					</div>
+				</section>
+
+				<section class="repoll" data-view-type="bar-chart">
+					<h1>Survay</h1>
+					<h1 class="repoll-title">뭐 먹을 래? (2)</h1>
+					<ul class="repoll-options" data-show="true">
+						<li>밥</li>
+						<li>피자</li>
+						<li>떡볶이</li>
+					</ul>
+				</section>
+
+        <section>
+            <h2>Repoll</h2>
+            <canvas id="myChart" width="600" height="300"></canvas>
+        </section>
 
 				<section>
 					<h2>Heads Up</h2>
@@ -354,7 +384,9 @@ function linkify( selector ) {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/spotlight/spotlight.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/repoll/repoll.js', async: true, condition: function() { return !!document.body.classList; } },
 					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
 					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
