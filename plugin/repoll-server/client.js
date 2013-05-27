@@ -26,7 +26,7 @@
       E.submit.remove();
     }
 
-    E.voteButtons.append(voteTemplate(JSON.parse(chartData)));
+    E.voteButtons.append(voteTemplate(chartData));
 
     E.voteButtons.show();
     E.submit.on('click', function(e) {
