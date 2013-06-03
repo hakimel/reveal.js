@@ -103,10 +103,11 @@
             if( typeof sectionStack[k] === 'string' ) {
                 markdownSections += '<section '+ attributes +' data-markdown>' +  twrap( sectionStack[k] )  + '</section>';
             }
-            // vertical
+            // vertical (hacked to have notes instead)
             else {
-                markdownSections += '<section '+ attributes +'>' +
-                                        '<section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section>' +
+                markdownSections += '<section '+ attributes +' data-markdown>' +
+                                        twrap(sectionStack[k][0]) +
+                                        '<aside class="notes" data-markdown>' + twrap(sectionStack[k][1]) + '</aside>' +
                                     '</section>';
             }
         }
