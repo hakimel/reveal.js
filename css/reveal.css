@@ -1321,30 +1321,69 @@ body {
 		background-repeat: no-repeat;
 		background-size: cover;
 
-		-webkit-transition: all 800ms ease;
-		   -moz-transition: all 800ms ease;
-		    -ms-transition: all 800ms ease;
-		     -o-transition: all 800ms ease;
-		        transition: all 800ms ease;
+		-webkit-transition: all 650ms ease;
+		   -moz-transition: all 650ms ease;
+		    -ms-transition: all 650ms ease;
+		     -o-transition: all 650ms ease;
+		        transition: all 650ms ease;
 	}
 	.reveal>.background div.present {
 		opacity: 1;
 		visibility: visible;
 	}
 
+/* Linear sliding transition style */
+.reveal[data-background-transition=linear]>.background div {
+	opacity: 1;
+
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	    -ms-backface-visibility: hidden;
+	        backface-visibility: hidden;
+}
+	.reveal[data-background-transition=linear]>.background div.past {
+		-webkit-transform: translate(-100%, 0);
+		   -moz-transform: translate(-100%, 0);
+		    -ms-transform: translate(-100%, 0);
+		     -o-transform: translate(-100%, 0);
+		        transform: translate(-100%, 0);
+	}
+	.reveal[data-background-transition=linear]>.background div.future {
+		-webkit-transform: translate(100%, 0);
+		   -moz-transform: translate(100%, 0);
+		    -ms-transform: translate(100%, 0);
+		     -o-transform: translate(100%, 0);
+		        transform: translate(100%, 0);
+	}
+
+	.reveal[data-background-transition=linear]>.background div>div.past {
+		-webkit-transform: translate(0, -100%);
+		   -moz-transform: translate(0, -100%);
+		    -ms-transform: translate(0, -100%);
+		     -o-transform: translate(0, -100%);
+		        transform: translate(0, -100%);
+	}
+	.reveal[data-background-transition=linear]>.background div>div.future {
+		-webkit-transform: translate(0, 100%);
+		   -moz-transform: translate(0, 100%);
+		    -ms-transform: translate(0, 100%);
+		     -o-transform: translate(0, 100%);
+		        transform: translate(0, 100%);
+	}
+
 
 /* Global transition speed settings */
-.reveal[data-transition-speed="fast"] .background div {
-	-webkit-transition-duration: 400ms;
-	   -moz-transition-duration: 400ms;
-	    -ms-transition-duration: 400ms;
-	        transition-duration: 400ms;
+.reveal[data-transition-speed="fast"]>.background div {
+	-webkit-transition-duration: 300ms;
+	   -moz-transition-duration: 300ms;
+	    -ms-transition-duration: 300ms;
+	        transition-duration: 300ms;
 }
-.reveal[data-transition-speed="slow"] .background div {
-	-webkit-transition-duration: 1200ms;
-	   -moz-transition-duration: 1200ms;
-	    -ms-transition-duration: 1200ms;
-	        transition-duration: 1200ms;
+.reveal[data-transition-speed="slow"]>.background div {
+	-webkit-transition-duration: 900ms;
+	   -moz-transition-duration: 900ms;
+	    -ms-transition-duration: 900ms;
+	        transition-duration: 900ms;
 }
 
 

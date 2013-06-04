@@ -79,6 +79,9 @@ var Reveal = (function(){
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
 
+			// Transition style for full page slide backgrounds
+			backgroundTransition: 'default', // default/linear
+
 			// Script dependencies to load
 			dependencies: []
 		},
@@ -415,6 +418,7 @@ var Reveal = (function(){
 		dom.wrapper.classList.add( config.transition );
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
+		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
 		if( dom.controls ) {
 			dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
