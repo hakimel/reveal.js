@@ -249,7 +249,8 @@ var Reveal = (function(){
 
 	/**
 	 * Creates the slide background elements and appends them
-	 * to the background container.
+	 * to the background container. One element is created per
+	 * slide no matter if the given slide has visible background.
 	 */
 	function createBackgrounds() {
 
@@ -264,6 +265,7 @@ var Reveal = (function(){
 			var data = {
 				background: slide.getAttribute( 'data-background' ),
 				backgroundSize: slide.getAttribute( 'data-background-size' ),
+				backgroundColor: slide.getAttribute( 'data-background-color' ),
 				backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 				backgroundPosition: slide.getAttribute( 'data-background-position' )
 			};
@@ -272,7 +274,7 @@ var Reveal = (function(){
 
 			if( data.background ) {
 				// Auto-wrap image urls in url(...)
-				if( /\.(png|jpg|jpeg|gif|bmp|)$/gi.test( data.background ) ) {
+				if( /\.(png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
 					element.style.backgroundImage = 'url('+ data.background +')';
 				}
 				else {
@@ -282,6 +284,7 @@ var Reveal = (function(){
 
 			// Additional and optional background properties
 			if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
+			if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
 			if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
 			if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 
