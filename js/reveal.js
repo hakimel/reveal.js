@@ -258,18 +258,29 @@ var Reveal = (function(){
 		// given slide
 		function _createBackground( slide, container ) {
 
-			var background = slide.getAttribute( 'data-background' );
+			var data = {
+				background: slide.getAttribute( 'data-background' ),
+				backgroundSize: slide.getAttribute( 'data-background-size' ),
+				backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
+				backgroundPosition: slide.getAttribute( 'data-background-position' )
+			};
+
 			var element = document.createElement( 'div' );
 
-			if( background ) {
+			if( data.background ) {
 				// Auto-wrap image urls in url(...)
-				if( /\.(png|jpg|jpeg|gif|bmp|)$/gi.test( background ) ) {
-					element.style.backgroundImage = 'url('+ background +')';
+				if( /\.(png|jpg|jpeg|gif|bmp|)$/gi.test( data.background ) ) {
+					element.style.backgroundImage = 'url('+ data.background +')';
 				}
 				else {
-					element.style.background = background;
+					element.style.background = data.background;
 				}
 			}
+
+			// Additional and optional background properties
+			if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
+			if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
+			if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 
 			container.appendChild( element );
 
