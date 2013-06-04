@@ -106,6 +106,9 @@ Reveal.initialize({
 	// Transition speed
 	transitionSpeed: 'default', // default/fast/slow
 
+	// Transition style for full page backgrounds
+	backgroundTransition: 'default' // default/linear
+
 });
 ```
 
@@ -211,18 +214,6 @@ Reveal.getCurrentSlide();
 Reveal.getIndices(); // { h: 0, v: 0 } }
 ```
 
-### States
-
-If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
-
-Furthermore you can also listen to these changes in state via JavaScript:
-
-```javascript
-Reveal.addEventListener( 'somestate', function() {
-	// TODO: Sprinkle magic
-}, false );
-```
-
 ### Ready event
 
 The 'ready' event is fired when reveal.js has loaded all (synchronous) dependencies and is ready to start navigating.
@@ -244,6 +235,37 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
 ```
+
+### States
+
+If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
+
+Furthermore you can also listen to these changes in state via JavaScript:
+
+```javascript
+Reveal.addEventListener( 'somestate', function() {
+	// TODO: Sprinkle magic
+}, false );
+```
+
+### Slide backgrounds
+
+Slides are contained withing a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
+
+```html
+<section data-background="#ff0000">
+	<h2>All CSS color formats are supported, like rgba() or hsl().</h2>
+</section>
+<section data-background="http://example.com/image.png">
+	<h2>This slide will have a full-size background image.</h2>
+</section>
+<section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
+	<h2>This background image will be sized to 100px and repeated.</h2>
+</section>
+```
+
+Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'linear'``` to the ```Reveal.initialize()``` call.
+
 
 ### Internal links
 
