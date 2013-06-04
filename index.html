@@ -183,25 +183,34 @@
 				</section>
 
 				<section>
-					<section data-state="alert">
-						<h2>Global State</h2>
+					<h2>Global State</h2>
+					<p>
+						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+						will be added as a class to the document element when the slide is open. This lets you
+						apply broader style changes, like switching the background.
+					</p>
+				</section>
+
+				<section>
+					<section data-background="#007777">
+						<h2>Slide Backgrounds</h2>
 						<p>
-							Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-							will be added as a class to the document element when the slide is open. This lets you
-							apply broader style changes, like switching the background.
+							Set <code>data-background="#007777"</code> on a slide to change the full page background to the given color. All CSS color formats are supported.
 						</p>
 						<a href="#" class="image navigate-down">
 							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
 						</a>
 					</section>
-					<section data-state="blackout">
-						<h2>"blackout"</h2>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif">
+						<h2>Image Backgrounds</h2>
+						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
 						<a href="#" class="image navigate-down">
 							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
 						</a>
 					</section>
-					<section data-state="soothe">
-						<h2>"soothe"</h2>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" data-background-repeat="repeat" data-background-size="100px">
+						<h2>Repeated Image Backgrounds</h2>
+						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
 						<a href="#" class="image navigate-next">
 							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(-90deg);">
 						</a>
