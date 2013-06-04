@@ -186,6 +186,13 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.slides = document.querySelector( '.reveal .slides' );
 
+		// Background element
+		if( !document.querySelector( '.reveal .background' ) ) {
+			dom.background = document.createElement( 'div' );
+			dom.background.classList.add( 'background' );
+			dom.wrapper.appendChild( dom.background );
+		}
+
 		// Progress bar
 		if( !dom.wrapper.querySelector( '.progress' ) ) {
 			var progressElement = document.createElement( 'div' );
@@ -205,11 +212,11 @@ var Reveal = (function(){
 			dom.wrapper.appendChild( controlsElement );
 		}
 
-		// Presentation background element
+		// State background element [DEPRECATED]
 		if( !dom.wrapper.querySelector( '.state-background' ) ) {
-			var backgroundElement = document.createElement( 'div' );
-			backgroundElement.classList.add( 'state-background' );
-			dom.wrapper.appendChild( backgroundElement );
+			var stateBackgroundElement = document.createElement( 'div' );
+			stateBackgroundElement.classList.add( 'state-background' );
+			dom.wrapper.appendChild( stateBackgroundElement );
 		}
 
 		// Overlay graphic which is displayed during the paused mode
@@ -234,6 +241,54 @@ var Reveal = (function(){
 			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
+
+	}
+
+	/**
+	 * Creates the slide background elements and appends them
+	 * to the background container.
+	 */
+	function createBackgrounds() {
+
+		// Clear prior backgrounds
+		dom.background.innerHTML = '';
+
+		// Helper method for creating a background element for the
+		// given slide
+		function _createBackground( slide, container ) {
+
+			var background = slide.getAttribute( 'data-background' );
+			var element = document.createElement( 'div' );
+
+			if( background ) {
+				// Auto-wrap image urls in url(...)
+				if( /\.(png|jpg|jpeg|gif|bmp|)$/gi.test( background ) ) {
+					element.style.backgroundImage = 'url('+ background +')';
+				}
+				else {
+					element.style.background = background;
+				}
+			}
+
+			container.appendChild( element );
+
+			return element;
+
+		}
+
+		// Iterate over all horizontal slides
+		toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
+
+			var backgroundStack = _createBackground( slideh, dom.background );
+
+			// Iterate over all vertical slides
+			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+
+				_createBackground( slidev, backgroundStack );
+
+			} );
+
+		} );
 
 	}
 
@@ -1173,6 +1228,7 @@ var Reveal = (function(){
 
 		updateControls();
 		updateProgress();
+		updateBackground();
 
 	}
 
@@ -1196,8 +1252,12 @@ var Reveal = (function(){
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
 
+		// Re-create the slide backgrounds
+		createBackgrounds();
+
 		updateControls();
 		updateProgress();
+		updateBackground();
 
 	}
 
@@ -1399,6 +1459,25 @@ var Reveal = (function(){
 			}
 
 		}
+
+	}
+
+	/**
+	 * 
+	 */
+	function updateBackground() {
+
+		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
+
+			backgroundh.className = ( h < indexh ? 'past' : h > indexh ? 'future' : 'present' );
+
+			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
+
+				backgroundv.className = ( v < indexv ? 'past' : v > indexv ? 'future' : 'present' );
+
+			} );
+
+		} );
 
 	}
 

@@ -1255,7 +1255,7 @@ body {
 
 
 /*********************************************
- * BACKGROUND STATES
+ * BACKGROUND STATES [DEPRECATED]
  *********************************************/
 
 .reveal .state-background {
@@ -1296,6 +1296,54 @@ body {
 }
 .sunset .reveal .state-background {
 	background: rgba( 255, 122, 0, 0.6 );
+}
+
+
+/*********************************************
+ * 
+ *********************************************/
+
+.reveal>.background {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+	.reveal>.background div {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		visibility: hidden;
+
+		background-color: rgba( 0, 0, 0, 0 );
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: cover;
+
+		-webkit-transition: all 800ms ease;
+		   -moz-transition: all 800ms ease;
+		    -ms-transition: all 800ms ease;
+		     -o-transition: all 800ms ease;
+		        transition: all 800ms ease;
+	}
+	.reveal>.background div.present {
+		opacity: 1;
+		visibility: visible;
+	}
+
+
+/* Global transition speed settings */
+.reveal[data-transition-speed="fast"] .background div {
+	-webkit-transition-duration: 400ms;
+	   -moz-transition-duration: 400ms;
+	    -ms-transition-duration: 400ms;
+	        transition-duration: 400ms;
+}
+.reveal[data-transition-speed="slow"] .background div {
+	-webkit-transition-duration: 1200ms;
+	   -moz-transition-duration: 1200ms;
+	    -ms-transition-duration: 1200ms;
+	        transition-duration: 1200ms;
 }
 
 
