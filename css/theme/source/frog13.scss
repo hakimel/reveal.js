@@ -2,82 +2,22 @@
  * Theme for Frog13 Conference
  * Author: Adam Hepton
  */
-
-
-// Default mixins and settings -----------------
-@mixin vertical-gradient( $top, $bottom ) {
-    background: $top;
-    background: -moz-linear-gradient( top, $top 0%, $bottom 100% );
-    background: -webkit-gradient( linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$bottom) );
-    background: -webkit-linear-gradient( top, $top 0%, $bottom 100% );
-    background: -o-linear-gradient( top, $top 0%, $bottom 100% );
-    background: -ms-linear-gradient( top, $top 0%, $bottom 100% );
-    background: linear-gradient( top, $top 0%, $bottom 100% );
-}
-
-@mixin horizontal-gradient( $top, $bottom ) {
-    background: $top;
-    background: -moz-linear-gradient( left, $top 0%, $bottom 100% );
-    background: -webkit-gradient( linear, left top, right top, color-stop(0%,$top), color-stop(100%,$bottom) );
-    background: -webkit-linear-gradient( left, $top 0%, $bottom 100% );
-    background: -o-linear-gradient( left, $top 0%, $bottom 100% );
-    background: -ms-linear-gradient( left, $top 0%, $bottom 100% );
-    background: linear-gradient( left, $top 0%, $bottom 100% );
-}
-
-@mixin radial-gradient( $outer, $inner, $type: circle ) {
-    background: $outer;
-    background: -moz-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-    background: -webkit-gradient( radial, center center, 0px, center center, 100%, color-stop(0%,$inner), color-stop(100%,$outer) );
-    background: -webkit-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-    background: -o-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-    background: -ms-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-    background: radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-}
-
-// Base settings for all themes that can optionally be
-// overridden by the super-theme
-
-// Primary/body text
-$mainFont: 'Lato', sans-serif;
-$mainFontSize: 36px;
-$mainColor: #eee;
-
-// Headings
-$headingFont: 'League Gothic', Impact, sans-serif;
-$headingColor: #eee;
-$headingLineHeight: 0.9em;
-$headingLetterSpacing: 0.02em;
-$headingTextTransform: uppercase;
-$headingTextShadow: 0px 0px 6px rgba(0,0,0,0.2);
-$heading1Color: $headingColor;
-$heading1TextShadow: $headingTextShadow;
-
-// Links and actions
-$linkColor: #13DAEC;
-$linkColorHover: lighten( $linkColor, 20% );
-
-// Text selection
-$selectionBackgroundColor: #FF5E99;
-$selectionColor: #fff;
-
-// Generates the presentation background, can be overridden
-// to return a background image or gradient
-@mixin bodyBackground($url, $colour, $top, $left, $repeat) {
-    background: url($url) $colour $top $left $repeat;
-}
-// ---------------------------------------------
-
-//////////////////////////////////////////////////////////////////////////
 // Include theme-specific fonts
 @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400|Amatic+SC:700);
 
-/**
- * Solarized colors by Ethan Schoonover
- */
-html * {
-    color-profile: sRGB;
-    rendering-intent: auto;
+@mixin bodyBackground($url, $colour, $top, $left, $repeat) {
+    background: url($url) $colour $top $left $repeat;
+}
+
+@mixin circular($size) {
+    border-radius: 35%;
+    background-color: $green;
+    margin: 0 auto !important;
+    border: 2px solid black !important;
+    box-shadow: 0 0 1em white;
+    display: table;
+    width: #{$size};
+    height: #{$size};
 }
 
 // Solarized colors
@@ -86,8 +26,8 @@ $base02:    #073642;
 $base01:    #586e75;
 $base00:    #657b83;
 $base0:     #839496;
-$base1:     #0071b9;
-$base2:     #0079c2;
+$base1:     #93a1a1;
+$base2:     #eee8d5;
 $base3:     #fdf6e3;
 $yellow:    #b58900;
 $orange:    #cb4b16;
@@ -98,131 +38,44 @@ $blue:      #268bd2;
 $cyan:      #2aa198;
 $green:     #859900;
 
-// Override theme settings (see ../template/settings.scss)
-$mainColor: $base03;
-$headingColor: white;
+// Base settings for all themes that can optionally be
+// overridden by the super-theme
 
+// Primary/body text
+$mainColor: $base02;
 $mainFont: 'Yanone Kaffeesatz', sans-serif;
 $mainFontSize: 30px;
 
-$linkColor: lighten($orange, 10%);
-$linkColorHover: lighten($orange, 25%);
-
+// Headings
 $headingFont: 'Amatic SC', sans-serif;
+$headingLineHeight: 0.9em;
 $headingLetterSpacing: -0.03em;
 $headingTextTransform: none;
 $headingFontVariant: small-caps;
 $headingTextShadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+$headingColor: $base2;
+$heading1Color: $headingColor;
+$heading1TextShadow: $headingTextShadow;
 
+// Links and actions
+$linkColor: lighten($orange, 10%);
+$linkColorHover: lighten($orange, 25%);
+
+// Text selection
 $selectionBackgroundColor: $magenta;
+$selectionColor: #fff;
 
-.reveal .state-background {
-    background-image: url(../../bg/1-bl.png);
-    background-position: bottom left;
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-}
-
-.alt .reveal .state-background {
-    background-image: url(../../bg/2-bl.png), url(../../bg/2-tr.png);
-    background-position: bottom left, top right;
-}
-
-.anotheralt .reveal .state-background {
-    background-image: url(../../bg/3-tl.png), url(../../bg/3-br.png);
-    background-position: top left, bottom right;
-}
-
-.history {
-    -webkit-transition: all 1s ease-in-out;
-       -moz-transition: all 1s ease-in-out;
-        -ms-transition: all 1s ease-in-out;
-         -o-transition: all 1s ease-in-out;
-            transition: all 1s ease-in-out;
-            
-    -webkit-transform: scale( 0.1 );
-       -moz-transform: scale( 0.1 );
-        -ms-transform: scale( 0.1 );
-         -o-transform: scale( 0.1 );
-            transform: scale( 0.1 );
-}
-
-.present .history { 
-    -webkit-transform: scale( 1 );
-       -moz-transform: scale( 1 );
-        -ms-transform: scale( 1 );
-         -o-transform: scale( 1 );
-            transform: scale( 1 );
-}
-
-.horizontal {
-    display: table;
-    margin: 1em auto !important;
-    border-spacing: 1em 0;
-}
-
-.app {
-    border-radius: 45%;
-    background-color: red;
-    margin: 0 auto !important;
-    border: 2px solid black !important;
-    box-shadow: 0 0 1em white;
-    display: table;
-
-    .horizontal & {
-        display: table-cell;
-    }
-
-    &:first-child:nth-last-child(1) {
-        width: 10em;
-        height: 10em;
-    }
-
-    &:first-child:nth-last-child(2),
-    &:first-child:nth-last-child(2) ~ .app {
-        width: 7em;
-        height: 7em;
-    }
-
-    &:first-child:nth-last-child(3),
-    &:first-child:nth-last-child(3) ~ .app {
-        width: 5em;
-        height: 5em;
-    }
-
-    &:first-child:nth-last-child(4),
-    &:first-child:nth-last-child(4) ~ .app {
-        width: 3em;
-        height: 3em;
-    }
-
-    &[data-name="core"] {
-        width: 85% !important;
-        height: auto !important;
-        padding: 1em;
-        margin-top: 1em !important;
-    }
-
-    span {
-        width: 100%;
-        height: 100%;
-        display: table-cell;
-        text-align: center;
-        vertical-align: middle;
-    }
-}
+// ---------------------------------------------
 
 //////////////////////////////////////////////////////////////////////////
 
-// Theme template ------------------------------
-// Base theme template for reveal.js
-
-/*********************************************
- * GLOBAL STYLES
- *********************************************/
+html * {
+    color-profile: sRGB;
+    rendering-intent: auto;
+}
 
 body {
-    @include bodyBackground("../../bg/dot.png", #{$base2}, 0, 0, repeat);
+    @include bodyBackground("../../bg/dot.png", #{$blue}, 0, 0, repeat);
 }
 
 .reveal {
@@ -237,6 +90,13 @@ body {
     color: $selectionColor;
     background: $selectionBackgroundColor;
     text-shadow: none;
+}
+
+.reveal .state-background {
+    background-image: url(../../bg/1-bl.png);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
 }
 
 /*********************************************
@@ -314,70 +174,141 @@ body {
             transition: all .2s linear;
 }
 
-    .reveal a:hover img {
-        background: rgba(255,255,255,0.2);
-        border-color: $linkColor;
+.reveal a:hover img {
+    background: rgba(255,255,255,0.2);
+    border-color: $linkColor;
 
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
-    }
-
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+}
 
 /*********************************************
- * NAVIGATION CONTROLS
+ * CUSTOM
  *********************************************/
 
-.reveal .controls div.navigate-left,
-.reveal .controls div.navigate-left.enabled {
-    border-right-color: $linkColor;
+.history {
+    -webkit-transition: all 1s ease-in-out;
+       -moz-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+         -o-transition: all 1s ease-in-out;
+            transition: all 1s ease-in-out;
+            
+    -webkit-transform: scale( 0.1 );
+       -moz-transform: scale( 0.1 );
+        -ms-transform: scale( 0.1 );
+         -o-transform: scale( 0.1 );
+            transform: scale( 0.1 );
 }
 
-.reveal .controls div.navigate-right,
-.reveal .controls div.navigate-right.enabled {
-    border-left-color: $linkColor;
+.present .history { 
+    -webkit-transform: scale( 1 );
+       -moz-transform: scale( 1 );
+        -ms-transform: scale( 1 );
+         -o-transform: scale( 1 );
+            transform: scale( 1 );
 }
 
-.reveal .controls div.navigate-up,
-.reveal .controls div.navigate-up.enabled {
-    border-bottom-color: $linkColor;
+.horizontal {
+    display: table;
+    margin: 1em auto !important;
+    border-spacing: 1em 0;
 }
 
-.reveal .controls div.navigate-down,
-.reveal .controls div.navigate-down.enabled {
-    border-top-color: $linkColor;
-}
+.app {
+    @include circular(7em);
 
-.reveal .controls div.navigate-left.enabled:hover {
-    border-right-color: $linkColorHover;
-}
+    .horizontal & {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
 
-.reveal .controls div.navigate-right.enabled:hover {
-    border-left-color: $linkColorHover;
-}
-
-.reveal .controls div.navigate-up.enabled:hover {
-    border-bottom-color: $linkColorHover;
-}
-
-.reveal .controls div.navigate-down.enabled:hover {
-    border-top-color: $linkColorHover;
-}
-
-
-/*********************************************
- * PROGRESS BAR
- *********************************************/
-
-.reveal .progress {
-    background: rgba(0,0,0,0.2);
-}
-    .reveal .progress span {
-        background: $linkColor;
-
-        -webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-           -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-            -ms-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-             -o-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-                transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+        > span {
+            display: inline;
+        }
     }
 
-// ---------------------------------------------
+    &:first-child:nth-last-child(1) {
+        width: 10em;
+        height: 10em;
+    }
+
+    > span, > div > span {
+        width: 100%;
+        height: 100%;
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    > span {
+        font-size: 1.8em;
+        line-height: 1em;
+    }
+
+    > div {
+        display: block;
+        position: absolute;
+        top: 0;
+        font-size: 0.6em;
+
+        @include circular(6em);
+        background-color: $cyan;
+    }
+
+    &[data-name="core"] {
+        width: 85% !important;
+        height: auto !important;
+        padding: 1em;
+        margin-top: 3em !important;
+
+        background-color: $orange;
+
+        > div {
+            width: 6em;
+            height: 6em;
+            top: 14.5em;
+            background-color: $yellow;
+
+            &[data-name="api"] {
+                left: 15%;
+            }
+
+            &[data-name="lib"] {
+                right: 15%;
+            }
+        }
+    }
+
+    &[data-name="frogclassic"] {
+        div[data-name="widgets"] {
+            top: 10em;
+            left: 44.7%;
+        }
+    }
+
+    &[data-name="frogos"] {
+        > div {
+            &[data-name="themes"] {
+                top: 2.5em;
+                left: 17.5%;
+            }
+
+            &[data-name="apps"] {
+                top: 7.5em;
+                left: 21.5%;
+            }
+
+            &[data-name="widgets"] {
+                top: -2em;
+                left: 21.5%;
+            }
+        }
+
+        & + div[data-name="frogclassic"] {
+            div[data-name="widgets"] {
+                top: 2.5em;
+                left: auto;
+                right: 21.5%;
+            }
+        }
+    }    
+}

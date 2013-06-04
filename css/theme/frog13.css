@@ -3,101 +3,30 @@
  * Theme for Frog13 Conference
  * Author: Adam Hepton
  */
-/**
- * Solarized colors by Ethan Schoonover
- */
 html * {
   color-profile: sRGB;
   rendering-intent: auto; }
 
-.reveal .state-background {
-  background-image: url(../../bg/1-bl.png);
-  background-position: bottom left;
-  background-repeat: no-repeat;
-  background-size: 100% auto; }
-
-.alt .reveal .state-background {
-  background-image: url(../../bg/2-bl.png), url(../../bg/2-tr.png);
-  background-position: bottom left, top right; }
-
-.anotheralt .reveal .state-background {
-  background-image: url(../../bg/3-tl.png), url(../../bg/3-br.png);
-  background-position: top left, bottom right; }
-
-.history {
-  -webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -ms-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
-  -webkit-transform: scale(0.1);
-  -moz-transform: scale(0.1);
-  -ms-transform: scale(0.1);
-  -o-transform: scale(0.1);
-  transform: scale(0.1); }
-
-.present .history {
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  -o-transform: scale(1);
-  transform: scale(1); }
-
-.horizontal {
-  display: table;
-  margin: 1em auto !important;
-  border-spacing: 1em 0; }
-
-.app {
-  border-radius: 45%;
-  background-color: red;
-  margin: 0 auto !important;
-  border: 2px solid black !important;
-  box-shadow: 0 0 1em white;
-  display: table; }
-  .horizontal .app {
-    display: table-cell; }
-  .app:first-child:nth-last-child(1) {
-    width: 10em;
-    height: 10em; }
-  .app:first-child:nth-last-child(2), .app:first-child:nth-last-child(2) ~ .app {
-    width: 7em;
-    height: 7em; }
-  .app:first-child:nth-last-child(3), .app:first-child:nth-last-child(3) ~ .app {
-    width: 5em;
-    height: 5em; }
-  .app:first-child:nth-last-child(4), .app:first-child:nth-last-child(4) ~ .app {
-    width: 3em;
-    height: 3em; }
-  .app[data-name="core"] {
-    width: 85% !important;
-    height: auto !important;
-    padding: 1em;
-    margin-top: 1em !important; }
-  .app span {
-    width: 100%;
-    height: 100%;
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle; }
-
-/*********************************************
- * GLOBAL STYLES
- *********************************************/
 body {
-  background: url("../../bg/dot.png") #0079c2 0 0 repeat; }
+  background: url("../../bg/dot.png") #268bd2 0 0 repeat; }
 
 .reveal {
   font-family: "Yanone Kaffeesatz", sans-serif;
   font-size: 30px;
   font-weight: 200;
   letter-spacing: -0.02em;
-  color: #002b36; }
+  color: #073642; }
 
 ::selection {
   color: white;
   background: #d33682;
   text-shadow: none; }
+
+.reveal .state-background {
+  background-image: url(../../bg/1-bl.png);
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  background-size: 100% auto; }
 
 /*********************************************
  * HEADERS
@@ -109,7 +38,7 @@ body {
 .reveal h5,
 .reveal h6 {
   margin: 0 0 20px 0;
-  color: white;
+  color: #eee8d5;
   font-family: "Amatic SC", sans-serif;
   line-height: 0.9em;
   letter-spacing: -0.03em;
@@ -119,7 +48,7 @@ body {
 
 .reveal h1 {
   font-size: 6em;
-  color: #eeeeee;
+  color: #eee8d5;
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
 
 /*********************************************
@@ -150,7 +79,7 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #002b36;
+  border: 4px solid #073642;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   -webkit-transition: all .2s linear;
   -moz-transition: all .2s linear;
@@ -164,46 +93,101 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
- * NAVIGATION CONTROLS
+ * CUSTOM
  *********************************************/
-.reveal .controls div.navigate-left,
-.reveal .controls div.navigate-left.enabled {
-  border-right-color: #e8632c; }
+.history {
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -ms-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  -webkit-transform: scale(0.1);
+  -moz-transform: scale(0.1);
+  -ms-transform: scale(0.1);
+  -o-transform: scale(0.1);
+  transform: scale(0.1); }
 
-.reveal .controls div.navigate-right,
-.reveal .controls div.navigate-right.enabled {
-  border-left-color: #e8632c; }
+.present .history {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1); }
 
-.reveal .controls div.navigate-up,
-.reveal .controls div.navigate-up.enabled {
-  border-bottom-color: #e8632c; }
+.horizontal {
+  display: table;
+  margin: 1em auto !important;
+  border-spacing: 1em 0; }
 
-.reveal .controls div.navigate-down,
-.reveal .controls div.navigate-down.enabled {
-  border-top-color: #e8632c; }
-
-.reveal .controls div.navigate-left.enabled:hover {
-  border-right-color: #f09671; }
-
-.reveal .controls div.navigate-right.enabled:hover {
-  border-left-color: #f09671; }
-
-.reveal .controls div.navigate-up.enabled:hover {
-  border-bottom-color: #f09671; }
-
-.reveal .controls div.navigate-down.enabled:hover {
-  border-top-color: #f09671; }
-
-/*********************************************
- * PROGRESS BAR
- *********************************************/
-.reveal .progress {
-  background: rgba(0, 0, 0, 0.2); }
-
-.reveal .progress span {
-  background: #e8632c;
-  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+.app {
+  border-radius: 35%;
+  background-color: #859900;
+  margin: 0 auto !important;
+  border: 2px solid black !important;
+  box-shadow: 0 0 1em white;
+  display: table;
+  width: 7em;
+  height: 7em; }
+  .horizontal .app {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center; }
+    .horizontal .app > span {
+      display: inline; }
+  .app:first-child:nth-last-child(1) {
+    width: 10em;
+    height: 10em; }
+  .app > span, .app > div > span {
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle; }
+  .app > span {
+    font-size: 1.8em;
+    line-height: 1em; }
+  .app > div {
+    display: block;
+    position: absolute;
+    top: 0;
+    font-size: 0.6em;
+    border-radius: 35%;
+    background-color: #859900;
+    margin: 0 auto !important;
+    border: 2px solid black !important;
+    box-shadow: 0 0 1em white;
+    display: table;
+    width: 6em;
+    height: 6em;
+    background-color: #2aa198; }
+  .app[data-name="core"] {
+    width: 85% !important;
+    height: auto !important;
+    padding: 1em;
+    margin-top: 3em !important;
+    background-color: #cb4b16; }
+    .app[data-name="core"] > div {
+      width: 6em;
+      height: 6em;
+      top: 14.5em;
+      background-color: #b58900; }
+      .app[data-name="core"] > div[data-name="api"] {
+        left: 15%; }
+      .app[data-name="core"] > div[data-name="lib"] {
+        right: 15%; }
+  .app[data-name="frogclassic"] div[data-name="widgets"] {
+    top: 10em;
+    left: 44.7%; }
+  .app[data-name="frogos"] > div[data-name="themes"] {
+    top: 2.5em;
+    left: 17.5%; }
+  .app[data-name="frogos"] > div[data-name="apps"] {
+    top: 7.5em;
+    left: 21.5%; }
+  .app[data-name="frogos"] > div[data-name="widgets"] {
+    top: -2em;
+    left: 21.5%; }
+  .app[data-name="frogos"] + div[data-name="frogclassic"] div[data-name="widgets"] {
+    top: 2.5em;
+    left: auto;
+    right: 21.5%; }
