@@ -1245,12 +1245,13 @@ body {
 	left: 0;
 }
 
-.no-transition {
-	-webkit-transition: none;
-	   -moz-transition: none;
-	    -ms-transition: none;
-	     -o-transition: none;
-	        transition: none;
+.no-transition,
+.no-transition * {
+	-webkit-transition: none !important;
+	   -moz-transition: none !important;
+	    -ms-transition: none !important;
+	     -o-transition: none !important;
+	        transition: none !important;
 }
 
 

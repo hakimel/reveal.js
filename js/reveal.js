@@ -252,6 +252,7 @@ var Reveal = (function(){
 
 		// Clear prior backgrounds
 		dom.background.innerHTML = '';
+		dom.background.classList.add( 'no-transition' );
 
 		// Helper method for creating a background element for the
 		// given slide
@@ -1463,10 +1464,13 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * 
+	 * Updates the background elements to reflect the current 
+	 * slide.
 	 */
 	function updateBackground() {
 
+		// Update the classes of all backgrounds to match the 
+		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
 			backgroundh.className = ( h < indexh ? 'past' : h > indexh ? 'future' : 'present' );
@@ -1478,6 +1482,11 @@ var Reveal = (function(){
 			} );
 
 		} );
+
+		// Allow the first background to apply without transition
+		setTimeout( function() {
+			dom.background.classList.remove( 'no-transition' );
+		}, 1 );
 
 	}
 
