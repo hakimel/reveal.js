@@ -1362,6 +1362,9 @@ var Reveal = (function(){
 				element.classList.remove( 'present' );
 				element.classList.remove( 'future' );
 
+				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
+				element.setAttribute( 'hidden', '' );
+
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
 					element.classList.add( reverse ? 'future' : 'past' );
@@ -1379,6 +1382,7 @@ var Reveal = (function(){
 
 			// Mark the current slide as present
 			slides[index].classList.add( 'present' );
+			slides[index].removeAttribute( 'hidden' );
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
