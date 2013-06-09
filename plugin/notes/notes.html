@@ -213,9 +213,9 @@
 							now = new Date();
 
 						diff = now.getTime() - start.getTime();
-						hours = parseInt( diff / ( 1000 * 60 * 60 ) );
-						minutes = parseInt( ( diff / ( 1000 * 60 ) ) % 60 );
-						seconds = parseInt( ( diff / 1000 ) % 60 );
+						hours = Math.floor( diff / ( 1000 * 60 * 60 ) );
+						minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
+						seconds = Math.floor( ( diff / 1000 ) % 60 );
 
 						clockEl.innerHTML = now.toLocaleTimeString();
 						hoursEl.innerHTML = zeroPadInteger( hours );
