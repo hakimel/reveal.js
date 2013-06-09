@@ -1309,7 +1309,7 @@ body {
 	width: 100%;
 	height: 100%;
 }
-	.reveal>.background div {
+	.reveal .slide-background {
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -1327,13 +1327,18 @@ body {
 		     -o-transition: all 650ms ease;
 		        transition: all 650ms ease;
 	}
-	.reveal>.background div.present {
+	.reveal .slide-background.present {
 		opacity: 1;
 		visibility: visible;
 	}
 
+	.print-pdf .reveal .slide-background {
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
 /* Linear sliding transition style */
-.reveal[data-background-transition=linear]>.background div {
+.reveal[data-background-transition=linear]>.background .slide-background {
 	opacity: 1;
 
 	-webkit-backface-visibility: hidden;
@@ -1341,14 +1346,14 @@ body {
 	    -ms-backface-visibility: hidden;
 	        backface-visibility: hidden;
 }
-	.reveal[data-background-transition=linear]>.background div.past {
+	.reveal[data-background-transition=linear]>.background .slide-background.past {
 		-webkit-transform: translate(-100%, 0);
 		   -moz-transform: translate(-100%, 0);
 		    -ms-transform: translate(-100%, 0);
 		     -o-transform: translate(-100%, 0);
 		        transform: translate(-100%, 0);
 	}
-	.reveal[data-background-transition=linear]>.background div.future {
+	.reveal[data-background-transition=linear]>.background .slide-background.future {
 		-webkit-transform: translate(100%, 0);
 		   -moz-transform: translate(100%, 0);
 		    -ms-transform: translate(100%, 0);
@@ -1356,14 +1361,14 @@ body {
 		        transform: translate(100%, 0);
 	}
 
-	.reveal[data-background-transition=linear]>.background div>div.past {
+	.reveal[data-background-transition=linear]>.background .slide-background>.slide-background.past {
 		-webkit-transform: translate(0, -100%);
 		   -moz-transform: translate(0, -100%);
 		    -ms-transform: translate(0, -100%);
 		     -o-transform: translate(0, -100%);
 		        transform: translate(0, -100%);
 	}
-	.reveal[data-background-transition=linear]>.background div>div.future {
+	.reveal[data-background-transition=linear]>.background .slide-background>.slide-background.future {
 		-webkit-transform: translate(0, 100%);
 		   -moz-transform: translate(0, 100%);
 		    -ms-transform: translate(0, 100%);
@@ -1373,13 +1378,13 @@ body {
 
 
 /* Global transition speed settings */
-.reveal[data-transition-speed="fast"]>.background div {
+.reveal[data-transition-speed="fast"]>.background .slide-background {
 	-webkit-transition-duration: 300ms;
 	   -moz-transition-duration: 300ms;
 	    -ms-transition-duration: 300ms;
 	        transition-duration: 300ms;
 }
-.reveal[data-transition-speed="slow"]>.background div {
+.reveal[data-transition-speed="slow"]>.background .slide-background {
 	-webkit-transition-duration: 900ms;
 	   -moz-transition-duration: 900ms;
 	    -ms-transition-duration: 900ms;

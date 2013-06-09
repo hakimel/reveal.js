@@ -17,8 +17,9 @@
 
 body {
 	font-size: 18pt;
-	width: auto;
-	height: auto;
+	width: 297mm;
+	height: 229mm;
+	margin: 0 auto !important;
 	border: 0;
 	padding: 0;
 	float: none !important;
@@ -88,10 +89,8 @@ ul, ol, div, p {
 
 	left: auto;
 	top: auto;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: auto;
-	padding: auto;
+	margin: 0 !important;
+	padding: 0 !important;
 
 	overflow: visible;
 	display: block;
@@ -113,18 +112,18 @@ ul, ol, div, p {
 	page-break-after: always !important;
 
 	visibility: visible !important;
-	position: static !important;
+	position: relative !important;
 	width: 100% !important;
-	height: auto !important;
-	min-height: initial !important;
+	height: 229mm !important;
+	min-height: 229mm !important;
 	display: block !important;
-	overflow: visible !important;
+	overflow: hidden !important;
 
 	left: 0 !important;
 	top: 0 !important;
-	margin-left: 0px !important;
-	margin-top: 50px !important;
-	padding: 20px 0px !important;
+	margin: 0 !important;
+	padding: 2cm 1cm 0 1cm !important;
+	box-sizing: border-box !important;
 
 	opacity: 1 !important;
 
@@ -139,9 +138,11 @@ ul, ol, div, p {
 	        transform: none !important;
 }
 .reveal section.stack {
-	margin: 0px !important;
-	padding: 0px !important;
+	margin: 0 !important;
+	padding: 0 !important;
 	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
 }
 .reveal section .fragment {
 	opacity: 1 !important;
@@ -151,6 +152,17 @@ ul, ol, div, p {
 	   -moz-transform: none !important;
 	    -ms-transform: none !important;
 	        transform: none !important;
+}
+.reveal section .slide-background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 0;
+}
+.reveal section>* {
+	position: relative;
+	z-index: 1;
 }
 .reveal img {
 	box-shadow: none;

@@ -254,6 +254,10 @@ var Reveal = (function(){
 	 */
 	function createBackgrounds() {
 
+		if( isPrintingPDF() ) {
+			document.body.classList.add( 'print-pdf' );
+		}
+
 		// Clear prior backgrounds
 		dom.background.innerHTML = '';
 		dom.background.classList.add( 'no-transition' );
@@ -271,6 +275,7 @@ var Reveal = (function(){
 			};
 
 			var element = document.createElement( 'div' );
+			element.className = 'slide-background';
 
 			if( data.background ) {
 				// Auto-wrap image urls in url(...)
@@ -297,12 +302,24 @@ var Reveal = (function(){
 		// Iterate over all horizontal slides
 		toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
 
-			var backgroundStack = _createBackground( slideh, dom.background );
+			var backgroundStack;
+
+			if( isPrintingPDF() ) {
+				backgroundStack = _createBackground( slideh, slideh );
+			}
+			else {
+				backgroundStack = _createBackground( slideh, dom.background );
+			}
 
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
-				_createBackground( slidev, backgroundStack );
+				if( isPrintingPDF() ) {
+					_createBackground( slidev, slidev );
+				}
+				else {
+					_createBackground( slidev, backgroundStack );
+				}
 
 			} );
 
@@ -598,6 +615,15 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Checks if this instance is being used to print a PDF.
+	 */
+	function isPrintingPDF() {
+
+		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
 	 * Causes the address bar to hide on mobile devices,
 	 * more vertical space ftw.
 	 */
@@ -713,7 +739,7 @@ var Reveal = (function(){
 	 */
 	function layout() {
 
-		if( dom.wrapper ) {
+		if( dom.wrapper && !isPrintingPDF() ) {
 
 			// Available space to scale within
 			var availableWidth = dom.wrapper.offsetWidth,
@@ -1491,11 +1517,11 @@ var Reveal = (function(){
 		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
-			backgroundh.className = ( h < indexh ? 'past' : h > indexh ? 'future' : 'present' );
+			backgroundh.className = 'slide-background ' + ( h < indexh ? 'past' : h > indexh ? 'future' : 'present' );
 
 			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
 
-				backgroundv.className = ( v < indexv ? 'past' : v > indexv ? 'future' : 'present' );
+				backgroundv.className = 'slide-background ' + ( v < indexv ? 'past' : v > indexv ? 'future' : 'present' );
 
 			} );
 
