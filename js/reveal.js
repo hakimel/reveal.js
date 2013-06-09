@@ -1231,7 +1231,8 @@ var Reveal = (function(){
 		}
 
 		// Dispatch an event if the slide changed
-		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
+		var slideChanged = (indexh !== indexhBefore || indexv !== indexvBefore);
+		if( slideChanged ) {
 			dispatchEvent( 'slidechanged', {
 				'indexh': indexh,
 				'indexv': indexv,
@@ -1268,8 +1269,10 @@ var Reveal = (function(){
 		}
 
 		// Handle embedded content
-		stopEmbeddedContent( previousSlide );
-		startEmbeddedContent( currentSlide );
+		if (slideChanged) {
+			stopEmbeddedContent( previousSlide );
+			startEmbeddedContent( currentSlide );
+		}
 
 		updateControls();
 		updateProgress();
