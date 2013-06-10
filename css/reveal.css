@@ -1321,11 +1321,11 @@ body {
 		background-repeat: no-repeat;
 		background-size: cover;
 
-		-webkit-transition: all 650ms ease;
-		   -moz-transition: all 650ms ease;
-		    -ms-transition: all 650ms ease;
-		     -o-transition: all 650ms ease;
-		        transition: all 650ms ease;
+		-webkit-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		   -moz-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		    -ms-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		     -o-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		        transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 	.reveal .slide-background.present {
 		opacity: 1;
@@ -1345,6 +1345,12 @@ body {
 	   -moz-backface-visibility: hidden;
 	    -ms-backface-visibility: hidden;
 	        backface-visibility: hidden;
+
+	-webkit-transition-duration: 800ms;
+	   -moz-transition-duration: 800ms;
+	    -ms-transition-duration: 800ms;
+	     -o-transition-duration: 800ms;
+	        transition-duration: 800ms;
 }
 	.reveal[data-background-transition=linear]>.backgrounds .slide-background.past {
 		-webkit-transform: translate(-100%, 0);
@@ -1379,16 +1385,16 @@ body {
 
 /* Global transition speed settings */
 .reveal[data-transition-speed="fast"]>.backgrounds .slide-background {
-	-webkit-transition-duration: 300ms;
-	   -moz-transition-duration: 300ms;
-	    -ms-transition-duration: 300ms;
-	        transition-duration: 300ms;
+	-webkit-transition-duration: 400ms;
+	   -moz-transition-duration: 400ms;
+	    -ms-transition-duration: 400ms;
+	        transition-duration: 400ms;
 }
 .reveal[data-transition-speed="slow"]>.backgrounds .slide-background {
-	-webkit-transition-duration: 900ms;
-	   -moz-transition-duration: 900ms;
-	    -ms-transition-duration: 900ms;
-	        transition-duration: 900ms;
+	-webkit-transition-duration: 1200ms;
+	   -moz-transition-duration: 1200ms;
+	    -ms-transition-duration: 1200ms;
+	        transition-duration: 1200ms;
 }
 
 
