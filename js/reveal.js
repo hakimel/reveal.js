@@ -190,9 +190,9 @@ var Reveal = (function(){
 		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Background element
-		if( !document.querySelector( '.reveal .background' ) ) {
+		if( !document.querySelector( '.reveal .backgrounds' ) ) {
 			dom.background = document.createElement( 'div' );
-			dom.background.classList.add( 'background' );
+			dom.background.classList.add( 'backgrounds' );
 			dom.wrapper.appendChild( dom.background );
 		}
 

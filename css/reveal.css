@@ -1304,7 +1304,7 @@ body {
  * 
  *********************************************/
 
-.reveal>.background {
+.reveal>.backgrounds {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -1338,7 +1338,7 @@ body {
 	}
 
 /* Linear sliding transition style */
-.reveal[data-background-transition=linear]>.background .slide-background {
+.reveal[data-background-transition=linear]>.backgrounds .slide-background {
 	opacity: 1;
 
 	-webkit-backface-visibility: hidden;
@@ -1346,14 +1346,14 @@ body {
 	    -ms-backface-visibility: hidden;
 	        backface-visibility: hidden;
 }
-	.reveal[data-background-transition=linear]>.background .slide-background.past {
+	.reveal[data-background-transition=linear]>.backgrounds .slide-background.past {
 		-webkit-transform: translate(-100%, 0);
 		   -moz-transform: translate(-100%, 0);
 		    -ms-transform: translate(-100%, 0);
 		     -o-transform: translate(-100%, 0);
 		        transform: translate(-100%, 0);
 	}
-	.reveal[data-background-transition=linear]>.background .slide-background.future {
+	.reveal[data-background-transition=linear]>.backgrounds .slide-background.future {
 		-webkit-transform: translate(100%, 0);
 		   -moz-transform: translate(100%, 0);
 		    -ms-transform: translate(100%, 0);
@@ -1361,14 +1361,14 @@ body {
 		        transform: translate(100%, 0);
 	}
 
-	.reveal[data-background-transition=linear]>.background .slide-background>.slide-background.past {
+	.reveal[data-background-transition=linear]>.backgrounds .slide-background>.slide-background.past {
 		-webkit-transform: translate(0, -100%);
 		   -moz-transform: translate(0, -100%);
 		    -ms-transform: translate(0, -100%);
 		     -o-transform: translate(0, -100%);
 		        transform: translate(0, -100%);
 	}
-	.reveal[data-background-transition=linear]>.background .slide-background>.slide-background.future {
+	.reveal[data-background-transition=linear]>.backgrounds .slide-background>.slide-background.future {
 		-webkit-transform: translate(0, 100%);
 		   -moz-transform: translate(0, 100%);
 		    -ms-transform: translate(0, 100%);
@@ -1378,13 +1378,13 @@ body {
 
 
 /* Global transition speed settings */
-.reveal[data-transition-speed="fast"]>.background .slide-background {
+.reveal[data-transition-speed="fast"]>.backgrounds .slide-background {
 	-webkit-transition-duration: 300ms;
 	   -moz-transition-duration: 300ms;
 	    -ms-transition-duration: 300ms;
 	        transition-duration: 300ms;
 }
-.reveal[data-transition-speed="slow"]>.background .slide-background {
+.reveal[data-transition-speed="slow"]>.backgrounds .slide-background {
 	-webkit-transition-duration: 900ms;
 	   -moz-transition-duration: 900ms;
 	    -ms-transition-duration: 900ms;
