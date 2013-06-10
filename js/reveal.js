@@ -82,6 +82,9 @@ var Reveal = (function(){
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
 
+			// Transition style for full page slide backgrounds
+			backgroundTransition: 'default', // default/linear
+
 			// Script dependencies to load
 			dependencies: []
 		},
@@ -189,6 +192,13 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.slides = document.querySelector( '.reveal .slides' );
 
+		// Background element
+		if( !document.querySelector( '.reveal .backgrounds' ) ) {
+			dom.background = document.createElement( 'div' );
+			dom.background.classList.add( 'backgrounds' );
+			dom.wrapper.appendChild( dom.background );
+		}
+
 		// Progress bar
 		if( !dom.wrapper.querySelector( '.progress' ) ) {
 			var progressElement = document.createElement( 'div' );
@@ -208,11 +218,11 @@ var Reveal = (function(){
 			dom.wrapper.appendChild( controlsElement );
 		}
 
-		// Presentation background element
+		// State background element [DEPRECATED]
 		if( !dom.wrapper.querySelector( '.state-background' ) ) {
-			var backgroundElement = document.createElement( 'div' );
-			backgroundElement.classList.add( 'state-background' );
-			dom.wrapper.appendChild( backgroundElement );
+			var stateBackgroundElement = document.createElement( 'div' );
+			stateBackgroundElement.classList.add( 'state-background' );
+			dom.wrapper.appendChild( stateBackgroundElement );
 		}
 
 		// Overlay graphic which is displayed during the paused mode
@@ -237,6 +247,86 @@ var Reveal = (function(){
 			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
+
+	}
+
+	/**
+	 * Creates the slide background elements and appends them
+	 * to the background container. One element is created per
+	 * slide no matter if the given slide has visible background.
+	 */
+	function createBackgrounds() {
+
+		if( isPrintingPDF() ) {
+			document.body.classList.add( 'print-pdf' );
+		}
+
+		// Clear prior backgrounds
+		dom.background.innerHTML = '';
+		dom.background.classList.add( 'no-transition' );
+
+		// Helper method for creating a background element for the
+		// given slide
+		function _createBackground( slide, container ) {
+
+			var data = {
+				background: slide.getAttribute( 'data-background' ),
+				backgroundSize: slide.getAttribute( 'data-background-size' ),
+				backgroundColor: slide.getAttribute( 'data-background-color' ),
+				backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
+				backgroundPosition: slide.getAttribute( 'data-background-position' )
+			};
+
+			var element = document.createElement( 'div' );
+			element.className = 'slide-background';
+
+			if( data.background ) {
+				// Auto-wrap image urls in url(...)
+				if( /\.(png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
+					element.style.backgroundImage = 'url('+ data.background +')';
+				}
+				else {
+					element.style.background = data.background;
+				}
+			}
+
+			// Additional and optional background properties
+			if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
+			if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
+			if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
+			if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
+
+			container.appendChild( element );
+
+			return element;
+
+		}
+
+		// Iterate over all horizontal slides
+		toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
+
+			var backgroundStack;
+
+			if( isPrintingPDF() ) {
+				backgroundStack = _createBackground( slideh, slideh );
+			}
+			else {
+				backgroundStack = _createBackground( slideh, dom.background );
+			}
+
+			// Iterate over all vertical slides
+			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+
+				if( isPrintingPDF() ) {
+					_createBackground( slidev, slidev );
+				}
+				else {
+					_createBackground( slidev, backgroundStack );
+				}
+
+			} );
+
+		} );
 
 	}
 
@@ -351,6 +441,7 @@ var Reveal = (function(){
 		dom.wrapper.classList.add( config.transition );
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
+		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
 		if( dom.controls ) {
 			dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
@@ -571,6 +662,15 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Checks if this instance is being used to print a PDF.
+	 */
+	function isPrintingPDF() {
+
+		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
 	 * Causes the address bar to hide on mobile devices,
 	 * more vertical space ftw.
 	 */
@@ -770,7 +870,7 @@ var Reveal = (function(){
 	 */
 	function layout() {
 
-		if( dom.wrapper ) {
+		if( dom.wrapper && !isPrintingPDF() ) {
 
 			// Available space to scale within
 			var availableWidth = dom.wrapper.offsetWidth,
@@ -1262,7 +1362,8 @@ var Reveal = (function(){
 		}
 
 		// Dispatch an event if the slide changed
-		if( indexh !== indexhBefore || indexv !== indexvBefore ) {
+		var slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
+		if( slideChanged ) {
 			dispatchEvent( 'slidechanged', {
 				'indexh': indexh,
 				'indexv': indexv,
@@ -1299,11 +1400,14 @@ var Reveal = (function(){
 		}
 
 		// Handle embedded content
-		stopEmbeddedContent( previousSlide );
-		startEmbeddedContent( currentSlide );
+		if( slideChanged ) {
+			stopEmbeddedContent( previousSlide );
+			startEmbeddedContent( currentSlide );
+		}
 
 		updateControls();
 		updateProgress();
+		updateBackground();
 
 	}
 
@@ -1327,8 +1431,12 @@ var Reveal = (function(){
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
 
+		// Re-create the slide backgrounds
+		createBackgrounds();
+
 		updateControls();
 		updateProgress();
+		updateBackground();
 
 	}
 
@@ -1385,6 +1493,9 @@ var Reveal = (function(){
 				element.classList.remove( 'present' );
 				element.classList.remove( 'future' );
 
+				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
+				element.setAttribute( 'hidden', '' );
+
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
 					element.classList.add( reverse ? 'future' : 'past' );
@@ -1402,6 +1513,7 @@ var Reveal = (function(){
 
 			// Mark the current slide as present
 			slides[index].classList.add( 'present' );
+			slides[index].removeAttribute( 'hidden' );
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
@@ -1530,6 +1642,37 @@ var Reveal = (function(){
 			}
 
 		}
+
+	}
+
+	/**
+	 * Updates the background elements to reflect the current 
+	 * slide.
+	 */
+	function updateBackground() {
+
+		// Update the classes of all backgrounds to match the 
+		// states of their slides (past/present/future)
+		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
+
+			// Reverse past/future classes when in RTL mode
+			var horizontalPast = config.rtl ? 'future' : 'past',
+				horizontalFuture = config.rtl ? 'past' : 'future';
+
+			backgroundh.className = 'slide-background ' + ( h < indexh ? horizontalPast : h > indexh ? horizontalFuture : 'present' );
+
+			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
+
+				backgroundv.className = 'slide-background ' + ( v < indexv ? 'past' : v > indexv ? 'future' : 'present' );
+
+			} );
+
+		} );
+
+		// Allow the first background to apply without transition
+		setTimeout( function() {
+			dom.background.classList.remove( 'no-transition' );
+		}, 1 );
 
 	}
 

@@ -5,7 +5,7 @@ A framework for easily creating beautiful presentations using HTML. [Check out t
 reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a browser with support for CSS 3D transforms but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
 
 
-#### More reading::
+#### More reading:
 - [Installation](#installation): Step-by-step instructions for getting reveal.js running on your computer.
 - [Changelog](https://github.com/hakimel/reveal.js/wiki/Changelog): Up-to-date version history.
 - [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
@@ -105,6 +105,9 @@ Reveal.initialize({
 
 	// Transition speed
 	transitionSpeed: 'default', // default/fast/slow
+
+	// Transition style for full page backgrounds
+	backgroundTransition: 'default' // default/linear
 
 });
 ```
@@ -211,18 +214,6 @@ Reveal.getCurrentSlide();
 Reveal.getIndices(); // { h: 0, v: 0 } }
 ```
 
-### States
-
-If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
-
-Furthermore you can also listen to these changes in state via JavaScript:
-
-```javascript
-Reveal.addEventListener( 'somestate', function() {
-	// TODO: Sprinkle magic
-}, false );
-```
-
 ### Ready event
 
 The 'ready' event is fired when reveal.js has loaded all (synchronous) dependencies and is ready to start navigating.
@@ -244,6 +235,37 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
 ```
+
+### States
+
+If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
+
+Furthermore you can also listen to these changes in state via JavaScript:
+
+```javascript
+Reveal.addEventListener( 'somestate', function() {
+	// TODO: Sprinkle magic
+}, false );
+```
+
+### Slide backgrounds
+
+Slides are contained withing a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
+
+```html
+<section data-background="#ff0000">
+	<h2>All CSS color formats are supported, like rgba() or hsl().</h2>
+</section>
+<section data-background="http://example.com/image.png">
+	<h2>This slide will have a full-size background image.</h2>
+</section>
+<section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
+	<h2>This background image will be sized to 100px and repeated.</h2>
+</section>
+```
+
+Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'linear'``` to the ```Reveal.initialize()``` call.
+
 
 ### Internal links
 
@@ -282,7 +304,7 @@ Note that this does not work with the page and cube transitions.
 
 
 ### Fragments
-Fragments are used to highlight individual elements on a slide. Every elmement with the class ```fragment``` will be stepped through before moving on to the next slide. Here's an example: http://lab.hakim.se/reveal-js/#/16
+Fragments are used to highlight individual elements on a slide. Every element with the class ```fragment``` will be stepped through before moving on to the next slide. Here's an example: http://lab.hakim.se/reveal-js/#/16
 
 The default fragment style is to start out invisible and fade in. This style can be changed by appending a different class to the fragment:
 
@@ -583,11 +605,11 @@ The **basic setup** is for authoring presentations only. The **full setup** give
 
 ### Basic setup
 
-The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.g
+The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.
 
 1. Download a copy of reveal.js from <https://github.com/hakimel/reveal.js/archive/master.zip>
 
-2. Unizp and replace the example contents in index.html with your own
+2. Unzip and replace the example contents in index.html with your own
 
 3. Open index.html in a browser to view it
 
