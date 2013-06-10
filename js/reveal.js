@@ -1524,7 +1524,11 @@ var Reveal = (function(){
 		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
-			backgroundh.className = 'slide-background ' + ( h < indexh ? 'past' : h > indexh ? 'future' : 'present' );
+			// Reverse past/future classes when in RTL mode
+			var horizontalPast = config.rtl ? 'future' : 'past',
+				horizontalFuture = config.rtl ? 'past' : 'future';
+
+			backgroundh.className = 'slide-background ' + ( h < indexh ? horizontalPast : h > indexh ? horizontalFuture : 'present' );
 
 			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
 
