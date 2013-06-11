@@ -14,7 +14,6 @@ _______________
         <span>Frog Teacher</span>
     </div>
 </div>
-
 ]]]
 So, I kind of liked the irony in a session talking about the future of a brand-new (to most of you) platform by talking about how and why we've got here, and I figured that the best way of doing that would be to talk about where we've come from, and how the decisions of our past have shaped how we have designed FrogOS today.
 
@@ -34,7 +33,6 @@ _______________
         <span>Lib</span>
     </div>
 </div>
-
 ]]]
 Gareth wised up and hired some real developers at this point, and also me.  We realised that we had got to the point where, if we wanted to improve Frog Teacher as a product, we would have to do some serious refactoring.  Luckily, as every developer knows, there's no greater feeling in the world than being given free reign to rip apart someone else's code, as, let's face it - we all know better.
 
@@ -99,7 +97,6 @@ _______________
         </div>
     </div>
 </div>
-
 ]]]
 Here are some notes oh yes here are some notes
 _______________
