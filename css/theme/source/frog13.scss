@@ -10,7 +10,7 @@
 }
 
 @mixin circular($size) {
-    border-radius: 35%;
+    border-radius: 50%;
     background-color: $green;
     margin: 0 auto !important;
     border: 2px solid black !important;
@@ -18,6 +18,14 @@
     display: table;
     width: #{$size};
     height: #{$size};
+}
+
+@mixin lozenge() {
+    background-color: $base2;
+    border-radius: 1em;
+    width: auto;
+    display: inline-block;
+    padding: 0.5em 1em;
 }
 
 // Solarized colors
@@ -53,7 +61,7 @@ $headingLetterSpacing: -0.03em;
 $headingTextTransform: none;
 $headingFontVariant: small-caps;
 $headingTextShadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-$headingColor: $base2;
+$headingColor: white;
 $heading1Color: $headingColor;
 $heading1TextShadow: $headingTextShadow;
 
@@ -120,11 +128,20 @@ body {
     text-shadow: $headingTextShadow;
     font-variant: $headingFontVariant;
 }
+.reveal {
+    h1 {
+        font-size: 6em;
+        color: $heading1Color;
+        text-shadow: $heading1TextShadow;
+    }
 
-.reveal h1 {
-    font-size: 6em;
-    color: $heading1Color;
-    text-shadow: $heading1TextShadow;
+    h2 {
+        font-size: 3em;
+    }
+
+    h3 { 
+        font-size: 2.25em;
+    }
 }
 
 
@@ -135,7 +152,8 @@ body {
 .reveal a:not(.image) {
     color: $linkColor;
     text-decoration: none;
-    text-shadow: -1px 0 3px black;
+    text-shadow: -1px 0 3px $blue;
+    letter-spacing: 0.1em;
 
     -webkit-transition: color .15s ease;
        -moz-transition: color .15s ease;
@@ -185,130 +203,136 @@ body {
  * CUSTOM
  *********************************************/
 
-.history {
-    -webkit-transition: all 1s ease-in-out;
-       -moz-transition: all 1s ease-in-out;
-        -ms-transition: all 1s ease-in-out;
-         -o-transition: all 1s ease-in-out;
-            transition: all 1s ease-in-out;
-            
-    -webkit-transform: scale( 0.1 );
-       -moz-transform: scale( 0.1 );
-        -ms-transform: scale( 0.1 );
-         -o-transform: scale( 0.1 );
-            transform: scale( 0.1 );
-}
+.reveal {
+    .history {
+        -webkit-transition: all 1s ease-in-out;
+           -moz-transition: all 1s ease-in-out;
+            -ms-transition: all 1s ease-in-out;
+             -o-transition: all 1s ease-in-out;
+                transition: all 1s ease-in-out;
+                
+        -webkit-transform: scale( 0.1 );
+           -moz-transform: scale( 0.1 );
+            -ms-transform: scale( 0.1 );
+             -o-transform: scale( 0.1 );
+                transform: scale( 0.1 );
+    }
 
-.present .history { 
-    -webkit-transform: scale( 1 );
-       -moz-transform: scale( 1 );
-        -ms-transform: scale( 1 );
-         -o-transform: scale( 1 );
-            transform: scale( 1 );
-}
+    .present .history { 
+        -webkit-transform: scale( 1 );
+           -moz-transform: scale( 1 );
+            -ms-transform: scale( 1 );
+             -o-transform: scale( 1 );
+                transform: scale( 1 );
+    }
 
-.horizontal {
-    display: table;
-    margin: 1em auto !important;
-    border-spacing: 1em 0;
-}
+    .horizontal {
+        display: table;
+        margin: 1em auto !important;
+        border-spacing: 1em 0;
 
-.app {
-    @include circular(7em);
+        .app {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
 
-    .horizontal & {
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
+            > span {
+                display: inline;
+            }
+        }
+    }
+
+    .app {
+        @include circular(7em);
+
+        &:first-child:nth-last-child(1) {
+            width: 10em;
+            height: 10em;
+        }
+
+        > span, > div > span {
+            width: 100%;
+            height: 100%;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
 
         > span {
-            display: inline;
+            font-size: 1.8em;
+            line-height: 1em;
         }
-    }
-
-    &:first-child:nth-last-child(1) {
-        width: 10em;
-        height: 10em;
-    }
-
-    > span, > div > span {
-        width: 100%;
-        height: 100%;
-        display: table-cell;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    > span {
-        font-size: 1.8em;
-        line-height: 1em;
-    }
-
-    > div {
-        display: block;
-        position: absolute;
-        top: 0;
-        font-size: 0.6em;
-
-        @include circular(6em);
-        background-color: $cyan;
-    }
-
-    &[data-name="core"] {
-        width: 85% !important;
-        height: auto !important;
-        padding: 1em;
-        margin-top: 3em !important;
-
-        background-color: $orange;
 
         > div {
-            width: 6em;
-            height: 6em;
-            top: 14.5em;
-            background-color: $yellow;
+            display: block;
+            position: absolute;
+            top: 0;
+            font-size: 0.6em;
 
-            &[data-name="api"] {
-                left: 15%;
-            }
-
-            &[data-name="lib"] {
-                right: 15%;
-            }
+            @include circular(6em);
+            background-color: $cyan;
         }
-    }
 
-    &[data-name="frogclassic"] {
-        div[data-name="widgets"] {
-            top: 10em;
-            left: 44.7%;
-        }
-    }
+        &[data-name="core"] {
+            width: 85% !important;
+            height: auto !important;
+            padding: 1em;
+            margin-top: 3em !important;
 
-    &[data-name="frogos"] {
-        > div {
-            &[data-name="themes"] {
-                top: 2.5em;
-                left: 17.5%;
-            }
+            background-color: $orange;
 
-            &[data-name="apps"] {
-                top: 7.5em;
-                left: 21.5%;
-            }
+            > div {
+                width: 6em;
+                height: 6em;
+                top: 14.5em;
+                background-color: $yellow;
 
-            &[data-name="widgets"] {
-                top: -2em;
-                left: 21.5%;
+                &[data-name="api"] {
+                    left: 15%;
+                }
+
+                &[data-name="lib"] {
+                    right: 15%;
+                }
             }
         }
 
-        & + div[data-name="frogclassic"] {
+        &[data-name="frogclassic"] {
             div[data-name="widgets"] {
-                top: 2.5em;
-                left: auto;
-                right: 21.5%;
+                top: 10em;
+                left: 44.7%;
             }
         }
-    }    
+
+        &[data-name="frogos"] {
+            > div {
+                &[data-name="themes"] {
+                    top: 2.5em;
+                    left: 17.5%;
+                }
+
+                &[data-name="apps"] {
+                    top: 7.5em;
+                    left: 21.5%;
+                }
+
+                &[data-name="widgets"] {
+                    top: -2em;
+                    left: 21.5%;
+                }
+            }
+
+            & + div[data-name="frogclassic"] {
+                div[data-name="widgets"] {
+                    top: 2.5em;
+                    left: auto;
+                    right: 21.5%;
+                }
+            }
+        }    
+    }
+
+    .lozenge {
+        @include lozenge();
+    }
 }

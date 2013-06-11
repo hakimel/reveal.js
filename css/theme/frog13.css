@@ -38,7 +38,7 @@ body {
 .reveal h5,
 .reveal h6 {
   margin: 0 0 20px 0;
-  color: #eee8d5;
+  color: white;
   font-family: "Amatic SC", sans-serif;
   line-height: 0.9em;
   letter-spacing: -0.03em;
@@ -48,8 +48,12 @@ body {
 
 .reveal h1 {
   font-size: 6em;
-  color: #eee8d5;
+  color: white;
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
+.reveal h2 {
+  font-size: 3em; }
+.reveal h3 {
+  font-size: 2.25em; }
 
 /*********************************************
  * LINKS
@@ -57,7 +61,8 @@ body {
 .reveal a:not(.image) {
   color: #e8632c;
   text-decoration: none;
-  text-shadow: -1px 0 3px black;
+  text-shadow: -1px 0 3px #268bd2;
+  letter-spacing: 0.1em;
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   -ms-transition: color .15s ease;
@@ -95,7 +100,7 @@ body {
 /*********************************************
  * CUSTOM
  *********************************************/
-.history {
+.reveal .history {
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
   -ms-transition: all 1s ease-in-out;
@@ -106,21 +111,24 @@ body {
   -ms-transform: scale(0.1);
   -o-transform: scale(0.1);
   transform: scale(0.1); }
-
-.present .history {
+.reveal .present .history {
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   -o-transform: scale(1);
   transform: scale(1); }
-
-.horizontal {
+.reveal .horizontal {
   display: table;
   margin: 1em auto !important;
   border-spacing: 1em 0; }
-
-.app {
-  border-radius: 35%;
+  .reveal .horizontal .app {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center; }
+    .reveal .horizontal .app > span {
+      display: inline; }
+.reveal .app {
+  border-radius: 50%;
   background-color: #859900;
   margin: 0 auto !important;
   border: 2px solid black !important;
@@ -128,30 +136,24 @@ body {
   display: table;
   width: 7em;
   height: 7em; }
-  .horizontal .app {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center; }
-    .horizontal .app > span {
-      display: inline; }
-  .app:first-child:nth-last-child(1) {
+  .reveal .app:first-child:nth-last-child(1) {
     width: 10em;
     height: 10em; }
-  .app > span, .app > div > span {
+  .reveal .app > span, .reveal .app > div > span {
     width: 100%;
     height: 100%;
     display: table-cell;
     text-align: center;
     vertical-align: middle; }
-  .app > span {
+  .reveal .app > span {
     font-size: 1.8em;
     line-height: 1em; }
-  .app > div {
+  .reveal .app > div {
     display: block;
     position: absolute;
     top: 0;
     font-size: 0.6em;
-    border-radius: 35%;
+    border-radius: 50%;
     background-color: #859900;
     margin: 0 auto !important;
     border: 2px solid black !important;
@@ -160,34 +162,40 @@ body {
     width: 6em;
     height: 6em;
     background-color: #2aa198; }
-  .app[data-name="core"] {
+  .reveal .app[data-name="core"] {
     width: 85% !important;
     height: auto !important;
     padding: 1em;
     margin-top: 3em !important;
     background-color: #cb4b16; }
-    .app[data-name="core"] > div {
+    .reveal .app[data-name="core"] > div {
       width: 6em;
       height: 6em;
       top: 14.5em;
       background-color: #b58900; }
-      .app[data-name="core"] > div[data-name="api"] {
+      .reveal .app[data-name="core"] > div[data-name="api"] {
         left: 15%; }
-      .app[data-name="core"] > div[data-name="lib"] {
+      .reveal .app[data-name="core"] > div[data-name="lib"] {
         right: 15%; }
-  .app[data-name="frogclassic"] div[data-name="widgets"] {
+  .reveal .app[data-name="frogclassic"] div[data-name="widgets"] {
     top: 10em;
     left: 44.7%; }
-  .app[data-name="frogos"] > div[data-name="themes"] {
+  .reveal .app[data-name="frogos"] > div[data-name="themes"] {
     top: 2.5em;
     left: 17.5%; }
-  .app[data-name="frogos"] > div[data-name="apps"] {
+  .reveal .app[data-name="frogos"] > div[data-name="apps"] {
     top: 7.5em;
     left: 21.5%; }
-  .app[data-name="frogos"] > div[data-name="widgets"] {
+  .reveal .app[data-name="frogos"] > div[data-name="widgets"] {
     top: -2em;
     left: 21.5%; }
-  .app[data-name="frogos"] + div[data-name="frogclassic"] div[data-name="widgets"] {
+  .reveal .app[data-name="frogos"] + div[data-name="frogclassic"] div[data-name="widgets"] {
     top: 2.5em;
     left: auto;
     right: 21.5%; }
+.reveal .lozenge {
+  background-color: #eee8d5;
+  border-radius: 1em;
+  width: auto;
+  display: inline-block;
+  padding: 0.5em 1em; }
