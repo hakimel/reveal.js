@@ -1,9 +1,8 @@
 /**
  * A simple theme for reveal.js presentations, similar
- * to the default theme. The accent color is darkblue.
+ * to the default theme. The accent color is brown.
  *
- * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
- * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se; so is the theme - beige.css - that this is based off of.
+ * This theme is Copyright (C) 2012-2013 Owen Versteeg, http://owenversteeg.com - it is MIT licensed.
  */
 
 
@@ -26,6 +25,9 @@ $linkColor: #51483D;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #26351C;
 
+.reveal a:not(.image) {
+  line-height: 1.3em;
+}
 
 
 // Theme template ------------------------------
