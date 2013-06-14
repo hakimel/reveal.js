@@ -4,6 +4,9 @@
  *
  * This theme is Copyright (C) 2012-2013 Owen Versteeg, http://owenversteeg.com - it is MIT licensed.
  */
+.reveal a:not(.image) {
+  line-height: 1.3em; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -47,7 +50,6 @@ body {
  * LINKS
  *********************************************/
 .reveal a:not(.image) {
-  line-height: 1.3em;
   color: #51483d;
   text-decoration: none;
   -webkit-transition: color .15s ease;
@@ -87,9 +89,6 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls div {
-  opacity: 0.15; }
-
 .reveal .controls div.navigate-left,
 .reveal .controls div.navigate-left.enabled {
   border-right-color: #51483d; }
