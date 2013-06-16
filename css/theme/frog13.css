@@ -185,10 +185,10 @@ body {
     left: 17.5%; }
   .reveal .app[data-name="frogos"] > div[data-name="apps"] {
     top: 7.5em;
-    left: 21.5%; }
+    left: 22.5%; }
   .reveal .app[data-name="frogos"] > div[data-name="widgets"] {
     top: -2em;
-    left: 21.5%; }
+    left: 22.5%; }
   .reveal .app[data-name="frogos"] + div[data-name="frogclassic"] div[data-name="widgets"] {
     top: 2.5em;
     left: auto;
@@ -199,3 +199,5 @@ body {
   width: auto;
   display: inline-block;
   padding: 0.5em 1em; }
+  li .reveal .lozenge {
+    display: block; }
