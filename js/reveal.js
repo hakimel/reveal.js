@@ -2098,40 +2098,75 @@ var Reveal = (function(){
 		// keyboard modifier key is present
 		if( hasFocus || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
-		var triggered = true;
-
-		// while paused only allow "unpausing" keyboard events (b and .)
+		// While paused only allow "unpausing" keyboard events (b and .)
 		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
 			return false;
 		}
 
-		switch( event.keyCode ) {
-			// p, page up
-			case 80: case 33: navigatePrev(); break;
-			// n, page down
-			case 78: case 34: navigateNext(); break;
-			// h, left
-			case 72: case 37: navigateLeft(); break;
-			// l, right
-			case 76: case 39: navigateRight(); break;
-			// k, up
-			case 75: case 38: navigateUp(); break;
-			// j, down
-			case 74: case 40: navigateDown(); break;
-			// home
-			case 36: slide( 0 ); break;
-			// end
-			case 35: slide( Number.MAX_VALUE ); break;
-			// space
-			case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
-			// return
-			case 13: isOverview() ? deactivateOverview() : triggered = false; break;
-			// b, period, Logitech presenter tools "black screen" button
-			case 66: case 190: case 191: togglePause(); break;
-			// f
-			case 70: enterFullscreen(); break;
-			default:
-				triggered = false;
+		var triggered = false;
+
+		// 1. User defined key bindings
+		if( typeof config.keyboard === 'object' ) {
+
+			for( var key in config.keyboard ) {
+
+				// Check if this binding matches the pressed key
+				if( parseInt( key, 10 ) === event.keyCode ) {
+
+					var value = config.keyboard[ key ];
+
+					// Calback function
+					if( typeof value === 'function' ) {
+						value.apply( null, [ event ] );
+					}
+					// String shortcuts to reveal.js API
+					else if( typeof value === 'string' && typeof Reveal[ value ] === 'function' ) {
+						Reveal[ value ].call();
+					}
+
+					triggered = true;
+
+				}
+
+			}
+
+		}
+
+		// 2. System defined key bindings
+		if( triggered === false ) {
+
+			// Assume true and try to prove false
+			triggered = true;
+
+			switch( event.keyCode ) {
+				// p, page up
+				case 80: case 33: navigatePrev(); break;
+				// n, page down
+				case 78: case 34: navigateNext(); break;
+				// h, left
+				case 72: case 37: navigateLeft(); break;
+				// l, right
+				case 76: case 39: navigateRight(); break;
+				// k, up
+				case 75: case 38: navigateUp(); break;
+				// j, down
+				case 74: case 40: navigateDown(); break;
+				// home
+				case 36: slide( 0 ); break;
+				// end
+				case 35: slide( Number.MAX_VALUE ); break;
+				// space
+				case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
+				// return
+				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
+				// b, period, Logitech presenter tools "black screen" button
+				case 66: case 190: case 191: togglePause(); break;
+				// f
+				case 70: enterFullscreen(); break;
+				default:
+					triggered = false;
+			}
+
 		}
 
 		// If the input resulted in a triggered action we should prevent
