@@ -2051,9 +2051,9 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
-					indexh --;
-					slide( indexh, indexv );
+					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+					var h = indexh - 1;
+					slide( h, v );
 				}
 			}
 		}

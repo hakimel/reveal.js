@@ -5,6 +5,9 @@
  *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
+.reveal a:not(.image) {
+  line-height: 1.3em; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
