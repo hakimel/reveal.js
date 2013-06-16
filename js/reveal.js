@@ -126,7 +126,7 @@ var Reveal = (function(){
 								'transform' in document.body.style,
 
 		// Throttles mouse wheel navigation
-		mouseWheelTimeout = 0,
+		lastMouseWheelStep = 0,
 
 		// An interval used to automatically move on to the next slide
 		autoSlideTimeout = 0,
@@ -2335,9 +2335,10 @@ var Reveal = (function(){
 	 */
 	function onDocumentMouseScroll( event ) {
 
-		clearTimeout( mouseWheelTimeout );
+		if( Date.now() - lastMouseWheelStep > 600 ) {
 
-		mouseWheelTimeout = setTimeout( function() {
+			lastMouseWheelStep = Date.now();
+
 			var delta = event.detail || -event.wheelDelta;
 			if( delta > 0 ) {
 				navigateNext();
@@ -2345,7 +2346,8 @@ var Reveal = (function(){
 			else {
 				navigatePrev();
 			}
-		}, 100 );
+
+		}
 
 	}
 
