@@ -1758,8 +1758,8 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined,
-					    h = indexh - 1;
+					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+					var h = indexh - 1;
 					slide( h, v );
 				}
 			}
