@@ -199,5 +199,5 @@ body {
   width: auto;
   display: inline-block;
   padding: 0.5em 1em; }
-  li .reveal .lozenge {
-    display: block; }
+.reveal li.lozenge {
+  display: block; }

@@ -334,9 +334,9 @@ body {
 
     .lozenge {
         @include lozenge();
+    }
 
-        li & {
-            display: block;
-        }
+    li.lozenge {
+    	display: block;
     }
 }
