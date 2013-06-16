@@ -313,12 +313,12 @@ body {
 
                 &[data-name="apps"] {
                     top: 7.5em;
-                    left: 21.5%;
+                    left: 22.5%;
                 }
 
                 &[data-name="widgets"] {
                     top: -2em;
-                    left: 21.5%;
+                    left: 22.5%;
                 }
             }
 
@@ -334,5 +334,9 @@ body {
 
     .lozenge {
         @include lozenge();
+
+        li & {
+            display: block;
+        }
     }
 }
