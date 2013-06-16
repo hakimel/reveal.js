@@ -465,7 +465,7 @@ Served from a static file server accessible (preferably) only to the presenter. 
 1. ```npm install node-static```
 2. ```static```
 
-If you want to use the speaker notes plugin with you master presentation then make sure you have the speaker notes plugin configured correctly along with the configuration shown below, then execute ```node plugin/notes-server``` in the directory of your master presentation. The configuration below will cause it to connect to the socket.io server as a master, as well as launch your speaker-notes/static-file server.
+If you want to use the speaker notes plugin with your master presentation then make sure you have the speaker notes plugin configured correctly along with the configuration shown below, then execute ```node plugin/notes-server``` in the directory of your master presentation. The configuration below will cause it to connect to the socket.io server as a master, as well as launch your speaker-notes/static-file server.
 
 You can then access your master presentation at ```http://localhost:1947```
 
