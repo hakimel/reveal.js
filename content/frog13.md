@@ -228,6 +228,7 @@ _______________
   <li class="fragment lozenge roll-in">HTML/CSS</li>
   <li class="fragment lozenge roll-in">Design Guide Documentation: Available
   now</li>
+  <li class="fragment lozenge roll-in">Community Support: In Progress</li>
   <li class="fragment lozenge roll-in">Theme Boilerplate: Available now</li>
   <li class="fragment lozenge roll-in">Theme Builder Offline: Available now
     <ul>
@@ -305,8 +306,19 @@ We have implemented a framework in FrogOS that makes plugging new products into
 it an easy job.  Widgets are, at their heart, one single Javascript file.  You
 can, of course, have as many as you like, but the most simple widget requires
 nothing more than a file with about ten lines of code in it.  This widget can
-then be dragged in multiple times, having different preferences assigned to
-each one.
+then be dragged in multiple times, having different preferences assigned to each
+one.
+
+Widgets are the right choice for showing bits of information specific to a user,
+or to a group that a user belongs to.  Alternatively, you might want to write
+something that you can interact with that adds content into the page to become
+part of the site it is embedded into.
+
+We will be providing thorough documentation to help you through the opening
+stages and beyond as your comfort with the concepts allow you to become more
+adventurous and complicated, and follow that up with a robust community support
+mechanism around that to ensure that your ideas really can be implemented into
+reality.
 
 Our widget development kit that we will be providing will integrate into your
 existing code editor or IDE, to get you up and running as quickly as possible.
@@ -324,20 +336,80 @@ _______________
 ## Apps
 <ul>
   <li class="fragment lozenge roll-in">Javascript</li>
+  <li class="fragment lozenge roll-in">Documentation: Later</li>
+  <li class="fragment lozenge roll-in">Community Support: Later</li>
+  <li class="fragment lozenge roll-in">App Boilerplate: Later</li>
+  <li class="fragment lozenge roll-in">Compatible APIs: Later</li>
+  <li class="fragment lozenge roll-in">App Builder Online: Later
+    <ul>
+      <li>Containing: App Validation, App Submission, Advanced Previewing</li>
+    </ul>
+  </li>
 </ul>
+
 ]]]
 Widgets have a bigger sibling, the app.  Widgets can be instantiated into a
 page, which belongs to a site, and an app stands alone - although one app can
-talk to another, by using the FrogOS Event framework that exists.
+talk to another, by using the FrogOS Event framework that we expose to you.  If
+you want to make your app do something when other areas of FrogOS are interacted
+with, then an app is the right choice for you.  If you want to be able to
+display a lot of data in one place depending on who is logged in and looking at
+it, then an app is for you.  If you want to create something and then restrict
+it to different users in your school, then an app is right.
 
-More notes about Apps in here...
+The tools we will be providing for apps will be in line with the other offerings
+outlined earlier, with the intention of providing you with an all-in-one
+solution for reference, support, community and submission.  For previewing of
+apps we hope to be able to offer different sets of users and groups, all with
+different levels of platform activity, so that you can test your app in
+different circumstances.  As with everything we will provide, it will be your
+feedback that shapes the direction of what is offered.
 _______________
 ## API
 <ul>
   <li class="fragment lozenge roll-in">Whichever language you like</li>
+  <li class="fragment lozenge roll-in">Starter APIs: In Progress</li>
+  <li class="fragment lozenge roll-in">Further APIs: Continuing</li>
+  <li class="fragment lozenge roll-in">Documentation: In Progress</li>
+  <li class="fragment lozenge roll-in">Community Support: In Progress</li>
+  <li class="fragment lozenge roll-in">SDKs: Later</li>
 </ul>
 ]]]
-Notes about the API in here...
+The other side of extending FrogOS doesn't sit within the FrogOS platform: it
+doesn't even necessarily have to sit within the web browser, and it is this side
+of our plans to help you develop your Frog platform that has most freedom
+attached to it.
+
+We will provide to you a number of APIs that hook into the Frog ecosystem, so
+that, for instance, you could allow people to use their login with Frog to log
+in to other platforms, or pull out data on assignments that a subset of users
+have taken for custom reports - providing that the user that is requesting that
+data has the permission to see that data.  We handle the permissions for
+endpoints that are live with the most current data, and allow you to update data
+from external apps that will then be reflected within the whole FrogOS app
+suite, regardless of how you chose to consume or manipulate that data in the
+first place.
+
+Our intention is to open up the APIs bit-by-bit, based on demand and potential
+impact.  There's every chance that your feedback will influence us to write
+brand new APIs that currently don't exist, if the demand is there.  We are
+currently working on tidying up the first set of endpoints, and implementing a
+secure system to handle and serve your requests.  As with other offerings, we
+will be rigorously supporting and documenting the APIs we release, and further
+to that, we will be producing software development kits for the most popular
+languages and environments to give you a head start, including wrapper functions
+to access the APIs as smoothly and easily as possible.  We don't want to make it
+difficult: we want it to be easy for anyone used to developing software, even at
+a hobbyist level, to have access to all the power and big data that FrogOS can
+provide.
+
+The development to the APIs can, and will, be done in parallel to that of the
+FrogOS development platform.  Both are compatible with one another, both are
+perfectly usable separate from one another.  Whether you choose to use one or
+both of them, we'll be there every step of the way, supporting your queries and
+responding to your feedback.
 _______________
 # Fin
 <p class=lozenge>http://github.com/adamhepton/reveal.js</p>
+]]]
+
