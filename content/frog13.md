@@ -2,6 +2,7 @@
 ## Celebrating Outstanding Education
 ### FrogOS Advanced
 
+<p class=lozenge>Follow along at http://frg.me/frog13</p>
 <p class=lozenge>Adam Hepton | Head of Development | [@adamhepton](http://twitter.com/adamhepton)</p>
 ]]]
 Hi, I'm Adam Hepton, Head of Development at Frog.  The purpose of my part of
