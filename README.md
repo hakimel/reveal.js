@@ -439,7 +439,7 @@ By default notes are written using standard HTML, see below, but you can add a `
 ## Sub-title
 
 Here is some content...
-]]]
+[[[
 These are my notes for this slide.
 ```
 
