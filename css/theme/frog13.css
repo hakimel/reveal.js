@@ -3,6 +3,8 @@
  * Theme for Frog13 Conference
  * Author: Adam Hepton
  */
+/* Taken from Bourbon, bourbon.io, https://github.com/thoughtbot/bourbon */
+/* End Bourbon Includes */
 html * {
   color-profile: sRGB;
   rendering-intent: auto; }
@@ -202,3 +204,18 @@ body {
 .reveal li.lozenge {
   display: block;
   margin-top: 0.5em; }
+.reveal .progress {
+  height: 7px;
+  border-radius: 1em;
+  bottom: 0.5em;
+  left: -0.1em; }
+  .reveal .progress span {
+    background-color: #d33682;
+    background-image: _deprecated-webkit-gradient(linear, left top, left bottom, #d33682, #dc322f);
+    background-image: -webkit-linear-gradient(#d33682, #dc322f);
+    background-image: linear-gradient(#d33682, #dc322f);
+    border: 1px 1px 0 1px solid #002b36;
+    border-radius: 1em;
+    box-shadow: 0 0 1em #002b36; }
+    .reveal .progress span.final {
+      box-shadow: 0 0 0.5em white; }
