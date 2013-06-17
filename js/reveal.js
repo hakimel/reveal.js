@@ -1341,7 +1341,7 @@ var Reveal = (function(){
 			}
 
 			dom.progressbar.style.width = ( pastCount / ( totalCount - 1 ) ) * window.innerWidth + 'px';
-
+			( pastCount === totalCount - 1 ) ? dom.progressbar.classList.add( 'final' ) : dom.progressbar.classList.remove( 'final' );
 		}
 
 	}
