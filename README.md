@@ -1,5 +1,12 @@
-# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.png?branch=master)](https://travis-ci.org/hakimel/reveal.js)
+# Presentation for Frog 13 Conference on Advanced FrogOS
+## Uses modified reveal.js framework
 
+A presentation as delivered at Frog 13 Conference, Birmingham, June 18th 2013.  Check speaker notes (press s) for a transcript of the kind of things I meant to say on stage and probably didn't.  Requires local web server for installation/reading of content file.
+
+Feedback, questions, and general abuse can be directed at me through [Twitter](http://twitter.com/adamhepton).
+
+### reveal.js README at point of forking, June 2013, modified to reflect subtleties between original and this fork
+[![Build Status](https://travis-ci.org/hakimel/reveal.js.png?branch=master)](https://travis-ci.org/hakimel/reveal.js)
 A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
 
 reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a browser with support for CSS 3D transforms but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
@@ -55,7 +62,7 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file.
 
 ```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^[[["></section>
 ```
 
 ### Configuration
@@ -413,7 +420,7 @@ If you want to add a theme of your own see the instructions here: [/css/theme/RE
 
 reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the 's' key on your keyboard to open the notes window.
 
-By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown.
+By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown, or separate your external markdown content file with the separator specified within your original declaration where notes begin.
 
 ```html
 <section>
@@ -423,6 +430,17 @@ By default notes are written using standard HTML, see below, but you can add a `
 		Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
 	</aside>
 </section>
+```
+
+```html
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^[[["></section>
+
+# Title
+## Sub-title
+
+Here is some content...
+]]]
+These are my notes for this slide.
 ```
 
 ## Server Side Speaker Notes
