@@ -411,5 +411,3 @@ responding to your feedback.
 _______________
 # Fin
 <p class=lozenge>http://github.com/adamhepton/reveal.js</p>
-]]]
-
