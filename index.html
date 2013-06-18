@@ -36,7 +36,6 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-
 				<section>
 					<h1>Reveal.js</h1>
 					<h3>HTML Presentations Made Easy</h3>
@@ -221,6 +220,20 @@ Reveal.addEventListener( 'customevent', function() {
 						<h2>Repeated Image Backgrounds</h2>
 						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
 					</section>
+				</section>
+
+				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+					<h2>Background Transitions</h2>
+					<p>
+						Pass reveal.js the <code>backgroundTransition: 'slide'</code> config argument to make backgrounds slide rather than fade.
+					</p>
+				</section>
+
+				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+					<h2>Background Transition Override</h2>
+					<p>
+						You can override background transitions per slide by using <code>data-background-transition="slide"</code>.
+					</p>
 				</section>
 
 				<section>
