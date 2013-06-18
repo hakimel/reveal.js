@@ -206,12 +206,19 @@ Reveal.next();
 Reveal.prevFragment();
 Reveal.nextFragment();
 Reveal.toggleOverview();
+Reveal.togglePause();
 
 // Retrieves the previous and current slide elements
 Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
 Reveal.getIndices(); // { h: 0, v: 0 } }
+
+// State checks
+Reveal.isFirstSlide();
+Reveal.isLastSlide();
+Reveal.isOverview();
+Reveal.isPaused();
 ```
 
 ### Ready event
@@ -236,21 +243,9 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 } );
 ```
 
-### States
-
-If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
-
-Furthermore you can also listen to these changes in state via JavaScript:
-
-```javascript
-Reveal.addEventListener( 'somestate', function() {
-	// TODO: Sprinkle magic
-}, false );
-```
-
 ### Slide backgrounds
 
-Slides are contained withing a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
+Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
 
 ```html
 <section data-background="#ff0000">
@@ -265,6 +260,19 @@ Slides are contained withing a limited portion of the screen by default to allow
 ```
 
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
+
+
+### States
+
+If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
+
+Furthermore you can also listen to these changes in state via JavaScript:
+
+```javascript
+Reveal.addEventListener( 'somestate', function() {
+	// TODO: Sprinkle magic
+}, false );
+```
 
 
 ### Internal links
