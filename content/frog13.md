@@ -411,4 +411,4 @@ both of them, we'll be there every step of the way, supporting your queries and
 responding to your feedback.
 _______________
 # Fin
-<p class=lozenge>http://github.com/adamhepton/reveal.js</p>
+<p class=lozenge>http://github.com/adamhepton/frog13</p>
