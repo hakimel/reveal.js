@@ -264,7 +264,7 @@ Slides are contained withing a limited portion of the screen by default to allow
 </section>
 ```
 
-Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'linear'``` to the ```Reveal.initialize()``` call.
+Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
 
 
 ### Internal links

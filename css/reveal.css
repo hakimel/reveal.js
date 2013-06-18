@@ -1345,8 +1345,8 @@ body {
 	}
 
 /* Linear sliding transition style */
-.reveal[data-background-transition=linear]>.backgrounds .slide-background,
-.reveal>.backgrounds .slide-background[data-background-transition=linear] {
+.reveal[data-background-transition=slide]>.backgrounds .slide-background,
+.reveal>.backgrounds .slide-background[data-background-transition=slide] {
 	opacity: 1;
 
 	-webkit-backface-visibility: hidden;
@@ -1360,16 +1360,16 @@ body {
 	     -o-transition-duration: 800ms;
 	        transition-duration: 800ms;
 }
-	.reveal[data-background-transition=linear]>.backgrounds .slide-background.past,
-	.reveal>.backgrounds .slide-background.past[data-background-transition=linear] {
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background.past,
+	.reveal>.backgrounds .slide-background.past[data-background-transition=slide] {
 		-webkit-transform: translate(-100%, 0);
 		   -moz-transform: translate(-100%, 0);
 		    -ms-transform: translate(-100%, 0);
 		     -o-transform: translate(-100%, 0);
 		        transform: translate(-100%, 0);
 	}
-	.reveal[data-background-transition=linear]>.backgrounds .slide-background.future,
-	.reveal>.backgrounds .slide-background.future[data-background-transition=linear] {
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background.future,
+	.reveal>.backgrounds .slide-background.future[data-background-transition=slide] {
 		-webkit-transform: translate(100%, 0);
 		   -moz-transform: translate(100%, 0);
 		    -ms-transform: translate(100%, 0);
@@ -1377,16 +1377,16 @@ body {
 		        transform: translate(100%, 0);
 	}
 
-	.reveal[data-background-transition=linear]>.backgrounds .slide-background>.slide-background.past,
-	.reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=linear] {
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background>.slide-background.past,
+	.reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=slide] {
 		-webkit-transform: translate(0, -100%);
 		   -moz-transform: translate(0, -100%);
 		    -ms-transform: translate(0, -100%);
 		     -o-transform: translate(0, -100%);
 		        transform: translate(0, -100%);
 	}
-	.reveal[data-background-transition=linear]>.backgrounds .slide-background>.slide-background.future,
-	.reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=linear] {
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background>.slide-background.future,
+	.reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=slide] {
 		-webkit-transform: translate(0, 100%);
 		   -moz-transform: translate(0, 100%);
 		    -ms-transform: translate(0, 100%);
