@@ -126,34 +126,6 @@ Reveal.configure({ autoSlide: 5000 });
 ```
 
 
-### Presentation Size
-
-All presentations have a normal size, that is the resolution at which they are authored. The framework will automatically scale presentations uniformly based on this size to ensure that everything fits on any given display or viewport.
-
-See below for a list of configuration options related to sizing, including default values:
-
-```javascript
-Reveal.initialize({
-
-	...
-
-	// The "normal" size of the presentation, aspect ratio will be preserved
-	// when the presentation is scaled to fit different resolutions. Can be
-	// specified using percentage units.
-	width: 960,
-	height: 700,
-
-	// Factor of the display size that should remain empty around the content
-	margin: 0.1,
-
-	// Bounds for smallest/largest possible scale to apply to content
-	minScale: 0.2,
-	maxScale: 1.0
-
-});
-```
-
-
 ### Dependencies
 
 Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
@@ -190,9 +162,51 @@ You can add your own extensions using the same syntax. The following properties 
 - **condition**: [optional] Function which must return true for the script to be loaded
 
 
+### Presentation Size
+
+All presentations have a normal size, that is the resolution at which they are authored. The framework will automatically scale presentations uniformly based on this size to ensure that everything fits on any given display or viewport.
+
+See below for a list of configuration options related to sizing, including default values:
+
+```javascript
+Reveal.initialize({
+
+	...
+
+	// The "normal" size of the presentation, aspect ratio will be preserved
+	// when the presentation is scaled to fit different resolutions. Can be
+	// specified using percentage units.
+	width: 960,
+	height: 700,
+
+	// Factor of the display size that should remain empty around the content
+	margin: 0.1,
+
+	// Bounds for smallest/largest possible scale to apply to content
+	minScale: 0.2,
+	maxScale: 1.0
+
+});
+```
+
+### Keyboard Bindings
+
+If you're unhappy with any of the default keyboard bindings you can override them using the ```keyboard``` config option:
+
+```javascript
+Reveal.configure({
+  keyboard: {
+    13: 'next', // go to the next slide when the ENTER key is pressed
+    27: function() {}, // do something custom when ESC is pressed
+    32: null // don't do anything when SPACE is pressed (i.e. disable a reveal.js default binding)
+  }
+});
+```
+
+
 ### API
 
-The ``Reveal`` class provides a minimal JavaScript API for controlling navigation and reading state:
+The ``Reveal`` class provides a JavaScript API for controlling navigation and reading state:
 
 ```javascript
 // Navigation
@@ -206,15 +220,22 @@ Reveal.next();
 Reveal.prevFragment();
 Reveal.nextFragment();
 Reveal.toggleOverview();
+Reveal.togglePause();
 
 // Retrieves the previous and current slide elements
 Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
 Reveal.getIndices(); // { h: 0, v: 0 } }
+
+// State checks
+Reveal.isFirstSlide();
+Reveal.isLastSlide();
+Reveal.isOverview();
+Reveal.isPaused();
 ```
 
-### Ready event
+### Ready Event
 
 The 'ready' event is fired when reveal.js has loaded all (synchronous) dependencies and is ready to start navigating.
 
@@ -224,7 +245,7 @@ Reveal.addEventListener( 'ready', function( event ) {
 } );
 ```
 
-### Slide change event
+### Slide Changed Event
 
 An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
 
@@ -235,6 +256,7 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
 ```
+
 
 ### States
 
@@ -248,9 +270,9 @@ Reveal.addEventListener( 'somestate', function() {
 }, false );
 ```
 
-### Slide backgrounds
+### Slide Backgrounds
 
-Slides are contained withing a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
+Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
 
 ```html
 <section data-background="#ff0000">
@@ -265,6 +287,22 @@ Slides are contained withing a limited portion of the screen by default to allow
 ```
 
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
+
+
+### Slide Transitions
+The global presentation transition is set using the ```transition``` config value. You can override the global transition for a specific slide by using the ```data-transition``` attribute:
+
+```html
+<section data-transition="zoom">
+	<h2>This slide will override the presentation transition and zoom!</h2>
+</section>
+
+<section data-transition-speed="fast">
+	<h2>Choose from three transition speeds: default, fast or slow!</h2>
+</section>
+```
+
+Note that this does not work with the page and cube transitions.
 
 
 ### Internal links
@@ -286,21 +324,6 @@ You can also add relative navigation links, similar to the built in reveal.js co
 <a href="#" class="navigate-prev"> <!-- Previous vertical or horizontal slide -->
 <a href="#" class="navigate-next"> <!-- Next vertical or horizontal slide -->
 ```
-
-### Alternating transitions
-The global presentation transition is set using the ```transition``` config value. You can override the global transition for a specific slide by using the ```data-transition``` attribute:
-
-```html
-<section data-transition="zoom">
-	<h2>This slide will override the presentation transition and zoom!</h2>
-</section>
-
-<section data-transition-speed="fast">
-	<h2>Choose from three transition speeds: default, fast or slow!</h2>
-</section>
-```
-
-Note that this does not work with the page and cube transitions.
 
 
 ### Fragments
@@ -653,4 +676,3 @@ $ grunt serve
 MIT licensed
 
 Copyright (C) 2013 Hakim El Hattab, http://hakim.se
-
