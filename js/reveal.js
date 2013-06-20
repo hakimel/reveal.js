@@ -283,7 +283,7 @@ var Reveal = (function(){
 
 			if( data.background ) {
 				// Auto-wrap image urls in url(...)
-				if( /^(http|file|\/\/)/gi.test( data.background ) ) {
+				if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
 					element.style.backgroundImage = 'url('+ data.background +')';
 				}
 				else {
