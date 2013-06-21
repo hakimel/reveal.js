@@ -70,6 +70,9 @@ var Reveal = (function(){
 			// Apply a 3D roll to links on hover
 			rollingLinks: true,
 
+			// Opens links in an iframe preview overlay
+			previewLinks: false,
+
 			// Theme (see /css/theme)
 			theme: null,
 
@@ -78,6 +81,9 @@ var Reveal = (function(){
 
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
+
+			// Transition style for full page slide backgrounds
+			backgroundTransition: 'default', // default/linear
 
 			// Script dependencies to load
 			dependencies: []
@@ -120,7 +126,7 @@ var Reveal = (function(){
 								'transform' in document.body.style,
 
 		// Throttles mouse wheel navigation
-		mouseWheelTimeout = 0,
+		lastMouseWheelStep = 0,
 
 		// An interval used to automatically move on to the next slide
 		autoSlideTimeout = 0,
@@ -186,6 +192,13 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.slides = document.querySelector( '.reveal .slides' );
 
+		// Background element
+		if( !document.querySelector( '.reveal .backgrounds' ) ) {
+			dom.background = document.createElement( 'div' );
+			dom.background.classList.add( 'backgrounds' );
+			dom.wrapper.appendChild( dom.background );
+		}
+
 		// Progress bar
 		if( !dom.wrapper.querySelector( '.progress' ) ) {
 			var progressElement = document.createElement( 'div' );
@@ -205,11 +218,11 @@ var Reveal = (function(){
 			dom.wrapper.appendChild( controlsElement );
 		}
 
-		// Presentation background element
+		// State background element [DEPRECATED]
 		if( !dom.wrapper.querySelector( '.state-background' ) ) {
-			var backgroundElement = document.createElement( 'div' );
-			backgroundElement.classList.add( 'state-background' );
-			dom.wrapper.appendChild( backgroundElement );
+			var stateBackgroundElement = document.createElement( 'div' );
+			stateBackgroundElement.classList.add( 'state-background' );
+			dom.wrapper.appendChild( stateBackgroundElement );
 		}
 
 		// Overlay graphic which is displayed during the paused mode
@@ -234,6 +247,88 @@ var Reveal = (function(){
 			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
+
+	}
+
+	/**
+	 * Creates the slide background elements and appends them
+	 * to the background container. One element is created per
+	 * slide no matter if the given slide has visible background.
+	 */
+	function createBackgrounds() {
+
+		if( isPrintingPDF() ) {
+			document.body.classList.add( 'print-pdf' );
+		}
+
+		// Clear prior backgrounds
+		dom.background.innerHTML = '';
+		dom.background.classList.add( 'no-transition' );
+
+		// Helper method for creating a background element for the
+		// given slide
+		function _createBackground( slide, container ) {
+
+			var data = {
+				background: slide.getAttribute( 'data-background' ),
+				backgroundSize: slide.getAttribute( 'data-background-size' ),
+				backgroundColor: slide.getAttribute( 'data-background-color' ),
+				backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
+				backgroundPosition: slide.getAttribute( 'data-background-position' ),
+				backgroundTransition: slide.getAttribute( 'data-background-transition' )
+			};
+
+			var element = document.createElement( 'div' );
+			element.className = 'slide-background';
+
+			if( data.background ) {
+				// Auto-wrap image urls in url(...)
+				if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
+					element.style.backgroundImage = 'url('+ data.background +')';
+				}
+				else {
+					element.style.background = data.background;
+				}
+			}
+
+			// Additional and optional background properties
+			if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
+			if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
+			if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
+			if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
+			if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
+
+			container.appendChild( element );
+
+			return element;
+
+		}
+
+		// Iterate over all horizontal slides
+		toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
+
+			var backgroundStack;
+
+			if( isPrintingPDF() ) {
+				backgroundStack = _createBackground( slideh, slideh );
+			}
+			else {
+				backgroundStack = _createBackground( slideh, dom.background );
+			}
+
+			// Iterate over all vertical slides
+			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+
+				if( isPrintingPDF() ) {
+					_createBackground( slidev, slidev );
+				}
+				else {
+					_createBackground( slidev, backgroundStack );
+				}
+
+			} );
+
+		} );
 
 	}
 
@@ -348,6 +443,7 @@ var Reveal = (function(){
 		dom.wrapper.classList.add( config.transition );
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
+		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
 		if( dom.controls ) {
 			dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
@@ -380,12 +476,21 @@ var Reveal = (function(){
 			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
 
-		// 3D links
+		// Rolling 3D links
 		if( config.rollingLinks ) {
-			enable3DLinks();
+			enableRollingLinks();
 		}
 		else {
-			disable3DLinks();
+			disableRollingLinks();
+		}
+
+		// Iframe link previews
+		if( config.previewLinks ) {
+			enablePreviewLinks();
+		}
+		else {
+			disablePreviewLinks();
+			enablePreviewLinks( '[data-preview-link]' );
 		}
 
 		// Load the theme in the config, if it's not already loaded
@@ -524,6 +629,50 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Retrieves the height of the given element by looking
+	 * at the position and height of its immediate children.
+	 */
+	function getAbsoluteHeight( element ) {
+
+		var height = 0;
+
+		if( element ) {
+			var absoluteChildren = 0;
+
+			toArray( element.childNodes ).forEach( function( child ) {
+
+				if( typeof child.offsetTop === 'number' && child.style ) {
+					// Count # of abs children
+					if( child.style.position === 'absolute' ) {
+						absoluteChildren += 1;
+					}
+
+					height = Math.max( height, child.offsetTop + child.offsetHeight );
+				}
+
+			} );
+
+			// If there are no absolute children, use offsetHeight
+			if( absoluteChildren === 0 ) {
+				height = element.offsetHeight;
+			}
+
+		}
+
+		return height;
+
+	}
+
+	/**
+	 * Checks if this instance is being used to print a PDF.
+	 */
+	function isPrintingPDF() {
+
+		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
 	 * Causes the address bar to hide on mobile devices,
 	 * more vertical space ftw.
 	 */
@@ -560,7 +709,7 @@ var Reveal = (function(){
 	/**
 	 * Wrap all links in 3D goodness.
 	 */
-	function enable3DLinks() {
+	function enableRollingLinks() {
 
 		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
 			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
@@ -585,7 +734,7 @@ var Reveal = (function(){
 	/**
 	 * Unwrap all 3D links.
 	 */
-	function disable3DLinks() {
+	function disableRollingLinks() {
 
 		var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
 
@@ -597,6 +746,90 @@ var Reveal = (function(){
 				anchor.classList.remove( 'roll' );
 				anchor.innerHTML = span.innerHTML;
 			}
+		}
+
+	}
+
+	/**
+	 * Bind preview frame links.
+	 */
+	function enablePreviewLinks( selector ) {
+
+		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
+
+		anchors.forEach( function( element ) {
+			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
+				element.addEventListener( 'click', onPreviewLinkClicked, false );
+			}
+		} );
+
+	}
+
+	/**
+	 * Unbind preview frame links.
+	 */
+	function disablePreviewLinks() {
+
+		var anchors = toArray( document.querySelectorAll( 'a' ) );
+
+		anchors.forEach( function( element ) {
+			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
+				element.removeEventListener( 'click', onPreviewLinkClicked, false );
+			}
+		} );
+
+	}
+
+	/**
+	 * Opens a preview window for the target URL.
+	 */
+	function openPreview( url ) {
+
+		closePreview();
+
+		dom.preview = document.createElement( 'div' );
+		dom.preview.classList.add( 'preview-link-overlay' );
+		dom.wrapper.appendChild( dom.preview );
+
+		dom.preview.innerHTML = [
+			'<header>',
+				'<a class="close" href="#"><span class="icon"></span></a>',
+				'<a class="external" href="'+ url +'" target="_blank"><span class="icon"></span></a>',
+			'</header>',
+			'<div class="spinner"></div>',
+			'<div class="viewport">',
+				'<iframe src="'+ url +'"></iframe>',
+			'</div>'
+		].join('');
+
+		dom.preview.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
+			dom.preview.classList.add( 'loaded' );
+		}, false );
+
+		dom.preview.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			closePreview();
+			event.preventDefault();
+		}, false );
+
+		dom.preview.querySelector( '.external' ).addEventListener( 'click', function( event ) {
+			closePreview();
+		}, false );
+
+		setTimeout( function() {
+			dom.preview.classList.add( 'visible' );
+		}, 1 );
+
+	}
+
+	/**
+	 * Closes the iframe preview window.
+	 */
+	function closePreview() {
+
+		if( dom.preview ) {
+			dom.preview.setAttribute( 'src', '' );
+			dom.preview.parentNode.removeChild( dom.preview );
+			dom.preview = null;
 		}
 
 	}
@@ -639,7 +872,7 @@ var Reveal = (function(){
 	 */
 	function layout() {
 
-		if( dom.wrapper ) {
+		if( dom.wrapper && !isPrintingPDF() ) {
 
 			// Available space to scale within
 			var availableWidth = dom.wrapper.offsetWidth,
@@ -707,7 +940,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( slide.offsetHeight / 2 ) - 20, -slideHeight / 2 ) + 'px';
+						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - 20, -slideHeight / 2 ) + 'px';
 					}
 				}
 				else {
@@ -748,7 +981,10 @@ var Reveal = (function(){
 	function getPreviousVerticalIndex( stack ) {
 
 		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
-			return parseInt( stack.getAttribute( 'data-previous-indexv' ) || 0, 10 );
+			// Prefer manually defined start-indexv
+			var attributeName = stack.hasAttribute( 'data-start-indexv' ) ? 'data-start-indexv' : 'data-previous-indexv';
+
+			return parseInt( stack.getAttribute( attributeName ) || 0, 10 );
 		}
 
 		return 0;
@@ -1128,7 +1364,7 @@ var Reveal = (function(){
 		}
 
 		// Dispatch an event if the slide changed
-		var slideChanged = (indexh !== indexhBefore || indexv !== indexvBefore);
+		var slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
 		if( slideChanged ) {
 			dispatchEvent( 'slidechanged', {
 				'indexh': indexh,
@@ -1166,13 +1402,14 @@ var Reveal = (function(){
 		}
 
 		// Handle embedded content
-		if (slideChanged) {
+		if( slideChanged ) {
 			stopEmbeddedContent( previousSlide );
 			startEmbeddedContent( currentSlide );
 		}
 
 		updateControls();
 		updateProgress();
+		updateBackground();
 
 	}
 
@@ -1196,8 +1433,12 @@ var Reveal = (function(){
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
 
+		// Re-create the slide backgrounds
+		createBackgrounds();
+
 		updateControls();
 		updateProgress();
+		updateBackground();
 
 	}
 
@@ -1254,6 +1495,9 @@ var Reveal = (function(){
 				element.classList.remove( 'present' );
 				element.classList.remove( 'future' );
 
+				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
+				element.setAttribute( 'hidden', '' );
+
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
 					element.classList.add( reverse ? 'future' : 'past' );
@@ -1271,6 +1515,7 @@ var Reveal = (function(){
 
 			// Mark the current slide as present
 			slides[index].classList.add( 'present' );
+			slides[index].removeAttribute( 'hidden' );
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
@@ -1399,6 +1644,37 @@ var Reveal = (function(){
 			}
 
 		}
+
+	}
+
+	/**
+	 * Updates the background elements to reflect the current 
+	 * slide.
+	 */
+	function updateBackground() {
+
+		// Update the classes of all backgrounds to match the 
+		// states of their slides (past/present/future)
+		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
+
+			// Reverse past/future classes when in RTL mode
+			var horizontalPast = config.rtl ? 'future' : 'past',
+				horizontalFuture = config.rtl ? 'past' : 'future';
+
+			backgroundh.className = 'slide-background ' + ( h < indexh ? horizontalPast : h > indexh ? horizontalFuture : 'present' );
+
+			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
+
+				backgroundv.className = 'slide-background ' + ( v < indexv ? 'past' : v > indexv ? 'future' : 'present' );
+
+			} );
+
+		} );
+
+		// Allow the first background to apply without transition
+		setTimeout( function() {
+			dom.background.classList.remove( 'no-transition' );
+		}, 1 );
 
 	}
 
@@ -1632,10 +1908,18 @@ var Reveal = (function(){
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment:not(.visible)' ) );
 
 			if( fragments.length ) {
-				fragments[0].classList.add( 'visible' );
+				// Find the index of the next fragment
+				var index = fragments[0].getAttribute( 'data-fragment-index' );
 
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: fragments[0] } );
+				// Find all fragments with the same index
+				fragments = currentSlide.querySelectorAll( '.fragment[data-fragment-index="'+ index +'"]' );
+
+				toArray( fragments ).forEach( function( element ) {
+					element.classList.add( 'visible' );
+
+					// Notify subscribers of the change
+					dispatchEvent( 'fragmentshown', { fragment: element } );
+				} );
 
 				updateControls();
 				return true;
@@ -1658,10 +1942,18 @@ var Reveal = (function(){
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) );
 
 			if( fragments.length ) {
-				fragments[ fragments.length - 1 ].classList.remove( 'visible' );
+				// Find the index of the previous fragment
+				var index = fragments[ fragments.length - 1 ].getAttribute( 'data-fragment-index' );
 
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: fragments[ fragments.length - 1 ] } );
+				// Find all fragments with the same index
+				fragments = currentSlide.querySelectorAll( '.fragment[data-fragment-index="'+ index +'"]' );
+
+				toArray( fragments ).forEach( function( f ) {
+					f.classList.remove( 'visible' );
+
+					// Notify subscribers of the change
+					dispatchEvent( 'fragmenthidden', { fragment: f } );
+				} );
 
 				updateControls();
 				return true;
@@ -1761,9 +2053,9 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					indexv = ( previousSlide.querySelectorAll( 'section' ).length + 1 ) || undefined;
-					indexh --;
-					slide( indexh, indexv );
+					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+					var h = indexh - 1;
+					slide( h, v );
 				}
 			}
 		}
@@ -1808,40 +2100,75 @@ var Reveal = (function(){
 		// keyboard modifier key is present
 		if( hasFocus || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
-		var triggered = true;
-
-		// while paused only allow "unpausing" keyboard events (b and .)
+		// While paused only allow "unpausing" keyboard events (b and .)
 		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
 			return false;
 		}
 
-		switch( event.keyCode ) {
-			// p, page up
-			case 80: case 33: navigatePrev(); break;
-			// n, page down
-			case 78: case 34: navigateNext(); break;
-			// h, left
-			case 72: case 37: navigateLeft(); break;
-			// l, right
-			case 76: case 39: navigateRight(); break;
-			// k, up
-			case 75: case 38: navigateUp(); break;
-			// j, down
-			case 74: case 40: navigateDown(); break;
-			// home
-			case 36: slide( 0 ); break;
-			// end
-			case 35: slide( Number.MAX_VALUE ); break;
-			// space
-			case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
-			// return
-			case 13: isOverview() ? deactivateOverview() : triggered = false; break;
-			// b, period, Logitech presenter tools "black screen" button
-			case 66: case 190: case 191: togglePause(); break;
-			// f
-			case 70: enterFullscreen(); break;
-			default:
-				triggered = false;
+		var triggered = false;
+
+		// 1. User defined key bindings
+		if( typeof config.keyboard === 'object' ) {
+
+			for( var key in config.keyboard ) {
+
+				// Check if this binding matches the pressed key
+				if( parseInt( key, 10 ) === event.keyCode ) {
+
+					var value = config.keyboard[ key ];
+
+					// Calback function
+					if( typeof value === 'function' ) {
+						value.apply( null, [ event ] );
+					}
+					// String shortcuts to reveal.js API
+					else if( typeof value === 'string' && typeof Reveal[ value ] === 'function' ) {
+						Reveal[ value ].call();
+					}
+
+					triggered = true;
+
+				}
+
+			}
+
+		}
+
+		// 2. System defined key bindings
+		if( triggered === false ) {
+
+			// Assume true and try to prove false
+			triggered = true;
+
+			switch( event.keyCode ) {
+				// p, page up
+				case 80: case 33: navigatePrev(); break;
+				// n, page down
+				case 78: case 34: navigateNext(); break;
+				// h, left
+				case 72: case 37: navigateLeft(); break;
+				// l, right
+				case 76: case 39: navigateRight(); break;
+				// k, up
+				case 75: case 38: navigateUp(); break;
+				// j, down
+				case 74: case 40: navigateDown(); break;
+				// home
+				case 36: slide( 0 ); break;
+				// end
+				case 35: slide( Number.MAX_VALUE ); break;
+				// space
+				case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
+				// return
+				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
+				// b, period, Logitech presenter tools "black screen" button
+				case 66: case 190: case 191: togglePause(); break;
+				// f
+				case 70: enterFullscreen(); break;
+				default:
+					triggered = false;
+			}
+
 		}
 
 		// If the input resulted in a triggered action we should prevent
@@ -2010,9 +2337,10 @@ var Reveal = (function(){
 	 */
 	function onDocumentMouseScroll( event ) {
 
-		clearTimeout( mouseWheelTimeout );
+		if( Date.now() - lastMouseWheelStep > 600 ) {
 
-		mouseWheelTimeout = setTimeout( function() {
+			lastMouseWheelStep = Date.now();
+
 			var delta = event.detail || -event.wheelDelta;
 			if( delta > 0 ) {
 				navigateNext();
@@ -2020,7 +2348,8 @@ var Reveal = (function(){
 			else {
 				navigatePrev();
 			}
-		}, 100 );
+
+		}
 
 	}
 
@@ -2097,6 +2426,20 @@ var Reveal = (function(){
 				}
 
 			}
+		}
+
+	}
+
+	/**
+	 * Handles clicks on links that are set to preview in the
+	 * iframe overlay.
+	 */
+	function onPreviewLinkClicked( event ) {
+
+		var url = event.target.getAttribute( 'href' );
+		if( url ) {
+			openPreview( url );
+			event.preventDefault();
 		}
 
 	}
