@@ -3,4 +3,5 @@
 log/*.log
 tmp/**
 node_modules/
+*sublime-*
 .sass-cache
