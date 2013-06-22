@@ -2,12 +2,12 @@
    by Rob Glazebrook of CSSnewbie.com
    Last Updated: June 4, 2008
 
-   Feel free (nay, compelled) to edit, append, and 
+   Feel free (nay, compelled) to edit, append, and
    manipulate this file as you see fit. */
 
 
 /* SECTION 1: Set default width, margin, float, and
-   background. This prevents elements from extending 
+   background. This prevents elements from extending
    beyond the edge of the printed page, and prevents
    unnecessary background images from printing */
 body {
@@ -28,24 +28,24 @@ html {
 	overflow: visible;
 }
 
-/* SECTION 2: Remove any elements not needed in print. 
+/* SECTION 2: Remove any elements not needed in print.
    This would include navigation, ads, sidebars, etc. */
-.nestedarrow, 
-.controls a, 
-.reveal .progress, 
+.nestedarrow,
+.controls,
+.reveal .progress,
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
 .state-background {
-	display:none;
+	display: none !important;
 }
 
 /* SECTION 3: Set body font face, size, and color.
    Consider using a serif font for readability. */
 body, p, td, li, div, a {
-	font-size: 13pt;
+	font-size: 16pt!important;
 	font-family: Georgia, "Times New Roman", Times, serif !important;
-	color: #000; 
+	color: #000;
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
@@ -71,18 +71,20 @@ h6 { font-size: 18pt !important; font-style: italic; }
 /* SECTION 5: Make hyperlinks more usable.
    Ensure links are underlined, and consider appending
    the URL to the end of the link for usability. */
-a:link, 
+a:link,
 a:visited {
 	color: #000 !important;
 	font-weight: bold;
 	text-decoration: underline;
 }
-.reveal a:link:after, 
+/*
+.reveal a:link:after,
 .reveal a:visited:after {
 	content: " (" attr(href) ") ";
 	color: #222 !important;
 	font-size: 90%;
 }
+*/
 
 
 /* SECTION 6: more reveal.js specific additions by @skypanther */
@@ -121,45 +123,49 @@ ul, ol, div, p {
 	    -ms-perspective-origin: 50% 50%;
 	        perspective-origin: 50% 50%;
 }
-.reveal .slides>section, .reveal .slides>section>section, 
-.reveal .slides>section.past, .reveal .slides>section.future,
-.reveal.linear .slides>section, .reveal.linear .slides>section>section,
-.reveal.linear .slides>section.past, .reveal.linear .slides>section.future {
-	
-	visibility: visible;
-	position: static;
-	width: 90%;
-	height: auto;
-	display: block;
-	overflow: visible;
+.reveal .slides>section,
+.reveal .slides>section>section {
 
-	left: 0%;
-	top: 0%;
-	margin-left: 0px;
-	margin-top: 0px;
-	padding: 20px 0px;
+	visibility: visible !important;
+	position: static !important;
+	width: 90% !important;
+	height: auto !important;
+	display: block !important;
+	overflow: visible !important;
 
-	opacity: 1;
+	left: 0% !important;
+	top: 0% !important;
+	margin-left: 0px !important;
+	margin-top: 0px !important;
+	padding: 20px 0px !important;
 
-	-webkit-transform-style: flat;
-	   -moz-transform-style: flat;
-	    -ms-transform-style: flat;
-	        transform-style: flat;
+	opacity: 1 !important;
 
-	-webkit-transform: none;
-	   -moz-transform: none;
-	    -ms-transform: none;
-	        transform: none;
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
 }
 .reveal section {
-	page-break-after: always !important; 
+	page-break-after: always !important;
 	display: block !important;
-}
-.reveal section.stack {
-	page-break-after: avoid !important; 
 }
 .reveal section .fragment {
 	opacity: 1 !important;
+	visibility: visible !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+.reveal section:last-of-type {
+	page-break-after: avoid !important;
 }
 .reveal section img {
 	display: block;
