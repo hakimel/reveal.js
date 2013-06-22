@@ -127,7 +127,7 @@ ul, ol, div, p {
 	left: 0 !important;
 	top: 0 !important;
 	margin: 0 !important;
-	padding: 2cm 1cm 0 1cm !important;
+	padding: 2cm 2cm 0 2cm !important;
 	box-sizing: border-box !important;
 
 	opacity: 1 !important;
@@ -148,6 +148,10 @@ ul, ol, div, p {
 	page-break-after: avoid !important;
 	height: auto !important;
 	min-height: auto !important;
+}
+.reveal .absolute-element {
+	margin-left: 2.2cm;
+	margin-top: 1.8cm;
 }
 .reveal section .fragment {
 	opacity: 1 !important;
