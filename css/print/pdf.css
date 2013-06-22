@@ -82,6 +82,11 @@ ul, ol, div, p {
 	overflow: visible;
 	margin: auto;
 }
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
 .reveal .slides {
 	position: static;
 	width: 100%;
