@@ -71,6 +71,11 @@ a:visited {
 	text-decoration: underline;
 }
 
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: monospace !important;
+}
+
 
 /* SECTION 6: more reveal.js specific additions by @skypanther */
 ul, ol, div, p {
