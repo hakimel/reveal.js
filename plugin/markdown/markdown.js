@@ -1,6 +1,16 @@
 // From https://gist.github.com/1343518
 // Modified by Hakim to handle Markdown indented with tabs
-(function(){
+(function(root, factory) {
+    if(typeof exports === 'object') {
+        module.exports = factory(require('./marked'));
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory(root.marked);
+        root.returnExports.querySlidingMarkdown();
+        root.returnExports.queryMarkdownSlides();
+
+    }
+}(this, function(marked) {
 
     if( typeof marked === 'undefined' ) {
         throw 'The reveal.js Markdown plugin requires marked to be loaded';
@@ -183,8 +193,10 @@
 
     };
 
-    querySlidingMarkdown();
+    return {
+        querySlidingMarkdown: querySlidingMarkdown,
+        queryMarkdownSlides: queryMarkdownSlides,
+        slidifyMarkdown: slidifyMarkdown
+    }
 
-    queryMarkdownSlides();
-
-})();
+}));
