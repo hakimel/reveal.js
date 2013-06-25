@@ -55,7 +55,7 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file.
 
 ```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^[[["></section>
 ```
 
 ### Configuration
@@ -458,7 +458,7 @@ If you want to add a theme of your own see the instructions here: [/css/theme/RE
 
 reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the 's' key on your keyboard to open the notes window.
 
-By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown.
+By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown, or separate your external markdown content file with the separator specified within your original declaration where notes begin.
 
 ```html
 <section>
@@ -468,6 +468,17 @@ By default notes are written using standard HTML, see below, but you can add a `
 		Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
 	</aside>
 </section>
+```
+
+```html
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^[[["></section>
+
+# Title
+## Sub-title
+
+Here is some content...
+[[[
+These are my notes for this slide.
 ```
 
 ## Server Side Speaker Notes
