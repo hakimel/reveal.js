@@ -78,6 +78,7 @@ body {
 	        hyphens: auto;
 
 	word-wrap: break-word;
+	line-height: 1;
 }
 
 .reveal h1 { font-size: 3.77em; }
