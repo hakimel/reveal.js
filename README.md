@@ -524,7 +524,7 @@ Reveal.initialize({
 	multiplex: {
 		// Example values. Generate your own.
 		secret: '13652805320794272084', // Obtained from the socket.io server (revealjs.jit.su/token). Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server (in this case from here [revealjs.jit.su/token](http://revealjs.jit.su/token)
+		id: '1ea875674b17ca76', // Obtained from socket.io server (revealjs.jit.su/token)
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
