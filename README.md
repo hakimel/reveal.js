@@ -523,7 +523,7 @@ Reveal.initialize({
 
 	multiplex: {
 		// Example values. Generate your own.
-		secret: '13652805320794272084', // Obtained from the socket.io server (in this case from here [revealjs.jit.su/token](http://revealjs.jit.su/token). Gives this (the master) control of the presentation
+		secret: '13652805320794272084', // Obtained from the socket.io server (revealjs.jit.su/token). Gives this (the master) control of the presentation
 		id: '1ea875674b17ca76', // Obtained from socket.io server (in this case from here [revealjs.jit.su/token](http://revealjs.jit.su/token)
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
@@ -554,7 +554,7 @@ Reveal.initialize({
 	multiplex: {
 		// Example values. Generate your own.
 		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server (in this case from here [revealjs.jit.su/token](http://revealjs.jit.su/token))
+		id: '1ea875674b17ca76', // id, obtained from socket.io server (revealjs.jit.su/token)
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
@@ -592,7 +592,7 @@ Reveal.initialize({
 	multiplex: {
 		// Example values. Generate your own.
 		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server (in this case from probably from here example.com/token)
+		id: '1ea875674b17ca76', // id, obtained from socket.io server (example.com/token)
 		url: 'example.com:80' // Location of your socket.io server
 	},
 
@@ -615,8 +615,8 @@ Reveal.initialize({
 
 	multiplex: {
 		// Example values. Generate your own.
-		secret: '13652805320794272084', // Obtained from the socket.io server (in this case from probably from here example.com/token). Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server (in this case from probably from here example.com/token)
+		secret: '13652805320794272084', // Obtained from the socket.io server (example.com/token). Gives this (the master) control of the presentation
+		id: '1ea875674b17ca76', // Obtained from socket.io server (example.com/token)
 		url: 'example.com:80' // Location of your socket.io server
 	},
 
