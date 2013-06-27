@@ -515,7 +515,7 @@ If you want to use the speaker notes plugin with your master presentation then m
 You can then access your master presentation at ```http://localhost:1947```
 
 Example configuration:
-(don't forget to add the dependencies)
+*(don't forget to add the dependencies)*
 
 ```javascript
 Reveal.initialize({
@@ -545,7 +545,7 @@ Reveal.initialize({
 Served from a publicly accessible static file server. Examples include: GitHub Pages, Amazon S3, Dreamhost, Akamai, etc. The more reliable, the better. Your audience can then access the client presentation via ```http://example.com/path/to/presentation/client/index.html```, with the configuration below causing them to connect to the socket.io server as clients.
 
 Example configuration:
-(don't forget to add the dependencies)
+*(don't forget to add the dependencies)*
 
 ```javascript
 Reveal.initialize({
