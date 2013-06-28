@@ -77,6 +77,9 @@ Reveal.initialize({
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
 
+	// Enable touch events for navigation
+	touch: true,
+
 	// Enable the slide overview mode
 	overview: true,
 
