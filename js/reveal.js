@@ -1918,10 +1918,10 @@ var Reveal = (function(){
 
 				toArray( fragments ).forEach( function( element ) {
 					element.classList.add( 'visible' );
-
-					// Notify subscribers of the change
-					dispatchEvent( 'fragmentshown', { fragment: element } );
 				} );
+
+				// Notify subscribers of the change
+				dispatchEvent( 'fragmentshown', { fragment: fragments[0], fragments: fragments } );
 
 				updateControls();
 				return true;
@@ -1952,10 +1952,10 @@ var Reveal = (function(){
 
 				toArray( fragments ).forEach( function( f ) {
 					f.classList.remove( 'visible' );
-
-					// Notify subscribers of the change
-					dispatchEvent( 'fragmenthidden', { fragment: f } );
 				} );
+
+				// Notify subscribers of the change
+				dispatchEvent( 'fragmenthidden', { fragment: fragments[0], fragments: fragments } );
 
 				updateControls();
 				return true;
