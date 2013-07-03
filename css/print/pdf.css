@@ -56,7 +56,7 @@ body, p, td, li, div {
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
-   Diffrentiate your headings from your body text.
+   Differentiate your headings from your body text.
    Perhaps use a large sans-serif for distinction. */
 h1,h2,h3,h4,h5,h6 {
 	text-shadow: 0 0 0 #000 !important;
