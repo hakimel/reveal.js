@@ -648,22 +648,22 @@ Some reveal.js features, like external markdown, require that presentations run 
 
 2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
 
-4. Clone the reveal.js repository  
+4. Clone the reveal.js repository
 ```
 $ git clone git@github.com:hakimel/reveal.js.git
 ```
 
-5. Navigate to the reveal.js folder 
+5. Navigate to the reveal.js folder
 ```
 $ cd reveal.js
 ```
 
-6. Install dependencies  
+6. Install dependencies
 ```
 $ npm install
 ```
 
-7. Serve the presentation and monitor source files for changes  
+7. Serve the presentation and monitor source files for changes
 ```
 $ grunt serve
 ```
