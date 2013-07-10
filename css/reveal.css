@@ -205,6 +205,10 @@ body {
   font-style: italic;
 }
 
+.reveal iframe {
+	z-index: 1;
+}
+
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
 .reveal video,
