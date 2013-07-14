@@ -1536,6 +1536,8 @@ var Reveal = (function(){
 				autoSlide = config.autoSlide;
 			}
 
+			cueAutoSlide();
+
 		}
 		else {
 			// Since there are no slides we can't be anywhere beyond the
