@@ -1349,6 +1349,16 @@ body {
 		visibility: visible !important;
 	}
 
+/* Immediate transition style */
+.reveal[data-background-transition=none]>.backgrounds .slide-background,
+.reveal>.backgrounds .slide-background[data-background-transition=none] {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
+}
+
 /* Linear sliding transition style */
 .reveal[data-background-transition=slide]>.backgrounds .slide-background,
 .reveal>.backgrounds .slide-background[data-background-transition=slide] {
