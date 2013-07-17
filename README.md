@@ -110,7 +110,7 @@ Reveal.initialize({
 	transitionSpeed: 'default', // default/fast/slow
 
 	// Transition style for full page backgrounds
-	backgroundTransition: 'default' // default/linear
+	backgroundTransition: 'default' // default/linear/none
 
 });
 ```
