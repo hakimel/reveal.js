@@ -400,7 +400,7 @@ By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/
 
 ### Overview mode
 
-Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
+Press "Esc" or "o" keys to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
 as if you were at 1,000 feet above your presentation. The overview mode comes with a few API hooks:
 
 ```javascript

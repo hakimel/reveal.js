@@ -2187,7 +2187,8 @@ var Reveal = (function(){
 		if( triggered ) {
 			event.preventDefault();
 		}
-		else if ( event.keyCode === 27 && supports3DTransforms ) {
+		// ESC or O key
+		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && supports3DTransforms ) {
 			toggleOverview();
 
 			event.preventDefault();
