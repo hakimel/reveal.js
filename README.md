@@ -522,23 +522,24 @@ You can then access your master presentation at ```http://localhost:1947```
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
 		id: '1ea875674b17ca76', // Obtained from socket.io server
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 
 		// and if you want speaker notes
 		{ src: 'plugin/notes-server/client.js', async: true }
+		
+		// other dependencies...
 	]
 });
 ```
@@ -549,20 +550,21 @@ Served from a publicly accessible static file server. Examples include: GitHub P
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: null, // null so the clients do not have control of the master presentation
 		id: '1ea875674b17ca76', // id, obtained from socket.io server
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
+		
+		// other dependencies...
 	]
 });
 ```
@@ -586,20 +588,21 @@ The socket.io server can play the role of static file server for your client pre
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: null, // null so the clients do not have control of the master presentation
 		id: '1ea875674b17ca76', // id, obtained from socket.io server
 		url: 'example.com:80' // Location of your socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
+		
+		// other dependencies...
 	]
 ```
 
@@ -608,21 +611,22 @@ It can also play the role of static file server for your master presentation and
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
 		id: '1ea875674b17ca76', // Obtained from socket.io server
 		url: 'example.com:80' // Location of your socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
+		
+		// other dependencies...
 	]
 });
 ```
