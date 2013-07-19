@@ -1819,7 +1819,9 @@ var Reveal = (function(){
 			var h = parseInt( bits[0], 10 ) || 0,
 				v = parseInt( bits[1], 10 ) || 0;
 
-			slide( h, v );
+			if( h !== indexh || v !== indexv ) {
+				slide( h, v );
+			}
 		}
 
 	}
