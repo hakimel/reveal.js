@@ -1338,10 +1338,6 @@ var Reveal = (function(){
 			activateOverview();
 		}
 
-		// Update the URL hash after a delay since updating it mid-transition
-		// is likely to cause visual lag
-		writeURL( 1500 );
-
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
 		var currentHorizontalSlide = horizontalSlides[ indexh ],
@@ -1412,6 +1408,9 @@ var Reveal = (function(){
 		updateControls();
 		updateProgress();
 		updateBackground();
+
+		// Update the URL hash
+		writeURL();
 
 	}
 
