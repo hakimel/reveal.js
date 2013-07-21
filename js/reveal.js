@@ -93,8 +93,8 @@ var Reveal = (function(){
 		autoSlide = 0,
 
 		// The horizontal and vertical index of the currently active slide
-		indexh = 0,
-		indexv = 0,
+		indexh,
+		indexv,
 
 		// The previous and current slide HTML elements
 		previousSlide,
