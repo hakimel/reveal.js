@@ -100,9 +100,6 @@ Reveal.initialize({
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
-	// Apply a 3D roll to links on hover
-	rollingLinks: true,
-
 	// Transition style
 	transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
 

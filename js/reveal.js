@@ -67,9 +67,6 @@ var Reveal = (function(){
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
 
-			// Apply a 3D roll to links on hover
-			rollingLinks: true,
-
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
 
@@ -478,14 +475,6 @@ var Reveal = (function(){
 			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
 
-		// Rolling 3D links
-		if( config.rollingLinks ) {
-			enableRollingLinks();
-		}
-		else {
-			disableRollingLinks();
-		}
-
 		// Iframe link previews
 		if( config.previewLinks ) {
 			enablePreviewLinks();
@@ -705,50 +694,6 @@ var Reveal = (function(){
 		event.initEvent( type, true, true );
 		extend( event, properties );
 		dom.wrapper.dispatchEvent( event );
-
-	}
-
-	/**
-	 * Wrap all links in 3D goodness.
-	 */
-	function enableRollingLinks() {
-
-		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
-			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
-
-			for( var i = 0, len = anchors.length; i < len; i++ ) {
-				var anchor = anchors[i];
-
-				if( anchor.textContent && !anchor.querySelector( '*' ) && ( !anchor.className || !anchor.classList.contains( anchor, 'roll' ) ) ) {
-					var span = document.createElement('span');
-					span.setAttribute('data-title', anchor.text);
-					span.innerHTML = anchor.innerHTML;
-
-					anchor.classList.add( 'roll' );
-					anchor.innerHTML = '';
-					anchor.appendChild(span);
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Unwrap all 3D links.
-	 */
-	function disableRollingLinks() {
-
-		var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
-
-		for( var i = 0, len = anchors.length; i < len; i++ ) {
-			var anchor = anchors[i];
-			var span = anchor.querySelector( 'span' );
-
-			if( span ) {
-				anchor.classList.remove( 'roll' );
-				anchor.innerHTML = span.innerHTML;
-			}
-		}
 
 	}
 
