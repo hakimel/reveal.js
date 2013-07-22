@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - Test</title>
+		<title>reveal.js - Slide Backgrounds</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -50,8 +50,17 @@
 					</section>
 				</section>
 
-				<section data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
+				<section data-background-transition="slide" data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
 					<h2>Background image</h2>
+				</section>
+
+				<section>
+					<section data-background-transition="slide" data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
+						<h2>Background image</h2>
+					</section>
+					<section data-background-transition="slide" data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
+						<h2>Background image</h2>
+					</section>
 				</section>
 
 				<section data-background="assets/image2.png" data-background-size="100px" data-background-repeat="repeat" data-background-color="#111" style="background: rgba(255,255,255,0.9)">
@@ -78,9 +87,6 @@
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
 				center: true,
 				// rtl: true,
 

@@ -7,7 +7,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 
 #### More reading:
 - [Installation](#installation): Step-by-step instructions for getting reveal.js running on your computer.
-- [Changelog](https://github.com/hakimel/reveal.js/wiki/Changelog): Up-to-date version history.
+- [Changelog](https://github.com/hakimel/reveal.js/releases): Up-to-date version history.
 - [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
 - [Browser Support](https://github.com/hakimel/reveal.js/wiki/Browser-Support): Explanation of browser support and fallbacks.
 
@@ -76,6 +76,9 @@ Reveal.initialize({
 
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
+
+	// Enable touch events for navigation
+	touch: true,
 
 	// Enable the slide overview mode
 	overview: true,
@@ -630,7 +633,7 @@ The **basic setup** is for authoring presentations only. The **full setup** give
 
 The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.
 
-1. Download a copy of reveal.js from <https://github.com/hakimel/reveal.js/archive/master.zip>
+1. Download the latest version of reveal.js from <https://github.com/hakimel/reveal.js/releases>
 
 2. Unzip and replace the example contents in index.html with your own
 
@@ -650,17 +653,22 @@ Some reveal.js features, like external markdown, require that presentations run 
 $ git clone git@github.com:hakimel/reveal.js.git
 ```
 
-5. Install dependencies  
+5. Navigate to the reveal.js folder 
+```
+$ cd reveal.js
+```
+
+6. Install dependencies  
 ```
 $ npm install
 ```
 
-6. Serve the presentation and monitor source files for changes  
+7. Serve the presentation and monitor source files for changes  
 ```
 $ grunt serve
 ```
 
-7. Open <http://localhost:8000> to view your presentation
+8. Open <http://localhost:8000> to view your presentation
 
 
 ### Folder Structure
