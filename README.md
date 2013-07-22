@@ -413,7 +413,7 @@ Just press »F« on your keyboard to show your presentation in fullscreen mode. 
 
 
 ### Embedded media
-Embedded HTML5 `<video>`/`<audio>` and YouTube iframes are automatically paused when your navigate away from a slide. This can be disabled by decorating your element with a `data-ignore` attribute.
+Embedded HTML5 `<video>`/`<audio>` and YouTube iframes are automatically paused when you navigate away from a slide. This can be disabled by decorating your element with a `data-ignore` attribute.
 
 Add `data-autoplay` to your media element if you want it to automatically start playing when the slide is shown:
 
