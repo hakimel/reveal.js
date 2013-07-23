@@ -128,6 +128,12 @@
                 var xhr = new XMLHttpRequest(),
                     url = section.getAttribute('data-markdown');
 
+                datacharset = section.getAttribute('data-charset');
+                // see https://developer.mozilla.org/en-US/docs/Web/API/element.getAttribute#Notes
+                if (datacharset != null && datacharset != '') {
+                    xhr.overrideMimeType('text/html; charset=' + datacharset);
+                }
+
                 xhr.onreadystatechange = function () {
                     if( xhr.readyState === 4 ) {
                         if (xhr.status >= 200 && xhr.status < 300) {
