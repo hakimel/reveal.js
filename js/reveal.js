@@ -1898,8 +1898,9 @@ var Reveal = (function(){
 		}
 
 		if( !slide && currentSlide ) {
-			var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-			if( visibleFragments.length ) {
+			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
+			if( hasFragments ) {
+				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
 				f = visibleFragments.length;
 			}
 		}
