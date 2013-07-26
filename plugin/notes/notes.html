@@ -173,6 +173,7 @@
 
 					window.addEventListener( 'message', function( event ) {
 						var data = JSON.parse( event.data );
+
 						// No need for updating the notes in case of fragment changes
 						if ( data.notes !== undefined) {
 							if( data.markdown ) {
@@ -183,18 +184,9 @@
 							}
 						}
 
-						// Showing and hiding fragments
-						if( data.fragment === 'next' ) {
-							currentSlide.contentWindow.Reveal.nextFragment();
-						}
-						else if( data.fragment === 'prev' ) {
-							currentSlide.contentWindow.Reveal.prevFragment();
-						}
-						else {
-							// Update the note slides
-							currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv );
-							nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
-						}
+						// Update the note slides
+						currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv, data.indexf );
+						nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
 
 					}, false );
 
