@@ -193,49 +193,26 @@ var Reveal = (function(){
 		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Background element
-		if( !document.querySelector( '.reveal .backgrounds' ) ) {
-			dom.background = document.createElement( 'div' );
-			dom.background.classList.add( 'backgrounds' );
-			dom.wrapper.appendChild( dom.background );
-		}
+		dom.background = initializeNode(dom.wrapper, 'div', 'backgrounds', null);
 
 		// Progress bar
-		if( !dom.wrapper.querySelector( '.progress' ) ) {
-			var progressElement = document.createElement( 'div' );
-			progressElement.classList.add( 'progress' );
-			progressElement.innerHTML = '<span></span>';
-			dom.wrapper.appendChild( progressElement );
-		}
+		dom.progress = initializeNode(dom.wrapper, 'div', 'progress', '<span></span>');
+		dom.progressbar = dom.progress.querySelector('span');
 
 		// Arrow controls
-		if( !dom.wrapper.querySelector( '.controls' ) ) {
-			var controlsElement = document.createElement( 'aside' );
-			controlsElement.classList.add( 'controls' );
-			controlsElement.innerHTML = '<div class="navigate-left"></div>' +
-										'<div class="navigate-right"></div>' +
-										'<div class="navigate-up"></div>' +
-										'<div class="navigate-down"></div>';
-			dom.wrapper.appendChild( controlsElement );
-		}
+		initializeNode(dom.wrapper, 'aside', 'controls',
+			'<div class="navigate-left"></div>' +
+			'<div class="navigate-right"></div>' +
+			'<div class="navigate-up"></div>' +
+			'<div class="navigate-down"></div>');
 
 		// State background element [DEPRECATED]
-		if( !dom.wrapper.querySelector( '.state-background' ) ) {
-			var stateBackgroundElement = document.createElement( 'div' );
-			stateBackgroundElement.classList.add( 'state-background' );
-			dom.wrapper.appendChild( stateBackgroundElement );
-		}
+		initializeNode(dom.wrapper, 'div', 'state-background', null);
 
 		// Overlay graphic which is displayed during the paused mode
-		if( !dom.wrapper.querySelector( '.pause-overlay' ) ) {
-			var pausedElement = document.createElement( 'div' );
-			pausedElement.classList.add( 'pause-overlay' );
-			dom.wrapper.appendChild( pausedElement );
-		}
+		initializeNode(dom.wrapper, 'div', 'pause-overlay', null);
 
 		// Cache references to elements
-		dom.progress = document.querySelector( '.reveal .progress' );
-		dom.progressbar = document.querySelector( '.reveal .progress span' );
-
 		if ( config.controls ) {
 			dom.controls = document.querySelector( '.reveal .controls' );
 
@@ -248,6 +225,24 @@ var Reveal = (function(){
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
 
+	}
+
+	function initializeNode(container, tagname, classname, innerHTML){
+		var node = container.querySelector('.' + classname);
+		if( !node ){
+			node = buildNode(tagname, classname, innerHTML);
+			container.appendChild(node);
+		}
+		return node;
+	}
+
+	function buildNode(tagname, classname, innerHTML){
+		var node = document.createElement(tagname);
+		node.classList.add(classname);
+		if(innerHTML !== null){
+			node.innerHTML = innerHTML;
+		}
+		return node;
 	}
 
 	/**
