@@ -6,6 +6,14 @@
         throw 'The reveal.js Markdown plugin requires marked to be loaded';
     }
 
+    if (typeof hljs !== 'undefined') {
+        marked.setOptions({
+            highlight: function (lang, code) {
+                return hljs.highlightAuto(lang, code).value;
+            }
+        });
+    }
+
     var stripLeadingWhitespace = function(section) {
 
         var template = section.querySelector( 'script' );
@@ -28,7 +36,7 @@
     };
 
     var twrap = function(el) {
-      return '<script type="text/template">' + el + '</script>';
+      return marked(el);
     };
 
     var getForwardedAttributes = function(section) {
@@ -51,7 +59,7 @@
         }
 
         return result.join( ' ' );
-    }
+    };
 
     var slidifyMarkdown = function(markdown, separator, vertical, attributes) {
 
@@ -101,12 +109,12 @@
         for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
             // horizontal
             if( typeof sectionStack[k] === 'string' ) {
-                markdownSections += '<section '+ attributes +' data-markdown>' +  twrap( sectionStack[k] )  + '</section>';
+                markdownSections += '<section '+ attributes +'>' +  twrap( sectionStack[k] )  + '</section>';
             }
             // vertical
             else {
                 markdownSections += '<section '+ attributes +'>' +
-                                        '<section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section>' +
+                                        '<section>' +  sectionStack[k].map(twrap).join('</section><section>') + '</section>' +
                                     '</section>';
             }
         }
