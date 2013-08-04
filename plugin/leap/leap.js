@@ -20,4 +20,35 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
  * Rory Hardy [gneatgeek]
  */
 
+(function () {
+  var controller = new Leap.Controller({enableGestures: true}),
+      config = Reveal.getConfig().leap ||
+        {
+          invert: false
+        };
 
+  controller.on('frame', function (frame) {
+    if (frame.gestures.length > 0) {
+      var gesture = frame.gestures[0];
+      //console.log(gesture);
+      var x = gesture.direction[0];
+      var y = gesture.direction[1];
+      if (gesture.state === 'start' && gesture.type === 'swipe') {
+        if (Math.abs(x) > Math.abs(y)) {
+          if (x > 0) {
+            config.invert ? Reveal.left() : Reveal.right();
+          } else {
+            config.invert ? Reveal.right() : Reveal.left();
+          }
+        } else {
+          if (y > 0) {
+            config.invert ? Reveal.down() : Reveal.up();
+          } else {
+            config.invert ? Reveal.up() : Reveal.down();
+          }
+        }
+      }
+    }
+  });
+  controller.connect();
+})();
