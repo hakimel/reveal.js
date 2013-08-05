@@ -22,21 +22,14 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
 
 (function () {
   var controller  = new Leap.Controller({enableGestures: true}),
-      lastGesture = 0,
       config      = Reveal.getConfig().leap ||
         {
           naturalSwipe: true
-        },
-      now;
+        };
 
   controller.on('frame', function (frame) {
-    now = new Date().getTime();
 
-    if( lastGesture === 0 ) {
-      lastGesture = now;
-    }
-
-    if ( (now - lastGesture) > 500 && frame.gestures.length > 0 ) {
+    if ( frame.gestures.length > 0 ) {
       var gesture = frame.gestures[0],
           x       = gesture.direction[0],
           y       = gesture.direction[1];
@@ -50,8 +43,6 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
             } else {
               config.naturalSwipe ? Reveal.right() : Reveal.left();
             }
-
-            lastGesture = now;
           } else {
             if ( y > 0 ) {
               config.naturalSwipe ? Reveal.down() : Reveal.up();
@@ -59,14 +50,10 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
               config.naturalSwipe ? Reveal.up() : Reveal.down();
             }
           }
-
-          lastGesture = now;
         } else if( frame.hands.length == 2 ) {
           if ( y > 0 ) {
             Reveal.toggleOverview();
           }
-
-          lastGesture = now;
         }
       }
     }
