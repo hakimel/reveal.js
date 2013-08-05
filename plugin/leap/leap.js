@@ -25,7 +25,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       lastGesture = 0,
       config      = Reveal.getConfig().leap ||
         {
-          invert: false
+          naturalSwipe: true
         },
       now;
 
@@ -43,20 +43,20 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
 
       
       if ( gesture.speed > 1000 && gesture.state === 'start' && gesture.type === 'swipe' ) {
-        if( frame.fingers.length > 1 ) {
+        if( frame.hands.length === 1 && frame.fingers.length > 1 ) {
           if ( Math.abs(x) > Math.abs(y) ) {
             if ( x > 0 ) {
-              config.invert ? Reveal.left() : Reveal.right();
+              config.naturalSwipe ? Reveal.left() : Reveal.right();
             } else {
-              config.invert ? Reveal.right() : Reveal.left();
+              config.naturalSwipe ? Reveal.right() : Reveal.left();
             }
 
             lastGesture = now;
           } else {
             if ( y > 0 ) {
-              config.invert ? Reveal.down() : Reveal.up();
+              config.naturalSwipe ? Reveal.down() : Reveal.up();
             } else {
-              config.invert ? Reveal.up() : Reveal.down();
+              config.naturalSwipe ? Reveal.up() : Reveal.down();
             }
           }
 
