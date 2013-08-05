@@ -21,34 +21,56 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
  */
 
 (function () {
-  var controller = new Leap.Controller({enableGestures: true}),
-      config = Reveal.getConfig().leap ||
+  var controller  = new Leap.Controller({enableGestures: true}),
+      lastGesture = 0,
+      config      = Reveal.getConfig().leap ||
         {
           invert: false
-        };
+        },
+      now;
 
   controller.on('frame', function (frame) {
-    if (frame.gestures.length > 0) {
-      var gesture = frame.gestures[0];
-      //console.log(gesture);
-      var x = gesture.direction[0];
-      var y = gesture.direction[1];
-      if (gesture.state === 'start' && gesture.type === 'swipe') {
-        if (Math.abs(x) > Math.abs(y)) {
-          if (x > 0) {
-            config.invert ? Reveal.left() : Reveal.right();
+    now = new Date().getTime();
+
+    if( lastGesture === 0 ) {
+      lastGesture = now;
+    }
+
+    if ( (now - lastGesture) > 500 && frame.gestures.length > 0 ) {
+      var gesture = frame.gestures[0],
+          x       = gesture.direction[0],
+          y       = gesture.direction[1];
+
+      
+      if ( gesture.speed > 1000 && gesture.state === 'start' && gesture.type === 'swipe' ) {
+        if( frame.fingers.length > 1 ) {
+          if ( Math.abs(x) > Math.abs(y) ) {
+            if ( x > 0 ) {
+              config.invert ? Reveal.left() : Reveal.right();
+            } else {
+              config.invert ? Reveal.right() : Reveal.left();
+            }
+
+            lastGesture = now;
           } else {
-            config.invert ? Reveal.right() : Reveal.left();
+            if ( y > 0 ) {
+              config.invert ? Reveal.down() : Reveal.up();
+            } else {
+              config.invert ? Reveal.up() : Reveal.down();
+            }
           }
-        } else {
-          if (y > 0) {
-            config.invert ? Reveal.down() : Reveal.up();
-          } else {
-            config.invert ? Reveal.up() : Reveal.down();
+
+          lastGesture = now;
+        } else if( frame.hands.length == 2 ) {
+          if ( y > 0 ) {
+            Reveal.toggleOverview();
           }
+
+          lastGesture = now;
         }
       }
     }
   });
+
   controller.connect();
 })();
