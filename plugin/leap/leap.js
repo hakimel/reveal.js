@@ -22,27 +22,75 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
 
 (function () {
   var controller  = new Leap.Controller({enableGestures: true}),
-      config      = Reveal.getConfig().leap ||
-        {
-          naturalSwipe: true
-        };
+      leapConfig  = Reveal.getConfig().leap,
+      leapDOM     = document.createElement('div'),
+      body        = document.body,
+      config      = {
+        naturalSwipe   : true,
+        pointerDefault : 15,
+        pointerColor   : '#00aaff',
+        pointerOpacity : 0.75
+      };
+
+      // Merge user defined settings with defaults
+      if ( leapConfig ) {
+        for (key in leapConfig) {
+          config[key] = leapConfig[key];
+        }
+      }
+
+      leapDOM.id = 'leap';
+
+      leapDOM.style.filter          = 'alpha(opacity="'+ config.pointerOpacity +'")';
+      leapDOM.style.opacity         = config.pointerOpacity;
+      leapDOM.style.backgroundColor = config.pointerColor;
+
+      body.appendChild(leapDOM);
 
   controller.on('frame', function (frame) {
 
-    if ( frame.gestures.length > 0 ) {
-      var gesture = frame.gestures[0],
-          x       = gesture.direction[0],
-          y       = gesture.direction[1];
+    // Pointer code
+    if ( frame.hands.length === 1 && frame.fingers.length === 1 ) {
+      var size  =  -2 * frame.hands[0].palmPosition[2];
 
-      
-      if ( gesture.speed > 1000 && gesture.state === 'start' && gesture.type === 'swipe' ) {
-        if( frame.hands.length === 1 && frame.fingers.length > 1 ) {
+      if ( size < config.pointerDefault ) {
+        size = config.pointerDefault
+      }
+
+      leapDOM.style.bottom =
+        frame.hands[0].palmPosition[1] * (body.offsetHeight / 100) - body.offsetHeight + 'px';
+
+      leapDOM.style.left =
+        frame.hands[0].palmPosition[0] * (body.offsetWidth / 100) + (body.offsetWidth / 2) + 'px';
+
+      leapDOM.style.visibility   = 'visible';
+      leapDOM.style.width        = size     + 'px';
+      leapDOM.style.height       = size     + 'px';
+      leapDOM.style.borderRadius = size - 5 + 'px';
+    } else {
+      // Hide pointer on exit
+      leapDOM.style.visibility = 'hidden';
+    }
+    
+    // Gestures
+    if ( frame.gestures.length > 0 ) {
+      var gesture = frame.gestures[0];
+
+      // One hand gestures
+      if( frame.hands.length === 1 ) {
+        // Swipe gestures. 2+ fingers.
+        if ( frame.fingers.length > 1 && gesture.speed > 1000 && gesture.state === 'start' && gesture.type === 'swipe' ) {
+          var x = gesture.direction[0],
+              y = gesture.direction[1];
+
+          // Left/right swipe gestures
           if ( Math.abs(x) > Math.abs(y) ) {
             if ( x > 0 ) {
               config.naturalSwipe ? Reveal.left() : Reveal.right();
             } else {
               config.naturalSwipe ? Reveal.right() : Reveal.left();
             }
+          // Up/down swipe gestures
           } else {
             if ( y > 0 ) {
               config.naturalSwipe ? Reveal.down() : Reveal.up();
@@ -50,10 +98,12 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
               config.naturalSwipe ? Reveal.up() : Reveal.down();
             }
           }
-        } else if( frame.hands.length == 2 ) {
-          if ( y > 0 ) {
-            Reveal.toggleOverview();
-          }
+        }
+        // Two hand gestures
+      } else if( frame.hands.length == 2 ) {
+        // All upwards 2 hand gestures = toggle overview
+        if ( gesture.direction[1] > 0 ) {
+          Reveal.toggleOverview();
         }
       }
     }
