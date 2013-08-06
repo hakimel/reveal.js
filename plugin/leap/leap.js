@@ -25,12 +25,14 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       leapConfig  = Reveal.getConfig().leap,
       leapDOM     = document.createElement('div'),
       body        = document.body,
+      lastGesture = 0,
       config      = {
         naturalSwipe   : true,
         pointerDefault : 15,
         pointerColor   : '#00aaff',
         pointerOpacity : 0.75
-      };
+      },
+      now;
 
       // Merge user defined settings with defaults
       if ( leapConfig ) {
@@ -48,6 +50,12 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       body.appendChild(leapDOM);
 
   controller.on('frame', function (frame) {
+    // Timing code to rate limit gesture execution
+    now = new Date().getTime();
+
+    if( lastGesture === 0 ) {
+      lastGesture = now;
+    }
 
     // Pointer code
     if ( frame.hands.length === 1 && frame.fingers.length === 1 ) {
@@ -73,13 +81,13 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
     }
     
     // Gestures
-    if ( frame.gestures.length > 0 ) {
+    if ( (now - lastGesture) > 500 && frame.gestures.length > 0 ) {
       var gesture = frame.gestures[0];
 
       // One hand gestures
       if( frame.hands.length === 1 ) {
         // Swipe gestures. 2+ fingers.
-        if ( frame.fingers.length > 1 && gesture.speed > 1000 && gesture.state === 'start' && gesture.type === 'swipe' ) {
+        if ( frame.fingers.length > 1 && gesture.speed > 1000 && gesture.type === 'swipe' ) {
           var x = gesture.direction[0],
               y = gesture.direction[1];
 
@@ -90,6 +98,8 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
             } else {
               config.naturalSwipe ? Reveal.right() : Reveal.left();
             }
+
+            lastGesture = now;
           // Up/down swipe gestures
           } else {
             if ( y > 0 ) {
@@ -97,6 +107,8 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
             } else {
               config.naturalSwipe ? Reveal.up() : Reveal.down();
             }
+
+            lastGesture = now;
           }
         }
         // Two hand gestures
@@ -105,6 +117,8 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
         if ( gesture.direction[1] > 0 ) {
           Reveal.toggleOverview();
         }
+
+        lastGesture = now;
       }
     }
   });
