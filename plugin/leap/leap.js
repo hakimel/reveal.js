@@ -30,7 +30,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       lastGesture = 0,
       config      = {
         naturalSwipe   : true,      // Swipe as if it were a touch screen.
-        pointerDefault : 15,        // Default height/width of the pointer.
+        pointerSize    : 15,        // Default height/width of the pointer.
         pointerColor   : '#00aaff', // Default color of the pointer.
         pointerOpacity : 0.75,      // Default opacity of the pointer.
         gestureDelay   : 500        // How long to delay between gestures.
@@ -60,8 +60,8 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
     if ( frame.hands.length === 1 && frame.fingers.length === 1 ) {
       var size  =  -2 * frame.hands[0].palmPosition[2];
 
-      if ( size < config.pointerDefault ) {
-        size = config.pointerDefault
+      if ( size < config.pointerSize ) {
+        size = config.pointerSize
       }
 
       pointer.style.bottom =

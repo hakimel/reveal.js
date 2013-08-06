@@ -625,6 +625,48 @@ Reveal.initialize({
 });
 ```
 
+## Leap Motion
+The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
+
+##### 1 hand + 1 finger
+* Pointer &mdash; Point to anything on screen. Move your finger past the device to expand the pointer.
+
+##### 1 hand + 2 or more fingers
+
+* Left
+* Right
+* Up
+* down
+
+Navigate through your slides. See config options to invert movements.
+
+##### 2 hands
+* Up
+
+Toggle the overview mode. Do it a second time to exit the overview.
+
+#### Config Options
+You can edit the following options:
+* naturalSwipe: Defaults to true. Swipe as though you were touching a touch screen. Set to false to invert.
+* pointerSize: Defaults to 15. The minimum height and width of the pointer.
+* pointerColor: Defaults to #00aaff. The color of the pointer.
+* pointerOpacity: Defaults to 0.75. The opacity of the pointer.
+* gestureDelay: Defaults to 500. How long to delay between gestures in milliseconds.
+
+Example configuration:
+```js
+Reveal.initialize({
+	// other options
+	leap: {
+		naturalSwipe   : false,    // Invert swipe gestures
+		pointerOpacity : 0.5,      // Set pointer opacity to 0.5
+		pointerColor   : '#d80000' // Red pointer
+	}
+	
+	// Optional libraries used to extend on reveal.js
+	{ src: 'plugin/leap/leap.js', async: true }
+```
+
 ## Installation
 
 The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features as well as the development tasks needed to make changes to the source.
