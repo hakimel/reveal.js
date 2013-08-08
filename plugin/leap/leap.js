@@ -34,7 +34,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
         naturalSwipe     : true,      // Swipe as if it were a touch screen.
         pointerColor     : '#00aaff', // Default color of the pointer.
         pointerOpacity   : 0.7,       // Default opacity of the pointer.
-        pointerSize      : 15,        // Default height/width of the pointer.
+        pointerSize      : 15,        // Default minimum height/width of the pointer.
         pointerTolerance : 120        // Bigger = slower pointer.
       },
       now,
@@ -125,10 +125,8 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
             else {
               config.naturalSwipe ? Reveal.right() : Reveal.left();
             }
-
-            lastGesture = now;
-          // Up/down swipe gestures
           }
+          // Up/down swipe gestures
           else {
             if( y > 0 ) {
               config.naturalSwipe ? Reveal.down() : Reveal.up();
@@ -136,9 +134,9 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
             else {
               config.naturalSwipe ? Reveal.up() : Reveal.down();
             }
-
-            lastGesture = now;
           }
+
+          lastGesture = now;
         }
       }
       // Two hand gestures
