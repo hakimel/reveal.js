@@ -23,78 +23,103 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
  */
 
 (function () {
-  var controller  = new Leap.Controller({ enableGestures: true }),
-      leapConfig  = Reveal.getConfig().leap,
-      pointer     = document.createElement('div'),
-      body        = document.body,
+  var body        = document.body,
+      controller  = new Leap.Controller({ enableGestures: true }),
       lastGesture = 0,
+      leapConfig  = Reveal.getConfig().leap,
+      pointer     = document.createElement( 'div' ),
       config      = {
-        naturalSwipe   : true,      // Swipe as if it were a touch screen.
-        pointerSize    : 15,        // Default height/width of the pointer.
-        pointerColor   : '#00aaff', // Default color of the pointer.
-        pointerOpacity : 0.75,      // Default opacity of the pointer.
-        gestureDelay   : 500        // How long to delay between gestures.
+        autoCenter       : true,      // Center pointer around detected position.
+        gestureDelay     : 500,       // How long to delay between gestures.
+        naturalSwipe     : true,      // Swipe as if it were a touch screen.
+        pointerColor     : '#00aaff', // Default color of the pointer.
+        pointerOpacity   : 0.7,       // Default opacity of the pointer.
+        pointerSize      : 15,        // Default height/width of the pointer.
+        pointerTolerance : 120        // Bigger = slower pointer.
       },
-      now;
+      now,
+      entered;
 
       // Merge user defined settings with defaults
-      if ( leapConfig ) {
-        for (key in leapConfig) {
+      if( leapConfig ) {
+        for( key in leapConfig ) {
           config[key] = leapConfig[key];
         }
       }
 
       pointer.id = 'leap';
 
-      pointer.style.filter          = 'alpha(opacity="' + config.pointerOpacity * 100 + '")';
       pointer.style.opacity         = config.pointerOpacity;
       pointer.style.backgroundColor = config.pointerColor;
 
-      body.appendChild(pointer);
+      body.appendChild( pointer );
 
-  controller.on('frame', function (frame) {
+  // Leap's loop
+  controller.on( 'frame', function ( frame ) {
     // Timing code to rate limit gesture execution
     now = new Date().getTime();
 
-    // Pointer code
-    if ( frame.hands.length === 1 && frame.fingers.length === 1 ) {
-      var size  =  -2 * frame.hands[0].palmPosition[2];
+    // Pointer: 1 to 2 fingers. Strictly one finger works but may cause innaccuracies.
+    // The innaccuracies were observed on a development model and may not be an issue with consumer models.
+    if( frame.fingers.length > 0 && frame.fingers.length < 3 ) {
+      // Invert direction and multiply by 3 for greater effect.
+      var size = -3 * frame.fingers[0].tipPosition[2];
 
-      if ( size < config.pointerSize ) {
-        size = config.pointerSize
+      if( size < config.pointerSize ) {
+        size = config.pointerSize;
       }
 
-      pointer.style.bottom =
-        frame.hands[0].palmPosition[1] * (body.offsetHeight / 100) - body.offsetHeight + 'px';
-
-      pointer.style.left =
-        frame.hands[0].palmPosition[0] * (body.offsetWidth / 100) + (body.offsetWidth / 2) + 'px';
-
-      pointer.style.visibility   = 'visible';
       pointer.style.width        = size     + 'px';
       pointer.style.height       = size     + 'px';
       pointer.style.borderRadius = size - 5 + 'px';
-    } 
+      pointer.style.visibility   = 'visible';
+
+      tipPosition = frame.fingers[0].tipPosition;
+
+      if( config.autoCenter ) {
+        // Check whether the finger has entered the z range of the Leap Motion. Used for the autoCenter option.
+        if( !entered ) {
+          entered         = true;
+          enteredPosition = frame.fingers[0].tipPosition;
+        }
+
+        pointer.style.top =
+          (-1 * (( tipPosition[1] - enteredPosition[1] ) * body.offsetHeight / config.pointerTolerance )) +
+            ( body.offsetHeight / 2 ) + 'px';
+
+        pointer.style.left =
+          (( tipPosition[0] - enteredPosition[0] ) * body.offsetWidth / config.pointerTolerance ) +
+            ( body.offsetWidth / 2 ) + 'px';
+      }
+      else {
+        pointer.style.top  = ( 1 - (( tipPosition[1] - 50) / config.pointerTolerance )) *
+          body.offsetHeight + 'px';
+
+        pointer.style.left = ( tipPosition[0] * body.offsetWidth / config.pointerTolerance ) +
+          ( body.offsetWidth / 2 ) + 'px';
+      }
+    }
     else {
       // Hide pointer on exit
+      entered                  = false;
       pointer.style.visibility = 'hidden';
     }
-    
+
     // Gestures
-    if ( frame.gestures.length > 0 && (now - lastGesture) > config.gestureDelay ) {
+    if( frame.gestures.length > 0 && (now - lastGesture) > config.gestureDelay ) {
       var gesture = frame.gestures[0];
 
       // One hand gestures
       if( frame.hands.length === 1 ) {
-        // Swipe gestures. 2+ fingers.
-        if ( frame.fingers.length > 1 && gesture.type === 'swipe' ) {
+        // Swipe gestures. 3+ fingers.
+        if( frame.fingers.length > 2 && gesture.type === 'swipe' ) {
           // Define here since some gestures will throw undefined for these.
           var x = gesture.direction[0],
               y = gesture.direction[1];
 
           // Left/right swipe gestures
-          if ( Math.abs(x) > Math.abs(y) ) {
-            if ( x > 0 ) {
+          if( Math.abs( x ) > Math.abs( y )) {
+            if( x > 0 ) {
               config.naturalSwipe ? Reveal.left() : Reveal.right();
             }
             else {
@@ -105,7 +130,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
           // Up/down swipe gestures
           }
           else {
-            if ( y > 0 ) {
+            if( y > 0 ) {
               config.naturalSwipe ? Reveal.down() : Reveal.up();
             }
             else {
@@ -115,11 +140,11 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
             lastGesture = now;
           }
         }
-        // Two hand gestures
       }
-      else if ( frame.hands.length == 2 ) {
-        // All upwards 2 hand gestures = toggle overview
-        if ( gesture.direction[1] > 0 ) {
+      // Two hand gestures
+      else if( frame.hands.length === 2 ) {
+        // Upward two hand swipe gesture
+        if( gesture.direction[1] > 0 && gesture.type === 'swipe' ) {
           Reveal.toggleOverview();
         }
 
