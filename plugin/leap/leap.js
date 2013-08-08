@@ -37,8 +37,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
         pointerSize      : 15,        // Default minimum height/width of the pointer.
         pointerTolerance : 120        // Bigger = slower pointer.
       },
-      now,
-      entered;
+      entered, enteredPosition, now, size, tipPosition; // Other vars we need later, but don't need to redeclare.
 
       // Merge user defined settings with defaults
       if( leapConfig ) {
@@ -63,7 +62,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
     // The innaccuracies were observed on a development model and may not be an issue with consumer models.
     if( frame.fingers.length > 0 && frame.fingers.length < 3 ) {
       // Invert direction and multiply by 3 for greater effect.
-      var size = -3 * frame.fingers[0].tipPosition[2];
+      size = -3 * frame.fingers[0].tipPosition[2];
 
       if( size < config.pointerSize ) {
         size = config.pointerSize;
@@ -74,9 +73,9 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       pointer.style.borderRadius = size - 5 + 'px';
       pointer.style.visibility   = 'visible';
 
-      tipPosition = frame.fingers[0].tipPosition;
-
       if( config.autoCenter ) {
+        tipPosition = frame.fingers[0].tipPosition;
+
         // Check whether the finger has entered the z range of the Leap Motion. Used for the autoCenter option.
         if( !entered ) {
           entered         = true;
