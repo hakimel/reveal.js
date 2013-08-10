@@ -1032,11 +1032,8 @@ var Reveal = (function(){
 
 			var wasActive = dom.wrapper.classList.contains( 'overview' );
 
-			var depth = 2500;
-
-			if( window.innerWidth < 400 ) {
-				depth = 1000;
-			}
+			// Vary the depth of the overview based on screen size
+			var depth = window.innerWidth < 400 ? 1000 : 2500;
 
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'exit-overview' );
