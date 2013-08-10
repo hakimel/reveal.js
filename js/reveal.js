@@ -59,6 +59,10 @@ var Reveal = (function(){
 			// Turns fragments on and off globally
 			fragments: true,
 
+			// Flags if the presentation is running in an embedded mode,
+			// i.e. contained within a limited portion of the screen
+			embed: false,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -2371,7 +2375,18 @@ var Reveal = (function(){
 					navigateDown();
 				}
 
-				event.preventDefault();
+				// If we're embedded, only block touch events if they have
+				// triggered an action
+				if( config.embed ) {
+					if( touch.captured || isVerticalSlide( currentSlide ) ) {
+						event.preventDefault();
+					}
+				}
+				// Not embedded? Block them all to avoid needless tossing
+				// around of the viewport in iOS
+				else {
+					event.preventDefault();
+				}
 
 			}
 		}
