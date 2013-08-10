@@ -1032,6 +1032,12 @@ var Reveal = (function(){
 
 			var wasActive = dom.wrapper.classList.contains( 'overview' );
 
+			var depth = 2500;
+
+			if( window.innerWidth < 400 ) {
+				depth = 1000;
+			}
+
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'exit-overview' );
 
@@ -1048,7 +1054,7 @@ var Reveal = (function(){
 				for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 					var hslide = horizontalSlides[i],
 						hoffset = config.rtl ? -105 : 105,
-						htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
+						htransform = 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
 
 					hslide.setAttribute( 'data-index-h', i );
 					hslide.style.WebkitTransform = htransform;
