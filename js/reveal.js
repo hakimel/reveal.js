@@ -61,7 +61,7 @@ var Reveal = (function(){
 
 			// Flags if the presentation is running in an embedded mode,
 			// i.e. contained within a limited portion of the screen
-			embed: false,
+			embedded: false,
 
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
@@ -2377,7 +2377,7 @@ var Reveal = (function(){
 
 				// If we're embedded, only block touch events if they have
 				// triggered an action
-				if( config.embed ) {
+				if( config.embedded ) {
 					if( touch.captured || isVerticalSlide( currentSlide ) ) {
 						event.preventDefault();
 					}
