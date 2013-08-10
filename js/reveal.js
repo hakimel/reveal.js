@@ -148,7 +148,7 @@ var Reveal = (function(){
 			startSpan: 0,
 			startCount: 0,
 			handled: false,
-			threshold: 80
+			threshold: 40
 		};
 
 	/**
