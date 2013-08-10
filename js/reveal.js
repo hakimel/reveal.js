@@ -14,8 +14,6 @@ var Reveal = (function(){
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-child',
 
-		IS_MOBILE = navigator.userAgent.match( /(iphone|ipod|android)/gi ),
-
 		// Configurations defaults, can be overridden at initialization time
 		config = {
 
@@ -113,19 +111,14 @@ var Reveal = (function(){
 		// Cached references to DOM elements
 		dom = {},
 
-		// Detect support for CSS 3D transforms
-		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
-								'MozPerspective' in document.body.style ||
-								'msPerspective' in document.body.style ||
-								'OPerspective' in document.body.style ||
-								'perspective' in document.body.style,
+		// Client support for CSS 3D transforms, see #checkCapabilities()
+		supports3DTransforms,
 
-		// Detect support for CSS 2D transforms
-		supports2DTransforms =  'WebkitTransform' in document.body.style ||
-								'MozTransform' in document.body.style ||
-								'msTransform' in document.body.style ||
-								'OTransform' in document.body.style ||
-								'transform' in document.body.style,
+		// Client support for CSS 2D transforms, see #checkCapabilities()
+		supports2DTransforms,
+
+		// Client is a mobile device, see #checkCapabilities()
+		isMobileDevice,
 
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
@@ -160,6 +153,8 @@ var Reveal = (function(){
 	 */
 	function initialize( options ) {
 
+		checkCapabilities();
+
 		if( !supports2DTransforms && !supports3DTransforms ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
@@ -179,6 +174,28 @@ var Reveal = (function(){
 
 		// Loads the dependencies and continues to #start() once done
 		load();
+
+	}
+
+	/**
+	 * Inspect the client to see what it's capable of, this
+	 * should only happens once per runtime.
+	 */
+	function checkCapabilities() {
+
+		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
+								'MozPerspective' in document.body.style ||
+								'msPerspective' in document.body.style ||
+								'OPerspective' in document.body.style ||
+								'perspective' in document.body.style;
+
+		supports2DTransforms =  'WebkitTransform' in document.body.style ||
+								'MozTransform' in document.body.style ||
+								'msTransform' in document.body.style ||
+								'OTransform' in document.body.style ||
+								'transform' in document.body.style;
+
+		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|android)/gi );
 
 	}
 
@@ -1569,7 +1586,7 @@ var Reveal = (function(){
 			var threshold = 3;
 
 			// Heavily limited on weaker devices
-			if( IS_MOBILE ) {
+			if( isMobileDevice ) {
 				threshold = 1;
 			}
 
