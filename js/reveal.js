@@ -14,6 +14,8 @@ var Reveal = (function(){
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-child',
 
+		IS_MOBILE = navigator.userAgent.match( /(iphone|ipod|android)/gi ),
+
 		// Configurations defaults, can be overridden at initialization time
 		config = {
 
@@ -1029,7 +1031,6 @@ var Reveal = (function(){
 						htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
 
 					hslide.setAttribute( 'data-index-h', i );
-					hslide.style.display = 'block';
 					hslide.style.WebkitTransform = htransform;
 					hslide.style.MozTransform = htransform;
 					hslide.style.msTransform = htransform;
@@ -1048,7 +1049,6 @@ var Reveal = (function(){
 
 							vslide.setAttribute( 'data-index-h', i );
 							vslide.setAttribute( 'data-index-v', j );
-							vslide.style.display = 'block';
 							vslide.style.WebkitTransform = vtransform;
 							vslide.style.MozTransform = vtransform;
 							vslide.style.msTransform = vtransform;
@@ -1067,6 +1067,8 @@ var Reveal = (function(){
 
 					}
 				}
+
+				updateSlidesVisibility();
 
 				layout();
 
@@ -1309,6 +1311,9 @@ var Reveal = (function(){
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
 
+		// Update the visibility of slides now that the indices have changed
+		updateSlidesVisibility();
+
 		layout();
 
 		// Apply the new state
@@ -1480,16 +1485,6 @@ var Reveal = (function(){
 			for( var i = 0; i < slidesLength; i++ ) {
 				var element = slides[i];
 
-				// Optimization; hide all slides that are three or more steps
-				// away from the present slide
-				if( isOverview() === false ) {
-					// The distance loops so that it measures 1 between the first
-					// and last slides
-					var distance = Math.abs( ( index - i ) % ( slidesLength - 3 ) ) || 0;
-
-					element.style.display = distance > 3 ? 'none' : 'block';
-				}
-
 				var reverse = config.rtl && !isVerticalSlide( element );
 
 				element.classList.remove( 'past' );
@@ -1552,6 +1547,71 @@ var Reveal = (function(){
 		}
 
 		return index;
+
+	}
+
+	/**
+	 * Optimization method; hide all slides that are far away
+	 * from the present slide.
+	 */
+	function updateSlidesVisibility() {
+
+		// Select all slides and convert the NodeList result to
+		// an array
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
+			horizontalSlidesLength = horizontalSlides.length,
+			distance;
+
+		if( horizontalSlidesLength ) {
+
+			// The number of steps away from the present slide that will
+			// be visible
+			var threshold = 3;
+
+			// Heavily limited on weaker devices
+			if( IS_MOBILE ) {
+				threshold = 1;
+			}
+
+			if( isOverview() ) {
+				threshold = 6;
+			}
+
+			for( var x = 0; x < horizontalSlidesLength; x++ ) {
+				var horizontalSlide = horizontalSlides[x];
+
+				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
+					verticalSlidesLength = verticalSlides.length;
+
+				if( verticalSlidesLength ) {
+
+					// Always show the vertical stack itself, even if its child
+					// slides are invisible
+					horizontalSlide.style.display = 'block';
+
+					for( var y = 0; y < verticalSlidesLength; y++ ) {
+						var verticalSlide = verticalSlides[y];
+
+						var dx = x - indexh,
+							dy = y - indexv;
+
+						distance = Math.sqrt( dx*dx + dy*dy );
+
+						verticalSlide.style.display = distance > threshold ? 'none' : 'block';
+					}
+
+				}
+				else {
+
+					// Loops so that it measures 1 between the first and last slides
+					distance = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - threshold ) ) || 0;
+
+					horizontalSlide.style.display = distance > threshold ? 'none' : 'block';
+
+				}
+			}
+
+		}
 
 	}
 
