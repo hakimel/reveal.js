@@ -85,6 +85,9 @@ var Reveal = (function(){
 			// Transition style for full page slide backgrounds
 			backgroundTransition: 'default', // default/linear/none
 
+			// Number of slides away from the current that are visible
+			viewDistance: 3,
+
 			// Script dependencies to load
 			dependencies: []
 		},
@@ -1583,15 +1586,15 @@ var Reveal = (function(){
 
 			// The number of steps away from the present slide that will
 			// be visible
-			var threshold = 3;
+			var viewDistance = config.viewDistance;
 
 			// Heavily limited on weaker devices
 			if( isMobileDevice ) {
-				threshold = 1;
+				viewDistance = 1;
 			}
 
 			if( isOverview() ) {
-				threshold = 6;
+				viewDistance = 6;
 			}
 
 			for( var x = 0; x < horizontalSlidesLength; x++ ) {
@@ -1614,16 +1617,16 @@ var Reveal = (function(){
 
 						distance = Math.sqrt( dx*dx + dy*dy );
 
-						verticalSlide.style.display = distance > threshold ? 'none' : 'block';
+						verticalSlide.style.display = distance > viewDistance ? 'none' : 'block';
 					}
 
 				}
 				else {
 
 					// Loops so that it measures 1 between the first and last slides
-					distance = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - threshold ) ) || 0;
+					distance = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
 
-					horizontalSlide.style.display = distance > threshold ? 'none' : 'block';
+					horizontalSlide.style.display = distance > viewDistance ? 'none' : 'block';
 
 				}
 			}
