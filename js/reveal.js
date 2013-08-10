@@ -147,7 +147,7 @@ var Reveal = (function(){
 			startY: 0,
 			startSpan: 0,
 			startCount: 0,
-			handled: false,
+			captured: false,
 			threshold: 40
 		};
 
@@ -2315,11 +2315,11 @@ var Reveal = (function(){
 	function onTouchMove( event ) {
 
 		// Each touch should only trigger one action
-		if( !touch.handled ) {
+		if( !touch.captured ) {
 			var currentX = event.touches[0].clientX;
 			var currentY = event.touches[0].clientY;
 
-			// If the touch started off with two points and still has
+			// If the touch started with two points and still has
 			// two active touches; test for the pinch gesture
 			if( event.touches.length === 2 && touch.startCount === 2 && config.overview ) {
 
@@ -2335,7 +2335,7 @@ var Reveal = (function(){
 				// If the span is larger than the desire amount we've got
 				// ourselves a pinch
 				if( Math.abs( touch.startSpan - currentSpan ) > touch.threshold ) {
-					touch.handled = true;
+					touch.captured = true;
 
 					if( currentSpan < touch.startSpan ) {
 						activateOverview();
@@ -2355,19 +2355,19 @@ var Reveal = (function(){
 					deltaY = currentY - touch.startY;
 
 				if( deltaX > touch.threshold && Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateLeft();
 				}
 				else if( deltaX < -touch.threshold && Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateRight();
 				}
 				else if( deltaY > touch.threshold ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateUp();
 				}
 				else if( deltaY < -touch.threshold ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateDown();
 				}
 
@@ -2388,7 +2388,7 @@ var Reveal = (function(){
 	 */
 	function onTouchEnd( event ) {
 
-		touch.handled = false;
+		touch.captured = false;
 
 	}
 
