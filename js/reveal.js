@@ -230,17 +230,12 @@ var Reveal = (function(){
 	function createSingletonNode(container, tagname, classname, innerHTML){
 		var node = container.querySelector('.' + classname);
 		if( !node ){
-			node = buildNode(tagname, classname, innerHTML);
+			node = document.createElement(tagname);
+			node.classList.add(classname);
+			if(innerHTML !== null){
+				node.innerHTML = innerHTML;
+			}
 			container.appendChild(node);
-		}
-		return node;
-	}
-
-	function buildNode(tagname, classname, innerHTML){
-		var node = document.createElement(tagname);
-		node.classList.add(classname);
-		if(innerHTML !== null){
-			node.innerHTML = innerHTML;
 		}
 		return node;
 	}
