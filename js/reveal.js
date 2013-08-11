@@ -222,49 +222,26 @@ var Reveal = (function(){
 		dom.slides.classList.add( 'no-transition' );
 
 		// Background element
-		if( !document.querySelector( '.reveal .backgrounds' ) ) {
-			dom.background = document.createElement( 'div' );
-			dom.background.classList.add( 'backgrounds' );
-			dom.wrapper.appendChild( dom.background );
-		}
+		dom.background = createSingletonNode( dom.wrapper, 'div', 'backgrounds', null );
 
 		// Progress bar
-		if( !dom.wrapper.querySelector( '.progress' ) ) {
-			var progressElement = document.createElement( 'div' );
-			progressElement.classList.add( 'progress' );
-			progressElement.innerHTML = '<span></span>';
-			dom.wrapper.appendChild( progressElement );
-		}
+		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
+		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		if( !dom.wrapper.querySelector( '.controls' ) ) {
-			var controlsElement = document.createElement( 'aside' );
-			controlsElement.classList.add( 'controls' );
-			controlsElement.innerHTML = '<div class="navigate-left"></div>' +
-										'<div class="navigate-right"></div>' +
-										'<div class="navigate-up"></div>' +
-										'<div class="navigate-down"></div>';
-			dom.wrapper.appendChild( controlsElement );
-		}
+		createSingletonNode( dom.wrapper, 'aside', 'controls',
+			'<div class="navigate-left"></div>' +
+			'<div class="navigate-right"></div>' +
+			'<div class="navigate-up"></div>' +
+			'<div class="navigate-down"></div>' );
 
 		// State background element [DEPRECATED]
-		if( !dom.wrapper.querySelector( '.state-background' ) ) {
-			var stateBackgroundElement = document.createElement( 'div' );
-			stateBackgroundElement.classList.add( 'state-background' );
-			dom.wrapper.appendChild( stateBackgroundElement );
-		}
+		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
 
 		// Overlay graphic which is displayed during the paused mode
-		if( !dom.wrapper.querySelector( '.pause-overlay' ) ) {
-			var pausedElement = document.createElement( 'div' );
-			pausedElement.classList.add( 'pause-overlay' );
-			dom.wrapper.appendChild( pausedElement );
-		}
+		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
 		// Cache references to elements
-		dom.progress = document.querySelector( '.reveal .progress' );
-		dom.progressbar = document.querySelector( '.reveal .progress span' );
-
 		if ( config.controls ) {
 			dom.controls = document.querySelector( '.reveal .controls' );
 
@@ -276,6 +253,26 @@ var Reveal = (function(){
 			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
+
+	}
+
+	/**
+	 * Creates an HTML element and returns a reference to it.
+	 * If the element already exists the existing instance will
+	 * be returned.
+	 */
+	function createSingletonNode( container, tagname, classname, innerHTML ) {
+
+		var node = container.querySelector( '.' + classname );
+		if( !node ) {
+			node = document.createElement( tagname );
+			node.classList.add( classname );
+			if( innerHTML !== null ) {
+				node.innerHTML = innerHTML;
+			}
+			container.appendChild( node );
+		}
+		return node;
 
 	}
 
