@@ -1072,9 +1072,10 @@ body {
 
 .reveal.overview .slides section {
 	height: 600px;
+	top: -300px !important;
 	overflow: hidden;
-	opacity: 1!important;
-	visibility: visible!important;
+	opacity: 1 !important;
+	visibility: visible !important;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
@@ -1097,6 +1098,7 @@ body {
 	}
 .reveal.overview .slides>section.stack {
 	padding: 0;
+	top: 0 !important;
 	background: none;
 	overflow: visible;
 }
