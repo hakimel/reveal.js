@@ -1894,7 +1894,7 @@ var Reveal = (function(){
 			}
 			// If the slide doesn't exist, navigate to the current slide
 			else {
-				slide( indexh, indexv );
+				slide( indexh || 0, indexv || 0 );
 			}
 		}
 		else {
