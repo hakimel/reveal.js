@@ -193,24 +193,24 @@ var Reveal = (function(){
 		dom.slides = document.querySelector( '.reveal .slides' );
 
 		// Background element
-		dom.background = createSingletonNode(dom.wrapper, 'div', 'backgrounds', null);
+		dom.background = createSingletonNode( dom.wrapper, 'div', 'backgrounds', null );
 
 		// Progress bar
-		dom.progress = createSingletonNode(dom.wrapper, 'div', 'progress', '<span></span>');
-		dom.progressbar = dom.progress.querySelector('span');
+		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
+		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		createSingletonNode(dom.wrapper, 'aside', 'controls',
+		createSingletonNode( dom.wrapper, 'aside', 'controls',
 			'<div class="navigate-left"></div>' +
 			'<div class="navigate-right"></div>' +
 			'<div class="navigate-up"></div>' +
-			'<div class="navigate-down"></div>');
+			'<div class="navigate-down"></div>' );
 
 		// State background element [DEPRECATED]
-		createSingletonNode(dom.wrapper, 'div', 'state-background', null);
+		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
 
 		// Overlay graphic which is displayed during the paused mode
-		createSingletonNode(dom.wrapper, 'div', 'pause-overlay', null);
+		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
 		// Cache references to elements
 		if ( config.controls ) {
@@ -227,17 +227,19 @@ var Reveal = (function(){
 
 	}
 
-	function createSingletonNode(container, tagname, classname, innerHTML){
-		var node = container.querySelector('.' + classname);
+	function createSingletonNode( container, tagname, classname, innerHTML ){
+
+		var node = container.querySelector( '.' + classname );
 		if( !node ){
-			node = document.createElement(tagname);
-			node.classList.add(classname);
-			if(innerHTML !== null){
+			node = document.createElement( tagname );
+			node.classList.add( classname );
+			if( innerHTML !== null ){
 				node.innerHTML = innerHTML;
 			}
-			container.appendChild(node);
+			container.appendChild( node );
 		}
 		return node;
+
 	}
 
 	/**
