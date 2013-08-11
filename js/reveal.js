@@ -1587,13 +1587,14 @@ var Reveal = (function(){
 		// an array
 		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
 			horizontalSlidesLength = horizontalSlides.length,
-			distance;
+			distanceX,
+			distanceY;
 
 		if( horizontalSlidesLength ) {
 
 			// The number of steps away from the present slide that will
 			// be visible
-			var viewDistance = isOverview() ? 20 : config.viewDistance;
+			var viewDistance = isOverview() ? 10 : config.viewDistance;
 
 			// Limit view distance on weaker devices
 			if( isMobileDevice ) {
@@ -1606,30 +1607,29 @@ var Reveal = (function(){
 				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
 					verticalSlidesLength = verticalSlides.length;
 
+				// Loops so that it measures 1 between the first and last slides
+				distanceX = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
+
 				if( verticalSlidesLength ) {
 
 					// Always show the vertical stack itself, even if its child
 					// slides are invisible
 					horizontalSlide.style.display = 'block';
 
+					var oy = getPreviousVerticalIndex( horizontalSlide );
+
 					for( var y = 0; y < verticalSlidesLength; y++ ) {
 						var verticalSlide = verticalSlides[y];
 
-						var dx = x - indexh,
-							dy = y - indexv;
+						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
 
-						distance = Math.sqrt( dx*dx + dy*dy );
-
-						verticalSlide.style.display = distance > viewDistance ? 'none' : 'block';
+						verticalSlide.style.display = ( distanceX + distanceY ) > viewDistance ? 'none' : 'block';
 					}
 
 				}
 				else {
 
-					// Loops so that it measures 1 between the first and last slides
-					distance = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
-
-					horizontalSlide.style.display = distance > viewDistance ? 'none' : 'block';
+					horizontalSlide.style.display = distanceX > viewDistance ? 'none' : 'block';
 
 				}
 			}
