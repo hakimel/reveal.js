@@ -1593,15 +1593,11 @@ var Reveal = (function(){
 
 			// The number of steps away from the present slide that will
 			// be visible
-			var viewDistance = config.viewDistance;
+			var viewDistance = isOverview() ? 20 : config.viewDistance;
 
-			// Heavily limited on weaker devices
+			// Limit view distance on weaker devices
 			if( isMobileDevice ) {
-				viewDistance = 1;
-			}
-
-			if( isOverview() ) {
-				viewDistance = 6;
+				viewDistance = isOverview() ? 6 : 1;
 			}
 
 			for( var x = 0; x < horizontalSlidesLength; x++ ) {
