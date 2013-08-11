@@ -218,6 +218,9 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.slides = document.querySelector( '.reveal .slides' );
 
+		// Prevent transitions while we're loading
+		dom.slides.classList.add( 'no-transition' );
+
 		// Background element
 		if( !document.querySelector( '.reveal .backgrounds' ) ) {
 			dom.background = document.createElement( 'div' );
@@ -444,6 +447,9 @@ var Reveal = (function(){
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( function() {
+			// Enable transitions now that we're loaded
+			dom.slides.classList.remove( 'no-transition' );
+
 			dispatchEvent( 'ready', {
 				'indexh': indexh,
 				'indexv': indexv,
