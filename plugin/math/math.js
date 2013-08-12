@@ -29,7 +29,7 @@
 		});
 
 		Reveal.addEventListener( 'slidechanged', function( event ) {
-			MathJax.Hub.Rerender();
+			MathJax.Hub.Update( event.currentSlide );
 		} );
 
 	}
