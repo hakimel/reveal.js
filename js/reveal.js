@@ -665,6 +665,19 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Applies a CSS transform to the target element.
+	 */
+	function transformElement( element, transform ) {
+
+		element.style.WebkitTransform = transform;
+		element.style.MozTransform = transform;
+		element.style.msTransform = transform;
+		element.style.OTransform = transform;
+		element.style.transform = transform;
+
+	}
+
+	/**
 	 * Retrieves the height of the given element by looking
 	 * at the position and height of its immediate children.
 	 */
@@ -949,13 +962,7 @@ var Reveal = (function(){
 			}
 			// Apply scale transform as a fallback
 			else {
-				var transform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
-
-				dom.slides.style.WebkitTransform = transform;
-				dom.slides.style.MozTransform = transform;
-				dom.slides.style.msTransform = transform;
-				dom.slides.style.OTransform = transform;
-				dom.slides.style.transform = transform;
+				transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)' );
 			}
 
 			// Select all slides, vertical and horizontal
@@ -1062,15 +1069,12 @@ var Reveal = (function(){
 
 				for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 					var hslide = horizontalSlides[i],
-						hoffset = config.rtl ? -105 : 105,
-						htransform = 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
+						hoffset = config.rtl ? -105 : 105;
 
 					hslide.setAttribute( 'data-index-h', i );
-					hslide.style.WebkitTransform = htransform;
-					hslide.style.MozTransform = htransform;
-					hslide.style.msTransform = htransform;
-					hslide.style.OTransform = htransform;
-					hslide.style.transform = htransform;
+
+					// Apply CSS transform
+					transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
 
 					if( hslide.classList.contains( 'stack' ) ) {
 
@@ -1079,16 +1083,13 @@ var Reveal = (function(){
 						for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 							var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
-							var vslide = verticalSlides[j],
-								vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+							var vslide = verticalSlides[j];
 
 							vslide.setAttribute( 'data-index-h', i );
 							vslide.setAttribute( 'data-index-v', j );
-							vslide.style.WebkitTransform = vtransform;
-							vslide.style.MozTransform = vtransform;
-							vslide.style.msTransform = vtransform;
-							vslide.style.OTransform = vtransform;
-							vslide.style.transform = vtransform;
+
+							// Apply CSS transform
+							transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
 
 							// Navigate to this slide on click
 							vslide.addEventListener( 'click', onOverviewSlideClicked, true );
@@ -1154,11 +1155,7 @@ var Reveal = (function(){
 				element.style.display = '';
 
 				// Resets all transforms to use the external styles
-				element.style.WebkitTransform = '';
-				element.style.MozTransform = '';
-				element.style.msTransform = '';
-				element.style.OTransform = '';
-				element.style.transform = '';
+				transformElement( element, '' );
 
 				element.removeEventListener( 'click', onOverviewSlideClicked, true );
 			}
