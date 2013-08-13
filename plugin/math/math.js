@@ -6,37 +6,28 @@
  */
 var RevealMath = window.RevealMath || (function(){
 
-	var loaded = false;
-
 	var config = Reveal.getConfig().math || {};
 	config.host = config.host || 'http://cdn.mathjax.org/mathjax/latest/MathJax.js';
 	config.mode = config.mode || 'TeX-AMS_HTML-full';
 
 	loadScript( config.host + '?config=' + config.mode, function() {
 
-		// Conditioned just in case both onload and readystate fire
-		if( loaded === false ) {
-			loaded = true;
+		MathJax.Hub.Config({
+			messageStyle: 'none',
+			tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+		});
 
-			MathJax.Hub.Config({
-				messageStyle: 'none',
-				tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
-			});
+		// Process any math inside of the current slide when navigating,
+		// this is needed since it's not possible to typeset equations
+		// within invisible elements (far future or past).
+		Reveal.addEventListener( 'slidechanged', function( event ) {
 
-			// Process any math inside of the current slide when navigating,
-			// this is needed since it's not possible to typeset equations
-			// within invisible elements (far future or past).
-			Reveal.addEventListener( 'slidechanged', function( event ) {
+			// This will only typeset equations that have not yet been
+			// processed, as well as equations that have change since
+			// last being processed.
+			MathJax.Hub.Update( event.currentSlide );
 
-				// This will only typeset equations that have not yet been
-				// processed, as well as equations that have change since
-				// last being processed.
-				MathJax.Hub.Update( event.currentSlide, function() {
-					Reveal.layout();
-				} );
-
-			} );
-		}
+		} );
 
 	} );
 
