@@ -52,10 +52,10 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 
 #### External Markdown
 
-You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file.
+You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file. The ```data-charset``` attribute is optional and specifies which charset to use when loading the external file.
 
 ```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-charset="iso-8859-15"></section>
 ```
 
 ### Configuration
@@ -100,9 +100,6 @@ Reveal.initialize({
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
-	// Apply a 3D roll to links on hover
-	rollingLinks: true,
-
 	// Transition style
 	transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
 
@@ -110,7 +107,7 @@ Reveal.initialize({
 	transitionSpeed: 'default', // default/fast/slow
 
 	// Transition style for full page backgrounds
-	backgroundTransition: 'default' // default/linear
+	backgroundTransition: 'default' // default/linear/none
 
 });
 ```
@@ -370,6 +367,8 @@ The display order of fragments can be controlled using the ```data-fragment-inde
 
 When a slide fragment is either shown or hidden reveal.js will dispatch an event.
 
+Some libraries, like MathJax (see #505), get confused by the initially hidden fragment elements. Often times this can be fixed by calling their update or render function from this callback.
+
 ```javascript
 Reveal.addEventListener( 'fragmentshown', function( event ) {
 	// event.fragment = the fragment DOM element
@@ -398,7 +397,7 @@ By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/
 
 ### Overview mode
 
-Press "Esc" key to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
+Press "Esc" or "o" keys to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
 as if you were at 1,000 feet above your presentation. The overview mode comes with a few API hooks:
 
 ```javascript
@@ -414,7 +413,7 @@ Just press »F« on your keyboard to show your presentation in fullscreen mode. 
 
 
 ### Embedded media
-Embedded HTML5 `<video>`/`<audio>` and YouTube iframes are automatically paused when your navigate away from a slide. This can be disabled by decorating your element with a `data-ignore` attribute.
+Embedded HTML5 `<video>`/`<audio>` and YouTube iframes are automatically paused when you navigate away from a slide. This can be disabled by decorating your element with a `data-ignore` attribute.
 
 Add `data-autoplay` to your media element if you want it to automatically start playing when the slide is shown:
 
@@ -520,23 +519,24 @@ You can then access your master presentation at ```http://localhost:1947```
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
 		id: '1ea875674b17ca76', // Obtained from socket.io server
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 
 		// and if you want speaker notes
 		{ src: 'plugin/notes-server/client.js', async: true }
+		
+		// other dependencies...
 	]
 });
 ```
@@ -547,20 +547,21 @@ Served from a publicly accessible static file server. Examples include: GitHub P
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: null, // null so the clients do not have control of the master presentation
 		id: '1ea875674b17ca76', // id, obtained from socket.io server
 		url: 'revealjs.jit.su:80' // Location of socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
+		
+		// other dependencies...
 	]
 });
 ```
@@ -584,20 +585,21 @@ The socket.io server can play the role of static file server for your client pre
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: null, // null so the clients do not have control of the master presentation
 		id: '1ea875674b17ca76', // id, obtained from socket.io server
 		url: 'example.com:80' // Location of your socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
+		
+		// other dependencies...
 	]
 ```
 
@@ -606,21 +608,22 @@ It can also play the role of static file server for your master presentation and
 Example configuration:
 ```javascript
 Reveal.initialize({
-	// other options
+	// other options...
 
 	multiplex: {
-		// Example values. Generate your own.
+		// Example values. To generate your own, see the socket.io server instructions.
 		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
 		id: '1ea875674b17ca76', // Obtained from socket.io server
 		url: 'example.com:80' // Location of your socket.io server
 	},
 
-	// Optional libraries used to extend on reveal.js
+	// Don't forget to add the dependencies
 	dependencies: [
-		// other deps
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
+		
+		// other dependencies...
 	]
 });
 ```
@@ -692,22 +695,22 @@ Some reveal.js features, like external markdown, require that presentations run 
 
 2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
 
-4. Clone the reveal.js repository  
+4. Clone the reveal.js repository
 ```
 $ git clone git@github.com:hakimel/reveal.js.git
 ```
 
-5. Navigate to the reveal.js folder 
+5. Navigate to the reveal.js folder
 ```
 $ cd reveal.js
 ```
 
-6. Install dependencies  
+6. Install dependencies
 ```
 $ npm install
 ```
 
-7. Serve the presentation and monitor source files for changes  
+7. Serve the presentation and monitor source files for changes
 ```
 $ grunt serve
 ```

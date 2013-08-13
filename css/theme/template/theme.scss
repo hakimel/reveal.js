@@ -33,7 +33,7 @@ body {
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-	margin: 0 0 20px 0;
+	margin: $headingMargin;
 	color: $headingColor;
 
 	font-family: $headingFont;
