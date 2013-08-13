@@ -96,6 +96,9 @@ var Reveal = (function(){
 			dependencies: []
 		},
 
+		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
+		loaded = false,
+
 		// The current auto-slide duration
 		autoSlide = 0,
 
@@ -446,6 +449,8 @@ var Reveal = (function(){
 		setTimeout( function() {
 			// Enable transitions now that we're loaded
 			dom.slides.classList.remove( 'no-transition' );
+
+			loaded = true;
 
 			dispatchEvent( 'ready', {
 				'indexh': indexh,
@@ -2668,6 +2673,11 @@ var Reveal = (function(){
 			else {
 				return document.querySelector( SLIDES_SELECTOR + '.future' ) == null ? true : false;
 			}
+		},
+
+		// Checks if reveal.js has been loaded and is ready for use
+		isReady: function() {
+			return loaded;
 		},
 
 		// Forward event binding to the reveal DOM element
