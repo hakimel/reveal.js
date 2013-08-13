@@ -7,25 +7,26 @@
 var RevealMath = window.RevealMath || (function(){
 
 	var config = Reveal.getConfig().math || {};
-	config.host = config.host || 'http://cdn.mathjax.org/mathjax/latest/MathJax.js';
-	config.mode = config.mode || 'TeX-AMS_HTML-full';
+	config.mathjax = config.mathjax || 'http://cdn.mathjax.org/mathjax/latest/MathJax.js';
+	config.dialect = config.dialect || 'TeX-AMS_HTML-full';
 
-	loadScript( config.host + '?config=' + config.mode, function() {
+	loadScript( config.mathjax + '?config=' + config.dialect, function() {
 
 		MathJax.Hub.Config({
 			messageStyle: 'none',
-			tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+			tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+			skipStartupTypeset: true
 		});
 
-		// Process any math inside of the current slide when navigating,
-		// this is needed since it's not possible to typeset equations
-		// within invisible elements (far future or past).
+		// Typeset followed by an immediate reveal.js layout since
+		// the typesetting process could affect slide height
+		MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
+		MathJax.Hub.Queue( Reveal.layout );
+
+		// Reprocess equations in slides when they turn visible
 		Reveal.addEventListener( 'slidechanged', function( event ) {
 
-			// This will only typeset equations that have not yet been
-			// processed, as well as equations that have change since
-			// last being processed.
-			MathJax.Hub.Update( event.currentSlide );
+			MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
 
 		} );
 
