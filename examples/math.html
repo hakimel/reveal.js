@@ -38,6 +38,7 @@
 
 				<section>
 					<h3>The Lorenz Equations</h3>
+
 					\[\begin{aligned}
 					\dot{x} &amp; = \sigma(y-x) \\
 					\dot{y} &amp; = \rho x - y - xz \\
@@ -103,6 +104,10 @@
 
 			Reveal.initialize({
 				transition: 'linear',
+
+				math: {
+					mode: 'TeX-AMS_HTML-full'
+				},
 
 				dependencies: [
 					{ src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },

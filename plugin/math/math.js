@@ -4,7 +4,9 @@
  *
  * @author Hakim El Hattab
  */
-(function(){
+var RevealMath = window.RevealMath || (function(){
+
+	var loaded = false;
 
 	var config = Reveal.getConfig().math || {};
 	config.mode = config.mode || 'TeX-AMS_HTML-full';
@@ -16,32 +18,40 @@
 
 	// Detect when the script has loaded
 	script.onload = onScriptLoad;
+
+	// IE
 	script.onreadystatechange = function() {
 		if ( this.readyState === 'loaded' ) {
 			onScriptLoad.call();
 		}
 	}
 
+	// Normal browsers
 	head.appendChild( script );
 
 	function onScriptLoad() {
 
-		MathJax.Hub.Config({
-			messageStyle: 'none',
-			tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
-		});
+		// Conditioned just in case both onload and readystate fire
+		if( loaded === false ) {
+			loaded = true;
 
-		// Process any math inside of the current slide when navigating,
-		// this is important since it's not possible to typeset
-		// equations within invisible elements (far future or past).
-		Reveal.addEventListener( 'slidechanged', function( event ) {
+			MathJax.Hub.Config({
+				messageStyle: 'none',
+				tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+			});
 
-			// This will only typeset equations that have not yet been
-			// processed, as well as equations that have change since
-			// last being processed.
-			MathJax.Hub.Update( event.currentSlide );
+			// Process any math inside of the current slide when navigating,
+			// this is needed since it's not possible to typeset equations
+			// within invisible elements (far future or past).
+			Reveal.addEventListener( 'slidechanged', function( event ) {
 
-		} );
+				// This will only typeset equations that have not yet been
+				// processed, as well as equations that have change since
+				// last being processed.
+				MathJax.Hub.Update( event.currentSlide );
+
+			} );
+		}
 
 	}
 
