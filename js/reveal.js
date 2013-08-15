@@ -210,6 +210,94 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Loads the dependencies of reveal.js. Dependencies are
+	 * defined via the configuration option 'dependencies'
+	 * and will be loaded prior to starting/binding reveal.js.
+	 * Some dependencies may have an 'async' flag, if so they
+	 * will load after reveal.js has been started up.
+	 */
+	function load() {
+
+		var scripts = [],
+			scriptsAsync = [];
+
+		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
+			var s = config.dependencies[i];
+
+			// Load if there's no condition or the condition is truthy
+			if( !s.condition || s.condition() ) {
+				if( s.async ) {
+					scriptsAsync.push( s.src );
+				}
+				else {
+					scripts.push( s.src );
+				}
+
+				// Extension may contain callback functions
+				if( typeof s.callback === 'function' ) {
+					head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], s.callback );
+				}
+			}
+		}
+
+		// Called once synchronous scripts finish loading
+		function proceed() {
+			if( scriptsAsync.length ) {
+				// Load asynchronous scripts
+				head.js.apply( null, scriptsAsync );
+			}
+
+			start();
+		}
+
+		if( scripts.length ) {
+			head.ready( proceed );
+
+			// Load synchronous scripts
+			head.js.apply( null, scripts );
+		}
+		else {
+			proceed();
+		}
+
+	}
+
+	/**
+	 * Starts up reveal.js by binding input events and navigating
+	 * to the current URL deeplink if there is one.
+	 */
+	function start() {
+
+		// Make sure we've got all the DOM elements we need
+		setupDOM();
+
+		// Decorate the slide DOM elements with state classes (past/future)
+		setupSlides();
+
+		// Updates the presentation to match the current configuration values
+		configure();
+
+		// Read the initial hash
+		readURL();
+
+		// Notify listeners that the presentation is ready but use a 1ms
+		// timeout to ensure it's not fired synchronously after #initialize()
+		setTimeout( function() {
+			// Enable transitions now that we're loaded
+			dom.slides.classList.remove( 'no-transition' );
+
+			loaded = true;
+
+			dispatchEvent( 'ready', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
+		}, 1 );
+
+	}
+
+	/**
 	 * Iterates through and decorates slides DOM elements with
 	 * appropriate classes.
 	 */
@@ -380,107 +468,6 @@ var Reveal = (function(){
 			} );
 
 		} );
-
-	}
-
-	/**
-	 * Hides the address bar if we're on a mobile device.
-	 */
-	function hideAddressBar() {
-
-		if( /iphone|ipod|android/gi.test( navigator.userAgent ) && !/crios/gi.test( navigator.userAgent ) ) {
-			// Events that should trigger the address bar to hide
-			window.addEventListener( 'load', removeAddressBar, false );
-			window.addEventListener( 'orientationchange', removeAddressBar, false );
-		}
-
-	}
-
-	/**
-	 * Loads the dependencies of reveal.js. Dependencies are
-	 * defined via the configuration option 'dependencies'
-	 * and will be loaded prior to starting/binding reveal.js.
-	 * Some dependencies may have an 'async' flag, if so they
-	 * will load after reveal.js has been started up.
-	 */
-	function load() {
-
-		var scripts = [],
-			scriptsAsync = [];
-
-		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
-			var s = config.dependencies[i];
-
-			// Load if there's no condition or the condition is truthy
-			if( !s.condition || s.condition() ) {
-				if( s.async ) {
-					scriptsAsync.push( s.src );
-				}
-				else {
-					scripts.push( s.src );
-				}
-
-				// Extension may contain callback functions
-				if( typeof s.callback === 'function' ) {
-					head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], s.callback );
-				}
-			}
-		}
-
-		// Called once synchronous scripts finish loading
-		function proceed() {
-			if( scriptsAsync.length ) {
-				// Load asynchronous scripts
-				head.js.apply( null, scriptsAsync );
-			}
-
-			start();
-		}
-
-		if( scripts.length ) {
-			head.ready( proceed );
-
-			// Load synchronous scripts
-			head.js.apply( null, scripts );
-		}
-		else {
-			proceed();
-		}
-
-	}
-
-	/**
-	 * Starts up reveal.js by binding input events and navigating
-	 * to the current URL deeplink if there is one.
-	 */
-	function start() {
-
-		// Make sure we've got all the DOM elements we need
-		setupDOM();
-
-		// Decorate the slide DOM elements with state classes (past/future)
-		setupSlides();
-
-		// Updates the presentation to match the current configuration values
-		configure();
-
-		// Read the initial hash
-		readURL();
-
-		// Notify listeners that the presentation is ready but use a 1ms
-		// timeout to ensure it's not fired synchronously after #initialize()
-		setTimeout( function() {
-			// Enable transitions now that we're loaded
-			dom.slides.classList.remove( 'no-transition' );
-
-			loaded = true;
-
-			dispatchEvent( 'ready', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
-		}, 1 );
 
 	}
 
@@ -741,6 +728,19 @@ var Reveal = (function(){
 	function isPrintingPDF() {
 
 		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
+	 * Hides the address bar if we're on a mobile device.
+	 */
+	function hideAddressBar() {
+
+		if( /iphone|ipod|android/gi.test( navigator.userAgent ) && !/crios/gi.test( navigator.userAgent ) ) {
+			// Events that should trigger the address bar to hide
+			window.addEventListener( 'load', removeAddressBar, false );
+			window.addEventListener( 'orientationchange', removeAddressBar, false );
+		}
 
 	}
 
