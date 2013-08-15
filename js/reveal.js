@@ -210,6 +210,26 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Iterates through and decorates slides DOM elements with
+	 * appropriate classes.
+	 */
+	function setupSlides() {
+
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		horizontalSlides.forEach( function( horizontalSlide ) {
+
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			verticalSlides.forEach( function( verticalSlide, y ) {
+
+				if( y > 0 ) verticalSlide.classList.add( 'future' );
+
+			} );
+
+		} );
+
+	}
+
+	/**
 	 * Finds and stores references to DOM elements which are
 	 * required by the presentation. If a required element is
 	 * not found, it is created.
@@ -437,6 +457,9 @@ var Reveal = (function(){
 
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
+
+		// Decorate the slide DOM elements with state classes (past/future)
+		setupSlides();
 
 		// Updates the presentation to match the current configuration values
 		configure();
