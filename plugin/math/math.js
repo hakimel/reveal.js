@@ -52,7 +52,7 @@ var RevealMath = window.RevealMath || (function(){
 		// IE
 		script.onreadystatechange = function() {
 			if ( this.readyState === 'loaded' ) {
-				finish.call();
+				finish();
 			}
 		}
 
