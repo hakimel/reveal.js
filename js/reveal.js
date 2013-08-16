@@ -722,6 +722,56 @@ var Reveal = (function(){
 
 	}
 
+	function getComputedCSSProperty( element, prop ) {
+
+		if( window.getComputedStyle ) {
+			return window.getComputedStyle( element )[ prop ];
+		}
+		else {
+			return element.currentStyle ? element.currentStyle( prop ) : element.style[ prop ];
+		}
+
+	}
+
+	/**
+	 * Returns the remaining height within the parent element
+	 * of the target after taking out the height of all
+	 * siblings.
+	 *
+	 * remaining height = [parent height] - [ siblings height]
+	 */
+	function getRemainingHeight( element ) {
+
+		var height = 0;
+
+		if( element ) {
+			var parent = element.parentNode;
+			var siblings = parent.childNodes;
+
+			height = config.height;
+
+			// Remove the height of each sibling
+			toArray( siblings ).forEach( function( sibling ) {
+
+				if( typeof sibling.offsetHeight === 'number' && sibling !== element ) {
+
+					var marginTop = parseInt( getComputedCSSProperty( sibling, 'margin-top' ), 10 );
+					var marginBottom = parseInt( getComputedCSSProperty( sibling, 'margin-bottom' ), 10 );
+
+					console.log( marginTop, marginBottom );
+
+					height -= sibling.offsetHeight + marginTop + marginBottom;
+
+				}
+
+			} );
+
+		}
+
+		return height;
+
+	}
+
 	/**
 	 * Checks if this instance is being used to print a PDF.
 	 */
@@ -1016,6 +1066,13 @@ var Reveal = (function(){
 			}
 
 			updateProgress();
+
+			// Handle sizing of elements with the 'remaining-height' class
+			toArray( dom.slides.querySelectorAll( 'section > .remaining-height' ) ).forEach( function( element ) {
+
+				element.style.height = getRemainingHeight( element ) + 'px';
+
+			} );
 
 		}
 
