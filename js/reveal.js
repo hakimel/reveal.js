@@ -1409,8 +1409,8 @@ var Reveal = (function(){
 		// Reset the state array
 		state.length = 0;
 
-		var indexhBefore = indexh,
-			indexvBefore = indexv;
+		var indexhBefore = indexh || 0,
+			indexvBefore = indexv || 0;
 
 		// Activate and transition to the new slide
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
