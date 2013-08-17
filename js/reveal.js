@@ -743,8 +743,8 @@ var Reveal = (function(){
 				if( typeof sibling.offsetHeight === 'number' && sibling !== element ) {
 
 					var styles = window.getComputedStyle( sibling ),
-						marginTop = parseInt( styles[ 'margin-top' ], 10 ),
-						marginBottom = parseInt( styles[ 'margin-bottom' ], 10 );
+						marginTop = parseInt( styles.marginTop, 10 ),
+						marginBottom = parseInt( styles.marginBottom, 10 );
 
 					height -= sibling.offsetHeight + marginTop + marginBottom;
 
@@ -755,8 +755,8 @@ var Reveal = (function(){
 			var elementStyles = window.getComputedStyle( element );
 
 			// Subtract the margins of the target element
-			height -= parseInt( elementStyles[ 'margin-top' ], 10 ) +
-						parseInt( elementStyles[ 'margin-bottom' ], 10 );
+			height -= parseInt( elementStyles.marginTop, 10 ) +
+						parseInt( elementStyles.marginBottom, 10 );
 
 		}
 
