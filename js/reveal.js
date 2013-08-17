@@ -722,49 +722,41 @@ var Reveal = (function(){
 
 	}
 
-	function getComputedCSSProperty( element, prop ) {
-
-		if( window.getComputedStyle ) {
-			return window.getComputedStyle( element )[ prop ];
-		}
-		else {
-			return element.currentStyle ? element.currentStyle( prop ) : element.style[ prop ];
-		}
-
-	}
-
 	/**
-	 * Returns the remaining height within the parent element
-	 * of the target after taking out the height of all
+	 * Returns the remaining height within the parent of the
+	 * target element after subtracting the height of all
 	 * siblings.
 	 *
 	 * remaining height = [parent height] - [ siblings height]
 	 */
-	function getRemainingHeight( element ) {
+	function getRemainingHeight( element, height ) {
 
-		var height = 0;
+		height = height || 0;
 
 		if( element ) {
 			var parent = element.parentNode;
 			var siblings = parent.childNodes;
 
-			height = config.height;
-
-			// Remove the height of each sibling
+			// Subtract the height of each sibling
 			toArray( siblings ).forEach( function( sibling ) {
 
 				if( typeof sibling.offsetHeight === 'number' && sibling !== element ) {
 
-					var marginTop = parseInt( getComputedCSSProperty( sibling, 'margin-top' ), 10 );
-					var marginBottom = parseInt( getComputedCSSProperty( sibling, 'margin-bottom' ), 10 );
-
-					console.log( marginTop, marginBottom );
+					var styles = window.getComputedStyle( sibling ),
+						marginTop = parseInt( styles[ 'margin-top' ], 10 ),
+						marginBottom = parseInt( styles[ 'margin-bottom' ], 10 );
 
 					height -= sibling.offsetHeight + marginTop + marginBottom;
 
 				}
 
 			} );
+
+			var elementStyles = window.getComputedStyle( element );
+
+			// Subtract the margins of the target element
+			height -= parseInt( elementStyles[ 'margin-top' ], 10 ) +
+						parseInt( elementStyles[ 'margin-bottom' ], 10 );
 
 		}
 
@@ -1006,7 +998,8 @@ var Reveal = (function(){
 
 			// Dimensions of the content
 			var slideWidth = config.width,
-				slideHeight = config.height;
+				slideHeight = config.height,
+				slidePadding = 20; // TODO Dig this out of DOM
 
 			// Slide width may be a percentage of available width
 			if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
@@ -1020,6 +1013,13 @@ var Reveal = (function(){
 
 			dom.slides.style.width = slideWidth + 'px';
 			dom.slides.style.height = slideHeight + 'px';
+
+			// Handle sizing of elements with the 'remaining-height' class
+			toArray( dom.slides.querySelectorAll( 'section > .remaining-height' ) ).forEach( function( element ) {
+
+				element.style.height = getRemainingHeight( element, ( slideHeight - ( slidePadding * 2 ) ) ) + 'px';
+
+			} );
 
 			// Determine scale of content to fit within available space
 			scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
@@ -1056,7 +1056,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - 20, -slideHeight / 2 ) + 'px';
+						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - slidePadding, -slideHeight / 2 ) + 'px';
 					}
 				}
 				else {
@@ -1066,13 +1066,6 @@ var Reveal = (function(){
 			}
 
 			updateProgress();
-
-			// Handle sizing of elements with the 'remaining-height' class
-			toArray( dom.slides.querySelectorAll( 'section > .remaining-height' ) ).forEach( function( element ) {
-
-				element.style.height = getRemainingHeight( element ) + 'px';
-
-			} );
 
 		}
 
