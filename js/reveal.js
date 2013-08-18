@@ -1001,6 +1001,9 @@ var Reveal = (function(){
 				slideHeight = config.height,
 				slidePadding = 20; // TODO Dig this out of DOM
 
+			// Layout the contents of the slides
+			layoutSlideContents( config.width, config.height, slidePadding );
+
 			// Slide width may be a percentage of available width
 			if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
 				slideWidth = parseInt( slideWidth, 10 ) / 100 * availableWidth;
@@ -1013,9 +1016,6 @@ var Reveal = (function(){
 
 			dom.slides.style.width = slideWidth + 'px';
 			dom.slides.style.height = slideHeight + 'px';
-
-			// Layout the contents of the slides
-			layoutSlideContents( config.width, config.height, slidePadding );
 
 			// Determine scale of content to fit within available space
 			scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
@@ -1073,8 +1073,8 @@ var Reveal = (function(){
 	 */
 	function layoutSlideContents( width, height, padding ) {
 
-		// Handle sizing of elements with the 'remaining-height' class
-		toArray( dom.slides.querySelectorAll( 'section > .remaining-height' ) ).forEach( function( element ) {
+		// Handle sizing of elements with the 'stretch' class
+		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
 
 			// Determine how much vertical space we can use
 			var remainingHeight = getRemainingHeight( element, ( height - ( padding * 2 ) ) );

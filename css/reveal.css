@@ -318,7 +318,7 @@ body {
 	max-height: 400px;
 	word-wrap: normal;
 }
-.reveal pre.remaining-height code {
+.reveal pre.stretch code {
 	height: 100%;
 	max-height: 100%;
 
@@ -355,7 +355,7 @@ body {
 	vertical-align: top;
 }
 
-.reveal .remaining-height {
+.reveal .stretch {
 	max-width: none;
 	max-height: none;
 }
