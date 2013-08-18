@@ -1688,11 +1688,10 @@ var Reveal = (function(){
 				// Loops so that it measures 1 between the first and last slides
 				distanceX = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
 
-				if( verticalSlidesLength ) {
+				// Show the horizontal slide if it's within the view distance
+				horizontalSlide.style.display = distanceX > viewDistance ? 'none' : 'block';
 
-					// Always show the vertical stack itself, even if its child
-					// slides are invisible
-					horizontalSlide.style.display = 'block';
+				if( verticalSlidesLength ) {
 
 					var oy = getPreviousVerticalIndex( horizontalSlide );
 
@@ -1703,11 +1702,6 @@ var Reveal = (function(){
 
 						verticalSlide.style.display = ( distanceX + distanceY ) > viewDistance ? 'none' : 'block';
 					}
-
-				}
-				else {
-
-					horizontalSlide.style.display = distanceX > viewDistance ? 'none' : 'block';
 
 				}
 			}
