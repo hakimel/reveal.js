@@ -150,7 +150,10 @@ Reveal.initialize({
 		{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 
 		// Remote control your reveal.js presentation using a touch device
-		{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+		{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+
+		// MathJax
+		{ src: 'plugin/math/math.js', async: true }
 	]
 });
 ```
@@ -535,7 +538,7 @@ Reveal.initialize({
 
 		// and if you want speaker notes
 		{ src: 'plugin/notes-server/client.js', async: true }
-		
+
 		// other dependencies...
 	]
 });
@@ -560,7 +563,7 @@ Reveal.initialize({
 	dependencies: [
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
-		
+
 		// other dependencies...
 	]
 });
@@ -598,7 +601,7 @@ Reveal.initialize({
 	dependencies: [
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
-		
+
 		// other dependencies...
 	]
 ```
@@ -622,7 +625,7 @@ Reveal.initialize({
 		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
-		
+
 		// other dependencies...
 	]
 });
@@ -661,16 +664,43 @@ You can edit the following options:
 Example configuration:
 ```js
 Reveal.initialize({
-	// other options
+
+	// other dependencies...
+
 	leap: {
 		naturalSwipe   : false,    // Invert swipe gestures
 		pointerOpacity : 0.5,      // Set pointer opacity to 0.5
 		pointerColor   : '#d80000' // Red pointer
 	}
-	
-	// Optional libraries used to extend on reveal.js
-	{ src: 'plugin/leap/leap.js', async: true }
+
+	dependencies: [
+		{ src: 'plugin/leap/leap.js', async: true }
+	]
+
+});
 ```
+
+## MathJax Plugin
+
+If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To include it, append the following into the dependencies object to your ```Reveal.initialize()``` call: ```{ src: '../plugin/math/math.js', async: true }```. [Find our more about dependencies](#Dependencies).
+
+The plugin defaults to using [LaTeX](http://en.wikipedia.org/wiki/LaTeX) but that can be adjusted through the ```math``` configuration object. Note that MathJax is loaded from a remote server. If you want to use it offline you'll need to download a copy of the library and adjust the ```mathjax``` configuration value. Here's an example of how the plugin may be configured:
+
+```js
+Reveal.initialize({
+
+	// other options ...
+
+	math: {
+		mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+
+		// See http://docs.mathjax.org/en/latest/config-files.html
+		config: 'TeX-AMS_HTML-full'
+	}
+
+});
+```
+
 
 ## Installation
 
