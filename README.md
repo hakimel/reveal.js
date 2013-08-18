@@ -680,11 +680,13 @@ Reveal.initialize({
 });
 ```
 
-## MathJax Plugin
+## MathJax
 
-If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To include it, append the following into the dependencies object to your ```Reveal.initialize()``` call: ```{ src: '../plugin/math/math.js', async: true }```. [Find our more about dependencies](#Dependencies).
+If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To include it, append the following into the ```Reveal.initialize()``` dependency list: ```{ src: 'plugin/math/math.js', async: true }```. [Find our more about dependencies](#dependencies).
 
-The plugin defaults to using [LaTeX](http://en.wikipedia.org/wiki/LaTeX) but that can be adjusted through the ```math``` configuration object. Note that MathJax is loaded from a remote server. If you want to use it offline you'll need to download a copy of the library and adjust the ```mathjax``` configuration value. Here's an example of how the plugin may be configured:
+The plugin defaults to using [LaTeX](http://en.wikipedia.org/wiki/LaTeX) but that can be adjusted through the ```math``` configuration object. Note that MathJax is loaded from a remote server. If you want to use it offline you'll need to download a copy of the library and adjust the ```mathjax``` configuration value. 
+
+Below is an example of how the plugin can be configured. If you don't intend to change these values you do not need to include the ```math``` config object at all.
 
 ```js
 Reveal.initialize({
