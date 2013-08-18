@@ -355,6 +355,11 @@ body {
 	vertical-align: top;
 }
 
+.reveal .remaining-height {
+	max-width: none;
+	max-height: none;
+}
+
 
 /*********************************************
  * CONTROLS

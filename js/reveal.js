@@ -1014,12 +1014,8 @@ var Reveal = (function(){
 			dom.slides.style.width = slideWidth + 'px';
 			dom.slides.style.height = slideHeight + 'px';
 
-			// Handle sizing of elements with the 'remaining-height' class
-			toArray( dom.slides.querySelectorAll( 'section > .remaining-height' ) ).forEach( function( element ) {
-
-				element.style.height = getRemainingHeight( element, ( slideHeight - ( slidePadding * 2 ) ) ) + 'px';
-
-			} );
+			// Layout the contents of the slides
+			layoutSlideContents( config.width, config.height, slidePadding );
 
 			// Determine scale of content to fit within available space
 			scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
@@ -1068,6 +1064,38 @@ var Reveal = (function(){
 			updateProgress();
 
 		}
+
+	}
+
+	/**
+	 * Applies layout logic to the contents of all slides in
+	 * the presentation.
+	 */
+	function layoutSlideContents( width, height, padding ) {
+
+		// Handle sizing of elements with the 'remaining-height' class
+		toArray( dom.slides.querySelectorAll( 'section > .remaining-height' ) ).forEach( function( element ) {
+
+			// Determine how much vertical space we can use
+			var remainingHeight = getRemainingHeight( element, ( height - ( padding * 2 ) ) );
+
+			// Consider the aspect ratio of media elements
+			if( /(img|video)/gi.test( element.nodeName ) ) {
+				var nw = element.naturalWidth,
+					nh = element.naturalHeight;
+
+				var es = Math.min( width / nw, remainingHeight / nh );
+
+				element.style.width = ( nw * es ) + 'px';
+				element.style.height = ( nh * es ) + 'px';
+
+			}
+			else {
+				element.style.width = width + 'px';
+				element.style.height = remainingHeight + 'px';
+			}
+
+		} );
 
 	}
 
