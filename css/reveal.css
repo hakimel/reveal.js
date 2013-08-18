@@ -318,6 +318,14 @@ body {
 	max-height: 400px;
 	word-wrap: normal;
 }
+.reveal pre.remaining-height code {
+	height: 100%;
+	max-height: 100%;
+
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
 
 .reveal table th,
 .reveal table td {
