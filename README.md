@@ -665,13 +665,13 @@ Example configuration:
 ```js
 Reveal.initialize({
 
-	// other dependencies...
+	// other options...
 
 	leap: {
 		naturalSwipe   : false,    // Invert swipe gestures
 		pointerOpacity : 0.5,      // Set pointer opacity to 0.5
 		pointerColor   : '#d80000' // Red pointer
-	}
+	},
 
 	dependencies: [
 		{ src: 'plugin/leap/leap.js', async: true }
@@ -682,7 +682,7 @@ Reveal.initialize({
 
 ## MathJax
 
-If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To include it, append the following into the ```Reveal.initialize()``` dependency list: ```{ src: 'plugin/math/math.js', async: true }```. [Find our more about dependencies](#dependencies).
+If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To use it you'll need to include it as a reveal.js dependency, [find our more about dependencies here](#dependencies).
 
 The plugin defaults to using [LaTeX](http://en.wikipedia.org/wiki/LaTeX) but that can be adjusted through the ```math``` configuration object. Note that MathJax is loaded from a remote server. If you want to use it offline you'll need to download a copy of the library and adjust the ```mathjax``` configuration value. 
 
@@ -695,10 +695,12 @@ Reveal.initialize({
 
 	math: {
 		mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
-
-		// See http://docs.mathjax.org/en/latest/config-files.html
-		config: 'TeX-AMS_HTML-full'
-	}
+		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+	},
+	
+	dependencies: [
+		{ src: 'plugin/math/math.js', async: true }
+	]
 
 });
 ```
