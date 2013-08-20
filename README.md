@@ -426,7 +426,7 @@ Add `data-autoplay` to your media element if you want it to automatically start 
 
 
 ### Stretching elements
-Sometimes it's desirable to have an element, like an image or video, stretch to consume as much space as possible within a given slide. This can be done by adding the ```.stretch``` class to an element as seen below.
+Sometimes it's desirable to have an element, like an image or video, stretch to consume as much space as possible within a given slide. This can be done by adding the ```.stretch``` class to an element as seen below:
 
 ```html
 <section>
@@ -436,8 +436,8 @@ Sometimes it's desirable to have an element, like an image or video, stretch to 
 ```
 
 Limitations:
-- Only direct decendents of a slide section can be stretched
-- Only one descendent per slide section can be stretched
+- Only direct descendants of a slide section can be stretched
+- Only one descendant per slide section can be stretched
 
 
 ## PDF Export
