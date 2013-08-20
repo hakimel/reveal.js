@@ -1081,8 +1081,8 @@ var Reveal = (function(){
 
 			// Consider the aspect ratio of media elements
 			if( /(img|video)/gi.test( element.nodeName ) ) {
-				var nw = element.naturalWidth,
-					nh = element.naturalHeight;
+				var nw = element.naturalWidth || element.videoWidth,
+					nh = element.naturalHeight || element.videoHeight;
 
 				var es = Math.min( width / nw, remainingHeight / nh );
 
