@@ -7,8 +7,18 @@ body {
 
 body {
 	padding: 100px 50px;
-	font: 14px/1 Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font: 12px/1 Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	color: #fff;
+}
+
+h1 {
+	font-size: 2.5em;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+
+p {
+	text-transform: uppercase;
 }
 
 a {
@@ -26,13 +36,13 @@ a:hover {
 
 header {
 	position: absolute;
-	left: 20px;
+	left: 40px;
 	bottom: 20px;
 }
 
 footer {
 	position: absolute;
-	right: 20px;
+	right: 40px;
 	bottom: 20px;
 	text-align: right;
 }
