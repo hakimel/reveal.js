@@ -87,7 +87,8 @@
 				dependencies: [
 					{ src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+                    { src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../notes/notes.js' }
 				]
 			});
 
