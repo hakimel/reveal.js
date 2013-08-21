@@ -478,7 +478,7 @@ If you want to add a theme of your own see the instructions here: [/css/theme/RE
 
 reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the 's' key on your keyboard to open the notes window.
 
-By default notes are written using standard HTML, see below, but you can add a ```data-markdown``` attribute to the ```<aside>``` to write them using Markdown, or separate your external markdown content file with the separator specified within your original declaration where notes begin.
+Notes are defined by appending an ```<aside>``` element to a slide as seen below. You can add the ```data-markdown``` attribute to the aside element if you prefer writing notes using Markdown.
 
 ```html
 <section>
@@ -490,15 +490,18 @@ By default notes are written using standard HTML, see below, but you can add a `
 </section>
 ```
 
+If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
+
 ```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^[[["></section>
+<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^Note:"></section>
 
 # Title
 ## Sub-title
 
 Here is some content...
-[[[
-These are my notes for this slide.
+
+Note:
+This will only display in the notes window.
 ```
 
 ## Server Side Speaker Notes
