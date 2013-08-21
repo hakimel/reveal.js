@@ -1,0 +1,37 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
+
+html,
+body {
+	background-color: #222;
+}
+
+body {
+	padding: 100px 50px;
+	font: 14px/1 Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #fff;
+}
+
+a {
+	display: inline-block;
+	padding: 8px 12px;
+	margin-top: 20px;
+	color: #fff;
+	border: 2px solid rgba( 255, 255, 255, 0.5 );
+	text-decoration: none;
+}
+a:hover {
+	border-color: #fff;
+}
+
+header {
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
+}
+
+footer {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+	text-align: right;
+}
