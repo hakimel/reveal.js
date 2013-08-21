@@ -205,6 +205,10 @@ body {
   font-style: italic;
 }
 
+.reveal iframe {
+	z-index: 1;
+}
+
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
 .reveal video,
@@ -314,6 +318,14 @@ body {
 	max-height: 400px;
 	word-wrap: normal;
 }
+.reveal pre.stretch code {
+	height: 100%;
+	max-height: 100%;
+
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
 
 .reveal table th,
 .reveal table td {
@@ -341,6 +353,11 @@ body {
 
 .reveal small * {
 	vertical-align: top;
+}
+
+.reveal .stretch {
+	max-width: none;
+	max-height: none;
 }
 
 
@@ -458,90 +475,6 @@ body {
 		     -o-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
-
-
-/*********************************************
- * ROLLING LINKS
- *********************************************/
-
-.reveal .roll {
-	display: inline-block;
-	line-height: 1.2;
-	overflow: hidden;
-
-	vertical-align: top;
-
-	-webkit-perspective: 400px;
-	   -moz-perspective: 400px;
-	    -ms-perspective: 400px;
-	        perspective: 400px;
-
-	-webkit-perspective-origin: 50% 50%;
-	   -moz-perspective-origin: 50% 50%;
-	    -ms-perspective-origin: 50% 50%;
-	        perspective-origin: 50% 50%;
-}
-	.reveal .roll:hover {
-		background: none;
-		text-shadow: none;
-	}
-.reveal .roll span {
-	display: block;
-	position: relative;
-	padding: 0 2px;
-
-	pointer-events: none;
-
-	-webkit-transition: all 400ms ease;
-	   -moz-transition: all 400ms ease;
-	    -ms-transition: all 400ms ease;
-	        transition: all 400ms ease;
-
-	-webkit-transform-origin: 50% 0%;
-	   -moz-transform-origin: 50% 0%;
-	    -ms-transform-origin: 50% 0%;
-	        transform-origin: 50% 0%;
-
-	-webkit-transform-style: preserve-3d;
-	   -moz-transform-style: preserve-3d;
-	    -ms-transform-style: preserve-3d;
-	        transform-style: preserve-3d;
-
-	-webkit-backface-visibility: hidden;
-	   -moz-backface-visibility: hidden;
-	        backface-visibility: hidden;
-}
-	.reveal .roll:hover span {
-	    background: rgba(0,0,0,0.5);
-
-	    -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-	       -moz-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-	        -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-	            transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
-	}
-.reveal .roll span:after {
-	content: attr(data-title);
-
-	display: block;
-	position: absolute;
-	left: 0;
-	top: 0;
-	padding: 0 2px;
-
-	-webkit-backface-visibility: hidden;
-	   -moz-backface-visibility: hidden;
-	        backface-visibility: hidden;
-
-	-webkit-transform-origin: 50% 0%;
-	   -moz-transform-origin: 50% 0%;
-	    -ms-transform-origin: 50% 0%;
-	        transform-origin: 50% 0%;
-
-	-webkit-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-	   -moz-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-	    -ms-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-	        transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
-}
 
 
 /*********************************************
@@ -671,6 +604,19 @@ body {
 .reveal.center .slides,
 .reveal.center .slides section {
 	min-height: auto !important;
+}
+
+/* Don't allow interaction with invisible slides */
+.reveal .slides>section.future,
+.reveal .slides>section>section.future,
+.reveal .slides>section.past,
+.reveal .slides>section>section.past {
+	pointer-events: none;
+}
+
+.reveal.overview .slides>section,
+.reveal.overview .slides>section>section {
+	pointer-events: auto;
 }
 
 
@@ -1152,9 +1098,10 @@ body {
 
 .reveal.overview .slides section {
 	height: 600px;
+	top: -300px !important;
 	overflow: hidden;
-	opacity: 1!important;
-	visibility: visible!important;
+	opacity: 1 !important;
+	visibility: visible !important;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
 }
@@ -1177,6 +1124,7 @@ body {
 	}
 .reveal.overview .slides>section.stack {
 	padding: 0;
+	top: 0 !important;
 	background: none;
 	overflow: visible;
 }
@@ -1344,6 +1292,16 @@ body {
 		opacity: 1 !important;
 		visibility: visible !important;
 	}
+
+/* Immediate transition style */
+.reveal[data-background-transition=none]>.backgrounds .slide-background,
+.reveal>.backgrounds .slide-background[data-background-transition=none] {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	    -ms-transition: none;
+	     -o-transition: none;
+	        transition: none;
+}
 
 /* Linear sliding transition style */
 .reveal[data-background-transition=slide]>.backgrounds .slide-background,
@@ -1565,6 +1523,90 @@ body {
 
 
 /*********************************************
+ * ROLLING LINKS
+ *********************************************/
+
+.reveal .roll {
+	display: inline-block;
+	line-height: 1.2;
+	overflow: hidden;
+
+	vertical-align: top;
+
+	-webkit-perspective: 400px;
+	   -moz-perspective: 400px;
+	    -ms-perspective: 400px;
+	        perspective: 400px;
+
+	-webkit-perspective-origin: 50% 50%;
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+	.reveal .roll:hover {
+		background: none;
+		text-shadow: none;
+	}
+.reveal .roll span {
+	display: block;
+	position: relative;
+	padding: 0 2px;
+
+	pointer-events: none;
+
+	-webkit-transition: all 400ms ease;
+	   -moz-transition: all 400ms ease;
+	    -ms-transition: all 400ms ease;
+	        transition: all 400ms ease;
+
+	-webkit-transform-origin: 50% 0%;
+	   -moz-transform-origin: 50% 0%;
+	    -ms-transform-origin: 50% 0%;
+	        transform-origin: 50% 0%;
+
+	-webkit-transform-style: preserve-3d;
+	   -moz-transform-style: preserve-3d;
+	    -ms-transform-style: preserve-3d;
+	        transform-style: preserve-3d;
+
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	        backface-visibility: hidden;
+}
+	.reveal .roll:hover span {
+	    background: rgba(0,0,0,0.5);
+
+	    -webkit-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	       -moz-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	        -ms-transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	            transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+	}
+.reveal .roll span:after {
+	content: attr(data-title);
+
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding: 0 2px;
+
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	        backface-visibility: hidden;
+
+	-webkit-transform-origin: 50% 0%;
+	   -moz-transform-origin: 50% 0%;
+	    -ms-transform-origin: 50% 0%;
+	        transform-origin: 50% 0%;
+
+	-webkit-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	   -moz-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	    -ms-transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+	        transform: translate3d( 0px, 110%, 0px ) rotateX( -90deg );
+}
+
+
+/*********************************************
  * SPEAKER NOTES
  *********************************************/
 
@@ -1605,12 +1647,3 @@ body {
 }
 
 
-/*********************************************
- * LEAP PLUGIN
- *********************************************/
-
-#leap {
-  position: absolute; 
-  z-index: 50;
-  visibility: hidden;
-}
