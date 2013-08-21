@@ -59,6 +59,10 @@ var Reveal = (function(){
 			// Turns fragments on and off globally
 			fragments: true,
 
+			// Flags if the presentation is running in an embedded mode,
+			// i.e. contained within a limited portion of the screen
+			embedded: false,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -68,7 +72,7 @@ var Reveal = (function(){
 			mouseWheel: false,
 
 			// Apply a 3D roll to links on hover
-			rollingLinks: true,
+			rollingLinks: false,
 
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
@@ -83,18 +87,24 @@ var Reveal = (function(){
 			transitionSpeed: 'default', // default/fast/slow
 
 			// Transition style for full page slide backgrounds
-			backgroundTransition: 'default', // default/linear
+			backgroundTransition: 'default', // default/linear/none
+
+			// Number of slides away from the current that are visible
+			viewDistance: 3,
 
 			// Script dependencies to load
 			dependencies: []
 		},
 
+		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
+		loaded = false,
+
 		// The current auto-slide duration
 		autoSlide = 0,
 
 		// The horizontal and vertical index of the currently active slide
-		indexh = 0,
-		indexv = 0,
+		indexh,
+		indexv,
 
 		// The previous and current slide HTML elements
 		previousSlide,
@@ -111,19 +121,14 @@ var Reveal = (function(){
 		// Cached references to DOM elements
 		dom = {},
 
-		// Detect support for CSS 3D transforms
-		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
-								'MozPerspective' in document.body.style ||
-								'msPerspective' in document.body.style ||
-								'OPerspective' in document.body.style ||
-								'perspective' in document.body.style,
+		// Client support for CSS 3D transforms, see #checkCapabilities()
+		supports3DTransforms,
 
-		// Detect support for CSS 2D transforms
-		supports2DTransforms =  'WebkitTransform' in document.body.style ||
-								'MozTransform' in document.body.style ||
-								'msTransform' in document.body.style ||
-								'OTransform' in document.body.style ||
-								'transform' in document.body.style,
+		// Client support for CSS 2D transforms, see #checkCapabilities()
+		supports2DTransforms,
+
+		// Client is a mobile device, see #checkCapabilities()
+		isMobileDevice,
 
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
@@ -149,14 +154,16 @@ var Reveal = (function(){
 			startY: 0,
 			startSpan: 0,
 			startCount: 0,
-			handled: false,
-			threshold: 80
+			captured: false,
+			threshold: 40
 		};
 
 	/**
 	 * Starts up the presentation if the client is capable.
 	 */
 	function initialize( options ) {
+
+		checkCapabilities();
 
 		if( !supports2DTransforms && !supports3DTransforms ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
@@ -181,6 +188,136 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Inspect the client to see what it's capable of, this
+	 * should only happens once per runtime.
+	 */
+	function checkCapabilities() {
+
+		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
+								'MozPerspective' in document.body.style ||
+								'msPerspective' in document.body.style ||
+								'OPerspective' in document.body.style ||
+								'perspective' in document.body.style;
+
+		supports2DTransforms =  'WebkitTransform' in document.body.style ||
+								'MozTransform' in document.body.style ||
+								'msTransform' in document.body.style ||
+								'OTransform' in document.body.style ||
+								'transform' in document.body.style;
+
+		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|android)/gi );
+
+	}
+
+	/**
+	 * Loads the dependencies of reveal.js. Dependencies are
+	 * defined via the configuration option 'dependencies'
+	 * and will be loaded prior to starting/binding reveal.js.
+	 * Some dependencies may have an 'async' flag, if so they
+	 * will load after reveal.js has been started up.
+	 */
+	function load() {
+
+		var scripts = [],
+			scriptsAsync = [];
+
+		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
+			var s = config.dependencies[i];
+
+			// Load if there's no condition or the condition is truthy
+			if( !s.condition || s.condition() ) {
+				if( s.async ) {
+					scriptsAsync.push( s.src );
+				}
+				else {
+					scripts.push( s.src );
+				}
+
+				// Extension may contain callback functions
+				if( typeof s.callback === 'function' ) {
+					head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], s.callback );
+				}
+			}
+		}
+
+		// Called once synchronous scripts finish loading
+		function proceed() {
+			if( scriptsAsync.length ) {
+				// Load asynchronous scripts
+				head.js.apply( null, scriptsAsync );
+			}
+
+			start();
+		}
+
+		if( scripts.length ) {
+			head.ready( proceed );
+
+			// Load synchronous scripts
+			head.js.apply( null, scripts );
+		}
+		else {
+			proceed();
+		}
+
+	}
+
+	/**
+	 * Starts up reveal.js by binding input events and navigating
+	 * to the current URL deeplink if there is one.
+	 */
+	function start() {
+
+		// Make sure we've got all the DOM elements we need
+		setupDOM();
+
+		// Decorate the slide DOM elements with state classes (past/future)
+		setupSlides();
+
+		// Updates the presentation to match the current configuration values
+		configure();
+
+		// Read the initial hash
+		readURL();
+
+		// Notify listeners that the presentation is ready but use a 1ms
+		// timeout to ensure it's not fired synchronously after #initialize()
+		setTimeout( function() {
+			// Enable transitions now that we're loaded
+			dom.slides.classList.remove( 'no-transition' );
+
+			loaded = true;
+
+			dispatchEvent( 'ready', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
+		}, 1 );
+
+	}
+
+	/**
+	 * Iterates through and decorates slides DOM elements with
+	 * appropriate classes.
+	 */
+	function setupSlides() {
+
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		horizontalSlides.forEach( function( horizontalSlide ) {
+
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			verticalSlides.forEach( function( verticalSlide, y ) {
+
+				if( y > 0 ) verticalSlide.classList.add( 'future' );
+
+			} );
+
+		} );
+
+	}
+
+	/**
 	 * Finds and stores references to DOM elements which are
 	 * required by the presentation. If a required element is
 	 * not found, it is created.
@@ -192,50 +329,30 @@ var Reveal = (function(){
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.slides = document.querySelector( '.reveal .slides' );
 
+		// Prevent transitions while we're loading
+		dom.slides.classList.add( 'no-transition' );
+
 		// Background element
-		if( !document.querySelector( '.reveal .backgrounds' ) ) {
-			dom.background = document.createElement( 'div' );
-			dom.background.classList.add( 'backgrounds' );
-			dom.wrapper.appendChild( dom.background );
-		}
+		dom.background = createSingletonNode( dom.wrapper, 'div', 'backgrounds', null );
 
 		// Progress bar
-		if( !dom.wrapper.querySelector( '.progress' ) ) {
-			var progressElement = document.createElement( 'div' );
-			progressElement.classList.add( 'progress' );
-			progressElement.innerHTML = '<span></span>';
-			dom.wrapper.appendChild( progressElement );
-		}
+		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
+		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		if( !dom.wrapper.querySelector( '.controls' ) ) {
-			var controlsElement = document.createElement( 'aside' );
-			controlsElement.classList.add( 'controls' );
-			controlsElement.innerHTML = '<div class="navigate-left"></div>' +
-										'<div class="navigate-right"></div>' +
-										'<div class="navigate-up"></div>' +
-										'<div class="navigate-down"></div>';
-			dom.wrapper.appendChild( controlsElement );
-		}
+		createSingletonNode( dom.wrapper, 'aside', 'controls',
+			'<div class="navigate-left"></div>' +
+			'<div class="navigate-right"></div>' +
+			'<div class="navigate-up"></div>' +
+			'<div class="navigate-down"></div>' );
 
 		// State background element [DEPRECATED]
-		if( !dom.wrapper.querySelector( '.state-background' ) ) {
-			var stateBackgroundElement = document.createElement( 'div' );
-			stateBackgroundElement.classList.add( 'state-background' );
-			dom.wrapper.appendChild( stateBackgroundElement );
-		}
+		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
 
 		// Overlay graphic which is displayed during the paused mode
-		if( !dom.wrapper.querySelector( '.pause-overlay' ) ) {
-			var pausedElement = document.createElement( 'div' );
-			pausedElement.classList.add( 'pause-overlay' );
-			dom.wrapper.appendChild( pausedElement );
-		}
+		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
 		// Cache references to elements
-		dom.progress = document.querySelector( '.reveal .progress' );
-		dom.progressbar = document.querySelector( '.reveal .progress span' );
-
 		if ( config.controls ) {
 			dom.controls = document.querySelector( '.reveal .controls' );
 
@@ -247,6 +364,26 @@ var Reveal = (function(){
 			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 		}
+
+	}
+
+	/**
+	 * Creates an HTML element and returns a reference to it.
+	 * If the element already exists the existing instance will
+	 * be returned.
+	 */
+	function createSingletonNode( container, tagname, classname, innerHTML ) {
+
+		var node = container.querySelector( '.' + classname );
+		if( !node ) {
+			node = document.createElement( tagname );
+			node.classList.add( classname );
+			if( innerHTML !== null ) {
+				node.innerHTML = innerHTML;
+			}
+			container.appendChild( node );
+		}
+		return node;
 
 	}
 
@@ -331,99 +468,6 @@ var Reveal = (function(){
 			} );
 
 		} );
-
-	}
-
-	/**
-	 * Hides the address bar if we're on a mobile device.
-	 */
-	function hideAddressBar() {
-
-		if( /iphone|ipod|android/gi.test( navigator.userAgent ) && !/crios/gi.test( navigator.userAgent ) ) {
-			// Events that should trigger the address bar to hide
-			window.addEventListener( 'load', removeAddressBar, false );
-			window.addEventListener( 'orientationchange', removeAddressBar, false );
-		}
-
-	}
-
-	/**
-	 * Loads the dependencies of reveal.js. Dependencies are
-	 * defined via the configuration option 'dependencies'
-	 * and will be loaded prior to starting/binding reveal.js.
-	 * Some dependencies may have an 'async' flag, if so they
-	 * will load after reveal.js has been started up.
-	 */
-	function load() {
-
-		var scripts = [],
-			scriptsAsync = [];
-
-		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
-			var s = config.dependencies[i];
-
-			// Load if there's no condition or the condition is truthy
-			if( !s.condition || s.condition() ) {
-				if( s.async ) {
-					scriptsAsync.push( s.src );
-				}
-				else {
-					scripts.push( s.src );
-				}
-
-				// Extension may contain callback functions
-				if( typeof s.callback === 'function' ) {
-					head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], s.callback );
-				}
-			}
-		}
-
-		// Called once synchronous scripts finish loading
-		function proceed() {
-			if( scriptsAsync.length ) {
-				// Load asynchronous scripts
-				head.js.apply( null, scriptsAsync );
-			}
-
-			start();
-		}
-
-		if( scripts.length ) {
-			head.ready( proceed );
-
-			// Load synchronous scripts
-			head.js.apply( null, scripts );
-		}
-		else {
-			proceed();
-		}
-
-	}
-
-	/**
-	 * Starts up reveal.js by binding input events and navigating
-	 * to the current URL deeplink if there is one.
-	 */
-	function start() {
-
-		// Make sure we've got all the DOM elements we need
-		setupDOM();
-
-		// Updates the presentation to match the current configuration values
-		configure();
-
-		// Read the initial hash
-		readURL();
-
-		// Notify listeners that the presentation is ready but use a 1ms
-		// timeout to ensure it's not fired synchronously after #initialize()
-		setTimeout( function() {
-			dispatchEvent( 'ready', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
-		}, 1 );
 
 	}
 
@@ -631,6 +675,19 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Applies a CSS transform to the target element.
+	 */
+	function transformElement( element, transform ) {
+
+		element.style.WebkitTransform = transform;
+		element.style.MozTransform = transform;
+		element.style.msTransform = transform;
+		element.style.OTransform = transform;
+		element.style.transform = transform;
+
+	}
+
+	/**
 	 * Retrieves the height of the given element by looking
 	 * at the position and height of its immediate children.
 	 */
@@ -666,11 +723,66 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Returns the remaining height within the parent of the
+	 * target element after subtracting the height of all
+	 * siblings.
+	 *
+	 * remaining height = [parent height] - [ siblings height]
+	 */
+	function getRemainingHeight( element, height ) {
+
+		height = height || 0;
+
+		if( element ) {
+			var parent = element.parentNode;
+			var siblings = parent.childNodes;
+
+			// Subtract the height of each sibling
+			toArray( siblings ).forEach( function( sibling ) {
+
+				if( typeof sibling.offsetHeight === 'number' && sibling !== element ) {
+
+					var styles = window.getComputedStyle( sibling ),
+						marginTop = parseInt( styles.marginTop, 10 ),
+						marginBottom = parseInt( styles.marginBottom, 10 );
+
+					height -= sibling.offsetHeight + marginTop + marginBottom;
+
+				}
+
+			} );
+
+			var elementStyles = window.getComputedStyle( element );
+
+			// Subtract the margins of the target element
+			height -= parseInt( elementStyles.marginTop, 10 ) +
+						parseInt( elementStyles.marginBottom, 10 );
+
+		}
+
+		return height;
+
+	}
+
+	/**
 	 * Checks if this instance is being used to print a PDF.
 	 */
 	function isPrintingPDF() {
 
 		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
+	 * Hides the address bar if we're on a mobile device.
+	 */
+	function hideAddressBar() {
+
+		if( /iphone|ipod|android/gi.test( navigator.userAgent ) && !/crios/gi.test( navigator.userAgent ) ) {
+			// Events that should trigger the address bar to hide
+			window.addEventListener( 'load', removeAddressBar, false );
+			window.addEventListener( 'orientationchange', removeAddressBar, false );
+		}
 
 	}
 
@@ -886,7 +998,11 @@ var Reveal = (function(){
 
 			// Dimensions of the content
 			var slideWidth = config.width,
-				slideHeight = config.height;
+				slideHeight = config.height,
+				slidePadding = 20; // TODO Dig this out of DOM
+
+			// Layout the contents of the slides
+			layoutSlideContents( config.width, config.height, slidePadding );
 
 			// Slide width may be a percentage of available width
 			if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
@@ -915,13 +1031,7 @@ var Reveal = (function(){
 			}
 			// Apply scale transform as a fallback
 			else {
-				var transform = 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)';
-
-				dom.slides.style.WebkitTransform = transform;
-				dom.slides.style.MozTransform = transform;
-				dom.slides.style.msTransform = transform;
-				dom.slides.style.OTransform = transform;
-				dom.slides.style.transform = transform;
+				transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)' );
 			}
 
 			// Select all slides, vertical and horizontal
@@ -942,7 +1052,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - 20, -slideHeight / 2 ) + 'px';
+						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - slidePadding, -slideHeight / 2 ) + 'px';
 					}
 				}
 				else {
@@ -954,6 +1064,38 @@ var Reveal = (function(){
 			updateProgress();
 
 		}
+
+	}
+
+	/**
+	 * Applies layout logic to the contents of all slides in
+	 * the presentation.
+	 */
+	function layoutSlideContents( width, height, padding ) {
+
+		// Handle sizing of elements with the 'stretch' class
+		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
+
+			// Determine how much vertical space we can use
+			var remainingHeight = getRemainingHeight( element, ( height - ( padding * 2 ) ) );
+
+			// Consider the aspect ratio of media elements
+			if( /(img|video)/gi.test( element.nodeName ) ) {
+				var nw = element.naturalWidth || element.videoWidth,
+					nh = element.naturalHeight || element.videoHeight;
+
+				var es = Math.min( width / nw, remainingHeight / nh );
+
+				element.style.width = ( nw * es ) + 'px';
+				element.style.height = ( nh * es ) + 'px';
+
+			}
+			else {
+				element.style.width = width + 'px';
+				element.style.height = remainingHeight + 'px';
+			}
+
+		} );
 
 	}
 
@@ -1010,6 +1152,9 @@ var Reveal = (function(){
 
 			var wasActive = dom.wrapper.classList.contains( 'overview' );
 
+			// Vary the depth of the overview based on screen size
+			var depth = window.innerWidth < 400 ? 1000 : 2500;
+
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'exit-overview' );
 
@@ -1025,16 +1170,12 @@ var Reveal = (function(){
 
 				for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 					var hslide = horizontalSlides[i],
-						hoffset = config.rtl ? -105 : 105,
-						htransform = 'translateZ(-2500px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
+						hoffset = config.rtl ? -105 : 105;
 
 					hslide.setAttribute( 'data-index-h', i );
-					hslide.style.display = 'block';
-					hslide.style.WebkitTransform = htransform;
-					hslide.style.MozTransform = htransform;
-					hslide.style.msTransform = htransform;
-					hslide.style.OTransform = htransform;
-					hslide.style.transform = htransform;
+
+					// Apply CSS transform
+					transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
 
 					if( hslide.classList.contains( 'stack' ) ) {
 
@@ -1043,17 +1184,13 @@ var Reveal = (function(){
 						for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 							var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
-							var vslide = verticalSlides[j],
-								vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+							var vslide = verticalSlides[j];
 
 							vslide.setAttribute( 'data-index-h', i );
 							vslide.setAttribute( 'data-index-v', j );
-							vslide.style.display = 'block';
-							vslide.style.WebkitTransform = vtransform;
-							vslide.style.MozTransform = vtransform;
-							vslide.style.msTransform = vtransform;
-							vslide.style.OTransform = vtransform;
-							vslide.style.transform = vtransform;
+
+							// Apply CSS transform
+							transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
 
 							// Navigate to this slide on click
 							vslide.addEventListener( 'click', onOverviewSlideClicked, true );
@@ -1067,6 +1204,8 @@ var Reveal = (function(){
 
 					}
 				}
+
+				updateSlidesVisibility();
 
 				layout();
 
@@ -1117,11 +1256,7 @@ var Reveal = (function(){
 				element.style.display = '';
 
 				// Resets all transforms to use the external styles
-				element.style.WebkitTransform = '';
-				element.style.MozTransform = '';
-				element.style.msTransform = '';
-				element.style.OTransform = '';
-				element.style.transform = '';
+				transformElement( element, '' );
 
 				element.removeEventListener( 'click', onOverviewSlideClicked, true );
 			}
@@ -1302,12 +1437,15 @@ var Reveal = (function(){
 		// Reset the state array
 		state.length = 0;
 
-		var indexhBefore = indexh,
-			indexvBefore = indexv;
+		var indexhBefore = indexh || 0,
+			indexvBefore = indexv || 0;
 
 		// Activate and transition to the new slide
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
+
+		// Update the visibility of slides now that the indices have changed
+		updateSlidesVisibility();
 
 		layout();
 
@@ -1337,10 +1475,6 @@ var Reveal = (function(){
 		if( isOverview() ) {
 			activateOverview();
 		}
-
-		// Update the URL hash after a delay since updating it mid-transition
-		// is likely to cause visual lag
-		writeURL( 1500 );
 
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
@@ -1413,6 +1547,9 @@ var Reveal = (function(){
 		updateProgress();
 		updateBackground();
 
+		// Update the URL hash
+		writeURL();
+
 	}
 
 	/**
@@ -1481,16 +1618,6 @@ var Reveal = (function(){
 			for( var i = 0; i < slidesLength; i++ ) {
 				var element = slides[i];
 
-				// Optimization; hide all slides that are three or more steps
-				// away from the present slide
-				if( isOverview() === false ) {
-					// The distance loops so that it measures 1 between the first
-					// and last slides
-					var distance = Math.abs( ( index - i ) % ( slidesLength - 3 ) ) || 0;
-
-					element.style.display = distance > 3 ? 'none' : 'block';
-				}
-
 				var reverse = config.rtl && !isVerticalSlide( element );
 
 				element.classList.remove( 'past' );
@@ -1507,6 +1634,13 @@ var Reveal = (function(){
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
 					element.classList.add( reverse ? 'past' : 'future' );
+
+					var fragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
+
+					// No fragments in future slides should be visible ahead of time
+					while( fragments.length ) {
+						fragments.pop().classList.remove( 'visible' );
+					}
 				}
 
 				// If this element contains vertical slides
@@ -1526,7 +1660,7 @@ var Reveal = (function(){
 				state = state.concat( slideState.split( ' ' ) );
 			}
 
-			// If this slide has a data-autoslide attribtue associated use this as
+			// If this slide has a data-autoslide attribute associated use this as
 			// autoSlide value otherwise use the global configured time
 			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
 			if( slideAutoSlide ) {
@@ -1536,6 +1670,8 @@ var Reveal = (function(){
 				autoSlide = config.autoSlide;
 			}
 
+			cueAutoSlide();
+
 		}
 		else {
 			// Since there are no slides we can't be anywhere beyond the
@@ -1544,6 +1680,61 @@ var Reveal = (function(){
 		}
 
 		return index;
+
+	}
+
+	/**
+	 * Optimization method; hide all slides that are far away
+	 * from the present slide.
+	 */
+	function updateSlidesVisibility() {
+
+		// Select all slides and convert the NodeList result to
+		// an array
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
+			horizontalSlidesLength = horizontalSlides.length,
+			distanceX,
+			distanceY;
+
+		if( horizontalSlidesLength ) {
+
+			// The number of steps away from the present slide that will
+			// be visible
+			var viewDistance = isOverview() ? 10 : config.viewDistance;
+
+			// Limit view distance on weaker devices
+			if( isMobileDevice ) {
+				viewDistance = isOverview() ? 6 : 1;
+			}
+
+			for( var x = 0; x < horizontalSlidesLength; x++ ) {
+				var horizontalSlide = horizontalSlides[x];
+
+				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
+					verticalSlidesLength = verticalSlides.length;
+
+				// Loops so that it measures 1 between the first and last slides
+				distanceX = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
+
+				// Show the horizontal slide if it's within the view distance
+				horizontalSlide.style.display = distanceX > viewDistance ? 'none' : 'block';
+
+				if( verticalSlidesLength ) {
+
+					var oy = getPreviousVerticalIndex( horizontalSlide );
+
+					for( var y = 0; y < verticalSlidesLength; y++ ) {
+						var verticalSlide = verticalSlides[y];
+
+						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
+
+						verticalSlide.style.display = ( distanceX + distanceY ) > viewDistance ? 'none' : 'block';
+					}
+
+				}
+			}
+
+		}
 
 	}
 
@@ -1803,7 +1994,7 @@ var Reveal = (function(){
 			}
 			// If the slide doesn't exist, navigate to the current slide
 			else {
-				slide( indexh, indexv );
+				slide( indexh || 0, indexv || 0 );
 			}
 		}
 		else {
@@ -1811,7 +2002,9 @@ var Reveal = (function(){
 			var h = parseInt( bits[0], 10 ) || 0,
 				v = parseInt( bits[1], 10 ) || 0;
 
-			slide( h, v );
+			if( h !== indexh || v !== indexv ) {
+				slide( h, v );
+			}
 		}
 
 	}
@@ -1888,8 +2081,9 @@ var Reveal = (function(){
 		}
 
 		if( !slide && currentSlide ) {
-			var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-			if( visibleFragments.length ) {
+			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
+			if( hasFragments ) {
+				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
 				f = visibleFragments.length;
 			}
 		}
@@ -2119,7 +2313,7 @@ var Reveal = (function(){
 
 					var value = config.keyboard[ key ];
 
-					// Calback function
+					// Callback function
 					if( typeof value === 'function' ) {
 						value.apply( null, [ event ] );
 					}
@@ -2178,7 +2372,8 @@ var Reveal = (function(){
 		if( triggered ) {
 			event.preventDefault();
 		}
-		else if ( event.keyCode === 27 && supports3DTransforms ) {
+		// ESC or O key
+		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && supports3DTransforms ) {
 			toggleOverview();
 
 			event.preventDefault();
@@ -2220,11 +2415,11 @@ var Reveal = (function(){
 	function onTouchMove( event ) {
 
 		// Each touch should only trigger one action
-		if( !touch.handled ) {
+		if( !touch.captured ) {
 			var currentX = event.touches[0].clientX;
 			var currentY = event.touches[0].clientY;
 
-			// If the touch started off with two points and still has
+			// If the touch started with two points and still has
 			// two active touches; test for the pinch gesture
 			if( event.touches.length === 2 && touch.startCount === 2 && config.overview ) {
 
@@ -2240,7 +2435,7 @@ var Reveal = (function(){
 				// If the span is larger than the desire amount we've got
 				// ourselves a pinch
 				if( Math.abs( touch.startSpan - currentSpan ) > touch.threshold ) {
-					touch.handled = true;
+					touch.captured = true;
 
 					if( currentSpan < touch.startSpan ) {
 						activateOverview();
@@ -2260,23 +2455,34 @@ var Reveal = (function(){
 					deltaY = currentY - touch.startY;
 
 				if( deltaX > touch.threshold && Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateLeft();
 				}
 				else if( deltaX < -touch.threshold && Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateRight();
 				}
 				else if( deltaY > touch.threshold ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateUp();
 				}
 				else if( deltaY < -touch.threshold ) {
-					touch.handled = true;
+					touch.captured = true;
 					navigateDown();
 				}
 
-				event.preventDefault();
+				// If we're embedded, only block touch events if they have
+				// triggered an action
+				if( config.embedded ) {
+					if( touch.captured || isVerticalSlide( currentSlide ) ) {
+						event.preventDefault();
+					}
+				}
+				// Not embedded? Block them all to avoid needless tossing
+				// around of the viewport in iOS
+				else {
+					event.preventDefault();
+				}
 
 			}
 		}
@@ -2293,7 +2499,7 @@ var Reveal = (function(){
 	 */
 	function onTouchEnd( event ) {
 
-		touch.handled = false;
+		touch.captured = false;
 
 	}
 
@@ -2559,6 +2765,11 @@ var Reveal = (function(){
 			else {
 				return document.querySelector( SLIDES_SELECTOR + '.future' ) == null ? true : false;
 			}
+		},
+
+		// Checks if reveal.js has been loaded and is ready for use
+		isReady: function() {
+			return loaded;
 		},
 
 		// Forward event binding to the reveal DOM element
