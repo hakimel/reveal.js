@@ -2,54 +2,58 @@
 
 Reveal.addEventListener( 'ready', function() {
 
+
+	// ---------------------------------------------------------------
+	// API TESTS
+
 	QUnit.module( 'API' );
 
 	test( 'Reveal.isReady', function() {
-		ok( Reveal.isReady() === true, 'returns true' );
+		strictEqual( Reveal.isReady(), true, 'returns true' );
 	});
 
 	test( 'Reveal.isOverview', function() {
-		ok( Reveal.isOverview() === false, 'returns false' );
+		strictEqual( Reveal.isOverview(), false, 'false by default' );
 
 		Reveal.toggleOverview();
-		ok( Reveal.isOverview() === true, 'returns true after toggling on' );
+		strictEqual( Reveal.isOverview(), true, 'true after toggling on' );
 
 		Reveal.toggleOverview();
-		ok( Reveal.isOverview() === false, 'returns false after toggling off' );
+		strictEqual( Reveal.isOverview(), false, 'false after toggling off' );
 	});
 
 	test( 'Reveal.isPaused', function() {
-		ok( Reveal.isPaused() === false, 'returns false' );
+		strictEqual( Reveal.isPaused(), false, 'false by default' );
 
 		Reveal.togglePause();
-		ok( Reveal.isPaused() === true, 'returns true after pausing' );
+		strictEqual( Reveal.isPaused(), true, 'true after pausing' );
 
 		Reveal.togglePause();
-		ok( Reveal.isPaused() === false, 'returns false after resuming' );
+		strictEqual( Reveal.isPaused(), false, 'false after resuming' );
 	});
 
 	test( 'Reveal.isFirstSlide', function() {
 		Reveal.slide( 0 );
-		ok( Reveal.isFirstSlide() === true, 'returns true after Reveal.slide( 0 )' );
+		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 0 )' );
 
 		Reveal.slide( 1 );
-		ok( Reveal.isFirstSlide() === false, 'returns false after Reveal.slide( 1 )' );
+		strictEqual( Reveal.isFirstSlide(), false, 'false after Reveal.slide( 1 )' );
 
 		Reveal.slide( 0 );
-		ok( Reveal.isFirstSlide() === true, 'returns true after Reveal.slide( 0 )' );
+		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 0 )' );
 	});
 
 	test( 'Reveal.isLastSlide', function() {
 		Reveal.slide( 0 );
-		ok( Reveal.isLastSlide() === false, 'returns false after Reveal.slide( 0 )' );
+		strictEqual( Reveal.isLastSlide(), false, 'false after Reveal.slide( 0 )' );
 
 		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
 
 		Reveal.slide( lastSlideIndex );
-		ok( Reveal.isLastSlide() === true, 'returns true after Reveal.slide( '+ lastSlideIndex +' )' );
+		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( '+ lastSlideIndex +' )' );
 
 		Reveal.slide( 0 );
-		ok( Reveal.isLastSlide() === false, 'returns false after Reveal.slide( 0 )' );
+		strictEqual( Reveal.isLastSlide(), false, 'false after Reveal.slide( 0 )' );
 	});
 
 	test( 'Reveal.getIndices', function() {
@@ -76,6 +80,24 @@ Reveal.addEventListener( 'ready', function() {
 		ok( typeof Reveal.getConfig() === 'object', 'has config' );
 	});
 
+	test( 'Reveal.availableRoutes', function() {
+		Reveal.slide( 0 );
+		deepEqual( Reveal.availableRoutes(), { left: false, up: false, down: false, right: true }, 'correct for first slide' );
+	});
+
+	test( 'Reveal.configure', function() {
+		strictEqual( Reveal.getConfig().loop, false, '"loop" is false to start with' );
+
+		Reveal.configure({ loop: true });
+		strictEqual( Reveal.getConfig().loop, true, '"loop" has changed to true' );
+
+		Reveal.configure({ loop: false, customTestValue: 1 });
+		strictEqual( Reveal.getConfig().customTestValue, 1, 'supports custom values' );
+	});
+
+
+	// ---------------------------------------------------------------
+	// EVENT TESTS
 
 	QUnit.module( 'Events' );
 
@@ -98,6 +120,7 @@ Reveal.addEventListener( 'ready', function() {
 		Reveal.removeEventListener( 'slidechanged', _onSlideChanged );
 
 	});
+
 
 } );
 
