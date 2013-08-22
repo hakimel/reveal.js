@@ -30,24 +30,26 @@ Reveal.addEventListener( 'ready', function() {
 
 	test( 'Reveal.isFirstSlide', function() {
 		Reveal.slide( 0 );
-		ok( Reveal.isFirstSlide() === true, 'returns true' );
+		ok( Reveal.isFirstSlide() === true, 'returns true after Reveal.slide( 0 )' );
 
 		Reveal.slide( 1 );
-		ok( Reveal.isFirstSlide() === false, 'returns false after navigation' );
+		ok( Reveal.isFirstSlide() === false, 'returns false after Reveal.slide( 1 )' );
 
 		Reveal.slide( 0 );
-		ok( Reveal.isFirstSlide() === true, 'returns true after navigation' );
+		ok( Reveal.isFirstSlide() === true, 'returns true after Reveal.slide( 0 )' );
 	});
 
 	test( 'Reveal.isLastSlide', function() {
 		Reveal.slide( 0 );
-		ok( Reveal.isLastSlide() === false, 'returns false' );
+		ok( Reveal.isLastSlide() === false, 'returns false after Reveal.slide( 0 )' );
 
-		Reveal.slide( document.querySelectorAll( '.reveal .slides>section' ).length - 1 );
-		ok( Reveal.isLastSlide() === true, 'returns true after navigation' );
+		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
+
+		Reveal.slide( lastSlideIndex );
+		ok( Reveal.isLastSlide() === true, 'returns true after Reveal.slide( '+ lastSlideIndex +' )' );
 
 		Reveal.slide( 0 );
-		ok( Reveal.isLastSlide() === false, 'returns false after navigation' );
+		ok( Reveal.isLastSlide() === false, 'returns false after Reveal.slide( 0 )' );
 	});
 
 	test( 'Reveal.getIndices', function() {
