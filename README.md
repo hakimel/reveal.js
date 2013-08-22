@@ -664,31 +664,27 @@ Reveal.initialize({
 The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
 
 ##### 1 to 2 fingers
-* Pointer &mdash; Point to anything on screen. Move your finger past the device to expand the pointer.
+Pointer &mdash; Point to anything on screen. Move your finger past the device to expand the pointer.
 
-##### 1 hand + 3 or more fingers
-
-* Left
-* Right
-* Up
-* down
-
+##### 1 hand + 3 or more fingers (left/right/up/down)
 Navigate through your slides. See config options to invert movements.
 
-##### 2 hands
-* Up
-
+##### 2 hands upwards
 Toggle the overview mode. Do it a second time to exit the overview.
 
 #### Config Options
 You can edit the following options:
-* autoCenter: Defaults to true. Center the pointer based on where you put your finger into the leap motions detection field.
-* gestureDelay: Defaults to 500. How long to delay between gestures in milliseconds.
-* naturalSwipe: Defaults to true. Swipe as though you were touching a touch screen. Set to false to invert.
-* pointerColor: Defaults to #00aaff. The color of the pointer.
-* pointerOpacity: Defaults to 0.7. The opacity of the pointer.
-* pointerSize: Defaults to 15. The minimum height and width of the pointer.
-* pointerTolerance: Defaults to 120. Bigger = slower pointer.
+
+| Property          | Default           | Description
+| ----------------- |:-----------------:| :-------------
+| autoCenter        | true              | Center the pointer based on where you put your finger into the leap motions detection field.
+| gestureDelay      | 500               | How long to delay between gestures in milliseconds.
+| naturalSwipe      | true              | Swipe as though you were touching a touch screen. Set to false to invert.
+| pointerColor      | #00aaff           | The color of the pointer.
+| pointerOpacity    | 0.7               | The opacity of the pointer.
+| pointerSize       | 15                | The minimum height and width of the pointer.
+| pointerTolerance  | 120               | Bigger = slower pointer.
+
 
 Example configuration:
 ```js
