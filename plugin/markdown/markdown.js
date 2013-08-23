@@ -2,219 +2,230 @@
 // Modified by Hakim to handle Markdown indented with tabs
 (function(){
 
-    if( typeof marked === 'undefined' ) {
-        throw 'The reveal.js Markdown plugin requires marked to be loaded';
-    }
+	if( typeof marked === 'undefined' ) {
+		throw 'The reveal.js Markdown plugin requires marked to be loaded';
+	}
 
-    if (typeof hljs !== 'undefined') {
-        marked.setOptions({
-            highlight: function (lang, code) {
-                return hljs.highlightAuto(lang, code).value;
-            }
-        });
-    }
+	if( typeof hljs !== 'undefined' ) {
+		marked.setOptions({
+			highlight: function( lang, code ) {
+				return hljs.highlightAuto( lang, code ).value;
+			}
+		});
+	}
 
-    var stripLeadingWhitespace = function(section) {
+	var stripLeadingWhitespace = function( section ) {
 
-        var template = section.querySelector( 'script' );
+		var template = section.querySelector( 'script' );
 
-        // strip leading whitespace so it isn't evaluated as code
-        var text = ( template || section ).textContent;
+		// strip leading whitespace so it isn't evaluated as code
+		var text = ( template || section ).textContent;
 
-        var leadingWs = text.match(/^\n?(\s*)/)[1].length,
-            leadingTabs = text.match(/^\n?(\t*)/)[1].length;
+		var leadingWs = text.match( /^\n?(\s*)/ )[1].length,
+			leadingTabs = text.match( /^\n?(\t*)/ )[1].length;
 
-        if( leadingTabs > 0 ) {
-            text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
-        }
-        else if( leadingWs > 1 ) {
-            text = text.replace( new RegExp('\\n? {' + leadingWs + '}','g'), '\n' );
-        }
+		if( leadingTabs > 0 ) {
+			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
+		}
+		else if( leadingWs > 1 ) {
+			text = text.replace( new RegExp('\\n? {' + leadingWs + '}','g'), '\n' );
+		}
 
-        return text;
+		return text;
 
-    };
+	};
 
-    var twrap = function(el) {
-        var content = el.content || el;
-        content += el.asideContent ? ('<aside class="notes" data-markdown>' + el.asideContent + '</aside>') : '';
-        return '<script type="text/template">' + content + '</script>';
-    };
+	var twrap = function( el ) {
 
-    var getForwardedAttributes = function(section) {
-        var attributes = section.attributes;
-        var result = [];
+		var content = el.content || el;
 
-        for( var i = 0, len = attributes.length; i < len; i++ ) {
-            var name = attributes[i].name,
-                value = attributes[i].value;
+		if( el.asideContent ) {
+			content += '<aside class="notes" data-markdown>' + el.asideContent + '</aside>';
+		}
 
-            // disregard attributes that are used for markdown loading/parsing
-            if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
+		return '<script type="text/template">' + content + '</script>';
 
-            if( value ) {
-                result.push( name + '=' + value );
-            }
-            else {
-                result.push( name );
-            }
-        }
+	};
 
-        return result.join( ' ' );
-    };
+	var getForwardedAttributes = function( section ) {
 
-    var slidifyMarkdown = function(markdown, separator, vertical, notes, attributes) {
+		var attributes = section.attributes;
+		var result = [];
 
-        separator = separator || '^\n---\n$';
-        notes = notes || 'note:';
+		for( var i = 0, len = attributes.length; i < len; i++ ) {
+			var name = attributes[i].name,
+				value = attributes[i].value;
 
-        var separatorRegex = new RegExp( separator + ( vertical ? '|' + vertical : '' ), 'mg' ),
-            horizontalSeparatorRegex = new RegExp( separator ),
-            notesSeparatorRegex = new RegExp( notes, 'mgi' ),
-            matches,
-            noteMatch,
-            lastIndex = 0,
-            isHorizontal,
-            wasHorizontal = true,
-            content,
-            asideContent,
-            slide,
-            sectionStack = [],
-            markdownSections = '';
+			// disregard attributes that are used for markdown loading/parsing
+			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
 
-        // iterate until all blocks between separators are stacked up
-        while( matches = separatorRegex.exec( markdown ) ) {
-            asideContent = null;
+			if( value ) {
+				result.push( name + '=' + value );
+			}
+			else {
+				result.push( name );
+			}
+		}
 
-            // determine direction (horizontal by default)
-            isHorizontal = horizontalSeparatorRegex.test( matches[0] );
+		return result.join( ' ' );
 
-            if( !isHorizontal && wasHorizontal ) {
-                // create vertical stack
-                sectionStack.push( [] );
-            }
+	};
 
-            // pluck slide content from markdown input
-            content = markdown.substring( lastIndex, matches.index );
-            noteMatch = content.split( notesSeparatorRegex );
+	var slidifyMarkdown = function( markdown, separator, vertical, notes, attributes ) {
 
-            if( noteMatch.length === 2 ) {
-                content = noteMatch[0];
-                asideContent = noteMatch[1].trim();
-            }
+		separator = separator || '^\n---\n$';
+		notes = notes || 'note:';
 
-            slide = {
-                content: content,
-                asideContent: asideContent || ""
-            };
+		var separatorRegex = new RegExp( separator + ( vertical ? '|' + vertical : '' ), 'mg' ),
+			horizontalSeparatorRegex = new RegExp( separator ),
+			notesSeparatorRegex = new RegExp( notes, 'mgi' ),
+			matches,
+			noteMatch,
+			lastIndex = 0,
+			isHorizontal,
+			wasHorizontal = true,
+			content,
+			asideContent,
+			slide,
+			sectionStack = [],
+			markdownSections = '';
 
-            if( isHorizontal && wasHorizontal ) {
-                // add to horizontal stack
-                sectionStack.push(slide);
-            } else {
-                // add to vertical stack
-                sectionStack[sectionStack.length-1].push(slide);
-            }
+		// iterate until all blocks between separators are stacked up
+		while( matches = separatorRegex.exec( markdown ) ) {
+			asideContent = null;
 
-            lastIndex = separatorRegex.lastIndex;
-            wasHorizontal = isHorizontal;
-        }
+			// determine direction (horizontal by default)
+			isHorizontal = horizontalSeparatorRegex.test( matches[0] );
 
-        // add the remaining slide
-        (wasHorizontal ? sectionStack : sectionStack[sectionStack.length-1]).push(markdown.substring(lastIndex));
+			if( !isHorizontal && wasHorizontal ) {
+				// create vertical stack
+				sectionStack.push( [] );
+			}
 
-        // flatten the hierarchical stack, and insert <section data-markdown> tags
-        for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
-            // vertical
-            if( sectionStack[k].propertyIsEnumerable(length) && typeof sectionStack[k].splice === 'function' ) {
-                markdownSections += '<section '+ attributes +'>' +
-                                        '<section data-markdown>' +  sectionStack[k].map(twrap).join('</section><section data-markdown>') + '</section>' +
-                                    '</section>';
-            } else {
-                markdownSections += '<section '+ attributes +' data-markdown>' + twrap( sectionStack[k] ) + '</section>';
-            }
-        }
+			// pluck slide content from markdown input
+			content = markdown.substring( lastIndex, matches.index );
+			noteMatch = content.split( notesSeparatorRegex );
 
-        return markdownSections;
-    };
+			if( noteMatch.length === 2 ) {
+				content = noteMatch[0];
+				asideContent = noteMatch[1].trim();
+			}
 
-    var querySlidingMarkdown = function() {
+			slide = {
+				content: content,
+				asideContent: asideContent || ''
+			};
 
-        var sections = document.querySelectorAll( '[data-markdown]'),
-            section;
+			if( isHorizontal && wasHorizontal ) {
+				// add to horizontal stack
+				sectionStack.push(slide);
+			} else {
+				// add to vertical stack
+				sectionStack[sectionStack.length-1].push(slide);
+			}
 
-        for( var j = 0, jlen = sections.length; j < jlen; j++ ) {
+			lastIndex = separatorRegex.lastIndex;
+			wasHorizontal = isHorizontal;
+		}
 
-            section = sections[j];
+		// add the remaining slide
+		(wasHorizontal ? sectionStack : sectionStack[sectionStack.length-1]).push(markdown.substring(lastIndex));
 
-            if( section.getAttribute('data-markdown').length ) {
+		// flatten the hierarchical stack, and insert <section data-markdown> tags
+		for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
+			// vertical
+			if( sectionStack[k].propertyIsEnumerable( length ) && typeof sectionStack[k].splice === 'function' ) {
+				markdownSections += '<section '+ attributes +'>' +
+										'<section data-markdown>' +  sectionStack[k].map( twrap ).join( '</section><section data-markdown>' ) + '</section>' +
+									'</section>';
+			} else {
+				markdownSections += '<section '+ attributes +' data-markdown>' + twrap( sectionStack[k] ) + '</section>';
+			}
+		}
 
-                var xhr = new XMLHttpRequest(),
-                    url = section.getAttribute('data-markdown');
+		return markdownSections;
+	};
 
-                datacharset = section.getAttribute('data-charset');
-                // see https://developer.mozilla.org/en-US/docs/Web/API/element.getAttribute#Notes
-                if (datacharset != null && datacharset != '') {
-                    xhr.overrideMimeType('text/html; charset=' + datacharset);
-                }
+	var queryExternalMarkdown = function() {
 
-                xhr.onreadystatechange = function () {
-                    if( xhr.readyState === 4 ) {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute('data-separator'), section.getAttribute('data-vertical'), section.getAttribute('data-notes'), getForwardedAttributes(section) );
-                        } else {
-                            section.outerHTML = '<section data-state="alert">ERROR: The attempt to fetch ' + url + ' failed with the HTTP status ' + xhr.status +
-                                '. Check your browser\'s JavaScript console for more details.' +
-                                '<p>Remember that you need to serve the presentation HTML from a HTTP server and the Markdown file must be there too.</p></section>';
-                        }
-                    }
-                };
+		var sections = document.querySelectorAll( '[data-markdown]'),
+			section;
 
-                xhr.open('GET', url, false);
-                try {
-                    xhr.send();
-                } catch (e) {
-                    alert('Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e);
-                }
+		for( var j = 0, jlen = sections.length; j < jlen; j++ ) {
 
-            } else if( section.getAttribute('data-separator') ) {
+			section = sections[j];
 
-                var markdown = stripLeadingWhitespace(section);
-                section.outerHTML = slidifyMarkdown( markdown, section.getAttribute('data-separator'), section.getAttribute('data-vertical'), section.getAttribute('data-notes'), getForwardedAttributes(section) );
+			if( section.getAttribute( 'data-markdown' ).length ) {
 
-            }
-        }
+				var xhr = new XMLHttpRequest(),
+					url = section.getAttribute( 'data-markdown' );
 
-    };
+				datacharset = section.getAttribute( 'data-charset' );
 
-    var queryMarkdownSlides = function() {
+				// see https://developer.mozilla.org/en-US/docs/Web/API/element.getAttribute#Notes
+				if( datacharset != null && datacharset != '' ) {
+					xhr.overrideMimeType( 'text/html; charset=' + datacharset );
+				}
 
-        var sections = document.querySelectorAll( '[data-markdown]');
+				xhr.onreadystatechange = function() {
+					if( xhr.readyState === 4 ) {
+						if ( xhr.status >= 200 && xhr.status < 300 ) {
+							section.outerHTML = slidifyMarkdown( xhr.responseText, section.getAttribute( 'data-separator' ), section.getAttribute( 'data-vertical' ), section.getAttribute( 'data-notes' ), getForwardedAttributes( section ) );
+						}
+						else {
+							section.outerHTML = '<section data-state="alert">ERROR: The attempt to fetch ' + url + ' failed with the HTTP status ' + xhr.status +
+								'. Check your browser\'s JavaScript console for more details.' +
+								'<p>Remember that you need to serve the presentation HTML from a HTTP server and the Markdown file must be there too.</p></section>';
+						}
+					}
+				};
 
-        for( var j = 0, jlen = sections.length; j < jlen; j++ ) {
+				xhr.open( 'GET', url, false );
 
-            makeHtml(sections[j]);
+				try {
+					xhr.send();
+				}
+				catch ( e ) {
+					alert( 'Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e );
+				}
 
-        }
+			} else if( section.getAttribute( 'data-separator' ) ) {
 
-    };
+				var markdown = stripLeadingWhitespace( section );
+				section.outerHTML = slidifyMarkdown( markdown, section.getAttribute( 'data-separator' ), section.getAttribute( 'data-vertical' ), section.getAttribute( 'data-notes' ), getForwardedAttributes( section ) );
 
-    var makeHtml = function(section) {
+			}
+		}
 
-        var notes = section.querySelector( 'aside.notes' );
+	};
 
-        var markdown = stripLeadingWhitespace(section);
+	var queryMarkdownSlides = function() {
 
-        section.innerHTML = marked(markdown);
+		var sections = document.querySelectorAll( '[data-markdown]');
 
-        if( notes ) {
-            section.appendChild( notes );
-        }
+		for( var j = 0, jlen = sections.length; j < jlen; j++ ) {
 
-    };
+			makeHtml( sections[j] );
 
-    querySlidingMarkdown();
+		}
 
-    queryMarkdownSlides();
+	};
+
+	var makeHtml = function( section ) {
+
+		var notes = section.querySelector( 'aside.notes' );
+
+		var markdown = stripLeadingWhitespace( section );
+
+		section.innerHTML = marked( markdown );
+
+		if( notes ) {
+			section.appendChild( notes );
+		}
+
+	};
+
+	queryExternalMarkdown();
+	queryMarkdownSlides();
 
 })();
