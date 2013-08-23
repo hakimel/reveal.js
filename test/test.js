@@ -120,6 +120,9 @@ Reveal.addEventListener( 'ready', function() {
 	test( 'Reveal.availableRoutes', function() {
 		Reveal.slide( 0, 0 );
 		deepEqual( Reveal.availableRoutes(), { left: false, up: false, down: false, right: true }, 'correct for first slide' );
+
+		Reveal.slide( 1, 0 );
+		deepEqual( Reveal.availableRoutes(), { left: true, up: false, down: true, right: true }, 'correct for vertical slide' );
 	});
 
 	test( 'Reveal.next', function() {
@@ -151,14 +154,94 @@ Reveal.addEventListener( 'ready', function() {
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
 
-		// We're at the end
+		// We're at the end, this should have no effect
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
 	});
 
 
 	// ---------------------------------------------------------------
-	// TODO: FRAGMENT TESTS
+	// FRAGMENT TESTS
+
+	QUnit.module( 'Fragments' );
+
+	test( 'Sliding to fragments', function() {
+		Reveal.slide( 2, 0, 0 );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'Reveal.slide( 2, 0, 0 )' );
+
+		Reveal.slide( 2, 0, 2 );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'Reveal.slide( 2, 0, 2 )' );
+
+		Reveal.slide( 2, 0, 1 );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'Reveal.slide( 2, 0, 1 )' );
+	});
+
+	test( 'Stepping through fragments', function() {
+		Reveal.slide( 2, 0, 0 );
+
+		// forwards:
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'next() goes to next fragment' );
+
+		Reveal.right();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'right() goes to next fragment' );
+
+		Reveal.down();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 3 }, 'down() goes to next fragment' );
+
+		Reveal.down(); // moves to f #3
+
+		// backwards:
+
+		Reveal.prev();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'prev() goes to prev fragment' );
+
+		Reveal.left();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'left() goes to prev fragment' );
+
+		Reveal.up();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'left() goes to prev fragment' );
+	});
+
+	asyncTest( 'fragmentshown event', function() {
+		expect( 2 );
+		start();
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'fragmentshown', _onEvent );
+
+		Reveal.slide( 2, 0 );
+		Reveal.slide( 2, 0 ); // should do nothing
+		Reveal.slide( 2, 0, 0 ); // should do nothing
+		Reveal.next();
+		Reveal.next();
+		Reveal.prev(); // shouldn't fire fragmentshown
+
+		Reveal.removeEventListener( 'fragmentshown', _onEvent );
+	});
+
+	asyncTest( 'fragmenthidden event', function() {
+		expect( 2 );
+		start();
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'fragmenthidden', _onEvent );
+
+		Reveal.slide( 2, 0, 2 );
+		Reveal.slide( 2, 0, 2 ); // should do nothing
+		Reveal.prev();
+		Reveal.prev();
+		Reveal.next(); // shouldn't fire fragmenthidden
+
+		Reveal.removeEventListener( 'fragmenthidden', _onEvent );
+	});
 
 
 	// ---------------------------------------------------------------
@@ -209,12 +292,12 @@ Reveal.addEventListener( 'ready', function() {
 	asyncTest( 'slidechanged', function() {
 		expect( 1 );
 
-		var _onSlideChanged = function( event ) {
+		var _onEvent = function( event ) {
 			ok( true, 'event fired' );
 			start();
 		}
 
-		Reveal.addEventListener( 'slidechanged', _onSlideChanged );
+		Reveal.addEventListener( 'slidechanged', _onEvent );
 
 		// Should trigger the event
 		Reveal.slide( 1, 0 );
@@ -222,7 +305,7 @@ Reveal.addEventListener( 'ready', function() {
 		// Should not trigger an event since it's the same #
 		Reveal.slide( 1, 0 );
 
-		Reveal.removeEventListener( 'slidechanged', _onSlideChanged );
+		Reveal.removeEventListener( 'slidechanged', _onEvent );
 
 	});
 
