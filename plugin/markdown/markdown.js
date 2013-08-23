@@ -14,7 +14,7 @@
 		});
 	}
 
-	var stripLeadingWhitespace = function( section ) {
+	function stripLeadingWhitespace( section ) {
 
 		var template = section.querySelector( 'script' );
 
@@ -35,7 +35,7 @@
 
 	};
 
-	var twrap = function( el ) {
+	function twrap( el ) {
 
 		var content = el.content || el;
 
@@ -47,7 +47,7 @@
 
 	};
 
-	var getForwardedAttributes = function( section ) {
+	function getForwardedAttributes( section ) {
 
 		var attributes = section.attributes;
 		var result = [];
@@ -71,7 +71,7 @@
 
 	};
 
-	var slidifyMarkdown = function( markdown, separator, vertical, notes, attributes ) {
+	function slidifyMarkdown( markdown, separator, vertical, notes, attributes ) {
 
 		separator = separator || '^\n---\n$';
 		notes = notes || 'note:';
@@ -146,7 +146,7 @@
 		return markdownSections;
 	};
 
-	var queryExternalMarkdown = function() {
+	function queryExternalMarkdown() {
 
 		var sections = document.querySelectorAll( '[data-markdown]'),
 			section;
@@ -199,7 +199,7 @@
 
 	};
 
-	var queryMarkdownSlides = function() {
+	function queryMarkdownSlides() {
 
 		var sections = document.querySelectorAll( '[data-markdown]');
 
@@ -211,7 +211,7 @@
 
 	};
 
-	var makeHtml = function( section ) {
+	function makeHtml( section ) {
 
 		var notes = section.querySelector( 'aside.notes' );
 
