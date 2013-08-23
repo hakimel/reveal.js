@@ -119,7 +119,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'qunit' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );

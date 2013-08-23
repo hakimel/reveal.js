@@ -5,7 +5,7 @@
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
   "scripts": {
-    "test": "grunt jshint",
+    "test": "grunt jshint qunit",
     "start": ""
   },
   "author": {
