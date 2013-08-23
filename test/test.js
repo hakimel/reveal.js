@@ -186,6 +186,20 @@ Reveal.addEventListener( 'ready', function() {
 		equal( progressElement.style.display, 'block', 'progress are visible' );
 	});
 
+	test( 'Loop', function() {
+		Reveal.configure({ loop: true });
+
+		Reveal.slide( 0, 0 );
+
+		Reveal.left();
+		notEqual( Reveal.getIndices().h, 0, 'looped from start to end' );
+
+		Reveal.right();
+		equal( Reveal.getIndices().h, 0, 'looped from end to start' );
+
+		Reveal.configure({ loop: false });
+	});
+
 
 	// ---------------------------------------------------------------
 	// EVENT TESTS
