@@ -1317,7 +1317,7 @@ var Reveal = (function(){
 		// Prefer slide argument, otherwise use current slide
 		slide = slide ? slide : currentSlide;
 
-		return slide && !!slide.parentNode.nodeName.match( /section/i );
+		return slide && slide.parentNode && !!slide.parentNode.nodeName.match( /section/i );
 
 	}
 
