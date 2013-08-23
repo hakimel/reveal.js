@@ -1,4 +1,12 @@
 
+// These tests expect the DOM to contain a presentation
+// with the following slide structure:
+//
+// 1
+// 2 - Three sub-slides
+// 3 - Three fragment elements
+// 4
+
 
 Reveal.addEventListener( 'ready', function() {
 
@@ -114,13 +122,69 @@ Reveal.addEventListener( 'ready', function() {
 		deepEqual( Reveal.availableRoutes(), { left: false, up: false, down: false, right: true }, 'correct for first slide' );
 	});
 
+	test( 'Reveal.next', function() {
+		Reveal.slide( 0, 0 );
+
+		// Step through the vertical child slides
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 1, v: 0, f: undefined } );
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 1, v: 1, f: undefined } );
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 1, v: 2, f: undefined } );
+
+		// There's fragments on this slide
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 } );
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 } );
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 } );
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 3 } );
+
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
+
+		// We're at the end
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
+	});
+
 
 	// ---------------------------------------------------------------
 	// TODO: FRAGMENT TESTS
 
 
 	// ---------------------------------------------------------------
-	// TODO: CONFIGURATION VALUES
+	// CONFIGURATION VALUES
+
+	QUnit.module( 'Configuration' );
+
+	test( 'Controls', function() {
+		var controlsElement = document.querySelector( '.reveal>.controls' );
+
+		Reveal.configure({ controls: false });
+		equal( controlsElement.style.display, 'none', 'controls are hidden' );
+
+		Reveal.configure({ controls: true });
+		equal( controlsElement.style.display, 'block', 'controls are visible' );
+	});
+
+	test( 'Progress', function() {
+		var progressElement = document.querySelector( '.reveal>.progress' );
+
+		Reveal.configure({ progress: false });
+		equal( progressElement.style.display, 'none', 'progress are hidden' );
+
+		Reveal.configure({ progress: true });
+		equal( progressElement.style.display, 'block', 'progress are visible' );
+	});
 
 
 	// ---------------------------------------------------------------
