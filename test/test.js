@@ -226,7 +226,6 @@ Reveal.addEventListener( 'ready', function() {
 
 	asyncTest( 'fragmenthidden event', function() {
 		expect( 2 );
-		start();
 
 		var _onEvent = function( event ) {
 			ok( true, 'event fired' );
@@ -239,6 +238,8 @@ Reveal.addEventListener( 'ready', function() {
 		Reveal.prev();
 		Reveal.prev();
 		Reveal.next(); // shouldn't fire fragmenthidden
+
+		start();
 
 		Reveal.removeEventListener( 'fragmenthidden', _onEvent );
 	});
@@ -290,23 +291,58 @@ Reveal.addEventListener( 'ready', function() {
 	QUnit.module( 'Events' );
 
 	asyncTest( 'slidechanged', function() {
-		expect( 1 );
+		expect( 3 );
 
 		var _onEvent = function( event ) {
 			ok( true, 'event fired' );
-			start();
 		}
 
 		Reveal.addEventListener( 'slidechanged', _onEvent );
 
-		// Should trigger the event
-		Reveal.slide( 1, 0 );
+		Reveal.slide( 1, 0 ); // should trigger
+		Reveal.slide( 1, 0 ); // should do nothing
+		Reveal.next(); // should trigger
+		Reveal.slide( 3, 0 ); // should trigger
+		Reveal.next(); // should do nothing
 
-		// Should not trigger an event since it's the same #
-		Reveal.slide( 1, 0 );
+		start();
 
 		Reveal.removeEventListener( 'slidechanged', _onEvent );
 
+	});
+
+	asyncTest( 'paused', function() {
+		expect( 1 );
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'paused', _onEvent );
+
+		Reveal.togglePause();
+		Reveal.togglePause();
+
+		start();
+
+		Reveal.removeEventListener( 'paused', _onEvent );
+	});
+
+	asyncTest( 'resumed', function() {
+		expect( 1 );
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'resumed', _onEvent );
+
+		Reveal.togglePause();
+		Reveal.togglePause();
+
+		start();
+
+		Reveal.removeEventListener( 'resumed', _onEvent );
 	});
 
 
