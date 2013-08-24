@@ -75,12 +75,12 @@
 	/**
 	 * Helper function for constructing a markdown slide.
 	 */
-	function createMarkdownSlide( data ) {
+	function createMarkdownSlide( content, options ) {
 
-		var content = data.content || data;
+		var notesMatch = content.split( new RegExp( options.notesSeparator, 'mgi' ) );
 
-		if( data.notes ) {
-			content += '<aside class="notes" data-markdown>' + data.notes + '</aside>';
+		if( notesMatch.length === 2 ) {
+			content = notesMatch[0] + '<aside class="notes" data-markdown>' + notesMatch[1].trim() + '</aside>';
 		}
 
 		return '<script type="text/template">' + content + '</script>';
@@ -99,17 +99,13 @@
 		options.attributes = options.attributes || '';
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
-			horizontalSeparatorRegex = new RegExp( options.separator ),
-			notesSeparatorRegex = new RegExp( options.notesSeparator, 'mgi' );
+			horizontalSeparatorRegex = new RegExp( options.separator );
 
 		var matches,
-			noteMatch,
 			lastIndex = 0,
 			isHorizontal,
 			wasHorizontal = true,
 			content,
-			notes,
-			slide,
 			sectionStack = [];
 
 		// iterate until all blocks between separators are stacked up
@@ -126,25 +122,14 @@
 
 			// pluck slide content from markdown input
 			content = markdown.substring( lastIndex, matches.index );
-			noteMatch = content.split( notesSeparatorRegex );
-
-			if( noteMatch.length === 2 ) {
-				content = noteMatch[0];
-				notes = noteMatch[1].trim();
-			}
-
-			slide = {
-				content: content,
-				notes: notes || ''
-			};
 
 			if( isHorizontal && wasHorizontal ) {
 				// add to horizontal stack
-				sectionStack.push( slide );
+				sectionStack.push( content );
 			}
 			else {
 				// add to vertical stack
-				sectionStack[sectionStack.length-1].push( slide );
+				sectionStack[sectionStack.length-1].push( content );
 			}
 
 			lastIndex = separatorRegex.lastIndex;
@@ -160,12 +145,16 @@
 		for( var i = 0, len = sectionStack.length; i < len; i++ ) {
 			// vertical
 			if( sectionStack[i].propertyIsEnumerable( length ) && typeof sectionStack[i].splice === 'function' ) {
-				markdownSections += '<section '+ options.attributes +'>' +
-										'<section data-markdown>' +  sectionStack[i].map( createMarkdownSlide ).join( '</section><section data-markdown>' ) + '</section>' +
-									'</section>';
+				markdownSections += '<section '+ options.attributes +'>';
+
+				sectionStack[i].forEach( function( child ) {
+					markdownSections += '<section data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
+				} );
+
+				markdownSections += '</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i] ) + '</section>';
+				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
 			}
 		}
 
