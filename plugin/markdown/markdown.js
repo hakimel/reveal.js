@@ -1,5 +1,8 @@
-// From https://gist.github.com/1343518
-// Modified by Hakim to handle Markdown indented with tabs
+/**
+ * The reveal.js markdown plugin. Handles parsing of
+ * markdown inside of presentations as well as loading
+ * of external markdown documents.
+ */
 (function(){
 
 	if( typeof marked === 'undefined' ) {
@@ -35,12 +38,12 @@
 
 	};
 
-	function twrap( el ) {
+	function createSlide( data ) {
 
-		var content = el.content || el;
+		var content = data.content || data;
 
-		if( el.asideContent ) {
-			content += '<aside class="notes" data-markdown>' + el.asideContent + '</aside>';
+		if( data.notes ) {
+			content += '<aside class="notes" data-markdown>' + data.notes + '</aside>';
 		}
 
 		return '<script type="text/template">' + content + '</script>';
@@ -71,28 +74,28 @@
 
 	};
 
-	function slidifyMarkdown( markdown, separator, vertical, notes, attributes ) {
+	function slidifyMarkdown( markdown, separator, verticalSeparator, noteSeparator, attributes ) {
 
 		separator = separator || '^\n---\n$';
-		notes = notes || 'note:';
+		noteSeparator = noteSeparator || 'note:';
 
-		var separatorRegex = new RegExp( separator + ( vertical ? '|' + vertical : '' ), 'mg' ),
+		var separatorRegex = new RegExp( separator + ( verticalSeparator ? '|' + verticalSeparator : '' ), 'mg' ),
 			horizontalSeparatorRegex = new RegExp( separator ),
-			notesSeparatorRegex = new RegExp( notes, 'mgi' ),
+			notesSeparatorRegex = new RegExp( noteSeparator, 'mgi' ),
 			matches,
 			noteMatch,
 			lastIndex = 0,
 			isHorizontal,
 			wasHorizontal = true,
 			content,
-			asideContent,
+			notes,
 			slide,
 			sectionStack = [],
 			markdownSections = '';
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
-			asideContent = null;
+			notes = null;
 
 			// determine direction (horizontal by default)
 			isHorizontal = horizontalSeparatorRegex.test( matches[0] );
@@ -108,20 +111,20 @@
 
 			if( noteMatch.length === 2 ) {
 				content = noteMatch[0];
-				asideContent = noteMatch[1].trim();
+				notes = noteMatch[1].trim();
 			}
 
 			slide = {
 				content: content,
-				asideContent: asideContent || ''
+				notes: notes || ''
 			};
 
 			if( isHorizontal && wasHorizontal ) {
 				// add to horizontal stack
-				sectionStack.push(slide);
+				sectionStack.push( slide );
 			} else {
 				// add to vertical stack
-				sectionStack[sectionStack.length-1].push(slide);
+				sectionStack[sectionStack.length-1].push( slide );
 			}
 
 			lastIndex = separatorRegex.lastIndex;
@@ -129,17 +132,17 @@
 		}
 
 		// add the remaining slide
-		(wasHorizontal ? sectionStack : sectionStack[sectionStack.length-1]).push(markdown.substring(lastIndex));
+		( wasHorizontal ? sectionStack : sectionStack[sectionStack.length-1] ).push( markdown.substring( lastIndex ) );
 
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
 		for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
 			// vertical
 			if( sectionStack[k].propertyIsEnumerable( length ) && typeof sectionStack[k].splice === 'function' ) {
 				markdownSections += '<section '+ attributes +'>' +
-										'<section data-markdown>' +  sectionStack[k].map( twrap ).join( '</section><section data-markdown>' ) + '</section>' +
+										'<section data-markdown>' +  sectionStack[k].map( createSlide ).join( '</section><section data-markdown>' ) + '</section>' +
 									'</section>';
 			} else {
-				markdownSections += '<section '+ attributes +' data-markdown>' + twrap( sectionStack[k] ) + '</section>';
+				markdownSections += '<section '+ attributes +' data-markdown>' + createSlide( sectionStack[k] ) + '</section>';
 			}
 		}
 
