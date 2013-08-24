@@ -157,15 +157,15 @@
 		var markdownSections = '';
 
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
-		for( var k = 0, klen = sectionStack.length; k < klen; k++ ) {
+		for( var i = 0, len = sectionStack.length; i < len; i++ ) {
 			// vertical
-			if( sectionStack[k].propertyIsEnumerable( length ) && typeof sectionStack[k].splice === 'function' ) {
+			if( sectionStack[i].propertyIsEnumerable( length ) && typeof sectionStack[i].splice === 'function' ) {
 				markdownSections += '<section '+ options.attributes +'>' +
-										'<section data-markdown>' +  sectionStack[k].map( createMarkdownSlide ).join( '</section><section data-markdown>' ) + '</section>' +
+										'<section data-markdown>' +  sectionStack[i].map( createMarkdownSlide ).join( '</section><section data-markdown>' ) + '</section>' +
 									'</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[k] ) + '</section>';
+				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i] ) + '</section>';
 			}
 		}
 
@@ -178,9 +178,9 @@
 		var sections = document.querySelectorAll( '[data-markdown]'),
 			section;
 
-		for( var j = 0, jlen = sections.length; j < jlen; j++ ) {
+		for( var i = 0, len = sections.length; i < len; i++ ) {
 
-			section = sections[j];
+			section = sections[i];
 
 			if( section.getAttribute( 'data-markdown' ).length ) {
 
