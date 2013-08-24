@@ -206,7 +206,6 @@ Reveal.addEventListener( 'ready', function() {
 
 	asyncTest( 'fragmentshown event', function() {
 		expect( 2 );
-		start();
 
 		var _onEvent = function( event ) {
 			ok( true, 'event fired' );
@@ -220,6 +219,8 @@ Reveal.addEventListener( 'ready', function() {
 		Reveal.next();
 		Reveal.next();
 		Reveal.prev(); // shouldn't fire fragmentshown
+
+		start();
 
 		Reveal.removeEventListener( 'fragmentshown', _onEvent );
 	});

@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 		// Tests will be added soon
 		qunit: {
-			files: [ 'test/**/*.html' ]
+			files: [ 'test/*.html' ]
 		},
 
 		uglify: {
@@ -129,5 +129,8 @@ module.exports = function(grunt) {
 
 	// Serve presentation locally
 	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+
+	// Run tests
+	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
 
 };
