@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 		// Tests will be added soon
 		qunit: {
-			files: [ 'test/**/*.html' ]
+			files: [ 'test/*.html' ]
 		},
 
 		uglify: {
@@ -109,6 +109,7 @@ module.exports = function(grunt) {
 	});
 
 	// Dependencies
+	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -118,7 +119,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'qunit' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
@@ -128,5 +129,8 @@ module.exports = function(grunt) {
 
 	// Serve presentation locally
 	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+
+	// Run tests
+	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
 
 };

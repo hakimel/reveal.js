@@ -16,7 +16,7 @@
 
 			<div class="slides">
 
-                <!-- Use external markdown resource, and separate slides by three newlines; vertical slides by two newlines -->
+                <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
                 <section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
 
                 <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
@@ -87,7 +87,8 @@
 				dependencies: [
 					{ src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+                    { src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../notes/notes.js' }
 				]
 			});
 

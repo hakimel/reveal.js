@@ -48,6 +48,9 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
 
       pointer.id = 'leap';
 
+      pointer.style.position        = 'absolute';
+      pointer.style.visibility      = 'hidden';
+      pointer.style.zIndex          = 50;
       pointer.style.opacity         = config.pointerOpacity;
       pointer.style.backgroundColor = config.pointerColor;
 
