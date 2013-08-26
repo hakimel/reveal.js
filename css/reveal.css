@@ -1050,8 +1050,8 @@ body {
 
 .reveal.fade.overview .slides section,
 .reveal.fade.overview .slides>section>section,
-.reveal.fade.exit-overview .slides section,
-.reveal.fade.exit-overview .slides>section>section {
+.reveal.fade.overview-deactivating .slides section,
+.reveal.fade.overview-deactivating .slides>section>section {
 	-webkit-transition: none;
 	   -moz-transition: none;
 	    -ms-transition: none;

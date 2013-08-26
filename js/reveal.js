@@ -1156,7 +1156,7 @@ var Reveal = (function(){
 			var depth = window.innerWidth < 400 ? 1000 : 2500;
 
 			dom.wrapper.classList.add( 'overview' );
-			dom.wrapper.classList.remove( 'exit-overview' );
+			dom.wrapper.classList.remove( 'overview-deactivating' );
 
 			clearTimeout( activateOverviewTimeout );
 			clearTimeout( deactivateOverviewTimeout );
@@ -1164,7 +1164,7 @@ var Reveal = (function(){
 			// Not the pretties solution, but need to let the overview
 			// class apply first so that slides are measured accurately
 			// before we can position them
-			activateOverviewTimeout = setTimeout( function(){
+			activateOverviewTimeout = setTimeout( function() {
 
 				var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
@@ -1241,25 +1241,19 @@ var Reveal = (function(){
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
 			// moving from slide to slide
-			dom.wrapper.classList.add( 'exit-overview' );
+			dom.wrapper.classList.add( 'overview-deactivating' );
 
 			deactivateOverviewTimeout = setTimeout( function () {
-				dom.wrapper.classList.remove( 'exit-overview' );
-			}, 10);
+				dom.wrapper.classList.remove( 'overview-deactivating' );
+			}, 1 );
 
 			// Select all slides
-			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
-
-			for( var i = 0, len = slides.length; i < len; i++ ) {
-				var element = slides[i];
-
-				element.style.display = '';
-
+			toArray( document.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 				// Resets all transforms to use the external styles
-				transformElement( element, '' );
+				transformElement( slide, '' );
 
-				element.removeEventListener( 'click', onOverviewSlideClicked, true );
-			}
+				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
+			} );
 
 			slide( indexh, indexv );
 
