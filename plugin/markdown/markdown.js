@@ -3,7 +3,17 @@
  * markdown inside of presentations as well as loading
  * of external markdown documents.
  */
-(function(){
+(function( root, factory ) {
+	if( typeof exports === 'object' ) {
+		module.exports = factory( require( './marked' ) );
+	}
+	else {
+		// Browser globals (root is window)
+		root.returnExports = factory( root.marked );
+		root.returnExports.processSlides();
+		root.returnExports.convertSlides();
+	}
+}( this, function( marked ) {
 
 	if( typeof marked === 'undefined' ) {
 		throw 'The reveal.js Markdown plugin requires marked to be loaded';
@@ -91,7 +101,7 @@
 	 * Parses a data string into multiple slides based
 	 * on the passed in separator arguments.
 	 */
-	function slidifyMarkdown( markdown, options ) {
+	function slidify( markdown, options ) {
 
 		options = options || {};
 		options.separator = options.separator || '^\n---\n$';
@@ -162,7 +172,12 @@
 
 	}
 
-	function loadExternalMarkdown() {
+	/**
+	 * Parses any current data-markdown slides, splits
+	 * multi-slide markdown into separate sections and
+	 * handles loading of external markdown.
+	 */
+	function processSlides() {
 
 		var sections = document.querySelectorAll( '[data-markdown]'),
 			section;
@@ -187,7 +202,7 @@
 					if( xhr.readyState === 4 ) {
 						if ( xhr.status >= 200 && xhr.status < 300 ) {
 
-							section.outerHTML = slidifyMarkdown( xhr.responseText, {
+							section.outerHTML = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-vertical' ),
 								notesSeparator: section.getAttribute( 'data-notes' ),
@@ -219,7 +234,7 @@
 			}
 			else if( section.getAttribute( 'data-separator' ) ) {
 
-				section.outerHTML = slidifyMarkdown( getMarkdownFromSlide( section ), {
+				section.outerHTML = slidify( getMarkdownFromSlide( section ), {
 					separator: section.getAttribute( 'data-separator' ),
 					verticalSeparator: section.getAttribute( 'data-vertical' ),
 					notesSeparator: section.getAttribute( 'data-notes' ),
@@ -231,7 +246,11 @@
 
 	}
 
-	function convertMarkdownToHTML() {
+	/**
+	 * Converts any current data-markdown slides in the
+	 * DOM to HTML.
+	 */
+	function convertSlides() {
 
 		var sections = document.querySelectorAll( '[data-markdown]');
 
@@ -254,7 +273,10 @@
 
 	}
 
-	loadExternalMarkdown();
-	convertMarkdownToHTML();
+	return {
+		processSlides: processSlides,
+		convertSlides: convertSlides,
+		slidify: slidify
+	};
 
-})();
+}));
