@@ -239,6 +239,10 @@
 					currentSlide.contentWindow.Reveal.addEventListener( 'fragmentshown', synchronizeMainWindow );
 					currentSlide.contentWindow.Reveal.addEventListener( 'fragmenthidden', synchronizeMainWindow );
 
+					// Reconfigure the notes window to remove needless UI
+					currentSlide.contentWindow.Reveal.configure({ controls: false, progress: false, overview: false });
+					nextSlide.contentWindow.Reveal.configure({ controls: false, progress: false, overview: false });
+
 				}
 				else {
 
