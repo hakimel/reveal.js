@@ -353,17 +353,15 @@ var Reveal = (function(){
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
 		// Cache references to elements
-		if ( config.controls ) {
-			dom.controls = document.querySelector( '.reveal .controls' );
+		dom.controls = document.querySelector( '.reveal .controls' );
 
-			// There can be multiple instances of controls throughout the page
-			dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
-			dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
-			dom.controlsUp = toArray( document.querySelectorAll( '.navigate-up' ) );
-			dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
-			dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
-			dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
-		}
+		// There can be multiple instances of controls throughout the page
+		dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
+		dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
+		dom.controlsUp = toArray( document.querySelectorAll( '.navigate-up' ) );
+		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
+		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
+		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 
 	}
 
@@ -491,9 +489,7 @@ var Reveal = (function(){
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
-		if( dom.controls ) {
-			dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
-		}
+		dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
 
 		if( dom.progress ) {
 			dom.progress.style.display = ( config.progress && dom.progress ) ? 'block' : 'none';
@@ -586,16 +582,14 @@ var Reveal = (function(){
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
-		if ( config.controls && dom.controls ) {
-			[ 'touchstart', 'click' ].forEach( function( eventName ) {
-				dom.controlsLeft.forEach( function( el ) { el.addEventListener( eventName, onNavigateLeftClicked, false ); } );
-				dom.controlsRight.forEach( function( el ) { el.addEventListener( eventName, onNavigateRightClicked, false ); } );
-				dom.controlsUp.forEach( function( el ) { el.addEventListener( eventName, onNavigateUpClicked, false ); } );
-				dom.controlsDown.forEach( function( el ) { el.addEventListener( eventName, onNavigateDownClicked, false ); } );
-				dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
-				dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
-			} );
-		}
+		[ 'touchstart', 'click' ].forEach( function( eventName ) {
+			dom.controlsLeft.forEach( function( el ) { el.addEventListener( eventName, onNavigateLeftClicked, false ); } );
+			dom.controlsRight.forEach( function( el ) { el.addEventListener( eventName, onNavigateRightClicked, false ); } );
+			dom.controlsUp.forEach( function( el ) { el.addEventListener( eventName, onNavigateUpClicked, false ); } );
+			dom.controlsDown.forEach( function( el ) { el.addEventListener( eventName, onNavigateDownClicked, false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
+			dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
+		} );
 
 	}
 
@@ -624,16 +618,14 @@ var Reveal = (function(){
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
 		}
 
-		if ( config.controls && dom.controls ) {
-			[ 'touchstart', 'click' ].forEach( function( eventName ) {
-				dom.controlsLeft.forEach( function( el ) { el.removeEventListener( eventName, onNavigateLeftClicked, false ); } );
-				dom.controlsRight.forEach( function( el ) { el.removeEventListener( eventName, onNavigateRightClicked, false ); } );
-				dom.controlsUp.forEach( function( el ) { el.removeEventListener( eventName, onNavigateUpClicked, false ); } );
-				dom.controlsDown.forEach( function( el ) { el.removeEventListener( eventName, onNavigateDownClicked, false ); } );
-				dom.controlsPrev.forEach( function( el ) { el.removeEventListener( eventName, onNavigatePrevClicked, false ); } );
-				dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
-			} );
-		}
+		[ 'touchstart', 'click' ].forEach( function( eventName ) {
+			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( eventName, onNavigateLeftClicked, false ); } );
+			dom.controlsRight.forEach( function( el ) { el.removeEventListener( eventName, onNavigateRightClicked, false ); } );
+			dom.controlsUp.forEach( function( el ) { el.removeEventListener( eventName, onNavigateUpClicked, false ); } );
+			dom.controlsDown.forEach( function( el ) { el.removeEventListener( eventName, onNavigateDownClicked, false ); } );
+			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( eventName, onNavigatePrevClicked, false ); } );
+			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
+		} );
 
 	}
 
@@ -1786,50 +1778,46 @@ var Reveal = (function(){
 	 */
 	function updateControls() {
 
-		if ( config.controls && dom.controls ) {
+		var routes = availableRoutes();
+		var fragments = availableFragments();
 
-			var routes = availableRoutes();
-			var fragments = availableFragments();
+		// Remove the 'enabled' class from all directions
+		dom.controlsLeft.concat( dom.controlsRight )
+						.concat( dom.controlsUp )
+						.concat( dom.controlsDown )
+						.concat( dom.controlsPrev )
+						.concat( dom.controlsNext ).forEach( function( node ) {
+			node.classList.remove( 'enabled' );
+			node.classList.remove( 'fragmented' );
+		} );
 
-			// Remove the 'enabled' class from all directions
-			dom.controlsLeft.concat( dom.controlsRight )
-							.concat( dom.controlsUp )
-							.concat( dom.controlsDown )
-							.concat( dom.controlsPrev )
-							.concat( dom.controlsNext ).forEach( function( node ) {
-				node.classList.remove( 'enabled' );
-				node.classList.remove( 'fragmented' );
-			} );
+		// Add the 'enabled' class to the available routes
+		if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' );	} );
+		if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' );	} );
+		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); } );
 
-			// Add the 'enabled' class to the available routes
-			if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-			if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-			if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-			if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		// Prev/next buttons
+		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
 
-			// Prev/next buttons
-			if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-			if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		// Highlight fragment directions
+		if( currentSlide ) {
 
-			// Highlight fragment directions
-			if( currentSlide ) {
+			// Always apply fragment decorator to prev/next buttons
+			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+			if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
 
-				// Always apply fragment decorator to prev/next buttons
-				if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-
-				// Apply fragment decorators to directional buttons based on
-				// what slide axis they are in
-				if( isVerticalSlide( currentSlide ) ) {
-					if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-					if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				}
-				else {
-					if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-					if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				}
+			// Apply fragment decorators to directional buttons based on
+			// what slide axis they are in
+			if( isVerticalSlide( currentSlide ) ) {
+				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
 			}
-
+			else {
+				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+			}
 		}
 
 	}
