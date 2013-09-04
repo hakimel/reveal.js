@@ -489,11 +489,8 @@ var Reveal = (function(){
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
-		dom.controls.style.display = ( config.controls && dom.controls ) ? 'block' : 'none';
-
-		if( dom.progress ) {
-			dom.progress.style.display = ( config.progress && dom.progress ) ? 'block' : 'none';
-		}
+		dom.controls.style.display = config.controls ? 'block' : 'none';
+		dom.progress.style.display = config.progress ? 'block' : 'none';
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
@@ -1818,6 +1815,7 @@ var Reveal = (function(){
 				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
 				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
 			}
+
 		}
 
 	}
