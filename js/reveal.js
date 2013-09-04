@@ -767,7 +767,7 @@ var Reveal = (function(){
 	 */
 	function hideAddressBar() {
 
-		if( /iphone|ipod|android/gi.test( navigator.userAgent ) && !/crios/gi.test( navigator.userAgent ) ) {
+		if( isMobileDevice ) {
 			// Events that should trigger the address bar to hide
 			window.addEventListener( 'load', removeAddressBar, false );
 			window.addEventListener( 'orientationchange', removeAddressBar, false );
@@ -781,7 +781,8 @@ var Reveal = (function(){
 	 */
 	function removeAddressBar() {
 
-		if( window.orientation === 0 ) {
+		// Portrait and not Chrome for iOS
+		if( window.orientation === 0 && !/crios/gi.test( navigator.userAgent ) ) {
 			document.documentElement.style.overflow = 'scroll';
 			document.body.style.height = '120%';
 		}
