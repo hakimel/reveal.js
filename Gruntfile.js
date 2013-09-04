@@ -104,6 +104,24 @@ module.exports = function(grunt) {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
 			}
+		},
+
+		couchapp: {
+			app: {
+				db: "http://localhost:5984/reveal",
+				app: "app.js"
+			}
+		},
+
+		copy: {
+			main: {
+				files: [
+					{
+						expand: true, 
+						src: ['css/**', 'lib/**', 'js/**', 'plugin/**', 'index.html'], 
+						dest: '_attachments/'},
+				]
+			}
 		}
 
 	});
@@ -116,6 +134,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
+	grunt.loadNpmTasks( 'grunt-couchapp' );
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
@@ -132,5 +152,8 @@ module.exports = function(grunt) {
 
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
+
+	// push couchapp
+	grunt.registerTask( 'couch', [ 'jshint', 'cssmin', 'uglify', 'copy', 'couchapp' ] );
 
 };
