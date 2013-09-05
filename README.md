@@ -785,7 +785,13 @@ $ grunt serve
 - **plugin/** Components that have been developed as extensions to reveal.js
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
 
+## Deploying as a CouchApp
 
+To deploy your presentation as a [CouchApp](http://couchapp.org/page/what-is-couchapp), run this:
+
+		grunt couch
+
+By default, it deploys to a CouchDB instance at `http://localhost:5984/reveal`, requiring that you've created a database named `reveal`. To configure either of these values, open up `Gruntfile.js` and configure the `couchapp` option.
 
 ## License
 
