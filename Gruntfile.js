@@ -155,6 +155,6 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
 
 	// push couchapp
-	grunt.registerTask( 'couch', [ 'jshint', 'cssmin', 'uglify', 'copy', 'couchapp' ] );
+	grunt.registerTask( 'couch', [ 'default', 'couchapp' ] );
 
 };
