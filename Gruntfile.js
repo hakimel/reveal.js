@@ -119,7 +119,8 @@ module.exports = function(grunt) {
 					{
 						expand: true, 
 						src: ['css/**', 'lib/**', 'js/**', 'plugin/**', 'index.html'], 
-						dest: '_attachments/'},
+						dest: '_attachments/'
+					}
 				]
 			}
 		}
