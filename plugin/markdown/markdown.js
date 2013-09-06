@@ -9,9 +9,8 @@
 	}
 	else {
 		// Browser globals (root is window)
-		root.returnExports = factory( root.marked );
-		root.returnExports.processSlides();
-		root.returnExports.convertSlides();
+		root.RevealMarkdown = factory( root.marked );
+		root.RevealMarkdown.initialize();
 	}
 }( this, function( marked ) {
 
@@ -281,25 +280,41 @@
 
 			var section = sections[i];
 
-			var notes = section.querySelector( 'aside.notes' );
-			var markdown = getMarkdownFromSlide( section );
+			// Only parse the same slide once
+			if( !section.getAttribute( 'data-markdown-parsed' ) ) {
 
-			section.innerHTML = marked( markdown );
+				section.setAttribute( 'data-markdown-parsed', true )
 
-			// If there were notes, we need to re-add them after
-			// having overwritten the section's HTML
-			if( notes ) {
-				section.appendChild( notes );
+				var notes = section.querySelector( 'aside.notes' );
+				var markdown = getMarkdownFromSlide( section );
+
+				section.innerHTML = marked( markdown );
+
+				// If there were notes, we need to re-add them after
+				// having overwritten the section's HTML
+				if( notes ) {
+					section.appendChild( notes );
+				}
+
 			}
 
 		}
 
 	}
 
+	// API
 	return {
+
+		initialize: function() {
+			processSlides();
+			convertSlides();
+		},
+
+		// TODO: Do these belong in the API?
 		processSlides: processSlides,
 		convertSlides: convertSlides,
 		slidify: slidify
+
 	};
 
 }));
