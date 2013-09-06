@@ -517,6 +517,10 @@ body {
 	        perspective-origin: 0px -100px;
 }
 
+.reveal .slides>section {
+	-ms-perspective: 600px;
+}
+
 .reveal .slides>section,
 .reveal .slides>section>section {
 	display: none;
