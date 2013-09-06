@@ -27,6 +27,10 @@
 		});
 	}
 
+	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
+		DEFAULT_NOTES_SEPARATOR = 'note:';
+
+
 	/**
 	 * Retrieves the markdown contents of a slide section
 	 * element. Normalizes leading tabs/whitespace.
@@ -83,9 +87,26 @@
 	}
 
 	/**
+	 * Inspects the given options and fills out default
+	 * values for what's not defined.
+	 */
+	function getSlidifyOptions( options ) {
+
+		options = options || {};
+		options.separator = options.separator || DEFAULT_SLIDE_SEPARATOR;
+		options.notesSeparator = options.notesSeparator || DEFAULT_NOTES_SEPARATOR;
+		options.attributes = options.attributes || '';
+
+		return options;
+
+	}
+
+	/**
 	 * Helper function for constructing a markdown slide.
 	 */
 	function createMarkdownSlide( content, options ) {
+
+		options = getSlidifyOptions( options );
 
 		var notesMatch = content.split( new RegExp( options.notesSeparator, 'mgi' ) );
 
@@ -103,10 +124,7 @@
 	 */
 	function slidify( markdown, options ) {
 
-		options = options || {};
-		options.separator = options.separator || '^\n---\n$';
-		options.notesSeparator = options.notesSeparator || 'note:';
-		options.attributes = options.attributes || '';
+		options = getSlidifyOptions( options );
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
 			horizontalSeparatorRegex = new RegExp( options.separator );
@@ -232,7 +250,7 @@
 				}
 
 			}
-			else if( section.getAttribute( 'data-separator' ) ) {
+			else if( section.getAttribute( 'data-separator' ) || section.getAttribute( 'data-vertical' ) || section.getAttribute( 'data-notes' ) ) {
 
 				section.outerHTML = slidify( getMarkdownFromSlide( section ), {
 					separator: section.getAttribute( 'data-separator' ),
@@ -240,6 +258,11 @@
 					notesSeparator: section.getAttribute( 'data-notes' ),
 					attributes: getForwardedAttributes( section )
 				});
+
+			}
+			else {
+
+				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
 
 			}
 		}
