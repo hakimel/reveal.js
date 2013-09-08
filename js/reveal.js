@@ -165,11 +165,18 @@ var Reveal = (function(){
 
 		checkCapabilities();
 
-		if( !supports2DTransforms && !supports3DTransforms ) {
-			document.body.setAttribute( 'class', 'no-transforms' );
+		dom.viewport = document.querySelector( '.reveal-viewport' );
 
-			// If the browser doesn't support core features we won't be
-			// using JavaScript to control the presentation
+		// If there's viewport defined use the body element
+		if( !dom.viewport ) {
+			dom.viewport = document.body;
+			dom.viewport.className += ' reveal-viewport';
+		}
+
+		// If the browser doesn't support core features we fall back
+		// to a JavaScript-free mode without transforms
+		if( !supports2DTransforms && !supports3DTransforms ) {
+			dom.viewport.className += ' no-transforms';
 			return;
 		}
 
@@ -1313,7 +1320,7 @@ var Reveal = (function(){
 	 */
 	function enterFullscreen() {
 
-		var element = document.body;
+		var element = dom.viewport;
 
 		// Check which implementation is available
 		var requestMethod = element.requestFullScreen ||

@@ -4,7 +4,7 @@
  * GLOBAL STYLES
  *********************************************/
 
-body {
+.reveal-viewport {
 	@include bodyBackground();
 	background-color: $backgroundColor;
 }

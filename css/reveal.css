@@ -13,7 +13,7 @@
  * RESET STYLES
  *********************************************/
 
-html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe,
+.reveal-viewport, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe,
 .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal blockquote, .reveal pre,
 .reveal a, .reveal abbr, .reveal acronym, .reveal address, .reveal big, .reveal cite, .reveal code,
 .reveal del, .reveal dfn, .reveal em, .reveal img, .reveal ins, .reveal kbd, .reveal q, .reveal s, .reveal samp,
@@ -44,15 +44,11 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
  * GLOBAL STYLES
  *********************************************/
 
-html,
-body {
+.reveal-viewport {
+	position: relative;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-}
-
-body {
-	position: relative;
 	line-height: 1;
 }
 
@@ -367,7 +363,7 @@ body {
 
 .reveal .controls {
 	display: none;
-	position: fixed;
+	position: absolute;
 	width: 110px;
 	height: 110px;
 	z-index: 30;
@@ -448,7 +444,7 @@ body {
  *********************************************/
 
 .reveal .progress {
-	position: fixed;
+	position: absolute;
 	display: none;
 	height: 3px;
 	width: 100%;
