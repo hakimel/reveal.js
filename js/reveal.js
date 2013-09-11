@@ -1510,14 +1510,11 @@ var Reveal = (function(){
 			var horizontalSlideCount = horizontalSlides.length;
 			var horizontalOffset = -(bgWidth - slideWidth)/(horizontalSlideCount-1) * h;
 		
-			dom.wrapper.style.backgroundPositionX = horizontalOffset + 'px';
-		
-		
 			var slideHeight = parseInt(dom.wrapper.offsetHeight, 10);
 			var verticalSlideCount = currentVerticalSlides.length;
 			var verticalOffset = verticalSlideCount > 0 ? -(bgHeight - slideHeight)/(verticalSlideCount-1) * v : 0;
 		
-			dom.wrapper.style.backgroundPositionY = verticalOffset + 'px';
+			dom.wrapper.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
 		}
 				
 		////////////////////////////////////
