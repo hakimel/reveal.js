@@ -1205,6 +1205,20 @@ body {
 	left: 0;
 }
 
+.no-transforms .reveal .slides section .fragment {
+	opacity: 1 !important;
+	-webkit-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
+}
+
+.no-transforms .reveal aside.notes {
+	display: block;
+	font-size: 80%;
+}
+
 .reveal .no-transition,
 .reveal .no-transition * {
 	-webkit-transition: none !important;
