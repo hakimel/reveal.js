@@ -166,12 +166,13 @@ var Reveal = (function(){
 		checkCapabilities();
 
 		if( !supports2DTransforms && !supports3DTransforms ) {
-			document.body.setAttribute( 'class', 'no-transforms' );
-
 			// If the browser doesn't support core features we won't be
 			// using JavaScript to control the presentation
 			return;
 		}
+
+		// Remove the no-transforms class now
+		document.body.removeAttribute( 'class' );
 
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
