@@ -74,6 +74,9 @@ var Reveal = (function(){
 			// Apply a 3D roll to links on hover
 			rollingLinks: false,
 
+			// Hides the address bar on mobile devices
+			hideAddressBar: true,
+
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
 
@@ -767,7 +770,7 @@ var Reveal = (function(){
 	 */
 	function hideAddressBar() {
 
-		if( isMobileDevice ) {
+		if( config.hideAddressBar && isMobileDevice ) {
 			// Events that should trigger the address bar to hide
 			window.addEventListener( 'load', removeAddressBar, false );
 			window.addEventListener( 'orientationchange', removeAddressBar, false );
