@@ -778,6 +778,8 @@ $ grunt serve
 
 8. Open <http://localhost:8000> to view your presentation
 
+You can change the port by using `grunt serve --port 8001`.
+
 
 ### Folder Structure
 - **css/** Core styles without which the project does not function
