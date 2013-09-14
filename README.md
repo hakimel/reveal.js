@@ -776,9 +776,13 @@ $ npm install
 $ grunt serve
 ```
 
+*(you can change the port by specifying `--port` option in the command above)*
+
+
 8. Open <http://localhost:8000> to view your presentation
 
 You can change the port by using `grunt serve --port 8001`.
+
 
 
 ### Folder Structure
