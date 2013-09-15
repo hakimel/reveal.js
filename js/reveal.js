@@ -1496,31 +1496,6 @@ var Reveal = (function(){
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
 
-		// Animate parallax background
-		if( dom.wrapper.getAttribute( 'data-parallax-background' ) || config.parallaxBackgroundImage ) {
-			var bs = dom.wrapper.style.backgroundSize.split( ' ' ),
-				bgWidth, bgHeight;
-
-			if( bs.length === 1 ) {
-				bgWidth = bgHeight = parseInt( bs[0], 10 );
-			}
-			else {
-				bgWidth = parseInt( bs[0], 10 );
-				bgHeight = parseInt( bs[1], 10 );
-			}
-
-
-			var slideWidth = dom.wrapper.offsetWidth;
-			var horizontalSlideCount = horizontalSlides.length;
-			var horizontalOffset = -( bgWidth - slideWidth ) / ( horizontalSlideCount-1 ) * h;
-
-			var slideHeight = dom.wrapper.offsetHeight;
-			var verticalSlideCount = currentVerticalSlides.length;
-			var verticalOffset = verticalSlideCount > 0 ? -( bgHeight - slideHeight ) / ( verticalSlideCount-1 ) * v : 0;
-
-			dom.wrapper.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
-		}
-
 		////////////////////////////////////
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
@@ -1583,6 +1558,7 @@ var Reveal = (function(){
 		updateControls();
 		updateProgress();
 		updateBackground();
+		updateParallax();
 
 		// Update the URL hash
 		writeURL();
@@ -1902,6 +1878,45 @@ var Reveal = (function(){
 		setTimeout( function() {
 			dom.background.classList.remove( 'no-transition' );
 		}, 1 );
+
+	}
+
+	/**
+	 * Updates the position of the parallax background based
+	 * on the current slide index.
+	 */
+	function updateParallax() {
+
+		// Animate parallax background
+		if( dom.wrapper.getAttribute( 'data-parallax-background' ) || config.parallaxBackgroundImage ) {
+
+			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+			var currentHorizontalSlide = horizontalSlides[ indexh ],
+				currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+
+			var backgroundSize = dom.wrapper.style.backgroundSize.split( ' ' ),
+				backgroundWidth, backgroundHeight;
+
+			if( backgroundSize.length === 1 ) {
+				backgroundWidth = backgroundHeight = parseInt( backgroundSize[0], 10 );
+			}
+			else {
+				backgroundWidth = parseInt( backgroundSize[0], 10 );
+				backgroundHeight = parseInt( backgroundSize[1], 10 );
+			}
+
+
+			var slideWidth = dom.wrapper.offsetWidth;
+			var horizontalSlideCount = horizontalSlides.length;
+			var horizontalOffset = -( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) * indexh;
+
+			var slideHeight = dom.wrapper.offsetHeight;
+			var verticalSlideCount = currentVerticalSlides.length;
+			var verticalOffset = verticalSlideCount > 0 ? -( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) * indexv : 0;
+
+			dom.wrapper.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
+
+		}
 
 	}
 
