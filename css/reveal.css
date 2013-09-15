@@ -1405,6 +1405,7 @@ body {
 /*********************************************
  * PARALLAX BACKGROUND
  *********************************************/
+
 .reveal[data-parallax-background] {
 	-webkit-transition: all 0.8s ease;
 	   -moz-transition: all 0.8s ease;

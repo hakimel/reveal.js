@@ -91,10 +91,10 @@ var Reveal = (function(){
 
 			// Transition style for full page slide backgrounds
 			backgroundTransition: 'default', // default/linear/none
-			
+
 			// Parallax background image
 			parallaxBackgroundImage: '', // CSS syntax, e.g. "url('a.jpg')"
-			
+
 			// Parallax background size
 			parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
 
@@ -475,24 +475,24 @@ var Reveal = (function(){
 			} );
 
 		} );
-		
+
 		// Add parallax background if specified so
 		var parallaxBackgroundImage = config.parallaxBackgroundImage,
 			parallaxBackgroundSize = config.parallaxBackgroundSize;
-		
-		if (parallaxBackgroundImage) {
+
+		if( parallaxBackgroundImage ) {
 			dom.wrapper.style.background = parallaxBackgroundImage;
 			dom.wrapper.style.backgroundSize = parallaxBackgroundSize;
-			
+
 			// Make sure the below properties are set on the element - these properties are
 			// needed for proper transitions to be set on the element via CSS. To remove
 			// annoying background slide-in effect when the presentation starts, apply
 			// these properties after short time delay
 			setTimeout( function() {
-				dom.wrapper.setAttribute('data-parallax-background', parallaxBackgroundImage);
-				dom.wrapper.setAttribute('data-parallax-background-size', parallaxBackgroundSize);
+				dom.wrapper.setAttribute( 'data-parallax-background', parallaxBackgroundImage );
+				dom.wrapper.setAttribute( 'data-parallax-background-size', parallaxBackgroundSize );
 			}, 1 );
-			
+
 		}
 
 	}
@@ -1495,31 +1495,32 @@ var Reveal = (function(){
 
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
-		
+
 		// Animate parallax background
-		if (dom.wrapper.getAttribute('data-parallax-background') || config.parallaxBackgroundImage) {
-			var bs = dom.wrapper.style.backgroundSize.split(' '),
+		if( dom.wrapper.getAttribute( 'data-parallax-background' ) || config.parallaxBackgroundImage ) {
+			var bs = dom.wrapper.style.backgroundSize.split( ' ' ),
 				bgWidth, bgHeight;
-		
-			if (bs.length === 1) {
-				bgWidth = bgHeight = parseInt(bs[0], 10);
-			} else {
-				bgWidth = parseInt(bs[0], 10);
-				bgHeight = parseInt(bs[1], 10);
+
+			if( bs.length === 1 ) {
+				bgWidth = bgHeight = parseInt( bs[0], 10 );
 			}
-			
-		
-			var slideWidth = parseInt(dom.wrapper.offsetWidth, 10);
+			else {
+				bgWidth = parseInt( bs[0], 10 );
+				bgHeight = parseInt( bs[1], 10 );
+			}
+
+
+			var slideWidth = dom.wrapper.offsetWidth;
 			var horizontalSlideCount = horizontalSlides.length;
-			var horizontalOffset = -(bgWidth - slideWidth)/(horizontalSlideCount-1) * h;
-		
-			var slideHeight = parseInt(dom.wrapper.offsetHeight, 10);
+			var horizontalOffset = -( bgWidth - slideWidth ) / ( horizontalSlideCount-1 ) * h;
+
+			var slideHeight = dom.wrapper.offsetHeight;
 			var verticalSlideCount = currentVerticalSlides.length;
-			var verticalOffset = verticalSlideCount > 0 ? -(bgHeight - slideHeight)/(verticalSlideCount-1) * v : 0;
-		
+			var verticalOffset = verticalSlideCount > 0 ? -( bgHeight - slideHeight ) / ( verticalSlideCount-1 ) * v : 0;
+
 			dom.wrapper.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
 		}
-				
+
 		////////////////////////////////////
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
@@ -1874,12 +1875,12 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Updates the background elements to reflect the current 
+	 * Updates the background elements to reflect the current
 	 * slide.
 	 */
 	function updateBackground() {
 
-		// Update the classes of all backgrounds to match the 
+		// Update the classes of all backgrounds to match the
 		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 

@@ -108,10 +108,10 @@ Reveal.initialize({
 
 	// Transition style for full page backgrounds
 	backgroundTransition: 'default' // default/linear/none
-	
+
 	// Parallax background image
 	parallaxBackgroundImage: '', // CSS syntax, e.g. "url('a.jpg')"
-			
+
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
 
@@ -307,13 +307,13 @@ If you want to use the parallax scrolling background, set the two following conf
 
 ```javascript
 Reveal.initialize({
-	
+
 	// Parallax background image
 	parallaxBackgroundImage: '', // CSS syntax, e.g. "url('a.jpg')"
-			
+
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px" - currently only pixels are supported (don't use % or auto)
-	
+
 	// This slide transition gives best results:
 	transition: linear
 
