@@ -788,6 +788,23 @@ You can change the port by using `grunt serve --port 8001`.
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
 
 
+### Contributing
+
+Please keep the [issue tracker](github.com/hakimel/reveal.js/issues) limited to **bug reports**, **feature requests** and **pull requests**. If you are reporting a bug make sure to include information about which browser and operating system you are using as well as the necessary steps to reproduce the issue.
+
+If you have personal support questions use [StackOverflow](http://stackoverflow.com/questions/tagged/reveal.js).
+
+
+#### Pull requests
+
+- Should follow the coding style
+  - Tabs to indent
+  - Single-quoted strings
+  - No space between function name and opening argument parenthesis
+  - One space after opening and before closing parenthesis 
+- Should be made towards the **dev branch**
+- Should be submitted from a feature/topic branch (not your master)
+
 
 ## License
 
