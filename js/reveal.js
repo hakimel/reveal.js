@@ -1080,6 +1080,7 @@ var Reveal = (function(){
 			}
 
 			updateProgress();
+			updateParallax();
 
 		}
 
@@ -1890,9 +1891,8 @@ var Reveal = (function(){
 		// Animate parallax background
 		if( dom.wrapper.getAttribute( 'data-parallax-background' ) || config.parallaxBackgroundImage ) {
 
-			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
-			var currentHorizontalSlide = horizontalSlides[ indexh ],
-				currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+				verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
 			var backgroundSize = dom.wrapper.style.backgroundSize.split( ' ' ),
 				backgroundWidth, backgroundHeight;
@@ -1905,13 +1905,12 @@ var Reveal = (function(){
 				backgroundHeight = parseInt( backgroundSize[1], 10 );
 			}
 
-
 			var slideWidth = dom.wrapper.offsetWidth;
 			var horizontalSlideCount = horizontalSlides.length;
 			var horizontalOffset = -( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) * indexh;
 
 			var slideHeight = dom.wrapper.offsetHeight;
-			var verticalSlideCount = currentVerticalSlides.length;
+			var verticalSlideCount = verticalSlides.length;
 			var verticalOffset = verticalSlideCount > 0 ? -( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) * indexv : 0;
 
 			dom.wrapper.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
