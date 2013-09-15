@@ -110,10 +110,10 @@ Reveal.initialize({
 	backgroundTransition: 'default' // default/linear/none
 
 	// Parallax background image
-	parallaxBackgroundImage: '', // CSS syntax, e.g. "url('a.jpg')"
+	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
 
 	// Parallax background size
-	parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
 
 	// Number of slides away from the current that are visible
 	viewDistance: 3,
@@ -303,16 +303,16 @@ Backgrounds transition using a fade animation by default. This can be changed to
 
 ### Parallax Background
 
-If you want to use the parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional )
+If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional).
 
 ```javascript
 Reveal.initialize({
 
 	// Parallax background image
-	parallaxBackgroundImage: '', // CSS syntax, e.g. "url('a.jpg')"
+	parallaxBackgroundImage: '', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
 
 	// Parallax background size
-	parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px" - currently only pixels are supported (don't use % or auto)
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
 
 	// This slide transition gives best results:
 	transition: linear
@@ -321,8 +321,6 @@ Reveal.initialize({
 ```
 
 Make sure that the background size is much bigger than screen size to allow for some scrolling.
-
-The image used in the background is made by Eli Mergel and is published under Creative Commons license on [Flickr](https://secure.flickr.com/photos/sp1te/3436256585/sizes/o/in/pool-856427@N25/).
 
 
 

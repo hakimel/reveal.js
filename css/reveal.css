@@ -1406,7 +1406,7 @@ body {
  * PARALLAX BACKGROUND
  *********************************************/
 
-.reveal[data-parallax-background] {
+.reveal.has-parallax-background .backgrounds {
 	-webkit-transition: all 0.8s ease;
 	   -moz-transition: all 0.8s ease;
 	    -ms-transition: all 0.8s ease;
@@ -1414,13 +1414,13 @@ body {
 }
 
 /* Global transition speed settings */
-.reveal[data-parallax-background][data-transition-speed="fast"] {
+.reveal.has-parallax-background[data-transition-speed="fast"] .backgrounds {
 	-webkit-transition-duration: 400ms;
 	   -moz-transition-duration: 400ms;
 	    -ms-transition-duration: 400ms;
 	        transition-duration: 400ms;
 }
-.reveal[data-parallax-background][data-transition-speed="slow"] {
+.reveal.has-parallax-background[data-transition-speed="slow"] .backgrounds {
 	-webkit-transition-duration: 1200ms;
 	   -moz-transition-duration: 1200ms;
 	    -ms-transition-duration: 1200ms;

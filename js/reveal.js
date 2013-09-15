@@ -93,7 +93,7 @@ var Reveal = (function(){
 			backgroundTransition: 'default', // default/linear/none
 
 			// Parallax background image
-			parallaxBackgroundImage: '', // CSS syntax, e.g. "url('a.jpg')"
+			parallaxBackgroundImage: '', // CSS syntax, e.g. "a.jpg"
 
 			// Parallax background size
 			parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
@@ -476,22 +476,25 @@ var Reveal = (function(){
 
 		} );
 
-		// Add parallax background if specified so
-		var parallaxBackgroundImage = config.parallaxBackgroundImage,
-			parallaxBackgroundSize = config.parallaxBackgroundSize;
+		// Add parallax background if specified
+		if( config.parallaxBackgroundImage ) {
 
-		if( parallaxBackgroundImage ) {
-			dom.wrapper.style.background = parallaxBackgroundImage;
-			dom.wrapper.style.backgroundSize = parallaxBackgroundSize;
+			dom.background.style.backgroundImage = 'url("' + config.parallaxBackgroundImage + '")';
+			dom.background.style.backgroundSize = config.parallaxBackgroundSize;
 
 			// Make sure the below properties are set on the element - these properties are
 			// needed for proper transitions to be set on the element via CSS. To remove
 			// annoying background slide-in effect when the presentation starts, apply
 			// these properties after short time delay
 			setTimeout( function() {
-				dom.wrapper.setAttribute( 'data-parallax-background', parallaxBackgroundImage );
-				dom.wrapper.setAttribute( 'data-parallax-background-size', parallaxBackgroundSize );
+				dom.wrapper.classList.add( 'has-parallax-background' );
 			}, 1 );
+
+		}
+		else {
+
+			dom.background.style.backgroundImage = '';
+			dom.wrapper.classList.remove( 'has-parallax-background' );
 
 		}
 
@@ -1888,13 +1891,12 @@ var Reveal = (function(){
 	 */
 	function updateParallax() {
 
-		// Animate parallax background
-		if( dom.wrapper.getAttribute( 'data-parallax-background' ) || config.parallaxBackgroundImage ) {
+		if( config.parallaxBackgroundImage ) {
 
 			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 				verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
-			var backgroundSize = dom.wrapper.style.backgroundSize.split( ' ' ),
+			var backgroundSize = dom.background.style.backgroundSize.split( ' ' ),
 				backgroundWidth, backgroundHeight;
 
 			if( backgroundSize.length === 1 ) {
@@ -1905,15 +1907,15 @@ var Reveal = (function(){
 				backgroundHeight = parseInt( backgroundSize[1], 10 );
 			}
 
-			var slideWidth = dom.wrapper.offsetWidth;
+			var slideWidth = dom.background.offsetWidth;
 			var horizontalSlideCount = horizontalSlides.length;
 			var horizontalOffset = -( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) * indexh;
 
-			var slideHeight = dom.wrapper.offsetHeight;
+			var slideHeight = dom.background.offsetHeight;
 			var verticalSlideCount = verticalSlides.length;
 			var verticalOffset = verticalSlideCount > 0 ? -( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) * indexv : 0;
 
-			dom.wrapper.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
+			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
 
 		}
 
