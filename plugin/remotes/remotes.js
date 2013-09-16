@@ -34,6 +34,6 @@
             ;
         } );
 
-        head.js('https://raw.github.com/Remotes/Remotes/master/dist/remotes.ne.min.js');
+        head.js('https://rawgithub.com/Remotes/Remotes/master/dist/remotes.ne.min.js');
     }
 })(window);
