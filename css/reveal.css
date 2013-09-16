@@ -517,6 +517,10 @@ body {
 	        perspective-origin: 0px -100px;
 }
 
+.reveal .slides>section {
+	-ms-perspective: 600px;
+}
+
 .reveal .slides>section,
 .reveal .slides>section>section {
 	display: none;
@@ -1050,8 +1054,8 @@ body {
 
 .reveal.fade.overview .slides section,
 .reveal.fade.overview .slides>section>section,
-.reveal.fade.exit-overview .slides section,
-.reveal.fade.exit-overview .slides>section>section {
+.reveal.fade.overview-deactivating .slides section,
+.reveal.fade.overview-deactivating .slides>section>section {
 	-webkit-transition: none;
 	   -moz-transition: none;
 	    -ms-transition: none;
