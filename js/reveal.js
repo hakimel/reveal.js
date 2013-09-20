@@ -1500,7 +1500,6 @@ var Reveal = (function(){
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
 
-		////////////////////////////////////
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
