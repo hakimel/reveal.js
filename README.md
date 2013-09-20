@@ -109,6 +109,9 @@ Reveal.initialize({
 	// Transition style for full page backgrounds
 	backgroundTransition: 'default' // default/linear/none
 
+	// Display a subtle timer bar (time is in minutes)
+	timeRemaining: 0,
+
 });
 ```
 

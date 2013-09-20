@@ -35,7 +35,7 @@ var Reveal = (function(){
 			// Display a presentation progress bar
 			progress: true,
 
-			// Display a timer bar (time is in minutes)
+			// Display a subtle timer bar (time is in minutes)
 			timeRemaining: 0,
 
 			// Push each slide change to the browser history
