@@ -323,22 +323,20 @@ var Reveal = (function(){
 
 	}
 
-	function startTimer(minutes) {
+	function startTimer( minutes ) {
 
-		if ( !minutes ) {
-			return;
-		}
+		if ( !minutes ) return;
 		dom.msRemaining = minutes * 60 * 1000;
 
 		var stepTimer = function() {
 
 			dom.msRemaining = dom.msRemaining - 1000;
+
 			var totalCount = minutes * 60;
 			var pastCount = totalCount - ( dom.msRemaining / 1000 );
 			dom.timeRemainingBar.style.width = ( pastCount / ( totalCount - 1 ) ) * window.innerWidth + 'px';
-			if ( dom.msRemaining > 0 ) {
-				setTimeout( stepTimer, 1000 );
-			}
+
+			if ( dom.msRemaining > 0 ) setTimeout( stepTimer, 1000 );
 
 		};
 
@@ -368,8 +366,8 @@ var Reveal = (function(){
 		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
-    // Time remaining bar
-    dom.timeRemaining = createSingletonNode( dom.wrapper, 'div', 'time-remaining', '<span></span>');
+		// Time remaining bar
+		dom.timeRemaining = createSingletonNode( dom.wrapper, 'div', 'time-remaining', '<span></span>');
 		dom.timeRemainingBar = dom.timeRemaining.querySelector( 'span' );
 
 		// Arrow controls
