@@ -478,6 +478,40 @@ body {
 
 
 /*********************************************
+ * TIME REMAINING BAR
+ *********************************************/
+
+.reveal .time-remaining {
+	position: fixed;
+	display: none;
+	height: 3px;
+	width: 100%;
+	bottom: 3px;
+	left: 0;
+	z-index: 10;
+}
+	.reveal .time-remaining:after {
+		content: '';
+		display: 'block';
+		position: absolute;
+		height: 20px;
+		width: 100%;
+		top: -20px;
+	}
+	.reveal .time-remaining span {
+		display: block;
+		height: 100%;
+		width: 0px;
+
+		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		    -ms-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		     -o-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	}
+
+
+/*********************************************
  * SLIDES
  *********************************************/
 

@@ -140,3 +140,17 @@ body {
   -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .time-remaining {
+	background: rgba(0, 0, 0, 0.2); }
+
+.reveal .time-remaining span {
+	background: #8767a6;
+	-webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+	-moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+	-ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+	-o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+	transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
