@@ -107,7 +107,10 @@ Reveal.initialize({
 	transitionSpeed: 'default', // default/fast/slow
 
 	// Transition style for full page backgrounds
-	backgroundTransition: 'default' // default/linear/none
+	backgroundTransition: 'default', // default/linear/none
+
+	// Display a subtle timer bar (time is in minutes)
+	timeRemaining: 0
 
 });
 ```

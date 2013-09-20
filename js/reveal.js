@@ -35,6 +35,9 @@ var Reveal = (function(){
 			// Display a presentation progress bar
 			progress: true,
 
+			// Display a subtle timer bar (time is in minutes)
+			timeRemaining: 0,
+
 			// Push each slide change to the browser history
 			history: false,
 
@@ -320,6 +323,27 @@ var Reveal = (function(){
 
 	}
 
+	function startTimer( minutes ) {
+
+		if ( !minutes ) return;
+		dom.msRemaining = minutes * 60 * 1000;
+
+		var stepTimer = function() {
+
+			dom.msRemaining = dom.msRemaining - 1000;
+
+			var totalCount = minutes * 60;
+			var pastCount = totalCount - ( dom.msRemaining / 1000 );
+			dom.timeRemainingBar.style.width = ( pastCount / ( totalCount - 1 ) ) * window.innerWidth + 'px';
+
+			if ( dom.msRemaining > 0 ) setTimeout( stepTimer, 1000 );
+
+		};
+
+		setTimeout( stepTimer, 1000 );
+
+	}
+
 	/**
 	 * Finds and stores references to DOM elements which are
 	 * required by the presentation. If a required element is
@@ -341,6 +365,10 @@ var Reveal = (function(){
 		// Progress bar
 		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
 		dom.progressbar = dom.progress.querySelector( 'span' );
+
+		// Time remaining bar
+		dom.timeRemaining = createSingletonNode( dom.wrapper, 'div', 'time-remaining', '<span></span>');
+		dom.timeRemainingBar = dom.timeRemaining.querySelector( 'span' );
 
 		// Arrow controls
 		createSingletonNode( dom.wrapper, 'aside', 'controls',
@@ -495,6 +523,8 @@ var Reveal = (function(){
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 
+		dom.timeRemaining.style.display = ( config.timeRemaining && dom.timeRemaining ) ? 'block' : 'none';
+
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
 		}
@@ -545,6 +575,12 @@ var Reveal = (function(){
 				themeURL = themeURL.replace(themeFinder, config.theme);
 				dom.theme.setAttribute( 'href', themeURL );
 			}
+		}
+
+		// Start timer
+		if ( config.timeRemaining ) {
+			var minutesRemaining = parseInt( config.timeRemaining, 10 );
+			startTimer( minutesRemaining );
 		}
 
 		sync();
