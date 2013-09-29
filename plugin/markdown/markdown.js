@@ -171,7 +171,7 @@
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
 		for( var i = 0, len = sectionStack.length; i < len; i++ ) {
 			// vertical
-			if( sectionStack[i].propertyIsEnumerable( length ) && typeof sectionStack[i].splice === 'function' ) {
+			if( sectionStack[i].propertyIsEnumerable( 'length' ) && typeof sectionStack[i].splice === 'function' ) {
 				markdownSections += '<section '+ options.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
