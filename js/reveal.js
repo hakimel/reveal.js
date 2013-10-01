@@ -595,11 +595,18 @@ var Reveal = (function(){
 			dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
 
 			// Support pointer-style touch interaction as well
-			if( window.navigator.msPointerEnabled ) {
+			if( window.navigator.pointerEnabled ) {
+				// IE 11 uses un-prefixed version of pointer events
+				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
+				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
+				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
+			} else if( window.navigator.msPointerEnabled ) {
+				// IE 10 uses prefixed version of pointer events
 				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
 			}
+			
 		}
 
 		if( config.keyboard ) {
@@ -636,10 +643,17 @@ var Reveal = (function(){
 		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 
+		// IE10
 		if( window.navigator.msPointerEnabled ) {
 			dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
 			dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
 			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
+		}
+		// IE11
+		if( window.navigator.pointerEnabled ) {
+			dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
+			dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
+			dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
 		}
 
 		if ( config.progress && dom.progress ) {
@@ -2557,7 +2571,7 @@ var Reveal = (function(){
 	 */
 	function onPointerDown( event ) {
 
-		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
+		if(( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) || ( event.pointerType === "touch" )) {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchStart( event );
 		}
@@ -2569,7 +2583,7 @@ var Reveal = (function(){
 	 */
 	function onPointerMove( event ) {
 
-		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
+		if(( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) || ( event.pointerType === "touch" ))  {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchMove( event );
 		}
@@ -2581,7 +2595,7 @@ var Reveal = (function(){
 	 */
 	function onPointerUp( event ) {
 
-		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
+		if(( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) || ( event.pointerType === "touch" ))  {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchEnd( event );
 		}
