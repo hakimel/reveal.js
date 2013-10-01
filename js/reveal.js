@@ -595,18 +595,18 @@ var Reveal = (function(){
 			dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
 
 			// Support pointer-style touch interaction as well
-			// IE 10 uses prefixed version of pointer events
-			if( window.navigator.msPointerEnabled ) {
+			if( window.navigator.pointerEnabled ) {
+				// IE 11 uses un-prefixed version of pointer events
+				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
+				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
+				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
+			} else if( window.navigator.msPointerEnabled ) {
+				// IE 10 uses prefixed version of pointer events
 				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
 			}
-			// IE 11 uses un-prefixed version of pointer events
-			if( window.navigator.pointerEnabled ) {
-				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
-				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
-				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
-			}
+			
 		}
 
 		if( config.keyboard ) {
