@@ -183,14 +183,15 @@
 				firstChild = sectionStack[i][0];
 				matchAttributes = slideAttributesSeparatorRegex.exec(firstChild);
 				slideAttributes = matchAttributes ? matchAttributes[1] : "";
+				dataAttributes = "";
 				if( slideAttributes != "") {
 					// console.log('all attr=' + slideAttributes );
 					// http://stackoverflow.com/questions/18025762/javascript-regex-replace-all-word-characters-except-word-characters-between-ch
 					// Keep only data-attributes for the parent slide section.
 					dataAttributes = slideAttributes.replace(/(data-\S+=\"[^\"]+?\")|\w|[\"=]/g, function(a, b) { return b || ''; });
 					// console.log('new attr=' + dataAttributes );
-					markdownSections += '<section '+ options.attributes + ' ' + dataAttributes + '>';
 				}
+				markdownSections += '<section '+ options.attributes + ' ' + dataAttributes + '>';
 
 				sectionStack[i].forEach( function( child ) {
 					matchAttributes = slideAttributesSeparatorRegex.exec(child);
