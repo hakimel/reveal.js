@@ -28,7 +28,7 @@
 
 	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:',
-		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!-- slide-attributes: (.*?)-->';
+		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!--\sslide-attributes:\s(.*?)-->';
 
 
 	/**
