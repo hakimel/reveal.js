@@ -28,8 +28,8 @@
 
 	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:',
-		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '{_\s*?([^}]+?)}',
-		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!-- slide-attributes: (.*?)-->';
+		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '{\\\.\s*?([^}]+?)}',
+		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!--\sslide-attributes:\s(.*?)-->';
 
 
 	/**
