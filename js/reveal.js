@@ -615,15 +615,20 @@ var Reveal = (function(){
 
 		if( config.focusBodyOnPageVisiblityChange ) {
 			var visibilityChange;
-			if ('hidden' in document) {
+
+			if( 'hidden' in document ) {
 				visibilityChange = 'visibilitychange';
-			} else if ('msHidden' in document) {
+			}
+			else if( 'msHidden' in document ) {
 				visibilityChange = 'msvisibilitychange';
-			} else if ('webkitHidden' in document) {
+			}
+			else if( 'webkitHidden' in document ) {
 				visibilityChange = 'webkitvisibilitychange';
 			}
 
-			document.addEventListener(visibilityChange, onPageVisibilityChange, false);
+			if( visibilityChange ) {
+				document.addEventListener( visibilityChange, onPageVisibilityChange, false );
+			}
 		}
 
 		[ 'touchstart', 'click' ].forEach( function( eventName ) {
