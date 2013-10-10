@@ -80,6 +80,9 @@ var Reveal = (function(){
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
 
+			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
+			focusBodyOnPageVisiblityChange: true,
+
 			// Theme (see /css/theme)
 			theme: null,
 
@@ -606,8 +609,21 @@ var Reveal = (function(){
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
 		}
 
-		if ( config.progress && dom.progress ) {
+		if( config.progress && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
+		}
+
+		if( config.focusBodyOnPageVisiblityChange ) {
+			var visibilityChange;
+			if ('hidden' in document) {
+				visibilityChange = 'visibilitychange';
+			} else if ('msHidden' in document) {
+				visibilityChange = 'msvisibilitychange';
+			} else if ('webkitHidden' in document) {
+				visibilityChange = 'webkitvisibilitychange';
+			}
+
+			document.addEventListener(visibilityChange, onPageVisibilityChange, false);
 		}
 
 		[ 'touchstart', 'click' ].forEach( function( eventName ) {
@@ -2652,6 +2668,24 @@ var Reveal = (function(){
 	function onWindowResize( event ) {
 
 		layout();
+
+	}
+
+	/**
+	 * Handle for the window level 'visibilitychange' event.
+	 */
+	function onPageVisibilityChange( event ) {
+
+		var isHidden =  document.webkitHidden ||
+						document.msHidden ||
+						document.hidden;
+
+		// If, after clicking a link or similar and we're coming back,
+		// focus the document.body to ensure we can use keyboard shortcuts
+		if( isHidden === false && document.activeElement !== document.body ) {
+			document.activeElement.blur();
+			document.body.focus();
+		}
 
 	}
 
