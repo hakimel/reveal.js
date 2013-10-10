@@ -27,8 +27,9 @@
 	}
 
 	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
-		DEFAULT_NOTES_SEPARATOR = 'note:';
-		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '{_\s*?([^}]+?)}';
+		DEFAULT_NOTES_SEPARATOR = 'note:',
+		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '{_\s*?([^}]+?)}',
+		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!-- slide-attributes: (.*?)-->';
 
 
 	/**
@@ -72,7 +73,7 @@
 				value = attributes[i].value;
 
 			// disregard attributes that are used for markdown loading/parsing
-			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
+			if( /data\-(markdown|separator|vertical|notes|attributes)/gi.test( name ) ) continue;
 
 			if( value ) {
 				result.push( name + '=' + value );
@@ -96,6 +97,7 @@
 		options.separator = options.separator || DEFAULT_SLIDE_SEPARATOR;
 		options.notesSeparator = options.notesSeparator || DEFAULT_NOTES_SEPARATOR;
 		options.attributes = options.attributes || '';
+		options.slideAttributesSeparator = options.slideAttributesSeparator || DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR;
 
 		return options;
 
@@ -127,14 +129,17 @@
 		options = getSlidifyOptions( options );
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
-			horizontalSeparatorRegex = new RegExp( options.separator );
+			horizontalSeparatorRegex = new RegExp( options.separator ),
+			slideAttributesSeparatorRegex = new RegExp( options.slideAttributesSeparator, 'm');
 
 		var matches,
 			lastIndex = 0,
 			isHorizontal,
 			wasHorizontal = true,
 			content,
-			sectionStack = [];
+			sectionStack = [],
+			matchAttributes,
+			slideAttributes = "";
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
@@ -176,16 +181,22 @@
 				markdownSections += '<section '+ options.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
+					matchAttributes = slideAttributesSeparatorRegex.exec(child);
+					slideAttributes = matchAttributes ? matchAttributes[1] : "";
+					child = matchAttributes ? child.replace(slideAttributesSeparatorRegex,"") : child
+					markdownSections += '<section ' + slideAttributes + ' data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
+				matchAttributes = slideAttributesSeparatorRegex.exec(sectionStack[i]);
+				slideAttributes = matchAttributes ? matchAttributes[1] : "";
+				content = matchAttributes ? sectionStack[i].replace(slideAttributesSeparatorRegex,"") : sectionStack[i]
+				//console.log('Slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
+				markdownSections += '<section '+ options.attributes + ' ' + slideAttributes +' data-markdown>' + createMarkdownSlide( content, options ) + '</section>';
 			}
 		}
-
 		return markdownSections;
 
 	}
@@ -223,7 +234,8 @@
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-vertical' ),
 								notesSeparator: section.getAttribute( 'data-notes' ),
-								attributes: getForwardedAttributes( section )
+								attributes: getForwardedAttributes( section ),
+								slideAttributesSeparator: section.getAttribute( 'data-attributes' ),
 							});
 
 						}
