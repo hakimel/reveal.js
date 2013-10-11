@@ -130,7 +130,7 @@
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
 			horizontalSeparatorRegex = new RegExp( options.separator ),
-			slideAttributesSeparatorRegex = new RegExp( options.slideAttributesSeparator, 'm');
+			slideAttributesSeparatorRegex = new RegExp( options.slideAttributesSeparator, 'm' );
 
 		var matches,
 			lastIndex = 0,
@@ -181,22 +181,22 @@
 				// The 'data-xxx' attributes of the first child must be set on the wrapping parent section to be effective
 				// Mainly for data-transition (otherwise, it is ignored for the first vertical slide)
 				firstChild = sectionStack[i][0];
-				matchAttributes = slideAttributesSeparatorRegex.exec(firstChild);
+				matchAttributes = slideAttributesSeparatorRegex.exec( firstChild );
 				slideAttributes = matchAttributes ? matchAttributes[1] : "";
 				dataAttributes = "";
-				if( slideAttributes != "") {
+				if( slideAttributes != "" ) {
 					// console.log('all attr=' + slideAttributes );
 					// http://stackoverflow.com/questions/18025762/javascript-regex-replace-all-word-characters-except-word-characters-between-ch
 					// Keep only data-attributes for the parent slide section.
-					dataAttributes = slideAttributes.replace(/(data-\S+=\"[^\"]+?\")|\w|[\"=]/g, function(a, b) { return b || ''; });
+					dataAttributes = slideAttributes.replace( /(data-\S+=\"[^\"]+?\")|\w|[\"=]/g, function(a, b) { return b || ''; });
 					// console.log('new attr=' + dataAttributes );
 				}
 				markdownSections += '<section '+ options.attributes + ' ' + dataAttributes + '>';
 
 				sectionStack[i].forEach( function( child ) {
-					matchAttributes = slideAttributesSeparatorRegex.exec(child);
+					matchAttributes = slideAttributesSeparatorRegex.exec( child );
 					slideAttributes = matchAttributes ? matchAttributes[1] : "";
-					child = matchAttributes ? child.replace(slideAttributesSeparatorRegex,"") : child
+					child = matchAttributes ? child.replace( slideAttributesSeparatorRegex,"" ) : child
 					// console.log('slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
 					markdownSections += '<section ' + slideAttributes + ' data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
 				} );
@@ -204,9 +204,9 @@
 				markdownSections += '</section>';
 			}
 			else {
-				matchAttributes = slideAttributesSeparatorRegex.exec(sectionStack[i]);
+				matchAttributes = slideAttributesSeparatorRegex.exec( sectionStack[i] );
 				slideAttributes = matchAttributes ? matchAttributes[1] : "";
-				content = matchAttributes ? sectionStack[i].replace(slideAttributesSeparatorRegex,"") : sectionStack[i]
+				content = matchAttributes ? sectionStack[i].replace( slideAttributesSeparatorRegex,"" ) : sectionStack[i]
 				//console.log('Slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
 				markdownSections += '<section '+ options.attributes + ' ' + slideAttributes +' data-markdown>' + createMarkdownSlide( content, options ) + '</section>';
 			}
