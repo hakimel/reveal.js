@@ -97,6 +97,9 @@ Reveal.initialize({
 	// by using a data-autoslide attribute on your slides
 	autoSlide: 0,
 
+	// Stop auto-sliding after user input
+	autoSlideStoppable: true,
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
