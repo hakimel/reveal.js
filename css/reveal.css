@@ -1402,6 +1402,31 @@ body {
 	float: right
 }
 
+/*********************************************
+ * PARALLAX BACKGROUND
+ *********************************************/
+
+.reveal.has-parallax-background .backgrounds {
+	-webkit-transition: all 0.8s ease;
+	   -moz-transition: all 0.8s ease;
+	    -ms-transition: all 0.8s ease;
+	        transition: all 0.8s ease;
+}
+
+/* Global transition speed settings */
+.reveal.has-parallax-background[data-transition-speed="fast"] .backgrounds {
+	-webkit-transition-duration: 400ms;
+	   -moz-transition-duration: 400ms;
+	    -ms-transition-duration: 400ms;
+	        transition-duration: 400ms;
+}
+.reveal.has-parallax-background[data-transition-speed="slow"] .backgrounds {
+	-webkit-transition-duration: 1200ms;
+	   -moz-transition-duration: 1200ms;
+	    -ms-transition-duration: 1200ms;
+	        transition-duration: 1200ms;
+}
+
 
 /*********************************************
  * LINK PREVIEW OVERLAY

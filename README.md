@@ -109,6 +109,16 @@ Reveal.initialize({
 	// Transition style for full page backgrounds
 	backgroundTransition: 'default' // default/linear/none
 
+	// Parallax background image
+	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+
+	// Parallax background size
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+
+	// Number of slides away from the current that are visible
+	viewDistance: 3,
+
+
 });
 ```
 
@@ -290,6 +300,28 @@ Slides are contained within a limited portion of the screen by default to allow 
 ```
 
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
+
+### Parallax Background
+
+If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional).
+
+```javascript
+Reveal.initialize({
+
+	// Parallax background image
+	parallaxBackgroundImage: '', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
+
+	// Parallax background size
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
+
+	// This slide transition gives best results:
+	transition: linear
+
+});
+```
+
+Make sure that the background size is much bigger than screen size to allow for some scrolling.
+
 
 
 ### Slide Transitions

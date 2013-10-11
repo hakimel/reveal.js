@@ -27,7 +27,8 @@
 	}
 
 	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
-		DEFAULT_NOTES_SEPARATOR = 'note:';
+		DEFAULT_NOTES_SEPARATOR = 'note:',
+		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!--\sslide-attributes:\s(.*?)-->';
 
 
 	/**
@@ -71,7 +72,7 @@
 				value = attributes[i].value;
 
 			// disregard attributes that are used for markdown loading/parsing
-			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
+			if( /data\-(markdown|separator|vertical|notes|attributes)/gi.test( name ) ) continue;
 
 			if( value ) {
 				result.push( name + '=' + value );
@@ -95,6 +96,7 @@
 		options.separator = options.separator || DEFAULT_SLIDE_SEPARATOR;
 		options.notesSeparator = options.notesSeparator || DEFAULT_NOTES_SEPARATOR;
 		options.attributes = options.attributes || '';
+		options.slideAttributesSeparator = options.slideAttributesSeparator || DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR;
 
 		return options;
 
@@ -126,14 +128,17 @@
 		options = getSlidifyOptions( options );
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
-			horizontalSeparatorRegex = new RegExp( options.separator );
+			horizontalSeparatorRegex = new RegExp( options.separator ),
+			slideAttributesSeparatorRegex = new RegExp( options.slideAttributesSeparator, 'm' );
 
 		var matches,
 			lastIndex = 0,
 			isHorizontal,
 			wasHorizontal = true,
 			content,
-			sectionStack = [];
+			sectionStack = [],
+			matchAttributes,
+			slideAttributes = "";
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
@@ -172,19 +177,39 @@
 		for( var i = 0, len = sectionStack.length; i < len; i++ ) {
 			// vertical
 			if( sectionStack[i].propertyIsEnumerable( length ) && typeof sectionStack[i].splice === 'function' ) {
-				markdownSections += '<section '+ options.attributes +'>';
+				// The 'data-xxx' attributes of the first child must be set on the wrapping parent section to be effective
+				// Mainly for data-transition (otherwise, it is ignored for the first vertical slide)
+				firstChild = sectionStack[i][0];
+				matchAttributes = slideAttributesSeparatorRegex.exec( firstChild );
+				slideAttributes = matchAttributes ? matchAttributes[1] : "";
+				dataAttributes = "";
+				if( slideAttributes != "" ) {
+					// console.log('all attr=' + slideAttributes );
+					// http://stackoverflow.com/questions/18025762/javascript-regex-replace-all-word-characters-except-word-characters-between-ch
+					// Keep only data-attributes for the parent slide section.
+					dataAttributes = slideAttributes.replace( /(data-\S+=\"[^\"]+?\")|\w|[\"=]/g, function(a, b) { return b || ''; });
+					// console.log('new attr=' + dataAttributes );
+				}
+				markdownSections += '<section '+ options.attributes + ' ' + dataAttributes + '>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
+					matchAttributes = slideAttributesSeparatorRegex.exec( child );
+					slideAttributes = matchAttributes ? matchAttributes[1] : "";
+					child = matchAttributes ? child.replace( slideAttributesSeparatorRegex,"" ) : child
+					// console.log('slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
+					markdownSections += '<section ' + slideAttributes + ' data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
+				matchAttributes = slideAttributesSeparatorRegex.exec( sectionStack[i] );
+				slideAttributes = matchAttributes ? matchAttributes[1] : "";
+				content = matchAttributes ? sectionStack[i].replace( slideAttributesSeparatorRegex,"" ) : sectionStack[i]
+				//console.log('Slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
+				markdownSections += '<section '+ options.attributes + ' ' + slideAttributes +' data-markdown>' + createMarkdownSlide( content, options ) + '</section>';
 			}
 		}
-
 		return markdownSections;
 
 	}
@@ -223,7 +248,8 @@
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-vertical' ),
 								notesSeparator: section.getAttribute( 'data-notes' ),
-								attributes: getForwardedAttributes( section )
+								attributes: getForwardedAttributes( section ),
+								slideAttributesSeparator: section.getAttribute( 'data-attributes' ),
 							});
 
 						}
