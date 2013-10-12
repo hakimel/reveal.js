@@ -193,6 +193,7 @@ var Reveal = (function(){
 
 		// Copy options over to our config object
 		extend( config, options );
+		extend( config, Reveal.getQueryHash() );
 
 		// Hide the address bar in mobile browsers
 		hideAddressBar();
@@ -2857,6 +2858,15 @@ var Reveal = (function(){
 			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
 				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
 			} );
+
+			// Basic deserialization
+			for( var i in query ) {
+				var value = query[ i ];
+				if( value === 'null' ) query[ i ] = null;
+				else if( value === 'true' ) query[ i ] = true;
+				else if( value === 'false' ) query[ i ] = false;
+				else if( !isNaN( parseFloat( value ) ) ) query[ i ] = parseFloat( value );
+			}
 
 			return query;
 		},
