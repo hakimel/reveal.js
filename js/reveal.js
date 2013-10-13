@@ -163,6 +163,9 @@ var Reveal = (function(){
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
 
+		// A visual component used to control auto slide playback
+		autoSlidePlayer,
+
 		// Holds information about the currently ongoing touch input
 		touch = {
 			startX: 0,
@@ -568,6 +571,18 @@ var Reveal = (function(){
 		else {
 			disablePreviewLinks();
 			enablePreviewLinks( '[data-preview-link]' );
+		}
+
+		if( config.autoSlide && config.autoSlideStoppable ) {
+			autoSlidePlayer = new Playback( dom.wrapper, function() {
+				return 0.5;
+			} );
+
+			autoSlidePlayer.setPlaying( true );
+		}
+		else if( autoSlidePlayer ) {
+			autoSlidePlayer.destroy();
+			autoSlidePlayer = null;
 		}
 
 		// Load the theme in the config, if it's not already loaded
@@ -2766,6 +2781,110 @@ var Reveal = (function(){
 		}
 
 	}
+
+
+	// --------------------------------------------------------------------//
+	// ------------------------ PLAYBACK COMPONENT ------------------------//
+	// --------------------------------------------------------------------//
+
+
+	function Playback( container, progressCheck ) {
+
+		this.size = 50;
+		this.thickness = 3;
+		this.playing = false;
+		this.progress = 0;
+
+		this.container = container;
+		this.progressCheck = progressCheck;
+
+		this.canvas = document.createElement( 'canvas' );
+		this.canvas.className = 'playback';
+		this.canvas.width = this.size;
+		this.canvas.height = this.size;
+		this.context = this.canvas.getContext( '2d' );
+
+		this.container.appendChild( this.canvas );
+
+		this.render();
+
+	}
+
+	Playback.prototype.setPlaying = function( value ) {
+
+		this.playing = value;
+
+		// Render instantly
+		this.render();
+
+		// Start repainting if we're playing
+		if( this.playing ) {
+			this.update();
+		}
+
+	};
+
+	Playback.prototype.setProgress = function( value ) {
+
+		this.progress = value;
+		this.render();
+
+	};
+
+	Playback.prototype.update = function() {
+
+		this.progress = this.progressCheck();
+		this.render();
+
+		if( this.playing ) {
+			window.requestAnimationFrame( this.update.bind( this ) );
+		}
+
+	};
+
+	Playback.prototype.render = function() {
+
+		var radius = ( this.size / 2 ) - this.thickness,
+			x = this.size / 2,
+			y = this.size / 2;
+
+		var startAngle = - Math.PI / 2;
+		var endAngle = startAngle + ( this.progress * ( Math.PI * 2 ) );
+
+		this.context.save();
+		this.context.clearRect( 0, 0, this.size, this.size );
+
+		// Solid background color
+		this.context.beginPath();
+		this.context.arc( x, y, radius, 0, Math.PI * 2, false );
+		this.context.fillStyle = 'rgba(0,0,0,0.2)';
+		this.context.fill();
+
+		// Draw progress track
+		this.context.beginPath();
+		this.context.arc( x, y, radius, 0, Math.PI * 2, false );
+		this.context.lineWidth = this.thickness;
+		this.context.strokeStyle = '#666';
+		this.context.stroke();
+
+		// Draw progress along arc edge
+		this.context.beginPath();
+		this.context.arc( x, y, radius, startAngle, endAngle, false );
+		this.context.lineWidth = this.thickness;
+		this.context.strokeStyle = '#fff';
+		this.context.stroke();
+
+		this.context.restore();
+
+	};
+
+	Playback.prototype.destroy = function() {
+
+		if( this.canvas.parentNode ) {
+			this.container.removeChild( this.canvas );
+		}
+
+	};
 
 
 	// --------------------------------------------------------------------//
