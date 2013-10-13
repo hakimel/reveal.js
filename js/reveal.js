@@ -2825,6 +2825,16 @@ var Reveal = (function(){
 	// --------------------------------------------------------------------//
 
 
+	/**
+	 * Constructor for the playback component, which displays
+	 * play/pause/progress controls.
+	 *
+	 * @param {HTMLElement} container The component will append
+	 * itself to this
+	 * @param {Function} progressCheck A method which will be
+	 * called frequently to get the current progress on a range
+	 * of 0-1
+	 */
 	function Playback( container, progressCheck ) {
 
 		this.size = 50;
@@ -2883,6 +2893,8 @@ var Reveal = (function(){
 			x = this.size / 2,
 			y = this.size / 2;
 
+		var iconSize = 14;
+
 		var startAngle = - Math.PI / 2;
 		var endAngle = startAngle + ( progress * ( Math.PI * 2 ) );
 
@@ -2902,14 +2914,12 @@ var Reveal = (function(){
 		this.context.strokeStyle = '#666';
 		this.context.stroke();
 
-		// Draw progress along arc edge
+		// Draw progress on top of track
 		this.context.beginPath();
 		this.context.arc( x, y, radius, startAngle, endAngle, false );
 		this.context.lineWidth = this.thickness;
 		this.context.strokeStyle = '#fff';
 		this.context.stroke();
-
-		var iconSize = 14;
 
 		this.context.translate( x - ( iconSize / 2 ), y - ( iconSize / 2 ) );
 
