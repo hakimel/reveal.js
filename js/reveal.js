@@ -581,9 +581,7 @@ var Reveal = (function(){
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
 			} );
 
-			autoSlidePlayer.on( 'click', function() {
-				autoSlidePaused ? resumeAutoSlide() : pauseAutoSlide();
-			} );
+			autoSlidePlayer.on( 'click', onAutoSlidePlayerClick );
 		}
 		else if( autoSlidePlayer ) {
 			autoSlidePlayer.destroy();
@@ -2813,6 +2811,27 @@ var Reveal = (function(){
 		if( url ) {
 			openPreview( url );
 			event.preventDefault();
+		}
+
+	}
+
+	/**
+	 * Handles click on the auto-sliding controls element.
+	 */
+	function onAutoSlidePlayerClick( event ) {
+
+		// Replay
+		if( Reveal.isLastSlide() && config.loop === false ) {
+			slide( 0, 0 );
+			resumeAutoSlide();
+		}
+		// Resume
+		else if( autoSlidePaused ) {
+			resumeAutoSlide();
+		}
+		// Pause
+		else {
+			pauseAutoSlide();
 		}
 
 	}
