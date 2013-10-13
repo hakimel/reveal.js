@@ -221,7 +221,8 @@ var Reveal = (function(){
 								'OTransform' in document.body.style ||
 								'transform' in document.body.style;
 
-		features.requestAnimationFrame = typeof window.requestAnimationFrame === 'function';
+		features.requestAnimationFrameMethod = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+		features.requestAnimationFrame = typeof features.requestAnimationFrameMethod === 'function';
 
 		features.canvas = !!document.createElement( 'canvas' ).getContext;
 
@@ -2866,7 +2867,7 @@ var Reveal = (function(){
 		this.render();
 
 		if( this.playing ) {
-			window.requestAnimationFrame( this.animate.bind( this ) );
+			features.requestAnimationFrameMethod.call( window, this.animate.bind( this ) );
 		}
 
 	};
@@ -2890,8 +2891,8 @@ var Reveal = (function(){
 
 		// Solid background color
 		this.context.beginPath();
-		this.context.arc( x, y, radius, 0, Math.PI * 2, false );
-		this.context.fillStyle = 'rgba(0,0,0,0.2)';
+		this.context.arc( x, y, radius + 2, 0, Math.PI * 2, false );
+		this.context.fillStyle = 'rgba( 0, 0, 0, 0.4 )';
 		this.context.fill();
 
 		// Draw progress track
