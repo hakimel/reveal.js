@@ -1562,6 +1562,16 @@ body {
 	bottom: 15px;
 	z-index: 30;
 	cursor: pointer;
+
+	-webkit-transition: all 400ms ease;
+	   -moz-transition: all 400ms ease;
+	    -ms-transition: all 400ms ease;
+	        transition: all 400ms ease;
+}
+
+.reveal.overview .playback {
+	opacity: 0;
+	visibility:
 }
 
 

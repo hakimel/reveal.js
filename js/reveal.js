@@ -69,7 +69,7 @@ var Reveal = (function(){
 			autoSlide: 0,
 
 			// Stop auto-sliding after user input
-			autoSlideStoppable: false,
+			autoSlideStoppable: true,
 
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
@@ -1610,16 +1610,6 @@ var Reveal = (function(){
 		// Update the URL hash
 		writeURL();
 
-		// If the current slide has a data-autoslide use that,
-		// otherwise use the config.autoSlide value
-		var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
-		if( slideAutoSlide ) {
-			autoSlide = parseInt( slideAutoSlide, 10 );
-		}
-		else {
-			autoSlide = config.autoSlide;
-		}
-
 		cueAutoSlide();
 
 	}
@@ -2258,23 +2248,35 @@ var Reveal = (function(){
 	 */
 	function cueAutoSlide() {
 
-		clearTimeout( autoSlideTimeout );
-		autoSlideTimeout = -1;
+		cancelAutoSlide();
 
-		autoSlideStartTime = Date.now();
+		if( currentSlide ) {
 
-		// Cue the next auto-slide if:
-		// - There is an autoSlide value
-		// - Auto-sliding isn't paused by the user
-		// - The presentation isn't paused
-		// - The overview isn't active
-		// - The presentation isn't over
-		if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || config.loop === true ) ) {
-			autoSlideTimeout = setTimeout( navigateNext, autoSlide );
-		}
+			// If the current slide has a data-autoslide use that,
+			// otherwise use the config.autoSlide value
+			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
+			if( slideAutoSlide ) {
+				autoSlide = parseInt( slideAutoSlide, 10 );
+			}
+			else {
+				autoSlide = config.autoSlide;
+			}
 
-		if( autoSlidePlayer ) {
-			autoSlidePlayer.setPlaying( autoSlideTimeout !== -1 );
+			// Cue the next auto-slide if:
+			// - There is an autoSlide value
+			// - Auto-sliding isn't paused by the user
+			// - The presentation isn't paused
+			// - The overview isn't active
+			// - The presentation isn't over
+			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || config.loop === true ) ) {
+				autoSlideTimeout = setTimeout( navigateNext, autoSlide );
+				autoSlideStartTime = Date.now();
+			}
+
+			if( autoSlidePlayer ) {
+				autoSlidePlayer.setPlaying( autoSlideTimeout !== -1 );
+			}
+
 		}
 
 	}
@@ -2285,6 +2287,7 @@ var Reveal = (function(){
 	function cancelAutoSlide() {
 
 		clearTimeout( autoSlideTimeout );
+		autoSlideTimeout = -1;
 
 	}
 
@@ -2530,8 +2533,6 @@ var Reveal = (function(){
 	 */
 	function onTouchStart( event ) {
 
-		onUserInput( event );
-
 		touch.startX = event.touches[0].clientX;
 		touch.startY = event.touches[0].clientY;
 		touch.startCount = event.touches.length;
@@ -2557,6 +2558,8 @@ var Reveal = (function(){
 
 		// Each touch should only trigger one action
 		if( !touch.captured ) {
+			onUserInput( event );
+
 			var currentX = event.touches[0].clientX;
 			var currentY = event.touches[0].clientY;
 
@@ -2852,29 +2855,25 @@ var Reveal = (function(){
 
 		// Start repainting if we're playing
 		if( this.playing ) {
-			this.update();
+			this.animate();
 		}
 
 	};
 
-	Playback.prototype.setProgress = function( value ) {
-
-		this.progress = value;
-		this.render();
-
-	};
-
-	Playback.prototype.update = function() {
+	Playback.prototype.animate = function() {
 
 		this.progress = this.progressCheck();
 		this.render();
 
 		if( this.playing ) {
-			window.requestAnimationFrame( this.update.bind( this ) );
+			window.requestAnimationFrame( this.animate.bind( this ) );
 		}
 
 	};
 
+	/**
+	 * Renders the current progress and playback state.
+	 */
 	Playback.prototype.render = function() {
 
 		var progress = this.playing ? this.progress : 0;
@@ -2933,20 +2932,22 @@ var Reveal = (function(){
 
 	};
 
-	Playback.prototype.destroy = function() {
-
-		if( this.canvas.parentNode ) {
-			this.container.removeChild( this.canvas );
-		}
-
-	};
-
 	Playback.prototype.on = function( type, listener ) {
 		this.canvas.addEventListener( type, listener, false );
 	};
 
 	Playback.prototype.off = function( type, listener ) {
 		this.canvas.removeEventListener( type, listener, false );
+	};
+
+	Playback.prototype.destroy = function() {
+
+		this.playing = false;
+
+		if( this.canvas.parentNode ) {
+			this.container.removeChild( this.canvas );
+		}
+
 	};
 
 
