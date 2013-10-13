@@ -1571,7 +1571,7 @@ body {
 
 .reveal.overview .playback {
 	opacity: 0;
-	visibility:
+	visibility: hidden;
 }
 
 
