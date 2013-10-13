@@ -2653,8 +2653,6 @@ var Reveal = (function(){
 	 */
 	function onPointerDown( event ) {
 
-		onUserInput( event );
-
 		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchStart( event );
