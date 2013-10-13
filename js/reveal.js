@@ -114,9 +114,6 @@ var Reveal = (function(){
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
-		// The current auto-slide duration
-		autoSlide = 0,
-
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
@@ -145,9 +142,6 @@ var Reveal = (function(){
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
 
-		// An interval used to automatically move on to the next slide
-		autoSlideTimeout = 0,
-
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0,
 
@@ -160,8 +154,14 @@ var Reveal = (function(){
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
 
-		// A visual component used to control auto slide playback
+		// The current auto-slide duration
+		autoSlide = 0,
+
+		// Auto slide properties
 		autoSlidePlayer,
+		autoSlideTimeout = 0,
+		autoSlideStartTime = -1,
+		autoSlidePaused = false,
 
 		// Holds information about the currently ongoing touch input
 		touch = {
@@ -574,12 +574,15 @@ var Reveal = (function(){
 			enablePreviewLinks( '[data-preview-link]' );
 		}
 
-		if( config.autoSlide && config.autoSlideStoppable ) {
+		// Auto-slide playback controls
+		if( config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
 			autoSlidePlayer = new Playback( dom.wrapper, function() {
-				return 0.5;
+				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
 			} );
 
-			autoSlidePlayer.setPlaying( true );
+			autoSlidePlayer.on( 'click', function() {
+				autoSlidePaused ? resumeAutoSlide() : pauseAutoSlide();
+			} );
 		}
 		else if( autoSlidePlayer ) {
 			autoSlidePlayer.destroy();
@@ -1607,6 +1610,18 @@ var Reveal = (function(){
 		// Update the URL hash
 		writeURL();
 
+		// If the current slide has a data-autoslide use that,
+		// otherwise use the config.autoSlide value
+		var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
+		if( slideAutoSlide ) {
+			autoSlide = parseInt( slideAutoSlide, 10 );
+		}
+		else {
+			autoSlide = config.autoSlide;
+		}
+
+		cueAutoSlide();
+
 	}
 
 	/**
@@ -1716,18 +1731,6 @@ var Reveal = (function(){
 			if( slideState ) {
 				state = state.concat( slideState.split( ' ' ) );
 			}
-
-			// If this slide has a data-autoslide attribute associated use this as
-			// autoSlide value otherwise use the global configured time
-			var slideAutoSlide = slides[index].getAttribute( 'data-autoslide' );
-			if( slideAutoSlide ) {
-				autoSlide = parseInt( slideAutoSlide, 10 );
-			}
-			else {
-				autoSlide = config.autoSlide;
-			}
-
-			cueAutoSlide();
 
 		}
 		else {
@@ -2256,10 +2259,22 @@ var Reveal = (function(){
 	function cueAutoSlide() {
 
 		clearTimeout( autoSlideTimeout );
+		autoSlideTimeout = -1;
 
-		// Cue the next auto-slide if enabled
-		if( autoSlide && !isPaused() && !isOverview() ) {
+		autoSlideStartTime = Date.now();
+
+		// Cue the next auto-slide if:
+		// - There is an autoSlide value
+		// - Auto-sliding isn't paused by the user
+		// - The presentation isn't paused
+		// - The overview isn't active
+		// - The presentation isn't over
+		if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || config.loop === true ) ) {
 			autoSlideTimeout = setTimeout( navigateNext, autoSlide );
+		}
+
+		if( autoSlidePlayer ) {
+			autoSlidePlayer.setPlaying( autoSlideTimeout !== -1 );
 		}
 
 	}
@@ -2270,6 +2285,24 @@ var Reveal = (function(){
 	function cancelAutoSlide() {
 
 		clearTimeout( autoSlideTimeout );
+
+	}
+
+	function pauseAutoSlide() {
+
+		autoSlidePaused = true;
+		clearTimeout( autoSlideTimeout );
+
+		if( autoSlidePlayer ) {
+			autoSlidePlayer.setPlaying( false );
+		}
+
+	}
+
+	function resumeAutoSlide() {
+
+		autoSlidePaused = false;
+		cueAutoSlide();
 
 	}
 
@@ -2376,8 +2409,7 @@ var Reveal = (function(){
 	function onUserInput( event ) {
 
 		if( config.autoSlideStoppable ) {
-			config.autoSlide = 0;
-			cancelAutoSlide();
+			pauseAutoSlide();
 		}
 
 	}
@@ -2386,6 +2418,8 @@ var Reveal = (function(){
 	 * Handler for the document level 'keydown' event.
 	 */
 	function onDocumentKeyDown( event ) {
+
+		onUserInput( event );
 
 		// Check if there's a focused element that could be using
 		// the keyboard
@@ -2488,8 +2522,6 @@ var Reveal = (function(){
 		// another timeout
 		cueAutoSlide();
 
-		onUserInput( event );
-
 	}
 
 	/**
@@ -2497,6 +2529,8 @@ var Reveal = (function(){
 	 * swipe and pinch gestures.
 	 */
 	function onTouchStart( event ) {
+
+		onUserInput( event );
 
 		touch.startX = event.touches[0].clientX;
 		touch.startY = event.touches[0].clientY;
@@ -2513,8 +2547,6 @@ var Reveal = (function(){
 				y: touch.startY
 			} );
 		}
-
-		onUserInput( event );
 
 	}
 
@@ -2617,12 +2649,12 @@ var Reveal = (function(){
 	 */
 	function onPointerDown( event ) {
 
+		onUserInput( event );
+
 		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchStart( event );
 		}
-
-		onUserInput( event );
 
 	}
 
@@ -2680,6 +2712,8 @@ var Reveal = (function(){
 	 */
 	function onProgressClicked( event ) {
 
+		onUserInput( event );
+
 		event.preventDefault();
 
 		var slidesTotal = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
@@ -2687,19 +2721,17 @@ var Reveal = (function(){
 
 		slide( slideIndex );
 
-		onUserInput( event );
-
 	}
 
 	/**
 	 * Event handler for navigation control buttons.
 	 */
-	function onNavigateLeftClicked( event ) { event.preventDefault(); navigateLeft(); onUserInput(); }
-	function onNavigateRightClicked( event ) { event.preventDefault(); navigateRight(); onUserInput(); }
-	function onNavigateUpClicked( event ) { event.preventDefault(); navigateUp(); onUserInput(); }
-	function onNavigateDownClicked( event ) { event.preventDefault(); navigateDown(); onUserInput(); }
-	function onNavigatePrevClicked( event ) { event.preventDefault(); navigatePrev(); onUserInput(); }
-	function onNavigateNextClicked( event ) { event.preventDefault(); navigateNext(); onUserInput(); }
+	function onNavigateLeftClicked( event ) { event.preventDefault(); onUserInput(); navigateLeft(); }
+	function onNavigateRightClicked( event ) { event.preventDefault(); onUserInput(); navigateRight(); }
+	function onNavigateUpClicked( event ) { event.preventDefault(); onUserInput(); navigateUp(); }
+	function onNavigateDownClicked( event ) { event.preventDefault(); onUserInput(); navigateDown(); }
+	function onNavigatePrevClicked( event ) { event.preventDefault(); onUserInput(); navigatePrev(); }
+	function onNavigateNextClicked( event ) { event.preventDefault(); onUserInput(); navigateNext(); }
 
 	/**
 	 * Handler for the window level 'hashchange' event.
@@ -2845,12 +2877,14 @@ var Reveal = (function(){
 
 	Playback.prototype.render = function() {
 
+		var progress = this.playing ? this.progress : 0;
+
 		var radius = ( this.size / 2 ) - this.thickness,
 			x = this.size / 2,
 			y = this.size / 2;
 
 		var startAngle = - Math.PI / 2;
-		var endAngle = startAngle + ( this.progress * ( Math.PI * 2 ) );
+		var endAngle = startAngle + ( progress * ( Math.PI * 2 ) );
 
 		this.context.save();
 		this.context.clearRect( 0, 0, this.size, this.size );
@@ -2875,6 +2909,26 @@ var Reveal = (function(){
 		this.context.strokeStyle = '#fff';
 		this.context.stroke();
 
+		var iconSize = 14;
+
+		this.context.translate( x - ( iconSize / 2 ), y - ( iconSize / 2 ) );
+
+		// Draw play/pause icons
+		if( this.playing ) {
+			this.context.fillStyle = '#fff';
+			this.context.fillRect( 0, 0, iconSize / 2 - 2, iconSize );
+			this.context.fillRect( iconSize / 2 + 2, 0, iconSize / 2 - 2, iconSize );
+		}
+		else {
+			this.context.beginPath();
+			this.context.translate( 2, 0 );
+			this.context.moveTo( 0, 0 );
+			this.context.lineTo( iconSize - 2, iconSize / 2 );
+			this.context.lineTo( 0, iconSize );
+			this.context.fillStyle = '#fff';
+			this.context.fill();
+		}
+
 		this.context.restore();
 
 	};
@@ -2885,6 +2939,14 @@ var Reveal = (function(){
 			this.container.removeChild( this.canvas );
 		}
 
+	};
+
+	Playback.prototype.on = function( type, listener ) {
+		this.canvas.addEventListener( type, listener, false );
+	};
+
+	Playback.prototype.off = function( type, listener ) {
+		this.canvas.removeEventListener( type, listener, false );
 	};
 
 

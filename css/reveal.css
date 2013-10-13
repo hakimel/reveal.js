@@ -1561,6 +1561,7 @@ body {
 	left: 15px;
 	bottom: 15px;
 	z-index: 30;
+	cursor: pointer;
 }
 
 
