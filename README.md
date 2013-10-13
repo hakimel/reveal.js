@@ -205,6 +205,27 @@ Reveal.initialize({
 });
 ```
 
+
+### Auto-sliding
+
+Presentations can be configure to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
+
+```javascript
+// Slide every five seconds
+Reveal.configure({
+  autoSlide: 5000
+});
+```
+
+When this is turned on a control element will appear that enables users to pause and resume auto-sliding. Sliding is also paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
+
+You can also override the slide duration for individual slides by using the ```data-autoslide``` attribute on individual sections:
+
+```html
+<section data-autoslide="10000">This will remain on screen for 10 seconds</section>
+```
+
+
 ### Keyboard Bindings
 
 If you're unhappy with any of the default keyboard bindings you can override them using the ```keyboard``` config option:
