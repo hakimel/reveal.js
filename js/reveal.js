@@ -136,11 +136,8 @@ var Reveal = (function(){
 		// Cached references to DOM elements
 		dom = {},
 
-		// Client support for CSS 3D transforms, see #checkCapabilities()
-		supports3DTransforms,
-
-		// Client support for CSS 2D transforms, see #checkCapabilities()
-		supports2DTransforms,
+		// Features supported by the browser, see #checkCapabilities()
+		features = {},
 
 		// Client is a mobile device, see #checkCapabilities()
 		isMobileDevice,
@@ -183,7 +180,7 @@ var Reveal = (function(){
 
 		checkCapabilities();
 
-		if( !supports2DTransforms && !supports3DTransforms ) {
+		if( !features.transforms2d && !features.transforms3d ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
 			// If the browser doesn't support core features we won't be
@@ -212,17 +209,21 @@ var Reveal = (function(){
 	 */
 	function checkCapabilities() {
 
-		supports3DTransforms =  'WebkitPerspective' in document.body.style ||
+		features.transforms3d = 'WebkitPerspective' in document.body.style ||
 								'MozPerspective' in document.body.style ||
 								'msPerspective' in document.body.style ||
 								'OPerspective' in document.body.style ||
 								'perspective' in document.body.style;
 
-		supports2DTransforms =  'WebkitTransform' in document.body.style ||
+		features.transforms2d = 'WebkitTransform' in document.body.style ||
 								'MozTransform' in document.body.style ||
 								'msTransform' in document.body.style ||
 								'OTransform' in document.body.style ||
 								'transform' in document.body.style;
+
+		features.requestAnimationFrame = typeof window.requestAnimationFrame === 'function';
+
+		features.canvas = !!document.createElement( 'canvas' ).getContext;
 
 		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|android)/gi );
 
@@ -523,7 +524,7 @@ var Reveal = (function(){
 		if( typeof options === 'object' ) extend( config, options );
 
 		// Force linear transition based on browser capabilities
-		if( supports3DTransforms === false ) config.transition = 'linear';
+		if( features.transforms3d === false ) config.transition = 'linear';
 
 		dom.wrapper.classList.add( config.transition );
 
@@ -886,7 +887,7 @@ var Reveal = (function(){
 	 */
 	function enableRollingLinks() {
 
-		if( supports3DTransforms && !( 'msPerspective' in document.body.style ) ) {
+		if( features.transforms3d && !( 'msPerspective' in document.body.style ) ) {
 			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
 
 			for( var i = 0, len = anchors.length; i < len; i++ ) {
@@ -2472,7 +2473,7 @@ var Reveal = (function(){
 			event.preventDefault();
 		}
 		// ESC or O key
-		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && supports3DTransforms ) {
+		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
 			if( dom.preview ) {
 				closePreview();
 			}
