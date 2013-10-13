@@ -2458,7 +2458,12 @@ var Reveal = (function(){
 		}
 		// ESC or O key
 		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && supports3DTransforms ) {
-			toggleOverview();
+			if( dom.preview ) {
+				closePreview();
+			}
+			else {
+				toggleOverview();
+			}
 
 			event.preventDefault();
 		}
