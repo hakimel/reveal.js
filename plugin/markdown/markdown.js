@@ -207,7 +207,7 @@
 				matchAttributes = slideAttributesSeparatorRegex.exec( sectionStack[i] );
 				slideAttributes = matchAttributes ? matchAttributes[1] : "";
 				content = matchAttributes ? sectionStack[i].replace( slideAttributesSeparatorRegex,"" ) : sectionStack[i]
-				//console.log('Slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
+				// console.log('Slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
 				markdownSections += '<section '+ options.attributes + ' ' + slideAttributes +' data-markdown>' + createMarkdownSlide( content, options ) + '</section>';
 			}
 		}
@@ -281,7 +281,8 @@
 					separator: section.getAttribute( 'data-separator' ),
 					verticalSeparator: section.getAttribute( 'data-vertical' ),
 					notesSeparator: section.getAttribute( 'data-notes' ),
-					attributes: getForwardedAttributes( section )
+					attributes: getForwardedAttributes( section ),
+					slideAttributesSeparator: section.getAttribute( 'data-attributes' ),
 				});
 
 			}
