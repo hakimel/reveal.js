@@ -4,6 +4,9 @@ A framework for easily creating beautiful presentations using HTML. [Check out t
 
 reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a browser with support for CSS 3D transforms but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
 
+You can click on the button below to view, edit or run the code in a Web IDE. Run with `Tools->Preview->Project` (`Shift-Ctrl-F9`).
+
+[![IDE](https://codio-public.s3.amazonaws.com/sharing/demo-in-ide.png)](https://codio.com/p/create/?from_github=hakimel/reveal.js)
 
 #### More reading:
 - [Installation](#installation): Step-by-step instructions for getting reveal.js running on your computer.
@@ -14,7 +17,6 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 ## Slides
 
 Presentations are written using HTML or markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [http://slid.es](http://slid.es).
-
 
 ## Instructions
 
