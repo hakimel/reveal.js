@@ -14,7 +14,7 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-body {
+.reveal-viewport {
   background: #f7f2d3;
   background: -moz-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, white), color-stop(100%, #f7f2d3));
