@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Accessible Javascript - Don't Be The New Flash</title>
+
+		<meta name="description" content="A presentation on accessible Javascript for Super SeattleJS">
+		<meta name="author" content="Marcy Sutton">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Accessible Javascript</h1>
+					<h2>Don‘t be the new Flash</h2>
+					<p>
+						<small>Created by <a href="http://marcysutton.com" target="_blank" title="Link opens in a new window">Marcy Sutton</a> / <a href="http://twitter.com/marcysutton" target="_blank" title="Link opens in a new window">@marcysutton</a><br />Developer, <a href="http://substantial.com" target="_blank" title="Link opens in a new window">Substantial</a></small>
+					</p>
+				</section>
+				<section>
+				  <img src="img/imgur-NqjNI3o.jpg" alt="Accessible auditorium" />
+				  <small>Source: <a href="http://imgur.com/gallery/NqjNI3o" target="_blank" title="Link opens in a new window">imgur.com</a></small>
+				  <aside class="notes">
+				    <ul>
+				      <li>Wouldn't you be stoked to see this if you were in a wheelchair? It's like somebody thought of you ahead of time (they did).</li>
+				      <li>Have you ever had to use a computer without a mouse? Perhaps your mouse ran out of batteries or your carpal tunnel flared up?</li>
+				      <li>What if you couldn't hear a video--would you still try to watch one?</li>
+				      <li>If your Mom or Dad lost their eyesight, would he or she still be able to use the projects you've built?</li>
+				      
+				      <li>How might accessibility features be useful even if you can see? -Automated Testing. ??</li>
+				      <li>Business audiences: it's a lot easier to develop for accessibility from the beginning than to mitigate and play catch-up after you've been sued.</li>
+				    </ul>
+				  </aside>
+				</section>
+				
+				<section>
+					<h2>What is accessibility?</h2>
+					<h3><a href="http://www.w3.org/WAI/intro/accessibility.php" target="_blank" title="Link opens in a new window">W3.org</a></h3>
+          <p>The Web is fundamentally designed to work for all people, whatever their hardware, software, language, culture, location, or physical or mental ability.</p>
+				</section>
+				
+				<section>
+					<h2>Remember the old days?</h2>
+          <ul>
+            <li class="fragment">Flash and screen readers</li>
+            <li class="fragment">Flash and keyboard navigation</li>
+            <li class="fragment">Flash and SEO</li>
+          </ul>
+          <p style="margin-top: 5%" class="fragment">Now we write JavaScript. Hooray! <br />How do we not repeat the same mistakes?</p>
+          <aside class="notes">
+            <ul>
+              <li>Flash accessibility required more effort. Sometimes due to the nature of the "experience" (time-based and dynamically changing, thus too fast for a screen reader to read aloud in time), accessibility wasn't an option.</li>
+              <li>Browser inconsistencies with keyboard navigation were a bitch</li>
+              <li>Pages with no downlevel content were problematic for SEO. But even Google's crawling ability was hindered if there was no live text in your Flash movie (embedded in images or vectors)</li>
+            </ul>
+          </aside>
+				</section>
+				
+				<section>
+				  <h2>Content is more than what‘s visible</h2>
+				  <ul class="fragment">
+				    <li>Semantic markup</li>
+				    <li>Alt text</li>
+				    <li>Form labels</li>
+				    <li>Offscreen text</li>
+				  </ul>
+				  <aside class="notes">
+				    <p>What else?</p>
+				    <ul>
+              <li>Headings</li>
+              <li>Empty anchors bad!</li>
+              <li>Icon fonts in CSS pseudo-elements are the way to go for display-only things</li>
+				    </ul>
+				  </aside>
+				  
+				</section>
+				
+				<section>
+				  <h2>Keyboard navigation</h2>
+				  <h3 class="fragment">It doesn‘t have to suck.</h3>
+				  <ul class="fragment">
+				    <li>Skip links</li>
+				    <li>Mega-menus</li>
+				    <li>Interactive tiles</li>
+				  </ul>
+				  <aside class="notes">
+				  </aside>
+				</section>
+				
+				<section>
+				  <section>
+  				  <h2>Skip Links</h2>
+  				  <!-- insert gif/video here -->
+  				  <video controls src="video/skip-links.mp4"></video>
+				  </section>
+				  <section>
+            <h2>Skip Links</h2>				    
+  				  <p>They‘re useful for everyone.</p>
+  					<pre><code data-trim> 
+$('.skip-links').find('a').on 'focus blur click', ($event) ->
+  
+  $thisLink = $(this)
+  
+  $thisLink.css({'left':'0'}) if $event.type == 'focus'
+  $thisLink.css({'left':'-999999px'}) if $event.type == 'blur'
+  
+  if $event.type == 'click'
+    $event.preventDefault()
+    $thisLink.attr('href').focus()
+    
+  					</code></pre>
+  					<small><em>jQuery & Coffeescript</em></small>
+				  </section>
+				</section>
+				
+				<section>
+				  <section>
+  				  <h2>Mega-menus</h2>
+  				  <!-- insert video here -->
+  				  <video controls src="video/mega-menu.mp4"></video>
+				  </section>
+				  <section>
+  				  <h2>Mega-menus</h2>
+  				  <small>Really hide invisible panels</small>
+  				  <div>
+    				  <div class="twoThirdsCol skinnyCol">
+      					<pre><code data-trim>
+a.nav-item-primary
+  color: red
+  display: block
+ 
+nav.nav-secondary
+  display: none
+  visibility: hidden
+  
+  &.open
+    display: block
+    visibility: visible 
+      					</code></pre>
+      					<small><em>SASS</em></small>
+    				  </div>
+    				  <div class="twoThirdsCol wideCol">
+      					<pre><code data-trim> 
+<a href="/about/" class="nav-item-primary">
+  <span>About</span>
+  <span class="offscreen"> expand</span>
+</a>
+<nav class="nav-secondary">
+  <ul>
+    <li><a href="...">About</a></li>
+    <li><a href="...">Location</a></li>
+    <li><a href="...">Mission</a></li>
+  </ul>
+</nav>
+    					</code></pre>
+    					<small><em>HTML</em></small>
+  				  </div>
+  				  </div>
+				  <aside class="notes">
+				  <pre><code>
+  span.offscreen
+    display: block
+    left: -99999px
+    position: absolute
+    </code></pre>
+				  </aside>
+				  </section>
+				  <section>
+				    <h2>Mega Menus</h2>
+				    <small><a href="http://codepen.io/marcysutton/pen/lsEko" target="_blank" title="Link opens in a new window">cont'd</a></small>
+				    <pre><code data-trim>
+$('a.nav-item-primary').on 'click', ($event) ->
+  $event.preventDefault()
+  
+  $navSecondary = $(this).next('.nav-secondary')
+  $accessLabel = $(this).children('.offscreen')
+  
+  if $navSecondary.hasClass('open')
+    $navSecondary.removeClass('open')
+    $accessLabel.text(' expand')
+  
+  else
+    $navSecondary.addClass('open')
+    $accessLabel.text(' collapse')
+  
+				    </code></pre>
+				    <small><em>jQuery & Coffeescript</em></small>
+				  </section>
+				</section>
+				
+				<section>
+				  <h2>Interactive Tiles</h2>
+				  <p>They‘re really effing cool</p>
+				</section>
+				
+				<section>
+				  <h2>What else?</h2>
+			    <ul>
+			      <li>Feedback: hover/focus, updating widget instructions, external links, etc.</li>
+			      <li>Tab order</li>
+			      <li>Not trapping people in widgets they can‘t get out of</li>
+				    <li>Touch: make sure your events work</li>
+			    </ul>
+			    <aside class="notes">
+			      <ul>
+  				    <li>A whole other talk: How accessibility and automated testing are BFFs</li>
+  			    </ul>
+			    </aside>
+				</section>
+
+				<section>
+				  <h2>It‘s About User Experience.</h2>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
