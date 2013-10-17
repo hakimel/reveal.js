@@ -582,6 +582,7 @@ var Reveal = (function(){
 			} );
 
 			autoSlidePlayer.on( 'click', onAutoSlidePlayerClick );
+			autoSlidePaused = false;
 		}
 		else if( autoSlidePlayer ) {
 			autoSlidePlayer.destroy();
