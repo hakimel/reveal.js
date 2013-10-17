@@ -1,50 +1,29 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
 /**
- * Default theme for reveal.js.
+ * Black theme for reveal.js.
  *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
-@font-face {
-  font-family: 'League Gothic';
-  src: url("../../lib/font/league_gothic-webfont.eot");
-  src: url("../../lib/font/league_gothic-webfont.eot?#iefix") format("embedded-opentype"), url("../../lib/font/league_gothic-webfont.woff") format("woff"), url("../../lib/font/league_gothic-webfont.ttf") format("truetype"), url("../../lib/font/league_gothic-webfont.svg#LeagueGothicRegular") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #000 url('post-alley.png') repeat-y center top;
-}
+  background: #111111;
+  background-color: #111111; }
 
 .reveal {
-  font-family: "Lato", sans-serif;
-  font-size: 36px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 30px;
   font-weight: 200;
   letter-spacing: -0.02em;
   color: #eeeeee; }
 
 ::selection {
   color: white;
-  background: #ff5e99;
+  background: #e7ad52;
   text-shadow: none; }
 
-.reveal .twoThirdsCol.wideCol {
-  float: left;
-  vertical-align: top;
-  width: 54%;
-}
-.reveal .twoThirdsCol.skinnyCol {
-  float: left;
-  margin-right: 2%;
-  vertical-align: top;
-  width: 44%;
-}
-.reveal .twoThirdsCol pre {
-  margin-top: 0;
-  width: 100%;
-}
 /*********************************************
  * HEADERS
  *********************************************/
@@ -56,20 +35,20 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eeeeee;
-  font-family: "League Gothic", Impact, sans-serif;
+  font-family: "Montserrat", Impact, sans-serif;
   line-height: 0.9em;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
+  letter-spacing: -0.03em;
+  text-transform: none;
+  text-shadow: none; }
 
 .reveal h1 {
-  text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15); }
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
 
 /*********************************************
  * LINKS
  *********************************************/
 .reveal a:not(.image) {
-  color: #cff110;
+  color: #e7ad52;
   text-decoration: none;
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
@@ -78,13 +57,13 @@ body {
   transition: color .15s ease; }
 
 .reveal a:not(.image):hover {
-  color: #97948f;
+  color: #f3d7ac;
   text-shadow: none;
   border: none; }
 
 .reveal .roll span:after {
   color: #fff;
-  background: #0d99a5; }
+  background: #d08a1d; }
 
 /*********************************************
  * IMAGES
@@ -102,7 +81,7 @@ body {
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #13daec;
+  border-color: #e7ad52;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
@@ -110,32 +89,31 @@ body {
  *********************************************/
 .reveal .controls div.navigate-left,
 .reveal .controls div.navigate-left.enabled {
-  border-right-color: #cff110; }
+  border-right-color: #e7ad52; }
 
 .reveal .controls div.navigate-right,
 .reveal .controls div.navigate-right.enabled {
-  border-left-color: #cff110; }
+  border-left-color: #e7ad52; }
 
 .reveal .controls div.navigate-up,
 .reveal .controls div.navigate-up.enabled {
-  border-bottom-color: #cff110; }
+  border-bottom-color: #e7ad52; }
 
 .reveal .controls div.navigate-down,
 .reveal .controls div.navigate-down.enabled {
-  border-top-color: #cff110; }
+  border-top-color: #e7ad52; }
 
 .reveal .controls div.navigate-left.enabled:hover {
-  border-right-color: #97948f; }
+  border-right-color: #f3d7ac; }
 
 .reveal .controls div.navigate-right.enabled:hover {
-  border-left-color: #97948f; }
+  border-left-color: #f3d7ac; }
 
 .reveal .controls div.navigate-up.enabled:hover {
-  border-bottom-color: #97948f; }
+  border-bottom-color: #f3d7ac; }
 
 .reveal .controls div.navigate-down.enabled:hover {
-  border-top-color: #97948f; }
-
+  border-top-color: #f3d7ac; }
 
 /*********************************************
  * PROGRESS BAR
@@ -144,7 +122,7 @@ body {
   background: rgba(0, 0, 0, 0.2); }
 
 .reveal .progress span {
-  background: #cff110;
+  background: #e7ad52;
   -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);

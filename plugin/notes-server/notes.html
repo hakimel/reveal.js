@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<meta name="viewport" content="width=1150">
+
+		<title>reveal.js - Slide Notes</title>
+
+		<style>
+			body {
+				font-family: Helvetica;
+			}
+
+			#notes {
+				font-size: 24px;
+				width: 640px;
+				margin-top: 5px;
+				clear: left;
+			}
+
+			#wrap-current-slide {
+				width: 640px;
+				height: 512px;
+				float: left;
+				overflow: hidden;
+			}
+
+			#current-slide {
+				width: 1280px;
+				height: 1024px;
+				border: none;
+
+				-webkit-transform-origin: 0 0;
+				   -moz-transform-origin: 0 0;
+				    -ms-transform-origin: 0 0;
+				     -o-transform-origin: 0 0;
+				        transform-origin: 0 0;
+
+				-webkit-transform: scale(0.5);
+				   -moz-transform: scale(0.5);
+				    -ms-transform: scale(0.5);
+				     -o-transform: scale(0.5);
+				        transform: scale(0.5);
+			}
+
+			#wrap-next-slide {
+				width: 448px;
+				height: 358px;
+				float: left;
+				margin: 0 0 0 10px;
+				overflow: hidden;
+			}
+
+			#next-slide {
+				width: 1280px;
+				height: 1024px;
+				border: none;
+
+				-webkit-transform-origin: 0 0;
+				   -moz-transform-origin: 0 0;
+				    -ms-transform-origin: 0 0;
+				     -o-transform-origin: 0 0;
+				        transform-origin: 0 0;
+
+				-webkit-transform: scale(0.35);
+				   -moz-transform: scale(0.35);
+				    -ms-transform: scale(0.35);
+				     -o-transform: scale(0.35);
+				        transform: scale(0.35);
+			}
+
+			.slides {
+				position: relative;
+				margin-bottom: 10px;
+				border: 1px solid black;
+				border-radius: 2px;
+				background: rgb(28, 30, 32);
+			}
+
+			.slides span {
+				position: absolute;
+				top: 3px;
+				left: 3px;
+				font-weight: bold;
+				font-size: 14px;
+				color: rgba( 255, 255, 255, 0.9 );
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="wrap-current-slide" class="slides">
+			<iframe src="/?receiver" width="1280" height="1024" id="current-slide"></iframe>
+		</div>
+
+		<div id="wrap-next-slide" class="slides">
+			<iframe src="/?receiver" width="640" height="512" id="next-slide"></iframe>
+			<span>UPCOMING:</span>
+		</div>
+		<div id="notes"></div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/plugin/markdown/marked.js"></script>
+
+		<script>
+		var socketId = '{{socketId}}';
+		var socket = io.connect(window.location.origin);
+		var notes = document.getElementById('notes');
+		var currentSlide = document.getElementById('current-slide');
+		var nextSlide = document.getElementById('next-slide');
+
+		socket.on('slidedata', function(data) {
+			// ignore data from sockets that aren't ours
+			if (data.socketId !== socketId) { return; }
+
+			if (data.markdown) {
+				notes.innerHTML = marked(data.notes);
+			}
+			else {
+				notes.innerHTML = data.notes;
+			}
+
+			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
+			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
+		});
+		socket.on('fragmentdata', function(data) {
+			// ignore data from sockets that aren't ours
+			if (data.socketId !== socketId) { return; }
+
+			if (data.fragment === 'next') {
+				currentSlide.contentWindow.Reveal.nextFragment();
+			}
+			else if (data.fragment === 'previous') {
+				currentSlide.contentWindow.Reveal.prevFragment();
+			}
+		});
+		</script>
+
+	</body>
+</html>

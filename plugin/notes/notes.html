@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Slide Notes</title>
+
+		<style>
+			body {
+				font-family: Helvetica;
+			}
+
+			#notes {
+				font-size: 24px;
+				width: 640px;
+				margin-top: 5px;
+				clear: left;
+			}
+
+			#wrap-current-slide {
+				width: 640px;
+				height: 512px;
+				float: left;
+				overflow: hidden;
+			}
+
+			#current-slide {
+				width: 1280px;
+				height: 1024px;
+				border: none;
+
+				-webkit-transform-origin: 0 0;
+				   -moz-transform-origin: 0 0;
+					-ms-transform-origin: 0 0;
+					 -o-transform-origin: 0 0;
+						transform-origin: 0 0;
+
+				-webkit-transform: scale(0.5);
+				   -moz-transform: scale(0.5);
+					-ms-transform: scale(0.5);
+					 -o-transform: scale(0.5);
+						transform: scale(0.5);
+			}
+
+			#wrap-next-slide {
+				width: 448px;
+				height: 358px;
+				float: left;
+				margin: 0 0 0 10px;
+				overflow: hidden;
+			}
+
+			#next-slide {
+				width: 1280px;
+				height: 1024px;
+				border: none;
+
+				-webkit-transform-origin: 0 0;
+				   -moz-transform-origin: 0 0;
+					-ms-transform-origin: 0 0;
+					 -o-transform-origin: 0 0;
+						transform-origin: 0 0;
+
+				-webkit-transform: scale(0.35);
+				   -moz-transform: scale(0.35);
+					-ms-transform: scale(0.35);
+					 -o-transform: scale(0.35);
+						transform: scale(0.35);
+			}
+
+			.slides {
+				position: relative;
+				margin-bottom: 10px;
+				border: 1px solid black;
+				border-radius: 2px;
+				background: rgb(28, 30, 32);
+			}
+
+			.slides span {
+				position: absolute;
+				top: 3px;
+				left: 3px;
+				font-weight: bold;
+				font-size: 14px;
+				color: rgba( 255, 255, 255, 0.9 );
+			}
+
+			.error {
+				font-weight: bold;
+				color: red;
+				font-size: 1.5em;
+				text-align: center;
+				margin-top: 10%;
+			}
+
+			.error code {
+				font-family: monospace;
+			}
+
+			.time {
+				width: 448px;
+				margin: 30px 0 0 10px;
+				float: left;
+				text-align: center;
+				opacity: 0;
+
+				-webkit-transition: opacity 0.4s;
+				   -moz-transition: opacity 0.4s;
+				     -o-transition: opacity 0.4s;
+				        transition: opacity 0.4s;
+			}
+
+			.elapsed,
+			.clock {
+				color: #333;
+				font-size: 2em;
+				text-align: center;
+				display: inline-block;
+				padding: 0.5em;
+				background-color: #eee;
+				border-radius: 10px;
+			}
+
+			.elapsed h2,
+			.clock h2 {
+				font-size: 0.8em;
+				line-height: 100%;
+				margin: 0;
+				color: #aaa;
+			}
+
+			.elapsed .mute {
+				color: #ddd;
+			}
+
+		</style>
+	</head>
+
+	<body>
+
+		<div id="wrap-current-slide" class="slides">
+			<script>document.write( '<iframe width="1280" height="1024" id="current-slide" src="'+ window.opener.location.href +'?receiver"></iframe>' );</script>
+		</div>
+
+		<div id="wrap-next-slide" class="slides">
+			<script>document.write( '<iframe width="640" height="512" id="next-slide" src="'+ window.opener.location.href +'?receiver"></iframe>' );</script>
+			<span>UPCOMING:</span>
+		</div>
+
+		<div class="time">
+			<div class="clock">
+				<h2>Time</h2>
+				<span id="clock">0:00:00 AM</span>
+			</div>
+			<div class="elapsed">
+				<h2>Elapsed</h2>
+				<span id="hours">00</span><span id="minutes">:00</span><span id="seconds">:00</span>
+			</div>
+		</div>
+
+		<div id="notes"></div>
+
+		<script src="../../plugin/markdown/marked.js"></script>
+		<script>
+
+			window.addEventListener( 'load', function() {
+
+				if( window.opener && window.opener.location && window.opener.location.href ) {
+
+					var notes = document.getElementById( 'notes' ),
+						currentSlide = document.getElementById( 'current-slide' ),
+						nextSlide = document.getElementById( 'next-slide' ),
+						silenced = false;
+
+					window.addEventListener( 'message', function( event ) {
+						var data = JSON.parse( event.data );
+
+						// No need for updating the notes in case of fragment changes
+						if ( data.notes !== undefined) {
+							if( data.markdown ) {
+								notes.innerHTML = marked( data.notes );
+							}
+							else {
+								notes.innerHTML = data.notes;
+							}
+						}
+
+						silenced = true;
+
+						// Update the note slides
+						currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv, data.indexf );
+						nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
+
+						silenced = false;
+
+					}, false );
+
+					var start = new Date(),
+						timeEl = document.querySelector( '.time' ),
+						clockEl = document.getElementById( 'clock' ),
+						hoursEl = document.getElementById( 'hours' ),
+						minutesEl = document.getElementById( 'minutes' ),
+						secondsEl = document.getElementById( 'seconds' );
+
+					setInterval( function() {
+
+						timeEl.style.opacity = 1;
+
+						var diff, hours, minutes, seconds,
+							now = new Date();
+
+						diff = now.getTime() - start.getTime();
+						hours = Math.floor( diff / ( 1000 * 60 * 60 ) );
+						minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
+						seconds = Math.floor( ( diff / 1000 ) % 60 );
+
+						clockEl.innerHTML = now.toLocaleTimeString();
+						hoursEl.innerHTML = zeroPadInteger( hours );
+						hoursEl.className = hours > 0 ? "" : "mute";
+						minutesEl.innerHTML = ":" + zeroPadInteger( minutes );
+						minutesEl.className = minutes > 0 ? "" : "mute";
+						secondsEl.innerHTML = ":" + zeroPadInteger( seconds );
+
+					}, 1000 );
+
+					// Broadcasts the state of the notes window to synchronize
+					// the main window
+					function synchronizeMainWindow() {
+
+						if( !silenced ) {
+							var indices = currentSlide.contentWindow.Reveal.getIndices();
+							window.opener.Reveal.slide( indices.h, indices.v, indices.f );
+						}
+
+					}
+
+					// Navigate the main window when the notes slide changes
+					currentSlide.contentWindow.Reveal.addEventListener( 'slidechanged', synchronizeMainWindow );
+					currentSlide.contentWindow.Reveal.addEventListener( 'fragmentshown', synchronizeMainWindow );
+					currentSlide.contentWindow.Reveal.addEventListener( 'fragmenthidden', synchronizeMainWindow );
+
+					// Reconfigure the notes window to remove needless UI
+					currentSlide.contentWindow.Reveal.configure({ controls: false, progress: false, overview: false });
+					nextSlide.contentWindow.Reveal.configure({ controls: false, progress: false, overview: false });
+
+				}
+				else {
+
+					document.body.innerHTML =  '<p class="error">Unable to access <code>window.opener.location</code>.<br>Make sure the presentation is running on a web server.</p>';
+
+				}
+
+
+			}, false );
+
+			function zeroPadInteger( num ) {
+				var str = "00" + parseInt( num );
+				return str.substring( str.length - 2 );
+			}
+
+		</script>
+	</body>
+</html>

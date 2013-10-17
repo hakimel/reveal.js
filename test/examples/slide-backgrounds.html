@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Slide Backgrounds</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../../css/reveal.min.css">
+		<link rel="stylesheet" href="../../css/theme/serif.css" id="theme">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section data-background="#00ffff">
+					<h2>data-background: #00ffff</h2>
+				</section>
+
+				<section data-background="#bb00bb">
+					<h2>data-background: #bb00bb</h2>
+				</section>
+
+				<section>
+					<section data-background="#ff0000">
+						<h2>data-background: #ff0000</h2>
+					</section>
+					<section data-background="rgba(0, 0, 0, 0.2)">
+						<h2>data-background: rgba(0, 0, 0, 0.2)</h2>
+					</section>
+					<section data-background="salmon">
+						<h2>data-background: salmon</h2>
+					</section>
+				</section>
+
+				<section data-background="rgba(0, 100, 100, 0.2)">
+					<section>
+						<h2>Background applied to stack</h2>
+					</section>
+					<section>
+						<h2>Background applied to stack</h2>
+					</section>
+					<section data-background="rgba(100, 0, 0, 0.2)">
+						<h2>Background applied to slide inside of stack</h2>
+					</section>
+				</section>
+
+				<section data-background-transition="slide" data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
+					<h2>Background image</h2>
+				</section>
+
+				<section>
+					<section data-background-transition="slide" data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
+						<h2>Background image</h2>
+					</section>
+					<section data-background-transition="slide" data-background="assets/image1.png" style="background: rgba(255,255,255,0.9)">
+						<h2>Background image</h2>
+					</section>
+				</section>
+
+				<section data-background="assets/image2.png" data-background-size="100px" data-background-repeat="repeat" data-background-color="#111" style="background: rgba(255,255,255,0.9)">
+					<h2>Background image</h2>
+					<pre>data-background-size="100px" data-background-repeat="repeat" data-background-color="#111"</pre>
+				</section>
+
+				<section data-background="#888888">
+					<h2>Same background twice (1/2)</h2>
+				</section>
+				<section data-background="#888888">
+					<h2>Same background twice (2/2)</h2>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../../lib/js/head.min.js"></script>
+		<script src="../../js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				center: true,
+				// rtl: true,
+
+				transition: 'linear',
+				// transitionSpeed: 'slow',
+				// backgroundTransition: 'linear'
+			});
+
+		</script>
+
+	</body>
+</html>
