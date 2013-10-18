@@ -13,6 +13,7 @@ var Reveal = (function(){
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-child',
+		SKIP_LINKS_SELECTOR = '.reveal ul.skip-links',
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
@@ -187,7 +188,10 @@ var Reveal = (function(){
 
 		// Loads the dependencies and continues to #start() once done
 		load();
-
+		
+		if( document.querySelector( SKIP_LINKS_SELECTOR ) ){
+			initSkipLinks();
+		}
 	}
 
 	/**
@@ -2642,8 +2646,29 @@ var Reveal = (function(){
 		}
 
 	}
-
-
+	/**
+	 * Set up visible skip links.
+	 */
+	function initSkipLinks() {
+		var skipLinks = document.querySelector( SKIP_LINKS_SELECTOR ).getElementsByTagName('a');
+		var numSkipLinks = skipLinks.length;
+		for(var i=numSkipLinks; i--;){
+			skipLinks[i].addEventListener('focus', skipLinkFocus);
+			skipLinks[i].addEventListener('blur', skipLinkBlur);
+		}
+	}
+	/**
+	 * Change visibility of skip links on focus
+	 */
+	function skipLinkFocus(event) {
+		event.currentTarget.style.left = '0px';
+	}
+	/**
+	 * Hide skip links on blur
+	 */
+	function skipLinkBlur(event) {
+		event.currentTarget.style.left = '-50000px';
+	}
 	// --------------------------------------------------------------------//
 	// ------------------------------- API --------------------------------//
 	// --------------------------------------------------------------------//

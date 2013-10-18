@@ -62,6 +62,29 @@ body {
 	text-shadow: none;
 }
 
+.reveal ul.skip-links {
+  display: block;
+  list-style: none;
+  position: fixed;
+}
+.reveal ul.skip-links,
+.reveal ul.skip-links li {
+  margin: 0;
+  padding: 0;
+}
+.reveal ul.skip-links li a {
+  display: block;
+  font-size: 0.6em;
+  left: -50000px;
+  padding: 5px 10px;
+  position: absolute;
+  white-space: nowrap;
+}
+.offscreen {
+  display: block;
+  left: -50000px;
+  position: absolute;
+}
 
 /*********************************************
  * HEADERS
@@ -559,7 +582,10 @@ body {
 						visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
-
+.reveal .slides>section>.accessibilityWrapper {
+  display: none;
+  visibility: hidden;
+}
 /* Global transition speed settings */
 .reveal[data-transition-speed="fast"] .slides section {
 	-webkit-transition-duration: 400ms;
@@ -603,6 +629,11 @@ body {
 	display: block;
 	z-index: 11;
 	opacity: 1;
+}
+.reveal .slides>section.present>.accessibilityWrapper,
+.reveal .slides>section>section.present>.accessibilityWrapper {
+  display: block;
+  visibility: visible;
 }
 
 .reveal.center,
