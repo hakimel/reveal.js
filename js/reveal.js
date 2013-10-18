@@ -13,6 +13,7 @@ var Reveal = (function(){
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-child',
+		SKIP_LINKS_SELECTOR = '.reveal ul.skip-links',
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
@@ -187,7 +188,10 @@ var Reveal = (function(){
 
 		// Loads the dependencies and continues to #start() once done
 		load();
-
+		
+		if( document.querySelector( SKIP_LINKS_SELECTOR ) ){
+			initSkipLinks();
+		}
 	}
 
 	/**
@@ -1773,6 +1777,12 @@ var Reveal = (function(){
 		}
 
 	}
+	/**
+	 * Shorter way of setting tabIndex
+	 */
+	function tabIndex(el, value) {
+    el.setAttribute('tabIndex', value);
+	}
 
 	/**
 	 * Updates the state of all control/navigation arrows.
@@ -1788,36 +1798,37 @@ var Reveal = (function(){
 						.concat( dom.controlsDown )
 						.concat( dom.controlsPrev )
 						.concat( dom.controlsNext ).forEach( function( node ) {
+      node.setAttribute('tabIndex', '-1');
 			node.classList.remove( 'enabled' );
 			node.classList.remove( 'fragmented' );
 		} );
 
 		// Add the 'enabled' class to the available routes
-		if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-		if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.left ) dom.controlsLeft.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' );	} );
+		if( routes.right ) dom.controlsRight.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
+		if( routes.up ) dom.controlsUp.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' );	} );
+		if( routes.down ) dom.controlsDown.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
 
 		// Prev/next buttons
-		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
+		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
 
 		// Highlight fragment directions
 		if( currentSlide ) {
 
 			// Always apply fragment decorator to prev/next buttons
-			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-			if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
+			if( fragments.next ) dom.controlsNext.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
 
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
 			if( isVerticalSlide( currentSlide ) ) {
-				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsDown.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
 			}
 			else {
-				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsRight.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
 			}
 
 		}
@@ -2635,8 +2646,29 @@ var Reveal = (function(){
 		}
 
 	}
-
-
+	/**
+	 * Set up visible skip links.
+	 */
+	function initSkipLinks() {
+		var skipLinks = document.querySelector( SKIP_LINKS_SELECTOR ).getElementsByTagName('a');
+		var numSkipLinks = skipLinks.length;
+		for(var i=numSkipLinks; i--;){
+			skipLinks[i].addEventListener('focus', skipLinkFocus);
+			skipLinks[i].addEventListener('blur', skipLinkBlur);
+		}
+	}
+	/**
+	 * Change visibility of skip links on focus
+	 */
+	function skipLinkFocus(event) {
+		event.currentTarget.style.left = '0px';
+	}
+	/**
+	 * Hide skip links on blur
+	 */
+	function skipLinkBlur(event) {
+		event.currentTarget.style.left = '-50000px';
+	}
 	// --------------------------------------------------------------------//
 	// ------------------------------- API --------------------------------//
 	// --------------------------------------------------------------------//
