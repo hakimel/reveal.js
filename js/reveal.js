@@ -858,16 +858,6 @@ var Reveal = (function(){
 	 */
 	function removeAddressBar() {
 
-		// Portrait and not Chrome for iOS
-		if( window.orientation === 0 && !/crios/gi.test( navigator.userAgent ) ) {
-			document.documentElement.style.overflow = 'scroll';
-			document.body.style.height = '120%';
-		}
-		else {
-			document.documentElement.style.overflow = '';
-			document.body.style.height = '100%';
-		}
-
 		setTimeout( function() {
 			window.scrollTo( 0, 1 );
 		}, 10 );
