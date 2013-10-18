@@ -518,6 +518,8 @@ var Reveal = (function(){
 	 */
 	function configure( options ) {
 
+		var numberOfSlides = document.querySelectorAll( SLIDES_SELECTOR ).length;
+
 		dom.wrapper.classList.remove( config.transition );
 
 		// New config options may be passed when this method
@@ -576,7 +578,7 @@ var Reveal = (function(){
 		}
 
 		// Auto-slide playback controls
-		if( config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
+		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
 			autoSlidePlayer = new Playback( dom.wrapper, function() {
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
 			} );
