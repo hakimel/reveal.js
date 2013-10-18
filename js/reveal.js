@@ -344,10 +344,10 @@ var Reveal = (function(){
 
 		// Arrow controls
 		createSingletonNode( dom.wrapper, 'aside', 'controls',
-			'<div class="navigate-left" tabIndex="0"></div>' +
-			'<div class="navigate-right" tabIndex="0"></div>' +
-			'<div class="navigate-up" tabIndex="0"></div>' +
-			'<div class="navigate-down" tabIndex="0"></div>' );
+			'<div class="navigate-left"></div>' +
+			'<div class="navigate-right"></div>' +
+			'<div class="navigate-up"></div>' +
+			'<div class="navigate-down"></div>' );
 
 		// State background element [DEPRECATED]
 		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
@@ -1773,6 +1773,12 @@ var Reveal = (function(){
 		}
 
 	}
+	/**
+	 * Shorter way of setting tabIndex
+	 */
+	function tabIndex(el, value) {
+    el.setAttribute('tabIndex', value);
+	}
 
 	/**
 	 * Updates the state of all control/navigation arrows.
@@ -1788,36 +1794,37 @@ var Reveal = (function(){
 						.concat( dom.controlsDown )
 						.concat( dom.controlsPrev )
 						.concat( dom.controlsNext ).forEach( function( node ) {
+      node.setAttribute('tabIndex', '-1');
 			node.classList.remove( 'enabled' );
 			node.classList.remove( 'fragmented' );
 		} );
 
 		// Add the 'enabled' class to the available routes
-		if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-		if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.left ) dom.controlsLeft.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' );	} );
+		if( routes.right ) dom.controlsRight.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
+		if( routes.up ) dom.controlsUp.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' );	} );
+		if( routes.down ) dom.controlsDown.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
 
 		// Prev/next buttons
-		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
+		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'enabled' ); } );
 
 		// Highlight fragment directions
 		if( currentSlide ) {
 
 			// Always apply fragment decorator to prev/next buttons
-			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-			if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
+			if( fragments.next ) dom.controlsNext.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
 
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
 			if( isVerticalSlide( currentSlide ) ) {
-				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsDown.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
 			}
 			else {
-				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.next ) dom.controlsRight.forEach( function( el ) { tabIndex(el, 0); el.classList.add( 'fragmented', 'enabled' ); } );
 			}
 
 		}
