@@ -2847,18 +2847,26 @@ var Reveal = (function(){
 	 */
 	function Playback( container, progressCheck ) {
 
-		this.size = 50;
+		// Cosmetics
+		this.diameter = 50;
 		this.thickness = 3;
+
+		// Flags if we are currently playing
 		this.playing = false;
+
+		// Current progress on a 0-1 range
 		this.progress = 0;
+
+		// Used to loop the animation smoothly
+		this.progressOffset = 1;
 
 		this.container = container;
 		this.progressCheck = progressCheck;
 
 		this.canvas = document.createElement( 'canvas' );
 		this.canvas.className = 'playback';
-		this.canvas.width = this.size;
-		this.canvas.height = this.size;
+		this.canvas.width = this.diameter;
+		this.canvas.height = this.diameter;
 		this.context = this.canvas.getContext( '2d' );
 
 		this.container.appendChild( this.canvas );
@@ -2869,21 +2877,32 @@ var Reveal = (function(){
 
 	Playback.prototype.setPlaying = function( value ) {
 
+		var wasPlaying = this.playing;
+
 		this.playing = value;
 
-		// Render instantly
-		this.render();
-
-		// Start repainting if we're playing
-		if( this.playing ) {
+		// Start repainting if we weren't already
+		if( !wasPlaying && this.playing ) {
 			this.animate();
+		}
+		else {
+			this.render();
 		}
 
 	};
 
 	Playback.prototype.animate = function() {
 
+		var progressBefore = this.progress;
+
 		this.progress = this.progressCheck();
+
+		// When we loop, offset the progress so that it eases
+		// smoothly rather than immediately resetting
+		if( progressBefore > 0.8 && this.progress < 0.2 ) {
+			this.progressOffset = this.progress;
+		}
+
 		this.render();
 
 		if( this.playing ) {
@@ -2897,19 +2916,20 @@ var Reveal = (function(){
 	 */
 	Playback.prototype.render = function() {
 
-		var progress = this.playing ? this.progress : 0;
+		var progress = this.playing ? this.progress : 0,
+			radius = ( this.diameter / 2 ) - this.thickness,
+			x = this.diameter / 2,
+			y = this.diameter / 2,
+			iconSize = 14;
 
-		var radius = ( this.size / 2 ) - this.thickness,
-			x = this.size / 2,
-			y = this.size / 2;
+		// Ease towards 1
+		this.progressOffset += ( 1 - this.progressOffset ) * 0.1;
 
-		var iconSize = 14;
-
-		var startAngle = - Math.PI / 2;
-		var endAngle = startAngle + ( progress * ( Math.PI * 2 ) );
+		var endAngle = ( - Math.PI / 2 ) + ( progress * ( Math.PI * 2 ) );
+		var startAngle = ( - Math.PI / 2 ) + ( this.progressOffset * ( Math.PI * 2 ) );
 
 		this.context.save();
-		this.context.clearRect( 0, 0, this.size, this.size );
+		this.context.clearRect( 0, 0, this.diameter, this.diameter );
 
 		// Solid background color
 		this.context.beginPath();
@@ -2924,12 +2944,14 @@ var Reveal = (function(){
 		this.context.strokeStyle = '#666';
 		this.context.stroke();
 
-		// Draw progress on top of track
-		this.context.beginPath();
-		this.context.arc( x, y, radius, startAngle, endAngle, false );
-		this.context.lineWidth = this.thickness;
-		this.context.strokeStyle = '#fff';
-		this.context.stroke();
+		if( this.playing ) {
+			// Draw progress on top of track
+			this.context.beginPath();
+			this.context.arc( x, y, radius, startAngle, endAngle, false );
+			this.context.lineWidth = this.thickness;
+			this.context.strokeStyle = '#fff';
+			this.context.stroke();
+		}
 
 		this.context.translate( x - ( iconSize / 2 ), y - ( iconSize / 2 ) );
 
