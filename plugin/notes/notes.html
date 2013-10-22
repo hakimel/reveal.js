@@ -138,12 +138,20 @@
 
 	<body>
 
+		<script>
+			function getNotesURL( controls ) {
+				return window.opener.location.protocol + '//' + window.opener.location.host + window.opener.location.pathname + '?receiver&controls='+ ( controls || 'false' ) +'&progress=false&overview=false' + window.opener.location.hash;
+			}
+			var notesCurrentSlideURL = getNotesURL( true );
+			var notesNextSlideURL = getNotesURL( false );
+		</script>
+
 		<div id="wrap-current-slide" class="slides">
-			<script>document.write( '<iframe width="1280" height="1024" id="current-slide" src="'+ window.opener.location.href +'?receiver"></iframe>' );</script>
+			<script>document.write( '<iframe width="1280" height="1024" id="current-slide" src="'+ notesCurrentSlideURL +'"></iframe>' );</script>
 		</div>
 
 		<div id="wrap-next-slide" class="slides">
-			<script>document.write( '<iframe width="640" height="512" id="next-slide" src="'+ window.opener.location.href +'?receiver"></iframe>' );</script>
+			<script>document.write( '<iframe width="640" height="512" id="next-slide" src="'+ notesNextSlideURL +'"></iframe>' );</script>
 			<span>UPCOMING:</span>
 		</div>
 
@@ -238,10 +246,6 @@
 					currentSlide.contentWindow.Reveal.addEventListener( 'slidechanged', synchronizeMainWindow );
 					currentSlide.contentWindow.Reveal.addEventListener( 'fragmentshown', synchronizeMainWindow );
 					currentSlide.contentWindow.Reveal.addEventListener( 'fragmenthidden', synchronizeMainWindow );
-
-					// Reconfigure the notes window to remove needless UI
-					currentSlide.contentWindow.Reveal.configure({ controls: false, progress: false, overview: false });
-					nextSlide.contentWindow.Reveal.configure({ controls: false, progress: false, overview: false });
 
 				}
 				else {
