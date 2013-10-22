@@ -758,7 +758,7 @@ Some reveal.js features, like external markdown, require that presentations run 
 
 4. Clone the reveal.js repository
 ```
-$ git clone git@github.com:hakimel/reveal.js.git
+$ git clone https://github.com/hakimel/reveal.js.git
 ```
 
 5. Navigate to the reveal.js folder
