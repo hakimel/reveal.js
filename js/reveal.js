@@ -44,7 +44,7 @@ var Reveal = (function(){
 			// Enable the slide overview mode
 			overview: true,
 
-			// Vertical centring of slides
+			// Vertical centering of slides
 			center: true,
 
 			// Enables touch navigation on devices with touch input

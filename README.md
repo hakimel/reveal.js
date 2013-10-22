@@ -77,20 +77,27 @@ Reveal.initialize({
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
 
-	// Enable touch events for navigation
-	touch: true,
-
 	// Enable the slide overview mode
 	overview: true,
 
 	// Vertical centering of slides
 	center: true,
 
+	// Enables touch navigation on devices with touch input
+	touch: true,
+
 	// Loop the presentation
 	loop: false,
 
 	// Change the presentation direction to be RTL
 	rtl: false,
+
+	// Turns fragments on and off globally
+	fragments: true,
+
+	// Flags if the presentation is running in an embedded mode,
+	// i.e. contained within a limited portion of the screen
+	embedded: false,
 
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
@@ -103,14 +110,23 @@ Reveal.initialize({
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
+	// Hides the address bar on mobile devices
+	hideAddressBar: true,
+
+	// Opens links in an iframe preview overlay
+	previewLinks: false,
+
 	// Transition style
 	transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 	// Transition speed
 	transitionSpeed: 'default', // default/fast/slow
 
-	// Transition style for full page backgrounds
-	backgroundTransition: 'default' // default/linear/none
+	// Transition style for full page slide backgrounds
+	backgroundTransition: 'default', // default/linear/none
+
+	// Number of slides away from the current that are visible
+	viewDistance: 3
 
 	// Parallax background image
 	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
@@ -520,6 +536,7 @@ The framework comes with a few different themes included:
 - night: Black background, thick white text, orange links
 - serif: Cappuccino background, gray text, brown links
 - simple: White background, black text, blue links
+- solarized: Cream-colored background, dark green text, blue links
 
 Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
 
