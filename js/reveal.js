@@ -1102,7 +1102,7 @@ var Reveal = (function(){
 					continue;
 				}
 
-				if( config.center ) {
+				if( config.center || slide.classList.contains( 'center' ) ) {
 					// Vertical stacks are not centred since their section
 					// children will be
 					if( slide.classList.contains( 'stack' ) ) {
