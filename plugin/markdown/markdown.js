@@ -269,6 +269,42 @@
 	}
 
 	/**
+	 * Add classes to the parent element of a text node
+	 * From http://stackoverflow.com/questions/9178174/find-all-text-nodes
+	 */
+	function addClasses(element)
+	{
+		var mardownClassesInElementsRegex = new RegExp( "{\\\.\s*?([^}]+?)}", 'mg' );
+		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
+		if ( element.childNodes.length > 0 ) {
+
+			for (var i = 0; i < element.childNodes.length; i++) {
+				addClasses(element.childNodes[i]);
+			}
+		}
+
+		if (element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue)) {
+
+			var nodeValue = element.nodeValue;
+			if ( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
+
+				var classes = matches[1];
+				console.log("'" + classes + "'");
+				nodeValue = nodeValue.substring(0,matches.index) + nodeValue.substring(mardownClassesInElementsRegex.lastIndex) + "ee";
+				console.log("'" + nodeValue + "'");
+				element.nodeValue = nodeValue;
+				console.log("'" + element.parentNode.tagName + "'");
+
+				while( matchesClass = mardownClassRegex.exec( classes ) ) {
+					console.log("attr='" + matchesClass[1] + "'='" + matchesClass[2] + "'");
+					element.parentNode.attributes[matchesClass[1]] = matchesClass[2];
+					console.log("=>'" + element.parentNode.attributes[matchesClass[1]] + "'");
+				}
+			}
+		}
+	}
+
+	/**
 	 * Converts any current data-markdown slides in the
 	 * DOM to HTML.
 	 */
@@ -289,6 +325,7 @@
 				var markdown = getMarkdownFromSlide( section );
 
 				section.innerHTML = marked( markdown );
+				addClasses(section);
 
 				// If there were notes, we need to re-add them after
 				// having overwritten the section's HTML
