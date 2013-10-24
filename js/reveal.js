@@ -191,9 +191,15 @@ var Reveal = (function(){
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
 
+		var query = Reveal.getQueryHash();
+
+		// Do not accept new dependencies via query config to avoid
+		// the potential of malicious script injection
+		if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
+
 		// Copy options over to our config object
 		extend( config, options );
-		extend( config, Reveal.getQueryHash() );
+		extend( config, query );
 
 		// Hide the address bar in mobile browsers
 		hideAddressBar();
