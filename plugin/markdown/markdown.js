@@ -297,8 +297,8 @@
 
 				while( matchesClass = mardownClassRegex.exec( classes ) ) {
 					console.log("attr='" + matchesClass[1] + "'='" + matchesClass[2] + "'");
-					element.parentNode.attributes[matchesClass[1]] = matchesClass[2];
-					console.log("=>'" + element.parentNode.attributes[matchesClass[1]] + "'");
+					element.parentNode.setAttribute(matchesClass[1], matchesClass[2]);
+					console.log("=>'" + element.parentNode.attributes[matchesClass[1]].nodeValue + "'");
 				}
 			}
 		}
