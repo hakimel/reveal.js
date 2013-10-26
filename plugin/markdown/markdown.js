@@ -269,38 +269,60 @@
 	}
 
 	/**
+	 * Check if a node value has the attributes pattern.
+	 * If yes, extract it and add that value as one or several attributes
+	 * the the terget element.
+	 *
+	 * You need Cache Killer on Chrome to see the effect on any FOM transformation
+	 * directly on refresh (F5)
+	 * http://stackoverflow.com/questions/5690269/disabling-chrome-cache-for-website-development/7000899#answer-11786277
+	 */
+	function addAttributeInElement(node, elementTarget){
+		var mardownClassesInElementsRegex = new RegExp( "{\\\.\s*?([^}]+?)}", 'mg' );
+		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
+		var nodeValue = node.nodeValue;
+		if ( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
+
+			var classes = matches[1];
+			console.log("'" + classes + "'");
+			nodeValue = nodeValue.substring(0,matches.index) + nodeValue.substring(mardownClassesInElementsRegex.lastIndex) + "ee";
+			console.log("'" + nodeValue + "'");
+			node.nodeValue = nodeValue;
+			console.log("'" + elementTarget.tagName + "'");
+
+			while( matchesClass = mardownClassRegex.exec( classes ) ) {
+				console.log("attr='" + matchesClass[1] + "'='" + matchesClass[2] + "'");
+				elementTarget.setAttribute(matchesClass[1], matchesClass[2]);
+				console.log("=>'" + elementTarget.attributes[matchesClass[1]].nodeValue + "'");
+			}
+		}
+	}
+
+	/**
 	 * Add classes to the parent element of a text node
 	 * From http://stackoverflow.com/questions/9178174/find-all-text-nodes
 	 */
-	function addClasses(element)
+	function addAttributes(element)
 	{
-		var mardownClassesInElementsRegex = new RegExp( "{\\\.\s*?([^}]+?)}", 'mg' );
-		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
 		if ( element.childNodes.length > 0 ) {
 
 			for (var i = 0; i < element.childNodes.length; i++) {
-				addClasses(element.childNodes[i]);
+				addAttributes(element.childNodes[i]);
 			}
 		}
-
-		if (element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue)) {
-
-			var nodeValue = element.nodeValue;
-			if ( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
-
-				var classes = matches[1];
-				console.log("'" + classes + "'");
-				nodeValue = nodeValue.substring(0,matches.index) + nodeValue.substring(mardownClassesInElementsRegex.lastIndex) + "ee";
-				console.log("'" + nodeValue + "'");
-				element.nodeValue = nodeValue;
-				console.log("'" + element.parentNode.tagName + "'");
-
-				while( matchesClass = mardownClassRegex.exec( classes ) ) {
-					console.log("attr='" + matchesClass[1] + "'='" + matchesClass[2] + "'");
-					element.parentNode.setAttribute(matchesClass[1], matchesClass[2]);
-					console.log("=>'" + element.parentNode.attributes[matchesClass[1]].nodeValue + "'");
-				}
+		var nodeValue;
+		var elementTarget;
+		if ( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
+			addAttributeInElement(element, element.parentNode);
+		}
+		if ( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
+			console.log("Element '" + element.tagName + "' has " + element.attributes.length + " attributes");
+			for (iattr=0; iattr<element.attributes.length; iattr++){
+				var attr = element.attributes[iattr];
+				console.log("Check attr '" + attr + "', name='" + attr.name + "'='" + attr.value + "'");
+				addAttributeInElement(attr, element)
 			}
+			console.log("<== Element '" + element.tagName + "' had " + element.attributes.length + " attributes");
 		}
 	}
 
@@ -325,7 +347,7 @@
 				var markdown = getMarkdownFromSlide( section );
 
 				section.innerHTML = marked( markdown );
-				addClasses(section);
+				addAttributes(section);
 
 				// If there were notes, we need to re-add them after
 				// having overwritten the section's HTML
