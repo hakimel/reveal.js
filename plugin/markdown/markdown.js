@@ -277,52 +277,45 @@
 	 * directly on refresh (F5)
 	 * http://stackoverflow.com/questions/5690269/disabling-chrome-cache-for-website-development/7000899#answer-11786277
 	 */
-	function addAttributeInElement(node, elementTarget){
+	function addAttributeInElement( node, elementTarget ){
 		var mardownClassesInElementsRegex = new RegExp( "{\\\.\s*?([^}]+?)}", 'mg' );
 		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
 		var nodeValue = node.nodeValue;
 		if ( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
 
 			var classes = matches[1];
-			console.log("'" + classes + "'");
-			nodeValue = nodeValue.substring(0,matches.index) + nodeValue.substring(mardownClassesInElementsRegex.lastIndex) + "ee";
-			console.log("'" + nodeValue + "'");
+			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
 			node.nodeValue = nodeValue;
-			console.log("'" + elementTarget.tagName + "'");
 
 			while( matchesClass = mardownClassRegex.exec( classes ) ) {
-				console.log("attr='" + matchesClass[1] + "'='" + matchesClass[2] + "'");
 				elementTarget.setAttribute(matchesClass[1], matchesClass[2]);
-				console.log("=>'" + elementTarget.attributes[matchesClass[1]].nodeValue + "'");
 			}
 		}
 	}
 
 	/**
-	 * Add classes to the parent element of a text node
-	 * From http://stackoverflow.com/questions/9178174/find-all-text-nodes
+	 * Add attributes to the parent element of a text node,
+	 * or the element of an attribute node.
 	 */
-	function addAttributes(element)
+	function addAttributes( element )
 	{
 		if ( element.childNodes.length > 0 ) {
 
-			for (var i = 0; i < element.childNodes.length; i++) {
-				addAttributes(element.childNodes[i]);
+			for ( var i = 0; i < element.childNodes.length; i++ ) {
+				addAttributes( element.childNodes[i] );
 			}
 		}
 		var nodeValue;
 		var elementTarget;
+		// From http://stackoverflow.com/questions/9178174/find-all-text-nodes
 		if ( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
-			addAttributeInElement(element, element.parentNode);
+			addAttributeInElement( element, element.parentNode );
 		}
 		if ( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
-			console.log("Element '" + element.tagName + "' has " + element.attributes.length + " attributes");
-			for (iattr=0; iattr<element.attributes.length; iattr++){
+			for ( iattr=0; iattr<element.attributes.length; iattr++ ){
 				var attr = element.attributes[iattr];
-				console.log("Check attr '" + attr + "', name='" + attr.name + "'='" + attr.value + "'");
 				addAttributeInElement(attr, element)
 			}
-			console.log("<== Element '" + element.tagName + "' had " + element.attributes.length + " attributes");
 		}
 	}
 
@@ -347,7 +340,7 @@
 				var markdown = getMarkdownFromSlide( section );
 
 				section.innerHTML = marked( markdown );
-				addAttributes(section);
+				addAttributes( section );
 
 				// If there were notes, we need to re-add them after
 				// having overwritten the section's HTML
