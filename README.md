@@ -493,6 +493,8 @@ Add `data-autoplay` to your media element if you want it to automatically start 
 <video data-autoplay src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></video>
 ```
 
+Additionally the framework automatically pushes two [post messages](https://developer.mozilla.org/en-US/docs/Web/API/Window.postMessage) to all iframes, ```slide:start``` when the slide containing the iframe is made visible and ```slide:stop``` when it is hidden.
+
 
 ### Stretching elements
 Sometimes it's desirable to have an element, like an image or video, stretch to consume as much space as possible within a given slide. This can be done by adding the ```.stretch``` class to an element as seen below:
