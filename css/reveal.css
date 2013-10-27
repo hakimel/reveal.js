@@ -334,7 +334,7 @@ body {
 }
 
 .reveal table th {
-	text-shadow: rgb(255,255,255) 1px 1px 2px;
+	font-weight: bold;
 }
 
 .reveal sup {
