@@ -12,7 +12,7 @@ var Reveal = (function(){
 	var SLIDES_SELECTOR = '.reveal .slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
-		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-child',
+		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-of-type',
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
