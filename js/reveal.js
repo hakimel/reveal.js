@@ -2017,6 +2017,11 @@ var Reveal = (function(){
 				}
 			} );
 
+			// iframe embeds
+			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
+				el.contentWindow.postMessage('slide:start', '*');
+			});
+
 			// YouTube embeds
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
@@ -2040,6 +2045,11 @@ var Reveal = (function(){
 					el.pause();
 				}
 			} );
+
+			// iframe embeds
+			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
+				el.contentWindow.postMessage('slide:stop', '*');
+			});
 
 			// YouTube embeds
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
