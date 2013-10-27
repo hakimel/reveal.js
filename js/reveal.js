@@ -2019,13 +2019,13 @@ var Reveal = (function(){
 
 			// iframe embeds
 			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
-				el.contentWindow.postMessage('slide:start', '*');
+				el.contentWindow.postMessage( 'slide:start', '*' );
 			});
 
 			// YouTube embeds
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
-					el.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+					el.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
 				}
 			});
 		}
@@ -2048,13 +2048,13 @@ var Reveal = (function(){
 
 			// iframe embeds
 			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
-				el.contentWindow.postMessage('slide:stop', '*');
+				el.contentWindow.postMessage( 'slide:stop', '*' );
 			});
 
 			// YouTube embeds
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
-					el.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
 				}
 			});
 		}
