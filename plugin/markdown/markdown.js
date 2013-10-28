@@ -28,6 +28,7 @@
 
 	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:';
+		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '{\\\.\s*?([^}]+?)}';
 
 
 	/**
@@ -218,7 +219,6 @@
 				xhr.onreadystatechange = function() {
 					if( xhr.readyState === 4 ) {
 						if ( xhr.status >= 200 && xhr.status < 300 ) {
-
 							section.outerHTML = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-vertical' ),
@@ -269,6 +269,57 @@
 	}
 
 	/**
+	 * Check if a node value has the attributes pattern.
+	 * If yes, extract it and add that value as one or several attributes
+	 * the the terget element.
+	 *
+	 * You need Cache Killer on Chrome to see the effect on any FOM transformation
+	 * directly on refresh (F5)
+	 * http://stackoverflow.com/questions/5690269/disabling-chrome-cache-for-website-development/7000899#answer-11786277
+	 */
+	function addAttributeInElement( node, elementTarget, separator ){
+		var mardownClassesInElementsRegex = new RegExp( separator, 'mg' );
+		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
+		var nodeValue = node.nodeValue;
+		if ( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
+
+			var classes = matches[1];
+			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
+			node.nodeValue = nodeValue;
+
+			while( matchesClass = mardownClassRegex.exec( classes ) ) {
+				elementTarget.setAttribute(matchesClass[1], matchesClass[2]);
+			}
+		}
+	}
+
+	/**
+	 * Add attributes to the parent element of a text node,
+	 * or the element of an attribute node.
+	 */
+	function addAttributes( element, separator )
+	{
+		if ( element.childNodes.length > 0 ) {
+
+			for ( var i = 0; i < element.childNodes.length; i++ ) {
+				addAttributes( element.childNodes[i], separator );
+			}
+		}
+		var nodeValue;
+		var elementTarget;
+		// From http://stackoverflow.com/questions/9178174/find-all-text-nodes
+		if ( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
+			addAttributeInElement( element, element.parentNode, separator );
+		}
+		if ( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
+			for ( iattr=0; iattr<element.attributes.length; iattr++ ){
+				var attr = element.attributes[iattr];
+				addAttributeInElement(attr, element, separator )
+			}
+		}
+	}
+
+	/**
 	 * Converts any current data-markdown slides in the
 	 * DOM to HTML.
 	 */
@@ -289,6 +340,9 @@
 				var markdown = getMarkdownFromSlide( section );
 
 				section.innerHTML = marked( markdown );
+				addAttributes( 	section, section.getAttribute( 'data-element-attributes' ) ||
+								section.parentNode.getAttribute( 'data-element-attributes' ) ||
+								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR );
 
 				// If there were notes, we need to re-add them after
 				// having overwritten the section's HTML
