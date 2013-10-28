@@ -2009,7 +2009,7 @@ var Reveal = (function(){
 	 */
 	function startEmbeddedContent( slide ) {
 
-		if( slide ) {
+		if( slide && !isSpeakerNotes() ) {
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
@@ -2058,6 +2058,16 @@ var Reveal = (function(){
 				}
 			});
 		}
+
+	}
+
+	/**
+	 * Checks if this presentation is running inside of the
+	 * speaker notes window.
+	 */
+	function isSpeakerNotes() {
+
+		return !!window.location.search.match( /receiver/gi );
 
 	}
 
