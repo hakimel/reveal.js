@@ -58,6 +58,20 @@ You can write your content as a separate file and have reveal.js load it at runt
 <section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^Note:" data-charset="iso-8859-15"></section>
 ```
 
+#### Element Attributes
+
+Special syntax is available for adding attributes to Markdown elements. This is useful for fragments, amongst other things.
+
+```html
+<section data-markdown>
+	<script type="text/template">
+		- Item 1 {_class="fragment" data-fragment-index="2"}
+		- Item 2 {_class="fragment" data-fragment-index="1"}
+	</script>
+</section>
+```
+
+
 ### Configuration
 
 At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
