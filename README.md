@@ -65,8 +65,8 @@ Special syntax is available for adding attributes to Markdown elements. This is 
 ```html
 <section data-markdown>
 	<script type="text/template">
-		- Item 1 {_class="fragment" data-fragment-index="2"}
-		- Item 2 {_class="fragment" data-fragment-index="1"}
+		- Item 1 {.class="fragment" data-fragment-index="2"}
+		- Item 2 {.class="fragment" data-fragment-index="1"}
 	</script>
 </section>
 ```
