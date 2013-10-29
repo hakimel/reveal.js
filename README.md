@@ -352,6 +352,17 @@ Slides are contained within a limited portion of the screen by default to allow 
 
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
 
+Special syntax is available for adding attributes to Markdown-based generated `<slide>` element.
+
+```html
+<section data-markdown>
+	<script type="text/template">
+	<!-- slide-attributes: data-background="#ff0000" -->
+		Mardown content
+	</script>
+</section>
+```
+
 ### Parallax Background
 
 If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional).
@@ -389,6 +400,17 @@ The global presentation transition is set using the ```transition``` config valu
 ```
 
 Note that this does not work with the page and cube transitions.
+
+Special syntax is available for adding attributes to Markdown-based generated `<slide>` element.
+
+```html
+<section data-markdown>
+	<script type="text/template">
+	<!-- slide-attributes: data-transition="concave" -->
+		Mardown content
+	</script>
+</section>
+```
 
 
 ### Internal links
