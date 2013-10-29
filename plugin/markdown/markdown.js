@@ -185,11 +185,9 @@
 				slideAttributes = matchAttributes ? matchAttributes[1] : "";
 				dataAttributes = "";
 				if( slideAttributes != "" ) {
-					// console.log('all attr=' + slideAttributes );
 					// http://stackoverflow.com/questions/18025762/javascript-regex-replace-all-word-characters-except-word-characters-between-ch
 					// Keep only data-attributes for the parent slide section.
 					dataAttributes = slideAttributes.replace( /(data-\S+=\"[^\"]+?\")|\w|[\"=]/g, function(a, b) { return b || ''; });
-					// console.log('new attr=' + dataAttributes );
 				}
 				markdownSections += '<section '+ options.attributes + ' ' + dataAttributes + '>';
 
@@ -197,7 +195,6 @@
 					matchAttributes = slideAttributesSeparatorRegex.exec( child );
 					slideAttributes = matchAttributes ? matchAttributes[1] : "";
 					child = matchAttributes ? child.replace( slideAttributesSeparatorRegex,"" ) : child
-					// console.log('slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
 					markdownSections += '<section ' + slideAttributes + ' data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
 				} );
 
@@ -207,7 +204,6 @@
 				matchAttributes = slideAttributesSeparatorRegex.exec( sectionStack[i] );
 				slideAttributes = matchAttributes ? matchAttributes[1] : "";
 				content = matchAttributes ? sectionStack[i].replace( slideAttributesSeparatorRegex,"" ) : sectionStack[i]
-				// console.log('Slide attributes ' + options.slideAttributesSeparator + ' => ' + slideAttributes)
 				markdownSections += '<section '+ options.attributes + ' ' + slideAttributes +' data-markdown>' + createMarkdownSlide( content, options ) + '</section>';
 			}
 		}
