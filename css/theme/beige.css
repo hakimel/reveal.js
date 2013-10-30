@@ -115,6 +115,10 @@ body {
 .reveal .controls div.navigate-down.enabled {
   border-top-color: #8b743d; }
 
+.reveal .controls .slide-number {
+  color: #8b743d;
+}
+
 .reveal .controls div.navigate-left.enabled:hover {
   border-right-color: #c0a86e; }
 

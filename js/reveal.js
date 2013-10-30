@@ -96,7 +96,10 @@ var Reveal = (function(){
 			viewDistance: 3,
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// Indicates whether to show the slides number
+			showSlideNumber: false
 		},
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
@@ -347,7 +350,8 @@ var Reveal = (function(){
 			'<div class="navigate-left"></div>' +
 			'<div class="navigate-right"></div>' +
 			'<div class="navigate-up"></div>' +
-			'<div class="navigate-down"></div>' );
+			'<div class="navigate-down"></div>' +
+			'<div class="slide-number"></div>' );
 
 		// State background element [DEPRECATED]
 		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
@@ -366,6 +370,7 @@ var Reveal = (function(){
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 
+		dom.slideNumbers = toArray(document.querySelectorAll( '.slide-number' ));
 	}
 
 	/**
@@ -591,6 +596,11 @@ var Reveal = (function(){
 			dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
 
+		if( config.showSlideNumber ) {
+			['ready', 'slidechanged'].forEach( function(eventName) { 
+				document.addEventListener( eventName, onSlideChanged, false ); 
+			} );
+		}
 	}
 
 	/**
@@ -627,6 +637,11 @@ var Reveal = (function(){
 			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
 
+		if( config.showSlideNumber ) {
+			['ready', 'slidechanged'].forEach( function(eventName) { 
+				document.removeEventListener( eventName, onSlideChanged, false ); 
+			} );
+		}
 	}
 
 	/**
@@ -2634,6 +2649,23 @@ var Reveal = (function(){
 			event.preventDefault();
 		}
 
+	}
+
+	/**
+	 * Invoked when slide changed and on the first time slides are ready
+	 */
+	function onSlideChanged( event ) {
+		var element = dom.slideNumbers;
+
+		// change the number of the page using 'indexh/indexv' format
+		var indexString = ( event.indexh + 1 ).toString();
+		if( indexv > 0 ) {
+			indexString += ' / ' + indexv.toString();
+		}
+
+		element.forEach( function( elm ) { 
+			elm.innerHTML = indexString; 
+		} );
 	}
 
 

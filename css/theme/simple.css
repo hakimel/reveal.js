@@ -105,6 +105,9 @@ body {
 .reveal .controls div.navigate-down.enabled {
   border-top-color: darkblue; }
 
+.reveal .controls .slide-number {
+  color: darkblue;
+}
 .reveal .controls div.navigate-left.enabled:hover {
   border-right-color: #0000f1; }
 

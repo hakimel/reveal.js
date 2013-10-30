@@ -391,6 +391,15 @@ body {
 	        transition: all 0.2s ease;
 }
 
+.reveal .controls .slide-number {
+	font-size: 11px;
+	top: 10px;
+	left: -10px;
+	opacity: 0.5;
+	width: 45px;
+	text-align: center;
+}
+
 .reveal .controls div.enabled {
 	opacity: 0.7;
 	cursor: pointer;
