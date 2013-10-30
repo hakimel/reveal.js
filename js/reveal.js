@@ -122,7 +122,7 @@ var Reveal = (function(){
 		previousSlide,
 		currentSlide,
 
-		previousBackgroundHash,
+		previousBackground,
 
 		// Slides may hold a data-state attribute which we pick up and apply
 		// as a class to the body. This list contains the combined state of
@@ -309,6 +309,9 @@ var Reveal = (function(){
 		// Read the initial hash
 		readURL();
 
+		// Update all backgrounds
+		updateBackground( true );
+
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( function() {
@@ -444,7 +447,6 @@ var Reveal = (function(){
 			};
 
 			var element = document.createElement( 'div' );
-			element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
 			element.className = 'slide-background';
 
 			if( data.background ) {
@@ -455,6 +457,8 @@ var Reveal = (function(){
 				else {
 					element.style.background = data.background;
 				}
+
+				element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
 			}
 
 			// Additional and optional background properties
@@ -1640,7 +1644,7 @@ var Reveal = (function(){
 
 		updateControls();
 		updateProgress();
-		updateBackground();
+		updateBackground( true );
 
 	}
 
@@ -1891,8 +1895,11 @@ var Reveal = (function(){
 	/**
 	 * Updates the background elements to reflect the current
 	 * slide.
+	 *
+	 * @param {Boolean} includeAll If true, the backgrounds of
+	 * all vertical slides (not just the present) will be updated.
 	 */
-	function updateBackground() {
+	function updateBackground( includeAll ) {
 
 		var currentBackground = null;
 
@@ -1904,51 +1911,50 @@ var Reveal = (function(){
 		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
-			backgroundh.className = 'slide-background ';
-
 			if( h < indexh ) {
-				backgroundh.className += horizontalPast;
+				backgroundh.className = 'slide-background ' + horizontalPast;
 			}
 			else if ( h > indexh ) {
-				backgroundh.className += horizontalFuture;
+				backgroundh.className = 'slide-background ' + horizontalFuture;
 			}
 			else {
-				backgroundh.className += 'present';
+				backgroundh.className = 'slide-background present';
 
 				// Store a reference to the current background element
 				currentBackground = backgroundh;
 			}
 
-			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
+			if( includeAll || h === indexh ) {
+				toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
 
-				backgroundv.className = 'slide-background ';
+					if( v < indexv ) {
+						backgroundv.className = 'slide-background past';
+					}
+					else if ( v > indexv ) {
+						backgroundv.className = 'slide-background future';
+					}
+					else {
+						backgroundv.className = 'slide-background present';
 
-				if( v < indexv ) {
-					backgroundv.className += 'past';
-				}
-				else if ( v > indexv ) {
-					backgroundv.className += 'future';
-				}
-				else {
-					backgroundv.className += 'present';
+						// Only if this is the present horizontal and vertical slide
+						if( h === indexh ) currentBackground = backgroundv;
+					}
 
-					// Only if this is the present horizontal and vertical slide
-					if( h === indexh ) currentBackground = backgroundv;
-				}
-
-			} );
+				} );
+			}
 
 		} );
 
 		// Don't transition between identical backgrounds. This
 		// prevents unwanted flicker.
 		if( currentBackground ) {
+			var previousBackgroundHash = previousBackground ? previousBackground.getAttribute( 'data-background-hash' ) : null;
 			var currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
-			if( currentBackgroundHash === previousBackgroundHash ) {
+			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== previousBackground ) {
 				dom.background.classList.add( 'no-transition' );
 			}
 
-			previousBackgroundHash = currentBackgroundHash;
+			previousBackground = currentBackground;
 		}
 
 		// Allow the first background to apply without transition
