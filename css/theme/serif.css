@@ -105,9 +105,6 @@ body {
 .reveal .controls div.navigate-down.enabled {
   border-top-color: #51483d; }
 
-.reveal .controls .slide-number {
-  color: #51483d;
-}
 .reveal .controls div.navigate-left.enabled:hover {
   border-right-color: #8b7c69; }
 
@@ -119,6 +116,13 @@ body {
 
 .reveal .controls div.navigate-down.enabled:hover {
   border-top-color: #8b7c69; }
+
+/*********************************************
+ * SLIDE NUMBER
+ *********************************************/
+.reveal .slide-number {
+  color: #51483d;
+}
 
 /*********************************************
  * PROGRESS BAR

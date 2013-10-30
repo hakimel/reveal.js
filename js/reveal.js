@@ -350,8 +350,10 @@ var Reveal = (function(){
 			'<div class="navigate-left"></div>' +
 			'<div class="navigate-right"></div>' +
 			'<div class="navigate-up"></div>' +
-			'<div class="navigate-down"></div>' +
-			'<div class="slide-number"></div>' );
+			'<div class="navigate-down"></div>' );
+
+		// slide number
+		createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
 
 		// State background element [DEPRECATED]
 		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
@@ -370,7 +372,7 @@ var Reveal = (function(){
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 
-		dom.slideNumbers = toArray(document.querySelectorAll( '.slide-number' ));
+		dom.slideNumber = document.querySelector( '.slide-number' );
 	}
 
 	/**
@@ -595,12 +597,6 @@ var Reveal = (function(){
 			dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
 			dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
-
-		if( config.showSlideNumber ) {
-			['ready', 'slidechanged'].forEach( function(eventName) { 
-				document.addEventListener( eventName, onSlideChanged, false ); 
-			} );
-		}
 	}
 
 	/**
@@ -636,12 +632,6 @@ var Reveal = (function(){
 			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( eventName, onNavigatePrevClicked, false ); } );
 			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
-
-		if( config.showSlideNumber ) {
-			['ready', 'slidechanged'].forEach( function(eventName) { 
-				document.removeEventListener( eventName, onSlideChanged, false ); 
-			} );
-		}
 	}
 
 	/**
@@ -1548,6 +1538,7 @@ var Reveal = (function(){
 		updateControls();
 		updateProgress();
 		updateBackground();
+		updateSlideNumber();
 
 		// Update the URL hash
 		writeURL();
@@ -1580,7 +1571,7 @@ var Reveal = (function(){
 		updateControls();
 		updateProgress();
 		updateBackground();
-
+		updateSlideNumber();
 	}
 
 	/**
@@ -1787,6 +1778,26 @@ var Reveal = (function(){
 
 		}
 
+	}
+
+	/**
+	 * Updates the slide number div to reflect the current slide.
+	 */
+	function updateSlideNumber() {
+
+		// Update slide number if enabled
+		if( config.showSlideNumber && dom.slideNumber)
+		{
+			var element = dom.slideNumber;
+
+			// change the number of the page using 'indexh - indexv' format
+			var indexString = ( indexh + 1 ).toString();
+			if( indexv > 0 ) {
+				indexString += ' - ' + indexv.toString();
+			}
+
+			element.innerHTML = indexString; 
+		}
 	}
 
 	/**
@@ -2649,23 +2660,6 @@ var Reveal = (function(){
 			event.preventDefault();
 		}
 
-	}
-
-	/**
-	 * Invoked when slide changed and on the first time slides are ready
-	 */
-	function onSlideChanged( event ) {
-		var element = dom.slideNumbers;
-
-		// change the number of the page using 'indexh/indexv' format
-		var indexString = ( event.indexh + 1 ).toString();
-		if( indexv > 0 ) {
-			indexString += ' / ' + indexv.toString();
-		}
-
-		element.forEach( function( elm ) { 
-			elm.innerHTML = indexString; 
-		} );
 	}
 
 

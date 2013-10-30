@@ -391,15 +391,6 @@ body {
 	        transition: all 0.2s ease;
 }
 
-.reveal .controls .slide-number {
-	font-size: 11px;
-	top: 10px;
-	left: -10px;
-	opacity: 0.5;
-	width: 45px;
-	text-align: center;
-}
-
 .reveal .controls div.enabled {
 	opacity: 0.7;
 	cursor: pointer;
@@ -485,6 +476,21 @@ body {
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
+/*********************************************
+ * SLIDE NUMBER
+ *********************************************/
+
+.reveal .slide-number {
+	position: fixed;
+	display: block;
+	opacity: 0.5; 
+	z-index: 31;
+	width: 110px;
+	bottom: 58px;
+	right: 11px;
+	font-size: 12px;
+	text-align: center;
+}
 
 /*********************************************
  * SLIDES
