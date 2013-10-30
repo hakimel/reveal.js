@@ -530,7 +530,7 @@ body {
 
 	z-index: 10;
 	line-height: 1.2em;
-	font-weight: normal;
+	font-weight: inherit;
 
 	-webkit-transform-style: preserve-3d;
 	   -moz-transform-style: preserve-3d;
