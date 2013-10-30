@@ -122,6 +122,8 @@ var Reveal = (function(){
 		previousSlide,
 		currentSlide,
 
+		previousBackgroundHash,
+
 		// Slides may hold a data-state attribute which we pick up and apply
 		// as a class to the body. This list contains the combined state of
 		// all current slides.
@@ -442,6 +444,7 @@ var Reveal = (function(){
 			};
 
 			var element = document.createElement( 'div' );
+			element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
 			element.className = 'slide-background';
 
 			if( data.background ) {
@@ -1891,23 +1894,62 @@ var Reveal = (function(){
 	 */
 	function updateBackground() {
 
+		var currentBackground = null;
+
+		// Reverse past/future classes when in RTL mode
+		var horizontalPast = config.rtl ? 'future' : 'past',
+			horizontalFuture = config.rtl ? 'past' : 'future';
+
 		// Update the classes of all backgrounds to match the
 		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
-			// Reverse past/future classes when in RTL mode
-			var horizontalPast = config.rtl ? 'future' : 'past',
-				horizontalFuture = config.rtl ? 'past' : 'future';
+			backgroundh.className = 'slide-background ';
 
-			backgroundh.className = 'slide-background ' + ( h < indexh ? horizontalPast : h > indexh ? horizontalFuture : 'present' );
+			if( h < indexh ) {
+				backgroundh.className += horizontalPast;
+			}
+			else if ( h > indexh ) {
+				backgroundh.className += horizontalFuture;
+			}
+			else {
+				backgroundh.className += 'present';
+
+				// Store a reference to the current background element
+				currentBackground = backgroundh;
+			}
 
 			toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
 
-				backgroundv.className = 'slide-background ' + ( v < indexv ? 'past' : v > indexv ? 'future' : 'present' );
+				backgroundv.className = 'slide-background ';
+
+				if( v < indexv ) {
+					backgroundv.className += 'past';
+				}
+				else if ( v > indexv ) {
+					backgroundv.className += 'future';
+				}
+				else {
+					backgroundv.className += 'present';
+
+					// Only if this is the present horizontal and vertical slide
+					if( h === indexh ) currentBackground = backgroundv;
+				}
 
 			} );
 
 		} );
+
+		// Don't transition between identical backgrounds. This
+		// prevents unwanted flicker.
+		if( currentBackground ) {
+			var currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
+			if( currentBackgroundHash === previousBackgroundHash ) {
+				dom.background.classList.add( 'no-transition' );
+			}
+
+			previousBackgroundHash = currentBackgroundHash;
+		}
 
 		// Allow the first background to apply without transition
 		setTimeout( function() {
