@@ -486,10 +486,11 @@ body {
 	opacity: 0.5; 
 	z-index: 31;
 	width: 110px;
-	bottom: 60px;
-	right: 11px;
+	bottom: 30px;
+	left: 11px;
 	font-size: 12px;
 	text-align: center;
+	letter-spacing: 0px
 }
 
 /*********************************************

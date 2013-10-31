@@ -1791,9 +1791,9 @@ var Reveal = (function(){
 			var element = dom.slideNumber;
 
 			// change the number of the page using 'indexh - indexv' format
-			var indexString = ( indexh + 1 ).toString();
+			var indexString = indexh;
 			if( indexv > 0 ) {
-				indexString += ' - ' + indexv.toString();
+				indexString += ' - ' + indexv;
 			}
 
 			element.innerHTML = indexString; 
