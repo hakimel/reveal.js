@@ -457,7 +457,9 @@ var Reveal = (function(){
 				else {
 					element.style.background = data.background;
 				}
+			}
 
+			if( data.background || data.backgroundColor || data.backgroundImage ) {
 				element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
 			}
 
