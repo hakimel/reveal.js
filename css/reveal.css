@@ -1312,7 +1312,7 @@ body {
 	        transition: none;
 }
 
-/* Linear sliding transition style */
+/* 2D slide */
 .reveal[data-background-transition=slide]>.backgrounds .slide-background,
 .reveal>.backgrounds .slide-background[data-background-transition=slide] {
 	opacity: 1;
@@ -1363,7 +1363,7 @@ body {
 	}
 
 
-/* Curve sliding transition style */
+/* Convex */
 .reveal[data-background-transition=convex]>.backgrounds .slide-background.past,
 .reveal>.backgrounds .slide-background.past[data-background-transition=convex] {
 	opacity: 0;
@@ -1387,19 +1387,106 @@ body {
 .reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=convex] {
 	opacity: 0;
 
-	-webkit-transform: translate3d(0, -300px, 0) rotateX(90deg) translate3d(0, -300px, 0);
-	   -moz-transform: translate3d(0, -300px, 0) rotateX(90deg) translate3d(0, -300px, 0);
-	    -ms-transform: translate3d(0, -300px, 0) rotateX(90deg) translate3d(0, -300px, 0);
-	        transform: translate3d(0, -300px, 0) rotateX(90deg) translate3d(0, -300px, 0);
+	-webkit-transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
+	   -moz-transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
+	    -ms-transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
+	        transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
 }
 .reveal[data-background-transition=convex]>.backgrounds .slide-background>.slide-background.future,
 .reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=convex] {
 	opacity: 0;
 
-	-webkit-transform: translate3d(0, 300px, 0) rotateX(-90deg) translate3d(0, 300px, 0);
-	   -moz-transform: translate3d(0, 300px, 0) rotateX(-90deg) translate3d(0, 300px, 0);
-	    -ms-transform: translate3d(0, 300px, 0) rotateX(-90deg) translate3d(0, 300px, 0);
-	        transform: translate3d(0, 300px, 0) rotateX(-90deg) translate3d(0, 300px, 0);
+	-webkit-transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
+	   -moz-transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
+	    -ms-transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
+	        transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
+}
+
+
+/* Concave */
+.reveal[data-background-transition=concave]>.backgrounds .slide-background.past,
+.reveal>.backgrounds .slide-background.past[data-background-transition=concave] {
+	opacity: 0;
+
+	-webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+	   -moz-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+	    -ms-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+	        transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+}
+.reveal[data-background-transition=concave]>.backgrounds .slide-background.future,
+.reveal>.backgrounds .slide-background.future[data-background-transition=concave] {
+	opacity: 0;
+
+	-webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+	   -moz-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+	    -ms-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+	        transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+}
+
+.reveal[data-background-transition=concave]>.backgrounds .slide-background>.slide-background.past,
+.reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=concave] {
+	opacity: 0;
+
+	-webkit-transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
+	   -moz-transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
+	    -ms-transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
+	        transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
+}
+.reveal[data-background-transition=concave]>.backgrounds .slide-background>.slide-background.future,
+.reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=concave] {
+	opacity: 0;
+
+	-webkit-transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
+	   -moz-transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
+	    -ms-transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
+	        transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
+}
+
+/* Zoom */
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background.past,
+.reveal>.backgrounds .slide-background.past[data-background-transition=zoom] {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(16);
+	   -moz-transform: scale(16);
+	    -ms-transform: scale(16);
+	     -o-transform: scale(16);
+	        transform: scale(16);
+}
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background.future,
+.reveal>.backgrounds .slide-background.future[data-background-transition=zoom] {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(0.2);
+	   -moz-transform: scale(0.2);
+	    -ms-transform: scale(0.2);
+	     -o-transform: scale(0.2);
+	        transform: scale(0.2);
+}
+
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background>.slide-background.past,
+.reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=zoom] {
+	opacity: 0;
+		visibility: hidden;
+
+		-webkit-transform: scale(16);
+		   -moz-transform: scale(16);
+		    -ms-transform: scale(16);
+		     -o-transform: scale(16);
+		        transform: scale(16);
+}
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background>.slide-background.future,
+.reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=zoom] {
+	opacity: 0;
+	visibility: hidden;
+
+	-webkit-transform: scale(0.2);
+	   -moz-transform: scale(0.2);
+	    -ms-transform: scale(0.2);
+	     -o-transform: scale(0.2);
+	        transform: scale(0.2);
 }
 
 
