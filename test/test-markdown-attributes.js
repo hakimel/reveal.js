@@ -36,6 +36,11 @@ Reveal.addEventListener( 'ready', function() {
     strictEqual( document.querySelectorAll( '.reveal .slides>section>section[data-transition="page"]' ).length, 1, 'found one vertical slide with data-transition="fade"' );
     strictEqual( document.querySelectorAll( '.reveal .slides section [data-transition="concave"]' ).length, 1, 'found one slide with data-transition="zoom"' );
   });
+
+  test( 'data-transition attributes with inline content', function() {
+    strictEqual( document.querySelectorAll( '.reveal .slides>section[data-background="#ff0000"]' ).length, 3, 'found three horizontal slides with data-background="#ff0000"' );
+  });
+
 } );
 
 Reveal.initialize();

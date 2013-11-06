@@ -283,9 +283,18 @@
 
 			}
 			else {
-
-				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
-
+				var content = getMarkdownFromSlide( section );
+				var slideAttributesSeparatorRegex = new RegExp( section.getAttribute( 'data-attributes' )  || DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR, 'm' );
+				var matchAttributes = slideAttributesSeparatorRegex.exec( content );
+				if ( matchAttributes ) {
+				  var slideAttributes = matchAttributes[1];
+				  content = content.replace( slideAttributesSeparatorRegex,"" );
+					var slideAttributesRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
+					while( matchesAttributes = slideAttributesRegex.exec( slideAttributes ) ) {
+						section.setAttribute( matchesAttributes[1], matchesAttributes[2] );
+					}
+				}
+				section.innerHTML = createMarkdownSlide( content );
 			}
 		}
 
