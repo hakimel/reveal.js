@@ -2330,8 +2330,10 @@ var Reveal = (function(){
 			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
 
-			// If the current slide has a data-autoslide use that,
-			// otherwise use the config.autoSlide value
+			// Pick value in the following priority order:
+			// 1. Current slide's data-autoslide
+			// 2. Parent slide's data-autoslide
+			// 3. Global autoSlide setting
 			if( slideAutoSlide ) {
 				autoSlide = parseInt( slideAutoSlide, 10 );
 			}
