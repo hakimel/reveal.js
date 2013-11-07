@@ -1699,16 +1699,23 @@ var Reveal = (function(){
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
 					element.classList.add( reverse ? 'future' : 'past' );
+
+					var pastFragments = toArray( element.querySelectorAll( '.fragment' ) );
+
+					// Show all fragments on prior slides
+					while( pastFragments.length ) {
+						pastFragments.pop().classList.add( 'visible' );
+					}
 				}
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
 					element.classList.add( reverse ? 'past' : 'future' );
 
-					var fragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
+					var futureFragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
 
 					// No fragments in future slides should be visible ahead of time
-					while( fragments.length ) {
-						fragments.pop().classList.remove( 'visible' );
+					while( futureFragments.length ) {
+						futureFragments.pop().classList.remove( 'visible' );
 					}
 				}
 

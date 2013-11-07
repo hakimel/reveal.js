@@ -204,6 +204,16 @@ Reveal.addEventListener( 'ready', function() {
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'left() goes to prev fragment' );
 	});
 
+	test( 'Stepping past fragments', function() {
+		var fragmentSlide = document.querySelector( '.reveal .slides>section:nth-child(3)' );
+
+		Reveal.slide( 0, 0, 0 );
+		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 0, 'no fragments visible when on previous slide' );
+
+		Reveal.slide( 3, 0, 0 );
+		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 3, 'all fragments visible when on future slide' );
+	});
+
 	asyncTest( 'fragmentshown event', function() {
 		expect( 2 );
 
