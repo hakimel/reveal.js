@@ -15,7 +15,6 @@ module.exports = function(grunt) {
 				' */'
 		},
 
-		// Tests will be added soon
 		qunit: {
 			files: [ 'test/*.html' ]
 		},
