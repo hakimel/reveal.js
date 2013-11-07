@@ -29,9 +29,17 @@ app.configure(function() {
 	});
 });
 
+var indexFile = 'index.html';
+if (process.argv.length > 2) {
+	indexFile = 'mdindex.html';
+	app.get("/content.md", function(req, res) {
+		fs.createReadStream(process.argv[2]).pipe(res);
+	});
+}
+
 app.get("/", function(req, res) {
 	res.writeHead(200, {'Content-Type': 'text/html'});
-	fs.createReadStream(opts.baseDir + '/index.html').pipe(res);
+	fs.createReadStream(opts.baseDir + '/' + indexFile).pipe(res);
 });
 
 app.get("/notes/:socketId", function(req, res) {
