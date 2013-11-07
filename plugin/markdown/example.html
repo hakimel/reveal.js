@@ -8,6 +8,8 @@
 
 		<link rel="stylesheet" href="../../css/reveal.css">
 		<link rel="stylesheet" href="../../css/theme/default.css" id="theme">
+
+        <link rel="stylesheet" href="../../lib/css/zenburn.css">
 	</head>
 
 	<body>
@@ -66,6 +68,22 @@
                     </script>
                 </section>
 
+                <!-- Code -->
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```php
+                            public function foo()
+                            {
+                                $foo = array(
+                                    'bar' => 'bar'
+                                )
+                            }
+                            ```
+                        </script>
+                    </section>
+                </section>
+
             </div>
 		</div>
 
@@ -80,14 +98,12 @@
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme,
-				transition: Reveal.getQueryHash().transition || 'default',
-
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
 					{ src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: '../notes/notes.js' }
 				]
 			});
