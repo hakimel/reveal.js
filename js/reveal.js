@@ -2327,11 +2327,16 @@ var Reveal = (function(){
 
 		if( currentSlide ) {
 
+			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
+			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
+
 			// If the current slide has a data-autoslide use that,
 			// otherwise use the config.autoSlide value
-			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
 			if( slideAutoSlide ) {
 				autoSlide = parseInt( slideAutoSlide, 10 );
+			}
+			else if( parentAutoSlide ) {
+				autoSlide = parseInt( parentAutoSlide, 10 );
 			}
 			else {
 				autoSlide = config.autoSlide;
