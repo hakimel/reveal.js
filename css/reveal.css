@@ -711,6 +711,15 @@ body {
  * ZOOM TRANSITION
  *********************************************/
 
+.reveal .slides>section[data-transition=zoom],
+.reveal.zoom .slides>section {
+	-webkit-transition-timing-function: ease;
+	   -moz-transition-timing-function: ease;
+	    -ms-transition-timing-function: ease;
+	     -o-transition-timing-function: ease;
+	        transition-timing-function: ease;
+}
+
 .reveal .slides>section[data-transition=zoom].past,
 .reveal.zoom .slides>section.past {
 	opacity: 0;
@@ -1443,6 +1452,15 @@ body {
 }
 
 /* Zoom */
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background,
+.reveal>.backgrounds .slide-background[data-background-transition=zoom] {
+	-webkit-transition-timing-function: ease;
+	   -moz-transition-timing-function: ease;
+	    -ms-transition-timing-function: ease;
+	     -o-transition-timing-function: ease;
+	        transition-timing-function: ease;
+}
+
 .reveal[data-background-transition=zoom]>.backgrounds .slide-background.past,
 .reveal>.backgrounds .slide-background.past[data-background-transition=zoom] {
 	opacity: 0;
