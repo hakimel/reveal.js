@@ -1295,11 +1295,11 @@ body {
 		background-repeat: no-repeat;
 		background-size: cover;
 
-		-webkit-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-		   -moz-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-		    -ms-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-		     -o-transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-		        transition: all 600ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		-webkit-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		   -moz-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		    -ms-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		     -o-transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		        transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 	.reveal .slide-background.present {
 		opacity: 1;
@@ -1330,12 +1330,6 @@ body {
 	   -moz-backface-visibility: hidden;
 	    -ms-backface-visibility: hidden;
 	        backface-visibility: hidden;
-
-	-webkit-transition-duration: 800ms;
-	   -moz-transition-duration: 800ms;
-	    -ms-transition-duration: 800ms;
-	     -o-transition-duration: 800ms;
-	        transition-duration: 800ms;
 }
 	.reveal[data-background-transition=slide]>.backgrounds .slide-background.past,
 	.reveal>.backgrounds .slide-background.past[data-background-transition=slide] {
