@@ -1553,16 +1553,32 @@ var Reveal = (function(){
 
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
+			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) ),
+				shownFragments = [],
+				hiddenFragments = [];
 
 			toArray( fragments ).forEach( function( fragment, indexf ) {
 				if( indexf < f ) {
-					fragment.classList.add( 'visible' );
+					if( !fragment.classList.contains( 'visible' )) {
+						fragment.classList.add( 'visible' );
+						shownFragments.push( fragment );
+					}
 				}
 				else {
-					fragment.classList.remove( 'visible' );
+					if( fragment.classList.contains( 'visible' )) {
+						fragment.classList.remove( 'visible' );
+						hiddenFragments.push( fragment );
+					}
 				}
 			} );
+
+			// publish fragment events to interested parties
+			if( shownFragments.length ) {
+				dispatchEvent( 'fragmentshown', { fragment: shownFragments[0], fragments: shownFragments } );
+			}
+			if( hiddenFragments.length ) {
+				dispatchEvent( 'fragmenthidden', { fragment: hiddenFragments[0], fragments: hiddenFragments } );
+			}
 		}
 
 		// Dispatch an event if the slide changed
