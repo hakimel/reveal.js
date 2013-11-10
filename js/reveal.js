@@ -284,7 +284,7 @@ var Reveal = (function(){
 		}
 
 		if( scripts.length ) {
-			head.ready( proceed );
+            scripts.push(proceed);
 
 			// Load synchronous scripts
 			head.js.apply( null, scripts );
