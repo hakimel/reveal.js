@@ -242,58 +242,67 @@ var Reveal = (function(){
 
 	}
 
-	/**
-	 * Loads the dependencies of reveal.js. Dependencies are
-	 * defined via the configuration option 'dependencies'
-	 * and will be loaded prior to starting/binding reveal.js.
-	 * Some dependencies may have an 'async' flag, if so they
-	 * will load after reveal.js has been started up.
-	 */
-	function load() {
+    /**
+     * Loads the dependencies of reveal.js. Dependencies are
+     * defined via the configuration option 'dependencies'
+     * and will be loaded prior to starting/binding reveal.js.
+     * Some dependencies may have an 'async' flag, if so they
+     * will load after reveal.js has been started up.
+     */
+    function load() {
+        var scripts = [],
+            scriptsAsync = [],
+            scriptsToApply = 0;
 
-		var scripts = [],
-			scriptsAsync = [];
+        // Called once synchronous scripts finish loading
+        function proceed() {
+            if( scriptsAsync.length ) {
+                // Load asynchronous scripts
+                head.js.apply( null, scriptsAsync );
+            }
 
-		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
-			var s = config.dependencies[i];
+            start();
+        }
 
-			// Load if there's no condition or the condition is truthy
-			if( !s.condition || s.condition() ) {
-				if( s.async ) {
-					scriptsAsync.push( s.src );
-				}
-				else {
-					scripts.push( s.src );
-				}
+        for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
+            var s = config.dependencies[i];
 
-				// Extension may contain callback functions
-				if( typeof s.callback === 'function' ) {
-					head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], s.callback );
-				}
-			}
-		}
+            // Load if there's no condition or the condition is truthy
+            if( !s.condition || s.condition() ) {
+                if( s.async ) {
+                    scriptsAsync.push( s.src );
+                }
+                else {
+                    scripts.push( s.src );
+                }
 
-		// Called once synchronous scripts finish loading
-		function proceed() {
-			if( scriptsAsync.length ) {
-				// Load asynchronous scripts
-				head.js.apply( null, scriptsAsync );
-			}
+                // Extension may contain callback functions
+                (function(s) {
+                    head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], function() {
+                        if( typeof s.callback === 'function' ) {
+                            s.callback.apply(this);
+                        }
 
-			start();
-		}
+                        scriptsToApply--;
+                        if (scriptsToApply === 0) {
+                            proceed();
+                        }
+                    });
+                })(s);
+            }
+        }
 
-		if( scripts.length ) {
-            scripts.push(proceed);
+        if( scripts.length ) {
+            scriptsToApply = scripts.length;
 
-			// Load synchronous scripts
-			head.js.apply( null, scripts );
-		}
-		else {
-			proceed();
-		}
+            // Load synchronous scripts
+            head.js.apply( null, scripts );
+        }
+        else {
+            proceed();
+        }
 
-	}
+    }
 
 	/**
 	 * Starts up reveal.js by binding input events and navigating
