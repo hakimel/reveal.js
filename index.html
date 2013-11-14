@@ -37,7 +37,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>no Reservations</h1>
+					<h1>noReservations</h1>
 					<h3>Restaurant Wait-lists Made Easy</h3>
 					<p>
 						<small>Created by <a href="http://noreservations.herokuapp.com/">Team Wait-For-It</a> </small>
@@ -51,7 +51,7 @@
 					<h2>Introducing...</h2>
 					<p>Natalie Uduwela</p>
 					<p>Laura Mead</p>
-					<p>Jeffrey Edwards</p>
+					<p>Jeff Edwards</p>
 					<p>Paul Chong </p>
 					
 					<aside class="notes">
@@ -60,19 +60,18 @@
 				</section>
 
 				<section>
-					<h2>A Problem You've Likely Personally Experienced</h2>
-					<img border="0" src="images/people-waiting.jpg" alt="people waiting" >
+					<h2>A Problem You've Likely Seen Before</h2>
+					<img border="0" src="images/wait-list.jpg" alt="people waiting" >
 				</section>
 
 				<section>
 					<h2>Our Solution</h2>
-					<p>
-						showtime
+					<p class="fragment">						
+						<img border="0" src="images/app-screenshot.png" alt="reservation sign" >
 					</p>
 				</section>
 
-				<section>
-						
+				<section>	
 					<section>
 						<h2>Snippets of Lovely Code</h2>
 						<p>A few lines from the highlight reel</p>
@@ -92,6 +91,43 @@ var Restaurant = {
 		</code></pre>
 					</section>
 					
+					<section>
+						<h2>THIS THAT</h2>
+						<pre><code data-trim contenteditable>
+var Message = {
+  sendTextTableReady: function(reservationId){
+    var that = this
+    $.ajax({
+      url: "/messages",
+      type: "post",
+      data: {id: reservationId},
+      data_type: "json"
+    }).done(function(){
+      $(that).removeClass("message-ready")
+      $(that).html("sent")
+      $(that).addClass("ready-message-sent")
+      $("error-message").empty()
+    }).error(function(){
+      $("error-message").text("SMS failed :(")
+    })
+  },
+  SMSButtonEvent: function(){
+    var self = this;
+    $(".table-body").on("click", "div.message-ready", function(){
+      var reservationId = $(this).closest(".reservation").data("id")
+      var boundSendTextTableReady = self.sendTextTableReady.bind(this)
+      boundSendTextTableReady(reservationId)
+    })
+  }
+}
+
+$(document).ready(function(){
+  Message.SMSButtonEvent();
+})
+
+						</code></pre>
+					</section>
+
 					<section>
 						<h2>Before Refactoring</h2>
 						<pre><code data-trim contenteditable>
@@ -119,26 +155,30 @@ var reloadStatusId = function() {
 $that.closest(".reservation").find("span.status").removeAttr('id').attr('id', "status-"+data.status.toLowerCase());	
 		</code></pre>
 					</section>
+
+
+
 				</section>
 
 				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
-					<h2>Team Dynamics</h2>
+					<h2>Lessons Learned</h2>
 					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
+						<li>Team Dynamics</li>
+						<li>Tests</li>
+						<li>Clean Master</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Conclusion</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
+					<h2>Questions?</h2>
 				</section>
+
+
+				<section>
+					<h2>the end</h2>
+				</section>
+
+
 
 				<section data-markdown>
 					<script type="text/template">
