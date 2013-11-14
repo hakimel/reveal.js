@@ -50,7 +50,7 @@ body {
   font-family: "League Gothic", Impact, sans-serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
 
 .reveal h1 {
