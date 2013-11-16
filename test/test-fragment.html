@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Tests</title>
+
+		<link rel="stylesheet" href="../css/reveal.min.css">
+		<link rel="stylesheet" href="qunit-1.12.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+  		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides" id="fragment-container" >
+                <section>
+                  <li class="fragment" data-fragment-index="0">item0</li>
+                  <li class="fragment" data-fragment-index="1">item1</li>
+                </section>
+
+                <section>
+                  <li class="fragment" data-fragment-index="0">item2</li>
+                  <li class="fragment" data-fragment-index="1">item3</li>
+                </section>
+
+			</div>
+
+		</div>
+
+		<script src="../lib/js/head.min.js"></script>
+		<script src="../js/reveal.min.js"></script>
+		<script src="qunit-1.12.0.js"></script>
+
+		<script src="test-fragment.js"></script>
+
+	</body>
+</html>
