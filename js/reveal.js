@@ -108,7 +108,10 @@ var Reveal = (function(){
 			viewDistance: 3,
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// Indicates whether to show the slides number
+			showSlideNumber: false
 		},
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
@@ -378,6 +381,9 @@ var Reveal = (function(){
 			'<div class="navigate-up"></div>' +
 			'<div class="navigate-down"></div>' );
 
+		// slide number
+		createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
+
 		// State background element [DEPRECATED]
 		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
 
@@ -395,6 +401,7 @@ var Reveal = (function(){
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 
+		dom.slideNumber = document.querySelector( '.slide-number' );
 	}
 
 	/**
@@ -1613,6 +1620,7 @@ var Reveal = (function(){
 		updateProgress();
 		updateBackground();
 		updateParallax();
+		updateSlideNumber();
 
 		// Update the URL hash
 		writeURL();
@@ -1647,6 +1655,7 @@ var Reveal = (function(){
 		updateControls();
 		updateProgress();
 		updateBackground( true );
+		updateSlideNumber();
 
 	}
 
@@ -1847,6 +1856,25 @@ var Reveal = (function(){
 
 			dom.progressbar.style.width = ( pastCount / ( totalCount - 1 ) ) * window.innerWidth + 'px';
 
+		}
+
+	}
+
+	/**
+	 * Updates the slide number div to reflect the current slide.
+	 */
+	function updateSlideNumber() {
+
+		// Update slide number if enabled
+		if( config.showSlideNumber && dom.slideNumber) {
+
+			// Display the number of the page using 'indexh - indexv' format
+			var indexString = indexh;
+			if( indexv > 0 ) {
+				indexString += ' - ' + indexv;
+			}
+
+			dom.slideNumber.innerHTML = indexString;
 		}
 
 	}
