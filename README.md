@@ -98,6 +98,9 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
+	// Display the page number of the current slide
+	slideNumber: false,
+
 	// Push each slide change to the browser history
 	history: false,
 

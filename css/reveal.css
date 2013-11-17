@@ -483,14 +483,11 @@ body {
 .reveal .slide-number {
 	position: fixed;
 	display: block;
-	opacity: 0.5; 
+	right: 15px;
+	bottom: 15px;
+	opacity: 0.5;
 	z-index: 31;
-	width: 110px;
-	bottom: 30px;
-	left: 11px;
 	font-size: 12px;
-	text-align: center;
-	letter-spacing: 0px
 }
 
 /*********************************************
