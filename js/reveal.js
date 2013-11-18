@@ -1560,16 +1560,7 @@ var Reveal = (function(){
 
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
-
-			toArray( fragments ).forEach( function( fragment, indexf ) {
-				if( indexf < f ) {
-					fragment.classList.add( 'visible' );
-				}
-				else {
-					fragment.classList.remove( 'visible' );
-				}
-			} );
+			navigateFragment( f );
 		}
 
 		// Dispatch an event if the slide changed
@@ -2335,7 +2326,7 @@ var Reveal = (function(){
 				}
 
 				if( offset > 0 && fragmentsShown.length ) {
-					console.log('hidden');
+					console.log('shown');
 					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
 				}
 
