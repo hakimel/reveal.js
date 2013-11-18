@@ -2272,8 +2272,13 @@ var Reveal = (function(){
 	/**
 	 * Navigate to the specified slide fragment.
 	 *
-	 * @return {Boolean} true if there was a next fragment,
-	 * false otherwise
+	 * @param {Number} index The index of the fragment that
+	 * should be shown, 1-based, 0 means all are invisible
+	 * @param {Number} offset Integer offset to apply to the
+	 * fragment index
+	 *
+	 * @return {Boolean} true if a change was made in any
+	 * fragments visibility as part of this call
 	 */
 	function navigateFragment( index, offset ) {
 
@@ -2282,6 +2287,7 @@ var Reveal = (function(){
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
 			if( fragments.length ) {
 
+				// If no index is specified, find the current
 				if( typeof index !== 'number' ) {
 					var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
 
@@ -2293,6 +2299,7 @@ var Reveal = (function(){
 					}
 				}
 
+				// If an offset is specified, apply it to the index
 				if( typeof offset === 'number' ) {
 					index += offset;
 				}
@@ -2302,6 +2309,7 @@ var Reveal = (function(){
 
 				toArray( fragments ).forEach( function( element, i ) {
 
+					// Visible fragments
 					if( i < index ) {
 						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
 						element.classList.add( 'visible' );
@@ -2311,6 +2319,7 @@ var Reveal = (function(){
 							element.classList.add( 'current-fragment' );
 						}
 					}
+					// Hidden fragments
 					else {
 						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
 						element.classList.remove( 'visible' );
@@ -2320,13 +2329,11 @@ var Reveal = (function(){
 
 				} );
 
-				if( offset < 0 && fragmentsHidden.length ) {
-					console.log('hidden');
+				if( fragmentsHidden.length ) {
 					dispatchEvent( 'fragmenthidden', { fragment: fragmentsHidden[0], fragments: fragmentsHidden } );
 				}
 
-				if( offset > 0 && fragmentsShown.length ) {
-					console.log('shown');
+				if( fragmentsShown.length ) {
 					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
 				}
 
