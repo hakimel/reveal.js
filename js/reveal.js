@@ -1047,7 +1047,7 @@ var Reveal = (function(){
 
 		a.forEach( function( el, idx ) {
 			if( !el.hasAttribute( 'data-fragment-index' ) ) {
-				el.setAttribute( 'data-fragment-index', idx );
+				el.setAttribute( 'data-fragment-index', idx + 1 );
 			}
 		} );
 
@@ -2279,6 +2279,79 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Navigate to the specified slide fragment.
+	 *
+	 * @return {Boolean} true if there was a next fragment,
+	 * false otherwise
+	 */
+	function navigateFragment( index, offset ) {
+
+		if( currentSlide && config.fragments ) {
+
+			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
+			if( fragments.length ) {
+
+				if( typeof index !== 'number' ) {
+					var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
+
+					if( lastVisibleFragment ) {
+						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 1, 10 );
+					}
+					else {
+						index = 0;
+					}
+				}
+
+				if( typeof offset === 'number' ) {
+					index += offset;
+				}
+
+				var fragmentsShown = [],
+					fragmentsHidden = [];
+
+				toArray( fragments ).forEach( function( element, i ) {
+
+					if( i < index ) {
+						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
+						element.classList.add( 'visible' );
+						element.classList.remove( 'current-fragment' );
+
+						if( i === index ) {
+							element.classList.add( 'current-fragment' );
+						}
+					}
+					else {
+						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
+						element.classList.remove( 'visible' );
+						element.classList.remove( 'current-fragment' );
+					}
+
+
+				} );
+
+				if( offset < 0 && fragmentsHidden.length ) {
+					console.log('hidden');
+					dispatchEvent( 'fragmenthidden', { fragment: fragmentsHidden[0], fragments: fragmentsHidden } );
+				}
+
+				if( offset > 0 && fragmentsShown.length ) {
+					console.log('hidden');
+					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
+				}
+
+				updateControls();
+
+				return !!( fragmentsShown.length || fragmentsHidden.length );
+
+			}
+
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Navigate to the next slide fragment.
 	 *
 	 * @return {Boolean} true if there was a next fragment,
@@ -2286,29 +2359,7 @@ var Reveal = (function(){
 	 */
 	function nextFragment() {
 
-		if( currentSlide && config.fragments ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment:not(.visible)' ) );
-
-			if( fragments.length ) {
-				// Find the index of the next fragment
-				var index = fragments[0].getAttribute( 'data-fragment-index' );
-
-				// Find all fragments with the same index
-				fragments = currentSlide.querySelectorAll( '.fragment[data-fragment-index="'+ index +'"]' );
-
-				toArray( fragments ).forEach( function( element ) {
-					element.classList.add( 'visible' );
-				} );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: fragments[0], fragments: fragments } );
-
-				updateControls();
-				return true;
-			}
-		}
-
-		return false;
+		return navigateFragment( null, 1 );
 
 	}
 
@@ -2320,29 +2371,7 @@ var Reveal = (function(){
 	 */
 	function previousFragment() {
 
-		if( currentSlide && config.fragments ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) );
-
-			if( fragments.length ) {
-				// Find the index of the previous fragment
-				var index = fragments[ fragments.length - 1 ].getAttribute( 'data-fragment-index' );
-
-				// Find all fragments with the same index
-				fragments = currentSlide.querySelectorAll( '.fragment[data-fragment-index="'+ index +'"]' );
-
-				toArray( fragments ).forEach( function( f ) {
-					f.classList.remove( 'visible' );
-				} );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: fragments[0], fragments: fragments } );
-
-				updateControls();
-				return true;
-			}
-		}
-
-		return false;
+		return navigateFragment( null, -1 );
 
 	}
 
@@ -3132,6 +3161,7 @@ var Reveal = (function(){
 		next: navigateNext,
 		prevFragment: previousFragment,
 		nextFragment: nextFragment,
+		navigateFragment: navigateFragment,
 
 		// Deprecated aliases
 		navigateTo: slide,
