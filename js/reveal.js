@@ -242,6 +242,7 @@ var Reveal = (function(){
 
 	}
 
+
     /**
      * Loads the dependencies of reveal.js. Dependencies are
      * defined via the configuration option 'dependencies'
@@ -264,6 +265,20 @@ var Reveal = (function(){
             start();
         }
 
+        function loadDependency(s) {
+            head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], function() {
+                // Extension may contain callback functions
+                if( typeof s.callback === 'function' ) {
+                    s.callback.apply(this);
+                }
+
+                scriptsToApply--;
+                if (scriptsToApply === 0) {
+                    proceed();
+                }
+            });
+        }
+
         for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
             var s = config.dependencies[i];
 
@@ -276,19 +291,7 @@ var Reveal = (function(){
                     scripts.push( s.src );
                 }
 
-                // Extension may contain callback functions
-                (function(s) {
-                    head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], function() {
-                        if( typeof s.callback === 'function' ) {
-                            s.callback.apply(this);
-                        }
-
-                        scriptsToApply--;
-                        if (scriptsToApply === 0) {
-                            proceed();
-                        }
-                    });
-                })(s);
+                loadDependency(s);
             }
         }
 
