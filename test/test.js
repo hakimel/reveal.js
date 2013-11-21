@@ -140,6 +140,9 @@ Reveal.addEventListener( 'ready', function() {
 
 		// There's fragments on this slide
 		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: -1 } );
+
+		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 } );
 
 		Reveal.next();
@@ -147,9 +150,6 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 } );
-
-		Reveal.next();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 3 } );
 
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
@@ -177,31 +177,31 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 	test( 'Stepping through fragments', function() {
-		Reveal.slide( 2, 0, 0 );
+		Reveal.slide( 2, 0, -1 );
 
 		// forwards:
 
 		Reveal.next();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'next() goes to next fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'next() goes to next fragment' );
 
 		Reveal.right();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'right() goes to next fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'right() goes to next fragment' );
 
 		Reveal.down();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 3 }, 'down() goes to next fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'down() goes to next fragment' );
 
 		Reveal.down(); // moves to f #3
 
 		// backwards:
 
 		Reveal.prev();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'prev() goes to prev fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'prev() goes to prev fragment' );
 
 		Reveal.left();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'left() goes to prev fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'left() goes to prev fragment' );
 
 		Reveal.up();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'left() goes to prev fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: -1 }, 'up() goes to prev fragment' );
 	});
 
 	test( 'Stepping past fragments', function() {

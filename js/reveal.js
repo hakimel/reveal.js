@@ -1047,7 +1047,7 @@ var Reveal = (function(){
 
 		a.forEach( function( el, idx ) {
 			if( !el.hasAttribute( 'data-fragment-index' ) ) {
-				el.setAttribute( 'data-fragment-index', idx + 1 );
+				el.setAttribute( 'data-fragment-index', idx );
 			}
 		} );
 
@@ -2261,7 +2261,7 @@ var Reveal = (function(){
 			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
 			if( hasFragments ) {
 				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-				f = visibleFragments.length;
+				f = visibleFragments.length - 1;
 			}
 		}
 
@@ -2273,7 +2273,7 @@ var Reveal = (function(){
 	 * Navigate to the specified slide fragment.
 	 *
 	 * @param {Number} index The index of the fragment that
-	 * should be shown, 1-based, 0 means all are invisible
+	 * should be shown, -1 means all are invisible
 	 * @param {Number} offset Integer offset to apply to the
 	 * fragment index
 	 *
@@ -2292,10 +2292,10 @@ var Reveal = (function(){
 					var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
 
 					if( lastVisibleFragment ) {
-						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 1, 10 );
+						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
 					}
 					else {
-						index = 0;
+						index = -1;
 					}
 				}
 
@@ -2309,8 +2309,14 @@ var Reveal = (function(){
 
 				toArray( fragments ).forEach( function( element, i ) {
 
+					// Hidden fragments
+					if( i > index ) {
+						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
+						element.classList.remove( 'visible' );
+						element.classList.remove( 'current-fragment' );
+					}
 					// Visible fragments
-					if( i < index ) {
+					else {
 						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
 						element.classList.add( 'visible' );
 						element.classList.remove( 'current-fragment' );
@@ -2318,12 +2324,6 @@ var Reveal = (function(){
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
 						}
-					}
-					// Hidden fragments
-					else {
-						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
-						element.classList.remove( 'visible' );
-						element.classList.remove( 'current-fragment' );
 					}
 
 
