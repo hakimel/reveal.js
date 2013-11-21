@@ -1045,10 +1045,20 @@ var Reveal = (function(){
 
 		var a = toArray( fragments );
 
+		// Elements that do not have an explicit `data-fragment-index`
+		// are given one which matches their order in the DOM
+		a.forEach( function( el, idx ) {
+			if( !el.hasAttribute( 'data-fragment-index' ) ) {
+				el.setAttribute( 'data-fragment-index', idx );
+			}
+		} );
+
 		a.sort( function( l, r ) {
 			return l.getAttribute( 'data-fragment-index' ) - r.getAttribute( 'data-fragment-index');
 		} );
 
+		// Set the indices to match the order of the sorted fragments,
+		// ensures that we're 0-indexed and have no gaps
 		a.forEach( function( el, idx ) {
 			el.setAttribute( 'data-fragment-index', idx );
 		} );
