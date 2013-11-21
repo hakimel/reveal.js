@@ -1045,14 +1045,12 @@ var Reveal = (function(){
 
 		var a = toArray( fragments );
 
-		a.forEach( function( el, idx ) {
-			if( !el.hasAttribute( 'data-fragment-index' ) ) {
-				el.setAttribute( 'data-fragment-index', idx );
-			}
-		} );
-
 		a.sort( function( l, r ) {
 			return l.getAttribute( 'data-fragment-index' ) - r.getAttribute( 'data-fragment-index');
+		} );
+
+		a.forEach( function( el, idx ) {
+			el.setAttribute( 'data-fragment-index', idx );
 		} );
 
 		return a;
@@ -2309,14 +2307,12 @@ var Reveal = (function(){
 
 				toArray( fragments ).forEach( function( element, i ) {
 
-					// Hidden fragments
-					if( i > index ) {
-						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
-						element.classList.remove( 'visible' );
-						element.classList.remove( 'current-fragment' );
+					if( element.hasAttribute( 'data-fragment-index' ) ) {
+						i = parseInt( element.getAttribute( 'data-fragment-index' ), 10 );
 					}
+
 					// Visible fragments
-					else {
+					if( i <= index ) {
 						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
 						element.classList.add( 'visible' );
 						element.classList.remove( 'current-fragment' );
@@ -2324,6 +2320,12 @@ var Reveal = (function(){
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
 						}
+					}
+					// Hidden fragments
+					else {
+						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
+						element.classList.remove( 'visible' );
+						element.classList.remove( 'current-fragment' );
 					}
 
 
