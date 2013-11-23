@@ -1712,7 +1712,9 @@ var Reveal = (function(){
 
 					// Show all fragments on prior slides
 					while( pastFragments.length ) {
-						pastFragments.pop().classList.add( 'visible' );
+						var pastFragment = pastFragments.pop();
+						pastFragment.classList.add( 'visible' );
+						pastFragment.classList.remove( 'current-fragment' );
 					}
 				}
 				else if( i > index ) {
@@ -1723,7 +1725,9 @@ var Reveal = (function(){
 
 					// No fragments in future slides should be visible ahead of time
 					while( futureFragments.length ) {
-						futureFragments.pop().classList.remove( 'visible' );
+						var futureFragment = futureFragments.pop();
+						futureFragment.classList.remove( 'visible' );
+						futureFragment.classList.remove( 'current-fragment' );
 					}
 				}
 

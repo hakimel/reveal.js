@@ -166,6 +166,9 @@ Reveal.addEventListener( 'ready', function() {
 	QUnit.module( 'Fragments' );
 
 	test( 'Sliding to fragments', function() {
+		Reveal.slide( 2, 0, -1 );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: -1 }, 'Reveal.slide( 2, 0, -1 )' );
+
 		Reveal.slide( 2, 0, 0 );
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'Reveal.slide( 2, 0, 0 )' );
 
@@ -174,6 +177,32 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.slide( 2, 0, 1 );
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'Reveal.slide( 2, 0, 1 )' );
+	});
+
+	test( 'Hiding all fragments', function() {
+		var fragmentSlide = document.querySelector( '.reveal .slides>section:nth-child(3)' );
+
+		Reveal.slide( 2, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 1, 'one fragment visible when index is 0' );
+
+		Reveal.slide( 2, 0, -1 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 0, 'no fragments visible when index 0' );
+	});
+
+	test( 'Current fragment', function() {
+		var fragmentSlide = document.querySelector( '.reveal .slides>section:nth-child(3)' );
+
+		Reveal.slide( 2, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment at index -1' );
+
+		Reveal.slide( 2, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 1, 'one current fragment at index 0' );
+
+		Reveal.slide( 1, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment when navigating to previous slide' );
+
+		Reveal.slide( 3, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment when navigating to next slide' );
 	});
 
 	test( 'Stepping through fragments', function() {
