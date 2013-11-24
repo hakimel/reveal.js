@@ -323,33 +323,50 @@
 			while( matchesClass = mardownClassRegex.exec( classes ) ) {
 				elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
 			}
+			return true;
 		}
-
+		return false;
 	}
 
 	/**
 	 * Add attributes to the parent element of a text node,
 	 * or the element of an attribute node.
 	 */
-	function addAttributes( element, separator ) {
+	function addAttributes( section, element, previousElement, separatorElementAttributes, separatorSectionAttributes ) {
 
-		if( element.childNodes.length > 0 ) {
+        console.log("element='" + element.innerHTML + "', nodeType='" + element.nodeType + "'");
+		console.log("previousElement="+previousElement)
+		console.log("section=****"+section.outerHTML+"****");
+		if( element != null && element.childNodes != undefined && element.childNodes.length > 0 ) {
+			previousParentElement = element;
 			for( var i = 0; i < element.childNodes.length; i++ ) {
-				addAttributes( element.childNodes[i], separator );
+				childElement = element.childNodes[i];
+				console.log("  Child element='" + childElement.innerHTML + "'");
+				if ( i > 0 ) {
+					previousParentElement = element.childNodes[i-1];
+				}
+				parentSection = section;
+				if( childElement.nodeName ==  "section" ) {
+					parentSection = childElement ;
+					previousParentElement = childElement ;
+				}
+				addAttributes( parentSection, childElement, previousParentElement, separatorElementAttributes, separatorSectionAttributes );
 			}
 		}
 
-		var nodeValue;
-		var elementTarget;
-
+		if ( element.nodeType == Node.COMMENT_NODE ) {
+			if ( addAttributeInElement( element, previousElement, separatorElementAttributes ) == false ) {
+				addAttributeInElement( element, section, separatorSectionAttributes);
+			}
+		}
 		// From http://stackoverflow.com/questions/9178174/find-all-text-nodes
 		if( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
-			addAttributeInElement( element, element.parentNode, separator );
+			addAttributeInElement( element, element.parentNode, separatorElementAttributes );
 		}
 		if( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
 			for( var j = 0; j < element.attributes.length; j++ ){
 				var attr = element.attributes[j];
-				addAttributeInElement( attr, element, separator );
+				addAttributeInElement( attr, element, separatorElementAttributes );
 			}
 		}
 
@@ -376,9 +393,13 @@
 				var markdown = getMarkdownFromSlide( section );
 
 				section.innerHTML = marked( markdown );
-				addAttributes( 	section, section.getAttribute( 'data-element-attributes' ) ||
+				//console.log("markdown="+markdown);
+				addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
 								section.parentNode.getAttribute( 'data-element-attributes' ) ||
-								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR );
+								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
+								section.getAttribute( 'data-attributes' ) ||
+								section.parentNode.getAttribute( 'data-attributes' ) ||
+								DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR);
 
 				// If there were notes, we need to re-add them after
 				// having overwritten the section's HTML
