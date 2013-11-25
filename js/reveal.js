@@ -1043,27 +1043,48 @@ var Reveal = (function(){
 	 */
 	function sortFragments( fragments ) {
 
-		var a = toArray( fragments );
+		fragments = toArray( fragments );
 
-		// Elements that do not have an explicit `data-fragment-index`
-		// are given one which matches their order in the DOM
-		a.forEach( function( el, idx ) {
-			if( !el.hasAttribute( 'data-fragment-index' ) ) {
-				el.setAttribute( 'data-fragment-index', idx );
+		var ordered = [],
+			unordered = [],
+			sorted = [];
+
+		// Group ordered and unordered elements
+		fragments.forEach( function( fragment, i ) {
+			if( fragment.hasAttribute( 'data-fragment-index' ) ) {
+				var index = parseInt( fragment.getAttribute( 'data-fragment-index' ), 10 );
+
+				if( !ordered[index] ) {
+					ordered[index] = [];
+				}
+
+				ordered[index].push( fragment );
+			}
+			else {
+				unordered.push( [ fragment ] );
 			}
 		} );
 
-		a.sort( function( l, r ) {
-			return l.getAttribute( 'data-fragment-index' ) - r.getAttribute( 'data-fragment-index');
+		// Append fragments without explicit indices in their
+		// DOM order
+		ordered = ordered.concat( unordered );
+
+		// Manually count the index up per group to ensure there
+		// are no gaps
+		var index = 0;
+
+		// Push all fragments in their sorted order to an array,
+		// this flattens the groups
+		ordered.forEach( function( group ) {
+			group.forEach( function( fragment ) {
+				sorted.push( fragment );
+				fragment.setAttribute( 'data-fragment-index', index );
+			} );
+
+			index ++;
 		} );
 
-		// Set the indices to match the order of the sorted fragments,
-		// ensures that we're 0-indexed and have no gaps
-		a.forEach( function( el, idx ) {
-			el.setAttribute( 'data-fragment-index', idx );
-		} );
-
-		return a;
+		return sorted;
 
 	}
 
@@ -3173,9 +3194,11 @@ var Reveal = (function(){
 		down: navigateDown,
 		prev: navigatePrev,
 		next: navigateNext,
+
+		// Fragment methods
+		navigateFragment: navigateFragment,
 		prevFragment: previousFragment,
 		nextFragment: nextFragment,
-		navigateFragment: navigateFragment,
 
 		// Deprecated aliases
 		navigateTo: slide,
