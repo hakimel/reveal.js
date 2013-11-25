@@ -239,7 +239,7 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 	test( 'Stepping past fragments', function() {
-		var fragmentSlide = document.querySelector( '#fragment-slides>section:first-child' );
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
 
 		Reveal.slide( 0, 0, 0 );
 		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 0, 'no fragments visible when on previous slide' );
@@ -253,6 +253,24 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.slide( 3, 0, 0 );
 		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 2, 'both fragments of same index are shown' );
+	});
+
+	test( 'Index generation', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
+
+		// These have no indices defined to start with
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[0].getAttribute( 'data-fragment-index' ), '0' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[1].getAttribute( 'data-fragment-index' ), '1' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[2].getAttribute( 'data-fragment-index' ), '2' );
+	});
+
+	test( 'Index normalization', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(3)' );
+
+		// These start out as 1-4-4 and should normalize to 0-1-1
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[0].getAttribute( 'data-fragment-index' ), '0' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[1].getAttribute( 'data-fragment-index' ), '1' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[2].getAttribute( 'data-fragment-index' ), '1' );
 	});
 
 	asyncTest( 'fragmentshown event', function() {
