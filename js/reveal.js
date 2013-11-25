@@ -305,7 +305,7 @@ var Reveal = (function(){
 		setupDOM();
 
 		// Decorate the slide DOM elements with state classes (past/future)
-		setupSlides();
+		formatSlides();
 
 		// Updates the presentation to match the current configuration values
 		configure();
@@ -330,30 +330,6 @@ var Reveal = (function(){
 				'currentSlide': currentSlide
 			} );
 		}, 1 );
-
-	}
-
-	/**
-	 * Iterates through and decorates slides DOM elements with
-	 * appropriate classes.
-	 */
-	function setupSlides() {
-
-		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
-		horizontalSlides.forEach( function( horizontalSlide ) {
-
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
-			verticalSlides.forEach( function( verticalSlide, y ) {
-
-				if( y > 0 ) verticalSlide.classList.add( 'future' );
-
-				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
-
-			} );
-
-			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
-
-		} );
 
 	}
 
@@ -1032,67 +1008,6 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Return a sorted fragments list, ordered by an increasing
-	 * "data-fragment-index" attribute.
-	 *
-	 * Fragments will be revealed in the order that they are returned by
-	 * this function, so you can use the index attributes to control the
-	 * order of fragment appearance.
-	 *
-	 * To maintain a sensible default fragment order, fragments are presumed
-	 * to be passed in document order. This function adds a "fragment-index"
-	 * attribute to each node if such an attribute is not already present,
-	 * and sets that attribute to an integer value which is the position of
-	 * the fragment within the fragments list.
-	 */
-	function sortFragments( fragments ) {
-
-		fragments = toArray( fragments );
-
-		var ordered = [],
-			unordered = [],
-			sorted = [];
-
-		// Group ordered and unordered elements
-		fragments.forEach( function( fragment, i ) {
-			if( fragment.hasAttribute( 'data-fragment-index' ) ) {
-				var index = parseInt( fragment.getAttribute( 'data-fragment-index' ), 10 );
-
-				if( !ordered[index] ) {
-					ordered[index] = [];
-				}
-
-				ordered[index].push( fragment );
-			}
-			else {
-				unordered.push( [ fragment ] );
-			}
-		} );
-
-		// Append fragments without explicit indices in their
-		// DOM order
-		ordered = ordered.concat( unordered );
-
-		// Manually count the index up per group to ensure there
-		// are no gaps
-		var index = 0;
-
-		// Push all fragments in their sorted order to an array,
-		// this flattens the groups
-		ordered.forEach( function( group ) {
-			group.forEach( function( fragment ) {
-				sorted.push( fragment );
-				fragment.setAttribute( 'data-fragment-index', index );
-			} );
-
-			index ++;
-		} );
-
-		return sorted;
-
-	}
-
-	/**
 	 * Applies JavaScript-controlled layout rules to the
 	 * presentation.
 	 */
@@ -1676,10 +1591,36 @@ var Reveal = (function(){
 		// Re-create the slide backgrounds
 		createBackgrounds();
 
+		formatSlides();
+
 		updateControls();
 		updateProgress();
 		updateBackground( true );
 		updateSlideNumber();
+
+	}
+
+	/**
+	 * Iterates through and decorates slides DOM elements with
+	 * appropriate classes.
+	 */
+	function formatSlides() {
+
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		horizontalSlides.forEach( function( horizontalSlide ) {
+
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			verticalSlides.forEach( function( verticalSlide, y ) {
+
+				if( y > 0 ) verticalSlide.classList.add( 'future' );
+
+				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
+
+			} );
+
+			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
+
+		} );
 
 	}
 
@@ -2303,6 +2244,67 @@ var Reveal = (function(){
 		}
 
 		return { h: h, v: v, f: f };
+
+	}
+
+	/**
+	 * Return a sorted fragments list, ordered by an increasing
+	 * "data-fragment-index" attribute.
+	 *
+	 * Fragments will be revealed in the order that they are returned by
+	 * this function, so you can use the index attributes to control the
+	 * order of fragment appearance.
+	 *
+	 * To maintain a sensible default fragment order, fragments are presumed
+	 * to be passed in document order. This function adds a "fragment-index"
+	 * attribute to each node if such an attribute is not already present,
+	 * and sets that attribute to an integer value which is the position of
+	 * the fragment within the fragments list.
+	 */
+	function sortFragments( fragments ) {
+
+		fragments = toArray( fragments );
+
+		var ordered = [],
+			unordered = [],
+			sorted = [];
+
+		// Group ordered and unordered elements
+		fragments.forEach( function( fragment, i ) {
+			if( fragment.hasAttribute( 'data-fragment-index' ) ) {
+				var index = parseInt( fragment.getAttribute( 'data-fragment-index' ), 10 );
+
+				if( !ordered[index] ) {
+					ordered[index] = [];
+				}
+
+				ordered[index].push( fragment );
+			}
+			else {
+				unordered.push( [ fragment ] );
+			}
+		} );
+
+		// Append fragments without explicit indices in their
+		// DOM order
+		ordered = ordered.concat( unordered );
+
+		// Manually count the index up per group to ensure there
+		// are no gaps
+		var index = 0;
+
+		// Push all fragments in their sorted order to an array,
+		// this flattens the groups
+		ordered.forEach( function( group ) {
+			group.forEach( function( fragment ) {
+				sorted.push( fragment );
+				fragment.setAttribute( 'data-fragment-index', index );
+			} );
+
+			index ++;
+		} );
+
+		return sorted;
 
 	}
 
