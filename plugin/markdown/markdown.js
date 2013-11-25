@@ -97,7 +97,6 @@
 		options.separator = options.separator || DEFAULT_SLIDE_SEPARATOR;
 		options.notesSeparator = options.notesSeparator || DEFAULT_NOTES_SEPARATOR;
 		options.attributes = options.attributes || '';
-		options.slideAttributesSeparator = options.slideAttributesSeparator || DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR;
 
 		return options;
 
@@ -129,17 +128,14 @@
 		options = getSlidifyOptions( options );
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
-			horizontalSeparatorRegex = new RegExp( options.separator ),
-			slideAttributesSeparatorRegex = new RegExp( options.slideAttributesSeparator, 'm' );
+			horizontalSeparatorRegex = new RegExp( options.separator );
 
 		var matches,
 			lastIndex = 0,
 			isHorizontal,
 			wasHorizontal = true,
 			content,
-			sectionStack = [],
-			matchAttributes,
-			slideAttributes = "";
+			sectionStack = [];
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
@@ -178,35 +174,19 @@
 		for( var i = 0, len = sectionStack.length; i < len; i++ ) {
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
-				// The 'data-xxx' attributes of the first child must be set on the wrapping parent section to be effective
-				// Mainly for data-transition (otherwise, it is ignored for the first vertical slide)
-				firstChild = sectionStack[i][0];
-				matchAttributes = slideAttributesSeparatorRegex.exec( firstChild );
-				slideAttributes = matchAttributes ? matchAttributes[1] : "";
-				dataAttributes = "";
-				if( slideAttributes != "" ) {
-					// http://stackoverflow.com/questions/18025762/javascript-regex-replace-all-word-characters-except-word-characters-between-ch
-					// Keep only data-attributes for the parent slide section.
-					dataAttributes = slideAttributes.replace( /(data-\S+=\"[^\"]+?\")|\w|[\"=]/g, function(a, b) { return b || ''; });
-				}
-				markdownSections += '<section '+ options.attributes + ' ' + dataAttributes + '>';
+				markdownSections += '<section '+ options.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
-					matchAttributes = slideAttributesSeparatorRegex.exec( child );
-					slideAttributes = matchAttributes ? matchAttributes[1] : "";
-					child = matchAttributes ? child.replace( slideAttributesSeparatorRegex,"" ) : child
-					markdownSections += '<section ' + slideAttributes + ' data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
+					markdownSections += '<section data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				matchAttributes = slideAttributesSeparatorRegex.exec( sectionStack[i] );
-				slideAttributes = matchAttributes ? matchAttributes[1] : "";
-				content = matchAttributes ? sectionStack[i].replace( slideAttributesSeparatorRegex,"" ) : sectionStack[i]
-				markdownSections += '<section '+ options.attributes + ' ' + slideAttributes +' data-markdown>' + createMarkdownSlide( content, options ) + '</section>';
+				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
 			}
 		}
+
 		return markdownSections;
 
 	}
@@ -240,12 +220,12 @@
 				xhr.onreadystatechange = function() {
 					if( xhr.readyState === 4 ) {
 						if ( xhr.status >= 200 && xhr.status < 300 ) {
+
 							section.outerHTML = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-vertical' ),
 								notesSeparator: section.getAttribute( 'data-notes' ),
-								attributes: getForwardedAttributes( section ),
-								slideAttributesSeparator: section.getAttribute( 'data-attributes' ),
+								attributes: getForwardedAttributes( section )
 							});
 
 						}
@@ -277,24 +257,12 @@
 					separator: section.getAttribute( 'data-separator' ),
 					verticalSeparator: section.getAttribute( 'data-vertical' ),
 					notesSeparator: section.getAttribute( 'data-notes' ),
-					attributes: getForwardedAttributes( section ),
-					slideAttributesSeparator: section.getAttribute( 'data-attributes' ),
+					attributes: getForwardedAttributes( section )
 				});
 
 			}
 			else {
-				var content = getMarkdownFromSlide( section );
-				var slideAttributesSeparatorRegex = new RegExp( section.getAttribute( 'data-attributes' )  || DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR, 'm' );
-				var matchAttributes = slideAttributesSeparatorRegex.exec( content );
-				if ( matchAttributes ) {
-				  var slideAttributes = matchAttributes[1];
-				  content = content.replace( slideAttributesSeparatorRegex,"" );
-					var slideAttributesRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
-					while( matchesAttributes = slideAttributesRegex.exec( slideAttributes ) ) {
-						section.setAttribute( matchesAttributes[1], matchesAttributes[2] );
-					}
-				}
-				section.innerHTML = createMarkdownSlide( content );
+				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
 			}
 		}
 
@@ -334,7 +302,7 @@
 	 */
 	function addAttributes( section, element, previousElement, separatorElementAttributes, separatorSectionAttributes ) {
 
-        console.log("element='" + element.innerHTML + "', nodeType='" + element.nodeType + "'");
+		console.log("element='" + element.innerHTML + "', nodeType='" + element.nodeType + "'");
 		console.log("previousElement="+previousElement)
 		console.log("section=****"+section.outerHTML+"****");
 		if( element != null && element.childNodes != undefined && element.childNodes.length > 0 ) {
