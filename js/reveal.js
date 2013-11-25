@@ -347,7 +347,11 @@ var Reveal = (function(){
 
 				if( y > 0 ) verticalSlide.classList.add( 'future' );
 
+				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
+
 			} );
+
+			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
 
 		} );
 
