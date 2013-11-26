@@ -250,62 +250,63 @@ var Reveal = (function(){
      * Some dependencies may have an 'async' flag, if so they
      * will load after reveal.js has been started up.
      */
-    function load() {
-        var scripts = [],
-            scriptsAsync = [],
-            scriptsToApply = 0;
+	function load() {
 
-        // Called once synchronous scripts finish loading
-        function proceed() {
-            if( scriptsAsync.length ) {
-                // Load asynchronous scripts
-                head.js.apply( null, scriptsAsync );
-            }
+		var scripts = [],
+			scriptsAsync = [],
+			scriptsToPreload = 0;
 
-            start();
-        }
+		// Called once synchronous scripts finish loading
+		function proceed() {
+			console.log(111);
+			if( scriptsAsync.length ) {
+				// Load asynchronous scripts
+				head.js.apply( null, scriptsAsync );
+			}
 
-        function loadDependency(s) {
-            head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], function() {
-                // Extension may contain callback functions
-                if( typeof s.callback === 'function' ) {
-                    s.callback.apply(this);
-                }
+			start();
+		}
 
-                scriptsToApply--;
-                if (scriptsToApply === 0) {
-                    proceed();
-                }
-            });
-        }
+		function loadScript( s ) {
+			head.ready( s.src.match( /([\w\d_\-]*)\.?js$|[^\\\/]*$/i )[0], function() {
+				// Extension may contain callback functions
+				if( typeof s.callback === 'function' ) {
+					s.callback.apply(this);
+				}
 
-        for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
-            var s = config.dependencies[i];
+				if( --scriptsToPreload === 0 ) {
+					proceed();
+				}
+			});
+		}
 
-            // Load if there's no condition or the condition is truthy
-            if( !s.condition || s.condition() ) {
-                if( s.async ) {
-                    scriptsAsync.push( s.src );
-                }
-                else {
-                    scripts.push( s.src );
-                }
+		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
+			var s = config.dependencies[i];
 
-                loadDependency(s);
-            }
-        }
+			// Load if there's no condition or the condition is truthy
+			if( !s.condition || s.condition() ) {
+				if( s.async ) {
+					scriptsAsync.push( s.src );
+				}
+				else {
+					scripts.push( s.src );
+				}
 
-        if( scripts.length ) {
-            scriptsToApply = scripts.length;
+				loadScript( s );
+			}
+		}
 
-            // Load synchronous scripts
-            head.js.apply( null, scripts );
-        }
-        else {
-            proceed();
-        }
+		if( scripts.length ) {
+			scriptsToPreload = scripts.length;
 
-    }
+			// Load synchronous scripts
+			head.js.apply( null, scripts );
+		}
+		else {
+			proceed();
+		}
+
+	}
 
 	/**
 	 * Starts up reveal.js by binding input events and navigating
