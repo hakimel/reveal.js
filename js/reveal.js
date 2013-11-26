@@ -305,7 +305,7 @@ var Reveal = (function(){
 		setupDOM();
 
 		// Decorate the slide DOM elements with state classes (past/future)
-		setupSlides();
+		formatSlides();
 
 		// Updates the presentation to match the current configuration values
 		configure();
@@ -330,26 +330,6 @@ var Reveal = (function(){
 				'currentSlide': currentSlide
 			} );
 		}, 1 );
-
-	}
-
-	/**
-	 * Iterates through and decorates slides DOM elements with
-	 * appropriate classes.
-	 */
-	function setupSlides() {
-
-		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
-		horizontalSlides.forEach( function( horizontalSlide ) {
-
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
-			verticalSlides.forEach( function( verticalSlide, y ) {
-
-				if( y > 0 ) verticalSlide.classList.add( 'future' );
-
-			} );
-
-		} );
 
 	}
 
@@ -1028,38 +1008,6 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Return a sorted fragments list, ordered by an increasing
-	 * "data-fragment-index" attribute.
-	 *
-	 * Fragments will be revealed in the order that they are returned by
-	 * this function, so you can use the index attributes to control the
-	 * order of fragment appearance.
-	 *
-	 * To maintain a sensible default fragment order, fragments are presumed
-	 * to be passed in document order. This function adds a "fragment-index"
-	 * attribute to each node if such an attribute is not already present,
-	 * and sets that attribute to an integer value which is the position of
-	 * the fragment within the fragments list.
-	 */
-	function sortFragments( fragments ) {
-
-		var a = toArray( fragments );
-
-		a.forEach( function( el, idx ) {
-			if( !el.hasAttribute( 'data-fragment-index' ) ) {
-				el.setAttribute( 'data-fragment-index', idx );
-			}
-		} );
-
-		a.sort( function( l, r ) {
-			return l.getAttribute( 'data-fragment-index' ) - r.getAttribute( 'data-fragment-index');
-		} );
-
-		return a;
-
-	}
-
-	/**
 	 * Applies JavaScript-controlled layout rules to the
 	 * presentation.
 	 */
@@ -1560,16 +1508,7 @@ var Reveal = (function(){
 
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
-
-			toArray( fragments ).forEach( function( fragment, indexf ) {
-				if( indexf < f ) {
-					fragment.classList.add( 'visible' );
-				}
-				else {
-					fragment.classList.remove( 'visible' );
-				}
-			} );
+			navigateFragment( f );
 		}
 
 		// Dispatch an event if the slide changed
@@ -1652,10 +1591,36 @@ var Reveal = (function(){
 		// Re-create the slide backgrounds
 		createBackgrounds();
 
+		formatSlides();
+
 		updateControls();
 		updateProgress();
 		updateBackground( true );
 		updateSlideNumber();
+
+	}
+
+	/**
+	 * Iterates through and decorates slides DOM elements with
+	 * appropriate classes.
+	 */
+	function formatSlides() {
+
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		horizontalSlides.forEach( function( horizontalSlide ) {
+
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			verticalSlides.forEach( function( verticalSlide, y ) {
+
+				if( y > 0 ) verticalSlide.classList.add( 'future' );
+
+				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
+
+			} );
+
+			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
+
+		} );
 
 	}
 
@@ -1713,7 +1678,9 @@ var Reveal = (function(){
 
 					// Show all fragments on prior slides
 					while( pastFragments.length ) {
-						pastFragments.pop().classList.add( 'visible' );
+						var pastFragment = pastFragments.pop();
+						pastFragment.classList.add( 'visible' );
+						pastFragment.classList.remove( 'current-fragment' );
 					}
 				}
 				else if( i > index ) {
@@ -1724,7 +1691,9 @@ var Reveal = (function(){
 
 					// No fragments in future slides should be visible ahead of time
 					while( futureFragments.length ) {
-						futureFragments.pop().classList.remove( 'visible' );
+						var futureFragment = futureFragments.pop();
+						futureFragment.classList.remove( 'visible' );
+						futureFragment.classList.remove( 'current-fragment' );
 					}
 				}
 
@@ -2270,11 +2239,156 @@ var Reveal = (function(){
 			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
 			if( hasFragments ) {
 				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-				f = visibleFragments.length;
+				f = visibleFragments.length - 1;
 			}
 		}
 
 		return { h: h, v: v, f: f };
+
+	}
+
+	/**
+	 * Return a sorted fragments list, ordered by an increasing
+	 * "data-fragment-index" attribute.
+	 *
+	 * Fragments will be revealed in the order that they are returned by
+	 * this function, so you can use the index attributes to control the
+	 * order of fragment appearance.
+	 *
+	 * To maintain a sensible default fragment order, fragments are presumed
+	 * to be passed in document order. This function adds a "fragment-index"
+	 * attribute to each node if such an attribute is not already present,
+	 * and sets that attribute to an integer value which is the position of
+	 * the fragment within the fragments list.
+	 */
+	function sortFragments( fragments ) {
+
+		fragments = toArray( fragments );
+
+		var ordered = [],
+			unordered = [],
+			sorted = [];
+
+		// Group ordered and unordered elements
+		fragments.forEach( function( fragment, i ) {
+			if( fragment.hasAttribute( 'data-fragment-index' ) ) {
+				var index = parseInt( fragment.getAttribute( 'data-fragment-index' ), 10 );
+
+				if( !ordered[index] ) {
+					ordered[index] = [];
+				}
+
+				ordered[index].push( fragment );
+			}
+			else {
+				unordered.push( [ fragment ] );
+			}
+		} );
+
+		// Append fragments without explicit indices in their
+		// DOM order
+		ordered = ordered.concat( unordered );
+
+		// Manually count the index up per group to ensure there
+		// are no gaps
+		var index = 0;
+
+		// Push all fragments in their sorted order to an array,
+		// this flattens the groups
+		ordered.forEach( function( group ) {
+			group.forEach( function( fragment ) {
+				sorted.push( fragment );
+				fragment.setAttribute( 'data-fragment-index', index );
+			} );
+
+			index ++;
+		} );
+
+		return sorted;
+
+	}
+
+	/**
+	 * Navigate to the specified slide fragment.
+	 *
+	 * @param {Number} index The index of the fragment that
+	 * should be shown, -1 means all are invisible
+	 * @param {Number} offset Integer offset to apply to the
+	 * fragment index
+	 *
+	 * @return {Boolean} true if a change was made in any
+	 * fragments visibility as part of this call
+	 */
+	function navigateFragment( index, offset ) {
+
+		if( currentSlide && config.fragments ) {
+
+			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
+			if( fragments.length ) {
+
+				// If no index is specified, find the current
+				if( typeof index !== 'number' ) {
+					var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
+
+					if( lastVisibleFragment ) {
+						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
+					}
+					else {
+						index = -1;
+					}
+				}
+
+				// If an offset is specified, apply it to the index
+				if( typeof offset === 'number' ) {
+					index += offset;
+				}
+
+				var fragmentsShown = [],
+					fragmentsHidden = [];
+
+				toArray( fragments ).forEach( function( element, i ) {
+
+					if( element.hasAttribute( 'data-fragment-index' ) ) {
+						i = parseInt( element.getAttribute( 'data-fragment-index' ), 10 );
+					}
+
+					// Visible fragments
+					if( i <= index ) {
+						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
+						element.classList.add( 'visible' );
+						element.classList.remove( 'current-fragment' );
+
+						if( i === index ) {
+							element.classList.add( 'current-fragment' );
+						}
+					}
+					// Hidden fragments
+					else {
+						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
+						element.classList.remove( 'visible' );
+						element.classList.remove( 'current-fragment' );
+					}
+
+
+				} );
+
+				if( fragmentsHidden.length ) {
+					dispatchEvent( 'fragmenthidden', { fragment: fragmentsHidden[0], fragments: fragmentsHidden } );
+				}
+
+				if( fragmentsShown.length ) {
+					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
+				}
+
+				updateControls();
+
+				return !!( fragmentsShown.length || fragmentsHidden.length );
+
+			}
+
+		}
+
+		return false;
 
 	}
 
@@ -2286,29 +2400,7 @@ var Reveal = (function(){
 	 */
 	function nextFragment() {
 
-		if( currentSlide && config.fragments ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment:not(.visible)' ) );
-
-			if( fragments.length ) {
-				// Find the index of the next fragment
-				var index = fragments[0].getAttribute( 'data-fragment-index' );
-
-				// Find all fragments with the same index
-				fragments = currentSlide.querySelectorAll( '.fragment[data-fragment-index="'+ index +'"]' );
-
-				toArray( fragments ).forEach( function( element ) {
-					element.classList.add( 'visible' );
-				} );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmentshown', { fragment: fragments[0], fragments: fragments } );
-
-				updateControls();
-				return true;
-			}
-		}
-
-		return false;
+		return navigateFragment( null, 1 );
 
 	}
 
@@ -2320,29 +2412,7 @@ var Reveal = (function(){
 	 */
 	function previousFragment() {
 
-		if( currentSlide && config.fragments ) {
-			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) );
-
-			if( fragments.length ) {
-				// Find the index of the previous fragment
-				var index = fragments[ fragments.length - 1 ].getAttribute( 'data-fragment-index' );
-
-				// Find all fragments with the same index
-				fragments = currentSlide.querySelectorAll( '.fragment[data-fragment-index="'+ index +'"]' );
-
-				toArray( fragments ).forEach( function( f ) {
-					f.classList.remove( 'visible' );
-				} );
-
-				// Notify subscribers of the change
-				dispatchEvent( 'fragmenthidden', { fragment: fragments[0], fragments: fragments } );
-
-				updateControls();
-				return true;
-			}
-		}
-
-		return false;
+		return navigateFragment( null, -1 );
 
 	}
 
@@ -3130,6 +3200,9 @@ var Reveal = (function(){
 		down: navigateDown,
 		prev: navigatePrev,
 		next: navigateNext,
+
+		// Fragment methods
+		navigateFragment: navigateFragment,
 		prevFragment: previousFragment,
 		nextFragment: nextFragment,
 

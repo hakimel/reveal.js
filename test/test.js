@@ -5,6 +5,7 @@
 // 1
 // 2 - Three sub-slides
 // 3 - Three fragment elements
+// 3 - Two fragments with same data-fragment-index
 // 4
 
 
@@ -128,7 +129,7 @@ Reveal.addEventListener( 'ready', function() {
 	test( 'Reveal.next', function() {
 		Reveal.slide( 0, 0 );
 
-		// Step through the vertical child slides
+		// Step through vertical child slides
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 1, v: 0, f: undefined } );
 
@@ -138,7 +139,10 @@ Reveal.addEventListener( 'ready', function() {
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 1, v: 2, f: undefined } );
 
-		// There's fragments on this slide
+		// Step through fragments
+		Reveal.next();
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: -1 } );
+
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 } );
 
@@ -147,14 +151,15 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 } );
+	});
 
-		Reveal.next();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 3 } );
+	test( 'Reveal.next at end', function() {
+		Reveal.slide( 3 );
 
+		// We're at the end, this should have no effect
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
 
-		// We're at the end, this should have no effect
 		Reveal.next();
 		deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
 	});
@@ -166,6 +171,9 @@ Reveal.addEventListener( 'ready', function() {
 	QUnit.module( 'Fragments' );
 
 	test( 'Sliding to fragments', function() {
+		Reveal.slide( 2, 0, -1 );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: -1 }, 'Reveal.slide( 2, 0, -1 )' );
+
 		Reveal.slide( 2, 0, 0 );
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'Reveal.slide( 2, 0, 0 )' );
 
@@ -176,19 +184,45 @@ Reveal.addEventListener( 'ready', function() {
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'Reveal.slide( 2, 0, 1 )' );
 	});
 
-	test( 'Stepping through fragments', function() {
+	test( 'Hiding all fragments', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
+
 		Reveal.slide( 2, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 1, 'one fragment visible when index is 0' );
+
+		Reveal.slide( 2, 0, -1 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 0, 'no fragments visible when index is -1' );
+	});
+
+	test( 'Current fragment', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
+
+		Reveal.slide( 2, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment at index -1' );
+
+		Reveal.slide( 2, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 1, 'one current fragment at index 0' );
+
+		Reveal.slide( 1, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment when navigating to previous slide' );
+
+		Reveal.slide( 3, 0, 0 );
+		strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment when navigating to next slide' );
+	});
+
+	test( 'Stepping through fragments', function() {
+		Reveal.slide( 2, 0, -1 );
 
 		// forwards:
 
 		Reveal.next();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'next() goes to next fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'next() goes to next fragment' );
 
 		Reveal.right();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'right() goes to next fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'right() goes to next fragment' );
 
 		Reveal.down();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 3 }, 'down() goes to next fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'down() goes to next fragment' );
 
 		Reveal.down(); // moves to f #3
 
@@ -201,17 +235,42 @@ Reveal.addEventListener( 'ready', function() {
 		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'left() goes to prev fragment' );
 
 		Reveal.up();
-		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'left() goes to prev fragment' );
+		deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'up() goes to prev fragment' );
 	});
 
 	test( 'Stepping past fragments', function() {
-		var fragmentSlide = document.querySelector( '.reveal .slides>section:nth-child(3)' );
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
 
 		Reveal.slide( 0, 0, 0 );
 		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 0, 'no fragments visible when on previous slide' );
 
 		Reveal.slide( 3, 0, 0 );
 		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 3, 'all fragments visible when on future slide' );
+	});
+
+	test( 'Fragment indices', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(2)' );
+
+		Reveal.slide( 3, 0, 0 );
+		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 2, 'both fragments of same index are shown' );
+	});
+
+	test( 'Index generation', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
+
+		// These have no indices defined to start with
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[0].getAttribute( 'data-fragment-index' ), '0' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[1].getAttribute( 'data-fragment-index' ), '1' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[2].getAttribute( 'data-fragment-index' ), '2' );
+	});
+
+	test( 'Index normalization', function() {
+		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(3)' );
+
+		// These start out as 1-4-4 and should normalize to 0-1-1
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[0].getAttribute( 'data-fragment-index' ), '0' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[1].getAttribute( 'data-fragment-index' ), '1' );
+		equal( fragmentSlide.querySelectorAll( '.fragment' )[2].getAttribute( 'data-fragment-index' ), '1' );
 	});
 
 	asyncTest( 'fragmentshown event', function() {
