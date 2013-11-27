@@ -116,13 +116,6 @@ body {
   border-top-color: #f3d7ac; }
 
 /*********************************************
- * SLIDE NUMBER
- *********************************************/
-.reveal .slide-number {
-  color: #e7ad52;
-}
-
-/*********************************************
  * PROGRESS BAR
  *********************************************/
 .reveal .progress {
@@ -135,3 +128,9 @@ body {
   -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+/*********************************************
+ * SLIDE NUMBER
+ *********************************************/
+.reveal .slide-number {
+  color: #e7ad52; }

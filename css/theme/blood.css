@@ -140,6 +140,12 @@ body {
   -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
+/*********************************************
+ * SLIDE NUMBER
+ *********************************************/
+.reveal .slide-number {
+  color: #aa2233; }
+
 .reveal p {
   font-weight: 300;
   text-shadow: 1px 1px #222222; }
