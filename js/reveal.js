@@ -3300,17 +3300,20 @@ var Reveal = (function(){
 		getQueryHash: function() {
 			var query = {};
 
-			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+			location.search.replace( /[A-Z0-9]+?=([\w\.%-]*)/gi, function(a) {
 				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
 			} );
 
 			// Basic deserialization
 			for( var i in query ) {
 				var value = query[ i ];
+
+				query[ i ] = unescape( value );
+
 				if( value === 'null' ) query[ i ] = null;
 				else if( value === 'true' ) query[ i ] = true;
 				else if( value === 'false' ) query[ i ] = false;
-				else if( !isNaN( parseFloat( value ) ) ) query[ i ] = parseFloat( value );
+				else if( value.match( /^\d+$/ ) ) query[ i ] = parseFloat( value );
 			}
 
 			return query;
