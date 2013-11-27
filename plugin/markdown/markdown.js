@@ -29,7 +29,7 @@
 	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:',
 		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '{\\\.\s*?([^}]+?)}',
-		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '^.*?<!--\\\sslide-attributes:\\\s(.*?)-->';
+		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = 'slide-attributes:\\\s(.*?)$';
 
 
 	/**
@@ -73,7 +73,7 @@
 				value = attributes[i].value;
 
 			// disregard attributes that are used for markdown loading/parsing
-			if( /data\-(markdown|separator|vertical|notes|attributes)/gi.test( name ) ) continue;
+			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
 
 			if( value ) {
 				result.push( name + '=' + value );
@@ -282,12 +282,13 @@
 		var mardownClassesInElementsRegex = new RegExp( separator, 'mg' );
 		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
 		var nodeValue = node.nodeValue;
+		console.log("=== node.nodeValue='" + nodeValue + "' vs. separator '" + separator + "'");
 		if( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
 
 			var classes = matches[1];
 			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
 			node.nodeValue = nodeValue;
-
+			console.log("=========== classes='" + classes + "'");
 			while( matchesClass = mardownClassRegex.exec( classes ) ) {
 				elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
 			}
@@ -302,15 +303,15 @@
 	 */
 	function addAttributes( section, element, previousElement, separatorElementAttributes, separatorSectionAttributes ) {
 
-		console.log("element='" + element.innerHTML + "', nodeType='" + element.nodeType + "'");
+		console.log("*** element='" + element.innerHTML + "', nodeType='" + element.nodeType + "'");
 		console.log("previousElement="+previousElement)
 		console.log("section=****"+section.outerHTML+"****");
-		if( element != null && element.childNodes != undefined && element.childNodes.length > 0 ) {
+		if ( element != null && element.childNodes != undefined && element.childNodes.length > 0 ) {
 			previousParentElement = element;
 			for( var i = 0; i < element.childNodes.length; i++ ) {
 				childElement = element.childNodes[i];
-				console.log("  Child element='" + childElement.innerHTML + "'");
-				if ( i > 0 ) {
+				console.log("  Child element='" + childElement.innerHTML + "', type " + childElement.nodeType);
+				if ( i > 0 && typeof element.childNodes[i-1].setAttribute == 'function' ) {
 					previousParentElement = element.childNodes[i-1];
 				}
 				parentSection = section;
@@ -318,7 +319,10 @@
 					parentSection = childElement ;
 					previousParentElement = childElement ;
 				}
-				addAttributes( parentSection, childElement, previousParentElement, separatorElementAttributes, separatorSectionAttributes );
+				if ( typeof childElement.setAttribute == 'function' || childElement.nodeType == Node.COMMENT_NODE ) {
+					console.log("   CALL addAttributes")
+					addAttributes( parentSection, childElement, previousParentElement, separatorElementAttributes, separatorSectionAttributes );
+				}
 			}
 		}
 
@@ -328,15 +332,15 @@
 			}
 		}
 		// From http://stackoverflow.com/questions/9178174/find-all-text-nodes
-		if( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
-			addAttributeInElement( element, element.parentNode, separatorElementAttributes );
-		}
-		if( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
-			for( var j = 0; j < element.attributes.length; j++ ){
-				var attr = element.attributes[j];
-				addAttributeInElement( attr, element, separatorElementAttributes );
-			}
-		}
+		//if( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
+		//	addAttributeInElement( element, element.parentNode, separatorElementAttributes );
+		//}
+		//if( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
+		//	for( var j = 0; j < element.attributes.length; j++ ){
+		//		var attr = element.attributes[j];
+		//		addAttributeInElement( attr, element, separatorElementAttributes );
+		//	}
+		//}
 
 	}
 
