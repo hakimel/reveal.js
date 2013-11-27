@@ -388,7 +388,7 @@ Reveal.initialize({
 });
 ```
 
-Make sure that the background size is much bigger than screen size to allow for some scrolling.
+Make sure that the background size is much bigger than screen size to allow for some scrolling. [View example](http://lab.hakim.se/reveal-js/?parallaxBackgroundImage=https%3A%2F%2Fs3.amazonaws.com%2Fhakim-static%2Freveal-js%2Freveal-parallax-1.jpg&parallaxBackgroundSize=2100px%20900px).
 
 
 
