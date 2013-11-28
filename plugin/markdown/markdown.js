@@ -303,16 +303,24 @@
 	 */
 	function addAttributes( section, element, previousElement, separatorElementAttributes, separatorSectionAttributes ) {
 
-		console.log("*** element='" + element.innerHTML + "', nodeType='" + element.nodeType + "'");
+		console.log("*** element='" + element.tagName + "', nodeType='" + element.nodeType + "'");
 		console.log("previousElement="+previousElement)
-		console.log("section=****"+section.outerHTML+"****");
+		//console.log("section=****"+section.outerHTML+"****");
 		if ( element != null && element.childNodes != undefined && element.childNodes.length > 0 ) {
 			previousParentElement = element;
 			for( var i = 0; i < element.childNodes.length; i++ ) {
 				childElement = element.childNodes[i];
-				console.log("  Child element='" + childElement.innerHTML + "', type " + childElement.nodeType);
-				if ( i > 0 && typeof element.childNodes[i-1].setAttribute == 'function' ) {
-					previousParentElement = element.childNodes[i-1];
+				console.log("  Child element='" + childElement.tagName + "', type " + childElement.nodeType);
+				if ( i > 0 ) {
+					j = i - 1;
+					while ( j >= 0 ) {
+						aPreviousChildElement = element.childNodes[j];
+						if ( typeof aPreviousChildElement.setAttribute == 'function' && aPreviousChildElement.tagName != "BR") {
+							previousParentElement = aPreviousChildElement;
+							break;
+						}
+						j = j - 1;
+					}
 				}
 				parentSection = section;
 				if( childElement.nodeName ==  "section" ) {
