@@ -499,6 +499,13 @@ By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/
 </section>
 ```
 
+### Slide number
+If you would like to display the page number of the current slide you can do so using the ```slideNumber``` configuration value.
+
+```javascript
+Reveal.configure({ slideNumber: true });
+```
+
 
 ### Overview mode
 
