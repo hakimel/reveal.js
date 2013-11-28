@@ -282,13 +282,11 @@
 		var mardownClassesInElementsRegex = new RegExp( separator, 'mg' );
 		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
 		var nodeValue = node.nodeValue;
-		console.log("=== node.nodeValue='" + nodeValue + "' vs. separator '" + separator + "'");
 		if( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
 
 			var classes = matches[1];
 			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
 			node.nodeValue = nodeValue;
-			console.log("=========== classes='" + classes + "'");
 			while( matchesClass = mardownClassRegex.exec( classes ) ) {
 				elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
 			}
@@ -303,19 +301,15 @@
 	 */
 	function addAttributes( section, element, previousElement, separatorElementAttributes, separatorSectionAttributes ) {
 
-		console.log("*** element='" + element.tagName + "', nodeType='" + element.nodeType + "'");
-		console.log("previousElement="+previousElement)
-		//console.log("section=****"+section.outerHTML+"****");
 		if ( element != null && element.childNodes != undefined && element.childNodes.length > 0 ) {
 			previousParentElement = element;
 			for( var i = 0; i < element.childNodes.length; i++ ) {
 				childElement = element.childNodes[i];
-				console.log("  Child element='" + childElement.tagName + "', type " + childElement.nodeType);
 				if ( i > 0 ) {
 					j = i - 1;
 					while ( j >= 0 ) {
 						aPreviousChildElement = element.childNodes[j];
-						if ( typeof aPreviousChildElement.setAttribute == 'function' && aPreviousChildElement.tagName != "BR") {
+						if ( typeof aPreviousChildElement.setAttribute == 'function' && aPreviousChildElement.tagName != "BR" ) {
 							previousParentElement = aPreviousChildElement;
 							break;
 						}
@@ -328,7 +322,6 @@
 					previousParentElement = childElement ;
 				}
 				if ( typeof childElement.setAttribute == 'function' || childElement.nodeType == Node.COMMENT_NODE ) {
-					console.log("   CALL addAttributes")
 					addAttributes( parentSection, childElement, previousParentElement, separatorElementAttributes, separatorSectionAttributes );
 				}
 			}
@@ -336,20 +329,9 @@
 
 		if ( element.nodeType == Node.COMMENT_NODE ) {
 			if ( addAttributeInElement( element, previousElement, separatorElementAttributes ) == false ) {
-				addAttributeInElement( element, section, separatorSectionAttributes);
+				addAttributeInElement( element, section, separatorSectionAttributes );
 			}
 		}
-		// From http://stackoverflow.com/questions/9178174/find-all-text-nodes
-		//if( element.nodeType == Node.TEXT_NODE && /\S/.test(element.nodeValue) ) {
-		//	addAttributeInElement( element, element.parentNode, separatorElementAttributes );
-		//}
-		//if( element.nodeType == Node.ELEMENT_NODE && element.attributes.length > 0 ) {
-		//	for( var j = 0; j < element.attributes.length; j++ ){
-		//		var attr = element.attributes[j];
-		//		addAttributeInElement( attr, element, separatorElementAttributes );
-		//	}
-		//}
-
 	}
 
 	/**
@@ -373,7 +355,6 @@
 				var markdown = getMarkdownFromSlide( section );
 
 				section.innerHTML = marked( markdown );
-				//console.log("markdown="+markdown);
 				addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
 								section.parentNode.getAttribute( 'data-element-attributes' ) ||
 								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
