@@ -316,8 +316,8 @@ var Reveal = (function(){
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
 
-		// Decorate the slide DOM elements with state classes (past/future)
-		formatSlides();
+		// Resets all vertical slides so that only the first is visible
+		resetVerticalSlides();
 
 		// Updates the presentation to match the current configuration values
 		configure();
@@ -1603,7 +1603,7 @@ var Reveal = (function(){
 		// Re-create the slide backgrounds
 		createBackgrounds();
 
-		formatSlides();
+		sortAllFragments();
 
 		updateControls();
 		updateProgress();
@@ -1613,10 +1613,10 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Iterates through and decorates slides DOM elements with
-	 * appropriate classes.
+	 * Resets all vertical slides so that only the first
+	 * is visible.
 	 */
-	function formatSlides() {
+	function resetVerticalSlides() {
 
 		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
@@ -1624,7 +1624,29 @@ var Reveal = (function(){
 			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
-				if( y > 0 ) verticalSlide.classList.add( 'future' );
+				if( y > 0 ) {
+					verticalSlide.classList.remove( 'present' );
+					verticalSlide.classList.remove( 'past' );
+					verticalSlide.classList.add( 'future' );
+				}
+
+			} );
+
+		} );
+
+	}
+
+	/**
+	 * Sorts and formats all of fragments in the
+	 * presentation.
+	 */
+	function sortAllFragments() {
+
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		horizontalSlides.forEach( function( horizontalSlide ) {
+
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
 
