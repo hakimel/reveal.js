@@ -1624,7 +1624,7 @@ var Reveal = (function(){
 			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
-				if( y > 0 ) verticalSlide.classList.add( 'future' );
+				if( y > indexv ) verticalSlide.classList.add( 'future' );
 
 				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
 
