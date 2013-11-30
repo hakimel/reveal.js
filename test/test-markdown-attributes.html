@@ -13,7 +13,7 @@
 	<body style="overflow: auto;">
 
 		<div id="qunit"></div>
-  		<div id="qunit-fixture"></div>
+		<div id="qunit-fixture"></div>
 
 		<div class="reveal" style="display: none;">
 
@@ -25,7 +25,7 @@
 				<section 	data-markdown data-separator="^\n\n\n"
 									data-vertical="^\n\n"
 									data-notes="^Note:"
-									data-attributes="^\s*?--\s(.*?)$"
+									data-attributes="--\s(.*?)$"
 									data-charset="utf-8">
 					<script type="text/template">
 						# Test attributes in Markdown
@@ -34,11 +34,11 @@
 
 
 						## Slide 2
-						-- id="slide2" data-transition="zoom" data-background="#A0C66B"
+						<!-- -- id="slide2" data-transition="zoom" data-background="#A0C66B" -->
 
 
 						## Slide 2.1
-						-- data-background="#ff0000" data-transition="fade"
+						<!-- -- data-background="#ff0000" data-transition="fade" -->
 
 
 						## Slide 2.2
@@ -47,7 +47,7 @@
 
 
 						## Slide 3
-						-- data-transition="zoom" data-background="#C6916B"
+						<!-- -- data-transition="zoom" data-background="#C6916B" -->
 
 
 
@@ -66,11 +66,11 @@
 
 
 						## Slide 2 Def
-						<!-- slide-attributes: id="slide2def" data-transition="concave" data-background="#A7C66B" -->
+						<!-- .slide: id="slide2def" data-transition="concave" data-background="#A7C66B" -->
 
 
 						## Slide 2.1 Def
-						<!-- slide-attributes: data-background="#f70000" data-transition="page" -->
+						<!-- .slide: data-background="#f70000" data-transition="page" -->
 
 
 						## Slide 2.2 Def
@@ -79,7 +79,7 @@
 
 
 						## Slide 3 Def
-						<!-- slide-attributes: data-transition="concave" data-background="#C7916B" -->
+						<!-- .slide: data-transition="concave" data-background="#C7916B" -->
 
 
 
@@ -87,30 +87,30 @@
 					</script>
 				</section>
 
-        <section data-markdown>
-          <script type="text/template">
-            <!-- slide-attributes: data-background="#ff0000" -->
-            ## Hello world
-          </script>
-        </section>
+				<section data-markdown>
+					<script type="text/template">
+						<!-- .slide: data-background="#ff0000" -->
+						## Hello world
+					</script>
+				</section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ## Hello world
-            <!-- slide-attributes: data-background="#ff0000" -->
-          </script>
-        </section>
+				<section data-markdown>
+					<script type="text/template">
+						## Hello world
+						<!-- .slide: data-background="#ff0000" -->
+					</script>
+				</section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ## Hello world
+				<section data-markdown>
+					<script type="text/template">
+						## Hello world
 
-            Test
-            <!-- slide-attributes: data-background="#ff0000" -->
+						Test
+						<!-- .slide: data-background="#ff0000" -->
 
-            More Test
-          </script>
-        </section>
+						More Test
+					</script>
+				</section>
 
 			</div>
 
