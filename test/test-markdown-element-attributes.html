@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - Test Markdown</title>
+		<title>reveal.js - Test Markdown Element Attributes</title>
 
 		<link rel="stylesheet" href="../css/reveal.min.css">
 		<link rel="stylesheet" href="qunit-1.12.0.css">
@@ -13,9 +13,9 @@
 	<body style="overflow: auto;">
 
 		<div id="qunit"></div>
-  		<div id="qunit-fixture"></div>
+		<div id="qunit-fixture"></div>
 
-		<div class="reveal" style="display: true;">
+		<div class="reveal" style="display: none;">
 
 			<div class="slides">
 
@@ -38,12 +38,9 @@
 						Paragraph 2
 						<!-- {_class="fragment grow"} -->
 
-						- list item 1
-						<!-- {_class="fragment roll-in"} -->
-						- list item 2
-						<!-- {_class="fragment roll-in"} -->
-						- list item 3
-						<!-- {_class="fragment roll-in"} -->
+						- list item 1 <!-- {_class="fragment roll-in"} -->
+						- list item 2 <!-- {_class="fragment roll-in"} -->
+						- list item 3 <!-- {_class="fragment roll-in"} -->
 
 
 						---
@@ -52,28 +49,20 @@
 
 
 						Paragraph 1.2  
-						multi-line
-						<!-- {_class="fragment highlight-red"} -->
+						multi-line <!-- {_class="fragment highlight-red"} -->
 
-						Paragraph 2.2
-						<!-- {_class="fragment highlight-red"} -->
+						Paragraph 2.2 <!-- {_class="fragment highlight-red"} -->
 
-						Paragraph 2.3
-						<!-- {_class="fragment highlight-red"} -->
+						Paragraph 2.3 <!-- {_class="fragment highlight-red"} -->
 
-						Paragraph 2.4
-						<!-- {_class="fragment highlight-red"} -->
+						Paragraph 2.4 <!-- {_class="fragment highlight-red"} -->
 
-						- list item 1
-						<!-- {_class="fragment highlight-green"} -->
-						- list item 2
-						<!-- {_class="fragment highlight-green"} -->
-						- list item 3
-						<!-- {_class="fragment highlight-green"} -->
+						- list item 1 <!-- {_class="fragment highlight-green"} -->
+						- list item 2<!-- {_class="fragment highlight-green"} -->
+						- list item 3<!-- {_class="fragment highlight-green"} -->
 						- list item 4
 						<!-- {_class="fragment highlight-green"} -->
-						- list item 5
-						<!-- {_class="fragment highlight-green"} -->
+						- list item 5<!-- {_class="fragment highlight-green"} -->
 
 						Test
 
@@ -82,6 +71,52 @@
 
 					</script>
 				</section>
+
+
+
+				<section 	data-markdown data-separator="^\n\n\n"
+									data-vertical="^\n\n"
+									data-notes="^Note:"
+									data-charset="utf-8">
+					<script type="text/template">
+						# Test attributes in Markdown with default separator
+						## Slide 1 Def <!-- .element: class="fragment highlight-red" data-fragment-index="1" -->
+
+
+						## Slide 2 Def
+						<!-- .element: class="fragment highlight-red" -->
+
+					</script>
+				</section>
+
+				<section data-markdown>
+				  <script type="text/template">
+					## Hello world
+					A paragraph
+					<!-- .element: class="fragment highlight-blue" -->
+				  </script>
+				</section>
+
+				<section data-markdown>
+				  <script type="text/template">
+					## Hello world
+
+					Multiple  
+					Line
+					<!-- .element: class="fragment highlight-blue" -->
+				  </script>
+				</section>
+
+				<section data-markdown>
+				  <script type="text/template">
+					## Hello world
+
+					Test<!-- .element: class="fragment highlight-blue" -->
+
+					More Test
+				  </script>
+				</section>
+
 
 			</div>
 
