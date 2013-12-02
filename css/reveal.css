@@ -521,6 +521,7 @@ body {
 	height: 100%;
 
 	-ms-touch-action: none;
+		touch-action: none;
 }
 
 .reveal .slides {
