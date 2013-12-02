@@ -54,8 +54,15 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 
 You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file. The ```data-charset``` attribute is optional and specifies which charset to use when loading the external file.
 
+When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
+
 ```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^Note:" data-charset="iso-8859-15"></section>
+<section data-markdown="example.md"  
+         data-separator="^\n\n\n"  
+         data-vertical="^\n\n"  
+         data-notes="^Note:"  
+         data-charset="iso-8859-15">
+</section>
 ```
 
 #### Element Attributes
@@ -592,6 +599,8 @@ reveal.js comes with a speaker notes plugin which can be used to present per-sli
 
 Notes are defined by appending an ```<aside>``` element to a slide as seen below. You can add the ```data-markdown``` attribute to the aside element if you prefer writing notes using Markdown.
 
+When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
+
 ```html
 <section>
 	<h2>Some Slide</h2>
@@ -862,7 +871,7 @@ The core of reveal.js is very easy to install. You'll simply need to download a 
 
 ### Full setup
 
-Some reveal.js features, like external markdown, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
+Some reveal.js features, like external markdown and speaker notes, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
 
 1. Install [Node.js](http://nodejs.org/)
 
