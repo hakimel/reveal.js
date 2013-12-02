@@ -642,13 +642,13 @@ var Reveal = (function(){
 				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
-			} else if( window.navigator.msPointerEnabled ) {
+			}
+			else if( window.navigator.msPointerEnabled ) {
 				// IE 10 uses prefixed version of pointer events
 				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
 			}
-			
 		}
 
 		if( config.keyboard ) {
@@ -710,7 +710,7 @@ var Reveal = (function(){
 			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
 		}
 		// IE11
-		if( window.navigator.pointerEnabled ) {
+		else if( window.navigator.pointerEnabled ) {
 			dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
 			dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
 			dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
@@ -2891,7 +2891,7 @@ var Reveal = (function(){
 	 */
 	function onPointerDown( event ) {
 
-		if(( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) || ( event.pointerType === "touch" )) {
+		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH || event.pointerType === "touch" ) {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchStart( event );
 		}
@@ -2903,7 +2903,7 @@ var Reveal = (function(){
 	 */
 	function onPointerMove( event ) {
 
-		if(( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) || ( event.pointerType === "touch" ))  {
+		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH || event.pointerType === "touch" )  {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchMove( event );
 		}
@@ -2915,7 +2915,7 @@ var Reveal = (function(){
 	 */
 	function onPointerUp( event ) {
 
-		if(( event.pointerType === event.MSPOINTER_TYPE_TOUCH ) || ( event.pointerType === "touch" ))  {
+		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH || event.pointerType === "touch" )  {
 			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
 			onTouchEnd( event );
 		}
