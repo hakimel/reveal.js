@@ -78,7 +78,7 @@ Special syntax (in html comment) is available for adding attributes to the slide
 ```html
 <section data-markdown>
 	<script type="text/template">
-	<!-- slide: data-background="#ff0000" -->
+	<!-- .slide: data-background="#ff0000" -->
 		Mardown content
 	</script>
 </section>
