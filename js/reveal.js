@@ -703,17 +703,17 @@ var Reveal = (function(){
 		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 
-		// IE10
-		if( window.navigator.msPointerEnabled ) {
-			dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
-			dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
-			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
-		}
 		// IE11
-		else if( window.navigator.pointerEnabled ) {
+		if( window.navigator.pointerEnabled ) {
 			dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
 			dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
 			dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
+		}
+		// IE10
+		else if( window.navigator.msPointerEnabled ) {
+			dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
+			dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
+			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
 		}
 
 		if ( config.progress && dom.progress ) {
