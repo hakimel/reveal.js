@@ -923,7 +923,7 @@ If you have personal support questions use [StackOverflow](http://stackoverflow.
   - Single-quoted strings
 - Should be made towards the **dev branch**
 - Should be submitted from a feature/topic branch (not your master)
-- Should not include the minified **reveal.min.js** file
+- Should not include the minified **reveal.min.js** or **reveal.min.css** files
 
 
 ## License
