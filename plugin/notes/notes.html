@@ -140,7 +140,7 @@
             }
 
             .elapsed .mute {
-                display: none;
+                opacity: 0.5;
             }
 
         </style>
@@ -404,6 +404,10 @@
                         secondsEl.innerHTML = ":" + zeroPadInteger( seconds );
 
                     }, 1000 );
+
+                    function zeroPadInteger(int) {
+                        return ("00" + int).slice(-2);
+                    }
                 }
 
                 function initialize() {
