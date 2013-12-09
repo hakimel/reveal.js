@@ -35,6 +35,9 @@ var Reveal = (function(){
 			// Display a presentation progress bar
 			progress: true,
 
+			// URL of a logo image displayed in the top right corner
+			slidedeckLogo: null,
+
 			// Display the page number of the current slide
 			slideNumber: false,
 
@@ -325,6 +328,11 @@ var Reveal = (function(){
 		// Read the initial hash
 		readURL();
 
+		// Check for a configured slide deck logo and set it in case
+		if( config.slidedeckLogo && dom.slidedecklogo) {
+			dom.slidedecklogo.innerHTML = '<img src="' + config.slidedeckLogo + '" alt=""/>';
+		}
+
 		// Update all backgrounds
 		updateBackground( true );
 
@@ -376,6 +384,9 @@ var Reveal = (function(){
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
+
+		// Slide deck logo
+		dom.slidedecklogo = createSingletonNode( dom.wrapper, 'div', 'slidedeck-logo', '' );
 
 		// State background element [DEPRECATED]
 		createSingletonNode( dom.wrapper, 'div', 'state-background', null );

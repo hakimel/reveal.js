@@ -146,6 +146,15 @@ body {
 .reveal .slide-number {
   color: #aa2233; }
 
+/*********************************************
+ * LOGO IMAGE
+ *********************************************/
+.reveal .slidedeck-logo {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  padding: 5px; }
+
 .reveal p {
   font-weight: 300;
   text-shadow: 1px 1px #222222; }
