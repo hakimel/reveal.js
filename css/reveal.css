@@ -260,6 +260,7 @@ body {
 }
 
 .reveal ol,
+.reveal dl,
 .reveal ul {
 	display: inline-block;
 
@@ -288,6 +289,14 @@ body {
 .reveal ol ol,
 .reveal ol ul {
 	display: block;
+	margin-left: 40px;
+}
+
+.reveal dt {
+	font-weight: bold;
+}
+
+.reveal dd {
 	margin-left: 40px;
 }
 
