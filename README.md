@@ -269,7 +269,7 @@ Reveal.configure({
 
 When this is turned on a control element will appear that enables users to pause and resume auto-sliding. Sliding is also paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
 
-You can also override the slide duration for individual slides by using the ```data-autoslide``` attribute on individual sections:
+You can also override the slide duration for individual slides and fragment by using the ```data-autoslide``` attribute on individual sections or fragments:
 
 ```html
 <section data-autoslide="10000">This will remain on screen for 10 seconds</section>
