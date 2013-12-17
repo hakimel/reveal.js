@@ -267,7 +267,7 @@ Reveal.configure({
 });
 ```
 
-When this is turned on a control element will appear that enables users to pause and resume auto-sliding. Sliding is also paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
+When this is turned on a control element will appear that enables users to pause and resume auto-sliding. Alternatively, sliding can be paused or resumed by press »a« on the keyboard. Sliding is paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
 
 You can also override the slide duration for individual slides by using the ```data-autoslide``` attribute on individual sections:
 
@@ -275,6 +275,7 @@ You can also override the slide duration for individual slides by using the ```d
 <section data-autoslide="10000">This will remain on screen for 10 seconds</section>
 ```
 
+Whenever the auto-slide mode is resumed or paused the ```autoslideresumed``` and ```autoslidepaused``` events are fired. 
 
 ### Keyboard Bindings
 
@@ -308,6 +309,7 @@ Reveal.prevFragment();
 Reveal.nextFragment();
 Reveal.toggleOverview();
 Reveal.togglePause();
+Reveal.toggleAutoSlide();
 
 // Retrieves the previous and current slide elements
 Reveal.getPreviousSlide();
@@ -320,6 +322,8 @@ Reveal.isFirstSlide();
 Reveal.isLastSlide();
 Reveal.isOverview();
 Reveal.isPaused();
+Reveal.isPlaying(); // auto slide mode
+
 ```
 
 ### Ready Event
