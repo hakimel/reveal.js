@@ -2459,14 +2459,26 @@ var Reveal = (function(){
 
 		if( currentSlide ) {
 
+			var fragmentAutoSlide = null;
+			// it is assumed that any given data-autoslide value (for each of the current fragments) can be chosen
+			toArray( Reveal.getCurrentSlide().querySelectorAll( '.current-fragment' ) ).forEach( function( el ) {
+				if( el.hasAttribute( 'data-autoslide' ) ) {
+					fragmentAutoSlide = el.getAttribute( 'data-autoslide' );
+				}
+			} );
+
 			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
 
 			// Pick value in the following priority order:
-			// 1. Current slide's data-autoslide
-			// 2. Parent slide's data-autoslide
-			// 3. Global autoSlide setting
-			if( slideAutoSlide ) {
+			// 1. Current fragment's data-autoslide
+			// 2. Current slide's data-autoslide
+			// 3. Parent slide's data-autoslide
+			// 4. Global autoSlide setting
+			if( fragmentAutoSlide ) {
+				autoSlide = parseInt( fragmentAutoSlide, 10 );
+			}
+			else if( slideAutoSlide ) {
 				autoSlide = parseInt( slideAutoSlide, 10 );
 			}
 			else if( parentAutoSlide ) {
