@@ -2666,7 +2666,7 @@ var Reveal = (function(){
 	function onUserInput( event ) {
 
 		// do not pause auto slide if the 'a' key is pressed - this is done in onDocumentKeyDown
-		if( config.autoSlideStoppable && event.keyCode !== 65) {
+		if( config.autoSlideStoppable ) {
 			pauseAutoSlide();
 		}
 
@@ -2677,6 +2677,8 @@ var Reveal = (function(){
 	 */
 	function onDocumentKeyDown( event ) {
 
+		// store auto slide value to be able to toggle auto sliding
+		var currentAutoSlideValue = autoSlidePaused;
 		onUserInput( event );
 
 		// Check if there's a focused element that could be using
@@ -2754,7 +2756,7 @@ var Reveal = (function(){
 				// f
 				case 70: enterFullscreen(); break;
 				// a
-				case 65: toggleAutoSlide(); break;
+				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( currentAutoSlideValue ); break;
 				default:
 					triggered = false;
 			}
