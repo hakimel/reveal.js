@@ -2665,7 +2665,6 @@ var Reveal = (function(){
 	 */
 	function onUserInput( event ) {
 
-		// do not pause auto slide if the 'a' key is pressed - this is done in onDocumentKeyDown
 		if( config.autoSlideStoppable ) {
 			pauseAutoSlide();
 		}
