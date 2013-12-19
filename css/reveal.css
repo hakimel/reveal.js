@@ -479,7 +479,7 @@ body {
 }
 	.reveal .progress:after {
 		content: '';
-		display: 'block';
+		display: block;
 		position: absolute;
 		height: 20px;
 		width: 100%;
