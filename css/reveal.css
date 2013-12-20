@@ -363,14 +363,25 @@ body {
 	        box-sizing: border-box;
 }
 
-.reveal table th,
-.reveal table td {
-	text-align: left;
-	padding-right: .3em;
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 .reveal table th {
-	font-weight: bold;
+  font-weight: bold;
+}
+
+.reveal table th,
+.reveal table td {
+  text-align: left;
+  padding: 0.2em 1em 0.2em 0;
+  border-bottom: 1px solid;
+}
+
+.reveal table tr:last-child td {
+    border-bottom: none;
 }
 
 .reveal sup {
