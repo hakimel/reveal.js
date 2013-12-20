@@ -167,4 +167,12 @@ body {
   color: $linkColor;
 }
 
-
+/*********************************************
+ * LOGO IMAGE
+ *********************************************/
+.reveal .slidedeck-logo {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    padding: 5px;
+}
