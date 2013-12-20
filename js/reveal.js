@@ -1449,6 +1449,33 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Toggles the auto slide mode on and off.
+	 *
+	 * @param {Boolean} override Optional flag which sets the desired state. 
+	 * True means autoplay starts, false means it stops.
+	 */
+
+	function toggleAutoSlide( override ) {
+		if( typeof override === 'boolean' ) {
+			override ? resumeAutoSlide() : pauseAutoSlide();
+		}
+
+		else {
+			autoSlidePaused ? resumeAutoSlide() : pauseAutoSlide();
+		}
+
+	}
+
+	/**
+	 * Checks if the auto slide mode is currently on.
+	 */
+	function isSliding() {
+
+		return !autoSlidePaused;
+
+	}
+
+	/**
 	 * Steps from the current point in the presentation to the
 	 * slide which matches the specified horizontal and vertical
 	 * indices.
@@ -2473,14 +2500,26 @@ var Reveal = (function(){
 
 		if( currentSlide ) {
 
+			var fragmentAutoSlide = null;
+			// it is assumed that any given data-autoslide value (for each of the current fragments) can be chosen
+			toArray( Reveal.getCurrentSlide().querySelectorAll( '.current-fragment' ) ).forEach( function( el ) {
+				if( el.hasAttribute( 'data-autoslide' ) ) {
+					fragmentAutoSlide = el.getAttribute( 'data-autoslide' );
+				}
+			} );
+
 			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
 
 			// Pick value in the following priority order:
-			// 1. Current slide's data-autoslide
-			// 2. Parent slide's data-autoslide
-			// 3. Global autoSlide setting
-			if( slideAutoSlide ) {
+			// 1. Current fragment's data-autoslide
+			// 2. Current slide's data-autoslide
+			// 3. Parent slide's data-autoslide
+			// 4. Global autoSlide setting
+			if( fragmentAutoSlide ) {
+				autoSlide = parseInt( fragmentAutoSlide, 10 );
+			}
+			else if( slideAutoSlide ) {
 				autoSlide = parseInt( slideAutoSlide, 10 );
 			}
 			else if( parentAutoSlide ) {
@@ -2533,6 +2572,7 @@ var Reveal = (function(){
 	function pauseAutoSlide() {
 
 		autoSlidePaused = true;
+		dispatchEvent( 'autoslidepaused' );
 		clearTimeout( autoSlideTimeout );
 
 		if( autoSlidePlayer ) {
@@ -2544,6 +2584,7 @@ var Reveal = (function(){
 	function resumeAutoSlide() {
 
 		autoSlidePaused = false;
+		dispatchEvent( 'autoslideresumed' );
 		cueAutoSlide();
 
 	}
@@ -2661,6 +2702,8 @@ var Reveal = (function(){
 	 */
 	function onDocumentKeyDown( event ) {
 
+		// store auto slide value to be able to toggle auto sliding
+		var currentAutoSlideValue = autoSlidePaused;
 		onUserInput( event );
 
 		// Check if there's a focused element that could be using
@@ -2737,6 +2780,8 @@ var Reveal = (function(){
 				case 66: case 190: case 191: togglePause(); break;
 				// f
 				case 70: enterFullscreen(); break;
+				// a
+				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( currentAutoSlideValue ); break;
 				default:
 					triggered = false;
 			}
@@ -3289,9 +3334,13 @@ var Reveal = (function(){
 		// Toggles the "black screen" mode on/off
 		togglePause: togglePause,
 
+		// Toggles the auto slide mode on/off
+		toggleAutoSlide: toggleAutoSlide,
+
 		// State checks
 		isOverview: isOverview,
 		isPaused: isPaused,
+		isSliding: isSliding,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
