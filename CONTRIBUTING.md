@@ -1,12 +1,17 @@
 ## Contributing
 
-Please keep the [issue tracker](http://github.com/hakimel/reveal.js/issues) limited to **bug reports**, **feature requests** and **pull requests**. If you are reporting a bug make sure to include information about which browser and operating system you are using as well as the necessary steps to reproduce the issue.
-
-If you have personal support questions use [StackOverflow](http://stackoverflow.com/questions/tagged/reveal.js).
+Please keep the [issue tracker](http://github.com/hakimel/reveal.js/issues) limited to **bug reports**, **feature requests** and **pull requests**.
 
 
-### Pull requests
+### Personal Support
+If you have personal support or setup questions the best place to ask those are  [StackOverflow](http://stackoverflow.com/questions/tagged/reveal.js).
 
+
+### Bug Reports
+When reporting a bug make sure to include information about which browser and operating system you are on as well as the necessary steps to reproduce the issue. If possible please include a link to a sample presentation where the bug can be tested.
+
+
+### Pull Requests
 - Should follow the coding style of the file you work in, most importantly:
   - Tabs to indent
   - Single-quoted strings
