@@ -57,20 +57,6 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.isPaused(), false, 'false after resuming' );
 	});
 
-	test( 'Reveal.isAutoSliding', function() {
-		strictEqual( Reveal.isAutoSliding(), false, 'false by default' );
-
-		Reveal.configure({ autoSlide: 10000 });
-		strictEqual( Reveal.isAutoSliding(), true, 'true after starting' );
-
-		Reveal.toggleAutoSlide();
-		strictEqual( Reveal.isAutoSliding(), false, 'false after toggling' );
-		Reveal.toggleAutoSlide();
-
-		Reveal.configure({ autoSlide: 0 });
-		strictEqual( Reveal.isAutoSliding(), false, 'false after setting to 0' );
-	});
-
 	test( 'Reveal.isFirstSlide', function() {
 		Reveal.slide( 0, 0 );
 		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 0, 0 )' );
@@ -342,6 +328,70 @@ Reveal.addEventListener( 'ready', function() {
 		start();
 
 		Reveal.removeEventListener( 'fragmenthidden', _onEvent );
+	});
+
+
+	// ---------------------------------------------------------------
+	// AUTO-SLIDE TESTS
+
+	QUnit.module( 'Auto Sliding' );
+
+	test( 'Reveal.isAutoSliding', function() {
+		strictEqual( Reveal.isAutoSliding(), false, 'false by default' );
+
+		Reveal.configure({ autoSlide: 10000 });
+		strictEqual( Reveal.isAutoSliding(), true, 'true after starting' );
+
+		Reveal.configure({ autoSlide: 0 });
+		strictEqual( Reveal.isAutoSliding(), false, 'false after setting to 0' );
+	});
+
+	test( 'Reveal.toggleAutoSlide', function() {
+		Reveal.configure({ autoSlide: 10000 });
+
+		Reveal.toggleAutoSlide();
+		strictEqual( Reveal.isAutoSliding(), false, 'false after first toggle' );
+		Reveal.toggleAutoSlide();
+		strictEqual( Reveal.isAutoSliding(), true, 'true after second toggle' );
+
+		Reveal.configure({ autoSlide: 0 });
+	});
+
+	asyncTest( 'autoslidepaused', function() {
+		expect( 1 );
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'autoslidepaused', _onEvent );
+		Reveal.configure({ autoSlide: 10000 });
+		Reveal.toggleAutoSlide();
+
+		start();
+
+		// cleanup
+		Reveal.configure({ autoSlide: 0 });
+		Reveal.removeEventListener( 'autoslidepaused', _onEvent );
+	});
+
+	asyncTest( 'autoslideresumed', function() {
+		expect( 1 );
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'autoslideresumed', _onEvent );
+		Reveal.configure({ autoSlide: 10000 });
+		Reveal.toggleAutoSlide();
+		Reveal.toggleAutoSlide();
+
+		start();
+
+		// cleanup
+		Reveal.configure({ autoSlide: 0 });
+		Reveal.removeEventListener( 'autoslideresumed', _onEvent );
 	});
 
 
