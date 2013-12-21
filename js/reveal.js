@@ -1471,7 +1471,7 @@ var Reveal = (function(){
 	 */
 	function isAutoSliding() {
 
-		return !autoSlidePaused;
+		return !!( autoSlide && !autoSlidePaused );
 
 	}
 

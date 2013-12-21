@@ -57,6 +57,16 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.isPaused(), false, 'false after resuming' );
 	});
 
+	test( 'Reveal.isAutoSliding', function() {
+		strictEqual( Reveal.isAutoSliding(), false, 'false by default' );
+
+		Reveal.configure({ autoSlide: 10000 });
+		strictEqual( Reveal.isAutoSliding(), true, 'true after starting' );
+
+		Reveal.configure({ autoSlide: 0 });
+		strictEqual( Reveal.isAutoSliding(), false, 'false after setting to 0' );
+	});
+
 	test( 'Reveal.isFirstSlide', function() {
 		Reveal.slide( 0, 0 );
 		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 0, 0 )' );
