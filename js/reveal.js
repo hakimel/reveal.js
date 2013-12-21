@@ -1469,7 +1469,7 @@ var Reveal = (function(){
 	/**
 	 * Checks if the auto slide mode is currently on.
 	 */
-	function isSliding() {
+	function isAutoSliding() {
 
 		return !autoSlidePaused;
 
@@ -3340,7 +3340,7 @@ var Reveal = (function(){
 		// State checks
 		isOverview: isOverview,
 		isPaused: isPaused,
-		isSliding: isSliding,
+		isAutoSliding: isAutoSliding,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
