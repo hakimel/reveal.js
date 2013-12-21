@@ -63,6 +63,10 @@ Reveal.addEventListener( 'ready', function() {
 		Reveal.configure({ autoSlide: 10000 });
 		strictEqual( Reveal.isAutoSliding(), true, 'true after starting' );
 
+		Reveal.toggleAutoSlide();
+		strictEqual( Reveal.isAutoSliding(), false, 'false after toggling' );
+		Reveal.toggleAutoSlide();
+
 		Reveal.configure({ autoSlide: 0 });
 		strictEqual( Reveal.isAutoSliding(), false, 'false after setting to 0' );
 	});

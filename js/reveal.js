@@ -1456,6 +1456,7 @@ var Reveal = (function(){
 	 */
 
 	function toggleAutoSlide( override ) {
+
 		if( typeof override === 'boolean' ) {
 			override ? resumeAutoSlide() : pauseAutoSlide();
 		}
@@ -2500,14 +2501,9 @@ var Reveal = (function(){
 
 		if( currentSlide ) {
 
-			var fragmentAutoSlide = null;
-			// it is assumed that any given data-autoslide value (for each of the current fragments) can be chosen
-			toArray( Reveal.getCurrentSlide().querySelectorAll( '.current-fragment' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoslide' ) ) {
-					fragmentAutoSlide = el.getAttribute( 'data-autoslide' );
-				}
-			} );
+			var currentFragment = currentSlide.querySelector( '.current-fragment' );
 
+			var fragmentAutoSlide = currentFragment ? currentFragment.getAttribute( 'data-autoslide' ) : null;
 			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
 
