@@ -2698,8 +2698,9 @@ var Reveal = (function(){
 	 */
 	function onDocumentKeyDown( event ) {
 
-		// store auto slide value to be able to toggle auto sliding
-		var currentAutoSlideValue = autoSlidePaused;
+		// Remember if auto-sliding was paused so we can toggle it
+		var autoSlideWasPaused = autoSlidePaused;
+
 		onUserInput( event );
 
 		// Check if there's a focused element that could be using
@@ -2777,7 +2778,7 @@ var Reveal = (function(){
 				// f
 				case 70: enterFullscreen(); break;
 				// a
-				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( currentAutoSlideValue ); break;
+				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( autoSlideWasPaused ); break;
 				default:
 					triggered = false;
 			}
