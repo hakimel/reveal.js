@@ -54,6 +54,9 @@ body {
 body {
 	position: relative;
 	line-height: 1;
+
+	background-color: #fff;
+	color: #000;
 }
 
 ::selection {
@@ -451,7 +454,7 @@ body {
 		top: 42px;
 
 		border-right-width: 22px;
-		border-right-color: #eee;
+		border-right-color: #000;
 	}
 		.reveal .controls div.navigate-left.fragmented {
 			opacity: 0.3;
@@ -462,7 +465,7 @@ body {
 		top: 42px;
 
 		border-left-width: 22px;
-		border-left-color: #eee;
+		border-left-color: #000;
 	}
 		.reveal .controls div.navigate-right.fragmented {
 			opacity: 0.3;
@@ -472,7 +475,7 @@ body {
 		left: 42px;
 
 		border-bottom-width: 22px;
-		border-bottom-color: #eee;
+		border-bottom-color: #000;
 	}
 		.reveal .controls div.navigate-up.fragmented {
 			opacity: 0.3;
@@ -483,7 +486,7 @@ body {
 		top: 74px;
 
 		border-top-width: 22px;
-		border-top-color: #eee;
+		border-top-color: #000;
 	}
 		.reveal .controls div.navigate-down.fragmented {
 			opacity: 0.3;
@@ -502,6 +505,8 @@ body {
 	bottom: 0;
 	left: 0;
 	z-index: 10;
+
+	background-color: rgba( 0, 0, 0, 0.2 );
 }
 	.reveal .progress:after {
 		content: '';
@@ -515,6 +520,8 @@ body {
 		display: block;
 		height: 100%;
 		width: 0px;
+
+		background-color: #000;
 
 		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
