@@ -261,7 +261,7 @@ def wait_for_ember_run_loop_to_complete
 &nbsp;&nbsp;end
 &nbsp;&nbsp;2000.times do #this means up to 20 seconds
 &nbsp;&nbsp;&nbsp;&nbsp;return if page.evaluate_script "'undefined' == typeof window.jQuery"
-&nbsp;&nbsp;&nbsp;&nbsp;return if page.evaluate_script "jQuery('body').hasClass('ajax-quiet') &amp;&amp; jQuery('body').hasClass('application-ready') &amp;&amp; (typeof Ember === 'object') &amp;&amp; !Ember.run.hasScheduledTimers() &amp;&amp; !Ember.run.currentRunLoop"
+&nbsp;&nbsp;&nbsp;&nbsp;return if page.evaluate_script "jQuery.active &amp;&amp; jQuery('body').hasClass('application-ready') &amp;&amp; (typeof Ember === 'object') &amp;&amp; !Ember.run.hasScheduledTimers() &amp;&amp; !Ember.run.currentRunLoop"
 &nbsp;&nbsp;&nbsp;&nbsp;sleep 0.01
 &nbsp;&nbsp;end
 end
@@ -275,7 +275,7 @@ end
 											</div>
 											<div>
 												<pre><code>
-jQuery('body').hasClass('ajax-quiet')&amp;&amp;
+jQuery.active &amp;&amp;
 jQuery('body').hasClass('application-ready') &amp;&amp;
 (typeof Ember === 'object') &amp;&amp;
 !Ember.run.hasScheduledTimers() &amp;&amp;
@@ -355,6 +355,9 @@ end
 												</div>
 												<div>
 													<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;"><a href="mailto:alaina@precisionnutrition.com">alaina@precisionnutrition.com</a></span>
+												</div>
+												<div>
+													<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;"><a href="https://twitter.com/trianglegrrl">@trianglegrrl</a></span>
 												</div>
 												<div>
 													<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;"><a href="http://precisionnutrition.com">http://precisionnutrition.com</a></span>
