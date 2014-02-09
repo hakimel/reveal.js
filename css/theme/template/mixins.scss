@@ -1,29 +1,48 @@
+
+// Add Smart mixins
+
+$prefixBrowserList: '-moz-', '-webkit-', '-o-', '-ms-', '';
+
+@function linear-gradient-creator($prefix, $direction, $start, $end) {
+	// Build linear gradient directive
+	$gradient: $prefix + 'linear-gradient(' + $direction +', ' + $start + ' 0%, ' + $end + ' 100%)';
+	@return $gradient;
+}
+
+@mixin linear-gradient ($direction, $start, $end) {
+	// create gradien for each browser specific
+	@for $prefixId from 1 through length($prefixBrowserList) {
+		background: #{linear-gradient-creator(nth($prefixBrowserList, $prefixId), $direction, $start, $end)};
+	}
+}
+
 @mixin vertical-gradient( $top, $bottom ) {
+	// keep keep compatibility with old browsers
 	background: $top;
-	background: -moz-linear-gradient( top, $top 0%, $bottom 100% );
 	background: -webkit-gradient( linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$bottom) );
-	background: -webkit-linear-gradient( top, $top 0%, $bottom 100% );
-	background: -o-linear-gradient( top, $top 0%, $bottom 100% );
-	background: -ms-linear-gradient( top, $top 0%, $bottom 100% );
-	background: linear-gradient( top, $top 0%, $bottom 100% );
+	// new gradien generation process
+	@include linear-gradient('top', $top, $bottom);
 }
 
 @mixin horizontal-gradient( $top, $bottom ) {
+	// keep keep compatibility with old browsers
 	background: $top;
-	background: -moz-linear-gradient( left, $top 0%, $bottom 100% );
 	background: -webkit-gradient( linear, left top, right top, color-stop(0%,$top), color-stop(100%,$bottom) );
-	background: -webkit-linear-gradient( left, $top 0%, $bottom 100% );
-	background: -o-linear-gradient( left, $top 0%, $bottom 100% );
-	background: -ms-linear-gradient( left, $top 0%, $bottom 100% );
-	background: linear-gradient( left, $top 0%, $bottom 100% );
+	// new gradien generation process
+	@include linear-gradient('left', $top, $bottom);
+}
+
+@function radial-gradient-creator($prefix, $type, $inner, $outer) {
+	$gradient: $prefix + 'radial-gradient( center, ' + $type + ' cover, ' + $inner + ' 0%, ' + $outer + ' 100%)';
+	@return $gradient;
 }
 
 @mixin radial-gradient( $outer, $inner, $type: circle ) {
+	// keep keep compatibility with old browsers
 	background: $outer;
-	background: -moz-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
 	background: -webkit-gradient( radial, center center, 0px, center center, 100%, color-stop(0%,$inner), color-stop(100%,$outer) );
-	background: -webkit-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-	background: -o-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-	background: -ms-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
-	background: radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
+	// new gradien generation process
+	@for $prefixId from 1 through length($prefixBrowserList) {
+		background: #{radial-gradient-creator(nth($prefixBrowserList, $prefixId), $type, $inner, $outer)};
+	}
 }
