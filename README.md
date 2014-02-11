@@ -553,7 +553,7 @@ Sometimes it's desirable to have an element, like an image or video, stretch to 
 </section>
 ```
 
-Limitations:
+Limitations:no
 - Only direct descendants of a slide section can be stretched
 - Only one descendant per slide section can be stretched
 
@@ -624,6 +624,7 @@ Here is some content...
 Note:
 This will only display in the notes window.
 ```
+To open the notes window: whilst [the local web server](#full-setup) is running; hit the `s` key on your keyboard.
 
 ## Server Side Speaker Notes
 
