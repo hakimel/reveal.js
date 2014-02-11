@@ -553,7 +553,7 @@ Sometimes it's desirable to have an element, like an image or video, stretch to 
 </section>
 ```
 
-Limitations:no
+Limitations:
 - Only direct descendants of a slide section can be stretched
 - Only one descendant per slide section can be stretched
 
