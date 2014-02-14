@@ -22,9 +22,10 @@
   },
   "dependencies": {
     "underscore": "~1.5.1",
-    "express": "~2.5.9",
+    "express": "~3.4.6",
     "mustache": "~0.7.2",
-    "socket.io": "~0.9.13"
+    "socket.io": "~0.9.13",
+    "logfmt": "~0.20.0"
   },
   "devDependencies": {
     "grunt-contrib-qunit": "~0.2.2",
