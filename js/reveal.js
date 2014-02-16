@@ -591,7 +591,13 @@ var Reveal = (function(){
 			enablePreviewLinks( '[data-preview-link]' );
 		}
 
-		// Auto-slide playback controls
+		// Remove existing auto-slide controls
+		if( autoSlidePlayer ) {
+			autoSlidePlayer.destroy();
+			autoSlidePlayer = null;
+		}
+
+		// Generate auto-slide controls if needed
 		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
 			autoSlidePlayer = new Playback( dom.wrapper, function() {
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
@@ -599,10 +605,6 @@ var Reveal = (function(){
 
 			autoSlidePlayer.on( 'click', onAutoSlidePlayerClick );
 			autoSlidePaused = false;
-		}
-		else if( autoSlidePlayer ) {
-			autoSlidePlayer.destroy();
-			autoSlidePlayer = null;
 		}
 
 		// Load the theme in the config, if it's not already loaded
