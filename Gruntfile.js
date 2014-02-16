@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 				' * http://lab.hakim.se/reveal-js\n' +
 				' * MIT licensed\n' +
 				' *\n' +
-				' * Copyright (C) 2013 Hakim El Hattab, http://hakim.se\n' +
+				' * Copyright (C) 2014 Hakim El Hattab, http://hakim.se\n' +
 				' */'
 		},
 

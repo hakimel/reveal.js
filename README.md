@@ -920,4 +920,4 @@ You can change the port by using `grunt serve --port 8001`.
 
 MIT licensed
 
-Copyright (C) 2013 Hakim El Hattab, http://hakim.se
+Copyright (C) 2014 Hakim El Hattab, http://hakim.se
