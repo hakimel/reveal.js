@@ -24,9 +24,7 @@ var RevealNotes = (function() {
 		function post() {
 			var slideElement = Reveal.getCurrentSlide(),
 				slideIndices = Reveal.getIndices(),
-				messageData;
-
-			var notes = slideElement.querySelector( 'aside.notes' ),
+				notesElement = slideElement.querySelector( 'aside.notes' ),
 				nextindexh,
 				nextindexv;
 
@@ -38,15 +36,26 @@ var RevealNotes = (function() {
 				nextindexv = 0;
 			}
 
-			messageData = {
-				notes : notes ? notes.innerHTML : '',
+			var messageData = {
+				notes : '',
 				indexh : slideIndices.h,
 				indexv : slideIndices.v,
 				indexf : slideIndices.f,
 				nextindexh : nextindexh,
 				nextindexv : nextindexv,
-				markdown : notes ? typeof notes.getAttribute( 'data-markdown' ) === 'string' : false
+				markdown : false
 			};
+
+			// Look for notes defined in a slide attribute
+			if( slideElement.hasAttribute( 'data-notes' ) ) {
+				messageData.notes = slideElement.getAttribute( 'data-notes' );
+			}
+
+			// Look for notes defined in an aside element
+			if( notesElement ) {
+				messageData.notes = notesElement.innerHTML;
+				messageData.markdown = typeof notesElement.getAttribute( 'data-markdown' ) === 'string';
+			}
 
 			notesPopup.postMessage( JSON.stringify( messageData ), '*' );
 		}
