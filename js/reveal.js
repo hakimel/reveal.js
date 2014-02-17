@@ -913,7 +913,7 @@ var Reveal = (function(){
 	function enableRollingLinks() {
 
 		if( features.transforms3d && !( 'msPerspective' in document.body.style ) ) {
-			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a:not(.image)' );
+			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a' );
 
 			for( var i = 0, len = anchors.length; i < len; i++ ) {
 				var anchor = anchors[i];
