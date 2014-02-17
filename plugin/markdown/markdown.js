@@ -223,8 +223,8 @@
 
 							section.outerHTML = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),
-								verticalSeparator: section.getAttribute( 'data-vertical' ),
-								notesSeparator: section.getAttribute( 'data-notes' ),
+								verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
+								notesSeparator: section.getAttribute( 'data-separator-notes' ),
 								attributes: getForwardedAttributes( section )
 							});
 
@@ -251,12 +251,12 @@
 				}
 
 			}
-			else if( section.getAttribute( 'data-separator' ) || section.getAttribute( 'data-vertical' ) || section.getAttribute( 'data-notes' ) ) {
+			else if( section.getAttribute( 'data-separator' ) || section.getAttribute( 'data-separator-vertical' ) || section.getAttribute( 'data-separator-notes' ) ) {
 
 				section.outerHTML = slidify( getMarkdownFromSlide( section ), {
 					separator: section.getAttribute( 'data-separator' ),
-					verticalSeparator: section.getAttribute( 'data-vertical' ),
-					notesSeparator: section.getAttribute( 'data-notes' ),
+					verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
+					notesSeparator: section.getAttribute( 'data-separator-notes' ),
 					attributes: getForwardedAttributes( section )
 				});
 

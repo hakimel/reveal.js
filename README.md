@@ -59,8 +59,8 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 ```html
 <section data-markdown="example.md"  
          data-separator="^\n\n\n"  
-         data-vertical="^\n\n"  
-         data-notes="^Note:"  
+         data-separator-vertical="^\n\n"  
+         data-separator-notes="^Note:"  
          data-charset="iso-8859-15">
 </section>
 ```
@@ -621,7 +621,7 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
 
 ```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n" data-notes="^Note:"></section>
+<section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Note:"></section>
 
 # Title
 ## Sub-title
