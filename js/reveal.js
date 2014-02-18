@@ -2774,7 +2774,7 @@ var Reveal = (function(){
 				// return
 				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
 				// two-spot, semicolon, b, period, Logitech presenter tools "black screen" button
-				case 58: case: 59: case 66: case 190: case 191: togglePause(); break;
+				case 58: case 59: case 66: case 190: case 191: togglePause(); break;
 				// f
 				case 70: enterFullscreen(); break;
 				// a
