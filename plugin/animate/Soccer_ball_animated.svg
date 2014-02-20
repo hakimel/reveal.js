@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg>
+<!--
+This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license. 	
+
+    You are free:
+
+        to share – to copy, distribute and transmit the work
+        to remix – to adapt the work
+
+    Under the following conditions:
+
+        attribution – You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
+        share alike – If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
+-->
+<svg width="600" height="400" viewBox="-105 -300 610 610" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <defs>
+      <clipPath id="ball">
+         <circle r="100" stroke-width="0"/>
+      </clipPath>
+      <radialGradient id="shadow1" cx=".4" cy=".3" r=".8">
+        <stop offset="0" stop-color="white" stop-opacity="1"/>
+        <stop offset=".4" stop-color="white" stop-opacity="1"/>
+        <stop offset=".8" stop-color="#EEEEEE" stop-opacity="1"/>
+      </radialGradient>
+      <radialGradient id="shadow2" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="white" stop-opacity="0"/>
+        <stop offset=".8" stop-color="white" stop-opacity="0"/>
+        <stop offset=".99" stop-color="black" stop-opacity=".3"/>
+        <stop offset="1" stop-color="black" stop-opacity="1"/>
+      </radialGradient>
+      <g id="black_stuff" stroke-linejoin="round" clip-path="url(#ball)">
+         <g fill="black">
+            <path d="M 6,-32 Q 26,-28 46,-19 Q 57,-35 64,-47 Q 50,-68 37,-76 Q 17,-75 1,-68 Q 4,-51 6,-32"/>
+            <path d="M -26,-2 Q -45,-8 -62,-11 Q -74,5 -76,22 Q -69,40 -50,54 Q -32,47 -17,39 Q -23,15 -26,-2"/>
+            <path d="M -95,22 Q -102,12 -102,-8 V 80 H -85 Q -95,45 -95,22"/>
+            <path d="M 55,24 Q 41,41 24,52 Q 28,65 31,79 Q 55,78 68,67 Q 78,50 80,35 Q 65,28 55,24"/>
+            <path d="M 0,120 L -3,95 Q -25,93 -42,82 Q -50,84 -60,81"/>
+            <path d="M -90,-48 Q -80,-52 -68,-49 Q -52,-71 -35,-77 Q -35,-100 -40,-100 H -100"/>
+            <path d="M 100,-55 L 87,-37 Q 98,-10 97,5 L 100,6"/>
+         </g>
+         <g fill="none">
+            <path d="M 6,-32 Q -18,-12 -26,-2                      M 46,-19 Q 54,5 55,24                      M 64,-47 Q 77,-44 87,-37                      M 37,-76 Q 39,-90 36,-100                      M 1,-68 Q -13,-77 -35,-77                      M -62,-11 Q -67,-25 -68,-49                      M -76,22 Q -85,24 -95,22                      M -50,54 Q -49,70 -42,82                      M -17,39 Q 0,48 24,52                      M 31,79 Q 20,92 -3,95                      M 68,67 L 80,80                      M 80,35 Q 90,25 97,5             "/>
+         </g>
+      <circle r="100" fill="url(#shadow2)" stroke="none"/>
+      </g>
+   </defs>
+   <g>
+      <animateTransform id="rotate" attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" begin="indefinite" dur="3s" repeatCount="1"/>
+      <animateMotion id="kick" path="M50,0 A500,-300 0 0,1 800,0" begin="indefinite" dur="2s" fill="freeze"/>
+      <use xlink:href="#black_stuff" stroke="#EEE" stroke-width="7"/>
+      <use xlink:href="#black_stuff" stroke="#DDD" stroke-width="4"/>
+      <use xlink:href="#black_stuff" stroke="#999" stroke-width="2"/>
+      <use xlink:href="#black_stuff" stroke="black" stroke-width="1"/>
+   </g>
+<script>
+    document.next = function() {
+	      document.getElementById('rotate').beginElement();
+	      el = document.getElementById('kick');
+	      el.setAttribute("path", "M50,0 A500,-300 0 0,1 800,0");
+	      el.setAttribute("dur", "2s");
+	      el.beginElement();
+    }
+    document.prev = function() {
+	      el = document.getElementById('rotate').endElement();
+	      el = document.getElementById('kick');
+	      el.setAttribute("path", "M800,0 L50,0");
+	      el.setAttribute("dur", "0.01s");
+	      el.beginElement();
+    }	
+</script>
+</svg>
