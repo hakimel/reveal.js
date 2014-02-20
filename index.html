@@ -310,6 +310,14 @@ function linkify( selector ) {
 				</section>
 
 				<section>
+					<h2>Amazing animation!</h2>
+					<p></p>Kick it ...</p>
+					<object id="animation" data="plugin/animate/Soccer_ball_animated.svg" ></object>
+					<p class="fragment" data-animate="animation">... like Beckham</p>
+
+				</section>
+				
+				<section>
 					<h2>Spectacular image!</h2>
 					<a class="image" href="http://lab.hakim.se/meny/" target="_blank">
 						<img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
@@ -378,7 +386,8 @@ function linkify( selector ) {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/animate/animate.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
 
