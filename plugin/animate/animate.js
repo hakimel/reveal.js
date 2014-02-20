@@ -2,10 +2,10 @@
 ** Allows to trigger animation of svg. The svg must provide the 
 ** following interface: 
     document.next = function() {
-	// start animation whent fragment is shown
+	// start animation when fragment is shown
     }
     document.prev = function() {
-	// start animation whent fragment is hidden
+	// start animation when fragment is hidden
     }
 
 ** The slide must include an svg in an object or iframe with an id.
