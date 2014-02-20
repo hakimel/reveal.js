@@ -30,6 +30,7 @@ This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unp
         <stop offset="1" stop-color="black" stop-opacity="1"/>
       </radialGradient>
       <g id="black_stuff" stroke-linejoin="round" clip-path="url(#ball)">
+         <circle r="100" fill="white" stroke="none"/>
          <g fill="black">
             <path d="M 6,-32 Q 26,-28 46,-19 Q 57,-35 64,-47 Q 50,-68 37,-76 Q 17,-75 1,-68 Q 4,-51 6,-32"/>
             <path d="M -26,-2 Q -45,-8 -62,-11 Q -74,5 -76,22 Q -69,40 -50,54 Q -32,47 -17,39 Q -23,15 -26,-2"/>
