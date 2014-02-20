@@ -47,8 +47,8 @@ This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unp
       </g>
    </defs>
    <g>
-      <animateTransform id="rotate" attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" begin="indefinite" dur="3s" repeatCount="1"/>
-      <animateMotion id="kick" path="M50,0 A500,-300 0 0,1 800,0" begin="indefinite" dur="2s" fill="freeze"/>
+      <animateTransform id="rotate" attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" begin="indefinite" dur="3s" repeatCount="indefinite"/>
+      <animateMotion id="kick" path="M50,0 A500,-300 0 0,1 800,0" begin="indefinite" dur="2s" repeatCount="indefinite"/>
       <use xlink:href="#black_stuff" stroke="#EEE" stroke-width="7"/>
       <use xlink:href="#black_stuff" stroke="#DDD" stroke-width="4"/>
       <use xlink:href="#black_stuff" stroke="#999" stroke-width="2"/>
@@ -60,6 +60,7 @@ This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unp
 	      el = document.getElementById('kick');
 	      el.setAttribute("path", "M50,0 A500,-300 0 0,1 800,0");
 	      el.setAttribute("dur", "2s");
+	      el.setAttribute("repeatCount", "indefinite");
 	      el.beginElement();
     }
     document.prev = function() {
@@ -67,6 +68,7 @@ This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unp
 	      el = document.getElementById('kick');
 	      el.setAttribute("path", "M800,0 L50,0");
 	      el.setAttribute("dur", "0.01s");
+	      el.setAttribute("repeatCount", "1");
 	      el.beginElement();
     }	
 </script>
