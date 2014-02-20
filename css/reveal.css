@@ -348,10 +348,17 @@ body {
 	        box-sizing: border-box;
 }
 
+.reveal table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .reveal table th,
 .reveal table td {
 	text-align: left;
-	padding-right: .3em;
+	padding-right: .5em;
+	padding-left: .5em;
+	padding-bottom: .2em;
 }
 
 .reveal table th {
