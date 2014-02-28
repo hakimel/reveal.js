@@ -180,12 +180,11 @@ body {
 	}
 
 .reveal .slides section .fragment.current-visible {
-	opacity:0;
+	opacity: 0;
 }
-
-.reveal .slides section .fragment.current-visible.current-fragment {
-	opacity:1;
-}
+	.reveal .slides section .fragment.current-visible.current-fragment {
+		opacity: 1;
+	}
 
 .reveal .slides section .fragment.highlight-red,
 .reveal .slides section .fragment.highlight-current-red,
@@ -214,6 +213,13 @@ body {
 .reveal .slides section .fragment.highlight-current-blue.current-fragment {
 	color: #1b91ff;
 }
+
+.reveal .slides section .fragment.strike {
+	opacity: 1;
+}
+	.reveal .slides section .fragment.strike.visible {
+		text-decoration: line-through;
+	}
 
 
 /*********************************************
@@ -254,6 +260,7 @@ body {
 }
 
 .reveal ol,
+.reveal dl,
 .reveal ul {
 	display: inline-block;
 
@@ -282,6 +289,14 @@ body {
 .reveal ol ol,
 .reveal ol ul {
 	display: block;
+	margin-left: 40px;
+}
+
+.reveal dt {
+	font-weight: bold;
+}
+
+.reveal dd {
 	margin-left: 40px;
 }
 
@@ -521,6 +536,7 @@ body {
 	height: 100%;
 
 	-ms-touch-action: none;
+		touch-action: none;
 }
 
 .reveal .slides {
