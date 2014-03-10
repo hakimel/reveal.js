@@ -107,6 +107,9 @@ var Reveal = (function(){
 			// Parallax background size
 			parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
 
+			// Force vertical parallax effect
+			parallaxForceVertical: false,
+
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
@@ -2077,6 +2080,11 @@ var Reveal = (function(){
 			var slideHeight = dom.background.offsetHeight;
 			var verticalSlideCount = verticalSlides.length;
 			var verticalOffset = verticalSlideCount > 1 ? -( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) * indexv : 0;
+
+			// If enabled, apply vertical parallax to presentations without vertically stacked slides
+			if( config.parallaxForceVertical && verticalSlideCount === 0 ) {
+				verticalOffset -= ( backgroundHeight - slideHeight ) / ( horizontalSlideCount-1 ) * indexh;
+			}
 
 			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
 

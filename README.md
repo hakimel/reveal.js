@@ -169,8 +169,10 @@ Reveal.initialize({
 	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
 
 	// Parallax background size
-	parallaxBackgroundSize: '' // CSS syntax, e.g. "2100px 900px"
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
 
+	// Force vertical parallax effect
+	parallaxForceVertical: false // If you do not use vertical stacking of slides, and enable this, vertical parallax wil still occur
 
 });
 ```
@@ -385,7 +387,7 @@ Backgrounds transition using a fade animation by default. This can be changed to
 
 ### Parallax Background
 
-If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional).
+If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third and fourth one is optional).
 
 ```javascript
 Reveal.initialize({
@@ -395,6 +397,9 @@ Reveal.initialize({
 
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
+
+	// Force vertical parallax effect
+	parallaxForceVertical: false, // If you do not use vertical stacking of slides, and enable this, vertical parallax wil still occur
 
 	// This slide transition gives best results:
 	transition: linear
