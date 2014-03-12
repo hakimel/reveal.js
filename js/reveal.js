@@ -755,6 +755,22 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Utility for deserializing a value.
+	 */
+	function deserialize( value ) {
+
+		if( typeof value === 'string' ) {
+			if( value === 'null' ) return null;
+			else if( value === 'true' ) return true;
+			else if( value === 'false' ) return false;
+			else if( value.match( /^\d+$/ ) ) return parseFloat( value );
+		}
+
+		return value;
+
+	}
+
+	/**
 	 * Measures the distance in pixels between point a
 	 * and point b.
 	 *
@@ -2352,9 +2368,9 @@ var Reveal = (function(){
 	function setState( state ) {
 
 		if( typeof state === 'object' ) {
-			slide( state.indexh, state.indexv, state.indexf );
-			togglePause( state.paused );
-			toggleOverview( state.overview );
+			slide( deserialize( state.indexh ), deserialize( state.indexv ), deserialize( state.indexf ) );
+			togglePause( deserialize( state.paused ) );
+			toggleOverview( deserialize( state.overview ) );
 		}
 
 	}
@@ -3430,12 +3446,7 @@ var Reveal = (function(){
 			for( var i in query ) {
 				var value = query[ i ];
 
-				query[ i ] = unescape( value );
-
-				if( value === 'null' ) query[ i ] = null;
-				else if( value === 'true' ) query[ i ] = true;
-				else if( value === 'false' ) query[ i ] = false;
-				else if( value.match( /^\d+$/ ) ) query[ i ] = parseFloat( value );
+				query[ i ] = deserialize( unescape( value ) );
 			}
 
 			return query;
