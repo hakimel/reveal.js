@@ -76,8 +76,10 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       pointer.style.borderRadius = size - 5 + 'px';
       pointer.style.visibility   = 'visible';
 
+      tipPosition = frame.fingers[0].tipPosition;
+
       if( config.autoCenter ) {
-        tipPosition = frame.fingers[0].tipPosition;
+        
 
         // Check whether the finger has entered the z range of the Leap Motion. Used for the autoCenter option.
         if( !entered ) {
@@ -144,7 +146,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       // Two hand gestures
       else if( frame.hands.length === 2 ) {
         // Upward two hand swipe gesture
-        if( gesture.direction[1] > 0 && gesture.type === 'swipe' ) {
+        if( gesture.type === 'swipe' && gesture.direction[1] > 0 ) {
           Reveal.toggleOverview();
         }
 
