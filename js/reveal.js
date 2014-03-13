@@ -866,15 +866,85 @@ var Reveal = (function(){
 
 			var elementStyles = window.getComputedStyle( element );
 
-			// Subtract the margins of the target element
-			height -= parseInt( elementStyles.marginTop, 10 ) +
-						parseInt( elementStyles.marginBottom, 10 );
+			height -= getPaddingNotInElementHeight( elementStyles );
+			height -= getBorderNotInElementHeight( elementStyles );
+			height -= getMarginNotInElementHeight( elementStyles );
 
 		}
 
 		return height;
 
 	}
+
+	/**
+	 * Returns the sum of the vertical border widths not included in an element's height
+	 * based on the box-sizing for that element
+	 */
+	function getBorderNotInElementHeight( elementStyles ) {
+		var border = 0;
+		if (!includesBorder(getBoxSizing(elementStyles))) {
+			border = parseInt( elementStyles.borderTopWidth, 10) +
+				parseInt( elementStyles.borderBottomWidth, 10 );
+		}
+		return border;
+	}
+
+	/**
+	 * Returns the sum of the vertical padding not included in an element's height
+	 * based on the box-sizing for that element
+	 */
+	function getPaddingNotInElementHeight( elementStyles ) {
+		var padding = 0;
+		if (!includesPadding(getBoxSizing(elementStyles))) {
+			padding = parseInt( elementStyles.paddingTop, 10) +
+					parseInt( elementStyles.paddingBottom, 10 );
+		}
+		return padding;
+	}
+
+
+	/**
+	 * Returns the sum of the vertical margins not included in an element's height
+	 * based on the box-sizing for that element
+	 */
+	function getMarginNotInElementHeight( elementStyles ) {
+		var margin = 0;
+		if (!includesMargin(getBoxSizing(elementStyles))) {
+			margin = parseInt( elementStyles.marginTop, 10 ) +
+				parseInt( elementStyles.marginBottom, 10 );
+		}
+		return margin;
+	}
+
+	/**
+	 * Retrieves the box-sizing css value for an element based on its styles
+	 */
+	function getBoxSizing( elementStyles ) {
+		return elementStyles.boxSizing || elementStyles.MozBoxSizing || elementStyles.webkitBoxSizing;
+	}
+
+	/**
+	 * Returns whether a box-sizing value causes the padding to be included in the box dimensions
+	 */
+	function includesPadding( boxSizing ) {
+		return boxSizing === 'padding-box' ||
+			boxSizing === 'border-box';
+	}
+
+	/**
+	 * Returns whether a box-sizing value causes the margin to be included in the box dimensions
+	 */
+	function includesMargin( boxSizing ) {
+		return false;
+	}
+
+	/**
+	 * Returns whether a box-sizing value causes the border to be included in the box dimensions
+	 */
+	function includesBorder( boxSizing ) {
+		return boxSizing === 'border-box';
+	}
+
 
 	/**
 	 * Checks if this instance is being used to print a PDF.
