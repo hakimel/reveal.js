@@ -24,7 +24,7 @@
     "underscore": "~1.5.1",
     "express": "~2.5.9",
     "mustache": "~0.7.2",
-    "socket.io": "~0.9.13"
+    "socket.io": "~0.9.16"
   },
   "devDependencies": {
     "grunt-contrib-qunit": "~0.2.2",
