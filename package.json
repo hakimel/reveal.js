@@ -4,9 +4,10 @@
   "description": "The HTML Presentation Framework",
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
+  "main": "plugin/multiplex/index.js",
   "scripts": {
     "test": "grunt test",
-    "start": ""
+    "start": "node plugin/multiplex"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -24,7 +25,8 @@
     "underscore": "~1.5.1",
     "express": "~2.5.9",
     "mustache": "~0.7.2",
-    "socket.io": "~0.9.13"
+    "socket.io": "~0.9.16",
+    "crypto": "0.0.3"
   },
   "devDependencies": {
     "grunt-contrib-qunit": "~0.2.2",
