@@ -93,6 +93,7 @@ body {
 
 .reveal .slides section .fragment {
 	opacity: 0;
+	display: none;
 
 	-webkit-transition: all .2s ease;
 	   -moz-transition: all .2s ease;
@@ -102,6 +103,7 @@ body {
 }
 	.reveal .slides section .fragment.visible {
 		opacity: 1;
+		display: inherit;
 	}
 
 .reveal .slides section .fragment.grow {
@@ -128,6 +130,7 @@ body {
 
 .reveal .slides section .fragment.zoom-in {
 	opacity: 0;
+	display: none;
 
 	-webkit-transform: scale( 0.1 );
 	   -moz-transform: scale( 0.1 );
@@ -138,6 +141,7 @@ body {
 
 	.reveal .slides section .fragment.zoom-in.visible {
 		opacity: 1;
+		display: inherit;
 
 		-webkit-transform: scale( 1 );
 		   -moz-transform: scale( 1 );
@@ -148,6 +152,7 @@ body {
 
 .reveal .slides section .fragment.roll-in {
 	opacity: 0;
+	display: none;
 
 	-webkit-transform: rotateX( 90deg );
 	   -moz-transform: rotateX( 90deg );
@@ -157,6 +162,7 @@ body {
 }
 	.reveal .slides section .fragment.roll-in.visible {
 		opacity: 1;
+		display: inherit;
 
 		-webkit-transform: rotateX( 0 );
 		   -moz-transform: rotateX( 0 );
@@ -170,6 +176,7 @@ body {
 }
 	.reveal .slides section .fragment.fade-out.visible {
 		opacity: 0;
+		display: none;
 	}
 
 .reveal .slides section .fragment.semi-fade-out {
@@ -181,10 +188,12 @@ body {
 
 .reveal .slides section .fragment.current-visible {
 	opacity:0;
+	display: none;
 }
 
 .reveal .slides section .fragment.current-visible.current-fragment {
 	opacity:1;
+	display: inherit;
 }
 
 .reveal .slides section .fragment.highlight-red,
