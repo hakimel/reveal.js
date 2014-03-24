@@ -1,8 +1,13 @@
 /**
- * A simple theme for reveal.js presentations, similar
- * to the default theme. The accent color is darkblue.
- *
- * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+* A simple theme for reveal.js presentations, similar
+* Based on the Solarized Color Scheme from [Ethan Schoonover](http://ethanschoonover.com/solarized)
+* Removed the shadows and borders
+* Added rounded edges and padding to code blocks
+* Highlight colors on fragments
+*
+* Author: Ray Villalobos
+*
+ * This theme is Copyright (C) 2014 Ray Villalobos, https://github.com/planetoftheweb. It is MIT licensed.
  * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 @import url(https://fonts.googleapis.com/css?family=Fauna+One);
@@ -50,7 +55,7 @@ body {
  * LINKS
  *********************************************/
 .reveal a:not(.image) {
-  color: #32a198;
+  color: #c61c6f;
   text-decoration: none;
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
@@ -59,13 +64,13 @@ body {
   transition: color .15s ease; }
 
 .reveal a:not(.image):hover {
-  color: #69d0c8;
+  color: #e860a2;
   text-shadow: none;
   border: none; }
 
 .reveal .roll span:after {
   color: #fff;
-  background: #206761; }
+  background: #831349; }
 
 /*********************************************
  * IMAGES
@@ -83,7 +88,7 @@ body {
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #32a198;
+  border-color: #c61c6f;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
@@ -91,31 +96,31 @@ body {
  *********************************************/
 .reveal .controls div.navigate-left,
 .reveal .controls div.navigate-left.enabled {
-  border-right-color: #32a198; }
+  border-right-color: #c61c6f; }
 
 .reveal .controls div.navigate-right,
 .reveal .controls div.navigate-right.enabled {
-  border-left-color: #32a198; }
+  border-left-color: #c61c6f; }
 
 .reveal .controls div.navigate-up,
 .reveal .controls div.navigate-up.enabled {
-  border-bottom-color: #32a198; }
+  border-bottom-color: #c61c6f; }
 
 .reveal .controls div.navigate-down,
 .reveal .controls div.navigate-down.enabled {
-  border-top-color: #32a198; }
+  border-top-color: #c61c6f; }
 
 .reveal .controls div.navigate-left.enabled:hover {
-  border-right-color: #69d0c8; }
+  border-right-color: #e860a2; }
 
 .reveal .controls div.navigate-right.enabled:hover {
-  border-left-color: #69d0c8; }
+  border-left-color: #e860a2; }
 
 .reveal .controls div.navigate-up.enabled:hover {
-  border-bottom-color: #69d0c8; }
+  border-bottom-color: #e860a2; }
 
 .reveal .controls div.navigate-down.enabled:hover {
-  border-top-color: #69d0c8; }
+  border-top-color: #e860a2; }
 
 /*********************************************
  * PROGRESS BAR
@@ -124,7 +129,7 @@ body {
   background: rgba(0, 0, 0, 0.2); }
 
 .reveal .progress span {
-  background: #32a198;
+  background: #c61c6f;
   -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
@@ -135,7 +140,7 @@ body {
  * SLIDE NUMBER
  *********************************************/
 .reveal .slide-number {
-  color: #32a198; }
+  color: #c61c6f; }
 
 .reveal h1,
 .reveal h2,
@@ -153,11 +158,11 @@ body {
 
 .reveal h2 {
   font-size: 2.2em;
-  color: #32A198; }
+  color: #6C71C4; }
 
 .reveal h3 {
   font-size: 1.2em;
-  color: #6C71C4; }
+  color: #32A198; }
 
 .reveal section img, .reveal img {
   box-shadow: none;
@@ -180,6 +185,11 @@ body {
   border-radius: 10px;
   padding: 10px;
   -webkit-border-radius: 10px; }
+
+::selection {
+  color: white;
+  background: #d33682;
+  text-shadow: none; }
 
 strong {
   color: #10AAC0;

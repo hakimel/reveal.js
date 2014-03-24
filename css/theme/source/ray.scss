@@ -1,8 +1,13 @@
 /**
- * A simple theme for reveal.js presentations, similar
- * to the default theme. The accent color is darkblue.
- *
- * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+* A simple theme for reveal.js presentations, similar
+* Based on the Solarized Color Scheme from [Ethan Schoonover](http://ethanschoonover.com/solarized)
+* Removed the shadows and borders
+* Added rounded edges and padding to code blocks
+* Highlight colors on fragments
+*
+* Author: Ray Villalobos
+*
+ * This theme is Copyright (C) 2014 Ray Villalobos, https://github.com/planetoftheweb. It is MIT licensed.
  * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 
@@ -90,6 +95,12 @@ $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
     border-radius: 10px;
     padding: 10px;
     -webkit-border-radius: 10px;
+}
+
+::selection {
+  color: white;
+  background: #d33682;
+  text-shadow: none;
 }
 
 strong {
