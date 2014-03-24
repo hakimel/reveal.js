@@ -489,13 +489,15 @@ var Reveal = (function(){
 			}
 
 			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+			( getVerticalSlides( slideh ) ).forEach( function( slidev ) {
 
-				if( isPrintingPDF() ) {
-					_createBackground( slidev, slidev );
-				}
-				else {
-					_createBackground( slidev, backgroundStack );
+				if( slidev.parentNode === slideh ) {
+					if( isPrintingPDF() ) {
+						_createBackground( slidev, slidev );
+					}
+					else {
+						_createBackground( slidev, backgroundStack );
+					}
 				}
 
 			} );
@@ -1219,9 +1221,13 @@ var Reveal = (function(){
 
 					if( hslide.classList.contains( 'stack' ) ) {
 
-						var verticalSlides = hslide.querySelectorAll( 'section' );
+						var verticalSlides = getVerticalSlides(hslide);
 
 						for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
+							if( verticalSlides[j].parentNode !== hslide ) {
+								continue;
+							}
+
 							var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
 							var vslide = verticalSlides[j];
@@ -1513,7 +1519,7 @@ var Reveal = (function(){
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
 		var currentHorizontalSlide = horizontalSlides[ indexh ],
-			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+			currentVerticalSlides = getVerticalSlides( currentHorizontalSlide );
 
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
@@ -1621,7 +1627,7 @@ var Reveal = (function(){
 		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = getVerticalSlides( horizontalSlide );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				if( y > 0 ) {
@@ -1645,7 +1651,7 @@ var Reveal = (function(){
 		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = getVerticalSlides( horizontalSlide );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
@@ -1732,7 +1738,7 @@ var Reveal = (function(){
 				}
 
 				// If this element contains vertical slides
-				if( element.querySelector( 'section' ) ) {
+				if( hasVerticalSlides(element) ) {
 					element.classList.add( 'stack' );
 				}
 			}
@@ -1786,7 +1792,7 @@ var Reveal = (function(){
 			for( var x = 0; x < horizontalSlidesLength; x++ ) {
 				var horizontalSlide = horizontalSlides[x];
 
-				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
+				var verticalSlides = getVerticalSlides( horizontalSlide ),
 					verticalSlidesLength = verticalSlides.length;
 
 				// Loops so that it measures 1 between the first and last slides
@@ -1832,7 +1838,7 @@ var Reveal = (function(){
 			mainLoop: for( var i = 0; i < horizontalSlides.length; i++ ) {
 
 				var horizontalSlide = horizontalSlides[i];
-				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+				var verticalSlides = getVerticalSlides( horizontalSlide );
 
 				for( var j = 0; j < verticalSlides.length; j++ ) {
 
@@ -2265,7 +2271,7 @@ var Reveal = (function(){
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
-				v = Math.max( toArray( slide.parentNode.querySelectorAll( 'section' ) ).indexOf( slide ), 0 );
+				v = Math.max( getVerticalSlides( slide.parentNode ).indexOf( slide ), 0 );
 			}
 		}
 
@@ -2279,6 +2285,27 @@ var Reveal = (function(){
 
 		return { h: h, v: v, f: f };
 
+	}
+
+	function getVerticalSlides(slide) {
+		var vslides = [];
+
+		for( var i = 0, len = slide.childNodes.length; i < len; i++ ) {
+			if( slide.childNodes[i].nodeName.toLowerCase() === 'section' ) {
+				vslides.push( slide.childNodes[i] );
+			}
+		}
+
+		return vslides;
+	}
+
+	function hasVerticalSlides(slide) {
+		for( var i = 0, len = slide.childNodes.length; i < len; i++ ) {
+			if( slide.childNodes[i].nodeName.toLowerCase() === 'section' ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -2600,7 +2627,7 @@ var Reveal = (function(){
 				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
-					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+					var v = ( getVerticalSlides( previousSlide ).length - 1 ) || undefined;
 					var h = indexh - 1;
 					slide( h, v );
 				}
@@ -3289,7 +3316,7 @@ var Reveal = (function(){
 		// Returns the slide at the specified index, y is optional
 		getSlide: function( x, y ) {
 			var horizontalSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
-			var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
+			var verticalSlides = horizontalSlide && getVerticalSlides( horizontalSlide );
 
 			if( typeof y !== 'undefined' ) {
 				return verticalSlides ? verticalSlides[ y ] : undefined;
