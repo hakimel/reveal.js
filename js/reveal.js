@@ -151,12 +151,6 @@ var Reveal = (function(){
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0,
 
-		// A delay used to activate the overview mode
-		activateOverviewTimeout = 0,
-
-		// A delay used to deactivate the overview mode
-		deactivateOverviewTimeout = 0,
-
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
 
@@ -1238,67 +1232,57 @@ var Reveal = (function(){
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
 
-			clearTimeout( activateOverviewTimeout );
-			clearTimeout( deactivateOverviewTimeout );
+			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
-			// Not the pretties solution, but need to let the overview
-			// class apply first so that slides are measured accurately
-			// before we can position them
-			activateOverviewTimeout = setTimeout( function() {
+			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
+				var hslide = horizontalSlides[i],
+					hoffset = config.rtl ? -105 : 105;
 
-				var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+				hslide.setAttribute( 'data-index-h', i );
 
-				for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
-					var hslide = horizontalSlides[i],
-						hoffset = config.rtl ? -105 : 105;
+				// Apply CSS transform
+				transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
 
-					hslide.setAttribute( 'data-index-h', i );
+				if( hslide.classList.contains( 'stack' ) ) {
 
-					// Apply CSS transform
-					transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
+					var verticalSlides = hslide.querySelectorAll( 'section' );
 
-					if( hslide.classList.contains( 'stack' ) ) {
+					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
+						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
-						var verticalSlides = hslide.querySelectorAll( 'section' );
+						var vslide = verticalSlides[j];
 
-						for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-							var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
+						vslide.setAttribute( 'data-index-h', i );
+						vslide.setAttribute( 'data-index-v', j );
 
-							var vslide = verticalSlides[j];
-
-							vslide.setAttribute( 'data-index-h', i );
-							vslide.setAttribute( 'data-index-v', j );
-
-							// Apply CSS transform
-							transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
-
-							// Navigate to this slide on click
-							vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-						}
-
-					}
-					else {
+						// Apply CSS transform
+						transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
 
 						// Navigate to this slide on click
-						hslide.addEventListener( 'click', onOverviewSlideClicked, true );
-
+						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
 					}
+
 				}
+				else {
 
-				updateSlidesVisibility();
+					// Navigate to this slide on click
+					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
 
-				layout();
-
-				if( !wasActive ) {
-					// Notify observers of the overview showing
-					dispatchEvent( 'overviewshown', {
-						'indexh': indexh,
-						'indexv': indexv,
-						'currentSlide': currentSlide
-					} );
 				}
+			}
 
-			}, 10 );
+			updateSlidesVisibility();
+
+			layout();
+
+			if( !wasActive ) {
+				// Notify observers of the overview showing
+				dispatchEvent( 'overviewshown', {
+					'indexh': indexh,
+					'indexv': indexv,
+					'currentSlide': currentSlide
+				} );
+			}
 
 		}
 
@@ -1313,9 +1297,6 @@ var Reveal = (function(){
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
-			clearTimeout( activateOverviewTimeout );
-			clearTimeout( deactivateOverviewTimeout );
-
 			dom.wrapper.classList.remove( 'overview' );
 
 			// Temporarily add a class so that transitions can do different things
@@ -1323,7 +1304,7 @@ var Reveal = (function(){
 			// moving from slide to slide
 			dom.wrapper.classList.add( 'overview-deactivating' );
 
-			deactivateOverviewTimeout = setTimeout( function () {
+			setTimeout( function () {
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
 

@@ -1103,9 +1103,7 @@ body {
 
 
 .reveal.fade.overview .slides section,
-.reveal.fade.overview .slides>section>section,
-.reveal.fade.overview-deactivating .slides section,
-.reveal.fade.overview-deactivating .slides>section>section {
+.reveal.fade.overview .slides>section>section {
 	-webkit-transition: none;
 	   -moz-transition: none;
 	        transition: none;
@@ -1154,6 +1152,12 @@ body {
 	visibility: visible !important;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
+}
+.reveal.overview .slides section,
+.reveal.overview-deactivating .slides section {
+	-webkit-transition: none !important;
+	   -moz-transition: none !important;
+	        transition: none !important;
 }
 .reveal.overview .slides section .fragment {
 	opacity: 1;
