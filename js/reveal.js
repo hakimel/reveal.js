@@ -2274,8 +2274,16 @@ var Reveal = (function(){
 		// If the first bit is invalid and there is a name we can
 		// assume that this is a named link
 		if( isNaN( parseInt( bits[0], 10 ) ) && name.length ) {
-			// Find the slide with the specified name
-			var element = document.querySelector( '#' + name );
+			var element;
+
+			try {
+				// Find the slide with the specified name
+				element = document.querySelector( '#' + name );
+			}
+			catch( e ) {
+				// If the ID is an invalid selector a harmless SyntaxError
+				// may be thrown here.
+			}
 
 			if( element ) {
 				// Find the position of the named slide and navigate to it
@@ -2320,9 +2328,16 @@ var Reveal = (function(){
 			else {
 				var url = '/';
 
+				// Attempt to create a named link based on the slide's ID
+				var id = currentSlide.getAttribute( 'id' );
+				if( id ) {
+					id = id.toLowerCase();
+					id = id.replace( /[^a-zA-Z0-9\-\_\:\.]/g, '' );
+				}
+
 				// If the current slide has an ID, use that as a named link
-				if( currentSlide && typeof currentSlide.getAttribute( 'id' ) === 'string' ) {
-					url = '/' + currentSlide.getAttribute( 'id' );
+				if( currentSlide && typeof id === 'string' && id.length ) {
+					url = '/' + id;
 				}
 				// Otherwise use the /h/v index
 				else {
