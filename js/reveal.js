@@ -607,6 +607,14 @@ var Reveal = (function(){
 			autoSlidePaused = false;
 		}
 
+		// When fragments are turned off they should be visible
+		if( config.fragments === false ) {
+			toArray( dom.slides.querySelectorAll( '.fragment' ) ).forEach( function( element ) {
+				element.classList.add( 'visible' );
+				element.classList.remove( 'current-fragment' );
+			} );
+		}
+
 		// Load the theme in the config, if it's not already loaded
 		if( config.theme && dom.theme ) {
 			var themeURL = dom.theme.getAttribute( 'href' );
@@ -1768,26 +1776,30 @@ var Reveal = (function(){
 					// Any element previous to index is given the 'past' class
 					element.classList.add( reverse ? 'future' : 'past' );
 
-					var pastFragments = toArray( element.querySelectorAll( '.fragment' ) );
+					if( config.fragments ) {
+						var pastFragments = toArray( element.querySelectorAll( '.fragment' ) );
 
-					// Show all fragments on prior slides
-					while( pastFragments.length ) {
-						var pastFragment = pastFragments.pop();
-						pastFragment.classList.add( 'visible' );
-						pastFragment.classList.remove( 'current-fragment' );
+						// Show all fragments on prior slides
+						while( pastFragments.length ) {
+							var pastFragment = pastFragments.pop();
+							pastFragment.classList.add( 'visible' );
+							pastFragment.classList.remove( 'current-fragment' );
+						}
 					}
 				}
 				else if( i > index ) {
 					// Any element subsequent to index is given the 'future' class
 					element.classList.add( reverse ? 'past' : 'future' );
 
-					var futureFragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
+					if( config.fragments ) {
+						var futureFragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
 
-					// No fragments in future slides should be visible ahead of time
-					while( futureFragments.length ) {
-						var futureFragment = futureFragments.pop();
-						futureFragment.classList.remove( 'visible' );
-						futureFragment.classList.remove( 'current-fragment' );
+						// No fragments in future slides should be visible ahead of time
+						while( futureFragments.length ) {
+							var futureFragment = futureFragments.pop();
+							futureFragment.classList.remove( 'visible' );
+							futureFragment.classList.remove( 'current-fragment' );
+						}
 					}
 				}
 
