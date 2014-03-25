@@ -838,40 +838,26 @@ var Reveal = (function(){
 
 	/**
 	 * Returns the remaining height within the parent of the
-	 * target element after subtracting the height of all
-	 * siblings.
+	 * target element.
 	 *
-	 * remaining height = [parent height] - [ siblings height]
+	 * remaining height = [ configured parent height ] - [ current parent height ]
 	 */
 	function getRemainingHeight( element, height ) {
 
 		height = height || 0;
 
 		if( element ) {
-			var parent = element.parentNode;
-			var siblings = parent.childNodes;
+			var newHeight, oldHeight = element.style.height;
 
-			// Subtract the height of each sibling
-			toArray( siblings ).forEach( function( sibling ) {
+			// Change the .stretch element height to 0 in order find the height of all
+			// the other elements
+			element.style.height = '0px';
+			newHeight = height - element.parentNode.offsetHeight;
 
-				if( typeof sibling.offsetHeight === 'number' && sibling !== element ) {
+			// Restore the old height, just in case
+			element.style.height = oldHeight + 'px';
 
-					var styles = window.getComputedStyle( sibling ),
-						marginTop = parseInt( styles.marginTop, 10 ),
-						marginBottom = parseInt( styles.marginBottom, 10 );
-
-					height -= sibling.offsetHeight + marginTop + marginBottom;
-
-				}
-
-			} );
-
-			var elementStyles = window.getComputedStyle( element );
-
-			// Subtract the margins of the target element
-			height -= parseInt( elementStyles.marginTop, 10 ) +
-						parseInt( elementStyles.marginBottom, 10 );
-
+			return newHeight;
 		}
 
 		return height;
@@ -1151,7 +1137,7 @@ var Reveal = (function(){
 		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
 
 			// Determine how much vertical space we can use
-			var remainingHeight = getRemainingHeight( element, ( height - ( padding * 2 ) ) );
+			var remainingHeight = getRemainingHeight( element, height );
 
 			// Consider the aspect ratio of media elements
 			if( /(img|video)/gi.test( element.nodeName ) ) {
