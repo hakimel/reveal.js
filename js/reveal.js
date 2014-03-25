@@ -1402,7 +1402,7 @@ var Reveal = (function(){
 							element.webkitRequestFullscreen ||
 							element.webkitRequestFullScreen ||
 							element.mozRequestFullScreen ||
-							element.msRequestFullScreen;
+							element.msRequestFullscreen;
 
 		if( requestMethod ) {
 			requestMethod.apply( element );
