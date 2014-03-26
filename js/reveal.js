@@ -425,71 +425,26 @@ var Reveal = (function(){
 		dom.background.innerHTML = '';
 		dom.background.classList.add( 'no-transition' );
 
-		// Helper method for creating a background element for the
-		// given slide
-		function _createBackground( slide, container ) {
-
-			var data = {
-				background: slide.getAttribute( 'data-background' ),
-				backgroundSize: slide.getAttribute( 'data-background-size' ),
-				backgroundImage: slide.getAttribute( 'data-background-image' ),
-				backgroundColor: slide.getAttribute( 'data-background-color' ),
-				backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
-				backgroundPosition: slide.getAttribute( 'data-background-position' ),
-				backgroundTransition: slide.getAttribute( 'data-background-transition' )
-			};
-
-			var element = document.createElement( 'div' );
-			element.className = 'slide-background';
-
-			if( data.background ) {
-				// Auto-wrap image urls in url(...)
-				if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(svg|png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
-					element.style.backgroundImage = 'url('+ data.background +')';
-				}
-				else {
-					element.style.background = data.background;
-				}
-			}
-
-			if( data.background || data.backgroundColor || data.backgroundImage ) {
-				element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
-			}
-
-			// Additional and optional background properties
-			if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
-			if( data.backgroundImage ) element.style.backgroundImage = 'url("' + data.backgroundImage + '")';
-			if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
-			if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
-			if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
-			if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
-
-			container.appendChild( element );
-
-			return element;
-
-		}
-
 		// Iterate over all horizontal slides
 		toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
 
 			var backgroundStack;
 
 			if( isPrintingPDF() ) {
-				backgroundStack = _createBackground( slideh, slideh );
+				backgroundStack = createBackground( slideh, slideh );
 			}
 			else {
-				backgroundStack = _createBackground( slideh, dom.background );
+				backgroundStack = createBackground( slideh, dom.background );
 			}
 
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
 				if( isPrintingPDF() ) {
-					_createBackground( slidev, slidev );
+					createBackground( slidev, slidev );
 				}
 				else {
-					_createBackground( slidev, backgroundStack );
+					createBackground( slidev, backgroundStack );
 				}
 
 			} );
@@ -517,6 +472,56 @@ var Reveal = (function(){
 			dom.wrapper.classList.remove( 'has-parallax-background' );
 
 		}
+
+	}
+
+	/**
+	 * Creates a background for the given slide.
+	 *
+	 * @param {HTMLElement} slide
+	 * @param {HTMLElement} container The element that the background
+	 * should be appended to
+	 */
+	function createBackground( slide, container ) {
+
+		var data = {
+			background: slide.getAttribute( 'data-background' ),
+			backgroundSize: slide.getAttribute( 'data-background-size' ),
+			backgroundImage: slide.getAttribute( 'data-background-image' ),
+			backgroundColor: slide.getAttribute( 'data-background-color' ),
+			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
+			backgroundPosition: slide.getAttribute( 'data-background-position' ),
+			backgroundTransition: slide.getAttribute( 'data-background-transition' )
+		};
+
+		var element = document.createElement( 'div' );
+		element.className = 'slide-background';
+
+		if( data.background ) {
+			// Auto-wrap image urls in url(...)
+			if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(svg|png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
+				element.style.backgroundImage = 'url('+ data.background +')';
+			}
+			else {
+				element.style.background = data.background;
+			}
+		}
+
+		if( data.background || data.backgroundColor || data.backgroundImage ) {
+			element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
+		}
+
+		// Additional and optional background properties
+		if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
+		if( data.backgroundImage ) element.style.backgroundImage = 'url("' + data.backgroundImage + '")';
+		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
+		if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
+		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
+		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
+
+		container.appendChild( element );
+
+		return element;
 
 	}
 
