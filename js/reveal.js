@@ -488,6 +488,7 @@ var Reveal = (function(){
 			background: slide.getAttribute( 'data-background' ),
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
 			backgroundImage: slide.getAttribute( 'data-background-image' ),
+			backgroundVideo: slide.getAttribute( 'data-background-video' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
@@ -507,8 +508,18 @@ var Reveal = (function(){
 			}
 		}
 
-		if( data.background || data.backgroundColor || data.backgroundImage ) {
-			element.setAttribute( 'data-background-hash', data.background + data.backgroundSize + data.backgroundImage + data.backgroundColor + data.backgroundRepeat + data.backgroundPosition + data.backgroundTransition );
+		// Create a hash for this combination of background settings.
+		// This is used to determine when two slide backgrounds are
+		// the same.
+		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo ) {
+			element.setAttribute( 'data-background-hash', data.background +
+															data.backgroundSize +
+															data.backgroundImage +
+															data.backgroundVideo +
+															data.backgroundColor +
+															data.backgroundRepeat +
+															data.backgroundPosition +
+															data.backgroundTransition );
 		}
 
 		// Additional and optional background properties
@@ -518,6 +529,18 @@ var Reveal = (function(){
 		if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
 		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
+
+		// Create video background element
+		if( data.backgroundVideo ) {
+			var video = document.createElement( 'video' );
+
+			// Support comma separated lists of video sources
+			data.backgroundVideo.split( ',' ).forEach( function( source ) {
+				video.innerHTML += '<source src="'+ source +'">';
+			} );
+
+			element.appendChild( video );
+		}
 
 		container.appendChild( element );
 
