@@ -2234,7 +2234,14 @@ var Reveal = (function(){
 		}
 
 	}
-
+	/**
+	* Retrieve the total number of slides in this slide show
+	*
+	* @return {Number}
+	*/
+	function getTotalSlides() {
+		return Number(document.querySelectorAll( SLIDES_SELECTOR ).length);
+	}
 	/**
 	 * Retrieves the h/v location of the current, or specified,
 	 * slide.
@@ -3282,7 +3289,8 @@ var Reveal = (function(){
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
-
+		// Retrieve the total number of slides in this slide show (includes all horizontal and vertical)
+		getTotalSlides: getTotalSlides,
 		// Returns the indices of the current, or specified, slide
 		getIndices: getIndices,
 
