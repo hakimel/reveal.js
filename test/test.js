@@ -81,6 +81,10 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.isLastSlide(), false, 'false after Reveal.slide( 0, 0 )' );
 	});
 
+	test( 'Reveal.getTotalSlides', function() {
+		strictEqual( Reveal.getTotalSlides(), 8, 'eight slides in total' );
+	});
+
 	test( 'Reveal.getIndices', function() {
 		var indices = Reveal.getIndices();
 
