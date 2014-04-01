@@ -2393,6 +2393,15 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Retrieves the total number of slides in this presentation.
+	 */
+	function getTotalSlides() {
+
+		return document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+
+	}
+
+	/**
 	 * Retrieves the current state of the presentation as
 	 * an object. This state can then be restored at any
 	 * time.
@@ -3456,6 +3465,8 @@ var Reveal = (function(){
 
 		// Returns the indices of the current, or specified, slide
 		getIndices: getIndices,
+
+		getTotalSlides: getTotalSlides,
 
 		// Returns the slide at the specified index, y is optional
 		getSlide: function( x, y ) {
