@@ -1118,7 +1118,11 @@ var Reveal = (function(){
 			}
 			// Apply scale transform as a fallback
 			else {
-				transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +') translate(50%, 50%)' );
+				dom.slides.style.left = '50%';
+				dom.slides.style.top = '50%';
+				dom.slides.style.bottom = 'auto';
+				dom.slides.style.right = 'auto';
+				transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
 			}
 
 			// Select all slides, vertical and horizontal
@@ -1139,7 +1143,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - slidePadding, -slideHeight / 2 ) + 'px';
+						slide.style.top = Math.max( ( ( slideHeight - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
 					}
 				}
 				else {
