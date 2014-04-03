@@ -1132,6 +1132,7 @@ var Reveal = (function(){
 					continue;
 				}
 
+				/*
 				if( config.center || slide.classList.contains( 'center' ) ) {
 					// Vertical stacks are not centred since their section
 					// children will be
@@ -1145,6 +1146,7 @@ var Reveal = (function(){
 				else {
 					slide.style.top = '';
 				}
+				*/
 
 			}
 
