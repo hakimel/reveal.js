@@ -1860,7 +1860,7 @@ var Reveal = (function(){
 				distanceX = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
 
 				// Show the horizontal slide if it's within the view distance
-				horizontalSlide.style.display = distanceX > viewDistance ? 'none' : 'block';
+				horizontalSlide.classList[ distanceX > viewDistance ? 'remove' : 'add' ]( 'visible' );
 
 				if( verticalSlidesLength ) {
 
@@ -1871,7 +1871,7 @@ var Reveal = (function(){
 
 						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
 
-						verticalSlide.style.display = ( distanceX + distanceY ) > viewDistance ? 'none' : 'block';
+						verticalSlide.classList[ ( distanceX + distanceY ) > viewDistance ? 'remove' : 'add' ]( 'visible' );
 					}
 
 				}

@@ -616,6 +616,11 @@ body {
 						opacity 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
+.reveal .slides>section.visible,
+.reveal .slides>section>section.visible {
+	display: block;
+}
+
 /* Global transition speed settings */
 .reveal[data-transition-speed="fast"] .slides section {
 	-webkit-transition-duration: 400ms;
@@ -652,7 +657,6 @@ body {
 
 .reveal .slides>section.present,
 .reveal .slides>section>section.present {
-	display: block;
 	z-index: 11;
 	opacity: 1;
 }
