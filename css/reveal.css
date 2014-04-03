@@ -370,7 +370,7 @@ body {
 }
 
 .reveal table {
-  margin: auto;
+  margin: 0 auto;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -594,7 +594,7 @@ body {
 	display: none;
 	position: absolute;
 	width: 100%;
-	padding: 20px 0px;
+	padding: 0px;
 
 	z-index: 10;
 	line-height: 1.2em;
@@ -624,7 +624,8 @@ body {
 	display: block;
 }
 
-.reveal .slides section:not(.stack) {
+.reveal.center .slides section:not(.stack),
+.reveal.center .slides section>section {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -moz-box;
@@ -677,11 +678,6 @@ body {
 	        transition-duration: 1200ms;
 }
 
-.reveal .slides>section.stack {
-	padding-top: 0;
-	padding-bottom: 0;
-}
-
 .reveal .slides>section.present,
 .reveal .slides>section>section.present {
 	z-index: 11;
@@ -691,7 +687,7 @@ body {
 .reveal.center,
 .reveal.center .slides,
 .reveal.center .slides section {
-	min-height: auto !important;
+	height: 100%;
 }
 
 /* Don't allow interaction with invisible slides */
