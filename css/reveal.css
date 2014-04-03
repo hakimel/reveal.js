@@ -560,8 +560,11 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	left: 50%;
-	top: 50%;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
 
 	overflow: visible;
 	z-index: 1;
@@ -576,10 +579,10 @@ body {
 	    -ms-perspective: 600px;
 	        perspective: 600px;
 
-	-webkit-perspective-origin: 0px -100px;
-	   -moz-perspective-origin: 0px -100px;
-	    -ms-perspective-origin: 0px -100px;
-	        perspective-origin: 0px -100px;
+	-webkit-perspective-origin: 50% 40%;
+	   -moz-perspective-origin: 50% 40%;
+	    -ms-perspective-origin: 50% 40%;
+	        perspective-origin: 50% 40%;
 }
 
 .reveal .slides>section {
@@ -672,11 +675,6 @@ body {
 	-webkit-transition-duration: 1200ms;
 	   -moz-transition-duration: 1200ms;
 	        transition-duration: 1200ms;
-}
-
-.reveal .slides>section {
-	left: -50%;
-	top: -50%;
 }
 
 .reveal .slides>section.stack {
@@ -1166,10 +1164,10 @@ body {
  *********************************************/
 
 .reveal.overview .slides {
-	-webkit-perspective-origin: 0% 0%;
-	   -moz-perspective-origin: 0% 0%;
-	    -ms-perspective-origin: 0% 0%;
-	        perspective-origin: 0% 0%;
+	-webkit-perspective-origin: 50% 50%;
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
 
 	-webkit-perspective: 700px;
 	   -moz-perspective: 700px;
@@ -1179,7 +1177,6 @@ body {
 
 .reveal.overview .slides section {
 	height: 600px;
-	top: -300px !important;
 	overflow: hidden;
 	opacity: 1 !important;
 	visibility: visible !important;
