@@ -188,3 +188,12 @@ ul, ol, div, p {
 .reveal small a {
 	font-size: 16pt !important;
 }
+
+.reveal.center .slides section:not(.stack) {
+	display: flex !important;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2em !important;
+	padding-bottom: 2em !important;
+}
