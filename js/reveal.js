@@ -1111,9 +1111,8 @@ var Reveal = (function(){
 			scale = Math.max( scale, config.minScale );
 			scale = Math.min( scale, config.maxScale );
 
-			// Prefer applying scale via zoom since Chrome blurs scaled content
-			// with nested transforms
-			if( typeof dom.slides.style.zoom !== 'undefined' && !navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi ) ) {
+			// Prefer zooming in WebKit so that content remains crisp
+			if( /webkit/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 				dom.slides.style.zoom = scale;
 			}
 			// Apply scale transform as a fallback
@@ -2003,7 +2002,7 @@ var Reveal = (function(){
 			}
 
 			if( includeAll || h === indexh ) {
-				toArray( backgroundh.childNodes ).forEach( function( backgroundv, v ) {
+				toArray( backgroundh.querySelectorAll( 'section' ) ).forEach( function( backgroundv, v ) {
 
 					if( v < indexv ) {
 						backgroundv.className = 'slide-background past';
@@ -2023,9 +2022,22 @@ var Reveal = (function(){
 
 		} );
 
-		// Don't transition between identical backgrounds. This
-		// prevents unwanted flicker.
+		// Stop any currently playing video background
+		if( previousBackground ) {
+
+			var previousVideo = previousBackground.querySelector( 'video' );
+			if( previousVideo ) previousVideo.pause();
+
+		}
+
 		if( currentBackground ) {
+
+			// Start video playback
+			var currentVideo = currentBackground.querySelector( 'video' );
+			if( currentVideo ) currentVideo.play();
+
+			// Don't transition between identical backgrounds. This
+			// prevents unwanted flicker.
 			var previousBackgroundHash = previousBackground ? previousBackground.getAttribute( 'data-background-hash' ) : null;
 			var currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
 			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== previousBackground ) {
@@ -2033,6 +2045,7 @@ var Reveal = (function(){
 			}
 
 			previousBackground = currentBackground;
+
 		}
 
 		// Allow the first background to apply without transition
