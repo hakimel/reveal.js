@@ -624,8 +624,12 @@ body {
 	display: block;
 }
 
-.reveal.center .slides section:not(.stack),
-.reveal.center .slides section>section {
+.reveal.center .slides,
+.reveal.center .slides section {
+	height: 100%;
+}
+
+.reveal.center .slides section:not(.stack) {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -moz-box;
@@ -682,12 +686,6 @@ body {
 .reveal .slides>section>section.present {
 	z-index: 11;
 	opacity: 1;
-}
-
-.reveal.center,
-.reveal.center .slides,
-.reveal.center .slides section {
-	height: 100%;
 }
 
 /* Don't allow interaction with invisible slides */
@@ -1172,7 +1170,6 @@ body {
 }
 
 .reveal.overview .slides section {
-	height: 600px;
 	overflow: hidden;
 	opacity: 1 !important;
 	visibility: visible !important;

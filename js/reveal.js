@@ -1129,27 +1129,29 @@ var Reveal = (function(){
 
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
+				var style = window.getComputedStyle( slide );
 
-				// Don't bother updating invisible slides
-				if( slide.style.display === 'none' ) {
+				// Don't update invisible slides
+				if( style.display === 'none' ) {
 					continue;
 				}
-
-				/*
-				if( config.center || slide.classList.contains( 'center' ) ) {
-					// Vertical stacks are not centred since their section
-					// children will be
-					if( slide.classList.contains( 'stack' ) ) {
-						slide.style.top = 0;
+				// If the display mode is 'block' flexbox is not supported by
+				// the current browser so we fall back on JavaScript centering
+				else if( style.display === 'block' ) {
+					if( config.center || slide.classList.contains( 'center' ) ) {
+						// Vertical stacks are not centred since their section children will be
+						if( slide.classList.contains( 'stack' ) ) {
+							slide.style.top = 0;
+						}
+						else {
+							slide.style.top = Math.max( ( ( slideHeight - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+							slide.style.height = 'auto';
+						}
 					}
 					else {
-						slide.style.top = Math.max( ( ( slideHeight - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+						slide.style.top = '';
 					}
 				}
-				else {
-					slide.style.top = '';
-				}
-				*/
 
 			}
 
