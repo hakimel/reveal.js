@@ -219,7 +219,10 @@
 
 				xhr.onreadystatechange = function() {
 					if( xhr.readyState === 4 ) {
-						if ( xhr.status >= 200 && xhr.status < 300 ) {
+						if (
+							(xhr.status >= 200 && xhr.status < 300) ||
+							xhr.status === 0 // file protocol yields status code 0 (useful for local debug, mobile applications etc.)
+							) {
 
 							section.outerHTML = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),
