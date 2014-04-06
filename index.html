@@ -188,14 +188,12 @@
 					<h2>Transition Styles</h2>
 					<p>
 						You can select from different transitions, like: <br>
-						<a href="?transition=cube#/transitions">Cube</a> -
-						<a href="?transition=page#/transitions">Page</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a> -
-						<a href="?transition=linear#/transitions">Linear</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
+						<a href="?#/transitions">Default</a> -
 						<a href="?transition=none#/transitions">None</a> -
-						<a href="?#/transitions">Default</a>
+						<a href="?transition=fade#/transitions">Fade</a> -
+						<a href="?transition=slide#/transitions">Slide</a> -
+						<a href="?transition=concave#/transitions">Concave</a> -
+						<a href="?transition=zoom#/transitions">Zoom</a>
 					</p>
 				</section>
 
@@ -260,14 +258,14 @@ Reveal.addEventListener( 'customevent', function() {
 					</section>
 				</section>
 
-				<section data-transition="linear" data-background="#4d7e65" data-background-transition="slide">
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="slide">
 					<h2>Background Transitions</h2>
 					<p>
 						Pass reveal.js the <code>backgroundTransition: 'slide'</code> config argument to make backgrounds slide rather than fade.
 					</p>
 				</section>
 
-				<section data-transition="linear" data-background="#8c4738" data-background-transition="slide">
+				<section data-transition="slide" data-background="#8c4738" data-background-transition="slide">
 					<h2>Background Transition Override</h2>
 					<p>
 						You can override background transitions per slide by using <code>data-background-transition="slide"</code>.
@@ -401,7 +399,7 @@ function linkify( selector ) {
 				center: true,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+				transition: Reveal.getQueryHash().transition || 'default', // none/fade/slide/convex/concave/zoom
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
