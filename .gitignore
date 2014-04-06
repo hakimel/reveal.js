@@ -5,5 +5,4 @@ tmp/**
 node_modules/
 .sass-cache
 css/reveal.min.css
-css/themes/*.css
 js/reveal.min.js
