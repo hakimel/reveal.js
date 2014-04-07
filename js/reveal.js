@@ -1771,7 +1771,7 @@ var Reveal = (function(){
 			slides[index].classList.add( 'present' );
 			slides[index].removeAttribute( 'hidden' );
 			slides[index].removeAttribute( 'aria-hidden' );
-			dom.statusDiv.innerHTML = slides[index].innerHTML;
+			dom.statusDiv.innerHTML = slides[index].textContent;
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
@@ -2424,7 +2424,7 @@ var Reveal = (function(){
 						element.classList.add( 'visible' );
 						element.classList.remove( 'current-fragment' );
 						//Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.innerHTML = element.innerHTML;
+						dom.statusDiv.innerHTML = element.textContent;
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
