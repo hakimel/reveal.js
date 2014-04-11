@@ -1744,6 +1744,8 @@ var Reveal = (function(){
 		var slides = toArray( document.querySelectorAll( selector ) ),
 			slidesLength = slides.length;
 
+		var printMode = isPrintingPDF();
+
 		if( slidesLength ) {
 
 			// Should the index loop?
@@ -1769,6 +1771,17 @@ var Reveal = (function(){
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+
+				// If this element contains vertical slides
+				if( element.querySelector( 'section' ) ) {
+					element.classList.add( 'stack' );
+				}
+
+				// If we're printing static slides, all slides are "present"
+				if( printMode ) {
+					element.classList.add( 'present' );
+					continue;
+				}
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
@@ -1799,11 +1812,6 @@ var Reveal = (function(){
 							futureFragment.classList.remove( 'current-fragment' );
 						}
 					}
-				}
-
-				// If this element contains vertical slides
-				if( element.querySelector( 'section' ) ) {
-					element.classList.add( 'stack' );
 				}
 			}
 
