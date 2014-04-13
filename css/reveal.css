@@ -687,7 +687,7 @@ body {
  * Aliased 'linear' for backwards compatibility
  *********************************************/
 
-.reveal.slide section.
+.reveal.slide section,
 .reveal.linear section {
 	-webkit-backface-visibility: hidden;
 	   -moz-backface-visibility: hidden;
