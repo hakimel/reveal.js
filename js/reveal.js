@@ -44,6 +44,9 @@ var Reveal = (function(){
 			// Enable keyboard shortcuts for navigation
 			keyboard: true,
 
+			// Optional function that blocks keyboard events when retuning false
+			keyboardCondition: null,
+
 			// Enable the slide overview mode
 			overview: true,
 
@@ -2835,6 +2838,12 @@ var Reveal = (function(){
 	 * Handler for the document level 'keydown' event.
 	 */
 	function onDocumentKeyDown( event ) {
+
+		// If there's a condition specified and it returns false,
+		// ignore this event
+		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition() === false ) {
+			return true;
+		}
 
 		// Remember if auto-sliding was paused so we can toggle it
 		var autoSlideWasPaused = autoSlidePaused;
