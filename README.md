@@ -878,28 +878,28 @@ Some reveal.js features, like external markdown and speaker notes, require that 
 2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
 
 4. Clone the reveal.js repository
-```sh
-$ git clone https://github.com/hakimel/reveal.js.git
-```
+   ```sh
+   $ git clone https://github.com/hakimel/reveal.js.git
+   ```
 
 5. Navigate to the reveal.js folder
-```sh
-$ cd reveal.js
-```
+   ```sh
+   $ cd reveal.js
+   ```
 
 6. Install dependencies
-```sh
-$ npm install
-```
+   ```sh
+   $ npm install
+   ```
 
 7. Serve the presentation and monitor source files for changes
-```sh
-$ grunt serve
-```
+   ```sh
+   $ grunt serve
+   ```
 
 8. Open <http://localhost:8000> to view your presentation
 
-You can change the port by using `grunt serve --port 8001`.
+   You can change the port by using `grunt serve --port 8001`.
 
 
 ### Folder Structure
@@ -930,4 +930,4 @@ If you have personal support questions use [StackOverflow](http://stackoverflow.
 
 MIT licensed
 
-Copyright (C) 2013 Hakim El Hattab, http://hakim.se
+Copyright (C) 2014 Hakim El Hattab, http://hakim.se
