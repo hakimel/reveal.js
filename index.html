@@ -29,6 +29,12 @@
 				link.href = 'css/print/pdf.css';
 				document.getElementsByTagName( 'head' )[0].appendChild( link );
 			}
+			if( window.location.search.match( /receiver/gi ) ) {
+				var s = document.createElement( 'style' );
+				s.type = 'text/css';
+				s.innerHTML = ".reveal .slides section .fragment { opacity: .5; }";
+				document.getElementsByTagName( 'head' )[0].appendChild( s );
+			}
 		</script>
 
 		<!--[if lt IE 9]>
