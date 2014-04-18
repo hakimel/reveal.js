@@ -568,10 +568,11 @@ var Reveal = (function(){
 		window.addEventListener( 'message', function ( event ) {
 			var data = JSON.parse( event.data );
 			var method = Reveal[data.method];
+
 			if( typeof method === 'function' ) {
 				method.apply( Reveal, data.args );
 			}
-		}, false);
+		}, false );
 
 	}
 
@@ -957,12 +958,21 @@ var Reveal = (function(){
 	 * Dispatches an event of the specified type from the
 	 * reveal DOM element.
 	 */
-	function dispatchEvent( type, properties ) {
+	function dispatchEvent( type, args ) {
 
-		var event = document.createEvent( "HTMLEvents", 1, 2 );
+		var event = document.createEvent( 'HTMLEvents', 1, 2 );
 		event.initEvent( type, true, true );
-		extend( event, properties );
+		extend( event, args );
 		dom.wrapper.dispatchEvent( event );
+
+		// If we're in an iframe, post each reveal.js event to the
+		// parent window. Used by the notes plugin
+		if( window.parent !== window.self ) {
+			// Remove arguments that can't be stringified (circular structures)
+			if( args && args.currentSlide ) delete args.currentSlide;
+			if( args && args.previousSlide ) delete args.previousSlide;
+			window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: type, eventArgs: args || null }), '*' );
+		}
 
 	}
 
