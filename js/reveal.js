@@ -239,7 +239,6 @@ var Reveal = (function(){
 
 	}
 
-
     /**
      * Loads the dependencies of reveal.js. Dependencies are
      * defined via the configuration option 'dependencies'
@@ -312,6 +311,9 @@ var Reveal = (function(){
 
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
+
+		// Listen to messages posted to this window
+		setupPostMessage();
 
 		// Resets all vertical slides so that only the first is visible
 		resetVerticalSlides();
@@ -548,6 +550,28 @@ var Reveal = (function(){
 		container.appendChild( element );
 
 		return element;
+
+	}
+
+	/**
+	 * Registers a listener to postMessage events, this makes it
+	 * possible to call all reveal.js API methods from another
+	 * window. For example:
+	 *
+	 * revealWindow.postMessage( JSON.stringify({
+	 *   method: 'slide',
+	 *   args: [ 2 ]
+	 * }), '*' );
+	 */
+	function setupPostMessage() {
+
+		window.addEventListener( 'message', function ( event ) {
+			var data = JSON.parse( event.data );
+			var method = Reveal[data.method];
+			if( typeof method === 'function' ) {
+				method.apply( Reveal, data.args );
+			}
+		}, false);
 
 	}
 
