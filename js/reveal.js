@@ -89,8 +89,11 @@ var Reveal = (function(){
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
 
-			// Flags if we should listen to and dispatch events through window.postMessage
+			// Exposes the reveal.js API through window.postMessage
 			postMessage: true,
+
+			// Dispatches all reveal.js events to the parent window through postMessage
+			postMessageEvents: false,
 
 			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
 			focusBodyOnPageVisiblityChange: true,
@@ -972,11 +975,8 @@ var Reveal = (function(){
 
 		// If we're in an iframe, post each reveal.js event to the
 		// parent window. Used by the notes plugin
-		if( config.postMessage && window.parent !== window.self ) {
-			// Remove arguments that can't be stringified (circular structures)
-			if( args && args.currentSlide ) delete args.currentSlide;
-			if( args && args.previousSlide ) delete args.previousSlide;
-			window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: type, eventArgs: args || null }), '*' );
+		if( config.postMessageEvents && window.parent !== window.self ) {
+			window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: type, state: getState() }), '*' );
 		}
 
 	}
