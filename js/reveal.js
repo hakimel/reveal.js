@@ -968,6 +968,8 @@ var Reveal = (function(){
 	 */
 	function dispatchEvent( type, args ) {
 
+		console.log('event', type);
+
 		var event = document.createEvent( 'HTMLEvents', 1, 2 );
 		event.initEvent( type, true, true );
 		extend( event, args );
@@ -2747,21 +2749,25 @@ var Reveal = (function(){
 
 	function pauseAutoSlide() {
 
-		autoSlidePaused = true;
-		dispatchEvent( 'autoslidepaused' );
-		clearTimeout( autoSlideTimeout );
+		if( autoSlide && !autoSlidePaused ) {
+			autoSlidePaused = true;
+			dispatchEvent( 'autoslidepaused' );
+			clearTimeout( autoSlideTimeout );
 
-		if( autoSlidePlayer ) {
-			autoSlidePlayer.setPlaying( false );
+			if( autoSlidePlayer ) {
+				autoSlidePlayer.setPlaying( false );
+			}
 		}
 
 	}
 
 	function resumeAutoSlide() {
 
-		autoSlidePaused = false;
-		dispatchEvent( 'autoslideresumed' );
-		cueAutoSlide();
+		if( autoSlide && autoSlidePaused ) {
+			autoSlidePaused = false;
+			dispatchEvent( 'autoslideresumed' );
+			cueAutoSlide();
+		}
 
 	}
 
