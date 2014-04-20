@@ -50,7 +50,7 @@
 			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
 		}
 		else if( leadingWs > 1 ) {
-			text = text.replace( new RegExp('\\n? {' + leadingWs + '}','g'), '\n' );
+			text = text.replace( new RegExp('\\n? {' + leadingWs + '}'), '\n' );
 		}
 
 		return text;
@@ -219,7 +219,8 @@
 
 				xhr.onreadystatechange = function() {
 					if( xhr.readyState === 4 ) {
-						if ( xhr.status >= 200 && xhr.status < 300 ) {
+						// file protocol yields status code 0 (useful for local debug, mobile applications etc.)
+						if ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 0 ) {
 
 							section.outerHTML = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),

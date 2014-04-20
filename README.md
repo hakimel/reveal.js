@@ -154,13 +154,13 @@ Reveal.initialize({
 	previewLinks: false,
 
 	// Transition style
-	transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+	transition: 'default', // none/fade/slide/convex/concave/zoom
 
 	// Transition speed
 	transitionSpeed: 'default', // default/fast/slow
 
 	// Transition style for full page slide backgrounds
-	backgroundTransition: 'default', // default/none/slide/concave/convex/zoom
+	backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
 
 	// Number of slides away from the current that are visible
 	viewDistance: 3,
@@ -174,8 +174,6 @@ Reveal.initialize({
 
 });
 ```
-
-Note that the new default vertical centering option will break compatibility with slides that were using transitions with backgrounds (`cube` and `page`). To restore the previous behavior, set `center` to `false`.
 
 
 The configuration can be updated after initialization using the ```configure``` method:
@@ -397,7 +395,7 @@ Reveal.initialize({
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
 
 	// This slide transition gives best results:
-	transition: linear
+	transition: 'slide'
 
 });
 ```

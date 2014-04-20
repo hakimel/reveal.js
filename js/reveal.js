@@ -44,6 +44,9 @@ var Reveal = (function(){
 			// Enable keyboard shortcuts for navigation
 			keyboard: true,
 
+			// Optional function that blocks keyboard events when retuning false
+			keyboardCondition: null,
+
 			// Enable the slide overview mode
 			overview: true,
 
@@ -86,6 +89,12 @@ var Reveal = (function(){
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
 
+			// Exposes the reveal.js API through window.postMessage
+			postMessage: true,
+
+			// Dispatches all reveal.js events to the parent window through postMessage
+			postMessageEvents: false,
+
 			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
 			focusBodyOnPageVisiblityChange: true,
 
@@ -93,13 +102,13 @@ var Reveal = (function(){
 			theme: null,
 
 			// Transition style
-			transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+			transition: 'default', // none/fade/slide/convex/concave/zoom
 
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
 
 			// Transition style for full page slide backgrounds
-			backgroundTransition: 'default', // default/linear/none
+			backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
 
 			// Parallax background image
 			parallaxBackgroundImage: '', // CSS syntax, e.g. "a.jpg"
@@ -236,7 +245,6 @@ var Reveal = (function(){
 
 	}
 
-
     /**
      * Loads the dependencies of reveal.js. Dependencies are
      * defined via the configuration option 'dependencies'
@@ -309,6 +317,9 @@ var Reveal = (function(){
 
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
+
+		// Listen to messages posted to this window
+		setupPostMessage();
 
 		// Resets all vertical slides so that only the first is visible
 		resetVerticalSlides();
@@ -545,6 +556,31 @@ var Reveal = (function(){
 		container.appendChild( element );
 
 		return element;
+
+	}
+
+	/**
+	 * Registers a listener to postMessage events, this makes it
+	 * possible to call all reveal.js API methods from another
+	 * window. For example:
+	 *
+	 * revealWindow.postMessage( JSON.stringify({
+	 *   method: 'slide',
+	 *   args: [ 2 ]
+	 * }), '*' );
+	 */
+	function setupPostMessage() {
+
+		if( config.postMessage ) {
+			window.addEventListener( 'message', function ( event ) {
+				var data = JSON.parse( event.data );
+				var method = Reveal[data.method];
+
+				if( typeof method === 'function' ) {
+					method.apply( Reveal, data.args );
+				}
+			}, false );
+		}
 
 	}
 
@@ -930,12 +966,20 @@ var Reveal = (function(){
 	 * Dispatches an event of the specified type from the
 	 * reveal DOM element.
 	 */
-	function dispatchEvent( type, properties ) {
+	function dispatchEvent( type, args ) {
 
-		var event = document.createEvent( "HTMLEvents", 1, 2 );
+		console.log('event', type);
+
+		var event = document.createEvent( 'HTMLEvents', 1, 2 );
 		event.initEvent( type, true, true );
-		extend( event, properties );
+		extend( event, args );
 		dom.wrapper.dispatchEvent( event );
+
+		// If we're in an iframe, post each reveal.js event to the
+		// parent window. Used by the notes plugin
+		if( config.postMessageEvents && window.parent !== window.self ) {
+			window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: type, state: getState() }), '*' );
+		}
 
 	}
 
@@ -1748,6 +1792,8 @@ var Reveal = (function(){
 		var slides = toArray( document.querySelectorAll( selector ) ),
 			slidesLength = slides.length;
 
+		var printMode = isPrintingPDF();
+
 		if( slidesLength ) {
 
 			// Should the index loop?
@@ -1773,6 +1819,17 @@ var Reveal = (function(){
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+
+				// If this element contains vertical slides
+				if( element.querySelector( 'section' ) ) {
+					element.classList.add( 'stack' );
+				}
+
+				// If we're printing static slides, all slides are "present"
+				if( printMode ) {
+					element.classList.add( 'present' );
+					continue;
+				}
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
@@ -1803,11 +1860,6 @@ var Reveal = (function(){
 							futureFragment.classList.remove( 'current-fragment' );
 						}
 					}
-				}
-
-				// If this element contains vertical slides
-				if( element.querySelector( 'section' ) ) {
-					element.classList.add( 'stack' );
 				}
 			}
 
@@ -2004,7 +2056,7 @@ var Reveal = (function(){
 			}
 
 			if( includeAll || h === indexh ) {
-				toArray( backgroundh.querySelectorAll( 'section' ) ).forEach( function( backgroundv, v ) {
+				toArray( backgroundh.querySelectorAll( '.slide-background' ) ).forEach( function( backgroundv, v ) {
 
 					if( v < indexv ) {
 						backgroundv.className = 'slide-background past';
@@ -2701,21 +2753,25 @@ var Reveal = (function(){
 
 	function pauseAutoSlide() {
 
-		autoSlidePaused = true;
-		dispatchEvent( 'autoslidepaused' );
-		clearTimeout( autoSlideTimeout );
+		if( autoSlide && !autoSlidePaused ) {
+			autoSlidePaused = true;
+			dispatchEvent( 'autoslidepaused' );
+			clearTimeout( autoSlideTimeout );
 
-		if( autoSlidePlayer ) {
-			autoSlidePlayer.setPlaying( false );
+			if( autoSlidePlayer ) {
+				autoSlidePlayer.setPlaying( false );
+			}
 		}
 
 	}
 
 	function resumeAutoSlide() {
 
-		autoSlidePaused = false;
-		dispatchEvent( 'autoslideresumed' );
-		cueAutoSlide();
+		if( autoSlide && autoSlidePaused ) {
+			autoSlidePaused = false;
+			dispatchEvent( 'autoslideresumed' );
+			cueAutoSlide();
+		}
 
 	}
 
@@ -2831,6 +2887,12 @@ var Reveal = (function(){
 	 * Handler for the document level 'keydown' event.
 	 */
 	function onDocumentKeyDown( event ) {
+
+		// If there's a condition specified and it returns false,
+		// ignore this event
+		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition() === false ) {
+			return true;
+		}
 
 		// Remember if auto-sliding was paused so we can toggle it
 		var autoSlideWasPaused = autoSlidePaused;
