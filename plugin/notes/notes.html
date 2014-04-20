@@ -10,128 +10,129 @@
 				font-family: Helvetica;
 			}
 
-			#notes {
-				font-size: 24px;
-				width: 640px;
-				margin-top: 5px;
-				clear: left;
+			#current-slide,
+			#next-slide,
+			#speaker-controls {
+				padding: 6px;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
 			}
 
-			#wrap-current-slide {
-				width: 640px;
-				height: 512px;
-				float: left;
-				overflow: hidden;
+			#current-slide iframe,
+			#next-slide iframe {
+				width: 100%;
+				height: 100%;
+				border: 1px solid #ddd;
 			}
 
-			#current-slide {
-				width: 1280px;
-				height: 1024px;
-				border: none;
-
-				-webkit-transform-origin: 0 0;
-				   -moz-transform-origin: 0 0;
-					-ms-transform-origin: 0 0;
-					 -o-transform-origin: 0 0;
-						transform-origin: 0 0;
-
-				-webkit-transform: scale(0.5);
-				   -moz-transform: scale(0.5);
-					-ms-transform: scale(0.5);
-					 -o-transform: scale(0.5);
-						transform: scale(0.5);
-			}
-
-			#wrap-next-slide {
-				width: 448px;
-				height: 358px;
-				float: left;
-				margin: 0 0 0 10px;
-				overflow: hidden;
-			}
-
-			#next-slide {
-				width: 1280px;
-				height: 1024px;
-				border: none;
-
-				-webkit-transform-origin: 0 0;
-				   -moz-transform-origin: 0 0;
-					-ms-transform-origin: 0 0;
-					 -o-transform-origin: 0 0;
-						transform-origin: 0 0;
-
-				-webkit-transform: scale(0.35);
-				   -moz-transform: scale(0.35);
-					-ms-transform: scale(0.35);
-					 -o-transform: scale(0.35);
-						transform: scale(0.35);
-			}
-
-			.slides {
-				position: relative;
-				margin-bottom: 10px;
-				border: 1px solid black;
-				border-radius: 2px;
-				background: rgb(28, 30, 32);
-			}
-
-			.slides span {
+			#current-slide .label,
+			#next-slide .label {
 				position: absolute;
-				top: 3px;
-				left: 3px;
+				top: 10px;
+				left: 10px;
 				font-weight: bold;
 				font-size: 14px;
 				z-index: 2;
 				color: rgba( 255, 255, 255, 0.9 );
 			}
 
-			.error {
-				font-weight: bold;
-				color: red;
-				font-size: 1.5em;
-				text-align: center;
-				margin-top: 10%;
+			#current-slide {
+				position: absolute;
+				width: 65%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				padding-right: 0;
 			}
 
-			.error code {
-				font-family: monospace;
+			#next-slide {
+				position: absolute;
+				width: 35%;
+				height: 40%;
+				right: 0;
+				top: 0;
 			}
 
-			.time {
-				width: 448px;
-				margin: 30px 0 0 10px;
-				float: left;
-				text-align: center;
-				opacity: 0;
+			#speaker-controls {
+				position: absolute;
+				top: 40%;
+				right: 0;
+				width: 35%;
+				height: 60%;
 
-				-webkit-transition: opacity 0.4s;
-				   -moz-transition: opacity 0.4s;
-				     -o-transition: opacity 0.4s;
-				        transition: opacity 0.4s;
+				font-size: 18px;
 			}
 
-			.elapsed,
-			.clock {
-				color: #333;
-				font-size: 2em;
-				text-align: center;
-				display: inline-block;
-				padding: 0.5em;
-				background-color: #eee;
-				border-radius: 10px;
+				.speaker-controls-time.hidden,
+				.speaker-controls-notes.hidden {
+					display: none;
+				}
+
+				.speaker-controls-time .label,
+				.speaker-controls-notes .label {
+					text-transform: uppercase;
+					font-weight: normal;
+					font-size: 0.66em;
+					color: #666;
+					margin: 0;
+				}
+
+				.speaker-controls-time {
+					border-bottom: 1px solid rgba( 200, 200, 200, 0.5 );
+					margin-bottom: 10px;
+					padding: 10px 16px;
+					padding-bottom: 20px;
+				}
+
+				.speaker-controls-time .timer,
+				.speaker-controls-time .clock {
+					width: 50%;
+					font-size: 1.9em;
+				}
+
+				.speaker-controls-time .timer {
+					float: left;
+				}
+
+				.speaker-controls-time .clock {
+					float: right;
+					text-align: right;
+				}
+
+				.speaker-controls-time span.mute {
+					color: #bbb;
+				}
+
+				.speaker-controls-notes {
+					padding: 10px 16px;
+				}
+
+				.speaker-controls-notes .value {
+					margin-top: 5px;
+					line-height: 1.4;
+					font-size: 1.2em;
+				}
+
+			.clear {
+				clear: both;
 			}
 
-			.elapsed h2,
-			.clock h2 {
-				font-size: 0.8em;
-				line-height: 100%;
-				margin: 0;
-				color: #aaa;
+			@media screen and (max-width: 1080px) {
+				#speaker-controls {
+					font-size: 16px;
+				}
 			}
 
-			.elapsed .mute {
-				color: #ddd;
+			@media screen and (max-width: 900px) {
+				#speaker-controls {
+					font-size: 14px;
+				}
+			}
+
+			@media screen and (max-width: 800px) {
+				#speaker-controls {
+					font-size: 12px;
+				}
 			}
 
 		</style>
@@ -139,21 +140,25 @@
 
 	<body>
 
-		<div id="wrap-current-slide" class="slides"></div>
-		<div id="wrap-next-slide" class="slides"><span>UPCOMING:</span></div>
-
-		<div class="time">
-			<div class="clock">
-				<h2>Time</h2>
-				<span id="clock">0:00:00 AM</span>
+		<div id="current-slide"></div>
+		<div id="next-slide"><span class="label">UPCOMING:</span></div>
+		<div id="speaker-controls">
+			<div class="speaker-controls-time">
+				<h4 class="label">Time</h4>
+				<div class="clock">
+					<span class="clock-value">0:00 AM</span>
+				</div>
+				<div class="timer">
+					<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
+				</div>
+				<div class="clear"></div>
 			</div>
-			<div class="elapsed">
-				<h2>Elapsed</h2>
-				<span id="hours">00</span><span id="minutes">:00</span><span id="seconds">:00</span>
+
+			<div class="speaker-controls-notes hidden">
+				<h4 class="label">Notes</h4>
+				<div class="value"></div>
 			</div>
 		</div>
-
-		<div id="notes"></div>
 
 		<script src="../../plugin/markdown/marked.js"></script>
 		<script>
@@ -161,6 +166,7 @@
 			(function() {
 
 				var notes,
+					notesValue,
 					currentState,
 					currentSlide,
 					nextSlide,
@@ -202,6 +208,7 @@
 						connected = true;
 
 						setupIframes( data );
+						setupNotes();
 						setupTimer();
 					}
 
@@ -217,13 +224,17 @@
 					currentState = JSON.stringify( data.state );
 
 					// No need for updating the notes in case of fragment changes
-					if ( data.notes !== undefined) {
+					if ( data.notes ) {
+						notes.classList.remove( 'hidden' );
 						if( data.markdown ) {
-							notes.innerHTML = marked( data.notes );
+							notesValue.innerHTML = marked( data.notes );
 						}
 						else {
-							notes.innerHTML = data.notes;
+							notesValue.innerHTML = data.notes;
 						}
+					}
+					else {
+						notes.classList.add( 'hidden' );
 					}
 
 					// Update the note slides
@@ -238,24 +249,30 @@
 				 */
 				function setupIframes( data ) {
 
-					notes = document.getElementById( 'notes' );
-
 					var url = data.url + '?receiver&progress=false&overview=false&history=false';
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
 
 					currentSlide = document.createElement( 'iframe' );
-					currentSlide.setAttribute( 'id', 'current-slide' );
 					currentSlide.setAttribute( 'width', 1280 );
 					currentSlide.setAttribute( 'height', 1024 );
 					currentSlide.setAttribute( 'src', url + '&postMessageEvents=true' + hash );
-					document.querySelector( '#wrap-current-slide' ).appendChild( currentSlide );
+					document.querySelector( '#current-slide' ).appendChild( currentSlide );
 
 					nextSlide = document.createElement( 'iframe' );
-					nextSlide.setAttribute( 'id', 'next-slide' );
 					nextSlide.setAttribute( 'width', 640 );
 					nextSlide.setAttribute( 'height', 512 );
 					nextSlide.setAttribute( 'src', url + '&controls=false' + hash );
-					document.querySelector( '#wrap-next-slide' ).appendChild( nextSlide );
+					document.querySelector( '#next-slide' ).appendChild( nextSlide );
+
+				}
+
+				/**
+				 * Setup the notes UI.
+				 */
+				function setupNotes() {
+
+					notes = document.querySelector( '.speaker-controls-notes' );
+					notesValue = document.querySelector( '.speaker-controls-notes .value' );
 
 				}
 
@@ -266,15 +283,13 @@
 				function setupTimer() {
 
 					var start = new Date(),
-						timeEl = document.querySelector( '.time' ),
-						clockEl = document.getElementById( 'clock' ),
-						hoursEl = document.getElementById( 'hours' ),
-						minutesEl = document.getElementById( 'minutes' ),
-						secondsEl = document.getElementById( 'seconds' );
+						timeEl = document.querySelector( '.speaker-controls-time' ),
+						clockEl = timeEl.querySelector( '.clock-value' ),
+						hoursEl = timeEl.querySelector( '.hours-value' ),
+						minutesEl = timeEl.querySelector( '.minutes-value' ),
+						secondsEl = timeEl.querySelector( '.seconds-value' );
 
-					setInterval( function() {
-
-						timeEl.style.opacity = 1;
+					function _updateTimer() {
 
 						var diff, hours, minutes, seconds,
 							now = new Date();
@@ -284,14 +299,20 @@
 						minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
 						seconds = Math.floor( ( diff / 1000 ) % 60 );
 
-						clockEl.innerHTML = now.toLocaleTimeString();
+						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
 						hoursEl.innerHTML = zeroPadInteger( hours );
 						hoursEl.className = hours > 0 ? '' : 'mute';
 						minutesEl.innerHTML = ':' + zeroPadInteger( minutes );
 						minutesEl.className = minutes > 0 ? '' : 'mute';
 						secondsEl.innerHTML = ':' + zeroPadInteger( seconds );
 
-					}, 1000 );
+					}
+
+					// Update once directly
+					_updateTimer();
+
+					// Then update every second
+					setInterval( _updateTimer, 1000 );
 
 				}
 
