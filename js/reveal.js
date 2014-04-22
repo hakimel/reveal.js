@@ -507,7 +507,9 @@ var Reveal = (function(){
 		};
 
 		var element = document.createElement( 'div' );
-		element.className = 'slide-background';
+
+		// Carry over custom classes from the slide to the background
+		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
 
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
@@ -2036,14 +2038,18 @@ var Reveal = (function(){
 		// states of their slides (past/present/future)
 		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
+			backgroundh.classList.remove( 'past' );
+			backgroundh.classList.remove( 'present' );
+			backgroundh.classList.remove( 'future' );
+
 			if( h < indexh ) {
-				backgroundh.className = 'slide-background ' + horizontalPast;
+				backgroundh.classList.add( horizontalPast );
 			}
 			else if ( h > indexh ) {
-				backgroundh.className = 'slide-background ' + horizontalFuture;
+				backgroundh.classList.add( horizontalFuture );
 			}
 			else {
-				backgroundh.className = 'slide-background present';
+				backgroundh.classList.add( 'present' );
 
 				// Store a reference to the current background element
 				currentBackground = backgroundh;
@@ -2052,14 +2058,18 @@ var Reveal = (function(){
 			if( includeAll || h === indexh ) {
 				toArray( backgroundh.querySelectorAll( '.slide-background' ) ).forEach( function( backgroundv, v ) {
 
+					backgroundv.classList.remove( 'past' );
+					backgroundv.classList.remove( 'present' );
+					backgroundv.classList.remove( 'future' );
+
 					if( v < indexv ) {
-						backgroundv.className = 'slide-background past';
+						backgroundv.classList.add( 'past' );
 					}
 					else if ( v > indexv ) {
-						backgroundv.className = 'slide-background future';
+						backgroundv.classList.add( 'future' );
 					}
 					else {
-						backgroundv.className = 'slide-background present';
+						backgroundv.classList.add( 'present' );
 
 						// Only if this is the present horizontal and vertical slide
 						if( h === indexh ) currentBackground = backgroundv;
