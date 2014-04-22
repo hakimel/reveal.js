@@ -2172,9 +2172,27 @@ var Reveal = (function(){
 	 */
 	function loadSlide( slide ) {
 
-		toArray( slide.querySelectorAll( 'img[data-src]' ) ).forEach( function( element ) {
+		// Media elements with data-src attributes
+		toArray( slide.querySelectorAll( 'img[data-src], video[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 			element.removeAttribute( 'data-src' );
+		} );
+
+		// Video elements with multiple <source>s
+		toArray( slide.querySelectorAll( 'video' ) ).forEach( function( video ) {
+			var sources = 0;
+
+			toArray( slide.querySelectorAll( 'source[data-src]' ) ).forEach( function( source ) {
+				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
+				source.removeAttribute( 'data-src' );
+				sources += 1;
+			} );
+
+			// If we rewrote sources for this video, we need to manually
+			// tell it to load from its new origin
+			if( sources > 0 ) {
+				video.load();
+			}
 		} );
 
 	}
