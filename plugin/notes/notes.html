@@ -249,7 +249,13 @@
 				 */
 				function setupIframes( data ) {
 
-					var url = data.url + '?receiver&progress=false&overview=false&history=false';
+					var params = [
+						'receiver',
+						'progress=false',
+						'history=false'
+					];
+
+					var url = data.url + '?' + params.join( '&' );
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
 
 					currentSlide = document.createElement( 'iframe' );
@@ -261,7 +267,7 @@
 					nextSlide = document.createElement( 'iframe' );
 					nextSlide.setAttribute( 'width', 640 );
 					nextSlide.setAttribute( 'height', 512 );
-					nextSlide.setAttribute( 'src', url + '&controls=false' + hash );
+					nextSlide.setAttribute( 'src', url + '&controls=false&transition=none&backgroundTransition=none' + hash );
 					document.querySelector( '#next-slide' ).appendChild( nextSlide );
 
 				}

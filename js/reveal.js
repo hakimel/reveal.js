@@ -968,8 +968,6 @@ var Reveal = (function(){
 	 */
 	function dispatchEvent( type, args ) {
 
-		console.log('event', type);
-
 		var event = document.createEvent( 'HTMLEvents', 1, 2 );
 		event.initEvent( type, true, true );
 		extend( event, args );
@@ -2498,8 +2496,17 @@ var Reveal = (function(){
 
 		if( typeof state === 'object' ) {
 			slide( deserialize( state.indexh ), deserialize( state.indexv ), deserialize( state.indexf ) );
-			togglePause( deserialize( state.paused ) );
-			toggleOverview( deserialize( state.overview ) );
+
+			var pausedFlag = deserialize( state.paused ),
+				overviewFlag = deserialize( state.overview );
+
+			if( typeof pausedFlag === 'boolean' && pausedFlag !== isPaused() ) {
+				togglePause( pausedFlag );
+			}
+
+			if( typeof overviewFlag === 'boolean' && overviewFlag !== isOverview() ) {
+				toggleOverview( overviewFlag );
+			}
 		}
 
 	}
