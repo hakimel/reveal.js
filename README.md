@@ -13,7 +13,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 
 ## Online Editor
 
-Presentations are written using HTML or markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [http://slid.es](http://slid.es).
+Presentations are written using HTML or markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [http://slides.com](http://slides.com).
 
 
 ## Instructions
@@ -291,6 +291,22 @@ Reveal.configure({
     32: null // don't do anything when SPACE is pressed (i.e. disable a reveal.js default binding)
   }
 });
+```
+
+### Lazy Loading
+
+When working on presentation with a lot of image, video and audio content it's important to load lazily. Lazy loading means that reveal.js will only load the media for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
+
+To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video and audio elements.
+
+```html
+<section>
+  <img data-src="image.png">
+  <video>
+    <source data-src="video.webm" type="video/webm" />
+    <source data-src="video.mp4" type="video/mp4" />
+  </video>
+</section>
 ```
 
 

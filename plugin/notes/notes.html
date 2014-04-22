@@ -11,7 +11,7 @@
 			}
 
 			#current-slide,
-			#next-slide,
+			#upcoming-slide,
 			#speaker-controls {
 				padding: 6px;
 				box-sizing: border-box;
@@ -19,14 +19,14 @@
 			}
 
 			#current-slide iframe,
-			#next-slide iframe {
+			#upcoming-slide iframe {
 				width: 100%;
 				height: 100%;
 				border: 1px solid #ddd;
 			}
 
 			#current-slide .label,
-			#next-slide .label {
+			#upcoming-slide .label {
 				position: absolute;
 				top: 10px;
 				left: 10px;
@@ -45,7 +45,7 @@
 				padding-right: 0;
 			}
 
-			#next-slide {
+			#upcoming-slide {
 				position: absolute;
 				width: 35%;
 				height: 40%;
@@ -141,7 +141,7 @@
 	<body>
 
 		<div id="current-slide"></div>
-		<div id="next-slide"><span class="label">UPCOMING:</span></div>
+		<div id="upcoming-slide"><span class="label">UPCOMING:</span></div>
 		<div id="speaker-controls">
 			<div class="speaker-controls-time">
 				<h4 class="label">Time</h4>
@@ -169,7 +169,7 @@
 					notesValue,
 					currentState,
 					currentSlide,
-					nextSlide,
+					upcomingSlide,
 					connected = false;
 
 				window.addEventListener( 'message', function( event ) {
@@ -239,30 +239,42 @@
 
 					// Update the note slides
 					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
-					nextSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
-					nextSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
+					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
 
 				}
+
+				// Limit to max one state update per X ms
+				handleStateMessage = debounce( handleStateMessage, 200 );
 
 				/**
 				 * Creates the preview iframes.
 				 */
 				function setupIframes( data ) {
 
-					var url = data.url + '?receiver&progress=false&overview=false&history=false';
+					var params = [
+						'receiver',
+						'progress=false',
+						'history=false',
+						'transition=none',
+						'backgroundTransition=none'
+					].join( '&' );
+
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
+					var currentURL = data.url + '?' + params + '&postMessageEvents=true' + hash;
+					var upcomingURL = data.url + '?' + params + '&controls=false' + hash;
 
 					currentSlide = document.createElement( 'iframe' );
 					currentSlide.setAttribute( 'width', 1280 );
 					currentSlide.setAttribute( 'height', 1024 );
-					currentSlide.setAttribute( 'src', url + '&postMessageEvents=true' + hash );
+					currentSlide.setAttribute( 'src', currentURL );
 					document.querySelector( '#current-slide' ).appendChild( currentSlide );
 
-					nextSlide = document.createElement( 'iframe' );
-					nextSlide.setAttribute( 'width', 640 );
-					nextSlide.setAttribute( 'height', 512 );
-					nextSlide.setAttribute( 'src', url + '&controls=false' + hash );
-					document.querySelector( '#next-slide' ).appendChild( nextSlide );
+					upcomingSlide = document.createElement( 'iframe' );
+					upcomingSlide.setAttribute( 'width', 640 );
+					upcomingSlide.setAttribute( 'height', 512 );
+					upcomingSlide.setAttribute( 'src', upcomingURL );
+					document.querySelector( '#upcoming-slide' ).appendChild( upcomingSlide );
 
 				}
 
@@ -320,6 +332,37 @@
 
 					var str = '00' + parseInt( num );
 					return str.substring( str.length - 2 );
+
+				}
+
+				/**
+				 * Limits the frequency at which a function can be called.
+				 */
+				function debounce( fn, ms ) {
+
+					var lastTime = 0,
+						timeout;
+
+					return function() {
+
+						var args = arguments;
+						var context = this;
+
+						clearTimeout( timeout );
+
+						var timeSinceLastCall = Date.now() - lastTime;
+						if( timeSinceLastCall > ms ) {
+							fn.apply( context, args );
+							lastTime = Date.now();
+						}
+						else {
+							timeout = setTimeout( function() {
+								fn.apply( context, args );
+								lastTime = Date.now();
+							}, ms - timeSinceLastCall );
+						}
+
+					}
 
 				}
 
