@@ -560,7 +560,7 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	top: -40px;
+	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
@@ -622,6 +622,10 @@ body {
 .reveal .slides>section.visible,
 .reveal .slides>section>section.visible {
 	display: block;
+}
+
+.reveal.center .slides {
+	top: -40px;
 }
 
 .reveal.center .slides,
