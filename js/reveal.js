@@ -575,11 +575,16 @@ var Reveal = (function(){
 
 		if( config.postMessage ) {
 			window.addEventListener( 'message', function ( event ) {
-				var data = JSON.parse( event.data );
-				var method = Reveal[data.method];
+				var data = event.data;
 
-				if( typeof method === 'function' ) {
-					method.apply( Reveal, data.args );
+				// Make sure we're dealing with JSON
+				if( data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
+					data = JSON.parse( data );
+
+					// Check if the requested method can be found
+					if( data.method && typeof Reveal[data.method] === 'function' ) {
+						Reveal[data.method].apply( Reveal, data.args );
+					}
 				}
 			}, false );
 		}
