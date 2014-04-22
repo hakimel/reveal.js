@@ -450,6 +450,18 @@ Reveal.addEventListener( 'ready', function() {
 
 
 	// ---------------------------------------------------------------
+	// LAZY-LOADING TESTS
+
+	QUnit.module( 'Lazy-Loading' );
+
+	test( 'img with data-src', function() {
+		strictEqual( document.querySelectorAll( '.reveal section img[src]' ).length, 1, 'Image source has been set' );
+
+		strictEqual( document.querySelectorAll( '.reveal section video source[src]' ).length, 2, 'Video sources have been set' );
+	});
+
+
+	// ---------------------------------------------------------------
 	// EVENT TESTS
 
 	QUnit.module( 'Events' );
