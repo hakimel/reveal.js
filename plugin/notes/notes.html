@@ -11,7 +11,7 @@
 			}
 
 			#current-slide,
-			#next-slide,
+			#upcoming-slide,
 			#speaker-controls {
 				padding: 6px;
 				box-sizing: border-box;
@@ -19,14 +19,14 @@
 			}
 
 			#current-slide iframe,
-			#next-slide iframe {
+			#upcoming-slide iframe {
 				width: 100%;
 				height: 100%;
 				border: 1px solid #ddd;
 			}
 
 			#current-slide .label,
-			#next-slide .label {
+			#upcoming-slide .label {
 				position: absolute;
 				top: 10px;
 				left: 10px;
@@ -45,7 +45,7 @@
 				padding-right: 0;
 			}
 
-			#next-slide {
+			#upcoming-slide {
 				position: absolute;
 				width: 35%;
 				height: 40%;
@@ -141,7 +141,7 @@
 	<body>
 
 		<div id="current-slide"></div>
-		<div id="next-slide"><span class="label">UPCOMING:</span></div>
+		<div id="upcoming-slide"><span class="label">UPCOMING:</span></div>
 		<div id="speaker-controls">
 			<div class="speaker-controls-time">
 				<h4 class="label">Time</h4>
@@ -169,7 +169,7 @@
 					notesValue,
 					currentState,
 					currentSlide,
-					nextSlide,
+					upcomingSlide,
 					connected = false;
 
 				window.addEventListener( 'message', function( event ) {
@@ -239,8 +239,8 @@
 
 					// Update the note slides
 					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
-					nextSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
-					nextSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
+					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
 
 				}
 
@@ -249,26 +249,37 @@
 				 */
 				function setupIframes( data ) {
 
-					var params = [
+					var currentParams = [
 						'receiver',
 						'progress=false',
-						'history=false'
-					];
+						'history=false',
+						'postMessageEvents=true'
+					].join( '&' );
 
-					var url = data.url + '?' + params.join( '&' );
+					var upcomingParams = [
+						'receiver',
+						'progress=false',
+						'history=false',
+						'controls=false',
+						'transition=none',
+						'backgroundTransition=none'
+					].join( '&' );
+
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
+					var currentURL = data.url + '?' + currentParams + hash;
+					var upcomingURL = data.url + '?' + upcomingParams + hash;
 
 					currentSlide = document.createElement( 'iframe' );
 					currentSlide.setAttribute( 'width', 1280 );
 					currentSlide.setAttribute( 'height', 1024 );
-					currentSlide.setAttribute( 'src', url + '&postMessageEvents=true' + hash );
+					currentSlide.setAttribute( 'src', currentURL );
 					document.querySelector( '#current-slide' ).appendChild( currentSlide );
 
-					nextSlide = document.createElement( 'iframe' );
-					nextSlide.setAttribute( 'width', 640 );
-					nextSlide.setAttribute( 'height', 512 );
-					nextSlide.setAttribute( 'src', url + '&controls=false&transition=none&backgroundTransition=none' + hash );
-					document.querySelector( '#next-slide' ).appendChild( nextSlide );
+					upcomingSlide = document.createElement( 'iframe' );
+					upcomingSlide.setAttribute( 'width', 640 );
+					upcomingSlide.setAttribute( 'height', 512 );
+					upcomingSlide.setAttribute( 'src', upcomingURL );
+					document.querySelector( '#upcoming-slide' ).appendChild( upcomingSlide );
 
 				}
 
