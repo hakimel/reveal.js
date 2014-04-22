@@ -1905,6 +1905,11 @@ var Reveal = (function(){
 				viewDistance = isOverview() ? 6 : 1;
 			}
 
+			// Limit view distance on weaker devices
+			if( isPrintingPDF() ) {
+				viewDistance = Number.MAX_VALUE;
+			}
+
 			for( var x = 0; x < horizontalSlidesLength; x++ ) {
 				var horizontalSlide = horizontalSlides[x];
 
@@ -1915,7 +1920,13 @@ var Reveal = (function(){
 				distanceX = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
 
 				// Show the horizontal slide if it's within the view distance
-				horizontalSlide.style.display = distanceX > viewDistance ? 'none' : 'block';
+				if( distanceX < viewDistance ) {
+					horizontalSlide.style.display = 'block';
+					loadSlide( horizontalSlide );
+				}
+				else {
+					horizontalSlide.style.display = 'none';
+				}
 
 				if( verticalSlidesLength ) {
 
@@ -1926,7 +1937,13 @@ var Reveal = (function(){
 
 						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
 
-						verticalSlide.style.display = ( distanceX + distanceY ) > viewDistance ? 'none' : 'block';
+						if( distanceX + distanceY < viewDistance ) {
+							verticalSlide.style.display = 'block';
+							loadSlide( verticalSlide );
+						}
+						else {
+							verticalSlide.style.display = 'none';
+						}
 					}
 
 				}
@@ -2146,6 +2163,19 @@ var Reveal = (function(){
 			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
 
 		}
+
+	}
+
+	/**
+	 * Loads any content that is set to load lazily (data-src)
+	 * inside of the given slide.
+	 */
+	function loadSlide( slide ) {
+
+		toArray( slide.querySelectorAll( 'img[data-src]' ) ).forEach( function( element ) {
+			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+			element.removeAttribute( 'data-src' );
+		} );
 
 	}
 
