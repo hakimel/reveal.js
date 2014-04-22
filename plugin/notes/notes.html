@@ -244,6 +244,9 @@
 
 				}
 
+				// Limit to max one state update per X ms
+				handleStateMessage = debounce( handleStateMessage, 200 );
+
 				/**
 				 * Creates the preview iframes.
 				 */
@@ -337,6 +340,37 @@
 
 					var str = '00' + parseInt( num );
 					return str.substring( str.length - 2 );
+
+				}
+
+				/**
+				 * Limits the frequency at which a function can be called.
+				 */
+				function debounce( fn, ms ) {
+
+					var lastTime = 0,
+						timeout;
+
+					return function() {
+
+						var args = arguments;
+						var context = this;
+
+						clearTimeout( timeout );
+
+						var timeSinceLastCall = Date.now() - lastTime;
+						if( timeSinceLastCall > ms ) {
+							fn.apply( context, args );
+							lastTime = Date.now();
+						}
+						else {
+							timeout = setTimeout( function() {
+								fn.apply( context, args );
+								lastTime = Date.now();
+							}, ms - timeSinceLastCall );
+						}
+
+					}
 
 				}
 
