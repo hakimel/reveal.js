@@ -252,25 +252,17 @@
 				 */
 				function setupIframes( data ) {
 
-					var currentParams = [
+					var params = [
 						'receiver',
 						'progress=false',
 						'history=false',
-						'postMessageEvents=true'
-					].join( '&' );
-
-					var upcomingParams = [
-						'receiver',
-						'progress=false',
-						'history=false',
-						'controls=false',
 						'transition=none',
 						'backgroundTransition=none'
 					].join( '&' );
 
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
-					var currentURL = data.url + '?' + currentParams + hash;
-					var upcomingURL = data.url + '?' + upcomingParams + hash;
+					var currentURL = data.url + '?' + params + '&postMessageEvents=true' + hash;
+					var upcomingURL = data.url + '?' + params + '&controls=false' + hash;
 
 					currentSlide = document.createElement( 'iframe' );
 					currentSlide.setAttribute( 'width', 1280 );
