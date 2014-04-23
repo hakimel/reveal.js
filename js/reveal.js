@@ -2272,7 +2272,10 @@ var Reveal = (function(){
 		if( !slide && currentSlide ) {
 			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
 			if( hasFragments ) {
-				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
+				var selector = '.fragment.visible';
+				var hasCountFragments = currentSlide.querySelectorAll( '[data-fragment-count]' ).length > 0;
+				if (hasCountFragments) selector = '[data-fragment-count]' + selector;
+				var visibleFragments = currentSlide.querySelectorAll( selector );
 				f = visibleFragments.length - 1;
 			}
 		}
