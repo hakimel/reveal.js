@@ -333,6 +333,11 @@ var Reveal = (function(){
 		// Update all backgrounds
 		updateBackground( true );
 
+		// Special setup and config is required when printing to PDF
+		if( isPrintingPDF() ) {
+			setupPDF();
+		}
+
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( function() {
@@ -402,6 +407,66 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Configures the presentation for printing to a static
+	 * PDF.
+	 */
+	function setupPDF() {
+
+		// Dimensions of the content
+		var pageWidth = 1122,
+			pageHeight = 867;
+
+		var slideWidth = 960,
+			slideHeight = 700;
+
+		document.body.classList.add( 'print-pdf' );
+		document.body.style.width = pageWidth + 'px';
+		document.body.style.height = pageHeight + 'px';
+
+		// Slide and slide background layout
+		toArray( document.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+
+			// Vertical stacks are not centred since their section
+			// children will be
+			if( slide.classList.contains( 'stack' ) ) {
+				slide.style.top = 0;
+			}
+			else {
+				var left = ( pageWidth - slideWidth ) / 2;
+				var top = ( pageHeight - slideHeight ) / 2;
+
+				if( config.center || slide.classList.contains( 'center' ) ) {
+					top = Math.max( ( pageHeight - getAbsoluteHeight( slide ) ) / 2, 0 );
+				}
+
+				slide.style.left = left + 'px';
+				slide.style.top = top + 'px';
+				slide.style.width = slideWidth + 'px';
+				slide.style.height = slideHeight + 'px';
+
+				if( slide.scrollHeight > slideHeight ) {
+					slide.style.overflow = 'hidden';
+				}
+
+				var background = slide.querySelector( '.slide-background' );
+				if( background ) {
+					background.style.width = pageWidth + 'px';
+					background.style.height = pageHeight + 'px';
+					background.style.top = -top + 'px';
+					background.style.left = -left + 'px';
+				}
+			}
+
+		} );
+
+		// Show all fragments
+		toArray( document.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
+			fragment.classList.add( 'visible' );
+		} );
+
+	}
+
+	/**
 	 * Creates an HTML element and returns a reference to it.
 	 * If the element already exists the existing instance will
 	 * be returned.
@@ -428,9 +493,7 @@ var Reveal = (function(){
 	 */
 	function createBackgrounds() {
 
-		if( isPrintingPDF() ) {
-			document.body.classList.add( 'print-pdf' );
-		}
+		var printMode = isPrintingPDF();
 
 		// Clear prior backgrounds
 		dom.background.innerHTML = '';
@@ -441,7 +504,7 @@ var Reveal = (function(){
 
 			var backgroundStack;
 
-			if( isPrintingPDF() ) {
+			if( printMode ) {
 				backgroundStack = createBackground( slideh, slideh );
 			}
 			else {
@@ -451,7 +514,7 @@ var Reveal = (function(){
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
-				if( isPrintingPDF() ) {
+				if( printMode ) {
 					createBackground( slidev, slidev );
 				}
 				else {
@@ -887,7 +950,7 @@ var Reveal = (function(){
 
 				if( typeof child.offsetTop === 'number' && child.style ) {
 					// Count # of abs children
-					if( child.style.position === 'absolute' ) {
+					if( window.getComputedStyle( child ).position === 'absolute' ) {
 						absoluteChildren += 1;
 					}
 
