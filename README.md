@@ -295,13 +295,14 @@ Reveal.configure({
 
 ### Lazy Loading
 
-When working on presentation with a lot of image, video and audio content it's important to load lazily. Lazy loading means that reveal.js will only load the media for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
+When working on presentation with a lot of media or iframe content it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
 
-To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video and audio elements.
+To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements.
 
 ```html
 <section>
   <img data-src="image.png">
+  <iframe data-src="http://slides.com">
   <video>
     <source data-src="video.webm" type="video/webm" />
     <source data-src="video.mp4" type="video/mp4" />
