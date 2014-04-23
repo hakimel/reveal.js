@@ -412,10 +412,11 @@ var Reveal = (function(){
 	 */
 	function setupPDF() {
 
-		// Dimensions of the content
+		// Dimensions of the PDF pages
 		var pageWidth = 1122,
 			pageHeight = 867;
 
+		// Dimensions of slides within the pages
 		var slideWidth = 960,
 			slideHeight = 700;
 
@@ -428,12 +429,9 @@ var Reveal = (function(){
 
 			// Vertical stacks are not centred since their section
 			// children will be
-			if( slide.classList.contains( 'stack' ) ) {
-				slide.style.top = 0;
-			}
-			else {
-				var left = ( pageWidth - slideWidth ) / 2;
-				var top = ( pageHeight - slideHeight ) / 2;
+			if( slide.classList.contains( 'stack' ) === false ) {
+				var left = ( pageWidth - slideWidth ) / 2,
+					top = ( pageHeight - slideHeight ) / 2;
 
 				if( config.center || slide.classList.contains( 'center' ) ) {
 					top = Math.max( ( pageHeight - getAbsoluteHeight( slide ) ) / 2, 0 );
