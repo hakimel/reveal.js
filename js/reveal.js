@@ -1877,7 +1877,7 @@ var Reveal = (function(){
 				indexString += ' - ' + indexv;
 			}
 
-			dom.slideNumber.innerHTML = indexString;
+			dom.slideNumber.innerHTML = indexString + 1;
 		}
 
 	}
@@ -2700,21 +2700,21 @@ var Reveal = (function(){
 
 			switch( event.keyCode ) {
 				// p, page up
-				case 80: case 33: navigatePrev(); break;
+				case 80: case 33: if(document.querySelectorAll('.print-pdf').length == 0) navigatePrev(); else return true; break;
 				// n, page down
-				case 78: case 34: navigateNext(); break;
+				case 78: case 34: if(document.querySelectorAll('.print-pdf').length == 0) navigateNext(); else return true; break;
 				// h, left
-				case 72: case 37: navigateLeft(); break;
+				case 72: case 37: if(document.querySelectorAll('.print-pdf').length == 0) navigateLeft(); else return true; break;
 				// l, right
-				case 76: case 39: navigateRight(); break;
+				case 76: case 39: if(document.querySelectorAll('.print-pdf').length == 0) navigateRight(); else return true; break;
 				// k, up
-				case 75: case 38: navigateUp(); break;
+				case 75: case 38: if(document.querySelectorAll('.print-pdf').length == 0) navigateUp(); else return true; break;
 				// j, down
-				case 74: case 40: navigateDown(); break;
+				case 74: case 40: if(document.querySelectorAll('.print-pdf').length == 0) navigateDown(); else return true; break;
 				// home
-				case 36: slide( 0 ); break;
+				case 36: if(document.querySelectorAll('.print-pdf').length == 0) slide( 0 ); else return true; break;
 				// end
-				case 35: slide( Number.MAX_VALUE ); break;
+				case 35: if(document.querySelectorAll('.print-pdf').length == 0) slide( document.querySelectorAll( SLIDES_SELECTOR ).length - 1 ); else return true; break;
 				// space
 				case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
 				// return
