@@ -1,0 +1,132 @@
+/*
+Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine (@thingsinjars)
+*/
+
+.hljs {
+  display: block; padding: 0.5em;
+  color: #000;
+  background: #f8f8ff
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.diff .hljs-header,
+.hljs-javadoc {
+  color: #408080;
+  font-style: italic
+}
+
+.hljs-keyword,
+.assignment,
+.hljs-literal,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.javascript .hljs-title,
+.lisp .hljs-title,
+.hljs-subst {
+  color: #954121;
+}
+
+.hljs-number,
+.hljs-hexcolor {
+  color: #40a070
+}
+
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.tex .hljs-formula {
+  color: #219161;
+}
+
+.hljs-title,
+.hljs-id {
+  color: #19469D;
+}
+.hljs-params {
+  color: #00F;
+}
+
+.javascript .hljs-title,
+.lisp .hljs-title,
+.hljs-subst {
+  font-weight: normal
+}
+
+.hljs-class .hljs-title,
+.haskell .hljs-label,
+.tex .hljs-command {
+  color: #458;
+  font-weight: bold
+}
+
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rules .hljs-property,
+.django .hljs-tag .hljs-keyword {
+  color: #000080;
+  font-weight: normal
+}
+
+.hljs-attribute,
+.hljs-variable,
+.instancevar,
+.lisp .hljs-body {
+  color: #008080
+}
+
+.hljs-regexp {
+  color: #B68
+}
+
+.hljs-class {
+  color: #458;
+  font-weight: bold
+}
+
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.ruby .hljs-symbol .hljs-keyword,
+.ruby .hljs-symbol .keymethods,
+.lisp .hljs-keyword,
+.tex .hljs-special,
+.input_number {
+  color: #990073
+}
+
+.builtin,
+.constructor,
+.hljs-built_in,
+.lisp .hljs-title {
+  color: #0086b3
+}
+
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
+  color: #999;
+  font-weight: bold
+}
+
+.hljs-deletion {
+  background: #fdd
+}
+
+.hljs-addition {
+  background: #dfd
+}
+
+.diff .hljs-change {
+  background: #0086b3
+}
+
+.hljs-chunk {
+  color: #aaa
+}
+
+.tex .hljs-formula {
+  opacity: 0.5;
+}

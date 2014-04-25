@@ -1,0 +1,158 @@
+/*
+
+XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>
+
+*/
+
+.hljs {
+  display: block; padding: 0.5em;
+  background: #fff; color: black;
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.hljs-javadoc,
+.hljs-comment * {
+  color: #006a00;
+}
+
+.hljs-keyword,
+.hljs-literal,
+.nginx .hljs-title {
+  color: #aa0d91;
+}
+.method,
+.hljs-list .hljs-title,
+.hljs-tag .hljs-title,
+.setting .hljs-value,
+.hljs-winutils,
+.tex .hljs-command,
+.http .hljs-title,
+.hljs-request,
+.hljs-status {
+  color: #008;
+}
+
+.hljs-envvar,
+.tex .hljs-special {
+  color: #660;
+}
+
+.hljs-string {
+  color: #c41a16;
+}
+.hljs-tag .hljs-value,
+.hljs-cdata,
+.hljs-filter .hljs-argument,
+.hljs-attr_selector,
+.apache .hljs-cbracket,
+.hljs-date,
+.hljs-regexp {
+  color: #080;
+}
+
+.hljs-sub .hljs-identifier,
+.hljs-pi,
+.hljs-tag,
+.hljs-tag .hljs-keyword,
+.hljs-decorator,
+.ini .hljs-title,
+.hljs-shebang,
+.hljs-prompt,
+.hljs-hexcolor,
+.hljs-rules .hljs-value,
+.css .hljs-value .hljs-number,
+.hljs-symbol,
+.hljs-symbol .hljs-string,
+.hljs-number,
+.css .hljs-function,
+.clojure .hljs-title,
+.clojure .hljs-built_in,
+.hljs-function .hljs-title,
+.coffeescript .hljs-attribute {
+  color: #1c00cf;
+}
+
+.hljs-class .hljs-title,
+.haskell .hljs-type,
+.smalltalk .hljs-class,
+.hljs-javadoctag,
+.hljs-yardoctag,
+.hljs-phpdoc,
+.hljs-typename,
+.hljs-tag .hljs-attribute,
+.hljs-doctype,
+.hljs-class .hljs-id,
+.hljs-built_in,
+.setting,
+.hljs-params,
+.clojure .hljs-attribute {
+  color: #5c2699;
+}
+
+.hljs-variable {
+ color: #3f6e74;
+}
+.css .hljs-tag,
+.hljs-rules .hljs-property,
+.hljs-pseudo,
+.hljs-subst {
+  color: #000;
+}
+
+.css .hljs-class,
+.css .hljs-id {
+  color: #9B703F;
+}
+
+.hljs-value .hljs-important {
+  color: #ff7700;
+  font-weight: bold;
+}
+
+.hljs-rules .hljs-keyword {
+  color: #C5AF75;
+}
+
+.hljs-annotation,
+.apache .hljs-sqbracket,
+.nginx .hljs-built_in {
+  color: #9B859D;
+}
+
+.hljs-preprocessor,
+.hljs-preprocessor *,
+.hljs-pragma {
+  color: #643820;
+}
+
+.tex .hljs-formula {
+  background-color: #EEE;
+  font-style: italic;
+}
+
+.diff .hljs-header,
+.hljs-chunk {
+  color: #808080;
+  font-weight: bold;
+}
+
+.diff .hljs-change {
+  background-color: #BCCFF9;
+}
+
+.hljs-addition {
+  background-color: #BAEEBA;
+}
+
+.hljs-deletion {
+  background-color: #FFC8BD;
+}
+
+.hljs-comment .hljs-yardoctag {
+  font-weight: bold;
+}
+
+.method .hljs-id {
+  color: #000;
+}

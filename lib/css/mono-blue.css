@@ -1,0 +1,62 @@
+/*
+  Five-color theme from a single blue hue.
+*/
+.hljs {
+  display: block; padding: 0.5em;
+  background: #EAEEF3; color: #00193A;
+}
+
+.hljs-keyword,
+.hljs-title,
+.hljs-important,
+.hljs-request,
+.hljs-header,
+.hljs-javadoctag {
+  font-weight: bold;
+}
+
+.hljs-comment,
+.hljs-chunk,
+.hljs-template_comment {
+  color: #738191;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-parent,
+.hljs-built_in,
+.hljs-literal,
+.hljs-filename,
+.hljs-value,
+.hljs-addition,
+.hljs-tag,
+.hljs-argument,
+.hljs-link_label,
+.hljs-blockquote,
+.hljs-header {
+  color: #0048AB;
+}
+
+.hljs-decorator,
+.hljs-prompt,
+.hljs-yardoctag,
+.hljs-subst,
+.hljs-symbol,
+.hljs-doctype,
+.hljs-regexp,
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-attribute,
+.hljs-attr_selector,
+.hljs-javadoc,
+.hljs-xmlDocTag,
+.hljs-deletion,
+.hljs-shebang,
+.hljs-string .hljs-variable,
+.hljs-link_url,
+.hljs-bullet,
+.hljs-sqbracket,
+.hljs-phony {
+  color: #4C81C9;
+}

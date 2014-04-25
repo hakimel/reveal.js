@@ -1,0 +1,106 @@
+/*
+
+Pojoaque Style by Jason Tate
+http://web-cms-designs.com/ftopict-10-pojoaque-style-for-highlight-js-code-highlighter.html
+Based on Solarized Style from http://ethanschoonover.com/solarized
+
+*/
+
+.hljs {
+  display: block; padding: 0.5em;
+  color: #DCCF8F;
+  background: url(./pojoaque.jpg) repeat scroll left top #181914;
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.diff .hljs-header,
+.hljs-doctype,
+.lisp .hljs-string,
+.hljs-javadoc {
+  color: #586e75;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.javascript .hljs-title,
+.method,
+.hljs-addition,
+.css .hljs-tag,
+.clojure .hljs-title,
+.nginx .hljs-title {
+  color: #B64926;
+}
+
+.hljs-number,
+.hljs-command,
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.tex .hljs-formula,
+.hljs-regexp,
+.hljs-hexcolor {
+  color: #468966;
+}
+
+.hljs-title,
+.hljs-localvars,
+.hljs-function .hljs-title,
+.hljs-chunk,
+.hljs-decorator,
+.hljs-built_in,
+.lisp .hljs-title,
+.clojure .hljs-built_in,
+.hljs-identifier,
+.hljs-id {
+  color: #FFB03B;
+}
+
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body,
+.smalltalk .hljs-number,
+.hljs-constant,
+.hljs-class .hljs-title,
+.hljs-parent,
+.haskell .hljs-type {
+  color: #b58900;
+}
+
+.css .hljs-attribute {
+  color: #b89859;
+}
+
+.css .hljs-number,
+.css .hljs-hexcolor {
+  color: #DCCF8F;
+}
+
+.css .hljs-class {
+  color: #d3a60c;
+}
+
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-shebang,
+.hljs-symbol,
+.hljs-symbol .hljs-string,
+.diff .hljs-change,
+.hljs-special,
+.hljs-attr_selector,
+.hljs-important,
+.hljs-subst,
+.hljs-cdata {
+  color: #cb4b16;
+}
+
+.hljs-deletion {
+  color: #dc322f;
+}
+
+.tex .hljs-formula {
+  background: #073642;
+}
