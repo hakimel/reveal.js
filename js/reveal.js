@@ -412,13 +412,18 @@ var Reveal = (function(){
 	 */
 	function setupPDF() {
 
+		// The aspect ratio of pages when saving to PDF in Chrome,
+		// we need to abide by this ratio when determining the pixel
+		// size of our pages
+		var pageAspectRatio = 1.295;
+
 		// Dimensions of the PDF pages
-		var pageWidth = 1122,
-			pageHeight = 867;
+		var pageWidth = config.width * 1.3,
+			pageHeight = Math.round( pageWidth / pageAspectRatio );
 
 		// Dimensions of slides within the pages
-		var slideWidth = 960,
-			slideHeight = 700;
+		var slideWidth = config.width,
+			slideHeight = config.height;
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
