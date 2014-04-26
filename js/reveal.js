@@ -2014,7 +2014,7 @@ var Reveal = (function(){
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
-					horizontalSlide.style.display = '';
+					horizontalSlide.style.display = 'block';
 					loadSlide( horizontalSlide );
 				}
 				else {
@@ -2031,7 +2031,7 @@ var Reveal = (function(){
 						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
 
 						if( distanceX + distanceY < viewDistance ) {
-							verticalSlide.style.display = '';
+							verticalSlide.style.display = 'block';
 							loadSlide( verticalSlide );
 						}
 						else {
