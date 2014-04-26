@@ -475,6 +475,21 @@ The display order of fragments can be controlled using the ```data-fragment-inde
 </section>
 ```
 
+The same ```data-fragment-index`` value can be used on multiple fragments to make them animate at the same time. Consider this example which will fade out the previous fragment as the next one fades in. Also note the use of `data-fragment-count`, this attribute must be used to indicate which fragments should be counted as `visible` when using the notes view.
+
+```html
+<section>
+	<span data-fragment-index="1" class="fragment fade-out">One</span>
+	<span data-fragment-count data-fragment-index="1" class="fragment fade-in">
+		<span data-fragment-index="2" class="fragment fade-out">at</span>
+	</span>
+	<span data-fragment-count data-fragment-index="2" class="fragment fade-in">
+		<span data-fragment-index="3" class="fragment fade-out">a</span>
+	</span>
+	<span data-fragment-count data-fragment-index="3" class="fragment fade-in">time</span>
+</section>
+```
+
 ### Fragment events
 
 When a slide fragment is either shown or hidden reveal.js will dispatch an event.
