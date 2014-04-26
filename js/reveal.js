@@ -333,6 +333,12 @@ var Reveal = (function(){
 		// Update all backgrounds
 		updateBackground( true );
 
+		// Special setup and config is required when printing to PDF
+		if( isPrintingPDF() ) {
+			removeEventListeners();
+			setupPDF();
+		}
+
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( function() {
@@ -402,6 +408,74 @@ var Reveal = (function(){
 	}
 
 	/**
+	 * Configures the presentation for printing to a static
+	 * PDF.
+	 */
+	function setupPDF() {
+
+		// The aspect ratio of pages when saving to PDF in Chrome,
+		// we need to abide by this ratio when determining the pixel
+		// size of our pages
+		var pageAspectRatio = 1.295;
+
+		var slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
+
+		// Dimensions of the PDF pages
+		var pageWidth = Math.round( slideSize.width * ( 1 + config.margin ) ),
+			pageHeight = Math.round( pageWidth / pageAspectRatio );
+
+		// Dimensions of slides within the pages
+		var slideWidth = slideSize.width,
+			slideHeight = slideSize.height;
+
+		document.body.classList.add( 'print-pdf' );
+		document.body.style.width = pageWidth + 'px';
+		document.body.style.height = pageHeight + 'px';
+
+		// Slide and slide background layout
+		toArray( document.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+
+			// Vertical stacks are not centred since their section
+			// children will be
+			if( slide.classList.contains( 'stack' ) === false ) {
+				// Center the slide inside of the page, giving the slide some margin
+				var left = ( pageWidth - slideWidth ) / 2,
+					top = ( pageHeight - slideHeight ) / 2;
+
+				var contentHeight = getAbsoluteHeight( slide );
+				var numberOfPages = Math.ceil( contentHeight / pageHeight );
+
+				// Center slides vertically
+				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
+					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
+				}
+
+				// Position the slide inside of the page
+				slide.style.left = left + 'px';
+				slide.style.top = top + 'px';
+				slide.style.width = slideWidth + 'px';
+
+				// TODO Backgrounds need to be multiplied when the slide
+				// stretches over multiple pages
+				var background = slide.querySelector( '.slide-background' );
+				if( background ) {
+					background.style.width = pageWidth + 'px';
+					background.style.height = ( pageHeight * numberOfPages ) + 'px';
+					background.style.top = -top + 'px';
+					background.style.left = -left + 'px';
+				}
+			}
+
+		} );
+
+		// Show all fragments
+		toArray( document.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
+			fragment.classList.add( 'visible' );
+		} );
+
+	}
+
+	/**
 	 * Creates an HTML element and returns a reference to it.
 	 * If the element already exists the existing instance will
 	 * be returned.
@@ -428,9 +502,7 @@ var Reveal = (function(){
 	 */
 	function createBackgrounds() {
 
-		if( isPrintingPDF() ) {
-			document.body.classList.add( 'print-pdf' );
-		}
+		var printMode = isPrintingPDF();
 
 		// Clear prior backgrounds
 		dom.background.innerHTML = '';
@@ -441,7 +513,7 @@ var Reveal = (function(){
 
 			var backgroundStack;
 
-			if( isPrintingPDF() ) {
+			if( printMode ) {
 				backgroundStack = createBackground( slideh, slideh );
 			}
 			else {
@@ -451,7 +523,7 @@ var Reveal = (function(){
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
-				if( isPrintingPDF() ) {
+				if( printMode ) {
 					createBackground( slidev, slidev );
 				}
 				else {
@@ -887,7 +959,7 @@ var Reveal = (function(){
 
 				if( typeof child.offsetTop === 'number' && child.style ) {
 					// Count # of abs children
-					if( child.style.position === 'absolute' ) {
+					if( window.getComputedStyle( child ).position === 'absolute' ) {
 						absoluteChildren += 1;
 					}
 
@@ -1124,37 +1196,18 @@ var Reveal = (function(){
 
 		if( dom.wrapper && !isPrintingPDF() ) {
 
-			// Available space to scale within
-			var availableWidth = dom.wrapper.offsetWidth,
-				availableHeight = dom.wrapper.offsetHeight;
+			var size = getComputedSlideSize();
 
-			// Reduce available space by margin
-			availableWidth -= ( availableHeight * config.margin );
-			availableHeight -= ( availableHeight * config.margin );
-
-			// Dimensions of the content
-			var slideWidth = config.width,
-				slideHeight = config.height,
-				slidePadding = 20; // TODO Dig this out of DOM
+			var slidePadding = 20; // TODO Dig this out of DOM
 
 			// Layout the contents of the slides
 			layoutSlideContents( config.width, config.height, slidePadding );
 
-			// Slide width may be a percentage of available width
-			if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
-				slideWidth = parseInt( slideWidth, 10 ) / 100 * availableWidth;
-			}
-
-			// Slide height may be a percentage of available height
-			if( typeof slideHeight === 'string' && /%$/.test( slideHeight ) ) {
-				slideHeight = parseInt( slideHeight, 10 ) / 100 * availableHeight;
-			}
-
-			dom.slides.style.width = slideWidth + 'px';
-			dom.slides.style.height = slideHeight + 'px';
+			dom.slides.style.width = size.width + 'px';
+			dom.slides.style.height = size.height + 'px';
 
 			// Determine scale of content to fit within available space
-			scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
+			scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
 			// Respect max/min scale settings
 			scale = Math.max( scale, config.minScale );
@@ -1191,7 +1244,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( ( ( slideHeight - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+						slide.style.top = Math.max( ( ( size.height - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
 					}
 				}
 				else {
@@ -1236,6 +1289,41 @@ var Reveal = (function(){
 			}
 
 		} );
+
+	}
+
+	/**
+	 * Calculates the computed pixel size of our slides. These
+	 * values are based on the width and height configuration
+	 * options.
+	 */
+	function getComputedSlideSize( presentationWidth, presentationHeight ) {
+
+		var size = {
+			// Slide size
+			width: config.width,
+			height: config.height,
+
+			// Presentation size
+			presentationWidth: presentationWidth || dom.wrapper.offsetWidth,
+			presentationHeight: presentationHeight || dom.wrapper.offsetHeight
+		};
+
+		// Reduce available space by margin
+		size.presentationWidth -= ( size.presentationHeight * config.margin );
+		size.presentationHeight -= ( size.presentationHeight * config.margin );
+
+		// Slide width may be a percentage of available width
+		if( typeof size.width === 'string' && /%$/.test( size.width ) ) {
+			size.width = parseInt( size.width, 10 ) / 100 * size.presentationWidth;
+		}
+
+		// Slide height may be a percentage of available height
+		if( typeof size.height === 'string' && /%$/.test( size.height ) ) {
+			size.height = parseInt( size.height, 10 ) / 100 * size.presentationHeight;
+		}
+
+		return size;
 
 	}
 
