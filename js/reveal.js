@@ -430,22 +430,30 @@ var Reveal = (function(){
 			// Vertical stacks are not centred since their section
 			// children will be
 			if( slide.classList.contains( 'stack' ) === false ) {
+				// Center the slide inside of the page, giving the slide some margin
 				var left = ( pageWidth - slideWidth ) / 2,
 					top = ( pageHeight - slideHeight ) / 2;
 
-				if( config.center || slide.classList.contains( 'center' ) ) {
-					top = Math.max( ( pageHeight - getAbsoluteHeight( slide ) ) / 2, 0 );
+				var contentHeight = getAbsoluteHeight( slide );
+				var numberOfPages = Math.ceil( contentHeight / slideHeight );
+
+				// Top align when we're taller than a single page
+				if( numberOfPages > 1 ) {
+					top = 0;
+				}
+				// Center the slide vertically
+				else if( config.center || slide.classList.contains( 'center' ) ) {
+					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
 				}
 
+				// Position the slide inside of the page
 				slide.style.left = left + 'px';
 				slide.style.top = top + 'px';
 				slide.style.width = slideWidth + 'px';
-				slide.style.height = slideHeight + 'px';
+				slide.style.height = ( slideHeight * numberOfPages ) + 'px';
 
-				if( slide.scrollHeight > slideHeight ) {
-					slide.style.overflow = 'hidden';
-				}
-
+				// TODO Backgrounds need to be multiplied when the slide
+				// stretches over multiple pages
 				var background = slide.querySelector( '.slide-background' );
 				if( background ) {
 					background.style.width = pageWidth + 'px';
