@@ -444,12 +444,8 @@ var Reveal = (function(){
 				var contentHeight = getAbsoluteHeight( slide );
 				var numberOfPages = Math.ceil( contentHeight / pageHeight );
 
-				// Top align when we're taller than a single page
-				if( numberOfPages > 1 ) {
-					top = 0;
-				}
-				// Center the slide vertically
-				else if( config.center || slide.classList.contains( 'center' ) ) {
+				// Center slides vertically
+				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
 					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
 				}
 
@@ -457,7 +453,6 @@ var Reveal = (function(){
 				slide.style.left = left + 'px';
 				slide.style.top = top + 'px';
 				slide.style.width = slideWidth + 'px';
-				slide.style.height = ( slideHeight * numberOfPages ) + 'px';
 
 				// TODO Backgrounds need to be multiplied when the slide
 				// stretches over multiple pages
