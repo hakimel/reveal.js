@@ -208,6 +208,7 @@
 						connected = true;
 
 						setupIframes( data );
+						setupKeyboard();
 						setupNotes();
 						setupTimer();
 					}
@@ -246,6 +247,19 @@
 
 				// Limit to max one state update per X ms
 				handleStateMessage = debounce( handleStateMessage, 200 );
+
+				/**
+				 * Forward keyboard events to the current slide window.
+				 * This enables keyboard events to work even if focus
+				 * isn't set on the current slide iframe.
+				 */
+				function setupKeyboard() {
+
+					document.addEventListener( 'keydown', function( event ) {
+						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
+					} );
+
+				}
 
 				/**
 				 * Creates the preview iframes.

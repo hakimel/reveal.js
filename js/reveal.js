@@ -3702,6 +3702,11 @@ var Reveal = (function(){
 			if( 'addEventListener' in window ) {
 				( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
 			}
+		},
+
+		// Programatically triggers a keyboard event
+		triggerKey: function( keyCode ) {
+			onDocumentKeyDown( { keyCode: keyCode } );
 		}
 	};
 
