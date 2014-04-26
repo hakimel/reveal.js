@@ -5,9 +5,27 @@
  *
  * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
  */
-var Reveal = (function(){
+(function (root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(function () {
+			root.Reveal = factory();
+			return root.Reveal;
+		});
+	} else if (typeof exports === 'object') {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like enviroments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	} else {
+		// Browser globals
+		root.Reveal = factory();
+	}
+}(this, function(){
 
 	'use strict';
+
+	var Reveal;
 
 	var SLIDES_SELECTOR = '.reveal .slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
@@ -3232,7 +3250,7 @@ var Reveal = (function(){
 	// --------------------------------------------------------------------//
 
 
-	return {
+	Reveal = {
 		initialize: initialize,
 		configure: configure,
 		sync: sync,
@@ -3379,4 +3397,6 @@ var Reveal = (function(){
 		}
 	};
 
-})();
+	return Reveal;
+
+}));
