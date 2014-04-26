@@ -30,11 +30,6 @@ html {
 	overflow: visible;
 }
 
-@page {
-	size: letter landscape;
-	margin: 0;
-}
-
 /* SECTION 2: Remove any elements not needed in print.
    This would include navigation, ads, sidebars, etc. */
 .nestedarrow,

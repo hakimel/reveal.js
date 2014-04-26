@@ -413,20 +413,18 @@ var Reveal = (function(){
 	 */
 	function setupPDF() {
 
-		// The aspect ratio of pages when saving to PDF in Chrome,
-		// we need to abide by this ratio when determining the pixel
-		// size of our pages
-		var pageAspectRatio = 1.295;
-
 		var slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
 
 		// Dimensions of the PDF pages
 		var pageWidth = Math.round( slideSize.width * ( 1 + config.margin ) ),
-			pageHeight = Math.round( pageWidth / pageAspectRatio );
+			pageHeight = Math.round( slideSize.height * ( 1 + config.margin  ) );
 
 		// Dimensions of slides within the pages
 		var slideWidth = slideSize.width,
 			slideHeight = slideSize.height;
+
+		// Let the browser know what page size we want to print
+		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0;}' );
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
@@ -941,6 +939,23 @@ var Reveal = (function(){
 		element.style.msTransform = transform;
 		element.style.OTransform = transform;
 		element.style.transform = transform;
+
+	}
+
+	/**
+	 * Injects the given CSS styles into the DOM.
+	 */
+	function injectStyleSheet( value ) {
+
+		var tag = document.createElement( 'style' );
+		tag.type = 'text/css';
+		if( tag.styleSheet ) {
+			tag.styleSheet.cssText = value;
+		}
+		else {
+			tag.appendChild( document.createTextNode( value ) );
+		}
+		document.getElementsByTagName( 'head' )[0].appendChild( tag );
 
 	}
 
