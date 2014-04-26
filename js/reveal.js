@@ -417,13 +417,15 @@ var Reveal = (function(){
 		// size of our pages
 		var pageAspectRatio = 1.295;
 
+		var slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
+
 		// Dimensions of the PDF pages
-		var pageWidth = config.width * 1.3,
+		var pageWidth = Math.round( slideSize.width * ( 1 + config.margin ) ),
 			pageHeight = Math.round( pageWidth / pageAspectRatio );
 
 		// Dimensions of slides within the pages
-		var slideWidth = config.width,
-			slideHeight = config.height;
+		var slideWidth = slideSize.width,
+			slideHeight = slideSize.height;
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
@@ -440,7 +442,7 @@ var Reveal = (function(){
 					top = ( pageHeight - slideHeight ) / 2;
 
 				var contentHeight = getAbsoluteHeight( slide );
-				var numberOfPages = Math.ceil( contentHeight / slideHeight );
+				var numberOfPages = Math.ceil( contentHeight / pageHeight );
 
 				// Top align when we're taller than a single page
 				if( numberOfPages > 1 ) {
@@ -462,7 +464,7 @@ var Reveal = (function(){
 				var background = slide.querySelector( '.slide-background' );
 				if( background ) {
 					background.style.width = pageWidth + 'px';
-					background.style.height = pageHeight + 'px';
+					background.style.height = ( pageHeight * numberOfPages ) + 'px';
 					background.style.top = -top + 'px';
 					background.style.left = -left + 'px';
 				}
@@ -1198,37 +1200,18 @@ var Reveal = (function(){
 
 		if( dom.wrapper && !isPrintingPDF() ) {
 
-			// Available space to scale within
-			var availableWidth = dom.wrapper.offsetWidth,
-				availableHeight = dom.wrapper.offsetHeight;
+			var size = getComputedSlideSize();
 
-			// Reduce available space by margin
-			availableWidth -= ( availableHeight * config.margin );
-			availableHeight -= ( availableHeight * config.margin );
-
-			// Dimensions of the content
-			var slideWidth = config.width,
-				slideHeight = config.height,
-				slidePadding = 20; // TODO Dig this out of DOM
+			var slidePadding = 20; // TODO Dig this out of DOM
 
 			// Layout the contents of the slides
 			layoutSlideContents( config.width, config.height, slidePadding );
 
-			// Slide width may be a percentage of available width
-			if( typeof slideWidth === 'string' && /%$/.test( slideWidth ) ) {
-				slideWidth = parseInt( slideWidth, 10 ) / 100 * availableWidth;
-			}
-
-			// Slide height may be a percentage of available height
-			if( typeof slideHeight === 'string' && /%$/.test( slideHeight ) ) {
-				slideHeight = parseInt( slideHeight, 10 ) / 100 * availableHeight;
-			}
-
-			dom.slides.style.width = slideWidth + 'px';
-			dom.slides.style.height = slideHeight + 'px';
+			dom.slides.style.width = size.width + 'px';
+			dom.slides.style.height = size.height + 'px';
 
 			// Determine scale of content to fit within available space
-			scale = Math.min( availableWidth / slideWidth, availableHeight / slideHeight );
+			scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
 			// Respect max/min scale settings
 			scale = Math.max( scale, config.minScale );
@@ -1265,7 +1248,7 @@ var Reveal = (function(){
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( ( ( slideHeight - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+						slide.style.top = Math.max( ( ( size.height - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
 					}
 				}
 				else {
@@ -1310,6 +1293,41 @@ var Reveal = (function(){
 			}
 
 		} );
+
+	}
+
+	/**
+	 * Calculates the computed pixel size of our slides. These
+	 * values are based on the width and height configuration
+	 * options.
+	 */
+	function getComputedSlideSize( presentationWidth, presentationHeight ) {
+
+		var size = {
+			// Slide size
+			width: config.width,
+			height: config.height,
+
+			// Presentation size
+			presentationWidth: presentationWidth || dom.wrapper.offsetWidth,
+			presentationHeight: presentationHeight || dom.wrapper.offsetHeight
+		};
+
+		// Reduce available space by margin
+		size.presentationWidth -= ( size.presentationHeight * config.margin );
+		size.presentationHeight -= ( size.presentationHeight * config.margin );
+
+		// Slide width may be a percentage of available width
+		if( typeof size.width === 'string' && /%$/.test( size.width ) ) {
+			size.width = parseInt( size.width, 10 ) / 100 * size.presentationWidth;
+		}
+
+		// Slide height may be a percentage of available height
+		if( typeof size.height === 'string' && /%$/.test( size.height ) ) {
+			size.height = parseInt( size.height, 10 ) / 100 * size.presentationHeight;
+		}
+
+		return size;
 
 	}
 
