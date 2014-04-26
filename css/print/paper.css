@@ -20,7 +20,7 @@
 	}
 	body {
 		background: #fff;
-		font-size: 28pt;
+		font-size: 20pt;
 		width: auto;
 		height: auto;
 		border: 0;
@@ -34,18 +34,18 @@
 	   This would include navigation, ads, sidebars, etc. */
 	.nestedarrow,
 	.controls,
-	.reveal .progress,
-	.reveal.overview,
 	.fork-reveal,
 	.share-reveal,
-	.state-background {
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
 		display: none !important;
 	}
 
 	/* SECTION 3: Set body font face, size, and color.
 	   Consider using a serif font for readability. */
 	body, p, td, li, div {
-		font-size: 28pt!important;
+		font-size: 20pt!important;
 		font-family: Georgia, "Times New Roman", Times, serif !important;
 		color: #000;
 	}
@@ -63,12 +63,12 @@
 		letter-spacing: normal;
 	}
 	/* Need to reduce the size of the fonts for printing */
-	h1 { font-size: 36pt !important;  }
-	h2 { font-size: 32pt !important; }
-	h3 { font-size: 30pt !important; }
-	h4 { font-size: 30pt !important; font-variant: small-caps; }
-	h5 { font-size: 29pt !important; }
-	h6 { font-size: 28pt !important; font-style: italic; }
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
 
 	/* SECTION 5: Make hyperlinks more usable.
 	   Ensure links are underlined, and consider appending
@@ -97,7 +97,7 @@
 		height: auto;
 		display: block;
 		overflow: visible;
-		margin: auto;
+		margin: 0;
 		text-align: left !important;
 	}
 	.reveal pre,
@@ -109,36 +109,39 @@
 		padding: 20px;
 		border: 1px solid #ddd;
 	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
 	.reveal .slides {
-		position: static;
-		width: auto;
-		height: auto;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
 
-		left: 0;
-		top: 0;
-		margin-left: 0;
-		margin-top: 0;
-		padding: 0;
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
 
-		overflow: visible;
-		display: block;
+		overflow: visible !important;
+		display: block !important;
 
-		text-align: center;
+		text-align: left !important;
 		-webkit-perspective: none;
 		   -moz-perspective: none;
 		    -ms-perspective: none;
 		        perspective: none;
 
-		-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+		-webkit-perspective-origin: 50% 50%;
 		   -moz-perspective-origin: 50% 50%;
 		    -ms-perspective-origin: 50% 50%;
 		        perspective-origin: 50% 50%;
 	}
-	.reveal .slides>section,
-	.reveal .slides>section>section {
+	.reveal .slides section {
 		visibility: visible !important;
 		position: static !important;
-		width: 90% !important;
+		width: 100% !important;
 		height: auto !important;
 		display: block !important;
 		overflow: visible !important;
@@ -147,9 +150,12 @@
 		top: 0 !important;
 		margin-left: 0 !important;
 		margin-top: 0 !important;
-		padding: 20px 0px !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
 
 		opacity: 1 !important;
+
+		page-break-after: always !important;
 
 		-webkit-transform-style: flat !important;
 		   -moz-transform-style: flat !important;
@@ -160,9 +166,17 @@
 		   -moz-transform: none !important;
 		    -ms-transform: none !important;
 		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
 	}
-	.reveal section {
-		page-break-after: always !important;
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
 	}
 	.reveal section .fragment {
 		opacity: 1 !important;
@@ -172,9 +186,6 @@
 		   -moz-transform: none !important;
 		    -ms-transform: none !important;
 		        transform: none !important;
-	}
-	.reveal section:last-of-type {
-		page-break-after: avoid !important;
 	}
 	.reveal section img {
 		display: block;
