@@ -335,6 +335,7 @@ var Reveal = (function(){
 
 		// Special setup and config is required when printing to PDF
 		if( isPrintingPDF() ) {
+			removeEventListeners();
 			setupPDF();
 		}
 
