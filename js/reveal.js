@@ -528,6 +528,8 @@ var Reveal = (function(){
 					createBackground( slidev, backgroundStack );
 				}
 
+				backgroundStack.classList.add( 'stack' );
+
 			} );
 
 		} );
@@ -2279,7 +2281,13 @@ var Reveal = (function(){
 	 */
 	function showSlide( slide ) {
 
+		// Show the slide element
 		slide.style.display = 'block';
+
+		// Show the corresponding background element
+		var indices = getIndices( slide );
+		var background = getSlideBackground( indices.h, indices.v );
+		background.style.display = 'block';
 
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
@@ -2312,7 +2320,13 @@ var Reveal = (function(){
 	 */
 	function hideSlide( slide ) {
 
+		// Hide the slide element
 		slide.style.display = 'none';
+
+		// Hide the corresponding background element
+		var indices = getIndices( slide );
+		var background = getSlideBackground( indices.h, indices.v );
+		background.style.display = 'none';
 
 	}
 
@@ -2617,6 +2631,9 @@ var Reveal = (function(){
 
 			// Now that we know which the horizontal slide is, get its index
 			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
+
+			// Assume we're not vertical
+			v = 0;
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {

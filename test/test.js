@@ -101,6 +101,8 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.getIndices().v, 2, 'v 2' );
 
 		Reveal.slide( 0, 0 );
+		strictEqual( Reveal.getIndices().h, 0, 'h 0' );
+		strictEqual( Reveal.getIndices().v, 0, 'v 0' );
 	});
 
 	test( 'Reveal.getSlide', function() {
