@@ -2693,10 +2693,17 @@ var Reveal = (function(){
 	/**
 	 * Returns the background element for the given slide.
 	 * All slides, even the ones with no background properties
-	 * defined, have a background element so this never returns
-	 * null.
+	 * defined, have a background element so as long as the
+	 * index is valid an element will be returned.
 	 */
 	function getSlideBackground( x, y ) {
+
+		// When printing to PDF the slide backgrounds are nested
+		// inside of the slides
+		if( isPrintingPDF() ) {
+			var slide = getSlide( x, y );
+			return slide ? slide.querySelector( '.slide-background' ) : undefined;
+		}
 
 		var horizontalBackground = document.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
 		var verticalBackgrounds = horizontalBackground && horizontalBackground.querySelectorAll( '.slide-background' );
