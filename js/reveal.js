@@ -2286,7 +2286,7 @@ var Reveal = (function(){
 			element.removeAttribute( 'data-src' );
 		} );
 
-		// Media elements with multiple <source>s
+		// Media elements with <source> children
 		toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( media ) {
 			var sources = 0;
 
@@ -2631,6 +2631,38 @@ var Reveal = (function(){
 	function getTotalSlides() {
 
 		return document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+
+	}
+
+	function getSlide( x, y ) {
+
+		var horizontalSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
+		var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
+
+		if( typeof y === 'number' ) {
+			return verticalSlides ? verticalSlides[ y ] : undefined;
+		}
+
+		return horizontalSlide;
+
+	}
+
+	/**
+	 * Returns the background element for the given slide.
+	 * All slides, even the ones with no background properties
+	 * defined, have a background element so this never returns
+	 * null.
+	 */
+	function getSlideBackground( x, y ) {
+
+		var horizontalBackground = document.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
+		var verticalBackgrounds = horizontalBackground && horizontalBackground.querySelectorAll( '.slide-background' );
+
+		if( typeof y === 'number' ) {
+			return verticalBackgrounds ? verticalBackgrounds[ y ] : undefined;
+		}
+
+		return horizontalBackground;
 
 	}
 
@@ -3720,17 +3752,11 @@ var Reveal = (function(){
 
 		getTotalSlides: getTotalSlides,
 
-		// Returns the slide at the specified index, y is optional
-		getSlide: function( x, y ) {
-			var horizontalSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
-			var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
+		// Returns the slide element at the specified index
+		getSlide: getSlide,
 
-			if( typeof y !== 'undefined' ) {
-				return verticalSlides ? verticalSlides[ y ] : undefined;
-			}
-
-			return horizontalSlide;
-		},
+		// Returns the slide background element at the specified index
+		getSlideBackground: getSlideBackground,
 
 		// Returns the previous slide element, may be null
 		getPreviousSlide: function() {

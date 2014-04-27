@@ -109,6 +109,14 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.getSlide( 100 ), undefined, 'returns undefined when slide can\'t be found' );
 	});
 
+	test( 'Reveal.getSlideBackground', function() {
+		var firstBackground = document.querySelector( '.reveal .backgrounds>.slide-background:first-child' );
+
+		equal( Reveal.getSlideBackground( 0 ), firstBackground, 'gets correct first background' );
+
+		strictEqual( Reveal.getSlideBackground( 100 ), undefined, 'returns undefined when background can\'t be found' );
+	});
+
 	test( 'Reveal.getPreviousSlide/getCurrentSlide', function() {
 		Reveal.slide( 0, 0 );
 		Reveal.slide( 1, 0 );
