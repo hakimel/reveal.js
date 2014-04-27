@@ -88,15 +88,17 @@ Reveal.addEventListener( 'ready', function() {
 	test( 'Reveal.getIndices', function() {
 		var indices = Reveal.getIndices();
 
-		ok( typeof indices.hasOwnProperty( 'h' ), 'h exists' );
-		ok( typeof indices.hasOwnProperty( 'v' ), 'v exists' );
-		ok( typeof indices.hasOwnProperty( 'f' ), 'f exists' );
+		ok( indices.hasOwnProperty( 'h' ), 'h exists' );
+		ok( indices.hasOwnProperty( 'v' ), 'v exists' );
+		ok( indices.hasOwnProperty( 'f' ), 'f exists' );
 
 		Reveal.slide( 1, 0 );
-		ok( Reveal.getIndices().h === 1 && Reveal.getIndices().v === 0, 'h 1, v 0' );
+		strictEqual( Reveal.getIndices().h, 1, 'h 1' );
+		strictEqual( Reveal.getIndices().v, 0, 'v 0' );
 
 		Reveal.slide( 1, 2 );
-		ok( Reveal.getIndices().h === 1 && Reveal.getIndices().v === 2, 'h 1, v 2' );
+		strictEqual( Reveal.getIndices().h, 1, 'h 1' );
+		strictEqual( Reveal.getIndices().v, 2, 'v 2' );
 
 		Reveal.slide( 0, 0 );
 	});
