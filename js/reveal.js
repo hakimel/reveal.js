@@ -2645,12 +2645,15 @@ var Reveal = (function(){
 
 	}
 
+	/**
+	 * Returns the slide element matching the specified index.
+	 */
 	function getSlide( x, y ) {
 
 		var horizontalSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
 		var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
 
-		if( typeof y === 'number' ) {
+		if( verticalSlides && verticalSlides.length && typeof y === 'number' ) {
 			return verticalSlides ? verticalSlides[ y ] : undefined;
 		}
 
@@ -2669,7 +2672,7 @@ var Reveal = (function(){
 		var horizontalBackground = document.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
 		var verticalBackgrounds = horizontalBackground && horizontalBackground.querySelectorAll( '.slide-background' );
 
-		if( typeof y === 'number' ) {
+		if( verticalBackgrounds && verticalBackgrounds.length && typeof y === 'number' ) {
 			return verticalBackgrounds ? verticalBackgrounds[ y ] : undefined;
 		}
 
