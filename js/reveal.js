@@ -1877,7 +1877,9 @@ var Reveal = (function(){
 				indexString += ' - ' + indexv;
 			}
 
-			dom.slideNumber.innerHTML = indexString + 1;
+			dom.slideNumber.innerHTML = indexString + ' of ' + (document.querySelectorAll( SLIDES_SELECTOR ).length - 1);
+			if(typeof indexString !== 'undefined')
+				document.body.className = ('slide-' + indexString + ' ' + (document.body.className.replace(/slide-[0-9]+/g, ''))).trim();
 		}
 
 	}

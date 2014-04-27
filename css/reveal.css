@@ -511,6 +511,15 @@ body {
 	font-size: 12px;
 }
 
+.slide-0 .slide-number {
+	display: none;
+}
+
+.print-pdf .slide-number,
+.slide-0 .slide-number {
+	display: none;
+}
+
 /*********************************************
  * SLIDES
  *********************************************/
@@ -1876,5 +1885,3 @@ body {
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
-
-
