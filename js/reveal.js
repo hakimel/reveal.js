@@ -586,7 +586,7 @@ var Reveal = (function(){
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
 			if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(svg|png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
-				element.style.backgroundImage = 'url('+ data.background +')';
+				slide.setAttribute( 'data-background-image', 'url('+ data.background +')' );
 			}
 			else {
 				element.style.background = data.background;
@@ -609,23 +609,10 @@ var Reveal = (function(){
 
 		// Additional and optional background properties
 		if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
-		if( data.backgroundImage ) element.style.backgroundImage = 'url("' + data.backgroundImage + '")';
 		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
 		if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
 		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
-
-		// Create video background element
-		if( data.backgroundVideo ) {
-			var video = document.createElement( 'video' );
-
-			// Support comma separated lists of video sources
-			data.backgroundVideo.split( ',' ).forEach( function( source ) {
-				video.innerHTML += '<source src="'+ source +'">';
-			} );
-
-			element.appendChild( video );
-		}
 
 		container.appendChild( element );
 
@@ -2284,11 +2271,6 @@ var Reveal = (function(){
 		// Show the slide element
 		slide.style.display = 'block';
 
-		// Show the corresponding background element
-		var indices = getIndices( slide );
-		var background = getSlideBackground( indices.h, indices.v );
-		background.style.display = 'block';
-
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
@@ -2311,6 +2293,36 @@ var Reveal = (function(){
 				media.load();
 			}
 		} );
+
+
+		// Show the corresponding background element
+		var indices = getIndices( slide );
+		var background = getSlideBackground( indices.h, indices.v );
+		background.style.display = 'block';
+
+		// If the background contains media, load it
+		if( background.hasAttribute( 'data-loaded' ) === false ) {
+			background.setAttribute( 'data-loaded', 'true' );
+
+			var backgroundImage = slide.getAttribute( 'data-background-image' );
+			var backgroundVideo = slide.getAttribute( 'data-background-video' );
+
+			// Images
+			if( backgroundImage ) {
+				background.style.backgroundImage = backgroundImage;
+			}
+			// Videos
+			else if ( backgroundVideo ) {
+				var video = document.createElement( 'video' );
+
+				// Support comma separated lists of video sources
+				backgroundVideo.split( ',' ).forEach( function( source ) {
+					video.innerHTML += '<source src="'+ source +'">';
+				} );
+
+				background.appendChild( video );
+			}
+		}
 
 	}
 
