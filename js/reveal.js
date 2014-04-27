@@ -2029,11 +2029,10 @@ var Reveal = (function(){
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
-					horizontalSlide.style.display = 'block';
-					loadSlide( horizontalSlide );
+					showSlide( horizontalSlide );
 				}
 				else {
-					horizontalSlide.style.display = 'none';
+					hideSlide( horizontalSlide );
 				}
 
 				if( verticalSlidesLength ) {
@@ -2046,11 +2045,10 @@ var Reveal = (function(){
 						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
 
 						if( distanceX + distanceY < viewDistance ) {
-							verticalSlide.style.display = 'block';
-							loadSlide( verticalSlide );
+							showSlide( verticalSlide );
 						}
 						else {
-							verticalSlide.style.display = 'none';
+							hideSlide( verticalSlide );
 						}
 					}
 
@@ -2275,10 +2273,13 @@ var Reveal = (function(){
 	}
 
 	/**
-	 * Loads any content that is set to load lazily (data-src)
-	 * inside of the given slide.
+	 * Called when the given slide is within the configured view
+	 * distance. Shows the slide element and loads any content
+	 * that is set to load lazily (data-src).
 	 */
-	function loadSlide( slide ) {
+	function showSlide( slide ) {
+
+		slide.style.display = 'block';
 
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
@@ -2302,6 +2303,16 @@ var Reveal = (function(){
 				media.load();
 			}
 		} );
+
+	}
+
+	/**
+	 * Called when the given slide is moved outside of the
+	 * configured view distance.
+	 */
+	function hideSlide( slide ) {
+
+		slide.style.display = 'none';
 
 	}
 
