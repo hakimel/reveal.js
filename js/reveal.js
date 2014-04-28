@@ -268,7 +268,7 @@
 
 		features.canvas = !!document.createElement( 'canvas' ).getContext;
 
-		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|android)/gi );
+		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi );
 
 	}
 
@@ -1244,8 +1244,8 @@
 			scale = Math.max( scale, config.minScale );
 			scale = Math.min( scale, config.maxScale );
 
-			// Prefer zooming in WebKit so that content remains crisp
-			if( /webkit/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
+			// Prefer zooming in desktop WebKit so that content remains crisp
+			if( !isMobileDevice && /webkit/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 				dom.slides.style.zoom = scale;
 			}
 			// Apply scale transform as a fallback
