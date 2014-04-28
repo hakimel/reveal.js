@@ -114,11 +114,13 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 	test( 'Reveal.getSlideBackground', function() {
-		var firstBackground = document.querySelector( '.reveal .backgrounds>.slide-background:first-child' );
+		equal( Reveal.getSlideBackground( 0 ), document.querySelector( '.reveal .backgrounds>.slide-background:first-child' ), 'gets correct first background' );
+		equal( Reveal.getSlideBackground( 1 ), document.querySelector( '.reveal .backgrounds>.slide-background:nth-child(2)' ), 'no v index returns stack' );
+		equal( Reveal.getSlideBackground( 1, 0 ), document.querySelector( '.reveal .backgrounds>.slide-background:nth-child(2) .slide-background:nth-child(1)' ), 'v index 0 returns first vertical child' );
+		equal( Reveal.getSlideBackground( 1, 1 ), document.querySelector( '.reveal .backgrounds>.slide-background:nth-child(2) .slide-background:nth-child(2)' ), 'v index 1 returns second vertical child' );
 
-		equal( Reveal.getSlideBackground( 0 ), firstBackground, 'gets correct first background' );
-
-		strictEqual( Reveal.getSlideBackground( 100 ), undefined, 'returns undefined when background can\'t be found' );
+		strictEqual( Reveal.getSlideBackground( 100 ), undefined, 'undefined when out of horizontal bounds' );
+		strictEqual( Reveal.getSlideBackground( 1, 100 ), undefined, 'undefined when out of vertical bounds' );
 	});
 
 	test( 'Reveal.getPreviousSlide/getCurrentSlide', function() {
@@ -468,6 +470,15 @@ Reveal.addEventListener( 'ready', function() {
 
 	test( 'img with data-src', function() {
 		strictEqual( document.querySelectorAll( '.reveal section img[src]' ).length, 1, 'Image source has been set' );
+	});
+
+	test( 'background images', function() {
+		var imageSource1 = Reveal.getSlide( 0 ).getAttribute( 'data-background-image' );
+		var imageSource2 = Reveal.getSlide( 1, 0 ).getAttribute( 'data-background' );
+
+		// check that the images are applied to the background elements
+		ok( Reveal.getSlideBackground( 0 ).style.backgroundImage.indexOf( imageSource1 ) !== -1, 'data-background-image worked' );
+		ok( Reveal.getSlideBackground( 1, 0 ).style.backgroundImage.indexOf( imageSource2 ) !== -1, 'data-background worked' );
 	});
 
 
