@@ -1843,6 +1843,7 @@
 		updateProgress();
 		updateBackground( true );
 		updateSlideNumber();
+		updateSlidesVisibility();
 
 	}
 
