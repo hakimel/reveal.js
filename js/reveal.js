@@ -2026,7 +2026,7 @@
 
 			// Limit view distance on weaker devices
 			if( isMobileDevice ) {
-				viewDistance = isOverview() ? 6 : 1;
+				viewDistance = isOverview() ? 6 : 2;
 			}
 
 			// Limit view distance on weaker devices
