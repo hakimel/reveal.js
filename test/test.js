@@ -106,11 +106,13 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 	test( 'Reveal.getSlide', function() {
-		var firstSlide = document.querySelector( '.reveal .slides>section:first-child' );
+		equal( Reveal.getSlide( 0 ), document.querySelector( '.reveal .slides>section:first-child' ), 'gets correct first slide' );
+		equal( Reveal.getSlide( 1 ), document.querySelector( '.reveal .slides>section:nth-child(2)' ), 'no v index returns stack' );
+		equal( Reveal.getSlide( 1, 0 ), document.querySelector( '.reveal .slides>section:nth-child(2)>section:nth-child(1)' ), 'v index 0 returns first vertical child' );
+		equal( Reveal.getSlide( 1, 1 ), document.querySelector( '.reveal .slides>section:nth-child(2)>section:nth-child(2)' ), 'v index 1 returns second vertical child' );
 
-		equal( Reveal.getSlide( 0 ), firstSlide, 'gets correct first slide' );
-
-		strictEqual( Reveal.getSlide( 100 ), undefined, 'returns undefined when slide can\'t be found' );
+		strictEqual( Reveal.getSlide( 100 ), undefined, 'undefined when out of horizontal bounds' );
+		strictEqual( Reveal.getSlide( 1, 100 ), undefined, 'undefined when out of vertical bounds' );
 	});
 
 	test( 'Reveal.getSlideBackground', function() {
