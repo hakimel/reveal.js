@@ -613,7 +613,7 @@
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
 			if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(svg|png|jpg|jpeg|gif|bmp)$/gi.test( data.background ) ) {
-				slide.setAttribute( 'data-background-image', 'url('+ data.background +')' );
+				slide.setAttribute( 'data-background-image', data.background );
 			}
 			else {
 				element.style.background = data.background;
@@ -2336,7 +2336,7 @@
 
 			// Images
 			if( backgroundImage ) {
-				background.style.backgroundImage = backgroundImage;
+				background.style.backgroundImage = 'url('+ backgroundImage +')';
 			}
 			// Videos
 			else if ( backgroundVideo ) {
