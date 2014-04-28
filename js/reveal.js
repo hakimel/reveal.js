@@ -2326,29 +2326,31 @@
 		// Show the corresponding background element
 		var indices = getIndices( slide );
 		var background = getSlideBackground( indices.h, indices.v );
-		background.style.display = 'block';
+		if( background ) {
+			background.style.display = 'block';
 
-		// If the background contains media, load it
-		if( background.hasAttribute( 'data-loaded' ) === false ) {
-			background.setAttribute( 'data-loaded', 'true' );
+			// If the background contains media, load it
+			if( background.hasAttribute( 'data-loaded' ) === false ) {
+				background.setAttribute( 'data-loaded', 'true' );
 
-			var backgroundImage = slide.getAttribute( 'data-background-image' ),
-				backgroundVideo = slide.getAttribute( 'data-background-video' );
+				var backgroundImage = slide.getAttribute( 'data-background-image' ),
+					backgroundVideo = slide.getAttribute( 'data-background-video' );
 
-			// Images
-			if( backgroundImage ) {
-				background.style.backgroundImage = 'url('+ backgroundImage +')';
-			}
-			// Videos
-			else if ( backgroundVideo ) {
-				var video = document.createElement( 'video' );
+				// Images
+				if( backgroundImage ) {
+					background.style.backgroundImage = 'url('+ backgroundImage +')';
+				}
+				// Videos
+				else if ( backgroundVideo ) {
+					var video = document.createElement( 'video' );
 
-				// Support comma separated lists of video sources
-				backgroundVideo.split( ',' ).forEach( function( source ) {
-					video.innerHTML += '<source src="'+ source +'">';
-				} );
+					// Support comma separated lists of video sources
+					backgroundVideo.split( ',' ).forEach( function( source ) {
+						video.innerHTML += '<source src="'+ source +'">';
+					} );
 
-				background.appendChild( video );
+					background.appendChild( video );
+				}
 			}
 		}
 
@@ -2366,7 +2368,9 @@
 		// Hide the corresponding background element
 		var indices = getIndices( slide );
 		var background = getSlideBackground( indices.h, indices.v );
-		background.style.display = 'none';
+		if( background ) {
+			background.style.display = 'none';
+		}
 
 	}
 
