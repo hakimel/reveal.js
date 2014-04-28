@@ -2332,8 +2332,8 @@
 		if( background.hasAttribute( 'data-loaded' ) === false ) {
 			background.setAttribute( 'data-loaded', 'true' );
 
-			var backgroundImage = slide.getAttribute( 'data-background-image' );
-			var backgroundVideo = slide.getAttribute( 'data-background-video' );
+			var backgroundImage = slide.getAttribute( 'data-background-image' ),
+				backgroundVideo = slide.getAttribute( 'data-background-video' );
 
 			// Images
 			if( backgroundImage ) {
@@ -2673,7 +2673,7 @@
 			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
 
 			// Assume we're not vertical
-			v = 0;
+			v = undefined;
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
