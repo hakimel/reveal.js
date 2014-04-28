@@ -208,6 +208,17 @@
 		if( !features.transforms2d && !features.transforms3d ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
+			// Since JS won't be running any further, we need to load all
+			// images that were intended to lazy load now
+			var images = document.getElementsByTagName( 'img' );
+			for( var i = 0, len = images.length; i < len; i++ ) {
+				var image = images[i];
+				if( image.getAttribute( 'data-src' ) ) {
+					image.setAttribute( 'src', image.getAttribute( 'data-src' ) );
+					image.removeAttribute( 'data-src' );
+				}
+			}
+
 			// If the browser doesn't support core features we won't be
 			// using JavaScript to control the presentation
 			return;
