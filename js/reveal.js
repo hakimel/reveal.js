@@ -443,8 +443,8 @@
 		var slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
 
 		// Dimensions of the PDF pages
-		var pageWidth = Math.round( slideSize.width * ( 1 + config.margin ) ),
-			pageHeight = Math.round( slideSize.height * ( 1 + config.margin  ) );
+		var pageWidth = Math.ceil( slideSize.width * ( 1 + config.margin ) ),
+			pageHeight = Math.ceil( slideSize.height * ( 1 + config.margin  ) );
 
 		// Dimensions of slides within the pages
 		var slideWidth = slideSize.width,
