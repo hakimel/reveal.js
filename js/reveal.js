@@ -468,7 +468,7 @@
 					top = ( pageHeight - slideHeight ) / 2;
 
 				var contentHeight = getAbsoluteHeight( slide );
-				var numberOfPages = Math.ceil( contentHeight / pageHeight );
+				var numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
 				// Center slides vertically
 				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
