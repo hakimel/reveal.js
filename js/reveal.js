@@ -360,12 +360,6 @@
 		// Update all backgrounds
 		updateBackground( true );
 
-		// Special setup and config is required when printing to PDF
-		if( isPrintingPDF() ) {
-			removeEventListeners();
-			setupPDF();
-		}
-
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( function() {
@@ -380,6 +374,20 @@
 				'currentSlide': currentSlide
 			} );
 		}, 1 );
+
+		// Special setup and config is required when printing to PDF
+		if( isPrintingPDF() ) {
+			removeEventListeners();
+
+			// The document needs to have loaded for the PDF layout
+			// measurements to be accurate
+			if( document.readyState === 'complete' ) {
+				setupPDF();
+			}
+			else {
+				window.addEventListener( 'load', setupPDF );
+			}
+		}
 
 	}
 
