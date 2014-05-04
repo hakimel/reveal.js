@@ -187,7 +187,7 @@
 			var socket = io.connect( window.location.origin ),
 				socketId = '{{socketId}}';
 
-			socket.on( 'state', function( data ) {
+			socket.on( 'statechanged', function( data ) {
 
 				// ignore data from sockets that aren't ours
 				if( data.socketId !== socketId ) { return; }
@@ -203,6 +203,18 @@
 				}
 
 				handleStateMessage( data );
+
+			} );
+
+			window.addEventListener( 'message', function( event ) {
+
+				var data = JSON.parse( event.data );
+
+				if( data && data.namespace === 'reveal' ) {
+					if( /ready/.test( data.eventName ) ) {
+						socket.emit( 'connect', { socketId: socketId } );
+					}
+				}
 
 			} );
 
@@ -266,7 +278,7 @@
 				].join( '&' );
 
 				var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
-				var currentURL = '/?' + params + hash;
+				var currentURL = '/?' + params + '&postMessageEvents=true' + hash;
 				var upcomingURL = '/?' + params + '&controls=false' + hash;
 
 				currentSlide = document.createElement( 'iframe' );

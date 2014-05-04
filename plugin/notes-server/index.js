@@ -16,8 +16,12 @@ var opts = {
 
 io.sockets.on( 'connection', function( socket ) {
 
-	socket.on( 'state', function( state ) {
-		socket.broadcast.emit( 'state', state );
+	socket.on( 'connect', function( data ) {
+		socket.broadcast.emit( 'connect', data );
+	});
+
+	socket.on( 'statechanged', function( data ) {
+		socket.broadcast.emit( 'statechanged', data );
 	});
 
 });

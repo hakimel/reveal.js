@@ -36,9 +36,14 @@
 			messageData.markdown = typeof notesElement.getAttribute( 'data-markdown' ) === 'string';
 		}
 
-		socket.emit( 'state', messageData );
+		socket.emit( 'statechanged', messageData );
 
 	}
+
+	// When a new notes window connects, post our current state
+	socket.on( 'connect', function( data ) {
+		post();
+	} );
 
 	// Monitor events that trigger a change in state
 	Reveal.addEventListener( 'slidechanged', post );
