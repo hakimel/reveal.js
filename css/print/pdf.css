@@ -142,7 +142,6 @@ ul, ol, div, p {
 }
 .reveal img {
 	box-shadow: none;
-	max-height: 80%;
 }
 .reveal .roll {
 	overflow: visible;
