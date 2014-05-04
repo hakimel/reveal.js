@@ -3278,7 +3278,7 @@
 		// If the input resulted in a triggered action we should prevent
 		// the browsers default behavior
 		if( triggered ) {
-			event.preventDefault();
+			event.preventDefault && event.preventDefault();
 		}
 		// ESC or O key
 		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
@@ -3289,7 +3289,7 @@
 				toggleOverview();
 			}
 
-			event.preventDefault();
+			event.preventDefault && event.preventDefault();
 		}
 
 		// If auto-sliding is enabled we need to cue up
