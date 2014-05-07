@@ -519,14 +519,17 @@
 	function createSingletonNode( container, tagname, classname, innerHTML ) {
 
 		var node = container.querySelector( '.' + classname );
-		if( !node ) {
+
+		// If no node was found or the node is inside another container
+		if( !node || node.parentNode !== container ) {
 			node = document.createElement( tagname );
 			node.classList.add( classname );
-			if( innerHTML !== null ) {
+			if( typeof innerHTML === 'string' ) {
 				node.innerHTML = innerHTML;
 			}
 			container.appendChild( node );
 		}
+
 		return node;
 
 	}
@@ -2093,7 +2096,7 @@
 	function updateProgress() {
 
 		// Update progress if enabled
-		if( config.progress && dom.progress ) {
+		if( config.progress && dom.progressbar ) {
 
 			dom.progressbar.style.width = getProgress() * window.innerWidth + 'px';
 
