@@ -518,17 +518,25 @@
 	 */
 	function createSingletonNode( container, tagname, classname, innerHTML ) {
 
-		var node = container.querySelector( '.' + classname );
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
 
-		// If no node was found or the node is inside another container
-		if( !node || node.parentNode !== container ) {
-			node = document.createElement( tagname );
-			node.classList.add( classname );
-			if( typeof innerHTML === 'string' ) {
-				node.innerHTML = innerHTML;
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
 			}
-			container.appendChild( node );
 		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.classList.add( classname );
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
 
 		return node;
 
