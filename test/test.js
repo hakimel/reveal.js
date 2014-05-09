@@ -91,8 +91,8 @@ Reveal.addEventListener( 'ready', function() {
 		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
 		
 		Reveal.slide( 1, 1 );
-		Reveal.slide( lastSlideIndex, 0 );
-		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 1, 1 ) and then Reveal.slide( '+ lastSlideIndex +', 0 )' );
+		Reveal.slide( lastSlideIndex );
+		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( 1, 1 ) and then Reveal.slide( '+ lastSlideIndex +', 0 )' );
 	});
 
 	test( 'Reveal.getTotalSlides', function() {
