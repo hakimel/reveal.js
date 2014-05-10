@@ -16,7 +16,6 @@
 }
 
 body {
-	font-size: 18pt;
 	margin: 0 auto !important;
 	border: 0;
 	padding: 0;
@@ -45,7 +44,7 @@ html {
 /* SECTION 3: Set body font face, size, and color.
    Consider using a serif font for readability. */
 body, p, td, li, div {
-	font-size: 18pt;
+
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
@@ -146,9 +145,6 @@ ul, ol, div, p {
 .reveal .roll {
 	overflow: visible;
 	line-height: 1em;
-}
-.reveal small a {
-	font-size: 16pt !important;
 }
 
 /* Slide backgrounds are placed inside of their slide when exporting to PDF */
