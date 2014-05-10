@@ -451,8 +451,8 @@
 		var slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
 
 		// Dimensions of the PDF pages
-		var pageWidth = Math.ceil( slideSize.width * ( 1 + config.margin ) ),
-			pageHeight = Math.ceil( slideSize.height * ( 1 + config.margin  ) );
+		var pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
+			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin  ) );
 
 		// Dimensions of slides within the pages
 		var slideWidth = slideSize.width,
@@ -2756,7 +2756,14 @@
 		// inside of the slides
 		if( isPrintingPDF() ) {
 			var slide = getSlide( x, y );
-			return slide ? slide.querySelector( '.slide-background' ) : undefined;
+			if( slide ) {
+				var background = slide.querySelector( '.slide-background' );
+				if( background && background.parentNode === slide ) {
+					return background;
+				}
+			}
+
+			return undefined;
 		}
 
 		var horizontalBackground = document.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
