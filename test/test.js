@@ -68,6 +68,12 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 0, 0 )' );
 	});
 
+	test( 'Reveal.isFirstSlide after vertical slide', function() {
+		Reveal.slide( 1, 1 );
+		Reveal.slide( 0, 0 );
+		strictEqual( Reveal.isFirstSlide(), true, 'true after Reveal.slide( 1, 1 ) and then Reveal.slide( 0, 0 )' );
+	});
+
 	test( 'Reveal.isLastSlide', function() {
 		Reveal.slide( 0, 0 );
 		strictEqual( Reveal.isLastSlide(), false, 'false after Reveal.slide( 0, 0 )' );
@@ -75,10 +81,18 @@ Reveal.addEventListener( 'ready', function() {
 		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
 
 		Reveal.slide( lastSlideIndex, 0 );
-		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( ', 0+ lastSlideIndex +' )' );
+		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( '+ lastSlideIndex +', 0 )' );
 
 		Reveal.slide( 0, 0 );
 		strictEqual( Reveal.isLastSlide(), false, 'false after Reveal.slide( 0, 0 )' );
+	});
+
+	test( 'Reveal.isLastSlide after vertical slide', function() {
+		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
+		
+		Reveal.slide( 1, 1 );
+		Reveal.slide( lastSlideIndex );
+		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( 1, 1 ) and then Reveal.slide( '+ lastSlideIndex +', 0 )' );
 	});
 
 	test( 'Reveal.getTotalSlides', function() {
