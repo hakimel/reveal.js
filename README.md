@@ -8,7 +8,9 @@ to include FontAwesome for the usage in your ```<sections>``` / slides use the f
 ```html
 <link rel="stylesheet" href="css/font-awesome/css/font-awesome.css"> 
 ```
-Addition and changes made by [crood](https://github.com/crood/)
+a preview with FontAwesome Info and example can be found here: [Example-Project](http://crood.github.io/reveal_fontawesome.js/#/)
+
+-Addition and changes made by [crood](https://github.com/crood/)-
 
 ----------------------------------------------------------------------
 
