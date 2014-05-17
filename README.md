@@ -6,7 +6,7 @@ Edit on the css and javascript files, plus including the framework in the filest
 
 to include FontAwesome for the usage in your ```<sections>``` / slides use the following in the ```<header>``` of your HTML file: 
 ```html
-<link rel="stylesheet" href="css/font-awesome/css/font-awesome.css"> 
+<link rel="stylesheet" href="lib/css/font-awesome/css/font-awesome.css"> 
 ```
 a preview with FontAwesome Info and example can be found here: [Example-Project](http://crood.github.io/reveal_fontawesome.js/#/)
 
