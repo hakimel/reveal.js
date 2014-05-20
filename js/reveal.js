@@ -1818,7 +1818,7 @@
 		}
 
 		// Handle embedded content
-		if( slideChanged ) {
+		if( slideChanged || !previousSlide ) {
 			stopEmbeddedContent( previousSlide );
 			startEmbeddedContent( currentSlide );
 		}
