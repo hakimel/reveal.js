@@ -2595,13 +2595,10 @@
 		if( isNaN( parseInt( bits[0], 10 ) ) && name.length ) {
 			var element;
 
-			try {
-				// Find the slide with the specified name
+			// Ensure the named link is a valid HTML ID attribute
+			if( /^[a-zA-Z][\w:.-]*$/.test( name ) ) {
+				// Find the slide with the specified ID
 				element = document.querySelector( '#' + name );
-			}
-			catch( e ) {
-				// If the ID is an invalid selector a harmless SyntaxError
-				// may be thrown here.
 			}
 
 			if( element ) {
