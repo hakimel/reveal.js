@@ -32,8 +32,10 @@ html {
 /* SECTION 2: Remove any elements not needed in print.
    This would include navigation, ads, sidebars, etc. */
 .nestedarrow,
-.controls,
+.reveal .controls,
 .reveal .progress,
+.reveal .slide-number,
+.reveal .playback,
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
