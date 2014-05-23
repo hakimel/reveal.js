@@ -67,7 +67,7 @@ a:visited {
 
 .reveal pre code {
 	overflow: hidden !important;
-	font-family: monospace !important;
+	font-family: Courier, 'Courier New', monospace !important;
 }
 
 
