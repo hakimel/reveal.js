@@ -25,10 +25,10 @@
 
 	var Reveal;
 
-	var SLIDES_SELECTOR = '.reveal .slides section',
-		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
-		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
-		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-of-type',
+	var SLIDES_SELECTOR = '.slides section',
+		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
+		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
+		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
 
 		// Configurations defaults, can be overridden at initialization time
 		config = {
@@ -224,6 +224,10 @@
 			return;
 		}
 
+		// Cache references to key DOM elements
+		dom.wrapper = document.querySelector( '.reveal' );
+		dom.slides = document.querySelector( '.reveal .slides' );
+
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
 
@@ -398,11 +402,6 @@
 	 */
 	function setupDOM() {
 
-		// Cache references to key DOM elements
-		dom.theme = document.querySelector( '#theme' );
-		dom.wrapper = document.querySelector( '.reveal' );
-		dom.slides = document.querySelector( '.reveal .slides' );
-
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
@@ -431,6 +430,7 @@
 
 		// Cache references to elements
 		dom.controls = document.querySelector( '.reveal .controls' );
+		dom.theme = document.querySelector( '#theme' );
 
 		// There can be multiple instances of controls throughout the page
 		dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
@@ -469,7 +469,7 @@
 		document.body.style.height = pageHeight + 'px';
 
 		// Slide and slide background layout
-		toArray( document.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 
 			// Vertical stacks are not centred since their section
 			// children will be
@@ -505,7 +505,7 @@
 		} );
 
 		// Show all fragments
-		toArray( document.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
 
@@ -556,7 +556,7 @@
 		dom.background.classList.add( 'no-transition' );
 
 		// Iterate over all horizontal slides
-		toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
 
 			var backgroundStack;
 
@@ -705,7 +705,7 @@
 	 */
 	function configure( options ) {
 
-		var numberOfSlides = document.querySelectorAll( SLIDES_SELECTOR ).length;
+		var numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
 
 		dom.wrapper.classList.remove( config.transition );
 
@@ -1119,7 +1119,7 @@
 	function enableRollingLinks() {
 
 		if( features.transforms3d && !( 'msPerspective' in document.body.style ) ) {
-			var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a' );
+			var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' a' );
 
 			for( var i = 0, len = anchors.length; i < len; i++ ) {
 				var anchor = anchors[i];
@@ -1143,7 +1143,7 @@
 	 */
 	function disableRollingLinks() {
 
-		var anchors = document.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
+		var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
 
 		for( var i = 0, len = anchors.length; i < len; i++ ) {
 			var anchor = anchors[i];
@@ -1280,7 +1280,7 @@
 			}
 
 			// Select all slides, vertical and horizontal
-			var slides = toArray( document.querySelectorAll( SLIDES_SELECTOR ) );
+			var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
 
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
@@ -1439,7 +1439,7 @@
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
 
-			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
 			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 				var hslide = horizontalSlides[i],
@@ -1516,7 +1516,7 @@
 			}, 1 );
 
 			// Select all slides
-			toArray( document.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 				// Resets all transforms to use the external styles
 				transformElement( slide, '' );
 
@@ -1707,7 +1707,7 @@
 		previousSlide = currentSlide;
 
 		// Query all horizontal slides in the deck
-		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
@@ -1803,10 +1803,10 @@
 
 			// Reset all slides upon navigate to home
 			// Issue: #285
-			if ( document.querySelector( HOME_SLIDE_SELECTOR ).classList.contains( 'present' ) ) {
+			if ( dom.wrapper.querySelector( HOME_SLIDE_SELECTOR ).classList.contains( 'present' ) ) {
 				// Launch async task
 				setTimeout( function () {
-					var slides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
+					var slides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
 					for( i in slides ) {
 						if( slides[i] ) {
 							// Reset stack
@@ -1875,7 +1875,7 @@
 	 */
 	function resetVerticalSlides() {
 
-		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
 			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
@@ -1899,7 +1899,7 @@
 	 */
 	function sortAllFragments() {
 
-		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
 			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
@@ -1932,7 +1932,7 @@
 
 		// Select all slides and convert the NodeList result to
 		// an array
-		var slides = toArray( document.querySelectorAll( selector ) ),
+		var slides = toArray( dom.wrapper.querySelectorAll( selector ) ),
 			slidesLength = slides.length;
 
 		var printMode = isPrintingPDF();
@@ -2036,7 +2036,7 @@
 
 		// Select all slides and convert the NodeList result to
 		// an array
-		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
+		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
 			horizontalSlidesLength = horizontalSlides.length,
 			distanceX,
 			distanceY;
@@ -2283,8 +2283,8 @@
 
 		if( config.parallaxBackgroundImage ) {
 
-			var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
-				verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+				verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
 			var backgroundSize = dom.background.style.backgroundSize.split( ' ' ),
 				backgroundWidth, backgroundHeight;
@@ -2364,7 +2364,7 @@
 				}
 				// Videos
 				else if ( backgroundVideo ) {
-					var video = document.createElement( 'video' );
+					var video = dom.wrapper.createElement( 'video' );
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( function( source ) {
@@ -2403,8 +2403,8 @@
 	 */
 	function availableRoutes() {
 
-		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
-			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+			verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
 		var routes = {
 			left: indexh > 0 || config.loop,
@@ -2511,10 +2511,10 @@
 	 */
 	function getProgress() {
 
-		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		// The number of past and total slides
-		var totalCount = document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+		var totalCount = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
 		var pastCount = 0;
 
 		// Step through all slides and count the past ones
@@ -2690,7 +2690,7 @@
 			var slideh = isVertical ? slide.parentNode : slide;
 
 			// Select all horizontal slides
-			var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 			// Now that we know which the horizontal slide is, get its index
 			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
@@ -2721,7 +2721,7 @@
 	 */
 	function getTotalSlides() {
 
-		return document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+		return dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
 
 	}
 
@@ -2730,7 +2730,7 @@
 	 */
 	function getSlide( x, y ) {
 
-		var horizontalSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
+		var horizontalSlide = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
 		var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
 
 		if( verticalSlides && verticalSlides.length && typeof y === 'number' ) {
@@ -2763,7 +2763,7 @@
 			return undefined;
 		}
 
-		var horizontalBackground = document.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
+		var horizontalBackground = dom.wrapper.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
 		var verticalBackgrounds = horizontalBackground && horizontalBackground.querySelectorAll( '.slide-background' );
 
 		if( verticalBackgrounds && verticalBackgrounds.length && typeof y === 'number' ) {
@@ -3147,7 +3147,7 @@
 			}
 			else {
 				// Fetch the previous horizontal slide, if there is one
-				var previousSlide = document.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
+				var previousSlide = dom.wrapper.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
 
 				if( previousSlide ) {
 					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
@@ -3502,7 +3502,7 @@
 
 		event.preventDefault();
 
-		var slidesTotal = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
+		var slidesTotal = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
 		var slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
 
 		slide( slideIndex );
