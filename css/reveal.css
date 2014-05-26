@@ -299,11 +299,6 @@ body {
 	margin-left: 40px;
 }
 
-.reveal p {
-	margin-bottom: 10px;
-	line-height: 1.2em;
-}
-
 .reveal q,
 .reveal blockquote {
 	quotes: none;
