@@ -1,0 +1,32 @@
+{
+  "name": "reveal.js",
+  "version": "2.6.2",
+  "homepage": "http://lab.hakim.se/reveal-js",
+  "authors": [
+    "Hakim El Hattab <hakim.elhattab@gmail.com>"
+  ],
+  "description": "The HTML Presentation Framework",
+  "main": [
+    "./js/reveal.min.js",
+    "./js/reveal.js",
+    "./css/reveal.min.css",
+    "./css/reveal.css",
+    "./css/theme/beige.css",
+    "./css/theme/blood.css",
+    "./css/theme/default.css",
+    "./css/theme/moon.css",
+    "./css/theme/night.css",
+    "./css/theme/serif.css",
+    "./css/theme/simple.css",
+    "./css/theme/sky.css",
+    "./css/theme/solarized.css"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
