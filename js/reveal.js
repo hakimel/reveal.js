@@ -3210,11 +3210,12 @@
 
 		// Check if there's a focused element that could be using
 		// the keyboard
-		var hasFocus = !!( document.activeElement && ( document.activeElement.type || document.activeElement.contentEditable !== 'inherit' ) );
+		var activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
+		var activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( hasFocus || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		// While paused only allow "unpausing" keyboard events (b and .)
 		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
