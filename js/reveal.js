@@ -2364,7 +2364,7 @@
 				}
 				// Videos
 				else if ( backgroundVideo ) {
-					var video = dom.wrapper.createElement( 'video' );
+					var video = document.createElement( 'video' );
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( function( source ) {
