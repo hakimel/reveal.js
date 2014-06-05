@@ -112,7 +112,7 @@
 			postMessageEvents: false,
 
 			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
-			focusBodyOnPageVisiblityChange: true,
+			focusBodyOnPageVisibilityChange: true,
 
 			// Theme (see /css/theme)
 			theme: null,
@@ -842,7 +842,7 @@
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
-		if( config.focusBodyOnPageVisiblityChange ) {
+		if( config.focusBodyOnPageVisibilityChange ) {
 			var visibilityChange;
 
 			if( 'hidden' in document ) {
