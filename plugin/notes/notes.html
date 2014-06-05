@@ -180,8 +180,20 @@
 						nextSlide = document.getElementById( 'next-slide' ),
 						silenced = false;
 
+					var start = new Date(),
+						timeEl = document.querySelector( '.time' ),
+						clockEl = document.getElementById( 'clock' ),
+						hoursEl = document.getElementById( 'hours' ),
+						minutesEl = document.getElementById( 'minutes' ),
+						secondsEl = document.getElementById( 'seconds' );
+
 					window.addEventListener( 'message', function( event ) {
 						var data = JSON.parse( event.data );
+
+						// Reset the time counter if asked to.
+						if ( data.reset ) {
+							start = new Date();
+						}
 
 						// No need for updating the notes in case of fragment changes
 						if ( data.notes !== undefined) {
@@ -193,22 +205,16 @@
 							}
 						}
 
-						silenced = true;
-
 						// Update the note slides
-						currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv, data.indexf );
-						nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
+						if ( data.update ) {
+							silenced = true;
+							currentSlide.contentWindow.Reveal.slide( data.indexh, data.indexv, data.indexf );
+							nextSlide.contentWindow.Reveal.slide( data.nextindexh, data.nextindexv );
+							silenced = false;
+						}
 
-						silenced = false;
 
 					}, false );
-
-					var start = new Date(),
-						timeEl = document.querySelector( '.time' ),
-						clockEl = document.getElementById( 'clock' ),
-						hoursEl = document.getElementById( 'hours' ),
-						minutesEl = document.getElementById( 'minutes' ),
-						secondsEl = document.getElementById( 'seconds' );
 
 					setInterval( function() {
 
