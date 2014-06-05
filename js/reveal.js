@@ -86,8 +86,8 @@ var Reveal = (function(){
 			// Opens links in an iframe preview overlay
 			previewLinks: false,
 
-			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
-			focusBodyOnPageVisiblityChange: true,
+			// Focuses body when page changes visibility to ensure keyboard shortcuts work
+			focusBodyOnPageVisibilityChange: true,
 
 			// Theme (see /css/theme)
 			theme: null,
@@ -652,7 +652,7 @@ var Reveal = (function(){
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
-		if( config.focusBodyOnPageVisiblityChange ) {
+		if( config.focusBodyOnPageVisibilityChange ) {
 			var visibilityChange;
 
 			if( 'hidden' in document ) {
