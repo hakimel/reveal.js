@@ -177,6 +177,20 @@ var Reveal = (function(){
 			startCount: 0,
 			captured: false,
 			threshold: 40
+		},
+
+		// Holds information about the keyboard shortcuts
+		keyboard_shortcuts = {
+			'p': "Previous slide",
+			'n': "Next slide",
+			'h': "Navigate left",
+			'l': "Navigate right",
+			'k': "Navigate up",
+			'j': "Navigate down",
+			'Home': "First slide",
+			'End': "Last slide",
+			'b': "Pause",
+			'f': "Fullscreen"
 		};
 
 	/**
@@ -646,6 +660,7 @@ var Reveal = (function(){
 
 		if( config.keyboard ) {
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
+			document.addEventListener( 'keypress', onDocumentKeyPress, false );
 		}
 
 		if( config.progress && dom.progress ) {
@@ -689,6 +704,7 @@ var Reveal = (function(){
 		eventsAreBound = false;
 
 		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
+		document.removeEventListener( 'keypress', onDocumentKeyPress, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
@@ -1016,6 +1032,44 @@ var Reveal = (function(){
 			dom.preview.parentNode.removeChild( dom.preview );
 			dom.preview = null;
 		}
+
+	}
+
+	/**
+	 * Opens a overlay window for the keyboard shortcuts.
+	 */
+	function openShortcutsOverlay() {
+
+		closePreview();
+
+		dom.preview = document.createElement( 'div' );
+		dom.preview.classList.add( 'preview-link-overlay' );
+		dom.wrapper.appendChild( dom.preview );
+
+		var html = '<h5>Keyboard Shortcuts</h5><br/>';
+		html += '<table> <th>KEY</th> <th>ACTION</th>';
+		for( var key in keyboard_shortcuts ) {
+			html += '<tr> <td>' + key + '</td> <td>' + keyboard_shortcuts[key] + '</td> </tr>'
+		}
+		html += '</table>';
+
+		dom.preview.innerHTML = [
+			'<header>',
+				'<a class="close" href="#"><span class="icon"></span></a>',
+			'</header>',
+			'<div class="viewport">',
+				'<div class="shortcuts">'+html+'</div>',
+			'</div>'
+		].join('');
+
+		dom.preview.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			closePreview();
+			event.preventDefault();
+		}, false );
+
+		setTimeout( function() {
+			dom.preview.classList.add( 'visible' );
+		}, 1 );
 
 	}
 
@@ -2640,6 +2694,17 @@ var Reveal = (function(){
 			pauseAutoSlide();
 		}
 
+	}
+
+	/**
+	 * Handler for the document level 'keypress' event.
+	 */
+
+	function onDocumentKeyPress( event ) {
+		// Check if the pressed key is question mark
+		if( event.shiftKey && event.charCode == 63 ) {
+			openShortcutsOverlay();
+		}
 	}
 
 	/**
