@@ -1743,6 +1743,7 @@ body {
 
 	.reveal .overlay.overlay-help .viewport {
 		overflow: auto;
+		color: #fff;
 	}
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner {
@@ -1763,16 +1764,17 @@ body {
 		font-size: 14px;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table th {
-		height: 30px;
-	}
-
 	.reveal .overlay.overlay-help .viewport .viewport-inner table th,
 	.reveal .overlay.overlay-help .viewport .viewport-inner table td {
 		width: 200px;
 		padding: 10px;
 		border: 1px solid #fff;
 		vertical-align: middle;
+	}
+
+	.reveal .overlay.overlay-help .viewport .viewport-inner table th {
+		padding-top: 20px;
+		padding-bottom: 20px;
 	}
 
 
