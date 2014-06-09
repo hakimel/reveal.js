@@ -1742,6 +1742,39 @@ body {
  	}
 
 
+ 	.reveal .preview-link-overlay .viewport .shortcuts {
+ 		-webkit-column-count: 2; 
+			 -moz-column-count: 2; 
+				    column-count: 2;
+		font-size: 20px;
+		height: 100%;
+		margin-left: 35%;
+		margin-top: 20px;
+		text-align: center;
+ 	}
+
+ 	.reveal .preview-link-overlay .viewport .shortcuts table {
+ 		border: 1px solid #fff;
+ 		border-collapse: collapse;
+ 		font-size: 14px;
+ 	}
+
+ 	.reveal .preview-link-overlay .viewport .shortcuts table th{
+ 		border: 1px solid #fff;
+ 		height: 30px;
+ 		width: 200px;
+ 		padding: 10px;
+ 		vertical-align: middle;
+ 	}
+
+ 	.reveal .preview-link-overlay .viewport .shortcuts table tr td{
+ 		border: 1px solid #fff;
+ 		height: 30px;
+ 		vertical-align: middle;
+ 		padding: 5px;
+ 	}
+
+
 
 /*********************************************
  * PLAYBACK COMPONENT
