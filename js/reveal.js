@@ -2966,7 +2966,7 @@
 						element.classList.remove( 'current-fragment' );
 
 						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.innerHTML = element.textContent.trim();
+						dom.statusDiv.innerHTML = element.textContent;
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
