@@ -199,13 +199,13 @@
 		},
 
 		// Holds information about the keyboard shortcuts
-		keyboard_shortcuts = {
-			'p': 'Previous slide',
-			'n': 'Next slide',
-			'h': 'Navigate left',
-			'l': 'Navigate right',
-			'k': 'Navigate up',
-			'j': 'Navigate down',
+		keyboardShortcuts = {
+			'P': 'Previous slide',
+			'N': 'Next slide',
+			'H': 'Navigate left',
+			'L': 'Navigate right',
+			'K': 'Navigate up',
+			'J': 'Navigate down',
 			'Home': 'First slide',
 			'End': 'Last slide',
 			'b': 'Pause',
@@ -1233,15 +1233,16 @@
 	/**
 	 * Opens a preview window for the target URL.
 	 */
-	function openPreview( url ) {
+	function showPreview( url ) {
 
-		closePreview();
+		closeOverlay();
 
-		dom.preview = document.createElement( 'div' );
-		dom.preview.classList.add( 'preview-link-overlay' );
-		dom.wrapper.appendChild( dom.preview );
+		dom.overlay = document.createElement( 'div' );
+		dom.overlay.classList.add( 'overlay' );
+		dom.overlay.classList.add( 'overlay-preview' );
+		dom.wrapper.appendChild( dom.overlay );
 
-		dom.preview.innerHTML = [
+		dom.overlay.innerHTML = [
 			'<header>',
 				'<a class="close" href="#"><span class="icon"></span></a>',
 				'<a class="external" href="'+ url +'" target="_blank"><span class="icon"></span></a>',
@@ -1252,73 +1253,76 @@
 			'</div>'
 		].join('');
 
-		dom.preview.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
-			dom.preview.classList.add( 'loaded' );
+		dom.overlay.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
+			dom.overlay.classList.add( 'loaded' );
 		}, false );
 
-		dom.preview.querySelector( '.close' ).addEventListener( 'click', function( event ) {
-			closePreview();
+		dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			closeOverlay();
 			event.preventDefault();
 		}, false );
 
-		dom.preview.querySelector( '.external' ).addEventListener( 'click', function( event ) {
-			closePreview();
+		dom.overlay.querySelector( '.external' ).addEventListener( 'click', function( event ) {
+			closeOverlay();
 		}, false );
 
 		setTimeout( function() {
-			dom.preview.classList.add( 'visible' );
+			dom.overlay.classList.add( 'visible' );
 		}, 1 );
 
 	}
 
 	/**
-	 * Closes the iframe preview window.
+	 * Opens a overlay window with help material.
 	 */
-	function closePreview() {
+	function showHelp() {
 
-		if( dom.preview ) {
-			dom.preview.setAttribute( 'src', '' );
-			dom.preview.parentNode.removeChild( dom.preview );
-			dom.preview = null;
+		closeOverlay();
+
+		dom.overlay = document.createElement( 'div' );
+		dom.overlay.classList.add( 'overlay' );
+		dom.overlay.classList.add( 'overlay-help' );
+		dom.wrapper.appendChild( dom.overlay );
+
+		var html = '<p class="title">Keyboard Shortcuts</p><br/>';
+
+		html += '<table><th>KEY</th><th>ACTION</th>';
+		for( var key in keyboardShortcuts ) {
+			html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
 		}
 
-	}
-
-	/**
-	 * Opens a overlay window for the keyboard shortcuts.
-	 */
-	function openShortcutsOverlay() {
-
-		closePreview();
-
-		dom.preview = document.createElement( 'div' );
-		dom.preview.classList.add( 'preview-link-overlay' );
-		dom.wrapper.appendChild( dom.preview );
-
-		var html = '<h5>Keyboard Shortcuts</h5><br/>';
-		html += '<table> <th>KEY</th> <th>ACTION</th>';
-		for( var key in keyboard_shortcuts ) {
-			html += '<tr> <td>' + key + '</td> <td>' + keyboard_shortcuts[key] + '</td> </tr>'
-		}
 		html += '</table>';
 
-		dom.preview.innerHTML = [
+		dom.overlay.innerHTML = [
 			'<header>',
 				'<a class="close" href="#"><span class="icon"></span></a>',
 			'</header>',
 			'<div class="viewport">',
-				'<div class="shortcuts">'+html+'</div>',
+				'<div class="viewport-inner">'+ html +'</div>',
 			'</div>'
 		].join('');
 
-		dom.preview.querySelector( '.close' ).addEventListener( 'click', function( event ) {
-			closePreview();
+		dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			closeOverlay();
 			event.preventDefault();
 		}, false );
 
 		setTimeout( function() {
-			dom.preview.classList.add( 'visible' );
+			dom.overlay.classList.add( 'visible' );
 		}, 1 );
+
+	}
+
+	/**
+	 * Closes any currently open overlay.
+	 */
+	function closeOverlay() {
+
+		if( dom.overlay ) {
+			dom.overlay.setAttribute( 'src', '' );
+			dom.overlay.parentNode.removeChild( dom.overlay );
+			dom.overlay = null;
+		}
 
 	}
 
@@ -3289,12 +3293,13 @@
 	/**
 	 * Handler for the document level 'keypress' event.
 	 */
-
 	function onDocumentKeyPress( event ) {
+
 		// Check if the pressed key is question mark
-		if( event.shiftKey && event.charCode == 63 ) {
-			openShortcutsOverlay();
+		if( event.shiftKey && event.charCode === 63 ) {
+			showHelp();
 		}
+
 	}
 
 	/**
@@ -3402,8 +3407,8 @@
 		}
 		// ESC or O key
 		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
-			if( dom.preview ) {
-				closePreview();
+			if( dom.overlay ) {
+				closeOverlay();
 			}
 			else {
 				toggleOverview();
@@ -3701,7 +3706,7 @@
 
 		var url = event.target.getAttribute( 'href' );
 		if( url ) {
-			openPreview( url );
+			showPreview( url );
 			event.preventDefault();
 		}
 
