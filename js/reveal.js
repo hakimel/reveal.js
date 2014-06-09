@@ -432,6 +432,8 @@
 		dom.controls = document.querySelector( '.reveal .controls' );
 		dom.theme = document.querySelector( '#theme' );
 
+		dom.wrapper.setAttribute( 'role', 'application' );
+
 		// There can be multiple instances of controls throughout the page
 		dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
 		dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
@@ -439,6 +441,31 @@
 		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
+
+		dom.statusDiv = createStatusDiv();
+	}
+
+	/**
+	 * Creates a hidden div with role aria-live to announce the
+	 * current slide content. Hide the div off-screen to make it
+	 * available only to Assistive Technologies.
+	 */
+	function createStatusDiv() {
+
+		var statusDiv = document.getElementById( 'aria-status-div' );
+		if( !statusDiv ) {
+			statusDiv = document.createElement( 'div' );
+			statusDiv.style.position = 'absolute';
+			statusDiv.style.height = '1px';
+			statusDiv.style.width = '1px';
+			statusDiv.style.overflow ='hidden';
+			statusDiv.style.clip = 'rect( 1px, 1px, 1px, 1px )';
+			statusDiv.setAttribute( 'id', 'aria-status-div' );
+			statusDiv.setAttribute( 'aria-live', 'polite' );
+			statusDiv.setAttribute( 'aria-atomic','true' );
+			dom.wrapper.appendChild( statusDiv );
+		}
+		return statusDiv;
 
 	}
 
@@ -1800,6 +1827,7 @@
 		// stacks
 		if( previousSlide ) {
 			previousSlide.classList.remove( 'present' );
+			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
 			// Reset all slides upon navigate to home
 			// Issue: #285
@@ -1822,6 +1850,9 @@
 			stopEmbeddedContent( previousSlide );
 			startEmbeddedContent( currentSlide );
 		}
+
+		// Announce the current slide contents, for screen readers
+		dom.statusDiv.innerHTML = currentSlide.textContent;
 
 		updateControls();
 		updateProgress();
@@ -1888,6 +1919,7 @@
 					verticalSlide.classList.remove( 'present' );
 					verticalSlide.classList.remove( 'past' );
 					verticalSlide.classList.add( 'future' );
+					verticalSlide.setAttribute( 'aria-hidden', 'true' );
 				}
 
 			} );
@@ -1965,6 +1997,7 @@
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+				element.setAttribute( 'aria-hidden', 'true' );
 
 				// If this element contains vertical slides
 				if( element.querySelector( 'section' ) ) {
@@ -2012,6 +2045,7 @@
 			// Mark the current slide as present
 			slides[index].classList.add( 'present' );
 			slides[index].removeAttribute( 'hidden' );
+			slides[index].removeAttribute( 'aria-hidden' );
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
@@ -2930,6 +2964,9 @@
 						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
 						element.classList.add( 'visible' );
 						element.classList.remove( 'current-fragment' );
+
+						// Announce the fragments one by one to the Screen Reader
+						dom.statusDiv.innerHTML = element.textContent.trim();
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
