@@ -181,16 +181,16 @@ var Reveal = (function(){
 
 		// Holds information about the keyboard shortcuts
 		keyboard_shortcuts = {
-			'p': "Previous slide",
-			'n': "Next slide",
-			'h': "Navigate left",
-			'l': "Navigate right",
-			'k': "Navigate up",
-			'j': "Navigate down",
-			'Home': "First slide",
-			'End': "Last slide",
-			'b': "Pause",
-			'f': "Fullscreen"
+			'p': 'Previous slide',
+			'n': 'Next slide',
+			'h': 'Navigate left',
+			'l': 'Navigate right',
+			'k': 'Navigate up',
+			'j': 'Navigate down',
+			'Home': 'First slide',
+			'End': 'Last slide',
+			'b': 'Pause',
+			'f': 'Fullscreen'
 		};
 
 	/**
