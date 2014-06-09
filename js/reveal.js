@@ -200,16 +200,17 @@
 
 		// Holds information about the keyboard shortcuts
 		keyboardShortcuts = {
-			'P': 'Previous slide',
-			'N': 'Next slide',
-			'H': 'Navigate left',
-			'L': 'Navigate right',
-			'K': 'Navigate up',
-			'J': 'Navigate down',
-			'Home': 'First slide',
-			'End': 'Last slide',
-			'b': 'Pause',
-			'f': 'Fullscreen'
+			'N  ,  SPACE':			'Next slide',
+			'P':					'Previous slide',
+			'&#8592;  ,  H':		'Navigate left',
+			'&#8594;  ,  L':		'Navigate right',
+			'&#8593;  ,  K':		'Navigate up',
+			'&#8595;  ,  J':		'Navigate down',
+			'Home':					'First slide',
+			'End':					'Last slide',
+			'B  ,  .':				'Pause',
+			'F':					'Fullscreen',
+			'ESC, O':				'Slide overview'
 		};
 
 	/**
@@ -1319,7 +1320,6 @@
 	function closeOverlay() {
 
 		if( dom.overlay ) {
-			dom.overlay.setAttribute( 'src', '' );
 			dom.overlay.parentNode.removeChild( dom.overlay );
 			dom.overlay = null;
 		}

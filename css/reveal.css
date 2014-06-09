@@ -1741,18 +1741,20 @@ body {
 		        transform: scale(0.2);
 	}
 
+	.reveal .overlay.overlay-help .viewport {
+		overflow: auto;
+	}
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner {
 		width: 600px;
-		height: 100%;
 		margin: 0 auto;
+		padding: 60px;
 		text-align: center;
 		letter-spacing: normal;
 	}
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner .title {
 		font-size: 20px;
-		margin-top: 60px;
 	}
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner table {
