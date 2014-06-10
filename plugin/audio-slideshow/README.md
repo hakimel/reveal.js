@@ -1,6 +1,9 @@
 Read me
 ===============
 
+A plugin for easy audio playback and recording for reveal.js. Check out the live [demo](http://www.faculty.jacobs-university.de/agoel/audio-slideshow/).
+
+
 ### Configuration
 
 When initializing reveal you have to set the ```autoSlide``` value, the ```audioPrefix``` and ```audioSuffix``` value, include the plugins, and set keyboard shortcuts as specified below.
@@ -17,20 +20,16 @@ Reveal.initialize({
 	audioPrefix: 'audio/',
 	audioSuffix: '.ogg',
 
-  dependencies: [
+	dependencies: [
 	  
-	  // ... 
+		// ... 
 	  
-	  { src: 'plugin/audio-slideshow/slideshow-recorder.js', condition: function( ) { return !!document.body.classList; } },				
-	  { src: 'plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList; } }
-  ],					
+		{ src: 'plugin/audio-slideshow/slideshow-recorder.js', condition: function( ) { return !!document.body.classList; } },				
+		{ src: 'plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList; } }
+	],					
 	keyboard: { 
 		82: function() { Recorder.toggleRecording(); },	// press 'r' to start/stop recording
 		90: function() { Recorder.downloadZip(); } 	// press 'z' to download zip containing audio files
 	}
 });
 ```
-
-
-
-Please have a look at the [demo](http://www.faculty.jacobs-university.de/agoel/audio-slideshow/).
