@@ -33,6 +33,11 @@ body {
   background: #134674;
   text-shadow: none; }
 
+.reveal .slides > section,
+.reveal .slides > section > section {
+  line-height: 1.2em;
+  font-weight: inherit; }
+
 /*********************************************
  * HEADERS
  *********************************************/
@@ -48,7 +53,20 @@ body {
   line-height: 1em;
   letter-spacing: -0.08em;
   text-transform: uppercase;
-  text-shadow: none; }
+  text-shadow: none;
+  word-wrap: break-word; }
+
+.reveal h1 {
+  font-size: 3.77em; }
+
+.reveal h2 {
+  font-size: 2.11em; }
+
+.reveal h3 {
+  font-size: 1.55em; }
+
+.reveal h4 {
+  font-size: 1em; }
 
 .reveal h1 {
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
