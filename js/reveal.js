@@ -2553,7 +2553,7 @@
 		toArray( dom.slides.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 			var src = el.getAttribute( 'src' );
 			if( !/enablejsapi\=1/gi.test( src ) ) {
-				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '' ) + 'enablejsapi=1' );
+				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'enablejsapi=1' );
 			}
 		});
 
@@ -2561,7 +2561,7 @@
 		toArray( dom.slides.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 			var src = el.getAttribute( 'src' );
 			if( !/api\=1/gi.test( src ) ) {
-				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '' ) + 'api=1' );
+				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'api=1' );
 			}
 		});
 
