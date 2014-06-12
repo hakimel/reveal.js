@@ -288,6 +288,7 @@ var Recorder = {
 //------------------------------------
 // 1. RecordRTC.js
 // 3. Cross-Browser-Declarations.js
+// 4. Storage.js
 // 5. MediaStreamRecorder.js
 // 6. StereoRecorder.js
 // 7. StereoAudioRecorder.js
@@ -474,6 +475,11 @@ function reformatProps(obj) {
     return output;
 }
 
+// __________ (used to handle stuff like http://goo.gl/xmE5eg) issue #129
+// Storage.js
+var Storage = {
+    AudioContext: window.AudioContext || window.webkitAudioContext
+};
 
 // ______________________
 // MediaStreamRecorder.js
@@ -595,6 +601,8 @@ function StereoRecorder(mediaStream) {
 // ______________________
 // StereoAudioRecorder.js
 
+// In Chrome, when the javascript node is out of scope, the onaudioprocess callback stops firing. 
+// This leads to audio being significantly shorter than the generated video.
 var __stereoAudioRecorderJavacriptNode;
 
 function StereoAudioRecorder(mediaStream, root) {
@@ -2291,4 +2299,5 @@ JSZip.base64 = (function() {
 
 // enforcing Stuk's coding style
 // vim: set shiftwidth=3 softtabstop=3:
+
 
