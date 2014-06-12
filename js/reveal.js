@@ -1959,6 +1959,8 @@
 		updateSlideNumber();
 		updateSlidesVisibility();
 
+		formatEmbeddedContent();
+
 	}
 
 	/**
@@ -2539,6 +2541,21 @@
 		else {
 			return { prev: false, next: false };
 		}
+
+	}
+
+	/**
+	 * Enforces origin-specific format rules for embedded content.
+	 */
+	function formatEmbeddedContent() {
+
+		// YouTube frames must include "?enablejsapi=1"
+		toArray( dom.slides.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
+			var src = el.getAttribute( 'src' );
+			if( !/enablejsapi\=1/gi.test( src ) ) {
+				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '' ) + 'enablejsapi=1' );
+			}
+		});
 
 	}
 
