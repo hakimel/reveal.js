@@ -85,6 +85,10 @@
 			// i.e. contained within a limited portion of the screen
 			embedded: false,
 
+			// Flags if we should show a help overlay when the questionmark
+			// key is pressed
+			help: true,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -1278,39 +1282,43 @@
 	 */
 	function showHelp() {
 
-		closeOverlay();
+		if( config.help ) {
 
-		dom.overlay = document.createElement( 'div' );
-		dom.overlay.classList.add( 'overlay' );
-		dom.overlay.classList.add( 'overlay-help' );
-		dom.wrapper.appendChild( dom.overlay );
-
-		var html = '<p class="title">Keyboard Shortcuts</p><br/>';
-
-		html += '<table><th>KEY</th><th>ACTION</th>';
-		for( var key in keyboardShortcuts ) {
-			html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
-		}
-
-		html += '</table>';
-
-		dom.overlay.innerHTML = [
-			'<header>',
-				'<a class="close" href="#"><span class="icon"></span></a>',
-			'</header>',
-			'<div class="viewport">',
-				'<div class="viewport-inner">'+ html +'</div>',
-			'</div>'
-		].join('');
-
-		dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
 			closeOverlay();
-			event.preventDefault();
-		}, false );
 
-		setTimeout( function() {
-			dom.overlay.classList.add( 'visible' );
-		}, 1 );
+			dom.overlay = document.createElement( 'div' );
+			dom.overlay.classList.add( 'overlay' );
+			dom.overlay.classList.add( 'overlay-help' );
+			dom.wrapper.appendChild( dom.overlay );
+
+			var html = '<p class="title">Keyboard Shortcuts</p><br/>';
+
+			html += '<table><th>KEY</th><th>ACTION</th>';
+			for( var key in keyboardShortcuts ) {
+				html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
+			}
+
+			html += '</table>';
+
+			dom.overlay.innerHTML = [
+				'<header>',
+					'<a class="close" href="#"><span class="icon"></span></a>',
+				'</header>',
+				'<div class="viewport">',
+					'<div class="viewport-inner">'+ html +'</div>',
+				'</div>'
+			].join('');
+
+			dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+				closeOverlay();
+				event.preventDefault();
+			}, false );
+
+			setTimeout( function() {
+				dom.overlay.classList.add( 'visible' );
+			}, 1 );
+
+		}
 
 	}
 
