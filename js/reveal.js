@@ -1918,7 +1918,7 @@
 		}
 
 		// Announce the current slide contents, for screen readers
-		dom.statusDiv.innerHTML = currentSlide.textContent;
+		dom.statusDiv.textContent = currentSlide.textContent;
 
 		updateControls();
 		updateProgress();
