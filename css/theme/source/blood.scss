@@ -70,13 +70,13 @@ $selectionColor: #fff;
     font-weight: 700;
 }
 
-.reveal a:not(.image),
-.reveal a:not(.image):hover {
+.reveal a,
+.reveal a:hover {
     text-shadow: 2px 2px 2px #000;
 }
 
-.reveal small a:not(.image),
-.reveal small a:not(.image):hover {
+.reveal small a,
+.reveal small a:hover {
     text-shadow: 1px 1px 1px #000;
 }
 
