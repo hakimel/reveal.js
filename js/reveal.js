@@ -3791,7 +3791,7 @@
 	}
 
 	function preventSwipe(target) {
-		while( target && typeof target.hasAttribute == 'function' ) {
+		while( target && typeof target.hasAttribute === 'function' ) {
 			if(target.hasAttribute('prevent-swipe')) return true;
 			target = target.parentNode;
 		}
