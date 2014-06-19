@@ -136,6 +136,10 @@ Reveal.initialize({
 	// i.e. contained within a limited portion of the screen
 	embedded: false,
 
+	// Flags if we should show a help overlay when the questionmark
+	// key is pressed
+	help: true,
+
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
 	// by using a data-autoslide attribute on your slides

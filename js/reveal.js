@@ -85,6 +85,10 @@
 			// i.e. contained within a limited portion of the screen
 			embedded: false,
 
+			// Flags if we should show a help overlay when the questionmark
+			// key is pressed
+			help: true,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -112,7 +116,7 @@
 			postMessageEvents: false,
 
 			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
-			focusBodyOnPageVisiblityChange: true,
+			focusBodyOnPageVisibilityChange: true,
 
 			// Theme (see /css/theme)
 			theme: null,
@@ -196,6 +200,21 @@
 			startCount: 0,
 			captured: false,
 			threshold: 40
+		},
+
+		// Holds information about the keyboard shortcuts
+		keyboardShortcuts = {
+			'N  ,  SPACE':			'Next slide',
+			'P':					'Previous slide',
+			'&#8592;  ,  H':		'Navigate left',
+			'&#8594;  ,  L':		'Navigate right',
+			'&#8593;  ,  K':		'Navigate up',
+			'&#8595;  ,  J':		'Navigate down',
+			'Home':					'First slide',
+			'End':					'Last slide',
+			'B  ,  .':				'Pause',
+			'F':					'Fullscreen',
+			'ESC, O':				'Slide overview'
 		};
 
 	/**
@@ -432,6 +451,8 @@
 		dom.controls = document.querySelector( '.reveal .controls' );
 		dom.theme = document.querySelector( '#theme' );
 
+		dom.wrapper.setAttribute( 'role', 'application' );
+
 		// There can be multiple instances of controls throughout the page
 		dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
 		dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
@@ -439,6 +460,31 @@
 		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
+
+		dom.statusDiv = createStatusDiv();
+	}
+
+	/**
+	 * Creates a hidden div with role aria-live to announce the
+	 * current slide content. Hide the div off-screen to make it
+	 * available only to Assistive Technologies.
+	 */
+	function createStatusDiv() {
+
+		var statusDiv = document.getElementById( 'aria-status-div' );
+		if( !statusDiv ) {
+			statusDiv = document.createElement( 'div' );
+			statusDiv.style.position = 'absolute';
+			statusDiv.style.height = '1px';
+			statusDiv.style.width = '1px';
+			statusDiv.style.overflow ='hidden';
+			statusDiv.style.clip = 'rect( 1px, 1px, 1px, 1px )';
+			statusDiv.setAttribute( 'id', 'aria-status-div' );
+			statusDiv.setAttribute( 'aria-live', 'polite' );
+			statusDiv.setAttribute( 'aria-atomic','true' );
+			dom.wrapper.appendChild( statusDiv );
+		}
+		return statusDiv;
 
 	}
 
@@ -462,7 +508,7 @@
 		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0;}' );
 
 		// Limit the size of certain elements to the dimensions of the slide
-		injectStyleSheet( '.reveal img, .reveal video, .reveal iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
+		injectStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
@@ -836,13 +882,14 @@
 
 		if( config.keyboard ) {
 			document.addEventListener( 'keydown', onDocumentKeyDown, false );
+			document.addEventListener( 'keypress', onDocumentKeyPress, false );
 		}
 
 		if( config.progress && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
-		if( config.focusBodyOnPageVisiblityChange ) {
+		if( config.focusBodyOnPageVisibilityChange ) {
 			var visibilityChange;
 
 			if( 'hidden' in document ) {
@@ -879,6 +926,7 @@
 		eventsAreBound = false;
 
 		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
+		document.removeEventListener( 'keypress', onDocumentKeyPress, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
@@ -1190,15 +1238,16 @@
 	/**
 	 * Opens a preview window for the target URL.
 	 */
-	function openPreview( url ) {
+	function showPreview( url ) {
 
-		closePreview();
+		closeOverlay();
 
-		dom.preview = document.createElement( 'div' );
-		dom.preview.classList.add( 'preview-link-overlay' );
-		dom.wrapper.appendChild( dom.preview );
+		dom.overlay = document.createElement( 'div' );
+		dom.overlay.classList.add( 'overlay' );
+		dom.overlay.classList.add( 'overlay-preview' );
+		dom.wrapper.appendChild( dom.overlay );
 
-		dom.preview.innerHTML = [
+		dom.overlay.innerHTML = [
 			'<header>',
 				'<a class="close" href="#"><span class="icon"></span></a>',
 				'<a class="external" href="'+ url +'" target="_blank"><span class="icon"></span></a>',
@@ -1209,34 +1258,78 @@
 			'</div>'
 		].join('');
 
-		dom.preview.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
-			dom.preview.classList.add( 'loaded' );
+		dom.overlay.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
+			dom.overlay.classList.add( 'loaded' );
 		}, false );
 
-		dom.preview.querySelector( '.close' ).addEventListener( 'click', function( event ) {
-			closePreview();
+		dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			closeOverlay();
 			event.preventDefault();
 		}, false );
 
-		dom.preview.querySelector( '.external' ).addEventListener( 'click', function( event ) {
-			closePreview();
+		dom.overlay.querySelector( '.external' ).addEventListener( 'click', function( event ) {
+			closeOverlay();
 		}, false );
 
 		setTimeout( function() {
-			dom.preview.classList.add( 'visible' );
+			dom.overlay.classList.add( 'visible' );
 		}, 1 );
 
 	}
 
 	/**
-	 * Closes the iframe preview window.
+	 * Opens a overlay window with help material.
 	 */
-	function closePreview() {
+	function showHelp() {
 
-		if( dom.preview ) {
-			dom.preview.setAttribute( 'src', '' );
-			dom.preview.parentNode.removeChild( dom.preview );
-			dom.preview = null;
+		if( config.help ) {
+
+			closeOverlay();
+
+			dom.overlay = document.createElement( 'div' );
+			dom.overlay.classList.add( 'overlay' );
+			dom.overlay.classList.add( 'overlay-help' );
+			dom.wrapper.appendChild( dom.overlay );
+
+			var html = '<p class="title">Keyboard Shortcuts</p><br/>';
+
+			html += '<table><th>KEY</th><th>ACTION</th>';
+			for( var key in keyboardShortcuts ) {
+				html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
+			}
+
+			html += '</table>';
+
+			dom.overlay.innerHTML = [
+				'<header>',
+					'<a class="close" href="#"><span class="icon"></span></a>',
+				'</header>',
+				'<div class="viewport">',
+					'<div class="viewport-inner">'+ html +'</div>',
+				'</div>'
+			].join('');
+
+			dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+				closeOverlay();
+				event.preventDefault();
+			}, false );
+
+			setTimeout( function() {
+				dom.overlay.classList.add( 'visible' );
+			}, 1 );
+
+		}
+
+	}
+
+	/**
+	 * Closes any currently open overlay.
+	 */
+	function closeOverlay() {
+
+		if( dom.overlay ) {
+			dom.overlay.parentNode.removeChild( dom.overlay );
+			dom.overlay = null;
 		}
 
 	}
@@ -1800,6 +1893,7 @@
 		// stacks
 		if( previousSlide ) {
 			previousSlide.classList.remove( 'present' );
+			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
 			// Reset all slides upon navigate to home
 			// Issue: #285
@@ -1822,6 +1916,9 @@
 			stopEmbeddedContent( previousSlide );
 			startEmbeddedContent( currentSlide );
 		}
+
+		// Announce the current slide contents, for screen readers
+		dom.statusDiv.textContent = currentSlide.textContent;
 
 		updateControls();
 		updateProgress();
@@ -1859,6 +1956,9 @@
 		// Re-create the slide backgrounds
 		createBackgrounds();
 
+		// Write the current hash to the URL
+		writeURL();
+
 		sortAllFragments();
 
 		updateControls();
@@ -1866,6 +1966,8 @@
 		updateBackground( true );
 		updateSlideNumber();
 		updateSlidesVisibility();
+
+		formatEmbeddedContent();
 
 	}
 
@@ -1885,6 +1987,7 @@
 					verticalSlide.classList.remove( 'present' );
 					verticalSlide.classList.remove( 'past' );
 					verticalSlide.classList.add( 'future' );
+					verticalSlide.setAttribute( 'aria-hidden', 'true' );
 				}
 
 			} );
@@ -1962,6 +2065,7 @@
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+				element.setAttribute( 'aria-hidden', 'true' );
 
 				// If this element contains vertical slides
 				if( element.querySelector( 'section' ) ) {
@@ -2009,6 +2113,7 @@
 			// Mark the current slide as present
 			slides[index].classList.add( 'present' );
 			slides[index].removeAttribute( 'hidden' );
+			slides[index].removeAttribute( 'aria-hidden' );
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
@@ -2364,7 +2469,7 @@
 				}
 				// Videos
 				else if ( backgroundVideo ) {
-					var video = dom.wrapper.createElement( 'video' );
+					var video = document.createElement( 'video' );
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( function( source ) {
@@ -2448,6 +2553,29 @@
 	}
 
 	/**
+	 * Enforces origin-specific format rules for embedded media.
+	 */
+	function formatEmbeddedContent() {
+
+		// YouTube frames must include "?enablejsapi=1"
+		toArray( dom.slides.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
+			var src = el.getAttribute( 'src' );
+			if( !/enablejsapi\=1/gi.test( src ) ) {
+				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'enablejsapi=1' );
+			}
+		});
+
+		// Vimeo frames must include "?api=1"
+		toArray( dom.slides.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
+			var src = el.getAttribute( 'src' );
+			if( !/api\=1/gi.test( src ) ) {
+				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'api=1' );
+			}
+		});
+
+	}
+
+	/**
 	 * Start playback of any embedded content inside of
 	 * the targeted slide.
 	 */
@@ -2470,6 +2598,14 @@
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+				}
+			});
+
+			// Vimeo embeds
+			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
+				if( el.hasAttribute( 'data-autoplay' ) ) {
+					console.log(11);
+					el.contentWindow.postMessage( '{"method":"play"}', '*' );
 				}
 			});
 		}
@@ -2499,6 +2635,13 @@
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
+				}
+			});
+
+			// Vimeo embeds
+			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
+				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
+					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
 				}
 			});
 		}
@@ -2641,7 +2784,7 @@
 			if( typeof delay === 'number' ) {
 				writeURLTimeout = setTimeout( writeURL, delay );
 			}
-			else {
+			else if( currentSlide ) {
 				var url = '/';
 
 				// Attempt to create a named link based on the slide's ID
@@ -2652,7 +2795,7 @@
 				}
 
 				// If the current slide has an ID, use that as a named link
-				if( currentSlide && typeof id === 'string' && id.length ) {
+				if( typeof id === 'string' && id.length ) {
 					url = '/' + id;
 				}
 				// Otherwise use the /h/v index
@@ -2928,6 +3071,9 @@
 						element.classList.add( 'visible' );
 						element.classList.remove( 'current-fragment' );
 
+						// Announce the fragments one by one to the Screen Reader
+						dom.statusDiv.innerHTML = element.textContent;
+
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
 						}
@@ -3193,6 +3339,23 @@
 	}
 
 	/**
+	 * Handler for the document level 'keypress' event.
+	 */
+	function onDocumentKeyPress( event ) {
+
+		// Check if the pressed key is question mark
+		if( event.shiftKey && event.charCode === 63 ) {
+			if( dom.overlay ) {
+				closeOverlay();
+			}
+			else {
+				showHelp( true );
+			}
+		}
+
+	}
+
+	/**
 	 * Handler for the document level 'keydown' event.
 	 */
 	function onDocumentKeyDown( event ) {
@@ -3210,11 +3373,12 @@
 
 		// Check if there's a focused element that could be using
 		// the keyboard
-		var hasFocus = !!( document.activeElement && ( document.activeElement.type || document.activeElement.contentEditable !== 'inherit' ) );
+		var activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
+		var activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( hasFocus || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		// While paused only allow "unpausing" keyboard events (b and .)
 		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
@@ -3296,8 +3460,8 @@
 		}
 		// ESC or O key
 		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
-			if( dom.preview ) {
-				closePreview();
+			if( dom.overlay ) {
+				closeOverlay();
 			}
 			else {
 				toggleOverview();
@@ -3595,7 +3759,7 @@
 
 		var url = event.target.getAttribute( 'href' );
 		if( url ) {
-			openPreview( url );
+			showPreview( url );
 			event.preventDefault();
 		}
 
