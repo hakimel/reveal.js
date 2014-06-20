@@ -11,8 +11,6 @@
 @import "../template/settings";
 // ---------------------------------------------
 
-
-
 // Override theme settings (see ../template/settings.scss)
 $mainFont: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 $mainColor: #000;
@@ -25,7 +23,7 @@ $linkColor: #51483D;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #26351C;
 
-.reveal a:not(.image) {
+.reveal a {
   line-height: 1.3em;
 }
 
