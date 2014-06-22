@@ -854,6 +854,35 @@ Reveal.initialize({
 Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
 
 
+## TOC-Progress
+
+This plugin lets you have a LaTeX Beamer-like progress indicator according to the table of contents as a footer. It will take the titles of main sections and subsections (except those we explicitly tell it to ignore) and will show in a footer the titles of all the main sections and the titles of the subsections of the main section we are now in, highlighting the main section and subsection we are currently at. You can find an example of it working at [http://e-gor.github.io/Reveal.js-TOC-Progress/demo](http://e-gor.github.io/Reveal.js-TOC-Progress/demo) and instructions of use at [https://github.com/e-gor/Reveal.js-TOC-Progress](https://github.com/e-gor/Reveal.js-TOC-Progress).
+
+The titles are taken in a similar way to the [Presentable plugin](http://fcfeibel.com/presentable). It takes the first ```h1```, ```h2``` or ```h3``` tag from the slides as the titles for the table of contents. Main sections will be the titles of the first slide in each vertical section and secondary sections will be the rest of the titles. A title will be excluded from the table of contents if we put it a ```class``` attribute with a value of ```no-toc-progress```. Likewise, the Reveal.js-TOC-Progress footer will not be shown in a slide if the corresponding section has a ```data-state``` attribute with a value of ```no-toc-progress```.
+
+Pressing the ```q``` key causes the Reveal.js-TOC-Progress footer to disappear. Pressing the ```q``` key again creates it again.
+
+Example configuration:
+
+```javascript
+Reveal.initialize
+(
+	{
+		...
+		dependencies:
+		[
+			...
+			{ src: 'plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize(); toc_progress.create(); } }
+		]
+	}
+);
+```
+
+The ```toc_progress.initialize``` function can take two parameters:
+
+- ```reducescroll```: if ```'reduce'```, the font of the text of too long section or subsection lists is reduced to make the list fit in the footer; if ```'scroll'``` (default), the list will scroll when necessary.
+- ```background```: a string of the form ```'rgba(0,255,0,0.1)'```, for the background colour of the footer.
+
 ## Installation
 
 The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.
