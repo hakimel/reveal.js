@@ -982,12 +982,13 @@ body {
 }
 
 .reveal.overview .slides section {
-	height: 600px;
+	height: 700px;
 	overflow: hidden;
 	opacity: 1 !important;
 	visibility: visible !important;
 	cursor: pointer;
 	background: rgba(0,0,0,0.1);
+	box-sizing: border-box;
 }
 .reveal.overview .slides section,
 .reveal.overview-deactivating .slides section {
