@@ -2146,7 +2146,7 @@
 			distanceX,
 			distanceY;
 
-		if( horizontalSlidesLength ) {
+		if( horizontalSlidesLength && typeof indexh !== 'undefined' ) {
 
 			// The number of steps away from the present slide that will
 			// be visible
