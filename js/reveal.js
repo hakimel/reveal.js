@@ -2169,7 +2169,7 @@
 					verticalSlidesLength = verticalSlides.length;
 
 				// Loops so that it measures 1 between the first and last slides
-				distanceX = Math.abs( ( indexh - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
+				distanceX = Math.abs( ( ( indexh || 0 ) - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
@@ -2186,7 +2186,7 @@
 					for( var y = 0; y < verticalSlidesLength; y++ ) {
 						var verticalSlide = verticalSlides[y];
 
-						distanceY = x === indexh ? Math.abs( indexv - y ) : Math.abs( y - oy );
+						distanceY = x === ( indexh || 0 ) ? Math.abs( ( indexv || 0 ) - y ) : Math.abs( y - oy );
 
 						if( distanceX + distanceY < viewDistance ) {
 							showSlide( verticalSlide );
