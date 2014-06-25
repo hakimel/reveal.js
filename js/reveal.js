@@ -2618,7 +2618,7 @@
 	 */
 	function stopEmbeddedContent( slide ) {
 
-		if( slide ) {
+		if( slide && slide.parentNode ) {
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) ) {
