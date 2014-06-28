@@ -291,6 +291,8 @@
 
 		features.canvas = !!document.createElement( 'canvas' ).getContext;
 
+		features.touch = !!( 'ontouchstart' in window );
+
 		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi );
 
 	}
@@ -907,14 +909,13 @@
 			}
 		}
 
-		[ 'touchstart', 'click' ].forEach( function( eventName ) {
-			dom.controlsLeft.forEach( function( el ) { el.addEventListener( eventName, onNavigateLeftClicked, false ); } );
-			dom.controlsRight.forEach( function( el ) { el.addEventListener( eventName, onNavigateRightClicked, false ); } );
-			dom.controlsUp.forEach( function( el ) { el.addEventListener( eventName, onNavigateUpClicked, false ); } );
-			dom.controlsDown.forEach( function( el ) { el.addEventListener( eventName, onNavigateDownClicked, false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
-			dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
-		} );
+		var eventName = features.touch ? 'touchstart' : 'click';
+		dom.controlsLeft.forEach( function( el ) { el.addEventListener( eventName, onNavigateLeftClicked, false ); } );
+		dom.controlsRight.forEach( function( el ) { el.addEventListener( eventName, onNavigateRightClicked, false ); } );
+		dom.controlsUp.forEach( function( el ) { el.addEventListener( eventName, onNavigateUpClicked, false ); } );
+		dom.controlsDown.forEach( function( el ) { el.addEventListener( eventName, onNavigateDownClicked, false ); } );
+		dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
+		dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
 
 	}
 
@@ -2604,7 +2605,6 @@
 			// Vimeo embeds
 			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
-					console.log(11);
 					el.contentWindow.postMessage( '{"method":"play"}', '*' );
 				}
 			});
