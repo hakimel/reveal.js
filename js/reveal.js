@@ -2272,8 +2272,19 @@ var Reveal = (function(){
 		if( !slide && currentSlide ) {
 			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
 			if( hasFragments ) {
-				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-				f = visibleFragments.length - 1;
+				var currentFragment = currentSlide.querySelectorAll( '.current-fragment' );
+				if( currentFragment.length > 0 ) {
+					currentFragment = currentFragment[0];
+					var dataIndex = currentFragment.getAttribute( 'data-fragment-index' );
+					if( dataIndex && /^[0-9]+$/.test( dataIndex ) ) {
+						f = parseInt( dataIndex );
+					}
+				}
+				
+				if( !f ) {
+					var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
+					f = visibleFragments.length - 1;
+				}
 			}
 		}
 
