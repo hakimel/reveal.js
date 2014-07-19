@@ -111,7 +111,12 @@ var Reveal = (function(){
 			viewDistance: 3,
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// Preserve the vertical index on horizontal slide transitions
+			// If no slide is at the same vertical index in the stack, 
+			// navigation in that direction is disabled
+			preserveVertIndex: false
 
 		},
 
@@ -1453,10 +1458,12 @@ var Reveal = (function(){
 		// Query all horizontal slides in the deck
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
-		// If no vertical index is specified and the upcoming slide is a
-		// stack, resume at its previous vertical index
-		if( v === undefined ) {
-			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
+		if ( ! config.preserveVertIndex ) {
+			// If no vertical index is specified and the upcoming slide is a
+			// stack, resume at its previous vertical index
+			if( v === undefined ) {
+				v = getPreviousVerticalIndex( horizontalSlides[ h ] );
+			}
 		}
 
 		// If we were on a vertical stack, remember what vertical index
@@ -2049,13 +2056,44 @@ var Reveal = (function(){
 
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+			
+		if ( config.preserveVertIndex ) {
+			var isNextSlideVertical = true, 
+			    isPrevSlideVertical = true;
+			if( indexv > 0 ) { 
+				//check if there is a slide at the vertical index on the next stack
+				var nextHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh + 1 ];
+				var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
+				if( nextVSlides.length - 1 < indexv ) { 
+					isNextSlideVertical = false;
+				} else {
+                	        	isNextSlideVertical = isVerticalSlide( nextVSlides[ indexv ] );
+				}
+				//check if there is a slide at the vertical index on the previous stack
+				var prevHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh - 1 ];
+				var prevVSlides = prevHSlide && prevHSlide.querySelectorAll( 'section' );
+				if( prevVSlides.length - 1 < indexv ) { 
+					isPrevSlideVertical = false;
+				} else {
+                	        	isPrevSlideVertical = isVerticalSlide( prevVSlides[ indexv ] );
+				}
+			}
+			var routes = {
+				left: indexh > 0 && isPrevSlideVertical || config.loop,
+				right: indexh < horizontalSlides.length - 1 && isNextSlideVertical || config.loop,
+				up: indexv > 0,
+				down: indexv < verticalSlides.length - 1
+			};
+		}
+		else {
 
-		var routes = {
-			left: indexh > 0 || config.loop,
-			right: indexh < horizontalSlides.length - 1 || config.loop,
-			up: indexv > 0,
-			down: indexv < verticalSlides.length - 1
-		};
+			var routes = {
+				left: indexh > 0 || config.loop,
+				right: indexh < horizontalSlides.length - 1 || config.loop,
+				up: indexv > 0,
+				down: indexv < verticalSlides.length - 1
+			};
+		}
 
 		// reverse horizontal controls for rtl
 		if( config.rtl ) {
@@ -2538,7 +2576,11 @@ var Reveal = (function(){
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left && config.preserveVertIndex && indexv > 0 ) {
+				// Force navigation to same vertical index
+				slide( indexh + 1, indexv );
+			}
+			else if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
 				slide( indexh + 1 );
 			}
 		}
@@ -2556,6 +2598,10 @@ var Reveal = (function(){
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
 				slide( indexh - 1 );
 			}
+		}
+		// Force navigation to same vertical index
+		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right && config.preserveVertIndex && indexv > 0 ) {
+			slide( indexh + 1, indexv );
 		}
 		// Normal navigation
 		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
