@@ -3260,6 +3260,10 @@ var Reveal = (function(){
 		navigatePrev: navigatePrev,
 		navigateNext: navigateNext,
 
+		// pause / resume automatic slide rotation
+		pauseAutoSlide: pauseAutoSlide,
+		resumeAutoSlide: resumeAutoSlide,
+
 		// Forces an update in slide layout
 		layout: layout,
 
