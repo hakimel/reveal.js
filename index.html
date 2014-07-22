@@ -21,6 +21,7 @@
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
 
+
     <!-- If the query includes 'print-pdf', include the PDF print sheet -->
     <script>
         if (window.location.search.match(/print-pdf/gi)) {
@@ -37,7 +38,7 @@
 <body>
 
 <div class="reveal">
-
+    <!-- TODO  Try to add <link rel="stylesheet" href="sakuli.css">-->
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section>
@@ -60,7 +61,7 @@
             <img class="image" width="40%" src="pics/chain.png" style="border: 0">
             <ul>
                 <li>Business-kritische Applikationen bestehen oft aus einer Vielzahl an Komponenten</li>
-                <li>Applikations-Qualität aus Anwendersicht nur am Ende der Funktionskette messbar</li>
+                <li>Applikations-Qualität aus Anwendersicht ist nur am Ende der Funktionskette messbar</li>
                 <li>UI-Interfaces sind schwer kontinuierlich zu testen</li>
             </ul>
         </section>
@@ -68,7 +69,7 @@
         <section>
             <h2>Herausforderung</h2>
             <ul>
-                <li>Web-UI-Test-Tools haben nur Zugriff auf DOM Elemente</li>
+                <li>Web-UI-Test-Tools haben nur Zugriff auf DOM-Elemente</li>
                 <li>Wie kann man Plugins testen bzw. damit umgehen?<br/> => Flash, PKI-Abfragen, Java Applets</li>
                 <li>Grafisch basierte Test sind Ressourcenintensiv</li>
                 <li>OS unabhängiges Framework</li>
@@ -88,35 +89,37 @@
                 </ul>
             </aside>
 
-            <h3 style="text-transform: none; margin-top: 12%" class="fragment">
-                Was macht Sakuli?
+            <h3 style="text-transform: none; margin-top: 1em" class="fragment">
+            Was macht Sakuli?
             </h3>
 
         </section>
 
         <section>
-            <table class="center">
+            <table>
                 <tbody>
                 <tr>
-                    <td width="40%"></td>
-                    <td><img style="border: 0; margin: 0; padding: 0; box-shadow: none" src="pics/sakuli-logo.png"></td>
-                    <td width="40%"></td>
+                    <td width="40%" style="padding: 0"></td>
+                    <td style="margin: 0;padding:0">
+                        <img style="border: 0; padding: 0; margin: 0; box-shadow: none" src="pics/sakuli-logo.png"></td>
+                    <td width="40%" style="padding: 0"></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center"><img
-                            style="margin: 0; padding: 0;border: 0; height: 3em; box-shadow: none" src="pics/sahi.png">
+                    <td style="text-align: center; padding:0; background: url(pics/dom.png) no-repeat bottom; background-size: 100%">
+                        <img style="border: 0; padding: 0; margin: 0; height: 3em; box-shadow: none"
+                             src="pics/sahi.png">
                     </td>
-                    <td style="text-align: center"><h1>+</h1></td>
-                    <td style="text-align: center"><img
-                            style="margin: 0; padding: 0;border: 0; height: 3em; box-shadow: none"
-                            src="pics/sikuli.png">
+                    <td style="text-align: center"><h1 style="padding: 0; margin: 0">+</h1></td>
+                    <td style="text-align: center;padding: 0; background: url(pics/screen_shots.png) no-repeat bottom; background-size: 70%">
+                        <img style="border: 0; padding: 0; margin: 0;height: 3em; box-shadow: none"
+                             src="pics/sikuli.png">
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <table class="center">
+            <table>
                 <tbody>
-                <tr>
+                <tr style="font-size: 0.9em;">
                     <td width="45%" style="padding: 0; vertical-align: top">
                         <ul>
                             <li>Erkennt wenn Seiten/AJAX-Requests fertig geladen sind</li>
@@ -126,7 +129,9 @@
                             <li>Assert Funktionalität</li>
                             <li>Java-API</li>
                         </ul>
-                        pic dom
+                        <!--<div class="backgrounds">-->
+                        <!--<img src="pics/dom.png" style="opacity: 0.7; border: 0;">-->
+                        <!--</div>-->
                     </td>
                     <td style="padding: 10px"></td>
                     <td width="45%" style="padding: 0; vertical-align: top">
@@ -134,13 +139,41 @@
                             <li>Keine Beschränkung auf den Browser</li>
                             <li>Sieht und steuert das was der User sieht</li>
                             <li>Java-API</li>
-                            <!--<li>TODO go on here</li>-->
+                            <li>Flexible Region-Pattern</li>
+                            <li>OCR-Features
+                                <small style="vertical-align: baseline">(experimental)</small>
+                            </li>
+                            <li>Setzt auf <b>java.awt.Robot</b> und <b>openCV</b> auf</li>
                         </ul>
-                        pic screenshots
                     </td>
                 </tr>
                 </tbody>
             </table>
+        </section>
+
+        <section>
+            <h2>Särken der Vereinigung</h2>
+            <table>
+                <tbody>
+                <tr style="font-size: 0.9em;">
+                    <td height="10px" style="padding: 0; vertical-align: top">
+                        <img class="sakuli"
+                             src="pics/sahi_worker.png">
+                    </td>
+                    <td style="padding: 10px"></td>
+                    <td width="45%" style="padding: 0; vertical-align: top">
+                        <ul>
+                            <li>Keine Beschränkung auf den Browser</li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <ul>
+                <li>Business-kritische Applikationen bestehen oft aus einer Vielzahl an Komponenten</li>
+                <li>Applikations-Qualität aus Anwendersicht ist nur am Ende der Funktionskette messbar</li>
+                <li>UI-Interfaces sind schwer kontinuierlich zu testen</li>
+            </ul>
         </section>
 
     </div>
