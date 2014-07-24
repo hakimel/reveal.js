@@ -238,7 +238,7 @@
 <section>
     <section>
         <h2>DEMO</h2>
-        <a href="video/example_test_case.avi"><img width="70%" class="image" src="pics/video_preview.png"></a>
+        <a href="video/example_test_case.avi" target="_blank"><img width="70%" class="image" src="pics/video_preview.png"></a>
     </section>
     <section>
         <h2>File Structure</h2>
@@ -263,15 +263,15 @@
             ******************************/
             try {
 
-            //...
+                 //...
 
             /************************************************
             * Exception handling and shutdown of test case
             **********************************************/
             } catch (e) {
-            testCase.handleException(e);
+                testCase.handleException(e);
             } finally {
-            testCase.saveResult();
+                testCase.saveResult();
             }
         </code></pre>
     </section>
@@ -292,8 +292,8 @@
             ***********************/
             appNotepad.open();
             env.type("Welcome to Sakuli!\n")
-            .type("I will help you to test your projects, like webapplications...\n")
-            .sleep(2);
+                .type("I will help you to test your projects, like webapplications...\n")
+                .sleep(2);
             testCase.endOfStep("notepad", 20);
 
             /************************
@@ -304,7 +304,7 @@
             _highlight(_link($cl_projekte));
             _click(_link($cl_projekte));
             env.sleep(5)
-            .takeScreenshot("C:\\sakuli\\testscreenshot.png");
+                .takeScreenshot("C:\\sakuli\\testscreenshot.png");
             _highlight(_link($cl_c_mysql_h));
             _click(_link($cl_c_mysql_h));
             _highlight(_link($cl_c_oracle_h));
@@ -319,8 +319,32 @@
             *****************/
             backToNotepad();
             env.type("I can also test client applications, like gedit...\n")
-            .sleep(2);
+                .sleep(2);
             testCase.endOfStep("print_test_client", 10);
+        </code></pre>
+
+    </section>
+    <section>
+        <h3 style="text-transform: inherit">Fluent API</h3>
+        <pre><code data-trim contenteditable style="font-size: 0.8em">
+            /*** calculator app ***/
+            var calculatorApp = new Application("galculator")
+                .setSleepTime(1);
+                .open();
+            testCase.endOfStep("Open Calculator", 3);
+
+            /**********
+            * calculate 525 + 100
+            *********/
+            var calculatorRegion = calculatorApp.getRegion();
+            calculatorRegion.type("525");
+            env.sleep(2);
+            calculatorRegion.find("plus.png")
+                .click()
+                .type("100")
+                .find("calculate")
+                .click();
+            testCase.endOfStep("calculate 525 +100", 20);
         </code></pre>
 
     </section>
@@ -332,15 +356,15 @@
             * TAB+ALT
             *********/
             function switchWindow() {
-            env.type(Key.TAB, Key.ALT);
+                env.type(Key.TAB, Key.ALT);
             }
 
             /***************
             * Go back to notepad
             **************/
             function backToNotepad() {
-            switchWindow();
-            env.type("Finish!\n\n");
+                switchWindow();
+                env.type("Finish!\n\n");
             }
         </code></pre>
 
