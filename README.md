@@ -2,6 +2,8 @@
 
 Die Einführung in Sakuli in das Thema Sakuli / End-To-End-Testing:
 
+__Zur Präsentation:__ [Sakuli - Einführungspresentation](https://rawgit.com/toschneck/sakuli-dev-presentation/sakuli-dev-day-presentation/index.html#/)
+
 * Generelle Einführung in Sakuli, was ist die Idee dahinter
 * Was die Einsatzszenarien von Sakuli
 * Welche Vorteile ergeben sich in der Kombination aus HTML-DOM basierten und grafische Pattern (Screenshots) basierten UI-Tests 
