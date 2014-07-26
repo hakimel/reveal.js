@@ -2066,16 +2066,12 @@ var Reveal = (function(){
 				var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
 				if( nextVSlides.length - 1 < indexv ) { 
 					isNextSlideVertical = false;
-				} else {
-                	        	isNextSlideVertical = isVerticalSlide( nextVSlides[ indexv ] );
 				}
 				//check if there is a slide at the vertical index on the previous stack
 				var prevHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh - 1 ];
 				var prevVSlides = prevHSlide && prevHSlide.querySelectorAll( 'section' );
 				if( prevVSlides.length - 1 < indexv ) { 
 					isPrevSlideVertical = false;
-				} else {
-                	        	isPrevSlideVertical = isVerticalSlide( prevVSlides[ indexv ] );
 				}
 			}
 			var routes = {
