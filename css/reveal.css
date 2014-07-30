@@ -295,6 +295,34 @@ body {
 	quotes: none;
 }
 
+.reveal leftblockquote:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 25px;
+	top: 53px;
+	border: 20px solid;
+	border-color: rgba(255, 255, 255, 0.55) transparent transparent rgba(255, 255, 255, 0.55);
+}
+
+.reveal leftblockquote {
+	display: block;
+	position: relative;
+	right: 40px;
+	width: 70%;
+	margin: 5px auto;
+	padding: 5px;
+
+	font-style: italic;
+	background: rgba(255, 255, 255, 0.55);
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+}
+	.reveal leftblockquote p:first-child,
+	.reveal leftblockquote p:last-child {
+		display: inline-block;
+	}
+
 .reveal blockquote {
 	display: block;
 	position: relative;
@@ -303,11 +331,40 @@ body {
 	padding: 5px;
 
 	font-style: italic;
-	background: rgba(255, 255, 255, 0.05);
+	background: rgba(255, 255, 255, 0.55);
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
 	.reveal blockquote p:first-child,
 	.reveal blockquote p:last-child {
+		display: inline-block;
+	}
+
+.reveal rightblockquote:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: 25px;
+	top: 53px;
+	border: 20px solid;
+	border-color: rgba(255, 255, 255, 0.55) rgba(255, 255, 255, 0.55) transparent transparent;
+}
+
+.reveal rightblockquote {
+	display: block;
+	position: relative;
+	left: 40px;
+	width: 70%;
+	margin: 5px auto;
+	padding: 5px;
+	padding-left: 35px;
+
+	font-style: italic;
+	background: rgba(255, 255, 255, 0.55);
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+}
+	.reveal rightblockquote p:first-child,
+	.reveal rightblockquote p:last-child {
 		display: inline-block;
 	}
 
