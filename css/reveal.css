@@ -295,15 +295,15 @@ body {
 	quotes: none;
 }
 
-.reveal leftblockquote:before {
+.reveal leftblockquote:after {
 	content: ' ';
 	position: absolute;
 	width: 0;
 	height: 0;
-	left: 25px;
-	top: 53px;
-	border: 20px solid;
-	border-color: rgba(255, 255, 255, 0.55) transparent transparent rgba(255, 255, 255, 0.55);
+	right: 100%;
+	top: 0px;
+	border: 10px solid;
+	border-color: rgba(255, 255, 255, 0.55) rgba(255, 255, 255, 0.55) transparent transparent;
 }
 
 .reveal leftblockquote {
@@ -339,15 +339,15 @@ body {
 		display: inline-block;
 	}
 
-.reveal rightblockquote:before {
+.reveal rightblockquote:after {
 	content: ' ';
 	position: absolute;
 	width: 0;
 	height: 0;
-	right: 25px;
-	top: 53px;
-	border: 20px solid;
-	border-color: rgba(255, 255, 255, 0.55) rgba(255, 255, 255, 0.55) transparent transparent;
+	left: 100%;
+	bottom: 0%;
+	border: 10px solid;
+	border-color: transparent transparent rgba(255, 255, 255, 0.55) rgba(255, 255, 255, 0.55);
 }
 
 .reveal rightblockquote {
