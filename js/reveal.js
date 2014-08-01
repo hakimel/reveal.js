@@ -12,6 +12,7 @@ var Reveal = (function(){
 	var SLIDES_SELECTOR = '.reveal .slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
+		DUMMY_SLIDES_SELECTOR = '.reveal .slides>section.dummy',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-of-type',
 
 		// Configurations defaults, can be overridden at initialization time
@@ -116,7 +117,7 @@ var Reveal = (function(){
 			// Preserve the vertical index on horizontal slide transitions
 			// If no slide is at the same vertical index in the stack, 
 			// navigation in that direction is disabled
-			preserveVertIndex: false
+			preserveVertIndex: true
 
 		},
 
@@ -1710,6 +1711,10 @@ var Reveal = (function(){
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+				var dataState = element.getAttribute( 'data-state' );
+				if ( dataState === 'dummy' ) {
+					element.classList.add( 'dummy' );
+				}
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
@@ -1830,6 +1835,8 @@ var Reveal = (function(){
 		if( config.progress && dom.progress ) {
 
 			var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			//var dummySlides = toArray( document.querySelectorAll( DUMMY_SLIDES_SELECTOR ) );
+			//console.log( dummySlides );
 
 			// The number of past and total slides
 			var totalCount = document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
@@ -2056,7 +2063,7 @@ var Reveal = (function(){
 
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
-			
+
 		if ( config.preserveVertIndex ) {
 			var isNextSlideVertical = true, 
 			    isPrevSlideVertical = true;
