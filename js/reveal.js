@@ -2061,31 +2061,46 @@ var Reveal = (function(){
 	 */
 	function availableRoutes() {
 
-		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
-			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
+			verticalSlides = toArray( document.querySelectorAll( VERTICAL_SLIDES_SELECTOR ) );
 
 		if ( config.preserveVertIndex ) {
 			var isNextSlideVertical = true, 
-			    isPrevSlideVertical = true;
+			    isPrevSlideVertical = true,
+			    isNextSlideDummy = false,
+			    isPrevSlideDummy = false,
+			    isAboveSlideDummy = false,
+			    isBelowSlideDummy = false;
 			if( indexv > 0 ) { 
+			//if horizontalSlides[ indexh ].classList.contains( 'stack' ) {
 				//check if there is a slide at the vertical index on the next stack
 				var nextHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh + 1 ];
 				var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
 				if( nextVSlides.length - 1 < indexv ) { 
 					isNextSlideVertical = false;
+				} else {
+					isNextSlideDummy = nextVSlides[ indexv ].classList.contains( 'dummy' );
 				}
 				//check if there is a slide at the vertical index on the previous stack
 				var prevHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh - 1 ];
 				var prevVSlides = prevHSlide && prevHSlide.querySelectorAll( 'section' );
 				if( prevVSlides.length - 1 < indexv ) { 
 					isPrevSlideVertical = false;
+				} else {
+					isPrevSlideDummy = prevVSlides[ indexv ].classList.contains( 'dummy' );
+				}
+				if ( indexv < verticalSlides.length - 1 ) {
+					isBelowSlideDummy = verticalSlides[ indexv + 1 ].classList.contains( 'dummy' );
+				}
+				if ( indexv > 0 ) {
+					isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
 				}
 			}
 			var routes = {
-				left: indexh > 0 && isPrevSlideVertical || config.loop,
-				right: indexh < horizontalSlides.length - 1 && isNextSlideVertical || config.loop,
-				up: indexv > 0,
-				down: indexv < verticalSlides.length - 1
+				left: indexh > 0 && isPrevSlideVertical && !( isPrevSlideDummy ) || config.loop,
+				right: indexh < horizontalSlides.length - 1 && isNextSlideVertical && !( isNextSlideDummy ) || config.loop,
+				up: indexv > 0 && !( isAboveSlideDummy ),
+				down: indexv < verticalSlides.length - 1 && !( isBelowSlideDummy )
 			};
 		}
 		else {
