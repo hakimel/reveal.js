@@ -2097,12 +2097,12 @@ var Reveal = (function(){
 					} else {
 						isPrevSlideDummy = prevVSlides[ indexv ].classList.contains( 'dummy' );
 					}
-					if ( indexv < verticalSlides.length - 1 ) {
-						isBelowSlideDummy = verticalSlides[ indexv + 1 ].classList.contains( 'dummy' );
-					}
-					if ( indexv > 0 ) {
-						isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
-					}
+				}
+				if ( indexv < verticalSlides.length - 1 ) {
+					isBelowSlideDummy = verticalSlides[ indexv + 1 ].classList.contains( 'dummy' );
+				}
+				if ( indexv > 0 ) {
+					isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
 				}
 			} else {
 				if ( indexh < horizontalSlides.length - 1 ) {
@@ -2122,6 +2122,12 @@ var Reveal = (function(){
 					} else {
 						isPrevSlideDummy = prevVSlides[ indexv ].classList.contains( 'dummy' );
 					}
+				}
+				if ( indexv < verticalSlides.length - 1 ) {
+					isBelowSlideDummy = verticalSlides[ indexv + 1 ].classList.contains( 'dummy' );
+				}
+				if ( indexv > 0 ) {
+					isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
 				}
 			}
 			var routes = {
