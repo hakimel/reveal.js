@@ -12,7 +12,6 @@ var Reveal = (function(){
 	var SLIDES_SELECTOR = '.reveal .slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.reveal .slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.reveal .slides>section.present>section',
-		DUMMY_SLIDES_SELECTOR = '.reveal .slides>section.dummy',
 		HOME_SLIDE_SELECTOR = '.reveal .slides>section:first-of-type',
 
 		// Configurations defaults, can be overridden at initialization time
@@ -1085,9 +1084,16 @@ var Reveal = (function(){
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
 
-				// Don't bother updating invisible slides
-				if( slide.style.display === 'none' ) {
-					continue;
+				if ( config.preserveVertIndex ) {
+					var dataState = slide.getAttribute( 'data-state' );
+					if ( dataState === 'dummy' ) {
+						slide.classList.add( 'dummy' );
+					}
+				} else {
+					// Don't bother updating invisible slides
+					if( slide.style.display === 'none' ) {
+						continue;
+					}
 				}
 
 				if( config.center || slide.classList.contains( 'center' ) ) {
@@ -1711,10 +1717,12 @@ var Reveal = (function(){
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+
+				/* //Could be useful for dynamically injecting/removing the dummy state of a slide
 				var dataState = element.getAttribute( 'data-state' );
 				if ( dataState === 'dummy' ) {
 					element.classList.add( 'dummy' );
-				}
+				}*/
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
@@ -1835,8 +1843,6 @@ var Reveal = (function(){
 		if( config.progress && dom.progress ) {
 
 			var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
-			//var dummySlides = toArray( document.querySelectorAll( DUMMY_SLIDES_SELECTOR ) );
-			//console.log( dummySlides );
 
 			// The number of past and total slides
 			var totalCount = document.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
@@ -2072,7 +2078,6 @@ var Reveal = (function(){
 			    isAboveSlideDummy = false,
 			    isBelowSlideDummy = false;
 			if( indexv > 0 ) { 
-			//if horizontalSlides[ indexh ].classList.contains( 'stack' ) {
 				//check if there is a slide at the vertical index on the next stack
 				var nextHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh + 1 ];
 				var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
@@ -2094,6 +2099,25 @@ var Reveal = (function(){
 				}
 				if ( indexv > 0 ) {
 					isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
+				}
+			} else {
+				if ( indexh < horizontalSlides.length - 1 ) {
+					var nextHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh + 1 ];
+					var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
+					if ( nextVSlides.length == 0 ) {
+						isNextSlideDummy = horizontalSlides[ indexh + 1 ].classList.contains( 'dummy' );
+					} else {
+						isNextSlideDummy = nextVSlides[ indexv ].classList.contains( 'dummy' );
+					}
+				}
+				if ( indexh > 0 ) {
+					var prevHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh - 1 ];
+					var prevVSlides = prevHSlide && prevHSlide.querySelectorAll( 'section' );
+					if ( prevVSlides.length == 0 ) {
+						isPrevSlideDummy = horizontalSlides[ indexh - 1 ].classList.contains( 'dummy' );
+					} else {
+						isPrevSlideDummy = prevVSlides[ indexv ].classList.contains( 'dummy' );
+					}
 				}
 			}
 			var routes = {
