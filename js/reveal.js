@@ -111,7 +111,12 @@ var Reveal = (function(){
 			viewDistance: 3,
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// Preserve the vertical index on horizontal slide transitions
+			// If no slide is at the same vertical index in the stack, 
+			// navigation in that direction is disabled
+			storyMode: true
 
 		},
 
@@ -1079,9 +1084,31 @@ var Reveal = (function(){
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
 
-				// Don't bother updating invisible slides
-				if( slide.style.display === 'none' ) {
-					continue;
+				if ( config.storyMode ) {
+					var dataState = slide.getAttribute( 'data-state' );
+					if ( dataState === 'dummy' ) {
+						slide.classList.add( 'dummy' );
+					}
+					var dataState = slide.getAttribute( 'data-navblock' );
+					if ( dataState !== null ) {
+						if ( dataState.indexOf( 'n' ) > -1 ) {
+							slide.classList.add( 'nb-north' );
+						}
+						if ( dataState.indexOf( 'e' ) > -1 ) {
+							slide.classList.add( 'nb-east' );
+						}
+						if ( dataState.indexOf( 's' ) > -1 ) {
+							slide.classList.add( 'nb-south' );
+						}
+						if ( dataState.indexOf( 'w' ) > -1 ) {
+							slide.classList.add( 'nb-west' );
+						}
+					}
+				} else {
+					// Don't bother updating invisible slides
+					if( slide.style.display === 'none' ) {
+						continue;
+					}
 				}
 
 				if( config.center || slide.classList.contains( 'center' ) ) {
@@ -1453,10 +1480,12 @@ var Reveal = (function(){
 		// Query all horizontal slides in the deck
 		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
-		// If no vertical index is specified and the upcoming slide is a
-		// stack, resume at its previous vertical index
-		if( v === undefined ) {
-			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
+		if ( ! config.storyMode ) {
+			// If no vertical index is specified and the upcoming slide is a
+			// stack, resume at its previous vertical index
+			if( v === undefined ) {
+				v = getPreviousVerticalIndex( horizontalSlides[ h ] );
+			}
 		}
 
 		// If we were on a vertical stack, remember what vertical index
@@ -1703,6 +1732,12 @@ var Reveal = (function(){
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
+
+				/* //Could be useful for dynamically injecting/removing the dummy state of a slide
+				var dataState = element.getAttribute( 'data-state' );
+				if ( dataState === 'dummy' ) {
+					element.classList.add( 'dummy' );
+				}*/
 
 				if( i < index ) {
 					// Any element previous to index is given the 'past' class
@@ -2047,15 +2082,86 @@ var Reveal = (function(){
 	 */
 	function availableRoutes() {
 
-		var horizontalSlides = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
-			verticalSlides = document.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+		var horizontalSlides = toArray( document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
+			verticalSlides = toArray( document.querySelectorAll( VERTICAL_SLIDES_SELECTOR ) );
+		console.log( currentSlide );
 
-		var routes = {
-			left: indexh > 0 || config.loop,
-			right: indexh < horizontalSlides.length - 1 || config.loop,
-			up: indexv > 0,
-			down: indexv < verticalSlides.length - 1
-		};
+		if ( config.storyMode ) {
+			var isNextSlideVertical = true, 
+			    isPrevSlideVertical = true,
+			    isNextSlideDummy = false,
+			    isPrevSlideDummy = false,
+			    isAboveSlideDummy = false,
+			    isBelowSlideDummy = false;
+			if( indexv > 0 ) { 
+				//check if there is a slide at the vertical index on the next stack
+				if ( indexh < horizontalSlides.length - 1 && !( currentSlide.classList.contains( 'nb-east' ) ) ) {
+					var nextHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh + 1 ];
+					var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
+					if( nextVSlides.length - 1 < indexv ) { 
+						isNextSlideVertical = false;
+					} else {
+						isNextSlideDummy = nextVSlides[ indexv ].classList.contains( 'dummy' );
+					}
+				}
+				//check if there is a slide at the vertical index on the previous stack
+				if ( indexh > 0 && !( currentSlide.classList.contains( 'nb-west' ) ) ) {
+					var prevHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh - 1 ];
+					var prevVSlides = prevHSlide && prevHSlide.querySelectorAll( 'section' );
+					if( prevVSlides.length - 1 < indexv ) { 
+						isPrevSlideVertical = false;
+					} else {
+						isPrevSlideDummy = prevVSlides[ indexv ].classList.contains( 'dummy' );
+					}
+				}
+				if ( indexv < verticalSlides.length - 1 && !( currentSlide.classList.contains( 'nb-south' ) ) ) {
+					isBelowSlideDummy = verticalSlides[ indexv + 1 ].classList.contains( 'dummy' );
+				}
+				if ( indexv > 0 && !( currentSlide.classList.contains( 'nb-north' ) ) ) {
+					isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
+				}
+			} else {
+				if ( indexh < horizontalSlides.length - 1 && !( currentSlide.classList.contains( 'nb-east' ) ) ) {
+					var nextHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh + 1 ];
+					var nextVSlides = nextHSlide && nextHSlide.querySelectorAll( 'section' );
+					if ( nextVSlides.length == 0 ) {
+						isNextSlideDummy = horizontalSlides[ indexh + 1 ].classList.contains( 'dummy' );
+					} else {
+						isNextSlideDummy = nextVSlides[ indexv ].classList.contains( 'dummy' );
+					}
+				}
+				if ( indexh > 0 && !( currentSlide.classList.contains( 'nb-west' ) ) ) {
+					var prevHSlide = document.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ indexh - 1 ];
+					var prevVSlides = prevHSlide && prevHSlide.querySelectorAll( 'section' );
+					if ( prevVSlides.length == 0 ) {
+						isPrevSlideDummy = horizontalSlides[ indexh - 1 ].classList.contains( 'dummy' );
+					} else {
+						isPrevSlideDummy = prevVSlides[ indexv ].classList.contains( 'dummy' );
+					}
+				}
+				if ( indexv < verticalSlides.length - 1 && !( currentSlide.classList.contains( 'nb-south' ) ) ) {
+					isBelowSlideDummy = verticalSlides[ indexv + 1 ].classList.contains( 'dummy' );
+				}
+				if ( indexv > 0 && !( currentSlide.classList.contains( 'nb-north' ) ) ) {
+					isAboveSlideDummy = verticalSlides[ indexv - 1 ].classList.contains( 'dummy' );
+				}
+			}
+			var routes = {
+				left: indexh > 0 && isPrevSlideVertical && !( isPrevSlideDummy ) && !( currentSlide.classList.contains( 'nb-west' ) ) || config.loop,
+				right: indexh < horizontalSlides.length - 1 && isNextSlideVertical && !( isNextSlideDummy ) && !( currentSlide.classList.contains( 'nb-east' ) ) || config.loop,
+				up: indexv > 0 && !( isAboveSlideDummy ) && !( currentSlide.classList.contains( 'nb-north' ) ),
+				down: indexv < verticalSlides.length - 1 && !( isBelowSlideDummy ) && !( currentSlide.classList.contains( 'nb-south' ) )
+			};
+		}
+		else {
+
+			var routes = {
+				left: indexh > 0 || config.loop,
+				right: indexh < horizontalSlides.length - 1 || config.loop,
+				up: indexv > 0,
+				down: indexv < verticalSlides.length - 1
+			};
+		}
 
 		// reverse horizontal controls for rtl
 		if( config.rtl ) {
@@ -2538,7 +2644,11 @@ var Reveal = (function(){
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left && config.storyMode && indexv > 0 ) {
+				// Force navigation to same vertical index
+				slide( indexh + 1, indexv );
+			}
+			else if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
 				slide( indexh + 1 );
 			}
 		}
@@ -2556,6 +2666,10 @@ var Reveal = (function(){
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
 				slide( indexh - 1 );
 			}
+		}
+		// Force navigation to same vertical index
+		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right && config.storyMode && indexv > 0 ) {
+			slide( indexh + 1, indexv );
 		}
 		// Normal navigation
 		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
