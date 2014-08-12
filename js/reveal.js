@@ -89,6 +89,9 @@
 			// key is pressed
 			help: true,
 
+			// Flags if it should be possible to pause the presentation (blackout)
+			pause: true,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -784,6 +787,11 @@
 		}
 		else {
 			dom.wrapper.classList.remove( 'center' );
+		}
+
+		// Exit the paused mode if it was configured off
+		if( config.pause === false ) {
+			resume();
 		}
 
 		if( config.mouseWheel ) {
@@ -1717,13 +1725,15 @@
 	 */
 	function pause() {
 
-		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+		if( config.pause ) {
+			var wasPaused = dom.wrapper.classList.contains( 'paused' );
 
-		cancelAutoSlide();
-		dom.wrapper.classList.add( 'paused' );
+			cancelAutoSlide();
+			dom.wrapper.classList.add( 'paused' );
 
-		if( wasPaused === false ) {
-			dispatchEvent( 'paused' );
+			if( wasPaused === false ) {
+				dispatchEvent( 'paused' );
+			}
 		}
 
 	}
