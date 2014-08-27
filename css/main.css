@@ -30,10 +30,6 @@ footer {
 	top: -75% !important;
 }
 
-.test {
-	top: 0 !important;
-}
-
 .reveal.overview .slides section {
 	width: 100% !important;
 	height: 100% !important;
@@ -48,4 +44,8 @@ footer {
 .reveal i{
 	font-family: 'FontAwesome';
 	font-style: normal;
+}
+
+.tiny-tim {
+	font-size: 20px !important;
 }

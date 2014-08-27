@@ -126,7 +126,8 @@
 
 				<section>
 					<h2>Using Wear layouts</h2>
-					<p>For the alternative Wear layouts to be used by wearables, you must create a watch stub.</p>
+					<p>To use the Wear layouts, a watch stub must be created in the XML, then in the activity
+					   onCreate method inflate the appropriate layout based on the watch shape.</p>
 					<pre><code class="java" data-trim>
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ protected void onCreate(Bundle savedInstanceState) {
     stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
         @Override
         public void onLayoutInflated(WatchViewStub stub) {
-            mTextView = (TextView) stub.findViewById(R.id.text);
+        
         }
     });
 }
@@ -153,8 +154,18 @@ protected void onCreate(Bundle savedInstanceState) {
 
 				<section>
 					<h2>The Wearable UI Library</h2>
-					<p>Wear application use a different library for UI elements accessible in the Wearable UI
-					   Library</p>
+					<p>Wear applications use a different library for UI elements accessible in the Wearable UI
+					   Library which is automatically included when creating a Wear project in Android Studio. If adding
+					   to an existing project, this goes in the module's build.gradle</p>
+					<pre><code class="javascript" data-trim>
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.support:wearable:+'
+    compile 'com.google.android.gms:play-services-wearable:5.0.77'
+}
+					</code></pre>
+					<span class="tiny-tim">*The version number changes very periodically
+					                       so no direct copy paste will work</span>
 				</section>
 			</section>
 
