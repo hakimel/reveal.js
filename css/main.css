@@ -1,0 +1,51 @@
+footer {
+	position: absolute;
+	width: auto;
+	margin: auto !important;
+
+	text-align: center;
+	font-size: 15px !important;
+
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#gdg-promo {
+	position: absolute;
+	width: auto;
+	margin: auto !important;
+	margin-left: 10px !important;
+
+	text-align: center;
+	font-size: 15px !important;
+
+	bottom: 0;
+}
+
+.big {
+	width: 150% !important;
+	height: 150% !important;
+	left: -75% !important;
+	top: -75% !important;
+}
+
+.reveal.overview .slides section {
+	width: 100% !important;
+	height: 100% !important;
+	left: -50% !important;
+	top: -50% !important;
+}
+
+.reveal.overview .slides .stack section {
+	left: 0 !important;
+}
+
+.reveal i{
+	font-family: 'FontAwesome';
+	font-style: normal;
+}
+
+.tiny-tim {
+	font-size: 20px !important;
+}
