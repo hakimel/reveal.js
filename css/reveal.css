@@ -545,10 +545,25 @@ body {
 	    -ms-perspective: 600px;
 	        perspective: 600px;
 
-	-webkit-perspective-origin: 0px -100px;
-	   -moz-perspective-origin: 0px -100px;
-	    -ms-perspective-origin: 0px -100px;
-	        perspective-origin: 0px -100px;
+	-webkit-perspective-origin: 50% 40%;
+	   -moz-perspective-origin: 50% 40%;
+	    -ms-perspective-origin: 50% 40%;
+	        perspective-origin: 50% 40%;
+    
+    -webkit-transform: translate(-50%,-50%);
+       -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+}
+.reveal.show-canvas .slides {
+    background: rgba(150,255,0,0.3);
+}
+.reveal.show-canvas .slides>section,
+.reveal.show-canvas .slides>section>section {
+    background: rgba(255,155,0,0.3);
+}
+.reveal.show-canvas .slides>section.stack {
+    background: rgba(0,0,255,0.3);
 }
 
 .reveal .slides>section {
@@ -622,13 +637,15 @@ body {
 }
 
 .reveal .slides>section {
-	left: -50%;
-	top: -50%;
+	left: 0%;
+	top: 0%;
 }
 
 .reveal .slides>section.stack {
 	padding-top: 0;
 	padding-bottom: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .reveal .slides>section.present,
@@ -643,6 +660,16 @@ body {
 .reveal.center .slides section {
 	min-height: auto !important;
 }
+.reveal.center .slides>section,
+.reveal.center .slides>section>section {
+    top: 50%;
+
+    -webkit-transform: translate(0%,-50%);
+       -moz-transform: translate(0%,-50%);
+        -ms-transform: translate(0%,-50%);
+            transform: translate(0%,-50%);
+}
+
 
 /* Don't allow interaction with invisible slides */
 .reveal .slides>section.future,
@@ -673,6 +700,14 @@ body {
 	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 }
+.reveal.center .slides>section[data-transition=default].past,
+.reveal.center .slides>section.past {
+	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, -50%, 0);
+	   -moz-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, -50%, 0);
+	    -ms-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, -50%, 0);
+	        transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, -50%, 0);
+}
+
 .reveal .slides>section[data-transition=default].future,
 .reveal .slides>section.future {
 	display: block;
@@ -682,6 +717,13 @@ body {
 	   -moz-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	    -ms-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 	        transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+}
+.reveal.center .slides>section[data-transition=default].future,
+.reveal.center .slides>section.future {
+	-webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, -50%, 0);
+	   -moz-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, -50%, 0);
+	    -ms-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, -50%, 0);
+	        transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, -50%, 0);
 }
 
 .reveal .slides>section>section[data-transition=default].past,
@@ -694,6 +736,13 @@ body {
 	    -ms-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
 	        transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
 }
+.reveal.center .slides>section>section[data-transition=default].past,
+.reveal.center .slides>section>section.past {
+	-webkit-transform: translate3d(0, -300px, 0) translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	   -moz-transform: translate3d(0, -300px, 0) translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	    -ms-transform: translate3d(0, -300px, 0) translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	        transform: translate3d(0, -300px, 0) translate3d(0, -50%, 0) rotateX(70deg) translate3d(0, -300px, 0);
+}
 .reveal .slides>section>section[data-transition=default].future,
 .reveal .slides>section>section.future {
 	display: block;
@@ -703,6 +752,13 @@ body {
 	   -moz-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
 	    -ms-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
 	        transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+}
+.reveal.center .slides>section>section[data-transition=default].future,
+.reveal.center .slides>section>section.future {
+	-webkit-transform: translate3d(0, 300px, 0) translate3d(0, -50%, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	   -moz-transform: translate3d(0, 300px, 0) translate3d(0, -50%, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	    -ms-transform: translate3d(0, 300px, 0) translate3d(0, -50%, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	        transform: translate3d(0, 300px, 0) translate3d(0, -50%, 0) rotateX(-70deg) translate3d(0, 300px, 0);
 }
 
 
@@ -965,10 +1021,10 @@ body {
  *********************************************/
 
 .reveal.page .slides {
-	-webkit-perspective-origin: 0% 50%;
-	   -moz-perspective-origin: 0% 50%;
-	    -ms-perspective-origin: 0% 50%;
-	        perspective-origin: 0% 50%;
+	-webkit-perspective-origin: 50% 50%;
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
 
 	-webkit-perspective: 3000px;
 	   -moz-perspective: 3000px;
