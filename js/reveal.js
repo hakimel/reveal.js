@@ -1084,22 +1084,6 @@ var Reveal = (function(){
 					continue;
 				}
 
-                /*
-                if( config.center || slide.classList.contains( 'center' ) ) {
-					// Vertical stacks are not centred since their section
-					// children will be
-					if( slide.classList.contains( 'stack' ) ) {
-						slide.style.top = 0;
-					}
-					else {
-						slide.style.top = Math.max( - ( getAbsoluteHeight( slide ) / 2 ) - slidePadding, -slideHeight / 2 ) + 'px';
-					}
-				}
-				else {
-					slide.style.top = '';
-				}
-                */
-
 			}
 
 			updateProgress();
