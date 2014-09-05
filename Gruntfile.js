@@ -133,13 +133,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'autoprefixer', 'cssmin', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'css', 'uglify', 'qunit' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
 
 	// CSS task
-	grunt.registerTask( 'css', [ 'autoprefixer' ] );
+	grunt.registerTask( 'css', [ 'autoprefixer', 'cssmin' ] );
 
 
 	// Package presentation to archive
