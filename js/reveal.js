@@ -2871,8 +2871,13 @@
 		if( !slide && currentSlide ) {
 			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
 			if( hasFragments ) {
-				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-				f = visibleFragments.length - 1;
+				var currentFragment = currentSlide.querySelector( '.current-fragment' );
+				if( currentFragment && currentFragment.hasAttribute( 'data-fragment-index' ) ) {
+					f = parseInt( currentFragment.getAttribute( 'data-fragment-index' ), 10 );
+				}
+				else {
+					f = currentSlide.querySelectorAll( '.fragment.visible' ).length - 1;
+				}
 			}
 		}
 
