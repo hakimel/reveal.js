@@ -714,6 +714,10 @@
 		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
+		if( data.backgroundColor ) {
+
+		}
+
 		container.appendChild( element );
 
 		return element;
@@ -1062,6 +1066,63 @@
 			tag.appendChild( document.createTextNode( value ) );
 		}
 		document.getElementsByTagName( 'head' )[0].appendChild( tag );
+
+	}
+
+	/**
+	 * Measures the distance in pixels between point a and point b.
+	 *
+	 * @param {String} color The string representation of a color,
+	 * the following formats are supported:
+	 * - #000
+	 * - #000000
+	 * - rgb(0,0,0)
+	 */
+	function colorToRgb( color ) {
+
+		var hex3 = color.match( /^#([0-9a-f]{3})$/i );
+		if( hex3 && hex3[1] ) {
+			hex3 = hex3[1];
+			return {
+				r: parseInt( hex3.charAt( 0 ), 16 ) * 0x11,
+				g: parseInt( hex3.charAt( 1 ), 16 ) * 0x11,
+				b: parseInt( hex3.charAt( 2 ), 16 ) * 0x11
+			};
+		}
+
+		var hex6 = color.match( /^#([0-9a-f]{6})$/i );
+		if( hex6 && hex6[1] ) {
+			hex6 = hex6[1];
+			return {
+				r: parseInt( hex6.substr( 0, 2 ), 16 ),
+				g: parseInt( hex6.substr( 2, 2 ), 16 ),
+				b: parseInt( hex6.substr( 4, 2 ), 16 )
+			};
+		}
+
+		var rgb = color.match( /^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i );
+		if( rgb ) {
+			return {
+				r: rgb[1],
+				g: rgb[2],
+				b: rgb[3]
+			};
+		}
+
+		return null;
+
+	}
+
+	/**
+	 * Calculates brightness on a scale of 0-255.
+	 *
+	 * @param color See colorStringToRgb for supported formats.
+	 */
+	function colorBrightness( color ) {
+
+		if( typeof color === 'string' ) color = colorToRgb( color );
+
+		return ( color.r * 299 + color.g * 587 + color.b * 114 ) / 1000;
 
 	}
 
@@ -4038,6 +4099,9 @@
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
+
+		colorToRgb: colorToRgb,
+		colorBrightness: colorBrightness,
 
 		// Facility for persisting and restoring the presentation state
 		getState: getState,
