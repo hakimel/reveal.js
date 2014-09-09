@@ -2463,6 +2463,15 @@
 
 		}
 
+		// If the slide has a light background, bubble that up as a
+		// class to .reveal container
+		if( currentSlide && currentSlide.classList.contains( 'has-light-background' ) ) {
+			dom.wrapper.classList.add( 'has-light-background' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'has-light-background' );
+		}
+
 		// Allow the first background to apply without transition
 		setTimeout( function() {
 			dom.background.classList.remove( 'no-transition' );
