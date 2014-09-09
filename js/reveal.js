@@ -720,8 +720,7 @@
 		// signals if it is light
 		var computedBackgroundColor = window.getComputedStyle( element ).backgroundColor;
 		if( computedBackgroundColor && colorBrightness( computedBackgroundColor ) > 128 ) {
-			slide.classList.add( 'is-background-light' );
-			element.classList.add( 'is-background-light' );
+			slide.classList.add( 'has-light-background' );
 		}
 
 		return element;
