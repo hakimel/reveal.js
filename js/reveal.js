@@ -714,14 +714,15 @@
 		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
+		container.appendChild( element );
+
 		// If this slide has a background color, add a class that
 		// signals if it is light
-		if( element.style.backgroundColor && colorBrightness( element.style.backgroundColor ) > 128 ) {
+		var computedBackgroundColor = window.getComputedStyle( element ).backgroundColor;
+		if( computedBackgroundColor && colorBrightness( computedBackgroundColor ) > 128 ) {
 			slide.classList.add( 'is-background-light' );
 			element.classList.add( 'is-background-light' );
 		}
-
-		container.appendChild( element );
 
 		return element;
 
