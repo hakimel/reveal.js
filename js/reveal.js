@@ -714,8 +714,11 @@
 		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
-		if( data.backgroundColor ) {
-
+		// If this slide has a background color, add a class that
+		// signals if it is light
+		if( element.style.backgroundColor && colorBrightness( element.style.backgroundColor ) > 128 ) {
+			slide.classList.add( 'is-background-light' );
+			element.classList.add( 'is-background-light' );
 		}
 
 		container.appendChild( element );
@@ -1122,7 +1125,11 @@
 
 		if( typeof color === 'string' ) color = colorToRgb( color );
 
-		return ( color.r * 299 + color.g * 587 + color.b * 114 ) / 1000;
+		if( color ) {
+			return ( color.r * 299 + color.g * 587 + color.b * 114 ) / 1000;
+		}
+
+		return null;
 
 	}
 
@@ -4099,9 +4106,6 @@
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
-
-		colorToRgb: colorToRgb,
-		colorBrightness: colorBrightness,
 
 		// Facility for persisting and restoring the presentation state
 		getState: getState,
