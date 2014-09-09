@@ -313,6 +313,13 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.slide( 3, 0, 0 );
 		equal( fragmentSlide.querySelectorAll( '.fragment.visible' ).length, 2, 'both fragments of same index are shown' );
+
+		// This slide has three fragments, first one is index 0, second and third have index 1
+		Reveal.slide( 2, 2, 0 );
+		equal( Reveal.getIndices().f, 0, 'returns correct index for first fragment' );
+
+		Reveal.slide( 2, 2, 1 );
+		equal( Reveal.getIndices().f, 1, 'returns correct index for two fragments with same index' );
 	});
 
 	test( 'Index generation', function() {
