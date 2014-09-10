@@ -721,11 +721,18 @@
 		// color, no class will be set
 		var computedBackgroundColor = window.getComputedStyle( element ).backgroundColor;
 		if( computedBackgroundColor ) {
-			if( colorBrightness( computedBackgroundColor ) < 128 ) {
-				slide.classList.add( 'has-dark-background' );
-			}
-			else {
-				slide.classList.add( 'has-light-background' );
+			var rgb = colorToRgb( computedBackgroundColor );
+
+			// Ignore fully transparent backgrounds. Some browsers return
+			// rgba(0,0,0,0) when reading the computed background color of
+			// an element with no background
+			if( rgb && rgb.a !== 0 ) {
+				if( colorBrightness( computedBackgroundColor ) < 128 ) {
+					slide.classList.add( 'has-dark-background' );
+				}
+				else {
+					slide.classList.add( 'has-light-background' );
+				}
 			}
 		}
 
@@ -1112,9 +1119,19 @@
 		var rgb = color.match( /^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i );
 		if( rgb ) {
 			return {
-				r: rgb[1],
-				g: rgb[2],
-				b: rgb[3]
+				r: parseInt( rgb[1], 10 ),
+				g: parseInt( rgb[2], 10 ),
+				b: parseInt( rgb[3], 10 )
+			};
+		}
+
+		var rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
+		if( rgba ) {
+			return {
+				r: parseInt( rgba[1], 10 ),
+				g: parseInt( rgba[2], 10 ),
+				b: parseInt( rgba[3], 10 ),
+				a: parseFloat( rgba[4] )
 			};
 		}
 
