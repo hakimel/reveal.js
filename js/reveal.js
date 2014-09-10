@@ -717,10 +717,16 @@
 		container.appendChild( element );
 
 		// If this slide has a background color, add a class that
-		// signals if it is light
+		// signals if it is light or dark. If the slide has no background
+		// color, no class will be set
 		var computedBackgroundColor = window.getComputedStyle( element ).backgroundColor;
-		if( computedBackgroundColor && colorBrightness( computedBackgroundColor ) > 128 ) {
-			slide.classList.add( 'has-light-background' );
+		if( computedBackgroundColor ) {
+			if( colorBrightness( computedBackgroundColor ) < 128 ) {
+				slide.classList.add( 'has-dark-background' );
+			}
+			else {
+				slide.classList.add( 'has-light-background' );
+			}
 		}
 
 		return element;
@@ -2463,13 +2469,17 @@
 
 		}
 
-		// If the slide has a light background, bubble that up as a
-		// class to .reveal container
-		if( currentSlide && currentSlide.classList.contains( 'has-light-background' ) ) {
-			dom.wrapper.classList.add( 'has-light-background' );
-		}
-		else {
-			dom.wrapper.classList.remove( 'has-light-background' );
+		// If there's a background brightness flag for this slide,
+		// bubble it to the .reveal container
+		if( currentSlide ) {
+			[ 'has-light-background', 'has-dark-background' ].forEach( function( classToBubble ) {
+				if( currentSlide.classList.contains( classToBubble ) ) {
+					dom.wrapper.classList.add( classToBubble );
+				}
+				else {
+					dom.wrapper.classList.remove( classToBubble );
+				}
+			} );
 		}
 
 		// Allow the first background to apply without transition
