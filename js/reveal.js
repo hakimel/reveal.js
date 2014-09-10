@@ -716,6 +716,10 @@
 
 		container.appendChild( element );
 
+		// If backgrounds are being recreated, clear old classes
+		slide.classList.remove( 'has-dark-background' );
+		slide.classList.remove( 'has-light-background' );
+
 		// If this slide has a background color, add a class that
 		// signals if it is light or dark. If the slide has no background
 		// color, no class will be set
