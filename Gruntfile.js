@@ -81,6 +81,14 @@ module.exports = function(grunt) {
                 files: {
                     'css/reveal.css': 'css/reveal.bare.css'
                 }
+            },
+            unprefix: {
+                files: {
+                    'css/reveal.clean.css': 'css/reveal.css'
+                },
+                options: {
+                    browsers: []
+                }
             }
         },
 
@@ -139,7 +147,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'themes', [ 'sass' ] );
 
 	// CSS task
-	grunt.registerTask( 'css', [ 'autoprefixer', 'cssmin' ] );
+	grunt.registerTask( 'css', [ 'autoprefixer:dist', 'cssmin' ] );
 
 
 	// Package presentation to archive
