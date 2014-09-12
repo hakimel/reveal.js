@@ -25,7 +25,7 @@ $linkColor: #51483D;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #26351C;
 
-.reveal a:not(.image) {
+.reveal a {
   line-height: 1.3em;
 }
 
