@@ -534,6 +534,12 @@ body {
 	z-index: 1;
 	text-align: center;
 
+    
+    -webkit-transform: translate(-50%,-50%);
+       -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+    
 	-webkit-transition: -webkit-perspective .4s ease;
 	   -moz-transition: -moz-perspective .4s ease;
 	    -ms-transition: -ms-perspective .4s ease;
@@ -545,10 +551,10 @@ body {
 	    -ms-perspective: 600px;
 	        perspective: 600px;
 
-	-webkit-perspective-origin: 0px -100px;
-	   -moz-perspective-origin: 0px -100px;
-	    -ms-perspective-origin: 0px -100px;
-	        perspective-origin: 0px -100px;
+	-webkit-perspective-origin: 50% 40%;
+	   -moz-perspective-origin: 50% 40%;
+	    -ms-perspective-origin: 50% 40%;
+	        perspective-origin: 50% 40%;
 }
 
 .reveal .slides>section {
@@ -559,8 +565,15 @@ body {
 .reveal .slides>section>section {
 	display: none;
 	position: absolute;
-	width: 100%;
-	padding: 20px 0px;
+    left: 0%;
+    top: 0%;
+
+    -webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+    
+    width: 100%;
+    height: 100%;
 
 	z-index: 10;
 	line-height: 1.2em;
@@ -621,15 +634,15 @@ body {
 	        transition-duration: 1200ms;
 }
 
-.reveal .slides>section {
-	left: -50%;
-	top: -50%;
+.reveal .slides>section.stack {
+    padding: 0px 0px;
 }
 
-.reveal .slides>section.stack {
-	padding-top: 0;
-	padding-bottom: 0;
+.reveal .slides>section:not(.stack),
+.reveal .slides>section>section {
+    padding: 20px 0px;
 }
+
 
 .reveal .slides>section.present,
 .reveal .slides>section>section.present {
@@ -657,7 +670,41 @@ body {
 	pointer-events: auto;
 }
 
+/*********************************************
+ * SLIDE CONTENTS
+ *********************************************/
+.reveal .slides .slide-content {
+    width: 100%;
+}
 
+.reveal.center .slides .slide-body {
+    min-height: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0%,-50%);
+       -moz-transform: translate(0%,-50%);
+        -ms-transform: translate(0%,-50%);
+            transform: translate(0%,-50%);
+}
+
+/*********************************************
+ * LAYOUT DEBUGGING
+ *********************************************/
+
+.reveal.show-canvas .slides {
+    background: rgba(255,255,255,0.3);
+}
+
+.reveal.show-canvas .slides>section,
+.reveal.show-canvas .slides>section>section {
+    background: rgba(255,0,0,0.3);
+}
+.reveal.show-canvas .slides>section.stack {
+    background: rgba(0,0,255,0.3);
+}
+.reveal.show-canvas .slides .slide-body {
+    background: rgba(0,255,0,0.3);
+}
 
 /*********************************************
  * DEFAULT TRANSITION
@@ -1132,10 +1179,10 @@ body {
  *********************************************/
 
 .reveal.overview .slides {
-	-webkit-perspective-origin: 0% 0%;
-	   -moz-perspective-origin: 0% 0%;
-	    -ms-perspective-origin: 0% 0%;
-	        perspective-origin: 0% 0%;
+	-webkit-perspective-origin: 50% 50%;
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
 
 	-webkit-perspective: 700px;
 	   -moz-perspective: 700px;
@@ -1144,8 +1191,6 @@ body {
 }
 
 .reveal.overview .slides section {
-	height: 600px;
-	top: -300px !important;
 	overflow: hidden;
 	opacity: 1 !important;
 	visibility: visible !important;
