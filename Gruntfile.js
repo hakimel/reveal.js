@@ -76,6 +76,14 @@ module.exports = function(grunt) {
 			files: [ 'Gruntfile.js', 'js/reveal.js' ]
 		},
 
+        autoprefixer: {
+            dist: {
+                files: {
+                    'css/reveal.css': 'css/reveal.bare.css'
+                }
+            }
+        },
+
 		connect: {
 			server: {
 				options: {
@@ -104,6 +112,10 @@ module.exports = function(grunt) {
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
+			},
+			css: {
+				files: [ 'css/reveal.bare.css' ],
+				tasks: 'css'
 			}
 		}
 
@@ -117,13 +129,18 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+    grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'css', 'uglify', 'qunit' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
+
+	// CSS task
+	grunt.registerTask( 'css', [ 'autoprefixer', 'cssmin' ] );
+
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
