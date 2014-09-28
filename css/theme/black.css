@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
  */
-@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
 /*********************************************
  * GLOBAL STYLES
@@ -14,9 +14,9 @@ body {
 
 .reveal {
   font-family: "Open Sans", Helvetica, sans-serif;
-  font-size: 32px;
+  font-size: 34px;
   font-weight: normal;
-  color: #eeeeee; }
+  color: white; }
 
 ::selection {
   color: white;
@@ -38,28 +38,28 @@ body {
 .reveal h5,
 .reveal h6 {
   margin: 0 0 20px 0;
-  color: #eeeeee;
+  color: white;
   font-family: "Montserrat", Helvetica, sans-serif;
-  line-height: 1em;
+  line-height: 1.2;
   letter-spacing: normal;
-  text-transform: none;
+  text-transform: uppercase;
   text-shadow: none;
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 3.77em; }
+  font-size: 2.8em; }
 
 .reveal h2 {
-  font-size: 2.11em; }
+  font-size: 1.8em; }
 
 .reveal h3 {
-  font-size: 1.55em; }
+  font-size: 1.5em; }
 
 .reveal h4 {
   font-size: 1em; }
 
 .reveal h1 {
-  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
+  text-shadow: none; }
 
 /*********************************************
  * OTHER
@@ -216,7 +216,7 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #eeeeee;
+  border: 4px solid white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal a img {

@@ -13,7 +13,6 @@ body {
 	font-family: $mainFont;
 	font-size: $mainFontSize;
 	font-weight: normal;
-	letter-spacing: -0.02em;
 	color: $mainColor;
 }
 
@@ -25,7 +24,7 @@ body {
 
 .reveal .slides>section,
 .reveal .slides>section>section {
-	line-height: 1.2em;
+	line-height: 1.3;
 	font-weight: inherit;
 }
 
@@ -52,10 +51,10 @@ body {
 	word-wrap: break-word;
 }
 
-.reveal h1 { font-size: 3.77em;	}
-.reveal h2 { font-size: 2.11em;	}
-.reveal h3 { font-size: 1.55em;	}
-.reveal h4 { font-size: 1em;	}
+.reveal h1 {font-size: $heading1Size; }
+.reveal h2 {font-size: $heading2Size; }
+.reveal h3 {font-size: $heading3Size; }
+.reveal h4 {font-size: $heading4Size; }
 
 .reveal h1 {
 	text-shadow: $heading1TextShadow;
@@ -68,7 +67,7 @@ body {
 
 .reveal p {
 	margin-bottom: 10px;
-	line-height: 1.2em;
+	line-height: 1.3;
 }
 
 /* Ensure certain elements are never larger than the slide itself */

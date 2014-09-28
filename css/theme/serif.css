@@ -18,7 +18,6 @@ body {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
   font-size: 36px;
   font-weight: normal;
-  letter-spacing: -0.02em;
   color: black; }
 
 ::selection {
@@ -28,7 +27,7 @@ body {
 
 .reveal .slides > section,
 .reveal .slides > section > section {
-  line-height: 1.2em;
+  line-height: 1.3;
   font-weight: inherit; }
 
 /*********************************************
@@ -43,8 +42,8 @@ body {
   margin: 0 0 20px 0;
   color: #383d3d;
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
-  line-height: 1em;
-  letter-spacing: 0.02em;
+  line-height: 1.2;
+  letter-spacing: normal;
   text-transform: none;
   text-shadow: none;
   word-wrap: break-word; }
@@ -62,14 +61,14 @@ body {
   font-size: 1em; }
 
 .reveal h1 {
-  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
+  text-shadow: none; }
 
 /*********************************************
  * OTHER
  *********************************************/
 .reveal p {
   margin-bottom: 10px;
-  line-height: 1.2em; }
+  line-height: 1.3; }
 
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
