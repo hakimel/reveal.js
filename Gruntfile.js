@@ -30,9 +30,13 @@ module.exports = function(grunt) {
 		},
 
 		sass: {
-			dist: {
+			core: {
 				files: {
 					'css/reveal.css': 'css/reveal.scss',
+				}
+			},
+			themes: {
+				files: {
 					'css/theme/default.css': 'css/theme/source/default.scss',
 					'css/theme/black.css': 'css/theme/source/black.scss',
 					'css/theme/beige.css': 'css/theme/source/beige.scss',
@@ -112,17 +116,17 @@ module.exports = function(grunt) {
             options: {
                 livereload: true
             },
-			main: {
-				files: [ 'Gruntfile.js', 'js/reveal.js', 'css/reveal.css' ],
-				tasks: 'default'
+			js: {
+				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				tasks: 'js'
 			},
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
-				tasks: 'themes'
+				tasks: 'css-themes'
 			},
 			css: {
-				files: [ 'css/reveal.css' ],
-				tasks: 'css'
+				files: [ 'css/reveal.scss' ],
+				tasks: 'css-core'
 			},
             html: {
                 files: [ 'index.html']
@@ -143,12 +147,18 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'css', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'default', [ 'css', 'js' ] );
 
-	// Theme task
-	grunt.registerTask( 'themes', [ 'sass' ] );
+	// JS task
+	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
 
-	// CSS task
+	// Theme CSS
+	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );
+
+	// Core framework CSS
+	grunt.registerTask( 'css-core', [ 'sass:core', 'autoprefixer', 'cssmin' ] );
+
+	// All CSS
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
 	// Package presentation to archive
