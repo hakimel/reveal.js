@@ -1,5 +1,19 @@
 # reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.png?branch=master)](https://travis-ci.org/hakimel/reveal.js)
 
+#### FontAwesome Framework added to Reveal.js
+For the usage of scaleable vectorgraphics in reveal.js added [FontAwesome Github Project](https://github.com/FortAwesome/Font-Awesome) By: [FontAwesome](http://fontawesome.io)
+Edit on the css and javascript files, plus including the framework in the filestrcuture of reveal.js.
+
+to include FontAwesome for the usage in your ```<sections>``` / slides use the following in the ```<header>``` of your HTML file: 
+```html
+<link rel="stylesheet" href="lib/css/font-awesome/css/font-awesome.css"> 
+```
+a preview with FontAwesome Info and example can be found here: [Example-Project](http://crood.github.io/reveal_fontawesome.js/#/)
+
+-Addition and changes made by [crood](https://github.com/crood/)-
+
+----------------------------------------------------------------------
+
 A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
 
 reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a browser with support for CSS 3D transforms but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.

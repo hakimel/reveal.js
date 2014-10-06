@@ -1,0 +1,1571 @@
+/*!
+ *  Font Awesome 4.1.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ *
+ *  Font Awesome 4.1.0 Edit for reveal.js compatiblity by C. Pomplun (github: crood) - http://www.co2-art.com co2 creative elements (c) 2014.05.16 - 03:26
+ *  (reveail.js By: Copyright (C) 2014 Hakim El Hattab, http://hakim.se - MIT License)
+ *
+ */
+/* FONT PATH
+ * -------------------------- */
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.eot?v=4.1.0');
+  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.reveal .fa {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* makes the font 33% larger relative to the icon container */
+.reveal .fa-lg {
+  font-size: 1.33333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.reveal .fa-2x {
+  font-size: 2em;
+}
+.reveal .fa-3x {
+  font-size: 3em;
+}
+.reveal .fa-4x {
+  font-size: 4em;
+}
+.reveal .fa-5x {
+  font-size: 5em;
+}
+.reveal .fa-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+.reveal .fa-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none;
+}
+.reveal .fa-ul > li {
+  position: relative;
+}
+.reveal .fa-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
+  text-align: center;
+}
+.reveal .fa-li.fa-lg {
+  left: -1.85714286em;
+}
+.reveal .fa-border {
+  padding: .2em .25em .15em;
+  border: solid 0.08em #eeeeee;
+  border-radius: .1em;
+}
+.reveal .pull-right {
+  float: right;
+}
+.reveal .pull-left {
+  float: left;
+}
+.reveal .fa.pull-left {
+  margin-right: .3em;
+}
+.reveal .fa.pull-right {
+  margin-left: .3em;
+}
+.reveal .fa-spin {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.reveal .fa-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.reveal .fa-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.reveal .fa-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.reveal .fa-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -webkit-transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.reveal .fa-flip-vertical {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+  -webkit-transform: scale(1, -1);
+  -moz-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  -o-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+.reveal .fa-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+.reveal .fa-stack-1x,
+.reveal .fa-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.reveal .fa-stack-1x {
+  line-height: inherit;
+}
+.reveal .fa-stack-2x {
+  font-size: 2em;
+}
+.reveal .fa-inverse {
+  color: #ffffff;
+}
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+.reveal .fa-glass:before {
+  content: "\f000";
+}
+.reveal .fa-music:before {
+  content: "\f001";
+}
+.reveal .fa-search:before {
+  content: "\f002";
+}
+.reveal .fa-envelope-o:before {
+  content: "\f003";
+}
+.reveal .fa-heart:before {
+  content: "\f004";
+}
+.reveal .fa-star:before {
+  content: "\f005";
+}
+.reveal .fa-star-o:before {
+  content: "\f006";
+}
+.reveal .fa-user:before {
+  content: "\f007";
+}
+.reveal .fa-film:before {
+  content: "\f008";
+}
+.reveal .fa-th-large:before {
+  content: "\f009";
+}
+.reveal .fa-th:before {
+  content: "\f00a";
+}
+.reveal .fa-th-list:before {
+  content: "\f00b";
+}
+.reveal .fa-check:before {
+  content: "\f00c";
+}
+.reveal .fa-times:before {
+  content: "\f00d";
+}
+.reveal .fa-search-plus:before {
+  content: "\f00e";
+}
+.reveal .fa-search-minus:before {
+  content: "\f010";
+}
+.reveal .fa-power-off:before {
+  content: "\f011";
+}
+.reveal .fa-signal:before {
+  content: "\f012";
+}
+.reveal .fa-gear:before,
+.reveal .fa-cog:before {
+  content: "\f013";
+}
+.reveal .fa-trash-o:before {
+  content: "\f014";
+}
+.reveal .fa-home:before {
+  content: "\f015";
+}
+.reveal .fa-file-o:before {
+  content: "\f016";
+}
+.reveal .fa-clock-o:before {
+  content: "\f017";
+}
+.reveal .fa-road:before {
+  content: "\f018";
+}
+.reveal .fa-download:before {
+  content: "\f019";
+}
+.reveal .fa-arrow-circle-o-down:before {
+  content: "\f01a";
+}
+.reveal .fa-arrow-circle-o-up:before {
+  content: "\f01b";
+}
+.reveal .fa-inbox:before {
+  content: "\f01c";
+}
+.reveal .fa-play-circle-o:before {
+  content: "\f01d";
+}
+.reveal .fa-rotate-right:before,
+.reveal .fa-repeat:before {
+  content: "\f01e";
+}
+.reveal .fa-refresh:before {
+  content: "\f021";
+}
+.reveal .fa-list-alt:before {
+  content: "\f022";
+}
+.reveal .fa-lock:before {
+  content: "\f023";
+}
+.reveal .fa-flag:before {
+  content: "\f024";
+}
+.reveal .fa-headphones:before {
+  content: "\f025";
+}
+.reveal .fa-volume-off:before {
+  content: "\f026";
+}
+.reveal .fa-volume-down:before {
+  content: "\f027";
+}
+.reveal .fa-volume-up:before {
+  content: "\f028";
+}
+.reveal .fa-qrcode:before {
+  content: "\f029";
+}
+.reveal .fa-barcode:before {
+  content: "\f02a";
+}
+.reveal .fa-tag:before {
+  content: "\f02b";
+}
+.reveal .fa-tags:before {
+  content: "\f02c";
+}
+.reveal .fa-book:before {
+  content: "\f02d";
+}
+.reveal .fa-bookmark:before {
+  content: "\f02e";
+}
+.reveal .fa-print:before {
+  content: "\f02f";
+}
+.reveal .fa-camera:before {
+  content: "\f030";
+}
+.reveal .fa-font:before {
+  content: "\f031";
+}
+.reveal .fa-bold:before {
+  content: "\f032";
+}
+.reveal .fa-italic:before {
+  content: "\f033";
+}
+.reveal .fa-text-height:before {
+  content: "\f034";
+}
+.reveal .fa-text-width:before {
+  content: "\f035";
+}
+.reveal .fa-align-left:before {
+  content: "\f036";
+}
+.reveal .fa-align-center:before {
+  content: "\f037";
+}
+.reveal .fa-align-right:before {
+  content: "\f038";
+}
+.reveal .fa-align-justify:before {
+  content: "\f039";
+}
+.reveal .fa-list:before {
+  content: "\f03a";
+}
+.reveal .fa-dedent:before,
+.reveal .fa-outdent:before {
+  content: "\f03b";
+}
+.reveal .fa-indent:before {
+  content: "\f03c";
+}
+.reveal .fa-video-camera:before {
+  content: "\f03d";
+}
+.reveal .fa-photo:before,
+.reveal .fa-image:before,
+.reveal .fa-picture-o:before {
+  content: "\f03e";
+}
+.reveal .fa-pencil:before {
+  content: "\f040";
+}
+.reveal .fa-map-marker:before {
+  content: "\f041";
+}
+.reveal .fa-adjust:before {
+  content: "\f042";
+}
+.reveal .fa-tint:before {
+  content: "\f043";
+}
+.reveal .fa-edit:before,
+.reveal .fa-pencil-square-o:before {
+  content: "\f044";
+}
+.reveal .fa-share-square-o:before {
+  content: "\f045";
+}
+.reveal .fa-check-square-o:before {
+  content: "\f046";
+}
+.reveal .fa-arrows:before {
+  content: "\f047";
+}
+.reveal .fa-step-backward:before {
+  content: "\f048";
+}
+.reveal .fa-fast-backward:before {
+  content: "\f049";
+}
+.reveal .fa-backward:before {
+  content: "\f04a";
+}
+.reveal .fa-play:before {
+  content: "\f04b";
+}
+.reveal .fa-pause:before {
+  content: "\f04c";
+}
+.reveal .fa-stop:before {
+  content: "\f04d";
+}
+.reveal .fa-forward:before {
+  content: "\f04e";
+}
+.reveal .fa-fast-forward:before {
+  content: "\f050";
+}
+.reveal .fa-step-forward:before {
+  content: "\f051";
+}
+.reveal .fa-eject:before {
+  content: "\f052";
+}
+.reveal .fa-chevron-left:before {
+  content: "\f053";
+}
+.reveal .fa-chevron-right:before {
+  content: "\f054";
+}
+.reveal .fa-plus-circle:before {
+  content: "\f055";
+}
+.reveal .fa-minus-circle:before {
+  content: "\f056";
+}
+.reveal .fa-times-circle:before {
+  content: "\f057";
+}
+.reveal .fa-check-circle:before {
+  content: "\f058";
+}
+.reveal .fa-question-circle:before {
+  content: "\f059";
+}
+.reveal .fa-info-circle:before {
+  content: "\f05a";
+}
+.reveal .fa-crosshairs:before {
+  content: "\f05b";
+}
+.reveal .fa-times-circle-o:before {
+  content: "\f05c";
+}
+.reveal .fa-check-circle-o:before {
+  content: "\f05d";
+}
+.reveal .fa-ban:before {
+  content: "\f05e";
+}
+.reveal .fa-arrow-left:before {
+  content: "\f060";
+}
+.reveal .fa-arrow-right:before {
+  content: "\f061";
+}
+.reveal .fa-arrow-up:before {
+  content: "\f062";
+}
+.reveal .fa-arrow-down:before {
+  content: "\f063";
+}
+.reveal .fa-mail-forward:before,
+.reveal .fa-share:before {
+  content: "\f064";
+}
+.reveal .fa-expand:before {
+  content: "\f065";
+}
+.reveal .fa-compress:before {
+  content: "\f066";
+}
+.reveal .fa-plus:before {
+  content: "\f067";
+}
+.reveal .fa-minus:before {
+  content: "\f068";
+}
+.reveal .fa-asterisk:before {
+  content: "\f069";
+}
+.reveal .fa-exclamation-circle:before {
+  content: "\f06a";
+}
+.reveal .fa-gift:before {
+  content: "\f06b";
+}
+.reveal .fa-leaf:before {
+  content: "\f06c";
+}
+.reveal .fa-fire:before {
+  content: "\f06d";
+}
+.reveal .fa-eye:before {
+  content: "\f06e";
+}
+.reveal .fa-eye-slash:before {
+  content: "\f070";
+}
+.reveal .fa-warning:before,
+.reveal .fa-exclamation-triangle:before {
+  content: "\f071";
+}
+.reveal .fa-plane:before {
+  content: "\f072";
+}
+.reveal .fa-calendar:before {
+  content: "\f073";
+}
+.reveal .fa-random:before {
+  content: "\f074";
+}
+.reveal .fa-comment:before {
+  content: "\f075";
+}
+.reveal .fa-magnet:before {
+  content: "\f076";
+}
+.reveal .fa-chevron-up:before {
+  content: "\f077";
+}
+.reveal .fa-chevron-down:before {
+  content: "\f078";
+}
+.reveal .fa-retweet:before {
+  content: "\f079";
+}
+.reveal .fa-shopping-cart:before {
+  content: "\f07a";
+}
+.reveal .fa-folder:before {
+  content: "\f07b";
+}
+.reveal .fa-folder-open:before {
+  content: "\f07c";
+}
+.reveal .fa-arrows-v:before {
+  content: "\f07d";
+}
+.reveal .fa-arrows-h:before {
+  content: "\f07e";
+}
+.reveal .fa-bar-chart-o:before {
+  content: "\f080";
+}
+.reveal .fa-twitter-square:before {
+  content: "\f081";
+}
+.reveal .fa-facebook-square:before {
+  content: "\f082";
+}
+.reveal .fa-camera-retro:before {
+  content: "\f083";
+}
+.reveal .fa-key:before {
+  content: "\f084";
+}
+.reveal .fa-gears:before,
+.reveal .fa-cogs:before {
+  content: "\f085";
+}
+.reveal .fa-comments:before {
+  content: "\f086";
+}
+.reveal .fa-thumbs-o-up:before {
+  content: "\f087";
+}
+.reveal .fa-thumbs-o-down:before {
+  content: "\f088";
+}
+.reveal .fa-star-half:before {
+  content: "\f089";
+}
+.reveal .fa-heart-o:before {
+  content: "\f08a";
+}
+.reveal .fa-sign-out:before {
+  content: "\f08b";
+}
+.reveal .fa-linkedin-square:before {
+  content: "\f08c";
+}
+.reveal .fa-thumb-tack:before {
+  content: "\f08d";
+}
+.reveal .fa-external-link:before {
+  content: "\f08e";
+}
+.reveal .fa-sign-in:before {
+  content: "\f090";
+}
+.reveal .fa-trophy:before {
+  content: "\f091";
+}
+.reveal .fa-github-square:before {
+  content: "\f092";
+}
+.reveal .fa-upload:before {
+  content: "\f093";
+}
+.reveal .fa-lemon-o:before {
+  content: "\f094";
+}
+.reveal .fa-phone:before {
+  content: "\f095";
+}
+.reveal .fa-square-o:before {
+  content: "\f096";
+}
+.reveal .fa-bookmark-o:before {
+  content: "\f097";
+}
+.reveal .fa-phone-square:before {
+  content: "\f098";
+}
+.reveal .fa-twitter:before {
+  content: "\f099";
+}
+.reveal .fa-facebook:before {
+  content: "\f09a";
+}
+.reveal .fa-github:before {
+  content: "\f09b";
+}
+.reveal .fa-unlock:before {
+  content: "\f09c";
+}
+.reveal .fa-credit-card:before {
+  content: "\f09d";
+}
+.reveal .fa-rss:before {
+  content: "\f09e";
+}
+.reveal .fa-hdd-o:before {
+  content: "\f0a0";
+}
+.reveal .fa-bullhorn:before {
+  content: "\f0a1";
+}
+.reveal .fa-bell:before {
+  content: "\f0f3";
+}
+.reveal .fa-certificate:before {
+  content: "\f0a3";
+}
+.reveal .fa-hand-o-right:before {
+  content: "\f0a4";
+}
+.reveal .fa-hand-o-left:before {
+  content: "\f0a5";
+}
+.reveal .fa-hand-o-up:before {
+  content: "\f0a6";
+}
+.reveal .fa-hand-o-down:before {
+  content: "\f0a7";
+}
+.reveal .fa-arrow-circle-left:before {
+  content: "\f0a8";
+}
+.reveal .fa-arrow-circle-right:before {
+  content: "\f0a9";
+}
+.reveal .fa-arrow-circle-up:before {
+  content: "\f0aa";
+}
+.reveal .fa-arrow-circle-down:before {
+  content: "\f0ab";
+}
+.reveal .fa-globe:before {
+  content: "\f0ac";
+}
+.reveal .fa-wrench:before {
+  content: "\f0ad";
+}
+.reveal .fa-tasks:before {
+  content: "\f0ae";
+}
+.reveal .fa-filter:before {
+  content: "\f0b0";
+}
+.reveal .fa-briefcase:before {
+  content: "\f0b1";
+}
+.reveal .fa-arrows-alt:before {
+  content: "\f0b2";
+}
+.reveal .fa-group:before,
+.reveal .fa-users:before {
+  content: "\f0c0";
+}
+.reveal .fa-chain:before,
+.reveal .fa-link:before {
+  content: "\f0c1";
+}
+.reveal .fa-cloud:before {
+  content: "\f0c2";
+}
+.reveal .fa-flask:before {
+  content: "\f0c3";
+}
+.reveal .fa-cut:before,
+.reveal .fa-scissors:before {
+  content: "\f0c4";
+}
+.reveal .fa-copy:before,
+.reveal .fa-files-o:before {
+  content: "\f0c5";
+}
+.reveal .fa-paperclip:before {
+  content: "\f0c6";
+}
+.reveal .fa-save:before,
+.reveal .fa-floppy-o:before {
+  content: "\f0c7";
+}
+.reveal .fa-square:before {
+  content: "\f0c8";
+}
+.reveal .fa-navicon:before,
+.reveal .fa-reorder:before,
+.reveal .fa-bars:before {
+  content: "\f0c9";
+}
+.reveal .fa-list-ul:before {
+  content: "\f0ca";
+}
+.reveal .fa-list-ol:before {
+  content: "\f0cb";
+}
+.reveal .fa-strikethrough:before {
+  content: "\f0cc";
+}
+.reveal .fa-underline:before {
+  content: "\f0cd";
+}
+.reveal .fa-table:before {
+  content: "\f0ce";
+}
+.reveal .fa-magic:before {
+  content: "\f0d0";
+}
+.reveal .fa-truck:before {
+  content: "\f0d1";
+}
+.reveal .fa-pinterest:before {
+  content: "\f0d2";
+}
+.reveal .fa-pinterest-square:before {
+  content: "\f0d3";
+}
+.reveal .fa-google-plus-square:before {
+  content: "\f0d4";
+}
+.reveal .fa-google-plus:before {
+  content: "\f0d5";
+}
+.reveal .fa-money:before {
+  content: "\f0d6";
+}
+.reveal .fa-caret-down:before {
+  content: "\f0d7";
+}
+.reveal .fa-caret-up:before {
+  content: "\f0d8";
+}
+.reveal .fa-caret-left:before {
+  content: "\f0d9";
+}
+.reveal .fa-caret-right:before {
+  content: "\f0da";
+}
+.reveal .fa-columns:before {
+  content: "\f0db";
+}
+.reveal .fa-unsorted:before,
+.reveal .fa-sort:before {
+  content: "\f0dc";
+}
+.reveal .fa-sort-down:before,
+.reveal .fa-sort-desc:before {
+  content: "\f0dd";
+}
+.reveal .fa-sort-up:before,
+.reveal .fa-sort-asc:before {
+  content: "\f0de";
+}
+.reveal .fa-envelope:before {
+  content: "\f0e0";
+}
+.reveal .fa-linkedin:before {
+  content: "\f0e1";
+}
+.reveal .fa-rotate-left:before,
+.reveal .fa-undo:before {
+  content: "\f0e2";
+}
+.reveal .fa-legal:before,
+.reveal .fa-gavel:before {
+  content: "\f0e3";
+}
+.reveal .fa-dashboard:before,
+.reveal .fa-tachometer:before {
+  content: "\f0e4";
+}
+.reveal .fa-comment-o:before {
+  content: "\f0e5";
+}
+.reveal .fa-comments-o:before {
+  content: "\f0e6";
+}
+.reveal .fa-flash:before,
+.reveal .fa-bolt:before {
+  content: "\f0e7";
+}
+.reveal .fa-sitemap:before {
+  content: "\f0e8";
+}
+.reveal .fa-umbrella:before {
+  content: "\f0e9";
+}
+.reveal .fa-paste:before,
+.reveal .fa-clipboard:before {
+  content: "\f0ea";
+}
+.reveal .fa-lightbulb-o:before {
+  content: "\f0eb";
+}
+.reveal .fa-exchange:before {
+  content: "\f0ec";
+}
+.reveal .fa-cloud-download:before {
+  content: "\f0ed";
+}
+.reveal .fa-cloud-upload:before {
+  content: "\f0ee";
+}
+.reveal .fa-user-md:before {
+  content: "\f0f0";
+}
+.reveal .fa-stethoscope:before {
+  content: "\f0f1";
+}
+.reveal .fa-suitcase:before {
+  content: "\f0f2";
+}
+.reveal .fa-bell-o:before {
+  content: "\f0a2";
+}
+.reveal .fa-coffee:before {
+  content: "\f0f4";
+}
+.reveal .fa-cutlery:before {
+  content: "\f0f5";
+}
+.reveal .fa-file-text-o:before {
+  content: "\f0f6";
+}
+.reveal .fa-building-o:before {
+  content: "\f0f7";
+}
+.reveal .fa-hospital-o:before {
+  content: "\f0f8";
+}
+.reveal .fa-ambulance:before {
+  content: "\f0f9";
+}
+.reveal .fa-medkit:before {
+  content: "\f0fa";
+}
+.reveal .fa-fighter-jet:before {
+  content: "\f0fb";
+}
+.reveal .fa-beer:before {
+  content: "\f0fc";
+}
+.reveal .fa-h-square:before {
+  content: "\f0fd";
+}
+.reveal .fa-plus-square:before {
+  content: "\f0fe";
+}
+.reveal .fa-angle-double-left:before {
+  content: "\f100";
+}
+.reveal .fa-angle-double-right:before {
+  content: "\f101";
+}
+.reveal .fa-angle-double-up:before {
+  content: "\f102";
+}
+.reveal .fa-angle-double-down:before {
+  content: "\f103";
+}
+.reveal .fa-angle-left:before {
+  content: "\f104";
+}
+.reveal .fa-angle-right:before {
+  content: "\f105";
+}
+.reveal .fa-angle-up:before {
+  content: "\f106";
+}
+.reveal .fa-angle-down:before {
+  content: "\f107";
+}
+.reveal .fa-desktop:before {
+  content: "\f108";
+}
+.reveal .fa-laptop:before {
+  content: "\f109";
+}
+.reveal .fa-tablet:before {
+  content: "\f10a";
+}
+.reveal .fa-mobile-phone:before,
+.reveal .fa-mobile:before {
+  content: "\f10b";
+}
+.reveal .fa-circle-o:before {
+  content: "\f10c";
+}
+.reveal .fa-quote-left:before {
+  content: "\f10d";
+}
+.reveal .fa-quote-right:before {
+  content: "\f10e";
+}
+.reveal .fa-spinner:before {
+  content: "\f110";
+}
+.reveal .fa-circle:before {
+  content: "\f111";
+}
+.reveal .fa-mail-reply:before,
+.reveal .fa-reply:before {
+  content: "\f112";
+}
+.reveal .fa-github-alt:before {
+  content: "\f113";
+}
+.reveal .fa-folder-o:before {
+  content: "\f114";
+}
+.reveal .fa-folder-open-o:before {
+  content: "\f115";
+}
+.reveal .fa-smile-o:before {
+  content: "\f118";
+}
+.reveal .fa-frown-o:before {
+  content: "\f119";
+}
+.reveal .fa-meh-o:before {
+  content: "\f11a";
+}
+.reveal .fa-gamepad:before {
+  content: "\f11b";
+}
+.reveal .fa-keyboard-o:before {
+  content: "\f11c";
+}
+.reveal .fa-flag-o:before {
+  content: "\f11d";
+}
+.reveal .fa-flag-checkered:before {
+  content: "\f11e";
+}
+.reveal .fa-terminal:before {
+  content: "\f120";
+}
+.reveal .fa-code:before {
+  content: "\f121";
+}
+.reveal .fa-mail-reply-all:before,
+.reveal .fa-reply-all:before {
+  content: "\f122";
+}
+.reveal .fa-star-half-empty:before,
+.reveal .fa-star-half-full:before,
+.reveal .fa-star-half-o:before {
+  content: "\f123";
+}
+.reveal .fa-location-arrow:before {
+  content: "\f124";
+}
+.reveal .fa-crop:before {
+  content: "\f125";
+}
+.reveal .fa-code-fork:before {
+  content: "\f126";
+}
+.reveal .fa-unlink:before,
+.reveal .fa-chain-broken:before {
+  content: "\f127";
+}
+.reveal .fa-question:before {
+  content: "\f128";
+}
+.reveal .fa-info:before {
+  content: "\f129";
+}
+.reveal .fa-exclamation:before {
+  content: "\f12a";
+}
+.reveal .fa-superscript:before {
+  content: "\f12b";
+}
+.reveal .fa-subscript:before {
+  content: "\f12c";
+}
+.reveal .fa-eraser:before {
+  content: "\f12d";
+}
+.reveal .fa-puzzle-piece:before {
+  content: "\f12e";
+}
+.reveal .fa-microphone:before {
+  content: "\f130";
+}
+.reveal .fa-microphone-slash:before {
+  content: "\f131";
+}
+.reveal .fa-shield:before {
+  content: "\f132";
+}
+.reveal .fa-calendar-o:before {
+  content: "\f133";
+}
+.reveal .fa-fire-extinguisher:before {
+  content: "\f134";
+}
+.reveal .fa-rocket:before {
+  content: "\f135";
+}
+.reveal .fa-maxcdn:before {
+  content: "\f136";
+}
+.reveal .fa-chevron-circle-left:before {
+  content: "\f137";
+}
+.reveal .fa-chevron-circle-right:before {
+  content: "\f138";
+}
+.reveal .fa-chevron-circle-up:before {
+  content: "\f139";
+}
+.reveal .fa-chevron-circle-down:before {
+  content: "\f13a";
+}
+.reveal .fa-html5:before {
+  content: "\f13b";
+}
+.reveal .fa-css3:before {
+  content: "\f13c";
+}
+.reveal .fa-anchor:before {
+  content: "\f13d";
+}
+.reveal .fa-unlock-alt:before {
+  content: "\f13e";
+}
+.reveal .fa-bullseye:before {
+  content: "\f140";
+}
+.reveal .fa-ellipsis-h:before {
+  content: "\f141";
+}
+.reveal .fa-ellipsis-v:before {
+  content: "\f142";
+}
+.reveal .fa-rss-square:before {
+  content: "\f143";
+}
+.reveal .fa-play-circle:before {
+  content: "\f144";
+}
+.reveal .fa-ticket:before {
+  content: "\f145";
+}
+.reveal .fa-minus-square:before {
+  content: "\f146";
+}
+.reveal .fa-minus-square-o:before {
+  content: "\f147";
+}
+.reveal .fa-level-up:before {
+  content: "\f148";
+}
+.reveal .fa-level-down:before {
+  content: "\f149";
+}
+.reveal .fa-check-square:before {
+  content: "\f14a";
+}
+.reveal .fa-pencil-square:before {
+  content: "\f14b";
+}
+.reveal .fa-external-link-square:before {
+  content: "\f14c";
+}
+.reveal .fa-share-square:before {
+  content: "\f14d";
+}
+.reveal .fa-compass:before {
+  content: "\f14e";
+}
+.reveal .fa-toggle-down:before,
+.reveal .fa-caret-square-o-down:before {
+  content: "\f150";
+}
+.reveal .fa-toggle-up:before,
+.reveal .fa-caret-square-o-up:before {
+  content: "\f151";
+}
+.reveal .fa-toggle-right:before,
+.reveal .fa-caret-square-o-right:before {
+  content: "\f152";
+}
+.reveal .fa-euro:before,
+.reveal .fa-eur:before {
+  content: "\f153";
+}
+.reveal .fa-gbp:before {
+  content: "\f154";
+}
+.reveal .fa-dollar:before,
+.reveal .fa-usd:before {
+  content: "\f155";
+}
+.reveal .fa-rupee:before,
+.reveal .fa-inr:before {
+  content: "\f156";
+}
+.reveal .fa-cny:before,
+.reveal .fa-rmb:before,
+.reveal .fa-yen:before,
+.reveal .fa-jpy:before {
+  content: "\f157";
+}
+.reveal .fa-ruble:before,
+.reveal .fa-rouble:before,
+.reveal .fa-rub:before {
+  content: "\f158";
+}
+.reveal .fa-won:before,
+.reveal .fa-krw:before {
+  content: "\f159";
+}
+.reveal .fa-bitcoin:before,
+.reveal .fa-btc:before {
+  content: "\f15a";
+}
+.reveal .fa-file:before {
+  content: "\f15b";
+}
+.reveal .fa-file-text:before {
+  content: "\f15c";
+}
+.reveal .fa-sort-alpha-asc:before {
+  content: "\f15d";
+}
+.reveal .fa-sort-alpha-desc:before {
+  content: "\f15e";
+}
+.reveal .fa-sort-amount-asc:before {
+  content: "\f160";
+}
+.reveal .fa-sort-amount-desc:before {
+  content: "\f161";
+}
+.reveal .fa-sort-numeric-asc:before {
+  content: "\f162";
+}
+.reveal .fa-sort-numeric-desc:before {
+  content: "\f163";
+}
+.reveal .fa-thumbs-up:before {
+  content: "\f164";
+}
+.reveal .fa-thumbs-down:before {
+  content: "\f165";
+}
+.reveal .fa-youtube-square:before {
+  content: "\f166";
+}
+.reveal .fa-youtube:before {
+  content: "\f167";
+}
+.reveal .fa-xing:before {
+  content: "\f168";
+}
+.reveal .fa-xing-square:before {
+  content: "\f169";
+}
+.reveal .fa-youtube-play:before {
+  content: "\f16a";
+}
+.reveal .fa-dropbox:before {
+  content: "\f16b";
+}
+.reveal .fa-stack-overflow:before {
+  content: "\f16c";
+}
+.reveal .fa-instagram:before {
+  content: "\f16d";
+}
+.reveal .fa-flickr:before {
+  content: "\f16e";
+}
+.reveal .fa-adn:before {
+  content: "\f170";
+}
+.reveal .fa-bitbucket:before {
+  content: "\f171";
+}
+.reveal .fa-bitbucket-square:before {
+  content: "\f172";
+}
+.reveal .fa-tumblr:before {
+  content: "\f173";
+}
+.reveal .fa-tumblr-square:before {
+  content: "\f174";
+}
+.reveal .fa-long-arrow-down:before {
+  content: "\f175";
+}
+.reveal .fa-long-arrow-up:before {
+  content: "\f176";
+}
+.reveal .fa-long-arrow-left:before {
+  content: "\f177";
+}
+.reveal .fa-long-arrow-right:before {
+  content: "\f178";
+}
+.reveal .fa-apple:before {
+  content: "\f179";
+}
+.reveal .fa-windows:before {
+  content: "\f17a";
+}
+.reveal .fa-android:before {
+  content: "\f17b";
+}
+.reveal .fa-linux:before {
+  content: "\f17c";
+}
+.reveal .fa-dribbble:before {
+  content: "\f17d";
+}
+.reveal .fa-skype:before {
+  content: "\f17e";
+}
+.reveal .fa-foursquare:before {
+  content: "\f180";
+}
+.reveal .fa-trello:before {
+  content: "\f181";
+}
+.reveal .fa-female:before {
+  content: "\f182";
+}
+.reveal .fa-male:before {
+  content: "\f183";
+}
+.reveal .fa-gittip:before {
+  content: "\f184";
+}
+.reveal .fa-sun-o:before {
+  content: "\f185";
+}
+.reveal .fa-moon-o:before {
+  content: "\f186";
+}
+.reveal .fa-archive:before {
+  content: "\f187";
+}
+.reveal .fa-bug:before {
+  content: "\f188";
+}
+.reveal .fa-vk:before {
+  content: "\f189";
+}
+.reveal .fa-weibo:before {
+  content: "\f18a";
+}
+.reveal .fa-renren:before {
+  content: "\f18b";
+}
+.reveal .fa-pagelines:before {
+  content: "\f18c";
+}
+.reveal .fa-stack-exchange:before {
+  content: "\f18d";
+}
+.reveal .fa-arrow-circle-o-right:before {
+  content: "\f18e";
+}
+.reveal .fa-arrow-circle-o-left:before {
+  content: "\f190";
+}
+.reveal .fa-toggle-left:before,
+.reveal .fa-caret-square-o-left:before {
+  content: "\f191";
+}
+.reveal .fa-dot-circle-o:before {
+  content: "\f192";
+}
+.reveal .fa-wheelchair:before {
+  content: "\f193";
+}
+.reveal .fa-vimeo-square:before {
+  content: "\f194";
+}
+.reveal .fa-turkish-lira:before,
+.reveal .fa-try:before {
+  content: "\f195";
+}
+.reveal .fa-plus-square-o:before {
+  content: "\f196";
+}
+.reveal .fa-space-shuttle:before {
+  content: "\f197";
+}
+.reveal .fa-slack:before {
+  content: "\f198";
+}
+.reveal .fa-envelope-square:before {
+  content: "\f199";
+}
+.reveal .fa-wordpress:before {
+  content: "\f19a";
+}
+.reveal .fa-openid:before {
+  content: "\f19b";
+}
+.reveal .fa-institution:before,
+.reveal .fa-bank:before,
+.reveal .fa-university:before {
+  content: "\f19c";
+}
+.reveal .fa-mortar-board:before,
+.reveal .fa-graduation-cap:before {
+  content: "\f19d";
+}
+.reveal .fa-yahoo:before {
+  content: "\f19e";
+}
+.reveal .fa-google:before {
+  content: "\f1a0";
+}
+.reveal .fa-reddit:before {
+  content: "\f1a1";
+}
+.reveal .fa-reddit-square:before {
+  content: "\f1a2";
+}
+.reveal .fa-stumbleupon-circle:before {
+  content: "\f1a3";
+}
+.reveal .fa-stumbleupon:before {
+  content: "\f1a4";
+}
+.reveal .fa-delicious:before {
+  content: "\f1a5";
+}
+.reveal .fa-digg:before {
+  content: "\f1a6";
+}
+.reveal .fa-pied-piper-square:before,
+.reveal .fa-pied-piper:before {
+  content: "\f1a7";
+}
+.reveal .fa-pied-piper-alt:before {
+  content: "\f1a8";
+}
+.reveal .fa-drupal:before {
+  content: "\f1a9";
+}
+.reveal .fa-joomla:before {
+  content: "\f1aa";
+}
+.reveal .fa-language:before {
+  content: "\f1ab";
+}
+.reveal .fa-fax:before {
+  content: "\f1ac";
+}
+.reveal .fa-building:before {
+  content: "\f1ad";
+}
+.reveal .fa-child:before {
+  content: "\f1ae";
+}
+.reveal .fa-paw:before {
+  content: "\f1b0";
+}
+.reveal .fa-spoon:before {
+  content: "\f1b1";
+}
+.reveal .fa-cube:before {
+  content: "\f1b2";
+}
+.reveal .fa-cubes:before {
+  content: "\f1b3";
+}
+.reveal .fa-behance:before {
+  content: "\f1b4";
+}
+.reveal .fa-behance-square:before {
+  content: "\f1b5";
+}
+.reveal .fa-steam:before {
+  content: "\f1b6";
+}
+.reveal .fa-steam-square:before {
+  content: "\f1b7";
+}
+.reveal .fa-recycle:before {
+  content: "\f1b8";
+}
+.reveal .fa-automobile:before,
+.reveal .fa-car:before {
+  content: "\f1b9";
+}
+.reveal .fa-cab:before,
+.reveal .fa-taxi:before {
+  content: "\f1ba";
+}
+.reveal .fa-tree:before {
+  content: "\f1bb";
+}
+.reveal .fa-spotify:before {
+  content: "\f1bc";
+}
+.reveal .fa-deviantart:before {
+  content: "\f1bd";
+}
+.reveal .fa-soundcloud:before {
+  content: "\f1be";
+}
+.reveal .fa-database:before {
+  content: "\f1c0";
+}
+.reveal .fa-file-pdf-o:before {
+  content: "\f1c1";
+}
+.reveal .fa-file-word-o:before {
+  content: "\f1c2";
+}
+.reveal .fa-file-excel-o:before {
+  content: "\f1c3";
+}
+.reveal .fa-file-powerpoint-o:before {
+  content: "\f1c4";
+}
+.reveal .fa-file-photo-o:before,
+.reveal .fa-file-picture-o:before,
+.reveal .fa-file-image-o:before {
+  content: "\f1c5";
+}
+.reveal .fa-file-zip-o:before,
+.reveal .fa-file-archive-o:before {
+  content: "\f1c6";
+}
+.reveal .fa-file-sound-o:before,
+.reveal .fa-file-audio-o:before {
+  content: "\f1c7";
+}
+.reveal .fa-file-movie-o:before,
+.reveal .fa-file-video-o:before {
+  content: "\f1c8";
+}
+.reveal .fa-file-code-o:before {
+  content: "\f1c9";
+}
+.reveal .fa-vine:before {
+  content: "\f1ca";
+}
+.reveal .fa-codepen:before {
+  content: "\f1cb";
+}
+.reveal .fa-jsfiddle:before {
+  content: "\f1cc";
+}
+.reveal .fa-life-bouy:before,
+.reveal .fa-life-saver:before,
+.reveal .fa-support:before,
+.reveal .fa-life-ring:before {
+  content: "\f1cd";
+}
+.reveal .fa-circle-o-notch:before {
+  content: "\f1ce";
+}
+.reveal .fa-ra:before,
+.reveal .fa-rebel:before {
+  content: "\f1d0";
+}
+.reveal .fa-ge:before,
+.reveal .fa-empire:before {
+  content: "\f1d1";
+}
+.reveal .fa-git-square:before {
+  content: "\f1d2";
+}
+.reveal .fa-git:before {
+  content: "\f1d3";
+}
+.reveal .fa-hacker-news:before {
+  content: "\f1d4";
+}
+.reveal .fa-tencent-weibo:before {
+  content: "\f1d5";
+}
+.reveal .fa-qq:before {
+  content: "\f1d6";
+}
+.reveal .fa-wechat:before,
+.reveal .fa-weixin:before {
+  content: "\f1d7";
+}
+.reveal .fa-send:before,
+.reveal .fa-paper-plane:before {
+  content: "\f1d8";
+}
+.reveal .fa-send-o:before,
+.reveal .fa-paper-plane-o:before {
+  content: "\f1d9";
+}
+.reveal .fa-history:before {
+  content: "\f1da";
+}
+.reveal .fa-circle-thin:before {
+  content: "\f1db";
+}
+.reveal .fa-header:before {
+  content: "\f1dc";
+}
+.reveal .fa-paragraph:before {
+  content: "\f1dd";
+}
+.reveal .fa-sliders:before {
+  content: "\f1de";
+}
+.reveal .fa-share-alt:before {
+  content: "\f1e0";
+}
+.reveal .fa-share-alt-square:before {
+  content: "\f1e1";
+}
+.reveal .fa-bomb:before {
+  content: "\f1e2";
+}
