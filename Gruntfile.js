@@ -29,17 +29,10 @@ module.exports = function(grunt) {
 			}
 		},
 
-		cssmin: {
-			compress: {
-				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
-				}
-			}
-		},
-
 		sass: {
 			dist: {
 				files: {
+					'css/reveal.css': 'css/reveal.scss',
 					'css/theme/default.css': 'css/theme/source/default.scss',
 					'css/theme/black.css': 'css/theme/source/black.scss',
 					'css/theme/beige.css': 'css/theme/source/beige.scss',
@@ -50,6 +43,20 @@ module.exports = function(grunt) {
 					'css/theme/moon.css': 'css/theme/source/moon.scss',
 					'css/theme/solarized.css': 'css/theme/source/solarized.scss',
 					'css/theme/blood.css': 'css/theme/source/blood.scss'
+				}
+			}
+		},
+
+		autoprefixer: {
+			dist: {
+				src: 'css/reveal.css'
+			}
+		},
+
+		cssmin: {
+			compress: {
+				files: {
+					'css/reveal.min.css': [ 'css/reveal.css' ]
 				}
 			}
 		},
@@ -113,6 +120,10 @@ module.exports = function(grunt) {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
 			},
+			css: {
+				files: [ 'css/reveal.css' ],
+				tasks: 'css'
+			},
             html: {
                 files: [ 'index.html']
             }
@@ -128,13 +139,17 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+	grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'css', 'uglify', 'qunit' ] );
 
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
+
+	// CSS task
+	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
