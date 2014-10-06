@@ -646,6 +646,28 @@ Then:
 2. Run ```npm install```
 3. Run ```node plugin/notes-server```
 
+## Server Side Speaker Notes On Google Glass
+
+Google Glass provides the perfect display for speaker notes.  This plugin works the same way that the server side speaker notes does but with a couple of differences.  To use include the following required scripts by adding the following dependencies:
+
+```javascript
+Reveal.initialize({
+	...
+
+	dependencies: [
+		{ src: 'socket.io/socket.io.js', async: true },
+		{ src: 'plugin/notes-server-glass/client.js', async: true }
+	]
+});
+```
+
+Then:
+
+1. Install [Node.js](http://nodejs.org/)
+2. Run ```npm install```
+3. Run ```node plugin/notes-server-glass```
+
+You will want to access your presentation via your slide server's ip address IE: 192.168.0.13 .  When your presentation comes up you will get a popup with the slide notes and another one with a QR code.  When you open the Reveal.js a barcode scanneer will be running.  Scan this barcode with your glass and than the presentation should load up.  You can read more about this [here](http://www.polyglotprogramminginc.com/using-google-glass-for-reveal-js-speaker-notes/)
 
 ## Multiplexing
 
