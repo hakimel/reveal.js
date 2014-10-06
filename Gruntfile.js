@@ -32,7 +32,8 @@ module.exports = function(grunt) {
 		cssmin: {
 			compress: {
 				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
+					'css/reveal.min.css': [ 'css/reveal.css' ],
+					'lib/css/font-awesome.min.css': [ 'lib/css/font-awesome.css' ]
 				}
 			}
 		},
@@ -48,7 +49,8 @@ module.exports = function(grunt) {
 					'css/theme/sky.css': 'css/theme/source/sky.scss',
 					'css/theme/moon.css': 'css/theme/source/moon.scss',
 					'css/theme/solarized.css': 'css/theme/source/solarized.scss',
-					'css/theme/blood.css': 'css/theme/source/blood.scss'
+					'css/theme/blood.css': 'css/theme/source/blood.scss',
+					'lib/css/font-awesome.css': 'lib/css/source/font-awesome.scss'
 				}
 			}
 		},
@@ -123,7 +125,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'qunit' ] );
 
 	// Theme task
-	grunt.registerTask( 'themes', [ 'sass' ] );
+	grunt.registerTask( 'themes', [ 'sass', 'cssmin' ] );
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );

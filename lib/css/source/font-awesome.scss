@@ -1,0 +1,47 @@
+/*!
+ *  Font Awesome 4.1.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+
+$fa-font-path: "../../fonts" !default; // Overriding value from FontAwesome/scss/_variables.scss
+
+@import "../../../lib-src/FontAwesome/scss/variables";
+@import "../../../lib-src/FontAwesome/scss/mixins";
+@import "../../../lib-src/FontAwesome/scss/path";
+.reveal {
+    @import "../../../lib-src/FontAwesome/scss/core";
+    @import "../../../lib-src/FontAwesome/scss/larger";
+    @import "../../../lib-src/FontAwesome/scss/fixed-width";
+    @import "../../../lib-src/FontAwesome/scss/list";
+    @import "../../../lib-src/FontAwesome/scss/bordered-pulled";
+    @import "../../../lib-src/FontAwesome/scss/spinning";  // keyframes cannot be nested, so they will not be included
+    @import "../../../lib-src/FontAwesome/scss/rotated-flipped";
+    @import "../../../lib-src/FontAwesome/scss/stacked";
+    @import "../../../lib-src/FontAwesome/scss/icons";
+}
+
+
+// the keyframes from the original _spinning.scss
+@-moz-keyframes spin {
+  0% { -moz-transform: rotate(0deg); }
+  100% { -moz-transform: rotate(359deg); }
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(359deg); }
+}
+@-o-keyframes spin {
+  0% { -o-transform: rotate(0deg); }
+  100% { -o-transform: rotate(359deg); }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
