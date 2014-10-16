@@ -78,69 +78,84 @@ body {
 	opacity: 0;
 	visibility: hidden;
 	transition: all .2s ease;
-}
-	.reveal .slides section .fragment.visible {
+
+	&.visible {
 		opacity: 1;
 		visibility: visible;
 	}
+}
 
 .reveal .slides section .fragment.grow {
 	opacity: 1;
 	visibility: visible;
-}
-	.reveal .slides section .fragment.grow.visible {
+
+	&.visible {
 		transform: scale( 1.3 );
 	}
+}
 
 .reveal .slides section .fragment.shrink {
 	opacity: 1;
 	visibility: visible;
-}
-	.reveal .slides section .fragment.shrink.visible {
+
+	&.visible {
 		transform: scale( 0.7 );
 	}
+}
 
 .reveal .slides section .fragment.zoom-in {
 	transform: scale( 0.1 );
-}
 
-	.reveal .slides section .fragment.zoom-in.visible {
+	&.visible {
 		transform: scale( 1 );
 	}
+}
 
 .reveal .slides section .fragment.roll-in {
 	transform: rotateX( 90deg );
-}
-	.reveal .slides section .fragment.roll-in.visible {
+
+	&.visible {
 		transform: rotateX( 0 );
 	}
+}
 
 .reveal .slides section .fragment.fade-out {
 	opacity: 1;
 	visibility: visible;
-}
-	.reveal .slides section .fragment.fade-out.visible {
+
+	&.visible {
 		opacity: 0;
 		visibility: hidden;
 	}
+}
 
 .reveal .slides section .fragment.semi-fade-out {
 	opacity: 1;
 	visibility: visible;
-}
-	.reveal .slides section .fragment.semi-fade-out.visible {
+
+	&.visible {
 		opacity: 0.5;
 		visibility: visible;
 	}
+}
+
+.reveal .slides section .fragment.strike {
+	opacity: 1;
+
+	&.visible {
+		text-decoration: line-through;
+	}
+}
 
 .reveal .slides section .fragment.current-visible {
 	opacity: 0;
 	visibility: hidden;
-}
-	.reveal .slides section .fragment.current-visible.current-fragment {
+
+	&.current-fragment {
 		opacity: 1;
 		visibility: visible;
 	}
+}
 
 .reveal .slides section .fragment.highlight-red,
 .reveal .slides section .fragment.highlight-current-red,
@@ -170,13 +185,6 @@ body {
 .reveal .slides section .fragment.highlight-current-blue.current-fragment {
 	color: #1b91ff;
 }
-
-.reveal .slides section .fragment.strike {
-	opacity: 1;
-}
-	.reveal .slides section .fragment.strike.visible {
-		text-decoration: line-through;
-	}
 
 
 /*********************************************
