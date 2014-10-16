@@ -423,7 +423,7 @@ body {
 .reveal.center,
 .reveal.center .slides,
 .reveal.center .slides section {
-	min-height: auto !important;
+	min-height: 0 !important;
 }
 
 /* Don't allow interaction with invisible slides */
@@ -584,7 +584,7 @@ body {
 	box-sizing: border-box;
 }
 	.reveal.center.cube .slides section {
-		min-height: auto;
+		min-height: 0;
 	}
 	.reveal.cube .slides section:not(.stack):before {
 		content: '';
@@ -837,7 +837,7 @@ body {
 	opacity: 1 !important;
 	position: relative !important;
 	height: auto;
-	min-height: auto;
+	min-height: 0;
 	top: 0;
 	left: -50%;
 	margin: 70px 0;
