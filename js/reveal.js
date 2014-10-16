@@ -7,16 +7,16 @@
  */
 (function( root, factory ) {
 	if( typeof define === 'function' && define.amd ) {
-		// AMD. Register as an anonymous module.
+		// AMD. Register as an anonymous module
 		define( function() {
 			root.Reveal = factory();
 			return root.Reveal;
 		} );
 	} else if( typeof exports === 'object' ) {
-		// Node. Does not work with strict CommonJS.
+		// Node. Does not work with strict CommonJS
 		module.exports = factory();
 	} else {
-		// Browser globals.
+		// Browser globals
 		root.Reveal = factory();
 	}
 }( this, function() {
@@ -693,9 +693,9 @@
 			}
 		}
 
-		// Create a hash for this combination of background settings.
+		// Create a hash for this combination of background settings
 		// This is used to determine when two slide backgrounds are
-		// the same.
+		// the same
 		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo ) {
 			element.setAttribute( 'data-background-hash', data.background +
 															data.backgroundSize +
