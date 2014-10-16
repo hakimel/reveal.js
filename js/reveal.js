@@ -3426,13 +3426,10 @@
 				navigateUp();
 			}
 			else {
-				// Fetch the previous horizontal slide, if there is one
-				var previousSlide = dom.wrapper.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
-
-				if( previousSlide ) {
-					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
-					var h = indexh - 1;
-					slide( h, v );
+				if( config.rtl ) {
+					navigateRight();
+				} else {
+					navigateLeft();
 				}
 			}
 		}
@@ -3446,7 +3443,11 @@
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
-			availableRoutes().down ? navigateDown() : navigateRight();
+			if( config.rtl ) {
+				availableRoutes().down ? navigateDown() : navigateLeft();
+			} else {
+				availableRoutes().down ? navigateDown() : navigateRight();
+			}
 		}
 
 		// If auto-sliding is enabled we need to cue up
