@@ -672,6 +672,7 @@
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
 			backgroundImage: slide.getAttribute( 'data-background-image' ),
 			backgroundVideo: slide.getAttribute( 'data-background-video' ),
+			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
@@ -696,11 +697,12 @@
 		// Create a hash for this combination of background settings.
 		// This is used to determine when two slide backgrounds are
 		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo ) {
+		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
 			element.setAttribute( 'data-background-hash', data.background +
 															data.backgroundSize +
 															data.backgroundImage +
 															data.backgroundVideo +
+															data.backgroundIframe +
 															data.backgroundColor +
 															data.backgroundRepeat +
 															data.backgroundPosition +
@@ -1875,7 +1877,7 @@
 	/**
 	 * Toggles the auto slide mode on and off.
 	 *
-	 * @param {Boolean} override Optional flag which sets the desired state. 
+	 * @param {Boolean} override Optional flag which sets the desired state.
 	 * True means autoplay starts, false means it stops.
 	 */
 
@@ -2591,7 +2593,8 @@
 				background.setAttribute( 'data-loaded', 'true' );
 
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
-					backgroundVideo = slide.getAttribute( 'data-background-video' );
+					backgroundVideo = slide.getAttribute( 'data-background-video' ),
+					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
 
 				// Images
 				if( backgroundImage ) {
@@ -2607,6 +2610,17 @@
 					} );
 
 					background.appendChild( video );
+				}
+				// Iframes
+				else if ( backgroundIframe ) {
+					var iframe = document.createElement( 'iframe' );
+						iframe.setAttribute('src', backgroundIframe);
+						iframe.style.width  = '100%';
+						iframe.style.height = '100%';
+						iframe.style.maxHeight = '100%';
+						iframe.style.maxWidth = '100%';
+
+					background.appendChild( iframe );
 				}
 			}
 		}
