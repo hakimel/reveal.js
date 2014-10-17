@@ -2614,7 +2614,7 @@
 				// Iframes
 				else if ( backgroundIframe ) {
 					var iframe = document.createElement( 'iframe' );
-						iframe.setAttribute('src', backgroundIframe);
+						iframe.setAttribute( 'src', backgroundIframe );
 						iframe.style.width  = '100%';
 						iframe.style.height = '100%';
 						iframe.style.maxHeight = '100%';
