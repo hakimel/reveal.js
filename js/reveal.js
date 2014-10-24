@@ -2601,7 +2601,7 @@
 					background.style.backgroundImage = 'url('+ backgroundImage +')';
 				}
 				// Videos
-				else if ( backgroundVideo ) {
+				else if ( backgroundVideo && !isSpeakerNotes() ) {
 					var video = document.createElement( 'video' );
 
 					// Support comma separated lists of video sources
