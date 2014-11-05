@@ -238,25 +238,25 @@ Reveal.addEventListener( 'customevent', function() {
 							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
 						</a>
 					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png">
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
 						<h2>Image Backgrounds</h2>
 						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
 					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" data-background-repeat="repeat" data-background-size="100px">
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
 						<h2>Repeated Image Backgrounds</h2>
 						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
 					</section>
 				</section>
 
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="slide">
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
 					<h2>Background Transitions</h2>
 					<p>
-						Pass reveal.js the <code>backgroundTransition: 'slide'</code> config argument to make backgrounds slide rather than fade.
+						Different background transitions are available via the <code>backgroundTransition</code> option. This one's called "zoom".
 					</p>
 				</section>
 
-				<section data-transition="slide" data-background="#8c4738" data-background-transition="slide">
-					<h2>Background Transition Override</h2>
+				<section data-transition="slide" data-background="#8c4738" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
 					<p>
 						You can override background transitions per slide by using <code>data-background-transition="slide"</code>.
 					</p>
