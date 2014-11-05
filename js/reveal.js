@@ -125,13 +125,13 @@
 			theme: null,
 
 			// Transition style
-			transition: 'slide', // none/fade/slide/convex/concave/zoom
+			transition: 'default', // none/fade/slide/convex/concave/zoom
 
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
 
 			// Transition style for full page slide backgrounds
-			backgroundTransition: 'slide', // none/fade/slide/convex/concave/zoom
+			backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
 
 			// Parallax background image
 			parallaxBackgroundImage: '', // CSS syntax, e.g. "a.jpg"
@@ -1469,24 +1469,28 @@
 			dom.slides.style.width = size.width + 'px';
 			dom.slides.style.height = size.height + 'px';
 
-			// Determine scale of content to fit within available space
-			scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
+			// No point in calculating scale if the only possible
+			// result is 1
+			if( config.minScale !== 1 || config.maxScale !== 1 ) {
+				// Determine scale of content to fit within available space
+				scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
-			// Respect max/min scale settings
-			scale = Math.max( scale, config.minScale );
-			scale = Math.min( scale, config.maxScale );
+				// Respect max/min scale settings
+				scale = Math.max( scale, config.minScale );
+				scale = Math.min( scale, config.maxScale );
 
-			// Prefer zooming in desktop Chrome so that content remains crisp
-			if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
-				dom.slides.style.zoom = scale;
-			}
-			// Apply scale transform as a fallback
-			else {
-				dom.slides.style.left = '50%';
-				dom.slides.style.top = '50%';
-				dom.slides.style.bottom = 'auto';
-				dom.slides.style.right = 'auto';
-				transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
+				// Prefer zooming in desktop Chrome so that content remains crisp
+				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
+					dom.slides.style.zoom = scale;
+				}
+				// Apply scale transform as a fallback
+				else {
+					dom.slides.style.left = '50%';
+					dom.slides.style.top = '50%';
+					dom.slides.style.bottom = 'auto';
+					dom.slides.style.right = 'auto';
+					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
+				}
 			}
 
 			// Select all slides, vertical and horizontal
