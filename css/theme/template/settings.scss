@@ -9,8 +9,11 @@ $mainFont: 'Lato', sans-serif;
 $mainFontSize: 36px;
 $mainColor: #eee;
 
+// Vertical spacing between blocks of text
+$blockMargin: 20px;
+
 // Headings
-$headingMargin: 0 0 20px 0;
+$headingMargin: 0 0 $blockMargin 0;
 $headingFont: 'League Gothic', Impact, sans-serif;
 $headingColor: #eee;
 $headingLineHeight: 1.2;
