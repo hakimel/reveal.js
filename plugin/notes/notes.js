@@ -4,6 +4,19 @@
  */
 var RevealNotes = (function() {
 
+	function bindKey(keyCode, callback) {
+		// Disregard the event if the target is editable or a
+		// modifier is present
+		document.addEventListener( 'keydown', function( event ) {
+			if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+			if ( event.keyCode === keyCode ) { // reset timer on 'r'
+				event.preventDefault();
+				callback();
+			}
+		});
+	}
+
+
 	function openNotes() {
 		var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
 		jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
@@ -39,6 +52,8 @@ var RevealNotes = (function() {
 			}
 
 			messageData = {
+				update : true,
+				reset : false,
 				notes : notes ? notes.innerHTML : '',
 				indexh : slideIndices.h,
 				indexv : slideIndices.v,
@@ -50,6 +65,12 @@ var RevealNotes = (function() {
 
 			notesPopup.postMessage( JSON.stringify( messageData ), '*' );
 		}
+
+		// Reset timer on 'r'
+		bindKey(82, function() {
+			var messageData = { update : false, reset : true };
+			notesPopup.postMessage( JSON.stringify( messageData ), '*' );
+		});
 
 		// Navigate to the current slide when the notes are loaded
 		notesPopup.addEventListener( 'load', function( event ) {
@@ -63,16 +84,7 @@ var RevealNotes = (function() {
 	}
 
 	// Open the notes when the 's' key is hit
-	document.addEventListener( 'keydown', function( event ) {
-		// Disregard the event if the target is editable or a
-		// modifier is present
-		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
-
-		if( event.keyCode === 83 ) {
-			event.preventDefault();
-			openNotes();
-		}
-	}, false );
+	bindKey(83, openNotes);
 
 	return { open: openNotes };
 })();
