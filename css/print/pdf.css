@@ -52,14 +52,15 @@ html {
 /* SECTION 3: Set body font face, size, and color.
    Consider using a serif font for readability. */
 body, p, td, li, div {
-	font-size: 18pt;
+	font-size: 16pt !important;
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
    Differentiate your headings from your body text.
    Perhaps use a large sans-serif for distinction. */
-h1,h2,h3,h4,h5,h6 {
+.reveal h1, .reveal h2, .reveal h3,h4,h5,h6 {
 	text-shadow: 0 0 0 #000 !important;
+  font-size: 18pt;
 }
 
 /* SECTION 5: Make hyperlinks more usable.
@@ -118,12 +119,11 @@ ul, ol, div, p {
 	        perspective-origin: 50% 50%;
 }
 .reveal .slides section {
-
 	page-break-after: always !important;
 
 	visibility: visible !important;
 	position: relative !important;
-	width: 100% !important;
+	width: 279mm !important;
 	height: 229mm !important;
 	min-height: 229mm !important;
 	display: block !important;
@@ -132,7 +132,7 @@ ul, ol, div, p {
 	left: 0 !important;
 	top: 0 !important;
 	margin: 0 !important;
-	padding: 2cm 2cm 0 2cm !important;
+	padding: 2cm 10cm 0 2cm !important;
 	box-sizing: border-box !important;
 
 	opacity: 1 !important;
@@ -187,4 +187,25 @@ ul, ol, div, p {
 }
 .reveal small a {
 	font-size: 16pt !important;
+}
+.reveal aside.notes {
+  background:#FFF5B5;
+  border: 1px solid #E5D79E;
+  display: block !important;
+  font-size: 16pt;
+  line-height: 1.2em;
+  height: 190mm;
+  padding: 4mm;
+  position:absolute;
+  right: 0;
+  text-align: left;
+  top: 10mm;
+  width: 8cm;
+}
+.reveal a:link:after, .reveal a:visited:after {
+  content:" [" attr(href) "] ";
+  display: block;
+}
+.reveal aside.notes a:link:after, .reveal aside.notes a:visited:after {
+  content:"" !important;
 }
