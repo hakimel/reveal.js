@@ -1471,7 +1471,7 @@
 
 			// No point in calculating scale if the only possible
 			// result is 1
-			if( config.minScale !== 1 || config.maxScale !== 1 ) {
+			if( scale !== -1 || config.minScale !== 1 || config.maxScale !== 1 ) {
 				// Determine scale of content to fit within available space
 				scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
