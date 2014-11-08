@@ -1469,16 +1469,23 @@
 			dom.slides.style.width = size.width + 'px';
 			dom.slides.style.height = size.height + 'px';
 
-			// No point in calculating scale if the only possible
-			// result is 1
-			if( scale !== -1 || config.minScale !== 1 || config.maxScale !== 1 ) {
-				// Determine scale of content to fit within available space
-				scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
+			// Determine scale of content to fit within available space
+			scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
-				// Respect max/min scale settings
-				scale = Math.max( scale, config.minScale );
-				scale = Math.min( scale, config.maxScale );
+			// Respect max/min scale settings
+			scale = Math.max( scale, config.minScale );
+			scale = Math.min( scale, config.maxScale );
 
+			// Don't apply any scaling styles if scale is 1
+			if( scale === 1 ) {
+				dom.slides.style.zoom = '';
+				dom.slides.style.left = '';
+				dom.slides.style.top = '';
+				dom.slides.style.bottom = '';
+				dom.slides.style.right = '';
+				transformElement( dom.slides, '' );
+			}
+			else {
 				// Prefer zooming in desktop Chrome so that content remains crisp
 				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
