@@ -335,4 +335,10 @@ body {
   color: $linkColor;
 }
 
+/*********************************************
+ * FOOTNOTES PLUGIN
+ *********************************************/
 
+footer#footnotes note {
+  font-family: $mainFont;
+}

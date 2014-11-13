@@ -35,6 +35,7 @@
 	</head>
 
 	<body>
+		<footer class="footnotes"></footer>
 
 		<div class="reveal">
 
@@ -46,6 +47,7 @@
 					<p>
 						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
 					</p>
+					<note>It must be noted that a new plugin has appeared on the promenade.</note>
 				</section>
 
 				<section>
@@ -395,7 +397,8 @@ function linkify( selector ) {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/footnotes/footnotes.js', async: false, condition: function() { return !!document.querySelector( 'note' ); } },
 				]
 			});
 
