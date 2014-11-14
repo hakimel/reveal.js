@@ -338,7 +338,14 @@ body {
 /*********************************************
  * FOOTNOTES PLUGIN
  *********************************************/
-
-footer#footnotes note {
-  font-family: $mainFont;
+footer#footnotes {
+  background: rgba(255,255,255,0.25);
 }
+
+	footer#footnotes note {
+	  font-family: $mainFont;
+	}
+
+		footer#footnotes note a {
+		  color: black !important;
+		}
