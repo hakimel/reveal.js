@@ -592,6 +592,11 @@ var Reveal = (function(){
 		}
 
 		// Auto-slide playback controls
+		if( autoSlidePlayer ) {
+			// destroy any pre-existing autoSlidePlayer so configure() can be re-run without spawning new ones
+			autoSlidePlayer.destroy();
+			autoSlidePlayer = null;
+		}
 		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
 			autoSlidePlayer = new Playback( dom.wrapper, function() {
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
@@ -599,10 +604,6 @@ var Reveal = (function(){
 
 			autoSlidePlayer.on( 'click', onAutoSlidePlayerClick );
 			autoSlidePaused = false;
-		}
-		else if( autoSlidePlayer ) {
-			autoSlidePlayer.destroy();
-			autoSlidePlayer = null;
 		}
 
 		// Load the theme in the config, if it's not already loaded
