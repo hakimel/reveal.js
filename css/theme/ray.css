@@ -186,10 +186,6 @@ body {
   padding: 10px;
   -webkit-border-radius: 10px; }
 
-::selection {
-  color: white;
-  background: #d33682;
-  text-shadow: none; }
 
 strong {
   color: #10AAC0;
