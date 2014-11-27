@@ -1,0 +1,149 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
+
+/*********************************************
+ * Clearfix
+ *********************************************/
+
+.group:before, .group:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden; }
+
+.group:after {
+  clear: both; }
+
+.group {
+  zoom: 1; }
+
+/*********************************************
+ * Core Styles
+ *********************************************/
+
+body {
+  background: #EEE;
+  font-family: "Nimbus Sans", courier;
+  font-size: 2.7rem;
+  color: #666;
+}
+
+::selection {
+  background: #EEC856;
+  text-shadow: none;
+  color: inherit !important;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: "Proxima Nova", sans-serif;
+  color: #323232 !important;
+  text-transform: none;
+  text-align: left;
+}
+
+.reveal h1 {
+  font-family: "Proxima Nova", sans-serif;
+  font-size: 2em;
+  line-height: 1em;
+  color: #323232;
+  margin-bottom: 0 !important;
+  text-shadow: none;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.reveal h2 {
+  color: #555 !important;
+  font-size: 1.2em;
+  line-height: 1.5em!important;
+  margin: 0px;
+  text-transform: capitalize;
+  border-bottom: 1px solid #ffba00;
+  font-weight: bold;
+}
+
+.reveal ul {
+  padding-top: 20px;
+  width: 100%;
+}
+
+.reveal ul li {
+  list-style-type: none;
+  font-size: 1em;
+  line-height: 1em;
+  padding-bottom: 20px;
+  padding-right: 10%;
+  font-weight: 300;
+  color: #666;
+}
+
+.reveal ul li ul li {
+  font-size: .9em;
+  color: #666;
+  list-style-type: circle;
+  margin-left: 1em;
+  font-style: italic;
+  padding-bottom: .2em;
+}
+
+.reveal img {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.reveal pre {
+  font-family: "Source Code Pro";
+  overflow: hidden;
+  max-height:300px;
+  border-radius: 20px;
+  max-width: 100%;
+  box-shadow: none !important;
+}
+
+.reveal code {
+  font-family: "Source Code Pro";
+  font-weight: bold;
+  font-size: .9em;
+  color: rgb(90, 137, 190);
+}
+
+.reveal pre code {
+  font-family: "Source Code Pro";
+  font-weight: normal;
+  box-shadow: none;
+  color: #657B83;
+  padding: 15px;
+  font-size: 1em;
+  line-height: 1.2em;
+}
+
+.reveal strong {
+  color: rgb(90, 137, 190);
+  font-weight: bold;
+}
+
+.reveal .small {
+  font-size: .6em !important;
+  line-height: inherit !important;
+}
+
+.reveal a {
+  color: rgb(90, 137, 190);
+  text-decoration: underline;
+  font-weight: normal;
+}
+
+section.title {
+  top:-15% !important;
+}
+
+section.title h1, section.title h2 {
+  top:0 !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

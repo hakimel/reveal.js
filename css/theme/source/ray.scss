@@ -1,0 +1,120 @@
+/**
+* A simple theme for reveal.js presentations, similar
+* Based on the Solarized Color Scheme from [Ethan Schoonover](http://ethanschoonover.com/solarized)
+* Removed the shadows and borders
+* Added rounded edges and padding to code blocks
+* Highlight colors on fragments
+*
+* Author: Ray Villalobos
+*
+ * This theme is Copyright (C) 2014 Ray Villalobos, https://github.com/planetoftheweb. It is MIT licensed.
+ * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=Fauna+One);
+@import url(https://fonts.googleapis.com/css?family=Fjalla+One);
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainFont: 'Fauna One', sans-serif;
+$mainColor: #104859;
+$headingFont: 'Fjalla One', Impact, sans-serif;
+$headingColor: #B58929;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: #FDF6E3;
+$linkColor: #C61C6F;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+
+// Override Defaults ------------------------------
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  letter-spacing: -.04em;
+  text-shadow: none;
+ }
+
+.reveal h1 {
+  color: #CB4B19;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.reveal h2 {
+  font-size: 2.2em;
+  color: #6C71C4;
+}
+
+.reveal h3 {
+  font-size: 1.2em;
+  color: #32A198;
+}
+
+.reveal section img, .reveal img {
+  box-shadow: none;
+  border: none;
+}
+
+.reveal pre {
+    box-shadow: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+.reveal pre code {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding: 5px 5px 10px 20px;
+}
+
+.reveal blockquote {
+    box-shadow: none;
+    background: #EEE8D5;
+    color: #135367;
+    border-radius: 10px;
+    padding: 10px;
+    -webkit-border-radius: 10px;
+}
+
+::selection {
+  color: white;
+  background: #d33682;
+  text-shadow: none;
+}
+
+strong {
+  color: #10AAC0;
+  font-weight: bold;
+}
+
+small {
+  color: #E8A70A;
+  line-height: 120%;
+}
+
+.current-fragment {
+  color: #B58929;
+}
+
+// ---------------------------------------------
