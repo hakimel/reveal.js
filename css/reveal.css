@@ -1877,4 +1877,7 @@ body {
 	visibility: hidden;
 }
 
-
+img {
+	height: 50em;
+	width: auto;
+}
