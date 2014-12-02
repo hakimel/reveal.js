@@ -1,0 +1,9 @@
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   	font-weight: 300;
+}
+
+.reveal ul li {
+	font-size: 2em;
+	padding-top: 1em;
+}
