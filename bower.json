@@ -1,0 +1,33 @@
+{
+  "name": "reveal.js",
+  "main": [
+    "lib/js/head.min.js",
+    "js/reveal.min.js",
+    "css/reveal.min.css"
+  ],
+  "homepage": "https://github.com/hakimel/reveal.js",
+  "version": "2.6.2",
+  "_release": "2.6.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.6.2",
+    "commit": "9da952fea30906090446d038430186b11dba7f13"
+  },
+  "_source": "git://github.com/hakimel/reveal.js.git",
+  "_target": "~2.6.2",
+  "_originalSource": "reveal.js",
+  "_direct": true,
+  "authors": [
+    "hakimel <hakim.elhattab@gmail.com>"
+  ],
+  "description": "A framework for easily creating beautiful presentations using HTML.",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/vendor",
+    "test",
+    "tests"
+  ]
+}
