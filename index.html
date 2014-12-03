@@ -69,15 +69,15 @@
             <h2>Herausforderung</h2>
             <ul>
                 <li>Web-UI-Test-Tools haben nur Zugriff auf DOM-Elemente</li>
-                <li>Wie kann man Plugins testen bzw. damit umgehen?
-                    <br/> => <b>Flash, PKI-Abfragen, Java Applets</b>
+                <li>Wie kann man Nicht-HTML-Inhalte testen bzw. damit umgehen? =>
+                    <b>Flash, PKI-Abfragen, Java Applets, Plugins</b>
 
                     <div style="text-align: center"><img class="image" src="pics/java_applet.png"
                                                          style="height: 6em;border: 0"></div>
                 </li>
-                <li>Grafisch basierte Tests sind Ressourcenintensiv</li>
+                <li>Grafisch basierte Tests sind ressourcenintensiv</li>
                 <li>OS unabhängiges Framework</li>
-                <li>Rendering testbar?</li>
+                <li>UI-Rendering testbar?</li>
             </ul>
             <aside class="notes">
                 <ul>
@@ -124,22 +124,26 @@
             <table>
                 <tbody>
                 <tr style="font-size: 0.9em;">
-                    <td width="45%" style="padding: 0; vertical-align: top">
+                    <td width="47%" style="padding: 0; vertical-align: top; font-size: 0.7em">
                         <ul>
-                            <li>Erkennt wenn Seiten/AJAX-Requests fertig geladen sind</li>
+                            <li>Aktionsbereich: Browser-Inhalt <br/>(z.b. kein Scrollen notwendig)</li>
                             <li>Objekt-Adressierung von DOM-Elementen</li>
+                            <li>Java-API</li>
+                            <li>Erkennt wenn Seiten/AJAX-Requests fertig geladen sind</li>
                             <li>Guter Umgang mit AJAX & Web-Frameworks</li>
                             <li>Recorder-Funktionalität</li>
                             <li>Assert Funktionalität</li>
-                            <li>Java-API</li>
                         </ul>
                         <!--<div class="backgrounds">-->
                         <!--<img src="pics/dom.png" style="opacity: 0.7; border: 0;">-->
                         <!--</div>-->
                     </td>
                     <td style="padding: 10px"></td>
-                    <td width="45%" style="padding: 0; vertical-align: top">
+                    <td width="47%" style="padding: 0; vertical-align: top; font-size: 0.7em">
                         <ul>
+                            <li>Aktionsbereich:Bildschirm-Inhalt <br/>(Scrollen u.U. notwendig)</li>
+                            <li>Objekt-Adressierung über Grafik-Patterns</li>
+                            <li>Java-API</li>
                             <li>Keine Beschränkung auf den Browser</li>
                             <li>Sieht und steuert das, was der User sieht</li>
                             <li>Flexible Region-Pattern</li>
@@ -147,7 +151,6 @@
                                 <small style="vertical-align: baseline">(experimental)</small>
                             </li>
                             <li>Setzt auf <b>java.awt.Robot</b> und <b>openCV</b> auf</li>
-                            <li>Java-API</li>
                         </ul>
                     </td>
                 </tr>
@@ -178,56 +181,56 @@
                 </tr>
                 <tr>
                     <td style="text-align: center"><img src="pics/bubble_red.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
-                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.8em">
                         Beschränkung auf den Browser
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_red.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
-                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.8em">
                         Web Tests (DOM basiert)
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
-                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.8em">
                         Open Source & Java API
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_red.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
-                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.8em">
                         Automatisierbarkeit, Ergebnisauswertung über DB / Nagios
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
                     <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
-                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                                                        style="max-height: 45px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.8em">
                         Unterstützung bei Testerstellung (Recorder, Screenshot-Finder)
                     </td>
                 </tr>
@@ -423,6 +426,7 @@
         <section>
             <h2>Ausblick & Ideen</h2>
             <ul style="font-size: 0.8em">
+                <li>Unterstützung Sahi-Version 5.0</li>
                 <li>Java-API / TestRunner für Integrationstests</li>
                 <li>Asynchrone <b>wait</b> Funktionen / Callbacks</li>
                 <li>Headless Execution - <b>Linux:</b> xvfb, <b>Windows:</b> ?</li>
