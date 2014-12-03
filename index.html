@@ -38,214 +38,215 @@
 <body>
 
 <div class="reveal">
-<!-- Any section element inside of this container is displayed as a slide -->
-<div class="slides">
-<section>
-    <img src="pics/sakuli-logo.png" style="border: 0;" alt="Sakuli">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section>
+            <img src="pics/sakuli-logo.png" style="border: 0;" alt="Sakuli">
 
-    <h3 style="padding-top: 25px">End-to-end testing</h3>
+            <h3 style="padding-top: 25px">End-to-end testing</h3>
 
-    <h3 style="padding: 30px 0 40px 0;  text-transform: inherit">
-        for web sites and common UIs with full Nagios integration
-    </h3>
+            <h3 style="padding: 30px 0 40px 0;  text-transform: inherit">
+                for web sites and common UIs with full Nagios integration
+            </h3>
 
-    <p>
-        <small>Created by <a href="http://www.consol.de">ConSol*</a> /
-            <b><a href="https://github.com/ConSol/sakuli">@GitHub</a></b></small>
-    </p>
-</section>
+            <p>
+                <small>Created by <a href="http://www.consol.de">ConSol*</a> /
+                    <b><a href="https://github.com/ConSol/sakuli">@GitHub</a></b></small>
+            </p>
+        </section>
 
-<section>
-    <h2>Motivation</h2>
-    <img class="image" width="40%" src="pics/chain.png" style="border: 0">
-    <ul>
-        <li>Business-kritische Applikationen bestehen oft aus einer Vielzahl an Komponenten</li>
-        <li>Applikations-Qualität aus Anwendersicht ist nur am Ende der Funktionskette messbar</li>
-        <li>UI-Interfaces sind schwer kontinuierlich zu testen</li>
-    </ul>
-</section>
+        <section>
+            <h2>Motivation</h2>
+            <img class="image" width="40%" src="pics/chain.png" style="border: 0">
+            <ul>
+                <li>Business-kritische Applikationen bestehen oft aus einer Vielzahl an Komponenten</li>
+                <li>Applikations-Qualität aus Anwendersicht ist nur am Ende der Funktionskette messbar</li>
+                <li>UI-Interfaces sind schwer kontinuierlich zu testen</li>
+            </ul>
+        </section>
 
-<section>
-    <h2>Herausforderung</h2>
-    <ul>
-        <li>Web-UI-Test-Tools haben nur Zugriff auf DOM-Elemente</li>
-        <li>Wie kann man Plugins testen bzw. damit umgehen?
-            <br/> => <b>Flash, PKI-Abfragen, Java Applets</b>
+        <section>
+            <h2>Herausforderung</h2>
+            <ul>
+                <li>Web-UI-Test-Tools haben nur Zugriff auf DOM-Elemente</li>
+                <li>Wie kann man Plugins testen bzw. damit umgehen?
+                    <br/> => <b>Flash, PKI-Abfragen, Java Applets</b>
 
-            <div style="text-align: center"><img class="image" src="pics/java_applet.png"
-                                                 style="height: 6em;border: 0"></div>
-        </li>
-        <li>Grafisch basierte Tests sind Ressourcenintensiv</li>
-        <li>OS unabhängiges Framework</li>
-        <li>Rendering testbar?</li>
-    </ul>
-    <aside class="notes">
-        <ul>
-            <li>Sahi, Selenium, Casperjs, Webinject...</li>
-            <li>AutoIT, Sikuli, Autohotkey, .... Grenzen (fairerweise: ihre natürlichen).</li>
-            <li>zu speziell: blinde Flecken (oder auch PIN-Abfrage!)</li>
-            <li>(teilweise) OS-abhängig: z.b. Auto IT -> WIndows</li>
-            <li>zu generisch: für Web- -> Seitenaufbau (DOM) kennt.</li>
-            <li>Realitätsbezug: Tools die Browsr simulieren -> Rendering-Engine? . D.h. ob die Seite beim User
-                wirklich
-                so aussieht?
-            </li>
-        </ul>
-    </aside>
-
-    <h3 style="text-transform: none; margin-top: 1em" class="fragment">
-        Was macht Sakuli?
-    </h3>
-
-</section>
-
-<section>
-    <table>
-        <tbody>
-        <tr>
-            <td width="40%" style="padding: 0"></td>
-            <td style="margin: 0;padding:0">
-                <img style="border: 0; padding: 0; margin: 0; box-shadow: none" src="pics/sakuli-logo.png"></td>
-            <td width="40%" style="padding: 0"></td>
-        </tr>
-        <tr>
-            <td style="text-align: center; padding:0; background: url(pics/dom.png) no-repeat bottom; background-size: 100%">
-                <img style="border: 0; padding: 0; margin: 0; height: 3em; box-shadow: none"
-                     src="pics/sahi.png">
-            </td>
-            <td style="text-align: center"><h1 style="padding: 0; margin: 0">+</h1></td>
-            <td style="text-align: center;padding: 0; background: url(pics/screen_shots.png) no-repeat bottom; background-size: 80%">
-                <img style="border: 0; padding: 0; margin: 0;height: 3em; box-shadow: none"
-                     src="pics/sikuli.png">
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <table>
-        <tbody>
-        <tr style="font-size: 0.9em;">
-            <td width="45%" style="padding: 0; vertical-align: top">
+                    <div style="text-align: center"><img class="image" src="pics/java_applet.png"
+                                                         style="height: 6em;border: 0"></div>
+                </li>
+                <li>Grafisch basierte Tests sind Ressourcenintensiv</li>
+                <li>OS unabhängiges Framework</li>
+                <li>Rendering testbar?</li>
+            </ul>
+            <aside class="notes">
                 <ul>
-                    <li>Erkennt wenn Seiten/AJAX-Requests fertig geladen sind</li>
-                    <li>Objekt-Adressierung von DOM-Elementen</li>
-                    <li>Guter Umgang mit AJAX & Web-Frameworks</li>
-                    <li>Recorder-Funktionalität</li>
-                    <li>Assert Funktionalität</li>
-                    <li>Java-API</li>
-                </ul>
-                <!--<div class="backgrounds">-->
-                <!--<img src="pics/dom.png" style="opacity: 0.7; border: 0;">-->
-                <!--</div>-->
-            </td>
-            <td style="padding: 10px"></td>
-            <td width="45%" style="padding: 0; vertical-align: top">
-                <ul>
-                    <li>Keine Beschränkung auf den Browser</li>
-                    <li>Sieht und steuert das, was der User sieht</li>
-                    <li>Java-API</li>
-                    <li>Flexible Region-Pattern</li>
-                    <li>OCR-Features
-                        <small style="vertical-align: baseline">(experimental)</small>
+                    <li>Sahi, Selenium, Casperjs, Webinject...</li>
+                    <li>AutoIT, Sikuli, Autohotkey, .... Grenzen (fairerweise: ihre natürlichen).</li>
+                    <li>zu speziell: blinde Flecken (oder auch PIN-Abfrage!)</li>
+                    <li>(teilweise) OS-abhängig: z.b. Auto IT -> WIndows</li>
+                    <li>zu generisch: für Web- -> Seitenaufbau (DOM) kennt.</li>
+                    <li>Realitätsbezug: Tools die Browsr simulieren -> Rendering-Engine? . D.h. ob die Seite beim User
+                        wirklich
+                        so aussieht?
                     </li>
-                    <li>Setzt auf <b>java.awt.Robot</b> und <b>openCV</b> auf</li>
                 </ul>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</section>
+            </aside>
 
-<section>
-    <h2>Stärken der Vereinigung</h2>
-    <table>
-        <tbody>
-        <tr>
-            <td width="15%" style="padding: 0; vertical-align: middle; text-align: center">
-                <img class="image"
-                     src="pics/sahi_worker.png" style="height: 20%; border: 0;">
-            </td>
-            <td width="15%" style="padding: 0; vertical-align: middle; text-align: center">
-                <img class="image"
-                     src="pics/sikuli_worker.png" style="height: 20%; border: 0;">
-            </td>
-            <td width="15%" style="padding: 0; vertical-align: middle;text-align: center">
-                <img class="image"
-                     src="pics/sakuli-logo.png" style=" border: 0; box-shadow: none">
-            </td>
-            <td style="padding: 0; vertical-align: middle;text-align: center; border-left: 1px">
-                <h3>Kategorie</h3>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center"><img src="pics/bubble_red.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
-                Beschränkung auf den Browser
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_red.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
-                Web Tests (DOM basiert)
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
-                Open Source & Java API
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_red.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
-                Automatisierbarkeit, Ergebnisauswertung über DB / Nagios
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: center"><img src="pics/bubble_green.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="text-align: center"><img src="pics/bubble_gray.png"
-                                                style="max-height: 60px; border: 0; box-shadow: none"></td>
-            <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
-                Unterstützung bei Testerstellung (Recorder, Screenshot-Finder)
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</section>
+            <h3 style="text-transform: none; margin-top: 1em" class="fragment">
+                Was macht Sakuli?
+            </h3>
 
-<section>
-    <section>
-        <h2>DEMO</h2>
-        <a href="video/example_test_case.avi" target="_blank"><img width="70%" class="image" src="pics/video_preview.png"></a>
-    </section>
-    <section>
-        <h2>File Structure</h2>
-        <img width="40%" class="image" src="pics/test_suite_aufbau.png">
-    </section>
-    <section>
-        <h3 style="text-transform: inherit">Test Case Aufbau</h3>
+        </section>
+
+        <section>
+            <table>
+                <tbody>
+                <tr>
+                    <td width="40%" style="padding: 0"></td>
+                    <td style="margin: 0;padding:0">
+                        <img style="border: 0; padding: 0; margin: 0; box-shadow: none" src="pics/sakuli-logo.png"></td>
+                    <td width="40%" style="padding: 0"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; padding:0; background: url(pics/dom.png) no-repeat bottom; background-size: 100%">
+                        <img style="border: 0; padding: 0; margin: 0; height: 3em; box-shadow: none"
+                             src="pics/sahi.png">
+                    </td>
+                    <td style="text-align: center"><h1 style="padding: 0; margin: 0">+</h1></td>
+                    <td style="text-align: center;padding: 0; background: url(pics/screen_shots.png) no-repeat bottom; background-size: 80%">
+                        <img style="border: 0; padding: 0; margin: 0;height: 3em; box-shadow: none"
+                             src="pics/sikuli.png">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                <tr style="font-size: 0.9em;">
+                    <td width="45%" style="padding: 0; vertical-align: top">
+                        <ul>
+                            <li>Erkennt wenn Seiten/AJAX-Requests fertig geladen sind</li>
+                            <li>Objekt-Adressierung von DOM-Elementen</li>
+                            <li>Guter Umgang mit AJAX & Web-Frameworks</li>
+                            <li>Recorder-Funktionalität</li>
+                            <li>Assert Funktionalität</li>
+                            <li>Java-API</li>
+                        </ul>
+                        <!--<div class="backgrounds">-->
+                        <!--<img src="pics/dom.png" style="opacity: 0.7; border: 0;">-->
+                        <!--</div>-->
+                    </td>
+                    <td style="padding: 10px"></td>
+                    <td width="45%" style="padding: 0; vertical-align: top">
+                        <ul>
+                            <li>Keine Beschränkung auf den Browser</li>
+                            <li>Sieht und steuert das, was der User sieht</li>
+                            <li>Flexible Region-Pattern</li>
+                            <li>OCR-Features
+                                <small style="vertical-align: baseline">(experimental)</small>
+                            </li>
+                            <li>Setzt auf <b>java.awt.Robot</b> und <b>openCV</b> auf</li>
+                            <li>Java-API</li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Stärken der Vereinigung</h2>
+            <table>
+                <tbody>
+                <tr>
+                    <td width="15%" style="padding: 0; vertical-align: middle; text-align: center">
+                        <img class="image"
+                             src="pics/sahi_worker.png" style="height: 20%; border: 0;">
+                    </td>
+                    <td width="15%" style="padding: 0; vertical-align: middle; text-align: center">
+                        <img class="image"
+                             src="pics/sikuli_worker.png" style="height: 20%; border: 0;">
+                    </td>
+                    <td width="15%" style="padding: 0; vertical-align: middle;text-align: center">
+                        <img class="image"
+                             src="pics/sakuli-logo.png" style=" border: 0; box-shadow: none">
+                    </td>
+                    <td style="padding: 0; vertical-align: middle;text-align: center; border-left: 1px">
+                        <h3>Kategorie</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><img src="pics/bubble_red.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                        Beschränkung auf den Browser
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_red.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                        Web Tests (DOM basiert)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_gray.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                        Open Source & Java API
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><img src="pics/bubble_gray.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_red.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                        Automatisierbarkeit, Ergebnisauswertung über DB / Nagios
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><img src="pics/bubble_green.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_gray.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="text-align: center"><img src="pics/bubble_gray.png"
+                                                        style="max-height: 60px; border: 0; box-shadow: none"></td>
+                    <td style="margin:0; padding: 0; vertical-align: middle; font-size: 0.9em">
+                        Unterstützung bei Testerstellung (Recorder, Screenshot-Finder)
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <section>
+                <h2>DEMO</h2>
+                <a href="video/example_test_case.avi" target="_blank"><img width="70%" class="image"
+                                                                           src="pics/video_preview.png"></a>
+            </section>
+            <section>
+                <h2>File Structure</h2>
+                <img width="40%" class="image" src="pics/test_suite_aufbau.png">
+            </section>
+            <section>
+                <h3 style="text-transform: inherit">Test Case Aufbau</h3>
         <pre><code class="java" data-trim contenteditable style="font-size: 0.8em">
             // tc.js
             /*************************************
@@ -263,20 +264,65 @@
             ******************************/
             try {
 
-                 //...
+            //...
 
             /************************************************
             * Exception handling and shutdown of test case
             **********************************************/
             } catch (e) {
-                testCase.handleException(e);
+            testCase.handleException(e);
             } finally {
-                testCase.saveResult();
+            testCase.saveResult();
             }
         </code></pre>
-    </section>
-    <section>
-        <h3 style="text-transform: inherit">Definition eines Ablaufs</h3>
+            </section>
+
+            <section>
+                <h3 style="text-transform: inherit">Aufruf von Sahi-Funktionen</h3>
+        <pre><code class="java" data-trim contenteditable style="font-size: 0.8em">
+            // tc.js
+            /************************
+            * Call Sahi Functions
+            ***********************/
+            _navigateTo("http://labs.consol.de/lang/en");
+            _highlight(_link("Projects"));
+            _click(_link("Projects"));
+            _highlight(_link("check_mysql_health"));
+            _click(_link("check_mysql_health"));
+            _highlight(_link("check_oracle_health"));
+            _click(_link("check_oracle_health"));
+            _setValue(_textbox("s"), "nagios");
+            _click(_link("Home[1]"));
+            testCase.endOfStep("project", 20);
+        </code></pre>
+            </section>
+
+            <section>
+                <h3 style="text-transform: inherit">Fluent API</h3>
+        <pre><code class="java" data-trim contenteditable style="font-size: 0.8em">
+            /*** calculator app ***/
+            var calculatorApp = new Application("galculator")
+            .setSleepTime(1);
+            .open();
+            testCase.endOfStep("Open Calculator", 3);
+
+            /**********
+            * calculate 525 + 100
+            *********/
+            var calculatorRegion = calculatorApp.getRegion();
+            calculatorRegion.type("525");
+            env.sleep(2);
+            calculatorRegion.find("plus.png")
+            .click()
+            .type("100")
+            .find("calculate")
+            .click();
+            testCase.endOfStep("calculate 525 +100", 20);
+        </code></pre>
+            </section>
+
+            <section>
+                <h3 style="text-transform: inherit">Definition eines Ablaufs</h3>
         <pre><code class="java" data-trim contenteditable style="font-size: 0.8em">
             // tc.js
             /************************
@@ -285,7 +331,7 @@
             var $cl_home = "http://labs.consol.de/lang/en";
             var $cl_projekte = "Projects";
             var $cl_c_mysql_h = "check_mysql_health";
-            var $cl_c_oracle_h = "check_oracle_heal
+            var $cl_c_oracle_h = "check_oracle_health";
 
             /************************
             * Step for Notepad
@@ -322,35 +368,11 @@
                 .sleep(2);
             testCase.endOfStep("print_test_client", 10);
         </code></pre>
+            </section>
 
-    </section>
-    <section>
-        <h3 style="text-transform: inherit">Fluent API</h3>
-        <pre><code class="java"  data-trim contenteditable style="font-size: 0.8em">
-            /*** calculator app ***/
-            var calculatorApp = new Application("galculator")
-                .setSleepTime(1);
-                .open();
-            testCase.endOfStep("Open Calculator", 3);
-
-            /**********
-            * calculate 525 + 100
-            *********/
-            var calculatorRegion = calculatorApp.getRegion();
-            calculatorRegion.type("525");
-            env.sleep(2);
-            calculatorRegion.find("plus.png")
-                .click()
-                .type("100")
-                .find("calculate")
-                .click();
-            testCase.endOfStep("calculate 525 +100", 20);
-        </code></pre>
-
-    </section>
-    <section>
-        <h3 style="text-transform: inherit">Custom Functions</h3>
-        <pre><code class="java"  data-trim contenteditable style="font-size: 0.8em">
+            <section>
+                <h3 style="text-transform: inherit">Custom Functions</h3>
+        <pre><code class="java" data-trim contenteditable style="font-size: 0.8em">
             // tc.js
             /**********
             * TAB+ALT
@@ -368,62 +390,66 @@
             }
         </code></pre>
 
-    </section>
-</section>
-</section>
+            </section>
+        </section>
+        </section>
 
-<section>
-    <h2>Architektur</h2>
-    <img width="80%" style="background: whitesmoke" src="pics/sakuli_architectur.png">
-</section>
-<section>
-    <h2>Nagios Integration</h2>
-    <a target="_blank"
-       href="http://10.26.0.68/sakuli/thruk/#cgi-bin/extinfo.cgi?type=2&host=sahi.host.example&service=0004_calc&backend=4b2aa#pnp_th2/1406062443/1406152443">
-        <img width="80%" style="border: 0" src="pics/nagios.png">
-    </a>
-</section>
+        <section>
+            <h2>Architektur</h2>
+            <img width="80%" style="background: whitesmoke; border: none" src="pics/sakuli_architectur.png">
+        </section>
+        <section>
+            <h2>Nagios Integration</h2>
+            <a target="_blank"
+               href="http://10.26.0.68/sakuli/thruk/#cgi-bin/extinfo.cgi?type=2&host=sahi.host.example&service=0004_calc&backend=4b2aa#pnp_th2/1406062443/1406152443">
+                <img width="80%" style="border: 0" src="pics/nagios.png">
+            </a>
+        </section>
+        <section>
+            <h2>Erweiterbarkeit</h2>
+            <img width="80%" style="background: whitesmoke; border: none" src="pics/kombination_with_citrus.png">
+        </section>
 
-<section>
-    <h2>Ausblick - Queue Architektur</h2>
-    <ul style="font-size: 0.8em">
-        <li>Skalierung durch Client-Worker-Prinzip</li>
-        <li>Einfachere Wartung</li>
-        <li>Zentraler Scheduler</li>
-    </ul>
-    <div style="height: 13em"><img style="background: whitesmoke" src="pics/queue_architecture.png">
+        <section>
+            <h2>Ausblick - Queue Architektur</h2>
+            <ul style="font-size: 0.8em">
+                <li>Skalierung durch Client-Worker-Prinzip</li>
+                <li>Einfachere Wartung</li>
+                <li>Zentraler Scheduler</li>
+            </ul>
+            <div style="height: 13em"><img style="background: whitesmoke" src="pics/queue_architecture.png">
+            </div>
+        </section>
+        <section>
+            <h2>Ausblick & Ideen</h2>
+            <ul style="font-size: 0.8em">
+                <li>Java-API / TestRunner für Integrationstests</li>
+                <li>Asynchrone <b>wait</b> Funktionen / Callbacks</li>
+                <li>Headless Execution - <b>Linux:</b> xvfb, <b>Windows:</b> ?</li>
+                <li>Aufzeichnung der Testabläufe als Film zur Fehlerdokumentation</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Eure</h1>
+
+            <h2 style="text-transform: inherit"> Ideen / Use Cases?</h2>
+        </section>
+
+        <section>
+            <h1>Vielen Dank!</h1>
+
+            <div style="text-align: center; padding: 1em">
+                <img src="pics/github.png" style="box-shadow: none; border: none; height: 8em">
+            </div>
+            <h4 style="text-transform: inherit">Support us on GitHub</h4>
+            <a style="font-size: 1.5em; font-weight: bold; color: #268bd2" href="https://github.com/ConSol/sakuli"
+               target="_blank">
+                github.com/ConSol/sakuli
+            </a>
+        </section>
+
     </div>
-</section>
-<section>
-    <h2>Ausblick & Ideen</h2>
-    <ul style="font-size: 0.8em">
-        <li>Java-API / TestRunner für Integrationstests</li>
-        <li>Asynchrone <b>wait</b> Funktionen / Callbacks</li>
-        <li>Headless Execution - <b>Linux:</b> xvfb, <b>Windows:</b> ?</li>
-        <li>Aufzeichnung der Testabläufe als Film zur Fehlerdokumentation</li>
-    </ul>
-</section>
-
-<section>
-    <h1>Eure</h1>
-
-    <h2 style="text-transform: inherit"> Ideen / Use Cases?</h2>
-</section>
-
-<section>
-    <h1>Vielen Dank!</h1>
-
-    <div style="text-align: center; padding: 1em">
-        <img src="pics/github.png" style="box-shadow: none; border: none; height: 8em">
-    </div>
-    <h4 style="text-transform: inherit">Support us on GitHub</h4>
-    <a style="font-size: 1.5em; font-weight: bold; color: #268bd2" href="https://github.com/ConSol/sakuli"
-       target="_blank">
-        github.com/ConSol/sakuli
-    </a>
-</section>
-
-</div>
 
 </div>
 
@@ -449,24 +475,36 @@
 
         // Optional libraries used to extend on reveal.js
         dependencies: [
-            { src: 'lib/js/classList.js', condition: function () {
+            {
+                src: 'lib/js/classList.js', condition: function () {
                 return !document.body.classList;
-            } },
-            { src: 'plugin/markdown/marked.js', condition: function () {
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
                 return !!document.querySelector('[data-markdown]');
-            } },
-            { src: 'plugin/markdown/markdown.js', condition: function () {
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
                 return !!document.querySelector('[data-markdown]');
-            } },
-            { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
                 hljs.initHighlightingOnLoad();
-            } },
-            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
+            }
+            },
+            {
+                src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
                 return !!document.body.classList;
-            } },
-            { src: 'plugin/notes/notes.js', async: true, condition: function () {
+            }
+            },
+            {
+                src: 'plugin/notes/notes.js', async: true, condition: function () {
                 return !!document.body.classList;
-            } }
+            }
+            }
         ]
     });
 
