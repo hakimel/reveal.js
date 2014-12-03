@@ -267,15 +267,15 @@
             ******************************/
             try {
 
-            //...
+                //...
 
             /************************************************
             * Exception handling and shutdown of test case
             **********************************************/
             } catch (e) {
-            testCase.handleException(e);
+                testCase.handleException(e);
             } finally {
-            testCase.saveResult();
+                testCase.saveResult();
             }
         </code></pre>
             </section>
@@ -305,8 +305,8 @@
         <pre><code class="java" data-trim contenteditable style="font-size: 0.8em">
             /*** calculator app ***/
             var calculatorApp = new Application("galculator")
-            .setSleepTime(1);
-            .open();
+                .setSleepTime(1);
+                .open();
             testCase.endOfStep("Open Calculator", 3);
 
             /**********
@@ -314,12 +314,12 @@
             *********/
             var calculatorRegion = calculatorApp.getRegion();
             calculatorRegion.type("525");
-            env.sleep(2);
+                env.sleep(2);
             calculatorRegion.find("plus.png")
-            .click()
-            .type("100")
-            .find("calculate")
-            .click();
+                .click()
+                .type("100")
+                .find("calculate")
+                .click();
             testCase.endOfStep("calculate 525 +100", 20);
         </code></pre>
             </section>
