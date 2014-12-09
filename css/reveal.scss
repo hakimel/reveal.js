@@ -1354,4 +1354,29 @@ body {
 	visibility: hidden;
 }
 
+/*********************************************
+ * FOOTNOTES PLUGIN
+ *********************************************/
+footer#footnotes {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1000;
+  text-align:center;
+  max-height: 35px;
+  margin-bottom: 3px;
+}
 
+footer#footnotes note {
+  padding:1ex;
+  display: inline;
+  text-overflow: ellipsis;
+}
+
+note {
+  display: none;
+}
+
+#reveal-bibliography ol li {
+  font-size: .5em;
+}
