@@ -1,3 +1,19 @@
+// overwriteto change path to font
+$rv-font-path: '../../lib/font' !default;
+
+@mixin rv-font-face($family, $path, $svgtag, $weight: 'normal', $style: 'normal') {
+	@font-face {
+		font-family: $family;
+		src: url('#{$rv-font-path}/#{$path}');
+		src: url('#{$rv-font-path}/#{$path}?#iefix') format('embedded-opentype'),
+			url('#{$rv-font-path}/#{$path}') format('woff'),
+			url('#{$rv-font-path}/#{$path}') format('truetype'),
+			url('#{$rv-font-path}/#{$path}##{$svgtag}') format('svg');
+		font-weight: $weight;
+		font-style: $style;
+	}
+}
+
 @mixin vertical-gradient( $top, $bottom ) {
 	background: $top;
 	background: -moz-linear-gradient( top, $top 0%, $bottom 100% );
