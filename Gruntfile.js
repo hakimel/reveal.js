@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 			},
 			themes: {
 				files: {
-					'css/theme/default.css': 'css/theme/source/default.scss',
+					'css/theme/league.css': 'css/theme/source/league.scss',
 					'css/theme/black.css': 'css/theme/source/black.scss',
 					'css/theme/beige.css': 'css/theme/source/beige.scss',
 					'css/theme/night.css': 'css/theme/source/night.scss',

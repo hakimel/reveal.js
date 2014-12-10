@@ -608,7 +608,8 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 The framework comes with a few different themes included:
 
-- default: Gray background, white text, blue links
+- black: Black background, white text, blue links (default theme)
+- league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
 - beige: Beige background, dark text, brown links
 - sky: Blue background, thin white text, blue links
 - night: Black background, thick white text, orange links
@@ -619,7 +620,7 @@ The framework comes with a few different themes included:
 Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
 
 ```html
-<link rel="stylesheet" href="css/theme/default.css" id="theme">
+<link rel="stylesheet" href="css/theme/black.css" id="theme">
 ```
 
 If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
