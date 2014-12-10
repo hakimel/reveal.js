@@ -5,12 +5,15 @@
  *
  * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
  */
+section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
+  color: #222; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #111;
-  background-color: #111; }
+  background: #222;
+  background-color: #222; }
 
 .reveal {
   font-family: 'Open Sans', Helvetica, sans-serif;
@@ -41,13 +44,13 @@ body {
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 2.8em; }
+  font-size: 2.5em; }
 
 .reveal h2 {
-  font-size: 1.8em; }
+  font-size: 1.6em; }
 
 .reveal h3 {
-  font-size: 1.5em; }
+  font-size: 1.3em; }
 
 .reveal h4 {
   font-size: 1em; }

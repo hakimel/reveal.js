@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -131,11 +131,7 @@
 						<h2>Fragments</h2>
 						<p>Hit the next arrow...</p>
 						<p class="fragment">... to step through ...</p>
-						<ol>
-							<li class="fragment"><code>any type</code></li>
-							<li class="fragment"><em>of view</em></li>
-							<li class="fragment"><strong>fragments</strong></li>
-						</ol>
+						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
 
 						<aside class="notes">
 							This slide has fragments which are also stepped through in the notes window.
@@ -143,14 +139,14 @@
 					</section>
 					<section>
 						<h2>Fragment Styles</h2>
-						<p>There's a few styles of fragments, like:</p>
+						<p>There's different types of fragments, like:</p>
 						<p class="fragment grow">grow</p>
 						<p class="fragment shrink">shrink</p>
 						<p class="fragment roll-in">roll-in</p>
 						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment highlight-red">highlight-red</p>
 						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-current-blue">highlight-current-blue</p>
+						<p class="fragment highlight-red">highlight-red</p>
+						<p class="fragment highlight-blue">highlight-blue</p>
 					</section>
 				</section>
 
@@ -170,7 +166,7 @@
 				<section id="themes">
 					<h2>Themes</h2>
 					<p>
-						Reveal.js comes with a few themes built in: <br>
+						reveal.js comes with a few themes built in: <br>
 						<a href="?#/themes">Default</a> -
 						<a href="?theme=sky#/themes">Sky</a> -
 						<a href="?theme=beige#/themes">Beige</a> -
@@ -209,10 +205,10 @@ Reveal.addEventListener( 'customevent', function() {
 				</section>
 
 				<section>
-					<section data-background="#007777">
+					<section data-background="#dddddd">
 						<h2>Slide Backgrounds</h2>
 						<p>
-							Set <code>data-background="#007777"</code> on a slide to change the full page background to the given color. All CSS color formats are supported.
+							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
 						</p>
 						<a href="#" class="navigate-down">
 							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
@@ -223,7 +219,7 @@ Reveal.addEventListener( 'customevent', function() {
 						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
 					</section>
 					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tile Backgrounds</h2>
+						<h2>Tiled Backgrounds</h2>
 						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
 					</section>
 				</section>
@@ -231,15 +227,17 @@ Reveal.addEventListener( 'customevent', function() {
 				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
 					<h2>Background Transitions</h2>
 					<p>
-						Different background transitions are available via the <code>backgroundTransition</code> option. This one's called "zoom".
+						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
 					</p>
+					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
 				</section>
 
-				<section data-transition="slide" data-background="#8c4738" data-background-transition="zoom">
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
 					<h2>Background Transitions</h2>
 					<p>
-						You can override background transitions per slide by using <code>data-background-transition="zoom"</code>.
+						You can override background transitions per-slide.
 					</p>
+					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
 				</section>
 
 				<section>
@@ -262,7 +260,7 @@ Reveal.addEventListener( 'customevent', function() {
 				</section>
 
 				<section>
-					<h2>Superb Tables</h2>
+					<h2>Tabular Tables</h2>
 					<table>
 						<thead>
 							<tr>
@@ -351,7 +349,7 @@ function linkify( selector ) {
 				<section>
 					<h2>Take a Moment</h2>
 					<p>
-						Press b or period on your keyboard to enter the 'paused' mode. This mode is helpful when you want to take distracting slides off the screen during a presentation.
+						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
 					</p>
 				</section>
 
