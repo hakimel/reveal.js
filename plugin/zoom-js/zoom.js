@@ -5,9 +5,21 @@
 	document.querySelector( '.reveal' ).addEventListener( 'mousedown', function( event ) {
 		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : 'alt' ) + 'Key';
 
+		var zoomPadding = 20;
+		var revealScale = Reveal.getScale();
+
 		if( event[ modifier ] && isEnabled ) {
 			event.preventDefault();
-			zoom.to({ element: event.target, pan: false });
+
+			var bounds = event.target.getBoundingClientRect();
+
+			zoom.to({
+				x: ( bounds.left * revealScale ) - zoomPadding,
+				y: ( bounds.top * revealScale ) - zoomPadding,
+				width: ( bounds.width * revealScale ) + ( zoomPadding * 2 ),
+				height: ( bounds.height * revealScale ) + ( zoomPadding * 2 ),
+				pan: false
+			});
 		}
 	} );
 
