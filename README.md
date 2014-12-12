@@ -617,7 +617,7 @@ The framework comes with a few different themes included:
 - simple: White background, black text, blue links
 - solarized: Cream-colored background, dark green text, blue links
 
-Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
+Each theme is available as a separate stylesheet. To change theme you will need to replace **black** below with your desired theme name in index.html:
 
 ```html
 <link rel="stylesheet" href="css/theme/black.css" id="theme">
