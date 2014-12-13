@@ -1,0 +1,111 @@
+/**
+ * Simple theme based on the simple.scss theme that comes with reveal.js.
+ * The main difference is the arrows: they are squares.
+ *
+ * This theme is Copyright (C) 2014 Goncalo Morais, https://github.com/gnclmorais. It is MIT licensed.
+ * simple.scss is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+ * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+// Override theme settings (see ../template/settings.scss)
+$mainFont: 'Lato', sans-serif;
+$mainColor: #000;
+$headingFont: 'News Cycle', Impact, sans-serif;
+$headingColor: #000;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: #fff;
+$linkColor: red;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+// Structural overrides ------------------------------
+// Note: The next SCSS modifies the navigations arrows' forms,
+//       which reveal.js doesn't seem to be very fond of.
+//       That's why you can find a few `!important` on it. Sorry for that.
+$controlsSize: 110px;  // Value taken from reveal.css
+$outerSpace: 20px;     // Higher values bring the diamonds together
+$borderSize: 12px;     // Border size for diamonds
+$diamondSize: $borderSize * 2;
+
+// Diamond (square) arrows
+%diamond {
+    &,
+    &.enabled {
+        border: $borderSize solid transparent !important;
+        border-bottom-color: $linkColor !important;
+    }
+
+    // Top part of the diamond
+    &:after {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: $borderSize;
+        left: -$borderSize;
+        border: $borderSize solid transparent;
+        border-top-color: $linkColor;
+        
+        -webkit-transition: border 0.2s ease;
+           -moz-transition: border 0.2s ease;
+            -ms-transition: border 0.2s ease;
+             -o-transition: border 0.2s ease;
+                transition: border 0.2s ease;
+    }
+    
+    // Hover state
+    &:hover {
+        border-bottom-color: red !important;
+
+        &:after {
+            border-top-color: red !important;
+        }
+    }
+}
+
+// Put everything into its place
+.reveal .controls div {
+    &.navigate-left,
+    &.navigate-right {
+        @extend %diamond;
+        top: 50%;
+        margin-top: -2 * $borderSize;
+    }
+    
+    &.navigate-up,
+    &.navigate-down {
+        @extend %diamond;
+        left: 50%;
+        margin-left: -$borderSize;
+    }
+    
+    &.navigate-left {
+        left: $outerSpace;
+    }
+    
+    &.navigate-right {
+        left: $controlsSize - $diamondSize - $outerSpace;
+    }
+    
+    &.navigate-up {
+        top: -$borderSize + $outerSpace;
+    }
+    
+    &.navigate-down {
+        top: $controlsSize - $diamondSize - $borderSize - $outerSpace;
+    }
+}
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
