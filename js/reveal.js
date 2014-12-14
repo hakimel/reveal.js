@@ -3033,7 +3033,7 @@ var Reveal = (function(){
 	 */
 	function onPreviewLinkClicked( event ) {
 
-		var url = event.target.getAttribute( 'href' );
+		var url = event.currentTarget.getAttribute( 'href' );
 		if( url ) {
 			openPreview( url );
 			event.preventDefault();
