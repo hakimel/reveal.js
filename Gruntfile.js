@@ -80,7 +80,8 @@ module.exports = function(grunt) {
 			server: {
 				options: {
 					port: port,
-					base: '.'
+					base: '.',
+					livereload: true
 				}
 			}
 		},
@@ -104,6 +105,10 @@ module.exports = function(grunt) {
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'themes'
+			},
+			livereload: {
+				options: {livereload: true},
+				files: ['index.html']
 			}
 		}
 
