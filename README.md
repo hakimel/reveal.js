@@ -609,6 +609,7 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 The framework comes with a few different themes included:
 
 - black: Black background, white text, blue links (default theme)
+- white: White background, black text, blue links
 - league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
 - beige: Beige background, dark text, brown links
 - sky: Blue background, thin white text, blue links
