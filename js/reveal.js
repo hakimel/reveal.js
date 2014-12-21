@@ -991,6 +991,22 @@
 			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
 
+		/*
+		 * fullscreen twerks, show pointer if moved and hide after 1 second unmoved.
+		 * stupid workaround but the fullscreen api seems to be fubar
+		 */
+		document.addEventListener('mousemove', function(e){
+			if (!document.mozFullScreen && !document.webkitFullScreen) {
+				dom.wrapper.classList.remove('fullscreen');
+			}
+			else {
+				if (dom.wrapper.classList.contains('fullscreen')) {
+					dom.wrapper.classList.remove('fullscreen');
+					window.setTimeout(function(){ dom.wrapper.classList.add('fullscreen'); }, 1000);
+				}
+			}
+		});
+
 	}
 
 	/**
@@ -1808,6 +1824,7 @@
 
 		if( requestMethod ) {
 			requestMethod.apply( element );
+			dom.wrapper.classList.add('fullscreen');
 		}
 
 	}
@@ -3602,8 +3619,8 @@
 				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
 				// two-spot, semicolon, b, period, Logitech presenter tools "black screen" button
 				case 58: case 59: case 66: case 190: case 191: togglePause(); break;
-				// f
-				case 70: enterFullscreen(); break;
+				// f, F11 (moz-f11 is no real fullscreenmode)
+				case 70: case 122: enterFullscreen(); break;
 				// a
 				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( autoSlideWasPaused ); break;
 				default:

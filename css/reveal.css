@@ -1179,3 +1179,10 @@ body {
 
 .zoomed .reveal .roll span:after {
   visibility: hidden; }
+
+/*********************************************
+ * Fullscreen enhancement
+ *********************************************/
+.fullscreen {
+  cursor: none;
+}
