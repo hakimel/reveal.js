@@ -2174,7 +2174,7 @@ var Reveal = (function(){
 		// assume that this is a named link
 		if( isNaN( parseInt( bits[0], 10 ) ) && name.length ) {
 			// Find the slide with the specified name
-			var element = document.querySelector( '#' + name );
+			var element = document.getElementById( name );
 
 			if( element ) {
 				// Find the position of the named slide and navigate to it
