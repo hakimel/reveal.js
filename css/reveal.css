@@ -290,8 +290,6 @@ body {
   overflow: visible;
   z-index: 1;
   text-align: center;
-  -webkit-transition: -webkit-perspective 0.4s ease;
-          transition: perspective 0.4s ease;
   -webkit-perspective: 600px;
           perspective: 600px;
   -webkit-perspective-origin: 50% 40%;
