@@ -443,9 +443,6 @@
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
 
-		// State background element [DEPRECATED]
-		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
-
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
