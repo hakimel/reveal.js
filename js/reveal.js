@@ -2793,7 +2793,7 @@
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		// The number of past and total slides
-		var totalCount = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+		var totalCount = getTotalSlides();
 		var pastCount = 0;
 
 		// Step through all slides and count the past ones
