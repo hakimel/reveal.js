@@ -9,7 +9,7 @@
 @font-face {
   font-family: 'League Gothic';
   src: url('../../lib/font/league_gothic-webfont.eot');
-  src: url('../../lib/font/league_gothic-webfont.eot?#iefix') format('embedded-opentype'), url('../../lib/font/league_gothic-webfont.woff') format('woff'), url('../../lib/font/league_gothic-webfont.ttf') format('truetype'), url('../../lib/font/league_gothic-webfont.svg#LeagueGothicRegular') format('svg');
+  src: url('../../lib/font/league_gothic-webfont.eot?#iefix') format('embedded-opentype'), url('../../lib/font/league_gothic-webfont.woff') format('woff'), url('../../lib/font/league_gothic-webfont.ttf') format('truetype');
   font-weight: normal;
   font-style: normal; }
 
