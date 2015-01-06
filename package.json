@@ -1,6 +1,6 @@
 {
   "name": "reveal.js",
-  "version": "3.0.0-dev",
+  "version": "3.0.0",
   "description": "The HTML Presentation Framework",
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
