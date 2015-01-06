@@ -1,8 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic&subset=latin,latin-ext);
+@import url(../../lib/font/source-sans-pro/source-sans-pro.css);
 /**
- * White theme for reveal.js.
+ * White theme for reveal.js. This is the opposite of the 'black' theme.
  *
- * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
  */
 section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
   color: #fff; }

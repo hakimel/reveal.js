@@ -1,5 +1,5 @@
 /**
- * Black theme for reveal.js.
+ * Black theme for reveal.js. This is the opposite of the 'white' theme.
  *
  * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
  */
@@ -12,7 +12,7 @@
 
 
 // Include theme-specific fonts
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic&subset=latin,latin-ext);
+@import url(../../lib/font/source-sans-pro/source-sans-pro.css);
 
 
 // Override theme settings (see ../template/settings.scss)
