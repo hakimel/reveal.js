@@ -2323,7 +2323,7 @@
 		// Update progress if enabled
 		if( config.progress && dom.progressbar ) {
 
-			dom.progressbar.style.width = getProgress() * window.innerWidth + 'px';
+			dom.progressbar.style.width = getProgress() * dom.wrapper.offsetWidth + 'px';
 
 		}
 
