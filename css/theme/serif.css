@@ -36,6 +36,7 @@ body {
   margin: 0 0 20px 0;
   color: #383D3D;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+  font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;
   text-transform: none;
