@@ -6,7 +6,7 @@
 
 		<title>reveal.js - Tests</title>
 
-		<link rel="stylesheet" href="../css/reveal.min.css">
+		<link rel="stylesheet" href="../css/reveal.css">
 		<link rel="stylesheet" href="qunit-1.12.0.css">
 	</head>
 
@@ -19,12 +19,13 @@
 
 			<div class="slides">
 
-				<section>
+				<section data-background-image="examples/assets/image1.png">
 					<h1>1</h1>
+					<img data-src="fake-url.png">
 				</section>
 
 				<section>
-					<section>
+					<section data-background="examples/assets/image2.png">
 						<h1>2.1</h1>
 					</section>
 					<section>
@@ -72,7 +73,7 @@
 		</div>
 
 		<script src="../lib/js/head.min.js"></script>
-		<script src="../js/reveal.min.js"></script>
+		<script src="../js/reveal.js"></script>
 		<script src="qunit-1.12.0.js"></script>
 
 		<script src="test.js"></script>

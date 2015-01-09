@@ -4,7 +4,7 @@ Please keep the [issue tracker](http://github.com/hakimel/reveal.js/issues) limi
 
 
 ### Personal Support
-If you have personal support or setup questions the best place to ask those are  [StackOverflow](http://stackoverflow.com/questions/tagged/reveal.js).
+If you have personal support or setup questions the best place to ask those are [StackOverflow](http://stackoverflow.com/questions/tagged/reveal.js).
 
 
 ### Bug Reports
@@ -17,4 +17,3 @@ When reporting a bug make sure to include information about which browser and op
   - Single-quoted strings
 - Should be made towards the **dev branch**
 - Should be submitted from a feature/topic branch (not your master)
-- Should not include the minified **reveal.min.js** or **reveal.min.css** files

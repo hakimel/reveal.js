@@ -6,7 +6,7 @@
 
 		<title>reveal.js - Test Markdown Attributes</title>
 
-		<link rel="stylesheet" href="../css/reveal.min.css">
+		<link rel="stylesheet" href="../css/reveal.css">
 		<link rel="stylesheet" href="qunit-1.12.0.css">
 	</head>
 
@@ -19,12 +19,12 @@
 
 			<div class="slides">
 
-				<!-- <section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section> -->
+				<!-- <section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section> -->
 
 				<!-- Slides are separated by three lines, vertical slides by two lines, attributes are one any line starting with (spaces and) two dashes -->
 				<section 	data-markdown data-separator="^\n\n\n"
-									data-vertical="^\n\n"
-									data-notes="^Note:"
+									data-separator-vertical="^\n\n"
+									data-separator-notes="^Note:"
 									data-attributes="--\s(.*?)$"
 									data-charset="utf-8">
 					<script type="text/template">
@@ -56,8 +56,8 @@
 				</section>
 
 				<section 	data-markdown data-separator="^\n\n\n"
-									data-vertical="^\n\n"
-									data-notes="^Note:"
+									data-separator-vertical="^\n\n"
+									data-separator-notes="^Note:"
 									data-charset="utf-8">
 					<script type="text/template">
 						# Test attributes in Markdown with default separator
@@ -117,7 +117,7 @@
 		</div>
 
 		<script src="../lib/js/head.min.js"></script>
-		<script src="../js/reveal.min.js"></script>
+		<script src="../js/reveal.js"></script>
 		<script src="../plugin/markdown/marked.js"></script>
 		<script src="../plugin/markdown/markdown.js"></script>
 		<script src="qunit-1.12.0.js"></script>

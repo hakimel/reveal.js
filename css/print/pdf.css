@@ -16,9 +16,6 @@
 }
 
 body {
-	font-size: 18pt;
-	width: 297mm;
-	height: 229mm;
 	margin: 0 auto !important;
 	border: 0;
 	padding: 0;
@@ -32,16 +29,13 @@ html {
 	overflow: visible;
 }
 
-@page {
-	size: letter landscape;
-	margin: 0;
-}
-
 /* SECTION 2: Remove any elements not needed in print.
    This would include navigation, ads, sidebars, etc. */
 .nestedarrow,
-.controls,
+.reveal .controls,
 .reveal .progress,
+.reveal .slide-number,
+.reveal .playback,
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
@@ -52,7 +46,7 @@ html {
 /* SECTION 3: Set body font face, size, and color.
    Consider using a serif font for readability. */
 body, p, td, li, div {
-	font-size: 18pt;
+
 }
 
 /* SECTION 4: Set heading font face, sizes, and color.
@@ -62,22 +56,13 @@ h1,h2,h3,h4,h5,h6 {
 	text-shadow: 0 0 0 #000 !important;
 }
 
-/* SECTION 5: Make hyperlinks more usable.
-   Ensure links are underlined, and consider appending
-   the URL to the end of the link for usability. */
-a:link,
-a:visited {
-	font-weight: normal;
-	text-decoration: underline;
-}
-
 .reveal pre code {
 	overflow: hidden !important;
-	font-family: monospace !important;
+	font-family: Courier, 'Courier New', monospace !important;
 }
 
 
-/* SECTION 6: more reveal.js specific additions by @skypanther */
+/* SECTION 5: more reveal.js specific additions by @skypanther */
 ul, ol, div, p {
 	visibility: visible;
 	position: static;
@@ -105,8 +90,6 @@ ul, ol, div, p {
 	overflow: visible;
 	display: block;
 
-	text-align: center;
-
 	-webkit-perspective: none;
 	   -moz-perspective: none;
 	    -ms-perspective: none;
@@ -118,22 +101,17 @@ ul, ol, div, p {
 	        perspective-origin: 50% 50%;
 }
 .reveal .slides section {
-
 	page-break-after: always !important;
 
 	visibility: visible !important;
 	position: relative !important;
-	width: 100% !important;
-	height: 229mm !important;
-	min-height: 229mm !important;
 	display: block !important;
-	overflow: hidden !important;
+	position: relative !important;
 
-	left: 0 !important;
-	top: 0 !important;
 	margin: 0 !important;
-	padding: 2cm 2cm 0 2cm !important;
+	padding: 0 !important;
 	box-sizing: border-box !important;
+	min-height: 1px;
 
 	opacity: 1 !important;
 
@@ -154,30 +132,6 @@ ul, ol, div, p {
 	height: auto !important;
 	min-height: auto !important;
 }
-.reveal .absolute-element {
-	margin-left: 2.2cm;
-	margin-top: 1.8cm;
-}
-.reveal section .fragment {
-	opacity: 1 !important;
-	visibility: visible !important;
-
-	-webkit-transform: none !important;
-	   -moz-transform: none !important;
-	    -ms-transform: none !important;
-	        transform: none !important;
-}
-.reveal section .slide-background {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 0;
-}
-.reveal section>* {
-	position: relative;
-	z-index: 1;
-}
 .reveal img {
 	box-shadow: none;
 }
@@ -185,6 +139,19 @@ ul, ol, div, p {
 	overflow: visible;
 	line-height: 1em;
 }
-.reveal small a {
-	font-size: 16pt !important;
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
 }
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+

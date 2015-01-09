@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 				' * http://lab.hakim.se/reveal-js\n' +
 				' * MIT licensed\n' +
 				' *\n' +
-				' * Copyright (C) 2014 Hakim El Hattab, http://hakim.se\n' +
+				' * Copyright (C) 2015 Hakim El Hattab, http://hakim.se\n' +
 				' */'
 		},
 
@@ -29,18 +29,17 @@ module.exports = function(grunt) {
 			}
 		},
 
-		cssmin: {
-			compress: {
-				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
-				}
-			}
-		},
-
 		sass: {
-			main: {
+			core: {
 				files: {
-					'css/theme/default.css': 'css/theme/source/default.scss',
+					'css/reveal.css': 'css/reveal.scss',
+				}
+			},
+			themes: {
+				files: {
+					'css/theme/black.css': 'css/theme/source/black.scss',
+					'css/theme/white.css': 'css/theme/source/white.scss',
+					'css/theme/league.css': 'css/theme/source/league.scss',
 					'css/theme/beige.css': 'css/theme/source/beige.scss',
 					'css/theme/night.css': 'css/theme/source/night.scss',
 					'css/theme/serif.css': 'css/theme/source/serif.scss',
@@ -49,6 +48,20 @@ module.exports = function(grunt) {
 					'css/theme/moon.css': 'css/theme/source/moon.scss',
 					'css/theme/solarized.css': 'css/theme/source/solarized.scss',
 					'css/theme/blood.css': 'css/theme/source/blood.scss'
+				}
+			}
+		},
+
+		autoprefixer: {
+			dist: {
+				src: 'css/reveal.css'
+			}
+		},
+
+		cssmin: {
+			compress: {
+				files: {
+					'css/reveal.min.css': [ 'css/reveal.css' ]
 				}
 			}
 		},
@@ -70,7 +83,9 @@ module.exports = function(grunt) {
 					head: false,
 					module: false,
 					console: false,
-					unescape: false
+					unescape: false,
+					define: false,
+					exports: false
 				}
 			},
 			files: [ 'Gruntfile.js', 'js/reveal.js' ]
@@ -80,7 +95,9 @@ module.exports = function(grunt) {
 			server: {
 				options: {
 					port: port,
-					base: '.'
+					base: '.',
+                    livereload: true,
+                    open: true
 				}
 			}
 		},
@@ -97,14 +114,24 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			main: {
-				files: [ 'Gruntfile.js', 'js/reveal.js', 'css/reveal.css' ],
-				tasks: 'default'
+            options: {
+                livereload: true
+            },
+			js: {
+				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				tasks: 'js'
 			},
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
-				tasks: 'themes'
-			}
+				tasks: 'css-themes'
+			},
+			css: {
+				files: [ 'css/reveal.scss' ],
+				tasks: 'css-core'
+			},
+            html: {
+                files: [ 'index.html']
+            }
 		}
 
 	});
@@ -115,15 +142,25 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-contrib-sass' );
+	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
+	grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'jshint', 'cssmin', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'default', [ 'css', 'js' ] );
 
-	// Theme task
-	grunt.registerTask( 'themes', [ 'sass' ] );
+	// JS task
+	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
+
+	// Theme CSS
+	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );
+
+	// Core framework CSS
+	grunt.registerTask( 'css-core', [ 'sass:core', 'autoprefixer', 'cssmin' ] );
+
+	// All CSS
+	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
