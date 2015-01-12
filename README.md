@@ -230,6 +230,17 @@ You can add your own extensions using the same syntax. The following properties 
 - **condition**: [optional] Function which must return true for the script to be loaded
 
 
+### Ready Event
+
+A 'ready' event is fired when reveal.js has loaded all non-async dependencies and is ready to start navigating. To check if reveal.js is already 'ready' you can call `Reveal.isReady()`.
+
+```javascript
+Reveal.addEventListener( 'ready', function( event ) {
+	// event.currentSlide, event.indexh, event.indexv
+} );
+```
+
+
 ### Presentation Size
 
 All presentations have a normal size, that is the resolution at which they are authored. The framework will automatically scale presentations uniformly based on this size to ensure that everything fits on any given display or viewport.
@@ -252,7 +263,7 @@ Reveal.initialize({
 
 	// Bounds for smallest/largest possible scale to apply to content
 	minScale: 0.2,
-	maxScale: 1.0
+	maxScale: 1.5
 
 });
 ```
@@ -339,7 +350,7 @@ Reveal.toggleAutoSlide();
 // Change a config value at runtime
 Reveal.configure({ controls: true });
 
-// Returns the currently active configuration options
+// Returns the present configuration options
 Reveal.getConfig();
 
 // Fetch the current scale of the presentation
@@ -350,6 +361,7 @@ Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
 Reveal.getIndices(); // { h: 0, v: 0 } }
+Reveal.getProgress(); // 0-1
 Reveal.getTotalSlides();
 
 // State checks
@@ -359,18 +371,6 @@ Reveal.isOverview();
 Reveal.isPaused();
 Reveal.isAutoSliding();
 ```
-
-### Ready Event
-
-The 'ready' event is fired when reveal.js has loaded all (synchronous) dependencies and is ready to start navigating.
-
-```javascript
-Reveal.addEventListener( 'ready', function( event ) {
-	// event.currentSlide, event.indexh, event.indexv
-} );
-```
-
-To check if reveal.js is already 'ready' you can use call `Reveal.isReady()`.
 
 ### Slide Changed Event
 
@@ -384,7 +384,24 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 } );
 ```
 
-### States
+### Presentation State
+
+The presentation's current state can be fetched by using the `getState` method. A state object contains all of the information required to put the presentation back as it was when `getState` was first called. Sort of like a snapshot. It's a simple object that can easily be stringified and persisted or sent over the wire.
+
+```javascript
+Reveal.slide( 1 );
+// we're on slide 1
+
+var state = Reveal.getState();
+
+Reveal.slide( 3 );
+// we're on slide 3
+
+Reveal.setState( state );
+// we're back on slide 1
+```
+
+### Slide States
 
 If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
 
