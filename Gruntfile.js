@@ -1,6 +1,7 @@
 /* global module:false */
 module.exports = function(grunt) {
 	var port = grunt.option('port') || 8000;
+	var base = grunt.option('serve-base') || '.';
 	// Project configuration
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -95,9 +96,9 @@ module.exports = function(grunt) {
 			server: {
 				options: {
 					port: port,
-					base: '.',
-                    livereload: true,
-                    open: true
+					base: base,
+					livereload: true,
+					open: true
 				}
 			}
 		},
@@ -114,9 +115,9 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-            options: {
-                livereload: true
-            },
+			options: {
+				livereload: true
+			},
 			js: {
 				files: [ 'Gruntfile.js', 'js/reveal.js' ],
 				tasks: 'js'
@@ -129,9 +130,9 @@ module.exports = function(grunt) {
 				files: [ 'css/reveal.scss' ],
 				tasks: 'css-core'
 			},
-            html: {
-                files: [ 'index.html']
-            }
+			html: {
+				files: [ 'index.html']
+			}
 		}
 
 	});
