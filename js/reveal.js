@@ -285,6 +285,10 @@ export default function( revealElement, options ) {
 		dom.statusElement = createStatusElement();
 
 		dom.wrapper.setAttribute( 'role', 'application' );
+
+		if( notes.isSpeakerNotesWindow.bind( notes ) && document.documentElement.classList ) {
+			document.documentElement.classList.add( 'speaker-notes' );
+		}
 	}
 
 	/**
