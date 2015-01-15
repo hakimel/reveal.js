@@ -2880,7 +2880,7 @@
 			// Ensure the named link is a valid HTML ID attribute
 			if( /^[a-zA-Z][\w:.-]*$/.test( name ) ) {
 				// Find the slide with the specified ID
-				element = document.querySelector( '#' + name );
+				element = document.getElementById( name );
 			}
 
 			if( element ) {
