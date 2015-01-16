@@ -669,6 +669,10 @@ body {
   background: none;
   overflow: visible; }
 
+.reveal.overview .backgrounds {
+  -webkit-perspective: inherit;
+          perspective: inherit; }
+
 .reveal.overview .backgrounds .slide-background {
   opacity: 1;
   visibility: visible; }
@@ -738,7 +742,7 @@ body {
 /*********************************************
  * PER-SLIDE BACKGROUNDS
  *********************************************/
-.reveal > .backgrounds {
+.reveal .backgrounds {
   position: absolute;
   width: 100%;
   height: 100%;
