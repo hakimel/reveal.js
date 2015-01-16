@@ -1051,7 +1051,6 @@
 		element.style.WebkitTransform = transform;
 		element.style.MozTransform = transform;
 		element.style.msTransform = transform;
-		element.style.OTransform = transform;
 		element.style.transform = transform;
 
 	}
@@ -1654,11 +1653,13 @@
 					hbackground = horizontalBackgrounds[i],
 					hoffset = config.rtl ? -105 : 105;
 
+				var htransform = 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
+
 				hslide.setAttribute( 'data-index-h', i );
 
 				// Apply CSS transform
-				transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
-				transformElement( hbackground, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
+				transformElement( hslide, htransform );
+				transformElement( hbackground, htransform );
 
 				if( hslide.classList.contains( 'stack' ) ) {
 
@@ -1671,12 +1672,14 @@
 						var vslide = verticalSlides[j],
 							vbackground = verticalBackgrounds[j];
 
+						var vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+
 						vslide.setAttribute( 'data-index-h', i );
 						vslide.setAttribute( 'data-index-v', j );
 
 						// Apply CSS transform
-						transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
-						transformElement( vbackground, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
+						transformElement( vslide, vtransform );
+						transformElement( vbackground, vtransform );
 
 						// Navigate to this slide on click
 						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
