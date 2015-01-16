@@ -1642,31 +1642,41 @@
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
 
-			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+			// Move the backgrounds element into the slide container to
+			// that the same scaling is applied
+			dom.slides.appendChild( dom.background );
+
+			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+				horizontalBackgrounds = dom.background.childNodes;
 
 			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 				var hslide = horizontalSlides[i],
+					hbackground = horizontalBackgrounds[i],
 					hoffset = config.rtl ? -105 : 105;
 
 				hslide.setAttribute( 'data-index-h', i );
 
 				// Apply CSS transform
 				transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
+				transformElement( hbackground, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
 
 				if( hslide.classList.contains( 'stack' ) ) {
 
-					var verticalSlides = hslide.querySelectorAll( 'section' );
+					var verticalSlides = hslide.querySelectorAll( 'section' ),
+						verticalBackgrounds = hbackground.querySelectorAll( '.slide-background' );
 
 					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
-						var vslide = verticalSlides[j];
+						var vslide = verticalSlides[j],
+							vbackground = verticalBackgrounds[j];
 
 						vslide.setAttribute( 'data-index-h', i );
 						vslide.setAttribute( 'data-index-v', j );
 
 						// Apply CSS transform
 						transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
+						transformElement( vbackground, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
 
 						// Navigate to this slide on click
 						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
@@ -1709,6 +1719,9 @@
 
 			dom.wrapper.classList.remove( 'overview' );
 
+			// Move the background element back out
+			dom.wrapper.appendChild( dom.background );
+
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
 			// moving from slide to slide
@@ -1718,12 +1731,16 @@
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
 
-			// Select all slides
+			// Clean up changes made to slides
 			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
-				// Resets all transforms to use the external styles
 				transformElement( slide, '' );
 
 				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
+			} );
+
+			// Clean up changes made to backgrounds
+			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
+				transformElement( background, '' );
 			} );
 
 			slide( indexh, indexv );

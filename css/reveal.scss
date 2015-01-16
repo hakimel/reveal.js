@@ -786,6 +786,16 @@ body {
 }
 
 
+.reveal.overview .backgrounds .slide-background {
+	opacity: 1;
+	visibility: visible;
+}
+.reveal.overview .backgrounds .slide-background,
+.reveal.overview-deactivating .backgrounds .slide-background {
+	transition: none !important;
+}
+
+
 /*********************************************
  * PAUSED MODE
  *********************************************/
