@@ -627,7 +627,7 @@ body {
 /*********************************************
  * OVERVIEW
  *********************************************/
-.reveal.overview .slides {
+.reveal.overview {
   -webkit-perspective-origin: 50% 50%;
           perspective-origin: 50% 50%;
   -webkit-perspective: 700px;
