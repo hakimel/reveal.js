@@ -474,6 +474,27 @@ The global presentation transition is set using the ```transition``` config valu
 </section>
 ```
 
+You can as well override only the appearing or the disappearing of the slide:
+
+```html
+<section data-transition="slide">
+    The train goes on … 
+</section>
+<section data-transition="slide"> 
+    and on … 
+</section>
+<section data-transition="slide-in fade-out"> 
+    and stops.
+</section>
+<section data-transition="fade-in slide-out"> 
+    (Passengers entering and leaving)
+</section>
+<section data-transition="slide">
+    And it starts again.
+</section>
+```
+
+
 Note that this does not work with the page and cube transitions.
 
 
