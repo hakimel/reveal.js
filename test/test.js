@@ -81,6 +81,10 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( Reveal.isLastSlide(), false, 'false after Reveal.slide( 0, 0 )' );
 	});
 
+	test( 'Reveal.getTotalSlides', function() {
+		strictEqual( Reveal.getTotalSlides(), 8, 'eight slides in total' );
+	});
+
 	test( 'Reveal.getIndices', function() {
 		var indices = Reveal.getIndices();
 
@@ -114,6 +118,16 @@ Reveal.addEventListener( 'ready', function() {
 
 		equal( Reveal.getPreviousSlide(), firstSlide, 'previous is slide #0' );
 		equal( Reveal.getCurrentSlide(), secondSlide, 'current is slide #1' );
+	});
+
+	test( 'Reveal.getProgress', function() {
+		Reveal.slide( 0, 0 );
+		strictEqual( Reveal.getProgress(), 0, 'progress is 0 on first slide' );
+
+		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
+
+		Reveal.slide( lastSlideIndex, 0 );
+		strictEqual( Reveal.getProgress(), 1, 'progress is 1 on last slide' );
 	});
 
 	test( 'Reveal.getScale', function() {
@@ -332,6 +346,70 @@ Reveal.addEventListener( 'ready', function() {
 
 
 	// ---------------------------------------------------------------
+	// AUTO-SLIDE TESTS
+
+	QUnit.module( 'Auto Sliding' );
+
+	test( 'Reveal.isAutoSliding', function() {
+		strictEqual( Reveal.isAutoSliding(), false, 'false by default' );
+
+		Reveal.configure({ autoSlide: 10000 });
+		strictEqual( Reveal.isAutoSliding(), true, 'true after starting' );
+
+		Reveal.configure({ autoSlide: 0 });
+		strictEqual( Reveal.isAutoSliding(), false, 'false after setting to 0' );
+	});
+
+	test( 'Reveal.toggleAutoSlide', function() {
+		Reveal.configure({ autoSlide: 10000 });
+
+		Reveal.toggleAutoSlide();
+		strictEqual( Reveal.isAutoSliding(), false, 'false after first toggle' );
+		Reveal.toggleAutoSlide();
+		strictEqual( Reveal.isAutoSliding(), true, 'true after second toggle' );
+
+		Reveal.configure({ autoSlide: 0 });
+	});
+
+	asyncTest( 'autoslidepaused', function() {
+		expect( 1 );
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'autoslidepaused', _onEvent );
+		Reveal.configure({ autoSlide: 10000 });
+		Reveal.toggleAutoSlide();
+
+		start();
+
+		// cleanup
+		Reveal.configure({ autoSlide: 0 });
+		Reveal.removeEventListener( 'autoslidepaused', _onEvent );
+	});
+
+	asyncTest( 'autoslideresumed', function() {
+		expect( 1 );
+
+		var _onEvent = function( event ) {
+			ok( true, 'event fired' );
+		}
+
+		Reveal.addEventListener( 'autoslideresumed', _onEvent );
+		Reveal.configure({ autoSlide: 10000 });
+		Reveal.toggleAutoSlide();
+		Reveal.toggleAutoSlide();
+
+		start();
+
+		// cleanup
+		Reveal.configure({ autoSlide: 0 });
+		Reveal.removeEventListener( 'autoslideresumed', _onEvent );
+	});
+
+
+	// ---------------------------------------------------------------
 	// CONFIGURATION VALUES
 
 	QUnit.module( 'Configuration' );
@@ -368,6 +446,16 @@ Reveal.addEventListener( 'ready', function() {
 		equal( Reveal.getIndices().h, 0, 'looped from end to start' );
 
 		Reveal.configure({ loop: false });
+	});
+
+
+	// ---------------------------------------------------------------
+	// LAZY-LOADING TESTS
+
+	QUnit.module( 'Lazy-Loading' );
+
+	test( 'img with data-src', function() {
+		strictEqual( document.querySelectorAll( '.reveal section img[src]' ).length, 1, 'Image source has been set' );
 	});
 
 
