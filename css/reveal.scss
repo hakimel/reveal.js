@@ -743,11 +743,10 @@ body {
  * OVERVIEW
  *********************************************/
 
-.reveal.overview .slides {
+.reveal.overview {
 	perspective-origin: 50% 50%;
 	perspective: 700px;
 }
-
 .reveal.overview .slides section {
 	height: 700px;
 	overflow: hidden;
@@ -783,6 +782,18 @@ body {
 	top: 0 !important;
 	background: none;
 	overflow: visible;
+}
+
+.reveal.overview .backgrounds {
+	perspective: inherit;
+}
+.reveal.overview .backgrounds .slide-background {
+	opacity: 1;
+	visibility: visible;
+}
+.reveal.overview .backgrounds .slide-background,
+.reveal.overview-deactivating .backgrounds .slide-background {
+	transition: none !important;
 }
 
 
@@ -857,7 +868,7 @@ body {
  * PER-SLIDE BACKGROUNDS
  *********************************************/
 
-.reveal>.backgrounds {
+.reveal .backgrounds {
 	position: absolute;
 	width: 100%;
 	height: 100%;

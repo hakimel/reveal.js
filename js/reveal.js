@@ -165,6 +165,9 @@
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
+		// The current z position of the presentation container
+		z = 0,
+
 		// Cached references to DOM elements
 		dom = {},
 
@@ -1051,7 +1054,6 @@
 		element.style.WebkitTransform = transform;
 		element.style.MozTransform = transform;
 		element.style.msTransform = transform;
-		element.style.OTransform = transform;
 		element.style.transform = transform;
 
 	}
@@ -1444,6 +1446,7 @@
 			var size = getComputedSlideSize();
 
 			var slidePadding = 20; // TODO Dig this out of DOM
+			var zTransform = z !== 0 ? 'translateZ(-'+ z +'px)' : '';
 
 			// Layout the contents of the slides
 			layoutSlideContents( config.width, config.height, slidePadding );
@@ -1465,12 +1468,13 @@
 				dom.slides.style.top = '';
 				dom.slides.style.bottom = '';
 				dom.slides.style.right = '';
-				transformElement( dom.slides, '' );
+				transformElement( dom.slides, zTransform );
 			}
 			else {
 				// Prefer zooming in desktop Chrome so that content remains crisp
 				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
+					transformElement( dom.slides, zTransform );
 				}
 				// Apply scale transform as a fallback
 				else {
@@ -1478,7 +1482,7 @@
 					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
-					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
+					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +') ' + zTransform );
 				}
 			}
 
@@ -1636,37 +1640,53 @@
 
 			var wasActive = dom.wrapper.classList.contains( 'overview' );
 
-			// Vary the depth of the overview based on screen size
-			var depth = window.innerWidth < 400 ? 1000 : 2500;
+			// Set the depth of the presentation. This determinse how far we
+			// zoom out and varies based on display size. It gets applied at
+			// the layout step.
+			z = window.innerWidth < 400 ? 1000 : 2500;
 
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
 
-			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+			// Move the backgrounds element into the slide container to
+			// that the same scaling is applied
+			dom.slides.appendChild( dom.background );
+
+			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+				horizontalBackgrounds = dom.background.childNodes;
 
 			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 				var hslide = horizontalSlides[i],
+					hbackground = horizontalBackgrounds[i],
 					hoffset = config.rtl ? -105 : 105;
+
+				var htransform = 'translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
 
 				hslide.setAttribute( 'data-index-h', i );
 
 				// Apply CSS transform
-				transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
+				transformElement( hslide, htransform );
+				transformElement( hbackground, htransform );
 
 				if( hslide.classList.contains( 'stack' ) ) {
 
-					var verticalSlides = hslide.querySelectorAll( 'section' );
+					var verticalSlides = hslide.querySelectorAll( 'section' ),
+						verticalBackgrounds = hbackground.querySelectorAll( '.slide-background' );
 
 					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
 						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
 
-						var vslide = verticalSlides[j];
+						var vslide = verticalSlides[j],
+							vbackground = verticalBackgrounds[j];
+
+						var vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
 
 						vslide.setAttribute( 'data-index-h', i );
 						vslide.setAttribute( 'data-index-v', j );
 
 						// Apply CSS transform
-						transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
+						transformElement( vslide, vtransform );
+						transformElement( vbackground, vtransform );
 
 						// Navigate to this slide on click
 						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
@@ -1709,6 +1729,9 @@
 
 			dom.wrapper.classList.remove( 'overview' );
 
+			// Move the background element back out
+			dom.wrapper.appendChild( dom.background );
+
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
 			// moving from slide to slide
@@ -1718,12 +1741,16 @@
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
 
-			// Select all slides
+			// Clean up changes made to slides
 			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
-				// Resets all transforms to use the external styles
 				transformElement( slide, '' );
 
 				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
+			} );
+
+			// Clean up changes made to backgrounds
+			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
+				transformElement( background, '' );
 			} );
 
 			slide( indexh, indexv );
@@ -2331,19 +2358,33 @@
 
 	/**
 	 * Updates the slide number div to reflect the current slide.
+	 *
+	 * Slide number format can be defined as a string using the
+	 * following variables:
+	 *  h: current slide's horizontal index
+	 *  v: current slide's vertical index
+	 *  c: current slide index (flattened)
+	 *  t: total number of slides (flattened)
 	 */
 	function updateSlideNumber() {
 
 		// Update slide number if enabled
 		if( config.slideNumber && dom.slideNumber) {
 
-			// Display the number of the page using 'indexh - indexv' format
-			var indexString = indexh;
-			if( indexv > 0 ) {
-				indexString += ' - ' + indexv;
+			// Default to only showing the current slide number
+			var format = 'c';
+
+			// Check if a custom slide number format is available
+			if( typeof config.slideNumber === 'string' ) {
+				format = config.slideNumber;
 			}
 
-			dom.slideNumber.innerHTML = indexString;
+			var totalSlides = getTotalSlides();
+
+			dom.slideNumber.innerHTML = format.replace( /h/g, indexh )
+												.replace( /v/g, indexv )
+												.replace( /c/g, Math.round( getProgress() * totalSlides ) + 1 )
+												.replace( /t/g, totalSlides + 1 );
 		}
 
 	}
@@ -2880,7 +2921,7 @@
 			// Ensure the named link is a valid HTML ID attribute
 			if( /^[a-zA-Z][\w:.-]*$/.test( name ) ) {
 				// Find the slide with the specified ID
-				element = document.querySelector( '#' + name );
+				element = document.getElementById( name );
 			}
 
 			if( element ) {
