@@ -50,7 +50,7 @@
 			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
 		}
 		else if( leadingWs > 1 ) {
-			text = text.replace( new RegExp('\\n? {' + leadingWs + '}'), '\n' );
+			text = text.replace( new RegExp('\\n? {' + leadingWs + '}', 'g'), '\n' );
 		}
 
 		return text;
