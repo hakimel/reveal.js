@@ -753,8 +753,9 @@ body {
 	opacity: 1 !important;
 	visibility: visible !important;
 	cursor: pointer;
-	background: rgba(0,0,0,0.1);
 	box-sizing: border-box;
+	outline: 10px solid rgba(150,150,150,0.1);
+	outline-offset: 10px;
 }
 .reveal.overview .slides section,
 .reveal.overview-deactivating .slides section {
@@ -771,16 +772,15 @@ body {
 	opacity: 1;
 	cursor: pointer;
 }
-	.reveal.overview .slides section:hover {
-		background: rgba(0,0,0,0.3);
-	}
+	.reveal.overview .slides section:hover,
 	.reveal.overview .slides section.present {
-		background: rgba(0,0,0,0.3);
+		outline: 10px solid rgba(150,150,150,0.5);
 	}
 .reveal.overview .slides>section.stack {
 	padding: 0;
 	top: 0 !important;
 	background: none;
+	outline: none;
 	overflow: visible;
 }
 
@@ -794,6 +794,10 @@ body {
 .reveal.overview .backgrounds .slide-background,
 .reveal.overview-deactivating .backgrounds .slide-background {
 	transition: none !important;
+}
+
+.reveal.overview-animated .slides {
+	transition: transform 0.4s ease;
 }
 
 

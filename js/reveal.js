@@ -147,6 +147,9 @@
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
+		// Flags if the overview mode is currently active
+		overview = false,
+
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
@@ -165,8 +168,9 @@
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
-		// The current z position of the presentation container
-		z = 0,
+		// The transform that is currently applied to the slides container
+		slidesTransform = '',
+		layoutTransform = '',
 
 		// Cached references to DOM elements
 		dom = {},
@@ -1058,6 +1062,12 @@
 
 	}
 
+	function transformSlides() {
+
+		transformElement( dom.slides, layoutTransform ? layoutTransform + ' ' + slidesTransform : slidesTransform );
+
+	}
+
 	/**
 	 * Injects the given CSS styles into the DOM.
 	 */
@@ -1446,7 +1456,6 @@
 			var size = getComputedSlideSize();
 
 			var slidePadding = 20; // TODO Dig this out of DOM
-			var zTransform = z !== 0 ? 'translateZ(-'+ z +'px)' : '';
 
 			// Layout the contents of the slides
 			layoutSlideContents( config.width, config.height, slidePadding );
@@ -1468,13 +1477,12 @@
 				dom.slides.style.top = '';
 				dom.slides.style.bottom = '';
 				dom.slides.style.right = '';
-				transformElement( dom.slides, zTransform );
+				layoutTransform = '';
 			}
 			else {
 				// Prefer zooming in desktop Chrome so that content remains crisp
 				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
-					transformElement( dom.slides, zTransform );
 				}
 				// Apply scale transform as a fallback
 				else {
@@ -1482,9 +1490,11 @@
 					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
-					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +') ' + zTransform );
+					layoutTransform = 'translate(-50%, -50%) scale('+ scale +')';
 				}
 			}
+
+			transformSlides();
 
 			// Select all slides, vertical and horizontal
 			var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
@@ -1633,20 +1643,23 @@
 	function activateOverview() {
 
 		// Only proceed if enabled in config
-		if( config.overview ) {
+		if( config.overview && !isOverview() ) {
+
+			overview = true;
+
+			dom.wrapper.classList.add( 'overview' );
+			dom.wrapper.classList.remove( 'overview-deactivating' );
+
+			setTimeout( function() {
+				dom.wrapper.classList.add( 'overview-animated' );
+			}, 1 );
 
 			// Don't auto-slide while in overview mode
 			cancelAutoSlide();
 
-			var wasActive = dom.wrapper.classList.contains( 'overview' );
-
-			// Set the depth of the presentation. This determinse how far we
-			// zoom out and varies based on display size. It gets applied at
-			// the layout step.
-			z = window.innerWidth < 400 ? 1000 : 2500;
-
-			dom.wrapper.classList.add( 'overview' );
-			dom.wrapper.classList.remove( 'overview-deactivating' );
+			var margin = 70;
+			var slideWidth = config.width + margin,
+				slideHeight = config.height + margin;
 
 			// Move the backgrounds element into the slide container to
 			// that the same scaling is applied
@@ -1658,9 +1671,9 @@
 			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
 				var hslide = horizontalSlides[i],
 					hbackground = horizontalBackgrounds[i],
-					hoffset = config.rtl ? -105 : 105;
+					hoffset = config.rtl ? -slideWidth : slideWidth;
 
-				var htransform = 'translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
+				var htransform = 'translateX(' + ( i * hoffset ) + 'px)';
 
 				hslide.setAttribute( 'data-index-h', i );
 
@@ -1679,7 +1692,7 @@
 						var vslide = verticalSlides[j],
 							vbackground = verticalBackgrounds[j];
 
-						var vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
+						var vtransform = 'translateY(' + ( j * slideHeight ) + 'px)';
 
 						vslide.setAttribute( 'data-index-h', i );
 						vslide.setAttribute( 'data-index-v', j );
@@ -1702,19 +1715,35 @@
 			}
 
 			updateSlidesVisibility();
+			updateOverview();
 
 			layout();
 
-			if( !wasActive ) {
-				// Notify observers of the overview showing
-				dispatchEvent( 'overviewshown', {
-					'indexh': indexh,
-					'indexv': indexv,
-					'currentSlide': currentSlide
-				} );
-			}
+			// Notify observers of the overview showing
+			dispatchEvent( 'overviewshown', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
 
 		}
+
+	}
+
+	function updateOverview() {
+
+		var z = window.innerWidth < 400 ? 1000 : 2500;
+		var margin = 70;
+		var slideWidth = config.width + margin,
+			slideHeight = config.height + margin;
+
+		slidesTransform = [
+			'translateX('+ ( -indexh * slideWidth ) +'px)',
+			'translateY('+ ( -indexv * slideHeight ) +'px)',
+			'translateZ('+ ( -z ) +'px)'
+		].join( ' ' );
+
+		transformSlides();
 
 	}
 
@@ -1727,10 +1756,16 @@
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
+			slidesTransform = '';
+
+			overview = false;
+
 			dom.wrapper.classList.remove( 'overview' );
 
 			// Move the background element back out
 			dom.wrapper.appendChild( dom.background );
+
+			dom.wrapper.classList.remove( 'overview-animated' );
 
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
@@ -1754,6 +1789,8 @@
 			} );
 
 			slide( indexh, indexv );
+
+			layout();
 
 			cueAutoSlide();
 
@@ -1793,7 +1830,7 @@
 	 */
 	function isOverview() {
 
-		return dom.wrapper.classList.contains( 'overview' );
+		return overview;
 
 	}
 
@@ -1995,7 +2032,7 @@
 
 		// If the overview is active, re-activate it to update positions
 		if( isOverview() ) {
-			activateOverview();
+			updateOverview();
 		}
 
 		// Find the current horizontal slide and any possible vertical slides
@@ -2289,11 +2326,11 @@
 
 			// The number of steps away from the present slide that will
 			// be visible
-			var viewDistance = isOverview() ? 10 : config.viewDistance;
+			var viewDistance = isOverview() ? 7 : config.viewDistance;
 
 			// Limit view distance on weaker devices
 			if( isMobileDevice ) {
-				viewDistance = isOverview() ? 6 : 2;
+				viewDistance = isOverview() ? 7 : 2;
 			}
 
 			// Limit view distance on weaker devices
