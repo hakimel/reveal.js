@@ -22,4 +22,4 @@ This is where you override the default theme. Either by specifying variables (se
 4. **Include [/css/theme/template/theme.scss](https://github.com/hakimel/reveal.js/blob/master/css/theme/template/theme.scss)**
 The template theme file which will generate final CSS output based on the currently defined variables.
 
-When you are done, run `grunt themes` to compile the Sass file to CSS and you are ready to use your new theme.
+When you are done, run `grunt css-themes` to compile the Sass file to CSS and you are ready to use your new theme.
