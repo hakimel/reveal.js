@@ -300,7 +300,11 @@
 
 		features.touch = !!( 'ontouchstart' in window );
 
-		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi );
+		// Transitions in the overview are disabled in desktop and
+		// mobile Safari since they lag terribly
+		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
+
+		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
 
 	}
 
@@ -1647,9 +1651,11 @@
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
 
-			setTimeout( function() {
-				dom.wrapper.classList.add( 'overview-animated' );
-			}, 1 );
+			if( features.overviewTransitions ) {
+				setTimeout( function() {
+					dom.wrapper.classList.add( 'overview-animated' );
+				}, 1 );
+			}
 
 			// Don't auto-slide while in overview mode
 			cancelAutoSlide();
@@ -1712,12 +1718,12 @@
 
 		// Layout slides
 		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
-			transformElement( hslide, 'translateX(' + ( h * slideWidth ) + 'px)' );
+			transformElement( hslide, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
 				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
-					transformElement( vslide, 'translateY(' + ( v * slideHeight ) + 'px)' );
+					transformElement( vslide, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
 				} );
 
 			}
@@ -1725,10 +1731,10 @@
 
 		// Layout slide backgrounds
 		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
-			transformElement( hbackground, 'translateX(' + ( h * slideWidth ) + 'px)' );
+			transformElement( hbackground, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
 
 			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
-				transformElement( vbackground, 'translateY(' + ( v * slideHeight ) + 'px)' );
+				transformElement( vbackground, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
 			} );
 		} );
 

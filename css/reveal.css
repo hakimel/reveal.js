@@ -625,66 +625,6 @@ body {
           transition: none; }
 
 /*********************************************
- * OVERVIEW
- *********************************************/
-.reveal.overview {
-  -webkit-perspective-origin: 50% 50%;
-          perspective-origin: 50% 50%;
-  -webkit-perspective: 700px;
-          perspective: 700px; }
-
-.reveal.overview .slides section {
-  height: 700px;
-  overflow: hidden;
-  opacity: 1 !important;
-  visibility: visible !important;
-  cursor: pointer;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box;
-  outline: 10px solid rgba(150, 150, 150, 0.1);
-  outline-offset: 10px; }
-
-.reveal.overview .slides section, .reveal.overview-deactivating .slides section {
-  -webkit-transition: none;
-          transition: none; }
-
-.reveal.overview .slides section .fragment {
-  opacity: 1; }
-
-.reveal.overview .slides section:after, .reveal.overview .slides section:before {
-  display: none !important; }
-
-.reveal.overview .slides section > section {
-  opacity: 1;
-  cursor: pointer; }
-
-.reveal.overview .slides section:hover, .reveal.overview .slides section.present {
-  outline: 10px solid rgba(150, 150, 150, 0.5); }
-
-.reveal.overview .slides > section.stack {
-  padding: 0;
-  top: 0 !important;
-  background: none;
-  outline: none;
-  overflow: visible; }
-
-.reveal.overview .backgrounds {
-  -webkit-perspective: inherit;
-          perspective: inherit; }
-
-.reveal.overview .backgrounds .slide-background {
-  opacity: 1;
-  visibility: visible; }
-
-.reveal.overview .backgrounds .slide-background, .reveal.overview-deactivating .backgrounds .slide-background {
-  -webkit-transition: none;
-          transition: none; }
-
-.reveal.overview-animated .slides, .reveal.overview-animated .slides section {
-  -webkit-transition: -webkit-transform 0.4s ease;
-          transition: transform 0.4s ease; }
-
-/*********************************************
  * PAUSED MODE
  *********************************************/
 .reveal .pause-overlay {
@@ -903,6 +843,58 @@ body {
 .reveal[data-transition-speed="slow"] > .backgrounds .slide-background {
   -webkit-transition-duration: 1200ms;
           transition-duration: 1200ms; }
+
+/*********************************************
+ * OVERVIEW
+ *********************************************/
+.reveal.overview {
+  -webkit-perspective-origin: 50% 50%;
+          perspective-origin: 50% 50%;
+  -webkit-perspective: 700px;
+          perspective: 700px; }
+  .reveal.overview .slides section {
+    height: 700px;
+    opacity: 1 !important;
+    overflow: hidden;
+    visibility: visible !important;
+    cursor: pointer;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box; }
+  .reveal.overview .slides section:hover, .reveal.overview .slides section.present {
+    outline: 10px solid rgba(150, 150, 150, 0.4);
+    outline-offset: 10px; }
+  .reveal.overview .slides section .fragment {
+    opacity: 1;
+    -webkit-transition: none;
+            transition: none; }
+  .reveal.overview .slides section:after, .reveal.overview .slides section:before {
+    display: none !important; }
+  .reveal.overview .slides > section.stack {
+    padding: 0;
+    top: 0 !important;
+    background: none;
+    outline: none;
+    overflow: visible; }
+  .reveal.overview .backgrounds {
+    -webkit-perspective: inherit;
+            perspective: inherit; }
+  .reveal.overview .backgrounds .slide-background {
+    opacity: 1;
+    visibility: visible;
+    outline: 10px solid rgba(150, 150, 150, 0.1);
+    outline-offset: 10px; }
+
+.reveal.overview .slides section, .reveal.overview-deactivating .slides section {
+  -webkit-transition: none;
+          transition: none; }
+
+.reveal.overview .backgrounds .slide-background, .reveal.overview-deactivating .backgrounds .slide-background {
+  -webkit-transition: none;
+          transition: none; }
+
+.reveal.overview-animated .slides, .reveal.overview-animated .slides section, .reveal.overview-animated .backgrounds .slide-background {
+  -webkit-transition: -webkit-transform 0.4s ease;
+          transition: transform 0.4s ease; }
 
 /*********************************************
  * RTL SUPPORT
