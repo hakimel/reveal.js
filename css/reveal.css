@@ -645,8 +645,8 @@ body {
   outline-offset: 10px; }
 
 .reveal.overview .slides section, .reveal.overview-deactivating .slides section {
-  -webkit-transition: none !important;
-          transition: none !important; }
+  -webkit-transition: none;
+          transition: none; }
 
 .reveal.overview .slides section .fragment {
   opacity: 1; }
@@ -677,10 +677,10 @@ body {
   visibility: visible; }
 
 .reveal.overview .backgrounds .slide-background, .reveal.overview-deactivating .backgrounds .slide-background {
-  -webkit-transition: none !important;
-          transition: none !important; }
+  -webkit-transition: none;
+          transition: none; }
 
-.reveal.overview-animated .slides {
+.reveal.overview-animated .slides, .reveal.overview-animated .slides section {
   -webkit-transition: -webkit-transform 0.4s ease;
           transition: transform 0.4s ease; }
 

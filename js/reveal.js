@@ -1636,9 +1636,6 @@
 	/**
 	 * Displays the overview of slides (quick nav) by
 	 * scaling down and arranging all slide elements.
-	 *
-	 * Experimental feature, might be dropped if perf
-	 * can't be improved.
 	 */
 	function activateOverview() {
 
@@ -1657,64 +1654,32 @@
 			// Don't auto-slide while in overview mode
 			cancelAutoSlide();
 
-			var margin = 70;
-			var slideWidth = config.width + margin,
-				slideHeight = config.height + margin;
-
 			// Move the backgrounds element into the slide container to
 			// that the same scaling is applied
 			dom.slides.appendChild( dom.background );
 
-			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
-				horizontalBackgrounds = dom.background.childNodes;
+			// Bind events so that clicking on a slide navigates to it
+			toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
 
-			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
-				var hslide = horizontalSlides[i],
-					hbackground = horizontalBackgrounds[i],
-					hoffset = config.rtl ? -slideWidth : slideWidth;
-
-				var htransform = 'translateX(' + ( i * hoffset ) + 'px)';
-
-				hslide.setAttribute( 'data-index-h', i );
-
-				// Apply CSS transform
-				transformElement( hslide, htransform );
-				transformElement( hbackground, htransform );
+				hslide.setAttribute( 'data-index-h', h );
 
 				if( hslide.classList.contains( 'stack' ) ) {
+					toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
 
-					var verticalSlides = hslide.querySelectorAll( 'section' ),
-						verticalBackgrounds = hbackground.querySelectorAll( '.slide-background' );
-
-					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
-
-						var vslide = verticalSlides[j],
-							vbackground = verticalBackgrounds[j];
-
-						var vtransform = 'translateY(' + ( j * slideHeight ) + 'px)';
-
-						vslide.setAttribute( 'data-index-h', i );
-						vslide.setAttribute( 'data-index-v', j );
-
-						// Apply CSS transform
-						transformElement( vslide, vtransform );
-						transformElement( vbackground, vtransform );
-
-						// Navigate to this slide on click
+						vslide.setAttribute( 'data-index-h', h );
+						vslide.setAttribute( 'data-index-v', v );
 						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-					}
 
+					} );
 				}
 				else {
-
-					// Navigate to this slide on click
 					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
-
 				}
-			}
+
+			} );
 
 			updateSlidesVisibility();
+			layoutOverview();
 			updateOverview();
 
 			layout();
@@ -1730,17 +1695,64 @@
 
 	}
 
-	function updateOverview() {
+	/**
+	 * Moves the slides into a grid for display in the
+	 * overview mode.
+	 */
+	function layoutOverview() {
 
-		var z = window.innerWidth < 400 ? 1000 : 2500;
 		var margin = 70;
 		var slideWidth = config.width + margin,
 			slideHeight = config.height + margin;
 
+		// Reverse in RTL mode
+		if( config.rtl ) {
+			slideWidth = -slideWidth;
+		}
+
+		// Layout slides
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+			transformElement( hslide, 'translateX(' + ( h * slideWidth ) + 'px)' );
+
+			if( hslide.classList.contains( 'stack' ) ) {
+
+				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+					transformElement( vslide, 'translateY(' + ( v * slideHeight ) + 'px)' );
+				} );
+
+			}
+		} );
+
+		// Layout slide backgrounds
+		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
+			transformElement( hbackground, 'translateX(' + ( h * slideWidth ) + 'px)' );
+
+			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
+				transformElement( vbackground, 'translateY(' + ( v * slideHeight ) + 'px)' );
+			} );
+		} );
+
+	}
+
+	/**
+	 * Moves the overview viewport to the current slides.
+	 * Called each time the current slide changes.
+	 */
+	function updateOverview() {
+
+		var margin = 70;
+		var slideWidth = config.width + margin,
+			slideHeight = config.height + margin;
+
+		// Reverse in RTL mode
+		if( config.rtl ) {
+			slideWidth = -slideWidth;
+		}
+
 		slidesTransform = [
 			'translateX('+ ( -indexh * slideWidth ) +'px)',
 			'translateY('+ ( -indexv * slideHeight ) +'px)',
-			'translateZ('+ ( -z ) +'px)'
+			'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
 		].join( ' ' );
 
 		transformSlides();
@@ -1761,10 +1773,6 @@
 			overview = false;
 
 			dom.wrapper.classList.remove( 'overview' );
-
-			// Move the background element back out
-			dom.wrapper.appendChild( dom.background );
-
 			dom.wrapper.classList.remove( 'overview-animated' );
 
 			// Temporarily add a class so that transitions can do different things
@@ -1775,6 +1783,9 @@
 			setTimeout( function () {
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
+
+			// Move the background element back out
+			dom.wrapper.appendChild( dom.background );
 
 			// Clean up changes made to slides
 			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
@@ -2145,6 +2156,10 @@
 
 		formatEmbeddedContent();
 
+		if( isOverview() ) {
+			layoutOverview();
+		}
+
 	}
 
 	/**
@@ -2326,11 +2341,11 @@
 
 			// The number of steps away from the present slide that will
 			// be visible
-			var viewDistance = isOverview() ? 7 : config.viewDistance;
+			var viewDistance = isOverview() ? 10 : config.viewDistance;
 
 			// Limit view distance on weaker devices
 			if( isMobileDevice ) {
-				viewDistance = isOverview() ? 7 : 2;
+				viewDistance = isOverview() ? 6 : 2;
 			}
 
 			// Limit view distance on weaker devices

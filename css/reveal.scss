@@ -759,7 +759,7 @@ body {
 }
 .reveal.overview .slides section,
 .reveal.overview-deactivating .slides section {
-	transition: none !important;
+	transition: none;
 }
 .reveal.overview .slides section .fragment {
 	opacity: 1;
@@ -793,10 +793,11 @@ body {
 }
 .reveal.overview .backgrounds .slide-background,
 .reveal.overview-deactivating .backgrounds .slide-background {
-	transition: none !important;
+	transition: none;
 }
 
-.reveal.overview-animated .slides {
+.reveal.overview-animated .slides,
+.reveal.overview-animated .slides section {
 	transition: transform 0.4s ease;
 }
 
