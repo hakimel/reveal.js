@@ -1664,24 +1664,11 @@
 			// that the same scaling is applied
 			dom.slides.appendChild( dom.background );
 
-			// Bind events so that clicking on a slide navigates to it
-			toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
-
-				hslide.setAttribute( 'data-index-h', h );
-
-				if( hslide.classList.contains( 'stack' ) ) {
-					toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
-
-						vslide.setAttribute( 'data-index-h', h );
-						vslide.setAttribute( 'data-index-v', v );
-						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-
-					} );
+			// Clicking on an overview slide navigates to it
+			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+				if( !slide.classList.contains( 'stack' ) ) {
+					slide.addEventListener( 'click', onOverviewSlideClicked, true );
 				}
-				else {
-					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
-				}
-
 			} );
 
 			updateSlidesVisibility();
@@ -1718,11 +1705,15 @@
 
 		// Layout slides
 		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+			hslide.setAttribute( 'data-index-h', h );
 			transformElement( hslide, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
 				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+					vslide.setAttribute( 'data-index-h', h );
+					vslide.setAttribute( 'data-index-v', v );
+
 					transformElement( vslide, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
 				} );
 
@@ -1997,7 +1988,7 @@
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
-		if( v === undefined ) {
+		if( v === undefined && !isOverview() ) {
 			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
 		}
 
