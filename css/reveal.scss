@@ -1042,9 +1042,7 @@ body {
 	transition: none;
 }
 
-.reveal.overview-animated .slides,
-.reveal.overview-animated .slides section,
-.reveal.overview-animated .backgrounds .slide-background {
+.reveal.overview-animated .slides {
 	transition: transform 0.4s ease;
 }
 

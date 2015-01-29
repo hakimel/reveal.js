@@ -892,7 +892,7 @@ body {
   -webkit-transition: none;
           transition: none; }
 
-.reveal.overview-animated .slides, .reveal.overview-animated .slides section, .reveal.overview-animated .backgrounds .slide-background {
+.reveal.overview-animated .slides {
   -webkit-transition: -webkit-transform 0.4s ease;
           transition: transform 0.4s ease; }
 
