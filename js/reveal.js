@@ -168,9 +168,9 @@
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
-		// The transform that is currently applied to the slides container
-		slidesTransform = '',
-		layoutTransform = '',
+		// CSS transform that is currently applied to the slides container,
+		// split into two groups
+		slidesTransform = { layout: '', overview: '' },
 
 		// Cached references to DOM elements
 		dom = {},
@@ -301,7 +301,7 @@
 		features.touch = !!( 'ontouchstart' in window );
 
 		// Transitions in the overview are disabled in desktop and
-		// mobile Safari since they lag terribly
+		// mobile Safari due to lag
 		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
 
 		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
@@ -1066,9 +1066,25 @@
 
 	}
 
-	function transformSlides() {
+	/**
+	 * Applies CSS transforms to the slides container. The container
+	 * is transformed from two separate sources: layout and the overview
+	 * mode.
+	 */
+	function transformSlides( transforms ) {
 
-		transformElement( dom.slides, layoutTransform ? layoutTransform + ' ' + slidesTransform : slidesTransform );
+		// Pick up new transforms from arguments
+		if( transforms.layout ) slidesTransform.layout = transforms.layout;
+		if( transforms.overview ) slidesTransform.overview = transforms.overview;
+
+		// Apply the transforms to the slides container
+		if( slidesTransform.layout ) {
+			transformElement( dom.slides, slidesTransform.layout + ' ' + slidesTransform.overview );
+		}
+		else {
+			transformElement( dom.slides, slidesTransform.overview );
+		}
+
 
 	}
 
@@ -1481,12 +1497,13 @@
 				dom.slides.style.top = '';
 				dom.slides.style.bottom = '';
 				dom.slides.style.right = '';
-				layoutTransform = '';
+				transformSlides( { layout: '' } );
 			}
 			else {
 				// Prefer zooming in desktop Chrome so that content remains crisp
 				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
+					transformSlides( { layout: '' } );
 				}
 				// Apply scale transform as a fallback
 				else {
@@ -1494,11 +1511,9 @@
 					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
-					layoutTransform = 'translate(-50%, -50%) scale('+ scale +')';
+					transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
 				}
 			}
-
-			transformSlides();
 
 			// Select all slides, vertical and horizontal
 			var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
@@ -1746,13 +1761,13 @@
 			slideWidth = -slideWidth;
 		}
 
-		slidesTransform = [
-			'translateX('+ ( -indexh * slideWidth ) +'px)',
-			'translateY('+ ( -indexv * slideHeight ) +'px)',
-			'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
-		].join( ' ' );
-
-		transformSlides();
+		transformSlides( {
+			overview: [
+				'translateX('+ ( -indexh * slideWidth ) +'px)',
+				'translateY('+ ( -indexv * slideHeight ) +'px)',
+				'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
+			].join( ' ' )
+		} );
 
 	}
 
@@ -1765,7 +1780,7 @@
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
-			slidesTransform = '';
+			transformSlides( { overview: '' } );
 
 			overview = false;
 
