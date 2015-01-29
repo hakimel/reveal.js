@@ -1074,8 +1074,8 @@
 	function transformSlides( transforms ) {
 
 		// Pick up new transforms from arguments
-		if( transforms.layout ) slidesTransform.layout = transforms.layout;
-		if( transforms.overview ) slidesTransform.overview = transforms.overview;
+		if( typeof transforms.layout === 'string' ) slidesTransform.layout = transforms.layout;
+		if( typeof transforms.overview === 'string' ) slidesTransform.overview = transforms.overview;
 
 		// Apply the transforms to the slides container
 		if( slidesTransform.layout ) {
@@ -1084,7 +1084,6 @@
 		else {
 			transformElement( dom.slides, slidesTransform.overview );
 		}
-
 
 	}
 
@@ -1780,8 +1779,6 @@
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
-			transformSlides( { overview: '' } );
-
 			overview = false;
 
 			dom.wrapper.classList.remove( 'overview' );
@@ -1810,6 +1807,8 @@
 			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
 				transformElement( background, '' );
 			} );
+
+			transformSlides( { overview: '' } );
 
 			slide( indexh, indexv );
 
@@ -2053,7 +2052,7 @@
 			document.documentElement.classList.remove( stateBefore.pop() );
 		}
 
-		// If the overview is active, re-activate it to update positions
+		// Update the overview if it's currently active
 		if( isOverview() ) {
 			updateOverview();
 		}
