@@ -147,6 +147,9 @@
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
+		// Flags if the overview mode is currently active
+		overview = false,
+
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
@@ -165,8 +168,9 @@
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
-		// The current z position of the presentation container
-		z = 0,
+		// CSS transform that is currently applied to the slides container,
+		// split into two groups
+		slidesTransform = { layout: '', overview: '' },
 
 		// Cached references to DOM elements
 		dom = {},
@@ -296,7 +300,11 @@
 
 		features.touch = !!( 'ontouchstart' in window );
 
-		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi );
+		// Transitions in the overview are disabled in desktop and
+		// mobile Safari due to lag
+		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
+
+		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
 
 	}
 
@@ -1059,6 +1067,27 @@
 	}
 
 	/**
+	 * Applies CSS transforms to the slides container. The container
+	 * is transformed from two separate sources: layout and the overview
+	 * mode.
+	 */
+	function transformSlides( transforms ) {
+
+		// Pick up new transforms from arguments
+		if( typeof transforms.layout === 'string' ) slidesTransform.layout = transforms.layout;
+		if( typeof transforms.overview === 'string' ) slidesTransform.overview = transforms.overview;
+
+		// Apply the transforms to the slides container
+		if( slidesTransform.layout ) {
+			transformElement( dom.slides, slidesTransform.layout + ' ' + slidesTransform.overview );
+		}
+		else {
+			transformElement( dom.slides, slidesTransform.overview );
+		}
+
+	}
+
+	/**
 	 * Injects the given CSS styles into the DOM.
 	 */
 	function injectStyleSheet( value ) {
@@ -1446,7 +1475,6 @@
 			var size = getComputedSlideSize();
 
 			var slidePadding = 20; // TODO Dig this out of DOM
-			var zTransform = z !== 0 ? 'translateZ(-'+ z +'px)' : '';
 
 			// Layout the contents of the slides
 			layoutSlideContents( config.width, config.height, slidePadding );
@@ -1468,13 +1496,13 @@
 				dom.slides.style.top = '';
 				dom.slides.style.bottom = '';
 				dom.slides.style.right = '';
-				transformElement( dom.slides, zTransform );
+				transformSlides( { layout: '' } );
 			}
 			else {
 				// Prefer zooming in desktop Chrome so that content remains crisp
 				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
-					transformElement( dom.slides, zTransform );
+					transformSlides( { layout: '' } );
 				}
 				// Apply scale transform as a fallback
 				else {
@@ -1482,7 +1510,7 @@
 					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
-					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +') ' + zTransform );
+					transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
 				}
 			}
 
@@ -1624,97 +1652,121 @@
 	}
 
 	/**
-	 * Displays the overview of slides (quick nav) by
-	 * scaling down and arranging all slide elements.
-	 *
-	 * Experimental feature, might be dropped if perf
-	 * can't be improved.
+	 * Displays the overview of slides (quick nav) by scaling
+	 * down and arranging all slide elements.
 	 */
 	function activateOverview() {
 
 		// Only proceed if enabled in config
-		if( config.overview ) {
+		if( config.overview && !isOverview() ) {
 
-			// Don't auto-slide while in overview mode
-			cancelAutoSlide();
-
-			var wasActive = dom.wrapper.classList.contains( 'overview' );
-
-			// Set the depth of the presentation. This determinse how far we
-			// zoom out and varies based on display size. It gets applied at
-			// the layout step.
-			z = window.innerWidth < 400 ? 1000 : 2500;
+			overview = true;
 
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
+
+			if( features.overviewTransitions ) {
+				setTimeout( function() {
+					dom.wrapper.classList.add( 'overview-animated' );
+				}, 1 );
+			}
+
+			// Don't auto-slide while in overview mode
+			cancelAutoSlide();
 
 			// Move the backgrounds element into the slide container to
 			// that the same scaling is applied
 			dom.slides.appendChild( dom.background );
 
-			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
-				horizontalBackgrounds = dom.background.childNodes;
-
-			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
-				var hslide = horizontalSlides[i],
-					hbackground = horizontalBackgrounds[i],
-					hoffset = config.rtl ? -105 : 105;
-
-				var htransform = 'translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)';
-
-				hslide.setAttribute( 'data-index-h', i );
-
-				// Apply CSS transform
-				transformElement( hslide, htransform );
-				transformElement( hbackground, htransform );
-
-				if( hslide.classList.contains( 'stack' ) ) {
-
-					var verticalSlides = hslide.querySelectorAll( 'section' ),
-						verticalBackgrounds = hbackground.querySelectorAll( '.slide-background' );
-
-					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
-
-						var vslide = verticalSlides[j],
-							vbackground = verticalBackgrounds[j];
-
-						var vtransform = 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)';
-
-						vslide.setAttribute( 'data-index-h', i );
-						vslide.setAttribute( 'data-index-v', j );
-
-						// Apply CSS transform
-						transformElement( vslide, vtransform );
-						transformElement( vbackground, vtransform );
-
-						// Navigate to this slide on click
-						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-					}
-
+			// Clicking on an overview slide navigates to it
+			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+				if( !slide.classList.contains( 'stack' ) ) {
+					slide.addEventListener( 'click', onOverviewSlideClicked, true );
 				}
-				else {
-
-					// Navigate to this slide on click
-					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
-
-				}
-			}
+			} );
 
 			updateSlidesVisibility();
+			layoutOverview();
+			updateOverview();
 
 			layout();
 
-			if( !wasActive ) {
-				// Notify observers of the overview showing
-				dispatchEvent( 'overviewshown', {
-					'indexh': indexh,
-					'indexv': indexv,
-					'currentSlide': currentSlide
-				} );
-			}
+			// Notify observers of the overview showing
+			dispatchEvent( 'overviewshown', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
 
 		}
+
+	}
+
+	/**
+	 * Uses CSS transforms to position all slides in a grid for
+	 * display inside of the overview mode.
+	 */
+	function layoutOverview() {
+
+		var margin = 70;
+		var slideWidth = config.width + margin,
+			slideHeight = config.height + margin;
+
+		// Reverse in RTL mode
+		if( config.rtl ) {
+			slideWidth = -slideWidth;
+		}
+
+		// Layout slides
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+			hslide.setAttribute( 'data-index-h', h );
+			transformElement( hslide, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
+
+			if( hslide.classList.contains( 'stack' ) ) {
+
+				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+					vslide.setAttribute( 'data-index-h', h );
+					vslide.setAttribute( 'data-index-v', v );
+
+					transformElement( vslide, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
+				} );
+
+			}
+		} );
+
+		// Layout slide backgrounds
+		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
+			transformElement( hbackground, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
+
+			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
+				transformElement( vbackground, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
+			} );
+		} );
+
+	}
+
+	/**
+	 * Moves the overview viewport to the current slides.
+	 * Called each time the current slide changes.
+	 */
+	function updateOverview() {
+
+		var margin = 70;
+		var slideWidth = config.width + margin,
+			slideHeight = config.height + margin;
+
+		// Reverse in RTL mode
+		if( config.rtl ) {
+			slideWidth = -slideWidth;
+		}
+
+		transformSlides( {
+			overview: [
+				'translateX('+ ( -indexh * slideWidth ) +'px)',
+				'translateY('+ ( -indexv * slideHeight ) +'px)',
+				'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
+			].join( ' ' )
+		} );
 
 	}
 
@@ -1727,10 +1779,10 @@
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
-			dom.wrapper.classList.remove( 'overview' );
+			overview = false;
 
-			// Move the background element back out
-			dom.wrapper.appendChild( dom.background );
+			dom.wrapper.classList.remove( 'overview' );
+			dom.wrapper.classList.remove( 'overview-animated' );
 
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
@@ -1740,6 +1792,9 @@
 			setTimeout( function () {
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
+
+			// Move the background element back out
+			dom.wrapper.appendChild( dom.background );
 
 			// Clean up changes made to slides
 			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
@@ -1753,7 +1808,11 @@
 				transformElement( background, '' );
 			} );
 
+			transformSlides( { overview: '' } );
+
 			slide( indexh, indexv );
+
+			layout();
 
 			cueAutoSlide();
 
@@ -1793,7 +1852,7 @@
 	 */
 	function isOverview() {
 
-		return dom.wrapper.classList.contains( 'overview' );
+		return overview;
 
 	}
 
@@ -1943,7 +2002,7 @@
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
-		if( v === undefined ) {
+		if( v === undefined && !isOverview() ) {
 			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
 		}
 
@@ -1993,9 +2052,9 @@
 			document.documentElement.classList.remove( stateBefore.pop() );
 		}
 
-		// If the overview is active, re-activate it to update positions
+		// Update the overview if it's currently active
 		if( isOverview() ) {
-			activateOverview();
+			updateOverview();
 		}
 
 		// Find the current horizontal slide and any possible vertical slides
@@ -2107,6 +2166,10 @@
 		updateSlidesVisibility();
 
 		formatEmbeddedContent();
+
+		if( isOverview() ) {
+			layoutOverview();
+		}
 
 	}
 
