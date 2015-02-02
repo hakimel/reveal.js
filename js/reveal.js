@@ -2359,7 +2359,7 @@
 				viewDistance = isOverview() ? 6 : 2;
 			}
 
-			// Limit view distance on weaker devices
+			// All slides need to be visible when exporting to PDF
 			if( isPrintingPDF() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
@@ -2370,8 +2370,14 @@
 				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
 					verticalSlidesLength = verticalSlides.length;
 
-				// Loops so that it measures 1 between the first and last slides
-				distanceX = Math.abs( ( ( indexh || 0 ) - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
+				// Determine how far away this slide is from the present
+				distanceX = Math.abs( ( indexh || 0 ) - x ) || 0;
+
+				// If the presentation is looped, distance should measure
+				// 1 between the first and last slides
+				if( config.loop ) {
+					distanceX = distanceX % ( horizontalSlidesLength - viewDistance );
+				}
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
