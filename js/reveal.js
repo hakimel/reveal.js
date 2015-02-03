@@ -384,6 +384,9 @@
 		// Listen to messages posted to this window
 		setupPostMessage();
 
+		// Prevent iframes from scrolling the slides out of view
+		setupIframeScrollPrevention();
+
 		// Resets all vertical slides so that only the first is visible
 		resetVerticalSlides();
 
@@ -564,6 +567,26 @@
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
+
+	}
+
+	/**
+	 * This is an unfortunate necessity. Iframes can trigger the
+	 * parent window to scroll, for example by focusing an input.
+	 * This scrolling can not be prevented by hiding overflow in
+	 * CSS so we have to resort to repeatedly checking if the
+	 * browser has decided to offset our slides :(
+	 */
+	function setupIframeScrollPrevention() {
+
+		if( dom.slides.querySelector( 'iframe' ) ) {
+			setInterval( function() {
+				if( dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
+					dom.wrapper.scrollTop = 0;
+					dom.wrapper.scrollLeft = 0;
+				}
+			}, 500 );
+		}
 
 	}
 
