@@ -7,37 +7,37 @@
 		<title>reveal.js - math-katex Demo</title>
 
 		<link rel="stylesheet" href="../../css/reveal.css">
-        <link rel="stylesheet" href="../../css/theme/white.css" id="theme">
+		<link rel="stylesheet" href="../../css/theme/white.css" id="theme">
 
-        <link rel="stylesheet" href="../../lib/css/zenburn.css">
+		<link rel="stylesheet" href="../../lib/css/zenburn.css">
 
-        <link rel="stylesheet" href="katex/katex.min.css">
+		<link rel="stylesheet" href="katex/katex.min.css">
 
-        <style>
-            .reveal code,
-            .reveal pre.formula-source,
-            .reveal a {
-                color: #3F988E;
-            }
+		<style>
+			.reveal code,
+			.reveal .formula-source,
+			.reveal a {
+				color: #3F988E;
+			}
 
-            .reveal pre.formula-source {
-                box-shadow: none;
-                font-size: 0.8em;
-            }
+			.reveal pre.formula-source {
+				box-shadow: none;
+				font-size: 0.8em;
+			}
 
-            .reveal .formula,
-            .reveal .formula-source {
-                margin: 2.5rem 0;
-            }
+			.reveal .formula,
+			.reveal .formula-source {
+				margin: 2.5rem 0;
+			}
 
-            .reveal li {
-                margin: 0.65em 0;
-            }
+			.reveal li {
+				margin: 0.65em 0;
+			}
 
-            .reveal .formula.bigger {
-                font-size: 1.8em;
-            }
-        </style>
+			.reveal .formula.bigger {
+				font-size: 1.8em;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -46,83 +46,87 @@
 
 			<div class="slides">
 
-                <section>
-                    <h2>math-katex plugin</h2>
+				<section>
+					<h2>math-katex plugin</h2>
 
-                    <ul>
-                        <li>Uses <a href="https://github.com/Khan/KaTeX">KaTeX</a> for lightweight rendering</li>
-                        <li>
-                            Renders all formulas when presentation loads<br>
-                            (no re-rendering when slide changes)
-                        </li>
-                        <li>No MathJax CDN dependency</li>
-                    </ul>
-                </section>
+					<ul>
+						<li>Uses <a href="https://github.com/Khan/KaTeX">KaTeX</a> for lightweight rendering</li>
 
+						<li>Highlights errors on the slide</li>
 
-                <section>
-                    <h2>Two usage modes</h2>
-
-                    <ol>
-                        <li>
-                            TeX-style, wrapped in <code>$…$</code> or <code>$$…$$</code> (escape with <code>\$</code>).
-                            Works in Markdown, too. Get a class <code>formula</code> for styles
-                        </li>
-
-                        <li>
-                            Wrapped in HTML elements with class <code>formula</code> (or <code>math</code>)
-                        </li>
-                    </ol>
-                </section>
+						<li>
+							Renders all formulas when presentation loads<br>
+							(no re-rendering when slide changes)
+						</li>
+					</ul>
+				</section>
 
 
-                <section data-math>
-                    <!--
-                        A `data-math` attribute is set here, as `math.enableGlobally` was set to `false`.
-                        This allows to use `\$` characters on other slide without escaping, but you have
-                        to enable formula replacements *per slide*.
-                    -->
+				<section>
+					<h2>Two usage modes</h2>
 
-                    <h2>Tex style (dollars)</h2>
+					<ol>
+						<li>
+							TeX-style, wrapped in <code>$…$</code> or <code>$$…$$</code> (escape with <code>\$</code>).
+							Works in Markdown, too. Get a class <code>formula</code> for styles
+						</li>
 
-                    <!-- \$ escaping in action here: -->
-                    <p class="formula-source"><code>\$\$\frac{1}{1 + e^{-x}}\$\$</code></p>
-
-                    <p>for example yields a display formula (block):</p>
-                    $$
-                        \frac{1}{1 + e^{-x}}
-                    $$
-
-                    <p>
-                        Single <code>\$…\$</code> render in-line:&ensp;$-\sum_{i=1}^n p(x_i) \log p(x_i)$.
-                    </p>
-                </section>
+						<li>
+							Wrapped in HTML elements with class <code>formula</code> (or <code>math</code>)
+						</li>
+					</ol>
+				</section>
 
 
-                <section>
-                    <h2>Wrapped in an element</h2>
+				<section data-math>
+					<!--
+						A `data-math` attribute is set here, as `math.enableGlobally` was set to `false`.
+						This allows to use `\$` characters on other slide without escaping, but you have
+						to enable formula replacements *per slide*.
+					-->
 
-                    <p>
-                        Wrap the formula in an element<br>
-                        with class <code>formula</code> (or <code>math</code>):
-                    </p>
+					<h2>Tex style (dollars)</h2>
 
-                    <pre class="formula-source math-ignored">&lt;div class=&quot;formula&quot;&gt;\frac{1}{1 + e^{-x}}&lt;/div&gt;</pre>
+					<!-- \$ escaping in action here: -->
+					<p class="formula-source"><code>\$\$\frac{1}{1 + e^{-x}}\$\$</code></p>
 
-                    renders as: <div class="math bigger">\frac{1}{1 + e^{-x}}</div>
+					<p>for example yields a display formula (block):</p>
+					$$
+						\frac{1}{1 + e^{-x}}
+					$$
 
-                    Or in-line, with a <code>&lt;span&gt;</code>:&emsp;<span class="formula">P(A \mid B)</span>
-                </section>
+					<p>
+						Single <code>\$…\$</code> render in-line:&ensp;$-\sum_{i=1}^n p(x_i) \log p(x_i)$.
+					</p>
+				</section>
 
-            </div>
+
+				<section>
+					<h2>Wrapped in an element</h2>
+
+					<p>
+						Wrap the formula in an element with<br>
+						class <code>formula</code> (or <code>math</code>):<br>
+					</p>
+
+					<div class="formula-source">&lt;span class=&quot;formula&quot;&gt; P(A \mid B) &lt;/span&gt;</div>
+
+					<p>Renders in-line by default: <span class="formula"> P(A \mid B) </span></p>
+
+					<p>Or add class <code>display</code> and use a block element (<code>&lt;div&gt;</code>):</p>
+
+					<div class="formula display">-\sum_{i=1}^n p(x_i) \log p(x_i)</div>
+				</section>
+
+			</div>
 		</div>
 
 
 		<script src="../../lib/js/head.min.js"></script>
 		<script src="../../js/reveal.js"></script>
 
-        <!-- Add this  -->
-        <script src="katex/katex.min.js"></script>
+		<!-- Add this  -->
+		<script src="katex/katex.min.js"></script>
 
 		<script>
 
@@ -133,28 +137,28 @@
 				center: true,
 
 
-                // `math-katex` plugin:
+				// `math-katex` plugin:
 
-                // Optional configuration:
-                math: {
-                    // Uncomment to disable some KaTeX workarounds:
-                    // enableWorkarounds: false    // default: `true`
+				// Optional configuration:
+				math: {
+					// Uncomment to disable some KaTeX workarounds:
+					// enableWorkarounds: false    // default: `true`
 
-                    // Elements to ignore for math rendering (defaults shown):
-                    // ignoredElements: [ 'pre', 'code' ]
+					// Elements to ignore for math rendering (defaults shown):
+					// ignoredElements: [ 'pre', 'code' ]
 
-                    // Set `enableGlobally` to `false` to avoid excessive
-                    // escaping. You will then need to activate `$…$`-style
-                    // replacements per slide with a `data-math` attribute
-                    // (formulas wrapped in elements are still activated
-                    // everywhere).
-                    //
-                    enableGlobally: false
-                },
+					// Set `enableGlobally` to `false` to avoid excessive
+					// escaping. You will then need to activate `$…$`-style
+					// replacements per slide with a `data-math` attribute
+					// (formulas wrapped in elements are still activated
+					// everywhere).
+					//
+					enableGlobally: false
+				},
 
-                // Specify the plugin as a dependency:
+				// Specify the plugin as a dependency:
 				dependencies: [
-                    { src: 'math-katex.js', async: true }
+					{ src: 'math-katex.js', async: true }
 				]
 			});
 
