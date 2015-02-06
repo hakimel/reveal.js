@@ -12,24 +12,21 @@
 window.RevealMath = window.RevealMath || (function() {
 	'use strict';
 
-	// --- Options -------------------------------------------------------------
+	// --- Options and defaults ------------------------------------------------
 
 	var options = Reveal.getConfig().math || {};
 
-	options.mode = options.mode || 'wrapped';    // `wrapped` or `tex`
-
 	if ( options.ignoredElements ) {
-		options.ignoredElements = options.ignoredElements.map(function ( x ) {
-			return x.toUpperCase;
-		});
+		options.ignoredElements = options.ignoredElements
+			.map(function ( x ) {
+				return x.toUpperCase;
+			});
+	} else {
+		options.ignoredElements = [ 'PRE', 'CODE' ];
 	}
-	else {
-		options.ignoredElements = options.ignoredElements || [
-			'PRE', 'CODE',
 
-			'SCRIPT'    // This will run on compiled markdown (HTML), but let's
-			            // ignore scripts nevertheless.
-		];
+	if ( options.enableGlobally === undefined ) {
+		options.enableGlobally = true;
 	}
 
 	if ( options.enableWorkarounds === undefined ) {
@@ -71,12 +68,11 @@ window.RevealMath = window.RevealMath || (function() {
 
 	// --- Pre-processing ------------------------------------------------------
 
-	// Workarounds for stuff thats not implemented (yet) in KaTeX v0.1.1
+	// Workarounds for stuff that's not implemented yet in KaTeX v0.1.1
 	//
 	// Currently:
 	//
 	// - replace `\mid` to support it (conditional probabilities etc.)
-	//
 	//
 	// Other things that KaTeX can't handle which are not addressed here:
 	//
@@ -88,6 +84,7 @@ window.RevealMath = window.RevealMath || (function() {
 
 		return function ( text ) {
 			if ( options.enableWorkarounds === true ) {
+				// `\mid` -> `\;|\;`
 				return text.replace( regexMid, '\\;|\\;' );
 			} else {
 				return text;
@@ -104,11 +101,11 @@ window.RevealMath = window.RevealMath || (function() {
 	 */
 	var replaceFormulaTex = (function() {
 
-		var regexInline   = /([^\\])\$([^\$]*)\$/g;        // $ … $
-		var regexDisplay  = /([^\\])\$\$([^\$]*)\$\$/g;    // $$ … $$
+		var regexInline   = /([^\\])\$([^\$]*)\$/g;       // $ … $
+		var regexDisplay  = /([^\\])\$\$([^\$]*)\$\$/g;   // $$ … $$
 
 		// For workarounds:
-		var regexCssClass = /<span class="katex">/;  // Used to add classes
+		var regexCssClass = /<span class="katex">/;       // Used to add classes
 
 
 		return function ( mode, text ) {
@@ -125,8 +122,8 @@ window.RevealMath = window.RevealMath || (function() {
 			}
 
 
-			// (Depends on mode, thus nested)
 			function replacer( _, lookbehind, group, offset ) {
+				// (Depends on mode, thus nested.)
 
 				if ( mode === 'display' ) {
 					var prefix = '\\displaystyle {';
@@ -195,7 +192,7 @@ window.RevealMath = window.RevealMath || (function() {
 
 		var matches = error.message.match( /got\s'(.*?)'/ );
 		if ( matches !== null ) {
-			// "… got '…' …"
+			// Text: "… got '…' …"
 			error.position -= matches[1].length;
 		}
 	}
@@ -227,7 +224,7 @@ window.RevealMath = window.RevealMath || (function() {
 			// Log
 			console.error( 'Formula error on slide ' + slideNumber, error );
 
-			// Show a vanilla `window.alert`
+			// Just show a `window.alert`
 			if ( !showedError ) {
 				window.alert(
 					'Formula on slide ' + slideNumber +
@@ -240,7 +237,9 @@ window.RevealMath = window.RevealMath || (function() {
 	})();
 
 
-
+	/**
+	 * Returns the slide number for a `section` DOM element.
+	 */
 	function getSlideNumber( slideElement ) {
 		var presentation = document.querySelector( '.reveal .slides' );
 
@@ -259,6 +258,11 @@ window.RevealMath = window.RevealMath || (function() {
 
 	// --- Perform replacements ------------------------------------------------
 
+
+	/**
+	 * Replaces formulas in all slides: `$…$` / `$$…$$` or wrapped in elements
+	 * with class `formula` or `math`.
+	 */
 	function replaceFormulas() {
 
 		// Elements that wrap formulas explictly
@@ -272,13 +276,33 @@ window.RevealMath = window.RevealMath || (function() {
 		);
 
 
+		/**
+		 * Tests if an element should be ignored for formula replacements.
+		 */
 		function isIgnored( element ) {
 
 			var e = element;
 
-			return options.ignoredElements.indexOf( e.nodeName ) !== -1 ||
-			       e.classList.contains( defaults.ignoredClass ) ||
-			       e.parentNode.classList.contains( defaults.ignoredClass );
+			var isIgnoredElement =
+				options.ignoredElements.indexOf( e.nodeName ) !== -1;
+
+			// Elements may be marked as ignored with a class
+			var isIgnoredClass =
+				e.classList.contains( defaults.ignoredClass );
+
+			// Also look for the ignored class on the parent (non-recursive)
+			var parent = e.parentNode;
+			if ( parent ) {
+				isIgnoredClass = isIgnoredClass || parent.classList.contains(
+					defaults.ignoredClass
+				);
+			}
+
+			// Ignore script elements, unless they are templates (e.g. Markdown)
+			var isTemplate = e.getAttribute( 'type' ) === 'text/template';
+			var isScript = e.nodeName === 'SCRIPT' && !isTemplate;
+
+			return isIgnoredElement || isIgnoredClass || isScript;
 		}
 
 
