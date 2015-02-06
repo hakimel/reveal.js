@@ -15,6 +15,7 @@ window.RevealMath = window.RevealMath || (function() {
 	// --- Options -------------------------------------------------------------
 
 	var options = Reveal.getConfig().math || {};
+
 	options.mode = options.mode || 'wrapped';    // `wrapped` or `tex`
 
 	if ( options.ignoredElements ) {
@@ -22,12 +23,14 @@ window.RevealMath = window.RevealMath || (function() {
 			return x.toUpperCase;
 		});
 	}
-	options.ignoredElements = options.ignoredElements || [
-		'PRE', 'CODE',
+	else {
+		options.ignoredElements = options.ignoredElements || [
+			'PRE', 'CODE',
 
-		'SCRIPT'    // This will run on compiled markdown (HTML), but let's
-		            // ignore scripts nevertheless.
-	];
+			'SCRIPT'    // This will run on compiled markdown (HTML), but let's
+			            // ignore scripts nevertheless.
+		];
+	}
 
 	if ( options.enableWorkarounds === undefined ) {
 		options.enableWorkarounds = true;
