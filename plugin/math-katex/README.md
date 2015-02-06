@@ -4,9 +4,8 @@ A plugin that renders mathematical formulas inside reveal.js slides using
  [KaTeX](https://github.com/Khan/KaTeX]).
 
 - Lightweight rendering, thanks to KaTeX
+- Marks syntax errors on the slide
 - Renders all formulas when presentation loads (no re-rendering when slide changes)
-- No MathJax CDN dependency
-
 
 
 ## Plugin setup
@@ -50,11 +49,13 @@ Escape literal dollar characters with `\$`.
 *As an alternative:* If you have many slides that use literal dollar characters it may be easier to explicitly activate formula rendering *per slide*: Set `math.enableGlobally` to `false` and then activate formula replacements on each slide (`<section>`) by setting the `data-math` attribute (no value required).
 
 
-### Wrappend in an element
+### Wrapped in an element
 
 Wrap the formula in an element with class formula (or math):
 
-`<div class="formula">\frac{1}{1 + e^{-x}}</div>`
+`<div class="formula display">\frac{1}{1 + e^{-x}}</div>`
+
+Display mode is in-line by default, add class `display` if needed.
 
 
 ### Exclude elements
