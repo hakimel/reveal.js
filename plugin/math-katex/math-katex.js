@@ -4,8 +4,8 @@
  * A plugin that renders mathematical formulas inside reveal.js slides using
  * [KaTeX](https://github.com/Khan/KaTeX]).
  *
- * Just calls `katex.renderToString` on DOM elements and regex matches and does
- * some error handling.
+ * Calls `katex.renderToString` on DOM elements and regex matches and does some
+ * error handling.
  *
  * @author Johannes Schmitz
  */
@@ -346,8 +346,22 @@ window.RevealMath = window.RevealMath || (function() {
 
 		each( wrappedElements, function ( e ) {
 
+			var formula = e.innerHTML;
+			var offset = 0;    // For error-position correction
+
+			if (e.classList.contains( 'display' )) {
+				// Prepend KaTeX instruction, correct offset
+
+				var prefix = '\\displaystyle {';
+				formula = prefix + formula + '}';
+				offset -= prefix.length;
+			}
+			else {
+				e.classList.add( 'inline' );     // ensure class
+			}
+
 			try {
-				e.innerHTML = katex.renderToString( preProcess( e.innerHTML ) );
+				e.innerHTML = katex.renderToString( preProcess( formula ) );
 
 				e.classList.add( 'formula' );    // In case it was selected
 				                                 // with `.math`.
@@ -358,7 +372,7 @@ window.RevealMath = window.RevealMath || (function() {
 				e.innerHTML = e.querySelector( '.katex' ).innerHTML;
 			}
 			catch ( error ) {
-				correctErrorPosition( error );  // mutates the error
+				correctErrorPosition( error, offset );  // mutates the error
 				handleError( error, e );
 			}
 		});
