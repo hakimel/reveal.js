@@ -270,7 +270,7 @@ window.RevealMath = window.RevealMath || (function() {
 
 		// Slides that contain `$…$` or `$$…$$`
 		var texSlideElements = document.querySelectorAll(
-			options.enableGlobally ?
+			options.enableGlobally === true ?
 			'.reveal section' :
 			'.reveal section[data-math]'
 		);
@@ -320,28 +320,6 @@ window.RevealMath = window.RevealMath || (function() {
 		}
 
 
-		// Render `$…$` and `$$…$$` formulas
-
-		each( texSlideElements, function ( e ) {
-
-			try {
-				e.innerHTML = replaceFormulaTex( 'display', e.innerHTML );
-				e.innerHTML = replaceFormulaTex( 'inline',  e.innerHTML );
-				e.innerHTML = unescapeDollarSign( e.innerHTML );
-
-				// Add a class to the created rendered elements (but keep class
-				// `katex`, KaTeX needs this for its own CSS)
-				var renderedFormulas = e.querySelectorAll( '.katex' );
-				each( renderedFormulas, function ( e ) {
-					e.classList.add( defaults.formulaClass );
-				});
-			}
-			catch ( error ) {
-				handleError( error, e );
-			}
-		});
-
-
 		// Render <… class="formula"> … <…/> formulas
 
 		each( wrappedElements, function ( e ) {
@@ -376,7 +354,33 @@ window.RevealMath = window.RevealMath || (function() {
 				handleError( error, e );
 			}
 		});
+
+
+		// Render `$…$` and `$$…$$` formulas
+		// (must run after wrapped elements replacements to not replace twice)
+
+		each( texSlideElements, function ( e ) {
+
+			try {
+				e.innerHTML = replaceFormulaTex( 'display', e.innerHTML );
+				e.innerHTML = replaceFormulaTex( 'inline',  e.innerHTML );
+				e.innerHTML = unescapeDollarSign( e.innerHTML );
+
+				// Add a class to the created rendered elements (but keep class
+				// `katex`, KaTeX needs this for its own CSS)
+
+				var renderedFormulas = e.querySelectorAll( '.katex' );
+
+				each( renderedFormulas, function ( forumula ) {
+					forumula.classList.add( defaults.formulaClass );
+				});
+			}
+			catch ( error ) {
+				handleError( error, e );
+			}
+		});
 	}
+
 
 
 
