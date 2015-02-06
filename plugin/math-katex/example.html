@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - math-katex Demo</title>
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+        <link rel="stylesheet" href="../../css/theme/white.css" id="theme">
+
+        <link rel="stylesheet" href="../../lib/css/zenburn.css">
+
+        <link rel="stylesheet" href="katex/katex.min.css">
+
+        <style>
+            .reveal code,
+            .reveal pre.formula-source,
+            .reveal a {
+                color: #3F988E;
+            }
+
+            .reveal pre.formula-source {
+                box-shadow: none;
+                font-size: 0.8em;
+            }
+
+            .reveal .formula,
+            .reveal .formula-source {
+                margin: 2.5rem 0;
+            }
+
+            .reveal li {
+                margin: 0.65em 0;
+            }
+
+            .reveal .formula.bigger {
+                font-size: 1.8em;
+            }
+        </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+                <section>
+                    <h2>math-katex plugin</h2>
+
+                    <ul>
+                        <li>Uses <a href="https://github.com/Khan/KaTeX">KaTeX</a> for lightweight rendering</li>
+                        <li>
+                            Renders all formulas when presentation loads<br>
+                            (no re-rendering when slide changes)
+                        </li>
+                        <li>No MathJax CDN dependency</li>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h2>Two usage modes</h2>
+
+                    <ol>
+                        <li>
+                            TeX-style, wrapped in <code>$…$</code> or <code>$$…$$</code> (escape with <code>\$</code>).
+                            Works in Markdown, too. Get class <code>formula</code> for styles
+                        </li>
+
+                        <li>
+                            Wrapped in HTML elements with class <code>formula</code> (or <code>math</code>)
+                        </li>
+                    </ol>
+                </section>
+
+
+                <section data-math>
+                    <!--
+                        You must set the `data-math` attribute on slides with
+                        TeX-style formulas, or set `math.enableGlobally` to
+                        `true`.
+                    -->
+
+                    <h2>Tex style</h2>
+
+                    <p>You must set the <code>data-math</code> attribute on <em>each</em> slide,
+                    or set <code>enableGlobally</code> on the configuration object once.</p>
+
+                    <!-- \$ escaping in action here: -->
+                    <p class="formula-source"><code>\$\$\frac{1}{1 + e^{-x}}\$\$</code></p>
+
+                    <p>for example yields a display formula (block):</p>
+                    $$
+                        \frac{1}{1 + e^{-x}}
+                    $$
+
+                    <p>
+                        Single <code>\$</code> renders in-line:&ensp;$-\sum_{i=1}^n p(x_i) \log p(x_i)$.
+                    </p>
+                </section>
+
+
+                <section>
+                    <h2>Wrapped in an element</h2>
+
+                    <p>
+                        Wrap the formula in an element<br>
+                        with class <code>formula</code> (or <code>math</code>):
+                    </p>
+
+                    <pre class="formula-source math-ignored">&lt;div class=&quot;formula&quot;&gt;\frac{1}{1 + e^{-x}}&lt;/div&gt;</pre>
+
+                    renders as: <div class="math bigger">\frac{1}{1 + e^{-x}}</div>
+
+                    Or in-line, with a <code>&lt;span&gt;</code>:&emsp;<span class="formula">P(A \mid B)</span>
+                </section>
+
+            </div>
+		</div>
+
+
+		<script src="../../lib/js/head.min.js"></script>
+		<script src="../../js/reveal.js"></script>
+
+        <!-- Add this  -->
+        <script src="katex/katex.min.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+
+                // `math-katex` plugin:
+
+                // Optional configuration:
+                math: {
+                    // Uncomment to disable some KaTeX workarounds:
+                    // enableWorkarounds: false
+
+                    // Elements to ignore for math rendering (defaults shown):
+                    // ignoredElements: [ 'pre', 'code', 'script' ]
+
+                    // Set `enableGlobally` to `true` to enable formulas wrapped
+                    // with `$` characters for all slides (disabled by default,
+                    // as it may interfere with your financial matters …):
+                    //
+                    // enableGlobally: true
+                },
+
+                // Specify the plugin as a dependency:
+				dependencies: [
+                    { src: 'math-katex.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
