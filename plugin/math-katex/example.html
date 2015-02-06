@@ -66,7 +66,7 @@
                     <ol>
                         <li>
                             TeX-style, wrapped in <code>$…$</code> or <code>$$…$$</code> (escape with <code>\$</code>).
-                            Works in Markdown, too. Get class <code>formula</code> for styles
+                            Works in Markdown, too. Get a class <code>formula</code> for styles
                         </li>
 
                         <li>
@@ -78,15 +78,12 @@
 
                 <section data-math>
                     <!--
-                        You must set the `data-math` attribute on slides with
-                        TeX-style formulas, or set `math.enableGlobally` to
-                        `true`.
+                        A `data-math` attribute is set here, as `math.enableGlobally` was set to `false`.
+                        This allows to use `\$` characters on other slide without escaping, but you have
+                        to enable formula replacements *per slide*.
                     -->
 
-                    <h2>Tex style</h2>
-
-                    <p>You must set the <code>data-math</code> attribute on <em>each</em> slide,
-                    or set <code>enableGlobally</code> on the configuration object once.</p>
+                    <h2>Tex style (dollars)</h2>
 
                     <!-- \$ escaping in action here: -->
                     <p class="formula-source"><code>\$\$\frac{1}{1 + e^{-x}}\$\$</code></p>
@@ -97,7 +94,7 @@
                     $$
 
                     <p>
-                        Single <code>\$</code> renders in-line:&ensp;$-\sum_{i=1}^n p(x_i) \log p(x_i)$.
+                        Single <code>\$…\$</code> render in-line:&ensp;$-\sum_{i=1}^n p(x_i) \log p(x_i)$.
                     </p>
                 </section>
 
@@ -141,16 +138,18 @@
                 // Optional configuration:
                 math: {
                     // Uncomment to disable some KaTeX workarounds:
-                    // enableWorkarounds: false
+                    // enableWorkarounds: false    // default: `true`
 
                     // Elements to ignore for math rendering (defaults shown):
-                    // ignoredElements: [ 'pre', 'code', 'script' ]
+                    // ignoredElements: [ 'pre', 'code' ]
 
-                    // Set `enableGlobally` to `true` to enable formulas wrapped
-                    // with `$` characters for all slides (disabled by default,
-                    // as it may interfere with your financial matters …):
+                    // Set `enableGlobally` to `false` to avoid excessive
+                    // escaping. You will then need to activate `$…$`-style
+                    // replacements per slide with a `data-math` attribute
+                    // (formulas wrapped in elements are still activated
+                    // everywhere).
                     //
-                    // enableGlobally: true
+                    enableGlobally: false
                 },
 
                 // Specify the plugin as a dependency:
