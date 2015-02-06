@@ -9,33 +9,6 @@ A plugin that renders mathematical formulas inside reveal.js slides using
 
 
 
-## Usage
-
-There are two usage modes:
-
-1. TeX-style, wrapped in `$…$` or `$$…$$` (escape literal dollars with `\$`). Works in Markdown, too
-2. Wrapped in HTML elements with class `formula` (or `math`)
-
-Rendered TeX-style formulas also get class `formula` added so that you can style them. `$…$` formulas in addition get class `inline`, `$$…$$` class `display`.
-
-
-### TeX Style
-
-**You must set the `data-math` attribute on each slide**, or set `enableGlobally` on the configuration object (see below). Otherwise it may eat all your dollars …
-
-Example, display-style formula (block): e.g. `$$\frac{1}{1 + e^{-x}}$$`
-
-Use a single $ for in-line formulas: e.g. `$P(A \mid B)$`
-
-
-### Wrappend in an element
-
-Wrap the formula in an element with class formula (or math):
-
-`<div class="formula">\frac{1}{1 + e^{-x}}</div>`
-
-
-
 ## Plugin setup
 
 1. Add the KaTeX assets.
@@ -55,7 +28,45 @@ And the script:
 `<script src="plugin/math-katex/katex/katex.min.js"></script>`
 
 
-### Javascript
+
+## Usage
+
+There are two usage modes:
+
+1. TeX-style, wrapped in `$…$` or `$$…$$`. Works in Markdown, too
+2. Wrapped in HTML elements with class `formula` (or `math`)
+
+Rendered TeX-style formulas also get class `formula` added so that you can style them. `$…$` formulas in addition get class `inline`, `$$…$$` class `display`.
+
+
+### TeX Style (dollars)
+
+Use `$$…$$` for display-style (block) formulas: `$$\frac{1}{1 + e^{-x}}$$`
+
+Use `$…$` for in-line formulas: e.g. `$P(A \mid B)$`
+
+Escape literal dollar characters with `\$`.
+
+*As an alternative:* If you have many slides that use literal dollar characters it may be easier to explicitly activate formula rendering *per slide*: Set `math.enableGlobally` to `false` and then activate formula replacements on each slide (`<section>`) by setting the `data-math` attribute (no value required).
+
+
+### Wrappend in an element
+
+Wrap the formula in an element with class formula (or math):
+
+`<div class="formula">\frac{1}{1 + e^{-x}}</div>`
+
+
+### Exclude elements
+
+You can exclude elements from formula rendering by:
+
+1. Adding the class `math-ignored` to an element or its (direct) parent
+1. Adding the element type to the `math.ignoredElements` array on the configuration object (default: `pre`, `code`)
+
+
+
+## Optional configuration
 
 Just add the dependency when calling `Reveal.initialize`. You can also set properties on the `math` configuration object, if required.
 
@@ -66,19 +77,21 @@ Reveal.initialize({
 
     // `math-katex` plugin:
 
-    // *optional* configuration:
+    // *Optional* configuration:
     math: {
         // Uncomment to disable some KaTeX workarounds:
-        // enableWorkarounds: false
+        // enableWorkarounds: false    // default: `true`
 
         // Elements to ignore for math rendering (defaults shown):
-        // ignoredElements: [ 'pre', 'code', 'script' ]
+        // ignoredElements: [ 'pre', 'code' ]
 
-        // Set `enableGlobally` to `true` to enable formulas wrapped
-        // with `$` characters for all slides (disabled by default,
-        // may interfere with your financial matters …):
+        // Set `enableGlobally` to `false` to avoid excessive
+        // escaping. You will then need to activate `$…$`-style
+        // replacements per slide with a `data-math` attribute
+        // (formulas wrapped in elements are still activated
+        // everywhere).
         //
-        // enableGlobally: true
+        // enableGlobally: false
     },
 
     // Specify the plugin as a dependency:
