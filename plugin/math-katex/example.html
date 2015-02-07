@@ -11,8 +11,6 @@
 
 		<link rel="stylesheet" href="../../lib/css/zenburn.css">
 
-		<link rel="stylesheet" href="katex/katex.min.css">
-
 		<style>
 			.reveal code,
 			.reveal .formula-source,
@@ -125,9 +123,6 @@
 		<script src="../../lib/js/head.min.js"></script>
 		<script src="../../js/reveal.js"></script>
 
-		<!-- Add this  -->
-		<script src="katex/katex.min.js"></script>
-
 		<script>
 
 			Reveal.initialize({
@@ -160,6 +155,13 @@
 				dependencies: [
 					{ src: 'math-katex.js', async: true }
 				]
+			});
+
+
+			// You can also attach an event listener:
+
+			Reveal.addEventListener( 'math-rendered', function () {
+				console.log( 'Formulas have been rendered.' );
 			});
 
 		</script>

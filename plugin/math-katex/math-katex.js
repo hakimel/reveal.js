@@ -16,6 +16,15 @@ window.RevealMath = window.RevealMath || (function() {
 
 	var options = Reveal.getConfig().math || {};
 
+	// if (options.useCdn === true) {
+	// 	options.katexScript     = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js';
+	// 	options.katexStylesheet = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css';
+	// }
+	// else {
+		options.katexScript     = '../../' + (options.katexScript     || 'lib/katex/katex.min.js');
+		options.katexStylesheet = '../../' + (options.katexStylesheet || 'lib/katex/katex.min.css');
+	// }
+
 	if ( options.ignoredElements ) {
 		options.ignoredElements = options.ignoredElements
 			.map(function ( x ) {
@@ -37,6 +46,11 @@ window.RevealMath = window.RevealMath || (function() {
 	// Hard-coded settings:
 
 	var defaults = {
+		cdn: {
+			script:     'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js',
+			stylesheet: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css'
+		},
+
 		formulaClass: 'formula',
 		ignoredClass: 'math-ignored'    // May be set ont the element or direct
 		                                // parent
@@ -382,12 +396,128 @@ window.RevealMath = window.RevealMath || (function() {
 	}
 
 
+	// --- Script and stylesheet loading ---------------------------------------
+
+	function loadAsset( options ) {
+		// (Adopted from `math` plugin)
+
+		if ( typeof options === 'string' ) {
+			var url = options;
+			options = {};
+			options.url = url;
+		}
+
+		var type = options.url.split('.').slice(-2).indexOf('js') !== -1 ?
+		           'script' :
+		           'stylesheet';
+
+		var head = document.querySelector( 'head' );
+		var element;
+
+		if ( type === 'script' ) {
+			var script = document.createElement( 'script' );
+			script.type = 'text/javascript';
+			script.src = options.url;
+			element = script;
+		}
+		else if ( type === 'stylesheet' ) {
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.href = options.url;
+			element = link;
+		}
+
+		// Wrapper for callback to make sure it only fires once
+		var finish = function() {
+			if ( typeof options.onLoad === 'function' ) {
+				options.onLoad.call();
+				options.onLoad = null;
+			}
+		};
+
+		element.onload = finish;
+		element.onerror = options.onError;
+
+		// IE
+		element.onreadystatechange = function() {
+			if ( this.readyState === 'loaded' ) {
+				finish();
+			}
+		};
+
+		// Normal browsers
+		head.appendChild( element );
+	}
 
 
-	// Run plugin
 
-	addStylesheet();
-	replaceFormulas();
-	Reveal.layout();    // Update the slide layout
+	// --- Load KaTeX and run the plugin ---------------------------------------
+
+	// (Could really use promises. Avoided another dependency for now … )
+
+
+	/**
+	 * Loads KaTeX by first trying to load it locally (from `lib/katex`), then
+	 * from a CDN ass a fallback.
+	 */
+	function loadKatex( callback ) {
+
+		if ( window.katex ) {
+			callback();    // Already loaded.
+			return;
+		}
+
+		// Try to load it from `lib/katex` (or another configured path)
+		loadAsset({
+			url: options.katexScript,
+
+			onLoad: function() {
+				loadAsset( options.katexStylesheet );   // Load CSS in parallel
+				callback();
+			},
+
+			onError: tryToGetFromCdn
+		});
+
+
+		function tryToGetFromCdn() {
+
+			loadAsset( defaults.cdn.stylesheet );       // Load CSS in parallel
+
+			loadAsset({
+				'url': defaults.cdn.script,
+
+				onLoad: function() {
+					console.log( 'Loaded KaTeX from the CDN' );
+					callback();
+				},
+
+				onError: function() {
+					throw new Error(
+						'Could not load KaTeX from `lib` directory or CDN.'
+					);
+				}
+			});
+		}
+	}
+
+
+	function runPlugin() {
+
+		addStylesheet();
+		replaceFormulas();
+
+		Reveal.layout();    // Update the slide layout
+
+		// Trigger `math-rendered` event
+		var event = document.createEvent( 'HTMLEvents', 1, 2 );
+		event.initEvent( 'math-rendered', true, true );
+		document.querySelector( '.reveal' ).dispatchEvent( event );
+
+	}
+
+	// Reveal.addEventListener( 'ready', function() {
+		loadKatex( runPlugin );
+	// });
 
 })();

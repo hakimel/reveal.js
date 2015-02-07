@@ -10,25 +10,26 @@ A plugin that renders mathematical formulas inside reveal.js slides using
 
 ## Plugin setup
 
-1. Add the KaTeX assets.
-2. Add the plugin.
+1. Add the plugin.
 
-See the [example](example.html) (add `plugin/math-katex` to the relative paths).
+    ```javascript
+    Reveal.initialize({
+        // … other configuration …
 
+    	dependencies: [
+            { src: 'plugin/math-katex/math-katex.js', async: true }
+    	]
+    });
+    ```
+    
+2. By default KaTeX will be loaded from a CDN. It is however recommended that you add KaTeX to your presentation, so that formula rendering will work **offline**:
 
-### HTML (KaTeX assets)
-
-Add the KaTeX stylesheet:
-
-`<link rel="stylesheet" href="plugin/math-katex/katex/katex.min.css">`
-
-And the script:
-
-`<script src="plugin/math-katex/katex/katex.min.js"></script>`
-
+    Get a [KaTeX release](https://github.com/Khan/KaTeX/releases/download/v0.1.1/katex.tar.gz) and put it into the `lib` directory of the presentation (extracted KaTeX files go into `lib/katex`).
 
 
 ## Usage
+
+See the [example](example.html).
 
 There are two usage modes:
 

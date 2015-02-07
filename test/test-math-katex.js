@@ -1,10 +1,13 @@
 /* global QUnit, Reveal, test, strictEqual */
 
-Reveal.addEventListener( 'ready', function() {
+Reveal.addEventListener( 'math-rendered', function () {
 
 	QUnit.module( 'math-katex' );
 
 	test( 'Formula replacements', function() {
+
+		strictEqual( document.querySelectorAll( '.katex' ).length, 2, 'found two formulas' );
+
 		var formulas = document.querySelectorAll( '.formula' );
 		strictEqual( formulas.length, 2, 'found two formulas' );
 
@@ -28,6 +31,7 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 } );
+
 
 Reveal.initialize({
 
