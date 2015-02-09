@@ -2399,7 +2399,7 @@
 				// If the presentation is looped, distance should measure
 				// 1 between the first and last slides
 				if( config.loop ) {
-					distanceX = distanceX % ( horizontalSlidesLength - viewDistance );
+					distanceX = Math.abs( ( ( indexh || 0 ) - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
 				}
 
 				// Show the horizontal slide if it's within the view distance
