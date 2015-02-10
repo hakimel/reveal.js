@@ -455,7 +455,7 @@ window.RevealMath = window.RevealMath || (function() {
 
 	/**
 	 * Loads KaTeX by first trying to load it locally (from `lib/katex`), then
-	 * from a CDN ass a fallback.
+	 * from a CDN as a fallback.
 	 */
 	function loadKatex( callback ) {
 
