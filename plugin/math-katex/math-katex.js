@@ -16,14 +16,8 @@ window.RevealMath = window.RevealMath || (function() {
 
 	var options = Reveal.getConfig().math || {};
 
-	// if (options.useCdn === true) {
-	// 	options.katexScript     = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js';
-	// 	options.katexStylesheet = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css';
-	// }
-	// else {
-		options.katexScript     = '../../' + (options.katexScript     || 'lib/katex/katex.min.js');
-		options.katexStylesheet = '../../' + (options.katexStylesheet || 'lib/katex/katex.min.css');
-	// }
+	options.katexScript     = '../../' + (options.katexScript     || 'lib/katex/katex.min.js');
+	options.katexStylesheet = '../../' + (options.katexStylesheet || 'lib/katex/katex.min.css');
 
 	if ( options.ignoredElements ) {
 		options.ignoredElements = options.ignoredElements
@@ -516,8 +510,6 @@ window.RevealMath = window.RevealMath || (function() {
 
 	}
 
-	// Reveal.addEventListener( 'ready', function() {
-		loadKatex( runPlugin );
-	// });
+	loadKatex( runPlugin );
 
 })();
