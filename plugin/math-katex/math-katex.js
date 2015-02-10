@@ -61,14 +61,17 @@ window.RevealMath = window.RevealMath || (function() {
 
 		var stylesheet = document.createElement( 'style' );
 
-		stylesheet.innerHTML  = '.reveal .katex { font-family: KaTeX_Main; }';
-		stylesheet.innerHTML += '.reveal .math-katex-error { color: red }';
+		stylesheet.innerHTML = [
+			'.reveal .katex { font-family: KaTeX_Main; }',
+			'.reveal .math-katex-error { color: red }',
 
-		stylesheet.innerHTML += '.reveal .katex.display { display: block }';
+			'.reveal .katex.display { display: block }',
 
-		stylesheet.innerHTML += '.reveal .katex.inline:not(first) {';
-		stylesheet.innerHTML += '    margin-left: 0.35em;';
-		stylesheet.innerHTML += '}';
+			'.reveal .katex.inline:not(first) {',
+			'    margin-left: 0.35em;',
+			'}'
+		]
+		.join('\n');
 
 		document.head.appendChild( stylesheet );
 	}
