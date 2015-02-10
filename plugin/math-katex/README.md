@@ -81,8 +81,11 @@ Reveal.initialize({
 
     // *Optional* configuration:
     math: {
+        // Uncomment to disable syntax error notifications
+        // notificationsEnabled: false   // default: true
+
         // Uncomment to disable some KaTeX workarounds:
-        // enableWorkarounds: false    // default: `true`
+        // enableWorkarounds: false      // default: `true`
 
         // Elements to ignore for math rendering (defaults shown):
         // ignoredElements: [ 'pre', 'code' ]

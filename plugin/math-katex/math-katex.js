@@ -36,6 +36,10 @@ window.RevealMath = window.RevealMath || (function() {
 		options.enableWorkarounds = true;
 	}
 
+	if ( options.notificationsEnabled === undefined ) {
+		options.notificationsEnabled = true;
+	}
+
 
 	// Hard-coded settings:
 
@@ -236,7 +240,7 @@ window.RevealMath = window.RevealMath || (function() {
 			console.error( 'Formula error on slide ' + slideNumber, error );
 
 			// Just show a `window.alert`
-			if ( !showedError ) {
+			if ( options.notificationsEnabled && !showedError ) {
 				window.alert(
 					'Formula on slide ' + slideNumber +
 					' contains an error:\n\n' + error.message
