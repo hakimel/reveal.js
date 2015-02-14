@@ -209,6 +209,10 @@ body {
   border: 4px solid #93a1a1;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
+.reveal section img.plain {
+  border: 0;
+  box-shadow: none; }
+
 .reveal a img {
   -webkit-transition: all 0.15s linear;
   -moz-transition: all 0.15s linear;
