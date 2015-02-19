@@ -2590,6 +2590,7 @@
 
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
+					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
 					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
 
 				// Images
@@ -2599,6 +2600,9 @@
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
 					var video = document.createElement( 'video' );
+					if ( backgroundVideoLoop ) {
+						video.setAttribute( 'loop', '' );
+					}
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( function( source ) {
