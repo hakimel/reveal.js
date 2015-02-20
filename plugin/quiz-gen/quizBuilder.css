@@ -1,0 +1,98 @@
+/*********************************************
+ * GENERAL STYLES
+ *********************************************/
+
+.quizQuestion {
+    padding-top: 20px;
+}
+
+.quizQuestion .note {
+    font-size: 70%;
+}
+
+/*********************************************
+ * ANSWER STYLES
+ *********************************************/
+
+.answerWrap {
+    padding-top: 15px;
+    width: 90%;
+    margin: 0 5%;
+    overflow: auto;
+}
+
+input.button,
+.submitAnswer {
+    padding: 10px;
+    font-size: 16px;
+    background: white;
+    border-radius: 7px;
+    box-shadow: 0;
+}
+
+.submitAnswer {
+    float: left;
+    margin-top: 15px;
+}
+input.button:focus,
+.submitAnswer:focus {
+    outline: none;
+}
+
+span.answer {
+    text-align: left;
+    display: block;
+    clear: both;
+}
+
+.answer input {
+    vertical-align: middle;
+    margin-right: 10px;
+    font-size: 120%;
+}
+
+.reveal p.warning {
+    font-style: italic;
+    font-size: 80%;
+}
+
+/*********************************************
+ * RESULTS STYLES
+ *********************************************/
+
+.quizResults p {
+    font-size: 85%;
+}
+
+#results {
+    margin-bottom: 22px;
+    vertical-align: top;
+    overflow: auto;
+}
+
+#results span {
+    float: left;
+    display block;
+}
+
+#score {
+    width: auto;
+    font-size: 200%;
+    margin: 0 2% 15px 0;
+    vertical-align: top;
+    line-height: 93%;
+}
+
+.easy #score,
+.yes #score {
+    color: green;
+}
+
+.maybe #score {
+    color: gray;
+}
+
+.fail #score {
+    color: red;
+}
+

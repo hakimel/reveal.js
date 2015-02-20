@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<quiz>
+    <name>Course name or whatever</name>
+    <questions>
+        <question>
+            <q>What is the correct answer? <![CDATA[<pre><code class="javascript">var random = 'string';</code></pre>]]></q>
+            <answers>
+                <a>A</a>
+                <a correct="true">B</a>
+                <a>C</a>
+                <a>D</a>
+            </answers>
+        </question>
+        <question>
+            <q weight="2">Important: What is the correct answer?</q>
+            <note>This counts for 1/2 of your score.</note>
+            <answers>
+                <a>A</a>
+                <a>B</a>
+                <a correct="true">C</a>
+                <a>D</a>
+            </answers>
+        </question>
+        <question>
+            <q>What is the correct answer?</q>
+            <answers>
+                <a>A</a>
+                <a>B</a>
+                <a>C</a>
+                <a correct="true">D</a>
+            </answers>
+        </question>
+    </questions>
+    <scoring>
+        <score type="fail">
+            <max>49</max>
+            <description>We don't recommend this course. You might want to take XXX first.</description>
+        </score>
+        <score type="maybe">
+            <min>50</min>
+            <max>74</max>
+            <description>Gray area. Your call.</description>
+        </score>
+        <score type="yes">
+            <min>75</min>
+            <max>99</max>
+            <description>Sweet spot! This class should be perfect for you.</description>
+        </score>
+        <score type="easy">
+            <min>100</min>
+            <description>100%! If this quiz was very easy for you, you might want to try XXX class.</description>
+        </score>
+    </scoring>
+</quiz>
