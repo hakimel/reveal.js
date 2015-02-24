@@ -223,7 +223,7 @@ module.exports = function(grunt) {
 	// Package presentation to archive
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
 
-	// Serve presentation locally
+	// Serve presentation locally (this is enough for master server)
 	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
 
 	// Run tests
