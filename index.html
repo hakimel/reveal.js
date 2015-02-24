@@ -394,6 +394,11 @@ console.log( '"customevent" has fired' );
 
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
+				multiplex: {
+					secret: '14246866939767085535',
+					id: '10e245ba48da5cf4',
+					url: '192.168.1.7:1948'
+				},
 				// Optional reveal.js plugins
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -401,7 +406,10 @@ console.log( '"customevent" has fired' );
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+        			{ src: 'plugin/multiplex/master.js', async: true },
+        			{ src: 'plugin/notes-server/client.js', async: true }
 				]
 			});
 
