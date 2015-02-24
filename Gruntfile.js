@@ -129,7 +129,7 @@ module.exports = function(grunt) {
                 files: [ 'index.html']
             },
             ejs: {
-            	files: [ 'source/**/*.ejs' ]
+                files: [ 'source/**/*.ejs' ]
             }
 		},
 		ejs: {
