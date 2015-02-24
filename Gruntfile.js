@@ -233,7 +233,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'master', [ 'ejs:master', 'copy:master', 'clean' ] );
 
 	// Turn the Server into the Clients (audience's) server
-	grunt.registerTask( 'master', [ 'ejs:client', 'copy:client', 'clean' ] );
+	grunt.registerTask( 'client', [ 'ejs:client', 'copy:client', 'clean' ] );
 
 	// Revert the Server back to the default server
 	grunt.registerTask( 'def', [ 'ejs:def', 'copy:def', 'clean' ] );
