@@ -431,8 +431,8 @@ Slides are contained within a limited portion of the screen by default to allow 
 <section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
 	<h2>This background image will be sized to 100px and repeated.</h2>
 </section>
-<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
-	<h2>Video. Multiple sources can be defined using a comma separated list.</h2>
+<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop>
+	<h2>Video. Multiple sources can be defined using a comma separated list. Video will loop when the data-background-video-loop attribute is provided.</h2>
 </section>
 <section data-background-iframe="https://slides.com">
 	<h2>Embeds a web page as a background. Note that the page won't be interactive.</h2>
