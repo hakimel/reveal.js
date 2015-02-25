@@ -17,5 +17,7 @@ Declares a set of custom variables that the template file (step 4) expects. Can 
 3. **Override**
 This is where you override the default theme. Either by specifying variables (see [settings.scss](https://github.com/hakimel/reveal.js/blob/master/css/theme/template/settings.scss) for reference) or by adding any selectors and styles you please.
 
-4. **Run `css-grunt themes`**
-This will compile your theme CSS. It's now ready to use.
+4. **Include [/css/theme/template/theme.scss](https://github.com/hakimel/reveal.js/blob/master/css/theme/template/theme.scss)**
+The template theme file which will generate final CSS output based on the currently defined variables.
+
+When you are done, run `grunt css-themes` to compile the Sass file to CSS and you are ready to use your new theme.
