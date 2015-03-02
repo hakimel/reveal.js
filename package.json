@@ -6,7 +6,9 @@
   "subdomain": "revealjs",
   "scripts": {
     "test": "grunt test",
-    "start": ""
+    "start": "grunt serve",
+    "master": "grunt master && node node_modules/node-static/bin/cli.js",
+    "client": "grunt client && node plugin/multiplex"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -24,6 +26,7 @@
     "dev-ip": "^1.0.1",
     "express": "~2.5.9",
     "mustache": "~0.7.2",
+    "node-static": "^0.7.6",
     "socket.io": "~0.9.16",
     "underscore": "~1.5.1"
   },
