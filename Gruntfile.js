@@ -220,7 +220,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
 	// Package presentation to archive
-	grunt.registerTask( 'package', [ 'default', 'zip' ] );
+	grunt.registerTask( 'package', [ 'default', 'def', 'zip' ] );
 
 	// Serve presentation locally (this is enough for master server)
 	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
