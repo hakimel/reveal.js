@@ -18,6 +18,12 @@ Presentations are written using HTML or Markdown but there's also an online edit
 
 ## Instructions
 
+###EJS File descriptions
+
+All files for the web page are in EJS. There is no need to pass in data using a json file. EJS was used to include partial files to help aid in the multiplexing process. The files are located in the source folder. _default.ejs_ is used for everyday purpose whereas _client.ejs_ and _master.ejs_ are for multiplexing. 
+
+In the partials folder there are many different files. The main being the _slide.ejs_. This is the file where you use the Markup described below to create slides. The _header.ejs_ has all the meta-data for the web page (css, some javascript, etc.). The different _footer.ejs_ files are where the ```Reveal.initialize()``` function is called. The default is just _footer.ejs_. The other two are copies of _footer.ejs_ with added dependencies and configurations.
+
 ### Markup
 
 Markup hierarchy needs to be ``<div class="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. The first of the vertical slides is the "root" of the others (at the top), and it will be included in the horizontal sequence. For example:
