@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 					port: port,
 					base: '.',
                     livereload: true,
-                    open: true
+                    open: false
 				}
 			}
 		},
@@ -223,7 +223,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'package', [ 'default', 'zip' ] );
 
 	// Serve presentation locally (this is enough for master server)
-	grunt.registerTask( 'serve', [ 'def', 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
 
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );

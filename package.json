@@ -6,9 +6,10 @@
   "subdomain": "revealjs",
   "scripts": {
     "test": "grunt test",
-    "start": "grunt serve",
+    "start": "grunt def && grunt serve",
     "master": "grunt master && node node_modules/node-static/bin/cli.js",
-    "client": "grunt client && node plugin/multiplex"
+    "clientSocket": "grunt client && node plugin/multiplex",
+    "client": "grunt client && grunt serve"
   },
   "author": {
     "name": "Hakim El Hattab",
