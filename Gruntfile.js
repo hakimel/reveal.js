@@ -48,6 +48,7 @@ module.exports = function(grunt) {
 					'css/theme/moon.css': 'css/theme/source/moon.scss',
 					'css/theme/solarized.css': 'css/theme/source/solarized.scss',
 					'css/theme/blood.css': 'css/theme/source/blood.scss'
+					'css/theme/midcamp.css': 'css/theme/source/midcamp.scss'
 				}
 			}
 		},
