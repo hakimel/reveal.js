@@ -32,12 +32,12 @@ section.has-light-background, section.has-light-background h1, section.has-light
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #222;
-  background-color: #222; }
+  background: #197f9f;
+  background-color: #197f9f; }
 
 .reveal {
-  font-family: 'Source Sans Pro', Helvetica, sans-serif;
-  font-size: 38px;
+  font-family: 'Raleway', 'Verdana', 'Lucida Grande', 'Gill Sans', 'Arial', 'Helvetica', sans-serif;
+  font-size: 36px;
   font-weight: normal;
   color: #fff; }
 
