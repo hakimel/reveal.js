@@ -7,24 +7,27 @@
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
   color: #222; }
 
-.footer {
-  bottom: 1em; }
-  .footer .branding--logo {
-    display: inline-block;
-    float: left;
-    margin-left: 0.5em;
-    font-size: 0.5em; }
-  .footer .logo__image {
-    display: inline-block; }
-  .footer .logo__site-name {
-    display: inline-block; }
-  .footer .session--info {
-    display: inline-block;
-    float: right;
-    font-size: 0.5em; }
-  .footer .session__title, .footer .session__presenter {
-    display: inline-block;
-    margin-right: 0.5em; }
+.footer .branding--logo {
+  display: inline-block;
+  float: left;
+  margin-left: 1em;
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0em; }
+.footer .logo__image {
+  display: inline-block; }
+.footer .logo__site-name {
+  display: inline-block; }
+.footer .session--info {
+  display: inline-block;
+  float: right;
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0em;
+  right: 5em; }
+.footer .session__title, .footer .session__presenter {
+  display: inline-block;
+  margin-right: 0.5em; }
 
 /*********************************************
  * GLOBAL STYLES
