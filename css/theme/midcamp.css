@@ -23,7 +23,8 @@ section.has-light-background, section.has-light-background h1, section.has-light
     float: right;
     font-size: 0.5em; }
   .footer .session__title, .footer .session__presenter {
-    display: inline-block; }
+    display: inline-block;
+    margin-right: 0.5em; }
 
 /*********************************************
  * GLOBAL STYLES
