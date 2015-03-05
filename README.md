@@ -1,3 +1,5 @@
+# [MidCamp](http://2015.midcamp.org) slide template added to reveal.js base. Pull requests on the MidCamp css at [https://github.com/YesCT/reveal.js](https://github.com/YesCT/reveal.js).
+
 # reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js)
 
 A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
