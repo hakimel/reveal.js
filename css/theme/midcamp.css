@@ -26,8 +26,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   bottom: 0em;
   right: 5em; }
 .footer .session__title, .footer .session__presenter {
-  display: inline-block;
-  margin-right: 0.5em; }
+  display: inline-block; }
 
 /*********************************************
  * GLOBAL STYLES
