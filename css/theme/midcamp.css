@@ -8,26 +8,22 @@ section.has-light-background, section.has-light-background h1, section.has-light
   color: #222; }
 
 .footer {
-  position: absolute;
-  left: 35%;
   bottom: 1em; }
-
-.branding--logo {
-  display: inline-block;
-  float: left; }
-
-.logo__image {
-  display: inline-block; }
-
-.logo__site-name {
-  display: inline-block; }
-
-.session--info {
-  display: inline-block;
-  float: right; }
-
-.session__title, .session__presenter {
-  display: inline-block; }
+  .footer .branding--logo {
+    display: inline-block;
+    float: left;
+    margin-left: 0.5em;
+    font-size: 0.5em; }
+  .footer .logo__image {
+    display: inline-block; }
+  .footer .logo__site-name {
+    display: inline-block; }
+  .footer .session--info {
+    display: inline-block;
+    float: right;
+    font-size: 0.5em; }
+  .footer .session__title, .footer .session__presenter {
+    display: inline-block; }
 
 /*********************************************
  * GLOBAL STYLES

@@ -44,32 +44,33 @@ section.has-light-background {
 }
 
 .footer {
-  position: absolute;
-  left: 35%;
   bottom: 1em;
-}
 
-.branding--logo {
-  display: inline-block;
-  float: left;
-}
+  .branding--logo {
+    display: inline-block;
+    float: left;
+    margin-left: 0.5em;
+    font-size: 0.5em;
+  }
 
-.logo__image {
-  display: inline-block;
-}
+  .logo__image {
+    display: inline-block;
+  }
 
-.logo__site-name {
-  display: inline-block;
-}
+  .logo__site-name {
+    display: inline-block;
+  }
 
-.session--info {
-  display: inline-block;
-  float: right;
-}
+  .session--info {
+    display: inline-block;
+    float: right;
+    font-size: 0.5em;
+  }
 
-.session__title,
-.session__presenter {
-  display: inline-block;
+  .session__title,
+  .session__presenter {
+    display: inline-block;
+  }
 }
 
 // Theme template ------------------------------
