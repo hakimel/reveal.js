@@ -43,6 +43,11 @@ section.has-light-background {
 	}
 }
 
+.footer {
+  position: absolute;
+  left: 35%;
+  bottom: 1em;
+}
 
 // Theme template ------------------------------
 @import "../template/theme";
