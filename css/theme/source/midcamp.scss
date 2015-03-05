@@ -49,6 +49,29 @@ section.has-light-background {
   bottom: 1em;
 }
 
+.branding--logo {
+  display: inline-block;
+  float: left;
+}
+
+.logo__image {
+  display: inline-block;
+}
+
+.logo__site-name {
+  display: inline-block;
+}
+
+.session--info {
+  display: inline-block;
+  float: right;
+}
+
+.session__title,
+.session__presenter {
+  display: inline-block;
+}
+
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
