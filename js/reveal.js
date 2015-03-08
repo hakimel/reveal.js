@@ -2476,11 +2476,12 @@
 			}
 
 			var totalSlides = getTotalSlides();
+			var currentSlide = getSlidePastCount() + 1;
 
 			dom.slideNumber.innerHTML = format.replace( /h/g, indexh )
 												.replace( /v/g, indexv )
-												.replace( /c/g, Math.round( getProgress() * totalSlides ) + 1 )
-												.replace( /t/g, totalSlides + 1 );
+												.replace( /c/g, currentSlide )
+												.replace( /t/g, totalSlides );
 		}
 
 	}
@@ -2966,15 +2967,14 @@
 	}
 
 	/**
-	 * Returns a value ranging from 0-1 that represents
-	 * how far into the presentation we have navigated.
+	 * Returns the number of past slides. This can be used as a global
+	 * flattened index for slides.
 	 */
-	function getProgress() {
+	function getSlidePastCount() {
 
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
-		// The number of past and total slides
-		var totalCount = getTotalSlides();
+		// The number of past slides
 		var pastCount = 0;
 
 		// Step through all slides and count the past ones
@@ -3005,6 +3005,20 @@
 			}
 
 		}
+
+		return pastCount;
+
+	}
+
+	/**
+	 * Returns a value ranging from 0-1 that represents
+	 * how far into the presentation we have navigated.
+	 */
+	function getProgress() {
+
+		// The number of past and total slides
+		var totalCount = getTotalSlides();
+		var pastCount = getSlidePastCount();
 
 		if( currentSlide ) {
 
