@@ -92,8 +92,8 @@ module.exports = function(grunt) {
 				options: {
 					port: port,
 					base: '.',
-					livereload: true,
-					open: true
+                    livereload: true,
+                    open: false
 				}
 			}
 		},
@@ -125,11 +125,69 @@ module.exports = function(grunt) {
 				files: [ 'css/reveal.scss' ],
 				tasks: 'css-core'
 			},
-			html: {
-				files: [ 'index.html']
+            html: {
+                files: [ 'index.html']
+            },
+            ejs: {
+                files: [ 'source/**/*.ejs' ]
+            }
+		},
+		ejs: {
+			options: grunt.file.readJSON('mpSet.json'),
+			client: {
+				expand: true,
+				cwd: 'source',
+				src: ['client.ejs'],
+				dest: '.',
+				ext: '.html'
+			},
+			master: {
+				expand: true,
+				cwd: 'source',
+				src: ['master.ejs'],
+				dest: '.',
+				ext: '.html'
+			},
+			def: {
+				expand: true,
+				cwd: 'source',
+				src: ['default.ejs'],
+				dest: '.',
+				ext: '.html'
 			}
+		},
+		copy: {
+			client: {
+				expand: true,
+				cwd: '.',
+				src: 'client.html',
+				dest: '.',
+				rename: function(dest, src) {
+					return 'index.html';
+				}
+			},
+			master: {
+				expand: true,
+				cwd: '.',
+				src: 'master.html',
+				dest: '.',
+				rename: function(dest, src) {
+					return 'index.html';
+				}
+			},
+			def: {
+				expand: true,
+				cwd: '.',
+				src: 'default.html',
+				dest: '.',
+				rename: function(dest, src) {
+					return 'index.html';
+				}
+			}
+		},
+		clean: {
+			main: ['*.html', '!index.html']
 		}
-
 	});
 
 	// Dependencies
@@ -142,6 +200,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-zip' );
+	grunt.loadNpmTasks( 'grunt-ejs' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 
 	// Default task
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
@@ -159,12 +220,27 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );
 
 	// Package presentation to archive
-	grunt.registerTask( 'package', [ 'default', 'zip' ] );
+	grunt.registerTask( 'package', [ 'default', 'def', 'zip' ] );
 
-	// Serve presentation locally
+	// Serve presentation locally (this is enough for master server)
 	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
 
 	// Run tests
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ] );
+
+	// Turn the Server into the Master (presentor's) server
+	grunt.registerTask( 'master', [ 'ejs:master', 'copy:master', 'clean' ] );
+
+	// Turn the Server into the Clients (audience's) server
+	grunt.registerTask( 'client', [ 'ejs:client', 'copy:client', 'clean' ] );
+
+	// Revert the Server back to the default server
+	grunt.registerTask( 'def', [ 'ejs:def', 'copy:def', 'clean' ] );
+
+	// Display the ip of currently running machine
+	grunt.registerTask( 'ip', 'Dispaly the local IP address of current Machine.', function(arg) {
+		var devip = require('dev-ip');
+		grunt.log.writeln([devip()]);
+	});
 
 };
