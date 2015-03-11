@@ -147,7 +147,7 @@ var Recorder = {
     },
 
     next : function next() {
-	// Remove red or yellow circle over auto slide control
+	// Remove red or yellow circle
 	var context = this.canvas.getContext( '2d' );
 	context.clearRect ( 0 , 0 , this.canvas.width , this.canvas.height );
 
@@ -161,7 +161,6 @@ var Recorder = {
 		this.recordRTC.stopRecording( function( url ) {
 			// add audio URL to slide
 			Recorder.recordedAudio.src = url;
-
 			// add audio to zip
 			var blob = Recorder.recordRTC.getBlob();
 
@@ -211,30 +210,36 @@ var Recorder = {
 
 	Reveal.addEventListener( 'fragmentshown', function( event ) {
 		if ( Recorder.isRecording ) {
-			var recordedAudio = event.fragment.querySelector('.recorded');
-			if ( Recorder.isPaused && ( recordedAudio == null )) {
+			if ( recordedAudioExists( Reveal.getIndices() ) ) {
+				Recorder.isPaused = true;
+				Recorder.next();
+			}
+			else if ( Recorder.isPaused ) {
 				// resume recording
 				Recorder.isPaused = false;				
 				Recorder.start();
 			}
-			else {			
-				Recorder.isPaused = ( recordedAudio != null );
+			else {
 				Recorder.next();
 			}
-		}		
+		}
 	} );
 
 	Reveal.addEventListener( 'fragmenthidden', function( event ) {
-			var recordedAudio = event.fragment.querySelector('.recorded');
-			if ( Recorder.isPaused && ( recordedAudio == null )) {
+		if ( Recorder.isRecording ) {
+			if ( recordedAudioExists( Reveal.getIndices() ) ) {
+				Recorder.isPaused = true;
+				Recorder.next();
+			}
+			else if ( Recorder.isPaused ) {
 				// resume recording
 				Recorder.isPaused = false;				
 				Recorder.start();
 			}
-			else {			
-				Recorder.isPaused = ( recordedAudio != null );
+			else {
 				Recorder.next();
 			}
+		}
 	} );
 	Reveal.addEventListener( 'overviewshown', function( event ) {
 		Recorder.toggleRecording( false );
@@ -250,18 +255,26 @@ var Recorder = {
 
 	Reveal.addEventListener( 'slidechanged', function( event ) {
 		if ( Recorder.isRecording ) {
-			var recordedAudio = Reveal.getCurrentSlide().querySelector('.recorded');
-			if ( Recorder.isPaused && ( recordedAudio == null )) {
+			if ( recordedAudioExists( Reveal.getIndices() ) ) {
+				Recorder.isPaused = true;
+				Recorder.next();
+			}
+			else if ( Recorder.isPaused ) {
 				// resume recording
 				Recorder.isPaused = false;				
 				Recorder.start();
 			}
-			else {			
-				Recorder.isPaused = ( recordedAudio != null );
+			else {
 				Recorder.next();
 			}
 		}
 	} );
+			
+	function recordedAudioExists( indices ) {
+		var id = "audioplayer-" + indices.h + "." + indices.v;
+		if ( indices.f != undefined && indices.f >= 0 ) id = id + "." + indices.f;
+		return ( document.getElementById( id ).src.substring(0,4) == "blob"); 
+	}
 
 })();
 
