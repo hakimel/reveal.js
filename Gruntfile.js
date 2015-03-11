@@ -75,6 +75,7 @@ module.exports = function(grunt) {
 				eqnull: true,
 				browser: true,
 				expr: true,
+				node: true,
 				globals: {
 					head: false,
 					module: false,
