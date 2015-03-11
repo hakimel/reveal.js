@@ -1,24 +1,22 @@
 Read me
 ===============
 
-A plugin for easy audio playback and recording for reveal.js. Check out the live [demo](http://www.faculty.jacobs-university.de/agoel/audio-slideshow/).
+A plugin for easy audio playback and recording for reveal.js. Check out the live [demo](http://courses.telematique.eu/audio-slideshow/).
 
 
 ### Configuration
 
-When initializing reveal you have to set the ```autoSlide``` value, the ```audioPrefix``` and ```audioSuffix``` value, include the plugins, and set keyboard shortcuts as specified below.
+When initializing reveal you have to set the ```audioPrefix``` and ```audioSuffix``` value, include the plugins, and set keyboard shortcuts as specified below.
 
 ```javascript
 Reveal.initialize({
 
 	// ...
 	
-	// Number of milliseconds between automatically proceeding to the
-	// next slide, disabled when set to 0, this value is automatically 
-	// increased for audio files with longer duration
-	autoSlide: 5000,
-	audioPrefix: 'audio/',
-	audioSuffix: '.ogg',
+	audioPrefix: 'audio/',        // audio files are stored in the "audio" folder
+	audioSuffix: '.ogg',	      // audio files have the ".ogg" ending
+	audioDefaultDuration: 5, // default duration if no audio is available
+	audioPlayerOpacity: 0.05,     // opacity value of audio player if unfocused
 
 	dependencies: [
 	  
