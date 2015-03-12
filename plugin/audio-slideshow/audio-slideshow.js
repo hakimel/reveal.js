@@ -64,8 +64,14 @@
 		document.querySelector(".audio-controls").style.visibility = "visible";
 	} );
 
-	function selectAudio( ) {
+	function selectAudio( play ) {
+		var oldId = null;
+		var oldVolume = null;
+		var oldMuted = null;
 		if ( currentAudio ) {
+			oldID = currentAudio.id;
+			oldVolume = currentAudio.volume;
+			oldMuted = currentAudio.muted;
 			currentAudio.pause();
 			currentAudio.currentTime = 0;
 			currentAudio.style.display = "none";
@@ -75,6 +81,13 @@
 		if ( indices.f != undefined && indices.f >= 0 ) id = id + '.' + indices.f;
 		currentAudio = document.getElementById( id );
 		currentAudio.style.display = "block";
+		if ( currentAudio.id != oldId ) {
+			currentAudio.volume = oldVolume;
+			currentAudio.muted = oldMuted;
+			if ( play ) {
+				currentAudio.play();
+			}	
+		}
 	}
 
 
@@ -135,12 +148,8 @@
 		audioElement.style.display = "none";
 		audioElement.setAttribute( 'controls', '' );
 		audioElement.addEventListener( 'ended', function( event ) {
-			var oldId = currentAudio.id;
 			Reveal.next();
-			selectAudio();
-			if ( currentAudio.id != oldId ) {
-				currentAudio.play();
-			}
+			selectAudio( true );
 		} );
 		var audioSource = document.createElement( 'source' );
 		audioSource.src= prefix + indices + suffix;
