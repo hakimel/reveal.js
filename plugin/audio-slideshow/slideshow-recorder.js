@@ -72,7 +72,6 @@ var Recorder = {
 	var id = "audioplayer-" + this.indices.h + "." + this.indices.v;
 	if ( this.indices.f != undefined && this.indices.f >= 0 ) id = id + "." + this.indices.f;
 	this.recordedAudio = document.getElementById( id );
-	document.title = id + " / " + this.indices.f;
 	if ( !this.recordedAudio ) {
 		alert("Audio player is not found. Please check that audio-slideshow plugin is loaded!");
 	}
