@@ -25,21 +25,26 @@
 
 	var silence;
 	var currentAudio = null;
+	var previousAudio = null;
 
 	Reveal.addEventListener( 'fragmentshown', function( event ) {
+//console.debug( "fragmentshown ");
 		selectAudio();
 	} );
 
 	Reveal.addEventListener( 'fragmenthidden', function( event ) {
+//console.debug( "fragmenthidden ");
 		selectAudio();
 	} );
 
 	Reveal.addEventListener( 'ready', function( event ) {
 		setup();
+//console.debug( "ready ");
 		selectAudio();
 	} );
 
 	Reveal.addEventListener( 'slidechanged', function( event ) {
+//console.debug( "slidechanged ");
 		var indices = Reveal.getIndices();
 		if ( !startAtFragment && typeof indices.f !== 'undefined' && indices.f > 0) {
 			// hide fragments when slide is shown
@@ -64,14 +69,8 @@
 		document.querySelector(".audio-controls").style.visibility = "visible";
 	} );
 
-	function selectAudio( play ) {
-		var oldId = null;
-		var oldVolume = null;
-		var oldMuted = null;
+	function selectAudio( previousAudio ) {
 		if ( currentAudio ) {
-			oldId = currentAudio.id;
-			oldVolume = currentAudio.volume;
-			oldMuted = currentAudio.muted;
 			currentAudio.pause();
 			currentAudio.style.display = "none";
 		}
@@ -80,13 +79,11 @@
 		if ( indices.f != undefined && indices.f >= 0 ) id = id + '.' + indices.f;
 		currentAudio = document.getElementById( id );
 		currentAudio.style.display = "block";
-		if ( currentAudio.id != oldId ) {
-			if ( oldVolume ) currentAudio.volume = oldVolume;
-			if ( oldMuted ) currentAudio.muted = oldMuted;
-			if ( play ) {
+		if ( previousAudio && currentAudio.id != previousAudio.id ) {
+			currentAudio.volume = previousAudio.volume;
+			currentAudio.muted = previousAudio.muted;
 //console.debug( "Play " + currentAudio.id);
-				currentAudio.play();
-			}	
+			currentAudio.play();
 		}
 	}
 
@@ -149,8 +146,9 @@
 		audioElement.setAttribute( 'controls', '' );
 		audioElement.setAttribute( 'preload', 'none' );
 		audioElement.addEventListener( 'ended', function( event ) {
+			var previousAudio = currentAudio;
 			Reveal.next();
-			selectAudio( true );
+			selectAudio( previousAudio );
 		} );
 		audioElement.addEventListener( 'play', function( event ) {
 			// preload next audio element so that it is available after slide change
