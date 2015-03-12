@@ -69,7 +69,7 @@
 		var oldVolume = null;
 		var oldMuted = null;
 		if ( currentAudio ) {
-			oldID = currentAudio.id;
+			oldId = currentAudio.id;
 			oldVolume = currentAudio.volume;
 			oldMuted = currentAudio.muted;
 			currentAudio.pause();
