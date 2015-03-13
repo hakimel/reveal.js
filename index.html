@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/midcamp-color.css" id="theme">
+		<link rel="stylesheet" href="css/read.css">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -203,8 +204,8 @@
 	               	</section>
 	               	<section>
 	               		<h1>The Requirements</h1>
-	               		<pre><code class="gherkin">
-WHEN SAVING A FILE
+	               		<pre><code>
+WHEN SAVING A FILE ENTITY
 AND IT IS A JPEG IMAGE
 THEN THE EXIF META DATA NEEDS TO BE CAPTURED
 AND MAPPED TO CUSTOM FIELDS
@@ -214,8 +215,22 @@ AND THESE MAPPINGS NEED TO BE EXPORTABLE USING FEATURES
                		<section>
 	               		<h1>Research What Exists.</h1>
                		</section>
+
                		<section>
                			<h2>Isolate keywords</h2>
+               			<p class="code" style="font-size:60%;padding:5px;"><br />
+											WHEN SAVING A <strong style="color:#EDFC0B">FILE ENTITY</strong><br />
+											AND IT IS A JPEG IMAGE<br />
+											THEN THE <strong style="color:#EDFC0B">EXIF META DATA</strong> NEEDS TO BE CAPTURED<br />
+											AND <strong style="color:#EDFC0B">MAPPED TO CUSTOM FIELDS</strong><br />
+											AND THESE MAPPINGS NEED TO BE <strong style="color:#EDFC0B">EXPORTABLE USING FEATURES</strong>
+											<br />
+											<br />
+               			</p>
+               		</section>
+               		<section>
+               			<h2>Search for existing modules.</h2>
+               			<p class="fragment">We will focus on the keyword "Exif"</p>
                		</section>
                </section>
 
