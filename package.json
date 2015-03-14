@@ -4,6 +4,7 @@
   "description": "The HTML Presentation Framework",
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
+  "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
     "start": ""
