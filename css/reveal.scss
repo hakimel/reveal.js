@@ -57,18 +57,6 @@ body {
 	color: #000;
 }
 
-::-moz-selection {
-	background: #FF5E99;
-	color: #fff;
-	text-shadow: none;
-}
-
-::selection {
-	background: #FF5E99;
-	color: #fff;
-	text-shadow: none;
-}
-
 
 /*********************************************
  * VIEW FRAGMENTS
@@ -350,6 +338,7 @@ body {
 	position: relative;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 	touch-action: none;
 }
 
@@ -767,56 +756,6 @@ body {
 
 
 /*********************************************
- * OVERVIEW
- *********************************************/
-
-.reveal.overview .slides {
-	perspective-origin: 50% 50%;
-	perspective: 700px;
-}
-
-.reveal.overview .slides section {
-	height: 700px;
-	overflow: hidden;
-	opacity: 1 !important;
-	visibility: visible !important;
-	cursor: pointer;
-	background: rgba(0,0,0,0.1);
-	box-sizing: border-box;
-}
-.reveal.overview .slides section,
-.reveal.overview-deactivating .slides section {
-	transition: none !important;
-}
-
-.reveal.overview .slides section .fragment {
-	opacity: 1;
-}
-/* Do not display helper pseudo-elements used
- by certain transitions (e.g. cube, page) */
-.reveal.overview .slides section:after,
-.reveal.overview .slides section:before {
-	display: none !important;    
-}
-.reveal.overview .slides section>section {
-	opacity: 1;
-	cursor: pointer;
-}
-	.reveal.overview .slides section:hover {
-		background: rgba(0,0,0,0.3);
-	}
-	.reveal.overview .slides section.present {
-		background: rgba(0,0,0,0.3);
-	}
-.reveal.overview .slides>section.stack {
-	padding: 0;
-	top: 0 !important;
-	background: none;
-	overflow: visible;
-}
-
-
-/*********************************************
  * PAUSED MODE
  *********************************************/
 
@@ -887,7 +826,7 @@ body {
  * PER-SLIDE BACKGROUNDS
  *********************************************/
 
-.reveal>.backgrounds {
+.reveal .backgrounds {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -1052,6 +991,74 @@ body {
 }
 .reveal[data-transition-speed="slow"]>.backgrounds .slide-background {
 	transition-duration: 1200ms;
+}
+
+
+/*********************************************
+ * OVERVIEW
+ *********************************************/
+
+.reveal.overview {
+	perspective-origin: 50% 50%;
+	perspective: 700px;
+
+	.slides section {
+		height: 700px;
+		opacity: 1 !important;
+		overflow: hidden;
+		visibility: visible !important;
+		cursor: pointer;
+		box-sizing: border-box;
+	}
+	.slides section:hover,
+	.slides section.present {
+		outline: 10px solid rgba(150,150,150,0.4);
+		outline-offset: 10px;
+	}
+	.slides section .fragment {
+		opacity: 1;
+		transition: none;
+	}
+	.slides section:after,
+	.slides section:before {
+		display: none !important;
+	}
+	.slides>section.stack {
+		padding: 0;
+		top: 0 !important;
+		background: none;
+		outline: none;
+		overflow: visible;
+	}
+
+	.backgrounds {
+		perspective: inherit;
+	}
+
+	.backgrounds .slide-background {
+		opacity: 1;
+		visibility: visible;
+
+		// This can't be applied to the slide itself in Safari
+		outline: 10px solid rgba(150,150,150,0.1);
+		outline-offset: 10px;
+	}
+}
+
+// Disable transitions transitions while we're activating
+// or deactivating the overview mode.
+.reveal.overview .slides section,
+.reveal.overview-deactivating .slides section {
+	transition: none;
+}
+
+.reveal.overview .backgrounds .slide-background,
+.reveal.overview-deactivating .backgrounds .slide-background {
+	transition: none;
+}
+
+.reveal.overview-animated .slides {
+	transition: transform 0.4s ease;
 }
 
 

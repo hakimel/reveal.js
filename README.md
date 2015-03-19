@@ -176,6 +176,10 @@ Reveal.initialize({
 	// Parallax background size
 	parallaxBackgroundSize: '' // CSS syntax, e.g. "2100px 900px"
 
+	// Amount to move parallax background (horizontal and vertical) on slide change
+	// Number, e.g. 100
+	parallaxBackgroundHorizontal: '',
+	parallaxBackgroundVertical: ''
 
 });
 ```
@@ -428,8 +432,8 @@ Slides are contained within a limited portion of the screen by default to allow 
 <section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
 	<h2>This background image will be sized to 100px and repeated.</h2>
 </section>
-<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
-	<h2>Video. Multiple sources can be defined using a comma separated list.</h2>
+<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop>
+	<h2>Video. Multiple sources can be defined using a comma separated list. Video will loop when the data-background-video-loop attribute is provided.</h2>
 </section>
 <section data-background-iframe="https://slides.com">
 	<h2>Embeds a web page as a background. Note that the page won't be interactive.</h2>
@@ -441,7 +445,7 @@ Backgrounds transition using a fade animation by default. This can be changed to
 
 ### Parallax Background
 
-If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional).
+If you want to use a parallax scrolling background, set the first two config properties below when initializing reveal.js (the other two are optional).
 
 ```javascript
 Reveal.initialize({
@@ -452,8 +456,11 @@ Reveal.initialize({
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
 
-	// This slide transition gives best results:
-	transition: 'slide'
+	// Amount of pixels to move the parallax background per slide step,
+	// a value of 0 disables movement along the given axis
+	// These are optional, if they aren't specified they'll be calculated automatically
+	parallaxBackgroundHorizontal: 200,
+	parallaxBackgroundVertical: 50
 
 });
 ```
@@ -573,7 +580,16 @@ By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/
 If you would like to display the page number of the current slide you can do so using the ```slideNumber``` configuration value.
 
 ```javascript
+// Shows the slide number using default formatting
 Reveal.configure({ slideNumber: true });
+
+// Slide number formatting can be configured using these variables:
+//  h: current slide's horizontal index
+//  v: current slide's vertical index
+//  c: current slide index (flattened)
+//  t: total number of slides (flattened)
+Reveal.configure({ slideNumber: 'c / t' });
+
 ```
 
 
