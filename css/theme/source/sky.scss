@@ -30,7 +30,7 @@ $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #134674;
 
 // Fix links so they are not cut off
-.reveal a:not(.image) {
+.reveal a {
 	line-height: 1.3em;
 }
 
