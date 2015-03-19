@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
  */
 (function( root, factory ) {
 	if( typeof define === 'function' && define.amd ) {
@@ -43,7 +43,7 @@
 
 			// Bounds for smallest/largest possible scale to apply to content
 			minScale: 0.2,
-			maxScale: 1.0,
+			maxScale: 1.5,
 
 			// Display controls in the bottom right corner
 			controls: true,
@@ -121,17 +121,14 @@
 			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
 			focusBodyOnPageVisibilityChange: true,
 
-			// Theme (see /css/theme)
-			theme: null,
-
 			// Transition style
-			transition: 'default', // none/fade/slide/convex/concave/zoom
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
 
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
 
 			// Transition style for full page slide backgrounds
-			backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+			backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
 
 			// Parallax background image
 			parallaxBackgroundImage: '', // CSS syntax, e.g. "a.jpg"
@@ -446,9 +443,6 @@
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
 
-		// State background element [DEPRECATED]
-		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
-
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
@@ -672,6 +666,7 @@
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
 			backgroundImage: slide.getAttribute( 'data-background-image' ),
 			backgroundVideo: slide.getAttribute( 'data-background-video' ),
+			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
@@ -696,11 +691,12 @@
 		// Create a hash for this combination of background settings.
 		// This is used to determine when two slide backgrounds are
 		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo ) {
+		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
 			element.setAttribute( 'data-background-hash', data.background +
 															data.backgroundSize +
 															data.backgroundImage +
 															data.backgroundVideo +
+															data.backgroundIframe +
 															data.backgroundColor +
 															data.backgroundRepeat +
 															data.backgroundPosition +
@@ -715,6 +711,30 @@
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
 		container.appendChild( element );
+
+		// If backgrounds are being recreated, clear old classes
+		slide.classList.remove( 'has-dark-background' );
+		slide.classList.remove( 'has-light-background' );
+
+		// If this slide has a background color, add a class that
+		// signals if it is light or dark. If the slide has no background
+		// color, no class will be set
+		var computedBackgroundColor = window.getComputedStyle( element ).backgroundColor;
+		if( computedBackgroundColor ) {
+			var rgb = colorToRgb( computedBackgroundColor );
+
+			// Ignore fully transparent backgrounds. Some browsers return
+			// rgba(0,0,0,0) when reading the computed background color of
+			// an element with no background
+			if( rgb && rgb.a !== 0 ) {
+				if( colorBrightness( computedBackgroundColor ) < 128 ) {
+					slide.classList.add( 'has-dark-background' );
+				}
+				else {
+					slide.classList.add( 'has-light-background' );
+				}
+			}
+		}
 
 		return element;
 
@@ -842,18 +862,6 @@
 				element.classList.add( 'visible' );
 				element.classList.remove( 'current-fragment' );
 			} );
-		}
-
-		// Load the theme in the config, if it's not already loaded
-		if( config.theme && dom.theme ) {
-			var themeURL = dom.theme.getAttribute( 'href' );
-			var themeFinder = /[^\/]*?(?=\.css)/;
-			var themeName = themeURL.match(themeFinder)[0];
-
-			if(  config.theme !== themeName ) {
-				themeURL = themeURL.replace(themeFinder, config.theme);
-				dom.theme.setAttribute( 'href', themeURL );
-			}
 		}
 
 		sync();
@@ -1062,6 +1070,77 @@
 			tag.appendChild( document.createTextNode( value ) );
 		}
 		document.getElementsByTagName( 'head' )[0].appendChild( tag );
+
+	}
+
+	/**
+	 * Measures the distance in pixels between point a and point b.
+	 *
+	 * @param {String} color The string representation of a color,
+	 * the following formats are supported:
+	 * - #000
+	 * - #000000
+	 * - rgb(0,0,0)
+	 */
+	function colorToRgb( color ) {
+
+		var hex3 = color.match( /^#([0-9a-f]{3})$/i );
+		if( hex3 && hex3[1] ) {
+			hex3 = hex3[1];
+			return {
+				r: parseInt( hex3.charAt( 0 ), 16 ) * 0x11,
+				g: parseInt( hex3.charAt( 1 ), 16 ) * 0x11,
+				b: parseInt( hex3.charAt( 2 ), 16 ) * 0x11
+			};
+		}
+
+		var hex6 = color.match( /^#([0-9a-f]{6})$/i );
+		if( hex6 && hex6[1] ) {
+			hex6 = hex6[1];
+			return {
+				r: parseInt( hex6.substr( 0, 2 ), 16 ),
+				g: parseInt( hex6.substr( 2, 2 ), 16 ),
+				b: parseInt( hex6.substr( 4, 2 ), 16 )
+			};
+		}
+
+		var rgb = color.match( /^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i );
+		if( rgb ) {
+			return {
+				r: parseInt( rgb[1], 10 ),
+				g: parseInt( rgb[2], 10 ),
+				b: parseInt( rgb[3], 10 )
+			};
+		}
+
+		var rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
+		if( rgba ) {
+			return {
+				r: parseInt( rgba[1], 10 ),
+				g: parseInt( rgba[2], 10 ),
+				b: parseInt( rgba[3], 10 ),
+				a: parseFloat( rgba[4] )
+			};
+		}
+
+		return null;
+
+	}
+
+	/**
+	 * Calculates brightness on a scale of 0-255.
+	 *
+	 * @param color See colorStringToRgb for supported formats.
+	 */
+	function colorBrightness( color ) {
+
+		if( typeof color === 'string' ) color = colorToRgb( color );
+
+		if( color ) {
+			return ( color.r * 299 + color.g * 587 + color.b * 114 ) / 1000;
+		}
+
+		return null;
 
 	}
 
@@ -1379,17 +1458,28 @@
 			scale = Math.max( scale, config.minScale );
 			scale = Math.min( scale, config.maxScale );
 
-			// Prefer zooming in desktop Chrome so that content remains crisp
-			if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
-				dom.slides.style.zoom = scale;
+			// Don't apply any scaling styles if scale is 1
+			if( scale === 1 ) {
+				dom.slides.style.zoom = '';
+				dom.slides.style.left = '';
+				dom.slides.style.top = '';
+				dom.slides.style.bottom = '';
+				dom.slides.style.right = '';
+				transformElement( dom.slides, '' );
 			}
-			// Apply scale transform as a fallback
 			else {
-				dom.slides.style.left = '50%';
-				dom.slides.style.top = '50%';
-				dom.slides.style.bottom = 'auto';
-				dom.slides.style.right = 'auto';
-				transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
+				// Prefer zooming in desktop Chrome so that content remains crisp
+				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
+					dom.slides.style.zoom = scale;
+				}
+				// Apply scale transform as a fallback
+				else {
+					dom.slides.style.left = '50%';
+					dom.slides.style.top = '50%';
+					dom.slides.style.bottom = 'auto';
+					dom.slides.style.right = 'auto';
+					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
+				}
 			}
 
 			updateProgress();
@@ -1404,6 +1494,38 @@
 	 * the presentation.
 	 */
     function layoutSlideContents( width, height, padding ) {
+        // Move slide content into appropriate layout containers
+        var bodyDivTpl = document.createElement('div');
+        bodyDivTpl.classList.add('slide-content');
+        bodyDivTpl.classList.add('slide-body');
+        
+		toArray( dom.slides.querySelectorAll( 'section' ) ).forEach( function( slide ) {
+            //TODO: more robust detection of vertical slides
+            if( slide.firstElementChild && /section/gi.test(slide.firstElementChild.nodeName) ){
+                // This is a vertical slide wrapper, thus no slide
+                return;
+            }
+            
+            var bodyDiv = slide.querySelector('.slide-body');
+            if(!bodyDiv){
+                bodyDiv = bodyDivTpl.cloneNode(false);
+                var inserted = false;
+                toArray(slide.childNodes).forEach(function(c){
+                    if(c.classList && '.slide-content' in c.classList){
+                        return;
+                    } else {
+                        if(!inserted){
+                            slide.insertBefore(bodyDiv,c);
+                            inserted = true;
+                        }
+                        bodyDiv.appendChild(c); // will automatically remove 'c' from the slide
+                    }
+                });
+                if(!inserted){
+                    slide.insertBefore(bodyDiv,slide.firstChild);
+                }
+            }
+        } );
         
         // Move slide content into appropriate layout containers
         var bodyDivTpl = document.createElement('div');
@@ -1786,7 +1908,7 @@
 	/**
 	 * Toggles the auto slide mode on and off.
 	 *
-	 * @param {Boolean} override Optional flag which sets the desired state. 
+	 * @param {Boolean} override Optional flag which sets the desired state.
 	 * True means autoplay starts, false means it stops.
 	 */
 
@@ -2135,6 +2257,7 @@
 							futureFragment.classList.remove( 'current-fragment' );
 						}
 					}
+                // TODO: this belongs into the DOM creation part
 				}
 			}
 
@@ -2239,7 +2362,7 @@
 		// Update progress if enabled
 		if( config.progress && dom.progressbar ) {
 
-			dom.progressbar.style.width = getProgress() * window.innerWidth + 'px';
+			dom.progressbar.style.width = getProgress() * dom.wrapper.offsetWidth + 'px';
 
 		}
 
@@ -2387,7 +2510,10 @@
 
 			// Start video playback
 			var currentVideo = currentBackground.querySelector( 'video' );
-			if( currentVideo ) currentVideo.play();
+			if( currentVideo ) {
+				currentVideo.currentTime = 0;
+				currentVideo.play();
+			}
 
 			// Don't transition between identical backgrounds. This
 			// prevents unwanted flicker.
@@ -2399,6 +2525,19 @@
 
 			previousBackground = currentBackground;
 
+		}
+
+		// If there's a background brightness flag for this slide,
+		// bubble it to the .reveal container
+		if( currentSlide ) {
+			[ 'has-light-background', 'has-dark-background' ].forEach( function( classToBubble ) {
+				if( currentSlide.classList.contains( classToBubble ) ) {
+					dom.wrapper.classList.add( classToBubble );
+				}
+				else {
+					dom.wrapper.classList.remove( classToBubble );
+				}
+			} );
 		}
 
 		// Allow the first background to apply without transition
@@ -2489,14 +2628,15 @@
 				background.setAttribute( 'data-loaded', 'true' );
 
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
-					backgroundVideo = slide.getAttribute( 'data-background-video' );
+					backgroundVideo = slide.getAttribute( 'data-background-video' ),
+					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
 
 				// Images
 				if( backgroundImage ) {
 					background.style.backgroundImage = 'url('+ backgroundImage +')';
 				}
 				// Videos
-				else if ( backgroundVideo ) {
+				else if ( backgroundVideo && !isSpeakerNotes() ) {
 					var video = document.createElement( 'video' );
 
 					// Support comma separated lists of video sources
@@ -2505,6 +2645,17 @@
 					} );
 
 					background.appendChild( video );
+				}
+				// Iframes
+				else if ( backgroundIframe ) {
+					var iframe = document.createElement( 'iframe' );
+						iframe.setAttribute( 'src', backgroundIframe );
+						iframe.style.width  = '100%';
+						iframe.style.height = '100%';
+						iframe.style.maxHeight = '100%';
+						iframe.style.maxWidth = '100%';
+
+					background.appendChild( iframe );
 				}
 			}
 		}
@@ -2684,7 +2835,7 @@
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		// The number of past and total slides
-		var totalCount = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+		var totalCount = getTotalSlides();
 		var pastCount = 0;
 
 		// Step through all slides and count the past ones
@@ -2877,8 +3028,13 @@
 		if( !slide && currentSlide ) {
 			var hasFragments = currentSlide.querySelectorAll( '.fragment' ).length > 0;
 			if( hasFragments ) {
-				var visibleFragments = currentSlide.querySelectorAll( '.fragment.visible' );
-				f = visibleFragments.length - 1;
+				var currentFragment = currentSlide.querySelector( '.current-fragment' );
+				if( currentFragment && currentFragment.hasAttribute( 'data-fragment-index' ) ) {
+					f = parseInt( currentFragment.getAttribute( 'data-fragment-index' ), 10 );
+				}
+				else {
+					f = currentSlide.querySelectorAll( '.fragment.visible' ).length - 1;
+				}
 			}
 		}
 
@@ -3099,7 +3255,7 @@
 						element.classList.remove( 'current-fragment' );
 
 						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.innerHTML = element.textContent;
+						dom.statusDiv.textContent = element.textContent;
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
@@ -3210,7 +3366,7 @@
 			// - The presentation isn't paused
 			// - The overview isn't active
 			// - The presentation isn't over
-			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || config.loop === true ) ) {
+			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || availableFragments().next || config.loop === true ) ) {
 				autoSlideTimeout = setTimeout( navigateNext, autoSlide );
 				autoSlideStartTime = Date.now();
 			}
@@ -3320,7 +3476,14 @@
 			}
 			else {
 				// Fetch the previous horizontal slide, if there is one
-				var previousSlide = dom.wrapper.querySelector( HORIZONTAL_SLIDES_SELECTOR + '.past:nth-child(' + indexh + ')' );
+				var previousSlide;
+
+				if( config.rtl ) {
+					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.future' ) ).pop();
+				}
+				else {
+					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.past' ) ).pop();
+				}
 
 				if( previousSlide ) {
 					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
@@ -3333,13 +3496,21 @@
 	}
 
 	/**
-	 * Same as #navigatePrev() but navigates forwards.
+	 * The reverse of #navigatePrev().
 	 */
 	function navigateNext() {
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
-			availableRoutes().down ? navigateDown() : navigateRight();
+			if( availableRoutes().down ) {
+				navigateDown();
+			}
+			else if( config.rtl ) {
+				navigateLeft();
+			}
+			else {
+				navigateRight();
+			}
 		}
 
 		// If auto-sliding is enabled we need to cue up
@@ -3784,10 +3955,12 @@
 	 */
 	function onPreviewLinkClicked( event ) {
 
-		var url = event.target.getAttribute( 'href' );
-		if( url ) {
-			showPreview( url );
-			event.preventDefault();
+		if( event.currentTarget && event.currentTarget.hasAttribute( 'href' ) ) {
+			var url = event.currentTarget.getAttribute( 'href' );
+			if( url ) {
+				showPreview( url );
+				event.preventDefault();
+			}
 		}
 
 	}

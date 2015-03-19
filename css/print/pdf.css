@@ -56,22 +56,13 @@ h1,h2,h3,h4,h5,h6 {
 	text-shadow: 0 0 0 #000 !important;
 }
 
-/* SECTION 5: Make hyperlinks more usable.
-   Ensure links are underlined, and consider appending
-   the URL to the end of the link for usability. */
-a:link,
-a:visited {
-	font-weight: normal;
-	text-decoration: underline;
-}
-
 .reveal pre code {
 	overflow: hidden !important;
 	font-family: Courier, 'Courier New', monospace !important;
 }
 
 
-/* SECTION 6: more reveal.js specific additions by @skypanther */
+/* SECTION 5: more reveal.js specific additions by @skypanther */
 ul, ol, div, p {
 	visibility: visible;
 	position: static;
@@ -156,7 +147,7 @@ ul, ol, div, p {
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 0;
+	z-index: -1;
 }
 /* All elements should be above the slide-background */
 .reveal section>* {

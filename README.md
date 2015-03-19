@@ -1,8 +1,8 @@
-# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.png?branch=master)](https://travis-ci.org/hakimel/reveal.js)
+# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js)
 
 A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
 
-reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a browser with support for CSS 3D transforms but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
+reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [Markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a modern browser but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
 
 
 #### More reading:
@@ -10,10 +10,11 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Changelog](https://github.com/hakimel/reveal.js/releases): Up-to-date version history.
 - [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
 - [Browser Support](https://github.com/hakimel/reveal.js/wiki/Browser-Support): Explanation of browser support and fallbacks.
+- [Plugins](https://github.com/hakimel/reveal.js/wiki/Plugins,-Tools-and-Hardware): A list of plugins that can be used to extend reveal.js.
 
 ## Online Editor
 
-Presentations are written using HTML or markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [http://slides.com](http://slides.com).
+Presentations are written using HTML or Markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [http://slides.com](http://slides.com).
 
 
 ## Instructions
@@ -209,13 +210,13 @@ Reveal.initialize({
 		{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 
 		// Zoom in and out with Alt+click
-		{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+		{ src: 'plugin/zoom-js/zoom.js', async: true },
 
 		// Speaker notes
-		{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+		{ src: 'plugin/notes/notes.js', async: true },
 
 		// Remote control your reveal.js presentation using a touch device
-		{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+		{ src: 'plugin/remotes/remotes.js', async: true },
 
 		// MathJax
 		{ src: 'plugin/math/math.js', async: true }
@@ -228,6 +229,17 @@ You can add your own extensions using the same syntax. The following properties 
 - **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
 - **callback**: [optional] Function to execute when the script has loaded
 - **condition**: [optional] Function which must return true for the script to be loaded
+
+
+### Ready Event
+
+A 'ready' event is fired when reveal.js has loaded all non-async dependencies and is ready to start navigating. To check if reveal.js is already 'ready' you can call `Reveal.isReady()`.
+
+```javascript
+Reveal.addEventListener( 'ready', function( event ) {
+	// event.currentSlide, event.indexh, event.indexv
+} );
+```
 
 
 ### Presentation Size
@@ -252,7 +264,7 @@ Reveal.initialize({
 
 	// Bounds for smallest/largest possible scale to apply to content
 	minScale: 0.2,
-	maxScale: 1.0
+	maxScale: 1.5
 
 });
 ```
@@ -306,7 +318,7 @@ To enable lazy loading all you need to do is change your "src" attributes to "da
 ```html
 <section>
   <img data-src="image.png">
-  <iframe data-src="http://slides.com">
+  <iframe data-src="http://slides.com"></iframe>
   <video>
     <source data-src="video.webm" type="video/webm" />
     <source data-src="video.mp4" type="video/mp4" />
@@ -317,7 +329,7 @@ To enable lazy loading all you need to do is change your "src" attributes to "da
 
 ### API
 
-The ``Reveal`` class provides a JavaScript API for controlling navigation and reading state:
+The ``Reveal`` object exposes a JavaScript API for controlling navigation and reading state:
 
 ```javascript
 // Navigation
@@ -330,15 +342,28 @@ Reveal.prev();
 Reveal.next();
 Reveal.prevFragment();
 Reveal.nextFragment();
+
+// Toggle presentation states, optionally pass true/false to force on/off
 Reveal.toggleOverview();
 Reveal.togglePause();
 Reveal.toggleAutoSlide();
+
+// Change a config value at runtime
+Reveal.configure({ controls: true });
+
+// Returns the present configuration options
+Reveal.getConfig();
+
+// Fetch the current scale of the presentation
+Reveal.getScale();
 
 // Retrieves the previous and current slide elements
 Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
 Reveal.getIndices(); // { h: 0, v: 0 } }
+Reveal.getProgress(); // 0-1
+Reveal.getTotalSlides();
 
 // State checks
 Reveal.isFirstSlide();
@@ -348,19 +373,9 @@ Reveal.isPaused();
 Reveal.isAutoSliding();
 ```
 
-### Ready Event
-
-The 'ready' event is fired when reveal.js has loaded all (synchronous) dependencies and is ready to start navigating.
-
-```javascript
-Reveal.addEventListener( 'ready', function( event ) {
-	// event.currentSlide, event.indexh, event.indexv
-} );
-```
-
 ### Slide Changed Event
 
-An 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
+A 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
 
 Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/issues/226#issuecomment-10261609)), get confused by the transforms and display states of slides. Often times, this can be fixed by calling their update or render function from this callback.
 
@@ -370,8 +385,24 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
 } );
 ```
 
+### Presentation State
 
-### States
+The presentation's current state can be fetched by using the `getState` method. A state object contains all of the information required to put the presentation back as it was when `getState` was first called. Sort of like a snapshot. It's a simple object that can easily be stringified and persisted or sent over the wire.
+
+```javascript
+Reveal.slide( 1 );
+// we're on slide 1
+
+var state = Reveal.getState();
+
+Reveal.slide( 3 );
+// we're on slide 3
+
+Reveal.setState( state );
+// we're back on slide 1
+```
+
+### Slide States
 
 If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
 
@@ -385,7 +416,7 @@ Reveal.addEventListener( 'somestate', function() {
 
 ### Slide Backgrounds
 
-Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page background colors or images by applying a ```data-background``` attribute to your ```<section>``` elements. Below are a few examples.
+Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe. Below are a few examples.
 
 ```html
 <section data-background="#ff0000">
@@ -396,6 +427,12 @@ Slides are contained within a limited portion of the screen by default to allow 
 </section>
 <section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
 	<h2>This background image will be sized to 100px and repeated.</h2>
+</section>
+<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
+	<h2>Video. Multiple sources can be defined using a comma separated list.</h2>
+</section>
+<section data-background-iframe="https://slides.com">
+	<h2>Embeds a web page as a background. Note that the page won't be interactive.</h2>
 </section>
 ```
 
@@ -584,10 +621,43 @@ Limitations:
 - Only one descendant per slide section can be stretched
 
 
+### postMessage API
+The framework has a built-in postMessage API that can be used when communicating with a presentation inside of another window. Here's an example showing how you'd make a reveal.js instance in the given window proceed to slide 2:
+
+```javascript
+<window>.postMessage( JSON.stringify({ method: 'slide', args: [ 2 ] }), '*' );
+```
+
+When reveal.js runs inside of an iframe it can optionally bubble all of its events to the parent. Bubbled events are stringified JSON with three fields: namespace, eventName and state. Here's how you subscribe to them from the parent window:
+
+```javascript
+window.addEventListener( 'message', function( event ) {
+	var data = JSON.parse( event.data );
+	if( data.namespace === 'reveal' && data.eventName ='slidechanged' ) {
+		// Slide changed, see data.state for slide number
+	}
+} );
+```
+
+This cross-window messaging can be toggled on or off using configuration flags.
+
+```javascript
+Reveal.initialize({
+	...,
+
+	// Exposes the reveal.js API through window.postMessage
+	postMessage: true,
+
+	// Dispatches all reveal.js events to the parent window through postMessage
+	postMessageEvents: false
+});
+```
+
+
 ## PDF Export
 
 Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome).
-Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-13872948.
+Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
 
 1. Open your presentation with `print-pdf` included anywhere in the query string. This triggers the default index HTML to load the PDF print stylesheet ([css/print/pdf.css](https://github.com/hakimel/reveal.js/blob/master/css/print/pdf.css)). You can test this with [lab.hakim.se/reveal-js?print-pdf](http://lab.hakim.se/reveal-js?print-pdf).
 2. Open the in-browser print dialog (CMD+P).
@@ -602,7 +672,9 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 The framework comes with a few different themes included:
 
-- default: Gray background, white text, blue links
+- black: Black background, white text, blue links (default theme)
+- white: White background, black text, blue links
+- league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
 - beige: Beige background, dark text, brown links
 - sky: Blue background, thin white text, blue links
 - night: Black background, thick white text, orange links
@@ -610,10 +682,10 @@ The framework comes with a few different themes included:
 - simple: White background, black text, blue links
 - solarized: Cream-colored background, dark green text, blue links
 
-Each theme is available as a separate stylesheet. To change theme you will need to replace **default** below with your desired theme name in index.html:
+Each theme is available as a separate stylesheet. To change theme you will need to replace **black** below with your desired theme name in index.html:
 
 ```html
-<link rel="stylesheet" href="css/theme/default.css" id="theme">
+<link rel="stylesheet" href="css/theme/black.css" id="theme">
 ```
 
 If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
@@ -897,7 +969,7 @@ The core of reveal.js is very easy to install. You'll simply need to download a 
 
 ### Full setup
 
-Some reveal.js features, like external markdown and speaker notes, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
+Some reveal.js features, like external Markdown and speaker notes, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
 
 1. Install [Node.js](http://nodejs.org/)
 
@@ -939,4 +1011,4 @@ Some reveal.js features, like external markdown and speaker notes, require that 
 
 MIT licensed
 
-Copyright (C) 2014 Hakim El Hattab, http://hakim.se
+Copyright (C) 2015 Hakim El Hattab, http://hakim.se
