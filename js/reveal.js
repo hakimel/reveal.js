@@ -226,7 +226,7 @@
 			'B  ,  .':				'Pause',
 			'F':					'Fullscreen',
 			'ESC, O':				'Slide overview',
-			'*': 'press w/ shift to skip fragments'
+			'*':				'press w/ shift to skip fragments'
 		};
 
 	/**
@@ -3637,7 +3637,7 @@
 		if( availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		} else { // Hide all fragments on top slide
-			while (previousFragment() !== false) {}
+			while( previousFragment() !== false ) {}
 		}
 
 	}
@@ -3650,7 +3650,7 @@
 		}
 
 		// Reveal all fragments
-		while (nextFragment() !== false) {}
+		while( nextFragment() !== false ) {}
 
 	}
 
@@ -3769,7 +3769,7 @@
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode === 191) || event.altKey || event.ctrlKey || event.metaKey) return;
+		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode === 191) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		// While paused only allow "unpausing" keyboard events (b and .)
 		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
@@ -3818,22 +3818,22 @@
 				case 78: case 34: navigateNext(); break;
 				// h, left
 				case 72: case 37:
-					if (event.shiftKey) { navigateHardLeft(); }
+					if( event.shiftKey ) { navigateHardLeft(); }
 					else { navigateLeft(); }
 					break;
 				// l, right
 				case 76: case 39:
-					if (event.shiftKey) { navigateHardRight(); }
+					if( event.shiftKey ) { navigateHardRight(); }
 					else { navigateRight(); }
 					break;
 				// k, up
 				case 75: case 38:
-					if (event.shiftKey) { navigateHardUp(); }
+					if( event.shiftKey ) { navigateHardUp(); }
 					else { navigateUp(); }
 					break;
 				// j, down
 				case 78: case 40:
-					if (event.shiftKey) { navigateHardDown(); }
+					if( event.shiftKey ) { navigateHardDown(); }
 					else { navigateDown(); }
 					break;
 				// home
