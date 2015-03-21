@@ -4377,8 +4377,12 @@
 		slide: slide,
 		left: navigateLeft,
 		right: navigateRight,
+		hardLeft: navigateHardLeft,
+		hardRight: navigateHardRight,
 		up: navigateUp,
 		down: navigateDown,
+		hardup: navigateHardUp,
+		harddown: navigateHardDown,
 		prev: navigatePrev,
 		next: navigateNext,
 
