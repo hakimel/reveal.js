@@ -100,7 +100,7 @@ body {
 }
 
 .reveal .slides section .fragment.roll-in {
-	transform: rotateX( 90deg );
+	transform: rotateX( 60deg );
 
 	&.visible {
 		transform: none;

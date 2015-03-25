@@ -71,8 +71,8 @@ body {
             transform: none; }
 
 .reveal .slides section .fragment.roll-in {
-  -webkit-transform: rotateX(90deg);
-          transform: rotateX(90deg); }
+  -webkit-transform: rotateX(60deg);
+          transform: rotateX(60deg); }
   .reveal .slides section .fragment.roll-in.visible {
     -webkit-transform: none;
         -ms-transform: none;
