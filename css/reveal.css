@@ -66,16 +66,17 @@ body {
       -ms-transform: scale(0.1);
           transform: scale(0.1); }
   .reveal .slides section .fragment.zoom-in.visible {
-    -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-            transform: scale(1); }
+    -webkit-transform: none;
+        -ms-transform: none;
+            transform: none; }
 
 .reveal .slides section .fragment.roll-in {
   -webkit-transform: rotateX(90deg);
           transform: rotateX(90deg); }
   .reveal .slides section .fragment.roll-in.visible {
-    -webkit-transform: rotateX(0);
-            transform: rotateX(0); }
+    -webkit-transform: none;
+        -ms-transform: none;
+            transform: none; }
 
 .reveal .slides section .fragment.fade-out {
   opacity: 1;

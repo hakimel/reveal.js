@@ -95,7 +95,7 @@ body {
 	transform: scale( 0.1 );
 
 	&.visible {
-		transform: scale( 1 );
+		transform: none;
 	}
 }
 
@@ -103,7 +103,7 @@ body {
 	transform: rotateX( 90deg );
 
 	&.visible {
-		transform: rotateX( 0 );
+		transform: none;
 	}
 }
 
