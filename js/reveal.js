@@ -1625,7 +1625,7 @@
 		};
 
 		// Reduce available space by margin
-		size.presentationWidth -= ( size.presentationHeight * config.margin );
+		size.presentationWidth -= ( size.presentationWidth * config.margin );
 		size.presentationHeight -= ( size.presentationHeight * config.margin );
 
 		// Slide width may be a percentage of available width
