@@ -19,6 +19,12 @@ Presentations are written using HTML or Markdown but there's also an online edit
 
 ## Instructions
 
+###EJS File descriptions
+
+All files for the web page are in EJS. There is no need to pass in data using a json file. EJS was used to include partial files to help aid in the multiplexing process. The files are located in the source folder. _default.ejs_ is used for everyday purpose whereas _client.ejs_ and _master.ejs_ are for multiplexing. 
+
+In the partials folder there are many different files. The main being the _slide.ejs_. This is the file where you use the Markup described below to create slides. The _header.ejs_ has all the meta-data for the web page (css, some javascript, etc.). The different _footer.ejs_ files are where the ```Reveal.initialize()``` function is called. The default is just _footer.ejs_. The other two are copies of _footer.ejs_ with added dependencies and configurations.
+
 ### Markup
 
 Markup hierarchy needs to be ``<div class="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. The first of the vertical slides is the "root" of the others (at the top), and it will be included in the horizontal sequence. For example:
@@ -774,64 +780,26 @@ The multiplex plugin needs the following 3 things to operate:
 More details:
 
 #### Master presentation
-Served from a static file server accessible (preferably) only to the presenter. This need only be on your (the presenter's) computer. (It's safer to run the master presentation from your own computer, so if the venue's Internet goes down it doesn't stop the show.) An example would be to execute the following commands in the directory of your master presentation: 
+Served from a static file server accessible (preferably) only to the presenter. This need only be on your (the presenter's) computer. (It's safer to run the master presentation from your own computer, so if the venue's Internet goes down it doesn't stop the show.) To start the master presentation run:
 
-1. ```npm install node-static```
-2. ```static```
+1. ```npm install```
+2. ```node run master```
 
-If you want to use the speaker notes plugin with your master presentation then make sure you have the speaker notes plugin configured correctly along with the configuration shown below, then execute ```node plugin/notes-server``` in the directory of your master presentation. The configuration below will cause it to connect to the socket.io server as a master, as well as launch your speaker-notes/static-file server.
+You can then access your master presentation at ```http://localhost:8080```
 
-You can then access your master presentation at ```http://localhost:1947```
-
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
-
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'revealjs.jit.su:80' // Location of socket.io server
-	},
-
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
-		{ src: 'plugin/multiplex/master.js', async: true },
-
-		// and if you want speaker notes
-		{ src: 'plugin/notes-server/client.js', async: true }
-
-		// other dependencies...
-	]
-});
-```
+To configure the server to connect to the Socket.IO server see the Socket.IO section (editing the _mpSet.json_ file).
 
 #### Client presentation
-Served from a publicly accessible static file server. Examples include: GitHub Pages, Amazon S3, Dreamhost, Akamai, etc. The more reliable, the better. Your audience can then access the client presentation via ```http://example.com/path/to/presentation/client/index.html```, with the configuration below causing them to connect to the socket.io server as clients.
+Served from a publicly accessible static file server. Examples include: GitHub Pages, Amazon S3, Dreamhost, Akamai, etc. The more reliable, the better. Your audience can then access the client presentation via ```http://example.com/path/to/presentation/client/index.html```.
 
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
+To start a locally hosted static server for the client presentation run:
 
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'revealjs.jit.su:80' // Location of socket.io server
-	},
+1. ```npm install```
+2. ```npm run client```
 
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
+Your audience can access the presentation at the servers local ip address on port 8000 (ex. ```http://192.168.1.7:8000```). You can run ```grunt ip``` to view all possible ip addresses your machine has and use the ip address associated with network your audience can connect to. It usually starts with 192.168. **NOTE:** Your audience needs to be connected to the same network as the client server.
 
-		// other dependencies...
-	]
-});
-```
+To configure the server to connect to the Socket.IO server see the Socket.IO section (editing the _mpSet.json_ file).
 
 #### Socket.io server
 Server that receives the slideChanged events from the master presentation and broadcasts them out to the connected client presentations. This needs to be publicly accessible. You can run your own socket.io server with the commands:
@@ -843,57 +811,30 @@ Or you use the socket.io server at [http://revealjs.jit.su](http://revealjs.jit.
 
 You'll need to generate a unique secret and token pair for your master and client presentations. To do so, visit ```http://example.com/token```, where ```http://example.com``` is the location of your socket.io server. Or if you're going to use the socket.io server at [http://revealjs.jit.su](http://revealjs.jit.su), visit [http://revealjs.jit.su/token](http://revealjs.jit.su/token).
 
+Use the secret and token pair in the _mpSet.json_ file and the ```npm run``` commands will use them appropriately depending on the server you are starting. The url is the location of the Socket.IO server (this example shows it locally on the network).
+
+```
+{
+	"secret": "14246866939767085535",
+	"id": "10e245ba48da5cf4",
+	"url": "192.168.1.7:1948"
+}
+```
+
 You are very welcome to point your presentations at the Socket.io server running at [http://revealjs.jit.su](http://revealjs.jit.su), but availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu, heroku, your own environment, etc.
 
 ##### socket.io server as file static server
 
-The socket.io server can play the role of static file server for your client presentation, as in the example at [http://revealjs.jit.su](http://revealjs.jit.su). (Open [http://revealjs.jit.su](http://revealjs.jit.su) in two browsers. Navigate through the slides on one, and the other will update to match.) 
+The socket.io server can play the role of static file server for your client presentation. Make sure to edit your _mpSet.json_ file and run the following:
 
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
+1. ```npm install```
+2. ```npm run clientSocket```
 
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'example.com:80' // Location of your socket.io server
-	},
+This will start a Socket.IO server on the current machine and also host the static web page your audience connects to. The Socket.IO server and the clients web page are hosted on the machine's local ip address. To find the local ip address use ```grunt ip```. It will list off all available ip addresses the servers are hosted to. Use the ip address associated with the network your audience will be on (usually starts with 192.168). Use this ip address in the _mpSet.json_ file.
 
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
+The audience can access the client page using the ip address you found above and using port 1948 (ex. ```http://192.168.1.7:1948```).
 
-		// other dependencies...
-	]
-```
-
-It can also play the role of static file server for your master presentation and client presentations at the same time (as long as you don't want to use speaker notes). (Open [http://revealjs.jit.su](http://revealjs.jit.su) in two browsers. Navigate through the slides on one, and the other will update to match. Navigate through the slides on the second, and the first will update to match.) This is probably not desirable, because you don't want your audience to mess with your slides while you're presenting. ;)
-
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
-
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'example.com:80' // Location of your socket.io server
-	},
-
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
-		{ src: 'plugin/multiplex/master.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
-
-		// other dependencies...
-	]
-});
-```
+To find a secret and id combination of the server, go to the server's ip address (if your on the server use localhost) with port 1948. Go to the token directory and it will display a secret and an id associated with it (ex. ```http://localhost:1948/token```). Use this in the _mpSet.json_ file. In the terminal do ```[ctrl] + [c]``` to stop the server and run ```npm run clientSocket``` again to commit changes to the _mpSet.json_ file.
 
 ## Leap Motion
 The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
