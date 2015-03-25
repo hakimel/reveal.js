@@ -2475,13 +2475,10 @@
 				format = config.slideNumber;
 			}
 
-			var totalSlides = getTotalSlides();
-			var currentSlide = getSlidePastCount() + 1;
-
 			dom.slideNumber.innerHTML = format.replace( /h/g, indexh )
 												.replace( /v/g, indexv )
-												.replace( /c/g, currentSlide )
-												.replace( /t/g, totalSlides );
+												.replace( /c/g, getSlidePastCount() + 1 )
+												.replace( /t/g, getTotalSlides() );
 		}
 
 	}
