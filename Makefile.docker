@@ -1,0 +1,12 @@
+.PHONY: all build run
+
+DOCKER_IMAGE = revealjs
+
+all: build run
+
+build:
+	docker build --rm=true --force-rm=true --no-cache --tag $(DOCKER_IMAGE) .
+
+run:
+	docker run --publish=8000:8000 --rm=true --tty=true --interactive=true \
+		--volume=`pwd`:/code --name $(DOCKER_IMAGE) $(DOCKER_IMAGE)
