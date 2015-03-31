@@ -1010,7 +1010,7 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
 3. Build and up container
    ```sh
-    Make -f Makefile.docker
+    make -f Makefile.docker
     ```
 
 4. Open <http://localhost:8000> to view your presentation
