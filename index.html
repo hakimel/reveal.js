@@ -395,11 +395,11 @@ AND THESE MAPPINGS NEED TO BE EXPORTABLE USING FEATURES
        		</section>
        		<section data-transition="fade">
        			<h4>Search Google</h4>
-       			<img class="present" data-src="images/s1s1p2_google_search.gif" alt="Searching Google.com using the keywords 'Drupal exif'." />
+       			<img class="present animated-gif" data-src="images/s1s1p2_google_search.gif" alt="Searching Google.com using the keywords 'Drupal exif'." />
        		</section>
        		<section>
        			<h3>Utilize the Community</h3>
-       			<img class="strech present" data-src="images/s1s1p3_community_compare.gif" alt="Reviewing a commmunity comparison of available Drupal exif modules." />
+       			<img class="strech present animated-gif" data-src="images/s1s1p3_community_compare.gif" alt="Reviewing a commmunity comparison of available Drupal exif modules." />
        		</section>
        		<section data-transition="convex">
        			<h2>Evaluate the Options</h2>
@@ -422,15 +422,15 @@ AND THESE MAPPINGS NEED TO BE EXPORTABLE USING FEATURES
        		</section>
        		<section data-transition="fade">
        			<h3>Download and Test the Module</h3>
-       			<img data-src="images/s1s3p1_test_module.gif" alt="Testing adding custom exif mappings to fields." />
+       			<img class="animated-gif" data-src="images/s1s3p1_test_module.gif" alt="Testing adding custom exif mappings to fields." />
        		</section>
        		<section data-transition="fade">
        			<h3>Discover Missing Functionality</h3>
-       			<img data-src="images/s1s3p2_missing_functionality.gif" alt="Exif custom does not have features support." />
+       			<img class="animated-gif" data-src="images/s1s3p2_missing_functionality.gif" alt="Exif custom does not have features support." />
        		</section>
        		<section data-transition="fade">
        			<h3>Check for Solutions</h3>
-       			<img data-src="images/s1s3p3_check_solutions.gif" alt="Search the Exif issue queue for 'features'. no results found." />
+       			<img class="animated-gif" data-src="images/s1s3p3_check_solutions.gif" alt="Search the Exif issue queue for 'features'. no results found." />
        		</section>
        		<section data-transition="convex">
        			<h2>Determine Change</h2>
@@ -494,19 +494,19 @@ AND THESE MAPPINGS NEED TO BE EXPORTABLE USING FEATURES
        		</section>
 	     		<section data-transition="fade">
   	   			<h2>Clone and branch module git repo.</h2>
-    	 			<img data-src="images/s1patch_s1_clone_branch.gif" style="width:90%;" alt="Version control tab of module drupal.org project page, get git clone command." />
+    	 			<img class="animated-gif" data-src="images/s1patch_s1_clone_branch.gif" style="width:90%;" alt="Version control tab of module drupal.org project page, get git clone command." />
      			</section>
      			<section data-transition="fade">
      				<h2>Make changes to code.</h2>
-     				<img data-src="images/s1patch_s2_change_code.gif" alt="Writing features integration for the exif custom module." />
+     				<img class="animated-gif" data-src="images/s1patch_s2_change_code.gif" alt="Writing features integration for the exif custom module." />
      			</section>
      			<section data-transition="fade">
      				<h2>Test your changes.</h2>
-     				<img data-src="images/s1patch_s3_test_code.gif" alt="Testing that exif mappings can be exported via features." />
+     				<img class="animated-gif" data-src="images/s1patch_s3_test_code.gif" alt="Testing that exif mappings can be exported via features." />
      			</section>
      			<section data-transition="fade">
      				<h2>Generate patch file.</h2>
-     				 <img data-src="images/patch_s4_generate_patch.gif" alt="running the command 'gif diff' to generate a patch." />
+     				 <img class="animated-gif" data-src="images/patch_s4_generate_patch.gif" alt="running the command 'gif diff' to generate a patch." />
           </section>
           <section data=transition="fade">
               <pre><code style="height:75%;max-height:625px;">
@@ -608,7 +608,7 @@ AND CAN SELECT DATE FOR SECOND STATE
        		</section>
        		<section data-transition="fade">
        			<h4>Search Drupal</h4>
-       			<img class="present" data-src="images/s2s1p1_drupal_search.gif" alt="Searching on Drupal.org for 'workbench schedule'." />
+       			<img class="present animated-gif" data-src="images/s2s1p1_drupal_search.gif" alt="Searching on Drupal.org for 'workbench schedule'." />
        		</section>
        		<section data-transition="convex">
        			<h2>Evaluate the Options</h2>
@@ -631,7 +631,7 @@ AND CAN SELECT DATE FOR SECOND STATE
        		</section>
        		<section data-transition="fade">
        			<h3>Download and Test the Module</h3>
-       			<img data-src="images/s2s3p1_test_module.gif" alt="Scheduler workbench integration allows for scheduling the publish and unpublish date for a node. configurable per content type." />
+       			<img class="animated-gif" data-src="images/s2s3p1_test_module.gif" alt="Scheduler workbench integration allows for scheduling the publish and unpublish date for a node. configurable per content type." />
        		</section>
        		<section data-transition="fade">
        			<h3>Discover Missing Functionality</h3>
@@ -796,15 +796,28 @@ AND CAN SELECT DATE FOR SECOND STATE
 
 				// Optional reveal.js plugins
 				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
+          { src: 'lib/js/jquery-2.1.3.min.js'},
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 
+      Reveal.addEventListener('slidechanged', initAnimatedGifs);
+      Reveal.addEventListener('ready', initAnimatedGifs);
+
+      function initAnimatedGifs(event) {
+        $('.animated-gif', event.currentSlide).each(function (i, e) {
+            var slide = $(e).parent('section');
+            if (slide.attr("class") == 'present') {
+              $(e).attr('src', $(e).attr('src'));
+              //enableGif(e);
+            }
+        });
+      }
 		</script>
 
 	</body>
