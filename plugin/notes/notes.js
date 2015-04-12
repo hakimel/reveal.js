@@ -28,7 +28,7 @@ var RevealNotes = (function() {
 				notesPopup.postMessage( JSON.stringify( {
 					namespace: 'reveal-notes',
 					type: 'connect',
-					url: window.location.protocol + '//' + window.location.host + window.location.pathname,
+					url: window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search,
 					state: Reveal.getState()
 				} ), '*' );
 			}, 500 );
