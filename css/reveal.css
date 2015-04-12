@@ -70,14 +70,6 @@ body {
         -ms-transform: none;
             transform: none; }
 
-.reveal .slides section .fragment.roll-in {
-  -webkit-transform: rotateX(60deg);
-          transform: rotateX(60deg); }
-  .reveal .slides section .fragment.roll-in.visible {
-    -webkit-transform: none;
-        -ms-transform: none;
-            transform: none; }
-
 .reveal .slides section .fragment.fade-out {
   opacity: 1;
   visibility: visible; }

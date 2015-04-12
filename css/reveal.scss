@@ -99,14 +99,6 @@ body {
 	}
 }
 
-.reveal .slides section .fragment.roll-in {
-	transform: rotateX( 60deg );
-
-	&.visible {
-		transform: none;
-	}
-}
-
 .reveal .slides section .fragment.fade-out {
 	opacity: 1;
 	visibility: visible;
