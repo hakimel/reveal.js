@@ -322,7 +322,7 @@ To enable lazy loading all you need to do is change your "src" attributes to "da
 ```html
 <section>
   <img data-src="image.png">
-  <iframe data-src="http://slides.com"></iframe>
+  <iframe data-src="http://hakim.se"></iframe>
   <video>
     <source data-src="video.webm" type="video/webm" />
     <source data-src="video.mp4" type="video/mp4" />
