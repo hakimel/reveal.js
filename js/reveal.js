@@ -667,6 +667,7 @@
 			backgroundImage: slide.getAttribute( 'data-background-image' ),
 			backgroundVideo: slide.getAttribute( 'data-background-video' ),
 			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
+			backgroundHtml: slide.getAttribute( 'data-background-html' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
@@ -697,6 +698,7 @@
 															data.backgroundImage +
 															data.backgroundVideo +
 															data.backgroundIframe +
+															data.backgroundHtml +
 															data.backgroundColor +
 															data.backgroundRepeat +
 															data.backgroundPosition +
@@ -2590,7 +2592,8 @@
 
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
-					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
+					backgroundIframe = slide.getAttribute( 'data-background-iframe' ),
+					backgroundHtml = slide.getAttribute( 'data-background-html');
 
 				// Images
 				if( backgroundImage ) {
@@ -2617,6 +2620,13 @@
 						iframe.style.maxWidth = '100%';
 
 					background.appendChild( iframe );
+				}
+				// Html
+				else if ( backgroundHtml ) {
+					var sourceElement = document.getElementById(backgroundHtml);
+					var targetNode = document.createElement('div');
+					targetNode.innerHTML = sourceElement.innerHTML;
+					background.appendChild(targetNode);
 				}
 			}
 		}
