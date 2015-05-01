@@ -9,26 +9,26 @@ http://jonl.org/reveal.js/?md=https://gist.githubusercontent.com/jonleung/0ab647
 ```
 
 My only code additions to the default `index.html` were
+
+```html
+<div class="reveal">
+
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		
+		<section id="md"
+			data-separator="^\n\n\n"  
+			data-separator-vertical="^\n\n"  
+			data-separator-notes="^Note:"  
+			data-charset="iso-8859-15">
+		</section>
+
+	</div>
+
+</div>
+
+<script src="js/load_external_markdown.js"></script>
 ```
-		<div class="reveal">
-
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				
-				<section id="md"
-					data-separator="^\n\n\n"  
-					data-separator-vertical="^\n\n"  
-					data-separator-notes="^Note:"  
-					data-charset="iso-8859-15">
-				</section>
-
-			</div>
-
-		</div>
-
-		<script src="js/load_external_markdown.js"></script>
-
-
 
 And a couple lines of javascript in `js/load_external_markdown.js`
 
