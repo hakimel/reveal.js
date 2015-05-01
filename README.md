@@ -755,7 +755,7 @@ The multiplex plugin needs the following 3 things to operate:
 2. Client presentations that follow the master
 3. Socket.io server to broadcast events from the master to the clients
 
->**Important note: you have use the same version of Socket.io on your Socket.io server, Master presentation and client presentations.** So if you use the Socket.io hosted on http://revealjs.jit.su you must ensure that you the same version on your master and clients.
+>**Important note: you have use the same version of Socket.io on your Socket.io server, Master presentation and client presentations.** So if you use the Socket.io hosted on http://revealjs.jit.su you must ensure that you use the same version on your master and clients.
 
 More details:
 
@@ -920,9 +920,14 @@ Reveal.initialize({
 
     // Multiplex master settings
     multiplex: {
-        secret: 01234567890123456789, // Obtained from the socket.io server. It gives the control of the presentation of all clients. Get it from yourServer:1948/token or yourIp:1948/token.
-        id: '0123456789abcdef', // Obtained from the socket.io server. It gives the control of the presentation of all clients. Get it from yourServer:1948/token or yourIp:1948/token.
-        url: 'yourServer:1948' // Location of socket.io server, yourServer:1948 or yourIp:1948.
+        secret: 01234567890123456789, // Obtained from the socket.io server.
+        // It gives the control of the presentation of all clients.
+        // Get it from yourServer:1948/token or yourIp:1948/token.
+        id: '0123456789abcdef', // Obtained from the socket.io server.
+        // It gives the control of the presentation of all clients.
+        // Get it from yourServer:1948/token or yourIp:1948/token.
+        url: 'yourServer:1948' // Location of socket.io server,
+        // yourServer:1948 or yourIp:1948.
     },
 
     // Don't forget to add the dependencies
@@ -947,8 +952,11 @@ Reveal.initialize({
     // Multiplex master settings
     multiplex: {
         secret: null, // null so the clients do not have control of the master presentation.
-        id: '0123456789abcdef', // The same thahas been set in the master config. Obtained from the socket.io server. It gives the control of the presentation of all clients. Get it from yourServer:1948/token or yourIp:1948/token.
-        url: 'yourServer:1948' // Location of socket.io server, yourServer:1948 or yourIp:1948.
+        id: '0123456789abcdef', // The same thahas been set in the master config.
+        // Obtained from the socket.io server. It gives the control of the presentation
+        // of all clients. Get it from yourServer:1948/token or yourIp:1948/token.
+        url: 'yourServer:1948' // Location of socket.io server,
+        // yourServer:1948 or yourIp:1948.
     },
 
     // Don't forget to add the dependencies
@@ -963,7 +971,7 @@ Reveal.initialize({
 
 Run it with ```python -m SimpleHTTPServer 8000```. Set the port number at your convenience. Or use you apache, nginx or whatever you want.
 
-Then provide this address to you audience. And take the control of the presentation from the master presentation address.
+Then provide this address to you audience. And take the control of the presentation from the master presentation address (from previous point).
 
 ## Leap Motion
 The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
