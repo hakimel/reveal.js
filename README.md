@@ -482,7 +482,7 @@ The global presentation transition is set using the ```transition``` config valu
 </section>
 ```
 
-You can as well override only the appearing or the disappearing of the slide:
+You can also use different in and out transitions for the same slide:
 
 ```html
 <section data-transition="slide">
@@ -988,7 +988,7 @@ Reveal.initialize({
 Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
 
 
-## Installation<a id="installation"></a>
+## Installation
 
 The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.
 
