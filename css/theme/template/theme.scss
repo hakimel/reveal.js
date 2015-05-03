@@ -199,8 +199,9 @@ body {
 	border-bottom: 1px solid;
 }
 
-.reveal table tr:last-child td {
-    border-bottom: none;
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
+	border-bottom: none;
 }
 
 .reveal sup {
