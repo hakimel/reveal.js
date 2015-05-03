@@ -482,6 +482,27 @@ The global presentation transition is set using the ```transition``` config valu
 </section>
 ```
 
+You can as well override only the appearing or the disappearing of the slide:
+
+```html
+<section data-transition="slide">
+    The train goes on … 
+</section>
+<section data-transition="slide"> 
+    and on … 
+</section>
+<section data-transition="slide-in fade-out"> 
+    and stops.
+</section>
+<section data-transition="fade-in slide-out"> 
+    (Passengers entering and leaving)
+</section>
+<section data-transition="slide">
+    And it starts again.
+</section>
+```
+
+
 Note that this does not work with the page and cube transitions.
 
 
@@ -967,7 +988,7 @@ Reveal.initialize({
 Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
 
 
-## Installation
+## Installation<a id="installation"></a>
 
 The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.
 
