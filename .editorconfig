@@ -1,0 +1,57 @@
+# http://editorconfig.org
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = tab
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[package.json]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+
+# Stylesheets
+
+[css/theme/source/blood.scss]
+indent_style = space
+indent_size = 4
+
+[*.css]
+indent_style = space
+indent_size = 2
+
+[css/print/{paper,pdf}.css]
+indent_style = tab
+indent_size = default
+
+
+# Differing plugin styles
+
+[plugin/remotes/remotes.js]
+indent_style = space
+indent_size = 4
+
+[plugin/leap/leap.js]
+indent_style = space
+indent_size = 2
+
+
+# Third-party libraries
+
+[test/qunit-*.*]
+indent_style = tab
+indent_size = default
+insert_final_newline = false
+
+[test/test-markdown-*.html]
+trim_trailing_whitespace = false
+
+[lib/**]
+indent_style = varies
