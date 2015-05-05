@@ -238,14 +238,18 @@
 		if( !features.transforms2d && !features.transforms3d ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
-			// Since JS won't be running any further, we need to load all
-			// images that were intended to lazy load now
-			var images = document.getElementsByTagName( 'img' );
-			for( var i = 0, len = images.length; i < len; i++ ) {
-				var image = images[i];
-				if( image.getAttribute( 'data-src' ) ) {
-					image.setAttribute( 'src', image.getAttribute( 'data-src' ) );
-					image.removeAttribute( 'data-src' );
+			// Since JS won't be running any further, we load all lazy
+			// loading elements upfront
+			var images = toArray( document.getElementsByTagName( 'img' ) ),
+				iframes = toArray( document.getElementsByTagName( 'iframe' ) );
+
+			var lazyLoadable = images.concat( iframes );
+
+			for( var i = 0, len = lazyLoadable.length; i < len; i++ ) {
+				var element = lazyLoadable[i];
+				if( element.getAttribute( 'data-src' ) ) {
+					element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+					element.removeAttribute( 'data-src' );
 				}
 			}
 
