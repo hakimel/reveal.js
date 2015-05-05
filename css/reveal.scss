@@ -173,8 +173,8 @@ body {
 
 /* Fixes issue in Chrome where italic fonts did not appear when printing to PDF */
 .reveal:after {
-  content: '';
-  font-style: italic;
+	content: '';
+	font-style: italic;
 }
 
 .reveal iframe {
@@ -1267,8 +1267,8 @@ body {
 	backface-visibility: hidden;
 }
 	.reveal .roll:hover span {
-	    background: rgba(0,0,0,0.5);
-	    transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
+		background: rgba(0,0,0,0.5);
+		transform: translate3d( 0px, 0px, -45px ) rotateX( 90deg );
 	}
 .reveal .roll span:after {
 	content: attr(data-title);
