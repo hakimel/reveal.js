@@ -30,7 +30,7 @@
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
 
-		// Configurations defaults, can be overridden at initialization time
+		// Configuration defaults, can be overridden at initialization time
 		config = {
 
 			// The "normal" size of the presentation, aspect ratio will be preserved
@@ -1136,7 +1136,7 @@
 	}
 
 	/**
-	 * Measures the distance in pixels between point a and point b.
+	 * Converts various color input formats to an {r:0,g:0,b:0} object.
 	 *
 	 * @param {String} color The string representation of a color,
 	 * the following formats are supported:
