@@ -2723,7 +2723,7 @@
 		slide.style.display = 'block';
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
+		toArray( slide.querySelectorAll( 'img[data-src]', 'video[data-src]', 'audio[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 			element.removeAttribute( 'data-src' );
 		} );
@@ -2909,19 +2909,24 @@
 				}
 			} );
 
-			// iframe embeds
+			// Lazy loading iframes
+			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( element ) {
+				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+			} );
+
+			// Generic postMessage API for non-lazy loaded iframes
 			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
 				el.contentWindow.postMessage( 'slide:start', '*' );
 			});
 
-			// YouTube embeds
+			// YouTube postMessage API
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
 				}
 			});
 
-			// Vimeo embeds
+			// Vimeo postMessage API
 			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 				if( el.hasAttribute( 'data-autoplay' ) ) {
 					el.contentWindow.postMessage( '{"method":"play"}', '*' );
@@ -2945,19 +2950,24 @@
 				}
 			} );
 
-			// iframe embeds
+			// Lazy loading iframes
+			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( element ) {
+				element.removeAttribute( 'src' );
+			} );
+
+			// Generic postMessage API for non-lazy loaded iframes
 			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
 				el.contentWindow.postMessage( 'slide:stop', '*' );
 			});
 
-			// YouTube embeds
+			// YouTube postMessage API
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
 				}
 			});
 
-			// Vimeo embeds
+			// Vimeo postMessage API
 			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
