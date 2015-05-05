@@ -57,7 +57,7 @@ function Hilitor(id, tag)
 				while (secnode.nodeName != 'SECTION') {
 					secnode = secnode.parentNode;
 				}
-				
+
 				var slideIndex = Reveal.getIndices(secnode);
 				var slidelen = matchingSlides.length;
 				var alreadyAdded = false;
@@ -69,7 +69,7 @@ function Hilitor(id, tag)
 				if (! alreadyAdded) {
 					matchingSlides.push(slideIndex);
 				}
-				
+
 				if(!wordColor[regs[0].toLowerCase()]) {
 					wordColor[regs[0].toLowerCase()] = colors[colorIdx++ % colors.length];
 				}

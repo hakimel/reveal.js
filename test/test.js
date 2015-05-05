@@ -89,7 +89,7 @@ Reveal.addEventListener( 'ready', function() {
 
 	test( 'Reveal.isLastSlide after vertical slide', function() {
 		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
-		
+
 		Reveal.slide( 1, 1 );
 		Reveal.slide( lastSlideIndex );
 		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( 1, 1 ) and then Reveal.slide( '+ lastSlideIndex +', 0 )' );
