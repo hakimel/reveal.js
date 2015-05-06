@@ -2904,7 +2904,7 @@
 
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
+				if( el.hasAttribute( 'data-autoplay' ) && typeof el.play === 'function' ) {
 					el.play();
 				}
 			} );
@@ -2945,7 +2945,7 @@
 		if( slide && slide.parentNode ) {
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				if( !el.hasAttribute( 'data-ignore' ) ) {
+				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
 					el.pause();
 				}
 			} );
