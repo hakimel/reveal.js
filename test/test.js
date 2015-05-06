@@ -498,9 +498,9 @@ Reveal.addEventListener( 'ready', function() {
 	test( 'iframe with data-src', function() {
 		Reveal.slide( 0, 0 );
 		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 0, 'Iframe source is not set' );
-		Reveal.slide( 2, 0 );
-		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 1, 'Iframe source is set' );
 		Reveal.slide( 2, 1 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 1, 'Iframe source is set' );
+		Reveal.slide( 2, 2 );
 		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 0, 'Iframe source is not set' );
 	});
 
