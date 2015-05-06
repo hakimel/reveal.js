@@ -2197,6 +2197,7 @@
 		updateSlidesVisibility();
 
 		formatEmbeddedContent();
+		startEmbeddedContent( currentSlide );
 
 		if( isOverview() ) {
 			layoutOverview();
