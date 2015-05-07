@@ -2910,29 +2910,42 @@
 				}
 			} );
 
-			// Lazy loading iframes
-			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( element ) {
-				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+			// Normal iframes
+			toArray( slide.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
+				startEmbeddedIframe( { target: el } );
 			} );
 
-			// Generic postMessage API for non-lazy loaded iframes
-			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
-				el.contentWindow.postMessage( 'slide:start', '*' );
-			});
-
-			// YouTube postMessage API
-			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
-					el.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+			// Lazy loading iframes
+			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
+					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
+					el.addEventListener( 'load', startEmbeddedIframe );
+					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
 				}
-			});
+			} );
+		}
 
-			// Vimeo postMessage API
-			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
-					el.contentWindow.postMessage( '{"method":"play"}', '*' );
-				}
-			});
+	}
+
+	/**
+	 * "Starts" the content of an embedded iframe using the
+	 * postmessage API.
+	 */
+	function startEmbeddedIframe( event ) {
+
+		var iframe = event.target;
+
+		// YouTube postMessage API
+		if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+			iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+		}
+		// Vimeo postMessage API
+		else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+			iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
+		}
+		// Generic postMessage API
+		else {
+			iframe.contentWindow.postMessage( 'slide:start', '*' );
 		}
 
 	}
@@ -2951,14 +2964,10 @@
 				}
 			} );
 
-			// Lazy loading iframes
-			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( element ) {
-				element.removeAttribute( 'src' );
-			} );
-
 			// Generic postMessage API for non-lazy loaded iframes
 			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
 				el.contentWindow.postMessage( 'slide:stop', '*' );
+				el.removeEventListener( 'load', startEmbeddedIframe );
 			});
 
 			// YouTube postMessage API
@@ -2974,6 +2983,11 @@
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
 				}
 			});
+
+			// Lazy loading iframes
+			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				el.removeAttribute( 'src' );
+			} );
 		}
 
 	}
