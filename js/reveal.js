@@ -2986,6 +2986,9 @@
 
 			// Lazy loading iframes
 			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				// Only removing the src doesn't actually unload the frame
+				// in all browsers (Firefox) so we set it to blank first
+				el.setAttribute( 'src', 'about:blank' );
 				el.removeAttribute( 'src' );
 			} );
 		}
