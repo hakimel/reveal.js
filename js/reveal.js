@@ -2871,21 +2871,22 @@
 	 */
 	function formatEmbeddedContent() {
 
+		var _appendParamToIframeSource = function( sourceAttribute, sourceURL, param ) {
+			toArray( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( function( el ) {
+				var src = el.getAttribute( sourceAttribute );
+				if( src && src.indexOf( param ) === -1 ) {
+					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
+				}
+			});
+		};
+
 		// YouTube frames must include "?enablejsapi=1"
-		toArray( dom.slides.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
-			var src = el.getAttribute( 'src' );
-			if( !/enablejsapi\=1/gi.test( src ) ) {
-				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'enablejsapi=1' );
-			}
-		});
+		_appendParamToIframeSource( 'src', 'youtube.com/embed/', 'enablejsapi=1' );
+		_appendParamToIframeSource( 'data-src', 'youtube.com/embed/', 'enablejsapi=1' );
 
 		// Vimeo frames must include "?api=1"
-		toArray( dom.slides.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
-			var src = el.getAttribute( 'src' );
-			if( !/api\=1/gi.test( src ) ) {
-				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'api=1' );
-			}
-		});
+		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
+		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
 
 	}
 
