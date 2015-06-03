@@ -712,7 +712,7 @@ The framework comes with a few different themes included:
 - white: White background, black text, blue links
 - league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
 - beige: Beige background, dark text, brown links
-- sky: Blue background, thin white text, blue links
+- sky: Blue background, thin dark text, blue links
 - night: Black background, thick white text, orange links
 - serif: Cappuccino background, gray text, brown links
 - simple: White background, black text, blue links
