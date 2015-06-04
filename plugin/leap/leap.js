@@ -79,7 +79,7 @@ var b=right.criteria;if(a!==b){if(a>b||a===void 0)return 1;if(a<b||b===void 0)re
       tipPosition = frame.fingers[0].tipPosition;
 
       if( config.autoCenter ) {
-        
+
 
         // Check whether the finger has entered the z range of the Leap Motion. Used for the autoCenter option.
         if( !entered ) {

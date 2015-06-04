@@ -1,5 +1,5 @@
 /**
- * Touch-based remote controller for your presentation courtesy 
+ * Touch-based remote controller for your presentation courtesy
  * of the folks at http://remotes.io
  */
 
@@ -7,7 +7,7 @@
 
     /**
      * Detects if we are dealing with a touch enabled device (with some false positives)
-     * Borrowed from modernizr: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touch.js   
+     * Borrowed from modernizr: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touch.js
      */
     var hasTouch  = (function(){
         return ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch;

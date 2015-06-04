@@ -316,13 +316,13 @@
 
 	}
 
-    /**
-     * Loads the dependencies of reveal.js. Dependencies are
-     * defined via the configuration option 'dependencies'
-     * and will be loaded prior to starting/binding reveal.js.
-     * Some dependencies may have an 'async' flag, if so they
-     * will load after reveal.js has been started up.
-     */
+	/**
+	 * Loads the dependencies of reveal.js. Dependencies are
+	 * defined via the configuration option 'dependencies'
+	 * and will be loaded prior to starting/binding reveal.js.
+	 * Some dependencies may have an 'async' flag, if so they
+	 * will load after reveal.js has been started up.
+	 */
 	function load() {
 
 		var scripts = [],
