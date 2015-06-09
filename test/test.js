@@ -495,6 +495,23 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( document.querySelectorAll( '.reveal section img[src]' ).length, 1, 'Image source has been set' );
 	});
 
+	test( 'video with data-src', function() {
+		strictEqual( document.querySelectorAll( '.reveal section video[src]' ).length, 1, 'Video source has been set' );
+	});
+
+	test( 'audio with data-src', function() {
+		strictEqual( document.querySelectorAll( '.reveal section audio[src]' ).length, 1, 'Audio source has been set' );
+	});
+
+	test( 'iframe with data-src', function() {
+		Reveal.slide( 0, 0 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 0, 'Iframe source is not set' );
+		Reveal.slide( 2, 1 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 1, 'Iframe source is set' );
+		Reveal.slide( 2, 2 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 0, 'Iframe source is not set' );
+	});
+
 	test( 'background images', function() {
 		var imageSource1 = Reveal.getSlide( 0 ).getAttribute( 'data-background-image' );
 		var imageSource2 = Reveal.getSlide( 1, 0 ).getAttribute( 'data-background' );

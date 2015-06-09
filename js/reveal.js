@@ -30,7 +30,7 @@
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
 
-		// Configurations defaults, can be overridden at initialization time
+		// Configuration defaults, can be overridden at initialization time
 		config = {
 
 			// The "normal" size of the presentation, aspect ratio will be preserved
@@ -136,6 +136,10 @@
 			// Parallax background size
 			parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
 
+			// Amount of pixels to move the parallax background per slide step
+			parallaxBackgroundHorizontal: null,
+			parallaxBackgroundVertical: null,
+
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
@@ -146,6 +150,9 @@
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
+
+		// Flags if the overview mode is currently active
+		overview = false,
 
 		// The horizontal and vertical index of the currently active slide
 		indexh,
@@ -164,6 +171,10 @@
 
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
+
+		// CSS transform that is currently applied to the slides container,
+		// split into two groups
+		slidesTransform = { layout: '', overview: '' },
 
 		// Cached references to DOM elements
 		dom = {},
@@ -227,14 +238,18 @@
 		if( !features.transforms2d && !features.transforms3d ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
-			// Since JS won't be running any further, we need to load all
-			// images that were intended to lazy load now
-			var images = document.getElementsByTagName( 'img' );
-			for( var i = 0, len = images.length; i < len; i++ ) {
-				var image = images[i];
-				if( image.getAttribute( 'data-src' ) ) {
-					image.setAttribute( 'src', image.getAttribute( 'data-src' ) );
-					image.removeAttribute( 'data-src' );
+			// Since JS won't be running any further, we load all lazy
+			// loading elements upfront
+			var images = toArray( document.getElementsByTagName( 'img' ) ),
+				iframes = toArray( document.getElementsByTagName( 'iframe' ) );
+
+			var lazyLoadable = images.concat( iframes );
+
+			for( var i = 0, len = lazyLoadable.length; i < len; i++ ) {
+				var element = lazyLoadable[i];
+				if( element.getAttribute( 'data-src' ) ) {
+					element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+					element.removeAttribute( 'data-src' );
 				}
 			}
 
@@ -293,7 +308,11 @@
 
 		features.touch = !!( 'ontouchstart' in window );
 
-		isMobileDevice = navigator.userAgent.match( /(iphone|ipod|ipad|android)/gi );
+		// Transitions in the overview are disabled in desktop and
+		// mobile Safari due to lag
+		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
+
+		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
 
 	}
 
@@ -372,6 +391,9 @@
 
 		// Listen to messages posted to this window
 		setupPostMessage();
+
+		// Prevent iframes from scrolling the slides out of view
+		setupIframeScrollPrevention();
 
 		// Resets all vertical slides so that only the first is visible
 		resetVerticalSlides();
@@ -553,6 +575,26 @@
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
+
+	}
+
+	/**
+	 * This is an unfortunate necessity. Iframes can trigger the
+	 * parent window to scroll, for example by focusing an input.
+	 * This scrolling can not be prevented by hiding overflow in
+	 * CSS so we have to resort to repeatedly checking if the
+	 * browser has decided to offset our slides :(
+	 */
+	function setupIframeScrollPrevention() {
+
+		if( dom.slides.querySelector( 'iframe' ) ) {
+			setInterval( function() {
+				if( dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
+					dom.wrapper.scrollTop = 0;
+					dom.wrapper.scrollLeft = 0;
+				}
+			}, 500 );
+		}
 
 	}
 
@@ -757,7 +799,7 @@
 				var data = event.data;
 
 				// Make sure we're dealing with JSON
-				if( data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
+				if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
 					data = JSON.parse( data );
 
 					// Check if the requested method can be found
@@ -1051,8 +1093,28 @@
 		element.style.WebkitTransform = transform;
 		element.style.MozTransform = transform;
 		element.style.msTransform = transform;
-		element.style.OTransform = transform;
 		element.style.transform = transform;
+
+	}
+
+	/**
+	 * Applies CSS transforms to the slides container. The container
+	 * is transformed from two separate sources: layout and the overview
+	 * mode.
+	 */
+	function transformSlides( transforms ) {
+
+		// Pick up new transforms from arguments
+		if( typeof transforms.layout === 'string' ) slidesTransform.layout = transforms.layout;
+		if( typeof transforms.overview === 'string' ) slidesTransform.overview = transforms.overview;
+
+		// Apply the transforms to the slides container
+		if( slidesTransform.layout ) {
+			transformElement( dom.slides, slidesTransform.layout + ' ' + slidesTransform.overview );
+		}
+		else {
+			transformElement( dom.slides, slidesTransform.overview );
+		}
 
 	}
 
@@ -1074,7 +1136,7 @@
 	}
 
 	/**
-	 * Measures the distance in pixels between point a and point b.
+	 * Converts various color input formats to an {r:0,g:0,b:0} object.
 	 *
 	 * @param {String} color The string representation of a color,
 	 * the following formats are supported:
@@ -1465,12 +1527,13 @@
 				dom.slides.style.top = '';
 				dom.slides.style.bottom = '';
 				dom.slides.style.right = '';
-				transformElement( dom.slides, '' );
+				transformSlides( { layout: '' } );
 			}
 			else {
 				// Prefer zooming in desktop Chrome so that content remains crisp
 				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
+					transformSlides( { layout: '' } );
 				}
 				// Apply scale transform as a fallback
 				else {
@@ -1478,7 +1541,7 @@
 					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
 					dom.slides.style.right = 'auto';
-					transformElement( dom.slides, 'translate(-50%, -50%) scale('+ scale +')' );
+					transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
 				}
 			}
 
@@ -1566,7 +1629,7 @@
 		};
 
 		// Reduce available space by margin
-		size.presentationWidth -= ( size.presentationHeight * config.margin );
+		size.presentationWidth -= ( size.presentationWidth * config.margin );
 		size.presentationHeight -= ( size.presentationHeight * config.margin );
 
 		// Slide width may be a percentage of available width
@@ -1620,81 +1683,121 @@
 	}
 
 	/**
-	 * Displays the overview of slides (quick nav) by
-	 * scaling down and arranging all slide elements.
-	 *
-	 * Experimental feature, might be dropped if perf
-	 * can't be improved.
+	 * Displays the overview of slides (quick nav) by scaling
+	 * down and arranging all slide elements.
 	 */
 	function activateOverview() {
 
 		// Only proceed if enabled in config
-		if( config.overview ) {
+		if( config.overview && !isOverview() ) {
 
-			// Don't auto-slide while in overview mode
-			cancelAutoSlide();
-
-			var wasActive = dom.wrapper.classList.contains( 'overview' );
-
-			// Vary the depth of the overview based on screen size
-			var depth = window.innerWidth < 400 ? 1000 : 2500;
+			overview = true;
 
 			dom.wrapper.classList.add( 'overview' );
 			dom.wrapper.classList.remove( 'overview-deactivating' );
 
-			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
-
-			for( var i = 0, len1 = horizontalSlides.length; i < len1; i++ ) {
-				var hslide = horizontalSlides[i],
-					hoffset = config.rtl ? -105 : 105;
-
-				hslide.setAttribute( 'data-index-h', i );
-
-				// Apply CSS transform
-				transformElement( hslide, 'translateZ(-'+ depth +'px) translate(' + ( ( i - indexh ) * hoffset ) + '%, 0%)' );
-
-				if( hslide.classList.contains( 'stack' ) ) {
-
-					var verticalSlides = hslide.querySelectorAll( 'section' );
-
-					for( var j = 0, len2 = verticalSlides.length; j < len2; j++ ) {
-						var verticalIndex = i === indexh ? indexv : getPreviousVerticalIndex( hslide );
-
-						var vslide = verticalSlides[j];
-
-						vslide.setAttribute( 'data-index-h', i );
-						vslide.setAttribute( 'data-index-v', j );
-
-						// Apply CSS transform
-						transformElement( vslide, 'translate(0%, ' + ( ( j - verticalIndex ) * 105 ) + '%)' );
-
-						// Navigate to this slide on click
-						vslide.addEventListener( 'click', onOverviewSlideClicked, true );
-					}
-
-				}
-				else {
-
-					// Navigate to this slide on click
-					hslide.addEventListener( 'click', onOverviewSlideClicked, true );
-
-				}
+			if( features.overviewTransitions ) {
+				setTimeout( function() {
+					dom.wrapper.classList.add( 'overview-animated' );
+				}, 1 );
 			}
 
+			// Don't auto-slide while in overview mode
+			cancelAutoSlide();
+
+			// Move the backgrounds element into the slide container to
+			// that the same scaling is applied
+			dom.slides.appendChild( dom.background );
+
+			// Clicking on an overview slide navigates to it
+			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+				if( !slide.classList.contains( 'stack' ) ) {
+					slide.addEventListener( 'click', onOverviewSlideClicked, true );
+				}
+			} );
+
 			updateSlidesVisibility();
+			layoutOverview();
+			updateOverview();
 
 			layout();
 
-			if( !wasActive ) {
-				// Notify observers of the overview showing
-				dispatchEvent( 'overviewshown', {
-					'indexh': indexh,
-					'indexv': indexv,
-					'currentSlide': currentSlide
-				} );
-			}
+			// Notify observers of the overview showing
+			dispatchEvent( 'overviewshown', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'currentSlide': currentSlide
+			} );
 
 		}
+
+	}
+
+	/**
+	 * Uses CSS transforms to position all slides in a grid for
+	 * display inside of the overview mode.
+	 */
+	function layoutOverview() {
+
+		var margin = 70;
+		var slideWidth = config.width + margin,
+			slideHeight = config.height + margin;
+
+		// Reverse in RTL mode
+		if( config.rtl ) {
+			slideWidth = -slideWidth;
+		}
+
+		// Layout slides
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+			hslide.setAttribute( 'data-index-h', h );
+			transformElement( hslide, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
+
+			if( hslide.classList.contains( 'stack' ) ) {
+
+				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+					vslide.setAttribute( 'data-index-h', h );
+					vslide.setAttribute( 'data-index-v', v );
+
+					transformElement( vslide, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
+				} );
+
+			}
+		} );
+
+		// Layout slide backgrounds
+		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
+			transformElement( hbackground, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
+
+			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
+				transformElement( vbackground, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
+			} );
+		} );
+
+	}
+
+	/**
+	 * Moves the overview viewport to the current slides.
+	 * Called each time the current slide changes.
+	 */
+	function updateOverview() {
+
+		var margin = 70;
+		var slideWidth = config.width + margin,
+			slideHeight = config.height + margin;
+
+		// Reverse in RTL mode
+		if( config.rtl ) {
+			slideWidth = -slideWidth;
+		}
+
+		transformSlides( {
+			overview: [
+				'translateX('+ ( -indexh * slideWidth ) +'px)',
+				'translateY('+ ( -indexv * slideHeight ) +'px)',
+				'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
+			].join( ' ' )
+		} );
 
 	}
 
@@ -1707,7 +1810,10 @@
 		// Only proceed if enabled in config
 		if( config.overview ) {
 
+			overview = false;
+
 			dom.wrapper.classList.remove( 'overview' );
+			dom.wrapper.classList.remove( 'overview-animated' );
 
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
@@ -1718,15 +1824,26 @@
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
 
-			// Select all slides
+			// Move the background element back out
+			dom.wrapper.appendChild( dom.background );
+
+			// Clean up changes made to slides
 			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
-				// Resets all transforms to use the external styles
 				transformElement( slide, '' );
 
 				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
 			} );
 
+			// Clean up changes made to backgrounds
+			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
+				transformElement( background, '' );
+			} );
+
+			transformSlides( { overview: '' } );
+
 			slide( indexh, indexv );
+
+			layout();
 
 			cueAutoSlide();
 
@@ -1766,7 +1883,7 @@
 	 */
 	function isOverview() {
 
-		return dom.wrapper.classList.contains( 'overview' );
+		return overview;
 
 	}
 
@@ -1916,7 +2033,7 @@
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
-		if( v === undefined ) {
+		if( v === undefined && !isOverview() ) {
 			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
 		}
 
@@ -1966,9 +2083,9 @@
 			document.documentElement.classList.remove( stateBefore.pop() );
 		}
 
-		// If the overview is active, re-activate it to update positions
+		// Update the overview if it's currently active
 		if( isOverview() ) {
-			activateOverview();
+			updateOverview();
 		}
 
 		// Find the current horizontal slide and any possible vertical slides
@@ -2080,6 +2197,11 @@
 		updateSlidesVisibility();
 
 		formatEmbeddedContent();
+		startEmbeddedContent( currentSlide );
+
+		if( isOverview() ) {
+			layoutOverview();
+		}
 
 	}
 
@@ -2269,7 +2391,7 @@
 				viewDistance = isOverview() ? 6 : 2;
 			}
 
-			// Limit view distance on weaker devices
+			// All slides need to be visible when exporting to PDF
 			if( isPrintingPDF() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
@@ -2280,8 +2402,14 @@
 				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
 					verticalSlidesLength = verticalSlides.length;
 
-				// Loops so that it measures 1 between the first and last slides
-				distanceX = Math.abs( ( ( indexh || 0 ) - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
+				// Determine how far away this slide is from the present
+				distanceX = Math.abs( ( indexh || 0 ) - x ) || 0;
+
+				// If the presentation is looped, distance should measure
+				// 1 between the first and last slides
+				if( config.loop ) {
+					distanceX = Math.abs( ( ( indexh || 0 ) - x ) % ( horizontalSlidesLength - viewDistance ) ) || 0;
+				}
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
@@ -2331,19 +2459,31 @@
 
 	/**
 	 * Updates the slide number div to reflect the current slide.
+	 *
+	 * Slide number format can be defined as a string using the
+	 * following variables:
+	 *  h: current slide's horizontal index
+	 *  v: current slide's vertical index
+	 *  c: current slide index (flattened)
+	 *  t: total number of slides (flattened)
 	 */
 	function updateSlideNumber() {
 
 		// Update slide number if enabled
 		if( config.slideNumber && dom.slideNumber) {
 
-			// Display the number of the page using 'indexh - indexv' format
-			var indexString = indexh;
-			if( indexv > 0 ) {
-				indexString += ' - ' + indexv;
+			// Default to only showing the current slide number
+			var format = 'c';
+
+			// Check if a custom slide number format is available
+			if( typeof config.slideNumber === 'string' ) {
+				format = config.slideNumber;
 			}
 
-			dom.slideNumber.innerHTML = indexString;
+			dom.slideNumber.innerHTML = format.replace( /h/g, indexh )
+												.replace( /v/g, indexv )
+												.replace( /c/g, getSlidePastCount() + 1 )
+												.replace( /t/g, getTotalSlides() );
 		}
 
 	}
@@ -2476,6 +2616,15 @@
 				currentVideo.play();
 			}
 
+			var backgroundImageURL = currentBackground.style.backgroundImage || '';
+
+			// Restart GIFs (doesn't work in Firefox)
+			if( /\.gif/i.test( backgroundImageURL ) ) {
+				currentBackground.style.backgroundImage = '';
+				window.getComputedStyle( currentBackground ).opacity;
+				currentBackground.style.backgroundImage = backgroundImageURL;
+			}
+
 			// Don't transition between identical backgrounds. This
 			// prevents unwanted flicker.
 			var previousBackgroundHash = previousBackground ? previousBackground.getAttribute( 'data-background-hash' ) : null;
@@ -2530,15 +2679,35 @@
 				backgroundHeight = parseInt( backgroundSize[1], 10 );
 			}
 
-			var slideWidth = dom.background.offsetWidth;
-			var horizontalSlideCount = horizontalSlides.length;
-			var horizontalOffset = -( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) * indexh;
+			var slideWidth = dom.background.offsetWidth,
+				horizontalSlideCount = horizontalSlides.length,
+				horizontalOffsetMultiplier,
+				horizontalOffset;
 
-			var slideHeight = dom.background.offsetHeight;
-			var verticalSlideCount = verticalSlides.length;
-			var verticalOffset = verticalSlideCount > 1 ? -( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) * indexv : 0;
+			if( typeof config.parallaxBackgroundHorizontal === 'number' ) {
+				horizontalOffsetMultiplier = config.parallaxBackgroundHorizontal;
+			}
+			else {
+				horizontalOffsetMultiplier = ( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 );
+			}
 
-			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + verticalOffset + 'px';
+			horizontalOffset = horizontalOffsetMultiplier * indexh * -1;
+
+			var slideHeight = dom.background.offsetHeight,
+				verticalSlideCount = verticalSlides.length,
+				verticalOffsetMultiplier,
+				verticalOffset;
+
+			if( typeof config.parallaxBackgroundVertical === 'number' ) {
+				verticalOffsetMultiplier = config.parallaxBackgroundVertical;
+			}
+			else {
+				verticalOffsetMultiplier = ( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 );
+			}
+
+			verticalOffset = verticalSlideCount > 0 ?  verticalOffsetMultiplier * indexv * 1 : 0;
+
+			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + -verticalOffset + 'px';
 
 		}
 
@@ -2555,7 +2724,7 @@
 		slide.style.display = 'block';
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
+		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 			element.removeAttribute( 'data-src' );
 		} );
@@ -2590,6 +2759,7 @@
 
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
+					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
 					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
 
 				// Images
@@ -2600,6 +2770,10 @@
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
 					var video = document.createElement( 'video' );
 
+					if( backgroundVideoLoop ) {
+						video.setAttribute( 'loop', '' );
+					}
+
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( function( source ) {
 						video.innerHTML += '<source src="'+ source +'">';
@@ -2608,7 +2782,7 @@
 					background.appendChild( video );
 				}
 				// Iframes
-				else if ( backgroundIframe ) {
+				else if( backgroundIframe ) {
 					var iframe = document.createElement( 'iframe' );
 						iframe.setAttribute( 'src', backgroundIframe );
 						iframe.style.width  = '100%';
@@ -2697,21 +2871,22 @@
 	 */
 	function formatEmbeddedContent() {
 
+		var _appendParamToIframeSource = function( sourceAttribute, sourceURL, param ) {
+			toArray( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( function( el ) {
+				var src = el.getAttribute( sourceAttribute );
+				if( src && src.indexOf( param ) === -1 ) {
+					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
+				}
+			});
+		};
+
 		// YouTube frames must include "?enablejsapi=1"
-		toArray( dom.slides.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
-			var src = el.getAttribute( 'src' );
-			if( !/enablejsapi\=1/gi.test( src ) ) {
-				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'enablejsapi=1' );
-			}
-		});
+		_appendParamToIframeSource( 'src', 'youtube.com/embed/', 'enablejsapi=1' );
+		_appendParamToIframeSource( 'data-src', 'youtube.com/embed/', 'enablejsapi=1' );
 
 		// Vimeo frames must include "?api=1"
-		toArray( dom.slides.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
-			var src = el.getAttribute( 'src' );
-			if( !/api\=1/gi.test( src ) ) {
-				el.setAttribute( 'src', src + ( !/\?/.test( src ) ? '?' : '&' ) + 'api=1' );
-			}
-		});
+		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
+		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
 
 	}
 
@@ -2722,31 +2897,56 @@
 	function startEmbeddedContent( slide ) {
 
 		if( slide && !isSpeakerNotes() ) {
+			// Restart GIFs
+			toArray( slide.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( function( el ) {
+				// Setting the same unchanged source like this was confirmed
+				// to work in Chrome, FF & Safari
+				el.setAttribute( 'src', el.getAttribute( 'src' ) );
+			} );
+
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
+				if( el.hasAttribute( 'data-autoplay' ) && typeof el.play === 'function' ) {
 					el.play();
 				}
 			} );
 
-			// iframe embeds
-			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
-				el.contentWindow.postMessage( 'slide:start', '*' );
-			});
+			// Normal iframes
+			toArray( slide.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
+				startEmbeddedIframe( { target: el } );
+			} );
 
-			// YouTube embeds
-			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
-					el.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+			// Lazy loading iframes
+			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
+					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
+					el.addEventListener( 'load', startEmbeddedIframe );
+					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
 				}
-			});
+			} );
+		}
 
-			// Vimeo embeds
-			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
-					el.contentWindow.postMessage( '{"method":"play"}', '*' );
-				}
-			});
+	}
+
+	/**
+	 * "Starts" the content of an embedded iframe using the
+	 * postmessage API.
+	 */
+	function startEmbeddedIframe( event ) {
+
+		var iframe = event.target;
+
+		// YouTube postMessage API
+		if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+			iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+		}
+		// Vimeo postMessage API
+		else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+			iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
+		}
+		// Generic postMessage API
+		else {
+			iframe.contentWindow.postMessage( 'slide:start', '*' );
 		}
 
 	}
@@ -2760,43 +2960,51 @@
 		if( slide && slide.parentNode ) {
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				if( !el.hasAttribute( 'data-ignore' ) ) {
+				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
 					el.pause();
 				}
 			} );
 
-			// iframe embeds
+			// Generic postMessage API for non-lazy loaded iframes
 			toArray( slide.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
 				el.contentWindow.postMessage( 'slide:stop', '*' );
+				el.removeEventListener( 'load', startEmbeddedIframe );
 			});
 
-			// YouTube embeds
+			// YouTube postMessage API
 			toArray( slide.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
 				}
 			});
 
-			// Vimeo embeds
+			// Vimeo postMessage API
 			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
 				}
 			});
+
+			// Lazy loading iframes
+			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				// Only removing the src doesn't actually unload the frame
+				// in all browsers (Firefox) so we set it to blank first
+				el.setAttribute( 'src', 'about:blank' );
+				el.removeAttribute( 'src' );
+			} );
 		}
 
 	}
 
 	/**
-	 * Returns a value ranging from 0-1 that represents
-	 * how far into the presentation we have navigated.
+	 * Returns the number of past slides. This can be used as a global
+	 * flattened index for slides.
 	 */
-	function getProgress() {
+	function getSlidePastCount() {
 
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
-		// The number of past and total slides
-		var totalCount = getTotalSlides();
+		// The number of past slides
 		var pastCount = 0;
 
 		// Step through all slides and count the past ones
@@ -2827,6 +3035,20 @@
 			}
 
 		}
+
+		return pastCount;
+
+	}
+
+	/**
+	 * Returns a value ranging from 0-1 that represents
+	 * how far into the presentation we have navigated.
+	 */
+	function getProgress() {
+
+		// The number of past and total slides
+		var totalCount = getTotalSlides();
+		var pastCount = getSlidePastCount();
 
 		if( currentSlide ) {
 
@@ -2880,7 +3102,7 @@
 			// Ensure the named link is a valid HTML ID attribute
 			if( /^[a-zA-Z][\w:.-]*$/.test( name ) ) {
 				// Find the slide with the specified ID
-				element = document.querySelector( '#' + name );
+				element = document.getElementById( name );
 			}
 
 			if( element ) {
@@ -3312,14 +3534,17 @@
 
 			// If there are media elements with data-autoplay,
 			// automatically set the autoSlide duration to the
-			// length of that media
-			toArray( currentSlide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				if( el.hasAttribute( 'data-autoplay' ) ) {
-					if( autoSlide && el.duration * 1000 > autoSlide ) {
-						autoSlide = ( el.duration * 1000 ) + 1000;
+			// length of that media. Not applicable if the slide
+			// is divided up into fragments.
+			if( currentSlide.querySelectorAll( '.fragment' ).length === 0 ) {
+				toArray( currentSlide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+					if( el.hasAttribute( 'data-autoplay' ) ) {
+						if( autoSlide && el.duration * 1000 > autoSlide ) {
+							autoSlide = ( el.duration * 1000 ) + 1000;
+						}
 					}
-				}
-			} );
+				} );
+			}
 
 			// Cue the next auto-slide if:
 			// - There is an autoSlide value
@@ -3828,6 +4053,10 @@
 		var slidesTotal = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
 		var slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
 
+		if( config.rtl ) {
+			slideIndex = slidesTotal - slideIndex;
+		}
+
 		slide( slideIndex );
 
 	}
@@ -3872,7 +4101,10 @@
 		// If, after clicking a link or similar and we're coming back,
 		// focus the document.body to ensure we can use keyboard shortcuts
 		if( isHidden === false && document.activeElement !== document.body ) {
-			document.activeElement.blur();
+			// Not all elements support .blur() - SVGs among them.
+			if( typeof document.activeElement.blur === 'function' ) {
+				document.activeElement.blur();
+			}
 			document.body.focus();
 		}
 

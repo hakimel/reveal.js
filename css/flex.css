@@ -1,0 +1,18 @@
+.code {
+  display: block;
+  padding: 5px;
+  overflow: auto;
+  max-height: 400px;
+  word-wrap: normal;
+  background: #3F3F3F;
+  color: #DCDCDC;
+  font-family: monospace !important;
+  text-align: left;
+}
+
+.step-note {
+  padding:5px !important;
+  font-size: 75% !important;
+  color: #F0E9E9 !important;
+  font-style: italic !important;
+}

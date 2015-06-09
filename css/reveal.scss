@@ -57,18 +57,6 @@ body {
 	color: #000;
 }
 
-::-moz-selection {
-	background: #FF5E99;
-	color: #fff;
-	text-shadow: none;
-}
-
-::selection {
-	background: #FF5E99;
-	color: #fff;
-	text-shadow: none;
-}
-
 
 /*********************************************
  * VIEW FRAGMENTS
@@ -107,15 +95,7 @@ body {
 	transform: scale( 0.1 );
 
 	&.visible {
-		transform: scale( 1 );
-	}
-}
-
-.reveal .slides section .fragment.roll-in {
-	transform: rotateX( 90deg );
-
-	&.visible {
-		transform: rotateX( 0 );
+		transform: none;
 	}
 }
 
@@ -352,6 +332,7 @@ body {
 	position: relative;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 	touch-action: none;
 }
 
@@ -447,93 +428,102 @@ body {
 
 
 /*********************************************
+ * Mixins for readability of transitions
+ *********************************************/
+
+@mixin transition-global($style) {
+	.reveal .slides>section[data-transition=#{$style}],
+	.reveal.#{$style} .slides>section:not([data-transition]) {
+		@content;
+	}
+}
+@mixin transition-horizontal-past($style) {
+	.reveal .slides>section[data-transition=#{$style}].past,
+	.reveal .slides>section[data-transition~=#{$style}-out].past,
+	.reveal.#{$style} .slides>section:not([data-transition]).past {
+		@content;
+	}
+}
+@mixin transition-horizontal-future($style) {
+	.reveal .slides>section[data-transition=#{$style}].future,
+	.reveal .slides>section[data-transition~=#{$style}-in].future,
+	.reveal.#{$style} .slides>section:not([data-transition]).future {
+		@content;
+	}
+}
+
+@mixin transition-vertical-past($style) {
+	.reveal .slides>section>section[data-transition=#{$style}].past,
+	.reveal .slides>section>section[data-transition~=#{$style}-out].past,
+	.reveal.#{$style} .slides>section>section:not([data-transition]).past {
+		@content;
+	}
+}
+@mixin transition-vertical-future($style) {
+	.reveal .slides>section>section[data-transition=#{$style}].future,
+	.reveal .slides>section>section[data-transition~=#{$style}-in].future,
+	.reveal.#{$style} .slides>section>section:not([data-transition]).future {
+		@content;
+	}
+}
+
+/*********************************************
  * SLIDE TRANSITION
  * Aliased 'linear' for backwards compatibility
  *********************************************/
 
-.reveal.slide section,
-.reveal.linear section {
-	backface-visibility: hidden;
+@each $stylename in slide, linear {
+	.reveal.#{$stylename} section {
+		backface-visibility: hidden;
+	}
+	@include transition-horizontal-past(#{$stylename}) {
+		transform: translate(-150%, 0);
+	}
+	@include transition-horizontal-future(#{$stylename}) {
+		transform: translate(150%, 0);
+	}
+	@include transition-vertical-past(#{$stylename}) {
+		transform: translate(0, -150%);
+	}
+	@include transition-vertical-future(#{$stylename}) {
+		transform: translate(0, 150%);
+	}
 }
-
-.reveal .slides>section[data-transition=slide].past,
-.reveal.slide .slides>section:not([data-transition]).past,
-.reveal .slides>section[data-transition=linear].past,
-.reveal.linear .slides>section:not([data-transition]).past {
-	transform: translate(-150%, 0);
-}
-.reveal .slides>section[data-transition=slide].future,
-.reveal.slide .slides>section:not([data-transition]).future,
-.reveal .slides>section[data-transition=linear].future,
-.reveal.linear .slides>section:not([data-transition]).future {
-	transform: translate(150%, 0);
-}
-
-.reveal .slides>section>section[data-transition=slide].past,
-.reveal.slide .slides>section>section:not([data-transition]).past,
-.reveal .slides>section>section[data-transition=linear].past,
-.reveal.linear .slides>section>section:not([data-transition]).past {
-	transform: translate(0, -150%);
-}
-.reveal .slides>section>section[data-transition=slide].future,
-.reveal.slide .slides>section>section:not([data-transition]).future,
-.reveal .slides>section>section[data-transition=linear].future,
-.reveal.linear .slides>section>section:not([data-transition]).future {
-	transform: translate(0, 150%);
-}
-
 
 /*********************************************
  * CONVEX TRANSITION
  * Aliased 'default' for backwards compatibility
  *********************************************/
 
-.reveal .slides>section[data-transition=default].past,
-.reveal.default .slides>section:not([data-transition]).past,
-.reveal .slides>section[data-transition=convex].past,
-.reveal.convex .slides>section:not([data-transition]).past {
-	transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+@each $stylename in default, convex {
+	@include transition-horizontal-past(#{$stylename}) {
+		transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+	}
+	@include transition-horizontal-future(#{$stylename}) {
+		transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+	}
+	@include transition-vertical-past(#{$stylename}) {
+		transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+	}
+	@include transition-vertical-future(#{$stylename}) {
+		transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+	}
 }
-.reveal .slides>section[data-transition=default].future,
-.reveal.default .slides>section:not([data-transition]).future,
-.reveal .slides>section[data-transition=convex].future,
-.reveal.convex .slides>section:not([data-transition]).future {
-	transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
-}
-
-.reveal .slides>section>section[data-transition=default].past,
-.reveal.default .slides>section>section:not([data-transition]).past,
-.reveal .slides>section>section[data-transition=convex].past,
-.reveal.convex .slides>section>section:not([data-transition]).past {
-	transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
-}
-.reveal .slides>section>section[data-transition=default].future,
-.reveal.default .slides>section>section:not([data-transition]).future,
-.reveal .slides>section>section[data-transition=convex].future,
-.reveal.convex .slides>section>section:not([data-transition]).future {
-	transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
-}
-
 
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
 
-.reveal .slides>section[data-transition=concave].past,
-.reveal.concave .slides>section:not([data-transition]).past {
+@include transition-horizontal-past(concave) {
 	transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 }
-.reveal .slides>section[data-transition=concave].future,
-.reveal.concave .slides>section:not([data-transition]).future {
+@include transition-horizontal-future(concave) {
 	transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 }
-
-.reveal .slides>section>section[data-transition=concave].past,
-.reveal.concave .slides>section>section:not([data-transition]).past {
+@include transition-vertical-past(concave) {
 	transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
 }
-.reveal .slides>section>section[data-transition=concave].future,
-.reveal.concave .slides>section>section:not([data-transition]).future {
+@include transition-vertical-future(concave) {
 	transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
 }
 
@@ -542,28 +532,21 @@ body {
  * ZOOM TRANSITION
  *********************************************/
 
-.reveal .slides>section[data-transition=zoom],
-.reveal.zoom .slides>section:not([data-transition]) {
+@include transition-global(zoom) {
 	transition-timing-function: ease;
 }
-
-.reveal .slides>section[data-transition=zoom].past,
-.reveal.zoom .slides>section:not([data-transition]).past {
+@include transition-horizontal-past(zoom) {
 	visibility: hidden;
 	transform: scale(16);
 }
-.reveal .slides>section[data-transition=zoom].future,
-.reveal.zoom .slides>section:not([data-transition]).future {
+@include transition-horizontal-future(zoom) {
 	visibility: hidden;
 	transform: scale(0.2);
 }
-
-.reveal .slides>section>section[data-transition=zoom].past,
-.reveal.zoom .slides>section>section:not([data-transition]).past {
+@include transition-vertical-past(zoom) {
 	transform: translate(0, -150%);
 }
-.reveal .slides>section>section[data-transition=zoom].future,
-.reveal.zoom .slides>section>section:not([data-transition]).future {
+@include transition-vertical-future(zoom) {
 	transform: translate(0, 150%);
 }
 
@@ -732,57 +715,9 @@ body {
  * NO TRANSITION
  *********************************************/
 
-.reveal .slides section[data-transition=none],
-.reveal.none .slides section:not([data-transition]) {
+@include transition-global(none) {
 	transform: none;
 	transition: none;
-}
-
-
-/*********************************************
- * OVERVIEW
- *********************************************/
-
-.reveal.overview .slides {
-	perspective-origin: 50% 50%;
-	perspective: 700px;
-}
-
-.reveal.overview .slides section {
-	height: 700px;
-	overflow: hidden;
-	opacity: 1 !important;
-	visibility: visible !important;
-	cursor: pointer;
-	background: rgba(0,0,0,0.1);
-	box-sizing: border-box;
-}
-.reveal.overview .slides section,
-.reveal.overview-deactivating .slides section {
-	transition: none !important;
-}
-.reveal.overview .slides section .fragment {
-	opacity: 1;
-}
-.reveal.overview .slides section:after,
-.reveal.overview .slides section:before {
-	display: none !important;
-}
-.reveal.overview .slides section>section {
-	opacity: 1;
-	cursor: pointer;
-}
-	.reveal.overview .slides section:hover {
-		background: rgba(0,0,0,0.3);
-	}
-	.reveal.overview .slides section.present {
-		background: rgba(0,0,0,0.3);
-	}
-.reveal.overview .slides>section.stack {
-	padding: 0;
-	top: 0 !important;
-	background: none;
-	overflow: visible;
 }
 
 
@@ -857,7 +792,7 @@ body {
  * PER-SLIDE BACKGROUNDS
  *********************************************/
 
-.reveal>.backgrounds {
+.reveal .backgrounds {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -1023,6 +958,74 @@ body {
 }
 .reveal[data-transition-speed="slow"]>.backgrounds .slide-background {
 	transition-duration: 1200ms;
+}
+
+
+/*********************************************
+ * OVERVIEW
+ *********************************************/
+
+.reveal.overview {
+	perspective-origin: 50% 50%;
+	perspective: 700px;
+
+	.slides section {
+		height: 700px;
+		opacity: 1 !important;
+		overflow: hidden;
+		visibility: visible !important;
+		cursor: pointer;
+		box-sizing: border-box;
+	}
+	.slides section:hover,
+	.slides section.present {
+		outline: 10px solid rgba(150,150,150,0.4);
+		outline-offset: 10px;
+	}
+	.slides section .fragment {
+		opacity: 1;
+		transition: none;
+	}
+	.slides section:after,
+	.slides section:before {
+		display: none !important;
+	}
+	.slides>section.stack {
+		padding: 0;
+		top: 0 !important;
+		background: none;
+		outline: none;
+		overflow: visible;
+	}
+
+	.backgrounds {
+		perspective: inherit;
+	}
+
+	.backgrounds .slide-background {
+		opacity: 1;
+		visibility: visible;
+
+		// This can't be applied to the slide itself in Safari
+		outline: 10px solid rgba(150,150,150,0.1);
+		outline-offset: 10px;
+	}
+}
+
+// Disable transitions transitions while we're activating
+// or deactivating the overview mode.
+.reveal.overview .slides section,
+.reveal.overview-deactivating .slides section {
+	transition: none;
+}
+
+.reveal.overview .backgrounds .slide-background,
+.reveal.overview-deactivating .backgrounds .slide-background {
+	transition: none;
+}
+
+.reveal.overview-animated .slides {
+	transition: transform 0.4s ease;
 }
 
 

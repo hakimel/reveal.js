@@ -26,7 +26,7 @@
 		});
 	}
 
-	var DEFAULT_SLIDE_SEPARATOR = '^\n---\n$',
+	var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:',
 		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
 		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$';
@@ -50,7 +50,7 @@
 			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
 		}
 		else if( leadingWs > 1 ) {
-			text = text.replace( new RegExp('\\n? {' + leadingWs + '}'), '\n' );
+			text = text.replace( new RegExp('\\n? {' + leadingWs + '}', 'g'), '\n' );
 		}
 
 		return text;
@@ -76,7 +76,7 @@
 			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
 
 			if( value ) {
-				result.push( name + '=' + value );
+				result.push( name + '="' + value + '"' );
 			}
 			else {
 				result.push( name );

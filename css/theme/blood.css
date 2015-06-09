@@ -15,13 +15,7 @@
  *********************************************/
 body {
   background: #222;
-  background: -moz-radial-gradient(center, circle cover, #626262 0%, #222 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #626262), color-stop(100%, #222));
-  background: -webkit-radial-gradient(center, circle cover, #626262 0%, #222 100%);
-  background: -o-radial-gradient(center, circle cover, #626262 0%, #222 100%);
-  background: -ms-radial-gradient(center, circle cover, #626262 0%, #222 100%);
-  background: radial-gradient(center, circle cover, #626262 0%, #222 100%);
-  background-color: #2b2b2b; }
+  background-color: #222; }
 
 .reveal {
   font-family: Ubuntu, 'sans-serif';
@@ -168,6 +162,12 @@ body {
   padding: 0.2em 0.5em 0.2em 0.5em;
   border-bottom: 1px solid; }
 
+.reveal table th[align="center"], .reveal table td[align="center"] {
+  text-align: center; }
+
+.reveal table th[align="right"], .reveal table td[align="right"] {
+  text-align: right; }
+
 .reveal table tr:last-child td {
   border-bottom: none; }
 
@@ -275,12 +275,6 @@ body {
 
 .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
   font-weight: 700; }
-
-.reveal a, .reveal a:hover {
-  text-shadow: 2px 2px 2px #000; }
-
-.reveal small a, .reveal small a:hover {
-  text-shadow: 1px 1px 1px #000; }
 
 .reveal p code {
   background-color: #23241f;
