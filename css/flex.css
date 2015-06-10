@@ -17,10 +17,27 @@
   font-style: italic !important;
 }
 
+.blink {
+  animation: blink 1s steps(5, start) infinite;
+  -webkit-animation: blink 1s steps(5, start) infinite;
+}
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
 .rating {
   display:inline-block;
+  margin:0;
+  padding:0;
   margin:auto;
-  width:325px;
+  width:200px;
   text-align:center;
   background: rgba(0,0,0, .4);
 }
@@ -28,16 +45,16 @@
 .rating span {
   margin:0;
   padding:0;
-  margin-top:5px;
   display:inline-block;
   text-align:center;
-  width: 50px;
-  height: 50px;
+  width: 25px;
+  height: 25px;
   overflow: hidden;
   color: transparent;
   background-position: center;
   background-repeat: no-repeat;
   background: url('/images/ratings.png');
+  background-size: 75px 75px;
 }
 
 .rating span.r100 {
@@ -45,14 +62,14 @@
 }
 
 .rating span.r50 {
-  background-position-x: -50px;
+  background-position-x: -25px;
 }
 .rating span.r0 {
-  background-position-x: -100px;
+  background-position-x: -50px;
 }
 
 .rating span.rdrupal {
-  background-position-y: -50px;
+  background-position-y: -25px;
 }
 
 .rating span.rhack {
@@ -60,5 +77,5 @@
 }
 
 .rating span.rstable {
-  background-position-y: -100px;
+  background-position-y: -50px;
 }
