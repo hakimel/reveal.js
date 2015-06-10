@@ -16,3 +16,49 @@
   color: #F0E9E9 !important;
   font-style: italic !important;
 }
+
+.rating {
+  display:inline-block;
+  margin:auto;
+  width:325px;
+  text-align:center;
+  background: rgba(0,0,0, .4);
+}
+
+.rating span {
+  margin:0;
+  padding:0;
+  margin-top:5px;
+  display:inline-block;
+  text-align:center;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background: url('/images/ratings.png');
+}
+
+.rating span.r100 {
+  background-position-x: 0px;
+}
+
+.rating span.r50 {
+  background-position-x: -50px;
+}
+.rating span.r0 {
+  background-position-x: -100px;
+}
+
+.rating span.rdrupal {
+  background-position-y: -50px;
+}
+
+.rating span.rhack {
+  background-position-y: 0px;
+}
+
+.rating span.rstable {
+  background-position-y: -100px;
+}
