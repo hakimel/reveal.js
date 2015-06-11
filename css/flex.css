@@ -32,6 +32,11 @@
   }
 }
 
+.screenshot {
+  display: inline-block;
+  max-height: 650px !important;
+}
+
 .ratings {
   text-align: center;
   padding:10px;
