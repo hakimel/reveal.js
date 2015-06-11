@@ -32,24 +32,34 @@
   }
 }
 
+.ratings {
+  text-align: center;
+  padding:10px;
+  display: block;
+  float: right;
+  width: 160px;
+  border: 1px solid #ccc !important;
+}
+
 .rating {
-  display:inline-block;
   margin:0;
   padding:0;
-  margin:auto;
-  width:200px;
-  text-align:center;
+  display: inline-block;
+  width: 100%;
   background: rgba(0,0,0, .4);
 }
 
 .rating span {
   margin:0;
   padding:0;
-  display:inline-block;
+  display: inline-block;
   text-align:center;
-  width: 25px;
   height: 25px;
   overflow: hidden;
+}
+
+span.rate {
+  width: 25px;
   color: transparent;
   background-position: center;
   background-repeat: no-repeat;
@@ -57,25 +67,32 @@
   background-size: 75px 75px;
 }
 
-.rating span.r100 {
+span.overview {
+  width: 35px;
+  font-size: 35%;
+  text-align: right;
+  color: yellow;
+}
+
+span.r100 {
   background-position-x: 0px;
 }
 
-.rating span.r50 {
+span.r50 {
   background-position-x: -25px;
 }
-.rating span.r0 {
+span.r0 {
   background-position-x: -50px;
 }
 
-.rating span.rdrupal {
+span.drupal {
   background-position-y: -25px;
 }
 
-.rating span.rhack {
+span.hack {
   background-position-y: 0px;
 }
 
-.rating span.rstable {
+span.stable {
   background-position-y: -50px;
 }
