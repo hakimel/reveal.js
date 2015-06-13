@@ -116,9 +116,9 @@
             </section>
         </section>
         <section>
-          <h1>Examples we'll use.</h1>
+          <h1>Examples we'll use</h1>
           <section>
-            <h2>Manipulating Menu Items</h2>
+            <h2 class="fragment">Manipulating Menu Items</h2>
             <ul>
               <li class="fragment step-note">On just about every drupal site.</li>
               <li class="fragment step-note">Can be manipulated many ways.</li>
@@ -190,7 +190,7 @@
         <section>
           <section>
             <h1>Data Manipulation</h1>
-            <p>Three buckets.</p>
+            <p class="fragment">Three buckets</p>
             <ul>
               <li class="fragment step-note">Database</li>
               <li class="fragment step-note">Server side (PHP)</li>
@@ -199,17 +199,19 @@
           </section>
         </section>
         <section>
-          <h1>Database Manipulation</h1>
+          <h1>Database</h1>
         </section>
         <section>
           <section>
             <h1>#1. Drupal Core</h1>
             <ul>
+              <li class="list-header">Pros</li>
               <li class="fragment step-note">Works for all Drupal.</li>
               <li class="fragment step-note">Very stable.</li>
               <li class="fragment step-note">???</li>
             </ul>
             <ul>
+              <li class="list-header">Cons</li>
               <li class="fragment step-note">Limited Capabilities.</li>
               <li class="fragment step-note">Very broad solution.</li>
               <li class="fragment step-note">???</li>
@@ -252,13 +254,15 @@
           <section>
             <h1>#2. Contrib Modules</h1>
             <ul>
-              <li class="fragment step-note">Tested by the Community.</li>
-              <li class="fragment step-note">Relativly Stable.</li>
-              <li class="fragment step-note">???</li>
+              <li class="list-header">Pros</li>
+              <li class="fragment step-note">Enhances core.</li>
+              <li class="fragment step-note">Tested by the community.</li>
+              <li class="fragment step-note">Mostly stable.</li>
             </ul>
             <ul>
-              <li class="fragment step-note">Limited functionality.</li>
+              <li class="list-header">Cons</li>
               <li class="fragment step-note">Added complexity.</li>
+              <li class="fragment step-note">Limited functionality.</li>
               <li class="fragment step-note">Limited availability.</li>
             </ul>
             <div class="fragment ratings">
@@ -299,14 +303,16 @@
           <section>
             <h1>#3. Direct Queries</h1>
             <ul>
+              <li class="list-header">Pros</li>
               <li class="fragment step-note">Quick to implement.</li>
               <li class="fragment step-note">No fluff.</li>
               <li class="fragment step-note">Powerful.</li>
             </ul>
             <ul>
+              <li class="list-header">Cons</li>
               <li class="fragment step-note">No stability.</li>
+              <li class="fragment step-note">Dangerous.</li>
               <li class="fragment step-note">Can be complex.</li>
-              <li class="fragment step-note">Not portable.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -341,22 +347,33 @@
           <section data-transition="convex">
             <img data-src="images/m3_d8_result.png" class="screenshot" />
           </section>
+          <section data-transition="convex">
+            <img data-src="images/m3_d8_alt.gif" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m3_d8_alt_result.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m3_d8_alt_result_bad.png" class="screenshot" />
+          </section>
         </section>
         <section>
-          <h1>Server Side Manipulation</h1>
+          <h1>Server Side</h1>
         </section>
         <section>
           <section>
             <h1>#4. Hooks</h1>
             <ul>
-              <li class="fragment step-note">Core Drupal</li>
-              <li class="fragment step-note">Very extensable.</li>
+              <li class="list-header">Pros</li>
+              <li class="fragment step-note">Core Drupal.</li>
+              <li class="fragment step-note">Very extensive.</li>
               <li class="fragment step-note">Powerful.</li>
             </ul>
             <ul>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="list-header">Cons</li>
+              <li class="fragment step-note">May be broad.</li>
+              <li class="fragment step-note">Can be complex.</li>
+              <li class="fragment step-note">Can be timely.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -380,7 +397,20 @@
             </div>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d7.gif" class="screenshot" />
+<pre><code>/**
+ * Implements THEME_links__MENUNAME().
+ */
+function my_bartik_links__system_main_menu($variables) {
+  foreach ($variables['links'] as &$menu_link) {
+    if ($menu_link['href'] == 'node/4') {
+      $menu_link['href'] = 'node/11';
+      $menu_link['title'] = 'SS #1';
+      $menu_link['attributes']['style'] = 'background-color:yellow;color:#000;';
+      $menu_link['attrbutes']['target'] = '_blank';
+    }
+  }
+  return theme_links($variables);
+}</code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d7_result.png" class="screenshot" />

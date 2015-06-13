@@ -10,6 +10,10 @@
   text-align: left;
 }
 
+.reveal pre code {
+  font-size: 90% !important;
+}
+
 .step-note {
   padding:5px !important;
   font-size: 75% !important;
@@ -34,7 +38,14 @@
 
 .screenshot {
   display: inline-block;
-  max-height: 650px !important;
+  max-height: 500px !important;
+}
+
+.list-header {
+  list-style-type: none;
+  text-align: center;
+  font-weight: 800;
+  text-decoration: underline;
 }
 
 .ratings {
