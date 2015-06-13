@@ -397,7 +397,11 @@
             </div>
           </section>
           <section data-transition="convex">
-<pre><code>/**
+            <img data-src="images/m4_d7.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+<pre><code data-trim>
+  /**
  * Implements THEME_links__MENUNAME().
  */
 function my_bartik_links__system_main_menu($variables) {
@@ -406,17 +410,43 @@ function my_bartik_links__system_main_menu($variables) {
       $menu_link['href'] = 'node/11';
       $menu_link['title'] = 'SS #1';
       $menu_link['attributes']['style'] = 'background-color:yellow;color:#000;';
-      $menu_link['attrbutes']['target'] = '_blank';
+      $menu_link['attributes']['target'] = '_blank';
     }
   }
   return theme_links($variables);
-}</code></pre>
+}
+</code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d8.gif" class="screenshot" />
+            <img data-src="images/m4_d8.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+<pre><code data-trim>
+  /**
+ * Implements hook_preprocess_HOOK() for menu.html.twig.
+ */
+function my_bartik_preprocess_menu(&$variables) {
+  $variables['attributes']['class'][] = 'clearfix';
+  if ($variables['theme_hook_original'] == 'menu__main') {
+    foreach ($variables['items'] as &$menu_link) {
+      if ($menu_link['url']->toString() == '/node/4') {
+        $menu_link['title'] = 'SS #1';
+        $options = array(
+          'attributes' => array(
+            'style' => 'background-color:yellow;color:#000',
+            'target' => '_blank',
+          ),
+        );
+        $url = \Drupal\Core\Url::fromUri('entity:node/11', $options);
+        $menu_link['url'] = $url;
+      }
+    }
+  }
+}
+</code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d8_result.png" class="screenshot" />
