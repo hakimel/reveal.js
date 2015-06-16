@@ -95,7 +95,7 @@
         <!-- About Session -->
         <section>
         		<section>
-          		<h1>Purpose of this Session</h1>
+          		<h1>Reasons for this Session</h1>
             	 <p>
               		<ul>
               			<li class="fragment step-note">Data manipulation, everyone does it.</li>
@@ -149,9 +149,19 @@
             <h3 style="color:transparent">Drupal 8</h3>
             <img data-src="images/env_d8.png" class="screenshot" alt="A standard Drupal 8.0.0-beta11 site install with 9 menu tabs." />
           </section>
+        </section>
+        <section>
+          <section>
+            <h1>Data Manipulation</h1>
+            <p class="fragment">Three buckets</p>
+            <ul>
+              <li class="fragment step-note">Database</li>
+              <li class="fragment step-note">Server side (PHP)</li>
+              <li class="fragment step-note">Client side (JS/CSS)</li>
+            </ul>
+          </section>
           <section data-transition="convex">
-            <br />
-            <p>Rate each method on 3 criteria.</p>
+            <h1>Rating System</h1>
             <p class="fragment">
               <strong>Drupalness</strong><br />
               <div class="fragment ratings" style="display:inline-block;position:relative;float:none;">
@@ -188,30 +198,19 @@
           </section>
         </section>
         <section>
-          <section>
-            <h1>Data Manipulation</h1>
-            <p class="fragment">Three buckets</p>
-            <ul>
-              <li class="fragment step-note">Database</li>
-              <li class="fragment step-note">Server side (PHP)</li>
-              <li class="fragment step-note">Client side (JS/CSS)</li>
-            </ul>
-          </section>
-        </section>
-        <section>
           <h1>Database</h1>
         </section>
         <section>
           <section>
             <h1>#1. Drupal Core</h1>
             <ul>
-              <li class="list-header">Pros</li>
+              <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Works for all Drupal.</li>
               <li class="fragment step-note">Very stable.</li>
               <li class="fragment step-note">???</li>
             </ul>
             <ul>
-              <li class="list-header">Cons</li>
+              <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Limited Capabilities.</li>
               <li class="fragment step-note">Very broad solution.</li>
               <li class="fragment step-note">???</li>
@@ -254,13 +253,13 @@
           <section>
             <h1>#2. Contrib Modules</h1>
             <ul>
-              <li class="list-header">Pros</li>
+              <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Enhances core.</li>
               <li class="fragment step-note">Tested by the community.</li>
               <li class="fragment step-note">Mostly stable.</li>
             </ul>
             <ul>
-              <li class="list-header">Cons</li>
+              <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Added complexity.</li>
               <li class="fragment step-note">Limited functionality.</li>
               <li class="fragment step-note">Limited availability.</li>
@@ -303,13 +302,13 @@
           <section>
             <h1>#3. Direct Queries</h1>
             <ul>
-              <li class="list-header">Pros</li>
+              <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Quick to implement.</li>
               <li class="fragment step-note">No fluff.</li>
               <li class="fragment step-note">Powerful.</li>
             </ul>
             <ul>
-              <li class="list-header">Cons</li>
+              <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">No stability.</li>
               <li class="fragment step-note">Dangerous.</li>
               <li class="fragment step-note">Can be complex.</li>
@@ -364,13 +363,13 @@
           <section>
             <h1>#4. Hooks</h1>
             <ul>
-              <li class="list-header">Pros</li>
+              <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Core Drupal.</li>
               <li class="fragment step-note">Very extensive.</li>
               <li class="fragment step-note">Powerful.</li>
             </ul>
             <ul>
-              <li class="list-header">Cons</li>
+              <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">May be broad.</li>
               <li class="fragment step-note">Can be complex.</li>
               <li class="fragment step-note">Can be timely.</li>
@@ -453,58 +452,19 @@ function my_bartik_preprocess_menu(&$variables) {
           </section>
         </section>
         <section>
-         <section>
-            <h1>#5. Events?</h1>
-            <ul>
-              <li class="fragment step-note">Symfony2 component.</li>
-              <li class="fragment step-note">Structured.</li>
-              <li class="fragment step-note">??.</li>
-            </ul>
-            <ul>
-              <li class="fragment step-note">Only Drupal 8.</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
-            </ul>
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r50"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0.5/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r100"></span>
-                <span class="rate stable r50"></span>
-                <span class="overview">2.5/3</span>
-              </span>
-            </div>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m5_d8.gif" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m5_d8_result.png" class="screenshot" />
-          </section>
-        </section>
-        <section>
           <section>
-            <h1>#6. Hack Core</h1>
+            <h1>#5. Hack Core</h1>
             <ul>
-              <li class="fragment step-note">Direct</li>
-              <li class="fragment step-note">Powerful.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">Direct Control</li>
+              <li class="fragment step-note">Very Powerful.</li>
+              <li class="fragment step-note">Do what you want.</li>
             </ul>
             <ul>
-              <li class="fragment step-note">Unkown issue.</li>
+              <li class="fragment list-header">Cons</li>
+              <li class="fragment step-note">Unkown issues.</li>
               <li class="fragment step-note">Break upgrades.</li>
-              <li class="fragment step-note">security risk?.</li>
+              <li class="fragment step-note">Security Risks.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -528,46 +488,100 @@ function my_bartik_preprocess_menu(&$variables) {
             </div>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d7.gif" class="screenshot" />
+            <img data-src="images/m5_d7.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d7_result.png" class="screenshot" />
+            <pre><code data-trim>
+function menu_navigation_links($menu_name, $level = 0) {
+  // ...
+  $router_item = menu_get_item();
+  $links = array();
+  foreach ($tree as $item) {
+    if (!$item['link']['hidden']) {
+
+      if (($menu_name == 'main-menu') && ($item['link']['href'] == 'node/5')) {
+        $item['link']['href'] = 'node/11';
+        $item['link']['title'] = t('SS #2');
+        $item['link']['localized_options']['attributes']['style'] =
+          'background-color:#000;color:#fff';
+        $item['link']['localized_options']['attributes']['target'] = '_blank';
+      }
+      $class = '';
+  //...
+}
+            </code></pre>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d8.gif" class="screenshot" />
+            <img data-src="images/m5_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d8_result.png" class="screenshot" />
+            <img data-src="images/m5_d8.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code data-trim>
+/**
+ * Implements the loading, transforming and rendering of menu link trees.
+ */
+class MenuLinkTree implements MenuLinkTreeInterface {
+  // ...
+  protected function buildItems(array $tree, ...) {
+    // ...
+      if(($link->getMenuName() == 'main') &&
+      ($element['url']->toString() == '/node/5')) {
+        $element['title'] = 'SS #2';
+        $options = array(
+          'attributes' => array(
+            'style' => 'background-color:#000;color:#fff',
+            'target' => '_blank',
+          ),
+        );
+        $url = \Drupal\Core\Url::fromUri('entity:node/11', $options);
+        $element['url'] = $url;
+      }
+      // Index using the link's unique ID.
+      $items[$link->getPluginId()] = $element;
+    }
+
+    return $items;
+  }
+//...
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m5_d8_result.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/core_kills_kitten.jpg" class="screenshot" />
           </section>
         </section>
         <section>
-          <h1>Client Side</h1>
-        </section>
-        <section>
-          <section>
-            <h1>#7. Template Overrides</h1>
+         <section>
+            <h1>#6. Services</h1>
             <ul>
-              <li class="fragment step-note">??</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">No hacking!</li>
+              <li class="fragment step-note">Core Symfony2.</li>
+              <li class="fragment step-note">Very powerful.</li>
             </ul>
             <ul>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment list-header">Cons</li>
+              <li class="fragment step-note">Only Drupal 8.</li>
+              <li class="fragment step-note">Not for everything.</li>
+              <li class="fragment step-note">Require OOP.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
                 <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="overview">3/3</span>
+                <span class="rate drupal r0"></span>
+                <span class="overview">2/3</span>
               </span>
               <span class="rating">
+                <span class="rate hack r100"></span>
                 <span class="rate hack r0"></span>
                 <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0/3</span>
+                <span class="overview">1/3</span>
               </span>
               <span class="rating">
                 <span class="rate stable r100"></span>
@@ -578,29 +592,91 @@ function my_bartik_preprocess_menu(&$variables) {
             </div>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d7.gif" class="screenshot" />
+            <img data-src="images/m6_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d7_result.png" class="screenshot" />
+            <img data-src="images/m6_d8_a.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8.gif" class="screenshot" />
+            <pre><code data-trim>
+/**
+ * @file Drupal\dflex_demo\DflexDemoServiceProvider.php
+ */
+namespace Drupal\dflex_demo;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\Core\DependencyInjection\ServiceProviderBase;
+
+class DflexDemoServiceProvider extends ServiceProviderBase {
+    /**
+     * {@inheritdoc}
+     */
+    public function alter(ContainerBuilder $container) {
+        // Override the menu_link_tree class with a new class.
+        $definition = $container->getDefinition('menu.link_tree');
+        $definition->setClass('Drupal\dflex_demo\DflexDemoMenuLinkTree');
+    }
+}
+            </code></pre>
+          </section>
+
+          <section data-transition="convex">
+            <img data-src="images/m6_d8_b.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8_result.png" class="screenshot" />
+            <pre><code data-trim>
+/**
+ * @file \Drupal\dflex_demo\DflexDemoMenuLinkTree.
+ */
+namespace Drupal\dflex_demo;
+use Drupal\Core\Menu\MenuLinkTree;
+
+class DflexDemoMenuLinkTree extends MenuLinkTree {
+  /**
+   * Overrides \Drupal\Core\Menu\MenuLinkTree::build();
+   */
+  public function build(array $tree) {
+    $build = parent::build($tree);
+    if (isset($build['#items']) && ($build['#theme'] == 'menu__main')) {
+      foreach ($build['#items'] as &$item) {
+        if ($item['url']->toString() == '/node/6') {
+          $item['title'] = 'SS #3';
+          $item['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
+            'attributes' => array(
+              'style' => 'background-color:red;color:#fff',
+              'target' => '_blank',
+            )));
+        }
+      }
+    }
+    return $build;
+  }
+}
+            </code></pre>
+          </section>
+
+          <section data-transition="convex">
+            <img data-src="images/m6_d8.gif" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m6_d8_result.png" class="screenshot" />
           </section>
         </section>
         <section>
+          <h1>Client Side</h1>
+        </section>
          <section>
-            <h1>#8. Custom JS</h1>
+          <section>
+            <h1>#7. Custom JS</h1>
             <ul>
+              <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Extensible.</li>
               <li class="fragment step-note">??.</li>
               <li class="fragment step-note">??.</li>
             </ul>
             <ul>
+              <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Browser dependent.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Wait for page load.</li>
               <li class="fragment step-note">??.</li>
             </ul>
             <div class="fragment ratings">
@@ -625,6 +701,55 @@ function my_bartik_preprocess_menu(&$variables) {
             </div>
           </section>
          <section data-transition="convex">
+            <img data-src="images/m7_d7.gif" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m7_d7_result.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m7_d8.gif" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m7_d8_result.png" class="screenshot" />
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>#8. Template Overrides</h1>
+            <ul>
+              <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">??</li>
+              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">??.</li>
+            </ul>
+            <ul>
+              <li class="fragment list-header">Cons</li>
+              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">??.</li>
+            </ul>
+            <div class="fragment ratings">
+              <span class="rating">
+                <span class="rate drupal r100"></span>
+                <span class="rate drupal r100"></span>
+                <span class="rate drupal r100"></span>
+                <span class="overview">3/3</span>
+              </span>
+              <span class="rating">
+                <span class="rate hack r0"></span>
+                <span class="rate hack r0"></span>
+                <span class="rate hack r0"></span>
+                <span class="overview">0/3</span>
+              </span>
+              <span class="rating">
+                <span class="rate stable r100"></span>
+                <span class="rate stable r100"></span>
+                <span class="rate stable r50"></span>
+                <span class="overview">2.5/3</span>
+              </span>
+            </div>
+          </section>
+          <section data-transition="convex">
             <img data-src="images/m8_d7.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
@@ -638,15 +763,17 @@ function my_bartik_preprocess_menu(&$variables) {
           </section>
         </section>
         <section>
-        <section>
+          <section>
             <h1>#9. Twig Functions</h1>
             <ul>
-              <li class="fragment step-note">??</li>
+              <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">No PHP in templates.</li>
               <li class="fragment step-note">??.</li>
               <li class="fragment step-note">??.</li>
             </ul>
             <ul>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment list-header">Cons</li>
+              <li class="fragment step-note">Drupal 8 only.</li>
               <li class="fragment step-note">??.</li>
               <li class="fragment step-note">??.</li>
             </ul>
