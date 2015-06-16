@@ -915,51 +915,6 @@ Reveal.initialize({
 });
 ```
 
-## Leap Motion
-The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
-
-##### 1 to 2 fingers
-Pointer &mdash; Point to anything on screen. Move your finger past the device to expand the pointer.
-
-##### 1 hand + 3 or more fingers (left/right/up/down)
-Navigate through your slides. See config options to invert movements.
-
-##### 2 hands upwards
-Toggle the overview mode. Do it a second time to exit the overview.
-
-#### Config Options
-You can edit the following options:
-
-| Property          | Default           | Description
-| ----------------- |:-----------------:| :-------------
-| autoCenter        | true              | Center the pointer based on where you put your finger into the leap motions detection field.
-| gestureDelay      | 500               | How long to delay between gestures in milliseconds.
-| naturalSwipe      | true              | Swipe as though you were touching a touch screen. Set to false to invert.
-| pointerColor      | #00aaff           | The color of the pointer.
-| pointerOpacity    | 0.7               | The opacity of the pointer.
-| pointerSize       | 15                | The minimum height and width of the pointer.
-| pointerTolerance  | 120               | Bigger = slower pointer.
-
-
-Example configuration:
-```js
-Reveal.initialize({
-
-	// other options...
-
-	leap: {
-		naturalSwipe   : false,    // Invert swipe gestures
-		pointerOpacity : 0.5,      // Set pointer opacity to 0.5
-		pointerColor   : '#d80000' // Red pointer
-	},
-
-	dependencies: [
-		{ src: 'plugin/leap/leap.js', async: true }
-	]
-
-});
-```
-
 ## MathJax
 
 If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To use it you'll need to include it as a reveal.js dependency, [find our more about dependencies here](#dependencies).
