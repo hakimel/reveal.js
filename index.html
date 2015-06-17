@@ -164,7 +164,7 @@
             <h1>Considerations</h1>
             <ul>
               <li class="fragment step-note">Cost</li>
-              <li class="fragment step-note">Time</li>
+              <li class="fragment step-note">Scope</li>
               <li class="fragment step-note">Drupalness</li>
             </ul>
           </section>
@@ -219,14 +219,14 @@
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Works for all Drupal.</li>
-              <li class="fragment step-note">Very stable.</li>
-              <li class="fragment step-note">???</li>
+              <li class="fragment step-note">Easy to implement.</li>
+              <li class="fragment step-note">Very Stable.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Limited Capabilities.</li>
-              <li class="fragment step-note">Very broad solution.</li>
-              <li class="fragment step-note">???</li>
+              <li class="fragment step-note">Solution may be broad.</li>
+              <li class="fragment step-note">Updates take time.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -267,9 +267,9 @@
             <h1>#2. Modules</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Enhances core.</li>
-              <li class="fragment step-note">Tested by the community.</li>
-              <li class="fragment step-note">Mostly stable.</li>
+              <li class="fragment step-note">Extend Drupal core.</li>
+              <li class="fragment step-note">Variety of solutions.</li>
+              <li class="fragment step-note">Build your own.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
@@ -305,9 +305,11 @@
             <img data-src="images/m2_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>WRITE A CUSTOM MODULE!!</p>
             <img data-src="images/m2_d8.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>Update Screenshot!!</p>
             <img data-src="images/m2_d8_result.png" class="screenshot" />
           </section>
         </section>
@@ -316,15 +318,15 @@
             <h1>#3. Direct Queries</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">Direct data manipulation.</li>
+              <li class="fragment step-note">Extremly powerful.</li>
               <li class="fragment step-note">Quick to implement.</li>
-              <li class="fragment step-note">No fluff.</li>
-              <li class="fragment step-note">Powerful.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">No stability.</li>
-              <li class="fragment step-note">Dangerous.</li>
+              <li class="fragment step-note">May not be stable.</li>
               <li class="fragment step-note">Can be complex.</li>
+              <li class="fragment step-note">Can be dangerous.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -357,15 +359,18 @@
             <img data-src="images/m3_d8.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>Update Screenshot</p>
             <img data-src="images/m3_d8_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>Update Gif.</p>
             <img data-src="images/m3_d8_alt.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
             <img data-src="images/m3_d8_alt_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>update screenshot</p>
             <img data-src="images/m3_d8_alt_result_bad.png" class="screenshot" />
           </section>
         </section>
@@ -382,9 +387,9 @@
             <h1>#4. Hooks</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Core Drupal.</li>
-              <li class="fragment step-note">Very extensive.</li>
-              <li class="fragment step-note">Powerful.</li>
+              <li class="fragment step-note">Part of Drupal core.</li>
+              <li class="fragment step-note">Allow for extending.</li>
+              <li class="fragment step-note">Have a wide reach.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
@@ -417,7 +422,7 @@
             <img data-src="images/m4_d7.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-<pre><code data-trim>
+<pre><code class="php hljs" data-trim>
   /**
  * Implements THEME_links__MENUNAME().
  */
@@ -438,10 +443,12 @@ function my_bartik_links__system_main_menu($variables) {
             <img data-src="images/m4_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>Update for custom module</p>
             <img data-src="images/m4_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-<pre><code data-trim>
+            <p>Update to module hook</p>
+<pre><code class="php hljs" data-trim>
   /**
  * Implements hook_preprocess_HOOK() for menu.html.twig.
  */
@@ -466,6 +473,7 @@ function my_bartik_preprocess_menu(&$variables) {
 </code></pre>
           </section>
           <section data-transition="convex">
+            <p>Update screenshot</p>
             <img data-src="images/m4_d8_result.png" class="screenshot" />
           </section>
         </section>
@@ -474,15 +482,15 @@ function my_bartik_preprocess_menu(&$variables) {
             <h1>#5. Hack Core</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Direct Control</li>
-              <li class="fragment step-note">Very Powerful.</li>
-              <li class="fragment step-note">Do what you want.</li>
+              <li class="fragment step-note">Can control anything.</li>
+              <li class="fragment step-note">No limit to abilities.</li>
+              <li class="fragment step-note">Do what you want?</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Unkown issues.</li>
-              <li class="fragment step-note">Break upgrades.</li>
-              <li class="fragment step-note">Security Risks.</li>
+              <li class="fragment step-note">May cause unkown issues.</li>
+              <li class="fragment step-note">Will break upgrades.</li>
+              <li class="fragment step-note">Introduces security risks.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -509,7 +517,7 @@ function my_bartik_preprocess_menu(&$variables) {
             <img data-src="images/m5_d7.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code data-trim>
+            <pre><code class="php hljs" data-trim>
 function menu_navigation_links($menu_name, $level = 0) {
   // ...
   $router_item = menu_get_item();
@@ -536,7 +544,7 @@ function menu_navigation_links($menu_name, $level = 0) {
             <img data-src="images/m5_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code data-trim>
+            <pre><code class="php hljs" data-trim>
 /**
  * Implements the loading, transforming and rendering of menu link trees.
  */
@@ -567,6 +575,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             </code></pre>
           </section>
           <section data-transition="convex">
+            <p>UPDATE SCREENSHOT</p>
             <img data-src="images/m5_d8_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
@@ -589,15 +598,15 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <h1>#6. Services</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">No hacking!</li>
-              <li class="fragment step-note">Core Symfony2.</li>
-              <li class="fragment step-note">Very powerful.</li>
+              <li class="fragment step-note">Can control anything.*</li>
+              <li class="fragment step-note">No hacking required!</li>
+              <li class="fragment step-note">Do whatever you want.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Only Drupal 8.</li>
-              <li class="fragment step-note">Not for everything.</li>
-              <li class="fragment step-note">Require OOP.</li>
+              <li class="fragment step-note">Can become complex.</li>
+              <li class="fragment step-note">*Not for eveything.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -624,10 +633,11 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <img data-src="images/m6_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>Update screenshot</p>
             <img data-src="images/m6_d8_a.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code data-trim>
+            <pre><code class="php hljs" data-trim>
 /**
  * @file Drupal\dflex_demo\DflexDemoServiceProvider.php
  */
@@ -649,10 +659,11 @@ class DflexDemoServiceProvider extends ServiceProviderBase {
           </section>
 
           <section data-transition="convex">
+            <p>UPDATE SCREENSHOT</p>
             <img data-src="images/m6_d8_b.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code data-trim>
+            <pre><code class="php hljs" data-trim>
 /**
  * @file \Drupal\dflex_demo\DflexDemoMenuLinkTree.
  */
@@ -684,9 +695,11 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
           </section>
 
           <section data-transition="convex">
+            <p>UPDATE GIF</p>
             <img data-src="images/m6_d8.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
+            <p>Update screenshot</p>
             <img data-src="images/m6_d8_result.png" class="screenshot" />
           </section>
         </section>
@@ -703,15 +716,15 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
             <h1>#7. Custom JS</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Extensible.</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Manipulate any page item.</li>
+              <li class="fragment step-note">Less server processing.</li>
+              <li class="fragment step-note">Can base on actions.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Browser dependent.</li>
               <li class="fragment step-note">Wait for page load.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Not cacheable.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -735,7 +748,45 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
             </div>
           </section>
          <section data-transition="convex">
-            <img data-src="images/m7_d7.gif" class="screenshot" />
+            <img data-src="images/m7_d7_a.png" class="screenshot" />
+          </section>
+         <section data-transition="convex">
+            <pre><code data-trim>
+name = My Bartik
+description = A flexible, recolorable theme with many regions.
+package = Core
+version = VERSION
+core = 7.x
+
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/colors.css
+stylesheets[print][] = css/print.css
+
+scripts[] = my_bartik.js
+...
+            </code></pre>
+          </section>
+         <section data-transition="convex">
+            <img data-src="images/m7_d7_b.png" class="screenshot" />
+          </section>
+         <section data-transition="convex">
+            <pre><code class="js hljs" data-trim>
+(function($){
+    Drupal.behaviors.myBartik = {
+        attach: function (context, settings) {
+           $('#main-menu-links li > a').each(function(){
+               if ($(this).attr('href') == '/node/7') {
+                   $(this).attr('style', 'background-color:blue;color:#fff;');
+                   $(this).attr('target', '_blank');
+                   $(this).attr('href', '/alt-path');
+                   $(this).text('CS #1');
+               }
+           })
+        }
+    }
+})(jQuery);
+            </code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m7_d7_result.png" class="screenshot" />
@@ -752,15 +803,15 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
             <h1>#8. Template Overrides</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">??</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Directly alter markup.</li>
+              <li class="fragment step-note">Provide specific markup.</li>
               <li class="fragment step-note">??.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Can be limiting.</li>
+              <li class="fragment step-note">Require custom theme.</li>
+              <li class="fragment step-note">May require server side.</li>
             </ul>
             <div class="fragment ratings">
               <span class="rating">
@@ -784,7 +835,75 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
             </div>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7.gif" class="screenshot" />
+            <img data-src="images/m8_d7.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php hljs" data-trim>
+...
+&lt;?php if ($main_menu): ?>
+  <div id="main-menu" class="navigation">
+    &lt;?php print theme('links__system_main_menu', array(
+      'links' => $main_menu,
+      'attributes' => array(
+        'id' => 'main-menu-links',
+        'class' => array('links', 'clearfix'),
+      ),
+      'heading' => array(
+        'text' => t('Main menu'),
+        'level' => 'h2',
+        'class' => array('element-invisible'),
+      ),
+    )); ?>
+  </div> <!-- /#main-menu -->
+&lt;?php endif; ?>
+...
+            </code></pre>
+          </section>
+
+          <section data-transition="convex">
+            <img data-src="images/m8_d7_a.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php hljs" data-trim>
+/**
+ * Implements HOOK_theme_registry_alter().
+ */
+function my_bartik_theme_registry_alter(&$theme_registry) {
+  $theme_registry['link']['template'] = 'link';
+  unset($theme_registry['link']['function']);
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m8_d7_b.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php hljs" data-trim>
+&lt;?php
+  $url = check_plain(url($variables['path'], $variables['options']));
+  $attributes = drupal_attributes($variables['options']['attributes']);
+  $text = ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text']));
+?>
+&lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m7_d7_result.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php hljs" data-trim>
+&lt;?php
+  $url = check_plain(url($variables['path'], $variables['options']));
+  $attributes = drupal_attributes($variables['options']['attributes']);
+  $text = ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text']));
+?>
+
+&lt;?php if(isset($variables['path'] == 'node/8'): ?>
+  &lt;a href="/alt-path" style="background:pink;color:#000;">CS #2&lt;/a>
+&lt;?php else: ?>
+  &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
+&lt;?php endif; ?>
+            </code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m8_d7_result.png" class="screenshot" />
