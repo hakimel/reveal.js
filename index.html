@@ -929,25 +929,22 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
             <img data-src="images/m8_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d8.gif" class="screenshot" />
-          </section>
-          <section data-transition="convex">
             <img data-src="images/m8_d8_result.png" class="screenshot" />
           </section>
         </section>
         <section>
           <section>
-            <h1>#9. Twig Functions</h1>
+            <h1>#9. Twig</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">No PHP in templates.</li>
-              <li class="fragment step-note">??.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Perform template logic.</li>
+              <li class="fragment step-note">Secure.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">Drupal 8 only.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Limited abilities.</li>
               <li class="fragment step-note">??.</li>
             </ul>
             <div class="fragment ratings">
@@ -971,14 +968,39 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
               </span>
             </div>
           </section>
-         <section data-transition="convex">
-            <img data-src="images/m9_d7.gif" class="screenshot" />
-          </section>
           <section data-transition="convex">
             <img data-src="images/m9_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m9_d8.gif" class="screenshot" />
+            Screenshot of my_bartik D8 template files.
+          </section>
+          <section data-transition="convex">
+            <pre><code class="craftcms" data-trim>
+{{ menus.menu_links(items, attributes, 0) }}
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+&lt;ul{{ attributes.addClass('menu') }}>
+  {% else %}
+  &lt;ul class="menu">
+    {% endif %}
+    {% for item in items %}
+      &lt;li{{ item.attributes }}>
+        {% if item.title == 'Page 9' and item.url.toString() == '/node/9' %}
+          &lt;a href="/alt-path" style="background:purple;color:#fff;">CS #3&lt;/a>
+        {% else %}
+          {{ link(item.title, item.url) }}
+        {% endif %}
+        {% if item.below %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
+      &lt;/li>
+    {% endfor %}
+  &lt;/ul>
+  {% endif %}
+{% endmacro %}
+            </code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m9_d8_result.png" class="screenshot" />
