@@ -250,13 +250,13 @@
             </div>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m1_d7.gif" class="screenshot" />
+            <video controls data-autoplay data-src="videos/m1_d7.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m1_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m1_d8.gif" class="screenshot" />
+            <video controls data-autoplay data-src="videos/m1_d8.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m1_d8_result.png" class="screenshot" />
@@ -299,17 +299,51 @@
             </div>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d7.gif" class="screenshot" />
+            <video controls data-autoplay data-src="videos/m2_d7.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m2_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>WRITE A CUSTOM MODULE!!</p>
+            <img data-src="images/m2_d8.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <p>Screenshot of cusstom module structure</p>
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php hljs" data-trim>
+/**
+ * @file Contains dflex_demo.module.
+ */
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+/**
+ * Implements hook_entity_update().
+ */
+function dflex_demo_entity_update(EntityInterface $entity) {
+  if ($entity instanceof MenuLinkContent) {
+    if ($entity->getTitle() == 'DB #2' && $entity->getMenuName() == 'main') {
+      db_update('menu_tree')
+        ->fields(array(
+          'options' => serialize(array(
+              'attributes' => array(
+                'style' => 'background-color:red;color:#fff',
+                'target' => '_blank',
+              ),
+            )),
+        ))
+        ->condition('id', 'menu_link_content:' . $entity->uuid())
+        ->execute();
+    }
+  }
+}
+            </code></pre>
+          </section>
+          <section>
+            <p>Video of enabling new module, editing menu linke</p>
             <img data-src="images/m2_d8.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Update Screenshot!!</p>
             <img data-src="images/m2_d8_result.png" class="screenshot" />
           </section>
         </section>
@@ -359,7 +393,6 @@
             <img data-src="images/m3_d8.gif" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Update Screenshot</p>
             <img data-src="images/m3_d8_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
@@ -370,7 +403,6 @@
             <img data-src="images/m3_d8_alt_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>update screenshot</p>
             <img data-src="images/m3_d8_alt_result_bad.png" class="screenshot" />
           </section>
         </section>
@@ -447,25 +479,21 @@ function my_bartik_links__system_main_menu($variables) {
             <img data-src="images/m4_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Update to module hook</p>
 <pre><code class="php hljs" data-trim>
-  /**
- * Implements hook_preprocess_HOOK() for menu.html.twig.
+/**
+ * Implements hook_preprocess_HOOK().
  */
-function my_bartik_preprocess_menu(&$variables) {
-  $variables['attributes']['class'][] = 'clearfix';
+function dflex_demo_preprocess_menu(&$variables) {
   if ($variables['theme_hook_original'] == 'menu__main') {
     foreach ($variables['items'] as &$menu_link) {
       if ($menu_link['url']->toString() == '/node/4') {
         $menu_link['title'] = 'SS #1';
-        $options = array(
+        $menu_link['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
           'attributes' => array(
             'style' => 'background-color:yellow;color:#000',
             'target' => '_blank',
           ),
-        );
-        $url = \Drupal\Core\Url::fromUri('entity:node/11', $options);
-        $menu_link['url'] = $url;
+        ));
       }
     }
   }
@@ -473,7 +501,6 @@ function my_bartik_preprocess_menu(&$variables) {
 </code></pre>
           </section>
           <section data-transition="convex">
-            <p>Update screenshot</p>
             <img data-src="images/m4_d8_result.png" class="screenshot" />
           </section>
         </section>
@@ -575,7 +602,6 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             </code></pre>
           </section>
           <section data-transition="convex">
-            <p>UPDATE SCREENSHOT</p>
             <img data-src="images/m5_d8_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
@@ -682,7 +708,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
           $item['title'] = 'SS #3';
           $item['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
             'attributes' => array(
-              'style' => 'background-color:red;color:#fff',
+              'style' => 'background-color:orange;color:#000',
               'target' => '_blank',
             )));
         }
@@ -693,13 +719,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
 }
             </code></pre>
           </section>
-
           <section data-transition="convex">
-            <p>UPDATE GIF</p>
-            <img data-src="images/m6_d8.gif" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <p>Update screenshot</p>
             <img data-src="images/m6_d8_result.png" class="screenshot" />
           </section>
         </section>
