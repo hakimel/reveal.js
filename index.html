@@ -333,7 +333,7 @@ function dflex_demo_entity_update(EntityInterface $entity) {
         ->fields(array(
           'options' => serialize(array(
               'attributes' => array(
-                'style' => 'background-color:red;color:#fff',
+                'style' => 'background:#FF0;color:#000',
                 'target' => '_blank',
               ),
             )),
@@ -473,7 +473,7 @@ function my_bartik_links__system_main_menu($variables) {
     if ($menu_link['href'] == 'node/4') {
       $menu_link['href'] = 'node/11';
       $menu_link['title'] = 'SS #1';
-      $menu_link['attributes']['style'] = 'background-color:yellow;color:#000;';
+      $menu_link['attributes']['style'] = 'background:#FF0;color:#FFF;';
       $menu_link['attributes']['target'] = '_blank';
     }
   }
@@ -500,7 +500,7 @@ function dflex_demo_preprocess_menu(&$variables) {
         $menu_link['title'] = 'SS #1';
         $menu_link['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
           'attributes' => array(
-            'style' => 'background-color:yellow;color:#000',
+            'style' => 'background:#FF0;color:#FFF',
             'target' => '_blank',
           ),
         ));
@@ -567,8 +567,8 @@ function menu_navigation_links($menu_name, $level = 0) {
       if (($menu_name == 'main-menu') && ($item['link']['href'] == 'node/5')) {
         $item['link']['href'] = 'node/11';
         $item['link']['title'] = t('SS #2');
-        $item['link']['localized_options']['attributes']['style'] =
-          'background-color:#000;color:#fff';
+        $style = 'background:#000;color:#FFF';
+        $item['link']['localized_options']['attributes']['style'] = $style;
         $item['link']['localized_options']['attributes']['target'] = '_blank';
       }
       $class = '';
@@ -591,17 +591,15 @@ class MenuLinkTree implements MenuLinkTreeInterface {
   // ...
   protected function buildItems(array $tree, ...) {
     // ...
-      if(($link->getMenuName() == 'main') &&
-      ($element['url']->toString() == '/node/5')) {
+      $url = $element['url']->toString();
+      if(($link->getMenuName() == 'main') && ($url == '/node/5')) {
         $element['title'] = 'SS #2';
-        $options = array(
+        $element['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
           'attributes' => array(
-            'style' => 'background-color:#000;color:#fff',
+            'style' => 'background:#000;color:#FFF',
             'target' => '_blank',
           ),
-        );
-        $url = \Drupal\Core\Url::fromUri('entity:node/11', $options);
-        $element['url'] = $url;
+        ));
       }
       // Index using the link's unique ID.
       $items[$link->getPluginId()] = $element;
@@ -724,7 +722,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
           $item['title'] = 'SS #3';
           $item['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
             'attributes' => array(
-              'style' => 'background-color:orange;color:#000',
+              'style' => 'background:#33C;color:#FFF',
               'target' => '_blank',
             )));
         }
@@ -815,7 +813,7 @@ scripts[] = my_bartik.js
         attach: function (context, settings) {
            $('#main-menu-links li > a').each(function(){
                if ($(this).attr('href') == '/node/7') {
-                   $(this).attr('style', 'background-color:blue;color:#fff;');
+                   $(this).attr('style', 'background: #6CF;color:#FFF;');
                    $(this).attr('target', '_blank');
                    $(this).attr('href', '/alt-path');
                    $(this).text('CS #1');
@@ -865,7 +863,7 @@ function dflex_demo_page_attachments(&$page) {
         attach: function (context) {
             $('nav.menu--main > ul.menu li > a').each(function(){
                 if ($(this).attr('href') == '/node/7') {
-                    $(this).attr('style', 'background-color:blue;color:#fff;');
+                    $(this).attr('style', 'background:#6CF;color:#FFF;');
                     $(this).attr('target', '_blank');
                     $(this).attr('href', '/alt-path');
                     $(this).text('CS #1');
@@ -952,7 +950,7 @@ function dflex_demo_page_attachments(&$page) {
 /**
  * Implements HOOK_theme_registry_alter().
  */
-function my_bartik_theme_registry_alter(&$theme_registry) {
+function dflex_theme_registry_alter(&$theme_registry) {
   $theme_registry['link']['template'] = 'link';
   unset($theme_registry['link']['function']);
 }
@@ -983,7 +981,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
 ?>
 
 &lt;?php if(isset($variables['path'] == 'node/8'): ?>
-  &lt;a href="/alt-path" style="background:pink;color:#000;">CS #2&lt;/a>
+  &lt;a href="/alt-path" style="background:#C3F;color:#FFF;">CS #2&lt;/a>
 &lt;?php else: ?>
   &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
 &lt;?php endif; ?>
@@ -1054,7 +1052,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
     {% for item in items %}
       &lt;li{{ item.attributes }}>
         {% if item.title == 'Page 9' and item.url.toString() == '/node/9' %}
-          &lt;a href="/alt-path" style="background:purple;color:#fff;">CS #3&lt;/a>
+          &lt;a href="/alt-path" style="background:#0F0;color:#000;">CS #3&lt;/a>
         {% else %}
           {{ link(item.title, item.url) }}
         {% endif %}
