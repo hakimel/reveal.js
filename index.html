@@ -168,6 +168,7 @@
               <li class="fragment step-note">Drupalness</li>
             </ul>
           </section>
+<!--
           <section data-transition="convex">
             <h1>Rating System</h1>
             <p class="fragment">
@@ -204,6 +205,7 @@
               </div>
             </p>
           </section>
+-->
         </section>
         <section>
           <h1>Database</h1>
@@ -228,6 +230,7 @@
               <li class="fragment step-note">Solution may be broad.</li>
               <li class="fragment step-note">Updates take time.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
@@ -248,6 +251,7 @@
                 <span class="overview">2/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <video controls data-autoplay data-src="videos/m1_d7.mp4" type="video/mp4" class="screenshot"></video>
@@ -277,6 +281,7 @@
               <li class="fragment step-note">Limited functionality.</li>
               <li class="fragment step-note">Limited availability.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
@@ -297,6 +302,7 @@
                 <span class="overview">2/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <video controls data-autoplay data-src="videos/m2_d7.mp4" type="video/mp4" class="screenshot"></video>
@@ -311,7 +317,7 @@
             <p>Screenshot of cusstom module structure</p>
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * @file Contains dflex_demo.module.
  */
@@ -362,6 +368,7 @@ function dflex_demo_entity_update(EntityInterface $entity) {
               <li class="fragment step-note">Can be complex.</li>
               <li class="fragment step-note">Can be dangerous.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r50"></span>
@@ -382,6 +389,7 @@ function dflex_demo_entity_update(EntityInterface $entity) {
                 <span class="overview">1/3</span>
               </span>
             </div>
+-->
           </section>
          <section data-transition="convex">
             <img data-src="images/m3_d7.gif" class="screenshot" />
@@ -429,6 +437,7 @@ function dflex_demo_entity_update(EntityInterface $entity) {
               <li class="fragment step-note">Can be complex.</li>
               <li class="fragment step-note">Can be timely.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
@@ -449,12 +458,13 @@ function dflex_demo_entity_update(EntityInterface $entity) {
                 <span class="overview">2.5/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d7.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-<pre><code class="php hljs" data-trim>
+<pre><code class="php" data-trim data-line-numbers=true>
   /**
  * Implements THEME_links__MENUNAME().
  */
@@ -479,7 +489,7 @@ function my_bartik_links__system_main_menu($variables) {
             <img data-src="images/m4_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-<pre><code class="php hljs" data-trim>
+<pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Implements hook_preprocess_HOOK().
  */
@@ -519,6 +529,7 @@ function dflex_demo_preprocess_menu(&$variables) {
               <li class="fragment step-note">Will break upgrades.</li>
               <li class="fragment step-note">Introduces security risks.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r0"></span>
@@ -539,12 +550,13 @@ function dflex_demo_preprocess_menu(&$variables) {
                 <span class="overview">1.5/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <img data-src="images/m5_d7.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 function menu_navigation_links($menu_name, $level = 0) {
   // ...
   $router_item = menu_get_item();
@@ -571,7 +583,7 @@ function menu_navigation_links($menu_name, $level = 0) {
             <img data-src="images/m5_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Implements the loading, transforming and rendering of menu link trees.
  */
@@ -609,6 +621,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
           </section>
         </section>
         <section>
+        <!--
          <section>
             <h1>#6. Services</h1>
          </section>
@@ -620,6 +633,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
               <li class="fragment step-note">??</li>
             </ul>
          </section>
+       -->
          <section>
             <h1>#6. Services</h1>
             <ul>
@@ -634,6 +648,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
               <li class="fragment step-note">Can become complex.</li>
               <li class="fragment step-note">*Not for eveything.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
@@ -654,6 +669,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
                 <span class="overview">2.5/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <img data-src="images/m6_d7_result.png" class="screenshot" />
@@ -663,7 +679,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <img data-src="images/m6_d8_a.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * @file Drupal\dflex_demo\DflexDemoServiceProvider.php
  */
@@ -689,7 +705,7 @@ class DflexDemoServiceProvider extends ServiceProviderBase {
             <img data-src="images/m6_d8_b.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * @file \Drupal\dflex_demo\DflexDemoMenuLinkTree.
  */
@@ -727,8 +743,8 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
           <h1>Client Side</h1>
           <ol>
             <li class="step-note">Custom JS</li>
-            <li class="step-note">Custom CSS</li>
             <li class="step-note">Template Overrides</li>
+            <li class="step-note">Twig</li>
           </ol>
         </section>
          <section>
@@ -746,6 +762,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
               <li class="fragment step-note">Wait for page load.</li>
               <li class="fragment step-note">Not cacheable.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
@@ -766,12 +783,13 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
                 <span class="overview">1.5/3</span>
               </span>
             </div>
+-->
           </section>
          <section data-transition="convex">
             <img data-src="images/m7_d7_a.png" class="screenshot" />
           </section>
          <section data-transition="convex">
-            <pre><code data-trim>
+            <pre><code data-trim data-line-numbers=true>
 name = My Bartik
 description = A flexible, recolorable theme with many regions.
 package = Core
@@ -791,7 +809,7 @@ scripts[] = my_bartik.js
             <img data-src="images/m7_d7_b.png" class="screenshot" />
           </section>
          <section data-transition="convex">
-            <pre><code class="js hljs" data-trim>
+            <pre><code class="js" data-trim data-line-numbers=true>
 (function($){
     Drupal.behaviors.myBartik = {
         attach: function (context, settings) {
@@ -812,7 +830,51 @@ scripts[] = my_bartik.js
             <img data-src="images/m7_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8.gif" class="screenshot" />
+            <p>Image of dflex_demo module file structure adding js</p>
+          </section>
+          <section data-transition="convex">
+            <pre><code data-trim data-line-numbers=true>
+dflex_demo:
+  version: VERSION
+  js:
+    js/dflex-demo.js: {}
+  dependencies:
+     - core/jquery
+     - core/jquery.once
+     - core/drupal
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function dflex_demo_page_attachments(&$page) {
+  // Add the dflex_demo js library to all pages.
+  $page['#attached']['library'][] = 'dflex_demo/dflex_demo';
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <pre><code class="js" data-trim data-line-numbers=true>
+(function ($, Drupal) {
+
+    "use strict";
+
+    Drupal.behaviors.dflexDemo = {
+        attach: function (context) {
+            $('nav.menu--main > ul.menu li > a').each(function(){
+                if ($(this).attr('href') == '/node/7') {
+                    $(this).attr('style', 'background-color:blue;color:#fff;');
+                    $(this).attr('target', '_blank');
+                    $(this).attr('href', '/alt-path');
+                    $(this).text('CS #1');
+                }
+            });
+        }
+    }
+})(jQuery, Drupal);
+            </code></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/m7_d8_result.png" class="screenshot" />
@@ -823,16 +885,17 @@ scripts[] = my_bartik.js
             <h1>#8. Template Overrides</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Directly alter markup.</li>
-              <li class="fragment step-note">Provide specific markup.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Control Drupal markup.</li>
+              <li class="fragment step-note">Easy to implement.</li>
+              <li class="fragment step-note">Cachable.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Can be limiting.</li>
+              <li class="fragment step-note">Not everything Templated.</li>
               <li class="fragment step-note">Require custom theme.</li>
               <li class="fragment step-note">May require server side.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r100"></span>
@@ -853,12 +916,13 @@ scripts[] = my_bartik.js
                 <span class="overview">2.5/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <img data-src="images/m8_d7.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 ...
 &lt;?php if ($main_menu): ?>
   <div id="main-menu" class="navigation">
@@ -884,7 +948,7 @@ scripts[] = my_bartik.js
             <img data-src="images/m8_d7_a.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Implements HOOK_theme_registry_alter().
  */
@@ -898,7 +962,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
             <img data-src="images/m8_d7_b.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 &lt;?php
   $url = check_plain(url($variables['path'], $variables['options']));
   $attributes = drupal_attributes($variables['options']['attributes']);
@@ -911,7 +975,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
             <img data-src="images/m7_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <pre><code class="php hljs" data-trim>
+            <pre><code class="php" data-trim data-line-numbers=true>
 &lt;?php
   $url = check_plain(url($variables['path'], $variables['options']));
   $attributes = drupal_attributes($variables['options']['attributes']);
@@ -939,14 +1003,15 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">No PHP in templates.</li>
               <li class="fragment step-note">Perform template logic.</li>
-              <li class="fragment step-note">Secure.</li>
+              <li class="fragment step-note">More Secure.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Drupal 8 only.</li>
+              <li class="fragment step-note">New syntax to learn.</li>
               <li class="fragment step-note">Limited abilities.</li>
-              <li class="fragment step-note">??.</li>
+              <li class="fragment step-note">Drupal 8 only.</li>
             </ul>
+<!--
             <div class="fragment ratings">
               <span class="rating">
                 <span class="rate drupal r0"></span>
@@ -967,6 +1032,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
                 <span class="overview">0/3</span>
               </span>
             </div>
+-->
           </section>
           <section data-transition="convex">
             <img data-src="images/m9_d7_result.png" class="screenshot" />
@@ -975,7 +1041,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
             Screenshot of my_bartik D8 template files.
           </section>
           <section data-transition="convex">
-            <pre><code class="craftcms" data-trim>
+            <pre><code class="craftcms" data-trim data-line-numbers=true>
 {{ menus.menu_links(items, attributes, 0) }}
 {% macro menu_links(items, attributes, menu_level) %}
   {% import _self as menus %}
@@ -1008,6 +1074,24 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
         </section>
         <section>
           <h1>Review</h1>
+          <ul>
+            <li class="fragment step-note">
+              Data manipulation falls into 3 buckets:
+              <ul>
+                <li class="fragment step-note">Database</li>
+                <li class="fragment step-note">Server Side</li>
+                <li class="fragment step-note">Client Side</li>
+              </ul>
+            </li>
+            <li class="fragment step-note">
+              No "right way" or "wrong way"
+              <ul>
+                <li class="fragment step-note">Just the "right for me way"</li>
+                <li class="fragment step-note">Except Hack Core. That is the wrong way!</li>
+              </ul>
+            </li>
+            <li class="fragment step-note">Keep in mind the pros and cons</li>
+          </ul>
 
         </section>
         <section>
@@ -1060,6 +1144,7 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
 
       Reveal.addEventListener('slidechanged', initAnimatedGifs);
       Reveal.addEventListener('ready', initAnimatedGifs);
+      Reveal.addEventListener('slidechanged', addLineNumbers);
 
       function initAnimatedGifs(event) {
         $('.animated-gif', event.currentSlide).each(function (i, e) {
@@ -1068,6 +1153,16 @@ function my_bartik_theme_registry_alter(&$theme_registry) {
               $(e).attr('src', $(e).attr('src'));
               //enableGif(e);
             }
+        });
+      }
+
+      function addLineNumbers(event) {
+        $('code.hljs', event.currentSlide).each(function(){
+          if ($(this).data("line-numbers") && ($(this).html().indexOf('class="line-number') < 1)) {
+            $(this).parent("pre").attr("style","border-left:32px #000 solid;");
+            var code = '<span class="line-number"></span>' + $(this).html().split("\n").join("\n<span class='line-number'></span>");
+            $(this).html(code);
+          }
         });
       }
 		</script>

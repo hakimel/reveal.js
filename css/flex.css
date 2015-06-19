@@ -14,6 +14,23 @@
   font-size: 90% !important;
 }
 
+code {
+  counter-reset: line;
+}
+
+code span.line-number {
+  counter-increment: line;
+}
+
+code span.line-number:before {
+  content: counter(line);
+  color: gray;
+  position:relative;
+  float:left;
+  left:-25px;
+  font-size: 90% !important;
+}
+
 .step-note {
   padding:5px !important;
   font-size: 75% !important;
