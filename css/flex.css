@@ -38,6 +38,15 @@ code span.line-number:before {
   font-style: italic !important;
 }
 
+.filename {
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  font-size: 50% !important;
+  color: #F0E9E9  !important;
+  font-style: italic !important;
+}
+
 .blink {
   animation: blink 1s steps(5, start) infinite;
   -webkit-animation: blink 1s steps(5, start) infinite;

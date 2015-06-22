@@ -254,13 +254,13 @@
 -->
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m1_d7.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m1_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m1_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m1_d8.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m1_d8.opt.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m1_d8_result.png" class="screenshot" />
@@ -305,7 +305,13 @@
 -->
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d7.mp4" type="video/mp4" class="screenshot"></video>
+            <img data-src="images/m2_d7_a.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <video controls data-autoplay data-src="videos/m2_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
+          </section>
+          <section data-transition="convex">
+            <video controls data-autoplay data-src="videos/m2_d7_b.opt.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m2_d7_result.png" class="screenshot" />
@@ -314,7 +320,17 @@
             <img data-src="images/m2_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Screenshot of cusstom module structure</p>
+            <img data-src="images/m2_d8_a.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code data-trim data-line-numbers=true>
+name: Drupal Flex Demo
+type: module
+description: This is a demo module to show off Drupal Flexibility
+core: 8.x
+package: Other
+            </code></pre>
+            <p class="filename">dflex_demo.info.yml</p>
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -344,10 +360,13 @@ function dflex_demo_entity_update(EntityInterface $entity) {
   }
 }
             </code></pre>
+            <p class="filename">dflex_demo.module</p>
           </section>
-          <section>
-            <p>Video of enabling new module, editing menu linke</p>
-            <img data-src="images/m2_d8.gif" class="screenshot" />
+          <section data-transition="convex">
+            <video controls data-autoplay data-src="videos/m2_d8.opt.mp4" type="video/mp4" class="screenshot"></video>
+          </section>
+          <section data-transition="convex">
+            <video controls data-autoplay data-src="videos/m2_d8_b.opt.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m2_d8_result.png" class="screenshot" />
@@ -392,26 +411,51 @@ function dflex_demo_entity_update(EntityInterface $entity) {
 -->
           </section>
          <section data-transition="convex">
-            <img data-src="images/m3_d7.gif" class="screenshot" />
+            <img data-src="images/m3_d7.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code class="sql" data-trim data-line-numbers=true>
+UPDATE
+  menu_links
+SET
+  options = "a:1:{s:10:attributes;a:1:{s:5:'style';s:26:'background:#C93;color:#FFF';}}",
+  link_title = 'DB #3',
+  link_path = 'node/10'
+WHERE
+  menu_name = 'main-menu'
+AND
+  link_path = 'node/3';
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <video controls data-autoplay data-src="videos/m3_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m3_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d8.gif" class="screenshot" />
+            <img data-src="images/m3_d8.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <pre><code class="sql" data-trim data-line-numbers=true>
+UPDATE
+  menu_tree
+SET
+  options = "a:1:{s:10:attributes;a:1:{s:5:'style';s:26:'background:#C93;color:#FFF';}}",
+  title = 'DB #3',
+  route_param_key = 'node=10',
+  route_parameters = "a:1:{s:4:'node';s:2:'11';}"
+WHERE
+  menu_name = 'main'
+AND
+  route_param_key = 'node=3';
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <video controls data-autoplay data-src="videos/m3_d8.opt.mp4" type="video/mp4" class="screenshot"></video>
           </section>
           <section data-transition="convex">
             <img data-src="images/m3_d8_result.png" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <p>Update Gif.</p>
-            <img data-src="images/m3_d8_alt.gif" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m3_d8_alt_result.png" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m3_d8_alt_result_bad.png" class="screenshot" />
           </section>
         </section>
         <section>
@@ -468,24 +512,24 @@ function dflex_demo_entity_update(EntityInterface $entity) {
   /**
  * Implements THEME_links__MENUNAME().
  */
-function my_bartik_links__system_main_menu($variables) {
+function dflex_links__system_main_menu($variables) {
   foreach ($variables['links'] as &$menu_link) {
     if ($menu_link['href'] == 'node/4') {
-      $menu_link['href'] = 'node/11';
+      $menu_link['href'] = 'node/10';
       $menu_link['title'] = 'SS #1';
-      $menu_link['attributes']['style'] = 'background:#FF0;color:#FFF;';
+      $menu_link['attributes']['style'] = 'background:#F00;color:#FFF;';
       $menu_link['attributes']['target'] = '_blank';
     }
   }
   return theme_links($variables);
 }
 </code></pre>
+            <p class="filename">dflex/template.php</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Update for custom module</p>
             <img data-src="images/m4_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
@@ -498,9 +542,9 @@ function dflex_demo_preprocess_menu(&$variables) {
     foreach ($variables['items'] as &$menu_link) {
       if ($menu_link['url']->toString() == '/node/4') {
         $menu_link['title'] = 'SS #1';
-        $menu_link['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
+        $menu_link['url'] = \Drupal\Core\Url::fromUri('entity:node/10', array(
           'attributes' => array(
-            'style' => 'background:#FF0;color:#FFF',
+            'style' => 'background:#F00;color:#FFF',
             'target' => '_blank',
           ),
         ));
@@ -509,6 +553,7 @@ function dflex_demo_preprocess_menu(&$variables) {
   }
 }
 </code></pre>
+            <p class="filename">dflex_demo.module</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d8_result.png" class="screenshot" />
@@ -557,6 +602,10 @@ function dflex_demo_preprocess_menu(&$variables) {
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Returns an array of links for a navigation menu.
+ * ...
+ */
 function menu_navigation_links($menu_name, $level = 0) {
   // ...
   $router_item = menu_get_item();
@@ -565,7 +614,7 @@ function menu_navigation_links($menu_name, $level = 0) {
     if (!$item['link']['hidden']) {
 
       if (($menu_name == 'main-menu') && ($item['link']['href'] == 'node/5')) {
-        $item['link']['href'] = 'node/11';
+        $item['link']['href'] = 'node/10';
         $item['link']['title'] = t('SS #2');
         $style = 'background:#000;color:#FFF';
         $item['link']['localized_options']['attributes']['style'] = $style;
@@ -575,6 +624,7 @@ function menu_navigation_links($menu_name, $level = 0) {
   //...
 }
             </code></pre>
+            <p class="filename">includes/menu.inc</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m5_d7_result.png" class="screenshot" />
@@ -594,7 +644,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
       $url = $element['url']->toString();
       if(($link->getMenuName() == 'main') && ($url == '/node/5')) {
         $element['title'] = 'SS #2';
-        $element['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
+        $element['url'] = \Drupal\Core\Url::fromUri('entity:node/10', array(
           'attributes' => array(
             'style' => 'background:#000;color:#FFF',
             'target' => '_blank',
@@ -610,6 +660,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
 //...
 }
             </code></pre>
+            <p class="filename">core/lib/Drupal/Core/Menu/MenuLinkTree.php</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m5_d8_result.png" class="screenshot" />
@@ -673,8 +724,7 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <img data-src="images/m6_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Update screenshot</p>
-            <img data-src="images/m6_d8_a.png" class="screenshot" />
+            <img data-src="images/m6_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -696,11 +746,7 @@ class DflexDemoServiceProvider extends ServiceProviderBase {
     }
 }
             </code></pre>
-          </section>
-
-          <section data-transition="convex">
-            <p>UPDATE SCREENSHOT</p>
-            <img data-src="images/m6_d8_b.png" class="screenshot" />
+            <p class="filename">DflexDemoServiceProvider.php</p>
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -720,7 +766,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
       foreach ($build['#items'] as &$item) {
         if ($item['url']->toString() == '/node/6') {
           $item['title'] = 'SS #3';
-          $item['url'] = \Drupal\Core\Url::fromUri('entity:node/11', array(
+          $item['url'] = \Drupal\Core\Url::fromUri('entity:node/10', array(
             'attributes' => array(
               'style' => 'background:#33C;color:#FFF',
               'target' => '_blank',
@@ -732,6 +778,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
   }
 }
             </code></pre>
+            <p class="filename">DflexDemoMenuLinkTree.php</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m6_d8_result.png" class="screenshot" />
@@ -784,36 +831,32 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
 -->
           </section>
          <section data-transition="convex">
-            <img data-src="images/m7_d7_a.png" class="screenshot" />
+            <img data-src="images/m7_d7.png" class="screenshot" />
           </section>
          <section data-transition="convex">
             <pre><code data-trim data-line-numbers=true>
-name = My Bartik
-description = A flexible, recolorable theme with many regions.
+name = Drupal Flex Demo
+description = Demo subtheme for displaying Drupal Flexibility
 package = Core
 version = VERSION
 core = 7.x
+base theme = bartik
 
-stylesheets[all][] = css/layout.css
-stylesheets[all][] = css/style.css
 stylesheets[all][] = css/colors.css
-stylesheets[print][] = css/print.css
 
-scripts[] = my_bartik.js
+scripts[] = dflex.js
 ...
             </code></pre>
-          </section>
-         <section data-transition="convex">
-            <img data-src="images/m7_d7_b.png" class="screenshot" />
+            <p class="filename">dflex/dflex.info</p>
           </section>
          <section data-transition="convex">
             <pre><code class="js" data-trim data-line-numbers=true>
 (function($){
-    Drupal.behaviors.myBartik = {
+    Drupal.behaviors.dflex = {
         attach: function (context, settings) {
            $('#main-menu-links li > a').each(function(){
                if ($(this).attr('href') == '/node/7') {
-                   $(this).attr('style', 'background: #6CF;color:#FFF;');
+                   $(this).attr('style', 'background:#6CF;color:#fff;');
                    $(this).attr('target', '_blank');
                    $(this).attr('href', '/alt-path');
                    $(this).text('CS #1');
@@ -823,12 +866,13 @@ scripts[] = my_bartik.js
     }
 })(jQuery);
             </code></pre>
+            <p class="filename">dflex/dflex.js</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m7_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <p>Image of dflex_demo module file structure adding js</p>
+            <img data-src="images/m7_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <pre><code data-trim data-line-numbers=true>
@@ -841,17 +885,7 @@ dflex_demo:
      - core/jquery.once
      - core/drupal
             </code></pre>
-          </section>
-          <section data-transition="convex">
-            <pre><code class="php" data-trim data-line-numbers=true>
-/**
- * Implements hook_page_attachments_alter().
- */
-function dflex_demo_page_attachments(&$page) {
-  // Add the dflex_demo js library to all pages.
-  $page['#attached']['library'][] = 'dflex_demo/dflex_demo';
-}
-            </code></pre>
+            <p class="filename">dflex_demo/dflex_demo.libraries.yml</p>
           </section>
           <section data-transition="convex">
             <pre><code class="js" data-trim data-line-numbers=true>
@@ -873,6 +907,19 @@ function dflex_demo_page_attachments(&$page) {
     }
 })(jQuery, Drupal);
             </code></pre>
+            <p class="filename">dflex_demo/js/dflex-demo.js</p>
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function dflex_demo_page_attachments(&$page) {
+  // Add the dflex_demo js library to all pages.
+  $page['#attached']['library'][] = 'dflex_demo/dflex_demo';
+}
+            </code></pre>
+            <p class="filename">dflex_demo/dflex_demo.module</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m7_d8_result.png" class="screenshot" />
@@ -921,59 +968,6 @@ function dflex_demo_page_attachments(&$page) {
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
-...
-&lt;?php if ($main_menu): ?>
-  <div id="main-menu" class="navigation">
-    &lt;?php print theme('links__system_main_menu', array(
-      'links' => $main_menu,
-      'attributes' => array(
-        'id' => 'main-menu-links',
-        'class' => array('links', 'clearfix'),
-      ),
-      'heading' => array(
-        'text' => t('Main menu'),
-        'level' => 'h2',
-        'class' => array('element-invisible'),
-      ),
-    )); ?>
-  </div> <!-- /#main-menu -->
-&lt;?php endif; ?>
-...
-            </code></pre>
-          </section>
-
-          <section data-transition="convex">
-            <img data-src="images/m8_d7_a.png" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <pre><code class="php" data-trim data-line-numbers=true>
-/**
- * Implements HOOK_theme_registry_alter().
- */
-function dflex_theme_registry_alter(&$theme_registry) {
-  $theme_registry['link']['template'] = 'link';
-  unset($theme_registry['link']['function']);
-}
-            </code></pre>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m8_d7_b.png" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <pre><code class="php" data-trim data-line-numbers=true>
-&lt;?php
-  $url = check_plain(url($variables['path'], $variables['options']));
-  $attributes = drupal_attributes($variables['options']['attributes']);
-  $text = ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text']));
-?>
-&lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
-            </code></pre>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m7_d7_result.png" class="screenshot" />
-          </section>
-          <section data-transition="convex">
-            <pre><code class="php" data-trim data-line-numbers=true>
 &lt;?php
   $url = check_plain(url($variables['path'], $variables['options']));
   $attributes = drupal_attributes($variables['options']['attributes']);
@@ -986,6 +980,7 @@ function dflex_theme_registry_alter(&$theme_registry) {
   &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
 &lt;?php endif; ?>
             </code></pre>
+            <p class="filename">dflex/templates/link.tpl.php</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m8_d7_result.png" class="screenshot" />
@@ -1036,7 +1031,7 @@ function dflex_theme_registry_alter(&$theme_registry) {
             <img data-src="images/m9_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            Screenshot of my_bartik D8 template files.
+            <img data-src="images/m9_d8.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <pre><code class="craftcms" data-trim data-line-numbers=true>
@@ -1065,6 +1060,7 @@ function dflex_theme_registry_alter(&$theme_registry) {
   {% endif %}
 {% endmacro %}
             </code></pre>
+            <p class="filename">dflex/templates/menu--main.html.twig</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m9_d8_result.png" class="screenshot" />
