@@ -98,7 +98,7 @@
           		<h1>Reasons for this Session</h1>
             	 <p>
               		<ul>
-              			<li class="fragment step-note">Data manipulation, everyone does it.</li>
+                    <li class="fragment step-note">Data manipulation, everyone does it.</li>
                     <li class="fragment step-note">Available methods can be daunting.</li>
               			<li class="fragment step-note">How to determine the right way?</li>
               		</ul>
@@ -108,11 +108,25 @@
               <h1>Goals of this Session</h1>
               <p>
                   <ul>
-                    <li class="fragment step-note">No "right way", just "right for me" way.</li>
-                    <li class="fragment step-note">Considerations to take into account.</li>
-                    <li class="fragment step-note">Demonstrate manipulation methods.</li>
+                    <li class="fragment step-note">To show there is no "right way", just "right for me" way.</li>
+                    <li class="fragment step-note">To teach considerations to take into account.</li>
+                    <li class="fragment step-note">To demonstrate data manipulation methods.</li>
                   </ul>
               </p>
+            </section>
+            <section data-transition="convex">
+              <h1>Two fundemental truths</h1>
+              <p class="fragment">If it is data, it can be manipulated.</p>
+              <p class="fragment">Everything in Drupal is data!</p>
+            </section>
+            <section>
+              <h1>Data Manipulation</h1>
+              <p class="fragment">Three general layers</p>
+              <ul>
+                <li class="fragment step-note">Database (MySQL, etc...)</li>
+                <li class="fragment step-note">Server side (PHP)</li>
+                <li class="fragment step-note">Client side (HTML/JS/CSS)</li>
+              </ul>
             </section>
         </section>
         <section>
@@ -120,7 +134,7 @@
           <section>
             <h2 class="fragment">Manipulating Menu Items</h2>
             <ul>
-              <li class="fragment step-note">On just about every drupal site.</li>
+              <li class="fragment step-note">On just about every Drupal site.</li>
               <li class="fragment step-note">Can be manipulated many ways.</li>
               <li class="fragment step-note">What we'll change<br />
                 <ul>
@@ -151,63 +165,6 @@
           </section>
         </section>
         <section>
-          <section>
-            <h1>Data Manipulation</h1>
-            <p class="fragment">Three buckets</p>
-            <ul>
-              <li class="fragment step-note">Database</li>
-              <li class="fragment step-note">Server side (PHP)</li>
-              <li class="fragment step-note">Client side (JS/CSS)</li>
-            </ul>
-          </section>
-<!--          <section data-transition="convex">
-            <h1>Considerations</h1>
-            <ul>
-              <li class="fragment step-note">Cost</li>
-              <li class="fragment step-note">Scope</li>
-              <li class="fragment step-note">Drupalness</li>
-            </ul>
-          </section>
-
-          <section data-transition="convex">
-            <h1>Rating System</h1>
-            <p class="fragment">
-              <strong>Drupalness</strong><br />
-              <div class="fragment ratings" style="display:inline-block;position:relative;float:none;">
-                <span class="rating">
-                  <span class="rate drupal r100"></span>
-                  <span class="rate drupal r50"></span>
-                  <span class="rate drupal r0"></span>
-                  <span class="overview">1.5/3</span>
-                </span>
-              </div>
-            </p>
-            <p class="fragment">
-              <strong>Hackyness</strong><br />
-              <div class="fragment ratings" style="display:inline-block;position:relative;float:none;">
-                <span class="rating">
-                  <span class="rate hack r100"></span>
-                  <span class="rate hack r50"></span>
-                  <span class="rate hack r0"></span>
-                  <span class="overview">1.5/3</span>
-                </span>
-              </div>
-            </p>
-            <p class="fragment">
-              <strong>Stability</strong><br />
-              <div class="fragment ratings" style="display:inline-block;position:relative;float:none;">
-                <span class="rating">
-                  <span class="rate stable r100"></span>
-                  <span class="rate stable r50"></span>
-                  <span class="rate stable r0"></span>
-                  <span class="overview">1.5/3</span>
-                </span>
-              </div>
-            </p>
-          </section>
--->
-        </section>
-        <section>
           <h1>Database</h1>
           <ol>
             <li class="step-note">Drupal Core</li>
@@ -230,28 +187,6 @@
               <li class="fragment step-note">Solution may be broad.</li>
               <li class="fragment step-note">Updates take time.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r100"></span>
-                <span class="rate stable r0"></span>
-                <span class="overview">2/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
             <video controls data-autoplay data-src="videos/m1_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
@@ -281,31 +216,9 @@
               <li class="fragment step-note">Limited functionality.</li>
               <li class="fragment step-note">Limited availability.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r50"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0.5/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r100"></span>
-                <span class="rate stable r0"></span>
-                <span class="overview">2/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d7_a.png" class="screenshot" />
+            <img data-src="images/m2.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <video controls data-autoplay data-src="videos/m2_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
@@ -317,7 +230,7 @@
             <img data-src="images/m2_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d8.png" class="screenshot" />
+            <img data-src="images/m2.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <img data-src="images/m2_d8_a.png" class="screenshot" />
@@ -378,7 +291,7 @@ function dflex_demo_entity_update(EntityInterface $entity) {
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Direct data manipulation.</li>
-              <li class="fragment step-note">Extremly powerful.</li>
+              <li class="fragment step-note">Extremely powerful.</li>
               <li class="fragment step-note">Quick to implement.</li>
             </ul>
             <ul>
@@ -387,28 +300,6 @@ function dflex_demo_entity_update(EntityInterface $entity) {
               <li class="fragment step-note">Can be complex.</li>
               <li class="fragment step-note">Can be dangerous.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r50"></span>
-                <span class="rate drupal r0"></span>
-                <span class="rate drupal r0"></span>
-                <span class="overview">0.5/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r100"></span>
-                <span class="rate hack r100"></span>
-                <span class="rate hack r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r0"></span>
-                <span class="rate stable r0"></span>
-                <span class="overview">1/3</span>
-              </span>
-            </div>
--->
           </section>
          <section data-transition="convex">
             <img data-src="images/m3_d7.png" class="screenshot" />
@@ -479,30 +370,8 @@ AND
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">May be broad.</li>
               <li class="fragment step-note">Can be complex.</li>
-              <li class="fragment step-note">Can be timely.</li>
+              <li class="fragment step-note">Time consuming.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r50"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0.5/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r100"></span>
-                <span class="rate stable r50"></span>
-                <span class="overview">2.5/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
             <img data-src="images/m4_d7.png" class="screenshot" />
@@ -566,7 +435,7 @@ function dflex_demo_preprocess_menu(&$variables) {
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Can control anything.</li>
               <li class="fragment step-note">No limit to abilities.</li>
-              <li class="fragment step-note">Do what you want?</li>
+              <li class="fragment step-note">Do what you want.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
@@ -574,28 +443,6 @@ function dflex_demo_preprocess_menu(&$variables) {
               <li class="fragment step-note">Will break upgrades.</li>
               <li class="fragment step-note">Introduces security risks.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r0"></span>
-                <span class="rate drupal r0"></span>
-                <span class="rate drupal r0"></span>
-                <span class="overview">0/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r100"></span>
-                <span class="rate hack r100"></span>
-                <span class="rate hack r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r50"></span>
-                <span class="rate stable r0"></span>
-                <span class="overview">1.5/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
             <img data-src="images/m5_d7.png" class="screenshot" />
@@ -666,23 +513,11 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <img data-src="images/m5_d8_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/core_kills_kitten.jpg" class="screenshot" />
+            <img data-src="images/core_kills_kitten.jpg" class="screenshot" /><br />
+            <span class="filename">Greg Dunlap (@heyrocker), 2008?</span>
           </section>
         </section>
         <section>
-        <!--
-         <section>
-            <h1>#6. Services</h1>
-         </section>
-         <section>
-            <h2>What are services?</h2>
-            <ul>
-              <li class="fragment step-note">??</li>
-              <li class="fragment step-note">??</li>
-              <li class="fragment step-note">??</li>
-            </ul>
-         </section>
-       -->
          <section>
             <h1>#6. Services</h1>
             <ul>
@@ -697,31 +532,9 @@ class MenuLinkTree implements MenuLinkTreeInterface {
               <li class="fragment step-note">Can become complex.</li>
               <li class="fragment step-note">*Not for eveything.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r0"></span>
-                <span class="overview">2/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r100"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">1/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r100"></span>
-                <span class="rate stable r50"></span>
-                <span class="overview">2.5/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d7_result.png" class="screenshot" />
+            <img data-src="images/m5_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <img data-src="images/m6_d8.png" class="screenshot" />
@@ -807,28 +620,6 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
               <li class="fragment step-note">Wait for page load.</li>
               <li class="fragment step-note">Not cacheable.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r50"></span>
-                <span class="rate drupal r0"></span>
-                <span class="overview">1.5/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r100"></span>
-                <span class="rate hack r50"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">1.5/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r50"></span>
-                <span class="rate stable r0"></span>
-                <span class="overview">1.5/3</span>
-              </span>
-            </div>
--->
           </section>
          <section data-transition="convex">
             <img data-src="images/m7_d7.png" class="screenshot" />
@@ -940,28 +731,6 @@ function dflex_demo_page_attachments(&$page) {
               <li class="fragment step-note">Require custom theme.</li>
               <li class="fragment step-note">May require server side.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="rate drupal r100"></span>
-                <span class="overview">3/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r100"></span>
-                <span class="rate stable r100"></span>
-                <span class="rate stable r50"></span>
-                <span class="overview">2.5/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
             <img data-src="images/m8_d7.png" class="screenshot" />
@@ -986,7 +755,7 @@ function dflex_demo_page_attachments(&$page) {
             <img data-src="images/m8_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d8_result.png" class="screenshot" />
+            <img data-src="images/m7_d8_result.png" class="screenshot" />
           </section>
         </section>
         <section>
@@ -995,8 +764,8 @@ function dflex_demo_page_attachments(&$page) {
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">No PHP in templates.</li>
+              <li class="fragment step-note">More secure.</li>
               <li class="fragment step-note">Perform template logic.</li>
-              <li class="fragment step-note">More Secure.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
@@ -1004,31 +773,9 @@ function dflex_demo_page_attachments(&$page) {
               <li class="fragment step-note">Limited abilities.</li>
               <li class="fragment step-note">Drupal 8 only.</li>
             </ul>
-<!--
-            <div class="fragment ratings">
-              <span class="rating">
-                <span class="rate drupal r0"></span>
-                <span class="rate drupal r0"></span>
-                <span class="rate drupal r0"></span>
-                <span class="overview">0/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="rate hack r0"></span>
-                <span class="overview">0/3</span>
-              </span>
-              <span class="rating">
-                <span class="rate stable r0"></span>
-                <span class="rate stable r0"></span>
-                <span class="rate stable r0"></span>
-                <span class="overview">0/3</span>
-              </span>
-            </div>
--->
           </section>
           <section data-transition="convex">
-            <img data-src="images/m9_d7_result.png" class="screenshot" />
+            <img data-src="images/m8_d7_result.png" class="screenshot" />
           </section>
           <section data-transition="convex">
             <img data-src="images/m9_d8.png" class="screenshot" />
@@ -1084,9 +831,7 @@ function dflex_demo_page_attachments(&$page) {
                 <li class="fragment step-note">Except Hack Core. That is the wrong way!</li>
               </ul>
             </li>
-            <li class="fragment step-note">Keep in mind the pros and cons</li>
           </ul>
-
         </section>
         <section>
           <section>
@@ -1103,6 +848,7 @@ function dflex_demo_page_attachments(&$page) {
           </section>
           <section>
           	<h1>Thank You!</h1>
+            <p>Questions?</p>
           </section>
         </section>
 			</div>
