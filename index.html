@@ -166,11 +166,11 @@
         </section>
         <section>
           <h1>Database</h1>
-          <ol>
+<!--          <ol>
             <li class="step-note">Drupal Core</li>
             <li class="step-note">Modules</li>
             <li class="step-note">Direct Queries</li>
-          </ol>
+          </ol> -->
         </section>
         <section>
           <section>
@@ -179,7 +179,7 @@
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Works for all Drupal.</li>
               <li class="fragment step-note">Easy to implement.</li>
-              <li class="fragment step-note">Very Stable.</li>
+              <li class="fragment step-note">Very stable.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
@@ -189,16 +189,16 @@
             </ul>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m1_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m1_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Using Drupal core admin, navigating to admin > structure > menus. clicking on main menu, and editing the title and destination of the first menu link."></video>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m1_d7_result.png" class="screenshot" />
+            <img data-src="images/m1_d7_result.png" class="screenshot" alt="Drupal 7: The result, the first menu link now displays the title DB #1 and links to the path /alt-path." />
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m1_d8.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m1_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: Using Drupal core admin, navigating to admin > structure > menus. clicking on main menu, and editing the title and destination of the first menu link."></video>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m1_d8_result.png" class="screenshot" />
+            <img data-src="images/m1_d8_result.png" class="screenshot" alt="Drupal 8: The result, the first menu link now displays the title DB #1 and links to the path /alt-path."/>
           </section>
         </section>
         <section>
@@ -218,22 +218,22 @@
             </ul>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2.png" class="screenshot" />
+            <img data-src="images/m2.png" class="screenshot" alt="Drupal 7: The Menu Attributes module, which allows for storing additional information with a menu item." />
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m2_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Using drush to download the menu_attributes module and enabling it."></video>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d7_b.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m2_d7_b.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Altering a menu item from the Drupal core admin. Now have the option to provide inline styling and set the menu link target."></video>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d7_result.png" class="screenshot" />
+            <img data-src="images/m2_d7_result.png" class="screenshot" alt="Drupal 7: THe result, the second menu link nuow say DB #2, links to /alt-path, opens in a new tab and has an alternate background and text color." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2.png" class="screenshot" />
+            <img data-src="images/m2.png" class="screenshot" alt="Drupal 8: Menu Attributes module is not available for Drupal 8." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d8_a.png" class="screenshot" />
+            <img data-src="images/m2_d8_a.png" class="screenshot" alt="Drupal 8: Writing own custom module. dflex_demo." />
           </section>
           <section data-transition="convex">
             <pre><code data-trim data-line-numbers=true>
@@ -276,13 +276,13 @@ function dflex_demo_entity_update(EntityInterface $entity) {
             <p class="filename">dflex_demo.module</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d8.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m2_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: using drush to enable new custom module dflex_demo."></video>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d8_b.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m2_d8_b.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: Altering a menu item using Drupal core admin. When saved, custom module updates data in the database."></video>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d8_result.png" class="screenshot" />
+            <img data-src="images/m2_d8_result.png" class="screenshot" alt="Drupal 8: The second menu link now says DB #2, links to /alt-path, opens in new window, has laternate background and text color." />
           </section>
         </section>
         <section>
@@ -302,7 +302,7 @@ function dflex_demo_entity_update(EntityInterface $entity) {
             </ul>
           </section>
          <section data-transition="convex">
-            <img data-src="images/m3_d7.png" class="screenshot" />
+            <img data-src="images/m3_d7.png" class="screenshot" alt="Drupal 7: The menu_links database table contains all menu link data. Including a column for link options." />
           </section>
           <section data-transition="convex">
             <pre><code class="sql" data-trim data-line-numbers=true>
@@ -319,13 +319,13 @@ AND
             </code></pre>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m3_d7.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m3_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Using the drush sqlq command to run an update query on the database."></video>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d7_result.png" class="screenshot" />
+            <img data-src="images/m3_d7_result.png" class="screenshot" alt="Drupal 7: The third menu link, now says DB #2, links to node/10 and has an alternate background and text color."/>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d8.png" class="screenshot" />
+            <img data-src="images/m3_d8.png" class="screenshot" alt="Drupal 8: The menu_tree database table contains all information about menu link. Includes options column for link attributes. stores a serialized array." />
           </section>
           <section data-transition="convex">
             <pre><code class="sql" data-trim data-line-numbers=true>
@@ -343,19 +343,19 @@ AND
             </code></pre>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m3_d8.opt.mp4" type="video/mp4" class="screenshot"></video>
+            <video controls data-autoplay data-src="videos/m3_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: Using the drush sqlq command to run an update query on database."></video>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d8_result.png" class="screenshot" />
+            <img data-src="images/m3_d8_result.png" class="screenshot" alt="Drupal 8: The third menu link, now says DB #2, links to node/10 and has an alternate background and text color." />
           </section>
         </section>
         <section>
           <h1>Server Side</h1>
-          <ol>
+ <!--         <ol>
             <li class="step-note">Hooks</li>
             <li class="step-note">Hack Core</li>
             <li class="step-note">Services</li>
-          </ol>
+          </ol> -->
         </section>
         <section>
           <section>
@@ -374,7 +374,7 @@ AND
             </ul>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d7.png" class="screenshot" />
+            <img data-src="images/m4_d7.png" class="screenshot" alt="Drupal 7: Custom theme dflex, contains a template.php file for hooks." />
           </section>
           <section data-transition="convex">
 <pre><code class="php" data-trim data-line-numbers=true>
@@ -396,10 +396,10 @@ function dflex_links__system_main_menu($variables) {
             <p class="filename">dflex/template.php</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d7_result.png" class="screenshot" />
+            <img data-src="images/m4_d7_result.png" class="screenshot" alt="Drupal 7: The fourth menu item now says SS #1, links to node/10, opens in new tab and has alternate background and text color." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d8.png" class="screenshot" />
+            <img data-src="images/m4_d8.png" class="screenshot" alt="Drupal 8: Custom module dflex_demo contains a .module file for hooks." />
           </section>
           <section data-transition="convex">
 <pre><code class="php" data-trim data-line-numbers=true>
@@ -425,7 +425,7 @@ function dflex_demo_preprocess_menu(&$variables) {
             <p class="filename">dflex_demo.module</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d8_result.png" class="screenshot" />
+            <img data-src="images/m4_d8_result.png" class="screenshot" alt="Drupal 8: The fourth menu item now says SS #1, links to node/10, opens in new tab and has alternate background and text color." />
           </section>
         </section>
         <section>
@@ -440,12 +440,12 @@ function dflex_demo_preprocess_menu(&$variables) {
             <ul>
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">May cause unkown issues.</li>
-              <li class="fragment step-note">Will break upgrades.</li>
               <li class="fragment step-note">Introduces security risks.</li>
+              <li class="fragment step-note">Will break upgrades.</li>
             </ul>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d7.png" class="screenshot" />
+            <img data-src="images/m5_d7.png" class="screenshot" alt="Drupal 7: Core Drupal file menu.inc, constains all menu functionality." />
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -474,10 +474,10 @@ function menu_navigation_links($menu_name, $level = 0) {
             <p class="filename">includes/menu.inc</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d7_result.png" class="screenshot" />
+            <img data-src="images/m5_d7_result.png" class="screenshot" alt="Drupal 7: Fifth menu item now says SS #2, links to node/10, opens in new window and has alternate background and text color." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d8.png" class="screenshot" />
+            <img data-src="images/m5_d8.png" class="screenshot" alt="Drupal 8: Drupal core file MenuLinkTree.php contains functions for menu links." />
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -510,10 +510,10 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <p class="filename">core/lib/Drupal/Core/Menu/MenuLinkTree.php</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d8_result.png" class="screenshot" />
+            <img data-src="images/m5_d8_result.png" class="screenshot" alt="Drupal 8: Fifth menu item now says SS #2, links to node/10, opens in new window and has alternate background and text color." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/core_kills_kitten.jpg" class="screenshot" /><br />
+            <img data-src="images/core_kills_kitten.jpg" class="screenshot" alt="Dont hack core, if you do God will kill a kitten." /><br />
             <span class="filename">Greg Dunlap (@heyrocker), 2008?</span>
           </section>
         </section>
@@ -534,10 +534,10 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             </ul>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d7_result.png" class="screenshot" />
+            <img data-src="images/m5_d7_result.png" class="screenshot" alt="Drupal 7: Services does not work for Drupal 7." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d8.png" class="screenshot" />
+            <img data-src="images/m6_d8.png" class="screenshot" alt="Drupal 8: custom module now has new directory src, with contains two files." />
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -594,16 +594,16 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
             <p class="filename">DflexDemoMenuLinkTree.php</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d8_result.png" class="screenshot" />
+            <img data-src="images/m6_d8_result.png" class="screenshot" alt="Drupal 8: Sixth menu item now says SS #3, links to node/10, opens in new window and has alternate background and text color." />
           </section>
         </section>
         <section>
           <h1>Client Side</h1>
-          <ol>
+ <!--         <ol>
             <li class="step-note">Custom JS</li>
             <li class="step-note">Template Overrides</li>
             <li class="step-note">Twig</li>
-          </ol>
+          </ol> //-->
         </section>
          <section>
           <section>
@@ -622,7 +622,7 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
             </ul>
           </section>
          <section data-transition="convex">
-            <img data-src="images/m7_d7.png" class="screenshot" />
+            <img data-src="images/m7_d7.png" class="screenshot" alt="Drupal 7: Custom theme has custom js file dflex.js" />
           </section>
          <section data-transition="convex">
             <pre><code data-trim data-line-numbers=true>
@@ -660,10 +660,10 @@ scripts[] = dflex.js
             <p class="filename">dflex/dflex.js</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d7_result.png" class="screenshot" />
+            <img data-src="images/m7_d7_result.png" class="screenshot" alt="Drupal 7: Seventh menu item now says CS #1, links to /node/10, opens in new window, has alternate background and text color." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8.png" class="screenshot" />
+            <img data-src="images/m7_d8.png" class="screenshot" alt="Drupal 8: Custom module now has a .library.yml file, new directory js, with a javascript file." />
           </section>
           <section data-transition="convex">
             <pre><code data-trim data-line-numbers=true>
@@ -713,7 +713,7 @@ function dflex_demo_page_attachments(&$page) {
             <p class="filename">dflex_demo/dflex_demo.module</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8_result.png" class="screenshot" />
+            <img data-src="images/m7_d8_result.png" class="screenshot" alt="Drupal 7: Seventh menu item now says CS #1, links to /node/10, opens in new window, has alternate background and text color." />
           </section>
         </section>
         <section>
@@ -722,7 +722,7 @@ function dflex_demo_page_attachments(&$page) {
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Control Drupal markup.</li>
-              <li class="fragment step-note">Easy to implement.</li>
+              <li class="fragment step-note">Suggestable and specific.</li>
               <li class="fragment step-note">Cachable.</li>
             </ul>
             <ul>
@@ -733,7 +733,7 @@ function dflex_demo_page_attachments(&$page) {
             </ul>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7.png" class="screenshot" />
+            <img data-src="images/m8_d7.png" class="screenshot"  alt="Drupal 7: custom theme now contains templates directory, with custom template for links." />
           </section>
           <section data-transition="convex">
             <pre><code class="php" data-trim data-line-numbers=true>
@@ -752,10 +752,10 @@ function dflex_demo_page_attachments(&$page) {
             <p class="filename">dflex/templates/link.tpl.php</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7_result.png" class="screenshot" />
+            <img data-src="images/m8_d7_result.png" class="screenshot" alt="Drupal 7: Eighth menu item now says CS #2, links to /alt-path, opens in new window, has alternate background and text color." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8_result.png" class="screenshot" />
+            <img data-src="images/m7_d8_result.png" class="screenshot" alt="Drupal 8: Will not be chaning with template overrides." />
           </section>
         </section>
         <section>
@@ -764,21 +764,21 @@ function dflex_demo_page_attachments(&$page) {
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">No PHP in templates.</li>
-              <li class="fragment step-note">More secure.</li>
               <li class="fragment step-note">Perform template logic.</li>
+              <li class="fragment step-note">Can be nested.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">New syntax to learn.</li>
-              <li class="fragment step-note">Limited abilities.</li>
               <li class="fragment step-note">Drupal 8 only.</li>
+              <li class="fragment step-note">Limited abilities.</li>
+              <li class="fragment step-note">New syntax to learn.</li>
             </ul>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7_result.png" class="screenshot" />
+            <img data-src="images/m8_d7_result.png" class="screenshot" alt="Drupal 7: Drupal 7 does not support twig." />
           </section>
           <section data-transition="convex">
-            <img data-src="images/m9_d8.png" class="screenshot" />
+            <img data-src="images/m9_d8.png" class="screenshot" alt="Drupal 8: custom theme dflex_demo contains templates directory with a custom twig template for menu main." />
           </section>
           <section data-transition="convex">
             <pre><code class="craftcms" data-trim data-line-numbers=true>
@@ -810,12 +810,13 @@ function dflex_demo_page_attachments(&$page) {
             <p class="filename">dflex/templates/menu--main.html.twig</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m9_d8_result.png" class="screenshot" />
+            <img data-src="images/m9_d8_result.png" class="screenshot" alt="Drupal 8: Ninth menu link now says CS #3, links to /alt-path, opens in new window and has alternate background and text color." />
           </section>
         </section>
         <section>
           <h1>Review</h1>
           <ul>
+            <li class="fragment step-note">Everything is data, everything can be manipulated!</li>
             <li class="fragment step-note">
               Data manipulation falls into 3 buckets:
               <ul>
