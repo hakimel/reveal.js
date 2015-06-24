@@ -174,7 +174,7 @@ Reveal.initialize({
 	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
 
 	// Parallax background size
-	parallaxBackgroundSize: '' // CSS syntax, e.g. "2100px 900px"
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
 
 	// Amount to move parallax background (horizontal and vertical) on slide change
 	// Number, e.g. 100
@@ -276,7 +276,7 @@ Reveal.initialize({
 
 ### Auto-sliding
 
-Presentations can be configure to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
+Presentations can be configured to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
 
 ```javascript
 // Slide every five seconds
@@ -317,12 +317,12 @@ Reveal.configure({
 
 When working on presentation with a lot of media or iframe content it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
 
-To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements.
+To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements. Lazy loaded iframes will also unload when the containing slide is no longer visible.
 
 ```html
 <section>
   <img data-src="image.png">
-  <iframe data-src="http://slides.com"></iframe>
+  <iframe data-src="http://hakim.se"></iframe>
   <video>
     <source data-src="video.webm" type="video/webm" />
     <source data-src="video.mp4" type="video/mp4" />
@@ -482,6 +482,27 @@ The global presentation transition is set using the ```transition``` config valu
 </section>
 ```
 
+You can also use different in and out transitions for the same slide:
+
+```html
+<section data-transition="slide">
+    The train goes on … 
+</section>
+<section data-transition="slide"> 
+    and on … 
+</section>
+<section data-transition="slide-in fade-out"> 
+    and stops.
+</section>
+<section data-transition="fade-in slide-out"> 
+    (Passengers entering and leaving)
+</section>
+<section data-transition="slide">
+    And it starts again.
+</section>
+```
+
+
 Note that this does not work with the page and cube transitions.
 
 
@@ -515,7 +536,6 @@ The default fragment style is to start out invisible and fade in. This style can
 <section>
 	<p class="fragment grow">grow</p>
 	<p class="fragment shrink">shrink</p>
-	<p class="fragment roll-in">roll-in</p>
 	<p class="fragment fade-out">fade-out</p>
 	<p class="fragment current-visible">visible only once</p>
 	<p class="fragment highlight-current-blue">blue only once</p>
@@ -672,7 +692,7 @@ Reveal.initialize({
 
 ## PDF Export
 
-Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome).
+Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home).
 Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
 
 1. Open your presentation with `print-pdf` included anywhere in the query string. This triggers the default index HTML to load the PDF print stylesheet ([css/print/pdf.css](https://github.com/hakimel/reveal.js/blob/master/css/print/pdf.css)). You can test this with [lab.hakim.se/reveal-js?print-pdf](http://lab.hakim.se/reveal-js?print-pdf).
@@ -692,7 +712,7 @@ The framework comes with a few different themes included:
 - white: White background, black text, blue links
 - league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
 - beige: Beige background, dark text, brown links
-- sky: Blue background, thin white text, blue links
+- sky: Blue background, thin dark text, blue links
 - night: Black background, thick white text, orange links
 - serif: Cappuccino background, gray text, brown links
 - simple: White background, black text, blue links
