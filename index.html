@@ -94,23 +94,25 @@
         </section>
         <!-- About Session -->
         <section>
+<!--
         		<section>
           		<h1>Reasons for this Session</h1>
             	 <p>
               		<ul>
                     <li class="fragment step-note">Data manipulation, everyone does it.</li>
                     <li class="fragment step-note">Available methods can be daunting.</li>
-              			<li class="fragment step-note">How to determine the right way?</li>
+              			<li class="fragment step-note">How to determine the "right" way?</li>
               		</ul>
             	</p>
             </section>
+ //-->
             <section data-transition="convex">
               <h1>Goals of this Session</h1>
               <p>
                   <ul>
                     <li class="fragment step-note">To show there is no "right" way, just "right for me" way.</li>
-                    <li class="fragment step-note">To teach considerations to take into account.</li>
                     <li class="fragment step-note">To demonstrate data manipulation methods.</li>
+                    <li class="fragment step-note">To teach considerations to take into account.</li>
                   </ul>
               </p>
             </section>
@@ -143,12 +145,15 @@
           <section data-transition="convex">
             <h2>Environments</h2>
             <ul>
-              <li class="fragment step-note">Drupal 7.76: Standard install. Custom bartik subtheme.</li>
-              <li class="fragment step-note">Drupal 8.0.0-beta11: Standard install. Custom bartik subtheme.</li>
+              <li class="fragment step-note">Drupal 7.76: Standard. bartik subtheme. slate color.</li>
+              <li class="fragment step-note">
+                Drupal 8.0.0-beta11: Standard. bartik subtheme. slate color.<br />
+                <span class="fragment" style="color:red !important;background:#000"><strong class="blink">!!WARNING!!</strong> Drupal 8 still in development.</span>
+              </li>
               <li class="fragment step-note">Not live. (blame Murphy)</li>
             </ul>
             <br /><br />
-            <span class="fragment" style="color:red !important;background:#000"><strong class="blink">!!WARNING!!</strong> Drupal 8 still in development.</span>
+
           </section>
           <section data-transition="convex">
             <h3 style="color:transparent">Drupal 7</h3>
@@ -855,7 +860,7 @@ function dflex_demo_page_attachments(&$page) {
           <ul>
             <li class="fragment step-note">Drupal provides many ways to manipulate data on each layer.</li>
             <li class="fragment step-note">Everything in Drupal is data and everything can be manipulated.</li>
-            <li class="fragment step-note">No "right way" or "wrong way". Just "right for me way".</li>
+            <li class="fragment step-note">No "right" way or "wrong" way. Just "right for me way".</li>
 
           </ul>
         </section>
@@ -935,7 +940,7 @@ function dflex_demo_page_attachments(&$page) {
       function createAsides(event) {
         $('.caption').each(function (i, e) {
           var text = $(this).text();
-          //$(this).replaceWith("<aside class='notes'>" + text + "</aside>");
+          $(this).replaceWith("<aside class='notes'>" + text + "</aside>");
         });
       }
 		</script>
