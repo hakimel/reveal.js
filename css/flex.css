@@ -4,14 +4,7 @@
   overflow: auto;
   max-height: 400px;
   word-wrap: normal;
-  background: #3F3F3F;
-  color: #DCDCDC;
-  font-family: monospace !important;
   text-align: left;
-}
-
-.reveal pre code {
-  font-size: 90% !important;
 }
 
 code {
@@ -33,12 +26,21 @@ code span.line-number:before {
 
 .step-note {
   padding:5px !important;
-  font-size: 75% !important;
-  color: #F0E9E9 !important;
-  font-style: italic !important;
 }
 
-.filename {
+.tldr {
+  line-height: 1 !important;
+  font-size: 60% !important;
+  color: #efef8f !important;
+  border: 1px #fff solid !important;
+  padding: 5px !important;
+}
+
+.tldr strong {
+  color: #fff;
+}
+
+.caption, .filename {
   padding: 0 !important;
   margin: 0 !important;
   line-height: 1 !important;
@@ -46,6 +48,8 @@ code span.line-number:before {
   color: #F0E9E9  !important;
   font-style: italic !important;
 }
+
+.caption { color: #FFF !important;}
 
 .blink {
   animation: blink 1s steps(5, start) infinite;
@@ -64,7 +68,7 @@ code span.line-number:before {
 
 .screenshot {
   display: inline-block;
-  max-height: 600px !important;
+  max-height: 550px !important;
 }
 
 .list-header {
@@ -72,69 +76,4 @@ code span.line-number:before {
   text-align: center;
   font-weight: 800;
   text-decoration: underline;
-}
-
-.ratings {
-  text-align: center;
-  padding:10px;
-  display: block;
-  float: right;
-  width: 160px;
-  border: 1px solid #ccc !important;
-}
-
-.rating {
-  margin:0;
-  padding:0;
-  display: inline-block;
-  width: 100%;
-  background: rgba(0,0,0, .4);
-}
-
-.rating span {
-  margin:0;
-  padding:0;
-  display: inline-block;
-  text-align:center;
-  height: 25px;
-  overflow: hidden;
-}
-
-span.rate {
-  width: 25px;
-  color: transparent;
-  background-position: center;
-  background-repeat: no-repeat;
-  background: url('/images/ratings.png');
-  background-size: 75px 75px;
-}
-
-span.overview {
-  width: 35px;
-  font-size: 35%;
-  text-align: right;
-  color: yellow;
-}
-
-span.r100 {
-  background-position-x: 0px;
-}
-
-span.r50 {
-  background-position-x: -25px;
-}
-span.r0 {
-  background-position-x: -50px;
-}
-
-span.drupal {
-  background-position-y: -25px;
-}
-
-span.hack {
-  background-position-y: 0px;
-}
-
-span.stable {
-  background-position-y: -50px;
 }

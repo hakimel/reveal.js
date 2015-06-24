@@ -108,25 +108,11 @@
               <h1>Goals of this Session</h1>
               <p>
                   <ul>
-                    <li class="fragment step-note">To show there is no "right way", just "right for me" way.</li>
+                    <li class="fragment step-note">To show there is no "right" way, just "right for me" way.</li>
                     <li class="fragment step-note">To teach considerations to take into account.</li>
                     <li class="fragment step-note">To demonstrate data manipulation methods.</li>
                   </ul>
               </p>
-            </section>
-            <section data-transition="convex">
-              <h1>Two fundemental truths</h1>
-              <p class="fragment">If it is data, it can be manipulated.</p>
-              <p class="fragment">Everything in Drupal is data!</p>
-            </section>
-            <section>
-              <h1>Data Manipulation</h1>
-              <p class="fragment">Three general layers</p>
-              <ul>
-                <li class="fragment step-note">Database (MySQL, etc...)</li>
-                <li class="fragment step-note">Server side (PHP)</li>
-                <li class="fragment step-note">Client side (HTML/JS/CSS)</li>
-              </ul>
             </section>
         </section>
         <section>
@@ -135,8 +121,8 @@
             <h2 class="fragment">Manipulating Menu Items</h2>
             <ul>
               <li class="fragment step-note">On just about every Drupal site.</li>
-              <li class="fragment step-note">Can be manipulated many ways.</li>
-              <li class="fragment step-note">What we'll change<br />
+              <li class="fragment step-note">Can be manipulated in many places.</li>
+              <li class="fragment step-note">What we'll focus on changing<br />
                 <ul>
                   <li class="fragment step-note">Title</li>
                   <li class="fragment step-note">Destination</li>
@@ -145,11 +131,20 @@
               </li>
             </ul>
           </section>
+            <section data-transition="convex">
+              <h2 class="framgent">Why should you care?</h2>
+              <ul>
+                <li class="fragment step-note">Menu items are just data.</li>
+                <li class="fragment step-note">Everything in Drupal is just data.</li>
+                <li class="fragment step-note">If it is data, it can be manipulated!</li>
+              </ul>
+              <p class="fragment">Everything in Drupal can be manipulated!</p>
+            </section>
           <section data-transition="convex">
             <h2>Environments</h2>
             <ul>
-              <li class="fragment step-note">Standard Drupal 7.76 install.</li>
-              <li class="fragment step-note">Standard Drupal 8.0.0-beta11 install.</li>
+              <li class="fragment step-note">Drupal 7.76: Standard install. Custom bartik subtheme.</li>
+              <li class="fragment step-note">Drupal 8.0.0-beta11: Standard install. Custom bartik subtheme.</li>
               <li class="fragment step-note">Not live. (blame Murphy)</li>
             </ul>
             <br /><br />
@@ -165,40 +160,50 @@
           </section>
         </section>
         <section>
-          <h1>Database</h1>
-<!--          <ol>
-            <li class="step-note">Drupal Core</li>
-            <li class="step-note">Modules</li>
-            <li class="step-note">Direct Queries</li>
-          </ol> -->
+          <h1>Data Manipulation</h1>
+          <p class="fragment">Three general layers</p>
+          <ul>
+            <li class="fragment step-note">Database (MySQL, etc...)</li>
+            <li class="fragment step-note">Server side (PHP)</li>
+            <li class="fragment step-note">Client side (HTML/JS/CSS)</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Database Layer</h1>
+          <span class="step-note">Data stored in, sent to or retrieved from the database.</span>
         </section>
         <section>
           <section>
             <h1>#1. Drupal Core</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Works for all Drupal.</li>
-              <li class="fragment step-note">Easy to implement.</li>
-              <li class="fragment step-note">Very stable.</li>
+              <li class="fragment step-note">Nothing extra is needed.</li>
+              <li class="fragment step-note">"Easy" to use interface.</li>
+              <li class="fragment step-note">Changes made are stable.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Limited Capabilities.</li>
-              <li class="fragment step-note">Solution may be broad.</li>
-              <li class="fragment step-note">Updates take time.</li>
+              <li class="fragment step-note">Capabilities are limited.</li>
+              <li class="fragment step-note">Solution may be too broad.</li>
+              <li class="fragment step-note">Solution may be too narrow.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> Easy to use, but limited functionality.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m1_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Using Drupal core admin, navigating to admin > structure > menus. clicking on main menu, and editing the title and destination of the first menu link."></video>
+            <video controls data-autoplay data-src="videos/m1_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Use Drupal 7 core to change menu item title and destination."></video>
+            <p class="caption">Use Drupal 7 core to change menu item title and destination.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m1_d7_result.png" class="screenshot" alt="Drupal 7: The result, the first menu link now displays the title DB #1 and links to the path /alt-path." />
+            <img data-src="images/m1_d7_result.png" class="screenshot" alt="First item in Drupal 7 menu now has changed title and destination." />
+            <p class="caption">First item in Drupal 7 menu now has changed title and destination.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m1_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: Using Drupal core admin, navigating to admin > structure > menus. clicking on main menu, and editing the title and destination of the first menu link."></video>
+            <video controls data-autoplay data-src="videos/m1_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Use Drupal 8 core to change menu item title and destination."></video>
+            <p class="caption">Use Drupal 8 core to change menu item title and destination.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m1_d8_result.png" class="screenshot" alt="Drupal 8: The result, the first menu link now displays the title DB #1 and links to the path /alt-path."/>
+            <img data-src="images/m1_d8_result.png" class="screenshot" alt="First item in Drupal 8 menu now has changed title and destination."/>
+             <p class="caption">First item in Drupal 8 menu now has changed title and destination.</p>
           </section>
         </section>
         <section>
@@ -207,35 +212,43 @@
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Extend Drupal core.</li>
-              <li class="fragment step-note">Variety of solutions.</li>
-              <li class="fragment step-note">Build your own.</li>
+              <li class="fragment step-note">Variety of solutions available.</li>
+              <li class="fragment step-note">Nothing exists? Build your own.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Added complexity.</li>
-              <li class="fragment step-note">Limited functionality.</li>
-              <li class="fragment step-note">Limited availability.</li>
+              <li class="fragment step-note">Can add complexity.</li>
+              <li class="fragment step-note">May do more then needed.</li>
+              <li class="fragment step-note">Potential security issues.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> Extensive but with added complexity.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2.png" class="screenshot" alt="Drupal 7: The Menu Attributes module, which allows for storing additional information with a menu item." />
+            <img data-src="images/m2.png" class="screenshot" alt="Drupal 7: Menu Attributes, allows setting additional Menu item settings." />
+            <p class="caption">Menu Attributes module, allows setting additional Menu item settings.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Using drush to download the menu_attributes module and enabling it."></video>
+            <video controls data-autoplay data-src="videos/m2_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Use drush to download and enable Menu Attributes into D7 site."></video>
+            <p class="caption">Use drush to download and enable Menu Attributes into D7 site.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d7_b.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Altering a menu item from the Drupal core admin. Now have the option to provide inline styling and set the menu link target."></video>
+            <video controls data-autoplay data-src="videos/m2_d7_b.opt.mp4" type="video/mp4" class="screenshot" alt="Altering Drupal 7 menu item from admin, can now set style and target."></video>
+            <p class="caption">Altering Drupal 7 menu item from admin, can now set style and target.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d7_result.png" class="screenshot" alt="Drupal 7: THe result, the second menu link nuow say DB #2, links to /alt-path, opens in a new tab and has an alternate background and text color." />
+            <img data-src="images/m2_d7_result.png" class="screenshot" alt="Second item in Drupal 7 menu now has changed title, destination and style." />
+            <p class="caption">Second item in Drupal 7 menu now has changed title, destination and style.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2.png" class="screenshot" alt="Drupal 8: Menu Attributes module is not available for Drupal 8." />
+            <img data-src="images/m2_d8.png" class="screenshot" alt="Drupal 8: Menu Attributes module is not available for Drupal 8." />
+            <p class="caption">No Drupal 8 release of Menu Attributes.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d8_a.png" class="screenshot" alt="Drupal 8: Writing own custom module. dflex_demo." />
+            <img data-src="images/m2_d8_a.png" class="screenshot" alt="Create a custom 'dflex_demo' module for Drupal 8." />
+            <p class="caption">Create a custom "dflex_demo" module for Drupal 8.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">dflex_demo.info.yml</h2>
             <pre><code data-trim data-line-numbers=true>
 name: Drupal Flex Demo
 type: module
@@ -243,13 +256,10 @@ description: This is a demo module to show off Drupal Flexibility
 core: 8.x
 package: Other
             </code></pre>
-            <p class="filename">dflex_demo.info.yml</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">dflex_demo.module</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
-/**
- * @file Contains dflex_demo.module.
- */
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 /**
@@ -273,16 +283,19 @@ function dflex_demo_entity_update(EntityInterface $entity) {
   }
 }
             </code></pre>
-            <p class="filename">dflex_demo.module</p>
+            <p class="caption">Drupal 8 custom module dflex_demo implement instance of entity update hook, to alter menu link data saved to the database.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: using drush to enable new custom module dflex_demo."></video>
+            <video controls data-autoplay data-src="videos/m2_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Use Drush to enable custom Drupal 8 module on Drupal 8 site."></video>
+            <p class="caption">Use Drush to enable custom Drupal 8 module on Drupal 8 site.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m2_d8_b.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: Altering a menu item using Drupal core admin. When saved, custom module updates data in the database."></video>
+            <video controls data-autoplay data-src="videos/m2_d8_b.opt.mp4" type="video/mp4" class="screenshot" alt="Use Drupal 8 core to change second menu item title and destination. Custom module alters before saving to database."></video>
+            <p class="caption">Use Drupal 8 core to change second menu item title and destination.<br />Custom module alters before saving to database.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m2_d8_result.png" class="screenshot" alt="Drupal 8: The second menu link now says DB #2, links to /alt-path, opens in new window, has laternate background and text color." />
+            <img data-src="images/m2_d8_result.png" class="screenshot" alt="Second item in Drupal 8 menu now has changed title, destination and style." />
+            <p class="caption">Second item in Drupal 8 menu now has changed title, destination and style.</p>
           </section>
         </section>
         <section>
@@ -290,19 +303,21 @@ function dflex_demo_entity_update(EntityInterface $entity) {
             <h1>#3. Direct Queries</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">Extremely powerful method.</li>
               <li class="fragment step-note">Direct data manipulation.</li>
-              <li class="fragment step-note">Extremely powerful.</li>
-              <li class="fragment step-note">Quick to implement.</li>
+              <li class="fragment step-note">Can be implemented quickly.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">May not be stable.</li>
-              <li class="fragment step-note">Can be complex.</li>
-              <li class="fragment step-note">Can be dangerous.</li>
+              <li class="fragment step-note">Queries can be complex.</li>
+              <li class="fragment step-note">Changes may not be stable.</li>
+              <li class="fragment step-note">Can be very dangerous.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> Powerful, but can be dangerous.</p>
           </section>
          <section data-transition="convex">
-            <img data-src="images/m3_d7.png" class="screenshot" alt="Drupal 7: The menu_links database table contains all menu link data. Including a column for link options." />
+            <img data-src="images/m3_d7.png" class="screenshot" alt="menu_links database table contains Drupal 7 menu link data." />
+            <p class="caption">menu_links database table contains Drupal 7 menu link data.</p>
           </section>
           <section data-transition="convex">
             <pre><code class="sql" data-trim data-line-numbers=true>
@@ -317,15 +332,19 @@ WHERE
 AND
   link_path = 'node/3';
             </code></pre>
+            <p class="caption">Write custom query to update a Menu link in Drupal 7.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m3_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 7: Using the drush sqlq command to run an update query on the database."></video>
+            <video controls data-autoplay data-src="videos/m3_d7.opt.mp4" type="video/mp4" class="screenshot" alt="Use Drush sqlq command to run custom query to change menu link data in Drupal 7."></video>
+            <p class="caption">Use Drush sqlq command to run custom query to change menu link data in Drupal 7.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d7_result.png" class="screenshot" alt="Drupal 7: The third menu link, now says DB #2, links to node/10 and has an alternate background and text color."/>
+            <img data-src="images/m3_d7_result.png" class="screenshot" alt="Drupal 7: Third item in Drupal 7 menu now has changed title, destination and style."/>
+            <p class="caption">Third item in Drupal 7 menu now has changed title, destination and style.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d8.png" class="screenshot" alt="Drupal 8: The menu_tree database table contains all information about menu link. Includes options column for link attributes. stores a serialized array." />
+            <img data-src="images/m3_d8.png" class="screenshot" alt="menu_tree database table contains Drupal 8 menu link data." />
+            <p class="caption">menu_tree database table contains Drupal 8 menu link data.</p>
           </section>
           <section data-transition="convex">
             <pre><code class="sql" data-trim data-line-numbers=true>
@@ -341,44 +360,46 @@ WHERE
 AND
   route_param_key = 'node=3';
             </code></pre>
+            <p class="caption">Write custom query to update a Menu link in Drupal 8.</p>
           </section>
           <section data-transition="convex">
-            <video controls data-autoplay data-src="videos/m3_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Drupal 8: Using the drush sqlq command to run an update query on database."></video>
+            <video controls data-autoplay data-src="videos/m3_d8.opt.mp4" type="video/mp4" class="screenshot" alt="Use Drush sqlq command to run custom query to change menu link data in Drupal 8."></video>
+            <p class="caption">Use Drush sqlq command to run custom query to change menu link data in Drupal 8.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m3_d8_result.png" class="screenshot" alt="Drupal 8: The third menu link, now says DB #2, links to node/10 and has an alternate background and text color." />
+            <img data-src="images/m3_d8_result.png" class="screenshot" alt="Third item in Drupal 8 menu now has changed title, destination and style." />
+            <p class="caption">Third item in Drupal 8 menu now has changed title, destination and style.</p>
           </section>
         </section>
         <section>
-          <h1>Server Side</h1>
- <!--         <ol>
-            <li class="step-note">Hooks</li>
-            <li class="step-note">Hack Core</li>
-            <li class="step-note">Services</li>
-          </ol> -->
+          <h1>Server Side Layer</h1>
+          <p class="step-note">Data retrieved from the database, before being rendered.</p>
         </section>
         <section>
           <section>
             <h1>#4. Hooks</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Part of Drupal core.</li>
-              <li class="fragment step-note">Allow for extending.</li>
-              <li class="fragment step-note">Have a wide reach.</li>
+              <li class="fragment step-note">Provided by core and modules.</li>
+              <li class="fragment step-note">Easiest way to extend core.</li>
+              <li class="fragment step-note">Many are available.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">May be broad.</li>
-              <li class="fragment step-note">Can be complex.</li>
-              <li class="fragment step-note">Time consuming.</li>
+              <li class="fragment step-note">Not used everywhere.</li>
+              <li class="fragment step-note">Hooks maybe to broad/narrow.</li>
+              <li class="fragment step-note">May be early/late in a process.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> The core method for extending...core.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d7.png" class="screenshot" alt="Drupal 7: Custom theme dflex, contains a template.php file for hooks." />
+            <img data-src="images/m4_d7.png" class="screenshot" alt="Custom Drupal 7 theme 'dflex'. Includes template.php for hooks." />
+            <p class="caption">Custom Drupal 7 theme 'dflex'. Includes template.php for hooks.</p>
           </section>
           <section data-transition="convex">
-<pre><code class="php" data-trim data-line-numbers=true>
-  /**
+            <h2 class="filename">dflex/template.php</h2>
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
  * Implements THEME_links__MENUNAME().
  */
 function dflex_links__system_main_menu($variables) {
@@ -392,17 +413,20 @@ function dflex_links__system_main_menu($variables) {
   }
   return theme_links($variables);
 }
-</code></pre>
-            <p class="filename">dflex/template.php</p>
+            </code></pre>
+            <p class="caption">Implements an instance of a menu theme hook, to alter a menu link.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d7_result.png" class="screenshot" alt="Drupal 7: The fourth menu item now says SS #1, links to node/10, opens in new tab and has alternate background and text color." />
+            <img data-src="images/m4_d7_result.png" class="screenshot" alt="Before render, menu hits template hook. Fourth menu link in Drupal 7 has changed title, destination and style." />
+            <p class="caption">Before render, menu hits template hook.<br /> Fourth menu link in Drupal 7 has changed title, destination and style.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d8.png" class="screenshot" alt="Drupal 8: Custom module dflex_demo contains a .module file for hooks." />
+            <img data-src="images/m4_d8.png" class="screenshot" alt="Custom Drupal 8 module 'dflex_demo'. Will add another hook to .module file." />
+            <p class="caption">Custom Drupal 8 module 'dflex_demo'. Will add another hook to .module file.</p>
           </section>
           <section data-transition="convex">
-<pre><code class="php" data-trim data-line-numbers=true>
+            <h2 class="filename">dflex_demo.module</h2>
+            <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Implements hook_preprocess_HOOK().
  */
@@ -421,11 +445,12 @@ function dflex_demo_preprocess_menu(&$variables) {
     }
   }
 }
-</code></pre>
-            <p class="filename">dflex_demo.module</p>
+            </code></pre>
+            <p class="caption">Implements an instance of a preprocess menu, to alter a menu link.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m4_d8_result.png" class="screenshot" alt="Drupal 8: The fourth menu item now says SS #1, links to node/10, opens in new tab and has alternate background and text color." />
+            <img data-src="images/m4_d8_result.png" class="screenshot" alt="Before render, menu hits preprocess hook. Fourth menu link in Drupal 8 has changed title, destination and style." />
+            <p class="caption">Before render, menu hits preprocess hook.<br /> Fourth menu link in Drupal 8 has changed title, destination and style.</p>
           </section>
         </section>
         <section>
@@ -433,21 +458,24 @@ function dflex_demo_preprocess_menu(&$variables) {
             <h1>#5. Hack Core</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Can control anything.</li>
-              <li class="fragment step-note">No limit to abilities.</li>
-              <li class="fragment step-note">Do what you want.</li>
+              <li class="fragment step-note">Absolute control of Drupal.</li>
+              <li class="fragment step-note">Change any core functionality.</li>
+              <li class="fragment step-note">Extremly powerful.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
               <li class="fragment step-note">May cause unkown issues.</li>
+              <li class="fragment step-note">Will break upgrade ability.</li>
               <li class="fragment step-note">Introduces security risks.</li>
-              <li class="fragment step-note">Will break upgrades.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> "With great power, comes great responsibility" ~ Uncle Ben.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d7.png" class="screenshot" alt="Drupal 7: Core Drupal file menu.inc, constains all menu functionality." />
+            <img data-src="images/m5_d7.png" class="screenshot" alt="Drupal 7 core file menu.inc, controls menu functionality." />
+             <p class="caption">Drupal 7 core file menu.inc, controls menu functionality.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">includes/menu.inc</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Returns an array of links for a navigation menu.
@@ -471,15 +499,18 @@ function menu_navigation_links($menu_name, $level = 0) {
   //...
 }
             </code></pre>
-            <p class="filename">includes/menu.inc</p>
+            <p class="caption">Alter menu_navigation_links function to change a menu link in main menu.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d7_result.png" class="screenshot" alt="Drupal 7: Fifth menu item now says SS #2, links to node/10, opens in new window and has alternate background and text color." />
+            <img data-src="images/m5_d7_result.png" class="screenshot" alt="Drupal 7 menu loads, uses hacked function. Fifth menu item now has altered title, destination and style." />
+            <p class="caption">Drupal 7 menu loads, uses hacked function. Fifth menu item now has altered title, destination and style.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d8.png" class="screenshot" alt="Drupal 8: Drupal core file MenuLinkTree.php contains functions for menu links." />
+            <img data-src="images/m5_d8.png" class="screenshot" alt="Drupal 8 core class MenuLinkTree.php controls menu functionality." />
+            <p class="caption">Drupal 8 core class MenuLinkTree.php controls menu functionality.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">core/lib/Drupal/Core/Menu/MenuLinkTree.php</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Implements the loading, transforming and rendering of menu link trees.
@@ -507,14 +538,16 @@ class MenuLinkTree implements MenuLinkTreeInterface {
 //...
 }
             </code></pre>
-            <p class="filename">core/lib/Drupal/Core/Menu/MenuLinkTree.php</p>
+            <p class="caption">Alter buildItems() function to change menu link in main menu.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d8_result.png" class="screenshot" alt="Drupal 8: Fifth menu item now says SS #2, links to node/10, opens in new window and has alternate background and text color." />
+            <img data-src="images/m5_d8_result.png" class="screenshot" alt="Drupal 8 menu loads, uses hacked function. Fifth menu item now has altered title, destination and style." />
+            <p class="caption">Drupal 8 menu loads, uses hacked function. Fifth menu item now has altered title, destination and style.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/core_kills_kitten.jpg" class="screenshot" alt="Dont hack core, if you do God will kill a kitten." /><br />
-            <span class="filename">Greg Dunlap (@heyrocker), 2008?</span>
+            <h2 class="filename">Credit: Greg Dunlap (@heyrocker) (around 2008?)</h2>
+            <img data-src="images/core_kills_kitten.jpg" class="screenshot" alt="Hacking core is the 'Wrong way'. Don't do it or God willl kill a kitten." />
+            <p class="caption">Hacking core is the "Wrong way". Don't do it or God willl kill a kitten.</p>
           </section>
         </section>
         <section>
@@ -522,28 +555,25 @@ class MenuLinkTree implements MenuLinkTreeInterface {
             <h1>#6. Services</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Can control anything.*</li>
+              <li class="fragment step-note">Change any core functionality.</li>
               <li class="fragment step-note">No hacking required!</li>
-              <li class="fragment step-note">Do whatever you want.</li>
+              <li class="fragment step-note">Can be very powerful.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Only Drupal 8.</li>
-              <li class="fragment step-note">Can become complex.</li>
-              <li class="fragment step-note">*Not for eveything.</li>
+              <li class="fragment step-note">Only available for Drupal 8.</li>
+              <li class="fragment step-note">Can be complex.</li>
+              <li class="fragment step-note">Not for eveything.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> It's hacking core without hacking core.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m5_d7_result.png" class="screenshot" alt="Drupal 7: Services does not work for Drupal 7." />
+            <img data-src="images/m6_d8.png" class="screenshot" alt="Drupal 8 custom module 'dflex_demo' with an 'src' directory, containting two new files." />
+            <p class="caption">Drupal 8 custom module 'dflex_demo' with an 'src' directory, containting two new files.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d8.png" class="screenshot" alt="Drupal 8: custom module now has new directory src, with contains two files." />
-          </section>
-          <section data-transition="convex">
+            <h2 class="filename">DflexDemoServiceProvider.php</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
-/**
- * @file Drupal\dflex_demo\DflexDemoServiceProvider.php
- */
 namespace Drupal\dflex_demo;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
@@ -559,13 +589,11 @@ class DflexDemoServiceProvider extends ServiceProviderBase {
     }
 }
             </code></pre>
-            <p class="filename">DflexDemoServiceProvider.php</p>
+            <p class="caption">Extend ServiceProviderBase and override alter function.<br />Retrieve correct dependency injection container and tell Drupal what class to use as the service.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">DflexDemoMenuLinkTree.php</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
-/**
- * @file \Drupal\dflex_demo\DflexDemoMenuLinkTree.
- */
 namespace Drupal\dflex_demo;
 use Drupal\Core\Menu\MenuLinkTree;
 
@@ -591,40 +619,40 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
   }
 }
             </code></pre>
-            <p class="filename">DflexDemoMenuLinkTree.php</p>
+            <p class="caption">Custom MenuLinkTree Service. <br />Extend the core service and override the build function, to alter menu link.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m6_d8_result.png" class="screenshot" alt="Drupal 8: Sixth menu item now says SS #3, links to node/10, opens in new window and has alternate background and text color." />
+            <img data-src="images/m6_d8_result.png" class="screenshot" alt="Drupal 8 menu is loaded using custom service to build menu. Sixth menu item has altered title, destination and style." />
+            <p class="caption">Drupal 8 menu is loaded using custom service to build menu. Sixth menu item has altered title, destination and style.</p>
           </section>
         </section>
         <section>
-          <h1>Client Side</h1>
- <!--         <ol>
-            <li class="step-note">Custom JS</li>
-            <li class="step-note">Template Overrides</li>
-            <li class="step-note">Twig</li>
-          </ol> //-->
+          <h1>Client Side Layer</h1>
+          <span class="step-note">Data when being rendered.</span>
         </section>
          <section>
           <section>
             <h1>#7. Custom JS</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Manipulate any page item.</li>
+              <li class="fragment step-note">Manipulate any item on page.</li>
+              <li class="fragment step-note">Can be based on user actions.</li>
               <li class="fragment step-note">Less server processing.</li>
-              <li class="fragment step-note">Can base on actions.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Browser dependent.</li>
-              <li class="fragment step-note">Wait for page load.</li>
-              <li class="fragment step-note">Not cacheable.</li>
+              <li class="fragment step-note">Dependent on browser support.</li>
+              <li class="fragment step-note">Delay before it is executed.</li>
+              <li class="fragment step-note">Alterable by client.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> Fancy client side functionality.</p>
           </section>
          <section data-transition="convex">
-            <img data-src="images/m7_d7.png" class="screenshot" alt="Drupal 7: Custom theme has custom js file dflex.js" />
+            <img data-src="images/m7_d7.png" class="screenshot" alt="Drupal 7 custom theme 'dflex' contains a javascript file 'dflex.js'." />
+            <p class="caption">Drupal 7 custom theme 'dflex' contains a javascript file 'dflex.js'.</p>
           </section>
          <section data-transition="convex">
+            <h2 class="filename">dflex/dflex.info</h2>
             <pre><code data-trim data-line-numbers=true>
 name = Drupal Flex Demo
 description = Demo subtheme for displaying Drupal Flexibility
@@ -638,9 +666,10 @@ stylesheets[all][] = css/colors.css
 scripts[] = dflex.js
 ...
             </code></pre>
-            <p class="filename">dflex/dflex.info</p>
+            <p class="caption">Tell Drupal 7 about js file by adding it to the themes scripts array in the .info file.</p>
           </section>
          <section data-transition="convex">
+            <h2 class="filename">dflex/dflex.js</h2>
             <pre><code class="js" data-trim data-line-numbers=true>
 (function($){
     Drupal.behaviors.dflex = {
@@ -657,15 +686,18 @@ scripts[] = dflex.js
     }
 })(jQuery);
             </code></pre>
-            <p class="filename">dflex/dflex.js</p>
+            <p class="caption">Add custom Drupal behavour to alter main menu link after DOM loads.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d7_result.png" class="screenshot" alt="Drupal 7: Seventh menu item now says CS #1, links to /node/10, opens in new window, has alternate background and text color." />
+            <img data-src="images/m7_d7_result.png" class="screenshot" alt="After Drupal 7 page loads, custom javascript runs. Seventh menu item now has altered title, destination and style." />
+            <p class="caption">After Drupal 7 page loads, custom javascript runs.<br />Seventh menu item now has altered title, destination and style.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8.png" class="screenshot" alt="Drupal 8: Custom module now has a .library.yml file, new directory js, with a javascript file." />
+            <img data-src="images/m7_d8.png" class="screenshot" alt="Drupal 8 custom module 'dflex_demo' has new libraries.yml file and javascript directory with a js file." />
+            <p class="caption">Drupal 8 custom module 'dflex_demo' has new libraries.yml file and a js directory with a javascript file.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">dflex_demo/dflex_demo.libraries.yml</h2>
             <pre><code data-trim data-line-numbers=true>
 dflex_demo:
   version: VERSION
@@ -676,9 +708,10 @@ dflex_demo:
      - core/jquery.once
      - core/drupal
             </code></pre>
-            <p class="filename">dflex_demo/dflex_demo.libraries.yml</p>
+            <p class="caption">libraries.yml tells Drupal 8 what javacript libraries are provided and any dependencies they may have.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">dflex_demo/js/dflex-demo.js</h2>
             <pre><code class="js" data-trim data-line-numbers=true>
 (function ($, Drupal) {
 
@@ -698,9 +731,10 @@ dflex_demo:
     }
 })(jQuery, Drupal);
             </code></pre>
-            <p class="filename">dflex_demo/js/dflex-demo.js</p>
+            <p class="caption">Add custom Drupal behavour to alter main menu link after DOM loads.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">dflex_demo/dflex_demo.module</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
 /**
  * Implements hook_page_attachments().
@@ -710,10 +744,11 @@ function dflex_demo_page_attachments(&$page) {
   $page['#attached']['library'][] = 'dflex_demo/dflex_demo';
 }
             </code></pre>
-            <p class="filename">dflex_demo/dflex_demo.module</p>
+            <p class="caption">drupal_add_js() no longer exists in Drupal 8. Must add library to a render array.<br />Custom module does so by implementing the hook_page_attachments.</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m7_d8_result.png" class="screenshot" alt="Drupal 7: Seventh menu item now says CS #1, links to /node/10, opens in new window, has alternate background and text color." />
+            <p class="caption">When Drupal 8 page loads, drupal adds custom javascript library. After DOM loads custom behaviour is run. Seventh menu item now has altered title, destination and style.</p>
           </section>
         </section>
         <section>
@@ -721,21 +756,24 @@ function dflex_demo_page_attachments(&$page) {
             <h1>#8. Template Overrides</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Control Drupal markup.</li>
-              <li class="fragment step-note">Suggestable and specific.</li>
-              <li class="fragment step-note">Cachable.</li>
+              <li class="fragment step-note">Override Drupal markup.</li>
+              <li class="fragment step-note">Make specific with suggestions.</li>
+              <li class="fragment step-note">Changes are cached.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Not everything Templated.</li>
-              <li class="fragment step-note">Require custom theme.</li>
-              <li class="fragment step-note">May require server side.</li>
+              <li class="fragment step-note">Not everything is templated.</li>
+              <li class="fragment step-note">Template may be wrong level.</li>
+              <li class="fragment step-note">May still require server side.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> Control of the rendered HTML.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7.png" class="screenshot"  alt="Drupal 7: custom theme now contains templates directory, with custom template for links." />
+            <img data-src="images/m8_d7.png" class="screenshot"  alt="Drupal 7 custom theme 'dflex', now contains a templates folder. Contains a template file for rendering links." />
+            <p class="caption">Drupal 7 custom theme 'dflex', now contains a templates folder.<br />Contains a template file for rendering links.</p>
           </section>
           <section data-transition="convex">
+            <h2 class="filename">dflex/templates/link.tpl.php</h2>
             <pre><code class="php" data-trim data-line-numbers=true>
 &lt;?php
   $url = check_plain(url($variables['path'], $variables['options']));
@@ -749,13 +787,11 @@ function dflex_demo_page_attachments(&$page) {
   &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
 &lt;?php endif; ?>
             </code></pre>
-            <p class="filename">dflex/templates/link.tpl.php</p>
+            <p class="caption">Add additional logic to link template to display static link for particular path.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7_result.png" class="screenshot" alt="Drupal 7: Eighth menu item now says CS #2, links to /alt-path, opens in new window, has alternate background and text color." />
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m7_d8_result.png" class="screenshot" alt="Drupal 8: Will not be chaning with template overrides." />
+            <img data-src="images/m8_d7_result.png" class="screenshot" alt="When Drupal 7 renders links will use overrriden template. Eith menu item now has altered title, destination and style." />
+             <p class="caption">When Drupal 7 renders links will use overrriden template.<br />Eighth menu item now has altered title, destination and style.</p>
           </section>
         </section>
         <section>
@@ -763,24 +799,24 @@ function dflex_demo_page_attachments(&$page) {
             <h1>#9. Twig</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">No PHP in templates.</li>
-              <li class="fragment step-note">Perform template logic.</li>
-              <li class="fragment step-note">Can be nested.</li>
+              <li class="fragment step-note">Override Drupal markup.</li>
+              <li class="fragment step-note">More secure then old engine.</li>
+              <li class="fragment step-note">Serverside logic with no PHP.</li>
             </ul>
             <ul>
               <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Drupal 8 only.</li>
-              <li class="fragment step-note">Limited abilities.</li>
-              <li class="fragment step-note">New syntax to learn.</li>
+              <li class="fragment step-note">Only in Drupal 8.</li>
+              <li class="fragment step-note">Logic abilities are limited.</li>
+              <li class="fragment step-note">Requires more processing.</li>
             </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> More secure template overrides.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m8_d7_result.png" class="screenshot" alt="Drupal 7: Drupal 7 does not support twig." />
+            <img data-src="images/m9_d8.png" class="screenshot" alt="Custom Drupal 8 theme 'dflex_demo' contains a templates directory. Along with a twig template suggestion for main menu" />
+            <p class="caption">Custom Drupal 8 theme 'dflex_demo' contains a templates directory.<br />Along with a twig template suggestion for main menu</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m9_d8.png" class="screenshot" alt="Drupal 8: custom theme dflex_demo contains templates directory with a custom twig template for menu main." />
-          </section>
-          <section data-transition="convex">
+            <h2 class="filename">dflex/templates/menu--main.html.twig</h2>
             <pre><code class="craftcms" data-trim data-line-numbers=true>
 {{ menus.menu_links(items, attributes, 0) }}
 {% macro menu_links(items, attributes, menu_level) %}
@@ -807,31 +843,20 @@ function dflex_demo_page_attachments(&$page) {
   {% endif %}
 {% endmacro %}
             </code></pre>
-            <p class="filename">dflex/templates/menu--main.html.twig</p>
+            <p class="caption">Template override contains twig logic to display static link for specific menu item.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m9_d8_result.png" class="screenshot" alt="Drupal 8: Ninth menu link now says CS #3, links to /alt-path, opens in new window and has alternate background and text color." />
+            <img data-src="images/m9_d8_result.png" class="screenshot" alt="When rendering main menu, Drupal 8 users overriden twig menu template. Ninth menu item has altered title, destination and style." />
+            <p class="caption">When rendering main menu, Drupal 8 users overriden twig menu template. Ninth menu item has altered title, destination and style.</p>
           </section>
         </section>
         <section>
           <h1>Review</h1>
           <ul>
-            <li class="fragment step-note">Everything is data, everything can be manipulated!</li>
-            <li class="fragment step-note">
-              Data manipulation falls into 3 buckets:
-              <ul>
-                <li class="fragment step-note">Database</li>
-                <li class="fragment step-note">Server Side</li>
-                <li class="fragment step-note">Client Side</li>
-              </ul>
-            </li>
-            <li class="fragment step-note">
-              No "right way" or "wrong way"
-              <ul>
-                <li class="fragment step-note">Just the "right for me way"</li>
-                <li class="fragment step-note">Except Hack Core. That is the wrong way!</li>
-              </ul>
-            </li>
+            <li class="fragment step-note">Drupal provides many ways to manipulate data on each layer.</li>
+            <li class="fragment step-note">Everything in Drupal is data and everything can be manipulated.</li>
+            <li class="fragment step-note">No "right way" or "wrong way". Just "right for me way".</li>
+
           </ul>
         </section>
         <section>
@@ -879,7 +904,7 @@ function dflex_demo_page_attachments(&$page) {
           { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
           { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
           { src: 'plugin/zoom-js/zoom.js', async: true },
-          { src: 'plugin/notes/notes.js', async: true }
+          { src: 'plugin/notes/notes.js', async: true, callback: function() {createAsides();} }
 				]
 			});
 
@@ -904,6 +929,13 @@ function dflex_demo_page_attachments(&$page) {
             var code = '<span class="line-number"></span>' + $(this).html().split("\n").join("\n<span class='line-number'></span>");
             $(this).html(code);
           }
+        });
+      }
+
+      function createAsides(event) {
+        $('.caption').each(function (i, e) {
+          var text = $(this).text();
+          //$(this).replaceWith("<aside class='notes'>" + text + "</aside>");
         });
       }
 		</script>

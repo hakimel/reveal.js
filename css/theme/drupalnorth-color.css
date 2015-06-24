@@ -56,6 +56,12 @@ body {
   font-weight: inherit;
 }
 
+.step-note {
+  font-size: 75% !important;
+  color: #F0E9E9 !important;
+  font-style: italic !important;
+}
+
 /*********************************************
  * HEADERS
  *********************************************/
@@ -164,9 +170,17 @@ body {
 .reveal code {
   font-family: monospace; }
 
+.reveal .code {
+  background: #3F3F3F;
+  color: #DCDCDC;
+  font-family: monospace;
+}
+
 .reveal pre code {
   background: #3F3F3F;
-  color: #DCDCDC; }
+  color: #DCDCDC;
+  font-size: 90%;
+}
 
 .reveal table {
   margin: auto;
