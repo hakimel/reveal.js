@@ -3747,8 +3747,15 @@
 		// keyboard modifier key is present
 		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
-		// While paused only allow "unpausing" keyboard events (b and .)
-		if( isPaused() && [66,190,191].indexOf( event.keyCode ) === -1 ) {
+		// While paused only allow resume keyboard events;
+		// 'b', '.' or any key specifically mapped to togglePause
+		var resumeKeyCodes = [66,190,191].concat( Object.keys( config.keyboard ).map( function( key ) {
+			if( config.keyboard[key] === 'togglePause' ) {
+				return parseInt( key, 10 );
+			}
+		}));
+
+		if( isPaused() && resumeKeyCodes.indexOf( event.keyCode ) === -1 ) {
 			return false;
 		}
 
