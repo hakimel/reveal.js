@@ -76,7 +76,7 @@
 			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
 
 			if( value ) {
-				result.push( name + '=' + value );
+				result.push( name + '="' + value + '"' );
 			}
 			else {
 				result.push( name );
