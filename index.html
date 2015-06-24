@@ -145,7 +145,7 @@
           <section data-transition="convex">
             <h2>Environments</h2>
             <ul>
-              <li class="fragment step-note">Drupal 7.76: Standard. bartik subtheme. slate color.</li>
+              <li class="fragment step-note">Drupal 7.37: Standard. bartik subtheme. slate color.</li>
               <li class="fragment step-note">
                 Drupal 8.0.0-beta11: Standard. bartik subtheme. slate color.<br />
                 <span class="fragment" style="color:red !important;background:#000"><strong class="blink">!!WARNING!!</strong> Drupal 8 still in development.</span>
@@ -179,7 +179,7 @@
         </section>
         <section>
           <section>
-            <h1>#1. Drupal Core</h1>
+            <h1>#1. Drupal Core Functionality</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
               <li class="fragment step-note">Nothing extra is needed.</li>
@@ -786,7 +786,7 @@ function dflex_demo_page_attachments(&$page) {
   $text = ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text']));
 ?>
 
-&lt;?php if(isset($variables['path'] == 'node/8'): ?>
+&lt;?php if(isset($variables['path']) == 'node/8'): ?>
   &lt;a href="/alt-path" style="background:#C3F;color:#FFF;">CS #2&lt;/a>
 &lt;?php else: ?>
   &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
