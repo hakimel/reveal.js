@@ -35,7 +35,7 @@ body {
   background: #19345e;
   background-color: #19345e;
   background-size: 100%;
-  background-image: url('/images/borealis-swirls.jpg');
+  background-image: url('../../images/borealis-swirls.jpg');
   background-position: center;
   background-repeat: no-repeat;
 }
