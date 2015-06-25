@@ -7,7 +7,7 @@
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
-    "start": ""
+    "start": "grunt serve"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -40,10 +40,6 @@
     "grunt": "~0.4.0",
     "node-sass": "~0.9.3"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/hakimel/reveal.js/blob/master/LICENSE"
-    }
-  ]
+  
+  "license": "MIT"
 }
