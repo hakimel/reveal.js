@@ -44,6 +44,10 @@
                     <span class="logo__image"><img src="lib/image/content/logo.png" alt="DrupalNorth 2015 logo" height="55px" /></span>
                     <p class="logo__site-name">#DrupalNorth</p>
                 </div>
+                <div class="company--logo">
+                    <span class="logo__image"><img src="lib/image/content/gi-logo.png" alt="Genuine Interactive" height="40px" width="40px" /></span>
+                    <p class="logo__site-name">@WeAreGenuine</p>
+                </div>
                 <div class="session--info">
                     <p class="session__title">
                     	Drupal Flexibility<span class="seperator">&nbsp;/&nbsp;</span>
@@ -161,7 +165,7 @@
           </section>
           <section data-transition="convex">
             <h2 class="filename">Drupal 7: after</h2>
-            <img data-src="images/m8_d7_result.png" class="screenshot" alt="A standard Drupal 7.37 site install with 9 menu tabs. After data manipulation" />
+            <img data-src="images/m9_d7_result.png" class="screenshot" alt="A standard Drupal 7.37 site install with 9 menu tabs. After data manipulation" />
           </section>
           <section data-transition="convex">
             <h2 class="filename">Drupal 8: before</h2>
@@ -643,12 +647,111 @@ class DflexDemoMenuLinkTree extends MenuLinkTree {
           <h1>Client Side Layer</h1>
           <span class="step-note">Data when being rendered.</span>
         </section>
-         <section>
+        <section>
           <section>
-            <h1>#7. Custom JS</h1>
+            <h1>#7. Template Overrides</h1>
             <ul>
               <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Manipulate any item in the DOM.</li>
+              <li class="fragment step-note">Override Drupal markup.</li>
+              <li class="fragment step-note">Make specific with suggestions.</li>
+              <li class="fragment step-note">Changes are cached.</li>
+            </ul>
+            <ul>
+              <li class="fragment list-header">Cons</li>
+              <li class="fragment step-note">Not everything is templated.</li>
+              <li class="fragment step-note">Template may be wrong level.</li>
+              <li class="fragment step-note">May still require server side.</li>
+            </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> Control of the rendered HTML.</p>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m8_d7.png" class="screenshot"  alt="Drupal 7 custom theme 'dflex', now contains a templates folder. Contains a template file for rendering links." />
+            <p class="caption">Drupal 7 custom theme 'dflex', now contains a templates folder.<br />Contains a template file for rendering links.</p>
+          </section>
+          <section data-transition="convex">
+            <h2 class="filename">dflex/templates/link.tpl.php</h2>
+            <pre><code class="php" data-trim data-line-numbers=true>
+&lt;?php
+  $url = check_plain(url($variables['path'], $variables['options']));
+  $attributes = drupal_attributes($variables['options']['attributes']);
+  $text = ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text']));
+?>
+
+&lt;?php if(isset($variables['path']) == 'node/7'): ?>
+  &lt;a href="/alt-path" style="background:#6CF;color:#FFF;">CS #1&lt;/a>
+&lt;?php else: ?>
+  &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
+&lt;?php endif; ?>
+            </code></pre>
+            <p class="caption">Add additional logic to link template to display static link for particular path.</p>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m7_d7_result.png" class="screenshot" alt="When Drupal 7 renders links will use overrriden template. Seventh menu item now has altered title, destination and style." />
+             <p class="caption">When Drupal 7 renders links will use overrriden template.<br />Seventh menu item now has altered title, destination and style.</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>#8. Twig</h1>
+            <ul>
+              <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">Override Drupal markup.</li>
+              <li class="fragment step-note">More secure then old engine.</li>
+              <li class="fragment step-note">Serverside logic with no PHP.</li>
+            </ul>
+            <ul>
+              <li class="fragment list-header">Cons</li>
+              <li class="fragment step-note">Only in Drupal 8.</li>
+              <li class="fragment step-note">Logic abilities are limited.</li>
+              <li class="fragment step-note">Requires more processing.</li>
+            </ul>
+            <p class="fragment tldr"><strong>tl;dr</strong> More secure template overrides.</p>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m9_d8.png" class="screenshot" alt="Custom Drupal 8 theme 'dflex_demo' contains a templates directory. Along with a twig template suggestion for main menu" />
+            <p class="caption">Custom Drupal 8 theme 'dflex_demo' contains a templates directory.<br />Along with a twig template suggestion for main menu</p>
+          </section>
+          <section data-transition="convex">
+            <h2 class="filename">dflex/templates/menu--main.html.twig</h2>
+            <pre><code class="craftcms" data-trim data-line-numbers=true>
+{{ menus.menu_links(items, attributes, 0) }}
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+&lt;ul{{ attributes.addClass('menu') }}>
+  {% else %}
+  &lt;ul class="menu">
+    {% endif %}
+    {% for item in items %}
+      &lt;li{{ item.attributes }}>
+        {% if item.title == 'Page 8' and item.url.toString() == '/node/8' %}
+          &lt;a href="/alt-path" style="background:#C3F;color:#FFF;">CS #2&lt;/a>
+        {% else %}
+          {{ link(item.title, item.url) }}
+        {% endif %}
+        {% if item.below %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
+      &lt;/li>
+    {% endfor %}
+  &lt;/ul>
+  {% endif %}
+{% endmacro %}
+            </code></pre>
+            <p class="caption">Template override contains twig logic to display static link for specific menu item.</p>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/m8_d8_result.png" class="screenshot" alt="When rendering main menu, Drupal 8 users overriden twig menu template. Eighth menu item has altered title, destination and style." />
+            <p class="caption">When rendering main menu, Drupal 8 users overriden twig menu template. Eighth menu item has altered title, destination and style.</p>
+          </section>
+        </section>
+                 <section>
+          <section>
+            <h1>#9. Custom JS</h1>
+            <ul>
+              <li class="fragment list-header">Pros</li>
+              <li class="fragment step-note">Manipulate any DOM item.</li>
               <li class="fragment step-note">Can be based on user actions.</li>
               <li class="fragment step-note">Less server processing.</li>
             </ul>
@@ -688,11 +791,11 @@ scripts[] = dflex.js
     Drupal.behaviors.dflex = {
         attach: function (context, settings) {
            $('#main-menu-links li > a').each(function(){
-               if ($(this).attr('href') == '/node/7') {
-                   $(this).attr('style', 'background:#6CF;color:#fff;');
+               if ($(this).attr('href') == '/node/9') {
+                   $(this).attr('style', 'background:#0F0;color:#000;');
                    $(this).attr('target', '_blank');
                    $(this).attr('href', '/alt-path');
-                   $(this).text('CS #1');
+                   $(this).text('CS #3');
                }
            })
         }
@@ -702,8 +805,8 @@ scripts[] = dflex.js
             <p class="caption">Add custom Drupal behavour to alter main menu link after DOM loads.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d7_result.png" class="screenshot" alt="After Drupal 7 page loads, custom javascript runs. Seventh menu item now has altered title, destination and style." />
-            <p class="caption">After Drupal 7 page loads, custom javascript runs.<br />Seventh menu item now has altered title, destination and style.</p>
+            <img data-src="images/m9_d7_result.png" class="screenshot" alt="After Drupal 7 page loads, custom javascript runs. Ninth menu item now has altered title, destination and style." />
+            <p class="caption">After Drupal 7 page loads, custom javascript runs.<br />Ninth menu item now has altered title, destination and style.</p>
           </section>
           <section data-transition="convex">
             <img data-src="images/m7_d8.png" class="screenshot" alt="Drupal 8 custom module 'dflex_demo' has new libraries.yml file and javascript directory with a js file." />
@@ -733,11 +836,11 @@ dflex_demo:
     Drupal.behaviors.dflexDemo = {
         attach: function (context) {
             $('nav.menu--main > ul.menu li > a').each(function(){
-                if ($(this).attr('href') == '/node/7') {
-                    $(this).attr('style', 'background:#6CF;color:#FFF;');
+                if ($(this).attr('href') == '/node/9') {
+                    $(this).attr('style', 'background:#0F0;color:#000;');
                     $(this).attr('target', '_blank');
                     $(this).attr('href', '/alt-path');
-                    $(this).text('CS #1');
+                    $(this).text('CS #3');
                 }
             });
         }
@@ -760,107 +863,8 @@ function dflex_demo_page_attachments(&$page) {
             <p class="caption">drupal_add_js() no longer exists in Drupal 8. Must add library to a render array.<br />Custom module does so by implementing the hook_page_attachments.</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/m7_d8_result.png" class="screenshot" alt="Drupal 7: Seventh menu item now says CS #1, links to /node/10, opens in new window, has alternate background and text color." />
-            <p class="caption">When Drupal 8 page loads, drupal adds custom javascript library. After DOM loads custom behaviour is run. Seventh menu item now has altered title, destination and style.</p>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>#8. Template Overrides</h1>
-            <ul>
-              <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Override Drupal markup.</li>
-              <li class="fragment step-note">Make specific with suggestions.</li>
-              <li class="fragment step-note">Changes are cached.</li>
-            </ul>
-            <ul>
-              <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Not everything is templated.</li>
-              <li class="fragment step-note">Template may be wrong level.</li>
-              <li class="fragment step-note">May still require server side.</li>
-            </ul>
-            <p class="fragment tldr"><strong>tl;dr</strong> Control of the rendered HTML.</p>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m8_d7.png" class="screenshot"  alt="Drupal 7 custom theme 'dflex', now contains a templates folder. Contains a template file for rendering links." />
-            <p class="caption">Drupal 7 custom theme 'dflex', now contains a templates folder.<br />Contains a template file for rendering links.</p>
-          </section>
-          <section data-transition="convex">
-            <h2 class="filename">dflex/templates/link.tpl.php</h2>
-            <pre><code class="php" data-trim data-line-numbers=true>
-&lt;?php
-  $url = check_plain(url($variables['path'], $variables['options']));
-  $attributes = drupal_attributes($variables['options']['attributes']);
-  $text = ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text']));
-?>
-
-&lt;?php if(isset($variables['path']) == 'node/8'): ?>
-  &lt;a href="/alt-path" style="background:#C3F;color:#FFF;">CS #2&lt;/a>
-&lt;?php else: ?>
-  &lt;a href="&lt;?php print $url; ?>" &lt;?php print $attributes; ?>>&lt;?php print $text; ?>&lt;/a>
-&lt;?php endif; ?>
-            </code></pre>
-            <p class="caption">Add additional logic to link template to display static link for particular path.</p>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m8_d7_result.png" class="screenshot" alt="When Drupal 7 renders links will use overrriden template. Eith menu item now has altered title, destination and style." />
-             <p class="caption">When Drupal 7 renders links will use overrriden template.<br />Eighth menu item now has altered title, destination and style.</p>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>#9. Twig</h1>
-            <ul>
-              <li class="fragment list-header">Pros</li>
-              <li class="fragment step-note">Override Drupal markup.</li>
-              <li class="fragment step-note">More secure then old engine.</li>
-              <li class="fragment step-note">Serverside logic with no PHP.</li>
-            </ul>
-            <ul>
-              <li class="fragment list-header">Cons</li>
-              <li class="fragment step-note">Only in Drupal 8.</li>
-              <li class="fragment step-note">Logic abilities are limited.</li>
-              <li class="fragment step-note">Requires more processing.</li>
-            </ul>
-            <p class="fragment tldr"><strong>tl;dr</strong> More secure template overrides.</p>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m9_d8.png" class="screenshot" alt="Custom Drupal 8 theme 'dflex_demo' contains a templates directory. Along with a twig template suggestion for main menu" />
-            <p class="caption">Custom Drupal 8 theme 'dflex_demo' contains a templates directory.<br />Along with a twig template suggestion for main menu</p>
-          </section>
-          <section data-transition="convex">
-            <h2 class="filename">dflex/templates/menu--main.html.twig</h2>
-            <pre><code class="craftcms" data-trim data-line-numbers=true>
-{{ menus.menu_links(items, attributes, 0) }}
-{% macro menu_links(items, attributes, menu_level) %}
-  {% import _self as menus %}
-  {% if items %}
-    {% if menu_level == 0 %}
-&lt;ul{{ attributes.addClass('menu') }}>
-  {% else %}
-  &lt;ul class="menu">
-    {% endif %}
-    {% for item in items %}
-      &lt;li{{ item.attributes }}>
-        {% if item.title == 'Page 9' and item.url.toString() == '/node/9' %}
-          &lt;a href="/alt-path" style="background:#0F0;color:#000;">CS #3&lt;/a>
-        {% else %}
-          {{ link(item.title, item.url) }}
-        {% endif %}
-        {% if item.below %}
-          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-        {% endif %}
-      &lt;/li>
-    {% endfor %}
-  &lt;/ul>
-  {% endif %}
-{% endmacro %}
-            </code></pre>
-            <p class="caption">Template override contains twig logic to display static link for specific menu item.</p>
-          </section>
-          <section data-transition="convex">
-            <img data-src="images/m9_d8_result.png" class="screenshot" alt="When rendering main menu, Drupal 8 users overriden twig menu template. Ninth menu item has altered title, destination and style." />
-            <p class="caption">When rendering main menu, Drupal 8 users overriden twig menu template. Ninth menu item has altered title, destination and style.</p>
+            <img data-src="images/m9_d8_result.png" class="screenshot" alt="When Drupal 8 page loads, drupal adds custom javascript library. After DOM loads custom behaviour is run. Ninth menu item now has altered title, destination and style." />
+            <p class="caption">When Drupal 8 page loads, drupal adds custom javascript library. After DOM loads custom behaviour is run. Ninth menu item now has altered title, destination and style.</p>
           </section>
         </section>
         <section>

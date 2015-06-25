@@ -27,6 +27,13 @@ section.has-light-background, section.has-light-background h1, section.has-light
   right: 5em; }
 .footer .session__title, .footer .session__presenter {
   display: inline-block; }
+.footer .company--logo {
+  display: inline-block;
+  float: center;
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0em;
+  left:40%; }
 
 /*********************************************
  * GLOBAL STYLES
