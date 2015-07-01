@@ -178,8 +178,8 @@ body {
 	overflow: auto;
 	max-height: 400px;
 	word-wrap: normal;
-	background: #3F3F3F;
-	color: #DCDCDC;
+	background: $codeBackgroundColor;
+	color: $codeColor;
 }
 
 .reveal table {
