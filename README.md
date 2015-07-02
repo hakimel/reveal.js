@@ -704,6 +704,8 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 ![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
 
+Alternatively you can use the [decktape](https://github.com/astefanutti/decktape) project.
+
 ## Theming
 
 The framework comes with a few different themes included:
