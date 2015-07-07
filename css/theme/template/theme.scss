@@ -267,6 +267,11 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
+	.reveal section img.plain {
+		border: 0;
+		box-shadow: none;
+	}
+
 	.reveal a img {
 		-webkit-transition: all .15s linear;
 		   -moz-transition: all .15s linear;
