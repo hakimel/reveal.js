@@ -172,45 +172,45 @@ body {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
-.reveal .controls button.enabled {
+.reveal .controls .enabled {
   opacity: 0.7;
   cursor: pointer; }
 
-.reveal .controls button.enabled:active {
+.reveal .controls .enabled:active {
   margin-top: 1px; }
 
-.reveal .controls button.navigate-left {
+.reveal .controls .navigate-left {
   top: 42px;
   border-right-width: 22px;
   border-right-color: #000; }
 
-.reveal .controls button.navigate-left.fragmented {
+.reveal .controls .navigate-left.fragmented {
   opacity: 0.3; }
 
-.reveal .controls button.navigate-right {
+.reveal .controls .navigate-right {
   left: 74px;
   top: 42px;
   border-left-width: 22px;
   border-left-color: #000; }
 
-.reveal .controls button.navigate-right.fragmented {
+.reveal .controls .navigate-right.fragmented {
   opacity: 0.3; }
 
-.reveal .controls button.navigate-up {
+.reveal .controls .navigate-up {
   left: 42px;
   border-bottom-width: 22px;
   border-bottom-color: #000; }
 
-.reveal .controls button.navigate-up.fragmented {
+.reveal .controls .navigate-up.fragmented {
   opacity: 0.3; }
 
-.reveal .controls button.navigate-down {
+.reveal .controls .navigate-down {
   left: 42px;
   top: 74px;
   border-top-width: 22px;
   border-top-color: #000; }
 
-.reveal .controls button.navigate-down.fragmented {
+.reveal .controls .navigate-down.fragmented {
   opacity: 0.3; }
 
 /*********************************************
