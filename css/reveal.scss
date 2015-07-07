@@ -214,66 +214,68 @@ body {
 	-webkit-user-select: none;
 }
 
-.reveal .controls div {
+.reveal .controls button {
+	padding: 0;
 	position: absolute;
 	opacity: 0.05;
 	width: 0;
 	height: 0;
+	background-color: transparent;
 	border: 12px solid transparent;
 	transform: scale(.9999);
 	transition: all 0.2s ease;
-
+	-webkit-appearance: none;
 	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
 }
 
-.reveal .controls div.enabled {
+.reveal .controls button.enabled {
 	opacity: 0.7;
 	cursor: pointer;
 }
 
-.reveal .controls div.enabled:active {
+.reveal .controls button.enabled:active {
 	margin-top: 1px;
 }
 
-	.reveal .controls div.navigate-left {
+	.reveal .controls button.navigate-left {
 		top: 42px;
 
 		border-right-width: 22px;
 		border-right-color: #000;
 	}
-		.reveal .controls div.navigate-left.fragmented {
+		.reveal .controls button.navigate-left.fragmented {
 			opacity: 0.3;
 		}
 
-	.reveal .controls div.navigate-right {
+	.reveal .controls button.navigate-right {
 		left: 74px;
 		top: 42px;
 
 		border-left-width: 22px;
 		border-left-color: #000;
 	}
-		.reveal .controls div.navigate-right.fragmented {
+		.reveal .controls button.navigate-right.fragmented {
 			opacity: 0.3;
 		}
 
-	.reveal .controls div.navigate-up {
+	.reveal .controls button.navigate-up {
 		left: 42px;
 
 		border-bottom-width: 22px;
 		border-bottom-color: #000;
 	}
-		.reveal .controls div.navigate-up.fragmented {
+		.reveal .controls button.navigate-up.fragmented {
 			opacity: 0.3;
 		}
 
-	.reveal .controls div.navigate-down {
+	.reveal .controls button.navigate-down {
 		left: 42px;
 		top: 74px;
 
 		border-top-width: 22px;
 		border-top-color: #000;
 	}
-		.reveal .controls div.navigate-down.fragmented {
+		.reveal .controls button.navigate-down.fragmented {
 			opacity: 0.3;
 		}
 
