@@ -42,7 +42,8 @@
 
 		// strip leading whitespace so it isn't evaluated as code
 		var text = ( template || section ).textContent;
-
+		// restore script end tag
+		text = text.replace(/__SCRIPT_END__/g, '</script>');
 		var leadingWs = text.match( /^\n?(\s*)/ )[1].length,
 			leadingTabs = text.match( /^\n?(\t*)/ )[1].length;
 
@@ -114,7 +115,8 @@
 		if( notesMatch.length === 2 ) {
 			content = notesMatch[0] + '<aside class="notes" data-markdown>' + notesMatch[1].trim() + '</aside>';
 		}
-
+		//handle script end tag bug
+		content = content.replace(/<\/script>/g, '__SCRIPT_END__');
 		return '<script type="text/template">' + content + '</script>';
 
 	}
