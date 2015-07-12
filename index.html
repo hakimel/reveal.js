@@ -104,46 +104,150 @@
               <h1>Goals of this Session</h1>
               <p>
                   <ul>
-                    <li class="fragment step-note">Explain what Ajax commands are.</li>
-                    <li class="fragment step-note">Demostrate how AJAX commands are used.</li>
+                    <li class="fragment step-note">Explain what are AJAX commands.</li>
+                    <li class="fragment step-note">Demonstrate how to implement AJAX commands.</li>
                     <li class="fragment step-note">Outline when and where to use AJAX commands.</li>
                   </ul>
               </p>
             </section>
         </section>
         <section>
-          <h1>What</h1>
-          <section>
-            <h2>Review of the Drupal AJAX Framework</h2>
+          <h1>AJAX Framework Overview</h1>
+          <p class="caption">
+            AJAX framework was introduced in Drupal 7.
+            To Dynamically update data.
+            Allows events to trigger callbacks to the server.
+            A PHP macro language, returns json object with javascript instructions.
+            Json can contain markup or array of commands.
+          </p>
+          <section data-transition="convex">
+            <br />
+            <img data-src="images/we-have-to-go-back.gif" alt="LOST: we have to go back!"  style="width:50%" />
+            <p class="caption">first take a step back and review the AJAX Framework.</p>
           </section>
-          <section>
-            <h2>What are AJAX commands?</h2>
+          <section data-transition="convex">
+            <ul>
+              <li class="fragment step-note">Used to dynamically update data.</li>
+              <li class="fragment step-note">Events trigger callback functions.</li>
+              <li class="fragment step-note">Server returns json object of commands.</li>
+            </ul>
+            <p class="fragment step-note">
+              More info: <a href="http://bit.ly/DrupalAJAX" target="_blank">http://bit.ly/DrupalAJAX</a>
+            </p>
           </section>
-          <section>
-            <h2>What are thier purpose?</h2>
+          <section data-transition="convex">
+            <ul>
+              <li class="fragment step-note">Render arrays use the '#ajax' property.</li>
+              <li class="fragment step-note">Form submits use the class 'use-ajax-submit'.</li>
+              <li class="fragment step-note">Links use the class 'use-ajax'.</li>
+            </ul>
           </section>
-          <section>
-            <h2>Where can they be found?</h2>
-          </section>
-          <section>
-            <h2>What are some examples?</h2>
+          <section data-transition="convex">
+            <br />
+            <img data-src="images/ajax-lifecycle.png" alt="The Drupal AJAX lifecycle." />
           </section>
         </section>
         <section>
-          <h1>How</h1>
-          <section>
+          <section data-transition="convex">
+            <h1>What are AJAX Commands?</h1>
+            <img data-src="images/what-the-what.gif" alt="40Rock: What the what?" style="width:50%;" />
+          </section>
+          <section data-transition="convex">
+            <h2>A breakdown</h2>
+            <ul>
+              <li class="fragment step-note">A bridge between server and client.</li>
+              <li class="fragment step-note">Are returned by an AJAX callback.</li>
+              <li class="fragment step-note">Wrappers for jQuery manipulation methods.</li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+            <h2>Drupal 7 Core Commands</h2>
+            <ul>
+                <li class="fragment step-note">17 AJAX callback commands.</li>
+                <li class="fragment step-note">Commands defined in "includes/ajax.inc".</li>
+                <li class="fragment step-note">Javascript defined in "misc/ajax.js".</li>
+                <li class="fragment step-note">Full list:
+                  <a href="http://bit.ly/D7ajaxCMD" target="_blank">http://bit.ly/D7ajaxCMD</a>
+                </li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+              <h2>Drupal 7 Command Examples</h2>
+              <p>
+                <span class="fragment step-note">ajax_command_replace($selector, $html, $settings = NULL);</span>
+                <pre class="fragment"><code data-trim class="php">
+                ajax_command_replace('#my-div', '<p>...</p>');
+                </code></pre>
+              </p>
+              <p>
+                <span class="fragment step-note">ajax_command_css($selector, $argument);</span>
+                <pre class="fragment"><code data-trim class="php">
+                ajax_command_css('#my-div', 'background-color:#00f;');
+                </code></pre>
+              </p>
+              <p>
+                <span class="fragment step-note">ajax_command_invoke($selector, $method, $arguments = array());</span>
+                <pre class="fragment"><code data-trim class="php">
+                ajax_command_invoke('#my-div', 'fadeIn', array(2000));
+                </code></pre>
+              </p>
+          </section>
+
+          <section data-transition="convex">
+            <h2>Drupal 8 Core Commands</h2>
+            <ul>
+                <li class="fragment step-note">22 AJAX callback commands.</li>
+                <li class="fragment step-note">Commands located in "core/lib/Drupal/Core/Ajax/".</li>
+                <li class="fragment step-note">Implement CommandInterface.php.</li>
+                <li class="fragment step-note">Javascript defined in "misc/ajax.js".</li>
+                <li class="fragment step-note">Full list:
+                  <a href="http://bit.ly/D8ajaxCMD" target="_blank">http://bit.ly/D8ajaxCMD</a>
+                </li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+            <h2>Drupal 8 Command Examples</h2>
+            <p>
+              <span class="fragment step-note">RestripeCommand($selector);</span>
+              <pre class="fragment"><code data-trim class="php">
+              new RestripeCommand('#my-table');
+              </code></pre>
+            </p>
+            <p>
+              <span class="fragment step-note">ReplaceTitleCommand($title);</span>
+              <pre class="fragment"><code data-trim class="php">
+              new ReplaceTitleCommand('My New Title');
+              </code></pre>
+            </p>
+            <p>
+              <span class="fragment step-note">RedirectCommand($url);</span>
+              <pre class="fragment"><code data-trim class="php">
+              new RedirectCommand(Drupal::url('node/12', array(), array('absolute' => TRUE)));
+              </code></pre>
+            </p>
+          </section>
+        </section>
+         <section>
+          <section data-transition="convex">
+            <h1>How to implement</h1>
+            <img data-src="images/doctor-who-how.gif" alt="Doctor Who: How?" style="width:50%" ?>
+          </section>
+          <section data-transition="convex">
             <h2>How do you return commands?</h2>
           </section>
-          <section>
+          <section data-transition="convex">
             <h2>How do you chain multiple commands?</h2>
           </section>
-          <section>
+          <section data-transition="convex">
             <h2>How do you implement custom commands?</h2>
           </section>
         </section>
         <section>
-          <h1>When & where</h1>
-          <section>
+          <section data-transition="convex">
+            <h1>Where to use AJAX Commands</h1>
+            <img data-src="images/where-are-they.gif" alt="The Office: Where are they?" />
+          </section>
+          <section data-transition="convex">
             <h2>Classic example: AJAX Forms</h2>
           </section>
           <section>
@@ -165,28 +269,34 @@
           </ul>
         </section>
         <section>
-          <section>
-            <h1>Slides & Notes</h1>
-            <ul>
-              <li class="fragment"><a href="http://bit.ly/nyccampAJAX" target="_blank">bit.ly/nyccampAJAX</a></li>
-              <li class="fragment"><a href="http://bit.ly/nyccampAJAXSlides" target="_blank">bit.ly/nyccampAJAXlides</a></li>
-            </ul>
+          <h1>Resources</h1>
+          <section data-transition="convex">
+            <img data-src="images/not-a-smart-man.gif" alt="Forrest Gump: Not a smart man." style="width:45%" />
           </section>
-          <section>
-            <h1>Additional Resources</h1>
+          <section data-transition="convex">
             <ul>
               <li>List of Drupal 7 commands: </li>
               <li>List of Drupal 8 commands: </li>
             </ul>
           </section>
-          <section>
-              <h1>Feedback</h1>
-              <h3>@mikemiles86</h3>
-              <h3>#NYCcamp</h3>
+        </section>
+        <section>
+          <section data-transition="convex">
+            <h1>Presentation & Slides</h1>
+            <ul>
+              <li class="fragment"><a href="http://bit.ly/NYCcampAJAX" target="_blank">bit.ly/NYCcampAJAX</a></li>
+              <li class="fragment"><a href="http://bit.ly/NYCcampAJAXSlides" target="_blank">bit.ly/NYCcampAJAXlides</a></li>
+            </ul>
           </section>
           <section>
-          	<h1>Thank You!</h1>
+            <h1>Feedback</h1>
+            <h3>@mikemiles86</h3>
+            <h3>#NYCcamp</h3>
+          </section>
+          <section>
+        	 <h1>Thank You!</h1>
             <p>Questions?</p>
+            <img data-src="images/questions.gif" alt="Will Ferrel: Say Something!" />
           </section>
         </section>
 			</div>
@@ -247,7 +357,7 @@
       function createAsides(event) {
         $('.caption').each(function (i, e) {
           var text = $(this).text();
-          //$(this).replaceWith("<aside class='notes'>" + text + "</aside>");
+          $(this).replaceWith("<aside class='notes'>" + text + "</aside>");
         });
       }
 		</script>
