@@ -65,6 +65,21 @@
             <h3>#NYCcamp</h3>
             <aside class="notes"></aside>
         </section>
+        <!-- About Session -->
+        <section>
+            <section data-transition="convex">
+              <h1>Goals of this Session</h1>
+              <p>
+                  <ul>
+                    <li class="fragment step-note">Explain what AJAX commands are.</li>
+                    <li class="fragment step-note">Explain where AJAX commands are used.</li>
+                    <li class="fragment step-note">Demonstrate how to use AJAX commands.</li>
+                    <li class="fragment step-note">Outline how to create AJAX commands.</li>
+                    <li class="fragment step-note">Discuss when to use AJAX commands.</li>
+                  </ul>
+              </p>
+            </section>
+        </section>
         <!-- ABOUT ME -->
         <section>
             <h1>Michael Miles</h1>
@@ -98,65 +113,70 @@
               </ul>
             </aside>
         </section>
-        <!-- About Session -->
+        <!-- Session data -->
         <section>
-            <section data-transition="convex">
-              <h1>Goals of this Session</h1>
-              <p>
-                  <ul>
-                    <li class="fragment step-note">Explain what are AJAX commands.</li>
-                    <li class="fragment step-note">Demonstrate how to implement AJAX commands.</li>
-                    <li class="fragment step-note">Outline when and where to use AJAX commands.</li>
-                  </ul>
-              </p>
-            </section>
-        </section>
-        <section>
-          <h1>AJAX Framework Overview</h1>
-          <p class="caption">
-            AJAX framework was introduced in Drupal 7.
-            To Dynamically update data.
-            Allows events to trigger callbacks to the server.
-            A PHP macro language, returns json object with javascript instructions.
-            Json can contain markup or array of commands.
-          </p>
           <section data-transition="convex">
-            <br />
+            <h1>AJAX Framework Overview</h1>
             <img data-src="images/we-have-to-go-back.gif" alt="LOST: we have to go back!"  style="width:50%" />
-            <p class="caption">first take a step back and review the AJAX Framework.</p>
+            <p class="caption">First take a step back and review the AJAX Framework.</p>
           </section>
           <section data-transition="convex">
+            <h2>What is the AJAX Framework?</h2>
+            <p class="caption">
+              AJAX framework was introduced in Drupal 7.
+              To Dynamically update data.
+              Allows events to trigger callbacks to the server.
+              A PHP macro language, returns json object with javascript instructions.
+              Json can contain markup or array of commands.
+            </p>
             <ul>
-              <li class="fragment step-note">Used to dynamically update data.</li>
-              <li class="fragment step-note">Events trigger callback functions.</li>
-              <li class="fragment step-note">Server returns json object of commands.</li>
+              <li class="fragment step-note">Introduced in Drupal 7.</li>
+              <li class="fragment step-note">Binds events to trigger server callback functions.</li>
+              <li class="fragment step-note">Server returns a json object of data/commands.</li>
             </ul>
             <p class="fragment step-note">
               More info: <a href="http://bit.ly/DrupalAJAX" target="_blank">http://bit.ly/DrupalAJAX</a>
             </p>
           </section>
           <section data-transition="convex">
-            <ul>
-              <li class="fragment step-note">Render arrays use the '#ajax' property.</li>
-              <li class="fragment step-note">Form submits use the class 'use-ajax-submit'.</li>
-              <li class="fragment step-note">Links use the class 'use-ajax'.</li>
-            </ul>
-          </section>
-          <section data-transition="convex">
-            <br />
-            <img data-src="images/ajax-lifecycle.png" alt="The Drupal AJAX lifecycle." />
+            <h2>AJAX Request Lifecycle</h2>
+            <img data-src="images/ajax-lifecycle.png" alt="The Drupal AJAX lifecycle." style="background:0;border:0;box-shadow:0;width:75%;" />
           </section>
         </section>
         <section>
-            <h1>What are AJAX Commands?</h1>
           <section data-transition="convex">
+            <h1>Where AJAX commands are used</h1>
+            <img data-src="images/where-are-they.gif" alt="The Office: Where are they?" />
+          </section>
+          <section data-transition="convex">
+            <h2>AJAX Forms</h2>
+          </section>
+          <section data-transition="convex">
+            <h2>AJAX links</h2>
+          </section>
+          <section data-transition="convex">
+            <h2>Binded User Actions</h2>
+          </section>
+        </section>
+        <section>
+          <section data-transition="convex">
+            <h1>What are AJAX Commands?</h1>
             <img data-src="images/what-the-what.gif" alt="40Rock: What the what?" style="width:50%;" />
           </section>
           <section data-transition="convex">
+            <h2>Thier Purpose</h2>
             <ul>
-              <li class="fragment step-note">A bridge between server and client.</li>
-              <li class="fragment step-note">Are returned by an AJAX callback.</li>
               <li class="fragment step-note">Wrappers for jQuery manipulation methods.</li>
+              <li class="fragment step-note">Allow server to instruct javascript.</li>
+              <li class="fragment step-note">A bridge between server and client.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>What can they do?</h2>
+            <ul>
+              <li class="fragment step-note">??</li>
+              <li class="fragment step-note">??</li>
+              <li class="fragment step-note">??</li>
             </ul>
           </section>
           <section data-transition="convex">
@@ -242,13 +262,84 @@
             <h2>Callback example</h2>
           </section>
           <section data-transition="convex">
+            <br />
             <h2>Render Array [D7]</h2>
+            <pre><code data-trim data-line-numbers=true>
+/**
+ * Custom AJAX callback.
+ */
+function my_module_ajax_callback($id) {
+  // Get news article based on id.
+  $article = my_module_get_news_article($id);
+  // Return AJAX render array of commands.
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      // Insert news article.
+      ajax_command_insert('#news', drupal_render($article)),
+      // Add news article to news list.
+      ajax_command_append('#news-list', '&lt;li>' . $article->title . '&lt;/li>'),
+      // Restripe news lists.
+      ajax_command_restripe('#news-list'),
+      // Invoke JS function to highlight new article.
+      ajax_command_invoke(NULL, 'highlightNews', array($id)),
+    ),
+  );
+}
+            </code></pre>
           </section>
           <section data-transition="convex">
+            <br />
             <h2>ajax_render() [D7]</h2>
+            <pre><code data-trim data-line-numbers=true>
+/**
+ * Custom AJAX callback.
+ */
+function my_module_ajax_callback($id) {
+  // Get news article based on id.
+  $article = my_module_get_news_article($id);
+  // Build array of AJAX commands.
+  $commands = array(
+    // Insert news article.
+    ajax_command_insert('#news', drupal_render($article)),
+    // Add news article to news list.
+    ajax_command_append('#news-list', '&lt;li>' . $article->title . '&lt;/li>'),
+    // Restripe news lists.
+    ajax_command_restripe('#news-list'),
+    // Invoke JS function to highlight new article.
+    ajax_command_invoke(NULL, 'highlightNews', array($id)),
+  );
+  //Return rendered commands.
+  return ajax_render($commands);
+}
+            </code></pre>
           </section>
           <section data-transition="convex">
+            <br />
             <h2>AJAXResponse() [D8]</h2>
+            <pre><code data-trim data-line-numbers=true>
+/**
+ * Custom AJAX callback. (D8)
+ */
+function my_module_ajax_callback($id) {
+  // Get news article based on id.
+  $article = my_module_get_news_article($id);
+  // Build an AJAX response.
+  $response = new AjaxResponse();
+  // Insert news article.
+  $rendered = \Drupal::service('renderer')->render($article);
+  $response->addCommand( new InsertCommand('#news', $rendered);
+  // Add news article to news list.
+  $li = '&lt;li>' . $article->title . '&lt;/li>';
+  $response->addCommand( new AppendCommand('#news-list', $li));
+  // Restripe news lists.
+  $response->addCommand( new RestripeCommand('#news-list'));
+  // Invoke JS function to highlight new article.
+  $response->addCommand( new InvokeCommand(NULL, 'highlightNews', array($id)));
+  // Return ajax response.
+  return $response;
+}
+            </code></pre>
           </section>
         </section>
         <section>
@@ -268,17 +359,16 @@
         </section>
         <section>
           <section data-transition="convex">
-            <h1>Where to use AJAX Commands</h1>
-            <img data-src="images/where-are-they.gif" alt="The Office: Where are they?" />
+            <h1>When to use AJAX Commands.</h1>
           </section>
           <section data-transition="convex">
-            <h2>Classic example: AJAX Forms</h2>
+            <h2>Non-cached Page Data</h2>
           </section>
           <section>
-            <h2>User actions</h2>
+            <h2>Change data after User actions</h2>
           </section>
           <section>
-            <h2>AJAX links</h2>
+            <h2>"Single Page" application</h2>
           </section>
           <section>
             <h2>Headless Drupal</h2>
