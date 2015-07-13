@@ -148,24 +148,24 @@
             <h1>Where AJAX commands are used</h1>
             <img data-src="images/where-are-they.gif" alt="The Office: Where are they?" />
           </section>
-          <section data-transition="convex">
-            <h2>Render Arrays</h2>
-            <pre><code data-trim data-line-numbers=true>
-              /**
-               * #ajax property on form object.
-               */
-            </code></pre>
-          </section>
-          <section data-transition="convex">
-            <h2>Links</h2>
-            <pre><code data-trim data-line-numbers=true>
-              /**
-               * 'usa-ajax' class on a l().
-               */
-            </code></pre>
-          </section>
           <section>
-            <h2>??</h2>
+            <h2>Context of an AJAX Command</h2>
+            <ul>
+              <li class="fragment step-note">Part of the AJAX life cycle on server side.</li>
+              <li class="fragment step-note">What is returned by a callback function.</li>
+              <li class="fragment step-note">Any AJAX request made to "system/ajax".</li>
+          </section>
+          <section data-transition="convex">
+            <h2>AJAX Form Submit</h2>
+            <img data-src="images/ajax-form-submit.gif" alt="A form being submitted by ajax" />
+          </section>
+          <section data-transition="convex">
+            <h2>Auto-complete Fields</h2>
+            <img data-src="images/ajax-auto-complete.gif" alt="An autocomplete field using ajax." />
+          </section>
+          <section data-transition="convex">
+            <h2>"AJAX" Links</h2>
+            <img data-src="images/ajax-link.gif" alt="A link being loaded using ajax." />
           </section>
         </section>
         <section>
@@ -174,19 +174,19 @@
             <img data-src="images/what-the-what.gif" alt="40Rock: What the what?" style="width:50%;" />
           </section>
           <section data-transition="convex">
-            <h2>Thier Purpose</h2>
+            <h2>Their Purpose</h2>
             <ul>
-              <li class="fragment step-note">Wrappers for jQuery manipulation methods.</li>
-              <li class="fragment step-note">Allow server to instruct javascript.</li>
               <li class="fragment step-note">A bridge between server and client.</li>
+              <li class="fragment step-note">Allow server to instruct javascript.</li>
+              <li class="fragment step-note">Defined by Drupal Core and Modules.</li>
             </ul>
           </section>
           <section>
             <h2>What can they do?</h2>
             <ul>
-              <li class="fragment step-note">??</li>
-              <li class="fragment step-note">??</li>
-              <li class="fragment step-note">??</li>
+              <li class="fragment step-note">Add/change/remove page data.</li>
+              <li class="fragment step-note">Change styling and display.</li>
+              <li class="fragment step-note">Trigger additional javascript events.</li>
             </ul>
           </section>
           <section data-transition="convex">
@@ -205,23 +205,31 @@
               <p>
                 <span class="fragment step-note">ajax_command_replace($selector, $html, $settings = NULL);</span>
                 <pre class="fragment"><code data-trim class="php">
-                ajax_command_replace('#my-div', '<p>...</p>');
+/**
+ * Replace contents of '#my-div', with new markup.
+ */
+ ajax_command_replace('#my-div', '<p>...</p>');
                 </code></pre>
               </p>
               <p>
                 <span class="fragment step-note">ajax_command_css($selector, $argument);</span>
                 <pre class="fragment"><code data-trim class="php">
-                ajax_command_css('#my-div', 'background-color:#00f;');
+/**
+ * Set background color of '#my-div'.
+ */
+ ajax_command_css('#my-div', 'background-color:#00f;');
                 </code></pre>
               </p>
               <p>
                 <span class="fragment step-note">ajax_command_invoke($selector, $method, $arguments = array());</span>
                 <pre class="fragment"><code data-trim class="php">
-                ajax_command_invoke('#my-div', 'fadeIn', array(2000));
+/**
+ * Have '#my-div' fade in over 2 seconds.
+ */
+ ajax_command_invoke('#my-div', 'fadeIn', array(2000));
                 </code></pre>
               </p>
           </section>
-
           <section data-transition="convex">
             <h2>Drupal 8 Core Commands</h2>
             <ul>
@@ -239,19 +247,28 @@
             <p>
               <span class="fragment step-note">RestripeCommand($selector);</span>
               <pre class="fragment"><code data-trim class="php">
-              new RestripeCommand('#my-table');
+/**
+ * Restripe the rows of '#my-table'.
+ */
+ new RestripeCommand('#my-table');
               </code></pre>
             </p>
             <p>
               <span class="fragment step-note">ReplaceTitleCommand($title);</span>
               <pre class="fragment"><code data-trim class="php">
-              new ReplaceTitleCommand('My New Title');
+/**
+ * Change title of requesting page to 'My New Title'.
+ */
+ new ReplaceTitleCommand('My New Title');
               </code></pre>
             </p>
             <p>
               <span class="fragment step-note">RedirectCommand($url);</span>
               <pre class="fragment"><code data-trim class="php">
-              new RedirectCommand(Drupal::url('node/12', array(), array('absolute' => TRUE)));
+/**
+ * Redirect user to 'node/12'.
+ */
+ new RedirectCommand(Drupal::url('node/12', array(), array('absolute' => TRUE)));
               </code></pre>
             </p>
           </section>
@@ -264,13 +281,97 @@
           <section>
               <h2>How they are returned</h2>
               <ul>
-                <li class="fragment step-note">Returned in an AJAX Callback.</li>
-                <li class="fragment step-note">Can chain mulitple commands.</li>
-                <li class="fragment step-note">??</li>
+                <li class="fragment step-note">Returned from an AJAX Callback.</li>
+                <li class="fragment step-note">Returned as a json object to Client.</li>
+                <li class="fragment step-note">Can chain together mulitple commands.</li>
               </ul>
           </section>
           <section data-transition="convex">
-            <h2>Callback example</h2>
+            <h2>Example Scenario</h2>
+            <pre><code data-trim data-line-numbers=true>
+/**
+ * Implements hook_menu().
+ */
+function my_module_menu() {
+  $items = array();
+
+  $items['my-messages'] = array(
+    'title' => 'My Messages',
+    'access arguments' => array('access content'),
+    'page callback' => 'my_module_messages_page',
+  );
+
+  $items['load-message-callback'] = array(
+    'title' => 'AJAX Callback to load messages',
+    'access arguments' => array('access content'),
+    'page callback' => 'my_module_load_message_callback',
+    'type' => MENU_CALLBACK,
+  );
+
+  // ... Other menu items.
+  return $items;
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>Example Scenario</h2>
+            <pre><code data-trim data-line-numbers=true>
+/**
+ * Render a page of my messages
+ */
+function my_module_messages_page() {
+  drupal_add_library('system', 'drupal.ajax');
+  $page['unread-msgs'] = array(
+    '#theme' => 'item_list',
+    '#type' => 'ul',
+    '#attributes' => array( 'id' => 'unread-msgs'),
+    '#items' => my_module_messages_list(my_module_get_unread_messages()),
+  );
+  $page['current-msg'] = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array( 'id' => 'current-msg'),
+  );
+  $page['read-msgs'] = array(
+    '#theme' => 'item_list',
+    '#type' => 'ul',
+    '#attributes' => array( 'id' => 'read-msgs'),
+    '#items' => my_module_messages_list(my_module_get_read_messages(), FALSE),
+  );
+  return drupal_render($page);
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>Example Scenario</h2>
+            <pre><code data-trim data-line-numbers=true>
+/**
+ * Render a list of messages.
+ */
+function my_module_messages_list($messages, $link = TRUE) {
+  $items = array();
+  foreach ($messages as $mid => $msg) {
+    // Add message to list, with AJAX link.
+    if ($link) {
+      $items[] = array(
+        'data' => l($msg->subject, 'load-message-callback/nojs/' . $mid, array(
+          '#attributes' => array(
+            'class' => array('use-ajax'),
+          ),
+        ),
+        'id' => 'msg-' . $mid,
+      );
+    } else {
+      $items[] = $msg->subject;
+    }
+  }
+  // Return list of messages.
+  return $items;
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/example-scenario.png" alt="An example scenario. A page to display current read and unread messages." />
           </section>
           <section data-transition="convex">
             <h2>Render Array [D7]</h2>
@@ -278,23 +379,25 @@
 /**
  * Custom AJAX callback.
  */
-function my_module_ajax_callback($id) {
-  // Get news article based on id.
-  $article = my_module_get_news_article($id);
-  // Return AJAX render array of commands.
-  return array(
-    '#type' => 'ajax',
-    '#commands' => array(
-      // Insert news article.
-      ajax_command_insert('#news', drupal_render($article)),
-      // Add news article to news list.
-      ajax_command_append('#news-list', '&lt;li>' . $article->title . '&lt;/li>'),
-      // Restripe news lists.
-      ajax_command_restripe('#news-list'),
-      // Invoke JS function to highlight new article.
-      ajax_command_invoke(NULL, 'highlightNews', array($id)),
-    ),
-  );
+function my_module_load_message_callback($method, $mid) {
+  // Not called from AJAX? Redirect to message
+  if ($method != 'ajax') {
+    drupal_goto('read-message/' . $mid);
+  } else {
+    $msg = my_module_load_message($mid);
+    // Return Render array of commands.
+    return array(
+      '#type' => 'ajax',
+      '#commands' => array(
+        // Display message in 'current-msg' div.
+        ajax_command_replace('#current-msg', $msg->content),
+        // Remove message from unread list.
+        ajax_command_remove('#msg-' . $mid),
+        // Add message to read list
+        ajax_command_append('#read-msgs', '&lt;li>' . $msg->subject . '&lt;/li>'),
+      )
+    );
+  }
 }
             </code></pre>
           </section>
@@ -304,22 +407,23 @@ function my_module_ajax_callback($id) {
 /**
  * Custom AJAX callback.
  */
-function my_module_ajax_callback($id) {
-  // Get news article based on id.
-  $article = my_module_get_news_article($id);
-  // Build array of AJAX commands.
-  $commands = array(
-    // Insert news article.
-    ajax_command_insert('#news', drupal_render($article)),
-    // Add news article to news list.
-    ajax_command_append('#news-list', '&lt;li>' . $article->title . '&lt;/li>'),
-    // Restripe news lists.
-    ajax_command_restripe('#news-list'),
-    // Invoke JS function to highlight new article.
-    ajax_command_invoke(NULL, 'highlightNews', array($id)),
-  );
-  //Return rendered commands.
-  return ajax_render($commands);
+function my_module_load_message($method, $mid) {
+  // Not called from AJAX? Redirect to message
+  if ($method != 'ajax') {
+    drupal_goto('read-message/' . $mid);
+  } else {
+    $msg = my_module_load_message($mid);
+    $commands => array(
+      // Display message in 'current-msg' div.
+      ajax_command_replace('#current-msg', $msg->content),
+      // Remove message from unread list.
+      ajax_command_remove('#msg-' . $mid),
+      // Add message to read list
+      ajax_command_append('#read-msgs', '&lt;li>' . $msg->subject . '&lt;/li>'),
+    );
+    // Return AJAX render.
+    return ajax_render($commands);
+  }
 }
             </code></pre>
           </section>
@@ -329,29 +433,32 @@ function my_module_ajax_callback($id) {
 /**
  * Custom AJAX callback. (D8)
  */
-function my_module_ajax_callback($id) {
-  // Get news article based on id.
-  $article = my_module_get_news_article($id);
-  // Build an AJAX response.
-  $response = new AjaxResponse();
-  // Insert news article.
-  $rendered = \Drupal::service('renderer')->render($article);
-  $response->addCommand( new InsertCommand('#news', $rendered);
-  // Add news article to news list.
-  $li = '&lt;li>' . $article->title . '&lt;/li>';
-  $response->addCommand( new AppendCommand('#news-list', $li));
-  // Restripe news lists.
-  $response->addCommand( new RestripeCommand('#news-list'));
-  // Invoke JS function to highlight new article.
-  $response->addCommand( new InvokeCommand(NULL, 'highlightNews', array($id)));
-  // Return ajax response.
-  return $response;
+function my_module_load_message($method, $mid) {
+  // Not called from AJAX? Redirect to message
+  if ($method != 'ajax') {
+    return new RedirectResponse('read-message/' . $mid);
+  } else {
+    $msg = my_module_load_message($mid);
+    $response = new AjaxResponse();
+    // Display message in 'current-msg' div.
+    $response->addCommand( new ReplaceCommand('#current-msg', $msg->content));
+    // Remove message from unread list.
+    $response->addCommand( new RemoveCommand('#msg-' . $mid));
+    // Add message to read list.
+    $item = '&lt;li>' . $msg->subject . '&lt;/li>';
+    $response->addCommand( new AppendCommand('#read-msgs', $item));
+    // Return ajax response.
+    return $response;
+  }
 }
             </code></pre>
           </section>
         </section>
         <section>
-          <h1>Custom AJAX Commands</h1>
+          <section>
+            <h1>Custom AJAX Commands</h1>
+            <img data-src="images/jane-thrilling-heroics.gif" alt="Firefly: time for some thrilling heroics" />
+          </section>
           <section>
             <h2>How to build</h2>
           </section>
@@ -368,6 +475,7 @@ function my_module_ajax_callback($id) {
         <section>
           <section data-transition="convex">
             <h1>When to use AJAX Commands.</h1>
+            <img data-src="images/schmidt-say-when.gif" alt="New Girl: Just say when. seriously?" />
           </section>
           <section data-transition="convex">
             <h2>Non-cached Page Data</h2>
