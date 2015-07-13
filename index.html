@@ -268,7 +268,7 @@
 /**
  * Redirect user to 'node/12'.
  */
- new RedirectCommand(Drupal::url('node/12', array(), array('absolute' => TRUE)));
+ new RedirectCommand(Drupal::url('node/1', array(), array('absolute' => TRUE)));
               </code></pre>
             </p>
           </section>
@@ -292,19 +292,19 @@
 /**
  * Implements hook_menu().
  */
-function my_module_menu() {
+function mymodule_menu() {
   $items = array();
 
   $items['my-messages'] = array(
     'title' => 'My Messages',
     'access arguments' => array('access content'),
-    'page callback' => 'my_module_messages_page',
+    'page callback' => 'mymodule_messages_page',
   );
 
   $items['load-message-callback'] = array(
     'title' => 'AJAX Callback to load messages',
     'access arguments' => array('access content'),
-    'page callback' => 'my_module_load_message_callback',
+    'page callback' => 'mymodule_load_message_callback',
     'type' => MENU_CALLBACK,
   );
 
@@ -319,13 +319,13 @@ function my_module_menu() {
 /**
  * Render a page of my messages
  */
-function my_module_messages_page() {
+function mymodule_messages_page() {
   drupal_add_library('system', 'drupal.ajax');
   $page['unread-msgs'] = array(
     '#theme' => 'item_list',
     '#type' => 'ul',
     '#attributes' => array( 'id' => 'unread-msgs'),
-    '#items' => my_module_messages_list(my_module_get_unread_messages()),
+    '#items' => mymodule_messages_list(mymodule_get_unread_messages()),
   );
   $page['current-msg'] = array(
     '#type' => 'html_tag',
@@ -336,7 +336,7 @@ function my_module_messages_page() {
     '#theme' => 'item_list',
     '#type' => 'ul',
     '#attributes' => array( 'id' => 'read-msgs'),
-    '#items' => my_module_messages_list(my_module_get_read_messages(), FALSE),
+    '#items' => mymodule_messages_list(mymodule_get_read_messages(), FALSE),
   );
   return drupal_render($page);
 }
@@ -348,7 +348,7 @@ function my_module_messages_page() {
 /**
  * Render a list of messages.
  */
-function my_module_messages_list($messages, $link = TRUE) {
+function mymodule_messages_list($messages, $link = TRUE) {
   $items = array();
   foreach ($messages as $mid => $msg) {
     // Add message to list, with AJAX link.
@@ -379,12 +379,12 @@ function my_module_messages_list($messages, $link = TRUE) {
 /**
  * Custom AJAX callback.
  */
-function my_module_load_message_callback($method, $mid) {
+function mymodule_load_message_callback($method, $mid) {
   // Not called from AJAX? Redirect to message
   if ($method != 'ajax') {
     drupal_goto('read-message/' . $mid);
   } else {
-    $msg = my_module_load_message($mid);
+    $msg = mymodule_load_message($mid);
     // Return Render array of commands.
     return array(
       '#type' => 'ajax',
@@ -407,13 +407,13 @@ function my_module_load_message_callback($method, $mid) {
 /**
  * Custom AJAX callback.
  */
-function my_module_load_message($method, $mid) {
+function mymodule_load_message($method, $mid) {
   // Not called from AJAX? Redirect to message
   if ($method != 'ajax') {
     drupal_goto('read-message/' . $mid);
   } else {
-    $msg = my_module_load_message($mid);
-    $commands => array(
+    $msg = mymodule_load_message($mid);
+    $commands = array(
       // Display message in 'current-msg' div.
       ajax_command_replace('#current-msg', $msg->content),
       // Remove message from unread list.
@@ -433,12 +433,12 @@ function my_module_load_message($method, $mid) {
 /**
  * Custom AJAX callback. (D8)
  */
-function my_module_load_message($method, $mid) {
+function mymodule_load_message($method, $mid) {
   // Not called from AJAX? Redirect to message
   if ($method != 'ajax') {
     return new RedirectResponse('read-message/' . $mid);
   } else {
-    $msg = my_module_load_message($mid);
+    $msg = mymodule_load_message($mid);
     $response = new AjaxResponse();
     // Display message in 'current-msg' div.
     $response->addCommand( new ReplaceCommand('#current-msg', $msg->content));
@@ -455,21 +455,220 @@ function my_module_load_message($method, $mid) {
           </section>
         </section>
         <section>
-          <section>
+          <section data-transition="convex">
             <h1>Custom AJAX Commands</h1>
             <img data-src="images/jane-thrilling-heroics.gif" alt="Firefly: time for some thrilling heroics" />
           </section>
-          <section>
-            <h2>How to build</h2>
+          <section data-transition="convex">
+            <h2>Steps for creating a custom command.</h2>
+            <ol>
+              <li class="fragment step-note">Extend Drupals' AJAX Command javascript object.</li>
+              <li class="fragment step-note">Define PHP code to return data for ajax_render().</li>
+            </ol>
+          </section>
+          <section data-transition="convex">
+            <h2>That's it.</h2>
+            <img data-src="images/tim-eric-explode.gif" alt="Tim&Eric: Mind explosion." />
+          </section>
+          <section data-transition="convex">
+            <h3>Creating a Custom AJAX Command in Drupal 7</h3>
+          </section>
+          <section data-transition="convex">
+            <span class="step-note">1. Extend 'Drupal.ajax.prototype.commands'.</span>
+            <pre><code class="js" data-trim data-line-numbers=true>
+(function($, Drupal) {
+  /**
+   * Add new command for reading a message.
+   */
+  Drupal.ajax.prototype.commands.readMessage = function(ajax, data, status) {
+    // Place content in current-msg div.
+    $('#current-msg').replaceWith(data.content);
+    // Remove from unread list.
+    $('#msg-' + data.mid).remove();
+    // Add message to read list.
+    $('#read-msgs').append('&lt;li>' + data.subject + '&lt;/li>');
+  }
+})(jQuery, Drupal);
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <span class="step-note">2. Define a PHP function to return render array.</span>
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * AJAX command to read a message.
+ */
+function mymodule_command_read_message($message) {
+  return array(
+    'command' => 'readMessage',
+    'data' => array(
+      'mid' => $message->mid,
+      'subject' => $message->subject,
+      'content' => $message->content,
+    ),
+  );
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <h3>Create a Custom AJAX Command in Drupal 8</h3>
+          </section>
+          <section data-transition="convex">
+            <span class="step-note">1. Extend 'Drupal.AjaxCommands.prototype'.</span>
+            <pre><code class="js" data-trim data-line-numbers=true>
+(function($, Drupal) {
+  /**
+   * Add new command for reading a message.
+   */
+  Drupal.AjaxCommands.prototype.readMessage = function(ajax, data, status) {
+    // Place content in current-msg div.
+    $('#current-msg').replaceWith(data.content);
+    // Remove from unread list.
+    $('#msg-' + data.mid).remove();
+    // Add message to read list.
+    $('#read-msgs').append('&lt;li>' + data.subject + '&lt;/li>');
+  }
+})(jQuery, Drupal);
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <span class="step-note">2. Define command object that implements CommandInterface.</span>
+            <pre><code class="php" data-trim data-line-numbers=true>
+namespace Drupal\mymodule\Ajax;
+use Drupal\Core\Ajax\CommandInterface;
+
+class ReadMessageCommand implements CommandInterface {
+  protected $message;
+  /**
+   * Implements Drupal\Core\Ajax\CommandInterface:__construct().
+   */
+  public function __construct($message) {
+    $this->message = $message;
+  }
+  /**
+   * Implements Drupal\Core\Ajax\CommandInterface:render().
+   */
+  public function render() {
+    return array(
+      'command' => 'readMessage',
+      'data' => array(
+        'mid' => $this->message->mid,
+        'subject' => $this->message->subject,
+        'content' => $this->message->content,
+      ),
+    );
+  }
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>Steps for using a custom command.</h2>
+            <ol>
+              <li class="fragment step-note">Tell Drupal to include custom javascript.</li>
+              <li class="fragment step-note">Invoke custom command in callback function.</li>
+            </ol>
           </section>
           <section>
-            <h2>Custom javascript</h2>
+            <h2>Again...</h2>
+            <img data-src="images/tim-eric-explode.gif" alt="Tim&Eric: Mind explosion." />
+          </section>
+          <section data-transition="convex">
+            <h3>Using a custom AJAX Command in Drupal 7</h3>
           </section>
           <section>
-            <h2>Custom PHP</h2>
+            <span class="step-note">1. use drupal_add_js() to include custom javascript.</span>
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Render a page of my messages
+ */
+function mymodule_messages_page() {
+  drupal_add_library('system', 'drupal.ajax');
+  drupal_add_js(drupal_get_path('module', 'mymodule') . '/js/commands.js');
+
+  // .. Build $page render array.
+
+  return drupal_render($page);
+}
+            </code></pre>
+          </section>
+          <section data-transition="convex">
+            <span class="step-note">2. Invoke command in callback function.</span>
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Custom AJAX callback.
+ */
+function mymodule_load_message_callback($method, $mid) {
+  // Not called from AJAX? Redirect to message
+  if ($method != 'ajax') {
+    drupal_goto('read-message/' . $mid);
+  } else {
+    $msg = mymodule_load_message($mid);
+    // Return Render array of commands.
+    return array(
+      '#type' => 'ajax',
+      '#commands' => array(
+        // Read the message.
+        mymodule_command_read_message($msg),
+      )
+    );
+  }
+}
+            </code></pre>
+          </section>
+                    <section data-transition="convex">
+            <h3>Using a custom AJAX Command in Drupal 8</h3>
+            <span class="fragment step-note">...just a little bit more complicated.</span>
           </section>
           <section>
-            <h2>Put it all together</h2>
+            <span class="step-note">1.a. Tell Drupal about your javascript library with a libraries.yml file.</span>
+            <span class="filename">mymodule/mymodule.libraries.yml</span>
+            <pre><code class="js" data-trim data-line-numbers=true>
+mymodule.commands:
+  version: VERSION
+  js:
+    js/commands.js: {}
+  dependencies:
+     - core/drupal.ajax
+            </code></pre>
+          </section>
+          <section>
+            <span class="step-note">1.b. Attach library to a render array.</span>
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Render a page of my messages
+ */
+function mymodule_messages_page() {
+  $page = array();
+
+  // .. build $page render array.
+
+  // Attach library.
+  $page['#attached']['library'][] = 'mymodule/mymodule.commands';
+
+  return \Drupal::service('renderer')->render($page);
+}
+            </code></pre>
+          </section>
+
+          <section data-transition="convex">
+            <span class="step-note">2. Add Command to AjaxResponse object.</span>
+            <pre><code class="php" data-trim data-line-numbers=true>
+/**
+ * Custom AJAX callback. (D8)
+ */
+function mymodule_load_message($method, $mid) {
+  // Not called from AJAX? Redirect to message
+  if ($method != 'ajax') {
+    return new RedirectResponse('read-message/' . $mid);
+  } else {
+    $msg = mymodule_load_message($mid);
+    $response = new AjaxResponse();
+    // Display message in 'current-msg' div.
+    $response->addCommand( new ReadMessageCommand($msg));
+    // Return ajax response.
+    return $response;
+  }
+}
+            </code></pre>
           </section>
         </section>
         <section>
