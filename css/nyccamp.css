@@ -51,6 +51,19 @@ code span.line-number:before {
 
 .caption { color: #CCC !important;}
 
+pre span.codename {
+  display:block;
+  text-align: right;
+  background: #3F3F3F;
+  color: #FFF  !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size:75% !important;
+  font-style: italic !important;
+  font-family: monospace !important;
+  line-height: 1 !important;
+}
+
 .blink {
   animation: blink 1s steps(5, start) infinite;
   -webkit-animation: blink 1s steps(5, start) infinite;
