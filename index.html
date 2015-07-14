@@ -108,6 +108,14 @@
                 </ul>
               </aside>
           </section>
+          <section data-transition="convex">
+            <h1>Example Code Warnings</h1>
+            <ul>
+              <li class="step-note">Some coding standards ignored for readability.</li>
+              <li class="step-note">Drupal 8 code subject to change.</li>
+            </ul>
+            <img data-src="images/will-ferrell-wine.gif" alt="Will Ferrell: wine in a recliner." />
+          </section>
         </section>
         <!-- Session data -->
         <section>
@@ -153,11 +161,11 @@
             </ul>
           </section>
           <section data-transition="convex">
-            <h2>On the Server Side</h2>
+            <h2>On the Server Side [D7]</h2>
             <ul>
               <li class="fragment step-note">A PHP function which returns an associative array.</li>
               <li class="fragment step-note">Array must have a value with key 'command'.</li>
-              <li class="fragment step-note">Additional elements set a response data.</li>
+              <li class="fragment step-note">Additional elements set as response data.</li>
             </ul>
             <pre class="fragment"><code class="php" data-trim data-line-numbers=true>
 /**
@@ -172,9 +180,38 @@ function ajax_command_alert($text) {
             </code></pre>
           </section>
           <section data-transition="convex">
-            <h2>On the Client Side</h2>
+            <h2>On the Server Side [D8]</h2>
             <ul>
-              <li class="fragment step-note">A method in the Drupal.ajax[command] space.</li>
+              <li class="fragment step-note">An object that implements CommandInterface.</li>
+              <li class="fragment step-note">Must implement 'render' method.</li>
+            </ul>
+            <pre class="fragment"><code class="php" data-trim data-line-numbers=true>
+namespace Drupal\Core\Ajax;
+use Drupal\Core\Ajax\CommandInterface;
+/**
+ * AJAX command for a javascript alert box.
+ */
+class AlertCommand implements CommandInterface {
+  // The text to be displayed in the alert box.
+  protected $text;
+  // Constructs an AlertCommand object.
+  public function __construct($text) {
+    $this->text = $text;
+  }
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => 'alert',
+      'text' => $this->text,
+    );
+  }
+}
+            </code><span class="codename">core/lib/Drupal/Core/Ajax/AlertCommand.php</span></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>On the Client Side [D7]</h2>
+            <ul>
+              <li class="fragment step-note">A method on the 'Drupal.ajax.prototype.commands' object.</li>
               <li class="fragment step-note">Recieves 'ajax', 'response' and 'status' arguments.</li>
               <li class="fragment step-note">Invokes additional javascript.</li>
             </ul>
@@ -192,7 +229,31 @@ Drupal.ajax.prototype.commands = {
     },
     //...
 }
-            </code></pre>
+            </code><span class="codename">misc/ajax.js</span></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>On the Client Side [D8]</h2>
+            <ul>
+              <li class="fragment step-note">A method on the 'Drupal.ajax.prototype.commands' object.</li>
+              <li class="fragment step-note">Recieves 'ajax', 'response' and 'status' arguments.</li>
+              <li class="fragment step-note">Invokes additional javascript.</li>
+            </ul>
+            <pre class="fragment"><code class="js" data-trim data-line-numbers=true>
+/**
+ * Provide a series of commands that the client will perform.
+ */
+Drupal.AjaxCommands = function () {};
+Drupal.AjaxCommands.prototype = {
+  //...
+  /**
+   * Command to provide an alert.
+   */
+  alert: function (ajax, response, status) {
+    window.alert(response.text, response.title);
+  },
+  //...
+}
+            </code><span class="codename">misc/ajax.js</span></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/liz-lemon-high-five.gif" alt="Liz Lemon high five." style="width:50%;"  />
@@ -208,7 +269,10 @@ Drupal.ajax.prototype.commands = {
               <ol>
                 <li class="fragment step-note">Attach AJAX to elements.</li>
                 <li class="fragment step-note">Define a callback function.</li>
-                <li class="fragment step-note">Return array of AJAX commands.</li>
+                <li class="fragment step-note">[D7] Return array of AJAX commands.
+                  <br />
+                  [D8] Return an AjaxResponse object.
+                </li>
               </ol>
           </section>
           <section data-transition="convex">
@@ -616,16 +680,6 @@ function mymodule_load_message($method, $mid) {
         </section>
         <section>
           <section>
-           <h1>Thank You!</h1>
-            <p>Questions?</p>
-            <img data-src="images/questions.gif" alt="Will Ferrel: Say Something!" />
-          </section>
-          <section>
-            <h1>Send me Feedback!</h1>
-            <h3>@mikemiles86</h3>
-            <h3>#NYCcamp</h3>
-          </section>
-          <section>
             <h1>Resources</h1>
             <p>Drupal AJAX Framework: <a href="http://bit.ly/DrupalAJAX" target="_blank">bit.ly/DrupalAJAX</a></p>
             <p>Drupal 7 Commands: <a href="http://bit.ly/D7ajaxCMD" target="_blank">bit.ly/D7ajaxCMD</a></p>
@@ -633,10 +687,18 @@ function mymodule_load_message($method, $mid) {
             <p>This Presentation: <a href="http://bit.ly/NYCcampAJAX" target="_blank">bit.ly/NYCcampAJAX</a></p>
             <p>Presentation Slides: <a href="http://bit.ly/NYCcampAJAXSlides" target="_blank">bit.ly/NYCcampAJAXSlides</a></p>
           </section>
-
+          <section>
+            <h1>Send me Feedback!</h1>
+            <h3>@mikemiles86</h3>
+            <h3>#NYCcamp</h3>
+          </section>
+          <section>
+           <h1>Thank You!</h1>
+            <p>Questions?</p>
+            <img data-src="images/questions.gif" alt="Will Ferrel: Say Something!" />
+          </section>
         </section>
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
