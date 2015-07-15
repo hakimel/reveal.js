@@ -121,15 +121,14 @@
         <!-- Session data -->
         <section>
           <section data-transition="convex">
-            <h1>Where Commands Are Used</h1>
+            <h1>Where the Commands Are</h1>
             <img data-src="images/where-are-they.gif" alt="The Office: Where are they?" />
           </section>
           <section data-transition="convex">
-            <h2>The Drupal AJAX Framework</h2>
+            <h2>Command Locations</h2>
             <ul>
-              <li class="fragment step-note">Responsible for all AJAX functionality.</li>
-              <li class="fragment step-note">Allows for "AJAX-ifying" page elements.</li>
-              <li class="fragment step-note">Defines and uses AJAX Callback Commands.</li>
+              <li class="fragment step-note">The Drupal AJAX Framework.</li>
+              <li class="fragment step-note">The response of an AJAX request.</li>
             </ul>
           </section>
           <section data-transition="convex">
@@ -151,10 +150,9 @@
           <section data-transition="convex">
             <h2>From a High Level</h2>
             <ul>
-              <li class="fragment step-note">What are returned from all AJAX requests.</li>
-              <li class="fragment step-note">Abstraction of Javascript functionality.</li>
-              <li class="fragment step-note">
-                Defined in Drupal core or by modules.
+              <li class="fragment step-note">A function attached to a javascript object.</li>
+              <li class="fragment step-note">PHP code to invoke the javascript function.</li>
+              <li class="fragment step-note">Defined in Drupal core or by modules.
                 <ul>
                   <li class="fragment step-note">17 AJAX callback commands in Drupal 7.</li>
                   <li class="fragment step-note">22 AJAX callback commands in Drupal 8.</li>
@@ -163,13 +161,36 @@
             </ul>
           </section>
           <section data-transition="convex">
+            <h2>On the Client Side [D7]</h2>
+            <ul>
+              <li class="fragment step-note">A function on the 'Drupal.ajax.prototype.commands' object.</li>
+              <li class="fragment step-note">Recieves 'ajax', 'response' and 'status' arguments.</li>
+              <li class="fragment step-note">Invokes additional javascript.</li>
+            </ul>
+            <pre class="fragment"><code class="js" data-trim data-line-numbers=true>
+/**
+ * Provide a series of commands that the server can request the client perform.
+ */
+Drupal.ajax.prototype.commands = {
+    //...
+    /**
+     * Command to provide an alert.
+     */
+    alert: function (ajax, response, status) {
+        alert(response.text, response.title);
+    },
+    //...
+}
+            </code><span class="codename">misc/ajax.js </span></pre>
+          </section>
+          <section data-transition="convex">
             <h2>On the Server Side [D7]</h2>
             <ul>
               <li class="fragment step-note">A PHP function which returns an associative array.</li>
               <li class="fragment step-note">
                 Array must have a 'command' key.
                 <ul>
-                  <li class="fragment step-note">The value is the name of a javascript method.</li>
+                  <li class="fragment step-note">The value is the name of a javascript function.</li>
                 </ul>
               </li>
               <li class="fragment step-note">Additional array elements set as response data.</li>
@@ -185,6 +206,30 @@ function ajax_command_alert($text) {
   );
 }
             </code><span class="codename">includes/ajax.inc </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>On the Client Side [D8]</h2>
+            <ul>
+              <li class="fragment step-note">A function on the 'Drupal.ajax.prototype.commands' object.</li>
+              <li class="fragment step-note">Recieves 'ajax', 'response' and 'status' arguments.</li>
+              <li class="fragment step-note">Invokes additional javascript.</li>
+            </ul>
+            <pre class="fragment"><code class="js" data-trim data-line-numbers=true>
+/**
+ * Provide a series of commands that the client will perform.
+ */
+Drupal.AjaxCommands = function () {};
+Drupal.AjaxCommands.prototype = {
+  //...
+  /**
+   * Command to provide an alert.
+   */
+  alert: function (ajax, response, status) {
+    window.alert(response.text, response.title);
+  },
+  //...
+}
+            </code><span class="codename">misc/ajax.js </span></pre>
           </section>
           <section data-transition="convex">
             <h2>On the Server Side [D8]</h2>
@@ -211,53 +256,6 @@ class AlertCommand implements CommandInterface {
   }
 }
             </code><span class="codename">core/lib/Drupal/Core/Ajax/AlertCommand.php </span></pre>
-          </section>
-          <section data-transition="convex">
-            <h2>On the Client Side [D7]</h2>
-            <ul>
-              <li class="fragment step-note">A method on the 'Drupal.ajax.prototype.commands' object.</li>
-              <li class="fragment step-note">Recieves 'ajax', 'response' and 'status' arguments.</li>
-              <li class="fragment step-note">Invokes additional javascript.</li>
-            </ul>
-            <pre class="fragment"><code class="js" data-trim data-line-numbers=true>
-/**
- * Provide a series of commands that the server can request the client perform.
- */
-Drupal.ajax.prototype.commands = {
-    //...
-    /**
-     * Command to provide an alert.
-     */
-    alert: function (ajax, response, status) {
-        alert(response.text, response.title);
-    },
-    //...
-}
-            </code><span class="codename">misc/ajax.js </span></pre>
-          </section>
-          <section data-transition="convex">
-            <h2>On the Client Side [D8]</h2>
-            <ul>
-              <li class="fragment step-note">A method on the 'Drupal.ajax.prototype.commands' object.</li>
-              <li class="fragment step-note">Recieves 'ajax', 'response' and 'status' arguments.</li>
-              <li class="fragment step-note">Invokes additional javascript.</li>
-            </ul>
-            <pre class="fragment"><code class="js" data-trim data-line-numbers=true>
-/**
- * Provide a series of commands that the client will perform.
- */
-Drupal.AjaxCommands = function () {};
-Drupal.AjaxCommands.prototype = {
-  //...
-  /**
-   * Command to provide an alert.
-   */
-  alert: function (ajax, response, status) {
-    window.alert(response.text, response.title);
-  },
-  //...
-}
-            </code><span class="codename">misc/ajax.js </span></pre>
           </section>
           <section data-transition="convex">
             <img data-src="images/liz-lemon-high-five.gif" alt="Liz Lemon high five." style="width:50%;"  />
@@ -431,12 +429,12 @@ function mymodule_read_message_callback($method, $mid) {
           <section data-transition="convex">
             <h2>To create a command...</h2>
             <ol>
-              <li class="fragment step-note">Add a method to the Drupal.ajax[command] Javascript object.</li>
+              <li class="fragment step-note">Add a function to the Drupal.ajax[command] Javascript object.</li>
               <li class="fragment step-note">
                 Write PHP code that returns an associative array.
                 <ul>
                   <li class="fragment">Must have a key of 'command'.</li>
-                  <li class="fragment">Value is name of the javascript method.</li>
+                  <li class="fragment">Value is name of the javascript function.</li>
                   <li class="fragment">Additional elements for response data.</li>
               </li>
             </ol>
@@ -448,12 +446,12 @@ function mymodule_read_message_callback($method, $mid) {
           <section data-transition="convex">
             <h2>A Custom Command in Drupal 7</h2>
             <ol>
-              <li class="fragment step-note">Add a method to 'Drupal.ajax.prototype.commands'.</li>
+              <li class="fragment step-note">Add a function to 'Drupal.ajax.prototype.commands'.</li>
               <li class="fragment step-note">Define a PHP function to return an array.</li>
             </ol>
           </section>
           <section data-transition="convex">
-            <h3 class="step-note">1. Add a method to 'Drupal.ajax.prototype.commands'</h3>
+            <h3 class="step-note">1. Add a function to 'Drupal.ajax.prototype.commands'</h3>
             <pre><code class="js" data-trim data-line-numbers=true>
 (function($, Drupal) {
   /**
@@ -489,12 +487,12 @@ function mymodule_command_read_message($message) {
           <section data-transition="convex">
             <h2>A Custom Command in Drupal 8</h2>
             <ol>
-              <li class="fragment step-note">Add method to 'Drupal.AjaxCommands.prototype'.</li>
+              <li class="fragment step-note">Add function to 'Drupal.AjaxCommands.prototype'.</li>
               <li class="fragment step-note">Define a command object that implements CommandInterface.</li>
             </ol>
           </section>
           <section data-transition="convex">
-            <h3 class="step-note">1. Add method to 'Drupal.AjaxCommands.prototype'</h3>
+            <h3 class="step-note">1. Add function to 'Drupal.AjaxCommands.prototype'</h3>
             <pre><code class="js" data-trim data-line-numbers=true>
 (function($, Drupal) {
   /**
@@ -635,7 +633,7 @@ function mymodule_messages_page() {
             <h3 class="step-note">3. Add Command to AjaxResponse object in callback</h3>
             <pre><code class="php" data-trim data-line-numbers=true>
 // AJAX Callback to read a message.
-function mymodule_load_message($method, $mid) {
+function mymodule_load_message_callback($method, $mid) {
   // load message.
   $message = mymodule_load_message($mid);
   // Create AJAX Response object.
@@ -660,7 +658,7 @@ function mymodule_load_message($method, $mid) {
             <h2>AJAX Callback Commands are...</h2>
             <ul>
               <li class="fragment step-note">Returned by all AJAX Framework requests.</li>
-              <li class="fragment step-note">PHP abstraction for javascript methods.</li>
+              <li class="fragment step-note">PHP abstraction for javascript functions.</li>
               <li class="fragment step-note">Defined by core and modules.</li>
             </ul>
           </section>
@@ -675,8 +673,16 @@ function mymodule_load_message($method, $mid) {
           <section data-transition="convex">
             <h2>To Create AJAX Callback Commands...</h2>
             <ul>
-              <li class="fragment step-note">Add method to Drupal.ajax[Command] javascript object.  </li>
-              <li class="fragment step-note">Write PHP code to return associative array with 'command' key.</li>
+              <li class="fragment step-note">Add function to Drupal.ajax[Command] javascript object.  </li>
+              <li class="fragment step-note">Write PHP code to return associative array with a 'command' key.</li>
+            </ul>
+          </section>
+
+          <section data-transition="convex">
+            <h2>To Use Custom AJAX Callback Commands...</h2>
+            <ul>
+              <li class="fragment step-note">Include custom javascript.</li>
+              <li class="fragment step-note">Include custom command in callback function.</li>
             </ul>
           </section>
           <section data-transition="convex">
