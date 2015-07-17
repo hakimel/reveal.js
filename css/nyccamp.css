@@ -90,3 +90,8 @@ pre span.codename {
   font-weight: 800;
   text-decoration: underline;
 }
+
+.section-gif {
+  display: inline-block;
+  width: 50%;
+}
