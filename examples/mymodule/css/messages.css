@@ -1,0 +1,53 @@
+#content .item-list {
+    margin:0;
+    padding:0;
+    float:left;
+    width: 180px;
+    height: 300px;
+    border: 1px solid #000;
+}
+
+#content .item-list ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    padding-left: 5px;
+    color: #999;
+}
+
+#content .item-list h3 {
+    padding:0;
+    margin: 0;
+    display: block;
+    width: 100%;
+    background: yellow;
+    text-align: center;
+    border-bottom: 2px solid #000;
+}
+
+
+#current-msg {
+    padding: 0;
+    margin: 0;
+    display: block;
+    float:left;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #000;
+    background: lavenderblush;
+}
+
+
+#current-msg h2 {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 100%;
+    background: lightblue;
+    text-align: center;
+    border-bottom: 2px solid #000;
+}
+
+#current-msg p {
+    padding: 5px;
+}

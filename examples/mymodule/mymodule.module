@@ -1,0 +1,379 @@
+<?php
+
+  /**
+   * Implements hook_menu().
+   */
+  function mymodule_menu() {
+    $items = array();
+
+    /**
+     * This is the non JavaScript/base version of the read-message callback.
+     * This path will be reached if the callback is made outside of an
+     * AJAX request.
+     */
+    $items['read-message-callback/nojs/%'] = array(
+      'title' => 'AJAX Callback to Read Message',
+      'access arguments' => array('access content'),
+      'page callback' => 'mymodule_read_message_callback',
+      'page arguments' => array(1,2),
+      'type' => MENU_CALLBACK,
+    );
+
+    /**
+     * Build the ajax callback version of read-message callback path.
+     * Add a 'deliver callback' of type 'ajax_deliver' so that Drupal
+     * knows to return an AJAX json object.
+     */
+    $items['read-message-callback/ajax/%'] = array(
+      'delivery callback' => 'ajax_deliver',
+    ) + $items['read-message-callback/nojs/%'];
+
+
+    // Display a page of user messages.
+    $items['my-messages'] = array(
+      'title' => 'My Messages',
+      'access arguments' => array('access content'),
+      'page callback' => 'mymodule_messages_page',
+    );
+
+    // Displaying a single message.
+    $items['read-message/% '] = array(
+      'title' => 'Read Message',
+      'access arguments' => array('access content'),
+      'page callback' => 'mymodule_read_message',
+      'page arguments' => array(1),
+      'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+  }
+
+/**
+ * Render a page of messages.
+ */
+function mymodule_messages_page() {
+  /**
+   * Must include the Drupal AJAX JavaScript library onto the page
+   * To allow for using AJAX Callback Commands.
+   */
+  drupal_add_library('system', 'drupal.ajax');
+
+  /**
+   * Must include custom javascript onto the page, to allow for using custom
+   * AJAX callback commands.
+   */
+  drupal_add_js(drupal_get_path('module', 'mymodule') . '/js/commands.js');
+
+  // Create list of unread messages.
+  $content = theme_item_list(array(
+    'title' => t('Unread Messages'),
+    'type' => 'ul',
+    'attributes' => array( 'id' => 'unread-msgs'),
+    'items' => mymodule_messages_list(mymodule_get_unread_messages()),
+  ));
+
+  // Create empty div to hold current message.
+  $content .= '<div id="current-msg"><h2></h2><p></p></div>';
+
+  // Create list of read messages.
+  $content .= theme_item_list(array(
+    'title' => t('Read Messages'),
+    'type' => 'ul',
+    'attributes' => array('id' => 'read-msgs'),
+    'items' => mymodule_messages_list(mymodule_get_read_messages(), FALSE),
+  ));
+
+  // Include some custom styling for demo purposes.
+  drupal_add_css(drupal_get_path('module', 'mymodule') . '/css/messages.css');
+  return $content;
+}
+
+/**
+ * Create an array of message subject for use in a list.
+ *
+ * @param array $messages
+ *   An array of message objects.
+ * @param bool $display_link
+ *   Boolean value if should link messages or not.
+ *
+ * @return array
+ *  Array of link items to render.
+ */
+function mymodule_messages_list($messages, $display_link = TRUE) {
+  $list_items = array();
+  // Loop through all of the messages.
+  foreach ($messages as $mid => $msg) {
+    // Build link to AJAX callback to load message.
+    $link = l(
+      $msg->subject, 'read-message-callback/nojs/' . $mid, array(
+      // Add class to link so Drupal knows to use AJAX.
+        'attributes' => array(
+          'class' => array('use-ajax'),
+        ),
+      )
+    );
+    // Create list item for message.
+    $list_items[] = array(
+      // Set the element id.
+      'id' => 'msg-' . $mid,
+      // Set data to read message link or just message subject.
+      'data' => $display_link ? $link : $msg->subject,
+    );
+  }
+  return $list_items;
+}
+
+/**
+ * Callback function for loading a message.
+ *
+ * @param string $method
+ *   The method that was used to get to this function. 'ajax' or 'nojs'.
+ * @param int $mid
+ *   The id of the message to load.
+ *
+ * @return array
+ *   A render array of AJAX callback commands.
+ */
+function mymodule_read_message_callback($method, $mid) {
+  // If not loaded from AJAX, redirect to the read-message/% path.
+  if ($method != 'ajax') {
+    drupal_goto('read-message/' . $mid);
+  }
+  // Else attempt to load the message.
+  /** @noinspection PhpIllegalArrayKeyTypeInspection */
+  elseif ($message = mymodule_load_message($mid) {
+    // Build array of commands to display message on page.
+    $commands = array(
+      /**
+       * The uncomment the following lines to use the core Drupal AJAX commands
+       * to update the message title, content and move it from un-read to read
+       * on the requesting page.
+       *
+       * Uncomment lines 155, 157, 159 & 161.
+       */
+      // Replace content of current message subject.
+      // ajax_command_html('#current-msg h2', $message->subject),
+      // Replace content of current message body.
+      // ajax_command_html('#current-msg p', $message->content),
+      // Remove message from unread list.
+      // ajax_command_remove('#msg-' . $mid),
+      // Add message to read list
+      // ajax_command_append('#read-msgs', '<li>' . $message->subject . '</li>'),
+      /**
+       * Uncomment the following line to use a custom Drupal AJAX command to
+       * update the current message on the requesting page.
+       *
+       * Uncomment line 170.
+       *
+       * @see mymodule_command_read_message();
+       */
+      mymodule_command_read_message($message),
+    );
+  }
+  // AJAX and not able to load message, return an alert to the user.
+  else {
+    $commands = array (
+      ajax_command_alert('That message cannot be found.'),
+    );
+  }
+  /**
+   * Create a render array to return back to the AJAX request.
+   * The render array must have two elements.
+   * '#type': Which is equal to  'ajax',
+   * '#commands': Which contains the array of AJAX Callback commands to send to
+   *    the client.
+   */
+  return array(
+      '#type' => 'ajax',
+      '#commands' => $commands,
+    );
+  }
+}
+
+/**
+ * Creates a Custom Ajax 'readMessage' command.
+ *
+ * @param $message
+ *   Object with the message data to send back.
+ *
+ * @return array
+ *   An associate array containing the response data.
+ *   This array MUST have an element with a key of 'command' and a value
+ *   of the equivilent JavaScript function.
+ *
+ * @see mymodule/js/commands.js readMessage();
+ */
+function mymodule_command_read_message($message) {
+  return array(
+    'command' => 'readMessage',
+    'mid' => $message->mid,
+    'subject' => $message->subject,
+    'content' => $message->content,
+  );
+}
+
+/**
+ * The following functions are just for rounding out example functionality
+ * and are not directly related to implementing AJAX Callback Commands.
+ */
+
+/**
+ * Display a single message to the page.
+ *
+ * @param int $mid
+ *    The id of the message to read.
+ *
+ * @return string
+ *   The content and subject of the message.
+ */
+function mymodule_read_message($mid) {
+  if ($message = mymodule_load_message($mid)) {
+    drupal_set_title($message->subject);
+    $content = $message->content;
+  }
+  else {
+    $content = '<h2>Message Not Found</h2>';
+  }
+  $content .= '<br /><br />' . l('Back to Messages', 'my-messages');
+
+  return $content;
+}
+
+/**
+ * Load a message based on the message id.
+ *
+ * @param int $mid
+ *    The id of the message to load.
+ *
+ * @return mixed
+ *   Boolean FALSE or the message object.
+ */
+function mymodule_load_message($mid) {
+  $messages = mymodule_load_messages();
+  return $messages[$mid];
+}
+
+/**
+ * Returns a list of unread messages.
+ *
+ * @return array
+ *   An array of messages.
+ */
+function mymodule_get_unread_messages() {
+  $messages = mymodule_load_messages('unread');
+  // Add a non-existent message to handle that scenario.
+  $messages[404] = (object) array(
+    'mid' => 404,
+    'subject' => '404 page?',
+    'content' => 'Seems to be getting a 404 error',
+  );
+  return $messages;
+}
+
+/**
+ * Returns a list of read messages.
+ *
+ * @return array
+ *   An array of messages.
+ */
+function mymodule_get_read_messages() {
+  return mymodule_load_messages('read');
+}
+
+/**
+ * Return an array of loaded message objects.
+ *
+ * @param bool|string $status
+ *   The status of the messages to load.
+ *
+ * @return array
+ *   An array of message objects.
+ */
+function mymodule_load_messages($status = FALSE) {
+
+  $messages = array();
+  // Get list of example messages.
+  $content = mymodule_example_messages();
+  // For each example message build a basic object.
+  for ($x=0; $x < count($content); $x++) {
+    $message = new StdClass();
+    $message->mid = $x + 1;
+    $message->subject = $content[$x][0];
+    $message->content = $content[$x][1];
+    $messages[$message->mid] = $message;
+  }
+
+  // To retrieve 'unread' messages, just return the even elements.
+  if ($status == 'unread') {
+    $sub = array();
+    foreach ($messages as $x => $msg) {
+      if ($x%2 == 0) {
+        $sub[$msg->mid] = $msg;
+      }
+    }
+    $messages = $sub;
+  }
+  // To retrieve the 'read' messages, just return the odd elements.
+  elseif ($status == 'read') {
+    $sub = array();
+    foreach ($messages as $x => $msg) {
+      if ($x%2 != 0) {
+        $sub[$msg->mid] = $msg;
+      }
+    }
+    $messages = $sub;
+  }
+
+  // Return array of message object.
+  return $messages;
+}
+
+/**
+ * Returns an array of example messages.
+ *
+ * @return array
+ */
+function mymodule_example_messages() {
+  return array(
+    array(
+      'Make money at home',
+      'I have a deal for you my friend. A secret the banks do not want you to know about. You can make $10,000,000 at home in a single week with these few simple tips!',
+    ),
+    array(
+      'In NYC this weekend?',
+      'Hey man, I was just wondering if you were going to be in NYC this weekend for the Camp?',
+    ),
+    array(
+      'He did it again',
+      'I cannot believe it, he did IT again!?!? Please tell me how to handle this situation ASAP.',
+    ),
+    array(
+      'New BondWithin Contact',
+      'Someone has sent you a BondWithin contact request. To see the details visit your BondWithin Page',
+    ),
+    array(
+      'Taco dog',
+      'Will be in late, my dog ate one too many tacos last night',
+    ),
+    array(
+      'Agile Spec doc?',
+      'Hey, the "agile" client is asking for a technical spec doc. Can you forward it.',
+    ),
+    array(
+      'An urgent request',
+      'Help, this situation needs your urgent attention now!',
+    ),
+    array(
+      'Drupal 8 is it ready',
+      'Can we start building with Drupal 8 yet. We have some clients who are really interested.',
+    ),
+    array(
+      'Great talk Janis',
+      'Really, that was a great talk.'
+    ),
+    array(
+      'The system is down',
+      'the system is down, the system is down, the system is down.',
+    ),
+  );
+}
