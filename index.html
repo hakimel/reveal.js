@@ -175,7 +175,7 @@
               <li class="fragment step-note">Defined by Drupal core or modules
                 <ul>
                   <li class="fragment step-note">17 AJAX callback commands in Drupal 7</li>
-                  <li class="fragment step-note">22 AJAX callback commands in Drupal 8</li>
+             <!--     <li class="fragment step-note">22 AJAX callback commands in Drupal 8</li> //-->
                 </ul>
               </li>
             </ul>
@@ -238,6 +238,7 @@ function ajax_command_remove($selector) {
 }
             </code><span class="codename">includes/ajax.inc </span></pre>
           </section>
+<!--
           <section data-transition="convex">
             <h2>On the Client Side [D8]</h2>
             <ul>
@@ -296,6 +297,7 @@ class RemoveCommand Implements CommandInterface {
 }
             </code><span class="codename">core/lib/Drupal/Core/Ajax/AlertCommand.php </span></pre>
           </section>
+//-->
           <section data-transition="convex">
             <img data-src="images/liz-lemon-high-five.gif" alt="Liz Lemon high five." style="width:50%;"  />
           </section>
@@ -330,8 +332,8 @@ And the message is added to the list of read messages</code></pre>
                 <li class="fragment step-note">
                   Define a callback function
                   <ul>
-                    <li class="fragment step-note">[D7] Returns an array of commands</li>
-                    <li class="fragment step-note">[D8] Return an AjaxResponse object</li>
+                    <li class="fragment step-note">Returns an array of commands [D7]</li>
+               <!--     <li class="fragment step-note">[D8] Return an AjaxResponse object</li> //-->
                   </ul>
                 </li>
               </ol>
@@ -386,7 +388,7 @@ function mymodule_messages_list($messages, $display_link = TRUE) {
             </code><span class="codename">mymodule/mymodule.module </span></pre>
           </section>
           <section data-transition="convex">
-            <h3 class="step-note">3. Define a callback function</h3>
+            <h3 class="step-note">3.a Define a callback function</h3>
             <pre><code data-trim data-line-numbers=true>
 // Implements hook_menu().
 function mymodule_menu() {
@@ -412,7 +414,7 @@ function mymodule_menu() {
           </section>
           <section data-transition="convex">
             <h3 class="step-note">
-              3.a Return array of commands using a render array [D7]
+              3.b Return array of commands using a render array [D7]
             </h3>
             <pre><code data-trim data-line-numbers=true>
 // AJAX Callback to read a message.
@@ -437,9 +439,10 @@ function mymodule_read_message_callback($method, $mid) {
 }
             </code><span class="codename">mymodule/mymodule.module </span></pre>
           </section>
+<!--
           <section data-transition="convex">
             <h3 class="step-note">
-              3.b Return commands using an AJAXResponse() [D8]
+              3.c Return commands using an AJAXResponse() [D8]
             </h3>
             <pre><code data-trim data-line-numbers=true>
 // AJAX Callback to read a message.
@@ -463,6 +466,7 @@ function mymodule_read_message_callback($method, $mid) {
 }
             </code><span class="codename">mymodule/mymodule.module </span></pre>
           </section>
+//-->
           <section data-transition="convex">
             <img data-src="images/doctor-who-brilliant.gif" alt="Doctor Who: Brilliant!" style="width:50%;" />
           </section>
@@ -475,7 +479,7 @@ function mymodule_read_message_callback($method, $mid) {
           <section data-transition="convex">
             <h2>To create a Command...</h2>
             <ol>
-              <li class="fragment step-note">Add a function to the Drupal.ajax[command] JavaScript object</li>
+              <li class="fragment step-note">Add a function to the Drupal ajax command JavaScript object</li>
               <li class="fragment step-note">
                 Write PHP code that returns an associative array.
                 <ul>
@@ -530,6 +534,7 @@ function mymodule_command_read_message($message) {
 
             </code><span class="codename">mymodule/mymodule.module </span></pre>
           </section>
+ <!--
           <section data-transition="convex">
             <h2>A Custom Command in Drupal 8</h2>
             <ol>
@@ -580,6 +585,7 @@ class ReadMessageCommand implements CommandInterface {
 }
             </code><span class="codename">mymodule/src/Ajax/ReadMessageCommand.php </span></pre>
           </section>
+//-->
           <section data-transition="convex">
             <h2>Using a custom command...</h2>
             <ol>
@@ -635,6 +641,7 @@ function mymodule_read_message_callback($method, $mid) {
 }
             </code><span class="codename">mymodule/mymodule.module </span></pre>
           </section>
+<!--
           <section data-transition="convex">
             <h2>Using a Custom Command in Drupal 8</h2>
             <ol>
@@ -693,8 +700,262 @@ function mymodule_read_message_callback($method, $mid) {
 }
             </code><span class="codename">mymodule/mymodule.module </span></pre>
           </section>
+//-->
           <section data-transition="convex">
             <img data-src="images/jane-cunning.gif" alt="Firefly: Jane cunning" style="width:75%;" />
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>AJAX Commands in Drupal 8</h1>
+            <img data-src="images/sheldon-change.gif" alt="" style="width:50%" />
+          </section>
+          <section data=transition="convex">
+            <h1>Changes to AJAX Commands</h1>
+            <ul>
+              <li class="fragment step-note">22 AJAX callback commands in Drupal 8</li>
+              <li class="fragment step-note">JavaScript attatches to 'Drupal.AjaxCommands.prototype' object</li>
+              <li class="fragment step-note">A PHP object that implements CommandInterface
+                <ul>
+                  <li class="fragment step-note">Must implement 'render' method</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+            <h2>Example: The "Remove" Command</h2>
+            <img data-src="images/ajax-commands-remove-example.gif" height="450" alt="An example of the AJAX Callback remove command." />
+          </section>
+          <section data-transition="convex">
+            <h2>On the Client Side [D8]</h2>
+
+            <ul>
+              <li class="fragment step-note">A function on the 'Drupal.AjaxCommands.prototype' object</li>
+            </ul>
+            <pre class="fragment"><code class="js" data-trim data-line-numbers=true>
+/**
+ * Provide a series of commands that the client will perform.
+ */
+Drupal.AjaxCommands.prototype = {
+  //...
+  /**
+   * Command to remove a chunk from the page.
+   */
+  remove: function (ajax, response, status) {
+    var settings = response.settings || ajax.settings || drupalSettings;
+    $(response.selector).each(function () {
+      Drupal.detachBehaviors(this, settings);
+    }).remove();
+  },
+  //...
+}
+            </code><span class="codename">misc/ajax.js </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>On the Server Side [D8]</h2>
+            <ul>
+              <li class="fragment step-note">An object that implements CommandInterface
+                <ul>
+                  <li class="fragment step-note">Must implement 'render' method</li>
+                </ul>
+              </li>
+            </ul>
+            <pre class="fragment"><code class="php" data-trim data-line-numbers=true>
+namespace Drupal\Core\Ajax;
+use Drupal\Core\Ajax\CommandInterface;
+// AJAX command for calling the jQuery remove() method.
+class RemoveCommand Implements CommandInterface {
+  protected $selector;
+  // Constructs a RemoveCommand object.
+  public function __construct($selector) {
+    $this->selector = $selector;
+  }
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => 'remove',
+      'selector' => $this->selector,
+    );
+  }
+}
+            </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php </span></pre>
+          </section>
+          <section data-transition="convex">
+              <h1>To Use Commands in Drupal 8</h1>
+              <ol>
+                <li class="fragment step-note">Include Drupal AJAX JavaScript library
+                  <ul>
+                    <li class="fragment step-note">Must attach to a render array</li>
+                  </ul>
+                </li>
+                <li class="fragment step-note">Attach AJAX to page elements</li>
+                <li class="fragment step-note">
+                  Define a callback function
+                  <ul>
+                    <li class="fragment step-note">Returns an AjaxResponse object</li>
+                  </ul>
+                </li>
+              </ol>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/ajax-commands-example.gif" alt="An example AJAX commands scenario. Click on a message title, it's contents is retrieved from an AJAX request and then loaded into a div." />
+          </section>
+          <section data-transition="convex">
+            <h3 class="step-note">Attach library to a render array</h3>
+            <pre><code class="php" data-trim data-line-numbers=true>
+// Render a page of my messages
+function mymodule_messages_page() {
+
+  // .. build $content
+
+  // Create render array.
+  $page[] = array(
+    '#type' => 'markup',
+    '#markup' => $content,
+  );
+  // Attach JavaScript library.
+  $page['#attached']['library'][] = 'core/drupal.ajax';
+
+  return \Drupal::service('renderer')->render($page);
+}
+            </code><span class="codename">mymodule/mymodule.module </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h3 class="step-note">
+              Callback returns commands using an AJAXResponse() [D8]
+            </h3>
+            <pre><code data-trim data-line-numbers=true>
+// AJAX Callback to read a message.
+function mymodule_read_message_callback($method, $mid) {
+  $message = mymodule_load_message($mid);
+  // @TODO: Graceful degredation if not from ajax method or if no message.
+  // Create AJAX Response object.
+  $response = new AjaxResponse();
+  // Replace content of current message subject.
+  $response->addCommand(new HtmlCommand('#current-msg h2', $message->subject));
+  // Replace content of current message body.
+ $response->addCommand(new HtmlCommand('#current-msg p', $message->content));
+ // Remove message from unread list.
+ $response->addCommand(new RemoveCommand('#msg-' . $mid));
+ // Add message to read list.
+ $item = '&lt;li>' . $message->subject . '&lt;/li>';
+ $response->addCommand(new AppendCommand('#read-msgs', $item));
+);
+ // Return ajax response.
+ return $response;
+}
+            </code><span class="codename">mymodule/mymodule.module </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h2>Custom Commands in Drupal 8</h2>
+            <ol>
+              <li class="fragment step-note">Add function to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment step-note">Define a command object that implements CommandInterface</li>
+            </ol>
+          </section>
+          <section data-transition="convex">
+            <h3 class="step-note">1. Add function to 'Drupal.AjaxCommands.prototype'</h3>
+            <pre><code class="js" data-trim data-line-numbers=true>
+(function($, Drupal) {
+  /**
+   * Add new command for reading a message.
+   */
+ Drupal.AjaxCommands.prototype.readMessage = function(ajax, response, status){
+    // Place content in current-msg div.
+    $('#current-msg h2').html(response.subject);
+    $('#current-msg p').html(response.content);
+    // Remove from unread list.
+    $('#msg-' + response.mid).remove();
+    // Add message to read list.
+    $('#read-msgs').append('<li>' + response.subject + '</li>');
+  }
+})(jQuery, Drupal);
+            </code><span class="codename">mymodule/js/commands.js </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h3 class="step-note">2. Define command object that implements CommandInterface</h3>
+            <pre><code class="php" data-trim data-line-numbers=true>
+namespace Drupal\mymodule\Ajax;
+use Drupal\Core\Ajax\CommandInterface;
+
+class ReadMessageCommand implements CommandInterface {
+  protected $message;
+  // Constructs a ReadMessageCommand object.
+  public function __construct($message) {
+    $this->message = $message;
+  }
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => 'readMessage',
+      'mid' => $this->message->mid,
+      'subject' => $this->message->subject,
+      'content' => $this->message->content,
+    );
+  }
+}
+            </code><span class="codename">mymodule/src/Ajax/ReadMessageCommand.php </span></pre>
+          </section>
+                    <section data-transition="convex">
+            <h2>Using a Custom Command in Drupal 8</h2>
+            <ol>
+              <li class="fragment step-note">Tell Drupal about custom JavaScript library</li>
+              <li class="fragment step-note">Attach library to a render array</li>
+              <li class="fragment step-note">Add command to AjaxResponse object in callback</li>
+            </ol>
+          </section>
+          <section data-transition="convex">
+            <h3 class="step-note">1. Tell Drupal about custom JavaScript library</h3>
+            <pre><code class="js" data-trim data-line-numbers=true>
+mymodule.commands:
+  version: VERSION
+  js:
+    js/commands.js: {}
+  dependencies:
+     - core/drupal.ajax
+            </code><span class="codename">mymodule/mymodule.libraries.yml </span></pre>
+            <span class="caption">Asset library name. lists all the js files needed in the 'js' property. ({} is used for specifying metadata). List dependencies on other libraries.</span>
+          </section>
+          <section data-transition="convex">
+            <h3 class="step-note">2. Attach library to a render array</h3>
+            <pre><code class="php" data-trim data-line-numbers=true>
+// Render a page of my messages
+function mymodule_messages_page() {
+
+  // .. build $content
+
+  // Create render array.
+  $page[] = array(
+    '#type' => 'markup',
+    '#markup' => $content,
+  );
+  // Attach JavaScript library.
+  $page['#attached']['library'][] = 'mymodule/mymodule.commands';
+
+  return \Drupal::service('renderer')->render($page);
+}
+            </code><span class="codename">mymodule/mymodule.module </span></pre>
+          </section>
+
+          <section data-transition="convex">
+            <h3 class="step-note">3. Add command to AjaxResponse object in callback</h3>
+            <pre><code class="php" data-trim data-line-numbers=true>
+// AJAX Callback to read a message.
+function mymodule_read_message_callback($method, $mid) {
+  $message = mymodule_load_message($mid);
+  // @TODO: Graceful degredation if not from ajax method or if no message.
+  // Create AJAX Response object.
+  $response = new AjaxResponse();
+  // Call the readMessage javascript function.
+  $response->addCommand( new ReadMessageCommand($message));
+ );
+ // Return ajax response.
+ return $response;
+}
+            </code><span class="codename">mymodule/mymodule.module </span></pre>
+          </section>
+          <section data-transition="convex">
+            <img data-src="images/bazinga.gif" alt="" style="width:50%" />
           </section>
         </section>
         <section>
@@ -721,7 +982,7 @@ function mymodule_read_message_callback($method, $mid) {
           <section data-transition="convex">
             <h2>To Create AJAX Callback Commands...</h2>
             <ul>
-              <li class="fragment step-note">Add function to Drupal.ajax[Command] JavaScript object.  </li>
+              <li class="fragment step-note">Add function to Drupal ajax command JavaScript object.  </li>
               <li class="fragment step-note">Write PHP code to return associative array with a 'command' key</li>
             </ul>
           </section>
@@ -740,6 +1001,7 @@ function mymodule_read_message_callback($method, $mid) {
         <section>
           <section>
             <h1>Resources</h1>
+            <p>Examples Module: <a href="http://drupal.org/project/examples">http://drupal.org/project/examples</a></p>
             <p>Drupal AJAX Framework: <a href="http://bit.ly/DrupalAJAX" target="_blank">bit.ly/DrupalAJAX</a></p>
             <p>Drupal 7 Commands: <a href="http://bit.ly/D7ajaxCMD" target="_blank">bit.ly/D7ajaxCMD</a></p>
             <p>Drupal 8 Commands: <a href="http://bit.ly/D8ajaxCMD" target="_blank">bit.ly/D8ajaxCMD</a></p>
