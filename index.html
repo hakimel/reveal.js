@@ -920,7 +920,7 @@ function mymodule_read_message_callback($method, $mid) {
       function createAsides(event) {
         $('.caption').each(function (i, e) {
           var text = $(this).text();
-          //$(this).replaceWith("<aside class='notes'>" + text + "</aside>");
+          $(this).replaceWith("<aside class='notes'>" + text + "</aside>");
         });
       }
 		</script>
