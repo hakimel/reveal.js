@@ -2612,7 +2612,7 @@
 			// Start video playback
 			var currentVideo = currentBackground.querySelector( 'video' );
 			if( currentVideo ) {
-				currentVideo.currentTime = 0;
+				if(currentVideo.currentTime > 0) currentVideo.currentTime = 0;
 				currentVideo.play();
 			}
 
