@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>Predictablity--or Why JSX & Inline Styles Win</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="A presentation on the benefits of using JSX & Inline Styles with React.">
+		<meta name="author" content="Jacob Gibbons">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -41,338 +41,591 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
+					<h1>Predictability</h1>
+					<h3>or Why JSX & Inline Styles Win Over 'Seperation of Concerns' Dogma</h3>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+						<small>Presented by <a href="https://www.linkedin.com/in/jayseeg">Jake Gibbons</a> / <a href="https://twitter.com/jayseeg">@jayseeg</a></small>
 					</p>
-				</section>
-
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
-
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
 					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
+						<ul>
+							<li>
+								Who here shouted that at twitter when they first saw JSX?
+							</li>
+							<li>
+								Perfect audience?
+							</li>
+							<li>
+								Seperation of concerns is why we put js in one folder,
+							</li>
+							<li>
+								styles in another,
+							</li>
+							<li>
+								and markup in another.
+							</li>
+							<li>
+								I think the main point of that was to get us to stop writing repetitive scripts & styles.
+							</li>
+							<li>
+								Instead we started reusing the scripts & styles.
+							</li>
+							<li>
+								That made our sites more DRY.
+							</li>
+							<li>
+								Now that we write modular components, we don't have to use the different folders & files abstraction.
+							</li>
+							<li>
+								Because reusable components are dry by nature.
+							</li>
+							<li>
+								Let me tell you why I say that.
+							</li>
+						</ul>
+			    </aside>
 				</section>
 
 				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
-				<section>
-					<h2>Global State</h2>
+					<h2>Problem</h2>
 					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
+						It's difficult to predictably modify or style components in a <span class="fragment">React</span> web app.
 					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
-
-				<section>
-					<h2>Much more</h2>
 					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+						<li class="fragment">
+							Globals
+						</li>
+						<li class="fragment">
+							Sharing Values Across 'Concerns'
+						</li>
+						<li class="fragment">
+							The Cascade
+						</li>
+						<li class="fragment">
+							Dependencies
+						</li>
+						<li class="fragment">
+							Findability
+						</li>
+						<li class="fragment">
+							Readability
+						</li>
 					</ul>
+					<aside class="notes">
+			    	 It's difficult to predictably modify or style components in a web app
+
+			    	 Specifically a React app for the purposes of this presentation.
+
+			    	 There are challenges surrounding: globals, sharing values across 'concerns', the cascade, dependencies, findability, and readability.
+
+			    	 I'll go into each more indepth now.
+			    </aside>
 				</section>
 
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+				<section>
+					<section>
+						<h2>Globals</h2>
+						<p>
+							CSS Stylesheets Encourage Piles of Globals
+						</p>
+						<aside class="notes">
+				      We all know that littering our app with globals in JS is a dangerous thing, but for some reason we think it's ok with CSS.
+				    </aside>
+					</section>
+					<section>
+						<h2>Bootstrap, for Instance, Introduces 600 Globals</h2>
+						<br>
+						<p>
+							<small>Shamelessly stolen from <a href="http://blog.vjeux.com/2014/javascript/react-css-in-js-nationjs.html">Christopher Chedeau's presentation on inline styles</a>.</small>
+						</p>
+						<aside class="notes">
+				    	Each declaration is essentially a global variable being placed in the browser waiting for an element to grab it.
+
+				    	How many of you used to write JS this way?
+
+				    	How many still do?
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Sharing Values</h2>
+						<p>
+							Comment breadcrumbs are a pretty shoddy way of telling your future self where shared values are.
+						</p>
+						<p class="fragment">
+							What if filenames change?
+						</p>
+						<p class="fragment">
+							Or if some jerk doesn't update the comment when they move the shared code.
+						</p>
+						<aside class="notes">
+				      There are times when you need to derive a value in js that will also be used in css.
+
+				      If you're strategy here is to assign the value in each and leave a comment saying where it needs to be kept in sync, you've created an unpredictable brittle link for future you, or the next dev to hopefully respect.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>The Cascade</h2>
+						<p>
+							It's essentially a giant extend.
+						</p>
+						<aside class="notes">
+				      Extends are great. We use them all the time in js. But if you have to mentally keep track of several extendedrules in your head, you'll probably fail.
+				    </aside>
+					</section>
+					<section>
+						<p>
+							Extend is great in moderation,...
+						</p>
+						<p class="fragment">
+							But when you've got hundreds of rules overriding each each other you need to introduce complex naming conventions <span class="fragment">(BEM)</span> to manage them.
+						</p>
+						<aside class="notes">
+				      Order of declaration is a pretty simple rule to follow, but when you're looking at thousands of lines, it's impossible to keep it in order in your head.
+
+				      Standards like BEM are pretty great for combating this problem, but it feels like a pretty sloppy solution.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Dependencies</h2>
+						<p>Serving async CSS is a potential nightmare.</p>
+						<aside class="notes">
+				      You may want to only serve styles for what's on a page in a large Single Page App.
+
+				      You could produce real performance gains this way.
+				    </aside>
+					</section>
+					<section>
+						<h2>Async + The Cascade === Race Conditions</h2>
+						<p class="fragment">
+							That can span entire site visits.
+						</p>
+					</section>
+					<section>
+						<p>
+							If someone get's to your app from a page other than home, then goes home, what order do the CSS files from each visit get processed in?
+						</p>
+						<p class="fragment">
+							How do you debug/QA test for that?
+						</p>
+						<aside class="notes">
+				      I don't know of a great solution for this, but I also haven't encountered this problem.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Findability</h2>
+						<p>
+							It's simple to find things in your app, and you already have your own methods to handle it.
+						</p>
+						<aside class="notes">
+				      This probably seems dumb because you've been dealing with this issue for so long you don't even notice it.
+				    </aside>
+					</section>
+					<section>
+						<h2>One way</h2>
+						<p class="fragment">(of many)</p>
+						<ol>
+							<li class="fragment">
+								You look at a component in your browser to find identifiable text.
+							</li>
+							<li class="fragment">
+								Then you grep for that phrase in your templates.
+							</li>
+							<li class="fragment">
+								Then you grep in your view folder for a call for that previously found template file.
+							</li>
+							<li class="fragment">
+								And you can grep your style folder for all uses of any relevant classes from the template file.
+							</li>
+							<li class="fragment">
+								Then you look at each declaration to determine if it's specificity score qualifies for an override.
+							</li>
+						</ol>
+						<p class="fragment">
+							Simple!
+						</p>
+						<aside class="notes">
+				      (read the slides)
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Readability</h2>
+						<p>JSX in JS looks like the apocalypse to most seperation of concerns dogmatists.</p>
+				    <pre><code data-trim class="jsx">
+const {
+  reportName,
+  filters,
+} = state
+
+if (!props.isOpen) return (<span></span>)
+
+return (
+  <Modal
+    title='Reporting Chart Configuration'
+    backdrop={true}
+    animation={true}
+    container={props.container}
+    onRequestHide={props.hideHandler}
+    ref='reportSelectModal'
+  >
+    <div className='modal-body'>
+      <div className='control-group'>
+        <label>Source</label>
+			</div>
+		</div>
+	</Modal>
+)
+				    </code></pre>
+						<aside class="notes">
+				      Most of us probably scoffed pretty hard when we first saw JSX.
+
+				      I know I did.
+				    </aside>
+					</section>
+					<section>
+						<h2>XML in JS?</h2>
+						<p>Wat? Why???</p>
+						<aside class="notes">
+				      This goes against everything we've ever be taught,... right?
+				    </aside>
+					</section>
+					<section>
+						<h2>Nested Function Calls</h2>
+						<p>
+							A series of nested function calls describing the DOM end up looking like a JS pyramid.
+						</p>
+				    <pre><code data-trim class="es6">
+function render() {
+	return React.createElement(
+		MyComponent,
+		null,
+		React.createElement(
+			"h1",
+			null,
+			"Hello World"
+		)
+	)
+}
+				    </code></pre>
+						<aside class="notes">
+				      The alternative isn't terribly readable though.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<h2>We've Gotten Pretty Good at All of That</h2>
+					<p class="fragment">
+						But there's a better way.
 					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>JSX</h2>
+						<p>
+							JSX is actually an XML like veneer that get's preprocessed into the function calls we're trying to avoid.
+						</p>
+						<aside class="notes">
+				      JSX is the part of a react component that looks like someone just dumped XML in the middle of our beatiful work.
+				    </aside>
+					</section>
+					<section>
+					  <pre><code data-trim class="jsx">
+render () {
+	return (
+		<MyComponent>
+			<h1>Hello World</h1>
+		</MyComponent>
+	)
+}
+					  </code></pre>
+					  <div class="fragment">
+							<p>is sugar for</p>
+					    <pre><code data-trim class="es6">
+	function render() {
+		return React.createElement(
+			MyComponent,
+			null,
+			React.createElement(
+				"h1",
+				null,
+				"Hello World"
+			)
+		)
+	}
+					    </code></pre>
+					  </div>
+						<aside class="notes">
+				      We'll touch on this more in a second.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Inline Styles</h2>
+						<p>
+							We all know how to write inline styles. You just add a style attribute to an HTML element.
+						</p>
+						<p class="fragment">
+							That declaration automatically takes precedence.
+						</p>
+						<aside class="notes">
+				      This is an old, and frowned upon concept.
+				    </aside>
+					</section>
+					<section>
+						<h2>Inline Styles in React</h2>
+						<p>
+							React encourages the use of inline styles by providing a parser which reads JS objects that have a very similar syntax to CSS.
+						</p>
+						<p class="fragment">
+							The differences are:
+							<ul>
+								<li class="fragment">
+									Keys are camelCased instead of dashed
+								    <pre><code data-trim class="es6">
+{ font-weight: 700; } => { fontWeight: 700 }
+								    </code></pre>
+								</li>
+								<li class="fragment">
+									Values are quoted
+								    <pre><code data-trim class="es6">
+{ color: #F00; } => { color: '#F00' }
+								    </code></pre>
+								</li>
+								<li class="fragment">
+									And single pixel values are numbers without the PX
+								    <pre><code data-trim class="es6">
+{ height: 175px; } => { height: 175 }
+								    </code></pre>
+								</li>
+							</ul>
+						</p>
+						<aside class="notes">
+				      React has cleaned up this concept and brought it back to life.
+
+				      There are subtle differences between React's Styles and CSS's.
+
+							Keys are camelCased instead of dashed
+
+							Values are quoted
+
+							And single pixel values are numbers without the PX
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Globals</h2>
+					</section>
+					<section>
+						<h2>Use Existing Tools</h2>
+						<p>
+							Require/import are great ways to isolate & decouple in JS.
+						</p>
+						<p class="fragment">
+							They can be used for styles too.
+						</p>
+						<aside class="notes">
+				      I'm assuming everyone here is familiar with the CommonJS pattern of requiring in modules.
+
+				      Well, styles written in JS can freely be pulled in in the same way.
+				    </aside>
+					</section>
+					<section>
+				    <pre><code data-trim class="es6">
+import MyComponentStyles from './MyComponentStyles.js'
+import {
+	TypographyStyles,
+	LayoutStyles,
+} from '../styles/BaseStyles.js'
+				    </code></pre>
+						<aside class="notes">
+				      There's no ambiguity here, the styles you are using can be quickly isolated down to a few SHORT files.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Sharing Values</h2>
+					</section>
+					<section>
+						<h2>Sharing Values in JS is<br/>Dead Simple</h2>
+						<p class="fragment">
+							You declare a var (let, or const) and use it.
+						</p>
+					</section>
+					<section>
+				    <pre><code data-trim>
+let currentHeight = parseInt(window.innerHeight / 13, 10)
+
+styles = extend(styles, {height: currentHeight})
+				    </code></pre>
+						<aside class="notes">
+				      I think this slide says it all.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>The Cascade</h2>
+					</section>
+					<section>
+						<h2>Declaritive Extends Make Overrides Obvious</h2>
+						<p class="fragment">
+							You simply look at order in a short list.
+						</p>
+					</section>
+					<section>
+				    <pre><code data-trim class="es6">
+const styles = extend(importedStyles, {
+	moreStyles: {
+		fontWeight: 100
+	}
+}, {
+	moreStyles: {
+		fontWeight: 700
+	}
+})
+				    </code></pre>
+				    <p class="fragment">
+				    	Font weight for styles.moreStyles will be 700.
+				    </p>
+						<aside class="notes">
+				      You can quickly tell which styles will take precedence based on the order you declared them.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Dependencies</h2>
+					</section>
+					<section>
+						<h2>Inline Styles are Delivered with HTML</h2>
+						<p class="fragment">
+							And they have obvious specicifity&mdash;no calculations necessary.
+						</p>
+						<aside class="notes">
+				      With inline styles, you just eliminate the problem by not relying on a seperate file.
+				    </aside>
+					</section>
+					<section>
+				    <pre><code data-trim class="html">
+<div style="display: inline-block; width: 8px; height: 8px; bottom: 0px; margin-left: 0px; margin-right: 5px; border-radius: 99px; position: relative; transition: background-color 0.111s ease-in-out; background-color: rgb(132, 154, 61);" data-reactid=".0.$=11:0.$=10=21:0.$=11:0.1.1.$0.0.0.0"></div>
+				    </code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Findability</h2>
+					</section>
+					<section>
+						<h2>Component Folders Contain Their Dependencies</h2>
+						<p class="fragment">
+							Want to find the styles for a component?
+						</p>
+						<ol>
+							<li class="fragment">
+								Open the ______Styles.js file in that component folder.
+							</li>
+							<li class="fragment">
+								Done.
+							</li>
+							<li class="fragment">
+								Go drink a beer.
+							</li>
+						</ol>
+					</section>
+					<section>
+						<img src="./img/folder.png" height="204" width="364" alt="">
+						<aside class="notes">
+				      It doesn't get much easier than that to find files relevant to a component.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Readability</h2>
+					</section>
+					<section>
+						<h2>JSX</h2>
+						<p class="fragment">
+							Even a designer could quickly tell what JSX's XML will translate too.
+						</p>
+				    <pre><code data-trim class="jsx">
+render () {
+	return (
+		<MyComponent>
+			<h1>Hello World</h1>
+		</MyComponent>
+	)
+}
+				    </code></pre>
+						<aside class="notes">
+				      Maybe it's just me, but this maps really well to my mental models of html elements which is what we're emulating with the virtual dom.
+				    </aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>JSX & Inline Styles</h1>
+						<p>
+							Leave predictable/readable components for your future self and/or any future devs that have to touch your work.
+						</p>
+						<br>
+						<br>
+						<p>
+							<small>Presented by <a href="https://www.linkedin.com/in/jayseeg">Jake Gibbons</a> / <a href="https://twitter.com/jayseeg">@jayseeg</a></small>
+						</p>
+						<aside class="notes">
+				      In closing, JSX & Inline Styles w/ react are intuitive ways to make your code more maintainable over time.
+
+				      This was just a quick overview.
+
+				      Come to my Friday morning talk at Develop Denver to hear about the hairy details!
+				    </aside>
+					</section>
+					<section>
+						<h1>JSX & Inline Styles</h1>
+						<p>
+							There's lots more including problems & tradeoffs introduced by this approach, and the solutions/explanations for them.
+						</p>
+						<p class="fragment">
+							Come to my talk Friday morning August  at Develop Denver to hear me talk about them.
+						</p>
+						<p>
+							<small>Presented by <a href="https://www.linkedin.com/in/jayseeg">Jake Gibbons</a> / <a href="https://twitter.com/jayseeg">@jayseeg</a></small>
+						</p>
+						<aside class="notes">
+				      In closing, JSX & Inline Styles w/ react are intuitive ways to make your code more maintainable over time.
+
+				      This was just a quick overview.
+
+				      Come to my Friday morning talk at Develop Denver to hear about the hairy details!
+				    </aside>
+					</section>
 				</section>
 
 			</div>
@@ -399,7 +652,9 @@ Reveal.addEventListener( 'customevent', function() {
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.configure({
+  tabReplace: '  ', // 2 spaces
+}); hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/notes/notes.js', async: true }
 				]
