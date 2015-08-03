@@ -1530,13 +1530,20 @@
 				transformSlides( { layout: '' } );
 			}
 			else {
-				// Prefer zooming in desktop Chrome so that content remains crisp
-				if( !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
+				// Use zoom to scale up in desktop Chrome so that content
+				// remains crisp. We don't use zoom to scale down since that
+				// can lead to shifts in text layout/line breaks.
+				if( scale > 1 && !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
 					dom.slides.style.zoom = scale;
+					dom.slides.style.left = '';
+					dom.slides.style.top = '';
+					dom.slides.style.bottom = '';
+					dom.slides.style.right = '';
 					transformSlides( { layout: '' } );
 				}
 				// Apply scale transform as a fallback
 				else {
+					dom.slides.style.zoom = '';
 					dom.slides.style.left = '50%';
 					dom.slides.style.top = '50%';
 					dom.slides.style.bottom = 'auto';
