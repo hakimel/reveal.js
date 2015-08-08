@@ -45,6 +45,9 @@
 			minScale: 0.2,
 			maxScale: 1.5,
 
+            // Value of the display CSS property applied to current slide to make it visible
+            display: 'block',
+
 			// Display controls in the bottom right corner
 			controls: true,
 
@@ -2721,7 +2724,7 @@
 	function showSlide( slide ) {
 
 		// Show the slide element
-		slide.style.display = 'block';
+		slide.style.display = config.display;
 
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
