@@ -3776,11 +3776,11 @@
 
 		// Custom key bindings for togglePause should be able to resume
 		if( typeof config.keyboard === 'object' ) {
-			resumeKeyCodes = resumeKeyCodes.concat( Object.keys( config.keyboard ).map( function( key ) {
+			for( var key in config.keyboard ) {
 				if( config.keyboard[key] === 'togglePause' ) {
-					return parseInt( key, 10 );
+					resumeKeyCodes.push( parseInt( key, 10 ) );
 				}
-			}));
+			}
 		}
 
 		if( isPaused() && resumeKeyCodes.indexOf( event.keyCode ) === -1 ) {
