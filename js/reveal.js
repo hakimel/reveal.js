@@ -3773,10 +3773,11 @@
 
 		// While paused only allow resume keyboard events; 'b', '.''
 		var resumeKeyCodes = [66,190,191];
+		var key;
 
 		// Custom key bindings for togglePause should be able to resume
 		if( typeof config.keyboard === 'object' ) {
-			for( var key in config.keyboard ) {
+			for( key in config.keyboard ) {
 				if( config.keyboard[key] === 'togglePause' ) {
 					resumeKeyCodes.push( parseInt( key, 10 ) );
 				}
@@ -3792,7 +3793,7 @@
 		// 1. User defined key bindings
 		if( typeof config.keyboard === 'object' ) {
 
-			for( var key in config.keyboard ) {
+			for( key in config.keyboard ) {
 
 				// Check if this binding matches the pressed key
 				if( parseInt( key, 10 ) === event.keyCode ) {
