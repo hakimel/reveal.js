@@ -758,20 +758,28 @@ mymodule.commands:
           <section data-transition="convex">
             <h3 class="step-note">2. Attach library to a render array</h3>
             <pre><code class="php" data-trim data-line-numbers=true>
-// Render a page of my messages
-function mymodule_messages_page() {
+/**
+ * @file
+ * Contains \Drupal\mymodule\Controller\MyModuleController.
+ */
+namespace Drupal\mymodule\Controller;
+use Drupal\Core\Controller\ControllerBase;
 
-  // .. build $content
-
-  // Create render array.
-  $page[] = array(
-    '#type' => 'markup',
-    '#markup' => $content,
-  );
-  // Attach JavaScript library.
-  $page['#attached']['library'][] = 'mymodule/mymodule.commands';
-
-  return $page;
+class MyModuleController extends ControllerBase {
+  // ...
+  // Render a page of my messages
+  public function messagesPage() {
+    // .. build $content
+    // Create render array.
+    $page[] = array(
+      '#type' => 'markup',
+      '#markup' => $content,
+    );
+    // Attach JavaScript library.
+    $page['#attached']['library'][] = 'mymodule/mymodule.commands';
+    return $page;
+  }
+  // ...
 }
             </code><span class="codename">mymodule/mymodule.module </span></pre>
             <p class="caption">Function for building messages page is now using a render array. to the '#attached', 'library' array of that render array, including the custom library. No longer including the AJAX library, as Drupal will know to include it from the libraries.yml file.
@@ -781,17 +789,27 @@ function mymodule_messages_page() {
           <section data-transition="convex">
             <h3 class="step-note">3. Add command to AjaxResponse object in callback</h3>
             <pre><code class="php" data-trim data-line-numbers=true>
-// AJAX Callback to read a message.
-function mymodule_read_message_callback($method, $mid) {
-  $message = mymodule_load_message($mid);
-  // @TODO: Graceful degredation if not from ajax method or if no message.
-  // Create AJAX Response object.
-  $response = new AjaxResponse();
-  // Call the readMessage javascript function.
-  $response->addCommand( new ReadMessageCommand($message));
- );
- // Return ajax response.
- return $response;
+/**
+ * @file
+ * Contains \Drupal\mymodule\Controller\MyModuleController.
+ */
+namespace Drupal\mymodule\Controller;
+use Drupal\Core\Controller\ControllerBase;
+
+class MyModuleController extends ControllerBase {
+  // ...
+  // AJAX Callback to read a message.
+  public function readMessageCallback($method, $mid) {
+    $message = mymodule_load_message($mid);
+    // Create AJAX Response object.
+    $response = new AjaxResponse();
+    // Call the readMessage javascript function.
+    $response->addCommand( new ReadMessageCommand($message));
+   );
+   // Return ajax response.
+   return $response;
+  }
+  //...
 }
             </code><span class="codename">mymodule/mymodule.module </span></pre>
             <p class="caption">Returning an AjaxResponse object instead of adding the core commands, just adding the new custom command using the 'addCommand' method.
