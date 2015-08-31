@@ -434,8 +434,8 @@ body {
  *********************************************/
 
 @mixin transition-global($style) {
-	.reveal .slides>section[data-transition=#{$style}],
-	.reveal.#{$style} .slides>section:not([data-transition]) {
+	.reveal .slides section[data-transition=#{$style}],
+	.reveal.#{$style} .slides section:not([data-transition]) {
 		@content;
 	}
 }

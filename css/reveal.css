@@ -450,7 +450,7 @@ body {
 /*********************************************
  * ZOOM TRANSITION
  *********************************************/
-.reveal .slides > section[data-transition=zoom], .reveal.zoom .slides > section:not([data-transition]) {
+.reveal .slides section[data-transition=zoom], .reveal.zoom .slides section:not([data-transition]) {
   -webkit-transition-timing-function: ease;
           transition-timing-function: ease; }
 
@@ -647,7 +647,7 @@ body {
 /*********************************************
  * NO TRANSITION
  *********************************************/
-.reveal .slides > section[data-transition=none], .reveal.none .slides > section:not([data-transition]) {
+.reveal .slides section[data-transition=none], .reveal.none .slides section:not([data-transition]) {
   -webkit-transform: none;
       -ms-transform: none;
           transform: none;
