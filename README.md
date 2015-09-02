@@ -976,7 +976,7 @@ Reveal.initialize({
 	// other options ...
 
 	math: {
-		mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+		mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
 		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
 	},
 	
