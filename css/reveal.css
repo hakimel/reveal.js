@@ -85,7 +85,8 @@ body {
     visibility: visible; }
 
 .reveal .slides section .fragment.strike {
-  opacity: 1; }
+  opacity: 1;
+  visibility: visible; }
   .reveal .slides section .fragment.strike.visible {
     text-decoration: line-through; }
 

@@ -121,6 +121,7 @@ body {
 
 .reveal .slides section .fragment.strike {
 	opacity: 1;
+	visibility: visible;
 
 	&.visible {
 		text-decoration: line-through;
