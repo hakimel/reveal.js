@@ -92,6 +92,9 @@
 			// Flags if it should be possible to pause the presentation (blackout)
 			pause: true,
 
+			// Flags if speaker notes should be visible to all viewers
+			showNotes: false,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -464,6 +467,9 @@
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
+
+		// Element containing notes that are visible to the audience
+		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
@@ -854,6 +860,13 @@
 		// Exit the paused mode if it was configured off
 		if( config.pause === false ) {
 			resume();
+		}
+
+		if( config.showNotes ) {
+			dom.speakerNotes.classList.add( 'visible' );
+		}
+		else {
+			dom.speakerNotes.classList.remove( 'visible' );
 		}
 
 		if( config.mouseWheel ) {
@@ -2161,6 +2174,7 @@
 		updateBackground();
 		updateParallax();
 		updateSlideNumber();
+		updateNotes();
 
 		// Update the URL hash
 		writeURL();
@@ -2202,6 +2216,7 @@
 		updateBackground( true );
 		updateSlideNumber();
 		updateSlidesVisibility();
+		updateNotes();
 
 		formatEmbeddedContent();
 		startEmbeddedContent( currentSlide );
@@ -2445,6 +2460,37 @@
 
 				}
 			}
+
+		}
+
+	}
+
+	/**
+	 * Pick up notes from the current slide and display tham
+	 * to the viewer.
+	 *
+	 * @see `showNotes` config value
+	 */
+	function updateNotes() {
+
+		if( config.showNotes && dom.speakerNotes && currentSlide ) {
+
+			var notes = '';
+
+			// Notes can be specified via the data-notes attribute...
+			if( currentSlide.hasAttribute( 'data-notes' ) ) {
+				notes = currentSlide.getAttribute( 'data-notes' );
+			}
+
+			// ... or using an <aside class="notes"> element
+			if( !notes ) {
+				var notesElement = currentSlide.querySelector( 'aside.notes' );
+				if( notesElement ) {
+					notes = notesElement.innerHTML;
+				}
+			}
+
+			dom.speakerNotes.innerHTML = notes;
 
 		}
 
