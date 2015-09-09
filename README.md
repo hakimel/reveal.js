@@ -738,6 +738,8 @@ reveal.js comes with a speaker notes plugin which can be used to present per-sli
 
 Notes are defined by appending an ```<aside>``` element to a slide as seen below. You can add the ```data-markdown``` attribute to the aside element if you prefer writing notes using Markdown.
 
+Alternatively you can add your notes in a `data-notes` attribute on the slide. Like `<section data-notes="Something important"></section>`.
+
 When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
 
 ```html
@@ -749,6 +751,8 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 	</aside>
 </section>
 ```
+
+Notes are only visible to you in the speaker view. If you wish to share your notes with the audience initialize reveal.js with the `showNotes` config value set to `true`.
 
 If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
 
