@@ -2473,7 +2473,7 @@
 	 */
 	function updateNotes() {
 
-		if( config.showNotes && dom.speakerNotes && currentSlide ) {
+		if( config.showNotes && dom.speakerNotes && currentSlide && !isPrintingPDF() ) {
 
 			var notes = '';
 
