@@ -3781,6 +3781,21 @@
 
 	}
 
+	/**
+	 * Checks if the target element prevents the triggering of
+	 * swipe navigation.
+	 */
+	function isSwipePrevented( target ) {
+
+		while( target && typeof target.hasAttribute === 'function' ) {
+			if( target.hasAttribute( 'data-prevent-swipe' ) ) return true;
+			target = target.parentNode;
+		}
+
+		return false;
+
+	}
+
 
 	// --------------------------------------------------------------------//
 	// ----------------------------- EVENTS -------------------------------//
@@ -3954,7 +3969,7 @@
 	 */
 	function onTouchStart( event ) {
 
-		if(preventSwipe(event.target)) return true;
+		if( isSwipePrevented( event.target ) ) return true;
 
 		touch.startX = event.touches[0].clientX;
 		touch.startY = event.touches[0].clientY;
@@ -3979,7 +3994,7 @@
 	 */
 	function onTouchMove( event ) {
 
-		if(preventSwipe(event.target)) return true;
+		if( isSwipePrevented( event.target ) ) return true;
 
 		// Each touch should only trigger one action
 		if( !touch.captured ) {
@@ -4269,15 +4284,6 @@
 			pauseAutoSlide();
 		}
 
-	}
-
-	function preventSwipe(target) {
-		while( target && typeof target.hasAttribute === 'function' ) {
-			if(target.hasAttribute('prevent-swipe')) return true;
-			target = target.parentNode;
-		}
-
-		return false;
 	}
 
 
