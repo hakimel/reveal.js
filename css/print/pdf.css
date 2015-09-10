@@ -61,14 +61,6 @@ h1,h2,h3,h4,h5,h6 {
 	font-family: Courier, 'Courier New', monospace !important;
 }
 
-.reveal .speaker-notes {
-	display: block;
-	width: 100%;
-	max-height: none;
-	left: auto;
-	top: auto;
-}
-
 
 /* SECTION 5: more reveal.js specific additions by @skypanther */
 ul, ol, div, p {
@@ -157,9 +149,19 @@ ul, ol, div, p {
 	width: 100%;
 	z-index: -1;
 }
+
 /* All elements should be above the slide-background */
 .reveal section>* {
 	position: relative;
 	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
 }
 
