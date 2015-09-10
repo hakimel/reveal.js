@@ -573,6 +573,18 @@
 					background.style.top = -top + 'px';
 					background.style.left = -left + 'px';
 				}
+
+				// If we're configured to `showNotes`, inject them into each slide
+				if( config.showNotes ) {
+					var notes = getSlideNotes( slide );
+					if( notes ) {
+						var notesElement = document.createElement( 'div' );
+						notesElement.classList.add( 'speaker-notes' );
+						notesElement.innerHTML = notes;
+						notesElement.style.bottom = 40 - ( ( pageHeight - contentHeight ) / 2 ) + 'px';
+						slide.appendChild( notesElement );
+					}
+				}
 			}
 
 		} );

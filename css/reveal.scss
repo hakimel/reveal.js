@@ -1314,6 +1314,8 @@ body {
 	background-color: rgba(0,0,0,0.5);
 	overflow: auto;
 	box-sizing: border-box;
+	text-align: left;
+	font-family: Helvetica, sans-serif;
 }
 
 .reveal .speaker-notes.visible:not(:empty) {
