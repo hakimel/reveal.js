@@ -2475,22 +2475,7 @@
 
 		if( config.showNotes && dom.speakerNotes && currentSlide && !isPrintingPDF() ) {
 
-			var notes = '';
-
-			// Notes can be specified via the data-notes attribute...
-			if( currentSlide.hasAttribute( 'data-notes' ) ) {
-				notes = currentSlide.getAttribute( 'data-notes' );
-			}
-
-			// ... or using an <aside class="notes"> element
-			if( !notes ) {
-				var notesElement = currentSlide.querySelector( 'aside.notes' );
-				if( notesElement ) {
-					notes = notesElement.innerHTML;
-				}
-			}
-
-			dom.speakerNotes.innerHTML = notes;
+			dom.speakerNotes.innerHTML = getSlideNotes() || '';
 
 		}
 
@@ -3332,6 +3317,32 @@
 		}
 
 		return horizontalBackground;
+
+	}
+
+	/**
+	 * Retrieves the speaker notes from a slide. Notes can be
+	 * defined in two ways:
+	 * 1. As a data-notes attribute on the slide <section>
+	 * 2. As an <aside class="notes"> inside of the slide
+	 */
+	function getSlideNotes( slide ) {
+
+		// Default to the current slide
+		slide = slide || currentSlide;
+
+		// Notes can be specified via the data-notes attribute...
+		if( slide.hasAttribute( 'data-notes' ) ) {
+			return slide.getAttribute( 'data-notes' );
+		}
+
+		// ... or using an <aside class="notes"> element
+		var notesElement = slide.querySelector( 'aside.notes' );
+		if( notesElement ) {
+			return notesElement.innerHTML;
+		}
+
+		return null;
 
 	}
 
@@ -4485,6 +4496,9 @@
 
 		// Returns the slide background element at the specified index
 		getSlideBackground: getSlideBackground,
+
+		// Returns the speaker notes string for a slide, or null
+		getSlideNotes: getSlideNotes,
 
 		// Returns the previous slide element, may be null
 		getPreviousSlide: function() {

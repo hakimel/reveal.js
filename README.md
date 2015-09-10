@@ -372,6 +372,9 @@ Reveal.getIndices(); // { h: 0, v: 0 } }
 Reveal.getProgress(); // 0-1
 Reveal.getTotalSlides();
 
+// Returns the speaker notes for the current slide
+Reveal.getSlideNotes();
+
 // State checks
 Reveal.isFirstSlide();
 Reveal.isLastSlide();
