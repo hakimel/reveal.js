@@ -1179,7 +1179,8 @@ body {
   -moz-box-sizing: border-box;
        box-sizing: border-box;
   text-align: left;
-  font-family: Helvetica, sans-serif; }
+  font-family: Helvetica, sans-serif;
+  -webkit-overflow-scrolling: touch; }
 
 .reveal .speaker-notes.visible:not(:empty) {
   display: block; }
