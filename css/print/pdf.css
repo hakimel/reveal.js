@@ -163,5 +163,6 @@ ul, ol, div, p {
 	max-height: none;
 	left: auto;
 	top: auto;
+	z-index: 100;
 }
 
