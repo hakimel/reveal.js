@@ -157,7 +157,7 @@ ul, ol, div, p {
 }
 
 /* Display slide speaker notes when 'showNotes' is enabled */
-.reveal .speaker-notes {
+.reveal .speaker-notes-pdf {
 	display: block;
 	width: 100%;
 	max-height: none;

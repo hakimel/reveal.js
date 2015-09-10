@@ -580,8 +580,9 @@
 					if( notes ) {
 						var notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
+						notesElement.classList.add( 'speaker-notes-pdf' );
 						notesElement.innerHTML = notes;
-						notesElement.style.bottom = 40 - ( ( pageHeight - contentHeight ) / 2 ) + 'px';
+						notesElement.style.bottom = ( 40 - top ) + 'px';
 						slide.appendChild( notesElement );
 					}
 				}
