@@ -1229,7 +1229,7 @@ body {
 .reveal .playback {
 	position: fixed;
 	left: 15px;
-	bottom: 15px;
+	bottom: 20px;
 	z-index: 30;
 	cursor: pointer;
 	transition: all 400ms ease;
@@ -1304,12 +1304,11 @@ body {
 	width: 70%;
 	max-height: 15%;
 	left: 15%;
-	bottom: 5%;
+	bottom: 26px;
 	padding: 10px;
 	z-index: 1;
 	font-size: 18px;
 	line-height: 1.4;
-	border: 2px solid #fff;
 	color: #fff;
 	background-color: rgba(0,0,0,0.5);
 	overflow: auto;
@@ -1322,12 +1321,16 @@ body {
 	display: block;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
+	.reveal .speaker-notes {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 600px) {
 	.reveal .speaker-notes {
 		width: 90%;
 		left: 5%;
-		bottom: 5%;
-		font-size: 14px;
 	}
 }
 
