@@ -19,27 +19,26 @@
     "url": "git://github.com/hakimel/reveal.js.git"
   },
   "engines": {
-    "node": "~0.10.0"
+    "node": "~4.0.0"
   },
   "dependencies": {
-    "underscore": "~1.5.1",
-    "express": "~2.5.9",
-    "mustache": "~0.7.2",
-    "socket.io": "~0.9.16"
+    "express": "^2.5.11",
+    "mustache": "^0.7.3",
+    "socket.io": "^0.9.17",
+    "underscore": "^1.5.2"
   },
   "devDependencies": {
-    "grunt-contrib-qunit": "~0.5.2",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-cssmin": "~0.12.2",
-    "grunt-contrib-uglify": "~0.2.4",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-sass": "~0.14.0",
-    "grunt-contrib-connect": "~0.8.0",
-    "grunt-autoprefixer": "~1.0.1",
-    "grunt-zip": "~0.7.0",
-    "grunt": "~0.4.0",
-    "node-sass": "~0.9.3"
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^3.0.3",
+    "grunt-contrib-connect": "^0.11.2",
+    "grunt-contrib-cssmin": "^0.13.0",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-qunit": "^0.7.0",
+    "grunt-contrib-uglify": "^0.9.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.0.0",
+    "grunt-zip": "^0.17.1",
+    "node-sass": "^3.3.2"
   },
-  
   "license": "MIT"
 }
