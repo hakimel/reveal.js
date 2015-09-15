@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>NoSQL 之 MC 和 Redis 入门 - FuKun </title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/league.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -29,6 +29,16 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 
+		<!-- 自定义样式 -->
+		<style>
+			body:after {
+				content: url(http://p4.qhimg.com/sdr/_150_/d/inn/dbe08dce/logo.png);
+				position: fixed;
+				bottom: -1em;
+				right: 6.5em;
+				box-shadow: 0px 0px 0px;}
+		</style>
+
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
@@ -40,339 +50,452 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
+				<section data-markdown>
+				<script type="text/template">
+					##NoSQL 之 MC 和 Redis 入门
+					author: [fukun](#) @ [haosourd.com](http://haosourd.com)
+				</script>
 				</section>
-
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
+					<section data-markdown>
+					#NOSQL
+					NoSql = Not Only Sql    
+					非关系型数据库
+					</section>
+					<section data-markdown>
+					<script type="text/template">
+						|类型|Example|
+						|:----|:----|
+						|键值对key-value|Memcache, Redis|
+						|列存储数据库|Cassandra, HBase|
+						|文档型数据库|MongoDb, CouchDB|
+						|图形数据库|InfoGrid, Infinite Graph|
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
+						<aside class="notes" data-markdown>
+						Cassandra 图搜下载服务, 大表, 写快,写操作多于读操作  
+						HBase 指数搜索  
+						Mongo 指数,谈谈  
+						CouchDB  累积,堆积计算,预先定义的查询
+						</aside>
+					</script>
 					</section>
 				</section>
+				<section>
+					<section data-markdown>
+					#Memcache
+					Memcache 是一个 **[高性能]** 的 **[分布式]** 对象 **[缓存]** 系统。
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						* ###缓存
+						把每次都需要通过复杂计算获得的结果保存起来
+						* ###高性能    
+						内存级, 无需落地
+						* ###分布式    
+						可扩展    
+
+						<aside class="notes" data-markdown>
+						*内存比硬盘快; 比内存更快的,寄存器    
+						*单机缓存 Apc, Eac   
+						*apc,eac除了opcode cache,还有content cache  
+						*单机缓存劣势:内存有限;复杂度高的请求多次计算,session共享
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##使用场景
+						* 非个性化数据
+						* 请求数据库的查询结果
+						* 访问频繁的字典数据
+						* 大量的hot数据
+						* 页面缓存
+						* 临时处理的数据
+
+						<aside class="notes" data-markdown>
+						减少数据库查询请求,减小数据库负载    
+						hot数据: 热榜  
+						页面缓存: 雷电首页
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					##内置内存存储方式
+					为了提高性能，数据都存储在内置的内存存储空间中, 重启memcache/重启操作系统会导致全部数据消失    
+					内容容量达到阈值后,就基于LRU(Least Recently Used)算法自动删除不使用的缓存. 
+					memcache本身是为缓存而设计的服务器,因此并没有考虑数据的永久性问题    
+					[slab allocation](https://docs.oracle.com/cd/E17952_01/refman-5.5-en/ha-memcached-using-memory.html)
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##分布式 
+						![](http://p0.qhimg.com/t01e9bcbd482626fc76.png)    
+						[一致性hash](http://codeproject.com/Articles/56138/Consistent-hashing)
+
+						<aside class="notes" data-markdown>
+						memcache 尽管是分布式缓存服务器，但服务器端并没有分布式功能  
+						各个memcached不会互相通信以共享信息。那么，怎样进行分布式呢？取决于客户端的实现
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					##一个典型的使用Demo
+					![](http://p0.qhimg.com/t01ca27b48e70dc2d73.png)
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##启动方式
+						memecached -d -m 128 -u root -p 11211 -c 2048 -n 60 -f 1.1
+						* -p tcp端口
+						* -c 最大并发数
+						* -n 指定第一块内存
+						* -f 增长因子
+
+						<aside class="notes" data-markdown>
+						-m max memory to use for items,default is 64 MB  
+						-n minimum space allocated for key+value+flags, default 48 bytes  
+						单个item的大小1m限制,避免浪费内存,如需修改,改源码,最大128m
+						</aside>
+					</script>
+					</section>
+
+					<section>
+					<h2>php demo</h2>
+					<pre><code data-trim contenteditable class="php">
+// 设置一致性哈希
+ini_set('memcache.hash_strategy', 'consistent');
+
+$memcache = new Memcache;
+foreach ($servers as $server) {
+	list($host, $port) = explode(':', $server);
+	$memcache->addServer($host, $port, true, 1, null, 15, true, null, 5);
+}
+$mcKey = "userInfo_123456";
+$userInfo = $memcache->get($mcKey);
+if ($res === false) {
+	//getUserinfo SQL
+	$userInfo = $sql->select();
+	$memcache->set($mcKey, $userInfo, MEMCACHE_COMPRESSED, 60);
+}
+return $userInfo;
+					</code></pre>
+
+						<aside class="notes" data-markdown>
+						一个简单的Demo,实现从数据库查询用户信息,并缓存起来
+						</aside>
+					</section>
+					<section data-markdown>
+					<script type="text/template">
+					##使用中需要注意的问题
+					* 不要存储过大的数据块,合理使用压缩    
+					* 尽量避免跨机房访问MC    
+					* 注意key的长度最大只支持250字节，要考虑key的长度也会计算到item的大小中。影响chunk分配    
+					* 如果不需要分布式，直接用本地缓存(如APC)会比MC更快    
+					* 一定要考虑MC服务器崩溃时对业务造成的影响    
+					* 记住，MC是缓存，不是DB，所以不要过于以来缓存中的数据，因为数据可能丢失。    
+					* 如果缓存很重要，需要定时生成cache，或考虑双写备份(慎用！性能会受影响)    
+					</script>
+					</section>
+					</section>
 
 				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
+					<section data-markdown>
+					<script type="text/template">
+						#Redis
+						一个高级键值 (key-value) 缓存 (cache) 和存储 (store) 系统。
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
+						<aside class="notes" data-markdown>
+						高级键值:  支持多种数据结构  
+						缓存: 内存级别  
+						存储: 支持持久化
+						</aside>
+					</script>
+					</section>
 
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
+					<section data-markdown>
+					<script type="text/template">
+						##支持的数据类型
+						string, hash, list, set, sorted set,  
+						pub/sub, geo, transaction ...
+
+						<aside class="notes" data-markdown>
+						常用类型: string, hash, list
+						计算集合的交集、并集和差集，或者是从有序集合中获取最高排名的元素
+						支持ttl
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##内存数据库
+						支持 RDB 和 AOF 持久化  
+						支持复制,集群,lua脚本
+
+						<aside class="notes" data-markdown>
+						RDB会在一个特定的间隔保存那个时间点的一个数据快照  
+						AOF会记录每一个服务器收到的写操作.在服务启动时，这些记录的操作会逐条执行从而重建出原来的数据  
+						Redis的持久化是可以禁用的  
+						两种方式的持久化是可以同时存在的，但是当Redis重启时，AOF文件会被优先用于重建数据
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##启动redis
+						redis-server /etc/redis.conf  
+						* daemonize：是否以后台daemon方式运行
+						* pidfile：pid文件位置
+						* port：监听的端口号
+						* timeout：请求超时时间
+						* loglevel：log信息级别
+						* logfile：log文件位置
+						* databases：开启数据库的数量
+						* save \* \*：保存快照的频率
+						* rdbcompression：是否使用压缩
+						* dbfilename：数据快照文件名
+						* ......
+
+						<aside class="notes" data-markdown>
+							默认端口 6379, 来历
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						port 6379 -- merz  
+						![Alesssia Merz](http://p0.qhimg.com/sdr/300__/t01d9da12bd1b211c95.png)
+						###Alesssia Merz
+
+						<aside class="notes" data-markdown>
+						Alessia Merz is an Italian model, television host and showgirl
+						merz 对应手机键盘上的4个按键  
+						一个showgirl能当意大利电台主播,认为stupid. 10年内merz作为antirez和同伴间愚蠢的代名词
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##字符串 (Strings)
+						字符串是 Redis 最基本的数据类型。  
+						一个字符串最大为 512M 字节。  
+
+						<pre><code data-trim contenteditable class="bash">
+127.0.0.1:6379[1]> set intkey 100
+OK
+127.0.0.1:6379[1]> incr intkey
+(integer) 101
+127.0.0.1:6379[1]> decr intkey 
+(integer) 100
+127.0.0.1:6379[1]> get intkey
+"100"
+127.0.0.1:6379[1]> append intkey hi
+(integer) 5
+127.0.0.1:6379[1]> get intkey
+"100hi"
+127.0.0.1:6379[1]> getrange intkey 1 3
+"00h"
+						</code></pre>
+
+						<aside class="notes" data-markdown>
+						Redis 字符串是二进制安全的，也就是说，一个 Redis 字符串可以包含任意类型的数据，例如一张 JPEG 图像，或者一个序列化的 Ruby 对象。
+						Redis 的字符串类型做很多有意思的事情，例如：
+						使用 INCR 命令族 (INCR，DECR，INCRBY)，将字符串作为原子计数器。
+						使用 APPEND 命令追加字符串。
+						使用 GETRANGE 和 SETRANGE 命令，使字符串作为随机访问向量 (vectors)。
+						编码大量数据到很小的空间，或者使用 GETBIT 和 SETBIT 命令，创建一个基于 Redis 的布隆 (Bloom) 过滤器。
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##哈希 / 散列 (Hashes)
+						Redis 哈希是字符串字段 (field) 与字符串值之间的映射，所以是表示对象的理想数据类型 (例如：一个用户对象有多个字段，像用户名，年龄等等)
+
+						<pre><code data-trim contenteditable class="bash">
+127.0.0.1:6379[1]> hset user_fk name fukun
+(integer) 1
+127.0.0.1:6379[1]> hset user_fk age 18
+(integer) 1
+127.0.0.1:6379[1]> hget user_fk name
+"fukun"
+127.0.0.1:6379[1]> hgetall user_fk
+1) "name"
+2) "fukun"
+3) "age"
+4) "18"
+						</code></pre>
+						<aside class="notes" data-markdown>
+						每个哈希可以存储多达 2^32-1 个字段值对(多于 42 亿个)
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##列表(Lists)
+						一个链表结构，主要功能是push、pop、获取一个范围的所有值等等  
+						![](http://p0.qhimg.com/t018ea9d3526c46a68f.png)
+
+						<aside class="notes" data-markdown>
+						使用场景:  
+						记住社交网络中用户最近的更新;  
+						使用生产者消费者模式. 队列, 抽奖
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown data-transition="Zoom">
+					<script type="text/template">
+						<pre><code data-trim contenteditable class="bash">
+127.0.0.1:6379[1]> lpush list_demo 1
+(integer) 1
+127.0.0.1:6379[1]> lpush list_demo 2
+(integer) 2
+127.0.0.1:6379[1]> rpush list_demo 11
+(integer) 3
+127.0.0.1:6379[1]> lrange list_demo 0 3
+1) "2"
+2) "1"
+3) "11"
+127.0.0.1:6379[1]> rpop list_demo
+"11"
+127.0.0.1:6379[1]> lrange list_demo 0 3
+1) "2"
+2) "1"
+						</code></pre>
+
+
+						<aside class="notes" data-markdown>
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##集合 (Sets)
+						没有顺序的字符串集合  
+						可以在 O(1) 的时间复杂度添加、删除和测试元素存在与否 (不管集合中有多少元素都是常量时间)  
+						可以在集合间计算并集，交集和差集  
+
+						<span class="fragment current-visible">![](http://p0.qhimg.com/t014589a694ace5adf6.png)</span> <span class="fragment current-visible">![](http://p0.qhimg.com/t01e3bbdca3880c5330.png)</span>
+
+						<aside class="notes" data-markdown>
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown data-transition="Zoom">
+					<script type="text/template">
+						<pre><code data-trim contenteditable class="bash">
+127.0.0.1:6379[1]> sadd usera a b c d e
+(integer) 5
+127.0.0.1:6379[1]> sadd userb b e f g c
+(integer) 5
+127.0.0.1:6379[1]> sinter usera userb
+1) "b"
+2) "c"
+3) "e"
+127.0.0.1:6379[1]> sismember usera a
+(integer) 1
+127.0.0.1:6379[1]> srandmember userb 2
+1) "f"
+2) "g"
+127.0.0.1:6379[1]> sdiff usera userb
+1) "d"
+2) "a"
+127.0.0.1:6379[1]> sunion usera userb
+1) "d"
+2) "b"
+3) "c"
+4) "f"
+5) "g"
+6) "a"
+7) "e"
+						</code></pre>
+
+						<aside class="notes" data-markdown>
+						sinter 交集  
+						sdiff 差集
+						sunion 并集
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##有序集合(Sorted sets)
+						和集合类似，是非重复字符串集合。不同的是，每一个有序集合的成员都有一个关联的分数 (score)，用于按照分数高低排序。尽管成员是唯一的，但是分数是可以重复的
+
+						<aside class="notes" data-markdown>
+						可以用作:  
+						多人在线游戏排行榜
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown data-transition="Zoom">
+					<script type="text/template">
+						<pre><code data-trim contenteditable class="bash">
+127.0.0.1:6379[1]> zadd ranklist 300 "userA"
+(integer) 1
+127.0.0.1:6379[1]> zadd ranklist 400 "userB"
+(integer) 1
+127.0.0.1:6379[1]> zadd ranklist 900 "userC"
+(integer) 1
+127.0.0.1:6379[1]> zadd ranklist 100 "userD"
+(integer) 1
+127.0.0.1:6379[1]> zrevrange ranklist 0 2 withscores
+1) "userC"
+2) "900"
+3) "userB"
+4) "400"
+5) "userA"
+6) "300"
+127.0.0.1:6379[1]> zscore ranklist "userD"
+"100"
+127.0.0.1:6379[1]> zrevrank ranklist "userD"
+(integer) 3
+						</code></pre>
+
+						<aside class="notes" data-markdown>
+						有序集合是通过双端(dual-ported)数据结构实现的，包括跳跃表和哈希表，所以我们每次添加元素时 Redis 执行 O(log(N)) 的操作。这还好，但是当我们请求有序元素时，Redis 根本不需要做什么工作，因为已经是全部有序了
+						</aside>
+					</script>
+					</section>
+
+					<section data-markdown>
+					<script type="text/template">
+						##订阅(PUB/SUB)
+						![](http://p0.qhimg.com/t01b4ed51e18381ad53.png)
+
+						<aside class="notes" data-markdown>
+						简单介绍  
+						subscribe / Publish
+						谈谈
+						</aside>
+					</script>
+					</section>
 				</section>
 
 				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
+				<script type="text/template">
+					#QA & THANKS
+					[fukun](#) @ [haosourd.com](http://haosourd.com)
 
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					<aside class="notes" data-markdown>
 					</aside>
-				</section>
-
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
-
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
-
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
+				</script>
 				</section>
 
 			</div>
@@ -392,7 +515,7 @@ Reveal.addEventListener( 'customevent', function() {
 				history: true,
 				center: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
 
 				// Optional reveal.js plugins
 				dependencies: [
