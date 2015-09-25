@@ -21,13 +21,11 @@
   "engines": {
     "node": "~0.10.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "underscore": "~1.5.1",
     "express": "~2.5.9",
     "mustache": "~0.7.2",
-    "socket.io": "~0.9.16"
-  },
-  "devDependencies": {
+    "socket.io": "~0.9.16",
     "grunt-contrib-qunit": "~0.5.2",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-cssmin": "~0.12.2",
