@@ -150,7 +150,6 @@
 		// Flags if video background is loaded
 		loadeddataVideo = false,
 
-
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
@@ -2473,19 +2472,19 @@
 
 		if( currentBackground ) {
 
-			// Start video playback
-			var currentVideo = currentBackground.querySelector( 'video' );
-			if( currentVideo ) {
-
-				currentVideo.addEventListener("loadeddata", function() {
+      // Start video playback
+      var currentVideo = currentBackground.querySelector( 'video' );
+      if( currentVideo ) {
+        if(currentVideo.readyState >1){
 					currentVideo.currentTime = 0;
 					currentVideo.play();
-					loadeddataVideo = true;
-					 this.removeEventListener("loadeddata",function(){return false});
-				});
-				if(loadeddataVideo === true){
+				}
+				else{
+					currentVideo.addEventListener("loadeddata", function() {
 					currentVideo.currentTime = 0;
 					currentVideo.play();
+					 currentVideo.removeEventListener("loadeddata",function(){return false});
+					});
 				}
 			}
 
