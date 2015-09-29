@@ -147,6 +147,10 @@
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
+		// Flags if video background is loaded
+		loadeddataVideo = false,
+
+
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
@@ -2472,8 +2476,17 @@
 			// Start video playback
 			var currentVideo = currentBackground.querySelector( 'video' );
 			if( currentVideo ) {
-				currentVideo.currentTime = 0;
-				currentVideo.play();
+
+				currentVideo.addEventListener("loadeddata", function() {
+					currentVideo.currentTime = 0;
+					currentVideo.play();
+					loadeddataVideo = true;
+					 this.removeEventListener("loadeddata",function(){return false});
+				});
+				if(loadeddataVideo === true){
+					currentVideo.currentTime = 0;
+					currentVideo.play();
+				}
 			}
 
 			// Don't transition between identical backgrounds. This
