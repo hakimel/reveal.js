@@ -8,6 +8,6 @@
 		if (data.socketId !== socketId) { return; }
 		if( window.location.host === 'localhost:1947' ) return;
 
-		Reveal.slide(data.indexh, data.indexv, data.indexf, 'remote');
+		Reveal.setState(data.state);
 	});
 }());
