@@ -2469,10 +2469,11 @@
 
 		if( currentBackground ) {
 
-      // Start video playback
-      var currentVideo = currentBackground.querySelector( 'video' );
-      if( currentVideo ) {
-        if(currentVideo.readyState >1){
+			// Start video playback
+			var currentVideo = currentBackground.querySelector( 'video' );
+			if( currentVideo ) {
+
+				if(currentVideo.readyState >1){
 					currentVideo.currentTime = 0;
 					currentVideo.play();
 				}
@@ -2483,6 +2484,7 @@
 					 currentVideo.removeEventListener("loadeddata",function(){return false});
 					});
 				}
+				
 			}
 
 			// Don't transition between identical backgrounds. This
