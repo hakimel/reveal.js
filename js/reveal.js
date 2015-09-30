@@ -147,9 +147,6 @@
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
-		// Flags if video background is loaded
-		loadeddataVideo = false,
-
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
