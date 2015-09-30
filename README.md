@@ -793,13 +793,21 @@ The multiplex plugin needs the following 3 things to operate:
 2. Client presentations that follow the master
 3. Socket.io server to broadcast events from the master to the clients
 
+>**Important note: you have use the same version of Socket.io on your Socket.io server, Master presentation and client presentations.** So if you use the Socket.io hosted on http://revealjs.jit.su you must ensure that you use the same version on your master and clients.
+
 More details:
 
 #### Master presentation
 Served from a static file server accessible (preferably) only to the presenter. This need only be on your (the presenter's) computer. (It's safer to run the master presentation from your own computer, so if the venue's Internet goes down it doesn't stop the show.) An example would be to execute the following commands in the directory of your master presentation: 
 
+1. ```python -m SimpleHTTPServer```
+
+Or if you don't have SimpleHTTPServer
+
 1. ```npm install node-static```
 2. ```static```
+
+Or any http server.
 
 If you want to use the speaker notes plugin with your master presentation then make sure you have the speaker notes plugin configured correctly along with the configuration shown below, then execute ```node plugin/notes-server``` in the directory of your master presentation. The configuration below will cause it to connect to the socket.io server as a master, as well as launch your speaker-notes/static-file server.
 
@@ -916,6 +924,92 @@ Reveal.initialize({
 	]
 });
 ```
+
+#### Self hosted socket.io server with Master and Client presentations
+
+There are the three configurations of self hosted Socket.io server for multiplexing solution. With a Master presentation including notes and Client presentations.
+
+##### Socket.io server with token provider configuration
+
+```javascript
+Reveal.initialize({
+    // other options...
+
+    // Don't forget to add the dependencies
+    dependencies: [
+        // other dependencies...
+        
+        { src: 'lib/js/socket.io.min.js', async: true }
+    ]
+});
+```
+The only thing required in the Socket.io server dependencies is the socket.io file.
+**Note that you have to use the same version on Master and clients.**
+
+Run it with ```node plugin/multiplex```.
+
+To get a token and secret for your Master and Clients, go to ```yourServer:1948/token``` or ```yourIp:1948/token```. See index.js in the multiplex plugin.
+
+##### Master presentation with notes configuration
+
+```javascript
+Reveal.initialize({
+    // other options...
+
+    // Multiplex master settings
+    multiplex: {
+        secret: 01234567890123456789, // Obtained from the socket.io server.
+        // It gives the control of the presentation of all clients.
+        // Get it from yourServer:1948/token or yourIp:1948/token.
+        id: '0123456789abcdef', // Obtained from the socket.io server.
+        // It gives the control of the presentation of all clients.
+        // Get it from yourServer:1948/token or yourIp:1948/token.
+        url: 'yourServer:1948' // Location of socket.io server,
+        // yourServer:1948 or yourIp:1948.
+    },
+
+    // Don't forget to add the dependencies
+    dependencies: [
+        // other dependencies...
+        
+        { src: 'lib/js/socket.io.min.js', async: true },
+        { src: 'plugin/multiplex/master.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+    ]
+});
+```
+
+Run it with ```python -m SimpleHTTPServer 8888```. Set the port number at your convenience. Or use you apache, nginx or whatever you want.
+
+##### Client presentation configuration
+
+```javascript
+Reveal.initialize({
+    // other options...
+
+    // Multiplex master settings
+    multiplex: {
+        secret: null, // null so the clients do not have control of the master presentation.
+        id: '0123456789abcdef', // The same thahas been set in the master config.
+        // Obtained from the socket.io server. It gives the control of the presentation
+        // of all clients. Get it from yourServer:1948/token or yourIp:1948/token.
+        url: 'yourServer:1948' // Location of socket.io server,
+        // yourServer:1948 or yourIp:1948.
+    },
+
+    // Don't forget to add the dependencies
+    dependencies: [
+        // other dependencies...
+
+        { src: 'lib/js/socket.io.min.js', async: true },
+        { src: 'plugin/multiplex/client.js', async: true }
+    ]
+});
+```
+
+Run it with ```python -m SimpleHTTPServer 8000```. Set the port number at your convenience. Or use you apache, nginx or whatever you want.
+
+Then provide this address to you audience. And take the control of the presentation from the master presentation address (from previous point).
 
 ## Leap Motion
 The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
