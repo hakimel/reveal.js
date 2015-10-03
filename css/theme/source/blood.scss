@@ -24,6 +24,8 @@ $blood: #a23;
 $coal: #222;
 $codeBackground: #23241f;
 
+$backgroundColor: $coal;
+
 // Main text
 $mainFont: Ubuntu, 'sans-serif';
 $mainFontSize: 36px;
@@ -45,10 +47,6 @@ $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: $blood;
 $selectionColor: #fff;
 
-// Background generator
-@mixin bodyBackground() {
-    @include radial-gradient( $coal, lighten( $coal, 25% ) );
-}
 
 // Theme template ------------------------------
 @import "../template/theme";
@@ -61,23 +59,13 @@ $selectionColor: #fff;
     text-shadow: 1px 1px $coal;
 }
 
-.reveal h1, 
+.reveal h1,
 .reveal h2,
 .reveal h3,
 .reveal h4,
 .reveal h5,
 .reveal h6 {
     font-weight: 700;
-}
-
-.reveal a:not(.image),
-.reveal a:not(.image):hover {
-    text-shadow: 2px 2px 2px #000;
-}
-
-.reveal small a:not(.image),
-.reveal small a:not(.image):hover {
-    text-shadow: 1px 1px 1px #000;
 }
 
 .reveal p code {
