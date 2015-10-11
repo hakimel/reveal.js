@@ -1,0 +1,219 @@
+@import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+
+.footer .branding--logo {
+  display: inline-block;
+  float: left;
+  margin-left: 1em;
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0em; }
+.footer .logo__image {
+  display: inline-block; }
+.footer .logo__site-name {
+  display: inline-block; }
+.footer .session--info {
+  display: inline-block;
+  float: right;
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0em;
+  right: 5em; }
+.footer .session__title, .footer .session__presenter {
+  display: inline-block; }
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+body {
+  background-size: 100%;
+  background-image: url('../../images/background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.reveal {
+  font-family: 'Raleway', 'Verdana', 'Lucida Grande', 'Gill Sans', 'Arial', 'Helvetica', sans-serif;
+  font-size: 36px;
+  font-weight: normal;
+}
+
+::selection {
+  text-shadow: none; }
+
+.reveal .slides > section, .reveal .slides > section > section {
+  line-height: 1.3;
+  font-weight: inherit; }
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  margin: 0 0 20px 0;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+  text-shadow: none;
+  word-wrap: break-word; }
+
+.reveal h1 {
+  font-size: 2.5em; }
+
+.reveal h2 {
+  font-size: 1.6em; }
+
+.reveal h3 {
+  font-size: 1.3em; }
+
+.reveal h4 {
+  font-size: 1em; }
+
+.reveal h1 {
+  text-shadow: none; }
+
+/*********************************************
+ * OTHER
+ *********************************************/
+.reveal p {
+  margin: 20px 0;
+  line-height: 1.3; }
+
+/* Ensure certain elements are never larger than the slide itself */
+.reveal img, .reveal video, .reveal iframe {
+  max-width: 95%;
+  max-height: 95%; }
+
+.reveal strong, .reveal b {
+  font-weight: bold; }
+
+.reveal em {
+  font-style: italic; }
+
+.reveal ol, .reveal dl, .reveal ul {
+  display: inline-block;
+  text-align: left;
+  margin: 0 0 0 1em; }
+
+.reveal ol {
+  list-style-type: decimal; }
+
+.reveal ul {
+  list-style-type: disc; }
+
+.reveal ul ul {
+  list-style-type: square; }
+
+.reveal ul ul ul {
+  list-style-type: circle; }
+
+.reveal ul ul, .reveal ul ol, .reveal ol ol, .reveal ol ul {
+  display: block;
+  margin-left: 40px; }
+
+.reveal dt {
+  font-weight: bold; }
+
+.reveal dd {
+  margin-left: 40px; }
+
+.reveal q, .reveal blockquote {
+  quotes: none; }
+
+.reveal blockquote {
+  display: block;
+  position: relative;
+  width: 70%;
+  margin: 20px auto;
+  padding: 5px;
+  font-style: italic; }
+
+.reveal blockquote p:first-child, .reveal blockquote p:last-child {
+  display: inline-block; }
+
+.reveal q {
+  font-style: italic; }
+
+.reveal pre {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 20px auto;
+  text-align: left;
+  font-size: 0.55em;
+  font-family: monospace;
+  line-height: 1.2em;
+  word-wrap: break-word; }
+
+.reveal code {
+  font-family: monospace; }
+
+.reveal pre code {
+  display: block;
+  padding: 5px;
+  overflow: auto;
+  max-height: 400px;
+  word-wrap: normal; }
+
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.reveal table th {
+  font-weight: bold; }
+
+.reveal table th, .reveal table td {
+  text-align: left;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-bottom: 1px solid; }
+
+.reveal table tr:last-child td {
+  border-bottom: none; }
+
+.reveal sup {
+  vertical-align: super; }
+
+.reveal sub {
+  vertical-align: sub; }
+
+.reveal small {
+  display: inline-block;
+  font-size: 0.6em;
+  line-height: 1.2em;
+  vertical-align: top; }
+
+.reveal small * {
+  vertical-align: top; }
+
+/*********************************************
+ * LINKS
+ *********************************************/
+.reveal a {
+  text-decoration: none;}
+
+.reveal a:hover {
+  text-shadow: none;
+  border: none; }
+
+/*********************************************
+ * IMAGES
+ *********************************************/
+.reveal section img {
+  margin: 15px 0px;
+  border: 4px solid; }
+
+.reveal a img {
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  transition: all 0.15s linear; }
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress span {
+  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
