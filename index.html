@@ -63,7 +63,16 @@
           <h3><a href="" target="_blank">presentation conf link</a></h3>
           <h3>conference</h3>
           <h3>#conference</h3>
-          <aside class="notes"></aside>
+          <span class="caption">This is a caption</span>
+        </section>
+        <section>
+          <h1>Feedback</h1>
+          <h3><a href="http://www.twitter.com/mikemiles86">@mikemiles86</a></h3>
+          <h3>#conference</h3>
+        </section>
+        <section>
+          <h1>Thank You!</h1>
+          <p>Questions?</p>
         </section>
 			</div>
 
@@ -92,7 +101,9 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
           { src: 'plugin/notes/notes.js', async: true },
-					{ src: 'lib/js/line-numbers.js', async: true }
+					{ src: 'lib/js/line-numbers.js', async: false },
+          { src: 'lib/js/gif-loader.js', async: true},
+          { src: 'lib/js/captions-aside.js', async: false},
 				]
 			});
 
