@@ -1,0 +1,79 @@
+
+.reveal pre {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 20px auto;
+  text-align: left;
+  font-size: 0.55em;
+  font-family: monospace;
+  line-height: 1.2em;
+  word-wrap: break-word;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); }
+
+.reveal code {
+  font-family: monospace; }
+
+.reveal pre code {
+  background: #3F3F3F;
+  color: #DCDCDC;
+  font-size: 90%;
+  font-family: monospace;
+  display: block;
+  padding: 5px;
+  overflow: auto;
+  max-height: 500px;
+  word-wrap: normal;
+  text-align: left;
+}
+
+pre span.codename {
+  display:block;
+  text-align: right;
+  background: #3F3F3F;
+  color: #FFF  !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size:75% !important;
+  font-style: italic !important;
+  font-family: monospace !important;
+  line-height: 1 !important;
+}
+
+.step-note {
+  padding:5px !important;
+}
+
+.tldr {
+  line-height: 1 !important;
+  font-size: 60% !important;
+  color: #efef8f !important;
+  border: 1px #fff solid !important;
+  padding: 5px !important;
+}
+
+.caption, .filename {
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  font-size: 50% !important;
+  color: #CCC  !important;
+  font-style: italic !important;
+}
+
+.screenshot {
+  display: inline-block;
+  max-height: 550px !important;
+}
+
+.list-header {
+  list-style-type: none;
+  text-align: center;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.section-gif {
+  display: inline-block;
+  width: 50%;
+}
