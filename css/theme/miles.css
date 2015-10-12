@@ -20,17 +20,23 @@
   right: 5em; }
 .footer .session__title, .footer .session__presenter {
   display: inline-block; }
+.footer .company--logo {
+  display: inline-block;
+  float: center;
+  font-size: 0.5em;
+  position: absolute;
+  bottom: 0em;
+  left:40%; }
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 body {
   background-size: 100%;
-  background-image: url('../../images/background.png');
+  background-image: url('../../images/background.jpg');
   background-position: center;
   background-repeat: no-repeat;
 }
-
 
 .reveal {
   font-family: 'Raleway', 'Verdana', 'Lucida Grande', 'Gill Sans', 'Arial', 'Helvetica', sans-serif;
@@ -153,7 +159,7 @@ body {
   display: block;
   padding: 5px;
   overflow: auto;
-  max-height: 400px;
+  max-height: 500px;
   word-wrap: normal; }
 
 .reveal table {

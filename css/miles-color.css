@@ -14,6 +14,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 body {
   background: #197f9f;
   background-color: #197f9f;
+  background-image: url('../../images/background.jpg');
 }
 
 ::selection {
