@@ -199,6 +199,34 @@ Reveal.configure({ autoSlide: 5000 });
 ```
 
 
+### Presentation Size
+
+All presentations have a normal size, that is the resolution at which they are authored. The framework will automatically scale presentations uniformly based on this size to ensure that everything fits on any given display or viewport.
+
+See below for a list of configuration options related to sizing, including default values:
+
+```javascript
+Reveal.initialize({
+
+	...
+
+	// The "normal" size of the presentation, aspect ratio will be preserved
+	// when the presentation is scaled to fit different resolutions. Can be
+	// specified using percentage units.
+	width: 960,
+	height: 700,
+
+	// Factor of the display size that should remain empty around the content
+	margin: 0.1,
+
+	// Bounds for smallest/largest possible scale to apply to content
+	minScale: 0.2,
+	maxScale: 1.5
+
+});
+```
+
+
 ### Dependencies
 
 Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
@@ -246,34 +274,6 @@ A 'ready' event is fired when reveal.js has loaded all non-async dependencies an
 Reveal.addEventListener( 'ready', function( event ) {
 	// event.currentSlide, event.indexh, event.indexv
 } );
-```
-
-
-### Presentation Size
-
-All presentations have a normal size, that is the resolution at which they are authored. The framework will automatically scale presentations uniformly based on this size to ensure that everything fits on any given display or viewport.
-
-See below for a list of configuration options related to sizing, including default values:
-
-```javascript
-Reveal.initialize({
-
-	...
-
-	// The "normal" size of the presentation, aspect ratio will be preserved
-	// when the presentation is scaled to fit different resolutions. Can be
-	// specified using percentage units.
-	width: 960,
-	height: 700,
-
-	// Factor of the display size that should remain empty around the content
-	margin: 0.1,
-
-	// Bounds for smallest/largest possible scale to apply to content
-	minScale: 0.2,
-	maxScale: 1.5
-
-});
 ```
 
 
