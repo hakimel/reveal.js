@@ -2663,15 +2663,17 @@
 			var previousCanvas = previousBackground.querySelector( 'canvas' );
 			if( previousCanvas ) {
 				if ( window['paper'] ) {
-					for (i = 0; i < window['paper'].projects.length; ++i) {
-						if (window['paper'].projects[i]._view._element.getAttribute('id') === previousCanvas.getAttribute('id')) {
-							if (window['paper'].projects[i]._view.onHide) window['paper'].projects[i]._view.onHide();
-							window['paper'].projects[i]._view.pause();
+					for (i in window['paper'].PaperScope._scopes) {
+						if (!window['paper'].PaperScope._scopes[i].project) continue;
+						if (window['paper'].PaperScope._scopes[i].project._view._element.getAttribute('id') === previousCanvas.getAttribute('id')) {
+							if (window['paper'].PaperScope._scopes[i].project._view.onHide) {
+								window['paper'].PaperScope._scopes[i].project._view.onHide();
+							}
+							window['paper'].PaperScope._scopes[i].project._view.pause();
 						}
 					}
 				}
 			}
-			
 		}
 
 		if( currentBackground ) {
@@ -2686,10 +2688,13 @@
 			var currentCanvas = currentBackground.querySelector( 'canvas' );
 			if( currentCanvas ) {
 				if ( window['paper'] ) {
-					for (i = 0; i < window['paper'].projects.length; ++i) {
-						if (window['paper'].projects[i]._view._element.getAttribute('id') === currentCanvas.getAttribute('id')) {
-							if (window['paper'].projects[i]._view.onShow) window['paper'].projects[i]._view.onShow();
-							window['paper'].projects[i]._view.play();
+					for (i in window['paper'].PaperScope._scopes) {
+						if (!window['paper'].PaperScope._scopes[i].project) continue;
+						if (window['paper'].PaperScope._scopes[i].project._view._element.getAttribute('id') === currentCanvas.getAttribute('id')) {
+							if (window['paper'].PaperScope._scopes[i].project._view.onShow) {
+								window['paper'].PaperScope._scopes[i].project._view.onShow();
+							}
+							window['paper'].PaperScope._scopes[i].project._view.play();
 						}
 					}
 				}
@@ -2875,7 +2880,7 @@
 				// Canvas
 				else if ( backgroundCanvas ) {
 					var canvas = document.createElement( 'canvas' );
-					var canvasId = 'canvas' + '-' + indexh + '-' + indexv;
+					var canvasId = 'canvas' + '-' + indices.h + '-' + (indices.v ? indices.v : 0);
 					canvas.setAttribute('id', canvasId);
 					canvas.setAttribute('data-paper-resize', 'true');
 					canvas.setAttribute('data-paper-keepalive', 'true');
