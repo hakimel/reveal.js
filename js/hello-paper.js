@@ -1,30 +1,13 @@
 
 var deg2rad = Math.PI/180, rad2deg = 180/Math.PI;
-
-var drawGridLines = function(width_per_rectangle, height_per_rectangle, boundingRect, group) {
-    var num_rectangles_wide = boundingRect.width / width_per_rectangle;
-    var num_rectangles_tall = boundingRect.height / height_per_rectangle;
-    for (var i = 0; i <= num_rectangles_wide; i++) {
-        var xPos = boundingRect.left + i * width_per_rectangle;
-        var topPoint = new Point(xPos, boundingRect.top);
-        var bottomPoint = new Point(xPos, boundingRect.bottom);
-        var aLine = new Path.Line(topPoint, bottomPoint);
-        aLine.strokeColor = 'white';
-        group.addChild(aLine);
-    }
-    for (var i = 0; i <= num_rectangles_tall; i++) {
-        var yPos = boundingRect.top + i * height_per_rectangle;
-        var leftPoint = new Point(boundingRect.left, yPos);
-        var rightPoint = new Point(boundingRect.right, yPos);
-        var aLine = new Path.Line(leftPoint, rightPoint);
-        aLine.strokeColor = 'white';
-        group.addChild(aLine);
-    }
-}
+var offsetX = 250;
 
 // Draw a grid
 var grid = new Group();
-drawGridLines(100, 100, view.bounds, grid);
+var bounds = view.bounds;
+bounds.width += bounds.width;
+Utils.drawGrid(50, 50, bounds, grid);
+grid.position = view.center;
 
 // Create a base rectangle
 var rectangles = [
@@ -57,20 +40,21 @@ function onFrame(event) {
 
 // Resize the view
 function onResize(event) {
-	// Whenever the window is resized, recenter the path:
-	rectangleGroup.position = view.center;
-  grid.position = view.center;
   project.activeLayer.fitBounds(view.bounds, true);
+  
+  var center = [view.bounds.left + offsetX * Reveal.getScale(), view.center.y];
+	rectangleGroup.position = center;
+  grid.position = center;
 }
-
+onResize();
 
 // Expose a function to be called when our slide is shown
 view.onShow = function() {
-  grid.removeChildren();
-  drawGridLines(100, 100, view.bounds, grid);
+  console.log("Showing hello-paper.js");
+  onResize();
 }
 
 // Expose a function to be called when our slide is hidden
 view.onHide = function() {
-  console.log("HIDING VIEW");
+  console.log("Hiding hello-paper.js");
 }

@@ -48,18 +48,18 @@
 					</p>
 				</section>
 
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
-				
 				<section data-background-canvas="js/hello-paper.js">
-					<h2>Paper.js</h2>
+					<h2>Circles</h2>
+					<p>Math is boring but circles make us happy</p>
 					<div style="height: 500px;">&nbsp;</div>
 				</section>
-
+				
+				<section data-background-canvas="js/sine-wave.js">
+					<h2>Sine waves own your soul</h2>
+					<p>cos() and sin() in action</p>
+					<div style="height: 500px;">&nbsp;</div>
+				</section>
+				
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
@@ -409,7 +409,8 @@ Reveal.addEventListener( 'customevent', function() {
 					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/paper-js/paper.js', async: true }
+					{ src: 'plugin/paper-js/paper.js', async: true },
+					{ src: 'js/utils.js', async: true }
 				]
 			});
 
