@@ -513,9 +513,6 @@ You can also use different in and out transitions for the same slide:
 ```
 
 
-Note that this does not work with the page and cube transitions.
-
-
 ### Internal links
 
 It's easy to link between slides. The first example below targets the index of another slide whereas the second targets a slide with an ID attribute (```<section id="some-slide">```):
