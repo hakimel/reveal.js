@@ -20,7 +20,7 @@ var rectangles = [
 ];
 
 // Create a rectangle ring
-for (var i = 15; i < 360; i += 15) {
+for (var i = 15; i < 90; i += 15) {
   var rect = rectangles[0].clone();
   rect.rotate(i);
   rect.strokeColor.hue += i;
