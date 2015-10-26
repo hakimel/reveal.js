@@ -222,9 +222,6 @@ Reveal.initialize({
 		// Speaker notes
 		{ src: 'plugin/notes/notes.js', async: true },
 
-		// Remote control your reveal.js presentation using a touch device
-		{ src: 'plugin/remotes/remotes.js', async: true },
-
 		// MathJax
 		{ src: 'plugin/math/math.js', async: true }
 	]
