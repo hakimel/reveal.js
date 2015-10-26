@@ -108,7 +108,7 @@ module.exports = function(grunt) {
 				'lib/**',
 				'images/**',
 				'plugin/**',
-        '**.md'
+				'**.md'
 			]
 		},
 
@@ -131,9 +131,9 @@ module.exports = function(grunt) {
 			html: {
 				files: [ 'index.html']
 			},
-      markdown: {
-        files: [ './*.md' ]
-      }
+			markdown: {
+				files: [ './*.md' ]
+			}
 		}
 
 	});
