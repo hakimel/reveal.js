@@ -682,7 +682,7 @@ When reveal.js runs inside of an iframe it can optionally bubble all of its even
 ```javascript
 window.addEventListener( 'message', function( event ) {
 	var data = JSON.parse( event.data );
-	if( data.namespace === 'reveal' && data.eventName ='slidechanged' ) {
+	if( data.namespace === 'reveal' && data.eventName ==='slidechanged' ) {
 		// Slide changed, see data.state for slide number
 	}
 } );
