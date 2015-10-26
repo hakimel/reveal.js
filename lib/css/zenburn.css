@@ -1,14 +1,15 @@
 /*
-
 Zenburn style from voldmar.ru (c) Vladimir Epifanov <voldmar@voldmar.ru>
 based on dark.css by Ivan Sagalaev
-
 */
 
 .hljs {
-  display: block; padding: 0.5em;
-  background: #3F3F3F;
-  color: #DCDCDC;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #3f3f3f;
+  color: #dcdcdc;
+  -webkit-text-size-adjust: none;
 }
 
 .hljs-keyword,
@@ -20,25 +21,26 @@ based on dark.css by Ivan Sagalaev
 .hljs-request,
 .hljs-status,
 .clojure .hljs-attribute {
-  color: #E3CEAB;
+  color: #e3ceab;
 }
 
 .django .hljs-template_tag,
 .django .hljs-variable,
 .django .hljs-filter .hljs-argument {
-  color: #DCDCDC;
+  color: #dcdcdc;
 }
 
 .hljs-number,
 .hljs-date {
-  color: #8CD0D3;
+  color: #8cd0d3;
 }
 
 .dos .hljs-envvar,
 .dos .hljs-stream,
 .hljs-variable,
-.apache .hljs-sqbracket {
-  color: #EFDCBC;
+.apache .hljs-sqbracket,
+.hljs-name {
+  color: #efdcbc;
 }
 
 .dos .hljs-flow,
@@ -47,32 +49,32 @@ based on dark.css by Ivan Sagalaev
 .python .hljs-built_in,
 .hljs-literal,
 .tex .hljs-special {
-  color: #EFEFAF;
+  color: #efefaf;
 }
 
 .diff .hljs-chunk,
 .hljs-subst {
-  color: #8F8F8F;
+  color: #8f8f8f;
 }
 
 .dos .hljs-keyword,
-.python .hljs-decorator,
+.hljs-decorator,
 .hljs-title,
-.haskell .hljs-type,
+.hljs-type,
 .diff .hljs-header,
 .ruby .hljs-class .hljs-parent,
 .apache .hljs-tag,
 .nginx .hljs-built_in,
 .tex .hljs-command,
 .hljs-prompt {
-    color: #efef8f;
+  color: #efef8f;
 }
 
 .dos .hljs-winutils,
 .ruby .hljs-symbol,
 .ruby .hljs-symbol .hljs-string,
 .ruby .hljs-string {
-  color: #DCA3A3;
+  color: #dca3a3;
 }
 
 .diff .hljs-deletion,
@@ -81,28 +83,25 @@ based on dark.css by Ivan Sagalaev
 .hljs-preprocessor,
 .hljs-pragma,
 .hljs-built_in,
-.sql .hljs-aggregate,
-.hljs-javadoc,
 .smalltalk .hljs-class,
 .smalltalk .hljs-localvars,
 .smalltalk .hljs-array,
-.css .hljs-rules .hljs-value,
+.css .hljs-rule .hljs-value,
 .hljs-attr_selector,
 .hljs-pseudo,
 .apache .hljs-cbracket,
 .tex .hljs-formula,
 .coffeescript .hljs-attribute {
-  color: #CC9393;
+  color: #cc9393;
 }
 
 .hljs-shebang,
 .diff .hljs-addition,
 .hljs-comment,
-.java .hljs-annotation,
-.hljs-template_comment,
+.hljs-annotation,
 .hljs-pi,
 .hljs-doctype {
-  color: #7F9F7F;
+  color: #7f9f7f;
 }
 
 .coffeescript .javascript,
@@ -114,4 +113,3 @@ based on dark.css by Ivan Sagalaev
 .xml .hljs-cdata {
   opacity: 0.5;
 }
-

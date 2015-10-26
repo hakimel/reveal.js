@@ -239,6 +239,7 @@
 					// No need for updating the notes in case of fragment changes
 					if ( data.notes ) {
 						notes.classList.remove( 'hidden' );
+						notesValue.style.whiteSpace = data.whitespace;
 						if( data.markdown ) {
 							notesValue.innerHTML = marked( data.notes );
 						}

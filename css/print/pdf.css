@@ -149,9 +149,20 @@ ul, ol, div, p {
 	width: 100%;
 	z-index: -1;
 }
+
 /* All elements should be above the slide-background */
 .reveal section>* {
 	position: relative;
 	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
 }
 

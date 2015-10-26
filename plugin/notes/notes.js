@@ -28,7 +28,7 @@ var RevealNotes = (function() {
 				notesPopup.postMessage( JSON.stringify( {
 					namespace: 'reveal-notes',
 					type: 'connect',
-					url: window.location.protocol + '//' + window.location.host + window.location.pathname,
+					url: window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search,
 					state: Reveal.getState()
 				} ), '*' );
 			}, 500 );
@@ -55,12 +55,14 @@ var RevealNotes = (function() {
 				type: 'state',
 				notes: '',
 				markdown: false,
+				whitespace: 'normal',
 				state: Reveal.getState()
 			};
 
 			// Look for notes defined in a slide attribute
 			if( slideElement.hasAttribute( 'data-notes' ) ) {
 				messageData.notes = slideElement.getAttribute( 'data-notes' );
+				messageData.whitespace = 'pre-wrap';
 			}
 
 			// Look for notes defined in an aside element

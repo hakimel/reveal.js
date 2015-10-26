@@ -89,7 +89,7 @@ Reveal.addEventListener( 'ready', function() {
 
 	test( 'Reveal.isLastSlide after vertical slide', function() {
 		var lastSlideIndex = document.querySelectorAll( '.reveal .slides>section' ).length - 1;
-		
+
 		Reveal.slide( 1, 1 );
 		Reveal.slide( lastSlideIndex );
 		strictEqual( Reveal.isLastSlide(), true, 'true after Reveal.slide( 1, 1 ) and then Reveal.slide( '+ lastSlideIndex +', 0 )' );
@@ -137,6 +137,14 @@ Reveal.addEventListener( 'ready', function() {
 
 		strictEqual( Reveal.getSlideBackground( 100 ), undefined, 'undefined when out of horizontal bounds' );
 		strictEqual( Reveal.getSlideBackground( 1, 100 ), undefined, 'undefined when out of vertical bounds' );
+	});
+
+	test( 'Reveal.getSlideNotes', function() {
+		Reveal.slide( 0, 0 );
+		ok( Reveal.getSlideNotes() === 'speaker notes 1', 'works with <aside class="notes">' );
+
+		Reveal.slide( 1, 0 );
+		ok( Reveal.getSlideNotes() === 'speaker notes 2', 'works with <section data-notes="">' );
 	});
 
 	test( 'Reveal.getPreviousSlide/getCurrentSlide', function() {
@@ -493,6 +501,23 @@ Reveal.addEventListener( 'ready', function() {
 
 	test( 'img with data-src', function() {
 		strictEqual( document.querySelectorAll( '.reveal section img[src]' ).length, 1, 'Image source has been set' );
+	});
+
+	test( 'video with data-src', function() {
+		strictEqual( document.querySelectorAll( '.reveal section video[src]' ).length, 1, 'Video source has been set' );
+	});
+
+	test( 'audio with data-src', function() {
+		strictEqual( document.querySelectorAll( '.reveal section audio[src]' ).length, 1, 'Audio source has been set' );
+	});
+
+	test( 'iframe with data-src', function() {
+		Reveal.slide( 0, 0 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 0, 'Iframe source is not set' );
+		Reveal.slide( 2, 1 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 1, 'Iframe source is set' );
+		Reveal.slide( 2, 2 );
+		strictEqual( document.querySelectorAll( '.reveal section iframe[src]' ).length, 0, 'Iframe source is not set' );
 	});
 
 	test( 'background images', function() {

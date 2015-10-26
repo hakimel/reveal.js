@@ -141,6 +141,9 @@ Reveal.initialize({
 	// key is pressed
 	help: true,
 
+	// Flags if speaker notes should be visible to all viewers
+	showNotes: false,
+
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
 	// by using a data-autoslide attribute on your slides
@@ -174,8 +177,12 @@ Reveal.initialize({
 	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
 
 	// Parallax background size
-	parallaxBackgroundSize: '' // CSS syntax, e.g. "2100px 900px"
+	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
 
+	// Amount to move parallax background (horizontal and vertical) on slide change
+	// Number, e.g. 100
+	parallaxBackgroundHorizontal: '',
+	parallaxBackgroundVertical: ''
 
 });
 ```
@@ -272,7 +279,7 @@ Reveal.initialize({
 
 ### Auto-sliding
 
-Presentations can be configure to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
+Presentations can be configured to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
 
 ```javascript
 // Slide every five seconds
@@ -309,16 +316,23 @@ Reveal.configure({
 });
 ```
 
+### Touch Navigation
+
+You can swipe to navigate through a presentation on any touch-enabled device. Horizontal swipes change between horizontal slides, vertical swipes change between vertical slides. If you wish to disable this you can set the `touch` config option to false when initializing reveal.js.
+
+If there's some part of your content that needs to remain accessible to touch events you'll need to highlight this by adding a `data-prevent-swipe` attribute to the element. One common example where this is useful is elements that need to be scrolled.
+
+
 ### Lazy Loading
 
 When working on presentation with a lot of media or iframe content it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
 
-To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements.
+To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements. Lazy loaded iframes will also unload when the containing slide is no longer visible.
 
 ```html
 <section>
   <img data-src="image.png">
-  <iframe data-src="http://slides.com"></iframe>
+  <iframe data-src="http://hakim.se"></iframe>
   <video>
     <source data-src="video.webm" type="video/webm" />
     <source data-src="video.mp4" type="video/mp4" />
@@ -364,6 +378,9 @@ Reveal.getCurrentSlide();
 Reveal.getIndices(); // { h: 0, v: 0 } }
 Reveal.getProgress(); // 0-1
 Reveal.getTotalSlides();
+
+// Returns the speaker notes for the current slide
+Reveal.getSlideNotes();
 
 // State checks
 Reveal.isFirstSlide();
@@ -428,8 +445,8 @@ Slides are contained within a limited portion of the screen by default to allow 
 <section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
 	<h2>This background image will be sized to 100px and repeated.</h2>
 </section>
-<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
-	<h2>Video. Multiple sources can be defined using a comma separated list.</h2>
+<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop>
+	<h2>Video. Multiple sources can be defined using a comma separated list. Video will loop when the data-background-video-loop attribute is provided.</h2>
 </section>
 <section data-background-iframe="https://slides.com">
 	<h2>Embeds a web page as a background. Note that the page won't be interactive.</h2>
@@ -441,7 +458,7 @@ Backgrounds transition using a fade animation by default. This can be changed to
 
 ### Parallax Background
 
-If you want to use a parallax scrolling background, set the two following config properties when initializing reveal.js (the third one is optional).
+If you want to use a parallax scrolling background, set the first two config properties below when initializing reveal.js (the other two are optional).
 
 ```javascript
 Reveal.initialize({
@@ -452,8 +469,11 @@ Reveal.initialize({
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
 
-	// This slide transition gives best results:
-	transition: 'slide'
+	// Amount of pixels to move the parallax background per slide step,
+	// a value of 0 disables movement along the given axis
+	// These are optional, if they aren't specified they'll be calculated automatically
+	parallaxBackgroundHorizontal: 200,
+	parallaxBackgroundVertical: 50
 
 });
 ```
@@ -474,6 +494,27 @@ The global presentation transition is set using the ```transition``` config valu
 	<h2>Choose from three transition speeds: default, fast or slow!</h2>
 </section>
 ```
+
+You can also use different in and out transitions for the same slide:
+
+```html
+<section data-transition="slide">
+    The train goes on … 
+</section>
+<section data-transition="slide"> 
+    and on … 
+</section>
+<section data-transition="slide-in fade-out"> 
+    and stops.
+</section>
+<section data-transition="fade-in slide-out"> 
+    (Passengers entering and leaving)
+</section>
+<section data-transition="slide">
+    And it starts again.
+</section>
+```
+
 
 Note that this does not work with the page and cube transitions.
 
@@ -508,7 +549,6 @@ The default fragment style is to start out invisible and fade in. This style can
 <section>
 	<p class="fragment grow">grow</p>
 	<p class="fragment shrink">shrink</p>
-	<p class="fragment roll-in">roll-in</p>
 	<p class="fragment fade-out">fade-out</p>
 	<p class="fragment current-visible">visible only once</p>
 	<p class="fragment highlight-current-blue">blue only once</p>
@@ -573,7 +613,16 @@ By default, Reveal is configured with [highlight.js](http://softwaremaniacs.org/
 If you would like to display the page number of the current slide you can do so using the ```slideNumber``` configuration value.
 
 ```javascript
+// Shows the slide number using default formatting
 Reveal.configure({ slideNumber: true });
+
+// Slide number formatting can be configured using these variables:
+//  h: current slide's horizontal index
+//  v: current slide's vertical index
+//  c: current slide index (flattened)
+//  t: total number of slides (flattened)
+Reveal.configure({ slideNumber: 'c / t' });
+
 ```
 
 
@@ -656,7 +705,7 @@ Reveal.initialize({
 
 ## PDF Export
 
-Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome).
+Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home).
 Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
 
 1. Open your presentation with `print-pdf` included anywhere in the query string. This triggers the default index HTML to load the PDF print stylesheet ([css/print/pdf.css](https://github.com/hakimel/reveal.js/blob/master/css/print/pdf.css)). You can test this with [lab.hakim.se/reveal-js?print-pdf](http://lab.hakim.se/reveal-js?print-pdf).
@@ -668,6 +717,8 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 ![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
 
+Alternatively you can use the [decktape](https://github.com/astefanutti/decktape) project.
+
 ## Theming
 
 The framework comes with a few different themes included:
@@ -676,7 +727,7 @@ The framework comes with a few different themes included:
 - white: White background, black text, blue links
 - league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
 - beige: Beige background, dark text, brown links
-- sky: Blue background, thin white text, blue links
+- sky: Blue background, thin dark text, blue links
 - night: Black background, thick white text, orange links
 - serif: Cappuccino background, gray text, brown links
 - simple: White background, black text, blue links
@@ -697,6 +748,8 @@ reveal.js comes with a speaker notes plugin which can be used to present per-sli
 
 Notes are defined by appending an ```<aside>``` element to a slide as seen below. You can add the ```data-markdown``` attribute to the aside element if you prefer writing notes using Markdown.
 
+Alternatively you can add your notes in a `data-notes` attribute on the slide. Like `<section data-notes="Something important"></section>`.
+
 When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
 
 ```html
@@ -708,6 +761,8 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 	</aside>
 </section>
 ```
+
+Notes are only visible to you in the speaker view. If you wish to share your notes with the audience initialize reveal.js with the `showNotes` config value set to `true`.
 
 If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
 
@@ -747,7 +802,7 @@ Then:
 
 ## Multiplexing
 
-The multiplex plugin allows your audience to view the slides of the presentation you are controlling on their own phone, tablet or laptop. As the master presentation navigates the slides, all client presentations will update in real time. See a demo at [http://revealjs.jit.su/](http://revealjs.jit.su).
+The multiplex plugin allows your audience to view the slides of the presentation you are controlling on their own phone, tablet or laptop. As the master presentation navigates the slides, all client presentations will update in real time. See a demo at [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/).
 
 The multiplex plugin needs the following 3 things to operate:
 
@@ -776,12 +831,12 @@ Reveal.initialize({
 		// Example values. To generate your own, see the socket.io server instructions.
 		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
 		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'revealjs.jit.su:80' // Location of socket.io server
+		url: 'revealjs-51546.onmodulus.net:80' // Location of socket.io server
 	},
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 
 		// and if you want speaker notes
@@ -804,12 +859,12 @@ Reveal.initialize({
 		// Example values. To generate your own, see the socket.io server instructions.
 		secret: null, // null so the clients do not have control of the master presentation
 		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'revealjs.jit.su:80' // Location of socket.io server
+		url: 'revealjs-51546.onmodulus.net:80' // Location of socket.io server
 	},
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
 
 		// other dependencies...
@@ -823,15 +878,15 @@ Server that receives the slideChanged events from the master presentation and br
 1. ```npm install```
 2. ```node plugin/multiplex```
 
-Or you use the socket.io server at [http://revealjs.jit.su](http://revealjs.jit.su).
+Or you use the socket.io server at [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/).
 
-You'll need to generate a unique secret and token pair for your master and client presentations. To do so, visit ```http://example.com/token```, where ```http://example.com``` is the location of your socket.io server. Or if you're going to use the socket.io server at [http://revealjs.jit.su](http://revealjs.jit.su), visit [http://revealjs.jit.su/token](http://revealjs.jit.su/token).
+You'll need to generate a unique secret and token pair for your master and client presentations. To do so, visit ```http://example.com/token```, where ```http://example.com``` is the location of your socket.io server. Or if you're going to use the socket.io server at [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/), visit [http://revealjs-51546.onmodulus.net/token](http://revealjs-51546.onmodulus.net/token).
 
-You are very welcome to point your presentations at the Socket.io server running at [http://revealjs.jit.su](http://revealjs.jit.su), but availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu, heroku, your own environment, etc.
+You are very welcome to point your presentations at the Socket.io server running at [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/), but availability and stability are not guaranteed. For anything mission critical I recommend you run your own server. It is simple to deploy to nodejitsu, heroku, your own environment, etc.
 
 ##### socket.io server as file static server
 
-The socket.io server can play the role of static file server for your client presentation, as in the example at [http://revealjs.jit.su](http://revealjs.jit.su). (Open [http://revealjs.jit.su](http://revealjs.jit.su) in two browsers. Navigate through the slides on one, and the other will update to match.) 
+The socket.io server can play the role of static file server for your client presentation, as in the example at [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/). (Open [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/) in two browsers. Navigate through the slides on one, and the other will update to match.)
 
 Example configuration:
 ```javascript
@@ -847,14 +902,14 @@ Reveal.initialize({
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
 
 		// other dependencies...
 	]
 ```
 
-It can also play the role of static file server for your master presentation and client presentations at the same time (as long as you don't want to use speaker notes). (Open [http://revealjs.jit.su](http://revealjs.jit.su) in two browsers. Navigate through the slides on one, and the other will update to match. Navigate through the slides on the second, and the first will update to match.) This is probably not desirable, because you don't want your audience to mess with your slides while you're presenting. ;)
+It can also play the role of static file server for your master presentation and client presentations at the same time (as long as you don't want to use speaker notes). (Open [http://revealjs-51546.onmodulus.net/](http://revealjs-51546.onmodulus.net/) in two browsers. Navigate through the slides on one, and the other will update to match. Navigate through the slides on the second, and the first will update to match.) This is probably not desirable, because you don't want your audience to mess with your slides while you're presenting. ;)
 
 Example configuration:
 ```javascript
@@ -870,57 +925,12 @@ Reveal.initialize({
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
 
 		// other dependencies...
 	]
-});
-```
-
-## Leap Motion
-The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
-
-##### 1 to 2 fingers
-Pointer &mdash; Point to anything on screen. Move your finger past the device to expand the pointer.
-
-##### 1 hand + 3 or more fingers (left/right/up/down)
-Navigate through your slides. See config options to invert movements.
-
-##### 2 hands upwards
-Toggle the overview mode. Do it a second time to exit the overview.
-
-#### Config Options
-You can edit the following options:
-
-| Property          | Default           | Description
-| ----------------- |:-----------------:| :-------------
-| autoCenter        | true              | Center the pointer based on where you put your finger into the leap motions detection field.
-| gestureDelay      | 500               | How long to delay between gestures in milliseconds.
-| naturalSwipe      | true              | Swipe as though you were touching a touch screen. Set to false to invert.
-| pointerColor      | #00aaff           | The color of the pointer.
-| pointerOpacity    | 0.7               | The opacity of the pointer.
-| pointerSize       | 15                | The minimum height and width of the pointer.
-| pointerTolerance  | 120               | Bigger = slower pointer.
-
-
-Example configuration:
-```js
-Reveal.initialize({
-
-	// other options...
-
-	leap: {
-		naturalSwipe   : false,    // Invert swipe gestures
-		pointerOpacity : 0.5,      // Set pointer opacity to 0.5
-		pointerColor   : '#d80000' // Red pointer
-	},
-
-	dependencies: [
-		{ src: 'plugin/leap/leap.js', async: true }
-	]
-
 });
 ```
 
@@ -938,7 +948,7 @@ Reveal.initialize({
 	// other options ...
 
 	math: {
-		mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+		mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
 		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
 	},
 	

@@ -1,6 +1,8 @@
 /* global module:false */
 module.exports = function(grunt) {
 	var port = grunt.option('port') || 8000;
+	var base = grunt.option('base') || '.';
+
 	// Project configuration
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -36,19 +38,15 @@ module.exports = function(grunt) {
 				}
 			},
 			themes: {
-				files: {
-					'css/theme/black.css': 'css/theme/source/black.scss',
-					'css/theme/white.css': 'css/theme/source/white.scss',
-					'css/theme/league.css': 'css/theme/source/league.scss',
-					'css/theme/beige.css': 'css/theme/source/beige.scss',
-					'css/theme/night.css': 'css/theme/source/night.scss',
-					'css/theme/serif.css': 'css/theme/source/serif.scss',
-					'css/theme/simple.css': 'css/theme/source/simple.scss',
-					'css/theme/sky.css': 'css/theme/source/sky.scss',
-					'css/theme/moon.css': 'css/theme/source/moon.scss',
-					'css/theme/solarized.css': 'css/theme/source/solarized.scss',
-					'css/theme/blood.css': 'css/theme/source/blood.scss'
-				}
+				files: [
+					{
+						expand: true,
+						cwd: 'css/theme/source',
+						src: ['*.scss'],
+						dest: 'css/theme',
+						ext: '.css'
+					}
+				]
 			}
 		},
 
@@ -95,9 +93,9 @@ module.exports = function(grunt) {
 			server: {
 				options: {
 					port: port,
-					base: '.',
-                    livereload: true,
-                    open: true
+					base: base,
+					livereload: true,
+					open: true
 				}
 			}
 		},
@@ -114,9 +112,9 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-            options: {
-                livereload: true
-            },
+			options: {
+				livereload: true
+			},
 			js: {
 				files: [ 'Gruntfile.js', 'js/reveal.js' ],
 				tasks: 'js'
@@ -129,9 +127,9 @@ module.exports = function(grunt) {
 				files: [ 'css/reveal.scss' ],
 				tasks: 'css-core'
 			},
-            html: {
-                files: [ 'index.html']
-            }
+			html: {
+				files: [ 'index.html']
+			}
 		}
 
 	});
