@@ -2829,7 +2829,17 @@
 				media.load();
 			}
 		} );
-
+		
+		// Interactive backgorund
+		if (slide.getAttribute('class') === 'present') {
+			var interactiveBackground = slide.hasAttribute( 'data-background-interactive' );
+			if (interactiveBackground) {
+				dom.slides.style['pointer-events'] = 'none';
+			}
+			else {
+				dom.slides.style['pointer-events'] = 'all';
+			}
+		}
 
 		// Show the corresponding background element
 		var indices = getIndices( slide );
@@ -2891,6 +2901,8 @@
 					script.src = backgroundCanvas;
 					script.setAttribute('data-paper-canvas', canvasId);
 					background.appendChild( script );
+					
+					if (window['paper']) window['paper'].PaperScript.load();
 				}
 			}
 		}
