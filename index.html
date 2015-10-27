@@ -63,7 +63,43 @@
 				
 				<section>
 					<section>
-						<h2>Famous Circles</h2>
+						<h1>Why I Love Circles</h1>
+					</section>
+					
+					<section>
+						<h2>Collision</h2>
+						<div style="height: 500px;">&nbsp;</div>
+					</section>
+					
+					<section>
+						<h2>Motion</h2>
+						<div style="height: 500px;">&nbsp;</div>
+					</section>
+					
+					<section>
+						<h2>Direction</h2>
+						<div style="height: 500px;">&nbsp;</div>
+					</section>
+					
+					<section>
+						<h2>Color</h2>
+						<div style="height: 500px;">&nbsp;</div>
+					</section>
+					
+					<section>
+						<h2>Infinite</h2>
+						<div style="height: 500px;">&nbsp;</div>
+					</section>
+					
+					<section>
+						<h2>3D Circles</h2>
+						<div style="height: 500px;">&nbsp;</div>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Famous Circles</h1>
 					</section>
 					<section>
 						<h3>Crop Circles</h3>
@@ -107,8 +143,47 @@
 					<section data-background-canvas="js/simple-circle.js" data-background-interactive>
 						<h2>A Circle</h2>
 						<p>Is made from a point and a distance</p>
-						<div style="height: 500px; pointer-events: none;">&nbsp;</div>
+						<div style="height: 500px;">&nbsp;</div>
 					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Circle Basics</h2>
+						<p>Or... Well crap it's math</p>
+					</section>
+					
+					<section>
+						<h2>Distance Formula</h2>
+						<p>&nbsp;</p>
+						<p>$$\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$$</p>
+						<h4 style="margin-top: 100px;">Pro Tips</h4>
+						<ul>
+							<li>Ditch the $\sqrt{}$, often times we only need to check against $distance^2$</li>
+							<li>Order isn't important, the $()^2$ removes the sign</li>
+						</ul>
+					</section>
+				
+					<section>
+						<h2>Radians vs Degrees</h2>
+						<p>&nbsp;</p>
+						<p>$$deg = rad \times \frac{180}{\pi}$$</p>
+						<p>&nbsp;</p>
+						<p>$$rad = deg \times \frac{\pi}{180}$$</p>
+					</section>
+				</section>
+				
+				<section data-background-canvas="js/distance-check.js">
+					<h2>Distance Check</h2>
+					<div style="height: 500px;">&nbsp;</div>
+					<aside class="notes">
+						Triggers, Activation, Attenuation
+					</aside>
+				</section>
+				
+				<section data-background-canvas="js/collision.js">
+					<h2>Collision</h2>
+					<div style="height: 500px;">&nbsp;</div>
 				</section>
 
 				<section data-background-canvas="js/hello-paper.js">
@@ -472,6 +547,7 @@ Reveal.addEventListener( 'customevent', function() {
 					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: '/plugin/math/math.js', async: true },
 					{ src: 'plugin/paper-js/paper.js', async: true },
 					{ src: 'js/utils.js', async: true }
 				]

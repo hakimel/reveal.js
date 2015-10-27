@@ -8,7 +8,7 @@ window.Utils = (function() {
     for (var x = 0; x < xCount; x++) {
         var topPoint, bottomPoint, aLine;
         var xPos = x * cellWidth;
-        var color = new paper.Color(1.0, 1.0, 1.0, x == 0 ? 0.8 : 0.6);
+        var color = new paper.Color(1.0, 1.0, 1.0, x == 0 ? 0.4 : 0.25);
         
         topPoint = new paper.Point(xPos, -(Math.floor(yCount) * cellHeight));
         bottomPoint = new paper.Point(xPos, (Math.floor(yCount) * cellHeight));
@@ -26,7 +26,7 @@ window.Utils = (function() {
     for (var y = 0; y < yCount; y++) {
         var leftPoint, rightPoint, aLine;
         var yPos = y * cellHeight;
-        var color = new paper.Color(1.0, 1.0, 1.0, y == 0 ? 0.8 : 0.6);
+        var color = new paper.Color(1.0, 1.0, 1.0, y == 0 ? 0.4 : 0.25);
         
         leftPoint = new paper.Point(-(Math.floor(xCount) * cellWidth), yPos);
         rightPoint = new paper.Point((Math.floor(xCount) * cellWidth), yPos);
