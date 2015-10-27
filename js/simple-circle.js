@@ -56,10 +56,12 @@ onResize();
 // Expose a function to be called when our slide is shown
 view.onShow = function() {
   console.log("Showing simple-circle.js");
+  Utils.bindMouse(null, null, onMouseDrag, null);
   onResize();
 }
 
 // Expose a function to be called when our slide is hidden
 view.onHide = function() {
   console.log("Hiding simple-circle.js");
+  Utils.unbindMouse();
 }

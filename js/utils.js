@@ -1,5 +1,12 @@
 window.Utils = (function() {
   var utils = {};
+  var mouseListener = {
+    onMouseDown: null,
+    onMouseUp: null,
+    onMouseDrag: null,
+    onMouseMove: null,
+    dragging: false
+  };
   
   utils.drawGrid = function(cellWidth, cellHeight, bounds, group) {
     var xCount = (bounds.width / 2) / cellWidth;
@@ -41,6 +48,34 @@ window.Utils = (function() {
         group.addChild(aLine);
     }
   }
+  
+  utils.bindMouse = function(onMouseDown, onMouseUp, onMouseDrag, onMouseMove) {
+    mouseListener.onMouseDown = onMouseDown;
+    mouseListener.onMouseUp = onMouseUp;
+    mouseListener.onMouseDrag = onMouseDrag;
+    mouseListener.onMouseMove = onMouseMove;
+  }
+  
+  utils.unbindMouse = function() {
+    mouseListener.onMouseDown = null;
+    mouseListener.onMouseUp = null;
+    mouseListener.onMouseDrag = null;
+    mouseListener.onMouseMove = null;
+  }
+  
+  window.addEventListener('mousemove', function(e) {
+    if (mouseListener.onMouseMove) mouseListener.onMouseMove({ point: new paper.Point(e.clientX, e.clientY) });
+    if (mouseListener.dragging && mouseListener.onMouseDrag) mouseListener.onMouseDrag({ point: new paper.Point(e.clientX, e.clientY) });
+  });
+  
+  window.addEventListener('mousedown', function(e) {
+    if (mouseListener.onMouseDown) mouseListener.onMouseDown({ point: new paper.Point(e.clientX, e.clientY) });
+    mouseListener.dragging = true;
+  });
+  window.addEventListener('mouseup', function(e) {
+    if (mouseListener.onMouseUp) mouseListener.onMouseUp({ point: new paper.Point(e.clientX, e.clientY) });
+    mouseListener.dragging = false;
+  });
   
   return utils;
 })();
