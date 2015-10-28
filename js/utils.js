@@ -1,5 +1,6 @@
 window.Utils = (function() {
   var utils = {};
+    
   var mouseListener = {
     onMouseDown: null,
     onMouseUp: null,
@@ -49,6 +50,86 @@ window.Utils = (function() {
     }
   }
   
+  utils.createDrawingTool = function(project) {
+    var drawingTool = {
+      parentLayer: project.activeLayer,
+      layer: new paper.Layer(),
+      enabled: false,
+      active: false,
+      path: null,
+      dragging: false,
+      
+      onMouseDown: function(event) {
+        //drawingTool.layer.activate();
+        drawingTool.path = new paper.Path();
+        drawingTool.path.strokeColor = 'white';
+        drawingTool.path.strokeWidth = 6;
+        
+        drawingTool.dragging = true;
+        console.log("Draw")
+      },
+
+      onMouseMove: function(event) {
+        if (drawingTool.dragging) {
+          drawingTool.path.add(new paper.Point(event.clientX, event.clientY));
+        }
+       },
+
+      onMouseUp: function(event) {
+        drawingTool.dragging = false;
+        
+        drawingTool.path.smooth();
+        drawingTool.path = null;
+        
+        console.log("End")
+      },
+      
+      onKeyPress: function(event) {
+        if (event.keyCode === 113) { //q
+          drawingTool.clear();
+        }
+        else if (event.keyCode === 119) { //w
+          drawingTool.toggleDrawingTool();
+        }
+      },
+      
+      clear: function() {
+        drawingTool.layer.removeChildren();
+      },
+      
+      toggleDrawingTool: function() {
+        drawingTool.enabled = !drawingTool.enabled;
+        
+        if (drawingTool.enabled) {
+          window.addEventListener('mousemove', drawingTool.onMouseMove, true);
+          window.addEventListener('mousedown', drawingTool.onMouseDown, true);
+          window.addEventListener('mouseup', drawingTool.onMouseUp, true);
+          
+          drawingTool.layer.activate();
+          drawingTool.active = true;
+          
+          console.log('DRAWING TOOL ACTIVATED');
+        }
+        else {
+          window.removeEventListener('mousemove', drawingTool.onMouseMove, true);
+          window.removeEventListener('mousedown', drawingTool.onMouseDown, true);
+          window.removeEventListener('mouseup', drawingTool.onMouseUp, true);
+          
+          drawingTool.clear();
+          drawingTool.active = false;
+          drawingTool.parentLayer.activate();
+          
+          console.log('DRAWING TOOL DEACTIVATED');
+        }
+      }
+    };
+    
+    window.addEventListener('keypress', drawingTool.onKeyPress);
+    drawingTool.parentLayer.activate();
+    
+    return drawingTool;
+  }
+  
   utils.bindMouse = function(onMouseDown, onMouseUp, onMouseDrag, onMouseMove) {
     mouseListener.onMouseDown = onMouseDown;
     mouseListener.onMouseUp = onMouseUp;
@@ -69,12 +150,13 @@ window.Utils = (function() {
   });
   
   window.addEventListener('mousedown', function(e) {
-    if (mouseListener.onMouseDown) mouseListener.onMouseDown({ point: new paper.Point(e.clientX, e.clientY) });
     mouseListener.dragging = true;
+    if (mouseListener.onMouseDown) mouseListener.onMouseDown({ point: new paper.Point(e.clientX, e.clientY) });
   });
+  
   window.addEventListener('mouseup', function(e) {
-    if (mouseListener.onMouseUp) mouseListener.onMouseUp({ point: new paper.Point(e.clientX, e.clientY) });
     mouseListener.dragging = false;
+    if (mouseListener.onMouseUp) mouseListener.onMouseUp({ point: new paper.Point(e.clientX, e.clientY) });
   });
   
   return utils;
