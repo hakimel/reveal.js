@@ -199,6 +199,16 @@
 
 				<section data-background-canvas="js/distance-check.js">
 					<h2>Distance Check</h2>
+					<pre style="float: right; width: 60%;"><code class="hljs" data-trim>
+var radius = 100;     // check radius
+var pX, pY, tX, tY;   // player & turret position
+
+var d2 = ((tX - pX) * (tX - pX)) + ((tY - pY) * (tY - pY));
+var r2 = radius * radius;
+
+if (d2 < r2) { /* HIT! */ }
+if (d2 >= r2) { /* MISS! */ }
+					</code></pre>
 					<div style="height: 500px;">&nbsp;</div>
 					<aside class="notes">
 						Triggers, Activation, Attenuation
