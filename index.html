@@ -68,27 +68,22 @@
 
 					<section>
 						<h2>Collision</h2>
-						<div style="height: 500px;">&nbsp;</div>
 					</section>
 
 					<section>
 						<h2>Direction</h2>
-						<div style="height: 500px;">&nbsp;</div>
 					</section>
-					
+
 					<section>
 						<h2>Motion</h2>
-						<div style="height: 500px;">&nbsp;</div>
 					</section>
 
 					<section>
 						<h2>Color</h2>
-						<div style="height: 500px;">&nbsp;</div>
 					</section>
 
 					<section>
 						<h2>Infinite</h2>
-						<div style="height: 500px;">&nbsp;</div>
 					</section>
 				</section>
 
@@ -220,10 +215,10 @@ if (d - pRad >= radius) { /* MISS! */ }
 					<section data-background-canvas="js/collision.js">
 					</section>
 				</section>
-				
+
 				<section>
 					<section>
-						<h2>Direction Basics</h2>
+						<h2>Direction & Motion Basics</h2>
 						<p><span class="fragment">Or...</span> <span class="fragment">You guessed it</span> <span class="fragment">more math</span></p>
 					</section>
 					<section>
@@ -246,23 +241,31 @@ if (d - pRad >= radius) { /* MISS! */ }
 						<p>$$rad = deg \times \frac{\pi}{180}$$</p>
 					</section>
 				</section>
-				
+
 				<section>
 					<section data-background-canvas="js/simple-atan2.js">
 						<h2>Direction</h2>
 						<p>Circles are full of angles</p>
 						<div style="height: 500px;">&nbsp;</div>
 					</section>
-					<section data-background-canvas="js/simple-atan2.js">
-						<h3>atan2</h3>
+					<section>
+						<h3>$atan2$</h3>
+						<br>
+						<a href="https://commons.wikimedia.org/wiki/File:Atan2_60.svg#/media/File:Atan2_60.svg">
+							<img width="650" height="390" data-src="img/atan2.svg" alt="Unit Circle" style="background: rgba(255, 255, 255, 0.5);">
+						</a>
 						<div style="height: 500px;">&nbsp;</div>
 					</section>
-					<section data-background-canvas="js/simple-atan2.js">
-						<h3>sin & cos</h3>
+					<section>
+						<h3>$sin$ & $cos$</h3>
+						<br>
+						<a href="https://commons.wikimedia.org/wiki/File:Circle_cos_sin.gif#/media/File:Circle_cos_sin.gif">
+							<img width="650" height="390" data-src="img/circle-cos-sin.gif" alt="Unit Circle">
+						</a>
 						<div style="height: 500px;">&nbsp;</div>
 					</section>
 				</section>
-				
+
 				<section>
 					<section data-background-canvas="js/direction.js">
 						<h2>Direction</h2>
@@ -290,7 +293,7 @@ bY += y * 5;
 					<section data-background-canvas="js/direction.js">
 					</section>
 				</section>
-				
+
 				<section>
 					<section data-background-canvas="js/motion.js">
 						<h2>Motion</h2>
@@ -320,23 +323,32 @@ bY += y * 5;
 					<section data-background-canvas="js/motion.js">
 					</section>
 				</section>
-				
+
 				<section>
-					<section>
+					<section data-background-canvas="js/color.js">
 						<h2>Color</h2>
-						<pre><code class="hljs" data-trim>
-// TODO: Change the color of the bullet based on the sin wave from above
+						<pre style="float: right; width: 60%;"><code class="hljs" data-trim>
+var delta;  // delta time in seconds
+var bT;     // bullet timer (accumulator)
+var bHue;   // degree between 0 - 360
+
+bT += delta;
+var hue += Math.sin((bT * Math.PI) * 2) * 180;
 						</code></pre>
+						<p class="fragment" style="text-align: right;">
+						<a href="http://www.erinsowards.com/articles/2011/01/colors.php">
+							<img width="457" height="397" data-src="img/hsl-color-wheel.png" alt="Color Wheel" style="background: rgba(255, 255, 255, 0.5);">
+						</a>
+					</p>
 						<div style="height: 500px;">&nbsp;</div>
 					</section>
+					<section data-background-canvas="js/color.js">
+					</section>
 				</section>
-				
+
 				<section>
-					<section>
+					<section data-background-canvas="js/infinite.js">
 						<h2>Infinite</h2>
-						<pre><code class="hljs" data-trim>
-// TODO: Use delta time to illustrate a deterministic pattern
-						</code></pre>
 						<div style="height: 500px;">&nbsp;</div>
 					</section>
 				</section>
@@ -362,7 +374,7 @@ bY += y * 5;
 						- <a href="https://www.wolframalpha.com/examples/Math.html">Learn more math than you can shake a stick at with Wolfram Alpha</a> <br>
 						- <a href="http://fooplot.com/">Plot out sine waves using FooPlot</a> <br>
 						- <a href="http://paperjs.org/">Create your own experiments with Paper.js</a> <br>
-						
+
 					</p>
 				</section>
 

@@ -13,6 +13,7 @@ grid.position = view.center;
 var sineWaveLength = 360;
 var sineWaveStep = sineWaveLength/360;
 var sineScale = 100;
+var theta = 0;
 
 var sinWave = new Path();
 sinWave.strokeColor = 'red';
@@ -32,6 +33,18 @@ cosWave.pivot = [Math.PI * sineScale, 0];
 
 // Animate
 function onFrame(event) {
+  theta += event.delta;
+
+  for (var s = 0; s < sinWave.segments.length; ++s) {
+    sinWave.segments[s].point.y = sinWave.position.y + Math.sin(theta + s) * sineScale;
+  }
+  sinWave.smooth();
+
+  for (var c = 0; c < cosWave.segments.length; ++c) {
+    cosWave.segments[c].point.y = cosWave.position.y + Math.cos(theta + c) * sineScale;
+  }
+  cosWave.smooth();
+
 	sinWave.strokeColor.hue += 1;
   cosWave.strokeColor.hue = sinWave.strokeColor.hue + 45;
 }
@@ -39,7 +52,7 @@ function onFrame(event) {
 // Resize the view
 function onResize(event) {
   project.activeLayer.fitBounds(view.bounds, true);
-  
+
   var center = [view.bounds.left + offsetX * Reveal.getScale(), view.center.y];
   sinWave.position = center;
   cosWave.position = center;
