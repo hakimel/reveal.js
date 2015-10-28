@@ -1,6 +1,13 @@
 
 var deg2rad = Math.PI/180, rad2deg = 180/Math.PI;
 
+var fireBullet = false;
+var bulletDelay = 0.075;
+var bulletTimer = 0;
+
+var bulletWaveTheta = 0;
+var bulletWaveTimer = 0;
+
 // Draw a grid
 var grid = new Group();
 var bounds = view.bounds;
@@ -64,6 +71,19 @@ function createPlayer(position, radius, showBounds)
   return player;
 }
 
+function createBullet(position, radius, angle, color)
+{
+  var bullet = new Path.Circle(position, radius);
+  bullet.fillColor = color;
+  bullet.strokeColor = 'black';
+  
+  bullet.meta = {};
+  bullet.meta.angle = angle;
+  bullet.meta.t = 0;
+  
+  return bullet;
+}
+
 var turret = createTurret(new Point(0, 0), 175);
 var player = createPlayer(new Point(view.center), 50, true);
 
@@ -76,15 +96,53 @@ function onMouseMove(event) {
   var playerRadius = player.meta.getRadius();
   if ((distance - playerRadius) < radius) {
     turret.meta.setFillColor(new Color(1.0, 0.0, 0.0, 0.1));
+    fireBullet = true;
   }
   else {
     turret.meta.setFillColor(new Color(0.0, 1.0, 0.0, 0.1));
+    fireBullet = false;
+    bulletTimer = bulletDelay;
+    bulletWaveTimer = 0;
   }
 }
 
 // Animate
+var bullets = [];
+var deadBullets = [];
 function onFrame(event) {
-
+  if (fireBullet) {
+    bulletTimer += event.delta;
+    bulletWaveTimer += event.delta;
+    
+    if (bulletTimer >= bulletDelay) {
+      var direction = player.position - turret.position;
+      var angle = Math.atan2(direction.y, direction.x);
+      angle += Math.sin((bulletWaveTimer * Math.PI) * 2) * (10 * deg2rad);
+      bullets.push(createBullet(turret.position, 10, angle, new Color(0.0, 1.0, 1.0, 0.5)));
+      bulletTimer = 0;
+    }
+  }
+  
+  deadBullets = [];
+  for (var i = 0; i < bullets.length; i++)
+  {
+    var bullet = bullets[i];
+    
+    bullet.meta.t += event.delta;
+    var x = Math.cos(bullet.meta.angle) * 5;
+    var y = Math.sin(bullet.meta.angle) * 5;
+    bullet.position = bullet.position + new Point(x, y);
+    
+    if (bullet.meta.t >= 3.0) {
+      bullet.remove();
+      deadBullets.push(i);
+    }
+  }
+  
+  deadBullets.sort(function(a, b) { return b - a; });
+  for (i = 0; i < deadBullets.length; ++i) {
+    bullets.splice(deadBullets[i], 1);
+  }
 }
 
 // Resize the view

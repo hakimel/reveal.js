@@ -93,7 +93,6 @@ function onResize(event) {
   grid.position = view.center;
   turret.position = view.center - (new Point(350, 75) * Reveal.getScale());
 }
-onResize();
 
 // Expose a function to be called when our slide is shown
 view.onShow = function() {
@@ -106,3 +105,6 @@ view.onShow = function() {
 view.onHide = function() {
   console.log("Hiding distance-check.js");
 }
+
+// Initialize
+view.onShow();
