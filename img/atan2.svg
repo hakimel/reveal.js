@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.2"
+   width="387.76334"
+   height="432.78955"
+   viewBox="0 0 387.76334 432.78955"
+   id="svg2"
+   xml:space="preserve"
+   style="overflow:visible">
+
+<defs
+   id="defs4">
+	
+	
+		
+</defs>
+<path
+   d="m 175.71682,83.243552 1.046,349.045998"
+   id="p1"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<path
+   d="m 1.1998182,257.30855 c 470.5080018,0 329.1450018,-0.471 329.1450018,-0.471"
+   id="p2"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<path
+   d="m 325.70882,257.77655 c 0.036,82.555 -66.857,149.509 -149.413,149.545 -82.555001,0.037 -149.509001,-66.857 -149.545001,-149.413 0,-0.044 0,-0.088 0,-0.133 -0.036,-82.554 66.858,-149.507 149.413001,-149.543 82.555,-0.037 149.509,66.858 149.545,149.412 0,0.045 0,0.089 0,0.132 z"
+   id="p3"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.75;fill:none;stroke:#000000;stroke-width:1.00020003;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<text
+   x="212.49263"
+   y="273.40237"
+   id="text9"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">atan2(0, 1) = 0</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="182.24658"
+   y="141.70578"
+   id="text11"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">π/2</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="53.020638"
+   y="251.5099"
+   id="text13"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">π</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="180.04921"
+   y="380.60657"
+   id="text15"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">−π/2</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="335.15622"
+   y="246.94102"
+   id="text17"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">(1, 0)</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="134.88036"
+   y="97.990898"
+   id="text19"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">(0, 1)</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="9.8705187"
+   y="250.14615"
+   id="text21"
+   style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="179.9283"
+   y="422.29297"
+   id="text23"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><tspan
+     x="186.93629"
+     y="422.29297"
+     id="tspan20"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">(0,-1)</tspan></text>
+
+
+
+
+
+
+
+
+
+
+
+
+<path
+   d="m 20.477818,260.02776 -0.120999,0 -0.122,0 0,0.084 0,0.082 c 0,1.9 2.019,4.104 5.292,4.104 3.272,0 6.720999,-2.204 6.720999,-4.104 l 0,-0.082 0,-0.084 -0.122,0 -0.121,0 m 10e-4,0.168 0,0 z"
+   id="path2543_1_"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.75;fill:#ffffff;stroke:#000000;stroke-width:2.44300008;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+
+<path
+   d="m 329.56233,257.09006 c 0.004,1.944 -1.568,3.522 -3.514,3.526 -1.943,0.002 -3.522,-1.569 -3.526,-3.514 0,-0.004 0,-0.009 0,-0.013 -0.004,-1.944 1.569,-3.522 3.515,-3.527 1.942,-0.003 3.521,1.569 3.525,3.515 0,0.005 0,0.009 0,0.013 z"
+   id="path2547_1_"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.62220004;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<path
+   d="m 179.45518,107.87576 c 0.003,1.944 -1.569,3.523 -3.513,3.526 -1.944,0.003 -3.523,-1.569 -3.527,-3.513 0,-0.004 0,-0.009 0,-0.013 -0.003,-1.944 1.569,-3.523 3.514,-3.527 1.944,-0.003 3.522,1.569 3.526,3.514 0,0.004 0,0.009 0,0.013 z"
+   id="path2549_1_"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.62220004;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<path
+   d="m 180.24088,407.67834 c 0.003,1.943 -1.569,3.523 -3.513,3.527 -1.944,0.002 -3.523,-1.569 -3.527,-3.514 0,-0.005 0,-0.009 0,-0.014 -0.003,-1.944 1.569,-3.521 3.514,-3.526 1.944,-0.003 3.522,1.569 3.526,3.515 0,0.003 0,0.009 0,0.012 z"
+   id="path2551_1_"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.62220004;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<text
+   x="40.503143"
+   y="275.53552"
+   id="text32"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><tspan
+     x="40.503143"
+     y="275.53552"
+     id="tspan28"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">The limit of atan2</tspan></text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="43.533447"
+   y="292.77795"
+   id="text34"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">from this side is −π </text>
+
+
+
+
+
+
+
+
+
+
+
+
+<path
+   d="m 329.64048,8.7732579 c 0.005,3.3075251 -2.67443,5.9940371 -5.98977,5.9991431 -3.31364,0.0051 -6.0034,-2.669501 -6.01022,-5.9770251 0,-0.0068 0,-0.01531 0,-0.02212 -0.005,-3.307523 2.67443,-5.994037 5.98976,-6.000843 3.31365,-0.0051 6.00341,2.6695 6.01023,5.978727 0,0.0068 0,0.01361 0,0.02212 z"
+   id="path2563_1_"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.62220004;fill:#0000ff;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<text
+   x="241.14311"
+   y="167.96616"
+   id="text37"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">π/3</text>
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="281.07803"
+   y="141.74776"
+   id="text39"
+   style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+
+
+
+
+
+
+
+
+
+
+
+
+<text
+   x="297.44135"
+   y="159.81314"
+   id="text45"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><tspan
+     x="387.76334"
+     y="159.81314"
+     id="tspan47"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"> </tspan></text>
+
+
+
+
+
+
+
+
+
+
+
+
+<path
+   d=""
+   id="path51"
+   style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+
+<path
+   d=""
+   id="line49"
+   style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<path
+   d=""
+   id="path55"
+   style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" />
+<g
+   transform="translate(-2,-2)"
+   id="g2882"><path
+     d="m 37.383819,285.13598 4.278325,0.62525 -8.560325,-11.98768 2.116831,14.88834 2.165169,-3.52591 z"
+     id="path3200"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+     d="m 46.580872,313.69776 c 0,0 -5.4293,-16.35613 -8.964571,-28.68688"
+     id="path2430"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /></g><path
+   d="M 326.34724,10.056968 179.01279,259.32049"
+   id="path2419"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+   d="m 256.04188,129.52419 c 0.003,1.944 -1.569,3.523 -3.514,3.526 -1.944,0.003 -3.522,-1.569 -3.526,-3.513 0,-0.004 0,-0.009 0,-0.013 -0.003,-1.944 1.569,-3.523 3.514,-3.527 1.944,-0.003 3.522,1.569 3.526,3.514 0,0.004 0,0.008 0,0.013 z"
+   id="path2421"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.62220004;stroke:#000000;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><text
+   x="318.43268"
+   y="110.64565"
+   transform="scale(0.84303768,1.1861866)"
+   id="text2423"
+   xml:space="preserve"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><tspan
+     x="318.43268"
+     y="110.64565"
+     id="tspan2425"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">(   ,     )</tspan><tspan
+     id="tspan2421"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /></text>
+
+
+
+
+
+
+
+
+<path
+   d="m 1,256.7277 c 174.62122,1.13637 175.37879,0.75758 175.37879,0.75758"
+   id="path2429"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:#ff0000;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+   d="m 30.044455,257.28649 c 0.003,1.944 -1.569001,3.522 -3.513,3.526 -1.944,0.002 -3.523,-1.569 -3.527,-3.514 0,-0.004 0,-0.009 0,-0.013 -0.003,-1.944 1.568999,-3.522 3.513999,-3.527 1.944001,-0.003 3.522001,1.569 3.526001,3.515 0,0.005 0,0.009 0,0.013 z"
+   id="path2545_1_"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.62220004;stroke:#000000;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+   d="m 203.65185,212.84323 c 15.82989,9.13105 29.67418,29.44631 29.67418,43.67043 l -55.74295,0 26.06877,-43.67043 z"
+   id="path3201"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;opacity:0.75;fill:none;stroke:#1d00ff;stroke-width:4.25705671;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><text
+   x="224.70618"
+   y="218.44032"
+   id="text3205"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">π/3 (=60°)</text>
+
+
+
+
+
+
+
+
+<text
+   x="189.74326"
+   y="19.443216"
+   id="text2423-1"
+   xml:space="preserve"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><tspan
+     x="189.74326"
+     y="19.443216"
+     id="tspan2425-7"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">atan2(√3, 1) = π/3 </tspan></text>
+
+
+
+
+
+
+<text
+   x="293.97504"
+   y="250.06448"
+   id="text9-9"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">0</text>
+
+
+
+
+
+<text
+   x="119.88612"
+   y="69.458168"
+   id="text9-7"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">atan2(1, 0) = π/2</text>
+
+
+
+
+<flowRoot
+   id="flowRoot2906"
+   xml:space="preserve"
+   style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
+     id="flowRegion2908"><rect
+       width="139.40677"
+       height="220.23305"
+       x="-238.02965"
+       y="214.78108"
+       id="rect2910" /></flowRegion><flowPara
+     id="flowPara2912" /></flowRoot><text
+   x="-253.60168"
+   y="333.42514"
+   transform="translate(0,-2.5214944e-6)"
+   id="text2934"
+   xml:space="preserve"
+   style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><tspan
+     x="-253.60168"
+     y="333.42514"
+     id="tspan2936" /></text>
+
+
+
+<g
+   transform="translate(-61.335057,-39.334513)"
+   id="g2890"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><g
+     transform="matrix(0.25,0,0,0.25,388.58115,112.95116)"
+     id="g3736"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><g
+   transform="translate(0,-2.5214944e-6)"
+   id="text2914"
+   style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><path
+     d="m -193.36797,199.95058 -5.48828,0 0,-20.6836 c -2.00521,1.87502 -4.36849,3.26174 -7.08984,4.16016 l 0,-4.98047 c 1.43229,-0.46873 2.98827,-1.3574 4.66797,-2.66602 1.67968,-1.30856 2.83202,-2.83525 3.45703,-4.58007 l 4.45312,0 z"
+     id="path3165"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+     d="m -188.87578,244.85292 0,5.09766 -19.23828,0 c 0.20833,-1.92708 0.83333,-3.75325 1.875,-5.47852 1.04166,-1.72525 3.09895,-4.01366 6.17188,-6.86523 2.47394,-2.30468 3.99087,-3.86717 4.55078,-4.6875 0.75519,-1.1328 1.13279,-2.25259 1.13281,-3.35938 -2e-5,-1.22393 -0.32879,-2.16469 -0.98633,-2.82226 -0.65756,-0.65753 -1.56577,-0.98631 -2.72461,-0.98633 -1.14584,2e-5 -2.0573,0.34507 -2.73437,1.03515 -0.67709,0.69013 -1.06772,1.83596 -1.17188,3.4375 l -5.46875,-0.54687 c 0.32552,-3.02081 1.34766,-5.18878 3.06641,-6.50391 1.71874,-1.31507 3.86718,-1.97262 6.44531,-1.97265 2.82551,3e-5 5.04556,0.76174 6.66016,2.28515 1.61456,1.52347 2.42185,3.41799 2.42187,5.6836 -2e-5,1.28908 -0.23114,2.51629 -0.69336,3.68164 -0.46226,1.16538 -1.19468,2.38608 -2.19726,3.66211 -0.66408,0.84636 -1.862,2.06381 -3.59375,3.65234 -1.73179,1.58855 -2.82879,2.64324 -3.29102,3.16406 -0.46225,0.52084 -0.8366,1.02865 -1.12305,1.52344 z"
+     id="path3167"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /></g>
+<path
+   d="m -213.97818,211.07345 36.43095,0"
+   id="path2940"
+   style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /></g></g><g
+   transform="translate(-69.002041,-37.667801)"
+   id="g2897"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><g
+     transform="matrix(0.25,0,0,0.25,388.58115,112.95116)"
+     id="g3742"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><g
+   transform="translate(0,-2.5214944e-6)"
+   id="text2920"
+   style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><path
+     d="m -92.204048,155.28989 1.445312,0 -6.09375,38.02734 -9.687504,-19.94141 -3.86718,1.77735 -0.66407,-1.25 5.87891,-2.94922 7.910157,16.07422 z"
+     id="path3158"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+     d="m -89.254829,184.19614 5.3125,-0.64453 c 0.169263,1.35417 0.624992,2.38932 1.367187,3.10546 0.742179,0.71615 1.640615,1.07423 2.695313,1.07422 1.1328,1e-5 2.086575,-0.42968 2.861328,-1.28906 0.774725,-0.85937 1.162094,-2.01822 1.162109,-3.47656 -1.5e-5,-1.3802 -0.371108,-2.47395 -1.113281,-3.28125 -0.742201,-0.80728 -1.647148,-1.21093 -2.714844,-1.21094 -0.703135,1e-5 -1.542978,0.13673 -2.519531,0.41016 l 0.605469,-4.47266 c 1.484364,0.0391 2.617175,-0.28319 3.398437,-0.9668 0.781237,-0.68357 1.171861,-1.59177 1.171875,-2.72461 -1.4e-5,-0.96352 -0.286472,-1.73174 -0.859375,-2.30468 -0.572929,-0.5729 -1.334647,-0.85935 -2.285156,-0.85938 -0.93751,3e-5 -1.73829,0.32555 -2.402344,0.97656 -0.66407,0.65107 -1.067715,1.60159 -1.210937,2.85157 l -5.058594,-0.85938 c 0.35156,-1.73175 0.882159,-3.11521 1.591797,-4.15039 0.709631,-1.03513 1.699213,-1.84893 2.96875,-2.44141 1.269523,-0.59241 2.692048,-0.88864 4.267578,-0.88867 2.695299,3e-5 4.856755,0.85941 6.484375,2.57813 1.341127,1.40627 2.011699,2.99481 2.011719,4.76562 -2e-5,2.51304 -1.373716,4.51825 -4.121094,6.01563 1.640608,0.35158 2.952456,1.13933 3.935547,2.36328 0.983053,1.22397 1.474589,2.70183 1.474609,4.43359 -2e-5,2.51303 -0.917988,4.65495 -2.753906,6.42578 -1.835954,1.77084 -4.121108,2.65625 -6.855469,2.65625 -2.591154,0 -4.739589,-0.74544 -6.445312,-2.23632 -1.705732,-1.49089 -2.695315,-3.44075 -2.96875,-5.84961 z"
+     id="path3160"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><path
+     d="m -81.383736,236.69614 0,5.09765 -19.238284,0 c 0.20834,-1.92708 0.833335,-3.75325 1.875003,-5.47851 1.041663,-1.72526 3.098952,-4.01367 6.171875,-6.86524 2.473947,-2.30467 3.990872,-3.86717 4.550781,-4.6875 0.755194,-1.13279 1.132798,-2.25258 1.132813,-3.35937 -1.5e-5,-1.22394 -0.328791,-2.16469 -0.986328,-2.82227 -0.657565,-0.65753 -1.565768,-0.9863 -2.72461,-0.98633 -1.145843,3e-5 -2.0573,0.34508 -2.734375,1.03516 -0.677091,0.69013 -1.067715,1.83596 -1.171875,3.4375 l -5.46875,-0.54687 c 0.325519,-3.02081 1.347654,-5.18878 3.066407,-6.50391 1.718743,-1.31508 3.867179,-1.97263 6.445312,-1.97266 2.825507,3e-5 5.045557,0.76175 6.660156,2.28516 1.614564,1.52346 2.421855,3.41799 2.421875,5.68359 -2e-5,1.28908 -0.231139,2.5163 -0.693359,3.68164 -0.462259,1.16538 -1.19468,2.38609 -2.197266,3.66211 -0.664079,0.84637 -1.861994,2.06382 -3.59375,3.65235 -1.731783,1.58855 -2.828787,2.64323 -3.291015,3.16406 -0.46225,0.52084 -0.836598,1.02865 -1.123047,1.52344 z"
+     id="path3162"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /></g>
+<path
+   d="m -111.24467,203.14125 43.040192,0"
+   id="path2940-9"
+   style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;stroke-width:2.68932652;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /></g></g><path
+   d="m 365.59386,151.81592 6.11759,0"
+   id="path3770"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:none;stroke:#000000;stroke-width:0.25px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold" /><text
+   x="322.1684"
+   y="37.765484"
+   id="text2423-1-1"
+   xml:space="preserve"
+   style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;overflow:visible;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold"><tspan
+     x="322.1684"
+     y="37.765484"
+     id="tspan2425-7-7"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:150%;writing-mode:lr-tb;text-anchor:start;font-family:Times New Roman;-inkscape-font-specification:Times New Roman Bold">(1, √3) </tspan></text>
+
+</svg>

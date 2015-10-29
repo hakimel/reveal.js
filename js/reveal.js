@@ -732,7 +732,8 @@
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
-			backgroundTransition: slide.getAttribute( 'data-background-transition' )
+			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
+			backgroundCanvas: slide.getAttribute( 'data-background-canvas' )
 		};
 
 		var element = document.createElement( 'div' );
@@ -762,7 +763,8 @@
 															data.backgroundColor +
 															data.backgroundRepeat +
 															data.backgroundPosition +
-															data.backgroundTransition );
+															data.backgroundTransition +
+														  data.backgroundCanvas );
 		}
 
 		// Additional and optional background properties
@@ -2652,11 +2654,26 @@
 		} );
 
 		// Stop any currently playing video background
+		var i;
 		if( previousBackground ) {
 
 			var previousVideo = previousBackground.querySelector( 'video' );
 			if( previousVideo ) previousVideo.pause();
-
+			
+			var previousCanvas = previousBackground.querySelector( 'canvas' );
+			if( previousCanvas ) {
+				if ( window['paper'] ) {
+					for (i in window['paper'].PaperScope._scopes) {
+						if (!window['paper'].PaperScope._scopes[i].project) continue;
+						if (window['paper'].PaperScope._scopes[i].project._view._element.getAttribute('id') === previousCanvas.getAttribute('id')) {
+							if (window['paper'].PaperScope._scopes[i].project._view.onHide) {
+								window['paper'].PaperScope._scopes[i].project._view.onHide();
+							}
+							window['paper'].PaperScope._scopes[i].project._view.pause();
+						}
+					}
+				}
+			}
 		}
 
 		if( currentBackground ) {
@@ -2666,6 +2683,21 @@
 			if( currentVideo ) {
 				if( currentVideo.currentTime > 0 ) currentVideo.currentTime = 0;
 				currentVideo.play();
+			}
+			
+			var currentCanvas = currentBackground.querySelector( 'canvas' );
+			if( currentCanvas ) {
+				if ( window['paper'] ) {
+					for (i in window['paper'].PaperScope._scopes) {
+						if (!window['paper'].PaperScope._scopes[i].project) continue;
+						if (window['paper'].PaperScope._scopes[i].project._view._element.getAttribute('id') === currentCanvas.getAttribute('id')) {
+							if (window['paper'].PaperScope._scopes[i].project._view.onShow) {
+								window['paper'].PaperScope._scopes[i].project._view.onShow();
+							}
+							window['paper'].PaperScope._scopes[i].project._view.play();
+						}
+					}
+				}
 			}
 
 			var backgroundImageURL = currentBackground.style.backgroundImage || '';
@@ -2797,7 +2829,17 @@
 				media.load();
 			}
 		} );
-
+		
+		// Interactive backgorund
+		if (slide.getAttribute('class') === 'present') {
+			var interactiveBackground = slide.hasAttribute( 'data-background-interactive' );
+			if (interactiveBackground) {
+				dom.slides.style['pointer-events'] = 'none';
+			}
+			else {
+				dom.slides.style['pointer-events'] = 'all';
+			}
+		}
 
 		// Show the corresponding background element
 		var indices = getIndices( slide );
@@ -2812,7 +2854,8 @@
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
-					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
+					backgroundIframe = slide.getAttribute( 'data-background-iframe' ),
+					backgroundCanvas = slide.getAttribute( 'data-background-canvas' );
 
 				// Images
 				if( backgroundImage ) {
@@ -2843,6 +2886,23 @@
 						iframe.style.maxWidth = '100%';
 
 					background.appendChild( iframe );
+				}
+				// Canvas
+				else if ( backgroundCanvas ) {
+					var canvas = document.createElement( 'canvas' );
+					var canvasId = 'canvas' + '-' + indices.h + '-' + (indices.v ? indices.v : 0);
+					canvas.setAttribute('id', canvasId);
+					canvas.setAttribute('data-paper-resize', 'true');
+					canvas.setAttribute('data-paper-keepalive', 'true');
+					background.appendChild( canvas );
+					
+					var script = document.createElement('script');
+					script.type = 'text/paperscript';
+					script.src = backgroundCanvas;
+					script.setAttribute('data-paper-canvas', canvasId);
+					background.appendChild( script );
+					
+					if (window['paper']) window['paper'].PaperScript.load();
 				}
 			}
 		}

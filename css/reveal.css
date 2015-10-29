@@ -848,6 +848,16 @@ html:-moz-full-screen-ancestor {
   top: 0;
   left: 0; }
 
+/* Canvas backgrounds */
+.reveal .slide-background canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  top: 0;
+  left: 0; }
+
 /* Immediate transition style */
 .reveal[data-background-transition=none] > .backgrounds .slide-background,
 .reveal > .backgrounds .slide-background[data-background-transition=none] {
