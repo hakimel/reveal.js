@@ -881,6 +881,7 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
+		dom.slideNumber.style.display = config.slideNumber ? 'block' : 'none';
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
@@ -2546,7 +2547,7 @@
 	function updateSlideNumber() {
 
 		// Update slide number if enabled
-		if( config.slideNumber && dom.slideNumber) {
+		if( config.slideNumber && dom.slideNumber ) {
 
 			var value = [];
 			var format = 'h.v';
