@@ -2512,30 +2512,42 @@
 	/**
 	 * Updates the slide number div to reflect the current slide.
 	 *
-	 * Slide number format can be defined as a string using the
-	 * following variables:
-	 *  h: current slide's horizontal index
-	 *  v: current slide's vertical index
-	 *  c: current slide index (flattened)
-	 *  t: total number of slides (flattened)
+	 * The following slide number formats are available:
+	 *  "h/v": 	horizontal and vertical slide numbers (default)
+	 *    "c": 	flattened slide number
+	 *  "c/t": 	flattened slide number / total slides
 	 */
 	function updateSlideNumber() {
 
 		// Update slide number if enabled
 		if( config.slideNumber && dom.slideNumber) {
 
-			// Default to only showing the current slide number
-			var format = 'c';
+			var value = [];
+			var format = 'h/v';
 
-			// Check if a custom slide number format is available
+			// Check if a custom number format is available
 			if( typeof config.slideNumber === 'string' ) {
 				format = config.slideNumber;
 			}
 
-			dom.slideNumber.innerHTML = format.replace( /h/g, indexh )
-												.replace( /v/g, indexv )
-												.replace( /c/g, getSlidePastCount() + 1 )
-												.replace( /t/g, getTotalSlides() );
+			if( format === 'c' ) {
+				value.push( getSlidePastCount() + 1 );
+			}
+			else if( format === 'c/t' ) {
+				value.push( getSlidePastCount() + 1 );
+				value.push( '<span class="slide-number-delimiter">/</span>' );
+				value.push( getTotalSlides() );
+			}
+			else {
+				value.push( indexh + 1 );
+
+				if( isVerticalSlide() ) {
+					value.push( '<span class="slide-number-delimiter">/</span>' );
+					value.push( indexv + 1 );
+				}
+			}
+
+			dom.slideNumber.innerHTML = value.join( '' );
 		}
 
 	}

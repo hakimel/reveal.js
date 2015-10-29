@@ -611,11 +611,10 @@ If you would like to display the page number of the current slide you can do so 
 Reveal.configure({ slideNumber: true });
 
 // Slide number formatting can be configured using these variables:
-//  h: current slide's horizontal index
-//  v: current slide's vertical index
-//  c: current slide index (flattened)
-//  t: total number of slides (flattened)
-Reveal.configure({ slideNumber: 'c / t' });
+//  "h/v": 	horizontal and vertical slide numbers (default)
+//    "c": 	flattened slide number
+//  "c/t": 	flattened slide number / total slides
+Reveal.configure({ slideNumber: 'c/t' });
 
 ```
 

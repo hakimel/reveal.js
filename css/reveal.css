@@ -279,6 +279,9 @@ html:-moz-full-screen-ancestor {
   z-index: 31;
   font-size: 12px; }
 
+.reveal .slide-number-delimiter {
+  margin: 0 4px; }
+
 /*********************************************
  * SLIDES
  *********************************************/
