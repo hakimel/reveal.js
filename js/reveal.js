@@ -609,7 +609,7 @@
 					var numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = formatSlideNumber( slideNumberH, '/', slideNumberV );
+					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
 					background.appendChild( numberElement );
 				}
 			}
@@ -2538,7 +2538,8 @@
 	 * Updates the slide number div to reflect the current slide.
 	 *
 	 * The following slide number formats are available:
-	 *  "h/v": 	horizontal and vertical slide numbers (default)
+	 *  "h.v": 	horizontal . vertical slide number (default)
+	 *  "h/v": 	horizontal / vertical slide number
 	 *    "c": 	flattened slide number
 	 *  "c/t": 	flattened slide number / total slides
 	 */
@@ -2548,25 +2549,27 @@
 		if( config.slideNumber && dom.slideNumber) {
 
 			var value = [];
-			var format = 'h/v';
+			var format = 'h.v';
 
 			// Check if a custom number format is available
 			if( typeof config.slideNumber === 'string' ) {
 				format = config.slideNumber;
 			}
 
-			if( format === 'c' ) {
-				value.push( getSlidePastCount() + 1 );
-			}
-			else if( format === 'c/t' ) {
-				value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
-			}
-			else {
-				value.push( indexh + 1 );
-
-				if( isVerticalSlide() ) {
-					value.push( '/', indexv + 1 );
-				}
+			switch( format ) {
+				case 'c':
+					value.push( getSlidePastCount() + 1 );
+					break;
+				case 'c/t':
+					value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
+					break;
+				case 'h/v':
+					value.push( indexh + 1 );
+					if( isVerticalSlide() ) value.push( '/', indexv + 1 );
+					break;
+				default:
+					value.push( indexh + 1 );
+					if( isVerticalSlide() ) value.push( '.', indexv + 1 );
 			}
 
 			dom.slideNumber.innerHTML = formatSlideNumber( value[0], value[1], value[2] );
