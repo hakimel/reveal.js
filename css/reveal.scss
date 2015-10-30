@@ -331,12 +331,12 @@ html:-moz-full-screen-ancestor {
 	display: block;
 	right: 8px;
 	bottom: 8px;
-	opacity: 0.5;
 	z-index: 31;
 	font-family: Helvetica, sans-serif;
 	font-size: 12px;
+	line-height: 1;
 	color: #fff;
-	background-color: rgba( 0, 0, 0, 0.7 );
+	background-color: rgba( 0, 0, 0, 0.4 );
 	padding: 5px;
 }
 
