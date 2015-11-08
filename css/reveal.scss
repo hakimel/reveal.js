@@ -323,6 +323,20 @@ html:-moz-full-screen-ancestor {
 	}
 
 /*********************************************
+ * NARRATION AUDIO CONTROLS
+ *********************************************/
+
+.reveal .narration-controls {
+	display: block;
+	position: fixed;
+	bottom: 5px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	z-index: 20;
+}
+
+/*********************************************
  * SLIDE NUMBER
  *********************************************/
 
@@ -1375,5 +1389,4 @@ html:-moz-full-screen-ancestor {
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
-
 

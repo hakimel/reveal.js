@@ -54,6 +54,18 @@
 			// Display the page number of the current slide
 			slideNumber: false,
 
+			// Use audio narration
+			narration: false,
+
+			// Display narration audio controls
+			narrationControls: true,
+
+			// Automatically proceed to next slide at end of audio file
+			narrationAutoSlide: true,
+
+			// Available audio formats, e.g. ['ogg','mp4','mp3']
+			narrationFormats: [],
+
 			// Push each slide change to the browser history
 			history: false,
 
@@ -206,6 +218,10 @@
 		autoSlideStartTime = -1,
 		autoSlidePaused = false,
 
+		// Narration properties
+		narrationFormat = null,
+		narrationWasPaused = false,
+
 		// Holds information about the currently ongoing touch input
 		touch = {
 			startX: 0,
@@ -316,6 +332,11 @@
 		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
 
 		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
+
+		var a = document.createElement('audio');
+		features.ogg = !!(a.canPlayType && a.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/, ''));
+		features.mp4 = !!(a.canPlayType && a.canPlayType('audio/mp4; codecs="mp4a.40.2"').replace(/no/, ''));
+		features.mp3 = !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
 
 	}
 
@@ -467,6 +488,9 @@
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
+
+		// Narration audio controls
+		dom.narrationControls = createSingletonNode( dom.wrapper, 'audio', 'narration-controls', '' );
 
 		// Element containing notes that are visible to the audience
 		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
@@ -886,6 +910,19 @@
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 		dom.slideNumber.style.display = config.slideNumber && !isPrintingPDF() ? 'block' : 'none';
 
+		if( config.narrationControls ) dom.narrationControls.setAttribute( 'controls', 'controls' );
+
+		// Select narration format based on preferences and capabilities
+		if( config.narration ) {
+			var i = 0;
+			while( !narrationFormat && i < config.narrationFormats.length ) {
+				if( features[config.narrationFormats[i]] ) {
+					narrationFormat = config.narrationFormats[i];
+				}
+				i++;
+			}
+		}
+
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
 		}
@@ -1005,6 +1042,10 @@
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
+		if( config.narrationAutoSlide && dom.narrationControls ) {
+			dom.narrationControls.addEventListener( 'ended', navigateNext, false );
+		}
+
 		if( config.focusBodyOnPageVisibilityChange ) {
 			var visibilityChange;
 
@@ -1075,6 +1116,10 @@
 
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
+		}
+
+		if( config.narrationAutoSlide && dom.narrationControls ) {
+			dom.narrationControls.removeEventListener( 'ended', navigateNext, false );
 		}
 
 		[ 'touchstart', 'click' ].forEach( function( eventName ) {
@@ -1998,6 +2043,11 @@
 		if( config.pause ) {
 			var wasPaused = dom.wrapper.classList.contains( 'paused' );
 
+			if( config.narration && dom.narrationControls ) {
+				narrationWasPaused = dom.narrationControls.paused;
+				dom.narrationControls.pause();
+			}
+
 			cancelAutoSlide();
 			dom.wrapper.classList.add( 'paused' );
 
@@ -2015,6 +2065,10 @@
 
 		var wasPaused = dom.wrapper.classList.contains( 'paused' );
 		dom.wrapper.classList.remove( 'paused' );
+
+		if( config.narration && dom.narrationControls && !narrationWasPaused ) {
+			dom.narrationControls.play();
+		}
 
 		cueAutoSlide();
 
@@ -2212,6 +2266,7 @@
 		// Announce the current slide contents, for screen readers
 		dom.statusDiv.textContent = currentSlide.textContent;
 
+		updateNarration();
 		updateControls();
 		updateProgress();
 		updateBackground();
@@ -3107,6 +3162,33 @@
 	}
 
 	/**
+	 * Updates narration audio content if narration is active.
+	 */
+	function updateNarration() {
+
+		if( config.narration && currentSlide ) {
+			// Pause narration audio element in case it is playing
+			dom.narrationControls.pause();
+
+			// set object to current fragment, last visible fragment (if navigating backwards), or current slide if no fragments
+			var currentFragment =  currentSlide.querySelector( '.current-fragment' );
+			var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
+			var obj = currentFragment || lastVisibleFragment || currentSlide;
+
+			// Update narration control source
+			if( obj.hasAttribute( 'data-narration-src' )) {
+				dom.narrationControls.src = obj.getAttribute( 'data-narration-src' ) + '.' + narrationFormat;
+				dom.narrationControls.load();
+				if( config.narrationAutoSlide ) { dom.narrationControls.play(); }
+			} else {
+				// Element does not have narration - replace with null file
+				dom.narrationControls.src = null;
+			}
+		}
+
+	}
+
+	/**
 	 * Returns the number of past slides. This can be used as a global
 	 * flattened index for slides.
 	 */
@@ -3597,6 +3679,7 @@
 					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
 				}
 
+				updateNarration();
 				updateControls();
 				updateProgress();
 
