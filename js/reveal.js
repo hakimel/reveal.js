@@ -542,6 +542,19 @@
 		document.body.style.width = pageWidth + 'px';
 		document.body.style.height = pageHeight + 'px';
 
+		// Add each slide's index as attributes on itself, we need these
+		// indices to generate slide numbers below
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+			hslide.setAttribute( 'data-index-h', h );
+
+			if( hslide.classList.contains( 'stack' ) ) {
+				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+					vslide.setAttribute( 'data-index-h', h );
+					vslide.setAttribute( 'data-index-v', v );
+				} );
+			}
+		} );
+
 		// Slide and slide background layout
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 
@@ -575,7 +588,7 @@
 					background.style.left = -left + 'px';
 				}
 
-				// If we're configured to `showNotes`, inject them into each slide
+				// Inject notes if `showNotes` is enabled
 				if( config.showNotes ) {
 					var notes = getSlideNotes( slide );
 					if( notes ) {
@@ -586,6 +599,18 @@
 						notesElement.style.bottom = ( 40 - top ) + 'px';
 						slide.appendChild( notesElement );
 					}
+				}
+
+				// Inject slide numbers if `slideNumbers` are enabled
+				if( config.slideNumber ) {
+					var slideNumberH = parseInt( slide.getAttribute( 'data-index-h' ), 10 ) + 1,
+						slideNumberV = parseInt( slide.getAttribute( 'data-index-v' ), 10 ) + 1;
+
+					var numberElement = document.createElement( 'div' );
+					numberElement.classList.add( 'slide-number' );
+					numberElement.classList.add( 'slide-number-pdf' );
+					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
+					background.appendChild( numberElement );
 				}
 			}
 
@@ -856,6 +881,7 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
+		dom.slideNumber.style.display = config.slideNumber ? 'block' : 'none';
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
@@ -2512,30 +2538,59 @@
 	/**
 	 * Updates the slide number div to reflect the current slide.
 	 *
-	 * Slide number format can be defined as a string using the
-	 * following variables:
-	 *  h: current slide's horizontal index
-	 *  v: current slide's vertical index
-	 *  c: current slide index (flattened)
-	 *  t: total number of slides (flattened)
+	 * The following slide number formats are available:
+	 *  "h.v": 	horizontal . vertical slide number (default)
+	 *  "h/v": 	horizontal / vertical slide number
+	 *    "c": 	flattened slide number
+	 *  "c/t": 	flattened slide number / total slides
 	 */
 	function updateSlideNumber() {
 
 		// Update slide number if enabled
-		if( config.slideNumber && dom.slideNumber) {
+		if( config.slideNumber && dom.slideNumber ) {
 
-			// Default to only showing the current slide number
-			var format = 'c';
+			var value = [];
+			var format = 'h.v';
 
-			// Check if a custom slide number format is available
+			// Check if a custom number format is available
 			if( typeof config.slideNumber === 'string' ) {
 				format = config.slideNumber;
 			}
 
-			dom.slideNumber.innerHTML = format.replace( /h/g, indexh )
-												.replace( /v/g, indexv )
-												.replace( /c/g, getSlidePastCount() + 1 )
-												.replace( /t/g, getTotalSlides() );
+			switch( format ) {
+				case 'c':
+					value.push( getSlidePastCount() + 1 );
+					break;
+				case 'c/t':
+					value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
+					break;
+				case 'h/v':
+					value.push( indexh + 1 );
+					if( isVerticalSlide() ) value.push( '/', indexv + 1 );
+					break;
+				default:
+					value.push( indexh + 1 );
+					if( isVerticalSlide() ) value.push( '.', indexv + 1 );
+			}
+
+			dom.slideNumber.innerHTML = formatSlideNumber( value[0], value[1], value[2] );
+		}
+
+	}
+
+	/**
+	 * Applies HTML formatting to a slide number before it's
+	 * written to the DOM.
+	 */
+	function formatSlideNumber( a, delimiter, b ) {
+
+		if( typeof b === 'number' && !isNaN( b ) ) {
+			return  '<span class="slide-number-a">'+ a +'</span>' +
+					'<span class="slide-number-delimiter">'+ delimiter +'</span>' +
+					'<span class="slide-number-b">'+ b +'</span>';
+		}
+		else {
+			return '<span class="slide-number-a">'+ a +'</span>';
 		}
 
 	}
