@@ -111,6 +111,9 @@ var RevealNotes = (function() {
 			// modifier is present
 			if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
 
+			// Disregard the event if keyboard is disabled
+			if ( Reveal.getConfig().keyboard === false ) return;
+
 			if( event.keyCode === 83 ) {
 				event.preventDefault();
 				openNotes();
