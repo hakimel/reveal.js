@@ -141,7 +141,7 @@
 	.reveal .slides section {
 		visibility: visible !important;
 		position: static !important;
-		width: 100% !important;
+		width: auto !important;
 		height: auto !important;
 		display: block !important;
 		overflow: visible !important;
