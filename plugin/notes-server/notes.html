@@ -195,7 +195,6 @@
 				if( connected === false ) {
 					connected = true;
 
-					setupIframes( data );
 					setupKeyboard();
 					setupNotes();
 					setupTimer();
@@ -206,13 +205,26 @@
 
 			} );
 
+			// Load our presentation iframes
+			setupIframes();
+
+			// Once the iframes have loaded, emit a signal saying there's
+			// a new subscriber which will trigger a 'statechanged'
+			// message to be sent back
 			window.addEventListener( 'message', function( event ) {
 
 				var data = JSON.parse( event.data );
 
 				if( data && data.namespace === 'reveal' ) {
 					if( /ready/.test( data.eventName ) ) {
-						socket.emit( 'connect', { socketId: socketId } );
+						socket.emit( 'new-subscriber', { socketId: socketId } );
+					}
+				}
+
+				// Messages sent by reveal.js inside of the current slide preview
+				if( data && data.namespace === 'reveal' ) {
+					if( /slidechanged|fragmentshown|fragmenthidden|overviewshown|overviewhidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+						socket.emit( 'statechanged-speaker', { state: data.state } );
 					}
 				}
 
@@ -267,7 +279,7 @@
 			/**
 			 * Creates the preview iframes.
 			 */
-			function setupIframes( data ) {
+			function setupIframes() {
 
 				var params = [
 					'receiver',
@@ -277,9 +289,8 @@
 					'backgroundTransition=none'
 				].join( '&' );
 
-				var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
-				var currentURL = '/?' + params + '&postMessageEvents=true' + hash;
-				var upcomingURL = '/?' + params + '&controls=false' + hash;
+				var currentURL = '/?' + params + '&postMessageEvents=true';
+				var upcomingURL = '/?' + params + '&controls=false';
 
 				currentSlide = document.createElement( 'iframe' );
 				currentSlide.setAttribute( 'width', 1280 );

@@ -1,15 +1,9 @@
-/* Default Print Stylesheet Template
-   by Rob Glazebrook of CSSnewbie.com
-   Last Updated: June 4, 2008
-
-   Feel free (nay, compelled) to edit, append, and
-   manipulate this file as you see fit. */
-
-
-/* SECTION 1: Set default width, margin, float, and
-   background. This prevents elements from extending
-   beyond the edge of the printed page, and prevents
-   unnecessary background images from printing */
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
 
 * {
 	-webkit-print-color-adjust: exact;
@@ -29,12 +23,10 @@ html {
 	overflow: visible;
 }
 
-/* SECTION 2: Remove any elements not needed in print.
-   This would include navigation, ads, sidebars, etc. */
+/* Remove any elements not needed in print. */
 .nestedarrow,
 .reveal .controls,
 .reveal .progress,
-.reveal .slide-number,
 .reveal .playback,
 .reveal.overview,
 .fork-reveal,
@@ -43,16 +35,7 @@ html {
 	display: none !important;
 }
 
-/* SECTION 3: Set body font face, size, and color.
-   Consider using a serif font for readability. */
-body, p, td, li, div {
-
-}
-
-/* SECTION 4: Set heading font face, sizes, and color.
-   Differentiate your headings from your body text.
-   Perhaps use a large sans-serif for distinction. */
-h1,h2,h3,h4,h5,h6 {
+h1, h2, h3, h4, h5, h6 {
 	text-shadow: 0 0 0 #000 !important;
 }
 
@@ -61,8 +44,6 @@ h1,h2,h3,h4,h5,h6 {
 	font-family: Courier, 'Courier New', monospace !important;
 }
 
-
-/* SECTION 5: more reveal.js specific additions by @skypanther */
 ul, ol, div, p {
 	visibility: visible;
 	position: static;
@@ -100,6 +81,7 @@ ul, ol, div, p {
 	    -ms-perspective-origin: 50% 50%;
 	        perspective-origin: 50% 50%;
 }
+
 .reveal .slides section {
 	page-break-after: always !important;
 
@@ -125,6 +107,7 @@ ul, ol, div, p {
 	    -ms-transform: none !important;
 	        transform: none !important;
 }
+
 .reveal section.stack {
 	margin: 0 !important;
 	padding: 0 !important;
@@ -132,9 +115,11 @@ ul, ol, div, p {
 	height: auto !important;
 	min-height: auto !important;
 }
+
 .reveal img {
 	box-shadow: none;
 }
+
 .reveal .roll {
 	overflow: visible;
 	line-height: 1em;
@@ -149,9 +134,27 @@ ul, ol, div, p {
 	width: 100%;
 	z-index: -1;
 }
+
 /* All elements should be above the slide-background */
 .reveal section>* {
 	position: relative;
 	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
 }
 

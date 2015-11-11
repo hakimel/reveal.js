@@ -178,8 +178,6 @@ body {
 	overflow: auto;
 	max-height: 400px;
 	word-wrap: normal;
-	background: #3F3F3F;
-	color: #DCDCDC;
 }
 
 .reveal table {
@@ -269,6 +267,11 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
+	.reveal section img.plain {
+		border: 0;
+		box-shadow: none;
+	}
+
 	.reveal a img {
 		-webkit-transition: all .15s linear;
 		   -moz-transition: all .15s linear;
@@ -287,39 +290,39 @@ body {
  * NAVIGATION CONTROLS
  *********************************************/
 
-.reveal .controls div.navigate-left,
-.reveal .controls div.navigate-left.enabled {
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-left.enabled {
 	border-right-color: $linkColor;
 }
 
-.reveal .controls div.navigate-right,
-.reveal .controls div.navigate-right.enabled {
+.reveal .controls .navigate-right,
+.reveal .controls .navigate-right.enabled {
 	border-left-color: $linkColor;
 }
 
-.reveal .controls div.navigate-up,
-.reveal .controls div.navigate-up.enabled {
+.reveal .controls .navigate-up,
+.reveal .controls .navigate-up.enabled {
 	border-bottom-color: $linkColor;
 }
 
-.reveal .controls div.navigate-down,
-.reveal .controls div.navigate-down.enabled {
+.reveal .controls .navigate-down,
+.reveal .controls .navigate-down.enabled {
 	border-top-color: $linkColor;
 }
 
-.reveal .controls div.navigate-left.enabled:hover {
+.reveal .controls .navigate-left.enabled:hover {
 	border-right-color: $linkColorHover;
 }
 
-.reveal .controls div.navigate-right.enabled:hover {
+.reveal .controls .navigate-right.enabled:hover {
 	border-left-color: $linkColorHover;
 }
 
-.reveal .controls div.navigate-up.enabled:hover {
+.reveal .controls .navigate-up.enabled:hover {
 	border-bottom-color: $linkColorHover;
 }
 
-.reveal .controls div.navigate-down.enabled:hover {
+.reveal .controls .navigate-down.enabled:hover {
 	border-top-color: $linkColorHover;
 }
 
@@ -338,12 +341,5 @@ body {
 		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
-
-/*********************************************
- * SLIDE NUMBER
- *********************************************/
-.reveal .slide-number {
-	color: $linkColor;
-}
 
 
