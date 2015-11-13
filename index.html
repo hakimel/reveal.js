@@ -51,9 +51,27 @@
                     <section>
                         <h2>Emulation</h2>
                         <p>Sustaining video presentations through emulation requires maintaining a player and all of its dependencies.</p>
+                        <p class="fragment">
+                            <code>
+    lsof | grep ^QuickTime
+                            </code>
+                        </p>
+                        <p class="fragment">
+                            <p>QuickTime 7 Component Libraries</p>
+                            <pre><code>
+    /Library/QuickTime
+    /System/Library/QuickTime
+                            </code></pre>
+                        </p>
                         <aside class="notes">
-                            Dave: chats about the challenge of av emulation, system dependencies of QtKit and AVFoundation, plugins, etc. Notes about VLC abilities (old versions, selfcontained), cross platform.
+                            Dave: chats about the challenge of av emulation, system dependencies of QtKit and AVFoundation, plugins, etc. Open files. Notes about VLC abilities (old versions, selfcontained), cross platform. "Often video players rely on system codec libraries or audio-visual frameworks working behind the scenes, so it can be challenging to determine what exactly is necessary to document emulation sufficiently." "Particularly notable will be the files within QuickTime’s component libraries such as those within /Library/QuickTime or /System/Library/QuickTime. The component files within these directories are used to decode or demux (demultiplex) specific audio-visual formats. Some applications will install components within these folders during installation so the additional features will also affect any application using QuickTime Pro 7. Two computers may both use the same version of QuickTime and same operating system but if the component libraries differ, the players may work inconsistently."
                         </aside>
+                    </section>
+                    <section>
+                        <p class="fragment">
+                            <p>VLC</p>
+                            <img src="img/vlc1.gif">
+                        </p>
                     </section>
                     <section>
                         <h2>Normalization</h2>
