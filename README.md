@@ -181,8 +181,8 @@ Reveal.initialize({
 
 	// Amount to move parallax background (horizontal and vertical) on slide change
 	// Number, e.g. 100
-	parallaxBackgroundHorizontal: '',
-	parallaxBackgroundVertical: ''
+	parallaxBackgroundHorizontal: ,
+	parallaxBackgroundVertical: 
 
 });
 ```
