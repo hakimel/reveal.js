@@ -152,6 +152,11 @@ Reveal.initialize({
 	// Stop auto-sliding after user input
 	autoSlideStoppable: true,
 
+	// When auto-sliding is active, do always proceed to the right
+	// instead of the next slide which may be below (useful for
+	// infinite loop presentations with hidden "bonus slides")
+	autoSlideRight: false,
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
