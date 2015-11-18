@@ -179,10 +179,11 @@ Reveal.initialize({
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
 
-	// Amount to move parallax background (horizontal and vertical) on slide change
-	// Number, e.g. 100
-	parallaxBackgroundHorizontal: '',
-	parallaxBackgroundVertical: ''
+	// Number of pixels to move the parallax background per slide
+	// - Calculated automatically unless specified
+	// - Set to 0 to disable movement along an axis
+	parallaxBackgroundHorizontal: null,
+	parallaxBackgroundVertical: null
 
 });
 ```
@@ -466,9 +467,9 @@ Reveal.initialize({
 	// Parallax background size
 	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
 
-	// Amount of pixels to move the parallax background per slide step,
-	// a value of 0 disables movement along the given axis
-	// These are optional, if they aren't specified they'll be calculated automatically
+	// Number of pixels to move the parallax background per slide
+	// - Calculated automatically unless specified
+	// - Set to 0 to disable movement along an axis
 	parallaxBackgroundHorizontal: 200,
 	parallaxBackgroundVertical: 50
 
