@@ -103,6 +103,9 @@
 			// Stop auto-sliding after user input
 			autoSlideStoppable: true,
 
+			// Use this method for navigation when auto-sliding (defaults to navigateNext)
+			autoSlideMethod: null,
+
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
 
