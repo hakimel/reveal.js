@@ -3689,7 +3689,7 @@
 			// - The presentation isn't over
 			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || availableFragments().next || config.loop === true ) ) {
 				autoSlideTimeout = setTimeout( function() {
-					typeof config.autoSlideMethod == 'function' ? config.autoSlideMethod() : navigateNext();
+					typeof config.autoSlideMethod === 'function' ? config.autoSlideMethod() : navigateNext();
 					cueAutoSlide();
 				}, autoSlide );
 				autoSlideStartTime = Date.now();
