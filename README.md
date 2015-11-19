@@ -152,6 +152,9 @@ Reveal.initialize({
 	// Stop auto-sliding after user input
 	autoSlideStoppable: true,
 
+	// Use this method for navigation when auto-sliding
+	autoSlideMethod: Reveal.navigateNext,
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
@@ -296,6 +299,8 @@ You can also override the slide duration for individual slides and fragments by 
 	<p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
 </section>
 ```
+
+To override the method used for navigation when auto-sliding, you can specify the ```autoSlideMethod``` setting. To only navigate along the top layer and ignore vertical slides, set this to ```Reveal.navigateRight```.
 
 Whenever the auto-slide mode is resumed or paused the ```autoslideresumed``` and ```autoslidepaused``` events are fired.
 
