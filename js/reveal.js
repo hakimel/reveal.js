@@ -4367,6 +4367,7 @@
 
 		// Cosmetics
 		this.diameter = 100;
+		this.diameter2 = this.diameter/2;
 		this.thickness = 6;
 
 		// Flags if we are currently playing
@@ -4385,8 +4386,8 @@
 		this.canvas.className = 'playback';
 		this.canvas.width = this.diameter;
 		this.canvas.height = this.diameter;
-		this.canvas.style.width = this.diameter/2 + 'px';
-		this.canvas.style.height = this.diameter/2 + 'px';
+		this.canvas.style.width = this.diameter2 + 'px';
+		this.canvas.style.height = this.diameter2 + 'px';
 		this.context = this.canvas.getContext( '2d' );
 
 		this.container.appendChild( this.canvas );
@@ -4437,9 +4438,9 @@
 	Playback.prototype.render = function() {
 
 		var progress = this.playing ? this.progress : 0,
-			radius = ( this.diameter / 2 ) - this.thickness,
-			x = this.diameter / 2,
-			y = this.diameter / 2,
+			radius = ( this.diameter2 ) - this.thickness,
+			x = this.diameter2,
+			y = this.diameter2,
 			iconSize = 28;
 
 		// Ease towards 1
