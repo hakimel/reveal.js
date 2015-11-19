@@ -4366,8 +4366,8 @@
 	function Playback( container, progressCheck ) {
 
 		// Cosmetics
-		this.diameter = 50;
-		this.thickness = 3;
+		this.diameter = 100;
+		this.thickness = 6;
 
 		// Flags if we are currently playing
 		this.playing = false;
@@ -4385,6 +4385,8 @@
 		this.canvas.className = 'playback';
 		this.canvas.width = this.diameter;
 		this.canvas.height = this.diameter;
+		this.canvas.style.width = this.diameter/2 + 'px';
+		this.canvas.style.height = this.diameter/2 + 'px';
 		this.context = this.canvas.getContext( '2d' );
 
 		this.container.appendChild( this.canvas );
@@ -4438,7 +4440,7 @@
 			radius = ( this.diameter / 2 ) - this.thickness,
 			x = this.diameter / 2,
 			y = this.diameter / 2,
-			iconSize = 14;
+			iconSize = 28;
 
 		// Ease towards 1
 		this.progressOffset += ( 1 - this.progressOffset ) * 0.1;
@@ -4451,7 +4453,7 @@
 
 		// Solid background color
 		this.context.beginPath();
-		this.context.arc( x, y, radius + 2, 0, Math.PI * 2, false );
+		this.context.arc( x, y, radius + 4, 0, Math.PI * 2, false );
 		this.context.fillStyle = 'rgba( 0, 0, 0, 0.4 )';
 		this.context.fill();
 
@@ -4476,14 +4478,14 @@
 		// Draw play/pause icons
 		if( this.playing ) {
 			this.context.fillStyle = '#fff';
-			this.context.fillRect( 0, 0, iconSize / 2 - 2, iconSize );
-			this.context.fillRect( iconSize / 2 + 2, 0, iconSize / 2 - 2, iconSize );
+			this.context.fillRect( 0, 0, iconSize / 2 - 4, iconSize );
+			this.context.fillRect( iconSize / 2 + 4, 0, iconSize / 2 - 4, iconSize );
 		}
 		else {
 			this.context.beginPath();
-			this.context.translate( 2, 0 );
+			this.context.translate( 4, 0 );
 			this.context.moveTo( 0, 0 );
-			this.context.lineTo( iconSize - 2, iconSize / 2 );
+			this.context.lineTo( iconSize - 4, iconSize / 2 );
 			this.context.lineTo( 0, iconSize );
 			this.context.fillStyle = '#fff';
 			this.context.fill();
