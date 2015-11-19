@@ -103,11 +103,6 @@
 			// Stop auto-sliding after user input
 			autoSlideStoppable: true,
 
-			// When auto-sliding is active, do always proceed to the right
-			// instead of the next slide which may be below (useful for
-			// infinite loop presentations with hidden "bonus slides")
-			autoSlideRight: false,
-
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
 
@@ -3693,7 +3688,10 @@
 			// - The overview isn't active
 			// - The presentation isn't over
 			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || availableFragments().next || config.loop === true ) ) {
-				autoSlideTimeout = setTimeout( navigateNext, autoSlide );
+				autoSlideTimeout = setTimeout( function() {
+					typeof config.autoSlideMethod == 'function' ? config.autoSlideMethod() : navigateNext();
+					cueAutoSlide();
+				}, autoSlide );
 				autoSlideStartTime = Date.now();
 			}
 
@@ -3828,7 +3826,7 @@
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
-			if( availableRoutes().down && !( autoSlide && config.autoSlideRight ) ) {
+			if( availableRoutes().down ) {
 				navigateDown();
 			}
 			else if( config.rtl ) {
@@ -3838,10 +3836,6 @@
 				navigateRight();
 			}
 		}
-
-		// If auto-sliding is enabled we need to cue up
-		// another timeout
-		cueAutoSlide();
 
 	}
 
