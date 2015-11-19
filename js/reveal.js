@@ -2798,7 +2798,7 @@
 				horizontalOffsetMultiplier = config.parallaxBackgroundHorizontal;
 			}
 			else {
-				horizontalOffsetMultiplier = ( horizontalSlideCount-1  > 0) ? ( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) : 0;
+				horizontalOffsetMultiplier = horizontalSlideCount > 1 ? ( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) : 0;
 			}
 
 			horizontalOffset = horizontalOffsetMultiplier * indexh * -1;
