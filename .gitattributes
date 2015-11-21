@@ -1,5 +1,9 @@
-/test               export-ignore
-/bower.json         export-ignore
-/CONTRIBUTING.md    export-ignore
-/Gruntfile.js       export-ignore
-/package.json       export-ignore
+/css/theme/source       export-ignore
+/css/theme/template     export-ignore
+/css/theme/README.md    export-ignore
+/css/reveal.scss        export-ignore
+/test                   export-ignore
+/bower.json             export-ignore
+/CONTRIBUTING.md        export-ignore
+/Gruntfile.js           export-ignore
+/package.json           export-ignore
