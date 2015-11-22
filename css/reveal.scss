@@ -137,6 +137,54 @@ html:-moz-full-screen-ancestor {
 	}
 }
 
+.reveal .slides section .fragment.fade-up {
+	opacity: 0;
+	transform: translate(0, 20%);
+	visibility: hidden;
+
+	&.visible {
+		opacity: 1;
+		transform: translate(0, 0);
+		visibility: visible;
+	}
+}
+
+.reveal .slides section .fragment.fade-down {
+	opacity: 0;
+	transform: translate(0, -20%);
+	visibility: hidden;
+
+	&.visible {
+		opacity: 1;
+		transform: translate(0, 0);
+		visibility: visible;
+	}
+}
+
+.reveal .slides section .fragment.fade-right {
+	opacity: 0;
+	transform: translate(-20%, 0);
+	visibility: hidden;
+
+	&.visible {
+		opacity: 1;
+		transform: translate(0, 0);
+		visibility: visible;
+	}
+}
+
+.reveal .slides section .fragment.fade-left {
+	opacity: 0;
+	transform: translate(20%, 0);
+	visibility: hidden;
+
+	&.visible {
+		opacity: 1;
+		transform: translate(0, 0);
+		visibility: visible;
+	}
+}
+
 .reveal .slides section .fragment.current-visible {
 	opacity: 0;
 	visibility: hidden;
@@ -1375,5 +1423,3 @@ html:-moz-full-screen-ancestor {
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
-
-
