@@ -151,6 +151,9 @@
 
 		},
 
+		// Version of reveal.js so it can be queried by plugins
+		version = '3.2.0',
+
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
