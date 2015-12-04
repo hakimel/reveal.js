@@ -82,6 +82,10 @@ html:-moz-full-screen-ancestor {
 	}
 }
 
+.reveal .slides section span.fragment {
+  display: inline-block;
+}
+
 .reveal .slides section .fragment.grow {
 	opacity: 1;
 	visibility: visible;
