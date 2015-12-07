@@ -205,7 +205,7 @@
 	 * multi-slide markdown into separate sections and
 	 * handles loading of external markdown.
 	 */
-	function processSlides() {
+	function processSlides(callback) {
 
 		var sections = document.querySelectorAll( '[data-markdown]'),
 			section;
@@ -251,7 +251,8 @@
 					}
 				};
 
-				xhr.open( 'GET', url, false );
+				xhr.onload = callback
+				xhr.open( 'GET', url, true );
 
 				try {
 					xhr.send();
@@ -268,8 +269,8 @@
 					verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
 					notesSeparator: section.getAttribute( 'data-separator-notes' ),
 					attributes: getForwardedAttributes( section )
-				});
 
+				});
 			}
 			else {
 				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
@@ -388,8 +389,11 @@
 	return {
 
 		initialize: function() {
-			processSlides();
-			convertSlides();
+			processSlides(function() {
+				convertSlides();
+				Reveal.sync();
+				Reveal.slide(0);
+			});
 		},
 
 		// TODO: Do these belong in the API?
