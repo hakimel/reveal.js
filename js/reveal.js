@@ -2870,7 +2870,8 @@
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
-					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
+					backgroundIframe = slide.getAttribute( 'data-background-iframe' ),
+					backgroundDiv = slide.getAttribute( 'data-background-div' );
 
 				// Images
 				if( backgroundImage ) {
@@ -2901,6 +2902,12 @@
 						iframe.style.maxWidth = '100%';
 
 					background.appendChild( iframe );
+				}
+				// Divs
+				if ( backgroundDiv ) {
+				  var div = document.getElementById(backgroundDiv).cloneNode(true);
+				  background.appendChild(div);
+				  div.style.visibility = "visible";
 				}
 			}
 		}
