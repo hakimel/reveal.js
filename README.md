@@ -108,6 +108,18 @@ Reveal.initialize({
 
 	// Display the page number of the current slide
 	slideNumber: false,
+	
+	// Use audio narration
+	narration: false,
+
+	// Display narration audio controls
+	narrationControls: true,
+
+	// Automatically proceed to next slide at end of audio file
+	narrationAutoSlide: true,
+
+	// Available audio formats, e.g. ['ogg','mp4','mp3']
+	narrationFormats: [],
 
 	// Push each slide change to the browser history
 	history: false,
@@ -304,6 +316,26 @@ To override the method used for navigation when auto-sliding, you can specify th
 
 Whenever the auto-slide mode is resumed or paused the ```autoslideresumed``` and ```autoslidepaused``` events are fired.
 
+### Audio Narration
+
+Audio narration can be added to reveal.js with a couple of configuration options. Audio files are played using the HTML5 audio element, which, depending on the browser, supports mp3, mp4/aac, ogg, and wav. The default for narration is to automatically advance the slide or fragment at the end of each file. Narration reuses a common audio element, so audio files are loaded on demand and do not result in a massive download when the presentation is loaded.
+
+```javascript
+// Turn on narration and set available narration formats
+Reveal.configure({
+  narration: true,
+  narrationFormats: ['mp4','ogg']
+});
+```
+When this is turned on a control element will appear at the bottom of the screen that enables users to pause and resume narration. Audio narration sources for individual slides and fragments are specified using the ```data-narration-src``` attribute with the path to the audio file. Do not specify the audio file extension in the path since this will be added depending on the audio format supported by the browser.
+
+```html
+<section data-narration-src="audio/slidenarration">
+	<p>When this slide shoes, the narration will automatically play</p>
+	<p class="fragment" data-narration-src="audio/frag1">When this fragment is shown, another audio file will play</p>
+	<p class="fragment" data-narration-src="audio/frag2">Now, a different narration file will be played.</p>
+</section>
+```
 
 ### Keyboard Bindings
 
