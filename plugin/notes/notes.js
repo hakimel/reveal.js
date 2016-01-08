@@ -11,14 +11,15 @@
  */
 var RevealNotes = (function() {
 
-	function openNotes(notes_html_file_path) {
-		if (!notes_html_file_path) {
+	function openNotes( notesFilePath ) {
+
+		if( !notesFilePath ) {
 			var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
 			jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
-			notes_html_file_path = jsFileLocation + 'notes.html';
+			notesFilePath = jsFileLocation + 'notes.html';
 		}
-			
-		var notesPopup = window.open(notes_html_file_path, 'reveal.js - Notes', 'width=1100,height=700' );
+
+		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
 		/**
 		 * Connect to the notes window through a postmessage handshake.
@@ -100,6 +101,7 @@ var RevealNotes = (function() {
 		}
 
 		connect();
+
 	}
 
 	if( !/receiver/i.test( window.location.search ) ) {
