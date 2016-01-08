@@ -2728,8 +2728,20 @@
 			// Start video playback
 			var currentVideo = currentBackground.querySelector( 'video' );
 			if( currentVideo ) {
-				if( currentVideo.currentTime > 0 ) currentVideo.currentTime = 0;
-				currentVideo.play();
+
+				var startVideo = function() {
+					currentVideo.currentTime = 0;
+					currentVideo.play();
+					currentVideo.removeEventListener( 'loadeddata', startVideo );
+				};
+
+				if( currentVideo.readyState > 1 ) {
+					startVideo();
+				}
+				else {
+					currentVideo.addEventListener( 'loadeddata', startVideo );
+				}
+
 			}
 
 			var backgroundImageURL = currentBackground.style.backgroundImage || '';
