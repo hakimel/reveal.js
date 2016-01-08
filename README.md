@@ -708,10 +708,10 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 3. Change the **Destination** setting to **Save as PDF**.
 4. Change the **Layout** to **Landscape**.
 5. Change the **Margins** to **None**.
-6. (Under Chromium) In **Options** check **Background graphics**.
+6. Enable the **Background graphics** option.
 7. Click **Save**.
 
-![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings.png)
+![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings-2.png)
 
 Alternatively you can use the [decktape](https://github.com/astefanutti/decktape) project.
 
