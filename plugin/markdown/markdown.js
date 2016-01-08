@@ -4,7 +4,11 @@
  * of external markdown documents.
  */
 (function( root, factory ) {
-	if( typeof exports === 'object' ) {
+	if (typeof define === 'function' && define.amd) {
+		root.marked = require( './marked' );
+		root.RevealMarkdown = factory( root.marked );
+		root.RevealMarkdown.initialize();
+	} else if( typeof exports === 'object' ) {
 		module.exports = factory( require( './marked' ) );
 	}
 	else {
