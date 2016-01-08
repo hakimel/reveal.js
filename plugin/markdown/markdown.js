@@ -10,8 +10,7 @@
 		root.RevealMarkdown.initialize();
 	} else if( typeof exports === 'object' ) {
 		module.exports = factory( require( './marked' ) );
-	}
-	else {
+	} else {
 		// Browser globals (root is window)
 		root.RevealMarkdown = factory( root.marked );
 		root.RevealMarkdown.initialize();
