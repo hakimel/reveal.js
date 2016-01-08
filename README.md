@@ -550,6 +550,7 @@ The default fragment style is to start out invisible and fade in. This style can
 	<p class="fragment grow">grow</p>
 	<p class="fragment shrink">shrink</p>
 	<p class="fragment fade-out">fade-out</p>
+	<p class="fragment fade-up">fade-up (also down, left and right!)</p>
 	<p class="fragment current-visible">visible only once</p>
 	<p class="fragment highlight-current-blue">blue only once</p>
 	<p class="fragment highlight-red">highlight-red</p>
