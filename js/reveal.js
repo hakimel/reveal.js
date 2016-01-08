@@ -25,6 +25,9 @@
 
 	var Reveal;
 
+	// The reveal.js version
+	var VERSION = '3.2.0';
+
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
@@ -4526,6 +4529,8 @@
 
 
 	Reveal = {
+		VERSION: VERSION,
+
 		initialize: initialize,
 		configure: configure,
 		sync: sync,
