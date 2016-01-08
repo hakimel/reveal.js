@@ -11,10 +11,14 @@
  */
 var RevealNotes = (function() {
 
-	function openNotes() {
-		var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
-		jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
-		var notesPopup = window.open( jsFileLocation + 'notes.html', 'reveal.js - Notes', 'width=1100,height=700' );
+	function openNotes(notes_html_file_path) {
+		if (!notes_html_file_path) {
+			var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
+			jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
+			notes_html_file_path = jsFileLocation + 'notes.html';
+		}
+			
+		var notesPopup = window.open(notes_html_file_path, 'reveal.js - Notes', 'width=1100,height=700' );
 
 		/**
 		 * Connect to the notes window through a postmessage handshake.
