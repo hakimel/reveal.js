@@ -4684,6 +4684,11 @@
 		// Programatically triggers a keyboard event
 		triggerKey: function( keyCode ) {
 			onDocumentKeyDown( { keyCode: keyCode } );
+		},
+
+		// Registers a new shortcut to include in the help overlay
+		registerKeyboardShortcut: function( key, value ) {
+			keyboardShortcuts[key] = value;
 		}
 	};
 
