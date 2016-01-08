@@ -110,6 +110,26 @@ html:-moz-full-screen-ancestor {
   .reveal .slides section .fragment.strike.visible {
     text-decoration: line-through; }
 
+.reveal .slides section .fragment.fade-up {
+  transform: translate(0, 20%); }
+  .reveal .slides section .fragment.fade-up.visible {
+    transform: translate(0, 0); }
+
+.reveal .slides section .fragment.fade-down {
+  transform: translate(0, -20%); }
+  .reveal .slides section .fragment.fade-down.visible {
+    transform: translate(0, 0); }
+
+.reveal .slides section .fragment.fade-right {
+  transform: translate(-20%, 0); }
+  .reveal .slides section .fragment.fade-right.visible {
+    transform: translate(0, 0); }
+
+.reveal .slides section .fragment.fade-left {
+  transform: translate(20%, 0); }
+  .reveal .slides section .fragment.fade-left.visible {
+    transform: translate(0, 0); }
+
 .reveal .slides section .fragment.current-visible {
   opacity: 0;
   visibility: hidden; }

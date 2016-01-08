@@ -137,6 +137,38 @@ html:-moz-full-screen-ancestor {
 	}
 }
 
+.reveal .slides section .fragment.fade-up {
+	transform: translate(0, 20%);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
+.reveal .slides section .fragment.fade-down {
+	transform: translate(0, -20%);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
+.reveal .slides section .fragment.fade-right {
+	transform: translate(-20%, 0);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
+.reveal .slides section .fragment.fade-left {
+	transform: translate(20%, 0);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
 .reveal .slides section .fragment.current-visible {
 	opacity: 0;
 	visibility: hidden;
@@ -1375,5 +1407,3 @@ html:-moz-full-screen-ancestor {
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
-
-
