@@ -1204,6 +1204,7 @@ html:-moz-full-screen-ancestor {
 
 	.reveal .overlay .viewport {
 		position: absolute;
+		display: flex;
 		top: 40px;
 		right: 0;
 		bottom: 0;
@@ -1240,8 +1241,8 @@ html:-moz-full-screen-ancestor {
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner {
 		width: 600px;
-		margin: 0 auto;
-		padding: 60px;
+		margin: auto;
+		padding: 20px 20px 80px 20px;
 		text-align: center;
 		letter-spacing: normal;
 	}
@@ -1253,13 +1254,13 @@ html:-moz-full-screen-ancestor {
 	.reveal .overlay.overlay-help .viewport .viewport-inner table {
 		border: 1px solid #fff;
 		border-collapse: collapse;
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner table th,
 	.reveal .overlay.overlay-help .viewport .viewport-inner table td {
 		width: 200px;
-		padding: 10px;
+		padding: 14px;
 		border: 1px solid #fff;
 		vertical-align: middle;
 	}
