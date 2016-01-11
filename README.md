@@ -764,8 +764,6 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 </section>
 ```
 
-Notes are only visible to you in the speaker view. If you wish to share your notes with the audience initialize reveal.js with the `showNotes` config value set to `true`.
-
 If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
 
 ```html
@@ -779,6 +777,12 @@ Here is some content...
 Note:
 This will only display in the notes window.
 ```
+
+#### Share and Print Speaker Notes
+
+Notes are only visible to the speaker inside of the speaker view. If you wish to share your notes with others you can initialize reveal.js with the `showNotes` config value set to `true`. Notes will appear along the bottom of the presentations.
+
+When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export).
 
 ## Server Side Speaker Notes
 
