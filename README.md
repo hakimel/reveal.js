@@ -21,7 +21,29 @@ Presentations are written using HTML or Markdown but there's also an online edit
 
 ### Markup
 
-Markup hierarchy needs to be ``<div class="reveal"> <div class="slides"> <section>`` where the ``<section>`` represents one slide and can be repeated indefinitely. If you place multiple ``<section>``'s inside of another ``<section>`` they will be shown as vertical slides. The first of the vertical slides is the "root" of the others (at the top), and it will be included in the horizontal sequence. For example:
+Here's a barebones example of a fully working reveal.js presentation:
+```html
+<html>
+	<head>
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>Slide 1</section>
+				<section>Slide 2</section>
+			</div>
+		</div>
+		<script src="js/reveal.js"></script>
+		<script>
+			Reveal.initialize();
+		</script>
+	</body>
+</html>
+```
+
+The presentation markup hierarchy needs to be `.reveal > .slides > section` where the `section` represents one slide and can be repeated indefinitely. If you place multiple `section` elements inside of another `section` they will be shown as vertical slides. The first of the vertical slides is the "root" of the others (at the top), and will be included in the horizontal sequence. For example:
 
 ```html
 <div class="reveal">
