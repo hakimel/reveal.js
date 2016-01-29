@@ -349,7 +349,8 @@
 	 * DOM to HTML.
 	 */
 	function convertSlides() {
-
+		var renderer = typeof Reveal.getConfig()['markdown_renderer'] == 'function' ? Reveal.getConfig()['markdown_renderer']() : new marked.Renderer();
+	
 		var sections = document.querySelectorAll( '[data-markdown]');
 
 		for( var i = 0, len = sections.length; i < len; i++ ) {
