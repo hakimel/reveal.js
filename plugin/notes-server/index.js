@@ -26,6 +26,10 @@ io.on( 'connection', function( socket ) {
 		socket.broadcast.emit( 'statechanged', data );
 	});
 
+	socket.on( 'statechanged-speaker', function( data ) {
+		socket.broadcast.emit( 'statechanged-speaker', data );
+	});
+
 });
 
 [ 'css', 'js', 'images', 'plugin', 'lib' ].forEach( function( dir ) {

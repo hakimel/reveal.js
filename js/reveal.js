@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2016 Hakim El Hattab, http://hakim.se
  */
 (function( root, factory ) {
 	if( typeof define === 'function' && define.amd ) {
@@ -592,11 +592,14 @@
 				if( config.showNotes ) {
 					var notes = getSlideNotes( slide );
 					if( notes ) {
+						var notesSpacing = 8;
 						var notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
 						notesElement.classList.add( 'speaker-notes-pdf' );
 						notesElement.innerHTML = notes;
-						notesElement.style.bottom = ( 40 - top ) + 'px';
+						notesElement.style.left = ( notesSpacing - left ) + 'px';
+						notesElement.style.bottom = ( notesSpacing - top ) + 'px';
+						notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
 						slide.appendChild( notesElement );
 					}
 				}
@@ -881,7 +884,7 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
-		dom.slideNumber.style.display = config.slideNumber ? 'block' : 'none';
+		dom.slideNumber.style.display = config.slideNumber && !isPrintingPDF() ? 'block' : 'none';
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
@@ -2795,7 +2798,7 @@
 				horizontalOffsetMultiplier = config.parallaxBackgroundHorizontal;
 			}
 			else {
-				horizontalOffsetMultiplier = ( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 );
+				horizontalOffsetMultiplier = horizontalSlideCount > 1 ? ( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) : 0;
 			}
 
 			horizontalOffset = horizontalOffsetMultiplier * indexh * -1;

@@ -1,6 +1,6 @@
 {
   "name": "reveal.js",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "The HTML Presentation Framework",
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
@@ -22,10 +22,11 @@
     "node": "~4.1.1"
   },
   "dependencies": {
-    "underscore": "~1.8.3",
     "express": "~4.13.3",
-    "mustache": "~2.1.3",
-    "socket.io": "~1.3.7"
+    "grunt-cli": "^0.1.13",
+    "mustache": "~2.2.1",
+    "socket.io": "~1.3.7",
+    "underscore": "~1.8.3"
   },
   "devDependencies": {
     "grunt-contrib-qunit": "~0.7.0",
@@ -40,6 +41,5 @@
     "grunt": "~0.4.5",
     "node-sass": "~3.3.3"
   },
-  
   "license": "MIT"
 }

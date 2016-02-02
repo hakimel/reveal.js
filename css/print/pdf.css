@@ -152,9 +152,6 @@ ul, ol, div, p {
 }
 
 /* Display slide numbers when 'slideNumber' is enabled */
-.reveal .slide-number {
-	display: none;
-}
 .reveal .slide-number-pdf {
 	display: block;
 	position: absolute;

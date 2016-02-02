@@ -221,6 +221,13 @@
 					}
 				}
 
+				// Messages sent by reveal.js inside of the current slide preview
+				if( data && data.namespace === 'reveal' ) {
+					if( /slidechanged|fragmentshown|fragmenthidden|overviewshown|overviewhidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+						socket.emit( 'statechanged-speaker', { state: data.state } );
+					}
+				}
+
 			} );
 
 			/**
