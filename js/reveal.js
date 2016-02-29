@@ -298,30 +298,36 @@
 	 */
 	function checkCapabilities() {
 
-		features.transforms3d = 'WebkitPerspective' in document.body.style ||
-								'MozPerspective' in document.body.style ||
-								'msPerspective' in document.body.style ||
-								'OPerspective' in document.body.style ||
-								'perspective' in document.body.style;
+		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
 
-		features.transforms2d = 'WebkitTransform' in document.body.style ||
-								'MozTransform' in document.body.style ||
-								'msTransform' in document.body.style ||
-								'OTransform' in document.body.style ||
-								'transform' in document.body.style;
+		var testElement = document.createElement( 'div' );
+
+		features.transforms3d = 'WebkitPerspective' in testElement.style ||
+								'MozPerspective' in testElement.style ||
+								'msPerspective' in testElement.style ||
+								'OPerspective' in testElement.style ||
+								'perspective' in testElement.style;
+
+		features.transforms2d = 'WebkitTransform' in testElement.style ||
+								'MozTransform' in testElement.style ||
+								'msTransform' in testElement.style ||
+								'OTransform' in testElement.style ||
+								'transform' in testElement.style;
 
 		features.requestAnimationFrameMethod = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
 		features.requestAnimationFrame = typeof features.requestAnimationFrameMethod === 'function';
 
 		features.canvas = !!document.createElement( 'canvas' ).getContext;
 
-		features.touch = !!( 'ontouchstart' in window );
-
 		// Transitions in the overview are disabled in desktop and
-		// mobile Safari due to lag
+		// Safari due to lag
 		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
 
-		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
+		// Flags if we should use zoom instead of transform to scale
+		// up slides. Zoom produces crisper results but has a lot of
+		// xbrowser quirks so we only use it in whitelsited browsers.
+		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
+						( /chrome/i.test( navigator.userAgent ) || /Version\/[\d\.]+.*Safari/.test( navigator.userAgent ) );
 
 	}
 
@@ -1592,10 +1598,10 @@
 				transformSlides( { layout: '' } );
 			}
 			else {
-				// Use zoom to scale up in desktop Chrome so that content
-				// remains crisp. We don't use zoom to scale down since that
-				// can lead to shifts in text layout/line breaks.
-				if( scale > 1 && !isMobileDevice && /chrome/i.test( navigator.userAgent ) && typeof dom.slides.style.zoom !== 'undefined' ) {
+				// Prefer zoom for scaling up so that content remains crisp.
+				// Don't use zoom to scale down since that can lead to shifts
+				// in text layout/line breaks.
+				if( scale > 1 && features.zoom ) {
 					dom.slides.style.zoom = scale;
 					dom.slides.style.left = '';
 					dom.slides.style.top = '';
