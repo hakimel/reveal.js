@@ -739,8 +739,7 @@ Alternatively you can use the [decktape](https://github.com/astefanutti/decktape
 
 ### Export speaker notes
 
-Add `print-notes` somewhere in the url additional to `print-pdf`. E.g. `file:///home/{user}/Documents/reveal.js/index
-.html?print-pdf&print-notes#/`.
+Add `print-notes` somewhere in the url additional to `print-pdf`. E.g. `file:///home/{user}/Documents/reveal.js/index.html?print-pdf&print-notes#/`.
 The notes will be printed on the next page after each slide.
 
 ## Theming
