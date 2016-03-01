@@ -20,3 +20,8 @@ aside.notes:before {
 	display: block;
 	box-sizing: border-box;
 }
+
+/* disable "small speaker notes" */
+.reveal .speaker-notes-pdf {
+	display: none;
+}
