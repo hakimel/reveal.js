@@ -61,13 +61,12 @@
         <section>
           <section>
             <h1>Demystifying AJAX Callback Commands</h1>
-            <h2>in Drupal 8</h2>
-            <h3><a href="//2016.midcamp.org/session/demystifying-ajax-callback-commands-drupal-8" target="_blank">2016.midcamp.org/node/48</a></h3>
-            <h3>MidCamp 2016</h3>
-            <h3>#midcamp</h3>
+            <h2>(in Drupal 8)</h2>
+            <p><a href="//2016.midcamp.org/session/demystifying-ajax-callback-commands-drupal-8" target="_blank">2016.midcamp.org/node/48</a></p>
+            <p>MidCamp 2016 - #midcamp</p>
           </section>
           <section data-transition="convex">
-              <h1>Goals of this Session</h1>
+              <h2>Goals of this Session</h2>
               <p>
                   <ul>
                     <li class="fragment step-note">Explain AJAX callback commands</li>
@@ -77,7 +76,7 @@
               </p>
             </section>
             <section data-transition="convex">
-              <h1>Michael Miles</h1>
+              <h2>Michael Miles</h2>
               <p class="fragment">
                 <strong>From: </strong>Boston, MA USA
               </p>
@@ -115,23 +114,114 @@
         </section>
         <section>
           <section>
-            <h2>AJAX Callback Commands</h2>
+            <h2>What are AJAX Callback Commands</h2>
+          </section>
+          <section>
+            <h3>High Level</h3>
+            <ul>
+              <li class="fragment">Functions used for all AJAX requests</li>
+              <li class="fragment">PHP code that instructs JavaScript</li>
+              <li class="fragment">Defined by Drupal core and other modules</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Core Example: Remove Command</h4>
+          </section>
+          <section>
+            <h3>Client Side</h3>
+            <ul>
+              <li class="fragment">Attached to global "" object</li>
+              <li class="fragment">Three arguments</li>
+              <li class="fragment">Wrapper for additional Javascript</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Core Example: Remove Command JS</h4>
+          </section>
+          <section>
+            <h3>Server Side</h3>
+            <ul>
+              <li class="fragment">PHP object that implements CommandInterface</li>
+              <li class="fragment">Returns associative array in a render method</li>
+              <li class="fragment">must have 'command' key</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Core Example: Remove Command PHP</h4>
+          </section>
+          <section>
+            <h3>Summary</h3>
           </section>
         </section>
         <section>
           <section>
             <h2>Using AJAX Callback Commands</h2>
           </section>
+          <section>
+            <h3>Example Scenario</h3>
+          </section>
+          <section>
+            <h3>Steps for using AJAX Callback Commands</h3>
+            <ol>
+              <li class="fragment">Include Drupal AJAX JavaScript library</li>
+              <li class="fragment">Attach AJAX to page elements</li>
+              <li class="fragment">Define a callback path and function</li>
+            </ol>
+          </section>
+          <section>
+            <h4>1. Include Drupal AJAX JavaScript library</h4>
+          </section>
+          <section>
+            <h4>2. Attach AJAX to page elements</h4>
+          </section>
+          <section>
+            <h4>3. Define a callback path and function</h4>
+          </section>
         </section>
         <section>
           <section>
-            <h2>Creating AJAX Callback Commands</h2>
+            <h2>Custom AJAX Callback Commands</h2>
+          </section>
+          <section>
+            <h3>Creating AJAX Callback Commands</h3>
+            <ol>
+              <li class="fragment">Add function to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment">Define an object that implements CommandInterface</li>
+            </ol>
+          </section>
+          <section>
+            <h4>1. Add function to 'Drupal.AjaxCommands.prototype'</h4>
+          </section>
+          <section>
+            <h4>2. Define an object that implements CommandInterface</h4>
+          </section>
+          <section>
+            <h3>Using Custom AJAX Callback Commands</h3>
+            <ol>
+              <li class="fragment">Define custom JavaScript library</li>
+              <li class="fragment">Attach library to page</li>
+              <li class="fragment">Add command to AjaxResponse object in callback</li>
+            </ol>
+          </section>
+          <section>
+            <h4>1. Define custom JavaScript library</h4>
+          </section>
+          <section>
+            <h4>2. Attach library to page</h4>
+          </section>
+          <section>
+            <h4>3. Add command to AjaxResponse object in callback</h4>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Review</h2>
           </section>
         </section>
         <section>
           <h1>Feedback</h1>
           <h3><a href="http://www.twitter.com/mikemiles86">@mikemiles86</a></h3>
-          <h3>#conference</h3>
+          <h3>#midcamp</h3>
         </section>
         <section>
           <h1>Thank You!</h1>
