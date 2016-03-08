@@ -121,7 +121,11 @@
             <ul>
               <li class="fragment">Functions used for all AJAX requests</li>
               <li class="fragment">PHP code that instructs JavaScript</li>
-              <li class="fragment">Defined by Drupal core and other modules</li>
+              <li class="fragment">Defined by Drupal core and other modules
+                <ul>
+                  <li class="fragment">25 core commands</li>
+                </ul>
+              </li>
             </ul>
           </section>
           <section>
@@ -130,24 +134,80 @@
           <section>
             <h3>Client Side</h3>
             <ul>
-              <li class="fragment">Attached to global "" object</li>
-              <li class="fragment">Three arguments</li>
+              <li class="fragment">Attached to global JavaScript object
+                <ul>
+                  <li class="fragment">Drupal.AjaxCommands.prototype</li>
+                </ul>
+              </li>
               <li class="fragment">Wrapper for additional Javascript</li>
+              <li class="fragment">Takes three arguments:
+                <ul>
+                  <li class="fragment">ajax</li>
+                  <li class="fragment">response</li>
+                  <li class="fragment">status</li>
+                </ul>
+              </li>
             </ul>
           </section>
           <section>
             <h4>Core Example: Remove Command JS</h4>
+            <pre><code class="js line-numbers" data-trim>
+              Drupal.AjaxCommands.prototype = {
+  // ...
+  /**
+   * Command to remove a chunk from the page.
+   *
+   * @param {Drupal.Ajax} [ajax]
+   * @param {object} response
+   * @param {string} response.selector
+   * @param {object} [response.settings]
+   * @param {number} [status]
+   */
+  remove: function (ajax, response, status) {
+    var settings = response.settings || ajax.settings || drupalSettings;
+    $(response.selector).each(function () {
+      Drupal.detachBehaviors(this, settings);
+    })
+      .remove();
+  },
+  //...
+            </code><span class="codename">misc/ajax.js</span></pre>
           </section>
           <section>
             <h3>Server Side</h3>
             <ul>
-              <li class="fragment">PHP object that implements CommandInterface</li>
-              <li class="fragment">Returns associative array in a render method</li>
-              <li class="fragment">must have 'command' key</li>
+              <li class="fragment">PHP class that implements CommandInterface</li>
+              <li class="fragment">Must define a 'render' method</li>
+              <li class="fragment">Must return an associative array
+                <ul>
+                  <li class="fragment">Must have element with key of 'command'</li>
+                  <li class="fragment">Value is name of JavaScript method</li>
+                  <li class="fragment">Can contain other array elements</li>
+                </ul>
+              </li>
             </ul>
           </section>
           <section>
             <h4>Core Example: Remove Command PHP</h4>
+            <pre><code class="php line-numbers" data-trim>
+namespace Drupal\Core\Ajax;
+/**
+ * AJAX command for calling the jQuery remove() method.
+ * ...
+ */
+class RemoveCommand Implements CommandInterface {
+  // ...
+  /**
+   * Implements Drupal\Core\Ajax\CommandInterface:render().
+  */
+  public function render() {
+    return array(
+      'command' => 'remove',
+      'selector' => $this->selector,
+    );
+  }
+}
+            </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php</span></pre>
           </section>
           <section>
             <h3>Summary</h3>
