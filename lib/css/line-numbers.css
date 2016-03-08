@@ -8,6 +8,6 @@ code span.line-number {
 }
 
 code span.line-number:before {
-  content: counter(line);
+  content: counter(line, decimal-leading-zero);
   color: gray;
 }
