@@ -188,6 +188,10 @@
 
 					var data = JSON.parse( event.data );
 
+					// The overview mode is only useful to the reveal.js instance
+					// where navigation occurs so we don't sync it
+					if( data.state ) delete data.state.overview;
+
 					// Messages sent by the notes plugin inside of the main window
 					if( data && data.namespace === 'reveal-notes' ) {
 						if( data.type === 'connect' ) {
@@ -203,8 +207,10 @@
 							// Send a message back to notify that the handshake is complete
 							window.opener.postMessage( JSON.stringify({ namespace: 'reveal-notes', type: 'connected'} ), '*' );
 						}
-						else if( /slidechanged|fragmentshown|fragmenthidden|overviewshown|overviewhidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+						else if( /slidechanged|fragmentshown|fragmenthidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+
 							window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ]} ), '*' );
+
 						}
 					}
 
