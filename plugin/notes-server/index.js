@@ -22,10 +22,12 @@ io.on( 'connection', function( socket ) {
 	});
 
 	socket.on( 'statechanged', function( data ) {
+		delete data.state.overview;
 		socket.broadcast.emit( 'statechanged', data );
 	});
 
 	socket.on( 'statechanged-speaker', function( data ) {
+		delete data.state.overview;
 		socket.broadcast.emit( 'statechanged-speaker', data );
 	});
 
