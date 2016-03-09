@@ -288,7 +288,7 @@
 						'backgroundTransition=none'
 					].join( '&' );
 
-					var urlSeparator = /?/.test(data.url) ? '&' : '?';
+					var urlSeparator = /\?/.test(data.url) ? '&' : '?';
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
 					var currentURL = data.url + urlSeparator + params + '&postMessageEvents=true' + hash;
 					var upcomingURL = data.url + urlSeparator + params + '&controls=false' + hash;
