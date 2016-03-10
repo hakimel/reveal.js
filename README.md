@@ -743,6 +743,11 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 Alternatively you can use the [decktape](https://github.com/astefanutti/decktape) project.
 
+### Export speaker notes
+
+Add `print-notes` somewhere in the url additional to `print-pdf`. E.g. `file:///home/{user}/Documents/reveal.js/index.html?print-pdf&print-notes#/`.
+The notes will be printed on the next page after each slide.
+
 ## Theming
 
 The framework comes with a few different themes included:

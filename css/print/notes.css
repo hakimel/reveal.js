@@ -1,0 +1,27 @@
+.reveal aside.notes {
+	box-sizing: border-box;
+	display: block;
+	padding: 0.25em;
+	border: 2px solid silver;
+	height: auto;
+	font-size: 0.75em;
+	text-align: left;
+	page-break-before: always !important;
+}
+
+aside.notes:before {
+	content: "Notes";
+	background: silver;
+	font-size: 0.5em;
+	text-align: center;
+	outline: silver 0.5em solid;
+	margin-bottom: 1em;
+	width: auto;
+	display: block;
+	box-sizing: border-box;
+}
+
+/* disable "small speaker notes" */
+.reveal .speaker-notes-pdf {
+	display: none;
+}
