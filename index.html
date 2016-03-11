@@ -115,9 +115,6 @@
         <section>
           <section>
             <h2>What are AJAX Callback Commands</h2>
-          </section>
-          <section>
-            <h3>High Level</h3>
             <ul>
               <li class="fragment">Functions used for all AJAX requests</li>
               <li class="fragment">PHP code that instructs JavaScript</li>
@@ -127,10 +124,6 @@
                 </ul>
               </li>
             </ul>
-          </section>
-          <section>
-            <h4>Core Example: Remove Command</h4>
-            <img class="screenshot" data-src="images/remove_command_example.gif" alt="Example of the remove AJAX callback command to remove an image from a page" title="Remove Callback Command Example" />
           </section>
           <section>
             <h3>Client Side</h3>
@@ -217,26 +210,113 @@ class RemoveCommand Implements CommandInterface {
         <section>
           <section>
             <h2>Using AJAX Callback Commands</h2>
-          </section>
-          <section>
-            <h3>Example Scenario</h3>
-          </section>
-          <section>
-            <h3>Steps for using AJAX Callback Commands</h3>
             <ol>
-              <li class="fragment">Include Drupal AJAX JavaScript library</li>
               <li class="fragment">Attach AJAX to page elements</li>
-              <li class="fragment">Define a callback path and function</li>
+              <li class="fragment">Attach Drupal AJAX JavaScript library</li>
+              <li class="fragment">Return commands in an AjaxResponse</li>
             </ol>
           </section>
           <section>
-            <h4>1. Include Drupal AJAX JavaScript library</h4>
+            <h4>Example: Remove Command</h4>
+            <img class="screenshot" data-src="images/remove_command_example.gif" alt="Example of the remove AJAX callback command to remove an image from a page" title="Remove Callback Command Example" />
           </section>
           <section>
-            <h4>2. Attach AJAX to page elements</h4>
+            <h3>1. Attach AJAX to page elements</h3>
+            <ul>
+              <li class="fragment"><strong>Render array:</strong> '#ajax' attribute</li>
+              <li class="fragment"><strong>Links:</strong> 'use-ajax' class</li>
+              <li class="fragment"><a href="//bit.ly/Drupal8Ajax" target="_blank">bit.ly/Drupal8Ajax</a></li>
+            </ul>
           </section>
           <section>
-            <h4>3. Define a callback path and function</h4>
+            <h4>Example: Attach AJAX to link</h4>
+            <pre><code class="php line-numbers" data-trim>
+ public static function demo($show_image = TRUE) {
+  // ...
+  // Build route parameters.
+  $parameters = array('method' => 'nojs');
+  // Build link options.
+  $options = array('attributes' => array('class' => array('use-ajax')));
+  // Build remove link from route.
+  $remove = Link::createFromRoute(
+    t('Remove Image'),
+    'remove_example.remove',
+    $parameters,
+    $options
+  );
+  // Add link to output render array.
+  $output['wrapper']['remove'] = $remove->toRenderable();
+  // ...
+  // Return render array.
+  return $output;
+}
+            </code><span class="codename">modules/remove_example/src/Controller/RemoveExampleController.php</span></pre>
+          </section>
+          <section>
+            <h3>2. Attach Drupal AJAX JavaScript library</h3>
+            <ul>
+              <li class="fragment"><strong>Render array:</strong> "'#attached']['library'][]" array</li>
+              <li class="fragment"><strong>Modules:</strong> 'libraries' in .info.yml</li>
+              <li class="fragment"><strong>Templates:</strong> {{ attach_library() }} function</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Example: Attach to render array</h4>
+                        <pre><code class="php line-numbers" data-trim>
+public static function demo($show_image = TRUE) {
+  // ...
+  // Build route parameters.
+  $parameters = array('method' => 'nojs');
+  // Build link options.
+  $options = array('attributes' => array('class' => array('use-ajax')));
+  // Build remove link from route.
+  $remove = Link::createFromRoute(
+    t('Remove Image'),
+    'remove_example.remove',
+    $parameters,
+    $options
+  );
+  // Add link to output render array.
+  $output['wrapper']['remove'] = $remove->toRenderable();
+  // Attach the ajax library.
+  $output['#attached']['library'][] = 'core/drupal.ajax';
+  // Return render array.
+  return $output;
+}
+            </code><span class="codename">modules/remove_example/src/Controller/RemoveExampleController.php</span></pre>
+          </section>
+          <section>
+            <h3>3. Return commands in an AjaxResponse</h3>
+            <ul>
+              <li class="fragment">Define callback route and method</li>
+              <li class="fragment">Use 'addCommand' method</li>
+              <li class="fragment">Include command class(es) with 'use' operator</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Example: Return AjaxResponse of commands</h4>
+            <pre><code class="php line-numbers" data-trim>
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RemoveCommand;
+
+class RemoveExampleController extends ControllerBase {
+  // ...
+  public static function remove($method = 'nojs') {
+    // Using AJAX to remove the image?
+    if ($method == 'ajax') {
+      $response = new AjaxResponse();
+      $response->addCommand(new RemoveCommand('#example_remove_wrapper'));
+      return $response;
+    }
+    // Graceful degradation for non ajax call.
+    else {
+      // Return output of demo method, without showing image.
+      return self::demo(FALSE);
+    }
+  }
+  // ...
+}
+            </code><span class="codename">modules/remove_example/src/Controller/RemoveExampleController.php</span></pre>
           </section>
         </section>
         <section>
