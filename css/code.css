@@ -48,7 +48,7 @@ pre span.codename {
 
 .screenshot {
   display: inline-block;
-  max-height: 550px !important;
+  max-height: 500px !important;
 }
 
 .list-header {

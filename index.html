@@ -57,7 +57,7 @@
     </div>
 
 <!-- Any section element inside of this container is displayed as a slide -->
-      <div class="slides">
+      <div class="slides" data-captions-aside="true">
         <section>
            <section>
             <h1>Demystifying AJAX Callback Commands</h1>
@@ -136,7 +136,7 @@
           </section>
           <section data-transition="convex">
             <h4>Example: The "Remove" Command</h4>
-            <img class="section-gif" data-src="images/ajax-commands-remove-example.gif" alt="Showing use of the 'remove' AJAX Callback command. A link is clicked, which makes an AJAX request, which returns the command to remove the image on the page." />
+            <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="Showing use of the 'remove' AJAX Callback command. A link is clicked, which makes an AJAX request, which returns the command to remove the image on the page." />
             <p class="caption">
               Showing use of the 'remove' AJAX Callback command. A link is clicked, which makes an AJAX request, which returns the command to remove the image on the page.
             </p>
@@ -232,9 +232,7 @@ class RemoveCommand Implements CommandInterface {
           <section data-transition="convex">
             <h3>Example Scenario</h3>
             <img data-src="images/ajax-dblog-example.gif" class="screenshot" alt="Example Scenario. Want to use Ajax commands to improve the dblog page." />
-          <p class="caption">
-            Example Scenario. Want to use Ajax commands to improve the dblog page.
-          </p>
+            <p class="caption">Example Scenario. Want to use Ajax commands to improve the dblog page.</p>
           </section>
           <section data-transition="convex">
               <h3>To Use Commands...</h3>
@@ -300,7 +298,7 @@ class DbLogController extends ControllerBase {
     //...
     return $build;
   }
-            </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
+  </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
             <p class="caption">Override the method and alter the data to render the dblog page. On lines #11 - 13, build array of link options. Adding the class 'use-ajax' so AJAX framework knows to serve link with an AJAX request.. On line #15 create a new link for the row item.</p>
           </section>
           <section data-transition="convex">
@@ -313,7 +311,6 @@ ajax_dblog.event:
   requirements:
     _permission: 'access site reports'
     method: 'nojs|ajax'
-
             </code><span class="codename">ajax_dblog/ajax_dblog.routing.yml </span></pre>
             <p class="caption">Create a route for the Ajax callback. Use a route parameter '{method}' to handle graceful degredation if path is reached via ajax or not-ajax (nojs). On line #4 define the controller and method that will be used to return the AjaxResponse object.</p>
           </section>
@@ -347,8 +344,7 @@ class DbLogController extends ControllerBase {
           <section data-transition="convex">
             <h3>Example Scenario</h3>
             <img data-src="images/ajax-commands-example.gif" class="screenshot" alt="When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table." />
-          <p class="caption">
-            Example Scenario: When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table.
+          <p class="caption">Example Scenario: When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table.
           </p>
           </section>
         </section>
@@ -506,9 +502,7 @@ class DbLogController extends ControllerBase {
           <section data-transition="convex">
             <h3>Example Scenario</h3>
             <img data-src="images/ajax-custom-commands-example.gif" class="screenshot" alt="Example Scenario. Added a custom callback command to improve slide animation." />
-            <p class="caption">
-              Example Scenario. Added a custom callback command to improve slide animation.
-            </p>
+            <p class="caption">Example Scenario. Added a custom callback command to improve slide animation.</p>
           </section>
         </section>
         <section>
@@ -541,7 +535,7 @@ class DbLogController extends ControllerBase {
           <section data-transition="convex">
             <h3>To Use Custom AJAX Callback Commands...</h3>
             <ul>
-              <li class="fragment step-note">Include custom ibrary</li>
+              <li class="fragment step-note">Include custom library</li>
               <li class="fragment step-note">Include custom command in callback response</li>
             </ul>
           </section>
@@ -566,7 +560,9 @@ class DbLogController extends ControllerBase {
           <section>
            <h2>Thank You!</h2>
             <p>Questions?</p>
-                      <p>Background image modified version of "Chicago Bean" by Sergey Gabdurakhmanov (https://www.flickr.com/photos/gabdurakhmanov/3751502079)</p>
+            <br />
+            <br />
+            <p class="filename">Background image modified version of <br /><a href="//www.flickr.com/photos/gabdurakhmanov/3751502079" title="Chicago Bean" target="_blank">"Chicago Bean" by Sergey Gabdurakhmanov</a></p>
           </section>
         </section>
       </div>
@@ -580,7 +576,7 @@ class DbLogController extends ControllerBase {
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
+				controls: false,
 				progress: true,
 				history: true,
 				center: true,
