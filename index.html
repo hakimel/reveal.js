@@ -235,9 +235,9 @@ class RemoveCommand Implements CommandInterface {
           </section>
           <section data-transition="convex">
             <h3>Example Scenario</h3>
-            <img data-src="images/ajax-commands-example.gif" class="screenshot" alt="Example Scenario. Using ajax commands to alter the drupal dblog overview page. When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table." />
+            <img data-src="images/ajax-dblog-example.gif" class="screenshot" alt="Example Scenario. Want to use Ajax commands to improve the dblog page." />
           <p class="caption">
-            Example Scenario. Using ajax commands to alter the drupal dblog overview page. When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table.
+            Example Scenario. Want to use Ajax commands to improve the dblog page.
           </p>
           </section>
           <section data-transition="convex">
@@ -347,6 +347,13 @@ class DbLogController extends ControllerBase {
   }
             </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
              <p class="caption"> Define a callback method in controller. Lines #12 thru #17, creating an AjaxResponse object adding multiple commands using the 'addCommand' method. Line #20 handles building a redirect response if method reached not by ajax (graceful degradation).</p>
+          </section>
+          <section data-transition="convex">
+            <h3>Example Scenario</h3>
+            <img data-src="images/ajax-commands-example.gif" class="screenshot" alt="When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table." />
+          <p class="caption">
+            Example Scenario: When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table.
+          </p>
           </section>
         </section>
         <section>
