@@ -164,7 +164,7 @@
           </section>
           <section data-transition="convex">
             <h4 class="step-note">Core Example: Remove Command (JavaScript)</h4>
-            <pre><code class="js line-numbers" data-trim>
+            <pre><code class="js line-numbers" data-highlight-lines="1,12-18" data-trim>
               Drupal.AjaxCommands.prototype = {
   // ...
   /**
@@ -202,7 +202,7 @@
           </section>
           <section data-transition="convex">
             <h4 class="step-note">Core Example: Remove Command (PHP)</h4>
-            <pre><code class="php line-numbers" data-trim>
+            <pre><code class="php line-numbers" data-highlight-lines="6,11-17" data-trim>
 namespace Drupal\Core\Ajax;
 /**
  * AJAX command for calling the jQuery remove() method.
@@ -267,7 +267,7 @@ class RemoveCommand Implements CommandInterface {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">1.a Define a callback path</h4>
-            <pre><code data-trim class="yml line-numbers">
+            <pre><code data-trim class="yml line-numbers" data-highlight-lines="2,4,7">
 ajax_dblog.event:
   path: '/admin/reports/dblog/{method}/event/{event_id}'
   defaults:
@@ -280,7 +280,7 @@ ajax_dblog.event:
           </section>
           <section data-transition="convex">
             <h4 class="step-note">1.b Return an AjaxResponse object with commands.</h4>
-            <pre><code data-trim class="php line-numbers">
+            <pre><code data-trim class="php line-numbers" data-highlight-lines="1,3,6,12-17">
 use \Drupal\dblog\Controller\DbLogController as ControllerBase;
 // Returns responses for ajax_dblog routes.
 class DbLogController extends ControllerBase {
@@ -309,7 +309,7 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">2. Attach AJAX to page elements</h4>
-            <pre><code data-trim class="php line-numbers">
+            <pre><code data-trim class="php line-numbers" data-highlight-lines="12-14,16">
 use \Drupal\dblog\Controller\DbLogController as ControllerBase;
 // Returns responses for ajax_dblog routes.
 class DbLogController extends ControllerBase {
@@ -336,7 +336,7 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">3. Include Drupal AJAX library</h4>
-            <pre><code data-trim class="php line-numbers">
+            <pre><code data-trim class="php line-numbers" data-highlight-lines="13">
 use \Drupal\dblog\Controller\DbLogController as ControllerBase;
 // Returns responses for ajax_dblog routes.
 class DbLogController extends ControllerBase {
@@ -404,7 +404,7 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">1 . Add a method to 'Drupal.AjaxCommands.prototype'</h4>
-            <pre><code class="js line-numbers" data-trim>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="4-9">
 (function ($, window, Drupal, drupalSettings) {
   'use strict';
   // Command to toggle sliding of content on page.
@@ -421,7 +421,7 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">2. Define a PHP class that implements CommandInterface</h4>
-            <pre><code class="php line-numbers" data-trim>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="2,4,11-18">
 namespace Drupal\ajax_dblog\Ajax;
 use Drupal\Core\Ajax\CommandInterface;
 // An AJAX command for calling the jQuery slideToggle() method.
@@ -460,7 +460,7 @@ class SlideToggleCommand implements CommandInterface {
           </section>
           <section>
             <h4 class="step-note">1.a Define a custom library in 'libraries.yml' file</h4>
-            <pre><code class="yaml line-numbers" data-trim>
+            <pre><code class="yaml line-numbers" data-trim data-highlight-lines="6-9">
 ajax-dblog:
   version: VERSION
   css:
@@ -475,7 +475,7 @@ ajax-dblog:
           </section>
           <section data-transition="convex">
             <h4 class="step-note">1.b Include library onto page</h4>
-            <pre><code class="php line-numbers" data-trim>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="13">
 use \Drupal\dblog\Controller\DbLogController as ControllerBase;
 // Returns responses for ajax_dblog routes.
 class DbLogController extends ControllerBase {
@@ -496,7 +496,7 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">2. Add command to response obect returned by callback</h4>
-            <pre><code data-trim class="php line-numbers">
+            <pre><code data-trim class="php line-numbers" data-highlight-lines="10-17">
 use \Drupal\dblog\Controller\DbLogController as ControllerBase;
 // Returns responses for ajax_dblog routes.
 class DbLogController extends ControllerBase {

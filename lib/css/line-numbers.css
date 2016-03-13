@@ -11,3 +11,7 @@ code span.line-number:before {
   content: counter(line, decimal-leading-zero);
   color: gray;
 }
+
+code span.highlight-line:before {
+  color: yellow;
+}
