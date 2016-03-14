@@ -428,6 +428,41 @@ class DbLogController extends ControllerBase {
           </section>
           //-->
           <section data-transition="convex">
+            <pre><code class="js line-numbers" data-trim>
+(function ($, window, Drupal, drupalSettings) {
+
+  'use strict';
+
+  // Custom Ajax Callback Command
+  Drupal.AjaxCommands.prototype.myCommand = function(ajax, response, status){
+
+    // custom javascript ...
+
+  }
+
+}
+            </code><span class="codename">my_module/js/ajax.js </span></pre>
+          </section>
+          <section data-transition="convex">
+            <pre><code class="php line-numbers" data-trim>
+namespace Drupal\myModule\Ajax;
+
+use Drupal\Core\Ajax\CommandInterface;
+
+// An AJAX command for calling my custom command method.
+class MyCommandCommand implements CommandInterface {
+
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => 'myCommand',
+      // other request arguments...
+    );
+  }
+}
+            </code><span class="codename">my_module/src/Ajax/MyCommandCommand.php </span></pre>
+          </section>
+          <section data-transition="convex">
             <h4>Example Scenario</h4>
             <img data-src="images/ajax-commands-example.gif" class="screenshot" alt="Example Scenario. Using ajax commands to alter the drupal dblog overview page. When log event title is clicked, an ajax request is made for the details and an ajax command is returned to instert the data into the table." />
           <p class="caption">
@@ -467,7 +502,6 @@ class SlideToggleCommand implements CommandInterface {
   public function render() {
     return array(
       'command' => 'slideToggle',
-      'method' => NULL,
       'selector' => $this->selector,
       'duration' => $this->duration,
     );
