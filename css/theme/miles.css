@@ -32,7 +32,7 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background-size: 100%;
+  background-size: 100% 100%;
   background-image: url('../../images/background.jpg');
   background-position: center;
   background-repeat: no-repeat;

@@ -609,16 +609,22 @@ class DbLogController extends ControllerBase {
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'lib/js/line-numbers.js', async: false },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true },
           { src: 'lib/js/gif-loader.js', async: true},
           { src: 'lib/js/captions-aside.js', async: false},
 				]
 			});
 
+      Reveal.addEventListener( 'ready', function() {
+        if (window.location.search.match( /print-pdf/gi )) {
+          document.getElementsByTagName("body")[0].style.backgroundRepeat = "repeat-y";
+          console.log(document.getElementsByTagName("body")[0].style);
+        }
+      });
 		</script>
 
 	</body>
