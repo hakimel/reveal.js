@@ -155,6 +155,7 @@ class [CommandName]Command implements CommandInterface {
               Callback command classes need to implement CommandInterface (lines #1 & #4). Must define a 'render' method (lines #7 - #12), that returns a render array. Render array must contain an element with the key of 'command' and a vlaue that is a name of the javascript method. Additional arguments are passed as response data.
             </p>
           </section>
+          <!--
           <section data-transition="convex">
             <h4>Example: Remove Command (PHP)</h4>
             <pre><code class="php line-numbers" data-highlight-lines="2,7,12-17" data-trim>
@@ -181,6 +182,7 @@ class RemoveCommand Implements CommandInterface {
               An example of a Callback Command, the Drupal core RemoveCommand.
             </p>
           </section>
+          //-->
           <section data-transition="convex">
             <h3>Callback Commands: Client Side</h3>
             <ul>
@@ -221,6 +223,7 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
               Callback Command needs to be attached as a method to the Drupal.AjaxCommands.prototype object (line #8). Command accepts three arguments and is a wrapper for additional javascript.
             </p>
           </section>
+          <!--
           <section data-transition="convex">
             <h4>Example: Remove Command (JavaScript)</h4>
             <pre><code class="js line-numbers" data-highlight-lines="1,12-18" data-trim>
@@ -248,6 +251,7 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
               An example of a Callback Command, the Drupal core remove method.
             </p>
           </section>
+          //-->
           <section data-transition="convex">
             <h3>Callback Commands Are...</h3>
             <ul>
