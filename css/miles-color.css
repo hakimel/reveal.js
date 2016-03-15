@@ -7,7 +7,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 body {
-  background-color: #993300;
+  background-color: #333366;
 }
 
 ::selection {
@@ -21,6 +21,7 @@ body {
 
 .reveal pre {
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+  border: 1px #000 solid;
 }
 
 .reveal pre code {

@@ -13,5 +13,5 @@ code span.line-number:before {
 }
 
 code span.highlight-line:before {
-  color: yellow;
+  color: white;
 }
