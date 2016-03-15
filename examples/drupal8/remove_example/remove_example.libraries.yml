@@ -1,0 +1,9 @@
+# create library asset name
+remove-example:
+  version: VERSION
+  # define path (relative to module route) of JavaScript files to include.
+  js:
+    js/ajax.js: {}
+  # Add core Drupal Ajax library as a dependency of this one.
+  dependencies:
+    - core/drupal.ajax

@@ -1,0 +1,5 @@
+name: Remove AJAX Example
+type: module
+description: An example module to show how the remove ajax callback command works
+package: demo
+core: 8.x

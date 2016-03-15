@@ -1,0 +1,16 @@
+# Route to display demo page
+remove_example.demo:
+  path: 'remove-example'
+  defaults:
+    _controller: '\Drupal\remove_example\Controller\RemoveExampleController::demo'
+    _Title: 'Remove Example'
+  requirements:
+    _access: 'TRUE'
+# Route to handle Ajax Requests. Pass method parameter for handling graceful degradation.
+remove_example.remove:
+  path: 'remove-example/{method}/remove'
+  defaults:
+    _controller: '\Drupal\remove_example\Controller\RemoveExampleController::remove'
+  requirements:
+    _access: 'TRUE'
+    method: 'nojs|ajax'
