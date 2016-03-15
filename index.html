@@ -57,7 +57,7 @@
     </div>
 
 <!-- Any section element inside of this container is displayed as a slide -->
-      <div class="slides" data-captions-aside>
+      <div class="slides" >
         <section>
            <section>
             <h1>Demystifying AJAX Callback Commands</h1>
@@ -89,6 +89,9 @@
                   <li class="fragment step-note">Outline custom AJAX callback commands</li>
                 </ul>
             </p>
+            <aside class="notes">
+              <p>Query!: Who understands callbacks</p>
+            </aside>
             <aside class="notes">
               <p>Query: raise hands!</p>
             </aside>
@@ -124,6 +127,12 @@
                 </ul>
               </li>
             </ul>
+            <aside class="notes">
+              <ul>
+                <li>What is interface</li>
+                <li></li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Anatomy of a Callback Command: PHP</h4>
@@ -143,7 +152,7 @@ class [CommandName]Command implements CommandInterface {
 }
             </code><span class="codename">[CommandName]Command.php </span></pre>
             <p class="caption">
-              ...?...
+              Callback command classes need to implement CommandInterface (lines #1 & #4). Must define a 'render' method (lines #7 - #12), that returns a render array. Render array must contain an element with the key of 'command' and a vlaue that is a name of the javascript method. Additional arguments are passed as response data.
             </p>
           </section>
           <section data-transition="convex">
@@ -169,7 +178,7 @@ class RemoveCommand Implements CommandInterface {
 }
             </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php </span></pre>
             <p class="caption">
-              ...?...
+              An example of a Callback Command, the Drupal core RemoveCommand.
             </p>
           </section>
           <section data-transition="convex">
@@ -185,6 +194,12 @@ class RemoveCommand Implements CommandInterface {
                 </ul>
               </li>
             </ul>
+            <aside class="notes">
+              <ul>
+                <li>object partof core Ajax</li>
+                <li>Request object, response data, status code</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Anatomy of a Callback Command: JavaScript</h4>
@@ -203,7 +218,7 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
 }
             </code></pre>
             <p class="caption">
-              ...?...
+              Callback Command needs to be attached as a method to the Drupal.AjaxCommands.prototype object (line #8). Command accepts three arguments and is a wrapper for additional javascript.
             </p>
           </section>
           <section data-transition="convex">
@@ -230,7 +245,7 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
   //...
             </code><span class="codename">misc/ajax.js </span></pre>
             <p class="caption">
-              ...?...
+              An example of a Callback Command, the Drupal core remove method.
             </p>
           </section>
           <section data-transition="convex">
@@ -252,17 +267,17 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
             </ul>
             <aside class="notes">
               <ul>
-                <li>all responses have response objects</li>
-                <li>Callback returns AjaxResponse</li>
-                <li>addCommand Method</li>
+                <li>Only includes specificed libraries</li>
+                <li>Attach using 'use'</li>
+                <li>Callback methods & response objects</li>
               </ul>
             </aside>
           </section>
            <section data-transition="convex">
             <h3>Example: The "Remove" Command</h3>
-            <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="" title="" />
+            <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id." title="Example using remove callback command" />
             <p class="caption">
-              ...?...
+              Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id.
             </p>
           </section>
           <section data-transition="convex">
@@ -285,7 +300,7 @@ class RemoveExampleController extends ControllerBase {
 }
             </code><span class="codename">remove_example/src/Controller/RemoveExampleController.php </span></pre>
             <p class="caption">
-              ...?...
+              Pages that want to use Ajax need to include the ajax library. On line #11 attaching the core Drupal Ajax library to the render array for the page.
             </p>
           </section>
           <section data-transition="convex">
@@ -313,7 +328,7 @@ class RemoveExampleController extends ControllerBase {
 }
             </code><span class="codename">remove_example/src/Controller/RemoveExampleController.php </span></pre>
              <p class="caption">
-              ...?...
+              Classes used for Ajax requests need to include needed classes (line #3, Line #4). Callback method needs to return an ajax command (line #14) and attach commands using 'addCommand' method (line #16).
             </p>
           </section>
           <section data-transition="convex">
@@ -346,6 +361,11 @@ class RemoveExampleController extends ControllerBase {
                 </ul>
               </li>
             </ul>
+            <aside class="notes">
+              <ul>
+                <li>Structure part of PSR-4 autoloading</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Example: SlideRemoveCommand</h4>
@@ -371,7 +391,7 @@ class SlideRemoveCommand implements CommandInterface {
 }
             </code><span class="codename">remove_example/src/Ajax/SlideRemoveCommand.php </span></pre>
             <p class="caption">
-              ...?...
+              An example of creating a custom 'SlideRemove' callback command PHP Class. Class follows naming conventions and implements CommandInterface (line #5). Defines a render method (line #12), which returns an associative array with a 'command' keyed element. (lines #13 - #17).
             </p>
           </section>
           <section data-transition="convex">
@@ -408,7 +428,7 @@ class SlideRemoveCommand implements CommandInterface {
 })(jQuery, this, Drupal, drupalSettings);
             </code><span class="codename">remove_example/js/ajax.js </span></pre>
             <p class="caption">
-              ...?...
+              An example of creating a custom 'slideRemove' callback command javascript method. Attached to 'Drupal.AjaxCommands.prototype' object and accepts three arguments (line #4). Uses response data for additional javascript functionality (lines #5 - #13).
             </p>
           </section>
           <section data-transition="convex">
@@ -422,7 +442,7 @@ remove-example:
     - core/drupal.ajax
             </code><span class="codename">remove_example.libraries.yml </span></pre>
             <p class="caption">
-              ...?...
+              Javascript file that contains custom 'slideRemove' command is added to a library deffinition (lines #3 - #4). Add core Drupal Ajax library as a dependency so that it is included (lines #5 - #6).
             </p>
           </section>
           <section data-transition="convex">
@@ -445,9 +465,9 @@ remove-example:
           </section>
           <section data-transition="convex">
             <h3>Example: The "slideRemove" Command</h3>
-            <img class="screenshot" data-src="images/ajax-commands-custom-remove-example.gif" alt="" title="" />
+            <img class="screenshot" data-src="images/ajax-commands-custom-remove-example.gif" alt="Example of using the custom slideRemove callback command. Link triggers ajax request which returns response with 'slideRemove' command targeting image id." title="Example of using custom callback command" />
             <p class="caption">
-              ...?...
+              Example of using the custom slideRemove callback command. Link triggers ajax request which returns response with 'slideRemove' command targeting image id.
             </p>
           </section>
           <section data-transition="convex">
@@ -470,7 +490,7 @@ class RemoveExampleController extends ControllerBase {
 }
             </code><span class="codename">remove_example/src/Controller/RemoveExampleController.php </span></pre>
             <p class="caption">
-              ...?...
+              Custom Javascript library needs to be included on requesting page, so that methods are attached. Attaching library with custom method to page render array on line #11.
             </p>
           </section>
           <section data-transition="convex">
@@ -498,7 +518,7 @@ class RemoveExampleController extends ControllerBase {
 }
             </code><span class="codename">remove_example/src/Controller/RemoveExampleController.php </span></pre>
             <p class="caption">
-              ...?...
+              Like core callback commands, custom command classes have to be included in callback controller (line #4) and added to AjaxResponse in callback method (line #17).
             </p>
           </section>
           <section data-transition="convex">
