@@ -102,14 +102,16 @@
             <h2>Prerequsite: How Ajax Requests Work</h2>
           </section>
           <section data-transition="convex" data-background="images/ajax_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
-            <ul>
-              <li>Page elements (HTML) trigger an event</li>
-              <li>Drupal Ajax API (JS) sends a request to server</li>
-              <li>Server executes a callback (PHP)</li>
-              <li>Callback returns a response (json)</li>
-              <li>Ajax API executes javascript functions (JS)</li>
-              <li>Page (HTML) is altered</li>
-            </ul>
+            <aside class="notes">
+              <ul>
+                <li>Page elements (HTML) trigger an event</li>
+                <li>Drupal Ajax API (JS) sends a request to server</li>
+                <li>Server executes a callback (PHP)</li>
+                <li>Callback returns a response (json)</li>
+                <li>Ajax API executes javascript functions (JS)</li>
+                <li>Page (HTML) is altered</li>
+              </ul>
+            </aside>
           </section>
         </section>
         <section>
@@ -281,8 +283,8 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
             <h2>How to Use Callback Commands</h2>
             <ul>
               <li class="fragment step-note">Attach Drupal Ajax library to the requesting page</li>
-              <li class="fragment step-note">Make sure command class is accessible to callback</li>
-              <li class="fragment step-note">Attach command to AjaxResponse object using 'addCommand'</li>
+              <li class="fragment step-note">Create a callback method that returns an AjaxResponse object</li>
+              <li class="fragment step-note">Attach commands to AjaxResponse object using 'addCommand'</li>
             </ul>
             <aside class="notes">
               <ul>
@@ -354,8 +356,8 @@ class RemoveExampleController extends ControllerBase {
             <h3>To Use Callback Commands...</h3>
             <ul>
               <li class="fragment step-note">Attach Drupal Ajax library to the requesting page</li>
-              <li class="fragment step-note">Include PHP class(es) for command(s)</li>
-              <li class="fragment step-note">Attach to AjaxResponse object with 'addCommand' method</li>
+              <li class="fragment step-note">Create callback method that returns AjaxResponse</li>
+              <li class="fragment step-note">Attach commands to AjaxResponse object with 'addCommand'</li>
             </ul>
           </section>
         </section>
@@ -364,21 +366,21 @@ class RemoveExampleController extends ControllerBase {
             <h2>Creating Custom Callback Commands</h2>
             <ul>
               <li class="fragment step-note">Requires a custom module</li>
-              <li class="fragment step-note">Need to define custom php class</li>
-              <li class="fragment step-note">Need to define custom javascript method</li>
+              <li class="fragment step-note">Need to define custom php classes</li>
+              <li class="fragment step-note">Need to define custom javascript methods</li>
             </ul>
           </section>
           <section data-transition="convex">
             <h3>Custom Callback Commands: PHP</h3>
             <ul>
               <li class="fragment step-note">Follow naming convention [CommandName]Command(.php)</li>
-              <li class="fragment step-note">Place in 'src/Ajax/' directory of module</li>
               <li class="fragment step-note">Implement CommandInterface
                 <ul>
                   <li class="fragment">Define a 'render' method
                   <li class="fragment">Return an associative array with 'command' element</li>
                 </ul>
               </li>
+              <li class="fragment step-note">Place in 'src/Ajax/' directory of module</li>
             </ul>
             <aside class="notes">
               <ul>
@@ -466,7 +468,7 @@ remove-example:
             <h3>To Create Custom Callback Commands...</h3>
             <ul>
               <li class="fragment step-note">Use a custom module</li>
-              <li class="fragment step-note">Place command class(es) in 'src/Ajax' directory of module</li>
+              <li class="fragment step-note">Define classes that implements CommandInterface</li>
               <li class="fragment step-note">Attach JavaScript method(s) to 'Drupal.AjaxCommands.prototype'</li>
             </ul>
           </section>
@@ -476,8 +478,7 @@ remove-example:
             <h2>Using Custom Callback Commands</h2>
             <ul>
               <li class="fragment step-note">Attach custom library to the requesting page</li>
-              <li class="fragment step-note">Make sure command class(es) are accessible to callback</li>
-              <li class="fragment step-note">Attach custom commands(s) to AjaxResponse with 'addCommand'</li>
+              <li class="fragment step-note">Attach commands to AjaxResponse object with 'addCommand'</li>
             </ul>
           </section>
           <section data-transition="convex">
@@ -542,8 +543,7 @@ class RemoveExampleController extends ControllerBase {
             <h3>To Use Custom Callback Commands...</h3>
             <ul>
               <li class="fragment step-note">Attach custom library to the requesting page</li>
-              <li class="fragment step-note">Include PHP class(es) for custom command(s)</li>
-              <li class="fragment step-note">Attach custom commands(s) to AjaxResponse with 'addCommand'</li>
+              <li class="fragment step-note">Attach commands to AjaxResponse object with 'addCommand'</li>
             </ul>
           </section>
         </section>
@@ -563,8 +563,8 @@ class RemoveExampleController extends ControllerBase {
             <h3>To Use AJAX Callback Commands...</h3>
             <ul>
               <li class="fragment step-note">Attach Drupal Ajax library to the requesting page</li>
-              <li class="fragment step-note">Include PHP class(es) for command(s)</li>
-              <li class="fragment step-note">Return an AjaxResponse object with commands in callback</li>
+              <li class="fragment step-note">Create callback method that returns AjaxResponse</li>
+              <li class="fragment step-note">Attach commands to AjaxResponse object with 'addCommand'</li>
             </ul>
           </section>
           <section data-transition="convex">
@@ -579,8 +579,7 @@ class RemoveExampleController extends ControllerBase {
             <h3>To Use Custom AJAX Callback Commands...</h3>
             <ul>
               <li class="fragment step-note">Attach custom library to the requesting page</li>
-              <li class="fragment step-note">Include PHP class for custom command(s)</li>
-              <li class="fragment step-note">Attach custom commands(s) to AjaxResponse with 'addCommand'</li>
+              <li class="fragment step-note">Same process as using core commands</li>
             </ul>
           </section>
           <section data-transition="convex">
