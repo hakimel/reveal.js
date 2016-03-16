@@ -98,6 +98,21 @@
           </section>
         </section>
         <section>
+          <section>
+            <h2>Prerequsite: How Ajax Requests Work</h2>
+          </section>
+          <section data-transition="convex" data-background="images/ajax_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
+            <ul>
+              <li>Page elements (HTML) trigger an event</li>
+              <li>Drupal Ajax API (JS) sends a request to server</li>
+              <li>Server executes a callback (PHP)</li>
+              <li>Callback returns a response (json)</li>
+              <li>Ajax API executes javascript functions (JS)</li>
+              <li>Page (HTML) is altered</li>
+            </ul>
+          </section>
+        </section>
+        <section>
           <section data-transition="convex">
             <h2>What are Callback Commands</h2>
             <ul>
@@ -152,7 +167,7 @@ class [CommandName]Command implements CommandInterface {
 }
             </code><span class="codename">[CommandName]Command.php </span></pre>
             <p class="caption">
-              Callback command classes need to implement CommandInterface (lines #1 & #4). Must define a 'render' method (lines #7 - #12), that returns a render array. Render array must contain an element with the key of 'command' and a vlaue that is a name of the javascript method. Additional arguments are passed as response data.
+              Callback command classes need to implement CommandInterface (lines #1 & #4). Must define a 'render' method (lines #7 - #12), that returns an associative array. Associative array must contain an element with the key of 'command' and a vlaue that is a name of the javascript method. Additional arguments are passed as response data.
             </p>
           </section>
           <!--
@@ -492,7 +507,7 @@ class RemoveExampleController extends ControllerBase {
 }
             </code><span class="codename">remove_example/src/Controller/RemoveExampleController.php </span></pre>
             <p class="caption">
-              Custom Javascript library needs to be included on requesting page, so that methods are attached. Attaching library with custom method to page render array on line #11.
+              Custom Javascript library needs to be included on requesting page, so that methods are attached. Attaching library to render array on line #11.
             </p>
           </section>
           <section data-transition="convex">
@@ -644,6 +659,7 @@ class RemoveExampleController extends ControllerBase {
         if (window.location.search.match( /print-pdf/gi )) {
           document.getElementsByTagName("body")[0].style.backgroundRepeat = "repeat-y";
           console.log(document.getElementsByTagName("body")[0].style);
+          window.setTimeout(addLineNumbers, 1000);
         }
       });
 		</script>
