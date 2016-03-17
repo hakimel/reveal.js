@@ -45,7 +45,7 @@
             <p class="logo__site-name">#midcamp</p>
         </div>
         <div class="company--logo">
-            <span class="logo__image"><img src="/images/genuine_logo_white.png" alt="Genuine" height="40px" width="40px" /></span>
+            <span class="logo__image"><img src="images/genuine_logo_white.png" alt="Genuine" height="40px" width="40px" /></span>
             <p class="logo__site-name">@WeAreGenuine</p>
         </div>
         <div class="session--info">
@@ -64,7 +64,8 @@
             <h2>(in Drupal 8)</h2>
             <p><a href="//2016.midcamp.org/session/demystifying-ajax-callback-commands-drupal-8" target="_blank">2016.midcamp.org/node/48</a></p>
             <p>MidCamp 2016</p>
-            <br /><br />
+            <br />
+            <p>Follow Along: <a href="//bit.ly/Mid16Ajax" target="_blank">bit.ly/Mid16Ajax</a><br />
             <p style="font-size:30%">Background image modified version of <a href="//www.flickr.com/photos/gabdurakhmanov/3751502079" title="Chicago Bean" target="_blank">"Chicago Bean" by Sergey Gabdurakhmanov</a></p>
           </section>
           <section data-transition="convex">
@@ -97,11 +98,10 @@
             </aside>
           </section>
         </section>
+
         <section>
-          <section>
-            <h2>Prerequsite: How Ajax Requests Work</h2>
-          </section>
           <section data-transition="convex" data-background="images/ajax_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
+            <h2 class="fragment fade-out" style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Prerequsite: How Ajax Requests Work</h2>
             <aside class="notes">
               <ul>
                 <li>Page elements (HTML) trigger an event</li>
@@ -114,22 +114,27 @@
             </aside>
           </section>
         </section>
+
         <section>
-          <section data-transition="convex">
+          <section data-transition="fade-out">
             <h2>What are Callback Commands</h2>
-            <ul>
-              <li class="fragment step-note">Functions returned and invoked by all Ajax responses</li>
-              <li class="fragment step-note">Allow server to dictate client functionality</li>
-              <li class="fragment step-note">Defined by Drupal core (25) and Modules</li>
-            </ul>
+          </section>
+          <section data-transition="fade-in" data-background="images/big_mac.jpg" data-background-size="100%" data-background-repeat="no-repeat" data-background-transition="fade-in">
+            <p style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">
+              <br />
+              <span>If an Ajax request was a Big Mac, then Callback Commands would be the secret sauce.</span>
+              <br /><br />
+            </p>
+            <p style="font-size:30%;display:block;bottom:0">Background image <a href="//www.flickr.com/photos/r4vi/7827753014/in/photostream/" target="_blank">"The Biggest Big Mac in the World" by R4vi</a></p>
             <aside class="notes">
               <ul>
-                <li>response breakdown</li>
                 <li>bridge between server/client</li>
                 <li>25 core commands</li>
                 <li>2 parts</li>
               </ul>
             </aside>
+          </section>
+          <section data-transition="fade-in" data-background="images/ajax_callback_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
           </section>
           <section data-transition="convex">
             <h3>Callback Commands: Server Side</h3>
@@ -146,8 +151,7 @@
             </ul>
             <aside class="notes">
               <ul>
-                <li>What is interface</li>
-                <li></li>
+                <li>What is an interface</li>
               </ul>
             </aside>
           </section>
@@ -272,15 +276,25 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
           <section data-transition="convex">
             <h3>Callback Commands Are...</h3>
             <ul>
-              <li class="fragment step-note">Functions returned and invoked by all Ajax responses</li>
+              <li class="fragment step-note">Functions returned and invoked by all Ajax requests</li>
               <li class="fragment step-note">PHP Classes that implement CommandInterface</li>
               <li class="fragment step-note">Methods attached to 'Drupal.AjaxCommands.prototype'</li>
             </ul>
           </section>
         </section>
          <section>
-          <section data-transition="convex">
-            <h2>How to Use Callback Commands</h2>
+          <section data-transition="convex" data-background="images/use_the_force.gif" data-background-repeat="no-repeat">
+            <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">How to Use Callback Commands</h2>
+            <aside class="notes">
+              <ul>
+                <li>attach Drupal ajax library</li>
+                <li>Return ajaxrepsone</li>
+                <li>use 'addCommand'</li>
+              </ul>
+            </aside>
+          </section>
+          <!--
+          <section>
             <ul>
               <li class="fragment step-note">Attach Drupal Ajax library to the requesting page</li>
               <li class="fragment step-note">Create a callback method that returns an AjaxResponse object</li>
@@ -294,6 +308,7 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
               </ul>
             </aside>
           </section>
+          //-->
            <section data-transition="convex">
             <h3>Example: The "Remove" Command</h3>
             <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id." title="Example using remove callback command" />
@@ -362,14 +377,25 @@ class RemoveExampleController extends ControllerBase {
           </section>
         </section>
         <section>
-          <section data-transition="convex">
-            <h2>Creating Custom Callback Commands</h2>
+          <section data-background="images/typing.gif" data-background-repeat="no-repeat">
+            <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Creating Custom Callback Commands</h2>
+            <aside class="notes">
+              <ul>
+                <li>custom module</li>
+                <li>PHP class</li>
+                <li>Javascript method</li>
+              </ul>
+            </aside>
+          </section>
+          <!--
+          <section>
             <ul>
               <li class="fragment step-note">Requires a custom module</li>
               <li class="fragment step-note">Need to define custom php classes</li>
               <li class="fragment step-note">Need to define custom javascript methods</li>
             </ul>
           </section>
+          //-->
           <section data-transition="convex">
             <h3>Custom Callback Commands: PHP</h3>
             <ul>
@@ -474,12 +500,21 @@ remove-example:
           </section>
         </section>
         <section>
-          <section>
-            <h2>Using Custom Callback Commands</h2>
+          <section data-background="images/magic.gif" data-background-repeat="no-repeat">
+            <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Using Custom Callback Commands</h2>
+            <aside class="notes">
             <ul>
+              <li>Attach custom library to the requesting page</li>
+              <li>Attach commands to AjaxResponse object with 'addCommand'</li>
+            </ul>
+            </aside>
+          <!--
+          <section>
+                        <ul>
               <li class="fragment step-note">Attach custom library to the requesting page</li>
               <li class="fragment step-note">Attach commands to AjaxResponse object with 'addCommand'</li>
             </ul>
+          </section> //-->
           </section>
           <section data-transition="convex">
             <h3>Example: The "slideRemove" Command</h3>
@@ -571,7 +606,7 @@ class RemoveExampleController extends ControllerBase {
             <h3>To Create AJAX Callback Commands...</h3>
             <ul>
               <li class="fragment step-note">Use a custom module</li>
-              <li class="fragment step-note">Place command classes in 'src/Ajax' directory of module</li>
+              <li class="fragment step-note">Define classes that implements CommandInterface</li>
               <li class="fragment step-note">Attach JavaScript methods to 'Drupal.AjaxCommands.prototype'</li>
             </ul>
           </section>
@@ -602,6 +637,7 @@ class RemoveExampleController extends ControllerBase {
             <p>Example Code: <a href="//bit.ly/Mid16AjaxEx" target="_blank">bit.ly/Mid16AjaxEx</a></p>
             <p>Creating Commands in D8: <a href="//bit.ly/D8AjaxCmds" target="_blank">bit.ly/D8AjaxCmds</a></p>
           </section>
+          <!--
           <section>
             <h2>MidCamp Sprint</h2>
             <p>Sunday, March 20 at 10 am</p>
@@ -610,12 +646,14 @@ class RemoveExampleController extends ControllerBase {
             <p><em>Contributors of all skill sets and levels are welcome and encouraged to join us!</em></p>
             <p>Help port the Examples module! <a href="//drupal.org/node/2102639" target="_blank">drupal.org/node/2102639</a></p>
           </section>
+          //-->
           <section>
             <h2>Thank You!</h2>
             <ul>
+
               <li><strong>Feedback:</strong> <a href="//legacy.joind.in/17274" target="_blank">legacy.joind.in/17274</a></li>
-              <li><strong>Questions:</strong> <a href="//twitter/mikemiles86" target="_blank">@mikemiles86</a></li>
               <li><strong>Room survey:</strong> <a href="//goo.gl/WXQ5H6" target="_blank">goo.gl/WXQ5H6 </a></li>
+              <li><strong>Questions:</strong> <a href="//twitter/mikemiles86" target="_blank">@mikemiles86</a></li>
             </ul>
             <aside class="notes">
               <p>Questions?</p>
@@ -633,7 +671,7 @@ class RemoveExampleController extends ControllerBase {
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: false,
+				controls: true,
 				progress: true,
 				history: true,
 				center: true,
