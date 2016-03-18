@@ -230,3 +230,32 @@ body {
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
+/*********************************************
+ * Image Credits
+ *********************************************/
+
+ .reveal .image-credit {
+  font-size: 30%;
+  position: relative;
+  text-align: left;
+  color: #000;
+ }
+
+ .reveal .image-credit .credit {
+  background: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    bottom: -250px;
+    padding: 5px;
+ }
+
+  .reveal .image-credit .credit a {
+    color: blue;
+  }
+
+.reveal .attribution{
+    position:absolute;
+    bottom:0;
+    right:0;
+    font-size:0.5em
+}
+

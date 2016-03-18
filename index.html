@@ -66,7 +66,11 @@
             <p>MidCamp 2016</p>
             <br />
             <p>Follow Along: <a href="//bit.ly/Mid16Ajax" target="_blank">bit.ly/Mid16Ajax</a><br />
-            <p style="font-size:30%">Background image modified version of <a href="//www.flickr.com/photos/gabdurakhmanov/3751502079" title="Chicago Bean" target="_blank">"Chicago Bean" by Sergey Gabdurakhmanov</a></p>
+            <p class="image-credit" style="bottom:0;">
+              <span class="credit" style="bottom:-50px;">Credit:
+                <a class="credit-link" href="//www.flickr.com/photos/gabdurakhmanov/3751502079" title="Chicago Bean" target="_blank">"Chicago Bean" by Sergey Gabdurakhmanov</a>
+                </span>
+            </p>
           </section>
           <section data-transition="convex">
             <h2>Mike Miles</h2>
@@ -116,8 +120,15 @@
         </section>
 
         <section>
-          <section data-transition="fade-out">
-            <h2>What are Callback Commands</h2>
+          <section <section data-transition="convex" data-background="images/thinking.gif" data-background-repeat="no-repeat">
+            <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">What are Callback Commands</h2>
+            <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//www.reddit.com/r/reactiongifs/comments/2hgu34/mrw_ive_just_shaved_and_missed_the_warmth" target="_blank">http://www.reddit.com/r/reactiongifs/comments/2hgu34/mrw_ive_just_shaved_and_missed_the_warmth</a>
+                </span>
+            </p>
+          </section>
+          <section data-transition="fade-in" data-background="images/ajax_callback_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
           </section>
           <section data-transition="fade-in" data-background="images/big_mac.jpg" data-background-size="100%" data-background-repeat="no-repeat" data-background-transition="fade-in">
             <p style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">
@@ -125,7 +136,11 @@
               <span>If an Ajax request was a Big Mac, then Callback Commands would be the secret sauce.</span>
               <br /><br />
             </p>
-            <p style="font-size:30%;display:block;bottom:0">Background image <a href="//www.flickr.com/photos/r4vi/7827753014/in/photostream/" target="_blank">"The Biggest Big Mac in the World" by R4vi</a></p>
+            <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//www.flickr.com/photos/r4vi/7827753014/in/photostream/" target="_blank">"The Biggest Big Mac in the World" by R4vi</a>
+                </span>
+            </p>
             <aside class="notes">
               <ul>
                 <li>bridge between server/client</li>
@@ -133,8 +148,6 @@
                 <li>2 parts</li>
               </ul>
             </aside>
-          </section>
-          <section data-transition="fade-in" data-background="images/ajax_callback_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
           </section>
           <section data-transition="convex">
             <h3>Callback Commands: Server Side</h3>
@@ -176,34 +189,7 @@ class [CommandName]Command implements CommandInterface {
               Callback command classes need to implement CommandInterface (lines #1 & #4). Must define a 'render' method (lines #7 - #12), that returns an associative array. Associative array must contain an element with the key of 'command' and a vlaue that is a name of the javascript method. Additional arguments are passed as response data.
             </p>
           </section>
-          <!--
-          <section data-transition="convex">
-            <h4>Example: Remove Command (PHP)</h4>
-            <pre><code class="php line-numbers" data-highlight-lines="2,7,12-17" data-trim>
-namespace Drupal\Core\Ajax;
-use Drupal\Core\Ajax\CommandInterface;
-/**
- * AJAX command for calling the jQuery remove() method.
- * ...
- */
-class RemoveCommand Implements CommandInterface {
-  // ...
-  /**
-   * Implements Drupal\Core\Ajax\CommandInterface:render().
-   */
-  public function render() {
-    return array(
-      'command' => 'remove',
-      'selector' => $this->selector,
-    );
-  }
-}
-            </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php </span></pre>
-            <p class="caption">
-              An example of a Callback Command, the Drupal core RemoveCommand.
-            </p>
-          </section>
-          //-->
+
           <section data-transition="convex">
             <h3>Callback Commands: Client Side</h3>
             <ul>
@@ -244,35 +230,6 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
               Callback Command needs to be attached as a method to the Drupal.AjaxCommands.prototype object (line #8). Command accepts three arguments and is a wrapper for additional javascript.
             </p>
           </section>
-          <!--
-          <section data-transition="convex">
-            <h4>Example: Remove Command (JavaScript)</h4>
-            <pre><code class="js line-numbers" data-highlight-lines="1,12-18" data-trim>
-              Drupal.AjaxCommands.prototype = {
-  // ...
-  /**
-   * Command to remove a chunk from the page.
-   *
-   * @param {Drupal.Ajax} [ajax]
-   * @param {object} response
-   * @param {string} response.selector
-   * @param {object} [response.settings]
-   * @param {number} [status]
-   */
-  remove: function (ajax, response, status) {
-    var settings = response.settings || ajax.settings || drupalSettings;
-    $(response.selector).each(function () {
-      Drupal.detachBehaviors(this, settings);
-    })
-      .remove();
-  },
-  //...
-            </code><span class="codename">misc/ajax.js </span></pre>
-            <p class="caption">
-              An example of a Callback Command, the Drupal core remove method.
-            </p>
-          </section>
-          //-->
           <section data-transition="convex">
             <h3>Callback Commands Are...</h3>
             <ul>
@@ -285,6 +242,11 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
          <section>
           <section data-transition="convex" data-background="images/use_the_force.gif" data-background-repeat="no-repeat">
             <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">How to Use Callback Commands</h2>
+            <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//www.nuskool.com/learn/wp-content/uploads/2016/01/star-wars-ron-1.gif" target="_blank">http://www.nuskool.com/learn/wp-content/uploads/2016/01/star-wars-ron-1.gif</a>
+              </span>
+            </p>
             <aside class="notes">
               <ul>
                 <li>attach Drupal ajax library</li>
@@ -293,22 +255,13 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
               </ul>
             </aside>
           </section>
-          <!--
-          <section>
-            <ul>
-              <li class="fragment step-note">Attach Drupal Ajax library to the requesting page</li>
-              <li class="fragment step-note">Create a callback method that returns an AjaxResponse object</li>
-              <li class="fragment step-note">Attach commands to AjaxResponse object using 'addCommand'</li>
-            </ul>
-            <aside class="notes">
-              <ul>
-                <li>Only includes specificed libraries</li>
-                <li>Attach using 'use'</li>
-                <li>Callback methods & response objects</li>
-              </ul>
-            </aside>
+           <section data-transition="convex">
+            <h3>Example: The "Remove" Command</h3>
+            <img class="screenshot" data-src="images/ajax-commands-remove-example.png" alt="A page with an image and a link to call an ajax request" title="Example using remove callback command" />
+            <p class="caption">
+              Create a page with a custom module that outputs a page with a description, link and image. Want to use an ajax request when the link is clicked to remove the image.
+            </p>
           </section>
-          //-->
            <section data-transition="convex">
             <h3>Example: The "Remove" Command</h3>
             <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id." title="Example using remove callback command" />
@@ -381,6 +334,11 @@ class RemoveExampleController extends ControllerBase {
         <section>
           <section data-background="images/typing.gif" data-background-repeat="no-repeat">
             <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Creating Custom Callback Commands</h2>
+            <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//www.reddit.com/r/reactiongifs/comments/3a8akf/my_cats_reaction_when_i_leave_home/" target="_blank">https://www.reddit.com/r/reactiongifs/comments/3a8akf/my_cats_reaction_when_i_leave_home</a>
+              </span>
+            </p>
             <aside class="notes">
               <ul>
                 <li>custom module</li>
@@ -504,6 +462,11 @@ remove-example:
         <section>
           <section data-background="images/magic.gif" data-background-repeat="no-repeat">
             <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Using Custom Callback Commands</h2>
+            <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//greatestgifsofalltime.tumblr.com/post/22262851765/greatest-magician-in-the-world" target="_blank">http://greatestgifsofalltime.tumblr.com/post/22262851765/greatest-magician-in-the-world</a>
+              </span>
+            </p>
             <aside class="notes">
             <ul>
               <li>Attach custom library to the requesting page</li>
@@ -587,8 +550,13 @@ class RemoveExampleController extends ControllerBase {
           </section>
         </section>
         <section>
-          <section>
-            <h2>Review</h2>
+          <section data-transition="convex" data-background="images/book_review.gif" data-background-repeat="no-repeat">
+            <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Review</h2>
+            <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//literaryrapture.wordpress.com/2013/02/15/the-making-of-a-book-gif/" target="_blank">https://literaryrapture.wordpress.com/2013/02/15/the-making-of-a-book-gif/</a>
+              </span>
+            </p>
           </section>
           <section data-transition="convex">
             <h3>AJAX Callback Commands Are...</h3>
@@ -624,6 +592,11 @@ class RemoveExampleController extends ControllerBase {
           <section>
           </section>
           <section data-background="images/nailed-it.gif" data-background-repeat="no-repeat">
+          <p class="image-credit">
+              <span class="credit">Credit:
+                <a class="credit-link" href="//www.snappypixels.com/wp-content/uploads/2013/11/Nailed-it-like-a-boss-11.gif" target="_blank">http://www.snappypixels.com/wp-content/uploads/2013/11/Nailed-it-like-a-boss-11.gif</a>
+                </span>
+            </p>
             <aside class="notes">
               <p>Query!: raise hands</p>
             </aside>
