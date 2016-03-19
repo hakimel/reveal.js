@@ -95,14 +95,10 @@
                 </ul>
             </p>
             <aside class="notes">
-              <p>Query!: Who understands callbacks</p>
-            </aside>
-            <aside class="notes">
-              <p>Query: raise hands!</p>
+              <p>Query!: Who thinks ajax is hard/not know about commands?</p>
             </aside>
           </section>
         </section>
-
         <section>
           <section data-transition="convex" data-background="images/ajax_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
             <h2 class="fragment fade-out" style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">Prerequsite: How Ajax Requests Work</h2>
@@ -118,7 +114,6 @@
             </aside>
           </section>
         </section>
-
         <section>
           <section data-transition="fade-out" data-background="images/thinking.gif" data-background-repeat="no-repeat">
             <h2 style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">What are Callback Commands</h2>
@@ -129,6 +124,12 @@
             </p>
           </section>
           <section data-transition="fade-out" data-background="images/ajax_callback_cycle.jpg" data-background-size="100%" data-background-repeat="no-repeat">
+            <aside class="notes">
+              <ul>
+                <li>Part of Ajax request</li>
+                <li>command has 2 parts</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="fade-out" data-background="images/big_mac.jpg" data-background-size="100%" data-background-repeat="no-repeat" data-background-transition="fade-in">
             <p style="background-color: rgba(0, 0, 0, 0.7);padding:5px;">
@@ -164,7 +165,7 @@
             </ul>
             <aside class="notes">
               <ul>
-                <li>What is an interface</li>
+                <li>Upper Camel Case</li>
               </ul>
             </aside>
           </section>
@@ -194,7 +195,7 @@ class [CommandName]Command implements CommandInterface {
           <section data-transition="convex">
             <h3>Callback Commands: Client Side</h3>
             <ul>
-              <li class="fragment step-note">Wrapper for additional javascript</li>
+              <li class="fragment step-note">Follows naming convention [commandName]</li>
               <li class="fragment step-note">Method attached to 'Drupal.AjaxCommands.prototype' object</li>
               <li class="fragment step-note">Takes 3 arguments
                 <ul>
@@ -206,8 +207,9 @@ class [CommandName]Command implements CommandInterface {
             </ul>
             <aside class="notes">
               <ul>
-                <li>object partof core Ajax</li>
-                <li>Request object, response data, status code</li>
+                <li>lower camel case</li>
+                <li>object part of core Ajax</li>
+                <li>Wrapper for javascript</li>
               </ul>
             </aside>
           </section>
@@ -260,12 +262,6 @@ Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
             <img class="screenshot" data-src="images/ajax-commands-remove-example.png" alt="A page with an image and a link to call an ajax request" title="Example using remove callback command" />
             <p class="caption">
               Create a page with a custom module that outputs a page with a description, link and image. Want to use an ajax request when the link is clicked to remove the image.
-            </p>
-          </section>
-           <section data-transition="convex">
-            <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id." title="Example using remove callback command" />
-            <p class="caption">
-              Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id.
             </p>
           </section>
           <section data-transition="convex">
@@ -321,6 +317,7 @@ class RemoveExampleController extends ControllerBase {
               Classes used for Ajax requests need to include needed classes (line #3, Line #4). Callback method needs to return an ajax command (line #14) and attach commands using 'addCommand' method (line #16).
             </p>
           </section>
+          <!--
           <section data-transition="convex">
             <h3 class="step-note">Can add multiple commands</h3>
             <pre><code data-trim class="php line-numbers" data-highlight-lines="4,5,14,11,13,15">
@@ -345,6 +342,7 @@ class MyModuleController extends ControllerBase {
 }
             </code></pre>
           </section>
+          //-->
           <section data-transition="convex">
             <img class="screenshot" data-src="images/ajax-commands-remove-example.gif" alt="Example of using the remove callback command. Link triggers ajax request which returns response with 'remove' command targeting image id." title="Example using remove callback command" />
             <p class="caption">
@@ -425,8 +423,12 @@ class SlideRemoveCommand implements CommandInterface {
           <section data-transition="convex">
             <h3>Custom Callback Commands: JavaScript</h3>
             <ul>
-              <li class="fragment step-note">Attach method to 'Drupal.AjaxCommands.prototype' object</li>
               <li class="fragment step-note">Follow naming convention [commandName]</li>
+              <li class="fragment step-note">Attach method to 'Drupal.AjaxCommands.prototype' object
+                <ul>
+                  <li class="fragment">Accept three arguments: ajax, response & data</li>
+                </ul>
+              </li>
               <li class="fragment step-note">Add JavaScript to a custom library</li>
             </ul>
           </section>
@@ -453,7 +455,7 @@ class SlideRemoveCommand implements CommandInterface {
           </section>
           <section data-transition="convex">
             <h4 class="step-note">Add JavaScript to a custom library</h4>
-            <pre><code class="yaml line-numbers" data-trim data-highlight-lines="3-6">
+            <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
 remove-example:
   version: VERSION
   js:

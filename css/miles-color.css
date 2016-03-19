@@ -64,7 +64,8 @@ body {
 .reveal .controls div.navigate-up,
 .reveal .controls div.navigate-up.enabled,
 .reveal .controls div.navigate-down,
-.reveal .controls div.navigate-down.enabled {
+.reveal .controls div.navigate-down.enabled,
+.reveal pre code .highlight-line:before {
   color: #17ff2e;
 }
 
