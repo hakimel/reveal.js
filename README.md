@@ -152,6 +152,9 @@ Reveal.initialize({
 	// Change the presentation direction to be RTL
 	rtl: false,
 
+	// Randomizes the order of slides each time the presentation loads
+	shuffle: false,
+
 	// Turns fragments on and off globally
 	fragments: true,
 
@@ -381,6 +384,9 @@ Reveal.prev();
 Reveal.next();
 Reveal.prevFragment();
 Reveal.nextFragment();
+
+// Randomize the order of slides
+Reveal.shuffle();
 
 // Toggle presentation states, optionally pass true/false to force on/off
 Reveal.toggleOverview();

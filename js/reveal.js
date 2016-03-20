@@ -81,6 +81,9 @@
 			// Change the presentation direction to be RTL
 			rtl: false,
 
+			// Randomizes the order of slides each time the presentation loads
+			shuffle: false,
+
 			// Turns fragments on and off globally
 			fragments: true,
 
@@ -897,6 +900,10 @@
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 		dom.slideNumber.style.display = config.slideNumber && !isPrintingPDF() ? 'block' : 'none';
+
+		if( config.shuffle ) {
+			shuffle();
+		}
 
 		if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
@@ -2324,6 +2331,23 @@
 			} );
 
 			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
+
+		} );
+
+	}
+
+	/**
+	 * Randomly shuffles all slides in the deck.
+	 */
+	function shuffle() {
+
+		var slides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+
+		slides.forEach( function( slide ) {
+
+			// Insert this slide next to another random slide. This may
+			// cause the slide to insert before itself but that's fine.
+			dom.slides.insertBefore( slide, slides[ Math.floor( Math.random() * slides.length ) ] );
 
 		} );
 
@@ -4578,6 +4602,9 @@
 
 		// Forces an update in slide layout
 		layout: layout,
+
+		// Randomizes the order of slides
+		shuffle: shuffle,
 
 		// Returns an object with the available routes as booleans (left/right/top/bottom)
 		availableRoutes: availableRoutes,
