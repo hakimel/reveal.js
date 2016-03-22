@@ -1003,7 +1003,8 @@ The core of reveal.js is very easy to install. You'll simply need to download a 
 
 Some reveal.js features, like external Markdown and speaker notes, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code. 
 
-1. Install [Node.js](http://nodejs.org/) Please note that RevealJS supports only the current version of Node; i.e., node 0.10 is no longer supported.
+1. Install [Node.js](http://nodejs.org/) 
+	Please note that reveal.js supports only the current version of Node; i.e., node 0.10 is no longer supported.
 
 2. Install [Grunt](http://gruntjs.com/getting-started#installing-the-cli)
 
