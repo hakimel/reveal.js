@@ -133,6 +133,7 @@ body {
  *********************************************/
 .reveal p {
   margin: 20px 0;
+  text-align: left;
   line-height: 1.3; }
 
 /* Ensure certain elements are never larger than the slide itself */
@@ -152,8 +153,8 @@ body {
 .reveal ol,
 .reveal dl,
 .reveal ul {
-  display: inline-block;
   text-align: left;
+  color: #535353;
   margin: 0 0 0 1em; }
 
 .reveal ol {

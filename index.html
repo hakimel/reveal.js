@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js – The HTML Presentation Framework</title>
+		<title>Practical Scalacheck</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="An introduction to integrating Scalacheck into your daily workflow">
+		<meta name="author" content="Noel Markham">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -41,16 +41,163 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-background="#EF2824">
-					<h1>47 Degrees Reveal.js template</h1>
+					<h1>Practical ScalaCheck</h1>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
+					<h2>Hello</h2>
 					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+					  Introduction here.
 					</p>
 				</section>
 
+				<section>
+				  <h2>Agenda</h2>
+				  <p></p>
+				  <ul>
+				    <li>Brief introduction</li>
+				    <li>Writing properties</li>
+				    <li>Tips and techniques</li>
+				    <li>Boilerplate reduction</li>
+				  </ul>
+				</section>
+
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <br/>
+				  <p>
+				    <pre class="fragment"><code class="nohighlight">scala> import org.scalacheck.Prop.forAll
+import org.scalacheck.Prop.forAll
+</pre></code><pre class="fragment"><code class="nohighlight">scala> val prop = forAll { s: String =>
+     |   s.length >= 0
+     | }
+prop: org.scalacheck.Prop = Prop
+</pre></code><pre class="fragment"><code class="nohighlight">scala> prop.check
++ OK, passed 100 tests.</pre></code>
+				  </p>
+				</section>
+				
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <br/>
+				  <h4>What ScalaCheck is:</h4>
+				  <ul>
+				    <li>A bridge between types and values</li>
+				  </ul>
+				</section>
+				
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <br/>
+				  <h4>What ScalaCheck is not:</h4>
+				  <ul>
+				    <li>A library for random generation</li>
+				  </ul>
+				</section>
+				
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <p>
+				    More examples
+				  </p>				  
+				</section>
+
+				<section>
+				  <h1>Important Classes</h1>
+				</section>
+
+				<section>
+				  <h2>Gen</h2>
+				</section>
+
+				<section>
+				  <h2>The Arbitrary Typeclass</h2>
+				</section>
+
+				<section>
+				  <h2>Cogen</h2>
+				</section>
+				
+				<section>
+				  <h1>Tips and Techniques</h1>
+				</section>
+
+				<section>
+				  <h2>Exhausting Test Cases</h2>
+				  <p>
+				    Prefer generators over ==>
+				  </p>				  
+				</section>
+
+				<section>
+				  <h2>Labelling Generators</h2>
+				  <p>
+				    |: and :|
+				  </p>				  
+				</section>
+
+				<section>
+				  <h2>Labelling Properties</h2>
+				  <p>
+				    Better than println
+				  </p>				  
+				</section>
+
+				<section>
+				  <h2>Creating Successful and Failed Data</h2>
+				  <p>
+				    Insert cool generators here
+				  </p>				  
+				</section>
+
+				<section>
+				  <h2>Use the REPL</h2>
+				  <p>
+				    Sample 100 generator runs, match on predicate
+				  </p>				  
+				</section>
+
+				<section>
+				  <h2>Using in Integration Tests</h2>
+				  <p>
+				    Connect to a database
+				  </p>				  
+				</section>
+
+				<section>
+				  <h2>Integration with CI</h2>
+				  <p>
+				    More tests on the CI server!
+				  </p>				  
+				</section>
+
+				<section>
+				  <h1>Boilerplate Reduction</h1>
+				  <br/>
+				  <h4>Using shapeless-scalacheck</h4>
+				</section>
+
+				<section>
+				  <h2>Removing Arbitraries</h2>
+				  <p>
+				    Example here
+				  </p>
+				</section>
+
+				<section>
+				  <h1>Thank You</h1>
+				  <br/>
+				  <p>
+				    Links here
+				  </p>
+				  <p>
+				    <a href="http://twitter.com/noelmarkham">@noelmarkham</a>
+				  </p>
+				  <p>
+				    <a href="http://www.47deg.com">47deg.com</a>
+				  </p>
+				</section>
+				
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
