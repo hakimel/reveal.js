@@ -1,32 +1,32 @@
+var http        = require('http');
 var express		= require('express');
 var fs			= require('fs');
 var io			= require('socket.io');
 var crypto		= require('crypto');
 
-var app			= express.createServer();
-var staticDir	= express.static;
+var app       	= express();
+var staticDir 	= express.static;
+var server    	= http.createServer(app);
 
-io				= io.listen(app);
+io = io(server);
 
 var opts = {
-	port: 1948,
+	port: process.env.PORT || 1948,
 	baseDir : __dirname + '/../../'
 };
 
-io.sockets.on('connection', function(socket) {
-	socket.on('slidechanged', function(slideData) {
-		if (typeof slideData.secret == 'undefined' || slideData.secret == null || slideData.secret === '') return;
-		if (createHash(slideData.secret) === slideData.socketId) {
-			slideData.secret = null;
-			socket.broadcast.emit(slideData.socketId, slideData);
+io.on( 'connection', function( socket ) {
+	socket.on('multiplex-statechanged', function(data) {
+		if (typeof data.secret == 'undefined' || data.secret == null || data.secret === '') return;
+		if (createHash(data.secret) === data.socketId) {
+			data.secret = null;
+			socket.broadcast.emit(data.socketId, data);
 		};
 	});
 });
 
-app.configure(function() {
-	[ 'css', 'js', 'plugin', 'lib' ].forEach(function(dir) {
-		app.use('/' + dir, staticDir(opts.baseDir + dir));
-	});
+[ 'css', 'js', 'plugin', 'lib' ].forEach(function(dir) {
+	app.use('/' + dir, staticDir(opts.baseDir + dir));
 });
 
 app.get("/", function(req, res) {
@@ -47,7 +47,7 @@ var createHash = function(secret) {
 };
 
 // Actually listen
-app.listen(opts.port || null);
+server.listen( opts.port || null );
 
 var brown = '\033[33m',
 	green = '\033[32m',

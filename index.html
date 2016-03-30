@@ -4,13 +4,13 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>reveal.js – The HTML Presentation Framework</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
@@ -189,16 +189,16 @@
 					</section>
 					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
 						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
+						<pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
 					</section>
 					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
 						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+						<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
 					</section>
 					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
 						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
 							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
+							<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
 						</div>
 					</section>
 					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
@@ -211,7 +211,7 @@
 					<p>
 						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
 					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+					<pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
 				</section>
 
 				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
@@ -219,12 +219,12 @@
 					<p>
 						You can override background transitions per-slide.
 					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+					<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
 				</section>
 
 				<section>
 					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
+					<pre><code class="hljs" data-trim contenteditable>
 function linkify( selector ) {
   if( supports3DTransforms ) {
 
@@ -277,17 +277,17 @@ function linkify( selector ) {
 								<td>Apples</td>
 								<td>$1</td>
 								<td>7</td>
-							<tr>
+							</tr>
 							<tr>
 								<td>Lemonade</td>
 								<td>$2</td>
 								<td>18</td>
-							<tr>
+							</tr>
 							<tr>
 								<td>Bread</td>
 								<td>$3</td>
 								<td>2</td>
-							<tr>
+							</tr>
 						</tbody>
 					</table>
 				</section>
@@ -325,7 +325,7 @@ function linkify( selector ) {
 				<section>
 					<h2>Export to PDF</h2>
 					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+					<iframe src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
 				</section>
 
 				<section>
@@ -399,7 +399,7 @@ Reveal.addEventListener( 'customevent', function() {
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/notes/notes.js', async: true }
 				]

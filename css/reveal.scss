@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2016 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -55,6 +55,15 @@ body {
 
 	background-color: #fff;
 	color: #000;
+}
+
+// Ensures that the main background color matches the
+// theme in fullscreen mode
+html:-webkit-full-screen-ancestor {
+	background-color: inherit;
+}
+html:-moz-full-screen-ancestor {
+	background-color: inherit;
 }
 
 
@@ -121,6 +130,7 @@ body {
 
 .reveal .slides section .fragment.strike {
 	opacity: 1;
+	visibility: visible;
 
 	&.visible {
 		text-decoration: line-through;
@@ -214,66 +224,68 @@ body {
 	-webkit-user-select: none;
 }
 
-.reveal .controls div {
+.reveal .controls button {
+	padding: 0;
 	position: absolute;
 	opacity: 0.05;
 	width: 0;
 	height: 0;
+	background-color: transparent;
 	border: 12px solid transparent;
 	transform: scale(.9999);
 	transition: all 0.2s ease;
-
+	-webkit-appearance: none;
 	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
 }
 
-.reveal .controls div.enabled {
+.reveal .controls .enabled {
 	opacity: 0.7;
 	cursor: pointer;
 }
 
-.reveal .controls div.enabled:active {
+.reveal .controls .enabled:active {
 	margin-top: 1px;
 }
 
-	.reveal .controls div.navigate-left {
+	.reveal .controls .navigate-left {
 		top: 42px;
 
 		border-right-width: 22px;
 		border-right-color: #000;
 	}
-		.reveal .controls div.navigate-left.fragmented {
+		.reveal .controls .navigate-left.fragmented {
 			opacity: 0.3;
 		}
 
-	.reveal .controls div.navigate-right {
+	.reveal .controls .navigate-right {
 		left: 74px;
 		top: 42px;
 
 		border-left-width: 22px;
 		border-left-color: #000;
 	}
-		.reveal .controls div.navigate-right.fragmented {
+		.reveal .controls .navigate-right.fragmented {
 			opacity: 0.3;
 		}
 
-	.reveal .controls div.navigate-up {
+	.reveal .controls .navigate-up {
 		left: 42px;
 
 		border-bottom-width: 22px;
 		border-bottom-color: #000;
 	}
-		.reveal .controls div.navigate-up.fragmented {
+		.reveal .controls .navigate-up.fragmented {
 			opacity: 0.3;
 		}
 
-	.reveal .controls div.navigate-down {
+	.reveal .controls .navigate-down {
 		left: 42px;
 		top: 74px;
 
 		border-top-width: 22px;
 		border-top-color: #000;
 	}
-		.reveal .controls div.navigate-down.fragmented {
+		.reveal .controls .navigate-down.fragmented {
 			opacity: 0.3;
 		}
 
@@ -317,11 +329,19 @@ body {
 .reveal .slide-number {
 	position: fixed;
 	display: block;
-	right: 15px;
-	bottom: 15px;
-	opacity: 0.5;
+	right: 8px;
+	bottom: 8px;
 	z-index: 31;
+	font-family: Helvetica, sans-serif;
 	font-size: 12px;
+	line-height: 1;
+	color: #fff;
+	background-color: rgba( 0, 0, 0, 0.4 );
+	padding: 5px;
+}
+
+.reveal .slide-number-delimiter {
+	margin: 0 3px;
 }
 
 /*********************************************
@@ -432,8 +452,8 @@ body {
  *********************************************/
 
 @mixin transition-global($style) {
-	.reveal .slides>section[data-transition=#{$style}],
-	.reveal.#{$style} .slides>section:not([data-transition]) {
+	.reveal .slides section[data-transition=#{$style}],
+	.reveal.#{$style} .slides section:not([data-transition]) {
 		@content;
 	}
 }
@@ -1226,7 +1246,7 @@ body {
 .reveal .playback {
 	position: fixed;
 	left: 15px;
-	bottom: 15px;
+	bottom: 20px;
 	z-index: 30;
 	cursor: pointer;
 	transition: all 400ms ease;
@@ -1288,8 +1308,48 @@ body {
  * SPEAKER NOTES
  *********************************************/
 
+// Hide on-page notes
 .reveal aside.notes {
 	display: none;
+}
+
+// An interface element that can optionally be used to show the
+// speaker notes to all viewers, on top of the presentation
+.reveal .speaker-notes {
+	display: none;
+	position: absolute;
+	width: 70%;
+	max-height: 15%;
+	left: 15%;
+	bottom: 26px;
+	padding: 10px;
+	z-index: 1;
+	font-size: 18px;
+	line-height: 1.4;
+	color: #fff;
+	background-color: rgba(0,0,0,0.5);
+	overflow: auto;
+	box-sizing: border-box;
+	text-align: left;
+	font-family: Helvetica, sans-serif;
+	-webkit-overflow-scrolling: touch;
+}
+
+.reveal .speaker-notes.visible:not(:empty) {
+	display: block;
+}
+
+@media screen and (max-width: 1024px) {
+	.reveal .speaker-notes {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.reveal .speaker-notes {
+		width: 90%;
+		left: 5%;
+	}
 }
 
 

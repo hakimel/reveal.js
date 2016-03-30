@@ -41,8 +41,13 @@
 	}
 
 	// When a new notes window connects, post our current state
-	socket.on( 'connect', function( data ) {
+	socket.on( 'new-subscriber', function( data ) {
 		post();
+	} );
+
+	// When the state changes from inside of the speaker view
+	socket.on( 'statechanged-speaker', function( data ) {
+		Reveal.setState( data.state );
 	} );
 
 	// Monitor events that trigger a change in state

@@ -3,12 +3,24 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2016 Hakim El Hattab, http://hakim.se
  */
 /*********************************************
  * RESET STYLES
  *********************************************/
-html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe, .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal blockquote, .reveal pre, .reveal a, .reveal abbr, .reveal acronym, .reveal address, .reveal big, .reveal cite, .reveal code, .reveal del, .reveal dfn, .reveal em, .reveal img, .reveal ins, .reveal kbd, .reveal q, .reveal s, .reveal samp, .reveal small, .reveal strike, .reveal strong, .reveal sub, .reveal sup, .reveal tt, .reveal var, .reveal b, .reveal u, .reveal center, .reveal dl, .reveal dt, .reveal dd, .reveal ol, .reveal ul, .reveal li, .reveal fieldset, .reveal form, .reveal label, .reveal legend, .reveal table, .reveal caption, .reveal tbody, .reveal tfoot, .reveal thead, .reveal tr, .reveal th, .reveal td, .reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed, .reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary, .reveal time, .reveal mark, .reveal audio, video {
+html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe,
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal blockquote, .reveal pre,
+.reveal a, .reveal abbr, .reveal acronym, .reveal address, .reveal big, .reveal cite, .reveal code,
+.reveal del, .reveal dfn, .reveal em, .reveal img, .reveal ins, .reveal kbd, .reveal q, .reveal s, .reveal samp,
+.reveal small, .reveal strike, .reveal strong, .reveal sub, .reveal sup, .reveal tt, .reveal var,
+.reveal b, .reveal u, .reveal center,
+.reveal dl, .reveal dt, .reveal dd, .reveal ol, .reveal ul, .reveal li,
+.reveal fieldset, .reveal form, .reveal label, .reveal legend,
+.reveal table, .reveal caption, .reveal tbody, .reveal tfoot, .reveal thead, .reveal tr, .reveal th, .reveal td,
+.reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed,
+.reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup,
+.reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary,
+.reveal time, .reveal mark, .reveal audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -16,13 +28,15 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
   font: inherit;
   vertical-align: baseline; }
 
-.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure, .reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
+.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
+.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
   display: block; }
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden; }
@@ -32,6 +46,12 @@ body {
   line-height: 1;
   background-color: #fff;
   color: #000; }
+
+html:-webkit-full-screen-ancestor {
+  background-color: inherit; }
+
+html:-moz-full-screen-ancestor {
+  background-color: inherit; }
 
 /*********************************************
  * VIEW FRAGMENTS
@@ -85,7 +105,8 @@ body {
     visibility: visible; }
 
 .reveal .slides section .fragment.strike {
-  opacity: 1; }
+  opacity: 1;
+  visibility: visible; }
   .reveal .slides section .fragment.strike.visible {
     text-decoration: line-through; }
 
@@ -96,7 +117,12 @@ body {
     opacity: 1;
     visibility: visible; }
 
-.reveal .slides section .fragment.highlight-red, .reveal .slides section .fragment.highlight-current-red, .reveal .slides section .fragment.highlight-green, .reveal .slides section .fragment.highlight-current-green, .reveal .slides section .fragment.highlight-blue, .reveal .slides section .fragment.highlight-current-blue {
+.reveal .slides section .fragment.highlight-red,
+.reveal .slides section .fragment.highlight-current-red,
+.reveal .slides section .fragment.highlight-green,
+.reveal .slides section .fragment.highlight-current-green,
+.reveal .slides section .fragment.highlight-blue,
+.reveal .slides section .fragment.highlight-current-blue {
   opacity: 1;
   visibility: visible; }
 
@@ -140,8 +166,7 @@ body {
 .reveal pre.stretch code {
   height: 100%;
   max-height: 100%;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box; }
+  box-sizing: border-box; }
 
 /*********************************************
  * CONTROLS
@@ -156,58 +181,61 @@ body {
   bottom: 10px;
   -webkit-user-select: none; }
 
-.reveal .controls div {
+.reveal .controls button {
+  padding: 0;
   position: absolute;
   opacity: 0.05;
   width: 0;
   height: 0;
+  background-color: transparent;
   border: 12px solid transparent;
   -webkit-transform: scale(0.9999);
       -ms-transform: scale(0.9999);
           transform: scale(0.9999);
   -webkit-transition: all 0.2s ease;
           transition: all 0.2s ease;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent; }
 
-.reveal .controls div.enabled {
+.reveal .controls .enabled {
   opacity: 0.7;
   cursor: pointer; }
 
-.reveal .controls div.enabled:active {
+.reveal .controls .enabled:active {
   margin-top: 1px; }
 
-.reveal .controls div.navigate-left {
+.reveal .controls .navigate-left {
   top: 42px;
   border-right-width: 22px;
   border-right-color: #000; }
 
-.reveal .controls div.navigate-left.fragmented {
+.reveal .controls .navigate-left.fragmented {
   opacity: 0.3; }
 
-.reveal .controls div.navigate-right {
+.reveal .controls .navigate-right {
   left: 74px;
   top: 42px;
   border-left-width: 22px;
   border-left-color: #000; }
 
-.reveal .controls div.navigate-right.fragmented {
+.reveal .controls .navigate-right.fragmented {
   opacity: 0.3; }
 
-.reveal .controls div.navigate-up {
+.reveal .controls .navigate-up {
   left: 42px;
   border-bottom-width: 22px;
   border-bottom-color: #000; }
 
-.reveal .controls div.navigate-up.fragmented {
+.reveal .controls .navigate-up.fragmented {
   opacity: 0.3; }
 
-.reveal .controls div.navigate-down {
+.reveal .controls .navigate-down {
   left: 42px;
   top: 74px;
   border-top-width: 22px;
   border-top-color: #000; }
 
-.reveal .controls div.navigate-down.fragmented {
+.reveal .controls .navigate-down.fragmented {
   opacity: 0.3; }
 
 /*********************************************
@@ -245,11 +273,18 @@ body {
 .reveal .slide-number {
   position: fixed;
   display: block;
-  right: 15px;
-  bottom: 15px;
-  opacity: 0.5;
+  right: 8px;
+  bottom: 8px;
   z-index: 31;
-  font-size: 12px; }
+  font-family: Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px; }
+
+.reveal .slide-number-delimiter {
+  margin: 0 3px; }
 
 /*********************************************
  * SLIDES
@@ -282,7 +317,8 @@ body {
 .reveal .slides > section {
   -ms-perspective: 600px; }
 
-.reveal .slides > section, .reveal .slides > section > section {
+.reveal .slides > section,
+.reveal .slides > section > section {
   display: none;
   position: absolute;
   width: 100%;
@@ -316,22 +352,32 @@ body {
   padding-top: 0;
   padding-bottom: 0; }
 
-.reveal .slides > section.present, .reveal .slides > section > section.present {
+.reveal .slides > section.present,
+.reveal .slides > section > section.present {
   display: block;
   z-index: 11;
   opacity: 1; }
 
-.reveal.center, .reveal.center .slides, .reveal.center .slides section {
+.reveal.center,
+.reveal.center .slides,
+.reveal.center .slides section {
   min-height: 0 !important; }
 
 /* Don't allow interaction with invisible slides */
-.reveal .slides > section.future, .reveal .slides > section > section.future, .reveal .slides > section.past, .reveal .slides > section > section.past {
+.reveal .slides > section.future,
+.reveal .slides > section > section.future,
+.reveal .slides > section.past,
+.reveal .slides > section > section.past {
   pointer-events: none; }
 
-.reveal.overview .slides > section, .reveal.overview .slides > section > section {
+.reveal.overview .slides > section,
+.reveal.overview .slides > section > section {
   pointer-events: auto; }
 
-.reveal .slides > section.past, .reveal .slides > section.future, .reveal .slides > section > section.past, .reveal .slides > section > section.future {
+.reveal .slides > section.past,
+.reveal .slides > section.future,
+.reveal .slides > section > section.past,
+.reveal .slides > section > section.future {
   opacity: 0; }
 
 /*********************************************
@@ -345,22 +391,30 @@ body {
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden; }
 
-.reveal .slides > section[data-transition=slide].past, .reveal .slides > section[data-transition~=slide-out].past, .reveal.slide .slides > section:not([data-transition]).past {
+.reveal .slides > section[data-transition=slide].past,
+.reveal .slides > section[data-transition~=slide-out].past,
+.reveal.slide .slides > section:not([data-transition]).past {
   -webkit-transform: translate(-150%, 0);
       -ms-transform: translate(-150%, 0);
           transform: translate(-150%, 0); }
 
-.reveal .slides > section[data-transition=slide].future, .reveal .slides > section[data-transition~=slide-in].future, .reveal.slide .slides > section:not([data-transition]).future {
+.reveal .slides > section[data-transition=slide].future,
+.reveal .slides > section[data-transition~=slide-in].future,
+.reveal.slide .slides > section:not([data-transition]).future {
   -webkit-transform: translate(150%, 0);
       -ms-transform: translate(150%, 0);
           transform: translate(150%, 0); }
 
-.reveal .slides > section > section[data-transition=slide].past, .reveal .slides > section > section[data-transition~=slide-out].past, .reveal.slide .slides > section > section:not([data-transition]).past {
+.reveal .slides > section > section[data-transition=slide].past,
+.reveal .slides > section > section[data-transition~=slide-out].past,
+.reveal.slide .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate(0, -150%);
       -ms-transform: translate(0, -150%);
           transform: translate(0, -150%); }
 
-.reveal .slides > section > section[data-transition=slide].future, .reveal .slides > section > section[data-transition~=slide-in].future, .reveal.slide .slides > section > section:not([data-transition]).future {
+.reveal .slides > section > section[data-transition=slide].future,
+.reveal .slides > section > section[data-transition~=slide-in].future,
+.reveal.slide .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate(0, 150%);
       -ms-transform: translate(0, 150%);
           transform: translate(0, 150%); }
@@ -369,22 +423,30 @@ body {
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden; }
 
-.reveal .slides > section[data-transition=linear].past, .reveal .slides > section[data-transition~=linear-out].past, .reveal.linear .slides > section:not([data-transition]).past {
+.reveal .slides > section[data-transition=linear].past,
+.reveal .slides > section[data-transition~=linear-out].past,
+.reveal.linear .slides > section:not([data-transition]).past {
   -webkit-transform: translate(-150%, 0);
       -ms-transform: translate(-150%, 0);
           transform: translate(-150%, 0); }
 
-.reveal .slides > section[data-transition=linear].future, .reveal .slides > section[data-transition~=linear-in].future, .reveal.linear .slides > section:not([data-transition]).future {
+.reveal .slides > section[data-transition=linear].future,
+.reveal .slides > section[data-transition~=linear-in].future,
+.reveal.linear .slides > section:not([data-transition]).future {
   -webkit-transform: translate(150%, 0);
       -ms-transform: translate(150%, 0);
           transform: translate(150%, 0); }
 
-.reveal .slides > section > section[data-transition=linear].past, .reveal .slides > section > section[data-transition~=linear-out].past, .reveal.linear .slides > section > section:not([data-transition]).past {
+.reveal .slides > section > section[data-transition=linear].past,
+.reveal .slides > section > section[data-transition~=linear-out].past,
+.reveal.linear .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate(0, -150%);
       -ms-transform: translate(0, -150%);
           transform: translate(0, -150%); }
 
-.reveal .slides > section > section[data-transition=linear].future, .reveal .slides > section > section[data-transition~=linear-in].future, .reveal.linear .slides > section > section:not([data-transition]).future {
+.reveal .slides > section > section[data-transition=linear].future,
+.reveal .slides > section > section[data-transition~=linear-in].future,
+.reveal.linear .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate(0, 150%);
       -ms-transform: translate(0, 150%);
           transform: translate(0, 150%); }
@@ -393,82 +455,115 @@ body {
  * CONVEX TRANSITION
  * Aliased 'default' for backwards compatibility
  *********************************************/
-.reveal .slides > section[data-transition=default].past, .reveal .slides > section[data-transition~=default-out].past, .reveal.default .slides > section:not([data-transition]).past {
+.reveal .slides > section[data-transition=default].past,
+.reveal .slides > section[data-transition~=default-out].past,
+.reveal.default .slides > section:not([data-transition]).past {
   -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
           transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0); }
 
-.reveal .slides > section[data-transition=default].future, .reveal .slides > section[data-transition~=default-in].future, .reveal.default .slides > section:not([data-transition]).future {
+.reveal .slides > section[data-transition=default].future,
+.reveal .slides > section[data-transition~=default-in].future,
+.reveal.default .slides > section:not([data-transition]).future {
   -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0); }
 
-.reveal .slides > section > section[data-transition=default].past, .reveal .slides > section > section[data-transition~=default-out].past, .reveal.default .slides > section > section:not([data-transition]).past {
+.reveal .slides > section > section[data-transition=default].past,
+.reveal .slides > section > section[data-transition~=default-out].past,
+.reveal.default .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
           transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0); }
 
-.reveal .slides > section > section[data-transition=default].future, .reveal .slides > section > section[data-transition~=default-in].future, .reveal.default .slides > section > section:not([data-transition]).future {
+.reveal .slides > section > section[data-transition=default].future,
+.reveal .slides > section > section[data-transition~=default-in].future,
+.reveal.default .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
           transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0); }
 
-.reveal .slides > section[data-transition=convex].past, .reveal .slides > section[data-transition~=convex-out].past, .reveal.convex .slides > section:not([data-transition]).past {
+.reveal .slides > section[data-transition=convex].past,
+.reveal .slides > section[data-transition~=convex-out].past,
+.reveal.convex .slides > section:not([data-transition]).past {
   -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
           transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0); }
 
-.reveal .slides > section[data-transition=convex].future, .reveal .slides > section[data-transition~=convex-in].future, .reveal.convex .slides > section:not([data-transition]).future {
+.reveal .slides > section[data-transition=convex].future,
+.reveal .slides > section[data-transition~=convex-in].future,
+.reveal.convex .slides > section:not([data-transition]).future {
   -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0); }
 
-.reveal .slides > section > section[data-transition=convex].past, .reveal .slides > section > section[data-transition~=convex-out].past, .reveal.convex .slides > section > section:not([data-transition]).past {
+.reveal .slides > section > section[data-transition=convex].past,
+.reveal .slides > section > section[data-transition~=convex-out].past,
+.reveal.convex .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
           transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0); }
 
-.reveal .slides > section > section[data-transition=convex].future, .reveal .slides > section > section[data-transition~=convex-in].future, .reveal.convex .slides > section > section:not([data-transition]).future {
+.reveal .slides > section > section[data-transition=convex].future,
+.reveal .slides > section > section[data-transition~=convex-in].future,
+.reveal.convex .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
           transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0); }
 
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
-.reveal .slides > section[data-transition=concave].past, .reveal .slides > section[data-transition~=concave-out].past, .reveal.concave .slides > section:not([data-transition]).past {
+.reveal .slides > section[data-transition=concave].past,
+.reveal .slides > section[data-transition~=concave-out].past,
+.reveal.concave .slides > section:not([data-transition]).past {
   -webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
           transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0); }
 
-.reveal .slides > section[data-transition=concave].future, .reveal .slides > section[data-transition~=concave-in].future, .reveal.concave .slides > section:not([data-transition]).future {
+.reveal .slides > section[data-transition=concave].future,
+.reveal .slides > section[data-transition~=concave-in].future,
+.reveal.concave .slides > section:not([data-transition]).future {
   -webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0); }
 
-.reveal .slides > section > section[data-transition=concave].past, .reveal .slides > section > section[data-transition~=concave-out].past, .reveal.concave .slides > section > section:not([data-transition]).past {
+.reveal .slides > section > section[data-transition=concave].past,
+.reveal .slides > section > section[data-transition~=concave-out].past,
+.reveal.concave .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
           transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0); }
 
-.reveal .slides > section > section[data-transition=concave].future, .reveal .slides > section > section[data-transition~=concave-in].future, .reveal.concave .slides > section > section:not([data-transition]).future {
+.reveal .slides > section > section[data-transition=concave].future,
+.reveal .slides > section > section[data-transition~=concave-in].future,
+.reveal.concave .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
           transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0); }
 
 /*********************************************
  * ZOOM TRANSITION
  *********************************************/
-.reveal .slides > section[data-transition=zoom], .reveal.zoom .slides > section:not([data-transition]) {
+.reveal .slides section[data-transition=zoom],
+.reveal.zoom .slides section:not([data-transition]) {
   -webkit-transition-timing-function: ease;
           transition-timing-function: ease; }
 
-.reveal .slides > section[data-transition=zoom].past, .reveal .slides > section[data-transition~=zoom-out].past, .reveal.zoom .slides > section:not([data-transition]).past {
+.reveal .slides > section[data-transition=zoom].past,
+.reveal .slides > section[data-transition~=zoom-out].past,
+.reveal.zoom .slides > section:not([data-transition]).past {
   visibility: hidden;
   -webkit-transform: scale(16);
       -ms-transform: scale(16);
           transform: scale(16); }
 
-.reveal .slides > section[data-transition=zoom].future, .reveal .slides > section[data-transition~=zoom-in].future, .reveal.zoom .slides > section:not([data-transition]).future {
+.reveal .slides > section[data-transition=zoom].future,
+.reveal .slides > section[data-transition~=zoom-in].future,
+.reveal.zoom .slides > section:not([data-transition]).future {
   visibility: hidden;
   -webkit-transform: scale(0.2);
       -ms-transform: scale(0.2);
           transform: scale(0.2); }
 
-.reveal .slides > section > section[data-transition=zoom].past, .reveal .slides > section > section[data-transition~=zoom-out].past, .reveal.zoom .slides > section > section:not([data-transition]).past {
+.reveal .slides > section > section[data-transition=zoom].past,
+.reveal .slides > section > section[data-transition~=zoom-out].past,
+.reveal.zoom .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate(0, -150%);
       -ms-transform: translate(0, -150%);
           transform: translate(0, -150%); }
 
-.reveal .slides > section > section[data-transition=zoom].future, .reveal .slides > section > section[data-transition~=zoom-in].future, .reveal.zoom .slides > section > section:not([data-transition]).future {
+.reveal .slides > section > section[data-transition=zoom].future,
+.reveal .slides > section > section[data-transition~=zoom-in].future,
+.reveal.zoom .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate(0, 150%);
       -ms-transform: translate(0, 150%);
           transform: translate(0, 150%); }
@@ -485,8 +580,7 @@ body {
   min-height: 700px;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box; }
+  box-sizing: border-box; }
 
 .reveal.center.cube .slides section {
   min-height: 0; }
@@ -563,8 +657,7 @@ body {
 .reveal.page .slides section {
   padding: 30px;
   min-height: 700px;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box; }
+  box-sizing: border-box; }
 
 .reveal.page .slides section.past {
   z-index: 12; }
@@ -630,21 +723,25 @@ body {
 /*********************************************
  * FADE TRANSITION
  *********************************************/
-.reveal .slides section[data-transition=fade], .reveal.fade .slides section:not([data-transition]), .reveal.fade .slides > section > section:not([data-transition]) {
+.reveal .slides section[data-transition=fade],
+.reveal.fade .slides section:not([data-transition]),
+.reveal.fade .slides > section > section:not([data-transition]) {
   -webkit-transform: none;
       -ms-transform: none;
           transform: none;
   -webkit-transition: opacity 0.5s;
           transition: opacity 0.5s; }
 
-.reveal.fade.overview .slides section, .reveal.fade.overview .slides > section > section {
+.reveal.fade.overview .slides section,
+.reveal.fade.overview .slides > section > section {
   -webkit-transition: none;
           transition: none; }
 
 /*********************************************
  * NO TRANSITION
  *********************************************/
-.reveal .slides > section[data-transition=none], .reveal.none .slides > section:not([data-transition]) {
+.reveal .slides section[data-transition=none],
+.reveal.none .slides section:not([data-transition]) {
   -webkit-transform: none;
       -ms-transform: none;
           transform: none;
@@ -686,7 +783,8 @@ body {
   margin: 0;
   text-align: center; }
 
-.no-transforms .reveal .controls, .no-transforms .reveal .progress {
+.no-transforms .reveal .controls,
+.no-transforms .reveal .progress {
   display: none !important; }
 
 .no-transforms .reveal .slides section {
@@ -705,7 +803,8 @@ body {
 .no-transforms .reveal .slides section section {
   left: 0; }
 
-.reveal .no-transition, .reveal .no-transition * {
+.reveal .no-transition,
+.reveal .no-transition * {
   -webkit-transition: none !important;
           transition: none !important; }
 
@@ -728,7 +827,7 @@ body {
   height: 100%;
   opacity: 0;
   visibility: hidden;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -757,105 +856,124 @@ body {
   left: 0; }
 
 /* Immediate transition style */
-.reveal[data-background-transition=none] > .backgrounds .slide-background, .reveal > .backgrounds .slide-background[data-background-transition=none] {
+.reveal[data-background-transition=none] > .backgrounds .slide-background,
+.reveal > .backgrounds .slide-background[data-background-transition=none] {
   -webkit-transition: none;
           transition: none; }
 
 /* Slide */
-.reveal[data-background-transition=slide] > .backgrounds .slide-background, .reveal > .backgrounds .slide-background[data-background-transition=slide] {
+.reveal[data-background-transition=slide] > .backgrounds .slide-background,
+.reveal > .backgrounds .slide-background[data-background-transition=slide] {
   opacity: 1;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden; }
 
-.reveal[data-background-transition=slide] > .backgrounds .slide-background.past, .reveal > .backgrounds .slide-background.past[data-background-transition=slide] {
+.reveal[data-background-transition=slide] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=slide] {
   -webkit-transform: translate(-100%, 0);
       -ms-transform: translate(-100%, 0);
           transform: translate(-100%, 0); }
 
-.reveal[data-background-transition=slide] > .backgrounds .slide-background.future, .reveal > .backgrounds .slide-background.future[data-background-transition=slide] {
+.reveal[data-background-transition=slide] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=slide] {
   -webkit-transform: translate(100%, 0);
       -ms-transform: translate(100%, 0);
           transform: translate(100%, 0); }
 
-.reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.past, .reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=slide] {
+.reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=slide] {
   -webkit-transform: translate(0, -100%);
       -ms-transform: translate(0, -100%);
           transform: translate(0, -100%); }
 
-.reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.future, .reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=slide] {
+.reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=slide] {
   -webkit-transform: translate(0, 100%);
       -ms-transform: translate(0, 100%);
           transform: translate(0, 100%); }
 
 /* Convex */
-.reveal[data-background-transition=convex] > .backgrounds .slide-background.past, .reveal > .backgrounds .slide-background.past[data-background-transition=convex] {
+.reveal[data-background-transition=convex] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=convex] {
   opacity: 0;
   -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
           transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0); }
 
-.reveal[data-background-transition=convex] > .backgrounds .slide-background.future, .reveal > .backgrounds .slide-background.future[data-background-transition=convex] {
+.reveal[data-background-transition=convex] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=convex] {
   opacity: 0;
   -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0); }
 
-.reveal[data-background-transition=convex] > .backgrounds .slide-background > .slide-background.past, .reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=convex] {
+.reveal[data-background-transition=convex] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=convex] {
   opacity: 0;
   -webkit-transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
           transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0); }
 
-.reveal[data-background-transition=convex] > .backgrounds .slide-background > .slide-background.future, .reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=convex] {
+.reveal[data-background-transition=convex] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=convex] {
   opacity: 0;
   -webkit-transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0); }
 
 /* Concave */
-.reveal[data-background-transition=concave] > .backgrounds .slide-background.past, .reveal > .backgrounds .slide-background.past[data-background-transition=concave] {
+.reveal[data-background-transition=concave] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=concave] {
   opacity: 0;
   -webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
           transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0); }
 
-.reveal[data-background-transition=concave] > .backgrounds .slide-background.future, .reveal > .backgrounds .slide-background.future[data-background-transition=concave] {
+.reveal[data-background-transition=concave] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=concave] {
   opacity: 0;
   -webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0); }
 
-.reveal[data-background-transition=concave] > .backgrounds .slide-background > .slide-background.past, .reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=concave] {
+.reveal[data-background-transition=concave] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=concave] {
   opacity: 0;
   -webkit-transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
           transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0); }
 
-.reveal[data-background-transition=concave] > .backgrounds .slide-background > .slide-background.future, .reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=concave] {
+.reveal[data-background-transition=concave] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=concave] {
   opacity: 0;
   -webkit-transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0); }
 
 /* Zoom */
-.reveal[data-background-transition=zoom] > .backgrounds .slide-background, .reveal > .backgrounds .slide-background[data-background-transition=zoom] {
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background,
+.reveal > .backgrounds .slide-background[data-background-transition=zoom] {
   -webkit-transition-timing-function: ease;
           transition-timing-function: ease; }
 
-.reveal[data-background-transition=zoom] > .backgrounds .slide-background.past, .reveal > .backgrounds .slide-background.past[data-background-transition=zoom] {
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=zoom] {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(16);
       -ms-transform: scale(16);
           transform: scale(16); }
 
-.reveal[data-background-transition=zoom] > .backgrounds .slide-background.future, .reveal > .backgrounds .slide-background.future[data-background-transition=zoom] {
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=zoom] {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0.2);
       -ms-transform: scale(0.2);
           transform: scale(0.2); }
 
-.reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.past, .reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=zoom] {
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=zoom] {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(16);
       -ms-transform: scale(16);
           transform: scale(16); }
 
-.reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.future, .reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=zoom] {
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=zoom] {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0.2);
@@ -885,16 +1003,17 @@ body {
     overflow: hidden;
     visibility: visible !important;
     cursor: pointer;
-    -moz-box-sizing: border-box;
-         box-sizing: border-box; }
-  .reveal.overview .slides section:hover, .reveal.overview .slides section.present {
+    box-sizing: border-box; }
+  .reveal.overview .slides section:hover,
+  .reveal.overview .slides section.present {
     outline: 10px solid rgba(150, 150, 150, 0.4);
     outline-offset: 10px; }
   .reveal.overview .slides section .fragment {
     opacity: 1;
     -webkit-transition: none;
             transition: none; }
-  .reveal.overview .slides section:after, .reveal.overview .slides section:before {
+  .reveal.overview .slides section:after,
+  .reveal.overview .slides section:before {
     display: none !important; }
   .reveal.overview .slides > section.stack {
     padding: 0;
@@ -911,11 +1030,13 @@ body {
     outline: 10px solid rgba(150, 150, 150, 0.1);
     outline-offset: 10px; }
 
-.reveal.overview .slides section, .reveal.overview-deactivating .slides section {
+.reveal.overview .slides section,
+.reveal.overview-deactivating .slides section {
   -webkit-transition: none;
           transition: none; }
 
-.reveal.overview .backgrounds .slide-background, .reveal.overview-deactivating .backgrounds .slide-background {
+.reveal.overview .backgrounds .slide-background,
+.reveal.overview-deactivating .backgrounds .slide-background {
   -webkit-transition: none;
           transition: none; }
 
@@ -926,14 +1047,22 @@ body {
 /*********************************************
  * RTL SUPPORT
  *********************************************/
-.reveal.rtl .slides, .reveal.rtl .slides h1, .reveal.rtl .slides h2, .reveal.rtl .slides h3, .reveal.rtl .slides h4, .reveal.rtl .slides h5, .reveal.rtl .slides h6 {
+.reveal.rtl .slides,
+.reveal.rtl .slides h1,
+.reveal.rtl .slides h2,
+.reveal.rtl .slides h3,
+.reveal.rtl .slides h4,
+.reveal.rtl .slides h5,
+.reveal.rtl .slides h6 {
   direction: rtl;
   font-family: sans-serif; }
 
-.reveal.rtl pre, .reveal.rtl code {
+.reveal.rtl pre,
+.reveal.rtl code {
   direction: ltr; }
 
-.reveal.rtl ol, .reveal.rtl ul {
+.reveal.rtl ol,
+.reveal.rtl ul {
   text-align: right; }
 
 .reveal.rtl .progress span {
@@ -1006,8 +1135,7 @@ body {
   padding: 0 10px;
   float: right;
   opacity: 0.6;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box; }
+  box-sizing: border-box; }
 
 .reveal .overlay header a:hover {
   opacity: 1; }
@@ -1074,7 +1202,8 @@ body {
   border-collapse: collapse;
   font-size: 14px; }
 
-.reveal .overlay.overlay-help .viewport .viewport-inner table th, .reveal .overlay.overlay-help .viewport .viewport-inner table td {
+.reveal .overlay.overlay-help .viewport .viewport-inner table th,
+.reveal .overlay.overlay-help .viewport .viewport-inner table td {
   width: 200px;
   padding: 10px;
   border: 1px solid #fff;
@@ -1090,7 +1219,7 @@ body {
 .reveal .playback {
   position: fixed;
   left: 15px;
-  bottom: 15px;
+  bottom: 20px;
   z-index: 30;
   cursor: pointer;
   -webkit-transition: all 400ms ease;
@@ -1158,14 +1287,48 @@ body {
 .reveal aside.notes {
   display: none; }
 
+.reveal .speaker-notes {
+  display: none;
+  position: absolute;
+  width: 70%;
+  max-height: 15%;
+  left: 15%;
+  bottom: 26px;
+  padding: 10px;
+  z-index: 1;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  box-sizing: border-box;
+  text-align: left;
+  font-family: Helvetica, sans-serif;
+  -webkit-overflow-scrolling: touch; }
+
+.reveal .speaker-notes.visible:not(:empty) {
+  display: block; }
+
+@media screen and (max-width: 1024px) {
+  .reveal .speaker-notes {
+    font-size: 14px; } }
+
+@media screen and (max-width: 600px) {
+  .reveal .speaker-notes {
+    width: 90%;
+    left: 5%; } }
+
 /*********************************************
  * ZOOM PLUGIN
  *********************************************/
-.zoomed .reveal *, .zoomed .reveal *:before, .zoomed .reveal *:after {
+.zoomed .reveal *,
+.zoomed .reveal *:before,
+.zoomed .reveal *:after {
   -webkit-backface-visibility: visible !important;
           backface-visibility: visible !important; }
 
-.zoomed .reveal .progress, .zoomed .reveal .controls {
+.zoomed .reveal .progress,
+.zoomed .reveal .controls {
   opacity: 0; }
 
 .zoomed .reveal .roll span {
