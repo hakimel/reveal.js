@@ -117,7 +117,275 @@ prop: org.scalacheck.Prop = Prop
 				<section>
 				  <h2>Cogen</h2>
 				</section>
+
+				<section>
+				  <h1>Writing Properties</h1>
+				</section>
+
+				<section>
+				  <h2>Scenario: Yahtzee game</h2>
+				  <p>
+				    Have a better "hand" of five dice than your opponent
+				  </p>
+				  <div class="fragment">
+				    Yahtzee
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <br/>
+				    Straight
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-3.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <br/>
+				    Full house
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <br/>
+				    Four of a kind
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-6.svg" width="30" class="plain"/>
+				    <br/>
+				    Three of a kind
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <br/>
+				  </div>
+				  <p class="fragment">
+				    Can you test this without Scalacheck?
+				  </p>
+				</section>
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				    <ul class="fragment">
+				      <li>Generate two random hands</li>
+				      <li>Work out the winning hand</li>
+				      <li>Check it wins</li>
+				    </ul>
+				    <pre class="fragment"><code class="nohighlight">forAll { (h1: Hand, h2: Hand) =>
+  val h1Score = {
+       if (h1.p1 == h1.p2 &&
+           h1.p2 == h1.p3 &&
+           h1.p3 == h1.p4 &&
+           h1.p4 == h1.p5) Yahtzee
+       else if (/* and so on */)				
+  }
+
+  val h2Score = // as above
+
+  val winner = if(h1Score >= h2Score) h1 else h2
+
+  winningHand(h1, h2) ?= winner
+}</pre></code>
+				  <p class="fragment">
+				    Problem: we have reimplemented our application code in Scalacheck
+				  </p>
+				</section>
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <ul class="fragment">
+				    <li>Generate some random dice</li>
+				    <li>Construct known hands</li>
+				    <li>Confirm that the correct hand wins</li>
+				  </ul>
+				  <pre class="fragment"><code class="nohighlight">forAll { (y: Die, fhA: Die, fhB: Die) => fhA != fhB ==>
+  val yahtzee = Hand(y, y, y, y, y)
+  val fullHouse = Hand(fhA, fhA, fhA, fhB, fhB)
+
+  (winningHand(yahtzee, fullHouse) ?= yahtzee) &&
+  (winningHand(fullHouse, yahtzee) ?= yahtzee)
+}</pre></code>
+				  <p class="fragment">
+				    We still have untested conditions, such as:
+				    <ul class="fragment">
+				      <li>Different permutations of full house dice positions</li>
+				      <li>Comparing all winning hands with each other is exponential!</li>
+				    </ul>
+				  </p>
+				</section>
+
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <ul class="fragment">
+				    <li>Generate a pair of <i>known winning hands</i></li>
+				    <li>Make sure the one that should win, wins</li>
+				  </ul>
+				  <p class="fragment">
+				    Step one: create a generator for each winning hand
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">val allDice: List[Die] = List(One, Two, Three, Four, Five, Six)
+
+val genYahtzee: Gen[Hand] = oneOf(allDice)
+                              .map(d => Hand(d, d, d, d, d))
+				  </pre></code>
+				  <pre class="fragment"><code class="nohighlight">val genThreeOfAKind: Gen[Hand] = for {
+  d1 <- oneOf(allDice)
+  d2 <- oneOf(allDice diff List(d1))
+  d3 <- oneOf(allDice diff List(d1, d2))
+} yield Hand(d1, d1, d1, d2, d3)
+</pre></code>
+				</section>
 				
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <p>
+				    Step two: order the generators to reflect superior hands
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">val orderedGenerators: List[Gen[Hand]] = List(
+  genYahtzee,
+  genStraight,
+  genFullHouse,
+  genFourOfAKind,
+  genThreeOfAKind
+)
+</pre></code>
+				</section>
+
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <p>
+				    Step three: Use ScalaCheck to partition the generators
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
+
+  val (winningGens, losingGens) = orderedGens.splitAt(idx)
+
+  // ...
+</pre></code>
+				  <br/>
+				  <p class="fragment">
+				    Full disclosure<br/>
+				    Due to API restrictions, this is not actually how it is implemented, but the intention is exactly the same. See Github (or talk to me) for details.
+				  </p>
+				</section>
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <p>
+				    Step four: Pit a hand from one of the better generators against a worse one
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
+
+  val (winningGens, losingGens) = orderedGens.splitAt(idx)
+
+  forAll(oneOf(winningGens), oneOf(losingGens))
+                          { (winningHand, losingHand) =>
+
+    (winner(winningHand, losingHand) ?= winningHand) &&
+    (winner(losingHand, winningHand) ?= winningHand)
+  }
+}</pre></code>
+
+				  <pre class="fragment"><code class="nohighlight">[info] + Winning hand is chosen properly: OK, passed 100 tests.</pre></code>
+				</section>
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <p>
+				    Bonus step: Verify what exactly was run
+				  </p>
+				  <p class="fragment">
+				    Use the collect function
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
+
+  val (winningGens, losingGens) = orderedGens.splitAt(idx)
+
+  forAll(oneOf(winningGens), oneOf(losingGens))
+                          { (winningHand, losingHand) =>
+
+    collect(s"${winningHand.score} vs ${losingHand.score}") {
+      (winner(winningHand, losingHand) ?= winningHand) &&
+      (winner(losingHand, winningHand) ?= winningHand)
+    }
+  }
+}</pre></code>
+
+
+
+
+
+				</section>
+
+
+
+
+				<section>
+				  <h2>How to test for winning hands?</h2>
+				  <p>
+				    Verifying what exactly was tested
+				  </p>
+<pre><code class="nohighlight">[info] > Collected test data:
+[info] 20% Yahtzee vs FourOfAKind
+[info] 19% Yahtzee vs ThreeOfAKind
+[info] 16% Yahtzee vs FullHouse
+[info] 13% Yahtzee vs Straight
+[info] 10% FullHouse vs ThreeOfAKind
+[info] 9% Straight vs ThreeOfAKind
+[info] 6% FourOfAKind vs ThreeOfAKind
+[info] 6% Straight vs FourOfAKind
+[info] 1% Straight vs FullHouse
+</code></pre>
+
+				  <div class="fragment">
+				    Yahtzee
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <br/>
+				    Straight
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <img src="img/Dice-3.svg" width="20" class="plain"/>
+				    <img src="img/Dice-4.svg" width="20" class="plain"/>
+				    <img src="img/Dice-5.svg" width="20" class="plain"/>
+				    <br/>
+				    Full house
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-5.svg" width="20" class="plain"/>
+				    <img src="img/Dice-5.svg" width="20" class="plain"/>
+				    <br/>
+				    Four of a kind
+				    <img src="img/Dice-4.svg" width="20" class="plain"/>
+				    <img src="img/Dice-4.svg" width="20" class="plain"/>
+				    <img src="img/Dice-4.svg" width="20" class="plain"/>
+				    <img src="img/Dice-4.svg" width="20" class="plain"/>
+				    <img src="img/Dice-6.svg" width="20" class="plain"/>
+				    <br/>
+				    Three of a kind
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-1.svg" width="20" class="plain"/>
+				    <img src="img/Dice-5.svg" width="20" class="plain"/>
+				    <img src="img/Dice-2.svg" width="20" class="plain"/>
+				    <br/>
+				  </div>
+
+
+
+
+				</section>
 				<section>
 				  <h1>Tips and Techniques</h1>
 				</section>
