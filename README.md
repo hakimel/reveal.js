@@ -1,11 +1,64 @@
-# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js)
+# reveal.js
+
+[![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js)
 
 A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
 
 reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [Markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). It's best viewed in a modern browser but [fallbacks](https://github.com/hakimel/reveal.js/wiki/Browser-Support) are available to make sure your presentation can still be viewed elsewhere.
 
+# Table of contents
+- [reveal.js](#revealjs)
+  - [More reading](#more-reading)
+  - [Online Editor](#online-editor)
+  - [Instructions](#instructions)
+    - [Markup](#markup)
+    - [Markdown](#markdown)
+      - [External Markdown](#external-markdown)
+    - [Element Attributes](#element-attributes)
+    - [Slide Attributes](#slide-attributes)
+  - [Configuration](#configuration)
+  - [Presentation Size](#presentation-size)
+  - [Dependencies](#dependencies)
+  - [Ready Event](#ready-event)
+  - [Auto-sliding](#auto-sliding)
+  - [Keyboard Bindings](#keyboard-bindings)
+  - [Touch Navigation](#touch-navigation)
+  - [Lazy Loading](#lazy-loading)
+  - [API](#api)
+    - [Slide Changed Event](#slide-changed-event)
+    - [Presentation State](#presentation-state)
+    - [Slide States](#slide-states)
+    - [Slide Backgrounds](#slide-backgrounds)
+    - [Parallax Background](#parallax-background)
+    - [Slide Transitions](#slide-transitions)
+    - [Internal links](#internal-links)
+    - [Fragments](#fragments)
+    - [Fragment events](#fragment-events)
+    - [Code syntax highlighting](#code-syntax-highlighting)
+    - [Slide number](#slide-number)
+    - [Overview mode](#overview-mode)
+    - [Fullscreen mode](#fullscreen-mode)
+    - [Embedded media](#embedded-media)
+    - [Stretching elements](#stretching-elements)
+    - [postMessage API](#postmessage-api)
+  - [PDF Export](#pdf-export)
+  - [Theming](#theming)
+  - [Speaker Notes](#speaker-notes)
+    - [Share and Print Speaker Notes](#share-and-print-speaker-notes)
+    - [Server Side Speaker Notes](#server-side-speaker-notes)
+  - [Multiplexing](#multiplexing)
+    - [Master presentation](#master-presentation)
+    - [Client presentation](#client-presentation)
+    - [Socket.io server](#socketio-server)
+      - [socket.io server as file static server](#socketio-server-as-file-static-server)
+  - [MathJax](#mathjax)
+  - [Installation](#installation)
+    - [Basic setup](#basic-setup)
+    - [Full setup](#full-setup)
+    - [Folder Structure](#folder-structure)
+  - [License](#license)
 
-#### More reading:
+#### More reading
 - [Installation](#installation): Step-by-step instructions for getting reveal.js running on your computer.
 - [Changelog](https://github.com/hakimel/reveal.js/releases): Up-to-date version history.
 - [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
