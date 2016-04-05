@@ -127,7 +127,7 @@ prop: org.scalacheck.Prop = Prop
 				  <p>
 				    Have a better "hand" of five dice than your opponent
 				  </p>
-				  <div class="fragment">
+				  <div class="fragment" style="text-align: left">
 				    Yahtzee
 				    <img src="img/Dice-2.svg" width="30" class="plain"/>
 				    <img src="img/Dice-2.svg" width="30" class="plain"/>
@@ -199,7 +199,7 @@ prop: org.scalacheck.Prop = Prop
 				<section>
 				  <h2>How to test for winning hands?</h2>
 				  <ul class="fragment">
-				    <li>Generate some random dice</li>
+				    <li>Generate some random dice values</li>
 				    <li>Construct known hands</li>
 				    <li>Confirm that the correct hand wins</li>
 				  </ul>
@@ -214,7 +214,7 @@ prop: org.scalacheck.Prop = Prop
 				    We still have untested conditions, such as:
 				    <ul class="fragment">
 				      <li>Different permutations of full house dice positions</li>
-				      <li>Comparing all winning hands with each other is exponential!</li>
+				      <li>Comparing all winning hands with each other is quadratic!</li>
 				    </ul>
 				  </p>
 				</section>
@@ -223,11 +223,11 @@ prop: org.scalacheck.Prop = Prop
 				<section>
 				  <h2>How to test for winning hands?</h2>
 				  <ul class="fragment">
-				    <li>Generate a pair of <i>known winning hands</i></li>
+				    <li>Generate a pair of <i>known hands</i></li>
 				    <li>Make sure the one that should win, wins</li>
 				  </ul>
 				  <p class="fragment">
-				    Step one: create a generator for each winning hand
+				    Step one: create a generator for each winning hand.
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">val allDice: List[Die] = List(One, Two, Three, Four, Five, Six)
 
@@ -245,7 +245,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				<section>
 				  <h2>How to test for winning hands?</h2>
 				  <p>
-				    Step two: order the generators to reflect superior hands
+				    Step two: order the generators to reflect superior hands.
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">val orderedGenerators: List[Gen[Hand]] = List(
   genYahtzee,
@@ -261,7 +261,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				<section>
 				  <h2>How to test for winning hands?</h2>
 				  <p>
-				    Step three: Use ScalaCheck to partition the generators
+				    Step three: Use ScalaCheck to partition the generators.
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
 
@@ -279,7 +279,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				<section>
 				  <h2>How to test for winning hands?</h2>
 				  <p>
-				    Step four: Pit a hand from one of the better generators against a worse one
+				    Step four: Pit a hand from one of the better generators against a worse one. The better one should win.
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
 
@@ -299,10 +299,10 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				<section>
 				  <h2>How to test for winning hands?</h2>
 				  <p>
-				    Bonus step: Verify what exactly was run
+				    Bonus step: Verify what exactly was run.
 				  </p>
 				  <p class="fragment">
-				    Use the collect function
+				    Use the collect function:
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
 
@@ -344,7 +344,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 [info] 1% Straight vs FullHouse
 </code></pre>
 
-				  <div class="fragment">
+				  <div class="fragment" style="text-align: left">
 				    Yahtzee
 				    <img src="img/Dice-2.svg" width="20" class="plain"/>
 				    <img src="img/Dice-2.svg" width="20" class="plain"/>
