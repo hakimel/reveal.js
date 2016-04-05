@@ -45,17 +45,11 @@
 				</section>
 
 				<section>
-					<h2>Hello</h2>
-					<p>
-					  Introduction here.
-					</p>
-				</section>
-
-				<section>
 				  <h2>Agenda</h2>
 				  <p></p>
 				  <ul>
 				    <li>Brief introduction</li>
+				    <li>The important classes in ScalaCheck</li>
 				    <li>Writing properties</li>
 				    <li>Tips and techniques</li>
 				    <li>Boilerplate reduction</li>
@@ -65,8 +59,7 @@
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
-				  <p>
-				    <pre class="fragment"><code class="nohighlight">scala> import org.scalacheck.Prop.forAll
+				  <pre class="fragment"><code class="nohighlight">scala> import org.scalacheck.Prop.forAll
 import org.scalacheck.Prop.forAll
 </pre></code><pre class="fragment"><code class="nohighlight">scala> val prop = forAll { s: String =>
      |   s.length >= 0
@@ -74,15 +67,19 @@ import org.scalacheck.Prop.forAll
 prop: org.scalacheck.Prop = Prop
 </pre></code><pre class="fragment"><code class="nohighlight">scala> prop.check
 + OK, passed 100 tests.</pre></code>
-				  </p>
-				</section>
+                                  <br/>
+                                  <p class="fragment">Works out-of-the-box with SBT, too</p>
+                                </section>
 				
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>What ScalaCheck is:</h4>
 				  <ul>
-				    <li>A bridge between types and values</li>
+				    <li class="fragment">A bridge between types and values</li>
+				    <li class="fragment">What you should be using instead of "stubbed" or sample data
+				    <li class="fragment">A conversation about your implementation</li>
+				    <li class="fragment">Thorough</li>
 				  </ul>
 				</section>
 				
@@ -91,7 +88,9 @@ prop: org.scalacheck.Prop = Prop
 				  <br/>
 				  <h4>What ScalaCheck is not:</h4>
 				  <ul>
-				    <li>A library for random generation</li>
+				    <li class="fragment">A library for random generation</li>
+				    <li class="fragment">A silver bullet</li>
+				    <li class="fragment">Fast <i class="fragment">(???)</i></li>
 				  </ul>
 				</section>
 				
@@ -99,27 +98,151 @@ prop: org.scalacheck.Prop = Prop
 				  <h2>Introducing ScalaCheck</h2>
 				  <p>
 				    More examples
-				  </p>				  
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
+  list1.length < (list1 ::: list2).length
+}
+</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > ARG_0: List()
+[info] > ARG_1: List()</pre></code>
+
+				  <div class="fragment"><p>Constrain generation with ==></p><pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
+  (list1.length > 0 && list2.length > 0) ==> {
+
+    list1.length < (list1 ::: list2).length
+  }
+}</div></pre></code><pre class="fragment"><code class="nohighlight">[info] + List concatenation: OK, passed 100 tests.
+</pre></code>
 				</section>
 
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <p>
+				    More examples
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">def brokenReverse[X](xs: List[X]): List[X] =
+  if (xs.length > 4) xs else xs.reverse
+
+forAll { (xs: List[Int]) => xs.length > 0 ==>
+  (xs.last == brokenReverse(xs).head)
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 3 passed tests.
+[info] > ARG_0: List("0", "0", "0", "0", "1")
+[info] > ARG_0_ORIGINAL: List("219254809",
+                              "-1487516422",
+                              "-1988082558",
+                              "-2147483648",
+                              "-2053120082",
+                              "2147483647")</pre></code>
+				    <p class="fragment">This is called <i>shrinking</i></p>
+				</section>
+
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <p>
+				    More examples
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll { x: Int =>
+  Math.abs(x) >= 0
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 30 passed tests.
+[info] > ARG_0: -2147483648</pre></code>
+
+				  <pre class="fragment"><code class="nohighlight">scala> Integer.MIN_VALUE
+res0: Int = -2147483648
+
+scala> Math.abs(Integer.MIN_VALUE)
+res1: Int = -2147483648</pre></code>
+				</section>
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <p>
+				    More examples
+				  </p>
+				  <pre><code class="nohighlight">forAll { x: Int =>
+  Math.abs(x) >= 0
+}</pre></code><pre><code class="nohighlight">[info] ! Falsified after 30 passed tests.
+[info] > ARG_0: -2147483648</pre></code>
+
+				  <p>We could use ==><p class="fragment">Or we could use a different generator for Integers</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.posNum[Int]) { x =>
+  Math.abs(x) >= 0
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] + OK, passed 100 tests.</pre></code>
+				</section>
+
+				
+  
 				<section>
 				  <h1>Important Classes</h1>
 				</section>
 
 				<section>
 				  <h2>Gen</h2>
+				  <ul>
+				    <li class="fragment">Stands for <i>Generator</i></li>
+				    <li class="fragment">Can be used to produce <i>any</i> value for a particular type<i class="fragment"> or a subset of values</i></li>
+				    <li class="fragment">It is a monad, so we can sequence/chain generators to produce new ones</li>
+				    <li class="fragment">ScalaCheck ships with many generators, and facilities to create more</li>
+				  </ul>
+				</section>
+
+				<section>
+				  <h2>Gen</h2>
+				  <h4>Selected API Generators</h4>
+				  <pre class="fragment"><code class="nohighlight">import org.scalacheck.Gen._</pre></code>
+				  <pre class="fragment"><code class="nohighlight">def alphaStr: Gen[String]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def posNum[T](implicit n: Numeric[T]): Gen[T]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def oneOf[T](xs: Seq[T]): Gen[T]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def listOf[T](g: Gen[T]): Gen[List[T]]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def listOfN[T](n: Int, g: Gen[T]): Gen[List[T]]</code></pre>
+				  <p class="fragment">And one in a different class:</>
+				  <pre class="fragment"><code class="nohighlight">import org.scalacheck.Arbitrary._</pre></code>
+				  <pre class="fragment"><code class="nohighlight">def arbitrary[T](implicit a: Arbitrary[T]): Gen[T]</code></pre>
+			
+				</section>
+
+				<section>
+				  <h2>Gen</h2>
+				  <pre><code class="nohighlight">scala> import org.scalacheck.Gen._
+import org.scalacheck.Gen._
+
+scala> posNum[Int].sample
+res0: Option[Int] = Some(80)
+
+scala> posNum[Int].sample
+res1: Option[Int] = Some(17)</pre></code>
+				</section>
+
+				<section>
+				  <h2>Gen</h2>
+				  <h4>Gen is a monad</h4>
+				  <pre class="fragment"><code class="nohighlight">def cappedString: Gen[String] = for {
+  c <- alphaUpperChar
+  s <- listOf(alphaLowerChar)
+} yield (c :: s).mkString
+</pre></code><pre class="fragment"><code class="nohighlight">scala> cappedString.sample
+res2: Option[String] = Some(Rmvbrcgtzvdlnssznckgedmyeeoxwiqjvtiby)</pre></code>
 				</section>
 
 				<section>
 				  <h2>The Arbitrary Typeclass</h2>
+				  <p class="fragment">
+				    Allows generators to be implicitly summoned
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">case class Record(s: String)
+
+val genRecord: Gen[Record] = alphaStr.map(Record.apply)
+
+implicit val arbRecord: Arbitrary[Record] = Arbitrary(genRecord)</pre></code><pre class="fragment"><code class="nohighlight">forAll { r: Record =>
+  // test here using generated Record
+}
+</pre></code>
+				  <p class="fragment">We can also use the <code>arbitrary[T]</code> method now:
+				    <pre class="fragment"><code class="nohighlight">scala> arbitrary[Record].sample
+res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
+					
 				</section>
 
-				<section>
-				  <h2>Cogen</h2>
-				</section>
 
 				<section>
-				  <h1>Writing Properties</h1>
+				  <h1>Designing Properties</h1>
 				</section>
 
 				<section>
@@ -164,6 +287,8 @@ prop: org.scalacheck.Prop = Prop
 				    <img src="img/Dice-2.svg" width="30" class="plain"/>
 				    <br/>
 				  </div>
+				    <pre class="fragment"><code class="nohighlight">def winner(h1: Hand, h2: Hand): Hand = ???</pre></code>
+				  
 				  <p class="fragment">
 				    Can you test this without Scalacheck?
 				  </p>
@@ -187,9 +312,9 @@ prop: org.scalacheck.Prop = Prop
 
   val h2Score = // as above
 
-  val winner = if(h1Score >= h2Score) h1 else h2
+  val winningHand = if(h1Score >= h2Score) h1 else h2
 
-  winningHand(h1, h2) ?= winner
+  winner(h1, h2) ?= winningHand
 }</pre></code>
 				  <p class="fragment">
 				    Problem: we have reimplemented our application code in Scalacheck
@@ -293,7 +418,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
   }
 }</pre></code>
 
-				  <pre class="fragment"><code class="nohighlight">[info] + Winning hand is chosen properly: OK, passed 100 tests.</pre></code>
+				  <pre class="fragment"><code class="nohighlight">[info] + Winning hand is chosen correctly: OK, passed 100 tests.</pre></code>
 				</section>
 
 				<section>
@@ -394,21 +519,62 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				  <h2>Exhausting Test Cases</h2>
 				  <p>
 				    Prefer generators over ==>
-				  </p>				  
+				  </p>
+
+
+<pre class="fragment"><code class="nohighlight">forAll { (i1: Int, i2: Int, i3: Int) =>
+  (i1 > 0 && i2 > 0 && i3 > 0) ==> {
+
+    passed
+  }
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! 3 positive integers: Gave up after only 51 passed tests.
+                              501 tests were discarded.
+</code></pre><pre class="fragment"><code class="nohighlight">forAll(posNum[Int], posNum[Int], posNum[Int]) { (i1, i2, i3) =>
+  passed
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] + 3 positive integers: OK, passed 100 tests.</code></pre>
 				</section>
 
 				<section>
 				  <h2>Labelling Generators</h2>
 				  <p>
-				    |: and :|
+				    Clearer data
 				  </p>				  
+<pre class="fragment"><code class="nohighlight">forAll(arbitrary[Int], arbitrary[Map[Int, String]]) { (i, m) =>
+  m.get(i).isDefined
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > ARG_0: 1
+[info] > ARG_1: Map()</code></pre><pre class="fragment"><code class="nohighlight">forAll("Index"           |: arbitrary[Int],
+       "Lookup database" |: arbitrary[Map[Int, String]]
+      ) { (i, m) =>
+
+  m.get(i).isDefined
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > Index: -2147483648
+[info] > Lookup database: Map()</code></pre>
 				</section>
 
 				<section>
 				  <h2>Labelling Properties</h2>
-				  <p>
-				    Better than println
-				  </p>				  
+<pre class="fragment"><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
+  val (max, min) = (i max j, i min j)
+  val (maxSq, minSq) = (max * max, min * min)
+
+  minSq <= maxSq
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 2 passed tests.
+[info] > ARG_0: 1528767008
+[info] > ARG_1: 1356090093</code></pre><pre class="fragment"><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
+  val (max, min) = (i max j, i min j)
+  val (maxSq, minSq) = (max * max, min * min)
+
+  s"[min: $min, square: $minSq], [max: $max, square: $maxSq]" |:
+    (minSq <= maxSq)
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > Labels of failing property:
+[info] [min: -2147483648, square: 0],
+       [max: -2140727206, square: -1698889820]
+[info] > ARG_0: -2140727206
+[info] > ARG_1: -2147483648
+</code></pre>
 				</section>
 
 				<section>
@@ -443,6 +609,10 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				  <h1>Boilerplate Reduction</h1>
 				  <br/>
 				  <h4>Using shapeless-scalacheck</h4>
+				</section>
+
+				<section>
+				  <h2>Cogen</h2>
 				</section>
 
 				<section>
