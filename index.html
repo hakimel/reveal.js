@@ -669,17 +669,11 @@ res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
 				  <h2>Removing Arbitraries</h2>
 				  <h4>Using scalacheck-shapeless</h4>
 				  <p class="fragment">
-				    We can use Shapeless's automatic typeclass derivation
+				    We can use Shapeless's automatic typeclass derivation:
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">"com.github.alexarchambault"
      %% "scalacheck-shapeless_1.13"
      %  "1.1.0-RC1"</code></pre>
-				  <p class="fragment">
-				    This can derive <i>any</i> <code>Arbitrary[A]</code> as long as:
-				    <ul>
-				      <li class="fragment"><code>A</code> is a case class or sealed trait family of case classes</li>
-				      <li class="fragment">An implicit <code>Arbitrary</code> can be summoned for <code>A</code>'s constitent parts <i class="fragment">through automatic derivation or otherwise</i></li>
-				  </p>
 				</section>
 
 				<section>
@@ -708,9 +702,8 @@ res0: Option[Coordinates] = Some(Coordinates(0,537278256,쪗ܘ暎))
 
 scala> arbitrary[Coordinates].sample
 res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></pre>
-
-
 				</section>
+
 				<section>
 				  <h2>Using scalacheck-shapeless</h2>
 				  <p>
@@ -718,6 +711,10 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 				    <ul>
 				      <li class="fragment"><code>A</code> is a case class or sealed trait family of case classes</li>
 				      <li class="fragment">An implicit <code>Arbitrary</code> can be summoned for <code>A</code>'s constitent parts <i class="fragment">through automatic derivation or otherwise</i></li>
+				    </ul>
+				  </p>
+				  <p class="fragment">
+				    But beware: compile times can dramatically increase!
 				  </p>
 				</section>
 
