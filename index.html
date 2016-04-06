@@ -68,7 +68,7 @@ prop: org.scalacheck.Prop = Prop
 </pre></code><pre class="fragment"><code class="nohighlight">scala> prop.check
 + OK, passed 100 tests.</pre></code>
                                   <br/>
-                                  <p class="fragment">Works out-of-the-box with SBT, too</p>
+                                  <p class="fragment">Also works out-of-the-box with SBT</p>
                                 </section>
 				
 				<section>
@@ -237,7 +237,14 @@ implicit val arbRecord: Arbitrary[Record] = Arbitrary(genRecord)</pre></code><pr
 				  <p class="fragment">We can also use the <code>arbitrary[T]</code> method now:
 				    <pre class="fragment"><code class="nohighlight">scala> arbitrary[Record].sample
 res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
-					
+
+				  </p>
+				  <p class="fragment">
+				    Which <code>Gen</code> instance should we use for the Arbitrary?
+				  </p>
+				  <ul>
+				    <li class="fragment">As a rule, the <code>Gen</code> which produces the full range of values</li>
+				  </ul>
 				</section>
 
 
@@ -357,14 +364,12 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 				  <pre class="fragment"><code class="nohighlight">val allDice: List[Die] = List(One, Two, Three, Four, Five, Six)
 
 val genYahtzee: Gen[Hand] = oneOf(allDice)
-                              .map(d => Hand(d, d, d, d, d))
-				  </pre></code>
+                              .map(d => Hand(d, d, d, d, d))</pre></code>
 				  <pre class="fragment"><code class="nohighlight">val genThreeOfAKind: Gen[Hand] = for {
   d1 <- oneOf(allDice)
   d2 <- oneOf(allDice diff List(d1))
   d3 <- oneOf(allDice diff List(d1, d2))
-} yield Hand(d1, d1, d1, d2, d3)
-</pre></code>
+} yield Hand(d1, d1, d1, d2, d3)</pre></code>
 				</section>
 				
 				<section>
@@ -378,8 +383,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
   genFullHouse,
   genFourOfAKind,
   genThreeOfAKind
-)
-</pre></code>
+)</pre></code>
 				</section>
 
 
@@ -392,8 +396,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
   val (winningGens, losingGens) = orderedGens.splitAt(idx)
 
-  // ...
-</pre></code>
+  // ...</pre></code>
 				  <br/>
 				  <p class="fragment">
 				    Full disclosure<br/>
@@ -524,7 +527,6 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 <pre class="fragment"><code class="nohighlight">forAll { (i1: Int, i2: Int, i3: Int) =>
   (i1 > 0 && i2 > 0 && i3 > 0) ==> {
-
     passed
   }
 }</code></pre><pre class="fragment"><code class="nohighlight">[info] ! 3 positive integers: Gave up after only 51 passed tests.
@@ -579,46 +581,143 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Creating Successful and Failed Data</h2>
-				  <p>
-				    Insert cool generators here
-				  </p>				  
-				</section>
+<pre class="fragment"><code class="nohighlight">def genPick[A, B](implicit aa: Arbitrary[A],
+                           ab: Arbitrary[B]
+    ): Gen[(Map[A, B], List[A], List[A])] = for {
 
-				<section>
-				  <h2>Use the REPL</h2>
-				  <p>
-				    Sample 100 generator runs, match on predicate
-				  </p>				  
-				</section>
-
-				<section>
-				  <h2>Using in Integration Tests</h2>
-				  <p>
-				    Connect to a database
-				  </p>				  
+  pairs <- arbitrary[Map[A, B]]
+  keys = pairs.keySet
+  validPicks <- someOf(keys)
+  anotherList <- listOf(arbitrary[A])
+  invalidPicks = anotherList.filterNot(i => keys.contains(i))
+} yield (pairs, validPicks.toList, invalidPicks)</code></pre><pre class="fragment"><code class="nohighlight">forAll(genPick[Int, String]) { case (mapping, succs, fails) =>
+  succs.forall(s => mapping.get(s).isDefined) &&
+  fails.forall(f => mapping.get(f).isEmpty)
+}
+</code></pre><pre class="fragment"><code class="nohighlight">[info] + Using genPick: OK, passed 100 tests.</code></pre>
 				</section>
 
 				<section>
 				  <h2>Integration with CI</h2>
 				  <p>
 				    More tests on the CI server!
-				  </p>				  
-				</section>
-
-				<section>
-				  <h1>Boilerplate Reduction</h1>
-				  <br/>
-				  <h4>Using shapeless-scalacheck</h4>
+				  </p>
+				  <p class="fragment">
+				    Use the <code>--minSuccessfulTests</code> parameter in SBT:
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">> testOnly YahtzeeProperties
+[info] + Winning hand is chosen correctly: OK, passed 100 tests.
+[info] Passed: Total 1, Failed 0, Errors 0, Passed 1
+[success] Total time: 0 s</code></pre>
+				  <pre class="fragment"><code class="nohighlight">> testOnly YahtzeeProperties -- -minSuccessfulTests 1000000
+[info] + Winning hand is chosen correctly: OK, passed 1000000 tests.
+[info] Passed: Total 1, Failed 0, Errors 0, Passed 1
+[success] Total time: 17 s</code></pre>
 				</section>
 
 				<section>
 				  <h2>Cogen</h2>
+				  <p class="fragment">
+				    Before Scalacheck 1.13.0:
+				  </p>
+				  
+				  <pre class="fragment"><code class="nohighlight">scala> val fa = arbitrary[Int => String].sample.get
+fa: Int => String = &lt;function1>
+
+scala> fa(1)
+res4: String = 爧뀁ณﾙ㒄똧圞ﾨꉫ薇
+
+scala> fa(2)
+res5: String = 爧뀁ณﾙ㒄똧圞ﾨꉫ薇</code></pre>
+				  <pre class="fragment"><code class="nohighlight">scala> val fb = arbitrary[Int => String].sample.get
+fb: Int => String = &lt;function1>
+
+scala> fb(1)
+res6: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩
+
+scala> fb(2)
+res7: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩</code></pre>
+				  <p class="fragment">
+				    For <code>Arbitrary[A => B]</code>, you only need <code>Gen[B]</code>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Cogen</h2>
+				  <p>
+				    But now:
+				  </p>
+				  
+				  <pre class="fragment"><code class="nohighlight">scala> val f = arbitrary[Int => String].sample.get
+f: Int => String = &lt;function1>
+
+scala> f(4)
+res8: String = ᠣ澲蜕␧
+
+scala> f(5)
+res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
+				  <p class="fragment">
+				    For <code>Arbitrary[A => B]</code>, you need a <code>Cogen[A]</code> and a <code>Gen[B]</code>
+				  </p>
+				</section>
+
+				<section>
+				  <h1>Boilerplate Reduction</h1>
 				</section>
 
 				<section>
 				  <h2>Removing Arbitraries</h2>
+				  <h4>Using scalacheck-shapeless</h4>
+				  <p class="fragment">
+				    We can use Shapeless's automatic typeclass derivation
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">"com.github.alexarchambault"
+     %% "scalacheck-shapeless_1.13"
+     %  "1.1.0-RC1"</code></pre>
+				  <p class="fragment">
+				    This can derive <i>any</i> <code>Arbitrary[A]</code> as long as:
+				    <ul>
+				      <li class="fragment"><code>A</code> is a case class or sealed trait family of case classes</li>
+				      <li class="fragment">An implicit <code>Arbitrary</code> can be summoned for <code>A</code>'s constitent parts <i class="fragment">through automatic derivation or otherwise</i></li>
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Using scalacheck-shapeless</h2>
 				  <p>
-				    Example here
+				    Full example
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">> test:console
+[info] Starting scala interpreter...
+[info]
+Welcome to Scala version 2.11.7 (Java HotSpot(TM) 64-Bit Server VM).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> case class Coordinates(x: Int, y: Int, description: String)
+defined class Coordinates
+
+scala> import org.scalacheck.Shapeless._
+import org.scalacheck.Shapeless._
+
+scala> import org.scalacheck.Arbitrary._
+import org.scalacheck.Arbitrary._</code></pre>
+
+<pre class="fragment"><code class="nohighlight">scala> arbitrary[Coordinates].sample
+res0: Option[Coordinates] = Some(Coordinates(0,537278256,쪗ܘ暎))
+
+scala> arbitrary[Coordinates].sample
+res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></pre>
+
+
+				</section>
+				<section>
+				  <h2>Using scalacheck-shapeless</h2>
+				  <p>
+				    This can derive <i>any</i> <code>Arbitrary[A]</code> as long as:
+				    <ul>
+				      <li class="fragment"><code>A</code> is a case class or sealed trait family of case classes</li>
+				      <li class="fragment">An implicit <code>Arbitrary</code> can be summoned for <code>A</code>'s constitent parts <i class="fragment">through automatic derivation or otherwise</i></li>
 				  </p>
 				</section>
 
@@ -626,13 +725,18 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				  <h1>Thank You</h1>
 				  <br/>
 				  <p>
-				    Links here
+				    Useful links
+				    <ul>
+				      <li><a href="https://www.scalacheck.org/">ScalaCheck website</a></li>
+				      <li><a href="https://github.com/alexarchambault/scalacheck-shapeless">scalacheck-shapeless Github</a></li>
+				      <li><a href="http://www.artima.com/shop/scalacheck">Book:
+					  ScalaCheck: The Definitive Guide</a></li>
 				  </p>
 				  <p>
-				    <a href="http://twitter.com/noelmarkham">@noelmarkham</a>
+				    <a style="color: #000;" href="http://twitter.com/noelmarkham">@noelmarkham</a>
 				  </p>
 				  <p>
-				    <a href="http://www.47deg.com">47deg.com</a>
+				    <a style="color: #000;" href="http://www.47deg.com">47deg.com</a>
 				  </p>
 				</section>
 			</div>
