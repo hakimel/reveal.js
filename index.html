@@ -54,11 +54,14 @@
 				    <li>Tips and techniques</li>
 				    <li>Boilerplate reduction</li>
 				  </ul>
+
+				  <p class="fragment">Follow the slides live at <a href="http://noelmarkham.github.io/practical-scalacheck/index.html">http://tiny.cc/lx_scalacheck</a></p>
 				</section>
 
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
+				  <h4>A brief example</h4>
 				  <pre class="fragment"><code class="nohighlight">scala> import org.scalacheck.Prop.forAll
 import org.scalacheck.Prop.forAll
 </pre></code><pre class="fragment"><code class="nohighlight">scala> val prop = forAll { s: String =>
@@ -78,7 +81,7 @@ prop: org.scalacheck.Prop = Prop
 				  <ul>
 				    <li class="fragment">A bridge between types and values</li>
 				    <li class="fragment">What you should be using instead of "stubbed" or sample data
-				    <li class="fragment">A conversation about your implementation</li>
+				    <li class="fragment">A conversation about your implementation and tests</li>
 				    <li class="fragment">Thorough</li>
 				  </ul>
 				</section>
@@ -96,9 +99,8 @@ prop: org.scalacheck.Prop = Prop
 				
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <p>
-				    More examples
-				  </p>
+				  <br/>
+				  <h4>More examples</h4>
 				  <pre class="fragment"><code class="nohighlight">forAll { x: Int =>
   Math.abs(x) >= 0
 }</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 30 passed tests.
@@ -113,14 +115,13 @@ res1: Int = -2147483648</pre></code>
 
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <p>
-				    More examples
-				  </p>
+				  <br/>
+				  <h4>More examples</h4>
 				  <pre><code class="nohighlight">forAll { x: Int =>
   Math.abs(x) >= 0
 }</pre></code><pre><code class="nohighlight">[info] ! Falsified after 30 passed tests.
 [info] > ARG_0: -2147483648</pre></code>
-				  <div><p>Constrain generation with ==></p><pre class="fragment"><code class="nohighlight">forAll { x: Int =>
+				  <div><p>Constrain generation with <code>==></code></p><pre class="fragment"><code class="nohighlight">forAll { x: Int =>
   x > Integer.MIN_VALUE ==>
   Math.abs(x) >= 0
 }</div></pre></code><pre class="fragment"><code class="nohighlight">[info] + Math.abs: OK, passed 100 tests.
@@ -129,9 +130,8 @@ res1: Int = -2147483648</pre></code>
 
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <p>
-				    More examples
-				  </p>
+				  <br/>
+				  <h4>More examples</h4>
 				  <pre class="fragment"><code class="nohighlight">def brokenReverse[X](xs: List[X]): List[X] =
   if (xs.length > 4) xs else xs.reverse
 
@@ -145,14 +145,13 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
                               "-2147483648",
                               "-2053120082",
                               "2147483647")</pre></code>
-				    <p class="fragment">This is called <i>shrinking</i></p>
+				    <p class="fragment">This is <i>shrinking</i></p>
 				</section>
 
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <p>
-				    More examples
-				  </p>
+				  <br/>
+				  <h4>More examples</h4>
 				  <pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
   list1.length < (list1 ::: list2).length
 }
@@ -162,10 +161,10 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 				</section>
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <p>
-				    More examples
-				  </p>
-				  <p>We could use <code>==></code> here<p class="fragment">Or we could use a different generator for non-empty lists:</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.nonEmptyListOf(arbitrary[Int]),
+				  <br/>
+				  <h4>More examples</h4>
+				  <p>We could use <code>==></code> here again
+				  <p class="fragment">Or we could use a different generator for non-empty lists:</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.nonEmptyListOf(arbitrary[Int]),
        Gen.nonEmptyListOf(arbitrary[Int])) { (l1, l2) =>
   l1.length < (l1 ::: l2).length    
 }</pre></code><pre class="fragment"><code class="nohighlight">[info] + OK, passed 100 tests.</pre></code>
@@ -202,6 +201,8 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 
 				<section>
 				  <h2>Gen</h2>
+				  <br/>
+				  <h4>Sampling Data</h4>
 				  <pre><code class="nohighlight">scala> import org.scalacheck.Gen._
 import org.scalacheck.Gen._
 
@@ -214,6 +215,7 @@ res1: Option[Int] = Some(17)</pre></code>
 
 				<section>
 				  <h2>Gen</h2>
+				  <br/>
 				  <h4>Gen is a monad</h4>
 				  <pre class="fragment"><code class="nohighlight">def cappedString: Gen[String] = for {
   c <- alphaUpperChar
@@ -236,7 +238,11 @@ implicit val arbRecord: Arbitrary[Record] = Arbitrary(genRecord)</pre></code><pr
   // test here using generated Record
 }
 </pre></code>
-				  <p class="fragment">We can also use the <code>arbitrary[T]</code> method now:
+				</section>
+
+				<section>
+				  <h2>The Arbitrary Typeclass</h2>
+				  <p>We can also use the <code>arbitrary[T]</code> method now:
 				    <pre class="fragment"><code class="nohighlight">scala> arbitrary[Record].sample
 res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 
@@ -304,13 +310,17 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 				</section>
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				    <ul class="fragment">
 				      <li>Generate two random hands</li>
 				      <li>Work out the winning hand</li>
 				      <li>Check it wins</li>
 				    </ul>
-				    <pre class="fragment"><code class="nohighlight">forAll { (h1: Hand, h2: Hand) =>
+				</section>
+
+				<section>
+				  <h2>Testing Winning Hands</h2>
+				    <pre><code class="nohighlight">forAll { (h1: Hand, h2: Hand) =>
   val h1Score = {
        if (h1.p1 == h1.p2 &&
            h1.p2 == h1.p3 &&
@@ -331,7 +341,7 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 				</section>
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				  <ul class="fragment">
 				    <li>Generate some random dice values</li>
 				    <li>Construct known hands</li>
@@ -355,7 +365,7 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				  <ul class="fragment">
 				    <li>Generate a pair of <i>known hands</i></li>
 				    <li>Make sure the one that should win, wins</li>
@@ -375,7 +385,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 				
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				  <p>
 				    Step two: order the generators to reflect superior hands.
 				  </p>
@@ -390,7 +400,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				  <p>
 				    Step three: Use ScalaCheck to partition the generators.
 				  </p>
@@ -407,7 +417,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				  <p>
 				    Step four: Pit a hand from one of the better generators against a worse one. The better one should win.
 				  </p>
@@ -427,7 +437,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
+				  <h2>Testing Winning Hands</h2>
 				  <p>
 				    Bonus step: Verify what exactly was run.
 				  </p>
@@ -458,10 +468,9 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 
 				<section>
-				  <h2>How to test for winning hands?</h2>
-				  <p>
-				    Verifying what exactly was tested
-				  </p>
+				  <h2>Testing Winning Hands</h2>
+				  <br/>
+				  <h4>Verifying what exactly was tested</h4>
 <pre><code class="nohighlight">[info] > Collected test data:
 [info] 20% Yahtzee vs FourOfAKind
 [info] 19% Yahtzee vs ThreeOfAKind
@@ -473,48 +482,6 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 [info] 6% Straight vs FourOfAKind
 [info] 1% Straight vs FullHouse
 </code></pre>
-
-				  <div class="fragment" style="text-align: left">
-				    Yahtzee
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <br/>
-				    Straight
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <img src="img/Dice-3.svg" width="20" class="plain"/>
-				    <img src="img/Dice-4.svg" width="20" class="plain"/>
-				    <img src="img/Dice-5.svg" width="20" class="plain"/>
-				    <br/>
-				    Full house
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-5.svg" width="20" class="plain"/>
-				    <img src="img/Dice-5.svg" width="20" class="plain"/>
-				    <br/>
-				    Four of a kind
-				    <img src="img/Dice-4.svg" width="20" class="plain"/>
-				    <img src="img/Dice-4.svg" width="20" class="plain"/>
-				    <img src="img/Dice-4.svg" width="20" class="plain"/>
-				    <img src="img/Dice-4.svg" width="20" class="plain"/>
-				    <img src="img/Dice-6.svg" width="20" class="plain"/>
-				    <br/>
-				    Three of a kind
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-1.svg" width="20" class="plain"/>
-				    <img src="img/Dice-5.svg" width="20" class="plain"/>
-				    <img src="img/Dice-2.svg" width="20" class="plain"/>
-				    <br/>
-				  </div>
-
-
-
-
 				</section>
 				<section>
 				  <h1>Tips and Techniques</h1>
@@ -522,9 +489,8 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Exhausting Test Cases</h2>
-				  <p>
-				    Prefer generators over ==>
-				  </p>
+				  <br/>
+				  <h4>Prefer generators over <code>==></code></h4>
 
 
 <pre class="fragment"><code class="nohighlight">forAll { (i1: Int, i2: Int, i3: Int) =>
@@ -540,9 +506,8 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Labelling Generators</h2>
-				  <p>
-				    Clearer data
-				  </p>				  
+				  <br/>
+				  <h4>Clearer data</h4>				  
 <pre class="fragment"><code class="nohighlight">forAll(arbitrary[Int], arbitrary[Map[Int, String]]) { (i, m) =>
   m.get(i).isDefined
 }</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
@@ -559,6 +524,8 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Labelling Properties</h2>
+				  <br/>
+				  <h4>Better than <code>println</code></h4>
 <pre class="fragment"><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
   val (max, min) = (i max j, i min j)
   val (maxSq, minSq) = (max * max, min * min)
@@ -566,7 +533,14 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
   minSq <= maxSq
 }</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 2 passed tests.
 [info] > ARG_0: 1528767008
-[info] > ARG_1: 1356090093</code></pre><pre class="fragment"><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
+[info] > ARG_1: 1356090093</code></pre>
+				</section>
+
+				<section>
+				  <h2>Labelling Properties</h2>
+				  <br/>
+				  <h4>Better than <code>println</code></h4>
+<pre><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
   val (max, min) = (i max j, i min j)
   val (maxSq, minSq) = (max * max, min * min)
 
@@ -582,7 +556,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
-				  <h2>Creating Successful and Failed Data</h2>
+				  <h2>Creating Successful and<br/> Failed Data</h2>
 <pre class="fragment"><code class="nohighlight">def genPick[A, B](implicit aa: Arbitrary[A],
                            ab: Arbitrary[B]
     ): Gen[(Map[A, B], List[A], List[A])] = for {
@@ -601,9 +575,8 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Integration with CI</h2>
-				  <p>
-				    More tests on the CI server!
-				  </p>
+				  <br/>
+				  <h4>More tests on the CI server!</h4>
 				  <p class="fragment">
 				    Use the <code>--minSuccessfulTests</code> parameter in SBT:
 				  </p>
@@ -619,16 +592,14 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Cogen</h2>
-				  <p class="fragment">
-				    Before Scalacheck 1.13.0:
-				  </p>
+				  <br/>
+				  <h4 class="fragment">Before Scalacheck 1.13.0:</h4>
 				  
 				  <pre class="fragment"><code class="nohighlight">scala> val fa = arbitrary[Int => String].sample.get
 fa: Int => String = &lt;function1>
 
 scala> fa(1)
 res4: String = 爧뀁ณﾙ㒄똧圞ﾨꉫ薇
-
 scala> fa(2)
 res5: String = 爧뀁ณﾙ㒄똧圞ﾨꉫ薇</code></pre>
 				  <pre class="fragment"><code class="nohighlight">scala> val fb = arbitrary[Int => String].sample.get
@@ -636,7 +607,6 @@ fb: Int => String = &lt;function1>
 
 scala> fb(1)
 res6: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩
-
 scala> fb(2)
 res7: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩</code></pre>
 				  <p class="fragment">
@@ -646,9 +616,8 @@ res7: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩</code></pre>
 
 				<section>
 				  <h2>Cogen</h2>
-				  <p>
-				    But now:
-				  </p>
+				  <br/>
+				  <h4>But now:</h4>
 				  
 				  <pre class="fragment"><code class="nohighlight">scala> val f = arbitrary[Int => String].sample.get
 f: Int => String = &lt;function1>
@@ -669,6 +638,7 @@ res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
 
 				<section>
 				  <h2>Removing Arbitraries</h2>
+				  <br/>
 				  <h4>Using scalacheck-shapeless</h4>
 				  <p class="fragment">
 				    We can use Shapeless's automatic typeclass derivation:
@@ -680,9 +650,8 @@ res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
 
 				<section>
 				  <h2>Using scalacheck-shapeless</h2>
-				  <p>
-				    Full example
-				  </p>
+				  <br/>
+				  <h4>Full example</h4>
 				  <pre class="fragment"><code class="nohighlight">> test:console
 [info] Starting scala interpreter...
 [info]
@@ -698,7 +667,12 @@ import org.scalacheck.Shapeless._
 
 scala> import org.scalacheck.Arbitrary._
 import org.scalacheck.Arbitrary._</code></pre>
+				</section>
 
+				<section>
+				  <h2>Using scalacheck-shapeless</h2>
+				  <br/>
+				  <h4>Full example</h4>
 <pre class="fragment"><code class="nohighlight">scala> arbitrary[Coordinates].sample
 res0: Option[Coordinates] = Some(Coordinates(0,537278256,쪗ܘ暎))
 
@@ -708,6 +682,7 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 
 				<section>
 				  <h2>Using scalacheck-shapeless</h2>
+				  <br/>
 				  <p>
 				    This can derive <i>any</i> <code>Arbitrary[A]</code> as long as:
 				    <ul>
@@ -723,19 +698,18 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 				<section>
 				  <h1>Thank You</h1>
 				  <br/>
-				  <p>
-				    Useful links
-				    <ul>
-				      <li><a href="https://www.scalacheck.org/">ScalaCheck website</a></li>
-				      <li><a href="https://github.com/alexarchambault/scalacheck-shapeless">scalacheck-shapeless Github</a></li>
-				      <li><a href="http://www.artima.com/shop/scalacheck">Book:
-					  ScalaCheck: The Definitive Guide</a></li>
-				  </p>
+				  <h4>Useful links</h4>
+				  <ul>
+				    <li><a href="https://www.scalacheck.org/">ScalaCheck website</a></li>
+				    <li><a href="https://github.com/alexarchambault/scalacheck-shapeless">scalacheck-shapeless Github</a></li>
+				    <li><a href="http://www.artima.com/shop/scalacheck">Book:
+					ScalaCheck: The Definitive Guide</a></li>
 				  <p>
 				    <a style="color: #000;" href="http://twitter.com/noelmarkham">@noelmarkham</a>
 				  </p>
 				  <p>
-				    <a style="color: #000;" href="http://www.47deg.com">47deg.com</a>
+				    <a style="color: #000;" href="http://twitter.com/47deg">@47deg</a> - <a style="color: #000;" href="http://www.47deg.com">47deg.com</a>
+
 				  </p>
 				</section>
 			</div>
