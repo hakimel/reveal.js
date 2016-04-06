@@ -99,19 +99,31 @@ prop: org.scalacheck.Prop = Prop
 				  <p>
 				    More examples
 				  </p>
-				  <pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
-  list1.length < (list1 ::: list2).length
-}
-</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
-[info] > ARG_0: List()
-[info] > ARG_1: List()</pre></code>
+				  <pre class="fragment"><code class="nohighlight">forAll { x: Int =>
+  Math.abs(x) >= 0
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 30 passed tests.
+[info] > ARG_0: -2147483648</pre></code>
 
-				  <div class="fragment"><p>Constrain generation with ==></p><pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
-  (list1.length > 0 && list2.length > 0) ==> {
+				  <pre class="fragment"><code class="nohighlight">scala> Integer.MIN_VALUE
+res0: Int = -2147483648
 
-    list1.length < (list1 ::: list2).length
-  }
-}</div></pre></code><pre class="fragment"><code class="nohighlight">[info] + List concatenation: OK, passed 100 tests.
+scala> Math.abs(Integer.MIN_VALUE)
+res1: Int = -2147483648</pre></code>
+				</section>
+
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				  <p>
+				    More examples
+				  </p>
+				  <pre><code class="nohighlight">forAll { x: Int =>
+  Math.abs(x) >= 0
+}</pre></code><pre><code class="nohighlight">[info] ! Falsified after 30 passed tests.
+[info] > ARG_0: -2147483648</pre></code>
+				  <div><p>Constrain generation with ==></p><pre class="fragment"><code class="nohighlight">forAll { x: Int =>
+  x > Integer.MIN_VALUE ==>
+  Math.abs(x) >= 0
+}</div></pre></code><pre class="fragment"><code class="nohighlight">[info] + Math.abs: OK, passed 100 tests.
 </pre></code>
 				</section>
 
@@ -141,33 +153,23 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 				  <p>
 				    More examples
 				  </p>
-				  <pre class="fragment"><code class="nohighlight">forAll { x: Int =>
-  Math.abs(x) >= 0
-}</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 30 passed tests.
-[info] > ARG_0: -2147483648</pre></code>
-
-				  <pre class="fragment"><code class="nohighlight">scala> Integer.MIN_VALUE
-res0: Int = -2147483648
-
-scala> Math.abs(Integer.MIN_VALUE)
-res1: Int = -2147483648</pre></code>
+				  <pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
+  list1.length < (list1 ::: list2).length
+}
+</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > ARG_0: List()
+[info] > ARG_1: List()</pre></code>
 				</section>
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
 				  <p>
 				    More examples
 				  </p>
-				  <pre><code class="nohighlight">forAll { x: Int =>
-  Math.abs(x) >= 0
-}</pre></code><pre><code class="nohighlight">[info] ! Falsified after 30 passed tests.
-[info] > ARG_0: -2147483648</pre></code>
-
-				  <p>We could use ==><p class="fragment">Or we could use a different generator for Integers</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.posNum[Int]) { x =>
-  Math.abs(x) >= 0
+				  <p>We could use <code>==></code> here<p class="fragment">Or we could use a different generator for non-empty lists:</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.nonEmptyListOf(arbitrary[Int]),
+       Gen.nonEmptyListOf(arbitrary[Int])) { (l1, l2) =>
+  l1.length < (l1 ::: l2).length    
 }</pre></code><pre class="fragment"><code class="nohighlight">[info] + OK, passed 100 tests.</pre></code>
 				</section>
-
-				
   
 				<section>
 				  <h1>Important Classes</h1>
