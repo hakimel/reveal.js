@@ -410,8 +410,8 @@
 		// Listen to messages posted to this window
 		setupPostMessage();
 
-		// Prevent iframes from scrolling the slides out of view
-		setupIframeScrollPrevention();
+		// Prevent the slides from being scrolled out of view
+		setupScrollPrevention();
 
 		// Resets all vertical slides so that only the first is visible
 		resetVerticalSlides();
@@ -642,22 +642,22 @@
 	}
 
 	/**
-	 * This is an unfortunate necessity. Iframes can trigger the
-	 * parent window to scroll, for example by focusing an input.
+	 * This is an unfortunate necessity. Some actions – such as
+	 * an input field being focused in an iframe or using the
+	 * keyboard to expand text selection beyond the bounds of
+	 * a slide – can trigger our content to be pushed out of view.
 	 * This scrolling can not be prevented by hiding overflow in
-	 * CSS so we have to resort to repeatedly checking if the
-	 * browser has decided to offset our slides :(
+	 * CSS (we already do) so we have to resort to repeatedly
+	 * checking if the slides have been offset :(
 	 */
-	function setupIframeScrollPrevention() {
+	function setupScrollPrevention() {
 
-		if( dom.slides.querySelector( 'iframe' ) ) {
-			setInterval( function() {
-				if( dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
-					dom.wrapper.scrollTop = 0;
-					dom.wrapper.scrollLeft = 0;
-				}
-			}, 500 );
-		}
+		setInterval( function() {
+			if( dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
+				dom.wrapper.scrollTop = 0;
+				dom.wrapper.scrollLeft = 0;
+			}
+		}, 1000 );
 
 	}
 
