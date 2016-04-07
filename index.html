@@ -45,6 +45,9 @@
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <p>There is a lot of code, so if you can follow along on your own screen, that might help</p>
+				  </aside>
 				  <h2>Agenda</h2>
 				  <p></p>
 				  <ul>
@@ -59,6 +62,13 @@
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Imports will be introduced as we go</li>
+				      <li>This output is from the REPL, but most of the talk is taken from SBT</li>
+				    </ul>
+				  </aside>
+
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>A brief example</h4>
@@ -73,8 +83,14 @@ prop: org.scalacheck.Prop = Prop
                                   <br/>
                                   <p class="fragment">Also works out-of-the-box with SBT</p>
                                 </section>
-				
-				<section>
+                                <section>
+  				  <aside class="notes">
+				    <ul>
+				      <li>You don't need to make sure bools always return T or F, or a UInt is always +ve</li>
+				      <li>Things that can't be encoded in the types in Scala, like monad laws</li>
+				      <li>Convo: have you thought about this, what about that input etc</li>
+				    </ul>
+				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>What ScalaCheck is:</h4>
@@ -98,6 +114,11 @@ prop: org.scalacheck.Prop = Prop
 				</section>
 				
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Two's complement</li>
+				    </ul>
+				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>More examples</h4>
@@ -114,6 +135,11 @@ res1: Int = -2147483648</pre></code>
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>==> is called implies or implication</li>
+				    </ul>
+				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>More examples</h4>
@@ -129,6 +155,13 @@ res1: Int = -2147483648</pre></code>
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>List length is lower</li>
+				      <li>Values are simpler</li>
+				      <li>0,0,0,0,0 would pass</li>
+				    </ul>
+				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>More examples</h4>
@@ -160,6 +193,11 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 [info] > ARG_1: List()</pre></code>
 				</section>
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Don't need to annotate the type of the params: can be inferred from the forAll params</li>
+				    </ul>
+				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
 				  <br/>
 				  <h4>More examples</h4>
@@ -185,6 +223,11 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>We'll come back to arbitrary</li>
+				    </ul>
+				  </aside>
 				  <h2>Gen</h2>
 				  <h4>Selected API Generators</h4>
 				  <pre class="fragment"><code class="nohighlight">import org.scalacheck.Gen._</pre></code>
@@ -241,6 +284,12 @@ implicit val arbRecord: Arbitrary[Record] = Arbitrary(genRecord)</pre></code><pr
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>ScalaCheck ships with arbitraries for most obvious types</li>
+				    </ul>
+				  </aside>
+
 				  <h2>The Arbitrary Typeclass</h2>
 				  <p>We can also use the <code>arbitrary[T]</code> method now:
 				    <pre class="fragment"><code class="nohighlight">scala> arbitrary[Record].sample
@@ -257,10 +306,22 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>This is generally where people fall down in getting the most value from Scalacheck</li>
+				    </ul>
+				  </aside>
+
 				  <h1>Designing Properties</h1>
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Not actually the real rules</li>
+				    </ul>
+				  </aside>
+
 				  <h2>Scenario: Yahtzee game</h2>
 				  <p>
 				    Have a better "hand" of five dice than your opponent
@@ -319,6 +380,12 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Hand case class is as you would expect</li>
+				      <li>Imagine we have arbs for Hand (doesn't really matter what they are)</li>
+				    </ul>
+				  </aside>
 				  <h2>Testing Winning Hands</h2>
 				    <pre><code class="nohighlight">forAll { (h1: Hand, h2: Hand) =>
   val h1Score = {
@@ -365,6 +432,12 @@ res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
 
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Not implemented the ordering of the dice for 3-o-a-k for space</li>
+				      <li>You can imagine the other generators</li>
+				    </ul>
+				  </aside>
 				  <h2>Testing Winning Hands</h2>
 				  <ul class="fragment">
 				    <li>Generate a pair of <i>known hands</i></li>
@@ -400,6 +473,11 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>All winning gen hands beat all losing gen hands</li>
+				    </ul>
+				  </aside>
 				  <h2>Testing Winning Hands</h2>
 				  <p>
 				    Step three: Use ScalaCheck to partition the generators.
@@ -437,6 +515,11 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Collect takes any type, not just String</li>
+				    </ul>
+				  </aside>
 				  <h2>Testing Winning Hands</h2>
 				  <p>
 				    Bonus step: Verify what exactly was run.
@@ -457,17 +540,18 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
     }
   }
 }</pre></code>
-
-
-
-
-
 				</section>
 
-
-
-
 				<section>
+				  <aside class="notes">
+				    <p>Notice no FH v 4OAK:</p>
+				    <ul>
+				      <li>It will appear in later runs</li>
+				      <li>Could run more tests</li>
+				      <li>Change the weightings
+				    </ul>
+				    <p>Remember this is inherently random!</p>
+				  </aside>
 				  <h2>Testing Winning Hands</h2>
 				  <br/>
 				  <h4>Verifying what exactly was tested</h4>
@@ -488,6 +572,11 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Notice passed statement</li>
+				    </ul>
+				  </aside>
 				  <h2>Exhausting Test Cases</h2>
 				  <br/>
 				  <h4>Prefer generators over <code>==></code></h4>
@@ -523,6 +612,11 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>This test uses forAllNoShrink</li>
+				    </ul>
+				  </aside>
 				  <h2>Labelling Properties</h2>
 				  <br/>
 				  <h4>Better than <code>println</code></h4>
@@ -556,6 +650,11 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Perhaps you want to test a service: could "wire it up" with this for successful and failed responses</li>
+				    </ul>
+				  </aside>
 				  <h2>Creating Successful and<br/> Failed Data</h2>
 <pre class="fragment"><code class="nohighlight">def genPick[A, B](implicit aa: Arbitrary[A],
                            ab: Arbitrary[B]
@@ -591,6 +690,14 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Functions are types too!</li>
+				      <li>The dual of Gen</li>
+				      <li>Second code snippet shows it's not a fluke</li>
+				      <li>Function param is ignored</li>
+				    </ul>
+				  </aside>
 				  <h2>Cogen</h2>
 				  <br/>
 				  <h4 class="fragment">Before Scalacheck 1.13.0:</h4>
@@ -615,6 +722,11 @@ res7: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩</code></pre>
 				</section>
 
 				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Impl details of Cogen don't matter</li>
+				    </ul>
+				  </aside>
 				  <h2>Cogen</h2>
 				  <br/>
 				  <h4>But now:</h4>
@@ -644,8 +756,7 @@ res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
 				    We can use Shapeless's automatic typeclass derivation:
 				  </p>
 				  <pre class="fragment"><code class="nohighlight">"com.github.alexarchambault"
-     %% "scalacheck-shapeless_1.13"
-     %  "1.1.0-RC1"</code></pre>
+             %% "scalacheck-shapeless_1.13" % "1.1.0-RC1"</code></pre>
 				</section>
 
 				<section>
@@ -731,6 +842,11 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 				help: false,
 				transition: 'none',
 
+			        multiplex: {
+                                   secret: null,
+                                   id: 'aa1a2b858fcc6c96',
+                                   url: 'http://54.229.47.166:1948'
+                                },
 				// Optional reveal.js plugins
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -738,7 +854,9 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
+			                { src: 'plugin/notes/notes.js', async: true },
+			                { src: 'http://cdn.socket.io/socket.io-1.3.5.js', async: true },
+                                        { src: 'plugin/multiplex/client.js', async: true }
 				]
 			});
 
