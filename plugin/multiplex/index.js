@@ -31,7 +31,15 @@ io.on( 'connection', function( socket ) {
 
 app.get("/", function(req, res) {
 	res.writeHead(200, {'Content-Type': 'text/html'});
-	fs.createReadStream(opts.baseDir + '/index.html').pipe(res);
+
+	var stream = fs.createReadStream(opts.baseDir + '/index.html');
+	stream.on('error', function( error ) {
+		res.write('<style>body{font-family: sans-serif;}</style><h2>reveal.js multiplex server.</h2><a href="/token">Generate token</a>');
+		res.end();
+	});
+	stream.on('readable', function() {
+		stream.pipe(res);
+	});
 });
 
 app.get("/token", function(req,res) {
