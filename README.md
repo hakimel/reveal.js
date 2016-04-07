@@ -9,7 +9,6 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Instructions](#instructions)
   - [Markup](#markup)
   - [Markdown](#markdown)
-    - [External Markdown](#external-markdown)
   - [Element Attributes](#element-attributes)
   - [Slide Attributes](#slide-attributes)
 - [Configuration](#configuration)
