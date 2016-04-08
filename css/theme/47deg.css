@@ -45,6 +45,36 @@ body {
     font-weight: inherit;
 }
 
+.reveal .finish {
+    padding: 0;
+    margin: 0;
+}
+
+.reveal .finish li {
+    list-style: none;
+}
+
+.reveal .main p {
+    color: #fff;
+}
+
+.reveal .logo-main {
+    height: 130px;
+    width: 130px;
+    position: absolute;
+    right: 0;
+    top: 90px;
+}
+
+.reveal .logo-main img {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    display: block;
+    margin: 0;
+}
+
 
 /*********************************************
  * 47 DEGREES LOGO
@@ -178,6 +208,7 @@ body {
     margin: 20px 0;
     text-align: left;
     line-height: 1.3;
+    color: #666;
 }
 
 
@@ -203,7 +234,7 @@ body {
 .reveal dl,
 .reveal ul {
     text-align: left;
-    color: #535353;
+    color: #666;
     margin: 0 0 0 1em;
 }
 
