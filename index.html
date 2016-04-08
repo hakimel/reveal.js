@@ -42,6 +42,7 @@
 			<div class="slides">
 				<section data-background="#EF2824">
 					<h1>Practical ScalaCheck</h1>
+					<p>Noel Markham (47 Degrees)</p>
 				</section>
 
 				<section>
@@ -70,7 +71,7 @@
 				  </aside>
 
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+
 				  <h4>A brief example</h4>
 				  <pre class="fragment"><code class="nohighlight">scala> import org.scalacheck.Prop.forAll
 import org.scalacheck.Prop.forAll
@@ -92,7 +93,7 @@ prop: org.scalacheck.Prop = Prop
 				    </ul>
 				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+
 				  <h4>What ScalaCheck is:</h4>
 				  <ul>
 				    <li class="fragment">A bridge between types and values</li>
@@ -104,7 +105,7 @@ prop: org.scalacheck.Prop = Prop
 				
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+				 
 				  <h4>What ScalaCheck is not:</h4>
 				  <ul>
 				    <li class="fragment">A library for random generation</li>
@@ -120,7 +121,7 @@ prop: org.scalacheck.Prop = Prop
 				    </ul>
 				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+			
 				  <h4>More examples</h4>
 				  <pre class="fragment"><code class="nohighlight">forAll { x: Int =>
   Math.abs(x) >= 0
@@ -141,7 +142,7 @@ res1: Int = -2147483648</pre></code>
 				    </ul>
 				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+		
 				  <h4>More examples</h4>
 				  <pre><code class="nohighlight">forAll { x: Int =>
   Math.abs(x) >= 0
@@ -163,7 +164,7 @@ res1: Int = -2147483648</pre></code>
 				    </ul>
 				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+			
 				  <h4>More examples</h4>
 				  <pre class="fragment"><code class="nohighlight">def brokenReverse[X](xs: List[X]): List[X] =
   if (xs.length > 4) xs else xs.reverse
@@ -183,7 +184,7 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 
 				<section>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+		
 				  <h4>More examples</h4>
 				  <pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
   list1.length < (list1 ::: list2).length
@@ -199,7 +200,7 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 				    </ul>
 				  </aside>
 				  <h2>Introducing ScalaCheck</h2>
-				  <br/>
+	
 				  <h4>More examples</h4>
 				  <p>We could use <code>==></code> here again
 				  <p class="fragment">Or we could use a different generator for non-empty lists:</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.nonEmptyListOf(arbitrary[Int]),
@@ -244,7 +245,7 @@ forAll { (xs: List[Int]) => xs.length > 0 ==>
 
 				<section>
 				  <h2>Gen</h2>
-				  <br/>
+			
 				  <h4>Sampling Data</h4>
 				  <pre><code class="nohighlight">scala> import org.scalacheck.Gen._
 import org.scalacheck.Gen._
@@ -258,7 +259,7 @@ res1: Option[Int] = Some(17)</pre></code>
 
 				<section>
 				  <h2>Gen</h2>
-				  <br/>
+			
 				  <h4>Gen is a monad</h4>
 				  <pre class="fragment"><code class="nohighlight">def cappedString: Gen[String] = for {
   c <- alphaUpperChar
@@ -553,7 +554,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				    <p>Remember this is inherently random!</p>
 				  </aside>
 				  <h2>Testing Winning Hands</h2>
-				  <br/>
+		
 				  <h4>Verifying what exactly was tested</h4>
 <pre><code class="nohighlight">[info] > Collected test data:
 [info] 20% Yahtzee vs FourOfAKind
@@ -578,7 +579,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				    </ul>
 				  </aside>
 				  <h2>Exhausting Test Cases</h2>
-				  <br/>
+				 
 				  <h4>Prefer generators over <code>==></code></h4>
 
 
@@ -595,7 +596,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Labelling Generators</h2>
-				  <br/>
+				
 				  <h4>Clearer data</h4>				  
 <pre class="fragment"><code class="nohighlight">forAll(arbitrary[Int], arbitrary[Map[Int, String]]) { (i, m) =>
   m.get(i).isDefined
@@ -618,7 +619,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				    </ul>
 				  </aside>
 				  <h2>Labelling Properties</h2>
-				  <br/>
+				
 				  <h4>Better than <code>println</code></h4>
 <pre class="fragment"><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
   val (max, min) = (i max j, i min j)
@@ -632,7 +633,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Labelling Properties</h2>
-				  <br/>
+				 
 				  <h4>Better than <code>println</code></h4>
 <pre><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
   val (max, min) = (i max j, i min j)
@@ -674,7 +675,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 
 				<section>
 				  <h2>Integration with CI</h2>
-				  <br/>
+				  
 				  <h4>More tests on the CI server!</h4>
 				  <p class="fragment">
 				    Use the <code>--minSuccessfulTests</code> parameter in SBT:
@@ -699,7 +700,7 @@ val genYahtzee: Gen[Hand] = oneOf(allDice)
 				    </ul>
 				  </aside>
 				  <h2>Cogen</h2>
-				  <br/>
+				  
 				  <h4 class="fragment">Before Scalacheck 1.13.0:</h4>
 				  
 				  <pre class="fragment"><code class="nohighlight">scala> val fa = arbitrary[Int => String].sample.get
@@ -728,7 +729,7 @@ res7: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩</code></pre>
 				    </ul>
 				  </aside>
 				  <h2>Cogen</h2>
-				  <br/>
+			
 				  <h4>But now:</h4>
 				  
 				  <pre class="fragment"><code class="nohighlight">scala> val f = arbitrary[Int => String].sample.get
@@ -750,7 +751,7 @@ res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
 
 				<section>
 				  <h2>Removing Arbitraries</h2>
-				  <br/>
+				 
 				  <h4>Using scalacheck-shapeless</h4>
 				  <p class="fragment">
 				    We can use Shapeless's automatic typeclass derivation:
@@ -761,7 +762,7 @@ res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
 
 				<section>
 				  <h2>Using scalacheck-shapeless</h2>
-				  <br/>
+				 
 				  <h4>Full example</h4>
 				  <pre class="fragment"><code class="nohighlight">> test:console
 [info] Starting scala interpreter...
@@ -782,7 +783,7 @@ import org.scalacheck.Arbitrary._</code></pre>
 
 				<section>
 				  <h2>Using scalacheck-shapeless</h2>
-				  <br/>
+				  
 				  <h4>Full example</h4>
 <pre class="fragment"><code class="nohighlight">scala> arbitrary[Coordinates].sample
 res0: Option[Coordinates] = Some(Coordinates(0,537278256,쪗ܘ暎))
@@ -793,7 +794,7 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 
 				<section>
 				  <h2>Using scalacheck-shapeless</h2>
-				  <br/>
+				
 				  <p>
 				    This can derive <i>any</i> <code>Arbitrary[A]</code> as long as:
 				    <ul>
@@ -808,7 +809,7 @@ res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></p
 
 				<section>
 				  <h1>Thank You</h1>
-				  <br/>
+				  
 				  <h4>Useful links</h4>
 				  <ul>
 				    <li><a href="https://www.scalacheck.org/">ScalaCheck website</a></li>
