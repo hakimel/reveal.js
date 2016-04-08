@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js – The HTML Presentation Framework</title>
+		<title>Practical Scalacheck</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="An introduction to integrating Scalacheck into your daily workflow">
+		<meta name="author" content="Noel Markham">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/47deg.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -40,360 +40,817 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
+				<section class="main" data-background="#EF2824">
+					<h1>Practical ScalaCheck</h1>
+					<p>Noel Markham (47 Degrees)</p>
+					<div class="logo-main">
+					    <img src="img/brand_main.png" alt="">
+					</div>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
+				  <aside class="notes">
+				    <p>There is a lot of code, so if you can follow along on your own screen, that might help</p>
+				  </aside>
+				  <h2>Agenda</h2>
+				  <p></p>
+				  <ul>
+				    <li>Brief introduction</li>
+				    <li>The important classes in ScalaCheck</li>
+				    <li>Writing properties</li>
+				    <li>Tips and techniques</li>
+				    <li>Boilerplate reduction</li>
+				  </ul>
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
+				  <p class="fragment">Follow the slides live at <a href="http://noelmarkham.github.io/practical-scalacheck/index.html">http://tiny.cc/lx_scalacheck</a></p>
 				</section>
 
 				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
+				  <aside class="notes">
+				    <ul>
+				      <li>Imports will be introduced as we go</li>
+				      <li>This output is from the REPL, but most of the talk is taken from SBT</li>
+				    </ul>
+				  </aside>
+
+				  <h2>Introducing ScalaCheck</h2>
+
+				  <h4>A brief example</h4>
+				  <pre class="fragment"><code class="nohighlight">scala> import org.scalacheck.Prop.forAll
+import org.scalacheck.Prop.forAll
+</pre></code><pre class="fragment"><code class="nohighlight">scala> val prop = forAll { s: String =>
+     |   s.length >= 0
+     | }
+prop: org.scalacheck.Prop = Prop
+</pre></code><pre class="fragment"><code class="nohighlight">scala> prop.check
++ OK, passed 100 tests.</pre></code>
+                                  <br/>
+                                  <p class="fragment">Also works out-of-the-box with SBT</p>
+                                </section>
+                                <section>
+  				  <aside class="notes">
+				    <ul>
+				      <li>You don't need to make sure bools always return T or F, or a UInt is always +ve</li>
+				      <li>Things that can't be encoded in the types in Scala, like monad laws</li>
+				      <li>Convo: have you thought about this, what about that input etc</li>
+				    </ul>
+				  </aside>
+				  <h2>Introducing ScalaCheck</h2>
+
+				  <h4>What ScalaCheck is:</h4>
+				  <ul>
+				    <li class="fragment">A bridge between types and values</li>
+				    <li class="fragment">What you should be using instead of "stubbed" or sample data
+				    <li class="fragment">A conversation about your implementation and tests</li>
+				    <li class="fragment">Thorough</li>
+				  </ul>
+				</section>
+				
+				<section>
+				  <h2>Introducing ScalaCheck</h2>
+				 
+				  <h4>What ScalaCheck is not:</h4>
+				  <ul>
+				    <li class="fragment">A library for random generation</li>
+				    <li class="fragment">A silver bullet</li>
+				    <li class="fragment">Fast <i class="fragment">(???)</i></li>
+				  </ul>
+				</section>
+				
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Two's complement</li>
+				    </ul>
+				  </aside>
+				  <h2>Introducing ScalaCheck</h2>
+			
+				  <h4>More examples</h4>
+				  <pre class="fragment"><code class="nohighlight">forAll { x: Int =>
+  Math.abs(x) >= 0
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 30 passed tests.
+[info] > ARG_0: -2147483648</pre></code>
+
+				  <pre class="fragment"><code class="nohighlight">scala> Integer.MIN_VALUE
+res0: Int = -2147483648
+
+scala> Math.abs(Integer.MIN_VALUE)
+res1: Int = -2147483648</pre></code>
 				</section>
 
 				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
+				  <aside class="notes">
+				    <ul>
+				      <li>==> is called implies or implication</li>
+				    </ul>
+				  </aside>
+				  <h2>Introducing ScalaCheck</h2>
+		
+				  <h4>More examples</h4>
+				  <pre><code class="nohighlight">forAll { x: Int =>
+  Math.abs(x) >= 0
+}</pre></code><pre><code class="nohighlight">[info] ! Falsified after 30 passed tests.
+[info] > ARG_0: -2147483648</pre></code>
+				  <div><p>Constrain generation with <code>==></code></p><pre class="fragment"><code class="nohighlight">forAll { x: Int =>
+  x > Integer.MIN_VALUE ==>
+  Math.abs(x) >= 0
+}</div></pre></code><pre class="fragment"><code class="nohighlight">[info] + Math.abs: OK, passed 100 tests.
+</pre></code>
 				</section>
 
 				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
+				  <aside class="notes">
+				    <ul>
+				      <li>List length is lower</li>
+				      <li>Values are simpler</li>
+				      <li>0,0,0,0,0 would pass</li>
+				    </ul>
+				  </aside>
+				  <h2>Introducing ScalaCheck</h2>
+			
+				  <h4>More examples</h4>
+				  <pre class="fragment"><code class="nohighlight">def brokenReverse[X](xs: List[X]): List[X] =
+  if (xs.length > 4) xs else xs.reverse
 
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
+forAll { (xs: List[Int]) => xs.length > 0 ==>
+  (xs.last == brokenReverse(xs).head)
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 3 passed tests.
+[info] > ARG_0: List("0", "0", "0", "0", "1")
+[info] > ARG_0_ORIGINAL: List("219254809",
+                              "-1487516422",
+                              "-1988082558",
+                              "-2147483648",
+                              "-2053120082",
+                              "2147483647")</pre></code>
+				    <p class="fragment">This is <i>shrinking</i></p>
 				</section>
 
 				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
+				  <h2>Introducing ScalaCheck</h2>
+		
+				  <h4>More examples</h4>
+				  <pre class="fragment"><code class="nohighlight">forAll { (list1: List[Int], list2: List[Int]) =>
+  list1.length < (list1 ::: list2).length
+}
+</pre></code><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > ARG_0: List()
+[info] > ARG_1: List()</pre></code>
 				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Don't need to annotate the type of the params: can be inferred from the forAll params</li>
+				    </ul>
+				  </aside>
+				  <h2>Introducing ScalaCheck</h2>
+	
+				  <h4>More examples</h4>
+				  <p>We could use <code>==></code> here again
+				  <p class="fragment">Or we could use a different generator for non-empty lists:</p></p><pre class="fragment"><code class="nohighlight">forAll(Gen.nonEmptyListOf(arbitrary[Int]),
+       Gen.nonEmptyListOf(arbitrary[Int])) { (l1, l2) =>
+  l1.length < (l1 ::: l2).length    
+}</pre></code><pre class="fragment"><code class="nohighlight">[info] + OK, passed 100 tests.</pre></code>
 				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+  
+				<section>
+				  <h1>Important Classes</h1>
 				</section>
 
 				<section>
-					<h2>Pretty Code</h2>
-					<pre><code class="hljs" data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
+				  <h2>Gen</h2>
+				  <ul>
+				    <li class="fragment">Stands for <i>Generator</i></li>
+				    <li class="fragment">Can be used to produce <i>any</i> value for a particular type<i class="fragment"> or a subset of values</i></li>
+				    <li class="fragment">It is a monad, so we can sequence/chain generators to produce new ones</li>
+				    <li class="fragment">ScalaCheck ships with many generators, and facilities to create more</li>
+				  </ul>
+				</section>
 
-    var nodes = document.querySelectorAll( selector );
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>We'll come back to arbitrary</li>
+				    </ul>
+				  </aside>
+				  <h2>Gen</h2>
+				  <h4>Selected API Generators</h4>
+				  <pre class="fragment"><code class="nohighlight">import org.scalacheck.Gen._</pre></code>
+				  <pre class="fragment"><code class="nohighlight">def alphaStr: Gen[String]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def posNum[T](implicit n: Numeric[T]): Gen[T]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def oneOf[T](xs: Seq[T]): Gen[T]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def listOf[T](g: Gen[T]): Gen[List[T]]</code></pre>
+				  <pre class="fragment"><code class="nohighlight">def listOfN[T](n: Int, g: Gen[T]): Gen[List[T]]</code></pre>
+				  <p class="fragment">And one in a different class:</>
+				  <pre class="fragment"><code class="nohighlight">import org.scalacheck.Arbitrary._</pre></code>
+				  <pre class="fragment"><code class="nohighlight">def arbitrary[T](implicit a: Arbitrary[T]): Gen[T]</code></pre>
+			
+				</section>
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
+				<section>
+				  <h2>Gen</h2>
+			
+				  <h4>Sampling Data</h4>
+				  <pre><code class="nohighlight">scala> import org.scalacheck.Gen._
+import org.scalacheck.Gen._
 
-      if( !node.className ) {
-        node.className += ' roll';
-      }
+scala> posNum[Int].sample
+res0: Option[Int] = Some(80)
+
+scala> posNum[Int].sample
+res1: Option[Int] = Some(17)</pre></code>
+				</section>
+
+				<section>
+				  <h2>Gen</h2>
+			
+				  <h4>Gen is a monad</h4>
+				  <pre class="fragment"><code class="nohighlight">def cappedString: Gen[String] = for {
+  c <- alphaUpperChar
+  s <- listOf(alphaLowerChar)
+} yield (c :: s).mkString
+</pre></code><pre class="fragment"><code class="nohighlight">scala> cappedString.sample
+res2: Option[String] = Some(Rmvbrcgtzvdlnssznckgedmyeeoxwiqjvtiby)</pre></code>
+				</section>
+
+				<section>
+				  <h2>The Arbitrary Typeclass</h2>
+				  <p class="fragment">
+				    Allows generators to be implicitly summoned
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">case class Record(s: String)
+
+val genRecord: Gen[Record] = alphaStr.map(Record.apply)
+
+implicit val arbRecord: Arbitrary[Record] = Arbitrary(genRecord)</pre></code><pre class="fragment"><code class="nohighlight">forAll { r: Record =>
+  // test here using generated Record
+}
+</pre></code>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>ScalaCheck ships with arbitraries for most obvious types</li>
+				    </ul>
+				  </aside>
+
+				  <h2>The Arbitrary Typeclass</h2>
+				  <p>We can also use the <code>arbitrary[T]</code> method now:
+				    <pre class="fragment"><code class="nohighlight">scala> arbitrary[Record].sample
+res1: Option[Record] = Some(Record(vpwmFseQRubujRridyQ))</code></pre>
+
+				  </p>
+				  <p class="fragment">
+				    Which <code>Gen</code> instance should we use for the Arbitrary?
+				  </p>
+				  <ul>
+				    <li class="fragment">As a rule, the <code>Gen</code> which produces the full range of values</li>
+				  </ul>
+				</section>
+
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>This is generally where people fall down in getting the most value from Scalacheck</li>
+				    </ul>
+				  </aside>
+
+				  <h1>Designing Properties</h1>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Not actually the real rules</li>
+				    </ul>
+				  </aside>
+
+				  <h2>Scenario: Yahtzee game</h2>
+				  <p>
+				    Have a better "hand" of five dice than your opponent
+				  </p>
+				  <div class="fragment" style="text-align: left">
+				    Yahtzee
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <br/>
+				    Straight
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <img src="img/Dice-3.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <br/>
+				    Full house
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <br/>
+				    Four of a kind
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-4.svg" width="30" class="plain"/>
+				    <img src="img/Dice-6.svg" width="30" class="plain"/>
+				    <br/>
+				    Three of a kind
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-1.svg" width="30" class="plain"/>
+				    <img src="img/Dice-5.svg" width="30" class="plain"/>
+				    <img src="img/Dice-2.svg" width="30" class="plain"/>
+				    <br/>
+				  </div>
+				    <pre class="fragment"><code class="nohighlight">def winner(h1: Hand, h2: Hand): Hand = ???</pre></code>
+				  
+				  <p class="fragment">
+				    Can you test this without Scalacheck?
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Testing Winning Hands</h2>
+				    <ul class="fragment">
+				      <li>Generate two random hands</li>
+				      <li>Work out the winning hand</li>
+				      <li>Check it wins</li>
+				    </ul>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Hand case class is as you would expect</li>
+				      <li>Imagine we have arbs for Hand (doesn't really matter what they are)</li>
+				    </ul>
+				  </aside>
+				  <h2>Testing Winning Hands</h2>
+				    <pre><code class="nohighlight">forAll { (h1: Hand, h2: Hand) =>
+  val h1Score = {
+       if (h1.p1 == h1.p2 &&
+           h1.p2 == h1.p3 &&
+           h1.p3 == h1.p4 &&
+           h1.p4 == h1.p5) Yahtzee
+       else if (/* and so on */)				
+  }
+
+  val h2Score = // as above
+
+  val winningHand = if(h1Score >= h2Score) h1 else h2
+
+  winner(h1, h2) ?= winningHand
+}</pre></code>
+				  <p class="fragment">
+				    Problem: we have reimplemented our application code in Scalacheck
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Testing Winning Hands</h2>
+				  <ul class="fragment">
+				    <li>Generate some random dice values</li>
+				    <li>Construct known hands</li>
+				    <li>Confirm that the correct hand wins</li>
+				  </ul>
+				  <pre class="fragment"><code class="nohighlight">forAll { (y: Die, fhA: Die, fhB: Die) => fhA != fhB ==>
+  val yahtzee = Hand(y, y, y, y, y)
+  val fullHouse = Hand(fhA, fhA, fhA, fhB, fhB)
+
+  (winningHand(yahtzee, fullHouse) ?= yahtzee) &&
+  (winningHand(fullHouse, yahtzee) ?= yahtzee)
+}</pre></code>
+				  <p class="fragment">
+				    We still have untested conditions, such as:
+				    <ul class="fragment">
+				      <li>Different permutations of full house dice positions</li>
+				      <li>Comparing all winning hands with each other is quadratic!</li>
+				    </ul>
+				  </p>
+				</section>
+
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Not implemented the ordering of the dice for 3-o-a-k for space</li>
+				      <li>You can imagine the other generators</li>
+				    </ul>
+				  </aside>
+				  <h2>Testing Winning Hands</h2>
+				  <ul class="fragment">
+				    <li>Generate a pair of <i>known hands</i></li>
+				    <li>Make sure the one that should win, wins</li>
+				  </ul>
+				  <p class="fragment">
+				    Step one: create a generator for each winning hand.
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">val allDice: List[Die] = List(One, Two, Three, Four, Five, Six)
+
+val genYahtzee: Gen[Hand] = oneOf(allDice)
+                              .map(d => Hand(d, d, d, d, d))</pre></code>
+				  <pre class="fragment"><code class="nohighlight">val genThreeOfAKind: Gen[Hand] = for {
+  d1 <- oneOf(allDice)
+  d2 <- oneOf(allDice diff List(d1))
+  d3 <- oneOf(allDice diff List(d1, d2))
+} yield Hand(d1, d1, d1, d2, d3)</pre></code>
+				</section>
+				
+				<section>
+				  <h2>Testing Winning Hands</h2>
+				  <p>
+				    Step two: order the generators to reflect superior hands.
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">val orderedGenerators: List[Gen[Hand]] = List(
+  genYahtzee,
+  genStraight,
+  genFullHouse,
+  genFourOfAKind,
+  genThreeOfAKind
+)</pre></code>
+				</section>
+
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>All winning gen hands beat all losing gen hands</li>
+				    </ul>
+				  </aside>
+				  <h2>Testing Winning Hands</h2>
+				  <p>
+				    Step three: Use ScalaCheck to partition the generators.
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
+
+  val (winningGens, losingGens) = orderedGens.splitAt(idx)
+
+  // ...</pre></code>
+				  <br/>
+				  <p class="fragment">
+				    Full disclosure<br/>
+				    Due to API restrictions, this is not actually how it is implemented, but the intention is exactly the same. See Github (or talk to me) for details.
+				  </p>
+				</section>
+
+				<section>
+				  <h2>Testing Winning Hands</h2>
+				  <p>
+				    Step four: Pit a hand from one of the better generators against a worse one. The better one should win.
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
+
+  val (winningGens, losingGens) = orderedGens.splitAt(idx)
+
+  forAll(oneOf(winningGens), oneOf(losingGens))
+                          { (winningHand, losingHand) =>
+
+    (winner(winningHand, losingHand) ?= winningHand) &&
+    (winner(losingHand, winningHand) ?= winningHand)
+  }
+}</pre></code>
+
+				  <pre class="fragment"><code class="nohighlight">[info] + Winning hand is chosen correctly: OK, passed 100 tests.</pre></code>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Collect takes any type, not just String</li>
+				    </ul>
+				  </aside>
+				  <h2>Testing Winning Hands</h2>
+				  <p>
+				    Bonus step: Verify what exactly was run.
+				  </p>
+				  <p class="fragment">
+				    Use the collect function:
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">forAll(chooseNum[Int](1, orderedGens.length - 1)) { idx =>
+
+  val (winningGens, losingGens) = orderedGens.splitAt(idx)
+
+  forAll(oneOf(winningGens), oneOf(losingGens))
+                          { (winningHand, losingHand) =>
+
+    collect(s"${winningHand.score} vs ${losingHand.score}") {
+      (winner(winningHand, losingHand) ?= winningHand) &&
+      (winner(losingHand, winningHand) ?= winningHand)
     }
   }
+}</pre></code>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <p>Notice no FH v 4OAK:</p>
+				    <ul>
+				      <li>It will appear in later runs</li>
+				      <li>Could run more tests</li>
+				      <li>Change the weightings
+				    </ul>
+				    <p>Remember this is inherently random!</p>
+				  </aside>
+				  <h2>Testing Winning Hands</h2>
+		
+				  <h4>Verifying what exactly was tested</h4>
+<pre><code class="nohighlight">[info] > Collected test data:
+[info] 20% Yahtzee vs FourOfAKind
+[info] 19% Yahtzee vs ThreeOfAKind
+[info] 16% Yahtzee vs FullHouse
+[info] 13% Yahtzee vs Straight
+[info] 10% FullHouse vs ThreeOfAKind
+[info] 9% Straight vs ThreeOfAKind
+[info] 6% FourOfAKind vs ThreeOfAKind
+[info] 6% Straight vs FourOfAKind
+[info] 1% Straight vs FullHouse
+</code></pre>
+				</section>
+				<section>
+				  <h1>Tips and Techniques</h1>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Notice passed statement</li>
+				    </ul>
+				  </aside>
+				  <h2>Exhausting Test Cases</h2>
+				 
+				  <h4>Prefer generators over <code>==></code></h4>
+
+
+<pre class="fragment"><code class="nohighlight">forAll { (i1: Int, i2: Int, i3: Int) =>
+  (i1 > 0 && i2 > 0 && i3 > 0) ==> {
+    passed
+  }
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! 3 positive integers: Gave up after only 51 passed tests.
+                              501 tests were discarded.
+</code></pre><pre class="fragment"><code class="nohighlight">forAll(posNum[Int], posNum[Int], posNum[Int]) { (i1, i2, i3) =>
+  passed
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] + 3 positive integers: OK, passed 100 tests.</code></pre>
+				</section>
+
+				<section>
+				  <h2>Labelling Generators</h2>
+				
+				  <h4>Clearer data</h4>				  
+<pre class="fragment"><code class="nohighlight">forAll(arbitrary[Int], arbitrary[Map[Int, String]]) { (i, m) =>
+  m.get(i).isDefined
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > ARG_0: 1
+[info] > ARG_1: Map()</code></pre><pre class="fragment"><code class="nohighlight">forAll("Index"           |: arbitrary[Int],
+       "Lookup database" |: arbitrary[Map[Int, String]]
+      ) { (i, m) =>
+
+  m.get(i).isDefined
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > Index: -2147483648
+[info] > Lookup database: Map()</code></pre>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>This test uses forAllNoShrink</li>
+				    </ul>
+				  </aside>
+				  <h2>Labelling Properties</h2>
+				
+				  <h4>Better than <code>println</code></h4>
+<pre class="fragment"><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
+  val (max, min) = (i max j, i min j)
+  val (maxSq, minSq) = (max * max, min * min)
+
+  minSq <= maxSq
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 2 passed tests.
+[info] > ARG_0: 1528767008
+[info] > ARG_1: 1356090093</code></pre>
+				</section>
+
+				<section>
+				  <h2>Labelling Properties</h2>
+				 
+				  <h4>Better than <code>println</code></h4>
+<pre><code class="nohighlight">forAllNoShrink { (i: Int, j: Int) =>
+  val (max, min) = (i max j, i min j)
+  val (maxSq, minSq) = (max * max, min * min)
+
+  s"[min: $min, square: $minSq], [max: $max, square: $maxSq]" |:
+    (minSq <= maxSq)
+}</code></pre><pre class="fragment"><code class="nohighlight">[info] ! Falsified after 0 passed tests.
+[info] > Labels of failing property:
+[info] [min: -2147483648, square: 0],
+       [max: -2140727206, square: -1698889820]
+[info] > ARG_0: -2140727206
+[info] > ARG_1: -2147483648
+</code></pre>
+				</section>
+
+				<section>
+				  <aside class="notes">
+				    <ul>
+				      <li>Perhaps you want to test a service: could "wire it up" with this for successful and failed responses</li>
+				    </ul>
+				  </aside>
+				  <h2>Creating Successful and<br/> Failed Data</h2>
+<pre class="fragment"><code class="nohighlight">def genPick[A, B](implicit aa: Arbitrary[A],
+                           ab: Arbitrary[B]
+    ): Gen[(Map[A, B], List[A], List[A])] = for {
+
+  pairs <- arbitrary[Map[A, B]]
+  keys = pairs.keySet
+  validPicks <- someOf(keys)
+  anotherList <- listOf(arbitrary[A])
+  invalidPicks = anotherList.filterNot(i => keys.contains(i))
+} yield (pairs, validPicks.toList, invalidPicks)</code></pre><pre class="fragment"><code class="nohighlight">forAll(genPick[Int, String]) { case (mapping, succs, fails) =>
+  succs.forall(s => mapping.get(s).isDefined) &&
+  fails.forall(f => mapping.get(f).isEmpty)
 }
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+</code></pre><pre class="fragment"><code class="nohighlight">[info] + Using genPick: OK, passed 100 tests.</code></pre>
 				</section>
 
 				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
+				  <h2>Integration with CI</h2>
+				  
+				  <h4>More tests on the CI server!</h4>
+				  <p class="fragment">
+				    Use the <code>--minSuccessfulTests</code> parameter in SBT:
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">> testOnly YahtzeeProperties
+[info] + Winning hand is chosen correctly: OK, passed 100 tests.
+[info] Passed: Total 1, Failed 0, Errors 0, Passed 1
+[success] Total time: 0 s</code></pre>
+				  <pre class="fragment"><code class="nohighlight">> testOnly YahtzeeProperties -- -minSuccessfulTests 1000000
+[info] + Winning hand is chosen correctly: OK, passed 1000000 tests.
+[info] Passed: Total 1, Failed 0, Errors 0, Passed 1
+[success] Total time: 17 s</code></pre>
 				</section>
 
 				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
+				  <aside class="notes">
+				    <ul>
+				      <li>Functions are types too!</li>
+				      <li>The dual of Gen</li>
+				      <li>Second code snippet shows it's not a fluke</li>
+				      <li>Function param is ignored</li>
+				    </ul>
+				  </aside>
+				  <h2>Cogen</h2>
+				  
+				  <h4 class="fragment">Before Scalacheck 1.13.0:</h4>
+				  
+				  <pre class="fragment"><code class="nohighlight">scala> val fa = arbitrary[Int => String].sample.get
+fa: Int => String = &lt;function1>
+
+scala> fa(1)
+res4: String = 爧뀁ณﾙ㒄똧圞ﾨꉫ薇
+scala> fa(2)
+res5: String = 爧뀁ณﾙ㒄똧圞ﾨꉫ薇</code></pre>
+				  <pre class="fragment"><code class="nohighlight">scala> val fb = arbitrary[Int => String].sample.get
+fb: Int => String = &lt;function1>
+
+scala> fb(1)
+res6: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩
+scala> fb(2)
+res7: String = 羔ᱯ끭흓(拣༪㢬鰝ᯛ鎤ⳣ慩</code></pre>
+				  <p class="fragment">
+				    For <code>Arbitrary[A => B]</code>, you only need <code>Gen[B]</code>
+				  </p>
 				</section>
 
 				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
+				  <aside class="notes">
+				    <ul>
+				      <li>Impl details of Cogen don't matter</li>
+				    </ul>
+				  </aside>
+				  <h2>Cogen</h2>
+			
+				  <h4>But now:</h4>
+				  
+				  <pre class="fragment"><code class="nohighlight">scala> val f = arbitrary[Int => String].sample.get
+f: Int => String = &lt;function1>
+
+scala> f(4)
+res8: String = ᠣ澲蜕␧
+
+scala> f(5)
+res9: String = 荜௥尣흑狠榇ƺ㥀</code></pre>
+				  <p class="fragment">
+				    For <code>Arbitrary[A => B]</code>, you need a <code>Cogen[A]</code> and a <code>Gen[B]</code>
+				  </p>
 				</section>
 
 				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
+				  <h1>Boilerplate Reduction</h1>
 				</section>
 
 				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
+				  <h2>Removing Arbitraries</h2>
+				 
+				  <h4>Using scalacheck-shapeless</h4>
+				  <p class="fragment">
+				    We can use Shapeless's automatic typeclass derivation:
+				  </p>
+				  <pre class="fragment"><code class="nohighlight">"com.github.alexarchambault"
+             %% "scalacheck-shapeless_1.13" % "1.1.0-RC1"</code></pre>
 				</section>
 
 				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
+				  <h2>Using scalacheck-shapeless</h2>
+				 
+				  <h4>Full example</h4>
+				  <pre class="fragment"><code class="nohighlight">> test:console
+[info] Starting scala interpreter...
+[info]
+Welcome to Scala version 2.11.7 (Java HotSpot(TM) 64-Bit Server VM).
+Type in expressions to have them evaluated.
+Type :help for more information.
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
+scala> case class Coordinates(x: Int, y: Int, description: String)
+defined class Coordinates
+
+scala> import org.scalacheck.Shapeless._
+import org.scalacheck.Shapeless._
+
+scala> import org.scalacheck.Arbitrary._
+import org.scalacheck.Arbitrary._</code></pre>
 				</section>
 
 				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+				  <h2>Using scalacheck-shapeless</h2>
+				  
+				  <h4>Full example</h4>
+<pre class="fragment"><code class="nohighlight">scala> arbitrary[Coordinates].sample
+res0: Option[Coordinates] = Some(Coordinates(0,537278256,쪗ܘ暎))
+
+scala> arbitrary[Coordinates].sample
+res1: Option[Coordinates] = Some(Coordinates(-1204620568,0,掑὏꺒))</code></pre>
 				</section>
 
 				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
+				  <h2>Using scalacheck-shapeless</h2>
+				
+				  <p>
+				    This can derive <i>any</i> <code>Arbitrary[A]</code> as long as:
+				    <ul>
+				      <li class="fragment"><code>A</code> is a case class or sealed trait family of case classes</li>
+				      <li class="fragment">An implicit <code>Arbitrary</code> can be summoned for <code>A</code>'s constitent parts <i class="fragment">through automatic derivation or otherwise</i></li>
+				    </ul>
+				  </p>
+				  <p class="fragment">
+				    But beware: compile times can dramatically increase!
+				  </p>
 				</section>
 
 				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
+				  <h1>Thank You</h1>
+				  
+				  <h4>Useful links</h4>
+				  <ul class="finish">
+				    <li><a href="https://www.scalacheck.org/">ScalaCheck website</a></li>
+				    <li><a href="https://github.com/alexarchambault/scalacheck-shapeless">scalacheck-shapeless Github</a></li>
+				    <li><a href="http://www.artima.com/shop/scalacheck">Book:
+					ScalaCheck: The Definitive Guide</a></li>
+				  <p>
+				    <a style="color: #000;" href="http://twitter.com/noelmarkham">@noelmarkham</a>
+				  </p>
+				  <p>
+				    <a style="color: #000;" href="http://twitter.com/47deg">@47deg</a> - <a style="color: #000;" href="http://www.47deg.com">47deg.com</a>
 
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
+				  </p>
 				</section>
-
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
-
 			</div>
 
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
-
 		<script>
 
 			// Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
-				progress: true,
+				controls: false,
+				progress: false,
+				slideNumber: true,
 				history: true,
-				center: true,
+				center: false,
+				help: false,
+				transition: 'none',
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
+			        multiplex: {
+                                   secret: null,
+                                   id: 'aa1a2b858fcc6c96',
+                                   url: 'http://54.229.47.166:1948'
+                                },
 				// Optional reveal.js plugins
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -401,7 +858,9 @@ Reveal.addEventListener( 'customevent', function() {
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
+			                { src: 'plugin/notes/notes.js', async: true },
+			                { src: 'http://cdn.socket.io/socket.io-1.3.5.js', async: true },
+                                        { src: 'plugin/multiplex/client.js', async: true }
 				]
 			});
 

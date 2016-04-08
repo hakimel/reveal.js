@@ -468,6 +468,15 @@
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
 
+	        // 47Deg footer
+  	        dom.fortyseven = createSingletonNode( dom.wrapper, 'div', 'fortyseven', '' );
+
+	        // 47Deg logo
+	        dom.fortysevenlogo = createSingletonNode( dom.wrapper, 'div', 'fortysevenlogo', '' );
+
+	        // 47Deg line
+	        dom.fortysevenline = createSingletonNode( dom.wrapper, 'div', 'fortysevenline', '' );
+	    
 		// Element containing notes that are visible to the audience
 		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
 		dom.speakerNotes.setAttribute( 'data-prevent-swipe', '' );
@@ -588,6 +597,22 @@
 					background.style.left = -left + 'px';
 				}
 
+
+			        // 47deg footer
+   			        var fortyseven = document.createElement( 'div' );
+			        fortyseven.classList.add( 'fortyseven' );
+			        background.appendChild( fortyseven );
+
+			        // 47deg logo
+   			        var fortysevenlogo = document.createElement( 'div' );
+			        fortysevenlogo.classList.add( 'fortysevenlogo' );
+			        background.appendChild( fortysevenlogo );
+
+			        // 47deg footer line
+			        var fortysevenline = document.createElement( 'div' );
+			        fortysevenline.classList.add( 'fortysevenline' );
+			        background.appendChild( fortysevenline );
+			    
 				// Inject notes if `showNotes` is enabled
 				if( config.showNotes ) {
 					var notes = getSlideNotes( slide );
@@ -885,8 +910,11 @@
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 		dom.slideNumber.style.display = config.slideNumber && !isPrintingPDF() ? 'block' : 'none';
-
-		if( config.rtl ) {
+	        dom.fortyseven.style.display = 'block';
+	        dom.fortysevenlogo.style.display = 'block';
+	        dom.fortysevenline.style.display = 'block';
+		
+	        if( config.rtl ) {
 			dom.wrapper.classList.add( 'rtl' );
 		}
 		else {
@@ -2216,7 +2244,8 @@
 		updateProgress();
 		updateBackground();
 		updateParallax();
-		updateSlideNumber();
+	        updateSlideNumber();
+	        updateFortySeven();
 		updateNotes();
 
 		// Update the URL hash
@@ -2257,7 +2286,8 @@
 		updateControls();
 		updateProgress();
 		updateBackground( true );
-		updateSlideNumber();
+	        updateSlideNumber();
+	        updateFortySeven();
 		updateSlidesVisibility();
 		updateNotes();
 
@@ -2538,6 +2568,19 @@
 
 	}
 
+    function updateFortySeven() {
+	if(getSlidePastCount() == 0) {
+	    dom.fortyseven.innerHTML = '';
+	    dom.fortysevenlogo.innerHTML = '';
+	    dom.fortysevenline.innerHTML = '';
+	    dom.slideNumber.innerHTML = '';
+	} else {
+	    dom.fortyseven.innerHTML = '<span class="fortyseventext">@47deg</span>';
+	    dom.fortysevenlogo.innerHTML = '<img src="img/47deg.png"></img>';
+	    dom.fortysevenline.innerHTML = '<hr></hr>';
+	}
+    }
+    
 	/**
 	 * Updates the slide number div to reflect the current slide.
 	 *

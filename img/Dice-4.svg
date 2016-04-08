@@ -1,0 +1,7 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="557" height="557">
+<rect x="4" y="4" width="549" height="549" rx="68" fill="none" stroke="#000" stroke-width="7"/>
+<g stroke-dasharray="0,323" stroke-linecap="round">
+<path stroke="#740000" stroke-width="120" d="M117,117v325m323-2V115"/>
+<path stroke="#EF2824" stroke-width="110" d="M117,117v325m323-2V115"/>
+</g></svg>

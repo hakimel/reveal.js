@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 11 Build 197, SVG Export Plug-In . SVG Version: 6.0.0 Build 78)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"    "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_svg "http://www.w3.org/2000/svg">
+	<!ENTITY ns_xlink "http://www.w3.org/1999/xlink">
+]>
+<svg  xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 width="557" height="557" viewBox="0 0 557 557" style="overflow:visible;enable-background:new 0 0 557 557" xml:space="preserve"
+	>
+	
+		<g id="Ebene_3">
+			<circle style="fill:#EF2824;stroke:#740000;stroke-width:5;" cx="439.9746094" cy="439.9736328" r="57.1152344"/> 
+			<circle style="fill:#EF2824;stroke:#740000;stroke-width:5;" cx="117.0258789" cy="117.0263672" r="57.1147461"/> 
+			<path style="fill:none;stroke:#000000;stroke-width:7;" d="M553.5,485.5400391
+				C553.5,522.9189453,522.9179688,553.5,485.5390625,553.5H71.4589844C34.0820312,553.5,3.5,522.9199219,3.5,485.5410156
+				V71.4599609C3.5,34.0820312,34.0820312,3.5,71.4589844,3.5h414.0800781C522.9179688,3.5,553.5,34.0820312,553.5,71.4599609
+				V485.5400391z"/>
+		</g>
+	</svg>
