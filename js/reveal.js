@@ -32,6 +32,7 @@
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
+		UA = navigator.userAgent,
 
 		// Configuration defaults, can be overridden at initialization time
 		config = {
@@ -197,6 +198,9 @@
 		// Client is a mobile device, see #checkCapabilities()
 		isMobileDevice,
 
+		// Client is a desktop Chrome, see #checkCapabilities()
+		isChrome,
+
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
 
@@ -301,7 +305,8 @@
 	 */
 	function checkCapabilities() {
 
-		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( navigator.userAgent );
+		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( UA );
+		isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 
 		var testElement = document.createElement( 'div' );
 
@@ -324,13 +329,13 @@
 
 		// Transitions in the overview are disabled in desktop and
 		// Safari due to lag
-		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( navigator.userAgent );
+		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( UA );
 
 		// Flags if we should use zoom instead of transform to scale
 		// up slides. Zoom produces crisper results but has a lot of
 		// xbrowser quirks so we only use it in whitelsited browsers.
 		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
-						( /chrome/i.test( navigator.userAgent ) || /Version\/[\d\.]+.*Safari/.test( navigator.userAgent ) );
+						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
 	}
 
@@ -1048,7 +1053,7 @@
 
 		// Only support touch for Android, fixes double navigations in
 		// stock browser
-		if( navigator.userAgent.match( /android/gi ) ) {
+		if( UA.match( /android/gi ) ) {
 			pointerEvents = [ 'touchstart' ];
 		}
 
@@ -4183,7 +4188,7 @@
 		}
 		// There's a bug with swiping on some Android devices unless
 		// the default action is always prevented
-		else if( navigator.userAgent.match( /android/gi ) ) {
+		else if( UA.match( /android/gi ) ) {
 			event.preventDefault();
 		}
 
