@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 				files: [ 'index.html']
 			},
 			markdown: {
-				files: [ './*.md' ]
+				files: [ '*.md' ]
 			}
 		}
 
