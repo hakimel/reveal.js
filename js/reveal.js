@@ -1977,10 +1977,10 @@
 		var element = document.body;
 
 		// Check which implementation is available
-		var requestMethod = element.requestFullScreen
-					|| element.webkitRequestFullScreen
-					|| element.mozRequestFullScreen
-					|| element.msRequestFullscreen;
+		var requestMethod = element.requestFullScreen ||
+					element.webkitRequestFullScreen ||
+					element.mozRequestFullScreen ||
+					element.msRequestFullscreen;
 
 		if( requestMethod ) {
 			requestMethod.apply( element );
