@@ -166,6 +166,10 @@
 		// Flags if the overview mode is currently active
 		overview = false,
 
+		// Holds the dimensions of our overview slides, including margins
+		overviewSlideWidth = null,
+		overviewSlideHeight = null,
+
 		// The horizontal and vertical index of the currently active slide
 		indexh,
 		indexv,
@@ -1798,6 +1802,17 @@
 				}
 			} );
 
+			// Calculate slide sizes
+			var margin = 70;
+			var slideSize = getComputedSlideSize();
+			overviewSlideWidth = slideSize.width + margin;
+			overviewSlideHeight = slideSize.height + margin;
+
+			// Reverse in RTL mode
+			if( config.rtl ) {
+				overviewSlideWidth = -overviewSlideWidth;
+			}
+
 			updateSlidesVisibility();
 			layoutOverview();
 			updateOverview();
@@ -1821,19 +1836,10 @@
 	 */
 	function layoutOverview() {
 
-		var margin = 70;
-		var slideWidth = config.width + margin,
-			slideHeight = config.height + margin;
-
-		// Reverse in RTL mode
-		if( config.rtl ) {
-			slideWidth = -slideWidth;
-		}
-
 		// Layout slides
 		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
 			hslide.setAttribute( 'data-index-h', h );
-			transformElement( hslide, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
+			transformElement( hslide, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
@@ -1841,7 +1847,7 @@
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 
-					transformElement( vslide, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
+					transformElement( vslide, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
 				} );
 
 			}
@@ -1849,10 +1855,10 @@
 
 		// Layout slide backgrounds
 		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
-			transformElement( hbackground, 'translate3d(' + ( h * slideWidth ) + 'px, 0, 0)' );
+			transformElement( hbackground, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
 
 			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
-				transformElement( vbackground, 'translate3d(0, ' + ( v * slideHeight ) + 'px, 0)' );
+				transformElement( vbackground, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
 			} );
 		} );
 
@@ -1864,19 +1870,10 @@
 	 */
 	function updateOverview() {
 
-		var margin = 70;
-		var slideWidth = config.width + margin,
-			slideHeight = config.height + margin;
-
-		// Reverse in RTL mode
-		if( config.rtl ) {
-			slideWidth = -slideWidth;
-		}
-
 		transformSlides( {
 			overview: [
-				'translateX('+ ( -indexh * slideWidth ) +'px)',
-				'translateY('+ ( -indexv * slideHeight ) +'px)',
+				'translateX('+ ( -indexh * overviewSlideWidth ) +'px)',
+				'translateY('+ ( -indexv * overviewSlideHeight ) +'px)',
 				'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
 			].join( ' ' )
 		} );

@@ -1022,7 +1022,8 @@ html:-moz-full-screen-ancestor {
 	perspective: 700px;
 
 	.slides section {
-		height: 700px;
+		height: 100%;
+		top: 0 !important;
 		opacity: 1 !important;
 		overflow: hidden;
 		visibility: visible !important;
