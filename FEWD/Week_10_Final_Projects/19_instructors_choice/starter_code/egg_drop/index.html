@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+    	<meta name="description" content="Your description goes here">
+    	<meta name="keywords" content="one, two, three">
+	
+		<title>Egg Drop</title>
+		
+		<!-- external CSS link -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/style.css">
+		
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<header>
+				<h1>Let's drop some eggs!</h1>
+			</header>
+			<div id="main">
+				<div class="col-2 left">
+					<div id="instructions">
+						<ol>
+							<li>To start a new game, press either spacebar, down arrow, s, or enter.</li>
+							<li>To move the basket left or right, use the arrow keys or "a" and "d" keys.</li>
+							<li>To pause a game, press spacebar while playing.</li>
+						</ol>
+					</div>
+					<div id="score">You've caught <span>0</span> eggs</div>
+				</div>
+				<div id="egg-drop-game" class="col-5">
+					<div id="basket"></div>
+				</div>
+			</div>	
+			<footer>
+				&copy; General Assembly
+			</footer>
+		</div><!-- #container --> 
+		<script src="js/main.js"></script>
+	</body>
+</html>

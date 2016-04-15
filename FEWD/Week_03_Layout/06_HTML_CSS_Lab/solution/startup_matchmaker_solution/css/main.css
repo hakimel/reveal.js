@@ -1,0 +1,187 @@
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 20px;
+	line-height: 1.5;
+	cursor: default;
+}
+
+.wrapper {
+	max-width: 1280px;
+	margin: auto;
+}
+
+h1 {
+	font-size: 2em;
+	line-height: 1;
+}
+h2 {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+h3 {
+	font-family: 'Merriweather', serif;
+	font-size: 1.25em;
+	font-weight: bold;
+}
+p {
+	margin: 0 0 1.5em 0;
+}
+
+.button {
+	font-family: 'Oswald', sans-serif;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: bold;
+	background: yellow;
+	color: black;
+	display: block;
+	text-align: center;
+	padding: 12px;
+	box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);
+	border-radius: 5px;
+}
+
+#page-header {
+	background: black;
+	color: white;
+	overflow: hidden;
+	border-bottom: 4px solid yellow;
+	padding: 0 3%;
+}
+#page-header a {
+	color: inherit;
+	text-decoration: none;
+}
+#page-header h1 {
+	float: left;
+	color: yellow;
+	font-family: 'Merriweather', serif;
+	font-size: 1.5em;
+	margin: 20px 0 0 0;
+}
+#page-header nav {
+	float: right;
+}
+#page-header nav li {
+	float: left;
+}
+#page-header nav a {
+	display: block;
+	padding: 20px 15px;
+}
+#page-header nav li a:hover {
+	color: yellow;
+}
+#page-header nav li.active a {
+	background: #666;
+}
+#page-header nav strong {
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+}
+#page-header nav strong a {
+}
+
+
+.tagline {
+	font-family: 'Merriweather', serif;
+	text-align: center;
+	margin: 0;
+	padding: 1em 3%;
+	font-size: 1.25em;
+	line-height: 1em;
+	font-style: italic;
+	background: #C6C6C6;
+	border-top: 1px solid #AAA;
+}
+.tagline del {
+	color: #999;
+}
+.tagline ins {
+	text-decoration: none;
+	border-bottom: 3px solid yellow;
+}
+
+.banner {
+	background: url(../images/coworking.jpg) center center no-repeat;
+	background-size: cover;
+	overflow: hidden;
+	padding: 3%;
+	box-shadow: inset 0 0 5px rgba(0,0,0,.75);
+}
+
+.blurb {
+	background: rgba(255,255,255,.8);
+	width: 34%;
+	margin: 0 auto;
+	padding: 4%;
+	float: right;
+	box-shadow: 0 0 5px rgba(0,0,0,.75);
+}
+
+.touts {
+	background: #EEE;
+	background: white;
+	overflow: hidden;
+	padding: 2% 0;
+}
+.tout {
+	float: left;
+	width: 27.3333%;
+	padding: 2% 3%;
+	box-shadow: inset -1px 0 0 rgba(0,0,0,.15);
+}
+.tout:last-child {
+	box-shadow: none;
+}
+.tout .button {
+	background: #C6C6C6;
+}
+
+.profiles {
+	background: #C6C6C6;
+	padding: 10px;
+}
+.cards {
+	overflow: hidden;
+}
+.card {
+	float: left;
+	width: 25%;
+}
+.card img {
+	max-width: 100%;
+}
+.card article {
+	background: white;
+	margin: 10px;
+	padding: 10px;
+}
+.card .button {
+	font-size: .75em;
+}
+
+.tags {
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+.tags li {
+	float: left;
+}
+.tags li a {
+	display: block;
+	background: #666;
+	padding: 1px 12px;
+	border-radius: 100px;
+	font-size: .75em;
+	margin: 0 5px 5px 0;
+	color: white;
+	text-decoration: none;
+}
+
+footer {
+	background: black;
+	color: white;
+	padding: 2% 3%;
+}
