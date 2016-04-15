@@ -29,7 +29,7 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
   vertical-align: baseline; }
 
 .reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
-.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
+.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section, .reveal script {
   display: block; }
 
 /*********************************************
@@ -59,8 +59,8 @@ html:-moz-full-screen-ancestor {
 .reveal .slides section .fragment {
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: all 0.2s ease;
-          transition: all 0.2s ease; }
+  -webkit-transition: all .2s ease;
+          transition: all .2s ease; }
   .reveal .slides section .fragment.visible {
     opacity: 1;
     visibility: visible; }
@@ -70,7 +70,6 @@ html:-moz-full-screen-ancestor {
   visibility: visible; }
   .reveal .slides section .fragment.grow.visible {
     -webkit-transform: scale(1.3);
-        -ms-transform: scale(1.3);
             transform: scale(1.3); }
 
 .reveal .slides section .fragment.shrink {
@@ -78,16 +77,13 @@ html:-moz-full-screen-ancestor {
   visibility: visible; }
   .reveal .slides section .fragment.shrink.visible {
     -webkit-transform: scale(0.7);
-        -ms-transform: scale(0.7);
             transform: scale(0.7); }
 
 .reveal .slides section .fragment.zoom-in {
   -webkit-transform: scale(0.1);
-      -ms-transform: scale(0.1);
           transform: scale(0.1); }
   .reveal .slides section .fragment.zoom-in.visible {
     -webkit-transform: none;
-        -ms-transform: none;
             transform: none; }
 
 .reveal .slides section .fragment.fade-out {
@@ -190,7 +186,6 @@ html:-moz-full-screen-ancestor {
   background-color: transparent;
   border: 12px solid transparent;
   -webkit-transform: scale(0.9999);
-      -ms-transform: scale(0.9999);
           transform: scale(0.9999);
   -webkit-transition: all 0.2s ease;
           transition: all 0.2s ease;
@@ -327,7 +322,6 @@ html:-moz-full-screen-ancestor {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
   -webkit-transition: -webkit-transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), -webkit-transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
-          transition: -ms-transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
           transition: transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
 /* Global transition speed settings */
@@ -395,28 +389,24 @@ html:-moz-full-screen-ancestor {
 .reveal .slides > section[data-transition~=slide-out].past,
 .reveal.slide .slides > section:not([data-transition]).past {
   -webkit-transform: translate(-150%, 0);
-      -ms-transform: translate(-150%, 0);
           transform: translate(-150%, 0); }
 
 .reveal .slides > section[data-transition=slide].future,
 .reveal .slides > section[data-transition~=slide-in].future,
 .reveal.slide .slides > section:not([data-transition]).future {
   -webkit-transform: translate(150%, 0);
-      -ms-transform: translate(150%, 0);
           transform: translate(150%, 0); }
 
 .reveal .slides > section > section[data-transition=slide].past,
 .reveal .slides > section > section[data-transition~=slide-out].past,
 .reveal.slide .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate(0, -150%);
-      -ms-transform: translate(0, -150%);
           transform: translate(0, -150%); }
 
 .reveal .slides > section > section[data-transition=slide].future,
 .reveal .slides > section > section[data-transition~=slide-in].future,
 .reveal.slide .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate(0, 150%);
-      -ms-transform: translate(0, 150%);
           transform: translate(0, 150%); }
 
 .reveal.linear section {
@@ -427,28 +417,24 @@ html:-moz-full-screen-ancestor {
 .reveal .slides > section[data-transition~=linear-out].past,
 .reveal.linear .slides > section:not([data-transition]).past {
   -webkit-transform: translate(-150%, 0);
-      -ms-transform: translate(-150%, 0);
           transform: translate(-150%, 0); }
 
 .reveal .slides > section[data-transition=linear].future,
 .reveal .slides > section[data-transition~=linear-in].future,
 .reveal.linear .slides > section:not([data-transition]).future {
   -webkit-transform: translate(150%, 0);
-      -ms-transform: translate(150%, 0);
           transform: translate(150%, 0); }
 
 .reveal .slides > section > section[data-transition=linear].past,
 .reveal .slides > section > section[data-transition~=linear-out].past,
 .reveal.linear .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate(0, -150%);
-      -ms-transform: translate(0, -150%);
           transform: translate(0, -150%); }
 
 .reveal .slides > section > section[data-transition=linear].future,
 .reveal .slides > section > section[data-transition~=linear-in].future,
 .reveal.linear .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate(0, 150%);
-      -ms-transform: translate(0, 150%);
           transform: translate(0, 150%); }
 
 /*********************************************
@@ -543,7 +529,6 @@ html:-moz-full-screen-ancestor {
 .reveal.zoom .slides > section:not([data-transition]).past {
   visibility: hidden;
   -webkit-transform: scale(16);
-      -ms-transform: scale(16);
           transform: scale(16); }
 
 .reveal .slides > section[data-transition=zoom].future,
@@ -551,21 +536,18 @@ html:-moz-full-screen-ancestor {
 .reveal.zoom .slides > section:not([data-transition]).future {
   visibility: hidden;
   -webkit-transform: scale(0.2);
-      -ms-transform: scale(0.2);
           transform: scale(0.2); }
 
 .reveal .slides > section > section[data-transition=zoom].past,
 .reveal .slides > section > section[data-transition~=zoom-out].past,
 .reveal.zoom .slides > section > section:not([data-transition]).past {
   -webkit-transform: translate(0, -150%);
-      -ms-transform: translate(0, -150%);
           transform: translate(0, -150%); }
 
 .reveal .slides > section > section[data-transition=zoom].future,
 .reveal .slides > section > section[data-transition~=zoom-in].future,
 .reveal.zoom .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate(0, 150%);
-      -ms-transform: translate(0, 150%);
           transform: translate(0, 150%); }
 
 /*********************************************
@@ -619,28 +601,24 @@ html:-moz-full-screen-ancestor {
 
 .reveal.cube .slides > section.past {
   -webkit-transform-origin: 100% 0%;
-      -ms-transform-origin: 100% 0%;
           transform-origin: 100% 0%;
   -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg);
           transform: translate3d(-100%, 0, 0) rotateY(-90deg); }
 
 .reveal.cube .slides > section.future {
   -webkit-transform-origin: 0% 0%;
-      -ms-transform-origin: 0% 0%;
           transform-origin: 0% 0%;
   -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg);
           transform: translate3d(100%, 0, 0) rotateY(90deg); }
 
 .reveal.cube .slides > section > section.past {
   -webkit-transform-origin: 0% 100%;
-      -ms-transform-origin: 0% 100%;
           transform-origin: 0% 100%;
   -webkit-transform: translate3d(0, -100%, 0) rotateX(90deg);
           transform: translate3d(0, -100%, 0) rotateX(90deg); }
 
 .reveal.cube .slides > section > section.future {
   -webkit-transform-origin: 0% 0%;
-      -ms-transform-origin: 0% 0%;
           transform-origin: 0% 0%;
   -webkit-transform: translate3d(0, 100%, 0) rotateX(-90deg);
           transform: translate3d(0, 100%, 0) rotateX(-90deg); }
@@ -694,28 +672,24 @@ html:-moz-full-screen-ancestor {
 
 .reveal.page .slides > section.past {
   -webkit-transform-origin: 0% 0%;
-      -ms-transform-origin: 0% 0%;
           transform-origin: 0% 0%;
   -webkit-transform: translate3d(-40%, 0, 0) rotateY(-80deg);
           transform: translate3d(-40%, 0, 0) rotateY(-80deg); }
 
 .reveal.page .slides > section.future {
   -webkit-transform-origin: 100% 0%;
-      -ms-transform-origin: 100% 0%;
           transform-origin: 100% 0%;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0); }
 
 .reveal.page .slides > section > section.past {
   -webkit-transform-origin: 0% 0%;
-      -ms-transform-origin: 0% 0%;
           transform-origin: 0% 0%;
   -webkit-transform: translate3d(0, -40%, 0) rotateX(80deg);
           transform: translate3d(0, -40%, 0) rotateX(80deg); }
 
 .reveal.page .slides > section > section.future {
   -webkit-transform-origin: 0% 100%;
-      -ms-transform-origin: 0% 100%;
           transform-origin: 0% 100%;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0); }
@@ -727,7 +701,6 @@ html:-moz-full-screen-ancestor {
 .reveal.fade .slides section:not([data-transition]),
 .reveal.fade .slides > section > section:not([data-transition]) {
   -webkit-transform: none;
-      -ms-transform: none;
           transform: none;
   -webkit-transition: opacity 0.5s;
           transition: opacity 0.5s; }
@@ -743,7 +716,6 @@ html:-moz-full-screen-ancestor {
 .reveal .slides section[data-transition=none],
 .reveal.none .slides section:not([data-transition]) {
   -webkit-transform: none;
-      -ms-transform: none;
           transform: none;
   -webkit-transition: none;
           transition: none; }
@@ -797,7 +769,6 @@ html:-moz-full-screen-ancestor {
   left: -50%;
   margin: 70px 0;
   -webkit-transform: none;
-      -ms-transform: none;
           transform: none; }
 
 .no-transforms .reveal .slides section section {
@@ -871,25 +842,21 @@ html:-moz-full-screen-ancestor {
 .reveal[data-background-transition=slide] > .backgrounds .slide-background.past,
 .reveal > .backgrounds .slide-background.past[data-background-transition=slide] {
   -webkit-transform: translate(-100%, 0);
-      -ms-transform: translate(-100%, 0);
           transform: translate(-100%, 0); }
 
 .reveal[data-background-transition=slide] > .backgrounds .slide-background.future,
 .reveal > .backgrounds .slide-background.future[data-background-transition=slide] {
   -webkit-transform: translate(100%, 0);
-      -ms-transform: translate(100%, 0);
           transform: translate(100%, 0); }
 
 .reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.past,
 .reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=slide] {
   -webkit-transform: translate(0, -100%);
-      -ms-transform: translate(0, -100%);
           transform: translate(0, -100%); }
 
 .reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.future,
 .reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=slide] {
   -webkit-transform: translate(0, 100%);
-      -ms-transform: translate(0, 100%);
           transform: translate(0, 100%); }
 
 /* Convex */
@@ -953,7 +920,6 @@ html:-moz-full-screen-ancestor {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(16);
-      -ms-transform: scale(16);
           transform: scale(16); }
 
 .reveal[data-background-transition=zoom] > .backgrounds .slide-background.future,
@@ -961,7 +927,6 @@ html:-moz-full-screen-ancestor {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0.2);
-      -ms-transform: scale(0.2);
           transform: scale(0.2); }
 
 .reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.past,
@@ -969,7 +934,6 @@ html:-moz-full-screen-ancestor {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(16);
-      -ms-transform: scale(16);
           transform: scale(16); }
 
 .reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.future,
@@ -977,7 +941,6 @@ html:-moz-full-screen-ancestor {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0.2);
-      -ms-transform: scale(0.2);
           transform: scale(0.2); }
 
 /* Global transition speed settings */
@@ -1180,7 +1143,6 @@ html:-moz-full-screen-ancestor {
   opacity: 0;
   visibility: hidden;
   -webkit-transform: scale(0.2);
-      -ms-transform: scale(0.2);
           transform: scale(0.2); }
 
 .reveal .overlay.overlay-help .viewport {
@@ -1254,7 +1216,6 @@ html:-moz-full-screen-ancestor {
   -webkit-transition: all 400ms ease;
           transition: all 400ms ease;
   -webkit-transform-origin: 50% 0%;
-      -ms-transform-origin: 50% 0%;
           transform-origin: 50% 0%;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
@@ -1276,7 +1237,6 @@ html:-moz-full-screen-ancestor {
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
   -webkit-transform-origin: 50% 0%;
-      -ms-transform-origin: 50% 0%;
           transform-origin: 50% 0%;
   -webkit-transform: translate3d(0px, 110%, 0px) rotateX(-90deg);
           transform: translate3d(0px, 110%, 0px) rotateX(-90deg); }

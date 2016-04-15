@@ -33,7 +33,7 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
 }
 
 .reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
-.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
+.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section, .reveal script {
 	display: block;
 }
 
@@ -1375,5 +1375,3 @@ html:-moz-full-screen-ancestor {
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
-
-
