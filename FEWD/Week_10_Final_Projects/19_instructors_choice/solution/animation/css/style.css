@@ -1,0 +1,159 @@
+/* 
+Project Name: Blank Template
+Client: Your Client
+Author: Your Name
+Developer @GA in NYC
+*/
+
+
+/******************************************
+/* SETUP                   
+/*******************************************/
+
+/* Box Model Hack */
+* {
+     -moz-box-sizing: border-box; /* Firexfox */
+     -webkit-box-sizing: border-box; /* Safari/Chrome/iOS/Android */
+     box-sizing: border-box; /* IE */
+}
+
+/* Clear fix hack */
+.clearfix:after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.alignright {
+	float: right; 
+	padding: 0 0 10px 10px; /* note the padding around a right floated image */
+}
+
+.alignleft {
+	float: left; 
+	padding: 0 10px 10px 0; /* note the padding around a left floated image */
+}
+
+/******************************************
+/* BASE STYLES                   
+/*******************************************/
+
+body {
+     color: #000;
+     font-size: 12px;
+     line-height: 1.4;
+     font-family: Helvetica, Arial, sans-serif;
+}
+
+
+/******************************************
+/* LAYOUT                   
+/*******************************************/
+
+/* Center the container */
+#container {
+	width: 960px;
+	margin: auto;
+     text-align: center;
+}
+
+header {
+
+}
+
+footer {
+
+}
+
+/******************************************
+/* ADDITIONAL STYLES                   
+/*******************************************/
+@keyframes  spin-me{
+     0% {
+          -ms-transform: rotateZ(0deg); /* IE 9 */
+          -webkit-transform: rotateZ(0deg); /* Safari and Chrome */
+          transform: rotateZ(0deg);
+     }
+     25% {
+          -ms-transform: rotateZ(135deg); /* IE 9 */
+          -webkit-transform: rotateZ(135deg); /* Safari and Chrome */
+          transform: rotateZ(135deg);
+     }
+     50% {
+          -ms-transform: rotateZ(270deg); /* IE 9 */
+          -webkit-transform: rotateZ(270deg); /* Safari and Chrome */
+          transform: rotateZ(270deg);
+     }
+     100% {
+          -ms-transform: rotateZ(360deg); /* IE 9 */
+          -webkit-transform: rotateZ(360deg); /* Safari and Chrome */
+          transform: rotateZ(360deg);
+     }
+}
+@-webkit-keyframes  spin-me{
+     0% {
+          -ms-transform: rotateZ(0deg); /* IE 9 */
+          -webkit-transform: rotateZ(0deg); /* Safari and Chrome */
+          transform: rotateZ(0deg);
+     }
+     25% {
+          -ms-transform: rotateZ(135deg); /* IE 9 */
+          -webkit-transform: rotateZ(135deg); /* Safari and Chrome */
+          transform: rotateZ(135deg);
+     }
+     50% {
+          -ms-transform: rotateZ(270deg); /* IE 9 */
+          -webkit-transform: rotateZ(270deg); /* Safari and Chrome */
+          transform: rotateZ(270deg);
+     }
+     100% {
+          -ms-transform: rotateZ(360deg); /* IE 9 */
+          -webkit-transform: rotateZ(360deg); /* Safari and Chrome */
+          transform: rotateZ(360deg);
+     }
+}
+
+.thing-to-spin{
+/*animation-name*/
+-webkit-animation-name:spin-me;
+   -moz-animation-name:spin-me;
+    -ms-animation-name:spin-me;
+     -o-animation-name:spin-me;
+        animation-name:spin-me;
+/*animation-iteration-count*/
+-webkit-animation-iteration-count:infinite;
+   -moz-animation-iteration-count:infinite;
+    -ms-animation-iteration-count:infinite;
+     -o-animation-iteration-count:infinite;
+        animation-iteration-count:infinite;
+/*animation-duration*/
+-webkit-animation-duration:500ms;
+   -moz-animation-duration:500ms;
+    -ms-animation-duration:500ms;
+     -o-animation-duration:500ms;
+        animation-duration:500ms;
+/*animation-timing-function*/
+-webkit-animation-timing-function:linear;
+   -moz-animation-timing-function:linear;
+    -ms-animation-timing-function:linear;
+     -o-animation-timing-function:linear;
+        animation-timing-function:linear;
+/*animation-play-state*/
+-webkit-animation-play-state:running;
+   -moz-animation-play-state:running;
+    -ms-animation-play-state:running;
+     -o-animation-play-state:running;
+        animation-play-state:running;
+animation-fill-mode:forwards;
+}
+
+
+
+

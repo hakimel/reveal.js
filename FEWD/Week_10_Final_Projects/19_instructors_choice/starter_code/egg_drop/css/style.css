@@ -1,0 +1,157 @@
+/* 
+Project Name: Blank Template
+Client: Your Client
+Author: Your Name
+Developer @GA in NYC
+*/
+
+
+/******************************************
+/* SETUP                   
+/*******************************************/
+
+/* Clear fix hack */
+.clearfix:after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.right {
+	float: right; 
+}
+
+.left {
+	float: left; 
+}
+.col-2{
+     width:200px;
+}
+.col-5{
+     width:500px;
+}
+/******************************************
+/* BASE STYLES                   
+/*******************************************/
+
+body {
+     color: #000;
+     font-size: 12px;
+     line-height: 1.4;
+     font-family: Helvetica, Arial, sans-serif;
+}
+h1{
+     text-align: center;
+}
+
+/******************************************
+/* LAYOUT                   
+/*******************************************/
+
+/* Center the container */
+#container {
+	width: 960px;
+	margin: auto;
+}
+
+header {
+
+}
+
+footer {
+     text-align: right;
+     margin-top: 50px;
+     width: 738px;
+}
+
+/******************************************
+/* ADDITIONAL STYLES                   
+/*******************************************/
+@-webkit-keyframes falling-egg{
+     from{margin-top:0;}
+     to{margin-top:470px;}
+}
+@keyframes falling-egg{
+     from{margin-top:0;}
+     to{margin-top:470px;}
+}
+#instructions{
+     margin-top:50px;
+}
+#score{
+     font-size:20px;
+     margin-top:50px;
+}
+#egg-drop-game{
+     height:500px;
+     border:2px solid red;
+     position: relative;
+     margin:0 auto;
+}
+#basket{
+     height:21px;
+     width:46px;
+     background:pink;
+     border-radius: 0 0 10px 10px;
+     border:2px solid DeepPink;
+     position: relative;
+     margin:475px 0 0 250px;
+}
+#basket:before{
+     content: "";
+     height:20px;
+     width:46px;
+     border:2px solid DeepPink;
+     border-radius:15px 15px 0 0;
+     position: absolute;
+     top:-24px;
+     left:-2px;
+}
+.egg{
+     height:25px;
+     width:20px;
+     border-radius:15px;
+     position: absolute;
+}
+.egg-left,.egg-right{
+     background:green;
+     float: left;
+     width:10px;
+     height:30px;
+     -webkit-transition:all 250ms;
+}
+.egg-left{
+     border-radius: 10px 0 0 10px/25px 0 0 10px;
+}
+.egg-right{
+     border-radius: 0 10px 10px 0/0 25px 10px 0;
+}
+.break-egg:first-child{
+     -webkit-transform:rotateZ(-90deg);
+     margin:7px 0 0 -10px;
+}
+.break-egg:nth-child(2){
+     -webkit-transform:rotateZ(90deg);
+     margin:7px 0 0 10px;
+}
+.slow-falling-egg,.medium-falling-egg,.fast-falling-egg{
+     -webkit-animation-name: falling-egg;
+     -webkit-animation-iteration-count: 1;
+     -webkit-animation-duration: 3000ms;
+     -webkit-animation-timing-function: linear;
+     -webkit-animation-play-state: running;
+     -webkit-animation-fill-mode: forwards;
+}
+.medium-falling-egg{
+     -webkit-animation-duration: 2000ms;
+}
+.fast-falling-egg{
+     -webkit-animation-duration: 1000ms;
+}
