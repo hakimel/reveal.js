@@ -39,14 +39,10 @@
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
-			<!-- /Users/Pataruco/Development/GA/GA_TA/reveal.js -->
-
-			     <!-- data-separator-vertical="^\n\n" -->
-
 			<div class="slides">
 				<section data-markdown="./FEWD/Week_02_Styling/03_box_model/slides.md"
 				         data-separator="^\n\n"
-				         data-separator-vertical="---"
+				         data-separator-vertical="\n---\n"
 				         data-separator-notes="^Note:"
 				         data-charset="iso-8859-15">
 				</section>
@@ -57,10 +53,6 @@
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
-		<script src="plugin/markdown/marked.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<!-- <script src="plugin/print-pdf/print-pdf.js"></script> -->
-
 		<script>
 
 			// Full list of configuration options available at:
@@ -80,8 +72,8 @@
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-					// { src: 'plugin/print-pdf/print-pdf.js', async: true }
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/print-pdf/print-pdf.js', async: true }
 				]
 			});
 

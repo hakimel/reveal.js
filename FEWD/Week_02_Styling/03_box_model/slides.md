@@ -3,11 +3,7 @@
 
 #FEWD - Box Model & More CSS
 
-###Instructor Name
-
-Pedro Martin
-Teacher Assistant
-
+###Pedro Martin
 ---
 
 
@@ -18,7 +14,7 @@ Teacher Assistant
 *	Nested Selectors
 *	HTML Template
 *	Lab Time
-	*	How To Start
+*	How To Start
 
 ---
 
