@@ -463,22 +463,26 @@
 						minutesEl = timeEl.querySelector( '.minutes-value' ),
 						secondsEl = timeEl.querySelector( '.seconds-value' );
 
+					function _displayTime( hrEl, minEl, secEl, time) {
+						var hours = Math.floor( time / ( 1000 * 60 * 60 ) );
+						var minutes = Math.floor( ( time / ( 1000 * 60 ) ) % 60 );
+						var seconds = Math.floor( ( time / 1000 ) % 60 );
+						hrEl.innerHTML = zeroPadInteger( hours );
+						hrEl.className = hours > 0 ? '' : 'mute';
+						minEl.innerHTML = ':' + zeroPadInteger( minutes );
+						minEl.className = minutes > 0 ? '' : 'mute';
+						secEl.innerHTML = ':' + zeroPadInteger( seconds );
+					}
+
 					function _updateTimer() {
 
 						var diff, hours, minutes, seconds,
 							now = new Date();
 
 						diff = now.getTime() - start.getTime();
-						hours = Math.floor( diff / ( 1000 * 60 * 60 ) );
-						minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
-						seconds = Math.floor( ( diff / 1000 ) % 60 );
 
 						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
-						hoursEl.innerHTML = zeroPadInteger( hours );
-						hoursEl.className = hours > 0 ? '' : 'mute';
-						minutesEl.innerHTML = ':' + zeroPadInteger( minutes );
-						minutesEl.className = minutes > 0 ? '' : 'mute';
-						secondsEl.innerHTML = ':' + zeroPadInteger( seconds );
+						_displayTime( hoursEl, minutesEl, secondsEl, diff );
 
 					}
 
