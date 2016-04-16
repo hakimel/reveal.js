@@ -174,6 +174,9 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
+	// Set default timing of 2 minutes per slide
+    defaultTiming: 120,
+
 	// Display the page number of the current slide
 	slideNumber: false,
 
@@ -860,12 +863,15 @@ Notes are only visible to the speaker inside of the speaker view. If you wish to
 
 When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export).
 
-#### Speaker notes clock and timer
+#### Speaker notes clock and timers
 
 The speaker notes window will also show:
 
 - Time elapsed since the beginning of the presentation.  If you hover the mouse above this section, a timer reset button will appear.
 - Current wall-clock time
+- A pacing timer which indicates whether the current pace of the presentation is on track for the right timing, and if not, whether the presenter should speed up or has the luxury of slowing down.
+
+  By default this assumes 120 seconds per slide, which can be a reasonable rule of thumb, but this can be configured by the `defaultTiming` parameter in the `Reveal` configuration block, and also per slide `<section>` by setting the `data-timing` attribute.  Both values are in numbers of seconds.
 
 
 ## Server Side Speaker Notes
