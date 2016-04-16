@@ -3390,11 +3390,20 @@
 	}
 
 	/**
+	 * Retrieves all slides in this presentation.
+	 */
+	function getSlides() {
+
+		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ));
+
+	}
+
+	/**
 	 * Retrieves the total number of slides in this presentation.
 	 */
 	function getTotalSlides() {
 
-		return dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+		return getSlides().length;
 
 	}
 
@@ -4644,6 +4653,9 @@
 
 		// Returns the indices of the current, or specified, slide
 		getIndices: getIndices,
+
+		// Returns an Array of all slides
+		getSlides: getSlides,
 
 		// Returns the total number of slides
 		getTotalSlides: getTotalSlides,
