@@ -4984,6 +4984,7 @@
 		// Returns the indices of the current, or specified, slide
 		getIndices: getIndices,
 
+		// Returns the total number of slides
 		getTotalSlides: getTotalSlides,
 
 		// Returns the slide element at the specified index
