@@ -4636,6 +4636,9 @@
 		getState: getState,
 		setState: setState,
 
+		// Presentation progress
+		getSlidePastCount: getSlidePastCount,
+
 		// Presentation progress on range of 0-1
 		getProgress: getProgress,
 
