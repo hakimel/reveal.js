@@ -343,7 +343,7 @@
 						hrEl.innerHTML = zeroPadInteger( hours );
 						hrEl.className = hours > 0 ? '' : 'mute';
 						minEl.innerHTML = ':' + zeroPadInteger( minutes );
-						minEl.className = minutes > 0 ? '' : 'mute';
+						minEl.className = (hours > 0 || minutes > 0) ? '' : 'mute';
 						secEl.innerHTML = ':' + zeroPadInteger( seconds );
 					}
 
