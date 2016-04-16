@@ -21,6 +21,9 @@ var RevealNotes = (function() {
 
 		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
+		// Allow popup window access to Reveal API
+		notesPopup.Reveal = this.Reveal;
+
 		/**
 		 * Connect to the notes window through a postmessage handshake.
 		 * Using postmessage enables us to work in situations where the
