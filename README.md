@@ -494,10 +494,11 @@ Reveal.getScale();
 Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
-Reveal.getIndices(); // { h: 0, v: 0 } }
+Reveal.getIndices();        // { h: 0, v: 0 } }
 Reveal.getPastSlideCount();
-Reveal.getProgress(); // (0 == first slide, 1 == last slide)
-Reveal.getTotalSlides(); // total number of slides
+Reveal.getProgress();       // (0 == first slide, 1 == last slide)
+Reveal.getSlides();         // Array of all slides
+Reveal.getTotalSlides();    // total number of slides
 
 // Returns the speaker notes for the current slide
 Reveal.getSlideNotes();
