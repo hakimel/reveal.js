@@ -337,9 +337,10 @@
 						secondsEl = timeEl.querySelector( '.seconds-value' );
 
 					function _displayTime( hrEl, minEl, secEl, time) {
-						var hours = Math.floor( time / ( 1000 * 60 * 60 ) );
-						var minutes = Math.floor( ( time / ( 1000 * 60 ) ) % 60 );
-						var seconds = Math.floor( ( time / 1000 ) % 60 );
+						time = Math.round(time / 1000);
+						var seconds = time % 60;
+						var minutes = ( time / 60 ) % 60 ;
+						var hours = time / ( 60 * 60 ) ;
 						hrEl.innerHTML = zeroPadInteger( hours );
 						if (hours == 0) {
 							hrEl.classList.add( 'mute' );
