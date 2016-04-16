@@ -453,7 +453,7 @@ Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
 Reveal.getIndices(); // { h: 0, v: 0 } }
-Reveal.getProgress(); // 0-1
+Reveal.getProgress(); // (0 == first slide, 1 == last slide)
 Reveal.getTotalSlides();
 
 // Returns the speaker notes for the current slide
