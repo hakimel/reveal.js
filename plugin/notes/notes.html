@@ -341,9 +341,19 @@
 						var minutes = Math.floor( ( time / ( 1000 * 60 ) ) % 60 );
 						var seconds = Math.floor( ( time / 1000 ) % 60 );
 						hrEl.innerHTML = zeroPadInteger( hours );
-						hrEl.className = hours > 0 ? '' : 'mute';
+						if (hours == 0) {
+							hrEl.classList.add( 'mute' );
+						}
+						else {
+							hrEl.classList.remove( 'mute' );
+						}
 						minEl.innerHTML = ':' + zeroPadInteger( minutes );
-						minEl.className = (hours > 0 || minutes > 0) ? '' : 'mute';
+						if (hours == 0 && minutes == 0) {
+							minEl.classList.add( 'mute' );
+						}
+						else {
+							minEl.classList.remove( 'mute' );
+						}
 						secEl.innerHTML = ':' + zeroPadInteger( seconds );
 					}
 
