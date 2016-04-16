@@ -860,6 +860,14 @@ Notes are only visible to the speaker inside of the speaker view. If you wish to
 
 When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export).
 
+#### Speaker notes clock and timer
+
+The speaker notes window will also show:
+
+- Time elapsed since the beginning of the presentation.  If you hover the mouse above this section, a timer reset button will appear.
+- Current wall-clock time
+
+
 ## Server Side Speaker Notes
 
 In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the required scripts by adding the following dependencies:
