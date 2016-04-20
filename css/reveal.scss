@@ -314,20 +314,21 @@ body {
 
 
 .reveal .controls[data-controls-type="edges"] {
-	$size: 36px;
+	$size: 44px;
+	$length: floor($size * 0.75);
 	$spacing: 18px;
 	$thickness: 5px;
 	$angle: 40deg;
 	$angleHover: 36deg;
 	$angleActive: 34deg;
 
-	@mixin arrowTransform( $angle, $x: 0, $y: 0 ) {
+	@mixin arrowTransform( $angle ) {
 		&:before {
-			transform: translate( $x, $y ) rotate( $angle );
+			transform: translateY(($size - $thickness)/2) rotate( $angle );
 		}
 
 		&:after {
-			transform: translate( $x, -$y ) rotate( -$angle );
+			transform: translateY(($size - $thickness)/2) rotate( -$angle );
 		}
 	}
 
@@ -359,26 +360,26 @@ body {
 	button:after {
 		content: '';
 		position: absolute;
-		top: 40%;
+		top: 0;
 		left: 0;
-		width: $size;
+		width: $length;
 		height: $thickness;
-		border-radius: $thickness / 2;
+		border-radius: $thickness/2;
 		background: #fff;
 
 		transition: all 0.15s ease;
-		transform-origin: 0% 50%;
+		transform-origin: $thickness/2 50%;
 	}
 
 	button {
-		@include arrowTransform( $angle, 0, -1px );
+		@include arrowTransform( $angle );
 
 		&:hover {
-			@include arrowTransform( $angleHover, 0, -1px );
+			@include arrowTransform( $angleHover );
 		}
 
 		&:active {
-			@include arrowTransform( $angleActive, 0, -1px );
+			@include arrowTransform( $angleActive );
 		}
 	}
 
@@ -391,43 +392,64 @@ body {
 		opacity: 1;
 	}
 
+	.enabled.fragmented {
+		opacity: 0.3;
+	}
+
 	.navigate-left {
 		top: 50%;
 		left: $spacing;
-		margin-top: -$size/2;
-	}
-	.navigate-left.fragmented {
-		opacity: 0.3;
+		transform: translateY(-50%);
 	}
 
 	.navigate-right {
 		top: 50%;
 		right: $spacing;
-		margin-top: -$size/2;
-		transform: rotate( 180deg );
-	}
-	.navigate-right.fragmented {
-		opacity: 0.3;
+		transform: translateY(-50%) rotate( 180deg );
 	}
 
 	.navigate-up {
 		top: $spacing;
 		left: 50%;
-		margin-left: -$size/2;
-		transform: rotate( 90deg );
-	}
-	.navigate-up.fragmented {
-		opacity: 0.3;
+		transform: translateX(-50%) rotate( 90deg );
 	}
 
 	.navigate-down {
 		bottom: $spacing;
 		left: 50%;
-		margin-left: -$size/2;
-		transform: rotate( -90deg );
+		transform: translateX(-50%) rotate( -90deg );
 	}
-	.navigate-down.fragmented {
-		opacity: 0.3;
+
+	@media screen and (max-width: 500px) {
+		& {
+			bottom: $spacing;
+			right: $spacing;
+		}
+
+		.navigate-left,
+		.navigate-right,
+		.navigate-up,
+		.navigate-down {
+			top: auto;
+			left: auto;
+		}
+
+		.navigate-left {
+			right: $size + $spacing*2;
+			bottom: $spacing;
+		}
+		.navigate-right {
+			right: 0;
+			bottom: $spacing;
+		}
+		.navigate-up {
+			right: $spacing;
+			bottom: $size + $spacing*2;
+		}
+		.navigate-down {
+			right: $spacing;
+			bottom: 0;
+		}
 	}
 }
 

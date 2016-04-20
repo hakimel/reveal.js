@@ -254,8 +254,8 @@ body {
   .reveal .controls[data-controls-type="edges"] button {
     position: absolute;
     padding: 0;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     background-color: transparent;
     border: 0;
     outline: 0;
@@ -272,69 +272,83 @@ body {
   .reveal .controls[data-controls-type="edges"] button:after {
     content: '';
     position: absolute;
-    top: 40%;
+    top: 0;
     left: 0;
-    width: 36px;
+    width: 33px;
     height: 5px;
     border-radius: 2.5px;
     background: #fff;
     -webkit-transition: all 0.15s ease;
             transition: all 0.15s ease;
-    -webkit-transform-origin: 0% 50%;
-            transform-origin: 0% 50%; }
+    -webkit-transform-origin: 2.5px 50%;
+            transform-origin: 2.5px 50%; }
   .reveal .controls[data-controls-type="edges"] button:before {
-    -webkit-transform: translate(0, -1px) rotate(40deg);
-            transform: translate(0, -1px) rotate(40deg); }
+    -webkit-transform: translateY(19.5px) rotate(40deg);
+            transform: translateY(19.5px) rotate(40deg); }
   .reveal .controls[data-controls-type="edges"] button:after {
-    -webkit-transform: translate(0, 1px) rotate(-40deg);
-            transform: translate(0, 1px) rotate(-40deg); }
+    -webkit-transform: translateY(19.5px) rotate(-40deg);
+            transform: translateY(19.5px) rotate(-40deg); }
   .reveal .controls[data-controls-type="edges"] button:hover:before {
-    -webkit-transform: translate(0, -1px) rotate(36deg);
-            transform: translate(0, -1px) rotate(36deg); }
+    -webkit-transform: translateY(19.5px) rotate(36deg);
+            transform: translateY(19.5px) rotate(36deg); }
   .reveal .controls[data-controls-type="edges"] button:hover:after {
-    -webkit-transform: translate(0, 1px) rotate(-36deg);
-            transform: translate(0, 1px) rotate(-36deg); }
+    -webkit-transform: translateY(19.5px) rotate(-36deg);
+            transform: translateY(19.5px) rotate(-36deg); }
   .reveal .controls[data-controls-type="edges"] button:active:before {
-    -webkit-transform: translate(0, -1px) rotate(34deg);
-            transform: translate(0, -1px) rotate(34deg); }
+    -webkit-transform: translateY(19.5px) rotate(34deg);
+            transform: translateY(19.5px) rotate(34deg); }
   .reveal .controls[data-controls-type="edges"] button:active:after {
-    -webkit-transform: translate(0, 1px) rotate(-34deg);
-            transform: translate(0, 1px) rotate(-34deg); }
+    -webkit-transform: translateY(19.5px) rotate(-34deg);
+            transform: translateY(19.5px) rotate(-34deg); }
   .reveal .controls[data-controls-type="edges"] .enabled {
     opacity: 0.7;
     cursor: pointer; }
   .reveal .controls[data-controls-type="edges"] .enabled:hover {
     opacity: 1; }
+  .reveal .controls[data-controls-type="edges"] .enabled.fragmented {
+    opacity: 0.3; }
   .reveal .controls[data-controls-type="edges"] .navigate-left {
     top: 50%;
     left: 18px;
-    margin-top: -18px; }
-  .reveal .controls[data-controls-type="edges"] .navigate-left.fragmented {
-    opacity: 0.3; }
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
   .reveal .controls[data-controls-type="edges"] .navigate-right {
     top: 50%;
     right: 18px;
-    margin-top: -18px;
-    -webkit-transform: rotate(180deg);
-            transform: rotate(180deg); }
-  .reveal .controls[data-controls-type="edges"] .navigate-right.fragmented {
-    opacity: 0.3; }
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg); }
   .reveal .controls[data-controls-type="edges"] .navigate-up {
     top: 18px;
     left: 50%;
-    margin-left: -18px;
-    -webkit-transform: rotate(90deg);
-            transform: rotate(90deg); }
-  .reveal .controls[data-controls-type="edges"] .navigate-up.fragmented {
-    opacity: 0.3; }
+    -webkit-transform: translateX(-50%) rotate(90deg);
+            transform: translateX(-50%) rotate(90deg); }
   .reveal .controls[data-controls-type="edges"] .navigate-down {
     bottom: 18px;
     left: 50%;
-    margin-left: -18px;
-    -webkit-transform: rotate(-90deg);
-            transform: rotate(-90deg); }
-  .reveal .controls[data-controls-type="edges"] .navigate-down.fragmented {
-    opacity: 0.3; }
+    -webkit-transform: translateX(-50%) rotate(-90deg);
+            transform: translateX(-50%) rotate(-90deg); }
+  @media screen and (max-width: 500px) {
+    .reveal .controls[data-controls-type="edges"] {
+      bottom: 18px;
+      right: 18px; }
+    .reveal .controls[data-controls-type="edges"] .navigate-left,
+    .reveal .controls[data-controls-type="edges"] .navigate-right,
+    .reveal .controls[data-controls-type="edges"] .navigate-up,
+    .reveal .controls[data-controls-type="edges"] .navigate-down {
+      top: auto;
+      left: auto; }
+    .reveal .controls[data-controls-type="edges"] .navigate-left {
+      right: 80px;
+      bottom: 18px; }
+    .reveal .controls[data-controls-type="edges"] .navigate-right {
+      right: 0;
+      bottom: 18px; }
+    .reveal .controls[data-controls-type="edges"] .navigate-up {
+      right: 18px;
+      bottom: 80px; }
+    .reveal .controls[data-controls-type="edges"] .navigate-down {
+      right: 18px;
+      bottom: 0; } }
 
 /*********************************************
  * PROGRESS BAR
