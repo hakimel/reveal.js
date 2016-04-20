@@ -365,9 +365,9 @@ body {
 		width: $length;
 		height: $thickness;
 		border-radius: $thickness/2;
-		background: #fff;
+		background-color: #fff;
 
-		transition: all 0.15s ease;
+		transition: all 0.15s ease, background-color 0.8s ease;
 		transform-origin: $thickness/2 50%;
 	}
 
@@ -451,6 +451,16 @@ body {
 			bottom: 0;
 		}
 	}
+}
+
+.reveal.has-dark-background .controls[data-controls-type="edges"] button:after,
+.reveal.has-dark-background .controls[data-controls-type="edges"] button:before {
+	background-color: #fff;
+}
+
+.reveal.has-light-background .controls[data-controls-type="edges"] button:after,
+.reveal.has-light-background .controls[data-controls-type="edges"] button:before {
+	background-color: #000;
 }
 
 
