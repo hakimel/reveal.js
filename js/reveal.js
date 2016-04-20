@@ -516,7 +516,7 @@
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		createSingletonNode( dom.wrapper, 'aside', 'controls',
+		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
 			'<button class="navigate-left" aria-label="previous slide"></button>' +
 			'<button class="navigate-right" aria-label="next slide"></button>' +
 			'<button class="navigate-up" aria-label="above slide"></button>' +
@@ -532,9 +532,6 @@
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
-
-		// Cache references to elements
-		dom.controls = document.querySelector( '.reveal .controls' );
 
 		dom.wrapper.setAttribute( 'role', 'application' );
 
@@ -789,7 +786,7 @@
 
 		// If no node was found, create it now
 		var node = document.createElement( tagname );
-		node.classList.add( classname );
+		node.className = classname;
 		if( typeof innerHTML === 'string' ) {
 			node.innerHTML = innerHTML;
 		}
@@ -1000,6 +997,13 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
+
+		var controlsType = typeof config.controls === 'string' ? config.controls : 'bottom-right';
+		dom.controls.setAttribute( 'data-controls-type', controlsType );
+
+		if( typeof config.controls === 'string' ) {
+			dom.controls.classList.add( config.controls );
+		}
 
 		if( config.shuffle ) {
 			shuffle();

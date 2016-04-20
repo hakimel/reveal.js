@@ -189,7 +189,7 @@ body {
 /*********************************************
  * CONTROLS
  *********************************************/
-.reveal .controls {
+.reveal .controls[data-controls-type="bottom-right"] {
   display: none;
   position: fixed;
   width: 110px;
@@ -198,62 +198,143 @@ body {
   right: 10px;
   bottom: 10px;
   -webkit-user-select: none; }
+  .reveal .controls[data-controls-type="bottom-right"] button {
+    padding: 0;
+    position: absolute;
+    opacity: 0.05;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border: 12px solid transparent;
+    -webkit-transform: scale(0.9999);
+            transform: scale(0.9999);
+    -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent; }
+  .reveal .controls[data-controls-type="bottom-right"] .enabled {
+    opacity: 0.7;
+    cursor: pointer; }
+  .reveal .controls[data-controls-type="bottom-right"] .enabled:active {
+    margin-top: 1px; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-left {
+    top: 42px;
+    border-right-width: 22px;
+    border-right-color: #000; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-left.fragmented {
+    opacity: 0.3; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-right {
+    left: 74px;
+    top: 42px;
+    border-left-width: 22px;
+    border-left-color: #000; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-right.fragmented {
+    opacity: 0.3; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-up {
+    left: 42px;
+    border-bottom-width: 22px;
+    border-bottom-color: #000; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-up.fragmented {
+    opacity: 0.3; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-down {
+    left: 42px;
+    top: 74px;
+    border-top-width: 22px;
+    border-top-color: #000; }
+  .reveal .controls[data-controls-type="bottom-right"] .navigate-down.fragmented {
+    opacity: 0.3; }
 
-.reveal .controls button {
-  padding: 0;
+.reveal .controls[data-controls-type="edges"] {
+  display: none;
   position: absolute;
-  opacity: 0.05;
-  width: 0;
-  height: 0;
-  background-color: transparent;
-  border: 12px solid transparent;
-  -webkit-transform: scale(0.9999);
-          transform: scale(0.9999);
-  -webkit-transition: all 0.2s ease;
-          transition: all 0.2s ease;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent; }
-
-.reveal .controls .enabled {
-  opacity: 0.7;
-  cursor: pointer; }
-
-.reveal .controls .enabled:active {
-  margin-top: 1px; }
-
-.reveal .controls .navigate-left {
-  top: 42px;
-  border-right-width: 22px;
-  border-right-color: #000; }
-
-.reveal .controls .navigate-left.fragmented {
-  opacity: 0.3; }
-
-.reveal .controls .navigate-right {
-  left: 74px;
-  top: 42px;
-  border-left-width: 22px;
-  border-left-color: #000; }
-
-.reveal .controls .navigate-right.fragmented {
-  opacity: 0.3; }
-
-.reveal .controls .navigate-up {
-  left: 42px;
-  border-bottom-width: 22px;
-  border-bottom-color: #000; }
-
-.reveal .controls .navigate-up.fragmented {
-  opacity: 0.3; }
-
-.reveal .controls .navigate-down {
-  left: 42px;
-  top: 74px;
-  border-top-width: 22px;
-  border-top-color: #000; }
-
-.reveal .controls .navigate-down.fragmented {
-  opacity: 0.3; }
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+  .reveal .controls[data-controls-type="edges"] button {
+    position: absolute;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    opacity: 0;
+    -webkit-transform: scale(0.9999);
+            transform: scale(0.9999);
+    -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+    z-index: 2;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent; }
+  .reveal .controls[data-controls-type="edges"] button:before,
+  .reveal .controls[data-controls-type="edges"] button:after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 36px;
+    height: 5px;
+    border-radius: 2.5px;
+    background: #fff;
+    -webkit-transition: all 0.15s ease;
+            transition: all 0.15s ease;
+    -webkit-transform-origin: 0% 50%;
+            transform-origin: 0% 50%; }
+  .reveal .controls[data-controls-type="edges"] button:before {
+    -webkit-transform: translate(0, -1px) rotate(40deg);
+            transform: translate(0, -1px) rotate(40deg); }
+  .reveal .controls[data-controls-type="edges"] button:after {
+    -webkit-transform: translate(0, 1px) rotate(-40deg);
+            transform: translate(0, 1px) rotate(-40deg); }
+  .reveal .controls[data-controls-type="edges"] button:hover:before {
+    -webkit-transform: translate(0, -1px) rotate(36deg);
+            transform: translate(0, -1px) rotate(36deg); }
+  .reveal .controls[data-controls-type="edges"] button:hover:after {
+    -webkit-transform: translate(0, 1px) rotate(-36deg);
+            transform: translate(0, 1px) rotate(-36deg); }
+  .reveal .controls[data-controls-type="edges"] button:active:before {
+    -webkit-transform: translate(0, -1px) rotate(34deg);
+            transform: translate(0, -1px) rotate(34deg); }
+  .reveal .controls[data-controls-type="edges"] button:active:after {
+    -webkit-transform: translate(0, 1px) rotate(-34deg);
+            transform: translate(0, 1px) rotate(-34deg); }
+  .reveal .controls[data-controls-type="edges"] .enabled {
+    opacity: 0.7;
+    cursor: pointer; }
+  .reveal .controls[data-controls-type="edges"] .enabled:hover {
+    opacity: 1; }
+  .reveal .controls[data-controls-type="edges"] .navigate-left {
+    top: 50%;
+    left: 18px;
+    margin-top: -18px; }
+  .reveal .controls[data-controls-type="edges"] .navigate-left.fragmented {
+    opacity: 0.3; }
+  .reveal .controls[data-controls-type="edges"] .navigate-right {
+    top: 50%;
+    right: 18px;
+    margin-top: -18px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg); }
+  .reveal .controls[data-controls-type="edges"] .navigate-right.fragmented {
+    opacity: 0.3; }
+  .reveal .controls[data-controls-type="edges"] .navigate-up {
+    top: 18px;
+    left: 50%;
+    margin-left: -18px;
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); }
+  .reveal .controls[data-controls-type="edges"] .navigate-up.fragmented {
+    opacity: 0.3; }
+  .reveal .controls[data-controls-type="edges"] .navigate-down {
+    bottom: 18px;
+    left: 50%;
+    margin-left: -18px;
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg); }
+  .reveal .controls[data-controls-type="edges"] .navigate-down.fragmented {
+    opacity: 0.3; }
 
 /*********************************************
  * PROGRESS BAR
