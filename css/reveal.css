@@ -283,9 +283,9 @@ html:-moz-full-screen-ancestor {
     width: 33px;
     height: 5px;
     border-radius: 2.5px;
-    background: #fff;
-    -webkit-transition: all 0.15s ease;
-            transition: all 0.15s ease;
+    background-color: #fff;
+    -webkit-transition: all 0.15s ease, background-color 0.8s ease;
+            transition: all 0.15s ease, background-color 0.8s ease;
     -webkit-transform-origin: 2.5px 50%;
             transform-origin: 2.5px 50%; }
   .reveal .controls[data-controls-type="edges"] button:before {
@@ -355,6 +355,14 @@ html:-moz-full-screen-ancestor {
     .reveal .controls[data-controls-type="edges"] .navigate-down {
       right: 18px;
       bottom: 0; } }
+
+.reveal.has-dark-background .controls[data-controls-type="edges"] button:after,
+.reveal.has-dark-background .controls[data-controls-type="edges"] button:before {
+  background-color: #fff; }
+
+.reveal.has-light-background .controls[data-controls-type="edges"] button:after,
+.reveal.has-light-background .controls[data-controls-type="edges"] button:before {
+  background-color: #000; }
 
 /*********************************************
  * PROGRESS BAR
