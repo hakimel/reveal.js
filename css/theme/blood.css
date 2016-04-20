@@ -249,33 +249,37 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls .navigate-left,
-.reveal .controls .navigate-left.enabled {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-left,
+.reveal .controls[data-controls-type="bottom-right"] .navigate-left.enabled {
   border-right-color: #a23; }
 
-.reveal .controls .navigate-right,
-.reveal .controls .navigate-right.enabled {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-right,
+.reveal .controls[data-controls-type="bottom-right"] .navigate-right.enabled {
   border-left-color: #a23; }
 
-.reveal .controls .navigate-up,
-.reveal .controls .navigate-up.enabled {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-up,
+.reveal .controls[data-controls-type="bottom-right"] .navigate-up.enabled {
   border-bottom-color: #a23; }
 
-.reveal .controls .navigate-down,
-.reveal .controls .navigate-down.enabled {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-down,
+.reveal .controls[data-controls-type="bottom-right"] .navigate-down.enabled {
   border-top-color: #a23; }
 
-.reveal .controls .navigate-left.enabled:hover {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-left.enabled:hover {
   border-right-color: #dd5566; }
 
-.reveal .controls .navigate-right.enabled:hover {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-right.enabled:hover {
   border-left-color: #dd5566; }
 
-.reveal .controls .navigate-up.enabled:hover {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-up.enabled:hover {
   border-bottom-color: #dd5566; }
 
-.reveal .controls .navigate-down.enabled:hover {
+.reveal .controls[data-controls-type="bottom-right"] .navigate-down.enabled:hover {
   border-top-color: #dd5566; }
+
+.reveal .controls[data-controls-type="edges"] button:before,
+.reveal .controls[data-controls-type="edges"] button:after {
+  background-color: #eee; }
 
 /*********************************************
  * PROGRESS BAR

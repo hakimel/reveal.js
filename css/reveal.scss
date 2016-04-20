@@ -244,7 +244,7 @@ html:-moz-full-screen-ancestor {
  * CONTROLS
  *********************************************/
 
-.reveal .controls {
+.reveal .controls[data-controls-type="bottom-right"] {
 	display: none;
 	position: fixed;
 	width: 110px;
@@ -254,72 +254,191 @@ html:-moz-full-screen-ancestor {
 	bottom: 10px;
 
 	-webkit-user-select: none;
-}
 
-.reveal .controls button {
-	padding: 0;
-	position: absolute;
-	opacity: 0.05;
-	width: 0;
-	height: 0;
-	background-color: transparent;
-	border: 12px solid transparent;
-	transform: scale(.9999);
-	transition: all 0.2s ease;
-	-webkit-appearance: none;
-	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
-}
+	button {
+		padding: 0;
+		position: absolute;
+		opacity: 0.05;
+		width: 0;
+		height: 0;
+		background-color: transparent;
+		border: 12px solid transparent;
+		transform: scale(.9999);
+		transition: all 0.2s ease;
+		-webkit-appearance: none;
+		-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+	}
 
-.reveal .controls .enabled {
-	opacity: 0.7;
-	cursor: pointer;
-}
+	.enabled {
+		opacity: 0.7;
+		cursor: pointer;
+	}
 
-.reveal .controls .enabled:active {
-	margin-top: 1px;
-}
+	.enabled:active {
+		margin-top: 1px;
+	}
 
-	.reveal .controls .navigate-left {
+	.navigate-left {
 		top: 42px;
 
 		border-right-width: 22px;
 		border-right-color: #000;
 	}
-		.reveal .controls .navigate-left.fragmented {
-			opacity: 0.3;
-		}
+	.navigate-left.fragmented {
+		opacity: 0.3;
+	}
 
-	.reveal .controls .navigate-right {
+	.navigate-right {
 		left: 74px;
 		top: 42px;
 
 		border-left-width: 22px;
 		border-left-color: #000;
 	}
-		.reveal .controls .navigate-right.fragmented {
-			opacity: 0.3;
-		}
+	.navigate-right.fragmented {
+		opacity: 0.3;
+	}
 
-	.reveal .controls .navigate-up {
+	.navigate-up {
 		left: 42px;
 
 		border-bottom-width: 22px;
 		border-bottom-color: #000;
 	}
-		.reveal .controls .navigate-up.fragmented {
-			opacity: 0.3;
-		}
+	.navigate-up.fragmented {
+		opacity: 0.3;
+	}
 
-	.reveal .controls .navigate-down {
+	.navigate-down {
 		left: 42px;
 		top: 74px;
 
 		border-top-width: 22px;
 		border-top-color: #000;
 	}
-		.reveal .controls .navigate-down.fragmented {
-			opacity: 0.3;
+	.navigate-down.fragmented {
+		opacity: 0.3;
+	}
+}
+
+
+.reveal .controls[data-controls-type="edges"] {
+	$size: 36px;
+	$spacing: 18px;
+	$thickness: 5px;
+	$angle: 40deg;
+	$angleHover: 36deg;
+	$angleActive: 34deg;
+
+	@mixin arrowTransform( $angle, $x: 0, $y: 0 ) {
+		&:before {
+			transform: translate( $x, $y ) rotate( $angle );
 		}
+
+		&:after {
+			transform: translate( $x, -$y ) rotate( -$angle );
+		}
+	}
+
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	button {
+		position: absolute;
+		padding: 0;
+		width: $size;
+		height: $size;
+		background-color: transparent;
+		border: 0;
+		outline: 0;
+		cursor: pointer;
+		opacity: 0;
+		transform: scale(.9999);
+		transition: all 0.2s ease;
+		z-index: 2; // above slides
+		-webkit-appearance: none;
+		-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+	}
+
+	button:before,
+	button:after {
+		content: '';
+		position: absolute;
+		top: 40%;
+		left: 0;
+		width: $size;
+		height: $thickness;
+		border-radius: $thickness / 2;
+		background: #fff;
+
+		transition: all 0.15s ease;
+		transform-origin: 0% 50%;
+	}
+
+	button {
+		@include arrowTransform( $angle, 0, -1px );
+
+		&:hover {
+			@include arrowTransform( $angleHover, 0, -1px );
+		}
+
+		&:active {
+			@include arrowTransform( $angleActive, 0, -1px );
+		}
+	}
+
+	.enabled {
+		opacity: 0.7;
+		cursor: pointer;
+	}
+
+	.enabled:hover {
+		opacity: 1;
+	}
+
+	.navigate-left {
+		top: 50%;
+		left: $spacing;
+		margin-top: -$size/2;
+	}
+	.navigate-left.fragmented {
+		opacity: 0.3;
+	}
+
+	.navigate-right {
+		top: 50%;
+		right: $spacing;
+		margin-top: -$size/2;
+		transform: rotate( 180deg );
+	}
+	.navigate-right.fragmented {
+		opacity: 0.3;
+	}
+
+	.navigate-up {
+		top: $spacing;
+		left: 50%;
+		margin-left: -$size/2;
+		transform: rotate( 90deg );
+	}
+	.navigate-up.fragmented {
+		opacity: 0.3;
+	}
+
+	.navigate-down {
+		bottom: $spacing;
+		left: 50%;
+		margin-left: -$size/2;
+		transform: rotate( -90deg );
+	}
+	.navigate-down.fragmented {
+		opacity: 0.3;
+	}
+}
 
 
 /*********************************************
