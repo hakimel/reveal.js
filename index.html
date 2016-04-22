@@ -68,18 +68,18 @@
               2016 Drupalcon NOLA
             </p>
           </section>
-          <section>
+          <section data-transition="convex">
             <h2>Mike Miles</h2>
             <p>All the places: mikemiles86</p>
             <p>Genuine (<a href="//wearegenuine.com" target="_blank">wearegenuine.com</a>)</p>
             <p><a href="//mike-miles.com" target="_blank">mike-miles.com</a></p>
           </section>
-          <section>
+          <section data-transition="convex">
             <h2>Goals of this Session</h2>
             <p>
                 <ul>
                   <li class="fragment step-note">Explain AJAX callback commands</li>
-                  <li class="fragment step-note">Outline how to use and create callback commands</li>
+                  <li class="fragment step-note">Outline callback commands</li>
                   <li class="fragment step-note">Demostrate AJAX callback commands</li>
                 </ul>
             </p>
@@ -87,75 +87,101 @@
         </section>
         <section>
           <section>
-            <h2>What are AJAX Callback Commands</h2>
+            <h2>What are AJAX Callback Commands?</h2>
           </section>
-          <section>
-            <p>What does that mean?</p>
-            <ul>
-              <li>Functions returned and invoked by all AJAX requests</li>
-              <li>Defined by the AJAX API
-                <ul>
-                  <li>Javascript functions</li>
-                  <li>PHP classes</li>
-                </ul>
-              </li>
-              <li>Defined by custom modules</li>
-              <li>Provide PHP ability to invoke JS functions</li>
-            </ul>
-          </section>
-          <section data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
-            <p class="overlay-text">
+          <section data-transition="fade" data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
+            <p class="fragment fade-out overlay-text">
               <span>If an AJAX request was a beignet...</span>
               <br />
               <span>Callback commands would be the powdered sugar.</span>
               </p>
           </section>
-          <section data-background="images/client_ajax_request.png" data-background-image="images/client_ajax_request.png" data-background-size="100%">
+          <section data-transition="fade" data-background="images/beignets_blur.jpg" data-background-image="images/beignets_blur.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
             <p class="overlay-text">
-              <strong>Client:</strong> <em>"An action occured, what should I do?"</em>
-            </p>
-          </section>
-          <section data-background="images/server_ajax_response.png" data-background-image="images/server_ajax_response.png" data-background-size="100%">
-            <p class="overlay-text">
-              <strong>Server:</strong> <em>"Run these JavaScript functions."</em>
+              <span>Instructions sent by the Server</span>
+              <br />
+              <span>that invoke JavaScript on the Client</span>
             </p>
           </section>
           <section>
-            <h3>Client side: Javascript</h3>
-            <p>A function attached to a global object</p>
-            <p>Accepts three arguments</p>
-            <ul>
-              <li>Ajax</li>
-              <li>Response</li>
-              <li>status</li>
-            </ul>
-            <p>A wrapper for other javascript</p>
+            <h3>Thank you Ajax API</h3>
+            <p style="color:red"><3</p>
           </section>
-          <section>
-            <h3>Server side: PHP</h3>
-            <p>A class that impletement the CommandInterface</p>
-            <p>Must have a method called 'render'</p>
+          <section data-transition="convex">
+            <h3>JavaScript</h3>
+            <pre><code class="js line-numbers" data-highlight-lines="1,12,18" data-trim>
+              Drupal.AjaxCommands.prototype = {
+  // ...
+  /**
+   * Command to remove a chunk from the page.
+   *
+   * @param {Drupal.Ajax} [ajax]
+   * @param {object} response
+   * @param {string} response.selector
+   * @param {object} [response.settings]
+   * @param {number} [status]
+   */
+  remove: function (ajax, response, status) {
+    var settings = response.settings || ajax.settings || drupalSettings;
+    $(response.selector).each(function () {
+      Drupal.detachBehaviors(this, settings);
+    })
+      .remove();
+  },
+  //...
+            </code><span class="codename">misc/ajax.js </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h3>PHP</h3>
+            <pre><code class="php line-numbers" data-highlight-lines="2,7,12-14,16,17" data-trim>
+namespace Drupal\Core\Ajax;
+use Drupal\Core\Ajax\CommandInterface;
+/**
+ * AJAX command for calling the jQuery remove() method.
+ * ...
+ */
+class RemoveCommand Implements CommandInterface {
+  // ...
+  /**
+   * Implements Drupal\Core\Ajax\CommandInterface:render().
+   */
+  public function render() {
+    return array(
+      'command' => 'remove',
+      'selector' => $this->selector,
+    );
+  }
+}
+            </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h3>Callback Commands are...</h3>
             <ul>
-              <li>Returns an associative array</li>
-              <li>Must have element with key of 'command'</li>
+              <li class="fragment">Provided by the Ajax API</li>
+              <li class="fragment">Used in all Ajax requests</li>
+              <li class="fragment">Composed of two parts: JavaScript & PHP</li>
             </ul>
           </section>
         </section>
         <section>
           <section>
             <h2>How to Create Callback Commands</h2>
+            <ol>
+              <li>Create a custom module</li>
+              <li>Attach a JavaScript function to object</li>
+              <li>Attach JavaScript file to a library</li>
+              <li>Create a PHP class that implements interface</li>
+              <li>Define a Render method that returns an array</li>
+            </ol>
           </section>
           <section>
-            <h3>Why create a custom callback</h3>
-          </section>
-          <section>
-            <h3>What is needed</h3>
-          </section>
-          <section>
-            <h3>Custom Module</h3>
+            <h3>Requires a Custom Module</h3>
           </section>
           <section>
             <h3>Client Side: Javascript</h3>
+            <ol>
+              <li>Attach a JavaScript function to 'Drupal.AjaxCommands.prototype'</li>
+            </ol>
             <p>Define a function that will wrap other javascript</p>
             <p>Follow the naming conventions</p>
           </section>
