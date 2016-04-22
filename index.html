@@ -4,9 +4,9 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Presentation Title</title>
+		<title>D8 Ajax Commands</title>
 
-		<meta name="description" content="Presentation Title">
+		<meta name="description" content="Demystifing AJAX Callback Commands in Drupal 8">
 		<meta name="author" content="Mike Miles">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -41,8 +41,8 @@
 		<div class="reveal">
       <div class="footer">
         <div class="branding--logo">
-            <span class="logo__image"><img src="lib/image/content/logo.png" alt="Conference logo" height="55px" /></span>
-            <p class="logo__site-name">#conference</p>
+            <span class="logo__image"><img src="/images/conference_logo.png" alt="Conference logo" height="55px" /></span>
+            <p class="logo__site-name">#DrupalCon</p>
         </div>
         <div class="company--logo">
             <span class="logo__image"><img src="/images/genuine_logo_white.png" alt="Genuine" height="40px" width="40px" /></span>
@@ -50,7 +50,7 @@
         </div>
         <div class="session--info">
             <p class="session__title">
-              Presentation Title<span class="seperator">&nbsp;/&nbsp;</span>
+              D8 AJAX Commands<span class="seperator">&nbsp;/&nbsp;</span>
             </p>
             <p class="session__presenter">Michael Miles</p>
         </div>
@@ -59,16 +59,172 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
         <section>
-          <h1>Presentation Title</h1>
-          <h2>Presentation Subtitle</h2>
-          <h3><a href="" target="_blank">presentation conf link</a></h3>
-          <h3>conference</h3>
-          <h3>#conference</h3>
+          <section>
+            <h1>Demystifying AJAX Callback Commands</h1>
+            <h2>in Drupal 8</h2>
+            <p>
+              <br />
+              <a href="//events.drupal.org/neworleans2016/sessions/demystifying-ajax-callback-commands-drupal-8" target="_blank">events.drupal.org/node/8466</a><br /><br />
+              2016 Drupalcon NOLA
+            </p>
+          </section>
+          <section>
+            <h2>Mike Miles</h2>
+            <p>All the places: mikemiles86</p>
+            <p>Genuine (<a href="//wearegenuine.com" target="_blank">wearegenuine.com</a>)</p>
+            <p><a href="//mike-miles.com" target="_blank">mike-miles.com</a></p>
+          </section>
+          <section>
+            <h2>Goals of this Session</h2>
+            <p>
+                <ul>
+                  <li class="fragment step-note">Explain AJAX callback commands</li>
+                  <li class="fragment step-note">Outline how to use and create callback commands</li>
+                  <li class="fragment step-note">Demostrate AJAX callback commands</li>
+                </ul>
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>What are AJAX Callback Commands</h2>
+          </section>
+          <section>
+            <h3>Overview</h3>
+          </section>
+          <section>
+            <p>If an AJAX request was a Big Mac, Callback commands would be the secret sauce.</p>
+            <p>What does that mean?</p>
+            <ul>
+              <li>Functions returned and invoked by all AJAX requests</li>
+              <li>Defined by the AJAX API
+                <ul>
+                  <li>Javascript functions</li>
+                  <li>PHP classes</li>
+                </ul>
+              </li>
+              <li>Defined by custom modules</li>
+              <li>Provide PHP ability to invoke JS functions</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Client side: Javascript</h3>
+            <p>A function attached to a global object</p>
+            <p>Accepts three arguments</p>
+            <ul>
+              <li>Ajax</li>
+              <li>Response</li>
+              <li>status</li>
+            </ul>
+            <p>A wrapper for other javascript</p>
+          </section>
+          <section>
+            <h3>Server side: PHP</h3>
+            <p>A class that impletement the CommandInterface</p>
+            <p>Must have a method called 'render'</p>
+            <ul>
+              <li>Returns an associative array</li>
+              <li>Must have element with key of 'command'</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>How to Create Callback Commands</h2>
+          </section>
+          <section>
+            <h3>Why create a custom callback</h3>
+          </section>
+          <section>
+            <h3>What is needed</h3>
+          </section>
+          <section>
+            <h3>Custom Module</h3>
+          </section>
+          <section>
+            <h3>Client Side: Javascript</h3>
+            <p>Define a function that will wrap other javascript</p>
+            <p>Follow the naming conventions</p>
+          </section>
+          <section>
+            <h4>Create AJAX file</h4>
+            <p>Attach function to the global object defined by AJAX api</p>
+          </section>
+          <section>
+            <h4>Create a library</h4>
+            <p>To attach javascript</p>
+            <p>No longer drupal_add_js function</p>
+          </section>
+          <section>
+            <h3>Server Side: PHP</h3>
+            <p>Follow naming conventions</p>
+            <p>Follow PSR-4 for autoloading</p>
+          </section>
+          <section>
+            <h4>Implement CommandInterface</h4>
+          </section>
+          <section>
+            <h4>Define render method</h4>
+            <p>Return associative array with 'command' element</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>How to use Callback Commands</h2>
+          </section>
+          <section>
+            <h3>Overview</h3>
+            <p>Follow story of AJAX request</p>
+          </section>
+          <section>
+            <h4>Scenario</h4>
+          </section>
+          <section>
+            <h3>Attach AJAX to page</h3>
+            <p>Include AJAX libraries</p>
+          </section>
+          <section>
+            <h3>Attach AJAX to elements</h3>
+          </section>
+          <section>
+            <h3>Trigger AJAX Request</h3>
+          </section>
+          <section>
+            <h3>Build AJAX Response</h3>
+            <p>Instance of AJAXResponse Object</p>
+          </section>
+          <section>
+            <h3>Attach AJAX Commands</h3>
+            <p>Include Command classes</p>
+          </section>
+          <section>
+            <h3>Return Response</h3>
+          </section>
+          <section>
+            <h3>Process Response object</h3>
+          </section>
+          <section>
+            <h3>Execute Command Functions</h3>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Review</h2>
+          </section>
+          <section>
+            <h3>What Are AJAX Callback Commands</h3>
+          </section>
+          <section>
+            <h3>How to create AJAX Callback Commands</h3>
+          </section>
+          <section>
+            <h3>How to use AJAX Callback Commands</h3>
+          </section>
         </section>
         <section>
           <h1>Feedback</h1>
           <h3><a href="http://www.twitter.com/mikemiles86">@mikemiles86</a></h3>
-          <h3>#conference</h3>
+          <h3>#DrupalCon</h3>
         </section>
         <section>
           <h1>Thank You!</h1>
