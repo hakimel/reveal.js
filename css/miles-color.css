@@ -59,8 +59,29 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
- .reveal a, .reveal .slide-number {
-  color: #42affa;
+.reveal a, .reveal .slide-number,
+.reveal .controls div.navigate-left,
+.reveal .controls div.navigate-left.enabled,
+.reveal .controls div.navigate-right,
+.reveal .controls div.navigate-right.enabled,
+.reveal .controls div.navigate-up,
+.reveal .controls div.navigate-up.enabled,
+.reveal .controls div.navigate-down,
+.reveal .controls div.navigate-down.enabled,
+.reveal pre code .highlight-line:before {
+  color: #17ff2e;
+}
+
+.reveal .progress span {
+  background-color: #17ff2e;
+}
+
+.reveal a:hover,
+.reveal .controls div.navigate-left.enabled:hover,
+.reveal .controls div.navigate-right.enabled:hover,
+.reveal .controls div.navigate-up.enabled:hover,
+.reveal .controls div.navigate-down.enabled:hover {
+ color: #9CFBA5;
 }
 
  .reveal .progress span {
@@ -95,3 +116,6 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
+.reveal .overlay-text {
+  background: rgba(0, 0, 0, 0.7);
+}
