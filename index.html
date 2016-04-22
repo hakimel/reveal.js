@@ -133,7 +133,7 @@
           </section>
           <section data-transition="convex">
             <h3>PHP</h3>
-            <pre><code class="php line-numbers" data-highlight-lines="2,7,12-14,16,17" data-trim>
+            <pre><code class="php line-numbers" data-highlight-lines="2,7,12-14,16,17" data-highlight-lines-fragment="green" data-trim>
 namespace Drupal\Core\Ajax;
 use Drupal\Core\Ajax\CommandInterface;
 /**
@@ -157,8 +157,8 @@ class RemoveCommand Implements CommandInterface {
           <section data-transition="convex">
             <h3>Callback Commands are...</h3>
             <ul>
-              <li class="fragment">Provided by the Ajax API</li>
               <li class="fragment">Used in all Ajax requests</li>
+              <li class="fragment">Provided by the Ajax API</li>
               <li class="fragment">Composed of two parts: JavaScript & PHP</li>
             </ul>
           </section>
@@ -166,45 +166,72 @@ class RemoveCommand Implements CommandInterface {
         <section>
           <section>
             <h2>How to Create Callback Commands</h2>
-            <ol>
+          </section>
+          <section>
+            <p>Requires a Custom Module</p>
+          </section>
+          <section data-transition="convex">
+            <h3>JavaScript</h3>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="10-14">
+(function ($, window, Drupal, drupalSettings) {
+  'use strict';
+  /**
+   * [commandName description]
+   *
+   * @param {Drupal.Ajax} [ajax]
+   * @param {object} response
+   * @param {number} [status]
+   */
+  Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
+
+    // Custom javascript goes here ...
+
+  }
+
+})(jQuery, this, Drupal, drupalSettings);
+            </code><span class="codename">mymodule/js/ajax.js</span></pre>
+            <p class="step-note">mymodule/js/ajax.js</p>
+            <p class="caption">
+            </p>
+          </section>
+          <section data-transition="convex">
+            <h3>Library</h3>
+                       <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
+ajax:
+  version: VERSION
+  js:
+    js/ajax.js: {}
+  dependencies:
+    - core/drupal.ajax
+            </code><span class="codename">mymodule/mymodule.libraries.yml </span></pre>
+            <p class="step-note">mymodule/mymodule.libraries.yml</p>
+          </section>
+          <section data-transition="convex">
+            <h3>PHP</h3>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="1,4,7,9">
+use Drupal\Core\Ajax\CommandInterface;
+
+// An AJAX command for calling  [commandName]() JavaScript method.
+class [CommandName]Command implements CommandInterface {
+
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => '[commandName]', // Name of JavaScript Method.
+      // other request arguments...
+    );
+  }
+}
+            </code><span class="codename">mymodule/src/Ajax/[CommandName]Command.php </span></pre>
+            <span class="step-note">mymodule/src/Ajax/[CommandName]Command.php</span>
+          </section>
+          <section data-transition="convex">
+            <h3>To Create a Callback command...</h3>
+            <ul>
               <li>Create a custom module</li>
-              <li>Attach a JavaScript function to object</li>
-              <li>Attach JavaScript file to a library</li>
-              <li>Create a PHP class that implements interface</li>
-              <li>Define a Render method that returns an array</li>
-            </ol>
-          </section>
-          <section>
-            <h3>Requires a Custom Module</h3>
-          </section>
-          <section>
-            <h3>Client Side: Javascript</h3>
-            <ol>
-              <li>Attach a JavaScript function to 'Drupal.AjaxCommands.prototype'</li>
-            </ol>
-            <p>Define a function that will wrap other javascript</p>
-            <p>Follow the naming conventions</p>
-          </section>
-          <section>
-            <h4>Create AJAX file</h4>
-            <p>Attach function to the global object defined by AJAX api</p>
-          </section>
-          <section>
-            <h4>Create a library</h4>
-            <p>To attach javascript</p>
-            <p>No longer drupal_add_js function</p>
-          </section>
-          <section>
-            <h3>Server Side: PHP</h3>
-            <p>Follow naming conventions</p>
-            <p>Follow PSR-4 for autoloading</p>
-          </section>
-          <section>
-            <h4>Implement CommandInterface</h4>
-          </section>
-          <section>
-            <h4>Define render method</h4>
-            <p>Return associative array with 'command' element</p>
+              <li>Attach a function to 'Drupal.AjaxCommands.prototype'</li>
+              <li>Create a PHP Class that implements 'CommandInterface'</li>
+            </ul>
           </section>
         </section>
         <section>
