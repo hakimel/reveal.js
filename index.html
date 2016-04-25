@@ -79,7 +79,7 @@
             <p>
                 <ul>
                   <li class="fragment step-note">Explain AJAX callback commands</li>
-                  <li class="fragment step-note">Outline callback commands</li>
+                  <li class="fragment step-note">Outline AJAX callback commands</li>
                   <li class="fragment step-note">Demostrate AJAX callback commands</li>
                 </ul>
             </p>
@@ -89,19 +89,50 @@
           <section>
             <h2>What are AJAX Callback Commands?</h2>
           </section>
-          <section data-transition="fade" data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
-            <p class="fragment fade-out overlay-text">
+          <section data-transition="fade" data-background="images/beignets_blur.jpg" data-background-image="images/beignets_blur.jpg" data-background-size="100%" data-background-repeat="repeat" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
+            <p class="overlay-text">
+              <span>Instructions sent by the <em>Server</em></span>
+              <br />
+              <span>to invoke JavaScript on the <em>Client</em></span>
+              <br />
+              <span>during an AJAX Request</span>
+            </p>
+          </section>
+          <section data-transition="fade" data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121" data-background-repeat="repeat">
+            <p class="overlay-text">
               <span>If an AJAX request was a beignet...</span>
               <br />
               <span>Callback commands would be the powdered sugar.</span>
               </p>
           </section>
-          <section data-transition="fade" data-background="images/beignets_blur.jpg" data-background-image="images/beignets_blur.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
-            <p class="overlay-text">
-              <span>Instructions sent by the Server</span>
-              <br />
-              <span>that invoke JavaScript on the Client</span>
-            </p>
+          <section data-transition="fade" data-background="images/ajax_commands_example_views.gif">
+          </section>
+          <section data-transition="fade" data-background="images/ajax_commands_example_views_network.gif">
+          </section>
+          <section data-transition="convex">
+            <p class="filename">.../admin/structure/views/ajax/handler/content/page_1/field/title?_wrapper_format=drupal_ajax</p>
+            <pre><code class="json line-numbers" data-trim>
+              [
+  {
+    "command": "settings",
+    "settings":{...}
+  },
+  {
+    "command":"openDialog",
+    "selector":"#drupal-modal",
+    "settings":null,
+    "data":"...",
+  },
+  {
+    "command":"viewsSetForm",
+    "url":"..."
+  },
+  {
+    "command":"viewsHighlight",
+    "selector":".page-1-field-title"
+  }
+]
+            </code></pre>
           </section>
           <section>
             <h3>Thank you Ajax API</h3>
@@ -169,6 +200,11 @@ class RemoveCommand Implements CommandInterface {
           </section>
           <section>
             <p>Requires a Custom Module</p>
+            <ul>
+              <li class="step-note fragment">A JavaScript function</li>
+              <li class="step-note fragment">An asset library</li>
+              <li class="step-note fragment">A Command class (PHP)</li>
+            </ul>
           </section>
           <section data-transition="convex">
             <h3>JavaScript</h3>
@@ -195,7 +231,7 @@ class RemoveCommand Implements CommandInterface {
             </p>
           </section>
           <section data-transition="convex">
-            <h3>Library</h3>
+            <h3>Asset Library</h3>
                        <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
 ajax:
   version: VERSION
@@ -226,11 +262,12 @@ class [CommandName]Command implements CommandInterface {
             <span class="step-note">mymodule/src/Ajax/[CommandName]Command.php</span>
           </section>
           <section data-transition="convex">
-            <h3>To Create a Callback command...</h3>
+            <h3>To Create a callback command...</h3>
             <ul>
               <li>Create a custom module</li>
-              <li>Attach a function to 'Drupal.AjaxCommands.prototype'</li>
-              <li>Create a PHP Class that implements 'CommandInterface'</li>
+              <li>Add function to 'Drupal.AjaxCommands.prototype'</li>
+              <li>Add JavaScript to an asset library</li>
+              <li>Create class implementing 'CommandInterface'</li>
             </ul>
           </section>
         </section>
@@ -239,38 +276,46 @@ class [CommandName]Command implements CommandInterface {
             <h2>How to use Callback Commands</h2>
           </section>
           <section>
-            <h3>Overview</h3>
-            <p>Follow story of AJAX request</p>
+            <p>Screenshot of Watchdog log page</p>
           </section>
           <section>
-            <h4>Scenario</h4>
+            <p>Animated screenshot of watchdow log showing page load</p>
           </section>
           <section>
-            <h3>Attach AJAX to page</h3>
-            <p>Include AJAX libraries</p>
+            <p>Code example of attaching AJAX to page/ elements</p>
           </section>
           <section>
-            <h3>Attach AJAX to elements</h3>
+            <p>Animated screenshot of click</p>
           </section>
           <section>
-            <h3>Trigger AJAX Request</h3>
+            <p>Code example of route endpoint</p>
           </section>
           <section>
-            <h3>Build AJAX Response</h3>
-            <p>Instance of AJAXResponse Object</p>
+            <p>Code example of callback adding commands</p>
           </section>
           <section>
-            <h3>Attach AJAX Commands</h3>
-            <p>Include Command classes</p>
+            <p>Screenshot of AJAX response</p>
           </section>
           <section>
-            <h3>Return Response</h3>
+            <p>Animated screenshot of ajax request</p>
           </section>
           <section>
-            <h3>Process Response object</h3>
+            <p>Code example of JS function for SlideToggle?</p>
           </section>
           <section>
-            <h3>Execute Command Functions</h3>
+            <p>Code example of custom library</p>
+          </section>
+          <section>
+            <p>Code example of adding library to page</p>
+          </section>
+          <section>
+            <p>Code example of PHP class for Slide class</p>
+          </section>
+          <section>
+            <p>Code example of adding command to response</p>
+          </section>
+          <section>
+            <p>Animated gif of ajax request</p>
           </section>
         </section>
         <section>
