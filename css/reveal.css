@@ -254,8 +254,8 @@ body {
   .reveal .controls[data-controls-type="edges"] button {
     position: absolute;
     padding: 0;
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
     background-color: transparent;
     border: 0;
     outline: 0;
@@ -274,7 +274,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 33px;
+    width: 30px;
     height: 5px;
     border-radius: 2.5px;
     background-color: #fff;
@@ -283,30 +283,31 @@ body {
     -webkit-transform-origin: 2.5px 50%;
             transform-origin: 2.5px 50%; }
   .reveal .controls[data-controls-type="edges"] button:before {
-    -webkit-transform: translateY(19.5px) rotate(40deg);
-            transform: translateY(19.5px) rotate(40deg); }
+    -webkit-transform: translateX(10px) translateY(22.5px) rotate(44deg);
+            transform: translateX(10px) translateY(22.5px) rotate(44deg); }
   .reveal .controls[data-controls-type="edges"] button:after {
-    -webkit-transform: translateY(19.5px) rotate(-40deg);
-            transform: translateY(19.5px) rotate(-40deg); }
+    -webkit-transform: translateX(10px) translateY(22.5px) rotate(-44deg);
+            transform: translateX(10px) translateY(22.5px) rotate(-44deg); }
   .reveal .controls[data-controls-type="edges"] button:hover:before {
-    -webkit-transform: translateY(19.5px) rotate(36deg);
-            transform: translateY(19.5px) rotate(36deg); }
+    -webkit-transform: translateX(10px) translateY(22.5px) rotate(40deg);
+            transform: translateX(10px) translateY(22.5px) rotate(40deg); }
   .reveal .controls[data-controls-type="edges"] button:hover:after {
-    -webkit-transform: translateY(19.5px) rotate(-36deg);
-            transform: translateY(19.5px) rotate(-36deg); }
+    -webkit-transform: translateX(10px) translateY(22.5px) rotate(-40deg);
+            transform: translateX(10px) translateY(22.5px) rotate(-40deg); }
   .reveal .controls[data-controls-type="edges"] button:active:before {
-    -webkit-transform: translateY(19.5px) rotate(34deg);
-            transform: translateY(19.5px) rotate(34deg); }
+    -webkit-transform: translateX(10px) translateY(22.5px) rotate(36deg);
+            transform: translateX(10px) translateY(22.5px) rotate(36deg); }
   .reveal .controls[data-controls-type="edges"] button:active:after {
-    -webkit-transform: translateY(19.5px) rotate(-34deg);
-            transform: translateY(19.5px) rotate(-34deg); }
+    -webkit-transform: translateX(10px) translateY(22.5px) rotate(-36deg);
+            transform: translateX(10px) translateY(22.5px) rotate(-36deg); }
   .reveal .controls[data-controls-type="edges"] .enabled {
     opacity: 0.7;
     cursor: pointer; }
-  .reveal .controls[data-controls-type="edges"] .enabled:hover {
-    opacity: 1; }
   .reveal .controls[data-controls-type="edges"] .enabled.fragmented {
     opacity: 0.3; }
+  .reveal .controls[data-controls-type="edges"] .enabled:hover,
+  .reveal .controls[data-controls-type="edges"] .enabled.fragmented:hover {
+    opacity: 1; }
   .reveal .controls[data-controls-type="edges"] .navigate-left {
     top: 50%;
     left: 18px;
@@ -338,14 +339,14 @@ body {
       top: auto;
       left: auto; }
     .reveal .controls[data-controls-type="edges"] .navigate-left {
-      right: 80px;
+      right: 86px;
       bottom: 18px; }
     .reveal .controls[data-controls-type="edges"] .navigate-right {
       right: 0;
       bottom: 18px; }
     .reveal .controls[data-controls-type="edges"] .navigate-up {
       right: 18px;
-      bottom: 80px; }
+      bottom: 86px; }
     .reveal .controls[data-controls-type="edges"] .navigate-down {
       right: 18px;
       bottom: 0; } }
