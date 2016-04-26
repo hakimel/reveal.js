@@ -323,21 +323,21 @@ html:-moz-full-screen-ancestor {
 
 
 .reveal .controls[data-controls-type="edges"] {
-	$size: 44px;
-	$length: floor($size * 0.75);
+	$size: 50px;
+	$length: floor($size * 0.6);
 	$spacing: 18px;
 	$thickness: 5px;
-	$angle: 40deg;
-	$angleHover: 36deg;
-	$angleActive: 34deg;
+	$angle: 44deg;
+	$angleHover: 40deg;
+	$angleActive: 36deg;
 
 	@mixin arrowTransform( $angle ) {
 		&:before {
-			transform: translateY(($size - $thickness)/2) rotate( $angle );
+			transform: translateX(($size - $length)/2) translateY(($size - $thickness)/2) rotate( $angle );
 		}
 
 		&:after {
-			transform: translateY(($size - $thickness)/2) rotate( -$angle );
+			transform: translateX(($size - $length)/2) translateY(($size - $thickness)/2) rotate( -$angle );
 		}
 	}
 
@@ -397,12 +397,13 @@ html:-moz-full-screen-ancestor {
 		cursor: pointer;
 	}
 
-	.enabled:hover {
-		opacity: 1;
-	}
-
 	.enabled.fragmented {
 		opacity: 0.3;
+	}
+
+	.enabled:hover,
+	.enabled.fragmented:hover {
+		opacity: 1;
 	}
 
 	.navigate-left {
