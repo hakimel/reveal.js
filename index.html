@@ -107,11 +107,11 @@
           </section>
           <section data-transition="fade" data-background="images/ajax_commands_example_views.gif">
           </section>
-          <section data-transition="fade" data-background="images/ajax_commands_example_views_network.gif">
+          <section data-transition="fade" class="animated-gif" data-background="images/ajax_commands_example_views_network.gif">
           </section>
           <section data-transition="convex">
             <p class="filename">.../admin/structure/views/ajax/handler/content/page_1/field/title?_wrapper_format=drupal_ajax</p>
-            <pre><code class="json line-numbers" data-trim>
+            <pre><code class="json line-numbers" data-trim data-highlight-lines="3,7,13,17">
               [
   {
     "command": "settings",
@@ -189,7 +189,7 @@ class RemoveCommand Implements CommandInterface {
             <h3>Callback Commands are...</h3>
             <ul>
               <li class="fragment">Used in all Ajax requests</li>
-              <li class="fragment">Provided by the Ajax API</li>
+              <li class="fragment">Provided by the Ajax API and modules</li>
               <li class="fragment">Composed of two parts: JavaScript & PHP</li>
             </ul>
           </section>
@@ -198,8 +198,8 @@ class RemoveCommand Implements CommandInterface {
           <section>
             <h2>How to Create Callback Commands</h2>
           </section>
-          <section>
-            <p>Requires a Custom Module</p>
+          <section data-transition="convex">
+            <p>Requires a Module</p>
             <ul>
               <li class="step-note fragment">A JavaScript function</li>
               <li class="step-note fragment">An asset library</li>
@@ -236,7 +236,7 @@ class RemoveCommand Implements CommandInterface {
 ajax:
   version: VERSION
   js:
-    js/ajax.js: {}
+    js/[myJavascript].js: {}
   dependencies:
     - core/drupal.ajax
             </code><span class="codename">mymodule/mymodule.libraries.yml </span></pre>
@@ -262,9 +262,75 @@ class [CommandName]Command implements CommandInterface {
             <span class="step-note">mymodule/src/Ajax/[CommandName]Command.php</span>
           </section>
           <section data-transition="convex">
+            <h3>Views UI: viewsHighlight (JS)</h3>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="12-15">
+              /**
+ * @file
+ * Handles AJAX submission and response in Views UI.
+ */
+(function ($, Drupal, drupalSettings) {
+
+  'use strict';
+  /**
+   * Ajax command for highlighting elements.
+   * ...
+   */
+  Drupal.AjaxCommands.prototype.viewsHighlight = function (ajax, response, status) {
+    $('.hilited').removeClass('hilited');
+    $(response.selector).addClass('hilited');
+  };
+            </code><span class="codename">core/modules/views_ui/js/ajax.js </span></pre>
+          </section>
+          <section data-transition="convex">
+            <h3>Views UI: views_ui.libraries.yml</h3>
+            <pre><code class="yml line-numbers" data-trim data-highlight-lines="1,3,4,7,14">
+              views_ui.admin:
+  version: VERSION
+  js:
+    js/ajax.js: {}
+    js/dialog.views.js: {}
+    js/views-admin.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+    - core/jquery.form
+    - core/drupal.form
+    - core/drupal.ajax
+    - core/drupal.dropbutton
+    - views/views.ajax
+    - views_ui/admin.styling
+            </code><span class="codename">core/modules/views_ui/views_ui.libraries.yml</span></pre>
+          </section>
+          <section data-transition="convex">
+            <h3>Views UI: HighlightCommand (PHP)</h3>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="6,11,14-18">
+              /**
+ * @file
+ * Contains \Drupal\views\Ajax\HighlightCommand.
+ */
+namespace Drupal\views\Ajax;
+use Drupal\Core\Ajax\CommandInterface;
+/**
+ * Provides an AJAX command for highlighting a certain new piece of html.
+ * This command is implemented in Drupal.AjaxCommands.prototype.viewsHighlight.
+ */
+class HighlightCommand implements CommandInterface {
+  // ...
+
+  public function render() {
+    return array(
+      'command' => 'viewsHighlight',
+      'selector' => $this->selector,
+    );
+  }
+            </code><span class="codename">core/modules/views/src/Ajax/HighlightCommand.php </span></pre>
+          </section>
+          <section data-transition="convex">
             <h3>To Create a callback command...</h3>
             <ul>
-              <li>Create a custom module</li>
+              <li>Create a module</li>
               <li>Add function to 'Drupal.AjaxCommands.prototype'</li>
               <li>Add JavaScript to an asset library</li>
               <li>Create class implementing 'CommandInterface'</li>
