@@ -61,17 +61,14 @@
         <section>
           <section>
             <h1>Demystifying AJAX Callback Commands</h1>
-            <h2>in Drupal 8</h2>
-            <p>
-              <br />
-              <a href="//events.drupal.org/neworleans2016/sessions/demystifying-ajax-callback-commands-drupal-8" target="_blank">events.drupal.org/node/8466</a><br /><br />
-              2016 Drupalcon NOLA
-            </p>
+            <h2>(in Drupal 8)</h2>
+            <p><a href="//events.drupal.org/neworleans2016/sessions/demystifying-ajax-callback-commands-drupal-8" target="_blank">events.drupal.org/node/8466</a></p>
+            <p>Drupalcon 2016</p>
           </section>
           <section data-transition="convex">
             <h2>Mike Miles</h2>
-            <p>All the places: mikemiles86</p>
             <p>Genuine (<a href="//wearegenuine.com" target="_blank">wearegenuine.com</a>)</p>
+            <p>All the internet places: <a href="//twitter.com/mikemiles86" target="_blank">mikemiles86</a></p>
             <p><a href="//mike-miles.com" target="_blank">mike-miles.com</a></p>
           </section>
           <section data-transition="convex">
@@ -89,15 +86,6 @@
           <section>
             <h2>What are AJAX Callback Commands?</h2>
           </section>
-          <section data-transition="fade" data-background="images/beignets_blur.jpg" data-background-image="images/beignets_blur.jpg" data-background-size="100%" data-background-repeat="repeat" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
-            <p class="overlay-text">
-              <span>Instructions sent by the <em>Server</em></span>
-              <br />
-              <span>to invoke JavaScript on the <em>Client</em></span>
-              <br />
-              <span>during an AJAX Request</span>
-            </p>
-          </section>
           <section data-transition="fade" data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121" data-background-repeat="repeat">
             <p class="overlay-text">
               <span>If an AJAX request was a beignet...</span>
@@ -105,42 +93,71 @@
               <span>Callback commands would be the powdered sugar.</span>
               </p>
           </section>
-          <section data-transition="fade" data-background="images/ajax_commands_example_views.gif">
-          </section>
-          <section data-transition="fade" class="animated-gif" data-background="images/ajax_commands_example_views_network.gif">
+          <section data-transition="fade" data-background="images/beignets_blur.jpg" data-background-image="images/beignets_blur.jpg" data-background-size="100%" data-background-repeat="repeat" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
+            <p class="overlay-text">
+              <span>Instructions built by the <em>Server</em> and</span>
+              <br />
+              <span>executed by the <em>Client</em> in an AJAX event.</span>
+            </p>
           </section>
           <section data-transition="convex">
-            <p class="filename">.../admin/structure/views/ajax/handler/content/page_1/field/title?_wrapper_format=drupal_ajax</p>
-            <pre><code class="json line-numbers" data-trim data-highlight-lines="3,7,13,17">
-              [
-  {
-    "command": "settings",
-    "settings":{...}
-  },
-  {
-    "command":"openDialog",
-    "selector":"#drupal-modal",
-    "settings":null,
-    "data":"...",
-  },
-  {
-    "command":"viewsSetForm",
-    "url":"..."
-  },
-  {
-    "command":"viewsHighlight",
-    "selector":".page-1-field-title"
+            <p>
+              <span>Ajax API</span>
+              <span class="fragment" data-fragment-index="2">+ Javascript</span>
+              <span class="fragment" data-fragment-index="3">+ PHP</span>
+              <span class="fragment" data-fragment-index="5">= Callback Command</span>
+            </p>
+            <p>
+              <span class="fragment" style="color:yellow" data-fragment-index="1">^Core^ </span>
+              <span class="fragment" style="color:orange" data-fragment-index="4">&nbsp;&nbsp;^Core / Modules^</span>
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;
+              </span>
+            </p>
+          </section>
+          <section data-transition="convex">
+            <h3>Callback Command: JavaScript</h3>
+            <ul>
+              <li class="fragment step-note">Function attached to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment step-note">Accepts 3 arguments:
+                <ul>
+                  <li class="fragment">ajax</li>
+                  <li class="fragment">response</li>
+                  <li class="fragment">status</li>
+                </ul>
+              </li>
+              <li class="fragment step-note">Wrapper for additional JavaScript</li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+            <h4>Callback Anatomy: JavaScript</h4>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="10-14">
+(function ($, window, Drupal, drupalSettings) {
+  'use strict';
+  /**
+   * [commandName description]
+   *
+   * @param {Drupal.Ajax} [ajax]
+   * @param {object} response
+   * @param {number} [status]
+   */
+  Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
+
+    // Custom javascript goes here ...
+
   }
-]
-            </code></pre>
-          </section>
-          <section>
-            <h3>Thank you Ajax API</h3>
-            <p style="color:red"><3</p>
+
+})(jQuery, this, Drupal, drupalSettings);
+            </code><span class="codename">[module]/js/[javascript].js</span></pre>
+            <p class="step-note">[module] / js / [javascript].js</p>
+            <p class="caption">
+            </p>
           </section>
           <section data-transition="convex">
-            <h3>JavaScript</h3>
-            <pre><code class="js line-numbers" data-highlight-lines="1,12,18" data-trim>
+            <h4>Core Example: Remove</h4>
+            <pre><code class="js line-numbers" data-highlight-lines="1,12-18" data-trim>
               Drupal.AjaxCommands.prototype = {
   // ...
   /**
@@ -163,8 +180,42 @@
             </code><span class="codename">misc/ajax.js </span></pre>
           </section>
           <section data-transition="convex">
-            <h3>PHP</h3>
-            <pre><code class="php line-numbers" data-highlight-lines="2,7,12-14,16,17" data-highlight-lines-fragment="green" data-trim>
+            <h3>Callback Command: PHP</h3>
+            <ul>
+              <li class="fragment step-note">Class that implements CommandInterface</li>
+              <li class="fragment step-note">Defines a method called 'render'</li>
+              <li class="fragment step-note">Returns an associative array:
+                <ul>
+                  <li class="fragment">Must have element with key of 'command'</li>
+                  <li class="fragment">Value must be name of JavaScript function</li>
+                  <li class="fragment">Other elements passed as response data</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+            <h4>Callback Anatomy: PHP</h4>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="1,2,5,8-10">
+              namespace Drupal\[module]\Ajax
+use Drupal\Core\Ajax\CommandInterface;
+
+// An AJAX command for calling  [commandName]() JavaScript method.
+class [CommandName]Command implements CommandInterface {
+
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => '[commandName]', // Name of JavaScript Method.
+      // other response arguments...
+    );
+  }
+}
+            </code><span class="codename">[module]/src/Ajax/[CommandName]Command.php </span></pre>
+            <span class="step-note">[module] / src / Ajax / [CommandName]Command.php</span>
+          </section>
+          <section data-transition="convex">
+            <h4>Core Example: RemoveCommand</h4>
+            <pre><code class="php line-numbers" data-highlight-lines="1,2,7,12-17" data-highlight-lines-fragment="green" data-trim>
 namespace Drupal\Core\Ajax;
 use Drupal\Core\Ajax\CommandInterface;
 /**
@@ -186,160 +237,137 @@ class RemoveCommand Implements CommandInterface {
             </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php </span></pre>
           </section>
           <section data-transition="convex">
+            <p class="step-note">JavaScript</p>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="2,4">
+              //...
+remove: function (ajax, response, status) {
+  var settings = response.settings || ajax.settings || drupalSettings;
+  $(response.selector).each(function () {
+    Drupal.detachBehaviors(this, settings);
+  })
+    .remove();
+},
+                  </code></pre>
+                  <p class="step-note">PHP</p>
+                  <pre><code class="php line-numbers" data-trim data-highlight-lines="4,5">
+                    //...
+public function render() {
+  return array(
+    'command' => 'remove',
+    'selector' => $this->selector,
+  );
+}
+            </code></pre>
+
+          </section>
+          <section data-transition="convex">
             <h3>Callback Commands are...</h3>
             <ul>
-              <li class="fragment">Used in all Ajax requests</li>
-              <li class="fragment">Provided by the Ajax API and modules</li>
-              <li class="fragment">Composed of two parts: JavaScript & PHP</li>
+              <li class="fragment step-note">Used in all Ajax requests</li>
+              <li class="fragment step-note">Provided by the core  and modules</li>
+              <li class="fragment step-note">Composed of two parts: JavaScript function, PHP Class</li>
             </ul>
           </section>
         </section>
         <section>
           <section>
-            <h2>How to Create Callback Commands</h2>
+            <h2>How to Create Callback Commands?</h2>
           </section>
           <section data-transition="convex">
-            <p>Requires a Module</p>
+            <h3>Requires a custom module with 3 parts</h3>
             <ul>
-              <li class="step-note fragment">A JavaScript function</li>
               <li class="step-note fragment">An asset library</li>
-              <li class="step-note fragment">A Command class (PHP)</li>
+              <li class="step-note fragment">A JavaScript function</li>
+              <li class="step-note fragment">A PHP class</li>
             </ul>
           </section>
           <section data-transition="convex">
-            <h3>JavaScript</h3>
-            <pre><code class="js line-numbers" data-trim data-highlight-lines="10-14">
-(function ($, window, Drupal, drupalSettings) {
-  'use strict';
-  /**
-   * [commandName description]
-   *
-   * @param {Drupal.Ajax} [ajax]
-   * @param {object} response
-   * @param {number} [status]
-   */
-  Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
-
-    // Custom javascript goes here ...
-
-  }
-
-})(jQuery, this, Drupal, drupalSettings);
-            </code><span class="codename">mymodule/js/ajax.js</span></pre>
-            <p class="step-note">mymodule/js/ajax.js</p>
-            <p class="caption">
-            </p>
+            <h3>Example Scenario</h3>
+            <p class="fragment step-note">Create a Callback Command for the jQuery 'SlideDown' method</p>
           </section>
           <section data-transition="convex">
-            <h3>Asset Library</h3>
-                       <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
-ajax:
+            <h4>Create Module</h4>
+            <pre><code class="yml line-numbers" data-trim>
+              name: 'My Module'
+type: module
+description: Add new AJAX Callback command for the jQuery SlideDown method.
+package: other
+core: 8.x
+            </code><span class="codename">mymodule/mymodule.info.yml</span></pre>
+            <p class="step-note">mymodule / mymodule.info.yml</p>
+          </section>
+          <section data-transition="convex">
+            <h4>Create Asset Library</h4>
+            <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
+myajax:
   version: VERSION
   js:
-    js/[myJavascript].js: {}
+    js/ajax-commands.js: {}
   dependencies:
     - core/drupal.ajax
             </code><span class="codename">mymodule/mymodule.libraries.yml </span></pre>
-            <p class="step-note">mymodule/mymodule.libraries.yml</p>
+            <p class="step-note">mymodule / mymodule.libraries.yml</p>
           </section>
           <section data-transition="convex">
-            <h3>PHP</h3>
-            <pre><code class="php line-numbers" data-trim data-highlight-lines="1,4,7,9">
+            <h4>Create JavaScript Function</h4>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="6-11">
+              (function ($, window, Drupal, drupalSettings) {
+
+  'use strict';
+
+  // Command to Slide Down page elements.
+  Drupal.AjaxCommands.prototype.slideDown = function(ajax, response, status){
+    // Get duration if sent, else use default of slow.
+    var duration = response.duration ? response.duration : "slow";
+    // slide down the selected element(s).
+    $(response.selector).slideDown(duration);
+  }
+})(jQuery, this, Drupal, drupalSettings);
+            </code><span class="codename">mymodule/js/ajax-commands.js </span></pre>
+            <p class="step-note">mymodule / js / ajax-commands.js</p>
+          </section>
+          <section data-transition="convex">
+            <h4>Create PHP Class</h4>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="1,2,4,13-20">
+namespace Drupal\mymodule\Ajax;
 use Drupal\Core\Ajax\CommandInterface;
 
-// An AJAX command for calling  [commandName]() JavaScript method.
-class [CommandName]Command implements CommandInterface {
+class SlideDownCommand implements CommandInterface {
+  // ...
+  // Constructs an SlideDownCommand object.
+  public function __construct($selector, $duration = NULL) {
+    $this->selector = $selector;
+    $this->duration = $duration;
+  }
 
   // Implements Drupal\Core\Ajax\CommandInterface:render().
   public function render() {
     return array(
-      'command' => '[commandName]', // Name of JavaScript Method.
-      // other request arguments...
+      'command' => 'slideDown',
+      'method' => NULL,
+      'selector' => $this->selector,
+      'duration' => $this->duration,
     );
   }
 }
-            </code><span class="codename">mymodule/src/Ajax/[CommandName]Command.php </span></pre>
-            <span class="step-note">mymodule/src/Ajax/[CommandName]Command.php</span>
+            </code><span class="codename">mymodule/src/Ajax/SlideDownCommand.php</span></pre>
+            <p class="step-note">mymodule / src / Ajax / SlideDownCommand.php</p>
           </section>
-          <section data-transition="convex">
-            <h3>Views UI: viewsHighlight (JS)</h3>
-            <pre><code class="js line-numbers" data-trim data-highlight-lines="12-15">
-              /**
- * @file
- * Handles AJAX submission and response in Views UI.
- */
-(function ($, Drupal, drupalSettings) {
 
-  'use strict';
-  /**
-   * Ajax command for highlighting elements.
-   * ...
-   */
-  Drupal.AjaxCommands.prototype.viewsHighlight = function (ajax, response, status) {
-    $('.hilited').removeClass('hilited');
-    $(response.selector).addClass('hilited');
-  };
-            </code><span class="codename">core/modules/views_ui/js/ajax.js </span></pre>
-          </section>
-          <section data-transition="convex">
-            <h3>Views UI: views_ui.libraries.yml</h3>
-            <pre><code class="yml line-numbers" data-trim data-highlight-lines="1,3,4,7,14">
-              views_ui.admin:
-  version: VERSION
-  js:
-    js/ajax.js: {}
-    js/dialog.views.js: {}
-    js/views-admin.js: {}
-  dependencies:
-    - core/jquery
-    - core/drupal
-    - core/drupalSettings
-    - core/jquery.once
-    - core/jquery.form
-    - core/drupal.form
-    - core/drupal.ajax
-    - core/drupal.dropbutton
-    - views/views.ajax
-    - views_ui/admin.styling
-            </code><span class="codename">core/modules/views_ui/views_ui.libraries.yml</span></pre>
-          </section>
-          <section data-transition="convex">
-            <h3>Views UI: HighlightCommand (PHP)</h3>
-            <pre><code class="php line-numbers" data-trim data-highlight-lines="6,11,14-18">
-              /**
- * @file
- * Contains \Drupal\views\Ajax\HighlightCommand.
- */
-namespace Drupal\views\Ajax;
-use Drupal\Core\Ajax\CommandInterface;
-/**
- * Provides an AJAX command for highlighting a certain new piece of html.
- * This command is implemented in Drupal.AjaxCommands.prototype.viewsHighlight.
- */
-class HighlightCommand implements CommandInterface {
-  // ...
 
-  public function render() {
-    return array(
-      'command' => 'viewsHighlight',
-      'selector' => $this->selector,
-    );
-  }
-            </code><span class="codename">core/modules/views/src/Ajax/HighlightCommand.php </span></pre>
-          </section>
           <section data-transition="convex">
             <h3>To Create a callback command...</h3>
             <ul>
-              <li>Create a module</li>
-              <li>Add function to 'Drupal.AjaxCommands.prototype'</li>
-              <li>Add JavaScript to an asset library</li>
-              <li>Create class implementing 'CommandInterface'</li>
+              <li class="fragment step-note">Create a module</li>
+              <li class="fragment step-note">Create an asset library</li>
+              <li class="fragment step-note">Add JavaScript function to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment step-note">Create PHP class that implements 'CommandInterface'</li>
             </ul>
           </section>
         </section>
         <section>
           <section>
-            <h2>How to use Callback Commands</h2>
+            <h2>How to use Callback Commands?</h2>
           </section>
           <section>
             <p>Screenshot of Watchdog log page</p>

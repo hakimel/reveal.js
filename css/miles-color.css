@@ -7,7 +7,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 body {
-  background-color: #2a337b;
+  background-color: #000;
 }
 
 ::selection {
@@ -33,10 +33,6 @@ body {
   -moz-transition: color 0.15s ease;
   transition: color 0.15s ease; }
 
-.reveal a:hover {
-  color: #8dcffc;
-}
-
 .reveal .roll span:after {
   background: #068ee9;
 }
@@ -60,57 +56,57 @@ body {
 }
 
 .reveal a, .reveal .slide-number,
-.reveal .controls div.navigate-left,
-.reveal .controls div.navigate-left.enabled,
-.reveal .controls div.navigate-right,
-.reveal .controls div.navigate-right.enabled,
-.reveal .controls div.navigate-up,
-.reveal .controls div.navigate-up.enabled,
-.reveal .controls div.navigate-down,
-.reveal .controls div.navigate-down.enabled,
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-left.enabled,
+.reveal .controls .navigate-right,
+.reveal .controls .navigate-right.enabled,
+.reveal .controls .navigate-up,
+.reveal .controls .navigate-up.enabled,
+.reveal .controls .navigate-down,
+.reveal .controls .navigate-down.enabled,
 .reveal pre code .highlight-line:before {
-  color: #17ff2e;
+  color: #1cb1ff;
 }
 
 .reveal .progress span {
-  background-color: #17ff2e;
+  background-color: #53B0EB;
 }
 
 .reveal a:hover,
-.reveal .controls div.navigate-left.enabled:hover,
-.reveal .controls div.navigate-right.enabled:hover,
-.reveal .controls div.navigate-up.enabled:hover,
-.reveal .controls div.navigate-down.enabled:hover {
- color: #9CFBA5;
+.reveal .controls .navigate-left.enabled:hover,
+.reveal .controls .navigate-right.enabled:hover,
+.reveal .controls .navigate-up.enabled:hover,
+.reveal .controls .navigate-down.enabled:hover {
+ color: #62c9ff;
 }
 
  .reveal .progress span {
   background: #42affa;
 }
 
-.reveal .controls div.navigate-left, .reveal .controls div.navigate-left.enabled {
-  border-right-color: #42affa; }
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
+  border-right-color: ##1cb1ff; }
 
-.reveal .controls div.navigate-right, .reveal .controls div.navigate-right.enabled {
-  border-left-color: #42affa; }
+.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled {
+  border-left-color: #1cb1ff; }
 
-.reveal .controls div.navigate-up, .reveal .controls div.navigate-up.enabled {
-  border-bottom-color: #42affa; }
+.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled {
+  border-bottom-color: #1cb1ff; }
 
-.reveal .controls div.navigate-down, .reveal .controls div.navigate-down.enabled {
-  border-top-color: #42affa; }
+.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
+  border-top-color: #1cb1ff; }
 
-.reveal .controls div.navigate-left.enabled:hover {
-  border-right-color: #8dcffc; }
+.reveal .controls .navigate-left.enabled:hover {
+  border-right-color: #62c9ff; }
 
-.reveal .controls div.navigate-right.enabled:hover {
-  border-left-color: #8dcffc; }
+.reveal .controls .navigate-right.enabled:hover {
+  border-left-color: #62c9ff; }
 
-.reveal .controls div.navigate-up.enabled:hover {
-  border-bottom-color: #8dcffc; }
+.reveal .controls .navigate-up.enabled:hover {
+  border-bottom-color: #62c9ff; }
 
-.reveal .controls div.navigate-down.enabled:hover {
-  border-top-color: #8dcffc; }
+.reveal .controls .navigate-down.enabled:hover {
+  border-top-color: #62c9ff; }
 
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
