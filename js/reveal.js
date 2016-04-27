@@ -589,7 +589,7 @@
 				var left = ( pageWidth - slideWidth ) / 2,
 					top = ( pageHeight - slideHeight ) / 2;
 
-				var contentHeight = getAbsoluteHeight( slide );
+				var contentHeight = slide.scrollHeight;
 				var numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
 				// Center slides vertically
@@ -1291,41 +1291,6 @@
 	}
 
 	/**
-	 * Retrieves the height of the given element by looking
-	 * at the position and height of its immediate children.
-	 */
-	function getAbsoluteHeight( element ) {
-
-		var height = 0;
-
-		if( element ) {
-			var absoluteChildren = 0;
-
-			toArray( element.childNodes ).forEach( function( child ) {
-
-				if( typeof child.offsetTop === 'number' && child.style ) {
-					// Count # of abs children
-					if( window.getComputedStyle( child ).position === 'absolute' ) {
-						absoluteChildren += 1;
-					}
-
-					height = Math.max( height, child.offsetTop + child.offsetHeight );
-				}
-
-			} );
-
-			// If there are no absolute children, use offsetHeight
-			if( absoluteChildren === 0 ) {
-				height = element.offsetHeight;
-			}
-
-		}
-
-		return height;
-
-	}
-
-	/**
 	 * Returns the remaining height within the parent of the
 	 * target element.
 	 *
@@ -1589,10 +1554,8 @@
 
 			var size = getComputedSlideSize();
 
-			var slidePadding = 20; // TODO Dig this out of DOM
-
 			// Layout the contents of the slides
-			layoutSlideContents( config.width, config.height, slidePadding );
+			layoutSlideContents( config.width, config.height );
 
 			dom.slides.style.width = size.width + 'px';
 			dom.slides.style.height = size.height + 'px';
@@ -1654,7 +1617,7 @@
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( ( ( size.height - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+						slide.style.top = Math.max( ( size.height - slide.scrollHeight ) / 2, 0 ) + 'px';
 					}
 				}
 				else {
@@ -1674,7 +1637,7 @@
 	 * Applies layout logic to the contents of all slides in
 	 * the presentation.
 	 */
-	function layoutSlideContents( width, height, padding ) {
+	function layoutSlideContents( width, height ) {
 
 		// Handle sizing of elements with the 'stretch' class
 		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
