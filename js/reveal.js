@@ -607,8 +607,7 @@
 				// Wrap the slide in a page element and hide its overflow
 				// so that no page ever flows onto another
 				var page = document.createElement( 'div' );
-				page.className = 'page';
-				page.style.overflow = 'hidden';
+				page.className = 'pdf-page';
 				page.style.height = ( pageHeight * numberOfPages ) + 'px';
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
@@ -618,14 +617,8 @@
 				slide.style.top = top + 'px';
 				slide.style.width = slideWidth + 'px';
 
-				// TODO Backgrounds need to be multiplied when the slide
-				// stretches over multiple pages
-				var background = slide.querySelector( '.slide-background' );
-				if( background ) {
-					background.style.width = pageWidth + 'px';
-					background.style.height = ( pageHeight * numberOfPages ) + 'px';
-					background.style.top = -top + 'px';
-					background.style.left = -left + 'px';
+				if( slide.slideBackgroundElement ) {
+					page.insertBefore( slide.slideBackgroundElement, slide );
 				}
 
 				// Inject notes if `showNotes` is enabled
@@ -653,7 +646,7 @@
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
 					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
-					background.appendChild( numberElement );
+					page.appendChild( numberElement );
 				}
 			}
 
@@ -733,24 +726,12 @@
 		// Iterate over all horizontal slides
 		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
 
-			var backgroundStack;
-
-			if( printMode ) {
-				backgroundStack = createBackground( slideh, slideh );
-			}
-			else {
-				backgroundStack = createBackground( slideh, dom.background );
-			}
+			var backgroundStack = createBackground( slideh, dom.background );
 
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
-				if( printMode ) {
-					createBackground( slidev, slidev );
-				}
-				else {
-					createBackground( slidev, backgroundStack );
-				}
+				createBackground( slidev, backgroundStack );
 
 				backgroundStack.classList.add( 'stack' );
 
@@ -845,6 +826,8 @@
 		// If backgrounds are being recreated, clear old classes
 		slide.classList.remove( 'has-dark-background' );
 		slide.classList.remove( 'has-light-background' );
+
+		slide.slideBackgroundElement = element;
 
 		// If this slide has a background color, add a class that
 		// signals if it is light or dark. If the slide has no background
@@ -3406,10 +3389,7 @@
 		if( isPrintingPDF() ) {
 			var slide = getSlide( x, y );
 			if( slide ) {
-				var background = slide.querySelector( '.slide-background' );
-				if( background && background.parentNode === slide ) {
-					return background;
-				}
+				return slide.slideBackgroundElement;
 			}
 
 			return undefined;
