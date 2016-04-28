@@ -9,9 +9,17 @@
 		var revealScale = Reveal.getScale();
 
 		if( event[ modifier ] && isEnabled ) {
+			var target = event.target;
+			while(!target.classList.contains('zoomable') && target.tagName.toLowerCase() != 'section'){
+				target = target.parentNode;
+			}
+			if( target.tagName.toLowerCase() == 'section' ){
+				target = event.target;
+			}
+			
 			event.preventDefault();
 
-			var bounds = event.target.getBoundingClientRect();
+			var bounds = target.getBoundingClientRect();
 
 			zoom.to({
 				x: ( bounds.left * revealScale ) - zoomPadding,
