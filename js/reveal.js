@@ -153,6 +153,10 @@
 			parallaxBackgroundHorizontal: null,
 			parallaxBackgroundVertical: null,
 
+			// The maximum number of pages a single slide can expand onto when printing
+			// to PDF, unlimited by default
+			pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
@@ -591,6 +595,9 @@
 
 				var contentHeight = slide.scrollHeight;
 				var numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
+
+				// Adhere to configured pages per slide limit
+				numberOfPages = Math.min( numberOfPages, config.pdfMaxPagesPerSlide );
 
 				// Center slides vertically
 				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
