@@ -597,6 +597,15 @@
 					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
 				}
 
+				// Wrap the slide in a page element and hide its overflow
+				// so that no page ever flows onto another
+				var page = document.createElement( 'div' );
+				page.className = 'page';
+				page.style.overflow = 'hidden';
+				page.style.height = ( pageHeight * numberOfPages ) + 'px';
+				slide.parentNode.insertBefore( page, slide );
+				page.appendChild( slide );
+
 				// Position the slide inside of the page
 				slide.style.left = left + 'px';
 				slide.style.top = top + 'px';
