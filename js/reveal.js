@@ -241,15 +241,16 @@
 		keyboardShortcuts = {
 			'N  ,  SPACE':			'Next slide',
 			'P':					'Previous slide',
-			'&#8592;  ,  H':		'Navigate left',
-			'&#8594;  ,  L':		'Navigate right',
-			'&#8593;  ,  K':		'Navigate up',
-			'&#8595;  ,  J':		'Navigate down',
+			'&#8592;  ,  H':		'Navigate left *',
+			'&#8594;  ,  L':		'Navigate right *',
+			'&#8593;  ,  K':		'Navigate up *',
+			'&#8595;  ,  J':		'Navigate down *',
 			'Home':					'First slide',
 			'End':					'Last slide',
 			'B  ,  .':				'Pause',
 			'F':					'Fullscreen',
-			'ESC, O':				'Slide overview'
+			'ESC, O':				'Slide overview',
+			'*':				'press w/ shift to skip fragments'
 		};
 
 	/**
@@ -3781,6 +3782,36 @@
 
 	}
 
+	function navigateHardLeft() {
+
+		// Reverse for RTL
+		if( config.rtl ) {
+			if( availableRoutes().left ) {
+				slide( indexh + 1 );
+			}
+		}
+		// Move to previous slide, ignoring fragments
+		else if( availableRoutes().left ) {
+			slide( indexh - 1 );
+		}
+
+	}
+
+	function navigateHardRight() {
+
+		// Reverse for RTL
+		if( config.rtl ) {
+			if( availableRoutes().right ) {
+				slide( indexh - 1 );
+			}
+		}
+		// Move to next slide, ignoring fragments
+		else if( availableRoutes().right ) {
+			slide( indexh + 1 );
+		}
+
+	}
+
 	function navigateUp() {
 
 		// Prioritize hiding fragments
@@ -3796,6 +3827,29 @@
 		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
+
+	}
+
+	function navigateHardUp() {
+
+		// Move to previous slide if available
+		if( availableRoutes().up ) {
+			slide( indexh, indexv - 1 );
+		} else { // Hide all fragments on top slide
+			while( previousFragment() !== false ) {}
+		}
+
+	}
+
+	function navigateHardDown() {
+
+		// Move to next slide
+		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
+			slide( indexh, indexv + 1 );
+		}
+
+		// Reveal all fragments
+		while( nextFragment() !== false ) {}
 
 	}
 
@@ -3925,7 +3979,7 @@
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode === 191) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		// While paused only allow resume keyboard events; 'b', '.''
 		var resumeKeyCodes = [66,190,191];
@@ -3985,13 +4039,25 @@
 				// n, page down
 				case 78: case 34: navigateNext(); break;
 				// h, left
-				case 72: case 37: navigateLeft(); break;
+				case 72: case 37:
+					if( event.shiftKey ) { navigateHardLeft(); }
+					else { navigateLeft(); }
+					break;
 				// l, right
-				case 76: case 39: navigateRight(); break;
+				case 76: case 39:
+					if( event.shiftKey ) { navigateHardRight(); }
+					else { navigateRight(); }
+					break;
 				// k, up
-				case 75: case 38: navigateUp(); break;
+				case 75: case 38:
+					if( event.shiftKey ) { navigateHardUp(); }
+					else { navigateUp(); }
+					break;
 				// j, down
-				case 74: case 40: navigateDown(); break;
+				case 78: case 40:
+					if( event.shiftKey ) { navigateHardDown(); }
+					else { navigateDown(); }
+					break;
 				// home
 				case 36: slide( 0 ); break;
 				// end
@@ -4542,8 +4608,12 @@
 		slide: slide,
 		left: navigateLeft,
 		right: navigateRight,
+		hardLeft: navigateHardLeft,
+		hardRight: navigateHardRight,
 		up: navigateUp,
 		down: navigateDown,
+		hardup: navigateHardUp,
+		harddown: navigateHardDown,
 		prev: navigatePrev,
 		next: navigateNext,
 
