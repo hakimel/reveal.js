@@ -52,7 +52,7 @@
 			// Display controls in the bottom right corner
 			controls: true,
 
-			// Determines where controls appear, either "bottom-right" or "edges"
+			// Determines where controls appear, "edges" or "bottom-right"
 			controlsPlacement: 'edges',
 
 			// De-emphasizes backwards navigation controls

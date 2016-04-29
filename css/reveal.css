@@ -195,7 +195,8 @@ body {
   top: 0;
   right: 0;
   bottom: 0;
-  left: 0; }
+  left: 0;
+  z-index: 1; }
   .reveal .controls button {
     position: absolute;
     padding: 0;
@@ -280,8 +281,10 @@ body {
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
   .reveal .controls[data-controls-placement="bottom-right"] {
+    top: auto;
     bottom: 18px;
     right: 18px;
+    left: auto;
     -webkit-transform: scale(0.85);
             transform: scale(0.85);
     -webkit-transform-origin: 100% 100%;
@@ -306,8 +309,10 @@ body {
     bottom: 0; }
   @media screen and (max-width: 500px) {
     .reveal .controls {
+      top: auto;
       bottom: 18px;
       right: 18px;
+      left: auto;
       -webkit-transform: scale(0.85);
               transform: scale(0.85);
       -webkit-transform-origin: 100% 100%;
