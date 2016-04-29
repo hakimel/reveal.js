@@ -52,6 +52,12 @@
 			// Display controls in the bottom right corner
 			controls: true,
 
+			// Determines where controls appear, either "bottom-right" or "edges"
+			controlsPlacement: 'edges',
+
+			// De-emphasizes backwards navigation controls
+			controlsSoftenBackArrows: true,
+
 			// Display a presentation progress bar
 			progress: true,
 
@@ -998,12 +1004,8 @@
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 
-		var controlsType = typeof config.controls === 'string' ? config.controls : 'bottom-right';
-		dom.controls.setAttribute( 'data-controls-type', controlsType );
-
-		if( typeof config.controls === 'string' ) {
-			dom.controls.classList.add( config.controls );
-		}
+		dom.controls.setAttribute( 'data-controls-placement', config.controlsPlacement );
+		dom.controls.classList.toggle( 'soften-back-arrows', config.controlsSoftenBackArrows );
 
 		if( config.shuffle ) {
 			shuffle();

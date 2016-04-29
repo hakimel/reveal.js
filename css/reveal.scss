@@ -235,85 +235,7 @@ body {
  * CONTROLS
  *********************************************/
 
-.reveal .controls[data-controls-type="bottom-right"] {
-	display: none;
-	position: fixed;
-	width: 110px;
-	height: 110px;
-	z-index: 30;
-	right: 10px;
-	bottom: 10px;
-
-	-webkit-user-select: none;
-
-	button {
-		padding: 0;
-		position: absolute;
-		opacity: 0.05;
-		width: 0;
-		height: 0;
-		background-color: transparent;
-		border: 12px solid transparent;
-		transform: scale(.9999);
-		transition: all 0.2s ease;
-		-webkit-appearance: none;
-		-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
-	}
-
-	.enabled {
-		opacity: 0.7;
-		cursor: pointer;
-	}
-
-	.enabled:active {
-		margin-top: 1px;
-	}
-
-	.navigate-left {
-		top: 42px;
-
-		border-right-width: 22px;
-		border-right-color: #000;
-	}
-	.navigate-left.fragmented {
-		opacity: 0.3;
-	}
-
-	.navigate-right {
-		left: 74px;
-		top: 42px;
-
-		border-left-width: 22px;
-		border-left-color: #000;
-	}
-	.navigate-right.fragmented {
-		opacity: 0.3;
-	}
-
-	.navigate-up {
-		left: 42px;
-
-		border-bottom-width: 22px;
-		border-bottom-color: #000;
-	}
-	.navigate-up.fragmented {
-		opacity: 0.3;
-	}
-
-	.navigate-down {
-		left: 42px;
-		top: 74px;
-
-		border-top-width: 22px;
-		border-top-color: #000;
-	}
-	.navigate-down.fragmented {
-		opacity: 0.3;
-	}
-}
-
-
-.reveal .controls[data-controls-type="edges"] {
+.reveal .controls {
 	$size: 50px;
 	$length: floor($size * 0.6);
 	$spacing: 18px;
@@ -383,20 +305,6 @@ body {
 		}
 	}
 
-	.enabled {
-		opacity: 0.7;
-		cursor: pointer;
-	}
-
-	.enabled.fragmented {
-		opacity: 0.3;
-	}
-
-	.enabled:hover,
-	.enabled.fragmented:hover {
-		opacity: 1;
-	}
-
 	.navigate-left {
 		top: 50%;
 		left: $spacing;
@@ -421,10 +329,41 @@ body {
 		transform: translateX(-50%) rotate( -90deg );
 	}
 
-	@media screen and (max-width: 500px) {
+	// The soften back arrows option strongly deemphasizes
+	// backwards navigation in favor of drawing attention
+	// forwards
+	&.soften-back-arrows .navigate-left.enabled,
+	&.soften-back-arrows .navigate-up.enabled {
+		opacity: 0.3;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	// Any control button that can be clicked is "enabled"
+	.enabled {
+		opacity: 0.7;
+		cursor: pointer;
+	}
+
+	// Any control button that leads to showing or hiding
+	// a fragment
+	.enabled.fragmented {
+		opacity: 0.3;
+	}
+
+	.enabled:hover,
+	.enabled.fragmented:hover {
+		opacity: 1;
+	}
+
+	@mixin bottom-right-controls() {
 		& {
 			bottom: $spacing;
 			right: $spacing;
+			transform: scale(0.85);
+			transform-origin: 100% 100%;
 		}
 
 		.navigate-left,
@@ -452,15 +391,23 @@ body {
 			bottom: 0;
 		}
 	}
+
+	&[data-controls-placement="bottom-right"] {
+		@include bottom-right-controls()
+	}
+
+	@media screen and (max-width: 500px) {
+		@include bottom-right-controls()
+	}
 }
 
-.reveal.has-dark-background .controls[data-controls-type="edges"] button:after,
-.reveal.has-dark-background .controls[data-controls-type="edges"] button:before {
+.reveal.has-dark-background .controls button:after,
+.reveal.has-dark-background .controls button:before {
 	background-color: #fff;
 }
 
-.reveal.has-light-background .controls[data-controls-type="edges"] button:after,
-.reveal.has-light-background .controls[data-controls-type="edges"] button:before {
+.reveal.has-light-background .controls button:after,
+.reveal.has-light-background .controls button:before {
 	background-color: #000;
 }
 
