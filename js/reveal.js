@@ -159,6 +159,10 @@
 			parallaxBackgroundHorizontal: null,
 			parallaxBackgroundVertical: null,
 
+			// The maximum number of pages a single slide can expand onto when printing
+			// to PDF, unlimited by default
+			pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
@@ -591,27 +595,32 @@
 				var left = ( pageWidth - slideWidth ) / 2,
 					top = ( pageHeight - slideHeight ) / 2;
 
-				var contentHeight = getAbsoluteHeight( slide );
+				var contentHeight = slide.scrollHeight;
 				var numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
+
+				// Adhere to configured pages per slide limit
+				numberOfPages = Math.min( numberOfPages, config.pdfMaxPagesPerSlide );
 
 				// Center slides vertically
 				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
 					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
 				}
 
+				// Wrap the slide in a page element and hide its overflow
+				// so that no page ever flows onto another
+				var page = document.createElement( 'div' );
+				page.className = 'pdf-page';
+				page.style.height = ( pageHeight * numberOfPages ) + 'px';
+				slide.parentNode.insertBefore( page, slide );
+				page.appendChild( slide );
+
 				// Position the slide inside of the page
 				slide.style.left = left + 'px';
 				slide.style.top = top + 'px';
 				slide.style.width = slideWidth + 'px';
 
-				// TODO Backgrounds need to be multiplied when the slide
-				// stretches over multiple pages
-				var background = slide.querySelector( '.slide-background' );
-				if( background ) {
-					background.style.width = pageWidth + 'px';
-					background.style.height = ( pageHeight * numberOfPages ) + 'px';
-					background.style.top = -top + 'px';
-					background.style.left = -left + 'px';
+				if( slide.slideBackgroundElement ) {
+					page.insertBefore( slide.slideBackgroundElement, slide );
 				}
 
 				// Inject notes if `showNotes` is enabled
@@ -639,7 +648,7 @@
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
 					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
-					background.appendChild( numberElement );
+					page.appendChild( numberElement );
 				}
 			}
 
@@ -719,24 +728,12 @@
 		// Iterate over all horizontal slides
 		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
 
-			var backgroundStack;
-
-			if( printMode ) {
-				backgroundStack = createBackground( slideh, slideh );
-			}
-			else {
-				backgroundStack = createBackground( slideh, dom.background );
-			}
+			var backgroundStack = createBackground( slideh, dom.background );
 
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
-				if( printMode ) {
-					createBackground( slidev, slidev );
-				}
-				else {
-					createBackground( slidev, backgroundStack );
-				}
+				createBackground( slidev, backgroundStack );
 
 				backgroundStack.classList.add( 'stack' );
 
@@ -831,6 +828,8 @@
 		// If backgrounds are being recreated, clear old classes
 		slide.classList.remove( 'has-dark-background' );
 		slide.classList.remove( 'has-light-background' );
+
+		slide.slideBackgroundElement = element;
 
 		// If this slide has a background color, add a class that
 		// signals if it is light or dark. If the slide has no background
@@ -1296,41 +1295,6 @@
 	}
 
 	/**
-	 * Retrieves the height of the given element by looking
-	 * at the position and height of its immediate children.
-	 */
-	function getAbsoluteHeight( element ) {
-
-		var height = 0;
-
-		if( element ) {
-			var absoluteChildren = 0;
-
-			toArray( element.childNodes ).forEach( function( child ) {
-
-				if( typeof child.offsetTop === 'number' && child.style ) {
-					// Count # of abs children
-					if( window.getComputedStyle( child ).position === 'absolute' ) {
-						absoluteChildren += 1;
-					}
-
-					height = Math.max( height, child.offsetTop + child.offsetHeight );
-				}
-
-			} );
-
-			// If there are no absolute children, use offsetHeight
-			if( absoluteChildren === 0 ) {
-				height = element.offsetHeight;
-			}
-
-		}
-
-		return height;
-
-	}
-
-	/**
 	 * Returns the remaining height within the parent of the
 	 * target element.
 	 *
@@ -1594,10 +1558,8 @@
 
 			var size = getComputedSlideSize();
 
-			var slidePadding = 20; // TODO Dig this out of DOM
-
 			// Layout the contents of the slides
-			layoutSlideContents( config.width, config.height, slidePadding );
+			layoutSlideContents( config.width, config.height );
 
 			dom.slides.style.width = size.width + 'px';
 			dom.slides.style.height = size.height + 'px';
@@ -1659,7 +1621,7 @@
 						slide.style.top = 0;
 					}
 					else {
-						slide.style.top = Math.max( ( ( size.height - getAbsoluteHeight( slide ) ) / 2 ) - slidePadding, 0 ) + 'px';
+						slide.style.top = Math.max( ( size.height - slide.scrollHeight ) / 2, 0 ) + 'px';
 					}
 				}
 				else {
@@ -1679,7 +1641,7 @@
 	 * Applies layout logic to the contents of all slides in
 	 * the presentation.
 	 */
-	function layoutSlideContents( width, height, padding ) {
+	function layoutSlideContents( width, height ) {
 
 		// Handle sizing of elements with the 'stretch' class
 		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
@@ -3432,10 +3394,7 @@
 		if( isPrintingPDF() ) {
 			var slide = getSlide( x, y );
 			if( slide ) {
-				var background = slide.querySelector( '.slide-background' );
-				if( background && background.parentNode === slide ) {
-					return background;
-				}
+				return slide.slideBackgroundElement;
 			}
 
 			return undefined;

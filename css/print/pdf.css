@@ -82,6 +82,12 @@ ul, ol, div, p {
 	        perspective-origin: 50% 50%;
 }
 
+.reveal .slides .pdf-page {
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+}
+
 .reveal .slides section {
 	page-break-after: always !important;
 
@@ -132,13 +138,7 @@ ul, ol, div, p {
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: -1;
-}
-
-/* All elements should be above the slide-background */
-.reveal section>* {
-	position: relative;
-	z-index: 1;
+	height: 100%;
 }
 
 /* Display slide speaker notes when 'showNotes' is enabled */
