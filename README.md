@@ -510,7 +510,8 @@ Reveal.addEventListener( 'somestate', function() {
 
 ### Slide Backgrounds
 
-Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe. Below are a few examples.
+Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe. Below are a few examples. Note, that you can also
+specify percentage values for the ```data-background-size``` attribute.
 
 ```html
 <section data-background="#ff0000">
