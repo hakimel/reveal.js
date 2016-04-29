@@ -269,6 +269,7 @@ html:-moz-full-screen-ancestor {
 	right: 0;
 	bottom: 0;
 	left: 0;
+	z-index: 1;
 
 	button {
 		position: absolute;
@@ -369,8 +370,10 @@ html:-moz-full-screen-ancestor {
 
 	@mixin bottom-right-controls() {
 		& {
+			top: auto;
 			bottom: $spacing;
 			right: $spacing;
+			left: auto;
 			transform: scale(0.85);
 			transform-origin: 100% 100%;
 		}
