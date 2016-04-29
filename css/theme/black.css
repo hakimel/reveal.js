@@ -246,37 +246,9 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls[data-controls-type="bottom-right"] .navigate-left,
-.reveal .controls[data-controls-type="bottom-right"] .navigate-left.enabled {
-  border-right-color: #42affa; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-right,
-.reveal .controls[data-controls-type="bottom-right"] .navigate-right.enabled {
-  border-left-color: #42affa; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-up,
-.reveal .controls[data-controls-type="bottom-right"] .navigate-up.enabled {
-  border-bottom-color: #42affa; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-down,
-.reveal .controls[data-controls-type="bottom-right"] .navigate-down.enabled {
-  border-top-color: #42affa; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-left.enabled:hover {
-  border-right-color: #8dcffc; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-right.enabled:hover {
-  border-left-color: #8dcffc; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-up.enabled:hover {
-  border-bottom-color: #8dcffc; }
-
-.reveal .controls[data-controls-type="bottom-right"] .navigate-down.enabled:hover {
-  border-top-color: #8dcffc; }
-
-.reveal .controls[data-controls-type="edges"] button:before,
-.reveal .controls[data-controls-type="edges"] button:after {
-  background-color: #fff; }
+.reveal .controls button:before,
+.reveal .controls button:after {
+  background-color: #42affa; }
 
 /*********************************************
  * PROGRESS BAR

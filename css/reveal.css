@@ -195,69 +195,14 @@ html:-moz-full-screen-ancestor {
 /*********************************************
  * CONTROLS
  *********************************************/
-.reveal .controls[data-controls-type="bottom-right"] {
-  display: none;
-  position: fixed;
-  width: 110px;
-  height: 110px;
-  z-index: 30;
-  right: 10px;
-  bottom: 10px;
-  -webkit-user-select: none; }
-  .reveal .controls[data-controls-type="bottom-right"] button {
-    padding: 0;
-    position: absolute;
-    opacity: 0.05;
-    width: 0;
-    height: 0;
-    background-color: transparent;
-    border: 12px solid transparent;
-    -webkit-transform: scale(0.9999);
-            transform: scale(0.9999);
-    -webkit-transition: all 0.2s ease;
-            transition: all 0.2s ease;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent; }
-  .reveal .controls[data-controls-type="bottom-right"] .enabled {
-    opacity: 0.7;
-    cursor: pointer; }
-  .reveal .controls[data-controls-type="bottom-right"] .enabled:active {
-    margin-top: 1px; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-left {
-    top: 42px;
-    border-right-width: 22px;
-    border-right-color: #000; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-left.fragmented {
-    opacity: 0.3; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-right {
-    left: 74px;
-    top: 42px;
-    border-left-width: 22px;
-    border-left-color: #000; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-right.fragmented {
-    opacity: 0.3; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-up {
-    left: 42px;
-    border-bottom-width: 22px;
-    border-bottom-color: #000; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-up.fragmented {
-    opacity: 0.3; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-down {
-    left: 42px;
-    top: 74px;
-    border-top-width: 22px;
-    border-top-color: #000; }
-  .reveal .controls[data-controls-type="bottom-right"] .navigate-down.fragmented {
-    opacity: 0.3; }
-
-.reveal .controls[data-controls-type="edges"] {
+.reveal .controls {
   display: none;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0; }
-  .reveal .controls[data-controls-type="edges"] button {
+  .reveal .controls button {
     position: absolute;
     padding: 0;
     width: 50px;
@@ -274,8 +219,8 @@ html:-moz-full-screen-ancestor {
     z-index: 2;
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent; }
-  .reveal .controls[data-controls-type="edges"] button:before,
-  .reveal .controls[data-controls-type="edges"] button:after {
+  .reveal .controls button:before,
+  .reveal .controls button:after {
     content: '';
     position: absolute;
     top: 0;
@@ -288,81 +233,116 @@ html:-moz-full-screen-ancestor {
             transition: all 0.15s ease, background-color 0.8s ease;
     -webkit-transform-origin: 2.5px 50%;
             transform-origin: 2.5px 50%; }
-  .reveal .controls[data-controls-type="edges"] button:before {
+  .reveal .controls button:before {
     -webkit-transform: translateX(10px) translateY(22.5px) rotate(44deg);
             transform: translateX(10px) translateY(22.5px) rotate(44deg); }
-  .reveal .controls[data-controls-type="edges"] button:after {
+  .reveal .controls button:after {
     -webkit-transform: translateX(10px) translateY(22.5px) rotate(-44deg);
             transform: translateX(10px) translateY(22.5px) rotate(-44deg); }
-  .reveal .controls[data-controls-type="edges"] button:hover:before {
+  .reveal .controls button:hover:before {
     -webkit-transform: translateX(10px) translateY(22.5px) rotate(40deg);
             transform: translateX(10px) translateY(22.5px) rotate(40deg); }
-  .reveal .controls[data-controls-type="edges"] button:hover:after {
+  .reveal .controls button:hover:after {
     -webkit-transform: translateX(10px) translateY(22.5px) rotate(-40deg);
             transform: translateX(10px) translateY(22.5px) rotate(-40deg); }
-  .reveal .controls[data-controls-type="edges"] button:active:before {
+  .reveal .controls button:active:before {
     -webkit-transform: translateX(10px) translateY(22.5px) rotate(36deg);
             transform: translateX(10px) translateY(22.5px) rotate(36deg); }
-  .reveal .controls[data-controls-type="edges"] button:active:after {
+  .reveal .controls button:active:after {
     -webkit-transform: translateX(10px) translateY(22.5px) rotate(-36deg);
             transform: translateX(10px) translateY(22.5px) rotate(-36deg); }
-  .reveal .controls[data-controls-type="edges"] .enabled {
-    opacity: 0.7;
-    cursor: pointer; }
-  .reveal .controls[data-controls-type="edges"] .enabled.fragmented {
-    opacity: 0.3; }
-  .reveal .controls[data-controls-type="edges"] .enabled:hover,
-  .reveal .controls[data-controls-type="edges"] .enabled.fragmented:hover {
-    opacity: 1; }
-  .reveal .controls[data-controls-type="edges"] .navigate-left {
+  .reveal .controls .navigate-left {
     top: 50%;
     left: 18px;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
-  .reveal .controls[data-controls-type="edges"] .navigate-right {
+  .reveal .controls .navigate-right {
     top: 50%;
     right: 18px;
     -webkit-transform: translateY(-50%) rotate(180deg);
             transform: translateY(-50%) rotate(180deg); }
-  .reveal .controls[data-controls-type="edges"] .navigate-up {
+  .reveal .controls .navigate-up {
     top: 18px;
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(90deg);
             transform: translateX(-50%) rotate(90deg); }
-  .reveal .controls[data-controls-type="edges"] .navigate-down {
+  .reveal .controls .navigate-down {
     bottom: 18px;
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(-90deg);
             transform: translateX(-50%) rotate(-90deg); }
+  .reveal .controls.soften-back-arrows .navigate-left.enabled,
+  .reveal .controls.soften-back-arrows .navigate-up.enabled {
+    opacity: 0.3; }
+    .reveal .controls.soften-back-arrows .navigate-left.enabled:hover,
+    .reveal .controls.soften-back-arrows .navigate-up.enabled:hover {
+      opacity: 1; }
+  .reveal .controls .enabled {
+    opacity: 0.7;
+    cursor: pointer; }
+  .reveal .controls .enabled.fragmented {
+    opacity: 0.3; }
+  .reveal .controls .enabled:hover,
+  .reveal .controls .enabled.fragmented:hover {
+    opacity: 1; }
+  .reveal .controls[data-controls-placement="bottom-right"] {
+    bottom: 18px;
+    right: 18px;
+    -webkit-transform: scale(0.85);
+            transform: scale(0.85);
+    -webkit-transform-origin: 100% 100%;
+            transform-origin: 100% 100%; }
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-left,
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-right,
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-up,
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-down {
+    top: auto;
+    left: auto; }
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-left {
+    right: 86px;
+    bottom: 18px; }
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-right {
+    right: 0;
+    bottom: 18px; }
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-up {
+    right: 18px;
+    bottom: 86px; }
+  .reveal .controls[data-controls-placement="bottom-right"] .navigate-down {
+    right: 18px;
+    bottom: 0; }
   @media screen and (max-width: 500px) {
-    .reveal .controls[data-controls-type="edges"] {
+    .reveal .controls {
       bottom: 18px;
-      right: 18px; }
-    .reveal .controls[data-controls-type="edges"] .navigate-left,
-    .reveal .controls[data-controls-type="edges"] .navigate-right,
-    .reveal .controls[data-controls-type="edges"] .navigate-up,
-    .reveal .controls[data-controls-type="edges"] .navigate-down {
+      right: 18px;
+      -webkit-transform: scale(0.85);
+              transform: scale(0.85);
+      -webkit-transform-origin: 100% 100%;
+              transform-origin: 100% 100%; }
+    .reveal .controls .navigate-left,
+    .reveal .controls .navigate-right,
+    .reveal .controls .navigate-up,
+    .reveal .controls .navigate-down {
       top: auto;
       left: auto; }
-    .reveal .controls[data-controls-type="edges"] .navigate-left {
+    .reveal .controls .navigate-left {
       right: 86px;
       bottom: 18px; }
-    .reveal .controls[data-controls-type="edges"] .navigate-right {
+    .reveal .controls .navigate-right {
       right: 0;
       bottom: 18px; }
-    .reveal .controls[data-controls-type="edges"] .navigate-up {
+    .reveal .controls .navigate-up {
       right: 18px;
       bottom: 86px; }
-    .reveal .controls[data-controls-type="edges"] .navigate-down {
+    .reveal .controls .navigate-down {
       right: 18px;
       bottom: 0; } }
 
-.reveal.has-dark-background .controls[data-controls-type="edges"] button:after,
-.reveal.has-dark-background .controls[data-controls-type="edges"] button:before {
+.reveal.has-dark-background .controls button:after,
+.reveal.has-dark-background .controls button:before {
   background-color: #fff; }
 
-.reveal.has-light-background .controls[data-controls-type="edges"] button:after,
-.reveal.has-light-background .controls[data-controls-type="edges"] button:before {
+.reveal.has-light-background .controls button:after,
+.reveal.has-light-background .controls button:before {
   background-color: #000; }
 
 /*********************************************
