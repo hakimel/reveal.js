@@ -288,25 +288,25 @@ public function render() {
           <section data-transition="convex">
             <h4>Create Module</h4>
             <pre><code class="yml line-numbers" data-trim>
-              name: 'My Module'
+              name: 'Slide Down Command'
 type: module
-description: Add new AJAX Callback command for the jQuery SlideDown method.
+description: Provides an AJAX Callback command for the jQuery SlideDown method.
 package: other
 core: 8.x
-            </code><span class="codename">mymodule/mymodule.info.yml</span></pre>
-            <p class="step-note">mymodule / mymodule.info.yml</p>
+            </code><span class="codename">slide_down/slide_down.info.yml</span></pre>
+            <p class="step-note">slide_down / slide_down.info.yml</p>
           </section>
           <section data-transition="convex">
             <h4>Create Asset Library</h4>
             <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
-myajax:
+slidedown:
   version: VERSION
   js:
-    js/ajax-commands.js: {}
+    js/slidedown-command.js; {}
   dependencies:
     - core/drupal.ajax
-            </code><span class="codename">mymodule/mymodule.libraries.yml </span></pre>
-            <p class="step-note">mymodule / mymodule.libraries.yml</p>
+            </code><span class="codename">slide_down/slide_down.libraries.yml </span></pre>
+            <p class="step-note">slide_down / slide_down.libraries.yml</p>
           </section>
           <section data-transition="convex">
             <h4>Create JavaScript Function</h4>
@@ -323,13 +323,13 @@ myajax:
     $(response.selector).slideDown(duration);
   }
 })(jQuery, this, Drupal, drupalSettings);
-            </code><span class="codename">mymodule/js/ajax-commands.js </span></pre>
-            <p class="step-note">mymodule / js / ajax-commands.js</p>
+            </code><span class="codename">slide_down/js/ajax-commands.js </span></pre>
+            <p class="step-note">slide_down / js / ajax-commands.js</p>
           </section>
           <section data-transition="convex">
             <h4>Create PHP Class</h4>
             <pre><code class="php line-numbers" data-trim data-highlight-lines="1,2,4,13-20">
-namespace Drupal\mymodule\Ajax;
+namespace Drupal\slide_down\Ajax;
 use Drupal\Core\Ajax\CommandInterface;
 
 class SlideDownCommand implements CommandInterface {
@@ -350,11 +350,13 @@ class SlideDownCommand implements CommandInterface {
     );
   }
 }
-            </code><span class="codename">mymodule/src/Ajax/SlideDownCommand.php</span></pre>
-            <p class="step-note">mymodule / src / Ajax / SlideDownCommand.php</p>
+            </code><span class="codename">slide_down/src/Ajax/SlideDownCommand.php</span></pre>
+            <p class="step-note">slide_down / src / Ajax / SlideDownCommand.php</p>
           </section>
-
-
+          <section data-transition="convex">
+            <img data-src="images/slide_down_folder.png" title="Slide Down module" alt="Slide down module files" />
+            <p class="fragment">Where's the Drupal?</p>
+          </section>
           <section data-transition="convex">
             <h3>To Create a callback command...</h3>
             <ul>
@@ -369,47 +371,214 @@ class SlideDownCommand implements CommandInterface {
           <section>
             <h2>How to use Callback Commands?</h2>
           </section>
-          <section>
-            <p>Screenshot of Watchdog log page</p>
+          <section data-transition="convex">
+            <h3>Requires 3 parts</h3>
+            <ul>
+              <li class="fragment step-note">"Elements" that use the Ajax API to make requests</li>
+              <li class="fragment step-note">Endpoint for AJAX requests</li>
+              <li class="fragment step-note">Function that returns an AjaxResponse object</li>
+            </ul>
           </section>
-          <section>
-            <p>Animated screenshot of watchdow log showing page load</p>
+          <section data-transition="convex">
+            <h3>Example Scenario</h3>
           </section>
-          <section>
-            <p>Code example of attaching AJAX to page/ elements</p>
+          <section data-transition="convex" data-background="images/dblog_overview.png" data-background-image="images/dblog_overview.png" data-background-size="100%" data-background-position="top">
           </section>
-          <section>
-            <p>Animated screenshot of click</p>
+          <section data-transition="convex" data-background="images/dblog_overview_noajax.gif" data-background-image="images/dblog_noajax.gif" data-background-size="100%" data-background-position="top">
           </section>
-          <section>
-            <p>Code example of route endpoint</p>
+          <section data-transition="convex">
+            <h3>Example Scenario</h3>
+            <p class="fragment step-note">Load watchdog log message details onto the overview page</p>
           </section>
-          <section>
-            <p>Code example of callback adding commands</p>
+          <section data-transition="convex">
+            <h4>Created a custom module</h4>
+            <img data-src="images/ajax_dblog_files.png" class="screenshot" alt="Ajax Dblog files" title="Ajax Dblog files" />
           </section>
-          <section>
-            <p>Screenshot of AJAX response</p>
+          <section data-transition="convex">
+            <h4>Add Ajax API to page</h4>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="9">
+use \Drupal\dblog\Controller\DbLogController as ControllerBase;
+
+class DbLogController extends ControllerBase {
+  // Override overview() method.
+  public function overview() {
+    $build = parent::overview();
+    // ...
+    // Add custom library.
+    $build['#attached']['library'][] = 'ajax_dblog/ajax-dblog';
+    return $build;
+  }
+  // ...
+}
+            </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
           </section>
-          <section>
-            <p>Animated screenshot of ajax request</p>
+          <section data-transition="convex">
+            <pre><code class="yml line-numbers" data-trim data-highlight-lines="9">
+              ajax-dblog:
+  version: VERSION
+  css:
+    component:
+      css/ajax_dblog.module.css: {}
+  js:
+    js/behaviors.js: {}
+  dependencies:
+    - slide_down/slidedown
+
+            </code><span class="codename">ajax_dblog/ajax_dblog.libraries.yml </span></pre>
+            <br />
+            <pre class="fragment"><code class="yml line-numbers" data-trim data-highlight-lines="6">
+              slidedown:
+  version: VERSION
+  js:
+    js/slidedown-command.js: {}
+  dependencies:
+    - core/drupal.ajax
+            </code><span class="codename">slide_down/slide_down.libraries.yml </span></pre>
           </section>
-          <section>
-            <p>Code example of JS function for SlideToggle?</p>
+          <section data-transition="convex" data-background="images/inception.png" data-background-image="images/inception.png" data-background-size="100%">
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <p class="overlay-text">Library Inception</p>
           </section>
-          <section>
-            <p>Code example of custom library</p>
+          <section data-transition="convex">
+            <h4>Add Ajax to elements</h4>
+           <pre><code class="php line-numbers" data-trim data-highlight-lines="13,19,22">
+            namespace Drupal\ajax_dblog\Controller;
+use \Drupal\dblog\Controller\DbLogController as ControllerBase;
+
+class DbLogController extends ControllerBase {
+  // Override overview() method.
+  public function overview() {
+    $build = parent::overview();
+    // Alter the links for each log message.
+    foreach ($build['dblog_table']['#rows'] as &$row) {
+      // ...
+      // Build route parameters.
+      $params = array(
+        'method' => 'nojs',
+        //...
+      );
+      // Build link options.
+      $ops = array(
+        'attributes' => array(
+        'class' => array('use-ajax', 'dblog-event-link'),
+      ));
+      // Replace with a new link.
+      $row['data'][3] = Link::createFromRoute($txt,'ajax_dblog.event',$params,$ops);
+    }
+    return $build;
+  }
+            </code><span class="codename">ajax_dblogs/src/Controller/DbLogController.php </span></pre>
           </section>
-          <section>
-            <p>Code example of adding library to page</p>
+          <section data-transition="convex">
+            <h4>Endpoint for Ajax Requests</h4>
+            <pre><code class="yml line-numbers" data-trim>
+              ajax_dblog.event:
+  path: '/admin/reports/dblog/{method}/event/{event_id}'
+  defaults:
+    _controller: '\Drupal\ajax_dblog\Controller\DbLogController::ajaxEventDetails'
+  requirements:
+    _permission: 'access site reports'
+    method: 'nojs|ajax'
+
+            </code><span class="codename">ajax_dblog/ajax_dblog.routing.yml</span></pre>
+            <br />
+            <p class="step-note fragment" data-fragment-index="1">/admin/reports/dblog/<span class="fragment highlight-green" data-fragment-index="3">nojs</span>/event/123</p>
+            <p class="step-note fragment" data-fragment-index="2">/admin/reports/dblog/<span class="fragment highlight-green" data-fragment-index="3">ajax</span>/event/123</p>
           </section>
-          <section>
-            <p>Code example of PHP class for Slide class</p>
+          <section data-transition="convex">
+            <h4>Graceful Degradation</h4>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="7,11-16">
+use Symfony\Component\HttpFoundation\RedirectResponse;
+// ...
+
+class DbLogController extends ControllerBase {
+  // ...
+  public function ajaxEventDetails($method, $event_id) {
+
+    if ($method == 'ajax') {
+      // ...
+    }
+    else {
+      // Get url to original event detail page.
+      $event_url = Url::fromRoute('dblog.event', array('event_id' => $event_id));
+       // Redirect to actual page.
+      $response = new RedirectResponse($event_url->toString(), 302);
+    }
+    return $response;
+  }
+            </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
           </section>
-          <section>
-            <p>Code example of adding command to response</p>
+          <section data-transition="convex">
+            <h4>Adding Callback Commands to an AjaxResponse object</h4>
+            <ul>
+              <li class="fragment step-note">Use the 'addCommand' method</li>
+              <li class="fragment step-note">Instantiate an instance of the command class</li>
+              <li class="fragment step-note">Repeat to return multiple commands</li>
+            </ul>
           </section>
-          <section>
-            <p>Animated gif of ajax request</p>
+          <section data-transition="convex">
+            <h4>Return an AjaxResponse of Callback Commands</h4>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="1-4,14,16,18,20">
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AfterCommand;
+use Drupal\Core\Ajax\RemoveCommand;
+use Drupal\slide_down\Ajax\SlideDownCommand;
+
+class DbLogController extends ControllerBase {
+  // ...
+  public function ajaxEventDetails($method, $event_id) {
+    //...
+    if ($method == 'ajax') {
+      $event = parent::eventDetails($event_id);
+      $event_details = [ ... ];
+      // Create an AjaxResponse.
+      $response = new AjaxResponse();
+      // Remove old event details.
+      $response->addCommand(new RemoveCommand('.dblog-event-row'));
+      // Insert event details after event.
+      $response->addCommand(new AfterCommand('#dblog-event-' . $event_id, $event_details));
+      // SlideDown event details.
+      $response->addCommand(new SlideDownCommand('#dblog-event-details-' . $event_id));
+    }
+    // ...
+  }
+            </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
+          </section>
+          <section data-transition="convex" data-background="images/dblog_overview_ajax.png" data-background-image="images/dblog_ajax.png" data-background-size="100%" data-background-position="top">
+          </section>
+          <section data-transition="convex" data-background="images/dblog_overview_ajax_request.png" data-background-image="images/dblog_overview_ajax_request.png" data-background-size="100%" data-background-position="bottom">
+          </section>
+          <section data-transition="convex" data-background="images/dblog_overview_ajax_inspect.png" data-background-image="images/dblog_overview_ajax_inspect.png" data-background-size="100%" data-background-position="bottom">
+          </section>
+          <section data-transition="convex">
+            <h4>Ajax Response</h4>
+            <pre><code class="json line-numbers" data-trim>
+              [
+  {
+    "command":"remove",
+    "selector":".dblog-event-row"
+  },
+  {
+    "command":"insert",
+    "method":"after",
+    "selector":"#dblog-event-32",
+    "data":"...",
+    "settings":null
+  },
+  {
+    "command":"slideDown",
+    "method":null,
+    "selector":"#dblog-event-details-32",
+    "duration":null
+  }
+]
+            </code></pre>
+          </section>
+          <section data-transition="convex" data-background="images/dblog_overview_ajax.gif" data-background-image="images/dblog_ajax.gif" data-background-size="100%" data-background-position="top">
           </section>
         </section>
         <section>
