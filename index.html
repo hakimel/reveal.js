@@ -323,8 +323,8 @@ slidedown:
     $(response.selector).slideDown(duration);
   }
 })(jQuery, this, Drupal, drupalSettings);
-            </code><span class="codename">slide_down/js/ajax-commands.js </span></pre>
-            <p class="step-note">slide_down / js / ajax-commands.js</p>
+            </code><span class="codename">slide_down/js/slidedown-command.js </span></pre>
+            <p class="step-note">slide_down / js / slidedown-command.js</p>
           </section>
           <section data-transition="convex">
             <h4>Create PHP Class</h4>
@@ -491,7 +491,7 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex">
             <h4>Graceful Degradation</h4>
-            <pre><code class="php line-numbers" data-trim data-highlight-lines="7,11-16">
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="8,11-16">
 use Symfony\Component\HttpFoundation\RedirectResponse;
 // ...
 
@@ -580,25 +580,58 @@ class DbLogController extends ControllerBase {
           </section>
           <section data-transition="convex" data-background="images/dblog_overview_ajax.gif" data-background-image="images/dblog_ajax.gif" data-background-size="100%" data-background-position="top">
           </section>
+          <section data-transition="convex">
+            <h3>To use callback commands...</h3>
+            <ul>
+              <li class="fragment step-note">Include the Ajax API & Commands on the page.</li>
+              <li class="fragment step-note">Have endpoint that returns an AjaxResponse</li>
+              <li class="fragment step-note">Add command to response using 'addCommand'</li>
+            </ul>
+          </section>
         </section>
         <section>
           <section>
             <h2>Review</h2>
           </section>
           <section>
-            <h3>What Are AJAX Callback Commands</h3>
+            <h3>AJAX Callback Commands are</h3>
+            <ul>
+              <li class="fragment step-note">Functions used in all Drupal Ajax requests</li>
+              <li class="fragment step-note">Defined by Ajax API and modules</li>
+              <li class="fragment step-note">Two parts: JavaScript function & PHP Class</li>
+            </ul>
           </section>
           <section>
-            <h3>How to create AJAX Callback Commands</h3>
+            <h3>To create AJAX Callback Commands</h3>
+            <ul>
+              <li class="fragment step-note">Create a custom module</li>
+              <li class="fragment step-note">Attach JavaScript function to Drupal.AjaxCommands.prototype</li>
+              <li class="fragment step-note">Create PHP Class that implements CommandInterface</li>
+            </ul>
           </section>
           <section>
-            <h3>How to use AJAX Callback Commands</h3>
+            <h3>To use AJAX Callback Commands</h3>
+            <ul>
+              <li class="fragment step-note">Include Ajax API & Commands onto page</li>
+              <li class="fragment step-note">Return an AjaxResponse object</li>
+              <li class="fragment step-note">Atacch commands with 'addCommand'</li>
+            </ul>
           </section>
         </section>
         <section>
-          <h1>Feedback</h1>
-          <h3><a href="http://www.twitter.com/mikemiles86">@mikemiles86</a></h3>
-          <h3>#DrupalCon</h3>
+          <section>
+            <h2>Resources</h2>
+            <p>Drupal 8 Ajax Api: <a href="//bit.ly/Drupal8Ajax" target="_blank" alt="Drupal 8 Ajax Api">bit.ly/Drupal8Ajax</a></p>
+            <p>This Presentation: <a href="//bit.ly/Con16Ajax" target="_blank" alt="This presentation">bit.ly/Con16Ajax</a></p>
+            <p>Presentation Slides: <a href="//bit.ly/Con16AjaxSlides" target="_blank" alt="Presentation slides">bit.ly/Con16AjaxSlides</a></p>
+            <p>Example Code: <a href="//bit.ly/Con16AjaxCode" target="_blank" alt="Example Code">bit.ly/Con16AjaxCode</a></p>
+            <p>Creating Commands in D8: <a href="//bit.ly/D8AjaxCmds" target="_blank" alt="How to create callback commands">bit.ly/D8AjaxCmds</a></p>
+          </section>
+          <section data-transition="convex">
+            <h1>Feedback</h1>
+            <h3><a href="http://www.twitter.com/mikemiles86">@mikemiles86</a></h3>
+            <h3>#DrupalCon</h3>
+          </section>
         </section>
         <section>
           <h1>Thank You!</h1>
