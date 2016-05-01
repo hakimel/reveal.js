@@ -1500,6 +1500,9 @@
 			'<div class="spinner"></div>',
 			'<div class="viewport">',
 				'<iframe src="'+ url +'"></iframe>',
+				'<small class="viewport-inner">',
+				'This link is refused to display in a frame due to its policy',
+				'</small>',
 			'</div>'
 		].join('');
 
