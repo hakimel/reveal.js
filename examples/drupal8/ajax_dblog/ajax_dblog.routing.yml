@@ -1,0 +1,7 @@
+ajax_dblog.event:
+  path: '/admin/reports/dblog/{method}/event/{event_id}'
+  defaults:
+    _controller: '\Drupal\ajax_dblog\Controller\DbLogController::ajaxEventDetails'
+  requirements:
+    _permission: 'access site reports'
+    method: 'nojs|ajax'

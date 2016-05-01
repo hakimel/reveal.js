@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Contains ajax_dblog.module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ajax_dblog_theme($existing, $type, $theme, $path) {
+  return array(
+    'ajax_dblog_event' => array(
+      'variables' => array(
+        'event' => NULL,
+        'event_id' => NULL,
+        'row_id' => NULL,
+        'details_id' => NULL,
+      ),
+    ),
+  );
+}

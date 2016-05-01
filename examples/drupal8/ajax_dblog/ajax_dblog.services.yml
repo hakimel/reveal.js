@@ -1,0 +1,5 @@
+services:
+  ajax_dblog.route_subscriber:
+    class: Drupal\ajax_dblog\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

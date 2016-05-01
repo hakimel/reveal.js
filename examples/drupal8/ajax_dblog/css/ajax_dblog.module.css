@@ -1,0 +1,11 @@
+.dblog-event-row {
+    border: 1px solid;
+}
+
+.dblog-event-details {
+    display: none;
+}
+
+.dblog-event-close {
+    float:right;
+}

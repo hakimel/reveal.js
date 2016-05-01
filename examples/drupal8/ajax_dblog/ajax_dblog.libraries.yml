@@ -1,0 +1,9 @@
+ajax-dblog:
+  version: VERSION
+  css:
+    component:
+      css/ajax_dblog.module.css: {}
+  js:
+    js/behaviors.js: {}
+  dependencies:
+    - slide_down/slidedown
