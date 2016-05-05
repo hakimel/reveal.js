@@ -102,25 +102,21 @@
           </section>
           <section data-transition="convex">
             <p>
-              <span>Ajax API</span>
+              <span>Ajax Framework</span>
               <span class="fragment" data-fragment-index="2">+ Javascript</span>
               <span class="fragment" data-fragment-index="3">+ PHP</span>
-              <span class="fragment" data-fragment-index="5">= Callback Command</span>
             </p>
             <p>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span class="fragment" style="color:yellow" data-fragment-index="1">^Core^ </span>
-              <span class="fragment" style="color:orange" data-fragment-index="4">&nbsp;&nbsp;^Core / Modules^</span>
-              <span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;
-              </span>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="fragment" style="color:orange" data-fragment-index="4">^Core / Modules^</span>
             </p>
           </section>
           <section data-transition="convex">
             <h3>Callback Command: JavaScript</h3>
             <ul>
-              <li class="fragment step-note">Function attached to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment step-note">Attached to 'Drupal.AjaxCommands.prototype'</li>
               <li class="fragment step-note">Accepts 3 arguments:
                 <ul>
                   <li class="fragment">ajax</li>
@@ -132,6 +128,67 @@
             </ul>
           </section>
           <section data-transition="convex">
+            <h4>Callback Structure: JavaScript</h4>
+            <pre><code class="js line-numbers" data-trim data-highlight-lines="10-14">
+(function ($, window, Drupal, drupalSettings) {
+  'use strict';
+  /**
+   * [commandName description]
+   *
+   * @param {Drupal.Ajax} [ajax]
+   * @param {object} response
+   * @param {number} [status]
+   */
+  Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
+
+    // Custom javascript goes here ...
+
+  }
+
+})(jQuery, this, Drupal, drupalSettings);
+            </code><span class="codename">[module]/js/[javascript].js</span></pre>
+            <p class="step-note">[module] / js / [javascript].js</p>
+            <p class="caption">
+            </p>
+          </section>
+          <section data-transition="convex">
+            <h3>Callback Command: PHP</h3>
+            <ul>
+              <li class="fragment step-note">Class that implements CommandInterface</li>
+              <li class="fragment step-note">Defines a method called 'render'</li>
+              <li class="fragment step-note">Returns an associative array:
+                <ul>
+                  <li class="fragment">Must have element with key of 'command'</li>
+                  <li class="fragment">Value must be name of JavaScript function</li>
+                  <li class="fragment">Other elements passed as response data</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-transition="convex">
+            <h4>Callback Structure: PHP</h4>
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="1,2,5,8-10">
+              namespace Drupal\[module]\Ajax
+use Drupal\Core\Ajax\CommandInterface;
+
+// An Ajax command for calling  [commandName]() JavaScript method.
+class [CommandName]Command implements CommandInterface {
+
+  // Implements Drupal\Core\Ajax\CommandInterface:render().
+  public function render() {
+    return array(
+      'command' => '[commandName]', // Name of JavaScript Method.
+      // other response arguments...
+    );
+  }
+}
+            </code><span class="codename">[module]/src/Ajax/[CommandName]Command.php </span></pre>
+            <span class="step-note">[module] / src / Ajax / [CommandName]Command.php</span>
+          </section>
+          <section data-transition="convex">
+            <h3>Core Example: Remove</h3>
+          </section>
+           <section data-transition="convex">
             <h4>Core Example: Remove</h4>
             <pre><code class="js line-numbers" data-highlight-lines="1,12-18" data-trim>
               Drupal.AjaxCommands.prototype = {
@@ -154,20 +211,6 @@
   },
   //...
             </code><span class="codename">misc/ajax.js </span></pre>
-          </section>
-          <section data-transition="convex">
-            <h3>Callback Command: PHP</h3>
-            <ul>
-              <li class="fragment step-note">Class that implements CommandInterface</li>
-              <li class="fragment step-note">Defines a method called 'render'</li>
-              <li class="fragment step-note">Returns an associative array:
-                <ul>
-                  <li class="fragment">Must have element with key of 'command'</li>
-                  <li class="fragment">Value must be name of JavaScript function</li>
-                  <li class="fragment">Other elements passed as response data</li>
-                </ul>
-              </li>
-            </ul>
           </section>
           <section data-transition="convex">
             <h4>Core Example: RemoveCommand</h4>
@@ -230,22 +273,14 @@ remove: function (ajax, response, status) {
             <h2>Creating Callback Commands</h2>
           </section>
           <section data-transition="convex">
-            <h3>Required Parts of a Custom Module</h3>
-            <ul>
-              <li class="step-note fragment">An asset library</li>
-              <li class="step-note fragment">A JavaScript function</li>
-              <li class="step-note fragment">A PHP class</li>
-            </ul>
-          </section>
-          <section data-transition="convex">
             <h3>Example Scenario</h3>
             <p class="fragment step-note">Create a callback command for the jQuery 'SlideDown' method</p>
           </section>
-          <section>
-            visual of slideDown
+          <section data-transition="convex">
+            <img data-src="images/slidedown_example.gif" alt="example of SlideDown animation" class="screenshot" />
           </section>
           <section data-transition="convex">
-            <h4>Create Module</h4>
+            <h4>Create a Module</h4>
             <pre><code class="yml line-numbers" data-trim>
               name: 'Slide Down Command'
 type: module
@@ -268,30 +303,6 @@ slidedown:
             <p class="step-note">slide_down / slide_down.libraries.yml</p>
           </section>
           <section data-transition="convex">
-            <h4>Callback Anatomy: JavaScript</h4>
-            <pre><code class="js line-numbers" data-trim data-highlight-lines="10-14">
-(function ($, window, Drupal, drupalSettings) {
-  'use strict';
-  /**
-   * [commandName description]
-   *
-   * @param {Drupal.Ajax} [ajax]
-   * @param {object} response
-   * @param {number} [status]
-   */
-  Drupal.AjaxCommands.prototype.[commandName] = function(ajax, response, status){
-
-    // Custom javascript goes here ...
-
-  }
-
-})(jQuery, this, Drupal, drupalSettings);
-            </code><span class="codename">[module]/js/[javascript].js</span></pre>
-            <p class="step-note">[module] / js / [javascript].js</p>
-            <p class="caption">
-            </p>
-          </section>
-          <section data-transition="convex">
             <h4>Create JavaScript Function</h4>
             <pre><code class="js line-numbers" data-trim data-highlight-lines="6-11">
               (function ($, window, Drupal, drupalSettings) {
@@ -308,26 +319,6 @@ slidedown:
 })(jQuery, this, Drupal, drupalSettings);
             </code><span class="codename">slide_down/js/slidedown-command.js </span></pre>
             <p class="step-note">slide_down / js / slidedown-command.js</p>
-          </section>
-          <section data-transition="convex">
-            <h4>Callback Anatomy: PHP</h4>
-            <pre><code class="php line-numbers" data-trim data-highlight-lines="1,2,5,8-10">
-              namespace Drupal\[module]\Ajax
-use Drupal\Core\Ajax\CommandInterface;
-
-// An Ajax command for calling  [commandName]() JavaScript method.
-class [CommandName]Command implements CommandInterface {
-
-  // Implements Drupal\Core\Ajax\CommandInterface:render().
-  public function render() {
-    return array(
-      'command' => '[commandName]', // Name of JavaScript Method.
-      // other response arguments...
-    );
-  }
-}
-            </code><span class="codename">[module]/src/Ajax/[CommandName]Command.php </span></pre>
-            <span class="step-note">[module] / src / Ajax / [CommandName]Command.php</span>
           </section>
           <section data-transition="convex">
             <h4>Create PHP Class</h4>
@@ -375,29 +366,20 @@ class SlideDownCommand implements CommandInterface {
             <h2>Using Callback Commands</h2>
           </section>
           <section data-transition="convex">
-            <h3>Three Parts Required</h3>
-            <ul>
-              <li class="fragment step-note">Elements that use the Ajax API to make requests</li>
-              <li class="fragment step-note">Endpoint for Ajax requests</li>
-              <li class="fragment step-note">Function that returns an AjaxResponse object</li>
-            </ul>
-          </section>
-          <section data-transition="convex">
             <h3>Example Scenario</h3>
           </section>
-          <section data-transition="convex" data-background="images/dblog_overview.png" data-background-image="images/dblog_overview.png" data-background-size="100%" data-background-position="top">
+          <section data-transition="convex">
+            <img data-src="images/dblog_overview.png" />
           </section>
-          <section data-transition="convex" data-background="images/dblog_overview_noajax.gif" data-background-image="images/dblog_noajax.gif" data-background-size="100%" data-background-position="top">
+          <section data-transition="convex">
+            <img data-src="images/dblog_overview_noajax.gif" class="animated-gif" />
           </section>
           <section data-transition="convex">
             <h3>Example Scenario</h3>
             <p class="fragment step-note">Load watchdog log message details onto the overview page</p>
           </section>
           <section data-transition="convex">
-            <img data-src="images/ajax_dblog_files.png" class="screenshot" alt="Ajax Dblog files" title="Ajax Dblog files" />
-          </section>
-          <section data-transition="convex">
-            <h4>Add Ajax API to Page</h4>
+            <h4>Add Ajax Library to Page</h4>
             <pre><code class="php line-numbers" data-trim data-highlight-lines="9">
 use \Drupal\dblog\Controller\DbLogController as ControllerBase;
 
@@ -475,7 +457,10 @@ class DbLogController extends ControllerBase {
             </code><span class="codename">ajax_dblogs/src/Controller/DbLogController.php </span></pre>
           </section>
           <section data-transition="convex">
-            <h4>Endpoint for Ajax Requests</h4>
+            <img data-src="images/dblog_overview_ajax.png" class="screenshot" />
+          </section>
+          <section data-transition="convex">
+            <h4>Graceful Degradation</h4>
             <pre><code class="yml line-numbers" data-trim>
               ajax_dblog.event:
   path: '/admin/reports/dblog/{method}/event/{event_id}'
@@ -489,37 +474,6 @@ class DbLogController extends ControllerBase {
             <br />
             <p class="step-note fragment" data-fragment-index="1">/admin/reports/dblog/<span class="fragment highlight-green" data-fragment-index="3">nojs</span>/event/123</p>
             <p class="step-note fragment" data-fragment-index="2">/admin/reports/dblog/<span class="fragment highlight-green" data-fragment-index="3">ajax</span>/event/123</p>
-          </section>
-          <section data-transition="convex">
-            <h4>Graceful Degradation</h4>
-            <pre><code class="php line-numbers" data-trim data-highlight-lines="8,11-16">
-use Symfony\Component\HttpFoundation\RedirectResponse;
-// ...
-
-class DbLogController extends ControllerBase {
-  // ...
-  public function ajaxEventDetails($method, $event_id) {
-
-    if ($method == 'ajax') {
-      // ...
-    }
-    else {
-      // Get url to original event detail page.
-      $event_url = Url::fromRoute('dblog.event', array('event_id' => $event_id));
-       // Redirect to actual page.
-      $response = new RedirectResponse($event_url->toString(), 302);
-    }
-    return $response;
-  }
-            </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
-          </section>
-          <section data-transition="convex">
-            <h4>Adding Callback Commands to an AjaxResponse Object</h4>
-            <ul>
-              <li class="fragment step-note">Use the 'addCommand' method</li>
-              <li class="fragment step-note">Instantiate an instance of the command class</li>
-              <li class="fragment step-note">Repeat to return multiple commands</li>
-            </ul>
           </section>
           <section data-transition="convex">
             <h4>Return an AjaxResponse of Callback Commands</h4>
@@ -549,15 +503,12 @@ class DbLogController extends ControllerBase {
   }
             </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
           </section>
-          <section data-transition="convex" data-background="images/dblog_overview_ajax.png" data-background-image="images/dblog_ajax.png" data-background-size="100%" data-background-position="top">
-          </section>
-          <section data-transition="convex" data-background="images/dblog_overview_ajax_request.png" data-background-image="images/dblog_overview_ajax_request.png" data-background-size="100%" data-background-position="bottom">
-          </section>
-          <section data-transition="convex" data-background="images/dblog_overview_ajax_inspect.png" data-background-image="images/dblog_overview_ajax_inspect.png" data-background-size="100%" data-background-position="bottom">
+          <section data-transition="convex">
+            <img data-src="images/dblog_overview_ajax_inspect.png" />
           </section>
           <section data-transition="convex">
             <h4>Ajax Response</h4>
-            <pre><code class="json line-numbers" data-trim>
+            <pre><code class="json line-numbers" data-trim data-highlight-lines="3,7,14">
               [
   {
     "command":"remove",
@@ -579,12 +530,13 @@ class DbLogController extends ControllerBase {
 ]
             </code></pre>
           </section>
-          <section data-transition="convex" data-background="images/dblog_overview_ajax.gif" data-background-image="images/dblog_ajax.gif" data-background-size="100%" data-background-position="top">
+          <section data-transition="convex">
+            <img data-src="images/dblog_overview_ajax.gif" class="animated-gif" />
           </section>
           <section data-transition="convex">
             <h3>To Use Callback Commands</h3>
             <ul>
-              <li class="fragment step-note">Include the Ajax API and commands on the page.</li>
+              <li class="fragment step-note">Include the Ajax library and commands on the page.</li>
               <li class="fragment step-note">Have endpoint that returns an AjaxResponse</li>
               <li class="fragment step-note">Add commands to response using 'addCommand'</li>
             </ul>
@@ -599,7 +551,7 @@ class DbLogController extends ControllerBase {
             <ul>
               <li class="fragment step-note">Functions used in all Drupal Ajax requests</li>
               <li class="fragment step-note">Two parts: JavaScript function & PHP Class</li>
-              <li class="fragment step-note">Defined by Ajax API and modules</li>
+              <li class="fragment step-note">Defined by Ajax Framework and modules</li>
             </ul>
           </section>
           <section>

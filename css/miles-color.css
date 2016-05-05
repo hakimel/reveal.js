@@ -8,6 +8,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 
 body {
   background-color: #000;
+  color: #fff;
 }
 
 ::selection {
