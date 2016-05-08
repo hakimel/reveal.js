@@ -54,10 +54,10 @@
             </p>
             <p class="session__presenter">Michael Miles</p>
         </div>
-    </div>
+      </div>
 
 			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
+			<div class="slides" data-captions-aside>
         <section>
           <section>
             <h1>Demystifying Ajax Callback Commands</h1>
@@ -69,9 +69,15 @@
             <h2>Mike Miles</h2>
             <p>Genuine (<a href="//wearegenuine.com" target="_blank">wearegenuine.com</a>)</p>
             <p>All the internet places: <a href="//twitter.com/mikemiles86" target="_blank">mikemiles86</a></p>
-
+            <aside class="notes">
+              <ul>
+                <li>You and your exp.</li>
+                <li>Who is Genuine & depts.</li>
+                <li>UX, Des, Strat, Dev. CHI, NYC, BOS, SF</li>
+              </ul>
+            </aside>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-skip-print data-set-aside>
             <h2>Goals of this Session</h2>
             <p>
                 <ul>
@@ -80,6 +86,13 @@
                   <li class="fragment step-note">Demonstrate Ajax callback commands</li>
                 </ul>
             </p>
+            <aside class="notes">
+              <ul>
+                <li>What, composed, used</li>
+                <li>Creating and using</li>
+                <li>visual demo to learn</li>
+              </ul>
+            </aside>
           </section>
         </section>
         <section>
@@ -92,6 +105,13 @@
               <br />
               <span>Callback commands would be the powdered sugar.</span>
               </p>
+              <aside class="notes">
+                <ul>
+                  <li>Who has had one?</li>
+                  <li>what are they? what does sugar add?</li>
+                  <li>what are commands to ajax?</li>
+                </ul>
+              </aside>
           </section>
           <section data-transition="fade" data-background="images/beignets_blur.jpg" data-background-image="images/beignets_blur.jpg" data-background-size="100%" data-background-repeat="repeat" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121">
             <p class="overlay-text">
@@ -99,8 +119,13 @@
               <br />
               <span>executed by the <em>Client</em> in an Ajax event.</span>
             </p>
+            <aside class="notes">
+              <ul>
+                <li>Brief overview of Ajax request cycle</li>
+                <li>No request w/o Callbacks</li>
+            </ul>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-skip-print data-set-aside>
             <p>
               <span>Ajax Framework</span>
               <span class="fragment" data-fragment-index="2">+ Javascript</span>
@@ -112,11 +137,22 @@
               <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span class="fragment" style="color:orange" data-fragment-index="4">^Core / Modules^</span>
             </p>
+            <aside class="notes">
+              <ul>
+                <li>Explain framework</li>
+                <li>Explain has 2 parts: function, class</li>
+                <li>Core (25), Modules (views, ctools, custom)</li>
+              </ul>
           </section>
           <section data-transition="convex">
             <h3>Callback Command: JavaScript</h3>
             <ul>
-              <li class="fragment step-note">Attached to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment step-note">
+                Attached to 'Drupal.AjaxCommands.prototype'
+                <ul>
+                  <li class="fragment">Defined in 'misc/ajax.js'</li>
+                </ul>
+              </li>
               <li class="fragment step-note">Accepts 3 arguments:
                 <ul>
                   <li class="fragment">ajax</li>
@@ -126,6 +162,13 @@
               </li>
               <li class="fragment step-note">Wrapper for additional JavaScript</li>
             </ul>
+            <aside class="notes">
+              <ul>
+                <li>what object contain?</li>
+                <li>Define arguments</li>
+                <li>Pause: 5</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Callback Structure: JavaScript</h4>
@@ -147,8 +190,16 @@
 
 })(jQuery, this, Drupal, drupalSettings);
             </code><span class="codename">[module]/js/[javascript].js</span></pre>
-            <p class="step-note">[module] / js / [javascript].js</p>
+            <p class="step-note" data-set-aside data-skip-print>[module] / js / [javascript].js</p>
+            <aside class="notes">
+              <ul>
+                <li>line 10: attach, name, args</li>
+                <li>11 - 14: any Js</li>
+                <li>explain js location</li>
+              </ul>
+            </aside>
             <p class="caption">
+              Example of the structure for the JavaScript half of a callback command as defined in a module.
             </p>
           </section>
           <section data-transition="convex">
@@ -164,6 +215,13 @@
                 </ul>
               </li>
             </ul>
+            <aside class="notes">
+              <ul>
+                <li>Explain interface: code contract</li>
+                <li>Explain what 'render' used for</li>
+                <li>Pause: 5</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Callback Structure: PHP</h4>
@@ -183,9 +241,19 @@ class [CommandName]Command implements CommandInterface {
   }
 }
             </code><span class="codename">[module]/src/Ajax/[CommandName]Command.php </span></pre>
-            <span class="step-note">[module] / src / Ajax / [CommandName]Command.php</span>
+            <span class="step-note" data-set-aside data-skip-print>[module] / src / Ajax / [CommandName]Command.php</span>
+            <p class="caption">
+              Example of the structure for the PHP half of a callback command as defined in a module.
+            </p>
+            <aside class="notes">
+              <ul>
+                <li>line 5: naming and implements</li>
+                <li>line 8-10: method</li>
+                <li>PSR-4 and location</li>
+              </ul>
+            </aside>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-skip-print>
             <h3>Core Example: Remove</h3>
           </section>
            <section data-transition="convex">
@@ -211,6 +279,15 @@ class [CommandName]Command implements CommandInterface {
   },
   //...
             </code><span class="codename">misc/ajax.js </span></pre>
+            <aside class="notes">
+              <ul>
+                <li>where defined?</li>
+                <li>wrapper for?</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              The JavaScript function for the core 'remove' callback command. It is basically a wrapper for the jQuery 'remove' method.
+            </p>
           </section>
           <section data-transition="convex">
             <h4>Core Example: RemoveCommand</h4>
@@ -234,6 +311,15 @@ class RemoveCommand Implements CommandInterface {
   }
 }
             </code><span class="codename">core/lib/Drupal/Core/Ajax/RemoveCommand.php </span></pre>
+            <aside class="notes">
+              <ul>
+                <li>where defined?</li>
+                <li>line 14: name of Js function</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              The PHP class for the core 'remove' callback command. Implements CommandInterface, so it must define the method 'render' that returns an associative array.
+            </p>
           </section>
           <section data-transition="convex">
             <p class="step-note">PHP</p>
@@ -257,7 +343,9 @@ remove: function (ajax, response, status) {
     .remove();
 },
             </code><span class="codename">misc/ajax.js </span></pre>
-
+            <p class="caption">
+              Can see how the two halfs are tied together. Value on line #4 of PHP matches JavaScript function name defined on line #2 in JavaScript. Passed CSS selector on line #5 in PHP is used on line #4 in JavaScript.
+            </p>
           </section>
           <section data-transition="convex">
             <h3>Callback Commands</h3>
@@ -266,6 +354,9 @@ remove: function (ajax, response, status) {
               <li class="fragment step-note">Composed of two parts: JavaScript function, PHP Class</li>
               <li class="fragment step-note">Provided by core  and modules</li>
             </ul>
+            <aside class="notes">
+              Pause: 5
+            </aside>
           </section>
         </section>
         <section>
@@ -274,10 +365,13 @@ remove: function (ajax, response, status) {
           </section>
           <section data-transition="convex">
             <h3>Example Scenario</h3>
-            <p class="fragment step-note">Create a callback command for the jQuery 'SlideDown' method</p>
+            <p class="fragment step-note">Create a callback command for the jQuery 'SlideDown' animation</p>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-set-aside data-skip-print>
             <img data-src="images/slidedown_example.gif" alt="example of SlideDown animation" class="screenshot" />
+            <aside class="notes">
+              Explain what is happening
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Create a Module</h4>
@@ -287,20 +381,15 @@ type: module
 description: Provides an Ajax Callback command for the jQuery SlideDown method.
 package: other
 core: 8.x
-            </code><span class="codename">slide_down/slide_down.info.yml</span></pre>
-            <p class="step-note">slide_down / slide_down.info.yml</p>
-          </section>
-          <section data-transition="convex">
-            <h4>Create Asset Library</h4>
-            <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
-slidedown:
-  version: VERSION
-  js:
-    js/slidedown-command.js; {}
-  dependencies:
-    - core/drupal.ajax
-            </code><span class="codename">slide_down/slide_down.libraries.yml </span></pre>
-            <p class="step-note">slide_down / slide_down.libraries.yml</p>
+            </code><span class="codename">slide_down/slide_down.info.yml </span></pre>
+            <p class="step-note" data-set-aside data-skip-print>slide_down / slide_down.info.yml</p>
+            <p class="caption">Custom Ajax callback commands must be defined in a module.</p>
+            <aside class="notes">
+              <ul>
+                <li>Must provide a module</li>
+                <li>Overview info.yml</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h4>Create JavaScript Function</h4>
@@ -318,7 +407,31 @@ slidedown:
   }
 })(jQuery, this, Drupal, drupalSettings);
             </code><span class="codename">slide_down/js/slidedown-command.js </span></pre>
-            <p class="step-note">slide_down / js / slidedown-command.js</p>
+            <p class="step-note" data-set-aside data-skip-print>slide_down / js / slidedown-command.js</p>
+            <p class="caption">
+              Attach a JavaScript function to the AjaxCommands object provided by the Ajax Framework. Accepts the three arguments and is a wrapper for the jQuery method.
+            </p>
+          </section>
+          <section data-transition="convex">
+            <h4>Create Asset Library</h4>
+            <pre><code class="yaml line-numbers" data-trim data-highlight-lines="1,3-6">
+slidedown:
+  version: VERSION
+  js:
+    js/slidedown-command.js; {}
+  dependencies:
+    - core/drupal.ajax
+            </code><span class="codename">slide_down/slide_down.libraries.yml </span></pre>
+            <p class="step-note" data-set-aside data-skip-print>slide_down / slide_down.libraries.yml</p>
+            <aside class="notes">
+              <ul>
+                <li>what is an asset library?</li>
+                <li>Dependencies?</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              In Drupal 8 custom JavaScript files must be added to an asset library to be able to be included on a page.
+            </p>
           </section>
           <section data-transition="convex">
             <h4>Create PHP Class</h4>
@@ -345,11 +458,21 @@ class SlideDownCommand implements CommandInterface {
   }
 }
             </code><span class="codename">slide_down/src/Ajax/SlideDownCommand.php</span></pre>
-            <p class="step-note">slide_down / src / Ajax / SlideDownCommand.php</p>
+            <p class="step-note" data-set-aside data-skip-print>slide_down / src / Ajax / SlideDownCommand.php</p>
+            <p class="caption">
+              Create a PHP class that implements CommandInterface. Must define a 'render' method and return an associative array. In the array, pass the element with key of 'command' and value being the name of the JavaScript function and any repsonse data.
+            </p>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-set-aside data-skip-print>
             <img data-src="images/slide_down_folder.png" title="Slide Down module" alt="Slide down module files" />
-            <p class="fragment">Where's the Drupal?</p>
+            <aside class="notes">
+              <ul>
+                <li>All that is needed</li>
+                <li>Part of other module?</li>
+              </ul>
+            <p class="caption">
+              That is all that it takes to create a custom callback command.
+            </p>
           </section>
           <section data-transition="convex">
             <h3>To Create a Callback Command:</h3>
@@ -359,24 +482,41 @@ class SlideDownCommand implements CommandInterface {
               <li class="fragment step-note">Attach JavaScript function to 'Drupal.AjaxCommands.prototype'</li>
               <li class="fragment step-note">Create PHP class that implements 'CommandInterface'</li>
             </ul>
+            <aside class="notes">
+              <ul>
+                <li>Pause: 5</li>
+              </ul>
+            </aside>
           </section>
         </section>
         <section>
           <section>
             <h2>Using Callback Commands</h2>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-set-aside data-skip-print>
             <h3>Example Scenario</h3>
           </section>
           <section data-transition="convex">
             <img data-src="images/dblog_overview.png" />
+            <aside class="notes">
+              <ul>
+                <li>Explain what's on the page</li>
+              </ul>
+              <p class="caption">
+                The dblog overview page which lists database log messages. Clicking on the message title takes you to a new page that displays message details.
+              </p>
+            </aside>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-set-aside data-skip-print>
             <img data-src="images/dblog_overview_noajax.gif" class="animated-gif" />
+            <aside class="notes">
+              <ul>
+                <li>Explain annoyance</li>
+              </ul>
           </section>
           <section data-transition="convex">
             <h3>Example Scenario</h3>
-            <p class="fragment step-note">Load watchdog log message details onto the overview page</p>
+            <p class="fragment step-note">Load watchdog log message details onto the overview page using Ajax commands.</p>
           </section>
           <section data-transition="convex">
             <h4>Add Ajax Library to Page</h4>
@@ -395,6 +535,14 @@ class DbLogController extends ControllerBase {
   // ...
 }
             </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
+            <aside class="notes">
+              <ul>
+                <li>Overview of module</li>
+                <li>Tell Drupal about js</li>
+                <li>How add libraries?</li>
+              </ul>
+            </aside>
+            <p class="caption">Need to attach custom library onto page so that custom JavaScript and Ajax Framework is included.</p>
           </section>
           <section data-transition="convex">
             <pre><code class="yml line-numbers" data-trim data-highlight-lines="9">
@@ -418,8 +566,15 @@ class DbLogController extends ControllerBase {
   dependencies:
     - core/drupal.ajax
             </code><span class="codename">slide_down/slide_down.libraries.yml </span></pre>
+            <aside class="notes">
+              <ul>
+                <li>Explain library</li>
+                <li>Explain inherit</li>
+              </ul>
+            </aside>
+            <p class="caption">Defining a dependency in the library on another library. The other library depends on the Ajax Framework. Drupal will follow chain to included all depended JavaScript files.</p>
           </section>
-          <section data-transition="convex" data-background="images/inception.png" data-background-image="images/inception.png" data-background-size="100%">
+          <section data-transition="convex" data-background="images/inception.png" data-background-image="images/inception.png" data-background-size="100%" data-set-aside data-skip-print>
             <br /><br />
             <br /><br />
             <br /><br />
@@ -455,12 +610,23 @@ class DbLogController extends ControllerBase {
     return $build;
   }
             </code><span class="codename">ajax_dblogs/src/Controller/DbLogController.php </span></pre>
+            <aside class="notes">
+              <ul>
+                <li>How creating Ajax links?</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              Need to have elements that will trigger an Ajax request. Rebuilding links on page to point to new route (line #21). Links will have the class 'use-ajax' (line #18), which the Ajax Framework will look for.
+            </p>
           </section>
           <section data-transition="convex">
             <img data-src="images/dblog_overview_ajax.png" class="screenshot" />
+            <p class="caption">
+              Page still renders the same. However now includes Ajax Framework including the custom SlideDown command. The message title links will now trigger an ajax request.
+            </p>
           </section>
           <section data-transition="convex">
-            <h4>Graceful Degradation</h4>
+            <h4>Create Ajax Request Endpoint</h4>
             <pre><code class="yml line-numbers" data-trim>
               ajax_dblog.event:
   path: '/admin/reports/dblog/{method}/event/{event_id}'
@@ -470,14 +636,23 @@ class DbLogController extends ControllerBase {
     _permission: 'access site reports'
     method: 'nojs|ajax'
 
-            </code><span class="codename">ajax_dblog/ajax_dblog.routing.yml</span></pre>
+            </code><span class="codename">ajax_dblog/ajax_dblog.routing.yml </span></pre>
             <br />
             <p class="step-note fragment" data-fragment-index="1">/admin/reports/dblog/<span class="fragment highlight-green" data-fragment-index="3">nojs</span>/event/123</p>
             <p class="step-note fragment" data-fragment-index="2">/admin/reports/dblog/<span class="fragment highlight-green" data-fragment-index="3">ajax</span>/event/123</p>
+            <aside class="notes">
+              <ul>
+                <li>Explain route setup: parameters</li>
+                <li>Explain graceful degradation</li>
+                <li>Pause: 3</li>
+            </aside>
+            <p class="caption">
+              Create an endpoint that will handle Ajax Requests. The ajax framework will replace 'nojs' with 'ajax' on all request. Can use as a check to handle graceful degradation.
+            </p>
           </section>
           <section data-transition="convex">
             <h4>Return an AjaxResponse of Callback Commands</h4>
-            <pre><code class="php line-numbers" data-trim data-highlight-lines="1-4,14,16,18,20">
+            <pre><code class="php line-numbers" data-trim data-highlight-lines="1-4,8,14,16,18,20">
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\AfterCommand;
 use Drupal\Core\Ajax\RemoveCommand;
@@ -502,9 +677,27 @@ class DbLogController extends ControllerBase {
     // ...
   }
             </code><span class="codename">ajax_dblog/src/Controller/DbLogController.php </span></pre>
+            <aside class="notes">
+              <ul>
+                <li>explain grace</li>
+                <li>Explain response object</li>
+                <li>Explain adding commands</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              Have a method that is the endpoint for the Ajax request (line #8). Need to build an AjaxReponse object (line #14). Will add commands to this response using the 'addCommand' method and creating a new instance of the relevant Callback Command class (lines #16, #18, #20).
+            </p>
           </section>
           <section data-transition="convex">
             <img data-src="images/dblog_overview_ajax_inspect.png" />
+            <aside class="notes">
+              <ul>
+                <li>Explain the cycle that happens</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              When a message title is clicked, the Ajax request is made. The endpoint builds an AjaxResponse of commands and Drupal returns a JSON string.
+            </p>
           </section>
           <section data-transition="convex">
             <h4>Ajax Response</h4>
@@ -529,9 +722,24 @@ class DbLogController extends ControllerBase {
   }
 ]
             </code></pre>
+            <aside class="notes">
+              <ul>
+                <li>JSON array pased by</li>
+                <li>Each object passed as repsonse arg.</li>
+                <li>pause: 3</li>
+              </ul>
+            </aside>
+            <p class="caption">
+              The returned JSON array is parsed by Ajax Framework. Finds JavaScript function to execute and the passes the object as the data for the response argument of the function.
+            </p>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-set-aside data-skip-print>
             <img data-src="images/dblog_overview_ajax.gif" class="animated-gif" />
+            <aside class="notes">
+              <ul>
+                <li>Explain whats happening</li>
+              </ul>
+            </aside>
           </section>
           <section data-transition="convex">
             <h3>To Use Callback Commands</h3>
@@ -546,7 +754,7 @@ class DbLogController extends ControllerBase {
           <section>
             <h2>Review</h2>
           </section>
-          <section>
+          <section data-transition="convex">
             <h3>Ajax Callback Commands Are</h3>
             <ul>
               <li class="fragment step-note">Functions used in all Drupal Ajax requests</li>
@@ -554,7 +762,7 @@ class DbLogController extends ControllerBase {
               <li class="fragment step-note">Defined by Ajax Framework and modules</li>
             </ul>
           </section>
-          <section>
+          <section data-transition="convex">
             <h3>To Create Ajax Callback Commands</h3>
             <ul>
               <li class="fragment step-note">Create a custom module</li>
@@ -562,7 +770,7 @@ class DbLogController extends ControllerBase {
               <li class="fragment step-note">Create PHP class that implements CommandInterface</li>
             </ul>
           </section>
-          <section>
+          <section data-transition="convex">
             <h3>To Use Ajax Callback Commands</h3>
             <ul>
               <li class="fragment step-note">Include Ajax framework and commands onto page</li>
@@ -584,12 +792,12 @@ class DbLogController extends ControllerBase {
           <section data-transition="convex">
             <h1>Feedback</h1>
             <h3><a href="http://www.twitter.com/mikemiles86">@mikemiles86</a></h3>
-            <h3>#DrupalCon</h3>
+            <h3 data-set-aside data-skip-print>#DrupalCon</h3>
           </section>
         </section>
         <section>
           <h1>Thank You!</h1>
-          <p>Questions?</p>
+          <p data-set-aside data-skip-print>Questions?</p>
         </section>
 			</div>
 
@@ -623,6 +831,13 @@ class DbLogController extends ControllerBase {
           { src: 'lib/js/captions-aside.js', async: false},
 				]
 			});
+
+      Reveal.addEventListener( 'ready', function( event ) {
+        if( /receiver/i.test( window.location.search ) ) {
+          var footer = document.getElementsByClassName("footer")[0];
+          footer.parentNode.removeChild(footer);
+        }
+      } );
 
 		</script>
 
