@@ -495,6 +495,7 @@
 		// Element containing notes that are visible to the audience
 		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
 		dom.speakerNotes.setAttribute( 'data-prevent-swipe', '' );
+		dom.speakerNotes.setAttribute( 'tabindex', '0');
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
@@ -3963,10 +3964,11 @@
 		// the keyboard
 		var activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
 		var activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
+		var activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( activeElementIsCE || activeElementIsInput || activeElementIsNotes || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		// While paused only allow resume keyboard events; 'b', '.''
 		var resumeKeyCodes = [66,190,191];
