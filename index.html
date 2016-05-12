@@ -57,7 +57,7 @@
       </div>
 
 			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides" data-captions-aside>
+			<div class="slides" data-remove-aside data-move-aside>
         <section>
           <section>
             <h1>Demystifying Ajax Callback Commands</h1>
@@ -99,7 +99,7 @@
           <section>
             <h2>Defining Callback Commands</h2>
           </section>
-          <section data-transition="fade" data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121" data-background-repeat="repeat">
+          <section data-transition="fade" data-background="images/beignets.jpg" data-background-image="images/beignets.jpg" data-background-size="100%" data-credit="https://www.flickr.com/photos/tomorrowgirl/8055215121" data-background-repeat="repeat" data-set-aside data-skip-print>
             <p class="overlay-text">
               <span>If an Ajax request were a beignet...</span>
               <br />
@@ -478,8 +478,8 @@ class SlideDownCommand implements CommandInterface {
             <h3>To Create a Callback Command:</h3>
             <ul>
               <li class="fragment step-note">Create a module</li>
-              <li class="fragment step-note">Define an asset library</li>
               <li class="fragment step-note">Attach JavaScript function to 'Drupal.AjaxCommands.prototype'</li>
+              <li class="fragment step-note">Define an asset library</li>
               <li class="fragment step-note">Create PHP class that implements 'CommandInterface'</li>
             </ul>
             <aside class="notes">
@@ -496,7 +496,7 @@ class SlideDownCommand implements CommandInterface {
           <section data-transition="convex" data-set-aside data-skip-print>
             <h3>Example Scenario</h3>
           </section>
-          <section data-transition="convex">
+          <section data-transition="convex" data-set-aside data-skip-print>
             <img data-src="images/dblog_overview.png" />
             <aside class="notes">
               <ul>
@@ -572,7 +572,7 @@ class DbLogController extends ControllerBase {
                 <li>Explain inherit</li>
               </ul>
             </aside>
-            <p class="caption">Defining a dependency in the library on another library. The other library depends on the Ajax Framework. Drupal will follow chain to included all depended JavaScript files.</p>
+            <p class="caption">Defining a dependency in the library on another library. The other library depends on the Ajax Framework. Drupal will follow chain to include all depended JavaScript files.</p>
           </section>
           <section data-transition="convex" data-background="images/inception.png" data-background-image="images/inception.png" data-background-size="100%" data-set-aside data-skip-print>
             <br /><br />
@@ -750,7 +750,7 @@ class DbLogController extends ControllerBase {
             </ul>
           </section>
         </section>
-        <section>
+        <section data-set-aside data-skip-print>
           <section>
             <h2>Review</h2>
           </section>
