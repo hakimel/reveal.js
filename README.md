@@ -1,4 +1,4 @@
-# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js)
+# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js) [![Dependency Status](https://david-dm.org/hakimel/reveal.js.svg)](https://david-dm.org/hakimel/reveal.js) [![devDependency Status](https://david-dm.org/hakimel/reveal.js/dev-status.svg)](https://david-dm.org/hakimel/reveal.js#info=devDependencies)
 
 A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://lab.hakim.se/reveal-js/).
 
