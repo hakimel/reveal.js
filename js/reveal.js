@@ -1999,10 +1999,9 @@
 
 		// Check which implementation is available
 		var requestMethod = element.requestFullScreen ||
-							element.webkitRequestFullscreen ||
-							element.webkitRequestFullScreen ||
-							element.mozRequestFullScreen ||
-							element.msRequestFullscreen;
+					element.webkitRequestFullScreen ||
+					element.mozRequestFullScreen ||
+					element.msRequestFullscreen;
 
 		if( requestMethod ) {
 			requestMethod.apply( element );
