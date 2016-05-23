@@ -25,6 +25,11 @@ body {
   background: #98bdef;
   text-shadow: none; }
 
+::-moz-selection {
+  color: #fff;
+  background: #98bdef;
+  text-shadow: none; }
+
 .reveal .slides > section,
 .reveal .slides > section > section {
   line-height: 1.3;
