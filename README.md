@@ -510,26 +510,58 @@ Reveal.addEventListener( 'somestate', function() {
 
 ### Slide Backgrounds
 
-Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe. Below are a few examples.
+Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe.
 
+##### Color Backgrounds
+All CSS color formats are supported, like rgba() or hsl().
 ```html
-<section data-background="#ff0000">
-	<h2>All CSS color formats are supported, like rgba() or hsl().</h2>
-</section>
-<section data-background="http://example.com/image.png">
-	<h2>This slide will have a full-size background image.</h2>
-</section>
-<section data-background="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
-	<h2>This background image will be sized to 100px and repeated.</h2>
-</section>
-<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
-	<h2>Video. Multiple sources can be defined using a comma separated list. Video will loop when the data-background-video-loop attribute is provided and can be muted with the data-background-video-muted attribute.</h2>
-</section>
-<section data-background-iframe="https://slides.com">
-	<h2>Embeds a web page as a background. Note that the page won't be interactive.</h2>
+<section data-background-color="#ff0000">
+	<h2>Color</h2>
 </section>
 ```
 
+##### Image Backgrounds
+By default, background images are resized to cover the full page. Available options:
+
+| Attribute                    | Default    | Description |
+| :--------------------------- | :--------- | :---------- |
+| data-background-image        |            | URL of the image to show. GIFs restart when the slide opens. |
+| data-background-size         | cover      | See [background-size](https://developer.mozilla.org/docs/Web/CSS/background-size) on MDN.  |
+| data-background-position     | center     | See [background-position](https://developer.mozilla.org/docs/Web/CSS/background-position) on MDN. |
+| data-background-repeat       | no-repeat  | See [background-repeat](https://developer.mozilla.org/docs/Web/CSS/background-repeat) on MDN. |
+```html
+<section data-background-image="http://example.com/image.png">
+	<h2>Image</h2>
+</section>
+<section data-background-image="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
+	<h2>This background image will be sized to 100px and repeated</h2>
+</section>
+```
+
+##### Video Backgrounds
+Automatically plays a full size video behind the slide.
+
+| Attribute                    | Default | Description |
+| :--------------------------- | :------ | :---------- |
+| data-background-video        |         | A single video source, or a comma separated list of video sources. |
+| data-background-video-loop   | false   | Flags if the video should play repeatedly. |
+| data-background-video-muted  | false   | Flags if the audio should be muted. |
+
+```html
+<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
+	<h2>Video</h2>
+</section>
+```
+
+##### Iframe Backgrounds
+Embeds a web page as a background. Note that since the iframe is in the background layer, behind your slides, it is not possible to interact with the embedded page.
+```html
+<section data-background-iframe="https://slides.com">
+	<h2>Iframe</h2>
+</section>
+```
+
+##### Background Transitions
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
 
 
