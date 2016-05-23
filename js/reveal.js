@@ -499,7 +499,7 @@
 		// Element containing notes that are visible to the audience
 		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
 		dom.speakerNotes.setAttribute( 'data-prevent-swipe', '' );
-		dom.speakerNotes.setAttribute( 'tabindex', '0');
+		dom.speakerNotes.setAttribute( 'tabindex', '0' );
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
