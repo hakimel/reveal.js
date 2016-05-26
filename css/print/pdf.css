@@ -145,9 +145,20 @@ ul, ol, div, p {
 	display: block;
 	width: 100%;
 	max-height: none;
-	left: auto;
 	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
 	z-index: 100;
+}
+
+/* Layout option which makes notes appear on a separate page */
+.reveal .speaker-notes-pdf[data-layout="separate-page"] {
+	position: relative;
+	color: inherit;
+	background-color: transparent;
+	padding: 20px;
+	page-break-after: always;
 }
 
 /* Display slide numbers when 'slideNumber' is enabled */

@@ -624,18 +624,31 @@
 
 				// Inject notes if `showNotes` is enabled
 				if( config.showNotes ) {
+
+					// Are there notes for this slide?
 					var notes = getSlideNotes( slide );
 					if( notes ) {
+
 						var notesSpacing = 8;
+						var notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
 						var notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
 						notesElement.classList.add( 'speaker-notes-pdf' );
+						notesElement.setAttribute( 'data-layout', notesLayout );
 						notesElement.innerHTML = notes;
-						notesElement.style.left = ( notesSpacing - left ) + 'px';
-						notesElement.style.bottom = ( notesSpacing - top ) + 'px';
-						notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
-						slide.appendChild( notesElement );
+
+						if( notesLayout === 'separate-page' ) {
+							page.parentNode.insertBefore( notesElement, page.nextSibling );
+						}
+						else {
+							notesElement.style.left = ( notesSpacing - left ) + 'px';
+							notesElement.style.bottom = ( notesSpacing - top ) + 'px';
+							notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
+							slide.appendChild( notesElement );
+						}
+
 					}
+
 				}
 
 				// Inject slide numbers if `slideNumbers` are enabled
