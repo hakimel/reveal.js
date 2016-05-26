@@ -948,6 +948,7 @@
 
 		if( config.showNotes ) {
 			dom.speakerNotes.classList.add( 'visible' );
+			dom.speakerNotes.setAttribute( 'data-layout', typeof config.showNotes === 'string' ? config.showNotes : 'inline' );
 		}
 		else {
 			dom.speakerNotes.classList.remove( 'visible' );
