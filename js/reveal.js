@@ -4736,7 +4736,12 @@
 		// Registers a new shortcut to include in the help overlay
 		registerKeyboardShortcut: function( key, value ) {
 			keyboardShortcuts[key] = value;
-		}
+		},
+		
+		// Programatically trigger the help screen
+		showHelp: function(tf) {
+                        showHelp(tf);
+                }
 	};
 
 	return Reveal;
