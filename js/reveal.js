@@ -165,6 +165,9 @@
 
 		},
 
+		// Flags if Reveal.initialize() has been called
+		initialized = false,
+
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
@@ -256,6 +259,11 @@
 	 * Starts up the presentation if the client is capable.
 	 */
 	function initialize( options ) {
+
+		// Make sure we only initialize once
+		if( initialized === true ) return;
+
+		initialized = true;
 
 		checkCapabilities();
 
