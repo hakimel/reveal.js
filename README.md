@@ -434,6 +434,9 @@ Reveal.nextFragment();
 // Randomize the order of slides
 Reveal.shuffle();
 
+// Shows a help overlay with keyboard shortcuts
+Reveal.showHelp();
+
 // Toggle presentation states, optionally pass true/false to force on/off
 Reveal.toggleOverview();
 Reveal.togglePause();
