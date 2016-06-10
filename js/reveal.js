@@ -43,11 +43,11 @@
 			height: 700,
 
 			// Factor of the display size that should remain empty around the content
-			margin: 0.1,
+			margin: 0.04,
 
 			// Bounds for smallest/largest possible scale to apply to content
 			minScale: 0.2,
-			maxScale: 1.5,
+			maxScale: 2.0,
 
 			// Display controls in the bottom right corner
 			controls: true,
