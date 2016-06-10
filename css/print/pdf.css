@@ -60,8 +60,9 @@ ul, ol, div, p {
 }
 .reveal .slides {
 	position: static;
-	width: 100%;
-	height: auto;
+	width: 100% !important;
+	height: auto !important;
+	zoom: 1 !important;
 
 	left: auto;
 	top: auto;
@@ -167,4 +168,3 @@ ul, ol, div, p {
 	position: absolute;
 	font-size: 14px;
 }
-
