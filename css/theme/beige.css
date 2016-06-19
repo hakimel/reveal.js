@@ -186,7 +186,8 @@ body {
 .reveal table td[align="right"] {
   text-align: right; }
 
-.reveal table tr:last-child td {
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
   border-bottom: none; }
 
 .reveal sup {
@@ -210,9 +211,9 @@ body {
 .reveal a {
   color: #8b743d;
   text-decoration: none;
-  -webkit-transition: color 0.15s ease;
-  -moz-transition: color 0.15s ease;
-  transition: color 0.15s ease; }
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  transition: color .15s ease; }
 
 .reveal a:hover {
   color: #c0a86e;
@@ -237,9 +238,9 @@ body {
   box-shadow: none; }
 
 .reveal a img {
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  transition: all 0.15s linear; }
+  -webkit-transition: all .15s linear;
+  -moz-transition: all .15s linear;
+  transition: all .15s linear; }
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);

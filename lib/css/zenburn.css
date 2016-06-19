@@ -1,6 +1,8 @@
 /*
+
 Zenburn style from voldmar.ru (c) Vladimir Epifanov <voldmar@voldmar.ru>
 based on dark.css by Ivan Sagalaev
+
 */
 
 .hljs {
@@ -9,107 +11,70 @@ based on dark.css by Ivan Sagalaev
   padding: 0.5em;
   background: #3f3f3f;
   color: #dcdcdc;
-  -webkit-text-size-adjust: none;
 }
 
 .hljs-keyword,
-.hljs-tag,
-.css .hljs-class,
-.css .hljs-id,
-.lisp .hljs-title,
-.nginx .hljs-title,
-.hljs-request,
-.hljs-status,
-.clojure .hljs-attribute {
+.hljs-selector-tag,
+.hljs-tag {
   color: #e3ceab;
 }
 
-.django .hljs-template_tag,
-.django .hljs-variable,
-.django .hljs-filter .hljs-argument {
+.hljs-template-tag {
   color: #dcdcdc;
 }
 
-.hljs-number,
-.hljs-date {
+.hljs-number {
   color: #8cd0d3;
 }
 
-.dos .hljs-envvar,
-.dos .hljs-stream,
 .hljs-variable,
-.apache .hljs-sqbracket,
-.hljs-name {
+.hljs-template-variable,
+.hljs-attribute {
   color: #efdcbc;
 }
 
-.dos .hljs-flow,
-.diff .hljs-change,
-.python .exception,
-.python .hljs-built_in,
-.hljs-literal,
-.tex .hljs-special {
+.hljs-literal {
   color: #efefaf;
 }
 
-.diff .hljs-chunk,
 .hljs-subst {
   color: #8f8f8f;
 }
 
-.dos .hljs-keyword,
-.hljs-decorator,
 .hljs-title,
-.hljs-type,
-.diff .hljs-header,
-.ruby .hljs-class .hljs-parent,
-.apache .hljs-tag,
-.nginx .hljs-built_in,
-.tex .hljs-command,
-.hljs-prompt {
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-section,
+.hljs-type {
   color: #efef8f;
 }
 
-.dos .hljs-winutils,
-.ruby .hljs-symbol,
-.ruby .hljs-symbol .hljs-string,
-.ruby .hljs-string {
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
   color: #dca3a3;
 }
 
-.diff .hljs-deletion,
+.hljs-deletion,
 .hljs-string,
-.hljs-tag .hljs-value,
-.hljs-preprocessor,
-.hljs-pragma,
 .hljs-built_in,
-.smalltalk .hljs-class,
-.smalltalk .hljs-localvars,
-.smalltalk .hljs-array,
-.css .hljs-rule .hljs-value,
-.hljs-attr_selector,
-.hljs-pseudo,
-.apache .hljs-cbracket,
-.tex .hljs-formula,
-.coffeescript .hljs-attribute {
+.hljs-builtin-name {
   color: #cc9393;
 }
 
-.hljs-shebang,
-.diff .hljs-addition,
+.hljs-addition,
 .hljs-comment,
-.hljs-annotation,
-.hljs-pi,
-.hljs-doctype {
+.hljs-quote,
+.hljs-meta {
   color: #7f9f7f;
 }
 
-.coffeescript .javascript,
-.javascript .xml,
-.tex .hljs-formula,
-.xml .javascript,
-.xml .vbscript,
-.xml .css,
-.xml .hljs-cdata {
-  opacity: 0.5;
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
 }

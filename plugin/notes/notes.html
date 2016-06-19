@@ -188,6 +188,10 @@
 
 					var data = JSON.parse( event.data );
 
+					// The overview mode is only useful to the reveal.js instance
+					// where navigation occurs so we don't sync it
+					if( data.state ) delete data.state.overview;
+
 					// Messages sent by the notes plugin inside of the main window
 					if( data && data.namespace === 'reveal-notes' ) {
 						if( data.type === 'connect' ) {
@@ -203,8 +207,10 @@
 							// Send a message back to notify that the handshake is complete
 							window.opener.postMessage( JSON.stringify({ namespace: 'reveal-notes', type: 'connected'} ), '*' );
 						}
-						else if( /slidechanged|fragmentshown|fragmenthidden|overviewshown|overviewhidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+						else if( /slidechanged|fragmentshown|fragmenthidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+
 							window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ]} ), '*' );
+
 						}
 					}
 
@@ -288,9 +294,10 @@
 						'backgroundTransition=none'
 					].join( '&' );
 
+					var urlSeparator = /\?/.test(data.url) ? '&' : '?';
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
-					var currentURL = data.url + '?' + params + '&postMessageEvents=true' + hash;
-					var upcomingURL = data.url + '?' + params + '&controls=false' + hash;
+					var currentURL = data.url + urlSeparator + params + '&postMessageEvents=true' + hash;
+					var upcomingURL = data.url + urlSeparator + params + '&controls=false' + hash;
 
 					currentSlide = document.createElement( 'iframe' );
 					currentSlide.setAttribute( 'width', 1280 );

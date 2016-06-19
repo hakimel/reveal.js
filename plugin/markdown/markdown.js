@@ -4,10 +4,13 @@
  * of external markdown documents.
  */
 (function( root, factory ) {
-	if( typeof exports === 'object' ) {
+	if (typeof define === 'function' && define.amd) {
+		root.marked = require( './marked' );
+		root.RevealMarkdown = factory( root.marked );
+		root.RevealMarkdown.initialize();
+	} else if( typeof exports === 'object' ) {
 		module.exports = factory( require( './marked' ) );
-	}
-	else {
+	} else {
 		// Browser globals (root is window)
 		root.RevealMarkdown = factory( root.marked );
 		root.RevealMarkdown.initialize();
@@ -117,7 +120,7 @@
 		var notesMatch = content.split( new RegExp( options.notesSeparator, 'mgi' ) );
 
 		if( notesMatch.length === 2 ) {
-			content = notesMatch[0] + '<aside class="notes" data-markdown>' + notesMatch[1].trim() + '</aside>';
+			content = notesMatch[0] + '<aside class="notes">' + marked(notesMatch[1].trim()) + '</aside>';
 		}
 
 		// prevent script end tags in the content from interfering
