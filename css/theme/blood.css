@@ -17,6 +17,14 @@ body {
   background: #222;
   background-color: #222; }
 
+html:-webkit-full-screen-ancestor {
+  background: #222;
+  background-color: #222; }
+
+html:-moz-full-screen-ancestor {
+  background: #222;
+  background-color: #222; }
+
 .reveal {
   font-family: Ubuntu, "sans-serif";
   font-size: 40px;

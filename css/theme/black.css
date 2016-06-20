@@ -14,6 +14,14 @@ body {
   background: #222;
   background-color: #222; }
 
+html:-webkit-full-screen-ancestor {
+  background: #222;
+  background-color: #222; }
+
+html:-moz-full-screen-ancestor {
+  background: #222;
+  background-color: #222; }
+
 .reveal {
   font-family: "Source Sans Pro", Helvetica, sans-serif;
   font-size: 42px;

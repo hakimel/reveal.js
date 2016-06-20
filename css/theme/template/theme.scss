@@ -9,6 +9,17 @@ body {
 	background-color: $backgroundColor;
 }
 
+// Ensures that the main background color matches the
+// theme in fullscreen mode
+html:-webkit-full-screen-ancestor {
+	@include bodyBackground();
+	background-color: $backgroundColor;
+}
+html:-moz-full-screen-ancestor {
+	@include bodyBackground();
+	background-color: $backgroundColor;
+}
+
 .reveal {
 	font-family: $mainFont;
 	font-size: $mainFontSize;

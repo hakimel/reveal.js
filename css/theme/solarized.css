@@ -18,6 +18,14 @@ body {
   background: #fdf6e3;
   background-color: #fdf6e3; }
 
+html:-webkit-full-screen-ancestor {
+  background: #fdf6e3;
+  background-color: #fdf6e3; }
+
+html:-moz-full-screen-ancestor {
+  background: #fdf6e3;
+  background-color: #fdf6e3; }
+
 .reveal {
   font-family: "Lato", sans-serif;
   font-size: 40px;
