@@ -649,10 +649,10 @@
 							page.parentNode.insertBefore( notesElement, page.nextSibling );
 						}
 						else {
-							notesElement.style.left = ( notesSpacing - left ) + 'px';
-							notesElement.style.bottom = ( notesSpacing - top ) + 'px';
+							notesElement.style.left = notesSpacing + 'px';
+							notesElement.style.bottom = notesSpacing + 'px';
 							notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
-							slide.appendChild( notesElement );
+							page.appendChild( notesElement );
 						}
 
 					}
