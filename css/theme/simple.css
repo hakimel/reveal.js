@@ -17,14 +17,6 @@ body {
   background: #fff;
   background-color: #fff; }
 
-html:-webkit-full-screen-ancestor {
-  background: #fff;
-  background-color: #fff; }
-
-html:-moz-full-screen-ancestor {
-  background: #fff;
-  background-color: #fff; }
-
 .reveal {
   font-family: "Lato", sans-serif;
   font-size: 40px;

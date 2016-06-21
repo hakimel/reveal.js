@@ -12,14 +12,6 @@ body {
   background: #111;
   background-color: #111; }
 
-html:-webkit-full-screen-ancestor {
-  background: #111;
-  background-color: #111; }
-
-html:-moz-full-screen-ancestor {
-  background: #111;
-  background-color: #111; }
-
 .reveal {
   font-family: "Open Sans", sans-serif;
   font-size: 40px;
