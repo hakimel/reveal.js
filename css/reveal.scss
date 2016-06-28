@@ -261,6 +261,7 @@ body {
 	bottom: 0;
 	left: 0;
 	z-index: 1;
+	color: #fff;
 
 	button {
 		position: absolute;
@@ -271,6 +272,7 @@ body {
 		border: 0;
 		outline: 0;
 		cursor: pointer;
+		color: currentColor;
 		transform: scale(.9999);
 		transition: all 0.2s ease;
 		z-index: 2; // above slides
@@ -291,7 +293,7 @@ body {
 		width: $length;
 		height: $thickness;
 		border-radius: $thickness/2;
-		background-color: #fff;
+		background-color: currentColor;
 
 		transition: all 0.15s ease, background-color 0.8s ease;
 		transform-origin: $thickness/2 50%;

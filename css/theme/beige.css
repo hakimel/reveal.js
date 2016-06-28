@@ -255,9 +255,8 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls button:before,
-.reveal .controls button:after {
-  background-color: #8b743d; }
+.reveal .controls {
+  color: #8b743d; }
 
 /*********************************************
  * PROGRESS BAR

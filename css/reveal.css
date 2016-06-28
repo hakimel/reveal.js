@@ -196,7 +196,8 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1; }
+  z-index: 1;
+  color: #fff; }
   .reveal .controls button {
     position: absolute;
     padding: 0;
@@ -206,6 +207,7 @@ body {
     border: 0;
     outline: 0;
     cursor: pointer;
+    color: currentColor;
     -webkit-transform: scale(0.9999);
             transform: scale(0.9999);
     -webkit-transition: all 0.2s ease;
@@ -224,7 +226,7 @@ body {
     width: 30px;
     height: 5px;
     border-radius: 2.5px;
-    background-color: #fff;
+    background-color: currentColor;
     -webkit-transition: all 0.15s ease, background-color 0.8s ease;
             transition: all 0.15s ease, background-color 0.8s ease;
     -webkit-transform-origin: 2.5px 50%;
