@@ -271,10 +271,13 @@ body {
 		border: 0;
 		outline: 0;
 		cursor: pointer;
-		opacity: 0;
 		transform: scale(.9999);
 		transition: all 0.2s ease;
 		z-index: 2; // above slides
+
+		visibility: hidden;
+		opacity: 0;
+
 		-webkit-appearance: none;
 		-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
 	}
@@ -330,11 +333,11 @@ body {
 		transform: translateX(-50%) rotate( -90deg );
 	}
 
-	// The soften back arrows option strongly deemphasizes
-	// backwards navigation in favor of drawing attention
-	// forwards
-	&.soften-back-arrows .navigate-left.enabled,
-	&.soften-back-arrows .navigate-up.enabled {
+	// The deemphasize back arrows option strongly deemphasizes
+	// backwards navigation in favor of drawing attention to
+	// forwards navigation
+	&.deemphasize-back-arrows .navigate-left.enabled,
+	&.deemphasize-back-arrows .navigate-up.enabled {
 		opacity: 0.3;
 
 		&:hover {
@@ -344,6 +347,7 @@ body {
 
 	// Any control button that can be clicked is "enabled"
 	.enabled {
+		visibility: visible;
 		opacity: 0.7;
 		cursor: pointer;
 	}

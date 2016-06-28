@@ -53,10 +53,10 @@
 			controls: true,
 
 			// Determines where controls appear, "edges" or "bottom-right"
-			controlsPlacement: 'edges',
+			controlsPlacement: 'bottom-right',
 
 			// De-emphasizes backwards navigation controls
-			controlsSoftenBackArrows: true,
+			controlsDeemphasizeBackArrows: true,
 
 			// Display a presentation progress bar
 			progress: true,
@@ -934,7 +934,7 @@
 		dom.slideNumber.style.display = config.slideNumber && !isPrintingPDF() ? 'block' : 'none';
 
 		dom.controls.setAttribute( 'data-controls-placement', config.controlsPlacement );
-		dom.controls.classList.toggle( 'soften-back-arrows', config.controlsSoftenBackArrows );
+		dom.controls.classList.toggle( 'deemphasize-back-arrows', config.controlsDeemphasizeBackArrows );
 
 		if( config.shuffle ) {
 			shuffle();

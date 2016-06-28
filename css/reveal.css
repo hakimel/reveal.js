@@ -206,12 +206,13 @@ body {
     border: 0;
     outline: 0;
     cursor: pointer;
-    opacity: 0;
     -webkit-transform: scale(0.9999);
             transform: scale(0.9999);
     -webkit-transition: all 0.2s ease;
             transition: all 0.2s ease;
     z-index: 2;
+    visibility: hidden;
+    opacity: 0;
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent; }
   .reveal .controls button:before,
@@ -266,13 +267,14 @@ body {
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(-90deg);
             transform: translateX(-50%) rotate(-90deg); }
-  .reveal .controls.soften-back-arrows .navigate-left.enabled,
-  .reveal .controls.soften-back-arrows .navigate-up.enabled {
+  .reveal .controls.deemphasize-back-arrows .navigate-left.enabled,
+  .reveal .controls.deemphasize-back-arrows .navigate-up.enabled {
     opacity: 0.3; }
-    .reveal .controls.soften-back-arrows .navigate-left.enabled:hover,
-    .reveal .controls.soften-back-arrows .navigate-up.enabled:hover {
+    .reveal .controls.deemphasize-back-arrows .navigate-left.enabled:hover,
+    .reveal .controls.deemphasize-back-arrows .navigate-up.enabled:hover {
       opacity: 1; }
   .reveal .controls .enabled {
+    visibility: visible;
     opacity: 0.7;
     cursor: pointer; }
   .reveal .controls .enabled.fragmented {
