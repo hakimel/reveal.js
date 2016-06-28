@@ -267,12 +267,16 @@ body {
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(-90deg);
             transform: translateX(-50%) rotate(-90deg); }
-  .reveal .controls.deemphasize-back-arrows .navigate-left.enabled,
-  .reveal .controls.deemphasize-back-arrows .navigate-up.enabled {
+  .reveal .controls[data-controls-back-arrows="deemphasized"] .navigate-left.enabled,
+  .reveal .controls[data-controls-back-arrows="deemphasized"] .navigate-up.enabled {
     opacity: 0.3; }
-    .reveal .controls.deemphasize-back-arrows .navigate-left.enabled:hover,
-    .reveal .controls.deemphasize-back-arrows .navigate-up.enabled:hover {
+    .reveal .controls[data-controls-back-arrows="deemphasized"] .navigate-left.enabled:hover,
+    .reveal .controls[data-controls-back-arrows="deemphasized"] .navigate-up.enabled:hover {
       opacity: 1; }
+  .reveal .controls[data-controls-back-arrows="hidden"] .navigate-left.enabled,
+  .reveal .controls[data-controls-back-arrows="hidden"] .navigate-up.enabled {
+    opacity: 0;
+    visibility: hidden; }
   .reveal .controls .enabled {
     visibility: visible;
     opacity: 0.7;

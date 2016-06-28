@@ -55,8 +55,9 @@
 			// Determines where controls appear, "edges" or "bottom-right"
 			controlsPlacement: 'bottom-right',
 
-			// De-emphasizes backwards navigation controls
-			controlsDeemphasizeBackArrows: true,
+			// Specifies the display rules for backwards navigation arrows;
+			// "deemphasized", "hidden" or "visible"
+			controlsBackArrows: 'deemphasized',
 
 			// Display a presentation progress bar
 			progress: true,
@@ -1005,7 +1006,7 @@
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 
 		dom.controls.setAttribute( 'data-controls-placement', config.controlsPlacement );
-		dom.controls.classList.toggle( 'deemphasize-back-arrows', config.controlsDeemphasizeBackArrows );
+		dom.controls.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
 
 		if( config.shuffle ) {
 			shuffle();
