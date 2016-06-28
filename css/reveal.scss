@@ -236,10 +236,10 @@ body {
  *********************************************/
 
 .reveal .controls {
-	$size: 50px;
+	$size: 52px;
 	$length: floor($size * 0.6);
-	$spacing: 18px;
-	$thickness: 5px;
+	$spacing: 20px;
+	$thickness: 6px;
 	$angle: 44deg;
 	$angleHover: 40deg;
 	$angleActive: 36deg;
@@ -409,7 +409,7 @@ body {
 		}
 	}
 
-	&[data-controls-placement="bottom-right"] {
+	&[data-controls-layout="bottom-right"] {
 		@include bottom-right-controls()
 	}
 
