@@ -201,8 +201,8 @@ body {
   .reveal .controls button {
     position: absolute;
     padding: 0;
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     background-color: transparent;
     border: 0;
     outline: 0;
@@ -223,49 +223,49 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 30px;
-    height: 5px;
-    border-radius: 2.5px;
+    width: 31px;
+    height: 6px;
+    border-radius: 3px;
     background-color: currentColor;
     -webkit-transition: all 0.15s ease, background-color 0.8s ease;
             transition: all 0.15s ease, background-color 0.8s ease;
-    -webkit-transform-origin: 2.5px 50%;
-            transform-origin: 2.5px 50%; }
+    -webkit-transform-origin: 3px 50%;
+            transform-origin: 3px 50%; }
   .reveal .controls button:before {
-    -webkit-transform: translateX(10px) translateY(22.5px) rotate(44deg);
-            transform: translateX(10px) translateY(22.5px) rotate(44deg); }
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(44deg);
+            transform: translateX(10.5px) translateY(23px) rotate(44deg); }
   .reveal .controls button:after {
-    -webkit-transform: translateX(10px) translateY(22.5px) rotate(-44deg);
-            transform: translateX(10px) translateY(22.5px) rotate(-44deg); }
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(-44deg);
+            transform: translateX(10.5px) translateY(23px) rotate(-44deg); }
   .reveal .controls button:hover:before {
-    -webkit-transform: translateX(10px) translateY(22.5px) rotate(40deg);
-            transform: translateX(10px) translateY(22.5px) rotate(40deg); }
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(40deg);
+            transform: translateX(10.5px) translateY(23px) rotate(40deg); }
   .reveal .controls button:hover:after {
-    -webkit-transform: translateX(10px) translateY(22.5px) rotate(-40deg);
-            transform: translateX(10px) translateY(22.5px) rotate(-40deg); }
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(-40deg);
+            transform: translateX(10.5px) translateY(23px) rotate(-40deg); }
   .reveal .controls button:active:before {
-    -webkit-transform: translateX(10px) translateY(22.5px) rotate(36deg);
-            transform: translateX(10px) translateY(22.5px) rotate(36deg); }
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(36deg);
+            transform: translateX(10.5px) translateY(23px) rotate(36deg); }
   .reveal .controls button:active:after {
-    -webkit-transform: translateX(10px) translateY(22.5px) rotate(-36deg);
-            transform: translateX(10px) translateY(22.5px) rotate(-36deg); }
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(-36deg);
+            transform: translateX(10.5px) translateY(23px) rotate(-36deg); }
   .reveal .controls .navigate-left {
     top: 50%;
-    left: 18px;
+    left: 20px;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
   .reveal .controls .navigate-right {
     top: 50%;
-    right: 18px;
+    right: 20px;
     -webkit-transform: translateY(-50%) rotate(180deg);
             transform: translateY(-50%) rotate(180deg); }
   .reveal .controls .navigate-up {
-    top: 18px;
+    top: 20px;
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(90deg);
             transform: translateX(-50%) rotate(90deg); }
   .reveal .controls .navigate-down {
-    bottom: 18px;
+    bottom: 20px;
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(-90deg);
             transform: translateX(-50%) rotate(-90deg); }
@@ -288,38 +288,38 @@ body {
   .reveal .controls .enabled:hover,
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
-  .reveal .controls[data-controls-placement="bottom-right"] {
+  .reveal .controls[data-controls-layout="bottom-right"] {
     top: auto;
-    bottom: 18px;
-    right: 18px;
+    bottom: 20px;
+    right: 20px;
     left: auto;
     -webkit-transform: scale(0.85);
             transform: scale(0.85);
     -webkit-transform-origin: 100% 100%;
             transform-origin: 100% 100%; }
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-left,
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-right,
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-up,
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-down {
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-left,
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-right,
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-up,
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-down {
     top: auto;
     left: auto; }
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-left {
-    right: 86px;
-    bottom: 18px; }
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-right {
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-left {
+    right: 92px;
+    bottom: 20px; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-right {
     right: 0;
-    bottom: 18px; }
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-up {
-    right: 18px;
-    bottom: 86px; }
-  .reveal .controls[data-controls-placement="bottom-right"] .navigate-down {
-    right: 18px;
+    bottom: 20px; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-up {
+    right: 20px;
+    bottom: 92px; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-down {
+    right: 20px;
     bottom: 0; }
   @media screen and (max-width: 500px) {
     .reveal .controls {
       top: auto;
-      bottom: 18px;
-      right: 18px;
+      bottom: 20px;
+      right: 20px;
       left: auto;
       -webkit-transform: scale(0.85);
               transform: scale(0.85);
@@ -332,16 +332,16 @@ body {
       top: auto;
       left: auto; }
     .reveal .controls .navigate-left {
-      right: 86px;
-      bottom: 18px; }
+      right: 92px;
+      bottom: 20px; }
     .reveal .controls .navigate-right {
       right: 0;
-      bottom: 18px; }
+      bottom: 20px; }
     .reveal .controls .navigate-up {
-      right: 18px;
-      bottom: 86px; }
+      right: 20px;
+      bottom: 92px; }
     .reveal .controls .navigate-down {
-      right: 18px;
+      right: 20px;
       bottom: 0; } }
 
 .reveal.has-dark-background .controls button:after,

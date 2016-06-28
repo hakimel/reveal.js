@@ -53,7 +53,7 @@
 			controls: true,
 
 			// Determines where controls appear, "edges" or "bottom-right"
-			controlsPlacement: 'bottom-right',
+			controlsLayout: 'bottom-right',
 
 			// Specifies the display rules for backwards navigation arrows;
 			// "deemphasized", "hidden" or "visible"
@@ -1005,7 +1005,7 @@
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 
-		dom.controls.setAttribute( 'data-controls-placement', config.controlsPlacement );
+		dom.controls.setAttribute( 'data-controls-layout', config.controlsLayout );
 		dom.controls.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
 
 		if( config.shuffle ) {
