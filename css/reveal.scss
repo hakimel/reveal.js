@@ -57,15 +57,6 @@ body {
 	color: #000;
 }
 
-// Ensures that the main background color matches the
-// theme in fullscreen mode
-html:-webkit-full-screen-ancestor {
-	background-color: inherit;
-}
-html:-moz-full-screen-ancestor {
-	background-color: inherit;
-}
-
 
 /*********************************************
  * VIEW FRAGMENTS

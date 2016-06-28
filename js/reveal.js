@@ -43,11 +43,11 @@
 			height: 700,
 
 			// Factor of the display size that should remain empty around the content
-			margin: 0.1,
+			margin: 0.04,
 
 			// Bounds for smallest/largest possible scale to apply to content
 			minScale: 0.2,
-			maxScale: 1.5,
+			maxScale: 2.0,
 
 			// Display controls in the bottom right corner
 			controls: true,
@@ -171,6 +171,9 @@
 
 		},
 
+		// Flags if Reveal.initialize() has been called
+		initialized = false,
+
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
@@ -262,6 +265,11 @@
 	 * Starts up the presentation if the client is capable.
 	 */
 	function initialize( options ) {
+
+		// Make sure we only initialize once
+		if( initialized === true ) return;
+
+		initialized = true;
 
 		checkCapabilities();
 
@@ -505,6 +513,7 @@
 		// Element containing notes that are visible to the audience
 		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
 		dom.speakerNotes.setAttribute( 'data-prevent-swipe', '' );
+		dom.speakerNotes.setAttribute( 'tabindex', '0' );
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
@@ -625,18 +634,31 @@
 
 				// Inject notes if `showNotes` is enabled
 				if( config.showNotes ) {
+
+					// Are there notes for this slide?
 					var notes = getSlideNotes( slide );
 					if( notes ) {
+
 						var notesSpacing = 8;
+						var notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
 						var notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
 						notesElement.classList.add( 'speaker-notes-pdf' );
+						notesElement.setAttribute( 'data-layout', notesLayout );
 						notesElement.innerHTML = notes;
-						notesElement.style.left = ( notesSpacing - left ) + 'px';
-						notesElement.style.bottom = ( notesSpacing - top ) + 'px';
-						notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
-						slide.appendChild( notesElement );
+
+						if( notesLayout === 'separate-page' ) {
+							page.parentNode.insertBefore( notesElement, page.nextSibling );
+						}
+						else {
+							notesElement.style.left = notesSpacing + 'px';
+							notesElement.style.bottom = notesSpacing + 'px';
+							notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
+							page.appendChild( notesElement );
+						}
+
 					}
+
 				}
 
 				// Inject slide numbers if `slideNumbers` are enabled
@@ -939,6 +961,7 @@
 
 		if( config.showNotes ) {
 			dom.speakerNotes.classList.add( 'visible' );
+			dom.speakerNotes.setAttribute( 'data-layout', typeof config.showNotes === 'string' ? config.showNotes : 'inline' );
 		}
 		else {
 			dom.speakerNotes.classList.remove( 'visible' );
@@ -1962,10 +1985,10 @@
 	 */
 	function enterFullscreen() {
 
-		var element = document.body;
+		var element = document.documentElement;
 
 		// Check which implementation is available
-		var requestMethod = element.requestFullScreen ||
+		var requestMethod = element.requestFullscreen ||
 							element.webkitRequestFullscreen ||
 							element.webkitRequestFullScreen ||
 							element.mozRequestFullScreen ||
@@ -2619,34 +2642,37 @@
 						.concat( dom.controlsNext ).forEach( function( node ) {
 			node.classList.remove( 'enabled' );
 			node.classList.remove( 'fragmented' );
+
+			// Set 'disabled' attribute on all directions
+			node.setAttribute( 'disabled', 'disabled' );
 		} );
 
-		// Add the 'enabled' class to the available routes
-		if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-		if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' );	} );
-		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		// Add the 'enabled' class to the available routes; remove 'disabled' attribute to enable buttons
+		if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
+		if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
+		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
+		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
 		// Prev/next buttons
-		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); } );
-		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); } );
+		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
+		if( routes.right || routes.down ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
 		// Highlight fragment directions
 		if( currentSlide ) {
 
 			// Always apply fragment decorator to prev/next buttons
-			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-			if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+			if( fragments.prev ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+			if( fragments.next ) dom.controlsNext.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
 			if( isVerticalSlide( currentSlide ) ) {
-				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.prev ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragments.next ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
 			else {
-				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
-				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); } );
+				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
 
 		}
@@ -3662,9 +3688,13 @@
 
 		if( currentSlide ) {
 
-			var currentFragment = currentSlide.querySelector( '.current-fragment' );
+			var fragment = currentSlide.querySelector( '.current-fragment' );
 
-			var fragmentAutoSlide = currentFragment ? currentFragment.getAttribute( 'data-autoslide' ) : null;
+			// When the slide first appears there is no "current" fragment so
+			// we look for a data-autoslide timing on the first fragment
+			if( !fragment ) fragment = currentSlide.querySelector( '.fragment' );
+
+			var fragmentAutoSlide = fragment ? fragment.getAttribute( 'data-autoslide' ) : null;
 			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
 
@@ -3927,10 +3957,11 @@
 		// the keyboard
 		var activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
 		var activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
+		var activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( activeElementIsCE || activeElementIsInput || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( activeElementIsCE || activeElementIsInput || activeElementIsNotes || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
 		// While paused only allow resume keyboard events; 'b', '.''
 		var resumeKeyCodes = [66,190,191];
@@ -4565,6 +4596,9 @@
 		navigateDown: navigateDown,
 		navigatePrev: navigatePrev,
 		navigateNext: navigateNext,
+
+		// Shows a help overlay with keyboard shortcuts
+		showHelp: showHelp,
 
 		// Forces an update in slide layout
 		layout: layout,

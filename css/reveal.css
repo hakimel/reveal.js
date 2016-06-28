@@ -47,12 +47,6 @@ body {
   background-color: #fff;
   color: #000; }
 
-html:-webkit-full-screen-ancestor {
-  background-color: inherit; }
-
-html:-moz-full-screen-ancestor {
-  background-color: inherit; }
-
 /*********************************************
  * VIEW FRAGMENTS
  *********************************************/

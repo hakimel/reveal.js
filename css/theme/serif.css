@@ -16,11 +16,16 @@ body {
 
 .reveal {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: normal;
   color: #000; }
 
 ::selection {
+  color: #fff;
+  background: #26351C;
+  text-shadow: none; }
+
+::-moz-selection {
   color: #fff;
   background: #26351C;
   text-shadow: none; }

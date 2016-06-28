@@ -22,11 +22,16 @@ body {
 
 .reveal {
   font-family: "Lato", sans-serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: normal;
   color: #eee; }
 
 ::selection {
+  color: #fff;
+  background: #FF5E99;
+  text-shadow: none; }
+
+::-moz-selection {
   color: #fff;
   background: #FF5E99;
   text-shadow: none; }

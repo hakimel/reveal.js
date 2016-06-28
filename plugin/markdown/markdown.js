@@ -23,8 +23,8 @@
 
 	if( typeof hljs !== 'undefined' ) {
 		marked.setOptions({
-			highlight: function( lang, code ) {
-				return hljs.highlightAuto( lang, code ).value;
+			highlight: function( code, lang ) {
+				return hljs.highlightAuto( code, [lang] ).value;
 			}
 		});
 	}
