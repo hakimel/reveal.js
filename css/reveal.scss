@@ -765,6 +765,81 @@ body {
 
 
 /*********************************************
+ * APPEARING TRANSITION
+ *********************************************/
+
+
+@include transition-horizontal-past(appear) {
+	transform: translate(0, -30%);
+	opacity: 0;
+}
+@include transition-horizontal-future(appear) {
+	transform: translate(0, 30%);	
+	opacity: 0;
+}
+@include transition-vertical-past(appear) {
+	transform: translate(0, -150%);
+	opacity: 0;
+}
+@include transition-vertical-future(appear) {
+	transform: translate(0, 150%);
+	opacity: 0;
+}
+.reveal .slides section[data-transition=appear],
+.reveal.appear .slides section:not([data-transition]),
+.reveal.appear .slides>section>section:not([data-transition]) {
+
+	transition: transform-origin 800ms ease,
+				transform 800ms ease,
+				visibility 800ms ease,
+				opacity 400ms cubic-bezier(0,.63,.55,1);
+}
+
+.reveal .slides>section.present[data-transition=appear],
+.reveal.appear .slides>section.present:not([data-transition]),
+.reveal.appear .slides>section>section.present:not([data-transition]) {
+	transition-timing-function: ease;
+	transition-duration: 800ms;
+}
+
+.reveal .slides>section[data-transition=appear][data-transition-speed="fast"],
+.reveal.appear .slides>section[data-transition-speed="fast"]:not([data-transition]),
+.reveal.appear .slides>section>section[data-transition-speed="fast"]:not([data-transition]),
+
+.reveal[data-transition-speed="fast"] .slides>section[data-transition=appear],
+.reveal.appear[data-transition-speed="fast"] .slides>section:not([data-transition]),
+.reveal.appear[data-transition-speed="fast"] .slides>section>section:not([data-transition]) {
+	transition-duration: 400ms, 400ms, 400ms, 200ms;
+}
+.reveal .slides>section.present[data-transition=appear][data-transition-speed="fast"],
+.reveal.appear .slides>section.present[data-transition-speed="fast"]:not([data-transition]),
+.reveal.appear .slides>section>section.present[data-transition-speed="fast"]:not([data-transition]),
+
+.reveal[data-transition-speed="fast"] .slides>section.present[data-transition=appear],
+.reveal.appear[data-transition-speed="fast"] .slides>section.present:not([data-transition]),
+.reveal.appear[data-transition-speed="fast"] .slides>section>section.present:not([data-transition]) {
+	transition-duration: 400ms;
+}
+
+.reveal .slides>section[data-transition=appear][data-transition-speed="slow"],
+.reveal.appear .slides>section[data-transition-speed="slow"]:not([data-transition]),
+.reveal.appear .slides>section>section[data-transition-speed="slow"]:not([data-transition]),
+
+.reveal[data-transition-speed="slow"] .slides>section[data-transition=appear],
+.reveal.appear[data-transition-speed="slow"] .slides>section:not([data-transition]),
+.reveal.appear[data-transition-speed="slow"] .slides>section>section:not([data-transition]) {
+	transition-duration: 1200ms, 1200ms, 1200ms, 600ms;
+}
+.reveal .slides>section.present[data-transition=appear][data-transition-speed="slow"],
+.reveal.appear .slides>section.present[data-transition-speed="slow"]:not([data-transition]),
+.reveal.appear .slides>section>section.present[data-transition-speed="slow"]:not([data-transition]),
+
+.reveal[data-transition-speed="slow"] .slides>section.present[data-transition=appear],
+.reveal.appear[data-transition-speed="slow"] .slides>section.present:not([data-transition]),
+.reveal.appear[data-transition-speed="slow"] .slides>section>section.present:not([data-transition]) {
+	transition-duration: 1200ms;
+}
+/*********************************************
  * PAUSED MODE
  *********************************************/
 

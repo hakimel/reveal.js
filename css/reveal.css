@@ -743,6 +743,87 @@ body {
           transition: none; }
 
 /*********************************************
+ * APPEARING TRANSITION
+ *********************************************/
+.reveal .slides > section[data-transition=appear].past,
+.reveal .slides > section[data-transition~=appear-out].past,
+.reveal.appear .slides > section:not([data-transition]).past {
+  -webkit-transform: translate(0, -30%);
+          transform: translate(0, -30%);
+  opacity: 0; }
+
+.reveal .slides > section[data-transition=appear].future,
+.reveal .slides > section[data-transition~=appear-in].future,
+.reveal.appear .slides > section:not([data-transition]).future {
+  -webkit-transform: translate(0, 30%);
+          transform: translate(0, 30%);
+  opacity: 0; }
+
+.reveal .slides > section > section[data-transition=appear].past,
+.reveal .slides > section > section[data-transition~=appear-out].past,
+.reveal.appear .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate(0, -150%);
+          transform: translate(0, -150%);
+  opacity: 0; }
+
+.reveal .slides > section > section[data-transition=appear].future,
+.reveal .slides > section > section[data-transition~=appear-in].future,
+.reveal.appear .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate(0, 150%);
+          transform: translate(0, 150%);
+  opacity: 0; }
+
+.reveal .slides section[data-transition=appear],
+.reveal.appear .slides section:not([data-transition]),
+.reveal.appear .slides > section > section:not([data-transition]) {
+  -webkit-transition: -webkit-transform-origin 800ms ease, -webkit-transform 800ms ease, visibility 800ms ease, opacity 400ms cubic-bezier(0, 0.63, 0.55, 1);
+          transition: transform-origin 800ms ease, transform 800ms ease, visibility 800ms ease, opacity 400ms cubic-bezier(0, 0.63, 0.55, 1); }
+
+.reveal .slides > section.present[data-transition=appear],
+.reveal.appear .slides > section.present:not([data-transition]),
+.reveal.appear .slides > section > section.present:not([data-transition]) {
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease;
+  -webkit-transition-duration: 800ms;
+          transition-duration: 800ms; }
+
+.reveal .slides > section[data-transition=appear][data-transition-speed="fast"],
+.reveal.appear .slides > section[data-transition-speed="fast"]:not([data-transition]),
+.reveal.appear .slides > section > section[data-transition-speed="fast"]:not([data-transition]),
+.reveal[data-transition-speed="fast"] .slides > section[data-transition=appear],
+.reveal.appear[data-transition-speed="fast"] .slides > section:not([data-transition]),
+.reveal.appear[data-transition-speed="fast"] .slides > section > section:not([data-transition]) {
+  -webkit-transition-duration: 400ms, 400ms, 400ms, 200ms;
+          transition-duration: 400ms, 400ms, 400ms, 200ms; }
+
+.reveal .slides > section.present[data-transition=appear][data-transition-speed="fast"],
+.reveal.appear .slides > section.present[data-transition-speed="fast"]:not([data-transition]),
+.reveal.appear .slides > section > section.present[data-transition-speed="fast"]:not([data-transition]),
+.reveal[data-transition-speed="fast"] .slides > section.present[data-transition=appear],
+.reveal.appear[data-transition-speed="fast"] .slides > section.present:not([data-transition]),
+.reveal.appear[data-transition-speed="fast"] .slides > section > section.present:not([data-transition]) {
+  -webkit-transition-duration: 400ms;
+          transition-duration: 400ms; }
+
+.reveal .slides > section[data-transition=appear][data-transition-speed="slow"],
+.reveal.appear .slides > section[data-transition-speed="slow"]:not([data-transition]),
+.reveal.appear .slides > section > section[data-transition-speed="slow"]:not([data-transition]),
+.reveal[data-transition-speed="slow"] .slides > section[data-transition=appear],
+.reveal.appear[data-transition-speed="slow"] .slides > section:not([data-transition]),
+.reveal.appear[data-transition-speed="slow"] .slides > section > section:not([data-transition]) {
+  -webkit-transition-duration: 1200ms, 1200ms, 1200ms, 600ms;
+          transition-duration: 1200ms, 1200ms, 1200ms, 600ms; }
+
+.reveal .slides > section.present[data-transition=appear][data-transition-speed="slow"],
+.reveal.appear .slides > section.present[data-transition-speed="slow"]:not([data-transition]),
+.reveal.appear .slides > section > section.present[data-transition-speed="slow"]:not([data-transition]),
+.reveal[data-transition-speed="slow"] .slides > section.present[data-transition=appear],
+.reveal.appear[data-transition-speed="slow"] .slides > section.present:not([data-transition]),
+.reveal.appear[data-transition-speed="slow"] .slides > section > section.present:not([data-transition]) {
+  -webkit-transition-duration: 1200ms;
+          transition-duration: 1200ms; }
+
+/*********************************************
  * PAUSED MODE
  *********************************************/
 .reveal .pause-overlay {
@@ -1143,7 +1224,6 @@ body {
 .reveal .overlay .viewport {
   position: absolute;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   top: 40px;
