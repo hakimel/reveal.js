@@ -333,16 +333,24 @@ body {
 		transform: translateX(-50%) rotate( -90deg );
 	}
 
-	// The deemphasize back arrows option strongly deemphasizes
-	// backwards navigation in favor of drawing attention to
-	// forwards navigation
-	&.deemphasize-back-arrows .navigate-left.enabled,
-	&.deemphasize-back-arrows .navigate-up.enabled {
+	// Back arrow style: "deemphasized":
+	// Strongly deemphasizes backwards navigation in favor of drawing
+	// attention to forwards navigation
+	&[data-controls-back-arrows="deemphasized"] .navigate-left.enabled,
+	&[data-controls-back-arrows="deemphasized"] .navigate-up.enabled {
 		opacity: 0.3;
 
 		&:hover {
 			opacity: 1;
 		}
+	}
+
+	// Back arrow style: "hidden":
+	// Never shows any arrows for backwards navigation
+	&[data-controls-back-arrows="hidden"] .navigate-left.enabled,
+	&[data-controls-back-arrows="hidden"] .navigate-up.enabled {
+		opacity: 0;
+		visibility: hidden;
 	}
 
 	// Any control button that can be clicked is "enabled"
