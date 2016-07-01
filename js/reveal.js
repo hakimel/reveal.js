@@ -454,6 +454,8 @@
 
 			loaded = true;
 
+			dom.wrapper.classList.add( 'ready' );
+
 			dispatchEvent( 'ready', {
 				'indexh': indexh,
 				'indexv': indexv,

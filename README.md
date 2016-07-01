@@ -348,6 +348,7 @@ Reveal.addEventListener( 'ready', function( event ) {
 } );
 ```
 
+Note that we also add a `.ready` class to the `.reveal` element so that you can hook into this with CSS.
 
 ### Auto-sliding
 
