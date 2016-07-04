@@ -3090,17 +3090,21 @@
 
 		var iframe = event.target;
 
-		// YouTube postMessage API
-		if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
-			iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
-		}
-		// Vimeo postMessage API
-		else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
-			iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
-		}
-		// Generic postMessage API
-		else {
-			iframe.contentWindow.postMessage( 'slide:start', '*' );
+		if( iframe && iframe.contentWindow ) {
+
+			// YouTube postMessage API
+			if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+				iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+			}
+			// Vimeo postMessage API
+			else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+				iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
+			}
+			// Generic postMessage API
+			else {
+				iframe.contentWindow.postMessage( 'slide:start', '*' );
+			}
+
 		}
 
 	}
