@@ -3584,11 +3584,13 @@
 	 * should be shown, -1 means all are invisible
 	 * @param {Number} offset Integer offset to apply to the
 	 * fragment index
+	 * @param {Boolean} true means only perform check for next
+	 * or previous fragments but don't navigate
 	 *
 	 * @return {Boolean} true if a change was made in any
 	 * fragments visibility as part of this call
 	 */
-	function navigateFragment( index, offset ) {
+	function navigateFragment( index, offset, check ) {
 
 		if( currentSlide && config.fragments ) {
 
@@ -3624,36 +3626,44 @@
 					// Visible fragments
 					if( i <= index ) {
 						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
-						element.classList.add( 'visible' );
-						element.classList.remove( 'current-fragment' );
 
-						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.textContent = element.textContent;
+						if(!check){
+							element.classList.add( 'visible' );
+							element.classList.remove( 'current-fragment' );
 
-						if( i === index ) {
-							element.classList.add( 'current-fragment' );
+							// Announce the fragments one by one to the Screen Reader
+							dom.statusDiv.textContent = element.textContent;
+
+							if( i === index ) {
+								element.classList.add( 'current-fragment' );
+							}
 						}
 					}
 					// Hidden fragments
 					else {
 						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
-						element.classList.remove( 'visible' );
-						element.classList.remove( 'current-fragment' );
+
+						if(!check){
+							element.classList.remove( 'visible' );
+							element.classList.remove( 'current-fragment' );
+						}
 					}
 
 
 				} );
 
-				if( fragmentsHidden.length ) {
-					dispatchEvent( 'fragmenthidden', { fragment: fragmentsHidden[0], fragments: fragmentsHidden } );
-				}
+				if(!check){
+					if( fragmentsHidden.length ) {
+						dispatchEvent( 'fragmenthidden', { fragment: fragmentsHidden[0], fragments: fragmentsHidden } );
+					}
 
-				if( fragmentsShown.length ) {
-					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
-				}
+					if( fragmentsShown.length ) {
+						dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
+					}
 
-				updateControls();
-				updateProgress();
+					updateControls();
+					updateProgress();
+				}
 
 				return !!( fragmentsShown.length || fragmentsHidden.length );
 
@@ -3686,6 +3696,30 @@
 	function previousFragment() {
 
 		return navigateFragment( null, -1 );
+
+	}
+
+	/**
+	 * Checks if a fragment exists next
+	 *
+	 * @return {Boolean} true if there was a next fragment,
+	 * false otherwise
+	 */
+	function hasNextFragment() {
+
+		return navigateFragment( null, 1, true );
+
+	}
+
+	/**
+	 * Checks if a fragment exists previously
+	 *
+	 * @return {Boolean} true if there was a previous fragment,
+	 * false otherwise
+	 */
+	function hasPreviousFragment() {
+
+		return navigateFragment( null, -1, true );
 
 	}
 
@@ -4592,6 +4626,8 @@
 		navigateFragment: navigateFragment,
 		prevFragment: previousFragment,
 		nextFragment: nextFragment,
+		hasPrevFragment: hasPreviousFragment,
+		hasNextFragment: hasNextFragment,
 
 		// Deprecated aliases
 		navigateTo: slide,
