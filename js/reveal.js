@@ -983,10 +983,11 @@
 		// Iframe link previews
 		if( config.previewLinks ) {
 			enablePreviewLinks();
+			disablePreviewLinks( '[data-preview-link=false]' );
 		}
 		else {
 			disablePreviewLinks();
-			enablePreviewLinks( '[data-preview-link]' );
+			enablePreviewLinks( '[data-preview-link]:not([data-preview-link=false])' );
 		}
 
 		// Remove existing auto-slide controls
@@ -1456,9 +1457,9 @@
 	/**
 	 * Unbind preview frame links.
 	 */
-	function disablePreviewLinks() {
+	function disablePreviewLinks( selector ) {
 
-		var anchors = toArray( document.querySelectorAll( 'a' ) );
+		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
 
 		anchors.forEach( function( element ) {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
