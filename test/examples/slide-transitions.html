@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Slide Transitions</title>
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+		<link rel="stylesheet" href="../../css/theme/white.css" id="theme">
+		<style type="text/css" media="screen">
+			.slides section.has-dark-background,
+			.slides section.has-dark-background h3 {
+				color: #fff;
+			}
+			.slides section.has-light-background,
+			.slides section.has-light-background h3 {
+				color: #222;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h3>Default</h3>
+				</section>
+
+				<section>
+					<h3>Default</h3>
+				</section>
+
+				<section data-transition="zoom">
+					<h3>data-transition: zoom</h3>
+				</section>
+
+				<section data-transition="zoom-in fade-out">
+					<h3>data-transition: zoom-in fade-out</h3>
+				</section>
+
+				<section>
+					<h3>Default</h3>
+				</section>
+
+				<section data-transition="convex">
+					<h3>data-transition: convex</h3>
+				</section>
+
+				<section data-transition="convex-in concave-out">
+					<h3>data-transition: convex-in concave-out</h3>
+				</section>
+
+				<section>
+					<section data-transition="zoom">
+						<h3>Default</h3>
+					</section>
+					<section data-transition="concave">
+						<h3>data-transition: concave</h3>
+					</section>
+					<section data-transition="convex-in fade-out">
+						<h3>data-transition: convex-in fade-out</h3>
+					</section>
+					<section>
+						<h3>Default</h3>
+					</section>
+				</section>
+
+				<section data-transition="none">
+					<h3>data-transition: none</h3>
+				</section>
+
+				<section>
+					<h3>Default</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../../lib/js/head.min.js"></script>
+		<script src="../../js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				center: true,
+				history: true,
+
+				// transition: 'slide',
+				// transitionSpeed: 'slow',
+				// backgroundTransition: 'slide'
+			});
+
+		</script>
+
+	</body>
+</html>

@@ -7,7 +7,7 @@
 		<title>reveal.js - Markdown Demo</title>
 
 		<link rel="stylesheet" href="../../css/reveal.css">
-		<link rel="stylesheet" href="../../css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="../../css/theme/white.css" id="theme">
 
         <link rel="stylesheet" href="../../lib/css/zenburn.css">
 	</head>
@@ -19,7 +19,7 @@
 			<div class="slides">
 
                 <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
-                <section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
+                <section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
                 <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
                 <section data-markdown data-separator="---">
@@ -36,7 +36,7 @@
                 </section>
 
                 <!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
-                <section data-markdown data-separator="^\n---\n$" data-vertical="^\n--\n$">
+                <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
                     <script type="text/template">
                         ## Demo 2
                         Slide 1.1

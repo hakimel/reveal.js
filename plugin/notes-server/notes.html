@@ -3,8 +3,6 @@
 	<head>
 		<meta charset="utf-8">
 
-		<meta name="viewport" content="width=1150">
-
 		<title>reveal.js - Slide Notes</title>
 
 		<style>
@@ -12,130 +10,397 @@
 				font-family: Helvetica;
 			}
 
-			#notes {
-				font-size: 24px;
-				width: 640px;
-				margin-top: 5px;
-				clear: left;
+			#current-slide,
+			#upcoming-slide,
+			#speaker-controls {
+				padding: 6px;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
 			}
 
-			#wrap-current-slide {
-				width: 640px;
-				height: 512px;
-				float: left;
-				overflow: hidden;
+			#current-slide iframe,
+			#upcoming-slide iframe {
+				width: 100%;
+				height: 100%;
+				border: 1px solid #ddd;
+			}
+
+			#current-slide .label,
+			#upcoming-slide .label {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				font-weight: bold;
+				font-size: 14px;
+				z-index: 2;
+				color: rgba( 255, 255, 255, 0.9 );
 			}
 
 			#current-slide {
-				width: 1280px;
-				height: 1024px;
-				border: none;
-
-				-webkit-transform-origin: 0 0;
-				   -moz-transform-origin: 0 0;
-				    -ms-transform-origin: 0 0;
-				     -o-transform-origin: 0 0;
-				        transform-origin: 0 0;
-
-				-webkit-transform: scale(0.5);
-				   -moz-transform: scale(0.5);
-				    -ms-transform: scale(0.5);
-				     -o-transform: scale(0.5);
-				        transform: scale(0.5);
-			}
-
-			#wrap-next-slide {
-				width: 448px;
-				height: 358px;
-				float: left;
-				margin: 0 0 0 10px;
-				overflow: hidden;
-			}
-
-			#next-slide {
-				width: 1280px;
-				height: 1024px;
-				border: none;
-
-				-webkit-transform-origin: 0 0;
-				   -moz-transform-origin: 0 0;
-				    -ms-transform-origin: 0 0;
-				     -o-transform-origin: 0 0;
-				        transform-origin: 0 0;
-
-				-webkit-transform: scale(0.35);
-				   -moz-transform: scale(0.35);
-				    -ms-transform: scale(0.35);
-				     -o-transform: scale(0.35);
-				        transform: scale(0.35);
-			}
-
-			.slides {
-				position: relative;
-				margin-bottom: 10px;
-				border: 1px solid black;
-				border-radius: 2px;
-				background: rgb(28, 30, 32);
-			}
-
-			.slides span {
 				position: absolute;
-				top: 3px;
-				left: 3px;
-				font-weight: bold;
-				font-size: 14px;
-				color: rgba( 255, 255, 255, 0.9 );
+				width: 65%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				padding-right: 0;
 			}
+
+			#upcoming-slide {
+				position: absolute;
+				width: 35%;
+				height: 40%;
+				right: 0;
+				top: 0;
+			}
+
+			#speaker-controls {
+				position: absolute;
+				top: 40%;
+				right: 0;
+				width: 35%;
+				height: 60%;
+
+				font-size: 18px;
+			}
+
+				.speaker-controls-time.hidden,
+				.speaker-controls-notes.hidden {
+					display: none;
+				}
+
+				.speaker-controls-time .label,
+				.speaker-controls-notes .label {
+					text-transform: uppercase;
+					font-weight: normal;
+					font-size: 0.66em;
+					color: #666;
+					margin: 0;
+				}
+
+				.speaker-controls-time {
+					border-bottom: 1px solid rgba( 200, 200, 200, 0.5 );
+					margin-bottom: 10px;
+					padding: 10px 16px;
+					padding-bottom: 20px;
+					cursor: pointer;
+				}
+
+				.speaker-controls-time .reset-button {
+					opacity: 0;
+					float: right;
+					color: #666;
+					text-decoration: none;
+				}
+				.speaker-controls-time:hover .reset-button {
+					opacity: 1;
+				}
+
+				.speaker-controls-time .timer,
+				.speaker-controls-time .clock {
+					width: 50%;
+					font-size: 1.9em;
+				}
+
+				.speaker-controls-time .timer {
+					float: left;
+				}
+
+				.speaker-controls-time .clock {
+					float: right;
+					text-align: right;
+				}
+
+				.speaker-controls-time span.mute {
+					color: #bbb;
+				}
+
+				.speaker-controls-notes {
+					padding: 10px 16px;
+				}
+
+				.speaker-controls-notes .value {
+					margin-top: 5px;
+					line-height: 1.4;
+					font-size: 1.2em;
+				}
+
+			.clear {
+				clear: both;
+			}
+
+			@media screen and (max-width: 1080px) {
+				#speaker-controls {
+					font-size: 16px;
+				}
+			}
+
+			@media screen and (max-width: 900px) {
+				#speaker-controls {
+					font-size: 14px;
+				}
+			}
+
+			@media screen and (max-width: 800px) {
+				#speaker-controls {
+					font-size: 12px;
+				}
+			}
+
 		</style>
 	</head>
 
 	<body>
 
-		<div id="wrap-current-slide" class="slides">
-			<iframe src="/?receiver" width="1280" height="1024" id="current-slide"></iframe>
-		</div>
+		<div id="current-slide"></div>
+		<div id="upcoming-slide"><span class="label">UPCOMING:</span></div>
+		<div id="speaker-controls">
+			<div class="speaker-controls-time">
+				<h4 class="label">Time <span class="reset-button">Click to Reset</span></h4>
+				<div class="clock">
+					<span class="clock-value">0:00 AM</span>
+				</div>
+				<div class="timer">
+					<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
+				</div>
+				<div class="clear"></div>
+			</div>
 
-		<div id="wrap-next-slide" class="slides">
-			<iframe src="/?receiver" width="640" height="512" id="next-slide"></iframe>
-			<span>UPCOMING:</span>
+			<div class="speaker-controls-notes hidden">
+				<h4 class="label">Notes</h4>
+				<div class="value"></div>
+			</div>
 		</div>
-		<div id="notes"></div>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/plugin/markdown/marked.js"></script>
 
 		<script>
-		var socketId = '{{socketId}}';
-		var socket = io.connect(window.location.origin);
-		var notes = document.getElementById('notes');
-		var currentSlide = document.getElementById('current-slide');
-		var nextSlide = document.getElementById('next-slide');
+		(function() {
 
-		socket.on('slidedata', function(data) {
-			// ignore data from sockets that aren't ours
-			if (data.socketId !== socketId) { return; }
+			var notes,
+				notesValue,
+				currentState,
+				currentSlide,
+				upcomingSlide,
+				connected = false;
 
-			if (data.markdown) {
-				notes.innerHTML = marked(data.notes);
-			}
-			else {
-				notes.innerHTML = data.notes;
+			var socket = io.connect( window.location.origin ),
+				socketId = '{{socketId}}';
+
+			socket.on( 'statechanged', function( data ) {
+
+				// ignore data from sockets that aren't ours
+				if( data.socketId !== socketId ) { return; }
+
+				if( connected === false ) {
+					connected = true;
+
+					setupKeyboard();
+					setupNotes();
+					setupTimer();
+
+				}
+
+				handleStateMessage( data );
+
+			} );
+
+			// Load our presentation iframes
+			setupIframes();
+
+			// Once the iframes have loaded, emit a signal saying there's
+			// a new subscriber which will trigger a 'statechanged'
+			// message to be sent back
+			window.addEventListener( 'message', function( event ) {
+
+				var data = JSON.parse( event.data );
+
+				if( data && data.namespace === 'reveal' ) {
+					if( /ready/.test( data.eventName ) ) {
+						socket.emit( 'new-subscriber', { socketId: socketId } );
+					}
+				}
+
+				// Messages sent by reveal.js inside of the current slide preview
+				if( data && data.namespace === 'reveal' ) {
+					if( /slidechanged|fragmentshown|fragmenthidden|overviewshown|overviewhidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+						socket.emit( 'statechanged-speaker', { state: data.state } );
+					}
+				}
+
+			} );
+
+			/**
+			 * Called when the main window sends an updated state.
+			 */
+			function handleStateMessage( data ) {
+
+				// Store the most recently set state to avoid circular loops
+				// applying the same state
+				currentState = JSON.stringify( data.state );
+
+				// No need for updating the notes in case of fragment changes
+				if ( data.notes ) {
+					notes.classList.remove( 'hidden' );
+					if( data.markdown ) {
+						notesValue.innerHTML = marked( data.notes );
+					}
+					else {
+						notesValue.innerHTML = data.notes;
+					}
+				}
+				else {
+					notes.classList.add( 'hidden' );
+				}
+
+				// Update the note slides
+				currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
+				upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
+				upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+
 			}
 
-			currentSlide.contentWindow.Reveal.slide(data.indexh, data.indexv);
-			nextSlide.contentWindow.Reveal.slide(data.nextindexh, data.nextindexv);
-		});
-		socket.on('fragmentdata', function(data) {
-			// ignore data from sockets that aren't ours
-			if (data.socketId !== socketId) { return; }
+			// Limit to max one state update per X ms
+			handleStateMessage = debounce( handleStateMessage, 200 );
 
-			if (data.fragment === 'next') {
-				currentSlide.contentWindow.Reveal.nextFragment();
+			/**
+			 * Forward keyboard events to the current slide window.
+			 * This enables keyboard events to work even if focus
+			 * isn't set on the current slide iframe.
+			 */
+			function setupKeyboard() {
+
+				document.addEventListener( 'keydown', function( event ) {
+					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
+				} );
+
 			}
-			else if (data.fragment === 'previous') {
-				currentSlide.contentWindow.Reveal.prevFragment();
+
+			/**
+			 * Creates the preview iframes.
+			 */
+			function setupIframes() {
+
+				var params = [
+					'receiver',
+					'progress=false',
+					'history=false',
+					'transition=none',
+					'backgroundTransition=none'
+				].join( '&' );
+
+				var currentURL = '/?' + params + '&postMessageEvents=true';
+				var upcomingURL = '/?' + params + '&controls=false';
+
+				currentSlide = document.createElement( 'iframe' );
+				currentSlide.setAttribute( 'width', 1280 );
+				currentSlide.setAttribute( 'height', 1024 );
+				currentSlide.setAttribute( 'src', currentURL );
+				document.querySelector( '#current-slide' ).appendChild( currentSlide );
+
+				upcomingSlide = document.createElement( 'iframe' );
+				upcomingSlide.setAttribute( 'width', 640 );
+				upcomingSlide.setAttribute( 'height', 512 );
+				upcomingSlide.setAttribute( 'src', upcomingURL );
+				document.querySelector( '#upcoming-slide' ).appendChild( upcomingSlide );
+
 			}
-		});
+
+			/**
+			 * Setup the notes UI.
+			 */
+			function setupNotes() {
+
+				notes = document.querySelector( '.speaker-controls-notes' );
+				notesValue = document.querySelector( '.speaker-controls-notes .value' );
+
+			}
+
+			/**
+			 * Create the timer and clock and start updating them
+			 * at an interval.
+			 */
+			function setupTimer() {
+
+				var start = new Date(),
+					timeEl = document.querySelector( '.speaker-controls-time' ),
+					clockEl = timeEl.querySelector( '.clock-value' ),
+					hoursEl = timeEl.querySelector( '.hours-value' ),
+					minutesEl = timeEl.querySelector( '.minutes-value' ),
+					secondsEl = timeEl.querySelector( '.seconds-value' );
+
+				function _updateTimer() {
+
+					var diff, hours, minutes, seconds,
+						now = new Date();
+
+					diff = now.getTime() - start.getTime();
+					hours = Math.floor( diff / ( 1000 * 60 * 60 ) );
+					minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
+					seconds = Math.floor( ( diff / 1000 ) % 60 );
+
+					clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
+					hoursEl.innerHTML = zeroPadInteger( hours );
+					hoursEl.className = hours > 0 ? '' : 'mute';
+					minutesEl.innerHTML = ':' + zeroPadInteger( minutes );
+					minutesEl.className = minutes > 0 ? '' : 'mute';
+					secondsEl.innerHTML = ':' + zeroPadInteger( seconds );
+
+				}
+
+				// Update once directly
+				_updateTimer();
+
+				// Then update every second
+				setInterval( _updateTimer, 1000 );
+
+				timeEl.addEventListener( 'click', function() {
+					start = new Date();
+					_updateTimer();
+					return false;
+				} );
+
+			}
+
+			function zeroPadInteger( num ) {
+
+				var str = '00' + parseInt( num );
+				return str.substring( str.length - 2 );
+
+			}
+
+			/**
+			 * Limits the frequency at which a function can be called.
+			 */
+			function debounce( fn, ms ) {
+
+				var lastTime = 0,
+					timeout;
+
+				return function() {
+
+					var args = arguments;
+					var context = this;
+
+					clearTimeout( timeout );
+
+					var timeSinceLastCall = Date.now() - lastTime;
+					if( timeSinceLastCall > ms ) {
+						fn.apply( context, args );
+						lastTime = Date.now();
+					}
+					else {
+						timeout = setTimeout( function() {
+							fn.apply( context, args );
+							lastTime = Date.now();
+						}, ms - timeSinceLastCall );
+					}
+
+				}
+
+			}
+
+		})();
 		</script>
 
 	</body>

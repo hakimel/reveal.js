@@ -1,78 +1,136 @@
 /**
  * Handles opening of and synchronization with the reveal.js
  * notes window.
+ *
+ * Handshake process:
+ * 1. This window posts 'connect' to notes window
+ *    - Includes URL of presentation to show
+ * 2. Notes window responds with 'connected' when it is available
+ * 3. This window proceeds to send the current presentation state
+ *    to the notes window
  */
 var RevealNotes = (function() {
 
-	function openNotes() {
-		var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
-		jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
-		var notesPopup = window.open( jsFileLocation + 'notes.html', 'reveal.js - Notes', 'width=1120,height=850' );
+	function openNotes( notesFilePath ) {
 
-		// Fires when slide is changed
-		Reveal.addEventListener( 'slidechanged', post );
+		if( !notesFilePath ) {
+			var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
+			jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
+			notesFilePath = jsFileLocation + 'notes.html';
+		}
 
-		// Fires when a fragment is shown
-		Reveal.addEventListener( 'fragmentshown', post );
+		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
-		// Fires when a fragment is hidden
-		Reveal.addEventListener( 'fragmenthidden', post );
+		/**
+		 * Connect to the notes window through a postmessage handshake.
+		 * Using postmessage enables us to work in situations where the
+		 * origins differ, such as a presentation being opened from the
+		 * file system.
+		 */
+		function connect() {
+			// Keep trying to connect until we get a 'connected' message back
+			var connectInterval = setInterval( function() {
+				notesPopup.postMessage( JSON.stringify( {
+					namespace: 'reveal-notes',
+					type: 'connect',
+					url: window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search,
+					state: Reveal.getState()
+				} ), '*' );
+			}, 500 );
+
+			window.addEventListener( 'message', function( event ) {
+				var data = JSON.parse( event.data );
+				if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+					clearInterval( connectInterval );
+					onConnected();
+				}
+			} );
+		}
 
 		/**
 		 * Posts the current slide data to the notes window
 		 */
 		function post() {
+
 			var slideElement = Reveal.getCurrentSlide(),
-				slideIndices = Reveal.getIndices(),
-				messageData;
+				notesElement = slideElement.querySelector( 'aside.notes' );
 
-			var notes = slideElement.querySelector( 'aside.notes' ),
-				nextindexh,
-				nextindexv;
-
-			if( slideElement.nextElementSibling && slideElement.parentNode.nodeName == 'SECTION' ) {
-				nextindexh = slideIndices.h;
-				nextindexv = slideIndices.v + 1;
-			} else {
-				nextindexh = slideIndices.h + 1;
-				nextindexv = 0;
-			}
-
-			messageData = {
-				notes : notes ? notes.innerHTML : '',
-				indexh : slideIndices.h,
-				indexv : slideIndices.v,
-				indexf : slideIndices.f,
-				nextindexh : nextindexh,
-				nextindexv : nextindexv,
-				markdown : notes ? typeof notes.getAttribute( 'data-markdown' ) === 'string' : false
+			var messageData = {
+				namespace: 'reveal-notes',
+				type: 'state',
+				notes: '',
+				markdown: false,
+				whitespace: 'normal',
+				state: Reveal.getState()
 			};
 
+			// Look for notes defined in a slide attribute
+			if( slideElement.hasAttribute( 'data-notes' ) ) {
+				messageData.notes = slideElement.getAttribute( 'data-notes' );
+				messageData.whitespace = 'pre-wrap';
+			}
+
+			// Look for notes defined in an aside element
+			if( notesElement ) {
+				messageData.notes = notesElement.innerHTML;
+				messageData.markdown = typeof notesElement.getAttribute( 'data-markdown' ) === 'string';
+			}
+
 			notesPopup.postMessage( JSON.stringify( messageData ), '*' );
+
 		}
 
-		// Navigate to the current slide when the notes are loaded
-		notesPopup.addEventListener( 'load', function( event ) {
+		/**
+		 * Called once we have established a connection to the notes
+		 * window.
+		 */
+		function onConnected() {
+
+			// Monitor events that trigger a change in state
+			Reveal.addEventListener( 'slidechanged', post );
+			Reveal.addEventListener( 'fragmentshown', post );
+			Reveal.addEventListener( 'fragmenthidden', post );
+			Reveal.addEventListener( 'overviewhidden', post );
+			Reveal.addEventListener( 'overviewshown', post );
+			Reveal.addEventListener( 'paused', post );
+			Reveal.addEventListener( 'resumed', post );
+
+			// Post the initial state
 			post();
-		}, false );
+
+		}
+
+		connect();
+
 	}
 
-	// If the there's a 'notes' query set, open directly
-	if( window.location.search.match( /(\?|\&)notes/gi ) !== null ) {
-		openNotes();
-	}
+	if( !/receiver/i.test( window.location.search ) ) {
 
-	// Open the notes when the 's' key is hit
-	document.addEventListener( 'keydown', function( event ) {
-		// Disregard the event if the target is editable or a
-		// modifier is present
-		if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
-
-		if( event.keyCode === 83 ) {
-			event.preventDefault();
+		// If the there's a 'notes' query set, open directly
+		if( window.location.search.match( /(\?|\&)notes/gi ) !== null ) {
 			openNotes();
 		}
-	}, false );
+
+		// Open the notes when the 's' key is hit
+		document.addEventListener( 'keydown', function( event ) {
+			// Disregard the event if the target is editable or a
+			// modifier is present
+			if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
+
+			// Disregard the event if keyboard is disabled
+			if ( Reveal.getConfig().keyboard === false ) return;
+
+			if( event.keyCode === 83 ) {
+				event.preventDefault();
+				openNotes();
+			}
+		}, false );
+
+		// Show our keyboard shortcut in the reveal.js help overlay
+		if( window.Reveal ) Reveal.registerKeyboardShortcut( 'S', 'Speaker notes view' );
+
+	}
 
 	return { open: openNotes };
+
 })();
