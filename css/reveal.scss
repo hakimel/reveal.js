@@ -394,6 +394,7 @@ body {
 	text-align: center;
 	perspective: 600px;
 	perspective-origin: 50% 40%;
+	transform-style: preserve-3d;
 }
 
 .reveal .slides>section {
@@ -408,7 +409,7 @@ body {
 	padding: 20px 0px;
 
 	z-index: 10;
-	transform-style: preserve-3d;
+	transform-style: flat;
 	transition: transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
@@ -842,6 +843,7 @@ body {
 	top: 0;
 	left: 0;
 	perspective: 600px;
+	transform-style: preserve-3d;
 }
 	.reveal .slide-background {
 		display: none;
@@ -1011,6 +1013,7 @@ body {
 .reveal.overview {
 	perspective-origin: 50% 50%;
 	perspective: 700px;
+	transform-style: preserve-3d;
 
 	.slides section {
 		height: 100%;
