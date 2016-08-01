@@ -408,7 +408,7 @@ body {
 	padding: 20px 0px;
 
 	z-index: 10;
-	transform-style: preserve-3d;
+	transform-style: flat;
 	transition: transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
@@ -539,6 +539,10 @@ body {
  *********************************************/
 
 @each $stylename in default, convex {
+	@include transition-global(#{$stylename}) {
+		transform-style: preserve-3d;
+	}
+
 	@include transition-horizontal-past(#{$stylename}) {
 		transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	}
@@ -556,6 +560,10 @@ body {
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
+
+@include transition-global(concave) {
+	transform-style: preserve-3d;
+}
 
 @include transition-horizontal-past(concave) {
 	transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
@@ -607,6 +615,7 @@ body {
 	min-height: 700px;
 	backface-visibility: hidden;
 	box-sizing: border-box;
+	transform-style: preserve-3d;
 }
 	.reveal.center.cube .slides section {
 		min-height: 0;
@@ -678,6 +687,7 @@ body {
 	padding: 30px;
 	min-height: 700px;
 	box-sizing: border-box;
+	transform-style: preserve-3d;
 }
 	.reveal.page .slides section.past {
 		z-index: 12;
