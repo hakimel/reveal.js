@@ -69,6 +69,7 @@ module.exports = function(grunt) {
 				curly: false,
 				eqeqeq: true,
 				immed: true,
+				esnext: true,
 				latedef: true,
 				newcap: true,
 				noarg: true,
@@ -126,10 +127,10 @@ module.exports = function(grunt) {
 				tasks: 'css-core'
 			},
 			html: {
-				files: [ '*.html']
+				files: root.map(path => path + '/*.html')
 			},
 			markdown: {
-				files: [ '*.md' ]
+				files: root.map(path => path + '/*.md')
 			},
 			options: {
 				livereload: true
