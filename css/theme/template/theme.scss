@@ -22,6 +22,12 @@ body {
 	text-shadow: none;
 }
 
+::-moz-selection {
+	color: $selectionColor;
+	background: $selectionBackgroundColor;
+	text-shadow: none;
+}
+
 .reveal .slides>section,
 .reveal .slides>section>section {
 	line-height: 1.3;

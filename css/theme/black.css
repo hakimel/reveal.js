@@ -16,11 +16,16 @@ body {
 
 .reveal {
   font-family: "Source Sans Pro", Helvetica, sans-serif;
-  font-size: 38px;
+  font-size: 42px;
   font-weight: normal;
   color: #fff; }
 
 ::selection {
+  color: #fff;
+  background: #bee4fd;
+  text-shadow: none; }
+
+::-moz-selection {
   color: #fff;
   background: #bee4fd;
   text-shadow: none; }
