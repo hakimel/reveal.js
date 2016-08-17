@@ -1055,9 +1055,9 @@
 		// supports both
 		var pointerEvents = [ 'touchstart', 'click' ];
 
-		// Only support touch for Android, fixes double navigations in
+		// Only support touch for Android and Apple devices fixes double navigations in
 		// stock browser
-		if( UA.match( /android/gi ) ) {
+		if( isMobileDevice ) {
 			pointerEvents = [ 'touchstart' ];
 		}
 
