@@ -558,7 +558,7 @@
 		var text = "";
 		if(node.nodeType === 3) { //text node
 			text += node.textContent;
-		}else {
+		}else if (node.nodeType === 1) { //element node
 			var isAriaHidden = node.getAttribute('aria-hidden');
 			var isDisplayHidden = window.getComputedStyle(node)['display'] === 'none';
 			if (isAriaHidden !== 'true' && !isDisplayHidden) {
