@@ -554,6 +554,23 @@
 
 	}
 
+	function getStatusText(node) {
+		var text = "";
+		if(node.nodeType === 3) { //text node
+			text += node.textContent;
+		}else {
+			var isAriaHidden = node.getAttribute('aria-hidden');
+			var isDisplayHidden = window.getComputedStyle(node)['display'] === 'none';
+			if (isAriaHidden !== 'true' && !isDisplayHidden) {
+				var children = node.childNodes;
+				for (var i = 0;i < children.length; i++) {
+					text += getStatusText(children[i]);
+				}
+			}
+		}
+		return text;
+	}
+
 	/**
 	 * Configures the presentation for printing to a static
 	 * PDF.
@@ -2256,7 +2273,7 @@
 		}
 
 		// Announce the current slide contents, for screen readers
-		dom.statusDiv.textContent = currentSlide.textContent;
+		dom.statusDiv.textContent = getStatusText(currentSlide);
 
 		updateControls();
 		updateProgress();
@@ -3669,7 +3686,7 @@
 						element.classList.remove( 'current-fragment' );
 
 						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.textContent = element.textContent;
+						dom.statusDiv.textContent = getStatusText(element);
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
