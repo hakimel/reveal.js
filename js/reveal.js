@@ -2566,10 +2566,10 @@
 	 * Updates the slide number div to reflect the current slide.
 	 *
 	 * The following slide number formats are available:
-	 *  "h.v": 	horizontal . vertical slide number (default)
-	 *  "h/v": 	horizontal / vertical slide number
-	 *    "c": 	flattened slide number
-	 *  "c/t": 	flattened slide number / total slides
+	 *  "h.v":	horizontal . vertical slide number (default)
+	 *  "h/v":	horizontal / vertical slide number
+	 *    "c":	flattened slide number
+	 *  "c/t":	flattened slide number / total slides
 	 */
 	function updateSlideNumber() {
 
@@ -4245,7 +4245,9 @@
 			if( delta > 0 ) {
 				navigateNext();
 			}
-			else {
+			// fix #1607: On MacBook trackpad, a `delta=0` mousewheel event
+			// will be triggered as soon as two fingers touch.
+			else if( delta < 0 ) {
 				navigatePrev();
 			}
 
