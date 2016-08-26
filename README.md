@@ -301,6 +301,20 @@ Reveal.initialize({
 });
 ```
 
+If you wish to disable this behavior and do your own scaling (e.g. using media queries), try these settings:
+
+```javascript
+Reveal.initialize({
+
+	...
+
+	width: "100%",
+	height: "100%",
+	margin: 0,
+	minScale: 1,
+	maxScale: 1
+});
+```
 
 ### Dependencies
 
