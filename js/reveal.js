@@ -3042,6 +3042,10 @@
 		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
 		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
 
+		// dailymotion frames must include "?api=1"
+		_appendParamToIframeSource( 'src', 'dailymotion.com/embed/', 'api=1' );
+		_appendParamToIframeSource( 'data-src', 'dailymotion.com/embed/', 'api=1' );
+
 	}
 
 	/**
@@ -3100,11 +3104,14 @@
 			else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
 				iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
 			}
+			// dailymotion postMessage API
+			else if( /dailymotion\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && iframe.hasAttribute( 'data-autoplay' ) ) {
+				iframe.contentWindow.postMessage( '{"command":"play","parameters":[]}', '*' );
+			}
 			// Generic postMessage API
 			else {
 				iframe.contentWindow.postMessage( 'slide:start', '*' );
 			}
-
 		}
 
 	}
@@ -3140,6 +3147,13 @@
 			toArray( slide.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
+				}
+			});
+
+			// dailymotion postMessage API
+			toArray( slide.querySelectorAll( 'iframe[src*="dailymotion.com/embed/"]' ) ).forEach( function( el ) {
+				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
+					el.contentWindow.postMessage( '{"command":"pause","parameters":[]}', '*' );
 				}
 			});
 
