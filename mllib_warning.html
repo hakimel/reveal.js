@@ -174,6 +174,60 @@
 				</section>
 
 				<section>
+					<h2>Examples </h2>
+					<ul>
+						<li>(I)   Fast Euclidean distance (MUtils)</li>
+						<li>(II)  Exponential kernel (SVM)</li>
+						<li>(III) GPoE</li>
+					</ul>
+				</section>
+				
+				<section data-markdown>
+					<script type="text/template">
+						#### (I) Fast Euclidean Distance (MUtils)
+						selecting best strategy
+						```
+						   Optimization #1|   13894 ns. |Dist: 357914112.000000 |
+						   Optimization #2|    9784 ns. |Dist: 357914112.000000 |(fast)
+						(*)Full euclidean |   10831 ns. |Dist: 357913941.000000 |
+						```
+						
+						```
+						   Optimization #1|   10575 ns. |Dist: 1501199875789824.000000 |
+						(*)Optimization #2|    6297 ns. |Dist: 1501199875789824.000000 |(fast)
+						   Full euclidean |    7588 ns. |Dist: 1501199875790165.000000 |
+						```
+ 						```
+						(*)Optimization #1|    7414 ns. |Dist: 24019192286019584.000000 |
+						   Optimization #2|   15493 ns. |Dist: 24019192286019584.000000 |
+						   Full euclidean |    3027 ns. |Dist: 24019192286019584.000000 |(fast)
+						```
+						 
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### (II) Exponential kernel (SVM)
+						![Exponential kernel discussion](https://s18.postimg.io/mqz8dii9l/Screen_Shot_2016_09_19_at_11_13_31.png)
+						
+						<a href="https://people.eecs.berkeley.edu/~brecht/papers/07.rah.rec.nips.pdf">Paper ref.</a></br>
+						
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### (III) GPoE
+						![Exponential kernel discussion](https://s15.postimg.io/60ctrbz23/Screen_Shot_2016_09_19_at_11_19_38.png)
+						
+						<a href="http://jmlr.org/proceedings/papers/v37/deisenroth15.pdf">Paper ref.</a></br>
+						<a href="#">Spark Implementation</a>
+					</script>
+				</section>
+				
+
+				<section>
 					<h2>Our experience</h2>
 					<ul>
 						<li>One size doesn't fit all</li>
