@@ -1243,6 +1243,42 @@
 	}
 
 	/**
+	 * Find the closest parent that matches the given
+	 * selector.
+	 *
+	 * @param {HTMLElement} target The child element
+	 * @param {String} selector The CSS selector to match
+	 * the parents against
+	 *
+	 * @return {HTMLElement} The matched parent or null
+	 * if no matching parent was found
+	 */
+	function closestParent( target, selector ) {
+
+		var parent = target.parentNode;
+
+		while( parent ) {
+
+			// There's some overhead doing this each time, we don't
+			// want to rewrite the element prototype but should still
+			// be enough to feature detect once at startup...
+			var matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
+
+			// If we find a match, we're all set
+			if( matchesMethod && matchesMethod.call( parent, selector ) ) {
+				return parent;
+			}
+
+			// Keep searching
+			parent = parent.parentNode;
+
+		}
+
+		return null;
+
+	}
+
+	/**
 	 * Converts various color input formats to an {r:0,g:0,b:0} object.
 	 *
 	 * @param {String} color The string representation of a color,
@@ -3046,32 +3082,44 @@
 
 	/**
 	 * Start playback of any embedded content inside of
-	 * the targeted slide.
+	 * the given element.
 	 */
-	function startEmbeddedContent( slide ) {
+	function startEmbeddedContent( element ) {
 
-		if( slide && !isSpeakerNotes() ) {
+		if( element && !isSpeakerNotes() ) {
 			// Restart GIFs
-			toArray( slide.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( function( el ) {
 				// Setting the same unchanged source like this was confirmed
 				// to work in Chrome, FF & Safari
 				el.setAttribute( 'src', el.getAttribute( 'src' ) );
 			} );
 
 			// HTML5 media elements
-			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
+					return;
+				}
+
 				if( el.hasAttribute( 'data-autoplay' ) && typeof el.play === 'function' ) {
 					el.play();
 				}
 			} );
 
 			// Normal iframes
-			toArray( slide.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
+				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
+					return;
+				}
+
 				startEmbeddedIframe( { target: el } );
 			} );
 
 			// Lazy loading iframes
-			toArray( slide.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
+					return;
+				}
+
 				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
 					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
 					el.addEventListener( 'load', startEmbeddedIframe );
@@ -3622,6 +3670,7 @@
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
+							startEmbeddedContent( element );
 						}
 					}
 					// Hidden fragments
@@ -3630,7 +3679,6 @@
 						element.classList.remove( 'visible' );
 						element.classList.remove( 'current-fragment' );
 					}
-
 
 				} );
 
