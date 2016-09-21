@@ -125,26 +125,38 @@ module.exports = function(grunt) {
 				files: [ 'css/reveal.scss' ],
 				tasks: 'css-core'
 			},
-			html: {
-				files: [ '*.html']
-			},
 			markdown: {
 				files: [ '*.md' ]
 			},
 			options: {
 				livereload: true
+			},
+			partials: {
+				files: ['slides/**/*.html'],
+				tasks: 'includes'
 			}
 		},
-
 		retire: {
 			js: ['js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js'],
 			node: ['.'],
 			options: {}
 		}
 
+		includes: {
+		  files: {
+		    src: ['slides/index.html'],
+		    dest: '.', // Destination directory
+		    flatten: true,
+		    cwd: '.',
+		    options: {
+		      silent: true
+		    }
+		  }
+		}
 	});
 
 	// Dependencies
+	grunt.loadNpmTasks('grunt-includes');
 	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
@@ -157,7 +169,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-retire' );
 
 	// Default task
-	grunt.registerTask( 'default', [ 'css', 'js' ] );
+	grunt.registerTask( 'default', [ 'css', 'js', 'includes' ] );
 
 	// JS task
 	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
