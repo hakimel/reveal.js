@@ -10,9 +10,9 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-body {
+/*body {
   background: #fff;
-  background-color: #fff; }
+  background-color: #fff; }*/
 
 .reveal {
   font-family: "Source Sans Pro", Helvetica, sans-serif;
