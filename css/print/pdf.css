@@ -5,11 +5,11 @@
  * https://github.com/hakimel/reveal.js#pdf-export
  */
 
-* {
+#presentationPrint * {
 	-webkit-print-color-adjust: exact;
 }
 
-body {
+#presentationPrint body {
 	margin: 0 auto !important;
 	border: 0;
 	padding: 0;
@@ -17,7 +17,7 @@ body {
 	overflow: visible;
 }
 
-html {
+#presentationPrint {
 	width: 100%;
 	height: 100%;
 	overflow: visible;
@@ -25,26 +25,26 @@ html {
 
 /* Remove any elements not needed in print. */
 .nestedarrow,
-.reveal .controls,
-.reveal .progress,
-.reveal .playback,
-.reveal.overview,
+#presentationPrint .controls,
+#presentationPrint .progress,
+#presentationPrint .playback,
+#presentationPrint.overview,
 .fork-reveal,
 .share-reveal,
 .state-background {
 	display: none !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+#presentationPrint h1, #presentationPrint h2, #presentationPrint h3, #presentationPrint h4, #presentationPrint h5, #presentationPrint h6 {
 	text-shadow: 0 0 0 #000 !important;
 }
 
-.reveal pre code {
+#presentationPrint pre code {
 	overflow: hidden !important;
 	font-family: Courier, 'Courier New', monospace !important;
 }
 
-ul, ol, div, p {
+#presentationPrint ul, #presentationPrint ol, #presentationPrint div, #presentationPrint p {
 	visibility: visible;
 	position: static;
 	width: auto;
@@ -53,12 +53,12 @@ ul, ol, div, p {
 	overflow: visible;
 	margin: auto;
 }
-.reveal {
+#presentationPrint {
 	width: auto !important;
 	height: auto !important;
 	overflow: hidden !important;
 }
-.reveal .slides {
+#presentationPrint .slides {
 	position: static;
 	width: 100%;
 	height: auto;
@@ -82,7 +82,7 @@ ul, ol, div, p {
 	        perspective-origin: 50% 50%;
 }
 
-.reveal .slides section {
+#presentationPrint .slides section {
 	page-break-after: always !important;
 
 	visibility: visible !important;
@@ -108,7 +108,7 @@ ul, ol, div, p {
 	        transform: none !important;
 }
 
-.reveal section.stack {
+#presentationPrint section.stack {
 	margin: 0 !important;
 	padding: 0 !important;
 	page-break-after: avoid !important;
@@ -116,17 +116,17 @@ ul, ol, div, p {
 	min-height: auto !important;
 }
 
-.reveal img {
+#presentationPrint img {
 	box-shadow: none;
 }
 
-.reveal .roll {
+#presentationPrint .roll {
 	overflow: visible;
 	line-height: 1em;
 }
 
 /* Slide backgrounds are placed inside of their slide when exporting to PDF */
-.reveal section .slide-background {
+#presentationPrint section .slide-background {
 	display: block !important;
 	position: absolute;
 	top: 0;
@@ -136,13 +136,13 @@ ul, ol, div, p {
 }
 
 /* All elements should be above the slide-background */
-.reveal section>* {
+#presentationPrint section>* {
 	position: relative;
 	z-index: 1;
 }
 
 /* Display slide speaker notes when 'showNotes' is enabled */
-.reveal .speaker-notes-pdf {
+#presentationPrint .speaker-notes-pdf {
 	display: block;
 	width: 100%;
 	max-height: none;
@@ -152,9 +152,8 @@ ul, ol, div, p {
 }
 
 /* Display slide numbers when 'slideNumber' is enabled */
-.reveal .slide-number-pdf {
+#presentationPrint .slide-number-pdf {
 	display: block;
 	position: absolute;
 	font-size: 14px;
 }
-
