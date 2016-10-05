@@ -463,8 +463,8 @@ body {
  * CONVEX TRANSITION
  * Aliased 'default' for backwards compatibility
  *********************************************/
-.reveal .slides section[data-transition=default],
-.reveal.default .slides section:not([data-transition]) {
+.reveal .slides section[data-transition=default].stack,
+.reveal.default .slides section.stack {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d; }
 
@@ -492,8 +492,8 @@ body {
   -webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
           transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0); }
 
-.reveal .slides section[data-transition=convex],
-.reveal.convex .slides section:not([data-transition]) {
+.reveal .slides section[data-transition=convex].stack,
+.reveal.convex .slides section.stack {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d; }
 
@@ -524,8 +524,8 @@ body {
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
-.reveal .slides section[data-transition=concave],
-.reveal.concave .slides section:not([data-transition]) {
+.reveal .slides section[data-transition=concave].stack,
+.reveal.concave .slides section.stack {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d; }
 

@@ -480,6 +480,12 @@ body {
 		@content;
 	}
 }
+@mixin transition-stack($style) {
+	.reveal .slides section[data-transition=#{$style}].stack,
+	.reveal.#{$style} .slides section.stack {
+		@content;
+	}
+}
 @mixin transition-horizontal-past($style) {
 	.reveal .slides>section[data-transition=#{$style}].past,
 	.reveal .slides>section[data-transition~=#{$style}-out].past,
@@ -539,7 +545,7 @@ body {
  *********************************************/
 
 @each $stylename in default, convex {
-	@include transition-global(#{$stylename}) {
+	@include transition-stack(#{$stylename}) {
 		transform-style: preserve-3d;
 	}
 
@@ -561,7 +567,7 @@ body {
  * CONCAVE TRANSITION
  *********************************************/
 
-@include transition-global(concave) {
+@include transition-stack(concave) {
 	transform-style: preserve-3d;
 }
 
