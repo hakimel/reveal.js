@@ -4297,8 +4297,6 @@
 			if( delta > 0 ) {
 				navigateNext();
 			}
-			// fix #1607: On MacBook trackpad, a `delta=0` mousewheel event
-			// will be triggered as soon as two fingers touch.
 			else if( delta < 0 ) {
 				navigatePrev();
 			}
