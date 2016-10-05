@@ -4011,8 +4011,8 @@
 		// keyboard modifier key is present
 		if( activeElementIsCE || activeElementIsInput || activeElementIsNotes || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
 
-		// While paused only allow resume keyboard events; 'b', '.''
-		var resumeKeyCodes = [66,190,191];
+		// While paused only allow resume keyboard events; 'b', 'v', '.'
+		var resumeKeyCodes = [66,86,190,191];
 		var key;
 
 		// Custom key bindings for togglePause should be able to resume
@@ -4084,8 +4084,8 @@
 				case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
 				// return
 				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
-				// two-spot, semicolon, b, period, Logitech presenter tools "black screen" button
-				case 58: case 59: case 66: case 190: case 191: togglePause(); break;
+				// two-spot, semicolon, b, v, period, Logitech presenter tools "black screen" button
+				case 58: case 59: case 66: case 86: case 190: case 191: togglePause(); break;
 				// f
 				case 70: enterFullscreen(); break;
 				// a
