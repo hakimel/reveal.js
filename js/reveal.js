@@ -554,21 +554,36 @@
 
 	}
 
-	function getStatusText(node) {
-		var text = "";
-		if(node.nodeType === 3) { //text node
+	/**
+	 * Converts the given HTML element into a string of text
+	 * that can be announced to a screen reader. Hidden
+	 * elements are excluded.
+	 */
+	function getStatusText( node ) {
+
+		var text = '';
+
+		// Text node
+		if( node.nodeType === 3 ) {
 			text += node.textContent;
-		}else if (node.nodeType === 1) { //element node
-			var isAriaHidden = node.getAttribute('aria-hidden');
-			var isDisplayHidden = window.getComputedStyle(node)['display'] === 'none';
-			if (isAriaHidden !== 'true' && !isDisplayHidden) {
-				var children = node.childNodes;
-				for (var i = 0;i < children.length; i++) {
-					text += getStatusText(children[i]);
-				}
-			}
 		}
+		// Element node
+		else if( node.nodeType === 1 ) {
+
+			var isAriaHidden = node.getAttribute( 'aria-hidden' );
+			var isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
+			if( isAriaHidden !== 'true' && !isDisplayHidden ) {
+
+				toArray( node.childNodes ).forEach( function( child ) {
+					text += getStatusText( child );
+				} );
+
+			}
+
+		}
+
 		return text;
+
 	}
 
 	/**
@@ -2273,7 +2288,7 @@
 		}
 
 		// Announce the current slide contents, for screen readers
-		dom.statusDiv.textContent = getStatusText(currentSlide);
+		dom.statusDiv.textContent = getStatusText( currentSlide );
 
 		updateControls();
 		updateProgress();
@@ -3686,7 +3701,7 @@
 						element.classList.remove( 'current-fragment' );
 
 						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.textContent = getStatusText(element);
+						dom.statusDiv.textContent = getStatusText( element );
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
