@@ -516,7 +516,6 @@
 
 		// Cache references to elements
 		dom.controls = document.querySelector( '.reveal .controls' );
-		dom.theme = document.querySelector( '#theme' );
 
 		dom.wrapper.setAttribute( 'role', 'application' );
 
