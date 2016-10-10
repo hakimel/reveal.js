@@ -1001,6 +1001,8 @@ body {
           perspective-origin: 50% 50%;
   -webkit-perspective: 700px;
           perspective: 700px; }
+  .reveal.overview .slides {
+    -moz-transform-style: preserve-3d; }
   .reveal.overview .slides section {
     height: 100%;
     top: 0 !important;
@@ -1028,7 +1030,8 @@ body {
     overflow: visible; }
   .reveal.overview .backgrounds {
     -webkit-perspective: inherit;
-            perspective: inherit; }
+            perspective: inherit;
+    -moz-transform-style: preserve-3d; }
   .reveal.overview .backgrounds .slide-background {
     opacity: 1;
     visibility: visible;

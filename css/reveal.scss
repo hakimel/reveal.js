@@ -1028,6 +1028,12 @@ body {
 	perspective-origin: 50% 50%;
 	perspective: 700px;
 
+	.slides {
+		// Fixes overview rendering errors in FF48+, not applied to
+		// other browsers since it degrades performance
+		-moz-transform-style: preserve-3d;
+	}
+
 	.slides section {
 		height: 100%;
 		top: 0 !important;
@@ -1060,6 +1066,10 @@ body {
 
 	.backgrounds {
 		perspective: inherit;
+
+		// Fixes overview rendering errors in FF48+, not applied to
+		// other browsers since it degrades performance
+		-moz-transform-style: preserve-3d;
 	}
 
 	.backgrounds .slide-background {
