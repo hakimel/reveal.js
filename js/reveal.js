@@ -2114,6 +2114,9 @@
 
 		// Query all horizontal slides in the deck
 		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+		if (!horizontalSlides.length) {
+			return;
+		}
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
