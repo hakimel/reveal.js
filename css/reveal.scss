@@ -335,11 +335,11 @@ body {
 		transform: translateX(-50%) rotate( -90deg );
 	}
 
-	// Back arrow style: "deemphasized":
+	// Back arrow style: "faded":
 	// Strongly deemphasizes backwards navigation in favor of drawing
 	// attention to forwards navigation
-	&[data-controls-back-arrows="deemphasized"] .navigate-left.enabled,
-	&[data-controls-back-arrows="deemphasized"] .navigate-up.enabled {
+	&[data-controls-back-arrows="faded"] .navigate-left.enabled,
+	&[data-controls-back-arrows="faded"] .navigate-up.enabled {
 		opacity: 0.3;
 
 		&:hover {
@@ -1480,21 +1480,26 @@ body {
 	display: none;
 }
 
+.reveal.show-notes {
+	max-width: 80vw;
+	overflow: visible;
+}
+
 // An interface element that can optionally be used to show the
 // speaker notes to all viewers, on top of the presentation
 .reveal .speaker-notes {
-	display: none;
+	display: block;
 	position: absolute;
-	width: 70%;
-	max-height: 15%;
-	left: 15%;
-	bottom: 26px;
-	padding: 10px;
+	width: 20vw;
+	height: 100%;
+	top: 0;
+	left: 100%;
+	padding: 14px;
 	z-index: 1;
 	font-size: 18px;
 	line-height: 1.4;
-	color: #fff;
-	background-color: rgba(0,0,0,0.5);
+	color: #222;
+	background-color: #f5f5f5;
 	overflow: auto;
 	box-sizing: border-box;
 	text-align: left;
@@ -1502,20 +1507,31 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-.reveal .speaker-notes.visible:not(:empty) {
+.reveal .speaker-notes:before {
+	content: 'Speaker notes';
 	display: block;
+	margin-bottom: 10px;
+	opacity: 0.5;
 }
 
 @media screen and (max-width: 1024px) {
+	.reveal.show-notes {
+		max-width: none;
+		max-height: 70vh;
+		overflow: visible;
+	}
+
 	.reveal .speaker-notes {
-		font-size: 14px;
+		top: 70vh;
+		left: 0;
+		width: 100%;
+		height: 30vh;
 	}
 }
 
 @media screen and (max-width: 600px) {
 	.reveal .speaker-notes {
-		width: 90%;
-		left: 5%;
+		font-size: 14px;
 	}
 }
 
