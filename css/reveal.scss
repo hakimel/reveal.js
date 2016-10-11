@@ -1521,15 +1521,10 @@ body {
 	display: none;
 }
 
-.reveal.show-notes {
-	max-width: 80vw;
-	overflow: visible;
-}
-
 // An interface element that can optionally be used to show the
 // speaker notes to all viewers, on top of the presentation
 .reveal .speaker-notes {
-	display: block;
+	display: none;
 	position: absolute;
 	width: 20vw;
 	height: 100%;
@@ -1546,13 +1541,22 @@ body {
 	text-align: left;
 	font-family: Helvetica, sans-serif;
 	-webkit-overflow-scrolling: touch;
+
+	&:before {
+		content: 'Speaker notes';
+		display: block;
+		margin-bottom: 10px;
+		opacity: 0.5;
+	}
 }
 
-.reveal .speaker-notes:before {
-	content: 'Speaker notes';
+.reveal.show-notes {
+	max-width: 80vw;
+	overflow: visible;
+}
+
+.reveal.show-notes .speaker-notes {
 	display: block;
-	margin-bottom: 10px;
-	opacity: 0.5;
 }
 
 @media screen and (max-width: 1024px) {
@@ -1562,7 +1566,7 @@ body {
 		overflow: visible;
 	}
 
-	.reveal .speaker-notes {
+	.reveal.show-notes .speaker-notes {
 		top: 70vh;
 		left: 0;
 		width: 100%;
