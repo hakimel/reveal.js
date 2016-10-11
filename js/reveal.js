@@ -56,8 +56,8 @@
 			controlsLayout: 'bottom-right',
 
 			// Specifies the display rules for backwards navigation arrows;
-			// "deemphasized", "hidden" or "visible"
-			controlsBackArrows: 'deemphasized',
+			// "faded", "hidden" or "visible"
+			controlsBackArrows: 'faded',
 
 			// Display a presentation progress bar
 			progress: true,
@@ -106,7 +106,7 @@
 			// key is pressed
 			help: true,
 
-			// Flags if it should be possible to pause the presentation (blackout)
+			// Flags if it should be possible to pause t.spehe presentation (blackout)
 			pause: true,
 
 			// Flags if speaker notes should be visible to all viewers
@@ -1032,11 +1032,11 @@
 		}
 
 		if( config.showNotes ) {
-			dom.speakerNotes.classList.add( 'visible' );
+			dom.wrapper.classList.add( 'show-notes' );
 			dom.speakerNotes.setAttribute( 'data-layout', typeof config.showNotes === 'string' ? config.showNotes : 'inline' );
 		}
 		else {
-			dom.speakerNotes.classList.remove( 'visible' );
+			dom.wrapper.classList.remove( 'show-notes' );
 		}
 
 		if( config.mouseWheel ) {
