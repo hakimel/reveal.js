@@ -438,8 +438,8 @@ body {
   width: 100%;
   padding: 20px 0px;
   z-index: 10;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
+  -webkit-transform-style: flat;
+          transform-style: flat;
   -webkit-transition: -webkit-transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), -webkit-transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
           transition: transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
@@ -560,6 +560,11 @@ body {
  * CONVEX TRANSITION
  * Aliased 'default' for backwards compatibility
  *********************************************/
+.reveal .slides section[data-transition=default].stack,
+.reveal.default .slides section.stack {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
 .reveal .slides > section[data-transition=default].past,
 .reveal .slides > section[data-transition~=default-out].past,
 .reveal.default .slides > section:not([data-transition]).past {
@@ -583,6 +588,11 @@ body {
 .reveal.default .slides > section > section:not([data-transition]).future {
   -webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
           transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0); }
+
+.reveal .slides section[data-transition=convex].stack,
+.reveal.convex .slides section.stack {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
 
 .reveal .slides > section[data-transition=convex].past,
 .reveal .slides > section[data-transition~=convex-out].past,
@@ -611,6 +621,11 @@ body {
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
+.reveal .slides section[data-transition=concave].stack,
+.reveal.concave .slides section.stack {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
 .reveal .slides > section[data-transition=concave].past,
 .reveal .slides > section[data-transition~=concave-out].past,
 .reveal.concave .slides > section:not([data-transition]).past {
@@ -681,7 +696,9 @@ body {
   min-height: 700px;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
 
 .reveal.center.cube .slides section {
   min-height: 0; }
@@ -754,7 +771,9 @@ body {
 .reveal.page .slides section {
   padding: 30px;
   min-height: 700px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
 
 .reveal.page .slides section.past {
   z-index: 12; }
@@ -1079,6 +1098,8 @@ body {
           perspective-origin: 50% 50%;
   -webkit-perspective: 700px;
           perspective: 700px; }
+  .reveal.overview .slides {
+    -moz-transform-style: preserve-3d; }
   .reveal.overview .slides section {
     height: 100%;
     top: 0 !important;
@@ -1106,7 +1127,8 @@ body {
     overflow: visible; }
   .reveal.overview .backgrounds {
     -webkit-perspective: inherit;
-            perspective: inherit; }
+            perspective: inherit;
+    -moz-transform-style: preserve-3d; }
   .reveal.overview .backgrounds .slide-background {
     opacity: 1;
     visibility: visible;

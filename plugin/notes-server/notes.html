@@ -8,6 +8,7 @@
 		<style>
 			body {
 				font-family: Helvetica;
+				font-size: 18px;
 			}
 
 			#current-slide,
@@ -30,15 +31,26 @@
 				position: absolute;
 				top: 10px;
 				left: 10px;
-				font-weight: bold;
-				font-size: 14px;
 				z-index: 2;
-				color: rgba( 255, 255, 255, 0.9 );
+			}
+
+			.overlay-element {
+				height: 34px;
+				line-height: 34px;
+				padding: 0 10px;
+				text-shadow: none;
+				background: rgba( 220, 220, 220, 0.8 );
+				color: #222;
+				font-size: 14px;
+			}
+
+			.overlay-element.interactive:hover {
+				background: rgba( 220, 220, 220, 1 );
 			}
 
 			#current-slide {
 				position: absolute;
-				width: 65%;
+				width: 60%;
 				height: 100%;
 				top: 0;
 				left: 0;
@@ -47,19 +59,20 @@
 
 			#upcoming-slide {
 				position: absolute;
-				width: 35%;
+				width: 40%;
 				height: 40%;
 				right: 0;
 				top: 0;
 			}
 
+			/* Speaker controls */
 			#speaker-controls {
 				position: absolute;
 				top: 40%;
 				right: 0;
-				width: 35%;
+				width: 40%;
 				height: 60%;
-
+				overflow: auto;
 				font-size: 18px;
 			}
 
@@ -124,26 +137,108 @@
 					font-size: 1.2em;
 				}
 
+			/* Layout selector */
+			#speaker-layout {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				color: #222;
+				z-index: 10;
+			}
+				#speaker-layout select {
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					top: 0;
+					left: 0;
+					border: 0;
+					box-shadow: 0;
+					cursor: pointer;
+					opacity: 0;
+
+					font-size: 1em;
+					background-color: transparent;
+
+					-moz-appearance: none;
+					-webkit-appearance: none;
+					-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				}
+
+				#speaker-layout select:focus {
+					outline: none;
+					box-shadow: none;
+				}
+
 			.clear {
 				clear: both;
 			}
 
-			@media screen and (max-width: 1080px) {
-				#speaker-controls {
-					font-size: 16px;
-				}
+			/* Speaker layout: Wide */
+			body[data-speaker-layout="wide"] #current-slide,
+			body[data-speaker-layout="wide"] #upcoming-slide {
+				width: 50%;
+				height: 45%;
+				padding: 6px;
 			}
 
-			@media screen and (max-width: 900px) {
-				#speaker-controls {
-					font-size: 14px;
-				}
+			body[data-speaker-layout="wide"] #current-slide {
+				top: 0;
+				left: 0;
 			}
 
-			@media screen and (max-width: 800px) {
-				#speaker-controls {
-					font-size: 12px;
-				}
+			body[data-speaker-layout="wide"] #upcoming-slide {
+				top: 0;
+				left: 50%;
+			}
+
+			body[data-speaker-layout="wide"] #speaker-controls {
+				top: 45%;
+				left: 0;
+				width: 100%;
+				height: 50%;
+				font-size: 1.25em;
+			}
+
+			/* Speaker layout: Tall */
+			body[data-speaker-layout="tall"] #current-slide,
+			body[data-speaker-layout="tall"] #upcoming-slide {
+				width: 45%;
+				height: 50%;
+				padding: 6px;
+			}
+
+			body[data-speaker-layout="tall"] #current-slide {
+				top: 0;
+				left: 0;
+			}
+
+			body[data-speaker-layout="tall"] #upcoming-slide {
+				top: 50%;
+				left: 0;
+			}
+
+			body[data-speaker-layout="tall"] #speaker-controls {
+				padding-top: 40px;
+				top: 0;
+				left: 45%;
+				width: 55%;
+				height: 100%;
+				font-size: 1.25em;
+			}
+
+			/* Speaker layout: Notes only */
+			body[data-speaker-layout="notes-only"] #current-slide,
+			body[data-speaker-layout="notes-only"] #upcoming-slide {
+				display: none;
+			}
+
+			body[data-speaker-layout="notes-only"] #speaker-controls {
+				padding-top: 40px;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				font-size: 1.25em;
 			}
 
 		</style>
@@ -152,7 +247,7 @@
 	<body>
 
 		<div id="current-slide"></div>
-		<div id="upcoming-slide"><span class="label">UPCOMING:</span></div>
+		<div id="upcoming-slide"><span class="overlay-element label">Upcoming</span></div>
 		<div id="speaker-controls">
 			<div class="speaker-controls-time">
 				<h4 class="label">Time <span class="reset-button">Click to Reset</span></h4>
@@ -170,6 +265,10 @@
 				<div class="value"></div>
 			</div>
 		</div>
+		<div id="speaker-layout" class="overlay-element interactive">
+			<span class="speaker-layout-label"></span>
+			<select class="speaker-layout-dropdown"></select>
+		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/plugin/markdown/marked.js"></script>
@@ -182,10 +281,19 @@
 				currentState,
 				currentSlide,
 				upcomingSlide,
+				layoutLabel,
+				layoutDropdown,
 				connected = false;
 
 			var socket = io.connect( window.location.origin ),
 				socketId = '{{socketId}}';
+
+			var SPEAKER_LAYOUTS = {
+				'default': 'Default',
+				'wide': 'Wide',
+				'tall': 'Tall',
+				'notes-only': 'Notes only'
+			};
 
 			socket.on( 'statechanged', function( data ) {
 
@@ -204,6 +312,8 @@
 				handleStateMessage( data );
 
 			} );
+
+			setupLayout();
 
 			// Load our presentation iframes
 			setupIframes();
@@ -361,6 +471,74 @@
 				} );
 
 			}
+
+			/**
+				 * Sets up the speaker view layout and layout selector.
+				 */
+				function setupLayout() {
+
+					layoutDropdown = document.querySelector( '.speaker-layout-dropdown' );
+					layoutLabel = document.querySelector( '.speaker-layout-label' );
+
+					// Render the list of available layouts
+					for( var id in SPEAKER_LAYOUTS ) {
+						var option = document.createElement( 'option' );
+						option.setAttribute( 'value', id );
+						option.textContent = SPEAKER_LAYOUTS[ id ];
+						layoutDropdown.appendChild( option );
+					}
+
+					// Monitor the dropdown for changes
+					layoutDropdown.addEventListener( 'change', function( event ) {
+
+						setLayout( layoutDropdown.value );
+
+					}, false );
+
+					// Restore any currently persisted layout
+					setLayout( getLayout() );
+
+				}
+
+				/**
+				 * Sets a new speaker view layout. The layout is persisted
+				 * in local storage.
+				 */
+				function setLayout( value ) {
+
+					var title = SPEAKER_LAYOUTS[ value ];
+
+					layoutLabel.innerHTML = 'Layout' + ( title ? ( ': ' + title ) : '' );
+					layoutDropdown.value = value;
+
+					document.body.setAttribute( 'data-speaker-layout', value );
+
+					// Persist locally
+					if( window.localStorage ) {
+						window.localStorage.setItem( 'reveal-speaker-layout', value );
+					}
+
+				}
+
+				/**
+				 * Returns the ID of the most recently set speaker layout
+				 * or our default layout if none has been set.
+				 */
+				function getLayout() {
+
+					if( window.localStorage ) {
+						var layout = window.localStorage.getItem( 'reveal-speaker-layout' );
+						if( layout ) {
+							return layout;
+						}
+					}
+
+					// Default to the first record in the layouts hash
+					for( var id in SPEAKER_LAYOUTS ) {
+						return id;
+					}
+
+				}
 
 			function zeroPadInteger( num ) {
 
