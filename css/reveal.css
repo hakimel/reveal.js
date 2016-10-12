@@ -292,8 +292,8 @@ body {
     opacity: 1; }
   .reveal .controls[data-controls-layout="bottom-right"] {
     top: auto;
-    bottom: 8px;
-    right: 8px;
+    bottom: 12px;
+    right: 12px;
     left: auto;
     -webkit-transform: scale(0.85);
             transform: scale(0.85);
@@ -320,8 +320,8 @@ body {
   @media screen and (max-width: 500px) {
     .reveal .controls {
       top: auto;
-      bottom: 8px;
-      right: 8px;
+      bottom: 12px;
+      right: 12px;
       left: auto;
       -webkit-transform: scale(0.85);
               transform: scale(0.85);
