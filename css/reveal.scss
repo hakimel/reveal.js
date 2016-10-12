@@ -262,6 +262,7 @@ body {
 	left: 0;
 	z-index: 1;
 	color: #fff;
+	pointer-events: none;
 
 	button {
 		position: absolute;
@@ -276,6 +277,7 @@ body {
 		transform: scale(.9999);
 		transition: all 0.2s ease;
 		z-index: 2; // above slides
+		pointer-events: auto;
 
 		visibility: hidden;
 		opacity: 0;
