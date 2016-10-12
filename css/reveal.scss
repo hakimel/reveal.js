@@ -376,6 +376,7 @@ body {
 	}
 
 	@mixin bottom-right-controls() {
+		$spacing: 12px;
 		$innerSpacing: 20px;
 
 		& {
