@@ -238,7 +238,7 @@ body {
 .reveal .controls {
 	$size: 52px;
 	$length: floor($size * 0.6);
-	$spacing: 20px;
+	$spacing: 8px;
 	$thickness: 6px;
 	$angle: 44deg;
 	$angleHover: 40deg;
@@ -374,6 +374,8 @@ body {
 	}
 
 	@mixin bottom-right-controls() {
+		$innerSpacing: 20px;
+
 		& {
 			top: auto;
 			bottom: $spacing;
@@ -392,19 +394,19 @@ body {
 		}
 
 		.navigate-left {
-			right: $size + $spacing*2;
-			bottom: $spacing;
+			right: $size + $innerSpacing*2;
+			bottom: $innerSpacing;
 		}
 		.navigate-right {
 			right: 0;
-			bottom: $spacing;
+			bottom: $innerSpacing;
 		}
 		.navigate-up {
-			right: $spacing;
-			bottom: $size + $spacing*2;
+			right: $innerSpacing;
+			bottom: $size + $innerSpacing*2;
 		}
 		.navigate-down {
-			right: $spacing;
+			right: $innerSpacing;
 			bottom: 0;
 		}
 	}

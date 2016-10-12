@@ -251,21 +251,21 @@ body {
             transform: translateX(10.5px) translateY(23px) rotate(-36deg); }
   .reveal .controls .navigate-left {
     top: 50%;
-    left: 20px;
+    left: 8px;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
   .reveal .controls .navigate-right {
     top: 50%;
-    right: 20px;
+    right: 8px;
     -webkit-transform: translateY(-50%) rotate(180deg);
             transform: translateY(-50%) rotate(180deg); }
   .reveal .controls .navigate-up {
-    top: 20px;
+    top: 8px;
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(90deg);
             transform: translateX(-50%) rotate(90deg); }
   .reveal .controls .navigate-down {
-    bottom: 20px;
+    bottom: 8px;
     left: 50%;
     -webkit-transform: translateX(-50%) rotate(-90deg);
             transform: translateX(-50%) rotate(-90deg); }
@@ -290,8 +290,8 @@ body {
     opacity: 1; }
   .reveal .controls[data-controls-layout="bottom-right"] {
     top: auto;
-    bottom: 20px;
-    right: 20px;
+    bottom: 8px;
+    right: 8px;
     left: auto;
     -webkit-transform: scale(0.85);
             transform: scale(0.85);
@@ -318,8 +318,8 @@ body {
   @media screen and (max-width: 500px) {
     .reveal .controls {
       top: auto;
-      bottom: 20px;
-      right: 20px;
+      bottom: 8px;
+      right: 8px;
       left: auto;
       -webkit-transform: scale(0.85);
               transform: scale(0.85);
