@@ -31,7 +31,8 @@ html {
 .reveal.overview,
 .fork-reveal,
 .share-reveal,
-.state-background {
+.state-background,
+.reveal .slide-number {
 	display: none !important;
 }
 
