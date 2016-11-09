@@ -714,6 +714,9 @@
 			fragment.classList.add( 'visible' );
 		} );
 
+		// Notify subscribers that the PDF layout is good to go
+		dispatchEvent( 'pdf-ready' );
+
 	}
 
 	/**
