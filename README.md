@@ -699,6 +699,25 @@ The display order of fragments can be controlled using the ```data-fragment-inde
 </section>
 ```
 
+#### Collapsible fragments
+
+You can define a fragment to be collapsible - i.e. it would not take any room when not the active one.
+This is useful for showing a progression of fragments when each one relpaces the one before it.
+
+Setting this up by adding ```collapsible``` class to a fragment.
+It is recommended to wrap all fragments with a ```div``` that has a ```style=min-height:200px``` (or some other sensible value) to make sure that the slide has preserved room for the fragments.
+
+```html
+<section>
+	<div style="min-height: 70px">
+		<p class="fragment collapsible">This</p>
+		<p class="fragment collapsible">This will</p>
+		<p class="fragment collapsible">This will be</p>
+		<p class="fragment">This will be revealed.</p>
+	</div>
+</section>
+```
+
 ### Fragment events
 
 When a slide fragment is either shown or hidden reveal.js will dispatch an event.

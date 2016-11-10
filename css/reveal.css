@@ -163,6 +163,19 @@ body {
   color: #1b91ff; }
 
 /*********************************************
+ * COLLAPSIBLE FRAGMENTS
+ *********************************************/
+.reveal .slides section pre.fragment.collapsible,
+.reveal .slides section p.fragment.collapsible,
+.reveal .slides section div.fragment.collapsible {
+  display: none; }
+
+.reveal .slides section pre.fragment.current-fragment,
+.reveal .slides section p.fragment.current-fragment,
+.reveal .slides section div.fragment.current-fragment {
+  display: block; }
+
+/*********************************************
  * DEFAULT ELEMENT STYLES
  *********************************************/
 /* Fixes issue in Chrome where italic fonts did not appear when printing to PDF */
@@ -1143,7 +1156,6 @@ body {
 .reveal .overlay .viewport {
   position: absolute;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   top: 40px;
