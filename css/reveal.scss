@@ -299,6 +299,7 @@ body {
 
 		transition: all 0.15s ease, background-color 0.8s ease;
 		transform-origin: $thickness/2 50%;
+		will-change: transform;
 	}
 
 	button {
@@ -453,9 +454,9 @@ body {
 		content: '';
 		display: block;
 		position: absolute;
-		height: 20px;
+		height: 10px;
 		width: 100%;
-		top: -20px;
+		top: -10px;
 	}
 	.reveal .progress span {
 		display: block;

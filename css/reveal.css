@@ -232,7 +232,8 @@ body {
     -webkit-transition: all 0.15s ease, background-color 0.8s ease;
             transition: all 0.15s ease, background-color 0.8s ease;
     -webkit-transform-origin: 3px 50%;
-            transform-origin: 3px 50%; }
+            transform-origin: 3px 50%;
+    will-change: transform; }
   .reveal .controls button:before {
     -webkit-transform: translateX(10.5px) translateY(23px) rotate(44deg);
             transform: translateX(10.5px) translateY(23px) rotate(44deg); }
@@ -371,9 +372,9 @@ body {
   content: '';
   display: block;
   position: absolute;
-  height: 20px;
+  height: 10px;
   width: 100%;
-  top: -20px; }
+  top: -10px; }
 
 .reveal .progress span {
   display: block;
