@@ -10,7 +10,7 @@ var RevealMath = window.RevealMath || (function(){
 	options.mathjax = options.mathjax || 'https://cdn.mathjax.org/mathjax/latest/MathJax.js';
 	options.config = options.config || 'TeX-AMS_HTML-full';
 
-	loadScript( options.mathjax + '?config=' + options.config, function() {
+	head.load( options.mathjax + '?config=' + options.config, function() {
 
 		MathJax.Hub.Config({
 			messageStyle: 'none',
@@ -34,34 +34,5 @@ var RevealMath = window.RevealMath || (function(){
 		} );
 
 	} );
-
-	function loadScript( url, callback ) {
-
-		var head = document.querySelector( 'head' );
-		var script = document.createElement( 'script' );
-		script.type = 'text/javascript';
-		script.src = url;
-
-		// Wrapper for callback to make sure it only fires once
-		var finish = function() {
-			if( typeof callback === 'function' ) {
-				callback.call();
-				callback = null;
-			}
-		}
-
-		script.onload = finish;
-
-		// IE
-		script.onreadystatechange = function() {
-			if ( this.readyState === 'loaded' ) {
-				finish();
-			}
-		}
-
-		// Normal browsers
-		head.appendChild( script );
-
-	}
 
 })();
