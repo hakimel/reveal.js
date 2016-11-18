@@ -227,8 +227,8 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #222;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+  border: 0;
+  /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }*/
 
 .reveal section img.plain {
   border: 0;
@@ -242,7 +242,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
   border-color: #2a76dd;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+  /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }*/
 
 /*********************************************
  * NAVIGATION CONTROLS
