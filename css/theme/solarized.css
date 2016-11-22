@@ -20,11 +20,16 @@ body {
 
 .reveal {
   font-family: "Lato", sans-serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: normal;
   color: #657b83; }
 
 ::selection {
+  color: #fff;
+  background: #d33682;
+  text-shadow: none; }
+
+::-moz-selection {
   color: #fff;
   background: #d33682;
   text-shadow: none; }
