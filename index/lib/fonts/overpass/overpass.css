@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Overpass';
+    font-style: normal;
+    font-weight: bold;
+    src: url('overpass-bold.woff') format('woff'),
+         url('overpass-bold.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Overpass';
+    font-style: normal;
+    font-weight: 500;
+    src: url('overpass-regular.woff') format('woff'),
+         url('overpass-regular.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Overpass';
+    font-style: normal;
+    font-weight: normal;
+    src: url('overpass-light.woff') format('woff'),
+         url('overpass-light.ttf') format('truetype');
+}
+
