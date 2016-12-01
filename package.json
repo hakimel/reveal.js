@@ -19,7 +19,7 @@
     "url": "git://github.com/hakimel/reveal.js.git"
   },
   "engines": {
-    "node": "~4.1.1"
+    "node": "~6.9.1"
   },
   "dependencies": {
     "express": "~4.14.0",
@@ -39,7 +39,7 @@
     "grunt-sass": "~1.2.0",
     "grunt-retire": "~0.3.10",
     "grunt-zip": "~0.17.1",
-    "node-sass": "~3.7.0"
+    "node-sass": "~3.13.0"
   },
   "license": "MIT"
 }
