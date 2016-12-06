@@ -444,6 +444,8 @@ Reveal.prev();
 Reveal.next();
 Reveal.prevFragment();
 Reveal.nextFragment();
+Reveal.hasPrevFragment();
+Reveal.hasNextFragment();
 
 // Randomize the order of slides
 Reveal.shuffle();
