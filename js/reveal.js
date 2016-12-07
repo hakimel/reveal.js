@@ -2175,7 +2175,7 @@
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
 		var currentHorizontalSlide = horizontalSlides[ indexh ],
-			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+			currentVerticalSlides = currentHorizontalSlide ? currentHorizontalSlide.querySelectorAll( 'section' ) : [];
 
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
@@ -2231,7 +2231,7 @@
 		}
 
 		// Announce the current slide contents, for screen readers
-		dom.statusDiv.textContent = currentSlide.textContent;
+		if(currentSlide) dom.statusDiv.textContent = currentSlide.textContent;
 
 		updateControls();
 		updateProgress();
