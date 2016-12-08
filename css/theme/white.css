@@ -26,10 +26,10 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   background: #98bdef;
   text-shadow: none; }
 
-.reveal .slides > section,
+/**.reveal .slides > section,
 .reveal .slides > section > section {
   line-height: 1.3;
-  font-weight: inherit; }
+  font-weight: inherit; }**/
 
 /*********************************************
  * HEADERS

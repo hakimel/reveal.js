@@ -40,7 +40,7 @@
 			// The "normal" size of the presentation, aspect ratio will be preserved
 			// when the presentation is scaled to fit different resolutions
 			width: 960,
-			height: 700,
+			height: 720,
 
 			// Factor of the display size that should remain empty around the content
 			margin: 0.1,
