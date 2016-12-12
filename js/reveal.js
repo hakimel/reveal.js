@@ -3072,7 +3072,7 @@
 			// HTML5 media elements
 			toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
-					el.setAttribute('data-paused-by-reveal');
+					el.setAttribute('data-paused-by-reveal', '');
 					el.pause();
 				}
 			} );
