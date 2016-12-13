@@ -1140,6 +1140,7 @@ body {
   display: inline-block;
   width: 40px;
   height: 40px;
+  line-height: 36px;
   padding: 0 10px;
   float: right;
   opacity: 0.6;
@@ -1187,6 +1188,23 @@ body {
 .reveal .overlay.overlay-preview.loaded .viewport iframe {
   opacity: 1;
   visibility: visible; }
+
+.reveal .overlay.overlay-preview.loaded .viewport-inner {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+  letter-spacing: normal; }
+
+.reveal .overlay.overlay-preview .x-frame-error {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease 0.3s;
+          transition: opacity 0.3s ease 0.3s; }
+
+.reveal .overlay.overlay-preview.loaded .x-frame-error {
+  opacity: 1; }
 
 .reveal .overlay.overlay-preview.loaded .spinner {
   opacity: 0;

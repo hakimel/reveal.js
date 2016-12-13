@@ -1604,7 +1604,7 @@
 			'<div class="viewport">',
 				'<iframe src="'+ url +'"></iframe>',
 				'<small class="viewport-inner">',
-				'This link is refused to display in a frame due to its policy',
+					'<span class="x-frame-error">Unable to load iframe. This is likely due to the site\'s policy (x-frame-options).</span>',
 				'</small>',
 			'</div>'
 		].join('');

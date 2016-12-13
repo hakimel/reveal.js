@@ -1195,6 +1195,7 @@ body {
 			display: inline-block;
 			width: 40px;
 			height: 40px;
+			line-height: 36px;
 			padding: 0 10px;
 			float: right;
 			opacity: 0.6;
@@ -1250,10 +1251,17 @@ body {
 		position: absolute;
 		z-index: -1;
 		left: 0;
-		top: 60px;
+		top: 45%;
 		width: 100%;
 		text-align: center;
 		letter-spacing: normal;
+	}
+	.reveal .overlay.overlay-preview .x-frame-error  {
+		opacity: 0;
+		transition: opacity 0.3s ease 0.3s;
+	}
+	.reveal .overlay.overlay-preview.loaded .x-frame-error  {
+		opacity: 1;
 	}
 
 	.reveal .overlay.overlay-preview.loaded .spinner {
