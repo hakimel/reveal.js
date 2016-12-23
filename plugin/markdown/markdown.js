@@ -42,8 +42,8 @@
 	 * element. Normalizes leading tabs/whitespace.
 	 */
 	function getMarkdownFromSlide( section ) {
-
-		var template = section.querySelector( 'script' );
+		// support <textarea data-template> `some code` </textarea>
+		var template = section.querySelector( '[data-tempate]' ) || section.querySelector( 'script' );
 
 		// strip leading whitespace so it isn't evaluated as code
 		var text = ( template || section ).textContent;
