@@ -316,6 +316,23 @@ Reveal.initialize({
 });
 ```
 
+You can pass callbacks for width and height to get more control about the calculation:
+
+```javascript
+Reveal.initialize({
+
+	...
+
+	width: function(size) {
+               return parseInt( '100%', 10 ) / 100 * size.presentationWidth - 380;
+           },
+	height: "100%",
+	margin: 0,
+	minScale: 1,
+	maxScale: 1
+});
+```
+
 ### Dependencies
 
 Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:

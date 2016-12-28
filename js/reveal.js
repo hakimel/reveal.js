@@ -1726,11 +1726,15 @@
 		// Slide width may be a percentage of available width
 		if( typeof size.width === 'string' && /%$/.test( size.width ) ) {
 			size.width = parseInt( size.width, 10 ) / 100 * size.presentationWidth;
+		} else if( typeof size.width === 'function') {
+			size.width = size.width(size);
 		}
 
 		// Slide height may be a percentage of available height
 		if( typeof size.height === 'string' && /%$/.test( size.height ) ) {
 			size.height = parseInt( size.height, 10 ) / 100 * size.presentationHeight;
+		} else if( typeof size.height === 'function') {
+			size.height = size.height(size);
 		}
 
 		return size;
