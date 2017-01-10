@@ -160,7 +160,7 @@ Special syntax (in html comment) is available for adding attributes to the slide
 </section>
 ```
 
-#### Configuring `marked`
+#### Configuring *marked*
 
 We use [marked](https://github.com/chjj/marked) to parse Markdown. To customise marked's rendering, you can pass in options when [configuring Reveal](#configuration):
 
@@ -172,6 +172,7 @@ Reveal.initialize({
 		smartypants: true
 	}
 });
+```
 
 ### Configuration
 
