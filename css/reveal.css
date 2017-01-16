@@ -53,8 +53,25 @@ OUR CHANGES
 
 .reveal{
     line-height: 1;
-    text-align: left;
+    /*text-align: left;*/
 }
+
+.reveal .slides .h-left{
+    text-align: left !important
+}
+
+.reveal .slides .h-center{
+    text-align: center !important
+}
+
+.reveal .slides .h-right{
+    text-align: right !important
+}
+
+.reveal .slides{
+    text-align: inherit !important;
+}
+
 
 
 /*********************************************
