@@ -3060,11 +3060,20 @@
 				// Iframes
 				else if( backgroundIframe ) {
 					var iframe = document.createElement( 'iframe' );
+
+					// Only load autoplaying content when the slide is shown to
+					// avoid having it play in the background
+					if( /autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
+						iframe.setAttribute( 'data-src', backgroundIframe );
+					}
+					else {
 						iframe.setAttribute( 'src', backgroundIframe );
-						iframe.style.width  = '100%';
-						iframe.style.height = '100%';
-						iframe.style.maxHeight = '100%';
-						iframe.style.maxWidth = '100%';
+					}
+
+					iframe.style.width  = '100%';
+					iframe.style.height = '100%';
+					iframe.style.maxHeight = '100%';
+					iframe.style.maxWidth = '100%';
 
 					background.appendChild( iframe );
 				}
@@ -3196,20 +3205,12 @@
 
 				if( autoplay && typeof el.play === 'function' ) {
 
-					var _startVideo = function() {
-						// Only start playback if the containing slide is still visible
-						if( !!closestParent( el, '.present' ) ) {
-							el.currentTime = 0;
-							el.play();
-						}
-						el.removeEventListener( 'loadeddata', _startVideo );
-					};
-
 					if( el.readyState > 1 ) {
-						_startVideo();
+						startEmbeddedMedia( { target: el } );
 					}
 					else {
-						el.addEventListener( 'loadeddata', _startVideo );
+						el.removeEventListener( 'loadeddata', startEmbeddedMedia ); // remove first to avoid dupes
+						el.addEventListener( 'loadeddata', startEmbeddedMedia );
 					}
 
 				}
@@ -3242,10 +3243,30 @@
 	}
 
 	/**
+	 * Starts playing an embedded video/audio element after
+	 * it has finished loading.
+	 *
+	 * @param {object} event
+	 */
+	function startEmbeddedMedia( event ) {
+
+		var isAttachedToDOM = !!closestParent( event.target, 'html' ),
+			isVisible  		= !!closestParent( event.target, '.present' );
+
+		if( isAttachedToDOM && isVisible ) {
+			event.target.currentTime = 0;
+			event.target.play();
+		}
+
+		event.target.removeEventListener( 'loadeddata', startEmbeddedMedia );
+
+	}
+
+	/**
 	 * "Starts" the content of an embedded iframe using the
 	 * postMessage API.
 	 *
-	 * @param {object} event - postMessage API event
+	 * @param {object} event
 	 */
 	function startEmbeddedIframe( event ) {
 
@@ -3253,19 +3274,26 @@
 
 		if( iframe && iframe.contentWindow ) {
 
-			var autoplay = iframe.hasAttribute( 'data-autoplay' ) || !!closestParent( iframe, '.slide-background' );
+			var isAttachedToDOM = !!closestParent( event.target, 'html' ),
+				isVisible  		= !!closestParent( event.target, '.present' );
 
-			// YouTube postMessage API
-			if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
-				iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
-			}
-			// Vimeo postMessage API
-			else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
-				iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
-			}
-			// Generic postMessage API
-			else {
-				iframe.contentWindow.postMessage( 'slide:start', '*' );
+			if( isAttachedToDOM && isVisible ) {
+
+				var autoplay = iframe.hasAttribute( 'data-autoplay' ) || !!closestParent( iframe, '.slide-background' );
+
+				// YouTube postMessage API
+				if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
+					iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
+				}
+				// Vimeo postMessage API
+				else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
+					iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
+				}
+				// Generic postMessage API
+				else {
+					iframe.contentWindow.postMessage( 'slide:start', '*' );
+				}
+
 			}
 
 		}
