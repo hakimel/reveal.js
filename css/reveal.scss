@@ -898,7 +898,11 @@ body {
 	max-height: none;
 	top: 0;
 	left: 0;
+	object-fit: cover;
 }
+	.reveal .slide-background[data-background-size="contain"] video {
+		object-fit: contain;
+	}
 
 /* Immediate transition style */
 .reveal[data-background-transition=none]>.backgrounds .slide-background,

@@ -578,6 +578,7 @@ Automatically plays a full size video behind the slide.
 | data-background-video        |         | A single video source, or a comma separated list of video sources. |
 | data-background-video-loop   | false   | Flags if the video should play repeatedly. |
 | data-background-video-muted  | false   | Flags if the audio should be muted. |
+| data-background-size         | cover   | Use `cover` for full screen and some cropping or `contain` for letterboxing. |
 
 ```html
 <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
