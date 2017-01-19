@@ -388,6 +388,7 @@ body {
 	bottom: 0;
 	left: 0;
 	margin: auto;
+	pointer-events: none;
 
 	overflow: visible;
 	z-index: 1;
@@ -406,6 +407,7 @@ body {
 	position: absolute;
 	width: 100%;
 	padding: 20px 0px;
+	pointer-events: auto;
 
 	z-index: 10;
 	transform-style: flat;
@@ -441,6 +443,11 @@ body {
 	display: block;
 	z-index: 11;
 	opacity: 1;
+}
+
+.reveal .slides>section:empty,
+.reveal .slides>section>section:empty {
+	pointer-events: none;
 }
 
 .reveal.center,
@@ -866,6 +873,7 @@ body {
 		height: 100%;
 		opacity: 0;
 		visibility: hidden;
+		overflow: hidden;
 
 		background-color: rgba( 0, 0, 0, 0 );
 		background-position: 50% 50%;
@@ -882,6 +890,7 @@ body {
 	.reveal .slide-background.present {
 		opacity: 1;
 		visibility: visible;
+		z-index: 2;
 	}
 
 	.print-pdf .reveal .slide-background {
