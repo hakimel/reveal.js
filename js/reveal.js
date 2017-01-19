@@ -2884,7 +2884,7 @@
 		// Start content in the current background
 		if( currentBackground ) {
 
-			startEmbeddedContent( currentBackground, true );
+			startEmbeddedContent( currentBackground );
 
 			var backgroundImageURL = currentBackground.style.backgroundImage || '';
 
