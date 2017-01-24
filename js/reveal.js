@@ -656,7 +656,7 @@
 				// Reduce total height by 1px so that the page ends before
 				// the page, otherwise the page's 'page-break-after' will
 				// land on the wrong page
-				page.style.height = ( ( pageHeight * numberOfPages ) - 1 ) + 'px';
+				page.style.height = ( ( pageHeight - 1 ) * numberOfPages ) + 'px';
 
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
