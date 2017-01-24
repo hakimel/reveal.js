@@ -598,7 +598,7 @@
 
 		// Dimensions of the PDF pages
 		var pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
-			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin  ) );
+			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
 
 		// Dimensions of slides within the pages
 		var slideWidth = slideSize.width,
@@ -652,7 +652,12 @@
 				// so that no page ever flows onto another
 				var page = document.createElement( 'div' );
 				page.className = 'pdf-page';
-				page.style.height = ( pageHeight * numberOfPages ) + 'px';
+
+				// Reduce total height by 1px so that the page ends before
+				// the page, otherwise the page's 'page-break-after' will
+				// land on the wrong page
+				page.style.height = ( ( pageHeight * numberOfPages ) - 1 ) + 'px';
+
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 

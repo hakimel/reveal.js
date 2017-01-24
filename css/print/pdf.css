@@ -90,7 +90,7 @@ ul, ol, div, p {
 }
 
 .reveal .slides section {
-	page-break-after: always !important;
+	page-break-after: auto !important;
 
 	visibility: visible !important;
 	display: block !important;
@@ -139,6 +139,7 @@ ul, ol, div, p {
 	left: 0;
 	width: 100%;
 	height: 100%;
+	z-index: auto !important;
 }
 
 /* Display slide speaker notes when 'showNotes' is enabled */
