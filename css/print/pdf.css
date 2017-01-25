@@ -90,7 +90,7 @@ ul, ol, div, p {
 }
 
 .reveal .slides section {
-	page-break-after: auto !important;
+	page-break-after: always !important;
 
 	visibility: visible !important;
 	display: block !important;
