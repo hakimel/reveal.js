@@ -605,7 +605,7 @@
 			slideHeight = slideSize.height;
 
 		// Let the browser know what page size we want to print
-		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0;}' );
+		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0 0 -1px 0;}' );
 
 		// Limit the size of certain elements to the dimensions of the slide
 		injectStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
@@ -652,12 +652,7 @@
 				// so that no page ever flows onto another
 				var page = document.createElement( 'div' );
 				page.className = 'pdf-page';
-
-				// Reduce total height by 1px so that the page ends before
-				// the page, otherwise the page's 'page-break-after' will
-				// land on the wrong page
-				page.style.height = ( ( pageHeight - 1 ) * numberOfPages ) + 'px';
-
+				page.style.height = ( pageHeight * numberOfPages ) + 'px';
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 
