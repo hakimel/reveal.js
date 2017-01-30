@@ -1002,6 +1002,10 @@
 		if( config.pause === false ) {
 			resume();
 		}
+		
+		if( isShowingNotes() ) {
+			config.showNotes = true;	
+		}
 
 		if( config.showNotes ) {
 			dom.speakerNotes.classList.add( 'visible' );
@@ -1459,6 +1463,15 @@
 	function isPrintingPDF() {
 
 		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
+	 * Checks if this instance is being used to show notes.
+	 */
+	function isShowingNotes() {
+
+		return ( /show-notes/gi ).test( window.location.search );
 
 	}
 
