@@ -1154,7 +1154,7 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
 1. Open <http://localhost:8000> to view your presentation
 
-   You can change the port by using `npm start -- --port 8001`.
+   You can change the port by using `npm start -- --port=8001`.
 
 
 ### Folder Structure
