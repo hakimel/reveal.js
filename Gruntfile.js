@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: 'css/theme/source',
-						src: ['*.scss'],
+						src: ['*.sass', '*.scss'],
 						dest: 'css/theme',
 						ext: '.css'
 					}
@@ -122,7 +122,12 @@ module.exports = function(grunt) {
 				tasks: 'js'
 			},
 			theme: {
-				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
+				files: [
+					'css/theme/source/*.sass',
+					'css/theme/source/*.scss',
+					'css/theme/template/*.sass',
+					'css/theme/template/*.scss'
+				],
 				tasks: 'css-themes'
 			},
 			css: {
