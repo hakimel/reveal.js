@@ -3212,6 +3212,9 @@
 					else {
 						el.removeEventListener( 'loadeddata', startEmbeddedMedia ); // remove first to avoid dupes
 						el.addEventListener( 'loadeddata', startEmbeddedMedia );
+
+						// `loadeddata` never fires unless we start playing on iPad
+						if( /ipad/gi.test( UA ) ) el.play();
 					}
 
 				}
