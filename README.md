@@ -67,7 +67,7 @@ Presentations are written using HTML or Markdown but there's also an online edit
 
 ### Markup
 
-Here's a barebones example of a fully working reveal.js presentation:
+Below is an example of a basic and fully working reveal.js presentation:
 ```html
 <html>
 	<head>
@@ -163,7 +163,7 @@ Special syntax (in html comment) is available for adding attributes to the slide
 
 ### Configuration
 
-At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
+At the end of your page, you need to initialize reveal by running the following code. Note that all config values are optional and will display the default values as specified below.
 
 ```javascript
 Reveal.initialize({
@@ -351,7 +351,7 @@ Reveal.addEventListener( 'ready', function( event ) {
 
 ### Auto-sliding
 
-Presentations can be configured to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
+Presentations can be configured to progress through slides automatically, without any user input. To enable this, you will need to tell the framework how many milliseconds it should wait between slides:
 
 ```javascript
 // Slide every five seconds
@@ -359,7 +359,7 @@ Reveal.configure({
   autoSlide: 5000
 });
 ```
-When this is turned on a control element will appear that enables users to pause and resume auto-sliding. Alternatively, sliding can be paused or resumed by pressing »a« on the keyboard. Sliding is paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
+When this is turned on, a control element will appear that enables users to pause and resume auto-sliding. Alternatively, sliding can be paused or resumed by pressing »a« on the keyboard. Sliding is paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
 
 You can also override the slide duration for individual slides and fragments by using the ```data-autoslide``` attribute:
 
@@ -378,7 +378,7 @@ Whenever the auto-slide mode is resumed or paused the ```autoslideresumed``` and
 
 ### Keyboard Bindings
 
-If you're unhappy with any of the default keyboard bindings you can override them using the ```keyboard``` config option:
+If you're unsatisfied with any of the default keyboard bindings you can override them using the ```keyboard``` config option:
 
 ```javascript
 Reveal.configure({
@@ -394,14 +394,14 @@ Reveal.configure({
 
 You can swipe to navigate through a presentation on any touch-enabled device. Horizontal swipes change between horizontal slides, vertical swipes change between vertical slides. If you wish to disable this you can set the `touch` config option to false when initializing reveal.js.
 
-If there's some part of your content that needs to remain accessible to touch events you'll need to highlight this by adding a `data-prevent-swipe` attribute to the element. One common example where this is useful is elements that need to be scrolled.
+If there's some part of your content that needs to remain accessible to touch events, you'll need to highlight this by adding a `data-prevent-swipe` attribute to the element. One common example where this is useful is elements that need to be scrolled.
 
 
 ### Lazy Loading
 
-When working on presentation with a lot of media or iframe content it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
+When working on presentation with a lot of media or iframe content, it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
 
-To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements. Lazy loaded iframes will also unload when the containing slide is no longer visible.
+To enable lazy loading, all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements. Lazy loaded iframes will also unload when the containing slide is no longer visible.
 
 ```html
 <section>
@@ -530,7 +530,7 @@ Slides are contained within a limited portion of the screen by default to allow 
 </section>
 ```
 
-Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
+By default, the background transition uses a fade animation. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
 
 
 ### Parallax Background
@@ -1016,7 +1016,7 @@ Reveal.initialize({
 
 ## MathJax
 
-If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To use it you'll need to include it as a reveal.js dependency, [find our more about dependencies here](#dependencies).
+If you want to display math equations in your presentation, you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To use it you'll need to include it as a reveal.js dependency, [find our more about dependencies here](#dependencies).
 
 The plugin defaults to using [LaTeX](http://en.wikipedia.org/wiki/LaTeX) but that can be adjusted through the ```math``` configuration object. Note that MathJax is loaded from a remote server. If you want to use it offline you'll need to download a copy of the library and adjust the ```mathjax``` configuration value.
 
