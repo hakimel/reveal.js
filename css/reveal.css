@@ -595,6 +595,10 @@ body {
 
 /*********************************************
  * CUBE TRANSITION
+ *
+ * WARNING:
+ * this is deprecated and will be removed in a
+ * future version.
  *********************************************/
 .reveal.cube .slides {
   -webkit-perspective: 1300px;
@@ -670,6 +674,10 @@ body {
 
 /*********************************************
  * PAGE TRANSITION
+ *
+ * WARNING:
+ * this is deprecated and will be removed in a
+ * future version.
  *********************************************/
 .reveal.page .slides {
   -webkit-perspective-origin: 0% 50%;
