@@ -56,6 +56,141 @@ OUR CHANGES
     text-align: left;
 }
 
+.reveal .slides{
+    text-align: inherit !important;
+}
+
+/*
+This is mostly pptx2html, but also includes any other changes we need from the default
+pptx2html.
+*/
+
+.reveal .slides .hidden {
+	display: none;
+}
+
+/*.reveal .slides pre {
+	width: 100%;
+	height: 360px;
+	overflow: scroll;
+}*/
+
+.reveal .slides section {
+	width: 100%;
+	/*max-width: 920px;*/
+	/*height: 690px;
+	position: relative;
+	border: 1px solid #333;
+	background-color: #EFEFEF;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 1px 1px 3px #AAA;
+	overflow: hidden;*/
+	/*transform: scale(0.85);*/
+}
+
+.reveal .slides section div.block {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+
+.reveal .slides section div.content {
+	display: flex;
+	flex-direction: column;
+	/*
+	justify-content: center;
+	align-items: flex-end;
+	*/
+}
+
+.reveal .slides section div.v-up {
+	justify-content: flex-start;
+}
+.reveal .slides section div.v-mid {
+	justify-content: center;
+}
+.reveal .slides section div.v-down {
+	justify-content: flex-end;
+}
+
+.reveal .slides section div.h-left {
+	align-items: flex-start;
+	text-align: left;
+}
+.reveal .slides section div.h-mid {
+	align-items: center;
+	text-align: center;
+}
+.reveal .slides section div.h-right {
+	align-items: flex-end;
+	text-align: right;
+}
+
+.reveal .slides section div.up-left {
+	justify-content: flex-start;
+	align-items: flex-start;
+	text-align: left;
+}
+.reveal .slides section div.up-center {
+	justify-content: flex-start;
+	align-items: center;
+}
+.reveal .slides section div.up-right {
+	justify-content: flex-start;
+	align-items: flex-end;
+}
+.reveal .slides section div.center-left {
+	justify-content: center;
+	align-items: flex-start;
+	text-align: left;
+}
+.reveal .slides section div.center-center {
+	justify-content: center;
+	align-items: center;
+}
+.reveal .slides section div.center-right {
+	justify-content: center;
+	align-items: flex-end;
+}
+.reveal .slides section div.down-left {
+	justify-content: flex-end;
+	align-items: flex-start;
+	text-align: left;
+}
+.reveal .slides section div.down-center {
+	justify-content: flex-end;
+	align-items: center;
+}
+.reveal .slides section div.down-right {
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+
+.reveal .slides li.slide {
+	margin: 10px 0px;
+	font-size: 18px;
+}
+
+/*div.footer {
+	text-align: center;
+}*/
+
+.reveal .slides section table {
+	position: absolute;
+}
+
+.reveal .slides section table, section th, section td {
+	border: 1px solid black;
+}
+
+.reveal .slides section svg.drawing {
+	position: absolute;
+	overflow: visible;
+}
+
 
 /*********************************************
  * VIEW FRAGMENTS
