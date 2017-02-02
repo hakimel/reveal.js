@@ -270,7 +270,10 @@ Reveal.initialize({
 	// - Calculated automatically unless specified
 	// - Set to 0 to disable movement along an axis
 	parallaxBackgroundHorizontal: null,
-	parallaxBackgroundVertical: null
+	parallaxBackgroundVertical: null,
+
+	// The display mode that will be used to show slides
+	display: 'block'
 
 });
 ```

@@ -49,9 +49,6 @@
 			minScale: 0.2,
 			maxScale: 2.0,
 
-            // Value of the display CSS property applied to current slide to make it visible
-            display: 'block',
-
 			// Display controls in the bottom right corner
 			controls: true,
 
@@ -162,6 +159,9 @@
 
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
+
+			// The display mode that will be used to show slides
+			display: 'block',
 
 			// Script dependencies to load
 			dependencies: []
