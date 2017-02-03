@@ -23,11 +23,16 @@ body {
 
 .reveal {
   font-family: "Open Sans", sans-serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: normal;
   color: #333; }
 
 ::selection {
+  color: #fff;
+  background: #134674;
+  text-shadow: none; }
+
+::-moz-selection {
   color: #fff;
   background: #134674;
   text-shadow: none; }

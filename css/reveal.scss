@@ -69,13 +69,13 @@ body {
 
 	&.visible {
 		opacity: 1;
-		visibility: visible;
+		visibility: inherit;
 	}
 }
 
 .reveal .slides section .fragment.grow {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		transform: scale( 1.3 );
@@ -84,7 +84,7 @@ body {
 
 .reveal .slides section .fragment.shrink {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		transform: scale( 0.7 );
@@ -101,7 +101,7 @@ body {
 
 .reveal .slides section .fragment.fade-out {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		opacity: 0;
@@ -111,17 +111,17 @@ body {
 
 .reveal .slides section .fragment.semi-fade-out {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		opacity: 0.5;
-		visibility: visible;
+		visibility: inherit;
 	}
 }
 
 .reveal .slides section .fragment.strike {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		text-decoration: line-through;
@@ -166,7 +166,7 @@ body {
 
 	&.current-fragment {
 		opacity: 1;
-		visibility: visible;
+		visibility: inherit;
 	}
 }
 
@@ -177,7 +177,7 @@ body {
 .reveal .slides section .fragment.highlight-blue,
 .reveal .slides section .fragment.highlight-current-blue {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 }
 	.reveal .slides section .fragment.highlight-red.visible {
 		color: #ff2c2d
@@ -408,7 +408,7 @@ body {
 	padding: 20px 0px;
 
 	z-index: 10;
-	transform-style: preserve-3d;
+	transform-style: flat;
 	transition: transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
@@ -480,6 +480,12 @@ body {
 		@content;
 	}
 }
+@mixin transition-stack($style) {
+	.reveal .slides section[data-transition=#{$style}].stack,
+	.reveal.#{$style} .slides section.stack {
+		@content;
+	}
+}
 @mixin transition-horizontal-past($style) {
 	.reveal .slides>section[data-transition=#{$style}].past,
 	.reveal .slides>section[data-transition~=#{$style}-out].past,
@@ -539,6 +545,10 @@ body {
  *********************************************/
 
 @each $stylename in default, convex {
+	@include transition-stack(#{$stylename}) {
+		transform-style: preserve-3d;
+	}
+
 	@include transition-horizontal-past(#{$stylename}) {
 		transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	}
@@ -556,6 +566,10 @@ body {
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
+
+@include transition-stack(concave) {
+	transform-style: preserve-3d;
+}
 
 @include transition-horizontal-past(concave) {
 	transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
@@ -607,6 +621,7 @@ body {
 	min-height: 700px;
 	backface-visibility: hidden;
 	box-sizing: border-box;
+	transform-style: preserve-3d;
 }
 	.reveal.center.cube .slides section {
 		min-height: 0;
@@ -678,6 +693,7 @@ body {
 	padding: 30px;
 	min-height: 700px;
 	box-sizing: border-box;
+	transform-style: preserve-3d;
 }
 	.reveal.page .slides section.past {
 		z-index: 12;
@@ -1012,6 +1028,12 @@ body {
 	perspective-origin: 50% 50%;
 	perspective: 700px;
 
+	.slides {
+		// Fixes overview rendering errors in FF48+, not applied to
+		// other browsers since it degrades performance
+		-moz-transform-style: preserve-3d;
+	}
+
 	.slides section {
 		height: 100%;
 		top: 0 !important;
@@ -1044,6 +1066,10 @@ body {
 
 	.backgrounds {
 		perspective: inherit;
+
+		// Fixes overview rendering errors in FF48+, not applied to
+		// other browsers since it degrades performance
+		-moz-transform-style: preserve-3d;
 	}
 
 	.backgrounds .slide-background {
@@ -1169,6 +1195,7 @@ body {
 			display: inline-block;
 			width: 40px;
 			height: 40px;
+			line-height: 36px;
 			padding: 0 10px;
 			float: right;
 			opacity: 0.6;
@@ -1218,6 +1245,23 @@ body {
 	.reveal .overlay.overlay-preview.loaded .viewport iframe {
 		opacity: 1;
 		visibility: visible;
+	}
+
+	.reveal .overlay.overlay-preview.loaded .viewport-inner  {
+		position: absolute;
+		z-index: -1;
+		left: 0;
+		top: 45%;
+		width: 100%;
+		text-align: center;
+		letter-spacing: normal;
+	}
+	.reveal .overlay.overlay-preview .x-frame-error  {
+		opacity: 0;
+		transition: opacity 0.3s ease 0.3s;
+	}
+	.reveal .overlay.overlay-preview.loaded .x-frame-error  {
+		opacity: 1;
 	}
 
 	.reveal .overlay.overlay-preview.loaded .spinner {
