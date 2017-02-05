@@ -1629,6 +1629,18 @@
 	}
 
 	/**
+	 * Open or close help overlay window.
+	 */
+	function toggleHelp(){
+		if( dom.overlay ) {
+			closeOverlay();
+		}
+		else {
+			showHelp( true );
+		}
+	}
+	
+	/**
 	 * Opens an overlay window with help material.
 	 */
 	function showHelp() {
@@ -4113,12 +4125,7 @@
 
 		// Check if the pressed key is question mark
 		if( event.shiftKey && event.charCode === 63 ) {
-			if( dom.overlay ) {
-				closeOverlay();
-			}
-			else {
-				showHelp( true );
-			}
+			toggleHelp();
 		}
 
 	}
@@ -4818,6 +4825,7 @@
 
 		// Shows a help overlay with keyboard shortcuts
 		showHelp: showHelp,
+		toggleHelp: toggleHelp,
 
 		// Forces an update in slide layout
 		layout: layout,
