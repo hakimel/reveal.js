@@ -849,7 +849,7 @@ Here's an example of an exported presentation that's been uploaded to SlideShare
 
 In order to enable PDF print capability in your presentation, the following code must be inserted in the HEAD section of your HTML document.
 
-'''html
+```html
 <!-- Printing and PDF exports -->
 <script>
 	var link = document.createElement( 'link' );
@@ -858,7 +858,7 @@ In order to enable PDF print capability in your presentation, the following code
 	link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 	document.getElementsByTagName( 'head' )[0].appendChild( link );
 </script>
-'''
+```
 
 Export dimensions are inferred from the configured [presentation size](#presentation-size). Slides that are too tall to fit within a single page will expand onto multiple pages. You can limit how many pages a slide may expand onto using the `pdfMaxPagesPerSlide` config option, for example `Reveal.configure({ pdfMaxPagesPerSlide: 1 })` ensures that no slide ever grows to more than one printed page.
 
