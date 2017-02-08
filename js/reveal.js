@@ -1230,7 +1230,7 @@
 			if( value === 'null' ) return null;
 			else if( value === 'true' ) return true;
 			else if( value === 'false' ) return false;
-			else if( value.match( /^\d+$/ ) ) return parseFloat( value );
+			else if( value.match( /^[\d\.]+$/ ) ) return parseFloat( value );
 		}
 
 		return value;
