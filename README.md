@@ -466,13 +466,14 @@ Reveal.nextFragment();
 // Randomize the order of slides
 Reveal.shuffle();
 
-// Shows a help overlay with keyboard shortcuts
-Reveal.showHelp();
-
 // Toggle presentation states, optionally pass true/false to force on/off
 Reveal.toggleOverview();
 Reveal.togglePause();
 Reveal.toggleAutoSlide();
+
+// Shows a help overlay with keyboard shortcuts, optionally pass true/false
+// to force on/off
+Reveal.toggleHelp();
 
 // Change a config value at runtime
 Reveal.configure({ controls: true });
