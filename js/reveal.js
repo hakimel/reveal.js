@@ -1634,6 +1634,29 @@
 	}
 
 	/**
+	 * Open or close help overlay window.
+	 *
+	 * @param {Boolean} [override] Flag which overrides the
+	 * toggle logic and forcibly sets the desired state. True means
+	 * help is open, false means it's closed.
+	 */
+	function toggleHelp( override ){
+		
+		if( typeof override === 'boolean' ) {
+			override ? showHelp( true ) : closeOverlay();
+		}
+		else {		
+			if( dom.overlay ) {
+				closeOverlay();
+			}
+			else {
+				showHelp( true );
+			}
+		}
+	}
+
+	
+	/**
 	 * Opens an overlay window with help material.
 	 */
 	function showHelp() {
@@ -4157,12 +4180,7 @@
 
 		// Check if the pressed key is question mark
 		if( event.shiftKey && event.charCode === 63 ) {
-			if( dom.overlay ) {
-				closeOverlay();
-			}
-			else {
-				showHelp( true );
-			}
+			toggleHelp();
 		}
 
 	}
@@ -4862,6 +4880,7 @@
 
 		// Shows a help overlay with keyboard shortcuts
 		showHelp: showHelp,
+		toggleHelp: toggleHelp,
 
 		// Forces an update in slide layout
 		layout: layout,
