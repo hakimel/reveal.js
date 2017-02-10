@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-markdown="slides/electron/index.md"></section>
+
+				<section data-markdown="slides/electron/whoami.md"></section>
+
+				<!--<section data-markdown="slides/electron/roadmap.md"></section>-->
+
+				<section>
+					<section data-markdown="slides/electron/electron-alternatives-01.md"></section>
+					<section data-markdown="slides/electron/electron-alternatives-02.md"></section>
+				</section>
+
+				<section data-markdown="slides/electron/electron-apps.md"></section>
+
+				<section data-markdown="slides/electron/electron-quote.md"></section>
+
+				<section data-markdown="slides/electron/website-structure.md"></section>
+
+				<section data-markdown="slides/electron/installing-electron.md"></section>
+
+				<section>
+					<section data-markdown="slides/electron/configuring-electron-01.md"></section>
+					<section data-markdown="slides/electron/configuring-electron-02.md"></section>
+					<section data-markdown="slides/electron/configuring-electron-03.md"></section>
+					<section data-markdown="slides/electron/configuring-electron-04.md"></section>
+				</section>
+
+				<section data-markdown="slides/electron/launching-electron.md"></section>
+
+				<section data-markdown="slides/electron/demo-time-01.md"></section>
+
+				<section data-markdown="slides/electron/packaging-app.md"></section>
+
+				<section data-markdown="slides/electron/configuring-packager.md"></section>
+
+				<section data-markdown="slides/electron/using-packager.md"></section>
+
+				<section data-markdown="slides/electron/demo-time-02.md"></section>
+
+				<section data-markdown="slides/electron/improving-electron.md"></section>
+
+				<section data-markdown="slides/electron/demo-time-03.md"></section>
+
+				<section data-markdown="slides/electron/q-and-a.md"></section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
