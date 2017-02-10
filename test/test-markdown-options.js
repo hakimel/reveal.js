@@ -7,7 +7,7 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 	test( 'Smart quotes are activated', function() {
-		var text = document.querySelector( '.reveal .slides>section>p' ).textContent;
+		var text = document.querySelector( '.reveal .slides>section>div.slide-body>p' ).textContent;
 
 		strictEqual( /['"]/.test( text ), false );
 		strictEqual( /[“”‘’]/.test( text ), true );
