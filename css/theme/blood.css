@@ -19,11 +19,16 @@ body {
 
 .reveal {
   font-family: Ubuntu, "sans-serif";
-  font-size: 36px;
+  font-size: 40px;
   font-weight: normal;
   color: #eee; }
 
 ::selection {
+  color: #fff;
+  background: #a23;
+  text-shadow: none; }
+
+::-moz-selection {
   color: #fff;
   background: #a23;
   text-shadow: none; }
