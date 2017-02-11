@@ -2,7 +2,7 @@
  * phantomjs script for generating slide thumbnails
  *
  * Example:
- * phantomjs make-thumbnails.js "http://lab.hakim.se/reveal-js?print-pdf" slide-thumbs/
+ * phantomjs make-thumbnails.js "http://lab.hakim.se/reveal-js" slide-thumbs/
  *
  * By Yves Delley (https://github.com/burnpanck)
  */
