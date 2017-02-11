@@ -500,7 +500,7 @@ Reveal.addEventListener( 'ready', function() {
 	QUnit.module( 'Lazy-Loading' );
 
 	test( 'img with data-src', function() {
-		strictEqual( document.querySelectorAll( '.reveal section img[src]' ).length, 1, 'Image source has been set' );
+		strictEqual( document.querySelectorAll( '.reveal section img:not(.slide-thumb)[src]' ).length, 1, 'Image source has been set' );
 	});
 
 	test( 'video with data-src', function() {

@@ -1786,7 +1786,30 @@
                     slide.insertBefore(bodyDiv,slide.firstChild);
                 }
             }
+
         } );
+		function add_thumb(slide,h,v){
+      var thumbImg = slide.querySelector('img.slide-thumb');
+      if(!thumbImg){
+        thumbImg = document.createElement('img');
+        thumbImg.classList.add('slide-thumb');
+        thumbImg.setAttribute('src','slide-thumbs/slide-'+h.toString()+'-'+v.toString()+'.png');
+      }
+      slide.appendChild(thumbImg);
+		}
+    toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+//      hslide.setAttribute( 'data-index-h', h );
+
+      if( hslide.classList.contains( 'stack' ) ) {
+
+        toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+//          vslide.setAttribute( 'data-index-h', h );
+//          vslide.setAttribute( 'data-index-v', v );
+					add_thumb(vslide,h,v);
+        } );
+      } else add_thumb(hslide,h,0);
+    } );
+
 
 		// Handle sizing of elements with the 'stretch' class
 		toArray( dom.slides.querySelectorAll( '.slide-body > .stretch' ) ).forEach( function( element ) {
