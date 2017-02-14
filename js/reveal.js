@@ -3228,9 +3228,13 @@
 				}
 
 				// Autoplay is always on for slide backgrounds
-				var autoplay = el.hasAttribute( 'data-autoplay' ) || !!closestParent( el, '.slide-background' );
+				var autoplay = 	el.hasAttribute( 'data-autoplay' ) ||
+								el.hasAttribute( 'data-paused-by-reveal' ) ||
+								!!closestParent( el, '.slide-background' );
 
 				if( autoplay && typeof el.play === 'function' ) {
+
+					el.removeAttribute( 'data-paused-by-reveal' );
 
 					if( el.readyState > 1 ) {
 						startEmbeddedMedia( { target: el } );
@@ -3344,6 +3348,7 @@
 			// HTML5 media elements
 			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
+					el.setAttribute('data-paused-by-reveal', '');
 					el.pause();
 				}
 			} );
