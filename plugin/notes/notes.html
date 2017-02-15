@@ -82,6 +82,7 @@
 				}
 
 				.speaker-controls-time .label,
+				.speaker-controls-pace .label,
 				.speaker-controls-notes .label {
 					text-transform: uppercase;
 					font-weight: normal;
@@ -90,7 +91,7 @@
 					margin: 0;
 				}
 
-				.speaker-controls-time {
+				.speaker-controls-time, .speaker-controls-pace {
 					border-bottom: 1px solid rgba( 200, 200, 200, 0.5 );
 					margin-bottom: 10px;
 					padding: 10px 16px;
@@ -111,6 +112,13 @@
 				.speaker-controls-time .timer,
 				.speaker-controls-time .clock {
 					width: 50%;
+				}
+
+				.speaker-controls-time .timer,
+				.speaker-controls-time .clock,
+				.speaker-controls-time .pacing .hours-value,
+				.speaker-controls-time .pacing .minutes-value,
+				.speaker-controls-time .pacing .seconds-value {
 					font-size: 1.9em;
 				}
 
@@ -124,7 +132,19 @@
 				}
 
 				.speaker-controls-time span.mute {
-					color: #bbb;
+					opacity: 0.3;
+				}
+
+				.speaker-controls-time .pacing.ahead {
+					color: blue;
+				}
+
+				.speaker-controls-time .pacing.on-track {
+					color: green;
+				}
+
+				.speaker-controls-time .pacing.behind {
+					color: red;
 				}
 
 				.speaker-controls-notes {
@@ -276,6 +296,12 @@
 					<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
 				</div>
 				<div class="clear"></div>
+
+				<h4 class="label">Pacing</h4>
+				<div class="pacing">
+					<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
+					to finish current slide
+				</div>
 			</div>
 
 			<div class="speaker-controls-notes hidden">
@@ -450,6 +476,44 @@
 
 				}
 
+				function getTimings() {
+
+					var slides = Reveal.getSlides();
+					var defaultTiming = Reveal.getConfig().defaultTiming || 120;
+					var timings = [];
+					for ( var i in slides ) {
+						var slide = slides[i];
+						var timing = defaultTiming;
+						if( slide.hasAttribute( 'data-timing' )) {
+							var t = slide.getAttribute( 'data-timing' );
+							timing = parseInt(t);
+							if( isNaN(timing) ) {
+								console.warn("Could not parse timing '" + t + "' of slide " + i + "; using default of " + defaultTiming);
+								timing = defaultTiming;
+							}
+						}
+						timings.push(timing);
+					}
+					return timings;
+
+				}
+
+				/**
+				 * Return the number of seconds allocated for presenting
+				 * all slides up to and including this one.
+				 */
+				function getTimeAllocated(timings) {
+
+					var slides = Reveal.getSlides();
+					var allocated = 0;
+					var currentSlide = Reveal.getSlidePastCount();
+					for (var i in slides.slice(0, currentSlide + 1)) {
+						allocated += timings[i];
+					}
+					return allocated;
+
+				}
+
 				/**
 				 * Create the timer and clock and start updating them
 				 * at an interval.
@@ -461,7 +525,36 @@
 						clockEl = timeEl.querySelector( '.clock-value' ),
 						hoursEl = timeEl.querySelector( '.hours-value' ),
 						minutesEl = timeEl.querySelector( '.minutes-value' ),
-						secondsEl = timeEl.querySelector( '.seconds-value' );
+						secondsEl = timeEl.querySelector( '.seconds-value' ),
+						pacingEl = timeEl.querySelector( '.pacing' ),
+						pacingHoursEl = pacingEl.querySelector( '.hours-value' ),
+						pacingMinutesEl = pacingEl.querySelector( '.minutes-value' ),
+						pacingSecondsEl = pacingEl.querySelector( '.seconds-value' );
+
+					var timings = getTimings();
+
+					function _displayTime( hrEl, minEl, secEl, time) {
+						var sign = Math.sign(time) == -1 ? "-" : "";
+						time = Math.abs(Math.round(time / 1000));
+						var seconds = time % 60;
+						var minutes = ( time / 60 ) % 60 ;
+						var hours = time / ( 60 * 60 ) ;
+						hrEl.innerHTML = sign + zeroPadInteger( hours );
+						if (hours == 0) {
+							hrEl.classList.add( 'mute' );
+						}
+						else {
+							hrEl.classList.remove( 'mute' );
+						}
+						minEl.innerHTML = ':' + zeroPadInteger( minutes );
+						if (hours == 0 && minutes == 0) {
+							minEl.classList.add( 'mute' );
+						}
+						else {
+							minEl.classList.remove( 'mute' );
+						}
+						secEl.innerHTML = ':' + zeroPadInteger( seconds );
+					}
 
 					function _updateTimer() {
 
@@ -469,16 +562,24 @@
 							now = new Date();
 
 						diff = now.getTime() - start.getTime();
-						hours = Math.floor( diff / ( 1000 * 60 * 60 ) );
-						minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
-						seconds = Math.floor( ( diff / 1000 ) % 60 );
 
 						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
-						hoursEl.innerHTML = zeroPadInteger( hours );
-						hoursEl.className = hours > 0 ? '' : 'mute';
-						minutesEl.innerHTML = ':' + zeroPadInteger( minutes );
-						minutesEl.className = minutes > 0 ? '' : 'mute';
-						secondsEl.innerHTML = ':' + zeroPadInteger( seconds );
+						_displayTime( hoursEl, minutesEl, secondsEl, diff );
+
+						var slideEndTiming = getTimeAllocated(timings) * 1000;
+						var currentSlide = Reveal.getSlidePastCount();
+						var currentSlideTiming = timings[currentSlide] * 1000;
+						var timeLeftCurrentSlide = slideEndTiming - diff;
+						if (timeLeftCurrentSlide < 0) {
+							pacingEl.className = 'pacing behind';
+						}
+						else if (timeLeftCurrentSlide < currentSlideTiming) {
+							pacingEl.className = 'pacing on-track';
+						}
+						else {
+							pacingEl.className = 'pacing ahead';
+						}
+						_displayTime( pacingHoursEl, pacingMinutesEl, pacingSecondsEl, timeLeftCurrentSlide );
 
 					}
 

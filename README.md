@@ -187,6 +187,9 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
+	// Set default timing of 2 minutes per slide
+    defaultTiming: 120,
+
 	// Display the page number of the current slide
 	slideNumber: false,
 
@@ -484,9 +487,11 @@ Reveal.getScale();
 Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
 
-Reveal.getIndices(); // { h: 0, v: 0 } }
-Reveal.getProgress(); // 0-1
-Reveal.getTotalSlides();
+Reveal.getIndices();        // { h: 0, v: 0 } }
+Reveal.getPastSlideCount();
+Reveal.getProgress();       // (0 == first slide, 1 == last slide)
+Reveal.getSlides();         // Array of all slides
+Reveal.getTotalSlides();    // total number of slides
 
 // Returns the speaker notes for the current slide
 Reveal.getSlideNotes();
@@ -940,6 +945,17 @@ This will only display in the notes window.
 Notes are only visible to the speaker inside of the speaker view. If you wish to share your notes with others you can initialize reveal.js with the `showNotes` config value set to `true`. Notes will appear along the bottom of the presentations.
 
 When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export). By default, notes are printed in a semi-transparent box on top of slide. If you'd rather print them on a separate page after the slide, set `showNotes: "separate-page"`.
+
+#### Speaker notes clock and timers
+
+The speaker notes window will also show:
+
+- Time elapsed since the beginning of the presentation.  If you hover the mouse above this section, a timer reset button will appear.
+- Current wall-clock time
+- A pacing timer which indicates whether the current pace of the presentation is on track for the right timing, and if not, whether the presenter should speed up or has the luxury of slowing down.
+
+  By default this assumes 120 seconds per slide, which can be a reasonable rule of thumb, but this can be configured by the `defaultTiming` parameter in the `Reveal` configuration block, and also per slide `<section>` by setting the `data-timing` attribute.  Both values are in numbers of seconds.
+
 
 ## Server Side Speaker Notes
 
