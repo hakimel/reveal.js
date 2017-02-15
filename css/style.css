@@ -1,0 +1,22 @@
+.reveal section img { background:none; border:none; box-shadow:none; max-height: 500px}
+
+.reveal section img.icon {
+	width: 20px;
+	margin: 0 5px 0 0;
+}
+
+.icon-text {
+
+}
+
+#vertx-logo{
+	width: 300px;
+}
+
+#contact-info {
+	font-size: 50%;
+	text-align-last: left;
+    margin: 0 0 0 30%;
+}
+
+

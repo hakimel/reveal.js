@@ -1,0 +1,26 @@
+/* latin */
+@font-face {
+  font-family: 'Coming Soon';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Coming Soon'), local('ComingSoon'), url('ComingSoon.woff2') format('woff2'),
+	   local('Coming Soon'), local('ComingSoon'), url('ComingSoon.ttf') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Fun Sized';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Fun Sized'), local('FunSized'), url('FunSized.ttf') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Scribble Box';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Scribble Box'), local('ScribbleBox'), url('ScribbleBox.ttf') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
