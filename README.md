@@ -765,7 +765,7 @@ Reveal.configure({ slideNumber: 'c/t' });
 // Control which views the slide number displays on using the "showSlideNumber" value.
 // "all": show on all views (default)
 // "notes": only show slide numbers on speaker notes view
-Reveal.configure({ slideNumberFormat: 'notes' });
+Reveal.configure({ showSlideNumber: 'notes' });
 
 ```
 
