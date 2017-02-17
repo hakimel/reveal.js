@@ -1059,6 +1059,8 @@ body {
     visibility: visible;
     outline: 10px solid rgba(150, 150, 150, 0.1);
     outline-offset: 10px; }
+  .reveal.overview .backgrounds .slide-background.stack {
+    overflow: visible; }
 
 .reveal.overview .slides section,
 .reveal.overview-deactivating .slides section {
@@ -1069,10 +1071,6 @@ body {
 .reveal.overview-deactivating .backgrounds .slide-background {
   -webkit-transition: none;
           transition: none; }
-
-.reveal.overview-animated .slides {
-  -webkit-transition: -webkit-transform 0.4s ease;
-          transition: transform 0.4s ease; }
 
 /*********************************************
  * RTL SUPPORT

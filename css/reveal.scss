@@ -1101,6 +1101,10 @@ body {
 		outline: 10px solid rgba(150,150,150,0.1);
 		outline-offset: 10px;
 	}
+
+	.backgrounds .slide-background.stack {
+		overflow: visible;
+	}
 }
 
 // Disable transitions transitions while we're activating
@@ -1113,10 +1117,6 @@ body {
 .reveal.overview .backgrounds .slide-background,
 .reveal.overview-deactivating .backgrounds .slide-background {
 	transition: none;
-}
-
-.reveal.overview-animated .slides {
-	transition: transform 0.4s ease;
 }
 
 

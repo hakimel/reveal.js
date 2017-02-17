@@ -1797,6 +1797,10 @@
 			updateProgress();
 			updateParallax();
 
+			if( isOverview() ) {
+				updateOverview();
+			}
+
 		}
 
 	}
@@ -2012,11 +2016,14 @@
 	 */
 	function updateOverview() {
 
+		var vmin = Math.min( window.innerWidth, window.innerHeight );
+		var scale = Math.max( vmin / 5, 150 ) / vmin;
+
 		transformSlides( {
 			overview: [
+				'scale('+ scale +')',
 				'translateX('+ ( -indexh * overviewSlideWidth ) +'px)',
-				'translateY('+ ( -indexv * overviewSlideHeight ) +'px)',
-				'translateZ('+ ( window.innerWidth < 400 ? -1000 : -2500 ) +'px)'
+				'translateY('+ ( -indexv * overviewSlideHeight ) +'px)'
 			].join( ' ' )
 		} );
 
