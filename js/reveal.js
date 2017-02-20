@@ -57,7 +57,7 @@
 
 			// Display the page number of the current slide
 			slideNumber: false,
-		  
+
 		  	// Determine which displays to show the slide number on
 		  	showSlideNumber: 'all',
 
@@ -701,7 +701,7 @@
 				}
 
 				// Inject slide numbers if `slideNumbers` are enabled
-				if( config.slideNumber ) {
+				if( config.slideNumber && /all|print/i.test( config.showSlideNumber ) ) {
 					var slideNumberH = parseInt( slide.getAttribute( 'data-index-h' ), 10 ) + 1,
 						slideNumberV = parseInt( slide.getAttribute( 'data-index-v' ), 10 ) + 1;
 
@@ -984,18 +984,6 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
-		
-		var slideNumberDisplay = 'none';
-		if (config.slideNumber && !isPrintingPDF()) {
-			if (config.showSlideNumber === 'all') {
-				slideNumberDisplay = 'block';
-			}
-		  	else if (config.showSlideNumber === 'notes' && isSpeakerNotes()) {
-              	slideNumberDisplay = 'block';
-            }
-		}
-		
-		dom.slideNumber.style.display = slideNumberDisplay;
 
 		if( config.shuffle ) {
 			shuffle();
@@ -1078,6 +1066,19 @@
 				element.classList.remove( 'current-fragment' );
 			} );
 		}
+
+		// Slide numbers
+		var slideNumberDisplay = 'none';
+		if( config.slideNumber && !isPrintingPDF() ) {
+			if( config.showSlideNumber === 'all' ) {
+				slideNumberDisplay = 'block';
+			}
+			else if( config.showSlideNumber === 'speaker' && isSpeakerNotes() ) {
+				slideNumberDisplay = 'block';
+			}
+		}
+
+		dom.slideNumber.style.display = slideNumberDisplay;
 
 		sync();
 

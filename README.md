@@ -767,10 +767,11 @@ Reveal.configure({ slideNumber: true });
 //  "c/t": 	flattened slide number / total slides
 Reveal.configure({ slideNumber: 'c/t' });
 
-// Control which views the slide number displays on using the "showSlideNumber" value.
-// "all": show on all views (default)
-// "notes": only show slide numbers on speaker notes view
-Reveal.configure({ showSlideNumber: 'notes' });
+// Control which views the slide number displays on using the "showSlideNumber" value:
+//     "all": show on all views (default)
+// "speaker": only show slide numbers on speaker notes view
+//   "print": only show slide numbers when printing to PDF
+Reveal.configure({ showSlideNumber: 'speaker' });
 
 ```
 
