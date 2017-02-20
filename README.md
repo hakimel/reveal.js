@@ -754,7 +754,7 @@ By default, Reveal is configured with [highlight.js](https://highlightjs.org/) f
 ```
 
 ### Slide number
-If you would like to display the page number of the current slide you can do so using the ```slideNumber``` configuration value.
+If you would like to display the page number of the current slide you can do so using the ```slideNumber``` and ```showSlideNumber``` configuration values.
 
 ```javascript
 // Shows the slide number using default formatting
@@ -766,6 +766,11 @@ Reveal.configure({ slideNumber: true });
 //    "c": 	flattened slide number
 //  "c/t": 	flattened slide number / total slides
 Reveal.configure({ slideNumber: 'c/t' });
+
+// Control which views the slide number displays on using the "showSlideNumber" value.
+// "all": show on all views (default)
+// "notes": only show slide numbers on speaker notes view
+Reveal.configure({ showSlideNumber: 'notes' });
 
 ```
 

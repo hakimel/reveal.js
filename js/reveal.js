@@ -57,6 +57,9 @@
 
 			// Display the page number of the current slide
 			slideNumber: false,
+		  
+		  	// Determine which displays to show the slide number on
+		  	showSlideNumber: 'all',
 
 			// Push each slide change to the browser history
 			history: false,
@@ -981,7 +984,18 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
-		dom.slideNumber.style.display = config.slideNumber && !isPrintingPDF() ? 'block' : 'none';
+		
+		var slideNumberDisplay = 'none';
+		if (config.slideNumber && !isPrintingPDF()) {
+			if (config.showSlideNumber === 'all') {
+				slideNumberDisplay = 'block';
+			}
+		  	else if (config.showSlideNumber === 'notes' && isSpeakerNotes()) {
+              	slideNumberDisplay = 'block';
+            }
+		}
+		
+		dom.slideNumber.style.display = slideNumberDisplay;
 
 		if( config.shuffle ) {
 			shuffle();
