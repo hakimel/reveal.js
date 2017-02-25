@@ -312,7 +312,9 @@
 
 		// Loads the dependencies and continues to #start() once done
 		load();
-
+		
+		// Hide mouse if inactive after 5 seconds
+		hideMouseAfterTime();
 	}
 
 	/**
@@ -4258,7 +4260,25 @@
 		cueAutoSlide();
 
 	}
+	
+	/**
+	 * Hide mouse if inactive after 5 seconds 
+	 */
+	function hideMouseAfterTime(){
+		document.body.onmousemove = function(){
+			showMouse();
+			setTimeout(hideMouse,5000);
+		}
+	}
 
+	function hideMouse(){
+		document.body.style.cursor = 'none';
+	}
+
+	function showMouse(){
+		document.body.style.cursor = "initial";
+	}
+	
 	/**
 	 * Handler for the 'touchstart' event, enables support for
 	 * swipe and pinch gestures.
