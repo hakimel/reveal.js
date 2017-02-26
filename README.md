@@ -272,6 +272,10 @@ Reveal.initialize({
 	parallaxBackgroundHorizontal: null,
 	parallaxBackgroundVertical: null
 
+    // Hide mouse if inactive
+    hideInactiveMouse: true,
+    // Time before the mouse hides (in ms)
+    hideMouseTime: 5000
 });
 ```
 
