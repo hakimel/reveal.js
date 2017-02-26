@@ -161,8 +161,12 @@
 			viewDistance: 3,
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
 
+			// Hide mouse if inactive
+			hideInactiveMouse: true,
+			// Time before the mouse hides (in ms)
+			hideMouseTime: 5000
 		},
 
 		// Flags if Reveal.initialize() has been called
@@ -314,7 +318,9 @@
 		load();
 		
 		// Hide mouse if inactive after 5 seconds
-		hideMouseAfterTime();
+		if( config.hideInactiveMouse === true ){
+			hideMouseAfterTime();
+		}
 	}
 
 	/**
@@ -4267,7 +4273,7 @@
 	function hideMouseAfterTime(){
 		document.body.onmousemove = function(){
 			showMouse();
-			setTimeout(hideMouse,5000);
+			setTimeout(hideMouse,config.hideMouseTime);
 		};
 	}
 
