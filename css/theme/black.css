@@ -10,11 +10,14 @@ section.has-light-background, section.has-light-background h1, section.has-light
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-body {
+.reveal {
+  /* SWIK-983 Changed from body so we can use it in other web pages*/
   background: #222;
   background-color: #222; }
 
 .reveal {
+  background: #222;
+  background-color: #222;
   font-family: "Source Sans Pro", Helvetica, sans-serif;
   font-size: 38px;
   font-weight: normal;
@@ -56,7 +59,8 @@ body {
   font-size: 1.6em; }
 
 .reveal h3 {
-  font-size: 1.3em; }
+  font-size: 1.3em;
+}
 
 .reveal h4 {
   font-size: 1em; }

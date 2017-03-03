@@ -59,6 +59,25 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal h3 {
   font-size: 1.3em; }
 
+.reveal h3 #titleText{
+    color: #000;
+    /*font-size: 44pt;*/
+    font-weight: initial;
+    font-style: normal;
+    text-decoration: initial;
+    vertical-align: ;
+}
+
+.reveal li{
+    color: #000;
+    font-size: 28pt;
+    font-family: Calibri;
+    font-weight: initial;
+    font-style: normal;
+    text-decoration: initial;
+    vertical-align: ;    
+}
+
 .reveal h4 {
   font-size: 1em; }
 
