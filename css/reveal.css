@@ -243,6 +243,9 @@ body {
   border-bottom-width: 22px;
   border-bottom-color: #000; }
 
+.reveal .controls .navigate-up.hide {
+  display: none; }
+
 .reveal .controls .navigate-up.fragmented {
   opacity: 0.3; }
 
@@ -251,6 +254,9 @@ body {
   top: 74px;
   border-top-width: 22px;
   border-top-color: #000; }
+
+.reveal .controls .navigate-down.hide {
+  display: none; }
 
 .reveal .controls .navigate-down.fragmented {
   opacity: 0.3; }

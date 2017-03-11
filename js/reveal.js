@@ -1446,7 +1446,7 @@
 	 * target element.
 	 *
 	 * remaining height = [ configured parent height ] - [ current parent height ]
-	 * 
+	 *
 	 * @param {HTMLElement} element
 	 * @param {number} [height]
 	 */
@@ -2829,11 +2829,15 @@
 			node.setAttribute( 'disabled', 'disabled' );
 		} );
 
+		// Add the 'hide' class to up and down routes if not available
+		if( !routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'hide' ); } );
+		if( !routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'hide' ); } );
+
 		// Add the 'enabled' class to the available routes; remove 'disabled' attribute to enable buttons
 		if( routes.left ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
 		if( routes.right ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
+		if( routes.up ) dom.controlsUp.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); el.classList.remove( 'hide' ); } );
+		if( routes.down ) dom.controlsDown.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); el.classList.remove( 'hide' ); } );
 
 		// Prev/next buttons
 		if( routes.left || routes.up ) dom.controlsPrev.forEach( function( el ) { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
