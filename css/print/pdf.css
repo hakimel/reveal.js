@@ -84,14 +84,13 @@ ul, ol, div, p {
 }
 
 .reveal .slides .pdf-page {
+	page-break-after: always !important;
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
 }
 
 .reveal .slides section {
-	page-break-after: always !important;
-
 	visibility: visible !important;
 	display: block !important;
 	position: relative !important;
