@@ -3377,20 +3377,20 @@
 
 			// Generic postMessage API for non-lazy loaded iframes
 			toArray( element.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
-				el.contentWindow.postMessage( 'slide:stop', '*' );
+				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
 				el.removeEventListener( 'load', startEmbeddedIframe );
 			});
 
 			// YouTube postMessage API
 			toArray( element.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
-				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
+				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
 				}
 			});
 
 			// Vimeo postMessage API
 			toArray( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
-				if( !el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
+				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
 				}
 			});
