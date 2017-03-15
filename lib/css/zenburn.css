@@ -6,75 +6,112 @@ based on dark.css by Ivan Sagalaev
 */
 
 .hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: #3f3f3f;
-  color: #dcdcdc;
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
 }
 
 .hljs-keyword,
-.hljs-selector-tag,
-.hljs-tag {
-  color: #e3ceab;
+.hljs-tag,
+.css .hljs-class,
+.css .hljs-id,
+.lisp .hljs-title,
+.nginx .hljs-title,
+.hljs-request,
+.hljs-status,
+.clojure .hljs-attribute {
+  color: #E3CEAB;
 }
 
-.hljs-template-tag {
-  color: #dcdcdc;
+.django .hljs-template_tag,
+.django .hljs-variable,
+.django .hljs-filter .hljs-argument {
+  color: #DCDCDC;
 }
 
-.hljs-number {
-  color: #8cd0d3;
+.hljs-number,
+.hljs-date {
+  color: #8CD0D3;
 }
 
+.dos .hljs-envvar,
+.dos .hljs-stream,
 .hljs-variable,
-.hljs-template-variable,
-.hljs-attribute {
-  color: #efdcbc;
+.apache .hljs-sqbracket {
+  color: #EFDCBC;
 }
 
-.hljs-literal {
-  color: #efefaf;
+.dos .hljs-flow,
+.diff .hljs-change,
+.python .exception,
+.python .hljs-built_in,
+.hljs-literal,
+.tex .hljs-special {
+  color: #EFEFAF;
 }
 
+.diff .hljs-chunk,
 .hljs-subst {
-  color: #8f8f8f;
+  color: #8F8F8F;
 }
 
+.dos .hljs-keyword,
+.python .hljs-decorator,
 .hljs-title,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-section,
-.hljs-type {
-  color: #efef8f;
+.haskell .hljs-type,
+.diff .hljs-header,
+.ruby .hljs-class .hljs-parent,
+.apache .hljs-tag,
+.nginx .hljs-built_in,
+.tex .hljs-command,
+.hljs-prompt {
+    color: #efef8f;
 }
 
-.hljs-symbol,
-.hljs-bullet,
-.hljs-link {
-  color: #dca3a3;
+.dos .hljs-winutils,
+.ruby .hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.ruby .hljs-string {
+  color: #DCA3A3;
 }
 
-.hljs-deletion,
+.diff .hljs-deletion,
 .hljs-string,
+.hljs-tag .hljs-value,
+.hljs-preprocessor,
+.hljs-pragma,
 .hljs-built_in,
-.hljs-builtin-name {
-  color: #cc9393;
+.sql .hljs-aggregate,
+.hljs-javadoc,
+.smalltalk .hljs-class,
+.smalltalk .hljs-localvars,
+.smalltalk .hljs-array,
+.css .hljs-rules .hljs-value,
+.hljs-attr_selector,
+.hljs-pseudo,
+.apache .hljs-cbracket,
+.tex .hljs-formula,
+.coffeescript .hljs-attribute {
+  color: #CC9393;
 }
 
-.hljs-addition,
+.hljs-shebang,
+.diff .hljs-addition,
 .hljs-comment,
-.hljs-quote,
-.hljs-meta {
-  color: #7f9f7f;
+.java .hljs-annotation,
+.hljs-template_comment,
+.hljs-pi,
+.hljs-doctype {
+  color: #7F9F7F;
 }
 
-
-.hljs-emphasis {
-  font-style: italic;
+.coffeescript .javascript,
+.javascript .xml,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata {
+  opacity: 0.5;
 }
 
-.hljs-strong {
-  font-weight: bold;
-}

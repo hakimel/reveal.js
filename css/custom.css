@@ -1,0 +1,50 @@
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  box-shadow: none;
+}
+
+.reveal code {
+  font-size: 18px;
+  background: #3F3F3F;
+  font-family: monospace;
+  padding: 10px;
+}
+
+.reveal code p {
+  margin: 0;
+}
+
+.reveal table.small-size {
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.reveal abbr {
+  border-bottom: 1px dotted #DCDCDC;
+  cursor: help;
+}
+
+.reveal blockquote {
+  padding: 5px 20px;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin: 0 0 20px 0;
+  text-transform: none;
+}
+
+.reveal h3 {
+  margin-bottom: 40px;
+}
+
+.reveal h6 {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
