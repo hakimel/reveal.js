@@ -39,7 +39,7 @@
 		// restore script end tags
 		text = text.replace( new RegExp( SCRIPT_END_PLACEHOLDER, 'g' ), '</script>' );
 
-		var leadingWs = text.match( /^\n?(\s*)/ )[1].length,
+		var leadingWs = text.match( /^\n?( *)/ )[1].length,
 			leadingTabs = text.match( /^\n?(\t*)/ )[1].length;
 
 		if( leadingTabs > 0 ) {
