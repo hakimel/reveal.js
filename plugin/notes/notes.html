@@ -384,11 +384,21 @@
 						notes.classList.add( 'hidden' );
 					}
 
-					// Update the note slides
-					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
-					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
-					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+					var updatePreviews = function () {
+						// Update the note slides
+						var encodedState = JSON.stringify({ method: 'setState', args: [ data.state ] })
+						currentSlide.contentWindow.postMessage( encodedState, '*' );
+						upcomingSlide.contentWindow.postMessage( encodedState, '*' );
+						upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+					};
 
+					var notesOnly = (getLayout() === 'notes-only');
+
+					if (notesOnly) {
+						updatePreviews = debounce( updatePreviews, 1000 );
+					}
+
+					setTimeout(updatePreviews, (notesOnly ? 1000 : 250));
 				}
 
 				// Limit to max one state update per X ms
