@@ -363,43 +363,40 @@
 				/**
 				 * Called when the main window sends an updated state.
 				 */
-				function handleStateMessage( data ) {
+				var handleStateMessage = (function ( currentTimeout ) {
+					return function ( data ) {
+						// Store the most recently set state to avoid circular loops
+						// applying the same state
+						currentState = JSON.stringify( data.state );
 
-					// Store the most recently set state to avoid circular loops
-					// applying the same state
-					currentState = JSON.stringify( data.state );
-
-					// No need for updating the notes in case of fragment changes
-					if ( data.notes ) {
-						notes.classList.remove( 'hidden' );
-						notesValue.style.whiteSpace = data.whitespace;
-						if( data.markdown ) {
-							notesValue.innerHTML = marked( data.notes );
+						// No need for updating the notes in case of fragment changes
+						if ( data.notes ) {
+							notes.classList.remove( 'hidden' );
+							notesValue.style.whiteSpace = data.whitespace;
+							if( data.markdown ) {
+								notesValue.innerHTML = marked( data.notes );
+							}
+							else {
+								notesValue.innerHTML = data.notes;
+							}
 						}
 						else {
-							notesValue.innerHTML = data.notes;
+							notes.classList.add( 'hidden' );
 						}
-					}
-					else {
-						notes.classList.add( 'hidden' );
-					}
 
-					var updatePreviews = function () {
-						// Update the note slides
-						var encodedState = JSON.stringify({ method: 'setState', args: [ data.state ] })
-						currentSlide.contentWindow.postMessage( encodedState, '*' );
-						upcomingSlide.contentWindow.postMessage( encodedState, '*' );
-						upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+						if (currentTimeout) {
+							clearTimeout(currentTimeout);
+						}
+
+						currentTimeout = setTimeout(function () {
+							// Update the note slides
+							var encodedState = JSON.stringify({ method: 'setState', args: [ data.state ] })
+							currentSlide.contentWindow.postMessage( encodedState, '*' );
+							upcomingSlide.contentWindow.postMessage( encodedState, '*' );
+							upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+						}, 200);
 					};
-
-					var notesOnly = (getLayout() === 'notes-only');
-
-					if (notesOnly) {
-						updatePreviews = debounce( updatePreviews, 1000 );
-					}
-
-					setTimeout(updatePreviews, (notesOnly ? 1000 : 250));
-				}
+				})();
 
 				// Limit to max one state update per X ms
 				handleStateMessage = debounce( handleStateMessage, 200 );
