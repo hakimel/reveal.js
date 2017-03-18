@@ -934,6 +934,7 @@ Here is some content...
 Note:
 This will only display in the notes window.
 ```
+To open the notes window: whilst [the local web server](#full-setup) is running; hit the `s` key on your keyboard.
 
 #### Share and Print Speaker Notes
 
