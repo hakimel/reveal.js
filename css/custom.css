@@ -48,3 +48,8 @@
   font-size: 20px;
   margin-bottom: 4px;
 }
+
+.reveal img {
+  max-height: 500px;
+}
+
