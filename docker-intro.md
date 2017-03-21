@@ -58,6 +58,18 @@ ________________________
 
 ---
 
+### Talk overview
+
+- History and background
+- Docker overview
+- Docker use cases
+- Understanding Docker
+- Docker examples
+- Docker ecosystem
+- Events coming soon
+
+---
+
 ### First contact with Docker - PyCon 2014
 
 ![Intro to Docker - PyCon 2014](img/docker.pycon2014.png)
