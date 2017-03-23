@@ -227,7 +227,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 0;
+  border: 0;}
   /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }*/
 
 .reveal section img.plain {
