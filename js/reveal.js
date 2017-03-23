@@ -105,6 +105,12 @@
 			// Flags if speaker notes should be visible to all viewers
 			showNotes: false,
 
+			// Global override for autolaying embedded media (video/audio/iframe)
+			// - null: Media will only autoplay if data-autoplay is present
+			// - true: All media will autoplay, regardless of individual setting
+			// - false: No media will autoplay, regardless of individual setting
+			autoPlayMedia: null,
+
 			// Number of milliseconds between automatically proceeding to the
 			// next slide, disabled when set to 0, this value can be overwritten
 			// by using a data-autoslide attribute on your slides
@@ -2450,7 +2456,14 @@
 		updateNotes();
 
 		formatEmbeddedContent();
-		startEmbeddedContent( currentSlide );
+
+		// Start or stop embedded content depending on global config
+		if( config.autoPlayMedia === false ) {
+			stopEmbeddedContent( currentSlide );
+		}
+		else {
+			startEmbeddedContent( currentSlide );
+		}
 
 		if( isOverview() ) {
 			layoutOverview();
@@ -3249,14 +3262,16 @@
 					return;
 				}
 
-				// Autoplay is always on for slide backgrounds
-				var autoplay = 	el.hasAttribute( 'data-autoplay' ) ||
-								el.hasAttribute( 'data-paused-by-reveal' ) ||
-								!!closestParent( el, '.slide-background' );
+				// Prefer an explicit global autoplay setting
+				var autoplay = config.autoPlayMedia;
+
+				// If no global setting is available, fall back on the element's
+				// own autoplay setting
+				if( typeof autoplay !== 'boolean' ) {
+					autoplay = el.hasAttribute( 'data-autoplay' ) || !!closestParent( el, '.slide-background' );
+				}
 
 				if( autoplay && typeof el.play === 'function' ) {
-
-					el.removeAttribute( 'data-paused-by-reveal' );
 
 					if( el.readyState > 1 ) {
 						startEmbeddedMedia( { target: el } );
@@ -3264,9 +3279,6 @@
 					else {
 						el.removeEventListener( 'loadeddata', startEmbeddedMedia ); // remove first to avoid dupes
 						el.addEventListener( 'loadeddata', startEmbeddedMedia );
-
-						// `loadeddata` never fires unless we start playing on iPad
-						if( /ipad/gi.test( UA ) ) el.play();
 					}
 
 				}
@@ -3335,7 +3347,14 @@
 
 			if( isAttachedToDOM && isVisible ) {
 
-				var autoplay = iframe.hasAttribute( 'data-autoplay' ) || !!closestParent( iframe, '.slide-background' );
+				// Prefer an explicit global autoplay setting
+				var autoplay = config.autoPlayMedia;
+
+				// If no global setting is available, fall back on the element's
+				// own autoplay setting
+				if( typeof autoplay !== 'boolean' ) {
+					autoplay = iframe.hasAttribute( 'data-autoplay' ) || !!closestParent( iframe, '.slide-background' );
+				}
 
 				// YouTube postMessage API
 				if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
