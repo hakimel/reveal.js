@@ -30,7 +30,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 
 .reveal .slides > section,
 .reveal .slides > section > section {
-  line-height: 1.3;
+  /*line-height: 1.3;*/
   font-weight: inherit; }
 
 /*********************************************
@@ -230,7 +230,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #fff;
+  /*border: 4px solid #fff;*/
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal section img.plain {
@@ -244,7 +244,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #42affa;
+  /*border-color: #42affa;*/
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
