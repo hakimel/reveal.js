@@ -54,10 +54,38 @@ OUR CHANGES
 .reveal{
     line-height: 1;
     text-align: left;
+    font-size: 24px;
+    position:absolute;
 }
 
 .reveal .slides{
     text-align: inherit !important;
+}
+
+/*
+Setting some defaults here, rather than replicating in each different theme
+white.css still has defaults, because it has been used in old decks
+*/
+
+.reveal h1 {
+  font-size: 2.25em;
+  font-weight: bold;
+}
+
+.reveal h2 {
+  font-size: 1.75em;
+}
+
+.reveal h3 {
+  font-size: 1.4em;
+}
+
+.reveal p, .reveal li{
+    font-size: 1.4em;
+}
+
+.reveal td, .reveal small{
+    font-size: 1em;
 }
 
 /*
