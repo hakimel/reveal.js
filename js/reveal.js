@@ -617,7 +617,7 @@
 			slideHeight = slideSize.height;
 
 		// Let the browser know what page size we want to print
-		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0 0 -1px 0;}' );
+		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
 
 		// Limit the size of certain elements to the dimensions of the slide
 		injectStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
@@ -664,7 +664,15 @@
 				// so that no page ever flows onto another
 				var page = document.createElement( 'div' );
 				page.className = 'pdf-page';
-				page.style.height = ( pageHeight * numberOfPages ) + 'px';
+
+				// Set the total height of the PDF page container.
+				//
+				// This is offset by -1 to ensure that the page ends and
+				// breaks within the document/paper height. Ending exactly
+				// on the document height breaks in-browser printing, but
+				// works in CLI printing (phantomjs, wkpdf etc]).
+				page.style.height = ( ( pageHeight - 1 ) * numberOfPages ) + 'px';
+
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 
