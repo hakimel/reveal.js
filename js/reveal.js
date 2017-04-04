@@ -166,6 +166,13 @@
 			// to PDF, unlimited by default
 			pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
 
+			// Offset used to reduce the height of content within exported PDF pages.
+			// This exists to account for environment differences based on how you
+			// print to PDF. CLI printing options, like phantomjs and wkpdf, can end
+			// on precisely the total height of the document whereas in-browser
+			// printing has to end one pixel before.
+			pdfPageHeightOffset: -1,
+
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
@@ -664,15 +671,7 @@
 				// so that no page ever flows onto another
 				var page = document.createElement( 'div' );
 				page.className = 'pdf-page';
-
-				// Set the total height of the PDF page container.
-				//
-				// This is offset by -1 to ensure that the page ends and
-				// breaks within the document/paper height. Ending exactly
-				// on the document height breaks in-browser printing, but
-				// works in CLI printing (phantomjs, wkpdf etc]).
-				page.style.height = ( ( pageHeight - 1 ) * numberOfPages ) + 'px';
-
+				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 
