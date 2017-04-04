@@ -882,16 +882,18 @@
 		// Create a hash for this combination of background settings.
 		// This is used to determine when two slide backgrounds are
 		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
-			element.setAttribute( 'data-background-hash', data.background +
-															data.backgroundSize +
-															data.backgroundImage +
-															data.backgroundVideo +
-															data.backgroundIframe +
-															data.backgroundColor +
-															data.backgroundRepeat +
-															data.backgroundPosition +
-															data.backgroundTransition );
+		var dataBackgroundHash = [data.background,
+									data.backgroundSize,
+									data.backgroundImage,
+									data.backgroundVideo,
+									data.backgroundIframe,
+									data.backgroundColor,
+									data.backgroundRepeat,
+									data.backgroundPosition,
+									data.backgroundTransition].filter(Boolean).join('');
+
+		if ( dataBackgroundHash ) {
+			element.setAttribute( 'data-background-hash', dataBackgroundHash);
 		}
 
 		// Additional and optional background properties
