@@ -15,13 +15,15 @@ html * {
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #fdf6e3;
-  background-color: #fdf6e3; }
+ }
 
 .reveal {
+  /* Moved from body - HF */
+  background: #fdf6e3;
+  background-color: #fdf6e3;
   font-family: "Lato", sans-serif;
   /*font-size: 36px;*/
-  font-size: 24px;
+  /*font-size: 24px;*/
   font-weight: normal;
   color: #657b83; }
 
@@ -54,14 +56,6 @@ body {
   text-shadow: none;
   word-wrap: break-word; }
 
-.reveal h1 {
-  font-size: 3.77em; }
-
-.reveal h2 {
-  font-size: 2.11em; }
-
-.reveal h3 {
-  font-size: 1.55em; }
 
 .reveal h4 {
   font-size: 1em; }
@@ -231,7 +225,7 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #657b83;
+  /*border: 4px solid #657b83;*/
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal section img.plain {
