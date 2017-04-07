@@ -634,7 +634,7 @@
 		document.body.style.height = pageHeight + 'px';
 
 		// Make sure stretch elements fit on slide
-		layoutSlideContents(slideWidth, slideHeight);
+		layoutSlideContents( slideWidth, slideHeight );
 
 		// Add each slide's index as attributes on itself, we need these
 		// indices to generate slide numbers below
