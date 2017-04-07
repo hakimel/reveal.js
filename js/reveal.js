@@ -58,8 +58,8 @@
 			// Display the page number of the current slide
 			slideNumber: false,
 
-		  	// Determine which displays to show the slide number on
-		  	showSlideNumber: 'all',
+			// Determine which displays to show the slide number on
+			showSlideNumber: 'all',
 
 			// Push each slide change to the browser history
 			history: false,
