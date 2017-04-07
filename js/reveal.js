@@ -1462,7 +1462,7 @@
 	 * target element.
 	 *
 	 * remaining height = [ configured parent height ] - [ current parent height ]
-	 * 
+	 *
 	 * @param {HTMLElement} element
 	 * @param {number} [height]
 	 */
@@ -3113,6 +3113,8 @@
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
 					var video = document.createElement( 'video' );
+					video.setAttribute( 'autoplay', '' );
+					video.setAttribute( 'playsinline', '' );
 
 					if( backgroundVideoLoop ) {
 						video.setAttribute( 'loop', '' );
