@@ -118,6 +118,10 @@
 					float: left;
 				}
 
+				.speaker-controls-time .slide-timer {
+					font-size: 0.58em;
+				}
+
 				.speaker-controls-time .clock {
 					float: right;
 					text-align: right;
@@ -273,7 +277,13 @@
 					<span class="clock-value">0:00 AM</span>
 				</div>
 				<div class="timer">
-					<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
+					<div class="global-timer">
+						<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
+					</div>
+					<div class="slide-timer">
+						<span>slide: </span>
+						<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
+					</div>
 				</div>
 				<div class="clear"></div>
 			</div>
@@ -300,7 +310,9 @@
 					upcomingSlide,
 					layoutLabel,
 					layoutDropdown,
-					connected = false;
+					connected = false,
+					previousState,
+					slideTimer;
 
 				var SPEAKER_LAYOUTS = {
 					'default': 'Default',
@@ -355,7 +367,9 @@
 						setupIframes( data );
 						setupKeyboard();
 						setupNotes();
-						setupTimer();
+						setupClock();
+						setupTimer('.speaker-controls-time .timer .global-timer');
+						slideTimer = setupTimer('.speaker-controls-time .timer .slide-timer');
 					}
 
 				}
@@ -389,6 +403,11 @@
 					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
 					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
 
+					//update the slide timer
+					if(previousState && (data.state.indexh !== previousState.indexh|| data.state.indexv !== previousState.indexv)){
+						slideTimer.reset()
+					}
+					previousState = data.state;
 				}
 
 				// Limit to max one state update per X ms
@@ -451,14 +470,28 @@
 				}
 
 				/**
-				 * Create the timer and clock and start updating them
+				 * Creates the clock and start updating it
 				 * at an interval.
 				 */
-				function setupTimer() {
+				function setupClock() {
+					var clockEl = document.querySelector( '.speaker-controls-time .clock .clock-value' );
+					function _updateClock(){
+						var now = new Date();
+						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
+					}
+					_updateClock();
+					setInterval( _updateClock, 1000 );
+				}
+
+				/**
+				 * Creates a timer and start updating it
+				 * at an interval.
+				 */
+				function setupTimer(timeSelector) {
 
 					var start = new Date(),
-						timeEl = document.querySelector( '.speaker-controls-time' ),
-						clockEl = timeEl.querySelector( '.clock-value' ),
+						timerInterval,
+						timeEl = document.querySelector( timeSelector ),
 						hoursEl = timeEl.querySelector( '.hours-value' ),
 						minutesEl = timeEl.querySelector( '.minutes-value' ),
 						secondsEl = timeEl.querySelector( '.seconds-value' );
@@ -473,11 +506,10 @@
 						minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
 						seconds = Math.floor( ( diff / 1000 ) % 60 );
 
-						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
 						hoursEl.innerHTML = zeroPadInteger( hours );
-						hoursEl.className = hours > 0 ? '' : 'mute';
+						hoursEl.className = hours > 0 ? 'hours-value' : 'hours-value mute';
 						minutesEl.innerHTML = ':' + zeroPadInteger( minutes );
-						minutesEl.className = minutes > 0 ? '' : 'mute';
+						minutesEl.className = minutes > 0 ? 'minutes-value' : 'minutes-value mute';
 						secondsEl.innerHTML = ':' + zeroPadInteger( seconds );
 
 					}
@@ -486,14 +518,30 @@
 					_updateTimer();
 
 					// Then update every second
-					setInterval( _updateTimer, 1000 );
+					timerInterval = setInterval( _updateTimer, 1000 );
 
-					timeEl.addEventListener( 'click', function() {
+					function _stop () {
+						clearInterval(timerInterval);
+					}
+					function _start () {
+						timerInterval = setInterval( _updateTimer, 1000 );
+					}
+					function _reset () {
+						_stop();
 						start = new Date();
 						_updateTimer();
+						_start();
 						return false;
-					} );
+					}
 
+					timeEl.removeEventListener( 'click', _reset);
+					timeEl.addEventListener( 'click', _reset);
+
+					return {
+						stop: _stop,
+						start: _start,
+						reset: _reset
+					}
 				}
 
 				/**
