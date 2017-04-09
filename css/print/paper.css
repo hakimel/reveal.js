@@ -124,6 +124,7 @@
 		margin-top: 0 !important;
 		padding: 0 !important;
 		zoom: 1 !important;
+		transform: none !important;
 
 		overflow: visible !important;
 		display: block !important;
