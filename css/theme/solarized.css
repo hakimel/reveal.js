@@ -27,7 +27,7 @@ body {
   font-weight: normal;
   color: #657b83; }
 
-::selection {
+.reveal ::selection {
   color: #fff;
   background: #d33682;
   text-shadow: none; }

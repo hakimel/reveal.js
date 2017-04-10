@@ -13,24 +13,27 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-body {
+/*body {
   background: #222;
-  background-color: #222; }
+  background-color: #222; }*/
 
 .reveal {
   font-family: Ubuntu, "sans-serif";
-  font-size: 36px;
+  /*font-size: 36px;*/
   font-weight: normal;
-  color: #eee; }
+  color: #eee;
+  background: #222;
+  background-color: #222;
+}
 
-::selection {
+.reveal ::selection {
   color: #fff;
   background: #a23;
   text-shadow: none; }
 
 .reveal .slides > section,
 .reveal .slides > section > section {
-  line-height: 1.3;
+  /*line-height: 1.3;*/
   font-weight: inherit; }
 
 /*********************************************
@@ -48,11 +51,11 @@ body {
   font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   text-shadow: 2px 2px 2px #222;
   word-wrap: break-word; }
 
-.reveal h1 {
+/*.reveal h1 {
   font-size: 3.77em; }
 
 .reveal h2 {
@@ -62,7 +65,7 @@ body {
   font-size: 1.55em; }
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1em; }*/
 
 .reveal h1 {
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15); }
@@ -72,7 +75,8 @@ body {
  *********************************************/
 .reveal p {
   margin: 20px 0;
-  line-height: 1.3; }
+  line-height: 1.3;
+}
 
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
@@ -168,6 +172,7 @@ body {
   border-collapse: collapse;
   border-spacing: 0; }
 
+
 .reveal table th {
   font-weight: bold; }
 
@@ -229,7 +234,7 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #eee;
+  /*border: 4px solid #eee;*/
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal section img.plain {
@@ -243,7 +248,7 @@ body {
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #a23;
+  /*border-color: #a23;*/
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
