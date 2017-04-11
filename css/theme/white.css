@@ -21,7 +21,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   font-weight: normal;
   color: #222; }
 
-::selection {
+.reveal ::selection {
   color: #fff;
   background: #98bdef;
   text-shadow: none; }
@@ -75,7 +75,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
     font-weight: initial;
     font-style: normal;
     text-decoration: initial;
-    vertical-align: ;    
+    vertical-align: ;
 }
 
 .reveal h4 {

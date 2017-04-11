@@ -10,7 +10,7 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-body {
+.reveal {
   background: #F0F1EB;
   background-color: #F0F1EB; }
 
@@ -20,7 +20,7 @@ body {
   font-weight: normal;
   color: #000; }
 
-::selection {
+.reveal ::selection {
   color: #fff;
   background: #26351C;
   text-shadow: none; }
