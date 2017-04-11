@@ -54,11 +54,42 @@ OUR CHANGES
 .reveal{
     line-height: 1;
     text-align: left;
+    font-size: 24px;
+    position:absolute;
 }
 
 .reveal .slides{
     text-align: inherit !important;
 }
+
+/*
+Setting some defaults here, rather than replicating in each different theme
+white.css still has defaults, because it has been used in old decks
+*/
+
+.reveal h3 {
+  font-size: 3.857rem;
+  font-weight: bold;
+}
+
+.reveal h4 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.reveal h5 {
+  font-size: 2.285rem;
+}
+
+.reveal p, .reveal li{
+    font-size: 2.285rem;
+}
+
+
+.reveal td, .reveal small{
+    font-size: 1.714rem;
+}
+
 
 /*
 This is mostly pptx2html, but also includes any other changes we need from the default
