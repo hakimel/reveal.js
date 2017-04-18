@@ -51,6 +51,7 @@
   font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;
+  /* Was requested we remove this in SWIK-1071. Doing for all themes - HF*/
   /*text-transform: uppercase;*/
   text-shadow: 2px 2px 2px #222;
   word-wrap: break-word; }

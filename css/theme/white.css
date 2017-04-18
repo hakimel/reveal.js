@@ -51,6 +51,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: normal;
+  /*We're leaving text-transform as is for legacy themes*/
   text-transform: uppercase;
   text-shadow: none;
   word-wrap: break-word; }

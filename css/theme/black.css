@@ -48,7 +48,8 @@ section.has-light-background, section.has-light-background h1, section.has-light
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: uppercase;
+  /* Was requested we remove this in SWIK-1071. Doing for all themes - HF*/
+  /*text-transform: uppercase;*/
   text-shadow: none;
   word-wrap: break-word; }
 
