@@ -86,7 +86,7 @@ white.css still has defaults, because it has been used in old decks
 }
 
 
-.reveal td, .reveal small{
+.reveal td, .reveal small, .reveal caption{
     font-size: 1.714rem;
 }
 
