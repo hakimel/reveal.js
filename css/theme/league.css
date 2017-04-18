@@ -23,7 +23,8 @@
 
 .reveal {
   font-family: "Lato", sans-serif;
-  font-size: 36px;
+  /* Sizes are defined in reveal.css - HF
+  font-size: 36px;*/
   font-weight: normal;
   color: #eee; }
 
@@ -34,7 +35,8 @@
 
 .reveal .slides > section,
 .reveal .slides > section > section {
-  line-height: 1.3;
+  /* Removing to make consistent with other themes
+  line-height: 1.3;*/
   font-weight: inherit; }
 
 /*********************************************
@@ -56,6 +58,7 @@
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
   word-wrap: break-word; }
 
+/* Sizes are defined in reveal.css - HF
 .reveal h1 {
   font-size: 3.77em; }
 
@@ -66,9 +69,9 @@
   font-size: 1.55em; }
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1em; }*/
 
-.reveal h1 {
+.reveal h1, .reveal h3 {
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15); }
 
 /*********************************************
@@ -229,11 +232,14 @@
 
 /*********************************************
  * IMAGES
- *********************************************/
+ *********************************************
+Removed all borders - HF
+ */
+
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #eee;
+  /*border: 4px solid #eee;*/
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal section img.plain {
@@ -247,7 +253,7 @@
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #13DAEC;
+  /*border-color: #13DAEC;*/
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************

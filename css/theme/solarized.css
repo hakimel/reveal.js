@@ -57,10 +57,10 @@ body {
   word-wrap: break-word; }
 
 
-.reveal h4 {
-  font-size: 1em; }
+/*.reveal h4 {
+  font-size: 1em; }*/
 
-.reveal h1 {
+.reveal h1, .reveal h3 {
   text-shadow: none; }
 
 /*********************************************
@@ -143,7 +143,7 @@ body {
   width: 90%;
   margin: 20px auto;
   text-align: left;
-  font-size: 0.55em;
+  /*font-size: 0.55em;*/
   font-family: monospace;
   line-height: 1.2em;
   word-wrap: break-word;
@@ -193,7 +193,8 @@ body {
 
 .reveal small {
   display: inline-block;
-  font-size: 0.6em;
+  /*Sizes now defined in reveal.css - HF*/
+  /*font-size: 0.6em;*/
   line-height: 1.2em;
   vertical-align: top; }
 
@@ -240,7 +241,7 @@ body {
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #268bd2;
+  /*border-color: #268bd2;*/
   /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); */
 }
 

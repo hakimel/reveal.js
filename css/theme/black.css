@@ -19,7 +19,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   background: #222;
   background-color: #222;
   font-family: "Source Sans Pro", Helvetica, sans-serif;
-  font-size: 38px;
+  /*font-size: 38px;*/
   font-weight: normal;
   color: #fff; }
 
@@ -52,7 +52,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   text-shadow: none;
   word-wrap: break-word; }
 
-.reveal h1 {
+/*.reveal h1 {
   font-size: 2.5em; }
 
 .reveal h2 {
@@ -63,9 +63,9 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1em; }*/
 
-.reveal h1 {
+.reveal h1, .reveal h3 {
   text-shadow: none; }
 
 /*********************************************
@@ -148,7 +148,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   width: 90%;
   margin: 20px auto;
   text-align: left;
-  font-size: 0.55em;
+  /*font-size: 0.55em;*/
   font-family: monospace;
   line-height: 1.2em;
   word-wrap: break-word;

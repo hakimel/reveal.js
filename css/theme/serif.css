@@ -16,7 +16,8 @@
 
 .reveal {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
-  font-size: 36px;
+  /* Sizes are defined in reveal.css - HF
+   font-size: 36px;*/
   font-weight: normal;
   color: #000; }
 
@@ -27,7 +28,7 @@
 
 .reveal .slides > section,
 .reveal .slides > section > section {
-  line-height: 1.3;
+  /*line-height: 1.3;*/
   font-weight: inherit; }
 
 /*********************************************
@@ -49,6 +50,7 @@
   text-shadow: none;
   word-wrap: break-word; }
 
+/* Sizes are defined in reveal.css - HF
 .reveal h1 {
   font-size: 3.77em; }
 
@@ -59,9 +61,9 @@
   font-size: 1.55em; }
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1em; }*/
 
-.reveal h1 {
+.reveal h1, .reveal h3 {
   text-shadow: none; }
 
 /*********************************************
@@ -144,7 +146,8 @@
   width: 90%;
   margin: 20px auto;
   text-align: left;
-  font-size: 0.55em;
+  /* Sizes are defined in reveal.css - HF
+  font-size: 0.55em;*/
   font-family: monospace;
   line-height: 1.2em;
   word-wrap: break-word;
@@ -194,7 +197,8 @@
 
 .reveal small {
   display: inline-block;
-  font-size: 0.6em;
+  /* Sizes are defined in reveal.css - HF
+  font-size: 0.6em;*/
   line-height: 1.2em;
   vertical-align: top; }
 
@@ -226,7 +230,8 @@
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #000;
+  /* Removing border - HF */
+  border: 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal section img.plain {
@@ -240,7 +245,7 @@
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #51483D;
+  /*border-color: #51483D;*/
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
