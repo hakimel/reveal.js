@@ -67,12 +67,16 @@ Setting some defaults here, rather than replicating in each different theme
 white.css still has defaults, because it has been used in old decks
 */
 
-.reveal h3 {
+/*
+We added
+*/
+
+.reveal h1, .reveal h3 {
   font-size: 3.857rem;
   font-weight: bold;
 }
 
-.reveal h4 {
+.reveal h2, .reveal h4 {
   font-size: 3rem;
   font-weight: bold;
 }
@@ -84,7 +88,6 @@ white.css still has defaults, because it has been used in old decks
 .reveal p, .reveal li{
     font-size: 2.285rem;
 }
-
 
 .reveal td, .reveal small{
     font-size: 1.714rem;
