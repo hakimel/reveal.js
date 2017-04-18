@@ -89,7 +89,7 @@ We added
     font-size: 2.285rem;
 }
 
-.reveal td, .reveal small{
+.reveal td, .reveal small, .reveal pre{
     font-size: 1.714rem;
 }
 
@@ -139,65 +139,65 @@ pptx2html.
 	*/
 }
 
-.reveal .slides section div.v-up {
+.reveal .slides section .v-up {
 	justify-content: flex-start;
 }
-.reveal .slides section div.v-mid {
+.reveal .slides section .v-mid {
 	justify-content: center;
 }
-.reveal .slides section div.v-down {
+.reveal .slides section .v-down {
 	justify-content: flex-end;
 }
 
-.reveal .slides section div.h-left {
+.reveal .slides section .h-left {
 	align-items: flex-start;
 	text-align: left;
 }
-.reveal .slides section div.h-mid {
+.reveal .slides section .h-mid {
 	align-items: center;
 	text-align: center;
 }
-.reveal .slides section div.h-right {
+.reveal .slides section .h-right {
 	align-items: flex-end;
 	text-align: right;
 }
 
-.reveal .slides section div.up-left {
+.reveal .slides section .up-left {
 	justify-content: flex-start;
 	align-items: flex-start;
 	text-align: left;
 }
-.reveal .slides section div.up-center {
+.reveal .slides section .up-center {
 	justify-content: flex-start;
 	align-items: center;
 }
-.reveal .slides section div.up-right {
+.reveal .slides section .up-right {
 	justify-content: flex-start;
 	align-items: flex-end;
 }
-.reveal .slides section div.center-left {
+.reveal .slides section .center-left {
 	justify-content: center;
 	align-items: flex-start;
 	text-align: left;
 }
-.reveal .slides section div.center-center {
+.reveal .slides section .center-center {
 	justify-content: center;
 	align-items: center;
 }
-.reveal .slides section div.center-right {
+.reveal .slides section .center-right {
 	justify-content: center;
 	align-items: flex-end;
 }
-.reveal .slides section div.down-left {
+.reveal .slides section .down-left {
 	justify-content: flex-end;
 	align-items: flex-start;
 	text-align: left;
 }
-.reveal .slides section div.down-center {
+.reveal .slides section .down-center {
 	justify-content: flex-end;
 	align-items: center;
 }
-.reveal .slides section div.down-right {
+.reveal .slides section .down-right {
 	justify-content: flex-end;
 	align-items: flex-end;
 }
