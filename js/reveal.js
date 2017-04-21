@@ -3124,6 +3124,10 @@
 						video.muted = true;
 					}
 
+					if( isMobileDevice ) {
+						video.controls = true;
+					}
+
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( function( source ) {
 						video.innerHTML += '<source src="'+ source +'">';
