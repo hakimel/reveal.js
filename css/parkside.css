@@ -10,12 +10,10 @@ html.sl-authors .author {
   margin: 0 30px 0 30px; }
 
 html.sl-authors .author ul {
-  list-style-type: none;
   margin: 0;
   padding: 0; }
 
 html.sl-authors .author ul li {
-  list-style-type: none;
   min-height: 80px;
   margin: 0 0 40px 0; }
 
@@ -38,6 +36,11 @@ body {
     font-family: "proxima-nova", sans-serif;
     font-weight: 400;
     margin: 0 0 30px 0; }
+  .reveal ul {
+    margin: 0;
+    padding: 0; }
+    .reveal ul li {
+      list-style-type: none; }
   .reveal p, .reveal li, .reveal q {
     margin: 20px 0;
     line-height: 1.3;
