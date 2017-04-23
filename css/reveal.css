@@ -26,7 +26,9 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline; }
+  vertical-align: baseline;
+  text-transform: none;
+}
 
 .reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
 .reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
@@ -293,7 +295,7 @@ body {
   right: 8px;
   bottom: 8px;
   z-index: 31;
-  font-family: Helvetica, sans-serif;
+  font-family: "proxima-nova",sans-serif;
   font-size: 12px;
   line-height: 1;
   color: #fff;
@@ -1063,7 +1065,7 @@ body {
 .reveal.rtl .slides h5,
 .reveal.rtl .slides h6 {
   direction: rtl;
-  font-family: sans-serif; }
+  font-family: "proxima-nova",sans-serif; }
 
 .reveal.rtl pre,
 .reveal.rtl code {
@@ -1330,7 +1332,7 @@ body {
   overflow: auto;
   box-sizing: border-box;
   text-align: left;
-  font-family: Helvetica, sans-serif;
+  font-family: "proxima-nova",sans-serif;
   -webkit-overflow-scrolling: touch; }
 
 .reveal .speaker-notes.visible:not(:empty) {
