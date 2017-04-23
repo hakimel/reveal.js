@@ -3871,10 +3871,6 @@
 
 			var fragment = currentSlide.querySelector( '.current-fragment' );
 
-			// When the slide first appears there is no "current" fragment so
-			// we look for a data-autoslide timing on the first fragment
-			if( !fragment ) fragment = currentSlide.querySelector( '.fragment' );
-
 			var fragmentAutoSlide = fragment ? fragment.getAttribute( 'data-autoslide' ) : null;
 			var parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			var slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
