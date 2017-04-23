@@ -18,7 +18,7 @@ body {
   .reveal p, .reveal li, .reveal q {
     margin: 20px 0;
     line-height: 1.3;
-    font-weight: 100;
+    font-weight: 300;
     font-size: 80%; }
   .reveal .controls {
     left: 10px !important; }
