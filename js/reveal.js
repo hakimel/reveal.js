@@ -3104,6 +3104,7 @@
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
 					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' ),
+					backgroundVideoControls = slide.hasAttribute( 'data-background-video-controls' ),
 					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
 
 				// Images
@@ -3122,6 +3123,10 @@
 
 					if( backgroundVideoMuted ) {
 						video.muted = true;
+					}
+
+					if( backgroundVideoControls ) {
+						video.setAttribute( 'controls', '' );
 					}
 
 					// Support comma separated lists of video sources
