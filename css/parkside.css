@@ -1,0 +1,31 @@
+body {
+  background: #231f20;
+  background-color: #231f20; }
+
+/*
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  text-transform: none !important;
+}*/
+.reveal {
+  font-family: "proxima-nova", sans-serif;
+  /*ul {
+    list-style-type: disc;
+  }*/ }
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    font-family: "proxima-nova", sans-serif;
+    margin: 0 0 30px 0; }
+  .reveal p {
+    margin: 20px 0;
+    line-height: 1.3;
+    font-weight: 100;
+    font-size: 80%; }
+  .reveal .controls {
+    left: 10px !important; }
+    .reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
+      border-right-color: #fff; }
+    .reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled {
+      border-left-color: #fff; }
+    .reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled {
+      border-bottom-color: #fff; }
+    .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
+      border-top-color: #fff; }
