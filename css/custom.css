@@ -2,6 +2,14 @@ html.slide01 .slide-background {
     opacity: 0.2 !important;
 }
 
+body:after
+{
+  content: url("../img/parkside_logo.png");
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
 .author
 {
   float: left;
