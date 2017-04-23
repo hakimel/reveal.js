@@ -3,7 +3,7 @@ html.sl-cover h2 {
   text-transform: uppercase; }
 
 html.sl-cover .slide-background {
-  opacity: 0.2 !important; }
+  opacity: 0.1 !important; }
 
 html.sl-authors .author {
   float: left;
@@ -17,9 +17,13 @@ html.sl-authors .author {
     margin: 0px 0 0 0;
     padding: 0; }
     html.sl-authors .author ul li {
+      list-style-type: none;
       margin: 0 0 40px 0; }
       html.sl-authors .author ul li:first-of-type {
         /*margin: 0 0 40px 0;*/ }
+
+html.sl-parkside .slide-background {
+  opacity: 0.4 !important; }
 
 html.sl-merci .reveal #hiring {
   padding-top: 70px; }
@@ -45,7 +49,7 @@ body {
     margin: 0;
     padding: 0; }
     .reveal ul li {
-      list-style-type: none; }
+      list-style-type: square; }
   .reveal p, .reveal li, .reveal q {
     margin: 20px 0;
     line-height: 1.3;
