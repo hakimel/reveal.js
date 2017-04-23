@@ -1,16 +1,39 @@
+/* customizations for the individual sections - data-state="x" ------------- */
+html.sl-cover .slide-background {
+  opacity: 0.2 !important; }
+
+html.sl-authors .author {
+  float: left;
+  position: relative;
+  width: 420px;
+  text-align: left;
+  margin: 0 30px 0 30px; }
+
+html.sl-authors .author ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+html.sl-authors .author ul li {
+  list-style-type: none;
+  min-height: 80px;
+  margin: 0 0 40px 0; }
+
+html.sl-merci .reveal #hiring {
+  padding-top: 70px; }
+
+/* general style overrides ------------------------------------------------- */
 body {
   background: #231f20;
   background-color: #231f20; }
+  body:after {
+    content: url("../img/parkside_logo.png");
+    position: fixed;
+    bottom: 30px;
+    right: 30px; }
 
-/*
-.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
-  text-transform: none !important;
-}*/
 .reveal {
-  font-family: "proxima-nova", sans-serif;
-  /*ul {
-    list-style-type: disc;
-  }*/ }
+  font-family: "proxima-nova", sans-serif; }
   .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
     font-family: "proxima-nova", sans-serif;
     font-weight: 400;
