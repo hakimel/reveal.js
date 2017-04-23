@@ -1,3 +1,31 @@
+html.slide01 .slide-background {
+    opacity: 0.2 !important;
+}
+
+.author
+{
+  float: left;
+  position: relative;
+  width: 420px;
+  text-align: left;
+  margin: 0 30px 0 30px !important;
+}
+
+.author ul
+{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.author ul li
+{
+  list-style-type: none;
+  min-height: 80px;
+  margin: 0 0 40px 0;
+}
+
+
 #hiring
 {
   padding-top: 70px;

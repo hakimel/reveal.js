@@ -197,7 +197,7 @@ body {
   width: 110px;
   height: 110px;
   z-index: 30;
-  right: 10px;
+  left: 10px;
   bottom: 10px;
   -webkit-user-select: none; }
 
