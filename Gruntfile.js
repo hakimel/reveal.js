@@ -37,6 +37,7 @@ module.exports = function(grunt) {
 			core: {
 				files: {
 					'css/reveal.css': 'css/reveal.scss',
+					'css/parkside.css': 'css/parkside.scss',
 				}
 			},
 			themes: {
@@ -126,7 +127,7 @@ module.exports = function(grunt) {
 				tasks: 'css-themes'
 			},
 			css: {
-				files: [ 'css/reveal.scss' ],
+				files: [ 'css/reveal.scss', 'css/parkside.scss' ],
 				tasks: 'css-core'
 			},
 			html: {
@@ -164,7 +165,8 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
 
 	// JS task
-	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
+	//grunt.registerTask( 'js', [ 'jshint', 'uglify', 'qunit' ] );
+	grunt.registerTask( 'js', [ 'jshint', 'uglify'] );
 
 	// Theme CSS
 	grunt.registerTask( 'css-themes', [ 'sass:themes' ] );
