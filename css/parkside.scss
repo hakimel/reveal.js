@@ -1,6 +1,13 @@
 /* customizations for the individual sections - data-state="x" ------------- */
-html.sl-cover .slide-background {
+html.sl-cover {
+
+  h2 {
+    text-transform: uppercase;
+  }
+
+  .slide-background {
     opacity: 0.2 !important;
+  }
 }
 
 
@@ -9,19 +16,28 @@ html.sl-authors {
   .author {
     float: left;
     position: relative;
-    width: 420px;
+    width: 400px;
     text-align: left;
-    margin: 0 30px 0 30px;
-  }
+    margin: 100px 40px 0 40px;
 
-  .author ul {
-    margin: 0;
-    padding: 0;
-  }
+    h4 {
+      margin-bottom: 10px;
+    }
 
-  .author ul li {
-    min-height: 80px;
-    margin: 0 0 40px 0;
+    ul {
+      margin: 0px 0 0 0;
+      padding: 0;
+
+      li {
+
+        &:first-of-type {
+            /*margin: 0 0 40px 0;*/
+        }
+
+
+        margin: 0 0 40px 0;
+      }
+    }
   }
 }
 
@@ -58,6 +74,7 @@ body {
     font-family: "proxima-nova", sans-serif;
     font-weight: 400;
     margin: 0 0 30px 0;
+    text-transform: none;
   }
 
   ul {

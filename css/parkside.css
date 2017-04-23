@@ -1,21 +1,25 @@
 /* customizations for the individual sections - data-state="x" ------------- */
+html.sl-cover h2 {
+  text-transform: uppercase; }
+
 html.sl-cover .slide-background {
   opacity: 0.2 !important; }
 
 html.sl-authors .author {
   float: left;
   position: relative;
-  width: 420px;
+  width: 400px;
   text-align: left;
-  margin: 0 30px 0 30px; }
-
-html.sl-authors .author ul {
-  margin: 0;
-  padding: 0; }
-
-html.sl-authors .author ul li {
-  min-height: 80px;
-  margin: 0 0 40px 0; }
+  margin: 100px 40px 0 40px; }
+  html.sl-authors .author h4 {
+    margin-bottom: 10px; }
+  html.sl-authors .author ul {
+    margin: 0px 0 0 0;
+    padding: 0; }
+    html.sl-authors .author ul li {
+      margin: 0 0 40px 0; }
+      html.sl-authors .author ul li:first-of-type {
+        /*margin: 0 0 40px 0;*/ }
 
 html.sl-merci .reveal #hiring {
   padding-top: 70px; }
@@ -35,7 +39,8 @@ body {
   .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
     font-family: "proxima-nova", sans-serif;
     font-weight: 400;
-    margin: 0 0 30px 0; }
+    margin: 0 0 30px 0;
+    text-transform: none; }
   .reveal ul {
     margin: 0;
     padding: 0; }
