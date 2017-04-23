@@ -13,8 +13,9 @@ body {
   }*/ }
   .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
     font-family: "proxima-nova", sans-serif;
+    font-weight: 400;
     margin: 0 0 30px 0; }
-  .reveal p {
+  .reveal p, .reveal li, .reveal q {
     margin: 20px 0;
     line-height: 1.3;
     font-weight: 100;
