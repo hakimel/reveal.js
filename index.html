@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,12 +16,16 @@
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
 		<script src="https://use.typekit.net/mgx2nmo.js"></script>
-		<script>try{Typekit.load({ async: true });}catch(e){}</script>
+		<script>
+			try { Typekit.load({ async: true }); } catch (e) { }
+		</script>
 	</head>
+
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-state="sl-cover" data-background-video="https://d2g3i7yf6pozhs.cloudfront.net/data/videos/parkside-final-v5.webm,https://d2g3i7yf6pozhs.cloudfront.net/data/videos/parkside-final-v5.mp4" data-background-color="#000000">
+				<section data-state="sl-cover" data-background-video="https://d2g3i7yf6pozhs.cloudfront.net/data/videos/parkside-final-v5.webm,https://d2g3i7yf6pozhs.cloudfront.net/data/videos/parkside-final-v5.mp4"
+				 data-background-color="#000000">
 					<h2>Merge Hell - and how to avoid it</h2>
 					<p>Collaboration on large projects in modern software development</p>
 
@@ -52,7 +57,8 @@
 
 				<section data-state="sl-parkside" data-background="img/parkside_office.jpg">
 					<h3>We are Parkside</h3>
-					<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.</p>
+					<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.
+					</p>
 					<p>45+ employees, headquarters in Graz</p>
 
 					<aside class="notes">Notes go here.</aside>
@@ -72,16 +78,110 @@
 					<section data-state="sl-collaboration-1" data-background="img/collaboration_collage.jpg">
 						<h3>On team level</h3>
 						<p>The past vs. the present</p>
-						<p>include image here - maybe three image stripes, vertical: screenshot emacs OR floppy disk / photo of team meeting / ?</p>
+						<p>include image here - maybe three image stripes, vertical: screenshot emacs OR floppy disk / photo of team meeting /
+							?
+						</p>
 					</section>
 					<section>
 						<h3>On code level</h3>
-						<p>Workflows &amp; Tools - the right mix is important. Tools can foster great <i>Culture</i></p>
+						<p>Workflows &amp; Tools - the right mix is important.</p>
+						<p>Tools can foster great <i>Culture</i></p>
+						<aside class="notes">
+							<p>Workflows:</p>
+							<p>Since we are technical folks here I will use technical terms to describe the workflows.</p>
+							<p>Pipeline 1: Client/Sales Team -> PM -> Engineering -> QA -> Ops -> Users</p>
+							<p>Pipeline 2: Users -> Support -> PM -> Engineering -> QA -> Ops -> Users</p>
+
+							<p>- PM / Engineering / QA / Ops / Support</p>
+
+							<p>PM Group: System Analysts, Project Managers, Product Managers, Program Managers
+								<ul>
+									<li>PM Group takes input from the customer/sales and defines the work to be done</li>
+									<li>Different PM mehodologies - different ways to do that (more or less customer involvment, waterfall, iterative)</li>
+									<li>Different tools: Gantt charts, Kanban boards, Milestones</li>
+									<li>Developers are like computers, if you don't define something, they will always produce the wrong thing</li>
+								</ul>
+							</p>
+
+							<p>Engineering: Software Developers, Software Architects, DBAs or as Balmer would put it: Developers, Developers, Developers,
+								Developers, ...
+								<ul>
+									<li>The Real Heroes™ here</li>
+									<li>Do all the work, get none of the credit</li>
+								</ul>
+							</p>
+
+							<p>QA: QA Engineer (sad truth about our job - we create things that replace people)
+								<ul>
+									<li>Get the 'finished' work from the developers and prove to them that it is far from finished</li>
+									<li>Do all the work, get none of the credit</li>
+								</ul>
+							</p>
+
+							<p>Ops: Network Engineer, DevOps Engineer
+								<ul>
+									<li>Keep it running</li>
+								</ul>
+							</p>
+
+							<p>- Questions for the audience:
+								<ul>
+									<li>How many of you want to go into PM / Engineering / QA / Ops / Support?</li>
+								</ul>
+							</p>
+
+							<p>- Cultural differences: As you go out into the world and search for your place in the workforce you will interview
+								with companies that can be roughly divided into 4 groups:
+								<ul>
+									<li>Microsoft shops</li>
+									<li>Java shops</li>
+									<li>PHP shops</li>
+									<li>Rest of the world (Ruby, Node.JS, Python, Clojure, Elm).</li>
+								</ul>
+							</p>
+							<p>- Small variations are possible, but not likely (Git in Microsoft company)</p>
+							<p>- Its about what you know and what people are comfortable with.</p>
+
+
+						</aside>
 					</section>
+
+					<section data-state="sl-tlrd">
+						<h3>tldr;</h3>
+						<p>Communicate a lot<br/> Choose the right tools<br/> Work with nice people<br/><br/>
+							<i>Do amazing things</i>
+							<aside class="notes">Notes go here.</aside>
+					</section>
+
 					<section>
 						<h3>Some of the tools we use</h3>
 						<p>display a grid of white/black tool icons: slack / github / bitbucket / circleci / travisci / jira</p>
 						<p>Could be a background image with logo tiles. opacity 0.2</p>
+						<aside class="notes">
+							<p>- Questions for the audience:
+								<ul>
+									<li>Worked on university projects in groups of more than 2 people?</li>
+									<li>Used Git?</li>
+								</ul>
+							</p>
+							<p>PM Tools - Spectrum: from Visual Studio Team System, Jira</p>
+							<p>Engineering Tools:
+								<ul>
+									<li>Same tools as PM from another perspective. A glorified TODO List.</li>
+									<li>Git/SVN/Mercurial/TFS for versioning</li>
+									<li>GitHub, GitLab, Visual Studio Team System for pull requests, code reviews</li>
+									<li>Skype for Teams/Hipchat/Slack for communication</li>
+								</ul>
+							</p>
+							<p>- QA Questions for the audience
+								<ul>
+									<li>Same versioning tools as Engineering from another perspective.</li>
+									<li>Skype for Teams/Hipchat/Slack for communication</li>
+									<li>Unit tests, automated tests</li>
+								</ul>
+							</p>
+							<p>- Ops Questions for the audience</p>
+						</aside>
 					</section>
 				</section>
 
@@ -104,11 +204,9 @@
 
 				<section data-state="sl-tlrd">
 					<h3>tldr;</h3>
-					<p>Communicate a lot<br/>
-						Choose the right tools<br/>
-						Work with nice people<br/><br/>
+					<p>Communicate a lot<br/> Choose the right tools<br/> Work with nice people<br/><br/>
 						<i>Do amazing things</i>
-					<aside class="notes">Notes go here.</aside>
+						<aside class="notes">Notes go here.</aside>
 				</section>
 
 				<section>
@@ -139,8 +237,7 @@
 					<div id="hiring">
 						<h4>Parkside is hiring</h4>
 						<p>
-							https://parkside.at/en/careers<br/>
-							work@parkside.at
+							https://parkside.at/en/careers<br/> work@parkside.at
 						</p>
 					</div>
 
@@ -162,9 +259,10 @@
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
 				]
 			});
 		</script>
 	</body>
+
 </html>
