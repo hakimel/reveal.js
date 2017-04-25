@@ -9,10 +9,7 @@
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
-		<link rel="stylesheet" href="css/custom.css">
 		<link rel="stylesheet" href="css/parkside.css">
-
-		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
 		<script src="https://use.typekit.net/mgx2nmo.js"></script>
@@ -146,13 +143,8 @@
 						</aside>
 					</section>
 
-					<section data-state="sl-tlrd">
-						<h3>tldr;</h3>
-						<p>Communicate a lot<br/> Choose the right tools<br/> Work with nice people<br/><br/>
-							<i>Do amazing things</i>
-							<aside class="notes">Notes go here.</aside>
-					</section>
 
+					<!-- Slide: tools -->
 					<section>
 						<h3>Some of the tools we use</h3>
 						<p>display a grid of white/black tool icons: slack / github / bitbucket / circleci / travisci / jira</p>
@@ -195,6 +187,23 @@
 					<aside class="notes">Notes go here.</aside>
 				</section>
 
+
+				<!-- Slide: tldr -->
+				<section data-state="sl-tldr">
+					<h3>tldr;</h3>
+					<p>
+						Work with nice people<br/>
+						Communicate a lot
+					</p>
+					<p>
+						<i>Do amazing things</i>
+					</p>
+
+					<aside class="notes">Notes go here.</aside>
+				</section>
+
+
+				<!-- Slide: EOL -->
 				<section>
 					<h3>E.O.L.</h3>
 					<p>That's it. Questions?</p>
@@ -202,42 +211,15 @@
 					<aside class="notes">Notes go here.</aside>
 				</section>
 
-				<section data-state="sl-tlrd">
-					<h3>tldr;</h3>
-					<p>Communicate a lot<br/> Choose the right tools<br/> Work with nice people<br/><br/>
-						<i>Do amazing things</i>
-						<aside class="notes">Notes go here.</aside>
-				</section>
 
-				<section>
-					<h3>Sample slide / sandbox</h3>
-					<p>This is our sandbox for testing stuff.</p>
-					<pre><code class="hljs" data-trim contenteditable>
-	function linkify( selector ) {
-	if( supports3DTransforms ) {
-
-		var nodes = document.querySelectorAll( selector );
-
-		for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-			var node = nodes[i];
-
-			if( !node.className ) {
-				node.className += ' roll';
-			}
-		}
-	 }
-	}
-					</code></pre>
-
-					<aside class="notes">Notes go here.</aside>
-				</section>
-
+				<!-- Slide: merci -->
 				<section data-state="sl-merci" data-background="img/parkside_team.jpg">
 					<h3>danke / thank you / kiitos / merci<br/>hvala / gracias / obrigado</h3>
 					<div id="hiring">
 						<h4>Parkside is hiring</h4>
 						<p>
-							https://parkside.at/en/careers<br/> work@parkside.at
+							https://parkside.at/en/careers<br/>
+							work@parkside.at
 						</p>
 					</div>
 
@@ -250,11 +232,8 @@
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				history: true,
-
-				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
@@ -264,5 +243,4 @@
 			});
 		</script>
 	</body>
-
 </html>
