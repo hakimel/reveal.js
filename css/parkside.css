@@ -1,6 +1,11 @@
 /* customizations for the individual sections - data-state="x" ------------- */
 html.sl-cover h2 {
-  text-transform: uppercase; }
+  text-transform: none; }
+
+html.sl-cover h5 {
+  margin-top: 40px;
+  font-weight: 100;
+  font-size: 55px; }
 
 html.sl-cover .slide-background {
   opacity: 0.1 !important; }
@@ -22,11 +27,17 @@ html.sl-authors .author {
       html.sl-authors .author ul li:first-of-type {
         /*margin: 0 0 40px 0;*/ }
 
-html.sl-parkside .slide-background {
-  opacity: 0.4 !important; }
+html.sl-authors .slide-background {
+  opacity: 0.2 !important; }
+
+html.sl-company .slide-background {
+  opacity: 0.2 !important; }
 
 html.sl-collaboration-teamlevel .slide-background {
-  opacity: 0.4 !important; }
+  opacity: 0.2 !important; }
+
+html.sl-codesample .slide-background {
+  opacity: 0.6 !important; }
 
 html.sl-merci .reveal #hiring {
   padding-top: 70px; }
@@ -55,7 +66,7 @@ body {
       list-style-type: square; }
   .reveal p, .reveal li, .reveal q {
     margin: 20px 0;
-    line-height: 1.3;
+    line-height: 1.5;
     font-weight: 300;
     font-size: 80%; }
   .reveal .controls {
@@ -68,3 +79,11 @@ body {
       border-bottom-color: #fff; }
     .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
       border-top-color: #fff; }
+
+table.tools td {
+  text-align: center;
+  font-weight: 100;
+  font-size: 28px;
+  height: 80px;
+  line-height: 80px;
+  padding: 0 40px 0 40px; }
