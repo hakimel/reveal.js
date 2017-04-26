@@ -25,7 +25,7 @@ html.sl-authors .author {
 html.sl-parkside .slide-background {
   opacity: 0.4 !important; }
 
-html.sl-collaboration-1 .slide-background {
+html.sl-collaboration-teamlevel .slide-background {
   opacity: 0.4 !important; }
 
 html.sl-merci .reveal #hiring {
@@ -36,7 +36,7 @@ body {
   background: #231f20;
   background-color: #231f20; }
   body:after {
-    content: url("../img/parkside_logo.png");
+    content: url("../img/parkside_logo_bright.svg");
     position: fixed;
     bottom: 30px;
     right: 30px; }

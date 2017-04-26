@@ -50,7 +50,7 @@ html.sl-parkside {
 }
 
 
-html.sl-collaboration-1 {
+html.sl-collaboration-teamlevel {
 
   .slide-background {
     opacity: 0.4 !important;
@@ -77,7 +77,7 @@ body {
   background-color: #231f20;
 
   &:after {
-    content: url("../img/parkside_logo.png");
+    content: url("../img/parkside_logo_bright.svg");
     position: fixed;
     bottom: 30px;
     right: 30px;
