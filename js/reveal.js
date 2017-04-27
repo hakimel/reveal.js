@@ -3098,7 +3098,6 @@
 
 			// If the background contains media, load it
 			if( background.hasAttribute( 'data-loaded' ) === false ) {
-				background.setAttribute( 'data-loaded', 'true' );
 
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
@@ -3108,31 +3107,43 @@
 
 				// Images
 				if( backgroundImage ) {
+
 					background.style.backgroundImage = 'url('+ backgroundImage +')';
+					background.setAttribute( 'data-loaded', 'true' );
+
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
-					var video = document.createElement( 'video' );
-					video.setAttribute( 'autoplay', '' );
-					video.setAttribute( 'playsinline', '' );
 
-					if( backgroundVideoLoop ) {
-						video.setAttribute( 'loop', '' );
+					if( !isOverview() ) {
+
+						var video = document.createElement( 'video' );
+						video.setAttribute( 'autoplay', '' );
+						video.setAttribute( 'playsinline', '' );
+
+						if( backgroundVideoLoop ) {
+							video.setAttribute( 'loop', '' );
+						}
+
+						if( backgroundVideoMuted ) {
+							video.muted = true;
+						}
+
+						// Support comma separated lists of video sources
+						backgroundVideo.split( ',' ).forEach( function( source ) {
+							video.innerHTML += '<source src="'+ source +'">';
+						} );
+
+						background.appendChild( video );
+
+						background.setAttribute( 'data-loaded', 'true' );
+
 					}
 
-					if( backgroundVideoMuted ) {
-						video.muted = true;
-					}
-
-					// Support comma separated lists of video sources
-					backgroundVideo.split( ',' ).forEach( function( source ) {
-						video.innerHTML += '<source src="'+ source +'">';
-					} );
-
-					background.appendChild( video );
 				}
 				// Iframes
 				else if( backgroundIframe ) {
+
 					var iframe = document.createElement( 'iframe' );
 					iframe.setAttribute( 'allowfullscreen', '' );
 					iframe.setAttribute( 'mozallowfullscreen', '' );
@@ -3153,7 +3164,16 @@
 					iframe.style.maxWidth = '100%';
 
 					background.appendChild( iframe );
+
+					background.setAttribute( 'data-loaded', 'true' );
+
 				}
+				else {
+
+					background.setAttribute( 'data-loaded', 'true' );
+
+				}
+
 			}
 		}
 
