@@ -602,9 +602,9 @@ Automatically plays a full size video behind the slide.
 ```
 
 ##### Iframe Backgrounds
-Embeds a web page as a background. Note that since the iframe is in the background layer, behind your slides, it is not possible to interact with the embedded page.
+Embeds a web page as a slide background that covers 100% of the reveal.js width and height. The iframe is in the background layer, behind your slides, and as such it's not possible to interact with it by default. To make your background interactive, you can add the `data-background-interactive` attribute.
 ```html
-<section data-background-iframe="https://slides.com">
+<section data-background-iframe="https://slides.com" data-background-interactive>
 	<h2>Iframe</h2>
 </section>
 ```

@@ -377,7 +377,9 @@ body {
   opacity: 1; }
 
 .reveal .slides > section:empty,
-.reveal .slides > section > section:empty {
+.reveal .slides > section > section:empty,
+.reveal .slides > section[data-background-interactive],
+.reveal .slides > section > section[data-background-interactive] {
   pointer-events: none; }
 
 .reveal.center,
