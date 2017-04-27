@@ -559,7 +559,7 @@ Reveal.addEventListener( 'somestate', function() {
 
 Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe.
 
-##### Color Backgrounds
+#### Color Backgrounds
 All CSS color formats are supported, like rgba() or hsl().
 ```html
 <section data-background-color="#ff0000">
@@ -567,7 +567,7 @@ All CSS color formats are supported, like rgba() or hsl().
 </section>
 ```
 
-##### Image Backgrounds
+#### Image Backgrounds
 By default, background images are resized to cover the full page. Available options:
 
 | Attribute                    | Default    | Description |
@@ -585,7 +585,7 @@ By default, background images are resized to cover the full page. Available opti
 </section>
 ```
 
-##### Video Backgrounds
+#### Video Backgrounds
 Automatically plays a full size video behind the slide.
 
 | Attribute                    | Default | Description |
@@ -601,7 +601,7 @@ Automatically plays a full size video behind the slide.
 </section>
 ```
 
-##### Iframe Backgrounds
+#### Iframe Backgrounds
 Embeds a web page as a slide background that covers 100% of the reveal.js width and height. The iframe is in the background layer, behind your slides, and as such it's not possible to interact with it by default. To make your background interactive, you can add the `data-background-interactive` attribute.
 ```html
 <section data-background-iframe="https://slides.com" data-background-interactive>
@@ -609,7 +609,7 @@ Embeds a web page as a slide background that covers 100% of the reveal.js width 
 </section>
 ```
 
-##### Background Transitions
+#### Background Transitions
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
 
 
