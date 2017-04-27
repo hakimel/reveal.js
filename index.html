@@ -231,6 +231,11 @@
 						- What to take from this slide:
 							- Tools of the software developers are a legion because there are many
 
+						Next slide: Let's concentrate on code collaboration.
+						Assume we are working on a project, using versioning with git.
+						Actually this presentation is a great example because it is done in reveal.js.
+						The entire presentation is one large html file.
+						And the same file is edited by a two person team.
 
 						### THIS IS TOO LONG
 
@@ -256,7 +261,7 @@
 				<!-- slide.proven-concepts -->
 				<section data-state="sl-proven-concepts">
 					<h3>Proven concepts</h3>
-					<p></p>
+					<p>Feature Branch Workflow</p>
 					<ul>
 						<li>Code-reviews</li>
 						<li>Branch-specific QA</li>
@@ -264,9 +269,17 @@
 					</ul>
 					<aside class="notes" data-markdown>
 						- Year-long experience, proven to be working on real large-scale projects.
-						- Use rebase to keep
-						- Rebase is more complicated for long running branches - Used only for short lived feature branches
+						- The core idea behind the Feature Branch Workflow is that all feature development should take place in a dedicated branch instead of the master branch.
+						- Start development == Create a feature branch from master
+						- Use rebase to keep feature up to date.
+						- Finish development == Put branch up for code-review (different companies, different rules)
+						- Approved == Deploy feature branch to QA
+						- Tested == Merge to master
+						- Ops decides when == Deploy master
+						- Alternative == deploy feature branch right away
+
 						- Rebase rewrites history (considered impolite)
+						- Rebase is more complicated for long running branches
 						- Use merge for
 					</aside>
 				</section>
