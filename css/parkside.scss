@@ -82,10 +82,10 @@ html.sl-big-picture {
 
   section {
 
-    width: 1250px !important;
+    /*width: 1250px !important;
     margin: 0 !important;
     left: -150px;
-
+*/
     .column {
 
       float: left;
@@ -110,7 +110,9 @@ html.sl-big-picture {
 html.sl-merci {
 
   .reveal {
+
     #hiring {
+
       padding-top: 70px;
     }
   }
@@ -193,6 +195,11 @@ body {
       &#tools {
         margin: 40px 0;
         width: 60%;
+      }
+
+      &#schema {
+        margin: 0px 0;
+        width: 80%;
       }
     }
   }

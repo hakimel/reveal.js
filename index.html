@@ -30,44 +30,6 @@
 				</section>
 
 
-				<!-- slide.authors -->
-				<section data-state="sl-authors">
-					<!-- data-background="img/leafs.jpg"> -->
-					<div class="author">
-						<h3>Chris Werding</h3>
-						<ul>
-							<li>VP of Engineering</li>
-							<li>Team Lead / Software Architect / Project Manager</li>
-							<li>Dotnet / Java / Javscript / Scalability / Architecture / Design Patterns</li>
-						</ul>
-					</div>
-					<div class="author">
-						<h3>Nelle Simic</h3>
-						<ul>
-							<li>Principal Software Engineer</li>
-							<li>Architect / Guru / Engineer / Consultant</li>
-							<li>Java / Algorithmics / React / AngularJS / Graphics Engineering</li>
-						</ul>
-					</div>
-
-					<aside class="notes" data-markdown>
-						- Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
-						- Nelle: 12 years at Parkside
-						- Chris: 5 years
-					</aside>
-				</section>
-
-
-				<!-- slide.company -->
-				<section data-state="sl-company" data-background="img/leafs.jpg">
-					<h3>We are Parkside</h3>
-					<!--<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.</p>-->
-					<p>45+ employees / 15 nations &amp; languages / international clients / large-scale projects / headquarters @Graz</p>
-
-					<aside class="notes" data-markdown>Notes go here.</aside>
-				</section>
-
-
 				<!-- slide.collaboration -->
 				<section data-state="sl-collaboration">
 					<h3>Collaboration</h3>
@@ -78,8 +40,10 @@
 					</ul>
 
 					<aside class="notes" data-markdown>
-						<p>Increases productivity, efficiency, saves your ass on the deadline</p>
-						<p>So its actually about communicating a lot. On both levels</p>
+						- imagine having a deadline and being on your own or with your team
+						- how do you get things done / out of the door?
+						- collaboration: saves your ass on the deadline
+						- one potential result in software projects: merge hell
 					</aside>
 				</section>
 
@@ -297,36 +261,80 @@
 
 
 				<!-- slide.big-picture -->
-				<section data-state="sl-big-picture">
-					<h3>The Big Picture</h3>
-					<div class="column">
+				<section>
+					<section data-state="sl-big-picture">
+						<h3>The Big Picture</h3>
+						<img id="schema" src="img/big-picture.svg" alt="The Big Picture - deployment schema" />
+
+						<aside class="notes" data-markdown></aside>
+					</section>
+
+
+					<section data-state="sl-big-picture">
+						<h3>The Big Picture</h3>
 						<ol>
-							<li>Git commit hook => CircleCI build</li>
-							<li>CircleCI builds artifacts => new image</li>
-							<li>Image is pushed by CircleCI to GKE registry</li>
-							<li>Kubernetes is hot-swapping image on running cluster</li>
-							<li>Cluster reboots and starts delivering the new version</li>
-							<li>All members of the flow send progress msgs to Slack</li>
+							<li class="fragment">Git commit hook => triggers a CircleCI build job</li>
+							<li class="fragment">CircleCI builds artifacts => new container image is created</li>
+							<li class="fragment">Image is pushed by CircleCI to GKE registry</li>
+							<li class="fragment">Kubernetes is hot-swapping image on running cluster</li>
+							<li class="fragment">Cluster reboots and starts delivering the new version</li>
+							<li class="fragment">Every tool sends progress / status messages to Slack</li>
 						</ol>
-					</div>
 
-					<div class="column">
-						<img src="img/deployment_schema.svg" alt="The Big Picture - deployment schema" />
-					</div>
+						<aside class="notes" data-markdown></aside>
+					</section>
 
-					<aside class="notes" data-markdown></aside>
 				</section>
 
 
 				<!-- slide.tldr -->
 				<section data-state="sl-tldr">
 					<h3>tldr;</h3>
-					<p>
-						Work with nice people<br/> Communicate a lot
-					</p>
-					<p>
-						<i>Do amazing things</i>
-					</p>
+					<ul>
+						<li class="fragment">Work with nice people</li>
+						<li class="fragment">Communicate a lot</li>
+						<li class="fragment">Use great tools</li>
+						<li class="fragment">
+							<i>Do amazing things</i>
+						</li>
+					</ul>
+				</section>
+
+
+				<!-- slide.authors -->
+				<section data-state="sl-authors">
+					<div class="author">
+						<h3>Chris Werding</h3>
+						<ul>
+							<li>VP of Engineering</li>
+							<li>Team Lead / Software Architect / Project Manager</li>
+							<li>Dotnet / Java / Javscript / Scalability / Architecture / Design Patterns</li>
+						</ul>
+					</div>
+					<div class="author">
+						<h3>Nelle Simic</h3>
+						<ul>
+							<li>Principal Software Engineer</li>
+							<li>Architect / Guru / Engineer / Consultant</li>
+							<li>Java / Algorithmics / React / AngularJS / Graphics Engineering</li>
+						</ul>
+					</div>
+
+					<aside class="notes" data-markdown>
+						- Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
+						- Nelle: 12 years at Parkside
+						- Chris: 5 years
+					</aside>
+				</section>
+
+
+				<!-- slide.company -->
+				<section data-state="sl-company" data-background="img/leafs.jpg">
+					<h3>We are Parkside</h3>
+					<!--<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.</p>-->
+					<p>45+ employees / 15 nations &amp; languages / international clients / large-scale projects / headquarters @Graz</p>
+
+					<aside class="notes" data-markdown>Notes go here.</aside>
 				</section>
 
 

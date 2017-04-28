@@ -41,9 +41,10 @@ html.sl-codesample .slide-background {
   opacity: 0.6 !important; }
 
 html.sl-big-picture section {
-  width: 1250px !important;
-  margin: 0 !important;
-  left: -150px; }
+  /*width: 1250px !important;
+    margin: 0 !important;
+    left: -150px;
+*/ }
   html.sl-big-picture section .column {
     float: left;
     width: 50%; }
@@ -103,3 +104,6 @@ body {
     .reveal section img#tools {
       margin: 40px 0;
       width: 60%; }
+    .reveal section img#schema {
+      margin: 0px 0;
+      width: 80%; }
