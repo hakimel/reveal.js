@@ -22,6 +22,7 @@
 		<div class="reveal">
 			<div class="slides">
 
+
 				<!-- slide.cover -->
 				<section data-state="sl-cover" data-background-video="img/cover_clip.mp4" data-background-video-loop="true">
 					<h2>Merge Hell - and how to avoid it</h2>
@@ -30,26 +31,26 @@
 
 
 				<!-- slide.authors -->
-				<section data-state="sl-authors" data-background="img/leafs.jpg">
+				<section data-state="sl-authors"> <!-- data-background="img/leafs.jpg"> -->
 					<div class="author">
-						<h4>Chris Werding</h4>
+						<h3>Chris Werding</h3>
 						<ul>
 							<li>VP of Engineering</li>
-							<li>Team lead / Software architect / Project manager</li>
-							<li>Dotnet / Java / Javscript / Scalability / Architecture / Patterns</li>
+							<li>Team Lead / Software Architect / Project Manager</li>
+							<li>Dotnet / Java / Javscript / Scalability / Architecture / Design Patterns</li>
 						</ul>
 					</div>
 					<div class="author">
-						<h4>Nelle Simic</h4>
+						<h3>Nelle Simic</h3>
 						<ul>
 							<li>Principal Software Engineer</li>
 							<li>Architect / Guru / Engineer / Consultant</li>
-							<li>Java / Algorithmics / React / Angular / Graphics Engineering</li>
+							<li>Java / Algorithmics / React / AngularJS / Graphics Engineering</li>
 						</ul>
 					</div>
 
 					<aside class="notes" data-markdown>
-						<p>Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
+						- Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
 					</aside>
 				</section>
 
@@ -57,9 +58,8 @@
 				<!-- slide.company -->
 				<section data-state="sl-company" data-background="img/leafs.jpg">
 					<h3>We are Parkside</h3>
-					<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.
-					</p>
-					<p>45+ employees, headquarters in Graz</p>
+					<!--<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.</p>-->
+					<p>45+ employees / 15 nations &amp; languages / international clients / large-scale projects / headquarters @Graz</p>
 
 					<aside class="notes" data-markdown>Notes go here.</aside>
 				</section>
@@ -88,14 +88,15 @@
 						<ul class="fragment">
 							<li>The past vs. the present</li>
 							<li>All Hands / Scrum / Standups</li>
-							<li>Showcase: Google Docs</li>
-							<li>img of codesample here</li>
-							<li>Company => provide workflows and tools to back this up</li>
+							<li>Google Docs: save as you go / concurrent editing</li>
 						</ul>
 
 						<aside class="notes" data-markdown>
-							- Team level is obvious: meetings, structures, organization, standups etc.
+							- past vs present: handing over a floppy disk, index-numbering files
+							- Team level is obvious: organization, meetings (allhands, standups), structures (jira, confluence)
 							- Works great in GDocs, but: in code? (show two lines of code amd zoom out), across teams amd oceans?
+							- Organization (University or Company) => has to provide infrastructure, workflows, culture, tools to back this up
+							- Culture: if testing is not calculated in budget, nobody will do it (TDD: 25% overhead)
 						</aside>
 					</section>
 
@@ -112,13 +113,13 @@
 
 				<!-- slide.right-mix -->
 				<section data-state="sl-right-mix">
-					<h2>The right mix</h2>
-					<p>What is more important - tools or workflows?</p>
+					<h2>Which is more important?</h2>
+
 					<ul>
-						<li>The right mix between workflows and tools.</li>
-						<li>Tools can foster great culture.</li>
-						<li>Workflows can increase efficiency and improve quality.</li>
+						<li>Tools can foster great culture</li>
+						<li>Workflows can increase efficiency and improve quality</li>
 					</ul>
+					<p>=> find the right mix!</p>
 
 					<aside class="notes" data-markdown>
 
@@ -194,31 +195,8 @@
 				<!-- slide.tools -->
 				<section data-state="sl-tools">
 					<h3>Tools</h3>
-					<p>Some of the tools that were used to create this presentation:</p>
-					<table class="tools">
-						<tbody>
-							<tr>
-								<td>Github</td>
-								<td>Slack</td>
-								<td>CircleCI</td>
-							</tr>
-							<tr>
-								<td>Jenkins</td>
-								<td>Browserstack</td>
-								<td>Jira</td>
-							</tr>
-							<tr>
-								<td>Bitbucket</td>
-								<td>Buildkite</td>
-								<td>Kubernetes</td>
-							</tr>
-							<tr>
-								<td>GKE</td>
-								<td>Litabot</td>
-								<td>Visual Code</td>
-							</tr>
-						</tbody>
-					</table>
+					<p>This presentation was created with <i>reveal.js</i> and:</p>
+					<img id="tools" src="img/logos_tools.svg" alt="Some tools in use at Parkside" />
 
 					<aside class="notes" data-markdown>
 						### Questions for the audience:
@@ -298,17 +276,6 @@
 					<p>
 						<i>Do amazing things</i>
 					</p>
-
-					<aside class="notes" data-markdown>Notes go here.</aside>
-				</section>
-
-
-				<!-- slide.eol -->
-				<section data-state="sl-eol">
-					<h3>E.O.L.</h3>
-					<p>That's it. Questions?</p>
-
-					<aside class="notes" data-markdown>Notes go here.</aside>
 				</section>
 
 

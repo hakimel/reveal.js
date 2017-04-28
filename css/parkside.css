@@ -13,19 +13,20 @@ html.sl-cover .slide-background {
 html.sl-authors .author {
   float: left;
   position: relative;
-  width: 400px;
+  width: 410px;
   text-align: left;
-  margin: 100px 40px 0 40px; }
-  html.sl-authors .author h4 {
+  margin: 100px 20px 0 40px; }
+  html.sl-authors .author h3 {
     margin-bottom: 10px; }
   html.sl-authors .author ul {
     margin: 0px 0 0 0;
-    padding: 0; }
+    padding: 0;
+    text-align: left; }
     html.sl-authors .author ul li {
       list-style-type: none;
       margin: 0 0 40px 0; }
       html.sl-authors .author ul li:first-of-type {
-        /*margin: 0 0 40px 0;*/ }
+        margin-bottom: 60px !important; }
 
 html.sl-authors .slide-background {
   opacity: 0.2 !important; }
@@ -61,14 +62,16 @@ body {
     text-transform: none; }
   .reveal ul {
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    text-align: center; }
     .reveal ul li {
-      list-style-type: square; }
+      list-style-type: none; }
   .reveal p, .reveal li, .reveal q {
     margin: 20px 0;
-    line-height: 1.5;
-    font-weight: 300;
-    font-size: 80%; }
+    line-height: 1.3;
+    font-weight: 100;
+    font-size: 80%;
+    font-style: normal; }
   .reveal .controls {
     left: 10px !important; }
     .reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
@@ -80,10 +83,13 @@ body {
     .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
       border-top-color: #fff; }
 
-table.tools td {
-  text-align: center;
+img#tools {
+  border: none;
+  margin: 40px 0;
+  background: transparent;
+  width: 60%; }
+
+h4#eol {
+  font-style: italic;
   font-weight: 100;
-  font-size: 28px;
-  height: 80px;
-  line-height: 80px;
-  padding: 0 40px 0 40px; }
+  margin-top: 150px; }

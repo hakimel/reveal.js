@@ -1,4 +1,5 @@
 /* customizations for the individual sections - data-state="x" ------------- */
+
 html.sl-cover {
 
   h2 {
@@ -22,22 +23,23 @@ html.sl-authors {
   .author {
     float: left;
     position: relative;
-    width: 400px;
+    width: 410px;
     text-align: left;
-    margin: 100px 40px 0 40px;
+    margin: 100px 20px 0 40px;
 
-    h4 {
+    h3 {
       margin-bottom: 10px;
     }
 
     ul {
       margin: 0px 0 0 0;
       padding: 0;
+      text-align: left;
 
       li {
 
         &:first-of-type {
-            /*margin: 0 0 40px 0;*/
+           margin-bottom: 60px !important;
         }
 
         list-style-type: none;
@@ -116,17 +118,20 @@ body {
   ul {
     margin: 0;
     padding: 0;
+    text-align: center;
+
 
     li {
-      list-style-type: square;
+      list-style-type: none;
     }
   }
 
   p,li,q {
     margin: 20px 0;
-    line-height: 1.5 ;
-    font-weight: 300;
+    line-height: 1.3 ;
+    font-weight: 100;
     font-size: 80%;
+    font-style: normal;
   }
 
   .controls {
@@ -150,14 +155,18 @@ body {
   }
 }
 
-table.tools {
+img#tools {
 
-  td {
-    text-align:center;
-    font-weight: 100;
-    font-size: 28px;
-    height: 80px;
-    line-height: 80px;
-    padding: 0 40px 0 40px;
-  }
+  border: none;
+  margin: 40px 0;
+  background: transparent;
+  width: 60%;
+}
+
+
+h4#eol {
+  font-style: italic;
+  font-weight:100;
+  margin-top: 150px;
+
 }
