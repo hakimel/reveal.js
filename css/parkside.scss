@@ -78,6 +78,34 @@ html.sl-codesample {
 }
 
 
+html.sl-big-picture {
+
+  section {
+
+    width: 1250px !important;
+    margin: 0 !important;
+    left: -150px;
+
+    .column {
+
+      float: left;
+      width: 50%;
+
+
+      ol {
+
+        text-align: left;
+        margin: 40px 0 0 0;
+        width: 75%;
+
+        li {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}
+
 
 html.sl-merci {
 
@@ -153,20 +181,19 @@ body {
       border-top-color: #fff;
     }
   }
-}
 
-img#tools {
+  section {
 
-  border: none;
-  margin: 40px 0;
-  background: transparent;
-  width: 60%;
-}
+    img {
 
+      border: none;
+      background: transparent;
+      box-shadow: none;
 
-h4#eol {
-  font-style: italic;
-  font-weight:100;
-  margin-top: 150px;
-
+      &#tools {
+        margin: 40px 0;
+        width: 60%;
+      }
+    }
+  }
 }

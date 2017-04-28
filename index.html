@@ -31,7 +31,8 @@
 
 
 				<!-- slide.authors -->
-				<section data-state="sl-authors"> <!-- data-background="img/leafs.jpg"> -->
+				<section data-state="sl-authors">
+					<!-- data-background="img/leafs.jpg"> -->
 					<div class="author">
 						<h3>Chris Werding</h3>
 						<ul>
@@ -51,6 +52,8 @@
 
 					<aside class="notes" data-markdown>
 						- Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
+						- Nelle: 12 years at Parkside
+						- Chris: 5 years
 					</aside>
 				</section>
 
@@ -295,8 +298,21 @@
 
 				<!-- slide.big-picture -->
 				<section data-state="sl-big-picture">
-					<h3>The big picture / Demo</h3>
-					<p>Schematics img goes here.</p>
+					<h3>The Big Picture</h3>
+					<div class="column">
+						<ol>
+							<li>Git commit hook => CircleCI build</li>
+							<li>CircleCI builds artifacts => new image</li>
+							<li>Image is pushed by CircleCI to GKE registry</li>
+							<li>Kubernetes is hot-swapping image on running cluster</li>
+							<li>Cluster reboots and starts delivering the new version</li>
+							<li>All members of the flow send progress msgs to Slack</li>
+						</ol>
+					</div>
+
+					<div class="column">
+						<img src="img/deployment_schema.svg" alt="The Big Picture - deployment schema" />
+					</div>
 
 					<aside class="notes" data-markdown></aside>
 				</section>

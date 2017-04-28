@@ -40,6 +40,20 @@ html.sl-teamlevel .slide-background {
 html.sl-codesample .slide-background {
   opacity: 0.6 !important; }
 
+html.sl-big-picture section {
+  width: 1250px !important;
+  margin: 0 !important;
+  left: -150px; }
+  html.sl-big-picture section .column {
+    float: left;
+    width: 50%; }
+    html.sl-big-picture section .column ol {
+      text-align: left;
+      margin: 40px 0 0 0;
+      width: 75%; }
+      html.sl-big-picture section .column ol li {
+        font-size: 26px; }
+
 html.sl-merci .reveal #hiring {
   padding-top: 70px; }
 
@@ -82,14 +96,10 @@ body {
       border-bottom-color: #fff; }
     .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
       border-top-color: #fff; }
-
-img#tools {
-  border: none;
-  margin: 40px 0;
-  background: transparent;
-  width: 60%; }
-
-h4#eol {
-  font-style: italic;
-  font-weight: 100;
-  margin-top: 150px; }
+  .reveal section img {
+    border: none;
+    background: transparent;
+    box-shadow: none; }
+    .reveal section img#tools {
+      margin: 40px 0;
+      width: 60%; }
