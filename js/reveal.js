@@ -3940,7 +3940,7 @@
 
 		// If there's a condition specified and it returns false,
 		// ignore this event
-		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition() === false ) {
+		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition(event) === false ) {
 			return true;
 		}
 
