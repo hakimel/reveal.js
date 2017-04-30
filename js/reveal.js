@@ -1234,14 +1234,14 @@
 				callback: callback,
 				key: binding.key,
 				description: binding.description
-			}
+			};
 		}
 		else {
 			registeredKeyBindings[binding] = {
 				callback: callback,
 				key: null,
 				description: null
-			}
+			};
 		}
 	}
 
@@ -4386,15 +4386,15 @@
 				// Check if this binding matches the pressed key
 				if( parseInt( key, 10 ) === event.keyCode ) {
 
-					var value = registeredKeyBindings[ key ].callback;
+					var action = registeredKeyBindings[ key ].callback;
 
 					// Callback function
-					if( typeof value === 'function' ) {
-						value.apply( null, [ event ] );
+					if( typeof action === 'function' ) {
+						action.apply( null, [ event ] );
 					}
 					// String shortcuts to reveal.js API
-					else if( typeof value === 'string' && typeof Reveal[ value ] === 'function' ) {
-						Reveal[ value ].call();
+					else if( typeof action === 'string' && typeof Reveal[ action ] === 'function' ) {
+						Reveal[ action ].call();
 					}
 
 					triggered = true;
