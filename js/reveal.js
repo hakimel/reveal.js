@@ -1098,8 +1098,8 @@
 	 * Add a custom key binding with optional description to be added to the help screen
 	 */
 	function addKeyBinding(binding, callback) {
-		if (typeof binding === 'object' && binding.code) {
-			registeredKeyBindings[binding.code] = {
+		if (typeof binding === 'object' && binding.keyCode) {
+			registeredKeyBindings[binding.keyCode] = {
 				callback: callback,
 				key: binding.key,
 				description: binding.description

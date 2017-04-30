@@ -106,7 +106,7 @@ var RevealNotes = (function() {
 		}
 
 		// Open the notes when the 's' key is hit
-		Reveal.addKeyBinding({code: 83, key: 'S', description: 'Speaker notes'}, openNotes);
+		Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes'}, openNotes);
 
 	}
 
