@@ -131,19 +131,7 @@ var RevealNotes = (function() {
 		}
 
 		// Open the notes when the 's' key is hit
-		document.addEventListener( 'keydown', function( event ) {
-			// Disregard the event if the target is editable or a
-			// modifier is present
-			if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
-
-			// Disregard the event if keyboard is disabled
-			if ( Reveal.getConfig().keyboard === false ) return;
-
-			if( event.keyCode === 83 ) {
-				event.preventDefault();
-				openNotes();
-			}
-		}, false );
+		Reveal.addKeyBinding({code: 83, key: 'S', description: 'Speaker notes'}, openNotes);
 
 		// Show our keyboard shortcut in the reveal.js help overlay
 		if( window.Reveal ) Reveal.registerKeyboardShortcut( 'S', 'Speaker notes view' );
