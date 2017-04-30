@@ -131,7 +131,7 @@ var RevealNotes = (function() {
 		}
 
 		// Open the notes when the 's' key is hit
-		Reveal.addKeyBinding({code: 83, key: 'S', description: 'Speaker notes'}, openNotes);
+		Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes'}, openNotes);
 
 		// Show our keyboard shortcut in the reveal.js help overlay
 		if( window.Reveal ) Reveal.registerKeyboardShortcut( 'S', 'Speaker notes view' );
