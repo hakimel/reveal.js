@@ -38,7 +38,8 @@
 	.share-reveal,
 	.state-background,
 	.reveal .progress,
-	.reveal .backgrounds {
+	.reveal .backgrounds,
+	.reveal .slide-number {
 		display: none !important;
 	}
 

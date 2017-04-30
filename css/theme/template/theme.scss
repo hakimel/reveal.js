@@ -22,6 +22,12 @@ body {
 	text-shadow: none;
 }
 
+::-moz-selection {
+	color: $selectionColor;
+	background: $selectionBackgroundColor;
+	text-shadow: none;
+}
+
 .reveal .slides>section,
 .reveal .slides>section>section {
 	line-height: 1.3;
@@ -207,7 +213,8 @@ body {
 	text-align: right;
 }
 
-.reveal table tr:last-child td {
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
 	border-bottom: none;
 }
 

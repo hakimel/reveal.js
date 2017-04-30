@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -23,7 +23,7 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
 .reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed,
 .reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup,
 .reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary,
-.reveal time, .reveal mark, .reveal audio, video {
+.reveal time, .reveal mark, .reveal audio, .reveal video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -57,15 +57,6 @@ body {
 	color: #000;
 }
 
-// Ensures that the main background color matches the
-// theme in fullscreen mode
-html:-webkit-full-screen-ancestor {
-	background-color: inherit;
-}
-html:-moz-full-screen-ancestor {
-	background-color: inherit;
-}
-
 
 /*********************************************
  * VIEW FRAGMENTS
@@ -78,13 +69,13 @@ html:-moz-full-screen-ancestor {
 
 	&.visible {
 		opacity: 1;
-		visibility: visible;
+		visibility: inherit;
 	}
 }
 
 .reveal .slides section .fragment.grow {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		transform: scale( 1.3 );
@@ -93,7 +84,7 @@ html:-moz-full-screen-ancestor {
 
 .reveal .slides section .fragment.shrink {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		transform: scale( 0.7 );
@@ -110,7 +101,7 @@ html:-moz-full-screen-ancestor {
 
 .reveal .slides section .fragment.fade-out {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		opacity: 0;
@@ -120,20 +111,52 @@ html:-moz-full-screen-ancestor {
 
 .reveal .slides section .fragment.semi-fade-out {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		opacity: 0.5;
-		visibility: visible;
+		visibility: inherit;
 	}
 }
 
 .reveal .slides section .fragment.strike {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 
 	&.visible {
 		text-decoration: line-through;
+	}
+}
+
+.reveal .slides section .fragment.fade-up {
+	transform: translate(0, 20%);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
+.reveal .slides section .fragment.fade-down {
+	transform: translate(0, -20%);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
+.reveal .slides section .fragment.fade-right {
+	transform: translate(-20%, 0);
+
+	&.visible {
+		transform: translate(0, 0);
+	}
+}
+
+.reveal .slides section .fragment.fade-left {
+	transform: translate(20%, 0);
+
+	&.visible {
+		transform: translate(0, 0);
 	}
 }
 
@@ -143,7 +166,7 @@ html:-moz-full-screen-ancestor {
 
 	&.current-fragment {
 		opacity: 1;
-		visibility: visible;
+		visibility: inherit;
 	}
 }
 
@@ -154,7 +177,7 @@ html:-moz-full-screen-ancestor {
 .reveal .slides section .fragment.highlight-blue,
 .reveal .slides section .fragment.highlight-current-blue {
 	opacity: 1;
-	visibility: visible;
+	visibility: inherit;
 }
 	.reveal .slides section .fragment.highlight-red.visible {
 		color: #ff2c2d
@@ -365,6 +388,7 @@ html:-moz-full-screen-ancestor {
 	bottom: 0;
 	left: 0;
 	margin: auto;
+	pointer-events: none;
 
 	overflow: visible;
 	z-index: 1;
@@ -383,9 +407,10 @@ html:-moz-full-screen-ancestor {
 	position: absolute;
 	width: 100%;
 	padding: 20px 0px;
+	pointer-events: auto;
 
 	z-index: 10;
-	transform-style: preserve-3d;
+	transform-style: flat;
 	transition: transform-origin 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
 				visibility 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985),
@@ -418,6 +443,13 @@ html:-moz-full-screen-ancestor {
 	display: block;
 	z-index: 11;
 	opacity: 1;
+}
+
+.reveal .slides>section:empty,
+.reveal .slides>section>section:empty,
+.reveal .slides>section[data-background-interactive],
+.reveal .slides>section>section[data-background-interactive] {
+	pointer-events: none;
 }
 
 .reveal.center,
@@ -454,6 +486,12 @@ html:-moz-full-screen-ancestor {
 @mixin transition-global($style) {
 	.reveal .slides section[data-transition=#{$style}],
 	.reveal.#{$style} .slides section:not([data-transition]) {
+		@content;
+	}
+}
+@mixin transition-stack($style) {
+	.reveal .slides section[data-transition=#{$style}].stack,
+	.reveal.#{$style} .slides section.stack {
 		@content;
 	}
 }
@@ -516,6 +554,10 @@ html:-moz-full-screen-ancestor {
  *********************************************/
 
 @each $stylename in default, convex {
+	@include transition-stack(#{$stylename}) {
+		transform-style: preserve-3d;
+	}
+
 	@include transition-horizontal-past(#{$stylename}) {
 		transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 	}
@@ -533,6 +575,10 @@ html:-moz-full-screen-ancestor {
 /*********************************************
  * CONCAVE TRANSITION
  *********************************************/
+
+@include transition-stack(concave) {
+	transform-style: preserve-3d;
+}
 
 @include transition-horizontal-past(concave) {
 	transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
@@ -573,6 +619,10 @@ html:-moz-full-screen-ancestor {
 
 /*********************************************
  * CUBE TRANSITION
+ *
+ * WARNING:
+ * this is deprecated and will be removed in a
+ * future version.
  *********************************************/
 
 .reveal.cube .slides {
@@ -584,6 +634,7 @@ html:-moz-full-screen-ancestor {
 	min-height: 700px;
 	backface-visibility: hidden;
 	box-sizing: border-box;
+	transform-style: preserve-3d;
 }
 	.reveal.center.cube .slides section {
 		min-height: 0;
@@ -644,6 +695,10 @@ html:-moz-full-screen-ancestor {
 
 /*********************************************
  * PAGE TRANSITION
+ *
+ * WARNING:
+ * this is deprecated and will be removed in a
+ * future version.
  *********************************************/
 
 .reveal.page .slides {
@@ -655,6 +710,7 @@ html:-moz-full-screen-ancestor {
 	padding: 30px;
 	min-height: 700px;
 	box-sizing: border-box;
+	transform-style: preserve-3d;
 }
 	.reveal.page .slides section.past {
 		z-index: 12;
@@ -827,6 +883,7 @@ html:-moz-full-screen-ancestor {
 		height: 100%;
 		opacity: 0;
 		visibility: hidden;
+		overflow: hidden;
 
 		background-color: rgba( 0, 0, 0, 0 );
 		background-position: 50% 50%;
@@ -843,6 +900,7 @@ html:-moz-full-screen-ancestor {
 	.reveal .slide-background.present {
 		opacity: 1;
 		visibility: visible;
+		z-index: 2;
 	}
 
 	.print-pdf .reveal .slide-background {
@@ -859,7 +917,11 @@ html:-moz-full-screen-ancestor {
 	max-height: none;
 	top: 0;
 	left: 0;
+	object-fit: cover;
 }
+	.reveal .slide-background[data-background-size="contain"] video {
+		object-fit: contain;
+	}
 
 /* Immediate transition style */
 .reveal[data-background-transition=none]>.backgrounds .slide-background,
@@ -989,8 +1051,15 @@ html:-moz-full-screen-ancestor {
 	perspective-origin: 50% 50%;
 	perspective: 700px;
 
+	.slides {
+		// Fixes overview rendering errors in FF48+, not applied to
+		// other browsers since it degrades performance
+		-moz-transform-style: preserve-3d;
+	}
+
 	.slides section {
-		height: 700px;
+		height: 100%;
+		top: 0 !important;
 		opacity: 1 !important;
 		overflow: hidden;
 		visibility: visible !important;
@@ -1020,6 +1089,10 @@ html:-moz-full-screen-ancestor {
 
 	.backgrounds {
 		perspective: inherit;
+
+		// Fixes overview rendering errors in FF48+, not applied to
+		// other browsers since it degrades performance
+		-moz-transform-style: preserve-3d;
 	}
 
 	.backgrounds .slide-background {
@@ -1029,6 +1102,10 @@ html:-moz-full-screen-ancestor {
 		// This can't be applied to the slide itself in Safari
 		outline: 10px solid rgba(150,150,150,0.1);
 		outline-offset: 10px;
+	}
+
+	.backgrounds .slide-background.stack {
+		overflow: visible;
 	}
 }
 
@@ -1042,10 +1119,6 @@ html:-moz-full-screen-ancestor {
 .reveal.overview .backgrounds .slide-background,
 .reveal.overview-deactivating .backgrounds .slide-background {
 	transition: none;
-}
-
-.reveal.overview-animated .slides {
-	transition: transform 0.4s ease;
 }
 
 
@@ -1145,6 +1218,7 @@ html:-moz-full-screen-ancestor {
 			display: inline-block;
 			width: 40px;
 			height: 40px;
+			line-height: 36px;
 			padding: 0 10px;
 			float: right;
 			opacity: 0.6;
@@ -1172,6 +1246,7 @@ html:-moz-full-screen-ancestor {
 
 	.reveal .overlay .viewport {
 		position: absolute;
+		display: flex;
 		top: 40px;
 		right: 0;
 		bottom: 0;
@@ -1195,6 +1270,23 @@ html:-moz-full-screen-ancestor {
 		visibility: visible;
 	}
 
+	.reveal .overlay.overlay-preview.loaded .viewport-inner  {
+		position: absolute;
+		z-index: -1;
+		left: 0;
+		top: 45%;
+		width: 100%;
+		text-align: center;
+		letter-spacing: normal;
+	}
+	.reveal .overlay.overlay-preview .x-frame-error  {
+		opacity: 0;
+		transition: opacity 0.3s ease 0.3s;
+	}
+	.reveal .overlay.overlay-preview.loaded .x-frame-error  {
+		opacity: 1;
+	}
+
 	.reveal .overlay.overlay-preview.loaded .spinner {
 		opacity: 0;
 		visibility: hidden;
@@ -1208,8 +1300,8 @@ html:-moz-full-screen-ancestor {
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner {
 		width: 600px;
-		margin: 0 auto;
-		padding: 60px;
+		margin: auto;
+		padding: 20px 20px 80px 20px;
 		text-align: center;
 		letter-spacing: normal;
 	}
@@ -1221,13 +1313,13 @@ html:-moz-full-screen-ancestor {
 	.reveal .overlay.overlay-help .viewport .viewport-inner table {
 		border: 1px solid #fff;
 		border-collapse: collapse;
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	.reveal .overlay.overlay-help .viewport .viewport-inner table th,
 	.reveal .overlay.overlay-help .viewport .viewport-inner table td {
 		width: 200px;
-		padding: 10px;
+		padding: 14px;
 		border: 1px solid #fff;
 		vertical-align: middle;
 	}
@@ -1375,5 +1467,3 @@ html:-moz-full-screen-ancestor {
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
-
-

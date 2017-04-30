@@ -4,27 +4,18 @@
  * of external markdown documents.
  */
 (function( root, factory ) {
-	if( typeof exports === 'object' ) {
+	if (typeof define === 'function' && define.amd) {
+		root.marked = require( './marked' );
+		root.RevealMarkdown = factory( root.marked );
+		root.RevealMarkdown.initialize();
+	} else if( typeof exports === 'object' ) {
 		module.exports = factory( require( './marked' ) );
-	}
-	else {
+	} else {
 		// Browser globals (root is window)
 		root.RevealMarkdown = factory( root.marked );
 		root.RevealMarkdown.initialize();
 	}
 }( this, function( marked ) {
-
-	if( typeof marked === 'undefined' ) {
-		throw 'The reveal.js Markdown plugin requires marked to be loaded';
-	}
-
-	if( typeof hljs !== 'undefined' ) {
-		marked.setOptions({
-			highlight: function( lang, code ) {
-				return hljs.highlightAuto( lang, code ).value;
-			}
-		});
-	}
 
 	var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
 		DEFAULT_NOTES_SEPARATOR = 'note:',
@@ -40,7 +31,8 @@
 	 */
 	function getMarkdownFromSlide( section ) {
 
-		var template = section.querySelector( 'script' );
+		// look for a <script> or <textarea data-template> wrapper
+		var template = section.querySelector( '[data-template]' ) || section.querySelector( 'script' );
 
 		// strip leading whitespace so it isn't evaluated as code
 		var text = ( template || section ).textContent;
@@ -117,7 +109,7 @@
 		var notesMatch = content.split( new RegExp( options.notesSeparator, 'mgi' ) );
 
 		if( notesMatch.length === 2 ) {
-			content = notesMatch[0] + '<aside class="notes" data-markdown>' + notesMatch[1].trim() + '</aside>';
+			content = notesMatch[0] + '<aside class="notes">' + marked(notesMatch[1].trim()) + '</aside>';
 		}
 
 		// prevent script end tags in the content from interfering
@@ -186,7 +178,7 @@
 				markdownSections += '<section '+ options.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
+					markdownSections += '<section data-markdown>' + createMarkdownSlide( child, options ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
@@ -388,6 +380,24 @@
 	return {
 
 		initialize: function() {
+			if( typeof marked === 'undefined' ) {
+				throw 'The reveal.js Markdown plugin requires marked to be loaded';
+			}
+
+			if( typeof hljs !== 'undefined' ) {
+				marked.setOptions({
+					highlight: function( code, lang ) {
+						return hljs.highlightAuto( code, [lang] ).value;
+					}
+				});
+			}
+
+			var options = Reveal.getConfig().markdown;
+
+			if ( options ) {
+				marked.setOptions( options );
+			}
+
 			processSlides();
 			convertSlides();
 		},
