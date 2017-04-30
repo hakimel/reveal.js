@@ -393,6 +393,37 @@ Reveal.isPaused();
 Reveal.isAutoSliding();
 ```
 
+### Custom Key Bindings
+
+Custom key bindings can be added and removed using the following Javascript API. Custom key bindings will override the default keyboard bindings, but will in turn be overridden by the user defined bindings in the ``keyboard`` config option.
+
+```javascript
+Reveal.addKeyBinding( binding, callback );
+Reveal.removeKeyBinding( keyCode );
+```
+
+For example
+
+```javascript
+// The binding parameter provides the following properties
+//      keyCode: the keycode for binding to the callback
+//          key: the key label to show in the help overlay
+//  description: the description of the action to show in the help overlay
+Reveal.addKeyBinding( { keyCode: 84, key: 'T', description: 'Start timer' }, function() {
+	// start timer
+} )
+
+// The binding parameter can also be a direct keycode without providing the help description
+Reveal.addKeyBinding( 82, function() {
+	// reset timer
+} )
+```
+
+This allows plugins to add key bindings directly to Reveal so they can
+
+* make use of Reveal's pre-processing logic for key handling (for example, ignoring key presses when paused); and
+* be included in the help overlay (optional)
+
 ### Slide Changed Event
 
 A 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
