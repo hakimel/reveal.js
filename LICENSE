@@ -1,4 +1,4 @@
-Copyright (C) 2016 Hakim El Hattab, http://hakim.se, and reveal.js contributors
+Copyright (C) 2017 Hakim El Hattab, http://hakim.se, and reveal.js contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

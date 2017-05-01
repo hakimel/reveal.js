@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2016 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -388,6 +388,7 @@ body {
 	bottom: 0;
 	left: 0;
 	margin: auto;
+	pointer-events: none;
 
 	overflow: visible;
 	z-index: 1;
@@ -406,6 +407,7 @@ body {
 	position: absolute;
 	width: 100%;
 	padding: 20px 0px;
+	pointer-events: auto;
 
 	z-index: 10;
 	transform-style: flat;
@@ -441,6 +443,11 @@ body {
 	display: block;
 	z-index: 11;
 	opacity: 1;
+}
+
+.reveal .slides>section:empty,
+.reveal .slides>section>section:empty {
+	pointer-events: none;
 }
 
 .reveal.center,
@@ -610,6 +617,10 @@ body {
 
 /*********************************************
  * CUBE TRANSITION
+ *
+ * WARNING:
+ * this is deprecated and will be removed in a
+ * future version.
  *********************************************/
 
 .reveal.cube .slides {
@@ -682,6 +693,10 @@ body {
 
 /*********************************************
  * PAGE TRANSITION
+ *
+ * WARNING:
+ * this is deprecated and will be removed in a
+ * future version.
  *********************************************/
 
 .reveal.page .slides {
@@ -866,6 +881,7 @@ body {
 		height: 100%;
 		opacity: 0;
 		visibility: hidden;
+		overflow: hidden;
 
 		background-color: rgba( 0, 0, 0, 0 );
 		background-position: 50% 50%;
@@ -882,6 +898,7 @@ body {
 	.reveal .slide-background.present {
 		opacity: 1;
 		visibility: visible;
+		z-index: 2;
 	}
 
 	.print-pdf .reveal .slide-background {
@@ -898,7 +915,11 @@ body {
 	max-height: none;
 	top: 0;
 	left: 0;
+	object-fit: cover;
 }
+	.reveal .slide-background[data-background-size="contain"] video {
+		object-fit: contain;
+	}
 
 /* Immediate transition style */
 .reveal[data-background-transition=none]>.backgrounds .slide-background,
@@ -1080,6 +1101,10 @@ body {
 		outline: 10px solid rgba(150,150,150,0.1);
 		outline-offset: 10px;
 	}
+
+	.backgrounds .slide-background.stack {
+		overflow: visible;
+	}
 }
 
 // Disable transitions transitions while we're activating
@@ -1092,10 +1117,6 @@ body {
 .reveal.overview .backgrounds .slide-background,
 .reveal.overview-deactivating .backgrounds .slide-background {
 	transition: none;
-}
-
-.reveal.overview-animated .slides {
-	transition: transform 0.4s ease;
 }
 
 

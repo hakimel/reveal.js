@@ -1,13 +1,14 @@
 {
   "name": "reveal.js",
-  "version": "3.4.1",
+  "version": "3.5.0",
   "description": "The HTML Presentation Framework",
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
-    "start": "grunt serve"
+    "start": "grunt serve",
+    "build": "grunt"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -21,15 +22,11 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "dependencies": {
-    "express": "~4.14.0",
-    "grunt-cli": "~1.2.0",
-    "mustache": "~2.2.1",
-    "socket.io": "^1.4.8"
-  },
   "devDependencies": {
+    "express": "~4.14.0",
     "grunt": "~1.0.1",
     "grunt-autoprefixer": "~3.0.3",
+    "grunt-cli": "~1.2.0",
     "grunt-contrib-connect": "~0.11.2",
     "grunt-contrib-cssmin": "~0.14.0",
     "grunt-contrib-jshint": "~0.11.3",
@@ -39,7 +36,9 @@
     "grunt-sass": "~1.2.0",
     "grunt-retire": "~0.3.10",
     "grunt-zip": "~0.17.1",
-    "node-sass": "~3.13.0"
+    "mustache": "~2.2.1",
+    "node-sass": "~3.13.0",
+    "socket.io": "^1.4.8"
   },
   "license": "MIT"
 }

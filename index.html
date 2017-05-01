@@ -24,7 +24,7 @@
 			<div class="slides">
 
 				<!-- slide.cover -->
-				<section data-state="sl-cover" data-background-video="img/cover_clip.mp4" data-background-video-loop="true">
+				<section data-state="sl-cover" data-timing="80" data-background-video="img/cover_clip.mp4" data-background-video-loop="true">
 					<h2>Merge Hell - and how to avoid it</h2>
 					<h5>Collaboration on large projects in<br/>modern software development</h5>
 
@@ -41,7 +41,7 @@
 
 
 				<!-- slide.collaboration -->
-				<section data-state="sl-collaboration">
+				<section data-state="sl-collaboration" data-timing="120">
 					<h3>Collaboration</h3>
 					<p class="fragment">What is it? And why should you care?</p>
 					<p class="fragment">It's about getting things done - better together!</p>
@@ -68,7 +68,7 @@
 
 				<!-- slide.collaboration-aspects -->
 				<section>
-					<section data-state="sl-collaboration-aspects">
+					<section data-state="sl-collaboration-aspects" data-timing="120">
 						<h3>Aspects of collaboration</h3>
 						<p class="fragment">On Organization level: it's all about (infra)structure <span class="fragment">and workflows</span></p>
 						<p class="fragment">On Code level: it's about tools ... <span class="fragment">and workflows</span></p>
@@ -78,7 +78,8 @@
 							- office, meetingrooms, network connections, etc.
 							- workflows: All-hands, standups, scrum meetings
 							- but most importantly: CULTURE
-								- example: include TDD budget in project planning phase (TDD: 25% overhead)
+								- example: include TDD budget in project planning phase (TDD: 25% overhead) => !(code goes out tested)
+								- question: how many of you have heard about windows millenium? see!
 							
 							## Code
 							- past vs present: handing over a floppy disk, index-numbering files
@@ -89,7 +90,7 @@
 
 
 					<!-- slide.img-collaboration -->
-					<section data-state="sl-img-collaboration" data-background="img/collage03_b.jpg" data-background-transition="slide">
+					<section data-state="sl-img-collaboration" data-timing="40" data-background="img/collage03_b.jpg" data-background-transition="slide">
 						<aside class="notes" data-markdown>
 							### Samples for collaboration
 							- structures
@@ -101,7 +102,7 @@
 
 
 					<!-- slide.img-codesample -->
-					<section data-state="sl-img-codesample" data-background="img/code_sample.png" data-background-transition="slide">
+					<section data-state="sl-img-codesample" data-timing="20" data-background="img/code_sample.png" data-background-transition="slide">
 						<aside class="notes" data-markdown>
 							Lost in translation?
 						</aside>
@@ -110,7 +111,7 @@
 
 
 				<!-- slide.right-mix -->
-				<section data-state="sl-right-mix">
+				<section data-state="sl-right-mix" data-timing="180">
 					<h2>Workflows and tools ...</h2>
 					<p></p>
 					<ul>
@@ -168,7 +169,7 @@
 				</section>
 
 				<!-- slide.tools -->
-				<section data-state="sl-tools">
+				<section data-state="sl-tools" data-timing="60">
 					<h3>Tools</h3>
 					<p>Some of the tools we use at Parkside:</p>
 					<img id="tools" src="img/logos_tools.svg" alt="Some tools in use at Parkside" />
@@ -234,7 +235,7 @@
 				</section>
 
 				<!-- slide.proven-concepts -->
-				<section data-state="sl-proven-concepts">
+				<section data-state="sl-proven-concepts" data-timing="120">
 					<h3>Proven concepts</h3>
 					<p>Feature branch workflow</p>
 					<ul>
@@ -276,7 +277,7 @@
 				</section>
 
 				<!-- slide.merge-hell -->
-				<section data-state="sl-merge-hell">
+				<section data-state="sl-merge-hell" data-timing="150">
 					<h3>Merge Hell</h3>
 					<p>How did we end up here?</p>
 					<ul>
@@ -292,10 +293,10 @@
 
 
 				<!-- slide.big-picture -->
-				<section>
-					<section data-state="sl-big-picture" data-background="img/big-picture.svg">
+				<section data-transition="fade">
+					<section data-state="sl-big-picture" data-timing="60">
 						<h3>The Big Picture</h3>
-						<!-- <img id="schema" src="img/big-picture.svg" alt="The Big Picture - deployment schema" /> -->
+						<img id="schema" src="img/big-picture.svg" alt="The Big Picture - schema" />
 
 						<aside class="notes" data-markdown>
 							### Definitions
@@ -308,7 +309,7 @@
 					</section>
 
 
-					<section data-state="sl-magic" data-background="img/big-picture.svg" data-transition="zoom">
+					<section data-state="sl-magic" data-timing="60" data-background="img/big-picture.svg" data-transition="fade" data-background-transition="fade">
 						<h3>The magic</h3>
 						<ol>
 							<li class="fragment">Git commit hook => triggers CircleCI build</li>
@@ -329,7 +330,7 @@
 					</section>
 
 
-					<section data-state="sl-kubernetes-cheatsheet">
+					<section data-state="sl-kubernetes-cheatsheet" data-timing="20">
 						<h3>Kubernetes Cheatsheet</h3>
 						<pre><code data-trim data-noescape class="stretch python">
 								# configure gcloud cli components
@@ -360,7 +361,7 @@
 
 
 				<!-- slide.authors -->
-				<section data-state="sl-authors" data-background="img/leafs.jpg" data-background-transition="fade-in">
+				<section data-state="sl-authors" data-timing="60" data-background="img/leafs.jpg" data-background-transition="fade-in">
 					<div class="author">
 						<h3>Chris Werding</h3>
 						<ul>
@@ -387,7 +388,7 @@
 
 
 				<!-- slide.company -->
-				<section data-state="sl-company" data-background="img/leafs.jpg" data-background-transition="fade-in">
+				<section data-state="sl-company" data-timing="50" data-background="img/leafs.jpg" data-background-transition="fade-in">
 					<h3>We are Parkside</h3>
 					<p>45+ employees / 15 nations / 10 languages / international clients / large-scale projects / headquarters @Graz</p>
 
@@ -402,23 +403,24 @@
 
 
 				<!-- slide.tldr -->
-				<section data-state="sl-tldr" data-background="img/leafs.jpg" data-background-transition="fade-in" data-transition-speed="slow">
+				<section data-state="sl-tldr" data-timing="120" data-background="img/leafs.jpg" data-background-transition="fade-in" data-transition-speed="slow">
 					<h3>tl;dr</h3>
 					<ul>
-						<li class="fragment">Work with nice people</li>
-						<li class="fragment">Communicate a lot</li>
-						<li class="fragment">Use great tools</li>
+						<li class="fragment">Work with nice people... <span class="fragment">and talk to them!</span></li>
+						<li class="fragment">Use great tools... <span class="fragment">that fit your needs</span></li>
 						<li class="fragment">
 							<i>Do amazing things</i>
 						</li>
-						<li class="fragment">https://github.com/chriwu/ps-tec-2017</li>
 					</ul>
+
+					<p class="fragment">https://github.com/chriwu/ps-tec-2017</p>
 
 					<aside class="notes" data-markdown>
 						### Learnings
 						- avoid long running branches
 						- keep PRs small
 						- code styling / linting: what was hard to write should NOT be hard to read
+						- use the right tools - hammer vs nails
 
 						### FIN
 						- which questions do you have?
@@ -429,7 +431,7 @@
 
 
 				<!-- slide.merci -->
-				<section data-state="sl-merci" data-background="img/parkside_team.jpg">
+				<section data-state="sl-merci" data-timing="60" data-background="img/parkside_team.jpg">
 					<h3>danke / thank you / kiitos / merci<br/>hvala / gracias / obrigado</h3>
 					<div id="hiring">
 						<h4>Parkside is hiring</h4>
@@ -448,6 +450,7 @@
 		<script>
 			Reveal.initialize({
 				history: true,
+				defaultTiming: 120,
 				keyboard: {
 					86: function () {
 						document.querySelector("#sha").classList.toggle("visible");

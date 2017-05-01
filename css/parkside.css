@@ -35,13 +35,18 @@ html.sl-collaboration-aspects .slide-background, html.sl-company .slide-backgrou
   opacity: 0.2 !important; }
 
 html.sl-big-picture h3 {
-  position: relative;
-  top: -110px !important; }
+  /*position: relative;
+    top: -110px !important;
+    */ }
 
 html.sl-big-picture .slide-background {
   opacity: 1.0 !important;
   background-position-y: 100px;
   background-size: 70%; }
+
+html.sl-big-picture img#schema {
+  margin: 0px 0;
+  width: 85%; }
 
 html.sl-magic .slide-background {
   opacity: 0.35 !important;
@@ -110,10 +115,9 @@ body {
   .reveal section img {
     border: none;
     background: transparent;
-    box-shadow: none; }
+    box-shadow: none;
+    margin: 0 !important;
+    padding: 0; }
     .reveal section img#tools {
       margin: 40px 0;
       width: 60%; }
-    .reveal section img#schema {
-      margin: 0px 0;
-      width: 85%; }

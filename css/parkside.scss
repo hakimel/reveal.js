@@ -65,15 +65,21 @@ html.sl-collaboration-aspects, html.sl-company, html.sl-tldr {
 html.sl-big-picture {
 
   h3 {
-    position: relative;
+    /*position: relative;
     top: -110px !important;
-    
+    */
   }
 
   .slide-background {
     opacity: 1.0 !important;
     background-position-y: 100px;
     background-size: 70%;
+  }
+
+  img#schema {
+    margin: 0px 0;
+    width: 85%;
+    
   }
 }
 
@@ -201,16 +207,15 @@ body {
       border: none;
       background: transparent;
       box-shadow: none;
+      margin: 0 !important;
+      padding: 0;
 
       &#tools {
         margin: 40px 0;
         width: 60%;
       }
 
-      &#schema {
-        margin: 0px 0;
-        width: 85%;
-      }
+      
     }
   }
 }
