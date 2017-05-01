@@ -4,8 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-		<title>Merge Hell - and how to avoid it // Parkside @Teconomy 2017</title>
+		<title>Merge Hell - and how to avoid it // Parkside @Teconomy 2017 // PS_VERSION_NUMBER</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -20,90 +19,91 @@
 
 	<body>
 		<div class="reveal">
+			<span id="sha">PS_VERSION_NUMBER</span>
+
 			<div class="slides">
 
 				<!-- slide.cover -->
 				<section data-state="sl-cover" data-background-video="img/cover_clip.mp4" data-background-video-loop="true">
 					<h2>Merge Hell - and how to avoid it</h2>
-					<p>Collaboration on large projects in modern software development</p>
-				</section>
-
-
-				<!-- slide.authors -->
-				<section data-state="sl-authors" data-background="img/leafs.jpg">
-					<div class="author">
-						<h4>Chris Werding</h4>
-						<ul>
-							<li>VP of Engineering</li>
-							<li>Team lead / Software architect / Project manager</li>
-							<li>.Net / Java / Javascript / Scalability / Architecture / Patterns</li>
-						</ul>
-					</div>
-					<div class="author">
-						<h4>Nelle Simic</h4>
-						<ul>
-							<li>Principal Software Engineer</li>
-							<li>Architect / Guru / Engineer / Consultant</li>
-						</ul>
-					</div>
+					<h5>Collaboration on large projects in<br/>modern software development</h5>
 
 					<aside class="notes" data-markdown>
-						<p>Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
+						### quick intro
+						His name is Nelle, and I am Chris. Yeah, really quick.
+
+						### opening questions
+						- how many of you are taking software engineering classes?
+						- how many of you have been working on teams with more than 2 people?
+						- how many of you have ever used sourcecode versioning systems
 					</aside>
-				</section>
-
-
-				<!-- slide.company -->
-				<section data-state="sl-company" data-background="img/leafs.jpg">
-					<h3>We are Parkside</h3>
-					<p>A design focused software development studio. We think outside the box to create beautiful design and powerful applications.
-					</p>
-					<p>45+ employees, headquarters in Graz</p>
-
-					<aside class="notes" data-markdown>Notes go here.</aside>
 				</section>
 
 
 				<!-- slide.collaboration -->
 				<section data-state="sl-collaboration">
 					<h3>Collaboration</h3>
-					<p>What is it? And why should you care?</p>
-					<ul class="fragment">
-						<li>Team Level</li>
-						<li>Code Level</li>
-					</ul>
+					<p class="fragment">What is it? And why should you care?</p>
+					<p class="fragment">It's about getting things done - better together!</p>
 
 					<aside class="notes" data-markdown>
-						<p>Increases productivity, efficiency, saves your ass on the deadline</p>
-						<p>So its actually about communicating a lot. On both levels</p>
+						### Scenario
+						- deadline approaching. get things out of the door
+						- split up the work among your teammates
+						- if separation is good - collab is easy
+
+						### Why
+						- cope with last minute problems
+						- Murphys law: on day d-1 - "what can go wrong will go wrong"
+						- scale out the work
+						- improve quality!
+						- problems: floppy disk breaks, merge hell, hidden complexity, commits disappear
+
+						### Samples
+						- hand over floppy to Nelle (it's NOT a 3d-printed print icon)
+						- show image of folks playing Nintendo
 					</aside>
 				</section>
 
 
-				<!-- slide.teamlevel -->
+				<!-- slide.collaboration-aspects -->
 				<section>
-					<section data-state="sl-teamlevel">
-						<h3>The team level</h3>
-						<ul class="fragment">
-							<li>The past vs. the present</li>
-							<li>All Hands / Scrum / Standups</li>
-							<li>Showcase: Google Docs</li>
-							<li>img of codesample here</li>
-							<li>Company => provide workflows and tools to back this up</li>
-						</ul>
+					<section data-state="sl-collaboration-aspects">
+						<h3>Aspects of collaboration</h3>
+						<p class="fragment">On Organization level: it's all about (infra)structure <span class="fragment">and workflows</span></p>
+						<p class="fragment">On Code level: it's about tools ... <span class="fragment">and workflows</span></p>
 
 						<aside class="notes" data-markdown>
-							- Team level is obvious: meetings, structures, organization, standups etc.
-							- Works great in GDocs, but: in code? (show two lines of code amd zoom out), across teams amd oceans?
+							### Orga
+							- office, meetingrooms, network connections, etc.
+							- workflows: All-hands, standups, scrum meetings
+							- but most importantly: CULTURE
+								- example: include TDD budget in project planning phase (TDD: 25% overhead)
+							
+							## Code
+							- past vs present: handing over a floppy disk, index-numbering files
+							- Works great in GDocs, but: in code?
+							- Difficulties: large teams, oceans, team members
 						</aside>
 					</section>
 
 
-					<!-- slide.codesample -->
-					<section data-state="sl-codesample" data-background="img/code_sample.jpg" data-background-transition="zoom">
-						<h3>Lost in translation?</h3>
-
+					<!-- slide.img-collaboration -->
+					<section data-state="sl-img-collaboration" data-background="img/collage03_b.jpg" data-background-transition="slide">
 						<aside class="notes" data-markdown>
+							### Samples for collaboration
+							- structures
+							- workflows
+							- tools
+							- devices
+						</aside>
+					</section>
+
+
+					<!-- slide.img-codesample -->
+					<section data-state="sl-img-codesample" data-background="img/code_sample.png" data-background-transition="slide">
+						<aside class="notes" data-markdown>
+							Lost in translation?
 						</aside>
 					</section>
 				</section>
@@ -120,7 +120,9 @@
 						<li class="fragment">Culture of Collaboration.</li>
 						<li class="fragment">Tools can help to foster and grow new ideas</li>
 						<li class="fragment">explore, understand, diagnose, analyse, model, create, invent, solve, communicate and implement</li>
+
 					</ul>
+					<p>=> find the right mix!</p>
 
 					<aside class="notes" data-markdown>
 						### Short intro
@@ -144,7 +146,7 @@
 
 							Next slide: Lets take a look at some tools used for creating this presentation
 
-							!! Around 3 mins for this - talk faster !!
+							!! Around 3 mins for this !!
 
 							- Example?: Code reviews - Github (only if there is time)
 
@@ -168,35 +170,13 @@
 				<!-- slide.tools -->
 				<section data-state="sl-tools">
 					<h3>Tools</h3>
-					<p>Some of the tools that were used to create this presentation:</p>
-					<table class="tools">
-						<tbody>
-							<tr>
-								<td>Github</td>
-								<td>Slack</td>
-								<td>CircleCI</td>
-							</tr>
-							<tr>
-								<td>Jenkins</td>
-								<td>Browserstack</td>
-								<td>Jira</td>
-							</tr>
-							<tr>
-								<td>Bitbucket</td>
-								<td>Buildkite</td>
-								<td>Kubernetes</td>
-							</tr>
-							<tr>
-								<td>GKE</td>
-								<td>Litabot</td>
-								<td>Visual Code</td>
-							</tr>
-						</tbody>
-					</table>
+					<p>Some of the tools we use at Parkside:</p>
+					<img id="tools" src="img/logos_tools.svg" alt="Some tools in use at Parkside" />
 
 					<aside class="notes" data-markdown>
 						### Questions for the audience:
-							- Used source code versioning tools (Git)?
+							- Worked on university projects in groups of more than 2 people?
+							- Used Git?
 							- Anyone used something else from the list in your projects?
 
 						- Good news / Bad news situation
@@ -300,57 +280,151 @@
 					<h3>Merge Hell</h3>
 					<p>How did we end up here?</p>
 					<ul>
-						<li class="fragment">Long running branches</li>
-						<li class="fragment">Epic branches</li>
-						<li class="fragment">Refactoring</li>
+						<li>Long running branches</li>
+						<li>Epic branches</li>
+						<li>Stale branches</li>
 					</ul>
 
 					<aside class="notes" data-markdown>
-						What is merge-hell?
-
-						Tools: Version control systems
-						Workflows: feature branch
-						Solve the problem of code-level collaboration.
-						Proven to be working and scale well.
-						But as solution is perfect this too brings a set of problems with it.
-
-						Resolving one conflict after another.
-						Spending more time on keeping the branches up to date then doing actual work.
-
 						### Long running branches
 					</aside>
 				</section>
 
 
 				<!-- slide.big-picture -->
-				<section data-state="sl-big-picture">
-					<h3>The big picture / Demo</h3>
-					<p>Schematics img goes here.</p>
+				<section>
+					<section data-state="sl-big-picture" data-background="img/big-picture.svg">
+						<h3>The Big Picture</h3>
+						<!-- <img id="schema" src="img/big-picture.svg" alt="The Big Picture - deployment schema" /> -->
 
-					<aside class="notes" data-markdown></aside>
+						<aside class="notes" data-markdown>
+							### Definitions
+							- Slack: com tool
+							- Github: online version control repository
+							- CircleCI: Continuous Integration / Continuous Deployment platform
+							- Kubernetes: Cluster manager for Docker containers
+							- GKE / Google Container Engine: PaaS, built on Kubernetes
+						</aside>
+					</section>
+
+
+					<section data-state="sl-magic" data-background="img/big-picture.svg" data-transition="zoom">
+						<h3>The magic</h3>
+						<ol>
+							<li class="fragment">Git commit hook => triggers CircleCI build</li>
+							<li class="fragment">CircleCI builds artifacts => new container image</li>
+							<li class="fragment">Image is pushed to GCP registry</li>
+							<li class="fragment">Kubernetes hot-swaps image on running cluster</li>
+							<li class="fragment">Status messages are send to Slack</li>
+						</ol>
+						<p class="fragment">
+							Git SHA:&nbsp;
+							<span id="ps-version-number">PS_VERSION_NUMBER</span>
+						</p>
+
+
+						<aside class="notes" data-markdown>
+							
+						</aside>
+					</section>
+
+
+					<section data-state="sl-kubernetes-cheatsheet">
+						<h3>Kubernetes Cheatsheet</h3>
+						<pre><code data-trim data-noescape class="stretch python">
+								# configure gcloud cli components
+								gcloud auth login
+								gcloud config set project ps-tec-17
+								gcloud container clusters get-credentials cluster-ps-tec-17
+								gcloud config set container/cluster cluster-ps-tec-17
+
+								# build docker image and test it
+								docker build -t "eu.gcr.io/ps-teconomy-2017/ps-tec-17:latest" .
+								docker run -p 80:8000 eu.gcr.io/ps-teconomy-2017/ps-tec-17:latest
+
+								# push image to GCP registry
+								gcloud docker — push eu.gcr.io/ps-teconomy-2017/ps-tec-17:latest
+
+								# create deployment and service
+								kubectl run demo --image=eu.gcr.io/ps-teconomy-2017/ps-tec-17:latest --port 8000
+								kubectl expose deployment demo --type=LoadBalancer --port 80 --target-port 8000
+
+								# update image
+								kubectl set image deployment/demo demo=eu.gcr.io/ps-teconomy-2017/ps-tec-17:latest
+							</code></pre>
+
+						<aside class="notes" data-markdown></aside>
+					</section>
+
+				</section>
+
+
+				<!-- slide.authors -->
+				<section data-state="sl-authors" data-background="img/leafs.jpg" data-background-transition="fade-in">
+					<div class="author">
+						<h3>Chris Werding</h3>
+						<ul>
+							<li>VP of Engineering<br/>5 years @ Parkside</li>
+							<li>Team Lead / Software Architect / Project Manager</li>
+							<li>Dotnet / Java / Javscript / Scalability / Architecture / Design Patterns</li>
+						</ul>
+					</div>
+					<div class="author">
+						<h3>Nelle Simic</h3>
+						<ul>
+							<li>Principal Software Engineer<br/>12 years @ Parkside</li>
+							<li>Software Architect / Guru / Engineer / Consultant</li>
+							<li>Java / Algorithmics / React / AngularJS / Graphics Engineering</li>
+						</ul>
+					</div>
+
+					<aside class="notes" data-markdown>
+						- Anecdote Chris: How I deleted the entire CVS repo on my first day</p>
+						- Nelle: 12 years at Parkside
+						- Chris: 5 years
+					</aside>
+				</section>
+
+
+				<!-- slide.company -->
+				<section data-state="sl-company" data-background="img/leafs.jpg" data-background-transition="fade-in">
+					<h3>We are Parkside</h3>
+					<p>45+ employees / 15 nations / 10 languages / international clients / large-scale projects / headquarters @Graz</p>
+
+					<aside class="notes" data-markdown>
+						### Claims
+						- stuff you've seen in this demo: we do it everyday
+						- best job in the world
+						- most of your awake time is spent on the job - rather spend it with people you enjoy working with
+						- diversity is always an asset
+					</aside>
 				</section>
 
 
 				<!-- slide.tldr -->
-				<section data-state="sl-tldr">
-					<h3>tldr;</h3>
-					<p>
-						Work with nice people<br/> Communicate a lot
-					</p>
-					<p>
-						<i>Do amazing things</i>
-					</p>
+				<section data-state="sl-tldr" data-background="img/leafs.jpg" data-background-transition="fade-in" data-transition-speed="slow">
+					<h3>tl;dr</h3>
+					<ul>
+						<li class="fragment">Work with nice people</li>
+						<li class="fragment">Communicate a lot</li>
+						<li class="fragment">Use great tools</li>
+						<li class="fragment">
+							<i>Do amazing things</i>
+						</li>
+						<li class="fragment">https://github.com/chriwu/ps-tec-2017</li>
+					</ul>
 
-					<aside class="notes" data-markdown>Notes go here.</aside>
-				</section>
+					<aside class="notes" data-markdown>
+						### Learnings
+						- avoid long running branches
+						- keep PRs small
+						- code styling / linting: what was hard to write should NOT be hard to read
 
-
-				<!-- slide.eol -->
-				<section data-state="sl-eol">
-					<h3>E.O.L.</h3>
-					<p>That's it. Questions?</p>
-
-					<aside class="notes" data-markdown>Notes go here.</aside>
+						### FIN
+						- which questions do you have?
+						- thank you very much for your attention
+						- you can find the slides @
+					</aside>
 				</section>
 
 
@@ -374,17 +448,20 @@
 		<script>
 			Reveal.initialize({
 				history: true,
-				//defaultTiming: 10,
-				//margin: 0,
+				keyboard: {
+					86: function () {
+						document.querySelector("#sha").classList.toggle("visible");
+					},
+				},
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					//{ src: 'plugin/zoom-js/zoom.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
 				]
 			});
 		</script>
+
 	</body>
 
 </html>

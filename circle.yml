@@ -1,0 +1,38 @@
+general:
+
+machine:
+  environment:
+    PROJECT_NAME: ps-teconomy-2017
+    IMAGE_NAME: ps-tec-17
+    CLUSTER_NAME: cluster-ps-tec-17
+    CLOUDSDK_COMPUTE_ZONE: europe-west1-b
+    DEBIAN_FRONTEND: noninteractive
+    GOOGLE_APPLICATION_CREDENTIALS: ${HOME}/account-auth.json
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+    - echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ${HOME}/account-auth.json
+    - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/account-auth.json
+    - sudo chown -R $USER /home/ubuntu/.config
+    - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+    - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+    - sed -i -e "s/PS_VERSION_NUMBER/$CIRCLE_SHA1.$CIRCLE_BUILD_NUM/g" index.html
+    - echo $GIT_SHA_SHORT
+    - docker build -t eu.gcr.io/${PROJECT_NAME}/${IMAGE_NAME}:$CIRCLE_SHA1 .
+    - docker tag eu.gcr.io/${PROJECT_NAME}/${IMAGE_NAME}:$CIRCLE_SHA1 eu.gcr.io/${PROJECT_NAME}/${IMAGE_NAME}:latest
+
+test:
+  override:
+    - echo "test"
+
+deployment:
+  prod:
+    branch: /.*/
+    commands:
+      - ./deploy.sh
