@@ -31,14 +31,22 @@ html.sl-authors .author {
 html.sl-authors .slide-background {
   opacity: 0.2 !important; }
 
-html.sl-company .slide-background {
+html.sl-collaboration-aspects .slide-background, html.sl-company .slide-background, html.sl-tldr .slide-background {
   opacity: 0.2 !important; }
 
-html.sl-teamlevel .slide-background {
-  opacity: 0.2 !important; }
+html.sl-big-picture h3 {
+  position: relative;
+  top: -110px !important; }
 
-html.sl-codesample .slide-background {
-  opacity: 0.6 !important; }
+html.sl-big-picture .slide-background {
+  opacity: 1.0 !important;
+  background-position-y: 100px;
+  background-size: 70%; }
+
+html.sl-magic .slide-background {
+  opacity: 0.35 !important;
+  background-position-y: 100px;
+  background-size: 70%; }
 
 html.sl-merci .reveal #hiring {
   padding-top: 70px; }
@@ -72,7 +80,24 @@ body {
     font-weight: 100;
     font-size: 80%;
     font-style: normal; }
+  .reveal code {
+    background: transparent;
+    font-size: 16px; }
+  .reveal pre {
+    box-shadow: none; }
+  .reveal #sha {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    font: 14px "courier new";
+    display: none; }
+    .reveal #sha.visible {
+      display: block; }
+  .reveal #ps-version-number {
+    font-family: "courier new"; }
   .reveal .controls {
+    display: none !important;
+    /* turn back on if necessary */
     left: 10px !important; }
     .reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
       border-right-color: #fff; }
@@ -82,14 +107,13 @@ body {
       border-bottom-color: #fff; }
     .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
       border-top-color: #fff; }
-
-img#tools {
-  border: none;
-  margin: 40px 0;
-  background: transparent;
-  width: 60%; }
-
-h4#eol {
-  font-style: italic;
-  font-weight: 100;
-  margin-top: 150px; }
+  .reveal section img {
+    border: none;
+    background: transparent;
+    box-shadow: none; }
+    .reveal section img#tools {
+      margin: 40px 0;
+      width: 60%; }
+    .reveal section img#schema {
+      margin: 0px 0;
+      width: 85%; }

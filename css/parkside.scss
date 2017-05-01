@@ -54,7 +54,7 @@ html.sl-authors {
 }
 
 
-html.sl-company {
+html.sl-collaboration-aspects, html.sl-company, html.sl-tldr {
 
   .slide-background {
     opacity: 0.2 !important;
@@ -62,27 +62,38 @@ html.sl-company {
 }
 
 
-html.sl-teamlevel {
+html.sl-big-picture {
+
+  h3 {
+    position: relative;
+    top: -110px !important;
+    
+  }
 
   .slide-background {
-    opacity: 0.2 !important;
+    opacity: 1.0 !important;
+    background-position-y: 100px;
+    background-size: 70%;
   }
 }
 
 
-html.sl-codesample {
+html.sl-magic {
 
   .slide-background {
-    opacity: 0.6 !important;
+    opacity: 0.35 !important;
+    background-position-y: 100px;
+    background-size: 70%;
   }
 }
-
 
 
 html.sl-merci {
 
   .reveal {
+
     #hiring {
+
       padding-top: 70px;
     }
   }
@@ -104,6 +115,7 @@ body {
     right: 30px;
   }
 }
+
 
 .reveal {
   font-family: "proxima-nova", sans-serif;
@@ -134,7 +146,35 @@ body {
     font-style: normal;
   }
 
+  code {
+      background: transparent;
+      font-size: 16px;
+  }
+
+  pre {
+      box-shadow: none;
+  }
+
+  #sha {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    font: 14px "courier new";
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  #ps-version-number {
+    font-family: "courier new";
+  }
+  
+
   .controls {
+    display: none !important;  /* turn back on if necessary */
+
     left: 10px !important;
 
     .navigate-left,.navigate-left.enabled {
@@ -153,20 +193,24 @@ body {
       border-top-color: #fff;
     }
   }
-}
 
-img#tools {
+  section {
 
-  border: none;
-  margin: 40px 0;
-  background: transparent;
-  width: 60%;
-}
+    img {
 
+      border: none;
+      background: transparent;
+      box-shadow: none;
 
-h4#eol {
-  font-style: italic;
-  font-weight:100;
-  margin-top: 150px;
+      &#tools {
+        margin: 40px 0;
+        width: 60%;
+      }
 
+      &#schema {
+        margin: 0px 0;
+        width: 85%;
+      }
+    }
+  }
 }
