@@ -1,0 +1,61 @@
+<div class="slides">
+    <section>
+        <h1>Variable Power Supply</h1>
+    </section>
+    <section>
+        <section>
+            <h3>
+            </h3>
+<h1>STATEMENT OF THE PROBLEM </h1>
+<div>
+            <br>
+        </div>
+<h3>
+        <br>
+    </h3>
+</section>
+<section>
+    <h2>General Problem</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<ul>
+    <li class="fragment" data-fragment-index="0">
+<span style="text-align: center;">How to design a Variable Power Supply?</span>
+    <br>
+</li>
+</ul>
+</div>
+<p style="text-align: left; ">
+</p>
+<p>
+<br>
+</p>
+</section>
+<section>
+    <h2>Specific Problem</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<ul>
+<li class="fragment" data-fragment-index="0">
+<span style="text-align: center;">How to layout a Printed Circuit Board that will hold the components?</span>
+<br>
+</li>
+<li class="fragment" data-fragment-index="1">How can the Variable Power Supply select suitable power for a device with specific voltage?<br>
+</li>
+<li class="fragment" data-fragment-index="2">How to make the power supply case, hold and keep the components firm inside?</li>
+</ul>
+<div style="text-align: left;">
+<br>
+</div>
+</div>
+<pre>ASD</pre><br></section></section><section><section><h1><span style="font-size: 111.45671081542969px;">Objectives</span></h1></section><section><h2>General Objectives</h2><div><br></div><div class="fragment" data-fragment-index="0">•To design a Variable Power Supply.<br></div></section><section><h2>Specific Objectives</h2><div><br></div><div style="text-align: left; " class="fragment" data-fragment-index="0">•To layout a Printed Circuit Board.</div><div style="text-align: left; " class="fragment" data-fragment-index="1">•To select suitable power for a device with specific voltage.</div><div style="text-align: left; " class="fragment" data-fragment-index="2">•To make the power supply case, hold and keep the components firm inside.</div></section></section><section><section><h1>scope and limitations</h1></section><section><h2>Scope<br></h2><div><br></div><div style="text-align: left; " class="fragment" data-fragment-index="0">• The project used a step-down transformer.</div><div style="text-align: left; " class="fragment" data-fragment-index="1">•&nbsp;The Variable Power Supply has a printed circuit board.</div><div style="text-align: left; " class="fragment" data-fragment-index="2">•&nbsp;The device has a fuse</div><div style="text-align: left; " class="fragment" data-fragment-index="3">•&nbsp;The device has a LED</div><div style="text-align: left; " class="fragment" data-fragment-index="4">•&nbsp;The device has a potentiometer</div></section><section><h2>Limitations</h2><div style="text-align: left; " class="fragment" data-fragment-index="0">•&nbsp;In case of power failure the variable power supply will not work.</div><div style="text-align: left; " class="fragment" data-fragment-index="1">•&nbsp;It does not supply AC</div></section></section><section><section><h1>Flowchart</h1></section><section><h2>Title</h2></section></section><section><section><h1>block diagram</h1></section><section><h1><br></h1></section></section><section><section><h1>schematic diagram</h1></section><section><h2>Title</h2></section></section></div>
