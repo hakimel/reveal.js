@@ -1181,6 +1181,32 @@ The core of reveal.js is very easy to install. You'll simply need to download a 
 
 3. Open index.html in a browser to view it
 
+### CDN setup
+
+In development, it is best to test with all files on a local drive, but for deployment on a host, serving some files via CDNs may allow faster to-glass time.  CDNs may also allow only the HTML file to be needed on internet connected clients.
+
+1. Download [index.html directly](https://raw.github.com/hakimel/reveal.js/blob/master/index.html) or retrieve from the [zip\(https://github.com/hakimel/reveal.js/archive/master.zip) archive. 
+
+2. Replace the example contents in index.html with your own.
+ 
+3. Visit [http://www.jsdelivr.com/#!reveal.js](http://www.jsdelivr.com/#!reveal.js) for reference to the hosted version and files available. 
+
+4. Prepend all the reveal file references with either:
+  * `//cdn.jsdelivr.net/reveal.js/VERSION-NUMBER/` if being hosted (browsers automatically select best protocol).
+  * `http://cdn.jsdelivr.net/reveal.js/VERSION-NUMBER/` if being opened from local drive.
+
+Replace VERSION-NUMBER with the latest version hosted on jsDelivr.  Example:
+
+```html
+<!-- hosting on my server -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/reveal.js/1.1.1/css/reveal.min.css">
+...
+<script src="//cdn.jsdelivr.net/reveal.js/1.1.1/lib/js/head.min.js"></script>
+<script src="//cdn.jsdelivr.net/reveal.js/1.1.1/js/reveal.min.js"></script>
+...
+	dependencies: [
+		{ src: '//cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/classList.js'...
+```
 
 ### Full setup
 
