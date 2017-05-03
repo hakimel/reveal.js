@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1556px" height="539px" viewBox="0 0 1556 539" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>infographic_n1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="77" cy="144" r="50"></circle>
+        <filter x="-57.5%" y="-57.5%" width="215.0%" height="215.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="17.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <circle id="path-3" cx="506" cy="144" r="50"></circle>
+        <filter x="-57.5%" y="-57.5%" width="215.0%" height="215.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feMorphology radius="5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="17.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <circle id="path-5" cx="938" cy="144" r="50"></circle>
+        <filter x="-57.5%" y="-57.5%" width="215.0%" height="215.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feMorphology radius="5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="17.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <circle id="path-7" cx="1440" cy="144" r="50"></circle>
+        <filter x="-57.5%" y="-57.5%" width="215.0%" height="215.0%" filterUnits="objectBoundingBox" id="filter-8">
+            <feMorphology radius="5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="17.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="infographic_n1">
+            <rect id="Rectangle" fill="#003F46" x="77" y="120" width="1385" height="48"></rect>
+            <path d="M71.6010712,383 C71.6010712,383 56.6401337,144 175.999509,144 L214.734735,144 L1245.34375,144" id="Path-3" stroke="#E84250" stroke-width="36" transform="translate(658.171875, 263.500000) scale(1, -1) translate(-658.171875, -263.500000) "></path>
+            <path d="M1235.60107,383 C1235.60107,383 1220.64013,144 1339.99951,144 L1378.73474,144 L1440.0238,144" id="Path-3-Copy" stroke="#E84250" stroke-width="36" transform="translate(1337.511899, 263.500000) scale(-1, -1) translate(-1337.511899, -263.500000) "></path>
+            <circle id="Oval-Copy-4" stroke="#E84250" stroke-width="6" fill="#FFFFFF" fill-rule="nonzero" transform="translate(283.000000, 383.000000) scale(1, -1) translate(-283.000000, -383.000000) " cx="283" cy="383" r="30"></circle>
+            <circle id="Oval-Copy-8" stroke="#E84250" stroke-width="6" fill="#FFFFFF" fill-rule="nonzero" transform="translate(740.000000, 383.000000) scale(1, -1) translate(-740.000000, -383.000000) " cx="740" cy="383" r="30"></circle>
+            <circle id="Oval-Copy-9" stroke="#E84250" stroke-width="6" fill="#FFFFFF" fill-rule="nonzero" transform="translate(1205.000000, 383.000000) scale(1, -1) translate(-1205.000000, -383.000000) " cx="1205" cy="383" r="30"></circle>
+            <g id="Oval-Copy-3" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use stroke="#DBDBDB" stroke-width="10" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <g id="Oval-Copy-5" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <use stroke="#DBDBDB" stroke-width="10" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+            </g>
+            <g id="Oval-Copy-6" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                <use stroke="#DBDBDB" stroke-width="10" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use>
+            </g>
+            <g id="Oval-Copy-7" fill-rule="nonzero">
+                <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-7"></use>
+                <use stroke="#DBDBDB" stroke-width="10" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-7"></use>
+            </g>
+            <text id="MASTER" font-family="OpenSans, Open Sans" font-size="36" font-weight="normal" letter-spacing="4" fill="#FFFFFF">
+                <tspan x="202.383789" y="157">MASTER</tspan>
+            </text>
+            <text id="UPDATED-SOURCE" font-family="OpenSans, Open Sans" font-size="20" font-weight="normal" letter-spacing="2.22222233" fill="#FFFFFF">
+                <tspan x="405.334092" y="64">UPDATED SOURCE</tspan>
+            </text>
+            <text id="MERGE-COMMIT" font-family="OpenSans, Open Sans" font-size="20" font-weight="normal" letter-spacing="2.22222233" fill="#FFFFFF">
+                <tspan x="1350.18229" y="64">MERGE COMMIT</tspan>
+            </text>
+            <text id="SIMILAR-LINES-OF-SOU" font-family="OpenSans, Open Sans" font-size="20" font-weight="normal" letter-spacing="2.22222233" fill="#FFFFFF">
+                <tspan x="1124.09755" y="464">SIMILAR LINES</tspan>
+                <tspan x="1085.45388" y="491">OF SOURCE UPDATED</tspan>
+            </text>
+            <text id="BUGFIX" font-family="OpenSans, Open Sans" font-size="24" font-weight="normal" letter-spacing="2.66666675" fill="#FFFFFF">
+                <tspan x="456.287109" y="393">BUGFIX</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

@@ -83,6 +83,18 @@ html.sl-big-picture {
   }
 }
 
+html.sl-feature-branch-workflow-image { 
+  h3 {
+    position: relative;
+    top: -110px !important; 
+  }
+
+  .slide-background {
+    opacity: 1.0 !important;
+    background-position-y: 525px;
+    background-size: 70%; 
+  }
+}
 
 html.sl-magic {
 

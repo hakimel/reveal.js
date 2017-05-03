@@ -118,39 +118,19 @@
 					<h2>Workflows and tools ...</h2>
 					<p></p>
 					<ul>
-						<li class="fragment">... can increase efficiency and improve quality.</li>
-						<li class="fragment">... can foster a great culture.</li>
-						<li class="fragment">Culture of Innovation.</li>
-						<li class="fragment">Culture of Collaboration.</li>
-						<li class="fragment">Tools can help to foster and grow new ideas</li>
-						<li class="fragment">explore, understand, diagnose, analyse, model, create, invent, solve, communicate and implement</li>
-
+						<li>... can increase efficiency and improve quality.</li>
+						<li>... can foster a great culture.</li>
+						<li>Find the right mix!</li>
 					</ul>
-					<p>=> find the right mix!</p>
 
 					<aside class="notes" data-markdown>
 						### Short intro
-							- We see how they help us in our daily life of creating quality software
-							- But they can also foster a great culture. Bold statement. What does it mean?
-							- Lets loook at the current situation in the market.
-							- Software companies are under constant pressure of customers’ demands for more and more value
-							- Market’s relentless drive for quarterly expectations of increased profits
-							- Companies struggle to innovate under this constant pressure to deliver
-							- Innovation does not come under pressure
-							- Culture of Innovation. How do the workflows and tools help us here?
-							- Create a culture of collaboration
-							- None of us are as smart as all of us
-							- If you manage to create that culture, stand back and let people work
-							- Workflows and tools can help to foster and grow new ideas
-							- To create innovation requires that people engage in exploring new topics, understanding, diagnosing, analyzing, modeling, creating, inventing, solving, communicating, and implementing concepts, ideas, programs.
-							- For each of these steps, there is a tool that can help us along the way
+							As software developers we try to automate things.
+							Example: Version Control
 
-							- What to take from this slide:
-								- Workflows and tools are important
-
+						### Q: When was the first version control tool created?
+						
 							Next slide: Lets take a look at some tools used for creating this presentation
-
-							!! Around 3 mins for this !!
 
 							- Example?: Code reviews - Github (only if there is time)
 
@@ -178,14 +158,17 @@
 					<img id="tools" src="img/logos_tools.svg" alt="Some tools in use at Parkside" />
 
 					<aside class="notes" data-markdown>
-						### Questions for the audience:
-							- Worked on university projects in groups of more than 2 people?
-							- Used Git?
-							- Anyone used something else from the list in your projects?
+						- Anyone used something else from the list in your projects?
 
-						- Good news / Bad news situation
-						- Bad news first: this is not an extensive list of all the tools regularly used in software development
-						- Good news: a single person does not use all of them (and BitBucket === GitHub)
+						- This is not an extensive list of all the tools regularly used in software development
+						- Cultural differences: Microsoft, Java, PHP, rest of the world
+
+						Actually this presentation is a great example because it is done in reveal.js.
+						The entire presentation is one large html file.
+						And the same file is edited by a two person team.
+
+						Next slide: Let's concentrate on code collaboration.
+						Assume we are working on a project, using versioning with git. (in the university setting?)
 
 						- Categories: PM, Development, QA, Ops, Support
 
@@ -197,25 +180,7 @@
 						- What to take from this slide:
 							- Tools of the software developers are a legion because there are many
 
-						Next slide: Let's concentrate on code collaboration.
-						Assume we are working on a project, using versioning with git.
-						Actually this presentation is a great example because it is done in reveal.js.
-						The entire presentation is one large html file.
-						And the same file is edited by a two person team.
-
 						### THIS IS TOO LONG
-
-						### Cultural differences
-
-						As you go out into the world and search for a job you will interview with companies that can
-						be roughly divided into 4 groups:
-							- Microsoft shops
-							- Java shops
-							- PHP shops
-							- Rest of the world (Ruby, Node.JS, Python, Clojure, Elm)
-
-						Small variations are possible, but not likely (Git in Microsoft company)
-						Its about what you know and what people are comfortable with.
 
 
 						### PM Tools - Spectrum
@@ -240,26 +205,52 @@
 				<!-- slide.proven-concepts -->
 				<section data-state="sl-proven-concepts" data-timing="120">
 					<h3>Proven concepts</h3>
-					<p>Year-long experience, proven to be working on real large-scale projects.</p>
+					<p>Years-long experience, proven to be working on real-world large-scale projects.</p>
 					<ul>
-						<li class="fragment">Feature branch workflow</li>
-						<li class="fragment">Create feature branch from master</li>
-						<li class="fragment">Use rebase to keep branch up to date (at least once a day)</li>
-						<li class="fragment">Code-reviews</li>
-						<li class="fragment">Branch-specific QA</li>
-						<li class="fragment">Deploy</li>
-						<li class="fragment">Merge to master</li>
-						<li class="fragment">Alternative: Git-Flow</li>
+						<li>Feature branch workflow</li>
+						<li>Alternative: Git-Flow</li>
+						<li>Alternative: Forking</li>
 					</ul>
 					<aside class="notes" data-markdown>
-						- 
-						- The core idea behind the Feature Branch Workflow is that all feature development should take place in a dedicated branch instead of the master branch.
+						- The core idea behind the Feature Branch Workflow 
+						- All feature development should take place in a dedicated branch instead of the master branch.
+
+						Next slide: For now we concentrate on FBW
+					</aside>
+				</section>
+
+
+				<section data-state="sl-feature-branch-workflow-image" data-background="img/infographic_n2.svg">
+					<h3>Feature branch workflow</h3>
+
+					<aside class="notes" data-markdown>
+						- Q: Anyone used any git workflow in your projects?
+					</aside>
+				</section>
+
+				<section data-state="sl-feature-branch-workflow">
+
+					<h3>Feature branch workflow</h3>
+					<p>How does it work?</p>
+					<ul>
+						<li>Create feature branch from master</li>
+						<li>Keep branch up to date (at least once a day)</li>
+						<li>Create a pull request - Code-review</li>
+						<li>Branch-specific QA</li>
+						<li>Deploy or Merge to master</li>
+					</ul>
+
+					<aside class="notes" data-markdown>
+						- Next slide: This is an ideal vision of an ideal system.
+							Features are clearly defined. Customer never changes their mind.
+							Work is done in a couple of days. Features are completely independent.
+							And then there is reality.
+
 						- Start development == Create a feature branch from master
 						- Use rebase to keep feature up to date.
 						- Finish development == Put branch up for code-review (different companies, different rules)
 							- Other than the obvious one there are other advantages
-							- Avoid knowledge silo
-							- Keeps others up to date
+							- Avoid knowledge silo, Keeps others up to date
 						- Approved == Deploy feature branch to QA
 							- Collaboration with QA
 						- Tested == Merge to master
@@ -272,11 +263,51 @@
 
 						- What to take from this slide:
 							- Workflow works! Collaboration on code reviews, QA, Ops/DevOps.
+						</aside>
+				</section>
 
-						- Next slide: This is an ideal vision of an ideal system.
-							Features are clearly defined. Customer never changes their mind.
-							Work is done in a couple of days. Features are completely independent.
-							And then there is reality.
+				<!-- slide.merge-hell -->
+				<section data-state="sl-merge-hell">
+					<h3>Merge Hell</h3>
+					<p>What is it?</p>
+
+					<img src="img/merge.png" />
+					<aside class="notes" data-markdown>
+							- happens when you are ready to merge your feature (usually right before deadline) 
+
+							- Q: Does this sound familiar?
+
+					</aside>
+				</section>
+
+				<section data-state="sl-merge-hell-story">
+					<h3>Merge Hell</h3>
+					<p>What is it?</p>
+
+					<img src="img/infographic_n1.svg" />
+
+					<aside class="notes" data-markdown>
+						- you discover a change set on master
+						- Q: Does this sound familiar?
+					</aside>
+				</section>
+
+				<section data-state="sl-merge-hell-story">
+					<h3>Merge Hell</h3>
+					<p>What is it?</p>
+
+					<img src="img/merge_story.jpeg" />
+					<aside class="notes" data-markdown>
+						- the bigger the team, the worse the conflicts are
+
+						- merging it all is time consuming
+						- you discover a change set on master
+						- loose more time
+						- you discover a change set on master
+
+						- Q: Does this sound familiar?
+
+						- the bigger the team, the worse the conflicts are
 					</aside>
 				</section>
 
@@ -288,24 +319,25 @@
 						<li class="fragment">Long running branches</li>
 						<li class="fragment">Epic branches</li>
 						<li class="fragment">Refactoring</li>
-						<li class="fragment">Running in isolation</li>
 					</ul>
 
 					<aside class="notes" data-markdown>
+						Most common reasons to end up in merge hell.
+
 						### Long running branches
 						Single developer working on a really big feature.
-						Solution: Feature flags
+						Running in isolation.
+						Solutions: Keep it small! Sync with master often! Use feature flags! Collaborate!
 
 						### Epic branches
-						Composite feature
-						Solution: Feature flags
+						Many developers working on a composite feature
+						Solution: Use feature flags
 
 						### Refactoring
+						Solution: Have a day for it!
 						Agile approach! Has to be done!
 						Dont plan for the future. Fail fast.
 
-						### Running in isolation
-						Communicate more!
 					</aside>
 				</section>
 
