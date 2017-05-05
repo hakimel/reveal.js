@@ -116,6 +116,9 @@
 			// by using a data-autoslide attribute on your slides
 			autoSlide: 0,
 
+			// Enable slide controls animated button
+			enableSlideControls: true,
+
 			// Stop auto-sliding after user input
 			autoSlideStoppable: true,
 
@@ -1066,7 +1069,7 @@
 		}
 
 		// Generate auto-slide controls if needed
-		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
+		if( config.enableSlideControls && numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
 			autoSlidePlayer = new Playback( dom.wrapper, function() {
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
 			} );
