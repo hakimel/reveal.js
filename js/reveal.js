@@ -52,6 +52,13 @@
 			// Display controls in the bottom right corner
 			controls: true,
 
+			// Determines where controls appear, "edges" or "bottom-right"
+			controlsLayout: 'bottom-right',
+
+			// Specifies the display rules for backwards navigation arrows;
+			// "faded", "hidden" or "visible"
+			controlsBackArrows: 'faded',
+
 			// Display a presentation progress bar
 			progress: true,
 
@@ -99,7 +106,7 @@
 			// key is pressed
 			help: true,
 
-			// Flags if it should be possible to pause the presentation (blackout)
+			// Flags if it should be possible to pause t.spehe presentation (blackout)
 			pause: true,
 
 			// Flags if speaker notes should be visible to all viewers
@@ -516,7 +523,7 @@
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		createSingletonNode( dom.wrapper, 'aside', 'controls',
+		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
 			'<button class="navigate-left" aria-label="previous slide"></button>' +
 			'<button class="navigate-right" aria-label="next slide"></button>' +
 			'<button class="navigate-up" aria-label="above slide"></button>' +
@@ -532,9 +539,6 @@
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
-
-		// Cache references to elements
-		dom.controls = document.querySelector( '.reveal .controls' );
 
 		dom.wrapper.setAttribute( 'role', 'application' );
 
@@ -789,7 +793,7 @@
 
 		// If no node was found, create it now
 		var node = document.createElement( tagname );
-		node.classList.add( classname );
+		node.className = classname;
 		if( typeof innerHTML === 'string' ) {
 			node.innerHTML = innerHTML;
 		}
@@ -1001,6 +1005,9 @@
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
 
+		dom.controls.setAttribute( 'data-controls-layout', config.controlsLayout );
+		dom.controls.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
+
 		if( config.shuffle ) {
 			shuffle();
 		}
@@ -1025,11 +1032,11 @@
 		}
 
 		if( config.showNotes ) {
-			dom.speakerNotes.classList.add( 'visible' );
+			dom.wrapper.classList.add( 'show-notes' );
 			dom.speakerNotes.setAttribute( 'data-layout', typeof config.showNotes === 'string' ? config.showNotes : 'inline' );
 		}
 		else {
-			dom.speakerNotes.classList.remove( 'visible' );
+			dom.wrapper.classList.remove( 'show-notes' );
 		}
 
 		if( config.mouseWheel ) {

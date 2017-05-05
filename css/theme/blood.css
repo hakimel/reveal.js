@@ -254,33 +254,8 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls .navigate-left,
-.reveal .controls .navigate-left.enabled {
-  border-right-color: #a23; }
-
-.reveal .controls .navigate-right,
-.reveal .controls .navigate-right.enabled {
-  border-left-color: #a23; }
-
-.reveal .controls .navigate-up,
-.reveal .controls .navigate-up.enabled {
-  border-bottom-color: #a23; }
-
-.reveal .controls .navigate-down,
-.reveal .controls .navigate-down.enabled {
-  border-top-color: #a23; }
-
-.reveal .controls .navigate-left.enabled:hover {
-  border-right-color: #dd5566; }
-
-.reveal .controls .navigate-right.enabled:hover {
-  border-left-color: #dd5566; }
-
-.reveal .controls .navigate-up.enabled:hover {
-  border-bottom-color: #dd5566; }
-
-.reveal .controls .navigate-down.enabled:hover {
-  border-top-color: #dd5566; }
+.reveal .controls {
+  color: #a23; }
 
 /*********************************************
  * PROGRESS BAR

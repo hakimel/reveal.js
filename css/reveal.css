@@ -191,69 +191,169 @@ body {
  *********************************************/
 .reveal .controls {
   display: none;
-  position: fixed;
-  width: 110px;
-  height: 110px;
-  z-index: 30;
-  right: 10px;
-  bottom: 10px;
-  -webkit-user-select: none; }
-
-.reveal .controls button {
-  padding: 0;
   position: absolute;
-  opacity: 0.05;
-  width: 0;
-  height: 0;
-  background-color: transparent;
-  border: 12px solid transparent;
-  -webkit-transform: scale(0.9999);
-          transform: scale(0.9999);
-  -webkit-transition: all 0.2s ease;
-          transition: all 0.2s ease;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent; }
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  color: #fff;
+  pointer-events: none; }
+  .reveal .controls button {
+    position: absolute;
+    padding: 0;
+    width: 52px;
+    height: 52px;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    color: currentColor;
+    -webkit-transform: scale(0.9999);
+            transform: scale(0.9999);
+    -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+    z-index: 2;
+    pointer-events: auto;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent; }
+  .reveal .controls button:before,
+  .reveal .controls button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 31px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: currentColor;
+    -webkit-transition: all 0.15s ease, background-color 0.8s ease;
+            transition: all 0.15s ease, background-color 0.8s ease;
+    -webkit-transform-origin: 3px 50%;
+            transform-origin: 3px 50%;
+    will-change: transform; }
+  .reveal .controls button:before {
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(44deg);
+            transform: translateX(10.5px) translateY(23px) rotate(44deg); }
+  .reveal .controls button:after {
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(-44deg);
+            transform: translateX(10.5px) translateY(23px) rotate(-44deg); }
+  .reveal .controls button:hover:before {
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(40deg);
+            transform: translateX(10.5px) translateY(23px) rotate(40deg); }
+  .reveal .controls button:hover:after {
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(-40deg);
+            transform: translateX(10.5px) translateY(23px) rotate(-40deg); }
+  .reveal .controls button:active:before {
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(36deg);
+            transform: translateX(10.5px) translateY(23px) rotate(36deg); }
+  .reveal .controls button:active:after {
+    -webkit-transform: translateX(10.5px) translateY(23px) rotate(-36deg);
+            transform: translateX(10.5px) translateY(23px) rotate(-36deg); }
+  .reveal .controls .navigate-left {
+    top: 50%;
+    left: 8px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
+  .reveal .controls .navigate-right {
+    top: 50%;
+    right: 8px;
+    -webkit-transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%) rotate(180deg); }
+  .reveal .controls .navigate-up {
+    top: 8px;
+    left: 50%;
+    -webkit-transform: translateX(-50%) rotate(90deg);
+            transform: translateX(-50%) rotate(90deg); }
+  .reveal .controls .navigate-down {
+    bottom: 8px;
+    left: 50%;
+    -webkit-transform: translateX(-50%) rotate(-90deg);
+            transform: translateX(-50%) rotate(-90deg); }
+  .reveal .controls[data-controls-back-arrows="faded"] .navigate-left.enabled,
+  .reveal .controls[data-controls-back-arrows="faded"] .navigate-up.enabled {
+    opacity: 0.3; }
+    .reveal .controls[data-controls-back-arrows="faded"] .navigate-left.enabled:hover,
+    .reveal .controls[data-controls-back-arrows="faded"] .navigate-up.enabled:hover {
+      opacity: 1; }
+  .reveal .controls[data-controls-back-arrows="hidden"] .navigate-left.enabled,
+  .reveal .controls[data-controls-back-arrows="hidden"] .navigate-up.enabled {
+    opacity: 0;
+    visibility: hidden; }
+  .reveal .controls .enabled {
+    visibility: visible;
+    opacity: 0.7;
+    cursor: pointer; }
+  .reveal .controls .enabled.fragmented {
+    opacity: 0.3; }
+  .reveal .controls .enabled:hover,
+  .reveal .controls .enabled.fragmented:hover {
+    opacity: 1; }
+  .reveal .controls[data-controls-layout="bottom-right"] {
+    top: auto;
+    bottom: 12px;
+    right: 12px;
+    left: auto;
+    -webkit-transform: scale(0.85);
+            transform: scale(0.85);
+    -webkit-transform-origin: 100% 100%;
+            transform-origin: 100% 100%; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-left,
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-right,
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-up,
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-down {
+    top: auto;
+    left: auto; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-left {
+    right: 92px;
+    bottom: 20px; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-right {
+    right: 0;
+    bottom: 20px; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-up {
+    right: 20px;
+    bottom: 92px; }
+  .reveal .controls[data-controls-layout="bottom-right"] .navigate-down {
+    right: 20px;
+    bottom: 0; }
+  @media screen and (max-width: 500px) {
+    .reveal .controls {
+      top: auto;
+      bottom: 12px;
+      right: 12px;
+      left: auto;
+      -webkit-transform: scale(0.85);
+              transform: scale(0.85);
+      -webkit-transform-origin: 100% 100%;
+              transform-origin: 100% 100%; }
+    .reveal .controls .navigate-left,
+    .reveal .controls .navigate-right,
+    .reveal .controls .navigate-up,
+    .reveal .controls .navigate-down {
+      top: auto;
+      left: auto; }
+    .reveal .controls .navigate-left {
+      right: 92px;
+      bottom: 20px; }
+    .reveal .controls .navigate-right {
+      right: 0;
+      bottom: 20px; }
+    .reveal .controls .navigate-up {
+      right: 20px;
+      bottom: 92px; }
+    .reveal .controls .navigate-down {
+      right: 20px;
+      bottom: 0; } }
 
-.reveal .controls .enabled {
-  opacity: 0.7;
-  cursor: pointer; }
+.reveal.has-dark-background .controls button:after,
+.reveal.has-dark-background .controls button:before {
+  background-color: #fff; }
 
-.reveal .controls .enabled:active {
-  margin-top: 1px; }
-
-.reveal .controls .navigate-left {
-  top: 42px;
-  border-right-width: 22px;
-  border-right-color: #000; }
-
-.reveal .controls .navigate-left.fragmented {
-  opacity: 0.3; }
-
-.reveal .controls .navigate-right {
-  left: 74px;
-  top: 42px;
-  border-left-width: 22px;
-  border-left-color: #000; }
-
-.reveal .controls .navigate-right.fragmented {
-  opacity: 0.3; }
-
-.reveal .controls .navigate-up {
-  left: 42px;
-  border-bottom-width: 22px;
-  border-bottom-color: #000; }
-
-.reveal .controls .navigate-up.fragmented {
-  opacity: 0.3; }
-
-.reveal .controls .navigate-down {
-  left: 42px;
-  top: 74px;
-  border-top-width: 22px;
-  border-top-color: #000; }
-
-.reveal .controls .navigate-down.fragmented {
-  opacity: 0.3; }
+.reveal.has-light-background .controls button:after,
+.reveal.has-light-background .controls button:before {
+  background-color: #000; }
 
 /*********************************************
  * PROGRESS BAR
@@ -272,9 +372,9 @@ body {
   content: '';
   display: block;
   position: absolute;
-  height: 20px;
+  height: 10px;
   width: 100%;
-  top: -20px; }
+  top: -10px; }
 
 .reveal .progress span {
   display: block;
@@ -1339,33 +1439,48 @@ body {
 .reveal .speaker-notes {
   display: none;
   position: absolute;
-  width: 70%;
-  max-height: 15%;
-  left: 15%;
-  bottom: 26px;
-  padding: 10px;
+  width: 20vw;
+  height: 100%;
+  top: 0;
+  left: 100%;
+  padding: 14px;
   z-index: 1;
   font-size: 18px;
   line-height: 1.4;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
+  color: #222;
+  background-color: #f5f5f5;
   overflow: auto;
   box-sizing: border-box;
   text-align: left;
   font-family: Helvetica, sans-serif;
   -webkit-overflow-scrolling: touch; }
+  .reveal .speaker-notes:before {
+    content: 'Speaker notes';
+    display: block;
+    margin-bottom: 10px;
+    opacity: 0.5; }
 
-.reveal .speaker-notes.visible:not(:empty) {
+.reveal.show-notes {
+  max-width: 80vw;
+  overflow: visible; }
+
+.reveal.show-notes .speaker-notes {
   display: block; }
 
 @media screen and (max-width: 1024px) {
-  .reveal .speaker-notes {
-    font-size: 14px; } }
+  .reveal.show-notes {
+    max-width: none;
+    max-height: 70vh;
+    overflow: visible; }
+  .reveal.show-notes .speaker-notes {
+    top: 70vh;
+    left: 0;
+    width: 100%;
+    height: 30vh; } }
 
 @media screen and (max-width: 600px) {
   .reveal .speaker-notes {
-    width: 90%;
-    left: 5%; } }
+    font-size: 14px; } }
 
 /*********************************************
  * ZOOM PLUGIN
