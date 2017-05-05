@@ -2294,6 +2294,9 @@
 
 		// Query all horizontal slides in the deck
 		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+		if (!horizontalSlides.length) {
+			return;
+		}
 
 		// Abort if there are no slides
 		if( horizontalSlides.length === 0 ) return;
