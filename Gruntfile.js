@@ -25,7 +25,8 @@ module.exports = function(grunt) {
 
 		uglify: {
 			options: {
-				banner: '<%= meta.banner %>\n'
+				banner: '<%= meta.banner %>\n',
+				screwIE8: false
 			},
 			build: {
 				src: 'js/reveal.js',
@@ -35,34 +36,31 @@ module.exports = function(grunt) {
 
 		sass: {
 			core: {
-				files: {
-					'css/reveal.css': 'css/reveal.scss',
-				}
+				src: 'css/reveal.scss',
+				dest: 'css/reveal.css'
 			},
 			themes: {
-				files: [
-					{
-						expand: true,
-						cwd: 'css/theme/source',
-						src: ['*.sass', '*.scss'],
-						dest: 'css/theme',
-						ext: '.css'
-					}
-				]
+				expand: true,
+				cwd: 'css/theme/source',
+				src: ['*.sass', '*.scss'],
+				dest: 'css/theme',
+				ext: '.css'
 			}
 		},
 
 		autoprefixer: {
-			dist: {
+			core: {
 				src: 'css/reveal.css'
 			}
 		},
 
 		cssmin: {
+			options: {
+				compatibility: 'ie9'
+			},
 			compress: {
-				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
-				}
+				src: 'css/reveal.css',
+				dist: 'css/reveal.min.css'
 			}
 		},
 
@@ -72,7 +70,7 @@ module.exports = function(grunt) {
 				eqeqeq: true,
 				immed: true,
 				esnext: true,
-				latedef: true,
+				latedef: 'nofunc',
 				newcap: true,
 				noarg: true,
 				sub: true,
@@ -100,20 +98,22 @@ module.exports = function(grunt) {
 					livereload: true,
 					open: true
 				}
-			},
-
+			}
 		},
 
 		zip: {
-			'reveal-js-presentation.zip': [
-				'index.html',
-				'css/**',
-				'js/**',
-				'lib/**',
-				'images/**',
-				'plugin/**',
-				'**.md'
-			]
+			bundle: {
+				src: [
+					'index.html',
+					'css/**',
+					'js/**',
+					'lib/**',
+					'images/**',
+					'plugin/**',
+					'**.md'
+				],
+				dest: 'reveal-js-presentation.zip'
+			}
 		},
 
 		watch: {
@@ -146,25 +146,24 @@ module.exports = function(grunt) {
 		},
 
 		retire: {
-			js: ['js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js'],
-			node: ['.'],
-			options: {}
+			js: [ 'js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js' ],
+			node: [ '.' ]
 		}
 
 	});
 
 	// Dependencies
-	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
-	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-connect' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-sass' );
-	grunt.loadNpmTasks( 'grunt-contrib-connect' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
-	grunt.loadNpmTasks( 'grunt-zip' );
 	grunt.loadNpmTasks( 'grunt-retire' );
-
+	grunt.loadNpmTasks( 'grunt-sass' );
+	grunt.loadNpmTasks( 'grunt-zip' );
+	
 	// Default task
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
 
