@@ -134,6 +134,24 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 </section>
 ```
 
+#### Custom Markdown Renderer
+
+You can specific custom renderer for your markdown
+
+```javascript
+Reveal.initialize({
+	markdown_renderer: function(){
+				var renderer = new marked.Renderer();
+			
+				renderer.code = function (text, level) {
+					return '<textarea class="code" mode="csharp" runnable="true">' + text + '</textarea>';
+				}
+				
+				return renderer;
+			}
+});
+```
+
 #### Element Attributes
 
 Special syntax (in html comment) is available for adding attributes to Markdown elements. This is useful for fragments, amongst other things.
