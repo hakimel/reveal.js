@@ -395,6 +395,7 @@ body {
 	text-align: center;
 	perspective: 600px;
 	perspective-origin: 50% 40%;
+	transform-style: preserve-3d;
 }
 
 .reveal .slides>section {
@@ -875,6 +876,7 @@ body {
 	top: 0;
 	left: 0;
 	perspective: 600px;
+	transform-style: preserve-3d;
 }
 	.reveal .slide-background {
 		display: none;
@@ -1050,6 +1052,7 @@ body {
 .reveal.overview {
 	perspective-origin: 50% 50%;
 	perspective: 700px;
+	transform-style: preserve-3d;
 
 	.slides {
 		// Fixes overview rendering errors in FF48+, not applied to
