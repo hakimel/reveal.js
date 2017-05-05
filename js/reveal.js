@@ -649,6 +649,9 @@
 			}
 		} );
 
+		// to resize images with class stretch
+		layoutSlideContents(pageWidth*0.8,pageHeight*0.8,0);		
+
 		// Slide and slide background layout
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 
@@ -735,6 +738,7 @@
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
+		
 
 		// Notify subscribers that the PDF layout is good to go
 		dispatchEvent( 'pdf-ready' );
