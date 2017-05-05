@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Be careful with Spark MLlib approximations</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3>Be Careful with <span class="fragment highlight-red">Spark MLlib</span> <em>approximations</em></h3>
+					<p>No free lunch</p>
+					<p>
+						<small>Created by: <br/> <em>Enrique Otero & Ramiro Manso</em> (<a href="http://beeva.com">BEEVA</a>)<br/> Roberto Maestre (<a href="https://www.bbvadata.com/">BBVA Data & Analytics)</a></small>
+					</p>
+				</section>
+
+
+
+				<section>
+				<h2>Data Scientist: the unicorn</h2>
+				<img src="http://static1.squarespace.com/static/5150aec6e4b0e340ec52710a/t/51525c33e4b0b3e0d10f77ab/1364352052403/Data_Science_VD.png?format=750w">
+				</section>
+
+				<section>
+					<h2>Data Science Trade-offs: 3 goals</h2>
+					<p>
+						<a>Maths</a>: Accuracy
+					</p>
+					<p>
+						<a>SW Engineering</a>: Computational cost
+					</p>
+					<p>
+						<a>Domain expertise</a>: Interpretability & Utility
+					</p>
+				</section>
+
+				<section>
+					<h2>But Data Scientists love Kaggle
+					<!--<img src="https://www.kaggle.com/content/v/4e5085eca1ab/kaggle/img/logos/kaggle-logo-transparent-300.png" width="200px"/>-->
+					</h2>
+					<p>And sometimes they forget about...</p>
+					<ul>
+						<li>Computational cost</li>
+						<li>Choosing the right metric</li>
+						<li>Interpretability</li>
+					</ul>
+					<p>Example: Netflix prize</p>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Netflix_prize.jpg"/>
+
+				</section>
+
+
+
+				<section>
+					<h2 >MLlib</h2>
+					<img src="http://spark.apache.org/images/spark-logo-trademark.png" style="background-color: lightblue"/>
+					<p>
+						Apache Spark's scalable machine learning library
+					</p>
+				</section>
+
+				<section data-background-image="https://c7.staticflickr.com/6/5441/9609123086_a8d693000c_c.jpg" data-background-size="400px" data-background-repeat="repeat">
+					<section style="background-color: #333;">
+					<h2 >Data Science & Big Data</h2>
+					<p>Scalability has a cost. No free lunch</p>
+
+					<ul>
+					<li>Overhead</li>
+					<li>Approximations</li>
+				</ul>
+			  </section>
+				</section>
+
+				<section>
+					<h2>Overhead in Spark MLlib</h2>
+					<p>Much better than Hadoop MapReduce for iterative algorithms</p>
+					<img src="http://spark.apache.org/images/logistic-regression.png"/>
+				<p>But still less efficient for small data than other <a href="https://github.com/BIDData/BIDMach/wiki/Benchmarks">alternatives</a></p>
+				</section>
+
+				<section>
+					<h2>Accuracy vs cost in MLlib</h2>
+					<p>
+						Sometimes approximations are explicit and parameterized
+					</p>
+					<p>
+						But sometimes not. And we lose control of accuracy
+					</p>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### Approximated algorithms (I): Explicit & Controlled
+						![Target error vs time](https://databricks.com/wp-content/uploads/2016/05/hyperloglog-plot-figure-1.png)
+						```
+						# users: DataFrame[user: string]
+						users.select(approxCountDistinct("user", rsd = 0.01)).show()
+						```
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### Approximated algorithms (II): Explicit & Controlled
+
+						```
+						# Algorithm: All pairs Similarity (DIMSUM)
+
+						rowmatrix.columnSimilarities(dimsumThreshold = 0.1)
+
+						# Use Case: Recommender Systems. Collaborative Filtering.
+						# DataSet: Movielens 100K
+						# Metric: MAP@10 (Mean Average Precision) at 10 results
+
+						rowmatrix.columnSimilarities(0.1)
+						# MAP@10=0.07, t=30min
+						rowmatrix.columnSimilarities(0.0)
+						# MAP@10=0.08, t=180min
+
+						```
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### Approximated algorithms (III): Out of control
+
+						```
+						# Algorithm: Alternating Least Squares (ALS)
+						# block-wise parallel approximation
+
+						val model = ALS.trainImplicit(ratings, rank=10, numIterations=10,
+						lambda=0.015, alpha=1.0)
+
+						# MAP@10 = 0.13
+						# LibRec gets 0.39 (no scalable implementation)
+
+						```
+					</script>
+				</section>
+
+				<section>
+					<h2>Examples </h2>
+					<ul>
+						<li>(I)   Fast Euclidean distance (MUtils)</li>
+						<li>(II)  Exponential kernel (SVM)</li>
+						<li>(III) GPoE</li>
+					</ul>
+				</section>
+				
+				<section data-markdown>
+					<script type="text/template">
+						#### (I) Fast Euclidean Distance (MUtils)
+						selecting best strategy
+						```
+						   Optimization #1|   13894 ns. |Dist: 357914112.000000 |
+						   Optimization #2|    9784 ns. |Dist: 357914112.000000 |(fast)
+						(*)Full euclidean |   10831 ns. |Dist: 357913941.000000 |
+						```
+						
+						```
+						   Optimization #1|   10575 ns. |Dist: 1501199875789824.000000 |
+						(*)Optimization #2|    6297 ns. |Dist: 1501199875789824.000000 |(fast)
+						   Full euclidean |    7588 ns. |Dist: 1501199875790165.000000 |
+						```
+ 						```
+						(*)Optimization #1|    7414 ns. |Dist: 24019192286019584.000000 |
+						   Optimization #2|   15493 ns. |Dist: 24019192286019584.000000 |
+						   Full euclidean |    3027 ns. |Dist: 24019192286019584.000000 |(fast)
+						```
+						 
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### (II) Exponential kernel (SVM)
+						![Exponential kernel discussion](https://s18.postimg.io/mqz8dii9l/Screen_Shot_2016_09_19_at_11_13_31.png)
+						
+						<a href="https://people.eecs.berkeley.edu/~brecht/papers/07.rah.rec.nips.pdf">Paper ref.</a></br>
+						
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### (III) GPoE
+						![Exponential kernel discussion](https://s15.postimg.io/60ctrbz23/Screen_Shot_2016_09_19_at_11_19_38.png)
+						
+						<a href="http://jmlr.org/proceedings/papers/v37/deisenroth15.pdf">Paper ref.</a></br>
+						<a href="#">Spark Implementation</a>
+					</script>
+				</section>
+				
+
+				<section>
+					<h2>Our experience</h2>
+					<ul>
+						<li>One size doesn't fit all</li>
+						<li>Quality vs Cost: it's better when you have choices</li>
+						<li>Data Scientists should care about implementation details</li>
+
+						<li class="fragment">If your dataset is not big enough... <span class="fragment">don't fall in the Big Data trap</span></li>
+					</ul>
+				</section>
+
+				<section style="text-align: left;">
+					<h1>THE END?</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
