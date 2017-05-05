@@ -864,6 +864,7 @@
 
 		var data = {
 			background: slide.getAttribute( 'data-background' ),
+			backgroundClass: slide.getAttribute( 'data-background-class' ),
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
 			backgroundImage: slide.getAttribute( 'data-background-image' ),
 			backgroundVideo: slide.getAttribute( 'data-background-video' ),
@@ -892,8 +893,9 @@
 		// Create a hash for this combination of background settings.
 		// This is used to determine when two slide backgrounds are
 		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
+		if( data.background || data.backgroundClass || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
 			element.setAttribute( 'data-background-hash', data.background +
+					     										data.backgroundClass +
 															data.backgroundSize +
 															data.backgroundImage +
 															data.backgroundVideo +
@@ -911,6 +913,7 @@
 		if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
 		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
+		if (data.backgroundClass) element.classList.add(data.backgroundClass);
 
 		container.appendChild( element );
 
