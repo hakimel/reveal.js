@@ -60,7 +60,7 @@ module.exports = function(grunt) {
 			},
 			compress: {
 				src: 'css/reveal.css',
-				dist: 'css/reveal.min.css'
+				dest: 'css/reveal.min.css'
 			}
 		},
 
