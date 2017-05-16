@@ -236,13 +236,14 @@ body {
  *********************************************/
 
 .reveal .controls {
-	$size: 52px;
-	$length: floor($size * 0.6);
-	$spacing: 8px;
+	$size: 46px;
+	$length: floor($size * 0.7);
 	$thickness: 6px;
 	$angle: 44deg;
 	$angleHover: 40deg;
 	$angleActive: 36deg;
+	$spacing: 12px;
+	$innerSpacing: 18px;
 
 	@mixin arrowTransform( $angle ) {
 		&:before {
@@ -256,10 +257,10 @@ body {
 
 	display: none;
 	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	top: auto;
+	bottom: $spacing;
+	right: $spacing;
+	left: auto;
 	z-index: 1;
 	color: #fff;
 	pointer-events: none;
@@ -315,26 +316,26 @@ body {
 	}
 
 	.navigate-left {
-		top: 50%;
-		left: $spacing;
+		right: $size + $innerSpacing*2;
+		bottom: $innerSpacing;
 		transform: translateY(-50%);
 	}
 
 	.navigate-right {
-		top: 50%;
-		right: $spacing;
+		right: 0;
+		bottom: $innerSpacing;
 		transform: translateY(-50%) rotate( 180deg );
 	}
 
 	.navigate-up {
-		top: $spacing;
-		left: 50%;
+		right: $innerSpacing;
+		bottom: $size + $innerSpacing*2;
 		transform: translateX(-50%) rotate( 90deg );
 	}
 
 	.navigate-down {
-		bottom: $spacing;
-		left: 50%;
+		right: $innerSpacing;
+		bottom: 0;
 		transform: translateX(-50%) rotate( -90deg );
 	}
 
@@ -376,52 +377,59 @@ body {
 		opacity: 1;
 	}
 
-	@mixin bottom-right-controls() {
-		$spacing: 12px;
-		$innerSpacing: 20px;
+	@media screen and (min-width: 500px) {
 
-		& {
-			top: auto;
-			bottom: $spacing;
-			right: $spacing;
-			left: auto;
-			transform: scale(0.85);
-			transform-origin: 100% 100%;
+		$spacing: 8px;
+
+		&[data-controls-layout="edges"] {
+			& {
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+			}
+
+			.navigate-left,
+			.navigate-right,
+			.navigate-up,
+			.navigate-down {
+				bottom: auto;
+				right: auto;
+			}
+
+			.navigate-left {
+				top: 50%;
+				left: $spacing;
+			}
+
+			.navigate-right {
+				top: 50%;
+				right: $spacing;
+			}
+
+			.navigate-up {
+				top: $spacing;
+				left: 50%;
+			}
+
+			.navigate-down {
+				bottom: $spacing;
+				left: 50%;
+			}
 		}
 
-		.navigate-left,
-		.navigate-right,
-		.navigate-up,
-		.navigate-down {
-			top: auto;
-			left: auto;
-		}
-
-		.navigate-left {
-			right: $size + $innerSpacing*2;
-			bottom: $innerSpacing;
-		}
-		.navigate-right {
-			right: 0;
-			bottom: $innerSpacing;
-		}
-		.navigate-up {
-			right: $innerSpacing;
-			bottom: $size + $innerSpacing*2;
-		}
-		.navigate-down {
-			right: $innerSpacing;
-			bottom: 0;
-		}
 	}
+}
 
-	&[data-controls-layout="bottom-right"] {
-		@include bottom-right-controls()
-	}
+// Adjust the layout when there are no vertical slides
+.reveal:not(.has-vertical-slides) .controls .navigate-left,
+.reveal:not(.has-vertical-slides) .controls .navigate-right {
+	bottom: 0;
+}
 
-	@media screen and (max-width: 500px) {
-		@include bottom-right-controls()
-	}
+.reveal:not(.has-horizontal-slides) .controls .navigate-up,
+.reveal:not(.has-horizontal-slides) .controls .navigate-down {
+	right: 0;
 }
 
 .reveal.has-dark-background .controls button:after,

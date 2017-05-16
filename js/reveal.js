@@ -2739,6 +2739,22 @@
 				}
 			}
 
+			// Flag if there are ANY vertical slides, anywhere in the deck
+			if( dom.wrapper.querySelectorAll( '.slides>section>section' ).length ) {
+				dom.wrapper.classList.add( 'has-vertical-slides' );
+			}
+			else {
+				dom.wrapper.classList.remove( 'has-vertical-slides' );
+			}
+
+			// Flag if there are ANY horizontal slides, anywhere in the deck
+			if( dom.wrapper.querySelectorAll( '.slides>section:not(.stack)' ).length ) {
+				dom.wrapper.classList.add( 'has-horizontal-slides' );
+			}
+			else {
+				dom.wrapper.classList.remove( 'has-horizontal-slides' );
+			}
+
 		}
 
 	}
