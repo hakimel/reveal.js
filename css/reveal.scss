@@ -402,7 +402,7 @@ body {
 	// Any control button that can be clicked is "enabled"
 	.enabled {
 		visibility: visible;
-		opacity: 0.7;
+		opacity: 0.8;
 		cursor: pointer;
 		transform: none;
 	}
@@ -410,7 +410,7 @@ body {
 	// Any control button that leads to showing or hiding
 	// a fragment
 	.enabled.fragmented {
-		opacity: 0.3;
+		opacity: 0.4;
 	}
 
 	.enabled:hover,

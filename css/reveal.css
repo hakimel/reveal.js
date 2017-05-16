@@ -345,12 +345,12 @@ body {
     visibility: hidden; }
   .reveal .controls .enabled {
     visibility: visible;
-    opacity: 0.7;
+    opacity: 0.8;
     cursor: pointer;
     -webkit-transform: none;
             transform: none; }
   .reveal .controls .enabled.fragmented {
-    opacity: 0.3; }
+    opacity: 0.4; }
   .reveal .controls .enabled:hover,
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
