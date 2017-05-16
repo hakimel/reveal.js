@@ -2288,6 +2288,7 @@
 	 * @param {number} [o] Origin for use in multimaster environments
 	 */
 	function slide( h, v, f, o ) {
+		beforeSlide();
 
 		// Remember where we were at before
 		previousSlide = currentSlide;
@@ -2428,6 +2429,7 @@
 
 		cueAutoSlide();
 
+		afterSlide();
 	}
 
 	/**
@@ -4118,6 +4120,7 @@
 	}
 
 	function navigateLeft() {
+		beforeSlide();
 
 		// Reverse for RTL
 		if( config.rtl ) {
@@ -4130,9 +4133,11 @@
 			slide( indexh - 1 );
 		}
 
+		afterSlide();
 	}
 
 	function navigateRight() {
+		beforeSlide();
 
 		// Reverse for RTL
 		if( config.rtl ) {
@@ -4145,24 +4150,29 @@
 			slide( indexh + 1 );
 		}
 
+		afterSlide();
 	}
 
 	function navigateUp() {
+		beforeSlide();
 
 		// Prioritize hiding fragments
 		if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
+		afterSlide();
 	}
 
 	function navigateDown() {
+		beforeSlide();
 
 		// Prioritize revealing fragments
 		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
 
+		afterSlide();
 	}
 
 	/**
@@ -4172,7 +4182,8 @@
 	 * 3) Previous horizontal slide
 	 */
 	function navigatePrev() {
-
+		beforeSlide();
+		
 		// Prioritize revealing fragments
 		if( previousFragment() === false ) {
 			if( availableRoutes().up ) {
@@ -4196,14 +4207,16 @@
 				}
 			}
 		}
-
+		
+		afterSlide();
 	}
 
 	/**
 	 * The reverse of #navigatePrev().
 	 */
 	function navigateNext() {
-
+		beforeSlide();
+		
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
 			if( availableRoutes().down ) {
@@ -4217,6 +4230,31 @@
 			}
 		}
 
+		afterSlide();
+	}
+
+	/**
+	 * Event before slide.
+	 */
+	function beforeSlide() {
+		dispatchEvent( 'beforeslide', {
+			'indexh': indexh,
+			'indexv': indexv,
+			'previousSlide': previousSlide,
+			'currentSlide': currentSlide
+		} );
+	}
+
+	/**
+	 * Event after slide.
+	 */
+	function afterSlide() {
+		dispatchEvent( 'afterslide', {
+			'indexh': indexh,
+			'indexv': indexv,
+			'previousSlide': previousSlide,
+			'currentSlide': currentSlide
+		} );
 	}
 
 	/**
