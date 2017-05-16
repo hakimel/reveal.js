@@ -181,8 +181,19 @@ At the end of your page you need to initialize reveal by running the following c
 ```javascript
 Reveal.initialize({
 
-	// Display controls in the bottom right corner
+	// Display presentation control arrows
 	controls: true,
+
+	// Hint at where the user can navigate, for example by animating
+	// the down arrow when we first encounter a vertical slide
+	controlsHints: true,
+
+	// Determines where controls appear, "edges" or "bottom-right"
+	controlsLayout: 'bottom-right',
+
+	// Visibility rule for backwards navigation arrows; "faded", "hidden"
+	// or "visible"
+	controlsBackArrows: 'faded',
 
 	// Display a presentation progress bar
 	progress: true,

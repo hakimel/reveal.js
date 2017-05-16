@@ -286,7 +286,9 @@ body {
 		cursor: pointer;
 		color: currentColor;
 		transform: scale(.9999);
-		transition: all 0.2s ease;
+		transition: color 0.2s ease,
+					opacity 0.2s ease,
+					transform 0.2s ease;
 		z-index: 2; // above slides
 		pointer-events: auto;
 
@@ -332,6 +334,7 @@ body {
 	.navigate-left {
 		right: $size + $innerSpacing*2;
 		bottom: $innerSpacing;
+		transform: translateX( -10px );
 
 		.pagination-arrow {
 			transform: translateY(-50%);
@@ -341,12 +344,13 @@ body {
 	.navigate-right {
 		right: 0;
 		bottom: $innerSpacing;
+		transform: translateX( 10px );
 
 		.pagination-arrow {
 			transform: translateY(-50%) rotate( 180deg );
 		}
 
-		&.bounce {
+		&.highlight {
 			animation: bounce-right 2s 50 both ease-out;
 		}
 	}
@@ -354,6 +358,7 @@ body {
 	.navigate-up {
 		right: $innerSpacing;
 		bottom: $size + $innerSpacing*2;
+		transform: translateY( -10px );
 
 		.pagination-arrow {
 			transform: translateX(-50%) rotate( 90deg );
@@ -363,12 +368,13 @@ body {
 	.navigate-down {
 		right: $innerSpacing;
 		bottom: 0;
+		transform: translateY( 10px );
 
 		.pagination-arrow {
 			transform: translateX(-50%) rotate( -90deg );
 		}
 
-		&.bounce {
+		&.highlight {
 			animation: bounce-down 2s 50 both ease-out;
 		}
 	}
@@ -398,6 +404,7 @@ body {
 		visibility: visible;
 		opacity: 0.7;
 		cursor: pointer;
+		transform: none;
 	}
 
 	// Any control button that leads to showing or hiding

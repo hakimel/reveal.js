@@ -49,7 +49,7 @@
 			minScale: 0.2,
 			maxScale: 2.0,
 
-			// Display controls in the bottom right corner
+			// Display presentation control arrows
 			controls: true,
 
 			// Hint at where the user can navigate, for example by animating

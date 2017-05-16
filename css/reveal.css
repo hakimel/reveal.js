@@ -251,7 +251,8 @@ body {
     color: currentColor;
     -webkit-transform: scale(0.9999);
             transform: scale(0.9999);
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, opacity 0.2s ease, -webkit-transform 0.2s ease;
+    transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
     z-index: 2;
     pointer-events: auto;
     visibility: hidden;
@@ -296,32 +297,40 @@ body {
               transform: translateX(7px) translateY(20px) rotate(-36deg); }
   .reveal .controls .navigate-left {
     right: 82px;
-    bottom: 18px; }
+    bottom: 18px;
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px); }
     .reveal .controls .navigate-left .pagination-arrow {
       -webkit-transform: translateY(-50%);
               transform: translateY(-50%); }
   .reveal .controls .navigate-right {
     right: 0;
-    bottom: 18px; }
+    bottom: 18px;
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px); }
     .reveal .controls .navigate-right .pagination-arrow {
       -webkit-transform: translateY(-50%) rotate(180deg);
               transform: translateY(-50%) rotate(180deg); }
-    .reveal .controls .navigate-right.bounce {
+    .reveal .controls .navigate-right.highlight {
       -webkit-animation: bounce-right 2s 50 both ease-out;
               animation: bounce-right 2s 50 both ease-out; }
   .reveal .controls .navigate-up {
     right: 18px;
-    bottom: 82px; }
+    bottom: 82px;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px); }
     .reveal .controls .navigate-up .pagination-arrow {
       -webkit-transform: translateX(-50%) rotate(90deg);
               transform: translateX(-50%) rotate(90deg); }
   .reveal .controls .navigate-down {
     right: 18px;
-    bottom: 0; }
+    bottom: 0;
+    -webkit-transform: translateY(10px);
+            transform: translateY(10px); }
     .reveal .controls .navigate-down .pagination-arrow {
       -webkit-transform: translateX(-50%) rotate(-90deg);
               transform: translateX(-50%) rotate(-90deg); }
-    .reveal .controls .navigate-down.bounce {
+    .reveal .controls .navigate-down.highlight {
       -webkit-animation: bounce-down 2s 50 both ease-out;
               animation: bounce-down 2s 50 both ease-out; }
   .reveal .controls[data-controls-back-arrows="faded"] .navigate-left.enabled,
@@ -337,7 +346,9 @@ body {
   .reveal .controls .enabled {
     visibility: visible;
     opacity: 0.7;
-    cursor: pointer; }
+    cursor: pointer;
+    -webkit-transform: none;
+            transform: none; }
   .reveal .controls .enabled.fragmented {
     opacity: 0.3; }
   .reveal .controls .enabled:hover,
