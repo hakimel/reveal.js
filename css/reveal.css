@@ -188,6 +188,49 @@ body {
 /*********************************************
  * CONTROLS
  *********************************************/
+@-webkit-keyframes bounce-right {
+  0%, 10%, 25%, 40%, 50% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+  20% {
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px); }
+  30% {
+    -webkit-transform: translateX(-5px);
+            transform: translateX(-5px); } }
+@keyframes bounce-right {
+  0%, 10%, 25%, 40%, 50% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+  20% {
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px); }
+  30% {
+    -webkit-transform: translateX(-5px);
+            transform: translateX(-5px); } }
+
+@-webkit-keyframes bounce-down {
+  0%, 10%, 25%, 40%, 50% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0); }
+  20% {
+    -webkit-transform: translateY(10px);
+            transform: translateY(10px); }
+  30% {
+    -webkit-transform: translateY(-5px);
+            transform: translateY(-5px); } }
+
+@keyframes bounce-down {
+  0%, 10%, 25%, 40%, 50% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0); }
+  20% {
+    -webkit-transform: translateY(10px);
+            transform: translateY(10px); }
+  30% {
+    -webkit-transform: translateY(-5px);
+            transform: translateY(-5px); } }
+
 .reveal .controls {
   display: none;
   position: absolute;
@@ -201,8 +244,6 @@ body {
   .reveal .controls button {
     position: absolute;
     padding: 0;
-    width: 46px;
-    height: 46px;
     background-color: transparent;
     border: 0;
     outline: 0;
@@ -217,8 +258,8 @@ body {
     opacity: 0;
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent; }
-  .reveal .controls button:before,
-  .reveal .controls button:after {
+  .reveal .controls .pagination-arrow:before,
+  .reveal .controls .pagination-arrow:after {
     content: '';
     position: absolute;
     top: 0;
@@ -231,44 +272,58 @@ body {
     -webkit-transform-origin: 3px 50%;
             transform-origin: 3px 50%;
     will-change: transform; }
-  .reveal .controls button:before {
-    -webkit-transform: translateX(7px) translateY(20px) rotate(44deg);
-            transform: translateX(7px) translateY(20px) rotate(44deg); }
-  .reveal .controls button:after {
-    -webkit-transform: translateX(7px) translateY(20px) rotate(-44deg);
-            transform: translateX(7px) translateY(20px) rotate(-44deg); }
-  .reveal .controls button:hover:before {
-    -webkit-transform: translateX(7px) translateY(20px) rotate(40deg);
-            transform: translateX(7px) translateY(20px) rotate(40deg); }
-  .reveal .controls button:hover:after {
-    -webkit-transform: translateX(7px) translateY(20px) rotate(-40deg);
-            transform: translateX(7px) translateY(20px) rotate(-40deg); }
-  .reveal .controls button:active:before {
-    -webkit-transform: translateX(7px) translateY(20px) rotate(36deg);
-            transform: translateX(7px) translateY(20px) rotate(36deg); }
-  .reveal .controls button:active:after {
-    -webkit-transform: translateX(7px) translateY(20px) rotate(-36deg);
-            transform: translateX(7px) translateY(20px) rotate(-36deg); }
+  .reveal .controls .pagination-arrow {
+    position: relative;
+    width: 46px;
+    height: 46px; }
+    .reveal .controls .pagination-arrow:before {
+      -webkit-transform: translateX(7px) translateY(20px) rotate(44deg);
+              transform: translateX(7px) translateY(20px) rotate(44deg); }
+    .reveal .controls .pagination-arrow:after {
+      -webkit-transform: translateX(7px) translateY(20px) rotate(-44deg);
+              transform: translateX(7px) translateY(20px) rotate(-44deg); }
+    .reveal .controls .pagination-arrow:hover:before {
+      -webkit-transform: translateX(7px) translateY(20px) rotate(40deg);
+              transform: translateX(7px) translateY(20px) rotate(40deg); }
+    .reveal .controls .pagination-arrow:hover:after {
+      -webkit-transform: translateX(7px) translateY(20px) rotate(-40deg);
+              transform: translateX(7px) translateY(20px) rotate(-40deg); }
+    .reveal .controls .pagination-arrow:active:before {
+      -webkit-transform: translateX(7px) translateY(20px) rotate(36deg);
+              transform: translateX(7px) translateY(20px) rotate(36deg); }
+    .reveal .controls .pagination-arrow:active:after {
+      -webkit-transform: translateX(7px) translateY(20px) rotate(-36deg);
+              transform: translateX(7px) translateY(20px) rotate(-36deg); }
   .reveal .controls .navigate-left {
     right: 82px;
-    bottom: 18px;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%); }
+    bottom: 18px; }
+    .reveal .controls .navigate-left .pagination-arrow {
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%); }
   .reveal .controls .navigate-right {
     right: 0;
-    bottom: 18px;
-    -webkit-transform: translateY(-50%) rotate(180deg);
-            transform: translateY(-50%) rotate(180deg); }
+    bottom: 18px; }
+    .reveal .controls .navigate-right .pagination-arrow {
+      -webkit-transform: translateY(-50%) rotate(180deg);
+              transform: translateY(-50%) rotate(180deg); }
+    .reveal .controls .navigate-right.bounce {
+      -webkit-animation: bounce-right 2s 50 both ease-out;
+              animation: bounce-right 2s 50 both ease-out; }
   .reveal .controls .navigate-up {
     right: 18px;
-    bottom: 82px;
-    -webkit-transform: translateX(-50%) rotate(90deg);
-            transform: translateX(-50%) rotate(90deg); }
+    bottom: 82px; }
+    .reveal .controls .navigate-up .pagination-arrow {
+      -webkit-transform: translateX(-50%) rotate(90deg);
+              transform: translateX(-50%) rotate(90deg); }
   .reveal .controls .navigate-down {
     right: 18px;
-    bottom: 0;
-    -webkit-transform: translateX(-50%) rotate(-90deg);
-            transform: translateX(-50%) rotate(-90deg); }
+    bottom: 0; }
+    .reveal .controls .navigate-down .pagination-arrow {
+      -webkit-transform: translateX(-50%) rotate(-90deg);
+              transform: translateX(-50%) rotate(-90deg); }
+    .reveal .controls .navigate-down.bounce {
+      -webkit-animation: bounce-down 2s 50 both ease-out;
+              animation: bounce-down 2s 50 both ease-out; }
   .reveal .controls[data-controls-back-arrows="faded"] .navigate-left.enabled,
   .reveal .controls[data-controls-back-arrows="faded"] .navigate-up.enabled {
     opacity: 0.3; }
@@ -321,12 +376,12 @@ body {
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
   right: 0; }
 
-.reveal.has-dark-background .controls button:after,
-.reveal.has-dark-background .controls button:before {
+.reveal.has-dark-background .controls .pagination-arrow:after,
+.reveal.has-dark-background .controls .pagination-arrow:before {
   background-color: #fff; }
 
-.reveal.has-light-background .controls button:after,
-.reveal.has-light-background .controls button:before {
+.reveal.has-light-background .controls .pagination-arrow:after,
+.reveal.has-light-background .controls .pagination-arrow:before {
   background-color: #000; }
 
 /*********************************************

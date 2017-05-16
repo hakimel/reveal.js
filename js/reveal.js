@@ -52,11 +52,15 @@
 			// Display controls in the bottom right corner
 			controls: true,
 
+			// Hint at where the user can navigate, for example by animating
+			// the down arrow when we first encounter a vertical slide
+			controlsHints: true,
+
 			// Determines where controls appear, "edges" or "bottom-right"
 			controlsLayout: 'bottom-right',
 
-			// Specifies the display rules for backwards navigation arrows;
-			// "faded", "hidden" or "visible"
+			// Visibility rule for backwards navigation arrows; "faded", "hidden"
+			// or "visible"
 			controlsBackArrows: 'faded',
 
 			// Display a presentation progress bar
@@ -213,6 +217,10 @@
 		currentSlide,
 
 		previousBackground,
+
+		// Remember which directions that the user has navigated towards
+		hasNavigatedRight = false,
+		hasNavigatedDown = false,
 
 		// Slides may hold a data-state attribute which we pick up and apply
 		// as a class to the body. This list contains the combined state of
@@ -524,10 +532,10 @@
 
 		// Arrow controls
 		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
-			'<button class="navigate-left" aria-label="previous slide"></button>' +
-			'<button class="navigate-right" aria-label="next slide"></button>' +
-			'<button class="navigate-up" aria-label="above slide"></button>' +
-			'<button class="navigate-down" aria-label="below slide"></button>' );
+			'<button class="navigate-left" aria-label="previous slide"><div class="pagination-arrow"></div></button>' +
+			'<button class="navigate-right" aria-label="next slide"><div class="pagination-arrow"></div></button>' +
+			'<button class="navigate-up" aria-label="above slide"><div class="pagination-arrow"></div></button>' +
+			'<button class="navigate-down" aria-label="below slide"><div class="pagination-arrow"></div></button>' );
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
@@ -549,6 +557,10 @@
 		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
+
+		// The right and down arrows in the standard reveal.js controls
+		dom.controlsRightArrow = dom.controls.querySelector( '.navigate-right' );
+		dom.controlsDownArrow = dom.controls.querySelector( '.navigate-down' );
 
 		dom.statusDiv = createStatusDiv();
 	}
@@ -2905,6 +2917,26 @@
 
 		}
 
+		if( config.controlsHints ) {
+
+			// Highlight control arrows with an animation to ensure
+			// that the viewer knows how to navigate
+			if( !hasNavigatedDown && routes.down ) {
+				dom.controlsDownArrow.classList.add( 'highlight' );
+			}
+			else {
+				dom.controlsDownArrow.classList.remove( 'highlight' );
+
+				if( !hasNavigatedRight && routes.right && indexh === 0 ) {
+					dom.controlsRightArrow.classList.add( 'highlight' );
+				}
+				else {
+					dom.controlsRightArrow.classList.remove( 'highlight' );
+				}
+			}
+
+		}
+
 	}
 
 	/**
@@ -4157,6 +4189,8 @@
 
 	function navigateRight() {
 
+		hasNavigatedRight = true;
+
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
@@ -4180,6 +4214,8 @@
 	}
 
 	function navigateDown() {
+
+		hasNavigatedDown = true;
 
 		// Prioritize revealing fragments
 		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
@@ -4226,6 +4262,9 @@
 	 * The reverse of #navigatePrev().
 	 */
 	function navigateNext() {
+
+		hasNavigatedRight = true;
+		hasNavigatedDown = true;
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
