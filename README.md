@@ -184,9 +184,9 @@ Reveal.initialize({
 	// Display presentation control arrows
 	controls: true,
 
-	// Hint at where the user can navigate, for example by animating
-	// the down arrow when we first encounter a vertical slide
-	controlsHints: true,
+	// Help the user learn the controls by providing hints, for example by
+	// bouncing the down arrow when they first encounter a vertical slide
+	controlsTutorial: true,
 
 	// Determines where controls appear, "edges" or "bottom-right"
 	controlsLayout: 'bottom-right',
