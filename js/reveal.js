@@ -180,7 +180,10 @@
 			display: 'block',
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// Randomize slides
+			random: false
 
 		},
 
@@ -4119,32 +4122,39 @@
 
 	function navigateLeft() {
 
-		// Reverse for RTL
-		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
-				slide( indexh + 1 );
+		if( config.random ) {
+			navigateRandom(config.random.rangeStart, config.random.rangeEnd);
+		}
+		else {
+			// Reverse for RTL
+			if( config.rtl ) {
+				if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+					slide( indexh + 1 );
+				}
 			}
-		}
-		// Normal navigation
-		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
-			slide( indexh - 1 );
-		}
-
-	}
-
-	function navigateRight() {
-
-		// Reverse for RTL
-		if( config.rtl ) {
-			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+			// Normal navigation
+			else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
 				slide( indexh - 1 );
 			}
 		}
-		// Normal navigation
-		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
-			slide( indexh + 1 );
-		}
+	}
 
+	function navigateRight() {
+		if( config.random ) {
+			navigateRandom(config.random.rangeStart, config.random.rangeEnd);
+		}
+		else {
+			// Reverse for RTL
+			if( config.rtl ) {
+				if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+					slide( indexh - 1 );
+				}
+			}
+			// Normal navigation
+			else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+				slide( indexh + 1 );
+			}
+		}
 	}
 
 	function navigateUp() {
@@ -4165,6 +4175,38 @@
 
 	}
 
+	function navigateRandom(randomRangeStart, randomRangeEnd) {
+		var rangeStart = randomRangeStart || 0;
+		var rangeEnd = randomRangeEnd || (toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )).length - 1);
+		
+		if( rangeEnd < rangeStart ) {
+			//swap the two values
+			rangeEnd = [rangeStart, rangeStart = rangeEnd][0];
+		}
+
+		var randomIndexH;
+		if ( rangeEnd - rangeStart <= 1 ) {
+			//no need to randomize if the range consists of one or two slides
+			randomIndexH = (rangeEnd === indexh) ? rangeStart : rangeEnd;
+		}
+		else {
+			do {
+				randomIndexH = Math.floor(Math.random() * rangeEnd) + rangeStart;
+			} while (randomIndexH === indexh); // keep randomizing if/until we don't come up with the same slide we're already on
+		}
+
+		// Reverse for RTL
+		if( config.rtl ) {
+			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+				slide( randomIndexH );
+			}
+		}
+		// Normal navigation
+		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+			slide( randomIndexH );
+		}
+	}
+
 	/**
 	 * Navigates backwards, prioritized in the following order:
 	 * 1) Previous fragment
@@ -4179,20 +4221,26 @@
 				navigateUp();
 			}
 			else {
-				// Fetch the previous horizontal slide, if there is one
-				var previousSlide;
 
-				if( config.rtl ) {
-					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.future' ) ).pop();
+				if( config.random ) {
+					navigateRandom(config.random.rangeStart, config.random.rangeEnd);
 				}
 				else {
-					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.past' ) ).pop();
-				}
+					// Fetch the previous horizontal slide, if there is one
+					var previousSlide;
 
-				if( previousSlide ) {
-					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
-					var h = indexh - 1;
-					slide( h, v );
+					if( config.rtl ) {
+						previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.future' ) ).pop();
+					}
+					else {
+						previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.past' ) ).pop();
+					}
+
+					if( previousSlide ) {
+						var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+						var h = indexh - 1;
+						slide( h, v );
+					}
 				}
 			}
 		}
@@ -4204,8 +4252,13 @@
 	 */
 	function navigateNext() {
 
-		// Prioritize revealing fragments
-		if( nextFragment() === false ) {
+		//if autoslide is on and random is on, take over navigation: this check keep randomization at the top (horizontal) level
+		if( autoSlide && !autoSlidePaused && config.random ) {
+			navigateRandom(config.random.rangeStart, config.random.rangeEnd);
+		}
+		else if( nextFragment() === false ) {
+			// Prioritize revealing fragments
+
 			if( availableRoutes().down ) {
 				navigateDown();
 			}
