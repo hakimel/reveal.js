@@ -240,7 +240,8 @@ body {
   left: auto;
   z-index: 1;
   color: #fff;
-  pointer-events: none; }
+  pointer-events: none;
+  font-size: 10px; }
   .reveal .controls button {
     position: absolute;
     padding: 0;
@@ -255,6 +256,7 @@ body {
     transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
     z-index: 2;
     pointer-events: auto;
+    font-size: inherit;
     visibility: hidden;
     opacity: 0;
     -webkit-appearance: none;
@@ -265,71 +267,68 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 32px;
-    height: 6px;
-    border-radius: 3px;
+    width: 2.6em;
+    height: 0.5em;
+    border-radius: 0.25em;
     background-color: currentColor;
     transition: all 0.15s ease, background-color 0.8s ease;
-    -webkit-transform-origin: 3px 50%;
-            transform-origin: 3px 50%;
+    -webkit-transform-origin: 0.25em 50%;
+            transform-origin: 0.25em 50%;
     will-change: transform; }
   .reveal .controls .pagination-arrow {
     position: relative;
-    width: 46px;
-    height: 46px; }
+    width: 3.6em;
+    height: 3.6em; }
     .reveal .controls .pagination-arrow:before {
-      -webkit-transform: translateX(7px) translateY(20px) rotate(44deg);
-              transform: translateX(7px) translateY(20px) rotate(44deg); }
+      -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(45deg);
+              transform: translateX(0.5em) translateY(1.55em) rotate(45deg); }
     .reveal .controls .pagination-arrow:after {
-      -webkit-transform: translateX(7px) translateY(20px) rotate(-44deg);
-              transform: translateX(7px) translateY(20px) rotate(-44deg); }
+      -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(-45deg);
+              transform: translateX(0.5em) translateY(1.55em) rotate(-45deg); }
     .reveal .controls .pagination-arrow:hover:before {
-      -webkit-transform: translateX(7px) translateY(20px) rotate(40deg);
-              transform: translateX(7px) translateY(20px) rotate(40deg); }
+      -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(40deg);
+              transform: translateX(0.5em) translateY(1.55em) rotate(40deg); }
     .reveal .controls .pagination-arrow:hover:after {
-      -webkit-transform: translateX(7px) translateY(20px) rotate(-40deg);
-              transform: translateX(7px) translateY(20px) rotate(-40deg); }
+      -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(-40deg);
+              transform: translateX(0.5em) translateY(1.55em) rotate(-40deg); }
     .reveal .controls .pagination-arrow:active:before {
-      -webkit-transform: translateX(7px) translateY(20px) rotate(36deg);
-              transform: translateX(7px) translateY(20px) rotate(36deg); }
+      -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(36deg);
+              transform: translateX(0.5em) translateY(1.55em) rotate(36deg); }
     .reveal .controls .pagination-arrow:active:after {
-      -webkit-transform: translateX(7px) translateY(20px) rotate(-36deg);
-              transform: translateX(7px) translateY(20px) rotate(-36deg); }
+      -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(-36deg);
+              transform: translateX(0.5em) translateY(1.55em) rotate(-36deg); }
   .reveal .controls .navigate-left {
-    right: 82px;
-    bottom: 18px;
+    right: 6.4em;
+    bottom: 3.2em;
     -webkit-transform: translateX(-10px);
             transform: translateX(-10px); }
-    .reveal .controls .navigate-left .pagination-arrow {
-      -webkit-transform: translateY(-50%);
-              transform: translateY(-50%); }
   .reveal .controls .navigate-right {
     right: 0;
-    bottom: 18px;
+    bottom: 3.2em;
     -webkit-transform: translateX(10px);
             transform: translateX(10px); }
     .reveal .controls .navigate-right .pagination-arrow {
-      -webkit-transform: translateY(-50%) rotate(180deg);
-              transform: translateY(-50%) rotate(180deg); }
+      -webkit-transform: rotate(180deg);
+              transform: rotate(180deg); }
     .reveal .controls .navigate-right.highlight {
       -webkit-animation: bounce-right 2s 50 both ease-out;
               animation: bounce-right 2s 50 both ease-out; }
   .reveal .controls .navigate-up {
-    right: 18px;
-    bottom: 82px;
+    right: 1.4em;
+    bottom: 6.4em;
     -webkit-transform: translateY(-10px);
             transform: translateY(-10px); }
     .reveal .controls .navigate-up .pagination-arrow {
       -webkit-transform: translateX(-50%) rotate(90deg);
               transform: translateX(-50%) rotate(90deg); }
   .reveal .controls .navigate-down {
-    right: 18px;
+    right: 3.2em;
     bottom: 0;
     -webkit-transform: translateY(10px);
             transform: translateY(10px); }
     .reveal .controls .navigate-down .pagination-arrow {
-      -webkit-transform: translateX(-50%) rotate(-90deg);
-              transform: translateX(-50%) rotate(-90deg); }
+      -webkit-transform: rotate(-90deg);
+              transform: rotate(-90deg); }
     .reveal .controls .navigate-down.highlight {
       -webkit-animation: bounce-down 2s 50 both ease-out;
               animation: bounce-down 2s 50 both ease-out; }
