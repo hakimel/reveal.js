@@ -319,8 +319,8 @@ body {
     -webkit-transform: translateY(-10px);
             transform: translateY(-10px); }
     .reveal .controls .navigate-up .pagination-arrow {
-      -webkit-transform: translateX(-50%) rotate(90deg);
-              transform: translateX(-50%) rotate(90deg); }
+      -webkit-transform: rotate(90deg);
+              transform: rotate(90deg); }
   .reveal .controls .navigate-down {
     right: 3.2em;
     bottom: 0;
@@ -353,38 +353,17 @@ body {
   .reveal .controls .enabled:hover,
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
-  @media screen and (min-width: 500px) {
-    .reveal .controls[data-controls-layout="edges"] {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0; }
-    .reveal .controls[data-controls-layout="edges"] .navigate-left,
-    .reveal .controls[data-controls-layout="edges"] .navigate-right,
-    .reveal .controls[data-controls-layout="edges"] .navigate-up,
-    .reveal .controls[data-controls-layout="edges"] .navigate-down {
-      bottom: auto;
-      right: auto; }
-    .reveal .controls[data-controls-layout="edges"] .navigate-left {
-      top: 50%;
-      left: 8px; }
-    .reveal .controls[data-controls-layout="edges"] .navigate-right {
-      top: 50%;
-      right: 8px; }
-    .reveal .controls[data-controls-layout="edges"] .navigate-up {
-      top: 8px;
-      left: 50%; }
-    .reveal .controls[data-controls-layout="edges"] .navigate-down {
-      bottom: 8px;
-      left: 50%; } }
 
 .reveal:not(.has-vertical-slides) .controls .navigate-left,
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
-  bottom: 0; }
+  bottom: 10px; }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-up,
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
-  right: 0; }
+  right: 10px; }
+
+.reveal:not(.has-horizontal-slides) .controls .navigate-up {
+  bottom: 3.9em; }
 
 .reveal.has-dark-background .controls .pagination-arrow:after,
 .reveal.has-dark-background .controls .pagination-arrow:before {
@@ -393,6 +372,31 @@ body {
 .reveal.has-light-background .controls .pagination-arrow:after,
 .reveal.has-light-background .controls .pagination-arrow:before {
   background-color: #000; }
+
+@media screen and (min-width: 500px) {
+  .reveal .controls[data-controls-layout="edges"] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+  .reveal .controls[data-controls-layout="edges"] .navigate-left,
+  .reveal .controls[data-controls-layout="edges"] .navigate-right,
+  .reveal .controls[data-controls-layout="edges"] .navigate-up,
+  .reveal .controls[data-controls-layout="edges"] .navigate-down {
+    bottom: auto;
+    right: auto; }
+  .reveal .controls[data-controls-layout="edges"] .navigate-left {
+    top: 50%;
+    left: 8px; }
+  .reveal .controls[data-controls-layout="edges"] .navigate-right {
+    top: 50%;
+    right: 8px; }
+  .reveal .controls[data-controls-layout="edges"] .navigate-up {
+    top: 8px;
+    left: 50%; }
+  .reveal .controls[data-controls-layout="edges"] .navigate-down {
+    bottom: 8px;
+    left: 50%; } }
 
 /*********************************************
  * PROGRESS BAR

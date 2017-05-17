@@ -247,23 +247,24 @@ body {
 	30% {transform: translateY(-5px);}
 }
 
+$controlArrowSize: 3.6em;
+$controlArrowSpacing: 1.4em;
+$controlArrowLength: 2.6em;
+$controlArrowThickness: 0.5em;
+
 .reveal .controls {
-	$size: 3.6em;
-	$length: 2.6em;
-	$thickness: 0.5em;
 	$angle: 45deg;
 	$angleHover: 40deg;
 	$angleActive: 36deg;
 	$spacing: 12px;
-	$innerSpacing: 1.4em;
 
 	@mixin arrowTransform( $angle ) {
 		&:before {
-			transform: translateX(($size - $length)/2) translateY(($size - $thickness)/2) rotate( $angle );
+			transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( $angle );
 		}
 
 		&:after {
-			transform: translateX(($size - $length)/2) translateY(($size - $thickness)/2) rotate( -$angle );
+			transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( -$angle );
 		}
 	}
 
@@ -307,20 +308,20 @@ body {
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: $length;
-		height: $thickness;
-		border-radius: $thickness/2;
+		width: $controlArrowLength;
+		height: $controlArrowThickness;
+		border-radius: $controlArrowThickness/2;
 		background-color: currentColor;
 
 		transition: all 0.15s ease, background-color 0.8s ease;
-		transform-origin: $thickness/2 50%;
+		transform-origin: $controlArrowThickness/2 50%;
 		will-change: transform;
 	}
 
 	.pagination-arrow {
 		position: relative;
-		width: $size;
-		height: $size;
+		width: $controlArrowSize;
+		height: $controlArrowSize;
 
 		@include arrowTransform( $angle );
 
@@ -334,14 +335,14 @@ body {
 	}
 
 	.navigate-left {
-		right: $size + $innerSpacing*2;
-		bottom: $innerSpacing + $size/2;
+		right: $controlArrowSize + $controlArrowSpacing*2;
+		bottom: $controlArrowSpacing + $controlArrowSize/2;
 		transform: translateX( -10px );
 	}
 
 	.navigate-right {
 		right: 0;
-		bottom: $innerSpacing + $size/2;
+		bottom: $controlArrowSpacing + $controlArrowSize/2;
 		transform: translateX( 10px );
 
 		.pagination-arrow {
@@ -354,17 +355,17 @@ body {
 	}
 
 	.navigate-up {
-		right: $innerSpacing;
-		bottom: $innerSpacing*2 + $size;
+		right: $controlArrowSpacing;
+		bottom: $controlArrowSpacing*2 + $controlArrowSize;
 		transform: translateY( -10px );
 
 		.pagination-arrow {
-			transform: translateX(-50%) rotate( 90deg );
+			transform: rotate( 90deg );
 		}
 	}
 
 	.navigate-down {
-		right: $innerSpacing + $size/2;
+		right: $controlArrowSpacing + $controlArrowSize/2;
 		bottom: 0;
 		transform: translateY( 10px );
 
@@ -415,60 +416,20 @@ body {
 	.enabled.fragmented:hover {
 		opacity: 1;
 	}
-
-	@media screen and (min-width: 500px) {
-
-		$spacing: 8px;
-
-		&[data-controls-layout="edges"] {
-			& {
-				top: 0;
-				right: 0;
-				bottom: 0;
-				left: 0;
-			}
-
-			.navigate-left,
-			.navigate-right,
-			.navigate-up,
-			.navigate-down {
-				bottom: auto;
-				right: auto;
-			}
-
-			.navigate-left {
-				top: 50%;
-				left: $spacing;
-			}
-
-			.navigate-right {
-				top: 50%;
-				right: $spacing;
-			}
-
-			.navigate-up {
-				top: $spacing;
-				left: 50%;
-			}
-
-			.navigate-down {
-				bottom: $spacing;
-				left: 50%;
-			}
-		}
-
-	}
 }
 
 // Adjust the layout when there are no vertical slides
 .reveal:not(.has-vertical-slides) .controls .navigate-left,
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
-	bottom: 0;
+	bottom: 10px;
 }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-up,
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
-	right: 0;
+	right: 10px;
+}
+.reveal:not(.has-horizontal-slides) .controls .navigate-up {
+	bottom: $controlArrowSpacing*1.5 + $controlArrowSize/2;
 }
 
 .reveal.has-dark-background .controls .pagination-arrow:after,
@@ -479,6 +440,50 @@ body {
 .reveal.has-light-background .controls .pagination-arrow:after,
 .reveal.has-light-background .controls .pagination-arrow:before {
 	background-color: #000;
+}
+
+// Edge aligned controls layout
+@media screen and (min-width: 500px) {
+
+	$spacing: 8px;
+
+	.reveal .controls[data-controls-layout="edges"] {
+		& {
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+
+		.navigate-left,
+		.navigate-right,
+		.navigate-up,
+		.navigate-down {
+			bottom: auto;
+			right: auto;
+		}
+
+		.navigate-left {
+			top: 50%;
+			left: $spacing;
+		}
+
+		.navigate-right {
+			top: 50%;
+			right: $spacing;
+		}
+
+		.navigate-up {
+			top: $spacing;
+			left: 50%;
+		}
+
+		.navigate-down {
+			bottom: $spacing;
+			left: 50%;
+		}
+	}
+
 }
 
 
