@@ -354,24 +354,27 @@ body {
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
 
-.reveal:not(.has-vertical-slides) .controls .navigate-left,
-.reveal:not(.has-vertical-slides) .controls .navigate-right {
-  bottom: 10px; }
+.reveal:not(.has-vertical-slides) .controls .navigate-left {
+  bottom: 1.2em;
+  right: 5.8em; }
 
-.reveal:not(.has-horizontal-slides) .controls .navigate-up,
-.reveal:not(.has-horizontal-slides) .controls .navigate-down {
-  right: 10px; }
+.reveal:not(.has-vertical-slides) .controls .navigate-right {
+  bottom: 1.2em;
+  right: 1.2em; }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-up {
-  bottom: 3.9em; }
+  right: 1.2em;
+  bottom: 5.8em; }
 
-.reveal.has-dark-background .controls .pagination-arrow:after,
-.reveal.has-dark-background .controls .pagination-arrow:before {
-  background-color: #fff; }
+.reveal:not(.has-horizontal-slides) .controls .navigate-down {
+  right: 1.2em;
+  bottom: 1.2em; }
 
-.reveal.has-light-background .controls .pagination-arrow:after,
-.reveal.has-light-background .controls .pagination-arrow:before {
-  background-color: #000; }
+.reveal.has-dark-background .controls {
+  color: #fff; }
+
+.reveal.has-light-background .controls {
+  color: #000; }
 
 @media screen and (min-width: 500px) {
   .reveal .controls[data-controls-layout="edges"] {
