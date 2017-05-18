@@ -523,6 +523,13 @@
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
+		if( isMobileDevice ) {
+			dom.wrapper.classList.add( 'no-hover' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'no-hover' );
+		}
+
 		// Background element
 		dom.background = createSingletonNode( dom.wrapper, 'div', 'backgrounds', null );
 

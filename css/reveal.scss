@@ -251,22 +251,22 @@ $controlArrowSize: 3.6em;
 $controlArrowSpacing: 1.4em;
 $controlArrowLength: 2.6em;
 $controlArrowThickness: 0.5em;
+$controlsArrowAngle: 45deg;
+$controlsArrowAngleHover: 40deg;
+$controlsArrowAngleActive: 36deg;
+
+@mixin controlsArrowTransform( $angle ) {
+	&:before {
+		transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( $angle );
+	}
+
+	&:after {
+		transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( -$angle );
+	}
+}
 
 .reveal .controls {
-	$angle: 45deg;
-	$angleHover: 40deg;
-	$angleActive: 36deg;
 	$spacing: 12px;
-
-	@mixin arrowTransform( $angle ) {
-		&:before {
-			transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( $angle );
-		}
-
-		&:after {
-			transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( -$angle );
-		}
-	}
 
 	display: none;
 	position: absolute;
@@ -323,14 +323,14 @@ $controlArrowThickness: 0.5em;
 		width: $controlArrowSize;
 		height: $controlArrowSize;
 
-		@include arrowTransform( $angle );
+		@include controlsArrowTransform( $controlsArrowAngle );
 
 		&:hover {
-			@include arrowTransform( $angleHover );
+			@include controlsArrowTransform( $controlsArrowAngleHover );
 		}
 
 		&:active {
-			@include arrowTransform( $angleActive );
+			@include controlsArrowTransform( $controlsArrowAngleActive );
 		}
 	}
 
@@ -438,12 +438,18 @@ $controlArrowThickness: 0.5em;
 	bottom: $controlArrowSpacing;
 }
 
+// Invert arrows based on background color
 .reveal.has-dark-background .controls {
 	color: #fff;
 }
-
 .reveal.has-light-background .controls {
 	color: #000;
+}
+
+// Disable active states on touch devices
+.reveal.no-hover .controls .controls-arrow:hover,
+.reveal.no-hover .controls .controls-arrow:active {
+	@include controlsArrowTransform( $controlsArrowAngle );
 }
 
 // Edge aligned controls layout
