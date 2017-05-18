@@ -355,7 +355,7 @@ $controlArrowThickness: 0.5em;
 	}
 
 	.navigate-up {
-		right: $controlArrowSpacing;
+		right: $controlArrowSpacing + $controlArrowSize/2;
 		bottom: $controlArrowSpacing*2 + $controlArrowSize;
 		transform: translateY( -10px );
 
@@ -401,7 +401,7 @@ $controlArrowThickness: 0.5em;
 	// Any control button that can be clicked is "enabled"
 	.enabled {
 		visibility: visible;
-		opacity: 0.8;
+		opacity: 0.9;
 		cursor: pointer;
 		transform: none;
 	}
@@ -409,7 +409,7 @@ $controlArrowThickness: 0.5em;
 	// Any control button that leads to showing or hiding
 	// a fragment
 	.enabled.fragmented {
-		opacity: 0.4;
+		opacity: 0.5;
 	}
 
 	.enabled:hover,

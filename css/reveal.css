@@ -314,7 +314,7 @@ body {
       -webkit-animation: bounce-right 2s 50 both ease-out;
               animation: bounce-right 2s 50 both ease-out; }
   .reveal .controls .navigate-up {
-    right: 1.4em;
+    right: 3.2em;
     bottom: 6.4em;
     -webkit-transform: translateY(-10px);
             transform: translateY(-10px); }
@@ -344,12 +344,12 @@ body {
     visibility: hidden; }
   .reveal .controls .enabled {
     visibility: visible;
-    opacity: 0.8;
+    opacity: 0.9;
     cursor: pointer;
     -webkit-transform: none;
             transform: none; }
   .reveal .controls .enabled.fragmented {
-    opacity: 0.4; }
+    opacity: 0.5; }
   .reveal .controls .enabled:hover,
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
