@@ -1467,7 +1467,7 @@ body {
 .reveal .speaker-notes {
   display: none;
   position: absolute;
-  width: 20vw;
+  width: 25vw;
   height: 100%;
   top: 0;
   left: 100%;
@@ -1475,6 +1475,7 @@ body {
   z-index: 1;
   font-size: 18px;
   line-height: 1.4;
+  border-left: 1px solid #ddd;
   color: #222;
   background-color: #f5f5f5;
   overflow: auto;
@@ -1489,7 +1490,7 @@ body {
     opacity: 0.5; }
 
 .reveal.show-notes {
-  max-width: 80vw;
+  max-width: 75vw;
   overflow: visible; }
 
 .reveal.show-notes .speaker-notes {
