@@ -261,8 +261,8 @@ body {
     opacity: 0;
     -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent; }
-  .reveal .controls .pagination-arrow:before,
-  .reveal .controls .pagination-arrow:after {
+  .reveal .controls .controls-arrow:before,
+  .reveal .controls .controls-arrow:after {
     content: '';
     position: absolute;
     top: 0;
@@ -275,26 +275,26 @@ body {
     -webkit-transform-origin: 0.25em 50%;
             transform-origin: 0.25em 50%;
     will-change: transform; }
-  .reveal .controls .pagination-arrow {
+  .reveal .controls .controls-arrow {
     position: relative;
     width: 3.6em;
     height: 3.6em; }
-    .reveal .controls .pagination-arrow:before {
+    .reveal .controls .controls-arrow:before {
       -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(45deg);
               transform: translateX(0.5em) translateY(1.55em) rotate(45deg); }
-    .reveal .controls .pagination-arrow:after {
+    .reveal .controls .controls-arrow:after {
       -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(-45deg);
               transform: translateX(0.5em) translateY(1.55em) rotate(-45deg); }
-    .reveal .controls .pagination-arrow:hover:before {
+    .reveal .controls .controls-arrow:hover:before {
       -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(40deg);
               transform: translateX(0.5em) translateY(1.55em) rotate(40deg); }
-    .reveal .controls .pagination-arrow:hover:after {
+    .reveal .controls .controls-arrow:hover:after {
       -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(-40deg);
               transform: translateX(0.5em) translateY(1.55em) rotate(-40deg); }
-    .reveal .controls .pagination-arrow:active:before {
+    .reveal .controls .controls-arrow:active:before {
       -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(36deg);
               transform: translateX(0.5em) translateY(1.55em) rotate(36deg); }
-    .reveal .controls .pagination-arrow:active:after {
+    .reveal .controls .controls-arrow:active:after {
       -webkit-transform: translateX(0.5em) translateY(1.55em) rotate(-36deg);
               transform: translateX(0.5em) translateY(1.55em) rotate(-36deg); }
   .reveal .controls .navigate-left {
@@ -307,7 +307,7 @@ body {
     bottom: 3.2em;
     -webkit-transform: translateX(10px);
             transform: translateX(10px); }
-    .reveal .controls .navigate-right .pagination-arrow {
+    .reveal .controls .navigate-right .controls-arrow {
       -webkit-transform: rotate(180deg);
               transform: rotate(180deg); }
     .reveal .controls .navigate-right.highlight {
@@ -318,7 +318,7 @@ body {
     bottom: 6.4em;
     -webkit-transform: translateY(-10px);
             transform: translateY(-10px); }
-    .reveal .controls .navigate-up .pagination-arrow {
+    .reveal .controls .navigate-up .controls-arrow {
       -webkit-transform: rotate(90deg);
               transform: rotate(90deg); }
   .reveal .controls .navigate-down {
@@ -326,7 +326,7 @@ body {
     bottom: 0;
     -webkit-transform: translateY(10px);
             transform: translateY(10px); }
-    .reveal .controls .navigate-down .pagination-arrow {
+    .reveal .controls .navigate-down .controls-arrow {
       -webkit-transform: rotate(-90deg);
               transform: rotate(-90deg); }
     .reveal .controls .navigate-down.highlight {
@@ -355,20 +355,20 @@ body {
     opacity: 1; }
 
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
-  bottom: 1.2em;
-  right: 5.8em; }
+  bottom: 1.4em;
+  right: 6.4em; }
 
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
-  bottom: 1.2em;
-  right: 1.2em; }
+  bottom: 1.4em;
+  right: 1.4em; }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-up {
-  right: 1.2em;
-  bottom: 5.8em; }
+  right: 1.4em;
+  bottom: 6.4em; }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
-  right: 1.2em;
-  bottom: 1.2em; }
+  right: 1.4em;
+  bottom: 1.4em; }
 
 .reveal.has-dark-background .controls {
   color: #fff; }
@@ -412,7 +412,8 @@ body {
   bottom: 0;
   left: 0;
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.2); }
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff; }
 
 .reveal .progress:after {
   content: '';
@@ -426,7 +427,7 @@ body {
   display: block;
   height: 100%;
   width: 0px;
-  background-color: #000;
+  background-color: currentColor;
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
 /*********************************************

@@ -302,8 +302,8 @@ $controlArrowThickness: 0.5em;
 		-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
 	}
 
-	.pagination-arrow:before,
-	.pagination-arrow:after {
+	.controls-arrow:before,
+	.controls-arrow:after {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -318,7 +318,7 @@ $controlArrowThickness: 0.5em;
 		will-change: transform;
 	}
 
-	.pagination-arrow {
+	.controls-arrow {
 		position: relative;
 		width: $controlArrowSize;
 		height: $controlArrowSize;
@@ -345,7 +345,7 @@ $controlArrowThickness: 0.5em;
 		bottom: $controlArrowSpacing + $controlArrowSize/2;
 		transform: translateX( 10px );
 
-		.pagination-arrow {
+		.controls-arrow {
 			transform: rotate( 180deg );
 		}
 
@@ -359,7 +359,7 @@ $controlArrowThickness: 0.5em;
 		bottom: $controlArrowSpacing*2 + $controlArrowSize;
 		transform: translateY( -10px );
 
-		.pagination-arrow {
+		.controls-arrow {
 			transform: rotate( 90deg );
 		}
 	}
@@ -369,7 +369,7 @@ $controlArrowThickness: 0.5em;
 		bottom: 0;
 		transform: translateY( 10px );
 
-		.pagination-arrow {
+		.controls-arrow {
 			transform: rotate( -90deg );
 		}
 
@@ -420,22 +420,22 @@ $controlArrowThickness: 0.5em;
 
 // Adjust the layout when there are no vertical slides
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
-	bottom: 1.2em;
-	right: 2.2em + $controlArrowSize;
+	bottom: $controlArrowSpacing;
+	right: $controlArrowSpacing*2 + $controlArrowSize;
 }
 
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
-	bottom: 1.2em;
-	right: 1.2em;
+	bottom: $controlArrowSpacing;
+	right: $controlArrowSpacing;
 }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-up {
-	right: 1.2em;
-	bottom: 2.2em + $controlArrowSize;
+	right: $controlArrowSpacing;
+	bottom: $controlArrowSpacing*2 + $controlArrowSize;
 }
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
-	right: 1.2em;
-	bottom: 1.2em;
+	right: $controlArrowSpacing;
+	bottom: $controlArrowSpacing;
 }
 
 .reveal.has-dark-background .controls {
@@ -505,6 +505,7 @@ $controlArrowThickness: 0.5em;
 	z-index: 10;
 
 	background-color: rgba( 0, 0, 0, 0.2 );
+	color: #fff;
 }
 	.reveal .progress:after {
 		content: '';
@@ -519,7 +520,7 @@ $controlArrowThickness: 0.5em;
 		height: 100%;
 		width: 0px;
 
-		background-color: #000;
+		background-color: currentColor;
 		transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
