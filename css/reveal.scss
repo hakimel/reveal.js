@@ -314,7 +314,7 @@ $controlsArrowAngleActive: 36deg;
 		background-color: currentColor;
 
 		transition: all 0.15s ease, background-color 0.8s ease;
-		transform-origin: $controlArrowThickness/2 50%;
+		transform-origin: floor(($controlArrowThickness/2)*10)/10 50%;
 		will-change: transform;
 	}
 
