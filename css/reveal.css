@@ -1483,6 +1483,11 @@ body {
   text-align: left;
   font-family: Helvetica, sans-serif;
   -webkit-overflow-scrolling: touch; }
+  .reveal .speaker-notes .notes-placeholder {
+    color: #ccc;
+    font-style: italic; }
+  .reveal .speaker-notes:focus {
+    outline: none; }
   .reveal .speaker-notes:before {
     content: 'Speaker notes';
     display: block;

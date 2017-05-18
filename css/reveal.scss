@@ -1612,6 +1612,15 @@ $controlsArrowAngleActive: 36deg;
 	font-family: Helvetica, sans-serif;
 	-webkit-overflow-scrolling: touch;
 
+	.notes-placeholder {
+		color: #ccc;
+		font-style: italic;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
 	&:before {
 		content: 'Speaker notes';
 		display: block;
@@ -1619,6 +1628,7 @@ $controlsArrowAngleActive: 36deg;
 		opacity: 0.5;
 	}
 }
+
 
 .reveal.show-notes {
 	max-width: 75vw;
