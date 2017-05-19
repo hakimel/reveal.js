@@ -502,7 +502,7 @@ $controlsArrowAngleActive: 36deg;
  *********************************************/
 
 .reveal .progress {
-	position: fixed;
+	position: absolute;
 	display: none;
 	height: 3px;
 	width: 100%;
@@ -1521,12 +1521,13 @@ $controlsArrowAngleActive: 36deg;
  *********************************************/
 
 .reveal .playback {
-	position: fixed;
+	position: absolute;
 	left: 15px;
 	bottom: 20px;
 	z-index: 30;
 	cursor: pointer;
 	transition: all 400ms ease;
+	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
 }
 
 .reveal.overview .playback {
@@ -1599,12 +1600,11 @@ $controlsArrowAngleActive: 36deg;
 	height: 100%;
 	top: 0;
 	left: 100%;
-	padding: 14px;
+	padding: 14px 18px 14px 18px;
 	z-index: 1;
 	font-size: 18px;
 	line-height: 1.4;
-	border-left: 1px solid rgba( 0, 0, 0, 0.05 );
-	border-bottom: 1px solid rgba( 0, 0, 0, 0.05 );
+	border: 1px solid rgba( 0, 0, 0, 0.05 );
 	color: #222;
 	background-color: #f5f5f5;
 	overflow: auto;
