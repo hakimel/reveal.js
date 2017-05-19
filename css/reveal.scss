@@ -1655,6 +1655,16 @@ $controlsArrowAngleActive: 36deg;
 }
 
 @media screen and (max-width: 600px) {
+	.reveal.show-notes {
+		max-height: 60vh;
+	}
+
+	.reveal.show-notes .speaker-notes {
+		top: 60vh;
+		height: 40vh;
+		padding-bottom: 10vh; // iOS :(
+	}
+
 	.reveal .speaker-notes {
 		font-size: 14px;
 	}
