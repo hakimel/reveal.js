@@ -167,6 +167,7 @@ ul, ol, div, p {
 	background-color: transparent;
 	padding: 20px;
 	page-break-after: always;
+	border: 0;
 }
 
 /* Display slide numbers when 'slideNumber' is enabled */
