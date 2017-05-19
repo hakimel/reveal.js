@@ -239,7 +239,7 @@ body {
   right: 12px;
   left: auto;
   z-index: 1;
-  color: #fff;
+  color: #000;
   pointer-events: none;
   font-size: 10px; }
   .reveal .controls button {
