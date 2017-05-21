@@ -1,0 +1,16 @@
+section
+  h2 Global State
+  p
+    | Set 
+    code data-state="something"
+    |  on a slide and 
+    code "something"
+    | 						will be added as a class to the document element when the slide is open. This lets you
+    | 						apply broader style changes, like switching the page background.
+section(data-state='customevent')
+  h2 State Events
+  p
+    | Additionally custom events can be triggered on a per slide basis by binding to the 
+    code data-state
+    |  name.
+  pre.

@@ -1,0 +1,19 @@
+
+//- Compiled CSS
+link(rel='stylesheet', href='css/index.css')/
+
+link#theme(rel='stylesheet', href='css/theme/black.css')/
+
+// HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+// WARNING: Respond.js doesn't work if you view the page via file://
+//if lt IE 9
+  script(type='text/javascript', src='js/html5shiv.js')
+  script(type='text/javascript', src='js/respond.js')
+
+// Printing and PDF exports
+script.
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/pdf.css' : 'css/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );

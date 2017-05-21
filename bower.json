@@ -1,27 +1,23 @@
 {
   "name": "reveal.js",
-  "version": "3.5.0",
-  "main": [
-    "js/reveal.js",
-    "css/reveal.css"
-  ],
-  "homepage": "http://lab.hakim.se/reveal-js/",
-  "license": "MIT",
-  "description": "The HTML Presentation Framework",
   "authors": [
-    "Hakim El Hattab <hakim.elhattab@gmail.com>"
+    "Shrimadhav U K <shrimadhavuk@gmail.com>"
   ],
-  "dependencies": {
-    "headjs": "~1.0.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/hakimel/reveal.js.git"
-  },
+  "description": "A Fork of Reveal.JS using PugJS",
+  "license": "GPL-3.0",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "test"
-  ]
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "normalize-css": "normalize.css#4.1.1",
+    "jquery": "2.2.4",
+    "html5shiv": "3.7.0",
+    "respond": "https://github.com/scottjehl/Respond.git#1.4.0",
+    "reveal.js": "^3.5.0"
+  }
 }

@@ -1,0 +1,22 @@
+// Example of nested vertical slides
+section
+  section
+    h2 Vertical Slides
+    p Slides can be nested inside of each other.
+    p
+      | Use the 
+      em Space
+      |  key to navigate through all slides.
+    br
+    a.navigate-down(href='#')
+      img(width='178', height='238', data-src='https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png', alt='Down arrow')
+  section
+    h2 Basement Level 1
+    p
+      | Nested slides are useful for adding additional detail underneath a high level horizontal slide.
+  section
+    h2 Basement Level 2
+    p That's it, time to go back up.
+    br
+    a(href='#/2')
+      img(width='178', height='238', data-src='https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png', alt='Up arrow', style='transform: rotate(180deg); -webkit-transform: rotate(180deg);')
