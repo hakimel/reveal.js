@@ -1,44 +1,34 @@
 {
   "name": "reveal.js",
-  "version": "3.5.0",
-  "description": "The HTML Presentation Framework",
-  "homepage": "http://lab.hakim.se/reveal-js",
-  "subdomain": "revealjs",
-  "main": "js/reveal.js",
-  "scripts": {
-    "test": "grunt test",
-    "start": "grunt serve",
-    "build": "grunt"
-  },
-  "author": {
-    "name": "Hakim El Hattab",
-    "email": "hakim.elhattab@gmail.com",
-    "web": "http://hakim.se"
-  },
+  "description": "A Fork of Reveal.JS using PugJS",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hakimel/reveal.js.git"
+    "url": "git+ssh://git@github.com:SpEcHiDe/reveal.js.git"
   },
-  "engines": {
-    "node": ">=4.0.0"
+  "bugs": {
+    "url": "https://github.com/SpEcHiDe/reveal.js/issues"
   },
   "devDependencies": {
-    "express": "~4.14.0",
-    "grunt": "~1.0.1",
-    "grunt-autoprefixer": "~3.0.3",
-    "grunt-cli": "~1.2.0",
-    "grunt-contrib-connect": "~0.11.2",
-    "grunt-contrib-cssmin": "~0.14.0",
-    "grunt-contrib-jshint": "~0.11.3",
-    "grunt-contrib-qunit": "~1.2.0",
-    "grunt-contrib-uglify": "~0.9.2",
-    "grunt-contrib-watch": "~1.0.0",
-    "grunt-sass": "~1.2.0",
-    "grunt-retire": "~0.3.10",
-    "grunt-zip": "~0.17.1",
-    "mustache": "~2.2.1",
-    "node-sass": "~3.13.0",
-    "socket.io": "^1.4.8"
+    "connect-livereload": "^0.5.4",
+    "grunt": "^1.0.1",
+    "grunt-connect-proxy": "^0.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-pug": "^1.0.0",
+    "grunt-contrib-uglify": "^0.5.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-htmlhint": "^0.9.13",
+    "grunt-preprocess": "^5.1.0",
+    "jshint-stylish": "^2.2.1",
+    "jstransformer-markdown-it": "^2.0.0",
+    "load-grunt-tasks": "^3.5.0",
+    "time-grunt": "^1.3.0"
   },
-  "license": "MIT"
+  "dependencies": {},
+  "author": "Shrimadhav U K <shrimadhavuk@gmail.com>",
+  "license": "GPL-3.0"
 }

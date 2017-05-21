@@ -1,0 +1,13 @@
+image: node:6.6.0
+pages:
+  stage: deploy
+  script:
+  - npm install -g grunt-cli bower
+  - npm install
+  - bower install --allow-root
+  - grunt public:dev
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
