@@ -3,14 +3,14 @@
 	var isEnabled = true;
 
 	document.querySelector( '.reveal .slides' ).addEventListener( 'mousedown', function( event ) {
-		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : 'ctrl' ) + 'Key';//cl
+		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : 'ctrl' ) + 'Key';
 		var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
 
 		if( event[ modifier ] && isEnabled ) {
 			event.preventDefault();
 
 			zoom.to({
-				x: event.clientX - window.innerWidth / (zoomLevel * 2),//cl
+				x: event.clientX - window.innerWidth / (zoomLevel * 2),
 				y: event.clientY - window.innerHeight / (zoomLevel * 2),
 				width: window.innerWidth / zoomLevel,
 				height: window.innerHeight / zoomLevel,
