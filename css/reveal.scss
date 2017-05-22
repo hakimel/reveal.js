@@ -421,21 +421,22 @@ $controlsArrowAngleActive: 36deg;
 // Adjust the layout when there are no vertical slides
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
 	bottom: $controlArrowSpacing;
-	right: $controlArrowSpacing*2 + $controlArrowSize;
+	right: 0.5em + $controlArrowSpacing + $controlArrowSize;
 }
 
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
 	bottom: $controlArrowSpacing;
-	right: $controlArrowSpacing;
+	right: 0.5em;
 }
 
+// Adjust the layout when there are no horizontal slides
 .reveal:not(.has-horizontal-slides) .controls .navigate-up {
 	right: $controlArrowSpacing;
-	bottom: $controlArrowSpacing*2 + $controlArrowSize;
+	bottom: $controlArrowSpacing + $controlArrowSize;
 }
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
 	right: $controlArrowSpacing;
-	bottom: $controlArrowSpacing;
+	bottom: 0.5em;
 }
 
 // Invert arrows based on background color

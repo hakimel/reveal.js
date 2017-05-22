@@ -356,19 +356,19 @@ body {
 
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
   bottom: 1.4em;
-  right: 6.4em; }
+  right: 5.5em; }
 
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
   bottom: 1.4em;
-  right: 1.4em; }
+  right: 0.5em; }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-up {
   right: 1.4em;
-  bottom: 6.4em; }
+  bottom: 5em; }
 
 .reveal:not(.has-horizontal-slides) .controls .navigate-down {
   right: 1.4em;
-  bottom: 1.4em; }
+  bottom: 0.5em; }
 
 .reveal.has-dark-background .controls {
   color: #fff; }
