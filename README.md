@@ -257,6 +257,10 @@ Reveal.initialize({
 	// Opens links in an iframe preview overlay
 	previewLinks: false,
 
+	// Theme. For this to work, you need an id of "theme" added to your stylesheet link, e.g.
+	// <link rel="stylesheet" href="css/theme/default.css" id="theme">
+	theme: Reveal.getQueryHash().theme || 'default',  // available themes are in /css/theme
+
 	// Transition style
 	transition: 'slide', // none/fade/slide/convex/concave/zoom
 
