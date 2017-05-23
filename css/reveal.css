@@ -1502,6 +1502,10 @@ body {
 .reveal.show-notes .speaker-notes {
   display: block; }
 
+@media screen and (min-width: 1600px) {
+  .reveal .speaker-notes {
+    font-size: 20px; } }
+
 @media screen and (max-width: 1024px) {
   .reveal.show-notes {
     border-left: 0;
