@@ -2764,7 +2764,7 @@
 			}
 
 			// Flag if there are ANY horizontal slides, anywhere in the deck
-			if( dom.wrapper.querySelectorAll( '.slides>section:not(.stack)' ).length ) {
+			if( dom.wrapper.querySelectorAll( '.slides>section' ).length > 1 ) {
 				dom.wrapper.classList.add( 'has-horizontal-slides' );
 			}
 			else {
