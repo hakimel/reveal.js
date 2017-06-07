@@ -1178,6 +1178,31 @@ Reveal.initialize({
 Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
 
 
+## Title-Footer
+
+This plugin includes a footer in all the slides (with optional exclusion of some slides) showing the title of the presentation. It takes the first ```h1```, ```h2``` and ```h3``` tags from the first slide as the title, if another title is not explicitly passed as parameter in the initialization. The title footer will not be shown in a slide if the corresponding section has a ```data-state``` attribute with a value of ```no-title-footer```. You can find an example of it working at [http://e-gor.github.io/Reveal.js-Title-Footer/demo](http://e-gor.github.io/Reveal.js-Title-Footer/demo) and instructions of use at [https://github.com/e-gor/Reveal.js-Title-Footer](https://github.com/e-gor/Reveal.js-Title-Footer).
+
+Example configuration:
+
+```javascript
+Reveal.initialize
+(
+	{
+		...
+		dependencies:
+		[
+			...
+			{ src: 'plugin/title-footer/title-footer.js', async: true, callback: function() { title_footer.initialize(); } }
+		]
+	}
+);
+```
+
+The ```title_footer.initialize``` function can take two parameters:
+
+- ```title```: the title to show in the footer; if ```null```, it will take the ```h1```, ```h2``` and ```h3``` elements of the first slide.
+- ```background```: a string of the form ```'rgba(0,255,0,0.1)'```, for the background colour of the footer.
+
 ## Installation
 
 The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.

@@ -1,0 +1,79 @@
+/*************************************************
+*                                                *
+* CSS for the Title-Footer plugin for Reveal.js  *
+*                                                *
+* Author: Igor Leturia                           *
+*                                                *
+* License: GPL v3                                *
+* http://www.gnu.org/copyleft/gpl.html           *
+*                                                *
+*************************************************/
+
+/* Style for the Title-Footer footer */
+
+#title-footer
+{
+	opacity: 1;
+	transition: opacity 800ms ease-in-out;
+	position: fixed;
+	height: 2vh;
+	z-index: 20;
+	width: 100%;
+	font-size: 2vh;
+	text-align: center;
+	letter-spacing: 0em;
+	padding-top: 0.5vh;
+	padding-bottom: 0.5vh;
+}
+
+/* Bottom position for the Title-Footer footer when both progress bar and TOC-Progress are visible */
+
+div.progress[style="display: block;"] ~ #title-footer
+{
+	bottom: calc(3px + 10.5vh);
+}
+
+/* Bottom position for the Title-Footer footer when TOC-Progress is visible */
+
+#title-footer
+{
+	bottom: 10.5vh;
+}
+
+/* Bottom position for the Title-Footer footer when progress bar is visible */
+
+div.progress[style="display: block;"] ~ footer:last-of-type#title-footer
+{
+	bottom: 3px;
+}
+
+/* Bottom position for the Title-Footer footer when neither progress bar nor TOC-Progress are visible */
+
+footer:last-of-type#title-footer
+{
+	bottom: 0px;
+}
+
+/* Make Title-Footer invisible if explicitly indicated */
+
+.no-title-footer #title-footer
+{
+	opacity: 0;
+	transition: opacity 800ms ease-in-out;
+}
+
+.no-toc-progress #title-footer
+{
+	opacity: 0;
+	transition: opacity 800ms ease-in-out;
+}
+
+/* Make Title-Footer invisible in overview mode */
+
+.overview #title-footer
+{
+	opacity: 0;
+	transition: opacity 800ms ease-in-out;
+}
+
+
