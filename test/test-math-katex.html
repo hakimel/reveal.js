@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test math-katex plugin</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-1.12.0.css">
+
+		<!-- KaTeX script -->
+		<script src="../plugin/math-katex/test-dependencies/katex.min.js"></script>
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+  		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides">
+
+				<section data-math>
+					$$\sum_{i=0}^n \lambda_i$$
+
+					<div class="formula display test-wrapped">\sum_{i=0}^n \lambda_i</div>
+
+					<p>This is an escaped dollar: \$</p>
+				</section>
+
+				<section>
+					<p>Dollars $$$ should be ignored here. $</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../lib/js/head.min.js"></script>
+		<script src="../js/reveal.js"></script>
+		<script src="qunit-1.12.0.js"></script>
+
+		<script src="test-math-katex.js"></script>
+
+	</body>
+</html>
