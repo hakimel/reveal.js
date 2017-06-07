@@ -151,7 +151,7 @@ body {
   font-style: italic; }
 
 .reveal pre {
-  display: block;
+  display: inline-grid;
   position: relative;
   width: 90%;
   margin: 20px auto;
