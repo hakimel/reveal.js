@@ -1231,6 +1231,28 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
 
 
+### Setup with docker
+
+1. Install [Docker](https://www.docker.com/)
+
+2. Clone the reveal.js repository
+   ```sh
+   $ git clone https://github.com/hakimel/reveal.js.git
+   ```
+
+3. Navigate to the reveal.js folder
+   ```sh
+   $ cd reveal.js
+   ```
+
+4. Build docker image
+   ```sh
+   $ docker build -t reveal-js .
+   ```
+
+5. Start with grunt to serve files by using `$ docker run -p 8080:8080 --name reveal-js -d reveal-js grunt serve`.
+   Start Socket.io server for multiplex configuration by using `$ docker run -p 1948:1948 --name reveal-js -d reveal-js node plugin/multiplex`.
+
 ## License
 
 MIT licensed
