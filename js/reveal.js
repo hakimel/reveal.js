@@ -155,7 +155,7 @@
 			focusBodyOnPageVisibilityChange: true,
 
 			// Transition style
-			transition: 'slide', // none/fade/slide/convex/concave/zoom
+			transition: 'slide', // none/fade/slide/convex/concave/zoom/cube/page
 
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
