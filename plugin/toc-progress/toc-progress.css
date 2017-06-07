@@ -1,0 +1,93 @@
+/*************************************************
+*                                                *
+* CSS for the TOC-Progress plugin for Reveal.js  *
+*                                                *
+* Author: Igor Leturia                           *
+*                                                *
+* License: GPL v3                                *
+* http://www.gnu.org/copyleft/gpl.html           *
+*                                                *
+*************************************************/
+
+/* Style for the TOC-Progress footer */
+
+#toc-progress-footer
+{
+	opacity: 1;
+	transition: opacity 800ms ease-in-out;
+	position: fixed;
+	bottom: 3px;
+	height: 9.5vh;
+	z-index: 20;
+	width: 100%;
+	font-size: 1.55vh;
+	text-align: center;
+	white-space: nowrap;
+	padding-top: 0.5vh;
+	padding-bottom: 0.5vh;
+}
+
+/* Bottom position for the TOC-Progress footer when progress bar is visible */
+
+div.progress[style="display: block;"] ~ #toc-progress-footer
+{
+	bottom: 3px;
+}
+
+/* Bottom position for the TOC-Progress footer when progress bar is not visible */
+
+#toc-progress-footer
+{
+	bottom: 0px;
+}
+
+/* Make TOC-Progress invisible if explicitly indicated */
+
+.no-toc-progress #toc-progress-footer
+{
+	opacity: 0;
+	transition: opacity 800ms ease-in-out;
+}
+
+/* Make TOC-Progress invisible in overview mode */
+
+.overview #toc-progress-footer
+{
+	opacity: 0;
+	transition: opacity 800ms ease-in-out;
+}
+
+/* Position and styles for the left part (main sections) of the TOC-Progress */
+
+#toc-progress-footer-main
+{
+	width: 50%;
+	height: 100%;
+	float: left;
+	overflow: hidden;
+	letter-spacing: 0em;
+}
+
+#toc-progress-footer-main-inside
+{
+	float: right;
+	margin-right: 2em;
+}
+
+/* Position and styles for the right part (subsections) of the TOC-Progress */
+
+#toc-progress-footer-secondary
+{
+	width: 50%;
+	height: 100%;
+	float: right;
+	overflow: hidden;
+	letter-spacing: 0em;
+}
+
+#toc-progress-footer-secondary-inside
+{
+	float: left;
+	margin-left: 2em;
+}
+
