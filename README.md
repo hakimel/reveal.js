@@ -71,6 +71,7 @@ Here's a barebones example of a fully working reveal.js presentation:
 ```html
 <html>
 	<head>
+		<meta charset="utf-8">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/white.css">
 	</head>
