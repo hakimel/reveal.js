@@ -20,7 +20,7 @@
 	};
 
 	// post once the page is loaded, so the client follows also on "open URL".
-	window.onload = post;
+	window.addEventListener( 'load', post );
 
 	// Monitor events that trigger a change in state
 	Reveal.addEventListener( 'slidechanged', post );
