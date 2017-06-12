@@ -477,21 +477,25 @@ $controlsArrowAngleActive: 36deg;
 		.navigate-left {
 			top: 50%;
 			left: $spacing;
+			margin-top: -$controlArrowSize/2;
 		}
 
 		.navigate-right {
 			top: 50%;
 			right: $spacing;
+			margin-top: -$controlArrowSize/2;
 		}
 
 		.navigate-up {
 			top: $spacing;
 			left: 50%;
+			margin-left: -$controlArrowSize/2;
 		}
 
 		.navigate-down {
 			bottom: $spacing;
 			left: 50%;
+			margin-left: -$controlArrowSize/2;
 		}
 	}
 

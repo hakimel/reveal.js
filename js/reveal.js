@@ -4965,7 +4965,7 @@
 		this.context.beginPath();
 		this.context.arc( x, y, radius, 0, Math.PI * 2, false );
 		this.context.lineWidth = this.thickness;
-		this.context.strokeStyle = '#666';
+		this.context.strokeStyle = 'rgba( 255, 255, 255, 0.2 )';
 		this.context.stroke();
 
 		if( this.playing ) {

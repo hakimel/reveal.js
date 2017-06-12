@@ -400,16 +400,20 @@ body {
     right: auto; }
   .reveal .controls[data-controls-layout="edges"] .navigate-left {
     top: 50%;
-    left: 8px; }
+    left: 8px;
+    margin-top: -1.8em; }
   .reveal .controls[data-controls-layout="edges"] .navigate-right {
     top: 50%;
-    right: 8px; }
+    right: 8px;
+    margin-top: -1.8em; }
   .reveal .controls[data-controls-layout="edges"] .navigate-up {
     top: 8px;
-    left: 50%; }
+    left: 50%;
+    margin-left: -1.8em; }
   .reveal .controls[data-controls-layout="edges"] .navigate-down {
     bottom: 8px;
-    left: 50%; } }
+    left: 50%;
+    margin-left: -1.8em; } }
 
 /*********************************************
  * PROGRESS BAR
