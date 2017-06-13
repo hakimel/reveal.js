@@ -569,6 +569,16 @@ $controlsArrowAngleActive: 36deg;
 	touch-action: none;
 }
 
+// Mobile Safari sometimes overlays a header at the top
+// of the page when in landscape mode. Using fixed
+// positioning ensures that reveal.js reduces its height
+// when this header is visible.
+@media only screen and (orientation : landscape) {
+	.reveal.ua-iphone {
+		position: fixed;
+	}
+}
+
 .reveal .slides {
 	position: absolute;
 	width: 100%;

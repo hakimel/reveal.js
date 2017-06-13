@@ -474,6 +474,10 @@ body {
   -ms-touch-action: none;
       touch-action: none; }
 
+@media only screen and (orientation: landscape) {
+  .reveal.ua-iphone {
+    position: fixed; } }
+
 .reveal .slides {
   position: absolute;
   width: 100%;
