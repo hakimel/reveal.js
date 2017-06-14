@@ -3169,6 +3169,7 @@
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+			element.setAttribute( 'data-lazy-loaded', '' );
 			element.removeAttribute( 'data-src' );
 		} );
 
@@ -3179,6 +3180,7 @@
 			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( function( source ) {
 				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
 				source.removeAttribute( 'data-src' );
+				source.setAttribute( 'data-lazy-loaded', '' );
 				sources += 1;
 			} );
 
@@ -3284,6 +3286,18 @@
 		if( background ) {
 			background.style.display = 'none';
 		}
+
+		// Reset lazy-loaded media elements with src attributes
+		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src]' ) ).forEach( function( element ) {
+			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
+			element.removeAttribute( 'src' );
+		} );
+
+		// Reset lazy-loaded media elements with <source> children
+		toArray( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( function( source ) {
+			source.setAttribute( 'data-src', source.getAttribute( 'src' ) );
+			source.removeAttribute( 'src' );
+		} );
 
 	}
 
