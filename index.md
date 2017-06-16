@@ -16,5 +16,18 @@
   * Opening keynote and labs for Festival of Software, University of Sancti Spiritus, Cuba 2017/03/21
 - [Hands-on lab Docker for ARM IoT devices - Raspberry Pi & ODROID](docker-stuff/hypriot)
   * FLISoL 2017, Joven Club, Havana, Cuba 2017/04/22
-  * CubanTech meetup #13 - Joven Club, Cienfuegos, Cuba 2017/06/16
+  * CubanTech meetup #13 - Hypriot hands-on tutorial Joven Club, Cienfuegos, Cuba 2017/06/16
+
+---
+
+[![Python Cuba](img/python-logo.png)](http://pythoncuba.org)
+
+--
+
+- State of Python . Applications
+  * PyDay #1 , Havana
+- Introduction to Brython. Sample Tizen application
+  * Joven Club, Cienfuegos, Cuba
+- Getting started with MicroPython on ESP8266
+  * CubanTech meetup #14 - PyDay Joven Club, Cienfuegos, Cuba 2017/06/16
 
