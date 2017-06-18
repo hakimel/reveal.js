@@ -10,7 +10,12 @@ var RevealMath = window.RevealMath || (function(){
 	options.mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
 	options.config = options.config || 'TeX-AMS_HTML-full';
 
-	loadScript( options.mathjax + '?config=' + options.config, function() {
+	var url = options.mathjax;
+	if (url.indexOf('?config=') == -1) {
+		url += '?config=' + options.config;
+	}
+
+	loadScript( url, function() {
 
 		MathJax.Hub.Config({
 			messageStyle: 'none',
