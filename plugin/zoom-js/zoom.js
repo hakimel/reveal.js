@@ -1,7 +1,9 @@
 // Custom reveal.js integration
 (function(){
 	document.querySelector( '.reveal .slides' ).addEventListener( 'mousedown', function( event ) {
-		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : 'alt' ) + 'Key';
+		var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
+
+		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
 		var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
 
 		if( event[ modifier ] && !Reveal.isOverview() ) {
