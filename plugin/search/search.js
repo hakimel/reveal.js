@@ -138,19 +138,27 @@ function Hilitor(id, tag)
 		if (searchboxDirty) {
 			var searchstring = document.getElementById("searchinput").value;
 
-			//find the keyword amongst the slides
-			myHilitor = new Hilitor("slidecontent");
-			matchedSlides = myHilitor.apply(searchstring);
-			currentMatchedIndex = 0;
+			if (searchstring === '') {
+				if(myHilitor) myHilitor.remove();
+				matchedSlides = null;
+			}
+			else {
+				//find the keyword amongst the slides
+				myHilitor = new Hilitor("slidecontent");
+				matchedSlides = myHilitor.apply(searchstring);
+				currentMatchedIndex = 0;
+			}
 		}
 
-		//navigate to the next slide that has the keyword, wrapping to the first if necessary
-		if (matchedSlides.length && (matchedSlides.length <= currentMatchedIndex)) {
-			currentMatchedIndex = 0;
-		}
-		if (matchedSlides.length > currentMatchedIndex) {
-			Reveal.slide(matchedSlides[currentMatchedIndex].h, matchedSlides[currentMatchedIndex].v);
-			currentMatchedIndex++;
+    if (matchedSlides) {
+			//navigate to the next slide that has the keyword, wrapping to the first if necessary
+			if (matchedSlides.length && (matchedSlides.length <= currentMatchedIndex)) {
+				currentMatchedIndex = 0;
+			}
+			if (matchedSlides.length > currentMatchedIndex) {
+				Reveal.slide(matchedSlides[currentMatchedIndex].h, matchedSlides[currentMatchedIndex].v);
+				currentMatchedIndex++;
+			}
 		}
 	}
 
