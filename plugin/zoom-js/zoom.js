@@ -1,22 +1,27 @@
 // Custom reveal.js integration
 (function(){
-	document.querySelector( '.reveal .slides' ).addEventListener( 'mousedown', function( event ) {
-		var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
+	var revealElement = document.querySelector( '.reveal' );
+	if( revealElement ) {
 
-		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
-		var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
+		revealElement.addEventListener( 'mousedown', function( event ) {
+			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
-		if( event[ modifier ] && !Reveal.isOverview() ) {
-			event.preventDefault();
+			var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
+			var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
 
-			zoom.to({
-				x: event.clientX,
-				y: event.clientY,
-				scale: zoomLevel,
-				pan: false
-			});
-		}
-	} );
+			if( event[ modifier ] && !Reveal.isOverview() ) {
+				event.preventDefault();
+
+				zoom.to({
+					x: event.clientX,
+					y: event.clientY,
+					scale: zoomLevel,
+					pan: false
+				});
+			}
+		} );
+
+	}
 })();
 
 /*!
