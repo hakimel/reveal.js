@@ -55,7 +55,9 @@ body {
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 2.5em; }
+  font-size: 2.5em;
+ }
+
 
 .reveal h2 {
   font-size: 1.6em; }
@@ -253,19 +255,19 @@ body {
  *********************************************/
 .reveal .controls .navigate-left,
 .reveal .controls .navigate-left.enabled {
-  border-right-color: #2a76dd; }
+  border-right-color: #0d1cd1; }
 
 .reveal .controls .navigate-right,
 .reveal .controls .navigate-right.enabled {
-  border-left-color: #2a76dd; }
+  border-left-color: #0d1cd1; }
 
 .reveal .controls .navigate-up,
 .reveal .controls .navigate-up.enabled {
-  border-bottom-color: #2a76dd; }
+  border-bottom-color: #0d1cd1; }
 
 .reveal .controls .navigate-down,
 .reveal .controls .navigate-down.enabled {
-  border-top-color: #2a76dd; }
+  border-top-color: #0d1cd1; }
 
 .reveal .controls .navigate-left.enabled:hover {
   border-right-color: #6ca0e8; }
