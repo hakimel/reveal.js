@@ -96,7 +96,6 @@
 					margin-bottom: 10px;
 					padding: 10px 16px;
 					padding-bottom: 20px;
-					cursor: pointer;
 				}
 
 				.speaker-controls-time .reset-button {
@@ -105,7 +104,7 @@
 					color: #666;
 					text-decoration: none;
 				}
-				.speaker-controls-time:hover .reset-button {
+                .reset-button.active{
 					opacity: 1;
 				}
 
@@ -282,7 +281,66 @@
 					font-size: 12px;
 				}
 			}
-
+            .timer {
+                cursor: pointer;
+            }
+            .play {
+                display: block;
+                width: 0;
+                height: 0;
+                border-top: 20px solid transparent;
+                border-bottom: 20px solid transparent;
+                border-left: 24px solid #2a76dd;
+                margin: 40px auto 20px auto;
+                position: relative;
+                z-index: 1;
+                transition: all 0.3s;
+                -webkit-transition: all 0.3s;
+                -moz-transition: all 0.3s;
+                left: 4px;
+                cursor: pointer;
+            }
+            .play:before {
+                content: '';
+                position: absolute;
+                top: -30px;
+                left: -46px;
+                bottom: -30px;
+                right: -14px;
+                border-radius: 50%;
+                border: 4px solid #2a76dd;
+                z-index: 2;
+                transition: all 0.3s;
+                -webkit-transition: all 0.3s;
+                -moz-transition: all 0.3s;
+            }
+            .play:after {
+                content: '';
+                opacity: 0;
+                transition: opacity 0.6s;
+                -webkit-transition: opacity 0.6s;
+                -moz-transition: opacity 0.6s;
+            }
+            .play:hover:before, .play:focus:before {
+                transform: scale(1.1);
+                -webkit-transform: scale(1.1);
+                -moz-transform: scale(1.1);
+            }
+            .play.active {
+                border-color: transparent;
+            }
+            .play.active:after {
+                content: '';
+                opacity: 1;
+                width: 20px;
+                height: 32px;
+                background: #2a76dd;
+                position: absolute;
+                right: 2px;
+                top: -16px;
+                border-left: 8px solid #2a76dd;
+                box-shadow: inset 12px 0 0 0 #f9f9f9;
+            }
 		</style>
 	</head>
 
@@ -299,6 +357,9 @@
 				<div class="timer">
 					<span class="hours-value">00</span><span class="minutes-value">:00</span><span class="seconds-value">:00</span>
 				</div>
+                <div class="pause">
+                    <span class="play"></span>
+                </div>
 				<div class="clear"></div>
 
 				<h4 class="label pacing-title" style="display: none">Pacing – Time to finish current slide</h4>
@@ -529,14 +590,18 @@
 					var start = new Date(),
 					timeEl = document.querySelector( '.speaker-controls-time' ),
 					clockEl = timeEl.querySelector( '.clock-value' ),
-					hoursEl = timeEl.querySelector( '.hours-value' ),
-					minutesEl = timeEl.querySelector( '.minutes-value' ),
-					secondsEl = timeEl.querySelector( '.seconds-value' ),
+                    timerEl = timeEl.querySelector( '.timer'),
+					hoursEl = timerEl.querySelector( '.hours-value' ),
+					minutesEl = timerEl.querySelector( '.minutes-value' ),
+					secondsEl = timerEl.querySelector( '.seconds-value' ),
 					pacingTitleEl = timeEl.querySelector( '.pacing-title' ),
 					pacingEl = timeEl.querySelector( '.pacing' ),
 					pacingHoursEl = pacingEl.querySelector( '.hours-value' ),
 					pacingMinutesEl = pacingEl.querySelector( '.minutes-value' ),
-					pacingSecondsEl = pacingEl.querySelector( '.seconds-value' );
+					pacingSecondsEl = pacingEl.querySelector( '.seconds-value' ),
+                    resetEl = timeEl.querySelector( '.reset-button' ),
+                    playPauseEl = timeEl.querySelector('.play'),
+                    timerOn = true;
 
 					var timings = getTimings();
 					if (timings !== null) {
@@ -572,6 +637,7 @@
 
 						var diff, hours, minutes, seconds,
 						now = new Date();
+                        if(!timerOn) start.setTime(start.getTime() + 1000);
 
 						diff = now.getTime() - start.getTime();
 
@@ -608,6 +674,9 @@
 					// Then update every second
 					setInterval( _updateTimer, 1000 );
 
+					function _toggleTimer() {
+                        timerOn = ! timerOn;
+					}
 					function _resetTimer() {
 
 						if (timings == null) {
@@ -626,10 +695,20 @@
 
 					}
 
-					timeEl.addEventListener( 'click', function() {
+                    timerEl.addEventListener('mouseover', function(){
+                        resetEl.classList.add('active');
+                    });
+                    timerEl.addEventListener('mouseout', function(){
+                        resetEl.classList.remove('active');
+                    });
+					timerEl.addEventListener( 'click', function() {
 						_resetTimer();
 						return false;
 					} );
+                    playPauseEl.addEventListener('click', function(){
+                        _toggleTimer();
+                        playPauseEl.classList.toggle('active');
+                    });
 
 				}
 
