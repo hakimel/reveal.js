@@ -70,8 +70,8 @@ body {
   opacity: 1;
   visibility: inherit; }
   .reveal .slides section .fragment.shrink.visible {
-    -webkit-transform: scale(0.7);
-            transform: scale(0.7); }
+    -webkit-transform: scale(0.769);
+            transform: scale(0.769); }
 
 .reveal .slides section .fragment.zoom-in {
   -webkit-transform: scale(0.1);
