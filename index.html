@@ -1,49 +1,286 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html lang="en">
 
-		<title>reveal.js</title>
+  <head>
+    <meta charset="utf-8">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <title>reveal.js – The HTML Presentation Framework</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/samlab.css" id="theme">
+    <link rel="stylesheet" href="css/d3-graph.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <!-- BibTex-js -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/b81606e85986fa8ad0eb66954493bc1c0b3d7ab1/src/bibtex_js.js"></script>
+    <bibtex src="references.bib"></bibtex>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+      .chart rect {
+        fill: #63b6db;
+      }
+      .chart text {
+        fill: white;
+        font: 10px sans-serif;
+        text-anchor: end;
+      }
+      text {
+        font: 10px sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section class="title-slide">
+          <hr>
+          <div>
+          <h1>Multi-hop networks for battery-less sensor networks</h1>
+          </div>
+          <h2>Research goals and intial findings</h2>
+          <h3>Army Research Laboratory</h3>
+          Anil Ganti
+
+          anil.ganti@duke.edu
+          </p>
+        </section>
+
+        <section>
+        <h2>Context</h2>
+          <div class="grid fragement">
+             <div class="col-1-3">
+               <div class="module">
+                 <img src="http://digitalovenvfx.com/wp-content/uploads/2013/12/Pillcam.jpg" style="max-width: 100% max-height: 100">
+               </div>
+             </div>
+             <div class="col-2-3">
+               <div class="module">
+                  <p>Biomedical imaging systems and implants</p>
+                  <p>Utilize harvested body energy or supplied RF</p>
+                  <p>Without communications, can operate on 1 - 100$\mu$W</p>
+               </div>
+             </div>
+          </div>
+
+          <div class="grid fragment">
+             <div class="col-1-3">
+               <div class="module">
+                 <img src="https://www.extremetech.com/wp-content/uploads/2016/04/WISP5.jpg" style="max-width: 100% max-height: 100">
+               </div>
+             </div>
+             <div class="col-2-3">
+               <div class="module">
+                  <p>Biomedical implants and imaging systems</p>
+                  <p>Use harvested body energy or supplied RF</p>
+               </div>
+             </div>
+          </div>
+
+          <div class="grid fragment">
+             <div class="col-1-3">
+               <div class="module">
+                 <img src="http://www.washington.edu/news/files/2015/11/UW-wi-fi-powered-surveillance-camera-for-BOWN-750x500.jpg" style="max-width: 100% max-height: 100">
+               </div>
+             </div>
+             <div class="col-2-3">
+               <div class="module">
+                  <p>Biomedical implants and imaging systems</p>
+                  <p>Use harvested body energy or supplied RF</p>
+               </div>
+             </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Context</h2>
+          <p>Battery-less devices have existed in niche applications</p>
+          <ul>
+            <li>biomedical implants that harvest body energy</li>
+            <li>structural health monitoring for critical infrastructure</li>
+          </ul>
+          <p>The technology is rapidly maturing</p>
+          <ul>
+          <li>Commercially avialable platforms for RF harvesting</li>
+          <li>Advances in harvesting and power management circuitry</li>
+          <li>New execution models for easy programming and debugging</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Recent advances</h2>
+          <p>Battery-less devices have existed in niche applications</p>
+          <ul>
+            <li>biomedical implants that harvest body energy</li>
+            <li>structural health monitoring for critical infrastructure</li>
+          </ul>
+          <p>The technology is rapidly maturing</p>
+          <ul>
+          <li>Commercially avialable platforms for RF harvesting</li>
+          <li>Advances in harvesting and power management circuitry</li>
+          <li>New execution models for easy programming and debugging</li>
+          </ul>
+        </section>
+
+        <section>
+        <h2>Battery-less sensor architecture</h2>
+          <svg class="chart"></svg>
+        </section>
+
+        <section>
+        <h2>Energy harvesting</h2>
+        <img src="https://gigaom.com/wp-content/uploads/sites/1/2013/11/tiharvest.jpg"/>
+        <small>https://gigaom.com/wp-content/uploads/sites/1/2013/11/tiharvest.jpg</small>
+        </section>
+
+        <section>
+        <h2>Research landscape</h2>
+        <img src="https://www.lucidchart.com/publicSegments/view/681e426f-806f-4e13-b657-1b8ad7d84bef/image.jpeg"}/>
+        </section>
+
+        <section>
+          <h2>Related work</h2>
+          <p>Seah and Olds (2013)</p>
+          <ul>
+          <li>First known work of battery-less multi-hop communication</li>
+          <li>Unconstrained node transmits power and synchronizes devices</li>
+          </ul>
+          <p>Parks, Sample, Zhao, Smith (2013)</p>
+          <ul>
+          <li>Harvest RF energy from TV broadcast tower 4km away</li>
+          <li>Achieves a 1Hz sampling rate</li>
+          <li>Sensors nodes connected to sink in star topology</li>
+          </ul>
+          <p>Minami et al (2005)</p>
+          <ul>
+          <li>Sensor nodes with solar + ultra-capacitor</li>
+          <li>Developed a multi-hop protocol using wake signals and flooding</li>
+          <li>Due to size of capacitor, sampling periods > 1 minute</li>
+          <p>No known work forms a multi-hop network without an unconstrained node for power or synchronization</p>
+        </section>
+
+        <section>
+        <h2>Network formation research</h2>
+        <img src="https://www.lucidchart.com/publicSegments/view/5747a3e3-a8c5-4010-b52b-7f8c053b431b/image.jpeg"}/>
+        </section>
+
+        <section>
+          <h2>Research motivation and challenges</h2>
+          <p>Why form multi-hop networks?</p>
+          <ul>
+          <li>Can form networks entirely of resource-constrained nodes</li>
+          <li>Allows for greater spatial coverage at low cost</li>
+          <li>Can serve as a building block within larger heterogeneous information networks</li>
+          </ul>
+          <p>What are the challenges?</p>
+          <ul>
+          <li>Extremely low energy budgets rule out protocols with even modest communication and computation overheads</li>
+          <li>Devices duty-cycle based on available energy, creating synchronization challenges</li>
+          </ul>
+          <!-- TODO: Insert a vertical separator bar -->
+           <em class="fragment">Applications should be resilient to packet-loss and latency</em>
+          </script>
+        </section>
+
+        <section>
+          <h2>Research questions</h2>
+          <ul>
+          <li>Can battery-less, intermittent devices sustain a multi-hop network?</li>
+          <li>What network and device parameters drive performance metrics such as average throughput and latency?</li>
+          <li>What is the baseline network performance that can then be improved upon with future protocols</li>
+          <li>For signal processing applications, what are the effective spatial and temporal sampling rates associated with the baseline network?</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Research approach</h2>
+          <p>Use simplified device and network model to evaluate network performance</p>
+          <ul>
+          <li>Compile a reduced set of parameters to drive model</li>
+          <li>Develop a primitive protocol that supports multi-hop communication and is mathemetically analytical</li>
+          <li>Identify regions of the parameter space with promising performance</li>
+          </ul>
+          <p>Simulate devices and network to validate above analysis</p>
+          <ul>
+          <li>Using the established models and protocols, simulate the network?</li>
+          <li>Compare simulated performance to theoretical values</li>
+          </ul>
+          <p>Test analysis against more realistic device models</p>
+          <ul><li>Systemically reduce set of assumptions and reasses validity of model</li></ul>
+        </section>
+
+        <section>
+          <h2>Device model</h2>
+          <p>Node behavior modeled by a Markov chain</p>
+          <img class="fragment" src="https://www.lucidchart.com/publicSegments/view/da68d672-2fd7-4cfb-a999-7579f65e5c94/image.png"}/>
+          <p class="fragment">Leads to tractable expressions for device state probabilities</p>
+        </section>
+
+        <section>
+          <h2>References</h2>
+          <div id="bibtex_display"></div>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: false,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        math: {
+            mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+            config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+          },
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'plugin/math/math.js', async: true },
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+    <script src="js/markov.js"></script>
+  </body>
 </html>
