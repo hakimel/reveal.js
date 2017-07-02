@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/samlab.css" id="theme">
     <link rel="stylesheet" href="css/d3-graph.css">
+    <link rel="stylesheet" href="css/samlab.css">
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -62,7 +63,7 @@
         <section class="title-slide">
           <hr>
           <div>
-          <h1>Multi-hop networks for battery-less sensor networks</h1>
+          <h1>Battery-less multi-hop sensor networks</h1>
           </div>
           <h2>Research goals and intial findings</h2>
           <h3>Army Research Laboratory</h3>
@@ -72,96 +73,246 @@
           </p>
         </section>
 
+        <!-- Background 1-->
         <section>
-        <h2>Background</h2>
-          <div class="grid fragment">
-             <div class="col-1-3">
-               <div class="module">
-                 <img src="http://digitalovenvfx.com/wp-content/uploads/2013/12/Pillcam.jpg" style="max-width: 100% max-height: 100">
-               </div>
-             </div>
-             <div class="col-2-3">
-               <div class="module">
-                  <p>Biomedical imaging systems and implants</p>
-                  <p>Utilize harvested body energy or supplied RF</p>
-                  <p>Without communications, can operate on 1 - 100$\mu$W</p>
-               </div>
-             </div>
+          <h2>Background - battery-less devices</h2>
+          <div>
+            <p class="fragment" data-fragment-index="1">Biomedical implants created a demand for battery-less devices </p>
           </div>
+          <div class="grid">
+             <div class="col-1-3 fragment" data-fragment-index="2">
+               <div class="module">
+                 <img src="https://3c1703fe8d.site.internapcdn.net/newman/gfx/news/hires/2014/poon_microstimulator_w_penny.jpg" style="max-width: 100% max-height: 250">
+               </div>
+             </div>
 
-          <div class="grid fragment">
-             <div class="col-1-3">
+             <div class="col-1-3 fragment" data-fragment-index="3">
                <div class="module">
-                 <img src="https://www.extremetech.com/wp-content/uploads/2016/04/WISP5.jpg" style="max-width: 100% max-height: 100">
+                 <img src="https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2017/batteryfreei.jpg" style="max-width: 100% max-height: 250">
                </div>
-             </div>
-             <div class="col-2-3">
+              </div>
+             <div class="col-1-3 fragment" data-fragment-index="4">
                <div class="module">
-                  <p>Off-the-shelf platforms, WISP5 and Powercast</p>
-                  <p>Senses environment such as light, temperature, humidity</p>
+                 <img src="http://mesagastro.com/wp-content/uploads/2012/11/Pillcam.jpg" style="max-width: 100% max-height: 250">
                </div>
+              </div>
+            </div>
+            <div class="grid">
+             <div class="col-1-3 fragment" data-fragment-index="2">
+              <p>More embeddable</p>
              </div>
+
+             <div class="col-1-3 fragment" data-fragment-index="3">
+               <p>Extended lifetime</p>
+              </div>
+
+             <div class="col-1-3 fragment" data-fragment-index="4">
+               <p>Biologically compatible</p>
+              </div>
+            </div>
+        </section>
+
+        <!-- Background 2-->
+        <section>
+          <h2>Background - battery-less devices</h2>
+          <div>
+            <p class="fragment" data-fragment-index="1">Advances in hardware and software have created a mature technology</p>
           </div>
+          <div class="grid">
+            <div class="col-1-3 fragment" data-fragment-index="2">
+              <div class="module">
+                <img src="http://www.mouser.com/images/microsites/Powercast%20Kit%20Contents%20Image.jpg" style="max-width: 100% max-height: 250">
+              </div>
+            </div>
 
-          <div class="grid fragment">
-             <div class="col-1-3">
-               <div class="module">
-                 <img src="http://www.washington.edu/news/files/2015/11/UW-wi-fi-powered-surveillance-camera-for-BOWN-750x500.jpg" style="max-width: 100% max-height: 100">
-               </div>
-             </div>
-             <div class="col-2-3">
-               <div class="module">
-                  <p>"Next billion devices" to be WiFi powered</p>
-                  <p>Programs run with frequent power interruptions</p>
-               </div>
-             </div>
+            <div class="col-1-3 fragment" data-fragment-index="3">
+              <div class="module">
+                <img src="http://www.washington.edu/news/files/2015/11/UW-wi-fi-powered-surveillance-camera-for-BOWN-750x500.jpg" style="max-width: 100% max-height: 250">
+              </div>
+            </div>
+            <div class="col-1-3 fragment" data-fragment-index="4">
+              <div class="module">
+                <img src="https://www.lucidchart.com/publicSegments/view/d683bd0a-de06-4e26-893e-e91bdc5d8b8b/image.png" style="max-width: 100% max-height: 250">
+              </div>
+            </div>
+          </div>
+          <div class="grid">          
+            <div class="col-1-3 fragment" data-fragment-index="2">
+              <p>Off-the-shelf platforms and components</p>
+            </div>
+            <div class="col-1-3 fragment" data-fragment-index="3">
+              <p>Advanced circuitry for low-power harvesting</p>
+            </div>
+            <div class="col-1-3 fragment" data-fragment-index="4">
+              <p>Execution models and debugging tools</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Background 3-->
+        <section>
+          <h2>Background - battery-less devices</h2>
+          <p class="fragment" data-fragment-index="1">Applications for battery-less sensor networks have emerged</p>
+          <div class="grid">
+            <div class="col-1-3 fragment" data-fragment-index="2">
+              <div class="module">
+                <img src="https://www.computer.org/cms/Computer.org/dl/mags/co/2016/12/figures/mco20161200701.gif" style="max-width: 100% max-height: 250">
+              </div>
+            </div>
+
+            <div class="col-1-3 fragment" data-fragment-index="3">
+              <div class="module">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Oakland_Bay_Bridge_Western_Part.jpg/1200px-Oakland_Bay_Bridge_Western_Part.jpg" style="max-width: 100% max-height: 250">
+              </div>
+            </div>
+            <div class="col-1-3 fragment" data-fragment-index="4">
+              <div class="module">
+                <img src="http://www.antarcticajournal.com/wp-content/uploads/2015/02/chinasmog.jpg" style="max-width: 100% max-height: 250">
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="col-1-3 fragment" data-fragment-index="2">
+              <p>Battlefield situational awareness</p>
+            </div>
+            <div class="col-1-3 fragment" data-fragment-index="3">
+              <p>Critical infrastructure monitoring</p>
+            </div>
+            <div class="col-1-3 fragment" data-fragment-index="4">
+              <p>Ubiquitous environmental monitoring</p>
+            </div>
           </div>
         </section>
 
         <section>
-          <h2>Context</h2>
-          <p>As technology matures, growing demand for networked applications</p>
-          <ul>
-            <li>biomedical implants that harvest body energy</li>
-            <li>structural health monitoring for critical infrastructure</li>
-          </ul>
-          <p>The technology is rapidly maturing</p>
-          <ul>
-          <li>Commercially avialable platforms for RF harvesting</li>
-          <li>Advances in harvesting and power management circuitry</li>
-          <li>New execution models for easy programming and debugging</li>
-          </ul>
+        <h2>Background - Network formation</h2>
+        <p class="fragment" data-fragment-index="1">Network formation with these devices presents several new challenges</p>
+        <ul>
+        <li class="fragment" data-fragment-index="2">Small energy budgets must be balanced on short time scales</li>
+        <li class="fragment" data-fragment-index="3">Sensor nodes duty-cycle independently, asynchronously</li>
+        <li class="fragment" data-fragment-index="4">Limited resources limit complexity of communication protocols</li>
+        </ul>
+        <blockquote class="fragment" data-fragment-index="5" style="width:85%">
+            <p>&ldquo;Synchronizing a collection of intermittently operating devices is an unsolved problem and a communication between unsynchronized, intermittent end-points is only successful if both are coincidentally operating for a long enough time, at the same time.&rdquo;</p>
+            <footer style="text-align:left">- Lucia et al, Intermittent Computing: Challenges and Opportunities (2016)</footer>
+          </blockquote>
         </section>
 
         <section>
-          <h2>Recent advances</h2>
-          <p>Battery-less devices have existed in niche applications</p>
-          <ul>
-            <li>biomedical implants that harvest body energy</li>
-            <li>structural health monitoring for critical infrastructure</li>
-          </ul>
-          <p>The technology is rapidly maturing</p>
-          <ul>
-          <li>Commercially avialable platforms for RF harvesting</li>
-          <li>Advances in harvesting and power management circuitry</li>
-          <li>New execution models for easy programming and debugging</li>
-          </ul>
+        <h2>Bottom line up front</h2>
+        <p class="fragment" data-fragment-index="1">Existing WSN literature doesn't address issues of intermittent devices</p>
+        <p class="fragment" data-fragment-index="2">Multi-hop network topologies have not been fully investigated</p>
+        <p class="fragment" data-fragment-index="3">Our work:</p>
+        <ul>
+        <li class="fragment" data-fragment-index="4">Models multi-hop networks with intermittent devices</li>
+        <li class="fragment" data-fragment-index="5">Characterizes network performance from a small set of parameters</li>
+        <li class="fragment" data-fragment-index="6">Observes performance that warrants further investigation</li>
+        <li class="fragment" data-fragment-index="7">Establishes a baseline communication protocol for future comparison</li>
+        </ul>
+        </section>
+
+        <section class="transition-slide">
+          <h1>How do battery-less devices work?</h1>
         </section>
 
         <section>
-        <h2>Battery-less sensor architecture</h2>
-          <svg class="chart"></svg>
+          <h2>Battery-less sensor architecture</h2>
+          <div>
+            <img src="imgs/eh_arch.svg" style="border-style: none">
+          </div>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+          ## Energy harvesting
+
+          |Energy Source| Characteristics|Harvested Power|   |   |
+          |---|---|---|
+          |Light|Outdoor <br> Indoor|100 $mW/cm^2$ <br> $100 \mu W/cm^2$|
+          |Thermal|Human <br> Industrial|60 $\mu W/cm^2$ <br> ~$10 mW/cm^2$|
+          |Vibration|Human ~ 1Hz <br> Industrial ~ 1kHz|~$4 \mu W/cm^2$ <br> ~$800 \mu W/cm^2$|
+          |RF|GSM 900 MHz <br> WiFi|$0.1 \mu W/cm^2$ <br> $0.001 \mu W/cm^2$|
+
+          Souce: Texas Instruments
+          </textarea>
         </section>
 
         <section>
-        <h2>Energy harvesting</h2>
-        <img src="https://gigaom.com/wp-content/uploads/sites/1/2013/11/tiharvest.jpg"/>
-        <small>https://gigaom.com/wp-content/uploads/sites/1/2013/11/tiharvest.jpg</small>
+        <h2>Harvesting and power management</h2>
+        <p>Tuning circuits / maximum power point tracking</p>
+        <p>TODO: charging - discharging graph ~ 1 hour</p>
+        <p>Optimal sizing of capacitor?</p>
+        <p>Research on maximimizing energy-use, capacitor-leakage aware strategies</p>
         </section>
 
         <section>
-        <h2>Research landscape</h2>
-        <img src="https://www.lucidchart.com/publicSegments/view/681e426f-806f-4e13-b657-1b8ad7d84bef/image.jpeg"}/>
+          <h2>Communications hardware</h2>
+        </section>
+
+        <section>
+          <h2>Research landscape</h2>
+          <div class="grid">
+            <div class="col-4-5 table-col">
+              <div class="module">
+                <h4>Applications and algorithms</h4>
+                <ul>
+                  <li>Signal processing for networked, intermittent devices</li>
+                  <li>Centralized and decentralized detection, estimation</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-1-5">
+              <div class="module">
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="col-4-5 table-col">
+              <div class="module">
+                <h4>Networking</h4>
+                <ul>
+                  <li>Communication and power transfer protocols</li>
+                  <li>Network formation, device synchronization</li>
+                  <li>Network-wide modeling, performance evaluation</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-1-5">
+              <div class="module">
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="col-4-5">
+              <div class="module">
+                <h4>Device - system</h4>
+                <ul>
+                  <li>System modeling, energy harvesting simulation</li>
+                  <li>Energy-aware firmware, charge management techniques</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-1-5">
+              <div class="module">
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="col-4-5">
+              <div class="module">
+                <h4>Device - component</h4>
+                <ul>
+                  <li>DC/DC conversion for low / unstable input voltages</li>
+                  <li>Novel and more efficient harvesting modalities</li>
+                  <li>Low-power transceivers and RF front-ends</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-1-5">
+              <div class="module">
+              </div>
+            </div>
+          </div>
         </section>
 
         <section>
@@ -186,8 +337,8 @@
         </section>
 
         <section>
-        <h2>Network formation research</h2>
-        <img src="https://www.lucidchart.com/publicSegments/view/5747a3e3-a8c5-4010-b52b-7f8c053b431b/image.jpeg"}/>
+          <h2>Network formation research</h2>
+          <img src="https://www.lucidchart.com/publicSegments/view/5747a3e3-a8c5-4010-b52b-7f8c053b431b/image.jpeg"}/>
         </section>
 
         <section>
@@ -255,7 +406,6 @@
     <script src="js/reveal.js"></script>
 
     <script>
-
       // More info https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
         controls: true,

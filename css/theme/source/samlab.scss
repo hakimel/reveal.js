@@ -43,7 +43,7 @@ $cyan:      #2aa198;
 $green:     #859900;
 
 // Override theme settings (see ../template/settings.scss)
-$mainFontSize: 26px;
+$mainFontSize: 30px;
 $mainColor: $base00;
 $headingColor: $base01;
 $headingTextShadow: none;
@@ -76,6 +76,10 @@ $pad: 20px;
   }
 }
 
+.table-col {
+  border:1px solid black;
+}
+
 [class*='col-'] {
 	float: left;
   padding-right: $pad;
@@ -90,6 +94,14 @@ $pad: 20px;
 .col-1-3 {
 	width: 33.33%;
 	height:100%;
+}
+.col-4-5 {
+  width: 80%;
+  height:100%
+}
+.col-1-5 {
+  width: 20%;
+  height:100%;
 }
 .col-1-2 {
 	width: 50%;
@@ -111,6 +123,21 @@ $pad: 20px;
   [class*='col-']:last-of-type {
     padding-right: $pad;
   }
+}
+
+
+/* Opt-in outside padding */
+.grid-pad {
+  padding: $pad 0 $pad $pad;
+  [class*='row-']:last-of-type {
+    padding-top: $pad;
+  }
+}
+
+// This doesn't work!
+body.reveal section img {
+    border:0px;
+    border-style:none;
 }
 
 // Theme template ------------------------------
