@@ -3074,7 +3074,7 @@
 		slide.style.display = config.display;
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
+		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 			element.removeAttribute( 'data-src' );
 		} );
