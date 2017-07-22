@@ -16,7 +16,8 @@
   * Opening keynote and labs for Festival of Software, University of Sancti Spiritus, Cuba 2017/03/21
 - [Hands-on lab Docker for ARM IoT devices - Raspberry Pi & ODROID](docker-stuff/hypriot)
   * FLISoL 2017, Joven Club, Havana, Cuba 2017/04/22
-  * CubanTech meetup #13 - Hypriot hands-on tutorial Joven Club, Cienfuegos, Cuba 2017/06/16
+  * [http://docker.cuban.tech/events/240871128/](CubanTech meetup #14) - Hypriot hands-on tutorial Joven Club, Cienfuegos, Cuba 2017/06/16
+  * [http://docker.cuban.tech/events/240872505/](CubanTech meetup #15) - Hypriot hands-on tutorial, Havana, Cuba 2017/07/22
 
 ---
 
