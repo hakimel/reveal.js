@@ -117,14 +117,16 @@
 			showNotes: false,
 
 			// Global override for autolaying embedded media (video/audio/iframe)
-			// - null: Media will only autoplay if data-autoplay is present
-			// - true: All media will autoplay, regardless of individual setting
-			// - false: No media will autoplay, regardless of individual setting
+			// - null:   Media will only autoplay if data-autoplay is present
+			// - true:   All media will autoplay, regardless of individual setting
+			// - false:  No media will autoplay, regardless of individual setting
 			autoPlayMedia: null,
 
-			// Number of milliseconds between automatically proceeding to the
-			// next slide, disabled when set to 0, this value can be overwritten
-			// by using a data-autoslide attribute on your slides
+			// Controls automatic progression to the next slide
+			// - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
+			//           is present on the current slide or fragment
+			// - 1+:     All slides will progress automatically at the given interval
+			// - false:  No auto-sliding, even if data-autoslide is present
 			autoSlide: 0,
 
 			// Stop auto-sliding after user input
@@ -4123,7 +4125,7 @@
 
 		cancelAutoSlide();
 
-		if( currentSlide ) {
+		if( currentSlide && config.autoSlide !== false ) {
 
 			var fragment = currentSlide.querySelector( '.current-fragment' );
 
