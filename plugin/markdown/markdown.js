@@ -40,14 +40,25 @@
 		// restore script end tags
 		text = text.replace( new RegExp( SCRIPT_END_PLACEHOLDER, 'g' ), '</script>' );
 
-		var leadingWs = text.match( /^\n?(\s*)/ )[1].length,
-			leadingTabs = text.match( /^\n?(\t*)/ )[1].length;
+		function lineContainsText( line ) {
+			return line.match( /\S+/ )
+		};
 
-		if( leadingTabs > 0 ) {
-			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
+		var lines = text.split(/\n/).filter( lineContainsText );
+
+		if( lines.length === 0 ) {
+			return "";
 		}
-		else if( leadingWs > 1 ) {
-			text = text.replace( new RegExp('\\n? {' + leadingWs + '}', 'g'), '\n' );
+
+		var leadingTabs = lines[0].match( /^(\t*)/ )[1].length;
+		if( leadingTabs > 0 ) {
+			text = text.replace( new RegExp('^\\t{' + leadingTabs + '}', 'm'), '' );
+		}
+		else {
+			var leadingWs = lines[0].match( /^(\s*)/ )[1].length;
+			if( leadingWs > 0 ) {
+				text = text.replace( new RegExp('^\\s{' + leadingWs + '}', 'm'), '' );
+			}
 		}
 
 		return text;
