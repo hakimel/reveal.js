@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>自己紹介LT</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -22,16 +22,35 @@
 		</script>
 	</head>
 	<body>
+        <!-- ファーストロードでサーバーからのファイル受信をを順序指定非同期で開始  -->
+        <script src="js/makedom.js" defer></script>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+                <section>
+                    <h2><div class="title"></div></h2>
+                    <h4><div class="date"></div></h4>
+                    <h3><div class="name"></div></h3>
+                    <span></span>
+                    <p><small>Powered by Reveal.js, GoogleAppScript</small></p>
+                </section>
+                <section>
+                    <div class="image"></div>
+                    <h3><div class="name"></div></h3>
+                    <div class="collge"></div>
+                    <div class="department"></div>
+                    <div class="cource grade description"></div>
+                    <div class="born"></div>
+
+
+                </section>
+				<section data-markdown="src/slide.md" data-separator="---$" data-separator-vertical=">>>$">
+                    <script type="text/template"></script>
+                </section>
 			</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
-
 		<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
