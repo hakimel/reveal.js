@@ -1,15 +1,15 @@
 ### 各種URL
 
-- mecaota.work
+- [mecaota.work](https://mecaota.work/)
 
 - Github
--- github.com/mecaota
+-- [github.com/mecaota](https://github.com/mecaota)
 
 - blog
--- blog.mecaota.work
+-- [blog.mecaota.work](http://blog.mecaota.work)
 
-- このURL(?の後ろにmode=○○の○○の部分埋めて追記)
--- introduce.mecaota.work?mode=(hoge)
+- このURL(↓からアクセス後、mode=の後ろに指定された語句を足してアクセスしてみてください)
+-- [introduce.mecaota.work?mode=(hoge)](introduce.mecaota.work?mode=)
 
 
 ---
@@ -108,8 +108,13 @@ SIM×6(多分)
 
 ---
 
-## その他
+## サークル・アルバイト
 
+### サークル
+- 自転車部(再興初代部長)
+- TechFUN(プログラミングサークル)
+
+### アルバイト
 - 現在アルバイトはケーブルテレビのサポート部でモデム交換＋サポート対応
 
 ---
@@ -232,7 +237,7 @@ C, Java, Ruby
 - 開発年：2016年9月-2017年1月
 - 言語：Python
 - 背景：C言語で書くことを想定されていた講義の演習課題。カオス計算して算出したx,y軸データをCSVで出力してgnu plotで出せという課題。csvだけならいいがgpファイルも一緒に出力しようとすると文字列処理が入る。Cで文字列処理は地獄だから嫌だ。そうだ。Python使おう。教授から許可貰って完走して単位でました。
-- Github:
+- Github:https://github.com/mecaota/complex_systems_exercise
 - URL:nothing
 
 >>>
@@ -302,12 +307,19 @@ _人人人人人人人人人_
 
 - 開発年：2017年6月-
 - 言語：Python
+
+---
+
 - 背景：ゲームつながりでオフでもあったことのあるとある絵師さんM、ツイットが多くせっかく描いた絵を見逃してしまうことがよくある。
 -- M「俺の絵だけを見ろ！」
 -- 私｢やー無理です()｣
 -- →そうだ、イラストだけ見れるツイッタークライアント需要あるのでは？
 -- →GCPのvisonAPI使おうと思ったけどせっかくだし機械学習・ディープラーニング使って見るかw
--- というわけで機械学習で絵師さんのツイットだけが見れるリスト等から俺好みの絵だけを表示させるクライアントを作る。
+
+---
+
+というわけで機械学習で絵師さんのツイットだけが見れるリスト等から俺好みの絵だけを表示させるクライアントを作る。
+
 - Github:https://github.com/mecaota/tweet-image-corrector
 - URL:nothing
 
@@ -385,5 +397,5 @@ _人人人人人人人人人_
 
 End
 
-- github.com.mecaota
-- mecaota.work
+- [github.com/mecaota](https://github.com/mecaota)
+- [mecaota.work](https://mecaota.work)
