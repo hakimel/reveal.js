@@ -1,3 +1,19 @@
+### 各種URL
+
+- mecaota.work
+
+- Github
+-- github.com/mecaota
+
+- blog
+-- blog.mecaota.work
+
+- このURL(?の後ろにmode=○○の○○の部分埋めて追記)
+-- introduce.mecaota.work?mode=(hoge)
+
+
+---
+
 ### 趣味
 
 - 🚲自転車
@@ -73,7 +89,33 @@ SIM×6(多分)
 
 ---
 
+### 去年まで
+
+大手企業中心にインターン参加してきました
+
+- アイ・オー・データ機器株式会社
+- NSSLCサービス株式会社
+- パナソニックシステムソリューションジャパンカンパニー
+- IIJエンジニアリング株式会社
+
+>>>
+
+### ↑インターン参加後に参加したサポーターズの勉強会にて
+
+「SIer→ウェブ系転職した人の話」を聞いて、ウェブ系企業に興味を持つ
+
+つい２ヶ月前にフロント技術を若干触ったのもあったんだと思います。
+
+---
+
+## その他
+
+- 現在アルバイトはケーブルテレビのサポート部でモデム交換＋サポート対応
+
+---
+
 ### よく使う言語
+
 Python, Javascript, Google Apps Script, Processing, C++(new!と言うよりは現在進行形で勉強中)
 
 ### 授業で習った・１回触ったことがある程度の言語
@@ -166,6 +208,10 @@ C, Java, Ruby
 
 >>>
 
+[![](http://img.youtube.com/vi/Cyy2FfLiPn0/0.jpg)](https://www.youtube.com/watch?v=Cyy2FfLiPn0)
+
+>>>
+
 2年はC言語演習・講義「アルゴリズムとデータ構造」・Java演習等で忙しく触れてなかったようです。
 3年から盛り上がってきた⬆⬆⬆
 
@@ -176,7 +222,7 @@ C, Java, Ruby
 - 開発年：2016年7月
 - 言語：Python
 - 背景：初のPythonコード。ローパス・ハイパスフィルターとフーリエ変換(実装半ばで諦めた)を作る課題。単位は取れました。
-- Github:https://github.com/mecaota/shintyoku_Do_desuka
+- Github:https://github.com/mecaota/pattern_recognition
 - URL:nothing
 
 >>>
@@ -186,18 +232,21 @@ C, Java, Ruby
 - 開発年：2016年9月-2017年1月
 - 言語：Python
 - 背景：C言語で書くことを想定されていた講義の演習課題。カオス計算して算出したx,y軸データをCSVで出力してgnu plotで出せという課題。csvだけならいいがgpファイルも一緒に出力しようとすると文字列処理が入る。Cで文字列処理は地獄だから嫌だ。そうだ。Python使おう。教授から許可貰って完走して単位でました。
-- Github:https://github.com/mecaota/pattern_recognition
+- Github:
 - URL:nothing
 
 >>>
 
 ### もえもえサイネージプラットフォーム
 
-- 開発年：2017年5月-2017年7月
+- 開発年：2017年9月-2017年11月
 - 言語：Google Apps Script, Javascript, HTML
-- 背景：ヒストグラムを出して、2値化処理を実行し、接続成分数(要するにラベリングしたときの合計のラベル数)を算出する課題。
-- Github:https://github.com/mecaota/photo-engineering
+- 背景：大学の某研究室前にやたら設置してある８画面の液晶テレビを自由投稿型デジタルサイネージにしようという企画になった。
+- Github:https://github.com/moemoe2016/moemoe_platform
 - URL:nothing
+
+>>>
+[![](http://img.youtube.com/vi/m7AmNyY6GU0/0.jpg)](https://www.youtube.com/watch?v=m7AmNyY6GU0)
 
 >>>
 
@@ -245,7 +294,7 @@ _人人人人人人人人人_
 
 ---
 
-## 現在の進捗
+## 現在の進捗(作ってるもの)
 
 >>>
 
@@ -268,7 +317,7 @@ _人人人人人人人人人_
 
 - 開発年：2017年5月-
 - 言語：HTML, CSS(SASS), Javascript(できればES2016辺り),nodejs
-- 背景：自分サイト 欲しい！ ので、作る。できればreactとかwebpackとかモダン環境の開発してみたい→開発環境構築できなくて積んでるのでとりあえず怒涛の手組で実装中。
+- 背景：自分サイト 欲しい！ ので、作る。できればreactとかwebpackとかモダン環境の開発してみたい→開発環境構築できなくて積んでるのでとりあえず怒涛の手組で実装中。デザインは mecaota.github.io/photo-seirin/index を元にする。
 - Github:https://github.com/mecaota/mecaota.github.io
 - URL:https://mecaota.work
 
@@ -301,10 +350,40 @@ _人人人人人人人人人_
 
 ---
 
+## 打ち込んだこと
+
+正直広く手を出しすぎてわからないので・・・
+
+>>>
+
+## 今やりたいこと
+
+作りたいモノを作る、完成させる、ドヤる
+
+---
+
 ## 将来の展望
 
 浅くでいいのでフルスタックなエンジニアを目指しつつ、インフラ系をやりたい（ざっくりでごめんなさい）
 
 ---
 
-end
+## インターンに望むこと
+
+- 企画する、んじゃなくて作りたい！
+- 実際の会社で動いてるものを触ってみたい！
+- 会社の開発手法に合わせてコーディングしてみたい！
+- いろんな言語に触れてみたい！
+- 実際にサービスとして公開できるレベルのものを作りたい！
+
+---
+
+まだまだ発展途上のペーペーですが、よろしくお願いします。
+
+---
+
+
+End
+
+- github.com.mecaota
+- mecaota.work
