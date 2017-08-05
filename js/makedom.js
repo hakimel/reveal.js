@@ -33,6 +33,10 @@ function createDom(meta_json){
         for(var i=0; i < domList.length; i++){
             if(key == "image"){
                 domList.item(i).insertAdjacentHTML("beforeend", "<img alt='こ↑こ↓僕のサムネ' style='height:20rem;' src='"+meta_json[key]+"'></img>");
+            }else if(key == "url"){
+                if(arg["mode"]){
+                    domList.item(i).insertAdjacentHTML("beforeend", "" + meta_json[key] + "mode=" + arg["mode"] + "");
+                }
             }else{
                 domList.item(i).insertAdjacentHTML("beforeend", ""+meta_json[key]+"");
             }
