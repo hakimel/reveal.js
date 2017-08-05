@@ -391,11 +391,3 @@ _人人人人人人人人人_
 ---
 
 まだまだ発展途上のペーペーですが、よろしくお願いします。
-
----
-
-
-End
-
-- [github.com/mecaota](https://github.com/mecaota)
-- [mecaota.work](https://mecaota.work)
