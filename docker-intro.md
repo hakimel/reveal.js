@@ -10,7 +10,7 @@
 ###### [The CubanTech Group](http://cuban.tech) / [@TheCubanTech](http://twitter.com/TheCubanTech)
 ________________________
 
-###### Get them: [online presentation](http://slides.cuban.tech/uniss_20170321.html) / [source code](http://github.com/cubantech/slides.cuban.tech) / [docker image](http://hub.docker.com/r/tplcom/docker-presentation/)
+###### Get them: [online presentation](http://slides.cuban.tech/uniss_20170321.html) / [source code](http://git.cuban.tech/slides.cuban.tech) / [docker image](http://hub.docker.com/r/tplcom/docker-presentation/)
 
 ###### Under [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license.
 
