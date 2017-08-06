@@ -12,13 +12,15 @@
  *********************************************/
 body {
   background: #1c1e20;
-  background: -moz-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #555a5f), color-stop(100%, #1c1e20));
-  background: -webkit-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -o-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -ms-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background-color: #2b2b2b; }
+  background-image: url(../../img/cubantech.wm.h.png), -moz-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background-image: url(../../img/cubantech.wm.h.png), -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #555a5f), color-stop(100%, #1c1e20));
+  background-image: url(../../img/cubantech.wm.h.png), -webkit-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background-image: url(../../img/cubantech.wm.h.png), -o-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background-image: url(../../img/cubantech.wm.h.png), -ms-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background-image: url(../../img/cubantech.wm.h.png), radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background-color: #2b2b2b;
+  background-position: 5% 95%, 50% 50%;
+  background-repeat: no-repeat }
 
 .reveal {
   font-family: "Lato", sans-serif;
