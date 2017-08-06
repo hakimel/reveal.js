@@ -84,7 +84,7 @@
 
 ---
 
-### Tamaño de los datos
+### Tama&ntilde;o de los datos
 
 Hojas de c&aacute;lculo limitadas a procesar 1 mill&oacute;n de filas
   * Excel (1.048.576 x 16384)
@@ -93,15 +93,15 @@ Hojas de c&aacute;lculo limitadas a procesar 1 mill&oacute;n de filas
 
 --
 
-### Tamaño de los datos
+### Tama&ntilde;o de los datos
 
 * 2015 - Emails del servidor privado de Clinton - 50,547 p&aacute;ginas de         documentos - 7,570 enviados por Clinton 
-* 2015 – Panama Papers
-* 2016 – Informe Chilcot +2.6 millones de palabras
+* 2015 - Panama Papers
+* 2016 - Informe Chilcot +2.6 millones de palabras
 
 --
 
-### Tamaño de los datos
+### Tama&ntilde;o de los datos
 
 
 ![](img/panama papers.jpg)
@@ -133,12 +133,12 @@ Ver metodolog&iacute;a [aqu&iacute;](http://spectrum.ieee.org/ns/IEEE_TPL_2017/m
 
 --
 
-![](img/Screenshot_2017-07-28-12-20-49.jpg)
+![](img/Screenshot_2017-07-28-12-20-49.png)
 
 
 --
 
-![](img/Screenshot_2017-07-28-12-18-24.jpg)
+![](img/Screenshot_2017-07-28-12-18-24.png)
 
 
 ---
@@ -188,9 +188,9 @@ Ver metodolog&iacute;a [aqu&iacute;](http://spectrum.ieee.org/ns/IEEE_TPL_2017/m
 
 ##### pandas
 
-![](img/Screenshot_2017-07-28-12-18-24.jpg)
+![](img/python_pandas.jpg)
 
-### pandas = “PANel  DAta”
+### pandas = &laquo;PANel  DAta&raquo;
 
 *Concepto de Estad&iacute;stica y Econometr&iacute;a que designa datos multidimensionales medidos en diferentes intervalos de tiempo*
 
@@ -202,7 +202,7 @@ Ver metodolog&iacute;a [aqu&iacute;](http://spectrum.ieee.org/ns/IEEE_TPL_2017/m
 |::::|::::|
 |Autor original   |  Wes McKinney |
 |Desarrolladores   |  Comunidad |
-|Última versi&oacute;n estable  |  0.20.2/ 4 de junio de 2017 |
+|&Uacute;ltima versi&oacute;n estable  |  0.20.2/ 4 junio de 2017 |
 |Respositorio  |  https://github.com/pydata/pandas, https://github.com/pydata/pandas.git |
 |Lenguaje   |  Python |
 |Sistema operativo  |  Multiplataforma |
@@ -244,31 +244,31 @@ Jupyter = JUlia + PYThon + R
 
 --
 
-“Los cultores de la programaci&oacute;n ilustrada pueden ser considerados ensayistas, cuya preocupaci&oacute;n principal es la exposici&oacute;n y la excelencia del estilo. Estos autores, con diccionario en mano, eligen cuidadosamente los nombres de sus variables y explican lo que significa cada una. Se esfuerzan para crear un programa que sea comprensible porque sus conceptos se han introducido en un orden que se aviene mejor al entendimiento humano, usando una mezcla de m&eacute;todos formales e informales que se refuerzan mutuamente.” 
+&laquo;Los cultores de la programaci&oacute;n ilustrada pueden ser considerados ensayistas, cuya preocupaci&oacute;n principal es la exposici&oacute;n y la excelencia del estilo. Estos autores, con diccionario en mano, eligen cuidadosamente los nombres de sus variables y explican lo que significa cada una. Se esfuerzan para crear un programa que sea comprensible porque sus conceptos se han introducido en un orden que se aviene mejor al entendimiento humano, usando una mezcla de m&eacute;todos formales e informales que se refuerzan mutuamente.&raquo;
 
 *Tomado de Donald E. Knuth (2009), Literate Programming. The Computer Journal* 
 
 ---
 
-![](img/Captura de pantalla de 2017-07-28 12-04-27.jpg)
+![](img/Captura de pantalla de 2017-07-28 12-04-27.png)
 
 --
 
-![](img/Captura de pantalla de 2017-07-28 14-29-02.jpg)
-
-
---
-
-![](img/Captura de pantalla de 2017-07-28 14-29-29.jpg)
-
---
-
-![](img/Captura de pantalla de 2017-07-28 14-29-43.jpg)
+![](img/Captura de pantalla de 2017-07-28 14-29-02.png)
 
 
 --
 
-![](img/Captura de pantalla de 2017-07-28 14-29-54.jpg)
+![](img/Captura de pantalla de 2017-07-28 14-29-29.png)
+
+--
+
+![](img/Captura de pantalla de 2017-07-28 14-29-43.png)
+
+
+--
+
+![](img/Captura de pantalla de 2017-07-28 14-29-54.png)
 
 
 
