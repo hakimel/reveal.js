@@ -203,7 +203,7 @@ Ver metodolog&iacute;a [aqu&iacute;](http://spectrum.ieee.org/ns/IEEE_TPL_2017/m
 |Autor original   |  Wes McKinney |
 |Desarrolladores   |  Comunidad |
 |&Uacute;ltima versi&oacute;n estable  |  0.20.2/ 4 junio de 2017 |
-|Respositorio  |  https://github.com/pydata/pandas, https://github.com/pydata/pandas.git |
+|Respositorio  |  https://github.com/pydata/pandas |
 |Lenguaje   |  Python |
 |Sistema operativo  |  Multiplataforma |
 |Licencia |  BSD |
