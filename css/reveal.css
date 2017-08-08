@@ -48,6 +48,158 @@ body {
   color: #000; }
 
 /*********************************************
+ * Family Feud STYLES
+ *********************************************/
+
+ .question {
+    margin-bottom: 80px !important;
+ }
+
+ .answer-grid {
+    min-height: 300px;
+    background-color: lightgray;
+    position: relative;
+ }
+
+ .answer {
+    position: absolute;
+    color: blue;
+    height: 50%;
+    width: 50%;
+    border: 10px double white !important;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #73b3f0 0%, #5298f0 9%,#08439d 76%);
+    color: white;
+    text-transform: uppercase;
+    text-shadow: 3px 3px black;
+    cursor: pointer;
+ }
+
+ .answer:nth-of-type(1) {
+   top: 0;
+   left: 0;
+ }
+
+ .answer:nth-of-type(2) {
+   bottom: 0;
+   left: 0;
+ }
+
+ .answer:nth-of-type(3) {
+   top: 0;
+   right: 0;
+ }
+
+ .answer:nth-of-type(4) {
+   bottom: 0;
+   right: 0;
+ }
+
+ .answer > span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 33%;
+ }
+
+ .number {
+    float: right;
+    border: 2px solid white;
+    height: 100%;
+    width: 20%;
+    background: linear-gradient(to bottom, #73b3f0 0%, #5298f0 46%,#08439d 96%);
+    box-sizing: border-box;
+    border: 2px inset white !important;
+    position: relative;
+ }
+
+.number span {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 40%;
+}
+
+.ff-slide-number {
+  margin-top: 30px;
+  position: absolute;
+  left: -75px;
+  font-size: 30px;
+}
+
+.hidden:after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to bottom, #73b3f0 0%, #5298f0 9%,#08439d 76%);;
+  z-index: 1;
+}
+
+.hidden:nth-of-type(1):before {
+  content: '1';
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  height: 50%;
+  width: 25%;
+  background: linear-gradient(to bottom left, #73b3f0 0%, #10267b 35%);
+  border: 3px inset white;
+  border-radius: 50%;
+}
+
+.hidden:nth-of-type(2):before {
+  content: '2';
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  height: 50%;
+  width: 25%;
+  background: linear-gradient(to bottom left, #73b3f0 0%, #10267b 35%);
+  border: 3px inset white;
+  border-radius: 50%;
+}
+
+.hidden:nth-of-type(3):before {
+  content: '3';
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  height: 50%;
+  width: 25%;
+  background: linear-gradient(to bottom left, #73b3f0 0%, #10267b 35%);
+  border: 3px inset white;
+  border-radius: 50%;
+}
+
+.hidden:nth-of-type(4):before {
+  content: '4';
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  height: 50%;
+  width: 25%;
+  background: linear-gradient(to bottom left, #73b3f0 0%, #10267b 35%);
+  border: 3px inset white;
+  border-radius: 50%;
+}
+
+/*********************************************
  * VIEW FRAGMENTS
  *********************************************/
 .reveal .slides section .fragment {
