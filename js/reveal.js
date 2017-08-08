@@ -734,19 +734,19 @@
 					var numberOfFragments = toArray( page.querySelectorAll( '.fragment' ) ).length;
 
 					for ( var currentFragment = 0; currentFragment < numberOfFragments; currentFragment++ ) {
-                        var clonedPage = page.cloneNode( true );
-                        page.parentNode.insertBefore( clonedPage, page.nextSibling );
+						var clonedPage = page.cloneNode( true );
+						page.parentNode.insertBefore( clonedPage, page.nextSibling );
 
-                        toArray( sortFragments( clonedPage.querySelectorAll( '.fragment' ))).forEach( function ( fragment, fragmentIndex ) {
-                            if ( fragmentIndex <= currentFragment ) {
-                                fragment.classList.add( 'visible' );
-                            } else {
-                                fragment.classList.remove( 'visible' );
-                            }
-                        } );
+						toArray( sortFragments( clonedPage.querySelectorAll( '.fragment' ))).forEach( function ( fragment, fragmentIndex ) {
+							if ( fragmentIndex <= currentFragment ) {
+								fragment.classList.add( 'visible' );
+							} else {
+								fragment.classList.remove( 'visible' );
+							}
+						} );
 
-                        page = clonedPage;
-                    }
+						page = clonedPage;
+					}
 
 				}
 				// Show all fragments
@@ -1522,12 +1522,12 @@
 
 	}
 
-    /**
+	/**
 	 * Check if this instance is being used to print a PDF with fragments.
-     */
-    function isPrintingPDFFragments() {
+	 */
+	function isPrintingPDFFragments() {
 
-    	return ( /print-pdf-fragments/gi ).test( window.location.search );
+		return ( /print-pdf-fragments/gi ).test( window.location.search );
 
 	}
 
