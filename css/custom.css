@@ -53,3 +53,7 @@
   max-height: 500px;
 }
 
+.reveal li img {
+  margin: 0px;
+}
+
