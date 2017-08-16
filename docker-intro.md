@@ -856,19 +856,16 @@ There are known best practices (see a list at [examples/tips](http://github.com/
 
 ![Call for papers](img/scipyla2017.cfp.png)
 
-- Submission deadline 1st May 2017
-- [Apply as referee](http://scipyla.org/conf/2017/forms/reviewers/es)
-- [Instructions for authors](http://scipyla.org/conf/2017/tracks/cfp.html)
+- Submission deadline 30th September 2017
+- [Apply as referee](http://scipyla.org/conf/2017/forms/reviewers/)
+- [Instructions for authors](http://scipyla.org/conf/2017/tracks/tech)
 
----
+--
 
-### Future events - CubaConf 2017
+### Participate
 
-[![CubaConf 2017](img/dalecubaconf.png)](http://cubaconf.org)
-
- - CubaConf 2017
-   * Hands-on : Deploying web, GUI, and IoT (Raspberry Pi) applications with Docker
-   * [RSVP here](http://bit.ly/cubaconf2017-dockerlab) if you want to participate
+- Submit your talks / workshops [bit.ly/scipyla2017-actividades-tech](http://bit.ly/scipyla2017-actividades-tech)
+- [Submit posters](http://scipyla.org/conf/2017/forms/poster)
 
 ---
 
@@ -882,8 +879,3 @@ There are known best practices (see a list at [examples/tips](http://github.com/
 
 ###### In this presentation I have used [oh my zsh](http://ohmyz.sh/), [docker 17.03](http://github.com/docker/docker/releases/tag/v1.12.5), [wharfee](http://github.com/j-bennet/wharfee) and [dry](http://github.com/moncho/dry).
 
----
-
-### Bonus!
-
-> Get the [SKGTech.io docker image](http://github.com/skgtech/skgtech.io-docker)
