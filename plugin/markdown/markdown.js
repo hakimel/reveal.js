@@ -205,7 +205,7 @@
 		for( var i = 0, len = sections.length; i < len; i++ ) {
 
 			section = sections[i];
-
+			(function(section) {
 			if( section.getAttribute( 'data-markdown' ).length ) {
 
 				var xhr = new XMLHttpRequest(),
@@ -266,6 +266,7 @@
 			else {
 				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
 			}
+		})(section);
 		}
 
 	}
