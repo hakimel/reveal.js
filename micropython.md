@@ -12,8 +12,9 @@ Network: cubantech
 
 Password: meet-ups
 
-----------------
+--
 
+- Slides are based on [github.com/todayispotato/micropython-talk](http://todayispotato.github.io/micropython-talk/#/25)
 - This workshop is based heavily on a workshop by [NY-Javascript](http://www.meetup.com/NY-Javascript) (see [bit.ly/nyjs-nodebots](http://bit.ly/nyjs-nodebots))
 - ... which is based heavily on a workshop by [Francis Gulotta](https://twitter.com/reconbot) and [Rick Waldron](https://twitter.com/rwaldron)
 - You can find the slides for that workshop at [gul.ly/3tjj](http://gul.ly/3tjj)
@@ -57,7 +58,7 @@ For something that is running right now?
 
 ![](img/micropython.png)
 
-MicroPython is a lean and fast implementation of the Python 3 programming language that is optimised to run on a microcontroller.
+MicroPython is a lean and fast implementation of the Python (version 3) programming language that is optimised to run on a microcontroller.
 
 --
 
@@ -65,10 +66,9 @@ MicroPython is a lean and fast implementation of the Python 3 programming langua
 
 - Kickstarted in November 2013
 - Original kickstarter ended April 2015
-- Code open source
-- Initially only on the pyboard, now on multiple chips
-
-![](img/pyboard.png)
+  * $ XXX first round
+  * $ XXX in total
+- Code open source : [github.com/micropython](https://github.com/micropython)
 
 ---
 
@@ -96,6 +96,370 @@ Mainly due to RAM usage. Examples:
 ## Theoretical minimum system requirements
 
 128kb ROM / 8kb RAM (after subtracting other software)
+
+##### UNIX port around 280kb flash
+
+---
+
+# How so Micro ?
+
+--
+
+## Mainly RAM optimizations
+
+- Many strings predefined in ROM (led, on, read, ...)
+- Optimised method calls
+- Everything that can be in ROM, is in ROM
+- Garbage collection: Mark-and-sweep (no reference counts)
+
+--
+
+## Tagged pointers
+
+A tagged pointer is a pointer (concretely a memory address) with additional data associated with it
+
+- Integer - xxxx xxxx xxxx xxx1
+- String - xxxx xxxx xxxx xx10
+- Object - xxxx xxxx xxxx xx00
+
+---
+
+# Some supported boards
+
+---
+
+## The PyBoard
+
+![](img/pyboard.small.png)
+
+- Reference implementation
+- Initially only on the pyboard, now on multiple chips
+- ARM 32bit Cortex M4 @ 168Mhz, 1Mb flash, 192kb RAM
+- Accerelometer, RTC, 4 LEDs, 2 switches, 30 GPIO
+
+---
+
+## BBC Micro:Bit
+
+![](img/microbit.small.png)
+
+16kb RAM, 256kb flash, Cortex M0 @ 16 MHz
+
+--
+
+## BBC Micro:Bit
+
+Supplied to *1 million* school children
+
+- 25 LEDs
+- Two programmable buttons
+- Accelerometer & magnetometer
+- Bluetooth
+- 5 GPIO
+
+--
+
+### ... comes with:
+
+- Online Python editor
+- Mobile app to upload code
+- Tons of documentations, teaching material, etc.
+
+--
+
+### ... comes with:
+
+![](img/microbit.pxt.small.png)
+
+- Graphical drag-and-drop editor
+
+--
+
+## Recent versions
+
+![](img/microbit.new.png)
+
+Note: TODO : Specs of recent micro:bit boards
+
+---
+
+## The WiPy
+
+![](img/wipy.small.png)
+
+256kb RAM, 2Mb flash, 25 GPIO, Cortex M4 @ 80 MHz
+
+#### "Small and light to fit in any cavity"
+
+---
+
+## LoPy
+
+![](img/lopy.small.png)
+
+LoRa + Python
+
+--
+
+## LoRa ... hmmm ?
+
+Note: TODO: Info about LoRa
+
+---
+
+##CircuitPython
+
+![](img/circuitpython.small.png)
+
+--
+
+## CircuitPython
+
+|                             |                        |
+|-----------------------------|------------------------|
+| ![](img/circuitpython.logo.png) | ![](img/adafruit.logo.jpg) |
+
+--
+
+## CircuitPython - features
+
+Note: TODO: Features of Circuit Playground boards
+
+--
+
+### ... comes with
+
+- Online Python and Javascript editor
+- Tons of [documentations](http://adafru.it/wpE), teaching material, etc.
+
+--
+
+### ... comes with:
+
+![](img/makecode.circuitpython.small.png)
+
+- Graphical drag-and-drop editor
+
+---
+
+## ESP8266 and NodeMCU
+
+![](img/huzzah.feather.small.png)
+
+... also runs on ESP8266 and NodeMCU (i.e. a lot of) chips 
+
+---
+
+# Excuse me ... 
+
+# What is MicroPython ?
+
+---
+
+## It's Python! (3.4-ish)
+
+```python
+
+>>> print('Hello world!')
+Hello world!
+
+>>> with open('pygrunn.txt', 'w') as f:
+>>>     f.write('Hello PyGrunn!')
+
+>>> try:
+>>>     1/0
+>>> except ZeroDivisionError as e:
+>>>     print("Oh, you!")
+Oh, you!
+```
+
+---
+
+## ... but not all of it
+
+```python
+
+>>> import functools
+Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+ImportError: no module named 'functools'
+>>> import this
+Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+ImportError: no module named 'this'
+```
+
+---
+
+## Supported modules
+
+- `sys`
+- `time`
+- `struct`
+- `machine` - functions related to the board
+- `micropython` - internals
+- Specific ports provides specific hooks, REPL and custom modules
+
+---
+
+## Supports async / await syntax
+
+```python
+
+async def ping_pygrunn():
+    return await ping_server('pygrunn.org')
+```
+
+---
+
+## External Standard Library
+
+Written in Python (remember PyPy?)
+
+```sh
+
+$ micropython -m upip install micropython-functools
+$ ./micropython 
+MicroPython v1.7-116-g8dd704b on 2016-04-19; linux version
+Use Ctrl-D to exit, Ctrl-E for paste mode
+>>> import functools
+>>> dir(functools)
+['__name__', 'reduce', 'partial', 'update_wrapper', '__file__', 'wraps']
+https://github.com/micropython/micropython-lib
+```
+
+---
+
+# Hardware APIs
+
+--
+
+## Your Micro-superpowers include:
+
+- Disable interrupts
+- Trigger and disable GC
+- Write inline assembler
+- Emit bytecode or machine code
+
+--
+
+## Inline Assembler
+
+```python
+
+@micropython.asm_thumb
+def led_on():
+    movwt(r0, stm.GPIOA)
+    movw(r1, 1 << 13)
+    strh(r1, [r0, stm.GPIO_BSRRL])
+```
+
+--
+
+## Native code emitter
+
+```python
+
+@micropython.native
+def foo(self, arg):
+    # code
+```
+
+Roughly twice as fast, but larger binary
+
+--
+
+## Viper is Python embedded in realtime
+
+```python
+
+@micropython.viper
+def foo(self, arg: int) -> int:
+    # code
+```
+
+Now actually called Zerynth and kind of confusing
+
+---
+
+# Current state of MicroPython
+
+---
+
+## Development
+
+- One full time developer, two core contributors
+- Partly funded by the European Space Agency
+- Kickstart in May 2016 for proper ESP8266 sockets support
+- Feels like it's maturing
+
+---
+
+## Is it production ready?
+
+It depends on your board
+
+But it's amazing for prototyping!
+
+Or for embedding in games and apps
+
+--
+
+## Embedding Python in games ?
+
+![](img/civ.iv.jpg)
+
+... has happened before, not MicroPython though ...
+
+--
+
+### Embedded Python for video games
+
+##### Civilization IV
+
+![](img/civ.iv.jpg)
+
+All internal logic, including AI. The API is available .
+
+--
+
+### Embedded Python for video games
+
+##### The Temple of Elemental Evil
+
+![](img/toee.small.jpg)
+
+Almost everything except the rendering engine , [according to Steve Moret](http://www.pygame.org/interview/stevemoret.shtml)
+
+--
+
+### Embedded Python for video games
+
+##### Star Trek Bridge Commander
+
+![](img/BridgeCommander.small.jpg)
+
+Scripts of the missions
+
+--
+
+### Embedded Python for video games
+
+##### Crystal Space
+
+![](img/crystal.space.small.jpg)
+
+All internal logic, including AI. The API is available .
+
+--
+
+### Embedded Python for video games
+
+##### Battlefield 2
+
+![](img/battlefield.4.small.jpeg)
+
+Gameplay , scores , team stats
 
 ---
 
@@ -146,7 +510,7 @@ Feel free to select the components you like most and complete the challenges tha
 
 Zero conf
 
-![](img/pyboard.png)
+![](img/pyboard.small.png)
 
 ---
 
@@ -157,14 +521,17 @@ Zero conf
 pip install esptool
 ```
 
-Versions higher than 1.3 support both Python 2.7 and 3.4 (or higher )
+Since Version 1.3 supports both Python 2.7 and 3.4 <br/> (or higher)
 
 --
 
 ## Identify USB port (Ubuntu, Debian, ...)
 
 ```sh
-TODO
+$ lsusb
+
+$ ls /dev/ttyUSB*
+
 ```
 
 --
@@ -172,8 +539,19 @@ TODO
 ## Identify USB port (Mac OS X)
 
 ```sh
-TODO
+$ ioreg -p IOUSB
++-o Root  <class IORegistryEntry, id 0x100000100, retain 15>
+  +-o Root Hub Simulation Simulation@14000000  <class AppleUSBRootHubDevice, id 0x100000300, registered, matched, active, busy 0 (1450 ms), retain 16>
+    +-o Apple Internal Keyboard / Trackpad@14400000  <class AppleUSBDevice, id 0x10001ad77, registered, matched, active, busy 0 (1202 ms), retain 21>
+    +-o BRCM20702 Hub@14300000  <class AppleUSBDevice, id 0x10001ada0, registered, matched, active, busy 0 (1632 ms), retain 18>
+      +-o Bluetooth USB Host Controller@14330000  <class AppleUSBDevice, id 0x10001aded, registered, matched, active, busy 0 (4557 ms), retain 23>
 ```
+
+--
+
+## Identify USB port (Windows)
+
+???
 
 --
 
@@ -186,7 +564,7 @@ esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 e
 ```
 
 #### Specify the device name identified earlier after `--port`
-#### Reduce the baudrate if you get errors when flashing (eg down to 115200)
+#### Reduce the baudrate if you get errors when flashing (e.g. down to 115200)
 
 --
 
@@ -221,17 +599,9 @@ git clone https://github.com/micropython/webrepl
 
 ---
 
-## Standard Firmata
+## Connect the board
 
-- Allows Johnny-Five to communicate with the Arduino over USB
-- Most of the Arduinos already have Standard Firmata installed from previous workshops
-- Let's check to make sure your Arduino already has Standard Firmata installed!
-
----
-
-## Connect the arduino
-
-![](img/connecting-arduino.jpg)
+![](img/connecting-esp8266.jpg)
 
 ---
 

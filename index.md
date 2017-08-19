@@ -29,6 +29,9 @@
   * PyDay #1 , Havana
 - Introduction to Brython. Sample Tizen application
   * Joven Club, Cienfuegos, Cuba
-- Getting started with MicroPython on ESP8266
-  * CubanTech meetup #14 - PyDay Joven Club, Cienfuegos, Cuba 2017/06/16
+- [Getting started with MicroPython on ESP8266](micropython.html)
+  * [CubanTech meetup #13](http://meetup.cuban.tech/events/240871291/) - PyDay Joven Club, Cienfuegos, Cuba 2017/06/16
+  * [CubanTech meetup #19](http://meetup.cuban.tech/events/242499554/) - PyDay Isla de la Juventud, Cuba 2017/08/20
+- [Python y Pandas para periodismo de datos](pandas-ddj.html)
+  * [CubanTech Meetup #16 ](http://meetup.cuban.tech/events/240372001/)- PyDay Havana Cuba 2017/07/29
 
