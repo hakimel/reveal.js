@@ -14,8 +14,8 @@ Password: meet-ups
 
 --
 
-- Slides are based on [github.com/todayispotato/micropython-talk](http://todayispotato.github.io/micropython-talk/#/25)
-- This workshop is based heavily on a workshop by [NY-Javascript](http://www.meetup.com/NY-Javascript) (see [bit.ly/nyjs-nodebots](http://bit.ly/nyjs-nodebots))
+- Slides are based on a [talk](http://todayispotato.github.io/micropython-talk/#/25) by [Lars de Ridder](https://github.com/todayispotato)
+- The workshop is based heavily on a workshop by [NY-Javascript](http://www.meetup.com/NY-Javascript) (see [bit.ly/nyjs-nodebots](http://bit.ly/nyjs-nodebots))
 - ... which is based heavily on a workshop by [Francis Gulotta](https://twitter.com/reconbot) and [Rick Waldron](https://twitter.com/rwaldron)
 - You can find the slides for that workshop at [gul.ly/3tjj](http://gul.ly/3tjj)
 - You can sign up for one of their workshops on the [Nodebots NYC Meetup page](http://www.meetup.com/nodebots/)
