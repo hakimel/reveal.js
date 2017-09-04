@@ -31,6 +31,14 @@
 						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small>
 					</p>
 				</section>
+				<section>
+					<h1>Nội dung</h1>
+					<ol>
+						<li>Mục tiêu môn học</li>
+						<li>Đánh giá, thang điểm</li>
+						<li>Các khái niệm cơ bản</li>
+					</ol>
+				</section>
 			</div>
 		</div>
 
@@ -42,6 +50,12 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
