@@ -1,4 +1,4 @@
-LẬP TRỈNH WEB 1 - 2017
+LẬP TRÌNH WEB 1 - 2017
 ======================
 
 * Giảng viên: Đỗ Nguyên Kha (<dnkha@fit.hcmus.edu.vn>)
