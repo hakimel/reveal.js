@@ -4,7 +4,7 @@
 - [Intro to meetups](intro_20170121.html)
   * [CubanTech meetup #4](http://docker.cuban.tech/events/236654894/) - Santa Clara, Cuba 2017/01/21
 - [Intro to meetups](intro_20170819.html)
-  * [CubanTech meetup #17](http://docker.cuban.tech/events/241708287/) - Isla de la Juventud, Cuba 2017/08/
+  * [CubanTech meetup #17](http://docker.cuban.tech/events/241708287/) - Isla de la Juventud, Cuba 2017/08/19
 
 ---
 
@@ -36,4 +36,16 @@
   * [CubanTech meetup #19](http://meetup.cuban.tech/events/242499554/) - PyDay Isla de la Juventud, Cuba 2017/08/20
 - [Python y Pandas para periodismo de datos](pandas-ddj.html)
   * [CubanTech Meetup #16 ](http://meetup.cuban.tech/events/240372001/)- PyDay Havana Cuba 2017/07/29
+
+---
+
+# NODEBOTS CUBA
+
+--
+
+- [Nodebots with CubanTech](nodebots.html)
+  * [CubanTech meetup #3](#) - Holgu&iacute;n Cuba 2016/12/25
+  * [CubanTech meetup #18](http://meetup.cuban.tech/events/241706888/) - Isla de la Juventud Cuba 2017/08/21
+  * [CubanTech meetup #20](http://meetup.cuban.tech/events/242652841/) - Havana Cuba 2017/08/26
+
 
