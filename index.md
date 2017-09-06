@@ -3,6 +3,8 @@
 
 - [Intro to meetups](intro_20170121.html)
   * [CubanTech meetup #4](http://docker.cuban.tech/events/236654894/) - Santa Clara, Cuba 2017/01/21
+- [Intro to meetups](intro_20170819.html)
+  * [CubanTech meetup #17](http://docker.cuban.tech/events/241708287/) - Isla de la Juventud, Cuba 2017/08/
 
 ---
 
