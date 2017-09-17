@@ -1,0 +1,96 @@
+1.0.3 (2013-11-22)
+ - New: Timeout added to resource loading
+ - New: CSS callbacks now executed for all browsers
+   - https://github.com/headjs/headjs/pull/273
+ - New: Changed how file extensions are parsed for detecting css files
+   - in the future, we will need to add a way to supply a filetype when loading resources via scripts like: style.aspx, style.php
+ - Fix: Array loading & trigger not functioning correctly on old browsers
+   - https://github.com/headjs/headjs/issues/274
+ - Fix: ready() sometimes does not trigger if assets are loaded too fast
+   - https://github.com/headjs/headjs/issues/271
+
+1.0.2 (2013-11-13)
+ - Fix: no-js class not being removed
+   - https://github.com/headjs/headjs/issues/270
+
+1.0.1 (2013-11-05)
+ - Fix: Old IE's can trigger ready too soon
+   - https://github.com/headjs/headjs/issues/203
+
+1.0.0 (2013-11-04)
+ - New: Detect Windows 8 Mobile (Surface RT/Pro), IE11, Kindle, and other Android devices
+ - New: Add Browser & Version CSS no matter what browser breakpoints are configured
+   - Example: .ff .ff20
+   - There is no need to cycle through all browser versions in 90% of cases
+   - Makes it possible to work without any breakpoints at all
+ - New: Improved CSS Router
+   - https://github.com/headjs/headjs/issues/227
+ - New: Added "main" HTML5 element to shim
+   - https://github.com/headjs/headjs/pull/230
+ - New: Enable/Disable HTML5 Shim in head_conf
+ - New: Load files from Array of Files or Array of Labels
+   - head.load(["file1", "file2"], callBack);
+   - head.load([{ label1: "file1" }, { label2: "file2" }], callBack);
+   - https://github.com/headjs/headjs/issues/139
+ - New: Possibility to wait for multiple labels or files
+   - head.ready(["label1", "label2"], callBack);
+   - head.ready(["file1.js", "file2.js"], callBack);
+   - https://github.com/headjs/headjs/pull/212
+ - New: Load file via data attribute on HeadJS script tag
+   - data-headjs-load="configuration.js"
+   - https://github.com/headjs/headjs/pull/213
+ - New: Source map files have been added for all minified JS files
+ - Fix: Prevent loading empty strings
+   - https://github.com/headjs/headjs/pull/184
+ - Fix: CSS classes getting bigger on successive resizes under Chrome
+   - https://github.com/headjs/headjs/issues/226 
+ - Fix: Invalid regular expression for CSS detection
+   - https://github.com/headjs/headjs/issues/255
+ - Fix: callback failing to trigger under certain cirumstances
+   - https://github.com/headjs/headjs/issues/262
+ - Divers: Changed window.frameElement detection
+   - https://github.com/headjs/headjs/pull/257
+ - Divers: Cleaned up a bunch of syntaxt to conform to JSHint
+   - Now using a very strict .jshintrc
+ - Divers: Added missing .gitattributes
+
+0.99 (2012-11-15)
+ - Load: Fixed regression in IE6, caused by IE10 fix
+ - Load: CSS loading seems to work in all browsers.
+   - However a few will not trigger the callback. Over 90% do.
+   - Either don't use it, or only load css in situations when you don't need the callback triggered.
+ - Load: Conditional loading with head.test() now in evaluation phase
+   - try it, but don't rely on it yet
+   - head.test(bool, "ok.js", "failed.js", callback)
+ - All: CDN is now availiable thanks to: http://cloudflare.com
+   - Info in download section on main site
+ - Unit Tests
+   - Integrated with main site so that everyone can participate
+   - They have also been hooked up to automatically report stats back to http://browserscope.org
+
+0.98 (2012-11-09)
+- Load: Fixed loading bug in IE10
+- Load: Corrected some issues with loading from inside &lt;head&gt;
+- Load: Rewrite of large parts of code base
+  - Started to massively document the sourcecode :)
+- Css3: moved "touch" detection from core to here
+- Css3: added "retina" detection
+- Css3: replaced "font-face" detection that was using "Conditional Comments" with simplisitc browser version detection
+- Core: Added gt, gte, lte, eq classes to width detection (lt existed already)
+- Core: Added gt, gte, lt, lte, eq classes for browser vendor & version detection
+- By default only lt/gt classes are activated
+  - You can of course configure to your likings via head_conf
+
+0.97a (2012-10-20)
+- Updated QUnit &amp; got unit tests running again
+- Swictched to "use strict"
+- Fixed up some variable usage
+- Added browser detections other than just for ie-lt
+- updated browser regexes (firefox, safari, opera, ios, android, webkit)
+- detect if browser is: desktop, mobile, touch enabled
+- detect portrait/landscape mode
+- html5 shim now only triggers on ie-lt9
+- added a throttle to onResize, since some browsers fire tons of events/sec
+- added corrected height/width measurements, but only exposed via new object: head.screen
+  - contains height/width, innerHeight/innerWidth, outerHeight/outerWidth
+- force all css router names to lowercase just in case ppl try typing in names with wierd casings

@@ -1,0 +1,50 @@
+{
+  "name": "headjs",
+  "description": "HeadJS: Responsive Design, Feature Detections & Asset Loading. The only script in your <HEAD>",
+  "version": "1.0.3",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tero Piirainen"
+    },
+    {
+      "name": "Robert Hoffmann"
+    }
+  ],
+  "homepage ": "http://headjs.com",
+  "main": [
+    "./dist/1.0.0/head.min.js",
+    "./dist/1.0.0/head.min.js.map",
+    "./dist/1.0.0/changelog.txt"
+  ],
+  "ignore": [
+    "**",
+    "!/dist/1.0.0/*.js",
+    "!/dist/1.0.0/*.map",
+    "!/dist/1.0.0/*.txt"
+  ],
+  "directory": "public/scripts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/headjs/headjs.git"
+  },
+  "keywords": [
+    "loader",
+    "require",
+    "polyfill",
+    "html5",
+    "css3",
+    "feature",
+    "responsive"
+  ],
+  "homepage": "https://github.com/headjs/headjs",
+  "_release": "1.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.3",
+    "commit": "edc8427191a633d80e7372c49e6d28a098be766f"
+  },
+  "_source": "https://github.com/headjs/headjs.git",
+  "_target": "~1.0.3",
+  "_originalSource": "headjs"
+}
