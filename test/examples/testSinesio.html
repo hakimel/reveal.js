@@ -1,0 +1,312 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<header>
+					  <h1>Offline first</h1>
+					</header>
+				  </section>
+		  
+				  <section>
+					<ol>
+					  <li>Architecting your web site</li>
+					  <li>The Service Worker Life Cycle</li>
+					  <li>Offline caches</li>
+					  <li>Fetch strategies</li>
+					  <li>Handling updates</li>
+					  <li>Other considerations</li>
+					</ol>
+				  </section>
+		  
+				  <section>
+					<section>
+					  <h2>Architecting your web site</h2>
+					</section>
+		  
+					<section>
+					  <h3> The <a href="https://developers.google.com/web/updates/2015/11/app-shell?hl=en" target="_blank">app shell</a> pattern</h3>
+					  <p class="fragment">
+						The goal is to reduce time to first meaningful paint.
+					  </p>
+					</section>
+		  
+					<section>
+					  <p>
+						Find what is <strong>content</strong> v.s. what is <strong>essential UI</strong>.
+					  </p>
+					</section>
+		  
+					<section>
+					  <img alt="Shell / content separations" src="./imgs/shell-content.jpg" />
+					</section>
+				  </section>
+		  
+				  <section>
+					<section>
+					  <h2>The Service Worker Life Cycle</h2>
+					</section>
+		  
+					<section>
+					  <ol>
+						<li>Install</li>
+						<li>Activate</li>
+						<li>Fetch</li>
+					  </ol>
+					</section>
+		  
+					<section>
+					  <h3>Install</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  self.addEventListener('install', evt => {
+			evt.waitUntil(prefetch());
+		  });
+		  
+		  function prefetch() {
+			return self.caches.open(CURRENT_CACHE)
+				   .then(cache => cache.addAll(SHELL_ASSETS));
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Activate</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  self.addEventListener('activate', evt => {
+			evt.waitUntil(clearOldCaches());
+		  });
+		  
+		  function clearOldCaches() {
+			return self.caches.keys().then(names => {
+			  return Promise.all(names.map(cacheName => {
+				if (cacheName === CURRENT_CACHE) {
+				  return Promise.resolve();
+				}
+				else {
+				  return self.caches.delete(cacheName);
+				}
+			  }));
+			});
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Fetch</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  self.addEventListener('fetch', evt => {
+			var req = evt.request;
+			if (isShell(req)) {
+			  evt.respondWith(handleShell(req));
+			}
+			else {
+			  evt.respondWith(handleContent(req));
+			}
+		  });
+					  </code></pre>
+					</section>
+				  </section>
+		  
+				  <section>
+					<section>
+					  <h2>Offline caches</h2>
+					</section>
+		  
+					<section>
+					  <ol>
+						<li>The new API is called Cache.</li>
+						<li>Request-Response pairs as records.</li>
+						<li>Storing a pair request / response consumes the bodies.</li>
+						<li>Only GET requests can be stored.</li>
+						<li>Can look up by request or URL.</li>
+					  </ol>
+					</section>
+				  </section>
+		  
+				  <section>
+					<section>
+					  <h2>Fetch strategies</h2>
+					</section>
+		  
+					<section>
+					  <ul>
+						<li>Cache-first</li>
+						<li>Cache-only</li>
+						<li>Network-first</li>
+						<li>Network-only</li>
+						<li>Fastest</li>
+						<li>Offline fallback</li>
+						<li>Fetch and update</li>
+					  </ul>
+					</section>
+		  
+					<section>
+					  <h3>Cache-first</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function cacheFirst(req) {
+			return self.caches.match(req).then(res => {
+			  return res || self.fetch(req);
+			});
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Cache-only</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function cacheOnly(req) {
+			return self.caches.match(req).then(res => {
+			  return res || Promise.reject('not-found');
+			});
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Network-first</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function networkFirst(req) {
+			return self.fetch(req)
+				   .then(res => res.ok ? res : cacheOnly(req))
+				   .catch(() => cacheOnly(req));
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Network-first with timeout</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function networkFirstWithTimeout(req, timeout) {
+			return new Promise((fulfil, reject) => {
+			  setTimeout(() => fulfil(cacheOnly(req)), timeout);
+			  networkFirst(req).then(fulfil, reject);
+			});
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Network-only</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function networkOnly(req) {
+			return self.fetch(req);
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Fastest</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function fastest(req) {
+			return race(networkOnly(req), cacheOnly);
+		  }
+		  
+		  function race(promiseA, promiseB) {
+			return new Promise((fulfil, reject) => {
+			  promiseA.then(fulfil, () => promiseB.catch(reject));
+			  promiseB.then(fulfil, () => promiseA.catch(reject));
+			});
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Offline fallback</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  function offlineFallback(req) {
+			var defaultRequest = getDefault(req, 'by-type');
+			return cacheOnly(defaultRequest);
+		  }
+					  </code></pre>
+					</section>
+		  
+					<section>
+					  <h3>Fetch and update</h3>
+					  <pre><code class="js" data-noescape data-trim>
+		  self.addEventListener('fetch', evt => {
+			var request = evt.request;
+			var cacheResponse = cacheOnly(request);
+			var networkResponse = networkOnly(request);
+			evt.respondWith(race(
+			  cacheResponse,
+			  networkResponse.then(response => response.clone())
+			));
+			evt.waitUntil(networkResponse.then(response => update(request, response.clone())));
+		  });
+		  
+		  function update(request, response) {
+			return self.caches.open(CURRENT_CACHE)
+				   .then(cache => cache.put(request, response));
+		  }
+					  </code></pre>
+					</section>
+				  </section>
+		  
+				  <section>
+					<section>
+					  <h2>Handling updates</h2>
+					</section>
+		  
+					<section>
+					  <ul>
+						<li>Rely on Service Worker life cycle</li>
+						<li>Implement your own</li>
+					  </ul>
+					</section>
+				  </section>
+		  
+				  <section>
+					<h2>Other considerations</h2>
+					<ol>
+					  <li>What about the http cache?</li>
+					  <li>Should I bump my requests?</li>
+					  <li>How to deal with sensitive information?</li>
+					  <li>Don't abuse offline caches.</li>
+					  <li>Are my assets permanently stored?</li>
+					  <li>Can I cache external resources?</li>
+					  <li>Kill switch.</li>
+					</ol>
+				  </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/presentations#configuration
+			// - https://github.com/hakimel/presentations#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

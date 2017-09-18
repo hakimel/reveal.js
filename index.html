@@ -26,24 +26,59 @@
 			<div class="slides">
 				<section>Slide 1</section>
 				<section>Slide 2</section>
+				<section>
+					<h3 align="left">Biological Evolution</h3>
+					
+					<div class="newspaper">
+						<h4 align="left">Evolutionary Theory:</h4>
+						<p align="left" class="fragment roll-in">Robustness and Evolvability</p>
+						<p align="left" class="fragment grow">Multi-scale</p>
+						<p align="left" class="fragment highlight-blue">Novel uses of known solutions</p>
+						<p align="left" class="fragment highlight-blue">Accounts for the multiple origin of innovations</p>
+						<p align="left" class="fragment highlight-blue">Provides insights about the role of changes in the environment</p>
+						<p align="left"><i>A. Wagner, Trends in Genetics (2011)</i></p>
+					</div>
+				 
+</section>
 			</div>
 		</div>
+
+		<section>
+			<h2>Much more</h2>
+			<ul>
+				<li>Right-to-left support</li>
+				<li><a href="https://github.com/sinesiobittencourt/presentations#api">Extensive JavaScript API</a></li>
+				<li><a href="https://github.com/sinesiobittencourt/presentations#auto-sliding">Auto-progression</a></li>
+				<li><a href="https://github.com/sinesiobittencourt/presentations#parallax-background">Parallax backgrounds</a></li>
+				<li><a href="https://github.com/sinesiobittencourt/presentations#keyboard-bindings">Custom keyboard bindings</a></li>
+			</ul>
+		</section>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
+
+			// More info https://github.com/sinesiobittencourt/presentations#configuration
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/sinesiobittencourt/presentations#dependencies
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
+
 		</script>
 	</body>
 </html>
