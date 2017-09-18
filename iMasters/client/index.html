@@ -1,4 +1,117 @@
-// More info https://github.com/sinesiobittencourt/presentations#configuration
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Presentation Sinesio Bittencourt </title>
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+		<!-- <link rel="stylesheet" href="../css/theme/black.css" id="theme"> -->
+		<link rel="stylesheet" href="../../css/theme/beige.css" id="theme">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<!-- <script src="https://www.w3schools.com/lib/w3.js"></script> -->
+		
+
+		<!-- Theme used for syntax highlighting of code -->
+		<!-- <link rel="stylesheet" href="../lib/css/zenburn.css"> -->
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = '../../stylesheet';
+			link.type = '../../text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../css/print/pdf.css' : '../css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+					
+				<section data-menu-title="sinesio">
+						<div w3-include-html="../1.html"></div>   
+						                  
+				</section>
+				<section data-menu-title="sinesio">
+						<div w3-include-html="../2.html"></div>                    
+				</section>
+				
+                <section>Slide
+                        <div align="center">
+                                <h1 class="fragment roll-in">
+                                    Ionic framework
+                                </h1>
+                                <h4 class="fragment roll-in">{
+                                    Aplicações móveis híbridas} 
+                                </h4> 
+                        </div>
+                </section>
+                <section>
+								<mark>highlight</mark> text</p>
+				</section>
+                <section>
+						<h1>External Links</h1>
+						<ul class="slide-menu-items">
+							<li class="slide-menu-item"><a href="https://github.com/denehyg/reveal.js-menu" target="_blank">Reveal.js-menu</a></li>
+						</ul>
+				</section>
+				
+				<section data-background-color="#3C78D8">
+						<h1>Slide Pai</h1>
+					
+						<section>
+							<h1>Nested Slides</h1>
+							<p>São úteis para  detalhar um conteúdo sobre um mesmo tópico.</p>
+						</section>
+					
+					</section>
+				
+				<section>Slide 2</section>
+				<!-- Example of nested vertical slides -->
+	<section>
+			<section>
+				<h2>Vertical Slides</h2>
+				<p>
+					Slides can be nested inside of other slides,
+					try pressing <a href="#" class="navigate-down">down</a>.
+				</p>
+				<a href="#" class="image navigate-down">
+					<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+				</a>
+			</section>
+			<section>
+				<h2>Basement Level 1</h2>
+				<p>Press down or up to navigate.</p>
+			</section>
+			<section>
+				<h2>Basement Level 2</h2>
+				<p>Cornify</p>
+				<a class="test" href="http://cornify.com">
+					<img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
+				</a>
+			</section>
+			<section>
+				<h2>Basement Level 3</h2>
+				<p>That's it, time to go back up.</p>
+				<a href="#/2" class="image">
+					<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
+				</a>
+			</section>
+		</section>
+               
+                <section>Slide 2</section>
+                <section>Slide 2</section>
+                <section>Slide 2</section>
+                <section>Slide 2</section>
+        
+			</div>
+		</div>
+		<script src="../../lib/js/head.min.js"></script>
+		<script src="../../js/reveal.js"></script>
+        <script src="../../js/includeHTML.js"></script>
+        <script>
+            // More info https://github.com/sinesiobittencourt/presentations#configuration
 Reveal.initialize({
     controls: false, //Display controls in the bottom right corner
     progress: true, //Display a presentation progress bar
@@ -65,11 +178,11 @@ menu: {
     // Specifies the themes that will be available in the themes
     // menu panel. Set to 'false' to hide themes panel.
     themes: [
-        { name: 'Black', theme: '../css/theme/black.css' },
-        { name: 'White', theme: '../css/theme/white.css' },
+        { name: 'Black', theme: '../../css/theme/black.css' },
+        { name: 'White', theme: '../../css/theme/white.css' },
         { name: 'League', theme: '../css/theme/league.css' },
         { name: 'Sky', theme: '../css/theme/sky.css' },
-        { name: 'Beige', theme: '../css/theme/beige.css' },
+        { name: 'Beige', theme: '../../css/theme/beige.css' },
         { name: 'Simple', theme: '../css/theme/simple.css' },
         { name: 'Serif', theme: '../css/theme/serif.css' },
         { name: 'Blood', theme: '../css/theme/blood.css' },
@@ -128,21 +241,25 @@ custom: [
 
 // More info https://github.com/sinesiobittencourt/presentations#dependencies
 dependencies: [
-    { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
-    { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-    { src: '../plugin/zoom-js/zoom.js', async: true },
-    { src: '../plugin/notes/notes.js', async: true },
+    { src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: '../../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: '../../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: '../../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: '../../plugin/zoom-js/zoom.js', async: true },
+    { src: '../../plugin/notes/notes.js', async: true },
 
-    { src: 'http://cdn.socket.io/socket.io-1.3.5.js', async: true },
-    { src: '../plugin/multiplex/master.js', async: true },
-
-    // and if you want speaker notes
-    { src: '../plugin/notes-server/client.js', async: true },
+    { src: 'http:////cdn.socket.io/socket.io-1.3.5.js', async: true },
+	{ src: '../../plugin/multiplex/client.js', async: true },
     
-    { src: '../bower_components/reveal.js-menu/menu.js' },
+    { src: '../../bower_components/reveal.js-menu/menu.js' },
     // { src: '../node_modules/reveal.js-menu/menu.js' },
-    { src: '../plugin/customcontrols/customcontrols.js' }
+    { src: '../../plugin/customcontrols/customcontrols.js' }
     ]
 });
+        </script>
+		<script>
+				w3.includeHTML();
+        </script>
+        	
+	</body>
+</html>
