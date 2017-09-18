@@ -24,11 +24,6 @@ var RevealCustomControls = window.RevealCustomControls || (function(){
 					css: 'position: fixed; right: 30px; bottom: 30px; z-index: 30; font-size: 24px;', 
 					action: 'Reveal.next(); return false;' 
                 },
-                {
-					icon: '<i class="fa fa-caret-top"></i>', 
-					css: 'position: fixed; top: 60px; bottom: 60px; z-index: 30; font-size: 24px;', 
-					action: 'Reveal.next(); return false;' 
-				} 
 			] 
 		};
 
