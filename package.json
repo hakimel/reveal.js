@@ -38,11 +38,12 @@
     "grunt-zip": "~0.17.1",
     "mustache": "~2.2.1",
     "node-sass": "~3.13.0",
-    "socket.io": "^1.4.8"
+    "socket.io": "^1.7.4"
   },
   "license": "MIT",
   "dependencies": {
     "gulp": "^3.9.1",
+    "node-static": "^0.7.10",
     "reveal.js-menu": "^0.7.0"
   }
 }
