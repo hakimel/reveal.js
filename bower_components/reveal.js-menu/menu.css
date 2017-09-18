@@ -238,8 +238,9 @@
  */
 .reveal .slide-menu-button {
 	position: fixed;
-	left: 30px;
-	bottom: 30px;
+	left: 20px;
+	margin-top: 10px;
+	/* bottom: 30px; */
 	z-index: 30;
 	font-size: 24px;
 }
