@@ -120,8 +120,8 @@ custom: [
     },
     multiplex: {
         // Example values. To generate your own, see the socket.io server instructions.
-		secret: '15057220338223008398', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: 'e077efe0073243ec', // Obtained from socket.io server
+		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
+		id: '1ea875674b17ca76', // Obtained from socket.io server
 		url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
         },
 

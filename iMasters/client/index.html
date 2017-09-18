@@ -114,23 +114,23 @@
             // More info https://github.com/sinesiobittencourt/presentations#configuration
 Reveal.initialize({
     controls: false, //Display controls in the bottom right corner
-    progress: true, //Display a presentation progress bar
-    slideNumber: true, //Display the page number of the current slide
-    history: true, //Push each slide change to the browser history
-    keyboard: true, //Enable keyboard shortcuts for navigation
-    overview: true, //Enable the slide overview mode
-    center: true, //Vertical centering of slides
-    touch: true, //Enables touch navigation on devices with touch input
+    progress: false, //Display a presentation progress bar
+    slideNumber: false, //Display the page number of the current slide
+    history: false, //Push each slide change to the browser history
+    keyboard: false, //Enable keyboard shortcuts for navigation
+    overview: false, //Enable the slide overview mode
+    center: false, //Vertical centering of slides
+    touch: false, //Enables touch navigation on devices with touch input
     loop: false, //Loop the presentation
     rtl: false, //Change the presentation direction to be RTL
-    fragments: true,  //Turns fragments on and off globally
+    fragments: false,  //Turns fragments on and off globally
     embedded: false, //Flags if the presentation is running in an embedded mode, i.e. contained within a limited portion of the screen
-    help: true, //Flags if we should show a help overlay when the questionmark key is pressed
+    help: false, //Flags if we should show a help overlay when the questionmark key is pressed
     showNotes: false, //Flags if speaker notes should be visible to all viewers
     autoSlide: 0, //Number of milliseconds between automatically proceeding to the next slide, disabled when set to 0, this value can be overwritten by using a data-autoslide attribute on your slides
-    autoSlideStoppable: true, //Stop auto-sliding after user input
-    mouseWheel: true, //Enable slide navigation via mouse wheel
-    hideAddressBar: true, //Hides the address bar on mobile devices
+    autoSlideStoppable: false, //Stop auto-sliding after user input
+    mouseWheel: false, //Enable slide navigation via mouse wheel
+    hideAddressBar: false, //Hides the address bar on mobile devices
     previewLinks: false, //Opens links in an iframe preview overlay
     // transition: 'concave', //none/fade/slide/convex/concave/zoom
     // transitionSpeed: 'slow', //default/slow/fast
@@ -147,7 +147,7 @@ menu: {
 
     // Add slide numbers to the titles in the slide list.
     // Use 'true' or format string (same as reveal.js slide numbers)
-    numbers: true,
+    numbers: false,
 
     // Specifies which slide elements will be used for generating
     // the slide titles in the menu. The default selects the first
@@ -173,7 +173,7 @@ menu: {
     // Specify custom panels to be included in the menu, by
     // providing an array of objects with 'title', 'icon'
     // properties, and either a 'src' or 'content' property.
-    custom: true,
+    custom: false,
 
     // Specifies the themes that will be available in the themes
     // menu panel. Set to 'false' to hide themes panel.
@@ -196,21 +196,21 @@ custom: [
 ],
 
     // Specifies if the transitions menu panel will be shown.
-    transitions: true,
+    transitions: false,
 
     // Adds a menu button to the slides to open the menu panel.
     // Set to 'false' to hide the button.
-    openButton: true,
+    openButton: false,
 
     // If 'true' allows the slide number in the presentation to
     // open the menu panel. The reveal.js slideNumber option must 
     // be displayed for this to take effect
-    openSlideNumber: true,
+    openSlideNumber: false,
 
     // If true allows the user to open and navigate the menu using
     // the keyboard. Standard keyboard interaction with reveal
     // will be disabled while the menu is open.
-    keyboard: true,
+    keyboard: false,
 
     // Normally the menu will close on user actions such as
     // selecting a menu item, or clicking the presentation area.
@@ -223,7 +223,7 @@ custom: [
     // If 'true' standard menu items will be automatically opened
     // when navigating using the keyboard. Note: this only takes 
     // effect when both the 'keyboard' and 'sticky' options are enabled.
-    autoOpen: true,
+    autoOpen: false,
 
     // If 'true' the menu will not be created until it is explicitly
     // requested by calling RevealMenu.init(). Note this will delay
@@ -234,7 +234,7 @@ custom: [
     multiplex: {
         // Example values. To generate your own, see the socket.io server instructions.
 		secret: null, // null so the clients do not have control of the master presentation
-		id: 'e077efe0073243ec', // id, obtained from socket.io server
+		id: '1ea875674b17ca76', // id, obtained from socket.io server
 		url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
         },
 
@@ -248,7 +248,7 @@ dependencies: [
     { src: '../../plugin/zoom-js/zoom.js', async: true },
     { src: '../../plugin/notes/notes.js', async: true },
 
-    { src: 'http:////cdn.socket.io/socket.io-1.3.5.js', async: true },
+    { src: 'http://cdn.socket.io/socket.io-1.3.5.js', async: true },
 	{ src: '../../plugin/multiplex/client.js', async: true },
     
     { src: '../../bower_components/reveal.js-menu/menu.js' },
