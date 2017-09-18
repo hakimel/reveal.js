@@ -19,9 +19,9 @@ Reveal.initialize({
     mouseWheel: true, //Enable slide navigation via mouse wheel
     hideAddressBar: true, //Hides the address bar on mobile devices
     previewLinks: false, //Opens links in an iframe preview overlay
-    transition: 'concave', //none/fade/slide/convex/concave/zoom
-    transitionSpeed: 'slow', //default/slow/fast
-    backgroundTransition: 'default', //none/fade/slide/convex/concave/zoom  //Transition style for full page slide backgrounds
+    // transition: 'concave', //none/fade/slide/convex/concave/zoom
+    // transitionSpeed: 'slow', //default/slow/fast
+    // backgroundTransition: 'default', //none/fade/slide/convex/concave/zoom  //Transition style for full page slide backgrounds
 
     
     // transition: 'convex', // none/fade/slide/convex/concave/zoom
@@ -118,6 +118,14 @@ custom: [
     // the menu button.
     delayInit: false
     },
+    multiplex: {
+        // Example values. Generate your own.
+        secret: null, // Obtained from the socket.io server. Gives this (the master) control of the presentation
+        id: '4099538497459434', // Obtained from socket.io server
+        url: 'revealjs.jit.su:80' // Location of socket.io server
+        },
+
+
 // More info https://github.com/sinesiobittencourt/presentations#dependencies
 dependencies: [
     { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -126,7 +134,13 @@ dependencies: [
     { src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
     { src: '../plugin/zoom-js/zoom.js', async: true },
     { src: '../plugin/notes/notes.js', async: true },
-    { src: '../plugin/multiplex/index.js', async: true },
+
+    { src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+    { src: '../plugin/multiplex/master.js', async: true },
+
+    // and if you want speaker notes
+    { src: '../plugin/notes-server/client.js', async: true },
+    
     { src: '../bower_components/reveal.js-menu/menu.js' },
     // { src: '../node_modules/reveal.js-menu/menu.js' },
     { src: '../plugin/customcontrols/customcontrols.js' }
