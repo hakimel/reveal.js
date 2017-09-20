@@ -4,13 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Lập trình Web 1 - 2017</title>
+		<title>Bài giảng 3 - CSS và Bootstrap</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -26,15 +26,34 @@
 			<div class="slides">
 				<section>
 					<h1>Lập trình Web 1</h1>
-					<h3>Danh sách bài giảng</h3>
+					<h3>Bài giảng 3 - CSS và Bootstrap</h3>
 					<p>
 						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small><br>
 						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
 					</p>
+					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+				</section>
+				<section>
+					<h3>Nội dung</h3>
+					<ol>
+						<li>CSS Selector</li>
+						<li>Các thuộc tính</li>
+						<li>CSS và HTML</li>
+						<li>Các phiên bản</li>
+						<li>CSS Framework</li>
+						<li>Bootstrap</li>
+						<li>Bài tập</li>
+					</ol>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN03</h3>
 					<ul>
-						<li><a href="1-introduction.html">Bài giảng 1 - Giới thiệu môn học</a></li>
-						<li><a href="2-html.html">Bài giảng 2 - HTML</a></li>
-						<li><a href="3-css-bootstrap.html">Bài giảng 3 - CSS và Bootstrap</a></li>
+						<li>Sử dụng các thông tin như BTCN02</li>
+						<li>Bổ sung Bootstrap và CSS tùy biến cho trang Web. Cập nhật các liên kết đến trang mới (có CSS) của bạn bè</li>
+						<li>Upload các tập tin HTML, CSS, Bootstrap (nếu không sử dụng CDN) lên host dạng (sử dụng một free hosting đã đăng ký): <a href="https://n.khado.me">http(s)://somehost.com/MSSV-css.html</a></li>
+						<li>Nộp link đến trang Web cá nhân trong tập tin txt</li>
+						<li>Nộp bài trên Web môn học trước <strong>28/09/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.txt</strong>, xx là điểm tự đánh giá từ 01-10. Ví dụ: 1515151-07.txt</li>
 					</ul>
 				</section>
 			</div>
@@ -48,11 +67,24 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				slideNumber: 'c/t',
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
+						hljs.configure({
+							tabReplace: '  ', // 2 spaces
+						})
+						hljs.initHighlightingOnLoad(); 
+					} }
 				]
 			});
 		</script>
