@@ -4,13 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Lập trình Web 1 - 2017</title>
+		<title>Bài giảng 4 - Cài đặt PHP, MySQL/MariaDB</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -26,17 +26,27 @@
 			<div class="slides">
 				<section>
 					<h1>Lập trình Web 1</h1>
-					<h3>Danh sách bài giảng</h3>
+					<h3>Bài giảng 4 - Cài đặt PHP, MySQL/MariaDB</h3>
 					<p>
 						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small><br>
 						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
 					</p>
-					<ul>
-						<li><a href="1-introduction.html">Bài giảng 1 - Giới thiệu môn học</a></li>
-						<li><a href="2-html.html">Bài giảng 2 - HTML</a></li>
-						<li><a href="3-css-bootstrap.html">Bài giảng 3 - CSS và Bootstrap</a></li>
-						<li><a href="4-amp-installation.html">Bài giảng 4 - Cài đặt PHP, MySQL/MariaDB</a></li>
-					</ul>
+					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+				</section>
+				<section>
+					<h3>Nội dung</h3>
+					<ol>
+						<li>WAMP, LAMP, MAMP stack</li>
+						<li>Các gói cài đặt phổ biến</li>
+						<li>Kiểm tra cài đặt</li>
+						<li>Các vấn đề phát sinh</li>
+						<li>Bài tập</li>
+					</ol>
+				</section>
+				<section>
+					<h3>WAMP, LAMP, MAMP stack</h3>
+					<p>Cài đặt từng thành phần PHP, MySQL/MariaDB, Apache khá phức tạp do đó các nhà phát triển đã tạo ra những bộ cài đặt bao gồm các thành phần: <strong style="color:red;">W</strong>indows/<strong style="color:red;">L</strong>inux/<strong style="color:red;">M</strong>acOS hoặc <strong style="color:red;">X</strong> (cross-platform), <strong style="color:red;">A</strong>pache, <strong style="color:red;">M</strong>ySQL/<strong style="color:red;">M</strong>ariaDB và <strong style="color:red;">P</strong>HP/<strong style="color:red;">P</strong>HPMyAdmin</p>
+					<p>Các gói cài đặt phổ biến: WAMP, XAMPP, MAMP (Pro)...</p>
 				</section>
 			</div>
 		</div>
@@ -49,11 +59,24 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				slideNumber: 'c/t',
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
+						hljs.configure({
+							tabReplace: '  ', // 2 spaces
+						})
+						hljs.initHighlightingOnLoad(); 
+					} }
 				]
 			});
 		</script>
