@@ -45,6 +45,7 @@
 						<li>HTML Form</li>
 						<li>GET và POST</li>
 						<li>Xử lý request/response</li>
+						<li>Liên kết tập tin .php</li>
 						<li>Bài tập: BTCN04</li>
 					</ol>
 				</section>
@@ -428,6 +429,20 @@
 							<li><strong>$_GET</strong>: Lấy giá trị các biến từ form GET request hoặc URL dạng <strong>?foo=bar</strong></li>
 							<li><strong>$_POST</strong>: Lấy giá trị các biến từ form POST request</li>
 						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Liên kết tập tin .php</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							// CHẠY TIẾP nếu không tìm thấy tâp tin header.php
+							include 'header.php';
+							// NGƯNG VÀ BÁ LỖI nếu không tìm thấy tâp tin functions.php
+							require 'functions.php';
+							// Chỉ liên kết một lần
+							require_once 'header.php';
+							include_once 'functions.php';
+						</code></pre>
 					</p>
 				</section>
 				<section>
