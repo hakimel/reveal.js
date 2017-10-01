@@ -49,14 +49,22 @@
 						<li>Bài tập: BTCN04</li>
 					</ol>
 				</section>
+				<section>
+					<h3>Nội dung (2)</h3>
+					<ol>
+						<li>Superglobals</li>
+						<li>Upload file</li>
+						<li>Tách thành phần trang</li>
+						<li>Sử dụng cookie</li>
+						<li>Sử dụng session</li>
+						<li>Lập trình hướng đối tượng</li>
+						<li>Kết nối CSDL PDO MySQL</li>
+						<li>Bài tập: BTCN05</li>
+					</ol>
+				</section>
 				<!-- <section>
 					<h3>Nội dung (2)</h3>
 					<ol>
-						<li>Lập trình hướng đối tượng</li>
-						<li>Xử lý session</li>
-						<li>Bài tập: BTCN05</li>
-						<li>Kết nối CSDL: PDO MySQL</li>
-						<li>Bài tập: BTCN06</li>
 						<li>Quản lý gói: PHP composer</li>
 						<li>PHP Framwork: Laravel</li>
 					</ol>
@@ -466,6 +474,83 @@
 				<section>
 					<h3>Báo lỗi khi không nhập đủ dữ liệu</h3>
 					<img class="noborder" src="img/sum3.png">
+				</section>
+				<section>
+					<h3>Superglobals (1)</h3>
+					<p>
+						Là các biến toàn cục (dạng associative array) đặc biệt của PHP có thể dùng tại mọi vị trí trong mã nguồn mà không cần dùng từ khóa <em>global</em>:
+					</p>
+					<ul>
+						<li><strong>$GLOBALS</strong>: Mảng chứa các biến toàn cục (do người dùng khai báo)</li>
+						<li><strong>$_SERVER</strong>: Mảng chứa thông tin máy chủ Web, hệ thống...</li>
+						<li><strong>$_ENV</strong>: Mảng chứa biến môi trường</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Superglobals (2)</h3>
+					<ul>
+						<li><strong>$_GET</strong>: Mảng chứa dữ liệu người dùng gửi thông qua query string của URL</li>
+						<li><strong>$_POST</strong>: Mảng chứa dữ liệu người dùng gửi thông qua body của request</li>
+						<li><strong>$_COOKIE</strong>: Mảng chứa nội dung cookie <em>lưu trên trình duyệt</em></li>
+						<li><strong>$_SESSION</strong>: Mảng chứa nội dung session <em>lưu trên máy chủ Web</em></li>
+						<li><strong>$_REQUEST</strong>: Mảng chứa dữ liệu tổng hợp từ $_GET, $_POST, $_COOKIE</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Upload file (1)</h3>
+					<p>
+						Để upload tập tin lên máy chủ Web cần sử dụng một form đặc biệt với thuộc tính <strong>enctype</strong> là <strong>multipart/form-data</strong>
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<form action="upload.php" method="POST" enctype="multipart/form-data">
+								<input type="file" name="image" />
+								<input type="submit" value="Upload file" />
+							</form>
+						</code></pre>
+						<form action="upload.php" method="POST" enctype="multipart/form-data">
+							<input type="file" name="image" />
+							<input type="submit" value="Upload file" />
+						</form>
+					</p>
+				</section>
+				<section>
+					<h3>Upload file (2)</h3>
+					<p>
+						Sử dụng hàm <strong>move_uploaded_file</strong> để chuyển tập tin người dùng upload từ thư mục tạm đến thư mục mong muốn:
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							if(isset($_FILES['image'])) {
+								$fileName = $_FILES['image']['name'];
+								$fileSize = $_FILES['image']['size'];
+								$fileTmp = $_FILES['image']['tmp_name'];
+								$result = move_uploaded_file($fileTemp, 'uploads/' . $fileName);
+								if ($result) {
+									echo 'OK';
+								} else {
+									echo 'Fail';
+								}
+							}
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Upload file (3)</h3>
+					<p>
+						Các vấn đề khi xử lý upload file:
+						<ul>
+							<li>Loại tập tin có đúng yêu cầu (hình ảnh, pdf...)</li>
+							<li>Kích thước tập tin có đúng yêu cầu</li>
+							<li>Kích thước hình ảnh (ngang x dọc) có đúng yêu cầu</li>
+							<li>Trùng tên tập tin đã có trong thư mục uploads</li>
+							<li>Upload tập tin gây nguy hiểm cho máy chủ (PHP, script...)</li>
+							<li>Upload tập tin giả dạng thông tin Website</li>
+							<li>...</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Tách thành phần trang (1)</h3>
+					<p>
+						Một trang Web thường có các thành phần chung như header, footer, navigation bar (navbar, menu)... nếu mỗi trang đều lặp lại HTML (và PHP) dẫn đến tốn công sức mỗi lần có sự thay đổi. Do đó phát sinh nhu cầu tách các thành phần chung thành các tập tin .php riêng, khi cần sử dụng thì gọi hàm include/require vào.
+					</p>
 				</section>
 			</div>
 		</div>
