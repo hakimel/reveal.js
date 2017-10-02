@@ -33,6 +33,7 @@
 						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
 					</p>
 					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+					<p><small>Tham khảo: <a href="https://www.w3schools.com/PhP/default.asp">PHP 5 Tutorial</a>, <a href="http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers">PDO Tutorial for MySQL Developers</a></small></p>
 				</section>
 				<section>
 					<h3>Nội dung (1)</h3>
@@ -547,10 +548,161 @@
 					</p>
 				</section>
 				<section>
-					<h3>Tách thành phần trang (1)</h3>
+					<h3>Tách thành phần trang</h3>
 					<p>
 						Một trang Web thường có các thành phần chung như header, footer, navigation bar (navbar, menu)... nếu mỗi trang đều lặp lại HTML (và PHP) dẫn đến tốn công sức mỗi lần có sự thay đổi. Do đó phát sinh nhu cầu tách các thành phần chung thành các tập tin .php riêng, khi cần sử dụng thì gọi hàm include/require vào.
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&lt;?php 
+								require_once 'init.php';
+								require_once 'functions.php';
+								// Xử lý logic ở đây
+							?&gt;
+							&lt;?php include 'header.php'; ?&gt;
+							<p>Nội dung HTML ở đây</p>
+							&lt;?php include 'footer.php'; ?&gt;
+						</code></pre>
 					</p>
+				</section>
+				<section>
+					<h3>Sử dụng cookie</h3>
+					<p>
+						Cookie là một loại dữ liệu được <strong>lưu trữ trên trình duyệt</strong>, thường dùng để lưu trữ thông tin về người dùng, trạng thái Web... <strong style="color:red">CÓ THỂ ĐƯỢC THAY ĐỔI TRỰC TIẾP HOẶC XÓA BỞI NGƯỜI DÙNG</strong>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							setcookie('username', 'nguyenkha', 3600*24*7);
+						</code></pre>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$username = $_COOKIE['username'];
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Sử dụng session</h3>
+					<p>
+						Session là một loại dữ liệu được <strong>lưu trữ trên máy chủ</strong>, thường được dùng để lưu thông tin về trạng thái làm việc của người dùng thông qua một giá trị được lưu trong cookie gọi là <strong>Session ID</strong>... không thể sửa trực tiếp bởi người dùng nhưng <strong>có thể buộc phát sinh mới</strong> bằng cách xóa Session ID được lưu trong cookie
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							session_start();
+							$_SESSION['userId'] = 123;
+						</code></pre>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							echo $_SESSION['userId'];
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Lập trình hướng đối tượng (1)</h3>
+					<p>
+						PHP hỗ trợ lập trình hướng đối tượng theo ý tưởng từ Java
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							class MyClass {
+								private $foo = 1;
+								public static $bar = 'Aloha';
+
+								public function __construct($baz) {
+									$this->bar = $bar;
+								}
+
+								public function __destruct() {
+									echo 'MyClass destructor';
+								}
+
+								public function blah() {
+									return $this->foo;
+								}
+							}
+
+							$obj = new MyClass();
+							echo $obj->blah();
+							var_dump($obj);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Lập trình hướng đối tượng (2)</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							class MyClass2 extends MyClass {
+								protected $abc = 'ABC';
+
+								public function blah() {
+									return $this->abc;
+								}
+							}
+
+							$obj = new MyClass2();
+							var_dump($obj);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (1)</h3>
+					<p>
+						PHP cung cấp sẵn bộ thư viên PDO để truy xuất các loại CSDL dữ liệu khác nhau
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$db = new PDO('mysql:host=localhost;dbname=testdb;charset=utf8', 'root', 'password');
+							$stmt = $db->query("SELECT * FROM table");
+							// Lấy hết toàn bộ dữ liệu
+							$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							// hoặc lấy từng dòng
+							while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+								echo $row['field1'] . ' ' . $row['field2']; 
+							}
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (2)</h3>
+					<p>
+						Chèn dữ liệu mới... tương tự với cập nhật...
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$result = $db->exec("INSERT INTO table(firstname, lastname) VAULES('John', 'Doe')");
+							// Lấy ID mới nhất
+							$insertId = $db->lastInsertId();
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (3)</h3>
+					<p>
+						Tham số hóa truy vấn bằng vị trí
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=? AND name=?");
+							$stmt->execute(array($id, $name));
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							// hoặc
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=? AND name=?");
+							$stmt->bindValue(1, $id, PDO::PARAM_INT);
+							$stmt->bindValue(2, $name, PDO::PARAM_STR);
+							$stmt->execute();
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (4)</h3>
+					<p>
+						Tham số hóa truy vấn bằng tên
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=:id AND name=:name");
+							$stmt->execute(array(':name' => $name, ':id' => $id));
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							// hoặc
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=:id AND name=:name");
+							$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+							$stmt->bindValue(':name', $name, PDO::PARAM_STR);
+							$stmt->execute();
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN05</h3>
+					<ul>
+						<li>Viết trang Web bao gồm <strong>trang chủ</strong> (index.php), <strong>đăng ký</strong> (registrer.php), <strong>đăng nhập</strong> (login.php) và <strong>đăng xuất</strong> (logout.php) sử dụng một giao diên chung bằng Bootstrap theo mẫu slide tiếp theo</li>
+						<li>Upload lên host: <a href="https://n.khado.me">http(s)://somehost.com/BTCN05/index.php</a> (và các tập tin khác)</li>
+						<li>Nộp url.txt (chứa link web), các tập tin PHP, CSS (nếu có)</li>
+						<li>Nộp bài trên Web môn học trước <strong>08/10/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.zip/rar</strong>, xx điểm tự đánh giá 01-10. Ví dụ: 1515151-07.zip</li>
+					</ul>
 				</section>
 			</div>
 		</div>
