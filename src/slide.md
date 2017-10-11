@@ -213,7 +213,7 @@ C, Java, Ruby
 
 >>>
 
-[![](http://img.youtube.com/vi/Cyy2FfLiPn0/0.jpg)](https://www.youtube.com/watch?v=Cyy2FfLiPn0)
+[![](https://img.youtube.com/vi/Cyy2FfLiPn0/0.jpg)](https://www.youtube.com/watch?v=Cyy2FfLiPn0)
 
 >>>
 
@@ -251,7 +251,7 @@ C, Java, Ruby
 - URL:nothing
 
 >>>
-[![](http://img.youtube.com/vi/m7AmNyY6GU0/0.jpg)](https://www.youtube.com/watch?v=m7AmNyY6GU0)
+[![](https://img.youtube.com/vi/m7AmNyY6GU0/0.jpg)](https://www.youtube.com/watch?v=m7AmNyY6GU0)
 
 >>>
 
