@@ -34,9 +34,8 @@ function createDom(meta_json){
             if(key == "image"){
                 domList.item(i).insertAdjacentHTML("beforeend", "<img alt='こ↑こ↓僕のサムネ' style='height:20rem;' src='"+meta_json[key]+"'></img>");
             }else if(key == "url"){
-                if(arg["mode"]){
-                    domList.item(i).insertAdjacentHTML("beforeend", "" + meta_json[key] + "mode=" + arg["mode"] + "");
-                }
+                domList.item(i).insertAdjacentHTML("beforeend", ""+meta_json[key]+"");
+                domList.item(i).href = meta_json[key];
             }else{
                 domList.item(i).insertAdjacentHTML("beforeend", ""+meta_json[key]+"");
             }
