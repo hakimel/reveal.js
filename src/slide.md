@@ -155,7 +155,7 @@ SIM×6(多分)
 - 開発年：2016年9月-2017年1月
 - 言語：Python
 - 背景：C言語で書くことを想定されていた講義の演習課題。カオス計算して算出したx,y軸データをCSVで出力してgnu plotで出せという課題。csvだけならいいがgpファイルも一緒に出力しようとすると文字列処理が入る。Cで文字列処理は地獄だから嫌だ。そうだ。Python使おう。教授から許可貰って完走して単位でました。
-- Github:https://github.com/mecaota/complex_systems_exercise
+- Github:[https://github.com/mecaota/complex・・・](https://github.com/mecaota/complex_systems_exercise)
 - URL:nothing
 
 >>>
@@ -165,7 +165,7 @@ SIM×6(多分)
 - 開発年：2017年9月-2017年11月
 - 言語：Google Apps Script, Javascript, HTML
 - 背景：大学の某研究室前にやたら設置してある８画面の液晶テレビを自由投稿型デジタルサイネージにしようという企画になった。
-- Github:https://github.com/moemoe2016/moemoe_platform
+- Github:[https://github.com/moemoe2016/・・・](https://github.com/moemoe2016/moemoe_platform)
 - URL:nothing
 
 >>>
@@ -189,7 +189,7 @@ SIM×6(多分)
 - 言語：Python
 - 背景：プライムデーで買ったdash button、熱盛事故。これは組み合わせるしかない。このビッグウェーブ、乗るしかない。
 - Github:https://github.com/mecaota/amzn-dash-hack
-- URL:https://twitter.com/mecaota/status/901467105152843777
+- URL:[https://twitter.com/mecaota・・・](https://twitter.com/mecaota/status/901467105152843777)
 
 
 ---
@@ -244,7 +244,7 @@ SIM×6(多分)
 - 言語：GAS
 - 背景：学祭の自転車部模擬店ブースでビットコイン決済をbitwire shopでできるようにしたく、急遽ECページを作成。販売中止の切り替えをスプレッドシートでできるように実装
 - Github:https://github.com/mecaota/bitwireshop2real
-- URL:https://script.google.com/macros/s/AKfycbwS2A7E712y86P6yXf3arI8J7Js_6DaT_0M7fOHmNYEoB5kqAE/exec
+- URL:[https://script.google.com/macros・・・](https://script.google.com/macros/s/AKfycbwS2A7E712y86P6yXf3arI8J7Js_6DaT_0M7fOHmNYEoB5kqAE/exec)
 
 >>>
 
@@ -291,7 +291,7 @@ SIM×6(多分)
 - 新しいものをどんどん作りつつ、既存の物を改善したい
 - できるだけ最新の技術を使ったものを提供できる会社に行きたい
 - 自分の技術力を磨ける・上げられる会社
-- 脳死でRailsを使ってる会社にはあまり行きたくはない(なぜrailsなのか、golangやscaraを使ってる会社よりそれを使う理由に対して明確な理由がない会社が多いように感じていた)
+- 脳死でRailsを使ってる会社にはあまり行きたくはない(なぜrailsなのか、golangやscalaを使ってる会社よりそれを使う理由に対して明確な理由がない会社が多いように感じていた)
 
 ---
 
