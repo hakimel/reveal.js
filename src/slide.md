@@ -181,6 +181,17 @@ SIM×6(多分)
 - Github:https://github.com/mecaota/photo-seirin
 - URL:https://mecaota.work/photo-seirin/index.html
 
+>>>
+
+### 熱盛ダッシュボタン
+
+- 開発年：2017年8月(熱盛放送事故2回目のときに開発開始。翌日完成)
+- 言語：Python
+- 背景：プライムデーで買ったdash button、熱盛事故。これは組み合わせるしかない。このビッグウェーブ、乗るしかない。
+- Github:https://github.com/mecaota/amzn-dash-hack
+- URL:https://twitter.com/mecaota/status/901467105152843777
+
+
 ---
 
 ## 現在の作ってるモノ・作りたいモノ
