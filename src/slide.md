@@ -176,8 +176,8 @@ SIM×6(多分)
 ### 祖父のお店HP
 
 - 開発年：2017年4月-(CMS化に伴い開発凍結中でしたが、とりあえずアーリーリリースして現在のHPの代替を目指して開発中)
-- 言語：Python
-- 背景：祖父が写真店を開いているが、そのホームページがモバイル非対応のレガシーなものだったのでHTMLとCSSの練習と思って自作してみた。
+- 言語：SASS, HTML5
+- 背景：祖父が写真店を開いているが、そのホームページがモバイル非対応のレガシーなものだったのでHTMLとCSSの練習と思って自作してみた。IEくそ
 - Github:https://github.com/mecaota/photo-seirin
 - URL:https://mecaota.work/photo-seirin/index.html
 
@@ -244,7 +244,7 @@ SIM×6(多分)
 - 言語：GAS
 - 背景：学祭の自転車部模擬店ブースでビットコイン決済をbitwire shopでできるようにしたく、急遽ECページを作成。販売中止の切り替えをスプレッドシートでできるように実装
 - Github:https://github.com/mecaota/bitwireshop2real
-- URL:
+- URL:https://script.google.com/macros/s/AKfycbwS2A7E712y86P6yXf3arI8J7Js_6DaT_0M7fOHmNYEoB5kqAE/exec
 
 >>>
 
