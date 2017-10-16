@@ -15,8 +15,8 @@ $db = new PDO('mysql:host=localhost;dbname=btcn05;charset=utf8', 'root', 'root')
 // Kiểm tra thông tin người dùng
 $currentUser = null;
 
+require_once 'functions.php';
+
 if (isset($_SESSION['userId'])) {
-  $stmt = $db->prepare("SELECT * FROM users WHERE id=?");
-  $stmt->execute(array($_SESSION['userId']));
-  $currentUser = $stmt->fetch(PDO::FETCH_ASSOC);
+  $currentUser = findUserById($_SESSION['userId']);
 }
