@@ -703,6 +703,36 @@
 					</p>
 				</section>
 				<section>
+					<h3>Mật khẩu</h3>
+					Mã hóa mật khẩu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						$hashPassword = password_hash('password', PASSWORD_DEFAULT);
+					</code></pre>
+					Kiểm tra mật khẩu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						password_verify($password, $hashPassword);
+					</code></pre>
+				</section>
+				<section>
+					<h3>Đăng nhập/Đăng xuất</h3>
+					Lưu <strong>userId</strong> vào session sau khi kiểm tra mật khẩu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						$_SESSION['userId'] = $user['id'];
+					</code></pre>
+					Xóa <strong>userId</strong> khi người dùng muốn đăng xuất
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						unset($_SESSION['userId']);
+					</code></pre>
+				</section>
+				<section>
+					<h3>Chuyển trang</h3>
+					Lưu ý, chỉ có thể chuyển trang trước khi xuất dữ liệu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						header('Location: index.php');
+						exit();
+					</code></pre>
+				</section>
+				<section>
 					<h3>Bài tập về nhà - BTCN05</h3>
 					<ul>
 						<li>Viết trang Web bao gồm <strong>trang chủ</strong> (index.php), <strong>đăng ký</strong> (registrer.php), <strong>đăng nhập</strong> (login.php) và <strong>đăng xuất</strong> (logout.php) sử dụng một giao diên chung bằng Bootstrap theo mẫu slide tiếp theo</li>
