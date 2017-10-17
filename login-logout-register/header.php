@@ -36,18 +36,19 @@
             <li class="nav-item">
               <a class="nav-link" href="logout.php">Đăng xuất</a>
             </li>
-            <?php endif; ?>
             <li class="nav-item">
-              <?php if ($currentUser) : ?>
               <a class="nav-link disabled" href="#">
                 <?php echo $currentUser['fullname'] ?>
               </a>
-              <?php else : ?>
+            </li>
+            <?php endif; ?>
+            <?php if (!$currentUser) : ?>
+            <li class="nav-item">
               <a class="nav-link disabled" href="#">
                 Khách
               </a>
-              <?php endif; ?>
             </li>
+            <?php endif; ?>
           </ul>
         </div>
       </nav>
