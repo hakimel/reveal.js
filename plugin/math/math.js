@@ -9,6 +9,7 @@ var RevealMath = window.RevealMath || (function(){
 	var options = Reveal.getConfig().math || {};
 	options.mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
 	options.config = options.config || 'TeX-AMS_HTML-full';
+	options.macros = options.macros || {};
 
 	loadScript( options.mathjax + '?config=' + options.config, function() {
 
@@ -18,7 +19,10 @@ var RevealMath = window.RevealMath || (function(){
 				inlineMath: [['$','$'],['\\(','\\)']] ,
 				skipTags: ['script','noscript','style','textarea','pre']
 			},
-			skipStartupTypeset: true
+			skipStartupTypeset: true,
+			TeX: {
+				Macros: options.macros
+			}
 		});
 
 		// Typeset followed by an immediate reveal.js layout since
