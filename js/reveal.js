@@ -3898,6 +3898,14 @@
 		if( notesElement ) {
 			return notesElement.innerHTML;
 		}
+		else {
+			var fragmentElement = currentSlide.querySelector( '.current-fragment' );
+
+			// In case there are fragment notes
+			if( fragmentElement && fragmentElement.hasAttribute( 'data-notes' ) ) {
+				return fragmentElement.getAttribute( 'data-notes' );
+			}
+		}
 
 		return null;
 
@@ -4090,6 +4098,7 @@
 
 				updateControls();
 				updateProgress();
+				updateNotes();
 
 				return !!( fragmentsShown.length || fragmentsHidden.length );
 
