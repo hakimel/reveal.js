@@ -7,6 +7,7 @@
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
+    "coveralls": "grunt coveralls",
     "start": "grunt serve",
     "build": "grunt"
   },
@@ -33,6 +34,7 @@
     "grunt-contrib-qunit": "^3.1.0",
     "grunt-contrib-uglify": "^3.3.0",
     "grunt-contrib-watch": "^1.1.0",
+    "grunt-coveralls": "^2.0.0",
     "grunt-qunit-istanbul": "^1.0.0",
     "grunt-sass": "^3.0.2",
     "grunt-zip": "~0.17.1",

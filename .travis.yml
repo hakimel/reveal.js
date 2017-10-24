@@ -3,3 +3,5 @@ node_js:
   - 11
 after_script:
   - npm run build -- retire
+after_success:
+  - npm run coveralls
