@@ -7,7 +7,7 @@
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
-    "coveralls": "grunt coveralls",
+    "coveralls": "coveralls",
     "start": "grunt serve",
     "build": "grunt"
   },
@@ -24,6 +24,7 @@
     "node": ">=9.0.0"
   },
   "devDependencies": {
+    "coveralls": "^3.0.3",
     "express": "^4.16.2",
     "grunt": "^1.0.4",
     "grunt-autoprefixer": "^3.0.4",
