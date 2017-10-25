@@ -28,6 +28,9 @@ if(arg["mode"]){
 function createDom(meta_json){
     //json内のキーを探査して、キーと同値のクラスへdom書き込み
     Object.keys(meta_json).forEach(function(key){
+        if("slideurl" in meta_json){
+            document.getElementById("slideload").setAttribute("data-markdown", ""+meta_json["slideurl"]+"");
+        }
         ///各メタデータ配置箇所のclass要素をget
         var domList = document.getElementsByClassName(key);
         for(var i=0; i < domList.length; i++){
