@@ -1,4 +1,5 @@
 # reveal.js
+[![GitHub release](https://img.shields.io/github/release/hakimel/reveal.js.svg)](https://github.com/hakimel/reveal.js/releases)
 [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js)
 [![Coverage Status](https://coveralls.io/repos/github/hakimel/reveal.js/badge.svg)](https://coveralls.io/github/hakimel/reveal.js)
 [![Dependency Status](https://gemnasium.com/badges/github.com/hakimel/reveal.js.svg)](https://gemnasium.com/github.com/hakimel/reveal.js)
