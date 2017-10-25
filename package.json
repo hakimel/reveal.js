@@ -7,7 +7,7 @@
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
-    "coveralls": "coveralls",
+    "coveralls": "cat coverage/lcov.info | coveralls",
     "start": "grunt serve",
     "build": "grunt"
   },
