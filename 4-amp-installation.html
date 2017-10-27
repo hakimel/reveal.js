@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Bài giảng 4 - Cài đặt PHP, MySQL/MariaDB</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+		<link rel="stylesheet" href="css/style.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({
+				google_ad_client: "ca-pub-1460132164768330",
+				enable_page_level_ads: true
+			});
+
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Lập trình Web 1</h1>
+					<h3>Bài giảng 4 - Cài đặt PHP, MySQL/MariaDB</h3>
+					<p>
+						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small><br>
+						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
+					</p>
+					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+				</section>
+				<section>
+					<h3>Nội dung</h3>
+					<ol>
+						<li>WAMP, LAMP, MAMP stack</li>
+						<li>Các gói cài đặt phổ biến</li>
+						<li>Kiểm tra cài đặt</li>
+						<li>Các vấn đề phát sinh</li>
+						<li>Bài tập</li>
+					</ol>
+				</section>
+				<section>
+					<h3>WAMP, LAMP, MAMP stack</h3>
+					<p>Cài đặt từng thành phần PHP, MySQL/MariaDB, Apache khá phức tạp do đó các nhà phát triển đã tạo ra những bộ cài đặt bao gồm các thành phần: <strong style="color:red;">W</strong>indows/<strong style="color:red;">L</strong>inux/<strong style="color:red;">M</strong>acOS hoặc <strong style="color:red;">X</strong> (cross-platform), <strong style="color:red;">A</strong>pache, <strong style="color:red;">M</strong>ySQL/<strong style="color:red;">M</strong>ariaDB và <strong style="color:red;">P</strong>HP/<strong style="color:red;">P</strong>HPMyAdmin</p>
+					<p>Các gói cài đặt phổ biến: WAMP, XAMPP, MAMP (Pro)...</p>
+				</section>
+				<section>
+					<h3>Đường dẫn htdocs/www</h3>
+					<p>
+						Để biết đường dẫn đến thư mục này kiểm tra trong cài đặt của Web Server.
+					</p>
+					<img style="width:60%" class="noborder" src="img/htdocs.png">
+				</section>
+				<section>
+					<h3>Kiểm tra PHP (1)</h3>
+					<p>
+						Tạo tập tin info.php với nội dung:
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&#x3C;?php 
+								phpinfo();
+							?&#x3E;
+						</code></pre>
+						Chép tập tin vào thư mục <strong>htdocs</strong> hoặc <strong>www</strong> của Web Server đã cài (WAMP/MAMP/XAMPP)
+					</p>
+				</section>
+				<section>
+					<h3>Kiểm tra PHP (2)</h3>
+					<p>
+						Truy cập vào URL <a href="http://localhost/info.php">http://localhost/info.php</a> hoặc <a href="http://localhost:8888/info.php">http://localhost:8888/info.php</a> hoặc thay <strong>8888</strong> bằng port tương ứng của Web Server
+					</p>
+					<img style="width:60%" class="noborder" src="img/phpinfo.png">
+				</section>
+				<section>
+					<h3>Kiểm tra MariaDB/MySQL/PHPMyAdmin</h3>
+					<p>
+						Truy cập vào URL <a href="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</a> hoặc <a href="http://localhost:8888/phpMyAdmin">http://localhost:8888/phpMyAdmin</a>
+					</p>
+					<img style="width:60%" class="noborder" src="img/phpmyadmin.png">
+				</section>
+				<section>
+					<h3>Tạo virtualhost (1)</h3>
+					<p>
+						Tìm tập tin <strong>httpd-vhosts.conf</strong> thêm vào (xóa toàn bộ nội dung nếu làm lần đầu):
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							&lt;VirtualHost *:80&gt;
+								DocumentRoot "[Đường dẫn đến thư mục project]"
+								ServerName [domain]
+							&lt;/VirtualHost&gt;
+						</code></pre>
+						ví dụ
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							&lt;VirtualHost *:80&gt;
+								DocumentRoot "C:/path/to/project1"
+								ServerName project1.local
+							&lt;/VirtualHost&gt;
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Tạo virtualhost (2)</h3>
+					<p>
+						Tìm tập tin <strong>httpd.conf</strong> bỏ comment (xóa dấu #) dòng:
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							 Include /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Tạo virtualhost (3)</h3>
+					<p>
+						Tìm tập tin <strong>hosts</strong> của hệ thống thêm dòng:
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							project1.local 127.0.0.1
+						</code></pre>
+						khởi động lại Apache, tạo một file .php trong project và kiểm tra bằng cách truy cập <a href="http://project1.local">http://project1.local</a>
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				slideNumber: 'c/t',
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
+						hljs.configure({
+							tabReplace: '  ', // 2 spaces
+						})
+						hljs.initHighlightingOnLoad(); 
+					} }
+				]
+			});
+		</script>
+		<script>
+			(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+			ga('create', 'UA-53247198-1', 'auto');
+			ga('send', 'pageview');
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,1 @@
+<?php echo password_hash('bedep', PASSWORD_DEFAULT) ?>

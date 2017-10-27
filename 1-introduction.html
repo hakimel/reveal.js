@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Bài giảng 1 - Giới thiệu môn học</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({
+				google_ad_client: "ca-pub-1460132164768330",
+				enable_page_level_ads: true
+			});
+
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Lập trình Web 1</h1>
+					<h3>Bài giảng 1 - Giới thiệu môn học</h3>
+					<p>
+						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small><br>
+						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
+					</p>
+					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+				</section>
+				<section>
+					<h3>Nội dung</h3>
+					<ol>
+						<li>Mục tiêu môn học</li>
+						<li>Đánh giá, thang điểm</li>
+						<li>Các khái niệm cơ bản</li>
+						<li>Công cụ</li>
+						<li>Bài tập</li>
+					</ol>
+				</section>
+				<section>
+					<h3>Mục tiêu môn học</h3>
+					<ul>
+						<li>Nắm được các khái niệm về Web</li>
+						<li>Sử dụng ngôn ngữ HTML, CSS, JavaScript (cơ bản) thiết kế Web tĩnh</li>
+						<li>Lập trình Web động với PHP</li>
+						<li>Lưu trữ dữ liệu và truy vấn với MySQL/MariaDB</li>
+						<li>Kết hợp các kỹ năng để hoàn thành đồ án trang Web thương mại điện tử cơ bản</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Đánh giá, thang điểm</h3>
+					<ul>
+						<li>Đồ án theo nhóm 4 sinh viên theo danh sách đăng ký gửi lớp trưởng. Chốt danh sách buổi thứ ba.</li>
+						<li>Thang điểm: <strong>10</strong></li>
+						<ul>
+							<li>Bài tập tuần lý thuyết/thực hành: <strong>2</strong></li>
+							<li>Thi thực hành giữa kỳ: <strong>3</strong></li>
+							<li>Đồ án cuối kỳ, <em>chấm vấn đáp</em>: <strong>5</strong></li>
+						</ul>
+						<li>Thi lại thực hành trên máy tính: <strong>5</strong></li>
+					<ul>
+				</section>
+				<section>
+					<h3>Các khái niệm cơ bản</h3>
+				</section>
+				<section>
+					<h3>Web là gì?</h3>
+					<p>Web là cách gọi ngắn gọn của <strong>World Wide Web</strong> hay <strong>WWW</strong> - mạng lưới toàn cầu là một không gian thông tin toàn cầu mà mọi người có thể truy cập (đọc và viết) qua các thiết bị kết nối với mạng Internet. [<a href="https://vi.wikipedia.org/wiki/World_Wide_Web">Wikipedia</a>]</p>
+				</section>
+				<section>
+					<h3>Web và Internet?</h3>
+					<p>Khái niệm Internet và Web thường được dùng nhầm lẫn với nhau. Tuy nhiên Web chỉ là một phần của Internet, ngoài ra còn có rất nhiều thành phần khác của Internet như <strong>Email</strong> (thư điện tử), <strong>VoIP</strong> (Voice-over-Internet Protocol - Giao thức thoại thông qua Internet), <strong>FTP</strong> (File Transfer Protocol - Giao thức truyền tải tập tin), <strong>Streaming media</strong> (Truyền tải âm thanh, hình ảnh)...</p>
+				</section>
+				<section>
+					<h3>HTTP/HTTPS là gì?</h3>
+					<p>HTTP là viết tắt của <strong>Hypertext Transfer Protocol</strong> là giao thức dùng để truyền tải thông tin trên Web.</p>
+					<p>HTTPS là giao thức HTTP kết hợp với TLS hoặc SSL mã hóa dữ liệu trên đường truyền Internet</p>
+				</section>
+				<section>
+					<h3>HTML là gì? (1)</h3>
+					<p>HTML là viết tắt của <strong>Hypertext Markup Language</strong> là ngôn ngữ đánh dấu để tạo nên các trang Web. HTML có dạng thẻ dùng để cấu trúc nội dung của trang Web.</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<strong>In đậm</strong>
+					</code></pre>
+					<p>sẽ hiển thị</p>
+					<p><strong>In đậm</strong></p>
+				</section>
+				<section>
+					<h3>HTML là gì? (2)</h3>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<ol>
+							<li>Mục 1</li>
+							<li>Mục 2</li>
+							<li>Mục 3</li>
+						</ol>
+					</code></pre>
+					<p>sẽ hiển thị</p>
+					<p>
+						<ol>
+							<li>Mục 1</li>
+							<li>Mục 2</li>
+							<li>Mục 3</li>
+						</ol>
+					</p>
+				</section>
+				<section>
+					<h3>HTML là gì? (3)</h3>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<table>
+							<thead>
+								<tr>
+									<th>Cột 1</th>
+									<th>Cột 2</th>
+									<th>Cột 4</th>
+									<th>Cột 4</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Dòng 1</td>
+									<td>A</td>
+									<td>B</td>
+									<td>C</td>
+								</tr>
+								<tr>
+									<td>Dòng 2</td>
+									<td>A</td>
+									<td>B</td>
+									<td>C</td>
+								</tr>
+								<tr>
+									<td>Dòng 3</td>
+									<td>A</td>
+									<td>B</td>
+									<td>C</td>
+								</tr>
+							</tbody>
+						</table>
+					</code></pre>
+				</section>
+				<section>
+					<h3>HTML là gì? (4)</h3>
+					<p>sẽ hiển thị</p>
+					<p>
+						<<table>
+							<thead>
+								<tr>
+									<th>Cột 1</th>
+									<th>Cột 2</th>
+									<th>Cột 4</th>
+									<th>Cột 4</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Dòng 1</td>
+									<td>A</td>
+									<td>B</td>
+									<td>C</td>
+								</tr>
+								<tr>
+									<td>Dòng 2</td>
+									<td>A</td>
+									<td>B</td>
+									<td>C</td>
+								</tr>
+								<tr>
+									<td>Dòng 3</td>
+									<td>A</td>
+									<td>B</td>
+									<td>C</td>
+								</tr>
+							</tbody>
+						</table>
+					</p>
+				</section>
+				<section>
+					<h3>Trình duyệt Web?</h3>
+					<p>Để hiển thị được HTML người dùng cần sử dụng trình duyệt Web. Các trình duyệt Web phổ biến: Chrome, Firefox, Safari, Edge/Internet Expoler, Opera...
+						<img src="img/browsers.png">
+						<small>Hình ảnh từ <a href="http://mediatemple.net/blog/tips/browser-statistics-matter/">http://mediatemple.net/blog/tips/browser-statistics-matter/</a></small>
+					</p>
+				</section>
+				<section>
+					<h3>URL là gì?</h3>
+					<p>
+						Uniform Resource Locator thường gọi là địa chỉ Web dùng để xác định một tài nguyên Web (có thể gọi là tập tin trên Web) có dạng:
+						<pre><code class="nohighlight" style="word-wrap: break-word;" data-trim>
+							 scheme:[//[user[:password]@]host[:port]][/path][?query][#fragment]
+						</code></pre>
+						ví dụ
+						<pre><code class="nohighlight" style="word-wrap: break-word;" data-trim>
+							 https://www.google.com/flights/
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Liên kết Web?</h3>
+					<p>
+						Các trang Web liên kết với nhau bởi liên kết Web gọi là Siêu liên kết (Hyperlink)
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<a href="https://www.google.com/flights/">Google Flights</a>
+						</code></pre>
+						hiển thị dưới dạng<br>
+						<a href="https://www.google.com/flights/">Google Flights</a>
+					</p>
+				</section>
+				<section>
+					<h3>CSS là gì? (1)</h3>
+					<p>
+						Cascading Style Sheets định dạng nội dung hiển thị trên Web. Ví dụ: In đậm, màu chữ, font chữ, cỡ chữ, khung viền, màu nền...
+						<pre><code style="word-wrap: break-word;" data-trim>
+							#mark {
+								/* Màu đỏ */
+								color: #ff0000;
+								font-weight: bold;
+								font-family: 'Arial';
+							}
+						</code></pre>
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<p id="mark">Đánh dấu phần này</p>
+						</code></pre>
+						sẽ hiển thị
+					</p>
+					<style>
+						#mark {
+							/* Màu đỏ */
+							color: #ff0000;
+							font-weight: bold;
+							font-family: 'Arial';
+						}
+					</style>
+					<p id="mark">Đánh dấu phần này</p>
+				</section>
+				<section>
+					<h3>CSS là gì? (2)</h3>
+					<p>
+						CSS có thể đặt trong thẻ style
+						<pre><code style="word-wrap: break-word;" data-trim>
+							<style>
+								#mark {
+									/* Màu đỏ */
+									color: #ff0000;
+								}
+							</style>
+						</code></pre>
+						 ... trong tập tin .css riêng biệt
+						 <pre><code style="word-wrap: break-word;" data-trim>
+							 <link rel="stylesheet" href="style.css">
+						 </code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>CSS là gì? (3)</h3>
+					<p>
+						... hay ngay trong tag HTML
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<p style="color:#ff0000">Đánh dấu chỗ này</p>
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>JavaScript là gì? (1)</h3>
+					<p>
+						JavaScript là ngôn ngữ lập trình kịch bản dùng để xây dựng các chức năng tương tác giữa người dùng và Web. Ví dụ: Click vào Button hiện thông báo, tải dữ liệu, thay đổi nội dung trang Web...
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<button onclick="alert('Bạn đã click vào button');">Click vào đây</button>
+						</code></pre>
+						hiển thị<br>
+						<button onclick="alert('Bạn đã click vào button');">Click vào đây</button>
+					</p>
+				</section>
+				<section>
+					<h3>JavaScript là gì? (2)</h3>
+					<p>
+						Tương tự CSS, JavaScript có thể nhúng vào trong trang Web dưới trong tag HTML
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<button onclick="alert('Bạn đã click vào button');">Click vào đây</button>
+						</code></pre>
+						tag script
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							 &#x3C;script&#x3E;alert(&#x27;Hello world!&#x27;);&#x3C;/script&#x3E;
+						</code></pre>
+						hoặc tập tin .js riêng
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							 &#x3C;script src=&#x22;js/app.js&#x22;&#x3E;&#x3C;/script&#x3E;
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Web động là gì? (1)</h3>
+					<p>
+						Khác với Web tĩnh chỉ là nội dung HTML được lưu trữ sẵn trên máy chủ. Web động (Dynamic Web page) phát sinh nội dung HTML khi người dùng truy cập vào máy chủ, do đó có thể xử lý các thao tác như lưu trữ dữ liệu, hiển thị dữ liệu từ cơ sở dữ liệu. Hầu hết các trang Web bạn vẫn sử dụng thường ngày đều là Web động.
+					</p>
+				</section>
+				<section>
+					<h3>Web động là gì? (2)</h3>
+					<p>
+						Web động thường được xây dựng bởi các ngôn ngữ lập trình phổ biến cũng các Web framework phổ biến:
+						<ul>
+							<li><strong>C#, VB.net</strong>: ASP.net (Core)...</li>
+							<li><strong>PHP</strong>: Laravel, Zend, Yii, Slim...</li>
+							<li><strong>Java</strong>: Spring, Play...</li>
+							<li><strong>Ruby</strong>: Rails...</li>
+							<li><strong>Python</strong>: Django...</li>
+							<li><strong>JavaScript</strong>: Express, Connect, Restify...</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>PHP là gì?</h3>
+					<p>
+						"PHP: Hypertext Preprocessor" là từ viết tắt dạng đệ quy. Trước đây PHP là viết tắt của "Personal Home Page". Là một ngôn ngữ lập trình dạng kịch bản dùng để phát triển Web (động). PHP có cú pháp tương tự C/C++/Java.
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&#x3C;?php 
+								echo '<p>Hello World</p>'; 
+							?&#x3E;
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Máy chủ Web là gì? (1)</h3>
+					<p>
+						<ul>
+							<li>Về phần cứng: Là máy tính chứa trang Web có địa chỉ IP trên Internet có thể truy cập từ mọi nơi trên thế giới</li>
+							<li>Về phần mềm: Là chương trình chạy trên tính ở port 80 (HTTP) hoặc 443 (HTTPS) hoặc cổng khác để cung cấp thông tin (trang Web)</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Máy chủ Web là gì? (2)</h3>
+					<p>
+						Máy chủ Web đơn giản chứa những tập tin HTML (Web tĩnh) hoặc thực hiện các thao tác thực thi các kịch bản/mã nguồn để phát sinh HTML (Web động). Các máy chủ Web phổ biến: IIS, Apache, nginx, Tomcat...
+					</p>
+				</section>
+				<section>
+					<h3>Công cụ</h3>
+					<p>
+						<ul>
+							<li><strong>Code editor</strong>: VS Code, Atom, Sublime...</li>
+							<li><strong>FTP</strong>: fileZilla</li>
+							<li><strong>Apache, PHP, MySQL/MariaDB</strong>: WAMP, MAMP...</li>
+							<li><strong>Git/Github</strong></li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN01</h3>
+					<ul>
+						<li>Tìm 3 hosting miễn phí hỗ trợ PHP (từ phiên bản 5 trở lên), MySQL/MariaDB</li>
+						<li>Đăng ký tài khoản và tìm cách upload tập tin info.php</li>
+						<li>Ghi lại các thông tin: Website, các hỗ trợ cho gói miễn phí (PHP, MySQL/MariaDB, dung lượng, băng thông...) và đường link đến file info.php đã upload</li>
+						<li>Nộp bài trên Web môn học trước <strong>10/09/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.txt</strong>, xx là điểm tự đánh giá từ 01-10. Ví dụ: 1515151-07.txt</li>
+					</ul>
+				</section>
+				<section>
+					<h3>info.php</h3>
+					<p>
+						In thông tin phiên bản và các phần mở rộng của PHP được cài đặt trên máy chủ
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&#x3C;?php 
+								phpinfo();
+							?&#x3E;
+						</code></pre>
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				slideNumber: 'c/t',
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
+						hljs.configure({
+							tabReplace: '  ', // 2 spaces
+						})
+						hljs.initHighlightingOnLoad(); 
+					} }
+				]
+			});
+		</script>
+		<script>
+			(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+			ga('create', 'UA-53247198-1', 'auto');
+			ga('send', 'pageview');
+
+		</script>
+	</body>
+</html>

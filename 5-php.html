@@ -1,0 +1,881 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Bài giảng 5 - PHP</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+		<link rel="stylesheet" href="css/style.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({
+				google_ad_client: "ca-pub-1460132164768330",
+				enable_page_level_ads: true
+			});
+
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Lập trình Web 1</h1>
+					<h3>Bài giảng 5 - PHP</h3>
+					<p>
+						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small><br>
+						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
+					</p>
+					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+					<p><small>Tham khảo: <a href="https://www.w3schools.com/PhP/default.asp">PHP 5 Tutorial</a>, <a href="http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers">PDO Tutorial for MySQL Developers</a></small></p>
+				</section>
+				<section>
+					<h3>Nội dung (1)</h3>
+					<ol>
+						<li>Chương trình PHP</li>
+						<li>Biến và kiểu dữ liệu</li>
+						<li>Toán tử</li>
+						<li>Cấu trúc xử lý</li>
+						<li>Hàm</li>
+						<li>HTML Form</li>
+						<li>GET và POST</li>
+						<li>Xử lý request/response</li>
+						<li>Liên kết tập tin .php</li>
+						<li>Bài tập: BTCN04</li>
+					</ol>
+				</section>
+				<section>
+					<h3>Nội dung (2)</h3>
+					<ol>
+						<li>Superglobals</li>
+						<li>Upload file</li>
+						<li>Tách thành phần trang</li>
+						<li>Sử dụng cookie</li>
+						<li>Sử dụng session</li>
+						<li>Lập trình hướng đối tượng</li>
+						<li>Kết nối CSDL PDO MySQL</li>
+						<li>Bài tập: BTCN05</li>
+					</ol>
+				</section>
+				<!-- <section>
+					<h3>Nội dung (2)</h3>
+					<ol>
+						<li>Quản lý gói: PHP composer</li>
+						<li>PHP Framwork: Laravel</li>
+					</ol>
+				</section> -->
+				<section>
+					<h3>Chương trình PHP</h3>
+					<p>
+						Một chương trình PHP thường được thực thi bằng cách truy cập vào tập tin .php thông qua trình duyệt Web. Máy chủ thực thi tập tin PHP và trả về kết quả cho trình duyệt.
+					</p>
+					<p>
+						Tập tin PHP thường thường có dạng:
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&#x3C;?php 
+							// Mã nguồn PHP trong đây
+							echo 'Hello world';
+							?&#x3E;
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							Hello world
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Tập tin .php (1)</h3>
+					<p>
+						Mã nguồn PHP được viết trong tag <strong>&lt;?php</strong> và <strong>?&gt;</strong>. Những phần nằm ngoài tag php không được thực thi và trả về nguyên gốc
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							Chào bạn: &#x3C;?php echo 'Hello world'; ?&#x3E;
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							Chào bạn: Hello world
+						</code></pre>
+						ngoài ra PHP còn có cú pháp viết tắt <strong>&lt;?</strong> và <strong>?&gt;</strong>, tuy nhiên không được khuyến khích sử dụng trừ một vài trường hợp đặc biệt
+					</p>
+				</section>
+				<section>
+					<h3>Tập tin .php (2)</h3>
+					<p>
+						Đối với tập tin chỉ bao gồm mã nguồn PHP thì được khuyến cáo không cần (không nên) đóng tag PHP <strong>?&gt;</strong>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&#x3C;?php 
+							echo 'Hello world';
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>echo</h3>
+					<p>
+						<strong>echo</strong> là một cấu trúc đặc biệt của PHP để <strong>in</strong> một giá trị ra output (dữ liệu trả về sau khi xử lý, hiển thị trên trình duyệt)
+					</p>
+				</section>
+				<section>
+					<h3>Biến</h3>
+					<p>
+						Tên biến trong PHP bắt đầu bằng <strong>$</strong> theo sau là tên biến với quy tắc đặt tên tương tự các ngôn ngữ lập trình khác. Biến được khai báo bằng cách gán giá trị ban đầu.
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$foo = 'Bob';
+							$x = 1;
+							$y = 99.9;
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu dữ liệu</h3>
+					<p>
+						PHP là một ngôn ngữ có kiểu động (Dynamic types), biến không cần khai báo kiểu dữ liệu (mặc dù PHP7 cho phép xác định kiểu dữ liệu). Các kiểu dữ liệu:
+						<ul>
+							<li><strong>String</strong>: Chuỗi</li>
+							<li><strong>Integer</strong>: Số nguyên</li>
+							<li><strong>Float/Double</strong>: Số chấm động (thực)</li>
+							<li><strong>Boolean</strong>: True/False</li>
+							<li><strong>Array</strong>: Mảng</li>
+							<li><strong>NULL</strong></li>
+							<li><strong>Resource</strong></li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu chuỗi</h3>
+					<p>
+						Chuỗi trong PHP được khai báo trong cặp <strong>'[nội dung chuỗi]'</strong> hoặc <strong>"[nội dung chuỗi]"</strong>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$s1 = 'Chuỗi 1';
+							$s2 = "Chuỗi 2";
+							// $s1 trong được thay thế bằng giá trị của $s1
+							$s3 = "Chuỗi 3 $s1";
+							// Thay bằng $s2, $s3
+							echo $s1; 
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							Chuỗi 1
+							Chuỗi 2
+							Chuỗi 3 Chuỗi 1
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu số nguyên, số thực</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$a = 1;
+							$b = 9.9;
+							// Thay bằng $s2
+							echo $s1; 
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							1
+							9.9
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu boolean</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$a = true;
+							$b = false;
+							// Thay bằng $s2
+							var_dump($s1); 
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							bool(true)
+							bool(false)
+						</code></pre>
+						<strong>var_dump</strong> là hàm in thông tin và cấu trúc của biến
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu array (1)</h3>
+					<p>
+						Chứa một mảng các biến hoặc các dữ liệu (không yêu cầu cùng kiểu)
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$s1 = 'Chuỗi 1';
+							$s2 = 'Chuỗi 2';
+							$s3 = 'Chuỗi 3';
+							$a = array($s1, $s2, $s3);
+							var_dump($a); 
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							array(3) {
+								[0]=>
+								string(9) "Chuỗi 1"
+								[1]=>
+								string(9) "Chuỗi 2"
+								[2]=>
+								string(9) "Chuỗi 3"
+							}
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu array (2)</h3>
+					<p>
+						Các phần tử trong mảng truy xuất bằng chỉ số
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$s1 = 'Chuỗi 1';
+							$s2 = 'Chuỗi 2';
+							$s3 = 'Chuỗi 3';
+							$a = array($s1, $s2, $s3);
+							echo $a[1]; 
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							Chuỗi 2
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kiểu array (3)</h3>
+					<p>
+						Ngoài ra còn có dạng Associative Array lưu dữ liệu dạng key => value
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$age = array(
+								'Peter' => 35, 
+								'Ben' => 37, 
+								'Joe' => '43'
+							);
+							echo $age['Peter'];
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							35
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Toán tử</h3>
+					<p>
+						PHP có các toán tử +, -, *, /, ++, --... tương tự C/C++/Java ngoài ra còn có toán tử <strong>.</strong> dùng để nối chuỗi
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$s1 = 'Chuỗi 1';
+							$s2 = "Chuỗi 2";
+							echo $s1 . $s2; 
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							Chuỗi 1Chuỗi 2
+						</code></pre>
+				</section>
+				<section>
+					<h3>Cấu trúc if</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$a = 1;
+							if ($a &lt; 0) {
+								echo 'a bé hơn 0';
+							} elseif ($a == 0) {
+								echo 'a bằng 0';
+							} else {
+								echo 'a lớn hơn 0';
+							}
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							a lớn hơn 0
+						</code></pre>
+						<strong>else</strong> hoặc <strong>elseif</strong> không bắt buộc phải có
+				</section>
+				<section>
+					<h3>Cấu trúc switch-case</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$n = 3;
+							switch ($n) {
+								case 1:
+									echo 'n bằng 1';
+									break;
+								case 2:
+									echo 'n bằng 2';
+									break;
+								case 3:
+									echo 'n bằng 3';
+									break;
+								default:
+									echo 'Không biết';		
+							}
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							3
+						</code></pre>
+				</section>
+				<section>
+					<h3>Cấu trúc while</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$i = 1;
+							while ($i &lt; 10) {
+								echo $i;
+								$i++;
+							}
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							12345678910
+						</code></pre>
+				</section>
+				<section>
+					<h3>Cấu trúc do.. while</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$i = 1;
+							do {
+								echo $i;
+								$i++;
+							} while ($i &lt; 10);
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							12345678910
+						</code></pre>
+				</section>
+				<section>
+					<h3>Cấu trúc for</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							for ($i = 0; i &lt; 10; $i++) {
+								echo $i;
+							}
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							0123456789
+						</code></pre>
+				</section>
+				<section>
+					<h3>Hàm (1)</h3>
+					<p>
+						Hàm trong PHP được khai báo bằng từ khóa <strong>function</strong>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							function sum($x, $y) {
+								$z = $x + $y;
+								return $z;
+							}
+							echo sum(1, 2);
+						</code></pre>
+						kết quả:
+						<pre><code class="text" style="word-wrap: break-word;" data-trim>
+							3
+						</code></pre>
+				</section>
+				<section>
+					<h3>Hàm (2)</h3>
+					<p>
+						Trong một hàm chỉ có thể sử dụng biến được khai báo trong hàm đó
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$c = 1;
+							function sum($x, $y) {
+								// Không thể sử dụng biến $c
+								$z = $x + $y + $c;
+								return $z;
+							}
+							echo sum(1, 2);
+						</code></pre>
+				</section>
+				<section>
+					<h3>Hàm (3)</h3>
+					<p>
+						để sử dụng biến <strong>$c</strong> cần khai báo từ khóa <strong>global</strong> hoặc sử dụng biến <strong>$_GLOBAL</strong>. Tuy nhiên không khuyến khích sử dụng biến toàn cục
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$c = 1;
+							function sum($x, $y) {
+								global $c;
+								// Hoặc sử dụng biến $_GLOBAL['c']
+								$z = $x + $y + $c;
+								return $z;
+							}
+							echo sum(1, 2);
+						</code></pre>
+				</section>
+				<section>
+					<h3>HTML Form</h3>
+					<p>
+						HTML Form bao gồm các ô để nhập giá trị (dạng textbox, select box, calender...), các nút (button) để yêu cầu xử lý dữ liệu, URL và phương thức gửi dữ liệu (GET/POST)
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<form action="sum.php" method="POST">
+								<input type="text" name="number1">
+								<input type="text" name="number2">
+								<input type="submit" value="Gửi dữ liệu">
+							</form>
+						</code></pre>
+						<form action="sum.php" method="POST">
+							<input type="text" name="number1">
+							<input type="text" name="number2">
+							<input type="submit" value="Gửi dữ liệu">
+						</form>
+					</p>
+				</section>
+				<section>
+					<h3>GET và POST</h3>
+					<p>
+						Request dạng <strong>GET</strong> thường được gửi để yêu cầu một thông tin nào đó mà không thay đổi dữ liệu hay xử lý thông tin. Ví dụ: Lấy thông tin danh sách môn học của một sinh viên. GET request có thể được tạo ra bằng cách nhập URL thanh địa chỉ của trình duyệt
+					</p>
+					<p>
+						Request dạng <strong>POST</strong> thường được gửi để cung cấp thông tin hoặc yêu cầu xử lý hoặc thay đổi thông tin trên máy chủ. Ví dụ: Đăng ký thêm một môn học cho sinh viên. POST Request phải được tạo ra bằng cách nhập (submit) một HTML Form hoặc lập trình
+					</p>
+				</section>
+				<section>
+					<h3>Xử lý request/response</h3>
+					<p>
+						Dữ liệu được gửi lên từ trình duyệt được lấy từ các biến đặc biệt tương ứng:
+						<ul>
+							<li><strong>$_GET</strong>: Lấy giá trị các biến từ form GET request hoặc URL dạng <strong>?foo=bar</strong></li>
+							<li><strong>$_POST</strong>: Lấy giá trị các biến từ form POST request</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Liên kết tập tin .php</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							// CHẠY TIẾP nếu không tìm thấy tâp tin header.php
+							include 'header.php';
+							// NGƯNG VÀ BÁ LỖI nếu không tìm thấy tâp tin functions.php
+							require 'functions.php';
+							// Chỉ liên kết một lần
+							require_once 'header.php';
+							include_once 'functions.php';
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN04</h3>
+					<ul>
+						<li>Tạo tập tin <strong>index.php</strong> và <strong>sum.php</strong> để xử lý kết quả phép cộng hai số (sử dụng hàm)</li>
+						<li>Sử dụng bootstrap để làm giao diện</li>
+						<li>Upload lên host: <a href="https://n.khado.me">http(s)://somehost.com/BTCN04/index.php</a> (và sum.php)</li>
+						<li>Nộp url.txt (chứa link web), index.php, sum.php</li>
+						<li>Nộp bài trên Web môn học trước <strong>01/10/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.zip/rar</strong>, xx điểm tự đánh giá 01-10. Ví dụ: 1515151-07.zip</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Form nhập hai số</h3>
+					<img class="noborder" src="img/sum1.png">
+				</section>
+				<section>
+					<h3>Kết quả khi nhập đủ dữ liệu</h3>
+					<img class="noborder" src="img/sum2.png">
+				</section>
+				<section>
+					<h3>Báo lỗi khi không nhập đủ dữ liệu</h3>
+					<img class="noborder" src="img/sum3.png">
+				</section>
+				<section>
+					<h3>Superglobals (1)</h3>
+					<p>
+						Là các biến toàn cục (dạng associative array) đặc biệt của PHP có thể dùng tại mọi vị trí trong mã nguồn mà không cần dùng từ khóa <em>global</em>:
+					</p>
+					<ul>
+						<li><strong>$GLOBALS</strong>: Mảng chứa các biến toàn cục (do người dùng khai báo)</li>
+						<li><strong>$_SERVER</strong>: Mảng chứa thông tin máy chủ Web, hệ thống...</li>
+						<li><strong>$_ENV</strong>: Mảng chứa biến môi trường</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Superglobals (2)</h3>
+					<ul>
+						<li><strong>$_GET</strong>: Mảng chứa dữ liệu người dùng gửi thông qua query string của URL</li>
+						<li><strong>$_POST</strong>: Mảng chứa dữ liệu người dùng gửi thông qua body của request</li>
+						<li><strong>$_COOKIE</strong>: Mảng chứa nội dung cookie <em>lưu trên trình duyệt</em></li>
+						<li><strong>$_SESSION</strong>: Mảng chứa nội dung session <em>lưu trên máy chủ Web</em></li>
+						<li><strong>$_REQUEST</strong>: Mảng chứa dữ liệu tổng hợp từ $_GET, $_POST, $_COOKIE</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Upload file (1)</h3>
+					<p>
+						Để upload tập tin lên máy chủ Web cần sử dụng một form đặc biệt với thuộc tính <strong>enctype</strong> là <strong>multipart/form-data</strong>
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							<form action="upload.php" method="POST" enctype="multipart/form-data">
+								<input type="file" name="image" />
+								<input type="submit" value="Upload file" />
+							</form>
+						</code></pre>
+						<form action="upload.php" method="POST" enctype="multipart/form-data">
+							<input type="file" name="image" />
+							<input type="submit" value="Upload file" />
+						</form>
+					</p>
+				</section>
+				<section>
+					<h3>Upload file (2)</h3>
+					<p>
+						Sử dụng hàm <strong>move_uploaded_file</strong> để chuyển tập tin người dùng upload từ thư mục tạm đến thư mục mong muốn:
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							if(isset($_FILES['image'])) {
+								$fileName = $_FILES['image']['name'];
+								$fileSize = $_FILES['image']['size'];
+								$fileTmp = $_FILES['image']['tmp_name'];
+								$result = move_uploaded_file($fileTemp, 'uploads/' . $fileName);
+								if ($result) {
+									echo 'OK';
+								} else {
+									echo 'Fail';
+								}
+							}
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Upload file (3)</h3>
+					<p>
+						Các vấn đề khi xử lý upload file:
+						<ul>
+							<li>Loại tập tin có đúng yêu cầu (hình ảnh, pdf...)</li>
+							<li>Kích thước tập tin có đúng yêu cầu</li>
+							<li>Kích thước hình ảnh (ngang x dọc) có đúng yêu cầu</li>
+							<li>Trùng tên tập tin đã có trong thư mục uploads</li>
+							<li>Upload tập tin gây nguy hiểm cho máy chủ (PHP, script...)</li>
+							<li>Upload tập tin giả dạng thông tin Website</li>
+							<li>...</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h3>Tách thành phần trang</h3>
+					<p>
+						Một trang Web thường có các thành phần chung như header, footer, navigation bar (navbar, menu)... nếu mỗi trang đều lặp lại HTML (và PHP) dẫn đến tốn công sức mỗi lần có sự thay đổi. Do đó phát sinh nhu cầu tách các thành phần chung thành các tập tin .php riêng, khi cần sử dụng thì gọi hàm include/require vào.
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							&lt;?php 
+								require_once 'init.php';
+								require_once 'functions.php';
+								// Xử lý logic ở đây
+							?&gt;
+							&lt;?php include 'header.php'; ?&gt;
+							<p>Nội dung HTML ở đây</p>
+							&lt;?php include 'footer.php'; ?&gt;
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Sử dụng cookie</h3>
+					<p>
+						Cookie là một loại dữ liệu được <strong>lưu trữ trên trình duyệt</strong>, thường dùng để lưu trữ thông tin về người dùng, trạng thái Web... <strong style="color:red">CÓ THỂ ĐƯỢC THAY ĐỔI TRỰC TIẾP HOẶC XÓA BỞI NGƯỜI DÙNG</strong>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							setcookie('username', 'nguyenkha', 3600*24*7);
+						</code></pre>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$username = $_COOKIE['username'];
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Sử dụng session</h3>
+					<p>
+						Session là một loại dữ liệu được <strong>lưu trữ trên máy chủ</strong>, thường được dùng để lưu thông tin về trạng thái làm việc của người dùng thông qua một giá trị được lưu trong cookie gọi là <strong>Session ID</strong>... không thể sửa trực tiếp bởi người dùng nhưng <strong>có thể buộc phát sinh mới</strong> bằng cách xóa Session ID được lưu trong cookie
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							session_start();
+							$_SESSION['userId'] = 123;
+						</code></pre>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							echo $_SESSION['userId'];
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Lập trình hướng đối tượng (1)</h3>
+					<p>
+						PHP hỗ trợ lập trình hướng đối tượng theo ý tưởng từ Java
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							class MyClass {
+								private $foo = 1;
+								public static $bar = 'Aloha';
+
+								public function __construct($baz) {
+									$this->bar = $bar;
+								}
+
+								public function __destruct() {
+									echo 'MyClass destructor';
+								}
+
+								public function blah() {
+									return $this->foo;
+								}
+							}
+
+							$obj = new MyClass();
+							echo $obj->blah();
+							var_dump($obj);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Lập trình hướng đối tượng (2)</h3>
+					<p>
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							class MyClass2 extends MyClass {
+								protected $abc = 'ABC';
+
+								public function blah() {
+									return $this->abc;
+								}
+							}
+
+							$obj = new MyClass2();
+							var_dump($obj);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (1)</h3>
+					<p>
+						PHP cung cấp sẵn bộ thư viên PDO để truy xuất các loại CSDL dữ liệu khác nhau
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$db = new PDO('mysql:host=localhost;dbname=testdb;charset=utf8', 'root', 'password');
+							$stmt = $db->query("SELECT * FROM table");
+							// Lấy hết toàn bộ dữ liệu
+							$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							// hoặc lấy từng dòng
+							while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+								echo $row['field1'] . ' ' . $row['field2']; 
+							}
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (2)</h3>
+					<p>
+						Chèn dữ liệu mới... tương tự với cập nhật...
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$result = $db->exec("INSERT INTO table(firstname, lastname) VAULES('John', 'Doe')");
+							// Lấy ID mới nhất
+							$insertId = $db->lastInsertId();
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (3)</h3>
+					<p>
+						Tham số hóa truy vấn bằng vị trí
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=? AND name=?");
+							$stmt->execute(array($id, $name));
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							// hoặc
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=? AND name=?");
+							$stmt->bindValue(1, $id, PDO::PARAM_INT);
+							$stmt->bindValue(2, $name, PDO::PARAM_STR);
+							$stmt->execute();
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Kết nối CSDL PDO MySQL (4)</h3>
+					<p>
+						Tham số hóa truy vấn bằng tên
+						<pre><code class="php" style="word-wrap: break-word;" data-trim>
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=:id AND name=:name");
+							$stmt->execute(array(':name' => $name, ':id' => $id));
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							// hoặc
+							$stmt = $db->prepare("SELECT * FROM table WHERE id=:id AND name=:name");
+							$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+							$stmt->bindValue(':name', $name, PDO::PARAM_STR);
+							$stmt->execute();
+							$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						</code></pre>
+					</p>
+				</section>
+				<section>
+					<h3>Mật khẩu</h3>
+					Mã hóa mật khẩu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						$hashPassword = password_hash('password', PASSWORD_DEFAULT);
+					</code></pre>
+					Kiểm tra mật khẩu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						password_verify($password, $hashPassword);
+					</code></pre>
+				</section>
+				<section>
+					<h3>Đăng nhập/Đăng xuất</h3>
+					Lưu <strong>userId</strong> vào session sau khi kiểm tra mật khẩu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						$_SESSION['userId'] = $user['id'];
+					</code></pre>
+					Xóa <strong>userId</strong> khi người dùng muốn đăng xuất
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						unset($_SESSION['userId']);
+					</code></pre>
+				</section>
+				<section>
+					<h3>Chuyển trang</h3>
+					Lưu ý, chỉ có thể chuyển trang trước khi xuất dữ liệu
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						header('Location: index.php');
+						exit();
+					</code></pre>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN05</h3>
+					<ul>
+						<li>Viết trang Web bao gồm <strong>trang chủ</strong> (index.php), <strong>đăng ký</strong> (registrer.php), <strong>đăng nhập</strong> (login.php) và <strong>đăng xuất</strong> (logout.php) sử dụng một giao diên chung bằng Bootstrap theo mẫu slide tiếp theo</li>
+						<li>Upload lên host: <a href="https://n.khado.me">http(s)://somehost.com/BTCN05/index.php</a> (và các tập tin khác)</li>
+						<li>Nộp url.txt (chứa link web), các tập tin PHP, CSS (nếu có)</li>
+						<li>Nộp bài trên Web môn học trước <strong>08/10/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.zip/rar</strong>, xx điểm tự đánh giá 01-10. Ví dụ: 1515151-07.zip</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN06</h3>
+					<ul>
+						<li>Viết trang Web bao gồm BTCN05, trang chủ newsfeed, cập nhật thông tin cá nhân, đổi mật khẩu và đăng trạng thái mới
+						<li>Upload lên host: <a href="https://n.khado.me">http(s)://somehost.com/BTCN06/index.php</a> (và các tập tin khác)</li>
+						<li>Nộp url.txt (chứa link web), các tập tin PHP, CSS (nếu có)</li>
+						<li>Nộp bài trên Web môn học trước <strong>22/10/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.zip/rar</strong>, xx điểm tự đánh giá 01-10. Ví dụ: 1515151-07.zip</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Cập nhật thông tin cá nhân</h3>
+					<img class="noborder" src="img/profile.png">
+				</section>
+				<section>
+					<h3>Trang chủ newsfeed</h3>
+					<img class="noborder" src="img/newsfeed.png">
+				</section>
+				<section>
+					<h3>Thay đổi mật khẩu</h3>
+					<img class="noborder" src="img/change-password.png">
+				</section>
+				<section>
+					<h3>Đăng trạng thái mới</h3>
+					<img class="noborder" src="img/status.png">
+				</section>
+				<section>
+					<h3>Thu nhỏ ảnh</h3>
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						function resizeImage($filename, $max_width, $max_height)
+						{
+							list($orig_width, $orig_height) = getimagesize($filename);
+
+							$width = $orig_width;
+							$height = $orig_height;
+
+							# taller
+							if ($height > $max_height) {
+									$width = ($max_height / $height) * $width;
+									$height = $max_height;
+							}
+
+							# wider
+							if ($width > $max_width) {
+									$height = ($max_width / $width) * $height;
+									$width = $max_width;
+							}
+
+							$image_p = imagecreatetruecolor($width, $height);
+
+							$image = imagecreatefromjpeg($filename);
+
+							imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $orig_width, $orig_height);
+
+							return $image_p;
+						}
+					</code></pre>
+				</section>
+				<section>
+					<h3>Lưu ảnh JPEG</h3>
+					<pre><code class="php" style="word-wrap: break-word;" data-trim>
+						$newImage = resizeImage($fileSave, 250, 250);
+						imagejpeg($newImage, $fileSave);
+					</code></pre>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN07</h3>
+					<ul>
+						<li>Viết trang Web bao gồm BTCN06, BTCN05 cập nhật hình ảnh (avatar), avatar trên newsfeed, kết bạn (danh sách, gửi, chấp nhập, từ chối, xóa, hủy)
+						<li>Upload lên host: <a href="https://n.khado.me">http(s)://somehost.com/BTCN07/index.php</a> (và các tập tin khác)</li>
+						<li>Nộp url.txt (chứa link web), các tập tin PHP, CSS (nếu có)</li>
+						<li>Nộp bài trên Web môn học trước <strong>29/10/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.zip/rar</strong>, xx điểm tự đánh giá 01-10. Ví dụ: 1515151-07.zip</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Cập nhật avatar</h3>
+					<img class="noborder" src="img/profile-avatar.png">
+				</section>
+				<section>
+					<h3>Newsfeed với avatar</h3>
+					<img class="noborder" src="img/newsfeed-avatar.png">
+				</section>
+				<section>
+					<h3>Danh sách bạn bè</h3>
+					<img class="noborder" src="img/friendlist.png">
+				</section>
+				<section>
+					<h3>Kết bạn, chấp nhận, xóa, hủy kết, từ chối yêu cầu</h3>
+					<img class="noborder" src="img/friend-request.png">
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				slideNumber: 'c/t',
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
+						hljs.configure({
+							tabReplace: '  ', // 2 spaces
+						})
+						hljs.initHighlightingOnLoad(); 
+					} }
+				]
+			});
+		</script>
+		<script>
+			(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+			ga('create', 'UA-53247198-1', 'auto');
+			ga('send', 'pageview');
+
+		</script>
+	</body>
+</html>

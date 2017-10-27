@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Bài giảng 3 - CSS và Bootstrap</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/atom-one-light.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({
+				google_ad_client: "ca-pub-1460132164768330",
+				enable_page_level_ads: true
+			});
+
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Lập trình Web 1</h1>
+					<h3>Bài giảng 3 - CSS và Bootstrap</h3>
+					<p>
+						<small>Giảng viên: <a href="mailto:dnkha@fit.hcmus.edu.vn">Đỗ Nguyên Kha</a></small><br>
+						<small>Học kỳ 1/2017-2018 @ FIT-HCMUS</small>
+					</p>
+					<p><small><a href="?print-pdf">[Bản in]</a></small></p>
+					<p><small>Tham khảo: <a href="https://www.sitepoint.com/css-selectors/">CSS Selectors</a></small></p>
+				</section>
+				<section>
+					<h3>Nội dung</h3>
+					<ol>
+						<li>CSS Selector</li>
+						<li>Các thuộc tính</li>
+						<li>CSS và HTML</li>
+						<li>Các phiên bản</li>
+						<li>CSS Reset</li>
+						<li>Responsive Web Design</li>
+						<li>CSS Framework</li>
+						<li>Bootstrap</li>
+						<li>Bài tập</li>
+					</ol>
+				</section>
+				<section>
+					<h3>CSS Selector (1)</h3>
+					<p>Dạng truy vấn xác định những thành phần (element) trong trang được áp dụng style:</p>
+					<p><strong>Theo ID của element</strong> (ID là duy nhất trong một trang HTML)</p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						#container {
+							width: 1280px;
+							margin: 10px auto;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<div id="container"></div>
+					</code></pre>
+				</section>
+				<section>
+					<h3>CSS Selector (2)</h3>
+					<p><strong>Theo class của element</strong></p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						.box {
+							padding: 20px;
+							margin: 10px;
+							width: 560px;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<div class="box"></div>
+					</code></pre>
+				</section>
+				<section>
+					<h3>CSS Selector (3)</h3>
+					<p><strong>Theo tag của element</strong></p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						ul {
+							list-style: none;
+							border: 1px solid #f00;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên mọi tag <strong>ul</strong></p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<ul>
+							<li>Cơm</li>
+							<li>Phở</li>
+						</ul>
+					</code></pre>
+					<ul style="list-style: none;border: 1px solid #f00;">
+						<li>Cơm</li>
+						<li>Phở</li>
+					</ul>
+				</section>
+				<section>
+					<h3>CSS Selector (4)</h3>
+					<p><strong>Dạng chứa trong</strong></p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						#container .box {
+							float: left;
+							padding-bottom: 20px;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<div id="container">
+							<!-- Thỏa mãn -->
+							<div class="box"></div>
+							<!-- Không thỏa mãn, do khác class box -->
+							<div class="box-2"></div>
+							<!-- Thỏa mãn -->
+							<div class="box"></div>
+						</div>
+						<!-- Không thỏa mãn, do không nằm trong #container -->
+						<div class="box"></div>
+					</code></pre>
+				</section>
+				<section>
+					<h3>CSS Selector (5)</h3>
+					<p><strong>Dạng con trực tiếp</strong></p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						#container > .box {
+							float: left;
+							padding-bottom: 15px;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<div id="container">
+							<!-- Thỏa mãn -->
+							<div class="box"></div>
+							<div>
+								<!-- Không thỏa mãn, do không là con trực tiếp của #container -->
+								<div class="box"></div>
+							</div>
+						</div>
+					</code></pre>
+				</section>
+				<section>
+					<h3>CSS Selector (6)</h3>
+					<p><strong>Theo giá trị thuộc tính</strong></p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						input[type="text"] {
+							background-color: #444;
+							width: 200px;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<!-- Thỏa mãn -->
+						<input type="text">
+						<!-- Không thỏa mãn, do khác giá trị thuộc tính -->
+						<input type="submit">
+					</code></pre>
+					<input style="background-color: #444;width: 200px;" type="text"><input type="submit">
+				</section>
+				<section>
+					<h3>CSS Selector (7)</h3>
+					<p><strong>Theo pseudo-class (class giả)</strong></p>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						a:hover {
+							color: red;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên</p>
+					<pre><code class="html" style="word-wrap: break-word;" data-trim>
+						<a href="https://n.khado.me">Hover here!!!</a>
+					</code></pre>
+					<style>
+						a:hover#pseudo-test {
+							color: red;
+						}
+					</style>
+					<a id="pseudo-test" href="https://n.khado.me">Hover here!!!</a>
+				</section>
+				<section>
+					<h3>CSS Selector (8)</h3>
+					<pre><code class="css" style="word-wrap: break-word;" data-trim>
+						* {
+							color: green;
+							font-size: 20px;
+							line-height: 25px;
+						}
+					</code></pre>
+					<p>sẽ có tác dụng trên mọi element. Ngoài ra còn rất nhiều các loại CSS Selector cũng như các cách kết hợp khác nhau</p>
+				</section>
+				<section>
+					<h3>Các thuộc tính (1)</h3>
+					<p>Một số thuộc tính có thể áp dụng trên các loại tag như kích thước, font chữ, in đậm, nghiêng, gạch dưới, màu sắc, khung viền... </p>
+					<p>Một số thuộc tính chỉ có thể áp dụng cho một số tag nhất định do đó cần tham khảo trước khi sử dụng.</p>
+				</section>
+				<section>
+					<h3>Các thuộc tính (2)</h3>
+					<p>Về mặt thực tế, mọi tag đều có thể điều chỉnh CSS để có tính chất hiển thị giống như element khác, tuy nhiên nên điều chỉnh từ tag hợp lý (không sử dụng <strong>&lt;p&gt;</strong> thay cho <strong>&lt;ul&gt;</strong>)</p>
+					<p><a href="https://www.w3schools.com/css/">Tham khảo các thuộc tính CSS tại W3C</a></p>
+				</section>
+				<section>
+					<h3>Các phiên bản</h3>
+					<p>CSS có các phiên bản gọi là level 1, 2, 2.1, 3. Trong đó phiên bản mới nhất được hỗ trợ bởi các trình duyệt là 3</p>
+					<p>Trong thực tế, mỗi trình duyệt có thể hỗ trợ các thuộc tính CSS khác nhau hoặc không đầy đủ thậm chí kết quả hiển thị khác nhau do sự khác biệt trong cài đặt và chưa chuẩn hóa. Tuy nhiên, vấn đề này thường xảy ra với các thuộc tính ít sử dụng</p>
+				</section>
+				<section>
+					<h3>CSS Reset</h3>
+					<p>Mỗi trình duyệt cài đặt sẵn một số CSS mặc định cho bất kỳ trang HTML được mở, do đó nếu không định nghĩa CSS, trên mỗi trình duyệt trang Web có thể hiển thị khác nhau.</p>
+					<p>Giải pháp <strong>CSS Reset</strong> định nghĩa lại các CSS mặc định giống nhau trên mọi trình duyệt</p>
+				</section>
+				<section>
+					<h3>Responsive Web Design (1)</h3>
+					<p>Một trang Web được gọi là Responsive khi có thể tự thay đổi cách bố trí các thành phần trong trang Web (vị trí, ẩn/hiện, kích thước...) khi cửa sổ Web thay đổi kích thước hoặc trên các thiết bị có kích thước màn hình khác nhau (Máy tính, Điện thoại, Máy tính bảng...)</p>
+				</section>
+				<section>
+					<h3>Responsive Web Design (2)</h3>
+					<img src="img/responsive.jpg">
+					<small>Hình ảnh từ <a href="https://responsivedesign.is/examples/">https://responsivedesign.is/examples/</a></small>
+				</section>
+				<section>
+					<h3>CSS Framework</h3>
+					<p>Cung cấp các định nghĩa CSS làm nền tảng cho trang Web, làm đẹp các thành phần chuẩn trong trang Web như thông báo (alert, dialog), nút bấm (button), khung nhập liệu (textbox), bảng (table)... hoặc dàn trang, cột, responsive cho trang Web. Phổ biến nhất hiện nay là <strong><a href="https://getbootstrap.com">Bootstrap</a></strong></p>
+				</section>
+				<section>
+					<h3>Bootstrap</h3>
+					<p>Cách sử dụng:</p>
+					<p>
+						<strong>Cách 1:</strong> Download Bootstrap từ trang Web, liên kết bằng tag <strong>link</strong> trong HTML
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							&lt;link rel="stylesheet" href="bootstrap.min.css"&gt;
+						</code></pre>
+					</p>
+					<p>
+						<strong>Cách 2:</strong> Sử dụng CDN
+						<pre><code class="html" style="word-wrap: break-word;" data-trim>
+							&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+							crossorigin="anonymous"&gt;
+						</code></pre>
+					</p>
+					<p><strong>Cách 3:</strong> Sử dụng package manager (npm, yarn)</p>
+				</section>
+				<section>
+					<h3>Bài tập về nhà - BTCN03</h3>
+					<ul>
+						<li>Sử dụng các thông tin như BTCN02</li>
+						<li>Bổ sung Bootstrap và CSS tùy biến cho trang Web. Cập nhật các liên kết đến trang mới (có CSS) của bạn bè</li>
+						<li>Upload các tập tin HTML, CSS, Bootstrap (nếu không sử dụng CDN) lên host dạng (sử dụng một free hosting đã đăng ký): <a href="https://n.khado.me">http(s)://somehost.com/BTCN03/MSSV.html</a> (chú ý thư mục BTCN03)</li>
+						<li>Nộp link đến trang Web cá nhân trong tập tin txt</li>
+						<li>Nộp bài trên Web môn học trước <strong>28/09/2017 09:00PM</strong></li>
+						<li>Tên file: <strong>MSSV-xx.txt</strong>, xx là điểm tự đánh giá từ 01-10. Ví dụ: 1515151-07.txt</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Chuẩn bị tuần 4</h3>
+					<ul>
+						<li>Download một số bộ cài WAMP/LAMP/MAMP/XAMPP</li>
+						<li>Cài đặt và kiểm tra cấu hình PHP bằng info.php</li>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				slideNumber: 'c/t',
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
+						hljs.configure({
+							tabReplace: '  ', // 2 spaces
+						})
+						hljs.initHighlightingOnLoad(); 
+					} }
+				]
+			});
+		</script>
+		<script>
+			(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+			ga('create', 'UA-53247198-1', 'auto');
+			ga('send', 'pageview');
+
+		</script>
+	</body>
+</html>
