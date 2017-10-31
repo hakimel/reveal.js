@@ -57,3 +57,7 @@
   margin: 0px;
 }
 
+.reveal small img {
+  max-height: 150px;
+}
+

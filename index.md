@@ -50,4 +50,10 @@
   * [CubanTech meetup #18](http://meetup.cuban.tech/events/241706888/) - Isla de la Juventud Cuba 2017/08/21
   * [CubanTech meetup #20](http://meetup.cuban.tech/events/242652841/) - Havana Cuba 2017/08/26
 
+---
+
+# BLOCKSTACK CUBA
+
+- [Blockchain, DApps, and Blockstack](dapps.html)
+  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech), Havana, Cuba, 2017/11/04 
 
