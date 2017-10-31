@@ -175,7 +175,9 @@ body {
 .reveal .slides section .fragment.highlight-green,
 .reveal .slides section .fragment.highlight-current-green,
 .reveal .slides section .fragment.highlight-blue,
-.reveal .slides section .fragment.highlight-current-blue {
+.reveal .slides section .fragment.highlight-current-blue,
+.reveal .slides section .fragment.highlight-underline,
+.reveal .slides section .fragment.highlight-current-underline {
 	opacity: 1;
 	visibility: inherit;
 }
@@ -188,6 +190,9 @@ body {
 	.reveal .slides section .fragment.highlight-blue.visible {
 		color: #1b91ff;
 	}
+	.reveal .slides section .fragment.highlight-underline.visible {
+		text-decoration: underline;
+	}
 
 .reveal .slides section .fragment.highlight-current-red.current-fragment {
 	color: #ff2c2d
@@ -197,6 +202,9 @@ body {
 }
 .reveal .slides section .fragment.highlight-current-blue.current-fragment {
 	color: #1b91ff;
+}
+.reveal .slides section .fragment.highlight-current-underline.current-fragment {
+	text-decoration: underline;
 }
 
 

@@ -40,7 +40,10 @@ Reveal.addEventListener( 'ready', function() {
 		strictEqual( document.querySelectorAll( '.reveal .slides section p.fragment.highlight-blue' ).length, 3, 'found three elements with fragment highlight-blue in single slide with default element attribute separator' );
 	});
 
+	test( 'Attributes on elements in single slides with default element attribute separator', function() {
+		strictEqual( document.querySelectorAll( '.reveal .slides section p.fragment.highlight-underline' ).length, 1, 'found an element with fragment highlight-underline in single slide with default element attribute separator' );
+	});
+
 } );
 
 Reveal.initialize();
-

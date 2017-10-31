@@ -710,6 +710,7 @@ The default fragment style is to start out invisible and fade in. This style can
 	<p class="fragment highlight-red">highlight-red</p>
 	<p class="fragment highlight-green">highlight-green</p>
 	<p class="fragment highlight-blue">highlight-blue</p>
+  <p class="fragment highlight-underline">highlight-underline</p>
 </section>
 ```
 
