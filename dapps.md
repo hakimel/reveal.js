@@ -29,6 +29,8 @@ Password: meet-ups
 - Blockchain-independent DApp RSM with VirtualChain
 - Blockstack overview
 
+<small> Notes about P2P network in-between </small>
+
 ---
 
 ## State Machines - States
@@ -51,7 +53,13 @@ Password: meet-ups
 
 ## The scalability problem
 
-![]()
+![](img/rsm.scale.png)
+
+--
+
+## Stats of the Bitcoin blockchain
+
+![](img/bitcoin.stats.png)
 
 ---
 
@@ -68,7 +76,7 @@ Password: meet-ups
 
 ## The State Machine Approach
 
-- Deploy replicas of the software
+- <span style="color: yellow"> Deploy replicas of the software </span>
 - Receive client requests (i.e. inputs)
 - Order the inputs
 - Execute SM transition over and over
@@ -78,7 +86,7 @@ Password: meet-ups
 
 ## The State Machine Approach
 
-##### Deploy software to multiple servers
+##### Deploy software to multiple nodes
 
 <small> [![](img/dockercuba.logo.png)](http://docker.cuban.tech) </small>
 
@@ -94,6 +102,16 @@ Password: meet-ups
 ## State of CM - Q1 2017
 
 ![](img/forrester_wave_cm_q1.jpg)
+
+---
+
+## The State Machine Approach
+
+- Deploy replicas of the software
+- <span style="color: yellow">Receive client requests (i.e. inputs)</span>
+- Order the inputs
+- Execute SM transition over and over
+- Monitor replicas for differences in State or Output
 
 ---
 
@@ -217,6 +235,66 @@ Password: meet-ups
 
 ---
 
+# P2P network
+
+A very peculiar monster
+
+--
+
+## P2P network
+
+##### Peer discovery - Bitcon seed DNS
+
+```
+;; QUESTION SECTION
+;seed.bitcoin.sipa.be       IN  A
+
+;; ANSWER SECTION
+seed.bitcoin.sipa.be.   60  IN  A   192.0.2.113
+seed.bitcoin.sipa.be.   60  IN  A   198.51.100.231
+seed.bitcoin.sipa.be.   60  IN  A   203.0.113.183
+```
+
+- Connect to port `8333` (mainnet) or `18333` (testnet)
+- Followed by `addr` messages announcing addresses of peers
+
+--
+
+## P2P network
+
+##### Connecting to peers
+
+- Send [`version` message](https://bitcoin.org/en/developer-reference#version)
+  * local version number, block, and current time
+- Peer responds with its own `version` message
+- Send `getaddr` and receive `addr` of new peers (discovery)
+
+--
+
+## P2P network
+
+##### Transaction broadcasting
+
+- Send [`inv` message](https://bitcoin.org/en/developer-reference#inv) to a peer.
+- Wait for `getdata` message
+- Send transaction data in `tx` message
+- Peer forwards transactions to other peers
+- Full nodes keep track of unconfirmed transactions in [memory pool](https://bitcoin.org/en/developer-guide#memory-pool)
+
+> ... to be continued ...
+
+---
+
+## The State Machine Approach
+
+- Deploy replicas of the software
+- Receive client requests (i.e. inputs)
+- <span style="color: yellow">Order the inputs</span>
+- Execute SM transition over and over
+- Monitor replicas for differences in State or Output
+
+---
+
 ## The State Machine Approach
 
 ##### Ordering of inputs
@@ -231,7 +309,17 @@ Password: meet-ups
 
 ![](img/bitcoin-en-tx-overview-spending.svg)
 
-Causal ordering
+Causal ordering : Chain of ownership
+
+---
+
+## The State Machine Approach
+
+- Deploy replicas of the software 
+- Receive client requests (i.e. inputs)
+- Order the inputs
+- <span style="color: yellow">Execute SM transition over and over</span>
+- Monitor replicas for differences in State or Output
 
 ---
 
@@ -242,7 +330,6 @@ Causal ordering
 ![](img/rsm.transition.png)
 
 - Execute inputs in the chosen order on each replica
-  * 
 
 --
 
@@ -252,30 +339,70 @@ Causal ordering
 
 ---
 
-## Fault tolerance (in theory)
+## Bitcoin blockchain
 
-- Tolerance for F random independent failures
-  * memory errors, hard-drive crash, ...
-  * Requires `2F + 1` replicas
-- Failed replica can stop without generating outputs
-  * Only `F + 1` replicas required
-  * ... no existing systems achieve this limit
-- [Byzantine failures](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
-  * random, spurious faults => `2F + 1`
-  * malicious, intelligent attacks => `3F + 1`
+##### Design goals
+
+- Public ledger
+  * Ordered and timestamped transactions
+- Storage distributed over Bitcoin [full nodes](https://bitcoin.org/en/glossary/node)
+- Protect against
+  * [double spending](https://bitcoin.org/en/glossary/double-spend)
+  * modification of previous transaction records
+
+--
+
+## Bitcoin blockchain
+
+##### Overview
+
+![](img/bitcoin-en-blockchain-overview.svg)
+
+--
+
+## Bitcoin block header
+
+- **Version** : 4 bytes
+- **Previous block header hash** : 32 bytes
+- **Merkle root hash** : 32 bytes
+- **Time** : 4 bytes
+- **nBits** : 4 bytes
+- **nonce** : 4 bytes
+
+---
+
+## Merkle tree - Prunning transactions
+
+![](img/bitcoin-en-merkle-prune.png)
+
+**Operating modes** : [SPV clients](https://bitcoin.org/en/glossary/simplified-payment-verification) vs [full node](https://bitcoin.org/en/glossary/node)
+
+---
+
+## P2P network (contd.)
+
+##### Initial Block Download
+
+- First run : Node only contains [block 0](https://bitcoin.org/en/glossary/genesis-block)
+- Choose remote peer (a.k.a sync node)
+- Download from block 1 to current tip of sync node's best block chain
+  * Blocks-first (up until version 0.9.3)
+  * Headers-first (from 0.10.0 onwards)
 
 ---
 
 ## Proofs
 
-- Metric of reference to take decisions about changes in a DApp
+- Metric
+  * Legitimate interest, irreversibility
+  * Make decisions about changes in a DApp
 - Require *effort* 
-- Examples
+  * Modifying past blocks harder than adding new ones
+- Coomon examples
   * **Proof of work** (PoW)
   * **Proof of stake** (PoS)
   * **Proof of space** (PoSpace, PoC)
   * **Proof of replication** (PoR)
-  * ...
 - Can be used in parallel
   * e.g. [PeerCoin](http://peercoin.net) relies on PoW + PoS
 
@@ -297,11 +424,196 @@ Causal ordering
 
 > <small> *OmniLayer* is based on the POS mechanism. </small>
 
+--
+
+## Proof of capacity
+
+- *Driver* : allocation of non-trivial amounts of memory or storage needed to solve a challenge (memory-hard functions).
+- Greener alternative to PoW
+- Used in PermaCoin, SpaceMint, [BurstCoin](https://en.wikipedia.org/wiki/Burstcoin)
+
 ---
 
-## Nakamoto consensus
+## Bitcoin mining
 
-- Watch it live at [nodecounter.com](http://nodecounter.com/) !
+- Add new blocks to the block chain
+- Make transation history hard to modify
+- Strategies
+  * Solo mining
+  * Pooled mining
+
+---
+
+## Bitcoin mining - Solo mining
+
+![](img/bitcoin-en-solo-mining-overview.svg)
+
+- Miner generates new blocks on his own
+- Completely claims block reward and transaction fees
+- Large payments
+- Higher variance (longer time between them)
+
+---
+
+## Bitcoin mining - Pooled mining
+
+![](img/bitcoin-en-pooled-mining-overview.svg)
+
+- Group of miners pool resources with other miners
+- Find bocks more often at easier bits targets
+- Proceeds shared amongst miners
+  * Correlated to relative hash power PoW
+- Small payments
+- Lower variance (i.e. shorter time between payments)
+
+---
+
+## P2P network (contd.)
+
+##### Block broadcasting - Unsolicited Push
+
+- Miner includes mined block in new [`block` message](https://bitcoin.org/en/developer-reference#block)
+- Miner sends message to its full nodes peers
+
+> <small> since version 0.12.0 </small>
+
+--
+
+## P2P network
+
+##### Block broadcasting - Standard Block Relay
+
+- Standard method
+- Miner sends `inv` message to all (SPV and full node) peers
+  * Includes inventory referring to the block
+- **BF peer** => `getdata` requesting the full block
+  * Miner => `block` message
+- **HF peer** => `getheaders` (few headers in best block chain)
+  * Miner => `headers` message
+- **SPV clients** => `getdata` requesting a Merkle block
+  * Miner => `merkleblock` followed by some `tx` messages
+
+> <small> since version 0.12.0 </small>
+
+--
+
+## P2P network
+
+##### Block broadcasting - Direct Headers Announcement
+
+- Used if peer signals with `sendheaders` during handshake
+- Miner sends `headers` message fror new block
+- **HF peer** => Partial validation and sends `getdata`
+- Miner => `block` or `merkleblock`
+
+> <small> since version 0.12.0 </small>
+
+---
+
+## The State Machine Approach
+
+- Deploy replicas of the software 
+- Receive client requests (i.e. inputs)
+- Order the inputs
+- Execute SM transition over and over
+- <span style="color: yellow">Monitor replicas for differences in State or Output</span>
+
+---
+
+## The State Machine Approach
+
+##### Sending outputs
+
+- Each replica generates output
+  * Non faulty replicas will always produce same output
+- Faulty outputs filtered out
+  * Consensus
+- Correct output sent back to client
+
+--
+
+## Bitcoin - Nakamoto consensus
+
+##### Occasional vs Extended Forking
+
+![](img/bitcoin-en-blockchain-fork.svg)
+
+- Simultaneous blocks mined, nodes choose winner
+- Peers prefer forks with stronger PoW
+  * longest fork
+  * highest block height : distance to [block 0](https://bitcoin.org/en/glossary/genesis-block)
+
+--
+
+## Bitcoin - Nakamoto consensus
+
+##### Soft fork
+
+![](img/bitcoin-en-soft-fork)
+
+- When ?
+  * Quite often e.g. concurrent miners
+  * Upgraded consensus rules reject formerly valid blocks
+    + [UASF](https://bitcoin.org/en/glossary/uasf) flag day vs [MASF](https://bitcoin.org/en/glossary/masf) hash rate majority signalling
+
+--
+
+## Bitcoin - Nakamoto consensus
+
+##### Soft fork resolution
+
+- Eliminate (stale and orphan) blocks in low PoW forks
+- Iterate over transactions in stale and orphan blocks
+  * discard it if TX belongs in another block of highest PoW fork
+  * move it back to TX mempool otherwise
+    + to be included in a future block by this miner
+    + (optionally?) broadcast to the P2P network
+
+--
+
+## Bitcoin - Nakamoto consensus
+
+##### Hard forks
+
+![](img/bitcoin-en-hard-fork.svg)
+
+- When?
+  * Extend blockchain to prevent third-party 51% attack
+  * Upgraded consensus accept formerly rejected blocks
+  * Network partition
+
+--
+
+## Bitcoin - Corollaries of hard forks
+
+- Warning in `[getnetworkinfo](https://bitcoin.org/en/developer-reference#getnetworkinfo)` and run `-alertnotify` command if set.
+  * +6 blocks PoW than best valid chain
+  * Repeated block and TX version numbers higher than expected consensus
+- [Coinbase transaction](https://bitcoin.org/en/glossary/coinbase-transaction) may be spent only after 100 blocks
+- [SPV clients](https://bitcoin.org/en/glossary/simplified-payment-verification) may contact different full nodes
+  * discard chains with weaker PoW
+
+---
+
+## Bitcoin - Client balance
+
+![](img/bitcoin-en-transaction-propagation.svg)
+
+Wallet software : Add up unspent transactions to determine balance
+
+---
+
+## Fault tolerance (in theory)
+
+- Tolerance for F random independent failures
+  * memory errors, hard-drive crash, ...
+  * Requires `2F + 1` replicas
+- Failed replica can stop without generating outputs
+  * Only `F + 1` replicas required
+  * ... no existing systems achieve this limit
+- [Byzantine failures](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
+  * random, spurious faults => `2F + 1`
+  * malicious, intelligent attacks => `3F + 1`
 
 ---
 
@@ -361,6 +673,15 @@ Causal ordering
   * Tokens that are necessary for their function.
 
 > <small> *OmniLayer* (formerly *Master Protocol*) and *Blockstack* are examples of type II decentralized application. </small>
+
+--
+
+## DApps type II and the Bitcoin blockchain
+
+- Embed additional data to DApp type I transactions
+- Bitcoint [OP_RETURN](https://bitcoin.org/en/developer-reference#term-op-return) code
+  * Provably prune-able outputs
+  * Bitcoin miners will have the option to prune those data
 
 ---
 
