@@ -503,6 +503,32 @@ $controlsArrowAngleActive: 36deg;
 
 
 /*********************************************
+ * MULTI COLUMN
+ *********************************************/
+
+ .reveal .multi-col {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	text-align: left; // centered does not look good on cols
+
+	.col {
+		position: relative; // just in case of absolute positioned children
+		display: table-cell;
+		vertical-align: top; // yes, a needed override
+		width: 50%;
+		padding: 1% 0 2% 3%;
+		&:first-of-type {
+			padding-left: 0; // nothing is left of column one
+		}
+	}
+
+	ul.col {
+		padding-left: 1em !important;
+	}
+}
+
+/*********************************************
  * PROGRESS BAR
  *********************************************/
 

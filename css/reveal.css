@@ -416,6 +416,25 @@ body {
     margin-left: -1.8em; } }
 
 /*********************************************
+ * MULTI COLUMN
+ *********************************************/
+.reveal .multi-col {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  text-align: left; }
+  .reveal .multi-col .col {
+    position: relative;
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+    padding: 1% 0 2% 3%; }
+    .reveal .multi-col .col:first-of-type {
+      padding-left: 0; }
+  .reveal .multi-col ul.col {
+    padding-left: 1em !important; }
+
+/*********************************************
  * PROGRESS BAR
  *********************************************/
 .reveal .progress {
