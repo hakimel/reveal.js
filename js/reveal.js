@@ -5128,6 +5128,7 @@
 		isOverview: isOverview,
 		isPaused: isPaused,
 		isAutoSliding: isAutoSliding,
+		isSpeakerNotes: isSpeakerNotes,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
