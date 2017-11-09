@@ -1274,6 +1274,8 @@
 			a[ i ] = b[ i ];
 		}
 
+		return a;
+
 	}
 
 	/**
@@ -2509,7 +2511,7 @@
 
 		// Start or stop embedded content depending on global config
 		if( config.autoPlayMedia === false ) {
-			stopEmbeddedContent( currentSlide );
+			stopEmbeddedContent( currentSlide, { unloadIframes: false } );
 		}
 		else {
 			startEmbeddedContent( currentSlide );
@@ -3535,7 +3537,12 @@
 	 *
 	 * @param {HTMLElement} element
 	 */
-	function stopEmbeddedContent( element ) {
+	function stopEmbeddedContent( element, options ) {
+
+		options = extend( {
+			// Defaults
+			unloadIframes: true
+		}, options || {} );
 
 		if( element && element.parentNode ) {
 			// HTML5 media elements
@@ -3566,13 +3573,15 @@
 				}
 			});
 
-			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
-				// Only removing the src doesn't actually unload the frame
-				// in all browsers (Firefox) so we set it to blank first
-				el.setAttribute( 'src', 'about:blank' );
-				el.removeAttribute( 'src' );
-			} );
+			if( options.unloadIframes === true ) {
+				// Unload lazy-loaded iframes
+				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+					// Only removing the src doesn't actually unload the frame
+					// in all browsers (Firefox) so we set it to blank first
+					el.setAttribute( 'src', 'about:blank' );
+					el.removeAttribute( 'src' );
+				} );
+			}
 		}
 
 	}
