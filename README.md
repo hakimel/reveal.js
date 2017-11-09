@@ -105,7 +105,7 @@ The presentation markup hierarchy needs to be `.reveal > .slides > section` wher
 
 ### Markdown
 
-It's possible to write your slides using Markdown. To enable Markdown, add the `data-markdown` attribute to your `<section>` elements and wrap the contents in a `<textarea data-template>` like the example below.
+It's possible to write your slides using Markdown. To enable Markdown, add the `data-markdown` attribute to your `<section>` elements and wrap the contents in a `<textarea data-template>` like the example below. You'll also need to add the `plugin/markdown/marked.js` and `plugin/markdown/markdown.js` scripts (in that order) to your HTML file.
 
 This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) modified to use [marked](https://github.com/chjj/marked) to support [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown). Sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
 
@@ -242,7 +242,7 @@ Reveal.initialize({
 	// Flags if speaker notes should be visible to all viewers
 	showNotes: false,
 
-	// Global override for autolaying embedded media (video/audio/iframe)
+	// Global override for autoplaying embedded media (video/audio/iframe)
 	// - null: Media will only autoplay if data-autoplay is present
 	// - true: All media will autoplay, regardless of individual setting
 	// - false: No media will autoplay, regardless of individual setting
@@ -883,7 +883,7 @@ Reveal.initialize({
 
 ## PDF Export
 
-Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presention from a webserver.
+Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presentation from a webserver.
 Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
 
 ### Page size
