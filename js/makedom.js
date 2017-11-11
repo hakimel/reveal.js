@@ -1,29 +1,32 @@
-///URL parameter取得して配列へin
-var arg = new Object;
-var pair = location.search.substring(1).split('&');
-for(var i = 0;pair[i];i++) {
-    var kv = pair[i].split('=');
-    arg[kv[0]] = kv[1];
-}
+var getInfo = new Promise(function (resolve, reject){
+    ///URL parameter取得して配列へin
+    var arg = new Object;
+    var pair = location.search.substring(1).split('&');
+    for(var i = 0;pair[i];i++) {
+        var kv = pair[i].split('=');
+        arg[kv[0]] = kv[1];
+    }
 
-///プロフィールAPI(自作GASアプリ)より取得
-var meta_json;
-if(arg["mode"]){
-    var url = "https://script.google.com/macros/s/AKfycbyulXVm6rcR8YOHtDJ-E4v22fkzMGeSKbUU7UCbwn-rttQwVn89/exec";
-    var param = {};
-    param["mode"]=arg["mode"];
-    param = JSON.stringify(param);
-    fetch(url,{
-        method: 'POST',
-        mode: 'cors',
-        body: param
-    }).then(function(response) {
-        return response.text();
-    }).then(function(json) {
-        var json = JSON.parse(json||"null");
-        createDom(json);
-    })
-};
+    ///プロフィールAPI(自作GASアプリ)より取得
+    var meta_json;
+    if(arg["mode"]){
+        var url = "https://script.google.com/macros/s/AKfycbyulXVm6rcR8YOHtDJ-E4v22fkzMGeSKbUU7UCbwn-rttQwVn89/exec";
+        var param = {};
+        param["mode"]=arg["mode"];
+        param = JSON.stringify(param);
+        fetch(url,{
+            method: 'POST',
+            mode: 'cors',
+            body: param
+        }).then(function(response) {
+            return response.text();
+        }).then(function(json) {
+            var json = JSON.parse(json||"null");
+            createDom(json);
+        })
+    };
+    return;
+});
 
 function createDom(meta_json){
     //json内のキーを探査して、キーと同値のクラスへdom書き込み
