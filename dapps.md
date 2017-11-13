@@ -20,16 +20,14 @@ Password: meet-ups
 ## Outline
 
 - Replicated state machines (a.k.a RSM)
-- Deploying copies of the state machine
-- Receiving and ordering client requests with Blockchain
-- Executing the RSM
-- Sending outputs to the client
+- Infrastructure, management and admin tools
+- Relation betwen RSM and Blockchain
+- Execution rules and consensus
 - General Theory of DApps
-- A (very) quick overview of Bitcoin and Ethereum
-- Blockchain-independent DApp RSM with VirtualChain
 - Blockstack overview
+- Blockchain-independent DApp RSM with VirtualChain
 
-<small> Notes about P2P network in-between </small>
+<small> Notes about Bitcoin P2P network in-between </small>
 
 ---
 
@@ -154,6 +152,14 @@ Password: meet-ups
   * Signature script (params to unlock Pubkey script)
 
 > **Bitcoin** is a public distributed ledger.
+
+--
+
+## Bitcoin - Sample transaction
+
+<small> blocktrail.com </small>
+
+![](img/bitcoin.tx.c60e4dc5e69c19ff53a45954d8a8996fd9aac6fda317fd7238dec6a482c718cf.png)
 
 --
 
@@ -369,6 +375,22 @@ Causal ordering : Chain of ownership
 - **nBits** : 4 bytes
 - **nonce** : 4 bytes
 
+--
+
+## Bitcoin Block 493387
+
+<small> blocktrail.com </small>
+
+[![](img/bitcoin.block.493387.png)](https://www.blocktrail.com/BTC/block/000000000000000000ad396808fdc05052655d8a80aee7ffc538b71828ea03d3)
+
+--
+
+## Bitcoin Block 493387 - Transactions
+
+Coinbase transaction comes first
+
+[![](img/bitcoin.txs.493387.png)](https://www.blocktrail.com/BTC/block/000000000000000000ad396808fdc05052655d8a80aee7ffc538b71828ea03d3)
+
 ---
 
 ## Merkle tree - Prunning transactions
@@ -394,14 +416,14 @@ Causal ordering : Chain of ownership
 ## Proofs
 
 - Metric
-  * Legitimate interest, irreversibility
+  * Prove legitimate interest, irreversibility
   * Make decisions about changes in a DApp
-- Require *effort* 
-  * Modifying past blocks harder than adding new ones
-- Coomon examples
+- Modifying past blocks harder than adding new ones
+- Common examples
   * **Proof of work** (PoW)
   * **Proof of stake** (PoS)
-  * **Proof of space** (PoSpace, PoC)
+  * **Proof of space** (PoSpace)
+  * **Proof of collaboration** (PoC)
   * **Proof of replication** (PoR)
 - Can be used in parallel
   * e.g. [PeerCoin](http://peercoin.net) relies on PoW + PoS
@@ -420,7 +442,9 @@ Causal ordering : Chain of ownership
 
 ## Proof of stake
 
-- *Driver* : percent ownership that various stakeholders have over the application.
+- *Driver* : new coins according to number of coins (stake) you hold
+- May be abused by those who hold enough coins.
+- Usually combined with other proof
 
 > <small> *OmniLayer* is based on the POS mechanism. </small>
 
@@ -430,7 +454,21 @@ Causal ordering : Chain of ownership
 
 - *Driver* : allocation of non-trivial amounts of memory or storage needed to solve a challenge (memory-hard functions).
 - Greener alternative to PoW
-- Used in PermaCoin, SpaceMint, [BurstCoin](https://en.wikipedia.org/wiki/Burstcoin)
+
+> <small> PoStorage is used in PermaCoin, SpaceMint, [BurstCoin](https://en.wikipedia.org/wiki/Burstcoin) </small>
+
+--
+
+## Proof of collaboration
+
+- Collaboratively Validating Nodes (in short CVNs)
+  * [Decide](https://chain.fair-coin.org/download/FairCoin2-white-paper-V1.1.pdf) what node creates next block
+  * Approve CVN by digitally signing a piece of data containing winner's ID
+  * With required signatures gather TX and create new block
+- No reward (new money) for block creation (small fee)
+- Power consumption is low (CVNs on a Raspberry3)
+
+> <small> FairCoin (fork of Bitcoin 0.12) implements PoC since July 18th 2017</small>
 
 ---
 
@@ -465,6 +503,64 @@ Causal ordering : Chain of ownership
   * Correlated to relative hash power PoW
 - Small payments
 - Lower variance (i.e. shorter time between payments)
+
+--
+
+## SlushPool
+
+<small> [slushpool.com/home/](https://slushpool.com/home/) </small>
+
+![](img/slushpool.png)
+
+<small> Minted coins : `+1M BTC` mined since Dec 2010. `ZCASH` since Apr 20th 2017</small>
+
+--
+
+## AntMiner
+
+<small> [bitmaintech.com](https://bitmaintech.com/) </small>
+
+![](img/antminer.png)
+
+<small> Minted coins : `BTC` </small>
+
+--
+
+## BTCC Pool
+
+<small> [pool.btcc.com](https://pool.btcc.com/) </small>
+
+![](img/btcc.png)
+
+<small> Minted coins : `BTC` </small>
+
+---
+
+## Bitcoin mining hardware
+
+##### Installed capacity
+
+- +1000 PHash/s , 10,000 metric tonnes of hardware
+- Enough material to build another Eiffel tower.
+
+--
+
+## Bitcoin mining hardware - Energy
+
+![](img/bitcoin.pow.energy.asic.jpg)
+
+Application specific integrated circuits, a.k.a. ASICs
+
+--
+
+## Energy consumption of Bitcoin PoW
+
+<small> ... according to [Sebastiaan Deetman research](https://motherboard.vice.com/en_us/article/aek3za/bitcoin-could-consume-as-much-electricity-as-denmark-by-2020)</small>
+
+![](img/bitcoin.pow.energy.png)
+
+- ~350 MW, close to 280,000 [American households](http://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3).
+- Projected to be comparable to Denmark's in 2020 
 
 ---
 
@@ -532,6 +628,15 @@ Causal ordering : Chain of ownership
 
 --
 
+## Consensus
+
+- Nakamoto consensus
+- [Paxos](https://en.wikipedia.org/wiki/Paxos_%28computer_science%29)
+- Quorum systems
+- [Obelisk](https://blog.skycoin.net/statement/obelisk-the-skycoin-consensus-algorithm/)
+
+---
+
 ## Bitcoin - Nakamoto consensus
 
 ##### Occasional vs Extended Forking
@@ -549,7 +654,7 @@ Causal ordering : Chain of ownership
 
 ##### Soft fork
 
-![](img/bitcoin-en-soft-fork)
+![](img/bitcoin-en-soft-fork.svg)
 
 - When ?
   * Quite often e.g. concurrent miners
@@ -586,9 +691,9 @@ Causal ordering : Chain of ownership
 
 ## Bitcoin - Corollaries of hard forks
 
-- Warning in `[getnetworkinfo](https://bitcoin.org/en/developer-reference#getnetworkinfo)` and run `-alertnotify` command if set.
+- Warning in [`getnetworkinfo`](https://bitcoin.org/en/developer-reference#getnetworkinfo) and run `-alertnotify` command if set.
   * +6 blocks PoW than best valid chain
-  * Repeated block and TX version numbers higher than expected consensus
+  * Repetition of block and TX with version numbers higher than expected consensus
 - [Coinbase transaction](https://bitcoin.org/en/glossary/coinbase-transaction) may be spent only after 100 blocks
 - [SPV clients](https://bitcoin.org/en/glossary/simplified-payment-verification) may contact different full nodes
   * discard chains with weaker PoW
@@ -599,7 +704,7 @@ Causal ordering : Chain of ownership
 
 ![](img/bitcoin-en-transaction-propagation.svg)
 
-Wallet software : Add up unspent transactions to determine balance
+Wallet software : Add up UTXO to determine balance
 
 ---
 
@@ -676,12 +781,16 @@ Wallet software : Add up unspent transactions to determine balance
 
 --
 
-## DApps type II and the Bitcoin blockchain
+## DApps type II
 
-- Embed additional data to DApp type I transactions
-- Bitcoint [OP_RETURN](https://bitcoin.org/en/developer-reference#term-op-return) code
+##### Bitcoin null data transactions
+
+- Embed additional data in DApp type I transactions
+- Bitcoin [OP_RETURN](https://bitcoin.org/en/developer-reference#term-op-return) code
   * Provably prune-able outputs
   * Bitcoin miners will have the option to prune those data
+
+> Blockstack is a type II DApp
 
 ---
 
@@ -736,6 +845,131 @@ Wallet software : Add up unspent transactions to determine balance
 - Tokens are generated using a predefined mechanism and are only available for the development of the DApp.
 
 > <small> In addition to its fund-raising mechanism, the Master Protocol used the collaboration mechanism to fund its future development. Some Mastercoins are distributed via a community-driven bounty system based on the PoS mechanism.
+
+---
+
+# Blockstack
+
+---
+
+## Why Blockstack ?
+
+The Internet is +40 years old now
+
+- [Critical services offline](https://www.wired.com/2016/10/internet-outage-ddos-dns-dyn/) by attacks like DDoS on DNS servers
+- Implicit trust e.g. [TurkTrust CA issued false security certificates for Google](http: //cnet.co/2oArU6O)
+- Desktop to cloud creates SPoF e.g. [Yahoo! losing data for 500M people](http: //nyti.ms/2oAqn0G.)
+
+--
+
+## Why Blockstack ?
+
+##### Ryan Shea, Blockstack co-founder
+
+<video src="http://videos.cuban.tech/blockstack/Why%20has%20Blockstack%20built%20a%20decentralized%20internet--iwd_wd3waA.mp4" controls width="800"></video>
+
+---
+
+## What is Blockstack?
+
+- A New Internet for Decentralized Applications
+- Open source
+- Re-decentralize the Internet
+- Users own their data
+
+--
+
+## Trust-to-trust design principle
+
+##### Muneeb Ali, Blockstack CTO
+
+<video src="http://videos.cuban.tech/blockstack/What%20is%20the%20trust-to-trust%20design%20principle-LwFGczn1hrA.mp4" controls width="800"></video>
+
+---
+
+## Blockstack goals
+
+- Decentralized Naming & Discovery
+  * Register and use human-readable names
+  * Discover network resources without trusting any remote parties
+- Decentralized Storage
+  * Store data without revealing it to any remote parties.
+- Comparable Performance
+
+---
+
+## Blockstack - Key decisions
+
+- Survive Failures of Underlying Blockchains
+- Keep Complexity and Logic Outside of Blockchains
+  * opposite to NameCoin, Ethereum, etc ...
+- Scalable Index for Global Data
+
+---
+
+## Blockstack architecture
+
+![](img/bsk-architecture-diagram5.png)
+
+---
+
+## Blockstack layers
+
+- Virtual blockchain, on top of Bitcoin blockchain
+- **Atlas**, a peer-network
+  * Global index for discovery information
+- **Gaia**, decentralized storage system
+
+> <small> Users do not need to trust any data layer </small>
+
+---
+
+## Blockstack - Blockchain layer
+
+<small> DApp type II </small>
+
+![](img/blockstack.blocks.png)
+
+--
+
+## Blockstack - Nameops transactions
+
+[![](img/blockstack.nameops.493935.png)](https://explorer.blockstack.org/nameops/493935)
+
+--
+
+## Sample Blockstack null data transaction
+
+<small> NAME_REGISTRATION bluestack.id </small>
+
+[![](img/bitcoin.tx.702e76497a6061222208698c4d0fbed6ca768d10832e1b8da9184a8ea6f5ded8.png)](https://www.blocktrail.com/BTC/tx/702e76497a6061222208698c4d0fbed6ca768d10832e1b8da9184a8ea6f5ded8)
+
+---
+
+## Blockstack - Virtualchain layer
+
+##### Why?
+
+- Fork*-consistent RSMs on existing blockchains
+- Fork detection & recovery
+- Cross-chain migration
+  * [Reasons](https://blockstack.org/blog/why-blockstack-is-migrating-to-the-bitcoin-blockchain) for Blockstack to migrate from Namecoin to Bitcoin
+
+--
+
+## Blockstack - Virtualchain layer
+
+##### ... according to Muneeb Ali, Blockstack CTO
+
+<video src="http://videos.cuban.tech/blockstack/What%20is%20a%20Virtual%20Chain%20What%20makes%20it%20a%20powerful%20solution%20for%20longevity%20and%20scalability-LBft0c4RZcQ.mp4" controls width="800"></video>
+
+--
+
+## Blockstack - Virtualchain
+
+##### Filtering and ordering OP_RETURN TXs
+
+<div style="display: inline-block; background-color: #fff"> ![](img/bsk-virtual-blockchain.png) </div>
 
 ---
 
