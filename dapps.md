@@ -88,12 +88,13 @@ Password: meet-ups
 
 <small> [![](img/dockercuba.logo.png)](http://docker.cuban.tech) </small>
 
+<small> [docker.cuban.tech](http://docker.cuban.tech) </small>
+
 - Software package repositories
   * e.g. [bitcoind @ Debian](https://packages.debian.org/bitcoind), [Blockstack apt repo](https://packages.blockstack.com), ...
 - Containers and registries
   * e.g. [Lisk](https://hub.docker.com/u/lisk/), [Blockstack](https://hub.docker.com/u/blockstack), ... @ Docker Hub
-- CM tools
-  * Ansible, Puppet, Chef, Habitat, ...
+- CM tools (Ansible, Puppet, Chef, Habitat, ...)
 
 --
 
@@ -393,26 +394,6 @@ Coinbase transaction comes first
 
 ---
 
-## Merkle tree - Prunning transactions
-
-![](img/bitcoin-en-merkle-prune.png)
-
-**Operating modes** : [SPV clients](https://bitcoin.org/en/glossary/simplified-payment-verification) vs [full node](https://bitcoin.org/en/glossary/node)
-
----
-
-## P2P network (contd.)
-
-##### Initial Block Download
-
-- First run : Node only contains [block 0](https://bitcoin.org/en/glossary/genesis-block)
-- Choose remote peer (a.k.a sync node)
-- Download from block 1 to current tip of sync node's best block chain
-  * Blocks-first (up until version 0.9.3)
-  * Headers-first (from 0.10.0 onwards)
-
----
-
 ## Proofs
 
 - Metric
@@ -472,6 +453,26 @@ Coinbase transaction comes first
 
 ---
 
+## Merkle tree - Prunning transactions
+
+![](img/bitcoin-en-merkle-prune.png)
+
+**Operating modes** : [SPV clients](https://bitcoin.org/en/glossary/simplified-payment-verification) vs [full node](https://bitcoin.org/en/glossary/node)
+
+---
+
+## P2P network (contd.)
+
+##### Initial Block Download
+
+- First run : Node only contains [block 0](https://bitcoin.org/en/glossary/genesis-block)
+- Choose remote peer (a.k.a sync node)
+- Download from block 1 to current tip of sync node's best block chain
+  * Blocks-first (up until version 0.9.3)
+  * Headers-first (from 0.10.0 onwards)
+
+---
+
 ## Bitcoin mining
 
 - Add new blocks to the block chain
@@ -516,13 +517,37 @@ Coinbase transaction comes first
 
 --
 
-## AntMiner
+## SlushPool
+
+##### Hash rate
+
+![](img/slushpool.hashrate.20171113.png)
+
+--
+
+## SlushPool
+
+##### Hash rate distribution
+
+![](img/slushpool.hashratedist.20171113.png)
+
+--
+
+## Bitmain - AntMiner
 
 <small> [bitmaintech.com](https://bitmaintech.com/) </small>
 
-![](img/antminer.png)
+![](img/bitmain.antminer.s9.png)
 
 <small> Minted coins : `BTC` </small>
+
+--
+
+## Bitmain - AntPool
+
+<small> [bitmaintech.com](https://bitmaintech.com/) </small>
+
+![](img/bitmain.antpool.png)
 
 --
 
@@ -538,9 +563,11 @@ Coinbase transaction comes first
 
 ## Bitcoin mining hardware
 
-##### Installed capacity
+##### Installed capacity - 2017/11/13
 
-- +1000 PHash/s , 10,000 metric tonnes of hardware
+<div style="width: 500px; display: inline-block; margin-left: auto; magin-right: auto"> ![](img/btc.hashrate.20171113.png) </div>
+
+- +2 EHash/s , 10,000 metric tonnes of hardware
 - Enough material to build another Eiffel tower.
 
 --
@@ -555,11 +582,10 @@ Application specific integrated circuits, a.k.a. ASICs
 
 ## Energy consumption of Bitcoin PoW
 
-<small> ... according to [Sebastiaan Deetman research](https://motherboard.vice.com/en_us/article/aek3za/bitcoin-could-consume-as-much-electricity-as-denmark-by-2020)</small>
+<small> ... according to [BitcoinEnergyConsumption.com](https://BitcoinEnergyConsumption.com)</small>
 
 ![](img/bitcoin.pow.energy.png)
 
-- ~350 MW, close to 280,000 [American households](http://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3).
 - Projected to be comparable to Denmark's in 2020 
 
 ---
@@ -633,6 +659,7 @@ Application specific integrated circuits, a.k.a. ASICs
 - Nakamoto consensus
 - [Paxos](https://en.wikipedia.org/wiki/Paxos_%28computer_science%29)
 - Quorum systems
+- [Raft](https://raft.github.io/)
 - [Obelisk](https://blog.skycoin.net/statement/obelisk-the-skycoin-consensus-algorithm/)
 
 ---
@@ -719,6 +746,33 @@ Wallet software : Add up UTXO to determine balance
 - [Byzantine failures](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
   * random, spurious faults => `2F + 1`
   * malicious, intelligent attacks => `3F + 1`
+
+--
+
+## Bitcoin node 
+
+##### Minimum requirements
+
+- Desktop or laptop (Windows, Mac OS X, or Linux)
+- 125 GB of HDD space, 2 GB RAM
+- Broadband Internet with upload &ge; 400 Kbps (50 KB/s)
+  * Unmetered connection, or high upload limits, respect upload limits
+  * +100 GB IBD
+  * &asymp; 20 gigabytes download a month
+  * +200 GB upload a month
+- +6 hours a day with full node running
+- +8 connections and active sync peers
+
+--
+
+## Bitcoin node
+
+> Most ordinary folks should **NOT** be running a full node.
+> We need full nodes that are always on, have more than 8 connections
+> *(if you have only 8 then you are part of the problem, not part of the solution)*,
+> and have a high-bandwidth connection to the Internet.
+
+Gavin Andresen, Bitcoin Foundation’s Chief Scientist, in [Reddit post](http://www.reddit.com/r/Bitcoin/comments/1scd4z/im_running_a_full_node_and_so_should_you/cdw3lrh?context=3)
 
 ---
 
@@ -970,6 +1024,30 @@ The Internet is +40 years old now
 ##### Filtering and ordering OP_RETURN TXs
 
 <div style="display: inline-block; background-color: #fff"> ![](img/bsk-virtual-blockchain.png) </div>
+
+---
+
+## Blockstack apps - Explorer and AppStore
+
+![](img/bsk-appstore.png)
+
+---
+
+## Blockstack apps - iTunes clone
+
+![](img/bsk-app-itunes.png)
+
+---
+
+## Blockstack apps - Afia
+
+![](img/bsk-app-afia.png)
+
+---
+
+## Blockstack apps - Casa
+
+![](img/bsk-app-casa.png)
 
 ---
 
