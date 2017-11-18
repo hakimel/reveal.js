@@ -55,5 +55,5 @@
 # BLOCKSTACK CUBA
 
 - [Blockchain, DApps, and Blockstack](dapps.html)
-  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech), Havana, Cuba, 2017/11/04 
+  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech), Havana, Cuba, 2017/11/19 
 
