@@ -5,7 +5,7 @@
     "js/reveal.js",
     "css/reveal.css"
   ],
-  "homepage": "http://lab.hakim.se/reveal-js/",
+  "homepage": "http://revealjs.com",
   "license": "MIT",
   "description": "The HTML Presentation Framework",
   "authors": [
