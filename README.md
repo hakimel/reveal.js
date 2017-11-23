@@ -1230,6 +1230,17 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 - **plugin/** Components that have been developed as extensions to reveal.js
 - **lib/** All other third party assets (JavaScript, CSS, fonts)
 
+### Docker Build
+
+```
+docker build . -t revealjs:0.1
+```
+
+### Docker Run
+
+```
+docker run  --name revealjs -d -p 8000:8000 -v $PWD/index.html:/reveal.js/index.html  revealjs:0.1
+```
 
 ## License
 
