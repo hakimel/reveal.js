@@ -3271,8 +3271,7 @@
 
 
 		// Show the corresponding background element
-		var indices = getIndices( slide );
-		var background = getSlideBackground( indices.h, indices.v );
+		var background = getSlideBackground( slide );
 		if( background ) {
 			background.style.display = 'block';
 
@@ -3359,8 +3358,7 @@
 		slide.style.display = 'none';
 
 		// Hide the corresponding background element
-		var indices = getIndices( slide );
-		var background = getSlideBackground( indices.h, indices.v );
+		var background = getSlideBackground( slide );
 		if( background ) {
 			background.style.display = 'none';
 		}
@@ -3930,13 +3928,14 @@
 	 * defined, have a background element so as long as the
 	 * index is valid an element will be returned.
 	 *
-	 * @param {number} x Horizontal background index
+	 * @param {mixed} x Horizontal background index OR a slide
+	 * HTML element
 	 * @param {number} y Vertical background index
 	 * @return {(HTMLElement[]|*)}
 	 */
 	function getSlideBackground( x, y ) {
 
-		var slide = getSlide( x, y );
+		var slide = typeof x === 'number' ? getSlide( x, y ) : x;
 		if( slide ) {
 			return slide.slideBackgroundElement;
 		}
