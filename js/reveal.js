@@ -2411,16 +2411,7 @@
 
 		// Dispatch an event if the slide changed
 		var slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
-		if( slideChanged ) {
-			dispatchEvent( 'slidechanged', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'previousSlide': previousSlide,
-				'currentSlide': currentSlide,
-				'origin': o
-			} );
-		}
-		else {
+		if (!slideChanged) {
 			// Ensure that the previous slide is never the same as the current
 			previousSlide = null;
 		}
@@ -2446,6 +2437,16 @@
 					}
 				}, 0 );
 			}
+		}
+
+		if( slideChanged ) {
+			dispatchEvent( 'slidechanged', {
+				'indexh': indexh,
+				'indexv': indexv,
+				'previousSlide': previousSlide,
+				'currentSlide': currentSlide,
+				'origin': o
+			} );
 		}
 
 		// Handle embedded content
