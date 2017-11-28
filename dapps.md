@@ -608,12 +608,12 @@ Application specific integrated circuits, a.k.a. ASICs
 - Standard method
 - Miner sends `inv` message to all (SPV and full node) peers
   * Includes inventory referring to the block
-- **BF peer** => `getdata` requesting the full block
-  * Miner => `block` message
-- **HF peer** => `getheaders` (few headers in best block chain)
-  * Miner => `headers` message
-- **SPV clients** => `getdata` requesting a Merkle block
-  * Miner => `merkleblock` followed by some `tx` messages
+- **BF peer** &rArr; `getdata` requesting the full block
+  * Miner &rArr; `block` message
+- **HF peer** &rArr; `getheaders` (few headers in best block chain)
+  * Miner &rArr; `headers` message
+- **SPV clients** &rArr; `getdata` requesting a Merkle block
+  * Miner &rArr; `merkleblock` followed by some `tx` messages
 
 > <small> since version 0.12.0 </small>
 
@@ -625,8 +625,8 @@ Application specific integrated circuits, a.k.a. ASICs
 
 - Used if peer signals with `sendheaders` during handshake
 - Miner sends `headers` message fror new block
-- **HF peer** => Partial validation and sends `getdata`
-- Miner => `block` or `merkleblock`
+- **HF peer** &rArr; Partial validation and sends `getdata`
+- Miner &rArr; `block` or `merkleblock`
 
 > <small> since version 0.12.0 </small>
 
@@ -744,8 +744,8 @@ Wallet software : Add up UTXO to determine balance
   * Only `F + 1` replicas required
   * ... no existing systems achieve this limit
 - [Byzantine failures](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
-  * random, spurious faults => `2F + 1`
-  * malicious, intelligent attacks => `3F + 1`
+  * random, spurious faults &rArr; `2F + 1`
+  * malicious, intelligent attacks &rArr; `3F + 1`
 
 --
 
