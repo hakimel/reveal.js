@@ -1265,10 +1265,12 @@
 	}
 
 	/**
-	 * Add a custom key binding with optional description to be added to the help screen
+	 * Add a custom key binding with optional description to
+	 * be added to the help screen.
 	 */
-	function addKeyBinding(binding, callback) {
-		if (typeof binding === 'object' && binding.keyCode) {
+	function addKeyBinding( binding, callback ) {
+
+		if( typeof binding === 'object' && binding.keyCode ) {
 			registeredKeyBindings[binding.keyCode] = {
 				callback: callback,
 				key: binding.key,
@@ -1282,13 +1284,16 @@
 				description: null
 			};
 		}
+
 	}
 
 	/**
-	 * Removes the specified custom key binding
+	 * Removes the specified custom key binding.
 	 */
-	function removeKeyBinding(binding) {
-		delete registeredKeyBindings[binding];
+	function removeKeyBinding( keyCode ) {
+
+		delete registeredKeyBindings[keyCode];
+
 	}
 
 	/**
@@ -1778,9 +1783,9 @@
 				html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
 			}
 
-			// add custom key bindings that have associated descriptions
+			// Add custom key bindings that have associated descriptions
 			for( var binding in registeredKeyBindings ) {
-				if (registeredKeyBindings[binding].key && registeredKeyBindings[binding].description) {
+				if( registeredKeyBindings[binding].key && registeredKeyBindings[binding].description ) {
 					html += '<tr><td>' + registeredKeyBindings[binding].key + '</td><td>' + registeredKeyBindings[binding].description + '</td></tr>';
 				}
 			}
