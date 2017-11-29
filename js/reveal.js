@@ -289,7 +289,10 @@
 			'B  ,  .':				'Pause',
 			'F':					'Fullscreen',
 			'ESC, O':				'Slide overview'
-		};
+		},
+		
+		// Holds custom key code mappings
+		registeredKeyBindings = {};
 
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -1262,6 +1265,33 @@
 	}
 
 	/**
+	 * Add a custom key binding with optional description to be added to the help screen
+	 */
+	function addKeyBinding(binding, callback) {
+		if (typeof binding === 'object' && binding.keyCode) {
+			registeredKeyBindings[binding.keyCode] = {
+				callback: callback,
+				key: binding.key,
+				description: binding.description
+			};
+		}
+		else {
+			registeredKeyBindings[binding] = {
+				callback: callback,
+				key: null,
+				description: null
+			};
+		}
+	}
+
+	/**
+	 * Removes the specified custom key binding
+	 */
+	function removeKeyBinding(binding) {
+		delete registeredKeyBindings[binding];
+	}
+
+	/**
 	 * Extend object a with the properties of object b.
 	 * If there's a conflict, object b takes precedence.
 	 *
@@ -1746,6 +1776,13 @@
 			html += '<table><th>KEY</th><th>ACTION</th>';
 			for( var key in keyboardShortcuts ) {
 				html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
+			}
+
+			// add custom key bindings that have associated descriptions
+			for( var binding in registeredKeyBindings ) {
+				if (registeredKeyBindings[binding].key && registeredKeyBindings[binding].description) {
+					html += '<tr><td>' + registeredKeyBindings[binding].key + '</td><td>' + registeredKeyBindings[binding].description + '</td></tr>';
+				}
 			}
 
 			html += '</table>';
@@ -4397,7 +4434,7 @@
 
 		// If there's a condition specified and it returns false,
 		// ignore this event
-		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition() === false ) {
+		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition(event) === false ) {
 			return true;
 		}
 
@@ -4462,7 +4499,31 @@
 
 		}
 
-		// 2. System defined key bindings
+		// 2. Registered custom key bindings
+		if( triggered === false ) {
+
+			for( key in registeredKeyBindings ) {
+
+				// Check if this binding matches the pressed key
+				if( parseInt( key, 10 ) === event.keyCode ) {
+
+					var action = registeredKeyBindings[ key ].callback;
+
+					// Callback function
+					if( typeof action === 'function' ) {
+						action.apply( null, [ event ] );
+					}
+					// String shortcuts to reveal.js API
+					else if( typeof action === 'string' && typeof Reveal[ action ] === 'function' ) {
+						Reveal[ action ].call();
+					}
+
+					triggered = true;
+				}
+			}
+		}
+
+		// 3. System defined key bindings
 		if( triggered === false ) {
 
 			// Assume true and try to prove false
@@ -5221,6 +5282,12 @@
 				( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
 			}
 		},
+
+		// Adds a custom key binding
+		addKeyBinding: addKeyBinding,
+
+		// Removes a custom key binding
+		removeKeyBinding: removeKeyBinding,
 
 		// Programatically triggers a keyboard event
 		triggerKey: function( keyCode ) {
