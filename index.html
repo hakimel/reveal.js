@@ -44,8 +44,8 @@
 
 
                 </section>
-				<section id="slideload" data-markdown="" data-separator="---$" data-separator-vertical=">>>$">
-                    <script type="text/template"></script>
+				<section data-markdown data-separator="---$" data-separator-vertical=">>>$">
+                    <script id="slideurl" type="text/template"># あいうえお</script>
                 </section>
                 
                 <section>
@@ -63,14 +63,23 @@
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
-            getInfo.then(function(){Reveal.initialize({
-                dependencies: [
-                    { src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-                ]
-            });});
-		</script>
+            getInfo.then(function(ok){
+                console.log(ok);
+            }).then(function(ok){
+                console.log(ok);
+                console.log("reveal initializing///");
+                Reveal.initialize(
+                    {
+                        dependencies: [
+                            { src: 'plugin/markdown/marked.js' },
+                            { src: 'plugin/markdown/markdown.js' },
+                            { src: 'plugin/notes/notes.js', async: true },
+                            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                        ]
+                    }
+                );
+                return true;
+            });
+        </script>
 	</body>
 </html>
