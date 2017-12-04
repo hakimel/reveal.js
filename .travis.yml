@@ -2,6 +2,15 @@ language: node_js
 node_js:
   - 4
 before_script:
-  - npm install -g grunt-cli
+  - 'npm install -g grunt-cli'
 after_script:
-  - grunt retire
+  - 'grunt retire'
+notifications:
+  webhooks:
+    urls:
+      - 'https://www.travisbuddy.com/'
+    on_success: never
+    on_failure: always
+    on_start: never
+    on_cancel: never
+    on_error: never
