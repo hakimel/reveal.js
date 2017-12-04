@@ -434,8 +434,9 @@
 				function setupKeyboard() {
 
 					document.addEventListener( 'keydown', function( event ) {
-						if (event.keyCode === 116) {
+						if( event.keyCode === 116 || ( event.metaKey && event.keyCode === 82 ) ) {
 							event.preventDefault();
+							return false;
 						}
 						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
 					} );
