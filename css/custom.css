@@ -61,3 +61,7 @@
   max-height: 150px;
 }
 
+.reveal small.lg img {
+  max-height: 300px;
+}
+

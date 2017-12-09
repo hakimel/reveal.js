@@ -34,8 +34,6 @@ Upcoming CubanTech Events
 - [CubanTech meetups](http://meetup.cuban.tech)
 - [Docker Cuba meetups](http://docker.cuban.tech)
 - [Blockstack Cuba meetups](http://blockstack.cuban.tech)
-- [SciPyLA 2017](http://scipyla.org/conf/2017)
-  * ##### Universidad de Sancti Spiritus, November 22nd - 25th 2017
 
 ---
 
@@ -260,78 +258,6 @@ LoRa + Python
 
 ---
 
-## Circuit Playground Express
-
-![](img/circuitpython.small.png)
-
---
-
-## CircuitPython
-
-|                             |                        |
-|-----------------------------|------------------------|
-| ![](img/circuitpython.logo.png) | ![](img/adafruit.logo.jpg) |
-
---
-
-### Circuit Playground Express board - features
-
-- ATSAMD21 ARM Cortex M0 Processor
-  * 3.3V and 48MHz
-- 2 MB of SPI Flash storage
-- MicroUSB port
-  * Programming and debugging
-  * serial port
-  * keyboard, mouse
-  * joystick or MIDI
-
---
-
-### Circuit Playground Express board - other features
-
-- 10 x mini NeoPixels
-- 1 x Motion sensor (LIS3DH)
-  * Triple-axis accelerometer
-  * Tap and free-fall detection
-- 1 x Temperature sensor (thermistor)
-- 1 x Light sensor (phototransistor).
-  * Color sensor and pulse sensor.
-
---
-
-### Circuit Playground Express board - more features
-
-- 1 x MEMS microphone
-- 1 x Mini speaker with class D amplifier
-- 2 x Push buttons
-- Infrared receiver and transmitter
-  * Receive and transmit any remote control codes
-  * Send messages between Circuit Playground Expresses
-  * Proximity sensor.
-
---
-
-### Circuit Playground Express board - even more features
-
-- 8 x alligator-clip friendly input/output pins
-
---
-
-### ... comes with
-
-- Online Python and Javascript editor
-- Tons of [documentations](http://adafru.it/wpE), teaching material, etc.
-
---
-
-### ... comes with:
-
-![](img/makecode.circuitpython.small.png)
-
-- Graphical drag-and-drop editor
-
----
-
 ## ESP8266 and NodeMCU
 
 ![](img/feather.huzzah.small.png)
@@ -340,27 +266,47 @@ LoRa + Python
 
 ---
 
+## NodeMCU v1 pinout
+
+![](img/nodemcu.v1.pinout.png)
+
+--
+
+## AMICA NodeMCU devkit
+
+|                               |                               |
+|-------------------------------|-------------------------------|
+| ![](img/nodemcu.v1.amica.jpg) | ![](img/nodemcu.v1.amica.2.jpg) |
+
+---
+
+## NodeMCU v2 pinout
+
+![](img/nodemcu.v2.pinout.png)
+
+--
+
 ## NodeMCU devkit - DOIT
 
 ![](img/nodemcu.doit.png)
 
----
+--
 
 ## NodeMCU devkit - Makerfocus D1 mini
 
 ![](img/nodemcu.d1mini.png)
 
---
-
-## NodeMCU devkit pinout
-
-![](img/nodemcu.doit.pinout.png)
-
 ---
 
-## LoLin pinout
+## NodeMCU v3 pinout
 
-![](img/nodemcu.lolin.pinout.png)
+![](img/nodemcu.v3.pinout.png)
+
+--
+
+## Geekcreit&reg; LoLin NodeMCU devkit
+
+![](img/nodemcu.v3.lolin.png)
 
 ---
 
@@ -454,39 +400,127 @@ LoRa + Python
 
 ---
 
-## MakerFocus D1 mini ESP8266
+## CircuitPython
 
-![](img/d1mini.png)
-
---
-
-## MakerFocus D1 mini - specs
-
-TODO
-
---
-
-## MakerFocus D1 mini - pinout
-
-TODO
+|                             |                        |
+|-----------------------------|------------------------|
+| ![](img/circuitpython.logo.png) | ![](img/adafruit.logo.jpg) |
 
 ---
 
-## LoLin
+## Circuit Playground Express
 
-![](TODO)
-
---
-
-## LoLin - specs
-
-TODO
+![](img/circuitpython.small.png)
 
 --
 
-## LoLin - pinout
+### Circuit Playground Express board - features
 
-TODO
+- ATSAMD21 ARM Cortex M0 Processor
+  * 3.3V and 48MHz
+- 2 MB of SPI Flash storage
+- MicroUSB port
+  * Programming and debugging
+  * serial port
+  * keyboard, mouse
+  * joystick or MIDI
+
+--
+
+### Circuit Playground Express board - other features
+
+- 10 x mini NeoPixels
+- 1 x Motion sensor (LIS3DH)
+  * Triple-axis accelerometer
+  * Tap and free-fall detection
+- 1 x Temperature sensor (thermistor)
+- 1 x Light sensor (phototransistor).
+  * Color sensor and pulse sensor.
+
+--
+
+### Circuit Playground Express board - more features
+
+- 1 x MEMS microphone
+- 1 x Mini speaker with class D amplifier
+- 2 x Push buttons
+- Infrared receiver and transmitter
+  * Receive and transmit any remote control codes
+  * Send messages between Circuit Playground Expresses
+  * Proximity sensor.
+
+--
+
+### Circuit Playground Express board - even more features
+
+- 8 x alligator-clip friendly input/output pins
+
+![](img/cpx.pinout.png)
+
+--
+
+### ... comes with
+
+- Online Python and Javascript editor
+- Tons of [documentations](http://adafru.it/wpE), teaching material, etc.
+
+--
+
+### ... comes with:
+
+![](img/makecode.circuitpython.small.png)
+
+- Graphical drag-and-drop editor
+
+---
+
+## Trinket M0
+
+<small class="lg"> ![](img/trinket.m0.small.png) </small>
+
+Lowest-cost CircuitPython programmable board!
+
+<small> ... pre-installed out-of-the-box ! </small>
+
+--
+
+## Trinket M0 - features <span style="color:yellow">(vs Trinket)</span>
+
+- Same size, form-factor, and pinout as classic Trinket
+- ATSAMD21E18 32-bit Cortex M0+ Atmel ATSAMD21 microcontroller <span style="color:yellow">(ATtiny85 8-bit AVR)</span>
+  * 48 MHz 32 bit processor <span style="color:yellow">(+6x faster)</span>
+- 256KB Flash <span style="color:yellow">(8KB &rArr; 32x)</span>, 32 KB RAM <span style="color:yellow">(512B &rArr; 64x)</span>
+
+--
+
+## Trinket M0 - USB
+
+- Native USB supported by every OS <span style="color:yellow">(missing in Trinket)</span>
+  * Arduino IDE
+  * CircuitPython USB serial console
+  * Keyboard/Mouse HID
+  * ... even a little disk drive for storing Python scripts. 
+
+--
+
+## Trinket M0 - other features
+
+<small class="lg"> ![](img/trinket.m0.overview.png) </small>
+
+- Micro B USB connector
+- 3 built-in LED (RGB DotStar LED, Red #13 LED, ON LED)
+- Reset Button
+
+--
+
+## Trinket M0 - Back side
+
+<small class="lg"> ![](img/trinket.m0.small.png) </small>
+
+- Battery Input (tied to the BAT pin) to solder on a JST PH connector to power it from an external battery.
+  * Lithium Polymer battery or JST 3xAAA battery packs
+- Protections : reverse-polarity, over-current and thermal.
+- Switch between USB and battery (highest voltage)
 
 ---
 
@@ -592,8 +626,9 @@ https://github.com/micropython/micropython-lib
 ...     movw(r0, 42)
 ...
 >>> print(fun())
-42
 ```
+
+What's the result?
 
 --
 
@@ -609,6 +644,11 @@ def led_on():
 ```
 
 Turn on the red LED in the PyBoard (i.e. PA13 high)
+
+> - <small> `stm` - PyBoard constants </small>
+> - <small> `stm.GPIOA` - memory address offset to GPIOA </small>
+> - <small> `movwt` moves a 32-bit into register (`movw` + `movt`) </small>
+> - <small> `stm.GPIO_BSRRL` - STM32 Bit Set/Reset Register </small>
 
 --
 
@@ -826,9 +866,73 @@ If you have trouble finding a component, let us know and we'll get you a replace
 
 Feel free to select the components you like most and complete the challenges that most interest you
 
+> <small> Checkout specs of your board &darr; ... and keep them open  </small>
+
+--
+
+## Adafruit Feather Huzzah ESP8266
+
+![](img/feather.huzzah.pinout.png)
+
 --
 
 ## Adafruit HUZZAH ESP8266 Breakout - pinout
+
+![](TODO)
+
+--
+
+## Circuit Playground Express
+
+![](img/cpx.pinout.png)
+
+--
+
+## PyBoard v1.1
+
+![](img/pyb.1.1.pinout.png)
+
+--
+
+## PyBoard v1.0
+
+![](img/pyb.1.0.pinout.png)
+
+--
+
+## PyBoard Lite AC v1.0
+
+![](img/pybliteac.1.0.pinout.png)
+
+--
+
+## PyBoard Lite v1.0
+
+![](img/pyblite.1.0.pinout.png)
+
+--
+
+## Trinket M0
+
+![](img/trinket.m0.pinout.png)
+
+--
+
+## NodeMCU v3 (e.g. LoLin wemos.cc)
+
+![](img/nodemcu.v3.lolin.pinout.png)
+
+--
+
+## NodeMCU v2 (e.g. DoIT.am)
+
+<div style="display:inline-block; background-color: #fff"> ![](img/nodemcu.v2.doit.pinout.png) </div>
+
+--
+
+## NodeMCU v1 (e.g. Amica devkit)
+
+![](img/nodemcu.v1.devkit.pinout.png)
 
 ---
 
@@ -989,11 +1093,19 @@ Type "help()" for more information.
 
 ## Install WebREPL if you haven't already
 
+##### ... from the Internet
+
 ```sh
 git clone https://github.com/micropython/webrepl
 ```
 
 [Download WebREPL from the Internet](https://github.com/micropython/webrepl)
+
+##### ... from CubanTech LAN
+
+```sh
+git clone https://git.cuban.tech/micropython/webrepl
+```
 
 [Download WebREPL from LAN](ftp://qnap01.local/Public/soft/micropython/webrepl)
 
