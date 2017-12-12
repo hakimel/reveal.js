@@ -567,8 +567,8 @@ Coinbase transaction comes first
 
 <div style="width: 500px; display: inline-block; margin-left: auto; magin-right: auto"> ![](img/btc.hashrate.20171113.png) </div>
 
-- +2 EHash/s , 10,000 metric tonnes of hardware
-- Enough material to build another Eiffel tower.
+- <small> 6.4 EHash/s , 80,704,290.84 PFLOPS </small>
+- <small> 10,000 metric tonnes of hardware. Enough material to build another Eiffel tower. </small>
 
 --
 
