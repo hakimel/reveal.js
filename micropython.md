@@ -1168,7 +1168,7 @@ Returned values are: IP address, netmask, gateway, DNS.
 ```python
 
 >>> sta_if.active(True)
->>> sta_if.connect('cubantech', 'meetups')
+>>> sta_if.connect('cubantech', 'meet-ups')
 >>> sta_if.isconnected() # Might take a while
 True
 >>> sta_if.ifconfig()
@@ -1306,6 +1306,10 @@ Exit loop with `Ctrl-c`
 ## If successful, you should see this
 
 ![](img/huzzah.blinking-led.gif)
+
+---
+
+<span style="color: red"> Work in progress starting from here </span>
 
 ---
 
