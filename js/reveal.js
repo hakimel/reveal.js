@@ -4238,10 +4238,10 @@
 
 	function navigationEvent(eventName) {
 		var event = new CustomEvent(eventName, {
-    	view: window,
-    	bubbles: true,
-    	cancelable: true
-  	});
+			view: window,
+			bubbles: true,
+			cancelable: true
+		});
 		var cancelled = !dom.wrapper.dispatchEvent( event );
 		return cancelled;
 	}
@@ -4288,7 +4288,7 @@
 				else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
 					slide( indexh + 1 );
 				}
-		  }
+			}
 		}
 
 	function navigateUp() {
