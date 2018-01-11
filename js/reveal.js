@@ -4255,9 +4255,9 @@
 	}
 
 	function navigateLeft() {
-		if( !navigationEvent("horizontalNavigation") && config.horizontalNavigation ) {
+		if( !navigationEvent('horizontalNavigation') && config.horizontalNavigation ) {
 			if( config.postMessageEvents && window.parent !== window.self) {
-				window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "horizontalNavigation", state: getState() }), '*' );
+				window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: 'horizontalNavigation', state: getState() }), '*' );
 			}
 			// Reverse for RTL
 			if( config.rtl ) {
@@ -4273,9 +4273,9 @@
 	}
 
 	function navigateRight() {
-		if( !navigationEvent("horizontalNavigation") && config.horizontalNavigation ) {
+		if( !navigationEvent('horizontalNavigation') && config.horizontalNavigation ) {
 				if( config.postMessageEvents && window.parent !== window.self) {
-					window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "horizontalNavigation", state: getState() }), '*' );
+					window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: 'horizontalNavigation', state: getState() }), '*' );
 				}
 				hasNavigatedRight = true;
 				if( config.rtl ) {
@@ -4292,9 +4292,9 @@
 		}
 
 	function navigateUp() {
-		if( !navigationEvent("verticalNavigation") && config.verticalNavigation ) {
+		if( !navigationEvent('verticalNavigation') && config.verticalNavigation ) {
 			if( config.postMessageEvents && window.parent !== window.self) {
-				window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "verticalNavigation", state: getState() }), '*' );
+				window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: 'verticalNavigation', state: getState() }), '*' );
 			}
 			// Prioritize hiding fragments
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().up) {
@@ -4304,9 +4304,9 @@
 	}
 
 	function navigateDown() {
-		if( !navigationEvent("verticalNavigation") && config.verticalNavigation ) {
+		if( !navigationEvent('verticalNavigation') && config.verticalNavigation ) {
 			if( config.postMessageEvents && window.parent !== window.self) {
-					window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "verticalNavigation", state: getState() }), '*' );
+					window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: 'verticalNavigation', state: getState() }), '*' );
 			}
 			hasNavigatedDown = true;
 			// Prioritize revealing fragments
