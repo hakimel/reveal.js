@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/deusto.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,8 +24,31 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+			<div class="static">
+				<div class="bottomL">
+					<img src="logo-deusto.png" />
+				</div>
+				<div class="bottomR">
+					Miren Berasategi
+				</div>
+			</div>
+
+				<section>
+					<h1>h1 title</h1>
+					<p style="text-align:center;">Slide 1</p>
+				</section>
+				<section>
+					<h2>h2 title</h2>
+					<p>Slide 2</p>
+				</section>
+				<section>
+					<h3>h3 title</h3>
+					<p>Slide 3</p>
+				</section>
+				<section>
+					<p>Slide 4</p>
+				</section>
 			</div>
 		</div>
 
@@ -33,10 +56,12 @@
 		<script src="js/reveal.js"></script>
 
 		<script>
+
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				progress: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
