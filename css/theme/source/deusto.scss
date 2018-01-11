@@ -1,0 +1,61 @@
+/**
+ * Deusto theme for reveal.js. Based on the 'white' theme by Hakim El Hattab, http://hakim.se.
+ *
+ * By Miren Berasategi, http://d.mberasategi.com
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #fff;
+
+$mainColor: #222;
+$accentColor: #2a76dd;
+$headingColor: $accentColor;
+
+$mainFontSize: 42px;
+$mainFont: 'Minion Pro', 'PT Serif', Georgia, 'Times New Roman', serif;
+$headingFont: 'Frutiger LT Std', 'Montserrat', 'Source Sans Pro', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: none;
+$headingFontWeight: 600;
+$linkColor: $accentColor;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+section.has-dark-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+	}
+}
+
+.reveal h1, .reveal h2 { background-color: $linkColor; color: #fff !important; }
+
+.reveal h1 { padding-top:2em; text-align:center; }
+
+.reveal h2 { padding-top:.25em; padding-left:.25em; }
+
+.reveal .slides { text-align:left; }
+
+.static .bottomL { position:absolute;bottom:0; }
+.static .bottomR { position:absolute;bottom:0;right:0;text-align:right;font-size:.35em;font-style:italic; color:#666; }
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
