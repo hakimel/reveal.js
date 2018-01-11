@@ -192,6 +192,10 @@
 			// The display mode that will be used to show slides
 			display: 'block',
 
+			//Allow horizontal or vertical navigations
+			horizontalNavigation: true,
+			verticalNavigation: true,
+
 			// Script dependencies to load
 			dependencies: []
 
@@ -4232,58 +4236,85 @@
 
 	}
 
-	function navigateLeft() {
-
-		// Reverse for RTL
-		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
-				slide( indexh + 1 );
-			}
-		}
-		// Normal navigation
-		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
-			slide( indexh - 1 );
-		}
-
+	function navigationEvent(eventName) {
+		var event = new CustomEvent(eventName, {
+    	view: window,
+    	bubbles: true,
+    	cancelable: true
+  	});
+		var cancelled = !dom.wrapper.dispatchEvent( event );
+		return cancelled;
 	}
 
-	function navigateRight() {
+	function toggleHorizontalNavigation() {
+		config.horizontalNavigation = !config.horizontalNavigation;
+	}
 
-		hasNavigatedRight = true;
+	function toggleVerticalNavigation() {
+		config.verticalNavigation = !config.verticalNavigation;
+	}
 
-		// Reverse for RTL
-		if( config.rtl ) {
-			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+	function navigateLeft() {
+		if( !navigationEvent("horizontalNavigation") && config.horizontalNavigation ) {
+			if( config.postMessageEvents && window.parent !== window.self) {
+				window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "horizontalNavigation", state: getState() }), '*' );
+			}
+			// Reverse for RTL
+			if( config.rtl ) {
+				if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+					slide( indexh + 1 );
+				}
+			}
+			// Normal navigation
+			else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
 				slide( indexh - 1 );
 			}
 		}
-		// Normal navigation
-		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
-			slide( indexh + 1 );
-		}
-
 	}
 
-	function navigateUp() {
-
-		// Prioritize hiding fragments
-		if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
-			slide( indexh, indexv - 1 );
+	function navigateRight() {
+		if( !navigationEvent("horizontalNavigation") && config.horizontalNavigation ) {
+				if( config.postMessageEvents && window.parent !== window.self) {
+					window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "horizontalNavigation", state: getState() }), '*' );
+				}
+				hasNavigatedRight = true;
+				if( config.rtl ) {
+					// Reverse for RTL
+					if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+						slide( indexh - 1 );
+					}
+				}
+				// Normal navigation
+				else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+					slide( indexh + 1 );
+				}
+		  }
 		}
 
+	function navigateUp() {
+		if( !navigationEvent("verticalNavigation") && config.verticalNavigation ) {
+			if( config.postMessageEvents && window.parent !== window.self) {
+				window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "verticalNavigation", state: getState() }), '*' );
+			}
+			// Prioritize hiding fragments
+			if( ( isOverview() || previousFragment() === false ) && availableRoutes().up) {
+				slide( indexh, indexv - 1 );
+			}
+		}
 	}
 
 	function navigateDown() {
-
-		hasNavigatedDown = true;
-
-		// Prioritize revealing fragments
-		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
-			slide( indexh, indexv + 1 );
+		if( !navigationEvent("verticalNavigation") && config.verticalNavigation ) {
+			if( config.postMessageEvents && window.parent !== window.self) {
+					window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: "verticalNavigation", state: getState() }), '*' );
+			}
+			hasNavigatedDown = true;
+			// Prioritize revealing fragments
+			if( ( isOverview() || nextFragment() === false ) && availableRoutes().down) {
+				slide( indexh, indexv + 1 );
+			}
 		}
-
 	}
-
 	/**
 	 * Navigates backwards, prioritized in the following order:
 	 * 1) Previous fragment
@@ -4495,7 +4526,7 @@
 				// f
 				case 70: enterFullscreen(); break;
 				// a
-				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( autoSlideWasPaused ); break;
+				case 65: if( config.autoSlideStoppable ) toggleAutoSlide( autoSlideWasPaused ); break;
 				default:
 					triggered = false;
 			}
@@ -4508,7 +4539,7 @@
 			event.preventDefault && event.preventDefault();
 		}
 		// ESC or O key
-		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
+		else if( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
 			if( dom.overlay ) {
 				closeOverlay();
 			}
@@ -5105,6 +5136,12 @@
 
 		// Toggles the auto slide mode on/off
 		toggleAutoSlide: toggleAutoSlide,
+
+		// Toggles horizontal navigations
+		toggleHorizontalNavigation: toggleHorizontalNavigation,
+
+		// Toggles vertical navigations
+		toggleVerticalNavigation: toggleVerticalNavigation,
 
 		// State checks
 		isOverview: isOverview,
