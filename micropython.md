@@ -123,6 +123,87 @@ A tagged pointer is a pointer (concretely a memory address) with additional data
 
 ---
 
+# Current state of MicroPython
+
+---
+
+## Development
+
+- One full time developer, two core contributors
+- Partly funded by the European Space Agency
+- Kickstart in May 2016 for proper ESP8266 sockets support
+- Feels like it's maturing
+
+---
+
+## Is it production ready?
+
+It depends on your board
+
+But it's amazing for prototyping!
+
+Or for embedding in games and apps
+
+--
+
+## Embedding Python in games ?
+
+![](img/civ.iv.jpg)
+
+... has happened before, not MicroPython though ...
+
+--
+
+### Embedded Python for video games
+
+##### Civilization IV
+
+![](img/civ.iv.jpg)
+
+All internal logic, including AI. The API is available .
+
+--
+
+### Embedded Python for video games
+
+##### The Temple of Elemental Evil
+
+![](img/toee.small.jpg)
+
+Almost everything except the rendering engine , [according to Steve Moret](http://www.pygame.org/interview/stevemoret.shtml)
+
+--
+
+### Embedded Python for video games
+
+##### Star Trek Bridge Commander
+
+![](img/BridgeCommander.small.jpg)
+
+Scripts of the missions
+
+--
+
+### Embedded Python for video games
+
+##### Crystal Space
+
+![](img/crystal.space.small.jpg)
+
+All internal logic, including AI. The API is available .
+
+--
+
+### Embedded Python for video games
+
+##### Battlefield 2
+
+![](img/battlefield.4.small.jpeg)
+
+Gameplay , scores , team stats
+
+---
+
 # Some supported boards
 
 ---
@@ -150,16 +231,6 @@ A tagged pointer is a pointer (concretely a memory address) with additional data
 
 Supplied to *1 million* school children
 
-- 25 LEDs
-- Two programmable buttons
-- Accelerometer & magnetometer
-- Bluetooth
-- 5 GPIO
-
---
-
-### ... comes with:
-
 - Online Python editor
 - Mobile app to upload code
 - Tons of documentations, teaching material, etc.
@@ -171,6 +242,16 @@ Supplied to *1 million* school children
 ![](img/microbit.pxt.small.png)
 
 - Graphical drag-and-drop editor
+
+--
+
+## BBC Micro:Bit specs
+
+- 25 LEDs
+- Two programmable buttons
+- Accelerometer & magnetometer
+- Bluetooth
+- 5 GPIO
 
 --
 
@@ -214,7 +295,11 @@ LoRa + Python
 
 ## Feather M0 Express
 
-[![](img/feather.m0.express.png)](https://www.adafruit.com/product/3403)
+|                             |                        |
+|-----------------------------|------------------------|
+| [![](img/feather.m0.express.png)](https://www.adafruit.com/product/3403) | <div style="width: 400px; display:inline-block"> ![](img/adafruit.logo.jpg) </div> |
+
+
 
 --
 
@@ -238,12 +323,12 @@ LoRa + Python
 
 ## Feather M0 Express - specs
 
+- USB storage key [UF2 bootloader](https://learn.adafruit.com/adafruit-feather-m0-express-designed-for-circuit-python-circuitpython/uf2-bootloader)
 - ATSAMD21G18 @ 48MHz with 3.3V logic/power
 - 256KB of FLASH + 32KB of RAM
 - 32.768 KHz crystal for clock generation & RTC
 - 3.3V regulator with 500mA peak current output
 - USB native support (USB bootloader, serial port debugging)
-- USB storage key [UF2 bootloader](https://learn.adafruit.com/adafruit-feather-m0-express-designed-for-circuit-python-circuitpython/uf2-bootloader)
 
 --
 
@@ -316,6 +401,12 @@ LoRa + Python
 
 --
 
+## Feather HUZZAH - 100mA lipoly charger
+
+![](img/feather.huzzah.lipoly.png)
+
+--
+
 ## Feather HUZZAH ESP8266 - specs
 
 - ESP8266 @ 80MHz or 160 MHz 
@@ -326,12 +417,6 @@ LoRa + Python
 - 9 GPIO pins
   * can also be used as I2C and SPI
 - 1 x analog inputs 1.0V max
-
---
-
-## Feather HUZZAH - 100mA lipoly charger
-
-![](img/feather.huzzah.lipoly.png)
 
 --
 
@@ -414,6 +499,16 @@ LoRa + Python
 
 --
 
+### ... comes with
+
+![](img/makecode.circuitpython.small.png)
+
+- Graphical drag-and-drop editor
+- Online Python and Javascript editor
+- Tons of [documentations](http://adafru.it/wpE), teaching material, etc.
+
+--
+
 ### Circuit Playground Express board - features
 
 - ATSAMD21 ARM Cortex M0 Processor
@@ -456,21 +551,6 @@ LoRa + Python
 - 8 x alligator-clip friendly input/output pins
 
 ![](img/cpx.pinout.png)
-
---
-
-### ... comes with
-
-- Online Python and Javascript editor
-- Tons of [documentations](http://adafru.it/wpE), teaching material, etc.
-
---
-
-### ... comes with:
-
-![](img/makecode.circuitpython.small.png)
-
-- Graphical drag-and-drop editor
 
 ---
 
@@ -524,6 +604,273 @@ Lowest-cost CircuitPython programmable board!
 
 ---
 
+## Wrapping up ...
+
+> <small> Checkout specs of your board &darr; ... and keep them open  </small>
+
+--
+
+## Adafruit Feather Huzzah ESP8266
+
+![](img/feather.huzzah.pinout.png)
+
+--
+
+## Circuit Playground Express
+
+![](img/cpx.pinout.png)
+
+--
+
+## PyBoard v1.1
+
+![](img/pyb.1.1.pinout.png)
+
+--
+
+## PyBoard v1.0
+
+![](img/pyb.1.0.pinout.png)
+
+--
+
+## PyBoard Lite AC v1.0
+
+![](img/pybliteac.1.0.pinout.png)
+
+--
+
+## PyBoard Lite v1.0
+
+![](img/pyblite.1.0.pinout.png)
+
+--
+
+## Trinket M0
+
+![](img/trinket.m0.pinout.png)
+
+--
+
+## NodeMCU v3 (e.g. LoLin wemos.cc)
+
+![](img/nodemcu.v3.lolin.pinout.png)
+
+--
+
+## NodeMCU v2 (e.g. DoIT.am)
+
+<div style="display:inline-block; background-color: #fff"> ![](img/nodemcu.v2.doit.pinout.png) </div>
+
+--
+
+## NodeMCU v1 (e.g. Amica devkit)
+
+![](img/nodemcu.v1.devkit.pinout.png)
+
+---
+
+## Getting started PyBoard
+
+Zero conf
+
+![](img/pyboard.small.png)
+
+---
+
+## Getting started ESP8266
+
+```sh
+
+pip install esptool
+```
+
+Since Version 1.3 supports both Python 2.7 and 3.4 <br/> (or higher)
+
+--
+
+### Identify USB - GNU/Linux
+
+```sh
+$ udevadm monitor --udev
+monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+
+UDEV  [1504678146.578976] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2 (usb)
+UDEV  [1504678146.746860] add      /module/usbserial (module)
+UDEV  [1504678146.747288] add      /bus/usb-serial (bus)
+UDEV  [1504678146.747855] add      /bus/usb/drivers/usbserial (drivers)
+UDEV  [1504678146.748149] add      /bus/usb/drivers/usbserial_generic (drivers)
+UDEV  [1504678146.748241] add      /bus/usb-serial/drivers/generic (drivers)
+UDEV  [1504678146.772466] add      /module/ch341 (module)
+UDEV  [1504678146.772783] add      /bus/usb-serial/drivers/ch341-uart (drivers)
+UDEV  [1504678146.774556] add      /bus/usb/drivers/ch341 (drivers)
+UDEV  [1504678146.774614] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0 (usb)
+UDEV  [1504678146.775507] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0 (usb-serial)
+UDEV  [1504678146.803046] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0/tty/ttyUSB0 (tty)
+
+```
+
+--
+
+### Identify USB - Mac OS X
+
+```sh
+
+$ ls /dev/cu*serial*
+/dev/cu.wchusbserial1410
+
+```
+
+--
+
+## Erase and deploy firmware
+
+```sh
+
+esptool.py --port /dev/ttyUSB0 erase_flash
+esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp8266-20170526-v1.9.bin
+```
+
+- Specify the device name identified earlier after `--port`
+- Reduce the baudrate if you get errors when flashing (e.g. down to 115200)
+
+--
+
+## ... if it still does not work ...
+
+For some NodeMCU boards specify `-fm dio` option
+
+```sh
+esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect -fm dio 0 esp8266-20170526-v1.9.bin
+```
+
+---
+
+## Getting started - UF2 bootloader
+
+- Download UF2 image file
+  * e.g. [the latest CPX CircuitPython UF2](https://github.com/adafruit/circuitpython/releases/download/2.1.0/adafruit-circuitpython-circuitplayground_express-2.1.0.uf2) for Circuit Playground Express
+- Plug your board into your computer using USB data cable
+- [**OPTIONAL**] Reset your board
+  * e.g. Double-click the small Reset button in the middle of the CPX
+
+--
+
+## UF2 bootloader mode
+
+![](img/circuit_playground_greens.jpg)
+
+- Check your board is in bootloader mode
+  * e.g. all of the LEDs turn green in CPX
+
+--
+
+## UF2 boot drive
+
+![](img/circuit_playground_cplayboot.gif)
+
+- A new disk drive appears
+  * Name may vary e.g. `CPLAYBOOT` for CPX
+
+--
+
+## UF2 flashing
+
+![](img/circuit_playground_drag.png)
+
+- Copy (drag) image file onto boot drive
+
+---
+
+## Getting started - BOSSAC
+
+- Download BIN image files e.g. [latest BIN for CPX](https://adafruit-circuit-python.s3.amazonaws.com/index.html?prefix=bin/circuitplayground_express/)
+- Download [latest version of bossac](https://github.com/shumatech/BOSSA/releases/latest)
+  * `mingw32` for Windows, `apple-darwin` for Mac OSX, and several `linux` options
+
+-- 
+
+## Flash with BOSSAC
+
+```sh
+
+$ bossac -e -w -v -R ~/Downloads/adafruit-circuitpython-circuitplayground_express-1.0.0.bin
+```
+
+`e`rase the chip, `w`rite the given file, `v`erify the write and `R`eset the board
+
+---
+
+## REPL over the serial port
+
+- Plug mini-USB (board) to USB (laptop) cable
+- Identify USB device
+- Connect over serial connection
+
+--
+
+### Identify and connect over USB - GNU/Linux
+
+<small>
+```sh
+$ udevadm monitor --udev
+monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+
+UDEV  [1504678146.578976] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2 (usb)
+UDEV  [1504678146.746860] add      /module/usbserial (module)
+UDEV  [1504678146.747288] add      /bus/usb-serial (bus)
+UDEV  [1504678146.747855] add      /bus/usb/drivers/usbserial (drivers)
+UDEV  [1504678146.748149] add      /bus/usb/drivers/usbserial_generic (drivers)
+UDEV  [1504678146.748241] add      /bus/usb-serial/drivers/generic (drivers)
+UDEV  [1504678146.772466] add      /module/ch341 (module)
+UDEV  [1504678146.772783] add      /bus/usb-serial/drivers/ch341-uart (drivers)
+UDEV  [1504678146.774556] add      /bus/usb/drivers/ch341 (drivers)
+UDEV  [1504678146.774614] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0 (usb)
+UDEV  [1504678146.775507] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0 (usb-serial)
+UDEV  [1504678146.803046] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0/tty/ttyUSB0 (tty)
+
+$ picocom /dev/ttyUSB0 -b115200
+```
+</small>
+
+... not always `ttyUSB0` e.g. `ttyACM0` 
+
+--
+
+### Identify and connect over USB - Mac OS X
+
+```sh
+
+$ ls /dev/cu*serial*
+/dev/cu.wchusbserial1410
+
+$ screen /dev/cu.wchusbserial1410 115200 -L
+MicroPython v1.9-8-gfcaadf92 on 2017-05-26; ESP module with ESP8266
+Type "help()" for more information.
+>>>
+
+```
+
+... The device name might not be `/dev/cu.wchusbserial1410`
+
+--
+
+### Connect over USB - Windows PuTTY
+
+![](img/putty.config.serial.png)
+
+... set speed to `115200` (instead of `9600`)
+
+--
+
+### Connect over USB - Windows TeraTerm
+
+![](img/teraterm.config.serial.png)
+
+---
+
 # Excuse me ... 
 
 # What is MicroPython ?
@@ -537,8 +884,8 @@ Lowest-cost CircuitPython programmable board!
 >>> print('Hello world!')
 Hello world!
 
->>> with open('pygrunn.txt', 'w') as f:
->>>     f.write('Hello PyGrunn!')
+>>> with open('cubantech.txt', 'w') as f:
+>>>     f.write('Hello CubanTech!')
 
 >>> try:
 >>>     1/0
@@ -605,6 +952,8 @@ https://github.com/micropython/micropython-lib
 ---
 
 # Hardware APIs
+
+<small> ... for PyBoard and STM chips </small>
 
 --
 
@@ -744,88 +1093,7 @@ def foo(self, arg: int) -> int:
 
 ---
 
-# Current state of MicroPython
-
----
-
-## Development
-
-- One full time developer, two core contributors
-- Partly funded by the European Space Agency
-- Kickstart in May 2016 for proper ESP8266 sockets support
-- Feels like it's maturing
-
----
-
-## Is it production ready?
-
-It depends on your board
-
-But it's amazing for prototyping!
-
-Or for embedding in games and apps
-
---
-
-## Embedding Python in games ?
-
-![](img/civ.iv.jpg)
-
-... has happened before, not MicroPython though ...
-
---
-
-### Embedded Python for video games
-
-##### Civilization IV
-
-![](img/civ.iv.jpg)
-
-All internal logic, including AI. The API is available .
-
---
-
-### Embedded Python for video games
-
-##### The Temple of Elemental Evil
-
-![](img/toee.small.jpg)
-
-Almost everything except the rendering engine , [according to Steve Moret](http://www.pygame.org/interview/stevemoret.shtml)
-
---
-
-### Embedded Python for video games
-
-##### Star Trek Bridge Commander
-
-![](img/BridgeCommander.small.jpg)
-
-Scripts of the missions
-
---
-
-### Embedded Python for video games
-
-##### Crystal Space
-
-![](img/crystal.space.small.jpg)
-
-All internal logic, including AI. The API is available .
-
---
-
-### Embedded Python for video games
-
-##### Battlefield 2
-
-![](img/battlefield.4.small.jpeg)
-
-Gameplay , scores , team stats
-
----
-
-# Let's get started!
+# Let's go then !
 
 ---
 
@@ -855,220 +1123,7 @@ If you have trouble finding a component, let us know and we'll get you a replace
 
 ---
 
-## Components We are Covering
-
-- Network programming with ESP8266
-- LEDs (Light Emitting Diodes)
-- Buttons
-- Servos
-
----
-
 Feel free to select the components you like most and complete the challenges that most interest you
-
-> <small> Checkout specs of your board &darr; ... and keep them open  </small>
-
---
-
-## Adafruit Feather Huzzah ESP8266
-
-![](img/feather.huzzah.pinout.png)
-
---
-
-## Adafruit HUZZAH ESP8266 Breakout - pinout
-
-![](TODO)
-
---
-
-## Circuit Playground Express
-
-![](img/cpx.pinout.png)
-
---
-
-## PyBoard v1.1
-
-![](img/pyb.1.1.pinout.png)
-
---
-
-## PyBoard v1.0
-
-![](img/pyb.1.0.pinout.png)
-
---
-
-## PyBoard Lite AC v1.0
-
-![](img/pybliteac.1.0.pinout.png)
-
---
-
-## PyBoard Lite v1.0
-
-![](img/pyblite.1.0.pinout.png)
-
---
-
-## Trinket M0
-
-![](img/trinket.m0.pinout.png)
-
---
-
-## NodeMCU v3 (e.g. LoLin wemos.cc)
-
-![](img/nodemcu.v3.lolin.pinout.png)
-
---
-
-## NodeMCU v2 (e.g. DoIT.am)
-
-<div style="display:inline-block; background-color: #fff"> ![](img/nodemcu.v2.doit.pinout.png) </div>
-
---
-
-## NodeMCU v1 (e.g. Amica devkit)
-
-![](img/nodemcu.v1.devkit.pinout.png)
-
----
-
-# Getting started
-
----
-
-## Getting started PyBoard
-
-Zero conf
-
-![](img/pyboard.small.png)
-
----
-
-## Getting started ESP8266
-
-```sh
-
-pip install esptool
-```
-
-Since Version 1.3 supports both Python 2.7 and 3.4 <br/> (or higher)
-
---
-
-### Identify USB - GNU/Linux
-
-```sh
-$ udevadm monitor --udev
-monitor will print the received events for:
-UDEV - the event which udev sends out after rule processing
-
-UDEV  [1504678146.578976] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2 (usb)
-UDEV  [1504678146.746860] add      /module/usbserial (module)
-UDEV  [1504678146.747288] add      /bus/usb-serial (bus)
-UDEV  [1504678146.747855] add      /bus/usb/drivers/usbserial (drivers)
-UDEV  [1504678146.748149] add      /bus/usb/drivers/usbserial_generic (drivers)
-UDEV  [1504678146.748241] add      /bus/usb-serial/drivers/generic (drivers)
-UDEV  [1504678146.772466] add      /module/ch341 (module)
-UDEV  [1504678146.772783] add      /bus/usb-serial/drivers/ch341-uart (drivers)
-UDEV  [1504678146.774556] add      /bus/usb/drivers/ch341 (drivers)
-UDEV  [1504678146.774614] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0 (usb)
-UDEV  [1504678146.775507] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0 (usb-serial)
-UDEV  [1504678146.803046] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0/tty/ttyUSB0 (tty)
-
-```
-
---
-
-### Identify USB - Mac OS X
-
-```sh
-
-$ ls /dev/cu*serial*
-/dev/cu.wchusbserial1410
-
-```
-
---
-
-## Erase and deploy firmware
-
-```sh
-
-esptool.py --port /dev/ttyUSB0 erase_flash
-esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp8266-20170526-v1.9.bin
-```
-
-- Specify the device name identified earlier after `--port`
-- Reduce the baudrate if you get errors when flashing (e.g. down to 115200)
-
---
-
-## ... if it still does not work ...
-
-For some NodeMCU boards specify `-fm dio` option
-
-```sh
-esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect -fm dio 0 esp8266-20170526-v1.9.bin
-```
-
----
-
-## REPL over the serial port
-
-- Plug mini-USB (board) to USB (laptop) cable
-- Identify USB device
-- Connect over serial connection
-
---
-
-### Identify and connect over USB - GNU/Linux
-
-<small>
-```sh
-$ udevadm monitor --udev
-monitor will print the received events for:
-UDEV - the event which udev sends out after rule processing
-
-UDEV  [1504678146.578976] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2 (usb)
-UDEV  [1504678146.746860] add      /module/usbserial (module)
-UDEV  [1504678146.747288] add      /bus/usb-serial (bus)
-UDEV  [1504678146.747855] add      /bus/usb/drivers/usbserial (drivers)
-UDEV  [1504678146.748149] add      /bus/usb/drivers/usbserial_generic (drivers)
-UDEV  [1504678146.748241] add      /bus/usb-serial/drivers/generic (drivers)
-UDEV  [1504678146.772466] add      /module/ch341 (module)
-UDEV  [1504678146.772783] add      /bus/usb-serial/drivers/ch341-uart (drivers)
-UDEV  [1504678146.774556] add      /bus/usb/drivers/ch341 (drivers)
-UDEV  [1504678146.774614] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0 (usb)
-UDEV  [1504678146.775507] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0 (usb-serial)
-UDEV  [1504678146.803046] add      /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.0/ttyUSB0/tty/ttyUSB0 (tty)
-
-$ picocom /dev/ttyUSB0 -b115200
-```
-</small>
-
-... not always `ttyUSB0` e.g. `ttyACM0` 
-
---
-
-### Identify and connect over USB - Mac OS X
-
-```sh
-
-$ ls /dev/cu*serial*
-/dev/cu.wchusbserial1410
-
-$ screen /dev/cu.wchusbserial1410 115200 -L
-MicroPython v1.9-8-gfcaadf92 on 2017-05-26; ESP module with ESP8266
-Type "help()" for more information.
->>>
-
-```
-
-... The device name might not be `/dev/cu.wchusbserial1410`
 
 ---
 
@@ -1078,10 +1133,11 @@ Type "help()" for more information.
 - LEDs (Light Emitting Diodes)
 - Buttons
 - Servos
+- IoT applications with MQTT
 
 ---
 
-## Network config (MicroPython on ESP8266)
+## Networking (MicroPython on ESP8266)
 
 - WiFi access point (AP)
   * ESSID is of the form MicroPython-xxxxxx (MAC address of your device)
@@ -1104,10 +1160,10 @@ git clone https://github.com/micropython/webrepl
 ##### ... from CubanTech LAN
 
 ```sh
-git clone https://git.cuban.tech/micropython/webrepl
+git clone ssh://git@git.cuban.tech:2222/micropython/webrepl.git
 ```
 
-[Download WebREPL from LAN](ftp://qnap01.local/Public/soft/micropython/webrepl)
+[Download WebREPL from LAN](http://git.cuban.tech/micropython/webrepl/repository/archive.tar.gz?ref=master)
 
 ---
 
@@ -1155,11 +1211,27 @@ import webrepl_setup
 False
 >>> ap_if.active()
 True
+>>> ap_if.config('essid')
+MicroPython-04320781
+>>> ap_if.config(essid='micropy012')
 >>> ap_if.ifconfig()
 ('192.168.4.1', '255.255.255.0', '192.168.4.1', '8.8.8.8')
 ```
 
 Returned values are: IP address, netmask, gateway, DNS.
+
+--
+
+## Network configuration - Parameters
+
+| Parameter  | Type   | Description                              |
+|---------------------|------------------------------------------|
+| *mac*      | bytes  | MAC address (bytes)                      |
+| *essid*    | string | WiFi access point name (string           |
+| *channel*  | int    | WiFi channel (integer)                   |
+| *hidden*   | bool   | Whether ESSID is hidden                  |
+| *authmode* | enum   | Auth mode supported (see `dir(network)`) |
+| *password* | string | WiFi access password                     |
 
 ---
 
@@ -1233,6 +1305,7 @@ while True:
 - <span style="color:yellow"> LEDs (Light Emitting Diodes) </span>
 - Buttons
 - Servos
+- IoT applications with MQTT
 
 ---
 
@@ -1250,6 +1323,27 @@ while True:
 - Short pin is negative (and goes to ground)
 
 ![](img/led-pin-diagram.png)
+
+---
+
+## Breadboards: Solderless wiring
+
+#### Breadboards allow us to quickly wire components together for prototyping
+
+![](img/breadboard.small.png)
+
+---
+
+## Breadboards: Electrical Connections
+
+- #### Here you can see how the different rows and columns are connected.
+- #### If unclear, don't hesitate to do some Googling or ask a volunteer to explain them further.
+
+![](img/breadboard-diagram.small.jpg)
+
+## Use your breadboard and a couple of wires (color doesn't matter) to build this
+
+![](img/arduino-led-breadboard.png)
 
 ---
 
@@ -1309,10 +1403,6 @@ Exit loop with `Ctrl-c`
 
 ---
 
-<span style="color: red"> Work in progress starting from here </span>
-
----
-
 ## Changing the Blink Rate
 
 - You probably noticed the light blinks about every .5 seconds
@@ -1321,102 +1411,25 @@ Exit loop with `Ctrl-c`
 
 --
 
-```js
-var five = require("johnny-five");
-var board = new five.Board();
+```python
+import machine
+import time
 
-board.on("ready", function() {
-
-  var led = new five.Led(11);
-
-  // "blink" the led in 3000ms on-off phase periods
-  led.blink(3000);
-});
-```
-
-`node blinky.js`
-
----
-
-## The REPL
-
-- Stands for Read Evaluate Print Loop
-- Allows us to type code in our terminal and see it affect our robots
-
----
-
-## Write and run this. Then, go on to the next slide.
-
-```js
-var five = require("johnny-five");
-var board = new five.Board();
-
-board.on("ready", function() {
-  var led = new five.Led(11);
-
-  this.repl.inject({
-    led: led
-  });
-});
-```
-
-`node led-boss.js`
-
----
-
-## Type these commands in the REPL and watch how the LED changes
-
-```
-> led.on();
-
-> led.off();
-
-> led.blink();
-
-> led.stop();
-
-> led.pulse();
+pin_id = 15 # Huzzah Feather
+            # PyBoard = 'A14'
+led = machine.Pin(pin_id, machine.Pin.OUT)
+while True:
+    led.high()
+    time.sleep(3.0)
+    led.low()
+    time.sleep(3.0)
 ```
 
 ---
 
-## REPL Inject
-
-The reason we're able to access the led object in the REPL is because of this bit of code in the previous example. It exposes the led object to our REPL session.
-
-```js
-this.repl.inject({
-  led: led
-});
-```
+<span style="color: red"> Work in progress starting from here </span>
 
 ---
-
-## Breadboards: Solderless wiring
-
-#### Breadboards allow us to quickly wire components together for prototyping
-
-![](img/breadboard.small.png)
-
----
-
-## Breadboards: Electrical Connections
-
-- #### Here you can see how the different rows and columns are connected.
-- #### If unclear, don't hesitate to do some Googling or ask a volunteer to explain them further.
-
-![](img/breadboard-diagram.small.jpg)
-
-## Use your breadboard and a couple of wires (color doesn't matter) to build this
-
-![](img/arduino-led-breadboard.png)
-
----
-
-Now run one of your programs from before and make sure the LED still blinks
-
----
-
 
 ## LED Challenges
 
@@ -1675,6 +1688,7 @@ You're on your own for this one!
 - LEDs (Light Emitting Diodes)
 - <span style="color: yellow">Buttons</span>
 - Servos
+- IoT applications with MQTT
 
 ---
 
@@ -2110,7 +2124,7 @@ Uh oh! We ran out of slides! Feel free to try out some of the other components i
 ## Wrapping Up
 
 - Thank you for coming!
-- We'd love your feedback: [bit.ly/nodebots-feedback](http://bit.ly/nodebots-feedback)
+- We'd love your feedback: [bit.ly/cubantech-nodebots-feedback](http://bit.ly/nodebots-feedback)
 - Please put away kits (you can buy your own [here](http://www.seeedstudio.com/depot/ARDX-The-starter-kit-for-Arduino-p-1153.html))
 
 
