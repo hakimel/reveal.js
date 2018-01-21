@@ -3792,7 +3792,10 @@
 				v = parseInt( bits[1], 10 ) || 0,
 				f;
 			if( config.fragmentInURL ) {
-				f = parseInt( bits[2], 10 ) || undefined;
+				f = parseInt( bits[2], 10 );
+				if( isNaN( f ) ) {
+					f = undefined;
+				}
 			}
 
 			if( h !== indexh || v !== indexv || f !== undefined ) {
