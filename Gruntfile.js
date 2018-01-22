@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		uglify: {
 			options: {
 				banner: '<%= meta.banner %>\n',
-				screwIE8: false
+				ie8: true
 			},
 			build: {
 				src: 'js/reveal.js',
