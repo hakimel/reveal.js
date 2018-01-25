@@ -3402,9 +3402,11 @@
 		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
+		var hasHorizontalSlides = horizontalSlides.length > 1;
+
 		var routes = {
-			left: indexh > 0 || config.loop,
-			right: indexh < horizontalSlides.length - 1 || config.loop,
+			left: indexh > 0 || ( config.loop && hasHorizontalSlides ),
+			right: indexh < horizontalSlides.length - 1 || ( config.loop && hasHorizontalSlides ),
 			up: indexv > 0,
 			down: indexv < verticalSlides.length - 1
 		};
