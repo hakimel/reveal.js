@@ -198,9 +198,6 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
-	// Set default timing of 2 minutes per slide
-	defaultTiming: 120,
-
 	// Display the page number of the current slide
 	slideNumber: false,
 
@@ -262,6 +259,11 @@ Reveal.initialize({
 
 	// Use this method for navigation when auto-sliding
 	autoSlideMethod: Reveal.navigateNext,
+
+	// Specify the average time in seconds that you think you will spend
+	// presenting each slide. This is used to show a pacing timer in the
+	// speaker view
+	defaultTiming: 120,
 
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
