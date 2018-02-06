@@ -126,11 +126,15 @@ You can write your content as a separate file and have reveal.js load it at runt
 When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).  The following example customises all available options:
 
 ```html
-<section data-markdown="example.md"  
-         data-separator="^\n\n\n"  
-         data-separator-vertical="^\n\n"  
-         data-separator-notes="^Note:"  
+<section data-markdown="example.md"
+         data-separator="^\n\n\n"
+         data-separator-vertical="^\n\n"
+         data-separator-notes="^Note:"
          data-charset="iso-8859-15">
+    <!--
+        Note that Windows uses `\r\n` instead of `\n` as its linefeed character.
+        For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
+    -->
 </section>
 ```
 
