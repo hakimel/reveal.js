@@ -102,6 +102,10 @@
 			// Turns fragments on and off globally
 			fragments: true,
 
+			// Flags whether to include the current fragment in the URL,
+			// so that reloading brings you to the same fragment position
+			fragmentInURL: false,
+
 			// Flags if the presentation is running in an embedded mode,
 			// i.e. contained within a limited portion of the screen
 			embedded: false,
@@ -3711,10 +3715,17 @@
 		else {
 			// Read the index components of the hash
 			var h = parseInt( bits[0], 10 ) || 0,
-				v = parseInt( bits[1], 10 ) || 0;
+				v = parseInt( bits[1], 10 ) || 0,
+				f;
+			if( config.fragmentInURL ) {
+				f = parseInt( bits[2], 10 );
+				if( isNaN( f ) ) {
+					f = undefined;
+				}
+			}
 
-			if( h !== indexh || v !== indexv ) {
-				slide( h, v );
+			if( h !== indexh || v !== indexv || f !== undefined ) {
+				slide( h, v, f );
 			}
 		}
 
@@ -3747,14 +3758,21 @@
 					id = id.replace( /[^a-zA-Z0-9\-\_\:\.]/g, '' );
 				}
 
-				// If the current slide has an ID, use that as a named link
-				if( typeof id === 'string' && id.length ) {
+				var indexf;
+				if( config.fragmentInURL ) {
+					indexf = getIndices().f;
+				}
+
+				// If the current slide has an ID, use that as a named link,
+				// but we don't support named links with a fragment index
+				if( typeof id === 'string' && id.length && indexf === undefined ) {
 					url = '/' + id;
 				}
 				// Otherwise use the /h/v index
 				else {
-					if( indexh > 0 || indexv > 0 ) url += indexh;
-					if( indexv > 0 ) url += '/' + indexv;
+					if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh;
+					if( indexv > 0 || indexf !== undefined ) url += '/' + indexv;
+					if( indexf !== undefined ) url += '/' + indexf;
 				}
 
 				window.location.hash = url;
@@ -4091,6 +4109,9 @@
 
 				updateControls();
 				updateProgress();
+				if( config.fragmentInURL ) {
+					writeURL();
+				}
 
 				return !!( fragmentsShown.length || fragmentsHidden.length );
 
