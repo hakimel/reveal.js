@@ -3368,16 +3368,28 @@
 		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
-		var hasHorizontalSlides = horizontalSlides.length > 1;
-
 		var routes = {
-			left: indexh > 0 || ( config.loop && hasHorizontalSlides ),
-			right: indexh < horizontalSlides.length - 1 || ( config.loop && hasHorizontalSlides ),
+			left: indexh > 0,
+			right: indexh < horizontalSlides.length - 1,
 			up: indexv > 0,
 			down: indexv < verticalSlides.length - 1
 		};
 
-		// reverse horizontal controls for rtl
+		// Looped presentations can always be navigated as long as
+		// there are slides available
+		if( config.loop ) {
+			if( horizontalSlides.length > 1 ) {
+				routes.left = true;
+				routes.right = true;
+			}
+
+			if( verticalSlides.length > 1 ) {
+				routes.up = true;
+				routes.down = true;
+			}
+		}
+
+		// Reverse horizontal controls for rtl
 		if( config.rtl ) {
 			var left = routes.left;
 			routes.left = routes.right;
