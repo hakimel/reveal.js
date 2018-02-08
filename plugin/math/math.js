@@ -13,7 +13,12 @@ var RevealMath = window.RevealMath || (function(){
 				inlineMath: [['$','$'],['\\(','\\)']] ,
 				skipTags: ['script','noscript','style','textarea','pre'] };
 
-	loadScript( options.mathjax + '?config=' + options.config, function() {
+	var url = options.mathjax;
+	if (url.indexOf('?config=') == -1) {
+		url += '?config=' + options.config;
+	}
+
+	loadScript( url, function() {
 
 		MathJax.Hub.Config({
 			messageStyle: 'none',
