@@ -3268,7 +3268,7 @@
 
 				// Images
 				if( backgroundImage ) {
-					background.style.backgroundImage = 'url('+ backgroundImage +')';
+					background.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
