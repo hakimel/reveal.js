@@ -891,8 +891,7 @@ Reveal.initialize({
 
 ## PDF Export
 
-Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presentation from a webserver.
-Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
+Presentations can be exported to PDF via a special print stylesheet. This feature requires a modern web browser (such as latest versions of Chrome and Firefox) and for the presentation to be served from a webserver. Although most modern browsers should be able to generate PDFs without issue, we recommend using [Google Chrome](https://www.google.com/chrome/) if there are issues in the generated PDFs as testing is done more extensively with Chrome. Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
 
 ### Page size
 Export dimensions are inferred from the configured [presentation size](#presentation-size). Slides that are too tall to fit within a single page will expand onto multiple pages. You can limit how many pages a slide may expand onto using the `pdfMaxPagesPerSlide` config option, for example `Reveal.configure({ pdfMaxPagesPerSlide: 1 })` ensures that no slide ever grows to more than one printed page.
