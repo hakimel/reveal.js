@@ -182,6 +182,12 @@
 			// Parallax background size
 			parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
 
+			// Parallax background repeat
+			parallaxBackgroundRepeat: '', // repeat/repeat-x/repeat-y/no-repeat/initial/inherit
+
+			// Parallax background position
+			parallaxBackgroundPosition: '', // CSS syntax, e.g. "top left"
+
 			// Amount of pixels to move the parallax background per slide step
 			parallaxBackgroundHorizontal: null,
 			parallaxBackgroundVertical: null,
@@ -904,6 +910,8 @@
 
 			dom.background.style.backgroundImage = 'url("' + config.parallaxBackgroundImage + '")';
 			dom.background.style.backgroundSize = config.parallaxBackgroundSize;
+			dom.background.style.backgroundRepeat = config.parallaxBackgroundRepeat;
+			dom.background.style.backgroundPosition = config.parallaxBackgroundPosition;
 
 			// Make sure the below properties are set on the element - these properties are
 			// needed for proper transitions to be set on the element via CSS. To remove
