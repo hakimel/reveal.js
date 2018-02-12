@@ -4455,7 +4455,17 @@
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
-			if( availableRoutes().down ) {
+
+			var routes = availableRoutes();
+
+			// When looping is enabled `routes.down` is always available
+			// so we need a separate check for when we've reached the
+			// end of a stack and should move horizontally
+			if( routes.down && routes.right && config.loop && Reveal.isLastVerticalSlide( currentSlide ) ) {
+				routes.down = false;
+			}
+
+			if( routes.down ) {
 				navigateDown();
 			}
 			else if( config.rtl ) {
@@ -5345,11 +5355,24 @@
 		// Returns true if we're currently on the last slide
 		isLastSlide: function() {
 			if( currentSlide ) {
-				// Does this slide has next a sibling?
+				// Does this slide have a next sibling?
 				if( currentSlide.nextElementSibling ) return false;
 
 				// If it's vertical, does its parent have a next sibling?
 				if( isVerticalSlide( currentSlide ) && currentSlide.parentNode.nextElementSibling ) return false;
+
+				return true;
+			}
+
+			return false;
+		},
+
+		// Returns true if we're on the last slide in the current
+		// vertical stack
+		isLastVerticalSlide: function() {
+			if( currentSlide && isVerticalSlide( currentSlide ) ) {
+				// Does this slide have a next sibling?
+				if( currentSlide.nextElementSibling ) return false;
 
 				return true;
 			}
