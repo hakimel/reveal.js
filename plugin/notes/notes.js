@@ -21,8 +21,6 @@ var RevealNotes = (function() {
 
 		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
-		// Allow popup window access to Reveal API
-		notesPopup.Reveal = this.Reveal;
 
 		/**
 		 * Connect to the notes window through a postmessage handshake.
@@ -47,7 +45,20 @@ var RevealNotes = (function() {
 					clearInterval( connectInterval );
 					onConnected();
 				}
+				if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+					callRevealApi( data.methodName, data.arguments, data.callId );
+				}
 			} );
+		}
+
+		function callRevealApi( methodName, methodArguments, callId ) {
+			var result = Reveal[methodName].call(Reveal, methodArguments);
+			notesPopup.postMessage( JSON.stringify( {
+				namespace: 'reveal-notes',
+				type: 'return',
+				result: result,
+				callId: callId
+			} ), '*' );
 		}
 
 		/**

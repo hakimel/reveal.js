@@ -3901,6 +3901,20 @@
 
 	}
 
+	function getSlidesMetaInfo() {
+
+		var slides = getSlides();
+		return slides.map( function (slide) {
+			var meta = {};
+			for( var i = 0; i < slide.attributes.length; i++ ) {
+				var attribute = slide.attributes[ i ];
+				meta[ attribute.name ] = attribute.value;
+			}
+			return meta;
+		} );
+
+	}
+
 	/**
 	 * Retrieves the total number of slides in this presentation.
 	 *
@@ -5251,6 +5265,8 @@
 
 		// Returns an Array of all slides
 		getSlides: getSlides,
+
+		getSlidesMetaInfo: getSlidesMetaInfo,
 
 		// Returns the total number of slides
 		getTotalSlides: getTotalSlides,
