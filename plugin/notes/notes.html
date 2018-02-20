@@ -378,6 +378,9 @@
 
 				} );
 
+				/**
+				 * Asynchronously calls the Reveal.js API of the main frame.
+				 */
 				function callRevealApi( methodName, methodArguments, callback ) {
 					var callId = ++lastRevealApiCallId;
 					pendingCalls[callId] = callback;

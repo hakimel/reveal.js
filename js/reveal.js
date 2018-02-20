@@ -3901,6 +3901,9 @@
 
 	}
 
+	/**
+	 * Returns an array of objects where each object represents the attributes on its respective slide.
+	 */
 	function getSlidesMetaInfo() {
 
 		var slides = getSlides();
