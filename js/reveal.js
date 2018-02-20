@@ -5269,6 +5269,8 @@
 		// Returns an Array of all slides
 		getSlides: getSlides,
 
+		// Returns an Array of objects representing the attributes on
+		// the slides
 		getSlidesMetaInfo: getSlidesMetaInfo,
 
 		// Returns the total number of slides
