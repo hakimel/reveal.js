@@ -994,7 +994,7 @@ When `showNotes` is enabled notes are also included when you [export to PDF](htt
 The speaker notes window will also show:
 
 - Time elapsed since the beginning of the presentation.  If you hover the mouse above this section, a timer reset button will appear.
-- Current wall-clock time
+- Current wall-clock time, By default it uses 12-hour clock. If you'd rather use 24-hour clock, you can achieve it with the `speakerView12HourTimeFormat` config option: `Reveal.configure({ speakerView12HourTimeFormat: false })`.
 - (Optionally) a pacing timer which indicates whether the current pace of the presentation is on track for the right timing (shown in green), and if not, whether the presenter should speed up (shown in red) or has the luxury of slowing down (blue).
 
 The pacing timer can be enabled by configuring by the `defaultTiming` parameter in the `Reveal` configuration block, which specifies the number of seconds per slide.  120 can be a reasonable rule of thumb.  Timings can also be given per slide `<section>` by setting the `data-timing` attribute.  Both values are in numbers of seconds.

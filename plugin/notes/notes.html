@@ -570,12 +570,14 @@
 
 					function _updateTimer() {
 
+						var hour12 = Reveal.getConfig().speakerView12HourTimeFormat;
+
 						var diff, hours, minutes, seconds,
 						now = new Date();
 
 						diff = now.getTime() - start.getTime();
 
-						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
+						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: hour12, hour: '2-digit', minute:'2-digit' } );
 						_displayTime( hoursEl, minutesEl, secondsEl, diff );
 						if (timings !== null) {
 							_updatePacing(diff);

@@ -195,7 +195,10 @@
 			display: 'block',
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// use 12-hour clock for current time in speaker view
+			speakerView12HourTimeFormat: true
 
 		},
 
