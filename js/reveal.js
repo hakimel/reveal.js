@@ -3532,9 +3532,16 @@
 
 				if( autoplay && typeof el.play === 'function' ) {
 
+					// If the media is ready, start playback
 					if( el.readyState > 1 ) {
 						startEmbeddedMedia( { target: el } );
 					}
+					// Mobile devices never fire a loaded event so instead
+					// of waiting, we initiate playback
+					else if( isMobileDevice ) {
+						el.play();
+					}
+					// If the media isn't loaded, wait before playing
 					else {
 						el.removeEventListener( 'loadeddata', startEmbeddedMedia ); // remove first to avoid dupes
 						el.addEventListener( 'loadeddata', startEmbeddedMedia );
