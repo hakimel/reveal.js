@@ -1172,13 +1172,8 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) {
-			dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
-			dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
-			dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
-
-			// Support pointer-style touch interaction as well
-			if( window.navigator.pointerEnabled ) {
-				// IE 11 uses un-prefixed version of pointer events
+			if('onpointerdown' in window) {
+				// Use W3C pointer events
 				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
@@ -1188,6 +1183,12 @@
 				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
+			}
+			else {
+				// Fall back to touch events
+				dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
+				dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
+				dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
 			}
 		}
 
@@ -1250,23 +1251,18 @@
 		document.removeEventListener( 'keypress', onDocumentKeyPress, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
+		
+		dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
+		dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
+		dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
+
+		dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
+		dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
+		dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
 
 		dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
 		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
-
-		// IE11
-		if( window.navigator.pointerEnabled ) {
-			dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
-			dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
-			dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
-		}
-		// IE10
-		else if( window.navigator.msPointerEnabled ) {
-			dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
-			dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
-			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
-		}
 
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
