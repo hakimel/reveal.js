@@ -202,9 +202,6 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
-	// Set default timing of 2 minutes per slide
-	defaultTiming: 120,
-
 	// Display the page number of the current slide
 	slideNumber: false,
 
@@ -235,6 +232,10 @@ Reveal.initialize({
 	// Turns fragments on and off globally
 	fragments: true,
 
+	// Flags whether to include the current fragment in the URL,
+	// so that reloading brings you to the same fragment position
+	fragmentInURL: false,
+
 	// Flags if the presentation is running in an embedded mode,
 	// i.e. contained within a limited portion of the screen
 	embedded: false,
@@ -262,6 +263,11 @@ Reveal.initialize({
 
 	// Use this method for navigation when auto-sliding
 	autoSlideMethod: Reveal.navigateNext,
+
+	// Specify the average time in seconds that you think you will spend
+	// presenting each slide. This is used to show a pacing timer in the
+	// speaker view
+	defaultTiming: 120,
 
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
@@ -530,6 +536,37 @@ Reveal.isOverview();
 Reveal.isPaused();
 Reveal.isAutoSliding();
 ```
+
+### Custom Key Bindings
+
+Custom key bindings can be added and removed using the following Javascript API. Custom key bindings will override the default keyboard bindings, but will in turn be overridden by the user defined bindings in the ``keyboard`` config option.
+
+```javascript
+Reveal.addKeyBinding( binding, callback );
+Reveal.removeKeyBinding( keyCode );
+```
+
+For example
+
+```javascript
+// The binding parameter provides the following properties
+//      keyCode: the keycode for binding to the callback
+//          key: the key label to show in the help overlay
+//  description: the description of the action to show in the help overlay
+Reveal.addKeyBinding( { keyCode: 84, key: 'T', description: 'Start timer' }, function() {
+	// start timer
+} )
+
+// The binding parameter can also be a direct keycode without providing the help description
+Reveal.addKeyBinding( 82, function() {
+	// reset timer
+} )
+```
+
+This allows plugins to add key bindings directly to Reveal so they can
+
+* make use of Reveal's pre-processing logic for key handling (for example, ignoring key presses when paused); and
+* be included in the help overlay (optional)
 
 ### Slide Changed Event
 

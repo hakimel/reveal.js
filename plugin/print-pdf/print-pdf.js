@@ -42,28 +42,26 @@ probePage.open( inputFile, function( status ) {
 
 		printPage.open( inputFile, function( status ) {
 			console.log( 'Export PDF: Preparing pdf [3/4]')
-			printPage.evaluate(function() {
+			printPage.evaluate( function() {
 				Reveal.isReady() ? window.callPhantom() : Reveal.addEventListener( 'pdf-ready', window.callPhantom );
-			});
+			} );
 		} );
 
-		printPage.onCallback = function(data) {
+		printPage.onCallback = function( data ) {
 			// For some reason we need to "jump the queue" for syntax highlighting to work.
 			// See: http://stackoverflow.com/a/3580132/129269
-			setTimeout(function() {
+			setTimeout( function() {
 				console.log( 'Export PDF: Writing file [4/4]' );
 				printPage.render( outputFile );
 				console.log( 'Export PDF: Finished successfully!' );
 				phantom.exit();
-			}, 0);
+			}, 0 );
 		};
 	}
 	else {
 
-        console.log( 'Export PDF: Unable to read reveal.js config. Make sure the input address points to a reveal.js page.' );
-        phantom.exit(1);
+		console.log( 'Export PDF: Unable to read reveal.js config. Make sure the input address points to a reveal.js page.' );
+		phantom.exit( 1 );
 
-    }
+	}
 } );
-
-
