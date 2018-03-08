@@ -328,8 +328,8 @@
 
 			// Since JS won't be running any further, we load all lazy
 			// loading elements upfront
-			var images = toArray( document.getElementsByTagName( 'img' ) ),
-				iframes = toArray( document.getElementsByTagName( 'iframe' ) );
+			var images = Array.from( document.getElementsByTagName( 'img' ) ),
+				iframes = Array.from( document.getElementsByTagName( 'iframe' ) );
 
 			var lazyLoadable = images.concat( iframes );
 
@@ -587,12 +587,12 @@
 		dom.wrapper.setAttribute( 'role', 'application' );
 
 		// There can be multiple instances of controls throughout the page
-		dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
-		dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
-		dom.controlsUp = toArray( document.querySelectorAll( '.navigate-up' ) );
-		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
-		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
-		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
+		dom.controlsLeft = Array.from( document.querySelectorAll( '.navigate-left' ) );
+		dom.controlsRight = Array.from( document.querySelectorAll( '.navigate-right' ) );
+		dom.controlsUp = Array.from( document.querySelectorAll( '.navigate-up' ) );
+		dom.controlsDown = Array.from( document.querySelectorAll( '.navigate-down' ) );
+		dom.controlsPrev = Array.from( document.querySelectorAll( '.navigate-prev' ) );
+		dom.controlsNext = Array.from( document.querySelectorAll( '.navigate-next' ) );
 
 		// The right and down arrows in the standard reveal.js controls
 		dom.controlsRightArrow = dom.controls.querySelector( '.navigate-right' );
@@ -647,7 +647,7 @@
 			var isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
 			if( isAriaHidden !== 'true' && !isDisplayHidden ) {
 
-				toArray( node.childNodes ).forEach( function( child ) {
+				Array.from( node.childNodes ).forEach( function( child ) {
 					text += getStatusText( child );
 				} );
 
@@ -690,11 +690,11 @@
 
 		// Add each slide's index as attributes on itself, we need these
 		// indices to generate slide numbers below
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+		Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
 			hslide.setAttribute( 'data-index-h', h );
 
 			if( hslide.classList.contains( 'stack' ) ) {
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+				Array.from( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 				} );
@@ -702,7 +702,7 @@
 		} );
 
 		// Slide and slide background layout
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+		Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 
 			// Vertical stacks are not centred since their section
 			// children will be
@@ -784,7 +784,7 @@
 		} );
 
 		// Show all fragments
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
+		Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
 
@@ -865,12 +865,12 @@
 		dom.background.classList.add( 'no-transition' );
 
 		// Iterate over all horizontal slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
+		Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
 
 			var backgroundStack = createBackground( slideh, dom.background );
 
 			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+			Array.from( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
 
 				createBackground( slidev, backgroundStack );
 
@@ -1138,7 +1138,7 @@
 
 		// When fragments are turned off they should be visible
 		if( config.fragments === false ) {
-			toArray( dom.slides.querySelectorAll( '.fragment' ) ).forEach( function( element ) {
+			Array.from( dom.slides.querySelectorAll( '.fragment' ) ).forEach( function( element ) {
 				element.classList.add( 'visible' );
 				element.classList.remove( 'current-fragment' );
 			} );
@@ -1329,18 +1329,6 @@
 		}
 
 		return a;
-
-	}
-
-	/**
-	 * Converts the target object to an array.
-	 *
-	 * @param {object} o
-	 * @return {object[]}
-	 */
-	function toArray( o ) {
-
-		return Array.prototype.slice.call( o );
 
 	}
 
@@ -1687,7 +1675,7 @@
 	 */
 	function enablePreviewLinks( selector ) {
 
-		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
+		var anchors = Array.from( document.querySelectorAll( selector ? selector : 'a' ) );
 
 		anchors.forEach( function( element ) {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
@@ -1702,7 +1690,7 @@
 	 */
 	function disablePreviewLinks( selector ) {
 
-		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
+		var anchors = Array.from( document.querySelectorAll( selector ? selector : 'a' ) );
 
 		anchors.forEach( function( element ) {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
@@ -1901,7 +1889,7 @@
 			}
 
 			// Select all slides, vertical and horizontal
-			var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
+			var slides = Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
 
 			for( var i = 0, len = slides.length; i < len; i++ ) {
 				var slide = slides[ i ];
@@ -1948,7 +1936,7 @@
 	function layoutSlideContents( width, height ) {
 
 		// Handle sizing of elements with the 'stretch' class
-		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
+		Array.from( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
 
 			// Determine how much vertical space we can use
 			var remainingHeight = getRemainingHeight( element, height );
@@ -2075,7 +2063,7 @@
 			dom.slides.appendChild( dom.background );
 
 			// Clicking on an overview slide navigates to it
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+			Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 				if( !slide.classList.contains( 'stack' ) ) {
 					slide.addEventListener( 'click', onOverviewSlideClicked, true );
 				}
@@ -2116,13 +2104,13 @@
 	function layoutOverview() {
 
 		// Layout slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+		Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
 			hslide.setAttribute( 'data-index-h', h );
 			transformElement( hslide, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+				Array.from( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 
@@ -2133,10 +2121,10 @@
 		} );
 
 		// Layout slide backgrounds
-		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
+		Array.from( dom.background.childNodes ).forEach( function( hbackground, h ) {
 			transformElement( hbackground, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
 
-			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
+			Array.from( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
 				transformElement( vbackground, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
 			} );
 		} );
@@ -2189,14 +2177,14 @@
 			dom.wrapper.appendChild( dom.background );
 
 			// Clean up changes made to slides
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+			Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 				transformElement( slide, '' );
 
 				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
 			} );
 
 			// Clean up changes made to backgrounds
-			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
+			Array.from( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
 				transformElement( background, '' );
 			} );
 
@@ -2489,7 +2477,7 @@
 			if ( dom.wrapper.querySelector( HOME_SLIDE_SELECTOR ).classList.contains( 'present' ) ) {
 				// Launch async task
 				setTimeout( function () {
-					var slides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
+					var slides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
 					for( i in slides ) {
 						if( slides[i] ) {
 							// Reset stack
@@ -2591,10 +2579,10 @@
 	 */
 	function resetVerticalSlides() {
 
-		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var horizontalSlides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = Array.from( horizontalSlide.querySelectorAll( 'section' ) );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				if( y > 0 ) {
@@ -2616,10 +2604,10 @@
 	 */
 	function sortAllFragments() {
 
-		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var horizontalSlides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = Array.from( horizontalSlide.querySelectorAll( 'section' ) );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
@@ -2637,7 +2625,7 @@
 	 */
 	function shuffle() {
 
-		var slides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var slides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		slides.forEach( function( slide ) {
 
@@ -2666,7 +2654,7 @@
 
 		// Select all slides and convert the NodeList result to
 		// an array
-		var slides = toArray( dom.wrapper.querySelectorAll( selector ) ),
+		var slides = Array.from( dom.wrapper.querySelectorAll( selector ) ),
 			slidesLength = slides.length;
 
 		var printMode = isPrintingPDF();
@@ -2714,7 +2702,7 @@
 					element.classList.add( reverse ? 'future' : 'past' );
 
 					if( config.fragments ) {
-						var pastFragments = toArray( element.querySelectorAll( '.fragment' ) );
+						var pastFragments = Array.from( element.querySelectorAll( '.fragment' ) );
 
 						// Show all fragments on prior slides
 						while( pastFragments.length ) {
@@ -2729,7 +2717,7 @@
 					element.classList.add( reverse ? 'past' : 'future' );
 
 					if( config.fragments ) {
-						var futureFragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
+						var futureFragments = Array.from( element.querySelectorAll( '.fragment.visible' ) );
 
 						// No fragments in future slides should be visible ahead of time
 						while( futureFragments.length ) {
@@ -2772,7 +2760,7 @@
 
 		// Select all slides and convert the NodeList result to
 		// an array
-		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
+		var horizontalSlides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ),
 			horizontalSlidesLength = horizontalSlides.length,
 			distanceX,
 			distanceY;
@@ -2796,7 +2784,7 @@
 			for( var x = 0; x < horizontalSlidesLength; x++ ) {
 				var horizontalSlide = horizontalSlides[x];
 
-				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
+				var verticalSlides = Array.from( horizontalSlide.querySelectorAll( 'section' ) ),
 					verticalSlidesLength = verticalSlides.length;
 
 				// Determine how far away this slide is from the present
@@ -3068,7 +3056,7 @@
 
 		// Update the classes of all backgrounds to match the
 		// states of their slides (past/present/future)
-		toArray( dom.background.childNodes ).forEach( function( backgroundh, h ) {
+		Array.from( dom.background.childNodes ).forEach( function( backgroundh, h ) {
 
 			backgroundh.classList.remove( 'past' );
 			backgroundh.classList.remove( 'present' );
@@ -3088,7 +3076,7 @@
 			}
 
 			if( includeAll || h === indexh ) {
-				toArray( backgroundh.querySelectorAll( '.slide-background' ) ).forEach( function( backgroundv, v ) {
+				Array.from( backgroundh.querySelectorAll( '.slide-background' ) ).forEach( function( backgroundv, v ) {
 
 					backgroundv.classList.remove( 'past' );
 					backgroundv.classList.remove( 'present' );
@@ -3236,17 +3224,17 @@
 		slide.style.display = config.display;
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
+		Array.from( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 			element.setAttribute( 'data-lazy-loaded', '' );
 			element.removeAttribute( 'data-src' );
 		} );
 
 		// Media elements with <source> children
-		toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( function( media ) {
+		Array.from( slide.querySelectorAll( 'video, audio' ) ).forEach( function( media ) {
 			var sources = 0;
 
-			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( function( source ) {
+			Array.from( media.querySelectorAll( 'source[data-src]' ) ).forEach( function( source ) {
 				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
 				source.removeAttribute( 'data-src' );
 				source.setAttribute( 'data-lazy-loaded', '' );
@@ -3355,13 +3343,13 @@
 		}
 
 		// Reset lazy-loaded media elements with src attributes
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src]' ) ).forEach( function( element ) {
+		Array.from( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
 			element.removeAttribute( 'src' );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( function( source ) {
+		Array.from( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( function( source ) {
 			source.setAttribute( 'data-src', source.getAttribute( 'src' ) );
 			source.removeAttribute( 'src' );
 		} );
@@ -3439,7 +3427,7 @@
 	function formatEmbeddedContent() {
 
 		var _appendParamToIframeSource = function( sourceAttribute, sourceURL, param ) {
-			toArray( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( function( el ) {
+			Array.from( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( function( el ) {
 				var src = el.getAttribute( sourceAttribute );
 				if( src && src.indexOf( param ) === -1 ) {
 					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
@@ -3457,7 +3445,7 @@
 
 		// Always show media controls on mobile devices
 		if( isMobileDevice ) {
-			toArray( dom.slides.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+			Array.from( dom.slides.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				el.controls = true;
 			} );
 		}
@@ -3475,14 +3463,14 @@
 		if( element && !isSpeakerNotes() ) {
 
 			// Restart GIFs
-			toArray( element.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( function( el ) {
 				// Setting the same unchanged source like this was confirmed
 				// to work in Chrome, FF & Safari
 				el.setAttribute( 'src', el.getAttribute( 'src' ) );
 			} );
 
 			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3517,7 +3505,7 @@
 			} );
 
 			// Normal iframes
-			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3526,7 +3514,7 @@
 			} );
 
 			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3622,7 +3610,7 @@
 
 		if( element && element.parentNode ) {
 			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
 					el.setAttribute('data-paused-by-reveal', '');
 					el.pause();
@@ -3630,20 +3618,20 @@
 			} );
 
 			// Generic postMessage API for non-lazy loaded iframes
-			toArray( element.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'iframe' ) ).forEach( function( el ) {
 				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
 				el.removeEventListener( 'load', startEmbeddedIframe );
 			});
 
 			// YouTube postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
 				}
 			});
 
 			// Vimeo postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
+			Array.from( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( function( el ) {
 				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
 				}
@@ -3651,7 +3639,7 @@
 
 			if( options.unloadIframes === true ) {
 				// Unload lazy-loaded iframes
-				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				Array.from( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
 					// Only removing the src doesn't actually unload the frame
 					// in all browsers (Firefox) so we set it to blank first
 					el.setAttribute( 'src', 'about:blank' );
@@ -3670,7 +3658,7 @@
 	 */
 	function getSlidePastCount() {
 
-		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		var horizontalSlides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		// The number of past slides
 		var pastCount = 0;
@@ -3679,7 +3667,7 @@
 		mainLoop: for( var i = 0; i < horizontalSlides.length; i++ ) {
 
 			var horizontalSlide = horizontalSlides[i];
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = Array.from( horizontalSlide.querySelectorAll( 'section' ) );
 
 			for( var j = 0; j < verticalSlides.length; j++ ) {
 
@@ -3878,7 +3866,7 @@
 			var slideh = isVertical ? slide.parentNode : slide;
 
 			// Select all horizontal slides
-			var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			var horizontalSlides = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 			// Now that we know which the horizontal slide is, get its index
 			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
@@ -3888,7 +3876,7 @@
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
-				v = Math.max( toArray( slide.parentNode.querySelectorAll( 'section' ) ).indexOf( slide ), 0 );
+				v = Math.max( Array.from( slide.parentNode.querySelectorAll( 'section' ) ).indexOf( slide ), 0 );
 			}
 		}
 
@@ -3914,7 +3902,7 @@
 	 */
 	function getSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ));
+		return Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ));
 
 	}
 
@@ -4063,7 +4051,7 @@
 	 */
 	function sortFragments( fragments ) {
 
-		fragments = toArray( fragments );
+		fragments = Array.from( fragments );
 
 		var ordered = [],
 			unordered = [],
@@ -4146,7 +4134,7 @@
 				var fragmentsShown = [],
 					fragmentsHidden = [];
 
-				toArray( fragments ).forEach( function( element, i ) {
+				Array.from( fragments ).forEach( function( element, i ) {
 
 					if( element.hasAttribute( 'data-fragment-index' ) ) {
 						i = parseInt( element.getAttribute( 'data-fragment-index' ), 10 );
@@ -4266,7 +4254,7 @@
 			// is divided up into fragments.
 			// playbackRate is accounted for in the duration.
 			if( currentSlide.querySelectorAll( '.fragment' ).length === 0 ) {
-				toArray( currentSlide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+				Array.from( currentSlide.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
 					if( el.hasAttribute( 'data-autoplay' ) ) {
 						if( autoSlide && (el.duration * 1000 / el.playbackRate ) > autoSlide ) {
 							autoSlide = ( el.duration * 1000 / el.playbackRate ) + 1000;
@@ -4401,10 +4389,10 @@
 				var previousSlide;
 
 				if( config.rtl ) {
-					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.future' ) ).pop();
+					previousSlide = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.future' ) ).pop();
 				}
 				else {
-					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.past' ) ).pop();
+					previousSlide = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.past' ) ).pop();
 				}
 
 				if( previousSlide ) {
@@ -4868,7 +4856,7 @@
 
 		event.preventDefault();
 
-		var slidesTotal = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
+		var slidesTotal = Array.from( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).length;
 		var slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
 
 		if( config.rtl ) {
