@@ -427,10 +427,17 @@
 				 * Forward keyboard events to the current slide window.
 				 * This enables keyboard events to work even if focus
 				 * isn't set on the current slide iframe.
+				 *
+				 * Block F5 default handling, it reloads and disconnects
+				 * the speaker notes window.
 				 */
 				function setupKeyboard() {
 
 					document.addEventListener( 'keydown', function( event ) {
+						if( event.keyCode === 116 || ( event.metaKey && event.keyCode === 82 ) ) {
+							event.preventDefault();
+							return false;
+						}
 						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
 					} );
 
