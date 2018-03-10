@@ -346,7 +346,7 @@
 		if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
 
 		// Copy options over to our config object
-		if( options.overrideLayout ) config.display = '';
+		if( typeof(options) === 'object' && options.hasOwnProperty('overrideLayout') && options.overrideLayout ) config.display = '';
 		extend( config, options );
 		extend( config, query );
 
