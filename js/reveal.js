@@ -3760,7 +3760,9 @@
 	 * If the soeakers notes are not open this returns null. 
 	 */
 	function getSpeakerNotesWindow() {
+
 		return null;
+		
 	}
 
 	/**
