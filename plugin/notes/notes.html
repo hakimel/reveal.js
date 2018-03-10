@@ -356,6 +356,11 @@
 						else if( data.type === 'state' ) {
 							handleStateMessage( data );
 						}
+						// otherwise, if type is a non-empty string post directly to note slides
+						else if( typeof data.type === 'string' && !(data.type.length === 0 || !data.type.trim())) {
+							currentSlide.contentWindow.postMessage( event.data, '*' );
+							upcomingSlide.contentWindow.postMessage( event.data, '*' );
+						}
 					}
 					// Messages sent by the reveal.js inside of the current slide preview
 					else if( data && data.namespace === 'reveal' ) {
@@ -367,6 +372,10 @@
 
 							window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ]} ), '*' );
 
+						}
+						// otherwise, if eventName is a non-empty string post directly to main presentation
+						else if( typeof data.eventName === 'string' && !(data.eventName.length === 0 || !data.eventName.trim())) {
+							window.opener.postMessage( event.data, '*' );
 						}
 					}
 

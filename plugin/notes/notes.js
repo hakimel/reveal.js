@@ -23,6 +23,7 @@ var RevealNotes = (function() {
 
 		// Allow popup window access to Reveal API
 		notesPopup.Reveal = this.Reveal;
+		this.Reveal.speakerNotesWindow = notesPopup;
 
 		/**
 		 * Connect to the notes window through a postmessage handshake.
