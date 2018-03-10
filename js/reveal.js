@@ -3756,6 +3756,14 @@
 	}
 
 	/**
+	 * Returns the speaker notes Window object if it is open.
+	 * If the soeakers notes are not open this returns null. 
+	 */
+	function getSpeakerNotesWindow() {
+		return null;
+	}
+
+	/**
 	 * Reads the current URL (hash) and navigates accordingly.
 	 */
 	function readURL() {
@@ -5244,6 +5252,7 @@
 		isPaused: isPaused,
 		isAutoSliding: isAutoSliding,
 		isSpeakerNotes: isSpeakerNotes,
+		getSpeakerNotesWindow: getSpeakerNotesWindow,
 
 		// Slide preloading
 		loadSlide: loadSlide,
