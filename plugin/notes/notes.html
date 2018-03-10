@@ -34,6 +34,14 @@
 				z-index: 2;
 			}
 
+			/* prevent upcoming slides iframe from taking mouse focus */
+			#upcoming-slide .upcoming-overlay {
+				background-color: transparent;
+				width: calc(100% - 12px);
+				height: calc(100% - 12px);
+				position: absolute;
+			}
+
 			.overlay-element {
 				height: 34px;
 				line-height: 34px;
@@ -289,7 +297,10 @@
 	<body>
 
 		<div id="current-slide"></div>
-		<div id="upcoming-slide"><span class="overlay-element label">Upcoming</span></div>
+		<div id="upcoming-slide">
+			<div class="upcoming-overlay"></div>
+			<span class="overlay-element label">Upcoming</span>
+		</div>
 		<div id="speaker-controls">
 			<div class="speaker-controls-time">
 				<h4 class="label">Time <span class="reset-button">Click to Reset</span></h4>
