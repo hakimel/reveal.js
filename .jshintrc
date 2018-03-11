@@ -1,0 +1,22 @@
+{
+    "curly": false,
+    "eqeqeq": true,
+    "immed": true,
+    "esnext": true,
+    "latedef": "nofunc",
+    "newcap": true,
+    "noarg": true,
+    "sub": true,
+    "undef": true,
+    "eqnull": true,
+    "browser": true,
+    "expr": true,
+    "globals": {
+        "head": false,
+        "module": false,
+        "console": false,
+        "unescape": false,
+        "define": false,
+        "exports": false
+    }
+}

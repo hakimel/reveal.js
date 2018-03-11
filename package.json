@@ -6,9 +6,9 @@
   "subdomain": "revealjs",
   "main": "js/reveal.js",
   "scripts": {
-    "test": "grunt test",
-    "start": "grunt serve",
-    "build": "grunt"
+    "test": "gulp test",
+    "start": "gulp serve",
+    "build": "gulp"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -33,11 +33,25 @@
     "grunt-contrib-qunit": "^2.0.0",
     "grunt-contrib-uglify": "^3.3.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-sass": "^2.0.0",
     "grunt-retire": "^1.0.7",
+    "grunt-sass": "^2.0.0",
     "grunt-zip": "~0.17.1",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-connect": "^5.5.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-qunit": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-zip": "^4.1.0",
+    "jshint": "^2.9.5",
     "mustache": "^2.3.0",
     "socket.io": "^1.7.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "npm": "^5.7.1"
+  }
 }
