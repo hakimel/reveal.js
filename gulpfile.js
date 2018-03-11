@@ -55,4 +55,8 @@ gulp.task('serve', function () {
         useAvailablePort: true
     })
     gulp.watch(['js/reveal.js'], gulp.series('js'))
+    gulp.watch(['css/theme/source/*.{sass,scss}',
+        'css/theme/template/*.{sass,scss}',
+    ], gulp.series('css-themes'))
+    gulp.watch(['css/reveal.scss'], gulp.series('css-core'))
 })
