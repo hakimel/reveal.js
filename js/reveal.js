@@ -2480,7 +2480,7 @@
 		// Solves an edge case where the previous slide maintains the
 		// 'present' class when navigating between adjacent vertical
 		// stacks
-		if( previousSlide ) {
+		if( previousSlide && previousSlide !== currentSlide ) {
 			previousSlide.classList.remove( 'present' );
 			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
