@@ -86,7 +86,7 @@
 
 			// Enable/disable user specified layouts (like css-grid)
 			// (basically prevents all the display & height/width calculations)
-			overrideLayout: false,
+			disableLayout: false,
 
 			// Vertical centering of slides
 			center: true,
@@ -346,7 +346,6 @@
 		if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
 
 		// Copy options over to our config object
-		if( typeof(options) === 'object' && options.hasOwnProperty('overrideLayout') && options.overrideLayout ) config.display = '';
 		extend( config, options );
 		extend( config, query );
 
@@ -1799,7 +1798,7 @@
 
 		if( dom.wrapper && !isPrintingPDF() ) {
 
-			if( !config.overrideLayout ) {
+			if( !config.disableLayout ) {
 
 				var size = getComputedSlideSize();
 
