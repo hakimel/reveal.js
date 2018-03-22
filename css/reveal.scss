@@ -1,6 +1,6 @@
 /*!
  * reveal.js
- * http://lab.hakim.se/reveal-js
+ * http://revealjs.com
  * MIT licensed
  *
  * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
@@ -235,82 +235,271 @@ body {
  * CONTROLS
  *********************************************/
 
+@keyframes bounce-right {
+	0%, 10%, 25%, 40%, 50% {transform: translateX(0);}
+	20% {transform: translateX(10px);}
+	30% {transform: translateX(-5px);}
+}
+
+@keyframes bounce-down {
+	0%, 10%, 25%, 40%, 50% {transform: translateY(0);}
+	20% {transform: translateY(10px);}
+	30% {transform: translateY(-5px);}
+}
+
+$controlArrowSize: 3.6em;
+$controlArrowSpacing: 1.4em;
+$controlArrowLength: 2.6em;
+$controlArrowThickness: 0.5em;
+$controlsArrowAngle: 45deg;
+$controlsArrowAngleHover: 40deg;
+$controlsArrowAngleActive: 36deg;
+
+@mixin controlsArrowTransform( $angle ) {
+	&:before {
+		transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( $angle );
+	}
+
+	&:after {
+		transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( -$angle );
+	}
+}
+
 .reveal .controls {
+	$spacing: 12px;
+
 	display: none;
-	position: fixed;
-	width: 110px;
-	height: 110px;
-	z-index: 30;
-	right: 10px;
-	bottom: 10px;
-
-	-webkit-user-select: none;
-}
-
-.reveal .controls button {
-	padding: 0;
 	position: absolute;
-	opacity: 0.05;
-	width: 0;
-	height: 0;
-	background-color: transparent;
-	border: 12px solid transparent;
-	transform: scale(.9999);
-	transition: all 0.2s ease;
-	-webkit-appearance: none;
-	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+	top: auto;
+	bottom: $spacing;
+	right: $spacing;
+	left: auto;
+	z-index: 1;
+	color: #000;
+	pointer-events: none;
+	font-size: 10px;
+
+	button {
+		position: absolute;
+		padding: 0;
+		background-color: transparent;
+		border: 0;
+		outline: 0;
+		cursor: pointer;
+		color: currentColor;
+		transform: scale(.9999);
+		transition: color 0.2s ease,
+					opacity 0.2s ease,
+					transform 0.2s ease;
+		z-index: 2; // above slides
+		pointer-events: auto;
+		font-size: inherit;
+
+		visibility: hidden;
+		opacity: 0;
+
+		-webkit-appearance: none;
+		-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+	}
+
+	.controls-arrow:before,
+	.controls-arrow:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: $controlArrowLength;
+		height: $controlArrowThickness;
+		border-radius: $controlArrowThickness/2;
+		background-color: currentColor;
+
+		transition: all 0.15s ease, background-color 0.8s ease;
+		transform-origin: floor(($controlArrowThickness/2)*10)/10 50%;
+		will-change: transform;
+	}
+
+	.controls-arrow {
+		position: relative;
+		width: $controlArrowSize;
+		height: $controlArrowSize;
+
+		@include controlsArrowTransform( $controlsArrowAngle );
+
+		&:hover {
+			@include controlsArrowTransform( $controlsArrowAngleHover );
+		}
+
+		&:active {
+			@include controlsArrowTransform( $controlsArrowAngleActive );
+		}
+	}
+
+	.navigate-left {
+		right: $controlArrowSize + $controlArrowSpacing*2;
+		bottom: $controlArrowSpacing + $controlArrowSize/2;
+		transform: translateX( -10px );
+	}
+
+	.navigate-right {
+		right: 0;
+		bottom: $controlArrowSpacing + $controlArrowSize/2;
+		transform: translateX( 10px );
+
+		.controls-arrow {
+			transform: rotate( 180deg );
+		}
+
+		&.highlight {
+			animation: bounce-right 2s 50 both ease-out;
+		}
+	}
+
+	.navigate-up {
+		right: $controlArrowSpacing + $controlArrowSize/2;
+		bottom: $controlArrowSpacing*2 + $controlArrowSize;
+		transform: translateY( -10px );
+
+		.controls-arrow {
+			transform: rotate( 90deg );
+		}
+	}
+
+	.navigate-down {
+		right: $controlArrowSpacing + $controlArrowSize/2;
+		bottom: 0;
+		transform: translateY( 10px );
+
+		.controls-arrow {
+			transform: rotate( -90deg );
+		}
+
+		&.highlight {
+			animation: bounce-down 2s 50 both ease-out;
+		}
+	}
+
+	// Back arrow style: "faded":
+	// Deemphasize backwards navigation arrows in favor of drawing
+	// attention to forwards navigation
+	&[data-controls-back-arrows="faded"] .navigate-left.enabled,
+	&[data-controls-back-arrows="faded"] .navigate-up.enabled {
+		opacity: 0.3;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	// Back arrow style: "hidden":
+	// Never show arrows for backwards navigation
+	&[data-controls-back-arrows="hidden"] .navigate-left.enabled,
+	&[data-controls-back-arrows="hidden"] .navigate-up.enabled {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	// Any control button that can be clicked is "enabled"
+	.enabled {
+		visibility: visible;
+		opacity: 0.9;
+		cursor: pointer;
+		transform: none;
+	}
+
+	// Any control button that leads to showing or hiding
+	// a fragment
+	.enabled.fragmented {
+		opacity: 0.5;
+	}
+
+	.enabled:hover,
+	.enabled.fragmented:hover {
+		opacity: 1;
+	}
 }
 
-.reveal .controls .enabled {
-	opacity: 0.7;
-	cursor: pointer;
+// Adjust the layout when there are no vertical slides
+.reveal:not(.has-vertical-slides) .controls .navigate-left {
+	bottom: $controlArrowSpacing;
+	right: 0.5em + $controlArrowSpacing + $controlArrowSize;
 }
 
-.reveal .controls .enabled:active {
-	margin-top: 1px;
+.reveal:not(.has-vertical-slides) .controls .navigate-right {
+	bottom: $controlArrowSpacing;
+	right: 0.5em;
 }
 
-	.reveal .controls .navigate-left {
-		top: 42px;
+// Adjust the layout when there are no horizontal slides
+.reveal:not(.has-horizontal-slides) .controls .navigate-up {
+	right: $controlArrowSpacing;
+	bottom: $controlArrowSpacing + $controlArrowSize;
+}
+.reveal:not(.has-horizontal-slides) .controls .navigate-down {
+	right: $controlArrowSpacing;
+	bottom: 0.5em;
+}
 
-		border-right-width: 22px;
-		border-right-color: #000;
-	}
-		.reveal .controls .navigate-left.fragmented {
-			opacity: 0.3;
+// Invert arrows based on background color
+.reveal.has-dark-background .controls {
+	color: #fff;
+}
+.reveal.has-light-background .controls {
+	color: #000;
+}
+
+// Disable active states on touch devices
+.reveal.no-hover .controls .controls-arrow:hover,
+.reveal.no-hover .controls .controls-arrow:active {
+	@include controlsArrowTransform( $controlsArrowAngle );
+}
+
+// Edge aligned controls layout
+@media screen and (min-width: 500px) {
+
+	$spacing: 8px;
+
+	.reveal .controls[data-controls-layout="edges"] {
+		& {
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
 		}
 
-	.reveal .controls .navigate-right {
-		left: 74px;
-		top: 42px;
-
-		border-left-width: 22px;
-		border-left-color: #000;
-	}
-		.reveal .controls .navigate-right.fragmented {
-			opacity: 0.3;
+		.navigate-left,
+		.navigate-right,
+		.navigate-up,
+		.navigate-down {
+			bottom: auto;
+			right: auto;
 		}
 
-	.reveal .controls .navigate-up {
-		left: 42px;
-
-		border-bottom-width: 22px;
-		border-bottom-color: #000;
-	}
-		.reveal .controls .navigate-up.fragmented {
-			opacity: 0.3;
+		.navigate-left {
+			top: 50%;
+			left: $spacing;
+			margin-top: -$controlArrowSize/2;
 		}
 
-	.reveal .controls .navigate-down {
-		left: 42px;
-		top: 74px;
-
-		border-top-width: 22px;
-		border-top-color: #000;
-	}
-		.reveal .controls .navigate-down.fragmented {
-			opacity: 0.3;
+		.navigate-right {
+			top: 50%;
+			right: $spacing;
+			margin-top: -$controlArrowSize/2;
 		}
+
+		.navigate-up {
+			top: $spacing;
+			left: 50%;
+			margin-left: -$controlArrowSize/2;
+		}
+
+		.navigate-down {
+			bottom: $spacing;
+			left: 50%;
+			margin-left: -$controlArrowSize/2;
+		}
+	}
+
+}
 
 
 /*********************************************
@@ -318,7 +507,7 @@ body {
  *********************************************/
 
 .reveal .progress {
-	position: fixed;
+	position: absolute;
 	display: none;
 	height: 3px;
 	width: 100%;
@@ -327,21 +516,22 @@ body {
 	z-index: 10;
 
 	background-color: rgba( 0, 0, 0, 0.2 );
+	color: #fff;
 }
 	.reveal .progress:after {
 		content: '';
 		display: block;
 		position: absolute;
-		height: 20px;
+		height: 10px;
 		width: 100%;
-		top: -20px;
+		top: -10px;
 	}
 	.reveal .progress span {
 		display: block;
 		height: 100%;
 		width: 0px;
 
-		background-color: #000;
+		background-color: currentColor;
 		transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
@@ -377,6 +567,16 @@ body {
 	height: 100%;
 	overflow: hidden;
 	touch-action: none;
+}
+
+// Mobile Safari sometimes overlays a header at the top
+// of the page when in landscape mode. Using fixed
+// positioning ensures that reveal.js reduces its height
+// when this header is visible.
+@media only screen and (orientation : landscape) {
+	.reveal.ua-iphone {
+		position: fixed;
+	}
 }
 
 .reveal .slides {
@@ -1336,12 +1536,13 @@ body {
  *********************************************/
 
 .reveal .playback {
-	position: fixed;
+	position: absolute;
 	left: 15px;
 	bottom: 20px;
 	z-index: 30;
 	cursor: pointer;
 	transition: all 400ms ease;
+	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
 }
 
 .reveal.overview .playback {
@@ -1410,37 +1611,84 @@ body {
 .reveal .speaker-notes {
 	display: none;
 	position: absolute;
-	width: 70%;
-	max-height: 15%;
-	left: 15%;
-	bottom: 26px;
-	padding: 10px;
+	width: 25vw;
+	height: 100%;
+	top: 0;
+	left: 100%;
+	padding: 14px 18px 14px 18px;
 	z-index: 1;
 	font-size: 18px;
 	line-height: 1.4;
-	color: #fff;
-	background-color: rgba(0,0,0,0.5);
+	border: 1px solid rgba( 0, 0, 0, 0.05 );
+	color: #222;
+	background-color: #f5f5f5;
 	overflow: auto;
 	box-sizing: border-box;
 	text-align: left;
 	font-family: Helvetica, sans-serif;
 	-webkit-overflow-scrolling: touch;
+
+	.notes-placeholder {
+		color: #ccc;
+		font-style: italic;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&:before {
+		content: 'Speaker notes';
+		display: block;
+		margin-bottom: 10px;
+		opacity: 0.5;
+	}
 }
 
-.reveal .speaker-notes.visible:not(:empty) {
+
+.reveal.show-notes {
+	max-width: 75vw;
+	overflow: visible;
+}
+
+.reveal.show-notes .speaker-notes {
 	display: block;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1600px) {
 	.reveal .speaker-notes {
-		font-size: 14px;
+		font-size: 20px;
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	.reveal.show-notes {
+		border-left: 0;
+		max-width: none;
+		max-height: 70%;
+		overflow: visible;
+	}
+
+	.reveal.show-notes .speaker-notes {
+		top: 100%;
+		left: 0;
+		width: 100%;
+		height: (30/0.7)*1%;
 	}
 }
 
 @media screen and (max-width: 600px) {
+	.reveal.show-notes {
+		max-height: 60%;
+	}
+
+	.reveal.show-notes .speaker-notes {
+		top: 100%;
+		height: (40/0.6)*1%;
+	}
+
 	.reveal .speaker-notes {
-		width: 90%;
-		left: 5%;
+		font-size: 14px;
 	}
 }
 

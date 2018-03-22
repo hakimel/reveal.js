@@ -125,10 +125,6 @@ body {
 .reveal dd {
   margin-left: 40px; }
 
-.reveal q,
-.reveal blockquote {
-  quotes: none; }
-
 .reveal blockquote {
   display: block;
   position: relative;
@@ -159,7 +155,8 @@ body {
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); }
 
 .reveal code {
-  font-family: monospace; }
+  font-family: monospace;
+  text-transform: none; }
 
 .reveal pre code {
   display: block;
@@ -254,42 +251,17 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls .navigate-left,
-.reveal .controls .navigate-left.enabled {
-  border-right-color: #a23; }
-
-.reveal .controls .navigate-right,
-.reveal .controls .navigate-right.enabled {
-  border-left-color: #a23; }
-
-.reveal .controls .navigate-up,
-.reveal .controls .navigate-up.enabled {
-  border-bottom-color: #a23; }
-
-.reveal .controls .navigate-down,
-.reveal .controls .navigate-down.enabled {
-  border-top-color: #a23; }
-
-.reveal .controls .navigate-left.enabled:hover {
-  border-right-color: #dd5566; }
-
-.reveal .controls .navigate-right.enabled:hover {
-  border-left-color: #dd5566; }
-
-.reveal .controls .navigate-up.enabled:hover {
-  border-bottom-color: #dd5566; }
-
-.reveal .controls .navigate-down.enabled:hover {
-  border-top-color: #dd5566; }
+.reveal .controls {
+  color: #a23; }
 
 /*********************************************
  * PROGRESS BAR
  *********************************************/
 .reveal .progress {
-  background: rgba(0, 0, 0, 0.2); }
+  background: rgba(0, 0, 0, 0.2);
+  color: #a23; }
 
 .reveal .progress span {
-  background: #a23;
   -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }

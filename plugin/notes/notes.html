@@ -675,7 +675,7 @@
 					document.body.setAttribute( 'data-speaker-layout', value );
 
 					// Persist locally
-					if( window.localStorage ) {
+					if( supportsLocalStorage() ) {
 						window.localStorage.setItem( 'reveal-speaker-layout', value );
 					}
 
@@ -687,7 +687,7 @@
 				 */
 				function getLayout() {
 
-					if( window.localStorage ) {
+					if( supportsLocalStorage() ) {
 						var layout = window.localStorage.getItem( 'reveal-speaker-layout' );
 						if( layout ) {
 							return layout;
@@ -697,6 +697,19 @@
 					// Default to the first record in the layouts hash
 					for( var id in SPEAKER_LAYOUTS ) {
 						return id;
+					}
+
+				}
+
+				function supportsLocalStorage() {
+
+					try {
+						localStorage.setItem('test', 'test');
+						localStorage.removeItem('test');
+						return true;
+					}
+					catch( e ) {
+						return false;
 					}
 
 				}

@@ -134,11 +134,6 @@ body {
 	margin-left: 40px;
 }
 
-.reveal q,
-.reveal blockquote {
-	quotes: none;
-}
-
 .reveal blockquote {
 	display: block;
 	position: relative;
@@ -174,8 +169,10 @@ body {
 
 	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
+
 .reveal code {
 	font-family: monospace;
+	text-transform: none;
 }
 
 .reveal pre code {
@@ -297,40 +294,8 @@ body {
  * NAVIGATION CONTROLS
  *********************************************/
 
-.reveal .controls .navigate-left,
-.reveal .controls .navigate-left.enabled {
-	border-right-color: $linkColor;
-}
-
-.reveal .controls .navigate-right,
-.reveal .controls .navigate-right.enabled {
-	border-left-color: $linkColor;
-}
-
-.reveal .controls .navigate-up,
-.reveal .controls .navigate-up.enabled {
-	border-bottom-color: $linkColor;
-}
-
-.reveal .controls .navigate-down,
-.reveal .controls .navigate-down.enabled {
-	border-top-color: $linkColor;
-}
-
-.reveal .controls .navigate-left.enabled:hover {
-	border-right-color: $linkColorHover;
-}
-
-.reveal .controls .navigate-right.enabled:hover {
-	border-left-color: $linkColorHover;
-}
-
-.reveal .controls .navigate-up.enabled:hover {
-	border-bottom-color: $linkColorHover;
-}
-
-.reveal .controls .navigate-down.enabled:hover {
-	border-top-color: $linkColorHover;
+.reveal .controls {
+	color: $linkColor;
 }
 
 
@@ -340,10 +305,9 @@ body {
 
 .reveal .progress {
 	background: rgba(0,0,0,0.2);
+	color: $linkColor;
 }
 	.reveal .progress span {
-		background: $linkColor;
-
 		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);

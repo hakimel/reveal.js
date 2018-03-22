@@ -1,6 +1,6 @@
 /*!
  * reveal.js
- * http://lab.hakim.se/reveal-js
+ * http://revealjs.com
  * MIT licensed
  *
  * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
@@ -26,7 +26,7 @@
 	var Reveal;
 
 	// The reveal.js version
-	var VERSION = '3.5.0';
+	var VERSION = '3.6.0';
 
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
@@ -49,8 +49,19 @@
 			minScale: 0.2,
 			maxScale: 2.0,
 
-			// Display controls in the bottom right corner
+			// Display presentation control arrows
 			controls: true,
+
+			// Help the user learn the controls by providing hints, for example by
+			// bouncing the down arrow when they first encounter a vertical slide
+			controlsTutorial: true,
+
+			// Determines where controls appear, "edges" or "bottom-right"
+			controlsLayout: 'bottom-right',
+
+			// Visibility rule for backwards navigation arrows; "faded", "hidden"
+			// or "visible"
+			controlsBackArrows: 'faded',
 
 			// Display a presentation progress bar
 			progress: true,
@@ -106,14 +117,16 @@
 			showNotes: false,
 
 			// Global override for autolaying embedded media (video/audio/iframe)
-			// - null: Media will only autoplay if data-autoplay is present
-			// - true: All media will autoplay, regardless of individual setting
-			// - false: No media will autoplay, regardless of individual setting
+			// - null:   Media will only autoplay if data-autoplay is present
+			// - true:   All media will autoplay, regardless of individual setting
+			// - false:  No media will autoplay, regardless of individual setting
 			autoPlayMedia: null,
 
-			// Number of milliseconds between automatically proceeding to the
-			// next slide, disabled when set to 0, this value can be overwritten
-			// by using a data-autoslide attribute on your slides
+			// Controls automatic progression to the next slide
+			// - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
+			//           is present on the current slide or fragment
+			// - 1+:     All slides will progress automatically at the given interval
+			// - false:  No auto-sliding, even if data-autoslide is present
 			autoSlide: 0,
 
 			// Stop auto-sliding after user input
@@ -132,6 +145,8 @@
 			hideAddressBar: true,
 
 			// Opens links in an iframe preview overlay
+			// Add `data-preview-link` and `data-preview-link="false"` to customise each link
+			// individually
 			previewLinks: false,
 
 			// Exposes the reveal.js API through window.postMessage
@@ -206,6 +221,10 @@
 		currentSlide,
 
 		previousBackground,
+
+		// Remember which directions that the user has navigated towards
+		hasNavigatedRight = false,
+		hasNavigatedDown = false,
 
 		// Slides may hold a data-state attribute which we pick up and apply
 		// as a class to the body. This list contains the combined state of
@@ -444,6 +463,8 @@
 	 */
 	function start() {
 
+		loaded = true;
+
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
 
@@ -470,8 +491,6 @@
 		setTimeout( function() {
 			// Enable transitions now that we're loaded
 			dom.slides.classList.remove( 'no-transition' );
-
-			loaded = true;
 
 			dom.wrapper.classList.add( 'ready' );
 
@@ -508,6 +527,20 @@
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
+		if( isMobileDevice ) {
+			dom.wrapper.classList.add( 'no-hover' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'no-hover' );
+		}
+
+		if( /iphone/gi.test( UA ) ) {
+			dom.wrapper.classList.add( 'ua-iphone' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'ua-iphone' );
+		}
+
 		// Background element
 		dom.background = createSingletonNode( dom.wrapper, 'div', 'backgrounds', null );
 
@@ -516,11 +549,11 @@
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		createSingletonNode( dom.wrapper, 'aside', 'controls',
-			'<button class="navigate-left" aria-label="previous slide"></button>' +
-			'<button class="navigate-right" aria-label="next slide"></button>' +
-			'<button class="navigate-up" aria-label="above slide"></button>' +
-			'<button class="navigate-down" aria-label="below slide"></button>' );
+		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
+			'<button class="navigate-left" aria-label="previous slide"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-right" aria-label="next slide"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-up" aria-label="above slide"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>' );
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
@@ -533,9 +566,6 @@
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
-		// Cache references to elements
-		dom.controls = document.querySelector( '.reveal .controls' );
-
 		dom.wrapper.setAttribute( 'role', 'application' );
 
 		// There can be multiple instances of controls throughout the page
@@ -545,6 +575,10 @@
 		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
+
+		// The right and down arrows in the standard reveal.js controls
+		dom.controlsRightArrow = dom.controls.querySelector( '.navigate-right' );
+		dom.controlsDownArrow = dom.controls.querySelector( '.navigate-down' );
 
 		dom.statusDiv = createStatusDiv();
 	}
@@ -789,7 +823,7 @@
 
 		// If no node was found, create it now
 		var node = document.createElement( tagname );
-		node.classList.add( classname );
+		node.className = classname;
 		if( typeof innerHTML === 'string' ) {
 			node.innerHTML = innerHTML;
 		}
@@ -982,13 +1016,21 @@
 	 */
 	function configure( options ) {
 
-		var numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
-
-		dom.wrapper.classList.remove( config.transition );
+		var oldTransition = config.transition;
 
 		// New config options may be passed when this method
 		// is invoked through the API after initialization
 		if( typeof options === 'object' ) extend( config, options );
+
+		// Abort if reveal.js hasn't finished loading, config
+		// changes will be applied automatically once loading
+		// finishes
+		if( loaded === false ) return;
+
+		var numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
+
+		// Remove the previously configured transition class
+		dom.wrapper.classList.remove( oldTransition );
 
 		// Force linear transition based on browser capabilities
 		if( features.transforms3d === false ) config.transition = 'linear';
@@ -1000,6 +1042,9 @@
 
 		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
+
+		dom.controls.setAttribute( 'data-controls-layout', config.controlsLayout );
+		dom.controls.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
 
 		if( config.shuffle ) {
 			shuffle();
@@ -1025,11 +1070,7 @@
 		}
 
 		if( config.showNotes ) {
-			dom.speakerNotes.classList.add( 'visible' );
 			dom.speakerNotes.setAttribute( 'data-layout', typeof config.showNotes === 'string' ? config.showNotes : 'inline' );
-		}
-		else {
-			dom.speakerNotes.classList.remove( 'visible' );
 		}
 
 		if( config.mouseWheel ) {
@@ -1235,6 +1276,8 @@
 			a[ i ] = b[ i ];
 		}
 
+		return a;
+
 	}
 
 	/**
@@ -1261,7 +1304,7 @@
 			if( value === 'null' ) return null;
 			else if( value === 'true' ) return true;
 			else if( value === 'false' ) return false;
-			else if( value.match( /^[\d\.]+$/ ) ) return parseFloat( value );
+			else if( value.match( /^-?[\d\.]+$/ ) ) return parseFloat( value );
 		}
 
 		return value;
@@ -2463,13 +2506,14 @@
 		updateSlideNumber();
 		updateSlidesVisibility();
 		updateBackground( true );
+		updateNotesVisibility();
 		updateNotes();
 
 		formatEmbeddedContent();
 
 		// Start or stop embedded content depending on global config
 		if( config.autoPlayMedia === false ) {
-			stopEmbeddedContent( currentSlide );
+			stopEmbeddedContent( currentSlide, { unloadIframes: false } );
 		}
 		else {
 			startEmbeddedContent( currentSlide );
@@ -2706,10 +2750,10 @@
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
-					showSlide( horizontalSlide );
+					loadSlide( horizontalSlide );
 				}
 				else {
-					hideSlide( horizontalSlide );
+					unloadSlide( horizontalSlide );
 				}
 
 				if( verticalSlidesLength ) {
@@ -2722,14 +2766,30 @@
 						distanceY = x === ( indexh || 0 ) ? Math.abs( ( indexv || 0 ) - y ) : Math.abs( y - oy );
 
 						if( distanceX + distanceY < viewDistance ) {
-							showSlide( verticalSlide );
+							loadSlide( verticalSlide );
 						}
 						else {
-							hideSlide( verticalSlide );
+							unloadSlide( verticalSlide );
 						}
 					}
 
 				}
+			}
+
+			// Flag if there are ANY vertical slides, anywhere in the deck
+			if( dom.wrapper.querySelectorAll( '.slides>section>section' ).length ) {
+				dom.wrapper.classList.add( 'has-vertical-slides' );
+			}
+			else {
+				dom.wrapper.classList.remove( 'has-vertical-slides' );
+			}
+
+			// Flag if there are ANY horizontal slides, anywhere in the deck
+			if( dom.wrapper.querySelectorAll( '.slides>section' ).length > 1 ) {
+				dom.wrapper.classList.add( 'has-horizontal-slides' );
+			}
+			else {
+				dom.wrapper.classList.remove( 'has-horizontal-slides' );
 			}
 
 		}
@@ -2746,9 +2806,36 @@
 
 		if( config.showNotes && dom.speakerNotes && currentSlide && !isPrintingPDF() ) {
 
-			dom.speakerNotes.innerHTML = getSlideNotes() || '';
+			dom.speakerNotes.innerHTML = getSlideNotes() || '<span class="notes-placeholder">No notes on this slide.</span>';
 
 		}
+
+	}
+
+	/**
+	 * Updates the visibility of the speaker notes sidebar that
+	 * is used to share annotated slides. The notes sidebar is
+	 * only visible if showNotes is true and there are notes on
+	 * one or more slides in the deck.
+	 */
+	function updateNotesVisibility() {
+
+		if( config.showNotes && hasNotes() ) {
+			dom.wrapper.classList.add( 'show-notes' );
+		}
+		else {
+			dom.wrapper.classList.remove( 'show-notes' );
+		}
+
+	}
+
+	/**
+	 * Checks if there are speaker notes for ANY slide in the
+	 * presentation.
+	 */
+	function hasNotes() {
+
+		return dom.slides.querySelectorAll( '[data-notes], aside.notes' ).length > 0;
 
 	}
 
@@ -2878,6 +2965,26 @@
 			else {
 				if( fragments.prev ) dom.controlsLeft.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 				if( fragments.next ) dom.controlsRight.forEach( function( el ) { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+			}
+
+		}
+
+		if( config.controlsTutorial ) {
+
+			// Highlight control arrows with an animation to ensure
+			// that the viewer knows how to navigate
+			if( !hasNavigatedDown && routes.down ) {
+				dom.controlsDownArrow.classList.add( 'highlight' );
+			}
+			else {
+				dom.controlsDownArrow.classList.remove( 'highlight' );
+
+				if( !hasNavigatedRight && routes.right && indexv === 0 ) {
+					dom.controlsRightArrow.classList.add( 'highlight' );
+				}
+				else {
+					dom.controlsRightArrow.classList.remove( 'highlight' );
+				}
 			}
 
 		}
@@ -3061,14 +3168,9 @@
 	 *
 	 * @param {HTMLElement} slide Slide to show
 	 */
-	/**
-	 * Called when the given slide is within the configured view
-	 * distance. Shows the slide element and loads any content
-	 * that is set to load lazily (data-src).
-	 *
-	 * @param {HTMLElement} slide Slide to show
-	 */
-	function showSlide( slide ) {
+	function loadSlide( slide, options ) {
+
+		options = options || {};
 
 		// Show the slide element
 		slide.style.display = config.display;
@@ -3076,6 +3178,7 @@
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+			element.setAttribute( 'data-lazy-loaded', '' );
 			element.removeAttribute( 'data-src' );
 		} );
 
@@ -3086,6 +3189,7 @@
 			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( function( source ) {
 				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
 				source.removeAttribute( 'data-src' );
+				source.setAttribute( 'data-lazy-loaded', '' );
 				sources += 1;
 			} );
 
@@ -3146,7 +3250,7 @@
 					background.appendChild( video );
 				}
 				// Iframes
-				else if( backgroundIframe ) {
+				else if( backgroundIframe && options.excludeIframes !== true ) {
 					var iframe = document.createElement( 'iframe' );
 					iframe.setAttribute( 'allowfullscreen', '' );
 					iframe.setAttribute( 'mozallowfullscreen', '' );
@@ -3175,12 +3279,12 @@
 	}
 
 	/**
-	 * Called when the given slide is moved outside of the
-	 * configured view distance.
+	 * Unloads and hides the given slide. This is called when the
+	 * slide is moved outside of the configured view distance.
 	 *
 	 * @param {HTMLElement} slide
 	 */
-	function hideSlide( slide ) {
+	function unloadSlide( slide ) {
 
 		// Hide the slide element
 		slide.style.display = 'none';
@@ -3191,6 +3295,18 @@
 		if( background ) {
 			background.style.display = 'none';
 		}
+
+		// Reset lazy-loaded media elements with src attributes
+		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src]' ) ).forEach( function( element ) {
+			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
+			element.removeAttribute( 'src' );
+		} );
+
+		// Reset lazy-loaded media elements with <source> children
+		toArray( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( function( source ) {
+			source.setAttribute( 'data-src', source.getAttribute( 'src' ) );
+			source.removeAttribute( 'src' );
+		} );
 
 	}
 
@@ -3266,6 +3382,13 @@
 		// Vimeo frames must include "?api=1"
 		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
 		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
+
+		// Always show media controls on mobile devices
+		if( isMobileDevice ) {
+			toArray( dom.slides.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
+				el.controls = true;
+			} );
+		}
 
 	}
 
@@ -3411,7 +3534,12 @@
 	 *
 	 * @param {HTMLElement} element
 	 */
-	function stopEmbeddedContent( element ) {
+	function stopEmbeddedContent( element, options ) {
+
+		options = extend( {
+			// Defaults
+			unloadIframes: true
+		}, options || {} );
 
 		if( element && element.parentNode ) {
 			// HTML5 media elements
@@ -3442,13 +3570,15 @@
 				}
 			});
 
-			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
-				// Only removing the src doesn't actually unload the frame
-				// in all browsers (Firefox) so we set it to blank first
-				el.setAttribute( 'src', 'about:blank' );
-				el.removeAttribute( 'src' );
-			} );
+			if( options.unloadIframes === true ) {
+				// Unload lazy-loaded iframes
+				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+					// Only removing the src doesn't actually unload the frame
+					// in all browsers (Firefox) so we set it to blank first
+					el.setAttribute( 'src', 'about:blank' );
+					el.removeAttribute( 'src' );
+				} );
+			}
 		}
 
 	}
@@ -3736,25 +3866,12 @@
 	 */
 	function getSlideBackground( x, y ) {
 
-		// When printing to PDF the slide backgrounds are nested
-		// inside of the slides
-		if( isPrintingPDF() ) {
-			var slide = getSlide( x, y );
-			if( slide ) {
-				return slide.slideBackgroundElement;
-			}
-
-			return undefined;
+		var slide = getSlide( x, y );
+		if( slide ) {
+			return slide.slideBackgroundElement;
 		}
 
-		var horizontalBackground = dom.wrapper.querySelectorAll( '.backgrounds>.slide-background' )[ x ];
-		var verticalBackgrounds = horizontalBackground && horizontalBackground.querySelectorAll( '.slide-background' );
-
-		if( verticalBackgrounds && verticalBackgrounds.length && typeof y === 'number' ) {
-			return verticalBackgrounds ? verticalBackgrounds[ y ] : undefined;
-		}
-
-		return horizontalBackground;
+		return undefined;
 
 	}
 
@@ -4016,7 +4133,7 @@
 
 		cancelAutoSlide();
 
-		if( currentSlide ) {
+		if( currentSlide && config.autoSlide !== false ) {
 
 			var fragment = currentSlide.querySelector( '.current-fragment' );
 
@@ -4134,6 +4251,8 @@
 
 	function navigateRight() {
 
+		hasNavigatedRight = true;
+
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
@@ -4157,6 +4276,8 @@
 	}
 
 	function navigateDown() {
+
+		hasNavigatedDown = true;
 
 		// Prioritize revealing fragments
 		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
@@ -4203,6 +4324,9 @@
 	 * The reverse of #navigatePrev().
 	 */
 	function navigateNext() {
+
+		hasNavigatedRight = true;
+		hasNavigatedDown = true;
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
@@ -4872,7 +4996,7 @@
 		this.context.beginPath();
 		this.context.arc( x, y, radius, 0, Math.PI * 2, false );
 		this.context.lineWidth = this.thickness;
-		this.context.strokeStyle = '#666';
+		this.context.strokeStyle = 'rgba( 255, 255, 255, 0.2 )';
 		this.context.stroke();
 
 		if( this.playing ) {
@@ -4988,6 +5112,11 @@
 		isOverview: isOverview,
 		isPaused: isPaused,
 		isAutoSliding: isAutoSliding,
+		isSpeakerNotes: isSpeakerNotes,
+
+		// Slide preloading
+		loadSlide: loadSlide,
+		unloadSlide: unloadSlide,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,

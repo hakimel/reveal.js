@@ -2,7 +2,7 @@
  * phantomjs script for printing presentations to PDF.
  *
  * Example:
- * phantomjs print-pdf.js "http://lab.hakim.se/reveal-js?print-pdf" reveal-demo.pdf
+ * phantomjs print-pdf.js "http://revealjs.com?print-pdf" reveal-demo.pdf
  *
  * @author Manuel Bieh (https://github.com/manuelbieh)
  * @author Hakim El Hattab (https://github.com/hakimel)

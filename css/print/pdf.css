@@ -144,9 +144,14 @@ ul, ol, div, p {
 }
 
 /* Display slide speaker notes when 'showNotes' is enabled */
+.reveal.show-notes {
+	max-width: none;
+	max-height: none;
+}
 .reveal .speaker-notes-pdf {
 	display: block;
 	width: 100%;
+	height: auto;
 	max-height: none;
 	top: auto;
 	right: auto;
@@ -162,6 +167,7 @@ ul, ol, div, p {
 	background-color: transparent;
 	padding: 20px;
 	page-break-after: always;
+	border: 0;
 }
 
 /* Display slide numbers when 'slideNumber' is enabled */
