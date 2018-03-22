@@ -3843,9 +3843,8 @@
 			// Ensure the named link is a valid HTML ID attribute
 			try {
 				element = document.getElementById( decodeURIComponent( name ) );
-                        }
-			catch (e) {
-                        }
+			}
+			catch ( error ) { }
 
 			if( element ) {
 				// Find the position of the named slide and navigate to it
