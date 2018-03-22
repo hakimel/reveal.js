@@ -84,8 +84,8 @@
 			// Enable the slide overview mode
 			overview: true,
 
-			// Enable/disable user specified layouts (like css-grid)
-			// (basically prevents all the display & height/width calculations)
+			// Disables the default reveal.js slide layout so that you can use
+			// custom CSS layout
 			disableLayout: false,
 
 			// Vertical centering of slides
