@@ -3,7 +3,7 @@
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2018 Hakim El Hattab, http://hakim.se
  */
 (function( root, factory ) {
 	if( typeof define === 'function' && define.amd ) {
