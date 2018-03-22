@@ -2188,7 +2188,33 @@
 		return overview;
 
 	}
+	
+	/**
+	 * Return a hash URL that will resolve to the current slide location.
+	 */
+	
+	function locationHash() {
+		var url = '/';
+		
+		// Attempt to create a named link based on the slide's ID
+		var id = currentSlide ? currentSlide.getAttribute( 'id' ) : null;
+		if( id ) {
+			id = id.replace( /[^a-zA-Z0-9\-\_\:\.]/g, '' );
+		}
 
+		// If the current slide has an ID, use that as a named link
+		if( typeof id === 'string' && id.length ) {
+			url = '/' + id;
+		}
+		// Otherwise use the /h/v index (adding 1 to match slide label)
+		else {
+			if( indexh > 0 || indexv > 0 ) url += indexh + 1;
+			if( indexv > 0 ) url += '/' + indexv + 1;
+		}
+		
+		return url;
+	}
+	
 	/**
 	 * Checks if the current or specified slide is vertical
 	 * (nested within another slide).
@@ -2853,6 +2879,7 @@
 
 	}
 
+
 	/**
 	 * Updates the slide number div to reflect the current slide.
 	 *
@@ -2906,14 +2933,18 @@
 	 * @return {string} HTML string fragment
 	 */
 	function formatSlideNumber( a, delimiter, b ) {
-
+		var url = '#' + locationHash();
 		if( typeof b === 'number' && !isNaN( b ) ) {
-			return  '<span class="slide-number-a">'+ a +'</span>' +
+			return  '<a href="' + url + '">' +
+					'<span class="slide-number-a">'+ a +'</span>' +
 					'<span class="slide-number-delimiter">'+ delimiter +'</span>' +
-					'<span class="slide-number-b">'+ b +'</span>';
+					'<span class="slide-number-b">'+ b +'</span>' +
+					'</a>';
 		}
 		else {
-			return '<span class="slide-number-a">'+ a +'</span>';
+			return '<a href="' + url + '">' +
+			       '<span class="slide-number-a">'+ a +'</span>' +
+			       '</a>';
 		}
 
 	}
@@ -3710,8 +3741,8 @@
 		}
 		else {
 			// Read the index components of the hash
-			var h = parseInt( bits[0], 10 ) || 0,
-				v = parseInt( bits[1], 10 ) || 0;
+			var h = (parseInt( bits[0], 10 ) || 0) - 1,
+				v = (parseInt( bits[1], 10 ) || 0) - 1;
 
 			if( h !== indexh || v !== indexv ) {
 				slide( h, v );
@@ -3719,7 +3750,7 @@
 		}
 
 	}
-
+	
 	/**
 	 * Updates the page URL (hash) to reflect the current
 	 * state.
@@ -3739,25 +3770,7 @@
 				writeURLTimeout = setTimeout( writeURL, delay );
 			}
 			else if( currentSlide ) {
-				var url = '/';
-
-				// Attempt to create a named link based on the slide's ID
-				var id = currentSlide.getAttribute( 'id' );
-				if( id ) {
-					id = id.replace( /[^a-zA-Z0-9\-\_\:\.]/g, '' );
-				}
-
-				// If the current slide has an ID, use that as a named link
-				if( typeof id === 'string' && id.length ) {
-					url = '/' + id;
-				}
-				// Otherwise use the /h/v index
-				else {
-					if( indexh > 0 || indexv > 0 ) url += indexh;
-					if( indexv > 0 ) url += '/' + indexv;
-				}
-
-				window.location.hash = url;
+				window.location.hash = locationHash();
 			}
 		}
 
