@@ -1176,7 +1176,7 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) {
-			if('onpointerdown' in window) {
+			if( 'onpointerdown' in window ) {
 				// Use W3C pointer events
 				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
