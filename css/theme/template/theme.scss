@@ -310,7 +310,14 @@ body {
 	.reveal .progress span {
 		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-		        transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+			transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
-
+/*********************************************
+ * PRINT BACKGROUND
+ *********************************************/
+ @media print {
+    .backgrounds {
+        background-color: $backgroundColor;
+    }
+}
