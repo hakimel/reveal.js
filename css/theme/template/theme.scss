@@ -316,9 +316,8 @@ body {
 /*********************************************
  * PRINT BACKGROUND
  *********************************************/
-@media print {
-    .reveal .slide-background {
-        background-color: $backgroundColor !important;
-        -webkit-print-color-adjust: exact; 
+ @media print {
+    .backgrounds {
+        background-color: $backgroundColor;
     }
 }
