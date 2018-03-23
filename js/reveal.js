@@ -68,6 +68,10 @@
 
 			// Display the page number of the current slide
 			slideNumber: false,
+			
+			// Use 1 based indexing for # links to match slide number (default is zero
+			// based)
+			hashOneBasedIndex: false,
 
 			// Determine which displays to show the slide number on
 			showSlideNumber: 'all',
@@ -2208,8 +2212,8 @@
 		}
 		// Otherwise use the /h/v index (adding 1 to match slide label)
 		else {
-			if( indexh > 0 || indexv > 0 ) url += indexh + 1;
-			if( indexv > 0 ) url += '/' + indexv + 1;
+			if( indexh > 0 || indexv > 0 ) url += indexh + config.hashOneBasedIndex;
+			if( indexv > 0 ) url += '/' + (indexv + config.hashOneBasedIndex);
 		}
 		
 		return url;
@@ -3741,8 +3745,8 @@
 		}
 		else {
 			// Read the index components of the hash
-			var h = (parseInt( bits[0], 10 ) || 0) - 1,
-				v = (parseInt( bits[1], 10 ) || 0) - 1;
+			var h = (parseInt( bits[0], 10 ) || 0) - config.hashOneBasedIndex,
+				v = (parseInt( bits[1], 10 ) || 0) - config.hashOneBasedIndex;
 
 			if( h !== indexh || v !== indexv ) {
 				slide( h, v );
