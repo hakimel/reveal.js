@@ -28,7 +28,7 @@
 	// The reveal.js version
 	var VERSION = '3.6.0';
 
-	var SLIDES_SELECTOR = '.slides section',
+	var SLIDES_SELECTOR = '.slides>section, .slides>section>section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
@@ -698,7 +698,7 @@
 			hslide.setAttribute( 'data-index-h', h );
 
 			if( hslide.classList.contains( 'stack' ) ) {
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+				toArray( hslide.querySelectorAll( '.slides>section>section' ) ).forEach( function( vslide, v ) {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 				} );
@@ -874,7 +874,7 @@
 			var backgroundStack = createBackground( slideh, dom.background );
 
 			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+			toArray( slideh.querySelectorAll( 'slides>section>section' ) ).forEach( function( slidev ) {
 
 				createBackground( slidev, backgroundStack );
 
@@ -1642,7 +1642,7 @@
 	function enableRollingLinks() {
 
 		if( features.transforms3d && !( 'msPerspective' in document.body.style ) ) {
-			var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' a' );
+			var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ' a' ).join( ', ' ) );
 
 			for( var i = 0, len = anchors.length; i < len; i++ ) {
 				var anchor = anchors[i];
@@ -1666,7 +1666,7 @@
 	 */
 	function disableRollingLinks() {
 
-		var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
+		var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ' a.roll' ).join( ', ' ) );
 
 		for( var i = 0, len = anchors.length; i < len; i++ ) {
 			var anchor = anchors[i];
@@ -2126,7 +2126,7 @@
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+				toArray( hslide.querySelectorAll( '.slides>section>section' ) ).forEach( function( vslide, v ) {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 
@@ -2464,7 +2464,7 @@
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
 		var currentHorizontalSlide = horizontalSlides[ indexh ],
-			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( '.slides>section>section' );
 
 		// Store references to the previous and current slides
 		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
@@ -2598,7 +2598,7 @@
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( '.slides>section>section' ) );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				if( y > 0 ) {
@@ -2623,7 +2623,7 @@
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 		horizontalSlides.forEach( function( horizontalSlide ) {
 
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( '.slides>section>section' ) );
 			verticalSlides.forEach( function( verticalSlide, y ) {
 
 				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
@@ -2703,7 +2703,7 @@
 				element.setAttribute( 'aria-hidden', 'true' );
 
 				// If this element contains vertical slides
-				if( element.querySelector( 'section' ) ) {
+				if( element.querySelector( '.slides>section>section' ) ) {
 					element.classList.add( 'stack' );
 				}
 
@@ -2800,7 +2800,7 @@
 			for( var x = 0; x < horizontalSlidesLength; x++ ) {
 				var horizontalSlide = horizontalSlides[x];
 
-				var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
+				var verticalSlides = toArray( horizontalSlide.querySelectorAll( '.slides>section>section' ) ),
 					verticalSlidesLength = verticalSlides.length;
 
 				// Determine how far away this slide is from the present
@@ -3683,7 +3683,7 @@
 		mainLoop: for( var i = 0; i < horizontalSlides.length; i++ ) {
 
 			var horizontalSlide = horizontalSlides[i];
-			var verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			var verticalSlides = toArray( horizontalSlide.querySelectorAll( '.slides>section>section' ) );
 
 			for( var j = 0; j < verticalSlides.length; j++ ) {
 
@@ -3892,7 +3892,7 @@
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
-				v = Math.max( toArray( slide.parentNode.querySelectorAll( 'section' ) ).indexOf( slide ), 0 );
+				v = Math.max( toArray( slide.parentNode.querySelectorAll( '.slides>section>section' ) ).indexOf( slide ), 0 );
 			}
 		}
 
@@ -3918,7 +3918,7 @@
 	 */
 	function getSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ));
+		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ':not(.stack)' ).join( ', ' ) ));
 
 	}
 
@@ -3941,7 +3941,7 @@
 	function getSlide( x, y ) {
 
 		var horizontalSlide = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR )[ x ];
-		var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( 'section' );
+		var verticalSlides = horizontalSlide && horizontalSlide.querySelectorAll( '.slides>section>section' );
 
 		if( verticalSlides && verticalSlides.length && typeof y === 'number' ) {
 			return verticalSlides ? verticalSlides[ y ] : undefined;
@@ -4412,7 +4412,7 @@
 				}
 
 				if( previousSlide ) {
-					var v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
+					var v = ( previousSlide.querySelectorAll( '.slides>section>section' ).length - 1 ) || undefined;
 					var h = indexh - 1;
 					slide( h, v );
 				}
