@@ -874,7 +874,7 @@
 			var backgroundStack = createBackground( slideh, dom.background );
 
 			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'slides>section>section' ) ).forEach( function( slidev ) {
+			toArray( slideh.querySelectorAll( '.slides>section>section' ) ).forEach( function( slidev ) {
 
 				createBackground( slidev, backgroundStack );
 
