@@ -788,7 +788,7 @@
 		} );
 
 		// Show all fragments
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ' .fragment' ).join( ', ' ) ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
 
