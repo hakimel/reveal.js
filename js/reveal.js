@@ -788,7 +788,7 @@
 		} );
 
 		// Show all fragments
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ' .fragment' ).join( ', ' ) ) ).forEach( function( fragment ) {
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR.replace(/(?=,|$)/g, ' .fragment') ) ).forEach( function( fragment ) {
 			fragment.classList.add( 'visible' );
 		} );
 
@@ -1642,7 +1642,7 @@
 	function enableRollingLinks() {
 
 		if( features.transforms3d && !( 'msPerspective' in document.body.style ) ) {
-			var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ' a' ).join( ', ' ) );
+			var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR.replace(/(?=,|$)/g, ' a') );
 
 			for( var i = 0, len = anchors.length; i < len; i++ ) {
 				var anchor = anchors[i];
@@ -1666,7 +1666,7 @@
 	 */
 	function disableRollingLinks() {
 
-		var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ' a.roll' ).join( ', ' ) );
+		var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR.replace(/(?=,|$)/g, ' a.roll') );
 
 		for( var i = 0, len = anchors.length; i < len; i++ ) {
 			var anchor = anchors[i];
@@ -3918,7 +3918,7 @@
 	 */
 	function getSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR.split( ', ' ).map( s => s + ':not(.stack)' ).join( ', ' ) ));
+		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR.replace(/(?=,|$)/g, ':not(.stack)') ));
 
 	}
 
