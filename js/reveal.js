@@ -1201,7 +1201,7 @@
 			document.addEventListener( 'keypress', onDocumentKeyPress, false );
 		}
 
-		if( config.progress && dom.progress ) {
+		if( config.progress && config.progress !== 'passive' && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
@@ -1268,7 +1268,7 @@
 		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 
-		if ( config.progress && dom.progress ) {
+		if ( config.progress && config.progress !== 'passive' && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
 		}
 

@@ -199,7 +199,9 @@ Reveal.initialize({
 	// or "visible"
 	controlsBackArrows: 'faded',
 
-	// Display a presentation progress bar
+	// Display a presentation progress bar.
+	// Set to false to hide the progress bar. To prevent slide
+	// changes on mouse click set to 'passive'.
 	progress: true,
 
 	// Display the page number of the current slide
