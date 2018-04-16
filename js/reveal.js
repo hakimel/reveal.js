@@ -2281,8 +2281,9 @@
 		}
 		// Otherwise use the /h/v index
 		else {
-			if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh + config.hashOneBasedIndex;
-			if( indexv > 0 || indexf !== undefined ) url += '/' + (indexv + config.hashOneBasedIndex);
+			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+			if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh + hashIndexBase;
+			if( indexv > 0 || indexf !== undefined ) url += '/' + (indexv + hashIndexBase );
 			if( indexf !== undefined ) url += '/' + indexf;
 		}
 
@@ -3839,9 +3840,11 @@
 			}
 		}
 		else {
+			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+
 			// Read the index components of the hash
-			var h = parseInt( bits[0], 10 ) || 0 - config.hashOneBasedIndex,
-				v = parseInt( bits[1], 10 ) || 0 - config.hashOneBasedIndex,
+			var h = ( parseInt( bits[0], 10 ) - hashIndexBase ) || 0,
+				v = ( parseInt( bits[1], 10 ) - hashIndexBase ) || 0,
 				f;
 
 			if( config.fragmentInURL ) {
