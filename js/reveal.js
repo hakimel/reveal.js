@@ -68,7 +68,7 @@
 
 			// Display the page number of the current slide
 			slideNumber: false,
-			
+
 			// Use 1 based indexing for # links to match slide number (default is zero
 			// based)
 			hashOneBasedIndex: false,
@@ -1259,7 +1259,7 @@
 		document.removeEventListener( 'keypress', onDocumentKeyPress, false );
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
-		
+
 		dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
 		dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
 		dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
@@ -2255,41 +2255,41 @@
 		return overview;
 
 	}
-	
+
 	/**
 	 * Return a hash URL that will resolve to the current slide location.
 	 */
-	
 	function locationHash() {
-    
-    var url = '/';
 
-    // Attempt to create a named link based on the slide's ID
+		var url = '/';
+
+		// Attempt to create a named link based on the slide's ID
 		var id = currentSlide ? currentSlide.getAttribute( 'id' ) : null;
-    if( id ) {
-      id = encodeURIComponent( id );
-    }
+		if( id ) {
+			id = encodeURIComponent( id );
+		}
 
-    var indexf;
-    if( config.fragmentInURL ) {
-      indexf = getIndices().f;
-    }
+		var indexf;
+		if( config.fragmentInURL ) {
+			indexf = getIndices().f;
+		}
 
-    // If the current slide has an ID, use that as a named link,
-    // but we don't support named links with a fragment index
-    if( typeof id === 'string' && id.length && indexf === undefined ) {
-      url = '/' + id;
-    }
-    // Otherwise use the /h/v index
-    else {
-      if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh + config.hashOneBasedIndex;
-      if( indexv > 0 || indexf !== undefined ) url += '/' + (indexv + config.hashOneBasedIndex);
-      if( indexf !== undefined ) url += '/' + indexf;
-    }
+		// If the current slide has an ID, use that as a named link,
+		// but we don't support named links with a fragment index
+		if( typeof id === 'string' && id.length && indexf === undefined ) {
+			url = '/' + id;
+		}
+		// Otherwise use the /h/v index
+		else {
+			if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh + config.hashOneBasedIndex;
+			if( indexv > 0 || indexf !== undefined ) url += '/' + (indexv + config.hashOneBasedIndex);
+			if( indexf !== undefined ) url += '/' + indexf;
+		}
 
-    return url;
+		return url;
+
 	}
-	
+
 	/**
 	 * Checks if the current or specified slide is vertical
 	 * (nested within another slide).
@@ -3009,6 +3009,7 @@
 	 * @return {string} HTML string fragment
 	 */
 	function formatSlideNumber( a, delimiter, b ) {
+
 		var url = '#' + locationHash();
 		if( typeof b === 'number' && !isNaN( b ) ) {
 			return  '<a href="' + url + '">' +
@@ -3839,10 +3840,10 @@
 		}
 		else {
 			// Read the index components of the hash
-
 			var h = parseInt( bits[0], 10 ) || 0 - config.hashOneBasedIndex,
 				v = parseInt( bits[1], 10 ) || 0 - config.hashOneBasedIndex,
 				f;
+
 			if( config.fragmentInURL ) {
 				f = parseInt( bits[2], 10 );
 				if( isNaN( f ) ) {
@@ -3856,7 +3857,7 @@
 		}
 
 	}
-	
+
 	/**
 	 * Updates the page URL (hash) to reflect the current
 	 * state.
