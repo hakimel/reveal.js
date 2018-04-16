@@ -460,6 +460,9 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 5px; }
 
+.reveal .slide-number a {
+  color: currentColor; }
+
 .reveal .slide-number-delimiter {
   margin: 0 3px; }
 
