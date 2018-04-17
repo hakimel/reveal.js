@@ -640,6 +640,7 @@ $controlsArrowAngleActive: 36deg;
 .reveal .slides>section.stack {
 	padding-top: 0;
 	padding-bottom: 0;
+	pointer-events: none;
 }
 
 .reveal .slides>section.present,

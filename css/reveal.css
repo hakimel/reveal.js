@@ -531,7 +531,8 @@ body {
 
 .reveal .slides > section.stack {
   padding-top: 0;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+  pointer-events: none; }
 
 .reveal .slides > section.present,
 .reveal .slides > section > section.present {
