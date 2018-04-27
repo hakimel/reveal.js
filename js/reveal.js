@@ -933,13 +933,17 @@
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
-			backgroundTransition: slide.getAttribute( 'data-background-transition' )
+			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
+			backgroundContentOpacity: slide.getAttribute( 'data-background-content-opacity' )
 		};
 
+		// Main slide background element
 		var element = document.createElement( 'div' );
-
-		// Carry over custom classes from the slide to the background
 		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
+
+		// Inner background element that wraps images/videos/iframes
+		var contentElement = document.createElement( 'div' );
+		contentElement.className = 'slide-background-content';
 
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
@@ -963,17 +967,22 @@
 															data.backgroundColor +
 															data.backgroundRepeat +
 															data.backgroundPosition +
-															data.backgroundTransition );
+															data.backgroundTransition +
+															data.backgroundContentOpacity );
 		}
 
 		// Additional and optional background properties
-		if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
 		if( data.backgroundSize ) element.setAttribute( 'data-background-size', data.backgroundSize );
 		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
-		if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
-		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
+		// Background image options are set on the content wrapper
+		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
+		if( data.backgroundRepeat ) contentElement.style.backgroundRepeat = data.backgroundRepeat;
+		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
+		if( data.backgroundContentOpacity ) contentElement.style.opacity = data.backgroundContentOpacity;
+
+		element.appendChild( contentElement );
 		container.appendChild( element );
 
 		// If backgrounds are being recreated, clear old classes
@@ -981,6 +990,7 @@
 		slide.classList.remove( 'has-light-background' );
 
 		slide.slideBackgroundElement = element;
+		slide.slideBackgroundContentElement = contentElement;
 
 		// If this slide has a background color, add a class that
 		// signals if it is light or dark. If the slide has no background
@@ -3311,9 +3321,11 @@
 
 
 		// Show the corresponding background element
-		var background = getSlideBackground( slide );
+		var background = slide.slideBackgroundElement;
 		if( background ) {
 			background.style.display = 'block';
+
+			var backgroundContent = slide.slideBackgroundContentElement;
 
 			// If the background contains media, load it
 			if( background.hasAttribute( 'data-loaded' ) === false ) {
@@ -3327,7 +3339,7 @@
 
 				// Images
 				if( backgroundImage ) {
-					background.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
+					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
@@ -3355,7 +3367,7 @@
 						video.innerHTML += '<source src="'+ source +'">';
 					} );
 
-					background.appendChild( video );
+					backgroundContent.appendChild( video );
 				}
 				// Iframes
 				else if( backgroundIframe && options.excludeIframes !== true ) {
@@ -3378,7 +3390,7 @@
 					iframe.style.maxHeight = '100%';
 					iframe.style.maxWidth = '100%';
 
-					background.appendChild( iframe );
+					backgroundContent.appendChild( iframe );
 				}
 			}
 
