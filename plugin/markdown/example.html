@@ -7,7 +7,9 @@
 		<title>reveal.js - Markdown Demo</title>
 
 		<link rel="stylesheet" href="../../css/reveal.css">
-		<link rel="stylesheet" href="../../css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="../../css/theme/white.css" id="theme">
+
+        <link rel="stylesheet" href="../../lib/css/zenburn.css">
 	</head>
 
 	<body>
@@ -17,7 +19,7 @@
 			<div class="slides">
 
                 <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
-                <section data-markdown="example.md" data-separator="^\n\n\n" data-vertical="^\n\n"></section>
+                <section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
                 <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
                 <section data-markdown data-separator="---">
@@ -34,7 +36,7 @@
                 </section>
 
                 <!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
-                <section data-markdown data-separator="^\n---\n$" data-vertical="^\n--\n$">
+                <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
                     <script type="text/template">
                         ## Demo 2
                         Slide 1.1
@@ -66,6 +68,44 @@
                     </script>
                 </section>
 
+                <!-- Slide attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        <!-- .slide: data-background="#000000" -->
+                        ## Slide attributes
+                    </script>
+                </section>
+
+                <!-- Element attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Element attributes
+                        - Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+                        - Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+                    </script>
+                </section>
+
+                <!-- Code -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ```php
+                        public function foo()
+                        {
+                            $foo = array(
+                                'bar' => 'bar'
+                            )
+                        }
+                        ```
+                    </script>
+                </section>
+
+                <!-- Images -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ![Sample image](https://s3.amazonaws.com/static.slid.es/logo/v2/slides-symbol-512x512.png)
+                    </script>
+                </section>
+
             </div>
 		</div>
 
@@ -80,14 +120,12 @@
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme,
-				transition: Reveal.getQueryHash().transition || 'default',
-
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
 					{ src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: '../notes/notes.js' }
 				]
 			});
