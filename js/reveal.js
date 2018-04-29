@@ -278,17 +278,17 @@
 
 		// Holds information about the keyboard shortcuts
 		keyboardShortcuts = {
-			'N  ,  SPACE':			'Next slide',
-			'P':					'Previous slide',
-			'&#8592;  ,  H':		'Navigate left',
-			'&#8594;  ,  L':		'Navigate right',
-			'&#8593;  ,  K':		'Navigate up',
-			'&#8595;  ,  J':		'Navigate down',
+			'n  ,  PageDown  ,  SPACE':	'Next slide',
+			'p  ,  PageUp':			'Previous slide',
+			'&#8592;  ,  h':		'Navigate left',
+			'&#8594;  ,  l':		'Navigate right',
+			'&#8593;  ,  k':		'Navigate up',
+			'&#8595;  ,  j':		'Navigate down',
 			'Home':					'First slide',
 			'End':					'Last slide',
-			'B  ,  .':				'Pause',
-			'F':					'Fullscreen',
-			'ESC, O':				'Slide overview'
+			'b  ,  .':				'Pause',
+			'f':					'Fullscreen',
+			'ESC, o':				'Slide overview'
 		};
 
 	/**
