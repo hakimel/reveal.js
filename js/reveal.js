@@ -3237,13 +3237,18 @@
 
 			startEmbeddedContent( currentBackground );
 
-			var backgroundImageURL = currentBackground.style.backgroundImage || '';
+			var currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
+			if( currentBackgroundContent ) {
 
-			// Restart GIFs (doesn't work in Firefox)
-			if( /\.gif/i.test( backgroundImageURL ) ) {
-				currentBackground.style.backgroundImage = '';
-				window.getComputedStyle( currentBackground ).opacity;
-				currentBackground.style.backgroundImage = backgroundImageURL;
+				var backgroundImageURL = currentBackgroundContent.style.backgroundImage || '';
+
+				// Restart GIFs (doesn't work in Firefox)
+				if( /\.gif/i.test( backgroundImageURL ) ) {
+					currentBackgroundContent.style.backgroundImage = '';
+					window.getComputedStyle( currentBackgroundContent ).opacity;
+					currentBackgroundContent.style.backgroundImage = backgroundImageURL;
+				}
+
 			}
 
 			// Don't transition between identical backgrounds. This
