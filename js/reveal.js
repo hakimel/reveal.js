@@ -934,7 +934,7 @@
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
 			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
-			backgroundContentOpacity: slide.getAttribute( 'data-background-content-opacity' )
+			backgroundOpacity: slide.getAttribute( 'data-background-opacity' )
 		};
 
 		// Main slide background element
@@ -968,7 +968,7 @@
 															data.backgroundRepeat +
 															data.backgroundPosition +
 															data.backgroundTransition +
-															data.backgroundContentOpacity );
+															data.backgroundOpacity );
 		}
 
 		// Additional and optional background properties
@@ -980,7 +980,7 @@
 		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
 		if( data.backgroundRepeat ) contentElement.style.backgroundRepeat = data.backgroundRepeat;
 		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
-		if( data.backgroundContentOpacity ) contentElement.style.opacity = data.backgroundContentOpacity;
+		if( data.backgroundOpacity ) contentElement.style.opacity = data.backgroundOpacity;
 
 		element.appendChild( contentElement );
 		container.appendChild( element );

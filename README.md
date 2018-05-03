@@ -630,7 +630,7 @@ By default, background images are resized to cover the full page. Available opti
 | data-background-size             | cover      | See [background-size](https://developer.mozilla.org/docs/Web/CSS/background-size) on MDN.  |
 | data-background-position         | center     | See [background-position](https://developer.mozilla.org/docs/Web/CSS/background-position) on MDN. |
 | data-background-repeat           | no-repeat  | See [background-repeat](https://developer.mozilla.org/docs/Web/CSS/background-repeat) on MDN. |
-| data-background-content-opacity  | 1          | Opacity of the background image on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
+| data-background-opacity          | 1          | Opacity of the background image on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
 ```html
 <section data-background-image="http://example.com/image.png">
 	<h2>Image</h2>
@@ -649,7 +649,7 @@ Automatically plays a full size video behind the slide.
 | data-background-video-loop       | false   | Flags if the video should play repeatedly. |
 | data-background-video-muted      | false   | Flags if the audio should be muted. |
 | data-background-size             | cover   | Use `cover` for full screen and some cropping or `contain` for letterboxing. |
-| data-background-content-opacity  | 1       | Opacity of the background video on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
+| data-background-opacity          | 1       | Opacity of the background video on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
 
 ```html
 <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
