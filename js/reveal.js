@@ -949,6 +949,57 @@
 	 */
 	function createBackground( slide, container ) {
 
+
+		// Main slide background element
+		var element = document.createElement( 'div' );
+		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
+
+		// Inner background element that wraps images/videos/iframes
+		var contentElement = document.createElement( 'div' );
+		contentElement.className = 'slide-background-content';
+
+		element.appendChild( contentElement );
+		container.appendChild( element );
+
+		slide.slideBackgroundElement = element;
+		slide.slideBackgroundContentElement = contentElement;
+
+		// Syncs the background to reflect all current background settings
+		syncBackground( slide );
+
+		return element;
+
+	}
+
+	/**
+	 * Renders all of the visual properties of a slide background
+	 * based on the various background attributes.
+	 *
+	 * @param {HTMLElement} slide
+	 */
+	function syncBackground( slide ) {
+
+		var element = slide.slideBackgroundElement,
+			contentElement = slide.slideBackgroundContentElement;
+
+		// Reset the prior background state in case this is not the
+		// initial sync
+		slide.classList.remove( 'has-dark-background' );
+		slide.classList.remove( 'has-light-background' );
+
+		element.removeAttribute( 'data-loaded' );
+		element.removeAttribute( 'data-background-hash' );
+		element.removeAttribute( 'data-background-size' );
+		element.removeAttribute( 'data-background-transition' );
+		element.style.backgroundColor = '';
+
+		contentElement.style.backgroundSize = '';
+		contentElement.style.backgroundRepeat = '';
+		contentElement.style.backgroundPosition = '';
+		contentElement.style.backgroundImage = '';
+		contentElement.style.opacity = '';
+		contentElement.innerHTML = '';
+
 		var data = {
 			background: slide.getAttribute( 'data-background' ),
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
@@ -961,14 +1012,6 @@
 			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
 			backgroundOpacity: slide.getAttribute( 'data-background-opacity' )
 		};
-
-		// Main slide background element
-		var element = document.createElement( 'div' );
-		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
-
-		// Inner background element that wraps images/videos/iframes
-		var contentElement = document.createElement( 'div' );
-		contentElement.className = 'slide-background-content';
 
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
@@ -1007,16 +1050,6 @@
 		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundOpacity ) contentElement.style.opacity = data.backgroundOpacity;
 
-		element.appendChild( contentElement );
-		container.appendChild( element );
-
-		// If backgrounds are being recreated, clear old classes
-		slide.classList.remove( 'has-dark-background' );
-		slide.classList.remove( 'has-light-background' );
-
-		slide.slideBackgroundElement = element;
-		slide.slideBackgroundContentElement = contentElement;
-
 		// If this slide has a background color, add a class that
 		// signals if it is light or dark. If the slide has no background
 		// color, no class will be set
@@ -1036,8 +1069,6 @@
 				}
 			}
 		}
-
-		return element;
 
 	}
 
@@ -2669,6 +2700,29 @@
 		if( isOverview() ) {
 			layoutOverview();
 		}
+
+	}
+
+	/**
+	 * Updates reveal.js to keep in sync with new slide attributes. For
+	 * example, if you add a new `data-background-image` you can call
+	 * this to have reveal.js render the new background image.
+	 *
+	 * Similar to #sync() but more efficient when you only need to
+	 * refresh a specific slide.
+	 *
+	 * @param {HTMLElement} slide
+	 */
+	function syncSlide( slide ) {
+
+		syncBackground( slide );
+
+		sortFragments( slide.querySelectorAll( '.fragment' ) );
+
+		updateBackground();
+		updateNotes();
+
+		loadSlide( slide );
 
 	}
 
@@ -5263,6 +5317,7 @@
 		initialize: initialize,
 		configure: configure,
 		sync: sync,
+		syncSlide: syncSlide,
 
 		// Navigation methods
 		slide: slide,
