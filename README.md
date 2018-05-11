@@ -184,7 +184,7 @@ Reveal.initialize({
 
 ### Configuration
 
-At the end of your page you need to initialize reveal by running the following code. Note that all configuration values are optional and will default to the values specified below.
+At the end of your pages you need to initialize reveal by running the following code. Note that all configuration values are optional and will default to the values specified below.
 
 ```javascript
 Reveal.initialize({
