@@ -40,7 +40,7 @@
     "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.9.3",
     "gulp-connect": "^5.5.0",
-    "gulp-jshint": "^2.1.0",
+    "gulp-eslint": "^4.0.2",
     "gulp-qunit": "^2.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
@@ -53,5 +53,38 @@
   "license": "MIT",
   "dependencies": {
     "npm": "^5.7.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true
+    },
+    "globals": {
+      "head": false,
+      "module": false,
+      "console": false,
+      "unescape": false,
+      "define": false,
+      "exports": false
+    },
+    "rules": {
+      "curly": 0,
+      "eqeqeq": 2,
+      "wrap-iife": [
+        2,
+        "any"
+      ],
+      "no-use-before-define": [
+        2,
+        {
+          "functions": false
+        }
+      ],
+      "new-cap": 2,
+      "no-caller": 2,
+      "dot-notation": 0,
+      "no-undef": 2,
+      "no-eq-null": 2,
+      "no-unused-expressions": 2
+    }
   }
 }

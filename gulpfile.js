@@ -1,5 +1,5 @@
 const gulp = require('gulp')
-const jshint = require('gulp-jshint')
+const eslint = require('gulp-eslint')
 const uglify = require('gulp-uglify')
 const rename = require('gulp-rename')
 const sass = require('gulp-sass')
@@ -9,34 +9,28 @@ const qunit = require('gulp-qunit')
 const zip = require('gulp-zip')
 const connect = require('gulp-connect')
 
-gulp.task('js', function () {
-    return gulp.src(['./js/reveal.js']).pipe(uglify()).pipe(rename('reveal.min.js')).pipe(gulp.dest('./js'))
-})
+gulp.task('js', () => gulp.src(['./js/reveal.js']).pipe(uglify()).pipe(rename('reveal.min.js')).pipe(gulp.dest('./js')))
 
-gulp.task('css-themes', function () {
-    return gulp.src(['./css/theme/source/*.{sass,scss}']).pipe(sass()).pipe(gulp.dest('./css/theme'))
-})
+gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}']).pipe(sass()).pipe(gulp.dest('./css/theme')))
 
-gulp.task('css-core', gulp.series(function () {
-    return gulp.src(['css/reveal.scss']).pipe(sass()).pipe(autoprefixer()).pipe(gulp.dest('./css'))
-}, function () {
-    return gulp.src(['css/reveal.css']).pipe(minify({
+gulp.task('css-core', gulp.series(
+    () => gulp.src(['css/reveal.scss']).pipe(sass()).pipe(autoprefixer()).pipe(gulp.dest('./css')), 
+    () => gulp.src(['css/reveal.css']).pipe(minify({
         compatibility: 'ie9'
     })).pipe(rename('reveal.min.css')).pipe(gulp.dest('./css'))
-}))
+))
 
 gulp.task('css', gulp.parallel('css-themes', 'css-core'))
 
-gulp.task('test', gulp.parallel(function () {
-    return gulp.src(['./js/reveal.js']).pipe(jshint()).pipe(jshint.reporter('default')).pipe(jshint.reporter('fail'));
-}, function () {
-    return gulp.src(['./test/*.html']).pipe(qunit())
-}))
+gulp.task('test', gulp.series(
+    () => gulp.src(['./js/reveal.js']).pipe(eslint({useEslintrc: true})).pipe(eslint.format()),
+    () => gulp.src(['./test/*.html']).pipe(qunit())
+))
 
 gulp.task('default', gulp.series(gulp.parallel('js', 'css'), 'test'))
 
-gulp.task('package', gulp.series('default', function () {
-    return gulp.src([
+gulp.task('package', gulp.series('default', () =>
+    gulp.src([
         './index.html',
         './css/**',
         './js/**',
@@ -45,9 +39,9 @@ gulp.task('package', gulp.series('default', function () {
         './plugin/**',
         './**.md'
     ]).pipe(zip('reveal-js-presentation.zip')).pipe(gulp.dest('./'))
-}))
+))
 
-gulp.task('serve', function () {
+gulp.task('serve', () => {
     connect.server({
         root: '.',
         livereload: true,
