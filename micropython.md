@@ -887,6 +887,11 @@ Hello world!
 >>> with open('cubantech.txt', 'w') as f:
 >>>     f.write('Hello CubanTech!')
 
+>>> with open('cubantech.txt', 'r') as f:
+>>>     for l in f:
+>>>         print l
+Hello CubanTech!
+
 >>> try:
 >>>     1/0
 >>> except ZeroDivisionError as e:
@@ -923,16 +928,6 @@ ImportError: no module named 'this'
 
 ---
 
-## Supports async / await syntax
-
-```python
-
-async def ping_pygrunn():
-    return await ping_server('pygrunn.org')
-```
-
----
-
 ## External Standard Library
 
 Written in Python (remember PyPy?)
@@ -947,6 +942,16 @@ Use Ctrl-D to exit, Ctrl-E for paste mode
 >>> dir(functools)
 ['__name__', 'reduce', 'partial', 'update_wrapper', '__file__', 'wraps']
 https://github.com/micropython/micropython-lib
+```
+
+---
+
+## Supports async / await syntax
+
+```python
+
+async def ping_pygrunn():
+    return await ping_server('pygrunn.org')
 ```
 
 ---
@@ -1099,13 +1104,13 @@ def foo(self, arg: int) -> int:
 
 ## Our hardware
 
-[![](img/hardware-kit-closed.jpg)](http://www.seeedstudio.com/depot/ARDX-The-starter-kit-for-Arduino-p-1153.html)
+[![](img/ardx-hardware-kit-closed.jpg)](http://www.seeedstudio.com/depot/ARDX-The-starter-kit-for-Arduino-p-1153.html)
 
----
+--
 
 ## Our hardware
 
-[![](img/hardware-kit-open.jpg)](http://www.seeedstudio.com/depot/ARDX-The-starter-kit-for-Arduino-p-1153.html)
+[![](img/ardx-hardware-kit-open.jpg)](http://www.seeedstudio.com/depot/ARDX-The-starter-kit-for-Arduino-p-1153.html)
 
 ---
 
@@ -1144,50 +1149,6 @@ Feel free to select the components you like most and complete the challenges tha
   * Factory reset Password `micropythoN`
   * IP address `192.168.4.1`
 - Station interface
-
----
-
-## Install WebREPL if you haven't already
-
-##### ... from the Internet
-
-```sh
-git clone https://github.com/micropython/webrepl
-```
-
-[Download WebREPL from the Internet](https://github.com/micropython/webrepl)
-
-##### ... from CubanTech LAN
-
-```sh
-git clone ssh://git@git.cuban.tech:2222/micropython/webrepl.git
-```
-
-[Download WebREPL from LAN](http://git.cuban.tech/micropython/webrepl/repository/archive.tar.gz?ref=master)
-
----
-
-## Setup WebREPL access (over USB)
-
-```python
-
-import webrepl_setup
-```
-
-- Follow the on-screen instructions and prompts
-- Reboot your MicroPython device.
-
----
-
-## WebREPL
-
-![](img/webrepl.png)
-
-- Connect to the ESP8266's access point
-- Launch WebREPL
-  * Open `webrepl.html` in your browser
-- Click the "Connect" button
-- Type the password set with `webrepl_setup` when prompted 
 
 ---
 
@@ -1247,6 +1208,50 @@ True
 ('192.168.0.2', '255.255.255.0', '192.168.0.1', '8.8.8.8')
 
 ```
+
+---
+
+## Install WebREPL if you haven't already
+
+##### ... from the Internet
+
+```sh
+git clone https://github.com/micropython/webrepl
+```
+
+[Download WebREPL from the Internet](https://github.com/micropython/webrepl)
+
+##### ... from CubanTech LAN
+
+```sh
+git clone ssh://git@git.cuban.tech:2222/micropython/webrepl.git
+```
+
+[Download WebREPL from LAN](http://git.cuban.tech/micropython/webrepl/repository/archive.tar.gz?ref=master)
+
+---
+
+## Setup WebREPL access (over USB)
+
+```python
+
+import webrepl_setup
+```
+
+- Follow the on-screen instructions and prompts
+- Reboot your MicroPython device.
+
+---
+
+## WebREPL
+
+![](img/webrepl.png)
+
+- Connect to the ESP8266's access point
+- Launch WebREPL
+  * Open `webrepl.html` in your browser
+- Click the "Connect" button
+- Type the password set with `webrepl_setup` when prompted 
 
 ---
 
@@ -1357,6 +1362,12 @@ while True:
 
 ![](img/pyboard.led.png)
 
+--
+
+## Alternative - NodeMCU v3
+
+![](img/nodemcu.v3.led.png)
+
 ---
 
 Run this in (USB or web) REPL
@@ -1365,8 +1376,9 @@ Run this in (USB or web) REPL
 import machine
 import time
 
-pin_id = 15 # Huzzah Feather
+pin_id = 4  # NodeMCU
             # PyBoard = 'A14'
+            # Huzzah Feather = 15
 led = machine.Pin(pin_id, machine.Pin.OUT)
 while True:
     led.high()
@@ -1415,8 +1427,9 @@ Exit loop with `Ctrl-c`
 import machine
 import time
 
-pin_id = 15 # Huzzah Feather
+pin_id = 4  # NodeMCU
             # PyBoard = 'A14'
+            # Huzzah Feather = 15
 led = machine.Pin(pin_id, machine.Pin.OUT)
 while True:
     led.high()
@@ -1424,10 +1437,6 @@ while True:
     led.low()
     time.sleep(3.0)
 ```
-
----
-
-<span style="color: red"> Work in progress starting from here </span>
 
 ---
 
