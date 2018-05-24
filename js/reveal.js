@@ -3043,6 +3043,12 @@
 				format = config.slideNumber;
 			}
 
+			// If there are ONLY vertical slides in this deck, always use
+			// a flattened slide number
+			if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
+				format = 'c';
+			}
+
 			switch( format ) {
 				case 'c':
 					value.push( getSlidePastCount() + 1 );
