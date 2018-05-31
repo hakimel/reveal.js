@@ -2716,13 +2716,25 @@
 	function syncSlide( slide ) {
 
 		syncBackground( slide );
-
-		sortFragments( slide.querySelectorAll( '.fragment' ) );
+		syncFragments( slide );
 
 		updateBackground();
 		updateNotes();
 
 		loadSlide( slide );
+
+	}
+
+	/**
+	 * Formats the fragments on the given slide so that they have
+	 * valid indices. Call this if fragments are changed in the DOM
+	 * after reveal.js has already initialized.
+	 *
+	 * @param {HTMLElement} slide
+	 */
+	function syncFragments( slide ) {
+
+		sortFragments( slide.querySelectorAll( '.fragment' ) );
 
 	}
 
@@ -5327,8 +5339,10 @@
 
 		initialize: initialize,
 		configure: configure,
+
 		sync: sync,
 		syncSlide: syncSlide,
+		syncFragments: syncFragments,
 
 		// Navigation methods
 		slide: slide,
