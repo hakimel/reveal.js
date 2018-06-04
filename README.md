@@ -733,7 +733,7 @@ You can also use different in and out transitions for the same slide:
     And it starts again.
 </section>
 ```
-
+You can choose from `none`, `fade`, `slide`, `convex`, `concave` and `zoom`.
 ### Internal links
 
 It's easy to link between slides. The first example below targets the index of another slide whereas the second targets a slide with an ID attribute (`<section id="some-slide">`):
