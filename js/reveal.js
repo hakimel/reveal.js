@@ -2522,7 +2522,7 @@
 		if( isOverview() ) {
 			layoutOverview();
 		}
-
+		dispatchEvent('synced');
 	}
 
 	/**
