@@ -1047,7 +1047,7 @@ The multiplex plugin needs the following 3 things to operate:
 
 1. Master presentation that has control
 2. Client presentations that follow the master
-3. Socket.io server to broadcast events from the master to the clients
+3. Socket.io server to broadcast events from the master to the clients.
 
 #### Master presentation
 
