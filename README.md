@@ -27,6 +27,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
   - [Parallax Background](#parallax-background)
   - [Slide Transitions](#slide-transitions)
   - [Internal links](#internal-links)
+  - [Multi Column](#multi-column)
   - [Fragments](#fragments)
   - [Fragment events](#fragment-events)
   - [Code syntax highlighting](#code-syntax-highlighting)
@@ -747,6 +748,36 @@ You can also add relative navigation links, similar to the built in reveal.js co
 <a href="#" class="navigate-down">
 <a href="#" class="navigate-prev"> <!-- Previous vertical or horizontal slide -->
 <a href="#" class="navigate-next"> <!-- Next vertical or horizontal slide -->
+```
+
+### Multi Column
+
+It's easy to have a two- or even three-column layout for your whole or only part of your slide. With full-width text or headlines inbetween.
+
+No float is used, no clearfix is needed.
+
+```html
+<section>
+	<h2>Multi-Column Support</h2>
+	<div class='multi-col'>
+		<div class='col'>
+			This is column one of two columns.
+		</div>
+		<div class='col'>
+			...and column two, containing a list:
+			<ul class='col'>
+				<li>no float needed</li>
+				<li>no clearfix needed</li>
+			</ul>
+		</div>
+	</div>
+	<h4>With the very same classes, you can also have 3 or more columns:</h4>
+	<div class='multi-col'>
+		<div class='col'>Also works for three columns...</div>
+		<div class='col'>...as we can show in...</div>
+		<div class='col'>...this example here.</div>
+	</div>
+</section>
 ```
 
 
