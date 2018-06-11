@@ -265,6 +265,16 @@
 				font-size: 1.25em;
 			}
 
+			/* Speaker layout: Next slide and Notes */
+			body[data-speaker-layout="next-and-notes"] #current-slide {
+				display: none;
+			}
+
+			body[data-speaker-layout="next-and-notes"] #upcoming-slide,
+			body[data-speaker-layout="next-and-notes"] #speaker-controls {
+				width: 100%;
+			}
+
 			@media screen and (max-width: 1080px) {
 				body[data-speaker-layout="default"] #speaker-controls {
 					font-size: 16px;
@@ -335,7 +345,8 @@
 					'default': 'Default',
 					'wide': 'Wide',
 					'tall': 'Tall',
-					'notes-only': 'Notes only'
+					'notes-only': 'Notes only',
+					'next-and-notes': 'Next slide and Notes'
 				};
 
 				setupLayout();
