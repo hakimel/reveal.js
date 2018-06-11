@@ -787,14 +787,39 @@
 					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
 					page.appendChild( numberElement );
 				}
+
+				// Copy page and show fragments one after another
+				if ( isPrintingPDFFragments() ) {
+
+					var numberOfFragments = toArray( page.querySelectorAll( '.fragment' ) ).length;
+
+					for ( var currentFragment = 0; currentFragment < numberOfFragments; currentFragment++ ) {
+						var clonedPage = page.cloneNode( true );
+						page.parentNode.insertBefore( clonedPage, page.nextSibling );
+
+						toArray( sortFragments( clonedPage.querySelectorAll( '.fragment' ))).forEach( function ( fragment, fragmentIndex ) {
+							if ( fragmentIndex <= currentFragment ) {
+								fragment.classList.add( 'visible' );
+							} else {
+								fragment.classList.remove( 'visible' );
+							}
+						} );
+
+						page = clonedPage;
+					}
+
+				}
+				// Show all fragments
+				else {
+					toArray( page.querySelectorAll( '.fragment' ) ).forEach( function( fragment ) {
+						fragment.classList.add( 'visible' );
+					} );
+				}
+
 			}
 
 		} );
 
-		// Show all fragments
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
-			fragment.classList.add( 'visible' );
-		} );
 
 		// Notify subscribers that the PDF layout is good to go
 		dispatchEvent( 'pdf-ready' );
@@ -1634,6 +1659,15 @@
 	function isPrintingPDF() {
 
 		return ( /print-pdf/gi ).test( window.location.search );
+
+	}
+
+	/**
+	 * Check if this instance is being used to print a PDF with fragments.
+	 */
+	function isPrintingPDFFragments() {
+
+		return ( /print-pdf-fragments/gi ).test( window.location.search );
 
 	}
 
