@@ -204,6 +204,9 @@
 			// to PDF, unlimited by default
 			pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
 
+			// Prints each fragment on a separate slide
+			pdfSeparateFragments: true,
+
 			// Offset used to reduce the height of content within exported PDF pages.
 			// This exists to account for environment differences based on how you
 			// print to PDF. CLI printing options, like phantomjs and wkpdf, can end
@@ -789,29 +792,38 @@
 				}
 
 				// Copy page and show fragments one after another
-				if ( isPrintingPDFFragments() ) {
+				if( config.pdfSeparateFragments ) {
 
 					var numberOfFragments = toArray( page.querySelectorAll( '.fragment' ) ).length;
 
-					for ( var currentFragment = 0; currentFragment < numberOfFragments; currentFragment++ ) {
+					for( var currentFragment = 0; currentFragment < numberOfFragments; currentFragment++ ) {
+
 						var clonedPage = page.cloneNode( true );
 						page.parentNode.insertBefore( clonedPage, page.nextSibling );
 
-						toArray( sortFragments( clonedPage.querySelectorAll( '.fragment' ))).forEach( function ( fragment, fragmentIndex ) {
-							if ( fragmentIndex <= currentFragment ) {
+						toArray( sortFragments( clonedPage.querySelectorAll( '.fragment' ) ) ).forEach( function( fragment, fragmentIndex ) {
+
+							if( fragmentIndex < currentFragment ) {
 								fragment.classList.add( 'visible' );
-							} else {
-								fragment.classList.remove( 'visible' );
+								fragment.classList.remove( 'current-fragment' );
 							}
+							else if( fragmentIndex === currentFragment ) {
+								fragment.classList.add( 'visible', 'current-fragment' );
+							}
+							else {
+								fragment.classList.remove( 'visible', 'current-fragment' );
+							}
+
 						} );
 
 						page = clonedPage;
+
 					}
 
 				}
 				// Show all fragments
 				else {
-					toArray( page.querySelectorAll( '.fragment' ) ).forEach( function( fragment ) {
+					toArray( page.querySelectorAll( '.fragment:not(.fade-out)' ) ).forEach( function( fragment ) {
 						fragment.classList.add( 'visible' );
 					} );
 				}
@@ -819,7 +831,6 @@
 			}
 
 		} );
-
 
 		// Notify subscribers that the PDF layout is good to go
 		dispatchEvent( 'pdf-ready' );
