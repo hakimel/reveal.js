@@ -173,6 +173,9 @@
 			// Parallax background size
 			parallaxBackgroundSize: '', // CSS syntax, e.g. "3000px 2000px"
 
+			// Parallax viewport size (ideal resolution of output device)
+			parallaxViewportSize: '', // CSS syntax, e.g. "1920px 1080px"
+
 			// Amount of pixels to move the parallax background per slide step
 			parallaxBackgroundHorizontal: null,
 			parallaxBackgroundVertical: null,
@@ -866,7 +869,9 @@
 		if( config.parallaxBackgroundImage ) {
 
 			dom.background.style.backgroundImage = 'url("' + config.parallaxBackgroundImage + '")';
-			dom.background.style.backgroundSize = config.parallaxBackgroundSize;
+			if( !config.parallaxViewportSize ) {
+				dom.background.style.backgroundSize = config.parallaxBackgroundSize;
+			}
 
 			// Make sure the below properties are set on the element - these properties are
 			// needed for proper transitions to be set on the element via CSS. To remove
@@ -3116,8 +3121,12 @@
 			var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 				verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
-			var backgroundSize = dom.background.style.backgroundSize.split( ' ' ),
-				backgroundWidth, backgroundHeight;
+			var backgroundSize, backgroundWidth, backgroundHeight;
+			if( config.parallaxViewportSize ) {
+				backgroundSize = config.parallaxBackgroundSize.split( ' ' );
+			} else {
+				backgroundSize = dom.backgroundSize.split( ' ' );
+			}
 
 			if( backgroundSize.length === 1 ) {
 				backgroundWidth = backgroundHeight = parseInt( backgroundSize[0], 10 );
@@ -3154,6 +3163,28 @@
 			}
 
 			verticalOffset = verticalSlideCount > 0 ?  verticalOffsetMultiplier * indexv : 0;
+
+			if( config.parallaxViewportSize ) {
+				/* Compute a factor that should be
+				 * applied horizontally and vertically
+				 * to "cover" the image while
+				 * keeping the ratio intact. */
+				var viewportSize = config.parallaxViewportSize.split(' '),
+					viewportHeight, viewportWidth, ratioWidth, ratioHeight, ratio;
+				viewportWidth = parseInt( viewportSize[0], 10 );
+				viewportHeight = parseInt( viewportSize[1], 10 );
+				ratioWidth = dom.background.offsetWidth / viewportWidth;
+				ratioHeight = dom.background.offsetHeight / viewportHeight;
+				if( ratioWidth > ratioHeight ) {
+					ratio = ratioWidth;
+				} else {
+					ratio = ratioHeight;
+				}
+				dom.background.style.backgroundSize = ( backgroundWidth * ratio ) + 'px ' +
+					(backgroundHeight * ratio ) + 'px';
+				horizontalOffset = horizontalOffset * ratio;
+				verticalOffset = verticalOffset * ratio;
+			}
 
 			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + -verticalOffset + 'px';
 
