@@ -127,10 +127,22 @@ body {
     -webkit-transform: translate(0, 0);
             transform: translate(0, 0); }
 
+.reveal .slides section .fragment.fade-in-then-out,
 .reveal .slides section .fragment.current-visible {
   opacity: 0;
   visibility: hidden; }
+  .reveal .slides section .fragment.fade-in-then-out.current-fragment,
   .reveal .slides section .fragment.current-visible.current-fragment {
+    opacity: 1;
+    visibility: inherit; }
+
+.reveal .slides section .fragment.fade-in-then-half-out {
+  opacity: 0;
+  visibility: hidden; }
+  .reveal .slides section .fragment.fade-in-then-half-out.visible {
+    opacity: 0.5;
+    visibility: inherit; }
+  .reveal .slides section .fragment.fade-in-then-half-out.current-fragment {
     opacity: 1;
     visibility: inherit; }
 
