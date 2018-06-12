@@ -794,31 +794,43 @@
 				// Copy page and show fragments one after another
 				if( config.pdfSeparateFragments ) {
 
-					var numberOfFragments = toArray( page.querySelectorAll( '.fragment' ) ).length;
+					// Each fragment 'group' is an array containing one or more
+					// fragments. Multiple fragments that appear at the same time
+					// are part of the same group.
+					var fragmentGroups = sortFragments( page.querySelectorAll( '.fragment' ), true );
 
-					for( var currentFragment = 0; currentFragment < numberOfFragments; currentFragment++ ) {
+					var previousFragmentStep;
+					var previousPage;
 
-						var clonedPage = page.cloneNode( true );
-						page.parentNode.insertBefore( clonedPage, page.nextSibling );
+					fragmentGroups.forEach( function( fragments ) {
 
-						toArray( sortFragments( clonedPage.querySelectorAll( '.fragment' ) ) ).forEach( function( fragment, fragmentIndex ) {
-
-							if( fragmentIndex < currentFragment ) {
-								fragment.classList.add( 'visible' );
+						// Remove 'current-fragment' from the previous group
+						if( previousFragmentStep ) {
+							previousFragmentStep.forEach( function( fragment ) {
 								fragment.classList.remove( 'current-fragment' );
-							}
-							else if( fragmentIndex === currentFragment ) {
-								fragment.classList.add( 'visible', 'current-fragment' );
-							}
-							else {
-								fragment.classList.remove( 'visible', 'current-fragment' );
-							}
+							} );
+						}
 
+						// Show the fragments for the current index
+						fragments.forEach( function( fragment ) {
+							fragment.classList.add( 'visible', 'current-fragment' );
 						} );
 
-						page = clonedPage;
+						// Create a separate page for the current fragment state
+						var clonedPage = page.cloneNode( true );
+						page.parentNode.insertBefore( clonedPage, ( previousPage || page ).nextSibling );
 
-					}
+						previousFragmentStep = fragments;
+						previousPage = clonedPage;
+
+					} );
+
+					// Reset the first/original page so that all fragments are hidden
+					fragmentGroups.forEach( function( fragments ) {
+						fragments.forEach( function( fragment ) {
+							fragment.classList.remove( 'visible', 'current-fragment' );
+						} );
+					} );
 
 				}
 				// Show all fragments
@@ -4223,9 +4235,11 @@
 	 * the fragment within the fragments list.
 	 *
 	 * @param {object[]|*} fragments
+	 * @param {boolean} grouped If true the returned array will contain
+	 * nested arrays for all fragments with the same index
 	 * @return {object[]} sorted Sorted array of fragments
 	 */
-	function sortFragments( fragments ) {
+	function sortFragments( fragments, grouped ) {
 
 		fragments = toArray( fragments );
 
@@ -4268,7 +4282,7 @@
 			index ++;
 		} );
 
-		return sorted;
+		return grouped === true ? ordered : sorted;
 
 	}
 
