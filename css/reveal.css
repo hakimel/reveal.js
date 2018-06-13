@@ -136,13 +136,13 @@ body {
     opacity: 1;
     visibility: inherit; }
 
-.reveal .slides section .fragment.fade-in-then-half-out {
+.reveal .slides section .fragment.fade-in-then-semi-out {
   opacity: 0;
   visibility: hidden; }
-  .reveal .slides section .fragment.fade-in-then-half-out.visible {
+  .reveal .slides section .fragment.fade-in-then-semi-out.visible {
     opacity: 0.5;
     visibility: inherit; }
-  .reveal .slides section .fragment.fade-in-then-half-out.current-fragment {
+  .reveal .slides section .fragment.fade-in-then-semi-out.current-fragment {
     opacity: 1;
     visibility: inherit; }
 
