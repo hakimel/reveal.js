@@ -1,19 +1,21 @@
 
 ## CubanTech Meetups
 
+- [Intro to PyDay Django workshop part 2](intro_20180520.html)
+  * [CubanTech meetup #34](http://docker.cuban.tech/events/250778482/) - Havana, Cuba 2017/05/20
 - [Welcome to Raspberry Jam](intro_20180303.html)
   * [CubanTech meetup #31](http://meetup.cuban.tech/events/247616068/) - Havana, Cuba 2018/03/03
 - [Intro to Neo4J PyDay meetup](intro_20180113.html)
   * [CubanTech meetup #28](http://meetup.cuban.tech/events/246212946/) - Havana, Cuba 2018/01/13
 - [Intro to PyDay and birthday #1 meetup](intro_20171222.html)
   * [CubanTech meetup #26](http://meetup.cuban.tech/events/245032996/) - Havana, Cuba 2017/12/22
-- [Intro to Blockstack Cuba #1 meetup](intro_20171119.html)
-  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech/events/244120891/) - Havana, Cuba 2017/11/19
 
 --
 
 ## CubanTech Meetups
 
+- [Intro to Blockstack Cuba #1 meetup](intro_20171119.html)
+  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech/events/244120891/) - Havana, Cuba 2017/11/19
 - [Intro to meetups](intro_20170121.html)
   * [CubanTech meetup #17](http://docker.cuban.tech/events/241708287/) - Isla de la Juventud, Cuba 2017/08/19
   * [CubanTech meetup #4](http://docker.cuban.tech/events/236654894/) - Santa Clara, Cuba 2017/01/21
