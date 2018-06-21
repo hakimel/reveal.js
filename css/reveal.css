@@ -460,7 +460,7 @@ body {
  * SLIDE NUMBER
  *********************************************/
 .reveal .slide-number {
-  position: fixed;
+  position: absolute;
   display: block;
   right: 8px;
   bottom: 8px;
