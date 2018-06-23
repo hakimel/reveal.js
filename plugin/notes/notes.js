@@ -21,8 +21,13 @@ var RevealNotes = (function() {
 
 		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
+		if( !notesPopup ) {
+			alert( 'Speaker view popup failed to open. Please make sure popups are allowed and reopen the speaker view.' );
+			return;
+		}
+
 		// Allow popup window access to Reveal API
-		notesPopup.Reveal = this.Reveal;
+		notesPopup.Reveal = window.Reveal;
 		this.Reveal.getSpeakerNotesWindow = function() { return notesPopup.window  };
 
 		/**

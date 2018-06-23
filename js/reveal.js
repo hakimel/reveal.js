@@ -3,7 +3,7 @@
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2018 Hakim El Hattab, http://hakim.se
  */
 (function( root, factory ) {
 	if( typeof define === 'function' && define.amd ) {
@@ -69,6 +69,10 @@
 			// Display the page number of the current slide
 			slideNumber: false,
 
+			// Use 1 based indexing for # links to match slide number (default is zero
+			// based)
+			hashOneBasedIndex: false,
+
 			// Determine which displays to show the slide number on
 			showSlideNumber: 'all',
 
@@ -83,6 +87,10 @@
 
 			// Enable the slide overview mode
 			overview: true,
+
+			// Disables the default reveal.js slide layout so that you can use
+			// custom CSS layout
+			disableLayout: false,
 
 			// Vertical centering of slides
 			center: true,
@@ -196,6 +204,9 @@
 			// to PDF, unlimited by default
 			pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
 
+			// Prints each fragment on a separate slide
+			pdfSeparateFragments: true,
+
 			// Offset used to reduce the height of content within exported PDF pages.
 			// This exists to account for environment differences based on how you
 			// print to PDF. CLI printing options, like phantomjs and wkpdf, can end
@@ -307,7 +318,7 @@
 			'F':					'Fullscreen',
 			'ESC, O':				'Slide overview'
 		},
-		
+
 		// Holds custom key code mappings
 		registeredKeyBindings = {};
 
@@ -779,13 +790,58 @@
 					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
 					page.appendChild( numberElement );
 				}
+
+				// Copy page and show fragments one after another
+				if( config.pdfSeparateFragments ) {
+
+					// Each fragment 'group' is an array containing one or more
+					// fragments. Multiple fragments that appear at the same time
+					// are part of the same group.
+					var fragmentGroups = sortFragments( page.querySelectorAll( '.fragment' ), true );
+
+					var previousFragmentStep;
+					var previousPage;
+
+					fragmentGroups.forEach( function( fragments ) {
+
+						// Remove 'current-fragment' from the previous group
+						if( previousFragmentStep ) {
+							previousFragmentStep.forEach( function( fragment ) {
+								fragment.classList.remove( 'current-fragment' );
+							} );
+						}
+
+						// Show the fragments for the current index
+						fragments.forEach( function( fragment ) {
+							fragment.classList.add( 'visible', 'current-fragment' );
+						} );
+
+						// Create a separate page for the current fragment state
+						var clonedPage = page.cloneNode( true );
+						page.parentNode.insertBefore( clonedPage, ( previousPage || page ).nextSibling );
+
+						previousFragmentStep = fragments;
+						previousPage = clonedPage;
+
+					} );
+
+					// Reset the first/original page so that all fragments are hidden
+					fragmentGroups.forEach( function( fragments ) {
+						fragments.forEach( function( fragment ) {
+							fragment.classList.remove( 'visible', 'current-fragment' );
+						} );
+					} );
+
+				}
+				// Show all fragments
+				else {
+					toArray( page.querySelectorAll( '.fragment:not(.fade-out)' ) ).forEach( function( fragment ) {
+						fragment.classList.add( 'visible' );
+					} );
+				}
+
 			}
 
-		} );
-
-		// Show all fragments
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' .fragment' ) ).forEach( function( fragment ) {
-			fragment.classList.add( 'visible' );
 		} );
 
 		// Notify subscribers that the PDF layout is good to go
@@ -916,6 +972,57 @@
 	 */
 	function createBackground( slide, container ) {
 
+
+		// Main slide background element
+		var element = document.createElement( 'div' );
+		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
+
+		// Inner background element that wraps images/videos/iframes
+		var contentElement = document.createElement( 'div' );
+		contentElement.className = 'slide-background-content';
+
+		element.appendChild( contentElement );
+		container.appendChild( element );
+
+		slide.slideBackgroundElement = element;
+		slide.slideBackgroundContentElement = contentElement;
+
+		// Syncs the background to reflect all current background settings
+		syncBackground( slide );
+
+		return element;
+
+	}
+
+	/**
+	 * Renders all of the visual properties of a slide background
+	 * based on the various background attributes.
+	 *
+	 * @param {HTMLElement} slide
+	 */
+	function syncBackground( slide ) {
+
+		var element = slide.slideBackgroundElement,
+			contentElement = slide.slideBackgroundContentElement;
+
+		// Reset the prior background state in case this is not the
+		// initial sync
+		slide.classList.remove( 'has-dark-background' );
+		slide.classList.remove( 'has-light-background' );
+
+		element.removeAttribute( 'data-loaded' );
+		element.removeAttribute( 'data-background-hash' );
+		element.removeAttribute( 'data-background-size' );
+		element.removeAttribute( 'data-background-transition' );
+		element.style.backgroundColor = '';
+
+		contentElement.style.backgroundSize = '';
+		contentElement.style.backgroundRepeat = '';
+		contentElement.style.backgroundPosition = '';
+		contentElement.style.backgroundImage = '';
+		contentElement.style.opacity = '';
+		contentElement.innerHTML = '';
+
 		var data = {
 			background: slide.getAttribute( 'data-background' ),
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
@@ -925,13 +1032,9 @@
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
-			backgroundTransition: slide.getAttribute( 'data-background-transition' )
+			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
+			backgroundOpacity: slide.getAttribute( 'data-background-opacity' )
 		};
-
-		var element = document.createElement( 'div' );
-
-		// Carry over custom classes from the slide to the background
-		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
 
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
@@ -955,24 +1058,20 @@
 															data.backgroundColor +
 															data.backgroundRepeat +
 															data.backgroundPosition +
-															data.backgroundTransition );
+															data.backgroundTransition +
+															data.backgroundOpacity );
 		}
 
 		// Additional and optional background properties
-		if( data.backgroundSize ) element.style.backgroundSize = data.backgroundSize;
 		if( data.backgroundSize ) element.setAttribute( 'data-background-size', data.backgroundSize );
 		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
-		if( data.backgroundRepeat ) element.style.backgroundRepeat = data.backgroundRepeat;
-		if( data.backgroundPosition ) element.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
-		container.appendChild( element );
-
-		// If backgrounds are being recreated, clear old classes
-		slide.classList.remove( 'has-dark-background' );
-		slide.classList.remove( 'has-light-background' );
-
-		slide.slideBackgroundElement = element;
+		// Background image options are set on the content wrapper
+		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
+		if( data.backgroundRepeat ) contentElement.style.backgroundRepeat = data.backgroundRepeat;
+		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
+		if( data.backgroundOpacity ) contentElement.style.opacity = data.backgroundOpacity;
 
 		// If this slide has a background color, add a class that
 		// signals if it is light or dark. If the slide has no background
@@ -993,8 +1092,6 @@
 				}
 			}
 		}
-
-		return element;
 
 	}
 
@@ -1172,13 +1269,8 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) {
-			dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
-			dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
-			dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
-
-			// Support pointer-style touch interaction as well
-			if( window.navigator.pointerEnabled ) {
-				// IE 11 uses un-prefixed version of pointer events
+			if( 'onpointerdown' in window ) {
+				// Use W3C pointer events
 				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
@@ -1188,6 +1280,12 @@
 				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
 				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
 				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
+			}
+			else {
+				// Fall back to touch events
+				dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
+				dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
+				dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
 			}
 		}
 
@@ -1251,22 +1349,17 @@
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
+		dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
+		dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
+		dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
+
+		dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
+		dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
+		dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
+
 		dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
 		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
-
-		// IE11
-		if( window.navigator.pointerEnabled ) {
-			dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
-			dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
-			dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
-		}
-		// IE10
-		else if( window.navigator.msPointerEnabled ) {
-			dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
-			dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
-			dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
-		}
 
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
@@ -1593,6 +1686,15 @@
 	}
 
 	/**
+	 * Check if this instance is being used to print a PDF with fragments.
+	 */
+	function isPrintingPDFFragments() {
+
+		return ( /print-pdf-fragments/gi ).test( window.location.search );
+
+	}
+
+	/**
 	 * Hides the address bar if we're on a mobile device.
 	 */
 	function hideAddressBar() {
@@ -1853,76 +1955,80 @@
 
 		if( dom.wrapper && !isPrintingPDF() ) {
 
-			var size = getComputedSlideSize();
+			if( !config.disableLayout ) {
 
-			// Layout the contents of the slides
-			layoutSlideContents( config.width, config.height );
+				var size = getComputedSlideSize();
 
-			dom.slides.style.width = size.width + 'px';
-			dom.slides.style.height = size.height + 'px';
+				// Layout the contents of the slides
+				layoutSlideContents( config.width, config.height );
 
-			// Determine scale of content to fit within available space
-			scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
+				dom.slides.style.width = size.width + 'px';
+				dom.slides.style.height = size.height + 'px';
 
-			// Respect max/min scale settings
-			scale = Math.max( scale, config.minScale );
-			scale = Math.min( scale, config.maxScale );
+				// Determine scale of content to fit within available space
+				scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
-			// Don't apply any scaling styles if scale is 1
-			if( scale === 1 ) {
-				dom.slides.style.zoom = '';
-				dom.slides.style.left = '';
-				dom.slides.style.top = '';
-				dom.slides.style.bottom = '';
-				dom.slides.style.right = '';
-				transformSlides( { layout: '' } );
-			}
-			else {
-				// Prefer zoom for scaling up so that content remains crisp.
-				// Don't use zoom to scale down since that can lead to shifts
-				// in text layout/line breaks.
-				if( scale > 1 && features.zoom ) {
-					dom.slides.style.zoom = scale;
+				// Respect max/min scale settings
+				scale = Math.max( scale, config.minScale );
+				scale = Math.min( scale, config.maxScale );
+
+				// Don't apply any scaling styles if scale is 1
+				if( scale === 1 ) {
+					dom.slides.style.zoom = '';
 					dom.slides.style.left = '';
 					dom.slides.style.top = '';
 					dom.slides.style.bottom = '';
 					dom.slides.style.right = '';
 					transformSlides( { layout: '' } );
 				}
-				// Apply scale transform as a fallback
 				else {
-					dom.slides.style.zoom = '';
-					dom.slides.style.left = '50%';
-					dom.slides.style.top = '50%';
-					dom.slides.style.bottom = 'auto';
-					dom.slides.style.right = 'auto';
-					transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
+					// Prefer zoom for scaling up so that content remains crisp.
+					// Don't use zoom to scale down since that can lead to shifts
+					// in text layout/line breaks.
+					if( scale > 1 && features.zoom ) {
+						dom.slides.style.zoom = scale;
+						dom.slides.style.left = '';
+						dom.slides.style.top = '';
+						dom.slides.style.bottom = '';
+						dom.slides.style.right = '';
+						transformSlides( { layout: '' } );
+					}
+					// Apply scale transform as a fallback
+					else {
+						dom.slides.style.zoom = '';
+						dom.slides.style.left = '50%';
+						dom.slides.style.top = '50%';
+						dom.slides.style.bottom = 'auto';
+						dom.slides.style.right = 'auto';
+						transformSlides( { layout: 'translate(-50%, -50%) scale('+ scale +')' } );
+					}
 				}
-			}
 
-			// Select all slides, vertical and horizontal
-			var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
+				// Select all slides, vertical and horizontal
+				var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
 
-			for( var i = 0, len = slides.length; i < len; i++ ) {
-				var slide = slides[ i ];
+				for( var i = 0, len = slides.length; i < len; i++ ) {
+					var slide = slides[ i ];
 
-				// Don't bother updating invisible slides
-				if( slide.style.display === 'none' ) {
-					continue;
-				}
+					// Don't bother updating invisible slides
+					if( slide.style.display === 'none' ) {
+						continue;
+					}
 
-				if( config.center || slide.classList.contains( 'center' ) ) {
-					// Vertical stacks are not centred since their section
-					// children will be
-					if( slide.classList.contains( 'stack' ) ) {
-						slide.style.top = 0;
+					if( config.center || slide.classList.contains( 'center' ) ) {
+						// Vertical stacks are not centred since their section
+						// children will be
+						if( slide.classList.contains( 'stack' ) ) {
+							slide.style.top = 0;
+						}
+						else {
+							slide.style.top = Math.max( ( size.height - slide.scrollHeight ) / 2, 0 ) + 'px';
+						}
 					}
 					else {
-						slide.style.top = Math.max( ( size.height - slide.scrollHeight ) / 2, 0 ) + 'px';
+						slide.style.top = '';
 					}
-				}
-				else {
-					slide.style.top = '';
+
 				}
 
 			}
@@ -2249,6 +2355,41 @@
 	}
 
 	/**
+	 * Return a hash URL that will resolve to the current slide location.
+	 */
+	function locationHash() {
+
+		var url = '/';
+
+		// Attempt to create a named link based on the slide's ID
+		var id = currentSlide ? currentSlide.getAttribute( 'id' ) : null;
+		if( id ) {
+			id = encodeURIComponent( id );
+		}
+
+		var indexf;
+		if( config.fragmentInURL ) {
+			indexf = getIndices().f;
+		}
+
+		// If the current slide has an ID, use that as a named link,
+		// but we don't support named links with a fragment index
+		if( typeof id === 'string' && id.length && indexf === undefined ) {
+			url = '/' + id;
+		}
+		// Otherwise use the /h/v index
+		else {
+			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+			if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh + hashIndexBase;
+			if( indexv > 0 || indexf !== undefined ) url += '/' + (indexv + hashIndexBase );
+			if( indexf !== undefined ) url += '/' + indexf;
+		}
+
+		return url;
+
+	}
+
+	/**
 	 * Checks if the current or specified slide is vertical
 	 * (nested within another slide).
 	 *
@@ -2480,7 +2621,7 @@
 		// Solves an edge case where the previous slide maintains the
 		// 'present' class when navigating between adjacent vertical
 		// stacks
-		if( previousSlide ) {
+		if( previousSlide && previousSlide !== currentSlide ) {
 			previousSlide.classList.remove( 'present' );
 			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
@@ -2582,6 +2723,41 @@
 		if( isOverview() ) {
 			layoutOverview();
 		}
+
+	}
+
+	/**
+	 * Updates reveal.js to keep in sync with new slide attributes. For
+	 * example, if you add a new `data-background-image` you can call
+	 * this to have reveal.js render the new background image.
+	 *
+	 * Similar to #sync() but more efficient when you only need to
+	 * refresh a specific slide.
+	 *
+	 * @param {HTMLElement} slide
+	 */
+	function syncSlide( slide ) {
+
+		syncBackground( slide );
+		syncFragments( slide );
+
+		updateBackground();
+		updateNotes();
+
+		loadSlide( slide );
+
+	}
+
+	/**
+	 * Formats the fragments on the given slide so that they have
+	 * valid indices. Call this if fragments are changed in the DOM
+	 * after reveal.js has already initialized.
+	 *
+	 * @param {HTMLElement} slide
+	 */
+	function syncFragments( slide ) {
+
+		sortFragments( slide.querySelectorAll( '.fragment' ) );
 
 	}
 
@@ -2913,6 +3089,7 @@
 
 	}
 
+
 	/**
 	 * Updates the slide number div to reflect the current slide.
 	 *
@@ -2933,6 +3110,12 @@
 			// Check if a custom number format is available
 			if( typeof config.slideNumber === 'string' ) {
 				format = config.slideNumber;
+			}
+
+			// If there are ONLY vertical slides in this deck, always use
+			// a flattened slide number
+			if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
+				format = 'c';
 			}
 
 			switch( format ) {
@@ -2967,13 +3150,18 @@
 	 */
 	function formatSlideNumber( a, delimiter, b ) {
 
+		var url = '#' + locationHash();
 		if( typeof b === 'number' && !isNaN( b ) ) {
-			return  '<span class="slide-number-a">'+ a +'</span>' +
+			return  '<a href="' + url + '">' +
+					'<span class="slide-number-a">'+ a +'</span>' +
 					'<span class="slide-number-delimiter">'+ delimiter +'</span>' +
-					'<span class="slide-number-b">'+ b +'</span>';
+					'<span class="slide-number-b">'+ b +'</span>' +
+					'</a>';
 		}
 		else {
-			return '<span class="slide-number-a">'+ a +'</span>';
+			return '<a href="' + url + '">' +
+			       '<span class="slide-number-a">'+ a +'</span>' +
+			       '</a>';
 		}
 
 	}
@@ -3124,13 +3312,18 @@
 
 			startEmbeddedContent( currentBackground );
 
-			var backgroundImageURL = currentBackground.style.backgroundImage || '';
+			var currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
+			if( currentBackgroundContent ) {
 
-			// Restart GIFs (doesn't work in Firefox)
-			if( /\.gif/i.test( backgroundImageURL ) ) {
-				currentBackground.style.backgroundImage = '';
-				window.getComputedStyle( currentBackground ).opacity;
-				currentBackground.style.backgroundImage = backgroundImageURL;
+				var backgroundImageURL = currentBackgroundContent.style.backgroundImage || '';
+
+				// Restart GIFs (doesn't work in Firefox)
+				if( /\.gif/i.test( backgroundImageURL ) ) {
+					currentBackgroundContent.style.backgroundImage = '';
+					window.getComputedStyle( currentBackgroundContent ).opacity;
+					currentBackgroundContent.style.backgroundImage = backgroundImageURL;
+				}
+
 			}
 
 			// Don't transition between identical backgrounds. This
@@ -3262,9 +3455,11 @@
 
 
 		// Show the corresponding background element
-		var background = getSlideBackground( slide );
+		var background = slide.slideBackgroundElement;
 		if( background ) {
 			background.style.display = 'block';
+
+			var backgroundContent = slide.slideBackgroundContentElement;
 
 			// If the background contains media, load it
 			if( background.hasAttribute( 'data-loaded' ) === false ) {
@@ -3278,7 +3473,7 @@
 
 				// Images
 				if( backgroundImage ) {
-					background.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
+					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
@@ -3306,7 +3501,7 @@
 						video.innerHTML += '<source src="'+ source +'">';
 					} );
 
-					background.appendChild( video );
+					backgroundContent.appendChild( video );
 				}
 				// Iframes
 				else if( backgroundIframe && options.excludeIframes !== true ) {
@@ -3329,7 +3524,7 @@
 					iframe.style.maxHeight = '100%';
 					iframe.style.maxWidth = '100%';
 
-					background.appendChild( iframe );
+					backgroundContent.appendChild( iframe );
 				}
 			}
 
@@ -3782,12 +3977,15 @@
 			var element;
 
 			// Ensure the named link is a valid HTML ID attribute
-			if( /^[a-zA-Z][\w:.-]*$/.test( name ) ) {
-				// Find the slide with the specified ID
-				element = document.getElementById( name );
+			try {
+				element = document.getElementById( decodeURIComponent( name ) );
 			}
+			catch ( error ) { }
 
-			if( element ) {
+			// Ensure that we're not already on a slide with the same name
+			var isSameNameAsCurrentSlide = currentSlide ? currentSlide.getAttribute( 'id' ) === name : false;
+
+			if( element && !isSameNameAsCurrentSlide ) {
 				// Find the position of the named slide and navigate to it
 				var indices = Reveal.getIndices( element );
 				slide( indices.h, indices.v );
@@ -3798,10 +3996,13 @@
 			}
 		}
 		else {
+			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+
 			// Read the index components of the hash
-			var h = parseInt( bits[0], 10 ) || 0,
-				v = parseInt( bits[1], 10 ) || 0,
+			var h = ( parseInt( bits[0], 10 ) - hashIndexBase ) || 0,
+				v = ( parseInt( bits[1], 10 ) - hashIndexBase ) || 0,
 				f;
+
 			if( config.fragmentInURL ) {
 				f = parseInt( bits[2], 10 );
 				if( isNaN( f ) ) {
@@ -3835,32 +4036,7 @@
 				writeURLTimeout = setTimeout( writeURL, delay );
 			}
 			else if( currentSlide ) {
-				var url = '/';
-
-				// Attempt to create a named link based on the slide's ID
-				var id = currentSlide.getAttribute( 'id' );
-				if( id ) {
-					id = id.replace( /[^a-zA-Z0-9\-\_\:\.]/g, '' );
-				}
-
-				var indexf;
-				if( config.fragmentInURL ) {
-					indexf = getIndices().f;
-				}
-
-				// If the current slide has an ID, use that as a named link,
-				// but we don't support named links with a fragment index
-				if( typeof id === 'string' && id.length && indexf === undefined ) {
-					url = '/' + id;
-				}
-				// Otherwise use the /h/v index
-				else {
-					if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh;
-					if( indexv > 0 || indexf !== undefined ) url += '/' + indexv;
-					if( indexf !== undefined ) url += '/' + indexf;
-				}
-
-				window.location.hash = url;
+				window.location.hash = locationHash();
 			}
 		}
 
@@ -4069,9 +4245,11 @@
 	 * the fragment within the fragments list.
 	 *
 	 * @param {object[]|*} fragments
+	 * @param {boolean} grouped If true the returned array will contain
+	 * nested arrays for all fragments with the same index
 	 * @return {object[]} sorted Sorted array of fragments
 	 */
-	function sortFragments( fragments ) {
+	function sortFragments( fragments, grouped ) {
 
 		fragments = toArray( fragments );
 
@@ -4114,7 +4292,7 @@
 			index ++;
 		} );
 
-		return sorted;
+		return grouped === true ? ordered : sorted;
 
 	}
 
@@ -5200,7 +5378,10 @@
 
 		initialize: initialize,
 		configure: configure,
+
 		sync: sync,
+		syncSlide: syncSlide,
+		syncFragments: syncFragments,
 
 		// Navigation methods
 		slide: slide,
