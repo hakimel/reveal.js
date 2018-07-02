@@ -84,6 +84,7 @@ If you have trouble finding a component, let us know and we'll get you a replace
 
 - LEDs (Light Emitting Diodes)
 - Buttons
+- Servos
 
 ---
 
@@ -220,6 +221,7 @@ If not, press &darr; for instructions on flashing your Arduino with Standard Fir
 
 - <span style="color:yellow"> LEDs (Light Emitting Diodes) </span>
 - Buttons
+- Servos
 
 ---
 
@@ -611,6 +613,193 @@ func main() {
 
 --
 
+## Components We're Covering
+
+- LEDs (Light Emitting Diodes)
+- Buttons
+- <span style="color: yellow"> Servos </span>
+
+---
+
+## <span class="spin">S</span><span class="spin">E</span><span class="spin">R</span><span class="spin">V</span><span class="spin">O</span><span class="spin">S</span>
+
+![](img/servo.jpg)
+
+---
+
+Take your servo and add one of the attachments to it
+
+![](img/servo.jpg)
+
+---
+
+## Build This
+
+![](img/servo-hardware.png)
+
+---
+
+## Servo Challenges
+
+Now you can either move on to the next component, or work on some servo challenges
+
+Press &rarr; to move on to the next component
+Press &darr; to scroll through the servo challenges
+
+--
+
+## Servo Challenges
+
+*Try to solve them yourself before looking at the solution!*
+
+Press &darr; to scroll through the following challenges (and potential solutions)
+
+1. Sprinkler
+2. Arrows
+3. Button
+
+--
+
+### 1. Sprinkler
+
+Make the servo rotate back and forth like a sprinkler
+
+![](img/sprinkler.gif)
+
+--
+
+### Potential Sprinkler Solution - Hardware
+
+![](img/sprinkler-hardware.png)
+
+--
+
+### Potential Sprinkler Solution - Code
+
+```go
+package main
+
+import (
+  "time"
+  "gobot.io/x/gobot"
+  "gobot.io/x/gobot/drivers/gpio"
+  "gobot.io/x/gobot/platforms/firmata"
+)
+
+func main() {
+
+  firmataAdaptor := firmata.NewAdaptor("/dev/ttyACM0")
+  servo := gpio.NewServoDriver(firmataAdaptor, "11")
+
+  work := func() {
+
+    var angle uint8 = 0;
+    var max uint8 = 180;
+
+    servo.Move(angle)
+
+    gobot.Every(500 * time.Millisecond, func() {
+
+      angle = (angle + 45) % max
+
+      servo.Move( angle )
+
+    });
+
+  }
+
+  robot := gobot.NewRobot("servoBot",
+    []gobot.Connection{firmataAdaptor},
+    []gobot.Device{servo},
+    work,
+  )
+
+  robot.Start()
+
+}
+```
+
+--
+
+### 2. Arrows
+
+Make pressing the left arrow button rotate the servo one way and pressing the right arrow button rotate the other way
+
+![](img/servo-arrows.gif)
+
+--
+
+### Potential Arrows Solution - Hardware
+
+![](img/servo-arrows-hardware.png)
+
+--
+
+### Potential Arrows Solution - Code
+
+```go
+package main
+
+import (
+  "gobot.io/x/gobot"
+  "gobot.io/x/gobot/drivers/gpio"
+  "gobot.io/x/gobot/platforms/firmata"
+  term "github.com/nsf/termbox-go"
+)
+
+func reset() {
+  term.Sync()
+}
+
+func main() {
+
+  err := term.Init();
+
+  if err != nil {
+    panic(err)
+  }
+
+  defer term.Close()
+
+  firmataAdaptor := firmata.NewAdaptor("/dev/ttyACM0")
+  servo := gpio.NewServoDriver(firmataAdaptor, "11")
+
+  work := func() {
+
+    var angle uint8 = 0;
+
+    servo.Move(angle)
+
+    for {
+      reset();
+      switch ev := term.PollEvent(); ev.Type {
+      case term.EventKey:
+        switch ev.Key {
+        case term.KeyArrowLeft:
+          angle = 0
+          servo.Move(angle)
+        case term.KeyArrowRight:
+          angle = 180
+          servo.Move(angle)
+        }
+      }
+    }
+
+  }
+
+  robot := gobot.NewRobot("servoBot",
+    []gobot.Connection{firmataAdaptor},
+    []gobot.Device{servo},
+    work,
+  )
+
+  robot.Start()
+
+}
+```
+
+--
+
 Uh oh! We ran out of slides! Feel free to try out some of the other components in your kit while we add more!
 
 ---
@@ -618,8 +807,3 @@ Uh oh! We ran out of slides! Feel free to try out some of the other components i
 ## Wrapping Up
 
 - Thank you for coming!
-- We'd love your feedback: [bit.ly/nodebots-feedback](http://bit.ly/nodebots-feedback)
-- Please put away kits (you can buy your own [here](http://www.seeedstudio.com/depot/ARDX-The-starter-kit-for-Arduino-p-1153.html))
-
-
-
