@@ -176,6 +176,10 @@ body {
 .reveal a {
   position: relative; }
 
+.reveal #header a {
+  z-index: 1;
+}
+
 .reveal .stretch {
   max-width: none;
   max-height: none; }
