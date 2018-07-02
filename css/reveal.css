@@ -964,6 +964,21 @@ body {
   z-index: 100;
   transition: all 1s ease; }
 
+.reveal .pause-overlay .resume-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #ccc;
+  border-radius: 2px;
+  padding: 6px 14px;
+  border: 2px solid #ccc;
+  font-size: 16px;
+  background: transparent;
+  cursor: pointer; }
+  .reveal .pause-overlay .resume-button:hover {
+    color: #fff;
+    border-color: #fff; }
+
 .reveal.paused .pause-overlay {
   visibility: visible;
   opacity: 1; }
