@@ -1,5 +1,6 @@
 
 ## CubanTech Meetups
+##### [meetup.cuban.tech](http://meetup.cuban.tech)
 
 - [Intro to PyDay Django workshop part 2](intro_20180520.html)
   * [CubanTech meetup #34](http://docker.cuban.tech/events/250778482/) - Havana, Cuba 2017/05/20
@@ -13,6 +14,7 @@
 --
 
 ## CubanTech Meetups
+##### [meetup.cuban.tech](http://meetup.cuban.tech)
 
 - [Intro to Blockstack Cuba #1 meetup](intro_20171119.html)
   * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech/events/244120891/) - Havana, Cuba 2017/11/19
@@ -23,6 +25,7 @@
 ---
 
 [![Docker Cuba](img/dockercuba.logo.png)](http://docker.cuban.tech)
+##### [docker.cuban.tech](http://docker.cuban.tech)
 
 --
 
@@ -40,6 +43,7 @@
 [![Python Cuba](img/python-logo.png)](http://pythoncuba.org)
 
 # PYTHON CUBA
+##### Follow our [meetups](http://meetup.cuban.tech)
 
 --
 
@@ -56,6 +60,7 @@
 ---
 
 # NODEBOTS CUBA
+##### Follow our [meetups](http://meetup.cuban.tech)
 
 --
 
@@ -66,10 +71,22 @@
 
 ---
 
+# BLOCKCHAIN CUBA
+##### Follow our [meetups](http://meetup.cuban.tech/events/)
+
+--
+
+- [Blockchain, DApps, and Skycoin](skycoin.intro.html)
+  * [CubanTech meetup #35](http://meetup.cuban.tech/events/251519052) - Havana, Cuba, 2018/06/16 
+  * [CubanTech meetup #36](http://meetup.cuban.tech/events/251523453) - Isla de la Juv., Cuba, 2018/07/02 
+
+---
+
 # BLOCKSTACK CUBA
+##### [blockstack.cuban.tech](http://blockstack.cuban.tech)
 
 --
 
 - [Blockchain, DApps, and Blockstack](dapps.html)
-  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech), Havana, Cuba, 2017/11/19 
+  * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech/events/244120891), Havana, Cuba, 2017/11/19 
 
