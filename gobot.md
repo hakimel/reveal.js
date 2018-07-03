@@ -452,6 +452,71 @@ func main() {
 }
 ```
 
+--
+
+### Potential Binary Counter Solution (isaacvr) - Code
+
+```go
+package main
+
+import (
+  "time"
+  "gobot.io/x/gobot"
+  "gobot.io/x/gobot/drivers/gpio"
+  "gobot.io/x/gobot/platforms/firmata"
+)
+
+func main() {
+
+  firmataAdaptor := firmata.NewAdaptor("/dev/ttyACM0");
+  led1 := gpio.NewLedDriver(firmataAdaptor, "13");
+  led2 := gpio.NewLedDriver(firmataAdaptor, "12");
+  led3 := gpio.NewLedDriver(firmataAdaptor, "11");
+  led4 := gpio.NewLedDriver(firmataAdaptor, "10");
+
+  ledList := []*gpio.LedDriver{ led1, led2, led3, led4 }
+
+  work := func() {
+
+    var cnt int = 0
+    var aux int = 0
+    var val int = 0
+
+    gobot.Every(1 * time.Second, func() {
+
+      if cnt == 16 {
+        cnt = 0
+      }
+
+      aux = cnt
+
+      for _, led := range ledList {
+        val = aux % 2
+        if val == 1 {
+          led.On()
+        } else {
+          led.Off()
+        }
+        aux = aux / 2
+      }
+
+      cnt = cnt + 1
+
+    });
+
+  };
+
+  robot := gobot.NewRobot("bot",
+    []gobot.Connection{firmataAdaptor},
+    []gobot.Device{led1, led2, led3, led4},
+    work,
+  );
+
+  robot.Start();
+
+}
+```
+
 ---
 
 ## Buttons
