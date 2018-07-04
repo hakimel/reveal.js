@@ -519,7 +519,7 @@ func main() {
 
 --
 
-### Potential Binary Counter Solution (isaacvr) - Code
+### Alternate Binary Counter Solution (olemis) - Code
 
 ```go
 
@@ -556,7 +556,7 @@ func main() {
         } else {
           led.On()
         }
-        mask := mask << 1
+        mask = mask << 1
       }
       counter++
     })
