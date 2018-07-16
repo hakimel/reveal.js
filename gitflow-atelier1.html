@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Gitflow - atelier 1</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/iad.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<span class="subject">Git Flow V2<br/>Atelier 1</span>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>
+						Git flow v2
+					</h1>
+					<h3>
+						Atelier 1
+					</h3>
+					<p>
+						<small>Créé par <a href="https://iad-holding.atlassian.net/wiki/display/~rui.teixeira">Rui TEIXEIRA</a></small>
+					</p>
+					<p>
+						<small>Documentation complète à l'adresse suivante : <br/><a href="https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/97354027/Git+Flow+V2+-+Git+branching+model">https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/97354027/Git+Flow+V2+-+Git+branching+model</a></small>
+					</p>
+                </section>
+                <section>
+                    <h3>
+                        <ul>
+                            <li>Rappel des branches</li>
+                            <li>Intégration avec JIRA</li>
+                        </ul>
+                    </h3>
+				</section>
+				<section>
+					<section>
+						<h2>Rappel des branches</h2>
+						<ul>
+								<li class="fragment">DEVELOP</li>
+								<li class="fragment">MASTER</li>
+								<li class="fragment">us</li>
+								<li class="fragment">subtask</li>
+								<li class="fragment">epic</li>
+								<li class="fragment">qa</li>
+								<li class="fragment">projet</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+						<h2>Intégration avec JIRA</h2>
+						<ul>
+							<li class="fragment">
+								Un maximum de branches doit être lié à un ticket JIRA. Exemples :
+								<ul>
+									<li class="fragment">
+										US : feature/<span class="highlight">[us num]</span>-<span class="highlight">[shortdesc]</span>
+									</li>
+									<li class="fragment">
+										Subtask : feature/<span class="highlight">[subtask num]</span>-<span class="highlight">[us num]</span>-<span class="highlight">[shortdesc]</span>
+									</li>
+								</ul>
+							</li>
+							<li class="fragment">Quand une us ou une epic est validée par un P.O. elle doit avoir un <span class="highlight">fixversion</span></li>
+						</ul>
+				</section>	
+				<section>
+					<h2>FIN</h2>						
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

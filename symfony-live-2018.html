@@ -1,0 +1,1254 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Symfony live 2018</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/iad.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<span class="subject">Symfony Live 2018</span>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>
+						Symfony Live 2018
+					</h2>
+					<h3>
+						29/30 Mars 2018
+					</h3>
+					<p>
+						<small>Maël ORTIE / Marc LUCAS / Rui TEIXEIRA / Sofiane DJERRAH / Yann LUCAS</small>
+					</p>
+				</section>
+				<section>
+					<h3>
+					<ul>
+						<li>Résumé des conférences</li>
+						<li>Notre analyse par conférence</li>
+						<li>Bilan</li>
+					</ul>
+					</h3>
+				</section>
+				
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Symfony 4</h3>
+						<h4>Fabien Potencier</h4>
+					</section>
+					<section>
+						<h4>Les applications ne sont plus dépendantes du repository symfony/symfony</h4>
+						<ul>
+							<li>L'arborescence de base ne contient que 13 fichiers (70% fichiers en -)</li>
+							<li>Sensation de légèreté</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Flex quésako ?</h4>
+						<ul>
+							<li class="fragment">Remplace l'installeur symfony</li>
+							<li class="fragment">En gros FLEX = hooks composer + recettes</span></li>
+							<li class="fragment">Ajout de hooks sur les commandes <strong>require</strong>, <strong>update</strong>, <strong>remove</strong></li>
+							<li class="fragment">
+								Recettes référencées sur <a href="https://symfony.sh/">https://symfony.sh/</a>
+								<ul>
+									<li class="fragment">
+										Recettes officielles (+ alias ex: mail => swiftmailer)
+									</li>
+									<li class="fragment">
+										Recettes contrib
+									</li>
+								</ul>
+							</li>
+							<li class="fragment">Configuration de flex grâce au fichier <strong>manifest.json</strong></li>
+						</ul>
+					</section>
+					<section>
+						<h4>Installer une application SF4</h4>
+						<h5>2 types de recettes :</h5>
+						<ul>
+							<li class="fragment">Application web standard équivalent à symfony standard edition
+								<pre><code data-trim data-noescap>composer create-project symfony/website-skeleton my-project</code></pre>
+							</li>
+							<li class="fragment">Autres applications avec minimum de dépendances (microservice, console, api, ...)
+								<pre><code data-trim data-noescap>composer create-project symfony/skeleton my-project</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Plus encore...</h4>
+						<ul>
+							<li class="fragment">Disparition de la notion de bundles</li>
+							<li class="fragment">Disparition de silex</li>
+							
+							<li class="fragment">Symfony lts : assure la cohérence des versions des composants symfony en dépendance</li>
+							<li class="fragment">Symfony maker (remplace generator). Ex: 
+								<pre><code data-trim data-noescap>bin/console make:twig-extension</code></pre>
+							</li>
+							<li class="fragment"><a href="https://security.symfony.com/">https://security.symfony.com/</a></li>
+						</ul>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							### Flex apporte pas mal de choses à symfony :
+							* Indépendance à symfony/symfony pour les applications ayant besoin d'un microframework
+							* Autoconfiguration simplifiée des dépendances
+							* Silex n'est plus nécessaire
+						</script>
+					</section>
+				</section>
+
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Architecture modulaire grâce à Symfony et l'écosystème</h3>
+						<h4>Marc Weistroff</h4>
+					</section>
+					<section>
+						<h4>Contexte</h4>
+						Migration d'une application intégrée (MOPRO) vers une architecture modulaire (AudienceHero)
+					</section>
+					<section>
+						<h4>Qu'est-ce qu'une architecture modulaire ?</h4>
+						<ul>
+							<li>Architecture composée de modules <strong>indépendants</strong> mais <strong>interconnectés</strong>.</li>
+							<li>Dans ce type d'architecture on peut <strong>remplacer ou ajouter</strong> un module <strong>sans affecter le reste du système</strong>.</li>
+							<li>S'oppose à l'architecture intégrée où <strong>aucune division claire</strong> n'existe entre les composants.</li>
+						</ul>
+						
+					</section>
+					<section>
+						<h4>Méthode et outils utilisés pour migrer vers une archi modulaire</h4>
+						<ul>
+							<li class="fragment">Symfony > 3.3</li>
+							<li class="fragment">FLEX</li>
+							<li class="fragment">Autowiring</li>
+							<li class="fragment">Autoconfiguration</li>
+							<li class="fragment">registerForAutoconfiguration</li>
+						</ul>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Autowiring
+							```php
+							namespace AppBundle\Factory;
+
+							use Psr\Log\LoggerInterface;
+
+							class AcmeFactory
+							{
+								private $logger;
+
+								// Logger par défaut injecté
+								public function __construct(LoggerInterface $logger)
+								{
+									$this->logger = $logger;
+								}
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Autoconfig
+							```php
+							namespace AppBundle\Twig;
+
+							use AppBundle\Service\MarkdownTransformer;
+
+							class MarkdownExtension extends \Twig_Extension
+							{
+								public function __construct(MarkdownTransformer $markdownTransformer)
+								{
+								}
+							}
+							```
+							```yaml
+							app.markdown_extension:
+								class: AppBundle\Twig\MarkdownExtension
+								# Automatiquement taggué car extend de \Twig_Extension
+								#tags:
+								#  - { name: twig.extension }
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### registerForAutoconfiguration
+							Définition de tagging automatique en fonction de l'interface implémentée
+							```php
+							// src/Kernel.php
+							class Kernel extends Kernel
+							{
+								// ...
+
+								protected function build(ContainerBuilder $container)
+								{
+									$container->registerForAutoconfiguration(CustomInterface::class)
+										->addTag('app.custom_tag')
+									;
+								}
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Écosytème
+							* API platform
+							* React-Admin
+								* React + Redux + Redux-Saga + Redux-Forms
+							* Enqueue
+								* Abstraction de gestion de queues de messages 
+							* SyliusMailerBundle
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Modularisation du composant mail
+							* Pas de fichier de configuration
+							* Une classe par email
+							* Utilisation du registerForAutoconfiguration pour référencer ses mails
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Interface email à autotagger dans CoreBundle
+							```php
+							namespace AudienceHero\Bundle\CoreBundle\Bridge\Sylius\Mailer\Model;
+
+							use Sylius\Component\Mailer\Model\EmailInterface;
+
+							interface TransactionalEmailInterface extends EmailInterface
+							{
+								// public fonction getCode()
+								// public fonction getSenderName()
+								// public fonction getSenderAddress()
+								// public fonction getTemplate()
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Définition de l'email dans l'app
+							```php
+							namespace AppBundle\Email\Notification\MovieAdded;
+
+							use Sylius\Component\Mailer\Model\EmailInterface;
+
+							class MovieAddedNotification implements TransactionalEmailInterface
+							{
+								public fonction getCode()
+								{
+									return self::class;
+								}
+
+								public function getSenderName()
+								{
+									return 'sender example';
+								}
+
+								public function getSenderAddress()
+								{
+									return 'test@website.com';
+								}
+
+								public function getTemplate()
+								{
+									return 'example.html.twig';
+								}
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### registerForAutoconfiguration pour les emails
+							```php
+							// src/Kernel.php
+							class Kernel extends Kernel
+							{
+								// ...
+
+								protected function build(ContainerBuilder $container)
+								{
+									$container->registerForAutoconfiguration(TransactionalEmailInterface::class)
+										->addTag(TransactionalEmailCompiler::TAG); // audiencehero.core.mailer.email.transactional
+								}
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Utilisation dans l'app
+							```php
+							// ...
+
+							public function SubmitAction(Request $request)
+							{
+								$this->get(Mailer::class)
+									->send(MovieAddedNotification::class,
+									'dest@example.com'
+									['movie' => $movie, 'user' => $this->getUser()])
+							}
+							
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Autres outils
+							* https://github.com/wikimedia/composer-merge-plugin => merge des dépendances en flat
+							* yarn pour le frontend
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							* Une architecture modulaire plus qu'interessante.
+							* **On devrait s'en inspirer** 🤔
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							Difficile à mettre en oeuvre sur une application **legacy**
+						</script>
+					</section>
+				</section>
+	
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Traduire efficacement une application Symfony</h3>
+						<h4>Mathieu Santostefano</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Besoin de traduire différentes parties d'une appli : 
+							* Traduction de l'UI
+							* Traduction du contenu
+							* Traduction des URLs
+						</script>
+						<aside class="notes">
+							Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit »S« on your keyboard).
+						</aside>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							* i18n – Internationalization : Clés de traduction, formats numériques, de date, devises, mais aussi couleurs, symboles ...
+							* l10n – Localization : Nécessite (très souvent) l'intervention de traducteurs, et/ou de personnes natives du/des pays cibles
+							* Nécessité de définir des domaines : email, admin, validators, routes, ...
+							* Nécessité de le mettre le plus tôt possible dans l'application
+							* Nécessite des ressources externes (traducteurs)
+							* Standard utilisé : XLIFF
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### XLIFF (xlf)
+							* Standard défini par le consortium OASIS
+							* Adapté pour le développement web
+							* Utilisable avec les outils de l10n
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Problèmes et difficultés
+							* Beaucoup d'intervenants (dev, traductions, CDP, redacteurs, ...)
+							* Responsabilité dans l'ajout de clés
+							* Nomenclature des clés à définir
+							* Synchro entre code et traduction
+							* Déploiement (corriger => déploiement ???)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Stockage des messages à éviter
+							* 😰 csv sur FTP
+							* 😱 Excel...
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Stockage préconisé des messages
+							* 😎 Solution SaaS
+							* 😊 xlf dans Git
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Solutions "Maison" à éviter
+							* Spécifiques à un projet, une équipe ou un client
+							* Non battle-tested
+							* Rarement industrialisable
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Solution préconisée : SAAS + PHP–TRANSLATION
+							![](img/a11dbd029b7aa7b8e71d5ebfb1395a85.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### ON RÈGLE LES PROBLÈMES
+							* Convention : nomenclature
+							* Stockage : SaaS (+ .xlf)
+							* Édition des messages : chacun son outil
+							* Indépendance : crontab
+						</script>
+					</section>
+					<section  data-markdown>
+						<script type="text/template">
+							* php-translation : semble très complet et permet de communiquer avec les SaaS (storageAdapter)
+							* Possibilité de décorer les traductions pour les tests -> tester directement les clés de traduction
+							* Synchronisation automatique sans déploiement :
+							```
+							*/15 * * * * php bin/console translation:download -n --cache --no-debug
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### PROFILER
+							![](img/fb3c52516033b8f2c307ae8cf56535b2.gif)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### WEBUI
+							![](img/eabbf61ed191c664d5f6727d43d1a379.png)
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							#### Les plus
+							* Outil SaaS (pas de maintenance)
+							* Pas de déploiement
+							* Cadrage du processus de traduction
+							* Vue synthétique des clés non traduites
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							#### Les moins
+							* Un outil supplémentaire
+						</script>
+					</section>
+				</section>
+
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Migration en Symfony 4 de l'API de connexion Allociné, dans un écosystème en 3.3/3.4</h3>
+						<h4>Estelle LE CAM</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Migration en Symfony 4 de l'API de connexion Allociné, dans un écosystème en 3.3/3.4
+							* Problématiques rencontrées
+							* Étapes pour y parvenir
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Problématiques rencontrées 
+							* Les bundles/app enfants sont en SF 3 et 4 : branche 3 et 4
+							* parameters.yml disparait : tout passe en variable d'env via vhost
+							* Outil de déploiement à revoir : en recherche de solutions
+							* Les services passent par défaut en private : *eventlistener* qui les passent en public
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Étapes pour y parvenir
+							* Changement de la structure
+							* Passer les paramètres en variable d'env (.env en local, vhost sur l'infra)
+							* Gestion de l'Autowiring
+							* Modification du kernel pour des besoins internes à Allociné
+							* Gestion de l'infra
+						</script>
+					</section>
+					<section>
+							<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							#### Les plus
+							* Un cas d'étude qui a l'air interessant
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							#### Les moins
+							* Trop spécifique à Allociné
+							* Pas assez de contexte pour bien analiser la presentation
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Quels outils pour améliorer la vie des développeurs Symfony ?</h3>
+						<h4>Romain Gautier</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Retour d'expérience sur la mise en place d'outils sur un projet symfony
+							* Les indispensables
+							* Makefile
+							* Docker
+							* Intégration continue
+							* Déploiement continue
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Les indispensables
+							* GIT : hook de pre-commit pour linter, checkstyle, ... (https://git.io/lyrixx-git-hooks)
+							* Fixtures (alice, doctrine fixture bundle, fake)
+							* Migrations (Doctrine migration, phinx) ⚠ au rollback !
+							* Tests : séparer en utilisant les groupes (au minimum fonctional => TU), indépendant, rapide
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Makefile
+							* Automatiser les tâches répétés
+							* Gestion des prérequis (composer install dépendance de l'évol de composer.lock)
+							* Chainage de tâches
+							* Documentation pour les devs
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Docker
+							* léger et rapide
+							* Env ISO PROD
+							* Automatisation
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Intégration continue (avec gitlab)
+							* Détecter au plus tôt les erreurs
+							* Code uniforme
+							* Visibilité sur l'état (du code) du projet
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Déploiement continue
+							* Ansible, Capistrano / deployer php, Kubernetes / Swarm, HELM
+							* Permet d'éviter les erreurs humaines
+							* Simplicité, moins de stress
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Conclusion
+							Automatiser un max de choses pour vous concentrer sur le code métier
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							L'automatisation est devenu indispensable dans le dev moderne et il faut en faire un maximum.
+							Les outils pour y parvenir sont matures et tout de suite utilisables.
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Zoom sur la « Clean Architecture » en Symfony chez OpenClassrooms</h3>
+						<h4>Kuzniak Romain</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Intégration de la clean architecture chez OpenClassrooms
+							* Site legacy à refondre
+							* Rigidité, fragilité, immobilité, viscosité => baisse de la productivité/ inapte au changement
+						</script>
+					</section>
+					<section>
+						<h3>Comparaison de quelques designs</h3>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### MVC
+							Avantages | Inconvénients
+							--- | ---
+							Simple | Difficile à tester
+							Séparation Domaine / Présentation | Pas de séparation de l’infrastructure
+							| À l’origine, design pour GUI
+							| Indice de changement : 😞
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Service Layer
+							Avantages | Inconvénients
+							--- | ---
+							Séparation Data / Domaine / Présentation | Pas de réutilisabilité indépendante
+                            Séparation Domaine / Présentation | Pas de séparation de l’infrastructure
+							| Pas de gestion séparée des règles métier et applicatives
+							| Indice de changement : 😐
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### DDD
+							Avantages | Inconvénients
+							--- | ---
+							Grande ré-utilisabilité | Beaucoup de classes
+							Séparation métier / applicatif / présentation | Coût de développement
+							Séparation de l’infrastructure (Framework, DB, …) | Pas de SRP dans la couche application
+							| Indice de changement : 😄
+							Note:
+							SRP : Single Responsibility Principle => fait partie de SOLID / 
+							S : Single Responsibility Principle / 
+							O : Open/Closed Principle / 
+							L : Liskov Substitution Principle / 
+							I : Interface Segregation Principle / 
+							D : Dependency Inversion Principle
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Clean Architecture
+							Avantages | Inconvénients
+							--- | ---
+							Grande ré-utilisabilitée | Beaucoup de classes
+							Séparation métier / applicatif / présentation | Coût de développement
+							Séparation de l’infrastructure (Framework, DB, …) | Pas de SRP dans la couche application
+							| Indice de changement : 😄
+						</script>
+					</section>	
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Objectifs de la clean architecture ?
+							* Gerer archi complexe
+							* Indépendance au framework
+							* Indépendance à l UI
+							* Indépendance à la DB
+							* Testable
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Principes de la clean architecture ?
+							* Domaine au centre de l'application
+							* Communication inter-couche à travers des abstractions
+							* S.O.L.I.D
+							* Indépendance à la DB
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Analyse après 4 ans
+							Les plus : 
+							* Suppression de la fragilité, immobilisme, viscosité
+							* Productivité linéaire
+							* Aptitude au changement
+							Les moins - :
+							* Apprentissage difficile
+							* Grosse quantité de code (plomberie)
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							Les principes interessants : indépendance au framework, productivité linéaire, aptitude au changement,...
+							S'applique principalement à des gros projets, le design DDD semble plus souvent adapter (documenté, éprouvé,...)
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							Par contre, difficile à vendre car couteux à mettre en place et ne s'applique qu'aux gros projets.
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Testez vos tests en introduisant des bugs avec le Mutation Testin</h3>
+						<h4>Théo FIDRY</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Présentation du principe de *mutation testing*
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Coût d'un *bug*
+							![](img/Selection_027.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Principes
+							* Création de code légèrement différent (muté) pour vérifier que nos TU plantent bien dans nos tests sur ce code muté.
+							* Le test du code muté va donner un nouvel indicateur : mutation score (100% = tous les mutants sont tués)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Outils
+							* infection/infection
+							![](img/Selection_030.png)
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							Très bien pour avoir une bonne qualité de test mais...
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							Les tests sont beaucoup trop longs 😢 et difficiles à industrialiser.
+						</script>
+					</section>
+				</section>
+
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Ne soyez plus l’esclave de Doctrine</h3>
+						<h4>Grégoire Paris , Maxime Veber</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							* Le but est de présenter la façon de découpler son code de *Doctrine*.
+							* Respect des principes du DDD
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Points abordés
+							* Entité anémique (simple classe)
+							* *Value object*
+							* Les *UUID* (*DB* non necessaire)
+							* Les *custom types DBAL*
+							* Les *embeddables* (mutu de champs)
+							* **Éviter les collections, préférer le type iterable**
+							* **Éviter le One-To-Many** : utilisation rare et souvent inutile
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							Très utile si on veut se détacher de l'*ORM*. Des conseils utiles (collections, on to many) mais...
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							Beaucoup de plomberie pour arriver au résultat
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Tirer le maximum du moteur PHP 7 - l'exemple de Symfony</h3>
+						<h4>Nicolas Grekas</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Montrer l'évolution des performances de PHP 7 mais aussi de symfony 4
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Beaucoup d'améliorations de perf dans PHP7 
+							* Sur certaine fonction native on peut mettre \ devant pour générer un opcode plus performant. Ex : **\is_array**
+							Inutile de le faire systèmatiquement le code sera plus long à compiler.
+							* Optimisation dans les **require** de symfony. On évite de faire trop de **require** dans les dernières versions de la compilation du container.
+							* Utilisation de la mémoire partagée de FPM (non utilisé en mode CLI)
+							* Optimisation du code static (ex: if (false) ou tableau static ) => optim de composer
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Symfony Messenger : Queues, workers et bien plus encore !</h3>
+						<h4>Samuel ROZE</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Introduction du nouveau composant **Messenger**
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Conceptes 
+							* **Messages** : n'importe quel objet sérialisé
+							* **Message bus** : où les messages sont déposés
+							* **Message handler** : traitement du message
+							* **Adapter** : système s'occupant de la transmission (rabbit, kafka, SQS, ...)
+							* **Worker** : démon consomateur du message et envoi au handler
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Schéma
+							![](img/messenger.jpg)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Avantages
+							* Panel sur la toolbar de debug
+							* Système complet de production et consomation de message
+						</script>
+					</section>
+					<section>
+						<h2>Notre analyse</h2>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							* Cet outil va certainemenent remplacer certain bundle actuel (swarrot, RabbitMqBundle).
+							* Permet une abstraction du système de *messaging*
+							* Code *producer* / *consumer* centralisé
+							* *Adapter* pour le poste de dev
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							* Il manque encore des fonctionalités (*retry* par ex)
+							* Experimental dans SF 4.1
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Utilisation de HTTPlug Bundle en environnement de test</h3>
+						<h4>Gary PEGEOT</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Présentation du composant HTTPlug
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Ce que HTTPlug apporte
+							* Implémentation de PSR-7 (HTTP message interfaces)
+							* Permet de découpler la logique métier et la lib utilisée (guzzle, curl, ...)
+							* Permet de mocker les services Webs
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>REST ou GraphQL ? Exemples illustrés avec Symfony et API Platform</h3>
+						<h4>Kévin Dunglas</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Comparaison de REST et GraphQL en prenant l'exemple de son implémentation dans API platform qui propose maintenant GraphQL.							
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							## GraphQL ?
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							* Langage pour requêter des données
+							* Spécialement *designer* pour des APIs web
+							* Alternative à REST
+							* Très bien en tant qu'API gateway (aggrégation de services)
+							* Créé par Facebook
+							* Orienté service
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							![](img/graphql.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Ex requête
+							![](img/graphql2.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Ex réponse
+							![](img/graphql3.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### GraphQL permet de décrire nativement les schémas de données
+							![](img/graphql4.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### GraphQL Schema
+							* Permet de décrire les données qu'on peut requêter
+							* Expose les opérations possibles (*queries*, *mutations*)
+							* Permet d'avoir une API *auto-discoverable* et de faire des *smart-clients* (API agnostic)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							### Comment on fait en REST ?
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Hydra
+							![](img/graphql5.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Hydra
+							* Porpose des formats hypermedia pour l'interopérabilité
+							* Basé sur json-ld, compatible avec schema.org
+							* Intégration d'une documentation auto buildée
+							* Ressources, pagination, ....
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### D'autres choses que propose GraphQL par défaut
+							* *Data fetching : compound docs* (1 requêtes pour récupérer un ensemble de données)
+							* *Data fetching : sparse fieldsets* (sélection des champs à renvoyer)
+							* *Filtering* 
+							* *Sorting*
+							* *Pagination*
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							### Comment résoudre ces problématiques avec REST ?
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### **Data fetching** : compound docs
+							![](img/graphql6.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Data fetching : sparse fieldsets (sélection des champs à renvoyer)
+							![](img/graphql7.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Filtering
+							![](img/graphql8.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Sorting
+							![](img/graphql9.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Pagination
+							![](img/graphql10.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Considérations sur le cache
+							* GraphQL est en méthode **POST** sur **1 url**
+							* Aucun cache HTTP n'est possible (serveur ou client)
+						</script>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							* REST permet de faire sensiblement la même chose que GraphQL modulo l'ajout de contrôles hypermedia par ex (HATEOAS) 
+							et en étendant un peu le modèle de base
+							* On peut mettre tous les niveaux de cache avec REST (varnish par ex)
+							* Utilise des standards ouverts
+							* Système éprouvé
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							* Pas cache HTTP avec GraphQL
+							* Problèmes de sécurité à considérer (1 url, )
+							* Orienté utilisation Facebook
+							* Logs à gérer coté applicatif
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>
+					<section>
+						<h3>Développez votre frontend avec ReactJS et Symfony Webpack Encore</h3>
+						<h4>Alain Hippolyte</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Contexte
+							Présentation de technologies F/E pour des devs B/E et comment intégrer facilement webpack avec Symfony Webpack Encore
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Le développement moderne en *javascript* nécessite de développer
+							* en **ES6**
+							* sous forme de **modules**
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Problème ES6 : dernière version de *javascript* non supportée par les navigateurs
+							![](img/encore1.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Babel : nécessité d'utiliser un transpileur
+							![](img/encore2.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Babel : exemple de transpilation
+							![](img/encore3.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Modularité avec Webpack
+							```javascript
+							// web/js/ProductCollection.js
+							class ProductCollection {...}
+							export default ProductCollection;
+							```
+							```javascript
+							// web/js/productApp.js
+							import ProductCollection from './ProductCollection';
+							```
+							Génèration un fichier compatible navigateurs :
+							```bash
+							./node_modules/.bin/webpack \
+							web/js/productApp.js \
+							web/build/productApp.js
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Difficultés de configuration de webpack
+							![](img/encore4.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Webpack Encore simplifie la configuration
+							```php
+							// webpack.config.js
+							var Encore = require('@symfony/webpack-encore');
+
+							Encore
+								// the project directory where all compiled assets will be stored
+								.setOutputPath('public/build/')
+
+								// the public path used by the web server to access the previous directory
+								.setPublicPath('/build')
+
+								// will create public/build/app.js and public/build/app.css
+								.addEntry('app', './assets/js/app.js')
+
+								// allow sass/scss files to be processed
+								.enableSassLoader()
+
+								// allow legacy applications to use $/jQuery as a global variable
+								.autoProvidejQuery()
+
+								.enableSourceMaps(!Encore.isProduction())
+
+								// empty the outputPath dir before each build
+								.cleanupOutputBeforeBuild()
+
+								// show OS notifications when builds finish/fail
+								.enableBuildNotifications()
+
+								// create hashed filenames (e.g. app.abc123.css)
+								.enableVersioning()
+							;
+
+							// export the final configuration
+							module.exports = Encore.getWebpackConfig();
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Compilation
+							```bash
+							# compile assets
+							./node_modules/.bin/encore dev
+							# re compile after file changed
+							./node_modules/.bin/encore dev --watch
+							# build for production
+							./node_modules/.bin/encore production
+
+							# Shorten version
+							yarn run encore dev
+							yarn run encore dev --watch
+							yarn run encore production
+							```
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Intégration dans twig avec manifest.json
+							![](img/encore5.png)
+						</script>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							* Ce module permet d'intégrer facilement webpack dans nos projets symfony
+							* Gère toutes les fonctionalités du dev frontend moderne
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							* Gros couplage avec symfony
+							* Adapté pour une application classique (vs API centric)
+							* Encore une surcouche
+						</script>
+					</section>
+				</section>
+				<!-- ============================================================================= -->
+				<section>	
+					<section>
+						<h3>Le composant workflow de Symfony, c'est graphement bien !</h3>
+						<h4>Hamza Amrouche</h4>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Permet de
+							* Gérer des graphs
+							* Processus de validation
+							* Machine à états
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Exemple de workflow
+							![](img/workflow2.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Définition du workflow
+							![](img/workflow3.png)
+						</script>
+					</section>
+					<section data-markdown data-separator-notes="^Note:">
+						<script type="text/template">
+							#### Exemple d'utilisation
+							![](img/workflow4.png)
+						</script>
+					</section>
+					<section data-markdown data-background-color="#d6f5d6">
+						<script type="text/template">
+							Cadre la définition processus de validation de manière propre mais...
+						</script>
+					</section>
+					<section data-markdown data-background-color="#ff6633">
+						<script type="text/template">
+							N'est disponible qu'à partir de SF 3.3
+						</script>
+					</section>
+				</section>
+				<section>
+					<h2>BILAN</h2>
+				</section>
+				<section data-markdown data-separator-notes="^Note:">
+					<script type="text/template">
+						* Nous sommes très heureux d'avoir pu participer à cette édition
+						* Bonne qualité des conférences
+						* Beaucoup de choses applicables tout de suite (même chez I@D)
+					</script>
+				</section>
+				<section>
+					<h3>Questions ?</h3>
+				</section>
+				<section>
+					<h2>FIN</h2>						
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

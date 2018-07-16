@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Gitflow I@D</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/iad.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Gitflow I@D</h1>
+					<p>
+						<small>Basé sur <a href="http://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a> de <a href="http://nvie.com/about/">nvie</a></small>
+					</p>
+				</section>
+				<section>
+					<section>
+						<h2>Pourquoi le gitflow actuel ne convient pas ?</h2>
+					</section>
+					<section>
+						<h2>Inadapté à une application en production</h2>
+						<p>
+							Actuellement toute tâche de developpement est "mergée" directement dans develop
+						</p>
+					</section>
+					<section>
+						<h2>Différences de gitflow entre les équipes</h2>
+						<p>
+							Front vs back
+							<br/>
+							Casa vs Lieusaint
+						</p>
+					</section>
+					<section>
+						<h2>Mauvaise métrise des features inclues dans une release</h2>
+						<p>
+							Des features d'une future release sont parfois inclues par erreur lors des MEPs
+						</p>
+					</section>
+				</section>
+				<section>
+					<section data-background="http://nvie.com/img/git-model@2x.png" data-background-size="800px">
+						<h2 style="color: #b5533c;">Nouveau gitflow</h2>
+					</section>
+					<section>
+						<p>
+							<a href="https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/97354027/Git+Flow+V2+-+Git+branching+model">Page confluence</a>
+						</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Branches</h2>
+					</section>
+					<section>
+						<h2>MASTER</h2>
+						<ul>
+							<li>Représente la production</li>
+							<li>Les tags sont tirés uniquement de cette branche</li>
+						</ul>
+					</section>
+					<section>
+						<h2>DEVELOP</h2>
+						<ul>
+							<li>Content l'ensemble des developpements finis et validés par un PM</li>
+							<li>Représent le prochain livrable</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Branches de features ou macro features</h2>
+						<ul>
+							<li>Tiré de <strong>DEVELOP</strong></li>
+							<li>Se nomme <strong>feature/nom-de-la-feature</strong></li>
+							<li>Une branche par US (ou plusieurs US dans le cas de macro)</li>
+							<li>Mergé dans <strong>DEVELOP</strong> par un LEAD après validation d'un PM</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Branches de hotfixes</h2>
+						<ul>
+							<li>Tiré de <strong>MASTER</strong></li>
+							<li>Se nomme <strong>hotfix/mon-hotfix</strong></li>
+							<li>Mergé dans <strong>DEVELOP</strong> et <strong>MASTER</strong></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Branches de release</h2>
+						<ul>
+							<li>Tiré de <strong>DEVELOP</strong></li>
+							<li>Se nomme <strong>release/vX.Y.Z</strong></li>
+							<li>Mergé dans <strong>DEVELOP</strong> et <strong>MASTER</strong></li>
+							<li>On tire le tag de <strong>MASTER</strong> après son merge</li>
+							<li>On doit y pousser uniquement les metas datas et bugs mineurs vu pendant la recette</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Quelques règles à respecter</h2>
+						<ul>
+							<li class="fragment">
+								Les PR sur DEVELOP doivent être soumises à validation des équipes de Casablanca et Lieusaint
+							</li>
+							<li class="fragment">
+								Le merge d'une PR sur DEVELOP doit être validé par un LEAD
+							</li>
+							<li class="fragment">
+								Une branche de feature doit être complète
+							</li>
+							<li class="fragment">
+								Créer une branche du nom de la feature dans tous les repositories modifiés
+							</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Cas d'usage</h2>
+					</section>
+					<section>
+						<a href="https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/97354027/Git+Flow+V2+-+Git+branching+model">Feature sur un repository</a>
+					</section>
+					<section>
+						Feature sur plusieurs repositories
+					</section>
+					<section>
+						<a href="https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/97354027/Git+Flow+V2+-+Git+branching+model">Feature avec plusieurs contributeurs</a>
+					</section>
+				</section>
+				<section>
+					<h2>Questions ?</h2>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
