@@ -3691,12 +3691,8 @@
 		// assume that this is a named link
 		if( isNaN( parseInt( bits[0], 10 ) ) && name.length ) {
 			var element;
-
-			// Ensure the named link is a valid HTML ID attribute
-			if( /^[a-zA-Z][\w:.-]*$/.test( name ) ) {
-				// Find the slide with the specified ID
-				element = document.getElementById( name );
-			}
+			name = decodeURIComponent(name);
+			element = document.getElementById( name );
 
 			if( element ) {
 				// Find the position of the named slide and navigate to it
@@ -3743,9 +3739,6 @@
 
 				// Attempt to create a named link based on the slide's ID
 				var id = currentSlide.getAttribute( 'id' );
-				if( id ) {
-					id = id.replace( /[^a-zA-Z0-9\-\_\:\.]/g, '' );
-				}
 
 				// If the current slide has an ID, use that as a named link
 				if( typeof id === 'string' && id.length ) {
