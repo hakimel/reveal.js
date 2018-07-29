@@ -2,8 +2,8 @@
 ## CubanTech Meetups
 ##### [meetup.cuban.tech](http://meetup.cuban.tech)
 
-- [Intro to PyDay Django workshop part 2](intro_20180520.html)
-  * [CubanTech meetup #34](http://docker.cuban.tech/events/250778482/) - Havana, Cuba 2017/05/20
+- [Intro to PyDay Django workshop part 3](intro_20180729.html)
+  * [CubanTech meetup #37](http://docker.cuban.tech/events/251517589/) - Havana, Cuba 2018/07/29
 - [Welcome to Raspberry Jam](intro_20180303.html)
   * [CubanTech meetup #31](http://meetup.cuban.tech/events/247616068/) - Havana, Cuba 2018/03/03
 - [Intro to Neo4J PyDay meetup](intro_20180113.html)
