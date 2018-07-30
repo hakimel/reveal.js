@@ -6,77 +6,129 @@
  * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 
-
 // Default mixins and settings -----------------
 @import "../template/mixins";
 @import "../template/settings";
 // ---------------------------------------------
 
-
-
 // Include theme-specific fonts
 // @import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
 // @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 
-
 // Override theme settings (see ../template/settings.scss)
-$mainFont: 'Arial', sans-serif;
+$mainFont: "Arial", sans-serif;
 $mainColor: #000;
-$headingFont: 'Arial', sans-serif;
+$headingFont: "Arial", sans-serif;
 $headingFontWeight: bold;
 $headingColor: #008db2;
 $headingTextShadow: none;
 $headingTextTransform: none;
 $backgroundColor: #fff;
 $linkColor: #008db2;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: lighten($linkColor, 20%);
 $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
 
 section.has-dark-background {
-	&, h1, h2, h3, h4, h5, h6 {
-		color: #fff;
-	}
+  &,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #fff;
+  }
 }
 
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
 
-.reveal{
-    h3 {
-        font-weight: normal;
-        color: #ed7d31;
-    }
+.reveal {
+  h3 {
+    font-weight: normal;
+    color: #ed7d31;
+  }
 }
 
-
-
 html body {
-    background: url(img/logo-iadtech-blanc.svg), url(img/corner.png), url(img/corner2.png);
-    background-repeat: no-repeat;
-    background-position-x: 10px, 0px, 100%;
-    background-position-y: calc(100% - 10px), 100%, 0px;
-    background-size: 139px 100px, auto, auto;
+  background: url(img/logo-iadtech-blanc.svg), url(img/corner.png),
+    url(img/corner2.png);
+  background-repeat: no-repeat;
+  background-position-x: 10px, 0px, 100%;
+  background-position-y: calc(100% - 10px), 100%, 0px;
+  background-size: 139px 100px, auto, auto;
 }
 
 .subject {
-    font-family: $mainFont;
-	font-size: 1.7em;
-	font-weight: normal;
-    
-    color: #fff;
-    text-align: right;
+  font-family: $mainFont;
+  font-size: 1.7em;
+  font-weight: normal;
 
-    right: 30px;
-    top: 15px;
-    position: absolute;
+  color: #fff;
+  text-align: right;
+
+  right: 30px;
+  top: 15px;
+  position: absolute;
 }
 
 .highlight {
-    color: #ed7d31;
+  color: #ed7d31;
 }
 
-
 .reveal pre {
-	font-size: 0.45em;
+  font-size: 0.45em;
+}
+
+.reveal section img {
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #eeeeee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(0.75);
+  }
+  20% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.75);
+  }
+  60% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.75);
+  }
+  100% {
+    transform: scale(0.75);
+  }
+}
+
+.heartbeet {
+  width: 200px;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  animation: heartbeat 2s infinite;
+}
+
+.rotation {
+  animation: rotation 7s infinite linear;
+  width: 120px;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }

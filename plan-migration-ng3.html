@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Custom Theme -->
+	<link rel="stylesheet" href="css/theme/iad.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown data-notes="ma note qui va bien">
+				<textarea data-template>
+					 ### Plan de migration Angular 2+
+					 ## <img src="https://angular.schule/assets/img/angular.png" class="heartbeet"> 
+					 Juin 2018
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+				 <p> 1. Avantages de la migration</p>
+				 <p class="fragment fade-up"> 2. Architecture cible</p>
+				 <p class="fragment fade-up"> 3. Stratégie de migration</p>
+				 <p class="fragment fade-up"> 4. Socle de base (MVP)</p>
+				 <p class="fragment fade-up"> 5. Guidelines</p>
+				 <p class="fragment fade-up"> 6. Impact sur la productivité</p>
+				 <p class="fragment fade-up"> 7. Formation des équipes</p>
+        </textarea>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						## 1. Avantages de la migration
+						- Performance applicative
+
+						- Lazy loading natif
+
+						- Performance du build 
+
+						- Web components (Angular-Elements)
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 1. Avantages de la migration
+						- Support PWA et service-worker
+
+						- Language fortement typé
+
+						- Angular-CLI
+
+						- Angular Material : librairie full Material-Design
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							## 1. Avantages de la migration
+							- Documentation confluence [Lien ici](https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/333087012/Front+Migration+Angular+2+Avantages+de+la+migration+Ng2+)
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+					<textarea data-template>
+						## 2. Architecture cible <img src="/img/diag_ng2_archi.png" style="width:700px;" />
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 2. Architecture cible
+						- Gain en terme de productivité. Le code étant hébergé à travers 3 repos max.
+
+						- Le déploiement de l'application est grandement facilité.
+						
+						- Arborescence découpée par module métier, limpide et rapide à appréhendée.
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 2. Architecture cible
+						- Documentation confluence [Lien ici](https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/472481889/Front+Migration+Angular+2+Architecture+Angular+2+)
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						## 3. Stratégie de migration
+						Macro-chiffrage, illustrant la migration des fonctionnalités métiers existantes :
+
+						- Parrainage conseiller : 27j
+
+						- Projets : 37j
+
+						- Contact : 18j
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 3. Stratégie de migration 
+
+						- Parrainage siège : 32j
+
+						- Parainage candidat : 6j
+
+						- Dashboard (agent + siège) : 23j
+
+						- Scoring : 7j
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 3. Stratégie de migration 
+
+						- Annuaire (conseiller) : 5j
+
+						- Annuaire (siège) : 8j
+
+						- Désactivation : 5j
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 3. Stratégie de migration 
+
+						- Club business (partie siège) : 18j
+
+						- Club business : 36j
+
+						- Core : 33j
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 3. Stratégie de migration
+						- Documentation confluence [Lien ici](https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/492732660/Front+Migration+Angular+2+Strat+gie+de+migration+d+taill+e)
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="MVP: minimum viable product">
+					<textarea data-template>
+						## 4. Socle de base (MVP)
+						- Bonne avancée, du socle de Base.
+
+						- Premier écran des cercles opérationnel.
+
+						- Oauth 2 intégré.
+
+						- Font-awesome v5.
+
+						- Environ 42j de dev restants.
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 4. Socle de base (MVP)
+						- Documentation confluence [Lien ici](https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/510165060/Front+Migration+Angular+2+MVP+POC)
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="">
+					<textarea data-template>
+						## 5. Guidelines
+						- Angular.io propose un [style guide](https://angular.io/guide/styleguide) 
+
+						- Des guidelines personnalisées, plus détaillées, doivent également être rédigées, afin de couvrir l'ensemble du framework.
+          </textarea>
+				</section>
+				<section data-markdown data-notes="">
+					<textarea data-template>
+						## 5. Guidelines
+						- Documentation confluence [Lien ici](https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/492503370/Front+Migration+Angular+2+Guidelines)
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="">
+					<textarea data-template>
+							## 6. Impact sur la productivité
+							- Gain de productivité, sur le poste de développement (CLI + Webpack 4).
+
+							- Déploiement facilité.
+
+							- Point de vigilance sur les PRs, en direction du même repo.
+						</textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						## 7. Formation des équipes
+
+						Pour Lieusaint :
+
+						- Formation assurée par un organisme externe du 2 au 6 juillet.
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## 7. Formation des équipes
+						Pour Casablanca:
+
+						- Ateliers à réaliser par les archis + référents
+
+						- Remontée d'information + transfert de compétence de la formation reçue à Lieusaint.
+
+						- Hicham recherche en parallèle, un formatteur.
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							## 7. Formation des équipes
+							- Documentation confluence [Lien ici](https://iad-holding.atlassian.net/wiki/spaces/WIS/pages/492667122/Front+Migration+Angular+2+Formation+quipes)
+						</textarea>
+				</section>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+				 ## Questions ?
+        </textarea>
+			</section>
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			history: true,
+			progress: true,
+			slideNumber: true,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+</body>
+
+</html>

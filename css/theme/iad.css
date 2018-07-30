@@ -5,7 +5,13 @@
  * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
  * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
-section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
+section.has-dark-background,
+section.has-dark-background h1,
+section.has-dark-background h2,
+section.has-dark-background h3,
+section.has-dark-background h4,
+section.has-dark-background h5,
+section.has-dark-background h6 {
   color: #fff; }
 
 /*********************************************
@@ -290,3 +296,42 @@ html body {
 
 .reveal pre {
   font-size: 0.45em; }
+
+.reveal section img {
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #eeeeee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(0.75); }
+  20% {
+    transform: scale(1); }
+  40% {
+    transform: scale(0.75); }
+  60% {
+    transform: scale(1); }
+  80% {
+    transform: scale(0.75); }
+  100% {
+    transform: scale(0.75); } }
+
+.heartbeet {
+  width: 200px;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  animation: heartbeat 2s infinite; }
+
+.rotation {
+  animation: rotation 7s infinite linear;
+  width: 120px;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important; }
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(359deg); } }
