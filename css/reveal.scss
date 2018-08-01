@@ -3,7 +3,7 @@
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2017 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2018 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -160,9 +160,25 @@ body {
 	}
 }
 
+.reveal .slides section .fragment.fade-in-then-out,
 .reveal .slides section .fragment.current-visible {
 	opacity: 0;
 	visibility: hidden;
+
+	&.current-fragment {
+		opacity: 1;
+		visibility: inherit;
+	}
+}
+
+.reveal .slides section .fragment.fade-in-then-semi-out {
+	opacity: 0;
+	visibility: hidden;
+
+	&.visible {
+		opacity: 0.5;
+		visibility: inherit;
+	}
 
 	&.current-fragment {
 		opacity: 1;
@@ -540,7 +556,7 @@ $controlsArrowAngleActive: 36deg;
  *********************************************/
 
 .reveal .slide-number {
-	position: fixed;
+	position: absolute;
 	display: block;
 	right: 8px;
 	bottom: 8px;
@@ -551,6 +567,10 @@ $controlsArrowAngleActive: 36deg;
 	color: #fff;
 	background-color: rgba( 0, 0, 0, 0.4 );
 	padding: 5px;
+}
+
+.reveal .slide-number a {
+	color: currentColor;
 }
 
 .reveal .slide-number-delimiter {
@@ -636,6 +656,7 @@ $controlsArrowAngleActive: 36deg;
 .reveal .slides>section.stack {
 	padding-top: 0;
 	padding-bottom: 0;
+	pointer-events: none;
 }
 
 .reveal .slides>section.present,
@@ -1013,6 +1034,25 @@ $controlsArrowAngleActive: 36deg;
 	z-index: 100;
 	transition: all 1s ease;
 }
+
+.reveal .pause-overlay .resume-button {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	color: #ccc;
+	border-radius: 2px;
+	padding: 6px 14px;
+	border: 2px solid #ccc;
+	font-size: 16px;
+	background: transparent;
+	cursor: pointer;
+
+	&:hover {
+		color: #fff;
+		border-color: #fff;
+	}
+}
+
 .reveal.paused .pause-overlay {
 	visibility: visible;
 	opacity: 1;
@@ -1086,11 +1126,18 @@ $controlsArrowAngleActive: 36deg;
 		overflow: hidden;
 
 		background-color: rgba( 0, 0, 0, 0 );
+
+		transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	}
+
+	.reveal .slide-background-content {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
 		background-size: cover;
-
-		transition: all 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
 	.reveal .slide-background.stack {

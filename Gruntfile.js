@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 				' * http://revealjs.com\n' +
 				' * MIT licensed\n' +
 				' *\n' +
-				' * Copyright (C) 2017 Hakim El Hattab, http://hakim.se\n' +
+				' * Copyright (C) 2018 Hakim El Hattab, http://hakim.se\n' +
 				' */'
 		},
 
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		uglify: {
 			options: {
 				banner: '<%= meta.banner %>\n',
-				screwIE8: false
+				ie8: true
 			},
 			build: {
 				src: 'js/reveal.js',
@@ -78,6 +78,7 @@ module.exports = function(grunt) {
 				eqnull: true,
 				browser: true,
 				expr: true,
+				loopfunc: true,
 				globals: {
 					head: false,
 					module: false,
@@ -164,7 +165,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-retire' );
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-zip' );
-	
+
 	// Default task
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
 

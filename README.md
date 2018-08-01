@@ -206,9 +206,6 @@ Reveal.initialize({
 	// Display a presentation progress bar
 	progress: true,
 
-	// Set default timing of 2 minutes per slide
-	defaultTiming: 120,
-
 	// Display the page number of the current slide
 	slideNumber: false,
 
@@ -239,6 +236,10 @@ Reveal.initialize({
 	// Turns fragments on and off globally
 	fragments: true,
 
+	// Flags whether to include the current fragment in the URL,
+	// so that reloading brings you to the same fragment position
+	fragmentInURL: false,
+
 	// Flags if the presentation is running in an embedded mode,
 	// i.e. contained within a limited portion of the screen
 	embedded: false,
@@ -266,6 +267,11 @@ Reveal.initialize({
 
 	// Use this method for navigation when auto-sliding
 	autoSlideMethod: Reveal.navigateNext,
+
+	// Specify the average time in seconds that you think you will spend
+	// presenting each slide. This is used to show a pacing timer in the
+	// speaker view
+	defaultTiming: 120,
 
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
@@ -531,6 +537,37 @@ Reveal.isPaused();
 Reveal.isAutoSliding();
 ```
 
+### Custom Key Bindings
+
+Custom key bindings can be added and removed using the following Javascript API. Custom key bindings will override the default keyboard bindings, but will in turn be overridden by the user defined bindings in the ``keyboard`` config option.
+
+```javascript
+Reveal.addKeyBinding( binding, callback );
+Reveal.removeKeyBinding( keyCode );
+```
+
+For example
+
+```javascript
+// The binding parameter provides the following properties
+//      keyCode: the keycode for binding to the callback
+//          key: the key label to show in the help overlay
+//  description: the description of the action to show in the help overlay
+Reveal.addKeyBinding( { keyCode: 84, key: 'T', description: 'Start timer' }, function() {
+	// start timer
+} )
+
+// The binding parameter can also be a direct keycode without providing the help description
+Reveal.addKeyBinding( 82, function() {
+	// reset timer
+} )
+```
+
+This allows plugins to add key bindings directly to Reveal so they can
+
+* make use of Reveal's pre-processing logic for key handling (for example, ignoring key presses when paused); and
+* be included in the help overlay (optional)
+
 ### Slide Changed Event
 
 A `slidechanged` event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
@@ -590,12 +627,13 @@ All CSS color formats are supported, including hex values, keywords, `rgba()` or
 
 By default, background images are resized to cover the full page. Available options:
 
-| Attribute                    | Default    | Description |
-| :--------------------------- | :--------- | :---------- |
-| data-background-image        |            | URL of the image to show. GIFs restart when the slide opens. |
-| data-background-size         | cover      | See [background-size](https://developer.mozilla.org/docs/Web/CSS/background-size) on MDN.  |
-| data-background-position     | center     | See [background-position](https://developer.mozilla.org/docs/Web/CSS/background-position) on MDN. |
-| data-background-repeat       | no-repeat  | See [background-repeat](https://developer.mozilla.org/docs/Web/CSS/background-repeat) on MDN. |
+| Attribute                        | Default    | Description |
+| :------------------------------- | :--------- | :---------- |
+| data-background-image            |            | URL of the image to show. GIFs restart when the slide opens. |
+| data-background-size             | cover      | See [background-size](https://developer.mozilla.org/docs/Web/CSS/background-size) on MDN.  |
+| data-background-position         | center     | See [background-position](https://developer.mozilla.org/docs/Web/CSS/background-position) on MDN. |
+| data-background-repeat           | no-repeat  | See [background-repeat](https://developer.mozilla.org/docs/Web/CSS/background-repeat) on MDN. |
+| data-background-opacity          | 1          | Opacity of the background image on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
 
 ```html
 <section data-background-image="http://example.com/image.png">
@@ -610,12 +648,13 @@ By default, background images are resized to cover the full page. Available opti
 
 Automatically plays a full size video behind the slide.
 
-| Attribute                    | Default | Description |
-| :--------------------------- | :------ | :---------- |
-| data-background-video        |         | A single video source, or a comma separated list of video sources. |
-| data-background-video-loop   | false   | Flags if the video should play repeatedly. |
-| data-background-video-muted  | false   | Flags if the audio should be muted. |
-| data-background-size         | cover   | Use `cover` for full screen and some cropping or `contain` for letterboxing. |
+| Attribute                        | Default | Description |
+| :---------------------------     | :------ | :---------- |
+| data-background-video            |         | A single video source, or a comma separated list of video sources. |
+| data-background-video-loop       | false   | Flags if the video should play repeatedly. |
+| data-background-video-muted      | false   | Flags if the audio should be muted. |
+| data-background-size             | cover   | Use `cover` for full screen and some cropping or `contain` for letterboxing. |
+| data-background-opacity          | 1       | Opacity of the background video on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
 
 ```html
 <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
@@ -728,7 +767,8 @@ The default fragment style is to start out invisible and fade in. This style can
 	<p class="fragment shrink">shrink</p>
 	<p class="fragment fade-out">fade-out</p>
 	<p class="fragment fade-up">fade-up (also down, left and right!)</p>
-	<p class="fragment current-visible">visible only once</p>
+	<p class="fragment fade-in-then-out">fades in, then out when we move to the next step</p>
+	<p class="fragment fade-in-then-semi-out">fades in, then obfuscate when we move to the next step</p>
 	<p class="fragment highlight-current-blue">blue only once</p>
 	<p class="fragment highlight-red">highlight-red</p>
 	<p class="fragment highlight-green">highlight-green</p>
@@ -906,6 +946,11 @@ Reveal.initialize({
 
 Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presentation from a webserver.
 Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
+
+### Separate pages for fragments
+[Fragments](#fragments) are printed on separate slides by default. Meaning if you have a slide with three fragment steps, it will generate three separate slides where the fragments appear incrementally.
+
+If you prefer printing all fragments in their visible states on the same slide you can set the `pdfSeparateFragments` config option to false.
 
 ### Page size
 
@@ -1261,4 +1306,4 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
 MIT licensed
 
-Copyright (C) 2017 Hakim El Hattab, http://hakim.se
+Copyright (C) 2018 Hakim El Hattab, http://hakim.se
