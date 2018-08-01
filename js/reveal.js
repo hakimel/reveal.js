@@ -3966,9 +3966,9 @@
 		var bits = hash.slice( 2 ).split( '/' ),
 			name = hash.replace( /#|\//gi, '' );
 
-		// If the first bit is invalid and there is a name we can
-		// assume that this is a named link
-		if( isNaN( parseInt( bits[0], 10 ) ) && name.length ) {
+		// If the first bit is not fully numeric and there is a name we
+		// can assume that this is a named link
+		if( !/^[0-9]*$/.test( bits[0] ) && name.length ) {
 			var element;
 
 			// Ensure the named link is a valid HTML ID attribute
