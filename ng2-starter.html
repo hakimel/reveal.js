@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Custom Theme -->
+	<link rel="stylesheet" href="css/theme/iad.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown data-notes="ma note qui va bien">
+				<textarea data-template>
+					 ### Angular 6+ - How to start
+					 ## <img src="https://angular.schule/assets/img/angular.png" class="heartbeet"> 
+					 Juillet 2018
+					 
+					 <small>Rédigé par Thibaud dervily</small>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+				 <p> 1. Commandes de base</p>
+				 <p class="fragment fade-up"> 2. Arborescence</p>
+				 <p class="fragment fade-up"> 3. Création des routes</p>
+				 <p class="fragment fade-up"> 4. L'état NgRx (Actions, reducers, effects)</p>
+				 <p class="fragment fade-up"> 5. RxJS</p>
+				 <p class="fragment fade-up"> 6. Création des pages</p>
+				 <p class="fragment fade-up"> 7. Création des composants stateless</p>
+				 <p class="fragment fade-up"> 8. Tests unitaires</p>
+        </textarea>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						### 1. Commandes de base
+						
+						```
+						 // cloner le repo
+						 git clone git@github.com:IAD-INTERNATIONAL/IadNg2Intranet.git
+
+						 // install des deps 
+						 npm i 
+
+						 // lancer les Tests 
+						 ng test 
+
+						 // lancer le linter
+						 ng lint 
+
+						 // réinstaller les libs et force le cache clean 
+						 npm run reinstall
+
+						 // lancer l'extraction des clés de traduction 
+						 npm run translate-extract
+
+						 // lancer le serve en dev
+						 npm run dev:serve
+						```
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							### Création de l'environnement de Dev
+
+							```
+							 // copier l'environment.dev.ts
+
+							 cp src/environments/environment.dev.ts.dist src/environments/environment.dev.ts
+
+							 
+							 // compléter les informations des serveurs
+							```
+						</textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						### 1. Arborescence
+						## <img src="http://www.ijoomla.com/blog/wp-content/uploads/2012/04/messy-office-03-300x213.jpg"/>
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>	
+						### Dossier modules
+						- Contient les différentes fonctionnalités métiers.
+
+						<img src="img/ng2-starter-modules-tree.png" style="height: 400px;" />
+						</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>	
+							### Dossier shared
+							- Contient le code commun pour chaque module.
+	
+							<img src="img/ng2-starter-shared-tree.png" style="height: 400px;" />
+							</textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+					<textarea data-template>
+						### 2. Création des routes
+						- Création du module de description des routes pour la fonctionnalité métier.
+
+						- Ce module sera lazy-loadé dans le app-routing.module.ts.
+          </textarea>
+				</section>
+				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+					<textarea data-template>
+						### app-routing.module.ts
+						```
+						{
+							path: 'backoffice',
+							data: {
+								breadcrumb: new BreadCrumb('backoffice', BreadCrumbCommonL10n.backoffice)
+							},
+							children: [
+								{
+									path: '',
+									component: RedirectComponent,
+									...redirectToCdi('home', BreadCrumbCommonL10n.home)
+								},
+								{
+									path: 'circle',
+									loadChildren: 'app/modules/circles/circles.module#CirclesModule'
+								}
+							]
+						}
+						```
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						### feature-routing.module.ts
+						```
+						{
+							path: '',
+							data: { breadcrumb: new BreadCrumb('circles', BreadCrumbCirclesL10n.circleManagement) },
+							children: [
+								{
+									path: '',
+									canActivate: [CirclesGuard],
+									component: CircleHomeComponent
+								},
+								{
+									path: ':id',
+									canActivate: [CircleDetailGuard],
+									canActivateChild: [CircleDetailGuard],
+									data: {
+										breadcrumb: new BreadCrumb('root-circle', BreadCrumbCirclesL10n.currentCircle)
+									},
+									children: [
+										{
+											path: '',
+											component: CircleDetailComponent
+										},
+										{
+											path: 'subcircle/:id',
+											component: CircleDetailComponent,
+											data: {
+												breadcrumb: new BreadCrumb('sub-circle', BreadCrumbCirclesL10n.currentSubCircle)
+											}
+										}
+									]
+								}
+							]
+						}
+						```
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						### 3. L'état NgRx
+						1) Définir l'état de sa fonctionnalité métier
+
+						```
+						export interface CirclesListState {
+							data: Array<Circle>;
+							loading: boolean;
+							error: string;
+							deleteCircleError: boolean;
+							addCircleFormReset: boolean;
+						}
+						
+						const initialState: CirclesListState = {
+							data: null,
+							loading: false,
+							error: '',
+							deleteCircleError: false,
+							addCircleFormReset: false
+						};						
+						```
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							2) Définir les actions + payload
+							
+							```
+							export enum CirclesListActionTypes {
+								ADD_CIRCLE = 'ADD_CIRCLE',
+								ADD_CIRCLE_SUCCESS = 'ADD_CIRCLE_SUCCESS',
+								ADD_CIRCLE_ERROR = 'ADD_CIRCLE_ERROR'
+							}
+
+							export class AddCircleAction implements Action {
+								readonly type = CirclesListActionTypes.ADD_CIRCLE;
+							
+								constructor(public payload: Circle) {}
+							}
+							
+							export class AddCircleActionSuccess implements Action {
+								readonly type = CirclesListActionTypes.ADD_CIRCLE_SUCCESS;
+							
+								constructor(public payload: any) {}
+							}
+							
+							export class AddCircleActionError implements Action {
+								readonly type = CirclesListActionTypes.ADD_CIRCLE_ERROR;
+							
+								constructor(public payload: any) {}
+							}
+							```
+						</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+								3) Le reducer
+								
+								```
+								switch (action.type) {
+									case CirclesListActionTypes.ADD_CIRCLE:
+										return updateCircle(state, { addCircleFormReset: false, loading: true });										
+									case CirclesListActionTypes.ADD_CIRCLE_SUCCESS:
+										return updateCircle(state, { loading: false, addCircleFormReset: true, data: [...state.data, action.payload] });
+									case CirclesListActionTypes.ADD_CIRCLE_ERROR:
+										return updateCircle(state, { loading: false, error: action.payload });
+									default:
+										return state;
+								}
+								```
+							</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+									4) Les effects
+									
+									```
+									@Effect()
+  addCircle$: Observable<Action> = this.actions$.pipe(
+    ofType(CirclesListActionTypes.ADD_CIRCLE),
+    map((action: AddCircleAction) => action.payload),
+    switchMap((payload: any) => {
+      return this.circleService.createCircle(payload).pipe(
+        switchMap((circle: Circle) => [
+          new AddCircleActionSuccess(circle),
+          new ShowSnackbarAction({
+            message: this.translate.instant('circles.homeComponent.circleAdded'),
+            action: null,
+            config: { duration: 3000 }
+          })
+        ]),
+        catchError((err: any) => of(new AddCircleActionError(err)))
+      );
+    })
+  );
+									```
+								</textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+					<textarea data-template>
+						### 4. RxJS
+						- Librairie pour la programmation réactive utilisant les Observables.
+						
+						```
+						// From one or multiple values
+						Observable.of('foo', 'bar');
+
+						// From array of values
+						Observable.from([1,2,3]);
+
+						// From an event
+						Observable.fromEvent(document.querySelector('button'), 'click');
+
+						// From a Promise
+						Observable.fromPromise(fetch('/users'));
+						```
+          </textarea>
+				</section>
+				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+					<textarea data-template>
+						- Souscrire à un Observable
+						
+						```
+						// From array of values
+						const src = Observable.from([1,2,3]);
+
+						src.subscribe(
+							(value: number) => console.log(`number : ${value}`);
+						);
+						
+						```
+
+						```
+
+						import { filter, map } from 'rxjs/operators';
+
+						const squareOdd = of(1, 2, 3, 4, 5)
+							.pipe(
+								filter(n => n % 2 !== 0),
+								map(n => n * n)
+							);
+
+						// Subscribe to get values
+						squareOdd.subscribe(x => console.log(x));
+						```
+          </textarea>
+				</section>
+				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+					<textarea data-template>
+						- RxJS est complexe mais puissant
+
+						- RxJS contient un grand nombre d'opérateurs
+
+						- Documentations : 
+					
+						https://www.learnrxjs.io/
+						
+						https://rxjs-dev.firebaseapp.com/
+
+						http://rxmarbles.com/
+
+          </textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						### 5. Création des pages
+						```
+						 // Génération du composant avec le ng-cli
+
+						 ng g c modules/circles/pages/circleHomeComponent
+						```
+
+						- S'abonner au store NgRx pour récupérer l'état de votre fonctionnalité métier.	
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							#### Exemple de composant
+							```
+							export class CircleHomeComponent implements OnInit {
+								// circles observable state
+								circles$: Observable<Array<Circle>>;
+								// All circles loading
+								circlesLoading$: Observable<boolean>;
+								// Reset circle form state
+								addCircleFormReset$: Observable<boolean>;
+								// display add form
+								isDiplayAddForm: boolean;
+							
+								constructor(private circleStore: Store<CirclesListState>, private router: Router, private route: ActivatedRoute) {}
+							
+								ngOnInit(): void {
+									this.getCirclesState();
+								}
+							
+								/**
+								 * Get circles state properties from the store
+								 */
+								getCirclesState(): void {
+									this.circlesLoading$ = this.circleStore.pipe(select(getAllCirclesLoading));
+									this.circles$ = this.circleStore.pipe(
+										select(getAllCircles),
+										skipUntil(this.circlesLoading$.pipe(filter((loading: boolean) => !loading)))
+									);
+									this.addCircleFormReset$ = this.circleStore.pipe(select(getAddCircleFormReset));
+								}
+							```
+						</textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown data-notes="MVP: minimum viable product">
+					<textarea data-template>
+						### 6. Création des composants stateless		
+						
+						- Les composants 'Dumb' prennent des paramètres en entréees via le décorator @Input et peuvent émettre des Event Emitter via @Output.	
+						
+						```
+						  // Génération du composant avec le ng-cli
+
+						  ng g c modules/circles/components/circleAddFormComponent
+					  ```
+          </textarea>
+				</section>
+				<section data-markdown data-notes="MVP: minimum viable product">
+					<textarea data-template>
+							#### Exemple de composant 		
+							
+							```
+							export class CircleMemberAddFormComponent extends AbstractCircleForm<CircleCollaborator> implements OnInit, OnDestroy {
+									// searched agents
+									@Input() searchedMembers: Array<User>;
+									@Input() searchedMembersLoading: boolean;
+									// agent searched by name
+									@Output() memberName: EventEmitter<string> = new EventEmitter();
+								
+									// member idPeople selected via autocomplete
+									memblerIdPeopleSelected: number;
+									// rxjs subscription
+									nameSubcription: Subscription;
+								
+									constructor(protected fb: FormBuilder, protected translate: TranslateService) {
+										super(fb, translate);
+									}
+								
+									ngOnInit(): void {
+										this.searchedMembersLoading = false;
+										this.nameSubcription = this.form
+											.get('name')
+											.valueChanges.pipe(
+												debounceTime(500),
+												distinctUntilChanged(),
+												filter((name: string) => !!name)
+											)
+											.subscribe((name: string) => {
+												!this.memblerIdPeopleSelected && this.memberName.emit(name);
+											});
+									}
+									...
+								}
+							```
+						</textarea>
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						### 7. Tests unitaires	
+						
+						Angular propose 3 types de tests :
+
+						- Unit 
+						- Integration
+						- End to End
+          </textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							### 2 types retenues	
+
+							- Unit : A effectuer pour chaque composant, service, reducer, effect, ations, guard, resolver, directive.
+
+							- End to End : A effectuer pour chaque fonctionnalité métier. Pour l'instant les tests E2E ne sont pas encore près dans notre stack.
+						</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+								#### Exemple de test unit	(component class testing)
+								
+								```
+								beforeEach(() => {
+									TestBed.configureTestingModule({
+										// provide the component-under-test and dependent service
+										providers: [
+											WelcomeComponent,
+											{ provide: UserService, useClass: MockUserService }
+										]
+									});
+									// inject both the component and the dependent service.
+									comp = TestBed.get(WelcomeComponent);
+									userService = TestBed.get(UserService);
+								});
+
+								it('should not have welcome message after construction', () => {
+									expect(comp.welcome).toBeUndefined();
+								});
+								
+								it('should welcome logged in user after Angular calls ngOnInit', () => {
+									comp.ngOnInit();
+									expect(comp.welcome).toContain(userService.user.name);
+								});
+								
+								it('should ask user to log in if not logged in after ngOnInit', () => {
+									userService.isLoggedIn = false;
+									comp.ngOnInit();
+									expect(comp.welcome).not.toContain(userService.user.name);
+									expect(comp.welcome).toContain('log in');
+								});
+								```
+							</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							##### Les tests liés au DOM seront effectués dans les tests E2E	
+	
+							Documentation officielle : https://angular.io/guide/testing#component-class-testing
+							</textarea>
+				</section>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+				 ## Questions ?
+        </textarea>
+			</section>
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			history: true,
+			progress: true,
+			slideNumber: true,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+</body>
+
+</html>
