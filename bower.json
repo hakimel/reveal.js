@@ -1,6 +1,6 @@
 {
   "name": "reveal.js",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "main": [
     "js/reveal.js",
     "css/reveal.css"
