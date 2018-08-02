@@ -45,31 +45,63 @@
         </textarea>
 			</section>
 			<section>
-				<section data-markdown>
-					<textarea data-template>
-						## 1. Diagramme d'architecture
-						
-          </textarea>
-				</section>
+				<img src="img/new-architecture/general.png">
 			</section>
 			<section>
 				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
 					<textarea data-template>
 						## 2. Avantages
-          </textarea>
+						* Isolation/découpage des fonctionnalités métier
+						* Livraison plus simple avec un impact limité (versioning des apis)
+						* Appréhension plus abordable d'un projet
+						* Plus adapté à une grosse équipe
+						* Dans le temps on a une complexité qui a moins tendance à croitre
+						* Plus de liberté dans les technos sur chaque projet
+					</textarea>
 				</section>
 			</section>
 			<section>
 				<section data-markdown>
 					<textarea data-template>
 						## 3. Constituion du repository
-          </textarea>
+          			</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## Solution 1
+						```bash
+						Repo
+						├── back
+						│   ├── app
+						│   └── other
+						├── front
+						│   ├── app
+						│   └── other
+						├── makefile
+						└── README.md
+						```
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## Solution 2
+						```bash
+						Repo
+						├── sf-app
+						├── node-app
+						├── ng-app
+						├── ng-bo-support
+						├── makefile
+						└── README.md
+						```
+					</textarea>					  
 				</section>
 			</section>
 			<section>
 				<section data-markdown data-notes="MVP: minimum viable product">
 					<textarea data-template>
-						## 4. Bascule d'une application à l'autre					
+						## 4. Bascule d'une application à l'autre
+
           </textarea>
 				</section>
 			</section>
