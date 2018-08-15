@@ -593,8 +593,7 @@
 		dom.speakerNotes.setAttribute( 'tabindex', '0' );
 
 		// Overlay graphic which is displayed during the paused mode
-		dom.pauseOverlay = createSingletonNode( dom.wrapper, 'div', 'pause-overlay', '<button class="resume-button">Resume presentation</button>' );
-		dom.resumeButton = dom.pauseOverlay.querySelector( '.resume-button' );
+		dom.pauseOverlay = createSingletonNode( dom.wrapper, 'div', 'pause-overlay', config.controls ? '<button class="resume-button">Resume presentation</button>' : null );
 
 		dom.wrapper.setAttribute( 'role', 'application' );
 
@@ -1299,7 +1298,7 @@
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
-		dom.resumeButton.addEventListener( 'click', resume, false );
+		dom.pauseOverlay.addEventListener( 'click', resume, false );
 
 		if( config.focusBodyOnPageVisibilityChange ) {
 			var visibilityChange;
@@ -1364,7 +1363,7 @@
 		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
 		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 
-		dom.resumeButton.removeEventListener( 'click', resume, false );
+		dom.pauseOverlay.removeEventListener( 'click', resume, false );
 
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
