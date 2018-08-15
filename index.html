@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/night.css">
 
+    <!-- Override theme CSS -->
+    <style type="text/css">
+      <!--
+      .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 { text-transform: none; }
+      .reveal section img { border: 0px; background: none; box-shadow: none; }
+      -->
+    </style>
+
     <!-- emoji-awesome -->
     <link rel="stylesheet" href="https://cdn.rawgit.com/zeeshanu/emoji-awesome/908cb7a5/src/css/emojione.css">
 
@@ -27,17 +35,16 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <!--
         <section>Slide 1</section>
         <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$">
           <script type="text/template">
-Slide 2
+<!-- .slide: data-background="#333333" -->
+# Slide 2 :thumbsup:
 
 Fragment 1 <!-- .element: class="fragment" data-fragment-index="1" -->
           </script>
         </section>
-        -->
-        <section data-markdown="slide.md" data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$" data-background="#333333"></section>
+        <!-- <section data-markdown="slide.md" data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$"></section> -->
       </div>
     </div>
 
