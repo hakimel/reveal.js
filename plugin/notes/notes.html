@@ -34,6 +34,22 @@
 				z-index: 2;
 			}
 
+			#connection-status {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 20;
+				padding: 30% 20% 20% 20%;
+				font-size: 18px;
+				color: #222;
+				background: #fff;
+				text-align: center;
+				box-sizing: border-box;
+				line-height: 1.4;
+			}
+
 			.overlay-element {
 				height: 34px;
 				line-height: 34px;
@@ -288,6 +304,8 @@
 
 	<body>
 
+		<div id="connection-status">Loading speaker view...</div>
+
 		<div id="current-slide"></div>
 		<div id="upcoming-slide"><span class="overlay-element label">Upcoming</span></div>
 		<div id="speaker-controls">
@@ -340,7 +358,15 @@
 
 				setupLayout();
 
+				var connectionStatus = document.querySelector( '#connection-status' );
+				var connectionTimeout = setTimeout( function() {
+					connectionStatus.innerHTML = 'Error connecting to main window.<br>Please try closing and reopening the speaker view.';
+				}, 5000 );
+
 				window.addEventListener( 'message', function( event ) {
+
+					clearTimeout( connectionTimeout );
+					connectionStatus.style.display = 'none';
 
 					var data = JSON.parse( event.data );
 
@@ -427,10 +453,17 @@
 				 * Forward keyboard events to the current slide window.
 				 * This enables keyboard events to work even if focus
 				 * isn't set on the current slide iframe.
+				 *
+				 * Block F5 default handling, it reloads and disconnects
+				 * the speaker notes window.
 				 */
 				function setupKeyboard() {
 
 					document.addEventListener( 'keydown', function( event ) {
+						if( event.keyCode === 116 || ( event.metaKey && event.keyCode === 82 ) ) {
+							event.preventDefault();
+							return false;
+						}
 						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
 					} );
 

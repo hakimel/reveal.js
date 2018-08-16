@@ -21,8 +21,13 @@ var RevealNotes = (function() {
 
 		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
+		if( !notesPopup ) {
+			alert( 'Speaker view popup failed to open. Please make sure popups are allowed and reopen the speaker view.' );
+			return;
+		}
+
 		// Allow popup window access to Reveal API
-		notesPopup.Reveal = this.Reveal;
+		notesPopup.Reveal = window.Reveal;
 
 		/**
 		 * Connect to the notes window through a postmessage handshake.
@@ -131,22 +136,9 @@ var RevealNotes = (function() {
 		}
 
 		// Open the notes when the 's' key is hit
-		document.addEventListener( 'keydown', function( event ) {
-			// Disregard the event if the target is editable or a
-			// modifier is present
-			if ( document.querySelector( ':focus' ) !== null || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey ) return;
-
-			// Disregard the event if keyboard is disabled
-			if ( Reveal.getConfig().keyboard === false ) return;
-
-			if( event.keyCode === 83 ) {
-				event.preventDefault();
-				openNotes();
-			}
-		}, false );
-
-		// Show our keyboard shortcut in the reveal.js help overlay
-		if( window.Reveal ) Reveal.registerKeyboardShortcut( 'S', 'Speaker notes view' );
+		Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
+			openNotes();
+		} );
 
 	}
 

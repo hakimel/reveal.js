@@ -33,8 +33,8 @@ body {
   background: #a23;
   text-shadow: none; }
 
-.reveal .slides > section,
-.reveal .slides > section > section {
+.reveal .slides section,
+.reveal .slides section > section {
   line-height: 1.3;
   font-weight: inherit; }
 
@@ -192,10 +192,12 @@ body {
   border-bottom: none; }
 
 .reveal sup {
-  vertical-align: super; }
+  vertical-align: super;
+  font-size: smaller; }
 
 .reveal sub {
-  vertical-align: sub; }
+  vertical-align: sub;
+  font-size: smaller; }
 
 .reveal small {
   display: inline-block;
@@ -265,6 +267,13 @@ body {
   -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+/*********************************************
+ * PRINT BACKGROUND
+ *********************************************/
+@media print {
+  .backgrounds {
+    background-color: #222; } }
 
 .reveal p {
   font-weight: 300;
