@@ -175,7 +175,7 @@ We use [marked](https://github.com/chjj/marked) to parse Markdown. To customise 
 ```javascript
 Reveal.initialize({
 	// Options which are passed into marked
-	// See https://github.com/chjj/marked#options-1
+	// See https://marked.js.org/#/USING_ADVANCED.md#options
 	markdown: {
 		smartypants: true
 	}
