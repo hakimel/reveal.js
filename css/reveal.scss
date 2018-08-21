@@ -1416,10 +1416,10 @@ $controlsArrowAngleActive: 36deg;
 
 
 /*********************************************
- * LINK PREVIEW OVERLAY
+ * OVERLAY FOR LINK PREVIEWS AND HELP
  *********************************************/
 
-.reveal .overlay {
+.reveal > .overlay {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1431,12 +1431,12 @@ $controlsArrowAngleActive: 36deg;
 	visibility: hidden;
 	transition: all 0.3s ease;
 }
-	.reveal .overlay.visible {
+	.reveal > .overlay.visible {
 		opacity: 1;
 		visibility: visible;
 	}
 
-	.reveal .overlay .spinner {
+	.reveal > .overlay .spinner {
 		position: absolute;
 		display: block;
 		top: 50%;
@@ -1452,7 +1452,7 @@ $controlsArrowAngleActive: 36deg;
 		transition: all 0.3s ease;
 	}
 
-	.reveal .overlay header {
+	.reveal > .overlay header {
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -1461,7 +1461,7 @@ $controlsArrowAngleActive: 36deg;
 		z-index: 2;
 		border-bottom: 1px solid #222;
 	}
-		.reveal .overlay header a {
+		.reveal > .overlay header a {
 			display: inline-block;
 			width: 40px;
 			height: 40px;
@@ -1472,10 +1472,10 @@ $controlsArrowAngleActive: 36deg;
 
 			box-sizing: border-box;
 		}
-			.reveal .overlay header a:hover {
+			.reveal > .overlay header a:hover {
 				opacity: 1;
 			}
-			.reveal .overlay header a .icon {
+			.reveal > .overlay header a .icon {
 				display: inline-block;
 				width: 20px;
 				height: 20px;
@@ -1484,14 +1484,14 @@ $controlsArrowAngleActive: 36deg;
 				background-size: 100%;
 				background-repeat: no-repeat;
 			}
-			.reveal .overlay header a.close .icon {
+			.reveal > .overlay header a.close .icon {
 				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkklEQVRYR8WX4VHDMAxG6wnoJrABZQPYBCaBTWAD2g1gE5gg6OOsXuxIlr40d81dfrSJ9V4c2VLK7spHuTJ/5wpM07QXuXc5X0opX2tEJcadjHuV80li/FgxTIEK/5QBCICBD6xEhSMGHgQPgBgLiYVAB1dpSqKDawxTohFw4JSEA3clzgIBPCURwE2JucBR7rhPJJv5OpJwDX+SfDjgx1wACQeJG1aChP9K/IMmdZ8DtESV1WyP3Bt4MwM6sj4NMxMYiqUWHQu4KYA/SYkIjOsm3BXYWMKFDwU2khjCQ4ELJUJ4SmClRArOCmSXGuKma0fYD5CbzHxFpCSGAhfAVSSUGDUk2BWZaff2g6GE15BsBQ9nwmpIGDiyHQddwNTMKkbZaf9fajXQca1EX44puJZUsnY0ObGmITE3GVLCbEhQUjGVt146j6oasWN+49Vph2w1pZ5EansNZqKBm1txbU57iRRcZ86RWMDdWtBJUHBHwoQPi1GV+JCbntmvok7iTX4/Up9mgyTc/FJYDTcndgH/AA5A/CHsyEkVAAAAAElFTkSuQmCC);
 			}
-			.reveal .overlay header a.external .icon {
+			.reveal > .overlay header a.external .icon {
 				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAcElEQVRYR+2WSQoAIQwEzf8f7XiOMkUQxUPlGkM3hVmiQfQR9GYnH1SsAQlI4DiBqkCMoNb9y2e90IAEJPAcgdznU9+engMaeJ7Azh5Y1U67gAho4DqBqmB1buAf0MB1AlVBek83ZPkmJMGc1wAR+AAqod/B97TRpQAAAABJRU5ErkJggg==);
 			}
 
-	.reveal .overlay .viewport {
+	.reveal > .overlay .viewport {
 		position: absolute;
 		display: flex;
 		top: 40px;
@@ -1500,7 +1500,7 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 	}
 
-	.reveal .overlay.overlay-preview .viewport iframe {
+	.reveal > .overlay.overlay-preview .viewport iframe {
 		width: 100%;
 		height: 100%;
 		max-width: 100%;
@@ -1512,12 +1512,12 @@ $controlsArrowAngleActive: 36deg;
 		transition: all 0.3s ease;
 	}
 
-	.reveal .overlay.overlay-preview.loaded .viewport iframe {
+	.reveal > .overlay.overlay-preview.loaded .viewport iframe {
 		opacity: 1;
 		visibility: visible;
 	}
 
-	.reveal .overlay.overlay-preview.loaded .viewport-inner  {
+	.reveal > .overlay.overlay-preview.loaded .viewport-inner  {
 		position: absolute;
 		z-index: -1;
 		left: 0;
@@ -1526,26 +1526,26 @@ $controlsArrowAngleActive: 36deg;
 		text-align: center;
 		letter-spacing: normal;
 	}
-	.reveal .overlay.overlay-preview .x-frame-error  {
+	.reveal > .overlay.overlay-preview .x-frame-error  {
 		opacity: 0;
 		transition: opacity 0.3s ease 0.3s;
 	}
-	.reveal .overlay.overlay-preview.loaded .x-frame-error  {
+	.reveal > .overlay.overlay-preview.loaded .x-frame-error  {
 		opacity: 1;
 	}
 
-	.reveal .overlay.overlay-preview.loaded .spinner {
+	.reveal > .overlay.overlay-preview.loaded .spinner {
 		opacity: 0;
 		visibility: hidden;
 		transform: scale(0.2);
 	}
 
-	.reveal .overlay.overlay-help .viewport {
+	.reveal > .overlay.overlay-help .viewport {
 		overflow: auto;
 		color: #fff;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner {
 		width: 600px;
 		margin: auto;
 		padding: 20px 20px 80px 20px;
@@ -1553,25 +1553,25 @@ $controlsArrowAngleActive: 36deg;
 		letter-spacing: normal;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner .title {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner .title {
 		font-size: 20px;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table {
 		border: 1px solid #fff;
 		border-collapse: collapse;
 		font-size: 16px;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table th,
-	.reveal .overlay.overlay-help .viewport .viewport-inner table td {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table th,
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table td {
 		width: 200px;
 		padding: 14px;
 		border: 1px solid #fff;
 		vertical-align: middle;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table th {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table th {
 		padding-top: 20px;
 		padding-bottom: 20px;
 	}
