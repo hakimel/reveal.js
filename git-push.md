@@ -1,13 +1,13 @@
 ### Push
 
 ```
-git init   # 初期化
+$git init   # 初期化
 
-git remote add origin {}
+$git remote add origin {レポジトリURL}
 
-git add {追加ファイル} # 全追加の場合は .(ピリオド)
+$git add {追加ファイル}    # ワイルドカード -> . / -A
 
-git commit -m "{コミットメッセージ}"
+$git commit -m "{コミットメッセージ}"
 
-git push {ブランチ名}
+$git push {ブランチ名}
 ```
