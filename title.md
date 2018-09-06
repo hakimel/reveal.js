@@ -1,3 +1,3 @@
 ## Proseeds Training
-#### Yoshihisa Kaino
-
+#### 2018/08/23 ~
+##### Yoshihisa Kaino
