@@ -120,13 +120,40 @@
 
 	}
 
-	/**
+  // trim the markdown front-matter:
+  function extractMarkdown(aStr) {
+    var optionalByteOrderMark = '\\ufeff?'
+    var pattern = '^(' +
+      optionalByteOrderMark +
+      '(= yaml =|---)' +
+      '$([\\s\\S]*?)' +
+      '^(?:\\2|\\.\\.\\.)' +
+      '$' +
+      '\\r?' +
+      '(?:\\n)?)'
+    // NOTE: If this pattern uses the 'g' flag the `regex` variable definition will
+    // need to be moved down into the functions that use it.
+    var regex = new RegExp(pattern, 'm')
+    var match = regex.exec(aStr)
+
+    if (!match) {
+      return aStr
+    }
+
+    // var yaml = match[match.length - 1].replace(/^\s+|\s+$/g, '')
+    var body = aStr.replace(match[0], '')
+    return body
+  }
+
+  /**
 	 * Parses a data string into multiple slides based
 	 * on the passed in separator arguments.
 	 */
 	function slidify( markdown, options ) {
 
 		options = getSlidifyOptions( options );
+    // trim the markdown front-matter:
+    markdown = extractMarkdown(markdown)
 
 		var separatorRegex = new RegExp( options.separator + ( options.verticalSeparator ? '|' + options.verticalSeparator : '' ), 'mg' ),
 			horizontalSeparatorRegex = new RegExp( options.separator );
