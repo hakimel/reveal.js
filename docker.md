@@ -39,19 +39,59 @@ ___
 ---
 
 
-### 環境構築
+
+### Pull
 
 ___
 
-- 1回目
-  - Docker for Mac
-
-
-- 2回目
-  - Ubuntu
-  - Docker Tool
-  
+```
+$ sudo docker search {name} | more    # {name}を探す
+$ sudo docker pull {name}    # {name}をPull
+$ sudo docker images    # 確認
+$ sudo docker inspect {ID}    #{ID}のイメージの詳細を確認
+$ sudo docker rmi {ID}    # {ID}のイメージを削除
+```
 
 ---
 
+### Run
 
+___
+
+```
+$ sudo docker run {イメージ名} echo "{内容}"    # 内容を表示
+$ sudo docker ps    # 実行中のコンテナを確認
+$ sudo docker ps -a    # 終了したコンテナ
+$ sudo docker os -a -n={数字}    # 最後の{}個だけ表示
+$ sudo docker rm {ID 最初の３文字}    # コンテナを削除
+```
+
+---
+
+### Containerの操作
+
+___
+
+```
+$ sudo docker run -d {イメージ名} free -s 3
+$ sudo docker ps    # 実行中のタスク
+$ sudo docker logs {ID 最初の3文字}    # ログを見る
+$ sudo docker attach --sig-proxy=false{ID 3文字} 
+$ sudo docker kill {ID}    # タスクの終了
+$ sudo docker start    # タスクの再開
+```
+
+---
+
+### Image を作る
+
+___
+
+```
+$ sudo dokcer run -i -t {イメージ名} /bin/bash    # イメージ内でターミナル起動
+$ exit    # 終了
+$ sudo docker commit {ID} {ユーザー名}/{ファイル名}    # イメージ作成
+$ sudo docker -i -t {ユーザー名}/{ファイル名} /bin/bash    # イメージ作成→ターミナル起動
+```
+
+---

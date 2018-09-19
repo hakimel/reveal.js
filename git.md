@@ -7,7 +7,7 @@
 ### Clone
 
 ```
-$git clone {レポジトリURL}    # レポジトリをCloneする
+$ git clone {レポジトリURL}    # レポジトリをCloneする
 ```
 
 ---
@@ -15,15 +15,15 @@ $git clone {レポジトリURL}    # レポジトリをCloneする
 ### Push
 
 ```
-$git init   # 初期化
+$ git init   # 初期化
 
-$git remote add origin {レポジトリURL}
+$ git remote add origin {レポジトリURL}
 
-$git add {追加ファイル}    # ワイルドカード -> . / -A
+$ git add {追加ファイル}    # ワイルドカード -> . / -A
 
-$git commit -m "{コミットメッセージ}"
+$ git commit -m "{コミットメッセージ}"
 
-$git push {ブランチ名}
+$ git push {ブランチ名}
 ```
 
 
@@ -37,13 +37,13 @@ $git push {ブランチ名}
 ### Branch
 
 ```
-$git branch    # ブランチの確認
+$ git branch    # ブランチの確認
 
-$git checkout {ブランチ名}    # ブランチの作成
+$ git checkout {ブランチ名}    # ブランチの作成
 
-$git checkout -b {ブランチ名}    # ブランチの作成+切り替え
+$ git checkout -b {ブランチ名}    # ブランチの作成+切り替え
 
-$git pull {ブランチ名}    # ブランチをPull
+$ git pull {ブランチ名}    # ブランチをPull
 ```
 
 
