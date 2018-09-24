@@ -9,7 +9,7 @@
 ___
 
 ```
-$ python3 {ファイル名}.py    # Run
+$ python3 main.py    # Run
 ```
 
 
@@ -20,7 +20,7 @@ $ python3 {ファイル名}.py    # Run
 ___
 
 ```
-print({内容})    # print
+print("Hello, Python!")    # print
 ```
 
 ---
@@ -30,7 +30,8 @@ print({内容})    # print
 ___
 
 ```
-{変数} = {値}    # 変数定義(2回目以降は上書き可能)
+hoge = 1    # 変数定義(2回目以降は上書き可能)
+huga = "huga"
 ```
 
 ---
@@ -42,9 +43,15 @@ ___
 数値型と文字列型の連結はできないので、その時に使用する
 
 ```
-int({String型})    # int -> String 変換
+huga = "10"
+hoge = 100
 
-str({int型})    # String -> int 変換
+# int({String})   # String -> int  変換
+# str({int})    # int -> String 変換
+
+print (str(hoge) + "円")    # 100円
+print (int(huga) + 10)    # 20
+
 ```
 
 
