@@ -73,12 +73,12 @@ $ sudo docker rm {ID 最初の３文字}    # コンテナを削除
 ___
 
 ```
-$ sudo docker run -d {イメージ名} free -s 3
+$ sudo docker run -d {イメージ名} free -s 3    # 3秒ごとにlog 
 $ sudo docker ps    # 実行中のタスク
-$ sudo docker logs {ID 最初の3文字}    # ログを見る
-$ sudo docker attach --sig-proxy=false{ID 3文字} 
+$ sudo docker logs {ID}    # ログを見る
+$ sudo docker attach --sig-proxy=false{ID} 
 $ sudo docker kill {ID}    # タスクの終了
-$ sudo docker start    # タスクの再開
+$ sudo docker start {ID}    # タスクの再開
 ```
 
 ---
@@ -93,5 +93,40 @@ $ exit    # 終了
 $ sudo docker commit {ID} {ユーザー名}/{ファイル名}    # イメージ作成
 $ sudo docker -i -t {ユーザー名}/{ファイル名} /bin/bash    # イメージ作成→ターミナル起動
 ```
+`-i` はインタラクティブモード
 
 ---
+
+### Docker Build - 1
+
+___
+
+```
+$ vi Dockerfile
+```
+
+``` 
+FROM {イメージ名}
+MAINTAINER {名前}  <メールアドレス>
+
+# RUN: {Buildするときに実行される
+RUN echo "{}"
+
+#CMDL runするときに実行されるもの
+CMD echo "{}"}    # 非推奨
+CMD ["echo","{}"]    # 推奨
+```
+
+---
+
+### Docker Build - 2
+
+___
+
+```
+$ sudo dokcer build -t {イメージ名} .
+# `-t` で名前をつける。 `.`はカレントディレクトリなので必須
+
+$ sudo docker images    # イメージの確認
+$ sudo docker run {イメージ名}    # Run
+```
