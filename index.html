@@ -20,7 +20,6 @@
         link.type = 'text/css';
         link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
         document.getElementsByTagName('head')[0].appendChild(link);
-
     </script>
 </head>
 
@@ -36,15 +35,12 @@
 
             </section>
             <section>
-                <section data-markdown data-separator="\n---\n$" data-vertical="^\n--\n">## Unix Command</section>
-            </section>
-            <section>
-
-                <section data-markdown="vim.md" data-separator="\n---\n$" data-vertical="^\n--\n"></section>
-            </section>
-            <section>
 
                 <section data-markdown="python.md" data-separator="\n---\n$" data-vertical="^\n--\n"></section>
+            </section>
+
+            <section>
+                <section data-markdown="go.md" data-separator="\n---\n$" data-vertical="^\n--\n"></section>
             </section>
 
             <section>
@@ -53,8 +49,10 @@
             </section>
 
             <section>
-                <section data-markdown="go.md" data-separator="\n---\n$" data-vertical="^\n--\n"></section>
+
+                <section data-markdown="vim.md" data-separator="\n---\n$" data-vertical="^\n--\n"></section>
             </section>
+
 
 
         </div>
@@ -84,7 +82,6 @@
                 }
             ]
         });
-
     </script>
 </body>
 
