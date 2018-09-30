@@ -132,3 +132,39 @@ $ sudo dokcer build -t {イメージ名} .
 $ sudo docker images    # イメージの確認
 $ sudo docker run {イメージ名}    # Run
 ```
+
+---
+
+### DockerHubへの初Push
+
+___
+
+- レポジトリの作成
+
+- イメージの作成
+
+```
+$ mkdir {イメージ名}
+$ cd {イメージ名}
+$ vim Dockerfile
+$ sudo docker build --tag={ユーザ名}/{レポジトリ名} .
+$ docker images
+```
+
+- ログイン
+
+```
+$ docker login
+```
+
+- Push
+
+```
+$ docker push {ユーザ名}/{レポジトリ名}
+```
+
+- Pushしたイメージを使用
+
+```:DockerFile
+FROM {ユーザ名}/{レポジトリ名}
+```
