@@ -1049,7 +1049,7 @@ This will only display in the notes window.
 
 Notes are only visible to the speaker inside of the speaker view. If you wish to share your notes with others you can initialize reveal.js with the `showNotes` configuration value set to `true`. Notes will appear along the bottom of the presentations.
 
-When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export). By default, notes are printed in a semi-transparent box on top of the slide. If you'd rather print them on a separate page after the slide, set `showNotes: "separate-page"`.
+When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export). By default, notes are printed in a box on top of the slide. If you'd rather print them on a separate page, after the slide, set `showNotes: "separate-page"`.
 
 #### Speaker notes clock and timers
 
