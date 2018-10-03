@@ -221,8 +221,12 @@
 			display: 'block',
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
 
+			// Hide mouse if inactive
+			hideInactiveMouse: true,
+			// Time before the mouse hides (in ms)
+			hideMouseTime: 5000
 		},
 
 		// Flags if Reveal.initialize() has been called
@@ -379,7 +383,11 @@
 
 		// Loads the dependencies and continues to #start() once done
 		load();
-
+		
+		// Hide mouse if inactive after 5 seconds
+		if( config.hideInactiveMouse === true ){
+			hideMouseAfterTime();
+		}
 	}
 
 	/**
@@ -4840,7 +4848,25 @@
 		cueAutoSlide();
 
 	}
+	
+	/**
+	 * Hide mouse if inactive after 5 seconds 
+	 */
+	function hideMouseAfterTime(){
+		document.body.onmousemove = function(){
+			showMouse();
+			setTimeout(hideMouse,config.hideMouseTime);
+		};
+	}
 
+	function hideMouse(){
+		document.body.style.cursor = 'none';
+	}
+
+	function showMouse(){
+		document.body.style.cursor = "initial";
+	}
+	
 	/**
 	 * Handler for the 'touchstart' event, enables support for
 	 * swipe and pinch gestures.

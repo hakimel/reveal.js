@@ -361,6 +361,10 @@ Reveal.initialize({
 	// The display mode that will be used to show slides
 	display: 'block'
 
+    // Hide mouse if inactive
+    hideInactiveMouse: true,
+    // Time before the mouse hides (in ms)
+    hideMouseTime: 5000
 });
 ```
 
