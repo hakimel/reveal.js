@@ -273,7 +273,7 @@
 	/**
 	 * Check if a node value has the attributes pattern.
 	 * If yes, extract it and add that value as one or several attributes
-	 * the the terget element.
+	 * to the target element.
 	 *
 	 * You need Cache Killer on Chrome to see the effect on any FOM transformation
 	 * directly on refresh (F5)
