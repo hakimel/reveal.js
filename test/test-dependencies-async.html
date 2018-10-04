@@ -29,32 +29,34 @@
 		<script src="qunit-2.5.0.js"></script>
 
 		<script>
-			window.externalScriptSequence = '';
-
-			QUnit.module( 'Async Dependencies' );
-
+			var	externalScriptSequence = '';
 			var scriptCount = 0;
+
+			QUnit.config.autostart = false;
+			QUnit.module( 'Async Dependencies' );
 
 			QUnit.test( 'Async scripts are loaded', function( assert ) {
 				assert.expect( 5 );
 				var done = assert.async( 5 );
 
 				function callback( event ) {
-					if( window.externalScriptSequence.length === 1 ) {
-						assert.ok( window.externalScriptSequence === 'A', 'first callback was sync script' );
+					if( externalScriptSequence.length === 1 ) {
+						assert.ok( externalScriptSequence === 'A', 'first callback was sync script' );
+						done();
 					}
 					else {
 						assert.ok( true, 'async script loaded' );
+						done();
 					}
 
-					if( window.externalScriptSequence.length === 4 ) {
-						assert.ok( 	window.externalScriptSequence.indexOf( 'A' ) !== -1 &&
-									window.externalScriptSequence.indexOf( 'B' ) !== -1 &&
-									window.externalScriptSequence.indexOf( 'C' ) !== -1 &&
-									window.externalScriptSequence.indexOf( 'D' ) !== -1, 'four unique scripts were loaded' );
+					if( externalScriptSequence.length === 4 ) {
+						assert.ok( 	externalScriptSequence.indexOf( 'A' ) !== -1 &&
+									externalScriptSequence.indexOf( 'B' ) !== -1 &&
+									externalScriptSequence.indexOf( 'C' ) !== -1 &&
+									externalScriptSequence.indexOf( 'D' ) !== -1, 'four unique scripts were loaded' );
+						done();
 					}
 
-					done();
 					scriptCount ++;
 				}
 
@@ -67,6 +69,8 @@
 					]
 				});
 			});
+
+			QUnit.start();
 
 		</script>
 
