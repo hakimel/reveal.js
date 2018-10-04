@@ -436,26 +436,15 @@
 			scriptsToPreload = 0;
 
 		// Called once synchronous scripts finish loading
-		function proceed() {
+		function afterSynchronousScriptsLoaded() {
+			// Load asynchronous scripts
 			if( scriptsAsync.length ) {
-				// Load asynchronous scripts
-				head.js.apply( null, scriptsAsync );
+				scriptsAsync.forEach( function( s ) {
+					loadScript( s.src, s.callback );
+				} );
 			}
 
 			start();
-		}
-
-		function loadScript( s ) {
-			head.ready( s.src.match( /([\w\d_\-]*)\.?js(\?[\w\d.=&]*)?$|[^\\\/]*$/i )[0], function() {
-				// Extension may contain callback functions
-				if( typeof s.callback === 'function' ) {
-					s.callback.apply( this );
-				}
-
-				if( --scriptsToPreload === 0 ) {
-					proceed();
-				}
-			});
 		}
 
 		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
@@ -464,13 +453,11 @@
 			// Load if there's no condition or the condition is truthy
 			if( !s.condition || s.condition() ) {
 				if( s.async ) {
-					scriptsAsync.push( s.src );
+					scriptsAsync.push( s );
 				}
 				else {
-					scripts.push( s.src );
+					scripts.push( s );
 				}
-
-				loadScript( s );
 			}
 		}
 
@@ -478,11 +465,70 @@
 			scriptsToPreload = scripts.length;
 
 			// Load synchronous scripts
-			head.js.apply( null, scripts );
+			scripts.forEach( function( s ) {
+				loadScript( s.src, function() {
+
+					if( typeof s.callback === 'function' ) s.callback();
+
+					if( --scriptsToPreload === 0 ) {
+
+						afterSynchronousScriptsLoaded();
+
+					}
+
+				} );
+			} );
 		}
 		else {
-			proceed();
+			afterSynchronousScriptsLoaded();
 		}
+
+	}
+
+	/**
+	 * Loads a JavaScript file from the given URL and executes it.
+	 *
+	 * @param {string} url Address of the .js file to load
+	 * @param {function} callback Method to invoke when the script
+	 * has loaded and executed
+	 */
+	function loadScript( url, callback ) {
+
+		var script = document.createElement( 'script' );
+		script.type = 'text/javascript';
+		script.async = false;
+		script.defer = false;
+		script.src = url;
+
+		if( callback ) {
+
+			// Success callback
+			script.onload = script.onreadystatechange = function( event ) {
+				if( event.type === "load" || (/loaded|complete/.test( script.readyState ) ) ) {
+
+					// Kill event listeners
+					script.onload = script.onreadystatechange = script.onerror = null;
+
+					callback();
+
+				}
+			};
+
+			// Error callback
+			script.onerror = function( err ) {
+
+				// Kill event listeners
+				script.onload = script.onreadystatechange = script.onerror = null;
+
+				callback( new Error( 'Failed loading script: ' + script.src + '\n' + err) );
+
+			};
+
+		}
+
+		// Append the script at the end of <head>
+		var head = document.querySelector( 'head' );
+		head.insertBefore( script, head.lastChild );
 
 	}
 
