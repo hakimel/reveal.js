@@ -4099,18 +4099,20 @@
 	}
 
 	/**
-	 * Returns an array of objects where each object represents the attributes on its respective slide.
+	 * Returns an array of objects where each object represents the
+	 * attributes on its respective slide.
 	 */
-	function getSlidesMetaInfo() {
+	function getSlidesAttributes() {
 
-		var slides = getSlides();
-		return slides.map( function (slide) {
-			var meta = {};
+		return getSlides().map( function( slide ) {
+
+			var attributes = {};
 			for( var i = 0; i < slide.attributes.length; i++ ) {
 				var attribute = slide.attributes[ i ];
-				meta[ attribute.name ] = attribute.value;
+				attributes[ attribute.name ] = attribute.value;
 			}
-			return meta;
+			return attributes;
+
 		} );
 
 	}
@@ -5473,7 +5475,7 @@
 
 		// Returns an Array of objects representing the attributes on
 		// the slides
-		getSlidesMetaInfo: getSlidesMetaInfo,
+		getSlidesAttributes: getSlidesAttributes,
 
 		// Returns the total number of slides
 		getTotalSlides: getTotalSlides,

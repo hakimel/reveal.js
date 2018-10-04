@@ -408,6 +408,7 @@
 				 * Asynchronously calls the Reveal.js API of the main frame.
 				 */
 				function callRevealApi( methodName, methodArguments, callback ) {
+
 					var callId = ++lastRevealApiCallId;
 					pendingCalls[callId] = callback;
 					window.opener.postMessage( JSON.stringify( {
@@ -417,6 +418,7 @@
 						methodName: methodName,
 						arguments: methodArguments
 					} ), '*' );
+
 				}
 
 				/**
@@ -535,7 +537,7 @@
 
 				function getTimings( callback ) {
 
-					callRevealApi( 'getSlidesMetaInfo', [], function ( slides ) {
+					callRevealApi( 'getSlidesAttributes', [], function ( slideAttributes ) {
 						callRevealApi( 'getConfig', [], function ( config ) {
 							var defaultTiming = config.defaultTiming;
 							if (defaultTiming == null) {
@@ -544,8 +546,8 @@
 							}
 
 							var timings = [];
-							for ( var i in slides ) {
-								var slide = slides[ i ];
+							for ( var i in slideAttributes ) {
+								var slide = slideAttributes[ i ];
 								var timing = defaultTiming;
 								if( slide.hasOwnProperty( 'data-timing' )) {
 									var t = slide[ 'data-timing' ];

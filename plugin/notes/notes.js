@@ -56,17 +56,19 @@ var RevealNotes = (function() {
 		}
 
 		/**
-		 * Calls the specified Reveal.js method with the provided argument and then pushes the result to the notes
-		 * frame.
+		 * Calls the specified Reveal.js method with the provided argument
+		 * and then pushes the result to the notes frame.
 		 */
 		function callRevealApi( methodName, methodArguments, callId ) {
-			var result = Reveal[methodName].call(Reveal, methodArguments);
+
+			var result = Reveal[methodName].call( Reveal, methodArguments );
 			notesPopup.postMessage( JSON.stringify( {
 				namespace: 'reveal-notes',
 				type: 'return',
 				result: result,
 				callId: callId
 			} ), '*' );
+
 		}
 
 		/**
