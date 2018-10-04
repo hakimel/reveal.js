@@ -26,9 +26,6 @@ var RevealNotes = (function() {
 			return;
 		}
 
-		// Allow popup window access to Reveal API
-		notesPopup.Reveal = window.Reveal;
-
 		/**
 		 * Connect to the notes window through a postmessage handshake.
 		 * Using postmessage enables us to work in situations where the
@@ -52,7 +49,24 @@ var RevealNotes = (function() {
 					clearInterval( connectInterval );
 					onConnected();
 				}
+				if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+					callRevealApi( data.methodName, data.arguments, data.callId );
+				}
 			} );
+		}
+
+		/**
+		 * Calls the specified Reveal.js method with the provided argument and then pushes the result to the notes
+		 * frame.
+		 */
+		function callRevealApi( methodName, methodArguments, callId ) {
+			var result = Reveal[methodName].call(Reveal, methodArguments);
+			notesPopup.postMessage( JSON.stringify( {
+				namespace: 'reveal-notes',
+				type: 'return',
+				result: result,
+				callId: callId
+			} ), '*' );
 		}
 
 		/**

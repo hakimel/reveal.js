@@ -24,8 +24,23 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-timing="6">
+					Slide 1
+
+					<aside>
+						these are not notes
+					</aside>
+					<aside class="notes">
+						these are notes for the first slide
+					</aside>
+				</section>
+				<section>
+					Slide 2
+
+					<aside class="notes">
+						these are the nodes for the second slide
+					</aside>
+				</section>
 			</div>
 		</div>
 
@@ -42,7 +57,9 @@
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+				],
+				controlsTutorial: false,
+				defaultTiming: 3
 			});
 		</script>
 	</body>

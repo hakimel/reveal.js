@@ -4099,6 +4099,23 @@
 	}
 
 	/**
+	 * Returns an array of objects where each object represents the attributes on its respective slide.
+	 */
+	function getSlidesMetaInfo() {
+
+		var slides = getSlides();
+		return slides.map( function (slide) {
+			var meta = {};
+			for( var i = 0; i < slide.attributes.length; i++ ) {
+				var attribute = slide.attributes[ i ];
+				meta[ attribute.name ] = attribute.value;
+			}
+			return meta;
+		} );
+
+	}
+
+	/**
 	 * Retrieves the total number of slides in this presentation.
 	 *
 	 * @return {number}
@@ -5453,6 +5470,10 @@
 
 		// Returns an Array of all slides
 		getSlides: getSlides,
+
+		// Returns an Array of objects representing the attributes on
+		// the slides
+		getSlidesMetaInfo: getSlidesMetaInfo,
 
 		// Returns the total number of slides
 		getTotalSlides: getTotalSlides,
