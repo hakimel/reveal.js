@@ -326,6 +326,12 @@ Reveal.initialize({
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
+	// Hide cursor if inactive
+	hideInactiveCursor: true,
+
+	// Time before the cursor is hidden (in ms)
+	hideCursorTime: 5000,
+
 	// Hides the address bar on mobile devices
 	hideAddressBar: true,
 

@@ -220,6 +220,12 @@
 			// The display mode that will be used to show slides
 			display: 'block',
 
+			// Hide cursor if inactive
+			hideInactiveCursor: true,
+
+			// Time before the cursor is hidden (in ms)
+			hideCursorTime: 5000,
+
 			// Script dependencies to load
 			dependencies: []
 
@@ -281,6 +287,12 @@
 
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		writeURLTimeout = 0,
+
+		// Is the mouse pointer currently hidden from view
+		cursorHidden = false,
+
+		// Timeout used to determine when the cursor is inactive
+		cursorInactiveTimeout = 0,
 
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
@@ -1251,6 +1263,18 @@
 		}
 		else {
 			disableRollingLinks();
+		}
+
+		// Auto-hide the mouse pointer when its inactive
+		if( config.hideInactiveCursor ) {
+			document.addEventListener( 'mousemove', onDocumentCursorActive, false );
+			document.addEventListener( 'mousedown', onDocumentCursorActive, false );
+		}
+		else {
+			showCursor();
+
+			document.removeEventListener( 'mousemove', onDocumentCursorActive, false );
+			document.removeEventListener( 'mousedown', onDocumentCursorActive, false );
 		}
 
 		// Iframe link previews
@@ -2475,6 +2499,32 @@
 
 		if( requestMethod ) {
 			requestMethod.apply( element );
+		}
+
+	}
+
+	/**
+	 * Shows the mouse pointer after it has been hidden with
+	 * #hideCursor.
+	 */
+	function showCursor() {
+
+		if( cursorHidden ) {
+			cursorHidden = false;
+			dom.wrapper.style.cursor = '';
+		}
+
+	}
+
+	/**
+	 * Hides the mouse pointer when it's on top of the .reveal
+	 * container.
+	 */
+	function hideCursor() {
+
+		if( cursorHidden === false ) {
+			cursorHidden = true;
+			dom.wrapper.style.cursor = 'none';
 		}
 
 	}
@@ -4728,6 +4778,22 @@
 		if( config.autoSlideStoppable ) {
 			pauseAutoSlide();
 		}
+
+	}
+
+	/**
+	 * Called whenever there is mouse input at the document level
+	 * to determine if the cursor is active or not.
+	 *
+	 * @param {object} event
+	 */
+	function onDocumentCursorActive( event ) {
+
+		showCursor();
+
+		clearTimeout( cursorInactiveTimeout );
+
+		cursorInactiveTimeout = setTimeout( hideCursor, config.hideCursorTime );
 
 	}
 
