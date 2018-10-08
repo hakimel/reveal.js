@@ -11,7 +11,14 @@
  */
 var RevealNotes = (function() {
 
+    var notesPopup = null;
+
 	function openNotes( notesFilePath ) {
+
+        if (notesPopup && !notesPopup.closed) {
+            notesPopup.focus();
+            return;
+        }
 
 		if( !notesFilePath ) {
 			var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
@@ -19,7 +26,7 @@ var RevealNotes = (function() {
 			notesFilePath = jsFileLocation + 'notes.html';
 		}
 
-		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
+		notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
 		if( !notesPopup ) {
 			alert( 'Speaker view popup failed to open. Please make sure popups are allowed and reopen the speaker view.' );
