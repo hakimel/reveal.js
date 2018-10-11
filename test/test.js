@@ -262,8 +262,7 @@ Reveal.addEventListener( 'ready', function() {
 
 	QUnit.test( 'Current fragment', function( assert ) {
 		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
-		var fragments = fragmentSlide.querySelectorAll( '.fragment' );
-		var lastFragmentIndex = fragments[ fragments.length - 1 ].getAttribute( 'data-fragment-index' );
+		var lastFragmentIndex = [].slice.call( fragmentSlide.querySelectorAll( '.fragment' ) ).pop().getAttribute( 'data-fragment-index' );
 
 		Reveal.slide( 2, 0 );
 		assert.strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment at index -1' );
