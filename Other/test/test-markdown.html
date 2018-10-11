@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Markdown</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-2.5.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides">
+
+				<!-- <section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section> -->
+
+				<!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+					<script type="text/template">
+						## Slide 1.1
+
+						--
+
+						## Slide 1.2
+
+						---
+
+						## Slide 2
+					</script>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../lib/js/head.min.js"></script>
+		<script src="../js/reveal.js"></script>
+		<script src="../plugin/markdown/marked.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="qunit-2.5.0.js"></script>
+
+		<script src="test-markdown.js"></script>
+
+	</body>
+</html>
