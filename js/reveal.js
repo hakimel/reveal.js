@@ -2991,14 +2991,11 @@
 					element.classList.add( reverse ? 'future' : 'past' );
 
 					if( config.fragments ) {
-						var pastFragments = toArray( element.querySelectorAll( '.fragment' ) );
-
-						// Show all fragments on prior slides
-						while( pastFragments.length ) {
-							var pastFragment = pastFragments.pop();
-							pastFragment.classList.add( 'visible' );
-							pastFragment.classList.remove( 'current-fragment' );
-						}
+						// Show all fragments in prior slides
+						toArray( element.querySelectorAll( '.fragment' ) ).forEach( function( fragment ) {
+							fragment.classList.add( 'visible' );
+							fragment.classList.remove( 'current-fragment' );
+						} );
 					}
 				}
 				else if( i > index ) {
@@ -3006,14 +3003,11 @@
 					element.classList.add( reverse ? 'past' : 'future' );
 
 					if( config.fragments ) {
-						var futureFragments = toArray( element.querySelectorAll( '.fragment.visible' ) );
-
-						// No fragments in future slides should be visible ahead of time
-						while( futureFragments.length ) {
-							var futureFragment = futureFragments.pop();
-							futureFragment.classList.remove( 'visible' );
-							futureFragment.classList.remove( 'current-fragment' );
-						}
+						// Hide all fragments in future slides
+						toArray( element.querySelectorAll( '.fragment.visible' ) ).forEach( function( fragment ) {
+							fragment.classList.remove( 'visible' );
+							fragment.classList.remove( 'current-fragment' );
+						} );
 					}
 				}
 			}
