@@ -2766,6 +2766,7 @@
 		updateParallax();
 		updateSlideNumber();
 		updateNotes();
+		updateFragments();
 
 		// Update the URL hash
 		writeURL();
@@ -4406,6 +4407,73 @@
 	}
 
 	/**
+	 * Refreshes the fragments on the current slide so that they
+	 * have the appropriate classes (.visible + .current-fragment).
+	 *
+	 * @param {number} [index] The index of the current fragment
+	 * @param {array} [fragments] Array containing all fragments
+	 * in the current slide
+	 *
+	 * @return {{shown: array, hidden: array}}
+	 */
+	function updateFragments( index, fragments ) {
+
+		var changedFragments = {
+			shown: [],
+			hidden: []
+		};
+
+		if( currentSlide && config.fragments ) {
+
+			fragments = fragments || sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
+
+			if( fragments.length ) {
+
+				if( typeof index !== 'number' ) {
+					var currentFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
+					if( currentFragment ) {
+						index = parseInt( currentFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
+					}
+				}
+
+				toArray( fragments ).forEach( function( el, i ) {
+
+					if( el.hasAttribute( 'data-fragment-index' ) ) {
+						i = parseInt( el.getAttribute( 'data-fragment-index' ), 10 );
+					}
+
+					// Visible fragments
+					if( i <= index ) {
+						if( !el.classList.contains( 'visible' ) ) changedFragments.shown.push( el );
+						el.classList.add( 'visible' );
+						el.classList.remove( 'current-fragment' );
+
+						// Announce the fragments one by one to the Screen Reader
+						dom.statusDiv.textContent = getStatusText( el );
+
+						if( i === index ) {
+							el.classList.add( 'current-fragment' );
+							startEmbeddedContent( el );
+						}
+					}
+					// Hidden fragments
+					else {
+						if( el.classList.contains( 'visible' ) ) changedFragments.hidden.push( el );
+						el.classList.remove( 'visible' );
+						el.classList.remove( 'current-fragment' );
+					}
+
+				} );
+
+			}
+
+		}
+
+		return changedFragments;
+
+	}
+
+	/**
 	 * Navigate to the specified slide fragment.
 	 *
 	 * @param {?number} index The index of the fragment that
@@ -4440,53 +4508,24 @@
 					index += offset;
 				}
 
-				var fragmentsShown = [],
-					fragmentsHidden = [];
+				var changedFragments = updateFragments( index, fragments );
 
-				toArray( fragments ).forEach( function( element, i ) {
-
-					if( element.hasAttribute( 'data-fragment-index' ) ) {
-						i = parseInt( element.getAttribute( 'data-fragment-index' ), 10 );
-					}
-
-					// Visible fragments
-					if( i <= index ) {
-						if( !element.classList.contains( 'visible' ) ) fragmentsShown.push( element );
-						element.classList.add( 'visible' );
-						element.classList.remove( 'current-fragment' );
-
-						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.textContent = getStatusText( element );
-
-						if( i === index ) {
-							element.classList.add( 'current-fragment' );
-							startEmbeddedContent( element );
-						}
-					}
-					// Hidden fragments
-					else {
-						if( element.classList.contains( 'visible' ) ) fragmentsHidden.push( element );
-						element.classList.remove( 'visible' );
-						element.classList.remove( 'current-fragment' );
-					}
-
-				} );
-
-				if( fragmentsHidden.length ) {
-					dispatchEvent( 'fragmenthidden', { fragment: fragmentsHidden[0], fragments: fragmentsHidden } );
+				if( changedFragments.hidden.length ) {
+					dispatchEvent( 'fragmenthidden', { fragment: changedFragments.hidden[0], fragments: changedFragments.hidden } );
 				}
 
-				if( fragmentsShown.length ) {
-					dispatchEvent( 'fragmentshown', { fragment: fragmentsShown[0], fragments: fragmentsShown } );
+				if( changedFragments.shown.length ) {
+					dispatchEvent( 'fragmentshown', { fragment: changedFragments.shown[0], fragments: changedFragments.shown } );
 				}
 
 				updateControls();
 				updateProgress();
+
 				if( config.fragmentInURL ) {
 					writeURL();
 				}
 
-				return !!( fragmentsShown.length || fragmentsHidden.length );
+				return !!( changedFragments.shown.length || changedFragments.hidden.length );
 
 			}
 
