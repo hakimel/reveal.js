@@ -553,6 +553,9 @@
 	 */
 	function setupDOM() {
 
+		if(dom.slides === null)
+			throw Error("RevealJs need a html element by class name of 'reveal' for initialize, like: <div class='reveal'></div>");
+
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
