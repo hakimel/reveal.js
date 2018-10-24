@@ -4070,10 +4070,13 @@
 			// Ensure that we're not already on a slide with the same name
 			var isSameNameAsCurrentSlide = currentSlide ? currentSlide.getAttribute( 'id' ) === name : false;
 
-			if( element && !isSameNameAsCurrentSlide ) {
-				// Find the position of the named slide and navigate to it
-				var indices = Reveal.getIndices( element );
-				slide( indices.h, indices.v );
+			if( element ) {
+				// If the slide exists and is not the current slide...
+				if ( !isSameNameAsCurrentSlide ) {
+					// ...find the position of the named slide and navigate to it
+					var indices = Reveal.getIndices(element);
+					slide(indices.h, indices.v);
+				}
 			}
 			// If the slide doesn't exist, navigate to the current slide
 			else {
