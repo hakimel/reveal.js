@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test State</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-2.5.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides">
+
+				<section>No state</section>
+				<section id="slide2" data-state="state1">State 1</section>
+				<section data-state="state1">State 1</section>
+				<section data-state="state2">State 2</section>
+				<section>
+					<section>No state</section>
+					<section data-state="state1">State 1</section>
+					<section data-state="state3">State 3</section>
+					<section>No state</section>
+				</section>
+				<section>No state</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+		<script src="qunit-2.5.0.js"></script>
+
+		<script>
+
+
+			Reveal.addEventListener( 'ready', function() {
+
+				QUnit.module( 'State' );
+
+				QUnit.test( 'Fire events when changing slide', function( assert ) {
+					assert.expect( 2 );
+					var state1 = assert.async();
+					var state2 = assert.async();
+
+					var _onState1 = function( event ) {
+						assert.ok( true, 'state1 fired' );
+						state1();
+					}
+
+					var _onState2 = function( event ) {
+						assert.ok( true, 'state2 fired' );
+						state2();
+					}
+
+					Reveal.addEventListener( 'state1', _onState1 );
+					Reveal.addEventListener( 'state2', _onState2 );
+
+					Reveal.slide( 1 );
+					Reveal.slide( 3 );
+
+					Reveal.removeEventListener( 'state1', _onState1 );
+					Reveal.removeEventListener( 'state2', _onState2 );
+				});
+
+				QUnit.test( 'Fire state events for vertical slides', function( assert ) {
+					assert.expect( 2 );
+					var done = assert.async( 2 );
+
+					var _onState1 = function( event ) {
+						assert.ok( true, 'state1 fired' );
+						done();
+					}
+
+					var _onState3 = function( event ) {
+						assert.ok( true, 'state3 fired' );
+						done();
+					}
+
+					Reveal.addEventListener( 'state1', _onState1 );
+					Reveal.addEventListener( 'state3', _onState3 );
+
+					Reveal.slide( 0 );
+					Reveal.slide( 4, 1 );
+					Reveal.slide( 4, 2 );
+
+					Reveal.removeEventListener( 'state1', _onState1 );
+					Reveal.removeEventListener( 'state3', _onState3 );
+				});
+
+				QUnit.test( 'No events if state remains unchanged', function( assert ) {
+					var stateChanges = 0;
+
+					var _onEvent = function( event ) {
+						stateChanges += 1;
+					}
+
+					Reveal.addEventListener( 'state1', _onEvent );
+
+					Reveal.slide( 0 );      // no state
+					Reveal.slide( 1 );      // state1
+					Reveal.slide( 2 );      // state1
+					Reveal.prev();          // state1
+					Reveal.next();          // state1
+					Reveal.slide( 4, 1 );   // state1
+					Reveal.slide( 0 );      // no state
+
+					Reveal.removeEventListener( 'state1', _onEvent );
+
+					assert.strictEqual( stateChanges, 1, 'no event was fired when going to slide with same state' );
+				});
+
+				QUnit.test( 'Event order', function( assert ) {
+					var _onEvent = function( event ) {
+						assert.ok( Reveal.getCurrentSlide() == document.querySelector( '#slide2' ), 'correct current slide immediately after state event' );
+					}
+
+					Reveal.addEventListener( 'state1', _onEvent );
+
+					Reveal.slide( 0 );
+					Reveal.slide( 1 );
+
+					Reveal.removeEventListener( 'state1', _onEvent );
+				});
+
+			} );
+
+			Reveal.initialize();
+		</script>
+
+	</body>
+</html>
