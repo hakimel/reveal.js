@@ -963,33 +963,34 @@ body {
 .no-transforms {
   overflow-y: auto; }
 
+.no-transforms .reveal {
+  overflow: visible; }
+
 .no-transforms .reveal .slides {
   position: relative;
   width: 80%;
-  height: auto !important;
+  max-width: 1280px;
+  height: auto;
   top: 0;
-  left: 50%;
-  margin: 0;
+  margin: 0 auto;
   text-align: center; }
 
 .no-transforms .reveal .controls,
 .no-transforms .reveal .progress {
-  display: none !important; }
+  display: none; }
 
 .no-transforms .reveal .slides section {
-  display: block !important;
-  opacity: 1 !important;
-  position: relative !important;
+  display: block;
+  opacity: 1;
+  position: relative;
   height: auto;
   min-height: 0;
   top: 0;
-  left: -50%;
+  left: 0;
+  margin: 10vh 0;
   margin: 70px 0;
   -webkit-transform: none;
           transform: none; }
-
-.no-transforms .reveal .slides section section {
-  left: 0; }
 
 .reveal .no-transition,
 .reveal .no-transition * {
