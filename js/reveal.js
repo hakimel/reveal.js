@@ -708,7 +708,7 @@
 				// so that no page ever flows onto another
 				var page = document.createElement( 'div' );
 				page.className = 'pdf-page';
-				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
+				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset )  ) + 'px';
 				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 
