@@ -318,17 +318,17 @@
 
 		// Holds information about the keyboard shortcuts
 		keyboardShortcuts = {
-			'N  ,  SPACE':			'Next slide',
-			'P':					'Previous slide',
-			'&#8592;  ,  H':		'Navigate left',
-			'&#8594;  ,  L':		'Navigate right',
-			'&#8593;  ,  K':		'Navigate up',
-			'&#8595;  ,  J':		'Navigate down',
-			'Home':					'First slide',
-			'End':					'Last slide',
-			'B  ,  .':				'Pause',
-			'F':					'Fullscreen',
-			'ESC, O':				'Slide overview'
+			'N  ,  SPACE':						'Next slide',
+			'P':								'Previous slide',
+			'&#8592;  ,  H':					'Navigate left',
+			'&#8594;  ,  L':					'Navigate right',
+			'&#8593;  ,  K':					'Navigate up',
+			'&#8595;  ,  J':					'Navigate down',
+			'Home  ,  &#8984;/CTRL &#8592;':	'First slide',
+			'End  ,  &#8984;/CTRL &#8594;':		'Last slide',
+			'B  ,  .':							'Pause',
+			'F':								'Fullscreen',
+			'ESC, O':							'Slide overview'
 		},
 
 		// Holds custom key code mappings
@@ -4865,15 +4865,23 @@
 
 		onUserInput( event );
 
-		// Check if there's a focused element that could be using
-		// the keyboard
+		// Is there a focused element that could be using the keyboard?
 		var activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
 		var activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
 		var activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
+		// Whitelist specific modified + keycode combinations
+		var prevSlideShortcut = event.shiftKey && event.keyCode === 32;
+		var firstSlideShortcut = ( event.metaKey || event.ctrlKey ) && event.keyCode === 37;
+		var lastSlideShortcut = ( event.metaKey || event.ctrlKey ) && event.keyCode === 39;
+
+		// Prevent all other events when a modifier is pressed
+		var unusedModifier = 	!prevSlideShortcut && !firstSlideShortcut && !lastSlideShortcut &&
+								( event.shiftKey || event.altKey || event.ctrlKey || event.metaKey );
+
 		// Disregard the event if there's a focused element or a
 		// keyboard modifier key is present
-		if( activeElementIsCE || activeElementIsInput || activeElementIsNotes || (event.shiftKey && event.keyCode !== 32) || event.altKey || event.ctrlKey || event.metaKey ) return;
+		if( activeElementIsCE || activeElementIsInput || activeElementIsNotes || unusedModifier ) return;
 
 		// While paused only allow resume keyboard events; 'b', 'v', '.'
 		var resumeKeyCodes = [66,86,190,191];
@@ -4957,9 +4965,9 @@
 				// n, page down
 				case 78: case 34: navigateNext(); break;
 				// h, left
-				case 72: case 37: navigateLeft(); break;
+				case 72: case 37: firstSlideShortcut ? slide( 0 ) : navigateLeft(); break;
 				// l, right
-				case 76: case 39: navigateRight(); break;
+				case 76: case 39: lastSlideShortcut ? slide( Number.MAX_VALUE ) : navigateRight(); break;
 				// k, up
 				case 75: case 38: navigateUp(); break;
 				// j, down
