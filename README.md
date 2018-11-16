@@ -592,6 +592,9 @@ Reveal.isLastSlide();
 Reveal.isOverview();
 Reveal.isPaused();
 Reveal.isAutoSliding();
+
+// Returns the top-level DOM element
+getRevealElement(); // <div class="reveal">...</div>
 ```
 
 ### Custom Key Bindings

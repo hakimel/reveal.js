@@ -5683,6 +5683,11 @@
 			return query;
 		},
 
+		// Returns the top-level DOM element
+		getRevealElement: function() {
+			return dom.wrapper || document.querySelector( '.reveal' );
+		},
+
 		// Returns true if we're currently on the first slide
 		isFirstSlide: function() {
 			return ( indexh === 0 && indexv === 0 );
@@ -5724,12 +5729,12 @@
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
 			if( 'addEventListener' in window ) {
-				( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
+				Reveal.getRevealElement().addEventListener( type, listener, useCapture );
 			}
 		},
 		removeEventListener: function( type, listener, useCapture ) {
 			if( 'addEventListener' in window ) {
-				( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
+				Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
 			}
 		},
 
