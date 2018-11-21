@@ -801,7 +801,7 @@ It's easy to link between slides. The first example below targets the index of a
 
 ```html
 <a href="#/2/2">Link</a>
-<a href="#/some-slide">Link</a>
+<a href="#some-slide">Link</a>
 ```
 
 You can also add relative navigation links, similar to the built in reveal.js controls, by appending one of the following classes on any element. Note that each element is automatically given an `enabled` class when it's a valid navigation route based on the current slide.
