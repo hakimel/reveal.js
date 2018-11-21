@@ -2449,7 +2449,7 @@
 		// If the current slide has an ID, use that as a named link,
 		// but we don't support named links with a fragment index
 		if( typeof id === 'string' && id.length && indexf === undefined ) {
-			url = '/' + id;
+			url = id;
 		}
 		// Otherwise use the /h/v index
 		else {
