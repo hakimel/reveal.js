@@ -4052,9 +4052,23 @@
 
 		var hash = window.location.hash;
 
-		// Attempt to parse the hash as either an index or name
-		var bits = hash.slice( 2 ).split( '/' ),
-			name = hash.replace( /#|\//gi, '' );
+		// With reveal.js, URL fragments are supposed to start with
+		// a slash, see issue #2276.
+		// Check whether this is the case and initialize
+		// bits (the slash-separated parts following '#/') and
+		// name (the substring without '#' and slashes) accordingly.
+		var bits;
+		var name = hash.replace( /#|\//gi, '' );
+		if ( /^#\//.test(hash) ) {
+			// Omit initial '#/', split at remaining slashes.
+			bits = hash.slice( 2 ).split( '/' );
+		}
+		else {
+			// Omit initial '#', split at slashes, if any.
+			// Actually, bits are not used beyond the test for
+			// a named link below.
+			bits = hash.slice( 1 ).split( '/' );
+		}
 
 		// If the first bit is not fully numeric and there is a name we
 		// can assume that this is a named link
