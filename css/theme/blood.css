@@ -22,9 +22,8 @@ body {
 .reveal {
   font-family: Ubuntu, "sans-serif";
   font-size: 48px;
-  font-weight: 300;
-  color: #eee;
-  letter-spacing: 0.01em; }
+  font-weight: normal;
+  color: #eee; }
 
 ::selection {
   color: #fff;

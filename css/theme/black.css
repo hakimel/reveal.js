@@ -19,9 +19,8 @@ body {
 .reveal {
   font-family: "Source Sans Pro", Helvetica, sans-serif;
   font-size: 42px;
-  font-weight: 300;
-  color: #fff;
-  letter-spacing: 0.01em; }
+  font-weight: normal;
+  color: #fff; }
 
 ::selection {
   color: #fff;

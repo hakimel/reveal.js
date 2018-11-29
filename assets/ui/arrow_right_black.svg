@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="11px" height="21px" viewBox="0 0 11 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
     <title>minimal-right</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-        <g id="stories" transform="translate(-488.000000, -1992.000000)" stroke="#121212">
+        <g id="stories" transform="translate(-488.000000, -1992.000000)" stroke="#121212" fill="#121212">
             <g id="by-us" transform="translate(80.000000, 933.000000)">
                 <g id="blog_posts" transform="translate(326.000000, 18.000000)">
                     <g id="Group-2" transform="translate(1.000000, 1040.000000)">
                         <g id="minimal-right" transform="translate(81.000000, 1.000000)">
-                            <polyline id="Shape" points="0.5 0.5 10.5 10.5 0.5 20.5"></polyline>
+                            <polyline id="Shape" points="0.5 0.5 32 32 0.5 32"></polyline>
                         </g>
                     </g>
                 </g>

@@ -25,9 +25,8 @@ body {
 .reveal {
   font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif;
   font-size: 48px;
-  font-weight: 300;
-  color: #121212;
-  letter-spacing: 0.01em; }
+  font-weight: normal;
+  color: #121212; }
 
 ::selection {
   color: #fff;

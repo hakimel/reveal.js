@@ -23,6 +23,10 @@ section.has-dark-background a, section.has-dark-background a.link, section.has-d
   background-size: cover;
   /* Resize the background image to cover the entire container */ }
 
+.reveal {
+  font-weight: 300 !important;
+  letter-spacing: 0.01em; }
+
 .reveal b {
   font-weight: bold;
   font-weight: 600 !important; }
@@ -112,6 +116,9 @@ ol li::before {
   top: -18px;
   margin-right: 16px; }
 
+ul {
+  list-style-image: url(../../assets/ui/arrow_right_black.svg) !important; }
+
 .reveal img {
   border: 0px solid black !important;
   box-shadow: none !important;
@@ -143,9 +150,8 @@ body {
 .reveal {
   font-family: "GT Eesti", Helvetica, sans-serif;
   font-size: 42px;
-  font-weight: 300;
-  color: #121212;
-  letter-spacing: 0.01em; }
+  font-weight: normal;
+  color: #121212; }
 
 ::selection {
   color: #121212;

@@ -26,9 +26,8 @@ body {
 .reveal {
   font-family: "Open Sans", sans-serif;
   font-size: 48px;
-  font-weight: 300;
-  color: #333;
-  letter-spacing: 0.01em; }
+  font-weight: normal;
+  color: #333; }
 
 ::selection {
   color: #fff;
