@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="33px" viewBox="0 0 45 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>surround</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="whats_is_FAC?_mobile" transform="translate(-165.000000, -970.000000)">
+            <g id="questions" transform="translate(16.000000, 812.000000)">
+                <g id="1" transform="translate(0.000000, 42.000000)">
+                    <g id="divider" transform="translate(0.000000, 116.000000)">
+                        <g id="surround" transform="translate(149.000000, 0.000000)">
+                            <rect id="Rectangle-4" stroke="#FFFFFF" fill="#FFFFFF" x="0.5" y="0.5" width="44" height="32"></rect>
+                            <g id="circle-down" transform="translate(8.000000, 2.000000)" stroke="#121212" stroke-linecap="square">
+                                <path d="M15,6 L15,17" id="Shape"></path>
+                                <polygon id="Shape" points="10 17 20 17 15 24"></polygon>
+                                <circle id="Oval" cx="14.5" cy="14.5" r="14.5"></circle>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="20px" viewBox="0 0 25 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>logo-twitter</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.8">
+        <g id="footer" transform="translate(-603.000000, -98.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Group">
+                <g transform="translate(219.000000, 62.000000)">
+                    <g id="Group-8" transform="translate(326.000000, 34.000000)">
+                        <g id="logo-twitter" transform="translate(58.333333, 2.000000)">
+                            <path d="M24,2.6 C23.1,3 22.2,3.3 21.2,3.4 C22.2,2.8 23,1.8 23.4,0.7 C22.4,1.3 21.4,1.7 20.3,1.9 C19.4,0.9 18.1,0.3 16.7,0.3 C14,0.3 11.8,2.5 11.8,5.2 C11.8,5.6 11.8,6 11.9,6.3 C7.7,6.1 4.1,4.1 1.7,1.1 C1.2,1.9 1,2.7 1,3.6 C1,5.3 1.9,6.8 3.2,7.7 C2.4,7.7 1.6,7.5 1,7.1 C1,7.1 1,7.1 1,7.2 C1,9.6 2.7,11.6 4.9,12 C4.5,12.1 4.1,12.2 3.6,12.2 C3.3,12.2 3,12.2 2.7,12.1 C3.3,14.1 5.1,15.5 7.3,15.5 C5.6,16.8 3.5,17.6 1.2,17.6 C0.8,17.6 0.4,17.6 1.77635684e-15,17.5 C2.2,18.9 4.8,19.7 7.5,19.7 C16.6,19.7 21.5,12.2 21.5,5.7 C21.5,5.5 21.5,5.3 21.5,5.1 C22.5,4.4 23.3,3.5 24,2.6 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>vertical_element</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="footer" transform="translate(-542.000000, -26.000000)" fill="#FFE500">
+            <g id="vertical_element">
+                <g transform="translate(642.000000, 32.000000) rotate(-270.000000) translate(-642.000000, -32.000000) translate(636.000000, -68.000000)">
+                    <rect id="Rectangle-6" x="0" y="0" width="4" height="200"></rect>
+                    <rect id="Rectangle-6" x="8" y="0" width="4" height="200"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

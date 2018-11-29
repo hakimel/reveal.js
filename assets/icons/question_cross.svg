@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="33px" viewBox="0 0 45 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>circle-remove</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="whats_is_FAC-open" transform="translate(-615.000000, -1300.000000)">
+            <g id="questions" transform="translate(80.000000, 1029.000000)">
+                <g id="1" transform="translate(327.000000, 18.000000)">
+                    <g id="divider" transform="translate(0.000000, 253.000000)">
+                        <g id="circle-remove" transform="translate(208.000000, 0.000000)">
+                            <rect id="Rectangle-4" stroke="#FFFFFF" fill="#FFFFFF" x="0.5" y="0.5" width="44" height="32"></rect>
+                            <circle id="Oval" stroke="#121212" fill="#121212" stroke-linecap="square" cx="22.5" cy="16.5" r="15"></circle>
+                            <path d="M28.5,10.5 L16.5,22.5" id="Shape" stroke="#FFFFFF" stroke-linecap="square"></path>
+                            <path d="M28.5,22.5 L16.5,10.5" id="Shape" stroke="#FFFFFF" stroke-linecap="square"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

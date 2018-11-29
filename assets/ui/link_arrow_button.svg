@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>circle-down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="tech-for-better-long-version" transform="translate(-407.000000, -4917.000000)" stroke="#121212">
+            <g id="case_studies" transform="translate(80.000000, 4376.000000)">
+                <g id="github" transform="translate(327.000000, 417.000000)">
+                    <g id="Group-7" transform="translate(0.000000, 124.000000)">
+                        <g id="circle-down" transform="translate(15.500000, 15.500000) rotate(-90.000000) translate(-15.500000, -15.500000) ">
+                            <path d="M15.5,6.5 L15.5,17.5" id="Shape"></path>
+                            <polygon id="Shape" points="10.5 17.5 20.5 17.5 15.5 24.5"></polygon>
+                            <circle id="Oval" cx="15.5" cy="15.5" r="15"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

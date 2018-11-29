@@ -1,0 +1,14 @@
+
+<svg width="23px" height="40px" viewBox="0 0 23 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="website" stroke="transparent" fill="#FFF" stroke-width="1" fill-rule="evenodd">
+        <g id="landing" transform="translate(-10.000000, -382.000000)">
+            <g id="menu_black" transform="translate(40.000000, 402.000000) rotate(-90.000000) translate(-40.000000, -402.000000) translate(0.000000, 362.000000)">
+                <g id="menu_icn" transform="translate(40.000000, 21.578230) rotate(-270.000000) translate(-40.000000, -21.578230) translate(29.000000, 1.578230)">
+                    <rect id="Rectangle-A" x="0" y="0" width="2" height="40"></rect>
+                    <rect id="Rectangle-B" x="10" y="0" width="2" height="40"></rect>
+                    <rect id="Rectangle-C" x="20" y="0" width="2" height="40"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

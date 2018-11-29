@@ -1,0 +1,200 @@
+/**
+ * Founders & Coders theme for reveal.js
+ *
+ * By @arrested-developer
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+// Include theme-specific fonts
+@import url(../../lib/font/gt-eesti/gt-eesti.css);
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #fff;
+
+$mainColor: #121212;
+$headingColor: #121212;
+
+$mainFontSize: 42px;
+$mainFont: 'GT Eesti', Helvetica, sans-serif;
+$headingFont: 'GT Eesti', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: $letter-spacing-1;
+$headingTextTransform: none;
+$headingFontWeight: 600;
+$linkColor: $blue;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: $yellow;
+$selectionColor: $black;
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+section.has-dark-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+  }
+  a, a.link, a.visited, a.active {
+    color: $yellow !important;
+  }
+}
+
+// SLIDE settings
+
+
+.reveal .slide-stripey {
+  background-image: url(../../assets/backgrounds/stripes.svg);
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+// TEXT / FONTS custom settings
+
+.reveal {
+	font-weight: $mainFontWeight !important;
+  letter-spacing: $mainFontSpacing;
+}
+
+.reveal b {
+  font-weight: bold;
+  font-weight: 600 !important;
+}
+
+.reveal blockquote {
+	padding: 16px !important;
+  font-weight: 400 !important;
+  background: rgba(255, 255, 255, 1) !important;
+  text-align: center !important;
+  color: #121212 !important;
+}
+
+.reveal blockquote::before {
+  content: '"';
+  font-size: 200px;
+  position: absolute;
+  left: 0;
+  line-height: 0.33em;
+}
+
+.reveal q {
+  font-weight: 400;
+}
+
+.reveal .bigunderline { 
+  background-image: linear-gradient(to right, $yellow 0%, $yellow 100%);
+  background-repeat: repeat-x;
+  background-position-x: 85%;
+  background-position-y: 85%;
+  background-size: 100% 6px;
+}
+
+.reveal h1 > .bigunderline {
+  background-size: 100% 16px;
+}
+
+.reveal h2 > .bigunderline,
+.reveal h3 > .bigunderline {
+  background-size: 100% 8px !important;
+  background-position-x: 85% !important;
+  background-position-y: 85% !important;
+}
+
+.reveal h4 > .bigunderline,
+.reveal h5 > .bigunderline,
+.reveal h6 > .bigunderline {
+  background-size: 100% 6px !important;
+}
+
+.reveal .bigunderline--red {
+  background-image: linear-gradient(to right, $red 0%, $red 100%);
+}
+
+.reveal .bigunderline--yellow {
+  background-image: linear-gradient(to right, $yellow 0%, $yellow 100%);
+}
+
+.reveal .bigunderline--blue {
+  background-image: linear-gradient(to right, $blue 0%, $blue 100%);
+}
+
+.reveal .bigunderline--white {
+  background-image: linear-gradient(to right, $white 0%, $white 100%);
+}
+
+.reveal .slides section .fragment.highlight-red.visible {
+  color: $red; }
+
+.reveal .slides section .fragment.highlight-green.visible {
+  color: $green; }
+
+.reveal .slides section .fragment.highlight-blue.visible {
+  color: $blue; }
+
+.reveal .slides section .fragment.highlight-current-red.current-fragment {
+  color: $red; }
+
+.reveal .slides section .fragment.highlight-current-green.current-fragment {
+  color: $green; }
+
+.reveal .slides section .fragment.highlight-current-blue.current-fragment {
+  color: $blue; }
+
+// LIST settings
+
+  ol {
+    list-style: none !important;
+    counter-reset: my-awesome-counter;
+    margin-left: 0 !important;
+  }
+  ol li {
+    counter-increment: my-awesome-counter;
+  }
+  ol li::before {
+    content: counter(my-awesome-counter);
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    position: relative;
+    top: -18px;
+    margin-right: 16px;
+  }
+
+// IMAGE settings 
+
+.reveal img {
+  border: 0px solid black !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+.img-s {
+  width: 10vw;
+  height: auto;
+}
+
+.img-m {
+  width: 20vw;
+  height: auto;
+}
+
+.img-l {
+  width: 50vw;
+  height: auto;
+}
+
+.img-xl {
+  width: 75vw;
+  height: auto;
+}
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------

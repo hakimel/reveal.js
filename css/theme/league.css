@@ -5,6 +5,8 @@
  *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
+/* brand colours */
+/* colombia flag :) */
 @import url(../../lib/font/league-gothic/league-gothic.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 /*********************************************
@@ -18,13 +20,14 @@ body {
   background: -o-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
   background: -ms-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
   background: radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background-color: #2b2b2b; }
+  background-color: #fff; }
 
 .reveal {
-  font-family: "Lato", sans-serif;
-  font-size: 40px;
-  font-weight: normal;
-  color: #eee; }
+  font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: #121212;
+  letter-spacing: 0.01em; }
 
 ::selection {
   color: #fff;
@@ -50,12 +53,12 @@ body {
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-  margin: 0 0 20px 0;
-  color: #eee;
+  margin: 0 0 16px 0;
+  color: #121212;
   font-family: "League Gothic", Impact, sans-serif;
   font-weight: normal;
   line-height: 1.2;
-  letter-spacing: normal;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
   word-wrap: break-word; }
@@ -79,7 +82,7 @@ body {
  * OTHER
  *********************************************/
 .reveal p {
-  margin: 20px 0;
+  margin: 16px 0;
   line-height: 1.3; }
 
 /* Ensure certain elements are never larger than the slide itself */
@@ -132,7 +135,7 @@ body {
   display: block;
   position: relative;
   width: 70%;
-  margin: 20px auto;
+  margin: 16px auto;
   padding: 5px;
   font-style: italic;
   background: rgba(255, 255, 255, 0.05);
@@ -149,7 +152,7 @@ body {
   display: block;
   position: relative;
   width: 90%;
-  margin: 20px auto;
+  margin: 16px auto;
   text-align: left;
   font-size: 0.55em;
   font-family: monospace;
@@ -236,7 +239,7 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #eee;
+  border: 4px solid #121212;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
 .reveal section img.plain {
@@ -276,4 +279,4 @@ body {
  *********************************************/
 @media print {
   .backgrounds {
-    background-color: #2b2b2b; } }
+    background-color: #fff; } }

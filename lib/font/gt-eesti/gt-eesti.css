@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'GT Eesti';
+    src: url('GT-Eesti-Text-Light-Italic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('GT-Eesti-Text-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('GT-Eesti-Text-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('GT-Eesti-Text-Medium-Italic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('GT-Eesti-Text-Regular.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  src: url('GT-Eesti-Text-Regular-Italic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}

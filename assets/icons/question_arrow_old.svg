@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>circle-down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="whats_is_FAC-open" transform="translate(-1113.000000, -1387.000000)" stroke="#121212">
+            <g id="questions" transform="translate(80.000000, 1041.000000)">
+                <g id="3" transform="translate(818.000000, 229.000000)">
+                    <g id="divider" transform="translate(0.000000, 118.000000)">
+                        <g id="circle-down" transform="translate(216.000000, 0.000000)">
+                            <path d="M15,6 L15,17" id="Shape"></path>
+                            <polygon id="Shape" points="10 17 20 17 15 24"></polygon>
+                            <circle id="Oval" cx="14.5" cy="14.5" r="14.5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

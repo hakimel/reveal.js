@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="22px" viewBox="0 0 14 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>logo-fb-simple</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.8">
+        <g id="footer" transform="translate(-720.000000, -98.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Group">
+                <g transform="translate(219.000000, 62.000000)">
+                    <g id="Group-8" transform="translate(326.000000, 34.000000)">
+                        <g id="logo-fb-simple" transform="translate(175.000000, 2.000000)">
+                            <path d="M4.03153,22 L4,12 L0,12 L0,8 L4,8 L4,5.5 C4,1.7886 6.29832,0 9.60914,0 C11.19506,0 12.55807,0.11807 12.95529,0.17085 L12.95529,4.04948 L10.65906,4.05052 C8.85845,4.05052 8.50981,4.90614 8.50981,6.16171 L8.50981,8 L13.75,8 L11.75,12 L8.50981,12 L8.50981,22 L4.03153,22 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
