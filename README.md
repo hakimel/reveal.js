@@ -259,8 +259,11 @@ Reveal.initialize({
 	// Display the page number of the current slide
 	slideNumber: false,
 
-	// Push each slide change to the browser history
+	// Push each slide change to the browser history.  Implies `hash: true`
 	history: false,
+
+	// Change the hash when changing slides -- impacts browser history with `history: true`
+	hash: false,
 
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
