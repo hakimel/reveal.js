@@ -340,7 +340,8 @@
 			// Since JS won't be running any further, we load all lazy
 			// loading elements upfront
 			var images = toArray( document.getElementsByTagName( 'img' ) ),
-				iframes = toArray( document.getElementsByTagName( 'iframe' ) );
+				iframes = toArray( document.getElementsByTagName( 'iframe' ) ),
+                objects = toArray(document.getElementsByTagName('object') );
 
 			var lazyLoadable = images.concat( iframes );
 
@@ -348,6 +349,7 @@
 				var element = lazyLoadable[i];
 				if( element.getAttribute( 'data-src' ) ) {
 					element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+					element.setAttribute( 'data', element.getAttribute( 'data-src' ) );
 					element.removeAttribute( 'data-src' );
 				}
 			}
@@ -3434,8 +3436,9 @@
 		slide.style.display = config.display;
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
+		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], object[data-src]' ) ).forEach( function( element ) {
 			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+			element.setAttribute( 'data', element.getAttribute( 'data-src' ) );
 			element.setAttribute( 'data-lazy-loaded', '' );
 			element.removeAttribute( 'data-src' );
 		} );
@@ -3555,9 +3558,10 @@
 		}
 
 		// Reset lazy-loaded media elements with src attributes
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src]' ) ).forEach( function( element ) {
+		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], object[data-lazy-loaded][data]' ) ).forEach( function( element ) {
 			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
 			element.removeAttribute( 'src' );
+			element.removeAttribute( 'data' );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children
@@ -3856,6 +3860,13 @@
 					// in all browsers (Firefox) so we set it to blank first
 					el.setAttribute( 'src', 'about:blank' );
 					el.removeAttribute( 'src' );
+				} );
+
+				toArray( element.querySelectorAll( 'object[data-src]' ) ).forEach( function( el ) {
+					// Only removing the src doesn't actually unload the frame
+					// in all browsers (Firefox) so we set it to blank first
+					el.setAttribute( 'data', 'about:blank' );
+					el.removeAttribute( 'data' );
 				} );
 			}
 		}
