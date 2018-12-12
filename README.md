@@ -1301,6 +1301,12 @@ Reveal.initialize({
 
 Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
 
+#### MathJax in Markdown
+If you want to include math inside of a presentation written in Markdown you need to wrap the forumla in backticks. This prevents syntax conflicts between LaTeX and Markdown. For example:
+
+```
+`$$ J(\theta_0,\theta_1) = \sum_{i=0} $$`
+```
 
 ## License
 
