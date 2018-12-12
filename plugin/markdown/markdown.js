@@ -243,7 +243,7 @@
 					}
 				};
 
-				xhr.open( 'GET', url, false );
+				xhr.open( 'GET', url, true );
 
 				try {
 					xhr.send();
