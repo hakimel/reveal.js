@@ -205,7 +205,7 @@
 		for( var i = 0, len = sections.length; i < len; i++ ) {
 
 			section = sections[i];
-
+			(function(section) {
 			if( section.getAttribute( 'data-markdown' ).length ) {
 
 				var xhr = new XMLHttpRequest(),
@@ -219,11 +219,12 @@
 				}
 
 				xhr.onreadystatechange = function() {
+					var outerText = '';
 					if( xhr.readyState === 4 ) {
 						// file protocol yields status code 0 (useful for local debug, mobile applications etc.)
 						if ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 0 ) {
 
-							section.outerHTML = slidify( xhr.responseText, {
+							outerText = slidify( xhr.responseText, {
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
 								notesSeparator: section.getAttribute( 'data-separator-notes' ),
@@ -233,17 +234,23 @@
 						}
 						else {
 
-							section.outerHTML = '<section data-state="alert">' +
+							outerText = '<section data-state="alert">' +
 								'ERROR: The attempt to fetch ' + url + ' failed with HTTP status ' + xhr.status + '.' +
 								'Check your browser\'s JavaScript console for more details.' +
 								'<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>' +
 								'</section>';
 
 						}
+						var newSection = document.createElement('div');
+						newSection.innerHTML = outerText;
+						newSection = newSection.firstChild;
+						section.parentNode.replaceChild(newSection, section);
+
+						convertSlide(newSection);
 					}
 				};
 
-				xhr.open( 'GET', url, false );
+				xhr.open( 'GET', url, true );
 
 				try {
 					xhr.send();
@@ -261,11 +268,13 @@
 					notesSeparator: section.getAttribute( 'data-separator-notes' ),
 					attributes: getForwardedAttributes( section )
 				});
-
+				convertSlide(section);
 			}
 			else {
 				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
+				convertSlide(section);
 			}
+		})(section);
 		}
 
 	}
@@ -340,40 +349,42 @@
 	 * Converts any current data-markdown slides in the
 	 * DOM to HTML.
 	 */
-	function convertSlides() {
+	function convertSlide(section) {
 
+		// Only parse the same slide once
+		if( !section.getAttribute( 'data-markdown-parsed' ) ) {
+
+			section.setAttribute( 'data-markdown-parsed', true )
+
+			var notes = section.querySelector( 'aside.notes' );
+			var markdown = getMarkdownFromSlide( section );
+
+			section.innerHTML = marked( markdown );
+			addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
+							section.parentNode.getAttribute( 'data-element-attributes' ) ||
+							DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
+							section.getAttribute( 'data-attributes' ) ||
+							section.parentNode.getAttribute( 'data-attributes' ) ||
+							DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR);
+
+			// If there were notes, we need to re-add them after
+			// having overwritten the section's HTML
+			if( notes ) {
+				section.appendChild( notes );
+			}
+
+		}
+
+	}
+
+	function convertSlides() {
 		var sections = document.querySelectorAll( '[data-markdown]');
 
 		for( var i = 0, len = sections.length; i < len; i++ ) {
 
 			var section = sections[i];
-
-			// Only parse the same slide once
-			if( !section.getAttribute( 'data-markdown-parsed' ) ) {
-
-				section.setAttribute( 'data-markdown-parsed', true )
-
-				var notes = section.querySelector( 'aside.notes' );
-				var markdown = getMarkdownFromSlide( section );
-
-				section.innerHTML = marked( markdown );
-				addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
-								section.parentNode.getAttribute( 'data-element-attributes' ) ||
-								DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
-								section.getAttribute( 'data-attributes' ) ||
-								section.parentNode.getAttribute( 'data-attributes' ) ||
-								DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR);
-
-				// If there were notes, we need to re-add them after
-				// having overwritten the section's HTML
-				if( notes ) {
-					section.appendChild( notes );
-				}
-
-			}
-
+			convertSlide(section);
 		}
-
 	}
 
 	// API
@@ -399,7 +410,6 @@
 			}
 
 			processSlides();
-			convertSlides();
 		},
 
 		// TODO: Do these belong in the API?
