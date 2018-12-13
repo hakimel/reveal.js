@@ -28,6 +28,14 @@
 	// The reveal.js version
 	var VERSION = '3.7.0';
 
+    var TAG_TO_SRC_ATTR = {
+        'OBJECT': 'data'
+    };
+
+    function tag_to_src_attr (ele) {
+        return TAG_TO_SRC_ATTR[ele.tagName] || 'src';
+    }
+
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
@@ -343,13 +351,13 @@
 				iframes = toArray( document.getElementsByTagName( 'iframe' ) ),
                 objects = toArray(document.getElementsByTagName('object') );
 
-			var lazyLoadable = images.concat( iframes );
+			var lazyLoadable = images.concat( iframes ).concat( objects );
 
 			for( var i = 0, len = lazyLoadable.length; i < len; i++ ) {
 				var element = lazyLoadable[i];
 				if( element.getAttribute( 'data-src' ) ) {
-					element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
-					element.setAttribute( 'data', element.getAttribute( 'data-src' ) );
+					element.setAttribute( tag_to_src_attr(element),
+                                          element.getAttribute( 'data-src' ) );
 					element.removeAttribute( 'data-src' );
 				}
 			}
@@ -3437,8 +3445,8 @@
 
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], object[data-src]' ) ).forEach( function( element ) {
-			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
-			element.setAttribute( 'data', element.getAttribute( 'data-src' ) );
+			element.setAttribute( tag_to_src_attr(element),
+                                  element.getAttribute( 'data-src' ) );
 			element.setAttribute( 'data-lazy-loaded', '' );
 			element.removeAttribute( 'data-src' );
 		} );
@@ -3559,9 +3567,9 @@
 
 		// Reset lazy-loaded media elements with src attributes
 		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], object[data-lazy-loaded][data]' ) ).forEach( function( element ) {
-			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
-			element.removeAttribute( 'src' );
-			element.removeAttribute( 'data' );
+			element.setAttribute( 'data-src',
+                                  element.getAttribute( tag_to_src_attr(element) ) );
+			element.removeAttribute( tag_to_src_attr(element) );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children
@@ -3721,7 +3729,7 @@
 			} );
 
 			// Normal iframes
-			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'iframe[src], object[data-src]' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3730,7 +3738,7 @@
 			} );
 
 			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'iframe[data-src], object[data-src]' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3738,7 +3746,8 @@
 				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
 					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
 					el.addEventListener( 'load', startEmbeddedIframe );
-					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
+					el.setAttribute( tag_to_src_attr(el),
+                                     el.getAttribute( 'data-src' ) );
 				}
 			} );
 
@@ -3855,18 +3864,11 @@
 
 			if( options.unloadIframes === true ) {
 				// Unload lazy-loaded iframes
-				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
+				toArray( element.querySelectorAll( 'iframe[data-src], object[data-src]' ) ).forEach( function( el ) {
 					// Only removing the src doesn't actually unload the frame
 					// in all browsers (Firefox) so we set it to blank first
-					el.setAttribute( 'src', 'about:blank' );
-					el.removeAttribute( 'src' );
-				} );
-
-				toArray( element.querySelectorAll( 'object[data-src]' ) ).forEach( function( el ) {
-					// Only removing the src doesn't actually unload the frame
-					// in all browsers (Firefox) so we set it to blank first
-					el.setAttribute( 'data', 'about:blank' );
-					el.removeAttribute( 'data' );
+					el.setAttribute( tag_to_src_attr(el), 'about:blank' );
+					el.removeAttribute( tag_to_src_attr(ele) );
 				} );
 			}
 		}
