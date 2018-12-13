@@ -684,6 +684,7 @@ By default, background images are resized to cover the full page. Available opti
 | data-background-position         | center     | See [background-position](https://developer.mozilla.org/docs/Web/CSS/background-position) on MDN. |
 | data-background-repeat           | no-repeat  | See [background-repeat](https://developer.mozilla.org/docs/Web/CSS/background-repeat) on MDN. |
 | data-background-opacity          | 1          | Opacity of the background image on a 0-1 scale. 0 is transparent and 1 is fully opaque. |
+
 ```html
 <section data-background-image="http://example.com/image.png">
 	<h2>Image</h2>

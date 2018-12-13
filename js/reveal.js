@@ -28,14 +28,6 @@
 	// The reveal.js version
 	var VERSION = '3.7.0';
 
-    var TAG_TO_SRC_ATTR = {
-        'OBJECT': 'data'
-    };
-
-    function tag_to_src_attr (ele) {
-        return TAG_TO_SRC_ATTR[ele.tagName] || 'src';
-    }
-
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
@@ -348,16 +340,14 @@
 			// Since JS won't be running any further, we load all lazy
 			// loading elements upfront
 			var images = toArray( document.getElementsByTagName( 'img' ) ),
-				iframes = toArray( document.getElementsByTagName( 'iframe' ) ),
-                objects = toArray(document.getElementsByTagName('object') );
+				iframes = toArray( document.getElementsByTagName( 'iframe' ) );
 
-			var lazyLoadable = images.concat( iframes ).concat( objects );
+			var lazyLoadable = images.concat( iframes );
 
 			for( var i = 0, len = lazyLoadable.length; i < len; i++ ) {
 				var element = lazyLoadable[i];
 				if( element.getAttribute( 'data-src' ) ) {
-					element.setAttribute( tag_to_src_attr(element),
-                                          element.getAttribute( 'data-src' ) );
+					element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 					element.removeAttribute( 'data-src' );
 				}
 			}
@@ -3444,9 +3434,8 @@
 		slide.style.display = config.display;
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], object[data-src]' ) ).forEach( function( element ) {
-			element.setAttribute( tag_to_src_attr(element),
-                                  element.getAttribute( 'data-src' ) );
+		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src]' ) ).forEach( function( element ) {
+			element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 			element.setAttribute( 'data-lazy-loaded', '' );
 			element.removeAttribute( 'data-src' );
 		} );
@@ -3489,11 +3478,7 @@
 
 				// Images
 				if( backgroundImage ) {
-<<<<<<< 3d70607b43021bc5d2c27b6e55359fdca796be6d
-					background.style.backgroundImage = 'url('+ encodeURI(backgroundImage) +')';
-=======
 					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
->>>>>>> add , adds wrapper element around background images/videos/iframes
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
@@ -3570,10 +3555,9 @@
 		}
 
 		// Reset lazy-loaded media elements with src attributes
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], object[data-lazy-loaded][data]' ) ).forEach( function( element ) {
-			element.setAttribute( 'data-src',
-                                  element.getAttribute( tag_to_src_attr(element) ) );
-			element.removeAttribute( tag_to_src_attr(element) );
+		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src]' ) ).forEach( function( element ) {
+			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
+			element.removeAttribute( 'src' );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children
@@ -3733,7 +3717,7 @@
 			} );
 
 			// Normal iframes
-			toArray( element.querySelectorAll( 'iframe[src], object[data-src]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3742,7 +3726,7 @@
 			} );
 
 			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src], object[data-src]' ) ).forEach( function( el ) {
+			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -3750,8 +3734,7 @@
 				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
 					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
 					el.addEventListener( 'load', startEmbeddedIframe );
-					el.setAttribute( tag_to_src_attr(el),
-                                     el.getAttribute( 'data-src' ) );
+					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
 				}
 			} );
 
@@ -3868,11 +3851,11 @@
 
 			if( options.unloadIframes === true ) {
 				// Unload lazy-loaded iframes
-				toArray( element.querySelectorAll( 'iframe[data-src], object[data-src]' ) ).forEach( function( el ) {
+				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( function( el ) {
 					// Only removing the src doesn't actually unload the frame
 					// in all browsers (Firefox) so we set it to blank first
-					el.setAttribute( tag_to_src_attr(el), 'about:blank' );
-					el.removeAttribute( tag_to_src_attr(ele) );
+					el.setAttribute( 'src', 'about:blank' );
+					el.removeAttribute( 'src' );
 				} );
 			}
 		}
@@ -4011,8 +3994,16 @@
 			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
 
 			// Read the index components of the hash
-			var h = (parseInt( bits[0], 10 ) || 0) - config.hashOneBasedIndex,
-				v = (parseInt( bits[1], 10 ) || 0) - config.hashOneBasedIndex;
+			var h = ( parseInt( bits[0], 10 ) - hashIndexBase ) || 0,
+				v = ( parseInt( bits[1], 10 ) - hashIndexBase ) || 0,
+				f;
+
+			if( config.fragmentInURL ) {
+				f = parseInt( bits[2], 10 );
+				if( isNaN( f ) ) {
+					f = undefined;
+				}
+			}
 
 			if( h !== indexh || v !== indexv || f !== undefined ) {
 				slide( h, v, f );
