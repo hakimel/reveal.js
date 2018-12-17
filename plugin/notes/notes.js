@@ -10,6 +10,7 @@
  *    to the notes window
  */
 var RevealNotes = (function() {
+	var isConnected = false;
 
 	function openNotes( notesFilePath ) {
 
@@ -46,13 +47,17 @@ var RevealNotes = (function() {
 				} ), '*' );
 			}, 500 );
 
-			window.addEventListener( 'message', function( event ) {
-				var data = JSON.parse( event.data );
-				if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
-					clearInterval( connectInterval );
-					onConnected();
-				}
-			} );
+			// we check if we are already connected to avoid listening to the
+			// same event multiple times
+			if ( !isConnected) {
+				window.addEventListener( 'message', function( event ) {
+					var data = JSON.parse( event.data );
+					if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+						clearInterval( connectInterval );
+						onConnected();
+					}
+				} );
+			}
 		}
 
 		/**
@@ -109,6 +114,7 @@ var RevealNotes = (function() {
 		 * window.
 		 */
 		function onConnected() {
+			isConnected = true;
 
 			// Monitor events that trigger a change in state
 			Reveal.addEventListener( 'slidechanged', post );
