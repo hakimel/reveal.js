@@ -1684,6 +1684,7 @@ $controlsArrowAngleActive: 36deg;
 		border-left: 0;
 		max-width: none;
 		max-height: 70%;
+		max-height: 70vh;
 		overflow: visible;
 	}
 
@@ -1692,17 +1693,21 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 		width: 100%;
 		height: (30/0.7)*1%;
+		height: 30vh;
+		border: 0;
 	}
 }
 
 @media screen and (max-width: 600px) {
 	.reveal.show-notes {
 		max-height: 60%;
+		max-height: 60vh;
 	}
 
 	.reveal.show-notes .speaker-notes {
 		top: 100%;
 		height: (40/0.6)*1%;
+		height: 40vh;
 	}
 
 	.reveal .speaker-notes {
