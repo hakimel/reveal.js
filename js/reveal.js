@@ -1131,18 +1131,27 @@
 		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundOpacity ) contentElement.style.opacity = data.backgroundOpacity;
 
-		// If this slide has a background color, add a class that
+		// If this slide has a background color, we add a class that
 		// signals if it is light or dark. If the slide has no background
-		// color, no class will be set
-		var computedBackgroundStyle = window.getComputedStyle( element );
-		if( computedBackgroundStyle && computedBackgroundStyle.backgroundColor ) {
-			var rgb = colorToRgb( computedBackgroundStyle.backgroundColor );
+		// color, no class will be added
+		var contrastColor = data.backgroundColor;
+
+		// If no bg color was found, check the computed background
+		if( !contrastColor ) {
+			var computedBackgroundStyle = window.getComputedStyle( element );
+			if( computedBackgroundStyle && computedBackgroundStyle.backgroundColor ) {
+				contrastColor = computedBackgroundStyle.backgroundColor;
+			}
+		}
+
+		if( contrastColor ) {
+			var rgb = colorToRgb( contrastColor );
 
 			// Ignore fully transparent backgrounds. Some browsers return
 			// rgba(0,0,0,0) when reading the computed background color of
 			// an element with no background
 			if( rgb && rgb.a !== 0 ) {
-				if( colorBrightness( computedBackgroundStyle.backgroundColor ) < 128 ) {
+				if( colorBrightness( contrastColor ) < 128 ) {
 					slide.classList.add( 'has-dark-background' );
 				}
 				else {
