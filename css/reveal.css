@@ -1488,7 +1488,7 @@ body {
 .reveal .speaker-notes {
   display: none;
   position: absolute;
-  width: 25vw;
+  width: 33.3333333333%;
   height: 100%;
   top: 0;
   left: 100%;
@@ -1516,7 +1516,7 @@ body {
     opacity: 0.5; }
 
 .reveal.show-notes {
-  max-width: 75vw;
+  max-width: 75%;
   overflow: visible; }
 
 .reveal.show-notes .speaker-notes {

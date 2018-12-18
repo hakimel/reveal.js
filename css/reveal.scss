@@ -1619,6 +1619,8 @@ $controlsArrowAngleActive: 36deg;
  * SPEAKER NOTES
  *********************************************/
 
+$notesWidthPercent: 25%;
+
 // Hide on-page notes
 .reveal aside.notes {
 	display: none;
@@ -1629,7 +1631,7 @@ $controlsArrowAngleActive: 36deg;
 .reveal .speaker-notes {
 	display: none;
 	position: absolute;
-	width: 25vw;
+	width: $notesWidthPercent / (1-$notesWidthPercent/100) * 1%;
 	height: 100%;
 	top: 0;
 	left: 100%;
@@ -1665,7 +1667,7 @@ $controlsArrowAngleActive: 36deg;
 
 
 .reveal.show-notes {
-	max-width: 75vw;
+	max-width: 100% - $notesWidthPercent;
 	overflow: visible;
 }
 
