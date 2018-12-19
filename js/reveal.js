@@ -104,6 +104,20 @@
 			// Change the presentation direction to be RTL
 			rtl: false,
 
+			// When this is enabled, stepping left/right from a vertical stack
+			// to an adjacent vertical stack will land you at the same vertical
+			// index.
+			//
+			// Consider a deck with six slides ordered in two stacks like this:
+			// 1.1    2.1
+			// 1.2    2.2
+			// 1.3    2.3
+			//
+			// If you're on slide 1.3 and navigate right, you will normally move
+			// from 1.3 -> 2.1. With "grid" enabled the same navigation takes you
+			// from 1.3 -> 2.3.
+			gridNavigation: false,
+
 			// Randomizes the order of slides each time the presentation loads
 			shuffle: false,
 
@@ -4678,12 +4692,12 @@
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
-				slide( indexh + 1 );
+				slide( indexh + 1, config.gridNavigation ? indexv : undefined );
 			}
 		}
 		// Normal navigation
 		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
-			slide( indexh - 1 );
+			slide( indexh - 1, config.gridNavigation ? indexv : undefined );
 		}
 
 	}
@@ -4695,12 +4709,12 @@
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
-				slide( indexh - 1 );
+				slide( indexh - 1, config.gridNavigation ? indexv : undefined );
 			}
 		}
 		// Normal navigation
 		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
-			slide( indexh + 1 );
+			slide( indexh + 1, config.gridNavigation ? indexv : undefined );
 		}
 
 	}
