@@ -23,6 +23,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Ready Event](#ready-event)
 - [Auto-sliding](#auto-sliding)
 - [Keyboard Bindings](#keyboard-bindings)
+- [Vertical Slide Navigation](#vertical-slide-navigation)
 - [Touch Navigation](#touch-navigation)
 - [Lazy Loading](#lazy-loading)
 - [API](#api)
@@ -279,6 +280,11 @@ Reveal.initialize({
 
 	// Change the presentation direction to be RTL
 	rtl: false,
+	
+	// When this is enabled, stepping left/right from a vertical stack
+	// to an adjacent vertical stack will land you at the same vertical
+	// index instead of the top.
+	gridNavigation: false,
 
 	// Randomizes the order of slides each time the presentation loads
 	shuffle: false,
@@ -507,6 +513,21 @@ Reveal.configure({
 });
 ```
 
+### Vertical Slide Navigation
+
+Slides can be nested within other slides to create vertical stacks (see [Markup](#markup)). When presenting, you use the left/right arrows to step through the main (horizontal) slides. When you arrive at a vertical stack you can optionally press the up/down arrows to view the vertical slides or skip past them by pressing the right arrow. Here's an example showing a bird's-eye view of what this looks like in action:
+
+<img src="https://static.slid.es/support/reveal.js-vertical-slides.gif" width="450">
+
+#### Grid Navigation
+If you are on a vertical slide and step right onto an adjacent vertical stack, you'll arrive at the top of that stack. Consider a deck with six slides organized in two stacks like this:
+```
+1.1   2.1
+1.2   2.2
+1.3   2.3
+```
+If you're on slide 1.3 and navigate right, you will normally move from 1.3 -> 2.1. If you prefer remaining at the same vertical index and going directly from 1.3 -> 2.3 you can enable the `gridNavigation` config option: `Reveal.configure({ gridNavigation: true })`.
+			
 ### Touch Navigation
 
 You can swipe to navigate through a presentation on any touch-enabled device. Horizontal swipes change between horizontal slides, vertical swipes change between vertical slides. If you wish to disable this you can set the `touch` config option to false when initializing reveal.js.
