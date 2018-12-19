@@ -114,8 +114,8 @@
 			// 1.3    2.3
 			//
 			// If you're on slide 1.3 and navigate right, you will normally move
-			// from 1.3 -> 2.1. With "grid" enabled the same navigation takes you
-			// from 1.3 -> 2.3.
+			// from 1.3 -> 2.1. With "gridNavigation" enabled the same navigation
+			// takes you from 1.3 -> 2.3.
 			gridNavigation: false,
 
 			// Randomizes the order of slides each time the presentation loads
