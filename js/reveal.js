@@ -76,8 +76,11 @@
 			// Determine which displays to show the slide number on
 			showSlideNumber: 'all',
 
-			// Push each slide change to the browser history
+			// Push each slide change to the browser history.  Implies `hash: true`
 			history: false,
+
+			// Change the hash when changing slides -- impacts browser history with `history: true`
+			hash: false,
 
 			// Enable keyboard shortcuts for navigation
 			keyboard: true,
@@ -4137,17 +4140,19 @@
 	 */
 	function writeURL( delay ) {
 
-		if( config.history ) {
+		// Make sure there's never more than one timeout running
+		clearTimeout( writeURLTimeout );
 
-			// Make sure there's never more than one timeout running
-			clearTimeout( writeURLTimeout );
-
-			// If a delay is specified, timeout this call
-			if( typeof delay === 'number' ) {
-				writeURLTimeout = setTimeout( writeURL, delay );
-			}
-			else if( currentSlide ) {
+		// If a delay is specified, timeout this call
+		if( typeof delay === 'number' ) {
+			writeURLTimeout = setTimeout( writeURL, delay );
+		}
+		else if( currentSlide ) {
+			if ( config.history ) {
 				window.location.hash = locationHash();
+			}
+			else if ( config.hash ) {
+				window.history.replaceState(null, null, '#' + locationHash());
 			}
 		}
 
