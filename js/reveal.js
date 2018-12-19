@@ -76,11 +76,12 @@
 			// Determine which displays to show the slide number on
 			showSlideNumber: 'all',
 
+			// Add the current slide number to the URL hash so that reloading the
+			// page/copying the URL will return you to the same slide
+			hash: false,
+
 			// Push each slide change to the browser history.  Implies `hash: true`
 			history: false,
-
-			// Change the hash when changing slides -- impacts browser history with `history: true`
-			hash: false,
 
 			// Enable keyboard shortcuts for navigation
 			keyboard: true,
@@ -4148,10 +4149,10 @@
 			writeURLTimeout = setTimeout( writeURL, delay );
 		}
 		else if( currentSlide ) {
-			if ( config.history ) {
+			if( config.history || !window.history ) {
 				window.location.hash = locationHash();
 			}
-			else if ( config.hash ) {
+			else if( config.hash ) {
 				window.history.replaceState(null, null, '#' + locationHash());
 			}
 		}

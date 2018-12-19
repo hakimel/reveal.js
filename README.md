@@ -260,11 +260,12 @@ Reveal.initialize({
 	// Display the page number of the current slide
 	slideNumber: false,
 
-	// Push each slide change to the browser history.  Implies `hash: true`
-	history: false,
-
-	// Change the hash when changing slides -- impacts browser history with `history: true`
+	// Add the current slide number to the URL hash so that reloading the
+	// page/copying the URL will return you to the same slide
 	hash: false,
+
+	// Push each slide change to the browser history. Implies `hash: true`
+	history: false,
 
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
@@ -283,7 +284,7 @@ Reveal.initialize({
 
 	// Change the presentation direction to be RTL
 	rtl: false,
-	
+
 	// When this is enabled, stepping left/right from a vertical stack
 	// to an adjacent vertical stack will land you at the same vertical
 	// index instead of the top.
