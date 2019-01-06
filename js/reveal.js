@@ -2079,6 +2079,10 @@
 				element.style.width = width + 'px';
 				element.style.height = remainingHeight + 'px';
 			}
+			// Workaround for overview mode and issues with browsers
+			if( remainingHeight <= 0 ) {
+				element.style.height = '95%';
+			}
 
 		} );
 
