@@ -1765,13 +1765,16 @@
 			// Change the .stretch element height to 0 in order find the height of all
 			// the other elements
 			element.style.height = '0px';
+
 			// In Overview mode, the parent (.slide) height is set of 700px.
 			// Restore it temporarily to its natural height.
 			element.parentNode.style.height = 'auto';
+
 			newHeight = height - element.parentNode.offsetHeight;
 
 			// Restore the old height, just in case
 			element.style.height = oldHeight + 'px';
+
 			// Clear the parent (.slide) height. .removeProperty works in IE9+
 			element.parentNode.style.removeProperty('height');
 
