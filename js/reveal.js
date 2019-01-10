@@ -328,7 +328,6 @@
 		touch = {
 			startX: 0,
 			startY: 0,
-			startSpan: 0,
 			startCount: 0,
 			captured: false,
 			threshold: 40
@@ -5066,18 +5065,6 @@
 		touch.startY = event.touches[0].clientY;
 		touch.startCount = event.touches.length;
 
-		// If there's two touches we need to memorize the distance
-		// between those two points to detect pinching
-		if( event.touches.length === 2 && config.overview ) {
-			touch.startSpan = distanceBetween( {
-				x: event.touches[1].clientX,
-				y: event.touches[1].clientY
-			}, {
-				x: touch.startX,
-				y: touch.startY
-			} );
-		}
-
 	}
 
 	/**
@@ -5096,37 +5083,8 @@
 			var currentX = event.touches[0].clientX;
 			var currentY = event.touches[0].clientY;
 
-			// If the touch started with two points and still has
-			// two active touches; test for the pinch gesture
-			if( event.touches.length === 2 && touch.startCount === 2 && config.overview ) {
-
-				// The current distance in pixels between the two touch points
-				var currentSpan = distanceBetween( {
-					x: event.touches[1].clientX,
-					y: event.touches[1].clientY
-				}, {
-					x: touch.startX,
-					y: touch.startY
-				} );
-
-				// If the span is larger than the desire amount we've got
-				// ourselves a pinch
-				if( Math.abs( touch.startSpan - currentSpan ) > touch.threshold ) {
-					touch.captured = true;
-
-					if( currentSpan < touch.startSpan ) {
-						activateOverview();
-					}
-					else {
-						deactivateOverview();
-					}
-				}
-
-				event.preventDefault();
-
-			}
 			// There was only one touch point, look for a swipe
-			else if( event.touches.length === 1 && touch.startCount !== 2 ) {
+			if( event.touches.length === 1 && touch.startCount !== 2 ) {
 
 				var deltaX = currentX - touch.startX,
 					deltaY = currentY - touch.startY;
