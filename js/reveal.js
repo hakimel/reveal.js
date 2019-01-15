@@ -1971,6 +1971,7 @@
 				dom.slides.style.height = size.height + 'px';
 
 				// Determine scale of content to fit within available space
+				var oldscale =scale;
 				scale = Math.min( size.presentationWidth / size.width, size.presentationHeight / size.height );
 
 				// Respect max/min scale settings
@@ -2036,6 +2037,13 @@
 
 				}
 
+				if( oldscale!==scale ){
+					dispatchEvent( 'resize', {
+						'oldscale': oldscale,
+						'scale': scale,
+						'size': size
+					} );
+				}
 			}
 
 			updateProgress();

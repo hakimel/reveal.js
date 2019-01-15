@@ -958,6 +958,14 @@ Limitations:
 - Only direct descendants of a slide section can be stretched
 - Only one descendant per slide section can be stretched
 
+### Resize Event
+
+When reveal.js changes the scale of the slides it fires an resize event. You can subscribe to the event to resize your elements accordingly.
+
+```javascript
+Reveal.addEventListener( 'overviewshown', function( event ) { /* console.log(event.scale,event.oldscale,event.size); */ } );
+```
+
 ### postMessage API
 
 The framework has a built-in postMessage API that can be used when communicating with a presentation inside of another window. Here's an example showing how you'd make a reveal.js instance in the given window proceed to slide 2:
