@@ -108,6 +108,9 @@
 			// Change the presentation direction to be RTL
 			rtl: false,
 
+			// When this is enabled, stepping only with previous and next slide.
+			simpleNavigation: false,
+
 			// When this is enabled, stepping left/right from a vertical stack
 			// to an adjacent vertical stack will land you at the same vertical
 			// index.
@@ -5001,13 +5004,13 @@
 				// n, page down
 				case 78: case 34: navigateNext(); break;
 				// h, left
-				case 72: case 37: firstSlideShortcut ? slide( 0 ) : navigateLeft(); break;
+				case 72: case 37: firstSlideShortcut ? slide( 0 ) : isOverview() || !config.simpleNavigation ? navigateLeft() : navigatePrev(); break;
 				// l, right
-				case 76: case 39: lastSlideShortcut ? slide( Number.MAX_VALUE ) : navigateRight(); break;
+				case 76: case 39: lastSlideShortcut ? slide( Number.MAX_VALUE ) : isOverview() || !config.simpleNavigation ? navigateRight() : navigateNext(); break;
 				// k, up
-				case 75: case 38: navigateUp(); break;
+				case 75: case 38: isOverview() || !config.simpleNavigation ? navigateUp() : navigatePrev(); break;
 				// j, down
-				case 74: case 40: navigateDown(); break;
+				case 74: case 40: isOverview() || !config.simpleNavigation ? navigateDown() : navigateNext(); break;
 				// home
 				case 36: slide( 0 ); break;
 				// end
