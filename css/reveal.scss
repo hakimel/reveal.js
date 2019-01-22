@@ -11,15 +11,16 @@
  * GLOBAL STYLES
  *********************************************/
 
-html,
-body {
+html {
 	width: 100%;
 	height: 100%;
+	height: 100vh;
 	height: calc( var(--vh, 1vh) * 100 );
 	overflow: hidden;
 }
 
 body {
+	height: 100%;
 	position: relative;
 	line-height: 1;
 	margin: 0;
