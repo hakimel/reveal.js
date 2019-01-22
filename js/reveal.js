@@ -4909,6 +4909,9 @@
 			return true;
 		}
 
+		// Shorthand
+		var keyCode = event.keyCode;
+
 		// Remember if auto-sliding was paused so we can toggle it
 		var autoSlideWasPaused = autoSlidePaused;
 
@@ -4921,8 +4924,8 @@
 
 		// Whitelist specific modified + keycode combinations
 		var prevSlideShortcut = event.shiftKey && event.keyCode === 32;
-		var firstSlideShortcut = ( event.metaKey || event.ctrlKey ) && event.keyCode === 37;
-		var lastSlideShortcut = ( event.metaKey || event.ctrlKey ) && event.keyCode === 39;
+		var firstSlideShortcut = ( event.metaKey || event.ctrlKey ) && keyCode === 37;
+		var lastSlideShortcut = ( event.metaKey || event.ctrlKey ) && keyCode === 39;
 
 		// Prevent all other events when a modifier is pressed
 		var unusedModifier = 	!prevSlideShortcut && !firstSlideShortcut && !lastSlideShortcut &&
@@ -4945,7 +4948,7 @@
 			}
 		}
 
-		if( isPaused() && resumeKeyCodes.indexOf( event.keyCode ) === -1 ) {
+		if( isPaused() && resumeKeyCodes.indexOf( keyCode ) === -1 ) {
 			return false;
 		}
 
@@ -4957,7 +4960,7 @@
 			for( key in config.keyboard ) {
 
 				// Check if this binding matches the pressed key
-				if( parseInt( key, 10 ) === event.keyCode ) {
+				if( parseInt( key, 10 ) === keyCode ) {
 
 					var value = config.keyboard[ key ];
 
@@ -4984,7 +4987,7 @@
 			for( key in registeredKeyBindings ) {
 
 				// Check if this binding matches the pressed key
-				if( parseInt( key, 10 ) === event.keyCode ) {
+				if( parseInt( key, 10 ) === keyCode ) {
 
 					var action = registeredKeyBindings[ key ].callback;
 
@@ -5008,35 +5011,92 @@
 			// Assume true and try to prove false
 			triggered = true;
 
-			switch( event.keyCode ) {
-				// p, page up
-				case 80: case 33: navigatePrev(); break;
-				// n, page down
-				case 78: case 34: navigateNext(); break;
-				// h, left
-				case 72: case 37: firstSlideShortcut ? slide( 0 ) : isOverview() || !config.simpleNavigation ? navigateLeft() : navigatePrev(); break;
-				// l, right
-				case 76: case 39: lastSlideShortcut ? slide( Number.MAX_VALUE ) : isOverview() || !config.simpleNavigation ? navigateRight() : navigateNext(); break;
-				// k, up
-				case 75: case 38: isOverview() || !config.simpleNavigation ? navigateUp() : navigatePrev(); break;
-				// j, down
-				case 74: case 40: isOverview() || !config.simpleNavigation ? navigateDown() : navigateNext(); break;
-				// home
-				case 36: slide( 0 ); break;
-				// end
-				case 35: slide( Number.MAX_VALUE ); break;
-				// space
-				case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
-				// return
-				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
-				// two-spot, semicolon, b, v, period, Logitech presenter tools "black screen" button
-				case 58: case 59: case 66: case 86: case 190: case 191: togglePause(); break;
-				// f
-				case 70: enterFullscreen(); break;
-				// a
-				case 65: if ( config.autoSlideStoppable ) toggleAutoSlide( autoSlideWasPaused ); break;
-				default:
-					triggered = false;
+			// P, PAGE UP
+			if( keyCode === 80 || keyCode === 33 ) {
+				navigatePrev();
+			}
+			// N, PAGE DOWN
+			else if( keyCode === 78 || keyCode === 34 ) {
+				navigateNext();
+			}
+			// H, LEFT
+			else if( keyCode === 72 || keyCode === 37 ) {
+				if( firstSlideShortcut ) {
+					slide( 0 );
+				}
+				else if( !isOverview() && config.simpleNavigation ) {
+					navigatePrev();
+				}
+				else {
+					navigateLeft();
+				}
+			}
+			// L, RIGHT
+			else if( keyCode === 76 || keyCode === 39 ) {
+				if( lastSlideShortcut ) {
+					slide( Number.MAX_VALUE );
+				}
+				else if( !isOverview() && config.simpleNavigation ) {
+					navigateNext();
+				}
+				else {
+					navigateRight();
+				}
+			}
+			// K, UP
+			else if( keyCode === 75 || keyCode === 38 ) {
+				if( !isOverview() && config.simpleNavigation ) {
+					navigatePrev();
+				}
+				else {
+					navigateUp()
+				}
+			}
+			// J, DOWN
+			else if( keyCode === 74 || keyCode === 40 ) {
+				if( !isOverview() && config.simpleNavigation ) {
+					navigateNext()
+				}
+				else {
+					navigateDown()
+				}
+			}
+			// HOME
+			else if( keyCode === 36 ) {
+				slide( 0 );
+			}
+			// END
+			else if( keyCode === 35 ) {
+				slide( Number.MAX_VALUE );
+			}
+			// SPACE
+			else if( keyCode === 32 ) {
+				if( isOverview() ) {
+					deactivateOverview();
+				}
+				if( event.shiftKey ) {
+					navigatePrev();
+				}
+				else {
+					navigateNext();
+				}
+			}
+			// TWO-SPOT, SEMICOLON, B, V, PERIOD, LOGITECH PRESENTER TOOLS "BLACK SCREEN" BUTTON
+			else if( keyCode === 58 || keyCode === 59 || keyCode === 66 || keyCode === 86 || keyCode === 190 || keyCode === 191 ) {
+				togglePause();
+			}
+			// F
+			else if( keyCode === 70 ) {
+				enterFullscreen();
+			}
+			// A
+			else if( keyCode === 65 ) {
+				if ( config.autoSlideStoppable ) {
+					toggleAutoSlide( autoSlideWasPaused );
+				}
+			}
+			else {
+				triggered = false;
 			}
 
 		}
@@ -5047,7 +5107,7 @@
 			event.preventDefault && event.preventDefault();
 		}
 		// ESC or O key
-		else if ( ( event.keyCode === 27 || event.keyCode === 79 ) && features.transforms3d ) {
+		else if ( ( keyCode === 27 || keyCode === 79 ) && features.transforms3d ) {
 			if( dom.overlay ) {
 				closeOverlay();
 			}
