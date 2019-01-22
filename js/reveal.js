@@ -2065,6 +2065,16 @@
 
 			if( !config.disableLayout ) {
 
+				// On some mobile devices '100vh' is taller than the visible
+				// viewport which leads to part of the presentation being
+				// cut off. To work around this we define our own '--vh' custom
+				// property where 100x adds up to the correct height.
+				//
+				// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+				if( isMobileDevice ) {
+					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
+				}
+
 				var size = getComputedSlideSize();
 
 				// Layout the contents of the slides

@@ -12,6 +12,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+  height: calc( var(--vh, 1vh) * 100);
   overflow: hidden; }
 
 body {
@@ -462,10 +463,6 @@ body {
   overflow: hidden;
   -ms-touch-action: none;
       touch-action: none; }
-
-@media only screen and (orientation: landscape) {
-  .reveal.ua-iphone {
-    position: fixed; } }
 
 .reveal .slides {
   position: absolute;
