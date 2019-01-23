@@ -1362,6 +1362,14 @@
 
 		dom.slideNumber.style.display = slideNumberDisplay;
 
+		// Add the navigation mode to the DOM so we can adjust styling
+		if( config.navigationMode !== 'default' ) {
+			dom.wrapper.setAttribute( 'data-navigation-mode', config.navigationMode );
+		}
+		else {
+			dom.wrapper.removeAttribute( 'data-navigation-mode' );
+		}
+
 		sync();
 
 	}
@@ -5316,8 +5324,8 @@
 	/**
 	 * Event handler for navigation control buttons.
 	 */
-	function onNavigateLeftClicked( event ) { event.preventDefault(); onUserInput(); navigateLeft(); }
-	function onNavigateRightClicked( event ) { event.preventDefault(); onUserInput(); navigateRight(); }
+	function onNavigateLeftClicked( event ) { event.preventDefault(); onUserInput(); config.navigationMode === 'linear' ? navigatePrev() : navigateLeft(); }
+	function onNavigateRightClicked( event ) { event.preventDefault(); onUserInput(); config.navigationMode === 'linear' ? navigateNext() : navigateRight(); }
 	function onNavigateUpClicked( event ) { event.preventDefault(); onUserInput(); navigateUp(); }
 	function onNavigateDownClicked( event ) { event.preventDefault(); onUserInput(); navigateDown(); }
 	function onNavigatePrevClicked( event ) { event.preventDefault(); onUserInput(); navigatePrev(); }

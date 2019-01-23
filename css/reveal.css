@@ -343,10 +343,16 @@ body {
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
 
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-up,
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-down {
+  display: none; }
+
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-left,
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
   bottom: 1.4em;
   right: 5.5em; }
 
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-right,
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
   bottom: 1.4em;
   right: 0.5em; }

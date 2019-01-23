@@ -407,12 +407,19 @@ $controlsArrowAngleActive: 36deg;
 	}
 }
 
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-up,
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-down {
+	display: none;
+}
+
 // Adjust the layout when there are no vertical slides
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-left,
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
 	bottom: $controlArrowSpacing;
 	right: 0.5em + $controlArrowSpacing + $controlArrowSize;
 }
 
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-right,
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
 	bottom: $controlArrowSpacing;
 	right: 0.5em;
