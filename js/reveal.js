@@ -116,10 +116,8 @@
 			// all slides (both horizontal and vertical).
 			//
 			// "linear"
-			// When this is enabled, the left/right arrow keys step through all
-			// slides (both horizontal and vertical) in a linear way. If the
-			// presentation has no vertical slides this setting is identical
-			// to "default".
+			// Removes the up/down arrows. Left/right arrows step through all
+			// slides (both horizontal and vertical).
 			//
 			// "grid"
 			// When this is enabled, stepping left/right from a vertical stack

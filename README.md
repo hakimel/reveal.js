@@ -285,10 +285,8 @@ Reveal.initialize({
 	// Change the presentation direction to be RTL
 	rtl: false,
 
-	// When this is enabled, stepping left/right from a vertical stack
-	// to an adjacent vertical stack will land you at the same vertical
-	// index instead of the top.
-	gridNavigation: false,
+	// .
+	navigationMode: 'default',
 
 	// Randomizes the order of slides each time the presentation loads
 	shuffle: false,
@@ -523,15 +521,15 @@ Slides can be nested within other slides to create vertical stacks (see [Markup]
 
 <img src="https://static.slid.es/support/reveal.js-vertical-slides.gif" width="450">
 
-#### Grid Navigation
-If you are on a vertical slide and step right onto an adjacent vertical stack, you'll arrive at the top of that stack. Consider a deck with six slides organized in two stacks like this:
-```
-1.1   2.1
-1.2   2.2
-1.3   2.3
-```
-If you're on slide 1.3 and navigate right, you will normally move from 1.3 -> 2.1. If you prefer remaining at the same vertical index and going directly from 1.3 -> 2.3 you can enable the `gridNavigation` config option: `Reveal.configure({ gridNavigation: true })`.
-			
+#### Navigation Mode
+You can finetune the reveal.js navigation behavior by using the `navigationMode` config option. This option supports the following values:
+
+| Value                         | Description |
+| :---------------------------  | :---------- |
+| default                       | Left/right arrow keys step between horizontal slides. Up/down arrow keys step between vertical slides. Space key steps through all slides (both horizontal and vertical). |
+| linear                        | Removes the up/down arrows. Left/right arrows step through all slides (both horizontal and vertical). |
+| grid                          | When this is enabled, stepping left/right from a vertical stack to an adjacent vertical stack will land you at the same vertical index.<br><br>Consider a deck with six slides ordered in two vertical stacks:<br>1.1    2.1<br>1.2    2.2<br>1.3    2.3<br><br>If you're on slide 1.3 and navigate right, you will normally move from 1.3 -> 2.1. With navigationMode set to "grid" the same navigation takes you from 1.3 -> 2.3. |
+
 ### Touch Navigation
 
 You can swipe to navigate through a presentation on any touch-enabled device. Horizontal swipes change between horizontal slides, vertical swipes change between vertical slides. If you wish to disable this you can set the `touch` config option to false when initializing reveal.js.
