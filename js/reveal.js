@@ -108,14 +108,25 @@
 			// Change the presentation direction to be RTL
 			rtl: false,
 
-			// When this is enabled, stepping only with previous and next slide.
-			simpleNavigation: false,
-
+			// Changes the behavior of our navigation directions.
+			//
+			// "default"
+			// Left/right arrow keys step between horizontal slides, up/down
+			// arrow keys step between vertical slides. Space key steps through
+			// all slides (both horizontal and vertical).
+			//
+			// "linear"
+			// When this is enabled, the left/right arrow keys step through all
+			// slides (both horizontal and vertical) in a linear way. If the
+			// presentation has no vertical slides this setting is identical
+			// to "default".
+			//
+			// "grid"
 			// When this is enabled, stepping left/right from a vertical stack
 			// to an adjacent vertical stack will land you at the same vertical
 			// index.
 			//
-			// Consider a deck with six slides ordered in two stacks like this:
+			// Consider a deck with six slides ordered in two vertical stacks:
 			// 1.1    2.1
 			// 1.2    2.2
 			// 1.3    2.3
@@ -123,7 +134,7 @@
 			// If you're on slide 1.3 and navigate right, you will normally move
 			// from 1.3 -> 2.1. With "gridNavigation" enabled the same navigation
 			// takes you from 1.3 -> 2.3.
-			gridNavigation: false,
+			navigationMode: 'default',
 
 			// Randomizes the order of slides each time the presentation loads
 			shuffle: false,
@@ -4718,12 +4729,12 @@
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
-				slide( indexh + 1, config.gridNavigation ? indexv : undefined );
+				slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
 		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
-			slide( indexh - 1, config.gridNavigation ? indexv : undefined );
+			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
 	}
@@ -4735,12 +4746,12 @@
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
-				slide( indexh - 1, config.gridNavigation ? indexv : undefined );
+				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
 		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
-			slide( indexh + 1, config.gridNavigation ? indexv : undefined );
+			slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
 	}
@@ -5024,7 +5035,7 @@
 				if( firstSlideShortcut ) {
 					slide( 0 );
 				}
-				else if( !isOverview() && config.simpleNavigation ) {
+				else if( !isOverview() && config.navigationMode === 'linear' ) {
 					navigatePrev();
 				}
 				else {
@@ -5036,7 +5047,7 @@
 				if( lastSlideShortcut ) {
 					slide( Number.MAX_VALUE );
 				}
-				else if( !isOverview() && config.simpleNavigation ) {
+				else if( !isOverview() && config.navigationMode === 'linear' ) {
 					navigateNext();
 				}
 				else {
@@ -5045,20 +5056,20 @@
 			}
 			// K, UP
 			else if( keyCode === 75 || keyCode === 38 ) {
-				if( !isOverview() && config.simpleNavigation ) {
+				if( !isOverview() && config.navigationMode === 'linear' ) {
 					navigatePrev();
 				}
 				else {
-					navigateUp()
+					navigateUp();
 				}
 			}
 			// J, DOWN
 			else if( keyCode === 74 || keyCode === 40 ) {
-				if( !isOverview() && config.simpleNavigation ) {
-					navigateNext()
+				if( !isOverview() && config.navigationMode === 'linear' ) {
+					navigateNext();
 				}
 				else {
-					navigateDown()
+					navigateDown();
 				}
 			}
 			// HOME
