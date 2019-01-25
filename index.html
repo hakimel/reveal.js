@@ -36,7 +36,7 @@
     <div class="reveal">
       <div class="slides">
         <section>Slide 1</section>
-        <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$">
+        <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$" data-transition="convex">
           <script type="text/template">
 <!-- .slide: data-background="#333333" -->
 # Slide 2 :thumbsup:
@@ -63,6 +63,7 @@ Fragment 1 <!-- .element: class="fragment" data-fragment-index="1" -->
           { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
         ]
       });
+      Reveal.configure({ backgroundTransition: 'fade' })
     </script>
   </body>
 </html>
