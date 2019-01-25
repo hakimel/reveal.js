@@ -36,12 +36,94 @@
     <div class="reveal">
       <div class="slides">
         <section>Slide 1</section>
-        <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$" data-transition="convex">
+        <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$">
           <script type="text/template">
+
 <!-- .slide: data-background="#333333" -->
 # Slide 2 :thumbsup:
 
 Fragment 1 <!-- .element: class="fragment" data-fragment-index="1" -->
+
+|||
+
+## Slide3
+
+---
+
+## Chart plugin - Line
+
+<canvas data-chart="line">
+<!--
+  {
+    "data": {
+      "labels": ["January", "February", "March", "April", "May", "June", "July"],
+      "datasets": [
+        {
+          "data": [65, 59, 80, 81, 56, 55, 40],
+          "label": "My first dataset",
+          "backgroundColor": "rgba(20, 220, 220, .8)"
+        },
+        {
+          "data": [28, 48, 40, 19, 86, 27, 90],
+          "label": "My second dataset",
+          "backgroundColor": "rgba(220, 120, 120, .8)"
+        }
+      ]
+    },
+    "options": { "responsive": "true" }
+  }
+-->
+</canvas>
+
+|||
+
+## Chart plugin - Bar
+
+<canvas data-chart="bar">
+<!--
+  {
+    "data": {
+      "labels": ["January", "February", "March", "April", "May", "June", "July"],
+      "datasets": [
+        {
+          "data": [65, 59, 80, 81, 56, 55, 40],
+          "label": "My first dataset",
+          "backgroundColor": "rgba(20, 220, 220, .8)"
+        },
+        {
+          "data": [28, 48, 40, 19, 86, 27, 90],
+          "label": "My second dataset",
+          "backgroundColor": "rgba(220, 120, 120, .8)"
+        }
+      ]
+    },
+    "options": { "responsive": "true" }
+  }
+-->
+</canvas>
+
+|||
+
+### Chart plugin - Doughnut
+
+<canvas data-chart="doughnut">
+<!--
+  {
+    "data": {
+      "labels": ["Red","Yellow","Blue"],
+      "datasets": [
+        {
+          "data": [10, 20, 30],
+          "backgroundColor": ["rgba(252, 72, 113, .8)", "rgba(247, 203, 98, .8)", "rgba(71, 157, 251, .8)"],
+          "borderWidth": 0
+        }
+      ]
+    },
+    "options": { "responsive": "true" }
+  }
+-->
+</canvas>
+
           </script>
         </section>
         <!-- <section data-markdown="slide.md" data-separator="^\n---\n$" data-separator-vertical="^\n\|\|\|\n$"></section> -->
@@ -60,10 +142,15 @@ Fragment 1 <!-- .element: class="fragment" data-fragment-index="1" -->
           { src: 'plugin/markdown/marked.js' },
           { src: 'plugin/markdown/markdown.js' },
           { src: 'plugin/notes/notes.js', async: true },
-          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/chart/Chart.min.js' },
+          { src: 'plugin/chart/csv2chart.js' }
         ]
       });
-      Reveal.configure({ backgroundTransition: 'fade' })
+      Reveal.configure({
+        transition: 'convex',
+        backgroundTransition: 'fade'
+      })
     </script>
   </body>
 </html>
