@@ -3809,13 +3809,6 @@
 		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
 		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
 
-		// Always show media controls on mobile devices
-		if( isMobileDevice ) {
-			toArray( dom.slides.querySelectorAll( 'video, audio' ) ).forEach( function( el ) {
-				el.controls = true;
-			} );
-		}
-
 	}
 
 	/**
@@ -3859,7 +3852,20 @@
 					// Mobile devices never fire a loaded event so instead
 					// of waiting, we initiate playback
 					else if( isMobileDevice ) {
-						el.play();
+						var promise = el.play();
+
+						// If autoplay does not work, ensure that the controls are visible so
+						// that the viewer can start the media on their own
+						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
+							promise.catch( function() {
+								el.controls = true;
+
+								// Once the video does start playing, hide the controls again
+								el.addEventListener( 'play', function() {
+									el.controls = false;
+								} );
+							} );
+						}
 					}
 					// If the media isn't loaded, wait before playing
 					else {
