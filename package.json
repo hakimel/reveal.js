@@ -8,7 +8,8 @@
   "scripts": {
     "test": "grunt test",
     "start": "grunt serve",
-    "build": "grunt"
+    "build": "grunt",
+    "buildSlides": "gulp slideDeck"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -37,7 +38,11 @@
     "grunt-retire": "^1.0.7",
     "grunt-zip": "~0.17.1",
     "mustache": "^2.3.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "gulp": "^4.0.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace-task": "^0.11.0"
   },
   "license": "MIT"
 }
