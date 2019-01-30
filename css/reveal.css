@@ -469,8 +469,8 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  -ms-touch-action: none;
-      touch-action: none; }
+  -ms-touch-action: pinch-zoom;
+      touch-action: pinch-zoom; }
 
 .reveal .slides {
   position: absolute;

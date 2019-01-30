@@ -566,7 +566,7 @@ $controlsArrowAngleActive: 36deg;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	touch-action: none;
+	touch-action: pinch-zoom;
 }
 
 .reveal .slides {
