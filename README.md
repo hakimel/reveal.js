@@ -994,10 +994,12 @@ Limitations:
 
 ### Resize Event
 
-When reveal.js changes the scale of the slides it fires an resize event. You can subscribe to the event to resize your elements accordingly.
+When reveal.js changes the scale of the slides it fires a resize event. You can subscribe to the event to resize your elements accordingly.
 
 ```javascript
-Reveal.addEventListener( 'resize', function( event ) { /* console.log(event.scale,event.oldscale,event.size); */ } );
+Reveal.addEventListener( 'resize', function( event ) {
+	// event.scale, event.oldScale, event.size
+} );
 ```
 
 ### postMessage API
