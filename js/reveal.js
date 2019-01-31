@@ -3257,40 +3257,48 @@
 	 *  "h/v":	horizontal / vertical slide number
 	 *    "c":	flattened slide number
 	 *  "c/t":	flattened slide number / total slides
+	 *
+	 * Alternatively, config.slideNumber can be a function returning a
+	 * three-element array with arguments to formatSlideNumber().
 	 */
 	function updateSlideNumber() {
 
 		// Update slide number if enabled
 		if( config.slideNumber && dom.slideNumber ) {
 
-			var value = [];
+			var value;
 			var format = 'h.v';
 
-			// Check if a custom number format is available
-			if( typeof config.slideNumber === 'string' ) {
-				format = config.slideNumber;
-			}
+			if ( typeof config.slideNumber === 'function' ) {
+				value = config.slideNumber();
+			} else {
+				// Check if a custom number format is available
+				if( typeof config.slideNumber === 'string' ) {
+					format = config.slideNumber;
+				}
 
-			// If there are ONLY vertical slides in this deck, always use
-			// a flattened slide number
-			if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
-				format = 'c';
-			}
+				// If there are ONLY vertical slides in this deck, always use
+				// a flattened slide number
+				if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
+					format = 'c';
+				}
 
-			switch( format ) {
-				case 'c':
-					value.push( getSlidePastCount() + 1 );
-					break;
-				case 'c/t':
-					value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
-					break;
-				case 'h/v':
-					value.push( indexh + 1 );
-					if( isVerticalSlide() ) value.push( '/', indexv + 1 );
-					break;
-				default:
-					value.push( indexh + 1 );
-					if( isVerticalSlide() ) value.push( '.', indexv + 1 );
+				value = [];
+				switch( format ) {
+					case 'c':
+						value.push( getSlidePastCount() + 1 );
+						break;
+					case 'c/t':
+						value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
+						break;
+					case 'h/v':
+						value.push( indexh + 1 );
+						if( isVerticalSlide() ) value.push( '/', indexv + 1 );
+						break;
+					default:
+						value.push( indexh + 1 );
+						if( isVerticalSlide() ) value.push( '.', indexv + 1 );
+				}
 			}
 
 			dom.slideNumber.innerHTML = formatSlideNumber( value[0], value[1], value[2] );
