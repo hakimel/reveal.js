@@ -42,6 +42,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
   - [Fullscreen mode](#fullscreen-mode)
   - [Embedded media](#embedded-media)
   - [Stretching elements](#stretching-elements)
+  - [Resize Event](#resize-event)
   - [postMessage API](#postmessage-api)
 - [PDF Export](#pdf-export)
 - [Theming](#theming)
@@ -990,6 +991,14 @@ Sometimes it's desirable to have an element, like an image or video, stretch to 
 Limitations:
 - Only direct descendants of a slide section can be stretched
 - Only one descendant per slide section can be stretched
+
+### Resize Event
+
+When reveal.js changes the scale of the slides it fires an resize event. You can subscribe to the event to resize your elements accordingly.
+
+```javascript
+Reveal.addEventListener( 'resize', function( event ) { /* console.log(event.scale,event.oldscale,event.size); */ } );
+```
 
 ### postMessage API
 
