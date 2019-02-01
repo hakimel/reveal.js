@@ -939,7 +939,7 @@ Reveal.configure({ slideNumber: 'c/t' });
 
 // You can provide a function to fully customize the number:
 Reveal.configure({ slideNumber: function() {
-	// Ignore numbering of vertical slides
+    // Ignore numbering of vertical slides
     return [ Reveal.getIndices().h ];
 }});
 
