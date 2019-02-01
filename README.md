@@ -937,6 +937,12 @@ Reveal.configure({ slideNumber: true });
 //  "c/t": 	flattened slide number / total slides
 Reveal.configure({ slideNumber: 'c/t' });
 
+// You can provide a function to fully customize the number:
+Reveal.configure({ slideNumber: function() {
+	// Ignore numbering of vertical slides
+    return [ Reveal.getIndices().h ];
+}});
+
 // Control which views the slide number displays on using the "showSlideNumber" value:
 //     "all": show on all views (default)
 // "speaker": only show slide numbers on speaker notes view

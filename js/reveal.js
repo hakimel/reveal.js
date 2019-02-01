@@ -67,17 +67,30 @@
 			progress: true,
 
 			// Display the page number of the current slide
+			// - true:    Show slide number
+			// - false:   Hide slide number
+			//
+			// Can optionally be set as a string that specifies the number formatting:
+			// - "h.v":	  Horizontal . vertical slide number (default)
+			// - "h/v":	  Horizontal / vertical slide number
+			// - "c":	  Flattened slide number
+			// - "c/t":	  Flattened slide number / total slides
+			//
+			// Alternatively, you can provide a function that returns the slide
+			// number for the current slide. The function needs to return an array
+			// with one string [slideNumber] or three strings [n1,delimiter,n2].
+			// See #formatSlideNumber().
 			slideNumber: false,
 
-			// Use 1 based indexing for # links to match slide number (default is zero
-			// based)
-			hashOneBasedIndex: false,
-
-			// Controls which contexts the slide number should appear in
+			// Can be used to limit the contexts in which the slide number appears
 			// - "all":      Always show the slide number
 			// - "print":    Only when printing to PDF
 			// - "speaker":  Only in the speaker view
 			showSlideNumber: 'all',
+
+			// Use 1 based indexing for # links to match slide number (default is zero
+			// based)
+			hashOneBasedIndex: false,
 
 			// Add the current slide number to the URL hash so that reloading the
 			// page/copying the URL will return you to the same slide
@@ -3262,16 +3275,7 @@
 
 
 	/**
-	 * Updates the slide number div to reflect the current slide.
-	 *
-	 * The following slide number formats are available:
-	 *  "h.v":	horizontal . vertical slide number (default)
-	 *  "h/v":	horizontal / vertical slide number
-	 *    "c":	flattened slide number
-	 *  "c/t":	flattened slide number / total slides
-	 *
-	 * Alternatively, config.slideNumber can be a function returning a
-	 * three-element array with arguments to formatSlideNumber().
+	 * Updates the slide number to match the current slide.
 	 */
 	function updateSlideNumber() {
 
@@ -3281,9 +3285,10 @@
 			var value;
 			var format = 'h.v';
 
-			if ( typeof config.slideNumber === 'function' ) {
+			if( typeof config.slideNumber === 'function' ) {
 				value = config.slideNumber();
-			} else {
+			}
+			else {
 				// Check if a custom number format is available
 				if( typeof config.slideNumber === 'string' ) {
 					format = config.slideNumber;
