@@ -524,7 +524,8 @@ body {
 .reveal .slides > section.stack {
   padding-top: 0;
   padding-bottom: 0;
-  pointer-events: none; }
+  pointer-events: none;
+  height: 100%; }
 
 .reveal .slides > section.present,
 .reveal .slides > section > section.present {
@@ -741,14 +742,14 @@ body {
 .reveal .slides > section > section[data-transition=zoom].past,
 .reveal .slides > section > section[data-transition~=zoom-out].past,
 .reveal.zoom .slides > section > section:not([data-transition]).past {
-  -webkit-transform: translate(0, -150%);
-          transform: translate(0, -150%); }
+  -webkit-transform: scale(16);
+          transform: scale(16); }
 
 .reveal .slides > section > section[data-transition=zoom].future,
 .reveal .slides > section > section[data-transition~=zoom-in].future,
 .reveal.zoom .slides > section > section:not([data-transition]).future {
-  -webkit-transform: translate(0, 150%);
-          transform: translate(0, 150%); }
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2); }
 
 /*********************************************
  * CUBE TRANSITION
