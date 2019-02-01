@@ -73,7 +73,10 @@
 			// based)
 			hashOneBasedIndex: false,
 
-			// Determine which displays to show the slide number on
+			// Controls which contexts the slide number should appear in
+			// - "all":      Always show the slide number
+			// - "print":    Only when printing to PDF
+			// - "speaker":  Only in the speaker view
 			showSlideNumber: 'all',
 
 			// Add the current slide number to the URL hash so that reloading the
