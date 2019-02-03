@@ -418,30 +418,37 @@ For the combination **1 1 0** the canonical term is: **A \* B \* /C**
 --
 
 ## Circuital diagram
-  - Step 1
+  - Step 1 (Power supply)
 
   ![](img/sr-latch-fr1.jpg)
 
 --
 
 ## Circuital diagram
-  - Step 2
+  - Step 2 (Connecting inputs)
   
   ![](img/sr-latch-fr2.jpg)
 
 --
 
 ## Circuital diagram
-  - Step 3
+  - Step 3 (SR latch feedback)
   
   ![](img/sr-latch-fr3.jpg)
 
 --
 
 ## Circuital diagram
-  - Step 4
+  - Step 4 (Connecting LEDs)
   
   ![](img/sr-latch-fr4.jpg)
+
+--
+
+## Circuital diagram
+  - Result
+
+  ![](img/sr-latch-fr5.jpg)
 
 ---
 
