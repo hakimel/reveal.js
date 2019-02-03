@@ -1,11 +1,11 @@
 
 
-## Blockchain, DApps, and Blockstack
+## Blockchain, DApps, and Skycoin
 #### Basic concepts to get started
 
 ----------------
 
-#### These slides: [slides.cuban.tech/dapps.html](http://slides.cuban.tech/dapps.html)
+#### These slides: [slides.cuban.tech/skycoin.intro.html](http://slides.cuban.tech/skycoin.intro.html)
 
 ----------------
 
@@ -24,28 +24,67 @@ Password: meet-ups
 - Relation betwen RSM and Blockchain
 - Execution rules and consensus
 - General Theory of DApps
-- Blockstack overview
-- Blockchain-independent DApp RSM with VirtualChain
+- Intro to Skycoin
 
-<small> Notes about Bitcoin P2P network in-between </small>
+<small> Notes about Bitcoin and Ethereum in-between </small>
+
+--
+
+[![Skycoin logo](img/Skycoin-Cloud-BW-Vertical.png)](http://www.skycoin.net)
+
+- Why Skycoin?
+- Understanding Skycoin transactions
+- Core values
+- Five pillars of Skycoin
+- Skycoin ecosystem
+- What's next?
+
+---
+
+## Are you familiar with ... ?
+##### Answer [here](http://forms.cuban.tech/skycoin.intro)
+
+- Go programming language
+- Blockchain
+- Distributed applications
+- Asymetric cryptography and cryptocurrencies
+- Accounting and economics
+- Bitcoin, Ethereum, Skycoin
 
 ---
 
 ## State Machines - States
+##### Bank account : balance (credits, due amounts, ...)
 
 ![](img/rsm.states.png)
 
 ---
 
 ## State Machines - Inputs
+##### Bank account : transactions (etc ...)
 
 ![](img/rsm.inputs.png)
 
 ---
 
 ## State Machines - Transition
+##### Transition : changes in balance (debit, credit, ...)
 
 ![](img/rsm.transition.png)
+
+--
+
+## State Machines
+##### Example : Bank account
+
+![Bank account state machine](img/uml.state-machine-bank-account.png)
+
+--
+
+## State Machines
+##### Example : ATM
+
+![ATM state machine](img/uml.state-machine-example-bank-atm.png)
 
 ---
 
@@ -67,6 +106,11 @@ Password: meet-ups
 - Replicas of a single server executed on separate processors 
 - Protocols for client interactions with replicas
 - Physical and electrical isolation for independent server failures
+
+--
+
+## Assumptions
+
 - Let's assume deterministic state machine
   * ... even if Turing complete is possible
 
@@ -84,16 +128,38 @@ Password: meet-ups
 
 ## The State Machine Approach
 
-##### Deploy software to multiple nodes
+##### Deployment - Version Control
+
+|          |         |        |
+|----------|---------|--------|
+| <small> [![Skycoin logo](img/Skycoin-Cloud-BW-Vertical.png)](https://github.com/skycoin) </small> | <small> [![Bitcoin logo](img/bitcoin.logo.png)](https://github.com/bitcoin/) </small> | <small> [![Ethereum logo](img/eth.logo.w.png)](https://https://github.com/ethereum) </small> |
+| <small> go </small> | <small> C / C++ </small> | <small> go </small>   |
+| <small>[Skycoin @ Github](https://github.com/skycoin)</small> | <small>[Bitcoin @ Github](https://github.com/bitcoin/)</small> | <small>[Ethereum @ Github](https://https://github.com/ethereum)</small> |
+|  |  | <small>[Ethers.io @ Github](https://github.com/ethers-io)</small> |
+
+--
+
+## The State Machine Approach
+
+##### Deployment - Software package repositories
+
+|          |         |
+|----------|---------|
+| <small> [![Bitcoin logo](img/bitcoin.logo.png)](https://packages.debian.org/bitcoind) </small> | <small> [![Blockstack logo](img/blockstack.logo.jpeg)](https://packages.blockstack.com) </small> |
+| [bitcoind @ Debian](https://packages.debian.org/bitcoind) | [Blockstack apt repo](https://packages.blockstack.com) |
+
+--
+
+## The State Machine Approach
+
+##### Deployment - Virtualization
 
 <small> [![](img/dockercuba.logo.png)](http://docker.cuban.tech) </small>
 
 <small> [docker.cuban.tech](http://docker.cuban.tech) </small>
 
-- Software package repositories
-  * e.g. [bitcoind @ Debian](https://packages.debian.org/bitcoind), [Blockstack apt repo](https://packages.blockstack.com), ...
 - Containers and registries
-  * e.g. [Lisk](https://hub.docker.com/u/lisk/), [Blockstack](https://hub.docker.com/u/blockstack), ... @ Docker Hub
+  * e.g. [Skycoin](https://hub.docker.com/u/skycoin/), [Lisk](https://hub.docker.com/u/lisk/), [Blockstack](https://hub.docker.com/u/blockstack), ... @ Docker Hub
 - CM tools (Ansible, Puppet, Chef, Habitat, ...)
 
 --
@@ -119,7 +185,23 @@ Password: meet-ups
 ##### Receive client requests
 
 - Multiple solutions
-- e.g. Bitcoin transactions
+- e.g. Transactions
+
+---
+
+## Transaction models - Account
+##### Ethereum, Ripple
+
+- All transactions/objects belong to a single public key
+- Complicates design
+- Compromises privacy
+  * Easily tracked and monitored account
+
+---
+
+## Transaction models - Bitcoin UXTO
+
+![Bitcoin tx input / output](img/btc.utxo.usecase.png)
 
 --
 
@@ -160,7 +242,7 @@ Password: meet-ups
 
 <small> blocktrail.com </small>
 
-![](img/bitcoin.tx.c60e4dc5e69c19ff53a45954d8a8996fd9aac6fda317fd7238dec6a482c718cf.png)
+![BTC TX c60e4dc5e69c19ff53a45954d8a8996fd9aac6fda317fd7238dec6a482c718cf](img/bitcoin.tx.c60e4dc5e69c19ff53a45954d8a8996fd9aac6fda317fd7238dec6a482c718cf.png)
 
 --
 
@@ -242,9 +324,43 @@ Password: meet-ups
 
 ---
 
+## What's wrong with Bitcoin transactions?
+
+- Store UX objects as part of TX
+  * referenced by index
+  * Dust resource exhaustion attack
+- Overcomplicated security & privacy
+  * e.g. generate new address for each TX
+
+---
+
+## Transaction models - UXTX
+##### Skycoin
+
+- Separate hash IDs for UX and TX
+- UX objects independent of TX objects
+- Simplifies design
+- No scripting
+
+--
+
+## UXTX explained
+
+![UXTX](img/skycoin.uxtx.png)
+
+- UX/TX simple directed acyclic bipartite graph
+
+---
+
 # P2P network
 
 A very peculiar monster
+
+---
+
+## Bitcoin Protocol Overview
+
+![Bitcoin P2P Protocol](img/btc-p2p-data-messages.svg)
 
 --
 
@@ -289,6 +405,14 @@ seed.bitcoin.sipa.be.   60  IN  A   203.0.113.183
 - Full nodes keep track of unconfirmed transactions in [memory pool](https://bitcoin.org/en/developer-guide#memory-pool)
 
 > ... to be continued ...
+
+---
+
+## Skycoin Protocol Overview
+
+- No DNS during P2P discovery
+
+![Skycoin P2P protocol](img/sky-p2p-data-messages.svg)
 
 ---
 
@@ -338,7 +462,7 @@ Causal ordering : Chain of ownership
 
 - Execute inputs in the chosen order on each replica
 
---
+---
 
 ## Bitcoin - Transaction propagation
 
@@ -401,11 +525,11 @@ Coinbase transaction comes first
   * Make decisions about changes in a DApp
 - Modifying past blocks harder than adding new ones
 - Common examples
-  * **Proof of work** (PoW)
+  * **Proof of work** (PoW) : BTC
   * **Proof of stake** (PoS)
-  * **Proof of space** (PoSpace)
+  * **Proof of burn** : SKY
   * **Proof of collaboration** (PoC)
-  * **Proof of replication** (PoR)
+  * **Proof of space** (PoSpace), replication** (PoR)
 - Can be used in parallel
   * e.g. [PeerCoin](http://peercoin.net) relies on PoW + PoS
 
@@ -632,6 +756,111 @@ Application specific integrated circuits, a.k.a. ASICs
 
 ---
 
+## [Why we built Skycoin](https://www.skycoin.net/blog/statement/why-we-built-skycoin/)
+
+- Issues with Proof of Work
+- Proof of Stake: More Centralization Problems
+- Technical improvements
+  * Security problems associated with other blockchain networks
+  * Decouple coin creation from the "mining" process
+  * Fast confirmation of transaction
+- Inflationary policies
+  * The supply of Skycoin is fixed
+
+--
+
+## Issues with proof of work
+
+- Control of the network => economic power
+- Monopolization of mining
+- Incentivized the purchase of hashing power
+  * Disproportionate control over the network.
+  * Bitcoin => SlushPool , Bitmain , BTCC
+  * revert and falsify transactions 51% attack
+- Economic and environmental cost
+
+--
+
+## Bitcoin inflation
+
+- Transaction fees and inflation bleeding users dry.
+  * Over $50, and go to centralized mining pools.
+- More expensive than international bank transfer
+
+---
+
+## Bitcoin - Problems with UTXO
+
+<small>
+![BTC TX c60e4dc5e69c19ff53a45954d8a8996fd9aac6fda317fd7238dec6a482c718cf](img/bitcoin.tx.c60e4dc5e69c19ff53a45954d8a8996fd9aac6fda317fd7238dec6a482c718cf.png)
+</small>
+
+- Dust attack
+  * Resource exhaustion
+  * RAM and disk space
+
+---
+
+## Skycoin UXTX Spending
+
+![UXTX graph](img/skycoin.uxtx.png)
+
+- Pruning spent UX is easy
+- No mining, no fee (no mining, no fee ...)
+  * Proof of burn - CoinHours
+
+--
+
+## Skycoin Coin Hours
+
+##### The Fuel for the Skycoin ecosystem
+
+- Holding Skycoin in a wallet
+  * ... automatically generates Coin Hours
+  * 1 SKY * 1 hour = 1 Coin Hour.
+- Keep the Skywire network free of transaction fees.
+- Virtual cat games can't skyrocket tx fees up 1600%
+  * Recent issue in the Ethereum network.
+- Users never pay to access and use the network
+
+--
+
+## Skycoin Coin Hours
+
+### What if ... ?
+
+- ... Coin Hours inflate dramatically
+  * Max = 100 million Coin Hour per hour
+  * Will be reached in decades
+- ... no transactions ever took place on the network
+  * max Coin Hours would not exceed `uint64` for centuries.
+
+--
+
+## Skycoin Spending transactions
+
+##### Proof of burn
+
+![Burn percents Coin Hours](img/skycoin.coinhours.burn.png)
+
+--
+
+## Skycoin spend example
+
+##### Comparison of number of purchases
+
+![Skycoin Purchases](img/skycoin.hours.example.png)
+
+--
+
+## Skycoin spend example
+
+##### After 1 hour
+
+![Skycoin purchase results](img/skycoin.hours.example.1h.png)
+
+---
+
 ## The State Machine Approach
 
 - Deploy replicas of the software 
@@ -772,7 +1001,47 @@ Wallet software : Add up UTXO to determine balance
 > *(if you have only 8 then you are part of the problem, not part of the solution)*,
 > and have a high-bandwidth connection to the Internet.
 
-Gavin Andresen, Bitcoin Foundation’s Chief Scientist, in [Reddit post](http://www.reddit.com/r/Bitcoin/comments/1scd4z/im_running_a_full_node_and_so_should_you/cdw3lrh?context=3)
+Gavin Andresen, Bitcoin Foundation's Chief Scientist, in [Reddit post](http://www.reddit.com/r/Bitcoin/comments/1scd4z/im_running_a_full_node_and_so_should_you/cdw3lrh?context=3)
+
+---
+
+## Nakamoto consensus - Issues
+
+- Important resource requirements
+  * Bandwidth (mainly upload)
+  * CPU, disk space (due to UXTO)
+- Incentivates monopolization
+  * Big players have more resources
+  * More influence
+
+---
+
+![](img/skycoin.obelisk.banner.jpg)
+
+---
+
+## Obelisk
+
+##### Skycoin consensus
+
+- Based on distributed influence (web of trust)
+- Node subscribes to a list of other nodes
+  * Network density determines node's influence.
+- Prevents the development of centralized power.
+- If some node fails to comply,
+  * ... its actions will be visible (public) 
+  * Network can then sever connections with that node
+
+---
+
+## Benefits
+
+- Immune to 51% attack (no mining)
+- Transactions are significantly faster
+  * Occur in seconds.
+- Decisions made through community consensus
+- Less bandwidth wrt BTC (≈1:25)
+- Official support for DIY devices (RPi, Orange Pi, ...)
 
 ---
 
@@ -902,159 +1171,20 @@ Gavin Andresen, Bitcoin Foundation’s Chief Scientist, in [Reddit post](http://
 
 ---
 
-# Blockstack
+## What's next?
+
+- Next meetup : Skycoin projects explained !!!
+- Telegram community : [https://t.me/Skycoin](https://t.me/Skycoin)
+- Website: [https://www.skycoin.net](https://www.skycoin.net)
+- Development - [https://github.com/skycoin](https://github.com/skycoin)
+- News Channel: [https://t.me/skycoinnews](https://t.me/skycoinnews)
+- Twitter: [https://twitter.com/Skycoinproject](https://twitter.com/Skycoinproject)
+- Support: [https://t.me/skycoinsupport](https://t.me/skycoinsupport)
 
 ---
 
-## Why Blockstack ?
+# Thank you for coming!
 
-The Internet is +40 years old now
-
-- [Critical services offline](https://www.wired.com/2016/10/internet-outage-ddos-dns-dyn/) by attacks like DDoS on DNS servers
-- Implicit trust e.g. [TurkTrust CA issued false security certificates for Google](http: //cnet.co/2oArU6O)
-- Desktop to cloud creates SPoF e.g. [Yahoo! losing data for 500M people](http: //nyti.ms/2oAqn0G.)
-
---
-
-## Why Blockstack ?
-
-##### Ryan Shea, Blockstack co-founder
-
-<video src="http://videos.cuban.tech/blockstack/Why%20has%20Blockstack%20built%20a%20decentralized%20internet--iwd_wd3waA.mp4" controls width="800"></video>
-
----
-
-## What is Blockstack?
-
-- A New Internet for Decentralized Applications
-- Open source
-- Re-decentralize the Internet
-- Users own their data
-
---
-
-## Trust-to-trust design principle
-
-##### Muneeb Ali, Blockstack CTO
-
-<video src="http://videos.cuban.tech/blockstack/What%20is%20the%20trust-to-trust%20design%20principle-LwFGczn1hrA.mp4" controls width="800"></video>
-
----
-
-## Blockstack goals
-
-- Decentralized Naming & Discovery
-  * Register and use human-readable names
-  * Discover network resources without trusting any remote parties
-- Decentralized Storage
-  * Store data without revealing it to any remote parties.
-- Comparable Performance
-
----
-
-## Blockstack - Key decisions
-
-- Survive Failures of Underlying Blockchains
-- Keep Complexity and Logic Outside of Blockchains
-  * opposite to NameCoin, Ethereum, etc ...
-- Scalable Index for Global Data
-
----
-
-## Blockstack architecture
-
-![](img/bsk-architecture-diagram5.png)
-
----
-
-## Blockstack layers
-
-- Virtual blockchain, on top of Bitcoin blockchain
-- **Atlas**, a peer-network
-  * Global index for discovery information
-- **Gaia**, decentralized storage system
-
-> <small> Users do not need to trust any data layer </small>
-
----
-
-## Blockstack - Blockchain layer
-
-<small> DApp type II </small>
-
-![](img/blockstack.blocks.png)
-
---
-
-## Blockstack - Nameops transactions
-
-[![](img/blockstack.nameops.493935.png)](https://explorer.blockstack.org/nameops/493935)
-
---
-
-## Sample Blockstack null data transaction
-
-<small> NAME_REGISTRATION bluestack.id </small>
-
-[![](img/bitcoin.tx.702e76497a6061222208698c4d0fbed6ca768d10832e1b8da9184a8ea6f5ded8.png)](https://www.blocktrail.com/BTC/tx/702e76497a6061222208698c4d0fbed6ca768d10832e1b8da9184a8ea6f5ded8)
-
----
-
-## Blockstack - Virtualchain layer
-
-##### Why?
-
-- Fork*-consistent RSMs on existing blockchains
-- Fork detection & recovery
-- Cross-chain migration
-  * [Reasons](https://blockstack.org/blog/why-blockstack-is-migrating-to-the-bitcoin-blockchain) for Blockstack to migrate from Namecoin to Bitcoin
-
---
-
-## Blockstack - Virtualchain layer
-
-##### ... according to Muneeb Ali, Blockstack CTO
-
-<video src="http://videos.cuban.tech/blockstack/What%20is%20a%20Virtual%20Chain%20What%20makes%20it%20a%20powerful%20solution%20for%20longevity%20and%20scalability-LBft0c4RZcQ.mp4" controls width="800"></video>
-
---
-
-## Blockstack - Virtualchain
-
-##### Filtering and ordering OP_RETURN TXs
-
-<div style="display: inline-block; background-color: #fff"> ![](img/bsk-virtual-blockchain.png) </div>
-
----
-
-## Blockstack apps - Explorer and AppStore
-
-![](img/bsk-appstore.png)
-
----
-
-## Blockstack apps - iTunes clone
-
-![](img/bsk-app-itunes.png)
-
----
-
-## Blockstack apps - Afia
-
-![](img/bsk-app-afia.png)
-
----
-
-## Blockstack apps - Casa
-
-![](img/bsk-app-casa.png)
-
----
-
-## Wrapping Up
-
-- Thank you for coming!
-- We'd love your feedback: [bit.ly/blockstack-cuba-feedback](http://bit.ly/blockstack-cuba-feedback)
-
+#### Questions?
 
 

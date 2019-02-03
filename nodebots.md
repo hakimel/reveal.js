@@ -40,8 +40,7 @@ Upcoming CubanTech Events
 - [CubanTech meetups](http://meetup.cuban.tech)
 - [Docker Cuba meetups](http://docker.cuban.tech)
 - [Blockstack Cuba meetups](http://blockstack.cuban.tech)
-- [SciPyLA 2017](http://scipyla.org/conf/2017)
-  * ##### Universidad de Sancti Spiritus, November 22nd - 25th 2017
+- [SciPyLA 2019](http://conf.scipyla.org)
 
 ---
 

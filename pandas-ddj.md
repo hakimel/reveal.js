@@ -50,14 +50,14 @@
 
 ![](img/ddj workflow 1.jpg)
 
-###### *Etapas de la producci&oacute;n de un proyecto de periodismo de datos seg&uacute;n Aitamurto, Sirkkunen y Lehtonen (2011)*
+<small> *Etapas de la producci&oacute;n de un proyecto de periodismo de datos seg&uacute;n Aitamurto, Sirkkunen y Lehtonen (2011)* </small>
 
 
 --
 
 ![](img/data journalism workflow guardian.jpg)
 
-*Flujo de trabajo en periodismo de datos. Mark McCormick. Tomado de “A data journalism workflow” de Simon Rogers (2013)*
+<small> *Flujo de trabajo en periodismo de datos. Mark McCormick. Tomado de &ldquo;A data journalism workflow&rdquo; de Simon Rogers (2013)* </small>
 
 --
 
@@ -103,10 +103,9 @@ Hojas de c&aacute;lculo limitadas a procesar 1 mill&oacute;n de filas
 
 ### Tama&ntilde;o de los datos
 
+<small> ![](img/panama papers.jpg) </small>
 
-![](img/panama papers.jpg)
 ![](img/panama papers.png)
-
 
 ---
 
@@ -239,7 +238,7 @@ Ver metodolog&iacute;a [aqu&iacute;](http://spectrum.ieee.org/ns/IEEE_TPL_2017/m
 
 ![](img/jupyter copia.jpg)
 
-Jupyter = JUlia + PYThon + R
+<span style="color: yellow">JU</span>lia + <span style="color: yellow">PYT</span>hon + <span style="color: yellow">R</span> = <span style="color: yellow">Jupyter</span>
 
 
 --

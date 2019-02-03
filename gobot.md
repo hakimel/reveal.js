@@ -517,6 +517,63 @@ func main() {
 }
 ```
 
+--
+
+### Alternate Binary Counter Solution (olemis) - Code
+
+```go
+
+package main
+
+import (
+  "time"
+  "gobot.io/x/gobot"
+  "gobot.io/x/gobot/drivers/gpio"
+  "gobot.io/x/gobot/platforms/firmata"
+)
+
+func main() {
+  firmataAdaptor := firmata.NewAdaptor("/dev/ttyACM0")
+  leds := []*gpio.LedDriver {
+    gpio.NewLedDriver(firmataAdaptor, "3")
+    gpio.NewLedDriver(firmataAdaptor, "5")
+    gpio.NewLedDriver(firmataAdaptor, "10")
+    gpio.NewLedDriver(firmataAdaptor, "12")
+  }
+
+  counter := 0
+
+  work := func () {
+    for _, led := range leds {
+      led.Off()
+    }
+
+    gobot.Every(1 * time.Second, func() {
+      mask := 1
+      for _, led := range leds {
+        if mask & counter == 0 {
+          led.Off()
+        } else {
+          led.On()
+        }
+        mask = mask << 1
+      }
+      counter++
+    })
+  }
+
+  robot := gobot.NewRobot("bot",
+    []gobot.Connection{firmataAdaptor},
+    []gobot.Device{leds[0], leds[1], leds[2], leds[3]},
+    work,
+  );
+
+  robot.Start();
+
+}
+
+```
+
 ---
 
 ## Buttons
