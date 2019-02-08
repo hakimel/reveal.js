@@ -1,30 +1,27 @@
 // Custom reveal.js integration
 (function(){
-	var isEnabled = true;
+	var revealElement = document.querySelector( '.reveal' );
+	if( revealElement ) {
 
-	document.querySelector( '.reveal .slides' ).addEventListener( 'mousedown', function( event ) {
-		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : 'alt' ) + 'Key';
+		revealElement.addEventListener( 'mousedown', function( event ) {
+			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
-		var zoomPadding = 20;
-		var revealScale = Reveal.getScale();
+			var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
+			var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
 
-		if( event[ modifier ] && isEnabled ) {
-			event.preventDefault();
+			if( event[ modifier ] && !Reveal.isOverview() ) {
+				event.preventDefault();
 
-			var bounds = event.target.getBoundingClientRect();
+				zoom.to({
+					x: event.clientX,
+					y: event.clientY,
+					scale: zoomLevel,
+					pan: false
+				});
+			}
+		} );
 
-			zoom.to({
-				x: ( bounds.left * revealScale ) - zoomPadding,
-				y: ( bounds.top * revealScale ) - zoomPadding,
-				width: ( bounds.width * revealScale ) + ( zoomPadding * 2 ),
-				height: ( bounds.height * revealScale ) + ( zoomPadding * 2 ),
-				pan: false
-			});
-		}
-	} );
-
-	Reveal.addEventListener( 'overviewshown', function() { isEnabled = false; } );
-	Reveal.addEventListener( 'overviewhidden', function() { isEnabled = true; } );
+	}
 })();
 
 /*!
@@ -273,6 +270,3 @@ var zoom = (function(){
 	}
 
 })();
-
-
-

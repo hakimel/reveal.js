@@ -2,32 +2,18 @@
  * phantomjs script for printing presentations to PDF.
  *
  * Example:
- * phantomjs print-pdf.js "http://lab.hakim.se/reveal-js?print-pdf" reveal-demo.pdf
+ * phantomjs print-pdf.js "http://revealjs.com?print-pdf" reveal-demo.pdf
  *
- * By Manuel Bieh (https://github.com/manuelbieh)
+ * @author Manuel Bieh (https://github.com/manuelbieh)
+ * @author Hakim El Hattab (https://github.com/hakimel)
+ * @author Manuel Riezebosch (https://github.com/riezebosch)
  */
 
 // html2pdf.js
-var page = new WebPage();
 var system = require( 'system' );
 
-var slideWidth = system.args[3] ? system.args[3].split( 'x' )[0] : 960;
-var slideHeight = system.args[3] ? system.args[3].split( 'x' )[1] : 700;
-
-page.viewportSize = {
-	width: slideWidth,
-	height: slideHeight
-};
-
-// TODO
-// Something is wrong with these config values. An input
-// paper width of 1920px actually results in a 756px wide
-// PDF.
-page.paperSize = {
-	width: Math.round( slideWidth * 2 ),
-	height: Math.round( slideHeight * 2 ),
-	border: 0
-};
+var probePage = new WebPage();
+var printPage = new WebPage();
 
 var inputFile = system.args[1] || 'index.html?print-pdf';
 var outputFile = system.args[2] || 'slides.pdf';
@@ -36,13 +22,46 @@ if( outputFile.match( /\.pdf$/gi ) === null ) {
 	outputFile += '.pdf';
 }
 
-console.log( 'Printing PDF (Paper size: '+ page.paperSize.width + 'x' + page.paperSize.height +')' );
+console.log( 'Export PDF: Reading reveal.js config [1/4]' );
 
-page.open( inputFile, function( status ) {
-	window.setTimeout( function() {
-		console.log( 'Printed successfully' );
-		page.render( outputFile );
-		phantom.exit();
-	}, 1000 );
+probePage.open( inputFile, function( status ) {
+
+	console.log( 'Export PDF: Preparing print layout [2/4]' );
+
+	var config = probePage.evaluate( function() {
+		return Reveal.getConfig();
+	} );
+
+	if( config ) {
+
+		printPage.paperSize = {
+			width: Math.floor( config.width * ( 1 + config.margin ) ),
+			height: Math.floor( config.height * ( 1 + config.margin ) ),
+			border: 0
+		};
+
+		printPage.open( inputFile, function( status ) {
+			console.log( 'Export PDF: Preparing pdf [3/4]')
+			printPage.evaluate( function() {
+				Reveal.isReady() ? window.callPhantom() : Reveal.addEventListener( 'pdf-ready', window.callPhantom );
+			} );
+		} );
+
+		printPage.onCallback = function( data ) {
+			// For some reason we need to "jump the queue" for syntax highlighting to work.
+			// See: http://stackoverflow.com/a/3580132/129269
+			setTimeout( function() {
+				console.log( 'Export PDF: Writing file [4/4]' );
+				printPage.render( outputFile );
+				console.log( 'Export PDF: Finished successfully!' );
+				phantom.exit();
+			}, 0 );
+		};
+	}
+	else {
+
+		console.log( 'Export PDF: Unable to read reveal.js config. Make sure the input address points to a reveal.js page.' );
+		phantom.exit( 1 );
+
+	}
 } );
-

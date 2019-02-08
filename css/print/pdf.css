@@ -60,8 +60,9 @@ ul, ol, div, p {
 }
 .reveal .slides {
 	position: static;
-	width: 100%;
-	height: auto;
+	width: 100% !important;
+	height: auto !important;
+	zoom: 1 !important;
 
 	left: auto;
 	top: auto;
@@ -71,24 +72,22 @@ ul, ol, div, p {
 	overflow: visible;
 	display: block;
 
-	-webkit-perspective: none;
-	   -moz-perspective: none;
-	    -ms-perspective: none;
-	        perspective: none;
+	perspective: none;
+	perspective-origin: 50% 50%;
+}
 
-	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
-	   -moz-perspective-origin: 50% 50%;
-	    -ms-perspective-origin: 50% 50%;
-	        perspective-origin: 50% 50%;
+.reveal .slides .pdf-page {
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+
+	page-break-after: always;
 }
 
 .reveal .slides section {
-	page-break-after: always !important;
-
 	visibility: visible !important;
-	position: relative !important;
 	display: block !important;
-	position: relative !important;
+	position: absolute !important;
 
 	margin: 0 !important;
 	padding: 0 !important;
@@ -97,18 +96,12 @@ ul, ol, div, p {
 
 	opacity: 1 !important;
 
-	-webkit-transform-style: flat !important;
-	   -moz-transform-style: flat !important;
-	    -ms-transform-style: flat !important;
-	        transform-style: flat !important;
-
-	-webkit-transform: none !important;
-	   -moz-transform: none !important;
-	    -ms-transform: none !important;
-	        transform: none !important;
+	transform-style: flat !important;
+	transform: none !important;
 }
 
 .reveal section.stack {
+	position: relative !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	page-break-after: avoid !important;
@@ -126,29 +119,41 @@ ul, ol, div, p {
 }
 
 /* Slide backgrounds are placed inside of their slide when exporting to PDF */
-.reveal section .slide-background {
+.reveal .slide-background {
 	display: block !important;
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: -1;
-}
-
-/* All elements should be above the slide-background */
-.reveal section>* {
-	position: relative;
-	z-index: 1;
+	height: 100%;
+	z-index: auto !important;
 }
 
 /* Display slide speaker notes when 'showNotes' is enabled */
+.reveal.show-notes {
+	max-width: none;
+	max-height: none;
+}
 .reveal .speaker-notes-pdf {
 	display: block;
 	width: 100%;
+	height: auto;
 	max-height: none;
-	left: auto;
 	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
 	z-index: 100;
+}
+
+/* Layout option which makes notes appear on a separate page */
+.reveal .speaker-notes-pdf[data-layout="separate-page"] {
+	position: relative;
+	color: inherit;
+	background-color: transparent;
+	padding: 20px;
+	page-break-after: always;
+	border: 0;
 }
 
 /* Display slide numbers when 'slideNumber' is enabled */
@@ -157,4 +162,3 @@ ul, ol, div, p {
 	position: absolute;
 	font-size: 14px;
 }
-

@@ -17,20 +17,8 @@
 	}
 }( this, function( marked ) {
 
-	if( typeof marked === 'undefined' ) {
-		throw 'The reveal.js Markdown plugin requires marked to be loaded';
-	}
-
-	if( typeof hljs !== 'undefined' ) {
-		marked.setOptions({
-			highlight: function( lang, code ) {
-				return hljs.highlightAuto( lang, code ).value;
-			}
-		});
-	}
-
 	var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
-		DEFAULT_NOTES_SEPARATOR = 'note:',
+		DEFAULT_NOTES_SEPARATOR = 'notes?:',
 		DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
 		DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$';
 
@@ -43,7 +31,8 @@
 	 */
 	function getMarkdownFromSlide( section ) {
 
-		var template = section.querySelector( 'script' );
+		// look for a <script> or <textarea data-template> wrapper
+		var template = section.querySelector( '[data-template]' ) || section.querySelector( 'script' );
 
 		// strip leading whitespace so it isn't evaluated as code
 		var text = ( template || section ).textContent;
@@ -189,7 +178,7 @@
 				markdownSections += '<section '+ options.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' +  createMarkdownSlide( child, options ) + '</section>';
+					markdownSections += '<section data-markdown>' + createMarkdownSlide( child, options ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
@@ -391,6 +380,24 @@
 	return {
 
 		initialize: function() {
+			if( typeof marked === 'undefined' ) {
+				throw 'The reveal.js Markdown plugin requires marked to be loaded';
+			}
+
+			if( typeof hljs !== 'undefined' ) {
+				marked.setOptions({
+					highlight: function( code, lang ) {
+						return hljs.highlightAuto( code, [lang] ).value;
+					}
+				});
+			}
+
+			var options = Reveal.getConfig().markdown;
+
+			if ( options ) {
+				marked.setOptions( options );
+			}
+
 			processSlides();
 			convertSlides();
 		},
