@@ -4528,6 +4528,11 @@
 					if( currentFragment ) {
 						index = parseInt( currentFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
 					}
+				} else {
+					var maxIndex = parseInt( fragments[ fragments.length - 1 ].getAttribute( 'data-fragment-index' ), 10 );
+					if ( index > maxIndex ) {
+						index = maxIndex;
+					}
 				}
 
 				toArray( fragments ).forEach( function( el, i ) {
