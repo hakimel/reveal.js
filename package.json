@@ -33,11 +33,12 @@
     "grunt-contrib-qunit": "^2.0.0",
     "grunt-contrib-uglify": "^3.3.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-sass": "^2.0.0",
+    "grunt-sass": "^3.0.2",
     "grunt-retire": "^1.0.7",
     "grunt-zip": "~0.17.1",
     "mustache": "^2.3.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "node-sass": "^4.11.0"
   },
   "license": "MIT"
 }
