@@ -249,7 +249,7 @@ body {
     visibility: hidden;
     opacity: 0;
     -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent; }
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
   .reveal .controls .controls-arrow:before,
   .reveal .controls .controls-arrow:after {
     content: '';
@@ -1023,7 +1023,7 @@ body {
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0);
   transition: all 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
 .reveal .slide-background-content {
@@ -1430,7 +1430,7 @@ body {
   z-index: 30;
   cursor: pointer;
   transition: all 400ms ease;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 .reveal.overview .playback {
   opacity: 0;

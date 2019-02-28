@@ -153,11 +153,6 @@ module.exports = function(grunt) {
 			options: {
 				livereload: true
 			}
-		},
-
-		retire: {
-			js: [ 'js/reveal.js', 'lib/js/*.js', 'plugin/**/*.js' ],
-			node: [ '.' ]
 		}
 
 	});
