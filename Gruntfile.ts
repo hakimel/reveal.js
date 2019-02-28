@@ -1,9 +1,11 @@
-const sass = require('node-sass');
-
 /* global module:false */
 module.exports = function(grunt) {
-	var port = grunt.option('port') || 8000;
-	var root = grunt.option('root') || '.';
+	const sass = require('node-sass');
+
+	require('load-grunt-tasks')(grunt);
+
+	let port = grunt.option('port') || 8000;
+	let root = grunt.option('root') || '.';
 
 	if (!Array.isArray(root)) root = [root];
 
@@ -39,6 +41,7 @@ module.exports = function(grunt) {
 		sass: {
 			options: {
 				implementation: sass,
+				sourceMap: false
 			},
 			core: {
 				src: 'css/reveal.scss',
@@ -158,18 +161,6 @@ module.exports = function(grunt) {
 		}
 
 	});
-
-	// Dependencies
-	grunt.loadNpmTasks( 'grunt-contrib-connect' );
-	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
-	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
-	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
-	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-autoprefixer' );
-	grunt.loadNpmTasks( 'grunt-retire' );
-	grunt.loadNpmTasks( 'grunt-sass' );
-	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
