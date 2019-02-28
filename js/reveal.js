@@ -1830,15 +1830,6 @@
 	}
 
 	/**
-	 * Check if this instance is being used to print a PDF with fragments.
-	 */
-	function isPrintingPDFFragments() {
-
-		return ( /print-pdf-fragments/gi ).test( window.location.search );
-
-	}
-
-	/**
 	 * Hides the address bar if we're on a mobile device.
 	 */
 	function hideAddressBar() {
