@@ -519,24 +519,25 @@
 					if( typeof s.callback === 'function' ) s.callback();
 
 					if( --scriptsToLoad === 0 ) {
-						loadPlugins();
+						initPlugins();
 					}
 
 				} );
 			} );
 		}
 		else {
-			loadPlugins();
+			initPlugins();
 		}
 
 	}
 
 	/**
-	 * Loads all plugins that require preloading.
+	 * Initializes our plugins and waits for them to be ready
+	 * before proceeding.
 	 */
-	function loadPlugins() {
+	function initPlugins() {
 
-		var pluginsToLoad = Object.keys( plugins ).length;
+		var pluginsToInitialize = Object.keys( plugins ).length;
 
 		for( var i in plugins ) {
 
@@ -546,18 +547,18 @@
 			// wait for the callback
 			if( typeof plugin.init === 'function' ) {
 				plugin.init( function() {
-					if( --pluginsToLoad === 0 ) {
+					if( --pluginsToInitialize === 0 ) {
 						loadAsyncDependencies();
 					}
 				} );
 			}
 			else {
-				pluginsToLoad -= 1;
+				pluginsToInitialize -= 1;
 			}
 
 		}
 
-		if( pluginsToLoad === 0 ) {
+		if( pluginsToInitialize === 0 ) {
 			loadAsyncDependencies();
 		}
 
@@ -5894,7 +5895,7 @@
 		addKeyBinding: addKeyBinding,
 		removeKeyBinding: removeKeyBinding,
 
-		// Called by plugins to register/unregister themselves
+		// Called by plugins to register themselves
 		registerPlugin: registerPlugin,
 
 		// Programatically triggers a keyboard event
