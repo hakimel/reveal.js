@@ -319,6 +319,12 @@
 		// Cached references to DOM elements
 		dom = {},
 
+		// A list of registered reveal.js plugins
+		plugins = {},
+
+		// List of asynchronously loaded reveal.js dependencies
+		asyncDependencies = [],
+
 		// Features supported by the browser, see #checkCapabilities()
 		features = {},
 
@@ -434,7 +440,7 @@
 		// Hide the address bar in mobile browsers
 		hideAddressBar();
 
-		// Loads the dependencies and continues to #start() once done
+		// Loads dependencies and continues to #start() once done
 		load();
 
 	}
@@ -489,37 +495,22 @@
 	function load() {
 
 		var scripts = [],
-			scriptsAsync = [],
-			scriptsToPreload = 0;
+			scriptsToLoad = 0;
 
-		// Called once synchronous scripts finish loading
-		function afterSynchronousScriptsLoaded() {
-			// Load asynchronous scripts
-			if( scriptsAsync.length ) {
-				scriptsAsync.forEach( function( s ) {
-					loadScript( s.src, s.callback );
-				} );
-			}
-
-			start();
-		}
-
-		for( var i = 0, len = config.dependencies.length; i < len; i++ ) {
-			var s = config.dependencies[i];
-
+		config.dependencies.forEach( function( s ) {
 			// Load if there's no condition or the condition is truthy
 			if( !s.condition || s.condition() ) {
 				if( s.async ) {
-					scriptsAsync.push( s );
+					asyncDependencies.push( s );
 				}
 				else {
 					scripts.push( s );
 				}
 			}
-		}
+		} );
 
 		if( scripts.length ) {
-			scriptsToPreload = scripts.length;
+			scriptsToLoad = scripts.length;
 
 			// Load synchronous scripts
 			scripts.forEach( function( s ) {
@@ -527,18 +518,63 @@
 
 					if( typeof s.callback === 'function' ) s.callback();
 
-					if( --scriptsToPreload === 0 ) {
-
-						afterSynchronousScriptsLoaded();
-
+					if( --scriptsToLoad === 0 ) {
+						loadPlugins();
 					}
 
 				} );
 			} );
 		}
 		else {
-			afterSynchronousScriptsLoaded();
+			loadPlugins();
 		}
+
+	}
+
+	/**
+	 * Loads all plugins that require preloading.
+	 */
+	function loadPlugins() {
+
+		var pluginsToLoad = Object.keys( plugins ).length;
+
+		for( var i in plugins ) {
+
+			var plugin = plugins[i];
+
+			// If the plugin has an 'init' method, initialize and
+			// wait for the callback
+			if( typeof plugin.init === 'function' ) {
+				plugin.init( function() {
+					if( --pluginsToLoad === 0 ) {
+						loadAsyncDependencies();
+					}
+				} );
+			}
+			else {
+				pluginsToLoad -= 1;
+			}
+
+		}
+
+		if( pluginsToLoad === 0 ) {
+			loadAsyncDependencies();
+		}
+
+	}
+
+	/**
+	 * Loads all async reveal.js dependencies.
+	 */
+	function loadAsyncDependencies() {
+
+		if( asyncDependencies.length ) {
+			asyncDependencies.forEach( function( s ) {
+				loadScript( s.src, s.callback );
+			} );
+		}
+
+		start();
 
 	}
 
@@ -1509,6 +1545,15 @@
 			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( eventName, onNavigatePrevClicked, false ); } );
 			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
+
+	}
+
+	/**
+	 * Registers a new plugin with this reveal.js instance.
+	 */
+	function registerPlugin( id, plugin ) {
+
+		plugins[id] = plugin;
 
 	}
 
@@ -5845,11 +5890,12 @@
 			}
 		},
 
-		// Adds a custom key binding
+		// Adds/remvoes a custom key binding
 		addKeyBinding: addKeyBinding,
-
-		// Removes a custom key binding
 		removeKeyBinding: removeKeyBinding,
+
+		// Called by plugins to register/unregister themselves
+		registerPlugin: registerPlugin,
 
 		// Programatically triggers a keyboard event
 		triggerKey: function( keyCode ) {
