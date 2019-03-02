@@ -77,9 +77,9 @@
 			// - "c/t":	  Flattened slide number / total slides
 			//
 			// Alternatively, you can provide a function that returns the slide
-			// number for the current slide. The function needs to return an array
-			// with one string [slideNumber] or three strings [n1,delimiter,n2].
-			// See #formatSlideNumber().
+			// number for the current slide. The function should take in a slide
+			// object and return an array with one string [slideNumber] or
+			// three strings [n1,delimiter,n2]. See #formatSlideNumber().
 			slideNumber: false,
 
 			// Can be used to limit the contexts in which the slide number appears
@@ -850,17 +850,10 @@
 		// Make sure stretch elements fit on slide
 		layoutSlideContents( slideWidth, slideHeight );
 
-		// Add each slide's index as attributes on itself, we need these
-		// indices to generate slide numbers below
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
-			hslide.setAttribute( 'data-index-h', h );
-
-			if( hslide.classList.contains( 'stack' ) ) {
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
-					vslide.setAttribute( 'data-index-h', h );
-					vslide.setAttribute( 'data-index-v', v );
-				} );
-			}
+		// Compute slide numbers now, before we start duplicating slides
+		var doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+			slide.setAttribute( 'data-slide-number', getSlideNumber( slide ) );
 		} );
 
 		// Slide and slide background layout
@@ -931,14 +924,11 @@
 				}
 
 				// Inject slide numbers if `slideNumbers` are enabled
-				if( config.slideNumber && /all|print/i.test( config.showSlideNumber ) ) {
-					var slideNumberH = parseInt( slide.getAttribute( 'data-index-h' ), 10 ) + 1,
-						slideNumberV = parseInt( slide.getAttribute( 'data-index-v' ), 10 ) + 1;
-
+				if( doingSlideNumbers ) {
 					var numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = formatSlideNumber( slideNumberH, '.', slideNumberV );
+					numberElement.innerHTML = slide.getAttribute( 'data-slide-number' );
 					page.appendChild( numberElement );
 				}
 
@@ -3425,45 +3415,55 @@
 
 		// Update slide number if enabled
 		if( config.slideNumber && dom.slideNumber ) {
-
-			var value;
-			var format = 'h.v';
-
-			if( typeof config.slideNumber === 'function' ) {
-				value = config.slideNumber();
-			}
-			else {
-				// Check if a custom number format is available
-				if( typeof config.slideNumber === 'string' ) {
-					format = config.slideNumber;
-				}
-
-				// If there are ONLY vertical slides in this deck, always use
-				// a flattened slide number
-				if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
-					format = 'c';
-				}
-
-				value = [];
-				switch( format ) {
-					case 'c':
-						value.push( getSlidePastCount() + 1 );
-						break;
-					case 'c/t':
-						value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
-						break;
-					case 'h/v':
-						value.push( indexh + 1 );
-						if( isVerticalSlide() ) value.push( '/', indexv + 1 );
-						break;
-					default:
-						value.push( indexh + 1 );
-						if( isVerticalSlide() ) value.push( '.', indexv + 1 );
-				}
-			}
-
-			dom.slideNumber.innerHTML = formatSlideNumber( value[0], value[1], value[2] );
+			dom.slideNumber.innerHTML = getSlideNumber();
 		}
+
+	}
+
+	/**
+	 * Returns the HTML string corresponding to the current slide number,
+	 * including formatting.
+	 */
+	function getSlideNumber( slide ) {
+
+		var value;
+		var format = 'h.v';
+		if( slide === undefined ) {
+			slide = currentSlide;
+		}
+
+		if ( typeof config.slideNumber === 'function' ) {
+			value = config.slideNumber( slide );
+		} else {
+			// Check if a custom number format is available
+			if( typeof config.slideNumber === 'string' ) {
+				format = config.slideNumber;
+			}
+
+			// If there are ONLY vertical slides in this deck, always use
+			// a flattened slide number
+			if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
+				format = 'c';
+			}
+
+			value = [];
+			switch( format ) {
+				case 'c':
+					value.push( getSlidePastCount( slide ) + 1 );
+					break;
+				case 'c/t':
+					value.push( getSlidePastCount( slide ) + 1, '/', getTotalSlides() );
+					break;
+				default:
+					var indices = getIndices( slide );
+					value.push( indices.h + 1 );
+					var sep = format === 'h/v' ? '/' : '.';
+					if( isVerticalSlide( slide ) ) value.push( sep, indices.v + 1 );
+			}
+		}
+
+		var url = '#' + locationHash( slide );
+		return formatSlideNumber( value[0], value[1], value[2], url );
 
 	}
 
@@ -3474,11 +3474,14 @@
 	 * @param {number} a Current slide
 	 * @param {string} delimiter Character to separate slide numbers
 	 * @param {(number|*)} b Total slides
+	 * @param {HTMLElement} [url='#'+locationHash()] The url to link to
 	 * @return {string} HTML string fragment
 	 */
-	function formatSlideNumber( a, delimiter, b ) {
+	function formatSlideNumber( a, delimiter, b, url ) {
 
-		var url = '#' + locationHash();
+		if( url === undefined ) {
+			url = '#' + locationHash();
+		}
 		if( typeof b === 'number' && !isNaN( b ) ) {
 			return  '<a href="' + url + '">' +
 					'<span class="slide-number-a">'+ a +'</span>' +

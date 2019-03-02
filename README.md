@@ -1011,9 +1011,9 @@ Reveal.configure({ slideNumber: true });
 Reveal.configure({ slideNumber: 'c/t' });
 
 // You can provide a function to fully customize the number:
-Reveal.configure({ slideNumber: function() {
+Reveal.configure({ slideNumber: function( slide ) {
     // Ignore numbering of vertical slides
-    return [ Reveal.getIndices().h ];
+    return [ Reveal.getIndices( slide ).h ];
 }});
 
 // Control which views the slide number displays on using the "showSlideNumber" value:
