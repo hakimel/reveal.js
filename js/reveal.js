@@ -2652,34 +2652,37 @@
 	}
 
 	/**
-	 * Return a hash URL that will resolve to the current slide location.
+	 * Return a hash URL that will resolve to the given slide location.
+	 *
+	 * @param {HTMLElement} [slide=currentSlide] The slide to link to
 	 */
-	function locationHash() {
+	function locationHash( slide ) {
 
 		var url = '/';
 
 		// Attempt to create a named link based on the slide's ID
-		var id = currentSlide ? currentSlide.getAttribute( 'id' ) : null;
+		var s = slide || currentSlide;
+		var id = s ? s.getAttribute( 'id' ) : null;
 		if( id ) {
 			id = encodeURIComponent( id );
 		}
 
-		var indexf;
-		if( config.fragmentInURL ) {
-			indexf = getIndices().f;
+		var index = getIndices( slide );
+		if( !config.fragmentInURL ) {
+			index.f = undefined;
 		}
 
 		// If the current slide has an ID, use that as a named link,
 		// but we don't support named links with a fragment index
-		if( typeof id === 'string' && id.length && indexf === undefined ) {
+		if( typeof id === 'string' && id.length && index.f === undefined ) {
 			url = '/' + id;
 		}
 		// Otherwise use the /h/v index
 		else {
 			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
-			if( indexh > 0 || indexv > 0 || indexf !== undefined ) url += indexh + hashIndexBase;
-			if( indexv > 0 || indexf !== undefined ) url += '/' + (indexv + hashIndexBase );
-			if( indexf !== undefined ) url += '/' + indexf;
+			if( index.h > 0 || index.v > 0 || index.f !== undefined ) url += index.h + hashIndexBase;
+			if( index.v > 0 || index.f !== undefined ) url += '/' + (index.v + hashIndexBase );
+			if( index.f !== undefined ) url += '/' + index.f;
 		}
 
 		return url;
@@ -4225,9 +4228,15 @@
 	 * Returns the number of past slides. This can be used as a global
 	 * flattened index for slides.
 	 *
+	 * @param {HTMLElement} [slide=currentSlide] The slide we're counting before
+	 *
 	 * @return {number} Past slide count
 	 */
-	function getSlidePastCount() {
+	function getSlidePastCount( slide ) {
+
+		if( slide === undefined ) {
+			slide = currentSlide;
+		}
 
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
@@ -4243,7 +4252,7 @@
 			for( var j = 0; j < verticalSlides.length; j++ ) {
 
 				// Stop as soon as we arrive at the present
-				if( verticalSlides[j].classList.contains( 'present' ) ) {
+				if( verticalSlides[j] === slide ) {
 					break mainLoop;
 				}
 
@@ -4252,7 +4261,7 @@
 			}
 
 			// Stop as soon as we arrive at the present
-			if( horizontalSlide.classList.contains( 'present' ) ) {
+			if( horizontalSlide === slide ) {
 				break;
 			}
 
