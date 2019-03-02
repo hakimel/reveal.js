@@ -815,6 +815,7 @@ The default fragment style is to start out invisible and fade in. This style can
 <section>
 	<p class="fragment grow">grow</p>
 	<p class="fragment shrink">shrink</p>
+	<p class="fragment strike">strike</p>
 	<p class="fragment fade-out">fade-out</p>
 	<p class="fragment fade-up">fade-up (also down, left and right!)</p>
 	<p class="fragment fade-in-then-out">fades in, then out when we move to the next step</p>
