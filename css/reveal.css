@@ -65,6 +65,10 @@ body {
     -webkit-transform: scale(1.3);
             transform: scale(1.3); }
 
+.reveal .slides section span.fragment.grow.visible {
+  font-size: 130%;
+}         
+
 .reveal .slides section .fragment.shrink {
   opacity: 1;
   visibility: inherit; }
@@ -72,6 +76,10 @@ body {
     -webkit-transform: scale(0.7);
             transform: scale(0.7); }
 
+.reveal .slides section span.fragment.grow.visible {
+  font-size: 70%;
+}        
+      
 .reveal .slides section .fragment.zoom-in {
   -webkit-transform: scale(0.1);
           transform: scale(0.1); }

@@ -82,6 +82,10 @@ body {
 	}
 }
 
+.reveal .slides section span.fragment.grow.visible {
+  font-size: 130%;
+}
+
 .reveal .slides section .fragment.shrink {
 	opacity: 1;
 	visibility: inherit;
@@ -89,6 +93,10 @@ body {
 	&.visible {
 		transform: scale( 0.7 );
 	}
+}
+
+.reveal .slides section span.fragment.shrink.visible {
+  font-size: 70%;
 }
 
 .reveal .slides section .fragment.zoom-in {
