@@ -151,20 +151,30 @@ var RevealNotes = (function() {
 
 	}
 
-	if( !/receiver/i.test( window.location.search ) ) {
+	return {
+		init: function() {
 
-		// If the there's a 'notes' query set, open directly
-		if( window.location.search.match( /(\?|\&)notes/gi ) !== null ) {
-			openNotes();
-		}
+			if( !/receiver/i.test( window.location.search ) ) {
 
-		// Open the notes when the 's' key is hit
-		Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
-			openNotes();
-		} );
+				// If the there's a 'notes' query set, open directly
+				if( window.location.search.match( /(\?|\&)notes/gi ) !== null ) {
+					openNotes();
+				}
 
-	}
+				// Open the notes when the 's' key is hit
+				Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
+					openNotes();
+				} );
 
-	return { open: openNotes };
+			}
+
+			return Promise.resolve();
+
+		},
+
+		open: openNotes
+	};
 
 })();
+
+Reveal.registerPlugin( 'notes', RevealNotes );

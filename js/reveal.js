@@ -546,7 +546,7 @@
 			// If the plugin has an 'init' method, initialize and
 			// wait for the callback
 			if( typeof plugin.init === 'function' ) {
-				plugin.init( function() {
+				plugin.init().then( function() {
 					if( --pluginsToInitialize === 0 ) {
 						loadAsyncDependencies();
 					}
@@ -1551,10 +1551,20 @@
 
 	/**
 	 * Registers a new plugin with this reveal.js instance.
+	 *
+	 * reveal.js waits for all regisered plugins to initialize
+	 * before considering itself ready, as long as the plugin
+	 * is registered before calling `Reveal.initialize()`.
 	 */
 	function registerPlugin( id, plugin ) {
 
 		plugins[id] = plugin;
+
+		// If a plugin is registered after reveal.js is loaded,
+		// initialize it right away
+		if( loaded && typeof plugin.init === 'function' ) {
+			plugin.init();
+		}
 
 	}
 
@@ -5839,6 +5849,11 @@
 		// Returns the top-level DOM element
 		getRevealElement: function() {
 			return dom.wrapper || document.querySelector( '.reveal' );
+		},
+
+		// Returns a hash with all registered plugins
+		getPlugins: function() {
+			return plugins;
 		},
 
 		// Returns true if we're currently on the first slide

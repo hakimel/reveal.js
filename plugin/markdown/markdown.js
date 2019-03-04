@@ -22,10 +22,6 @@
 
 	var SCRIPT_END_PLACEHOLDER = '__SCRIPT_END__';
 
-	var markdownFilesToLoad = 0;
-
-	var loadCallback;
-
 
 	/**
 	 * Retrieves the markdown contents of a slide section
@@ -201,53 +197,41 @@
 	 */
 	function processSlides() {
 
-		[].slice.call( document.querySelectorAll( '[data-markdown]') ).forEach( function( section, i ) {
+		return new Promise( function( resolve ) {
 
-			if( section.getAttribute( 'data-markdown' ).length ) {
+			var externalPromises = [];
 
-				loadExternalMarkdown( section );
+			[].slice.call( document.querySelectorAll( '[data-markdown]') ).forEach( function( section, i ) {
 
-			}
-			else if( section.getAttribute( 'data-separator' ) || section.getAttribute( 'data-separator-vertical' ) || section.getAttribute( 'data-separator-notes' ) ) {
+				if( section.getAttribute( 'data-markdown' ).length ) {
 
-				section.outerHTML = slidify( getMarkdownFromSlide( section ), {
-					separator: section.getAttribute( 'data-separator' ),
-					verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
-					notesSeparator: section.getAttribute( 'data-separator-notes' ),
-					attributes: getForwardedAttributes( section )
-				});
+					externalPromises.push( loadExternalMarkdown( section ).then(
 
-			}
-			else {
-				section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
-			}
+						// Finished loading external file
+						function( xhr, url ) {
+							section.outerHTML = slidify( xhr.responseText, {
+								separator: section.getAttribute( 'data-separator' ),
+								verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
+								notesSeparator: section.getAttribute( 'data-separator-notes' ),
+								attributes: getForwardedAttributes( section )
+							});
+						},
 
-		});
+						// Failed to load markdown
+						function( xhr, url ) {
+							section.outerHTML = '<section data-state="alert">' +
+								'ERROR: The attempt to fetch ' + url + ' failed with HTTP status ' + xhr.status + '.' +
+								'Check your browser\'s JavaScript console for more details.' +
+								'<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>' +
+								'</section>';
+						}
 
-		checkIfLoaded();
+					) );
 
-	}
+				}
+				else if( section.getAttribute( 'data-separator' ) || section.getAttribute( 'data-separator-vertical' ) || section.getAttribute( 'data-separator-notes' ) ) {
 
-	function loadExternalMarkdown( section ) {
-
-		markdownFilesToLoad += 1;
-
-		var xhr = new XMLHttpRequest(),
-			url = section.getAttribute( 'data-markdown' );
-
-		datacharset = section.getAttribute( 'data-charset' );
-
-		// see https://developer.mozilla.org/en-US/docs/Web/API/element.getAttribute#Notes
-		if( datacharset != null && datacharset != '' ) {
-			xhr.overrideMimeType( 'text/html; charset=' + datacharset );
-		}
-
-		xhr.onreadystatechange = function( section, xhr ) {
-			if( xhr.readyState === 4 ) {
-				// file protocol yields status code 0 (useful for local debug, mobile applications etc.)
-				if ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 0 ) {
-
-					section.outerHTML = slidify( xhr.responseText, {
+					section.outerHTML = slidify( getMarkdownFromSlide( section ), {
 						separator: section.getAttribute( 'data-separator' ),
 						verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
 						notesSeparator: section.getAttribute( 'data-separator-notes' ),
@@ -256,31 +240,58 @@
 
 				}
 				else {
-
-					section.outerHTML = '<section data-state="alert">' +
-						'ERROR: The attempt to fetch ' + url + ' failed with HTTP status ' + xhr.status + '.' +
-						'Check your browser\'s JavaScript console for more details.' +
-						'<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>' +
-						'</section>';
-
+					section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
 				}
 
-				convertSlides();
+			});
 
-				markdownFilesToLoad -= 1;
+			Promise.all( externalPromises ).then( resolve );
 
-				checkIfLoaded();
+		} );
+
+	}
+
+	function loadExternalMarkdown( section ) {
+
+		return new Promise( function( resolve, reject ) {
+
+			var xhr = new XMLHttpRequest(),
+				url = section.getAttribute( 'data-markdown' );
+
+			datacharset = section.getAttribute( 'data-charset' );
+
+			// see https://developer.mozilla.org/en-US/docs/Web/API/element.getAttribute#Notes
+			if( datacharset != null && datacharset != '' ) {
+				xhr.overrideMimeType( 'text/html; charset=' + datacharset );
 			}
-		}.bind( this, section, xhr );
 
-		xhr.open( 'GET', url, true );
+			xhr.onreadystatechange = function( section, xhr ) {
+				if( xhr.readyState === 4 ) {
+					// file protocol yields status code 0 (useful for local debug, mobile applications etc.)
+					if ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 0 ) {
 
-		try {
-			xhr.send();
-		}
-		catch ( e ) {
-			alert( 'Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e );
-		}
+						resolve( xhr, url );
+
+					}
+					else {
+
+						reject( xhr, url );
+
+					}
+				}
+			}.bind( this, section, xhr );
+
+			xhr.open( 'GET', url, true );
+
+			try {
+				xhr.send();
+			}
+			catch ( e ) {
+				alert( 'Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e );
+				resolve( xhr, url );
+			}
+
+		} );
 
 	}
 
@@ -381,16 +392,7 @@
 
 		} );
 
-	}
-
-	function checkIfLoaded() {
-
-		if( markdownFilesToLoad === 0 ) {
-			if( loadCallback ) {
-				loadCallback();
-				loadCallback = null;
-			}
-		}
+		return Promise.resolve();
 
 	}
 
@@ -424,10 +426,7 @@
 				marked.setOptions( options );
 			}
 
-			loadCallback = callback;
-
-			processSlides();
-			convertSlides();
+			return processSlides().then( convertSlides );
 
 		},
 
