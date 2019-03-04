@@ -20,28 +20,6 @@ var RevealMath = window.RevealMath || (function(){
 		skipStartupTypeset: true
 	};
 
-	defaults( options, defaultOptions );
-	defaults( options.tex2jax, defaultOptions.tex2jax );
-	options.mathjax = options.config = null;
-
-	loadScript( url, function() {
-
-		MathJax.Hub.Config( options );
-
-		// Typeset followed by an immediate reveal.js layout since
-		// the typesetting process could affect slide height
-		MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
-		MathJax.Hub.Queue( Reveal.layout );
-
-		// Reprocess equations in slides when they turn visible
-		Reveal.addEventListener( 'slidechanged', function( event ) {
-
-			MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
-
-		} );
-
-	} );
-
 	function defaults( options, defaultOptions ) {
 
 		for ( var i in defaultOptions ) {
@@ -81,4 +59,37 @@ var RevealMath = window.RevealMath || (function(){
 
 	}
 
+	return {
+		init: function() {
+
+			defaults( options, defaultOptions );
+			defaults( options.tex2jax, defaultOptions.tex2jax );
+			options.mathjax = options.config = null;
+
+			loadScript( url, function() {
+
+				MathJax.Hub.Config( options );
+
+				// Typeset followed by an immediate reveal.js layout since
+				// the typesetting process could affect slide height
+				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
+				MathJax.Hub.Queue( Reveal.layout );
+
+				// Reprocess equations in slides when they turn visible
+				Reveal.addEventListener( 'slidechanged', function( event ) {
+
+					MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
+
+				} );
+
+			} );
+
+			// lofi xbrowser Promise.resolve()
+			return { then: function( resolve ) { resolve(); }};
+
+		}
+	}
+
 })();
+
+Reveal.registerPlugin( 'math', RevealMath );

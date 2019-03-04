@@ -168,7 +168,8 @@ var RevealNotes = (function() {
 
 			}
 
-			return Promise.resolve();
+			// lofi xbrowser Promise.resolve()
+			return { then: function( resolve ) { resolve(); }};
 
 		},
 

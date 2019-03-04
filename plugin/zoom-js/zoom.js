@@ -1,28 +1,36 @@
 // Custom reveal.js integration
-(function(){
-	var revealElement = document.querySelector( '.reveal' );
-	if( revealElement ) {
+var RevealZoom = (function(){
 
-		revealElement.addEventListener( 'mousedown', function( event ) {
-			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
+	return {
+		init: function() {
 
-			var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
-			var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
+			Reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
+				var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
-			if( event[ modifier ] && !Reveal.isOverview() ) {
-				event.preventDefault();
+				var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
+				var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
 
-				zoom.to({
-					x: event.clientX,
-					y: event.clientY,
-					scale: zoomLevel,
-					pan: false
-				});
-			}
-		} );
+				if( event[ modifier ] && !Reveal.isOverview() ) {
+					event.preventDefault();
 
+					zoom.to({
+						x: event.clientX,
+						y: event.clientY,
+						scale: zoomLevel,
+						pan: false
+					});
+				}
+			} );
+
+			// lofi xbrowser Promise.resolve()
+			return { then: function( resolve ) { resolve(); }};
+
+		}
 	}
+
 })();
+
+Reveal.registerPlugin( 'zoom', RevealZoom );
 
 /*!
  * zoom.js 0.3 (modified for use with reveal.js)
