@@ -1,6 +1,7 @@
 
 
 ## Digital Electronics
+###### Part 1 - Logic circuits, gates, bistables
 
 #### These slides: [slides.cuban.tech/digital-electronics-1.html](http://slides.cuban.tech/digital-electronics-1.html)
 
@@ -17,6 +18,16 @@ Password: meet-ups
 ---
 
 # Huge thanks to our host
+
+---
+
+## Outline
+
+- Boolean logic, gates, logic circuits.
+- Multiplexors
+- ALU
+- Bistable
+- Hands-on! Build an SR Latch
 
 ---
 

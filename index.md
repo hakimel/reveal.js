@@ -90,3 +90,13 @@
 - [Blockchain, DApps, and Blockstack](dapps.html)
   * [Blockstack Cuba meetup #1](http://blockstack.cuban.tech/events/244120891), Havana, Cuba, 2017/11/19 
 
+---
+
+# Makers DIY Cuba
+##### Follow our [meetups](http://meetup.cuban.tech/events/)
+
+--
+
+- [Digital electronics - part 1](https://slides.cuban.tech/digital-electronics-1.html)
+  * [CubanTech meetup #45](https://www.meetup.com/CubanTech/events/258279078/) - Havana, Cuba 2019/01/27
+
