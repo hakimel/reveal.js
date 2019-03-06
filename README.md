@@ -1044,7 +1044,7 @@ Reveal.initialize({
 
 ## PDF Export
 
-Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presentation from a webserver.
+Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presentation from a web server.
 Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
 
 ### Separate pages for fragments
@@ -1354,7 +1354,7 @@ Reveal.initialize({
 Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
 
 #### MathJax in Markdown
-If you want to include math inside of a presentation written in Markdown you need to wrap the forumla in backticks. This prevents syntax conflicts between LaTeX and Markdown. For example:
+If you want to include math inside of a presentation written in Markdown you need to wrap the formula in backticks. This prevents syntax conflicts between LaTeX and Markdown. For example:
 
 ```
 `$$ J(\theta_0,\theta_1) = \sum_{i=0} $$`
