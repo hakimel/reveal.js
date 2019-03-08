@@ -1549,7 +1549,6 @@ $controlsArrowAngleActive: 36deg;
 	}
 
 
-
 /*********************************************
  * PLAYBACK COMPONENT
  *********************************************/
@@ -1567,6 +1566,29 @@ $controlsArrowAngleActive: 36deg;
 .reveal.overview .playback {
 	opacity: 0;
 	visibility: hidden;
+}
+
+
+/*********************************************
+ * CODE HIGHLGIHTING
+ *********************************************/
+
+.reveal .hljs table {
+	margin: initial;
+}
+
+.reveal .hljs.highlight-lines tr:not(.highlight-line) {
+	opacity: 0.25;
+}
+
+.reveal .hljs-ln-code,
+.reveal .hljs-ln-numbers {
+	padding: 0;
+	border: 0;
+}
+
+.reveal .hljs-ln-numbers  {
+	padding-right: 10px;
 }
 
 
