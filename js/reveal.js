@@ -2975,6 +2975,9 @@
 	 */
 	function syncSlide( slide ) {
 
+		// Default to the current slide
+		slide = slide || Reveal.getCurrentSlide();
+
 		syncBackground( slide );
 		syncFragments( slide );
 
@@ -2991,10 +2994,14 @@
 	 * after reveal.js has already initialized.
 	 *
 	 * @param {HTMLElement} slide
+	 * @return {Array} a list of the HTML fragments that were synced
 	 */
 	function syncFragments( slide ) {
 
-		sortFragments( slide.querySelectorAll( '.fragment' ) );
+		// Default to the current slide
+		slide = slide || Reveal.getCurrentSlide();
+
+		return sortFragments( slide.querySelectorAll( '.fragment' ) );
 
 	}
 
