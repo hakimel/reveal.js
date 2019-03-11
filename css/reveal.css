@@ -1442,7 +1442,7 @@ body {
 .reveal .hljs table {
   margin: initial; }
 
-.reveal .hljs.highlight-lines tr:not(.highlight-line) {
+.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
   opacity: 0.25; }
 
 .reveal .hljs-ln-code,
@@ -1451,7 +1451,8 @@ body {
   border: 0; }
 
 .reveal .hljs-ln-numbers {
-  padding-right: 10px; }
+  padding-right: 10px;
+  text-align: right; }
 
 /*********************************************
  * ROLLING LINKS

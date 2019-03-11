@@ -90,14 +90,12 @@ var RevealHighlight = (function() {
 
 			hljs.highlightBlock( block );
 
-			if( block.classList.contains( 'line-numbers' ) ) {
+			if( block.hasAttribute( 'data-line-numbers' ) ) {
 				hljs.lineNumbersBlock( block );
 
-				if( block.hasAttribute( 'data-highlight-lines' ) ) {
-					// hljs.lineNumbersBlock runs async code on the next cycle,
-					// so we need to do the same to execute after it's done
-					setTimeout( RevealHighlight.highlightLines.bind( this, block ), 0 )
-				}
+				// hljs.lineNumbersBlock runs async code on the next cycle,
+				// so we need to do the same to execute after it's done
+				setTimeout( RevealHighlight.highlightLines.bind( this, block ), 0 )
 			}
 
 		},
@@ -115,11 +113,9 @@ var RevealHighlight = (function() {
 		 */
 		highlightLines: function( block, linesToHighlight ) {
 
-			linesToHighlight = linesToHighlight || block.getAttribute( 'data-highlight-lines' );
+			linesToHighlight = linesToHighlight || block.getAttribute( 'data-line-numbers' );
 
 			if( typeof linesToHighlight === 'string' ) {
-
-				block.classList.add( 'highlight-lines' );
 
 				linesToHighlight.split( ',' ).forEach( function( lineNumbers ) {
 
@@ -133,11 +129,6 @@ var RevealHighlight = (function() {
 					} );
 
 				} );
-
-			}
-			else {
-
-				block.classList.remove( 'highlight-lines' );
 
 			}
 
