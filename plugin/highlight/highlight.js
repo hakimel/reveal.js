@@ -115,18 +115,23 @@ var RevealHighlight = (function() {
 
 			linesToHighlight = linesToHighlight || block.getAttribute( 'data-line-numbers' );
 
-			if( typeof linesToHighlight === 'string' ) {
+			if( typeof linesToHighlight === 'string' && linesToHighlight !== '' ) {
 
 				linesToHighlight.split( ',' ).forEach( function( lineNumbers ) {
 
-					lineNumbers = lineNumbers.split( '-' )
+					// Ensure that we looking at a valid slide number (1 or 1-2)
+					if( /^[\d-]+$/.test( lineNumbers ) ) {
 
-					var lineStart = lineNumbers[0];
-					var lineEnd = lineNumbers[1] || lineStart;
+						lineNumbers = lineNumbers.split( '-' )
 
-					[].slice.call( block.querySelectorAll( 'table tr:nth-child(n+'+lineStart+'):nth-child(-n+'+lineEnd+')' ) ).forEach( function( lineElement ) {
-						lineElement.classList.add( 'highlight-line' );
-					} );
+						var lineStart = lineNumbers[0];
+						var lineEnd = lineNumbers[1] || lineStart;
+
+						[].slice.call( block.querySelectorAll( 'table tr:nth-child(n+'+lineStart+'):nth-child(-n+'+lineEnd+')' ) ).forEach( function( lineElement ) {
+							lineElement.classList.add( 'highlight-line' );
+						} );
+
+					}
 
 				} );
 
