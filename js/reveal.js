@@ -2976,7 +2976,7 @@
 	function syncSlide( slide ) {
 
 		// Default to the current slide
-		slide = slide || Reveal.getCurrentSlide();
+		slide = slide || currentSlide;
 
 		syncBackground( slide );
 		syncFragments( slide );
@@ -2999,7 +2999,7 @@
 	function syncFragments( slide ) {
 
 		// Default to the current slide
-		slide = slide || Reveal.getCurrentSlide();
+		slide = slide || currentSlide;
 
 		return sortFragments( slide.querySelectorAll( '.fragment' ) );
 
