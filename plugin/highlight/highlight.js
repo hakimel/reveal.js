@@ -5,8 +5,21 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 /* highlightjs-line-numbers.js 2.6.0 | (C) 2018 Yauheni Pakala | MIT License | github.com/wcoder/highlightjs-line-numbers.js */
 !function(n,e){"use strict";function t(){var n=e.createElement("style");n.type="text/css",n.innerHTML=g(".{0}{border-collapse:collapse}.{0} td{padding:0}.{1}:before{content:attr({2})}",[v,L,b]),e.getElementsByTagName("head")[0].appendChild(n)}function r(t){"interactive"===e.readyState||"complete"===e.readyState?i(t):n.addEventListener("DOMContentLoaded",function(){i(t)})}function i(t){try{var r=e.querySelectorAll("code.hljs,code.nohighlight");for(var i in r)r.hasOwnProperty(i)&&l(r[i],t)}catch(o){n.console.error("LineNumbers error: ",o)}}function l(n,e){"object"==typeof n&&f(function(){n.innerHTML=s(n,e)})}function o(n,e){if("string"==typeof n){var t=document.createElement("code");return t.innerHTML=n,s(t,e)}}function s(n,e){e=e||{singleLine:!1};var t=e.singleLine?0:1;return c(n),a(n.innerHTML,t)}function a(n,e){var t=u(n);if(""===t[t.length-1].trim()&&t.pop(),t.length>e){for(var r="",i=0,l=t.length;i<l;i++)r+=g('<tr><td class="{0}"><div class="{1} {2}" {3}="{5}"></div></td><td class="{4}"><div class="{1}">{6}</div></td></tr>',[j,m,L,b,p,i+1,t[i].length>0?t[i]:" "]);return g('<table class="{0}">{1}</table>',[v,r])}return n}function c(n){var e=n.childNodes;for(var t in e)if(e.hasOwnProperty(t)){var r=e[t];h(r.textContent)>0&&(r.childNodes.length>0?c(r):d(r.parentNode))}}function d(n){var e=n.className;if(/hljs-/.test(e)){for(var t=u(n.innerHTML),r=0,i="";r<t.length;r++){var l=t[r].length>0?t[r]:" ";i+=g('<span class="{0}">{1}</span>\n',[e,l])}n.innerHTML=i.trim()}}function u(n){return 0===n.length?[]:n.split(y)}function h(n){return(n.trim().match(y)||[]).length}function f(e){n.setTimeout(e,0)}function g(n,e){return n.replace(/\{(\d+)\}/g,function(n,t){return e[t]?e[t]:n})}var v="hljs-ln",m="hljs-ln-line",p="hljs-ln-code",j="hljs-ln-numbers",L="hljs-ln-n",b="data-line-number",y=/\r\n|\r|\n/g;n.hljs?(n.hljs.initLineNumbersOnLoad=r,n.hljs.lineNumbersBlock=l,n.hljs.lineNumbersValue=o,t()):n.console.error("highlight.js not detected!")}(window,document);
 
-// START CUSTOM REVEAL.JS INTEGRATION
-var RevealHighlight = (function() {
+/**
+ * This reveal.js plugin is wrapper around the highlight.js
+ * syntax highlighting library.
+ */
+(function( root, factory ) {
+    if (typeof define === 'function' && define.amd) {
+        root.RevealHighlight = factory();
+    } else if( typeof exports === 'object' ) {
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.RevealHighlight = factory();
+    }
+}( this, function() {
+
 	// Function to perform a better "data-trim" on code snippets
 	// Will slice an indentation amount on each line of the snippet (amount based on the line having the lowest indentation length)
 	function betterTrim(snippetEl) {
@@ -54,27 +67,34 @@ var RevealHighlight = (function() {
 		})(snippetEl);
 	}
 
-	return {
+	var RevealHighlight = {
 		init: function() {
 
-			[].slice.call( document.querySelectorAll( 'pre code' ) ).forEach( function( code ) {
+			// Read the plugin config options and provide fallbacks
+			var config = Reveal.getConfig().highlight || {};
+			config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
+			config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
 
-				// trim whitespace if data-trim attribute is present
-				if( code.hasAttribute( 'data-trim' ) && typeof code.innerHTML.trim === 'function' ) {
-					code.innerHTML = betterTrim(code);
+			[].slice.call( document.querySelectorAll( '.reveal pre code' ) ).forEach( function( block ) {
+
+				// Trim whitespace if the "data-trim" attribute is present
+				if( block.hasAttribute( 'data-trim' ) && typeof block.innerHTML.trim === 'function' ) {
+					block.innerHTML = betterTrim( block );
 				}
 
-				// Now escape html unless prevented by author
-				if( ! code.hasAttribute( 'data-noescape' )) {
-					code.innerHTML = code.innerHTML.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+				// Escape HTML tags unless the "data-noescape" attrbute is present
+				if( config.escapeHTML && !block.hasAttribute( 'data-noescape' )) {
+					block.innerHTML = block.innerHTML.replace( /</g,"&lt;").replace(/>/g, '&gt;' );
 				}
 
-				// re-highlight when focus is lost (for edited code)
-				code.addEventListener( 'focusout', function( event ) {
+				// Re-highlight when focus is lost (for contenteditable code)
+				block.addEventListener( 'focusout', function( event ) {
 					hljs.highlightBlock( event.currentTarget );
 				}, false );
 
-				RevealHighlight.highlightBlock( code );
+				if( config.highlightOnLoad ) {
+					RevealHighlight.highlightBlock( block );
+				}
 			} );
 
 			// lofi xbrowser Promise.resolve()
@@ -91,11 +111,11 @@ var RevealHighlight = (function() {
 			hljs.highlightBlock( block );
 
 			if( block.hasAttribute( 'data-line-numbers' ) ) {
-				hljs.lineNumbersBlock( block );
+				hljs.lineNumbersBlock( block, { singleLine: true } );
 
 				// hljs.lineNumbersBlock runs async code on the next cycle,
 				// so we need to do the same to execute after it's done
-				setTimeout( RevealHighlight.highlightLines.bind( this, block ), 0 )
+				setTimeout( RevealHighlight.highlightLines.bind( this, block ), 0 );
 			}
 
 		},
@@ -139,7 +159,9 @@ var RevealHighlight = (function() {
 
 		}
 	}
-})();
 
-Reveal.registerPlugin( 'highlight', RevealHighlight );
-// END CUSTOM REVEAL.JS INTEGRATION
+	Reveal.registerPlugin( 'highlight', RevealHighlight );
+
+	return RevealHighlight;
+
+}));
