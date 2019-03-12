@@ -897,7 +897,7 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 
 ### Code syntax highlighting
 
-By default, Reveal is configured with [highlight.js](https://highlightjs.org/) for code syntax highlighting. To enable syntax highlighting, you'll have to load the highlight plugin ([plugin/highlight/highlight.js](plugin/highlight/highlight.js)) and a highlight.js CSS theme (Reveal comes packaged with the zenburn theme: [lib/css/zenburn.css](lib/css/zenburn.css)).
+By default, Reveal is configured with [highlight.js](https://highlightjs.org/) for code syntax highlighting. To enable syntax highlighting, you'll have to load the highlight plugin ([plugin/highlight/highlight.js](plugin/highlight/highlight.js)) and a highlight.js CSS theme (Reveal comes packaged with the Monokai themes: [lib/css/monokai.css](lib/css/monokai.css)).
 
 ```javascript
 Reveal.initialize({
