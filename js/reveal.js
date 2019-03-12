@@ -1558,12 +1558,17 @@
 	 */
 	function registerPlugin( id, plugin ) {
 
-		plugins[id] = plugin;
+		if( plugins[id] === undefined ) {
+			plugins[id] = plugin;
 
-		// If a plugin is registered after reveal.js is loaded,
-		// initialize it right away
-		if( loaded && typeof plugin.init === 'function' ) {
-			plugin.init();
+			// If a plugin is registered after reveal.js is loaded,
+			// initialize it right away
+			if( loaded && typeof plugin.init === 'function' ) {
+				plugin.init();
+			}
+		}
+		else {
+			console.warn( 'reveal.js: "'+ id +'" plugin has already been registered' );
 		}
 
 	}
