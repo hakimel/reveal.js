@@ -68,7 +68,7 @@ var RevealNotes = (function() {
 		 */
 		function callRevealApi( methodName, methodArguments, callId ) {
 
-			var result = Reveal[methodName].call( Reveal, methodArguments );
+			var result = Reveal[methodName].apply( Reveal, methodArguments );
 			notesPopup.postMessage( JSON.stringify( {
 				namespace: 'reveal-notes',
 				type: 'return',
