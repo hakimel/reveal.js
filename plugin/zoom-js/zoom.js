@@ -22,8 +22,6 @@ var RevealZoom = (function(){
 				}
 			} );
 
-			return Promise.resolve();
-
 		}
 	}
 

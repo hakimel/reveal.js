@@ -539,27 +539,32 @@
 
 		var pluginsToInitialize = Object.keys( plugins ).length;
 
+		var afterPlugInitialized = function() {
+			if( --pluginsToInitialize === 0 ) {
+				loadAsyncDependencies();
+			}
+		};
+
 		for( var i in plugins ) {
 
 			var plugin = plugins[i];
 
-			// If the plugin has an 'init' method, initialize and
-			// wait for the callback
+			// If the plugin has an 'init' method, invoke it
 			if( typeof plugin.init === 'function' ) {
-				plugin.init().then( function() {
-					if( --pluginsToInitialize === 0 ) {
-						loadAsyncDependencies();
-					}
-				} );
+				var callback = plugin.init();
+
+				// If the plugin returned a Promise, wait for it
+				if( callback && typeof callback.then === 'function' ) {
+					callback.then( afterPlugInitialized );
+				}
+				else {
+					afterPlugInitialized();
+				}
 			}
 			else {
-				pluginsToInitialize -= 1;
+				afterPlugInitialized();
 			}
 
-		}
-
-		if( pluginsToInitialize === 0 ) {
-			loadAsyncDependencies();
 		}
 
 	}

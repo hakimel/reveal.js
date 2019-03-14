@@ -168,8 +168,6 @@ var RevealNotes = (function() {
 
 			}
 
-			return Promise.resolve();
-
 		},
 
 		open: openNotes

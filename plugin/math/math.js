@@ -84,8 +84,6 @@ var RevealMath = window.RevealMath || (function(){
 
 			} );
 
-			return Promise.resolve();
-
 		}
 	}
 
