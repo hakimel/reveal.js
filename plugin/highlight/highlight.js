@@ -97,8 +97,7 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 				}
 			} );
 
-			// lofi xbrowser Promise.resolve()
-			return { then: function( resolve ) { resolve(); }};
+			return Promise.resolve();
 
 		},
 
@@ -139,10 +138,13 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 
 				linesToHighlight.split( ',' ).forEach( function( lineNumbers ) {
 
+					// Avoid failures becase of whitespace
+					lineNumbers = lineNumbers.replace( /\s/g, '' );
+
 					// Ensure that we looking at a valid slide number (1 or 1-2)
 					if( /^[\d-]+$/.test( lineNumbers ) ) {
 
-						lineNumbers = lineNumbers.split( '-' )
+						lineNumbers = lineNumbers.split( '-' );
 
 						var lineStart = lineNumbers[0];
 						var lineEnd = lineNumbers[1] || lineStart;

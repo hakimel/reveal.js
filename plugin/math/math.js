@@ -84,8 +84,7 @@ var RevealMath = window.RevealMath || (function(){
 
 			} );
 
-			// lofi xbrowser Promise.resolve()
-			return { then: function( resolve ) { resolve(); }};
+			return Promise.resolve();
 
 		}
 	}
