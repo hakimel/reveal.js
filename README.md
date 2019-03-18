@@ -307,6 +307,13 @@ Reveal.initialize({
 	// - false: No media will autoplay, regardless of individual setting
 	autoPlayMedia: null,
 
+  // Global override for preloading lazy-loaded iframes
+	// - null: Iframes with data-src AND data-preload will be loaded when within
+	//   the viewDistance, iframes with only data-src will be loaded when visible
+	// - true: All iframes with data-src will be loaded when within the viewDistance
+	// - false: All iframes with data-src will be loaded only when visible
+	preload: null,
+
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
 	// by using a data-autoslide attribute on your slides
@@ -528,6 +535,23 @@ To enable lazy loading all you need to do is change your `src` attributes to `da
   </video>
 </section>
 ```
+
+By default, iframes are only loaded when they become visible. This is useful when iframes contain
+embedded media or performance-heavy content. If you want an iframe to be lazy-loaded but also want
+it to be loaded before it becomes visible, then you can use the `data-preload` attribute:
+
+```html
+<section>
+	<iframe data-src="http://hakim.se" data-preload></iframe>
+</section>
+```
+
+You can also change the default with the `preload` configuration option.
+
+If you want to enable or disable iframe preloading globally, you can use the `preload` configuration
+option. If you set this to `true` ALL iframes with a `data-src` attribute will be preloaded when
+within the view distance regardless of individual `data-preload` attributes. If you set it to
+`false` iframes will only be loaded when they become visible.
 
 ### API
 
