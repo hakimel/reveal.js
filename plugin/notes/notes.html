@@ -347,6 +347,8 @@
 					upcomingSlide,
 					layoutLabel,
 					layoutDropdown,
+					pendingCalls = {},
+					lastRevealApiCallId = 0,
 					connected = false;
 
 				var SPEAKER_LAYOUTS = {
@@ -382,6 +384,10 @@
 						else if( data.type === 'state' ) {
 							handleStateMessage( data );
 						}
+						else if( data.type === 'return' ) {
+							pendingCalls[data.callId](data.result);
+							delete pendingCalls[data.callId];
+						}
 					}
 					// Messages sent by the reveal.js inside of the current slide preview
 					else if( data && data.namespace === 'reveal' ) {
@@ -397,6 +403,23 @@
 					}
 
 				} );
+
+				/**
+				 * Asynchronously calls the Reveal.js API of the main frame.
+				 */
+				function callRevealApi( methodName, methodArguments, callback ) {
+
+					var callId = ++lastRevealApiCallId;
+					pendingCalls[callId] = callback;
+					window.opener.postMessage( JSON.stringify( {
+						namespace: 'reveal-notes',
+						type: 'call',
+						callId: callId,
+						methodName: methodName,
+						arguments: methodArguments
+					} ), '*' );
+
+				}
 
 				/**
 				 * Called when the main window is trying to establish a
@@ -512,28 +535,34 @@
 
 				}
 
-				function getTimings() {
+				function getTimings( callback ) {
 
-					var slides = Reveal.getSlides();
-					var defaultTiming = Reveal.getConfig().defaultTiming;
-					if (defaultTiming == null) {
-						return null;
-					}
-					var timings = [];
-					for ( var i in slides ) {
-						var slide = slides[i];
-						var timing = defaultTiming;
-						if( slide.hasAttribute( 'data-timing' )) {
-							var t = slide.getAttribute( 'data-timing' );
-							timing = parseInt(t);
-							if( isNaN(timing) ) {
-								console.warn("Could not parse timing '" + t + "' of slide " + i + "; using default of " + defaultTiming);
-								timing = defaultTiming;
+					callRevealApi( 'getSlidesAttributes', [], function ( slideAttributes ) {
+						callRevealApi( 'getConfig', [], function ( config ) {
+							var defaultTiming = config.defaultTiming;
+							if (defaultTiming == null) {
+								callback(null);
+								return;
 							}
-						}
-						timings.push(timing);
-					}
-					return timings;
+
+							var timings = [];
+							for ( var i in slideAttributes ) {
+								var slide = slideAttributes[ i ];
+								var timing = defaultTiming;
+								if( slide.hasOwnProperty( 'data-timing' )) {
+									var t = slide[ 'data-timing' ];
+									timing = parseInt(t);
+									if( isNaN(timing) ) {
+										console.warn("Could not parse timing '" + t + "' of slide " + i + "; using default of " + defaultTiming);
+										timing = defaultTiming;
+									}
+								}
+								timings.push(timing);
+							}
+
+							callback( timings );
+						} );
+					} );
 
 				}
 
@@ -541,15 +570,15 @@
 				 * Return the number of seconds allocated for presenting
 				 * all slides up to and including this one.
 				 */
-				function getTimeAllocated(timings) {
+				function getTimeAllocated( timings, callback ) {
 
-					var slides = Reveal.getSlides();
-					var allocated = 0;
-					var currentSlide = Reveal.getSlidePastCount();
-					for (var i in slides.slice(0, currentSlide + 1)) {
-						allocated += timings[i];
-					}
-					return allocated;
+					callRevealApi( 'getSlidePastCount', [], function ( currentSlide ) {
+						var allocated = 0;
+						for (var i in timings.slice(0, currentSlide + 1)) {
+							allocated += timings[i];
+						}
+						callback( allocated );
+					} );
 
 				}
 
@@ -571,11 +600,50 @@
 					pacingMinutesEl = pacingEl.querySelector( '.minutes-value' ),
 					pacingSecondsEl = pacingEl.querySelector( '.seconds-value' );
 
-					var timings = getTimings();
-					if (timings !== null) {
-						pacingTitleEl.style.removeProperty('display');
-						pacingEl.style.removeProperty('display');
+					var timings = null;
+					getTimings( function ( _timings ) {
+
+						timings = _timings;
+						if (_timings !== null) {
+							pacingTitleEl.style.removeProperty('display');
+							pacingEl.style.removeProperty('display');
+						}
+
+						// Update once directly
+						_updateTimer();
+
+						// Then update every second
+						setInterval( _updateTimer, 1000 );
+
+					} );
+
+
+					function _resetTimer() {
+
+						if (timings == null) {
+							start = new Date();
+							_updateTimer();
+						}
+						else {
+							// Reset timer to beginning of current slide
+							getTimeAllocated( timings, function ( slideEndTimingSeconds ) {
+								var slideEndTiming = slideEndTimingSeconds * 1000;
+								callRevealApi( 'getSlidePastCount', [], function ( currentSlide ) {
+									var currentSlideTiming = timings[currentSlide] * 1000;
+									var previousSlidesTiming = slideEndTiming - currentSlideTiming;
+									var now = new Date();
+									start = new Date(now.getTime() - previousSlidesTiming);
+									_updateTimer();
+								} );
+							} );
+						}
+
 					}
+
+					timeEl.addEventListener( 'click', function() {
+						_resetTimer();
+						return false;
+					} );
 
 					function _displayTime( hrEl, minEl, secEl, time) {
 
@@ -618,51 +686,25 @@
 
 					function _updatePacing(diff) {
 
-						var slideEndTiming = getTimeAllocated(timings) * 1000;
-						var currentSlide = Reveal.getSlidePastCount();
-						var currentSlideTiming = timings[currentSlide] * 1000;
-						var timeLeftCurrentSlide = slideEndTiming - diff;
-						if (timeLeftCurrentSlide < 0) {
-							pacingEl.className = 'pacing behind';
-						}
-						else if (timeLeftCurrentSlide < currentSlideTiming) {
-							pacingEl.className = 'pacing on-track';
-						}
-						else {
-							pacingEl.className = 'pacing ahead';
-						}
-						_displayTime( pacingHoursEl, pacingMinutesEl, pacingSecondsEl, timeLeftCurrentSlide );
+						getTimeAllocated( timings, function ( slideEndTimingSeconds ) {
+							var slideEndTiming = slideEndTimingSeconds * 1000;
 
+							callRevealApi( 'getSlidePastCount', [], function ( currentSlide ) {
+								var currentSlideTiming = timings[currentSlide] * 1000;
+								var timeLeftCurrentSlide = slideEndTiming - diff;
+								if (timeLeftCurrentSlide < 0) {
+									pacingEl.className = 'pacing behind';
+								}
+								else if (timeLeftCurrentSlide < currentSlideTiming) {
+									pacingEl.className = 'pacing on-track';
+								}
+								else {
+									pacingEl.className = 'pacing ahead';
+								}
+								_displayTime( pacingHoursEl, pacingMinutesEl, pacingSecondsEl, timeLeftCurrentSlide );
+							} );
+						} );
 					}
-
-					// Update once directly
-					_updateTimer();
-
-					// Then update every second
-					setInterval( _updateTimer, 1000 );
-
-					function _resetTimer() {
-
-						if (timings == null) {
-							start = new Date();
-						}
-						else {
-							// Reset timer to beginning of current slide
-							var slideEndTiming = getTimeAllocated(timings) * 1000;
-							var currentSlide = Reveal.getSlidePastCount();
-							var currentSlideTiming = timings[currentSlide] * 1000;
-							var previousSlidesTiming = slideEndTiming - currentSlideTiming;
-							var now = new Date();
-							start = new Date(now.getTime() - previousSlidesTiming);
-						}
-						_updateTimer();
-
-					}
-
-					timeEl.addEventListener( 'click', function() {
-						_resetTimer();
-						return false;
-					} );
 
 				}
 

@@ -3,55 +3,28 @@
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2018 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2019 Hakim El Hattab, http://hakim.se
  */
-
-
-/*********************************************
- * RESET STYLES
- *********************************************/
-
-html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe,
-.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal blockquote, .reveal pre,
-.reveal a, .reveal abbr, .reveal acronym, .reveal address, .reveal big, .reveal cite, .reveal code,
-.reveal del, .reveal dfn, .reveal em, .reveal img, .reveal ins, .reveal kbd, .reveal q, .reveal s, .reveal samp,
-.reveal small, .reveal strike, .reveal strong, .reveal sub, .reveal sup, .reveal tt, .reveal var,
-.reveal b, .reveal u, .reveal center,
-.reveal dl, .reveal dt, .reveal dd, .reveal ol, .reveal ul, .reveal li,
-.reveal fieldset, .reveal form, .reveal label, .reveal legend,
-.reveal table, .reveal caption, .reveal tbody, .reveal tfoot, .reveal thead, .reveal tr, .reveal th, .reveal td,
-.reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed,
-.reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup,
-.reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary,
-.reveal time, .reveal mark, .reveal audio, .reveal video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-
-.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
-.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
-	display: block;
-}
 
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 
-html,
-body {
+html {
 	width: 100%;
 	height: 100%;
+	height: 100vh;
+	height: calc( var(--vh, 1vh) * 100 );
 	overflow: hidden;
 }
 
 body {
+	height: 100%;
+	overflow: hidden;
 	position: relative;
 	line-height: 1;
+	margin: 0;
 
 	background-color: #fff;
 	color: #000;
@@ -434,12 +407,19 @@ $controlsArrowAngleActive: 36deg;
 	}
 }
 
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-up,
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-down {
+	display: none;
+}
+
 // Adjust the layout when there are no vertical slides
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-left,
 .reveal:not(.has-vertical-slides) .controls .navigate-left {
 	bottom: $controlArrowSpacing;
 	right: 0.5em + $controlArrowSpacing + $controlArrowSize;
 }
 
+.reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-right,
 .reveal:not(.has-vertical-slides) .controls .navigate-right {
 	bottom: $controlArrowSpacing;
 	right: 0.5em;
@@ -586,17 +566,7 @@ $controlsArrowAngleActive: 36deg;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	touch-action: none;
-}
-
-// Mobile Safari sometimes overlays a header at the top
-// of the page when in landscape mode. Using fixed
-// positioning ensures that reveal.js reduces its height
-// when this header is visible.
-@media only screen and (orientation : landscape) {
-	.reveal.ua-iphone {
-		position: fixed;
-	}
+	touch-action: pinch-zoom;
 }
 
 .reveal .slides {
@@ -618,7 +588,7 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal .slides>section {
-	-ms-perspective: 600px;
+	perspective: 600px;
 }
 
 .reveal .slides>section,
@@ -657,6 +627,7 @@ $controlsArrowAngleActive: 36deg;
 	padding-top: 0;
 	padding-bottom: 0;
 	pointer-events: none;
+	height: 100%;
 }
 
 .reveal .slides>section.present,
@@ -831,10 +802,10 @@ $controlsArrowAngleActive: 36deg;
 	transform: scale(0.2);
 }
 @include transition-vertical-past(zoom) {
-	transform: translate(0, -150%);
+	transform: scale(16);
 }
 @include transition-vertical-future(zoom) {
-	transform: translate(0, 150%);
+	transform: scale(0.2);
 }
 
 
@@ -1067,35 +1038,36 @@ $controlsArrowAngleActive: 36deg;
 	overflow-y: auto;
 }
 
+.no-transforms .reveal {
+	overflow: visible;
+}
+
 .no-transforms .reveal .slides {
 	position: relative;
 	width: 80%;
-	height: auto !important;
+	max-width: 1280px;
+	height: auto;
 	top: 0;
-	left: 50%;
-	margin: 0;
+	margin: 0 auto;
 	text-align: center;
 }
 
 .no-transforms .reveal .controls,
 .no-transforms .reveal .progress {
-	display: none !important;
+	display: none;
 }
 
 .no-transforms .reveal .slides section {
-	display: block !important;
-	opacity: 1 !important;
-	position: relative !important;
+	display: block;
+	opacity: 1;
+	position: relative;
 	height: auto;
 	min-height: 0;
 	top: 0;
-	left: -50%;
+	left: 0;
+	margin: 10vh 0;
 	margin: 70px 0;
 	transform: none;
-}
-
-.no-transforms .reveal .slides section section {
-	left: 0;
 }
 
 .reveal .no-transition,
@@ -1416,10 +1388,10 @@ $controlsArrowAngleActive: 36deg;
 
 
 /*********************************************
- * LINK PREVIEW OVERLAY
+ * OVERLAY FOR LINK PREVIEWS AND HELP
  *********************************************/
 
-.reveal .overlay {
+.reveal > .overlay {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1431,12 +1403,12 @@ $controlsArrowAngleActive: 36deg;
 	visibility: hidden;
 	transition: all 0.3s ease;
 }
-	.reveal .overlay.visible {
+	.reveal > .overlay.visible {
 		opacity: 1;
 		visibility: visible;
 	}
 
-	.reveal .overlay .spinner {
+	.reveal > .overlay .spinner {
 		position: absolute;
 		display: block;
 		top: 50%;
@@ -1452,7 +1424,7 @@ $controlsArrowAngleActive: 36deg;
 		transition: all 0.3s ease;
 	}
 
-	.reveal .overlay header {
+	.reveal > .overlay header {
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -1461,7 +1433,7 @@ $controlsArrowAngleActive: 36deg;
 		z-index: 2;
 		border-bottom: 1px solid #222;
 	}
-		.reveal .overlay header a {
+		.reveal > .overlay header a {
 			display: inline-block;
 			width: 40px;
 			height: 40px;
@@ -1472,10 +1444,10 @@ $controlsArrowAngleActive: 36deg;
 
 			box-sizing: border-box;
 		}
-			.reveal .overlay header a:hover {
+			.reveal > .overlay header a:hover {
 				opacity: 1;
 			}
-			.reveal .overlay header a .icon {
+			.reveal > .overlay header a .icon {
 				display: inline-block;
 				width: 20px;
 				height: 20px;
@@ -1484,14 +1456,14 @@ $controlsArrowAngleActive: 36deg;
 				background-size: 100%;
 				background-repeat: no-repeat;
 			}
-			.reveal .overlay header a.close .icon {
+			.reveal > .overlay header a.close .icon {
 				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkklEQVRYR8WX4VHDMAxG6wnoJrABZQPYBCaBTWAD2g1gE5gg6OOsXuxIlr40d81dfrSJ9V4c2VLK7spHuTJ/5wpM07QXuXc5X0opX2tEJcadjHuV80li/FgxTIEK/5QBCICBD6xEhSMGHgQPgBgLiYVAB1dpSqKDawxTohFw4JSEA3clzgIBPCURwE2JucBR7rhPJJv5OpJwDX+SfDjgx1wACQeJG1aChP9K/IMmdZ8DtESV1WyP3Bt4MwM6sj4NMxMYiqUWHQu4KYA/SYkIjOsm3BXYWMKFDwU2khjCQ4ELJUJ4SmClRArOCmSXGuKma0fYD5CbzHxFpCSGAhfAVSSUGDUk2BWZaff2g6GE15BsBQ9nwmpIGDiyHQddwNTMKkbZaf9fajXQca1EX44puJZUsnY0ObGmITE3GVLCbEhQUjGVt146j6oasWN+49Vph2w1pZ5EansNZqKBm1txbU57iRRcZ86RWMDdWtBJUHBHwoQPi1GV+JCbntmvok7iTX4/Up9mgyTc/FJYDTcndgH/AA5A/CHsyEkVAAAAAElFTkSuQmCC);
 			}
-			.reveal .overlay header a.external .icon {
+			.reveal > .overlay header a.external .icon {
 				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAcElEQVRYR+2WSQoAIQwEzf8f7XiOMkUQxUPlGkM3hVmiQfQR9GYnH1SsAQlI4DiBqkCMoNb9y2e90IAEJPAcgdznU9+engMaeJ7Azh5Y1U67gAho4DqBqmB1buAf0MB1AlVBek83ZPkmJMGc1wAR+AAqod/B97TRpQAAAABJRU5ErkJggg==);
 			}
 
-	.reveal .overlay .viewport {
+	.reveal > .overlay .viewport {
 		position: absolute;
 		display: flex;
 		top: 40px;
@@ -1500,7 +1472,7 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 	}
 
-	.reveal .overlay.overlay-preview .viewport iframe {
+	.reveal > .overlay.overlay-preview .viewport iframe {
 		width: 100%;
 		height: 100%;
 		max-width: 100%;
@@ -1512,12 +1484,12 @@ $controlsArrowAngleActive: 36deg;
 		transition: all 0.3s ease;
 	}
 
-	.reveal .overlay.overlay-preview.loaded .viewport iframe {
+	.reveal > .overlay.overlay-preview.loaded .viewport iframe {
 		opacity: 1;
 		visibility: visible;
 	}
 
-	.reveal .overlay.overlay-preview.loaded .viewport-inner  {
+	.reveal > .overlay.overlay-preview.loaded .viewport-inner  {
 		position: absolute;
 		z-index: -1;
 		left: 0;
@@ -1526,26 +1498,26 @@ $controlsArrowAngleActive: 36deg;
 		text-align: center;
 		letter-spacing: normal;
 	}
-	.reveal .overlay.overlay-preview .x-frame-error  {
+	.reveal > .overlay.overlay-preview .x-frame-error  {
 		opacity: 0;
 		transition: opacity 0.3s ease 0.3s;
 	}
-	.reveal .overlay.overlay-preview.loaded .x-frame-error  {
+	.reveal > .overlay.overlay-preview.loaded .x-frame-error  {
 		opacity: 1;
 	}
 
-	.reveal .overlay.overlay-preview.loaded .spinner {
+	.reveal > .overlay.overlay-preview.loaded .spinner {
 		opacity: 0;
 		visibility: hidden;
 		transform: scale(0.2);
 	}
 
-	.reveal .overlay.overlay-help .viewport {
+	.reveal > .overlay.overlay-help .viewport {
 		overflow: auto;
 		color: #fff;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner {
 		width: 600px;
 		margin: auto;
 		padding: 20px 20px 80px 20px;
@@ -1553,29 +1525,28 @@ $controlsArrowAngleActive: 36deg;
 		letter-spacing: normal;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner .title {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner .title {
 		font-size: 20px;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table {
 		border: 1px solid #fff;
 		border-collapse: collapse;
 		font-size: 16px;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table th,
-	.reveal .overlay.overlay-help .viewport .viewport-inner table td {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table th,
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table td {
 		width: 200px;
 		padding: 14px;
 		border: 1px solid #fff;
 		vertical-align: middle;
 	}
 
-	.reveal .overlay.overlay-help .viewport .viewport-inner table th {
+	.reveal > .overlay.overlay-help .viewport .viewport-inner table th {
 		padding-top: 20px;
 		padding-bottom: 20px;
 	}
-
 
 
 /*********************************************
@@ -1595,6 +1566,32 @@ $controlsArrowAngleActive: 36deg;
 .reveal.overview .playback {
 	opacity: 0;
 	visibility: hidden;
+}
+
+
+/*********************************************
+ * CODE HIGHLGIHTING
+ *********************************************/
+
+.reveal .hljs table {
+	margin: initial;
+}
+
+.reveal .hljs-ln-code,
+.reveal .hljs-ln-numbers {
+	padding: 0;
+	border: 0;
+}
+
+.reveal .hljs-ln-numbers {
+	opacity: 0.6;
+	padding-right: 0.75em;
+	text-align: right;
+	vertical-align: top;
+}
+
+.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
+	opacity: 0.4;
 }
 
 
@@ -1648,6 +1645,8 @@ $controlsArrowAngleActive: 36deg;
  * SPEAKER NOTES
  *********************************************/
 
+$notesWidthPercent: 25%;
+
 // Hide on-page notes
 .reveal aside.notes {
 	display: none;
@@ -1658,7 +1657,7 @@ $controlsArrowAngleActive: 36deg;
 .reveal .speaker-notes {
 	display: none;
 	position: absolute;
-	width: 25vw;
+	width: $notesWidthPercent / (1-$notesWidthPercent/100) * 1%;
 	height: 100%;
 	top: 0;
 	left: 100%;
@@ -1694,7 +1693,7 @@ $controlsArrowAngleActive: 36deg;
 
 
 .reveal.show-notes {
-	max-width: 75vw;
+	max-width: 100% - $notesWidthPercent;
 	overflow: visible;
 }
 
@@ -1713,6 +1712,7 @@ $controlsArrowAngleActive: 36deg;
 		border-left: 0;
 		max-width: none;
 		max-height: 70%;
+		max-height: 70vh;
 		overflow: visible;
 	}
 
@@ -1721,17 +1721,21 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 		width: 100%;
 		height: (30/0.7)*1%;
+		height: 30vh;
+		border: 0;
 	}
 }
 
 @media screen and (max-width: 600px) {
 	.reveal.show-notes {
 		max-height: 60%;
+		max-height: 60vh;
 	}
 
 	.reveal.show-notes .speaker-notes {
 		top: 100%;
 		height: (40/0.6)*1%;
+		height: 40vh;
 	}
 
 	.reveal .speaker-notes {

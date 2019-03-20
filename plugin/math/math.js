@@ -7,33 +7,28 @@
 var RevealMath = window.RevealMath || (function(){
 
 	var options = Reveal.getConfig().math || {};
-	options.mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
-	options.config = options.config || 'TeX-AMS_HTML-full';
-	options.tex2jax = options.tex2jax || {
-				inlineMath: [['$','$'],['\\(','\\)']] ,
-				skipTags: ['script','noscript','style','textarea','pre'] };
+	var mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
+	var config = options.config || 'TeX-AMS_HTML-full';
+	var url = mathjax + '?config=' + config;
 
-	loadScript( options.mathjax + '?config=' + options.config, function() {
+	var defaultOptions = {
+		messageStyle: 'none',
+		tex2jax: {
+			inlineMath: [ [ '$', '$' ], [ '\\(', '\\)' ] ],
+			skipTags: [ 'script', 'noscript', 'style', 'textarea', 'pre' ]
+		},
+		skipStartupTypeset: true
+	};
 
-		MathJax.Hub.Config({
-			messageStyle: 'none',
-			tex2jax: options.tex2jax,
-			skipStartupTypeset: true
-		});
+	function defaults( options, defaultOptions ) {
 
-		// Typeset followed by an immediate reveal.js layout since
-		// the typesetting process could affect slide height
-		MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
-		MathJax.Hub.Queue( Reveal.layout );
+		for ( var i in defaultOptions ) {
+			if ( !options.hasOwnProperty( i ) ) {
+				options[i] = defaultOptions[i];
+			}
+		}
 
-		// Reprocess equations in slides when they turn visible
-		Reveal.addEventListener( 'slidechanged', function( event ) {
-
-			MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
-
-		} );
-
-	} );
+	}
 
 	function loadScript( url, callback ) {
 
@@ -64,4 +59,34 @@ var RevealMath = window.RevealMath || (function(){
 
 	}
 
+	return {
+		init: function() {
+
+			defaults( options, defaultOptions );
+			defaults( options.tex2jax, defaultOptions.tex2jax );
+			options.mathjax = options.config = null;
+
+			loadScript( url, function() {
+
+				MathJax.Hub.Config( options );
+
+				// Typeset followed by an immediate reveal.js layout since
+				// the typesetting process could affect slide height
+				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
+				MathJax.Hub.Queue( Reveal.layout );
+
+				// Reprocess equations in slides when they turn visible
+				Reveal.addEventListener( 'slidechanged', function( event ) {
+
+					MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
+
+				} );
+
+			} );
+
+		}
+	}
+
 })();
+
+Reveal.registerPlugin( 'math', RevealMath );
