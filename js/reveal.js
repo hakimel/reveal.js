@@ -4296,7 +4296,12 @@
 			else if( config.hash ) {
 				window.history.replaceState(null, null, '#' + locationHash());
 			}
+      else {
+        window.location.hash = '';
+      }
 		}
+
+
 
 	}
 	/**
