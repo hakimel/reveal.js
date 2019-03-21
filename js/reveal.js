@@ -4290,18 +4290,23 @@
 			writeURLTimeout = setTimeout( writeURL, delay );
 		}
 		else if( currentSlide ) {
+			// If we're configured to push to history OR the history
+			// API is not avaialble.
 			if( config.history || !window.history ) {
 				window.location.hash = locationHash();
 			}
+			// If we're configured to refelct the current slide in the
+			// URL without pushing to history.
 			else if( config.hash ) {
-				window.history.replaceState(null, null, '#' + locationHash());
+				window.history.replaceState( null, null, '#' + locationHash() );
 			}
-      else {
-        window.location.hash = '';
-      }
+			// If history and hash are both disabled, a hash may still
+			// be added to the URL by clicking on a href with a hash
+			// target. Counter this by always removing the hash.
+			else {
+				window.history.replaceState( null, null, window.location.pathname + window.location.search );
+			}
 		}
-
-
 
 	}
 	/**
