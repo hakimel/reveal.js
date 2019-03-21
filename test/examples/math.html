@@ -83,6 +83,14 @@
 				</section>
 
 				<section>
+					<h3>TeX Macros</h3>
+
+					Here is a common vector space:
+					\[L^2(\R) = \set{u : \R \to \R}{\int_\R |u|^2 &lt; +\infty}\]
+					used in functional analysis.
+				</section>
+
+				<section>
 					<section>
 						<h3>The Lorenz Equations</h3>
 
@@ -153,13 +161,20 @@
 							\]
 						</div>
 					</section>
+
+					<section>
+						<h3>TeX Macros</h3>
+
+						Here is a common vector space:
+						\[L^2(\R) = \set{u : \R \to \R}{\int_\R |u|^2 &lt; +\infty}\]
+						used in functional analysis.
+					</section>
 				</section>
 
 			</div>
 
 		</div>
 
-		<script src="../../lib/js/head.min.js"></script>
 		<script src="../../js/reveal.js"></script>
 
 		<script>
@@ -170,11 +185,16 @@
 
 				math: {
 					// mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
-					config: 'TeX-AMS_HTML-full'
+					config: 'TeX-AMS_HTML-full',
+					TeX: {
+						Macros: {
+							R: '\\mathbb{R}',
+							set: [ '\\left\\{#1 \\; ; \\; #2\\right\\}', 2 ]
+						}
+					}
 				},
 
 				dependencies: [
-					{ src: '../../lib/js/classList.js' },
 					{ src: '../../plugin/math/math.js', async: true }
 				]
 			});
