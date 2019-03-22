@@ -70,7 +70,8 @@ body {
 .reveal h3 {
   font-size: 1.55em; }
 
-.reveal h4 {
+.reveal h4,
+.summary h2 {
   font-size: 1em; }
 
 .reveal h1 {

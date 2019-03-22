@@ -38,113 +38,153 @@
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-				 <p> 1. IadNgxCore</p>
-				 <p class="fragment fade-up"> 2. Composants disponibles</p>
-				 <p class="fragment fade-up"> 3. NextStackDemo</p>
-				 <p class="fragment fade-up"> 4. Tests unitaires</p>
+          <div class="summary">
+            <h2>1. IadNgxCore</h2>
+            <p class="fragment fade-up">1.1 La gueule du bousin</p>
+            <p class="fragment fade-up">1.2 Développement et publication</p>
+            <p class="fragment fade-up">1.3 Classes (Composants, Services, Pipes, ...)</p>
+            <p class="fragment fade-up">1.4 Redux</p>
+            <p class="fragment fade-up">1.5 RxJS</p>
+            <p class="fragment fade-up">1.6 Tests unitaires</p>
+            <h2 class="fragment fade-up">2. IadNgxCss</h2>
+            <h2 class="fragment fade-up"> 3. NextStackDemo</h2>
+            <h2 class="fragment fade-up"> 4. Annexes</h2>
+          </div>
         </textarea>
-			</section>
+      </section>
+      <section data-markdown>
+        <textarea data-template>
+          <h2>IadNgxCore</h2>
+          <p>1.1 La gueule du bousin</p>
+        </textarea>
+      </section>
+      <section data-markdown>
+        <textarea data-template>
+          <h3>C'est quoi du coup ?</h3>
+          <p class="fragment fade-up">Librairie générée par <strong>Angular CLI</strong></p>
+          <p class="fragment fade-up">Codée en Angular 7</p>
+          <p class="fragment fade-up">Packagé au format <strong>APF</strong> à l'aide de la librairie <strong>ng-packagr</strong></p>
+          <p class="fragment fade-up">Lien : https://www.iad-international.npme.io/package/@iad-international/iad-ngx-core</p>
+        </textarea>
+      </section>
+      <section data-markdown>
+        <textarea data-template>
+          <h3>Composée de deux parties</h3>
+          <p class="fragment fade-up">Projet de test : <strong>styleguide</strong></p>
+          <p class="fragment fade-up">La librairie elle-même : <strong>core</strong></p>
+          <p class="fragment fade-up">Bon, j'vous montre</p>
+        </textarea>
+      </section>
+      <section data-markdown>
+        <textarea data-template>
+          <h2>IadNgxCore</h2>
+          <p>1.2 Développement et publication</p>
+        </textarea>
+      </section>
 			<section>
 				<section data-markdown>
 					<textarea data-template>
-						### 1. Commandes de base
-						
-						```
-						 // cloner le repo
-						 git clone git@github.com:IAD-INTERNATIONAL/IadNg2Intranet.git
+## Commandes de bases
+```
+// cloner le repo
+git clone git@github.com:IAD-INTERNATIONAL/IadNgxCore.git
 
-						 // install des deps 
-						 npm i 
+// installer des deps 
+npm i 
 
-						 // lancer les Tests 
-						 ng test 
+// lancer les tests de la lib
+npm run test OU ng test core
 
-						 // lancer le linter
-						 ng lint 
+// lancer le linter
+npm run lint OU ng lint
 
-						 // réinstaller les libs et force le cache clean 
-						 npm run reinstall
+// réinstaller les deps et forcer le cache clean #HardCore
+npm run reinstall
 
-						 // lancer l'extraction des clés de traduction 
-						 npm run translate-extract
+// lancer l'extraction des clés de traduction 
+npm run translate-extract
 
-						 // lancer le serve en dev
-						 npm run dev:serve
-						```
+// Developper sur le styleguide
+npm run serve
+
+// Developper sur le styleguide ET sur la librairie en watch mode
+npm run dev
+
+// Lancer le build (comporend le package) de la lib
+npm run build
+
+// Publier la librairie
+npm run publish // PAS NPM PUBLISH
+```
 					</textarea>
 				</section>
-				<section data-markdown>
-					<textarea data-template>
-							### Création de l'environnement de Dev
-
-							```
-							 // copier l'environment.dev.ts
-
-							 cp src/environments/environment.dev.ts.dist src/environments/environment.dev.ts
-
-							 
-							 // compléter les informations des serveurs
-							```
-						</textarea>
-				</section>
 			</section>
 			<section>
 				<section data-markdown>
 					<textarea data-template>
-						### 1. Arborescence
-						## <img src="http://www.ijoomla.com/blog/wp-content/uploads/2012/04/messy-office-03-300x213.jpg"/>
+            <h3>Pour le dev</h3>
+            <p class="fragment fade-up"><strong>npm run dev</strong> lancera le <strong>styleguide</strong> et le <strong>core</strong> en watch mode.</p>
+            <p class="fragment fade-up"><strong>BUG :</strong> Quand un fichier de la lib changera, le styleguide buildera  3 fois. Ca sera corrigé dans un futur proche.</p>
           </textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>	
-						### Dossier modules
-						- Contient les différentes fonctionnalités métiers.
-
-						<img src="img/ng2-starter-modules-tree.png" style="height: 400px;" />
-						</textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>	
-							### Dossier shared
-							- Contient le code commun pour chaque module.
-	
-							<img src="img/ng2-starter-shared-tree.png" style="height: 400px;" />
-							</textarea>
-				</section>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+              <h3>Pour la publication</h3>
+              <p class="fragment fade-up"><strong>npm run publish</strong> lancera le build de la librairie et le packaging</p>
+              <p class="fragment fade-up">Ne pas oublier d'upgrade la version du core avant de publier (dans tous les cas, npm vous enverra chier si c'est pas fait) </p>
+            </textarea>
+          </section>
 			</section>
-			<section>
-				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
-					<textarea data-template>
-						### 2. Création des routes
-						- Création du module de description des routes pour la fonctionnalité métier.
-
-						- Ce module sera lazy-loadé dans le app-routing.module.ts.
+				<section data-markdown>
+          <textarea data-template>
+            <h2>IadNgxCore</h2>
+            <p>1.5 RxJS</p>
           </textarea>
 				</section>
-				<section data-markdown data-notes="Npm enterprise : 20$ / user par mois">
+				<section data-markdown>
 					<textarea data-template>
-						### app-routing.module.ts
-						```
-						{
-							path: 'backoffice',
-							data: {
-								breadcrumb: new BreadCrumb('backoffice', BreadCrumbCommonL10n.backoffice)
-							},
-							children: [
-								{
-									path: '',
-									component: RedirectComponent,
-									...redirectToCdi('home', BreadCrumbCommonL10n.home)
-								},
-								{
-									path: 'circle',
-									loadChildren: 'app/modules/circles/circles.module#CirclesModule'
-								}
-							]
-						}
-						```
+            <h3>Pour rappel</h3>
+            <p class="fragment fade-up">Les <strong>Observables</strong> sont des flux</p>
+            <p class="fragment fade-up">On s'y abonne...</p>
+            <p class="fragment fade-up">ET ON S'Y DESABONNE !!!!</p>
+            <p class="fragment fade-up">Quand vous allez vous coucher, vous laissez la télé allumée ?! NAN ! bah là c'est pareil !</p>
           </textarea>
-				</section>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            <h3>Pourquoi est-ce si important ?</h3>
+            <p class="fragment fade-up">Parce qu'ils restent en mémoire -> LEAK</p>
+            <p class="fragment fade-up">Parce qu'ils provoquent des effets de bord involontaires et dégueulasses</p>
+            <p class="fragment fade-up">Ca devient la croix et la bannière pour débugger</p>
+            <p class="fragment fade-up">Gonflant à reviewer</p>
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea>
+            <img src="img/degueu.png"></img>
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            <h3>Du coup....</h3>
+            <p class="fragment fade-up">Il est important de réfléchir à sa durée de vie</p>
+            <p class="fragment fade-up">En fonction de la réponse à cette question, on utilisera la méthode adéquate pour se désabonner</p>
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            <h3>Let me show you</h3>
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            <h3>Opérateur ofRoute</h3>
+            <p class="fragment fade-up">S'utilise dans les ngrx/effects</p>
+            <p class="fragment fade-up">Ecoute l'action CHANGE dispatché lors d'une navigation</p>
+            <p class="fragment fade-up">Se base sur le store du router </p>
+            <p class="fragment fade-up">Permet de dispatcher des actions sur une route particulière, en comparant l'URL actuelle</p>
+          </textarea>
+        </section>
 				<section data-markdown>
 					<textarea data-template>
 						### feature-routing.module.ts
@@ -184,7 +224,6 @@
 						```
           </textarea>
 				</section>
-			</section>
 			<section>
 				<section data-markdown>
 					<textarea data-template>
