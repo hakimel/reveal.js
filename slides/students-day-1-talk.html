@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Students Day 1 Talk</title>
+    <link rel="stylesheet" href="../css/reveal.css" />
+    <link rel="stylesheet" href="../css/theme/fac.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../css/print/pdf.css"
+        : "../css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+
+    <style>
+      /* BLACK: #121212 */
+      /* YELLOW: #ffe500 */
+      /* BLUE: #0805ec */
+      /* GREEN: #00be00 */
+      /* RED: #ff2800 */
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background-color="#121212">
+          <img src="../assets/logos/logo-mobile.png" class="img-s" />
+          <h1>Welcome to</h1>
+          <h1>Founders and Coders</h1>
+          <p>
+            history, personnel, values, welcome to space4 + house rules,
+            expectations of you/aim of the course
+          </p>
+        </section>
+        <section data-background-color="#ffe500">
+          <h3>This is FAC17</h3>
+        </section>
+        <section
+          data-background-color="#ffe500"
+          data-background-image="https://media.giphy.com/media/1isEkdhbL9A9TTtVUB/giphy.gif"
+        >
+          <h3>This is FAC17</h3>
+        </section>
+        <section>
+          <section data-background-color="#0805ec">
+            <h3>A Brief History</h3>
+          </section>
+          <section
+            data-background-image="../assets/photos/british-library.jpg"
+          ></section>
+          <section
+            data-background-image="../assets/photos/coding-the-web.png"
+          ></section>
+        </section>
+        <section data-background-color="#ffe500">
+          <h3>
+            <span class="bigunderline bigunderline--blue">Personnel</span>
+          </h3>
+          <div class="fragment fade-up">
+            <h4>Course Facilitator</h4>
+            <p>Charlie La Fosse (FAC15)</p>
+          </div>
+          <div class="fragment fade-up">
+            <h4>Mentors</h4>
+            <p>All of FAC15</p>
+          </div>
+          <div class="fragment fade-up">
+            <h4>Operations</h4>
+            <p>Yvonne Liu (FAC10)</p>
+            <p>Joe Tanner (FAC3)</p>
+            <p>Dan Sofer</p>
+          </div>
+        </section>
+        <section>
+          <section data-background-color="#0805ec" id="fragments">
+            <img class="img-s" src="../assets/logos/logo-mobile.png" />
+            <h1>FAC Values</h1>
+          </section>
+          <section style="text-align: left">
+            <img src="../assets/icons/horizontal_line_green.svg" />
+            <h2>Inclusivity</h2>
+            <p class="fragment fade-up">
+              We want the tech industry to be a place where people from all
+              backgrounds can thrive.
+            </p>
+          </section>
+          <section style="text-align: left">
+            <img src="../assets/icons/horizontal_line_blue.svg" />
+            <h2>Co-operation</h2>
+            <p class="fragment fade-up">
+              We prioritise collective learning over individual goals.
+            </p>
+          </section>
+          <section style="text-align: left">
+            <img src="../assets/icons/horizontal_line_yellow.svg" />
+            <h2>Social Impact</h2>
+            <p class="fragment fade-up">
+              Through the <span>Tech for Better</span> programme!
+            </p>
+          </section>
+        </section>
+        <section data-background-color="#0805ec" id="fragments">
+          <h1>Welcome to</h1>
+          <img class="img-xl" src="../assets/logos/SPACE4-LOGO.svg" />
+        </section>
+      </div>
+    </div>
+    <script src="../lib/js/head.min.js"></script>
+    <script src="../js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "slide", // none/fade/slide/convex/concave/zoom
+
+        dependencies: [
+          { src: "../plugin/markdown/marked.js" },
+          { src: "../plugin/markdown/markdown.js" },
+          { src: "../plugin/notes/notes.js", async: true },
+          {
+            src: "../plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+    </script>
+  </body>
+</html>
