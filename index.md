@@ -7,4 +7,5 @@ Slides
 - [London Intro Talk](/slides/london-intro-talk)
 - [Community Talk](/slides/community-talk)
 - [Getting Started on Codewars](/slides/codewars-intro.html)
+- [Tech for Better Discovery Workshop](/slides/tfb-discovery-workshop.html)
 
