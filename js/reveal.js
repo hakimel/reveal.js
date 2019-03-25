@@ -4197,7 +4197,7 @@
 
 		}
 
-		return pastCount / ( totalCount - 1 );
+		return Math.min( pastCount / ( totalCount - 1 ), 1 );
 
 	}
 
