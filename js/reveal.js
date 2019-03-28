@@ -180,6 +180,13 @@
 			// - false:  No media will autoplay, regardless of individual setting
 			autoPlayMedia: null,
 
+			// Global override for preloading lazy-loaded iframes
+			// - null:   Iframes with data-src AND data-preload will be loaded when within
+			//           the viewDistance, iframes with only data-src will be loaded when visible
+			// - true:   All iframes with data-src will be loaded when within the viewDistance
+			// - false:  All iframes with data-src will be loaded only when visible
+			preloadIframes: null,
+
 			// Controls automatic progression to the next slide
 			// - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
 			//           is present on the current slide or fragment
@@ -3677,7 +3684,7 @@
 	 *
 	 * @param {HTMLElement} element
 	 */
-	function shouldPreload(element) {
+	function shouldPreload( element ) {
 
 		// Prefer an explicit global preload setting
 		var preload = config.preloadIframes;
@@ -3707,18 +3714,10 @@
 
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( function( element ) {
-			var load = function( el ) {
-				el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
-				el.setAttribute( 'data-lazy-loaded', '' );
-				el.removeAttribute( 'data-src' );
-			};
-
-			if( element.tagName === 'IFRAME') {
-				if( shouldPreload(element) ) {
-					load(element);
-				}
-			} else {
-				load(element);
+			if( element.tagName !== 'IFRAME' || shouldPreload( element ) ) {
+				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+				element.setAttribute( 'data-lazy-loaded', '' );
+				element.removeAttribute( 'data-src' );
 			}
 		} );
 
@@ -3838,18 +3837,8 @@
 
 		// Reset lazy-loaded media elements with src attributes
 		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ) ).forEach( function( element ) {
-			var unload = function( el ) {
-				el.setAttribute( 'data-src', el.getAttribute( 'src' ) );
-				el.removeAttribute( 'src' );
-			};
-
-			if( element.tagName === 'IFRAME' ) {
-				if( shouldPreload(element) ) {
-					unload(element);
-				}
-			} else {
-				unload(element);
-			}
+			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
+			element.removeAttribute( 'src' );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children

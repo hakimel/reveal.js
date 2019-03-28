@@ -316,7 +316,7 @@ Reveal.initialize({
 	// - false: No media will autoplay, regardless of individual setting
 	autoPlayMedia: null,
 
-  // Global override for preloading lazy-loaded iframes
+	// Global override for preloading lazy-loaded iframes
 	// - null: Iframes with data-src AND data-preload will be loaded when within
 	//   the viewDistance, iframes with only data-src will be loaded when visible
 	// - true: All iframes with data-src will be loaded when within the viewDistance
