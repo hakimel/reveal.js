@@ -316,6 +316,13 @@ Reveal.initialize({
 	// - false: No media will autoplay, regardless of individual setting
 	autoPlayMedia: null,
 
+  // Global override for preloading lazy-loaded iframes
+	// - null: Iframes with data-src AND data-preload will be loaded when within
+	//   the viewDistance, iframes with only data-src will be loaded when visible
+	// - true: All iframes with data-src will be loaded when within the viewDistance
+	// - false: All iframes with data-src will be loaded only when visible
+	preloadIframes: null,
+
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
 	// by using a data-autoslide attribute on your slides
@@ -555,10 +562,24 @@ To enable lazy loading all you need to do is change your `src` attributes to `da
 ```
 
 #### Lazy Loading Iframes
+
 Note that lazy loaded iframes ignore the `viewDistance` configuration and will only load when their containing slide becomes visible. Iframes are also unloaded as soon as the slide is hidden.
 
 When we lazy load a video or audio element, reveal.js won't start playing that content until the slide becomes visible. However there is no way to control this for an iframe since that could contain any kind of content. That means if we loaded an iframe before the slide is visible on screen it could begin playing media and sound in the background.
 
+You can override this behavior with the `data-preload` attribute. The iframe below will be loaded
+according to the `viewDistance`.
+
+```html
+<section>
+	<iframe data-src="http://hakim.se" data-preload></iframe>
+</section>
+```
+
+You can also change the default globally with the `preloadIframes` configuration option. If set to
+`true` ALL iframes with a `data-src` attribute will be preloaded when within the `viewDistance`
+regardless of individual `data-preload` attributes. If set to `false`, all iframes will only be
+loaded when they become visible.
 
 ### API
 
