@@ -18,9 +18,9 @@
 		var link = document.createElement("link");
 		link.rel = "stylesheet";
 		link.type = "text/css";
-		link.href = window.location.search.match(/print-pdf/gi)
-			? "css/print/pdf.css"
-			: "css/print/paper.css";
+		link.href = window.location.search.match(/print-pdf/gi) ?
+			"css/print/pdf.css" :
+			"css/print/paper.css";
 		document.getElementsByTagName("head")[0].appendChild(link);
 	</script>
 </head>
@@ -173,20 +173,24 @@
 					<li>Software running on the edge</li>
 				</ul>
 			</section>
+
 			<section data-background-image="images/backgrounds/20190301_153946.jpg" data-background-opacity="0.2">
-				<p>ML with Javascript</p>
-				<small>Machine Learning</small>
-				<br />
-				<ul>
-					<li>TensorFlow.js</li>
-					<li>Run in browser or on Node.js</li>
-					<li>G.CO/EMOJISCAVENGERHUNT</li>
-				</ul>
+				<div>
+					<p>ML with Javascript</p>
+					<small>Machine Learning</small>
+					<br />
+					<ul>
+						<li>TensorFlow.js</li>
+						<li>Run in browser or on Node.js</li>
+						<li>G.CO/EMOJISCAVENGERHUNT</li>
+					</ul>
+				</div>
+				<img class="fragment" src="images/backgrounds/ML-adversarial-example.png">
 			</section>
 			<section data-background-image="images/backgrounds/20190301_153946.jpg" data-background-opacity="0.2">
-				<img src="images/backgrounds/ML-adversarial-example.png">
+				<img src="images/backgrounds/machine_learning_xkcd.png">
 			</section>
-			<section data-background-image="images/backgrounds/IMG_20190226_151345.jpg" data-background-opacity="0.2">
+			<section data-background-image="images/backgrounds/20190301_153946.jpg" data-background-opacity="0.2">
 				<p>Programming Languages & Frameworks</p>
 				<small>WEBAssembly</small>
 				<br />
@@ -196,23 +200,26 @@
 					<li>https://bit.ly/2FClY76</li>
 				</ul>
 			</section>
-			<section data-background-image="images/backgrounds/IMG_20190226_151345.jpg" data-background-opacity="0.2">
+			<section data-background-image="images/backgrounds/AugmentedReality.jpg" data-background-opacity="0.2">
 				<p>Programming Languages & Frameworks</p>
-				<small>GraphQL</small>
+				<small>Application Design Pattern - 3factorapp</small>
 				<br />
 				<ul>
-					<li>REST Problem Statement</li>
+					<li>Realtime GraphQL</li>
+					<li>Reliable eventing</li>
+					<li>Async serverless</li>
 				</ul>
+				<img src="images/backgrounds/3FactorApp.png">
 			</section>
 			<section data-background-image="images/backgrounds/IMG_20190226_160840.jpg" data-background-opacity="0.2">
 				<p>Keynote Takeaways</p>
 				<br />
-				<small>Have clear goals and clear boundaries<i> - Atlassian</i></small><br/>
-				<small>Use the Golden Path<i> - Spotify</i></small><br/>
-				<small>Focus on contention and coherence<i> - Sapient</i></small><br/>
-				<small>Move from a fixed destination to a continuous journey<i> - Sapient</i></small><br/>
-				<small>Set impossible goals<i> - Monday.com</i></small><br/>
-				<small>It's all about the developer experience<i> - Eventbrite</i></small><br/>
+				<small>Have clear goals and clear boundaries<i> - Atlassian</i></small><br />
+				<small>Use the Golden Path<i> - Spotify</i></small><br />
+				<small>Focus on contention and coherence<i> - Sapient</i></small><br />
+				<small>Move from a fixed destination to a continuous journey<i> - Sapient</i></small><br />
+				<small>Set impossible goals<i> - Monday.com</i></small><br />
+				<small>It's all about the developer experience<i> - Eventbrite</i></small><br />
 				<small>Some hacks are okay, as we get it out quick<i> - Stackoverflow</i></small>
 			</section>
 			<section data-background-image="images/backgrounds/20190219_153103.jpg" data-background-opacity="0.2">
@@ -273,6 +280,7 @@
 					<li>Follow Me Home</li>
 					<li>D4D - Design For Delight</li>
 				</ul>
+
 			</section>
 			<section data-background-opacity="0.2">
 				<img src="images/enterpriseJourneyToCloud.png" />
@@ -369,6 +377,7 @@
 						<a href="https://aiyprojects.withgoogle.com/">Google Cardboard AI</a>
 					</li>
 					<li><a href="https://hasura.io/">Hasura.io</a></li>
+					<li><a href="https://3factor.app/">3 Factor App</a></li>
 					<li>
 						<a href="https://bit.ly/3factor-app">Hasura - Food ordering app</a>
 					</li>
@@ -397,10 +406,16 @@
 			// parallaxBackgroundHorizontal: 200,
 			// parallaxBackgroundVertical: 50,
 
-			dependencies: [
-				{ src: "plugin/markdown/marked.js" },
-				{ src: "plugin/markdown/markdown.js" },
-				{ src: "plugin/notes/notes.js", async: true },
+			dependencies: [{
+					src: "plugin/markdown/marked.js"
+				},
+				{
+					src: "plugin/markdown/markdown.js"
+				},
+				{
+					src: "plugin/notes/notes.js",
+					async: true
+				},
 				{
 					src: "plugin/highlight/highlight.js",
 					async: true,
