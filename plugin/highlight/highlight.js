@@ -101,7 +101,8 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 
 		/**
 		 * Highlights a code block. If the <code> node has the
-		 * 'line-numbers' class we also generate slide numbers.
+		 * 'data-line-numbers' attribute we also generate slide
+		 * numbers.
 		 */
 		highlightBlock: function( block ) {
 
@@ -119,7 +120,7 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 
 		/**
 		 * Visually emphasize specific lines within a code block.
-		 * This onnly works on blocks with line numbering turned on.
+		 * This only works on blocks with line numbering turned on.
 		 *
 		 * @param {HTMLElement} block a <code> block
 		 * @param {String} [linesToHighlight] The lines that should be

@@ -6003,7 +6003,7 @@
 			}
 		},
 
-		// Adds/remvoes a custom key binding
+		// Adds/removes a custom key binding
 		addKeyBinding: addKeyBinding,
 		removeKeyBinding: removeKeyBinding,
 
@@ -6012,7 +6012,7 @@
 		hasPlugin: hasPlugin,
 		getPlugin: getPlugin,
 
-		// Programatically triggers a keyboard event
+		// Programmatically triggers a keyboard event
 		triggerKey: function( keyCode ) {
 			onDocumentKeyDown( { keyCode: keyCode } );
 		},
