@@ -451,7 +451,7 @@ Reveal.initialize({
 		{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 
 		// Syntax highlight for <code> elements
-		{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+		{ src: 'plugin/highlight/highlight.js', async: true },
 
 		// Zoom in and out with Alt+click
 		{ src: 'plugin/zoom-js/zoom.js', async: true },
@@ -917,7 +917,7 @@ Reveal.addEventListener( 'fragmenthidden', function( event ) {
 } );
 ```
 
-### Code syntax highlighting
+### Code Syntax Highlighting
 
 By default, Reveal is configured with [highlight.js](https://highlightjs.org/) for code syntax highlighting. To enable syntax highlighting, you'll have to load the highlight plugin ([plugin/highlight/highlight.js](plugin/highlight/highlight.js)) and a highlight.js CSS theme (Reveal comes packaged with the Monokai themes: [lib/css/monokai.css](lib/css/monokai.css)).
 
@@ -925,7 +925,7 @@ By default, Reveal is configured with [highlight.js](https://highlightjs.org/) f
 Reveal.initialize({
 	// More info https://github.com/hakimel/reveal.js#dependencies
 	dependencies: [
-		{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+		{ src: 'plugin/highlight/highlight.js', async: true },
 	]
 });
 ```
@@ -943,6 +943,33 @@ Below is an example with clojure code that will be syntax highlighted. When the 
 	</code></pre>
 </section>
 ```
+
+#### Line Numbers & Highlights
+
+To enable line numbers, add `data-line-numbers` to your `<code>` tags. If you want to highlight specific lines you can provide a comma separated list of line numbers using the same attribute. For example, in the following example lines 4 and 8-11 are highlighted:
+
+```html
+<pre><code class="hljs" data-line-numbers="4,8-11">
+import React, { useState } from 'react';
+ 
+function Example() {
+  const [count, setCount] = useState(0);
+ 
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+</code></pre>
+```
+
+<img width="300" alt="line-numbers" src="https://user-images.githubusercontent.com/629429/55332077-eb3c4780-5494-11e9-8854-ba33cd0fa740.png">
+
+
 
 ### Slide number
 
