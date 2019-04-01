@@ -374,20 +374,8 @@
 			threshold: 40
 		},
 
-		// Holds information about the keyboard shortcuts
-		keyboardShortcuts = {
-			'N  ,  SPACE':						'Next slide',
-			'P':								'Previous slide',
-			'&#8592;  ,  H':					'Navigate left',
-			'&#8594;  ,  L':					'Navigate right',
-			'&#8593;  ,  K':					'Navigate up',
-			'&#8595;  ,  J':					'Navigate down',
-			'Home  ,  &#8984;/CTRL &#8592;':	'First slide',
-			'End  ,  &#8984;/CTRL &#8594;':		'Last slide',
-			'B  ,  .':							'Pause',
-			'F':								'Fullscreen',
-			'ESC, O':							'Slide overview'
-		},
+		// Holds information about the keyboard shortcuts (filled in on configuration).
+		keyboardShortcuts = {},
 
 		// Holds custom key code mappings
 		registeredKeyBindings = {};
@@ -1443,6 +1431,25 @@
 		else {
 			dom.wrapper.removeAttribute( 'data-navigation-mode' );
 		}
+
+
+		if( config.navigationMode === 'linear' ) {
+			keyboardShortcuts['N  ,  SPACE  ,  &#8594;  ,  L  ,  &#8595;  ,  J'] = 'Next slide';
+			keyboardShortcuts['P  ,  &#8592;  ,  H  ,  &#8593;  ,  K'] =           'Previous slide';
+		}
+		else {
+			keyboardShortcuts['N  ,  SPACE'] =   'Next slide';
+			keyboardShortcuts['P'] =             'Previous slide';
+			keyboardShortcuts['&#8592;  ,  H'] = 'Navigate left';
+			keyboardShortcuts['&#8594;  ,  L'] = 'Navigate right';
+			keyboardShortcuts['&#8593;  ,  K'] = 'Navigate up';
+			keyboardShortcuts['&#8595;  ,  J'] = 'Navigate down';
+		}
+		keyboardShortcuts['Home  ,  &#8984;/CTRL &#8592;'] = 'First slide';
+		keyboardShortcuts['End  ,  &#8984;/CTRL &#8594;'] =  'Last slide';
+		keyboardShortcuts['B  ,  .'] =                       'Pause';
+		keyboardShortcuts['F'] =                             'Fullscreen';
+		keyboardShortcuts['ESC, O'] =                        'Slide overview';
 
 		sync();
 
