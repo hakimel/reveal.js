@@ -146,8 +146,8 @@
 			// 1.3    2.3
 			//
 			// If you're on slide 1.3 and navigate right, you will normally move
-			// from 1.3 -> 2.1. With "gridNavigation" enabled the same navigation
-			// takes you from 1.3 -> 2.3.
+			// from 1.3 -> 2.1. If "grid" is used, the same navigation takes you
+			// from 1.3 -> 2.3.
 			navigationMode: 'default',
 
 			// Randomizes the order of slides each time the presentation loads
@@ -374,7 +374,8 @@
 			threshold: 40
 		},
 
-		// Holds information about the keyboard shortcuts (filled in on configuration).
+		// A key:value map of shortcut keyboard keys and descriptions of
+		// the actions they trigger, generated in #configure()
 		keyboardShortcuts = {},
 
 		// Holds custom key code mappings
@@ -1432,24 +1433,25 @@
 			dom.wrapper.removeAttribute( 'data-navigation-mode' );
 		}
 
-
+		// Define our contextual list of keyboard shortcuts
 		if( config.navigationMode === 'linear' ) {
-			keyboardShortcuts['N  ,  SPACE  ,  &#8594;  ,  L  ,  &#8595;  ,  J'] = 'Next slide';
-			keyboardShortcuts['P  ,  &#8592;  ,  H  ,  &#8593;  ,  K'] =           'Previous slide';
+			keyboardShortcuts['&#8594;  ,  &#8595;  ,  SPACE  ,  N  ,  L  ,  J'] = 'Next slide';
+			keyboardShortcuts['&#8592;  ,  &#8593;  ,  P  ,  H  ,  K']           = 'Previous slide';
 		}
 		else {
-			keyboardShortcuts['N  ,  SPACE'] =   'Next slide';
-			keyboardShortcuts['P'] =             'Previous slide';
+			keyboardShortcuts['N  ,  SPACE']   = 'Next slide';
+			keyboardShortcuts['P']             = 'Previous slide';
 			keyboardShortcuts['&#8592;  ,  H'] = 'Navigate left';
 			keyboardShortcuts['&#8594;  ,  L'] = 'Navigate right';
 			keyboardShortcuts['&#8593;  ,  K'] = 'Navigate up';
 			keyboardShortcuts['&#8595;  ,  J'] = 'Navigate down';
 		}
+
 		keyboardShortcuts['Home  ,  &#8984;/CTRL &#8592;'] = 'First slide';
-		keyboardShortcuts['End  ,  &#8984;/CTRL &#8594;'] =  'Last slide';
-		keyboardShortcuts['B  ,  .'] =                       'Pause';
-		keyboardShortcuts['F'] =                             'Fullscreen';
-		keyboardShortcuts['ESC, O'] =                        'Slide overview';
+		keyboardShortcuts['End  ,  &#8984;/CTRL &#8594;']  = 'Last slide';
+		keyboardShortcuts['B  ,  .']                       = 'Pause';
+		keyboardShortcuts['F']                             = 'Fullscreen';
+		keyboardShortcuts['ESC, O']                        = 'Slide overview';
 
 		sync();
 
@@ -4354,7 +4356,7 @@
 			if( config.history || !window.history ) {
 				window.location.hash = locationHash();
 			}
-			// If we're configured to refelct the current slide in the
+			// If we're configured to reflect the current slide in the
 			// URL without pushing to history.
 			else if( config.hash ) {
 				window.history.replaceState( null, null, '#' + locationHash() );
