@@ -1212,11 +1212,9 @@ Plugins should be registered with reveal.js by calling `Reveal.registerPlugin( '
 
 When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fullfilled before finshing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that returns a promise:
 
-```
+```javascript
 Reveal.registerPlugin( 'myPlugin', {
-	init: () => {
-		return new Promise( resolve => setTimeout( resolve, 3000 ) );
-	}
+	init: () =>  new Promise( resolve => setTimeout( resolve, 3000 ) )
 } );
 Reveal.addEventListener( 'ready', () => console.log( 'Three seconds later...' ) );
 Reveal.initialize();
