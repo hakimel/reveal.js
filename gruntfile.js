@@ -1,6 +1,6 @@
-/* global module:false */
-module.exports = function(grunt) {
-	const sass = require('node-sass');
+const sass = require('node-sass');
+
+module.exports = grunt => {
 
 	require('load-grunt-tasks')(grunt);
 
@@ -93,10 +93,11 @@ module.exports = function(grunt) {
 					console: false,
 					unescape: false,
 					define: false,
-					exports: false
+					exports: false,
+					require: false
 				}
 			},
-			files: [ 'Gruntfile.js', 'js/reveal.js' ]
+			files: [ 'gruntfile.js', 'js/reveal.js' ]
 		},
 
 		connect: {
@@ -128,7 +129,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			js: {
-				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				files: [ 'gruntfile.js', 'js/reveal.js' ],
 				tasks: 'js'
 			},
 			theme: {
@@ -160,6 +161,9 @@ module.exports = function(grunt) {
 		}
 
 	});
+
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
 	// Default task
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
