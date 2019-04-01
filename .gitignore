@@ -8,7 +8,6 @@ out/
 log/*.log
 tmp/**
 node_modules/
-package-lock.json
 .sass-cache
 css/reveal.min.css
 js/reveal.min.js

@@ -144,6 +144,10 @@ module.exports = function(grunt) {
 				files: [ 'css/reveal.scss' ],
 				tasks: 'css-core'
 			},
+			test: {
+				files: [ 'test/*.html' ],
+				tasks: 'test'
+			},
 			html: {
 				files: root.map(path => path + '/*.html')
 			},
