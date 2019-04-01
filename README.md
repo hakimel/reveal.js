@@ -49,6 +49,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Speaker Notes](#speaker-notes)
   - [Share and Print Speaker Notes](#share-and-print-speaker-notes)
   - [Server Side Speaker Notes](#server-side-speaker-notes)
+- [Plugins](#plugins)
 - [Multiplexing](#multiplexing)
   - [Master presentation](#master-presentation)
   - [Client presentation](#client-presentation)
@@ -1203,6 +1204,29 @@ Then:
 1. Install [Node.js](http://nodejs.org/) (4.0.0 or later)
 2. Run `npm install`
 3. Run `node plugin/notes-server`
+
+
+## Plugins
+
+Plugins should be registered with reveal.js by calling `Reveal.registerPlugin( 'myPluginID', MyPlugin )`. Registered plugin instances should expose an "init" function that reveal.js can call to initialize them.
+
+When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fullfilled before finshing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that returns a promise:
+
+```
+Reveal.registerPlugin( 'myPlugin', {
+	init: () => {
+		return new Promise( resolve => setTimeout( resolve, 3000 ) );
+	}
+} );
+Reveal.addEventListener( 'ready', () => console.log( 'Three seconds later...' ) );
+Reveal.initialize();
+```
+
+If the init method does _not_ return a Promise, it is considered ready right away and will not hold up the reveal.js startup sequence.
+
+### Retrieving Plugins
+
+If you want to check if a specific plugin is registered you can use the `Reveal.hasPlugin` method and pass in a plugin ID, for example: `Reveal.hasPlugin( 'myPlugin' )`. If you want to retrieve a plugin instance you can use `Reveal.getPlugin( 'myPlugin' )`.
 
 
 ## Multiplexing
