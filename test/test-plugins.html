@@ -57,6 +57,8 @@
 				initCounter['PluginD'] += 1;
 			} };
 
+			var PluginE = {};
+
 			Reveal.registerPlugin( 'PluginA', PluginA );
 			Reveal.registerPlugin( 'PluginB', PluginB );
 			Reveal.registerPlugin( 'PluginC', PluginC );
@@ -71,7 +73,7 @@
 				assert.strictEqual( initCounter['PluginB'], 1, 'prevents duplicate registration' );
 			});
 
-			QUnit.test( 'Can initialie asynchronously', function( assert ) {
+			QUnit.test( 'Can initialize asynchronously', function( assert ) {
 				assert.expect( 3 );
 				var done = assert.async( 2 );
 
@@ -85,6 +87,17 @@
 					assert.strictEqual( initCounter['PluginD'], 1, 'plugin registered after reveal.js is ready still initiailizes' );
 					done();
 				});
+			} );
+
+			QUnit.test( 'Can check if plugin is registered', function( assert ) {
+				assert.strictEqual( Reveal.hasPlugin( 'PluginA' ), true );
+				assert.strictEqual( Reveal.hasPlugin( 'PluginE' ), false );
+				Reveal.registerPlugin( 'PluginE', PluginE );
+				assert.strictEqual( Reveal.hasPlugin( 'PluginE' ), true );
+			} );
+
+			QUnit.test( 'Can retrieve plugin instance', function( assert ) {
+				assert.strictEqual( Reveal.getPlugin( 'PluginB' ), PluginB );
 			} );
 		</script>
 

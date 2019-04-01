@@ -1595,6 +1595,29 @@
 	}
 
 	/**
+	 * Checks if a specific plugin has been registered.
+	 *
+	 * @param {String} id Unique plugin identifier
+	 */
+	function hasPlugin( id ) {
+
+		return !!plugins[id];
+
+	}
+
+	/**
+	 * Returns the specific plugin instance, if a plugin
+	 * with the given ID has been registered.
+	 *
+	 * @param {String} id Unique plugin identifier
+	 */
+	function getPlugin( id ) {
+
+		return plugins[id];
+
+	}
+
+	/**
 	 * Add a custom key binding with optional description to
 	 * be added to the help screen.
 	 */
@@ -5975,8 +5998,10 @@
 		addKeyBinding: addKeyBinding,
 		removeKeyBinding: removeKeyBinding,
 
-		// Called by plugins to register themselves
+		// API for registering and retrieving plugins
 		registerPlugin: registerPlugin,
+		hasPlugin: hasPlugin,
+		getPlugin: getPlugin,
 
 		// Programatically triggers a keyboard event
 		triggerKey: function( keyCode ) {
