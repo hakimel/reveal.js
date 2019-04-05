@@ -1594,6 +1594,18 @@ $controlsArrowAngleActive: 36deg;
 	opacity: 0.4;
 }
 
+.reveal .hljs .highlight-line .hljs-ln-numbers  {
+	font-weight: 600;
+}
+
+.reveal .hljs:not(:first-child).fragment {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 
 /*********************************************
  * ROLLING LINKS
