@@ -1453,11 +1453,8 @@ body {
   text-align: right;
   vertical-align: top; }
 
-.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
+.reveal .hljs.has-highlights tr:not(.highlight-line) {
   opacity: 0.4; }
-
-.reveal .hljs .highlight-line .hljs-ln-numbers {
-  font-weight: 600; }
 
 .reveal .hljs:not(:first-child).fragment {
   position: absolute;
