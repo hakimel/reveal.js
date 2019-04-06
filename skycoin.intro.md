@@ -26,7 +26,7 @@ Password: meet-ups
 - General Theory of DApps
 - Intro to Skycoin
 
-<small> Notes about Bitcoin and Ethereum in-between </small>
+<small> Notes about Skycoin, Bitcoin, and Ethereum in-between </small>
 
 --
 
