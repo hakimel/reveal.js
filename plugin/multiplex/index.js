@@ -44,7 +44,8 @@ app.get("/", function(req, res) {
 
 app.get("/token", function(req,res) {
 	var ts = new Date().getTime();
-	var rand = Math.floor(Math.random()*9999999);
+	var rand = new Uint32Array(1);
+	window.crypto.getRandomValues(rand)
 	var secret = ts.toString() + rand.toString();
 	res.send({secret: secret, socketId: createHash(secret)});
 });
