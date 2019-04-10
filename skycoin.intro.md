@@ -21,7 +21,7 @@ Password: meet-ups
 
 - Replicated state machines (a.k.a RSM)
 - Infrastructure, management and admin tools
-- Relation betwen RSM and Blockchain
+- Relation between RSM and Blockchain
 - Execution rules and consensus
 - General Theory of DApps
 - Intro to Skycoin
