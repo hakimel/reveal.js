@@ -141,7 +141,7 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 						block.parentNode.appendChild( fragmentBlock );
 						RevealHighlight.highlightLines( fragmentBlock );
 
-						if( fragmentIndex ) {
+						if( typeof fragmentIndex === 'number' ) {
 							fragmentBlock.setAttribute( 'data-fragment-index', fragmentIndex );
 							fragmentIndex += 1;
 						}
