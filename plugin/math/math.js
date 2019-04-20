@@ -7,17 +7,21 @@
 var RevealMath = window.RevealMath || (function(){
 
 	var options = Reveal.getConfig().math || {};
-	var mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
-	var config = options.config || 'TeX-AMS_HTML-full';
+	var mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js';
+	var config = options.config || 'TeX-AMS_CHTML-full';
 	var url = mathjax + '?config=' + config;
 
 	var defaultOptions = {
 		messageStyle: 'none',
+        extensions: ["TeX/AMSmath.js"],
 		tex2jax: {
 			inlineMath: [ [ '$', '$' ], [ '\\(', '\\)' ] ],
 			skipTags: [ 'script', 'noscript', 'style', 'textarea', 'pre' ]
 		},
-		skipStartupTypeset: true
+		skipStartupTypeset: true,
+        AssistiveMML: { disabled: true },
+        "CommonHTML": { matchFontHeight: false },
+        "HTML-CSS":   { matchFontHeight: false }
 	};
 
 	function defaults( options, defaultOptions ) {
@@ -60,32 +64,34 @@ var RevealMath = window.RevealMath || (function(){
 	}
 
 	return {
-		init: function() {
+		init: function() { 
+            return new Promise( function(resolve) {
 
-			defaults( options, defaultOptions );
-			defaults( options.tex2jax, defaultOptions.tex2jax );
-			options.mathjax = options.config = null;
+                var printMode = ( /print-pdf/gi ).test( window.location.search );
 
-			loadScript( url, function() {
+                defaults( options, defaultOptions );
+                defaults( options.tex2jax, defaultOptions.tex2jax );
+                options.mathjax = options.config = null;
 
-				MathJax.Hub.Config( options );
+                loadScript( url, function() {
 
-				// Typeset followed by an immediate reveal.js layout since
-				// the typesetting process could affect slide height
-				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
-				MathJax.Hub.Queue( Reveal.layout );
+                    MathJax.Hub.Config( options );
 
-				// Reprocess equations in slides when they turn visible
-				Reveal.addEventListener( 'slidechanged', function( event ) {
+                    // Typeset followed by an immediate reveal.js layout since
+                    // the typesetting process could affect slide height
+                    MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
+                    MathJax.Hub.Queue( Reveal.layout );
+                    MathJax.Hub.Queue( [ 'log', console, "mathjax typeset done" ]); // just for debugging
 
-					MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
+                    // in print mode, resolve promise after typesetting is done
+                    if (printMode) MathJax.Hub.Queue( resolve );
+                } );
 
-				} );
-
-			} );
-
-		}
-	}
+                // if not in print mode, resolve promise immediately
+                if (!printMode) resolve();
+            });
+        }
+    }
 
 })();
 
