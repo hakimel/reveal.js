@@ -1176,9 +1176,9 @@
 		var data = {
 			background: slide.getAttribute( 'data-background' ),
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
-			backgroundImage: slide.getAttribute( 'data-background-image' ),
-			backgroundVideo: slide.getAttribute( 'data-background-video' ),
-			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
+			backgroundImage: getSlideAttribute( slide, 'data-background-image' ),
+			backgroundVideo: getSlideAttribute( slide, 'data-background-video' ),
+			backgroundIframe: getSlideAttribute( slide, 'data-background-iframe' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
@@ -3809,11 +3809,11 @@
 			if( background.hasAttribute( 'data-loaded' ) === false ) {
 				background.setAttribute( 'data-loaded', 'true' );
 
-				var backgroundImage = slide.getAttribute( 'data-background-image' ),
-					backgroundVideo = slide.getAttribute( 'data-background-video' ),
+				var backgroundImage = getSlideAttribute( slide, 'data-background-image' ),
+					backgroundVideo = getSlideAttribute( slide, 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
 					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' ),
-					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
+					backgroundIframe = getSlideAttribute( slide, 'data-background-iframe' );
 
 				// Images
 				if( backgroundImage ) {
@@ -4505,6 +4505,11 @@
 
 		return horizontalSlide;
 
+	}
+
+	function getSlideAttribute( slide, attributeName ) {
+		var slideAttribute = slide.getAttribute( attributeName );
+		return slideAttribute || dom.slides.getAttribute(attributeName);
 	}
 
 	/**
