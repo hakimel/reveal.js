@@ -8,4 +8,4 @@ Slides
 - [Community Talk](/slides/community-talk)
 - [Getting Started on Codewars](/slides/codewars-intro.html)
 - [Tech for Better Discovery Workshop](/slides/tfb-discovery-workshop.html)
-
+- [Slides for non-FAC people to showcase FAC (help me with name)](slides/prospective-applicants.html)
