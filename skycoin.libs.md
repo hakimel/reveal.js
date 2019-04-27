@@ -105,7 +105,7 @@ Copyright 2019 Skycoin project
 
 - [Skycoin](https://github.com/skycoin/skycoin,) a coin technically better than Bitcoin
 - [Skywire](https://www.skycoin.net/blog/tags/skywire/,) a mesh network
-- [Fiber](https://www.skycoin.net/fiber/), like Ethereum’s ERC20, but better
+- [Fiber](https://www.skycoin.net/fiber/), like Ethereum's ERC20, but better
   * Every coin their own blockchain
   * [CX](https://www.skycoin.net/blog/overview/cx-overview/) programming language
   * add your own features
