@@ -4,7 +4,7 @@
 
 ----------------
 
-#### These slides: [slides.cuban.tech/skycoin.api.node.html](http://slides.skycoin.net/skycoin.libs.html)
+#### These slides: [slides.skycoin.net/skycoin.libs.html](http://slides.skycoin.net/skycoin.libs.html)
 
 ----------------
 
@@ -19,6 +19,7 @@ Copyright 2019 Skycoin project
 - Understanding API sets
 - Node REST API endpoints
 - Open API specs
+- Future work
 
 ---
 
@@ -97,6 +98,19 @@ Copyright 2019 Skycoin project
 - Transaction fees and inflation bleeding users dry.
   * Over $50, and go to centralized mining pools.
 - More expensive than international bank transfer
+
+---
+
+## [Five pillars of Skycoin](https://www.skycoin.net/blog/posts/five-pillars-of-skycoin/)
+
+- [Skycoin](https://github.com/skycoin/skycoin,) a coin technically better than Bitcoin
+- [Skywire](https://www.skycoin.net/blog/tags/skywire/,) a mesh network
+- [Fiber](https://www.skycoin.net/fiber/), like Ethereum’s ERC20, but better
+  * Every coin their own blockchain
+  * [CX](https://www.skycoin.net/blog/overview/cx-overview/) programming language
+  * add your own features
+- DApps ecosystem
+- Our own [hardware platform](https://www.skycoin.net/blog/statement/skywire-miner-hardware-for-the-next-internet/.)
 
 ---
 
