@@ -1,5 +1,4 @@
 
-
 ## Blockchain, DApps, and Skycoin
 #### Basic concepts to get started
 
