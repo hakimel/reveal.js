@@ -300,7 +300,7 @@ Args:
 }
 ```
 
-##### curl http://127.0.0.1:6420/api/v1/transaction?txid=a6446654829a4a844add9f181949d12f8291fdd2c0fcb22200361e90e814e2d3
+###### curl http://127.0.0.1:6420/api/v1/transaction?txid=a6446654829a4a844add9f181949d12f8291fdd2c0fcb22200361e90e814e2d3
 
 --
 
@@ -345,12 +345,10 @@ Args:
 
 ---
 
-## Other REST API clients
+## Hardware wallet daemon
+#### finished before product itself
 
 ![Skycoin hardware wallet architecture](img/skywallet.overview.png)
-
-- Hardware wallet daemon
-  * finished before product itself
 
 ---
 
