@@ -1,0 +1,180 @@
+/* Webfont: DejaVu Sans Mono */@font-face {
+    font-family: 'DejaVu Sans Mono';
+    src: url('DejaVuSansMono.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Mono Bold */@font-face {
+    font-family: 'DejaVu Sans Mono Bold';
+    src: url('DejaVuSansMono-Bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Mono Bold Oblique */@font-face {
+    font-family: 'DejaVu Sans Mono Bold Oblique';
+    src: url('DejaVuSansMono-BoldOblique.woff2') format('woff2');
+    font-style: oblique;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Mono Oblique */@font-face {
+    font-family: 'DejaVu Sans Mono Oblique';
+    src: url('DejaVuSansMono-Oblique.woff2') format('woff2');
+    font-style: oblique;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans */@font-face {
+    font-family: 'DejaVu Sans';
+    src: url('DejaVuSans.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Bold */@font-face {
+    font-family: 'DejaVu Sans Bold';
+    src: url('DejaVuSans-Bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Bold Oblique */@font-face {
+    font-family: 'DejaVu Sans Bold Oblique';
+    src: url('DejaVuSans-BoldOblique.woff2') format('woff2');
+    font-style: oblique;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Oblique */@font-face {
+    font-family: 'DejaVu Sans Oblique';
+    src: url('DejaVuSans-Oblique.woff2') format('woff2');
+    font-style: oblique;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans ExtraLight */@font-face {
+    font-family: 'DejaVu Sans ExtraLight';
+    src: url('DejaVuSans-ExtraLight.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif */@font-face {
+    font-family: 'DejaVu Serif';
+    src: url('DejaVuSerif.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Bold */@font-face {
+    font-family: 'DejaVu Serif Bold';
+    src: url('DejaVuSerif-Bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Bold Italic  */@font-face {
+    font-family: 'DejaVu Serif Bold Italic ';
+    src: url('DejaVuSerif-BoldItalic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Italic */@font-face {
+    font-family: 'DejaVu Serif Italic';
+    src: url('DejaVuSerif-Italic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Condensed */@font-face {
+    font-family: 'DejaVu Sans Condensed';
+    src: url('DejaVuSansCondensed.woff2') format('woff2');
+    font-style: normal;
+    font-weight: lighter;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Condensed Bold */@font-face {
+    font-family: 'DejaVu Sans Condensed Bold';
+    src: url('DejaVuSansCondensed-Bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Condensed Bold Oblique */@font-face {
+    font-family: 'DejaVu Sans Condensed Bold Oblique';
+    src: url('DejaVuSansCondensed-BoldOblique.woff2') format('woff2');
+    font-style: oblique;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Sans Condensed Oblique */@font-face {
+    font-family: 'DejaVu Sans Condensed Oblique';
+    src: url('DejaVuSansCondensed-Oblique.woff2') format('woff2');
+    font-style: oblique;
+    font-weight: lighter;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Condensed */@font-face {
+    font-family: 'DejaVu Serif Condensed';
+    src: url('DejaVuSerifCondensed.woff2') format('woff2');
+    font-style: normal;
+    font-weight: lighter;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Condensed Bold */@font-face {
+    font-family: 'DejaVu Serif Condensed Bold';
+    src: url('DejaVuSerifCondensed-Bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Condensed Bold Italic */@font-face {
+    font-family: 'DejaVu Serif Condensed Bold Italic';
+    src: url('DejaVuSerifCondensed-BoldItalic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Serif Condensed Italic */@font-face {
+    font-family: 'DejaVu Serif Condensed Italic';
+    src: url('DejaVuSerifCondensed-Italic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: DejaVu Math TeX Gyre */@font-face {
+    font-family: 'DejaVu Math TeX Gyre';
+    src: url('DejaVuMathTeXGyre.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+
+
+
+
