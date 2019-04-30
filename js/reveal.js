@@ -3825,7 +3825,7 @@
               video.innerHTML += '<source src="'+ source +'">';
             } );
 
-            // If not on current slide, this iframe has been lazy loaded.
+            // If not on current slide, this video has been lazy loaded.
             // Need to add the data-lazy-loaded attribute so Reveal will handle it
             // with all of its other lazy loaded content
             // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
