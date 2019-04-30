@@ -3793,11 +3793,11 @@
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
-          var video = background.querySelector('video')
-          if ( video ) {
+          var hasVideo = background.querySelector('video');
+          if ( hasVideo ) {
             // The background video has been created already so just update its src attribute
             backgroundVideo.split( ',' ).forEach( function( source ) {
-              video.innerHTML += '<source src="'+ source +'">';
+              hasVideo.innerHTML += '<source src="'+ source +'">';
             } );
           } else {
             // The background video has not been created yet, create it
@@ -3847,12 +3847,12 @@
           // is updated so we need to query the present slide to get the current slide
           if ( (slide !== document.querySelector('.slides>.present')) && !shouldPreload( slide ) ) {
             background.removeAttribute( 'data-loaded' );
-            return
+            return;
           } 
-          var iframe = background.querySelector('iframe')
-          if ( iframe ) {
+          var hasIframe = background.querySelector('iframe');
+          if ( hasIframe ) {
             // The background iframe has been created already so just update its src attribute
-            iframe.setAttribute( 'src', backgroundIframe );
+            hasIframe.setAttribute( 'src', backgroundIframe );
           } else {
             // The background iframe has not been created yet, create it
             var iframe = document.createElement( 'iframe' );
