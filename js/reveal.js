@@ -3782,6 +3782,11 @@
 			if( background.hasAttribute( 'data-loaded' ) === false ) {
 				background.setAttribute( 'data-loaded', 'true' );
 
+        // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
+        // is called inside the slide() function but before the currentSlide global variable
+        // has been updated so we need to query the present slide to get the current slide
+        var isCurrentSlide = ( slide === document.querySelector('.slides>.present') );
+
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
@@ -3828,10 +3833,7 @@
             // If not on current slide, this video has been lazy loaded.
             // Need to add the data-lazy-loaded attribute so Reveal will handle it
             // with all of its other lazy loaded content
-            // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
-            // is called inside the slide() function but before the currentSlide global variable
-            // is updated so we need to query the present slide to get the current slide
-            if (slide !== document.querySelector('.slides>.present') ) {
+            if ( !isCurrentSlide ) {
               video.setAttribute('data-lazy-loaded', '');
           }
 
@@ -3845,7 +3847,7 @@
           // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
           // is called inside the slide() function but before the currentSlide global variable
           // is updated so we need to query the present slide to get the current slide
-          if ( (slide !== document.querySelector('.slides>.present')) && !shouldPreload( slide ) ) {
+          if ( !isCurrentSlide && !shouldPreload( slide ) ) {
             background.removeAttribute( 'data-loaded' );
             return;
           } 
@@ -3877,7 +3879,7 @@
             // If not on current slide, this iframe has been lazy loaded.
             // Need to add the data-lazy-loaded attribute so Reveal will handle it
             // with all of its other lazy loaded content
-            if (slide !== document.querySelector('.slides>.present')) {
+            if ( !isCurrentSlide ) {
               iframe.setAttribute('data-lazy-loaded', '');
             }
 
