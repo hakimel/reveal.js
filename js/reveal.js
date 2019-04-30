@@ -3771,7 +3771,6 @@
 			}
 		} );
 
-
 		// Show the corresponding background element
 		var background = slide.slideBackgroundElement;
 		if( background ) {
@@ -3788,61 +3787,103 @@
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
 					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' ),
 					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
-
 				// Images
 				if( backgroundImage ) {
 					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
-					var video = document.createElement( 'video' );
+          var video = background.querySelector('video')
+          if ( video ) {
+            // The background video has been created already so just update its src attribute
+            backgroundVideo.split( ',' ).forEach( function( source ) {
+              video.innerHTML += '<source src="'+ source +'">';
+            } );
+          } else {
+            // The background video has not been created yet, create it
+            var video = document.createElement( 'video' );
 
-					if( backgroundVideoLoop ) {
-						video.setAttribute( 'loop', '' );
-					}
+            if( backgroundVideoLoop ) {
+              video.setAttribute( 'loop', '' );
+            }
 
-					if( backgroundVideoMuted ) {
-						video.muted = true;
-					}
+            if( backgroundVideoMuted ) {
+              video.muted = true;
+            }
 
-					// Inline video playback works (at least in Mobile Safari) as
-					// long as the video is muted and the `playsinline` attribute is
-					// present
-					if( isMobileDevice ) {
-						video.muted = true;
-						video.autoplay = true;
-						video.setAttribute( 'playsinline', '' );
-					}
+            // Inline video playback works (at least in Mobile Safari) as
+            // long as the video is muted and the `playsinline` attribute is
+            // present
+            if( isMobileDevice ) {
+              video.muted = true;
+              video.autoplay = true;
+              video.setAttribute( 'playsinline', '' );
+            }
 
-					// Support comma separated lists of video sources
-					backgroundVideo.split( ',' ).forEach( function( source ) {
-						video.innerHTML += '<source src="'+ source +'">';
-					} );
+            // Support comma separated lists of video sources
+            backgroundVideo.split( ',' ).forEach( function( source ) {
+              video.innerHTML += '<source src="'+ source +'">';
+            } );
 
-					backgroundContent.appendChild( video );
+            // If not on current slide, this iframe has been lazy loaded.
+            // Need to add the data-lazy-loaded attribute so Reveal will handle it
+            // with all of its other lazy loaded content
+            // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
+            // is called inside the slide() function but before the currentSlide global variable
+            // is updated so we need to query the present slide to get the current slide
+            if (slide !== document.querySelector('.slides>.present') ) {
+              video.setAttribute('data-lazy-loaded', '');
+          }
+
+          backgroundContent.appendChild( video );
+
+          }
 				}
 				// Iframes
 				else if( backgroundIframe && options.excludeIframes !== true ) {
-					var iframe = document.createElement( 'iframe' );
-					iframe.setAttribute( 'allowfullscreen', '' );
-					iframe.setAttribute( 'mozallowfullscreen', '' );
-					iframe.setAttribute( 'webkitallowfullscreen', '' );
+          // Only create/update iframe if on current slide or data-preload present
+          // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
+          // is called inside the slide() function but before the currentSlide global variable
+          // is updated so we need to query the present slide to get the current slide
+          if ( (slide !== document.querySelector('.slides>.present')) && !shouldPreload( slide ) ) {
+            background.removeAttribute( 'data-loaded' );
+            return
+          } 
+          var iframe = background.querySelector('iframe')
+          if ( iframe ) {
+            // The background iframe has been created already so just update its src attribute
+            iframe.setAttribute( 'src', backgroundIframe );
+          } else {
+            // The background iframe has not been created yet, create it
+            var iframe = document.createElement( 'iframe' );
+            iframe.setAttribute( 'allowfullscreen', '' );
+            iframe.setAttribute( 'mozallowfullscreen', '' );
+            iframe.setAttribute( 'webkitallowfullscreen', '' );
 
-					// Only load autoplaying content when the slide is shown to
-					// avoid having it play in the background
-					if( /autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
-						iframe.setAttribute( 'data-src', backgroundIframe );
-					}
-					else {
-						iframe.setAttribute( 'src', backgroundIframe );
-					}
+            // Only load autoplaying content when the slide is shown to
+            // avoid having it play in the background
+            if( /autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
+              iframe.setAttribute( 'data-src', backgroundIframe );
+            }
+            else {
+              iframe.setAttribute( 'src', backgroundIframe );
+            }
 
-					iframe.style.width  = '100%';
-					iframe.style.height = '100%';
-					iframe.style.maxHeight = '100%';
-					iframe.style.maxWidth = '100%';
+            iframe.style.width  = '100%';
+            iframe.style.height = '100%';
+            iframe.style.maxHeight = '100%';
+            iframe.style.maxWidth = '100%';
 
-					backgroundContent.appendChild( iframe );
+            // If not on current slide, this iframe has been lazy loaded.
+            // Need to add the data-lazy-loaded attribute so Reveal will handle it
+            // with all of its other lazy loaded content
+            if (slide !== document.querySelector('.slides>.present')) {
+              iframe.setAttribute('data-lazy-loaded', '');
+            }
+
+            backgroundContent.appendChild( iframe );
+
+          }
 				}
 			}
 
@@ -3865,6 +3906,14 @@
 		var background = getSlideBackground( slide );
 		if( background ) {
 			background.style.display = 'none';
+      // reset the lazy loading attribute  of the background so the lazy loaded
+      // content will be loaded again once in viewDistance
+      background.removeAttribute( 'data-loaded' )
+      // Reset lazy-loaded media elements with src attributes
+      toArray( background.querySelectorAll( 'video[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ) ).forEach( function( element ) {
+        element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
+        element.removeAttribute( 'src' );
+      } );
 		}
 
 		// Reset lazy-loaded media elements with src attributes
