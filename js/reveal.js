@@ -3835,18 +3835,15 @@
             // with all of its other lazy loaded content
             if ( !isCurrentSlide ) {
               video.setAttribute('data-lazy-loaded', '');
-          }
+            }
 
-          backgroundContent.appendChild( video );
+            backgroundContent.appendChild( video );
 
           }
 				}
 				// Iframes
 				else if( backgroundIframe && options.excludeIframes !== true ) {
           // Only create/update iframe if on current slide or data-preload present
-          // NOTE: updateSlidesVisibility() which triggers the loadSlide() function
-          // is called inside the slide() function but before the currentSlide global variable
-          // is updated so we need to query the present slide to get the current slide
           if ( !isCurrentSlide && !shouldPreload( slide ) ) {
             background.removeAttribute( 'data-loaded' );
             return;
@@ -3876,13 +3873,12 @@
             iframe.style.maxHeight = '100%';
             iframe.style.maxWidth = '100%';
 
-            // If not on current slide, this iframe has been lazy loaded.
-            // Need to add the data-lazy-loaded attribute so Reveal will handle it
-            // with all of its other lazy loaded content
-            if ( !isCurrentSlide ) {
-              iframe.setAttribute('data-lazy-loaded', '');
-            }
-
+            // Add the lazy-loaded tag to ensure that iframe will be
+            // "loaded/unloaded correctly when in/out of viewDistance" if the 
+            // data-preload or "loaded on current slide / unloaded when out
+            // of viewDistance" if no data-preload attribute is present
+            iframe.setAttribute('data-lazy-loaded', '');
+            
             backgroundContent.appendChild( iframe );
 
           }
