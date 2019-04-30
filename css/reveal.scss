@@ -1590,8 +1590,16 @@ $controlsArrowAngleActive: 36deg;
 	vertical-align: top;
 }
 
-.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
+.reveal .hljs.has-highlights tr:not(.highlight-line) {
 	opacity: 0.4;
+}
+
+.reveal .hljs:not(:first-child).fragment {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 

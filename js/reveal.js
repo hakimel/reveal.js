@@ -1276,7 +1276,11 @@
 
 					// Check if the requested method can be found
 					if( data.method && typeof Reveal[data.method] === 'function' ) {
-						Reveal[data.method].apply( Reveal, data.args );
+						var result = Reveal[data.method].apply( Reveal, data.args );
+
+						// Dispatch a postMessage event with the returned value from
+						// our method invocation for getter functions
+						dispatchPostMessage( 'callback', { method: data.method, result: result } );
 					}
 				}
 			}, false );
@@ -1981,8 +1985,25 @@
 
 		// If we're in an iframe, post each reveal.js event to the
 		// parent window. Used by the notes plugin
+		dispatchPostMessage( type );
+
+	}
+
+	/**
+	 * Dispatched a postMessage of the given type from our window.
+	 */
+	function dispatchPostMessage( type, data ) {
+
 		if( config.postMessageEvents && window.parent !== window.self ) {
-			window.parent.postMessage( JSON.stringify({ namespace: 'reveal', eventName: type, state: getState() }), '*' );
+			var message = {
+				namespace: 'reveal',
+				eventName: type,
+				state: getState()
+			};
+
+			extend( message, data );
+
+			window.parent.postMessage( JSON.stringify( message ), '*' );
 		}
 
 	}
@@ -2243,10 +2264,12 @@
 					transformSlides( { layout: '' } );
 				}
 				else {
-					// Prefer zoom for scaling up so that content remains crisp.
-					// Don't use zoom to scale down since that can lead to shifts
-					// in text layout/line breaks.
-					if( scale > 1 && features.zoom ) {
+					// Zoom Scaling
+					// Content remains crisp no matter how much we scale. Side
+					// effects are minor differences in text layout and iframe
+					// viewports changing size. A 200x200 iframe viewport in a
+					// 2x zoomed presentation ends up having a 400x400 viewport.
+					if( scale > 1 && features.zoom && window.devicePixelRatio < 2 ) {
 						dom.slides.style.zoom = scale;
 						dom.slides.style.left = '';
 						dom.slides.style.top = '';
@@ -2254,7 +2277,10 @@
 						dom.slides.style.right = '';
 						transformSlides( { layout: '' } );
 					}
-					// Apply scale transform as a fallback
+					// Transform Scaling
+					// Content layout remains the exact same when scaled up.
+					// Side effect is content becoming blurred, especially with
+					// high scale values on ldpi screens.
 					else {
 						dom.slides.style.zoom = '';
 						dom.slides.style.left = '50%';
