@@ -3906,7 +3906,7 @@
 			background.style.display = 'none';
       // reset the lazy loading attribute  of the background so the lazy loaded
       // content will be loaded again once in viewDistance
-      background.removeAttribute( 'data-loaded' )
+      background.removeAttribute( 'data-loaded' );
       // Reset lazy-loaded media elements with src attributes
       toArray( background.querySelectorAll( 'video[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ) ).forEach( function( element ) {
         element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
