@@ -18,8 +18,8 @@ body {
   background-color: #2b2b2b; }
 
 .reveal {
-  font-family: "DejaVu Serif", serif;
-  font-size: 34px;
+  font-family: "DejaVu Sans", sans-serif;
+  font-size: 30px;
   font-weight: normal;
   color: #f6f6ff; }
 
@@ -58,13 +58,13 @@ body {
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 3em; }
+  font-size: 2.4em; }
 
 .reveal h2 {
-  font-size: 2.1em; }
+  font-size: 2em; }
 
 .reveal h3 {
-  font-size: 1.7em; }
+  font-size: 1.6em; }
 
 .reveal h4 {
   font-size: 1.2em; }
@@ -274,3 +274,14 @@ body {
 @media print {
   .backgrounds {
     background-color: #2b2b2b; } }
+
+.reveal pre {
+  font-size: 0.7em;
+  line-height: 1.2em;
+  box-shadow: none; }
+
+.reveal code {
+  color: #ffdfbf; }
+
+.reveal pre code {
+  max-height: none; }
