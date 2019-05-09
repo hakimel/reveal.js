@@ -340,6 +340,12 @@ Reveal.initialize({
 	// speaker view
 	defaultTiming: 120,
 
+	// Specify the total time in seconds that is available to
+	// present.  If this is set to a nonzero value, the pacing
+	// timer will work out the time available for each slide,
+	// instead of using the defaultTiming value
+	totalTime: 0,
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
@@ -1228,7 +1234,7 @@ The speaker notes window will also show:
 - Current wall-clock time
 - (Optionally) a pacing timer which indicates whether the current pace of the presentation is on track for the right timing (shown in green), and if not, whether the presenter should speed up (shown in red) or has the luxury of slowing down (blue).
 
-The pacing timer can be enabled by configuring by the `defaultTiming` parameter in the `Reveal` configuration block, which specifies the number of seconds per slide.  120 can be a reasonable rule of thumb.  Timings can also be given per slide `<section>` by setting the `data-timing` attribute.  Both values are in numbers of seconds.
+The pacing timer can be enabled by configuring the `defaultTiming` parameter in the `Reveal` configuration block, which specifies the number of seconds per slide.  120 can be a reasonable rule of thumb.  Alternatively, you can enable the timer by setting `totalTime`, which sets the total length of your presentation (also in seconds).  If both values are specified, `totalTime` wins and `defaultTiming` is ignored.  Regardless of the baseline timing method, timings can also be given per slide `<section>` by setting the `data-timing` attribute (again, in seconds).
 
 
 ## Server Side Speaker Notes
