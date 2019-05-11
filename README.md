@@ -346,6 +346,13 @@ Reveal.initialize({
 	// instead of using the defaultTiming value
 	totalTime: 0,
 
+	// Specify the minimum amount of time you want to allot to
+	// each slide, if using the totalTime calculation method.  If
+	// the automated time allocation causes slide pacing to fall
+	// below this threshold, then you will see an alert in the
+	// speaker notes window
+	minimumTimePerSlide: 0;
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
