@@ -1217,6 +1217,8 @@
 		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
+		if( slide.hasAttribute( 'data-preload' ) ) element.setAttribute( 'data-preload', '' );
+
 		// Background image options are set on the content wrapper
 		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
 		if( data.backgroundRepeat ) contentElement.style.backgroundRepeat = data.backgroundRepeat;
@@ -3625,7 +3627,7 @@
 		// Stop content inside of previous backgrounds
 		if( previousBackground ) {
 
-			stopEmbeddedContent( previousBackground );
+			stopEmbeddedContent( previousBackground, { unloadIframes: !shouldPreload( previousBackground ) } );
 
 		}
 
@@ -3804,6 +3806,7 @@
 			background.style.display = 'block';
 
 			var backgroundContent = slide.slideBackgroundContentElement;
+			var backgroundIframe = slide.getAttribute( 'data-background-iframe' );
 
 			// If the background contains media, load it
 			if( background.hasAttribute( 'data-loaded' ) === false ) {
@@ -3812,8 +3815,7 @@
 				var backgroundImage = slide.getAttribute( 'data-background-image' ),
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
-					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' ),
-					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
+					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' );
 
 				// Images
 				if( backgroundImage ) {
@@ -3854,14 +3856,7 @@
 					iframe.setAttribute( 'mozallowfullscreen', '' );
 					iframe.setAttribute( 'webkitallowfullscreen', '' );
 
-					// Only load autoplaying content when the slide is shown to
-					// avoid having it play in the background
-					if( /autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
-						iframe.setAttribute( 'data-src', backgroundIframe );
-					}
-					else {
-						iframe.setAttribute( 'src', backgroundIframe );
-					}
+					iframe.setAttribute( 'data-src', backgroundIframe );
 
 					iframe.style.width  = '100%';
 					iframe.style.height = '100%';
@@ -3870,6 +3865,19 @@
 
 					backgroundContent.appendChild( iframe );
 				}
+			}
+
+			// Start loading preloadable iframes
+			var backgroundIframeElement = backgroundContent.querySelector( 'iframe[data-src]' );
+			if( backgroundIframeElement ) {
+
+				// Check if this iframe is eligible to be preloaded
+				if( shouldPreload( background ) && !/autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
+					if( backgroundIframeElement.getAttribute( 'src' ) !== backgroundIframe ) {
+						backgroundIframeElement.setAttribute( 'src', backgroundIframe );
+					}
+				}
+
 			}
 
 		}
@@ -3891,6 +3899,11 @@
 		var background = getSlideBackground( slide );
 		if( background ) {
 			background.style.display = 'none';
+
+			// Unload any background iframes
+			toArray( background.querySelectorAll( 'iframe[src]' ) ).forEach( function( element ) {
+				element.removeAttribute( 'src' );
+			} );
 		}
 
 		// Reset lazy-loaded media elements with src attributes

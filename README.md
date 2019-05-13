@@ -778,6 +778,8 @@ Embeds a web page as a slide background that covers 100% of the reveal.js width 
 </section>
 ```
 
+Iframes are lazy-loaded when they become visible. If you'd like to preload iframes aehad of time, you can append a `data-preload` attribute to the slide `<section>`. You can also enable preloading globally for all iframes using the `preloadIframes` configuration option.
+
 #### Background Transitions
 
 Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing `backgroundTransition: 'slide'` to the `Reveal.initialize()` call. Alternatively you can set `data-background-transition` on any section with a background to override that specific transition.
