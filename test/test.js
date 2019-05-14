@@ -262,6 +262,7 @@ Reveal.addEventListener( 'ready', function() {
 
 	QUnit.test( 'Current fragment', function( assert ) {
 		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
+		var lastFragmentIndex = [].slice.call( fragmentSlide.querySelectorAll( '.fragment' ) ).pop().getAttribute( 'data-fragment-index' );
 
 		Reveal.slide( 2, 0 );
 		assert.strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment at index -1' );
@@ -274,6 +275,10 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.slide( 3, 0, 0 );
 		assert.strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment when navigating to next slide' );
+
+		Reveal.slide( 2, 1, -1 );
+		Reveal.prev();
+		assert.strictEqual( fragmentSlide.querySelector( '.fragment.current-fragment' ).getAttribute( 'data-fragment-index' ), lastFragmentIndex, 'last fragment is current fragment when returning from future slide' );
 	});
 
 	QUnit.test( 'Stepping through fragments', function( assert ) {

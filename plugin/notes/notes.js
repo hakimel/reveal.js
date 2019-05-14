@@ -11,7 +11,14 @@
  */
 var RevealNotes = (function() {
 
+    var notesPopup = null;
+
 	function openNotes( notesFilePath ) {
+
+        if (notesPopup && !notesPopup.closed) {
+            notesPopup.focus();
+            return;
+        }
 
 		if( !notesFilePath ) {
 			var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
@@ -19,15 +26,12 @@ var RevealNotes = (function() {
 			notesFilePath = jsFileLocation + 'notes.html';
 		}
 
-		var notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
+		notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
 
 		if( !notesPopup ) {
 			alert( 'Speaker view popup failed to open. Please make sure popups are allowed and reopen the speaker view.' );
 			return;
 		}
-
-		// Allow popup window access to Reveal API
-		notesPopup.Reveal = window.Reveal;
 
 		/**
 		 * Connect to the notes window through a postmessage handshake.
@@ -52,7 +56,26 @@ var RevealNotes = (function() {
 					clearInterval( connectInterval );
 					onConnected();
 				}
+				if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+					callRevealApi( data.methodName, data.arguments, data.callId );
+				}
 			} );
+		}
+
+		/**
+		 * Calls the specified Reveal.js method with the provided argument
+		 * and then pushes the result to the notes frame.
+		 */
+		function callRevealApi( methodName, methodArguments, callId ) {
+
+			var result = Reveal[methodName].apply( Reveal, methodArguments );
+			notesPopup.postMessage( JSON.stringify( {
+				namespace: 'reveal-notes',
+				type: 'return',
+				result: result,
+				callId: callId
+			} ), '*' );
+
 		}
 
 		/**
@@ -128,20 +151,28 @@ var RevealNotes = (function() {
 
 	}
 
-	if( !/receiver/i.test( window.location.search ) ) {
+	return {
+		init: function() {
 
-		// If the there's a 'notes' query set, open directly
-		if( window.location.search.match( /(\?|\&)notes/gi ) !== null ) {
-			openNotes();
-		}
+			if( !/receiver/i.test( window.location.search ) ) {
 
-		// Open the notes when the 's' key is hit
-		Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
-			openNotes();
-		} );
+				// If the there's a 'notes' query set, open directly
+				if( window.location.search.match( /(\?|\&)notes/gi ) !== null ) {
+					openNotes();
+				}
 
-	}
+				// Open the notes when the 's' key is hit
+				Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
+					openNotes();
+				} );
 
-	return { open: openNotes };
+			}
+
+		},
+
+		open: openNotes
+	};
 
 })();
+
+Reveal.registerPlugin( 'notes', RevealNotes );
