@@ -3067,10 +3067,10 @@
 		syncBackground( slide );
 		syncFragments( slide );
 
+		loadSlide( slide );
+
 		updateBackground();
 		updateNotes();
-
-		loadSlide( slide );
 
 	}
 
