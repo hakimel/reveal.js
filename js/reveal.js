@@ -3337,7 +3337,7 @@
 			}
 
 			// Flag if there are ANY vertical slides, anywhere in the deck
-			if( dom.wrapper.querySelectorAll( '.slides>section>section' ).length ) {
+			if( hasVerticalSlides() ) {
 				dom.wrapper.classList.add( 'has-vertical-slides' );
 			}
 			else {
@@ -3345,7 +3345,7 @@
 			}
 
 			// Flag if there are ANY horizontal slides, anywhere in the deck
-			if( dom.wrapper.querySelectorAll( '.slides>section' ).length > 1 ) {
+			if( hasHorizontalSlides() ) {
 				dom.wrapper.classList.add( 'has-horizontal-slides' );
 			}
 			else {
@@ -4468,7 +4468,44 @@
 	 */
 	function getSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ));
+		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ) );
+
+	}
+
+	/**
+	 * Returns a list of all horizontal slides in the deck. Each
+	 * vertical stack is included as one horizontal slide in the
+	 * resulting array.
+	 */
+	function getHorizontalSlides() {
+
+		return toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+
+	}
+
+	/**
+	 * Returns all vertical slides that exist within this deck.
+	 */
+	function getVerticalSlides() {
+
+		return toArray( dom.wrapper.querySelectorAll( '.slides>section>section' ) );
+
+	}
+
+	/**
+	 * Returns true if there are at least two horizontal slides.
+	 */
+	function hasHorizontalSlides() {
+
+		return getHorizontalSlides().length > 1;
+	}
+
+	/**
+	 * Returns true if there are at least two vertical slides.
+	 */
+	function hasVerticalSlides() {
+
+		return getVerticalSlides().length > 1;
 
 	}
 
@@ -5183,6 +5220,10 @@
 			return false;
 		}
 
+		// Use linear navigation if we're configured to OR if
+		// the presentation is one-dimensional
+		var useLinearMode = config.navigationMode === 'linear' || !hasHorizontalSlides() || !hasVerticalSlides();
+
 		var triggered = false;
 
 		// 1. User defined key bindings
@@ -5255,7 +5296,7 @@
 				if( firstSlideShortcut ) {
 					slide( 0 );
 				}
-				else if( !isOverview() && config.navigationMode === 'linear' ) {
+				else if( !isOverview() && useLinearMode ) {
 					navigatePrev();
 				}
 				else {
@@ -5267,7 +5308,7 @@
 				if( lastSlideShortcut ) {
 					slide( Number.MAX_VALUE );
 				}
-				else if( !isOverview() && config.navigationMode === 'linear' ) {
+				else if( !isOverview() && useLinearMode ) {
 					navigateNext();
 				}
 				else {
@@ -5276,7 +5317,7 @@
 			}
 			// K, UP
 			else if( keyCode === 75 || keyCode === 38 ) {
-				if( !isOverview() && config.navigationMode === 'linear' ) {
+				if( !isOverview() && useLinearMode ) {
 					navigatePrev();
 				}
 				else {
@@ -5285,7 +5326,7 @@
 			}
 			// J, DOWN
 			else if( keyCode === 74 || keyCode === 40 ) {
-				if( !isOverview() && config.navigationMode === 'linear' ) {
+				if( !isOverview() && useLinearMode ) {
 					navigateNext();
 				}
 				else {
@@ -5943,6 +5984,15 @@
 
 		// Returns the speaker notes string for a slide, or null
 		getSlideNotes: getSlideNotes,
+
+		// Returns an array with all horizontal/vertical slides in the deck
+		getHorizontalSlides: getHorizontalSlides,
+		getVerticalSlides: getVerticalSlides,
+
+		// Checks if the presentation contains two or more
+		// horizontal/vertical slides
+		hasHorizontalSlides: hasHorizontalSlides,
+		hasVerticalSlides: hasVerticalSlides,
 
 		// Returns the previous slide element, may be null
 		getPreviousSlide: function() {

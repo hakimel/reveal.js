@@ -629,6 +629,15 @@ Reveal.getProgress();       // (0 == first slide, 1 == last slide)
 Reveal.getSlides();         // Array of all slides
 Reveal.getTotalSlides();    // Total number of slides
 
+// Returns an array with all horizontal/vertical slides in the deck
+Reveal.getHorizontalSlides();
+Reveal.getVerticalSlides();
+
+// Checks if the presentation contains two or more
+// horizontal/vertical slides
+Reveal.hasHorizontalSlides();
+Reveal.hasVerticalSlides();
+
 // Returns the speaker notes for the current slide
 Reveal.getSlideNotes();
 
@@ -640,7 +649,7 @@ Reveal.isPaused();
 Reveal.isAutoSliding();
 
 // Returns the top-level DOM element
-getRevealElement(); // <div class="reveal">...</div>
+Reveal.getRevealElement(); // <div class="reveal">...</div>
 ```
 
 ### Custom Key Bindings
