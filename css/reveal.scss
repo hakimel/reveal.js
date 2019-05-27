@@ -263,7 +263,7 @@ $controlsArrowAngleActive: 36deg;
 	bottom: $spacing;
 	right: $spacing;
 	left: auto;
-	z-index: 1;
+	z-index: 11;
 	color: #000;
 	pointer-events: none;
 	font-size: 10px;
@@ -355,7 +355,8 @@ $controlsArrowAngleActive: 36deg;
 
 	.navigate-down {
 		right: $controlArrowSpacing + $controlArrowSize/2;
-		bottom: 0;
+		bottom: -$controlArrowSpacing;
+		padding-bottom: $controlArrowSpacing;
 		transform: translateY( 10px );
 
 		.controls-arrow {

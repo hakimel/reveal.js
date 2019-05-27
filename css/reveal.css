@@ -227,7 +227,7 @@ body {
   bottom: 12px;
   right: 12px;
   left: auto;
-  z-index: 1;
+  z-index: 11;
   color: #000;
   pointer-events: none;
   font-size: 10px; }
@@ -312,7 +312,8 @@ body {
               transform: rotate(90deg); }
   .reveal .controls .navigate-down {
     right: 3.2em;
-    bottom: 0;
+    bottom: -1.4em;
+    padding-bottom: 1.4em;
     -webkit-transform: translateY(10px);
             transform: translateY(10px); }
     .reveal .controls .navigate-down .controls-arrow {
