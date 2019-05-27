@@ -1453,8 +1453,8 @@
 			keyboardShortcuts['&#8595;  ,  J'] = 'Navigate down';
 		}
 
-		keyboardShortcuts['Home  ,  &#8984;/CTRL &#8592;'] = 'First slide';
-		keyboardShortcuts['End  ,  &#8984;/CTRL &#8594;']  = 'Last slide';
+		keyboardShortcuts['Home  ,  Shift &#8592;']        = 'First slide';
+		keyboardShortcuts['End  ,  Shift &#8594;']         = 'Last slide';
 		keyboardShortcuts['B  ,  .']                       = 'Pause';
 		keyboardShortcuts['F']                             = 'Fullscreen';
 		keyboardShortcuts['ESC, O']                        = 'Slide overview';
@@ -5192,8 +5192,8 @@
 
 		// Whitelist specific modified + keycode combinations
 		var prevSlideShortcut = event.shiftKey && event.keyCode === 32;
-		var firstSlideShortcut = ( event.metaKey || event.ctrlKey ) && keyCode === 37;
-		var lastSlideShortcut = ( event.metaKey || event.ctrlKey ) && keyCode === 39;
+		var firstSlideShortcut = event.shiftKey && keyCode === 37;
+		var lastSlideShortcut = event.shiftKey && keyCode === 39;
 
 		// Prevent all other events when a modifier is pressed
 		var unusedModifier = 	!prevSlideShortcut && !firstSlideShortcut && !lastSlideShortcut &&
