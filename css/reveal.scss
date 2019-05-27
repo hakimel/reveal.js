@@ -453,7 +453,7 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$spacing: 8px;
+	$spacing: 0.8em;
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -490,7 +490,7 @@ $controlsArrowAngleActive: 36deg;
 		}
 
 		.navigate-down {
-			bottom: $spacing;
+			bottom: $spacing - $controlArrowSpacing + 0.3em;
 			left: 50%;
 			margin-left: -$controlArrowSize/2;
 		}
