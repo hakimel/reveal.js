@@ -117,6 +117,9 @@ c:[{cN:"comment",b:/\(\*/,e:/\*\)/},e.ASM,e.QSM,e.CNM,{b:/\{/,e:/\}/,i:/:/}]}});
 
 			hljs.highlightBlock( block );
 
+			// Don't generate line numbers for empty code blocks
+			if( block.innerHTML.trim().length === 0 ) return;
+
 			if( block.hasAttribute( 'data-line-numbers' ) ) {
 				hljs.lineNumbersBlock( block, { singleLine: true } );
 
