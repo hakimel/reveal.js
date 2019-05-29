@@ -14,6 +14,9 @@ body {
 	font-size: $mainFontSize;
 	font-weight: normal;
 	color: $mainColor;
+	--font-family: #{$mainFont};
+	--font-size: #{$mainFontSize};
+	--font-weight: normal;
 	--text-color: #{$mainColor};
 	--link-color: #{$linkColor};
 	--background-color: #{$backgroundColor};
