@@ -280,7 +280,10 @@
 			hideCursorTime: 5000,
 
 			// Script dependencies to load
-			dependencies: []
+			dependencies: [],
+
+			// Allow Reveal to be initialized multiple times, e.g. in a Single Page Application
+			allowMultipleInitializations: false
 
 		},
 
@@ -386,8 +389,8 @@
 	 */
 	function initialize( options ) {
 
-		// Make sure we only initialize once
-		if( initialized === true ) return;
+		// Make sure we only initialize once if not configured otherwise
+		if( initialized === true && !options.allowMultipleInitializations ) return;
 
 		initialized = true;
 

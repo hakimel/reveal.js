@@ -351,7 +351,7 @@ Reveal.initialize({
 	// the automated time allocation causes slide pacing to fall
 	// below this threshold, then you will see an alert in the
 	// speaker notes window
-	minimumTimePerSlide: 0;
+	minimumTimePerSlide: 0,
 
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
@@ -395,7 +395,10 @@ Reveal.initialize({
 	parallaxBackgroundVertical: null,
 
 	// The display mode that will be used to show slides
-	display: 'block'
+	display: 'block',
+
+	// Allow Reveal to be initialized multiple times, e.g. in a Single Page Application
+	allowMultipleInitializations: false
 
 });
 ```
