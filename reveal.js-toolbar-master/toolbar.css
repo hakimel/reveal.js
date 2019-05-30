@@ -1,0 +1,54 @@
+.reveal .reveal-toolbar {
+    position: absolute;
+    left: 30px;
+}
+
+.reveal .reveal-toolbar.reveal-toolbar-bottom {
+    bottom: 23px;
+}    
+.reveal .reveal-toolbar.reveal-toolbar-top {
+    top: 23px;
+}
+
+.reveal .reveal-toolbar .reveal-toolbar-button {
+    display: inline-block;
+    color: white;
+    font-size: .55em;
+    border: #434343 2px solid;
+    border-radius: 12px;
+    background-color: #141414;
+    width: 30px;
+    text-align: center;
+    padding: 8px;
+    margin: 0 4px;
+}
+
+.reveal .reveal-toolbar .reveal-toolbar-button:hover {
+    color: #ffffff;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.reveal .reveal-toolbar .slide-menu-button {
+    position: initial;
+    left: initial;
+    bottom: initial;
+}
+
+.reveal .reveal-toolbar .slide-menu-button a {
+    color: white;
+}
+
+.reveal .reveal-toolbar .playback {
+    position: relative;
+    left: 4px;
+    bottom: -17px;
+}
+
+.reveal.paused .reveal-toolbar .reveal-toolbar-pause-button {
+    z-index: 110;
+    color: #757575;
+}

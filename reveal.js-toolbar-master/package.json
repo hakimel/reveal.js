@@ -1,0 +1,22 @@
+{
+  "name": "reveal.js-toolbar",
+  "version": "0.2.0",
+  "description": "A toolbar for reveal.js to quickly access Reveal functionality",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denehyg/reveal.js-toolbar.git"
+  },
+  "keywords": [
+    "reveal",
+    "toolbar"
+  ],
+  "author": "Greg Denehy",
+  "license": "MIT, Copyright (C) 2017 Greg Denehy",
+  "bugs": {
+    "url": "https://github.com/denehyg/reveal.js-toolbar/issues"
+  },
+  "homepage": "https://github.com/denehyg/reveal.js-toolbar#readme"
+}
