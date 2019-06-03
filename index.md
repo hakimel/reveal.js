@@ -9,3 +9,4 @@ Slides
 - [Getting Started on Codewars](/slides/codewars-intro.html)
 - [Tech for Better Discovery Workshop](/slides/tfb-discovery-workshop.html)
 - [Slides for non-FAC people to showcase FAC (help me with name)](slides/arsenal-slides.html)
+- [Founders programme intro for students](/slides/founders-programme)
