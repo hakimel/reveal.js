@@ -3787,11 +3787,16 @@
 					backgroundVideo = slide.getAttribute( 'data-background-video' ),
 					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
 					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' ),
-					backgroundIframe = slide.getAttribute( 'data-background-iframe' );
+					backgroundIframe = slide.getAttribute( 'data-background-iframe' ),
+					backgroundImageSkipEncoding = slide.getAttribute('data-background-image-skip-encoding');
 
 				// Images
 				if( backgroundImage ) {
-					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
+					var url = encodeURI(backgroundImage);
+					if(backgroundImageSkipEncoding){
+						url = backgroundImage;
+					} 
+					backgroundContent.style.backgroundImage = 'url('+ url +')';
 				}
 				// Videos
 				else if ( backgroundVideo && !isSpeakerNotes() ) {
