@@ -3855,6 +3855,7 @@
 					iframe.setAttribute( 'allowfullscreen', '' );
 					iframe.setAttribute( 'mozallowfullscreen', '' );
 					iframe.setAttribute( 'webkitallowfullscreen', '' );
+					iframe.setAttribute( 'allow', 'autoplay' );
 
 					iframe.setAttribute( 'data-src', backgroundIframe );
 
