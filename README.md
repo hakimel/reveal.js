@@ -1292,7 +1292,7 @@ Reveal.addEventListener( 'ready', () => console.log( 'Three seconds later...' ) 
 Reveal.initialize();
 ```
 
-Note that reveal.js will *not* wait for the fullfillment of init promises if your plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
+Note that reveal.js will *not* wait for init Promise fullfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
 
 ### Retrieving Plugins
 
