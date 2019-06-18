@@ -258,7 +258,6 @@ body {
 .reveal blockquote {
   display: block;
   position: relative;
-  width: 70%;
   margin: 16px auto;
   padding: 5px;
   font-style: italic;
