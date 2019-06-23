@@ -16,7 +16,7 @@
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/atom-dark-one.css">
@@ -53,23 +53,23 @@
 					</p>
 				</section>
 
-				<section>
+				<section data-transition="zoom">
 					<h2>Scala 3</h2>
 					<ul>
-						<li>Scala 2.13 was released! 🎉</li>
-						<li>Scala 2.14 focus on smooth migration to Scala 3
+						<li class="fragment">Scala 2.13 was released! 🎉</li>
+						<li class="fragment">Scala 2.14 will focus on smooth migration to Scala 3:
 							<ul>
 								<li>Feature freeze</li>
 								<li>Defining migration tools</li>
-								<li>Shim libraries</li>
-								<li>DDDDDDDDDDDepracate old components</li>
+								<li>Shim old libraries</li>
+								<li>Depracation of old components</li>
 							</ul>
 						</li>
-						<li>Scala 3 is planned to be released on fall 2020</li>
+						<li class="fragment">Scala 3 is planned to be released on fall 2020</li>
 					</ul>
 				</section>
 
-				<section data-transition="fade">
+				<section data-transition="convex">
 					<h1>
 						<img width="178" height="238" style="border:none; background-color:transparent" data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" > 
 						<!-- <iframe data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:none solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> -->
@@ -147,7 +147,7 @@
 					
 					<section>
 						<h2>Enums</h2>
-						<h4>Scala 2.12 way 😤</h4>
+						<h3>Scala 2.12 way 😤</h3>
 						<pre><code class="scala" data-trim>
 							object Planet extends Enumeration {
 							  case class Val(m: Double, rad: Double) extends super.Val {
@@ -167,7 +167,7 @@
 	
 					<section>				
 						<h2>Enums</h2>
-						<h4>Scala 2.13 way 😍</h4>
+						<h3>Scala 2.13 way 😍</h3>
 						<pre><code class="scala" data-trim>
 							enum Planet(m: Double, rad: Double) extends java.lang.Enum {
 							  private final val G = 6.67300E-11
@@ -201,7 +201,7 @@
 	
 					<section>				
 						<h2>Enums</h2>		
-						<h4>Under the hood: 👇</h4>
+						<h3>Under the hood: 👇</h3>
 						<pre><code class="scala" data-trim>
 							sealed abstract class Option[+T] {
 							
@@ -296,7 +296,7 @@
 
 					<section >				
 						<h2>Extension Methods</h2>		
-						<h4>Scala 2.12 😤</h4>
+						<h3>Scala 2.12 😤</h3>
 						<pre><code class="scala" data-trim>
 							case class Point(x: Double, y: Double)
 
@@ -314,7 +314,7 @@
 					</section>
 					<section data-transition="none">				
 							<h2>Extension Methods</h2>		
-							<h4>Scala 2.12 😤</h4>
+							<h3>Scala 2.12 😤</h3>
 							<pre><code class="scala" data-trim data-line-numbers="3,4,5">
 								case class Point(x: Double, y: Double)
 	
@@ -332,7 +332,7 @@
 						</section>
 					<section>				
 						<h2>Extension Methods</h2>		
-						<h4>Scala 2.13 😍</h4>
+						<h3>Scala 2.13 😍</h3>
 						<pre><code class="scala" data-trim data-line-numbers="3,4,5">
 							case class Point(x: Double, y: Double)
 
@@ -376,8 +376,8 @@
 						</ul>
 					</section>
 					<section>				
-						<h3>Delegates under the hood</h3>
-						<h4>Without parame<code>[T]</code>ers:</h4>
+						<h2>Delegates under the hood</h2>
+						<h3>Without parame<code>[T]</code>ers:</h3>
 						<pre><code class="scala" data-trim data-trim>
 							delegate IntOrd for Ord[Int] { ... }
 						</code></pre>
@@ -387,8 +387,8 @@
 						</code></pre>
 					</section>
 					<section>				
-						<h3>Delegates under the hood</h3>
-						<h4>With parame<code>[T]</code>ers:</h4>
+						<h2>Delegates under the hood</h2>
+						<h3>With parame<code>[T]</code>ers:</h3>
 						<pre><code class="scala" data-trim data-trim>
 						    delegate ListOrd[T] for Ord[List[T]] given (ord: Ord[T]) { ... }
 						</code></pre>
@@ -428,7 +428,7 @@
 					</section>
 					<section>
 						<h2>Delegates</h2>
-						<h4>Tame Implicit Conversions</h4>
+						<h3>Tame Implicit Conversions</h3>
 						<pre><code class="scala" data-trim>
 							implicit def strToToken(str: String): Token = 
 							  new Keyword(str)
@@ -567,14 +567,14 @@
 				
 				<section>
 					<section>
-						<h2>Is Scala 3 a New Language?</h2>
-						<h3>🤔</h3>
+						<h1>Is Scala 3 a New Language?</h1>
+						<h2>🤔</h2>
 					</section>
 					<section data-background="https://media.giphy.com/media/nFjDu1LjEADh6/giphy.gif">
-						<h2>Yes!</h2>
+						<h1>Yes!</h1>
 					</section>
 					<section>
-						<h2>Yes!</h2>
+						<h1>Yes!</h1>
 						<ul>
 							<li>Many language changes.
 								<ul>
@@ -586,14 +586,14 @@
 						</ul>
 					</section>
 					<section>
-						<h2>But...Is Scala 3 a New Language?</h2>
-						<h3>🤔</h3>
+						<h1>But...Is Scala 3 a New Language?</h1>
+						<h2>🤔</h2>
 					</section>
 					<section data-background="https://media.giphy.com/media/23BST5FQOc8k8/giphy.gif">
-						<h2>No!</h2>
+						<h1>No!</h1>
 					</section>
 					<section>
-						<h2>No!</h2>
+						<h1>No!</h1>
 						<ul>
 							<li>It is still Scala.</li>
 							<li>All core constructs remain in place.</li>
@@ -605,7 +605,7 @@
 							</li>
 						</ul>
 					</section>
-					<section>
+					<section data-transition="zoom">
 						<h1>🤦‍♂️</h1>	
 					</section>
 					<section>
