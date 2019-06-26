@@ -54,7 +54,7 @@
 				</section>
 
 				<section data-transition="zoom">
-					<h2>Scala 3</h2>
+					<h2>Towards Scala 3</h2>
 					<ul>
 						<li class="fragment">Scala 2.13 was released! 🎉</li>
 						<li class="fragment">Scala 2.14 will focus on smooth migration to Scala 3:
@@ -70,19 +70,6 @@
 				</section>
 
 				<section data-transition="convex">
-					<h1>
-						<img width="178" height="238" style="border:none; background-color:transparent" data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" > 
-						<!-- <iframe data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:none solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> -->
-						Scala 3 
-					</h1>
-					<h3><del><code>Some(New Features)</code></del></h3>
-					<h3 class="fragment">Some New Features For: Beginners, Everyday Coding and Experts 😅</h3>
-					<p>
-						<small> <a href="http://twitter.com/matankdr">Matan Keidar</a> <a href="http://refinitiv.com">Refinitiv</a></small>
-					</p>
-				</section>
-
-				<section>
 					<h2>What are Scala 3 Nicest Features?</h2>
 					<ul>
 						<li class="fragment">For beginners 🐣</li>
@@ -167,7 +154,7 @@
 	
 					<section>				
 						<h2>Enums</h2>
-						<h3>Scala 2.13 way 😍</h3>
+						<h3>Scala 3 way 😍</h3>
 						<pre><code class="scala" data-trim>
 							enum Planet(m: Double, rad: Double) extends java.lang.Enum {
 							  private final val G = 6.67300E-11
@@ -297,7 +284,7 @@
 					<section >				
 						<h2>Extension Methods</h2>		
 						<h3>Scala 2.12 😤</h3>
-						<pre><code class="scala" data-trim>
+						<pre><code class="scala" data-trim data-line-numbers>
 							case class Point(x: Double, y: Double)
 
 							implicit class PointOps(p1: Point) {
@@ -315,12 +302,12 @@
 					<section data-transition="none">				
 							<h2>Extension Methods</h2>		
 							<h3>Scala 2.12 😤</h3>
-							<pre><code class="scala" data-trim data-line-numbers="3,4,5">
+							<pre><code class="scala" data-trim data-line-numbers="3-6">
 								case class Point(x: Double, y: Double)
 	
 								implicit class PointOps(p1: Point) {
 								  def +(p2: Point): Point = 
-									Point(p1.x + p2.x, p1.y + p2.y)
+								    Point(p1.x + p2.x, p1.y + p2.y)
 								}
 	
 								val p1 = Point(1.0, 2.0)
@@ -330,10 +317,10 @@
 							</code></pre>
 							
 						</section>
-					<section>				
+					<section data-transition="zoom">				
 						<h2>Extension Methods</h2>		
-						<h3>Scala 2.13 😍</h3>
-						<pre><code class="scala" data-trim data-line-numbers="3,4,5">
+						<h3>Scala 3 😍</h3>
+						<pre><code class="scala" data-trim data-line-numbers="3-8">
 							case class Point(x: Double, y: Double)
 
 							object PointOps {
