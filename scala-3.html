@@ -419,7 +419,7 @@
 							}
 
 							def sum[T: Monoid](xs: List[T]): T =
-							  xs.foldLeft()
+							  xs.foldLeft( the[Monoid[T]].unit )(_ combine)
 						</code></pre>
 						<ul>
 							<li>Works out of the box with extension methods</li>
