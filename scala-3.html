@@ -358,7 +358,7 @@
 						<h2>Delegates</h2>		
 						<pre><code class="scala" data-trim data-trim>
 							trait Ord[T] {
-							  def (x: T) compareTo (y: T): T
+							  def (x: T) compareTo (y: T): Int
 							  def (x: T) < (y: T) = x.compareTo(y) < 0
 							}
 
@@ -419,7 +419,7 @@
 							}
 
 							def sum[T: Monoid](xs: List[T]): T =
-							  xs.foldLeft( the[Monoid[T]].unit )(_ combine)
+							  xs.foldLeft( the[Monoid[T]].unit )(_ combine _)
 						</code></pre>
 						<ul>
 							<li>Works out of the box with extension methods</li>
