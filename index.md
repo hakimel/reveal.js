@@ -2,6 +2,8 @@
 
 Slides
 - [FAC Intro](/slides/fac-intro)
+- [Students Day 1 Talk](/slides/students-day-1-talk)
+- [Students Course Overview](/slides/course-overview)
 - [Tech for Better intro](/slides/tfb)
 - [How to get your tech built](/slides/how-to-get-your-tech-built)
 - [London Intro Talk](/slides/london-intro-talk)
