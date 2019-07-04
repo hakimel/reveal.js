@@ -1824,6 +1824,77 @@
 	}
 
 	/**
+	 * Converts HSL color value to RGB.
+	 *
+	 * @param {h} hue (0 <= h <= 360)
+	 * @param {s} saturation (0 <= s <= 1)
+	 * @param {l} lightness (0 <= l <= 1)
+	 * @param {a} alpha (0 <= a <= 1) optional
+	 *
+	 * https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
+	 *
+	 * @return {{r: number, g: number, b: number, [a]: number}|null}
+	 */
+	function hslToRgb( h, s, l, a ) {
+
+		if ( h < 0 || h > 360 || s < 0 || s > 1 || l < 0 || l > 1 ) {
+			return null;
+		}
+
+		var h_prime = h / 60;
+		var c = ( 1 - Math.abs( 2 * l - 1) ) * s;
+		var x = c * ( 1 - Math.abs( h_prime % 2 - 1 ) );
+
+		var r, g, b;
+
+		if ( h_prime < 1 ) {
+			r = c;
+			g = x;
+			b = 0;
+		} else if ( h_prime < 2 ) {
+			r = x;
+			g = c;
+			b = 0;
+		} else if ( h_prime < 3 ) {
+			r = 0;
+			g = c;
+			b = x;
+		} else if ( h_prime < 4 ) {
+			r = 0;
+			g = x;
+			b = c;
+		} else if ( h_prime < 5 ) {
+			r = x;
+			g = 0;
+			b = c;
+		} else {
+			r = c;
+			g = 0;
+			b = x;
+		}
+
+		var m = l - c / 2;
+
+		if ( typeof( a ) === "undefined" ) {
+			return {
+				r: Math.round( ( r + m ) * 255 ),
+				g: Math.round( ( g + m ) * 255 ),
+				b: Math.round( ( b + m ) * 255 ),
+			};
+		} else {
+			if ( a < 0 || a > 1 ) {
+				return null;
+			}
+			return {
+				r: Math.round( ( r + m ) * 255 ),
+				g: Math.round( ( g + m ) * 255 ),
+				b: Math.round( ( b + m ) * 255 ),
+				a: a,
+			};
+		}
+	}
+
+	/**
 	 * Converts various color input formats to an {r:0,g:0,b:0} object.
 	 *
 	 * @param {string} color The string representation of a color
@@ -1877,6 +1948,21 @@
 				b: parseInt( rgba[3], 10 ),
 				a: parseFloat( rgba[4] )
 			};
+		}
+
+		var hsl = color.match( /^hsl\s*\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*\)$/i );
+		if( hsl ) {
+			return hslToRgb( parseInt( hsl[1], 10 ),
+				         parseInt( hsl[2], 10 ) / 100,
+				         parseInt( hsl[3], 10 ) / 100);
+		}
+
+		var hsla = color.match( /^hsl\s*\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
+		if( hsla ) {
+			return hslToRgb( parseInt( hsla[1], 10 ),
+				         parseInt( hsla[2], 10 ) / 100,
+				         parseInt( hsla[3], 10 ) / 100,
+				         parseFloat( hsla[4] ) );
 		}
 
 		return null;
