@@ -1272,7 +1272,7 @@ Reveal.initialize({
 
 Then:
 
-1. Install [Node.js](http://nodejs.org/) (4.0.0 or later)
+1. Install [Node.js](http://nodejs.org/) (9.0.0 or later)
 2. Run `npm install`
 3. Run `node plugin/notes-server`
 
