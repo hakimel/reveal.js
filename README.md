@@ -340,6 +340,19 @@ Reveal.initialize({
 	// speaker view
 	defaultTiming: 120,
 
+	// Specify the total time in seconds that is available to
+	// present.  If this is set to a nonzero value, the pacing
+	// timer will work out the time available for each slide,
+	// instead of using the defaultTiming value
+	totalTime: 0,
+
+	// Specify the minimum amount of time you want to allot to
+	// each slide, if using the totalTime calculation method.  If
+	// the automated time allocation causes slide pacing to fall
+	// below this threshold, then you will see an alert in the
+	// speaker notes window
+	minimumTimePerSlide: 0;
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 
@@ -629,6 +642,15 @@ Reveal.getProgress();       // (0 == first slide, 1 == last slide)
 Reveal.getSlides();         // Array of all slides
 Reveal.getTotalSlides();    // Total number of slides
 
+// Returns an array with all horizontal/vertical slides in the deck
+Reveal.getHorizontalSlides();
+Reveal.getVerticalSlides();
+
+// Checks if the presentation contains two or more
+// horizontal/vertical slides
+Reveal.hasHorizontalSlides();
+Reveal.hasVerticalSlides();
+
 // Returns the speaker notes for the current slide
 Reveal.getSlideNotes();
 
@@ -640,7 +662,7 @@ Reveal.isPaused();
 Reveal.isAutoSliding();
 
 // Returns the top-level DOM element
-getRevealElement(); // <div class="reveal">...</div>
+Reveal.getRevealElement(); // <div class="reveal">...</div>
 ```
 
 ### Custom Key Bindings
@@ -777,6 +799,8 @@ Embeds a web page as a slide background that covers 100% of the reveal.js width 
 	<h2>Iframe</h2>
 </section>
 ```
+
+Iframes are lazy-loaded when they become visible. If you'd like to preload iframes aehad of time, you can append a `data-preload` attribute to the slide `<section>`. You can also enable preloading globally for all iframes using the `preloadIframes` configuration option.
 
 #### Background Transitions
 
@@ -1065,18 +1089,38 @@ The framework has a built-in postMessage API that can be used when communicating
 <window>.postMessage( JSON.stringify({ method: 'slide', args: [ 2 ] }), '*' );
 ```
 
+#### postMessage Events
+
 When reveal.js runs inside of an iframe it can optionally bubble all of its events to the parent. Bubbled events are stringified JSON with three fields: namespace, eventName and state. Here's how you subscribe to them from the parent window:
 
 ```javascript
 window.addEventListener( 'message', function( event ) {
 	var data = JSON.parse( event.data );
-	if( data.namespace === 'reveal' && data.eventName ==='slidechanged' ) {
+	if( data.namespace === 'reveal' && data.eventName === 'slidechanged' ) {
 		// Slide changed, see data.state for slide number
 	}
 } );
 ```
 
-This cross-window messaging can be toggled on or off using configuration flags.
+#### postMessage Callbacks
+
+When you call any method via the postMessage API, reveal.js will dispatch a message with the return value. This is done so that you can call a getter method and see what the result is. Check out this example:
+
+```javascript
+<revealWindow>.postMessage( JSON.stringify({ method: 'getTotalSlides' }), '*' );
+
+window.addEventListener( 'message', function( event ) {
+	var data = JSON.parse( event.data );
+	// `data.method`` is the method that we invoked
+	if( data.namespace === 'reveal' && data.eventName === 'callback' && data.method === 'getTotalSlides' ) {
+		data.result // = the total number of slides
+	}
+} );
+```
+
+#### Turning postMessage on/off
+
+This cross-window messaging can be toggled on or off using configuration flags. These are the default values.
 
 ```javascript
 Reveal.initialize({
@@ -1208,7 +1252,7 @@ The speaker notes window will also show:
 - Current wall-clock time
 - (Optionally) a pacing timer which indicates whether the current pace of the presentation is on track for the right timing (shown in green), and if not, whether the presenter should speed up (shown in red) or has the luxury of slowing down (blue).
 
-The pacing timer can be enabled by configuring by the `defaultTiming` parameter in the `Reveal` configuration block, which specifies the number of seconds per slide.  120 can be a reasonable rule of thumb.  Timings can also be given per slide `<section>` by setting the `data-timing` attribute.  Both values are in numbers of seconds.
+The pacing timer can be enabled by configuring the `defaultTiming` parameter in the `Reveal` configuration block, which specifies the number of seconds per slide.  120 can be a reasonable rule of thumb.  Alternatively, you can enable the timer by setting `totalTime`, which sets the total length of your presentation (also in seconds).  If both values are specified, `totalTime` wins and `defaultTiming` is ignored.  Regardless of the baseline timing method, timings can also be given per slide `<section>` by setting the `data-timing` attribute (again, in seconds).
 
 
 ## Server Side Speaker Notes
@@ -1237,7 +1281,7 @@ Then:
 
 Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( 'myPluginID', MyPlugin )`. Registered plugin instances can optionally expose an "init" function that reveal.js will call to initialize them.
 
-When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fullfilled before finshing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
+When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fulfilled before finshing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
 
 ```javascript
 let MyPlugin = {
@@ -1248,7 +1292,7 @@ Reveal.addEventListener( 'ready', () => console.log( 'Three seconds later...' ) 
 Reveal.initialize();
 ```
 
-If the init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
+Note that reveal.js will *not* wait for init Promise fullfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
 
 ### Retrieving Plugins
 
@@ -1411,7 +1455,7 @@ Reveal.initialize({
 
 	math: {
 		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
-		config: 'TeX-AMS_HTML-full',  // See http://docs.mathjax.org/en/latest/config-files.html
+		config: 'TeX-AMS_HTML-full', // See http://docs.mathjax.org/en/latest/config-files.html
 		// pass other options into `MathJax.Hub.Config()`
 		TeX: { Macros: { RR: "{\\bf R}" } }
 	},

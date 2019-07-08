@@ -227,7 +227,7 @@ body {
   bottom: 12px;
   right: 12px;
   left: auto;
-  z-index: 1;
+  z-index: 11;
   color: #000;
   pointer-events: none;
   font-size: 10px; }
@@ -312,7 +312,8 @@ body {
               transform: rotate(90deg); }
   .reveal .controls .navigate-down {
     right: 3.2em;
-    bottom: 0;
+    bottom: -1.4em;
+    padding-bottom: 1.4em;
     -webkit-transform: translateY(10px);
             transform: translateY(10px); }
     .reveal .controls .navigate-down .controls-arrow {
@@ -395,18 +396,18 @@ body {
     right: auto; }
   .reveal .controls[data-controls-layout="edges"] .navigate-left {
     top: 50%;
-    left: 8px;
+    left: 0.8em;
     margin-top: -1.8em; }
   .reveal .controls[data-controls-layout="edges"] .navigate-right {
     top: 50%;
-    right: 8px;
+    right: 0.8em;
     margin-top: -1.8em; }
   .reveal .controls[data-controls-layout="edges"] .navigate-up {
-    top: 8px;
+    top: 0.8em;
     left: 50%;
     margin-left: -1.8em; }
   .reveal .controls[data-controls-layout="edges"] .navigate-down {
-    bottom: 8px;
+    bottom: -0.3em;
     left: 50%;
     margin-left: -1.8em; } }
 
@@ -1453,8 +1454,15 @@ body {
   text-align: right;
   vertical-align: top; }
 
-.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
+.reveal .hljs.has-highlights tr:not(.highlight-line) {
   opacity: 0.4; }
+
+.reveal .hljs:not(:first-child).fragment {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box; }
 
 /*********************************************
  * ROLLING LINKS
