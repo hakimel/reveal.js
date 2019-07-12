@@ -27,6 +27,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Touch Navigation](#touch-navigation)
 - [Lazy Loading](#lazy-loading)
 - [API](#api)
+  - [Custom Key Bindings](#custom-key-bindings)
   - [Slide Changed Event](#slide-changed-event)
   - [Presentation State](#presentation-state)
   - [Slide States](#slide-states)
