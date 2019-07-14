@@ -11,7 +11,7 @@
 
 ### Información para la Wifi
 
-Red: cubantech
+SSID: cubantech
 
 Contraseña: meet-ups
 
@@ -33,11 +33,11 @@ Contraseña: meet-ups
 [![Logo Skycoin](img/Skycoin-Cloud-BW-Vertical.png)](http://www.skycoin.net)
 
 - ¿Por qué Skycoin?
-- Comprendiendo las transacciones Skycoin
+- Comprendiendo las transacciones de Skycoin
 - Valores principales
 - Cinco pilares de Skycoin
 - Ecosistema Skycoin
-- ¿Próximo paso?
+- ¿Próximos pasos?
 
 ---
 
@@ -48,7 +48,7 @@ Contraseña: meet-ups
 - Blockchain
 - Aplicaciones distribuidas
 - Criptografía asimétrica y criptomonedas
-- Contabilidad y economía
+- Contabilidad y finanzas
 - Bitcoin, Ethereum, Skycoin
 
 ---
@@ -112,17 +112,17 @@ Contraseña: meet-ups
 ## Consideraciones
 
 - Vamos a asumir que serán máquinas de estado determinísticas
-  * ... incluso si es posible Turing completo
+  * ... incluso si pueden ser Turing completas
 
 ---
 
 ## La Metodología de la Máquina de Estado
 
 - <span style="color: yellow"> Desplegar réplicas del software </span>
-- Recibir solicitudes de los clientes (entiéndase entradas)
+- Recibir solicitudes de los clientes (i.e. entradas)
 - Ordenar las entradas
 - Ejecutar indefinidamente la transición de la máquina de estado
-- Monitorear las réplicas buscando diferencias en el Estado o la Salida
+- Monitorear diferencias en el Estado o las Salidas de las réplicas
 
 ---
 
@@ -160,11 +160,11 @@ Contraseña: meet-ups
 
 - Contenedores y registros
   * p.e. [Skycoin](https://hub.docker.com/u/skycoin/), [Lisk](https://hub.docker.com/u/lisk/), [Blockstack](https://hub.docker.com/u/blockstack), ... @ Docker Hub
-- Herramientas de gestión de contenedores (Ansible, Puppet, Chef, Habitat, ...)
+- Herramientas de gestión de configuración (Ansible, Puppet, Chef, Habitat, ...)
 
 --
 
-## Estado de la gestión de contenedores - Primer trimestre 2017
+## Estado de la gestión de configuración - Primer trimestre 2017
 
 ![](img/forrester_wave_cm_q1.jpg)
 
@@ -205,7 +205,7 @@ Contraseña: meet-ups
 
 --
 
-## Bitcoin - Anatomía de de las transacciones
+## Bitcoin - Anatomía de las transacciones
 
 ##### Metadatos importantes (excepto [transacciones coinbase](https://bitcoin.org/en/glossary/coinbase-transaction))
 
@@ -213,7 +213,7 @@ Contraseña: meet-ups
 
 - ID (global) de transacción
 - Número de versión (evolución del protocolo)
-- Fecha de fijación
+- Locktime
   * Momento más inmediato en que la transacción puede ser agregada a la blockchain
   * Las transacciones fijadas en el tiempo solo son válidas en el futuro
   * Cancelaciones
@@ -231,7 +231,7 @@ Contraseña: meet-ups
   * Script de Pubkey ( Desbloquear para consumir )
 - Entrada(s)
   * Salida consumida (ID de transacción + Índice de salida)
-  * Número de secuencia (relacionado con la fecha de fijación)
+  * Número de secuencia (relacionado con el locktime)
   * Script de firma (parámetros para desbloquear el script de Pubkey)
 
 > **Bitcoin** es un registro público distribuido.
