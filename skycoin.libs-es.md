@@ -10,7 +10,7 @@
 
 ### Información para la Wifi
 
-Red: cubantech
+SSID: cubantech
 
 Contraseña: meet-ups
 
@@ -90,7 +90,7 @@ Contraseña: meet-ups
 
 ---
 
-## ¿Próximo paso?
+## ¿Próximos pasos?
 
 - Próximo encuentro : ¡¡¡ Explicaciones de los proyectos de Skycoin !!!
 - Comunidad de Telegram : [https://t.me/Skycoin](https://t.me/Skycoin)
