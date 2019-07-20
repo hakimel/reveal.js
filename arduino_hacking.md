@@ -93,7 +93,7 @@ A group of Cuban entrepeneurs with a social vision
 ![](img/diode.png)
 
 - It's the basic semiconductor piece of modern electronics
-- It can pass current in one wan and block it in the other
+- It can pass current in one way and block it in the other
 - Major characteristics are:
   * Voltage rating
   * Current rating
@@ -104,13 +104,13 @@ A group of Cuban entrepeneurs with a social vision
 ## Diode types
 
 - Germanium (Deprecated, just for reference)
-  * Low voltage from (0.1 - 0.2 volts)
+  * Low voltage drop (0.1 - 0.2 volts)
   * High frequency cutoff (> 30 Mhz)
 - Silicon diodes
   * High voltage drop (0.6 - 1.2 volts)
-  * Wide frequency cutoff (from Hz and high power to GHz)
+  * Wide frequency cutoff (from Hz to GHz)
 - Schottky Silicon diodes
-  * High Low drop (0.1 - 0.15 volts)
+  * Low drop (0.1 - 0.15 volts)
   * Very high frequency cutoff
 
 ---
@@ -157,7 +157,7 @@ A group of Cuban entrepeneurs with a social vision
 
 - Legs are Source, Gate and Drain
 - They respond to Voltage not to current
-- Power one has usually a backwards diode between source and Drain
+- Power transistors has usually a backwards diode between source and Drain, this is called a Damper diode
 - Dead conducting zone is form 0.0 - 4.1 volts
 - Conducting exponential zone is 4.1 - 5.1 volts
 - Over 5.1 volts they saturate
@@ -169,11 +169,12 @@ A group of Cuban entrepeneurs with a social vision
 
 ![](img/oamp.png)
 
-- Differential amplifiers two outputs and one input
+- Differential amplifiers two inputs and one output
 - Two mode of amplification (inverting/non-inverting)
 - Very High Input Impedance
 - Very low differential voltage (0.1 to 0.00001 volts)
 - Very low output impedance (medium current)
+- Can be used as threshold detectors
 
 --
 
@@ -183,6 +184,7 @@ A group of Cuban entrepeneurs with a social vision
 - Then they are ideal buffers, high input impedance & low output impedance
 - They can be used as level translators (move a negative signal to the positive side)
 - Very low power consumption.
+- There is a variation called comparators
 
 ---
 
@@ -228,7 +230,7 @@ A group of Cuban entrepeneurs with a social vision
 ## SPI principal characteristics
 
 - Master Slave paradigm
-- At leas 4 wire and one additional for each new device
+- At least 4 wire and one additional for each new device
 - Not speed limited, and can speak various speed on the same bus
 - Typically, 1, 8, 16 & 32 MHz speed.
 
@@ -237,13 +239,13 @@ A group of Cuban entrepeneurs with a social vision
 ## I2C, Wire, Two Wire
 
 - Only two wires:
-  * DATA (SDA)
+  * Data (SDA)
   * Clock (SCL)
 - All devices are Open Collector
   * Must provide a +Vcc link on both wires
   * With the lowest voltage (No need for translators)
   * If in doubt use +3.3V and not 5V, will work ok
-- Slow limited to 1 MHz of speed, standard is 400 kHz
+- Slow, limited to 1 MHz of speed, standard is 400 kHz
 - No additional wire for new device
 - Devices are addressable by a Direction on the bus
 - Limited to 127 devices
@@ -255,12 +257,12 @@ A group of Cuban entrepeneurs with a social vision
 
 ### Hands to work!
 
-- Group together in two groups
+- Group together in at least two groups
 - Pick a TFT display or a OLED display and make it work
   * You will need to identify and wire the Devices (SPI/I2C)
   * You will need to Identify the drivers (TFT)
   * Run the default libs examples
-  * Ask for the libs to the teacher
+  * Ask for the libs to the lecturer
 
 --
 
@@ -333,7 +335,7 @@ A group of Cuban entrepeneurs with a social vision
 - Being ADC the **EXTRA** bits you want
   * Hardware gives 10 but you needs 12 bits; ADC = 2
 - Take and sum the samples with a total of power(4, ADC)
-- Shift the sum to the left by ADC
+- Shift the sum to the right by ADC
 - It's slow but some times worth the effort
 
 --
