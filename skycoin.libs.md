@@ -238,7 +238,7 @@ Copyright 2019 Skycoin project
 - Enabled / disabled at once via CLI
   * `--enable-api-sets`
   * `-disable-api-sets`
-  * `-enable-all-api-sets``
+  * `-enable-all-api-sets`
 
 ---
 
@@ -339,9 +339,11 @@ Args:
 - Partially tested
   * Python, .NET, Java
 - Fully generated
-  * Objective-C
+  * Objective-C, C (`libcurl`), Ruby
+  * PHP, Javascript (`node` + `axios`)
 - Work in progress
-  * C (`libcurl`), C++ (QT)
+  * C++ (QT)
+  * ... more at https://github.com/simelo
 
 ---
 
@@ -364,8 +366,8 @@ Args:
 
 ---
 
-# Thank you for coming!
+# Thanks for your attention!
 
-#### Questions?
+## Questions?
 
 
