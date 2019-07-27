@@ -2,6 +2,8 @@
 ## CubanTech Meetups
 ##### [meetup.cuban.tech](http://meetup.cuban.tech)
 
+- [Arduino Hacking session](arduino_hacking.html)
+  * [CubanTech meetup #61](https://www.meetup.com/CubanTech/events/262541266/) - Havana, Cuba 2019/07/20
 - [Intro to PyDay Django workshop part 3](intro_20180729.html)
   * [CubanTech meetup #37](http://docker.cuban.tech/events/251517589/) - Havana, Cuba 2018/07/29
 - [Welcome to Raspberry Jam](intro_20180303.html)
