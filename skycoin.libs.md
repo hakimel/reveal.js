@@ -465,21 +465,21 @@ end
 --
 
 ```cs
-    public class UnitTest1
-    {
-        [Fact]
-        public void Version() {
+public class UnitTest1
+{
+    [Fact]
+    public void Version() {
 
-        Configuration.Default.BasePath = "http://localhost:6420";
-        var apiInstance = new DefaultApi(Configuration.Default);
+    Configuration.Default.BasePath = "http://localhost:6420";
+    var apiInstance = new DefaultApi(Configuration.Default);
 
-        try {
-            var result = apiInstance.Version();
-            Assert.Equal("v0.26.0", result.Branch);
-            Assert.Equal("ff754084df0912bc0d151529e2893ca86618fb3f", result.Commit);
-            Assert.Equal("0.26.0", result.Version);
-            Console.WriteLine(result);
-        }
+    try {
+        var result = apiInstance.Version();
+        Assert.Equal("v0.26.0", result.Branch);
+        Assert.Equal("ff754084df0912bc0d151529e2893ca86618fb3f", result.Commit);
+        Assert.Equal("0.26.0", result.Version);
+        Console.WriteLine(result);
+    }
     ...
 ```
 
