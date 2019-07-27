@@ -347,6 +347,146 @@ Args:
 
 ---
 
+## Doing tests using docker
+
+--
+
+## Ruby
+
+### Setup library ruby
+
+```bash
+
+git clone http://maceo@git.cuban.tech:30080/simelo/python-hackday.git
+
+cd ruby-hackaday
+
+docker run -it --network=host -v $(pwd):/app -w /app ruby-sky-meetup /bin/bash
+```
+
+--
+
+## Python
+
+### Setup library python
+
+```bash
+
+git clone http://maceo@git.cuban.tech:30080/simelo/python-hackday.git
+
+cd python-hackaday
+
+docker run -it --network=host -v $(pwd):/app -w /app skyapi-python-meetup /bin/bash
+```
+
+--
+
+## Dotnet
+
+### Setup library dotnet
+
+```bash
+
+git clone http://maceo@git.cuban.tech:30080/simelo/python-hackday.git
+
+cd dotnet-hackaday
+
+docker run -it --network=host -v $(pwd):/app -w /app skyapi-dotnet-meetup /bin/bash
+```
+
+---
+
+## Testing with unittest in python
+
+### Unittest Example
+
+--
+
+```py
+import skyapi
+import unittest
+
+configuration = skyapi.Configuration()
+configuration.host = 'http://localhost:6420'
+api_instance = skyapi.DefaultApi(skyapi.ApiClient(configuration))
+
+class TestSum(unittest.TestCase):
+    def test_version(self):
+        """
+        Test /api/v1/version
+        """
+        result = api_instance.version()
+
+        self.assertEqual(result['branch'], 'v0.26.0')
+        self.assertEqual(result['commit'], 'ff754084df0912bc0d151529e2893ca86618fb3f')
+        self.assertEqual(result['version'], '0.26.0')
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+--
+
+## Testing with RSpec in ruby
+
+### Rspec Example
+
+--
+
+```rb
+require 'sky_api'
+
+api_instance = SkyApi::DefaultApi.new
+api_instance.api_client.config.host = 'http://localhost:6420'
+
+describe 'version' do
+  result = api_instance.version
+  
+  it 'check branch' do
+    expect(result.branch).to eq 'v0.26.0'
+  end
+  
+  it 'check version' do
+    expect(result.commit).to eq 'ff754084df0912bc0d151529e2893ca86618fb3f'
+  end
+
+  it 'check commit' do
+    expect(result.version).to eq '0.26.0'
+  end
+end
+```
+
+--
+
+## Testing with Xunit in Dotnet
+
+### Xunit Example
+
+--
+
+```cs
+    public class UnitTest1
+    {
+        [Fact]
+        public void Version() {
+
+        Configuration.Default.BasePath = "http://localhost:6420";
+        var apiInstance = new DefaultApi(Configuration.Default);
+
+        try {
+            var result = apiInstance.Version();
+            Assert.Equal("v0.26.0", result.Branch);
+            Assert.Equal("ff754084df0912bc0d151529e2893ca86618fb3f", result.Commit);
+            Assert.Equal("0.26.0", result.Version);
+            Console.WriteLine(result);
+        }
+    ...
+```
+
+--
+
+---
+
 ## Hardware wallet daemon
 #### finished before product itself
 
