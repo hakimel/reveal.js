@@ -347,6 +347,27 @@ Args:
 
 ---
 
+## Hardware wallet daemon
+#### finished before product itself
+
+![Skycoin hardware wallet architecture](img/skywallet.overview.png)
+
+---
+
+## REST API test suite - golang
+#### [TestVersion](https://github.com/skycoin/skycoin/blob/v0.26.0/src/api/integration/integration_test.go#L316-L327) test case @ v0.26.0
+
+![TestVersion test case](img/skycoin.testversion.png)
+
+--
+
+## REST API test suite - golang
+#### [newClient](https://github.com/skycoin/skycoin/blob/v0.26.0/src/api/integration/integration_test.go#L75-L95) @ v0.26.0
+
+![newClient test function](img/skycoin.newclient.png)
+
+---
+
 ## Doing tests using docker
 
 --
@@ -482,29 +503,6 @@ public class UnitTest1
     }
     ...
 ```
-
---
-
----
-
-## Hardware wallet daemon
-#### finished before product itself
-
-![Skycoin hardware wallet architecture](img/skywallet.overview.png)
-
----
-
-## REST API test suite - golang
-#### [TestVersion](https://github.com/skycoin/skycoin/blob/v0.26.0/src/api/integration/integration_test.go#L316-L327) test case @ v0.26.0
-
-![TestVersion test case](img/skycoin.testversion.png)
-
---
-
-## REST API test suite - golang
-#### [newClient](https://github.com/skycoin/skycoin/blob/v0.26.0/src/api/integration/integration_test.go#L75-L95) @ v0.26.0
-
-![newClient test function](img/skycoin.newclient.png)
 
 ---
 
