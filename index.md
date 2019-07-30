@@ -1,5 +1,9 @@
 # Founders and Coders resources
 
+- Note: reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the »S« key on your keyboard to open the notes window.
+
+- A speaker timer starts as soon as the speaker view is opened. You can reset it to 00:00:00 at any time by simply clicking/tapping on it.
+
 Slides
 - [FAC Intro](/slides/fac-intro)
 - [Students Day 1 Talk](/slides/students-day-1-talk)
