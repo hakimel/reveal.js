@@ -382,6 +382,52 @@
 		registeredKeyBindings = {};
 
 	/**
+	 * Resets Reveal. Useful if the DOM has been largely updated. This can happen with frameworks like Vue.js, Angular, and React.
+	 */
+	function reset( ) {
+		initialized = false;
+		loaded = false;
+		overview = false;
+		overviewSlideWidth = null;
+		overviewSlideHeight = null;
+		indexh = null;
+		indexv = null;
+		previousSlide = null;
+		currentSlide = null;
+		previousBackground = null;
+		hasNavigatedRight = false;
+		hasNavigatedDown = false;
+		state = [];
+		scale = 1;
+		slidesTransform = { layout: '', overview: '' };
+		dom = {};
+		plugins = {};
+		asyncDependencies = [];
+		features = {};
+		isMobileDevice = false;
+		isChrome = true;
+		lastMouseWheelStep = 0;
+		writeURLTimeout = 0;
+		cursorHidden = false;
+		cursorInactiveTimeout = 0;
+		eventsAreBound = false;
+		autoSlide = 0;
+		autoSlidePlayer;
+		autoSlideTimeout = 0;
+		autoSlideStartTime = -1;
+		autoSlidePaused = false;
+		touch = {
+			startX: 0,
+			startY: 0,
+			startCount: 0,
+			captured: false,
+			threshold: 40
+		};
+		keyboardShortcuts = {};
+		registeredKeyBindings = {};
+	}
+
+	/**
 	 * Starts up the presentation if the client is capable.
 	 */
 	function initialize( options ) {
@@ -5807,6 +5853,7 @@
 
 		initialize: initialize,
 		configure: configure,
+		reset: reset,
 
 		sync: sync,
 		syncSlide: syncSlide,
