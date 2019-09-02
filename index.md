@@ -19,5 +19,5 @@ Slides
 - [Slides for non-FAC people to showcase FAC (help me with name)](slides/arsenal-slides.html)
 - [Founders programme intro for students](/slides/founders-programme)
 - [Meetup intro slide](/slides/meetup-slide.html)
-- [Design Day 1](/slides/design-week-monday.html)
-- [Design Day 2](/slides/design-week-tuesday.html)
+- [Design week - Day 1](/slides/design-week-monday.html)
+- [Design week - Day 2](/slides/design-week-tuesday.html)
