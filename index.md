@@ -5,6 +5,7 @@
 - A speaker timer starts as soon as the speaker view is opened. You can reset it to 00:00:00 at any time by simply clicking/tapping on it.
 
 Slides
+
 - [FAC Intro](/slides/fac-intro)
 - [Students Day 1 Talk](/slides/students-day-1-talk)
 - [Students Course Overview](/slides/course-overview)
@@ -18,3 +19,5 @@ Slides
 - [Slides for non-FAC people to showcase FAC (help me with name)](slides/arsenal-slides.html)
 - [Founders programme intro for students](/slides/founders-programme)
 - [Meetup intro slide](/slides/meetup-slide.html)
+- [Design Day 1](/slides/design-week-monday.html)
+- [Design Day 2](/slides/design-week-tuesday.html)
