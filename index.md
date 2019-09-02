@@ -21,3 +21,4 @@ Slides
 - [Meetup intro slide](/slides/meetup-slide.html)
 - [Design week - Day 1](/slides/design-week-monday.html)
 - [Design week - Day 2](/slides/design-week-tuesday.html)
+- [Contributing to FAC's Github](/slides/contributing-to-github.html)
