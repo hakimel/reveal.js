@@ -4,21 +4,36 @@
 
 - A speaker timer starts as soon as the speaker view is opened. You can reset it to 00:00:00 at any time by simply clicking/tapping on it.
 
-Slides
+## Slides
+
+Cohort curriculum
 
 - [FAC Intro](/slides/fac-intro)
 - [Students Day 1 Talk](/slides/students-day-1-talk)
 - [Students Course Overview](/slides/course-overview)
-- [Tech for Better intro](/slides/tfb)
 - [How to get your tech built](/slides/how-to-get-your-tech-built)
 - [London Intro Talk](/slides/london-intro-talk)
 - [Community Talk](/slides/community-talk)
 - [Getting Started on Codewars](/slides/codewars-intro.html)
-- [T4B Discovery Workshop](/slides/tfb-discovery-workshop.html)
-- [T4B Product Owner Workshop](tfb-po-workshop.html)
 - [Slides for non-FAC people to showcase FAC (help me with name)](slides/arsenal-slides.html)
 - [Founders programme intro for students](/slides/founders-programme)
+
+Meetups
+
 - [Meetup intro slide](/slides/meetup-slide.html)
+
+Business meeting intros
+
+- [Co-ops](/slides/coops-talk.html)
+- [Contributing to FAC's Github](/slides/contributing-to-github.html)
+
+T4B
+
+- [Tech for Better intro](/slides/tfb)
+- [T4B Discovery Workshop](/slides/tfb-discovery-workshop.html)
+- [T4B Product Owner Workshop](tfb-po-workshop.html)
+
+Design week
+
 - [Design week - Day 1](/slides/design-week-monday.html)
 - [Design week - Day 2](/slides/design-week-tuesday.html)
-- [Contributing to FAC's Github](/slides/contributing-to-github.html)
