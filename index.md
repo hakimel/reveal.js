@@ -34,6 +34,7 @@ T4B
 
 - [Tech for Better intro](/slides/tfb)
 - [T4B Discovery Workshop](/slides/tfb-discovery-workshop.html)
+- [T4B Definition Workshop](/slides/tfb-definition-workshop.html)
 - [T4B Product Owner Workshop](tfb-po-workshop.html)
 
 Design week
