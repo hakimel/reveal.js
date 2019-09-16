@@ -12,7 +12,7 @@ Cohort curriculum
 - [Students Day 1 Talk](/slides/students-day-1-talk)
 - [Students Course Overview](/slides/course-overview)
 - [How to get your tech built](/slides/how-to-get-your-tech-built)
-- [London Intro Talk](/slides/london-intro-talk)
+- [London info session](/slides/info-session)
 - [Community Talk](/slides/community-talk)
 - [Slides for non-FAC people to showcase FAC (help me with name)](slides/arsenal-slides.html)
 - [Founders programme intro for students](/slides/founders-programme)
