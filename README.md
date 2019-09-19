@@ -544,7 +544,7 @@ Slides can be nested within other slides to create vertical stacks (see [Markup]
 <img src="https://static.slid.es/support/reveal.js-vertical-slides.gif" width="450">
 
 #### Navigation Mode
-You can finetune the reveal.js navigation behavior by using the `navigationMode` config option. Note that these options are only useful for presnetations that use a mix of horizontal and vertical slides. The following navigation modes are available:
+You can fine tune the reveal.js navigation behavior by using the `navigationMode` config option. Note that these options are only useful for presentations that use a mix of horizontal and vertical slides. The following navigation modes are available:
 
 | Value                         | Description |
 | :---------------------------  | :---------- |
@@ -800,7 +800,7 @@ Embeds a web page as a slide background that covers 100% of the reveal.js width 
 </section>
 ```
 
-Iframes are lazy-loaded when they become visible. If you'd like to preload iframes aehad of time, you can append a `data-preload` attribute to the slide `<section>`. You can also enable preloading globally for all iframes using the `preloadIframes` configuration option.
+Iframes are lazy-loaded when they become visible. If you'd like to preload iframes ahead of time, you can append a `data-preload` attribute to the slide `<section>`. You can also enable preloading globally for all iframes using the `preloadIframes` configuration option.
 
 #### Background Transitions
 
@@ -1281,7 +1281,7 @@ Then:
 
 Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( 'myPluginID', MyPlugin )`. Registered plugin instances can optionally expose an "init" function that reveal.js will call to initialize them.
 
-When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fulfilled before finshing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
+When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
 
 ```javascript
 let MyPlugin = {
@@ -1292,7 +1292,7 @@ Reveal.addEventListener( 'ready', () => console.log( 'Three seconds later...' ) 
 Reveal.initialize();
 ```
 
-Note that reveal.js will *not* wait for init Promise fullfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
+Note that reveal.js will *not* wait for init Promise fulfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
 
 ### Retrieving Plugins
 
