@@ -100,7 +100,7 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
 1. Install dependencies
    ```sh
-   $ npm install
+   $ npm ci
    ```
 
 1. Serve the presentation and monitor source files for changes
@@ -1229,7 +1229,7 @@ Reveal.initialize({
 Then:
 
 1. Install [Node.js](http://nodejs.org/) (4.0.0 or later)
-2. Run `npm install`
+2. Run `npm ci`
 3. Run `node plugin/notes-server`
 
 
@@ -1333,7 +1333,7 @@ Reveal.initialize({
 
 Server that receives the `slideChanged` events from the master presentation and broadcasts them out to the connected client presentations. This needs to be publicly accessible. You can run your own socket.io server with the commands:
 
-1. `npm install`
+1. `npm ci`
 2. `node plugin/multiplex`
 
 Or you can use the socket.io server at [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/).
