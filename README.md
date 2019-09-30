@@ -531,7 +531,7 @@ Slides can be nested within other slides to create vertical stacks (see [Markup]
 <img src="https://static.slid.es/support/reveal.js-vertical-slides.gif" width="450">
 
 #### Navigation Mode
-You can finetune the reveal.js navigation behavior by using the `navigationMode` config option. Note that these options are only useful for presnetations that use a mix of horizontal and vertical slides. The following navigation modes are available:
+You can finetune the reveal.js navigation behavior by using the `navigationMode` config option. Note that these options are only useful for presentations that use a mix of horizontal and vertical slides. The following navigation modes are available:
 
 | Value                         | Description |
 | :---------------------------  | :---------- |
