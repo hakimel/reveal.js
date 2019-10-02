@@ -1,0 +1,111 @@
+.reveal section.stack > section,
+.reveal section.full-height {
+    height: calc(100% - 40px);
+}
+
+.reveal section img {
+    border: none;
+}
+
+.reveal section .text-align-left {
+    text-align: left;
+}
+
+.reveal section .text-align-right {
+    text-align: right;
+}
+
+.reveal section .margin-right-10 {
+    margin-right: 10px;
+}
+
+.reveal section ul.list {
+    width: calc(100% - 100px);
+}
+
+.reveal section img.devday-logo {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.reveal section img.contact-icon {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 10px;
+}
+
+.reveal section.gradient-border {
+    box-shadow: inset 0 0 40px 15px white;
+}
+
+.reveal section.gradient-right {
+    background-image: linear-gradient(to right, white 0%, white 65%, transparent 95%);
+    color: black;
+}
+
+.reveal section.purple,
+.reveal section.stack.purple > section {
+    background-color: #333366;
+}
+
+.reveal section.purple.gradient-right h1,
+.reveal section.stack.purple > section.gradient-right h1 {
+    color: #333366;
+}
+
+.reveal section.teal,
+.reveal section.stack.teal > section {
+    background-color: #4AC9C6;
+}
+
+.reveal section.teal.gradient-right h1,
+.reveal section.stack.teal > section.gradient-right h1 {
+    color: #4AC9C6;
+}
+
+.reveal section.dark-blue,
+.reveal section.stack.dark-blue > section {
+    background-color: #018EBC;
+}
+
+.reveal section.dark-blue.gradient-right h1,
+.reveal section.stack.dark-blue > section.gradient-right h1 {
+    color: #018EBC;
+}
+
+.reveal section.green,
+.reveal section.stack.green > section {
+    background-color: #A8CB4C;
+}
+
+.reveal section.green.gradient-right h1,
+.reveal section.stack.green > section.gradient-right h1 {
+    color: #A8CB4C;
+}
+
+.reveal section.light-blue,
+.reveal section.stack.light-blue > section {
+    background-color: #99CCFF;
+}
+
+.reveal section.light-blue.gradient-right h1,
+.reveal section.stack.light-blue > section.gradient-right h1 {
+    color: #99CCFF;
+}
+
+.reveal section.orange,
+.reveal section.stack.orange > section {
+    background-color: #FF602E;
+}
+
+.reveal section.orange.gradient-right h1,
+.reveal section.stack.orange > section.gradient-right h1 {
+    color: #FF602E;
+}

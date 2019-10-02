@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Going Passwordless</title>
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
@@ -21,17 +21,344 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+		<link rel="stylesheet" href="css/presentation.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-background-image="/img/cover-background.png">
+					<h1 class="text-align-right margin-right-10">Going Passwordless</h1>
+					<h2 class="text-align-right margin-right-10">By Jonathan Singmin</h2>
+					<h3 class="text-align-right margin-right-10">Senior Software Engineer</h3>
+
+					<aside class="notes">
+						<ul>
+							<li>Talking about passwordless authentication</li>
+							<li>Authentication vs Authorization: proving who are who claim to be</li>
+							<li>Disclaimer: i'm not a security expert</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="purple">
+					<section class="gradient-border">
+						<h1>The Problem</h1>
+						<a href="https://pixabay.com/illustrations/hack-fraud-card-code-computer-3671982/" target="_blank"><img src="img/Hacking.jpg" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>People out there with malicious intent</li>
+								<li>Attack vector: impersonation, for purposes of causing personal damage or for system access</li>
+								<li>Because of this, proving you are who you claim to be has become more important</li>
+								<li>Highlight two major problem areas we face today, and why we need better authentication methods</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>Data Breaches</h1>
+						<div style="width: 50%; float: left">
+							<a href="https://techcrunch.com/2019/09/26/doordash-data-breach/" target="_blank"><img src="img/Breach 01.png" /></a>
+							<br />
+							<a href="https://www.forbes.com/sites/daveywinder/2019/09/05/facebook-security-snafu-exposes-419-million-user-phone-numbers/" target="_blank"><img src="img/Breach 02.png" /></a>
+							<br />
+							<a href="https://www.forbes.com/sites/kateoflahertyuk/2019/02/12/hackers-have-just-put-620-million-online-account-details-up-for-sale-is-yours-on-the-list/" target="_blank"><img src="img/Breach 03.png" /></a>
+						</div>
+						<a href="https://haveibeenpwned.com/" target="_blank" style="width: 50%; float: right"><img src="img/BreachPwned.png" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Show of hands: Who has been affected by a data breach?</li>
+								<li>Email requesting password change; going to haveibeenpwned</li>
+								<li>User account credential data stolen, sold on the dark web</li>
+								<li>Because of this, it's become important to use more than just a password</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>Phishing</h1>
+						<a href="https://www.cloudflare.com/learning/security/threats/phishing-attack/" target="_blank"><img src="img/Phishing.png" style="background-color: white;" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>You get an email about a breach, telling you to log in (using this link) and change your password</li>
+								<li>Probably a phishing scam</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+
+				<section class="teal">
+					<section class="gradient-border">
+						<h1>Factors of Authentication</h1>
+						<a href="http://www.quickmeme.com/meme/3r3mnq/" target="_blank"><img src="img/AuthenticationFactors.jpg" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Before we get to what we can do to mitigate, let's talk about factors of authorization</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>Something you know</h1>
+						<a href="https://pixabay.com/illustrations/login-register-window-button-570317/" target="_blank"><img src="img/Login.png" /></a>
+						<a href="https://imgur.com/gallery/RL7Pt/" target="_blank"><img src="img/PasswordWeakness.jpg" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Passwords, "Secret Questions"</li>
+								<li>Weaknesses: can be leaked</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>Something you have</h1>
+						<div style="width: 50%; float: left">
+							<a href="https://commons.wikimedia.org/wiki/File:SecureID_token_new.JPG" target="_blank"><img src="img/AuthenticatorHard.png" /></a>
+							<br />
+							<a href="https://commons.wikimedia.org/wiki/File:Google_authenticator.png" target="_blank"><img src="img/AuthenticatorSoft.png" /></a>
+						</div>
+						<a href="https://www.troyhunt.com/beyond-passwords-2fa-u2f-and-google-advanced-protection/" target="_blank" style="width: 50%; float: right"><img src="img/AuthenticatorHardWeakness.jpg" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Authenticators</li>
+								<li>SMS OTP</li>
+								<li>Weakness: SMS OTP vulnerable to SIM swap</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>Somewhere you are</h1>
+						<a href="https://iplocation.com/" target="_blank"><img src="img/Geolocation.png" /></a>
+						<a href="https://twitter.com/eff/status/1111038848065142784/" target="_blank"><img src="img/GeolocationWeakness.jpg" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>IP Address checks (Geolocation)</li>
+								<li>Weakness: can be spoofed (VPNs)</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>Something you are</h1>
+						<a href="https://pixabay.com/illustrations/finger-fingerprint-security-digital-2081169/" target="_blank"><img src="img/Fingerprint.png" /></a>
+						<a href="https://cheezburger.com/8455599872/" target="_blank"><img src="img/BiometricWeakness.jpg" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Biometrics</li>
+								<li>Weakness: not necessarily practical, special hardware required</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+
+				<section class="dark-blue">
+					<section class="gradient-border">
+						<h1>The next stage</h1>
+						<a href="https://fidoalliance.org/" target="_blank"><img src="img/FIDO_Alliance.png" style="background-color: white;" /></a>
+						<br />
+						<a href="https://www.yubico.com/product/yubikey-5-nfc/" target="_blank"><img src="img/Yubikey.png" style="background-color: white;" /></a>
+						<a href="https://www.android.com/versions/nougat-7-0/" target="_blank"><img src="img/AndroidNougat.png" /></a>
+						<a href="https://www.microsoft.com/en-us/windows/windows-hello/" target="_blank"><img src="img/WindowsHello.png" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>FIDO Alliance set up to develop industry specifications for "next gen" authentication</li>
+								<li>Show of hands: Who has heard of Yubikey?</li>
+								<li>Show of hands: Who has one?</li>
+								<li>Taking the form of physical authenticator keys, Android 7.0+, Windows Hello</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-right">
+						<div style="width: 65%;">
+							<h1>Jargon</h1>
+							<ul class="list text-align-left">
+								<li>FIDO (Fast IDentity Online)</li>
+								<li>U2F (Universal 2nd Factor)</li>
+								<li>CTAP (Client to Authenticator Protocol)</li>
+								<li>WebAuthn (Web Authentication)</li>
+							</ul>
+							<a href="https://www.slideshare.net/FIDOAlliance/webauthn-and-security-keys-126400301/" target="_blank"><img src="img/FidoFlow.png" /></a>
+						</div>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>FIDO Alliance: Standards body, made up of people from different organisations, driving passwordless auth</li>
+								<li>FIDO/FIDO2: Umbrella term for set of protocols used in passwordless auth</li>
+								<li>U2F (CTAP1) / CTAP2: Protocol used between authenticator device and client</li>
+								<li>WebAuthn: W3C standard for authentication between client and relying party (service)</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>How it works - Registration</h1>
+						<a href="https://fidoalliance.org/how-fido-works/" target="_blank"><img src="img/FidoRegistration.png" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Registration</li>
+								<ul>
+									<li>During registration process, request sent to device for public key</li>
+									<li>User performs action on device (fingerprint, PIN, touch) to approve generation and sending of key</li>
+									<li>Unlock data (PIN, biometrics) does not leave the device</li>
+									<li>Device generates keypair; sends public key to service and stores private key with account identifier</li>
+									<li>Service stores public key and associates to your account</li>
+								</ul>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-border">
+						<h1>How it works - Login</h1>
+						<a href="https://fidoalliance.org/how-fido-works/" target="_blank"><img src="img/FidoLogin.png" /></a>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Login</li>
+								<ul>
+									<li>During login process, challenge (random string) and account identifier sent by service</li>
+									<li>User performs action on device (fingerprint, PIN, touch) to verify login attempt</li>
+									<li>Device uses private key, based off account identifier, to sign challenge</li>
+									<li>Signed challenge sent back to service, which verifies using account's public key</li>
+								</ul>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-right">
+						<div style="width: 65%;">
+							<h1>Why it's better</h1>
+							<ul class="list text-align-left">
+								<li>Designed to be phishing resistant</li>
+								<li>No personally identifying data transmitted</li>
+								<li>Device unlock data (PIN, biometrics) doesn't leave the device</li>
+							</ul>
+							<a href="https://krebsonsecurity.com/2018/07/google-security-keys-neutralized-employee-phishing/" target="_blank"><img src="img/KrebsGoogle.png"  style="margin-top: 100px;" /></a>
+						</div>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Designed to be phishing resistant</li>
+								<li>No personally identifying data transmitted</li>
+								<li>Device unlock data (PIN, biometrics) doesn't leave the device</li>
+								<li>KrebsOnSecurity: "Google has not had any of its 85,000+ employees successfully phished on their work-related accounts since early 2017"</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section class="gradient-right">
+						<div style="width: 65%;">
+							<h1>Weaknesses</h1>
+							<ul class="list text-align-left">
+								<li>Reliant on a physical item</li>
+								<li>Configuration</li>
+							</ul>
+						</div>
+
+						<img class="devday-logo" src="img/DevDayCombined.png" />
+						<aside class="notes">
+							<ul>
+								<li>Reliant on a physical item, can be stolen or damaged</li>
+								<li>Needs to be properly configured (otherwise vulnerable to MitM attack)</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+
+				<section id="demo-slide" class="full-height orange gradient-border">
+					<h1>Demo</h1>
+					<img src="img/Demo.jpg" />
+
+					<img class="devday-logo" src="img/DevDayCombined.png" />
+					<aside class="notes">
+						<ul>
+							<li><pre>docker run --rm -p 9005:9005 duolabs/webauthn.io</pre></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="full-height green gradient-right">
+					<div style="width: 65%;">
+							<h1>How to start?</h1>
+							<ul class="list text-align-left">
+								<li>Authenication keys</li>
+								<li>Platform authenticators</li>
+								<ul>
+									<li>Android phones</li>
+									<li>Windows Hello</li>
+								</ul>
+								<li><a href="https://fidoalliance.org/certification/fido-certified-products/" target="_blank">https://fidoalliance.org/certification/fido-certified-products/</a></li>
+								<li><a href="https://www.dongleauth.info/" target="_blank">https://www.dongleauth.info/</a></li>
+							</ul>
+					</div>
+
+					<img class="devday-logo" src="img/DevDayCombined.png" />
+					<aside class="notes">
+						<ul>
+							<li>Authenication keys: Get from amazon, local "offical" resellers are not competitively priced.</li>
+							<li>Use your Android phone (7.0+) as a bluetooth authenticator</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section id="references-slide" class="full-height light-blue gradient-right">
+					<div style="width: 65%;">
+						<h1>References</h1>
+						<ul class="list text-align-left" style="font-size: 2.0rem;">
+							<li><a href="https://fidoalliance.org/" target="_blank">https://fidoalliance.org/</a></li>
+							<li><a href="https://webauthn.io/" target="_blank">https://webauthn.io/</a></li>
+							<li><a href="https://webauthn.guide/" target="_blank">https://webauthn.guide/</a></li>
+							<li><a href="https://www.troyhunt.com/beyond-passwords-2fa-u2f-and-google-advanced-protection/" target="_blank">https://www.troyhunt.com/beyond-passwords-2fa-u2f-and-google-advanced-protection/</a></li>
+							<li><a href="https://www.slideshare.net/FIDOAlliance/webauthn-and-security-keys-126400301/" target="_blank">https://www.slideshare.net/FIDOAlliance/webauthn-and-security-keys-126400301/</a></li>
+							<li><a href="https://www.cloudflare.com/learning/security/threats/phishing-attack/" target="_blank">https://www.cloudflare.com/learning/security/threats/phishing-attack/</a></li>
+							<li><a href="https://techcrunch.com/2019/09/26/doordash-data-breach/" target="_blank">https://techcrunch.com/2019/09/26/doordash-data-breach/</a></li>
+							<li><a href="https://www.forbes.com/sites/daveywinder/2019/09/05/facebook-security-snafu-exposes-419-million-user-phone-numbers/" target="_blank">https://www.forbes.com/sites/daveywinder/2019/09/05/facebook-security-snafu-exposes-419-million-user-phone-numbers/</a></li>
+							<li><a href="https://www.forbes.com/sites/kateoflahertyuk/2019/02/12/hackers-have-just-put-620-million-online-account-details-up-for-sale-is-yours-on-the-list/" target="_blank">https://www.forbes.com/sites/kateoflahertyuk/2019/02/12/hackers-have-just-put-620-million-online-account-details-up-for-sale-is-yours-on-the-list/</a></li>
+							<li><a href="https://haveibeenpwned.com/" target="_blank">https://haveibeenpwned.com/</a></li>
+							<li><a href="https://krebsonsecurity.com/2018/07/google-security-keys-neutralized-employee-phishing/" target="_blank">https://krebsonsecurity.com/2018/07/google-security-keys-neutralized-employee-phishing/</a></li>
+							<li><a href="https://www.technologyreview.com/f/614163/data-leak-exposes-unchangeable-biometric-data-of-over-1-million-people/" target="_blank">https://www.technologyreview.com/f/614163/data-leak-exposes-unchangeable-biometric-data-of-over-1-million-people/</a></li>
+							<li><a href="https://pixabay.com/" target="_blank">https://pixabay.com/</a> (Images)</li>
+							<li><a href="https://commons.wikimedia.org/" target="_blank">https://commons.wikimedia.org/</a> (Images)</li>
+						</ul>
+					</div>
+
+					<img class="devday-logo" src="img/DevDayCombined.png" />
+				</section>
+
+				<section id="qa-slide" data-background-image="/img/cover-background.png">
+					<h1 class="text-align-right margin-right-10">Q&A</h1>
+					<h2 class="text-align-right margin-right-10">Also, you can find me at:</h2>
+					<h3 class="text-align-right margin-right-10"><a href="https://twitter.com/jsingmin_dev/" target="_blank"><img src="img/Twitter.png" class="contact-icon" /></a>jsingmin_dev</h3>
+					<h3 class="text-align-right margin-right-10"><a href="https://github.com/jsingmin/" target="_blank"><img src="img/GitHub.png" class="contact-icon" /></a>jsingmin</h3>
+				</section>
 			</div>
 		</div>
 
 		<script src="js/reveal.js"></script>
-
 		<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
@@ -42,7 +369,15 @@
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true }
-				]
+				],
+				width: "100%",
+				height: "100%",
+				margin: 0,
+				minScale: 1,
+				maxScale: 1,
+				center: false,
+				controls: false,
+				progress: false,
 			});
 		</script>
 	</body>
