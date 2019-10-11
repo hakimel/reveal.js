@@ -1,3 +1,4 @@
 [submodule "docker-stuff"]
 	path = docker-stuff
 	url = https://github.com/cubantech/docker-stuff
+	branch = gh-pages
