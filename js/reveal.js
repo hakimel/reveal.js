@@ -447,7 +447,8 @@
 	 */
 	function checkCapabilities() {
 
-		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( UA );
+		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( UA ) ||
+							( navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 ); // iPadOS
 		isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 
 		var testElement = document.createElement( 'div' );
