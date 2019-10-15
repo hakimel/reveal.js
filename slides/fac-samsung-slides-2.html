@@ -17,13 +17,13 @@
 
     <!-- Printing and PDF exports -->
     <script>
-      var link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.type = "text/css";
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
       link.href = window.location.search.match(/print-pdf/gi)
-        ? "../css/print/pdf.css"
-        : "../css/print/paper.css";
-      document.getElementsByTagName("head")[0].appendChild(link);
+        ? '../css/print/pdf.css'
+        : '../css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
     </script>
 
     <style>
@@ -174,51 +174,44 @@
 
         <!-- Quick Tips -->
         <section>
-          <h3>
-            <span class="bigunderline"
-              >The most important rule of Web Development</span
-            >
-          </h3>
-          <p class="fragment">
-            If in doubt:
-          </p>
-
-          <p class="fragment"><span class="bigunderline">GOOGLE IT</span></p>
+          <p>What's the most important rule of Web Development?</p>
+          <h2 class="fragment">
+            If in doubt: <br />
+            <span class="bigunderline">GOOGLE IT</span>
+          </h2>
           <p class="fragment">
             (or ask someone!)
           </p>
           <p class="fragment">
-            "how to add a background image to title css"
+            "how to add a background image with css"
           </p>
 
           <aside class="notes" data-markdown>
             <textarea data-template>
-                        Just as there are no stupid questions, there are no stupid Google queries
-                    </textarea
-            >
+              Just as there are no stupid questions, there are no stupid Google queries
+            </textarea>
           </aside>
         </section>
 
         <section data-background-color="#0805ec">
-          <h3>The plan for today!</h3>
-          <p class="rf">Create a digital business card</p>
+          <h2>The plan for today!</h2>
+          <p class="rf">Use CSS animations in a basic tribute page</p>
           <p
             class="codepen fragment"
             data-height="399"
             data-theme-id="0"
             data-default-tab="result"
-            data-user="Oliversw"
-            data-slug-hash="poovzWr"
+            data-user="teenie-quaggard"
+            data-slug-hash="qBBZbWw"
             style="height: 399px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
-            data-pen-title="Workshop Draft"
+            data-pen-title="CSS"
           >
             <span
               >See the Pen
-              <a href="https://codepen.io/Oliversw/pen/poovzWr">
-                Workshop Draft</a
-              >
-              by Oliver (<a href="https://codepen.io/Oliversw">@Oliversw</a>) on
-              <a href="https://codepen.io">CodePen</a>.</span
+              <a href="https://codepen.io/teenie-quaggard/pen/qBBZbWw"> CSS</a>
+              by Kristina (<a href="https://codepen.io/teenie-quaggard"
+                >@teenie-quaggard</a
+              >) on <a href="https://codepen.io">CodePen</a>.</span
             >
           </p>
           <script
@@ -228,8 +221,11 @@
         </section>
 
         <section>
-          <span class="bigunderline">
-            <a href="https://codepen.io/Oliversw/pen/poovzWr" target="_blank">www.codepen.com</a>
+          Fork <br />
+          <span class="bigunderline"
+            ><a href="https://codepen.io/teenie-quaggard/pen/qBBZbWw" target="_blank"
+              >https://codepen.io/teenie-quaggard/pen/qBBZbWw</a
+            >
           </span>
         </section>
 
@@ -264,14 +260,14 @@
         progress: true,
         history: true,
         center: true,
-        transition: "slide", // none/fade/slide/convex/concave/zoom
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
 
         dependencies: [
-          { src: "../plugin/markdown/marked.js" },
-          { src: "../plugin/markdown/markdown.js" },
-          { src: "../plugin/notes/notes.js", async: true },
+          { src: '../plugin/markdown/marked.js' },
+          { src: '../plugin/markdown/markdown.js' },
+          { src: '../plugin/notes/notes.js', async: true },
           {
-            src: "../plugin/highlight/highlight.js",
+            src: '../plugin/highlight/highlight.js',
             async: true,
             callback: function() {
               hljs.initHighlightingOnLoad();
