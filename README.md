@@ -729,6 +729,16 @@ All CSS color formats are supported, including hex values, keywords, `rgba()` or
 </section>
 ```
 
+#### Gradient Backgrounds
+
+All CSS gradient formats are supported.
+
+```html
+<section data-background-gradient="linear-gradient(to bottom, #ddd, #191919)">
+	<h2>Gradient</h2>
+</section>
+```
+
 #### Image Backgrounds
 
 By default, background images are resized to cover the full page. Available options:
