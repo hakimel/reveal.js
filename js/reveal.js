@@ -1180,6 +1180,7 @@
 			backgroundVideo: slide.getAttribute( 'data-background-video' ),
 			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
+			backgroundGradient: slide.getAttribute( 'data-background-gradient' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
 			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
@@ -1199,9 +1200,10 @@
 		// Create a hash for this combination of background settings.
 		// This is used to determine when two slide backgrounds are
 		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
+		if( data.background || data.backgroundGradient || data.backgroundColor || data.backgroundGradient || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
 			element.setAttribute( 'data-background-hash', data.background +
 															data.backgroundSize +
+															data.backgroundGradient +
 															data.backgroundImage +
 															data.backgroundVideo +
 															data.backgroundIframe +
@@ -1218,6 +1220,7 @@
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
 		// Background image options are set on the content wrapper
+		if (data.backgroundGradient) contentElement.style.backgroundImage = data.backgroundGradient;
 		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
 		if( data.backgroundRepeat ) contentElement.style.backgroundRepeat = data.backgroundRepeat;
 		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
