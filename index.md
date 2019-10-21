@@ -46,3 +46,4 @@ FACxSamsungxTimeout
 
 - [Workshop week 1](/slides/fac-samsung-slides-1.html)
 - [Workshop week 2](/slides/fac-samsung-slides-2.html)
+- [Workshop week 2](/slides/fac-samsung-slides-3.html)
