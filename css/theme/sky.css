@@ -11,6 +11,31 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #f7fbfc;
+  --main-font: Open Sans, sans-serif;
+  --main-font-size: 40px;
+  --main-color: #333;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: Quicksand, sans-serif;
+  --heading-color: #333;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: -0.08em;
+  --heading-text-transform: uppercase;
+  --heading-text-shadow: none;
+  --heading-font-weight: normal;
+  --heading1-text-shadow: none;
+  --heading1-size: 3.77em;
+  --heading2-size: 2.11em;
+  --heading3-size: 1.55em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #3b759e;
+  --link-color-hover: #74a7cb;
+  --selection-background-color: #134674;
+  --selection-color: #fff; }
+
 body {
   background: #add9e4;
   background: -moz-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);

@@ -13,6 +13,31 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #fff;
+  --main-font: Lato, sans-serif;
+  --main-font-size: 40px;
+  --main-color: #000;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: News Cycle, Impact, sans-serif;
+  --heading-color: #000;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: normal;
+  --heading-text-transform: none;
+  --heading-text-shadow: none;
+  --heading-font-weight: normal;
+  --heading1-text-shadow: none;
+  --heading1-size: 3.77em;
+  --heading2-size: 2.11em;
+  --heading3-size: 1.55em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #00008B;
+  --link-color-hover: #0000f1;
+  --selection-background-color: rgba(0, 0, 0, 0.99);
+  --selection-color: #fff; }
+
 body {
   background: #fff;
   background-color: #fff; }

@@ -14,6 +14,31 @@ html * {
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #fdf6e3;
+  --main-font: Lato, sans-serif;
+  --main-font-size: 40px;
+  --main-color: #657b83;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: League Gothic, Impact, sans-serif;
+  --heading-color: #586e75;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: normal;
+  --heading-text-transform: uppercase;
+  --heading-text-shadow: none;
+  --heading-font-weight: normal;
+  --heading1-text-shadow: none;
+  --heading1-size: 3.77em;
+  --heading2-size: 2.11em;
+  --heading3-size: 1.55em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #268bd2;
+  --link-color-hover: #78b9e6;
+  --selection-background-color: #d33682;
+  --selection-color: #fff; }
+
 body {
   background: #fdf6e3;
   background-color: #fdf6e3; }

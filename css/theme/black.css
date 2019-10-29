@@ -10,6 +10,31 @@ section.has-light-background, section.has-light-background h1, section.has-light
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #191919;
+  --main-font: Source Sans Pro, Helvetica, sans-serif;
+  --main-font-size: 42px;
+  --main-color: #fff;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: Source Sans Pro, Helvetica, sans-serif;
+  --heading-color: #fff;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: normal;
+  --heading-text-transform: uppercase;
+  --heading-text-shadow: none;
+  --heading-font-weight: 600;
+  --heading1-text-shadow: none;
+  --heading1-size: 2.5em;
+  --heading2-size: 1.6em;
+  --heading3-size: 1.3em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #42affa;
+  --link-color-hover: #8dcffc;
+  --selection-background-color: #bee4fd;
+  --selection-color: #fff; }
+
 body {
   background: #191919;
   background-color: #191919; }

@@ -10,6 +10,31 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #F0F1EB;
+  --main-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
+  --main-font-size: 40px;
+  --main-color: #000;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
+  --heading-color: #383D3D;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: normal;
+  --heading-text-transform: none;
+  --heading-text-shadow: none;
+  --heading-font-weight: normal;
+  --heading1-text-shadow: none;
+  --heading1-size: 3.77em;
+  --heading2-size: 2.11em;
+  --heading3-size: 1.55em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #51483D;
+  --link-color-hover: #8b7c69;
+  --selection-background-color: #26351C;
+  --selection-color: #fff; }
+
 body {
   background: #F0F1EB;
   background-color: #F0F1EB; }
