@@ -1201,6 +1201,7 @@ Each theme is available as a separate stylesheet. To change theme you will need 
 
 If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
 
+All theme variables are exposed as CSS custom properties in the pseudo-class `:root`. See [the list of exposed variables](https://github.com/hakimel/reveal.js/blob/master/css/theme/template/exposer.scss).
 
 ## Speaker Notes
 
