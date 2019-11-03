@@ -76,7 +76,7 @@ body {
     -webkit-transform: scale(0.7);
             transform: scale(0.7); }
 
-.reveal .slides section span.fragment.grow.visible {
+.reveal .slides section span.fragment.shrink.visible {
   font-size: 70%;
 }        
       
