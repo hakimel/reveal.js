@@ -180,7 +180,7 @@ export default function( revealElement, options ) {
 
 		// Flags if we should use zoom instead of transform to scale
 		// up slides. Zoom produces crisper results but has a lot of
-		// xbrowser quirks so we only use it in whitelsited browsers.
+		// xbrowser quirks so we only use it in white-listed browsers.
 		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
 						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
