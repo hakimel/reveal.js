@@ -476,11 +476,12 @@
 
 		// Flags if we should use zoom instead of transform to scale
 		// up slides. Zoom produces crisper results but has a lot of
-		// xbrowser quirks so we only use it in whitelsited browsers.
+		// xbrowser quirks so we only use it in white-listed browsers.
 		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
 						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
 	}
+
 
 	/**
 	 * Loads the dependencies of reveal.js. Dependencies are
@@ -511,7 +512,8 @@
 
 			// Load synchronous scripts
 			scripts.forEach( function( s ) {
-				loadScript( s.src, function() {
+				if (s.id) {
+					registerPlugin(s.id, s.plugin);
 
 					if( typeof s.callback === 'function' ) s.callback();
 
@@ -519,7 +521,17 @@
 						initPlugins();
 					}
 
-				} );
+				} else {
+					loadScript( s.src, function() {
+
+					if( typeof s.callback === 'function' ) s.callback();
+
+					if( --scriptsToLoad === 0 ) {
+						initPlugins();
+					}
+
+					} );
+				}
 			} );
 		}
 		else {
@@ -582,7 +594,17 @@
 
 		if( asyncDependencies.length ) {
 			asyncDependencies.forEach( function( s ) {
-				loadScript( s.src, s.callback );
+				if (s.id) {
+					registerPlugin(s.id, s.plugin);
+					if (typeof s.plugin.init === 'function') {
+						s.plugin.init();
+					}
+					if (typeof s.callback === 'function') {
+						s.callback();
+					}
+				} else {
+					loadScript( s.src, s.callback );
+				}
 			} );
 		}
 
