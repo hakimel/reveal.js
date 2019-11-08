@@ -53,6 +53,13 @@ module.exports = grunt => {
 				src: ['*.sass', '*.scss'],
 				dest: 'css/theme',
 				ext: '.css'
+			},
+			print: {
+				expand: true,
+				cwd: 'css/print',
+				src: ['*.sass', '*.scss'],
+				dest: 'css/print',
+				ext: '.css'
 			}
 		},
 
@@ -173,6 +180,9 @@ module.exports = grunt => {
 
 	// Core framework CSS
 	grunt.registerTask( 'css-core', [ 'sass:core', 'autoprefixer', 'cssmin' ] );
+
+	// Print CSS
+	grunt.registerTask( 'css-print', [ 'sass:print', 'autoprefixer', 'cssmin' ] );
 
 	// All CSS
 	grunt.registerTask( 'css', [ 'sass', 'autoprefixer', 'cssmin' ] );

@@ -4,161 +4,120 @@
  *
  * https://github.com/hakimel/reveal.js#pdf-export
  */
-
-* {
-	-webkit-print-color-adjust: exact;
-}
-
-body {
-	margin: 0 auto !important;
-	border: 0;
-	padding: 0;
-	float: none !important;
-	overflow: visible;
-}
-
-html {
-	width: 100%;
-	height: 100%;
-	overflow: visible;
-}
-
-/* Remove any elements not needed in print. */
-.nestedarrow,
-.reveal .controls,
-.reveal .progress,
-.reveal .playback,
-.reveal.overview,
-.fork-reveal,
-.share-reveal,
-.state-background {
-	display: none !important;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	text-shadow: 0 0 0 #000 !important;
-}
-
-.reveal pre code {
-	overflow: hidden !important;
-	font-family: Courier, 'Courier New', monospace !important;
-}
-
-ul, ol, div, p {
-	visibility: visible;
-	position: static;
-	width: auto;
-	height: auto;
-	display: block;
-	overflow: visible;
-	margin: auto;
-}
-.reveal {
-	width: auto !important;
-	height: auto !important;
-	overflow: hidden !important;
-}
-.reveal .slides {
-	position: static;
-	width: 100% !important;
-	height: auto !important;
-	zoom: 1 !important;
-
-	left: auto;
-	top: auto;
-	margin: 0 !important;
-	padding: 0 !important;
-
-	overflow: visible;
-	display: block;
-
-	perspective: none;
-	perspective-origin: 50% 50%;
-}
-
-.reveal .slides .pdf-page {
-	position: relative;
-	overflow: hidden;
-	z-index: 1;
-
-	page-break-after: always;
-}
-
-.reveal .slides section {
-	visibility: visible !important;
-	display: block !important;
-	position: absolute !important;
-
-	margin: 0 !important;
-	padding: 0 !important;
-	box-sizing: border-box !important;
-	min-height: 1px;
-
-	opacity: 1 !important;
-
-	transform-style: flat !important;
-	transform: none !important;
-}
-
-.reveal section.stack {
-	position: relative !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	page-break-after: avoid !important;
-	height: auto !important;
-	min-height: auto !important;
-}
-
-.reveal img {
-	box-shadow: none;
-}
-
-.reveal .roll {
-	overflow: visible;
-	line-height: 1em;
-}
-
-/* Slide backgrounds are placed inside of their slide when exporting to PDF */
-.reveal .slide-background {
-	display: block !important;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: auto !important;
-}
-
-/* Display slide speaker notes when 'showNotes' is enabled */
-.reveal.show-notes {
-	max-width: none;
-	max-height: none;
-}
-.reveal .speaker-notes-pdf {
-	display: block;
-	width: 100%;
-	height: auto;
-	max-height: none;
-	top: auto;
-	right: auto;
-	bottom: auto;
-	left: auto;
-	z-index: 100;
-}
-
-/* Layout option which makes notes appear on a separate page */
-.reveal .speaker-notes-pdf[data-layout="separate-page"] {
-	position: relative;
-	color: inherit;
-	background-color: transparent;
-	padding: 20px;
-	page-break-after: always;
-	border: 0;
-}
-
-/* Display slide numbers when 'slideNumber' is enabled */
-.reveal .slide-number-pdf {
-	display: block;
-	position: absolute;
-	font-size: 14px;
-}
+html.print-pdf {
+  /* Remove any elements not needed in print. */
+  /* Slide backgrounds are placed inside of their slide when exporting to PDF */
+  /* Display slide speaker notes when 'showNotes' is enabled */
+  /* Layout option which makes notes appear on a separate page */
+  /* Display slide numbers when 'slideNumber' is enabled */ }
+  html.print-pdf * {
+    -webkit-print-color-adjust: exact; }
+  html.print-pdf body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible; }
+  html.print-pdf {
+    width: 100%;
+    height: 100%;
+    overflow: visible; }
+  html.print-pdf .nestedarrow,
+  html.print-pdf .reveal .controls,
+  html.print-pdf .reveal .progress,
+  html.print-pdf .reveal .playback,
+  html.print-pdf .reveal.overview,
+  html.print-pdf .fork-reveal,
+  html.print-pdf .share-reveal,
+  html.print-pdf .state-background {
+    display: none !important; }
+  html.print-pdf h1, html.print-pdf h2, html.print-pdf h3, html.print-pdf h4, html.print-pdf h5, html.print-pdf h6 {
+    text-shadow: 0 0 0 #000 !important; }
+  html.print-pdf .reveal pre code {
+    overflow: hidden !important;
+    font-family: Courier, 'Courier New', monospace !important; }
+  html.print-pdf ul, html.print-pdf ol, html.print-pdf div, html.print-pdf p {
+    visibility: visible;
+    position: static;
+    width: auto;
+    height: auto;
+    display: block;
+    overflow: visible;
+    margin: auto; }
+  html.print-pdf .reveal {
+    width: auto !important;
+    height: auto !important;
+    overflow: hidden !important; }
+  html.print-pdf .reveal .slides {
+    position: static;
+    width: 100% !important;
+    height: auto !important;
+    zoom: 1 !important;
+    left: auto;
+    top: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible;
+    display: block;
+    perspective: none;
+    perspective-origin: 50% 50%; }
+  html.print-pdf .reveal .slides .pdf-page {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    page-break-after: always; }
+  html.print-pdf .reveal .slides section {
+    visibility: visible !important;
+    display: block !important;
+    position: absolute !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    min-height: 1px;
+    opacity: 1 !important;
+    transform-style: flat !important;
+    transform: none !important; }
+  html.print-pdf .reveal section.stack {
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+    height: auto !important;
+    min-height: auto !important; }
+  html.print-pdf .reveal img {
+    box-shadow: none; }
+  html.print-pdf .reveal .roll {
+    overflow: visible;
+    line-height: 1em; }
+  html.print-pdf .reveal .slide-background {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: auto !important; }
+  html.print-pdf .reveal.show-notes {
+    max-width: none;
+    max-height: none; }
+  html.print-pdf .reveal .speaker-notes-pdf {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: 100; }
+  html.print-pdf .reveal .speaker-notes-pdf[data-layout="separate-page"] {
+    position: relative;
+    color: inherit;
+    background-color: transparent;
+    padding: 20px;
+    page-break-after: always;
+    border: 0; }
+  html.print-pdf .reveal .slide-number-pdf {
+    display: block;
+    position: absolute;
+    font-size: 14px; }
