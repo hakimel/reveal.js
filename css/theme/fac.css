@@ -31,6 +31,11 @@ section.has-dark-background a, section.has-dark-background a.link, section.has-d
   font-weight: bold;
   font-weight: 600 !important; }
 
+.reveal .block-bottom { 
+    position: fixed !important;
+    bottom: 0;
+}
+
 .reveal blockquote {
   padding: 16px !important;
   font-weight: 400 !important;
