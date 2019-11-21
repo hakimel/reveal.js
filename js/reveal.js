@@ -1254,6 +1254,20 @@
 
 	}
 
+	function HandleMessage(event){
+		var data = event.data;
+
+		// Make sure we're dealing with JSON
+		if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
+			data = JSON.parse( data );
+
+			// Check if the requested method can be found
+			if( data.method && typeof Reveal[data.method] === 'function' ) {
+				Reveal[data.method].apply( Reveal, data.args );
+			}
+		}
+	}
+
 	/**
 	 * Registers a listener to postMessage events, this makes it
 	 * possible to call all reveal.js API methods from another
@@ -1267,19 +1281,7 @@
 	function setupPostMessage() {
 
 		if( config.postMessage ) {
-			window.addEventListener( 'message', function ( event ) {
-				var data = event.data;
-
-				// Make sure we're dealing with JSON
-				if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
-					data = JSON.parse( data );
-
-					// Check if the requested method can be found
-					if( data.method && typeof Reveal[data.method] === 'function' ) {
-						Reveal[data.method].apply( Reveal, data.args );
-					}
-				}
-			}, false );
+			window.addEventListener( 'message', HandleMessage, false );
 		}
 
 	}
@@ -1577,6 +1579,19 @@
 			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
 		} );
 
+	}
+
+	/**
+	 * Remove all event listeners.
+	 */
+	function recycle() {
+		window.removeEventListener( 'load', layout, false )
+		window.removeEventListener( 'load', setupPDF );
+		window.removeEventListener( 'message', HandleMessage, false );
+		window.removeEventListener( 'hashchange', onWindowHashChange, false );
+		window.removeEventListener( 'resize', onWindowResize, false );
+		window.removeEventListener( 'load', removeAddressBar, false );
+		window.removeEventListener( 'orientationchange', removeAddressBar, false );
 	}
 
 	/**
@@ -5872,6 +5887,7 @@
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners: addEventListeners,
 		removeEventListeners: removeEventListeners,
+		recycle: recycle,
 
 		// Facility for persisting and restoring the presentation state
 		getState: getState,
