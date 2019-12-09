@@ -270,8 +270,9 @@
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
-			// Number of slides away from the current that are visible on mobile devices
-			// It is advisable to set this to a lower number than viewDistance in order to save resources
+			// Number of slides away from the current that are visible on mobile
+			// devices. It is advisable to set this to a lower number than
+			// viewDistance in order to save resources.
 			mobileViewDistance: 2,
 
 			// The display mode that will be used to show slides
@@ -3288,7 +3289,8 @@
 			// be visible
 			var viewDistance = isOverview() ? 10 : config.viewDistance;
 
-			// Limit view distance on weaker devices
+			// Shorten the view distance on devices that typically have
+			// less resources
 			if( isMobileDevice ) {
 				viewDistance = isOverview() ? 6 : config.mobileViewDistance;
 			}

@@ -382,6 +382,11 @@ Reveal.initialize({
 	// Number of slides away from the current that are visible
 	viewDistance: 3,
 
+	// Number of slides away from the current that are visible on mobile
+	// devices. It is advisable to set this to a lower number than
+	// viewDistance in order to save resources.
+	mobileViewDistance: 2,
+
 	// Parallax background image
 	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
 
