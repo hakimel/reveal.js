@@ -270,6 +270,10 @@
 			// Number of slides away from the current that are visible
 			viewDistance: 3,
 
+			// Number of slides away from the current that are visible on mobile devices
+			// It is advisable to set this to a lower number than viewDistance in order to save resources
+			mobileViewDistance: 2,
+
 			// The display mode that will be used to show slides
 			display: 'block',
 
@@ -3286,7 +3290,7 @@
 
 			// Limit view distance on weaker devices
 			if( isMobileDevice ) {
-				viewDistance = isOverview() ? 6 : 2;
+				viewDistance = isOverview() ? 6 : config.mobileViewDistance;
 			}
 
 			// All slides need to be visible when exporting to PDF
