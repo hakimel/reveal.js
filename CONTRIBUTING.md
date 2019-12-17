@@ -1,3 +1,4 @@
+CONTRIBUTING.md
 ## Contributing
 
 Please keep the [issue tracker](http://github.com/hakimel/reveal.js/issues) limited to **bug reports**, **feature requests** and **pull requests**.
