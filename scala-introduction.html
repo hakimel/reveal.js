@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to Scala</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/atom-dark-one.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-transition="fade">
+					<h1>						
+						<!-- <iframe data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:none solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> -->
+                        Scala - Better Java? 
+                        <img width="150" height="200" style="border:none; background-color:transparent" data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" > 
+					</h1>
+					<h2>Or...Why should I use it?</h2>
+					<p>
+						<small> <a href="http://twitter.com/matankdr">Matan Keidar</a> <a href="http://pipl.com">Pipl</a></small>
+					</p>
+				</section>
+
+                <section>
+                    <ul>
+                        <li>Why Scala?</li>
+                        <li>How Scala?</li>
+                        <li>High order function (+ currying)</li>
+                        <li>Java interop</li>
+                        <li>traits</li>
+                        <li>type inference</li>
+                        <li>pattern matching</li>
+                        <li>concurrency </li>
+                        <li>implicit classes</li>
+                        <li>case classes</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Why Scala?</h2>
+                    <ul>
+                        <li>Expressive
+                            <ul>
+                                <li>Functions are first class citizens</li>
+                                <li>Closures</li>
+                            </ul>
+                        </li>
+                        <li>Concise
+                            <ul>
+                                <li>Type inference</li>
+                                <li>Literal syntax for function creation</li>
+                            </ul>
+                        </li>
+                        <li>Java interoperability 
+                            <ul>
+                                <li>Can reuse Java libraries</li>
+                                <li>Can reuse Java tools</li>
+                                <li>No performance penalty</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+<section>
+    <h2>Pattern Matching</h2>
+    <ul>
+        <li>Case classes represent structural data types</li>
+        <li>Implicitly generate <code>toString</code>, <code>equals</code> and <code>hashCode</code></li>
+    </ul>
+</section>
+<section>
+	<h2>Concise Syntax!</h2>
+	<pre><code class="java" data-trim>
+		// Java
+		public class Pizza {
+		  private String topping = "";
+		  private int size = 1;
+		
+		  public Pizza(String topping, int size) {
+		    this.setTopping(topping);
+		    this.setSize(size);
+		  }  
+		}    
+	</code></pre>
+</section>
+<section>
+	<h2>Concise Syntax!</h2>
+	<pre><code class="java" data-trim>
+		public Boolean getTopping() {
+		  return topping;
+		}
+		
+		public void setTopping(String topping) {
+		  this.topping = topping;
+		}
+		public Boolean getSize() {
+		  return size;
+		}
+		  
+		public void setSize(int size) {
+		  this.size = size;
+		}
+	</code></pre>
+</section>
+<section>
+	<h2>Less Boilerplate</h2>
+	<pre><code class="scala" data-trim>
+		// Scala
+		class Pizza(var topping: String, var size: Integer)
+	</code></pre>
+</section>
+<section>
+	<h2>Less Boilerplate</h2>
+	<pre><code class="scala" data-trim>
+		// Scala
+		class Pizza(var topping: String, private var _size: Integer) {
+		  def size  = _size // getter for size
+		  def size_ =(newSize: Integer) { // setter for size
+		    println(s"changing size to $newSize")
+		    _size = newSize
+		  }
+		}
+	</code></pre>
+</section>
+
+<section>
+	<h2>Variables vs. Values</h2>
+	<pre><code class="scala" data-trim>
+		// variable
+		var foo = "foo"
+		foo = "bar" //compiles
+
+		// value
+		val bar = "bar"
+		bar = "foo" // compilation error
+	</code></pre>
+</section>
+
+<section>
+	<h2>Scala is Object Oriented</h2>
+	<pre><code class="scala">
+		// every value is an object
+		1.toString
+
+		// every operation is a method call
+		1 + 2 + 3 == (1).+(2).+(3)
+
+		// can omit . and ()
+		"abc" charAt 1 == "abc".charAt(1)
+	</code></pre>
+</section>
+
+<section>
+	<h2>Singleton Objects</h2>
+	<ul>
+		<li>Replaces static methods from Java</li>
+		<li>Can extend/implement classes and traits (interfaces)</li>
+	</ul> 
+	<pre><code class="scala" data-trim>
+		Object Math {
+		  def square(x: Double) = x * x
+		}
+
+		Math.square(5.0)
+		// 25.0
+	</code></pre>
+</section>
+
+<section>
+	<h2>Scala is Functional</h2>
+
+	<pre><code clas="scala" data-trim>
+		// Lightweight anonymous functions
+		val addOne = (x: Int) => x + 1
+
+		// Calling the anonymous function
+		addOne(4) // returns 5
+	</code></pre>
+</section>
+
+<section>
+	<h2>Closures</h2>
+	<pre><code clas="scala" data-trim>
+		// plusFoo can reference any values/variables in scope
+		var foo = 1
+		val plusFoo = (x: Int) => x + foo
+ 
+		plusFoo(5) // returns 6 
+		
+		// changing foo affects the return value of plusFoo
+		foo = 5
+		plusFoo(5) // returns 10
+	</code></pre>
+</section>
+
+<section>
+	<h2>Higher Order Functions</h2>
+	<pre><code class="scala" data-trim>
+		val plusOne = (x: Int) => x + 1
+		val nums = List(1,2,3)
+
+		// map takes a function: Int => T
+		nums.map(plusOne)
+
+		// Inline anonymous
+		nums.map(x => x + 1)
+
+		// Short form 😎
+		nums.map(_ + 1)
+	</code></pre>
+</section>
+
+<section>
+	<h2>Higher Order Functions</h2>
+	<pre><code class="scala" data-trim>
+		// A few more examples for List class
+		val nums = List(1,2,3,4)
+
+		nums.exists(_ == 2) // true
+		nums.find(_ == 2) // Some(2)
+		nums.indexWhere
+
+		// Inline anonymous
+		nums.map(x => x + 1)
+
+		// Short form 😎
+		nums.map(_ + 1)
+	</code></pre>
+</section>
+
+<section>
+	<h2>Concise Syntax!</h2>
+	<pre><code class="scala" data-trim>
+		class Pizza(var tomato: Boolean, var cheese: Boolean)
+	</code></pre>
+	<ul>
+		<li>Everything is public by default</li>
+		<li>Types are defined <b><i>after</i></b> parameters</li>
+		<li>Specify default values if needed</li>
+		<li>Member variables are private by default</li>
+		<li>Setters and Getters are generated</li>
+		<li>No semicolon is needed 🎉</li>
+	</ul>
+</section>
+
+<section>
+	<h2>Creating Objects</h2>
+	<pre><code class="scala" data-trim>
+		val pizza: Pizza = new Pizza(true, false, "HUGE")
+	</code></pre>
+	is the same as
+	<pre><code class="scala" data-trim>
+		val pizza = new Pizza(true, false, "HUGE")
+	</code></pre>
+	is the same as
+	<pre><code class="scala" data-trim>
+	val pizza = new Pizza(
+	  tomato = true, 
+	  cheese = false,
+	  size   = "HUGE"
+	)
+</code></pre>
+</section>
+<section>
+	<h2><code>var != val</code></h2>
+	<pre><code class="scala" data-trim>
+		var secondPizza = new Pizza(true, true, "NORMAL")
+		secondPizza = new Pizza(false, false, "HUGE") // will compile
+
+		val thirdPizza = new Pizza(true, false, "SMALL")
+		thirdPizza = secondPizza // won't compile
+	</code></pre>
+</section>
+
+<section>
+	<h2>Defining Methods</h2>
+	<pre><code class="scala" data-trim>
+		def slice(numPieces: Int): Unit = {
+		  println(s"Pizza is in $numPieces pieces")
+		}
+	</code></pre>
+	<ul>
+		<li>Method starts with a <code>def</code></li>
+		<li>Return type is optional (almost always)</li>
+		<li><code>return</code> keyword is optional</li>
+	</ul>
+</section>
+
+<section>
+	<h2>Singletons</h2>
+	<pre><code class="scala" data-trim>
+		object Oven {
+			def cook(pizza: )
+		}
+	</code></pre>
+</section>
+<section>
+	<h2>Higher Level</h2>
+	<pre><code class="java" data-trim>
+		// Java: Check if String contains uppercase character
+		boolean hasUpperCase = false;
+
+		for (int i = 0; i < name.length(); i++) {
+		  if (Character.isUpperCase(name.charAt(i))) {
+		    hasUpperCase = true;
+		    break;
+		  }
+		}
+	</code></pre>
+	<h2 class="fragment">🤦</h2>
+</section>
+<section>
+	<h2>Higher Level</h2>
+	<pre><code class="scala" data-trim>
+		// Scala: Check if String contains uppercase character 
+		val hasUpperCase = name.exists(_.isUpperCase)
+	</code></pre>
+	<h2 class="fragment">😎</h2>
+</section>
+				<section data-transition="zoom">
+					<h2>Towards Scala 3</h2>
+					<ul>
+						<li class="fragment">Scala 2.13 was released! 🎉</li>
+						<li class="fragment">Scala 2.14 will focus on smooth migration to Scala 3:
+							<ul>
+								<li>Feature freeze</li>
+								<li>Defining migration tools</li>
+								<li>Shim old libraries</li>
+								<li>Depracation of old components</li>
+							</ul>
+						</li>
+						<li class="fragment">Scala 3 is planned to be released on fall 2020</li>
+					</ul>
+				</section>
+
+				<section data-transition="convex">
+					<h2>What are Scala 3 Nicest Features?</h2>
+					<ul>
+						<li class="fragment">For beginners 🐣</li>
+						<li class="fragment">For everyday coding 😎</li>
+						<li class="fragment">For experts 🤯</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h1>For Beginners 🐣</h1>
+					</section>
+					<section>
+						<h2>Drop New</h2>
+						<pre><code class="scala" data-trim>
+							class StringBuilder(s: String) {
+							  def this() = this("")
+							}
+	
+							StringBuilder("abc") // same as new StringBuilder("abc")
+							StringBuilder()      // same as new StringBuilder()
+						</code></pre>
+						<p>
+						<ul>
+							<li><b><code>new</code></b> can be omitted from instance creations.</li>
+							<li>Only needed to disambiguate in an <b><code>apply</code></b>.</li>
+							<li>No need to define a case class just to get nice constructor calls</li>
+						</ul>
+					</section>
+	
+					<section>
+						<h2>Toplevel Definitions</h2>
+						<pre><code class="scala" data-trim>
+							package p
+					
+							type Labelled[T] = (String, T)
+							val a: Labelled[Int] = ("count", 1)
+							def b = a._2
+							
+							def hello(name: String) =
+							  println(s"hello, $name")
+						</code></pre>
+						<ul>
+							<li>All kinds of definitions can be written on toplevel.</li>
+							<li>Package objects are no longer needed
+								<ul>
+									<li>Will be phased out.</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Enums</h2>
+						<pre><code class="scala" data-trim>
+						enum Color {
+						  case Red, Green, Blue
+						}
+						</code></pre>
+						
+						<p>Simplest way to define new types with a finite number of values or constructors </p>
+					</section>
+					
+					<section>
+						<h2>Enums</h2>
+						<h3>Scala 2.12 way 😤</h3>
+						<pre><code class="scala" data-trim>
+							object Planet extends Enumeration {
+							  case class Val(m: Double, rad: Double) extends super.Val {
+							    def surfaceGravity = Planet.G * m / (rad * rad)
+							  }
+							
+							  implicit def toPlanetVal(x: Value): Val = x.asInstanceOf[Val]
+	
+							  val G: Double = 6.67300E-11
+							  val MERCURY = Val(3.303e+23, 2.4397e6)
+							  val VENUS   = Val(4.869e+24, 6.0518e6)
+							  val EARTH   = Val(5.976e+24, 6.37814e6)
+							  val MARS    = Val(6.421e+23, 3.3972e6)
+							}
+						</code></pre>
+					</section>
+	
+					<section>				
+						<h2>Enums</h2>
+						<h3>Scala 3 way 😍</h3>
+						<pre><code class="scala" data-trim>
+							enum Planet(m: Double, rad: Double) extends java.lang.Enum {
+							  private final val G = 6.67300E-11
+							  def surfaceGravity = G * m / (rad * rad)
+			
+							  case MERCURY extends Planet(3.303e+23, 2.4397e6)
+							  case VENUS   extends Planet(4.869e+24, 6.0518e6)
+							  case EARTH   extends Planet(5.976e+24, 6.37814e6)
+							  case MARS    extends Planet(6.421e+23, 3.3972e6)
+							}
+						</code></pre>
+						<ul class="fragment">
+							<li>Can have parameters</li>
+							<li>Can define fields and methods</li>
+							<li>Can interop with Java</li>
+						</ul>		
+					</section>
+					<section>				
+						<h2>Enums</h2>		
+						<pre><code class="scala" data-trim>
+							enum Option[+T] { 
+							  case Some(x: T)
+							  case None
+							}
+						</code></pre>
+						<ul>
+							<li>Can have type parameters</li>
+							<li>Making them algebric data types (ADTs)</li>
+						</ul>
+					</section>
+	
+					<section>				
+						<h2>Enums</h2>		
+						<h3>Under the hood: 👇</h3>
+						<pre><code class="scala" data-trim>
+							sealed abstract class Option[+T] {
+							
+							object Option {	
+							  case class Some[+T](x: T) extends Option[T]
+							  
+							  object Some {
+							    def apply[T](x: T): Option[T] = Some(x) 
+							  }
+								
+							  val None = new Option[Nothing] { ... } 
+							}
+						</code></pre>
+						<p>Compiled to hierarchies of case classes and objects.</p>
+					</section>
+	
+					<section>				
+						<h2>Enums</h2>		
+						<pre><code class="scala" data-trim>
+							enum Tree[T] {
+							  case True                 extends Tree[Boolean]
+							  case False                extends Tree[Boolean]
+							  case IsZero(n: Tree[Int]) extends Tree[Boolean]
+							  case Zero                 extends Tree[Int]
+							  case Succ(n: Tree[Int])   extends Tree[Int]
+							  case If(cond: Tree[Boolean],
+							    thenp: Tree[T],
+							    elsep: Tree[T])   extends Tree[T]
+							}
+						</code></pre>
+						<ul>
+							<li>Can be GADTs (generalized ADTs)</li>
+							<li>Cases extend base type with different arguments</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Why Enums? 🤔</h2>
+						<ul>
+							<li class="fragment">Lots of use cases</li>
+								<ul class="fragment">
+									<li>they are becoming more common</li>
+								</ul>
+							<li class="fragment" >Avoids repetitive boiler plate </li>
+							<li class="fragment" >Can grow from very simple to very powerful</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Everyday Coding 😎</h1>
+					</section>
+
+					<section>				
+						<h2>Union Types</h2>		
+						<pre><code class="scala" data-trim>
+							case class Username(name: String)
+							case class Password(hash: Hash)
+
+							def help(id: Username | Password) = {
+							  val user = id match {
+							    case Username(name) => lookupName(name)
+							    case Password(name) => lookupPassword(hash)
+							  }
+							  ...
+							}
+						</code></pre>
+						<ul>
+							<li>Provide ad-hoc combinations of Types</li>
+							<li>Subsetting == Subtyping</li>
+							<li>No boxing overhead 🎉</li>
+						</ul>
+					</section>
+
+					<section>				
+						<h2>Union Types</h2>		
+						<pre><code class="scala" data-trim>
+							type Command = "Click" | "Drag" | "KeyPressed"
+							
+							def handleEvent(kind: Command) = kind match {
+							  case "Click" => mouseClick()
+							  case "Drag"  => moveTo()
+							  case "Click" => keyPressed()
+							}
+						</code></pre>
+						<ul>
+							<li>Works also with singleton types</li>
+							<li>Great for JS interop</li>
+						</ul>
+					</section>
+
+					<section >				
+						<h2>Extension Methods</h2>		
+						<h3>Scala 2.12 😤</h3>
+						<pre><code class="scala" data-trim data-line-numbers>
+							case class Point(x: Double, y: Double)
+
+							implicit class PointOps(p1: Point) {
+							  def +(p2: Point): Point = 
+							    Point(p1.x + p2.x, p1.y + p2.y)
+							}
+
+							val p1 = Point(1.0, 2.0)
+							val p2 = Point(3.0, 4.0)
+
+							println(p1 + p2) // Point(3.0,4.0)
+						</code></pre>
+						
+					</section>
+					<section data-transition="none">				
+							<h2>Extension Methods</h2>		
+							<h3>Scala 2.12 😤</h3>
+							<pre><code class="scala" data-trim data-line-numbers="3-6">
+								case class Point(x: Double, y: Double)
+	
+								implicit class PointOps(p1: Point) {
+								  def +(p2: Point): Point = 
+								    Point(p1.x + p2.x, p1.y + p2.y)
+								}
+	
+								val p1 = Point(1.0, 2.0)
+								val p2 = Point(3.0, 4.0)
+	
+								println(p1 + p2) // Point(3.0,4.0)
+							</code></pre>
+							
+						</section>
+					<section data-transition="zoom">				
+						<h2>Extension Methods</h2>		
+						<h3>Scala 3 😍</h3>
+						<pre><code class="scala" data-trim data-line-numbers="3-8">
+							case class Point(x: Double, y: Double)
+
+							object PointOps {
+							  def (p1: Point) + (p2: Point): Point = 
+							    Point(p1.x + p2.x, p1.y + p2.y)
+							}
+							
+							import PointOps._
+
+							val p1 = Point(1.0, 2.0)
+							val p2 = Point(3.0, 4.0)
+
+							println(p1 + p2) // Point(3.0,4.0)
+						</code></pre>
+						<ul>
+							<li>Replaces <i>Implicit</i> classes</li>
+							<li>Easier to add methods to existing classes</li>
+						</ul>
+					</section>
+
+					<section>				
+						<h2>Delegates</h2>		
+						<pre><code class="scala" data-trim data-trim>
+							trait Ord[T] {
+							  def (x: T) compareTo (y: T): Int
+							  def (x: T) < (y: T) = x.compareTo(y) < 0
+							}
+
+							delegate IntOrd for Ord[Int] {
+							  def (x: Int) compareTo (y: Int) = 
+							    if (x < y) -1 else if (x > y) 1 else 0
+							}
+
+							def maximum[T](xs: List[T]) given Ord[T] = 
+							  xs.reduce((x,y) => if (x < y) y else x)
+						</code></pre>
+						<ul>
+							<li>Replaces <b><code>implicit</code></b> as a modifier</li>
+							<li>Express intent instead of mechanism</li>
+						</ul>
+					</section>
+					<section>				
+						<h2>Delegates under the hood</h2>
+						<h3>Without parame<code>[T]</code>ers:</h3>
+						<pre><code class="scala" data-trim data-trim>
+							delegate IntOrd for Ord[Int] { ... }
+						</code></pre>
+						maps to:
+						<pre><code class="scala" data-trim data-trim>
+							implicit object IntOrd extends Ord[Int] { ... }
+						</code></pre>
+					</section>
+					<section>				
+						<h2>Delegates under the hood</h2>
+						<h3>With parame<code>[T]</code>ers:</h3>
+						<pre><code class="scala" data-trim data-trim>
+						    delegate ListOrd[T] for Ord[List[T]] given (ord: Ord[T]) { ... }
+						</code></pre>
+						maps to:
+						<pre><code class="scala" data-trim data-trim>
+							class ListOrd[T](implicit ord: Ord[T]) extends Ord[List[T]] { 
+							  ... 
+							}
+							
+							final implicit def ListOrd[T](implicit ord: Ord[T]): ListOrd[T] = 
+							  new ListOrd[T]
+							</code></pre>
+					</section>
+					<section>				
+						<h2>Delegates</h2>
+						<pre><code class="scala" data-trim data-trim>
+							trait SemiGroup[T] {
+							  def (x: T) combine (y: T): T
+							}
+
+							trait Monoid[T] extends SemiGroup[T] {
+							  def unit: T
+							}
+
+							delegate for Monoid[String] {
+							  def (x: String) combine (y: String) = x concat y
+							  def unit= ""
+							}
+
+							def sum[T: Monoid](xs: List[T]): T =
+							  xs.foldLeft( the[Monoid[T]].unit )(_ combine _)
+						</code></pre>
+						<ul>
+							<li>Works out of the box with extension methods</li>
+							<li>Provides a nice syntaxfor typeclasses</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Delegates</h2>
+						<h3>Tame Implicit Conversions</h3>
+						<pre><code class="scala" data-trim>
+							implicit def strToToken(str: String): Token = 
+							  new Keyword(str)
+						</code></pre>
+						<h5>What's wrong with it?</h5>
+						<ul>
+							<li class="fragment">Very easy to write vs. how dangerous it is</li>
+							<li class="fragment"><b><code>implicit</code></b> as a modifier will go away
+								<ul>
+									<li>and with it this kind of conversion</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Delegates</h2>
+						Only way to express <b><code>implicit</code></b> conversions <br> 
+						is as a delegate to <b><code>Conversion</code></b> class:
+
+						<pre><code class="scala" data-trim>
+							delegate for Conversion[String, Token] {
+							  def apply(str: String): Token = new KeyWord(str)
+							}
+						</code></pre>
+						Or using an alias delegate:
+						<pre><code class="scala" data-trim>
+							delegate for Conversion[String, Token] =
+							  new KeyWord(_)
+						</code></pre>
+					</section>
+					<section>
+						<h2>Why Delegates?</h2>
+						<ul>
+							<li><b><code>implicit</code></b>s are Scala's most distinguished feature.</li>
+							<li>But they are also the most controversial one.</li>
+							<p></p>
+							<li class="fragment">Delegates are simpler and safer alternative:
+								<ul>
+									<li>Emphasize intent over mechanism</li>
+									<li>Make idea of term inference more accessible</li>
+									<li>Discourage abuses</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Opaque Types</h2>
+						Provide type abstraction without any overhead
+					</section>
+					<section>
+						<h2>Opaque Types</h2>
+						<pre><code class="scala hljs" data-trim="" style="font-size: 0.8em;width: max-content;padding-bottom: 40px;" data-trim>
+							object Logarithms {
+							  opaque type Logarithm = Double
+								
+							  object Logarithm {
+							    // These are the ways to lift to the logarithm type
+							    def apply(d: Double): Logarithm = math.log(d)
+							    def safe(d: Double): Option[Logarithm] =
+							      if (d > 0.0) Some(math.log(d)) else None
+							  }
+							  
+							  delegate LogarithmOps {
+							    def (x: Logarithm) toDouble: Double = math.exp(x)
+							    def (x: Logarithm) + (y: Logarithm): Logarithm = Logarithm(math.exp(x) + math.exp(y))
+							    def (x: Logarithm) * (y: Logarithm): Logarithm = Logarithm(x + y)
+							  }
+							}
+						</code></pre>
+					</section>
+					<section>
+						<h2>Opaque Types</h2>
+						<ul>
+							<li>Introduces <b><code>Logarithm</code></b> as a new type</li>
+							<li>Implemented as a <b><code>Double</code></b> but different from it</li>
+							<li><b><code>Logarithm</code></b> is treated as abstract type:
+								<ul>
+									<pre><code class="scala" data-trim>
+									val l = Logarithm(1.0)
+									val l2 = Logarithm(2.0)
+									val l3 = l * l2
+									val l4 = l + l2
+									val d: Double = l       // error
+									val l2: Logarithm = 1.0 // error
+									</code></pre>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>For Experts 🤯</h1>
+					</section>
+					<section>
+						<h2>Match Types</h2>
+						<pre><code class="scala" data-trim>
+							type Elem[X] = X match {
+							  case String      => Char
+							  case Array[t]    => t
+							  case Iterable[t] => t
+							}
+						</code></pre>
+						A match type reduces to one of a number of right hand sides, depending on a scrutinee type. 
+					</section>
+
+					<section>
+						<h2>Match Types</h2>
+						<pre><code class="scala" data-trim>
+							enum Tuple {
+							  case Empty
+							  case Pair[H, T]
+							}
+
+							import Tuple._
+
+							type Concat[+Xs <: Tuple, +Ys <: Tuple] <: Tuple = 
+							  Xs match {
+							    case Empty => Ys
+							    case Pair[x, xs] => Pair[x, Concat[xs, Ys]]
+							  }
+						</code></pre>
+						<ul>
+							<li>Match types can be recursive.</li>
+							<li>More straightforward than using implicits
+								<ul>
+									<li>(c.f. HLists)</li>
+								</ul> 
+							</li>
+							<li>Work in type checking is still in progress</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Is Scala 3 a New Language?</h1>
+						<h2>🤔</h2>
+					</section>
+					<section data-background="https://media.giphy.com/media/nFjDu1LjEADh6/giphy.gif">
+						<h1>Yes!</h1>
+					</section>
+					<section>
+						<h1>Yes!</h1>
+						<ul>
+							<li>Many language changes.
+								<ul>
+									<li>Including feature removals.</li>
+								</ul>
+							</li>
+							<li>New constructs improve user experience and onboarding.</li>
+							<li>Books will have to be rewritten. 📕</li>
+						</ul>
+					</section>
+					<section>
+						<h1>But...Is Scala 3 a New Language?</h1>
+						<h2>🤔</h2>
+					</section>
+					<section data-background="https://media.giphy.com/media/23BST5FQOc8k8/giphy.gif">
+						<h1>No!</h1>
+					</section>
+					<section>
+						<h1>No!</h1>
+						<ul>
+							<li>It is still Scala.</li>
+							<li>All core constructs remain in place.</li>
+							<li>Large & practical subset between Scala 2 and 3.</li>
+							<li>Applications can cross-build
+								<ul>
+									<li>Dotty compiler, ScalaTest</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section data-transition="zoom">
+						<h1>🤦‍♂️</h1>	
+					</section>
+					<section>
+						<h2>It is a Process</h2>
+						<ul>
+							<li class="fragment" data-fragment-index="1">Scala 3 keeps most constructs of 2.13
+								<ul>
+									<li>Alongside the new ones</li>
+								</ul>
+							</li>
+							<li class="fragment" data-fragment-index="2">Some constructs will be deprecated
+								<ul>
+									<li>And phased out in the 3.x release train</li>
+								</ul>
+							</li>
+							<li class="fragment" data-fragment-index="3">This requires some temporary duplication</li>
+							<li class="fragment" data-fragment-index="3">End result: more compact and regular language</li>
+
+						</ul>
+					</section>
+					<section>
+						<h2>Replacements</h2>
+							<table>
+								<tbody>
+									<tr class="fragment">
+										<td>Package objects</td>
+										<td>👉</td>
+										<td>Exports + toplevel defs</td>
+									</tr>
+									<tr class="fragment">
+										<td>Implicit defs, vals, objects, conversions</td>
+										<td>👉</td>
+										<td>Delegates</td>
+									</tr>
+									<tr class="fragment">
+										<td>Implicit classes</td>
+										<td>👉</td>
+										<td>Extension methods</td>
+									</tr>
+									<tr class="fragment">
+										<td>Current macros</td>
+										<td>👉</td>
+										<td>Inline + staging + match types</td>
+									</tr>
+								</tbody>
+							</table>
+					</section>
+				</section>
+
+				<section>
+					<h2>How to Get There?</h2>
+					<ul>
+						<li>Source compatibility for large common subset.</li>
+						<li>Rewrite tools can handle much of the rest.</li>
+						<li>Situtation better than Python 2 vs. Python 3
+							<ul>
+								<li>Static typing</li>
+								<li>Binary compatibility</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Binary Compatibility</h2>
+					<ul>
+						<li>Today: dotty can link with Scala 2.12 class files</li>
+						<li class="fragment" data-fragment-index="2">WIP: 2-way compatibility using TASTY as common
+							intermediate format
+						</li>
+					</ul>
+					<table style="border: 1px  solid blanchedalmond; margin-top: 90px;">
+						<tbody>
+							<tr class="fragment" data-fragment-index="2"><td>Scala 3 module</td></tr>
+							<tr class="fragment" data-fragment-index="2"><td>Scala 2 module</td></tr>
+							<tr class="fragment" data-fragment-index="1"><td>Dotty module</td></tr>
+							<tr class="fragment" data-fragment-index="1"><td>Scala 2 module</td></tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Binary Compatibility for Scala 3</h2>
+					<ul>
+						<li class="fragment">The plan: keep the TASTY format binary compatible for the whole 3.x series</li>
+						<li class="fragment">Compile-from TASTY allows code to migrate without problems</li>
+					</ul>
+				</section>
+
+				<section data-background="https://media.giphy.com/media/KJ1f5iTl4Oo7u/giphy.gif">
+						
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>Vertical Slides</h2>
+						<p>Slides can be nested inside of each other.</p>
+						<p>Use the <em>Space</em> key to navigate through all slides.</p>
+						<br>
+						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section>
+						<h2>Basement Level 1</h2>
+						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+					</section>
+					<section>
+						<h2>Basement Level 2</h2>
+						<p>That's it, time to go back up.</p>
+						<br>
+						<a href="#/2">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
+						</a>
+					</section>
+				</section>
+
+				<section>
+					<h2>Slides</h2>
+					<p>
+						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.
+					</p>
+				</section>
+
+				<section>
+					<h2>Point of View</h2>
+					<p>
+						Press <strong>ESC</strong> to enter the slide overview.
+					</p>
+					<p>
+						Hold down the <strong>alt</strong> key (<strong>ctrl</strong> in Linux) and click on any element to zoom towards it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Click again to zoom back out.
+					</p>
+					<p>
+						(NOTE: Use ctrl + click in Linux.)
+					</p>
+				</section>
+
+				<section>
+					<h2>Touch Optimized</h2>
+					<p>
+						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
+					</p>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Markdown support
+
+						Write content using inline or external Markdown.
+						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+						```
+						<section data-markdown>
+						  ## Markdown support
+
+						  Write content using inline or external Markdown.
+						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+						</section>
+						```
+					</script>
+				</section>
+
+				<section>
+					<section id="fragments">
+						<h2>Fragments</h2>
+						<p>Hit the next arrow...</p>
+						<p class="fragment">... to step through ...</p>
+						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+
+						<aside class="notes">
+							This slide has fragments which are also stepped through in the notes window.
+						</aside>
+					</section>
+					<section>
+						<h2>Fragment Styles</h2>
+						<p>There's different types of fragments, like:</p>
+						<p class="fragment grow">grow</p>
+						<p class="fragment shrink">shrink</p>
+						<p class="fragment fade-out">fade-out</p>
+						<p>
+							<span style="display: inline-block;" class="fragment fade-right">fade-right, </span>
+							<span style="display: inline-block;" class="fragment fade-up">up, </span>
+							<span style="display: inline-block;" class="fragment fade-down">down, </span>
+							<span style="display: inline-block;" class="fragment fade-left">left</span>
+						</p>
+						<p class="fragment fade-in-then-out">fade-in-then-out</p>
+						<p class="fragment fade-in-then-semi-out">fade-in-then-semi-out</p>
+						<p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
+					</section>
+				</section>
+
+				<section id="transitions">
+					<h2>Transition Styles</h2>
+					<p>
+						You can select from different transitions, like: <br>
+						<a href="?transition=none#/transitions">None</a> -
+						<a href="?transition=fade#/transitions">Fade</a> -
+						<a href="?transition=slide#/transitions">Slide</a> -
+						<a href="?transition=convex#/transitions">Convex</a> -
+						<a href="?transition=concave#/transitions">Concave</a> -
+						<a href="?transition=zoom#/transitions">Zoom</a>
+					</p>
+				</section>
+
+				<section id="themes">
+					<h2>Themes</h2>
+					<p>
+						reveal.js comes with a few themes built in: <br>
+						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+					</p>
+				</section>
+
+				<section>
+					<section data-background="#dddddd">
+						<h2>Slide Backgrounds</h2>
+						<p>
+							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
+						</p>
+						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
+						<h2>Image Backgrounds</h2>
+						<pre><code class="hljs html">&lt;section data-background="image.png"&gt;</code></pre>
+					</section>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
+						<h2>Tiled Backgrounds</h2>
+						<pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+					</section>
+					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
+						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+							<h2>Video Backgrounds</h2>
+							<pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
+						</div>
+					</section>
+					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
+						<h2>... and GIFs!</h2>
+					</section>
+				</section>
+
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
+					<p>
+						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
+					</p>
+					<pre><code class="hljs javascript">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+				</section>
+
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
+					<p>
+						You can override background transitions per-slide.
+					</p>
+					<pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+				</section>
+
+				<section data-background-iframe="https://hakim.se" data-background-interactive>
+					<div style="position: absolute; width: 40%; right: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2); background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px; font-size: 20px; text-align: left;">
+						<h2>Iframe Backgrounds</h2>
+						<p>Since reveal.js runs on the web, you can easily embed other web content. Try interacting with the page in the background.</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Pretty Code</h2>
+					<pre><code class="hljs" data-trim data-line-numbers="4,8-11">
+import React, { useState } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+					</code></pre>
+					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+				</section>
+
+				<section>
+					<h2>Marvelous List</h2>
+					<ul>
+						<li>No order here</li>
+						<li>Or here</li>
+						<li>Or here</li>
+						<li>Or here</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Fantastic Ordered List</h2>
+					<ol>
+						<li>One is smaller than...</li>
+						<li>Two is smaller than...</li>
+						<li>Three!</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>Tabular Tables</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Value</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Apples</td>
+								<td>$1</td>
+								<td>7</td>
+							</tr>
+							<tr>
+								<td>Lemonade</td>
+								<td>$2</td>
+								<td>18</td>
+							</tr>
+							<tr>
+								<td>Bread</td>
+								<td>$3</td>
+								<td>2</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Clever Quotes</h2>
+					<p>
+						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:
+					</p>
+					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>Intergalactic Interconnections</h2>
+					<p>
+						You can link between slides internally,
+						<a href="#/2/3">like this</a>.
+					</p>
+				</section>
+
+				<section>
+					<h2>Speaker View</h2>
+					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
+					<p>Press the <em>S</em> key to try it out.</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+
+				<section>
+					<h2>Export to PDF</h2>
+					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+					<iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+				</section>
+
+				<section>
+					<h2>Global State</h2>
+					<p>
+						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+						will be added as a class to the document element when the slide is open. This lets you
+						apply broader style changes, like switching the page background.
+					</p>
+				</section>
+
+				<section data-state="customevent">
+					<h2>State Events</h2>
+					<p>
+						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
+					</p>
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+Reveal.addEventListener( 'customevent', function() {
+	console.log( '"customevent" has fired' );
+} );
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Take a Moment</h2>
+					<p>
+						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+					</p>
+				</section>
+
+				<section>
+					<h2>Much more</h2>
+					<ul>
+						<li>Right-to-left support</li>
+						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+					</ul>
+				</section>
+
+				<section style="text-align: left;">
+					<h1>THE END</h1>
+					<p>
+						- <a href="https://slides.com">Try the online editor</a> <br>
+						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
