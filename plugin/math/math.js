@@ -17,6 +17,11 @@ var RevealMath = window.RevealMath || (function(){
 			inlineMath: [ [ '$', '$' ], [ '\\(', '\\)' ] ],
 			skipTags: [ 'script', 'noscript', 'style', 'textarea', 'pre' ]
 		},
+		TeX: {
+			equationNumbers: {
+				autoNumber: 'AMS'
+			}
+		},
 		skipStartupTypeset: true
 	};
 
