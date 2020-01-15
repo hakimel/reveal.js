@@ -4751,6 +4751,8 @@
 
 			if( fragments.length ) {
 
+				var maxIndex = 0;
+
 				if( typeof index !== 'number' ) {
 					var currentFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
 					if( currentFragment ) {
@@ -4763,6 +4765,8 @@
 					if( el.hasAttribute( 'data-fragment-index' ) ) {
 						i = parseInt( el.getAttribute( 'data-fragment-index' ), 10 );
 					}
+
+					maxIndex = Math.max( maxIndex, i );
 
 					// Visible fragments
 					if( i <= index ) {
@@ -4786,6 +4790,13 @@
 					}
 
 				} );
+
+				// Write the current fragment index to the slide <section>.
+				// This can be used by end users to apply styles based on
+				// the current fragment index.
+				index = typeof index === 'number' ? index : -1;
+				index = Math.max( Math.min( index, maxIndex ), -1 );
+				currentSlide.setAttribute( 'data-fragment', index );
 
 			}
 
