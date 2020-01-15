@@ -1,0 +1,7 @@
+tasks:
+  - init: npm install
+    command: npm run start
+ports:
+  - port: 8000
+    onOpen: open-preview
+  - port: 35729

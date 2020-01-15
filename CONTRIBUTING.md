@@ -19,5 +19,11 @@ When reporting a bug make sure to include information about which browser and op
 - Should be submitted from a feature/topic branch (not your master)
 
 
+### Contribute online with a single click
+
+You can use gitpod(a free online VS Code like IDE) for contributing with a single click it will launch a ready to code workspace with all the dependencies pre-installed and web server running so that you can start contributing straight away.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/hakimel/reveal.js)
+
 ### Plugins
 Please do not submit plugins as pull requests. They should be maintained in their own separate repository. More information here: https://github.com/hakimel/reveal.js/wiki/Plugin-Guidelines
