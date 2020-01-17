@@ -1,15 +1,28 @@
 #### Launching electron
 
+###### package.json
+
+```json
+"scripts": {
+  "start": "electron ."
+}
+```
+
 ```bash
+# npm launch
+npm run start
+
+# or
+
 # global installation
 electron .
 
 # or
 
 # local installation
-node_modules/.bin/electron .
+npx electron .
 ```
 
+
 <aside class="notes">
-Una volta finita tutta questa configurazione, possiamo lanciare electron specificando, dopo il comando, la cartella in cui si trova package.json. In questo caso la cartella stessa.
 </aside>
