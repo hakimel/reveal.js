@@ -1,20 +1,16 @@
 #### Electron apps
 
-![Atom](slides/electron/images/atom-logo.png)&nbsp;&nbsp;&nbsp;&nbsp;
-![Slack](slides/electron/images/slack-logo.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![VS Code](slides/electron/images/vscode-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![Slack](slides/electron/images/slack-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![ATOM](slides/electron/images/atom-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![Whale Trello](slides/electron/images/whale-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
 
-![VS Code](slides/electron/images/visual-studio-code-icon-64.png)&nbsp;&nbsp;&nbsp;&nbsp;
-![Kitematic](slides/electron/images/kitematic-icon-64.png)&nbsp;&nbsp;&nbsp;&nbsp;
-![PhoneGap](slides/electron/images/phonegap-icon-64.png)&nbsp;&nbsp;&nbsp;&nbsp;
-![GitKraken](slides/electron/images/gitkraken-icon-64.png)&nbsp;&nbsp;&nbsp;&nbsp;
-![Ionic Creator](slides/electron/images/ionic-creator-icon-64.png)&nbsp;&nbsp;&nbsp;&nbsp;
-![Whale](slides/electron/images/whale-icon-64.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![GitHub Desktop](slides/electron/images/github-desktop-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![GitKraken](slides/electron/images/gitkraken-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![Etcher](slides/electron/images/etcher-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
+![Skype](slides/electron/images/skype-icon.png)&nbsp;&nbsp;&nbsp;&nbsp;
 
-<span class="fragment">
-![Shut up and take my money](slides/electron/images/shut-up-and-take-my-money.gif)
-</span>
+More on https://electronjs.org/apps
 
 <aside class="notes">
-A parte gli scherzi, abbiamo cercato quali applicazioni sfruttano attualmente Electron e tra le tante abbiamo notato che Atom, Slack, Visual Studio Code e molte altre utilizzano come base Electron. Immagino che molti di voi hanno utilizzato almeno una di queste app…
-A questo punto il nostro pensiero è stato: “Shut up and take my money!”.
 </aside>
