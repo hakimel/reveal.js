@@ -1,0 +1,14 @@
+appId: electron.talk.2020
+productName: Electron Talk 2020
+copyright: Copyright © 2020 ${author}
+icon: icons/icon.png
+
+mac:
+    category: public.app-category.utilities
+    target: dmg
+
+win:
+    target: nsis
+
+linux:
+    target: AppImage
