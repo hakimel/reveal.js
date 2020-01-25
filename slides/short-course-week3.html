@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>FAC short course week 3</title>
+
+  <link rel="stylesheet" href="../css/reveal.css" />
+  <link rel="stylesheet" href="../css/theme/fac.css" />
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="../lib/css/zenburn.css" />
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = window.location.search.match(/print-pdf/gi)
+      ? "../css/print/pdf.css"
+      : "../css/print/paper.css";
+    document.getElementsByTagName("head")[0].appendChild(link);
+  </script>
+
+  <style>
+    /* BLACK: #121212 */
+    /* YELLOW: #ffe500 */
+    /* BLUE: #0805ec */
+    /* GREEN: #00be00 */
+    /* RED: #ff2800 */
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-background-color="#121212">
+        <img src="../assets/logos/logo-mobile.png" class="img-s" />
+        <h2>Short Course</h2>
+        <h3>Founders and Coders</h3>
+        <h4>Week 3: JavaScript</h4>
+        <aside class="notes">
+          While people are arriving, make sure they're signed up for Github, Gitter (and have joined the room),
+          freeCodeCamp and Codepen. Also pass
+          round the attendance sheet.
+        </aside>
+      </section>
+      <section>
+        <h3>Recap from last week... 🍎</h3>
+        <br>
+        <p class="fragment">
+          CSS
+        </p>
+        <p class="fragment">
+            freeCodeCamp
+          </p>
+          <p class="fragment">
+            DevTools
+          </p>
+          <p class="fragment">
+            CodePen
+          </p>
+        <aside class="notes">
+          <ul>
+              <li>Give a recap of the tools that we used in last week's session</li>
+            </ul>
+        </aside>
+      </section>
+      <section data-background-color="#121212">
+        <h3>Quiz time! 🎊</h3>
+        <p>Head to <a href="https://kahoot.it" target="_blank">https://kahoot.it</a></p>
+        <br>
+        <p>Check the Slack channel for the game pin</p>
+        <aside class="notes">
+            <p>Kahoot quiz link: https://create.kahoot.it/share/html-css-quiz/57b2227f-f58d-4fae-98fe-dea90a718f79</p>
+          </aside>
+      </section>
+      <section>
+            <section>
+              <h3>How do we turn this...</h3>
+              <br>
+              <img src="https://i.imgur.com/h5NoVhm.png" />
+            </section>
+            <section>
+                    <h3>...into this? 🤔</h3>
+                    <br>
+                    <img src="https://i.imgur.com/bdGdymC.png" />
+                  </section>
+            <section style="text-align: left">
+              <h2>Style sheet language 💡</h2>
+              <p class="fragment fade-up">
+                We can use a style sheet language to change the presentational properties of a structured document
+              </p>
+              <p class="fragment fade-up">
+                    Properties like...
+                  </p>
+                  <p class="fragment"><span class="fragment highlight-red">...colour...</span></p>
+                  <p class="fragment" style="font-size: 90px;">...size...</p>
+                  <p class="fragment" style="text-align: right;">...layout...</p>
+                  <p class="fragment">...and more!</p>
+
+            </section>
+            <section id="next">
+              <h2>CSS</h2>
+              <img class="img-m" src="https://pngimage.net/wp-content/uploads/2018/06/logo-css-png-7.png" />
+              <p class="fragment fade-up">
+                CSS stands for: Cascading Style Sheets
+              </p>
+              <p class="fragment fade-up">
+                    It's the style sheet language used to style web pages!
+                  </p>
+            </section>
+          </section>
+      <section>
+            <section>
+              <h3>Example</h3>
+              <br>
+              <h4>This HTML...</h4>
+              <pre style="font-size: 36px;"><code>&lt;p&gt;This text needs colour&lt;&#47;p&gt;</code></pre>
+              <br>
+              <h4>...displays this:</h4>
+              <p>This text needs colour</p>
+            </section>
+            <section>
+                    <h3>Example</h3>
+                    <br>
+                    <h4>This HTML + CSS...</h4>
+                    <pre style="font-size: 28px;"><code>&lt;p style&#61;"color&#58; red&#59;"&gt;This text needs colour&lt;&#47;p&gt;</code></pre>
+                    <br>
+                    <h4>...displays this:</h4>
+                    <p style="color: red">This text needs colour</p>
+                  </section>
+          </section>
+      <section>
+            
+            <section>
+                    <h3>Pair Programming Recap</h3>
+                    <h4>The Driving Test</h4>
+                    <img src="https://media.giphy.com/media/3ofSB4uBhFS3p48U6c/giphy.gif">
+
+                    <aside class="notes">
+                            <ul>
+                            <li>Quick recap of last week's pair programming pointers</li>
+                            <li>In this method, the student at the keyboard should follow the instructions of their partner</li>
+                            <li>They can alternate roles when completing each FreeCodeCamp challenge</li>
+                        </ul>
+                          </aside>
+                </section>
+                    
+            
+            <section>
+                    <h2>The backseat driver</h2>
+                    <ul>
+                        <li>Verbalise your thinking</li>
+                        <li>Explain your reasoning</li>
+                    </ul>
+                    <aside class="notes">
+                            <ul>
+                            <li>As the backseat driver, this is a chance to verbalise your thinking, convey it effectively, and explain your decisions to your partner. It really helps you to think about the code you’re dictating, as well as cementing the concepts in your head!</li>
+                        </ul>
+                          </aside>
+                  </section>
+                  <section>
+                        <h2>The frontseat driver</h2>
+                        <ul>
+                            <li>Follow the instructions of your partner</li>
+                            <li>Ask for clarification</li>
+                        </ul>
+                        <aside class="notes">
+                                <ul>
+                                <li>Whoever’s in the front seat (typing) should provide no advice, but can request clarification or an explanation of why they’re being asked to do something</li>
+                                <li>this is a great opportunity to follow someone’s thinking really closely, yet still getting to type it out yourself</li>
+                            </ul>
+                              </aside>
+                      </section>
+                      <section>
+                            <h2>Tips for both</h2>
+                            <ul>
+                                <li>Discuss things together out loud</li>
+                                <li>Refer to line numbers</li>
+                                <li>Be patient!</li>
+                            </ul>
+                          </section>
+          </section>
+          <section data-background-color="#121212">
+                <h3>freeCodeCamp 🏕️</h3>
+                <br>
+                <p class="fragment">
+                  Head to <a href="www.freeCodeCamp.org">www.freeCodeCamp.org</a>
+                </p>
+                <aside class="notes">
+                  <p>Introduce the students to the "Basic CSS" section. Mob programme the first challenge together, before letting students carry on with the challenges by themselves for 20-30mins.</p>
+                </aside>
+              </section>
+              <section>
+                    <h3>Let's code together 👩‍💻👨‍💻</h3>
+                    <br>
+                    <p class="fragment">
+                      Head to <a href="http://tiny.cc/aydxiz" target="_blank">http://tiny.cc/aydxiz</a>
+                    </p>
+                    <aside class="notes">
+                      <p>Instruct the students to open the plain HTML Codepen. Make design requests and ask students to provide the CSS rules. Cast the first one yourself, then perhaps see if anyone will cast the next one</p>
+                      <p>Example design requests:</p>
+                      <ul>
+                          <li>"I want to see a blue title"</li>
+                          <li>"I want to see an image with rounded corners"</li>
+                          <li>"I want to see sans serif font in all paragraphs"</li>
+                      </ul>
+                    </aside>
+                  </section>
+      </section>
+      <section data-background-color="#121212">
+          <section>
+        <h3>DevTools Challenge 🔍</h3>
+        <br>
+        <p class="fragment">
+          Open up your browser (preferably Google chrome) and head to the <a href="www.google.com">Google</a> homepage
+        </p>
+        <aside class="notes">
+          <p>Time to now: 60 mins</p>
+          <p>Show students how to inspect a webpage, and how to use the dev tools for seeing the HTML under the hood.
+          It can then be fun to delete the HTML for the Google logo, or to mess around and do some editing.</p>
+        </aside>
+    </section>
+    <section>
+            <h3>Give Google a dark theme!</h3>
+            <br>
+            <img src="https://i.imgur.com/9E50tc0.png">
+            <aside class="notes">
+              <p>Time to now: 60 mins</p>
+              <p>Show students how to inspect a webpage, and how to use the dev tools for seeing the HTML under the hood.
+              It can then be fun to delete the HTML for the Google logo, or to mess around and do some editing.</p>
+            </aside>
+        </section>
+      </section>
+      <section>
+        <section data-background-color="#121212">
+          <h3>Project 🔨</h3>
+          <br>
+          <h4>Let's style our tribute pages!</h4>
+          <aside class="notes">Time to now: 75 mins</aside>
+        </section>
+        <section style="text-align: left" data-background-color="#121212">
+          <p>
+            Using the CSS you've learnt, style your tribute page project.
+          </p>
+          <br>
+          <p>
+            Work together in pairs, try out some pair programming, and use Codepen.
+          </p>
+          <br>
+          <p>
+            Feel free to style your page however you like
+          </p>
+          <aside class="notes">
+            <p>You might want to let pairs spread out and sit elsewhere if the classroom is cramped. Try to stop them at
+            8.25 so you have time to wrap up.</p>
+            <p>Stretch user stories for people who finish early:</p>
+            <ul>
+            <li>1. I can see an image that is horizonally centered on the page</li>
+            <li>2. I can see the image resize when I change the width of my web browser</li>
+          </ul>
+          </aside>
+        </section>
+      </section>
+      </section>
+      <section>
+        <h3>Before we leave...</h3>
+        <br>
+        <p class="fragment">
+          Share your Codepens in the Slack channel. Look at what others have made - see what CSS they have used.
+        </p>
+      </section>
+      <section>
+        <h3>Homework 🍎</h3>
+        <br>
+        <p>
+          Continue working on 'Basic JavaScript' on freeCodeCamp
+        </p>
+        <p>If you finish that (very long!) section, have a go at 'Basic Data Structures' and 'Basic Algorithm Scripting'</p>
+        <aside class="notes">
+          Check one last time that you've got everyone's attendance (there may have been latecomers), and that they've
+          all joined the Gitter room!
+        </aside>
+      </section>
+      <section data-background-color="#121212">
+        <img src="../assets/logos/logo-mobile.png" class="img-s" />
+        <h3>Thanks for coming!</h3>
+      </section>
+    </div>
+  </div>
+
+  <script src="../lib/js/head.min.js"></script>
+  <script src="../js/reveal.js"></script>
+
+  <script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: "slide", // none/fade/slide/convex/concave/zoom
+
+      dependencies: [
+        { src: "../plugin/markdown/marked.js" },
+        { src: "../plugin/markdown/markdown.js" },
+        { src: "../plugin/notes/notes.js", async: true },
+        {
+          src: "../plugin/highlight/highlight.js",
+          async: true,
+          callback: function () {
+            hljs.initHighlightingOnLoad();
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+
+</html>
