@@ -19,9 +19,9 @@ Cohort curriculum
 
 FAC Short Course
 
-- [Toolkit and HTML](/slides/short-course-week1.html)
-- [CSS](/slides/short-course-week2.html)
-- [Getting Started on Codewars](/slides/codewars-intro.html)
+- [Week 1: Toolkit and HTML](/slides/short-course-week1.html)
+- [Week 2: CSS](/slides/short-course-week2.html)
+- [Week 4: Getting Started on Codewars](/slides/codewars-intro.html)
 
 Meetups
 
