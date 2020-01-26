@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>FAC short course week 3</title>
 
-  <title>FAC short course week 3</title>
+    <link rel="stylesheet" href="../css/reveal.css" />
+    <link rel="stylesheet" href="../css/theme/fac.css" />
 
-  <link rel="stylesheet" href="../css/reveal.css" />
-  <link rel="stylesheet" href="../css/theme/fac.css" />
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css" />
 
-  <!-- Theme used for syntax highlighting of code -->
-  <link rel="stylesheet" href="../lib/css/zenburn.css" />
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "../css/print/pdf.css"
+        : "../css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
 
-  <!-- Printing and PDF exports -->
-  <script>
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.type = "text/css";
-    link.href = window.location.search.match(/print-pdf/gi)
-      ? "../css/print/pdf.css"
-      : "../css/print/paper.css";
-    document.getElementsByTagName("head")[0].appendChild(link);
-  </script>
+    <style>
+      /* BLACK: #121212 */
+      /* YELLOW: #ffe500 */
+      /* BLUE: #0805ec */
+      /* GREEN: #00be00 */
+      /* RED: #ff2800 */
+    </style>
+  </head>
 
-  <style>
-    /* BLACK: #121212 */
-    /* YELLOW: #ffe500 */
-    /* BLUE: #0805ec */
-    /* GREEN: #00be00 */
-    /* RED: #ff2800 */
-  </style>
-</head>
-
-<body>
-  <div class="reveal">
-    <div class="slides">
-      <section data-background-color="#121212">
-        <img src="../assets/logos/logo-mobile.png" class="img-s" />
-        <h2>Short Course</h2>
-        <h3>Founders and Coders</h3>
-        <h4>Week 3: JavaScript</h4>
-        <aside class="notes">
-          While people are arriving, make sure they're signed up for Github, Gitter (and have joined the room),
-          freeCodeCamp and Codepen. Also pass
-          round the attendance sheet.
-        </aside>
-      </section>
-      <section>
-        <h3>Recap from last week... 🍎</h3>
-        <br>
-        <p class="fragment">
-          CSS
-        </p>
-        <p class="fragment">
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background-color="#121212">
+          <img src="../assets/logos/logo-mobile.png" class="img-s" />
+          <h2>Short Course</h2>
+          <h3>Founders and Coders</h3>
+          <h4>Week 3: JavaScript</h4>
+          <aside class="notes">
+            While people are arriving, make sure they're signed up for Github,
+            Gitter (and have joined the room), freeCodeCamp and Codepen. Also
+            pass round the attendance sheet.
+          </aside>
+        </section>
+        <section>
+          <h3>Recap from last week... 🍎</h3>
+          <br />
+          <p class="fragment">
+            CSS
+          </p>
+          <p class="fragment">
             freeCodeCamp
           </p>
           <p class="fragment">
@@ -62,238 +64,282 @@
           <p class="fragment">
             CodePen
           </p>
-        <aside class="notes">
-          <ul>
-              <li>Give a recap of the tools that we used in last week's session</li>
+          <aside class="notes">
+            <ul>
+              <li>
+                Give a recap of the tools that we used in last week's session
+              </li>
             </ul>
-        </aside>
-      </section>
-      <section data-background-color="#121212">
-        <h3>Quiz time! 🎊</h3>
-        <p>Head to <a href="https://kahoot.it" target="_blank">https://kahoot.it</a></p>
-        <br>
-        <p>Check the Slack channel for the game pin</p>
-        <aside class="notes">
-            <p>Kahoot quiz link: https://create.kahoot.it/share/html-css-quiz/57b2227f-f58d-4fae-98fe-dea90a718f79</p>
           </aside>
-      </section>
-      <section>
-            <section>
-              <h3>What does JavaScript look like? 👀</h3>
-              <p>Similarly to how CSS is executed within style tags, we can use script tags for Javascript.</p>
-              <p>Like so:</p>
-              <pre style="text-align: left; padding: 0;"><code>
-                    <h1> A header element </h1>
-
-                    <script>
-                    alert&#40;"Here is a JS alert!"&#41;;
-                    </script>
-                </code></pre>
-            </section>
-            <section>
-                    <h3>What does JavaScript look like? 👀</h3>
-                    <br>
-                    <p>Normally, however, an HTML document will contain a script tag with a src attribute, which will provide the HTML with a link to a separate Javascript file.</p>
-                    <br>
-
-                    <pre><code>
-                            <h1> A header element </h1>
-        
-                            <script src="folder/myScript.js"></script>
-                        </code></pre>
-                  </section>
-            <section>
-                <img src="http://i.imgur.com/cxzdAdk.png">
-
-            </section>
-          </section>
-      <section>
-            <section>
-              <h3>Let’s see it in action! 💪</h3>
-              <br>
-              <p>Open Google in your web browsers</p>
-              <aside class="notes">
-                    <p>Console Codealong 👀</p>
-                    <ul>
-                    <li>Demo writing JS in the console</li>
-                    <li>alert() might be a good place to start</li>
-                    <li>Demo console.log and declaring vars too</li>
-                </ul>
-              </aside>
-            </section>
-          </section>
-          <section data-background-color="#121212">
-                <h3>freeCodeCamp 🏕️</h3>
-                <br>
-                <p class="fragment">
-                  Head to <a href="www.freeCodeCamp.org">www.freeCodeCamp.org</a>
-                </p>
-                <aside class="notes">
-                  <p>Introduce the students to the "Basic JavaScript" section. They should tackle the challenges in pairs for 30mins.</p>
-                </aside>
-              </section>
-              <section>
-                  <section>
-                    <h3>Intro to Functions 🔧</h3>
-                    <aside class="notes">
-                      <p>Instruct the students to open the plain HTML Codepen. Make design requests and ask students to provide the CSS rules. Cast the first one yourself, then perhaps see if anyone will cast the next one</p>
-                      <p>Example design requests:</p>
-                      <ul>
-                          <li>"I want to see a blue title"</li>
-                          <li>"I want to see an image with rounded corners"</li>
-                          <li>"I want to see sans serif font in all paragraphs"</li>
-                      </ul>
-                    </aside>
-                </section>
-                <section>
-                    <h3>What exactly is a function?</h3>
-                    <br>
-                    <p>For our purpose, a function can be thought of as a tiny program</p>
-                    <br>
-                    <p>At the most basic level, a function is something that can be <strong>called</strong>, and will <strong>return</strong> to us a <strong>value</strong>.</p>
-                    <br>
-                    <p>A function can also take <strong>arguments</strong>, or <strong>parameters</strong>.</p>
-                </section>
-                <section>
-                    <h3>What does a Javascript function look like?</h3>
-                    <br>
-                    <p>A function that does not take any arguments:</p>
-                    <br>
-                    <img src="https://i.imgur.com/lx3x5Ip.png">
-                </section>
-                <section>
-                    <h3>What does a Javascript function look like?</h3>
-                    <p>This is how we <strong>declare</strong> a function:</p>
-                    <br>
-                    <img src="http://i.imgur.com/wN16bBi.png">
-                </section>
-                <section>
-                        <h3>What does a Javascript function look like?</h3>
-                        <p>And this is how we <strong>call</strong>, or <strong>invoke</strong> a function:</p>
-                        <br>
-                        <img src="https://i.imgur.com/5yjJBsF.png">
-                    </section>
-                    <section>
-                        <p>Once more, here’s how we <strong>declare</strong> a function (think of this as how you create a function, and define what it does):</p>
-                        <br>
-                        <img src="https://i.imgur.com/ADOkIEO.png">
-                        <br>
-                        <p>And how we <strong>invoke</strong> it:</p>
-                        <img src="https://i.imgur.com/Fy7knYy.png">
-                    </section>
-                  </section>
-                  <section data-background-color="#121212">
-                      <h3>Let's practice 👨‍💻 👩‍💻</h3>
-                      <p>Head to <a href="https://repl.it/" target="_blank">https://repl.it/</a></p>
-                  </section>
-      <section data-background-color="#121212">
-          <section>
-        <h3>DevTools Challenge 🔍</h3>
-        <br>
-        <p class="fragment">
-          Open up your browser (preferably Google chrome) and head to the <a href="www.google.com">Google</a> homepage
-        </p>
-        <aside class="notes">
-          <p>Time to now: 60 mins</p>
-          <p>Show students how to inspect a webpage, and how to use the dev tools for seeing the HTML under the hood.
-          It can then be fun to delete the HTML for the Google logo, or to mess around and do some editing.</p>
-        </aside>
-    </section>
-    <section>
-            <h3>Give Google a dark theme!</h3>
-            <br>
-            <img src="https://i.imgur.com/9E50tc0.png">
-            <aside class="notes">
-              <p>Time to now: 60 mins</p>
-              <p>Show students how to inspect a webpage, and how to use the dev tools for seeing the HTML under the hood.
-              It can then be fun to delete the HTML for the Google logo, or to mess around and do some editing.</p>
-            </aside>
         </section>
-      </section>
-      <section>
         <section data-background-color="#121212">
-          <h3>Project 🔨</h3>
+          <h3>Quiz time! 🎊</h3>
           <br>
-          <h4>Let's style our tribute pages!</h4>
-          <aside class="notes">Time to now: 75 mins</aside>
+          <p>
+            Head to
+            <a href="https://kahoot.it" target="_blank">https://kahoot.it</a>
+          </p>
+          <br />
+          <p>Check the Slack channel for the game pin</p>
+          <aside class="notes">
+            <p>
+              Kahoot quiz link:
+              https://create.kahoot.it/share/html-css-quiz/57b2227f-f58d-4fae-98fe-dea90a718f79
+            </p>
+          </aside>
         </section>
-        <section style="text-align: left" data-background-color="#121212">
-          <p>
-            Using the CSS you've learnt, style your tribute page project.
-          </p>
-          <br>
-          <p>
-            Work together in pairs, try out some pair programming, and use Codepen.
-          </p>
-          <br>
-          <p>
-            Feel free to style your page however you like
+        <section>
+            <section>
+                <h3>So, what exactly is JavaScript?</h3>
+            </section>
+            <section>
+                <div>
+                <img src="https://clearlydecoded.com/assets/images/posts/2017-08-21-what-is-html/tech-that-drives-the-web.png">
+                <p class="fragment" style="display: flex; justify-content: space-around; width: 100%;"><span style="width: 33%; text-align: right;"><strong>Nouns</strong></span><span style="width: 33%;"><strong>Adjectives</strong></span><span style="width: 33%; text-align: left;"><strong>Verbs</strong></span></p>
+                </div>
+            </section>
+            <section>
+                <h3>HTML: Nouns 🏠</h3>
+                <p>Our HTML dictates what content will be on the page. It provides our basic structure</p>
+            </section>
+            <section>
+                <h3>CSS: Adjectives 🎨</h3>
+                <p>Our CSS describes how that content should look, how it should be laid out, and what styles it should have</p>
+            </section>
+            <section>
+                <h3>JS: Verbs 🏃‍</h3>
+                <p>And our Javascript brings that content to life - it allows the user to interact with the content, providing a dynamic experience and determining the behaviour of the page</p>
+            </section>
+            <section>
+                <h1>HTML</h1>
+                <img src="http://i.imgur.com/Z3aUL4W.png">
+            </section>
+            <section>
+                <h1>CSS</h1>
+                <img src="http://i.imgur.com/z59f596.png">
+            </section>
+            <section>
+                <h1>JavaScript</h1>
+                <img src="https://media3.giphy.com/media/XaefzCVVqg4Uw/source.gif">
+            </section>
+        </section>
+        <section>
+                <section>
+                        <h3>What does JavaScript look like? 👀</h3>
+                        <p>
+                          Similarly to how CSS is executed within style tags, we can use
+                          script tags for Javascript.
+                        </p>
+                        <p>Like so:</p>
+                        <pre style="text-align: left; padding: 0;"><code>
+                                <h1> A header element </h1>
+            
+                                <script>
+                                alert&#40;"Here is a JS alert!"&#41;;
+                                </script>
+                            </code></pre>
+                      </section>
+                      <section>
+                        <h3>What does JavaScript look like? 👀</h3>
+                        <br />
+                        <p>
+                          Normally, however, an HTML document will contain a script tag with
+                          a src attribute, which will provide the HTML with a link to a
+                          separate Javascript file.
+                        </p>
+                        <br />
+            
+                        <pre><code>
+                                        <h1> A header element </h1>
+                    
+                                        <script src="folder/myScript.js"></script>
+                                    </code></pre>
+                      </section>
+                      <section>
+                        <img src="http://i.imgur.com/cxzdAdk.png" />
+                      </section>
+        </section>
+        <section>
+          <section>
+            <h3>Let’s see it in action! 💪</h3>
+            <br />
+            <p>Open Google in your web browsers</p>
+            <aside class="notes">
+              <p>Console Codealong 👀</p>
+              <ul>
+                <li>Demo writing JS in the console</li>
+                <li>alert() might be a good place to start</li>
+                <li>Demo console.log and declaring vars too</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section data-background-color="#121212">
+          <h3>freeCodeCamp 🏕️</h3>
+          <br />
+          <p class="fragment">
+            Head to <a href="www.freeCodeCamp.org">www.freeCodeCamp.org</a>
           </p>
           <aside class="notes">
-            <p>You might want to let pairs spread out and sit elsewhere if the classroom is cramped. Try to stop them at
-            8.25 so you have time to wrap up.</p>
-            <p>Stretch user stories for people who finish early:</p>
-            <ul>
-            <li>1. I can see an image that is horizonally centered on the page</li>
-            <li>2. I can see the image resize when I change the width of my web browser</li>
-          </ul>
+            <p>
+              Introduce the students to the "Basic JavaScript" section. They
+              should tackle the challenges in pairs for 30mins.
+            </p>
           </aside>
         </section>
-      </section>
-      <section>
-        <h3>Before we leave...</h3>
-        <br>
-        <p class="fragment">
-          Share your Codepens in the Slack channel. Look at what others have made - see what CSS they have used.
-        </p>
-      </section>
-      <section>
-        <h3>Homework 🍎</h3>
-        <br>
-        <p>
-          Continue working on 'Basic JavaScript' on freeCodeCamp
-        </p>
-        <p>If you finish that (very long!) section, have a go at 'Basic Data Structures' and 'Basic Algorithm Scripting'</p>
-        <aside class="notes">
-          Check one last time that you've got everyone's attendance (there may have been latecomers), and that they've
-          all joined the Gitter room!
-        </aside>
-      </section>
-      <section data-background-color="#121212">
-        <img src="../assets/logos/logo-mobile.png" class="img-s" />
-        <h3>Thanks for coming!</h3>
-      </section>
+        <section>
+          <section>
+            <h3>Intro to Functions 🔧</h3>
+            <aside class="notes">
+              <p>
+                Instruct the students to open the plain HTML Codepen. Make
+                design requests and ask students to provide the CSS rules. Cast
+                the first one yourself, then perhaps see if anyone will cast the
+                next one
+              </p>
+              <p>Example design requests:</p>
+              <ul>
+                <li>"I want to see a blue title"</li>
+                <li>"I want to see an image with rounded corners"</li>
+                <li>"I want to see sans serif font in all paragraphs"</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>What exactly is a function?</h3>
+            <br />
+            <p>
+              For our purpose, a function can be thought of as a tiny program
+            </p>
+            <br />
+            <p>
+              At the most basic level, a function is something that can be
+              <strong>called</strong>, and will <strong>return</strong> to us a
+              <strong>value</strong>.
+            </p>
+            <br />
+            <p>
+              A function can also take <strong>arguments</strong>, or
+              <strong>parameters</strong>.
+            </p>
+          </section>
+          <section>
+            <h3>What does a Javascript function look like?</h3>
+            <br />
+            <p>A function that does not take any arguments:</p>
+            <br />
+            <img src="https://i.imgur.com/lx3x5Ip.png" />
+          </section>
+          <section>
+            <h3>What does a Javascript function look like?</h3>
+            <p>This is how we <strong>declare</strong> a function:</p>
+            <br />
+            <img src="http://i.imgur.com/wN16bBi.png" />
+          </section>
+          <section>
+            <h3>What does a Javascript function look like?</h3>
+            <p>
+              And this is how we <strong>call</strong>, or
+              <strong>invoke</strong> a function:
+            </p>
+            <br />
+            <img src="https://i.imgur.com/5yjJBsF.png" />
+          </section>
+          <section>
+            <p>
+              Once more, here’s how we <strong>declare</strong> a function
+              (think of this as how you create a function, and define what it
+              does):
+            </p>
+            <br />
+            <img src="https://i.imgur.com/ADOkIEO.png" />
+            <br />
+            <p>And how we <strong>invoke</strong> it:</p>
+            <img src="https://i.imgur.com/Fy7knYy.png" />
+          </section>
+        </section>
+        <section data-background-color="#121212">
+          <h3>Let's practice 👨‍💻 👩‍💻</h3>
+          <p>
+            Head to
+            <a href="https://repl.it/" target="_blank">https://repl.it/</a>
+          </p>
+        </section>
+        <section>
+          <h3>Learn functions on freeCodeCamp 🏕️</h3>
+          <p>Let's do this challenge together</p>
+          <img src="https://i.imgur.com/Poe3eBT.png" />
+          <aside class="notes">
+            <p>Get everyone to open the challenge highlighted in the screenshot and solve it together.</p>
+            <p>Solve a couple more together if students have lots of questions/there is confusion.</p>
+              Get everyone to open up the challenge in the screenshot, solve it
+              together
+            </p>
+          </aside>
+        </section>
+        <section data-background-color="#121212">
+            <h3>Now try these <a href="https://hackmd.io/445IJxgQQ1S-inNrt7fndw">these challenges</a></h3>
+            <br>
+            <ul>
+                <li>Write & run your code in Repl.it</li>
+                <br>
+                <li>Use console.log() to check that your functions are working</li>
+                <br>
+                <li>Take it in turns to type!</li>
+            </ul>
+            <aside class="notes">
+                <p>Students pair up and work on challenges! (If any pairs finish challenges, continue working on FCC).</p>
+            </aside>
+        </section>
+        <section>
+          <h3>Homework 🍎</h3>
+          <br />
+          <p>
+            Continue working on freeCodeCamp 'Basic JavaScript' 🚀
+          </p>
+          <p>
+            If you finish that (very long!) section, have a go at 'Basic Data
+            Structures' and 'Basic Algorithm Scripting'
+          </p>
+          <aside class="notes">
+            Check one last time that you've got everyone's attendance (there may
+            have been latecomers), and that they've all joined the Gitter room!
+          </aside>
+        </section>
+        <section data-background-color="#121212">
+          <img src="../assets/logos/logo-mobile.png" class="img-s" />
+          <h3>Thanks for coming!</h3>
+        </section>
+      </div>
     </div>
-  </div>
 
-  <script src="../lib/js/head.min.js"></script>
-  <script src="../js/reveal.js"></script>
+    <script src="../lib/js/head.min.js"></script>
+    <script src="../js/reveal.js"></script>
 
-  <script>
-    // More info about config & dependencies:
-    // - https://github.com/hakimel/reveal.js#configuration
-    // - https://github.com/hakimel/reveal.js#dependencies
-    Reveal.initialize({
-      controls: true,
-      progress: true,
-      history: true,
-      center: true,
-      transition: "slide", // none/fade/slide/convex/concave/zoom
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "slide", // none/fade/slide/convex/concave/zoom
 
-      dependencies: [
-        { src: "../plugin/markdown/marked.js" },
-        { src: "../plugin/markdown/markdown.js" },
-        { src: "../plugin/notes/notes.js", async: true },
-        {
-          src: "../plugin/highlight/highlight.js",
-          async: true,
-          callback: function () {
-            hljs.initHighlightingOnLoad();
+        dependencies: [
+          { src: "../plugin/markdown/marked.js" },
+          { src: "../plugin/markdown/markdown.js" },
+          { src: "../plugin/notes/notes.js", async: true },
+          {
+            src: "../plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
           }
-        }
-      ]
-    });
-  </script>
-</body>
-
+        ]
+      });
+    </script>
+  </body>
 </html>
