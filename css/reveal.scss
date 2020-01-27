@@ -3,7 +3,7 @@
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2019 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2020 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -102,7 +102,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-up {
-	transform: translate(0, 20%);
+	transform: translate(0, 40px);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -110,7 +110,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-down {
-	transform: translate(0, -20%);
+	transform: translate(0, -40px);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -118,7 +118,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-right {
-	transform: translate(-20%, 0);
+	transform: translate(-40px, 0);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -126,7 +126,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-left {
-	transform: translate(20%, 0);
+	transform: translate(40px, 0);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -263,7 +263,7 @@ $controlsArrowAngleActive: 36deg;
 	bottom: $spacing;
 	right: $spacing;
 	left: auto;
-	z-index: 1;
+	z-index: 11;
 	color: #000;
 	pointer-events: none;
 	font-size: 10px;
@@ -355,7 +355,8 @@ $controlsArrowAngleActive: 36deg;
 
 	.navigate-down {
 		right: $controlArrowSpacing + $controlArrowSize/2;
-		bottom: 0;
+		bottom: -$controlArrowSpacing;
+		padding-bottom: $controlArrowSpacing;
 		transform: translateY( 10px );
 
 		.controls-arrow {
@@ -452,7 +453,7 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$spacing: 8px;
+	$spacing: 0.8em;
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -489,7 +490,7 @@ $controlsArrowAngleActive: 36deg;
 		}
 
 		.navigate-down {
-			bottom: $spacing;
+			bottom: $spacing - $controlArrowSpacing + 0.3em;
 			left: 50%;
 			margin-left: -$controlArrowSize/2;
 		}
@@ -1590,8 +1591,16 @@ $controlsArrowAngleActive: 36deg;
 	vertical-align: top;
 }
 
-.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
+.reveal .hljs.has-highlights tr:not(.highlight-line) {
 	opacity: 0.4;
+}
+
+.reveal .hljs:not(:first-child).fragment {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 

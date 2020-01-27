@@ -36,7 +36,7 @@
     "grunt-sass": "^3.0.2",
     "grunt-zip": "~0.17.1",
     "load-grunt-tasks": "^4.0.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.0",
     "mustache": "^2.3.0",
     "socket.io": "^2.2.0"
   },
