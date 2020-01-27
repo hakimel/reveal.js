@@ -26,7 +26,7 @@
 	var Reveal;
 
 	// The reveal.js version
-	var VERSION = '3.9.0-beta';
+	var VERSION = '3.9.0';
 
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
