@@ -21,6 +21,7 @@ FAC Short Course
 
 - [Week 1: Toolkit and HTML](/slides/short-course-week1.html)
 - [Week 2: CSS](/slides/short-course-week2.html)
+- [Week 3: JavaScript](https://facresources.com/slides/short-course-week3.html#/)
 - [Week 4: Getting Started on Codewars](/slides/codewars-intro.html)
 
 Meetups
