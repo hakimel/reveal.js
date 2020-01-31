@@ -6206,6 +6206,7 @@
 		getScale: function() {
 			return scale;
 		},
+		getComputedSlideSize: getComputedSlideSize,
 
 		// Returns the current configuration object
 		getConfig: function() {
