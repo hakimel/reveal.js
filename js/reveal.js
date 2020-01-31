@@ -32,7 +32,11 @@
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
 		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
+
 		UA = navigator.userAgent,
+
+		// Methods that may not be invoked via the postMessage API
+		POST_MESSAGE_METHOD_BLACKLIST = /registerPlugin|registerKeyboardShortcut|addKeyBinding|addEventListener/,
 
 		// Configuration defaults, can be overridden at initialization time
 		config = {
@@ -1274,11 +1278,20 @@
 
 					// Check if the requested method can be found
 					if( data.method && typeof Reveal[data.method] === 'function' ) {
-						var result = Reveal[data.method].apply( Reveal, data.args );
 
-						// Dispatch a postMessage event with the returned value from
-						// our method invocation for getter functions
-						dispatchPostMessage( 'callback', { method: data.method, result: result } );
+						if( POST_MESSAGE_METHOD_BLACKLIST.test( data.method ) === false ) {
+
+							var result = Reveal[data.method].apply( Reveal, data.args );
+
+							// Dispatch a postMessage event with the returned value from
+							// our method invocation for getter functions
+							dispatchPostMessage( 'callback', { method: data.method, result: result } );
+
+						}
+						else {
+							console.warn( 'reveal.js: "'+ data.method +'" is is blacklisted from the postMessage API' );
+						}
+
 					}
 				}
 			}, false );
