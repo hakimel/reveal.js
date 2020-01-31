@@ -3789,16 +3789,21 @@
 
 		if( config.autoAnimate ) {
 
-			var prevTargets = {};
+			// If our slides are centered vertically, we need to
+			// account for their difference in position when
+			// calculating deltas for animated elements
+			var offsetY = config.center ? fromSlide.offsetTop - toSlide.offsetTop : 0;
 
-			toArray( fromSlide.querySelectorAll( '[data-id]' ) ).forEach( function( element ) {
-				prevTargets[ element.getAttribute( 'data-id' ) ] = element;
+			var fromTargets = {};
+
+			toArray( fromSlide.querySelectorAll( '[data-id]' ) ).forEach( function( fromElement ) {
+				fromTargets[ fromElement.getAttribute( 'data-id' ) ] = fromElement;
 			} );
 
-			toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( element ) {
-				var previousElement = prevTargets[ element.getAttribute( 'data-id' ) ];
-				if( previousElement ) {
-					autoAnimateElement( previousElement, element );
+			toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( toElement ) {
+				var fromElement = fromTargets[ toElement.getAttribute( 'data-id' ) ];
+				if( fromElement ) {
+					autoAnimateElement( fromElement, toElement, offsetY );
 				}
 			} );
 
@@ -3813,7 +3818,7 @@
 	 * @param  {HTMLElement} from
 	 * @param  {HTMLElement} to
 	 */
-	function autoAnimateElement( from, to ) {
+	function autoAnimateElement( from, to, offsetY ) {
 
 		var fromProps = getAutoAnimatableProperties( from ),
 			toProps = getAutoAnimatableProperties( to );
@@ -3824,6 +3829,10 @@
 			scaleX: fromProps.width / toProps.width,
 			scaleY: fromProps.height / toProps.height
 		};
+
+		// Correction applied to account for varying vertical
+		// positions in decks with vertical centering
+		if( typeof offsetY === 'number' ) delta.y += offsetY;
 
 		to.style.transition = 'none';
 		to.style.transform = 'translate('+delta.x+'px, '+delta.y+'px) scale('+delta.scaleX+','+delta.scaleY+')';
