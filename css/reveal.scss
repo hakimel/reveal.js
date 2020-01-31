@@ -3,7 +3,7 @@
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2019 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2020 Hakim El Hattab, http://hakim.se
  */
 
 
@@ -102,7 +102,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-up {
-	transform: translate(0, 20%);
+	transform: translate(0, 40px);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -110,7 +110,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-down {
-	transform: translate(0, -20%);
+	transform: translate(0, -40px);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -118,7 +118,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-right {
-	transform: translate(-20%, 0);
+	transform: translate(-40px, 0);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -126,7 +126,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-left {
-	transform: translate(20%, 0);
+	transform: translate(40px, 0);
 
 	&.visible {
 		transform: translate(0, 0);
