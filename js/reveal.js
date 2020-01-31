@@ -187,6 +187,20 @@
 			// - false:  All iframes with data-src will be loaded only when visible
 			preloadIframes: null,
 
+			// Can be used to globally disable auto-animation
+			autoAnimate: true,
+
+			// CSS styles that auto-animations will animate between
+			autoAnimateStyles: [
+				'opacity',
+				'color',
+				'backgroundColor',
+				'border-top-left-radius',
+				'border-top-right-radius',
+				'border-bottom-left-radius',
+				'border-bottom-right-radius'
+			],
+
 			// Controls automatic progression to the next slide
 			// - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
 			//           is present on the current slide or fragment
@@ -360,6 +374,10 @@
 
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
+
+		// A list of all elements that we have animated through
+		// auto-animations
+		autoAnimatedRollbacks = [],
 
 		// The current auto-slide duration
 		autoSlide = 0,
@@ -1390,6 +1408,12 @@
 			enablePreviewLinks( '[data-preview-link]:not([data-preview-link=false])' );
 		}
 
+		// Reset all auto animated elements
+		autoAnimatedRollbacks.forEach( function( rollback ) {
+			rollback();
+		} );
+		autoAnimatedRollbacks = [];
+
 		// Remove existing auto-slide controls
 		if( autoSlidePlayer ) {
 			autoSlidePlayer.destroy();
@@ -2300,7 +2324,7 @@
 						continue;
 					}
 
-					if( config.center || slide.classList.contains( 'center' ) ) {
+					if( ( config.center || slide.classList.contains( 'center' ) ) ) {
 						// Vertical stacks are not centred since their section
 						// children will be
 						if( slide.classList.contains( 'stack' ) ) {
@@ -2993,6 +3017,10 @@
 		writeURL();
 
 		cueAutoSlide();
+
+		if( slideChanged && previousSlide && currentSlide ) {
+			autoAnimate( previousSlide, currentSlide );
+		}
 
 	}
 
@@ -3748,6 +3776,115 @@
 			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + -verticalOffset + 'px';
 
 		}
+
+	}
+
+	/**
+	 * Runs an auto-animation between the given slides.
+	 *
+	 * @param  {HTMLElement} fromSlide
+	 * @param  {HTMLElement} toSlide
+	 */
+	function autoAnimate( fromSlide, toSlide ) {
+
+		if( config.autoAnimate ) {
+
+			var prevTargets = {};
+
+			toArray( fromSlide.querySelectorAll( '[data-id]' ) ).forEach( function( element ) {
+				prevTargets[ element.getAttribute( 'data-id' ) ] = element;
+			} );
+
+			toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( element ) {
+				var previousElement = prevTargets[ element.getAttribute( 'data-id' ) ];
+				if( previousElement ) {
+					autoAnimateElement( previousElement, element );
+				}
+			} );
+
+		}
+
+	}
+
+	/**
+	 * Auto-animates the properties of an element from their original
+	 * values to their new state.
+	 *
+	 * @param  {HTMLElement} from
+	 * @param  {HTMLElement} to
+	 */
+	function autoAnimateElement( from, to ) {
+
+		var fromProps = getAutoAnimatableProperties( from ),
+			toProps = getAutoAnimatableProperties( to );
+
+		var delta = {
+			x: fromProps.x - toProps.x,
+			y: fromProps.y - toProps.y,
+			scaleX: fromProps.width / toProps.width,
+			scaleY: fromProps.height / toProps.height
+		};
+
+		to.style.transition = 'none';
+		to.style.transform = 'translate('+delta.x+'px, '+delta.y+'px) scale('+delta.scaleX+','+delta.scaleY+')';
+		to.classList.add( 'auto-animate-target' );
+
+		config.autoAnimateStyles.forEach( function( propertyName ) {
+			to.style[propertyName] = fromProps[propertyName];
+		} );
+
+		setTimeout( function() {
+
+			// Run the FLIP animation
+			to.style.transition = '';
+			to.style.transform = '';
+
+			config.autoAnimateStyles.forEach( function( propertyName ) {
+				to.style[propertyName] = toProps[propertyName];
+			} );
+
+		}, 1 );
+
+	}
+
+	/**
+	 * Returns an object containing all of the properties
+	 * that can be auto-animated for the given element
+	 * and their respective values.
+	 */
+	function getAutoAnimatableProperties( element ) {
+
+		var properties = element._animatableProperties;
+
+		if( !properties ) {
+
+			properties = {};
+
+			// Position and size
+			properties.x = element.offsetLeft;
+			properties.y = element.offsetTop;
+			properties.width = element.offsetWidth;
+			properties.height = element.offsetHeight;
+
+			// Styles
+			config.autoAnimateStyles.forEach( function( propertyName ) {
+				properties[propertyName] = element.style[propertyName];
+			} );
+
+			// Cache the list of properties
+			element._animatableProperties = properties;
+
+			// Provide a method for rolling back this element to its
+			// pre auto-animated state.
+			autoAnimatedRollbacks.push( function( originalStyleAttribute ) {
+				element.setAttribute( 'style', originalStyleAttribute );
+				element.classList.remove( 'auto-animate-target' );
+				delete element._animatableProperties;
+			}.bind( null, element.getAttribute( 'style' ) ) );
+
+		}
+
+		return properties;
 
 	}
 
