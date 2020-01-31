@@ -638,6 +638,8 @@ Reveal.getConfig();
 // Fetch the current scale of the presentation
 Reveal.getScale();
 
+Reveal.getComputedSlideSize(); // Returns object with width, height keys, and (scaled) presentationWidth and presentationHeight.
+
 // Retrieves the previous and current slide elements
 Reveal.getPreviousSlide();
 Reveal.getCurrentSlide();
