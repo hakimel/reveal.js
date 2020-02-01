@@ -190,11 +190,19 @@
 			// Can be used to globally disable auto-animation
 			autoAnimate: true,
 
+			// Default settings for or auto-animate transitions, can be
+			// overridden per-slide via data arguments
+			autoAnimateEasing: 'ease',
+			autoAnimateDuration: 0.7,
+
 			// CSS styles that auto-animations will animate between
 			autoAnimateStyles: [
 				'opacity',
 				'color',
 				'backgroundColor',
+				'font-size',
+				'line-height',
+				'letter-spacing',
 				'border-top-left-radius',
 				'border-top-right-radius',
 				'border-bottom-left-radius',
@@ -3018,8 +3026,24 @@
 
 		cueAutoSlide();
 
+		// Auto-animation
 		if( slideChanged && previousSlide && currentSlide ) {
+
+			// Skip the slide transition between our two slides
+			// when auto-animating individual elements
+			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' ) ) {
+				previousSlide.style.transition = 'none';
+				currentSlide.style.transition = 'none';
+
+				setTimeout( function() {
+					previousSlide.style.transition = '';
+					currentSlide.style.transition = '';
+				}, 0 );
+			}
+
+			// Run the auto-animation between our slides
 			autoAnimate( previousSlide, currentSlide );
+
 		}
 
 	}
@@ -3789,10 +3813,28 @@
 
 		if( config.autoAnimate ) {
 
+			var options = {
+				easing: config.autoAnimateEasing,
+				duration: config.autoAnimateDuration,
+				offsetY: 0
+			};
+
 			// If our slides are centered vertically, we need to
 			// account for their difference in position when
 			// calculating deltas for animated elements
-			var offsetY = config.center ? fromSlide.offsetTop - toSlide.offsetTop : 0;
+			if( config.center ) {
+				options.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
+			}
+
+			// Check if easing is overriden
+			if( toSlide.hasAttribute( 'data-auto-animate-easing' ) ) {
+				options.easing = toSlide.getAttribute( 'data-auto-animate-easing' );
+			}
+
+			// Check if the duration is overriden
+			if( toSlide.hasAttribute( 'data-auto-animate-duration' ) ) {
+				options.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
+			}
 
 			var fromTargets = {};
 
@@ -3803,7 +3845,7 @@
 			toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( toElement ) {
 				var fromElement = fromTargets[ toElement.getAttribute( 'data-id' ) ];
 				if( fromElement ) {
-					autoAnimateElement( fromElement, toElement, offsetY );
+					autoAnimateElement( fromElement, toElement, options );
 				}
 			} );
 
@@ -3815,24 +3857,21 @@
 	 * Auto-animates the properties of an element from their original
 	 * values to their new state.
 	 *
-	 * @param  {HTMLElement} from
-	 * @param  {HTMLElement} to
+	 * @param {HTMLElement} from
+	 * @param {HTMLElement} to
+	 * @param {Object} options
 	 */
-	function autoAnimateElement( from, to, offsetY ) {
+	function autoAnimateElement( from, to, options ) {
 
 		var fromProps = getAutoAnimatableProperties( from ),
 			toProps = getAutoAnimatableProperties( to );
 
 		var delta = {
 			x: fromProps.x - toProps.x,
-			y: fromProps.y - toProps.y,
+			y: fromProps.y - toProps.y + options.offsetY,
 			scaleX: fromProps.width / toProps.width,
 			scaleY: fromProps.height / toProps.height
 		};
-
-		// Correction applied to account for varying vertical
-		// positions in decks with vertical centering
-		if( typeof offsetY === 'number' ) delta.y += offsetY;
 
 		to.style.transition = 'none';
 		to.style.transform = 'translate('+delta.x+'px, '+delta.y+'px) scale('+delta.scaleX+','+delta.scaleY+')';
@@ -3846,6 +3885,8 @@
 
 			// Run the FLIP animation
 			to.style.transition = '';
+			to.style.transitionTimingFunction = options.easing;
+			to.style.transitionDuration = options.duration + 's';
 			to.style.transform = '';
 
 			config.autoAnimateStyles.forEach( function( propertyName ) {
@@ -3883,11 +3924,20 @@
 			// Cache the list of properties
 			element._animatableProperties = properties;
 
-			// Provide a method for rolling back this element to its
-			// pre auto-animated state.
+			// Provide a method for rolling back all changes made to this
+			// element as part of auto-animating it
 			autoAnimatedRollbacks.push( function( originalStyleAttribute ) {
-				element.setAttribute( 'style', originalStyleAttribute );
 				element.classList.remove( 'auto-animate-target' );
+				element.style.transitionTimingFunction = '';
+				element.style.transitionDuration = '';
+
+				if( typeof originalStyleAttribute === 'string' ) {
+					element.setAttribute( 'style', originalStyleAttribute );
+				}
+				else {
+					element.removeAttribute( 'style' );
+				}
+
 				delete element._animatableProperties;
 			}.bind( null, element.getAttribute( 'style' ) ) );
 

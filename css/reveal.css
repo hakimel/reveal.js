@@ -934,11 +934,8 @@ body {
 /*********************************************
  * AUTO ANIMATE
  *********************************************/
-.reveal section[data-auto-animate] {
-  transition: none; }
-
 .reveal section[data-auto-animate] .auto-animate-target {
-  transition: all 0.7s ease;
+  transition-property: all;
   -webkit-transform-origin: top left;
           transform-origin: top left; }
 

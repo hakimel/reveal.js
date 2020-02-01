@@ -994,12 +994,8 @@ $controlsArrowAngleActive: 36deg;
  * AUTO ANIMATE
  *********************************************/
 
-.reveal section[data-auto-animate] {
-	transition: none;
-}
-
 .reveal section[data-auto-animate] .auto-animate-target {
-	transition: all 0.7s ease;
+	transition-property: all;
 	transform-origin: top left;
 }
 
