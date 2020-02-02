@@ -193,7 +193,7 @@
 			// Default settings for or auto-animate transitions, can be
 			// overridden per-slide via data arguments
 			autoAnimateEasing: 'ease',
-			autoAnimateDuration: 0.7,
+			autoAnimateDuration: 1.0,
 
 			// CSS styles that auto-animations will animate between
 			autoAnimateStyles: [
@@ -3893,7 +3893,7 @@
 				to.style[propertyName] = toProps[propertyName];
 			} );
 
-		}, 1 );
+		}, 0 );
 
 	}
 
