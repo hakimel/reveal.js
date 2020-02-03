@@ -3836,17 +3836,8 @@
 				options.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
 			}
 
-			var fromTargets = {};
-
-			toArray( fromSlide.querySelectorAll( '[data-id]' ) ).forEach( function( fromElement ) {
-				fromTargets[ fromElement.getAttribute( 'data-id' ) ] = fromElement;
-			} );
-
-			toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( toElement ) {
-				var fromElement = fromTargets[ toElement.getAttribute( 'data-id' ) ];
-				if( fromElement ) {
-					autoAnimateElement( fromElement, toElement, options );
-				}
+			getAutoAnimatableElements( fromSlide, toSlide ).forEach( function( elements ) {
+				autoAnimateElement( elements[0], elements[1], options );
 			} );
 
 		}
@@ -3944,6 +3935,81 @@
 		}
 
 		return properties;
+
+	}
+
+	/**
+	 * [getAutoAnimatableElements description]
+	 * @param {HTMLElement} fromSlide
+	 * @param {HTMLElement} toSlide
+	 *
+	 * @return {Array} Each value is an array where [0] is
+	 * the element we're animating from and [1] is the
+	 * element we're animating to
+	 */
+	function getAutoAnimatableElements( fromSlide, toSlide ) {
+
+		var pairs = findImplicitAutoAnimatePairs( fromSlide, toSlide )
+						.concat( findExplicitAutoAnimatePairs( fromSlide, toSlide ) );
+
+		// Remove duplicate pairs
+		pairs = pairs.filter( function( pair, index ) {
+			return index === pairs.findIndex( function( comparePair ) {
+				return pair[0] === comparePair[0] && pair[1] === comparePair[1];
+			} );
+		} );
+
+		return pairs;
+
+	}
+
+	/**
+	 * Returns an array of auto-animate element pairs
+	 * discovered through implicing means such as matching
+	 * text content.
+	 */
+	function findImplicitAutoAnimatePairs( fromSlide, toSlide ) {
+
+		var textSelector = 'h1, h2, h3, h4, h5, h6, p, li, span';
+
+		var pairs = [];
+		var fromHash = {};
+
+		toArray( fromSlide.querySelectorAll( textSelector ) ).forEach( function( element ) {
+			fromHash[ element.nodeName+':::'+element.textContent ] = element;
+		} );
+
+		toArray( toSlide.querySelectorAll( textSelector ) ).forEach( function( element ) {
+			var fromElement = fromHash[ element.nodeName+':::'+element.textContent ];
+			if( fromElement ) {
+				pairs.push([ fromElement, element ]);
+			}
+		} );
+
+		return pairs;
+
+	}
+
+	/**
+	 * Returns explicitly ID-matched auto-animate elements.
+	 */
+	function findExplicitAutoAnimatePairs( fromSlide, toSlide ) {
+
+		var pairs = [];
+		var fromHash = {};
+
+		toArray( fromSlide.querySelectorAll( '[data-id]' ) ).forEach( function( fromElement ) {
+			fromHash[ fromElement.getAttribute( 'data-id' ) ] = fromElement;
+		} );
+
+		toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( toElement ) {
+			var fromElement = fromHash[ toElement.getAttribute( 'data-id' ) ];
+			if( fromElement ) {
+				pairs.push([ fromElement, toElement ]);
+			}
+		} );
+
+		return pairs;
 
 	}
 
