@@ -10,6 +10,7 @@
 
 		<link rel="stylesheet" href="../../css/reveal.css">
 		<link rel="stylesheet" href="../../css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="../../lib/css/monokai.css">
 	</head>
 
 	<body>
@@ -21,12 +22,22 @@
 				<section data-auto-animate>
 					<h3>Auto-Matched Content (no IDs)</h3>
 					<h3>This will fade out</h3>
-					<img src="assets/image1.png">
+					<img src="assets/image1.png" style="height: 100px;">
+					<pre><code class="hljs">
+function Example() {
+  const [count, setCount] = useState(0);
+}
+					</code></pre>
 				</section>
 				<section data-auto-animate>
 					<h3>Auto-Matched Content (no IDs)</h3>
 					<h3 style="opacity: 0.2; margin-top: 200px;">This will fade out</h3>
-					<img src="assets/image1.png">
+					<img src="assets/image1.png" style="height: 100px;">
+					<pre><code class="hljs">
+function Example() {
+  const [count, setCount] = useState(0);
+}
+					</code></pre>
 				</section>
 
 				<section data-auto-animate>
@@ -110,7 +121,11 @@
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				center: true,
-				hash: true
+				hash: true,
+
+				dependencies: [
+					{ src: '../../plugin/highlight/highlight.js', async: true }
+				]
 			});
 
 		</script>

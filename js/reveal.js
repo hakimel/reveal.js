@@ -3970,20 +3970,42 @@
 	 */
 	function findImplicitAutoAnimatePairs( fromSlide, toSlide ) {
 
-		var textSelector = 'h1, h2, h3, h4, h5, h6, p, li, span';
-
 		var pairs = [];
-		var fromHash = {};
 
-		toArray( fromSlide.querySelectorAll( textSelector ) ).forEach( function( element ) {
-			fromHash[ element.nodeName+':::'+element.textContent ] = element;
+		var findMatches = function( selector, serializer, transformer ) {
+
+			var fromHash = {};
+
+			toArray( fromSlide.querySelectorAll( selector ) ).forEach( function( element ) {
+				if( typeof transformer === 'function' ) element = transformer( element );
+				fromHash[ serializer( element ) ] = element;
+			} );
+
+			toArray( toSlide.querySelectorAll( selector ) ).forEach( function( element ) {
+				if( typeof transformer === 'function' ) element = transformer( element );
+				var fromElement = fromHash[ serializer( element ) ];
+				if( fromElement ) {
+					pairs.push([ fromElement, element ]);
+				}
+			} );
+
+		};
+
+		// Text
+		findMatches( 'h1, h2, h3, h4, h5, h6, p, li, span', function( node ) {
+			return node.nodeName + ':::' + node.innerText;
 		} );
 
-		toArray( toSlide.querySelectorAll( textSelector ) ).forEach( function( element ) {
-			var fromElement = fromHash[ element.nodeName+':::'+element.textContent ];
-			if( fromElement ) {
-				pairs.push([ fromElement, element ]);
-			}
+		// Media
+		findMatches( 'img, video, iframe', function( node ) {
+			return node.nodeName + ':::' + ( node.getAttribute( 'src' ) || node.getAttribute( 'data-src' ) );
+		} );
+
+		// Code
+		findMatches( 'pre>code', function( node ) {
+			return node.nodeName + ':::' + node.innerText;
+		}, function( element ) {
+			return element.parentNode;
 		} );
 
 		return pairs;
