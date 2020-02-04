@@ -250,6 +250,22 @@ Reveal.addEventListener( 'ready', function() {
 		assert.deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 1 }, 'Reveal.slide( 2, 0, 1 )' );
 	});
 
+	QUnit.test( 'data-fragment is set on slide <section>', function( assert ) {
+		Reveal.slide( 2, 0, -1 );
+		assert.deepEqual( Reveal.getCurrentSlide().getAttribute( 'data-fragment' ), '-1' );
+
+		Reveal.slide( 2, 0, 2 );
+		assert.deepEqual( Reveal.getCurrentSlide().getAttribute( 'data-fragment' ), '2' );
+
+		Reveal.slide( 2, 0, 0 );
+		assert.deepEqual( Reveal.getCurrentSlide().getAttribute( 'data-fragment' ), '0' );
+
+		var fragmentSlide = Reveal.getCurrentSlide();
+
+		Reveal.slide( 3, 0 );
+		assert.deepEqual( fragmentSlide.getAttribute( 'data-fragment' ), '0', 'data-fragment persists when jumping to another slide' );
+	});
+
 	QUnit.test( 'Hiding all fragments', function( assert ) {
 		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
 
@@ -262,6 +278,7 @@ Reveal.addEventListener( 'ready', function() {
 
 	QUnit.test( 'Current fragment', function( assert ) {
 		var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
+		var lastFragmentIndex = [].slice.call( fragmentSlide.querySelectorAll( '.fragment' ) ).pop().getAttribute( 'data-fragment-index' );
 
 		Reveal.slide( 2, 0 );
 		assert.strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment at index -1' );
@@ -274,6 +291,10 @@ Reveal.addEventListener( 'ready', function() {
 
 		Reveal.slide( 3, 0, 0 );
 		assert.strictEqual( fragmentSlide.querySelectorAll( '.fragment.current-fragment' ).length, 0, 'no current fragment when navigating to next slide' );
+
+		Reveal.slide( 2, 1, -1 );
+		Reveal.prev();
+		assert.strictEqual( fragmentSlide.querySelector( '.fragment.current-fragment' ).getAttribute( 'data-fragment-index' ), lastFragmentIndex, 'last fragment is current fragment when returning from future slide' );
 	});
 
 	QUnit.test( 'Stepping through fragments', function( assert ) {

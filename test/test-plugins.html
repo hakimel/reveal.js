@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Plugins</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-2.5.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides">
+
+				<section>Slide content</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+		<script src="qunit-2.5.0.js"></script>
+
+		<script>
+
+			QUnit.module( 'Plugins' );
+
+			var initCounter = { PluginB: 0, PluginC: 0, PluginD: 0 };
+
+			// Plugin with no init method
+			var PluginA = {};
+
+			// Plugin with init method
+			var PluginB = { init: function() {
+				initCounter['PluginB'] += 1;
+			} };
+
+			// Async plugin with init method
+			var PluginC = { init: function() {
+				return new Promise(function( resolve ) {
+					setTimeout( () => {
+						initCounter['PluginC'] += 1;
+						resolve();
+					}, 1000 );
+				});
+			} };
+
+			// Plugin initialized after reveal.js is ready
+			var PluginD = { init: function() {
+				initCounter['PluginD'] += 1;
+			} };
+
+			var PluginE = {};
+
+			Reveal.registerPlugin( 'PluginA', PluginA );
+			Reveal.registerPlugin( 'PluginB', PluginB );
+			Reveal.registerPlugin( 'PluginC', PluginC );
+
+			Reveal.initialize();
+
+			QUnit.test( 'Can initialize synchronously', function( assert ) {
+				assert.strictEqual( initCounter['PluginB'], 1 );
+
+				Reveal.registerPlugin( 'PluginB', PluginB );
+
+				assert.strictEqual( initCounter['PluginB'], 1, 'prevents duplicate registration' );
+			});
+
+			QUnit.test( 'Can initialize asynchronously', function( assert ) {
+				assert.expect( 3 );
+				var done = assert.async( 2 );
+
+				assert.strictEqual( initCounter['PluginC'], 0, 'async plugin not immediately initialized' );
+
+				Reveal.addEventListener( 'ready', function() {
+					assert.strictEqual( initCounter['PluginC'], 1, 'finsihed initializing when reveal.js dispatches "ready"' );
+					done();
+
+					Reveal.registerPlugin( 'PluginD', PluginD );
+					assert.strictEqual( initCounter['PluginD'], 1, 'plugin registered after reveal.js is ready still initiailizes' );
+					done();
+				});
+			} );
+
+			QUnit.test( 'Can check if plugin is registered', function( assert ) {
+				assert.strictEqual( Reveal.hasPlugin( 'PluginA' ), true );
+				assert.strictEqual( Reveal.hasPlugin( 'PluginE' ), false );
+				Reveal.registerPlugin( 'PluginE', PluginE );
+				assert.strictEqual( Reveal.hasPlugin( 'PluginE' ), true );
+			} );
+
+			QUnit.test( 'Can retrieve plugin instance', function( assert ) {
+				assert.strictEqual( Reveal.getPlugin( 'PluginB' ), PluginB );
+			} );
+		</script>
+
+	</body>
+</html>
