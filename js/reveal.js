@@ -4253,7 +4253,7 @@
 					// Only removing the src doesn't actually unload the frame
 					// in all browsers (Firefox) so we set it to blank first
 					el.setAttribute( tag_to_src_attr(el), 'about:blank' );
-					el.removeAttribute( tag_to_src_attr(ele) );
+					el.removeAttribute( tag_to_src_attr(el) );
 				} );
 			}
 		}
