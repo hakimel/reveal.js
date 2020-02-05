@@ -991,17 +991,6 @@ $controlsArrowAngleActive: 36deg;
 
 
 /*********************************************
- * AUTO ANIMATE
- *********************************************/
-
-.reveal section[data-auto-animate] .auto-animate-target {
-	transition-property: all;
-	transform-origin: top left;
-}
-
-
-
-/*********************************************
  * PAUSED MODE
  *********************************************/
 

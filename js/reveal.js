@@ -190,6 +190,11 @@
 			// Can be used to globally disable auto-animation
 			autoAnimate: true,
 
+			// Optionally provide a custom element matcher function,
+			// the function needs to return an array where each value is
+			// an array of animation pairs [fromElement, toElement]
+			autoAnimateMatcher: null,
+
 			// Default settings for or auto-animate transitions, can be
 			// overridden per-slide via data arguments
 			autoAnimateEasing: 'ease',
@@ -197,16 +202,19 @@
 
 			// CSS styles that auto-animations will animate between
 			autoAnimateStyles: [
-				'opacity',
-				'color',
-				'backgroundColor',
-				'font-size',
-				'line-height',
-				'letter-spacing',
-				'border-top-left-radius',
-				'border-top-right-radius',
-				'border-bottom-left-radius',
-				'border-bottom-right-radius'
+				{ property: 'opacity' },
+				{ property: 'color' },
+				{ property: 'backgroundColor' },
+				{ property: 'padding', defaultValue: 'computed' },
+				{ property: 'font-size', defaultValue: 'computed' },
+				{ property: 'line-height', defaultValue: 'computed' },
+				{ property: 'letter-spacing', defaultValue: 'computed' },
+				{ property: 'border-width', defaultValue: 'computed' },
+				{ property: 'border-color' },
+				{ property: 'border-top-left-radius' },
+				{ property: 'border-top-right-radius' },
+				{ property: 'border-bottom-left-radius' },
+				{ property: 'border-bottom-right-radius' }
 			],
 
 			// Controls automatic progression to the next slide
@@ -383,9 +391,8 @@
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
 
-		// A list of all elements that we have animated through
-		// auto-animations
-		autoAnimatedRollbacks = [],
+		// <style> element used to apply auto-animations
+		autoAnimateStyleSheet,
 
 		// The current auto-slide duration
 		autoSlide = 0,
@@ -1417,10 +1424,16 @@
 		}
 
 		// Reset all auto animated elements
-		autoAnimatedRollbacks.forEach( function( rollback ) {
-			rollback();
+		toArray( dom.wrapper.querySelectorAll( '.slides .auto-animate-start' ) ).forEach( function( element ) {
+			element.classList.remove( 'auto-animate-start' );
 		} );
-		autoAnimatedRollbacks = [];
+		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-id]' ) ).forEach( function( element ) {
+			element.removeAttribute( 'data-auto-animate-id' );
+		} );
+		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
+			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
+			autoAnimateStyleSheet = null;
+		}
 
 		// Remove existing auto-slide controls
 		if( autoSlidePlayer ) {
@@ -3036,8 +3049,8 @@
 				currentSlide.style.transition = 'none';
 
 				setTimeout( function() {
-					previousSlide.style.transition = '';
-					currentSlide.style.transition = '';
+					if( previousSlide ) previousSlide.style.transition = '';
+					if( currentSlide ) currentSlide.style.transition = '';
 				}, 0 );
 			}
 
@@ -3813,7 +3826,13 @@
 
 		if( config.autoAnimate ) {
 
-			var options = {
+			// Lazily create the auto-animate stylesheet
+			if( !autoAnimateStyleSheet ) {
+				autoAnimateStyleSheet = document.createElement( 'style' );
+				document.querySelector( 'head' ).appendChild( autoAnimateStyleSheet );
+			}
+
+			var animationOptions = {
 				easing: config.autoAnimateEasing,
 				duration: config.autoAnimateDuration,
 				offsetY: 0
@@ -3823,22 +3842,34 @@
 			// account for their difference in position when
 			// calculating deltas for animated elements
 			if( config.center ) {
-				options.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
+				animationOptions.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
 			}
 
 			// Check if easing is overriden
 			if( toSlide.hasAttribute( 'data-auto-animate-easing' ) ) {
-				options.easing = toSlide.getAttribute( 'data-auto-animate-easing' );
+				animationOptions.easing = toSlide.getAttribute( 'data-auto-animate-easing' );
 			}
 
 			// Check if the duration is overriden
 			if( toSlide.hasAttribute( 'data-auto-animate-duration' ) ) {
-				options.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
+				animationOptions.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
 			}
 
-			getAutoAnimatableElements( fromSlide, toSlide ).forEach( function( elements ) {
-				autoAnimateElement( elements[0], elements[1], options );
-			} );
+			// Reset any prior animation
+			fromSlide.classList.remove( 'auto-animate-start' );
+			toSlide.classList.remove( 'auto-animate-start' );
+
+			autoAnimateStyleSheet.innerHTML = '';
+
+			// Generate and write out custom auto-animate styles to the DOM
+			autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements, i ) {
+				return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, animationOptions, i );
+			} ).join( '' );
+
+			// Start the animation next cycle
+			setTimeout( function() {
+				toSlide.classList.add( 'auto-animate-start' );
+			}, 0 );
 
 		}
 
@@ -3850,41 +3881,60 @@
 	 *
 	 * @param {HTMLElement} from
 	 * @param {HTMLElement} to
-	 * @param {Object} options
+	 * @param {Object} options Optional settings for this specific pair
+	 * @param {Object} animationOptions Options that apply to all
+	 * elements in this transition
 	 */
-	function autoAnimateElement( from, to, options ) {
+	function getAutoAnimateCSS( from, to, options, animationOptions, id ) {
 
-		var fromProps = getAutoAnimatableProperties( from ),
-			toProps = getAutoAnimatableProperties( to );
+		// Each element gets a unique auto-animate ID
+		to.setAttribute( 'data-auto-animate-id', id );
 
-		var delta = {
-			x: fromProps.x - toProps.x,
-			y: fromProps.y - toProps.y + options.offsetY,
-			scaleX: fromProps.width / toProps.width,
-			scaleY: fromProps.height / toProps.height
-		};
+		var fromProps = getAutoAnimatableProperties( 'from', from, options ),
+			toProps = getAutoAnimatableProperties( 'to', to, options );
 
-		to.style.transition = 'none';
-		to.style.transform = 'translate('+delta.x+'px, '+delta.y+'px) scale('+delta.scaleX+','+delta.scaleY+')';
-		to.classList.add( 'auto-animate-target' );
+		// Instantly move to the 'from' state
+		fromProps.styles.push([ 'transition', 'none' ]);
 
-		config.autoAnimateStyles.forEach( function( propertyName ) {
-			to.style[propertyName] = fromProps[propertyName];
-		} );
+		// transition to the 'to' state
+		toProps.styles.push([ 'transition', 'all '+ animationOptions.duration +'s '+ animationOptions.easing ]);
 
-		setTimeout( function() {
+		// If translation and/or scalin are enabled, offset the
+		// 'to' element so that it starts out at the same position
+		// and scale as the 'from' element
+		if( options.translate !== false || options.scale !== false ) {
 
-			// Run the FLIP animation
-			to.style.transition = '';
-			to.style.transitionTimingFunction = options.easing;
-			to.style.transitionDuration = options.duration + 's';
-			to.style.transform = '';
+			var delta = {
+				x: fromProps.x - toProps.x,
+				y: fromProps.y - toProps.y + animationOptions.offsetY,
+				scaleX: fromProps.width / toProps.width,
+				scaleY: fromProps.height / toProps.height
+			};
 
-			config.autoAnimateStyles.forEach( function( propertyName ) {
-				to.style[propertyName] = toProps[propertyName];
-			} );
+			var transform = [];
 
-		}, 0 );
+			if( options.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
+			if( options.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
+
+			fromProps.styles.push([ 'transform', transform.join( ' ' ) ]);
+			fromProps.styles.push([ 'transformOrigin', 'top left' ]);
+
+			toProps.styles.push([ 'transform', 'none' ]);
+
+		}
+
+		// Build up our custom CSS. We need to override inline styles
+		// so we need to make our styles vErY IMPORTANT!1!!
+		var fromCSS = fromProps.styles.map( function( style ) {
+			return style[0] + ': ' + style[1] + ' !important;';
+		} ).join( '' );
+
+		var toCSS = toProps.styles.map( function( style ) {
+			return style[0] + ': ' + style[1] + ' !important;';
+		} ).join( '' );
+
+		return  '.reveal [data-auto-animate-id="'+ id +'"] {\n'+ fromCSS +'\n}\n\n' +
+				'.reveal .auto-animate-start [data-auto-animate-id="'+ id +'"] {\n'+ toCSS +'\n}\n\n';
 
 	}
 
@@ -3893,53 +3943,52 @@
 	 * that can be auto-animated for the given element
 	 * and their respective values.
 	 */
-	function getAutoAnimatableProperties( element ) {
+	function getAutoAnimatableProperties( direction, element, options ) {
 
-		var properties = element._animatableProperties;
+		var properties = { styles: [] };
 
-		if( !properties ) {
-
-			properties = {};
-
-			// Position and size
+		// Position and size
+		if( options.translate !== false || options.scale !== false ) {
 			properties.x = element.offsetLeft;
 			properties.y = element.offsetTop;
 			properties.width = element.offsetWidth;
 			properties.height = element.offsetHeight;
-
-			// Styles
-			config.autoAnimateStyles.forEach( function( propertyName ) {
-				properties[propertyName] = element.style[propertyName];
-			} );
-
-			// Cache the list of properties
-			element._animatableProperties = properties;
-
-			// Provide a method for rolling back all changes made to this
-			// element as part of auto-animating it
-			autoAnimatedRollbacks.push( function( originalStyleAttribute ) {
-				element.classList.remove( 'auto-animate-target' );
-				element.style.transitionTimingFunction = '';
-				element.style.transitionDuration = '';
-
-				if( typeof originalStyleAttribute === 'string' ) {
-					element.setAttribute( 'style', originalStyleAttribute );
-				}
-				else {
-					element.removeAttribute( 'style' );
-				}
-
-				delete element._animatableProperties;
-			}.bind( null, element.getAttribute( 'style' ) ) );
-
 		}
+
+		var computedStyles;
+
+		// CSS styles
+		( options.styles || config.autoAnimateStyles ).forEach( function( style ) {
+			var value;
+
+			if( typeof style.from !== 'undefined' && direction === 'from' ) {
+				value = style.from;
+			}
+			else if( typeof style.to !== 'undefined' && direction === 'to' ) {
+				value = style.to;
+			}
+			else {
+				value = element.style[style.property];
+
+				if( value === '' && style.defaultValue === 'computed' ) {
+					computedStyles = computedStyles || window.getComputedStyle( element );
+					value = computedStyles[style.property];
+				}
+			}
+
+			if( value !== '' ) {
+				properties.styles.push([ style.property, value ]);
+			}
+		} );
 
 		return properties;
 
 	}
 
 	/**
-	 * [getAutoAnimatableElements description]
+	 * Get a list of all element pairs that we can animate
+	 * between the given slides.
+	 *
 	 * @param {HTMLElement} fromSlide
 	 * @param {HTMLElement} toSlide
 	 *
@@ -3949,26 +3998,25 @@
 	 */
 	function getAutoAnimatableElements( fromSlide, toSlide ) {
 
-		var pairs = findImplicitAutoAnimatePairs( fromSlide, toSlide )
-						.concat( findExplicitAutoAnimatePairs( fromSlide, toSlide ) );
+		var matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : findAutoAnimatePairs;
+
+		var pairs = matcher( fromSlide, toSlide );
 
 		// Remove duplicate pairs
-		pairs = pairs.filter( function( pair, index ) {
+		return pairs.filter( function( pair, index ) {
 			return index === pairs.findIndex( function( comparePair ) {
 				return pair[0] === comparePair[0] && pair[1] === comparePair[1];
 			} );
 		} );
 
-		return pairs;
-
 	}
 
 	/**
-	 * Returns an array of auto-animate element pairs
-	 * discovered through implicing means such as matching
-	 * text content.
+	 * Identifies matching elements between slides. You can specify
+	 * a custom matcher function by using the autoAnimateMatcher
+	 * config option.
 	 */
-	function findImplicitAutoAnimatePairs( fromSlide, toSlide ) {
+	function findAutoAnimatePairs( fromSlide, toSlide ) {
 
 		var pairs = [];
 
@@ -3991,6 +4039,11 @@
 
 		};
 
+		// Eplicit matches via data-id
+		findMatches( '[data-id]', function( node ) {
+			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
+		} );
+
 		// Text
 		findMatches( 'h1, h2, h3, h4, h5, h6, p, li, span', function( node ) {
 			return node.nodeName + ':::' + node.innerText;
@@ -4006,29 +4059,6 @@
 			return node.nodeName + ':::' + node.innerText;
 		}, function( element ) {
 			return element.parentNode;
-		} );
-
-		return pairs;
-
-	}
-
-	/**
-	 * Returns explicitly ID-matched auto-animate elements.
-	 */
-	function findExplicitAutoAnimatePairs( fromSlide, toSlide ) {
-
-		var pairs = [];
-		var fromHash = {};
-
-		toArray( fromSlide.querySelectorAll( '[data-id]' ) ).forEach( function( fromElement ) {
-			fromHash[ fromElement.getAttribute( 'data-id' ) ] = fromElement;
-		} );
-
-		toArray( toSlide.querySelectorAll( '[data-id]' ) ).forEach( function( toElement ) {
-			var fromElement = fromHash[ toElement.getAttribute( 'data-id' ) ];
-			if( fromElement ) {
-				pairs.push([ fromElement, toElement ]);
-			}
 		} );
 
 		return pairs;
