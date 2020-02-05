@@ -336,6 +336,7 @@
 
 		// Remember which directions that the user has navigated towards
 		hasNavigatedRight = false,
+		hasNavigatedLeft = false,
 		hasNavigatedDown = false,
 
 		// Slides may hold a data-state attribute which we pick up and apply
@@ -760,9 +761,12 @@
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
+		var leftArrowLabel = config.rtl ? "next slide" : "previous slide";
+		var rightArrowLabel = config.rtl ? "previous slide" : "next slide";
+
 		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
-			'<button class="navigate-left" aria-label="previous slide"><div class="controls-arrow"></div></button>' +
-			'<button class="navigate-right" aria-label="next slide"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-left" aria-label="' + leftArrowLabel + '"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-right" aria-label="' + rightArrowLabel + '"><div class="controls-arrow"></div></button>' +
 			'<button class="navigate-up" aria-label="above slide"><div class="controls-arrow"></div></button>' +
 			'<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>' );
 
@@ -787,8 +791,9 @@
 		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
 		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
 
-		// The right and down arrows in the standard reveal.js controls
+		// The left, right and down arrows in the standard reveal.js controls
 		dom.controlsRightArrow = dom.controls.querySelector( '.navigate-right' );
+		dom.controlsLeftArrow = dom.controls.querySelector( '.navigate-left' );
 		dom.controlsDownArrow = dom.controls.querySelector( '.navigate-down' );
 
 		dom.statusDiv = createStatusDiv();
@@ -3606,6 +3611,7 @@
 
 		}
 
+
 		if( config.controlsTutorial ) {
 
 			// Highlight control arrows with an animation to ensure
@@ -3616,16 +3622,26 @@
 			else {
 				dom.controlsDownArrow.classList.remove( 'highlight' );
 
-				if( !hasNavigatedRight && routes.right && indexv === 0 ) {
-					dom.controlsRightArrow.classList.add( 'highlight' );
-				}
-				else {
-					dom.controlsRightArrow.classList.remove( 'highlight' );
+				if (config.rtl) {
+
+					if( !hasNavigatedLeft && routes.left && indexv === 0 ) {
+						dom.controlsLeftArrow.classList.add( 'highlight' );
+					}
+					else {
+						dom.controlsLeftArrow.classList.remove( 'highlight' );
+					}
+
+				} else {
+
+					if( !hasNavigatedRight && routes.right && indexv === 0 ) {
+						dom.controlsRightArrow.classList.add( 'highlight' );
+					}
+					else {
+						dom.controlsRightArrow.classList.remove( 'highlight' );
+					}
 				}
 			}
-
 		}
-
 	}
 
 	/**
@@ -5210,6 +5226,8 @@
 
 	function navigateLeft() {
 
+		hasNavigatedLeft = true;
+
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
@@ -5299,7 +5317,12 @@
 	 */
 	function navigateNext() {
 
-		hasNavigatedRight = true;
+		if (!config.rtl) {
+			hasNavigatedRight = true;
+		} else {
+			hasNavigatedLeft = true;
+		}
+
 		hasNavigatedDown = true;
 
 		// Prioritize revealing fragments
