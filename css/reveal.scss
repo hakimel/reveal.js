@@ -230,6 +230,12 @@ body {
 	30% {transform: translateX(-5px);}
 }
 
+@keyframes bounce-left {
+	0%, 10%, 25%, 40%, 50% {transform: translateX(0);}
+	20% {transform: translateX(-10px);}
+	30% {transform: translateX(5px);}
+}
+
 @keyframes bounce-down {
 	0%, 10%, 25%, 40%, 50% {transform: translateY(0);}
 	20% {transform: translateY(10px);}
@@ -327,6 +333,10 @@ $controlsArrowAngleActive: 36deg;
 		right: $controlArrowSize + $controlArrowSpacing*2;
 		bottom: $controlArrowSpacing + $controlArrowSize/2;
 		transform: translateX( -10px );
+
+		&.highlight {
+			animation: bounce-left 2s 50 both ease-out;
+		}
 	}
 
 	.navigate-right {
@@ -371,7 +381,6 @@ $controlsArrowAngleActive: 36deg;
 	// Back arrow style: "faded":
 	// Deemphasize backwards navigation arrows in favor of drawing
 	// attention to forwards navigation
-	&[data-controls-back-arrows="faded"] .navigate-left.enabled,
 	&[data-controls-back-arrows="faded"] .navigate-up.enabled {
 		opacity: 0.3;
 
@@ -382,7 +391,6 @@ $controlsArrowAngleActive: 36deg;
 
 	// Back arrow style: "hidden":
 	// Never show arrows for backwards navigation
-	&[data-controls-back-arrows="hidden"] .navigate-left.enabled,
 	&[data-controls-back-arrows="hidden"] .navigate-up.enabled {
 		opacity: 0;
 		visibility: hidden;
@@ -405,6 +413,44 @@ $controlsArrowAngleActive: 36deg;
 	.enabled:hover,
 	.enabled.fragmented:hover {
 		opacity: 1;
+	}
+}
+
+.reveal:not(.rtl) .controls {
+	// Back arrow style: "faded":
+	// Deemphasize left arrow
+	&[data-controls-back-arrows="faded"] .navigate-left.enabled {
+		opacity: 0.3;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	// Back arrow style: "hidden":
+	// Never show left arrow
+	&[data-controls-back-arrows="hidden"] .navigate-left.enabled {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+.reveal.rtl .controls {
+	// Back arrow style: "faded":
+	// Deemphasize right arrow in RTL mode
+	&[data-controls-back-arrows="faded"] .navigate-right.enabled  {
+		opacity: 0.3;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	// Back arrow style: "hidden":
+	// Never show right arrow in RTL mode
+	&[data-controls-back-arrows="hidden"] .navigate-right.enabled {
+		opacity: 0;
+		visibility: hidden;
 	}
 }
 
