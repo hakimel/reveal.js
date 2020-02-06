@@ -932,14 +932,6 @@ body {
   transition: none; }
 
 /*********************************************
- * AUTO ANIMATE
- *********************************************/
-.reveal section[data-auto-animate] .auto-animate-target {
-  transition-property: all;
-  -webkit-transform-origin: top left;
-          transform-origin: top left; }
-
-/*********************************************
  * PAUSED MODE
  *********************************************/
 .reveal .pause-overlay {

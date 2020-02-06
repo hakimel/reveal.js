@@ -394,6 +394,9 @@
 		// <style> element used to apply auto-animations
 		autoAnimateStyleSheet,
 
+		// Counter used to generate unique IDs for auto-animated elements
+		autoAnimateCounter = 0,
+
 		// The current auto-slide duration
 		autoSlide = 0,
 
@@ -1427,9 +1430,10 @@
 		toArray( dom.wrapper.querySelectorAll( '.slides .auto-animate-start' ) ).forEach( function( element ) {
 			element.classList.remove( 'auto-animate-start' );
 		} );
-		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-id]' ) ).forEach( function( element ) {
-			element.removeAttribute( 'data-auto-animate-id' );
+		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
+			element.removeAttribute( 'data-auto-animate-target' );
 		} );
+
 		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
 			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
 			autoAnimateStyleSheet = null;
@@ -3040,7 +3044,7 @@
 		cueAutoSlide();
 
 		// Auto-animation
-		if( slideChanged && previousSlide && currentSlide ) {
+		if( config.autoAnimate && slideChanged && previousSlide && currentSlide ) {
 
 			// Skip the slide transition between our two slides
 			// when auto-animating individual elements
@@ -3824,54 +3828,56 @@
 	 */
 	function autoAnimate( fromSlide, toSlide ) {
 
-		if( config.autoAnimate ) {
-
-			// Lazily create the auto-animate stylesheet
-			if( !autoAnimateStyleSheet ) {
-				autoAnimateStyleSheet = document.createElement( 'style' );
-				document.querySelector( 'head' ).appendChild( autoAnimateStyleSheet );
-			}
-
-			var animationOptions = {
-				easing: config.autoAnimateEasing,
-				duration: config.autoAnimateDuration,
-				offsetY: 0
-			};
-
-			// If our slides are centered vertically, we need to
-			// account for their difference in position when
-			// calculating deltas for animated elements
-			if( config.center ) {
-				animationOptions.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
-			}
-
-			// Check if easing is overriden
-			if( toSlide.hasAttribute( 'data-auto-animate-easing' ) ) {
-				animationOptions.easing = toSlide.getAttribute( 'data-auto-animate-easing' );
-			}
-
-			// Check if the duration is overriden
-			if( toSlide.hasAttribute( 'data-auto-animate-duration' ) ) {
-				animationOptions.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
-			}
-
-			// Reset any prior animation
-			fromSlide.classList.remove( 'auto-animate-start' );
-			toSlide.classList.remove( 'auto-animate-start' );
-
-			autoAnimateStyleSheet.innerHTML = '';
-
-			// Generate and write out custom auto-animate styles to the DOM
-			autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements, i ) {
-				return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, animationOptions, i );
-			} ).join( '' );
-
-			// Start the animation next cycle
-			setTimeout( function() {
-				toSlide.classList.add( 'auto-animate-start' );
-			}, 0 );
-
+		// Lazily create the auto-animate stylesheet
+		if( !autoAnimateStyleSheet ) {
+			autoAnimateStyleSheet = document.createElement( 'style' );
+			document.head.appendChild( autoAnimateStyleSheet );
 		}
+		else {
+			autoAnimateStyleSheet.innerHTML = '';
+		}
+
+		var animationOptions = {
+			easing: config.autoAnimateEasing,
+			duration: config.autoAnimateDuration,
+			offsetY: 0
+		};
+
+		// If our slides are centered vertically, we need to
+		// account for their difference in position when
+		// calculating deltas for animated elements
+		if( config.center ) {
+			animationOptions.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
+		}
+
+		// Check if easing is overriden
+		if( toSlide.hasAttribute( 'data-auto-animate-easing' ) ) {
+			animationOptions.easing = toSlide.getAttribute( 'data-auto-animate-easing' );
+		}
+
+		// Check if the duration is overriden
+		if( toSlide.hasAttribute( 'data-auto-animate-duration' ) ) {
+			animationOptions.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
+		}
+
+		// Remove any existing animate-target IDs to keep the DOM clean
+		toArray( document.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
+			element.removeAttribute( 'data-auto-animate-target' );
+		} );
+
+		// Reset any prior animation
+		fromSlide.classList.remove( 'auto-animate-start' );
+		toSlide.classList.remove( 'auto-animate-start' );
+
+		// Generate and write out custom auto-animate styles to the DOM
+		autoAnimateStyleSheet.innerHTML += getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
+			return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, animationOptions, autoAnimateCounter++ );
+		} ).join( '' );
+
+		// Start the animation next cycle
+		setTimeout( function() {
+			toSlide.classList.add( 'auto-animate-start' );
+		}, 0 );
 
 	}
 
@@ -3884,11 +3890,14 @@
 	 * @param {Object} options Optional settings for this specific pair
 	 * @param {Object} animationOptions Options that apply to all
 	 * elements in this transition
+	 * @param {String} id Unique ID that we can use to identify this
+	 * auto-animate element in the DOM
 	 */
 	function getAutoAnimateCSS( from, to, options, animationOptions, id ) {
 
 		// Each element gets a unique auto-animate ID
-		to.setAttribute( 'data-auto-animate-id', id );
+		from.setAttribute( 'data-auto-animate-target', '' );
+		to.setAttribute( 'data-auto-animate-target', id );
 
 		var fromProps = getAutoAnimatableProperties( 'from', from, options ),
 			toProps = getAutoAnimatableProperties( 'to', to, options );
@@ -3917,7 +3926,7 @@
 			if( options.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
 
 			fromProps.styles.push([ 'transform', transform.join( ' ' ) ]);
-			fromProps.styles.push([ 'transformOrigin', 'top left' ]);
+			fromProps.styles.push([ 'transform-origin', 'top left' ]);
 
 			toProps.styles.push([ 'transform', 'none' ]);
 
@@ -3933,8 +3942,8 @@
 			return style[0] + ': ' + style[1] + ' !important;';
 		} ).join( '' );
 
-		return  '.reveal [data-auto-animate-id="'+ id +'"] {\n'+ fromCSS +'\n}\n\n' +
-				'.reveal .auto-animate-start [data-auto-animate-id="'+ id +'"] {\n'+ toCSS +'\n}\n\n';
+		return  '.reveal [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
+				'.reveal .auto-animate-start [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
 
 	}
 
