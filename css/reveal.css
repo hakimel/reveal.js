@@ -198,6 +198,28 @@ body {
     -webkit-transform: translateX(-5px);
             transform: translateX(-5px); } }
 
+@-webkit-keyframes bounce-left {
+  0%, 10%, 25%, 40%, 50% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+  20% {
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px); }
+  30% {
+    -webkit-transform: translateX(5px);
+            transform: translateX(5px); } }
+
+@keyframes bounce-left {
+  0%, 10%, 25%, 40%, 50% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+  20% {
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px); }
+  30% {
+    -webkit-transform: translateX(5px);
+            transform: translateX(5px); } }
+
 @-webkit-keyframes bounce-down {
   0%, 10%, 25%, 40%, 50% {
     -webkit-transform: translateY(0);
@@ -291,6 +313,9 @@ body {
     bottom: 3.2em;
     -webkit-transform: translateX(-10px);
             transform: translateX(-10px); }
+    .reveal .controls .navigate-left.highlight {
+      -webkit-animation: bounce-left 2s 50 both ease-out;
+              animation: bounce-left 2s 50 both ease-out; }
   .reveal .controls .navigate-right {
     right: 0;
     bottom: 3.2em;
@@ -322,13 +347,10 @@ body {
     .reveal .controls .navigate-down.highlight {
       -webkit-animation: bounce-down 2s 50 both ease-out;
               animation: bounce-down 2s 50 both ease-out; }
-  .reveal .controls[data-controls-back-arrows="faded"] .navigate-left.enabled,
   .reveal .controls[data-controls-back-arrows="faded"] .navigate-up.enabled {
     opacity: 0.3; }
-    .reveal .controls[data-controls-back-arrows="faded"] .navigate-left.enabled:hover,
     .reveal .controls[data-controls-back-arrows="faded"] .navigate-up.enabled:hover {
       opacity: 1; }
-  .reveal .controls[data-controls-back-arrows="hidden"] .navigate-left.enabled,
   .reveal .controls[data-controls-back-arrows="hidden"] .navigate-up.enabled {
     opacity: 0;
     visibility: hidden; }
@@ -343,6 +365,24 @@ body {
   .reveal .controls .enabled:hover,
   .reveal .controls .enabled.fragmented:hover {
     opacity: 1; }
+
+.reveal:not(.rtl) .controls[data-controls-back-arrows="faded"] .navigate-left.enabled {
+  opacity: 0.3; }
+  .reveal:not(.rtl) .controls[data-controls-back-arrows="faded"] .navigate-left.enabled:hover {
+    opacity: 1; }
+
+.reveal:not(.rtl) .controls[data-controls-back-arrows="hidden"] .navigate-left.enabled {
+  opacity: 0;
+  visibility: hidden; }
+
+.reveal.rtl .controls[data-controls-back-arrows="faded"] .navigate-right.enabled {
+  opacity: 0.3; }
+  .reveal.rtl .controls[data-controls-back-arrows="faded"] .navigate-right.enabled:hover {
+    opacity: 1; }
+
+.reveal.rtl .controls[data-controls-back-arrows="hidden"] .navigate-right.enabled {
+  opacity: 0;
+  visibility: hidden; }
 
 .reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-up,
 .reveal[data-navigation-mode="linear"].has-horizontal-slides .navigate-down {
