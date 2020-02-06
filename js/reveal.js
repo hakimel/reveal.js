@@ -204,12 +204,12 @@
 			autoAnimateStyles: [
 				{ property: 'opacity' },
 				{ property: 'color' },
-				{ property: 'backgroundColor' },
-				{ property: 'padding', defaultValue: 'computed' },
-				{ property: 'font-size', defaultValue: 'computed' },
-				{ property: 'line-height', defaultValue: 'computed' },
-				{ property: 'letter-spacing', defaultValue: 'computed' },
-				{ property: 'border-width', defaultValue: 'computed' },
+				{ property: 'background-color' },
+				{ property: 'padding' },
+				{ property: 'font-size' },
+				{ property: 'line-height' },
+				{ property: 'letter-spacing' },
+				{ property: 'border-width' },
 				{ property: 'border-color' },
 				{ property: 'border-top-left-radius' },
 				{ property: 'border-top-right-radius' },
@@ -3979,7 +3979,7 @@
 			else {
 				value = element.style[style.property];
 
-				if( value === '' && style.defaultValue === 'computed' ) {
+				if( value === '' ) {
 					computedStyles = computedStyles || window.getComputedStyle( element );
 					value = computedStyles[style.property];
 				}
@@ -4048,18 +4048,21 @@
 
 		};
 
+		var textNodes = 'h1, h2, h3, h4, h5, h6, p, li, span';
+		var mediaNodes = 'img, video, iframe';
+
 		// Eplicit matches via data-id
 		findMatches( '[data-id]', function( node ) {
 			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
 		} );
 
 		// Text
-		findMatches( 'h1, h2, h3, h4, h5, h6, p, li, span', function( node ) {
+		findMatches( textNodes, function( node ) {
 			return node.nodeName + ':::' + node.innerText;
-		} );
+		}, null );
 
 		// Media
-		findMatches( 'img, video, iframe', function( node ) {
+		findMatches( mediaNodes, function( node ) {
 			return node.nodeName + ':::' + ( node.getAttribute( 'src' ) || node.getAttribute( 'data-src' ) );
 		} );
 
@@ -4068,6 +4071,19 @@
 			return node.nodeName + ':::' + node.innerText;
 		}, function( element ) {
 			return element.parentNode;
+		} );
+
+		pairs.forEach( function( pair ) {
+
+			var fromElement = pair[0];
+			var matchesMethod = fromElement.matches || fromElement.matchesSelector || fromElement.msMatchesSelector;
+
+			// Disable scale transformations on text nodes, we transiition
+			// each individual text property instead
+			if( matchesMethod.call( fromElement, textNodes ) ) {
+				pair[2] = { scale: false };
+			}
+
 		} );
 
 		return pairs;
