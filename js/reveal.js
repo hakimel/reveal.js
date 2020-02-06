@@ -343,9 +343,8 @@
 		previousBackground,
 
 		// Remember which directions that the user has navigated towards
-		hasNavigatedRight = false,
-		hasNavigatedLeft = false,
-		hasNavigatedDown = false,
+		hasNavigatedHorizontally = false,
+		hasNavigatedVertically = false,
 
 		// Slides may hold a data-state attribute which we pick up and apply
 		// as a class to the body. This list contains the combined state of
@@ -771,12 +770,9 @@
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
 		// Arrow controls
-		var leftArrowLabel = config.rtl ? "next slide" : "previous slide";
-		var rightArrowLabel = config.rtl ? "previous slide" : "next slide";
-
 		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
-			'<button class="navigate-left" aria-label="' + leftArrowLabel + '"><div class="controls-arrow"></div></button>' +
-			'<button class="navigate-right" aria-label="' + rightArrowLabel + '"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-left" aria-label="' + ( config.rtl ? 'next slide' : 'previous slide' ) + '"><div class="controls-arrow"></div></button>' +
+			'<button class="navigate-right" aria-label="' + ( config.rtl ? 'previous slide' : 'next slide' ) + '"><div class="controls-arrow"></div></button>' +
 			'<button class="navigate-up" aria-label="above slide"><div class="controls-arrow"></div></button>' +
 			'<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>' );
 
@@ -3633,15 +3629,15 @@
 
 			// Highlight control arrows with an animation to ensure
 			// that the viewer knows how to navigate
-			if( !hasNavigatedDown && routes.down ) {
+			if( !hasNavigatedVertically && routes.down ) {
 				dom.controlsDownArrow.classList.add( 'highlight' );
 			}
 			else {
 				dom.controlsDownArrow.classList.remove( 'highlight' );
 
-				if (config.rtl) {
+				if( config.rtl ) {
 
-					if( !hasNavigatedLeft && routes.left && indexv === 0 ) {
+					if( !hasNavigatedHorizontally && routes.left && indexv === 0 ) {
 						dom.controlsLeftArrow.classList.add( 'highlight' );
 					}
 					else {
@@ -3650,7 +3646,7 @@
 
 				} else {
 
-					if( !hasNavigatedRight && routes.right && indexv === 0 ) {
+					if( !hasNavigatedHorizontally && routes.right && indexv === 0 ) {
 						dom.controlsRightArrow.classList.add( 'highlight' );
 					}
 					else {
@@ -5369,7 +5365,7 @@
 
 	function navigateLeft() {
 
-		hasNavigatedLeft = true;
+		hasNavigatedHorizontally = true;
 
 		// Reverse for RTL
 		if( config.rtl ) {
@@ -5386,7 +5382,7 @@
 
 	function navigateRight() {
 
-		hasNavigatedRight = true;
+		hasNavigatedHorizontally = true;
 
 		// Reverse for RTL
 		if( config.rtl ) {
@@ -5412,7 +5408,7 @@
 
 	function navigateDown() {
 
-		hasNavigatedDown = true;
+		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
 		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
@@ -5460,13 +5456,8 @@
 	 */
 	function navigateNext() {
 
-		if (!config.rtl) {
-			hasNavigatedRight = true;
-		} else {
-			hasNavigatedLeft = true;
-		}
-
-		hasNavigatedDown = true;
+		hasNavigatedHorizontally = true;
+		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
 		if( nextFragment() === false ) {
