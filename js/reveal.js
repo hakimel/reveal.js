@@ -202,19 +202,19 @@
 
 			// CSS styles that auto-animations will animate between
 			autoAnimateStyles: [
-				{ property: 'opacity' },
-				{ property: 'color' },
-				{ property: 'background-color' },
-				{ property: 'padding' },
-				{ property: 'font-size' },
-				{ property: 'line-height' },
-				{ property: 'letter-spacing' },
-				{ property: 'border-width' },
-				{ property: 'border-color' },
-				{ property: 'border-top-left-radius' },
-				{ property: 'border-top-right-radius' },
-				{ property: 'border-bottom-left-radius' },
-				{ property: 'border-bottom-right-radius' }
+				'opacity',
+				'color',
+				'background-color',
+				'padding',
+				'font-size',
+				'line-height',
+				'letter-spacing',
+				'border-width',
+				'border-color',
+				'border-top-left-radius',
+				'border-top-right-radius',
+				'border-bottom-left-radius',
+				'border-bottom-right-radius'
 			],
 
 			// Controls automatic progression to the next slide
@@ -1428,11 +1428,11 @@
 		}
 
 		// Reset all auto animated elements
-		toArray( dom.wrapper.querySelectorAll( '.slides .auto-animate-start' ) ).forEach( function( element ) {
-			element.classList.remove( 'auto-animate-start' );
+		toArray( dom.slides.querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( function( element ) {
+			element.dataset.autoAnimate = '';
 		} );
 		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
-			element.removeAttribute( 'data-auto-animate-target' );
+			delete element.dataset.autoAnimateTarget;
 		} );
 
 		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
@@ -3045,22 +3045,22 @@
 		cueAutoSlide();
 
 		// Auto-animation
-		if( config.autoAnimate && slideChanged && previousSlide && currentSlide ) {
+		if( slideChanged && previousSlide && currentSlide ) {
 
 			// Skip the slide transition between our two slides
 			// when auto-animating individual elements
 			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' ) ) {
-				previousSlide.style.transition = 'none';
-				currentSlide.style.transition = 'none';
+				dom.slides.classList.add( 'disable-slide-transitions' );
 
 				setTimeout( function() {
-					if( previousSlide ) previousSlide.style.transition = '';
-					if( currentSlide ) currentSlide.style.transition = '';
+					dom.slides.classList.remove( 'disable-slide-transitions' );
 				}, 0 );
 			}
 
-			// Run the auto-animation between our slides
-			autoAnimate( previousSlide, currentSlide );
+			if( config.autoAnimate ) {
+				// Run the auto-animation between our slides
+				autoAnimate( previousSlide, currentSlide );
+			}
 
 		}
 
@@ -3863,33 +3863,33 @@
 		}
 
 		// Check if easing is overriden
-		if( toSlide.hasAttribute( 'data-auto-animate-easing' ) ) {
-			animationOptions.easing = toSlide.getAttribute( 'data-auto-animate-easing' );
+		if( toSlide.dataset.autoAnimateEasing ) {
+			animationOptions.easing = toSlide.dataset.autoAnimateEasing;
 		}
 
 		// Check if the duration is overriden
-		if( toSlide.hasAttribute( 'data-auto-animate-duration' ) ) {
-			animationOptions.duration = parseFloat( toSlide.getAttribute( 'data-auto-animate-duration' ) );
+		if( toSlide.dataset.autoAnimateDuration ) {
+			animationOptions.duration = parseFloat( toSlide.dataset.autoAnimateDuration );
 		}
 
-		// Remove any existing animate-target IDs to keep the DOM clean
+		// Clean up from previous animations to avoid polluting the DOM
 		toArray( document.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
-			element.removeAttribute( 'data-auto-animate-target' );
+			delete element.dataset.autoAnimateTarget;
 		} );
 
-		// Reset any prior animation
-		fromSlide.classList.remove( 'auto-animate-start' );
-		toSlide.classList.remove( 'auto-animate-start' );
+		// Set out starting state
+		fromSlide.dataset.autoAnimate = 'pending';
+		toSlide.dataset.autoAnimate = 'pending';
 
 		// Generate and write out custom auto-animate styles to the DOM
-		autoAnimateStyleSheet.innerHTML += getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
+		autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
 			return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, animationOptions, autoAnimateCounter++ );
 		} ).join( '' );
 
 		// Start the animation next cycle
-		setTimeout( function() {
-			toSlide.classList.add( 'auto-animate-start' );
-		}, 0 );
+		requestAnimationFrame( function() {
+			toSlide.dataset.autoAnimate = 'running';
+		} );
 
 	}
 
@@ -3908,17 +3908,17 @@
 	function getAutoAnimateCSS( from, to, options, animationOptions, id ) {
 
 		// Each element gets a unique auto-animate ID
-		from.setAttribute( 'data-auto-animate-target', '' );
-		to.setAttribute( 'data-auto-animate-target', id );
+		from.dataset.autoAnimateTarget = '';
+		to.dataset.autoAnimateTarget = id;
 
 		var fromProps = getAutoAnimatableProperties( 'from', from, options ),
 			toProps = getAutoAnimatableProperties( 'to', to, options );
 
 		// Instantly move to the 'from' state
-		fromProps.styles.push([ 'transition', 'none' ]);
+		fromProps.styles['transition'] = 'none';
 
 		// transition to the 'to' state
-		toProps.styles.push([ 'transition', 'all '+ animationOptions.duration +'s '+ animationOptions.easing ]);
+		toProps.styles['transition'] = 'all '+ animationOptions.duration +'s '+ animationOptions.easing;
 
 		// If translation and/or scalin are enabled, offset the
 		// 'to' element so that it starts out at the same position
@@ -3937,25 +3937,30 @@
 			if( options.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
 			if( options.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
 
-			fromProps.styles.push([ 'transform', transform.join( ' ' ) ]);
-			fromProps.styles.push([ 'transform-origin', 'top left' ]);
+			fromProps.styles['transform'] = transform.join( ' ' );
+			fromProps.styles['transform-origin'] = 'top left';
 
-			toProps.styles.push([ 'transform', 'none' ]);
+			toProps.styles['transform'] = 'none';
 
 		}
 
 		// Build up our custom CSS. We need to override inline styles
 		// so we need to make our styles vErY IMPORTANT!1!!
-		var fromCSS = fromProps.styles.map( function( style ) {
-			return style[0] + ': ' + style[1] + ' !important;';
+		var fromCSS = Object.keys( fromProps.styles ).map( function( propertyName ) {
+			return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
 		} ).join( '' );
 
-		var toCSS = toProps.styles.map( function( style ) {
-			return style[0] + ': ' + style[1] + ' !important;';
+		var toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
+			if( toProps.styles[propertyName] !== fromProps.styles[propertyName] ) {
+				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
+			}
+			else {
+				return '';
+			}
 		} ).join( '' );
 
-		return  '.reveal [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
-				'.reveal .auto-animate-start [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
+		return  '.reveal [data-auto-animate] [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
+				'.reveal [data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
 
 	}
 
@@ -3976,11 +3981,15 @@
 			properties.height = element.offsetHeight;
 		}
 
-		var computedStyles;
+		var computedStyles = window.getComputedStyle( element );
 
 		// CSS styles
 		( options.styles || config.autoAnimateStyles ).forEach( function( style ) {
 			var value;
+
+			// `style` is either the property name directly, or an object
+			// definition of a style property
+			if( typeof style === 'string' ) style = { property: style };
 
 			if( typeof style.from !== 'undefined' && direction === 'from' ) {
 				value = style.from;
@@ -3989,16 +3998,11 @@
 				value = style.to;
 			}
 			else {
-				value = element.style[style.property];
-
-				if( value === '' ) {
-					computedStyles = computedStyles || window.getComputedStyle( element );
-					value = computedStyles[style.property];
-				}
+				value = computedStyles[style.property];
 			}
 
 			if( value !== '' ) {
-				properties.styles.push([ style.property, value ]);
+				properties.styles[style.property] = value;
 			}
 		} );
 
