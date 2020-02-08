@@ -1041,7 +1041,8 @@ body {
           transform: none; }
 
 .reveal .no-transition,
-.reveal .no-transition * {
+.reveal .no-transition *,
+.reveal .slides.disable-slide-transitions section {
   transition: none !important; }
 
 /*********************************************
