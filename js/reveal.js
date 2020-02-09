@@ -3849,39 +3849,23 @@
 			autoAnimateStyleSheet.innerHTML = '';
 		}
 
-		var animationOptions = {
-			easing: config.autoAnimateEasing,
-			duration: config.autoAnimateDuration,
-			offsetY: 0
-		};
-
-		// If our slides are centered vertically, we need to
-		// account for their difference in position when
-		// calculating deltas for animated elements
-		if( config.center ) {
-			animationOptions.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
-		}
-
-		// Check if easing is overriden
-		if( toSlide.dataset.autoAnimateEasing ) {
-			animationOptions.easing = toSlide.dataset.autoAnimateEasing;
-		}
-
-		// Check if the duration is overriden
-		if( toSlide.dataset.autoAnimateDuration ) {
-			animationOptions.duration = parseFloat( toSlide.dataset.autoAnimateDuration );
-		}
-
-		// Clean up from previous animations to avoid polluting the DOM
+		// Clean up from previous animations
 		toArray( document.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
 			delete element.dataset.autoAnimateTarget;
 		} );
 
-		// Set out starting state
+		var animationOptions = getAutoAnimateOptions( toSlide );
+
+		// If our slides are centered vertically, we need to
+		// account for their difference in position when
+		// calculating deltas for animated elements
+		if( config.center ) animationOptions.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
+
+		// Set our starting state
 		fromSlide.dataset.autoAnimate = 'pending';
 		toSlide.dataset.autoAnimate = 'pending';
 
-		// Generate and write out custom auto-animate styles to the DOM
+		// Inject our auto-animate styles for this transition
 		autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
 			return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, animationOptions, autoAnimateCounter++ );
 		} ).join( '' );
@@ -3894,36 +3878,74 @@
 	}
 
 	/**
+	 * Returns the auto-animate options for the given element.
+	 *
+	 * @param {HTMLElement} element Element to pick up options
+	 * from, either a slide or an animation target
+	 * @param {Object} [inheritOptions] optional set of options
+	 * to inherit as a base
+	 */
+	function getAutoAnimateOptions( element, inheritOptions ) {
+
+		var options = {
+			easing: config.autoAnimateEasing,
+			duration: config.autoAnimateDuration,
+			delay: 0
+		};
+
+		if( inheritOptions ) extend( options, inheritOptions );
+
+		if( element.dataset.autoAnimateEasing ) {
+			options.easing = element.dataset.autoAnimateEasing;
+		}
+
+		if( element.dataset.autoAnimateDuration ) {
+			options.duration = parseFloat( element.dataset.autoAnimateDuration );
+		}
+
+		if( element.dataset.autoAnimateDelay ) {
+			options.delay = parseFloat( element.dataset.autoAnimateDelay );
+		}
+
+		return options;
+
+	}
+
+	/**
 	 * Auto-animates the properties of an element from their original
 	 * values to their new state.
 	 *
 	 * @param {HTMLElement} from
 	 * @param {HTMLElement} to
-	 * @param {Object} options Optional settings for this specific pair
-	 * @param {Object} animationOptions Options that apply to all
-	 * elements in this transition
+	 * @param {Object} elementOptions Options for this element pair
+	 * @param {Object} animationOptions Options for all elements in
 	 * @param {String} id Unique ID that we can use to identify this
 	 * auto-animate element in the DOM
 	 */
-	function getAutoAnimateCSS( from, to, options, animationOptions, id ) {
+	function getAutoAnimateCSS( from, to, elementOptions, animationOptions, id ) {
 
-		// Each element gets a unique auto-animate ID
+		// 'from' elements are given a data-auto-animate-target with no value,
+		// 'to' elements are are given a data-auto-animate-target with an ID
 		from.dataset.autoAnimateTarget = '';
 		to.dataset.autoAnimateTarget = id;
 
-		var fromProps = getAutoAnimatableProperties( 'from', from, options ),
-			toProps = getAutoAnimatableProperties( 'to', to, options );
+		// Each element may override any of the auto-animate options
+		// like transition easing, duration and delay
+		animationOptions = getAutoAnimateOptions( to, animationOptions );
+
+		var fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
+			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
 
 		// Instantly move to the 'from' state
 		fromProps.styles['transition'] = 'none';
 
 		// transition to the 'to' state
-		toProps.styles['transition'] = 'all '+ animationOptions.duration +'s '+ animationOptions.easing;
+		toProps.styles['transition'] = 'all '+ animationOptions.duration +'s '+ animationOptions.easing + ' ' + animationOptions.delay + 's';
 
 		// If translation and/or scalin are enabled, offset the
 		// 'to' element so that it starts out at the same position
 		// and scale as the 'from' element
-		if( options.translate !== false || options.scale !== false ) {
+		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 
 			var delta = {
 				x: fromProps.x - toProps.x,
@@ -3934,8 +3956,8 @@
 
 			var transform = [];
 
-			if( options.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
-			if( options.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
+			if( elementOptions.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
+			if( elementOptions.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
 
 			fromProps.styles['transform'] = transform.join( ' ' );
 			fromProps.styles['transform-origin'] = 'top left';
