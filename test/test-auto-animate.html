@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Auto-Animate</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-2.5.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section data-auto-animate>
+					<h1>h1</h1>
+					<h2>h2</h2>
+					<h3 style="position: absolute; left: 0;">h3</h2>
+				</section>
+
+				<section data-auto-animate>
+					<h1>h1</h1>
+					<h2 style="opacity: 0;">h2</h2>
+					<h3 style="position: absolute; left: 100px;">h3</h2>
+				</section>
+
+				<section data-auto-animate data-auto-animate-duration="0.3">
+					<h1>h1</h1>
+					<h2>h2</h2>
+					<h3>h3</h2>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+		<script src="qunit-2.5.0.js"></script>
+
+		<script>
+			window.externalScriptSequence = '';
+
+			Reveal.addEventListener( 'ready', () => {
+
+				QUnit.module( 'Auto-Animate' );
+
+				const slides = [].slice.call( document.querySelectorAll( '.slides section' ) ).map( slide => {
+					return {
+						h1: slide.querySelector( 'h1' ),
+						h2: slide.querySelector( 'h2' ),
+						h3: slide.querySelector( 'h3' )
+					};
+				} );
+
+				QUnit.test( 'Adds data-auto-animate-target', assert => {
+					Reveal.next();
+					assert.strictEqual( slides[0].h1.getAttribute( 'data-auto-animate-target' ), '', 'From elements have blank data-auto-animate-target' );
+					assert.ok( slides[1].h1.getAttribute( 'data-auto-animate-target' ).length > 0, 'To elements have a data-auto-animate-target value' );
+				});
+
+				QUnit.test( 'Ends on correct target styles', assert => {
+					Reveal.next();
+					assert.strictEqual( slides[1].h2.style.opacity, "0" );
+					assert.strictEqual( slides[1].h3.offsetLeft, 100 );
+				});
+
+				QUnit.test( 'data-auto-animate-duration', assert => {
+					assert.timeout( 400 );
+					var done = assert.async();
+
+					Reveal.next();
+
+					slides[2].h3.addEventListener( 'transitionend', function() {
+						assert.ok( true, 'Transition ended within time window' );
+						done();
+					} );
+				});
+
+			} );
+
+			Reveal.initialize();
+		</script>
+
+	</body>
+</html>
