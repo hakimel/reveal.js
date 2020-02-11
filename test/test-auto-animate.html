@@ -26,7 +26,7 @@
 				</section>
 
 				<section data-auto-animate>
-					<h1>h1</h1>
+					<h1 data-auto-animate-duration="0.3">h1</h1>
 					<h2 style="opacity: 0;">h2</h2>
 					<h3 style="position: absolute; left: 100px;">h3</h2>
 				</section>
@@ -60,24 +60,36 @@
 				} );
 
 				QUnit.test( 'Adds data-auto-animate-target', assert => {
-					Reveal.next();
+					Reveal.slide(1);
 					assert.strictEqual( slides[0].h1.getAttribute( 'data-auto-animate-target' ), '', 'From elements have blank data-auto-animate-target' );
 					assert.ok( slides[1].h1.getAttribute( 'data-auto-animate-target' ).length > 0, 'To elements have a data-auto-animate-target value' );
 				});
 
 				QUnit.test( 'Ends on correct target styles', assert => {
-					Reveal.next();
+					Reveal.slide(1);
 					assert.strictEqual( slides[1].h2.style.opacity, "0" );
 					assert.strictEqual( slides[1].h3.offsetLeft, 100 );
 				});
 
-				QUnit.test( 'data-auto-animate-duration', assert => {
-					assert.timeout( 400 );
+				QUnit.test( 'Slide specific data-auto-animate-duration', assert => {
+					assert.timeout( 350 );
 					var done = assert.async();
 
-					Reveal.next();
+					Reveal.slide(2);
 
 					slides[2].h3.addEventListener( 'transitionend', function() {
+						assert.ok( true, 'Transition ended within time window' );
+						done();
+					} );
+				});
+
+				QUnit.test( 'Element specific data-auto-animate-duration', assert => {
+					assert.timeout( 350 );
+					var done = assert.async();
+
+					Reveal.slide(1);
+
+					slides[1].h1.addEventListener( 'transitionend', function() {
 						assert.ok( true, 'Transition ended within time window' );
 						done();
 					} );
