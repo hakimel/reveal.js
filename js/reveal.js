@@ -3880,40 +3880,6 @@
 	}
 
 	/**
-	 * Returns the auto-animate options for the given element.
-	 *
-	 * @param {HTMLElement} element Element to pick up options
-	 * from, either a slide or an animation target
-	 * @param {Object} [inheritOptions] optional set of options
-	 * to inherit as a base
-	 */
-	function getAutoAnimateOptions( element, inheritOptions ) {
-
-		var options = {
-			easing: config.autoAnimateEasing,
-			duration: config.autoAnimateDuration,
-			delay: 0
-		};
-
-		if( inheritOptions ) extend( options, inheritOptions );
-
-		if( element.dataset.autoAnimateEasing ) {
-			options.easing = element.dataset.autoAnimateEasing;
-		}
-
-		if( element.dataset.autoAnimateDuration ) {
-			options.duration = parseFloat( element.dataset.autoAnimateDuration );
-		}
-
-		if( element.dataset.autoAnimateDelay ) {
-			options.delay = parseFloat( element.dataset.autoAnimateDelay );
-		}
-
-		return options;
-
-	}
-
-	/**
 	 * Auto-animates the properties of an element from their original
 	 * values to their new state.
 	 *
@@ -3932,11 +3898,11 @@
 		to.dataset.autoAnimateTarget = id;
 
 		// Each element may override any of the auto-animate options
-		// like transition easing, duration and delay
+		// like transition easing, duration and delay via data-attributes
 		var options = getAutoAnimateOptions( to, slideOptions );
 
-		// Individual transition settings can be overridden via
-		// element options
+		// If we're using a custom element matcher the element options
+		// may contain additional transition overrides
 		if( typeof elementOptions.delay !== 'undefined' ) options.delay = elementOptions.delay;
 		if( typeof elementOptions.duration !== 'undefined' ) options.duration = elementOptions.duration;
 		if( typeof elementOptions.easing !== 'undefined' ) options.easing = elementOptions.easing;
@@ -3995,9 +3961,45 @@
 	}
 
 	/**
+	 * Returns the auto-animate options for the given element.
+	 *
+	 * @param {HTMLElement} element Element to pick up options
+	 * from, either a slide or an animation target
+	 * @param {Object} [inheritOptions] optional set of options
+	 * to inherit as a base
+	 */
+	function getAutoAnimateOptions( element, inheritOptions ) {
+
+		var options = {
+			easing: config.autoAnimateEasing,
+			duration: config.autoAnimateDuration,
+			delay: 0
+		};
+
+		if( inheritOptions ) extend( options, inheritOptions );
+
+		if( element.dataset.autoAnimateEasing ) {
+			options.easing = element.dataset.autoAnimateEasing;
+		}
+
+		if( element.dataset.autoAnimateDuration ) {
+			options.duration = parseFloat( element.dataset.autoAnimateDuration );
+		}
+
+		if( element.dataset.autoAnimateDelay ) {
+			options.delay = parseFloat( element.dataset.autoAnimateDelay );
+		}
+
+		return options;
+
+	}
+
+	/**
 	 * Returns an object containing all of the properties
-	 * that can be auto-animated for the given element
-	 * and their respective values.
+	 * that can be auto-animated for the given element and
+	 * their current computed values.
+	 *
+	 * @param {String} direction 'from' or 'to'
 	 */
 	function getAutoAnimatableProperties( direction, element, elementOptions ) {
 
@@ -4070,7 +4072,7 @@
 	 * Identifies matching elements between slides.
 	 *
 	 * You can specify a custom matcher function by using
-	 * the autoAnimateMatcher config option.
+	 * the `autoAnimateMatcher` config option.
 	 */
 	function findAutoAnimatePairs( fromSlide, toSlide ) {
 
