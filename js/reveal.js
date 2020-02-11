@@ -190,17 +190,18 @@
 			// Can be used to globally disable auto-animation
 			autoAnimate: true,
 
-			// Optionally provide a custom element matcher function,
-			// the function needs to return an array where each value is
-			// an array of animation pairs [fromElement, toElement]
+			// Optionally provide a custom element matcher that will be
+			// used to dictate which elements we can animate between.
 			autoAnimateMatcher: null,
 
 			// Default settings for or auto-animate transitions, can be
-			// overridden per-slide via data arguments
+			// overridden per-slide or per-element via data arguments
 			autoAnimateEasing: 'ease',
 			autoAnimateDuration: 1.0,
 
-			// CSS styles that auto-animations will animate between
+			// CSS properties that can be auto-animated. Position & scale
+			// is matched separately so there's no need to include styles
+			// like top/right/bottom/left, width/height or margin.
 			autoAnimateStyles: [
 				'opacity',
 				'color',
@@ -211,10 +212,9 @@
 				'letter-spacing',
 				'border-width',
 				'border-color',
-				'border-top-left-radius',
-				'border-top-right-radius',
-				'border-bottom-left-radius',
-				'border-bottom-right-radius'
+				'border-radius',
+				'outline',
+				'outline-offset'
 			],
 
 			// Controls automatic progression to the next slide
@@ -3869,7 +3869,7 @@
 
 		// Inject our auto-animate styles for this transition
 		autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
-			return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, slideOptions, autoAnimateCounter++ );
+			return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, slideOptions, autoAnimateCounter++ );
 		} ).join( '' );
 
 		// Start the animation next cycle
@@ -3916,9 +3916,9 @@
 		// transition to the 'to' state
 		toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
 
-		// If translation and/or scalin are enabled, offset the
-		// 'to' element so that it starts out at the same position
-		// and scale as the 'from' element
+		// If translation and/or scaling are enabled, css transform
+		// the 'to' element so that it matches the position and size
+		// of the 'from' element
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 
 			var delta = {
@@ -4062,7 +4062,7 @@
 		// Remove duplicate pairs
 		return pairs.filter( function( pair, index ) {
 			return index === pairs.findIndex( function( comparePair ) {
-				return pair[0] === comparePair[0] && pair[1] === comparePair[1];
+				return pair.from === comparePair.from && pair.to === comparePair.to;
 			} );
 		} );
 
@@ -4091,7 +4091,7 @@
 				if( typeof transformer === 'function' ) element = transformer( element );
 				var fromElement = fromHash[ serializer( element ) ];
 				if( fromElement ) {
-					pairs.push([ fromElement, element ]);
+					pairs.push({ from: fromElement, to: element });
 				}
 			} );
 
@@ -4124,13 +4124,13 @@
 
 		pairs.forEach( function( pair ) {
 
-			var fromElement = pair[0];
+			var fromElement = pair.from;
 			var matchesMethod = fromElement.matches || fromElement.matchesSelector || fromElement.msMatchesSelector;
 
 			// Disable scale transformations on text nodes, we transiition
 			// each individual text property instead
 			if( matchesMethod.call( fromElement, textNodes ) ) {
-				pair[2] = { scale: false };
+				pair.options = { scale: false };
 			}
 
 		} );

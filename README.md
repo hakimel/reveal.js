@@ -326,6 +326,36 @@ Reveal.initialize({
 	// - false: All iframes with data-src will be loaded only when visible
 	preloadIframes: null,
 
+	// Can be used to globally disable auto-animation
+	autoAnimate: true,
+
+	// Optionally provide a custom element matcher that will be
+	// used to dictate which elements we can animate between.
+	autoAnimateMatcher: null,
+
+	// Default settings for or auto-animate transitions, can be
+	// overridden per-slide or per-element via data arguments
+	autoAnimateEasing: 'ease',
+	autoAnimateDuration: 1.0,
+
+	// CSS properties that can be auto-animated. Position & scale
+	// is matched separately so there's no need to include styles
+	// like top/right/bottom/left, width/height or margin.
+	autoAnimateStyles: [
+		'opacity',
+		'color',
+		'background-color',
+		'padding',
+		'font-size',
+		'line-height',
+		'letter-spacing',
+		'border-width',
+		'border-color',
+		'border-radius',
+		'outline',
+		'outline-offset'
+	],
+
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
 	// by using a data-autoslide attribute on your slides
