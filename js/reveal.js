@@ -3854,7 +3854,7 @@
 			delete element.dataset.autoAnimateTarget;
 		} );
 
-		var animationOptions = getAutoAnimateOptions( toSlide, {
+		var slideOptions = getAutoAnimateOptions( toSlide, {
 
 			// If our slides are centered vertically, we need to
 			// account for their difference in position when
@@ -3869,7 +3869,7 @@
 
 		// Inject our auto-animate styles for this transition
 		autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
-			return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, animationOptions, autoAnimateCounter++ );
+			return getAutoAnimateCSS( elements[0], elements[1], elements[2] || {}, slideOptions, autoAnimateCounter++ );
 		} ).join( '' );
 
 		// Start the animation next cycle
@@ -3920,11 +3920,11 @@
 	 * @param {HTMLElement} from
 	 * @param {HTMLElement} to
 	 * @param {Object} elementOptions Options for this element pair
-	 * @param {Object} animationOptions Options for all elements in
+	 * @param {Object} slideOptions Options set at the slide level
 	 * @param {String} id Unique ID that we can use to identify this
 	 * auto-animate element in the DOM
 	 */
-	function getAutoAnimateCSS( from, to, elementOptions, animationOptions, id ) {
+	function getAutoAnimateCSS( from, to, elementOptions, slideOptions, id ) {
 
 		// 'from' elements are given a data-auto-animate-target with no value,
 		// 'to' elements are are given a data-auto-animate-target with an ID
@@ -3933,13 +3933,13 @@
 
 		// Each element may override any of the auto-animate options
 		// like transition easing, duration and delay
-		animationOptions = getAutoAnimateOptions( to, animationOptions );
+		var options = getAutoAnimateOptions( to, slideOptions );
 
 		// Individual transition settings can be overridden via
 		// element options
-		if( typeof elementOptions.delay !== 'undefined' ) animationOptions.delay = elementOptions.delay;
-		if( typeof elementOptions.duration !== 'undefined' ) animationOptions.duration = elementOptions.duration;
-		if( typeof elementOptions.easing !== 'undefined' ) animationOptions.easing = elementOptions.easing;
+		if( typeof elementOptions.delay !== 'undefined' ) options.delay = elementOptions.delay;
+		if( typeof elementOptions.duration !== 'undefined' ) options.duration = elementOptions.duration;
+		if( typeof elementOptions.easing !== 'undefined' ) options.easing = elementOptions.easing;
 
 		var fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
 			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
@@ -3948,7 +3948,7 @@
 		fromProps.styles['transition'] = 'none';
 
 		// transition to the 'to' state
-		toProps.styles['transition'] = 'all '+ animationOptions.duration +'s '+ animationOptions.easing + ' ' + animationOptions.delay + 's';
+		toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
 
 		// If translation and/or scalin are enabled, offset the
 		// 'to' element so that it starts out at the same position
@@ -3957,7 +3957,7 @@
 
 			var delta = {
 				x: fromProps.x - toProps.x,
-				y: fromProps.y - toProps.y + animationOptions.offsetY,
+				y: fromProps.y - toProps.y + options.offsetY,
 				scaleX: fromProps.width / toProps.width,
 				scaleY: fromProps.height / toProps.height
 			};
@@ -3999,12 +3999,12 @@
 	 * that can be auto-animated for the given element
 	 * and their respective values.
 	 */
-	function getAutoAnimatableProperties( direction, element, options ) {
+	function getAutoAnimatableProperties( direction, element, elementOptions ) {
 
 		var properties = { styles: [] };
 
 		// Position and size
-		if( options.translate !== false || options.scale !== false ) {
+		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 			properties.x = element.offsetLeft;
 			properties.y = element.offsetTop;
 			properties.width = element.offsetWidth;
@@ -4014,7 +4014,7 @@
 		var computedStyles = window.getComputedStyle( element );
 
 		// CSS styles
-		( options.styles || config.autoAnimateStyles ).forEach( function( style ) {
+		( elementOptions.styles || config.autoAnimateStyles ).forEach( function( style ) {
 			var value;
 
 			// `style` is either the property name directly, or an object
@@ -4067,9 +4067,10 @@
 	}
 
 	/**
-	 * Identifies matching elements between slides. You can specify
-	 * a custom matcher function by using the autoAnimateMatcher
-	 * config option.
+	 * Identifies matching elements between slides.
+	 *
+	 * You can specify a custom matcher function by using
+	 * the autoAnimateMatcher config option.
 	 */
 	function findAutoAnimatePairs( fromSlide, toSlide ) {
 

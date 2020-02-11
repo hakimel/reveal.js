@@ -26,6 +26,7 @@ reveal.js comes with a broad range of features including [nested slides](https:/
 - [Vertical Slide Navigation](#vertical-slide-navigation)
 - [Touch Navigation](#touch-navigation)
 - [Lazy Loading](#lazy-loading)
+- [Auto-Animate](#auto-animate)
 - [API](#api)
   - [Custom Key Bindings](#custom-key-bindings)
   - [Slide Changed Event](#slide-changed-event)
@@ -542,6 +543,16 @@ Reveal.configure({
   }
 });
 ```
+
+### Auto-Animate
+
+TBD
+
+#### Slide & Element Specific Settings
+TBD. How to use data-attributes to override transition settings.
+
+#### Custom Element Matcher
+TBD. How to implement your own element matcher.
 
 ### Vertical Slide Navigation
 

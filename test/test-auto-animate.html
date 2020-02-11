@@ -45,19 +45,18 @@
 		<script src="qunit-2.5.0.js"></script>
 
 		<script>
-			window.externalScriptSequence = '';
+
+			const slides = [].slice.call( document.querySelectorAll( '.slides section' ) ).map( slide => {
+				return {
+					h1: slide.querySelector( 'h1' ),
+					h2: slide.querySelector( 'h2' ),
+					h3: slide.querySelector( 'h3' )
+				};
+			} );
 
 			Reveal.addEventListener( 'ready', () => {
 
 				QUnit.module( 'Auto-Animate' );
-
-				const slides = [].slice.call( document.querySelectorAll( '.slides section' ) ).map( slide => {
-					return {
-						h1: slide.querySelector( 'h1' ),
-						h2: slide.querySelector( 'h2' ),
-						h3: slide.querySelector( 'h3' )
-					};
-				} );
 
 				QUnit.test( 'Adds data-auto-animate-target', assert => {
 					Reveal.slide(1);
@@ -72,27 +71,31 @@
 				});
 
 				QUnit.test( 'Slide specific data-auto-animate-duration', assert => {
-					assert.timeout( 350 );
-					var done = assert.async();
+					assert.timeout( 400 );
+					let done = assert.async();
+					let callback = () => {
+						slides[2].h3.removeEventListener( 'transitionend', callback );
+						assert.ok( true, 'Transition ended within time window' );
+						done();
+					}
 
 					Reveal.slide(2);
 
-					slides[2].h3.addEventListener( 'transitionend', function() {
-						assert.ok( true, 'Transition ended within time window' );
-						done();
-					} );
+					slides[2].h3.addEventListener( 'transitionend', callback );
 				});
 
 				QUnit.test( 'Element specific data-auto-animate-duration', assert => {
-					assert.timeout( 350 );
-					var done = assert.async();
+					assert.timeout( 400 );
+					let done = assert.async();
+					let callback = () => {
+						slides[1].h1.removeEventListener( 'transitionend', callback );
+						assert.ok( true, 'Transition ended within time window' );
+						done();
+					}
 
 					Reveal.slide(1);
 
-					slides[1].h1.addEventListener( 'transitionend', function() {
-						assert.ok( true, 'Transition ended within time window' );
-						done();
-					} );
+					slides[1].h1.addEventListener( 'transitionend', callback );
 				});
 
 			} );
