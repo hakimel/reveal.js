@@ -3854,12 +3854,14 @@
 			delete element.dataset.autoAnimateTarget;
 		} );
 
-		var animationOptions = getAutoAnimateOptions( toSlide );
+		var animationOptions = getAutoAnimateOptions( toSlide, {
 
-		// If our slides are centered vertically, we need to
-		// account for their difference in position when
-		// calculating deltas for animated elements
-		if( config.center ) animationOptions.offsetY = fromSlide.offsetTop - toSlide.offsetTop;
+			// If our slides are centered vertically, we need to
+			// account for their difference in position when
+			// calculating deltas for animated elements
+			offsetY: config.center ? fromSlide.offsetTop - toSlide.offsetTop : 0
+
+		} );
 
 		// Set our starting state
 		fromSlide.dataset.autoAnimate = 'pending';
@@ -3932,6 +3934,12 @@
 		// Each element may override any of the auto-animate options
 		// like transition easing, duration and delay
 		animationOptions = getAutoAnimateOptions( to, animationOptions );
+
+		// Individual transition settings can be overridden via
+		// element options
+		if( typeof elementOptions.delay !== 'undefined' ) animationOptions.delay = elementOptions.delay;
+		if( typeof elementOptions.duration !== 'undefined' ) animationOptions.duration = elementOptions.duration;
+		if( typeof elementOptions.easing !== 'undefined' ) animationOptions.easing = elementOptions.easing;
 
 		var fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
 			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
