@@ -1431,9 +1431,8 @@
 		toArray( dom.slides.querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( function( element ) {
 			element.dataset.autoAnimate = '';
 		} );
-		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
-			delete element.dataset.autoAnimateTarget;
-		} );
+
+		removeEphemeralAutoAnimateAttributes();
 
 		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
 			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
@@ -3849,10 +3848,8 @@
 			autoAnimateStyleSheet.innerHTML = '';
 		}
 
-		// Clean up from previous animations
-		toArray( document.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
-			delete element.dataset.autoAnimateTarget;
-		} );
+		// Clean up after prior animations
+		removeEphemeralAutoAnimateAttributes();
 
 		var slideOptions = getAutoAnimateOptions( toSlide, {
 
@@ -3868,13 +3865,41 @@
 		toSlide.dataset.autoAnimate = 'pending';
 
 		// Inject our auto-animate styles for this transition
-		autoAnimateStyleSheet.innerHTML = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
+		var css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
 			return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, slideOptions, autoAnimateCounter++ );
-		} ).join( '' );
+		} );
+
+		// If the slide is configured to animate unmatched elements we
+		// need to flag them
+		if( toSlide.dataset.autoAnimateUnmatched ) {
+			getUnmatchedAutoAnimateElements( toSlide ).forEach( function( unmatchedElement ) {
+				unmatchedElement.dataset.autoAnimateUnmatched = 'fade-in';
+			} );
+
+			css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (slideOptions.duration*0.8) +'s ease '+ (slideOptions.duration*0.2) +'s; }' );
+		}
+
+		autoAnimateStyleSheet.innerHTML = css.join( '' );
 
 		// Start the animation next cycle
 		requestAnimationFrame( function() {
 			toSlide.dataset.autoAnimate = 'running';
+		} );
+
+	}
+
+	/**
+	 * Removes all attributes that we temporarily add to slide
+	 * elements in order to carry out auto-animation.
+	 */
+	function removeEphemeralAutoAnimateAttributes() {
+
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack) [data-auto-animate-target]' ) ).forEach( function( element ) {
+			delete element.dataset.autoAnimateTarget;
+		} );
+
+		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack) [data-auto-animate-unmatched]' ) ).forEach( function( element ) {
+			delete element.dataset.autoAnimateUnmatched;
 		} );
 
 	}
@@ -4136,6 +4161,44 @@
 		} );
 
 		return pairs;
+
+	}
+
+	/**
+	 * Returns a all elements within the given scope that should
+	 * be considered unmatched in an auto-animate transition. If
+	 * fading of unmatched elements is turnded on, these elements
+	 * will fade when going between auto-aniamted slides.
+	 *
+	 * Note that parents of auto-animate targets are NOT considerd
+	 * unmatched since fading them would break the auto-animation.
+	 *
+	 * @param {HTMLElement} rootElement
+	 * @return {Array}
+	 */
+	function getUnmatchedAutoAnimateElements( rootElement ) {
+
+		return [].slice.call( rootElement.children ).reduce( function( result, element ) {
+
+			// If the element is auto-animated we can stop looking at this tree
+			if( !element.hasAttribute( 'data-auto-animate-target' ) ) {
+
+				// If this element contains an auto-animated element it's considered
+				// a match since we can't fade it without affecting the inner
+				// auto-animate target
+				if( !element.querySelector( '[data-auto-animate-target]' ) ) {
+					result.push( element );
+				}
+				else {
+					// Keep looking down this tree
+					result = result.concat( getUnmatchedAutoAnimateElements( element ) );
+				}
+
+			}
+
+			return result;
+
+		}, [] );
 
 	}
 

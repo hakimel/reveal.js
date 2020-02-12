@@ -1227,6 +1227,15 @@ body {
   transition-duration: 1200ms; }
 
 /*********************************************
+ * AUTO ANIMATE
+ *********************************************/
+.reveal section[data-auto-animate] [data-auto-animate-unmatched="fade-in"] {
+  opacity: 0; }
+
+.reveal section[data-auto-animate="running"] [data-auto-animate-unmatched="fade-in"] {
+  opacity: 1; }
+
+/*********************************************
  * OVERVIEW
  *********************************************/
 .reveal.overview {
