@@ -3975,7 +3975,7 @@
 			if( toProps.styles[propertyName] === fromProps.styles[propertyName] ) {
 				delete toProps.styles[propertyName];
 			}
-		};
+		}
 
 		var css = '';
 
