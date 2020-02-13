@@ -3935,12 +3935,6 @@
 		var fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
 			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
 
-		// Instantly move to the 'from' state
-		fromProps.styles['transition'] = 'none';
-
-		// transition to the 'to' state
-		toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
-
 		// If translation and/or scaling are enabled, css transform
 		// the 'to' element so that it matches the position and size
 		// of the 'from' element
@@ -3953,35 +3947,58 @@
 				scaleY: fromProps.height / toProps.height
 			};
 
-			var transform = [];
+			// No need to transform if nothing's changed
+			if( delta.x !== 0 || delta.y !== 0 || delta.scaleX !== 1 || delta.scaleY !== 1 ) {
 
-			if( elementOptions.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
-			if( elementOptions.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
+				var transform = [];
 
-			fromProps.styles['transform'] = transform.join( ' ' );
-			fromProps.styles['transform-origin'] = 'top left';
+				if( elementOptions.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
+				if( elementOptions.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
 
-			toProps.styles['transform'] = 'none';
+				fromProps.styles['transform'] = transform.join( ' ' );
+				fromProps.styles['transform-origin'] = 'top left';
+
+				toProps.styles['transform'] = 'none';
+
+			}
 
 		}
 
-		// Build up our custom CSS. We need to override inline styles
-		// so we need to make our styles vErY IMPORTANT!1!!
-		var fromCSS = Object.keys( fromProps.styles ).map( function( propertyName ) {
-			return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
-		} ).join( '' );
+		// Delete all unchanged 'to' styles
+		for( var propertyName in toProps.styles ) {
+			if( toProps.styles[propertyName] === fromProps.styles[propertyName] ) {
+				delete toProps.styles[propertyName];
+			}
+		};
 
-		var toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
-			if( toProps.styles[propertyName] !== fromProps.styles[propertyName] ) {
+		var css = '';
+
+		// Only create animate this element IF at least one style
+		// property has changed
+		if( Object.keys( toProps.styles ).length > 0 ) {
+
+			// Instantly move to the 'from' state
+			fromProps.styles['transition'] = 'none';
+
+			// transition to the 'to' state
+			toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
+
+			// Build up our custom CSS. We need to override inline styles
+			// so we need to make our styles vErY IMPORTANT!1!!
+			var fromCSS = Object.keys( fromProps.styles ).map( function( propertyName ) {
+				return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
+			} ).join( '' );
+
+			var toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
 				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
-			}
-			else {
-				return '';
-			}
-		} ).join( '' );
+			} ).join( '' );
 
-		return  '.reveal [data-auto-animate] [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
-				'.reveal [data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
+			css = 	'.reveal [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
+					'.reveal [data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
+
+		}
+
+		return css;
 
 	}
 
@@ -4180,20 +4197,17 @@
 
 		return [].slice.call( rootElement.children ).reduce( function( result, element ) {
 
-			// If the element is auto-animated we can stop looking at this tree
-			if( !element.hasAttribute( 'data-auto-animate-target' ) ) {
+			var containsAnimatedElements = element.querySelector( '[data-auto-animate-target]' );
 
-				// If this element contains an auto-animated element it's considered
-				// a match since we can't fade it without affecting the inner
-				// auto-animate target
-				if( !element.querySelector( '[data-auto-animate-target]' ) ) {
-					result.push( element );
-				}
-				else {
-					// Keep looking down this tree
-					result = result.concat( getUnmatchedAutoAnimateElements( element ) );
-				}
+			// The element is unmatched if
+			// - It is not an auto-animate target
+			// - It does not contain any auto-animate targets
+			if( !element.hasAttribute( 'data-auto-animate-target' ) && !containsAnimatedElements ) {
+				result.push( element );
+			}
 
+			if( element.querySelector( '[data-auto-animate-target]' ) ) {
+				result = result.concat( getUnmatchedAutoAnimateElements( element ) );
 			}
 
 			return result;
