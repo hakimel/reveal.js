@@ -3839,14 +3839,17 @@
 	 */
 	function autoAnimate( fromSlide, toSlide ) {
 
-		// Lazily create the auto-animate stylesheet
-		if( !autoAnimateStyleSheet ) {
-			autoAnimateStyleSheet = document.createElement( 'style' );
-			document.head.appendChild( autoAnimateStyleSheet );
+		// Remove any existing auto-animate sheet. Recycling led to
+		// animations sometimes not trigger in FF.
+		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
+			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
+			autoAnimateStyleSheet = null;
 		}
-		else {
-			autoAnimateStyleSheet.innerHTML = '';
-		}
+
+		// Create a new auto-animate sheet
+		autoAnimateStyleSheet = document.createElement( 'style' );
+		autoAnimateStyleSheet.type = 'text/css';
+		document.head.appendChild( autoAnimateStyleSheet );
 
 		// Clean up after prior animations
 		removeEphemeralAutoAnimateAttributes();
@@ -3879,12 +3882,15 @@
 			css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (slideOptions.duration*0.8) +'s ease '+ (slideOptions.duration*0.2) +'s; }' );
 		}
 
+		// Setting the whole chunk of CSS at once is the most
+		// efficient way to do this. Using sheet.insertRule
+		// is multiple factors slower.
 		autoAnimateStyleSheet.innerHTML = css.join( '' );
 
 		// Start the animation next cycle
-		requestAnimationFrame( function() {
+		setTimeout( function() {
 			toSlide.dataset.autoAnimate = 'running';
-		} );
+		}, 2 );
 
 	}
 
