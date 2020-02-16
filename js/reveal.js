@@ -3067,11 +3067,11 @@
 				setTimeout( function() {
 					dom.slides.classList.remove( 'disable-slide-transitions' );
 				}, 0 );
-			}
 
-			if( config.autoAnimate ) {
-				// Run the auto-animation between our slides
-				autoAnimate( previousSlide, currentSlide );
+				if( config.autoAnimate ) {
+					// Run the auto-animation between our slides
+					autoAnimate( previousSlide, currentSlide );
+				}
 			}
 
 		}
@@ -3876,9 +3876,11 @@
 
 		} );
 
-		// Set our starting state
-		fromSlide.dataset.autoAnimate = 'pending';
-		toSlide.dataset.autoAnimate = 'pending';
+		// Set our starting state. Note that we may be coming from, or
+		// going to, a non-auto-animate slide so we only want to assign
+		// this value is the attribute exists.
+		if( typeof fromSlide.dataset.autoAnimate === 'string' ) fromSlide.dataset.autoAnimate = 'pending';
+		if( typeof toSlide.dataset.autoAnimate === 'string' ) toSlide.dataset.autoAnimate = 'pending';
 
 		// Inject our auto-animate styles for this transition
 		var css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
@@ -3902,7 +3904,7 @@
 
 		// Start the animation next cycle
 		setTimeout( function() {
-			toSlide.dataset.autoAnimate = 'running';
+			if( typeof toSlide.dataset.autoAnimate === 'string' ) toSlide.dataset.autoAnimate = 'running';
 		}, 2 );
 
 	}

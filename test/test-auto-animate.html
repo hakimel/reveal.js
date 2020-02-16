@@ -37,6 +37,10 @@
 					<h3>h3</h2>
 				</section>
 
+				<section>
+					<h1>Non-auto-animate slide</h1>
+				</section>
+
 			</div>
 
 		</div>
@@ -46,7 +50,7 @@
 
 		<script>
 
-			const slides = [].slice.call( document.querySelectorAll( '.slides section' ) ).map( slide => {
+			const slides = Array.prototype.map.call( document.querySelectorAll( '.slides section' ), slide => {
 				return {
 					h1: slide.querySelector( 'h1' ),
 					h2: slide.querySelector( 'h2' ),
