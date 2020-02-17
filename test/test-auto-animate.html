@@ -52,6 +52,7 @@
 
 			const slides = Array.prototype.map.call( document.querySelectorAll( '.slides section' ), slide => {
 				return {
+					slide: slide,
 					h1: slide.querySelector( 'h1' ),
 					h2: slide.querySelector( 'h2' ),
 					h3: slide.querySelector( 'h3' )
@@ -100,6 +101,23 @@
 					Reveal.slide(1);
 
 					slides[1].h1.addEventListener( 'transitionend', callback );
+				});
+
+				QUnit.test( 'Does not add [data-auto-animate] on non auto-animated slides', assert => {
+					Reveal.slide(2);
+					Reveal.next();
+					assert.ok( slides[3].slide.hasAttribute( 'data-auto-animate' ) === false )
+				});
+
+				QUnit.test( 'autoAnimate config option', assert => {
+					Reveal.configure({ autoAnimate: false });
+
+					assert.ok( document.querySelectorAll( 'data-auto-animate-target' ).length === 0, 'Removes all [data-auto-animate-target]' )
+					assert.ok( Array.prototype.every.call( document.querySelectorAll( 'section[data-auto-animate]' ), el => {
+						return el.dataset.autoAnimate === '';
+					}, 'All data-auto-animate attributes are reset' ) );
+
+					Reveal.configure({ autoAnimate: true });
 				});
 
 			} );

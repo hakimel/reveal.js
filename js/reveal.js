@@ -3866,7 +3866,6 @@
 			// Create a new auto-animate sheet
 			autoAnimateStyleSheet = autoAnimateStyleSheet || document.createElement( 'style' );
 			autoAnimateStyleSheet.type = 'text/css';
-			autoAnimateStyleSheet.className = 'auto-animate-styes';
 			document.head.appendChild( autoAnimateStyleSheet );
 
 			var slideOptions = getAutoAnimateOptions( toSlide, {
@@ -3904,10 +3903,12 @@
 
 			// Start the animation next cycle
 			requestAnimationFrame( function() {
-				// This forces our newly injected styles to be applied in Firefox
-				getComputedStyle( autoAnimateStyleSheet ).fontWeight;
+				if( autoAnimateStyleSheet ) {
+					// This forces our newly injected styles to be applied in Firefox
+					getComputedStyle( autoAnimateStyleSheet ).fontWeight;
 
-				toSlide.dataset.autoAnimate = 'running';
+					toSlide.dataset.autoAnimate = 'running';
+				}
 			} );
 
 		}
