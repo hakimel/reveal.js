@@ -3852,60 +3852,65 @@
 	 */
 	function autoAnimate( fromSlide, toSlide ) {
 
-		// Remove any existing auto-animate sheet. Recycling led to
-		// animations sometimes not trigger in FF.
+		// Clean up after prior animations
+		removeEphemeralAutoAnimateAttributes();
+
 		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
 			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
 			autoAnimateStyleSheet = null;
 		}
 
-		// Create a new auto-animate sheet
-		autoAnimateStyleSheet = document.createElement( 'style' );
-		autoAnimateStyleSheet.type = 'text/css';
-		document.head.appendChild( autoAnimateStyleSheet );
+		// Ensure that both slides are auto-animate targets
+		if( fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' ) ) {
 
-		// Clean up after prior animations
-		removeEphemeralAutoAnimateAttributes();
+			// Create a new auto-animate sheet
+			autoAnimateStyleSheet = autoAnimateStyleSheet || document.createElement( 'style' );
+			autoAnimateStyleSheet.type = 'text/css';
+			autoAnimateStyleSheet.className = 'auto-animate-styes';
+			document.head.appendChild( autoAnimateStyleSheet );
 
-		var slideOptions = getAutoAnimateOptions( toSlide, {
+			var slideOptions = getAutoAnimateOptions( toSlide, {
 
-			// If our slides are centered vertically, we need to
-			// account for their difference in position when
-			// calculating deltas for animated elements
-			offsetY: config.center ? fromSlide.offsetTop - toSlide.offsetTop : 0
+				// If our slides are centered vertically, we need to
+				// account for their difference in position when
+				// calculating deltas for animated elements
+				offsetY: config.center ? fromSlide.offsetTop - toSlide.offsetTop : 0
 
-		} );
-
-		// Set our starting state. Note that we may be coming from, or
-		// going to, a non-auto-animate slide so we only want to assign
-		// this value is the attribute exists.
-		if( typeof fromSlide.dataset.autoAnimate === 'string' ) fromSlide.dataset.autoAnimate = 'pending';
-		if( typeof toSlide.dataset.autoAnimate === 'string' ) toSlide.dataset.autoAnimate = 'pending';
-
-		// Inject our auto-animate styles for this transition
-		var css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
-			return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, slideOptions, autoAnimateCounter++ );
-		} );
-
-		// If the slide is configured to animate unmatched elements we
-		// need to flag them
-		if( toSlide.dataset.autoAnimateUnmatched ) {
-			getUnmatchedAutoAnimateElements( toSlide ).forEach( function( unmatchedElement ) {
-				unmatchedElement.dataset.autoAnimateUnmatched = 'fade-in';
 			} );
 
-			css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (slideOptions.duration*0.8) +'s ease '+ (slideOptions.duration*0.2) +'s; }' );
+			// Set our starting state
+			fromSlide.dataset.autoAnimate = 'pending';
+			toSlide.dataset.autoAnimate = 'pending';
+
+			// Inject our auto-animate styles for this transition
+			var css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
+				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, slideOptions, autoAnimateCounter++ );
+			} );
+
+			// If the slide is configured to animate unmatched elements we
+			// need to flag them
+			if( toSlide.dataset.autoAnimateUnmatched ) {
+				getUnmatchedAutoAnimateElements( toSlide ).forEach( function( unmatchedElement ) {
+					unmatchedElement.dataset.autoAnimateUnmatched = 'fade-in';
+				} );
+
+				css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (slideOptions.duration*0.8) +'s ease '+ (slideOptions.duration*0.2) +'s; }' );
+			}
+
+			// Setting the whole chunk of CSS at once is the most
+			// efficient way to do this. Using sheet.insertRule
+			// is multiple factors slower.
+			autoAnimateStyleSheet.innerHTML = css.join( '' );
+
+			// Start the animation next cycle
+			requestAnimationFrame( function() {
+				// This forces our newly injected styles to be applied in Firefox
+				getComputedStyle( autoAnimateStyleSheet ).fontWeight;
+
+				toSlide.dataset.autoAnimate = 'running';
+			} );
+
 		}
-
-		// Setting the whole chunk of CSS at once is the most
-		// efficient way to do this. Using sheet.insertRule
-		// is multiple factors slower.
-		autoAnimateStyleSheet.innerHTML = css.join( '' );
-
-		// Start the animation next cycle
-		setTimeout( function() {
-			if( typeof toSlide.dataset.autoAnimate === 'string' ) toSlide.dataset.autoAnimate = 'running';
-		}, 2 );
 
 	}
 
@@ -4076,7 +4081,7 @@
 			properties.height = element.offsetHeight;
 		}
 
-		var computedStyles = window.getComputedStyle( element );
+		var computedStyles = getComputedStyle( element );
 
 		// CSS styles
 		( elementOptions.styles || config.autoAnimateStyles ).forEach( function( style ) {
