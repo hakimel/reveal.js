@@ -3868,14 +3868,7 @@
 			autoAnimateStyleSheet.type = 'text/css';
 			document.head.appendChild( autoAnimateStyleSheet );
 
-			var slideOptions = getAutoAnimateOptions( toSlide, {
-
-				// If our slides are centered vertically, we need to
-				// account for their difference in position when
-				// calculating deltas for animated elements
-				offsetY: config.center ? fromSlide.offsetTop - toSlide.offsetTop : 0
-
-			} );
+			var animationOptions = getAutoAnimateOptions( toSlide );
 
 			// Set our starting state
 			fromSlide.dataset.autoAnimate = 'pending';
@@ -3883,7 +3876,7 @@
 
 			// Inject our auto-animate styles for this transition
 			var css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
-				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, slideOptions, autoAnimateCounter++ );
+				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
 			} );
 
 			// If the slide is configured to animate unmatched elements we
@@ -3893,7 +3886,7 @@
 					unmatchedElement.dataset.autoAnimateUnmatched = 'fade-in';
 				} );
 
-				css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (slideOptions.duration*0.8) +'s ease '+ (slideOptions.duration*0.2) +'s; }' );
+				css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
 			}
 
 			// Setting the whole chunk of CSS at once is the most
@@ -3938,11 +3931,11 @@
 	 * @param {HTMLElement} from
 	 * @param {HTMLElement} to
 	 * @param {Object} elementOptions Options for this element pair
-	 * @param {Object} slideOptions Options set at the slide level
+	 * @param {Object} animationOptions Options set at the slide level
 	 * @param {String} id Unique ID that we can use to identify this
 	 * auto-animate element in the DOM
 	 */
-	function getAutoAnimateCSS( from, to, elementOptions, slideOptions, id ) {
+	function getAutoAnimateCSS( from, to, elementOptions, animationOptions, id ) {
 
 		// 'from' elements are given a data-auto-animate-target with no value,
 		// 'to' elements are are given a data-auto-animate-target with an ID
@@ -3951,7 +3944,7 @@
 
 		// Each element may override any of the auto-animate options
 		// like transition easing, duration and delay via data-attributes
-		var options = getAutoAnimateOptions( to, slideOptions );
+		var options = getAutoAnimateOptions( to, animationOptions );
 
 		// If we're using a custom element matcher the element options
 		// may contain additional transition overrides
@@ -3967,9 +3960,11 @@
 		// of the 'from' element
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 
+			var scale = Reveal.getScale();
+
 			var delta = {
-				x: fromProps.x - toProps.x,
-				y: fromProps.y - toProps.y + options.offsetY,
+				x: ( fromProps.x - toProps.x ) / scale,
+				y: ( fromProps.y - toProps.y ) / scale,
 				scaleX: fromProps.width / toProps.width,
 				scaleY: fromProps.height / toProps.height
 			};
@@ -4007,7 +4002,7 @@
 			// Instantly move to the 'from' state
 			fromProps.styles['transition'] = 'none';
 
-			// transition to the 'to' state
+			// Animate towards the 'to' state
 			toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
 
 			// Build up our custom CSS. We need to override inline styles
@@ -4019,6 +4014,7 @@
 			var toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
 				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
 			} ).join( '' );
+
 
 			css = 	'.reveal [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
 					'.reveal [data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
@@ -4076,10 +4072,11 @@
 
 		// Position and size
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-			properties.x = element.offsetLeft;
-			properties.y = element.offsetTop;
-			properties.width = element.offsetWidth;
-			properties.height = element.offsetHeight;
+			var bounds = element.getBoundingClientRect();
+			properties.x = bounds.x;
+			properties.y = bounds.y;
+			properties.width = bounds.width;
+			properties.height = bounds.height;
 		}
 
 		var computedStyles = getComputedStyle( element );

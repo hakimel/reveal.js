@@ -1045,6 +1045,10 @@ body {
 .reveal .slides.disable-slide-transitions section {
   transition: none !important; }
 
+.reveal .slides.disable-slide-transitions section {
+  -webkit-transform: none !important;
+          transform: none !important; }
+
 /*********************************************
  * PER-SLIDE BACKGROUNDS
  *********************************************/

@@ -1123,6 +1123,10 @@ $controlsArrowAngleActive: 36deg;
 	transition: none !important;
 }
 
+.reveal .slides.disable-slide-transitions section {
+	transform: none !important;
+}
+
 
 /*********************************************
  * PER-SLIDE BACKGROUNDS
