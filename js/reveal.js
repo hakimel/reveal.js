@@ -3883,10 +3883,10 @@
 			// need to flag them
 			if( toSlide.dataset.autoAnimateUnmatched ) {
 				getUnmatchedAutoAnimateElements( toSlide ).forEach( function( unmatchedElement ) {
-					unmatchedElement.dataset.autoAnimateUnmatched = 'fade-in';
+					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
 				} );
 
-				css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-unmatched] { transition: all '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
+				css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: all '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
 			}
 
 			// Setting the whole chunk of CSS at once is the most
@@ -3916,10 +3916,6 @@
 
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack) [data-auto-animate-target]' ) ).forEach( function( element ) {
 			delete element.dataset.autoAnimateTarget;
-		} );
-
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack) [data-auto-animate-unmatched]' ) ).forEach( function( element ) {
-			delete element.dataset.autoAnimateUnmatched;
 		} );
 
 	}
@@ -4208,8 +4204,8 @@
 	/**
 	 * Returns a all elements within the given scope that should
 	 * be considered unmatched in an auto-animate transition. If
-	 * fading of unmatched elements is turnded on, these elements
-	 * will fade when going between auto-aniamted slides.
+	 * fading of unmatched elements is turned on, these elements
+	 * will fade when going between auto-animate slides.
 	 *
 	 * Note that parents of auto-animate targets are NOT considerd
 	 * unmatched since fading them would break the auto-animation.

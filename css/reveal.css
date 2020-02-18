@@ -1233,10 +1233,10 @@ body {
 /*********************************************
  * AUTO ANIMATE
  *********************************************/
-.reveal section[data-auto-animate] [data-auto-animate-unmatched="fade-in"] {
+.reveal section[data-auto-animate] [data-auto-animate-target="unmatched"] {
   opacity: 0; }
 
-.reveal section[data-auto-animate="running"] [data-auto-animate-unmatched="fade-in"] {
+.reveal section[data-auto-animate="running"] [data-auto-animate-target="unmatched"] {
   opacity: 1; }
 
 /*********************************************
