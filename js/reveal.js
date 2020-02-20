@@ -198,10 +198,11 @@
 			// used to dictate which elements we can animate between.
 			autoAnimateMatcher: null,
 
-			// Default settings for or auto-animate transitions, can be
+			// Default settings for our auto-animate transitions, can be
 			// overridden per-slide or per-element via data arguments
 			autoAnimateEasing: 'ease',
 			autoAnimateDuration: 1.0,
+			autoAnimateUnmatched: true,
 
 			// CSS properties that can be auto-animated. Position & scale
 			// is matched separately so there's no need to include styles
@@ -3879,9 +3880,8 @@
 				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
 			} );
 
-			// If the slide is configured to animate unmatched elements we
-			// need to flag them
-			if( toSlide.dataset.autoAnimateUnmatched ) {
+			// Animate unmatched elements, if enabled
+			if( toSlide.dataset.autoAnimateUnmatched !== 'false' && config.autoAnimateUnmatched === true ) {
 				getUnmatchedAutoAnimateElements( toSlide ).forEach( function( unmatchedElement ) {
 					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
 				} );
@@ -3965,6 +3965,12 @@
 				scaleY: fromProps.height / toProps.height
 			};
 
+			// Limit decimal points to avoid 0.00001px blur and stutter
+			delta.x = Math.round( delta.x * 100000 ) / 100000;
+			delta.y = Math.round( delta.y * 100000 ) / 100000;
+			delta.scaleX = Math.round( delta.scaleX * 100000 ) / 100000;
+			delta.scaleX = Math.round( delta.scaleX * 100000 ) / 100000;
+
 			// No need to transform if nothing's changed
 			if( delta.x !== 0 || delta.y !== 0 || delta.scaleX !== 1 || delta.scaleY !== 1 ) {
 
@@ -3984,8 +3990,22 @@
 
 		// Delete all unchanged 'to' styles
 		for( var propertyName in toProps.styles ) {
-			if( toProps.styles[propertyName] === fromProps.styles[propertyName] ) {
+			var toValue = toProps.styles[propertyName];
+			var fromValue = fromProps.styles[propertyName];
+
+			if( toValue === fromValue ) {
 				delete toProps.styles[propertyName];
+			}
+			else {
+				// If these property values were set via a custom matcher providing
+				// an explicit 'from' and/or 'to' value, we always inject those values.
+				if( toValue.explicitValue === true ) {
+					toProps.styles[propertyName] = toValue.value;
+				}
+
+				if( fromValue.explicitValue === true ) {
+					fromProps.styles[propertyName] = fromValue.value;
+				}
 			}
 		}
 
@@ -4086,10 +4106,10 @@
 			if( typeof style === 'string' ) style = { property: style };
 
 			if( typeof style.from !== 'undefined' && direction === 'from' ) {
-				value = style.from;
+				value = { value: style.from, explicitValue: true };
 			}
 			else if( typeof style.to !== 'undefined' && direction === 'to' ) {
-				value = style.to;
+				value = { value: style.to, explicitValue: true };
 			}
 			else {
 				value = computedStyles[style.property];

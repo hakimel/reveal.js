@@ -1233,11 +1233,8 @@ body {
 /*********************************************
  * AUTO ANIMATE
  *********************************************/
-.reveal section[data-auto-animate] [data-auto-animate-target="unmatched"] {
+.reveal section[data-auto-animate]:not([data-auto-animate="running"]) [data-auto-animate-target="unmatched"] {
   opacity: 0; }
-
-.reveal section[data-auto-animate="running"] [data-auto-animate-target="unmatched"] {
-  opacity: 1; }
 
 /*********************************************
  * OVERVIEW
