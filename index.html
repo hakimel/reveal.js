@@ -45,7 +45,7 @@
 					<h1>Reveal.js</h1>
 					<h3>The HTML Presentation Framework</h3>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> and <a href="https://github.com/hakimel/reveal.js/graphs/contributors">contributors</a></small>
+						<small>Created by <a href="https://hakim.se">Hakim El Hattab</a> and <a href="https://github.com/hakimel/reveal.js/graphs/contributors">contributors</a></small>
 					</p>
 					<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYI553M&placement=revealjscom" id="_carbonads_js"></script>
 				</section>
@@ -387,7 +387,7 @@ Reveal.addEventListener( 'customevent', function() {
 				<section style="text-align: left;">
 					<h1>THE END</h1>
 					<p>
-						- <a href="https://slides.com">Try the online editor</a> <br>
+						- <a href="https://slides.com">Try the reveal.js editor</a> <br>
 						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
 					</p>
 				</section>
@@ -424,64 +424,78 @@ Reveal.addEventListener( 'customevent', function() {
 
 		<!-- Everything below this point is only used for the reveal.js demo page -->
 
-		<a class="fork-reveal" style="display: none;" href="https://github.com/hakimel/reveal.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork reveal.js on GitHub"></a>
-
-		<div class="share-reveal" style="display: none; position: absolute; bottom: 16px; left: 50%; margin-left: -139px; z-index: 20;">
-			<a class="share-reveal-editor" href="https://slides.com">Try the online editor</a>
-
-			<a class="share-reveal-facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Frevealjs.com">
-				<svg viewBox="-8 -8 48 48" width="20" height="20" version="1.1" xmlns="http://www.w3.org/2000/svg">
-					<path fill="#FFFFFF" d="M25.613-4.557c0,0-3.707,0-6.166,0c-3.662,0-7.732,1.535-7.732,6.835c0.019,1.845,0,3.613,0,5.603H7.481 v6.728h4.366v19.37h8.021V14.48h5.295l0.479-6.618h-5.913c0,0,0.016-2.946,0-3.8c0-2.093,2.184-1.974,2.312-1.974 c1.042,0,3.059,0.003,3.578,0v-6.646H25.613z"/>
-				</svg>
-			</a>
-
-			<a class="share-reveal-twitter" href="http://twitter.com/share?url=http%3A%2F%2Frevealjs.com&text=reveal.js%20-%20The%20HTML%20presentation%20framework&via=revealjs&related=revealjs">
-				<svg viewbox="0 0 2000 1625.36" width="20" height="20" version="1.1" xmlns="http://www.w3.org/2000/svg">
-					<path d="m 1999.9999,192.4 c -73.58,32.64 -152.67,54.69 -235.66,64.61 84.7,-50.78 149.77,-131.19 180.41,-227.01 -79.29,47.03 -167.1,81.17 -260.57,99.57 C 1609.3399,49.82 1502.6999,0 1384.6799,0 c -226.6,0 -410.328,183.71 -410.328,410.31 0,32.16 3.628,63.48 10.625,93.51 -341.016,-17.11 -643.368,-180.47 -845.739,-428.72 -35.324,60.6 -55.5583,131.09 -55.5583,206.29 0,142.36 72.4373,267.95 182.5433,341.53 -67.262,-2.13 -130.535,-20.59 -185.8519,-51.32 -0.039,1.71 -0.039,3.42 -0.039,5.16 0,198.803 141.441,364.635 329.145,402.342 -34.426,9.375 -70.676,14.395 -108.098,14.395 -26.441,0 -52.145,-2.578 -77.203,-7.364 52.215,163.008 203.75,281.649 383.304,284.946 -140.429,110.062 -317.351,175.66 -509.5972,175.66 -33.1211,0 -65.7851,-1.949 -97.8828,-5.738 181.586,116.4176 397.27,184.359 628.988,184.359 754.732,0 1167.462,-625.238 1167.462,-1167.47 0,-17.79 -0.41,-35.48 -1.2,-53.08 80.1799,-57.86 149.7399,-130.12 204.7499,-212.41" style="fill:#ffffff"/>
-				</svg>
-			</a>
-		</div>
+		<header class="reveal-header">
+			<a class="reveal-header-button" href="https://github.com/hakimel/reveal.js">Source on <em>GitHub</em></a>
+			<span class="reveal-header-delimiter">•</span>
+			<a class="reveal-header-button" href="https://slides.com">Try the reveal.js <em>editor</em></a>
+			<span class="reveal-header-delimiter">•</span>
+			<a class="reveal-header-button" href="https://twitter.com/hakimel">@hakimel</a>
+		</header>
 
 		<style>
-			/* Social sharing */
-			.share-reveal a {
-				display: inline-block;
-				height: 34px;
-				line-height: 32px;
-				padding: 0 10px;
+			.reveal-header {
+				display: block;
+				position: absolute;
+				top: 12px;
+				right: 16px;
+				z-index: 20;
 				color: #fff;
-				font-family: Helvetica, sans-serif;
-				text-decoration: none;
-				font-weight: bold;
-				font-size: 12px;
-				vertical-align: top;
+				font-family: "Source Sans Pro", Helvetica, sans-serif;
+				font-size: 14px;
+				letter-spacing: 0.05em;
+			}
+
+			.reveal-header-button {
+				display: inline-block;
+				padding: 14px 10px;
+				color: rgba(255,255,255,0.7);
 				text-transform: uppercase;
+				text-decoration: none;
+				font-weight: 500;
 				box-sizing: border-box;
+				text-align: center;
 			}
 
-			.share-reveal .share-reveal-editor {
-				line-height: 30px;
+			.reveal-header-button em {
+				color: #fff;
 			}
 
-			.share-reveal svg {
-				vertical-align: middle;
+			.reveal-header-button:hover {
+				color: #fff;
+				background: rgba(0,0,0,0.2);
 			}
 
-			.share-reveal a + a {
+			.reveal-header-button  + .reveal-header-button {
 				margin-left: 10px;
 			}
 
-			.share-reveal-editor {
-				border: 2px solid #fff;
-			}
+			@media screen and (max-width: 500px) {
+				body {
+					display: flex;
+					flex-direction: column;
+				}
 
-			.share-reveal-twitter,
-			.share-reveal-follow {
-				background-color: #00aced;
-			}
-
-			.share-reveal-facebook {
-				background-color: #4B71B8;
+				.reveal-header {
+					display: flex;
+					position: initial;
+					background: rgba(0,0,0,0.2);
+					align-items: center;
+					justify-content: flex-end;
+					font-size: 13px;
+					font-size: min(3.8vw, 14px);
+					align-items: center;
+					width: 100%;
+				}
+				.reveal-header-button {
+					flex-grow: 1;
+					margin: 0;
+					padding-left: 4px;
+					padding-right: 4px;
+					text-transform: none;
+				}
+				.reveal-header-delimiter {
+					display: none;
+				}
 			}
 
 			/* Advertising */
@@ -520,23 +534,6 @@ Reveal.addEventListener( 'customevent', function() {
 		g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		s.parentNode.insertBefore(g, s);
 		})(document, 'script');
-		</script>
-
-		<script>
-			[].slice.call( document.querySelectorAll( '.share-reveal-facebook, .share-reveal-twitter' ) ).forEach( function( element ) {
-				element.addEventListener( 'click', function( event ) {
-					event.preventDefault();
-					var width = 500, height = 300;
-					var winTop = window.screenY + (window.screen.height / 2) - (height / 2);
-					var winLeft = window.screenX + (window.screen.width / 2) - (width / 2);
-					window.open(this.href, 'shre', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + width + ',height=' + height);
-				} );
-			} );
-
-			if( !navigator.userAgent.match( /(iphone|android)/gi ) && !!document.querySelector ) {
-				document.querySelector( '.share-reveal' ).style.display = 'block';
-				document.querySelector( '.fork-reveal' ).style.display = 'block';
-			}
 		</script>
 
 	</body>
