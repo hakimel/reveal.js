@@ -3886,7 +3886,7 @@
 					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
 				} );
 
-				css.push( '.reveal [data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: all '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
+				css.push( '[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: all '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
 			}
 
 			// Setting the whole chunk of CSS at once is the most
@@ -3904,6 +3904,8 @@
 				}
 			} );
 
+			dispatchEvent( 'autoanimate', { fromSlide: fromSlide, toSlide: toSlide, sheet: autoAnimateStyleSheet } );
+
 		}
 
 	}
@@ -3914,7 +3916,7 @@
 	 */
 	function removeEphemeralAutoAnimateAttributes() {
 
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack) [data-auto-animate-target]' ) ).forEach( function( element ) {
+		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
 			delete element.dataset.autoAnimateTarget;
 		} );
 
@@ -3956,28 +3958,31 @@
 		// of the 'from' element
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 
-			var scale = Reveal.getScale();
+			var presentationScale = Reveal.getScale();
 
 			var delta = {
-				x: ( fromProps.x - toProps.x ) / scale,
-				y: ( fromProps.y - toProps.y ) / scale,
+				x: ( fromProps.x - toProps.x ) / presentationScale,
+				y: ( fromProps.y - toProps.y ) / presentationScale,
 				scaleX: fromProps.width / toProps.width,
 				scaleY: fromProps.height / toProps.height
 			};
 
-			// Limit decimal points to avoid 0.00001px blur and stutter
-			delta.x = Math.round( delta.x * 100000 ) / 100000;
-			delta.y = Math.round( delta.y * 100000 ) / 100000;
-			delta.scaleX = Math.round( delta.scaleX * 100000 ) / 100000;
-			delta.scaleX = Math.round( delta.scaleX * 100000 ) / 100000;
+			// Limit decimal points to avoid 0.0001px blur and stutter
+			delta.x = Math.round( delta.x * 1000 ) / 1000;
+			delta.y = Math.round( delta.y * 1000 ) / 1000;
+			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
+			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
+
+			var translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
+				scale = elementOptions.scale !== false && ( delta.scaleX !== 0 || delta.scaleY !== 0 );
 
 			// No need to transform if nothing's changed
-			if( delta.x !== 0 || delta.y !== 0 || delta.scaleX !== 1 || delta.scaleY !== 1 ) {
+			if( translate || scale ) {
 
 				var transform = [];
 
-				if( elementOptions.translate !== false ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
-				if( elementOptions.scale !== false ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
+				if( translate ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
+				if( scale ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
 
 				fromProps.styles['transform'] = transform.join( ' ' );
 				fromProps.styles['transform-origin'] = 'top left';
@@ -4031,9 +4036,8 @@
 				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
 			} ).join( '' );
 
-
-			css = 	'.reveal [data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
-					'.reveal [data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
+			css = 	'[data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
+					'[data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
 
 		}
 
@@ -4046,10 +4050,10 @@
 	 *
 	 * @param {HTMLElement} element Element to pick up options
 	 * from, either a slide or an animation target
-	 * @param {Object} [inheritOptions] optional set of options
-	 * to inherit as a base
+	 * @param {Object} [inheritedOptions] Optional set of existing
+	 * options
 	 */
-	function getAutoAnimateOptions( element, inheritOptions ) {
+	function getAutoAnimateOptions( element, inheritedOptions ) {
 
 		var options = {
 			easing: config.autoAnimateEasing,
@@ -4057,7 +4061,15 @@
 			delay: 0
 		};
 
-		if( inheritOptions ) extend( options, inheritOptions );
+		if( inheritedOptions ) options = extend( options, inheritedOptions );
+
+		// Inherit options from parent elements
+		if( element.closest && element.parentNode ) {
+			var autoAnimatedParent = element.parentNode.closest( '[data-auto-animate-target]' );
+			if( autoAnimatedParent ) {
+				options = getAutoAnimateOptions( autoAnimatedParent, options );
+			}
+		}
 
 		if( element.dataset.autoAnimateEasing ) {
 			options.easing = element.dataset.autoAnimateEasing;
@@ -4088,7 +4100,17 @@
 
 		// Position and size
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-			var bounds = element.getBoundingClientRect();
+			var bounds;
+
+			// Custom auto-animate may optionally return a custom tailored
+			// measurement function
+			if( typeof elementOptions.measure === 'function' ) {
+				bounds = elementOptions.measure( element );
+			}
+			else {
+				bounds = element.getBoundingClientRect();
+			}
+
 			properties.x = bounds.x;
 			properties.y = bounds.y;
 			properties.width = bounds.width;
@@ -6576,6 +6598,7 @@
 		getScale: function() {
 			return scale;
 		},
+
 		getComputedSlideSize: getComputedSlideSize,
 
 		// Returns the current configuration object

@@ -1318,7 +1318,7 @@ $controlsArrowAngleActive: 36deg;
  * AUTO ANIMATE
  *********************************************/
 
-.reveal section[data-auto-animate]:not([data-auto-animate="running"]) [data-auto-animate-target="unmatched"] {
+.reveal section[data-auto-animate]:not(.stack):not([data-auto-animate="running"]) [data-auto-animate-target="unmatched"] {
 	opacity: 0;
 }
 
