@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Embedded Media</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+		<link rel="stylesheet" href="../../css/theme/default.css" id="theme">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>Embedded Media Test</h2>
+				</section>
+
+				<section>
+					<iframe data-autoplay width="420" height="345" src="http://www.youtube.com/embed/l3RQZ4mcr1c"></iframe>
+				</section>
+
+				<section>
+					<h2>Empty Slide</h2>
+				</section>
+
+				<section>
+					<h2>Auto-playing audio</h2>
+					<audio src="assets/beeping.wav" data-autoplay></audio>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../../js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				transition: 'linear'
+			});
+
+		</script>
+
+	</body>
+</html>

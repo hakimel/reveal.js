@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Async Dependencies</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-2.5.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides">
+
+				<section>Slide content</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+		<script src="qunit-2.5.0.js"></script>
+
+		<script>
+			var	externalScriptSequence = '';
+			var scriptCount = 0;
+
+			QUnit.config.autostart = false;
+			QUnit.module( 'Async Dependencies' );
+
+			QUnit.test( 'Async scripts are loaded', function( assert ) {
+				assert.expect( 5 );
+				var done = assert.async( 5 );
+
+				function callback( event ) {
+					if( externalScriptSequence.length === 1 ) {
+						assert.ok( externalScriptSequence === 'A', 'first callback was sync script' );
+						done();
+					}
+					else {
+						assert.ok( true, 'async script loaded' );
+						done();
+					}
+
+					if( externalScriptSequence.length === 4 ) {
+						assert.ok( 	externalScriptSequence.indexOf( 'A' ) !== -1 &&
+									externalScriptSequence.indexOf( 'B' ) !== -1 &&
+									externalScriptSequence.indexOf( 'C' ) !== -1 &&
+									externalScriptSequence.indexOf( 'D' ) !== -1, 'four unique scripts were loaded' );
+						done();
+					}
+
+					scriptCount ++;
+				}
+
+				Reveal.initialize({
+					dependencies: [
+						{ src: 'assets/external-script-a.js', async: false, callback: callback },
+						{ src: 'assets/external-script-b.js', async: true, callback: callback },
+						{ src: 'assets/external-script-c.js', async: true, callback: callback },
+						{ src: 'assets/external-script-d.js', async: true, callback: callback }
+					]
+				});
+			});
+
+			QUnit.start();
+
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Iframe Backgrounds</title>
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="qunit-2.5.0.css">
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="display: none;">
+
+			<div class="slides">
+
+				<section data-background-iframe="#1">1</section>
+				<section data-background-iframe="#2">2</section>
+				<section data-background-iframe="#3" data-preload>3</section>
+				<section data-background-iframe="#4">4</section>
+				<section data-background-iframe="#5">5</section>
+				<section data-background-iframe="#6">6</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+		<script src="qunit-2.5.0.js"></script>
+
+		<script>
+
+
+			Reveal.addEventListener( 'ready', function() {
+
+				function getIframe( index ) {
+					return document.querySelectorAll( '.slide-background' )[index].querySelector( 'iframe' );
+				}
+
+				QUnit.module( 'Iframe' );
+
+				QUnit.test( 'Using default settings', function( assert ) {
+
+					Reveal.slide(0);
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), false, 'not preloaded when within viewDistance' );
+
+					Reveal.slide(1);
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), true, 'loaded when slide becomes visible' );
+
+					Reveal.slide(0);
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), false, 'unloaded when slide becomes invisible' );
+
+				});
+
+				QUnit.test( 'Using data-preload', function( assert ) {
+
+					Reveal.slide(1);
+					assert.strictEqual( getIframe(2).hasAttribute( 'src' ), true, 'preloaded within viewDistance' );
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), true, 'loaded when slide becomes visible' );
+
+					Reveal.slide(0);
+					assert.strictEqual( getIframe(3).hasAttribute( 'src' ), false, 'unloads outside of viewDistance' );
+
+				});
+
+				QUnit.test( 'Using preloadIframes: true', function( assert ) {
+
+					Reveal.configure({ preloadIframes: true });
+
+					Reveal.slide(1);
+					assert.strictEqual( getIframe(0).hasAttribute( 'src' ), true, 'preloaded within viewDistance' );
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), true, 'preloaded within viewDistance' );
+					assert.strictEqual( getIframe(2).hasAttribute( 'src' ), true, 'preloaded within viewDistance' );
+
+				});
+
+				QUnit.test( 'Using preloadIframes: false', function( assert ) {
+
+					Reveal.configure({ preloadIframes: false });
+
+					Reveal.slide(0);
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), false, 'not preloaded within viewDistance' );
+					assert.strictEqual( getIframe(2).hasAttribute( 'src' ), false, 'not preloaded within viewDistance' );
+
+					Reveal.slide(1);
+					assert.strictEqual( getIframe(1).hasAttribute( 'src' ), true, 'loaded when slide becomes visible' );
+
+
+				});
+
+			} );
+
+			Reveal.initialize({
+				viewDistance: 3
+			});
+		</script>
+
+	</body>
+</html>
