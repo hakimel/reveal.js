@@ -12,20 +12,13 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #add9e4;
-  background: -moz-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #f7fbfc), color-stop(100%, #add9e4));
-  background: -webkit-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: -o-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: -ms-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background-color: #f7fbfc; }
+  background-color: #0883d4; }
 
 .reveal {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Quicksand";
   font-size: 40px;
   font-weight: normal;
-  color: #333; }
+  color: white; }
 
 ::selection {
   color: #fff;
@@ -52,8 +45,8 @@ body {
 .reveal h5,
 .reveal h6 {
   margin: 0 0 20px 0;
-  color: #333;
-  font-family: "Quicksand", sans-serif;
+  color: white;
+  font-family: "Quicksand";
   font-weight: normal;
   line-height: 1.2;
   letter-spacing: -0.08em;
