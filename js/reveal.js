@@ -3886,7 +3886,7 @@
 					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
 				} );
 
-				css.push( '[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: all '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
+				css.push( '[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
 			}
 
 			// Setting the whole chunk of CSS at once is the most
@@ -4016,15 +4016,18 @@
 
 		var css = '';
 
+		var toStyleProperties = Object.keys( toProps.styles );
+
 		// Only create animate this element IF at least one style
 		// property has changed
-		if( Object.keys( toProps.styles ).length > 0 ) {
+		if( toStyleProperties.length > 0 ) {
 
 			// Instantly move to the 'from' state
 			fromProps.styles['transition'] = 'none';
 
 			// Animate towards the 'to' state
 			toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
+			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
 
 			// Build up our custom CSS. We need to override inline styles
 			// so we need to make our styles vErY IMPORTANT!1!!
