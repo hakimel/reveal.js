@@ -45,6 +45,10 @@ Design week
 - [Design week - Day 1](/slides/design-week-monday.html)
 - [Design week - Day 2](/slides/design-week-tuesday.html)
 
+Design bursts
+
+- [Week 1 - Colour in UI](/slides/design-burst-week1.html)
+
 FACxSamsungxTimeout
 
 - [Workshop week 1](/slides/fac-samsung-slides-1.html)
