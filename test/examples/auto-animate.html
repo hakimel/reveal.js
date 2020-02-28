@@ -23,7 +23,7 @@
 					<h3>Auto-Animate Example</h3>
 					<p>This will fade out</p>
 					<img src="assets/image1.png" style="height: 100px;">
-					<pre><code class="hljs" data-trim>
+					<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
 						function Example() {
 						  const [count, setCount] = useState(0);
 						}
@@ -34,8 +34,9 @@
 					<p style="opacity: 0.2; margin-top: 200px;">This will fade out</p>
 					<p>This element is unmatched</p>
 					<img src="assets/image1.png" style="height: 100px;">
-					<pre><code class="hljs" data-trim>
+					<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
 						function Example() {
+						  New line!
 						  const [count, setCount] = useState(0);
 						}
 					</code></pre>
@@ -46,6 +47,36 @@
 				</section>
 				<section data-auto-animate>
 					<p data-id="text-props" style="background: #555; line-height: 3em; letter-spacing: 0.2em;">Line Height & Letter Spacing</p>
+				</section>
+
+				<section data-auto-animate>
+					<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+						import React, { useState } from 'react';
+
+						function Example() {
+						  const [count, setCount] = useState(0);
+
+						  return (
+						    ...
+						  );
+						}
+					</code></pre>
+				</section>
+				<section data-auto-animate>
+					<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+						function Example() {
+						  const [count, setCount] = useState(0);
+
+						  return (
+						    &lt;div&gt;
+						      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+						      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+						        Click me
+						      &lt;/button&gt;
+						    &lt;/div&gt;
+						  );
+						}
+					</code></pre>
 				</section>
 
 				<section>

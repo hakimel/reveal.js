@@ -1233,6 +1233,9 @@ body {
 /*********************************************
  * AUTO ANIMATE
  *********************************************/
+.reveal [data-auto-animate-target="unmatched"] {
+  will-change: opacity; }
+
 .reveal section[data-auto-animate]:not(.stack):not([data-auto-animate="running"]) [data-auto-animate-target="unmatched"] {
   opacity: 0; }
 
@@ -1514,6 +1517,12 @@ body {
   left: 0;
   width: 100%;
   box-sizing: border-box; }
+
+.reveal pre[data-auto-animate-target] {
+  overflow: hidden; }
+
+.reveal pre[data-auto-animate-target] code {
+  height: 100%; }
 
 /*********************************************
  * ROLLING LINKS

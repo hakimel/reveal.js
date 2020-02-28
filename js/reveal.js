@@ -3058,7 +3058,7 @@
 		cueAutoSlide();
 
 		// Auto-animation
-		if( slideChanged && previousSlide && currentSlide ) {
+		if( slideChanged && previousSlide && currentSlide && !isOverview() ) {
 
 			// Skip the slide transition between our two slides
 			// when auto-animating individual elements
@@ -4028,6 +4028,7 @@
 			// Animate towards the 'to' state
 			toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
 			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
+			toProps.styles['will-change'] = toStyleProperties.join( ', ' );
 
 			// Build up our custom CSS. We need to override inline styles
 			// so we need to make our styles vErY IMPORTANT!1!!
@@ -4162,15 +4163,18 @@
 	 */
 	function getAutoAnimatableElements( fromSlide, toSlide ) {
 
-		var matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : findAutoAnimatePairs;
+		var matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : getAutoAnimatePairs;
 
 		var pairs = matcher( fromSlide, toSlide );
 
+		var reserved = [];
+
 		// Remove duplicate pairs
 		return pairs.filter( function( pair, index ) {
-			return index === pairs.findIndex( function( comparePair ) {
-				return pair.from === comparePair.from && pair.to === comparePair.to;
-			} );
+			if( reserved.indexOf( pair.to ) === -1 ) {
+				reserved.push( pair.to );
+				return true;
+			}
 		} );
 
 	}
@@ -4181,68 +4185,153 @@
 	 * You can specify a custom matcher function by using
 	 * the `autoAnimateMatcher` config option.
 	 */
-	function findAutoAnimatePairs( fromSlide, toSlide ) {
+	function getAutoAnimatePairs( fromSlide, toSlide ) {
 
 		var pairs = [];
 
-		var findMatches = function( selector, serializer, transformer ) {
-
-			var fromHash = {};
-
-			toArray( fromSlide.querySelectorAll( selector ) ).forEach( function( element ) {
-				if( typeof transformer === 'function' ) element = transformer( element );
-				fromHash[ serializer( element ) ] = element;
-			} );
-
-			toArray( toSlide.querySelectorAll( selector ) ).forEach( function( element ) {
-				if( typeof transformer === 'function' ) element = transformer( element );
-				var fromElement = fromHash[ serializer( element ) ];
-				if( fromElement ) {
-					pairs.push({ from: fromElement, to: element });
-				}
-			} );
-
-		};
-
-		var textNodes = 'h1, h2, h3, h4, h5, h6, p, li, span';
+		var codeNodes = 'pre';
+		var textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
 		var mediaNodes = 'img, video, iframe';
 
 		// Eplicit matches via data-id
-		findMatches( '[data-id]', function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', function( node ) {
 			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
 		} );
 
 		// Text
-		findMatches( textNodes, function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, textNodes, function( node ) {
 			return node.nodeName + ':::' + node.innerText;
-		}, null );
+		} );
 
 		// Media
-		findMatches( mediaNodes, function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, mediaNodes, function( node ) {
 			return node.nodeName + ':::' + ( node.getAttribute( 'src' ) || node.getAttribute( 'data-src' ) );
 		} );
 
 		// Code
-		findMatches( 'pre>code', function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, codeNodes, function( node ) {
 			return node.nodeName + ':::' + node.innerText;
-		}, function( element ) {
-			return element.parentNode;
 		} );
 
 		pairs.forEach( function( pair ) {
 
-			var fromElement = pair.from;
-			var matchesMethod = fromElement.matches || fromElement.matchesSelector || fromElement.msMatchesSelector;
-
 			// Disable scale transformations on text nodes, we transiition
 			// each individual text property instead
-			if( matchesMethod.call( fromElement, textNodes ) ) {
+			if( pair.from.matches( textNodes ) ) {
 				pair.options = { scale: false };
+			}
+			// Animate individual lines of code
+			else if( pair.from.matches( codeNodes ) ) {
+
+				// Transition the code block's width and height instead of scaling
+				// to prevent its content from being squished
+				pair.options = { scale: false, styles: [ 'width', 'height' ] };
+
+				// Lines of code
+				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-code', function( node ) {
+					return node.textContent;
+				}, {
+					scale: false,
+					styles: [],
+					measure: getLocalBoundingBox
+				} );
+
+				// Line numbers
+				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', function( node ) {
+					return node.getAttribute( 'data-line-number' );
+				}, {
+					scale: false,
+					styles: [ 'width' ],
+					measure: getLocalBoundingBox
+				} );
+
 			}
 
 		} );
 
 		return pairs;
+
+	}
+
+	/**
+	 * Helper method which returns a bounding box based on
+	 * the given elements offset coordinates.
+	 *
+	 * @param {HTMLElement} element
+	 * @return {Object} x, y, width, height
+	 */
+	function getLocalBoundingBox( element ) {
+
+		var presentationScale = Reveal.getScale();
+
+		return {
+			x: Math.round( ( element.offsetLeft * presentationScale ) * 100 ) / 100,
+			y: Math.round( ( element.offsetTop * presentationScale ) * 100 ) / 100,
+			width: Math.round( ( element.offsetWidth * presentationScale ) * 100 ) / 100,
+			height: Math.round( ( element.offsetHeight * presentationScale ) * 100 ) / 100
+		};
+
+	}
+
+	/**
+	 * Finds matching elements between two slides.
+	 *
+	 * @param {Array} pairs            	List of pairs to push matches to
+	 * @param {HTMLElement} fromScope   Scope within the from element exists
+	 * @param {HTMLElement} toScope     Scope within the to element exists
+	 * @param {String} selector         CSS selector of the element to match
+	 * @param {Function} serializer     A function that accepts an element and returns
+	 *                                  a stringified ID based on its contents
+	 * @param {Object} animationOptions Optional config options for this pair
+	 */
+	function findAutoAnimateMatches( pairs, fromScope, toScope, selector, serializer, animationOptions ) {
+
+		var fromMatches = {};
+		var toMatches = {};
+
+		[].slice.call( fromScope.querySelectorAll( selector ) ).forEach( function( element, i ) {
+			var key = serializer( element );
+			if( typeof key === 'string' && key.length ) {
+				fromMatches[key] = fromMatches[key] || [];
+				fromMatches[key].push( element );
+			}
+		} );
+
+		[].slice.call( toScope.querySelectorAll( selector ) ).forEach( function( element, i ) {
+			var key = serializer( element );
+			toMatches[key] = toMatches[key] || [];
+			toMatches[key].push( element );
+
+			var fromElement;
+
+			// Retrieve the 'from' element
+			if( fromMatches[key] ) {
+				var pimaryIndex = toMatches[key].length - 1;
+				var secondaryIndex = fromMatches[key].length - 1;
+
+				// If there are multiple identical from elements, retrieve
+				// the one at the same index as our to-element.
+				if( fromMatches[key][ pimaryIndex ] ) {
+					fromElement = fromMatches[key][ pimaryIndex ];
+					fromMatches[key][ pimaryIndex ] = null;
+				}
+				// If there are no matching from-elements at the same index,
+				// use the last one.
+				else if( fromMatches[key][ secondaryIndex ] ) {
+					fromElement = fromMatches[key][ secondaryIndex ];
+					fromMatches[key][ secondaryIndex ] = null;
+				}
+			}
+
+			// If we've got a matching pair, push it to the list of pairs
+			if( fromElement ) {
+				pairs.push({
+					from: fromElement,
+					to: element,
+					options: animationOptions
+				});
+			}
+		} );
 
 	}
 
