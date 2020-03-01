@@ -88,6 +88,42 @@
 					</p>
 				</section>
 
+				<section data-auto-animate>
+					<h2 data-id="code-title">Pretty Code</h2>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						import React, { useState } from 'react';
+
+						function Example() {
+						  const [count, setCount] = useState(0);
+
+						  return (
+						    ...
+						  );
+						}
+					</code></pre>
+					<p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">With animations</h2>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4|4,8-11">
+						import React, { useState } from 'react';
+
+						function Example() {
+						  const [count, setCount] = useState(0);
+
+						  return (
+						    &lt;div&gt;
+						      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+						      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+						        Click me
+						      &lt;/button&gt;
+						    &lt;/div&gt;
+						  );
+						}
+					</code></pre>
+				</section>
+
 				<section>
 					<h2>Point of View</h2>
 					<p>
@@ -237,27 +273,6 @@
 						<h2>Iframe Backgrounds</h2>
 						<p>Since reveal.js runs on the web, you can easily embed other web content. Try interacting with the page in the background.</p>
 					</div>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code class="hljs" data-trim data-line-numbers="4|9|4,8-11">
-						import React, { useState } from 'react';
-
-						function Example() {
-						  const [count, setCount] = useState(0);
-
-						  return (
-						    &lt;div&gt;
-						      &lt;p&gt;You clicked {count} times&lt;/p&gt;
-						      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-						        Click me
-						      &lt;/button&gt;
-						    &lt;/div&gt;
-						  );
-						}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
 				</section>
 
 				<section>
