@@ -336,10 +336,11 @@ Reveal.initialize({
 	// used to dictate which elements we can animate between.
 	autoAnimateMatcher: null,
 
-	// Default settings for or auto-animate transitions, can be
+	// Default settings for our auto-animate transitions, can be
 	// overridden per-slide or per-element via data arguments
 	autoAnimateEasing: 'ease',
 	autoAnimateDuration: 1.0,
+	autoAnimateUnmatched: true,
 
 	// CSS properties that can be auto-animated. Position & scale
 	// is matched separately so there's no need to include styles
