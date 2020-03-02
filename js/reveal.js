@@ -499,20 +499,8 @@
 
 		var testElement = document.createElement( 'div' );
 
-		features.transforms3d = 'WebkitPerspective' in testElement.style ||
-								'MozPerspective' in testElement.style ||
-								'msPerspective' in testElement.style ||
-								'OPerspective' in testElement.style ||
-								'perspective' in testElement.style;
-
-		features.transforms2d = 'WebkitTransform' in testElement.style ||
-								'MozTransform' in testElement.style ||
-								'msTransform' in testElement.style ||
-								'OTransform' in testElement.style ||
-								'transform' in testElement.style;
-
-		features.requestAnimationFrameMethod = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
-		features.requestAnimationFrame = typeof features.requestAnimationFrameMethod === 'function';
+		features.transforms3d = 'perspective' in testElement.style;
+		features.transforms2d = 'transform' in testElement.style;
 
 		features.canvas = !!document.createElement( 'canvas' ).getContext;
 
@@ -1565,21 +1553,7 @@
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
 
 		if( config.focusBodyOnPageVisibilityChange ) {
-			var visibilityChange;
-
-			if( 'hidden' in document ) {
-				visibilityChange = 'visibilitychange';
-			}
-			else if( 'msHidden' in document ) {
-				visibilityChange = 'msvisibilitychange';
-			}
-			else if( 'webkitHidden' in document ) {
-				visibilityChange = 'webkitvisibilitychange';
-			}
-
-			if( visibilityChange ) {
-				document.addEventListener( visibilityChange, onPageVisibilityChange, false );
-			}
+			document.addEventListener( 'visibilitychange', onPageVisibilityChange, false );
 		}
 
 		// Listen to both touch and click events, in case the device
@@ -1797,9 +1771,6 @@
 	 */
 	function transformElement( element, transform ) {
 
-		element.style.WebkitTransform = transform;
-		element.style.MozTransform = transform;
-		element.style.msTransform = transform;
 		element.style.transform = transform;
 
 	}
@@ -6297,13 +6268,9 @@
 	 */
 	function onPageVisibilityChange( event ) {
 
-		var isHidden =  document.webkitHidden ||
-						document.msHidden ||
-						document.hidden;
-
 		// If, after clicking a link or similar and we're coming back,
 		// focus the document.body to ensure we can use keyboard shortcuts
-		if( isHidden === false && document.activeElement !== document.body ) {
+		if( document.hidden === false && document.activeElement !== document.body ) {
 			// Not all elements support .blur() - SVGs among them.
 			if( typeof document.activeElement.blur === 'function' ) {
 				document.activeElement.blur();
@@ -6471,7 +6438,7 @@
 		this.render();
 
 		if( this.playing ) {
-			features.requestAnimationFrameMethod.call( window, this.animate.bind( this ) );
+			requestAnimationFrame( this.animate.bind( this ) );
 		}
 
 	};
