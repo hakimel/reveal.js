@@ -24,12 +24,12 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
 - [Presentation Size](#presentation-size)
 - [Dependencies](#dependencies)
 - [Ready Event](#ready-event)
-- [Auto-sliding](#auto-sliding)
+- [Auto-Slide](#auto-slide)
+- [Auto-Animate](#auto-animate)
 - [Keyboard Bindings](#keyboard-bindings)
 - [Vertical Slide Navigation](#vertical-slide-navigation)
 - [Touch Navigation](#touch-navigation)
 - [Lazy Loading](#lazy-loading)
-- [Auto-Animate](#auto-animate)
 - [API](#api)
   - [Custom Key Bindings](#custom-key-bindings)
   - [Slide Changed Event](#slide-changed-event)
@@ -336,10 +336,11 @@ Reveal.initialize({
 	// used to dictate which elements we can animate between.
 	autoAnimateMatcher: null,
 
-	// Default settings for or auto-animate transitions, can be
+	// Default settings for our auto-animate transitions, can be
 	// overridden per-slide or per-element via data arguments
 	autoAnimateEasing: 'ease',
 	autoAnimateDuration: 1.0,
+	autoAnimateUnmatched: true,
 
 	// CSS properties that can be auto-animated. Position & scale
 	// is matched separately so there's no need to include styles
@@ -536,7 +537,7 @@ Reveal.addEventListener( 'ready', function( event ) {
 
 Note that we also add a `.ready` class to the `.reveal` element so that you can hook into this with CSS.
 
-### Auto-sliding
+### Auto-Slide
 
 Presentations can be configured to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
 
@@ -577,12 +578,43 @@ Reveal.configure({
 });
 ```
 
-### Auto-Animate
+reveal.js can automatically animate elements across slides. All you need to do is add `data-auto-animate` to two adjacent slide `<section>` elements and Auto-Animate will animate all matching elements between the two.
 
-TBD
+Here's a simple example to give you a better idea of how it can be used. The resulting animation will be the word "Magic" sliding 100px downwards.
+```html
+<section data-auto-animate>
+	<h1>Magic</h1>
+</section>
+<section data-auto-animate>
+	<h1 style="position: relative; top: 100px;">Magic</h1>
+</section>
+```
+
+This example uses the "top" property to move the element but internally reveal.js will use a CSS transform to ensure smooth movement. This same approach to animation works with most animatable CSS properties meaning you can transition things like `position`, `font-size`, `line-height`, `color`, `background-color` and `padding`.
+
+#### How Elements are Matched
+When you navigate between two auto-animated slides we'll do our best to automatically find matching elements between the two slides. For text, we consider it a match if both the text contents and node type are identical. For images, videos and iframes we compare the `src` attribute. We also take into account the order in which the element appears in the DOM.
+
+In situations where automatic matching is not feasible you can give the objects that you want to animate between a matching `data-id` attribute. We prioritize matching `data-id` values above our automatic matching.
 
 #### Slide & Element Specific Settings
-TBD. How to use data-attributes to override transition settings.
+You can override specific animation properties such as easing and duration either per-slide or individually for each animated element. The following configuration attributes are available:
+
+| Attribute                        | Default    | Description 
+| :------------------------------- | :--------- | :---------- 
+| data-auto-animate-easing         | ease       | A CSS [easing function](https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function).
+| data-auto-animate-unmatched      | true       | Determines whether elements with no matching auto-animate target should fade in. Set to false to make them appear instantly.
+| data-auto-animate-duration       | 1.0        | Animation duration in seconds.
+| data-auto-animate-delay          | 0          | Animation delay in seconds (can only be set for specific elements, not at the slide level).
+
+If you'd like to change the defaults for the whole deck, please use the reveal.js config options:
+```javascript
+Reveal.initialize({
+  autoAnimateEasing: 'ease-out',
+  autoAnimateDuration: 0.8,
+  autoAnimateUnmatched: false
+})
+```
 
 #### Custom Element Matcher
 TBD. How to implement your own element matcher.
