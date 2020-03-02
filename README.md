@@ -629,7 +629,13 @@ Reveal.initialize({
 })
 ```
 
-#### Events
+#### API: State Attributes and Events
+We add state attributes to the different elements involved in an auto-animation. These attributes can be tied into if you want to, for example, fine-tune the animation behavior with custom CSS.
+
+Right before an auto-animation starts we add `data-auto-animate="pending"` to the slide `<section>`. At this point the upcoming slide is visible and all of the animated elements have been moved to their starting positions. Next we switch to `data-auto-animate="running"` to indicate when the elements start animating towards their final properties.
+
+Each individual element is decorated with a `data-auto-animate-target` attribute. The value of the attribute is a unique ID for this particular animation OR "unmatched" if this element should animate as unmatched content.
+
 Each time a presentation navigates between two auto-animated slides it dispatches the `autoanimate` event.
 ```javascript
 Reveal.addEventListener( 'autoanimate', function( event ) {
