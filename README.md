@@ -336,11 +336,10 @@ Reveal.initialize({
 	// used to dictate which elements we can animate between.
 	autoAnimateMatcher: null,
 
-	// Default settings for our auto-animate transitions, can be
+	// Default settings for or auto-animate transitions, can be
 	// overridden per-slide or per-element via data arguments
 	autoAnimateEasing: 'ease',
 	autoAnimateDuration: 1.0,
-	autoAnimateUnmatched: true,
 
 	// CSS properties that can be auto-animated. Position & scale
 	// is matched separately so there's no need to include styles
@@ -578,6 +577,8 @@ Reveal.configure({
 });
 ```
 
+### Auto-Animate
+
 reveal.js can automatically animate elements across slides. All you need to do is add `data-auto-animate` to two adjacent slide `<section>` elements and Auto-Animate will animate all matching elements between the two.
 
 Here's a simple example to give you a better idea of how it can be used. The resulting animation will be the word "Magic" sliding 100px downwards.
@@ -590,24 +591,35 @@ Here's a simple example to give you a better idea of how it can be used. The res
 </section>
 ```
 
-This example uses the "top" property to move the element but internally reveal.js will use a CSS transform to ensure smooth movement. This same approach to animation works with most animatable CSS properties meaning you can transition things like `position`, `font-size`, `line-height`, `color`, `background-color` and `padding`.
+This example uses the `top` property to move the element but internally reveal.js will use a CSS transform to ensure smooth movement. This same approach to animation works with most animatable CSS properties meaning you can transition things like `position`, `font-size`, `line-height`, `color`, `background-color` and `padding`.
 
 #### How Elements are Matched
 When you navigate between two auto-animated slides we'll do our best to automatically find matching elements between the two slides. For text, we consider it a match if both the text contents and node type are identical. For images, videos and iframes we compare the `src` attribute. We also take into account the order in which the element appears in the DOM.
 
-In situations where automatic matching is not feasible you can give the objects that you want to animate between a matching `data-id` attribute. We prioritize matching `data-id` values above our automatic matching.
+In situations where automatic matching is not feasible you can give the objects that you want to animate between a matching `data-id` attribute. We prioritize matching `data-id` values above our automatic matching. 
 
-#### Slide & Element Specific Settings
-You can override specific animation properties such as easing and duration either per-slide or individually for each animated element. The following configuration attributes are available:
+Here's an example where we've given both blocks a matching ID since automatic matching has no content to go on.
 
-| Attribute                        | Default    | Description 
-| :------------------------------- | :--------- | :---------- 
+```html
+<section data-auto-animate>
+  <div data-id="box" style="padding: 20px; background: salmon;"></div>
+</section>
+<section data-auto-animate>
+  <div data-id="box" style="padding: 20px; background: blue;"></div>
+</section>
+```
+
+#### Animation Settings
+You can override specific animation settings such as easing and duration either for the whole presentation, per-slide or individually for each animated element. The following configuration attributes can be used to change the settings for a specific slide or element:
+
+| Attribute&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        | Default    | Description 
+| :------------------------------- | ---------: | :---------- 
 | data-auto-animate-easing         | ease       | A CSS [easing function](https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function).
 | data-auto-animate-unmatched      | true       | Determines whether elements with no matching auto-animate target should fade in. Set to false to make them appear instantly.
 | data-auto-animate-duration       | 1.0        | Animation duration in seconds.
 | data-auto-animate-delay          | 0          | Animation delay in seconds (can only be set for specific elements, not at the slide level).
 
-If you'd like to change the defaults for the whole deck, please use the reveal.js config options:
+If you'd like to change the defaults for the whole deck, use the following config options:
 ```javascript
 Reveal.initialize({
   autoAnimateEasing: 'ease-out',
@@ -616,8 +628,13 @@ Reveal.initialize({
 })
 ```
 
-#### Custom Element Matcher
-TBD. How to implement your own element matcher.
+#### Events
+Each time a presentation navigates between two auto-animated slides it dispatches the `autoanimate` event.
+```javascript
+Reveal.addEventListener( 'autoanimate', function( event ) {
+	// event.fromSlide, event.toSlide
+} );
+```
 
 ### Vertical Slide Navigation
 
