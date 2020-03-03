@@ -1846,3 +1846,18 @@ $notesWidthPercent: 25%;
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
+
+
+/*********************************************
+ * NOTES PLUGIN
+ *********************************************/
+
+.speaker-notes .reveal .slides section .fragment {
+	opacity: 1;
+	color: #ff0000;
+	visibility: visible;
+}
+
+.speaker-notes .reveal .slides section .fragment.visible {
+	color: inherit;
+}
