@@ -4,6 +4,8 @@
  * GLOBAL STYLES
  *********************************************/
 
+@import "./exposer";
+
 body {
 	@include bodyBackground();
 	background-color: $backgroundColor;

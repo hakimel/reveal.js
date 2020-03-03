@@ -10,6 +10,31 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #fff;
+  --main-font: Source Sans Pro, Helvetica, sans-serif;
+  --main-font-size: 42px;
+  --main-color: #222;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: Source Sans Pro, Helvetica, sans-serif;
+  --heading-color: #222;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: normal;
+  --heading-text-transform: uppercase;
+  --heading-text-shadow: none;
+  --heading-font-weight: 600;
+  --heading1-text-shadow: none;
+  --heading1-size: 2.5em;
+  --heading2-size: 1.6em;
+  --heading3-size: 1.3em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #2a76dd;
+  --link-color-hover: #6ca0e8;
+  --selection-background-color: #98bdef;
+  --selection-color: #fff; }
+
 body {
   background: #fff;
   background-color: #fff; }

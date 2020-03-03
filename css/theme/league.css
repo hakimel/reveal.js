@@ -10,6 +10,31 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --background-color: #2b2b2b;
+  --main-font: Lato, sans-serif;
+  --main-font-size: 40px;
+  --main-color: #eee;
+  --block-margin: 20px;
+  --heading-margin: 0 0 20px 0;
+  --heading-font: League Gothic, Impact, sans-serif;
+  --heading-color: #eee;
+  --heading-line-height: 1.2;
+  --heading-letter-spacing: normal;
+  --heading-text-transform: uppercase;
+  --heading-text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  --heading-font-weight: normal;
+  --heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
+  --heading1-size: 3.77em;
+  --heading2-size: 2.11em;
+  --heading3-size: 1.55em;
+  --heading4-size: 1em;
+  --code-font: monospace;
+  --link-color: #13DAEC;
+  --link-color-hover: #71e9f4;
+  --selection-background-color: #FF5E99;
+  --selection-color: #fff; }
+
 body {
   background: #1c1e20;
   background: -moz-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
