@@ -48,6 +48,7 @@ Design week
 Design bursts
 
 - [Week 1 - Colour in UI](/slides/design-burst-week1.html)
+- [Week 2 - Layout and Spacing](/slides/design-burst-week2.html)
 
 FACxSamsungxTimeout
 
