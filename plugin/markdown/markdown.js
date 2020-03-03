@@ -307,7 +307,7 @@
 	function addAttributeInElement( node, elementTarget, separator ) {
 
 		var mardownClassesInElementsRegex = new RegExp( separator, 'mg' );
-		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"=]+?)\"", 'mg' );
+		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"]+?)\"|(data-[^\"= ]+?)(?=[\" ])", 'mg' );
 		var nodeValue = node.nodeValue;
 		if( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
 
@@ -315,7 +315,11 @@
 			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
 			node.nodeValue = nodeValue;
 			while( matchesClass = mardownClassRegex.exec( classes ) ) {
-				elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
+				if( matchesClass[2] ) {
+					elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
+				} else {
+					elementTarget.setAttribute( matchesClass[3], "" );
+				}
 			}
 			return true;
 		}
