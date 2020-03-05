@@ -19,27 +19,27 @@
 		// Browser globals.
 		root.Reveal = factory();
 	}
-}( this, function() {
+}( this || window, () => {
 
 	'use strict';
 
-	var Reveal;
+	let Reveal;
 
 	// The reveal.js version
-	var VERSION = '4.0.0-dev';
+	const VERSION = '4.0.0-dev';
 
-	var SLIDES_SELECTOR = '.slides section',
-		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
-		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
-		HOME_SLIDE_SELECTOR = '.slides>section:first-of-type',
+	const SLIDES_SELECTOR = '.slides section';
+	const HORIZONTAL_SLIDES_SELECTOR = '.slides>section';
+	const VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section';
+	const HOME_SLIDE_SELECTOR = '.slides>section:first-of-type';
 
-		UA = navigator.userAgent,
+	const UA = navigator.userAgent;
 
-		// Methods that may not be invoked via the postMessage API
-		POST_MESSAGE_METHOD_BLACKLIST = /registerPlugin|registerKeyboardShortcut|addKeyBinding|addEventListener/,
+	// Methods that may not be invoked via the postMessage API
+	const POST_MESSAGE_METHOD_BLACKLIST = /registerPlugin|registerKeyboardShortcut|addKeyBinding|addEventListener/;
 
-		// Configuration defaults, can be overridden at initialization time
-		config = {
+	// Configuration defaults, can be overridden at initialization time
+	let config = {
 
 			// The "normal" size of the presentation, aspect ratio will be preserved
 			// when the presentation is scaled to fit different resolutions
@@ -497,7 +497,7 @@
 							( navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 ); // iPadOS
 		isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 
-		var testElement = document.createElement( 'div' );
+		let testElement = document.createElement( 'div' );
 
 		features.transforms3d = 'perspective' in testElement.style;
 		features.transforms2d = 'transform' in testElement.style;
@@ -528,7 +528,7 @@
 		var scripts = [],
 			scriptsToLoad = 0;
 
-		config.dependencies.forEach( function( s ) {
+		config.dependencies.forEach( s => {
 			// Load if there's no condition or the condition is truthy
 			if( !s.condition || s.condition() ) {
 				if( s.async ) {
@@ -544,7 +544,7 @@
 			scriptsToLoad = scripts.length;
 
 			// Load synchronous scripts
-			scripts.forEach( function( s ) {
+			scripts.forEach( s => {
 				loadScript( s.src, function() {
 
 					if( typeof s.callback === 'function' ) s.callback();
@@ -2130,19 +2130,18 @@
 		dom.overlay.classList.add( 'overlay-preview' );
 		dom.wrapper.appendChild( dom.overlay );
 
-		dom.overlay.innerHTML = [
-			'<header>',
-				'<a class="close" href="#"><span class="icon"></span></a>',
-				'<a class="external" href="'+ url +'" target="_blank"><span class="icon"></span></a>',
-			'</header>',
-			'<div class="spinner"></div>',
-			'<div class="viewport">',
-				'<iframe src="'+ url +'"></iframe>',
-				'<small class="viewport-inner">',
-					'<span class="x-frame-error">Unable to load iframe. This is likely due to the site\'s policy (x-frame-options).</span>',
-				'</small>',
-			'</div>'
-		].join('');
+		dom.overlay.innerHTML =
+			`<header>
+				<a class="close" href="#"><span class="icon"></span></a>
+				<a class="external" href="${url}" target="_blank"><span class="icon"></span></a>
+			</header>
+			<div class="spinner"></div>
+			<div class="viewport">
+				<iframe src="${url}"></iframe>
+				<small class="viewport-inner">
+					<span class="x-frame-error">Unable to load iframe. This is likely due to the site's policy (x-frame-options).</span>
+				</small>
+			</div>`;
 
 		dom.overlay.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
 			dom.overlay.classList.add( 'loaded' );
@@ -2203,35 +2202,35 @@
 
 			html += '<table><th>KEY</th><th>ACTION</th>';
 			for( var key in keyboardShortcuts ) {
-				html += '<tr><td>' + key + '</td><td>' + keyboardShortcuts[ key ] + '</td></tr>';
+				html += `<tr><td>${key}</td><td>${keyboardShortcuts[ key ]}</td></tr>`;
 			}
 
 			// Add custom key bindings that have associated descriptions
 			for( var binding in registeredKeyBindings ) {
 				if( registeredKeyBindings[binding].key && registeredKeyBindings[binding].description ) {
-					html += '<tr><td>' + registeredKeyBindings[binding].key + '</td><td>' + registeredKeyBindings[binding].description + '</td></tr>';
+					html += `<tr><td>${registeredKeyBindings[binding].key}</td><td>${registeredKeyBindings[binding].description}</td></tr>`;
 				}
 			}
 
 			html += '</table>';
 
-			dom.overlay.innerHTML = [
-				'<header>',
-					'<a class="close" href="#"><span class="icon"></span></a>',
-				'</header>',
-				'<div class="viewport">',
-					'<div class="viewport-inner">'+ html +'</div>',
-				'</div>'
-			].join('');
+			dom.overlay.innerHTML = `
+				<header>
+					<a class="close" href="#"><span class="icon"></span></a>
+				</header>
+				<div class="viewport">
+					<div class="viewport-inner">${html}</div>
+				</div>
+			`;
 
 			dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
 				closeOverlay();
 				event.preventDefault();
 			}, false );
 
-			setTimeout( function() {
+			requestAnimationFrame( function() {
 				dom.overlay.classList.add( 'visible' );
-			}, 1 );
+			} );
 
 		}
 
@@ -2581,8 +2580,8 @@
 	 */
 	function updateOverview() {
 
-		var vmin = Math.min( window.innerWidth, window.innerHeight );
-		var scale = Math.max( vmin / 5, 150 ) / vmin;
+		const vmin = Math.min( window.innerWidth, window.innerHeight );
+		const scale = Math.max( vmin / 5, 150 ) / vmin;
 
 		transformSlides( {
 			overview: [
@@ -3840,14 +3839,14 @@
 			autoAnimateStyleSheet.type = 'text/css';
 			document.head.appendChild( autoAnimateStyleSheet );
 
-			var animationOptions = getAutoAnimateOptions( toSlide );
+			let animationOptions = getAutoAnimateOptions( toSlide );
 
 			// Set our starting state
 			fromSlide.dataset.autoAnimate = 'pending';
 			toSlide.dataset.autoAnimate = 'pending';
 
 			// Inject our auto-animate styles for this transition
-			var css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
+			let css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
 				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
 			} );
 
@@ -3857,7 +3856,7 @@
 					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
 				} );
 
-				css.push( '[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity '+ (animationOptions.duration*0.8) +'s ease '+ (animationOptions.duration*0.2) +'s; }' );
+				css.push( `[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity ${animationOptions.duration*0.8}s ease ${animationOptions.duration*0.2}s; }` );
 			}
 
 			// Setting the whole chunk of CSS at once is the most
@@ -3866,7 +3865,7 @@
 			autoAnimateStyleSheet.innerHTML = css.join( '' );
 
 			// Start the animation next cycle
-			requestAnimationFrame( function() {
+			requestAnimationFrame( () => {
 				if( autoAnimateStyleSheet ) {
 					// This forces our newly injected styles to be applied in Firefox
 					getComputedStyle( autoAnimateStyleSheet ).fontWeight;
@@ -3887,7 +3886,7 @@
 	 */
 	function removeEphemeralAutoAnimateAttributes() {
 
-		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( function( element ) {
+		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( element => {
 			delete element.dataset.autoAnimateTarget;
 		} );
 
@@ -3913,7 +3912,7 @@
 
 		// Each element may override any of the auto-animate options
 		// like transition easing, duration and delay via data-attributes
-		var options = getAutoAnimateOptions( to, animationOptions );
+		let options = getAutoAnimateOptions( to, animationOptions );
 
 		// If we're using a custom element matcher the element options
 		// may contain additional transition overrides
@@ -3921,7 +3920,7 @@
 		if( typeof elementOptions.duration !== 'undefined' ) options.duration = elementOptions.duration;
 		if( typeof elementOptions.easing !== 'undefined' ) options.easing = elementOptions.easing;
 
-		var fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
+		let fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
 			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
 
 		// If translation and/or scaling are enabled, css transform
@@ -3929,9 +3928,9 @@
 		// of the 'from' element
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 
-			var presentationScale = Reveal.getScale();
+			let presentationScale = Reveal.getScale();
 
-			var delta = {
+			let delta = {
 				x: ( fromProps.x - toProps.x ) / presentationScale,
 				y: ( fromProps.y - toProps.y ) / presentationScale,
 				scaleX: fromProps.width / toProps.width,
@@ -3944,13 +3943,13 @@
 			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 
-			var translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
+			let translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
 				scale = elementOptions.scale !== false && ( delta.scaleX !== 0 || delta.scaleY !== 0 );
 
 			// No need to transform if nothing's changed
 			if( translate || scale ) {
 
-				var transform = [];
+				let transform = [];
 
 				if( translate ) transform.push( 'translate('+delta.x+'px, '+delta.y+'px)' );
 				if( scale ) transform.push( 'scale('+delta.scaleX+','+delta.scaleY+')' );
@@ -3965,9 +3964,9 @@
 		}
 
 		// Delete all unchanged 'to' styles
-		for( var propertyName in toProps.styles ) {
-			var toValue = toProps.styles[propertyName];
-			var fromValue = fromProps.styles[propertyName];
+		for( let propertyName in toProps.styles ) {
+			const toValue = toProps.styles[propertyName];
+			const fromValue = fromProps.styles[propertyName];
 
 			if( toValue === fromValue ) {
 				delete toProps.styles[propertyName];
@@ -3985,9 +3984,9 @@
 			}
 		}
 
-		var css = '';
+		let css = '';
 
-		var toStyleProperties = Object.keys( toProps.styles );
+		let toStyleProperties = Object.keys( toProps.styles );
 
 		// Only create animate this element IF at least one style
 		// property has changed
@@ -3997,17 +3996,17 @@
 			fromProps.styles['transition'] = 'none';
 
 			// Animate towards the 'to' state
-			toProps.styles['transition'] = 'all '+ options.duration +'s '+ options.easing + ' ' + options.delay + 's';
+			toProps.styles['transition'] = `all ${options.duration}s ${options.easing} ${options.delay}s`;
 			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
 			toProps.styles['will-change'] = toStyleProperties.join( ', ' );
 
 			// Build up our custom CSS. We need to override inline styles
 			// so we need to make our styles vErY IMPORTANT!1!!
-			var fromCSS = Object.keys( fromProps.styles ).map( function( propertyName ) {
+			let fromCSS = Object.keys( fromProps.styles ).map( function( propertyName ) {
 				return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
 			} ).join( '' );
 
-			var toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
+			let toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
 				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
 			} ).join( '' );
 
@@ -4030,17 +4029,17 @@
 	 */
 	function getAutoAnimateOptions( element, inheritedOptions ) {
 
-		var options = {
+		let options = {
 			easing: config.autoAnimateEasing,
 			duration: config.autoAnimateDuration,
 			delay: 0
 		};
 
-		if( inheritedOptions ) options = extend( options, inheritedOptions );
+		options = {...options, ...inheritedOptions};
 
 		// Inherit options from parent elements
 		if( element.closest && element.parentNode ) {
-			var autoAnimatedParent = element.parentNode.closest( '[data-auto-animate-target]' );
+			let autoAnimatedParent = element.parentNode.closest( '[data-auto-animate-target]' );
 			if( autoAnimatedParent ) {
 				options = getAutoAnimateOptions( autoAnimatedParent, options );
 			}
@@ -4071,11 +4070,11 @@
 	 */
 	function getAutoAnimatableProperties( direction, element, elementOptions ) {
 
-		var properties = { styles: [] };
+		let properties = { styles: [] };
 
 		// Position and size
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-			var bounds;
+			let bounds;
 
 			// Custom auto-animate may optionally return a custom tailored
 			// measurement function
@@ -4092,11 +4091,11 @@
 			properties.height = bounds.height;
 		}
 
-		var computedStyles = getComputedStyle( element );
+		const computedStyles = getComputedStyle( element );
 
 		// CSS styles
-		( elementOptions.styles || config.autoAnimateStyles ).forEach( function( style ) {
-			var value;
+		( elementOptions.styles || config.autoAnimateStyles ).forEach( style => {
+			let value;
 
 			// `style` is either the property name directly, or an object
 			// definition of a style property
@@ -4134,14 +4133,14 @@
 	 */
 	function getAutoAnimatableElements( fromSlide, toSlide ) {
 
-		var matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : getAutoAnimatePairs;
+		let matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : getAutoAnimatePairs;
 
-		var pairs = matcher( fromSlide, toSlide );
+		let pairs = matcher( fromSlide, toSlide );
 
-		var reserved = [];
+		let reserved = [];
 
 		// Remove duplicate pairs
-		return pairs.filter( function( pair, index ) {
+		return pairs.filter( ( pair, index ) => {
 			if( reserved.indexOf( pair.to ) === -1 ) {
 				reserved.push( pair.to );
 				return true;
@@ -4158,33 +4157,33 @@
 	 */
 	function getAutoAnimatePairs( fromSlide, toSlide ) {
 
-		var pairs = [];
+		let pairs = [];
 
-		var codeNodes = 'pre';
-		var textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
-		var mediaNodes = 'img, video, iframe';
+		const codeNodes = 'pre';
+		const textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
+		const mediaNodes = 'img, video, iframe';
 
 		// Eplicit matches via data-id
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', node => {
 			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
 		} );
 
 		// Text
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, textNodes, function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, textNodes, node => {
 			return node.nodeName + ':::' + node.innerText;
 		} );
 
 		// Media
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, mediaNodes, function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, mediaNodes, node => {
 			return node.nodeName + ':::' + ( node.getAttribute( 'src' ) || node.getAttribute( 'data-src' ) );
 		} );
 
 		// Code
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, codeNodes, function( node ) {
+		findAutoAnimateMatches( pairs, fromSlide, toSlide, codeNodes, node => {
 			return node.nodeName + ':::' + node.innerText;
 		} );
 
-		pairs.forEach( function( pair ) {
+		pairs.forEach( pair => {
 
 			// Disable scale transformations on text nodes, we transiition
 			// each individual text property instead
@@ -4199,7 +4198,7 @@
 				pair.options = { scale: false, styles: [ 'width', 'height' ] };
 
 				// Lines of code
-				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-code', function( node ) {
+				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-code', node => {
 					return node.textContent;
 				}, {
 					scale: false,
@@ -4208,7 +4207,7 @@
 				} );
 
 				// Line numbers
-				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', function( node ) {
+				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', node => {
 					return node.getAttribute( 'data-line-number' );
 				}, {
 					scale: false,
@@ -4233,7 +4232,7 @@
 	 */
 	function getLocalBoundingBox( element ) {
 
-		var presentationScale = Reveal.getScale();
+		const presentationScale = Reveal.getScale();
 
 		return {
 			x: Math.round( ( element.offsetLeft * presentationScale ) * 100 ) / 100,
@@ -4257,28 +4256,28 @@
 	 */
 	function findAutoAnimateMatches( pairs, fromScope, toScope, selector, serializer, animationOptions ) {
 
-		var fromMatches = {};
-		var toMatches = {};
+		let fromMatches = {};
+		let toMatches = {};
 
-		[].slice.call( fromScope.querySelectorAll( selector ) ).forEach( function( element, i ) {
-			var key = serializer( element );
+		[].slice.call( fromScope.querySelectorAll( selector ) ).forEach( ( element, i ) => {
+			const key = serializer( element );
 			if( typeof key === 'string' && key.length ) {
 				fromMatches[key] = fromMatches[key] || [];
 				fromMatches[key].push( element );
 			}
 		} );
 
-		[].slice.call( toScope.querySelectorAll( selector ) ).forEach( function( element, i ) {
-			var key = serializer( element );
+		[].slice.call( toScope.querySelectorAll( selector ) ).forEach( ( element, i ) => {
+			const key = serializer( element );
 			toMatches[key] = toMatches[key] || [];
 			toMatches[key].push( element );
 
-			var fromElement;
+			let fromElement;
 
 			// Retrieve the 'from' element
 			if( fromMatches[key] ) {
-				var pimaryIndex = toMatches[key].length - 1;
-				var secondaryIndex = fromMatches[key].length - 1;
+				const pimaryIndex = toMatches[key].length - 1;
+				const secondaryIndex = fromMatches[key].length - 1;
 
 				// If there are multiple identical from elements, retrieve
 				// the one at the same index as our to-element.
@@ -4320,9 +4319,9 @@
 	 */
 	function getUnmatchedAutoAnimateElements( rootElement ) {
 
-		return [].slice.call( rootElement.children ).reduce( function( result, element ) {
+		return [].slice.call( rootElement.children ).reduce( ( result, element ) => {
 
-			var containsAnimatedElements = element.querySelector( '[data-auto-animate-target]' );
+			const containsAnimatedElements = element.querySelector( '[data-auto-animate-target]' );
 
 			// The element is unmatched if
 			// - It is not an auto-animate target
