@@ -9,7 +9,11 @@ const rename = require('gulp-rename')
 const minify = require('gulp-clean-css')
 const connect = require('gulp-connect')
 const autoprefixer = require('gulp-autoprefixer')
+const yargs = require('yargs')
 const pkg = require('./package.json')
+
+const root = yargs.argv.root || '.'
+const port = yargs.argv.port || 8000
 
 const license = `/*!
 * reveal.js <%= pkg.version %> (<%= new Date().toDateString() %>)
@@ -43,7 +47,7 @@ gulp.task('css', gulp.parallel('css-themes', 'css-core'))
 
 gulp.task('test', gulp.series(
 
-    () => gulp.src(['./js/reveal.js']).pipe(eslint()).pipe(eslint.format()),
+    () => gulp.src(['./js/reveal.js', 'gulpfile.js']).pipe(eslint()).pipe(eslint.format()),
     () => gulp.src(['./test/*.html']).pipe(qunit())
 
 ))
@@ -67,10 +71,9 @@ gulp.task('package', gulp.series('default', () =>
 gulp.task('serve', () => {
 
     connect.server({
-        root: '.',
-        livereload: true,
-        open: true,
-        useAvailablePort: true
+        root: root,
+        port: port,
+        livereload: true
     })
 
     gulp.watch(['js/reveal.js'], gulp.series('js'))

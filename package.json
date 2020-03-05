@@ -35,13 +35,15 @@
     "gulp-uglify": "^3.0.2",
     "gulp-header": "^2.0.9",
     "gulp-zip": "^5.0.1",
+    "yargs": "^15.1.0",
     "express": "^4.17.1",
     "mustache": "^4.0.0",
     "socket.io": "^2.3.0"
   },
   "eslintConfig": {
     "env": {
-      "browser": true
+      "browser": true,
+      "es6": true
     },
     "globals": {
       "head": false,
@@ -54,7 +56,6 @@
     "rules": {
       "curly": 0,
       "eqeqeq": 2,
-      "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
       "wrap-iife": [
         2,
         "any"
@@ -68,9 +69,8 @@
       "new-cap": 2,
       "no-caller": 2,
       "dot-notation": 0,
-      "no-undef": 2,
       "no-eq-null": 2,
-      "no-unused-expressions": 2
+      "no-unused-expressions": 0
     }
   }
 }
