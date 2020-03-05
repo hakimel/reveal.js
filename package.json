@@ -26,19 +26,22 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-connect": "^5.7.0",
     "gulp-eslint": "^6.0.0",
+    "gulp-header": "^2.0.9",
     "gulp-qunit": "^2.1.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-uglify": "^3.0.2",
-    "gulp-header": "^2.0.9",
     "gulp-zip": "^5.0.1",
-    "yargs": "^15.1.0",
     "express": "^4.17.1",
     "mustache": "^4.0.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "yargs": "^15.1.0",
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7"
   },
   "eslintConfig": {
     "env": {

@@ -1,6 +1,7 @@
 const gulp = require('gulp')
 const zip = require('gulp-zip')
 const sass = require('gulp-sass')
+const babel = require('gulp-babel')
 const qunit = require('gulp-qunit')
 const header = require('gulp-header')
 const eslint = require('gulp-eslint')
@@ -24,6 +25,7 @@ const license = `/*!
 */\n`
 
 gulp.task('js', () => gulp.src(['./js/reveal.js'])
+        .pipe(babel({ presets: ['@babel/preset-env'] }))
         .pipe(uglify())
         .pipe(header(license, {pkg: pkg}))
         .pipe(rename('reveal.min.js'))
