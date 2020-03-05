@@ -845,6 +845,11 @@ Reveal.addEventListener( 'somestate', function() {
 }, false );
 ```
 
+### Slide Visibility
+When preparing a presentation it can sometimes be helpful to prepare optional slides that you may or may not have time to show. This is easily done by appending a few slides at the end of the presentation, however this means that the reveal.js progress bar and slide numbering will hint that there are additional slides.
+
+To "hide" those slides from reveal.js' numbering system you can add a `data-visibility` attribute to the slide like so `<section data-visibility="uncounted">`.
+
 ### Slide Backgrounds
 
 Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a `data-background` attribute to your `<section>` elements. Four different types of backgrounds are supported: color, image, video and iframe.

@@ -4856,7 +4856,10 @@
 					break mainLoop;
 				}
 
-				pastCount++;
+				// Don't count slides with the "uncounted" class
+				if( verticalSlides[j].dataset.visibility !== 'uncounted' ) {
+					pastCount++;
+				}
 
 			}
 
@@ -4865,8 +4868,9 @@
 				break;
 			}
 
-			// Don't count the wrapping section for vertical slides
-			if( horizontalSlide.classList.contains( 'stack' ) === false ) {
+			// Don't count the wrapping section for vertical slides and
+			// slides marked as uncounted
+			if( horizontalSlide.classList.contains( 'stack' ) === false && !horizontalSlide.dataset.visibility !== 'uncounted' ) {
 				pastCount++;
 			}
 
@@ -5078,7 +5082,7 @@
 	 */
 	function getSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ) );
+		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack):not([data-visibility="uncounted"])' ) );
 
 	}
 
