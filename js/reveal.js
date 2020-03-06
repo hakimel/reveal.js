@@ -1,4 +1,4 @@
-import Playback from './playback.js'
+import Playback from './components/playback.js'
 
 /**
  * reveal.js
