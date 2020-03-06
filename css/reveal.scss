@@ -1420,6 +1420,9 @@ $controlsArrowAngleActive: 36deg;
  * OVERLAY FOR LINK PREVIEWS AND HELP
  *********************************************/
 
+$overlayHeaderHeight: 40px;
+$overlayHeaderPadding: 5px;
+
 .reveal > .overlay {
 	position: absolute;
 	top: 0;
@@ -1428,14 +1431,8 @@ $controlsArrowAngleActive: 36deg;
 	height: 100%;
 	z-index: 1000;
 	background: rgba( 0, 0, 0, 0.9 );
-	opacity: 0;
-	visibility: hidden;
 	transition: all 0.3s ease;
 }
-	.reveal > .overlay.visible {
-		opacity: 1;
-		visibility: visible;
-	}
 
 	.reveal > .overlay .spinner {
 		position: absolute;
@@ -1458,14 +1455,14 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 		top: 0;
 		width: 100%;
-		height: 40px;
+		padding: $overlayHeaderPadding;
 		z-index: 2;
-		border-bottom: 1px solid #222;
+		box-sizing: border-box;
 	}
 		.reveal > .overlay header a {
 			display: inline-block;
-			width: 40px;
-			height: 40px;
+			width: $overlayHeaderHeight;
+			height: $overlayHeaderHeight;
 			line-height: 36px;
 			padding: 0 10px;
 			float: right;
@@ -1495,7 +1492,7 @@ $controlsArrowAngleActive: 36deg;
 	.reveal > .overlay .viewport {
 		position: absolute;
 		display: flex;
-		top: 40px;
+		top: $overlayHeaderHeight + $overlayHeaderPadding*2;
 		right: 0;
 		bottom: 0;
 		left: 0;

@@ -592,7 +592,7 @@
 	 */
 	function loadScript( url, callback ) {
 
-		let script = document.createElement( 'script' );
+		const script = document.createElement( 'script' );
 		script.type = 'text/javascript';
 		script.async = false;
 		script.defer = false;
@@ -618,14 +618,14 @@
 				// Kill event listeners
 				script.onload = script.onreadystatechange = script.onerror = null;
 
-				callback( new Error( 'Failed loading script: ' + script.src + '\n' + err) );
+				callback( new Error( 'Failed loading script: ' + script.src + '\n' + err ) );
 
 			};
 
 		}
 
 		// Append the script at the end of <head>
-		let head = document.querySelector( 'head' );
+		const head = document.querySelector( 'head' );
 		head.insertBefore( script, head.lastChild );
 
 	}
@@ -661,7 +661,7 @@
 
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
-		setTimeout( function() {
+		setTimeout( () => {
 			// Enable transitions now that we're loaded
 			dom.slides.classList.remove( 'no-transition' );
 
@@ -723,10 +723,10 @@
 
 		// Arrow controls
 		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
-			'<button class="navigate-left" aria-label="' + ( config.rtl ? 'next slide' : 'previous slide' ) + '"><div class="controls-arrow"></div></button>' +
-			'<button class="navigate-right" aria-label="' + ( config.rtl ? 'previous slide' : 'next slide' ) + '"><div class="controls-arrow"></div></button>' +
-			'<button class="navigate-up" aria-label="above slide"><div class="controls-arrow"></div></button>' +
-			'<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>' );
+			`<button class="navigate-left" aria-label="${ config.rtl ? 'next slide' : 'previous slide' }"><div class="controls-arrow"></div></button>
+			<button class="navigate-right" aria-label="${ config.rtl ? 'previous slide' : 'next slide' }"><div class="controls-arrow"></div></button>
+			<button class="navigate-up" aria-label="above slide"><div class="controls-arrow"></div></button>
+			<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>` );
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
@@ -766,7 +766,7 @@
 	 */
 	function createStatusDiv() {
 
-		var statusDiv = document.getElementById( 'aria-status-div' );
+		let statusDiv = document.getElementById( 'aria-status-div' );
 		if( !statusDiv ) {
 			statusDiv = document.createElement( 'div' );
 			statusDiv.style.position = 'absolute';
@@ -790,7 +790,7 @@
 	 */
 	function getStatusText( node ) {
 
-		var text = '';
+		let text = '';
 
 		// Text node
 		if( node.nodeType === 3 ) {
@@ -799,11 +799,11 @@
 		// Element node
 		else if( node.nodeType === 1 ) {
 
-			var isAriaHidden = node.getAttribute( 'aria-hidden' );
-			var isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
+			let isAriaHidden = node.getAttribute( 'aria-hidden' );
+			let isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
 			if( isAriaHidden !== 'true' && !isDisplayHidden ) {
 
-				toArray( node.childNodes ).forEach( function( child ) {
+				toArray( node.childNodes ).forEach( child => {
 					text += getStatusText( child );
 				} );
 
@@ -811,7 +811,7 @@
 
 		}
 
-		return text;
+		return text.trim();
 
 	}
 
@@ -995,7 +995,7 @@
 	 */
 	function setupScrollPrevention() {
 
-		setInterval( function() {
+		setInterval( () => {
 			if( dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
 				dom.wrapper.scrollTop = 0;
 				dom.wrapper.scrollLeft = 0;
@@ -1016,26 +1016,24 @@
 	 *
 	 * @return {HTMLElement}
 	 */
-	function createSingletonNode( container, tagname, classname, innerHTML ) {
+	function createSingletonNode( container, tagname, classname, innerHTML='' ) {
 
 		// Find all nodes matching the description
-		var nodes = container.querySelectorAll( '.' + classname );
+		let nodes = container.querySelectorAll( '.' + classname );
 
 		// Check all matches to find one which is a direct child of
 		// the specified container
-		for( var i = 0; i < nodes.length; i++ ) {
-			var testNode = nodes[i];
+		for( let i = 0; i < nodes.length; i++ ) {
+			let testNode = nodes[i];
 			if( testNode.parentNode === container ) {
 				return testNode;
 			}
 		}
 
 		// If no node was found, create it now
-		var node = document.createElement( tagname );
+		let node = document.createElement( tagname );
 		node.className = classname;
-		if( typeof innerHTML === 'string' ) {
-			node.innerHTML = innerHTML;
-		}
+		node.innerHTML = innerHTML;
 		container.appendChild( node );
 
 		return node;
@@ -1049,19 +1047,19 @@
 	 */
 	function createBackgrounds() {
 
-		var printMode = isPrintingPDF();
+		let printMode = isPrintingPDF();
 
 		// Clear prior backgrounds
 		dom.background.innerHTML = '';
 		dom.background.classList.add( 'no-transition' );
 
 		// Iterate over all horizontal slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( slideh ) {
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( slideh => {
 
-			var backgroundStack = createBackground( slideh, dom.background );
+			let backgroundStack = createBackground( slideh, dom.background );
 
 			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'section' ) ).forEach( function( slidev ) {
+			toArray( slideh.querySelectorAll( 'section' ) ).forEach( slidev => {
 
 				createBackground( slidev, backgroundStack );
 
@@ -1083,7 +1081,7 @@
 			// needed for proper transitions to be set on the element via CSS. To remove
 			// annoying background slide-in effect when the presentation starts, apply
 			// these properties after short time delay
-			setTimeout( function() {
+			setTimeout( () => {
 				dom.wrapper.classList.add( 'has-parallax-background' );
 			}, 1 );
 
@@ -1107,13 +1105,12 @@
 	 */
 	function createBackground( slide, container ) {
 
-
 		// Main slide background element
-		var element = document.createElement( 'div' );
+		let element = document.createElement( 'div' );
 		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
 
 		// Inner background element that wraps images/videos/iframes
-		var contentElement = document.createElement( 'div' );
+		let contentElement = document.createElement( 'div' );
 		contentElement.className = 'slide-background-content';
 
 		element.appendChild( contentElement );
@@ -1137,7 +1134,7 @@
 	 */
 	function syncBackground( slide ) {
 
-		var element = slide.slideBackgroundElement,
+		let element = slide.slideBackgroundElement,
 			contentElement = slide.slideBackgroundContentElement;
 
 		// Reset the prior background state in case this is not the
@@ -1158,7 +1155,7 @@
 		contentElement.style.opacity = '';
 		contentElement.innerHTML = '';
 
-		var data = {
+		let data = {
 			background: slide.getAttribute( 'data-background' ),
 			backgroundSize: slide.getAttribute( 'data-background-size' ),
 			backgroundImage: slide.getAttribute( 'data-background-image' ),
@@ -1213,18 +1210,18 @@
 		// If this slide has a background color, we add a class that
 		// signals if it is light or dark. If the slide has no background
 		// color, no class will be added
-		var contrastColor = data.backgroundColor;
+		let contrastColor = data.backgroundColor;
 
 		// If no bg color was found, check the computed background
 		if( !contrastColor ) {
-			var computedBackgroundStyle = window.getComputedStyle( element );
+			let computedBackgroundStyle = window.getComputedStyle( element );
 			if( computedBackgroundStyle && computedBackgroundStyle.backgroundColor ) {
 				contrastColor = computedBackgroundStyle.backgroundColor;
 			}
 		}
 
 		if( contrastColor ) {
-			var rgb = colorToRgb( contrastColor );
+			let rgb = colorToRgb( contrastColor );
 
 			// Ignore fully transparent backgrounds. Some browsers return
 			// rgba(0,0,0,0) when reading the computed background color of
@@ -1254,8 +1251,8 @@
 	function setupPostMessage() {
 
 		if( config.postMessage ) {
-			window.addEventListener( 'message', function ( event ) {
-				var data = event.data;
+			window.addEventListener( 'message', event => {
+				const data = event.data;
 
 				// Make sure we're dealing with JSON
 				if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
@@ -1292,7 +1289,7 @@
 	 */
 	function configure( options ) {
 
-		var oldTransition = config.transition;
+		const oldTransition = config.transition;
 
 		// New config options may be passed when this method
 		// is invoked through the API after initialization
@@ -1303,7 +1300,7 @@
 		// finishes
 		if( loaded === false ) return;
 
-		var numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
+		const numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
 
 		// Remove the previously configured transition class
 		dom.wrapper.classList.remove( oldTransition );
@@ -1397,7 +1394,7 @@
 
 		// Generate auto-slide controls if needed
 		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable ) {
-			autoSlidePlayer = new Playback( dom.wrapper, function() {
+			autoSlidePlayer = new Playback( dom.wrapper, () => {
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
 			} );
 
@@ -1407,14 +1404,14 @@
 
 		// When fragments are turned off they should be visible
 		if( config.fragments === false ) {
-			toArray( dom.slides.querySelectorAll( '.fragment' ) ).forEach( function( element ) {
+			toArray( dom.slides.querySelectorAll( '.fragment' ) ).forEach( element => {
 				element.classList.add( 'visible' );
 				element.classList.remove( 'current-fragment' );
 			} );
 		}
 
 		// Slide numbers
-		var slideNumberDisplay = 'none';
+		let slideNumberDisplay = 'none';
 		if( config.slideNumber && !isPrintingPDF() ) {
 			if( config.showSlideNumber === 'all' ) {
 				slideNumberDisplay = 'block';
@@ -1506,7 +1503,7 @@
 
 		// Listen to both touch and click events, in case the device
 		// supports both
-		var pointerEvents = [ 'touchstart', 'click' ];
+		let pointerEvents = [ 'touchstart', 'click' ];
 
 		// Only support touch for Android, fixes double navigations in
 		// stock browser
@@ -1753,7 +1750,7 @@
 	 */
 	function injectStyleSheet( value ) {
 
-		var tag = document.createElement( 'style' );
+		let tag = document.createElement( 'style' );
 		tag.type = 'text/css';
 		if( tag.styleSheet ) {
 			tag.styleSheet.cssText = value;
@@ -1778,14 +1775,14 @@
 	 */
 	function closestParent( target, selector ) {
 
-		var parent = target.parentNode;
+		let parent = target.parentNode;
 
 		while( parent ) {
 
 			// There's some overhead doing this each time, we don't
 			// want to rewrite the element prototype but should still
 			// be enough to feature detect once at startup...
-			var matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
+			let matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
 
 			// If we find a match, we're all set
 			if( matchesMethod && matchesMethod.call( parent, selector ) ) {
@@ -1818,7 +1815,7 @@
 	 */
 	function colorToRgb( color ) {
 
-		var hex3 = color.match( /^#([0-9a-f]{3})$/i );
+		let hex3 = color.match( /^#([0-9a-f]{3})$/i );
 		if( hex3 && hex3[1] ) {
 			hex3 = hex3[1];
 			return {
@@ -1828,7 +1825,7 @@
 			};
 		}
 
-		var hex6 = color.match( /^#([0-9a-f]{6})$/i );
+		let hex6 = color.match( /^#([0-9a-f]{6})$/i );
 		if( hex6 && hex6[1] ) {
 			hex6 = hex6[1];
 			return {
@@ -1838,7 +1835,7 @@
 			};
 		}
 
-		var rgb = color.match( /^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i );
+		let rgb = color.match( /^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i );
 		if( rgb ) {
 			return {
 				r: parseInt( rgb[1], 10 ),
@@ -1847,7 +1844,7 @@
 			};
 		}
 
-		var rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
+		let rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
 		if( rgba ) {
 			return {
 				r: parseInt( rgba[1], 10 ),
@@ -1888,12 +1885,10 @@
 	 * @param {HTMLElement} element
 	 * @param {number} [height]
 	 */
-	function getRemainingHeight( element, height ) {
-
-		height = height || 0;
+	function getRemainingHeight( element, height = 0 ) {
 
 		if( element ) {
-			var newHeight, oldHeight = element.style.height;
+			let newHeight, oldHeight = element.style.height;
 
 			// Change the .stretch element height to 0 in order find the height of all
 			// the other elements
@@ -1933,7 +1928,7 @@
 	 */
 	function dispatchEvent( type, args ) {
 
-		var event = document.createEvent( 'HTMLEvents', 1, 2 );
+		let event = document.createEvent( 'HTMLEvents', 1, 2 );
 		event.initEvent( type, true, true );
 		extend( event, args );
 		dom.wrapper.dispatchEvent( event );
@@ -1950,7 +1945,7 @@
 	function dispatchPostMessage( type, data ) {
 
 		if( config.postMessageEvents && window.parent !== window.self ) {
-			var message = {
+			let message = {
 				namespace: 'reveal',
 				eventName: type,
 				state: getState()
@@ -1968,11 +1963,9 @@
 	 *
 	 * @param {string} [selector=a] - selector for anchors
 	 */
-	function enablePreviewLinks( selector ) {
+	function enablePreviewLinks( selector = 'a' ) {
 
-		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
-
-		anchors.forEach( function( element ) {
+		toArray( document.querySelectorAll( selector ) ).forEach( element => {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
 				element.addEventListener( 'click', onPreviewLinkClicked, false );
 			}
@@ -1983,11 +1976,9 @@
 	/**
 	 * Unbind preview frame links.
 	 */
-	function disablePreviewLinks( selector ) {
+	function disablePreviewLinks( selector = 'a' ) {
 
-		var anchors = toArray( document.querySelectorAll( selector ? selector : 'a' ) );
-
-		anchors.forEach( function( element ) {
+		toArray( document.querySelectorAll( selector ) ).forEach( element => {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
 				element.removeEventListener( 'click', onPreviewLinkClicked, false );
 			}
@@ -2022,22 +2013,18 @@
 				</small>
 			</div>`;
 
-		dom.overlay.querySelector( 'iframe' ).addEventListener( 'load', function( event ) {
+		dom.overlay.querySelector( 'iframe' ).addEventListener( 'load', event => {
 			dom.overlay.classList.add( 'loaded' );
 		}, false );
 
-		dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+		dom.overlay.querySelector( '.close' ).addEventListener( 'click', event => {
 			closeOverlay();
 			event.preventDefault();
 		}, false );
 
-		dom.overlay.querySelector( '.external' ).addEventListener( 'click', function( event ) {
+		dom.overlay.querySelector( '.external' ).addEventListener( 'click', event => {
 			closeOverlay();
 		}, false );
-
-		setTimeout( function() {
-			dom.overlay.classList.add( 'visible' );
-		}, 1 );
 
 	}
 
@@ -2077,7 +2064,7 @@
 			dom.overlay.classList.add( 'overlay-help' );
 			dom.wrapper.appendChild( dom.overlay );
 
-			var html = '<p class="title">Keyboard Shortcuts</p><br/>';
+			let html = '<p class="title">Keyboard Shortcuts</p><br/>';
 
 			html += '<table><th>KEY</th><th>ACTION</th>';
 			for( var key in keyboardShortcuts ) {
@@ -2106,10 +2093,6 @@
 				closeOverlay();
 				event.preventDefault();
 			}, false );
-
-			requestAnimationFrame( function() {
-				dom.overlay.classList.add( 'visible' );
-			} );
 
 		}
 
@@ -2147,9 +2130,9 @@
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
-				var size = getComputedSlideSize();
+				const size = getComputedSlideSize();
 
-				var oldScale = scale;
+				const oldScale = scale;
 
 				// Layout the contents of the slides
 				layoutSlideContents( config.width, config.height );
@@ -2202,17 +2185,17 @@
 				}
 
 				// Select all slides, vertical and horizontal
-				var slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
+				const slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
 
 				for( var i = 0, len = slides.length; i < len; i++ ) {
-					var slide = slides[ i ];
+					const slide = slides[ i ];
 
 					// Don't bother updating invisible slides
 					if( slide.style.display === 'none' ) {
 						continue;
 					}
 
-					if( ( config.center || slide.classList.contains( 'center' ) ) ) {
+					if( config.center || slide.classList.contains( 'center' ) ) {
 						// Vertical stacks are not centred since their section
 						// children will be
 						if( slide.classList.contains( 'stack' ) ) {
@@ -2258,17 +2241,17 @@
 	function layoutSlideContents( width, height ) {
 
 		// Handle sizing of elements with the 'stretch' class
-		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( function( element ) {
+		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( element => {
 
 			// Determine how much vertical space we can use
 			var remainingHeight = getRemainingHeight( element, height );
 
 			// Consider the aspect ratio of media elements
 			if( /(img|video)/gi.test( element.nodeName ) ) {
-				var nw = element.naturalWidth || element.videoWidth,
-					nh = element.naturalHeight || element.videoHeight;
+				const nw = element.naturalWidth || element.videoWidth,
+					  nh = element.naturalHeight || element.videoHeight;
 
-				var es = Math.min( width / nw, remainingHeight / nh );
+				const es = Math.min( width / nw, remainingHeight / nh );
 
 				element.style.width = ( nw * es ) + 'px';
 				element.style.height = ( nh * es ) + 'px';
@@ -2293,7 +2276,7 @@
 	 */
 	function getComputedSlideSize( presentationWidth, presentationHeight ) {
 
-		var size = {
+		const size = {
 			// Slide size
 			width: config.width,
 			height: config.height,
@@ -2348,7 +2331,7 @@
 
 		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
 			// Prefer manually defined start-indexv
-			var attributeName = stack.hasAttribute( 'data-start-indexv' ) ? 'data-start-indexv' : 'data-previous-indexv';
+			const attributeName = stack.hasAttribute( 'data-start-indexv' ) ? 'data-start-indexv' : 'data-previous-indexv';
 
 			return parseInt( stack.getAttribute( attributeName ) || 0, 10 );
 		}
@@ -2378,15 +2361,15 @@
 			dom.slides.appendChild( dom.background );
 
 			// Clicking on an overview slide navigates to it
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
 				if( !slide.classList.contains( 'stack' ) ) {
 					slide.addEventListener( 'click', onOverviewSlideClicked, true );
 				}
 			} );
 
 			// Calculate slide sizes
-			var margin = 70;
-			var slideSize = getComputedSlideSize();
+			const margin = 70;
+			const slideSize = getComputedSlideSize();
 			overviewSlideWidth = slideSize.width + margin;
 			overviewSlideHeight = slideSize.height + margin;
 
@@ -2419,13 +2402,13 @@
 	function layoutOverview() {
 
 		// Layout slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( function( hslide, h ) {
+		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( ( hslide, h ) => {
 			hslide.setAttribute( 'data-index-h', h );
 			transformElement( hslide, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( function( vslide, v ) {
+				toArray( hslide.querySelectorAll( 'section' ) ).forEach( ( vslide, v ) => {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 
@@ -2436,10 +2419,10 @@
 		} );
 
 		// Layout slide backgrounds
-		toArray( dom.background.childNodes ).forEach( function( hbackground, h ) {
+		toArray( dom.background.childNodes ).forEach( ( hbackground, h ) => {
 			transformElement( hbackground, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
 
-			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( function( vbackground, v ) {
+			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( ( vbackground, v ) => {
 				transformElement( vbackground, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
 			} );
 		} );
@@ -2483,7 +2466,7 @@
 			// moving from slide to slide
 			dom.wrapper.classList.add( 'overview-deactivating' );
 
-			setTimeout( function () {
+			setTimeout( () => {
 				dom.wrapper.classList.remove( 'overview-deactivating' );
 			}, 1 );
 
@@ -2491,14 +2474,14 @@
 			dom.wrapper.appendChild( dom.background );
 
 			// Clean up changes made to slides
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
 				transformElement( slide, '' );
 
 				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
 			} );
 
 			// Clean up changes made to backgrounds
-			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( function( background ) {
+			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( background => {
 				transformElement( background, '' );
 			} );
 
@@ -2557,16 +2540,16 @@
 	 */
 	function locationHash( slide ) {
 
-		var url = '/';
+		let url = '/';
 
 		// Attempt to create a named link based on the slide's ID
-		var s = slide || currentSlide;
-		var id = s ? s.getAttribute( 'id' ) : null;
+		let s = slide || currentSlide;
+		let id = s ? s.getAttribute( 'id' ) : null;
 		if( id ) {
 			id = encodeURIComponent( id );
 		}
 
-		var index = getIndices( slide );
+		let index = getIndices( slide );
 		if( !config.fragmentInURL ) {
 			index.f = undefined;
 		}
@@ -2578,7 +2561,7 @@
 		}
 		// Otherwise use the /h/v index
 		else {
-			var hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+			let hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
 			if( index.h > 0 || index.v > 0 || index.f !== undefined ) url += index.h + hashIndexBase;
 			if( index.v > 0 || index.f !== undefined ) url += '/' + (index.v + hashIndexBase );
 			if( index.f !== undefined ) url += '/' + index.f;
@@ -2596,10 +2579,7 @@
 	 * orientation of
 	 * @return {Boolean}
 	 */
-	function isVerticalSlide( slide ) {
-
-		// Prefer slide argument, otherwise use current slide
-		slide = slide ? slide : currentSlide;
+	function isVerticalSlide( slide = currentSlide ) {
 
 		return slide && slide.parentNode && !!slide.parentNode.nodeName.match( /section/i );
 
@@ -2613,10 +2593,10 @@
 	 */
 	function enterFullscreen() {
 
-		var element = document.documentElement;
+		let element = document.documentElement;
 
 		// Check which implementation is available
-		var requestMethod = element.requestFullscreen ||
+		let requestMethod = element.requestFullscreen ||
 							element.webkitRequestFullscreen ||
 							element.webkitRequestFullScreen ||
 							element.mozRequestFullScreen ||
@@ -2661,7 +2641,7 @@
 	function pause() {
 
 		if( config.pause ) {
-			var wasPaused = dom.wrapper.classList.contains( 'paused' );
+			const wasPaused = dom.wrapper.classList.contains( 'paused' );
 
 			cancelAutoSlide();
 			dom.wrapper.classList.add( 'paused' );
@@ -2678,7 +2658,7 @@
 	 */
 	function resume() {
 
-		var wasPaused = dom.wrapper.classList.contains( 'paused' );
+		const wasPaused = dom.wrapper.classList.contains( 'paused' );
 		dom.wrapper.classList.remove( 'paused' );
 
 		cueAutoSlide();
@@ -2761,7 +2741,7 @@
 		previousSlide = currentSlide;
 
 		// Query all horizontal slides in the deck
-		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+		const horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
 		// Abort if there are no slides
 		if( horizontalSlides.length === 0 ) return;
@@ -2779,12 +2759,12 @@
 		}
 
 		// Remember the state before this slide
-		var stateBefore = state.concat();
+		const stateBefore = state.concat();
 
 		// Reset the state array
 		state.length = 0;
 
-		var indexhBefore = indexh || 0,
+		let indexhBefore = indexh || 0,
 			indexvBefore = indexv || 0;
 
 		// Activate and transition to the new slide
@@ -2803,7 +2783,7 @@
 
 		// Find the current horizontal slide and any possible vertical slides
 		// within it
-		var currentHorizontalSlide = horizontalSlides[ indexh ],
+		let currentHorizontalSlide = horizontalSlides[ indexh ],
 			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
 
 		// Store references to the previous and current slides
@@ -2815,7 +2795,7 @@
 		}
 
 		// Dispatch an event if the slide changed
-		var slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
+		let slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
 		if (!slideChanged) {
 			// Ensure that the previous slide is never the same as the current
 			previousSlide = null;
@@ -2829,26 +2809,21 @@
 			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
 			// Reset all slides upon navigate to home
-			// Issue: #285
-			if ( dom.wrapper.querySelector( HOME_SLIDE_SELECTOR ).classList.contains( 'present' ) ) {
+			if( Reveal.isFirstSlide() ) {
 				// Launch async task
-				setTimeout( function () {
-					var slides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') ), i;
-					for( i in slides ) {
-						if( slides[i] ) {
-							// Reset stack
-							setPreviousVerticalIndex( slides[i], 0 );
-						}
-					}
+				setTimeout( () => {
+					getVerticalStacks().forEach( slide => {
+						setPreviousVerticalIndex( slide, 0 );
+					} );
 				}, 0 );
 			}
 		}
 
 		// Apply the new state
-		stateLoop: for( var i = 0, len = state.length; i < len; i++ ) {
+		stateLoop: for( let i = 0, len = state.length; i < len; i++ ) {
 			// Check if this state existed on the previous slide. If it
 			// did, we will avoid adding it repeatedly
-			for( var j = 0; j < stateBefore.length; j++ ) {
+			for( let j = 0; j < stateBefore.length; j++ ) {
 				if( stateBefore[j] === state[i] ) {
 					stateBefore.splice( j, 1 );
 					continue stateLoop;
@@ -2906,7 +2881,7 @@
 			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' ) ) {
 				dom.slides.classList.add( 'disable-slide-transitions' );
 
-				setTimeout( function() {
+				setTimeout( () => {
 					dom.slides.classList.remove( 'disable-slide-transitions' );
 				}, 0 );
 
@@ -4977,6 +4952,15 @@
 	}
 
 	/**
+	 * Returns all vertical stacks (each stack can contain multiple slides).
+	 */
+	function getVerticalStacks() {
+
+		return toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') );
+
+	}
+
+	/**
 	 * Returns true if there are at least two horizontal slides.
 	 */
 	function hasHorizontalSlides() {
@@ -6569,7 +6553,7 @@
 
 		// Returns true if we're currently on the first slide
 		isFirstSlide: function() {
-			return ( indexh === 0 && indexv === 0 );
+			return indexh === 0 && indexv === 0;
 		},
 
 		// Returns true if we're currently on the last slide
