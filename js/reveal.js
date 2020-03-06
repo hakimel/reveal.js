@@ -246,9 +246,6 @@
 			// Apply a 3D roll to links on hover
 			rollingLinks: false,
 
-			// Hides the address bar on mobile devices
-			hideAddressBar: true,
-
 			// Opens links in an iframe preview overlay
 			// Add `data-preview-link` and `data-preview-link="false"` to customise each link
 			// individually
@@ -478,9 +475,6 @@
 		// Copy options over to our config object
 		extend( config, options );
 		extend( config, query );
-
-		// Hide the address bar in mobile browsers
-		hideAddressBar();
 
 		// Loads dependencies and continues to #start() once done
 		load();
@@ -1976,31 +1970,6 @@
 	function isPrintingPDF() {
 
 		return ( /print-pdf/gi ).test( window.location.search );
-
-	}
-
-	/**
-	 * Hides the address bar if we're on a mobile device.
-	 */
-	function hideAddressBar() {
-
-		if( config.hideAddressBar && isMobileDevice ) {
-			// Events that should trigger the address bar to hide
-			window.addEventListener( 'load', removeAddressBar, false );
-			window.addEventListener( 'orientationchange', removeAddressBar, false );
-		}
-
-	}
-
-	/**
-	 * Causes the address bar to hide on mobile devices,
-	 * more vertical space ftw.
-	 */
-	function removeAddressBar() {
-
-		setTimeout( function() {
-			window.scrollTo( 0, 1 );
-		}, 10 );
 
 	}
 

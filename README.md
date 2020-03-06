@@ -398,9 +398,6 @@ Reveal.initialize({
 	// Time before the cursor is hidden (in ms)
 	hideCursorTime: 5000,
 
-	// Hides the address bar on mobile devices
-	hideAddressBar: true,
-
 	// Opens links in an iframe preview overlay
 	// Add `data-preview-link` and `data-preview-link="false"` to customise each link
 	// individually
