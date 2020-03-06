@@ -12,6 +12,7 @@ const connect = require('gulp-connect')
 const autoprefixer = require('gulp-autoprefixer')
 const yargs = require('yargs')
 const pkg = require('./package.json')
+const webpack = require('webpack-stream');
 
 const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
@@ -24,9 +25,12 @@ const license = `/*!
 * Copyright (C) 2020 Hakim El Hattab, https://hakim.se
 */\n`
 
+
 gulp.task('js', () => gulp.src(['./js/reveal.js'])
         .pipe(babel({ presets: ['@babel/preset-env'] }))
-        .pipe(uglify())
+        .pipe(webpack({
+            mode: 'production'
+        }))
         .pipe(header(license, {pkg: pkg}))
         .pipe(rename('reveal.min.js'))
         .pipe(gulp.dest('./js')))
@@ -78,7 +82,7 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    gulp.watch(['js/reveal.js'], gulp.series('js'))
+    gulp.watch(['js/reveal.js', 'js/src/*.js'], gulp.series('js'))
 
     gulp.watch([
         'css/theme/source/*.{sass,scss}',

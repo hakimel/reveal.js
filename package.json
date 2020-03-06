@@ -40,6 +40,7 @@
     "mustache": "^4.0.0",
     "socket.io": "^2.3.0",
     "yargs": "^15.1.0",
+    "webpack-stream": "^5.2.1",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7"
   },
