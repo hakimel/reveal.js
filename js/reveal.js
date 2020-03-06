@@ -243,9 +243,6 @@
 			// Enable slide navigation via mouse wheel
 			mouseWheel: false,
 
-			// Apply a 3D roll to links on hover
-			rollingLinks: false,
-
 			// Opens links in an iframe preview overlay
 			// Add `data-preview-link` and `data-preview-link="false"` to customise each link
 			// individually
@@ -436,6 +433,7 @@
 
 		checkCapabilities();
 
+		/*
 		if( !features.transforms2d && !features.transforms3d ) {
 			document.body.setAttribute( 'class', 'no-transforms' );
 
@@ -458,6 +456,7 @@
 			// using JavaScript to control the presentation
 			return;
 		}
+		*/
 
 		// Cache references to key DOM elements
 		dom.wrapper = document.querySelector( '.reveal' );
@@ -492,15 +491,6 @@
 		isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
 
 		let testElement = document.createElement( 'div' );
-
-		features.transforms3d = 'perspective' in testElement.style;
-		features.transforms2d = 'transform' in testElement.style;
-
-		features.canvas = !!document.createElement( 'canvas' ).getContext;
-
-		// Transitions in the overview are disabled in desktop and
-		// Safari due to lag
-		features.overviewTransitions = !/Version\/[\d\.]+.*Safari/.test( UA );
 
 		// Flags if we should use zoom instead of transform to scale
 		// up slides. Zoom produces crisper results but has a lot of
@@ -1343,9 +1333,6 @@
 		// Remove the previously configured transition class
 		dom.wrapper.classList.remove( oldTransition );
 
-		// Force linear transition based on browser capabilities
-		if( features.transforms3d === false ) config.transition = 'linear';
-
 		dom.wrapper.classList.add( config.transition );
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
@@ -1393,14 +1380,6 @@
 			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
 		}
 
-		// Rolling 3D links
-		if( config.rollingLinks ) {
-			enableRollingLinks();
-		}
-		else {
-			disableRollingLinks();
-		}
-
 		// Auto-hide the mouse pointer when its inactive
 		if( config.hideInactiveCursor ) {
 			document.addEventListener( 'mousemove', onDocumentCursorActive, false );
@@ -1442,7 +1421,7 @@
 		}
 
 		// Generate auto-slide controls if needed
-		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable && features.canvas && features.requestAnimationFrame ) {
+		if( numberOfSlides > 1 && config.autoSlide && config.autoSlideStoppable ) {
 			autoSlidePlayer = new Playback( dom.wrapper, function() {
 				return Math.min( Math.max( ( Date.now() - autoSlideStartTime ) / autoSlide, 0 ), 1 );
 			} );
@@ -2010,50 +1989,6 @@
 	}
 
 	/**
-	 * Wrap all links in 3D goodness.
-	 */
-	function enableRollingLinks() {
-
-		if( features.transforms3d && !( 'msPerspective' in document.body.style ) ) {
-			var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' a' );
-
-			for( var i = 0, len = anchors.length; i < len; i++ ) {
-				var anchor = anchors[i];
-
-				if( anchor.textContent && !anchor.querySelector( '*' ) && ( !anchor.className || !anchor.classList.contains( anchor, 'roll' ) ) ) {
-					var span = document.createElement('span');
-					span.setAttribute('data-title', anchor.text);
-					span.innerHTML = anchor.innerHTML;
-
-					anchor.classList.add( 'roll' );
-					anchor.innerHTML = '';
-					anchor.appendChild(span);
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Unwrap all 3D links.
-	 */
-	function disableRollingLinks() {
-
-		var anchors = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ' a.roll' );
-
-		for( var i = 0, len = anchors.length; i < len; i++ ) {
-			var anchor = anchors[i];
-			var span = anchor.querySelector( 'span' );
-
-			if( span ) {
-				anchor.classList.remove( 'roll' );
-				anchor.innerHTML = span.innerHTML;
-			}
-		}
-
-	}
-
-	/**
 	 * Bind preview frame links.
 	 *
 	 * @param {string} [selector=a] - selector for anchors
@@ -2459,13 +2394,6 @@
 			overview = true;
 
 			dom.wrapper.classList.add( 'overview' );
-			dom.wrapper.classList.remove( 'overview-deactivating' );
-
-			if( features.overviewTransitions ) {
-				setTimeout( function() {
-					dom.wrapper.classList.add( 'overview-animated' );
-				}, 1 );
-			}
 
 			// Don't auto-slide while in overview mode
 			cancelAutoSlide();
@@ -2574,7 +2502,6 @@
 			overview = false;
 
 			dom.wrapper.classList.remove( 'overview' );
-			dom.wrapper.classList.remove( 'overview-animated' );
 
 			// Temporarily add a class so that transitions can do different things
 			// depending on whether they are exiting/entering overview, or just
@@ -5974,7 +5901,7 @@
 			event.preventDefault && event.preventDefault();
 		}
 		// ESC or O key
-		else if ( ( keyCode === 27 || keyCode === 79 ) && features.transforms3d ) {
+		else if( keyCode === 27 || keyCode === 79 ) {
 			if( dom.overlay ) {
 				closeOverlay();
 			}
