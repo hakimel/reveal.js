@@ -5306,7 +5306,7 @@
 	 * @return {boolean} true if there was a previous fragment,
 	 * false otherwise
 	 */
-	function previousFragment() {
+	function prevFragment() {
 
 		return navigateFragment( null, -1 );
 
@@ -5436,7 +5436,7 @@
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
+		else if( ( isOverview() || prevFragment() === false ) && availableRoutes().left ) {
 			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -5448,7 +5448,7 @@
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+			if( ( isOverview() || prevFragment() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
@@ -5462,7 +5462,7 @@
 	function navigateUp() {
 
 		// Prioritize hiding fragments
-		if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
+		if( ( isOverview() || prevFragment() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
@@ -5488,7 +5488,7 @@
 	function navigatePrev() {
 
 		// Prioritize revealing fragments
-		if( previousFragment() === false ) {
+		if( prevFragment() === false ) {
 			if( availableRoutes().up ) {
 				navigateUp();
 			}
@@ -6357,26 +6357,21 @@
 	Reveal = {
 		VERSION: VERSION,
 
-		initialize: initialize,
-		configure: configure,
+		initialize,
+		configure,
 
-		sync: sync,
-		syncSlide: syncSlide,
-		syncFragments: syncFragments,
+		sync,
+		syncSlide,
+		syncFragments,
 
 		// Navigation methods
-		slide: slide,
+		slide,
 		left: navigateLeft,
 		right: navigateRight,
 		up: navigateUp,
 		down: navigateDown,
 		prev: navigatePrev,
 		next: navigateNext,
-
-		// Fragment methods
-		navigateFragment: navigateFragment,
-		prevFragment: previousFragment,
-		nextFragment: nextFragment,
 
 		// Deprecated aliases
 		navigateTo: slide,
@@ -6387,84 +6382,100 @@
 		navigatePrev: navigatePrev,
 		navigateNext: navigateNext,
 
+		// Fragment methods
+		navigateFragment,
+		prevFragment,
+		nextFragment,
+
 		// Forces an update in slide layout
-		layout: layout,
+		layout,
 
 		// Randomizes the order of slides
-		shuffle: shuffle,
+		shuffle,
 
 		// Returns an object with the available routes as booleans (left/right/top/bottom)
-		availableRoutes: availableRoutes,
+		availableRoutes,
 
 		// Returns an object with the available fragments as booleans (prev/next)
-		availableFragments: availableFragments,
+		availableFragments,
 
 		// Toggles a help overlay with keyboard shortcuts
-		toggleHelp: toggleHelp,
+		toggleHelp,
 
 		// Toggles the overview mode on/off
-		toggleOverview: toggleOverview,
+		toggleOverview,
 
 		// Toggles the "black screen" mode on/off
-		togglePause: togglePause,
+		togglePause,
 
 		// Toggles the auto slide mode on/off
-		toggleAutoSlide: toggleAutoSlide,
+		toggleAutoSlide,
 
 		// State checks
-		isOverview: isOverview,
-		isPaused: isPaused,
-		isAutoSliding: isAutoSliding,
-		isSpeakerNotes: isSpeakerNotes,
+		isOverview,
+		isPaused,
+		isAutoSliding,
+		isSpeakerNotes,
 
 		// Slide preloading
-		loadSlide: loadSlide,
-		unloadSlide: unloadSlide,
+		loadSlide,
+		unloadSlide,
 
 		// Adds or removes all internal event listeners (such as keyboard)
-		addEventListeners: addEventListeners,
-		removeEventListeners: removeEventListeners,
+		addEventListeners,
+		removeEventListeners,
 
 		// Facility for persisting and restoring the presentation state
-		getState: getState,
-		setState: setState,
+		getState,
+		setState,
 
 		// Presentation progress
-		getSlidePastCount: getSlidePastCount,
+		getSlidePastCount,
 
 		// Presentation progress on range of 0-1
-		getProgress: getProgress,
+		getProgress,
 
 		// Returns the indices of the current, or specified, slide
-		getIndices: getIndices,
+		getIndices,
 
 		// Returns an Array of all slides
-		getSlides: getSlides,
+		getSlides,
 
 		// Returns an Array of objects representing the attributes on
 		// the slides
-		getSlidesAttributes: getSlidesAttributes,
+		getSlidesAttributes,
 
 		// Returns the total number of slides
-		getTotalSlides: getTotalSlides,
+		getTotalSlides,
 
 		// Returns the slide element at the specified index
-		getSlide: getSlide,
+		getSlide,
 
 		// Returns the slide background element at the specified index
-		getSlideBackground: getSlideBackground,
+		getSlideBackground,
 
 		// Returns the speaker notes string for a slide, or null
-		getSlideNotes: getSlideNotes,
+		getSlideNotes,
 
 		// Returns an array with all horizontal/vertical slides in the deck
-		getHorizontalSlides: getHorizontalSlides,
-		getVerticalSlides: getVerticalSlides,
+		getHorizontalSlides,
+		getVerticalSlides,
 
 		// Checks if the presentation contains two or more
 		// horizontal/vertical slides
-		hasHorizontalSlides: hasHorizontalSlides,
-		hasVerticalSlides: hasVerticalSlides,
+		hasHorizontalSlides,
+		hasVerticalSlides,
+
+		// Adds/removes a custom key binding
+		addKeyBinding,
+		removeKeyBinding,
+
+		// API for registering and retrieving plugins
+		registerPlugin,
+		hasPlugin,
+		getPlugin,
+
+		getComputedSlideSize,
 
 		// Returns the previous slide element, may be null
 		getPreviousSlide: () => {
@@ -6480,8 +6491,6 @@
 		getScale: () => {
 			return scale;
 		},
-
-		getComputedSlideSize: getComputedSlideSize,
 
 		// Returns the current configuration object
 		getConfig: () => {
@@ -6565,15 +6574,6 @@
 				Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
 			}
 		},
-
-		// Adds/removes a custom key binding
-		addKeyBinding: addKeyBinding,
-		removeKeyBinding: removeKeyBinding,
-
-		// API for registering and retrieving plugins
-		registerPlugin: registerPlugin,
-		hasPlugin: hasPlugin,
-		getPlugin: getPlugin,
 
 		// Programmatically triggers a keyboard event
 		triggerKey: keyCode => {
