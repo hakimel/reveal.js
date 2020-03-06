@@ -26,30 +26,39 @@ const license = `/*!
 */\n`
 
 
-gulp.task('js', () => gulp.src(['./js/reveal.js'])
+gulp.task('js', () => gulp.src(['./js/app.js'])
         .pipe(babel({ presets: ['@babel/preset-env'] }))
         .pipe(webpack({
             mode: 'production'
         }))
         .pipe(header(license, {pkg: pkg}))
         .pipe(rename('reveal.min.js'))
-        .pipe(gulp.dest('./js')))
+        .pipe(gulp.dest('./dist')))
 
 gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}'])
         .pipe(sass())
-        .pipe(gulp.dest('./css/theme')))
+        .pipe(gulp.dest('./dist/theme')))
+
+gulp.task('css-print', () => gulp.src(['./css/print/*.{sass,scss,css}'])
+        .pipe(sass())
+        .pipe(gulp.dest('./dist/print')))
 
 gulp.task('css-core', gulp.series(
 
-    () => gulp.src(['css/reveal.scss']).pipe(sass()).pipe(autoprefixer()).pipe(gulp.dest('./css')),
-    () => gulp.src(['css/reveal.css']).pipe(minify({
-        compatibility: 'ie9'
-    })).pipe(header(license, {pkg: pkg}))
-       .pipe(gulp.dest('./css'))
+    () => gulp.src(['css/reveal.scss'])
+        .pipe(sass())
+        .pipe(autoprefixer())
+        .pipe(gulp.dest('./dist')),
+    () => gulp.src(['dist/reveal.css'])
+        .pipe(minify({
+            compatibility: 'ie9'
+        }))
+        .pipe(header(license, {pkg: pkg}))
+        .pipe(gulp.dest('./dist'))
 
 ))
 
-gulp.task('css', gulp.parallel('css-themes', 'css-core'))
+gulp.task('css', gulp.parallel('css-themes', 'css-print', 'css-core'))
 
 gulp.task('test', gulp.series(
 
@@ -64,8 +73,7 @@ gulp.task('package', gulp.series('default', () =>
 
     gulp.src([
         './index.html',
-        './css/**',
-        './js/**',
+        './dist/**',
         './lib/**',
         './images/**',
         './plugin/**',
@@ -82,12 +90,14 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    gulp.watch(['js/reveal.js', 'js/src/*.js'], gulp.series('js'))
+    gulp.watch(['js/*.js'], gulp.series('js'))
 
     gulp.watch([
         'css/theme/source/*.{sass,scss}',
         'css/theme/template/*.{sass,scss}',
     ], gulp.series('css-themes'))
+
+    gulp.watch(['css/print/*.{sass,scss,css}'], gulp.series('css-print'))
 
     gulp.watch(['css/reveal.scss'], gulp.series('css-core'))
 

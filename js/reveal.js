@@ -1,4 +1,4 @@
-import Playback from './src/playback.js'
+import Playback from './playback.js'
 
 /**
  * reveal.js
@@ -7,21 +7,7 @@ import Playback from './src/playback.js'
  *
  * Copyright (C) 2020 Hakim El Hattab, http://hakim.se
  */
-(function( root, factory ) {
-	if( typeof define === 'function' && define.amd ) {
-		// AMD. Register as an anonymous module.
-		define( function() {
-			root.Reveal = factory();
-			return root.Reveal;
-		} );
-	} else if( typeof exports === 'object' ) {
-		// Node. Does not work with strict CommonJS.
-		module.exports = factory();
-	} else {
-		// Browser globals.
-		root.Reveal = factory();
-	}
-}( this || window, () => {
+export default function() {
 
 	'use strict';
 
@@ -3854,7 +3840,7 @@ import Playback from './src/playback.js'
 			delay: 0
 		};
 
-		options = {...options, ...inheritedOptions};
+		options = extend( options, inheritedOptions );
 
 		// Inherit options from parent elements
 		if( element.closest && element.parentNode ) {
@@ -6420,4 +6406,4 @@ import Playback from './src/playback.js'
 
 	return Reveal;
 
-}));
+};

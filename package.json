@@ -49,6 +49,10 @@
       "browser": true,
       "es6": true
     },
+    "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+    },
     "globals": {
       "head": false,
       "module": false,
