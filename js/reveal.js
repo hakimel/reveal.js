@@ -433,31 +433,6 @@
 
 		checkCapabilities();
 
-		/*
-		if( !features.transforms2d && !features.transforms3d ) {
-			document.body.setAttribute( 'class', 'no-transforms' );
-
-			// Since JS won't be running any further, we load all lazy
-			// loading elements upfront
-			var images = toArray( document.getElementsByTagName( 'img' ) ),
-				iframes = toArray( document.getElementsByTagName( 'iframe' ) );
-
-			var lazyLoadable = images.concat( iframes );
-
-			for( var i = 0, len = lazyLoadable.length; i < len; i++ ) {
-				var element = lazyLoadable[i];
-				if( element.getAttribute( 'data-src' ) ) {
-					element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
-					element.removeAttribute( 'data-src' );
-				}
-			}
-
-			// If the browser doesn't support core features we won't be
-			// using JavaScript to control the presentation
-			return;
-		}
-		*/
-
 		// Cache references to key DOM elements
 		dom.wrapper = document.querySelector( '.reveal' );
 		dom.slides = document.querySelector( '.reveal .slides' );
@@ -465,7 +440,7 @@
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
 
-		var query = Reveal.getQueryHash();
+		let query = Reveal.getQueryHash();
 
 		// Do not accept new dependencies via query config to avoid
 		// the potential of malicious script injection
@@ -552,7 +527,7 @@
 	 */
 	function initPlugins() {
 
-		var pluginsToInitialize = Object.keys( plugins ).length;
+		let pluginsToInitialize = Object.keys( plugins ).length;
 
 		// If there are no plugins, skip this step
 		if( pluginsToInitialize === 0 ) {
@@ -561,19 +536,19 @@
 		// ... otherwise initialize plugins
 		else {
 
-			var afterPlugInitialized = function() {
+			let afterPlugInitialized = () => {
 				if( --pluginsToInitialize === 0 ) {
 					loadAsyncDependencies();
 				}
 			};
 
-			for( var i in plugins ) {
+			for( let i in plugins ) {
 
-				var plugin = plugins[i];
+				let plugin = plugins[i];
 
 				// If the plugin has an 'init' method, invoke it
 				if( typeof plugin.init === 'function' ) {
-					var callback = plugin.init();
+					let callback = plugin.init();
 
 					// If the plugin returned a Promise, wait for it
 					if( callback && typeof callback.then === 'function' ) {
@@ -599,7 +574,7 @@
 	function loadAsyncDependencies() {
 
 		if( asyncDependencies.length ) {
-			asyncDependencies.forEach( function( s ) {
+			asyncDependencies.forEach( s => {
 				loadScript( s.src, s.callback );
 			} );
 		}
@@ -617,7 +592,7 @@
 	 */
 	function loadScript( url, callback ) {
 
-		var script = document.createElement( 'script' );
+		let script = document.createElement( 'script' );
 		script.type = 'text/javascript';
 		script.async = false;
 		script.defer = false;
@@ -626,8 +601,8 @@
 		if( callback ) {
 
 			// Success callback
-			script.onload = script.onreadystatechange = function( event ) {
-				if( event.type === "load" || (/loaded|complete/.test( script.readyState ) ) ) {
+			script.onload = script.onreadystatechange = event => {
+				if( event.type === 'load' || /loaded|complete/.test( script.readyState ) ) {
 
 					// Kill event listeners
 					script.onload = script.onreadystatechange = script.onerror = null;
@@ -638,7 +613,7 @@
 			};
 
 			// Error callback
-			script.onerror = function( err ) {
+			script.onerror = err => {
 
 				// Kill event listeners
 				script.onload = script.onreadystatechange = script.onerror = null;
@@ -650,7 +625,7 @@
 		}
 
 		// Append the script at the end of <head>
-		var head = document.querySelector( 'head' );
+		let head = document.querySelector( 'head' );
 		head.insertBefore( script, head.lastChild );
 
 	}
