@@ -8,6 +8,7 @@
 
 		<link rel="stylesheet" href="../dist/reveal.css">
 		<link rel="stylesheet" href="qunit-2.5.0.css">
+		<script src="qunit-2.5.0.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -31,12 +32,9 @@
 		</div>
 
 		<script src="../dist/reveal.min.js"></script>
-		<script src="qunit-2.5.0.js"></script>
-
 		<script>
 
-
-			Reveal.addEventListener( 'ready', function() {
+			Reveal.initialize({ viewDistance: 3 }).then( () => {
 
 				function getIframe( index ) {
 					return document.querySelectorAll( '.slide-background' )[index].querySelector( 'iframe' );
@@ -94,10 +92,6 @@
 				});
 
 			} );
-
-			Reveal.initialize({
-				viewDistance: 3
-			});
 		</script>
 
 	</body>

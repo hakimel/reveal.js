@@ -7,7 +7,7 @@
 // 3 - Two fragments with same data-fragment-index
 // 4
 
-Reveal.addEventListener( 'ready', function() {
+Reveal.initialize().then( function() {
 
 	// ---------------------------------------------------------------
 	// DOM TESTS
@@ -610,5 +610,3 @@ Reveal.addEventListener( 'ready', function() {
 	});
 
 } );
-
-Reveal.initialize();

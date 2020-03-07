@@ -8,6 +8,7 @@
 
 		<link rel="stylesheet" href="../dist/reveal.css">
 		<link rel="stylesheet" href="qunit-2.5.0.css">
+		<script src="qunit-2.5.0.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -41,11 +42,22 @@
 		</div>
 
 		<script src="../dist/reveal.min.js"></script>
-		<script src="../plugin/markdown/marked.js"></script>
-		<script src="../plugin/markdown/markdown.js"></script>
-		<script src="qunit-2.5.0.js"></script>
+		<script>
+			Reveal.initialize({
+				dependencies: [
+					{ src: '../plugin/markdown/marked.js' },
+					{ src: '../plugin/markdown/markdown.js' },
+				]
+			}).then( function() {
 
-		<script src="test-markdown.js"></script>
+				QUnit.module( 'Markdown' );
+
+				QUnit.test( 'Vertical separator', function( assert ) {
+					assert.strictEqual( document.querySelectorAll( '.reveal .slides>section>section' ).length, 2, 'found two slides' );
+				});
+
+			} );
+		</script>
 
 	</body>
 </html>
