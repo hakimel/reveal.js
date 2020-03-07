@@ -1,5 +1,17 @@
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
+import {
+	extend,
+	toArray,
+	distanceBetween,
+	deserialize,
+	transformElement,
+	injectStyleSheet,
+	closestParent,
+	colorToRgb,
+	colorBrightness,
+	enterFullscreen
+} from './utils/util.js'
 
 /**
  * reveal.js
@@ -1351,84 +1363,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Extend object a with the properties of object b.
-	 * If there's a conflict, object b takes precedence.
-	 *
-	 * @param {object} a
-	 * @param {object} b
-	 */
-	function extend( a, b ) {
-
-		for( var i in b ) {
-			a[ i ] = b[ i ];
-		}
-
-		return a;
-
-	}
-
-	/**
-	 * Converts the target object to an array.
-	 *
-	 * @param {object} o
-	 * @return {object[]}
-	 */
-	function toArray( o ) {
-
-		return Array.prototype.slice.call( o );
-
-	}
-
-	/**
-	 * Utility for deserializing a value.
-	 *
-	 * @param {*} value
-	 * @return {*}
-	 */
-	function deserialize( value ) {
-
-		if( typeof value === 'string' ) {
-			if( value === 'null' ) return null;
-			else if( value === 'true' ) return true;
-			else if( value === 'false' ) return false;
-			else if( value.match( /^-?[\d\.]+$/ ) ) return parseFloat( value );
-		}
-
-		return value;
-
-	}
-
-	/**
-	 * Measures the distance in pixels between point a
-	 * and point b.
-	 *
-	 * @param {object} a point with x/y properties
-	 * @param {object} b point with x/y properties
-	 *
-	 * @return {number}
-	 */
-	function distanceBetween( a, b ) {
-
-		var dx = a.x - b.x,
-			dy = a.y - b.y;
-
-		return Math.sqrt( dx*dx + dy*dy );
-
-	}
-
-	/**
-	 * Applies a CSS transform to the target element.
-	 *
-	 * @param {HTMLElement} element
-	 * @param {string} transform
-	 */
-	function transformElement( element, transform ) {
-
-		element.style.transform = transform;
-
-	}
-
-	/**
 	 * Applies CSS transforms to the slides container. The container
 	 * is transformed from two separate sources: layout and the overview
 	 * mode.
@@ -1448,139 +1382,6 @@ export default function( revealElement, options ) {
 		else {
 			transformElement( dom.slides, slidesTransform.overview );
 		}
-
-	}
-
-	/**
-	 * Injects the given CSS styles into the DOM.
-	 *
-	 * @param {string} value
-	 */
-	function injectStyleSheet( value ) {
-
-		let tag = document.createElement( 'style' );
-		tag.type = 'text/css';
-		if( tag.styleSheet ) {
-			tag.styleSheet.cssText = value;
-		}
-		else {
-			tag.appendChild( document.createTextNode( value ) );
-		}
-		document.getElementsByTagName( 'head' )[0].appendChild( tag );
-
-	}
-
-	/**
-	 * Find the closest parent that matches the given
-	 * selector.
-	 *
-	 * @param {HTMLElement} target The child element
-	 * @param {String} selector The CSS selector to match
-	 * the parents against
-	 *
-	 * @return {HTMLElement} The matched parent or null
-	 * if no matching parent was found
-	 */
-	function closestParent( target, selector ) {
-
-		let parent = target.parentNode;
-
-		while( parent ) {
-
-			// There's some overhead doing this each time, we don't
-			// want to rewrite the element prototype but should still
-			// be enough to feature detect once at startup...
-			let matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
-
-			// If we find a match, we're all set
-			if( matchesMethod && matchesMethod.call( parent, selector ) ) {
-				return parent;
-			}
-
-			// Keep searching
-			parent = parent.parentNode;
-
-		}
-
-		return null;
-
-	}
-
-	/**
-	 * Converts various color input formats to an {r:0,g:0,b:0} object.
-	 *
-	 * @param {string} color The string representation of a color
-	 * @example
-	 * colorToRgb('#000');
-	 * @example
-	 * colorToRgb('#000000');
-	 * @example
-	 * colorToRgb('rgb(0,0,0)');
-	 * @example
-	 * colorToRgb('rgba(0,0,0)');
-	 *
-	 * @return {{r: number, g: number, b: number, [a]: number}|null}
-	 */
-	function colorToRgb( color ) {
-
-		let hex3 = color.match( /^#([0-9a-f]{3})$/i );
-		if( hex3 && hex3[1] ) {
-			hex3 = hex3[1];
-			return {
-				r: parseInt( hex3.charAt( 0 ), 16 ) * 0x11,
-				g: parseInt( hex3.charAt( 1 ), 16 ) * 0x11,
-				b: parseInt( hex3.charAt( 2 ), 16 ) * 0x11
-			};
-		}
-
-		let hex6 = color.match( /^#([0-9a-f]{6})$/i );
-		if( hex6 && hex6[1] ) {
-			hex6 = hex6[1];
-			return {
-				r: parseInt( hex6.substr( 0, 2 ), 16 ),
-				g: parseInt( hex6.substr( 2, 2 ), 16 ),
-				b: parseInt( hex6.substr( 4, 2 ), 16 )
-			};
-		}
-
-		let rgb = color.match( /^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i );
-		if( rgb ) {
-			return {
-				r: parseInt( rgb[1], 10 ),
-				g: parseInt( rgb[2], 10 ),
-				b: parseInt( rgb[3], 10 )
-			};
-		}
-
-		let rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
-		if( rgba ) {
-			return {
-				r: parseInt( rgba[1], 10 ),
-				g: parseInt( rgba[2], 10 ),
-				b: parseInt( rgba[3], 10 ),
-				a: parseFloat( rgba[4] )
-			};
-		}
-
-		return null;
-
-	}
-
-	/**
-	 * Calculates brightness on a scale of 0-255.
-	 *
-	 * @param {string} color See colorToRgb for supported formats.
-	 * @see {@link colorToRgb}
-	 */
-	function colorBrightness( color ) {
-
-		if( typeof color === 'string' ) color = colorToRgb( color );
-
-		if( color ) {
-			return ( color.r * 299 + color.g * 587 + color.b * 114 ) / 1000;
-		}
-
-		return null;
 
 	}
 
@@ -2290,29 +2091,6 @@ export default function( revealElement, options ) {
 	function isVerticalSlide( slide = currentSlide ) {
 
 		return slide && slide.parentNode && !!slide.parentNode.nodeName.match( /section/i );
-
-	}
-
-	/**
-	 * Handling the fullscreen functionality via the fullscreen API
-	 *
-	 * @see http://fullscreen.spec.whatwg.org/
-	 * @see https://developer.mozilla.org/en-US/docs/DOM/Using_fullscreen_mode
-	 */
-	function enterFullscreen() {
-
-		let element = document.documentElement;
-
-		// Check which implementation is available
-		let requestMethod = element.requestFullscreen ||
-							element.webkitRequestFullscreen ||
-							element.webkitRequestFullScreen ||
-							element.mozRequestFullScreen ||
-							element.msRequestFullscreen;
-
-		if( requestMethod ) {
-			requestMethod.apply( element );
-		}
 
 	}
 
@@ -4541,6 +4319,7 @@ export default function( revealElement, options ) {
 		}
 
 	}
+
 	/**
 	 * Retrieves the h/v location and fragment of the current,
 	 * or specified, slide.
@@ -6015,24 +5794,16 @@ export default function( revealElement, options ) {
 		getComputedSlideSize,
 
 		// Returns the previous slide element, may be null
-		getPreviousSlide: () => {
-			return previousSlide;
-		},
+		getPreviousSlide: () => previousSlide,
 
 		// Returns the current slide element
-		getCurrentSlide: () => {
-			return currentSlide;
-		},
+		getCurrentSlide: () => currentSlide,
 
 		// Returns the current scale of the presentation content
-		getScale: () => {
-			return scale;
-		},
+		getScale: () => scale,
 
 		// Returns the current configuration object
-		getConfig: () => {
-			return config;
-		},
+		getConfig: () => config,
 
 		// Helper method, retrieves query string as a key/value hash
 		getQueryHash: () => {
@@ -6053,19 +5824,13 @@ export default function( revealElement, options ) {
 		},
 
 		// Returns the top-level DOM element
-		getRevealElement: () => {
-			return dom.wrapper || document.querySelector( '.reveal' );
-		},
+		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
 
 		// Returns a hash with all registered plugins
-		getPlugins: () => {
-			return plugins;
-		},
+		getPlugins: () => plugins,
 
 		// Returns true if we're currently on the first slide
-		isFirstSlide: () => {
-			return indexh === 0 && indexv === 0;
-		},
+		isFirstSlide: () => indexh === 0 && indexv === 0,
 
 		// Returns true if we're currently on the last slide
 		isLastSlide: () => {
@@ -6096,31 +5861,21 @@ export default function( revealElement, options ) {
 		},
 
 		// Checks if reveal.js has been loaded and is ready for use
-		isReady: () => {
-			return loaded;
-		},
+		isReady: () => loaded,
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: ( type, listener, useCapture ) => {
-			if( 'addEventListener' in window ) {
-				Reveal.getRevealElement().addEventListener( type, listener, useCapture );
-			}
+			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
 		},
 		removeEventListener: ( type, listener, useCapture ) => {
-			if( 'addEventListener' in window ) {
-				Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
-			}
+			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
 		},
 
 		// Programmatically triggers a keyboard event
-		triggerKey: keyCode => {
-			onDocumentKeyDown( { keyCode } );
-		},
+		triggerKey: keyCode => onDocumentKeyDown( { keyCode } ),
 
 		// Registers a new shortcut to include in the help overlay
-		registerKeyboardShortcut: ( key, value ) => {
-			keyboardShortcuts[key] = value;
-		}
+		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value
 	};
 
 	return init();

@@ -406,9 +406,14 @@ Reveal.addEventListener( 'customevent', function() {
 
 		</div>
 
-		<script src="dist/reveal.min.js"></script>
+		<script type="module" src="js/index.js"></script>
 
-		<script>
+		<script type="module">
+
+			// WIP support for multiple reveal.js instances
+			// let a = new Reveal(document.querySelector( '.reveal' ), {controls: false});
+			// let b = new Reveal(document.querySelector( '.reveal' ), {controls: true});
+			// console.log(a.getConfig().controls,b.getConfig().controls);
 
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
