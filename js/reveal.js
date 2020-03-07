@@ -1,3 +1,4 @@
+import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
 import {
@@ -7,7 +8,6 @@ import {
 	deserialize,
 	transformElement,
 	injectStyleSheet,
-	loadScript,
 	closestParent,
 	colorToRgb,
 	colorBrightness,
@@ -42,7 +42,7 @@ export default function( revealElement, options ) {
 	let config,
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
-		loaded = false,
+		ready = false,
 
 		// Flags if the overview mode is currently active
 		overview = false,
@@ -80,8 +80,8 @@ export default function( revealElement, options ) {
 		// Cached references to DOM elements
 		dom = {},
 
-		// A list of registered reveal.js plugins
-		plugins = {},
+		// An instance of the Plugins controller
+		plugins = new Plugins(),
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
@@ -144,7 +144,7 @@ export default function( revealElement, options ) {
 	/**
 	 * Starts up the presentation if the client is capable.
 	 */
-	function init() {
+	function initialize() {
 
 		if( !revealElement ) {
 			console.warn( 'reveal.js must be instantiated with a valid .reveal element' );
@@ -167,18 +167,17 @@ export default function( revealElement, options ) {
 		if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
 
 		// Copy options over to our config object
-		config = {...defaultConfig, ...options, ...query}
+		config = { ...defaultConfig, ...options, ...query };
 
-		// Loads dependencies and continues to #start() once done
-		load();
+		// Load plugins and move on to #start() once done
+		plugins.load( config.dependencies ).then( start )
 
 		return Reveal;
 
 	}
 
 	/**
-	 * Inspect the client to see what it's capable of, this
-	 * should only happens once per runtime.
+	 * Inspect the client to see what features it supports.
 	 */
 	function checkCapabilities() {
 
@@ -197,120 +196,12 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Loads the dependencies of reveal.js. Dependencies are
-	 * defined via the configuration option 'dependencies'
-	 * and will be loaded prior to starting/binding reveal.js.
-	 * Some dependencies may have an 'async' flag, if so they
-	 * will load after reveal.js has been started up.
-	 */
-	function load() {
-
-		let scripts = [],
-			scriptsToLoad = 0;
-
-		config.dependencies.forEach( s => {
-			// Load if there's no condition or the condition is truthy
-			if( !s.condition || s.condition() ) {
-				if( s.async ) {
-					asyncDependencies.push( s );
-				}
-				else {
-					scripts.push( s );
-				}
-			}
-		} );
-
-		if( scripts.length ) {
-			scriptsToLoad = scripts.length;
-
-			// Load synchronous scripts
-			scripts.forEach( s => {
-				loadScript( s.src, () => {
-
-					if( typeof s.callback === 'function' ) s.callback();
-
-					if( --scriptsToLoad === 0 ) {
-						initPlugins();
-					}
-
-				} );
-			} );
-		}
-		else {
-			initPlugins();
-		}
-
-	}
-
-	/**
-	 * Initializes our plugins and waits for them to be ready
-	 * before proceeding.
-	 */
-	function initPlugins() {
-
-		let pluginsToInitialize = Object.keys( plugins ).length;
-
-		// If there are no plugins, skip this step
-		if( pluginsToInitialize === 0 ) {
-			loadAsyncDependencies();
-		}
-		// ... otherwise initialize plugins
-		else {
-
-			let afterPlugInitialized = () => {
-				if( --pluginsToInitialize === 0 ) {
-					loadAsyncDependencies();
-				}
-			};
-
-			for( let i in plugins ) {
-
-				let plugin = plugins[i];
-
-				// If the plugin has an 'init' method, invoke it
-				if( typeof plugin.init === 'function' ) {
-					let callback = plugin.init();
-
-					// If the plugin returned a Promise, wait for it
-					if( callback && typeof callback.then === 'function' ) {
-						callback.then( afterPlugInitialized );
-					}
-					else {
-						afterPlugInitialized();
-					}
-				}
-				else {
-					afterPlugInitialized();
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Loads all async reveal.js dependencies.
-	 */
-	function loadAsyncDependencies() {
-
-		if( asyncDependencies.length ) {
-			asyncDependencies.forEach( s => {
-				loadScript( s.src, s.callback );
-			} );
-		}
-
-		start();
-
-	}
-
-	/**
 	 * Starts up reveal.js by binding input events and navigating
 	 * to the current URL deeplink if there is one.
 	 */
 	function start() {
 
-		loaded = true;
+		ready = true;
 
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
@@ -972,9 +863,8 @@ export default function( revealElement, options ) {
 		if( typeof options === 'object' ) extend( config, options );
 
 		// Abort if reveal.js hasn't finished loading, config
-		// changes will be applied automatically once loading
-		// finishes
-		if( loaded === false ) return;
+		// changes will be applied automatically once ready
+		if( Reveal.isReady() ===  false ) return;
 
 		const numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
 
@@ -1236,53 +1126,6 @@ export default function( revealElement, options ) {
 			dom.controlsPrev.forEach( el => el.removeEventListener( eventName, onNavigatePrevClicked, false ) );
 			dom.controlsNext.forEach( el => el.removeEventListener( eventName, onNavigateNextClicked, false ) );
 		} );
-
-	}
-
-	/**
-	 * Registers a new plugin with this reveal.js instance.
-	 *
-	 * reveal.js waits for all regisered plugins to initialize
-	 * before considering itself ready, as long as the plugin
-	 * is registered before calling `Reveal.initialize()`.
-	 */
-	function registerPlugin( id, plugin ) {
-
-		if( plugins[id] === undefined ) {
-			plugins[id] = plugin;
-
-			// If a plugin is registered after reveal.js is loaded,
-			// initialize it right away
-			if( loaded && typeof plugin.init === 'function' ) {
-				plugin.init();
-			}
-		}
-		else {
-			console.warn( 'reveal.js: "'+ id +'" plugin has already been registered' );
-		}
-
-	}
-
-	/**
-	 * Checks if a specific plugin has been registered.
-	 *
-	 * @param {String} id Unique plugin identifier
-	 */
-	function hasPlugin( id ) {
-
-		return !!plugins[id];
-
-	}
-
-	/**
-	 * Returns the specific plugin instance, if a plugin
-	 * with the given ID has been registered.
-	 *
-	 * @param {String} id Unique plugin identifier
-	 */
-	function getPlugin( id ) {
-
-		return plugins[id];
 
 	}
 
@@ -5630,6 +5473,7 @@ export default function( revealElement, options ) {
 	Reveal = {
 		VERSION: VERSION,
 
+		initialize,
 		configure,
 
 		sync,
@@ -5743,9 +5587,12 @@ export default function( revealElement, options ) {
 		removeKeyBinding,
 
 		// API for registering and retrieving plugins
-		registerPlugin,
-		hasPlugin,
-		getPlugin,
+		registerPlugin: (...args) => plugins.registerPlugin( ...args ),
+		hasPlugin: (...args) => plugins.hasPlugin( ...args ),
+		getPlugin: (...args) => plugins.getPlugin( ...args ),
+
+		// Returns a hash with all registered plugins
+		getPlugins: () => plugins.getRegisteredPlugins(),
 
 		getComputedSlideSize,
 
@@ -5782,9 +5629,6 @@ export default function( revealElement, options ) {
 		// Returns the top-level DOM element
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
 
-		// Returns a hash with all registered plugins
-		getPlugins: () => plugins,
-
 		// Returns true if we're currently on the first slide
 		isFirstSlide: () => indexh === 0 && indexv === 0,
 
@@ -5817,7 +5661,7 @@ export default function( revealElement, options ) {
 		},
 
 		// Checks if reveal.js has been loaded and is ready for use
-		isReady: () => loaded,
+		isReady: () => ready,
 
 		// Forward event binding to the reveal DOM element
 		addEventListener: ( type, listener, useCapture ) => {
@@ -5834,6 +5678,6 @@ export default function( revealElement, options ) {
 		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value
 	};
 
-	return init();
+	return Reveal;
 
 };
