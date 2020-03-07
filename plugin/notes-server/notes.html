@@ -441,6 +441,9 @@
 
 				function _updateTimer() {
 
+					var hour12 = Reveal.getConfig().speakerView12HourTimeFormat;
+
+
 					var diff, hours, minutes, seconds,
 						now = new Date();
 
@@ -449,7 +452,7 @@
 					minutes = Math.floor( ( diff / ( 1000 * 60 ) ) % 60 );
 					seconds = Math.floor( ( diff / 1000 ) % 60 );
 
-					clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
+					clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: hour12, hour: '2-digit', minute:'2-digit' } );
 					hoursEl.innerHTML = zeroPadInteger( hours );
 					hoursEl.className = hours > 0 ? '' : 'mute';
 					minutesEl.innerHTML = ':' + zeroPadInteger( minutes );
