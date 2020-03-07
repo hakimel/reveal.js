@@ -2,6 +2,12 @@ import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
 import {
+	SLIDES_SELECTOR,
+	HORIZONTAL_SLIDES_SELECTOR,
+	VERTICAL_SLIDES_SELECTOR,
+	POST_MESSAGE_METHOD_BLACKLIST
+} from './utils/constants.js'
+import {
 	extend,
 	toArray,
 	distanceBetween,
@@ -9,10 +15,9 @@ import {
 	transformElement,
 	injectStyleSheet,
 	closestParent,
-	colorToRgb,
-	colorBrightness,
 	enterFullscreen
 } from './utils/util.js'
+import { colorToRgb, colorBrightness } from './utils/color.js'
 
 /**
  * reveal.js
@@ -28,15 +33,7 @@ export default function( revealElement, options ) {
 	// The reveal.js version
 	const VERSION = '4.0.0-dev';
 
-	const SLIDES_SELECTOR = '.slides section';
-	const HORIZONTAL_SLIDES_SELECTOR = '.slides>section';
-	const VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section';
-	const HOME_SLIDE_SELECTOR = '.slides>section:first-of-type';
-
 	const UA = navigator.userAgent;
-
-	// Methods that may not be invoked via the postMessage API
-	const POST_MESSAGE_METHOD_BLACKLIST = /registerPlugin|registerKeyboardShortcut|addKeyBinding|addEventListener/;
 
 	// Configuration defaults, can be overridden at initialization time
 	let config,
@@ -147,7 +144,7 @@ export default function( revealElement, options ) {
 	function initialize() {
 
 		if( !revealElement ) {
-			console.warn( 'reveal.js must be instantiated with a valid .reveal element' );
+			console.warn( 'reveal.js can not initialize without a valid .reveal element.' );
 			return;
 		}
 
@@ -160,16 +157,10 @@ export default function( revealElement, options ) {
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
 
-		let query = Reveal.getQueryHash();
-
-		// Do not accept new dependencies via query config to avoid
-		// the potential of malicious script injection
-		if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
-
 		// Copy options over to our config object
-		config = { ...defaultConfig, ...options, ...query };
+		config = { ...defaultConfig, ...options, ...Reveal.getQueryHash() };
 
-		// Load plugins and move on to #start() once done
+		// Load plugins then move on to #start()
 		plugins.load( config.dependencies ).then( start )
 
 		return Reveal;
@@ -5471,7 +5462,7 @@ export default function( revealElement, options ) {
 
 
 	Reveal = {
-		VERSION: VERSION,
+		VERSION,
 
 		initialize,
 		configure,
@@ -5622,6 +5613,10 @@ export default function( revealElement, options ) {
 
 				query[ i ] = deserialize( unescape( value ) );
 			}
+
+			// Do not accept new dependencies via query config to avoid
+			// the potential of malicious script injection
+			if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
 
 			return query;
 		},
