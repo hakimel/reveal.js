@@ -62,7 +62,7 @@ gulp.task('css', gulp.parallel('css-themes', 'css-print', 'css-core'))
 
 gulp.task('test', gulp.series(
 
-    () => gulp.src(['./js/reveal.js', 'gulpfile.js']).pipe(eslint()).pipe(eslint.format())
+    () => gulp.src(['./js/**', 'gulpfile.js']).pipe(eslint()).pipe(eslint.format())
     // () => gulp.src(['./test/*.html']).pipe(qunit())
 
 ))
@@ -90,7 +90,7 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    gulp.watch(['js/**/*'], gulp.series('js', 'test'))
+    gulp.watch(['js/**'], gulp.series('js', 'test'))
 
     gulp.watch([
         'css/theme/source/*.{sass,scss}',

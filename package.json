@@ -41,6 +41,7 @@
     "socket.io": "^2.3.0",
     "yargs": "^15.1.0",
     "webpack-stream": "^5.2.1",
+    "babel-eslint": "^10.1.0",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7"
   },
@@ -49,6 +50,7 @@
       "browser": true,
       "es6": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
       "sourceType": "module",
       "allowImportExportEverywhere": true
