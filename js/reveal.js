@@ -462,12 +462,12 @@ export default function( revealElement, options ) {
 		dom.wrapper.setAttribute( 'role', 'application' );
 
 		// There can be multiple instances of controls throughout the page
-		dom.controlsLeft = toArray( document.querySelectorAll( '.navigate-left' ) );
-		dom.controlsRight = toArray( document.querySelectorAll( '.navigate-right' ) );
-		dom.controlsUp = toArray( document.querySelectorAll( '.navigate-up' ) );
-		dom.controlsDown = toArray( document.querySelectorAll( '.navigate-down' ) );
-		dom.controlsPrev = toArray( document.querySelectorAll( '.navigate-prev' ) );
-		dom.controlsNext = toArray( document.querySelectorAll( '.navigate-next' ) );
+		dom.controlsLeft = toArray( dom.wrapper.querySelectorAll( '.navigate-left' ) );
+		dom.controlsRight = toArray( dom.wrapper.querySelectorAll( '.navigate-right' ) );
+		dom.controlsUp = toArray( dom.wrapper.querySelectorAll( '.navigate-up' ) );
+		dom.controlsDown = toArray( dom.wrapper.querySelectorAll( '.navigate-down' ) );
+		dom.controlsPrev = toArray( dom.wrapper.querySelectorAll( '.navigate-prev' ) );
+		dom.controlsNext = toArray( dom.wrapper.querySelectorAll( '.navigate-next' ) );
 
 		// The left, right and down arrows in the standard reveal.js controls
 		dom.controlsRightArrow = dom.controls.querySelector( '.navigate-right' );
@@ -486,7 +486,7 @@ export default function( revealElement, options ) {
 	 */
 	function createStatusDiv() {
 
-		let statusDiv = document.getElementById( 'aria-status-div' );
+		let statusDiv = dom.wrapper.querySelector( '.aria-status' );
 		if( !statusDiv ) {
 			statusDiv = document.createElement( 'div' );
 			statusDiv.style.position = 'absolute';
@@ -494,7 +494,7 @@ export default function( revealElement, options ) {
 			statusDiv.style.width = '1px';
 			statusDiv.style.overflow = 'hidden';
 			statusDiv.style.clip = 'rect( 1px, 1px, 1px, 1px )';
-			statusDiv.setAttribute( 'id', 'aria-status-div' );
+			statusDiv.classList.add( 'aria-status' );
 			statusDiv.setAttribute( 'aria-live', 'polite' );
 			statusDiv.setAttribute( 'aria-atomic','true' );
 			dom.wrapper.appendChild( statusDiv );
@@ -531,7 +531,9 @@ export default function( revealElement, options ) {
 
 		}
 
-		return text.trim();
+		text = text.trim();
+
+		return text === '' ? '' : text + ' ';
 
 	}
 
@@ -1474,7 +1476,7 @@ export default function( revealElement, options ) {
 	 */
 	function enablePreviewLinks( selector = 'a' ) {
 
-		toArray( document.querySelectorAll( selector ) ).forEach( element => {
+		toArray( dom.wrapper.querySelectorAll( selector ) ).forEach( element => {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
 				element.addEventListener( 'click', onPreviewLinkClicked, false );
 			}
@@ -1487,7 +1489,7 @@ export default function( revealElement, options ) {
 	 */
 	function disablePreviewLinks( selector = 'a' ) {
 
-		toArray( document.querySelectorAll( selector ) ).forEach( element => {
+		toArray( dom.wrapper.querySelectorAll( selector ) ).forEach( element => {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
 				element.removeEventListener( 'click', onPreviewLinkClicked, false );
 			}
