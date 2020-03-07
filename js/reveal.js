@@ -204,7 +204,7 @@ export default function( revealElement, options ) {
 	 */
 	function load() {
 
-		var scripts = [],
+		let scripts = [],
 			scriptsToLoad = 0;
 
 		config.dependencies.forEach( s => {
@@ -224,7 +224,7 @@ export default function( revealElement, options ) {
 
 			// Load synchronous scripts
 			scripts.forEach( s => {
-				loadScript( s.src, function() {
+				loadScript( s.src, () => {
 
 					if( typeof s.callback === 'function' ) s.callback();
 
@@ -541,14 +541,14 @@ export default function( revealElement, options ) {
 	 */
 	function setupPDF() {
 
-		var slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
+		let slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
 
 		// Dimensions of the PDF pages
-		var pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
+		let pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
 			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
 
 		// Dimensions of slides within the pages
-		var slideWidth = slideSize.width,
+		let slideWidth = slideSize.width,
 			slideHeight = slideSize.height;
 
 		// Let the browser know what page size we want to print
@@ -565,7 +565,7 @@ export default function( revealElement, options ) {
 		layoutSlideContents( slideWidth, slideHeight );
 
 		// Compute slide numbers now, before we start duplicating slides
-		var doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
+		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
 			slide.setAttribute( 'data-slide-number', getSlideNumber( slide ) );
 		} );
@@ -577,11 +577,11 @@ export default function( revealElement, options ) {
 			// children will be
 			if( slide.classList.contains( 'stack' ) === false ) {
 				// Center the slide inside of the page, giving the slide some margin
-				var left = ( pageWidth - slideWidth ) / 2,
+				let left = ( pageWidth - slideWidth ) / 2,
 					top = ( pageHeight - slideHeight ) / 2;
 
-				var contentHeight = slide.scrollHeight;
-				var numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
+				let contentHeight = slide.scrollHeight;
+				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
 				// Adhere to configured pages per slide limit
 				numberOfPages = Math.min( numberOfPages, config.pdfMaxPagesPerSlide );
@@ -593,7 +593,7 @@ export default function( revealElement, options ) {
 
 				// Wrap the slide in a page element and hide its overflow
 				// so that no page ever flows onto another
-				var page = document.createElement( 'div' );
+				let page = document.createElement( 'div' );
 				page.className = 'pdf-page';
 				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
 				slide.parentNode.insertBefore( page, slide );
@@ -612,12 +612,12 @@ export default function( revealElement, options ) {
 				if( config.showNotes ) {
 
 					// Are there notes for this slide?
-					var notes = getSlideNotes( slide );
+					let notes = getSlideNotes( slide );
 					if( notes ) {
 
-						var notesSpacing = 8;
-						var notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
-						var notesElement = document.createElement( 'div' );
+						let notesSpacing = 8;
+						let notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
+						let notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
 						notesElement.classList.add( 'speaker-notes-pdf' );
 						notesElement.setAttribute( 'data-layout', notesLayout );
@@ -639,7 +639,7 @@ export default function( revealElement, options ) {
 
 				// Inject slide numbers if `slideNumbers` are enabled
 				if( doingSlideNumbers ) {
-					var numberElement = document.createElement( 'div' );
+					let numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
 					numberElement.innerHTML = slide.getAttribute( 'data-slide-number' );
@@ -652,10 +652,10 @@ export default function( revealElement, options ) {
 					// Each fragment 'group' is an array containing one or more
 					// fragments. Multiple fragments that appear at the same time
 					// are part of the same group.
-					var fragmentGroups = sortFragments( page.querySelectorAll( '.fragment' ), true );
+					let fragmentGroups = sortFragments( page.querySelectorAll( '.fragment' ), true );
 
-					var previousFragmentStep;
-					var previousPage;
+					let previousFragmentStep;
+					let previousPage;
 
 					fragmentGroups.forEach( function( fragments ) {
 
@@ -672,7 +672,7 @@ export default function( revealElement, options ) {
 						} );
 
 						// Create a separate page for the current fragment state
-						var clonedPage = page.cloneNode( true );
+						let clonedPage = page.cloneNode( true );
 						page.parentNode.insertBefore( clonedPage, ( previousPage || page ).nextSibling );
 
 						previousFragmentStep = fragments;
@@ -983,7 +983,7 @@ export default function( revealElement, options ) {
 
 						if( POST_MESSAGE_METHOD_BLACKLIST.test( data.method ) === false ) {
 
-							var result = Reveal[data.method].apply( Reveal, data.args );
+							const result = Reveal[data.method].apply( Reveal, data.args );
 
 							// Dispatch a postMessage event with the returned value from
 							// our method invocation for getter functions
@@ -1095,7 +1095,7 @@ export default function( revealElement, options ) {
 		}
 
 		// Reset all auto animated elements
-		toArray( dom.slides.querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( function( element ) {
+		toArray( dom.slides.querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( element => {
 			element.dataset.autoAnimate = '';
 		} );
 
@@ -1231,13 +1231,13 @@ export default function( revealElement, options ) {
 			pointerEvents = [ 'touchstart' ];
 		}
 
-		pointerEvents.forEach( function( eventName ) {
-			dom.controlsLeft.forEach( function( el ) { el.addEventListener( eventName, onNavigateLeftClicked, false ); } );
-			dom.controlsRight.forEach( function( el ) { el.addEventListener( eventName, onNavigateRightClicked, false ); } );
-			dom.controlsUp.forEach( function( el ) { el.addEventListener( eventName, onNavigateUpClicked, false ); } );
-			dom.controlsDown.forEach( function( el ) { el.addEventListener( eventName, onNavigateDownClicked, false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.addEventListener( eventName, onNavigatePrevClicked, false ); } );
-			dom.controlsNext.forEach( function( el ) { el.addEventListener( eventName, onNavigateNextClicked, false ); } );
+		pointerEvents.forEach( eventName => {
+			dom.controlsLeft.forEach( el => el.addEventListener( eventName, onNavigateLeftClicked, false ) );
+			dom.controlsRight.forEach( el => el.addEventListener( eventName, onNavigateRightClicked, false ) );
+			dom.controlsUp.forEach( el => el.addEventListener( eventName, onNavigateUpClicked, false ) );
+			dom.controlsDown.forEach( el => el.addEventListener( eventName, onNavigateDownClicked, false ) );
+			dom.controlsPrev.forEach( el => el.addEventListener( eventName, onNavigatePrevClicked, false ) );
+			dom.controlsNext.forEach( el => el.addEventListener( eventName, onNavigateNextClicked, false ) );
 		} );
 
 	}
@@ -1272,13 +1272,13 @@ export default function( revealElement, options ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
 		}
 
-		[ 'touchstart', 'click' ].forEach( function( eventName ) {
-			dom.controlsLeft.forEach( function( el ) { el.removeEventListener( eventName, onNavigateLeftClicked, false ); } );
-			dom.controlsRight.forEach( function( el ) { el.removeEventListener( eventName, onNavigateRightClicked, false ); } );
-			dom.controlsUp.forEach( function( el ) { el.removeEventListener( eventName, onNavigateUpClicked, false ); } );
-			dom.controlsDown.forEach( function( el ) { el.removeEventListener( eventName, onNavigateDownClicked, false ); } );
-			dom.controlsPrev.forEach( function( el ) { el.removeEventListener( eventName, onNavigatePrevClicked, false ); } );
-			dom.controlsNext.forEach( function( el ) { el.removeEventListener( eventName, onNavigateNextClicked, false ); } );
+		[ 'touchstart', 'click' ].forEach( eventName => {
+			dom.controlsLeft.forEach( el => el.removeEventListener( eventName, onNavigateLeftClicked, false ) );
+			dom.controlsRight.forEach( el => el.removeEventListener( eventName, onNavigateRightClicked, false ) );
+			dom.controlsUp.forEach( el => el.removeEventListener( eventName, onNavigateUpClicked, false ) );
+			dom.controlsDown.forEach( el => el.removeEventListener( eventName, onNavigateDownClicked, false ) );
+			dom.controlsPrev.forEach( el => el.removeEventListener( eventName, onNavigatePrevClicked, false ) );
+			dom.controlsNext.forEach( el => el.removeEventListener( eventName, onNavigateNextClicked, false ) );
 		} );
 
 	}
@@ -1576,12 +1576,12 @@ export default function( revealElement, options ) {
 			let html = '<p class="title">Keyboard Shortcuts</p><br/>';
 
 			html += '<table><th>KEY</th><th>ACTION</th>';
-			for( var key in keyboardShortcuts ) {
+			for( let key in keyboardShortcuts ) {
 				html += `<tr><td>${key}</td><td>${keyboardShortcuts[ key ]}</td></tr>`;
 			}
 
 			// Add custom key bindings that have associated descriptions
-			for( var binding in registeredKeyBindings ) {
+			for( let binding in registeredKeyBindings ) {
 				if( registeredKeyBindings[binding].key && registeredKeyBindings[binding].description ) {
 					html += `<tr><td>${registeredKeyBindings[binding].key}</td><td>${registeredKeyBindings[binding].description}</td></tr>`;
 				}
@@ -1598,7 +1598,7 @@ export default function( revealElement, options ) {
 				</div>
 			`;
 
-			dom.overlay.querySelector( '.close' ).addEventListener( 'click', function( event ) {
+			dom.overlay.querySelector( '.close' ).addEventListener( 'click', event => {
 				closeOverlay();
 				event.preventDefault();
 			}, false );
@@ -1696,7 +1696,7 @@ export default function( revealElement, options ) {
 				// Select all slides, vertical and horizontal
 				const slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
 
-				for( var i = 0, len = slides.length; i < len; i++ ) {
+				for( let i = 0, len = slides.length; i < len; i++ ) {
 					const slide = slides[ i ];
 
 					// Don't bother updating invisible slides
@@ -1753,7 +1753,7 @@ export default function( revealElement, options ) {
 		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( element => {
 
 			// Determine how much vertical space we can use
-			var remainingHeight = getRemainingHeight( element, height );
+			let remainingHeight = getRemainingHeight( element, height );
 
 			// Consider the aspect ratio of media elements
 			if( /(img|video)/gi.test( element.nodeName ) ) {
@@ -2475,7 +2475,7 @@ export default function( revealElement, options ) {
 	 */
 	function resetVerticalSlides() {
 
-		getHorizontalSlides().forEach( function( horizontalSlide ) {
+		getHorizontalSlides().forEach( horizontalSlide => {
 
 			toArray( horizontalSlide.querySelectorAll( 'section' ) ).forEach( ( verticalSlide, y ) => {
 
@@ -3149,13 +3149,13 @@ export default function( revealElement, options ) {
 			toSlide.dataset.autoAnimate = 'pending';
 
 			// Inject our auto-animate styles for this transition
-			let css = getAutoAnimatableElements( fromSlide, toSlide ).map( function( elements ) {
+			let css = getAutoAnimatableElements( fromSlide, toSlide ).map( elements => {
 				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
 			} );
 
 			// Animate unmatched elements, if enabled
 			if( toSlide.dataset.autoAnimateUnmatched !== 'false' && config.autoAnimateUnmatched === true ) {
-				getUnmatchedAutoAnimateElements( toSlide ).forEach( function( unmatchedElement ) {
+				getUnmatchedAutoAnimateElements( toSlide ).forEach( unmatchedElement => {
 					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
 				} );
 
@@ -3305,11 +3305,11 @@ export default function( revealElement, options ) {
 
 			// Build up our custom CSS. We need to override inline styles
 			// so we need to make our styles vErY IMPORTANT!1!!
-			let fromCSS = Object.keys( fromProps.styles ).map( function( propertyName ) {
+			let fromCSS = Object.keys( fromProps.styles ).map( propertyName => {
 				return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
 			} ).join( '' );
 
-			let toCSS = Object.keys( toProps.styles ).map( function( propertyName ) {
+			let toCSS = Object.keys( toProps.styles ).map( propertyName => {
 				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
 			} ).join( '' );
 
@@ -3686,7 +3686,7 @@ export default function( revealElement, options ) {
 
 		// Media elements with <source> children
 		toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( media => {
-			var sources = 0;
+			let sources = 0;
 
 			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( source => {
 				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
@@ -3831,7 +3831,7 @@ export default function( revealElement, options ) {
 	 */
 	function availableRoutes() {
 
-		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
+		let horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
 
 		let routes = {
@@ -3896,7 +3896,7 @@ export default function( revealElement, options ) {
 
 		let _appendParamToIframeSource = ( sourceAttribute, sourceURL, param ) => {
 			toArray( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( el => {
-				var src = el.getAttribute( sourceAttribute );
+				let src = el.getAttribute( sourceAttribute );
 				if( src && src.indexOf( param ) === -1 ) {
 					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
 				}
@@ -3959,7 +3959,7 @@ export default function( revealElement, options ) {
 						// If autoplay does not work, ensure that the controls are visible so
 						// that the viewer can start the media on their own
 						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
-							promise.catch( function() {
+							promise.catch( () => {
 								el.controls = true;
 
 								// Once the video does start playing, hide the controls again
@@ -4435,7 +4435,7 @@ export default function( revealElement, options ) {
 	 */
 	function getSlidesAttributes() {
 
-		return getSlides().map( function( slide ) {
+		return getSlides().map( slide => {
 
 			let attributes = {};
 			for( let i = 0; i < slide.attributes.length; i++ ) {
@@ -4557,7 +4557,7 @@ export default function( revealElement, options ) {
 		if( typeof state === 'object' ) {
 			slide( deserialize( state.indexh ), deserialize( state.indexv ), deserialize( state.indexf ) );
 
-			var pausedFlag = deserialize( state.paused ),
+			let pausedFlag = deserialize( state.paused ),
 				overviewFlag = deserialize( state.overview );
 
 			if( typeof pausedFlag === 'boolean' && pausedFlag !== isPaused() ) {
@@ -5167,7 +5167,7 @@ export default function( revealElement, options ) {
 				// Check if this binding matches the pressed key
 				if( parseInt( key, 10 ) === keyCode ) {
 
-					var value = config.keyboard[ key ];
+					let value = config.keyboard[ key ];
 
 					// Callback function
 					if( typeof value === 'function' ) {
@@ -5613,7 +5613,7 @@ export default function( revealElement, options ) {
 				deactivateOverview();
 
 				if( element.nodeName.match( /section/gi ) ) {
-					var h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
+					let h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
 						v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
 
 					slide( h, v );

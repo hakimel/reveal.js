@@ -7,7 +7,7 @@
  */
 export const extend = ( a, b ) => {
 
-	for( var i in b ) {
+	for( let i in b ) {
 		a[ i ] = b[ i ];
 	}
 
@@ -57,7 +57,7 @@ export const deserialize = ( value ) => {
  */
 export const distanceBetween = ( a, b ) => {
 
-	var dx = a.x - b.x,
+	let dx = a.x - b.x,
 		dy = a.y - b.y;
 
 	return Math.sqrt( dx*dx + dy*dy );
