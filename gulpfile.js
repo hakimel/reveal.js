@@ -26,7 +26,7 @@ const license = `/*!
 */\n`
 
 
-gulp.task('js', () => gulp.src(['./js/app.js'])
+gulp.task('js', () => gulp.src(['./js/index.js'])
         .pipe(babel({ presets: ['@babel/preset-env'] }))
         .pipe(webpack({
             mode: 'production'
@@ -90,7 +90,7 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    gulp.watch(['js/*.js'], gulp.series('js'))
+    gulp.watch(['js/**/*'], gulp.series('js'))
 
     gulp.watch([
         'css/theme/source/*.{sass,scss}',

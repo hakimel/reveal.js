@@ -7,7 +7,7 @@ import Playback from './components/playback.js'
  *
  * Copyright (C) 2020 Hakim El Hattab, http://hakim.se
  */
-export default function() {
+export default function( revealElement, options ) {
 
 	'use strict';
 
@@ -306,9 +306,6 @@ export default function() {
 
 		},
 
-		// Flags if Reveal.initialize() has been called
-		initialized = false,
-
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		loaded = false,
 
@@ -412,18 +409,18 @@ export default function() {
 	/**
 	 * Starts up the presentation if the client is capable.
 	 */
-	function initialize( options ) {
+	function init() {
 
-		// Make sure we only initialize once
-		if( initialized === true ) return;
-
-		initialized = true;
+		if( !revealElement ) {
+			console.warn( 'reveal.js must be instantiated with a valid .reveal element' );
+			return;
+		}
 
 		checkCapabilities();
 
 		// Cache references to key DOM elements
-		dom.wrapper = document.querySelector( '.reveal' );
-		dom.slides = document.querySelector( '.reveal .slides' );
+		dom.wrapper = revealElement;
+		dom.slides = revealElement.querySelector( '.slides' );
 
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
@@ -440,6 +437,8 @@ export default function() {
 
 		// Loads dependencies and continues to #start() once done
 		load();
+
+		return Reveal;
 
 	}
 
@@ -6175,7 +6174,6 @@ export default function() {
 	Reveal = {
 		VERSION: VERSION,
 
-		initialize,
 		configure,
 
 		sync,
@@ -6404,6 +6402,6 @@ export default function() {
 		}
 	};
 
-	return Reveal;
+	return init();
 
 };
