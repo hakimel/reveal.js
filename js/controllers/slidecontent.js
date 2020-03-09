@@ -1,5 +1,6 @@
 import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/constants.js'
 import { extend, toArray, closestParent } from '../utils/util.js'
+import { isMobile } from '../utils/device.js'
 
 /**
  * Handles loading, unloading and playback of slide
@@ -11,6 +12,26 @@ export default class SlideContent {
 
 		this.Reveal = Reveal;
 
+	}
+
+	/**
+	 * Should the given element be preloaded?
+	 * Decides based on local element attributes and global config.
+	 *
+	 * @param {HTMLElement} element
+	 */
+	shouldPreload( element ) {
+
+		// Prefer an explicit global preload setting
+		let preload = this.Reveal.getConfig().preloadIframes;
+
+		// If no global setting is available, fall back on the element's
+		// own preload setting
+		if( typeof preload !== 'boolean' ) {
+			preload = element.hasAttribute( 'data-preload' );
+		}
+
+		return preload;
 	}
 
 	/**
@@ -27,7 +48,7 @@ export default class SlideContent {
 
 		// Media elements with data-src attributes
 		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( element => {
-			if( element.tagName !== 'IFRAME' || shouldPreload( element ) ) {
+			if( element.tagName !== 'IFRAME' || this.shouldPreload( element ) ) {
 				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 				element.setAttribute( 'data-lazy-loaded', '' );
 				element.removeAttribute( 'data-src' );
@@ -89,7 +110,7 @@ export default class SlideContent {
 					// Inline video playback works (at least in Mobile Safari) as
 					// long as the video is muted and the `playsinline` attribute is
 					// present
-					if( isMobileDevice ) {
+					if( isMobile ) {
 						video.muted = true;
 						video.autoplay = true;
 						video.setAttribute( 'playsinline', '' );
@@ -126,7 +147,7 @@ export default class SlideContent {
 			if( backgroundIframeElement ) {
 
 				// Check if this iframe is eligible to be preloaded
-				if( shouldPreload( background ) && !/autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
+				if( this.shouldPreload( background ) && !/autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
 					if( backgroundIframeElement.getAttribute( 'src' ) !== backgroundIframe ) {
 						backgroundIframeElement.setAttribute( 'src', backgroundIframe );
 					}
@@ -222,7 +243,7 @@ export default class SlideContent {
 				}
 
 				// Prefer an explicit global autoplay setting
-				let autoplay = config.autoPlayMedia;
+				let autoplay = this.Reveal.getConfig().autoPlayMedia;
 
 				// If no global setting is available, fall back on the element's
 				// own autoplay setting
@@ -238,7 +259,7 @@ export default class SlideContent {
 					}
 					// Mobile devices never fire a loaded event so instead
 					// of waiting, we initiate playback
-					else if( isMobileDevice ) {
+					else if( isMobile ) {
 						let promise = el.play();
 
 						// If autoplay does not work, ensure that the controls are visible so
@@ -327,7 +348,7 @@ export default class SlideContent {
 			if( isAttachedToDOM && isVisible ) {
 
 				// Prefer an explicit global autoplay setting
-				let autoplay = config.autoPlayMedia;
+				let autoplay = this.Reveal.getConfig().autoPlayMedia;
 
 				// If no global setting is available, fall back on the element's
 				// own autoplay setting

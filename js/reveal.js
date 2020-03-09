@@ -1,5 +1,6 @@
 import SlideContent from './controllers/slidecontent.js'
 import AutoAnimate from './controllers/autoanimate.js'
+import Fragments from './controllers/fragments.js'
 import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -19,6 +20,7 @@ import {
 	closestParent,
 	enterFullscreen
 } from './utils/util.js'
+import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
 import { colorToRgb, colorBrightness } from './utils/color.js'
 
 /**
@@ -88,17 +90,11 @@ export default function( revealElement, options ) {
 		// Controls auto-animations between slides
 		autoAnimate = new AutoAnimate( Reveal ),
 
+		// Controls navigation between slide fragments
+		fragments = new Fragments( Reveal ),
+
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
-
-		// Features supported by the browser, see #checkCapabilities()
-		features = {},
-
-		// Client is a mobile device, see #checkCapabilities()
-		isMobileDevice,
-
-		// Client is a desktop Chrome, see #checkCapabilities()
-		isChrome,
 
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
@@ -150,8 +146,6 @@ export default function( revealElement, options ) {
 			return;
 		}
 
-		checkCapabilities();
-
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
@@ -166,25 +160,6 @@ export default function( revealElement, options ) {
 		plugins.load( config.dependencies ).then( start )
 
 		return Reveal;
-
-	}
-
-	/**
-	 * Inspect the client to see what features it supports.
-	 */
-	function checkCapabilities() {
-
-		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( UA ) ||
-							( navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 ); // iPadOS
-		isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
-
-		let testElement = document.createElement( 'div' );
-
-		// Flags if we should use zoom instead of transform to scale
-		// up slides. Zoom produces crisper results but has a lot of
-		// xbrowser quirks so we only use it in whitelsited browsers.
-		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
-						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
 	}
 
@@ -258,18 +233,11 @@ export default function( revealElement, options ) {
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
-		if( isMobileDevice ) {
+		if( isMobile ) {
 			dom.wrapper.classList.add( 'no-hover' );
 		}
 		else {
 			dom.wrapper.classList.remove( 'no-hover' );
-		}
-
-		if( /iphone/gi.test( UA ) ) {
-			dom.wrapper.classList.add( 'ua-iphone' );
-		}
-		else {
-			dom.wrapper.classList.remove( 'ua-iphone' );
 		}
 
 		// Background element
@@ -338,6 +306,15 @@ export default function( revealElement, options ) {
 			dom.wrapper.appendChild( statusDiv );
 		}
 		return statusDiv;
+
+	}
+
+	/**
+	 * Announces the given text to screen readers.
+	 */
+	function announceStatus( value ) {
+
+		dom.statusDiv.textContent = value;
 
 	}
 
@@ -492,7 +469,7 @@ export default function( revealElement, options ) {
 					// Each fragment 'group' is an array containing one or more
 					// fragments. Multiple fragments that appear at the same time
 					// are part of the same group.
-					let fragmentGroups = sortFragments( page.querySelectorAll( '.fragment' ), true );
+					let fragmentGroups = fragments.sort( page.querySelectorAll( '.fragment' ), true );
 
 					let previousFragmentStep;
 					let previousPage;
@@ -954,10 +931,7 @@ export default function( revealElement, options ) {
 
 		// When fragments are turned off they should be visible
 		if( config.fragments === false ) {
-			toArray( dom.slides.querySelectorAll( '.fragment' ) ).forEach( element => {
-				element.classList.add( 'visible' );
-				element.classList.remove( 'current-fragment' );
-			} );
+			fragments.showAll();
 		}
 
 		// Slide numbers
@@ -1057,7 +1031,7 @@ export default function( revealElement, options ) {
 
 		// Only support touch for Android, fixes double navigations in
 		// stock browser
-		if( UA.match( /android/gi ) ) {
+		if( isAndroid ) {
 			pointerEvents = [ 'touchstart' ];
 		}
 
@@ -1418,7 +1392,7 @@ export default function( revealElement, options ) {
 				// property where 100x adds up to the correct height.
 				//
 				// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
-				if( isMobileDevice ) {
+				if( isMobile ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
@@ -1454,7 +1428,7 @@ export default function( revealElement, options ) {
 					// effects are minor differences in text layout and iframe
 					// viewports changing size. A 200x200 iframe viewport in a
 					// 2x zoomed presentation ends up having a 400x400 viewport.
-					if( scale > 1 && features.zoom && window.devicePixelRatio < 2 ) {
+					if( scale > 1 && supportsZoom && window.devicePixelRatio < 2 ) {
 						dom.slides.style.zoom = scale;
 						dom.slides.style.left = '';
 						dom.slides.style.top = '';
@@ -2060,7 +2034,7 @@ export default function( revealElement, options ) {
 
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
-			navigateFragment( f );
+			fragments.goto( f );
 		}
 
 		// Dispatch an event if the slide changed
@@ -2126,8 +2100,8 @@ export default function( revealElement, options ) {
 			slideContent.startEmbeddedContent( currentSlide );
 		}
 
-		// Announce the current slide contents, for screen readers
-		dom.statusDiv.textContent = getStatusText( currentSlide );
+		// Announce the current slide contents to screen readers
+		announceStatus( getStatusText( currentSlide ) );
 
 		updateControls();
 		updateProgress();
@@ -2135,7 +2109,8 @@ export default function( revealElement, options ) {
 		updateParallax();
 		updateSlideNumber();
 		updateNotes();
-		updateFragments();
+
+		fragments.update();
 
 		// Update the URL hash
 		writeURL();
@@ -2190,7 +2165,7 @@ export default function( revealElement, options ) {
 		// Write the current hash to the URL
 		writeURL();
 
-		sortAllFragments();
+		fragments.sortAll();
 
 		updateControls();
 		updateProgress();
@@ -2248,7 +2223,7 @@ export default function( revealElement, options ) {
 	 */
 	function syncFragments( slide = currentSlide ) {
 
-		return sortFragments( slide.querySelectorAll( '.fragment' ) );
+		return config.sort( slide.querySelectorAll( '.fragment' ) );
 
 	}
 
@@ -2270,27 +2245,6 @@ export default function( revealElement, options ) {
 				}
 
 			} );
-
-		} );
-
-	}
-
-	/**
-	 * Sorts and formats all of fragments in the
-	 * presentation.
-	 */
-	function sortAllFragments() {
-
-		getHorizontalSlides().forEach( horizontalSlide => {
-
-			let verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
-			verticalSlides.forEach( ( verticalSlide, y ) => {
-
-				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
-
-			} );
-
-			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
 
 		} );
 
@@ -2438,7 +2392,7 @@ export default function( revealElement, options ) {
 
 			// Shorten the view distance on devices that typically have
 			// less resources
-			if( isMobileDevice ) {
+			if( isMobile ) {
 				viewDistance = isOverview() ? 6 : config.mobileViewDistance;
 			}
 
@@ -2657,7 +2611,7 @@ export default function( revealElement, options ) {
 	function updateControls() {
 
 		let routes = availableRoutes();
-		let fragments = availableFragments();
+		let fragmentsRoutes = fragments.availableRoutes();
 
 		// Remove the 'enabled' class from all directions
 		[...dom.controlsLeft, ...dom.controlsRight, ...dom.controlsUp, ...dom.controlsDown, ...dom.controlsPrev, ...dom.controlsNext].forEach( node => {
@@ -2681,22 +2635,21 @@ export default function( revealElement, options ) {
 		if( currentSlide ) {
 
 			// Always apply fragment decorator to prev/next buttons
-			if( fragments.prev ) dom.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-			if( fragments.next ) dom.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+			if( fragmentsRoutes.prev ) dom.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+			if( fragmentsRoutes.next ) dom.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
 			if( isVerticalSlide( currentSlide ) ) {
-				if( fragments.prev ) dom.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-				if( fragments.next ) dom.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.prev ) dom.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.next ) dom.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
 			else {
-				if( fragments.prev ) dom.controlsLeft.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-				if( fragments.next ) dom.controlsRight.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.prev ) dom.controlsLeft.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.next ) dom.controlsRight.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
 
 		}
-
 
 		if( config.controlsTutorial ) {
 
@@ -2790,7 +2743,7 @@ export default function( revealElement, options ) {
 		// Stop content inside of previous backgrounds
 		if( previousBackground ) {
 
-			slideContent.stopEmbeddedContent( previousBackground, { unloadIframes: !shouldPreload( previousBackground ) } );
+			slideContent.stopEmbeddedContent( previousBackground, { unloadIframes: !slideContent.shouldPreload( previousBackground ) } );
 
 		}
 
@@ -2902,26 +2855,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Should the given element be preloaded?
-	 * Decides based on local element attributes and global config.
-	 *
-	 * @param {HTMLElement} element
-	 */
-	function shouldPreload( element ) {
-
-		// Prefer an explicit global preload setting
-		let preload = config.preloadIframes;
-
-		// If no global setting is available, fall back on the element's
-		// own preload setting
-		if( typeof preload !== 'boolean' ) {
-			preload = element.hasAttribute( 'data-preload' );
-		}
-
-		return preload;
-	}
-
-	/**
 	 * Determine what available routes there are for navigation.
 	 *
 	 * @return {{left: boolean, right: boolean, up: boolean, down: boolean}}
@@ -2960,29 +2893,6 @@ export default function( revealElement, options ) {
 		}
 
 		return routes;
-
-	}
-
-	/**
-	 * Returns an object describing the available fragment
-	 * directions.
-	 *
-	 * @return {{prev: boolean, next: boolean}}
-	 */
-	function availableFragments() {
-
-		if( currentSlide && config.fragments ) {
-			let fragments = currentSlide.querySelectorAll( '.fragment' );
-			let hiddenFragments = currentSlide.querySelectorAll( '.fragment:not(.visible)' );
-
-			return {
-				prev: fragments.length - hiddenFragments.length > 0,
-				next: !!hiddenFragments.length
-			};
-		}
-		else {
-			return { prev: false, next: false };
-		}
 
 	}
 
@@ -3434,234 +3344,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Return a sorted fragments list, ordered by an increasing
-	 * "data-fragment-index" attribute.
-	 *
-	 * Fragments will be revealed in the order that they are returned by
-	 * this function, so you can use the index attributes to control the
-	 * order of fragment appearance.
-	 *
-	 * To maintain a sensible default fragment order, fragments are presumed
-	 * to be passed in document order. This function adds a "fragment-index"
-	 * attribute to each node if such an attribute is not already present,
-	 * and sets that attribute to an integer value which is the position of
-	 * the fragment within the fragments list.
-	 *
-	 * @param {object[]|*} fragments
-	 * @param {boolean} grouped If true the returned array will contain
-	 * nested arrays for all fragments with the same index
-	 * @return {object[]} sorted Sorted array of fragments
-	 */
-	function sortFragments( fragments, grouped = false ) {
-
-		fragments = toArray( fragments );
-
-		let ordered = [],
-			unordered = [],
-			sorted = [];
-
-		// Group ordered and unordered elements
-		fragments.forEach( fragment => {
-			if( fragment.hasAttribute( 'data-fragment-index' ) ) {
-				let index = parseInt( fragment.getAttribute( 'data-fragment-index' ), 10 );
-
-				if( !ordered[index] ) {
-					ordered[index] = [];
-				}
-
-				ordered[index].push( fragment );
-			}
-			else {
-				unordered.push( [ fragment ] );
-			}
-		} );
-
-		// Append fragments without explicit indices in their
-		// DOM order
-		ordered = ordered.concat( unordered );
-
-		// Manually count the index up per group to ensure there
-		// are no gaps
-		let index = 0;
-
-		// Push all fragments in their sorted order to an array,
-		// this flattens the groups
-		ordered.forEach( group => {
-			group.forEach( fragment => {
-				sorted.push( fragment );
-				fragment.setAttribute( 'data-fragment-index', index );
-			} );
-
-			index ++;
-		} );
-
-		return grouped === true ? ordered : sorted;
-
-	}
-
-	/**
-	 * Refreshes the fragments on the current slide so that they
-	 * have the appropriate classes (.visible + .current-fragment).
-	 *
-	 * @param {number} [index] The index of the current fragment
-	 * @param {array} [fragments] Array containing all fragments
-	 * in the current slide
-	 *
-	 * @return {{shown: array, hidden: array}}
-	 */
-	function updateFragments( index, fragments ) {
-
-		let changedFragments = {
-			shown: [],
-			hidden: []
-		};
-
-		if( currentSlide && config.fragments ) {
-
-			fragments = fragments || sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
-
-			if( fragments.length ) {
-
-				let maxIndex = 0;
-
-				if( typeof index !== 'number' ) {
-					let currentFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
-					if( currentFragment ) {
-						index = parseInt( currentFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
-					}
-				}
-
-				toArray( fragments ).forEach( ( el, i ) => {
-
-					if( el.hasAttribute( 'data-fragment-index' ) ) {
-						i = parseInt( el.getAttribute( 'data-fragment-index' ), 10 );
-					}
-
-					maxIndex = Math.max( maxIndex, i );
-
-					// Visible fragments
-					if( i <= index ) {
-						if( !el.classList.contains( 'visible' ) ) changedFragments.shown.push( el );
-						el.classList.add( 'visible' );
-						el.classList.remove( 'current-fragment' );
-
-						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.textContent = getStatusText( el );
-
-						if( i === index ) {
-							el.classList.add( 'current-fragment' );
-							slideContent.startEmbeddedContent( el );
-						}
-					}
-					// Hidden fragments
-					else {
-						if( el.classList.contains( 'visible' ) ) changedFragments.hidden.push( el );
-						el.classList.remove( 'visible' );
-						el.classList.remove( 'current-fragment' );
-					}
-
-				} );
-
-				// Write the current fragment index to the slide <section>.
-				// This can be used by end users to apply styles based on
-				// the current fragment index.
-				index = typeof index === 'number' ? index : -1;
-				index = Math.max( Math.min( index, maxIndex ), -1 );
-				currentSlide.setAttribute( 'data-fragment', index );
-
-			}
-
-		}
-
-		return changedFragments;
-
-	}
-
-	/**
-	 * Navigate to the specified slide fragment.
-	 *
-	 * @param {?number} index The index of the fragment that
-	 * should be shown, -1 means all are invisible
-	 * @param {number} offset Integer offset to apply to the
-	 * fragment index
-	 *
-	 * @return {boolean} true if a change was made in any
-	 * fragments visibility as part of this call
-	 */
-	function navigateFragment( index, offset = 0 ) {
-
-		if( currentSlide && config.fragments ) {
-
-			let fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
-			if( fragments.length ) {
-
-				// If no index is specified, find the current
-				if( typeof index !== 'number' ) {
-					let lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
-
-					if( lastVisibleFragment ) {
-						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
-					}
-					else {
-						index = -1;
-					}
-				}
-
-				// Apply the offset if there is one
-				index += offset;
-
-				let changedFragments = updateFragments( index, fragments );
-
-				if( changedFragments.hidden.length ) {
-					dispatchEvent( 'fragmenthidden', { fragment: changedFragments.hidden[0], fragments: changedFragments.hidden } );
-				}
-
-				if( changedFragments.shown.length ) {
-					dispatchEvent( 'fragmentshown', { fragment: changedFragments.shown[0], fragments: changedFragments.shown } );
-				}
-
-				updateControls();
-				updateProgress();
-
-				if( config.fragmentInURL ) {
-					writeURL();
-				}
-
-				return !!( changedFragments.shown.length || changedFragments.hidden.length );
-
-			}
-
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * Navigate to the next slide fragment.
-	 *
-	 * @return {boolean} true if there was a next fragment,
-	 * false otherwise
-	 */
-	function nextFragment() {
-
-		return navigateFragment( null, 1 );
-
-	}
-
-	/**
-	 * Navigate to the previous slide fragment.
-	 *
-	 * @return {boolean} true if there was a previous fragment,
-	 * false otherwise
-	 */
-	function prevFragment() {
-
-		return navigateFragment( null, -1 );
-
-	}
-
-	/**
 	 * Cues a new automated slide if enabled in the config.
 	 */
 	function cueAutoSlide() {
@@ -3719,7 +3401,7 @@ export default function( revealElement, options ) {
 			// - The presentation isn't paused
 			// - The overview isn't active
 			// - The presentation isn't over
-			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || availableFragments().next || config.loop === true ) ) {
+			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || fragments.availableRoutes().next || config.loop === true ) ) {
 				autoSlideTimeout = setTimeout( () => {
 					if( typeof config.autoSlideMethod === 'function' ) {
 						config.autoSlideMethod()
@@ -3780,12 +3462,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+			if( ( isOverview() || fragments.next() === false ) && availableRoutes().left ) {
 				slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || prevFragment() === false ) && availableRoutes().left ) {
+		else if( ( isOverview() || fragments.prev() === false ) && availableRoutes().left ) {
 			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -3797,12 +3479,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || prevFragment() === false ) && availableRoutes().right ) {
+			if( ( isOverview() || fragments.prev() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+		else if( ( isOverview() || fragments.next() === false ) && availableRoutes().right ) {
 			slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -3811,7 +3493,7 @@ export default function( revealElement, options ) {
 	function navigateUp() {
 
 		// Prioritize hiding fragments
-		if( ( isOverview() || prevFragment() === false ) && availableRoutes().up ) {
+		if( ( isOverview() || fragments.prev() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
@@ -3822,7 +3504,7 @@ export default function( revealElement, options ) {
 		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
+		if( ( isOverview() || fragments.next() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
 
@@ -3837,7 +3519,7 @@ export default function( revealElement, options ) {
 	function navigatePrev() {
 
 		// Prioritize revealing fragments
-		if( prevFragment() === false ) {
+		if( fragments.prev() === false ) {
 			if( availableRoutes().up ) {
 				navigateUp();
 			}
@@ -3871,7 +3553,7 @@ export default function( revealElement, options ) {
 		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( nextFragment() === false ) {
+		if( fragments.next() === false ) {
 
 			let routes = availableRoutes();
 
@@ -4293,7 +3975,7 @@ export default function( revealElement, options ) {
 		}
 		// There's a bug with swiping on some Android devices unless
 		// the default action is always prevented
-		else if( UA.match( /android/gi ) ) {
+		else if( isAndroid ) {
 			event.preventDefault();
 		}
 
@@ -4562,9 +4244,9 @@ export default function( revealElement, options ) {
 		navigateNext: navigateNext,
 
 		// Fragment methods
-		navigateFragment,
-		prevFragment,
-		nextFragment,
+		navigateFragment: () => fragments.goto,
+		prevFragment: () => fragments.prev,
+		nextFragment: () => fragments.next,
 
 		// Forces an update in slide layout
 		layout,
@@ -4576,7 +4258,7 @@ export default function( revealElement, options ) {
 		availableRoutes,
 
 		// Returns an object with the available fragments as booleans (prev/next)
-		availableFragments,
+		availableFragments: () => fragments.availableRoutes(),
 
 		// Toggles a help overlay with keyboard shortcuts
 		toggleHelp,
@@ -4649,6 +4331,20 @@ export default function( revealElement, options ) {
 		// Adds/removes a custom key binding
 		addKeyBinding,
 		removeKeyBinding,
+
+		// Programmatically triggers a keyboard event
+		triggerKey: keyCode => onDocumentKeyDown( { keyCode } ),
+
+		// Registers a new shortcut to include in the help overlay
+		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value,
+
+		// Forward event binding to the reveal DOM element
+		addEventListener: ( type, listener, useCapture ) => {
+			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
+		},
+		removeEventListener: ( type, listener, useCapture ) => {
+			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
+		},
 
 		// API for registering and retrieving plugins
 		registerPlugin: (...args) => plugins.registerPlugin( ...args ),
@@ -4732,19 +4428,18 @@ export default function( revealElement, options ) {
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
 
-		// Forward event binding to the reveal DOM element
-		addEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
-		},
-		removeEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
-		},
 
-		// Programmatically triggers a keyboard event
-		triggerKey: keyCode => onDocumentKeyDown( { keyCode } ),
+		// Methods for announcing content to screen readers
+		announceStatus,
+		getStatusText,
 
-		// Registers a new shortcut to include in the help overlay
-		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value
+		// Expose direct access to controllers via the API
+		slideContent,
+
+		updateControls,
+		updateProgress,
+		writeURL
+
 	} );
 
 };
