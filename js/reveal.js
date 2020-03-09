@@ -5235,7 +5235,7 @@
 		var activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
 		// Whitelist specific modified + keycode combinations
-		var prevSlideShortcut = event.shiftKey && event.keyCode === 32;
+		var prevSlideShortcut = event.shiftKey && keyCode === 32;
 		var firstSlideShortcut = event.shiftKey && keyCode === 37;
 		var lastSlideShortcut = event.shiftKey && keyCode === 39;
 
