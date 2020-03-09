@@ -381,7 +381,7 @@
 			function setupKeyboard() {
 
 				document.addEventListener( 'keydown', function( event ) {
-					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
+					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode, event.shiftKey ] }), '*' );
 				} );
 
 			}

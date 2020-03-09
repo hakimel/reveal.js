@@ -487,7 +487,7 @@
 							event.preventDefault();
 							return false;
 						}
-						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
+						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode, event.shiftKey ] }), '*' );
 					} );
 
 				}

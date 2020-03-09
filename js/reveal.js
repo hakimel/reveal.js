@@ -6176,8 +6176,8 @@
 		getPlugin: getPlugin,
 
 		// Programmatically triggers a keyboard event
-		triggerKey: function( keyCode ) {
-			onDocumentKeyDown( { keyCode: keyCode } );
+		triggerKey: function( keyCode, shiftKey ) {
+			onDocumentKeyDown( { keyCode: keyCode, shiftKey: shiftKey } );
 		},
 
 		// Registers a new shortcut to include in the help overlay
