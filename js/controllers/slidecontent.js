@@ -1,6 +1,10 @@
 import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/constants.js'
 import { extend, toArray, closestParent } from '../utils/util.js'
 
+/**
+ * Handles loading, unloading and playback of slide
+ * content such as images, videos and iframes.
+ */
 export default class SlideContent {
 
 	constructor( Reveal ) {

@@ -1,5 +1,9 @@
 import { extend, toArray, createStyleSheet } from '../utils/util.js'
 
+/**
+ * Automatically animates matching elements across
+ * slides with the [data-auto-animate] attribute.
+ */
 export default class AutoAnimate {
 
 	constructor( Reveal ) {
