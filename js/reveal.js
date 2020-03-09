@@ -1,6 +1,7 @@
 import SlideContent from './controllers/slidecontent.js'
 import AutoAnimate from './controllers/autoanimate.js'
 import Fragments from './controllers/fragments.js'
+import Overview from './controllers/overview.js'
 import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -37,20 +38,11 @@ export default function( revealElement, options ) {
 	// The reveal.js version
 	const VERSION = '4.0.0-dev';
 
-	const UA = navigator.userAgent;
-
 	// Configuration defaults, can be overridden at initialization time
 	let config,
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		ready = false,
-
-		// Flags if the overview mode is currently active
-		overview = false,
-
-		// Holds the dimensions of our overview slides, including margins
-		overviewSlideWidth = null,
-		overviewSlideHeight = null,
 
 		// The horizontal and vertical index of the currently active slide
 		indexh,
@@ -92,6 +84,8 @@ export default function( revealElement, options ) {
 
 		// Controls navigation between slide fragments
 		fragments = new Fragments( Reveal ),
+
+		overview = new Overview( Reveal ),
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
@@ -1489,8 +1483,8 @@ export default function( revealElement, options ) {
 			updateProgress();
 			updateParallax();
 
-			if( isOverview() ) {
-				updateOverview();
+			if( overview.isActive() ) {
+				overview.update();
 			}
 
 		}
@@ -1607,199 +1601,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Displays the overview of slides (quick nav) by scaling
-	 * down and arranging all slide elements.
-	 */
-	function activateOverview() {
-
-		// Only proceed if enabled in config
-		if( config.overview && !isOverview() ) {
-
-			overview = true;
-
-			dom.wrapper.classList.add( 'overview' );
-
-			// Don't auto-slide while in overview mode
-			cancelAutoSlide();
-
-			// Move the backgrounds element into the slide container to
-			// that the same scaling is applied
-			dom.slides.appendChild( dom.background );
-
-			// Clicking on an overview slide navigates to it
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
-				if( !slide.classList.contains( 'stack' ) ) {
-					slide.addEventListener( 'click', onOverviewSlideClicked, true );
-				}
-			} );
-
-			// Calculate slide sizes
-			const margin = 70;
-			const slideSize = getComputedSlideSize();
-			overviewSlideWidth = slideSize.width + margin;
-			overviewSlideHeight = slideSize.height + margin;
-
-			// Reverse in RTL mode
-			if( config.rtl ) {
-				overviewSlideWidth = -overviewSlideWidth;
-			}
-
-			updateSlidesVisibility();
-			layoutOverview();
-			updateOverview();
-
-			layout();
-
-			// Notify observers of the overview showing
-			dispatchEvent( 'overviewshown', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
-
-		}
-
-	}
-
-	/**
-	 * Uses CSS transforms to position all slides in a grid for
-	 * display inside of the overview mode.
-	 */
-	function layoutOverview() {
-
-		// Layout slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( ( hslide, h ) => {
-			hslide.setAttribute( 'data-index-h', h );
-			transformElement( hslide, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
-
-			if( hslide.classList.contains( 'stack' ) ) {
-
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( ( vslide, v ) => {
-					vslide.setAttribute( 'data-index-h', h );
-					vslide.setAttribute( 'data-index-v', v );
-
-					transformElement( vslide, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
-				} );
-
-			}
-		} );
-
-		// Layout slide backgrounds
-		toArray( dom.background.childNodes ).forEach( ( hbackground, h ) => {
-			transformElement( hbackground, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
-
-			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( ( vbackground, v ) => {
-				transformElement( vbackground, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
-			} );
-		} );
-
-	}
-
-	/**
-	 * Moves the overview viewport to the current slides.
-	 * Called each time the current slide changes.
-	 */
-	function updateOverview() {
-
-		const vmin = Math.min( window.innerWidth, window.innerHeight );
-		const scale = Math.max( vmin / 5, 150 ) / vmin;
-
-		transformSlides( {
-			overview: [
-				'scale('+ scale +')',
-				'translateX('+ ( -indexh * overviewSlideWidth ) +'px)',
-				'translateY('+ ( -indexv * overviewSlideHeight ) +'px)'
-			].join( ' ' )
-		} );
-
-	}
-
-	/**
-	 * Exits the slide overview and enters the currently
-	 * active slide.
-	 */
-	function deactivateOverview() {
-
-		// Only proceed if enabled in config
-		if( config.overview ) {
-
-			overview = false;
-
-			dom.wrapper.classList.remove( 'overview' );
-
-			// Temporarily add a class so that transitions can do different things
-			// depending on whether they are exiting/entering overview, or just
-			// moving from slide to slide
-			dom.wrapper.classList.add( 'overview-deactivating' );
-
-			setTimeout( () => {
-				dom.wrapper.classList.remove( 'overview-deactivating' );
-			}, 1 );
-
-			// Move the background element back out
-			dom.wrapper.appendChild( dom.background );
-
-			// Clean up changes made to slides
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
-				transformElement( slide, '' );
-
-				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
-			} );
-
-			// Clean up changes made to backgrounds
-			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( background => {
-				transformElement( background, '' );
-			} );
-
-			transformSlides( { overview: '' } );
-
-			slide( indexh, indexv );
-
-			layout();
-
-			cueAutoSlide();
-
-			// Notify observers of the overview hiding
-			dispatchEvent( 'overviewhidden', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
-
-		}
-	}
-
-	/**
-	 * Toggles the slide overview mode on and off.
-	 *
-	 * @param {Boolean} [override] Flag which overrides the
-	 * toggle logic and forcibly sets the desired state. True means
-	 * overview is open, false means it's closed.
-	 */
-	function toggleOverview( override ) {
-
-		if( typeof override === 'boolean' ) {
-			override ? activateOverview() : deactivateOverview();
-		}
-		else {
-			isOverview() ? deactivateOverview() : activateOverview();
-		}
-
-	}
-
-	/**
-	 * Checks if the overview is currently active.
-	 *
-	 * @return {Boolean} true if the overview is active,
-	 * false otherwise
-	 */
-	function isOverview() {
-
-		return overview;
-
-	}
-
-	/**
 	 * Return a hash URL that will resolve to the given slide location.
 	 *
 	 * @param {HTMLElement} [slide=currentSlide] The slide to link to
@@ -1848,6 +1649,55 @@ export default function( revealElement, options ) {
 	function isVerticalSlide( slide = currentSlide ) {
 
 		return slide && slide.parentNode && !!slide.parentNode.nodeName.match( /section/i );
+
+	}
+
+	/**
+	 * Returns true if we're on the last slide in the current
+	 * vertical stack.
+	 */
+	function isLastVerticalSlide() {
+
+		if( currentSlide && isVerticalSlide( currentSlide ) ) {
+			// Does this slide have a next sibling?
+			if( currentSlide.nextElementSibling ) return false;
+
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Returns true if we're currently on the first slide in
+	 * the presentation.
+	 */
+	function isFirstSlide() {
+
+		return indexh === 0 && indexv === 0;
+
+	}
+
+	/**
+	 * Returns true if we're currently on the last slide in
+	 * the presenation. If the last slide is a stack, we only
+	 * consider this the last slide if it's at the end of the
+	 * stack.
+	 */
+	function isLastSlide() {
+
+		if( currentSlide ) {
+			// Does this slide have a next sibling?
+			if( currentSlide.nextElementSibling ) return false;
+
+			// If it's vertical, does its parent have a next sibling?
+			if( isVerticalSlide( currentSlide ) && currentSlide.parentNode.nextElementSibling ) return false;
+
+			return true;
+		}
+
+		return false;
 
 	}
 
@@ -1991,7 +1841,7 @@ export default function( revealElement, options ) {
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
-		if( v === undefined && !isOverview() ) {
+		if( v === undefined && !overview.isActive() ) {
 			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
 		}
 
@@ -2020,8 +1870,8 @@ export default function( revealElement, options ) {
 		layout();
 
 		// Update the overview if it's currently active
-		if( isOverview() ) {
-			updateOverview();
+		if( overview.isActive() ) {
+			overview.update();
 		}
 
 		// Find the current horizontal slide and any possible vertical slides
@@ -2052,7 +1902,7 @@ export default function( revealElement, options ) {
 			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
 			// Reset all slides upon navigate to home
-			if( Reveal.isFirstSlide() ) {
+			if( isFirstSlide() ) {
 				// Launch async task
 				setTimeout( () => {
 					getVerticalStacks().forEach( slide => {
@@ -2118,7 +1968,7 @@ export default function( revealElement, options ) {
 		cueAutoSlide();
 
 		// Auto-animation
-		if( slideChanged && previousSlide && currentSlide && !isOverview() ) {
+		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
 
 			// Skip the slide transition between our two slides
 			// when auto-animating individual elements
@@ -2185,8 +2035,8 @@ export default function( revealElement, options ) {
 			slideContent.startEmbeddedContent( currentSlide );
 		}
 
-		if( isOverview() ) {
-			layoutOverview();
+		if( overview.isActive() ) {
+			overview.layout();
 		}
 
 	}
@@ -2388,12 +2238,12 @@ export default function( revealElement, options ) {
 
 			// The number of steps away from the present slide that will
 			// be visible
-			let viewDistance = isOverview() ? 10 : config.viewDistance;
+			let viewDistance = overview.isActive() ? 10 : config.viewDistance;
 
 			// Shorten the view distance on devices that typically have
 			// less resources
 			if( isMobile ) {
-				viewDistance = isOverview() ? 6 : config.mobileViewDistance;
+				viewDistance = overview.isActive() ? 6 : config.mobileViewDistance;
 			}
 
 			// All slides need to be visible when exporting to PDF
@@ -3313,7 +3163,7 @@ export default function( revealElement, options ) {
 			indexv: indices.v,
 			indexf: indices.f,
 			paused: isPaused(),
-			overview: isOverview()
+			overview: overview.isActive()
 		};
 
 	}
@@ -3336,8 +3186,8 @@ export default function( revealElement, options ) {
 				togglePause( pausedFlag );
 			}
 
-			if( typeof overviewFlag === 'boolean' && overviewFlag !== isOverview() ) {
-				toggleOverview( overviewFlag );
+			if( typeof overviewFlag === 'boolean' && overviewFlag !== overview.isActive() ) {
+				overview.toggle( overviewFlag );
 			}
 		}
 
@@ -3401,7 +3251,7 @@ export default function( revealElement, options ) {
 			// - The presentation isn't paused
 			// - The overview isn't active
 			// - The presentation isn't over
-			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || fragments.availableRoutes().next || config.loop === true ) ) {
+			if( autoSlide && !autoSlidePaused && !isPaused() && !overview.isActive() && ( !isLastSlide() || fragments.availableRoutes().next || config.loop === true ) ) {
 				autoSlideTimeout = setTimeout( () => {
 					if( typeof config.autoSlideMethod === 'function' ) {
 						config.autoSlideMethod()
@@ -3462,12 +3312,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || fragments.next() === false ) && availableRoutes().left ) {
+			if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().left ) {
 				slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || fragments.prev() === false ) && availableRoutes().left ) {
+		else if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().left ) {
 			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -3479,12 +3329,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || fragments.prev() === false ) && availableRoutes().right ) {
+			if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || fragments.next() === false ) && availableRoutes().right ) {
+		else if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().right ) {
 			slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -3493,7 +3343,7 @@ export default function( revealElement, options ) {
 	function navigateUp() {
 
 		// Prioritize hiding fragments
-		if( ( isOverview() || fragments.prev() === false ) && availableRoutes().up ) {
+		if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
@@ -3504,7 +3354,7 @@ export default function( revealElement, options ) {
 		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( ( isOverview() || fragments.next() === false ) && availableRoutes().down ) {
+		if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
 
@@ -3560,7 +3410,7 @@ export default function( revealElement, options ) {
 			// When looping is enabled `routes.down` is always available
 			// so we need a separate check for when we've reached the
 			// end of a stack and should move horizontally
-			if( routes.down && routes.right && config.loop && Reveal.isLastVerticalSlide( currentSlide ) ) {
+			if( routes.down && routes.right && config.loop && isLastVerticalSlide( currentSlide ) ) {
 				routes.down = false;
 			}
 
@@ -3773,7 +3623,7 @@ export default function( revealElement, options ) {
 				if( firstSlideShortcut ) {
 					slide( 0 );
 				}
-				else if( !isOverview() && useLinearMode ) {
+				else if( !overview.isActive() && useLinearMode ) {
 					navigatePrev();
 				}
 				else {
@@ -3785,7 +3635,7 @@ export default function( revealElement, options ) {
 				if( lastSlideShortcut ) {
 					slide( Number.MAX_VALUE );
 				}
-				else if( !isOverview() && useLinearMode ) {
+				else if( !overview.isActive() && useLinearMode ) {
 					navigateNext();
 				}
 				else {
@@ -3794,7 +3644,7 @@ export default function( revealElement, options ) {
 			}
 			// K, UP
 			else if( keyCode === 75 || keyCode === 38 ) {
-				if( !isOverview() && useLinearMode ) {
+				if( !overview.isActive() && useLinearMode ) {
 					navigatePrev();
 				}
 				else {
@@ -3803,7 +3653,7 @@ export default function( revealElement, options ) {
 			}
 			// J, DOWN
 			else if( keyCode === 74 || keyCode === 40 ) {
-				if( !isOverview() && useLinearMode ) {
+				if( !overview.isActive() && useLinearMode ) {
 					navigateNext();
 				}
 				else {
@@ -3820,8 +3670,8 @@ export default function( revealElement, options ) {
 			}
 			// SPACE
 			else if( keyCode === 32 ) {
-				if( isOverview() ) {
-					deactivateOverview();
+				if( overview.isActive() ) {
+					overview.deactivate();
 				}
 				if( event.shiftKey ) {
 					navigatePrev();
@@ -3861,7 +3711,7 @@ export default function( revealElement, options ) {
 				closeOverlay();
 			}
 			else {
-				toggleOverview();
+				overview.toggle();
 			}
 
 			event.preventDefault && event.preventDefault();
@@ -4135,40 +3985,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Invoked when a slide is and we're in the overview.
-	 *
-	 * @param {object} event
-	 */
-	function onOverviewSlideClicked( event ) {
-
-		// TODO There's a bug here where the event listeners are not
-		// removed after deactivating the overview.
-		if( eventsAreBound && isOverview() ) {
-			event.preventDefault();
-
-			let element = event.target;
-
-			while( element && !element.nodeName.match( /section/gi ) ) {
-				element = element.parentNode;
-			}
-
-			if( element && !element.classList.contains( 'disabled' ) ) {
-
-				deactivateOverview();
-
-				if( element.nodeName.match( /section/gi ) ) {
-					let h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
-						v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
-
-					slide( h, v );
-				}
-
-			}
-		}
-
-	}
-
-	/**
 	 * Handles clicks on links that are set to preview in the
 	 * iframe overlay.
 	 *
@@ -4194,7 +4010,7 @@ export default function( revealElement, options ) {
 	function onAutoSlidePlayerClick( event ) {
 
 		// Replay
-		if( Reveal.isLastSlide() && config.loop === false ) {
+		if( isLastSlide() && config.loop === false ) {
 			slide( 0, 0 );
 			resumeAutoSlide();
 		}
@@ -4264,7 +4080,7 @@ export default function( revealElement, options ) {
 		toggleHelp,
 
 		// Toggles the overview mode on/off
-		toggleOverview,
+		toggleOverview: () => overview.toggle,
 
 		// Toggles the "black screen" mode on/off
 		togglePause,
@@ -4272,8 +4088,13 @@ export default function( revealElement, options ) {
 		// Toggles the auto slide mode on/off
 		toggleAutoSlide,
 
+		// Slide navigation checks
+		isFirstSlide,
+		isLastSlide,
+		isLastVerticalSlide,
+
 		// State checks
-		isOverview,
+		isOverview: () => overview.isActive,
 		isPaused,
 		isAutoSliding,
 		isSpeakerNotes,
@@ -4393,52 +4214,27 @@ export default function( revealElement, options ) {
 		// Returns the top-level DOM element
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
 		getSlidesElement: () => dom.slides,
-
-		// Returns true if we're currently on the first slide
-		isFirstSlide: () => indexh === 0 && indexv === 0,
-
-		// Returns true if we're currently on the last slide
-		isLastSlide: () => {
-			if( currentSlide ) {
-				// Does this slide have a next sibling?
-				if( currentSlide.nextElementSibling ) return false;
-
-				// If it's vertical, does its parent have a next sibling?
-				if( isVerticalSlide( currentSlide ) && currentSlide.parentNode.nextElementSibling ) return false;
-
-				return true;
-			}
-
-			return false;
-		},
-
-		// Returns true if we're on the last slide in the current
-		// vertical stack
-		isLastVerticalSlide: () => {
-			if( currentSlide && isVerticalSlide( currentSlide ) ) {
-				// Does this slide have a next sibling?
-				if( currentSlide.nextElementSibling ) return false;
-
-				return true;
-			}
-
-			return false;
-		},
+		getBackgroundsElement: () => dom.background,
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
 
 
+		// The following API methods are primarily intended for use
+		// by reveal.js controllers
+
 		// Methods for announcing content to screen readers
 		announceStatus,
 		getStatusText,
 
-		// Expose direct access to controllers via the API
 		slideContent,
-
 		updateControls,
 		updateProgress,
-		writeURL
+		updateSlidesVisibility,
+		writeURL,
+		transformSlides,
+		cueAutoSlide,
+		cancelAutoSlide
 
 	} );
 

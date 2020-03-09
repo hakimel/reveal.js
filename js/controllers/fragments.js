@@ -1,7 +1,9 @@
 import { extend, toArray } from '../utils/util.js'
 
 /**
- *
+ * Handles sorting and navigation of slide fragments.
+ * Fragments are elements within a slide that are
+ * revealed/animated incrementally.
  */
 export default class Fragments {
 
