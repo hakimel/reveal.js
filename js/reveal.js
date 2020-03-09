@@ -3898,6 +3898,7 @@ export default function( revealElement, options ) {
 			toArray( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( el => {
 				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
+					el.contentWindow.postMessage( '{"method":"setCurrentTime", "value":0}', '*' );
 				}
 			});
 
