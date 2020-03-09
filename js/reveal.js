@@ -4060,9 +4060,9 @@ export default function( revealElement, options ) {
 		navigateNext: navigateNext,
 
 		// Fragment methods
-		navigateFragment: () => fragments.goto,
-		prevFragment: () => fragments.prev,
-		nextFragment: () => fragments.next,
+		navigateFragment: () => fragments.goto.bind( fragments ),
+		prevFragment: () => fragments.prev.bind( fragments ),
+		nextFragment: () => fragments.next.bind( fragments ),
 
 		// Forces an update in slide layout
 		layout,
@@ -4074,13 +4074,13 @@ export default function( revealElement, options ) {
 		availableRoutes,
 
 		// Returns an object with the available fragments as booleans (prev/next)
-		availableFragments: () => fragments.availableRoutes(),
+		availableFragments: fragments.availableRoutes.bind( fragments ),
 
 		// Toggles a help overlay with keyboard shortcuts
 		toggleHelp,
 
 		// Toggles the overview mode on/off
-		toggleOverview: () => overview.toggle,
+		toggleOverview: overview.toggle.bind( overview ),
 
 		// Toggles the "black screen" mode on/off
 		togglePause,
@@ -4094,14 +4094,14 @@ export default function( revealElement, options ) {
 		isLastVerticalSlide,
 
 		// State checks
-		isOverview: () => overview.isActive,
+		isOverview: () => overview.isActive.bind( overview ),
 		isPaused,
 		isAutoSliding,
 		isSpeakerNotes,
 
 		// Slide preloading
-		loadSlide: () => slideContent.load,
-		unloadSlide: () => slideContent.unload,
+		loadSlide: () => slideContent.load.bind( slideContent ),
+		unloadSlide: () => slideContent.unload.bind( slideContent ),
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners,
@@ -4168,12 +4168,12 @@ export default function( revealElement, options ) {
 		},
 
 		// API for registering and retrieving plugins
-		registerPlugin: (...args) => plugins.registerPlugin( ...args ),
-		hasPlugin: (...args) => plugins.hasPlugin( ...args ),
-		getPlugin: (...args) => plugins.getPlugin( ...args ),
+		registerPlugin: () => plugins.registerPlugin.bind( plugins ),
+		hasPlugin: () => plugins.hasPlugin.bind( plugins ),
+		getPlugin: () => plugins.getPlugin.bind( plugins ),
 
 		// Returns a hash with all registered plugins
-		getPlugins: () => plugins.getRegisteredPlugins(),
+		getPlugins: () => plugins.getRegisteredPlugins.bind( plugins ),
 
 		getComputedSlideSize,
 
