@@ -1,3 +1,5 @@
+import SlideContent from './controllers/slidecontent.js'
+import AutoAnimate from './controllers/autoanimate.js'
 import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -13,7 +15,7 @@ import {
 	distanceBetween,
 	deserialize,
 	transformElement,
-	injectStyleSheet,
+	createStyleSheet,
 	closestParent,
 	enterFullscreen
 } from './utils/util.js'
@@ -24,11 +26,11 @@ import { colorToRgb, colorBrightness } from './utils/color.js'
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2020 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2020 Hakim El Hattab, https://hakim.se
  */
 export default function( revealElement, options ) {
 
-	let Reveal;
+	const Reveal = {};
 
 	// The reveal.js version
 	const VERSION = '4.0.0-dev';
@@ -77,8 +79,14 @@ export default function( revealElement, options ) {
 		// Cached references to DOM elements
 		dom = {},
 
-		// An instance of the Plugins controller
+		// Controller for plugin loading
 		plugins = new Plugins(),
+
+		// Controls loading and playback of slide content
+		slideContent = new SlideContent( Reveal ),
+
+		// Controls auto-animations between slides
+		autoAnimate = new AutoAnimate( Reveal ),
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
@@ -106,12 +114,6 @@ export default function( revealElement, options ) {
 
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
-
-		// <style> element used to apply auto-animations
-		autoAnimateStyleSheet,
-
-		// Counter used to generate unique IDs for auto-animated elements
-		autoAnimateCounter = 0,
 
 		// The current auto-slide duration
 		autoSlide = 0,
@@ -390,10 +392,10 @@ export default function( revealElement, options ) {
 			slideHeight = slideSize.height;
 
 		// Let the browser know what page size we want to print
-		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
+		createStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
 
 		// Limit the size of certain elements to the dimensions of the slide
-		injectStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
+		createStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
@@ -931,17 +933,8 @@ export default function( revealElement, options ) {
 			enablePreviewLinks( '[data-preview-link]:not([data-preview-link=false])' );
 		}
 
-		// Reset all auto animated elements
-		toArray( dom.slides.querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( element => {
-			element.dataset.autoAnimate = '';
-		} );
-
-		removeEphemeralAutoAnimateAttributes();
-
-		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
-			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
-			autoAnimateStyleSheet = null;
-		}
+		// Reset all changes made by auto-animations
+		autoAnimate.reset();
 
 		// Remove existing auto-slide controls
 		if( autoSlidePlayer ) {
@@ -2129,8 +2122,8 @@ export default function( revealElement, options ) {
 
 		// Handle embedded content
 		if( slideChanged || !previousSlide ) {
-			stopEmbeddedContent( previousSlide );
-			startEmbeddedContent( currentSlide );
+			slideContent.stopEmbeddedContent( previousSlide );
+			slideContent.startEmbeddedContent( currentSlide );
 		}
 
 		// Announce the current slide contents, for screen readers
@@ -2163,7 +2156,7 @@ export default function( revealElement, options ) {
 
 				if( config.autoAnimate ) {
 					// Run the auto-animation between our slides
-					autoAnimate( previousSlide, currentSlide );
+					autoAnimate.run( previousSlide, currentSlide );
 				}
 			}
 
@@ -2207,14 +2200,14 @@ export default function( revealElement, options ) {
 		updateNotesVisibility();
 		updateNotes();
 
-		formatEmbeddedContent();
+		slideContent.formatEmbeddedContent();
 
 		// Start or stop embedded content depending on global config
 		if( config.autoPlayMedia === false ) {
-			stopEmbeddedContent( currentSlide, { unloadIframes: false } );
+			slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } );
 		}
 		else {
-			startEmbeddedContent( currentSlide );
+			slideContent.startEmbeddedContent( currentSlide );
 		}
 
 		if( isOverview() ) {
@@ -2238,7 +2231,7 @@ export default function( revealElement, options ) {
 		syncBackground( slide );
 		syncFragments( slide );
 
-		loadSlide( slide );
+		slideContent.load( slide );
 
 		updateBackground();
 		updateNotes();
@@ -2471,10 +2464,10 @@ export default function( revealElement, options ) {
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
-					loadSlide( horizontalSlide );
+					slideContent.load( horizontalSlide );
 				}
 				else {
-					unloadSlide( horizontalSlide );
+					slideContent.unload( horizontalSlide );
 				}
 
 				if( verticalSlidesLength ) {
@@ -2487,10 +2480,10 @@ export default function( revealElement, options ) {
 						distanceY = x === ( indexh || 0 ) ? Math.abs( ( indexv || 0 ) - y ) : Math.abs( y - oy );
 
 						if( distanceX + distanceY < viewDistance ) {
-							loadSlide( verticalSlide );
+							slideContent.load( verticalSlide );
 						}
 						else {
-							unloadSlide( verticalSlide );
+							slideContent.unload( verticalSlide );
 						}
 					}
 
@@ -2797,14 +2790,14 @@ export default function( revealElement, options ) {
 		// Stop content inside of previous backgrounds
 		if( previousBackground ) {
 
-			stopEmbeddedContent( previousBackground, { unloadIframes: !shouldPreload( previousBackground ) } );
+			slideContent.stopEmbeddedContent( previousBackground, { unloadIframes: !shouldPreload( previousBackground ) } );
 
 		}
 
 		// Start content in the current background
 		if( currentBackground ) {
 
-			startEmbeddedContent( currentBackground );
+			slideContent.startEmbeddedContent( currentBackground );
 
 			let currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
 			if( currentBackgroundContent ) {
@@ -2909,531 +2902,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Runs an auto-animation between the given slides.
-	 *
-	 * @param  {HTMLElement} fromSlide
-	 * @param  {HTMLElement} toSlide
-	 */
-	function autoAnimate( fromSlide, toSlide ) {
-
-		// Clean up after prior animations
-		removeEphemeralAutoAnimateAttributes();
-
-		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
-			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
-			autoAnimateStyleSheet = null;
-		}
-
-		// Ensure that both slides are auto-animate targets
-		if( fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' ) ) {
-
-			// Create a new auto-animate sheet
-			autoAnimateStyleSheet = autoAnimateStyleSheet || document.createElement( 'style' );
-			autoAnimateStyleSheet.type = 'text/css';
-			document.head.appendChild( autoAnimateStyleSheet );
-
-			let animationOptions = getAutoAnimateOptions( toSlide );
-
-			// Set our starting state
-			fromSlide.dataset.autoAnimate = 'pending';
-			toSlide.dataset.autoAnimate = 'pending';
-
-			// Inject our auto-animate styles for this transition
-			let css = getAutoAnimatableElements( fromSlide, toSlide ).map( elements => {
-				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
-			} );
-
-			// Animate unmatched elements, if enabled
-			if( toSlide.dataset.autoAnimateUnmatched !== 'false' && config.autoAnimateUnmatched === true ) {
-				getUnmatchedAutoAnimateElements( toSlide ).forEach( unmatchedElement => {
-					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
-				} );
-
-				css.push( `[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity ${animationOptions.duration*0.8}s ease ${animationOptions.duration*0.2}s; }` );
-			}
-
-			// Setting the whole chunk of CSS at once is the most
-			// efficient way to do this. Using sheet.insertRule
-			// is multiple factors slower.
-			autoAnimateStyleSheet.innerHTML = css.join( '' );
-
-			// Start the animation next cycle
-			requestAnimationFrame( () => {
-				if( autoAnimateStyleSheet ) {
-					// This forces our newly injected styles to be applied in Firefox
-					getComputedStyle( autoAnimateStyleSheet ).fontWeight;
-
-					toSlide.dataset.autoAnimate = 'running';
-				}
-			} );
-
-			dispatchEvent( 'autoanimate', { fromSlide: fromSlide, toSlide: toSlide, sheet: autoAnimateStyleSheet } );
-
-		}
-
-	}
-
-	/**
-	 * Removes all attributes that we temporarily add to slide
-	 * elements in order to carry out auto-animation.
-	 */
-	function removeEphemeralAutoAnimateAttributes() {
-
-		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( element => {
-			delete element.dataset.autoAnimateTarget;
-		} );
-
-	}
-
-	/**
-	 * Auto-animates the properties of an element from their original
-	 * values to their new state.
-	 *
-	 * @param {HTMLElement} from
-	 * @param {HTMLElement} to
-	 * @param {Object} elementOptions Options for this element pair
-	 * @param {Object} animationOptions Options set at the slide level
-	 * @param {String} id Unique ID that we can use to identify this
-	 * auto-animate element in the DOM
-	 */
-	function getAutoAnimateCSS( from, to, elementOptions, animationOptions, id ) {
-
-		// 'from' elements are given a data-auto-animate-target with no value,
-		// 'to' elements are are given a data-auto-animate-target with an ID
-		from.dataset.autoAnimateTarget = '';
-		to.dataset.autoAnimateTarget = id;
-
-		// Each element may override any of the auto-animate options
-		// like transition easing, duration and delay via data-attributes
-		let options = getAutoAnimateOptions( to, animationOptions );
-
-		// If we're using a custom element matcher the element options
-		// may contain additional transition overrides
-		if( typeof elementOptions.delay !== 'undefined' ) options.delay = elementOptions.delay;
-		if( typeof elementOptions.duration !== 'undefined' ) options.duration = elementOptions.duration;
-		if( typeof elementOptions.easing !== 'undefined' ) options.easing = elementOptions.easing;
-
-		let fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
-			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
-
-		// If translation and/or scaling are enabled, css transform
-		// the 'to' element so that it matches the position and size
-		// of the 'from' element
-		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-
-			let presentationScale = Reveal.getScale();
-
-			let delta = {
-				x: ( fromProps.x - toProps.x ) / presentationScale,
-				y: ( fromProps.y - toProps.y ) / presentationScale,
-				scaleX: fromProps.width / toProps.width,
-				scaleY: fromProps.height / toProps.height
-			};
-
-			// Limit decimal points to avoid 0.0001px blur and stutter
-			delta.x = Math.round( delta.x * 1000 ) / 1000;
-			delta.y = Math.round( delta.y * 1000 ) / 1000;
-			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
-			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
-
-			let translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
-				scale = elementOptions.scale !== false && ( delta.scaleX !== 0 || delta.scaleY !== 0 );
-
-			// No need to transform if nothing's changed
-			if( translate || scale ) {
-
-				let transform = [];
-
-				if( translate ) transform.push( `translate(${delta.x}px, ${delta.y}px)` );
-				if( scale ) transform.push( `scale(${delta.scaleX}, ${delta.scaleY})` );
-
-				fromProps.styles['transform'] = transform.join( ' ' );
-				fromProps.styles['transform-origin'] = 'top left';
-
-				toProps.styles['transform'] = 'none';
-
-			}
-
-		}
-
-		// Delete all unchanged 'to' styles
-		for( let propertyName in toProps.styles ) {
-			const toValue = toProps.styles[propertyName];
-			const fromValue = fromProps.styles[propertyName];
-
-			if( toValue === fromValue ) {
-				delete toProps.styles[propertyName];
-			}
-			else {
-				// If these property values were set via a custom matcher providing
-				// an explicit 'from' and/or 'to' value, we always inject those values.
-				if( toValue.explicitValue === true ) {
-					toProps.styles[propertyName] = toValue.value;
-				}
-
-				if( fromValue.explicitValue === true ) {
-					fromProps.styles[propertyName] = fromValue.value;
-				}
-			}
-		}
-
-		let css = '';
-
-		let toStyleProperties = Object.keys( toProps.styles );
-
-		// Only create animate this element IF at least one style
-		// property has changed
-		if( toStyleProperties.length > 0 ) {
-
-			// Instantly move to the 'from' state
-			fromProps.styles['transition'] = 'none';
-
-			// Animate towards the 'to' state
-			toProps.styles['transition'] = `all ${options.duration}s ${options.easing} ${options.delay}s`;
-			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
-			toProps.styles['will-change'] = toStyleProperties.join( ', ' );
-
-			// Build up our custom CSS. We need to override inline styles
-			// so we need to make our styles vErY IMPORTANT!1!!
-			let fromCSS = Object.keys( fromProps.styles ).map( propertyName => {
-				return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
-			} ).join( '' );
-
-			let toCSS = Object.keys( toProps.styles ).map( propertyName => {
-				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
-			} ).join( '' );
-
-			css = 	'[data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
-					'[data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
-
-		}
-
-		return css;
-
-	}
-
-	/**
-	 * Returns the auto-animate options for the given element.
-	 *
-	 * @param {HTMLElement} element Element to pick up options
-	 * from, either a slide or an animation target
-	 * @param {Object} [inheritedOptions] Optional set of existing
-	 * options
-	 */
-	function getAutoAnimateOptions( element, inheritedOptions ) {
-
-		let options = {
-			easing: config.autoAnimateEasing,
-			duration: config.autoAnimateDuration,
-			delay: 0
-		};
-
-		options = extend( options, inheritedOptions );
-
-		// Inherit options from parent elements
-		if( element.closest && element.parentNode ) {
-			let autoAnimatedParent = element.parentNode.closest( '[data-auto-animate-target]' );
-			if( autoAnimatedParent ) {
-				options = getAutoAnimateOptions( autoAnimatedParent, options );
-			}
-		}
-
-		if( element.dataset.autoAnimateEasing ) {
-			options.easing = element.dataset.autoAnimateEasing;
-		}
-
-		if( element.dataset.autoAnimateDuration ) {
-			options.duration = parseFloat( element.dataset.autoAnimateDuration );
-		}
-
-		if( element.dataset.autoAnimateDelay ) {
-			options.delay = parseFloat( element.dataset.autoAnimateDelay );
-		}
-
-		return options;
-
-	}
-
-	/**
-	 * Returns an object containing all of the properties
-	 * that can be auto-animated for the given element and
-	 * their current computed values.
-	 *
-	 * @param {String} direction 'from' or 'to'
-	 */
-	function getAutoAnimatableProperties( direction, element, elementOptions ) {
-
-		let properties = { styles: [] };
-
-		// Position and size
-		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-			let bounds;
-
-			// Custom auto-animate may optionally return a custom tailored
-			// measurement function
-			if( typeof elementOptions.measure === 'function' ) {
-				bounds = elementOptions.measure( element );
-			}
-			else {
-				bounds = element.getBoundingClientRect();
-			}
-
-			properties.x = bounds.x;
-			properties.y = bounds.y;
-			properties.width = bounds.width;
-			properties.height = bounds.height;
-		}
-
-		const computedStyles = getComputedStyle( element );
-
-		// CSS styles
-		( elementOptions.styles || config.autoAnimateStyles ).forEach( style => {
-			let value;
-
-			// `style` is either the property name directly, or an object
-			// definition of a style property
-			if( typeof style === 'string' ) style = { property: style };
-
-			if( typeof style.from !== 'undefined' && direction === 'from' ) {
-				value = { value: style.from, explicitValue: true };
-			}
-			else if( typeof style.to !== 'undefined' && direction === 'to' ) {
-				value = { value: style.to, explicitValue: true };
-			}
-			else {
-				value = computedStyles[style.property];
-			}
-
-			if( value !== '' ) {
-				properties.styles[style.property] = value;
-			}
-		} );
-
-		return properties;
-
-	}
-
-	/**
-	 * Get a list of all element pairs that we can animate
-	 * between the given slides.
-	 *
-	 * @param {HTMLElement} fromSlide
-	 * @param {HTMLElement} toSlide
-	 *
-	 * @return {Array} Each value is an array where [0] is
-	 * the element we're animating from and [1] is the
-	 * element we're animating to
-	 */
-	function getAutoAnimatableElements( fromSlide, toSlide ) {
-
-		let matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : getAutoAnimatePairs;
-
-		let pairs = matcher( fromSlide, toSlide );
-
-		let reserved = [];
-
-		// Remove duplicate pairs
-		return pairs.filter( ( pair, index ) => {
-			if( reserved.indexOf( pair.to ) === -1 ) {
-				reserved.push( pair.to );
-				return true;
-			}
-		} );
-
-	}
-
-	/**
-	 * Identifies matching elements between slides.
-	 *
-	 * You can specify a custom matcher function by using
-	 * the `autoAnimateMatcher` config option.
-	 */
-	function getAutoAnimatePairs( fromSlide, toSlide ) {
-
-		let pairs = [];
-
-		const codeNodes = 'pre';
-		const textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
-		const mediaNodes = 'img, video, iframe';
-
-		// Eplicit matches via data-id
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', node => {
-			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
-		} );
-
-		// Text
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, textNodes, node => {
-			return node.nodeName + ':::' + node.innerText;
-		} );
-
-		// Media
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, mediaNodes, node => {
-			return node.nodeName + ':::' + ( node.getAttribute( 'src' ) || node.getAttribute( 'data-src' ) );
-		} );
-
-		// Code
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, codeNodes, node => {
-			return node.nodeName + ':::' + node.innerText;
-		} );
-
-		pairs.forEach( pair => {
-
-			// Disable scale transformations on text nodes, we transiition
-			// each individual text property instead
-			if( pair.from.matches( textNodes ) ) {
-				pair.options = { scale: false };
-			}
-			// Animate individual lines of code
-			else if( pair.from.matches( codeNodes ) ) {
-
-				// Transition the code block's width and height instead of scaling
-				// to prevent its content from being squished
-				pair.options = { scale: false, styles: [ 'width', 'height' ] };
-
-				// Lines of code
-				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-code', node => {
-					return node.textContent;
-				}, {
-					scale: false,
-					styles: [],
-					measure: getLocalBoundingBox
-				} );
-
-				// Line numbers
-				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', node => {
-					return node.getAttribute( 'data-line-number' );
-				}, {
-					scale: false,
-					styles: [ 'width' ],
-					measure: getLocalBoundingBox
-				} );
-
-			}
-
-		} );
-
-		return pairs;
-
-	}
-
-	/**
-	 * Helper method which returns a bounding box based on
-	 * the given elements offset coordinates.
-	 *
-	 * @param {HTMLElement} element
-	 * @return {Object} x, y, width, height
-	 */
-	function getLocalBoundingBox( element ) {
-
-		const presentationScale = Reveal.getScale();
-
-		return {
-			x: Math.round( ( element.offsetLeft * presentationScale ) * 100 ) / 100,
-			y: Math.round( ( element.offsetTop * presentationScale ) * 100 ) / 100,
-			width: Math.round( ( element.offsetWidth * presentationScale ) * 100 ) / 100,
-			height: Math.round( ( element.offsetHeight * presentationScale ) * 100 ) / 100
-		};
-
-	}
-
-	/**
-	 * Finds matching elements between two slides.
-	 *
-	 * @param {Array} pairs            	List of pairs to push matches to
-	 * @param {HTMLElement} fromScope   Scope within the from element exists
-	 * @param {HTMLElement} toScope     Scope within the to element exists
-	 * @param {String} selector         CSS selector of the element to match
-	 * @param {Function} serializer     A function that accepts an element and returns
-	 *                                  a stringified ID based on its contents
-	 * @param {Object} animationOptions Optional config options for this pair
-	 */
-	function findAutoAnimateMatches( pairs, fromScope, toScope, selector, serializer, animationOptions ) {
-
-		let fromMatches = {};
-		let toMatches = {};
-
-		[].slice.call( fromScope.querySelectorAll( selector ) ).forEach( ( element, i ) => {
-			const key = serializer( element );
-			if( typeof key === 'string' && key.length ) {
-				fromMatches[key] = fromMatches[key] || [];
-				fromMatches[key].push( element );
-			}
-		} );
-
-		[].slice.call( toScope.querySelectorAll( selector ) ).forEach( ( element, i ) => {
-			const key = serializer( element );
-			toMatches[key] = toMatches[key] || [];
-			toMatches[key].push( element );
-
-			let fromElement;
-
-			// Retrieve the 'from' element
-			if( fromMatches[key] ) {
-				const pimaryIndex = toMatches[key].length - 1;
-				const secondaryIndex = fromMatches[key].length - 1;
-
-				// If there are multiple identical from elements, retrieve
-				// the one at the same index as our to-element.
-				if( fromMatches[key][ pimaryIndex ] ) {
-					fromElement = fromMatches[key][ pimaryIndex ];
-					fromMatches[key][ pimaryIndex ] = null;
-				}
-				// If there are no matching from-elements at the same index,
-				// use the last one.
-				else if( fromMatches[key][ secondaryIndex ] ) {
-					fromElement = fromMatches[key][ secondaryIndex ];
-					fromMatches[key][ secondaryIndex ] = null;
-				}
-			}
-
-			// If we've got a matching pair, push it to the list of pairs
-			if( fromElement ) {
-				pairs.push({
-					from: fromElement,
-					to: element,
-					options: animationOptions
-				});
-			}
-		} );
-
-	}
-
-	/**
-	 * Returns a all elements within the given scope that should
-	 * be considered unmatched in an auto-animate transition. If
-	 * fading of unmatched elements is turned on, these elements
-	 * will fade when going between auto-animate slides.
-	 *
-	 * Note that parents of auto-animate targets are NOT considerd
-	 * unmatched since fading them would break the auto-animation.
-	 *
-	 * @param {HTMLElement} rootElement
-	 * @return {Array}
-	 */
-	function getUnmatchedAutoAnimateElements( rootElement ) {
-
-		return [].slice.call( rootElement.children ).reduce( ( result, element ) => {
-
-			const containsAnimatedElements = element.querySelector( '[data-auto-animate-target]' );
-
-			// The element is unmatched if
-			// - It is not an auto-animate target
-			// - It does not contain any auto-animate targets
-			if( !element.hasAttribute( 'data-auto-animate-target' ) && !containsAnimatedElements ) {
-				result.push( element );
-			}
-
-			if( element.querySelector( '[data-auto-animate-target]' ) ) {
-				result = result.concat( getUnmatchedAutoAnimateElements( element ) );
-			}
-
-			return result;
-
-		}, [] );
-
-	}
-
-	/**
 	 * Should the given element be preloaded?
 	 * Decides based on local element attributes and global config.
 	 *
@@ -3451,167 +2919,6 @@ export default function( revealElement, options ) {
 		}
 
 		return preload;
-	}
-
-	/**
-	 * Called when the given slide is within the configured view
-	 * distance. Shows the slide element and loads any content
-	 * that is set to load lazily (data-src).
-	 *
-	 * @param {HTMLElement} slide Slide to show
-	 */
-	function loadSlide( slide, options = {} ) {
-
-		// Show the slide element
-		slide.style.display = config.display;
-
-		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( element => {
-			if( element.tagName !== 'IFRAME' || shouldPreload( element ) ) {
-				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
-				element.setAttribute( 'data-lazy-loaded', '' );
-				element.removeAttribute( 'data-src' );
-			}
-		} );
-
-		// Media elements with <source> children
-		toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( media => {
-			let sources = 0;
-
-			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( source => {
-				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
-				source.removeAttribute( 'data-src' );
-				source.setAttribute( 'data-lazy-loaded', '' );
-				sources += 1;
-			} );
-
-			// If we rewrote sources for this video/audio element, we need
-			// to manually tell it to load from its new origin
-			if( sources > 0 ) {
-				media.load();
-			}
-		} );
-
-
-		// Show the corresponding background element
-		let background = slide.slideBackgroundElement;
-		if( background ) {
-			background.style.display = 'block';
-
-			let backgroundContent = slide.slideBackgroundContentElement;
-			let backgroundIframe = slide.getAttribute( 'data-background-iframe' );
-
-			// If the background contains media, load it
-			if( background.hasAttribute( 'data-loaded' ) === false ) {
-				background.setAttribute( 'data-loaded', 'true' );
-
-				let backgroundImage = slide.getAttribute( 'data-background-image' ),
-					backgroundVideo = slide.getAttribute( 'data-background-video' ),
-					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
-					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' );
-
-				// Images
-				if( backgroundImage ) {
-					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
-				}
-				// Videos
-				else if ( backgroundVideo && !isSpeakerNotes() ) {
-					let video = document.createElement( 'video' );
-
-					if( backgroundVideoLoop ) {
-						video.setAttribute( 'loop', '' );
-					}
-
-					if( backgroundVideoMuted ) {
-						video.muted = true;
-					}
-
-					// Inline video playback works (at least in Mobile Safari) as
-					// long as the video is muted and the `playsinline` attribute is
-					// present
-					if( isMobileDevice ) {
-						video.muted = true;
-						video.autoplay = true;
-						video.setAttribute( 'playsinline', '' );
-					}
-
-					// Support comma separated lists of video sources
-					backgroundVideo.split( ',' ).forEach( source => {
-						video.innerHTML += '<source src="'+ source +'">';
-					} );
-
-					backgroundContent.appendChild( video );
-				}
-				// Iframes
-				else if( backgroundIframe && options.excludeIframes !== true ) {
-					let iframe = document.createElement( 'iframe' );
-					iframe.setAttribute( 'allowfullscreen', '' );
-					iframe.setAttribute( 'mozallowfullscreen', '' );
-					iframe.setAttribute( 'webkitallowfullscreen', '' );
-					iframe.setAttribute( 'allow', 'autoplay' );
-
-					iframe.setAttribute( 'data-src', backgroundIframe );
-
-					iframe.style.width  = '100%';
-					iframe.style.height = '100%';
-					iframe.style.maxHeight = '100%';
-					iframe.style.maxWidth = '100%';
-
-					backgroundContent.appendChild( iframe );
-				}
-			}
-
-			// Start loading preloadable iframes
-			let backgroundIframeElement = backgroundContent.querySelector( 'iframe[data-src]' );
-			if( backgroundIframeElement ) {
-
-				// Check if this iframe is eligible to be preloaded
-				if( shouldPreload( background ) && !/autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
-					if( backgroundIframeElement.getAttribute( 'src' ) !== backgroundIframe ) {
-						backgroundIframeElement.setAttribute( 'src', backgroundIframe );
-					}
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Unloads and hides the given slide. This is called when the
-	 * slide is moved outside of the configured view distance.
-	 *
-	 * @param {HTMLElement} slide
-	 */
-	function unloadSlide( slide ) {
-
-		// Hide the slide element
-		slide.style.display = 'none';
-
-		// Hide the corresponding background element
-		let background = getSlideBackground( slide );
-		if( background ) {
-			background.style.display = 'none';
-
-			// Unload any background iframes
-			toArray( background.querySelectorAll( 'iframe[src]' ) ).forEach( element => {
-				element.removeAttribute( 'src' );
-			} );
-		}
-
-		// Reset lazy-loaded media elements with src attributes
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ) ).forEach( element => {
-			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
-			element.removeAttribute( 'src' );
-		} );
-
-		// Reset lazy-loaded media elements with <source> children
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( source => {
-			source.setAttribute( 'data-src', source.getAttribute( 'src' ) );
-			source.removeAttribute( 'src' );
-		} );
-
 	}
 
 	/**
@@ -3675,241 +2982,6 @@ export default function( revealElement, options ) {
 		}
 		else {
 			return { prev: false, next: false };
-		}
-
-	}
-
-	/**
-	 * Enforces origin-specific format rules for embedded media.
-	 */
-	function formatEmbeddedContent() {
-
-		let _appendParamToIframeSource = ( sourceAttribute, sourceURL, param ) => {
-			toArray( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( el => {
-				let src = el.getAttribute( sourceAttribute );
-				if( src && src.indexOf( param ) === -1 ) {
-					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
-				}
-			});
-		};
-
-		// YouTube frames must include "?enablejsapi=1"
-		_appendParamToIframeSource( 'src', 'youtube.com/embed/', 'enablejsapi=1' );
-		_appendParamToIframeSource( 'data-src', 'youtube.com/embed/', 'enablejsapi=1' );
-
-		// Vimeo frames must include "?api=1"
-		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
-		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
-
-	}
-
-	/**
-	 * Start playback of any embedded content inside of
-	 * the given element.
-	 *
-	 * @param {HTMLElement} element
-	 */
-	function startEmbeddedContent( element ) {
-
-		if( element && !isSpeakerNotes() ) {
-
-			// Restart GIFs
-			toArray( element.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( el => {
-				// Setting the same unchanged source like this was confirmed
-				// to work in Chrome, FF & Safari
-				el.setAttribute( 'src', el.getAttribute( 'src' ) );
-			} );
-
-			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( el => {
-				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
-					return;
-				}
-
-				// Prefer an explicit global autoplay setting
-				let autoplay = config.autoPlayMedia;
-
-				// If no global setting is available, fall back on the element's
-				// own autoplay setting
-				if( typeof autoplay !== 'boolean' ) {
-					autoplay = el.hasAttribute( 'data-autoplay' ) || !!closestParent( el, '.slide-background' );
-				}
-
-				if( autoplay && typeof el.play === 'function' ) {
-
-					// If the media is ready, start playback
-					if( el.readyState > 1 ) {
-						startEmbeddedMedia( { target: el } );
-					}
-					// Mobile devices never fire a loaded event so instead
-					// of waiting, we initiate playback
-					else if( isMobileDevice ) {
-						let promise = el.play();
-
-						// If autoplay does not work, ensure that the controls are visible so
-						// that the viewer can start the media on their own
-						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
-							promise.catch( () => {
-								el.controls = true;
-
-								// Once the video does start playing, hide the controls again
-								el.addEventListener( 'play', () => {
-									el.controls = false;
-								} );
-							} );
-						}
-					}
-					// If the media isn't loaded, wait before playing
-					else {
-						el.removeEventListener( 'loadeddata', startEmbeddedMedia ); // remove first to avoid dupes
-						el.addEventListener( 'loadeddata', startEmbeddedMedia );
-					}
-
-				}
-			} );
-
-			// Normal iframes
-			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( el => {
-				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
-					return;
-				}
-
-				startEmbeddedIframe( { target: el } );
-			} );
-
-			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( el => {
-				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
-					return;
-				}
-
-				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
-					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
-					el.addEventListener( 'load', startEmbeddedIframe );
-					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
-				}
-			} );
-
-		}
-
-	}
-
-	/**
-	 * Starts playing an embedded video/audio element after
-	 * it has finished loading.
-	 *
-	 * @param {object} event
-	 */
-	function startEmbeddedMedia( event ) {
-
-		let isAttachedToDOM = !!closestParent( event.target, 'html' ),
-			isVisible  		= !!closestParent( event.target, '.present' );
-
-		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
-			event.target.play();
-		}
-
-		event.target.removeEventListener( 'loadeddata', startEmbeddedMedia );
-
-	}
-
-	/**
-	 * "Starts" the content of an embedded iframe using the
-	 * postMessage API.
-	 *
-	 * @param {object} event
-	 */
-	function startEmbeddedIframe( event ) {
-
-		let iframe = event.target;
-
-		if( iframe && iframe.contentWindow ) {
-
-			let isAttachedToDOM = !!closestParent( event.target, 'html' ),
-				isVisible  		= !!closestParent( event.target, '.present' );
-
-			if( isAttachedToDOM && isVisible ) {
-
-				// Prefer an explicit global autoplay setting
-				let autoplay = config.autoPlayMedia;
-
-				// If no global setting is available, fall back on the element's
-				// own autoplay setting
-				if( typeof autoplay !== 'boolean' ) {
-					autoplay = iframe.hasAttribute( 'data-autoplay' ) || !!closestParent( iframe, '.slide-background' );
-				}
-
-				// YouTube postMessage API
-				if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
-					iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
-				}
-				// Vimeo postMessage API
-				else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
-					iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
-				}
-				// Generic postMessage API
-				else {
-					iframe.contentWindow.postMessage( 'slide:start', '*' );
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Stop playback of any embedded content inside of
-	 * the targeted slide.
-	 *
-	 * @param {HTMLElement} element
-	 */
-	function stopEmbeddedContent( element, options = {} ) {
-
-		options = extend( {
-			// Defaults
-			unloadIframes: true
-		}, options );
-
-		if( element && element.parentNode ) {
-			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( el => {
-				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
-					el.setAttribute('data-paused-by-reveal', '');
-					el.pause();
-				}
-			} );
-
-			// Generic postMessage API for non-lazy loaded iframes
-			toArray( element.querySelectorAll( 'iframe' ) ).forEach( el => {
-				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
-				el.removeEventListener( 'load', startEmbeddedIframe );
-			});
-
-			// YouTube postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( el => {
-				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
-					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
-				}
-			});
-
-			// Vimeo postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( el => {
-				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
-					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
-				}
-			});
-
-			if( options.unloadIframes === true ) {
-				// Unload lazy-loaded iframes
-				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( el => {
-					// Only removing the src doesn't actually unload the frame
-					// in all browsers (Firefox) so we set it to blank first
-					el.setAttribute( 'src', 'about:blank' );
-					el.removeAttribute( 'src' );
-				} );
-			}
 		}
 
 	}
@@ -4478,7 +3550,7 @@ export default function( revealElement, options ) {
 
 						if( i === index ) {
 							el.classList.add( 'current-fragment' );
-							startEmbeddedContent( el );
+							slideContent.startEmbeddedContent( el );
 						}
 					}
 					// Hidden fragments
@@ -5461,7 +4533,7 @@ export default function( revealElement, options ) {
 	// --------------------------------------------------------------------//
 
 
-	Reveal = {
+	return extend( Reveal, {
 		VERSION,
 
 		initialize,
@@ -5525,12 +4597,13 @@ export default function( revealElement, options ) {
 		isSpeakerNotes,
 
 		// Slide preloading
-		loadSlide,
-		unloadSlide,
+		loadSlide: () => slideContent.load,
+		unloadSlide: () => slideContent.unload,
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners,
 		removeEventListeners,
+		dispatchEvent,
 
 		// Facility for persisting and restoring the presentation state
 		getState,
@@ -5623,6 +4696,7 @@ export default function( revealElement, options ) {
 
 		// Returns the top-level DOM element
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
+		getSlidesElement: () => dom.slides,
 
 		// Returns true if we're currently on the first slide
 		isFirstSlide: () => indexh === 0 && indexv === 0,
@@ -5671,8 +4745,6 @@ export default function( revealElement, options ) {
 
 		// Registers a new shortcut to include in the help overlay
 		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value
-	};
-
-	return Reveal;
+	} );
 
 };

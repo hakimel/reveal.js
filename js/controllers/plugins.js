@@ -7,8 +7,8 @@ export default class Plugins {
 
 	constructor() {
 
-		// Flags our current state (pending -> loading -> loaded)
-		this.state = 'pending';
+		// Flags our current state (idle -> loading -> loaded)
+		this.state = 'idle';
 
 		// An id:instance map of currently registed plugins
 		this.registeredPlugins = {};
