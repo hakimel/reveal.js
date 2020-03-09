@@ -280,7 +280,7 @@ export default function( revealElement, options ) {
 		dom.controlsLeftArrow = dom.controls.querySelector( '.navigate-left' );
 		dom.controlsDownArrow = dom.controls.querySelector( '.navigate-down' );
 
-		dom.statusDiv = createStatusDiv();
+		dom.statusElement = createStatusElement();
 	}
 
 	/**
@@ -290,22 +290,22 @@ export default function( revealElement, options ) {
 	 *
 	 * @return {HTMLElement}
 	 */
-	function createStatusDiv() {
+	function createStatusElement() {
 
-		let statusDiv = dom.wrapper.querySelector( '.aria-status' );
-		if( !statusDiv ) {
-			statusDiv = document.createElement( 'div' );
-			statusDiv.style.position = 'absolute';
-			statusDiv.style.height = '1px';
-			statusDiv.style.width = '1px';
-			statusDiv.style.overflow = 'hidden';
-			statusDiv.style.clip = 'rect( 1px, 1px, 1px, 1px )';
-			statusDiv.classList.add( 'aria-status' );
-			statusDiv.setAttribute( 'aria-live', 'polite' );
-			statusDiv.setAttribute( 'aria-atomic','true' );
-			dom.wrapper.appendChild( statusDiv );
+		let statusElement = dom.wrapper.querySelector( '.aria-status' );
+		if( !statusElement ) {
+			statusElement = document.createElement( 'div' );
+			statusElement.style.position = 'absolute';
+			statusElement.style.height = '1px';
+			statusElement.style.width = '1px';
+			statusElement.style.overflow = 'hidden';
+			statusElement.style.clip = 'rect( 1px, 1px, 1px, 1px )';
+			statusElement.classList.add( 'aria-status' );
+			statusElement.setAttribute( 'aria-live', 'polite' );
+			statusElement.setAttribute( 'aria-atomic','true' );
+			dom.wrapper.appendChild( statusElement );
 		}
-		return statusDiv;
+		return statusElement;
 
 	}
 
@@ -314,7 +314,7 @@ export default function( revealElement, options ) {
 	 */
 	function announceStatus( value ) {
 
-		dom.statusDiv.textContent = value;
+		dom.statusElement.textContent = value;
 
 	}
 
