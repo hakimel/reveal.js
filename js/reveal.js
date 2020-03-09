@@ -810,7 +810,7 @@ export default function( revealElement, options ) {
 
 		if( config.postMessage ) {
 			window.addEventListener( 'message', event => {
-				const data = event.data;
+				let data = event.data;
 
 				// Make sure we're dealing with JSON
 				if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
