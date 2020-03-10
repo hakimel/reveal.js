@@ -2,6 +2,7 @@ import SlideContent from './controllers/slidecontent.js'
 import AutoAnimate from './controllers/autoanimate.js'
 import Fragments from './controllers/fragments.js'
 import Overview from './controllers/overview.js'
+import Keyboard from './controllers/keyboard.js'
 import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -85,7 +86,11 @@ export default function( revealElement, options ) {
 		// Controls navigation between slide fragments
 		fragments = new Fragments( Reveal ),
 
+		// Controls the birds-eye overview of slides
 		overview = new Overview( Reveal ),
+
+		// Controls all keyboard interactions
+		keyboard = new Keyboard( Reveal ),
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
@@ -121,14 +126,7 @@ export default function( revealElement, options ) {
 			startCount: 0,
 			captured: false,
 			threshold: 40
-		},
-
-		// A key:value map of shortcut keyboard keys and descriptions of
-		// the actions they trigger, generated in #configure()
-		keyboardShortcuts = {},
-
-		// Holds custom key code mappings
-		registeredKeyBindings = {};
+		};
 
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -949,25 +947,7 @@ export default function( revealElement, options ) {
 			dom.wrapper.removeAttribute( 'data-navigation-mode' );
 		}
 
-		// Define our contextual list of keyboard shortcuts
-		if( config.navigationMode === 'linear' ) {
-			keyboardShortcuts['&#8594;  ,  &#8595;  ,  SPACE  ,  N  ,  L  ,  J'] = 'Next slide';
-			keyboardShortcuts['&#8592;  ,  &#8593;  ,  P  ,  H  ,  K']           = 'Previous slide';
-		}
-		else {
-			keyboardShortcuts['N  ,  SPACE']   = 'Next slide';
-			keyboardShortcuts['P']             = 'Previous slide';
-			keyboardShortcuts['&#8592;  ,  H'] = 'Navigate left';
-			keyboardShortcuts['&#8594;  ,  L'] = 'Navigate right';
-			keyboardShortcuts['&#8593;  ,  K'] = 'Navigate up';
-			keyboardShortcuts['&#8595;  ,  J'] = 'Navigate down';
-		}
-
-		keyboardShortcuts['Home  ,  Shift &#8592;']        = 'First slide';
-		keyboardShortcuts['End  ,  Shift &#8594;']         = 'Last slide';
-		keyboardShortcuts['B  ,  .']                       = 'Pause';
-		keyboardShortcuts['F']                             = 'Fullscreen';
-		keyboardShortcuts['ESC, O']                        = 'Slide overview';
+		keyboard.refreshSortcuts();
 
 		sync();
 
@@ -1005,8 +985,7 @@ export default function( revealElement, options ) {
 		}
 
 		if( config.keyboard ) {
-			document.addEventListener( 'keydown', onDocumentKeyDown, false );
-			document.addEventListener( 'keypress', onDocumentKeyPress, false );
+			keyboard.bind();
 		}
 
 		if( config.progress && dom.progress ) {
@@ -1047,8 +1026,8 @@ export default function( revealElement, options ) {
 
 		eventsAreBound = false;
 
-		document.removeEventListener( 'keydown', onDocumentKeyDown, false );
-		document.removeEventListener( 'keypress', onDocumentKeyPress, false );
+		keyboard.unbind();
+
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
@@ -1078,38 +1057,6 @@ export default function( revealElement, options ) {
 			dom.controlsPrev.forEach( el => el.removeEventListener( eventName, onNavigatePrevClicked, false ) );
 			dom.controlsNext.forEach( el => el.removeEventListener( eventName, onNavigateNextClicked, false ) );
 		} );
-
-	}
-
-	/**
-	 * Add a custom key binding with optional description to
-	 * be added to the help screen.
-	 */
-	function addKeyBinding( binding, callback ) {
-
-		if( typeof binding === 'object' && binding.keyCode ) {
-			registeredKeyBindings[binding.keyCode] = {
-				callback: callback,
-				key: binding.key,
-				description: binding.description
-			};
-		}
-		else {
-			registeredKeyBindings[binding] = {
-				callback: callback,
-				key: null,
-				description: null
-			};
-		}
-
-	}
-
-	/**
-	 * Removes the specified custom key binding.
-	 */
-	function removeKeyBinding( keyCode ) {
-
-		delete registeredKeyBindings[keyCode];
 
 	}
 
@@ -1327,14 +1274,14 @@ export default function( revealElement, options ) {
 			let html = '<p class="title">Keyboard Shortcuts</p><br/>';
 
 			html += '<table><th>KEY</th><th>ACTION</th>';
-			for( let key in keyboardShortcuts ) {
-				html += `<tr><td>${key}</td><td>${keyboardShortcuts[ key ]}</td></tr>`;
+			for( let key in keyboard.shortcuts ) {
+				html += `<tr><td>${key}</td><td>${keyboard.shortcuts[ key ]}</td></tr>`;
 			}
 
 			// Add custom key bindings that have associated descriptions
-			for( let binding in registeredKeyBindings ) {
-				if( registeredKeyBindings[binding].key && registeredKeyBindings[binding].description ) {
-					html += `<tr><td>${registeredKeyBindings[binding].key}</td><td>${registeredKeyBindings[binding].description}</td></tr>`;
+			for( let binding in keyboard.registeredKeyBindings ) {
+				if( keyboard.registeredKeyBindings[binding].key && keyboard.registeredKeyBindings[binding].description ) {
+					html += `<tr><td>${keyboard.registeredKeyBindings[binding].key}</td><td>${keyboard.registeredKeyBindings[binding].description}</td></tr>`;
 				}
 			}
 
@@ -1366,7 +1313,10 @@ export default function( revealElement, options ) {
 		if( dom.overlay ) {
 			dom.overlay.parentNode.removeChild( dom.overlay );
 			dom.overlay = null;
+			return true;
 		}
+
+		return false;
 
 	}
 
@@ -3483,252 +3433,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Handler for the document level 'keypress' event.
-	 *
-	 * @param {object} event
-	 */
-	function onDocumentKeyPress( event ) {
-
-		// Check if the pressed key is question mark
-		if( event.shiftKey && event.charCode === 63 ) {
-			toggleHelp();
-		}
-
-	}
-
-	/**
-	 * Handler for the document level 'keydown' event.
-	 *
-	 * @param {object} event
-	 */
-	function onDocumentKeyDown( event ) {
-
-		// If there's a condition specified and it returns false,
-		// ignore this event
-		if( typeof config.keyboardCondition === 'function' && config.keyboardCondition(event) === false ) {
-			return true;
-		}
-
-		// Shorthand
-		let keyCode = event.keyCode;
-
-		// Remember if auto-sliding was paused so we can toggle it
-		let autoSlideWasPaused = autoSlidePaused;
-
-		onUserInput( event );
-
-		// Is there a focused element that could be using the keyboard?
-		let activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
-		let activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
-		let activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
-
-		// Whitelist specific modified + keycode combinations
-		let prevSlideShortcut = event.shiftKey && event.keyCode === 32;
-		let firstSlideShortcut = event.shiftKey && keyCode === 37;
-		let lastSlideShortcut = event.shiftKey && keyCode === 39;
-
-		// Prevent all other events when a modifier is pressed
-		let unusedModifier = 	!prevSlideShortcut && !firstSlideShortcut && !lastSlideShortcut &&
-								( event.shiftKey || event.altKey || event.ctrlKey || event.metaKey );
-
-		// Disregard the event if there's a focused element or a
-		// keyboard modifier key is present
-		if( activeElementIsCE || activeElementIsInput || activeElementIsNotes || unusedModifier ) return;
-
-		// While paused only allow resume keyboard events; 'b', 'v', '.'
-		let resumeKeyCodes = [66,86,190,191];
-		let key;
-
-		// Custom key bindings for togglePause should be able to resume
-		if( typeof config.keyboard === 'object' ) {
-			for( key in config.keyboard ) {
-				if( config.keyboard[key] === 'togglePause' ) {
-					resumeKeyCodes.push( parseInt( key, 10 ) );
-				}
-			}
-		}
-
-		if( isPaused() && resumeKeyCodes.indexOf( keyCode ) === -1 ) {
-			return false;
-		}
-
-		// Use linear navigation if we're configured to OR if
-		// the presentation is one-dimensional
-		let useLinearMode = config.navigationMode === 'linear' || !hasHorizontalSlides() || !hasVerticalSlides();
-
-		let triggered = false;
-
-		// 1. User defined key bindings
-		if( typeof config.keyboard === 'object' ) {
-
-			for( key in config.keyboard ) {
-
-				// Check if this binding matches the pressed key
-				if( parseInt( key, 10 ) === keyCode ) {
-
-					let value = config.keyboard[ key ];
-
-					// Callback function
-					if( typeof value === 'function' ) {
-						value.apply( null, [ event ] );
-					}
-					// String shortcuts to reveal.js API
-					else if( typeof value === 'string' && typeof Reveal[ value ] === 'function' ) {
-						Reveal[ value ].call();
-					}
-
-					triggered = true;
-
-				}
-
-			}
-
-		}
-
-		// 2. Registered custom key bindings
-		if( triggered === false ) {
-
-			for( key in registeredKeyBindings ) {
-
-				// Check if this binding matches the pressed key
-				if( parseInt( key, 10 ) === keyCode ) {
-
-					let action = registeredKeyBindings[ key ].callback;
-
-					// Callback function
-					if( typeof action === 'function' ) {
-						action.apply( null, [ event ] );
-					}
-					// String shortcuts to reveal.js API
-					else if( typeof action === 'string' && typeof Reveal[ action ] === 'function' ) {
-						Reveal[ action ].call();
-					}
-
-					triggered = true;
-				}
-			}
-		}
-
-		// 3. System defined key bindings
-		if( triggered === false ) {
-
-			// Assume true and try to prove false
-			triggered = true;
-
-			// P, PAGE UP
-			if( keyCode === 80 || keyCode === 33 ) {
-				navigatePrev();
-			}
-			// N, PAGE DOWN
-			else if( keyCode === 78 || keyCode === 34 ) {
-				navigateNext();
-			}
-			// H, LEFT
-			else if( keyCode === 72 || keyCode === 37 ) {
-				if( firstSlideShortcut ) {
-					slide( 0 );
-				}
-				else if( !overview.isActive() && useLinearMode ) {
-					navigatePrev();
-				}
-				else {
-					navigateLeft();
-				}
-			}
-			// L, RIGHT
-			else if( keyCode === 76 || keyCode === 39 ) {
-				if( lastSlideShortcut ) {
-					slide( Number.MAX_VALUE );
-				}
-				else if( !overview.isActive() && useLinearMode ) {
-					navigateNext();
-				}
-				else {
-					navigateRight();
-				}
-			}
-			// K, UP
-			else if( keyCode === 75 || keyCode === 38 ) {
-				if( !overview.isActive() && useLinearMode ) {
-					navigatePrev();
-				}
-				else {
-					navigateUp();
-				}
-			}
-			// J, DOWN
-			else if( keyCode === 74 || keyCode === 40 ) {
-				if( !overview.isActive() && useLinearMode ) {
-					navigateNext();
-				}
-				else {
-					navigateDown();
-				}
-			}
-			// HOME
-			else if( keyCode === 36 ) {
-				slide( 0 );
-			}
-			// END
-			else if( keyCode === 35 ) {
-				slide( Number.MAX_VALUE );
-			}
-			// SPACE
-			else if( keyCode === 32 ) {
-				if( overview.isActive() ) {
-					overview.deactivate();
-				}
-				if( event.shiftKey ) {
-					navigatePrev();
-				}
-				else {
-					navigateNext();
-				}
-			}
-			// TWO-SPOT, SEMICOLON, B, V, PERIOD, LOGITECH PRESENTER TOOLS "BLACK SCREEN" BUTTON
-			else if( keyCode === 58 || keyCode === 59 || keyCode === 66 || keyCode === 86 || keyCode === 190 || keyCode === 191 ) {
-				togglePause();
-			}
-			// F
-			else if( keyCode === 70 ) {
-				enterFullscreen();
-			}
-			// A
-			else if( keyCode === 65 ) {
-				if ( config.autoSlideStoppable ) {
-					toggleAutoSlide( autoSlideWasPaused );
-				}
-			}
-			else {
-				triggered = false;
-			}
-
-		}
-
-		// If the input resulted in a triggered action we should prevent
-		// the browsers default behavior
-		if( triggered ) {
-			event.preventDefault && event.preventDefault();
-		}
-		// ESC or O key
-		else if( keyCode === 27 || keyCode === 79 ) {
-			if( dom.overlay ) {
-				closeOverlay();
-			}
-			else {
-				overview.toggle();
-			}
-
-			event.preventDefault && event.preventDefault();
-		}
-
-		// If auto-sliding is enabled we need to cue up
-		// another timeout
-		cueAutoSlide();
-
-	}
-
-	/**
 	 * Handler for the 'touchstart' event, enables support for
 	 * swipe and pinch gestures.
 	 *
@@ -4069,6 +3773,14 @@ export default function( revealElement, options ) {
 		prevFragment: fragments.prev.bind( fragments ),
 		nextFragment: fragments.next.bind( fragments ),
 
+		// Forward event binding to the reveal DOM element
+		addEventListener: ( type, listener, useCapture ) => {
+			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
+		},
+		removeEventListener: ( type, listener, useCapture ) => {
+			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
+		},
+
 		// Forces an update in slide layout
 		layout,
 
@@ -4155,29 +3867,19 @@ export default function( revealElement, options ) {
 		hasVerticalSlides,
 
 		// Adds/removes a custom key binding
-		addKeyBinding,
-		removeKeyBinding,
+		addKeyBinding: keyboard.addKeyBinding.bind( keyboard ),
+		removeKeyBinding: keyboard.removeKeyBinding.bind( keyboard ),
 
 		// Programmatically triggers a keyboard event
-		triggerKey: keyCode => onDocumentKeyDown( { keyCode } ),
+		triggerKey: keyboard.triggerKey.bind( keyboard ),
 
 		// Registers a new shortcut to include in the help overlay
-		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value,
-
-		// Forward event binding to the reveal DOM element
-		addEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
-		},
-		removeEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
-		},
+		registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
 
 		// API for registering and retrieving plugins
 		registerPlugin: plugins.registerPlugin.bind( plugins ),
 		hasPlugin: plugins.hasPlugin.bind( plugins ),
 		getPlugin: plugins.getPlugin.bind( plugins ),
-
-		// Returns a hash with all registered plugins
 		getPlugins: plugins.getRegisteredPlugins.bind( plugins ),
 
 		getComputedSlideSize,
@@ -4232,7 +3934,10 @@ export default function( revealElement, options ) {
 		announceStatus,
 		getStatusText,
 
+		overview,
 		slideContent,
+		onUserInput,
+		closeOverlay,
 		updateControls,
 		updateProgress,
 		updateSlidesVisibility,
