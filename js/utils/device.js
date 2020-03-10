@@ -10,6 +10,6 @@ export const isAndroid = /android/gi.test( UA );
 
 // Flags if we should use zoom instead of transform to scale
 // up slides. Zoom produces crisper results but has a lot of
-// xbrowser quirks so we only use it in whitelsited browsers.
+// xbrowser quirks so we only use it in whitelisted browsers.
 export const supportsZoom = 'zoom' in testElement.style && !isMobile &&
 				( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );

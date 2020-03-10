@@ -58,11 +58,12 @@ export default class Plugins {
 
 				// Load synchronous scripts
 				scripts.forEach( s => {
-					if (s.id) {
-						this.registerPlugin(s.id, s.plugin);
-						scriptLoadedCallback(s);
-					} else {
-						loadScript( s.src, () => scriptLoadedCallback(s));
+					if( s.id ) {
+						this.registerPlugin( s.id, s.plugin );
+						scriptLoadedCallback( s );
+					}
+					else {
+						loadScript( s.src, () => scriptLoadedCallback(s) );
 					}
 				} );
 			}
@@ -134,11 +135,12 @@ export default class Plugins {
 
 		if( this.asyncDependencies.length ) {
 			this.asyncDependencies.forEach( s => {
-				if (s.id) {
-					this.registerPlugin(s.id, s.plugin);
-					if (typeof s.plugin.init === 'function') { s.plugin.init(); }
-					if (typeof s.callback === 'function') { s.callback(); }
-				} else {
+				if( s.id ) {
+					this.registerPlugin( s.id, s.plugin );
+					if( typeof s.plugin.init === 'function' ) s.plugin.init();
+					if( typeof s.callback === 'function' ) s.callback();
+				}
+				else {
 					loadScript( s.src, s.callback );
 				}
 			} );

@@ -522,12 +522,9 @@ You can add your own extensions using the same syntax. The following properties 
 - **callback**: [optional] Function to execute when the script has loaded
 - **condition**: [optional] Function which must return true for the script to be loaded
 
-You can additionally use the following syntax, in case you are using a bundler:
-- **id**: the id of the plugin to load
-- **plugin**: the plugin object to load. It is the plugin implementation that can contain an `init` function
-- **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
-- **callback**: [optional] Function to execute when the script has loaded
-- **condition**: [optional] Function which must return true for the script to be loaded
+You can also include dependencies which are bundled/already present on the page. To include a bundled plugin. replace the `src` property with a plugin `id` and a reference to the `plugin` instance:
+- **id**: the id of the plugin
+- **plugin**: the plugin instance (see [Plugins](#plugins))
 
 ### Ready Event
 
