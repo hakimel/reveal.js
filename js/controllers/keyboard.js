@@ -263,7 +263,7 @@ export default class Keyboard {
 			}
 			// N, PAGE DOWN
 			else if( keyCode === 78 || keyCode === 34 ) {
-				this.Review.next();
+				this.Reveal.next();
 			}
 			// H, LEFT
 			else if( keyCode === 72 || keyCode === 37 ) {
@@ -283,7 +283,7 @@ export default class Keyboard {
 					this.Reveal.slide( Number.MAX_VALUE );
 				}
 				else if( !this.Reveal.overview.isActive() && useLinearMode ) {
-					this.Review.next();
+					this.Reveal.next();
 				}
 				else {
 					this.Reveal.right();
@@ -301,7 +301,7 @@ export default class Keyboard {
 			// J, DOWN
 			else if( keyCode === 74 || keyCode === 40 ) {
 				if( !this.Reveal.overview.isActive() && useLinearMode ) {
-					this.Review.next();
+					this.Reveal.next();
 				}
 				else {
 					this.Reveal.down();
@@ -324,7 +324,7 @@ export default class Keyboard {
 					this.Reveal.prev();
 				}
 				else {
-					this.Review.next();
+					this.Reveal.next();
 				}
 			}
 			// TWO-SPOT, SEMICOLON, B, V, PERIOD, LOGITECH PRESENTER TOOLS "BLACK SCREEN" BUTTON

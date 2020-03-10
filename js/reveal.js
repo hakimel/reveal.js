@@ -1,8 +1,10 @@
 import SlideContent from './controllers/slidecontent.js'
+import SlideNumber from './controllers/slidenumber.js'
 import AutoAnimate from './controllers/autoanimate.js'
 import Fragments from './controllers/fragments.js'
 import Overview from './controllers/overview.js'
 import Keyboard from './controllers/keyboard.js'
+import Location from './controllers/location.js'
 import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -18,6 +20,7 @@ import {
 	distanceBetween,
 	deserialize,
 	transformElement,
+	createSingletonNode,
 	createStyleSheet,
 	closestParent,
 	enterFullscreen,
@@ -81,6 +84,9 @@ export default function( revealElement, options ) {
 		// Controls loading and playback of slide content
 		slideContent = new SlideContent( Reveal ),
 
+		// Controls the optional slide number display
+		slideNumber = new SlideNumber( Reveal ),
+
 		// Controls auto-animations between slides
 		autoAnimate = new AutoAnimate( Reveal ),
 
@@ -92,6 +98,9 @@ export default function( revealElement, options ) {
 
 		// Controls all keyboard interactions
 		keyboard = new Keyboard( Reveal ),
+
+		// Controls the current location/URL
+		location = new Location( Reveal ),
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
@@ -248,7 +257,7 @@ export default function( revealElement, options ) {
 			<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>` );
 
 		// Slide number
-		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
+		slideNumber.createElement();
 
 		// Element containing notes that are visible to the audience
 		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
@@ -377,7 +386,7 @@ export default function( revealElement, options ) {
 		// Compute slide numbers now, before we start duplicating slides
 		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
 		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
-			slide.setAttribute( 'data-slide-number', getSlideNumber( slide ) );
+			slide.setAttribute( 'data-slide-number', slideNumber.getSlideNumber( slide ) );
 		} );
 
 		// Slide and slide background layout
@@ -531,42 +540,6 @@ export default function( revealElement, options ) {
 				dom.wrapper.scrollLeft = 0;
 			}
 		}, 1000 );
-
-	}
-
-	/**
-	 * Creates an HTML element and returns a reference to it.
-	 * If the element already exists the existing instance will
-	 * be returned.
-	 *
-	 * @param {HTMLElement} container
-	 * @param {string} tagname
-	 * @param {string} classname
-	 * @param {string} innerHTML
-	 *
-	 * @return {HTMLElement}
-	 */
-	function createSingletonNode( container, tagname, classname, innerHTML='' ) {
-
-		// Find all nodes matching the description
-		let nodes = container.querySelectorAll( '.' + classname );
-
-		// Check all matches to find one which is a direct child of
-		// the specified container
-		for( let i = 0; i < nodes.length; i++ ) {
-			let testNode = nodes[i];
-			if( testNode.parentNode === container ) {
-				return testNode;
-			}
-		}
-
-		// If no node was found, create it now
-		let node = document.createElement( tagname );
-		node.className = classname;
-		node.innerHTML = innerHTML;
-		container.appendChild( node );
-
-		return node;
 
 	}
 
@@ -831,9 +804,8 @@ export default function( revealElement, options ) {
 
 		const numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
 
-		// Remove the previously configured transition class
+		// The transition is added as a class on the .reveal element
 		dom.wrapper.classList.remove( oldTransition );
-
 		dom.wrapper.classList.add( config.transition );
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
@@ -927,19 +899,6 @@ export default function( revealElement, options ) {
 			fragments.showAll();
 		}
 
-		// Slide numbers
-		let slideNumberDisplay = 'none';
-		if( config.slideNumber && !isPrintingPDF() ) {
-			if( config.showSlideNumber === 'all' ) {
-				slideNumberDisplay = 'block';
-			}
-			else if( config.showSlideNumber === 'speaker' && isSpeakerNotes() ) {
-				slideNumberDisplay = 'block';
-			}
-		}
-
-		dom.slideNumber.style.display = slideNumberDisplay;
-
 		// Add the navigation mode to the DOM so we can adjust styling
 		if( config.navigationMode !== 'default' ) {
 			dom.wrapper.setAttribute( 'data-navigation-mode', config.navigationMode );
@@ -948,6 +907,7 @@ export default function( revealElement, options ) {
 			dom.wrapper.removeAttribute( 'data-navigation-mode' );
 		}
 
+		slideNumber.refreshVisibility();
 		keyboard.refreshSortcuts();
 
 		sync();
@@ -1552,44 +1512,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Return a hash URL that will resolve to the given slide location.
-	 *
-	 * @param {HTMLElement} [slide=currentSlide] The slide to link to
-	 */
-	function locationHash( slide ) {
-
-		let url = '/';
-
-		// Attempt to create a named link based on the slide's ID
-		let s = slide || currentSlide;
-		let id = s ? s.getAttribute( 'id' ) : null;
-		if( id ) {
-			id = encodeURIComponent( id );
-		}
-
-		let index = getIndices( slide );
-		if( !config.fragmentInURL ) {
-			index.f = undefined;
-		}
-
-		// If the current slide has an ID, use that as a named link,
-		// but we don't support named links with a fragment index
-		if( typeof id === 'string' && id.length && index.f === undefined ) {
-			url = '/' + id;
-		}
-		// Otherwise use the /h/v index
-		else {
-			let hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
-			if( index.h > 0 || index.v > 0 || index.f !== undefined ) url += index.h + hashIndexBase;
-			if( index.v > 0 || index.f !== undefined ) url += '/' + (index.v + hashIndexBase );
-			if( index.f !== undefined ) url += '/' + index.f;
-		}
-
-		return url;
-
-	}
-
-	/**
 	 * Checks if the current or specified slide is vertical
 	 * (nested within another slide).
 	 *
@@ -1908,9 +1830,9 @@ export default function( revealElement, options ) {
 		updateProgress();
 		updateBackground();
 		updateParallax();
-		updateSlideNumber();
 		updateNotes();
 
+		slideNumber.update();
 		fragments.update();
 
 		// Update the URL hash
@@ -1970,12 +1892,12 @@ export default function( revealElement, options ) {
 
 		updateControls();
 		updateProgress();
-		updateSlideNumber();
 		updateSlidesVisibility();
 		updateBackground( true );
 		updateNotesVisibility();
 		updateNotes();
 
+		slideNumber.update();
 		slideContent.formatEmbeddedContent();
 
 		// Start or stop embedded content depending on global config
@@ -2318,90 +2240,6 @@ export default function( revealElement, options ) {
 
 			dom.progressbar.style.width = getProgress() * dom.wrapper.offsetWidth + 'px';
 
-		}
-
-	}
-
-
-	/**
-	 * Updates the slide number to match the current slide.
-	 */
-	function updateSlideNumber() {
-
-		// Update slide number if enabled
-		if( config.slideNumber && dom.slideNumber ) {
-			dom.slideNumber.innerHTML = getSlideNumber();
-		}
-
-	}
-
-	/**
-	 * Returns the HTML string corresponding to the current slide number,
-	 * including formatting.
-	 */
-	function getSlideNumber( slide = currentSlide ) {
-
-		let value;
-		let format = 'h.v';
-
-		if ( typeof config.slideNumber === 'function' ) {
-			value = config.slideNumber( slide );
-		} else {
-			// Check if a custom number format is available
-			if( typeof config.slideNumber === 'string' ) {
-				format = config.slideNumber;
-			}
-
-			// If there are ONLY vertical slides in this deck, always use
-			// a flattened slide number
-			if( !/c/.test( format ) && dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ).length === 1 ) {
-				format = 'c';
-			}
-
-			value = [];
-			switch( format ) {
-				case 'c':
-					value.push( getSlidePastCount( slide ) + 1 );
-					break;
-				case 'c/t':
-					value.push( getSlidePastCount( slide ) + 1, '/', getTotalSlides() );
-					break;
-				default:
-					let indices = getIndices( slide );
-					value.push( indices.h + 1 );
-					let sep = format === 'h/v' ? '/' : '.';
-					if( isVerticalSlide( slide ) ) value.push( sep, indices.v + 1 );
-			}
-		}
-
-		let url = '#' + locationHash( slide );
-		return formatSlideNumber( value[0], value[1], value[2], url );
-
-	}
-
-	/**
-	 * Applies HTML formatting to a slide number before it's
-	 * written to the DOM.
-	 *
-	 * @param {number} a Current slide
-	 * @param {string} delimiter Character to separate slide numbers
-	 * @param {(number|*)} b Total slides
-	 * @param {HTMLElement} [url='#'+locationHash()] The url to link to
-	 * @return {string} HTML string fragment
-	 */
-	function formatSlideNumber( a, delimiter, b, url = '#' + locationHash() ) {
-
-		if( typeof b === 'number' && !isNaN( b ) ) {
-			return  `<a href="${url}">
-					<span class="slide-number-a">${a}</span>
-					<span class="slide-number-delimiter">${delimiter}</span>
-					<span class="slide-number-b">${b}</span>
-					</a>`;
-		}
-		else {
-			return `<a href="${url}">
-					<span class="slide-number-a">${a}</span>
-					</a>`;
 		}
 
 	}
@@ -2881,12 +2719,12 @@ export default function( revealElement, options ) {
 			// If we're configured to push to history OR the history
 			// API is not avaialble.
 			if( config.history || !window.history ) {
-				window.location.hash = locationHash();
+				window.location.hash = location.getHash();
 			}
 			// If we're configured to reflect the current slide in the
 			// URL without pushing to history.
 			else if( config.hash ) {
-				window.history.replaceState( null, null, '#' + locationHash() );
+				window.history.replaceState( null, null, '#' + location.getHash() );
 			}
 			// If history and hash are both disabled, a hash may still
 			// be added to the URL by clicking on a href with a hash
@@ -3810,12 +3648,14 @@ export default function( revealElement, options ) {
 		isFirstSlide,
 		isLastSlide,
 		isLastVerticalSlide,
+		isVerticalSlide,
 
 		// State checks
 		isOverview: overview.isActive.bind( overview ),
 		isPaused,
 		isAutoSliding,
 		isSpeakerNotes,
+		isPrintingPDF,
 
 		// Slide preloading
 		loadSlide: slideContent.load.bind( slideContent ),
@@ -3916,6 +3756,7 @@ export default function( revealElement, options ) {
 		announceStatus,
 		getStatusText,
 
+		location,
 		overview,
 		slideContent,
 		onUserInput,

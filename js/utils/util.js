@@ -136,6 +136,42 @@ export const enterFullscreen = () => {
 }
 
 /**
+ * Creates an HTML element and returns a reference to it.
+ * If the element already exists the existing instance will
+ * be returned.
+ *
+ * @param {HTMLElement} container
+ * @param {string} tagname
+ * @param {string} classname
+ * @param {string} innerHTML
+ *
+ * @return {HTMLElement}
+ */
+export const createSingletonNode = ( container, tagname, classname, innerHTML='' ) => {
+
+	// Find all nodes matching the description
+	let nodes = container.querySelectorAll( '.' + classname );
+
+	// Check all matches to find one which is a direct child of
+	// the specified container
+	for( let i = 0; i < nodes.length; i++ ) {
+		let testNode = nodes[i];
+		if( testNode.parentNode === container ) {
+			return testNode;
+		}
+	}
+
+	// If no node was found, create it now
+	let node = document.createElement( tagname );
+	node.className = classname;
+	node.innerHTML = innerHTML;
+	container.appendChild( node );
+
+	return node;
+
+}
+
+/**
  * Injects the given CSS styles into the DOM.
  *
  * @param {string} value
