@@ -140,16 +140,22 @@ export const enterFullscreen = () => {
  *
  * @param {string} value
  */
-export const injectStyleSheet = ( value ) => {
+export const createStyleSheet = ( value ) => {
 
 	let tag = document.createElement( 'style' );
 	tag.type = 'text/css';
-	if( tag.styleSheet ) {
-		tag.styleSheet.cssText = value;
+
+	if( value && value.length > 0 ) {
+		if( tag.styleSheet ) {
+			tag.styleSheet.cssText = value;
+		}
+		else {
+			tag.appendChild( document.createTextNode( value ) );
+		}
 	}
-	else {
-		tag.appendChild( document.createTextNode( value ) );
-	}
-	document.getElementsByTagName( 'head' )[0].appendChild( tag );
+
+	document.head.appendChild( tag );
+
+	return tag;
 
 }

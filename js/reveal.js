@@ -1,3 +1,7 @@
+import SlideContent from './controllers/slidecontent.js'
+import AutoAnimate from './controllers/autoanimate.js'
+import Fragments from './controllers/fragments.js'
+import Overview from './controllers/overview.js'
 import Plugins from './controllers/plugins.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -13,10 +17,11 @@ import {
 	distanceBetween,
 	deserialize,
 	transformElement,
-	injectStyleSheet,
+	createStyleSheet,
 	closestParent,
 	enterFullscreen
 } from './utils/util.js'
+import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
 import { colorToRgb, colorBrightness } from './utils/color.js'
 
 /**
@@ -24,29 +29,20 @@ import { colorToRgb, colorBrightness } from './utils/color.js'
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2020 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2020 Hakim El Hattab, https://hakim.se
  */
 export default function( revealElement, options ) {
 
-	let Reveal;
+	const Reveal = {};
 
 	// The reveal.js version
 	const VERSION = '4.0.0-dev';
-
-	const UA = navigator.userAgent;
 
 	// Configuration defaults, can be overridden at initialization time
 	let config,
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		ready = false,
-
-		// Flags if the overview mode is currently active
-		overview = false,
-
-		// Holds the dimensions of our overview slides, including margins
-		overviewSlideWidth = null,
-		overviewSlideHeight = null,
 
 		// The horizontal and vertical index of the currently active slide
 		indexh,
@@ -77,20 +73,22 @@ export default function( revealElement, options ) {
 		// Cached references to DOM elements
 		dom = {},
 
-		// An instance of the Plugins controller
+		// Controller for plugin loading
 		plugins = new Plugins(),
+
+		// Controls loading and playback of slide content
+		slideContent = new SlideContent( Reveal ),
+
+		// Controls auto-animations between slides
+		autoAnimate = new AutoAnimate( Reveal ),
+
+		// Controls navigation between slide fragments
+		fragments = new Fragments( Reveal ),
+
+		overview = new Overview( Reveal ),
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
-
-		// Features supported by the browser, see #checkCapabilities()
-		features = {},
-
-		// Client is a mobile device, see #checkCapabilities()
-		isMobileDevice,
-
-		// Client is a desktop Chrome, see #checkCapabilities()
-		isChrome,
 
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
@@ -106,12 +104,6 @@ export default function( revealElement, options ) {
 
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
-
-		// <style> element used to apply auto-animations
-		autoAnimateStyleSheet,
-
-		// Counter used to generate unique IDs for auto-animated elements
-		autoAnimateCounter = 0,
 
 		// The current auto-slide duration
 		autoSlide = 0,
@@ -148,8 +140,6 @@ export default function( revealElement, options ) {
 			return;
 		}
 
-		checkCapabilities();
-
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
@@ -164,25 +154,6 @@ export default function( revealElement, options ) {
 		plugins.load( config.dependencies ).then( start )
 
 		return Reveal;
-
-	}
-
-	/**
-	 * Inspect the client to see what features it supports.
-	 */
-	function checkCapabilities() {
-
-		isMobileDevice = /(iphone|ipod|ipad|android)/gi.test( UA ) ||
-							( navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 ); // iPadOS
-		isChrome = /chrome/i.test( UA ) && !/edge/i.test( UA );
-
-		let testElement = document.createElement( 'div' );
-
-		// Flags if we should use zoom instead of transform to scale
-		// up slides. Zoom produces crisper results but has a lot of
-		// xbrowser quirks so we only use it in white-listed browsers.
-		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
-						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
 
 	}
 
@@ -256,18 +227,11 @@ export default function( revealElement, options ) {
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
-		if( isMobileDevice ) {
+		if( isMobile ) {
 			dom.wrapper.classList.add( 'no-hover' );
 		}
 		else {
 			dom.wrapper.classList.remove( 'no-hover' );
-		}
-
-		if( /iphone/gi.test( UA ) ) {
-			dom.wrapper.classList.add( 'ua-iphone' );
-		}
-		else {
-			dom.wrapper.classList.remove( 'ua-iphone' );
 		}
 
 		// Background element
@@ -310,7 +274,7 @@ export default function( revealElement, options ) {
 		dom.controlsLeftArrow = dom.controls.querySelector( '.navigate-left' );
 		dom.controlsDownArrow = dom.controls.querySelector( '.navigate-down' );
 
-		dom.statusDiv = createStatusDiv();
+		dom.statusElement = createStatusElement();
 	}
 
 	/**
@@ -320,22 +284,31 @@ export default function( revealElement, options ) {
 	 *
 	 * @return {HTMLElement}
 	 */
-	function createStatusDiv() {
+	function createStatusElement() {
 
-		let statusDiv = dom.wrapper.querySelector( '.aria-status' );
-		if( !statusDiv ) {
-			statusDiv = document.createElement( 'div' );
-			statusDiv.style.position = 'absolute';
-			statusDiv.style.height = '1px';
-			statusDiv.style.width = '1px';
-			statusDiv.style.overflow = 'hidden';
-			statusDiv.style.clip = 'rect( 1px, 1px, 1px, 1px )';
-			statusDiv.classList.add( 'aria-status' );
-			statusDiv.setAttribute( 'aria-live', 'polite' );
-			statusDiv.setAttribute( 'aria-atomic','true' );
-			dom.wrapper.appendChild( statusDiv );
+		let statusElement = dom.wrapper.querySelector( '.aria-status' );
+		if( !statusElement ) {
+			statusElement = document.createElement( 'div' );
+			statusElement.style.position = 'absolute';
+			statusElement.style.height = '1px';
+			statusElement.style.width = '1px';
+			statusElement.style.overflow = 'hidden';
+			statusElement.style.clip = 'rect( 1px, 1px, 1px, 1px )';
+			statusElement.classList.add( 'aria-status' );
+			statusElement.setAttribute( 'aria-live', 'polite' );
+			statusElement.setAttribute( 'aria-atomic','true' );
+			dom.wrapper.appendChild( statusElement );
 		}
-		return statusDiv;
+		return statusElement;
+
+	}
+
+	/**
+	 * Announces the given text to screen readers.
+	 */
+	function announceStatus( value ) {
+
+		dom.statusElement.textContent = value;
 
 	}
 
@@ -390,10 +363,10 @@ export default function( revealElement, options ) {
 			slideHeight = slideSize.height;
 
 		// Let the browser know what page size we want to print
-		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
+		createStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
 
 		// Limit the size of certain elements to the dimensions of the slide
-		injectStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
+		createStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
@@ -490,7 +463,7 @@ export default function( revealElement, options ) {
 					// Each fragment 'group' is an array containing one or more
 					// fragments. Multiple fragments that appear at the same time
 					// are part of the same group.
-					let fragmentGroups = sortFragments( page.querySelectorAll( '.fragment' ), true );
+					let fragmentGroups = fragments.sort( page.querySelectorAll( '.fragment' ), true );
 
 					let previousFragmentStep;
 					let previousPage;
@@ -931,17 +904,8 @@ export default function( revealElement, options ) {
 			enablePreviewLinks( '[data-preview-link]:not([data-preview-link=false])' );
 		}
 
-		// Reset all auto animated elements
-		toArray( dom.slides.querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( element => {
-			element.dataset.autoAnimate = '';
-		} );
-
-		removeEphemeralAutoAnimateAttributes();
-
-		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
-			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
-			autoAnimateStyleSheet = null;
-		}
+		// Reset all changes made by auto-animations
+		autoAnimate.reset();
 
 		// Remove existing auto-slide controls
 		if( autoSlidePlayer ) {
@@ -961,10 +925,7 @@ export default function( revealElement, options ) {
 
 		// When fragments are turned off they should be visible
 		if( config.fragments === false ) {
-			toArray( dom.slides.querySelectorAll( '.fragment' ) ).forEach( element => {
-				element.classList.add( 'visible' );
-				element.classList.remove( 'current-fragment' );
-			} );
+			fragments.showAll();
 		}
 
 		// Slide numbers
@@ -1064,7 +1025,7 @@ export default function( revealElement, options ) {
 
 		// Only support touch for Android, fixes double navigations in
 		// stock browser
-		if( UA.match( /android/gi ) ) {
+		if( isAndroid ) {
 			pointerEvents = [ 'touchstart' ];
 		}
 
@@ -1425,7 +1386,7 @@ export default function( revealElement, options ) {
 				// property where 100x adds up to the correct height.
 				//
 				// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
-				if( isMobileDevice ) {
+				if( isMobile ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
@@ -1461,7 +1422,7 @@ export default function( revealElement, options ) {
 					// effects are minor differences in text layout and iframe
 					// viewports changing size. A 200x200 iframe viewport in a
 					// 2x zoomed presentation ends up having a 400x400 viewport.
-					if( scale > 1 && features.zoom && window.devicePixelRatio < 2 ) {
+					if( scale > 1 && supportsZoom && window.devicePixelRatio < 2 ) {
 						dom.slides.style.zoom = scale;
 						dom.slides.style.left = '';
 						dom.slides.style.top = '';
@@ -1522,8 +1483,8 @@ export default function( revealElement, options ) {
 			updateProgress();
 			updateParallax();
 
-			if( isOverview() ) {
-				updateOverview();
+			if( overview.isActive() ) {
+				overview.update();
 			}
 
 		}
@@ -1640,199 +1601,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Displays the overview of slides (quick nav) by scaling
-	 * down and arranging all slide elements.
-	 */
-	function activateOverview() {
-
-		// Only proceed if enabled in config
-		if( config.overview && !isOverview() ) {
-
-			overview = true;
-
-			dom.wrapper.classList.add( 'overview' );
-
-			// Don't auto-slide while in overview mode
-			cancelAutoSlide();
-
-			// Move the backgrounds element into the slide container to
-			// that the same scaling is applied
-			dom.slides.appendChild( dom.background );
-
-			// Clicking on an overview slide navigates to it
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
-				if( !slide.classList.contains( 'stack' ) ) {
-					slide.addEventListener( 'click', onOverviewSlideClicked, true );
-				}
-			} );
-
-			// Calculate slide sizes
-			const margin = 70;
-			const slideSize = getComputedSlideSize();
-			overviewSlideWidth = slideSize.width + margin;
-			overviewSlideHeight = slideSize.height + margin;
-
-			// Reverse in RTL mode
-			if( config.rtl ) {
-				overviewSlideWidth = -overviewSlideWidth;
-			}
-
-			updateSlidesVisibility();
-			layoutOverview();
-			updateOverview();
-
-			layout();
-
-			// Notify observers of the overview showing
-			dispatchEvent( 'overviewshown', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
-
-		}
-
-	}
-
-	/**
-	 * Uses CSS transforms to position all slides in a grid for
-	 * display inside of the overview mode.
-	 */
-	function layoutOverview() {
-
-		// Layout slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( ( hslide, h ) => {
-			hslide.setAttribute( 'data-index-h', h );
-			transformElement( hslide, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
-
-			if( hslide.classList.contains( 'stack' ) ) {
-
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( ( vslide, v ) => {
-					vslide.setAttribute( 'data-index-h', h );
-					vslide.setAttribute( 'data-index-v', v );
-
-					transformElement( vslide, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
-				} );
-
-			}
-		} );
-
-		// Layout slide backgrounds
-		toArray( dom.background.childNodes ).forEach( ( hbackground, h ) => {
-			transformElement( hbackground, 'translate3d(' + ( h * overviewSlideWidth ) + 'px, 0, 0)' );
-
-			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( ( vbackground, v ) => {
-				transformElement( vbackground, 'translate3d(0, ' + ( v * overviewSlideHeight ) + 'px, 0)' );
-			} );
-		} );
-
-	}
-
-	/**
-	 * Moves the overview viewport to the current slides.
-	 * Called each time the current slide changes.
-	 */
-	function updateOverview() {
-
-		const vmin = Math.min( window.innerWidth, window.innerHeight );
-		const scale = Math.max( vmin / 5, 150 ) / vmin;
-
-		transformSlides( {
-			overview: [
-				'scale('+ scale +')',
-				'translateX('+ ( -indexh * overviewSlideWidth ) +'px)',
-				'translateY('+ ( -indexv * overviewSlideHeight ) +'px)'
-			].join( ' ' )
-		} );
-
-	}
-
-	/**
-	 * Exits the slide overview and enters the currently
-	 * active slide.
-	 */
-	function deactivateOverview() {
-
-		// Only proceed if enabled in config
-		if( config.overview ) {
-
-			overview = false;
-
-			dom.wrapper.classList.remove( 'overview' );
-
-			// Temporarily add a class so that transitions can do different things
-			// depending on whether they are exiting/entering overview, or just
-			// moving from slide to slide
-			dom.wrapper.classList.add( 'overview-deactivating' );
-
-			setTimeout( () => {
-				dom.wrapper.classList.remove( 'overview-deactivating' );
-			}, 1 );
-
-			// Move the background element back out
-			dom.wrapper.appendChild( dom.background );
-
-			// Clean up changes made to slides
-			toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
-				transformElement( slide, '' );
-
-				slide.removeEventListener( 'click', onOverviewSlideClicked, true );
-			} );
-
-			// Clean up changes made to backgrounds
-			toArray( dom.background.querySelectorAll( '.slide-background' ) ).forEach( background => {
-				transformElement( background, '' );
-			} );
-
-			transformSlides( { overview: '' } );
-
-			slide( indexh, indexv );
-
-			layout();
-
-			cueAutoSlide();
-
-			// Notify observers of the overview hiding
-			dispatchEvent( 'overviewhidden', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
-
-		}
-	}
-
-	/**
-	 * Toggles the slide overview mode on and off.
-	 *
-	 * @param {Boolean} [override] Flag which overrides the
-	 * toggle logic and forcibly sets the desired state. True means
-	 * overview is open, false means it's closed.
-	 */
-	function toggleOverview( override ) {
-
-		if( typeof override === 'boolean' ) {
-			override ? activateOverview() : deactivateOverview();
-		}
-		else {
-			isOverview() ? deactivateOverview() : activateOverview();
-		}
-
-	}
-
-	/**
-	 * Checks if the overview is currently active.
-	 *
-	 * @return {Boolean} true if the overview is active,
-	 * false otherwise
-	 */
-	function isOverview() {
-
-		return overview;
-
-	}
-
-	/**
 	 * Return a hash URL that will resolve to the given slide location.
 	 *
 	 * @param {HTMLElement} [slide=currentSlide] The slide to link to
@@ -1881,6 +1649,55 @@ export default function( revealElement, options ) {
 	function isVerticalSlide( slide = currentSlide ) {
 
 		return slide && slide.parentNode && !!slide.parentNode.nodeName.match( /section/i );
+
+	}
+
+	/**
+	 * Returns true if we're on the last slide in the current
+	 * vertical stack.
+	 */
+	function isLastVerticalSlide() {
+
+		if( currentSlide && isVerticalSlide( currentSlide ) ) {
+			// Does this slide have a next sibling?
+			if( currentSlide.nextElementSibling ) return false;
+
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Returns true if we're currently on the first slide in
+	 * the presentation.
+	 */
+	function isFirstSlide() {
+
+		return indexh === 0 && indexv === 0;
+
+	}
+
+	/**
+	 * Returns true if we're currently on the last slide in
+	 * the presenation. If the last slide is a stack, we only
+	 * consider this the last slide if it's at the end of the
+	 * stack.
+	 */
+	function isLastSlide() {
+
+		if( currentSlide ) {
+			// Does this slide have a next sibling?
+			if( currentSlide.nextElementSibling ) return false;
+
+			// If it's vertical, does its parent have a next sibling?
+			if( isVerticalSlide( currentSlide ) && currentSlide.parentNode.nextElementSibling ) return false;
+
+			return true;
+		}
+
+		return false;
 
 	}
 
@@ -2024,7 +1841,7 @@ export default function( revealElement, options ) {
 
 		// If no vertical index is specified and the upcoming slide is a
 		// stack, resume at its previous vertical index
-		if( v === undefined && !isOverview() ) {
+		if( v === undefined && !overview.isActive() ) {
 			v = getPreviousVerticalIndex( horizontalSlides[ h ] );
 		}
 
@@ -2053,8 +1870,8 @@ export default function( revealElement, options ) {
 		layout();
 
 		// Update the overview if it's currently active
-		if( isOverview() ) {
-			updateOverview();
+		if( overview.isActive() ) {
+			overview.update();
 		}
 
 		// Find the current horizontal slide and any possible vertical slides
@@ -2067,7 +1884,7 @@ export default function( revealElement, options ) {
 
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
-			navigateFragment( f );
+			fragments.goto( f );
 		}
 
 		// Dispatch an event if the slide changed
@@ -2085,7 +1902,7 @@ export default function( revealElement, options ) {
 			previousSlide.setAttribute( 'aria-hidden', 'true' );
 
 			// Reset all slides upon navigate to home
-			if( Reveal.isFirstSlide() ) {
+			if( isFirstSlide() ) {
 				// Launch async task
 				setTimeout( () => {
 					getVerticalStacks().forEach( slide => {
@@ -2129,12 +1946,12 @@ export default function( revealElement, options ) {
 
 		// Handle embedded content
 		if( slideChanged || !previousSlide ) {
-			stopEmbeddedContent( previousSlide );
-			startEmbeddedContent( currentSlide );
+			slideContent.stopEmbeddedContent( previousSlide );
+			slideContent.startEmbeddedContent( currentSlide );
 		}
 
-		// Announce the current slide contents, for screen readers
-		dom.statusDiv.textContent = getStatusText( currentSlide );
+		// Announce the current slide contents to screen readers
+		announceStatus( getStatusText( currentSlide ) );
 
 		updateControls();
 		updateProgress();
@@ -2142,7 +1959,8 @@ export default function( revealElement, options ) {
 		updateParallax();
 		updateSlideNumber();
 		updateNotes();
-		updateFragments();
+
+		fragments.update();
 
 		// Update the URL hash
 		writeURL();
@@ -2150,7 +1968,7 @@ export default function( revealElement, options ) {
 		cueAutoSlide();
 
 		// Auto-animation
-		if( slideChanged && previousSlide && currentSlide && !isOverview() ) {
+		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
 
 			// Skip the slide transition between our two slides
 			// when auto-animating individual elements
@@ -2163,7 +1981,7 @@ export default function( revealElement, options ) {
 
 				if( config.autoAnimate ) {
 					// Run the auto-animation between our slides
-					autoAnimate( previousSlide, currentSlide );
+					autoAnimate.run( previousSlide, currentSlide );
 				}
 			}
 
@@ -2197,7 +2015,7 @@ export default function( revealElement, options ) {
 		// Write the current hash to the URL
 		writeURL();
 
-		sortAllFragments();
+		fragments.sortAll();
 
 		updateControls();
 		updateProgress();
@@ -2207,18 +2025,18 @@ export default function( revealElement, options ) {
 		updateNotesVisibility();
 		updateNotes();
 
-		formatEmbeddedContent();
+		slideContent.formatEmbeddedContent();
 
 		// Start or stop embedded content depending on global config
 		if( config.autoPlayMedia === false ) {
-			stopEmbeddedContent( currentSlide, { unloadIframes: false } );
+			slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } );
 		}
 		else {
-			startEmbeddedContent( currentSlide );
+			slideContent.startEmbeddedContent( currentSlide );
 		}
 
-		if( isOverview() ) {
-			layoutOverview();
+		if( overview.isActive() ) {
+			overview.layout();
 		}
 
 	}
@@ -2238,7 +2056,7 @@ export default function( revealElement, options ) {
 		syncBackground( slide );
 		syncFragments( slide );
 
-		loadSlide( slide );
+		slideContent.load( slide );
 
 		updateBackground();
 		updateNotes();
@@ -2255,7 +2073,7 @@ export default function( revealElement, options ) {
 	 */
 	function syncFragments( slide = currentSlide ) {
 
-		return sortFragments( slide.querySelectorAll( '.fragment' ) );
+		return config.sort( slide.querySelectorAll( '.fragment' ) );
 
 	}
 
@@ -2277,27 +2095,6 @@ export default function( revealElement, options ) {
 				}
 
 			} );
-
-		} );
-
-	}
-
-	/**
-	 * Sorts and formats all of fragments in the
-	 * presentation.
-	 */
-	function sortAllFragments() {
-
-		getHorizontalSlides().forEach( horizontalSlide => {
-
-			let verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
-			verticalSlides.forEach( ( verticalSlide, y ) => {
-
-				sortFragments( verticalSlide.querySelectorAll( '.fragment' ) );
-
-			} );
-
-			if( verticalSlides.length === 0 ) sortFragments( horizontalSlide.querySelectorAll( '.fragment' ) );
 
 		} );
 
@@ -2441,12 +2238,12 @@ export default function( revealElement, options ) {
 
 			// The number of steps away from the present slide that will
 			// be visible
-			let viewDistance = isOverview() ? 10 : config.viewDistance;
+			let viewDistance = overview.isActive() ? 10 : config.viewDistance;
 
 			// Shorten the view distance on devices that typically have
 			// less resources
-			if( isMobileDevice ) {
-				viewDistance = isOverview() ? 6 : config.mobileViewDistance;
+			if( isMobile ) {
+				viewDistance = overview.isActive() ? 6 : config.mobileViewDistance;
 			}
 
 			// All slides need to be visible when exporting to PDF
@@ -2471,10 +2268,10 @@ export default function( revealElement, options ) {
 
 				// Show the horizontal slide if it's within the view distance
 				if( distanceX < viewDistance ) {
-					loadSlide( horizontalSlide );
+					slideContent.load( horizontalSlide );
 				}
 				else {
-					unloadSlide( horizontalSlide );
+					slideContent.unload( horizontalSlide );
 				}
 
 				if( verticalSlidesLength ) {
@@ -2487,10 +2284,10 @@ export default function( revealElement, options ) {
 						distanceY = x === ( indexh || 0 ) ? Math.abs( ( indexv || 0 ) - y ) : Math.abs( y - oy );
 
 						if( distanceX + distanceY < viewDistance ) {
-							loadSlide( verticalSlide );
+							slideContent.load( verticalSlide );
 						}
 						else {
-							unloadSlide( verticalSlide );
+							slideContent.unload( verticalSlide );
 						}
 					}
 
@@ -2664,7 +2461,7 @@ export default function( revealElement, options ) {
 	function updateControls() {
 
 		let routes = availableRoutes();
-		let fragments = availableFragments();
+		let fragmentsRoutes = fragments.availableRoutes();
 
 		// Remove the 'enabled' class from all directions
 		[...dom.controlsLeft, ...dom.controlsRight, ...dom.controlsUp, ...dom.controlsDown, ...dom.controlsPrev, ...dom.controlsNext].forEach( node => {
@@ -2688,22 +2485,21 @@ export default function( revealElement, options ) {
 		if( currentSlide ) {
 
 			// Always apply fragment decorator to prev/next buttons
-			if( fragments.prev ) dom.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-			if( fragments.next ) dom.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+			if( fragmentsRoutes.prev ) dom.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+			if( fragmentsRoutes.next ) dom.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
 			if( isVerticalSlide( currentSlide ) ) {
-				if( fragments.prev ) dom.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-				if( fragments.next ) dom.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.prev ) dom.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.next ) dom.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
 			else {
-				if( fragments.prev ) dom.controlsLeft.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-				if( fragments.next ) dom.controlsRight.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.prev ) dom.controlsLeft.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
+				if( fragmentsRoutes.next ) dom.controlsRight.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
 
 		}
-
 
 		if( config.controlsTutorial ) {
 
@@ -2797,14 +2593,14 @@ export default function( revealElement, options ) {
 		// Stop content inside of previous backgrounds
 		if( previousBackground ) {
 
-			stopEmbeddedContent( previousBackground, { unloadIframes: !shouldPreload( previousBackground ) } );
+			slideContent.stopEmbeddedContent( previousBackground, { unloadIframes: !slideContent.shouldPreload( previousBackground ) } );
 
 		}
 
 		// Start content in the current background
 		if( currentBackground ) {
 
-			startEmbeddedContent( currentBackground );
+			slideContent.startEmbeddedContent( currentBackground );
 
 			let currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
 			if( currentBackgroundContent ) {
@@ -2909,712 +2705,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Runs an auto-animation between the given slides.
-	 *
-	 * @param  {HTMLElement} fromSlide
-	 * @param  {HTMLElement} toSlide
-	 */
-	function autoAnimate( fromSlide, toSlide ) {
-
-		// Clean up after prior animations
-		removeEphemeralAutoAnimateAttributes();
-
-		if( autoAnimateStyleSheet && autoAnimateStyleSheet.parentNode ) {
-			autoAnimateStyleSheet.parentNode.removeChild( autoAnimateStyleSheet );
-			autoAnimateStyleSheet = null;
-		}
-
-		// Ensure that both slides are auto-animate targets
-		if( fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' ) ) {
-
-			// Create a new auto-animate sheet
-			autoAnimateStyleSheet = autoAnimateStyleSheet || document.createElement( 'style' );
-			autoAnimateStyleSheet.type = 'text/css';
-			document.head.appendChild( autoAnimateStyleSheet );
-
-			let animationOptions = getAutoAnimateOptions( toSlide );
-
-			// Set our starting state
-			fromSlide.dataset.autoAnimate = 'pending';
-			toSlide.dataset.autoAnimate = 'pending';
-
-			// Inject our auto-animate styles for this transition
-			let css = getAutoAnimatableElements( fromSlide, toSlide ).map( elements => {
-				return getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
-			} );
-
-			// Animate unmatched elements, if enabled
-			if( toSlide.dataset.autoAnimateUnmatched !== 'false' && config.autoAnimateUnmatched === true ) {
-				getUnmatchedAutoAnimateElements( toSlide ).forEach( unmatchedElement => {
-					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
-				} );
-
-				css.push( `[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity ${animationOptions.duration*0.8}s ease ${animationOptions.duration*0.2}s; }` );
-			}
-
-			// Setting the whole chunk of CSS at once is the most
-			// efficient way to do this. Using sheet.insertRule
-			// is multiple factors slower.
-			autoAnimateStyleSheet.innerHTML = css.join( '' );
-
-			// Start the animation next cycle
-			requestAnimationFrame( () => {
-				if( autoAnimateStyleSheet ) {
-					// This forces our newly injected styles to be applied in Firefox
-					getComputedStyle( autoAnimateStyleSheet ).fontWeight;
-
-					toSlide.dataset.autoAnimate = 'running';
-				}
-			} );
-
-			dispatchEvent( 'autoanimate', { fromSlide: fromSlide, toSlide: toSlide, sheet: autoAnimateStyleSheet } );
-
-		}
-
-	}
-
-	/**
-	 * Removes all attributes that we temporarily add to slide
-	 * elements in order to carry out auto-animation.
-	 */
-	function removeEphemeralAutoAnimateAttributes() {
-
-		toArray( dom.wrapper.querySelectorAll( '[data-auto-animate-target]' ) ).forEach( element => {
-			delete element.dataset.autoAnimateTarget;
-		} );
-
-	}
-
-	/**
-	 * Auto-animates the properties of an element from their original
-	 * values to their new state.
-	 *
-	 * @param {HTMLElement} from
-	 * @param {HTMLElement} to
-	 * @param {Object} elementOptions Options for this element pair
-	 * @param {Object} animationOptions Options set at the slide level
-	 * @param {String} id Unique ID that we can use to identify this
-	 * auto-animate element in the DOM
-	 */
-	function getAutoAnimateCSS( from, to, elementOptions, animationOptions, id ) {
-
-		// 'from' elements are given a data-auto-animate-target with no value,
-		// 'to' elements are are given a data-auto-animate-target with an ID
-		from.dataset.autoAnimateTarget = '';
-		to.dataset.autoAnimateTarget = id;
-
-		// Each element may override any of the auto-animate options
-		// like transition easing, duration and delay via data-attributes
-		let options = getAutoAnimateOptions( to, animationOptions );
-
-		// If we're using a custom element matcher the element options
-		// may contain additional transition overrides
-		if( typeof elementOptions.delay !== 'undefined' ) options.delay = elementOptions.delay;
-		if( typeof elementOptions.duration !== 'undefined' ) options.duration = elementOptions.duration;
-		if( typeof elementOptions.easing !== 'undefined' ) options.easing = elementOptions.easing;
-
-		let fromProps = getAutoAnimatableProperties( 'from', from, elementOptions ),
-			toProps = getAutoAnimatableProperties( 'to', to, elementOptions );
-
-		// If translation and/or scaling are enabled, css transform
-		// the 'to' element so that it matches the position and size
-		// of the 'from' element
-		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-
-			let presentationScale = Reveal.getScale();
-
-			let delta = {
-				x: ( fromProps.x - toProps.x ) / presentationScale,
-				y: ( fromProps.y - toProps.y ) / presentationScale,
-				scaleX: fromProps.width / toProps.width,
-				scaleY: fromProps.height / toProps.height
-			};
-
-			// Limit decimal points to avoid 0.0001px blur and stutter
-			delta.x = Math.round( delta.x * 1000 ) / 1000;
-			delta.y = Math.round( delta.y * 1000 ) / 1000;
-			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
-			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
-
-			let translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
-				scale = elementOptions.scale !== false && ( delta.scaleX !== 0 || delta.scaleY !== 0 );
-
-			// No need to transform if nothing's changed
-			if( translate || scale ) {
-
-				let transform = [];
-
-				if( translate ) transform.push( `translate(${delta.x}px, ${delta.y}px)` );
-				if( scale ) transform.push( `scale(${delta.scaleX}, ${delta.scaleY})` );
-
-				fromProps.styles['transform'] = transform.join( ' ' );
-				fromProps.styles['transform-origin'] = 'top left';
-
-				toProps.styles['transform'] = 'none';
-
-			}
-
-		}
-
-		// Delete all unchanged 'to' styles
-		for( let propertyName in toProps.styles ) {
-			const toValue = toProps.styles[propertyName];
-			const fromValue = fromProps.styles[propertyName];
-
-			if( toValue === fromValue ) {
-				delete toProps.styles[propertyName];
-			}
-			else {
-				// If these property values were set via a custom matcher providing
-				// an explicit 'from' and/or 'to' value, we always inject those values.
-				if( toValue.explicitValue === true ) {
-					toProps.styles[propertyName] = toValue.value;
-				}
-
-				if( fromValue.explicitValue === true ) {
-					fromProps.styles[propertyName] = fromValue.value;
-				}
-			}
-		}
-
-		let css = '';
-
-		let toStyleProperties = Object.keys( toProps.styles );
-
-		// Only create animate this element IF at least one style
-		// property has changed
-		if( toStyleProperties.length > 0 ) {
-
-			// Instantly move to the 'from' state
-			fromProps.styles['transition'] = 'none';
-
-			// Animate towards the 'to' state
-			toProps.styles['transition'] = `all ${options.duration}s ${options.easing} ${options.delay}s`;
-			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
-			toProps.styles['will-change'] = toStyleProperties.join( ', ' );
-
-			// Build up our custom CSS. We need to override inline styles
-			// so we need to make our styles vErY IMPORTANT!1!!
-			let fromCSS = Object.keys( fromProps.styles ).map( propertyName => {
-				return propertyName + ': ' + fromProps.styles[propertyName] + ' !important;';
-			} ).join( '' );
-
-			let toCSS = Object.keys( toProps.styles ).map( propertyName => {
-				return propertyName + ': ' + toProps.styles[propertyName] + ' !important;';
-			} ).join( '' );
-
-			css = 	'[data-auto-animate-target="'+ id +'"] {'+ fromCSS +'}' +
-					'[data-auto-animate="running"] [data-auto-animate-target="'+ id +'"] {'+ toCSS +'}';
-
-		}
-
-		return css;
-
-	}
-
-	/**
-	 * Returns the auto-animate options for the given element.
-	 *
-	 * @param {HTMLElement} element Element to pick up options
-	 * from, either a slide or an animation target
-	 * @param {Object} [inheritedOptions] Optional set of existing
-	 * options
-	 */
-	function getAutoAnimateOptions( element, inheritedOptions ) {
-
-		let options = {
-			easing: config.autoAnimateEasing,
-			duration: config.autoAnimateDuration,
-			delay: 0
-		};
-
-		options = extend( options, inheritedOptions );
-
-		// Inherit options from parent elements
-		if( element.closest && element.parentNode ) {
-			let autoAnimatedParent = element.parentNode.closest( '[data-auto-animate-target]' );
-			if( autoAnimatedParent ) {
-				options = getAutoAnimateOptions( autoAnimatedParent, options );
-			}
-		}
-
-		if( element.dataset.autoAnimateEasing ) {
-			options.easing = element.dataset.autoAnimateEasing;
-		}
-
-		if( element.dataset.autoAnimateDuration ) {
-			options.duration = parseFloat( element.dataset.autoAnimateDuration );
-		}
-
-		if( element.dataset.autoAnimateDelay ) {
-			options.delay = parseFloat( element.dataset.autoAnimateDelay );
-		}
-
-		return options;
-
-	}
-
-	/**
-	 * Returns an object containing all of the properties
-	 * that can be auto-animated for the given element and
-	 * their current computed values.
-	 *
-	 * @param {String} direction 'from' or 'to'
-	 */
-	function getAutoAnimatableProperties( direction, element, elementOptions ) {
-
-		let properties = { styles: [] };
-
-		// Position and size
-		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
-			let bounds;
-
-			// Custom auto-animate may optionally return a custom tailored
-			// measurement function
-			if( typeof elementOptions.measure === 'function' ) {
-				bounds = elementOptions.measure( element );
-			}
-			else {
-				bounds = element.getBoundingClientRect();
-			}
-
-			properties.x = bounds.x;
-			properties.y = bounds.y;
-			properties.width = bounds.width;
-			properties.height = bounds.height;
-		}
-
-		const computedStyles = getComputedStyle( element );
-
-		// CSS styles
-		( elementOptions.styles || config.autoAnimateStyles ).forEach( style => {
-			let value;
-
-			// `style` is either the property name directly, or an object
-			// definition of a style property
-			if( typeof style === 'string' ) style = { property: style };
-
-			if( typeof style.from !== 'undefined' && direction === 'from' ) {
-				value = { value: style.from, explicitValue: true };
-			}
-			else if( typeof style.to !== 'undefined' && direction === 'to' ) {
-				value = { value: style.to, explicitValue: true };
-			}
-			else {
-				value = computedStyles[style.property];
-			}
-
-			if( value !== '' ) {
-				properties.styles[style.property] = value;
-			}
-		} );
-
-		return properties;
-
-	}
-
-	/**
-	 * Get a list of all element pairs that we can animate
-	 * between the given slides.
-	 *
-	 * @param {HTMLElement} fromSlide
-	 * @param {HTMLElement} toSlide
-	 *
-	 * @return {Array} Each value is an array where [0] is
-	 * the element we're animating from and [1] is the
-	 * element we're animating to
-	 */
-	function getAutoAnimatableElements( fromSlide, toSlide ) {
-
-		let matcher = typeof config.autoAnimateMatcher === 'function' ? config.autoAnimateMatcher : getAutoAnimatePairs;
-
-		let pairs = matcher( fromSlide, toSlide );
-
-		let reserved = [];
-
-		// Remove duplicate pairs
-		return pairs.filter( ( pair, index ) => {
-			if( reserved.indexOf( pair.to ) === -1 ) {
-				reserved.push( pair.to );
-				return true;
-			}
-		} );
-
-	}
-
-	/**
-	 * Identifies matching elements between slides.
-	 *
-	 * You can specify a custom matcher function by using
-	 * the `autoAnimateMatcher` config option.
-	 */
-	function getAutoAnimatePairs( fromSlide, toSlide ) {
-
-		let pairs = [];
-
-		const codeNodes = 'pre';
-		const textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
-		const mediaNodes = 'img, video, iframe';
-
-		// Eplicit matches via data-id
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', node => {
-			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
-		} );
-
-		// Text
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, textNodes, node => {
-			return node.nodeName + ':::' + node.innerText;
-		} );
-
-		// Media
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, mediaNodes, node => {
-			return node.nodeName + ':::' + ( node.getAttribute( 'src' ) || node.getAttribute( 'data-src' ) );
-		} );
-
-		// Code
-		findAutoAnimateMatches( pairs, fromSlide, toSlide, codeNodes, node => {
-			return node.nodeName + ':::' + node.innerText;
-		} );
-
-		pairs.forEach( pair => {
-
-			// Disable scale transformations on text nodes, we transiition
-			// each individual text property instead
-			if( pair.from.matches( textNodes ) ) {
-				pair.options = { scale: false };
-			}
-			// Animate individual lines of code
-			else if( pair.from.matches( codeNodes ) ) {
-
-				// Transition the code block's width and height instead of scaling
-				// to prevent its content from being squished
-				pair.options = { scale: false, styles: [ 'width', 'height' ] };
-
-				// Lines of code
-				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-code', node => {
-					return node.textContent;
-				}, {
-					scale: false,
-					styles: [],
-					measure: getLocalBoundingBox
-				} );
-
-				// Line numbers
-				findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', node => {
-					return node.getAttribute( 'data-line-number' );
-				}, {
-					scale: false,
-					styles: [ 'width' ],
-					measure: getLocalBoundingBox
-				} );
-
-			}
-
-		} );
-
-		return pairs;
-
-	}
-
-	/**
-	 * Helper method which returns a bounding box based on
-	 * the given elements offset coordinates.
-	 *
-	 * @param {HTMLElement} element
-	 * @return {Object} x, y, width, height
-	 */
-	function getLocalBoundingBox( element ) {
-
-		const presentationScale = Reveal.getScale();
-
-		return {
-			x: Math.round( ( element.offsetLeft * presentationScale ) * 100 ) / 100,
-			y: Math.round( ( element.offsetTop * presentationScale ) * 100 ) / 100,
-			width: Math.round( ( element.offsetWidth * presentationScale ) * 100 ) / 100,
-			height: Math.round( ( element.offsetHeight * presentationScale ) * 100 ) / 100
-		};
-
-	}
-
-	/**
-	 * Finds matching elements between two slides.
-	 *
-	 * @param {Array} pairs            	List of pairs to push matches to
-	 * @param {HTMLElement} fromScope   Scope within the from element exists
-	 * @param {HTMLElement} toScope     Scope within the to element exists
-	 * @param {String} selector         CSS selector of the element to match
-	 * @param {Function} serializer     A function that accepts an element and returns
-	 *                                  a stringified ID based on its contents
-	 * @param {Object} animationOptions Optional config options for this pair
-	 */
-	function findAutoAnimateMatches( pairs, fromScope, toScope, selector, serializer, animationOptions ) {
-
-		let fromMatches = {};
-		let toMatches = {};
-
-		[].slice.call( fromScope.querySelectorAll( selector ) ).forEach( ( element, i ) => {
-			const key = serializer( element );
-			if( typeof key === 'string' && key.length ) {
-				fromMatches[key] = fromMatches[key] || [];
-				fromMatches[key].push( element );
-			}
-		} );
-
-		[].slice.call( toScope.querySelectorAll( selector ) ).forEach( ( element, i ) => {
-			const key = serializer( element );
-			toMatches[key] = toMatches[key] || [];
-			toMatches[key].push( element );
-
-			let fromElement;
-
-			// Retrieve the 'from' element
-			if( fromMatches[key] ) {
-				const pimaryIndex = toMatches[key].length - 1;
-				const secondaryIndex = fromMatches[key].length - 1;
-
-				// If there are multiple identical from elements, retrieve
-				// the one at the same index as our to-element.
-				if( fromMatches[key][ pimaryIndex ] ) {
-					fromElement = fromMatches[key][ pimaryIndex ];
-					fromMatches[key][ pimaryIndex ] = null;
-				}
-				// If there are no matching from-elements at the same index,
-				// use the last one.
-				else if( fromMatches[key][ secondaryIndex ] ) {
-					fromElement = fromMatches[key][ secondaryIndex ];
-					fromMatches[key][ secondaryIndex ] = null;
-				}
-			}
-
-			// If we've got a matching pair, push it to the list of pairs
-			if( fromElement ) {
-				pairs.push({
-					from: fromElement,
-					to: element,
-					options: animationOptions
-				});
-			}
-		} );
-
-	}
-
-	/**
-	 * Returns a all elements within the given scope that should
-	 * be considered unmatched in an auto-animate transition. If
-	 * fading of unmatched elements is turned on, these elements
-	 * will fade when going between auto-animate slides.
-	 *
-	 * Note that parents of auto-animate targets are NOT considerd
-	 * unmatched since fading them would break the auto-animation.
-	 *
-	 * @param {HTMLElement} rootElement
-	 * @return {Array}
-	 */
-	function getUnmatchedAutoAnimateElements( rootElement ) {
-
-		return [].slice.call( rootElement.children ).reduce( ( result, element ) => {
-
-			const containsAnimatedElements = element.querySelector( '[data-auto-animate-target]' );
-
-			// The element is unmatched if
-			// - It is not an auto-animate target
-			// - It does not contain any auto-animate targets
-			if( !element.hasAttribute( 'data-auto-animate-target' ) && !containsAnimatedElements ) {
-				result.push( element );
-			}
-
-			if( element.querySelector( '[data-auto-animate-target]' ) ) {
-				result = result.concat( getUnmatchedAutoAnimateElements( element ) );
-			}
-
-			return result;
-
-		}, [] );
-
-	}
-
-	/**
-	 * Should the given element be preloaded?
-	 * Decides based on local element attributes and global config.
-	 *
-	 * @param {HTMLElement} element
-	 */
-	function shouldPreload( element ) {
-
-		// Prefer an explicit global preload setting
-		let preload = config.preloadIframes;
-
-		// If no global setting is available, fall back on the element's
-		// own preload setting
-		if( typeof preload !== 'boolean' ) {
-			preload = element.hasAttribute( 'data-preload' );
-		}
-
-		return preload;
-	}
-
-	/**
-	 * Called when the given slide is within the configured view
-	 * distance. Shows the slide element and loads any content
-	 * that is set to load lazily (data-src).
-	 *
-	 * @param {HTMLElement} slide Slide to show
-	 */
-	function loadSlide( slide, options = {} ) {
-
-		// Show the slide element
-		slide.style.display = config.display;
-
-		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( element => {
-			if( element.tagName !== 'IFRAME' || shouldPreload( element ) ) {
-				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
-				element.setAttribute( 'data-lazy-loaded', '' );
-				element.removeAttribute( 'data-src' );
-			}
-		} );
-
-		// Media elements with <source> children
-		toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( media => {
-			let sources = 0;
-
-			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( source => {
-				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
-				source.removeAttribute( 'data-src' );
-				source.setAttribute( 'data-lazy-loaded', '' );
-				sources += 1;
-			} );
-
-			// If we rewrote sources for this video/audio element, we need
-			// to manually tell it to load from its new origin
-			if( sources > 0 ) {
-				media.load();
-			}
-		} );
-
-
-		// Show the corresponding background element
-		let background = slide.slideBackgroundElement;
-		if( background ) {
-			background.style.display = 'block';
-
-			let backgroundContent = slide.slideBackgroundContentElement;
-			let backgroundIframe = slide.getAttribute( 'data-background-iframe' );
-
-			// If the background contains media, load it
-			if( background.hasAttribute( 'data-loaded' ) === false ) {
-				background.setAttribute( 'data-loaded', 'true' );
-
-				let backgroundImage = slide.getAttribute( 'data-background-image' ),
-					backgroundVideo = slide.getAttribute( 'data-background-video' ),
-					backgroundVideoLoop = slide.hasAttribute( 'data-background-video-loop' ),
-					backgroundVideoMuted = slide.hasAttribute( 'data-background-video-muted' );
-
-				// Images
-				if( backgroundImage ) {
-					backgroundContent.style.backgroundImage = 'url('+ encodeURI( backgroundImage ) +')';
-				}
-				// Videos
-				else if ( backgroundVideo && !isSpeakerNotes() ) {
-					let video = document.createElement( 'video' );
-
-					if( backgroundVideoLoop ) {
-						video.setAttribute( 'loop', '' );
-					}
-
-					if( backgroundVideoMuted ) {
-						video.muted = true;
-					}
-
-					// Inline video playback works (at least in Mobile Safari) as
-					// long as the video is muted and the `playsinline` attribute is
-					// present
-					if( isMobileDevice ) {
-						video.muted = true;
-						video.autoplay = true;
-						video.setAttribute( 'playsinline', '' );
-					}
-
-					// Support comma separated lists of video sources
-					backgroundVideo.split( ',' ).forEach( source => {
-						video.innerHTML += '<source src="'+ source +'">';
-					} );
-
-					backgroundContent.appendChild( video );
-				}
-				// Iframes
-				else if( backgroundIframe && options.excludeIframes !== true ) {
-					let iframe = document.createElement( 'iframe' );
-					iframe.setAttribute( 'allowfullscreen', '' );
-					iframe.setAttribute( 'mozallowfullscreen', '' );
-					iframe.setAttribute( 'webkitallowfullscreen', '' );
-					iframe.setAttribute( 'allow', 'autoplay' );
-
-					iframe.setAttribute( 'data-src', backgroundIframe );
-
-					iframe.style.width  = '100%';
-					iframe.style.height = '100%';
-					iframe.style.maxHeight = '100%';
-					iframe.style.maxWidth = '100%';
-
-					backgroundContent.appendChild( iframe );
-				}
-			}
-
-			// Start loading preloadable iframes
-			let backgroundIframeElement = backgroundContent.querySelector( 'iframe[data-src]' );
-			if( backgroundIframeElement ) {
-
-				// Check if this iframe is eligible to be preloaded
-				if( shouldPreload( background ) && !/autoplay=(1|true|yes)/gi.test( backgroundIframe ) ) {
-					if( backgroundIframeElement.getAttribute( 'src' ) !== backgroundIframe ) {
-						backgroundIframeElement.setAttribute( 'src', backgroundIframe );
-					}
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Unloads and hides the given slide. This is called when the
-	 * slide is moved outside of the configured view distance.
-	 *
-	 * @param {HTMLElement} slide
-	 */
-	function unloadSlide( slide ) {
-
-		// Hide the slide element
-		slide.style.display = 'none';
-
-		// Hide the corresponding background element
-		let background = getSlideBackground( slide );
-		if( background ) {
-			background.style.display = 'none';
-
-			// Unload any background iframes
-			toArray( background.querySelectorAll( 'iframe[src]' ) ).forEach( element => {
-				element.removeAttribute( 'src' );
-			} );
-		}
-
-		// Reset lazy-loaded media elements with src attributes
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ) ).forEach( element => {
-			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
-			element.removeAttribute( 'src' );
-		} );
-
-		// Reset lazy-loaded media elements with <source> children
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( source => {
-			source.setAttribute( 'data-src', source.getAttribute( 'src' ) );
-			source.removeAttribute( 'src' );
-		} );
-
-	}
-
-	/**
 	 * Determine what available routes there are for navigation.
 	 *
 	 * @return {{left: boolean, right: boolean, up: boolean, down: boolean}}
@@ -3653,264 +2743,6 @@ export default function( revealElement, options ) {
 		}
 
 		return routes;
-
-	}
-
-	/**
-	 * Returns an object describing the available fragment
-	 * directions.
-	 *
-	 * @return {{prev: boolean, next: boolean}}
-	 */
-	function availableFragments() {
-
-		if( currentSlide && config.fragments ) {
-			let fragments = currentSlide.querySelectorAll( '.fragment' );
-			let hiddenFragments = currentSlide.querySelectorAll( '.fragment:not(.visible)' );
-
-			return {
-				prev: fragments.length - hiddenFragments.length > 0,
-				next: !!hiddenFragments.length
-			};
-		}
-		else {
-			return { prev: false, next: false };
-		}
-
-	}
-
-	/**
-	 * Enforces origin-specific format rules for embedded media.
-	 */
-	function formatEmbeddedContent() {
-
-		let _appendParamToIframeSource = ( sourceAttribute, sourceURL, param ) => {
-			toArray( dom.slides.querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( el => {
-				let src = el.getAttribute( sourceAttribute );
-				if( src && src.indexOf( param ) === -1 ) {
-					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
-				}
-			});
-		};
-
-		// YouTube frames must include "?enablejsapi=1"
-		_appendParamToIframeSource( 'src', 'youtube.com/embed/', 'enablejsapi=1' );
-		_appendParamToIframeSource( 'data-src', 'youtube.com/embed/', 'enablejsapi=1' );
-
-		// Vimeo frames must include "?api=1"
-		_appendParamToIframeSource( 'src', 'player.vimeo.com/', 'api=1' );
-		_appendParamToIframeSource( 'data-src', 'player.vimeo.com/', 'api=1' );
-
-	}
-
-	/**
-	 * Start playback of any embedded content inside of
-	 * the given element.
-	 *
-	 * @param {HTMLElement} element
-	 */
-	function startEmbeddedContent( element ) {
-
-		if( element && !isSpeakerNotes() ) {
-
-			// Restart GIFs
-			toArray( element.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( el => {
-				// Setting the same unchanged source like this was confirmed
-				// to work in Chrome, FF & Safari
-				el.setAttribute( 'src', el.getAttribute( 'src' ) );
-			} );
-
-			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( el => {
-				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
-					return;
-				}
-
-				// Prefer an explicit global autoplay setting
-				let autoplay = config.autoPlayMedia;
-
-				// If no global setting is available, fall back on the element's
-				// own autoplay setting
-				if( typeof autoplay !== 'boolean' ) {
-					autoplay = el.hasAttribute( 'data-autoplay' ) || !!closestParent( el, '.slide-background' );
-				}
-
-				if( autoplay && typeof el.play === 'function' ) {
-
-					// If the media is ready, start playback
-					if( el.readyState > 1 ) {
-						startEmbeddedMedia( { target: el } );
-					}
-					// Mobile devices never fire a loaded event so instead
-					// of waiting, we initiate playback
-					else if( isMobileDevice ) {
-						let promise = el.play();
-
-						// If autoplay does not work, ensure that the controls are visible so
-						// that the viewer can start the media on their own
-						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
-							promise.catch( () => {
-								el.controls = true;
-
-								// Once the video does start playing, hide the controls again
-								el.addEventListener( 'play', () => {
-									el.controls = false;
-								} );
-							} );
-						}
-					}
-					// If the media isn't loaded, wait before playing
-					else {
-						el.removeEventListener( 'loadeddata', startEmbeddedMedia ); // remove first to avoid dupes
-						el.addEventListener( 'loadeddata', startEmbeddedMedia );
-					}
-
-				}
-			} );
-
-			// Normal iframes
-			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( el => {
-				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
-					return;
-				}
-
-				startEmbeddedIframe( { target: el } );
-			} );
-
-			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( el => {
-				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
-					return;
-				}
-
-				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
-					el.removeEventListener( 'load', startEmbeddedIframe ); // remove first to avoid dupes
-					el.addEventListener( 'load', startEmbeddedIframe );
-					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
-				}
-			} );
-
-		}
-
-	}
-
-	/**
-	 * Starts playing an embedded video/audio element after
-	 * it has finished loading.
-	 *
-	 * @param {object} event
-	 */
-	function startEmbeddedMedia( event ) {
-
-		let isAttachedToDOM = !!closestParent( event.target, 'html' ),
-			isVisible  		= !!closestParent( event.target, '.present' );
-
-		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
-			event.target.play();
-		}
-
-		event.target.removeEventListener( 'loadeddata', startEmbeddedMedia );
-
-	}
-
-	/**
-	 * "Starts" the content of an embedded iframe using the
-	 * postMessage API.
-	 *
-	 * @param {object} event
-	 */
-	function startEmbeddedIframe( event ) {
-
-		let iframe = event.target;
-
-		if( iframe && iframe.contentWindow ) {
-
-			let isAttachedToDOM = !!closestParent( event.target, 'html' ),
-				isVisible  		= !!closestParent( event.target, '.present' );
-
-			if( isAttachedToDOM && isVisible ) {
-
-				// Prefer an explicit global autoplay setting
-				let autoplay = config.autoPlayMedia;
-
-				// If no global setting is available, fall back on the element's
-				// own autoplay setting
-				if( typeof autoplay !== 'boolean' ) {
-					autoplay = iframe.hasAttribute( 'data-autoplay' ) || !!closestParent( iframe, '.slide-background' );
-				}
-
-				// YouTube postMessage API
-				if( /youtube\.com\/embed\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
-					iframe.contentWindow.postMessage( '{"event":"command","func":"playVideo","args":""}', '*' );
-				}
-				// Vimeo postMessage API
-				else if( /player\.vimeo\.com\//.test( iframe.getAttribute( 'src' ) ) && autoplay ) {
-					iframe.contentWindow.postMessage( '{"method":"play"}', '*' );
-				}
-				// Generic postMessage API
-				else {
-					iframe.contentWindow.postMessage( 'slide:start', '*' );
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Stop playback of any embedded content inside of
-	 * the targeted slide.
-	 *
-	 * @param {HTMLElement} element
-	 */
-	function stopEmbeddedContent( element, options = {} ) {
-
-		options = extend( {
-			// Defaults
-			unloadIframes: true
-		}, options );
-
-		if( element && element.parentNode ) {
-			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( el => {
-				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
-					el.setAttribute('data-paused-by-reveal', '');
-					el.pause();
-				}
-			} );
-
-			// Generic postMessage API for non-lazy loaded iframes
-			toArray( element.querySelectorAll( 'iframe' ) ).forEach( el => {
-				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
-				el.removeEventListener( 'load', startEmbeddedIframe );
-			});
-
-			// YouTube postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( el => {
-				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
-					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
-				}
-			});
-
-			// Vimeo postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( el => {
-				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
-					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
-				}
-			});
-
-			if( options.unloadIframes === true ) {
-				// Unload lazy-loaded iframes
-				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( el => {
-					// Only removing the src doesn't actually unload the frame
-					// in all browsers (Firefox) so we set it to blank first
-					el.setAttribute( 'src', 'about:blank' );
-					el.removeAttribute( 'src' );
-				} );
-			}
-		}
 
 	}
 
@@ -4331,7 +3163,7 @@ export default function( revealElement, options ) {
 			indexv: indices.v,
 			indexf: indices.f,
 			paused: isPaused(),
-			overview: isOverview()
+			overview: overview.isActive()
 		};
 
 	}
@@ -4354,238 +3186,10 @@ export default function( revealElement, options ) {
 				togglePause( pausedFlag );
 			}
 
-			if( typeof overviewFlag === 'boolean' && overviewFlag !== isOverview() ) {
-				toggleOverview( overviewFlag );
+			if( typeof overviewFlag === 'boolean' && overviewFlag !== overview.isActive() ) {
+				overview.toggle( overviewFlag );
 			}
 		}
-
-	}
-
-	/**
-	 * Return a sorted fragments list, ordered by an increasing
-	 * "data-fragment-index" attribute.
-	 *
-	 * Fragments will be revealed in the order that they are returned by
-	 * this function, so you can use the index attributes to control the
-	 * order of fragment appearance.
-	 *
-	 * To maintain a sensible default fragment order, fragments are presumed
-	 * to be passed in document order. This function adds a "fragment-index"
-	 * attribute to each node if such an attribute is not already present,
-	 * and sets that attribute to an integer value which is the position of
-	 * the fragment within the fragments list.
-	 *
-	 * @param {object[]|*} fragments
-	 * @param {boolean} grouped If true the returned array will contain
-	 * nested arrays for all fragments with the same index
-	 * @return {object[]} sorted Sorted array of fragments
-	 */
-	function sortFragments( fragments, grouped = false ) {
-
-		fragments = toArray( fragments );
-
-		let ordered = [],
-			unordered = [],
-			sorted = [];
-
-		// Group ordered and unordered elements
-		fragments.forEach( fragment => {
-			if( fragment.hasAttribute( 'data-fragment-index' ) ) {
-				let index = parseInt( fragment.getAttribute( 'data-fragment-index' ), 10 );
-
-				if( !ordered[index] ) {
-					ordered[index] = [];
-				}
-
-				ordered[index].push( fragment );
-			}
-			else {
-				unordered.push( [ fragment ] );
-			}
-		} );
-
-		// Append fragments without explicit indices in their
-		// DOM order
-		ordered = ordered.concat( unordered );
-
-		// Manually count the index up per group to ensure there
-		// are no gaps
-		let index = 0;
-
-		// Push all fragments in their sorted order to an array,
-		// this flattens the groups
-		ordered.forEach( group => {
-			group.forEach( fragment => {
-				sorted.push( fragment );
-				fragment.setAttribute( 'data-fragment-index', index );
-			} );
-
-			index ++;
-		} );
-
-		return grouped === true ? ordered : sorted;
-
-	}
-
-	/**
-	 * Refreshes the fragments on the current slide so that they
-	 * have the appropriate classes (.visible + .current-fragment).
-	 *
-	 * @param {number} [index] The index of the current fragment
-	 * @param {array} [fragments] Array containing all fragments
-	 * in the current slide
-	 *
-	 * @return {{shown: array, hidden: array}}
-	 */
-	function updateFragments( index, fragments ) {
-
-		let changedFragments = {
-			shown: [],
-			hidden: []
-		};
-
-		if( currentSlide && config.fragments ) {
-
-			fragments = fragments || sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
-
-			if( fragments.length ) {
-
-				let maxIndex = 0;
-
-				if( typeof index !== 'number' ) {
-					let currentFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
-					if( currentFragment ) {
-						index = parseInt( currentFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
-					}
-				}
-
-				toArray( fragments ).forEach( ( el, i ) => {
-
-					if( el.hasAttribute( 'data-fragment-index' ) ) {
-						i = parseInt( el.getAttribute( 'data-fragment-index' ), 10 );
-					}
-
-					maxIndex = Math.max( maxIndex, i );
-
-					// Visible fragments
-					if( i <= index ) {
-						if( !el.classList.contains( 'visible' ) ) changedFragments.shown.push( el );
-						el.classList.add( 'visible' );
-						el.classList.remove( 'current-fragment' );
-
-						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.textContent = getStatusText( el );
-
-						if( i === index ) {
-							el.classList.add( 'current-fragment' );
-							startEmbeddedContent( el );
-						}
-					}
-					// Hidden fragments
-					else {
-						if( el.classList.contains( 'visible' ) ) changedFragments.hidden.push( el );
-						el.classList.remove( 'visible' );
-						el.classList.remove( 'current-fragment' );
-					}
-
-				} );
-
-				// Write the current fragment index to the slide <section>.
-				// This can be used by end users to apply styles based on
-				// the current fragment index.
-				index = typeof index === 'number' ? index : -1;
-				index = Math.max( Math.min( index, maxIndex ), -1 );
-				currentSlide.setAttribute( 'data-fragment', index );
-
-			}
-
-		}
-
-		return changedFragments;
-
-	}
-
-	/**
-	 * Navigate to the specified slide fragment.
-	 *
-	 * @param {?number} index The index of the fragment that
-	 * should be shown, -1 means all are invisible
-	 * @param {number} offset Integer offset to apply to the
-	 * fragment index
-	 *
-	 * @return {boolean} true if a change was made in any
-	 * fragments visibility as part of this call
-	 */
-	function navigateFragment( index, offset = 0 ) {
-
-		if( currentSlide && config.fragments ) {
-
-			let fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
-			if( fragments.length ) {
-
-				// If no index is specified, find the current
-				if( typeof index !== 'number' ) {
-					let lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
-
-					if( lastVisibleFragment ) {
-						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
-					}
-					else {
-						index = -1;
-					}
-				}
-
-				// Apply the offset if there is one
-				index += offset;
-
-				let changedFragments = updateFragments( index, fragments );
-
-				if( changedFragments.hidden.length ) {
-					dispatchEvent( 'fragmenthidden', { fragment: changedFragments.hidden[0], fragments: changedFragments.hidden } );
-				}
-
-				if( changedFragments.shown.length ) {
-					dispatchEvent( 'fragmentshown', { fragment: changedFragments.shown[0], fragments: changedFragments.shown } );
-				}
-
-				updateControls();
-				updateProgress();
-
-				if( config.fragmentInURL ) {
-					writeURL();
-				}
-
-				return !!( changedFragments.shown.length || changedFragments.hidden.length );
-
-			}
-
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * Navigate to the next slide fragment.
-	 *
-	 * @return {boolean} true if there was a next fragment,
-	 * false otherwise
-	 */
-	function nextFragment() {
-
-		return navigateFragment( null, 1 );
-
-	}
-
-	/**
-	 * Navigate to the previous slide fragment.
-	 *
-	 * @return {boolean} true if there was a previous fragment,
-	 * false otherwise
-	 */
-	function prevFragment() {
-
-		return navigateFragment( null, -1 );
 
 	}
 
@@ -4647,7 +3251,7 @@ export default function( revealElement, options ) {
 			// - The presentation isn't paused
 			// - The overview isn't active
 			// - The presentation isn't over
-			if( autoSlide && !autoSlidePaused && !isPaused() && !isOverview() && ( !Reveal.isLastSlide() || availableFragments().next || config.loop === true ) ) {
+			if( autoSlide && !autoSlidePaused && !isPaused() && !overview.isActive() && ( !isLastSlide() || fragments.availableRoutes().next || config.loop === true ) ) {
 				autoSlideTimeout = setTimeout( () => {
 					if( typeof config.autoSlideMethod === 'function' ) {
 						config.autoSlideMethod()
@@ -4708,12 +3312,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+			if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().left ) {
 				slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || prevFragment() === false ) && availableRoutes().left ) {
+		else if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().left ) {
 			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -4725,12 +3329,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( isOverview() || prevFragment() === false ) && availableRoutes().right ) {
+			if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+		else if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().right ) {
 			slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -4739,7 +3343,7 @@ export default function( revealElement, options ) {
 	function navigateUp() {
 
 		// Prioritize hiding fragments
-		if( ( isOverview() || prevFragment() === false ) && availableRoutes().up ) {
+		if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
@@ -4750,7 +3354,7 @@ export default function( revealElement, options ) {
 		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
+		if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
 
@@ -4765,7 +3369,7 @@ export default function( revealElement, options ) {
 	function navigatePrev() {
 
 		// Prioritize revealing fragments
-		if( prevFragment() === false ) {
+		if( fragments.prev() === false ) {
 			if( availableRoutes().up ) {
 				navigateUp();
 			}
@@ -4799,14 +3403,14 @@ export default function( revealElement, options ) {
 		hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( nextFragment() === false ) {
+		if( fragments.next() === false ) {
 
 			let routes = availableRoutes();
 
 			// When looping is enabled `routes.down` is always available
 			// so we need a separate check for when we've reached the
 			// end of a stack and should move horizontally
-			if( routes.down && routes.right && config.loop && Reveal.isLastVerticalSlide( currentSlide ) ) {
+			if( routes.down && routes.right && config.loop && isLastVerticalSlide( currentSlide ) ) {
 				routes.down = false;
 			}
 
@@ -5019,7 +3623,7 @@ export default function( revealElement, options ) {
 				if( firstSlideShortcut ) {
 					slide( 0 );
 				}
-				else if( !isOverview() && useLinearMode ) {
+				else if( !overview.isActive() && useLinearMode ) {
 					navigatePrev();
 				}
 				else {
@@ -5031,7 +3635,7 @@ export default function( revealElement, options ) {
 				if( lastSlideShortcut ) {
 					slide( Number.MAX_VALUE );
 				}
-				else if( !isOverview() && useLinearMode ) {
+				else if( !overview.isActive() && useLinearMode ) {
 					navigateNext();
 				}
 				else {
@@ -5040,7 +3644,7 @@ export default function( revealElement, options ) {
 			}
 			// K, UP
 			else if( keyCode === 75 || keyCode === 38 ) {
-				if( !isOverview() && useLinearMode ) {
+				if( !overview.isActive() && useLinearMode ) {
 					navigatePrev();
 				}
 				else {
@@ -5049,7 +3653,7 @@ export default function( revealElement, options ) {
 			}
 			// J, DOWN
 			else if( keyCode === 74 || keyCode === 40 ) {
-				if( !isOverview() && useLinearMode ) {
+				if( !overview.isActive() && useLinearMode ) {
 					navigateNext();
 				}
 				else {
@@ -5066,8 +3670,8 @@ export default function( revealElement, options ) {
 			}
 			// SPACE
 			else if( keyCode === 32 ) {
-				if( isOverview() ) {
-					deactivateOverview();
+				if( overview.isActive() ) {
+					overview.deactivate();
 				}
 				if( event.shiftKey ) {
 					navigatePrev();
@@ -5107,7 +3711,7 @@ export default function( revealElement, options ) {
 				closeOverlay();
 			}
 			else {
-				toggleOverview();
+				overview.toggle();
 			}
 
 			event.preventDefault && event.preventDefault();
@@ -5221,7 +3825,7 @@ export default function( revealElement, options ) {
 		}
 		// There's a bug with swiping on some Android devices unless
 		// the default action is always prevented
-		else if( UA.match( /android/gi ) ) {
+		else if( isAndroid ) {
 			event.preventDefault();
 		}
 
@@ -5381,40 +3985,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Invoked when a slide is and we're in the overview.
-	 *
-	 * @param {object} event
-	 */
-	function onOverviewSlideClicked( event ) {
-
-		// TODO There's a bug here where the event listeners are not
-		// removed after deactivating the overview.
-		if( eventsAreBound && isOverview() ) {
-			event.preventDefault();
-
-			let element = event.target;
-
-			while( element && !element.nodeName.match( /section/gi ) ) {
-				element = element.parentNode;
-			}
-
-			if( element && !element.classList.contains( 'disabled' ) ) {
-
-				deactivateOverview();
-
-				if( element.nodeName.match( /section/gi ) ) {
-					let h = parseInt( element.getAttribute( 'data-index-h' ), 10 ),
-						v = parseInt( element.getAttribute( 'data-index-v' ), 10 );
-
-					slide( h, v );
-				}
-
-			}
-		}
-
-	}
-
-	/**
 	 * Handles clicks on links that are set to preview in the
 	 * iframe overlay.
 	 *
@@ -5440,7 +4010,7 @@ export default function( revealElement, options ) {
 	function onAutoSlidePlayerClick( event ) {
 
 		// Replay
-		if( Reveal.isLastSlide() && config.loop === false ) {
+		if( isLastSlide() && config.loop === false ) {
 			slide( 0, 0 );
 			resumeAutoSlide();
 		}
@@ -5461,7 +4031,7 @@ export default function( revealElement, options ) {
 	// --------------------------------------------------------------------//
 
 
-	Reveal = {
+	return extend( Reveal, {
 		VERSION,
 
 		initialize,
@@ -5490,9 +4060,9 @@ export default function( revealElement, options ) {
 		navigateNext: navigateNext,
 
 		// Fragment methods
-		navigateFragment,
-		prevFragment,
-		nextFragment,
+		navigateFragment: () => fragments.goto.bind( fragments ),
+		prevFragment: () => fragments.prev.bind( fragments ),
+		nextFragment: () => fragments.next.bind( fragments ),
 
 		// Forces an update in slide layout
 		layout,
@@ -5504,13 +4074,13 @@ export default function( revealElement, options ) {
 		availableRoutes,
 
 		// Returns an object with the available fragments as booleans (prev/next)
-		availableFragments,
+		availableFragments: fragments.availableRoutes.bind( fragments ),
 
 		// Toggles a help overlay with keyboard shortcuts
 		toggleHelp,
 
 		// Toggles the overview mode on/off
-		toggleOverview,
+		toggleOverview: overview.toggle.bind( overview ),
 
 		// Toggles the "black screen" mode on/off
 		togglePause,
@@ -5518,19 +4088,25 @@ export default function( revealElement, options ) {
 		// Toggles the auto slide mode on/off
 		toggleAutoSlide,
 
+		// Slide navigation checks
+		isFirstSlide,
+		isLastSlide,
+		isLastVerticalSlide,
+
 		// State checks
-		isOverview,
+		isOverview: () => overview.isActive.bind( overview ),
 		isPaused,
 		isAutoSliding,
 		isSpeakerNotes,
 
 		// Slide preloading
-		loadSlide,
-		unloadSlide,
+		loadSlide: () => slideContent.load.bind( slideContent ),
+		unloadSlide: () => slideContent.unload.bind( slideContent ),
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners,
 		removeEventListeners,
+		dispatchEvent,
 
 		// Facility for persisting and restoring the presentation state
 		getState,
@@ -5577,13 +4153,27 @@ export default function( revealElement, options ) {
 		addKeyBinding,
 		removeKeyBinding,
 
+		// Programmatically triggers a keyboard event
+		triggerKey: keyCode => onDocumentKeyDown( { keyCode } ),
+
+		// Registers a new shortcut to include in the help overlay
+		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value,
+
+		// Forward event binding to the reveal DOM element
+		addEventListener: ( type, listener, useCapture ) => {
+			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
+		},
+		removeEventListener: ( type, listener, useCapture ) => {
+			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
+		},
+
 		// API for registering and retrieving plugins
-		registerPlugin: (...args) => plugins.registerPlugin( ...args ),
-		hasPlugin: (...args) => plugins.hasPlugin( ...args ),
-		getPlugin: (...args) => plugins.getPlugin( ...args ),
+		registerPlugin: () => plugins.registerPlugin.bind( plugins ),
+		hasPlugin: () => plugins.hasPlugin.bind( plugins ),
+		getPlugin: () => plugins.getPlugin.bind( plugins ),
 
 		// Returns a hash with all registered plugins
-		getPlugins: () => plugins.getRegisteredPlugins(),
+		getPlugins: () => plugins.getRegisteredPlugins.bind( plugins ),
 
 		getComputedSlideSize,
 
@@ -5623,56 +4213,29 @@ export default function( revealElement, options ) {
 
 		// Returns the top-level DOM element
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
-
-		// Returns true if we're currently on the first slide
-		isFirstSlide: () => indexh === 0 && indexv === 0,
-
-		// Returns true if we're currently on the last slide
-		isLastSlide: () => {
-			if( currentSlide ) {
-				// Does this slide have a next sibling?
-				if( currentSlide.nextElementSibling ) return false;
-
-				// If it's vertical, does its parent have a next sibling?
-				if( isVerticalSlide( currentSlide ) && currentSlide.parentNode.nextElementSibling ) return false;
-
-				return true;
-			}
-
-			return false;
-		},
-
-		// Returns true if we're on the last slide in the current
-		// vertical stack
-		isLastVerticalSlide: () => {
-			if( currentSlide && isVerticalSlide( currentSlide ) ) {
-				// Does this slide have a next sibling?
-				if( currentSlide.nextElementSibling ) return false;
-
-				return true;
-			}
-
-			return false;
-		},
+		getSlidesElement: () => dom.slides,
+		getBackgroundsElement: () => dom.background,
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
 
-		// Forward event binding to the reveal DOM element
-		addEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
-		},
-		removeEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
-		},
 
-		// Programmatically triggers a keyboard event
-		triggerKey: keyCode => onDocumentKeyDown( { keyCode } ),
+		// The following API methods are primarily intended for use
+		// by reveal.js controllers
 
-		// Registers a new shortcut to include in the help overlay
-		registerKeyboardShortcut: ( key, value ) => keyboardShortcuts[key] = value
-	};
+		// Methods for announcing content to screen readers
+		announceStatus,
+		getStatusText,
 
-	return Reveal;
+		slideContent,
+		updateControls,
+		updateProgress,
+		updateSlidesVisibility,
+		writeURL,
+		transformSlides,
+		cueAutoSlide,
+		cancelAutoSlide
+
+	} );
 
 };
