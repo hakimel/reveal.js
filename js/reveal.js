@@ -2735,6 +2735,11 @@ export default function( revealElement, options ) {
 			}
 		}
 
+		if ( horizontalSlides.length > 1 && config.navigationMode === 'linear' ) {
+			routes.right = routes.right || routes.down;
+			routes.left = routes.left || routes.up;
+		}
+
 		// Reverse horizontal controls for rtl
 		if( config.rtl ) {
 			let left = routes.left;
