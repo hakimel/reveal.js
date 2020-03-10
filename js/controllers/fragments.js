@@ -264,7 +264,7 @@ export default class Fragments {
 				this.Reveal.updateProgress();
 
 				if( this.Reveal.getConfig().fragmentInURL ) {
-					this.Reveal.writeURL();
+					this.Reveal.location.writeURL();
 				}
 
 				return !!( changedFragments.shown.length || changedFragments.hidden.length );

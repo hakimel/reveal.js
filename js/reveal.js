@@ -108,9 +108,6 @@ export default function( revealElement, options ) {
 		// Throttles mouse wheel navigation
 		lastMouseWheelStep = 0,
 
-		// Delays updates to the URL due to a Chrome thumbnailer bug
-		writeURLTimeout = 0,
-
 		// Is the mouse pointer currently hidden from view
 		cursorHidden = false,
 
@@ -189,7 +186,7 @@ export default function( revealElement, options ) {
 		configure();
 
 		// Read the initial hash
-		readURL();
+		location.readURL();
 
 		// Update all backgrounds
 		updateBackground( true );
@@ -1836,7 +1833,7 @@ export default function( revealElement, options ) {
 		fragments.update();
 
 		// Update the URL hash
-		writeURL();
+		location.writeURL();
 
 		cueAutoSlide();
 
@@ -1886,7 +1883,7 @@ export default function( revealElement, options ) {
 		createBackgrounds();
 
 		// Write the current hash to the URL
-		writeURL();
+		location.writeURL();
 
 		fragments.sortAll();
 
@@ -2636,103 +2633,6 @@ export default function( revealElement, options ) {
 	function isSpeakerNotes() {
 
 		return !!window.location.search.match( /receiver/gi );
-
-	}
-
-	/**
-	 * Reads the current URL (hash) and navigates accordingly.
-	 */
-	function readURL() {
-
-		let hash = window.location.hash;
-
-		// Attempt to parse the hash as either an index or name
-		let bits = hash.slice( 2 ).split( '/' ),
-			name = hash.replace( /#|\//gi, '' );
-
-		// If the first bit is not fully numeric and there is a name we
-		// can assume that this is a named link
-		if( !/^[0-9]*$/.test( bits[0] ) && name.length ) {
-			let element;
-
-			// Ensure the named link is a valid HTML ID attribute
-			try {
-				element = document.getElementById( decodeURIComponent( name ) );
-			}
-			catch ( error ) { }
-
-			// Ensure that we're not already on a slide with the same name
-			let isSameNameAsCurrentSlide = currentSlide ? currentSlide.getAttribute( 'id' ) === name : false;
-
-			if( element ) {
-				// If the slide exists and is not the current slide...
-				if ( !isSameNameAsCurrentSlide ) {
-					// ...find the position of the named slide and navigate to it
-					let indices = Reveal.getIndices(element);
-					slide(indices.h, indices.v);
-				}
-			}
-			// If the slide doesn't exist, navigate to the current slide
-			else {
-				slide( indexh || 0, indexv || 0 );
-			}
-		}
-		else {
-			let hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
-
-			// Read the index components of the hash
-			let h = ( parseInt( bits[0], 10 ) - hashIndexBase ) || 0,
-				v = ( parseInt( bits[1], 10 ) - hashIndexBase ) || 0,
-				f;
-
-			if( config.fragmentInURL ) {
-				f = parseInt( bits[2], 10 );
-				if( isNaN( f ) ) {
-					f = undefined;
-				}
-			}
-
-			if( h !== indexh || v !== indexv || f !== undefined ) {
-				slide( h, v, f );
-			}
-		}
-
-	}
-
-	/**
-	 * Updates the page URL (hash) to reflect the current
-	 * state.
-	 *
-	 * @param {number} delay The time in ms to wait before
-	 * writing the hash
-	 */
-	function writeURL( delay ) {
-
-		// Make sure there's never more than one timeout running
-		clearTimeout( writeURLTimeout );
-
-		// If a delay is specified, timeout this call
-		if( typeof delay === 'number' ) {
-			writeURLTimeout = setTimeout( writeURL, delay );
-		}
-		else if( currentSlide ) {
-			// If we're configured to push to history OR the history
-			// API is not avaialble.
-			if( config.history || !window.history ) {
-				window.location.hash = location.getHash();
-			}
-			// If we're configured to reflect the current slide in the
-			// URL without pushing to history.
-			else if( config.hash ) {
-				window.history.replaceState( null, null, '#' + location.getHash() );
-			}
-			// If history and hash are both disabled, a hash may still
-			// be added to the URL by clicking on a href with a hash
-			// target. Counter this by always removing the hash.
-			else {
-				window.history.replaceState( null, null, window.location.pathname + window.location.search );
-			}
-		}
 
 	}
 
@@ -3498,7 +3398,7 @@ export default function( revealElement, options ) {
 	 */
 	function onWindowHashChange( event ) {
 
-		readURL();
+		location.readURL();
 
 	}
 
@@ -3764,7 +3664,6 @@ export default function( revealElement, options ) {
 		updateControls,
 		updateProgress,
 		updateSlidesVisibility,
-		writeURL,
 		transformSlides,
 		cueAutoSlide,
 		cancelAutoSlide

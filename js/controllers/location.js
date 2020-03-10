@@ -9,6 +9,113 @@ export default class Location {
 
 		this.Reveal = Reveal;
 
+		// Delays updates to the URL due to a Chrome thumbnailer bug
+		this.writeURLTimeout = 0;
+
+	}
+
+	/**
+	 * Reads the current URL (hash) and navigates accordingly.
+	 */
+	readURL() {
+
+		let config = this.Reveal.getConfig();
+		let indices = this.Reveal.getIndices();
+		let currentSlide = this.Reveal.getCurrentSlide();
+
+		let hash = window.location.hash;
+
+		// Attempt to parse the hash as either an index or name
+		let bits = hash.slice( 2 ).split( '/' ),
+			name = hash.replace( /#|\//gi, '' );
+
+		// If the first bit is not fully numeric and there is a name we
+		// can assume that this is a named link
+		if( !/^[0-9]*$/.test( bits[0] ) && name.length ) {
+			let element;
+
+			// Ensure the named link is a valid HTML ID attribute
+			try {
+				element = document.getElementById( decodeURIComponent( name ) );
+			}
+			catch ( error ) { }
+
+			// Ensure that we're not already on a slide with the same name
+			let isSameNameAsCurrentSlide = currentSlide ? currentSlide.getAttribute( 'id' ) === name : false;
+
+			if( element ) {
+				// If the slide exists and is not the current slide...
+				if ( !isSameNameAsCurrentSlide ) {
+					// ...find the position of the named slide and navigate to it
+					let elementIndex = this.Reveal.getIndices(element);
+					this.Reveal.slide(elementIndex.h, elementIndex.v);
+				}
+			}
+			// If the slide doesn't exist, navigate to the current slide
+			else {
+				this.Reveal.slide( indices.h || 0, indices.v || 0 );
+			}
+		}
+		else {
+			let hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+
+			// Read the index components of the hash
+			let h = ( parseInt( bits[0], 10 ) - hashIndexBase ) || 0,
+				v = ( parseInt( bits[1], 10 ) - hashIndexBase ) || 0,
+				f;
+
+			if( config.fragmentInURL ) {
+				f = parseInt( bits[2], 10 );
+				if( isNaN( f ) ) {
+					f = undefined;
+				}
+			}
+
+			if( h !== indices.h || v !== indices.v || f !== undefined ) {
+				this.Reveal.slide( h, v, f );
+			}
+		}
+
+	}
+
+	/**
+	 * Updates the page URL (hash) to reflect the current
+	 * state.
+	 *
+	 * @param {number} delay The time in ms to wait before
+	 * writing the hash
+	 */
+	writeURL( delay ) {
+
+		let config = this.Reveal.getConfig();
+		let currentSlide = this.Reveal.getCurrentSlide();
+
+		// Make sure there's never more than one timeout running
+		clearTimeout( this.writeURLTimeout );
+
+		// If a delay is specified, timeout this call
+		if( typeof delay === 'number' ) {
+			this.writeURLTimeout = setTimeout( this.writeURL, delay );
+		}
+		else if( currentSlide ) {
+			// If we're configured to push to history OR the history
+			// API is not avaialble.
+			if( config.history || !window.history ) {
+				window.location.hash = this.getHash();
+			}
+			// If we're configured to reflect the current slide in the
+			// URL without pushing to history.
+			else if( config.hash ) {
+				window.history.replaceState( null, null, '#' + this.getHash() );
+			}
+			// If history and hash are both disabled, a hash may still
+			// be added to the URL by clicking on a href with a hash
+			// target. Counter this by always removing the hash.
+			else {
+				window.history.replaceState( null, null, window.location.pathname + window.location.search );
+			}
+		}
+
 	}
 
 	/**
@@ -16,12 +123,13 @@ export default class Location {
 	 *
 	 * @param {HTMLElement} [slide=currentSlide] The slide to link to
 	 */
-	getHash( slide = this.Reveal.getCurrentSlide() ) {
+	getHash( slide ) {
 
 		let url = '/';
 
 		// Attempt to create a named link based on the slide's ID
-		let id = slide ? slide.getAttribute( 'id' ) : null;
+		let s = slide || this.Reveal.getCurrentSlide();
+		let id = s ? s.getAttribute( 'id' ) : null;
 		if( id ) {
 			id = encodeURIComponent( id );
 		}
