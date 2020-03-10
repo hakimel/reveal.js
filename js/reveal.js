@@ -4065,9 +4065,9 @@ export default function( revealElement, options ) {
 		navigateNext: navigateNext,
 
 		// Fragment methods
-		navigateFragment: () => fragments.goto.bind( fragments ),
-		prevFragment: () => fragments.prev.bind( fragments ),
-		nextFragment: () => fragments.next.bind( fragments ),
+		navigateFragment: fragments.goto.bind( fragments ),
+		prevFragment: fragments.prev.bind( fragments ),
+		nextFragment: fragments.next.bind( fragments ),
 
 		// Forces an update in slide layout
 		layout,
@@ -4099,14 +4099,14 @@ export default function( revealElement, options ) {
 		isLastVerticalSlide,
 
 		// State checks
-		isOverview: () => overview.isActive.bind( overview ),
+		isOverview: overview.isActive.bind( overview ),
 		isPaused,
 		isAutoSliding,
 		isSpeakerNotes,
 
 		// Slide preloading
-		loadSlide: () => slideContent.load.bind( slideContent ),
-		unloadSlide: () => slideContent.unload.bind( slideContent ),
+		loadSlide: slideContent.load.bind( slideContent ),
+		unloadSlide: slideContent.unload.bind( slideContent ),
 
 		// Adds or removes all internal event listeners (such as keyboard)
 		addEventListeners,
@@ -4173,12 +4173,12 @@ export default function( revealElement, options ) {
 		},
 
 		// API for registering and retrieving plugins
-		registerPlugin: () => plugins.registerPlugin.bind( plugins ),
-		hasPlugin: () => plugins.hasPlugin.bind( plugins ),
-		getPlugin: () => plugins.getPlugin.bind( plugins ),
+		registerPlugin: plugins.registerPlugin.bind( plugins ),
+		hasPlugin: plugins.hasPlugin.bind( plugins ),
+		getPlugin: plugins.getPlugin.bind( plugins ),
 
 		// Returns a hash with all registered plugins
-		getPlugins: () => plugins.getRegisteredPlugins.bind( plugins ),
+		getPlugins: plugins.getRegisteredPlugins.bind( plugins ),
 
 		getComputedSlideSize,
 
