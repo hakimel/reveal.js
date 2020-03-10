@@ -63,6 +63,7 @@ ul, ol, div, p {
 	width: 100% !important;
 	height: auto !important;
 	zoom: 1 !important;
+	pointer-events: initial;
 
 	left: auto;
 	top: auto;
