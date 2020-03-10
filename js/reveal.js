@@ -153,7 +153,7 @@ export default function( revealElement, options ) {
 		// Load plugins then move on to #start()
 		plugins.load( config.dependencies ).then( start )
 
-		return Reveal;
+		return new Promise( resolve => Reveal.addEventListener( 'ready', resolve ) );
 
 	}
 

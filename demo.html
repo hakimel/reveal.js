@@ -410,13 +410,6 @@ Reveal.addEventListener( 'customevent', function() {
 
 		<script type="module">
 
-			// WIP support for multiple reveal.js instances
-			// window.a = new Reveal(document.querySelector( '.reveal' ), {controls: false});
-			// a.initialize();
-			// window.b = new Reveal(document.querySelector( '.reveal' ), {controls: true});
-			// b.initialize();
-			// console.log(a.getConfig().controls,b.getConfig().controls);
-
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
@@ -438,6 +431,23 @@ Reveal.addEventListener( 'customevent', function() {
 			});
 
 		</script>
+
+		<!--
+		<script type="module">
+
+			// WIP support for multiple reveal.js instances
+			import Reveal from '/js/reveal.js'
+
+			window.a = new Reveal(document.querySelector( '.reveal' ), {controls: false});
+			a.initialize();
+
+			window.b = new Reveal(document.querySelector( '.reveal' ), {controls: true});
+			b.initialize();
+
+			console.log(a.getConfig().controls,b.getConfig().controls);
+
+		</script>
+		-->
 
 	</body>
 </html>
