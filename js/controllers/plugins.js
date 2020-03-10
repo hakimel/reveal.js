@@ -48,17 +48,22 @@ export default class Plugins {
 			if( scripts.length ) {
 				scriptsToLoad = scripts.length;
 
+				const scriptLoadedCallback = (s) => {
+					if( typeof s.callback === 'function' ) s.callback();
+
+					if( --scriptsToLoad === 0 ) {
+						this.initPlugins().then( resolve );
+					}
+				};
+
 				// Load synchronous scripts
 				scripts.forEach( s => {
-					loadScript( s.src, () => {
-
-						if( typeof s.callback === 'function' ) s.callback();
-
-						if( --scriptsToLoad === 0 ) {
-							this.initPlugins().then( resolve );
-						}
-
-					} );
+					if (s.id) {
+						this.registerPlugin(s.id, s.plugin);
+						scriptLoadedCallback(s);
+					} else {
+						loadScript( s.src, () => scriptLoadedCallback(s));
+					}
 				} );
 			}
 			else {
@@ -129,7 +134,13 @@ export default class Plugins {
 
 		if( this.asyncDependencies.length ) {
 			this.asyncDependencies.forEach( s => {
-				loadScript( s.src, s.callback );
+				if (s.id) {
+					this.registerPlugin(s.id, s.plugin);
+					if (typeof s.plugin.init === 'function') { s.plugin.init(); }
+					if (typeof s.callback === 'function') { s.callback(); }
+				} else {
+					loadScript( s.src, s.callback );
+				}
 			} );
 		}
 
