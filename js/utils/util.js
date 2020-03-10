@@ -159,3 +159,29 @@ export const createStyleSheet = ( value ) => {
 	return tag;
 
 }
+
+/**
+ * Returns a key:value hash of all query params.
+ */
+export const getQueryHash = () => {
+
+	let query = {};
+
+	location.search.replace( /[A-Z0-9]+?=([\w\.%-]*)/gi, a => {
+		query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+	} );
+
+	// Basic deserialization
+	for( let i in query ) {
+		let value = query[ i ];
+
+		query[ i ] = deserialize( unescape( value ) );
+	}
+
+	// Do not accept new dependencies via query config to avoid
+	// the potential of malicious script injection
+	if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
+
+	return query;
+
+}

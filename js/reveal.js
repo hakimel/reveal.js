@@ -20,7 +20,8 @@ import {
 	transformElement,
 	createStyleSheet,
 	closestParent,
-	enterFullscreen
+	enterFullscreen,
+	getQueryHash
 } from './utils/util.js'
 import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
 import { colorToRgb, colorBrightness } from './utils/color.js'
@@ -146,7 +147,7 @@ export default function( revealElement, options ) {
 		window.addEventListener( 'load', layout, false );
 
 		// Copy options over to our config object
-		config = { ...defaultConfig, ...options, ...Reveal.getQueryHash() };
+		config = { ...defaultConfig, ...options, ...getQueryHash() };
 
 		// Load plugins then move on to #start()
 		plugins.load( config.dependencies ).then( start )
@@ -3896,27 +3897,8 @@ export default function( revealElement, options ) {
 		// Returns the current configuration object
 		getConfig: () => config,
 
-		// Helper method, retrieves query string as a key/value hash
-		getQueryHash: () => {
-			let query = {};
-
-			location.search.replace( /[A-Z0-9]+?=([\w\.%-]*)/gi, a => {
-				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
-			} );
-
-			// Basic deserialization
-			for( let i in query ) {
-				let value = query[ i ];
-
-				query[ i ] = deserialize( unescape( value ) );
-			}
-
-			// Do not accept new dependencies via query config to avoid
-			// the potential of malicious script injection
-			if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
-
-			return query;
-		},
+		// Helper method, retrieves query string as a key:value map
+		getQueryHash,
 
 		// Returns the top-level DOM element
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),

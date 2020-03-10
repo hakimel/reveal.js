@@ -133,8 +133,8 @@ Here's a barebones example of a fully working reveal.js presentation:
 ```html
 <html>
 	<head>
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/white.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
 	</head>
 	<body>
 		<div class="reveal">
@@ -143,7 +143,7 @@ Here's a barebones example of a fully working reveal.js presentation:
 				<section>Slide 2</section>
 			</div>
 		</div>
-		<script src="js/reveal.js"></script>
+		<script src="dist/reveal.min.js"></script>
 		<script>
 			Reveal.initialize();
 		</script>
