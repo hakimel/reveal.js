@@ -1,7 +1,5 @@
-import { enterFullscreen } from '../utils/util.js'
-
 /**
- * Handles all reveal.js keyboard interactions.
+ * Handles the display of reveal.js' optional slide number.
  */
 export default class SlideNumber {
 

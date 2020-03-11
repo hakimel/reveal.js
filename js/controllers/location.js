@@ -1,7 +1,5 @@
-import { enterFullscreen } from '../utils/util.js'
-
 /**
- * Handles all reveal.js keyboard interactions.
+ * Reads and writes the URL based on reveal.js' current state.
  */
 export default class Location {
 

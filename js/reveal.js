@@ -6,8 +6,11 @@ import Overview from './controllers/overview.js'
 import Keyboard from './controllers/keyboard.js'
 import Location from './controllers/location.js'
 import Plugins from './controllers/plugins.js'
+import Touch from './controllers/touch.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
+import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
+import { colorToRgb, colorBrightness } from './utils/color.js'
 import {
 	SLIDES_SELECTOR,
 	HORIZONTAL_SLIDES_SELECTOR,
@@ -26,8 +29,6 @@ import {
 	enterFullscreen,
 	getQueryHash
 } from './utils/util.js'
-import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
-import { colorToRgb, colorBrightness } from './utils/color.js'
 
 /**
  * reveal.js
@@ -71,16 +72,6 @@ export default function( revealElement, options ) {
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
-		// CSS transform that is currently applied to the slides container,
-		// split into two groups
-		slidesTransform = { layout: '', overview: '' },
-
-		// Cached references to DOM elements
-		dom = {},
-
-		// Controller for plugin loading
-		plugins = new Plugins(),
-
 		// Controls loading and playback of slide content
 		slideContent = new SlideContent( Reveal ),
 
@@ -101,6 +92,19 @@ export default function( revealElement, options ) {
 
 		// Controls the current location/URL
 		location = new Location( Reveal ),
+
+		// Controller for plugin loading
+		plugins = new Plugins(),
+
+		// Controls touch/swipe navigation for our deck
+		touch = new Touch( Reveal ),
+
+		// CSS transform that is currently applied to the slides container,
+		// split into two groups
+		slidesTransform = { layout: '', overview: '' },
+
+		// Cached references to DOM elements
+		dom = {},
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
@@ -124,16 +128,7 @@ export default function( revealElement, options ) {
 		autoSlidePlayer,
 		autoSlideTimeout = 0,
 		autoSlideStartTime = -1,
-		autoSlidePaused = false,
-
-		// Holds information about the currently ongoing touch input
-		touch = {
-			startX: 0,
-			startY: 0,
-			startCount: 0,
-			captured: false,
-			threshold: 40
-		};
+		autoSlidePaused = false;
 
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -922,24 +917,7 @@ export default function( revealElement, options ) {
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) {
-			if( 'onpointerdown' in window ) {
-				// Use W3C pointer events
-				dom.wrapper.addEventListener( 'pointerdown', onPointerDown, false );
-				dom.wrapper.addEventListener( 'pointermove', onPointerMove, false );
-				dom.wrapper.addEventListener( 'pointerup', onPointerUp, false );
-			}
-			else if( window.navigator.msPointerEnabled ) {
-				// IE 10 uses prefixed version of pointer events
-				dom.wrapper.addEventListener( 'MSPointerDown', onPointerDown, false );
-				dom.wrapper.addEventListener( 'MSPointerMove', onPointerMove, false );
-				dom.wrapper.addEventListener( 'MSPointerUp', onPointerUp, false );
-			}
-			else {
-				// Fall back to touch events
-				dom.wrapper.addEventListener( 'touchstart', onTouchStart, false );
-				dom.wrapper.addEventListener( 'touchmove', onTouchMove, false );
-				dom.wrapper.addEventListener( 'touchend', onTouchEnd, false );
-			}
+			touch.bind();
 		}
 
 		if( config.keyboard ) {
@@ -984,22 +962,11 @@ export default function( revealElement, options ) {
 
 		eventsAreBound = false;
 
+		touch.unbind();
 		keyboard.unbind();
 
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
-
-		dom.wrapper.removeEventListener( 'pointerdown', onPointerDown, false );
-		dom.wrapper.removeEventListener( 'pointermove', onPointerMove, false );
-		dom.wrapper.removeEventListener( 'pointerup', onPointerUp, false );
-
-		dom.wrapper.removeEventListener( 'MSPointerDown', onPointerDown, false );
-		dom.wrapper.removeEventListener( 'MSPointerMove', onPointerMove, false );
-		dom.wrapper.removeEventListener( 'MSPointerUp', onPointerUp, false );
-
-		dom.wrapper.removeEventListener( 'touchstart', onTouchStart, false );
-		dom.wrapper.removeEventListener( 'touchmove', onTouchMove, false );
-		dom.wrapper.removeEventListener( 'touchend', onTouchEnd, false );
 
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
 
@@ -3121,21 +3088,6 @@ export default function( revealElement, options ) {
 
 	}
 
-	/**
-	 * Checks if the target element prevents the triggering of
-	 * swipe navigation.
-	 */
-	function isSwipePrevented( target ) {
-
-		while( target && typeof target.hasAttribute === 'function' ) {
-			if( target.hasAttribute( 'data-prevent-swipe' ) ) return true;
-			target = target.parentNode;
-		}
-
-		return false;
-
-	}
-
 
 	// --------------------------------------------------------------------//
 	// ----------------------------- EVENTS -------------------------------//
@@ -3168,167 +3120,6 @@ export default function( revealElement, options ) {
 		clearTimeout( cursorInactiveTimeout );
 
 		cursorInactiveTimeout = setTimeout( hideCursor, config.hideCursorTime );
-
-	}
-
-	/**
-	 * Handler for the 'touchstart' event, enables support for
-	 * swipe and pinch gestures.
-	 *
-	 * @param {object} event
-	 */
-	function onTouchStart( event ) {
-
-		if( isSwipePrevented( event.target ) ) return true;
-
-		touch.startX = event.touches[0].clientX;
-		touch.startY = event.touches[0].clientY;
-		touch.startCount = event.touches.length;
-
-	}
-
-	/**
-	 * Handler for the 'touchmove' event.
-	 *
-	 * @param {object} event
-	 */
-	function onTouchMove( event ) {
-
-		if( isSwipePrevented( event.target ) ) return true;
-
-		// Each touch should only trigger one action
-		if( !touch.captured ) {
-			onUserInput( event );
-
-			let currentX = event.touches[0].clientX;
-			let currentY = event.touches[0].clientY;
-
-			// There was only one touch point, look for a swipe
-			if( event.touches.length === 1 && touch.startCount !== 2 ) {
-
-				let deltaX = currentX - touch.startX,
-					deltaY = currentY - touch.startY;
-
-				if( deltaX > touch.threshold && Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-					touch.captured = true;
-					if( config.navigationMode === 'linear' ) {
-						if( config.rtl ) {
-							navigateNext();
-						}
-						else {
-							navigatePrev();
-						}
-					}
-					else {
-						navigateLeft();
-					}
-				}
-				else if( deltaX < -touch.threshold && Math.abs( deltaX ) > Math.abs( deltaY ) ) {
-					touch.captured = true;
-					if( config.navigationMode === 'linear' ) {
-						if( config.rtl ) {
-							navigatePrev();
-						}
-						else {
-							navigateNext();
-						}
-					}
-					else {
-						navigateRight();
-					}
-				}
-				else if( deltaY > touch.threshold ) {
-					touch.captured = true;
-					if( config.navigationMode === 'linear' ) {
-						navigatePrev();
-					}
-					else {
-						navigateUp();
-					}
-				}
-				else if( deltaY < -touch.threshold ) {
-					touch.captured = true;
-					if( config.navigationMode === 'linear' ) {
-						navigateNext();
-					}
-					else {
-						navigateDown();
-					}
-				}
-
-				// If we're embedded, only block touch events if they have
-				// triggered an action
-				if( config.embedded ) {
-					if( touch.captured || isVerticalSlide( currentSlide ) ) {
-						event.preventDefault();
-					}
-				}
-				// Not embedded? Block them all to avoid needless tossing
-				// around of the viewport in iOS
-				else {
-					event.preventDefault();
-				}
-
-			}
-		}
-		// There's a bug with swiping on some Android devices unless
-		// the default action is always prevented
-		else if( isAndroid ) {
-			event.preventDefault();
-		}
-
-	}
-
-	/**
-	 * Handler for the 'touchend' event.
-	 *
-	 * @param {object} event
-	 */
-	function onTouchEnd( event ) {
-
-		touch.captured = false;
-
-	}
-
-	/**
-	 * Convert pointer down to touch start.
-	 *
-	 * @param {object} event
-	 */
-	function onPointerDown( event ) {
-
-		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH || event.pointerType === "touch" ) {
-			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
-			onTouchStart( event );
-		}
-
-	}
-
-	/**
-	 * Convert pointer move to touch move.
-	 *
-	 * @param {object} event
-	 */
-	function onPointerMove( event ) {
-
-		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH || event.pointerType === "touch" )  {
-			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
-			onTouchMove( event );
-		}
-
-	}
-
-	/**
-	 * Convert pointer up to touch end.
-	 *
-	 * @param {object} event
-	 */
-	function onPointerUp( event ) {
-
-		if( event.pointerType === event.MSPOINTER_TYPE_TOUCH || event.pointerType === "touch" )  {
-			event.touches = [{ clientX: event.clientX, clientY: event.clientY }];
-			onTouchEnd( event );
-		}
 
 	}
 
