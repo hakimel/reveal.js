@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Highlight Plugin</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+		<link rel="stylesheet" href="../../lib/css/monokai.css">
+		<link rel="stylesheet" href="../../css/theme/night.css" id="theme">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>reveal.js Highlight Plugin</h2>
+					<p>A thin wrapper for Highlight.js</p>
+				</section>
+
+				<section>
+					<h3>Fibonacci</h3>
+
+					<pre><code data-trim data-noescape>
+				(def lazy-fib
+					(concat
+					[0 1]
+					((fn rfib [a b]
+						(lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
+					</code></pre>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../../js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				history: true,
+				transition: 'linear',
+
+				highlight: {
+					// highlightOnLoad: true,
+					// escapeHTML: true,
+					// location: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build',
+					location: '../../plugin/highlight'
+				},
+
+				dependencies: [
+					{ src: '../../plugin/highlight/highlight.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
