@@ -67,7 +67,14 @@ export default class AutoAnimate {
 				}
 			} );
 
-			this.Reveal.dispatchEvent( 'autoanimate', { fromSlide: fromSlide, toSlide: toSlide, sheet: this.autoAnimateStyleSheet } );
+			this.Reveal.dispatchEvent({
+				type: 'autoanimate',
+				data: {
+					fromSlide,
+					toSlide,
+					sheet: this.autoAnimateStyleSheet
+				}
+			});
 
 		}
 

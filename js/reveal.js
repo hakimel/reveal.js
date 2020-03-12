@@ -194,11 +194,14 @@ export default function( revealElement, options ) {
 
 			dom.wrapper.classList.add( 'ready' );
 
-			dispatchEvent( 'ready', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'currentSlide': currentSlide
-			} );
+			dispatchEvent({
+				type: 'ready',
+				data: {
+					indexh,
+					indexv,
+					currentSlide
+				}
+			});
 		}, 1 );
 
 		// Special setup and config is required when printing to PDF
@@ -511,7 +514,7 @@ export default function( revealElement, options ) {
 		} );
 
 		// Notify subscribers that the PDF layout is good to go
-		dispatchEvent( 'pdf-ready' );
+		dispatchEvent({ type: 'pdf-ready' });
 
 	}
 
@@ -1058,16 +1061,18 @@ export default function( revealElement, options ) {
 	 * Dispatches an event of the specified type from the
 	 * reveal DOM element.
 	 */
-	function dispatchEvent( type, args ) {
+	function dispatchEvent({ target=dom.wrapper, type, data, bubbles=true }) {
 
 		let event = document.createEvent( 'HTMLEvents', 1, 2 );
-		event.initEvent( type, true, true );
-		extend( event, args );
-		dom.wrapper.dispatchEvent( event );
+		event.initEvent( type, bubbles, true );
+		extend( event, data );
+		target.dispatchEvent( event );
 
-		// If we're in an iframe, post each reveal.js event to the
-		// parent window. Used by the notes plugin
-		dispatchPostMessage( type );
+		if( target === dom.wrapper ) {
+			// If we're in an iframe, post each reveal.js event to the
+			// parent window. Used by the notes plugin
+			dispatchPostMessage( type );
+		}
 
 	}
 
@@ -1347,11 +1352,14 @@ export default function( revealElement, options ) {
 				}
 
 				if( oldScale !== scale ) {
-					dispatchEvent( 'resize', {
-						'oldScale': oldScale,
-						'scale': scale,
-						'size': size
-					} );
+					dispatchEvent({
+						type: 'resize',
+						data: {
+							oldScale,
+							scale,
+							size
+						}
+					});
 				}
 			}
 
@@ -1577,7 +1585,7 @@ export default function( revealElement, options ) {
 			dom.wrapper.classList.add( 'paused' );
 
 			if( wasPaused === false ) {
-				dispatchEvent( 'paused' );
+				dispatchEvent({ type: 'paused' });
 			}
 		}
 
@@ -1594,7 +1602,7 @@ export default function( revealElement, options ) {
 		cueAutoSlide();
 
 		if( wasPaused ) {
-			dispatchEvent( 'resumed' );
+			dispatchEvent({ type: 'resumed' });
 		}
 
 	}
@@ -1763,7 +1771,7 @@ export default function( revealElement, options ) {
 			document.documentElement.classList.add( state[i] );
 
 			// Dispatch custom event matching the state's name
-			dispatchEvent( state[i] );
+			dispatchEvent({ type: state[i] });
 		}
 
 		// Clean up the remains of the previous state
@@ -1772,13 +1780,16 @@ export default function( revealElement, options ) {
 		}
 
 		if( slideChanged ) {
-			dispatchEvent( 'slidechanged', {
-				'indexh': indexh,
-				'indexv': indexv,
-				'previousSlide': previousSlide,
-				'currentSlide': currentSlide,
-				'origin': o
-			} );
+			dispatchEvent({
+				type: 'slidechanged',
+				data: {
+					indexh,
+					indexv,
+					previousSlide,
+					currentSlide,
+					origin: o
+				}
+			});
 		}
 
 		// Handle embedded content
@@ -2035,14 +2046,26 @@ export default function( revealElement, options ) {
 				}
 			}
 
+			let slide = slides[index];
+			let wasPresent = slide.classList.contains( 'present' );
+
 			// Mark the current slide as present
-			slides[index].classList.add( 'present' );
-			slides[index].removeAttribute( 'hidden' );
-			slides[index].removeAttribute( 'aria-hidden' );
+			slide.classList.add( 'present' );
+			slide.removeAttribute( 'hidden' );
+			slide.removeAttribute( 'aria-hidden' );
+
+			if( !wasPresent ) {
+				// Dispatch an event indicating the slide is now visible
+				dispatchEvent({
+					target: slide,
+					type: 'visible',
+					bubbles: false
+				});
+			}
 
 			// If this slide has a state associated with it, add it
 			// onto the current state of the deck
-			let slideState = slides[index].getAttribute( 'data-state' );
+			let slideState = slide.getAttribute( 'data-state' );
 			if( slideState ) {
 				state = state.concat( slideState.split( ' ' ) );
 			}
@@ -2947,7 +2970,7 @@ export default function( revealElement, options ) {
 
 		if( autoSlide && !autoSlidePaused ) {
 			autoSlidePaused = true;
-			dispatchEvent( 'autoslidepaused' );
+			dispatchEvent({ type: 'autoslidepaused' });
 			clearTimeout( autoSlideTimeout );
 
 			if( autoSlidePlayer ) {
@@ -2961,7 +2984,7 @@ export default function( revealElement, options ) {
 
 		if( autoSlide && autoSlidePaused ) {
 			autoSlidePaused = false;
-			dispatchEvent( 'autoslideresumed' );
+			dispatchEvent({ type: 'autoslideresumed' });
 			cueAutoSlide();
 		}
 

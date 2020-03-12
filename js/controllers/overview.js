@@ -65,11 +65,14 @@ export default class Overview {
 			const indices = this.Reveal.getIndices();
 
 			// Notify observers of the overview showing
-			this.Reveal.dispatchEvent( 'overviewshown', {
-				'indexh': indices.h,
-				'indexv': indices.v,
-				'currentSlide': this.Reveal.getCurrentSlide()
-			} );
+			this.Reveal.dispatchEvent({
+				type: 'overviewshown',
+				data: {
+					'indexh': indices.h,
+					'indexv': indices.v,
+					'currentSlide': this.Reveal.getCurrentSlide()
+				}
+			});
 
 		}
 
@@ -175,11 +178,14 @@ export default class Overview {
 			this.Reveal.cueAutoSlide();
 
 			// Notify observers of the overview hiding
-			this.Reveal.dispatchEvent( 'overviewhidden', {
-				'indexh': indices.h,
-				'indexv': indices.v,
-				'currentSlide': this.Reveal.getCurrentSlide()
-			} );
+			this.Reveal.dispatchEvent({
+				type: 'overviewhidden',
+				data: {
+					'indexh': indices.h,
+					'indexv': indices.v,
+					'currentSlide': this.Reveal.getCurrentSlide()
+				}
+			});
 
 		}
 	}

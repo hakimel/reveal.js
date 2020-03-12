@@ -100,6 +100,15 @@
 				if( config.highlightOnLoad ) {
 					RevealHighlight.highlightBlock( block );
 				}
+
+			} );
+
+			// If we're printing to PDF, scroll the code highlights of
+			// all blocks in the deck into view at once
+			Reveal.addEventListener( 'pdf-ready', function() {
+				[].slice.call( document.querySelectorAll( '.reveal pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
+					RevealHighlight.scrollHighlightedLineIntoView( block, {}, true );
+				} );
 			} );
 
 		},
@@ -122,6 +131,8 @@
 			if( block.hasAttribute( 'data-line-numbers' ) ) {
 				hljs.lineNumbersBlock( block, { singleLine: true } );
 
+				var scrollState = { currentBlock: block };
+
 				// If there is at least one highlight step, generate
 				// fragments
 				var highlightSteps = RevealHighlight.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
@@ -130,6 +141,7 @@
 					// If the original code block has a fragment-index,
 					// each clone should follow in an incremental sequence
 					var fragmentIndex = parseInt( block.getAttribute( 'data-fragment-index' ), 10 );
+
 					if( typeof fragmentIndex !== 'number' || isNaN( fragmentIndex ) ) {
 						fragmentIndex = null;
 					}
@@ -151,6 +163,10 @@
 							fragmentBlock.removeAttribute( 'data-fragment-index' );
 						}
 
+						// Scroll highlights into view as we step through them
+						fragmentBlock.addEventListener( 'visible', RevealHighlight.scrollHighlightedLineIntoView.bind( RevealHighlight, fragmentBlock, scrollState ) );
+						fragmentBlock.addEventListener( 'hidden', RevealHighlight.scrollHighlightedLineIntoView.bind( RevealHighlight, fragmentBlock.previousSibling, scrollState ) );
+
 					} );
 
 					block.removeAttribute( 'data-fragment-index' )
@@ -158,8 +174,112 @@
 
 				}
 
+				// Scroll the first highlight into view when the slide
+				// becomes visible. Note supported in IE11 since it lacks
+				// support for Element.closest.
+				var slide = typeof block.closest === 'function' ? block.closest( 'section:not(.stack)' ) : null;
+				if( slide ) {
+					var scrollFirstHighlightIntoView = function() {
+						RevealHighlight.scrollHighlightedLineIntoView( block, scrollState, true );
+						slide.removeEventListener( 'visible', scrollFirstHighlightIntoView );
+					}
+					slide.addEventListener( 'visible', scrollFirstHighlightIntoView );
+				}
+
 				RevealHighlight.highlightLines( block );
 
+			}
+
+		},
+
+		/**
+		 * Animates scrolling to the first highlighted line
+		 * in the given code block.
+		 */
+		scrollHighlightedLineIntoView: function( block, scrollState, skipAnimation ) {
+
+			cancelAnimationFrame( scrollState.animationFrameID );
+
+			// Match the scroll position of the currently visible
+			// code block
+			if( scrollState.currentBlock ) {
+				block.scrollTop = scrollState.currentBlock.scrollTop;
+			}
+
+			// Remember the current code block so that we can match
+			// its scroll position when showing/hiding fragments
+			scrollState.currentBlock = block;
+
+			var highlightBounds = this.getHighlightedLineBounds( block )
+			var viewportHeight = block.offsetHeight;
+
+			// Subtract padding from the viewport height
+			var blockStyles = getComputedStyle( block );
+			viewportHeight -= parseInt( blockStyles.paddingTop ) + parseInt( blockStyles.paddingBottom );
+
+			// Scroll position which centers all highlights
+			var startTop = block.scrollTop;
+			var targetTop = highlightBounds.top + ( Math.min( highlightBounds.bottom - highlightBounds.top, viewportHeight ) - viewportHeight ) / 2;
+
+			// Account for offsets in position applied to the
+			// <table> that holds our lines of code
+			var lineTable = block.querySelector( '.hljs-ln' );
+			if( lineTable ) targetTop += lineTable.offsetTop - parseInt( blockStyles.paddingTop );
+
+			// Make sure the scroll target is within bounds
+			targetTop = Math.max( Math.min( targetTop, block.scrollHeight - viewportHeight ), 0 );
+
+			if( skipAnimation === true || startTop === targetTop ) {
+				block.scrollTop = targetTop;
+			}
+			else {
+
+				// Don't attempt to scroll if there is no overflow
+				if( block.scrollHeight <= viewportHeight ) return;
+
+				var time = 0;
+				var animate = function() {
+					time = Math.min( time + 0.02, 1 );
+
+					// Update our eased scroll position
+					block.scrollTop = startTop + ( targetTop - startTop ) * RevealHighlight.easeInOutQuart( time );
+
+					// Keep animating unless we've reached the end
+					if( time < 1 ) {
+						scrollState.animationFrameID = requestAnimationFrame( animate );
+					}
+				};
+
+				animate();
+
+			}
+
+		},
+
+		/**
+		 * The easing function used when scrolling.
+		 */
+		easeInOutQuart: function( t ) {
+
+			// easeInOutQuart
+			return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t;
+
+		},
+
+		getHighlightedLineBounds: function( block ) {
+
+			var highlightedLines = block.querySelectorAll( '.highlight-line' );
+			if( highlightedLines.length === 0 ) {
+				return { top: 0, bottom: 0 };
+			}
+			else {
+				var firstHighlight = highlightedLines[0];
+				var lastHighlight = highlightedLines[ highlightedLines.length -1 ];
+
+				return {
+					top: firstHighlight.offsetTop,
+					bottom: lastHighlight.offsetTop + lastHighlight.offsetHeight
+				}
 			}
 
 		},

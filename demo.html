@@ -102,10 +102,23 @@
 
 				<section data-auto-animate>
 					<h2 data-id="code-title">With animations</h2>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4|4,8-11">
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24">
 						import React, { useState } from 'react';
 
 						function Example() {
+						  const [count, setCount] = useState(0);
+
+						  return (
+						    &lt;div&gt;
+						      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+						      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+						        Click me
+						      &lt;/button&gt;
+						    &lt;/div&gt;
+						  );
+						}
+
+						function SecondExample() {
 						  const [count, setCount] = useState(0);
 
 						  return (

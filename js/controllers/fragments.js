@@ -180,7 +180,7 @@ export default class Fragments {
 
 					// Visible fragments
 					if( i <= index ) {
-						if( !el.classList.contains( 'visible' ) ) changedFragments.shown.push( el );
+						let wasVisible = el.classList.contains( 'visible' )
 						el.classList.add( 'visible' );
 						el.classList.remove( 'current-fragment' );
 
@@ -191,12 +191,30 @@ export default class Fragments {
 							el.classList.add( 'current-fragment' );
 							this.Reveal.slideContent.startEmbeddedContent( el );
 						}
+
+						if( !wasVisible ) {
+							changedFragments.shown.push( el )
+							this.Reveal.dispatchEvent({
+								target: el,
+								type: 'visible',
+								bubbles: false
+							});
+						}
 					}
 					// Hidden fragments
 					else {
-						if( el.classList.contains( 'visible' ) ) changedFragments.hidden.push( el );
+						let wasVisible = el.classList.contains( 'visible' )
 						el.classList.remove( 'visible' );
 						el.classList.remove( 'current-fragment' );
+
+						if( wasVisible ) {
+							changedFragments.hidden.push( el );
+							this.Reveal.dispatchEvent({
+								target: el,
+								type: 'hidden',
+								bubbles: false
+							});
+						}
 					}
 
 				} );
@@ -253,11 +271,23 @@ export default class Fragments {
 				let changedFragments = this.update( index, fragments );
 
 				if( changedFragments.hidden.length ) {
-					this.Reveal.dispatchEvent( 'fragmenthidden', { fragment: changedFragments.hidden[0], fragments: changedFragments.hidden } );
+					this.Reveal.dispatchEvent({
+						type: 'fragmenthidden',
+						data: {
+							fragment: changedFragments.hidden[0],
+							fragments: changedFragments.hidden
+						}
+					});
 				}
 
 				if( changedFragments.shown.length ) {
-					this.Reveal.dispatchEvent( 'fragmentshown', { fragment: changedFragments.shown[0], fragments: changedFragments.shown } );
+					this.Reveal.dispatchEvent({
+						type: 'fragmentshown',
+						data: {
+							fragment: changedFragments.shown[0],
+							fragments: changedFragments.shown
+						}
+					});
 				}
 
 				this.Reveal.updateControls();
