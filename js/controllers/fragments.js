@@ -14,13 +14,26 @@ export default class Fragments {
 	}
 
 	/**
-	 * Shows all fragments in the presentation. Used when
-	 * fragments are disabled presentation-wide.
+	 * If fragments are disabled in the deck, they should all be
+	 * visible rather than stepped through.
 	 */
-	showAll() {
+	disable() {
 
 		toArray( this.Reveal.getSlidesElement().querySelectorAll( '.fragment' ) ).forEach( element => {
 			element.classList.add( 'visible' );
+			element.classList.remove( 'current-fragment' );
+		} );
+
+	}
+
+	/**
+	 * Reverse of #disable(). Only called if fragments have
+	 * previously been disabled.
+	 */
+	enable() {
+
+		toArray( this.Reveal.getSlidesElement().querySelectorAll( '.fragment' ) ).forEach( element => {
+			element.classList.remove( 'visible' );
 			element.classList.remove( 'current-fragment' );
 		} );
 

@@ -787,7 +787,7 @@ export default function( revealElement, options ) {
 	 */
 	function configure( options ) {
 
-		const oldTransition = config.transition;
+		const oldConfig = { ...config }
 
 		// New config options may be passed when this method
 		// is invoked through the API after initialization
@@ -800,7 +800,7 @@ export default function( revealElement, options ) {
 		const numberOfSlides = dom.wrapper.querySelectorAll( SLIDES_SELECTOR ).length;
 
 		// The transition is added as a class on the .reveal element
-		dom.wrapper.classList.remove( oldTransition );
+		dom.wrapper.classList.remove( oldConfig.transition );
 		dom.wrapper.classList.add( config.transition );
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
@@ -889,9 +889,12 @@ export default function( revealElement, options ) {
 			autoSlidePaused = false;
 		}
 
-		// When fragments are turned off they should be visible
+		// Update the state of our fragments
 		if( config.fragments === false ) {
-			fragments.showAll();
+			fragments.disable();
+		}
+		else if( oldConfig.fragments === false ) {
+			fragments.enable();
 		}
 
 		// Add the navigation mode to the DOM so we can adjust styling
