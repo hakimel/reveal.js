@@ -292,6 +292,8 @@ export default function( revealElement, options ) {
 			statusElement.style.position = 'absolute';
 			statusElement.style.height = '1px';
 			statusElement.style.width = '1px';
+			statusElement.style.top = '-1px';
+			statusElement.style.left = '-1px';
 			statusElement.style.overflow = 'hidden';
 			statusElement.style.clip = 'rect( 1px, 1px, 1px, 1px )';
 			statusElement.classList.add( 'aria-status' );
