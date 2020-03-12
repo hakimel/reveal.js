@@ -292,8 +292,6 @@ export default function( revealElement, options ) {
 			statusElement.style.position = 'absolute';
 			statusElement.style.height = '1px';
 			statusElement.style.width = '1px';
-			statusElement.style.top = '-1px';
-			statusElement.style.left = '-1px';
 			statusElement.style.overflow = 'hidden';
 			statusElement.style.clip = 'rect( 1px, 1px, 1px, 1px )';
 			statusElement.classList.add( 'aria-status' );
@@ -370,7 +368,7 @@ export default function( revealElement, options ) {
 		// Limit the size of certain elements to the dimensions of the slide
 		createStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
 
-		document.querySelector('html').classList.add( 'print-pdf' );
+		document.documentElement.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
 		document.body.style.height = pageHeight + 'px';
 

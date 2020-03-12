@@ -164,4 +164,9 @@ html.print-pdf {
 		position: absolute;
 		font-size: 14px;
 	}
+
+	/* This accessibility tool is not useful in PDF and breaks it visually */
+	.aria-status {
+		display: none;
+	}
 }
