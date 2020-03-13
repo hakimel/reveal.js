@@ -197,10 +197,10 @@ export default class Fragments {
 						el.classList.add( 'visible' );
 						el.classList.remove( 'current-fragment' );
 
-						// Announce the fragments one by one to the Screen Reader
-						this.Reveal.announceStatus( this.Reveal.getStatusText( el ) );
-
 						if( i === index ) {
+							// Announce the fragments one by one to the Screen Reader
+							this.Reveal.announceStatus( this.Reveal.getStatusText( el ) );
+
 							el.classList.add( 'current-fragment' );
 							this.Reveal.slideContent.startEmbeddedContent( el );
 						}
