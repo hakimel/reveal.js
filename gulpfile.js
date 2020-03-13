@@ -39,10 +39,6 @@ gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}'])
         .pipe(sass())
         .pipe(gulp.dest('./dist/theme')))
 
-gulp.task('css-print', () => gulp.src(['./css/print/*.{sass,scss,css}'])
-        .pipe(sass())
-        .pipe(gulp.dest('./dist/print')))
-
 gulp.task('css-core', gulp.series(
 
     () => gulp.src(['css/reveal.scss'])
@@ -58,7 +54,7 @@ gulp.task('css-core', gulp.series(
 
 ))
 
-gulp.task('css', gulp.parallel('css-themes', 'css-print', 'css-core'))
+gulp.task('css', gulp.parallel('css-themes', 'css-core'))
 
 gulp.task('test', gulp.series(
 
@@ -98,8 +94,9 @@ gulp.task('serve', () => {
         'css/theme/template/*.{sass,scss}',
     ], gulp.series('css-themes'))
 
-    gulp.watch(['css/print/*.{sass,scss,css}'], gulp.series('css-print'))
-
-    gulp.watch(['css/reveal.scss'], gulp.series('css-core'))
+    gulp.watch([
+        'css/reveal.scss',
+        'css/print/*.{sass,scss,css}'
+    ], gulp.series('css-core'))
 
 })

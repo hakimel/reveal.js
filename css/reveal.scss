@@ -1812,3 +1812,12 @@ $notesWidthPercent: 25%;
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
+
+
+/*********************************************
+ * PRINT STYLES
+ *********************************************/
+
+@import 'print/pdf.scss';
+@import 'print/paper.scss';
+
