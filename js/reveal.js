@@ -1,5 +1,6 @@
 import SlideContent from './controllers/slidecontent.js'
 import SlideNumber from './controllers/slidenumber.js'
+import Backgrounds from './controllers/backgrounds.js'
 import AutoAnimate from './controllers/autoanimate.js'
 import Fragments from './controllers/fragments.js'
 import Overview from './controllers/overview.js'
@@ -11,7 +12,6 @@ import Touch from './controllers/touch.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
 import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
-import { colorToRgb, colorBrightness } from './utils/color.js'
 import {
 	SLIDES_SELECTOR,
 	HORIZONTAL_SLIDES_SELECTOR,
@@ -21,12 +21,10 @@ import {
 import {
 	extend,
 	toArray,
-	distanceBetween,
 	deserialize,
 	transformElement,
 	createSingletonNode,
 	closestParent,
-	enterFullscreen,
 	getQueryHash
 } from './utils/util.js'
 
@@ -58,8 +56,6 @@ export default function( revealElement, options ) {
 		previousSlide,
 		currentSlide,
 
-		previousBackground,
-
 		// Remember which directions that the user has navigated towards
 		hasNavigatedHorizontally = false,
 		hasNavigatedVertically = false,
@@ -77,6 +73,9 @@ export default function( revealElement, options ) {
 
 		// Controls the optional slide number display
 		slideNumber = new SlideNumber( Reveal ),
+
+		// Creates and updates slide backgrounds
+		backgrounds = new Backgrounds( Reveal ),
 
 		// Controls auto-animations between slides
 		autoAnimate = new AutoAnimate( Reveal ),
@@ -186,8 +185,8 @@ export default function( revealElement, options ) {
 		// Read the initial hash
 		location.readURL();
 
-		// Update all backgrounds
-		updateBackground( true );
+		// Create slide backgrounds
+		backgrounds.update( true );
 
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
@@ -369,204 +368,6 @@ export default function( revealElement, options ) {
 				dom.wrapper.scrollLeft = 0;
 			}
 		}, 1000 );
-
-	}
-
-	/**
-	 * Creates the slide background elements and appends them
-	 * to the background container. One element is created per
-	 * slide no matter if the given slide has visible background.
-	 */
-	function createBackgrounds() {
-
-		let printMode = print.isPrintingPDF();
-
-		// Clear prior backgrounds
-		dom.background.innerHTML = '';
-		dom.background.classList.add( 'no-transition' );
-
-		// Iterate over all horizontal slides
-		toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) ).forEach( slideh => {
-
-			let backgroundStack = createBackground( slideh, dom.background );
-
-			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'section' ) ).forEach( slidev => {
-
-				createBackground( slidev, backgroundStack );
-
-				backgroundStack.classList.add( 'stack' );
-
-			} );
-
-		} );
-
-		// Add parallax background if specified
-		if( config.parallaxBackgroundImage ) {
-
-			dom.background.style.backgroundImage = 'url("' + config.parallaxBackgroundImage + '")';
-			dom.background.style.backgroundSize = config.parallaxBackgroundSize;
-			dom.background.style.backgroundRepeat = config.parallaxBackgroundRepeat;
-			dom.background.style.backgroundPosition = config.parallaxBackgroundPosition;
-
-			// Make sure the below properties are set on the element - these properties are
-			// needed for proper transitions to be set on the element via CSS. To remove
-			// annoying background slide-in effect when the presentation starts, apply
-			// these properties after short time delay
-			setTimeout( () => {
-				dom.wrapper.classList.add( 'has-parallax-background' );
-			}, 1 );
-
-		}
-		else {
-
-			dom.background.style.backgroundImage = '';
-			dom.wrapper.classList.remove( 'has-parallax-background' );
-
-		}
-
-	}
-
-	/**
-	 * Creates a background for the given slide.
-	 *
-	 * @param {HTMLElement} slide
-	 * @param {HTMLElement} container The element that the background
-	 * should be appended to
-	 * @return {HTMLElement} New background div
-	 */
-	function createBackground( slide, container ) {
-
-		// Main slide background element
-		let element = document.createElement( 'div' );
-		element.className = 'slide-background ' + slide.className.replace( /present|past|future/, '' );
-
-		// Inner background element that wraps images/videos/iframes
-		let contentElement = document.createElement( 'div' );
-		contentElement.className = 'slide-background-content';
-
-		element.appendChild( contentElement );
-		container.appendChild( element );
-
-		slide.slideBackgroundElement = element;
-		slide.slideBackgroundContentElement = contentElement;
-
-		// Syncs the background to reflect all current background settings
-		syncBackground( slide );
-
-		return element;
-
-	}
-
-	/**
-	 * Renders all of the visual properties of a slide background
-	 * based on the various background attributes.
-	 *
-	 * @param {HTMLElement} slide
-	 */
-	function syncBackground( slide ) {
-
-		let element = slide.slideBackgroundElement,
-			contentElement = slide.slideBackgroundContentElement;
-
-		// Reset the prior background state in case this is not the
-		// initial sync
-		slide.classList.remove( 'has-dark-background' );
-		slide.classList.remove( 'has-light-background' );
-
-		element.removeAttribute( 'data-loaded' );
-		element.removeAttribute( 'data-background-hash' );
-		element.removeAttribute( 'data-background-size' );
-		element.removeAttribute( 'data-background-transition' );
-		element.style.backgroundColor = '';
-
-		contentElement.style.backgroundSize = '';
-		contentElement.style.backgroundRepeat = '';
-		contentElement.style.backgroundPosition = '';
-		contentElement.style.backgroundImage = '';
-		contentElement.style.opacity = '';
-		contentElement.innerHTML = '';
-
-		let data = {
-			background: slide.getAttribute( 'data-background' ),
-			backgroundSize: slide.getAttribute( 'data-background-size' ),
-			backgroundImage: slide.getAttribute( 'data-background-image' ),
-			backgroundVideo: slide.getAttribute( 'data-background-video' ),
-			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
-			backgroundColor: slide.getAttribute( 'data-background-color' ),
-			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
-			backgroundPosition: slide.getAttribute( 'data-background-position' ),
-			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
-			backgroundOpacity: slide.getAttribute( 'data-background-opacity' )
-		};
-
-		if( data.background ) {
-			// Auto-wrap image urls in url(...)
-			if( /^(http|file|\/\/)/gi.test( data.background ) || /\.(svg|png|jpg|jpeg|gif|bmp)([?#\s]|$)/gi.test( data.background ) ) {
-				slide.setAttribute( 'data-background-image', data.background );
-			}
-			else {
-				element.style.background = data.background;
-			}
-		}
-
-		// Create a hash for this combination of background settings.
-		// This is used to determine when two slide backgrounds are
-		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
-			element.setAttribute( 'data-background-hash', data.background +
-															data.backgroundSize +
-															data.backgroundImage +
-															data.backgroundVideo +
-															data.backgroundIframe +
-															data.backgroundColor +
-															data.backgroundRepeat +
-															data.backgroundPosition +
-															data.backgroundTransition +
-															data.backgroundOpacity );
-		}
-
-		// Additional and optional background properties
-		if( data.backgroundSize ) element.setAttribute( 'data-background-size', data.backgroundSize );
-		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
-		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
-
-		if( slide.hasAttribute( 'data-preload' ) ) element.setAttribute( 'data-preload', '' );
-
-		// Background image options are set on the content wrapper
-		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
-		if( data.backgroundRepeat ) contentElement.style.backgroundRepeat = data.backgroundRepeat;
-		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
-		if( data.backgroundOpacity ) contentElement.style.opacity = data.backgroundOpacity;
-
-		// If this slide has a background color, we add a class that
-		// signals if it is light or dark. If the slide has no background
-		// color, no class will be added
-		let contrastColor = data.backgroundColor;
-
-		// If no bg color was found, check the computed background
-		if( !contrastColor ) {
-			let computedBackgroundStyle = window.getComputedStyle( element );
-			if( computedBackgroundStyle && computedBackgroundStyle.backgroundColor ) {
-				contrastColor = computedBackgroundStyle.backgroundColor;
-			}
-		}
-
-		if( contrastColor ) {
-			let rgb = colorToRgb( contrastColor );
-
-			// Ignore fully transparent backgrounds. Some browsers return
-			// rgba(0,0,0,0) when reading the computed background color of
-			// an element with no background
-			if( rgb && rgb.a !== 0 ) {
-				if( colorBrightness( contrastColor ) < 128 ) {
-					slide.classList.add( 'has-dark-background' );
-				}
-				else {
-					slide.classList.add( 'has-light-background' );
-				}
-			}
-		}
 
 	}
 
@@ -756,13 +557,8 @@ export default function( revealElement, options ) {
 		window.addEventListener( 'hashchange', onWindowHashChange, false );
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		if( config.touch ) {
-			touch.bind();
-		}
-
-		if( config.keyboard ) {
-			keyboard.bind();
-		}
+		if( config.touch ) touch.bind();
+		if( config.keyboard ) keyboard.bind();
 
 		if( config.progress && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
@@ -1192,7 +988,7 @@ export default function( revealElement, options ) {
 			}
 
 			updateProgress();
-			updateParallax();
+			backgrounds.updateParallax();
 
 			if( overview.isActive() ) {
 				overview.update();
@@ -1631,9 +1427,10 @@ export default function( revealElement, options ) {
 
 		updateControls();
 		updateProgress();
-		updateBackground();
-		updateParallax();
 		updateNotes();
+
+		backgrounds.update();
+		backgrounds.updateParallax();
 
 		slideNumber.update();
 		fragments.update();
@@ -1685,8 +1482,8 @@ export default function( revealElement, options ) {
 		// Start auto-sliding if it's enabled
 		cueAutoSlide();
 
-		// Re-create the slide backgrounds
-		createBackgrounds();
+		// Re-create all slide backgrounds
+		backgrounds.create();
 
 		// Write the current hash to the URL
 		location.writeURL();
@@ -1696,10 +1493,10 @@ export default function( revealElement, options ) {
 		updateControls();
 		updateProgress();
 		updateSlidesVisibility();
-		updateBackground( true );
 		updateNotesVisibility();
 		updateNotes();
 
+		backgrounds.update( true );
 		slideNumber.update();
 		slideContent.formatEmbeddedContent();
 
@@ -1729,27 +1526,13 @@ export default function( revealElement, options ) {
 	 */
 	function syncSlide( slide = currentSlide ) {
 
-		syncBackground( slide );
-		syncFragments( slide );
+		backgrounds.sync( slide );
+		fragments.sync( slide );
 
 		slideContent.load( slide );
 
-		updateBackground();
+		backgrounds.update();
 		updateNotes();
-
-	}
-
-	/**
-	 * Formats the fragments on the given slide so that they have
-	 * valid indices. Call this if fragments are changed in the DOM
-	 * after reveal.js has already initialized.
-	 *
-	 * @param {HTMLElement} slide
-	 * @return {Array} a list of the HTML fragments that were synced
-	 */
-	function syncFragments( slide = currentSlide ) {
-
-		return config.sort( slide.querySelectorAll( '.fragment' ) );
 
 	}
 
@@ -2138,177 +1921,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Updates the background elements to reflect the current
-	 * slide.
-	 *
-	 * @param {boolean} includeAll If true, the backgrounds of
-	 * all vertical slides (not just the present) will be updated.
-	 */
-	function updateBackground( includeAll = false ) {
-
-		let currentBackground = null;
-
-		// Reverse past/future classes when in RTL mode
-		let horizontalPast = config.rtl ? 'future' : 'past',
-			horizontalFuture = config.rtl ? 'past' : 'future';
-
-		// Update the classes of all backgrounds to match the
-		// states of their slides (past/present/future)
-		toArray( dom.background.childNodes ).forEach( ( backgroundh, h ) => {
-
-			backgroundh.classList.remove( 'past', 'present', 'future' );
-
-			if( h < indexh ) {
-				backgroundh.classList.add( horizontalPast );
-			}
-			else if ( h > indexh ) {
-				backgroundh.classList.add( horizontalFuture );
-			}
-			else {
-				backgroundh.classList.add( 'present' );
-
-				// Store a reference to the current background element
-				currentBackground = backgroundh;
-			}
-
-			if( includeAll || h === indexh ) {
-				toArray( backgroundh.querySelectorAll( '.slide-background' ) ).forEach( ( backgroundv, v ) => {
-
-					backgroundv.classList.remove( 'past', 'present', 'future' );
-
-					if( v < indexv ) {
-						backgroundv.classList.add( 'past' );
-					}
-					else if ( v > indexv ) {
-						backgroundv.classList.add( 'future' );
-					}
-					else {
-						backgroundv.classList.add( 'present' );
-
-						// Only if this is the present horizontal and vertical slide
-						if( h === indexh ) currentBackground = backgroundv;
-					}
-
-				} );
-			}
-
-		} );
-
-		// Stop content inside of previous backgrounds
-		if( previousBackground ) {
-
-			slideContent.stopEmbeddedContent( previousBackground, { unloadIframes: !slideContent.shouldPreload( previousBackground ) } );
-
-		}
-
-		// Start content in the current background
-		if( currentBackground ) {
-
-			slideContent.startEmbeddedContent( currentBackground );
-
-			let currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
-			if( currentBackgroundContent ) {
-
-				let backgroundImageURL = currentBackgroundContent.style.backgroundImage || '';
-
-				// Restart GIFs (doesn't work in Firefox)
-				if( /\.gif/i.test( backgroundImageURL ) ) {
-					currentBackgroundContent.style.backgroundImage = '';
-					window.getComputedStyle( currentBackgroundContent ).opacity;
-					currentBackgroundContent.style.backgroundImage = backgroundImageURL;
-				}
-
-			}
-
-			// Don't transition between identical backgrounds. This
-			// prevents unwanted flicker.
-			let previousBackgroundHash = previousBackground ? previousBackground.getAttribute( 'data-background-hash' ) : null;
-			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
-			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== previousBackground ) {
-				dom.background.classList.add( 'no-transition' );
-			}
-
-			previousBackground = currentBackground;
-
-		}
-
-		// If there's a background brightness flag for this slide,
-		// bubble it to the .reveal container
-		if( currentSlide ) {
-			[ 'has-light-background', 'has-dark-background' ].forEach( classToBubble => {
-				if( currentSlide.classList.contains( classToBubble ) ) {
-					dom.wrapper.classList.add( classToBubble );
-				}
-				else {
-					dom.wrapper.classList.remove( classToBubble );
-				}
-			} );
-		}
-
-		// Allow the first background to apply without transition
-		setTimeout( () => {
-			dom.background.classList.remove( 'no-transition' );
-		}, 1 );
-
-	}
-
-	/**
-	 * Updates the position of the parallax background based
-	 * on the current slide index.
-	 */
-	function updateParallax() {
-
-		if( config.parallaxBackgroundImage ) {
-
-			let horizontalSlides = getHorizontalSlides(),
-				verticalSlides = getVerticalSlides();
-
-			let backgroundSize = dom.background.style.backgroundSize.split( ' ' ),
-				backgroundWidth, backgroundHeight;
-
-			if( backgroundSize.length === 1 ) {
-				backgroundWidth = backgroundHeight = parseInt( backgroundSize[0], 10 );
-			}
-			else {
-				backgroundWidth = parseInt( backgroundSize[0], 10 );
-				backgroundHeight = parseInt( backgroundSize[1], 10 );
-			}
-
-			let slideWidth = dom.background.offsetWidth,
-				horizontalSlideCount = horizontalSlides.length,
-				horizontalOffsetMultiplier,
-				horizontalOffset;
-
-			if( typeof config.parallaxBackgroundHorizontal === 'number' ) {
-				horizontalOffsetMultiplier = config.parallaxBackgroundHorizontal;
-			}
-			else {
-				horizontalOffsetMultiplier = horizontalSlideCount > 1 ? ( backgroundWidth - slideWidth ) / ( horizontalSlideCount-1 ) : 0;
-			}
-
-			horizontalOffset = horizontalOffsetMultiplier * indexh * -1;
-
-			let slideHeight = dom.background.offsetHeight,
-				verticalSlideCount = verticalSlides.length,
-				verticalOffsetMultiplier,
-				verticalOffset;
-
-			if( typeof config.parallaxBackgroundVertical === 'number' ) {
-				verticalOffsetMultiplier = config.parallaxBackgroundVertical;
-			}
-			else {
-				verticalOffsetMultiplier = ( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 );
-			}
-
-			verticalOffset = verticalSlideCount > 0 ?  verticalOffsetMultiplier * indexv : 0;
-
-			dom.background.style.backgroundPosition = horizontalOffset + 'px ' + -verticalOffset + 'px';
-
-		}
-
-	}
-
-	/**
 	 * Determine what available routes there are for navigation.
 	 *
 	 * @return {{left: boolean, right: boolean, up: boolean, down: boolean}}
@@ -2477,7 +2089,7 @@ export default function( revealElement, options ) {
 			let slideh = isVertical ? slide.parentNode : slide;
 
 			// Select all horizontal slides
-			let horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+			let horizontalSlides = getHorizontalSlides();
 
 			// Now that we know which the horizontal slide is, get its index
 			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
@@ -3129,7 +2741,7 @@ export default function( revealElement, options ) {
 
 		sync,
 		syncSlide,
-		syncFragments,
+		syncFragments: fragments.sync.bind( fragments ),
 
 		// Navigation methods
 		slide,

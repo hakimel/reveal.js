@@ -248,6 +248,20 @@ export default class Fragments {
 	}
 
 	/**
+	 * Formats the fragments on the given slide so that they have
+	 * valid indices. Call this if fragments are changed in the DOM
+	 * after reveal.js has already initialized.
+	 *
+	 * @param {HTMLElement} slide
+	 * @return {Array} a list of the HTML fragments that were synced
+	 */
+	sync( slide = this.Reveal.getCurrentSlide() ) {
+
+		return this.sort( slide.querySelectorAll( '.fragment' ) );
+
+	}
+
+	/**
 	 * Navigate to the specified slide fragment.
 	 *
 	 * @param {?number} index The index of the fragment that
