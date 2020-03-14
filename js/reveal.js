@@ -6,6 +6,7 @@ import Overview from './controllers/overview.js'
 import Keyboard from './controllers/keyboard.js'
 import Location from './controllers/location.js'
 import Plugins from './controllers/plugins.js'
+import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -24,7 +25,6 @@ import {
 	deserialize,
 	transformElement,
 	createSingletonNode,
-	createStyleSheet,
 	closestParent,
 	enterFullscreen,
 	getQueryHash
@@ -95,6 +95,9 @@ export default function( revealElement, options ) {
 
 		// Controller for plugin loading
 		plugins = new Plugins(),
+
+		// Handles exporting to PDF
+		print = new Print( Reveal ),
 
 		// Controls touch/swipe navigation for our deck
 		touch = new Touch( Reveal ),
@@ -205,16 +208,16 @@ export default function( revealElement, options ) {
 		}, 1 );
 
 		// Special setup and config is required when printing to PDF
-		if( isPrintingPDF() ) {
+		if( print.isPrintingPDF() ) {
 			removeEventListeners();
 
 			// The document needs to have loaded for the PDF layout
 			// measurements to be accurate
 			if( document.readyState === 'complete' ) {
-				setupPDF();
+				print.setupPDF();
 			}
 			else {
-				window.addEventListener( 'load', setupPDF );
+				window.addEventListener( 'load', print.setupPDF );
 			}
 		}
 
@@ -350,175 +353,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Configures the presentation for printing to a static
-	 * PDF.
-	 */
-	function setupPDF() {
-
-		let slideSize = getComputedSlideSize( window.innerWidth, window.innerHeight );
-
-		// Dimensions of the PDF pages
-		let pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
-			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
-
-		// Dimensions of slides within the pages
-		let slideWidth = slideSize.width,
-			slideHeight = slideSize.height;
-
-		// Let the browser know what page size we want to print
-		createStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
-
-		// Limit the size of certain elements to the dimensions of the slide
-		createStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
-
-		document.documentElement.classList.add( 'print-pdf' );
-		document.body.style.width = pageWidth + 'px';
-		document.body.style.height = pageHeight + 'px';
-
-		// Make sure stretch elements fit on slide
-		layoutSlideContents( slideWidth, slideHeight );
-
-		// Compute slide numbers now, before we start duplicating slides
-		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
-			slide.setAttribute( 'data-slide-number', slideNumber.getSlideNumber( slide ) );
-		} );
-
-		// Slide and slide background layout
-		toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
-
-			// Vertical stacks are not centred since their section
-			// children will be
-			if( slide.classList.contains( 'stack' ) === false ) {
-				// Center the slide inside of the page, giving the slide some margin
-				let left = ( pageWidth - slideWidth ) / 2,
-					top = ( pageHeight - slideHeight ) / 2;
-
-				let contentHeight = slide.scrollHeight;
-				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
-
-				// Adhere to configured pages per slide limit
-				numberOfPages = Math.min( numberOfPages, config.pdfMaxPagesPerSlide );
-
-				// Center slides vertically
-				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
-					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
-				}
-
-				// Wrap the slide in a page element and hide its overflow
-				// so that no page ever flows onto another
-				let page = document.createElement( 'div' );
-				page.className = 'pdf-page';
-				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
-				slide.parentNode.insertBefore( page, slide );
-				page.appendChild( slide );
-
-				// Position the slide inside of the page
-				slide.style.left = left + 'px';
-				slide.style.top = top + 'px';
-				slide.style.width = slideWidth + 'px';
-
-				if( slide.slideBackgroundElement ) {
-					page.insertBefore( slide.slideBackgroundElement, slide );
-				}
-
-				// Inject notes if `showNotes` is enabled
-				if( config.showNotes ) {
-
-					// Are there notes for this slide?
-					let notes = getSlideNotes( slide );
-					if( notes ) {
-
-						let notesSpacing = 8;
-						let notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
-						let notesElement = document.createElement( 'div' );
-						notesElement.classList.add( 'speaker-notes' );
-						notesElement.classList.add( 'speaker-notes-pdf' );
-						notesElement.setAttribute( 'data-layout', notesLayout );
-						notesElement.innerHTML = notes;
-
-						if( notesLayout === 'separate-page' ) {
-							page.parentNode.insertBefore( notesElement, page.nextSibling );
-						}
-						else {
-							notesElement.style.left = notesSpacing + 'px';
-							notesElement.style.bottom = notesSpacing + 'px';
-							notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
-							page.appendChild( notesElement );
-						}
-
-					}
-
-				}
-
-				// Inject slide numbers if `slideNumbers` are enabled
-				if( doingSlideNumbers ) {
-					let numberElement = document.createElement( 'div' );
-					numberElement.classList.add( 'slide-number' );
-					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = slide.getAttribute( 'data-slide-number' );
-					page.appendChild( numberElement );
-				}
-
-				// Copy page and show fragments one after another
-				if( config.pdfSeparateFragments ) {
-
-					// Each fragment 'group' is an array containing one or more
-					// fragments. Multiple fragments that appear at the same time
-					// are part of the same group.
-					let fragmentGroups = fragments.sort( page.querySelectorAll( '.fragment' ), true );
-
-					let previousFragmentStep;
-					let previousPage;
-
-					fragmentGroups.forEach( function( fragments ) {
-
-						// Remove 'current-fragment' from the previous group
-						if( previousFragmentStep ) {
-							previousFragmentStep.forEach( function( fragment ) {
-								fragment.classList.remove( 'current-fragment' );
-							} );
-						}
-
-						// Show the fragments for the current index
-						fragments.forEach( function( fragment ) {
-							fragment.classList.add( 'visible', 'current-fragment' );
-						} );
-
-						// Create a separate page for the current fragment state
-						let clonedPage = page.cloneNode( true );
-						page.parentNode.insertBefore( clonedPage, ( previousPage || page ).nextSibling );
-
-						previousFragmentStep = fragments;
-						previousPage = clonedPage;
-
-					} );
-
-					// Reset the first/original page so that all fragments are hidden
-					fragmentGroups.forEach( function( fragments ) {
-						fragments.forEach( function( fragment ) {
-							fragment.classList.remove( 'visible', 'current-fragment' );
-						} );
-					} );
-
-				}
-				// Show all fragments
-				else {
-					toArray( page.querySelectorAll( '.fragment:not(.fade-out)' ) ).forEach( function( fragment ) {
-						fragment.classList.add( 'visible' );
-					} );
-				}
-
-			}
-
-		} );
-
-		// Notify subscribers that the PDF layout is good to go
-		dispatchEvent({ type: 'pdf-ready' });
-
-	}
-
-	/**
 	 * This is an unfortunate necessity. Some actions – such as
 	 * an input field being focused in an iframe or using the
 	 * keyboard to expand text selection beyond the bounds of
@@ -545,7 +379,7 @@ export default function( revealElement, options ) {
 	 */
 	function createBackgrounds() {
 
-		let printMode = isPrintingPDF();
+		let printMode = print.isPrintingPDF();
 
 		// Clear prior backgrounds
 		dom.background.innerHTML = '';
@@ -1052,15 +886,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Checks if this instance is being used to print a PDF.
-	 */
-	function isPrintingPDF() {
-
-		return ( /print-pdf/gi ).test( window.location.search );
-
-	}
-
-	/**
 	 * Dispatches an event of the specified type from the
 	 * reveal DOM element.
 	 */
@@ -1259,7 +1084,7 @@ export default function( revealElement, options ) {
 	 */
 	function layout() {
 
-		if( dom.wrapper && !isPrintingPDF() ) {
+		if( dom.wrapper && !print.isPrintingPDF() ) {
 
 			if( !config.disableLayout ) {
 
@@ -1986,7 +1811,7 @@ export default function( revealElement, options ) {
 		let slides = toArray( dom.wrapper.querySelectorAll( selector ) ),
 			slidesLength = slides.length;
 
-		let printMode = isPrintingPDF();
+		let printMode = print.isPrintingPDF();
 
 		if( slidesLength ) {
 
@@ -2110,7 +1935,7 @@ export default function( revealElement, options ) {
 			}
 
 			// All slides need to be visible when exporting to PDF
-			if( isPrintingPDF() ) {
+			if( print.isPrintingPDF() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
 
@@ -2185,7 +2010,7 @@ export default function( revealElement, options ) {
 	 */
 	function updateNotes() {
 
-		if( config.showNotes && dom.speakerNotes && currentSlide && !isPrintingPDF() ) {
+		if( config.showNotes && dom.speakerNotes && currentSlide && !print.isPrintingPDF() ) {
 
 			dom.speakerNotes.innerHTML = getSlideNotes() || '<span class="notes-placeholder">No notes on this slide.</span>';
 
@@ -3368,11 +3193,11 @@ export default function( revealElement, options ) {
 		isVerticalSlide,
 
 		// State checks
-		isOverview: overview.isActive.bind( overview ),
 		isPaused,
 		isAutoSliding,
 		isSpeakerNotes,
-		isPrintingPDF,
+		isOverview: overview.isActive.bind( overview ),
+		isPrintingPDF: print.isPrintingPDF.bind( print ),
 
 		// Slide preloading
 		loadSlide: slideContent.load.bind( slideContent ),
@@ -3475,12 +3300,16 @@ export default function( revealElement, options ) {
 
 		location,
 		overview,
+		fragments,
 		slideContent,
+		slideNumber,
+
 		onUserInput,
 		closeOverlay,
 		updateControls,
 		updateProgress,
 		updateSlidesVisibility,
+		layoutSlideContents,
 		transformSlides,
 		cueAutoSlide,
 		cancelAutoSlide
