@@ -68,37 +68,19 @@ export default function( revealElement, options ) {
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
-		// Controls loading and playback of slide content
+		// Controllers for different aspects of our presentation. They're
+		// all given direct references to this Reveal instance since there
+		// may be multiple presentations running in parallel.
 		slideContent = new SlideContent( Reveal ),
-
-		// Controls the optional slide number display
 		slideNumber = new SlideNumber( Reveal ),
-
-		// Creates and updates slide backgrounds
-		backgrounds = new Backgrounds( Reveal ),
-
-		// Controls auto-animations between slides
 		autoAnimate = new AutoAnimate( Reveal ),
-
-		// Controls navigation between slide fragments
+		backgrounds = new Backgrounds( Reveal ),
 		fragments = new Fragments( Reveal ),
-
-		// Controls the birds-eye overview of slides
 		overview = new Overview( Reveal ),
-
-		// Controls all keyboard interactions
 		keyboard = new Keyboard( Reveal ),
-
-		// Controls the current location/URL
 		location = new Location( Reveal ),
-
-		// Controller for plugin loading
-		plugins = new Plugins(),
-
-		// Handles exporting to PDF
+		plugins = new Plugins( Reveal ),
 		print = new Print( Reveal ),
-
-		// Controls touch/swipe navigation for our deck
 		touch = new Touch( Reveal ),
 
 		// CSS transform that is currently applied to the slides container,
