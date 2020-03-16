@@ -223,8 +223,8 @@ export default function( revealElement, options ) {
 			dom.wrapper.classList.remove( 'no-hover' );
 		}
 
-		// Background element
-		dom.background = createSingletonNode( dom.wrapper, 'div', 'backgrounds', null );
+		// Slide backgrounds
+		backgrounds.render();
 
 		// Progress bar
 		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
@@ -2787,7 +2787,6 @@ export default function( revealElement, options ) {
 		// Returns reveal.js DOM elements
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
 		getSlidesElement: () => dom.slides,
-		getBackgroundsElement: () => dom.background,
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,

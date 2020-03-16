@@ -12,6 +12,14 @@ export default class Backgrounds {
 
 	}
 
+	render() {
+
+		this.element = document.createElement( 'div' );
+		this.element.className = 'backgrounds';
+		this.Reveal.getRevealElement().appendChild( this.element );
+
+	}
+
 	/**
 	 * Creates the slide background elements and appends them
 	 * to the background container. One element is created per
@@ -20,16 +28,15 @@ export default class Backgrounds {
 	create() {
 
 		let printMode = this.Reveal.isPrintingPDF();
-		let backgroundElement = this.Reveal.getBackgroundsElement();
 
 		// Clear prior backgrounds
-		backgroundElement.innerHTML = '';
-		backgroundElement.classList.add( 'no-transition' );
+		this.element.innerHTML = '';
+		this.element.classList.add( 'no-transition' );
 
 		// Iterate over all horizontal slides
 		this.Reveal.getHorizontalSlides().forEach( slideh => {
 
-			let backgroundStack = this.createBackground( slideh, backgroundElement );
+			let backgroundStack = this.createBackground( slideh, this.element );
 
 			// Iterate over all vertical slides
 			toArray( slideh.querySelectorAll( 'section' ) ).forEach( slidev => {
@@ -45,10 +52,10 @@ export default class Backgrounds {
 		// Add parallax background if specified
 		if( this.Reveal.getConfig().parallaxBackgroundImage ) {
 
-			backgroundElement.style.backgroundImage = 'url("' + this.Reveal.getConfig().parallaxBackgroundImage + '")';
-			backgroundElement.style.backgroundSize = this.Reveal.getConfig().parallaxBackgroundSize;
-			backgroundElement.style.backgroundRepeat = this.Reveal.getConfig().parallaxBackgroundRepeat;
-			backgroundElement.style.backgroundPosition = this.Reveal.getConfig().parallaxBackgroundPosition;
+			this.element.style.backgroundImage = 'url("' + this.Reveal.getConfig().parallaxBackgroundImage + '")';
+			this.element.style.backgroundSize = this.Reveal.getConfig().parallaxBackgroundSize;
+			this.element.style.backgroundRepeat = this.Reveal.getConfig().parallaxBackgroundRepeat;
+			this.element.style.backgroundPosition = this.Reveal.getConfig().parallaxBackgroundPosition;
 
 			// Make sure the below properties are set on the element - these properties are
 			// needed for proper transitions to be set on the element via CSS. To remove
@@ -61,7 +68,7 @@ export default class Backgrounds {
 		}
 		else {
 
-			backgroundElement.style.backgroundImage = '';
+			this.element.style.backgroundImage = '';
 			this.Reveal.getRevealElement().classList.remove( 'has-parallax-background' );
 
 		}
@@ -221,7 +228,6 @@ export default class Backgrounds {
 	update( includeAll = false ) {
 
 		let currentSlide = this.Reveal.getCurrentSlide();
-		let backgroundElement = this.Reveal.getBackgroundsElement();
 		let indices = this.Reveal.getIndices();
 
 		let currentBackground = null;
@@ -232,7 +238,7 @@ export default class Backgrounds {
 
 		// Update the classes of all backgrounds to match the
 		// states of their slides (past/present/future)
-		toArray( backgroundElement.childNodes ).forEach( ( backgroundh, h ) => {
+		toArray( this.element.childNodes ).forEach( ( backgroundh, h ) => {
 
 			backgroundh.classList.remove( 'past', 'present', 'future' );
 
@@ -303,7 +309,7 @@ export default class Backgrounds {
 			let previousBackgroundHash = this.previousBackground ? this.previousBackground.getAttribute( 'data-background-hash' ) : null;
 			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
 			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== this.previousBackground ) {
-				backgroundElement.classList.add( 'no-transition' );
+				this.element.classList.add( 'no-transition' );
 			}
 
 			this.previousBackground = currentBackground;
@@ -325,7 +331,7 @@ export default class Backgrounds {
 
 		// Allow the first background to apply without transition
 		setTimeout( () => {
-			backgroundElement.classList.remove( 'no-transition' );
+			this.element.classList.remove( 'no-transition' );
 		}, 1 );
 
 	}
@@ -336,7 +342,6 @@ export default class Backgrounds {
 	 */
 	updateParallax() {
 
-		let backgroundElement = this.Reveal.getBackgroundsElement();
 		let indices = this.Reveal.getIndices();
 
 		if( this.Reveal.getConfig().parallaxBackgroundImage ) {
@@ -344,7 +349,7 @@ export default class Backgrounds {
 			let horizontalSlides = this.Reveal.getHorizontalSlides(),
 				verticalSlides = this.Reveal.getVerticalSlides();
 
-			let backgroundSize = backgroundElement.style.backgroundSize.split( ' ' ),
+			let backgroundSize = this.element.style.backgroundSize.split( ' ' ),
 				backgroundWidth, backgroundHeight;
 
 			if( backgroundSize.length === 1 ) {
@@ -355,7 +360,7 @@ export default class Backgrounds {
 				backgroundHeight = parseInt( backgroundSize[1], 10 );
 			}
 
-			let slideWidth = backgroundElement.offsetWidth,
+			let slideWidth = this.element.offsetWidth,
 				horizontalSlideCount = horizontalSlides.length,
 				horizontalOffsetMultiplier,
 				horizontalOffset;
@@ -369,7 +374,7 @@ export default class Backgrounds {
 
 			horizontalOffset = horizontalOffsetMultiplier * indices.h * -1;
 
-			let slideHeight = backgroundElement.offsetHeight,
+			let slideHeight = this.element.offsetHeight,
 				verticalSlideCount = verticalSlides.length,
 				verticalOffsetMultiplier,
 				verticalOffset;
@@ -383,7 +388,7 @@ export default class Backgrounds {
 
 			verticalOffset = verticalSlideCount > 0 ?  verticalOffsetMultiplier * indices.v : 0;
 
-			backgroundElement.style.backgroundPosition = horizontalOffset + 'px ' + -verticalOffset + 'px';
+			this.element.style.backgroundPosition = horizontalOffset + 'px ' + -verticalOffset + 'px';
 
 		}
 
