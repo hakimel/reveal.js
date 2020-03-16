@@ -14,6 +14,20 @@ export default class Fragments {
 	}
 
 	/**
+	 * Called whenever the reveal.js config is updated.
+	 */
+	configure( config, oldConfig ) {
+
+		if( config.fragments === false ) {
+			this.disable();
+		}
+		else if( oldConfig.fragments === false ) {
+			this.enable();
+		}
+
+	}
+
+	/**
 	 * If fragments are disabled in the deck, they should all be
 	 * visible rather than stepped through.
 	 */

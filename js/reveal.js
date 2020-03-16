@@ -9,6 +9,7 @@ import Location from './controllers/location.js'
 import Plugins from './controllers/plugins.js'
 import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
+import Notes from './controllers/notes.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
 import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
@@ -82,6 +83,7 @@ export default function( revealElement, options ) {
 		plugins = new Plugins( Reveal ),
 		print = new Print( Reveal ),
 		touch = new Touch( Reveal ),
+		notes = new Notes( Reveal ),
 
 		// CSS transform that is currently applied to the slides container,
 		// split into two groups
@@ -236,12 +238,10 @@ export default function( revealElement, options ) {
 			<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>` );
 
 		// Slide number
-		slideNumber.createElement();
+		slideNumber.render();
 
-		// Element containing notes that are visible to the audience
-		dom.speakerNotes = createSingletonNode( dom.wrapper, 'div', 'speaker-notes', null );
-		dom.speakerNotes.setAttribute( 'data-prevent-swipe', '' );
-		dom.speakerNotes.setAttribute( 'tabindex', '0' );
+		// Slide notes
+		notes.render();
 
 		// Overlay graphic which is displayed during the paused mode
 		dom.pauseOverlay = createSingletonNode( dom.wrapper, 'div', 'pause-overlay', config.controls ? '<button class="resume-button">Resume presentation</button>' : null );
@@ -452,10 +452,6 @@ export default function( revealElement, options ) {
 			resume();
 		}
 
-		if( config.showNotes ) {
-			dom.speakerNotes.setAttribute( 'data-layout', typeof config.showNotes === 'string' ? config.showNotes : 'inline' );
-		}
-
 		if( config.mouseWheel ) {
 			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
 			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
@@ -506,14 +502,6 @@ export default function( revealElement, options ) {
 			autoSlidePaused = false;
 		}
 
-		// Update the state of our fragments
-		if( config.fragments === false ) {
-			fragments.disable();
-		}
-		else if( oldConfig.fragments === false ) {
-			fragments.enable();
-		}
-
 		// Add the navigation mode to the DOM so we can adjust styling
 		if( config.navigationMode !== 'default' ) {
 			dom.wrapper.setAttribute( 'data-navigation-mode', config.navigationMode );
@@ -522,8 +510,10 @@ export default function( revealElement, options ) {
 			dom.wrapper.removeAttribute( 'data-navigation-mode' );
 		}
 
-		slideNumber.refreshVisibility();
-		keyboard.refreshSortcuts();
+		notes.configure( config, oldConfig );
+		fragments.configure( config, oldConfig );
+		slideNumber.configure( config, oldConfig );
+		keyboard.configure( config, oldConfig );
 
 		sync();
 
@@ -1409,11 +1399,10 @@ export default function( revealElement, options ) {
 
 		updateControls();
 		updateProgress();
-		updateNotes();
 
+		notes.update();
 		backgrounds.update();
 		backgrounds.updateParallax();
-
 		slideNumber.update();
 		fragments.update();
 
@@ -1475,9 +1464,9 @@ export default function( revealElement, options ) {
 		updateControls();
 		updateProgress();
 		updateSlidesVisibility();
-		updateNotesVisibility();
-		updateNotes();
 
+		notes.update();
+		notes.updateVisibility();
 		backgrounds.update( true );
 		slideNumber.update();
 		slideContent.formatEmbeddedContent();
@@ -1514,7 +1503,7 @@ export default function( revealElement, options ) {
 		slideContent.load( slide );
 
 		backgrounds.update();
-		updateNotes();
+		notes.update();
 
 	}
 
@@ -1768,49 +1757,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Pick up notes from the current slide and display them
-	 * to the viewer.
-	 *
-	 * @see {@link config.showNotes}
-	 */
-	function updateNotes() {
-
-		if( config.showNotes && dom.speakerNotes && currentSlide && !print.isPrintingPDF() ) {
-
-			dom.speakerNotes.innerHTML = getSlideNotes() || '<span class="notes-placeholder">No notes on this slide.</span>';
-
-		}
-
-	}
-
-	/**
-	 * Updates the visibility of the speaker notes sidebar that
-	 * is used to share annotated slides. The notes sidebar is
-	 * only visible if showNotes is true and there are notes on
-	 * one or more slides in the deck.
-	 */
-	function updateNotesVisibility() {
-
-		if( config.showNotes && hasNotes() ) {
-			dom.wrapper.classList.add( 'show-notes' );
-		}
-		else {
-			dom.wrapper.classList.remove( 'show-notes' );
-		}
-
-	}
-
-	/**
-	 * Checks if there are speaker notes for ANY slide in the
-	 * presentation.
-	 */
-	function hasNotes() {
-
-		return dom.slides.querySelectorAll( '[data-notes], aside.notes' ).length > 0;
-
-	}
-
-	/**
 	 * Updates the progress bar to reflect the current slide.
 	 */
 	function updateProgress() {
@@ -2037,18 +1983,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Checks if this presentation is running inside of the
-	 * speaker notes window.
-	 *
-	 * @return {boolean}
-	 */
-	function isSpeakerNotes() {
-
-		return !!window.location.search.match( /receiver/gi );
-
-	}
-
-	/**
 	 * Retrieves the h/v location and fragment of the current,
 	 * or specified, slide.
 	 *
@@ -2224,32 +2158,6 @@ export default function( revealElement, options ) {
 		}
 
 		return undefined;
-
-	}
-
-	/**
-	 * Retrieves the speaker notes from a slide. Notes can be
-	 * defined in two ways:
-	 * 1. As a data-notes attribute on the slide <section>
-	 * 2. As an <aside class="notes"> inside of the slide
-	 *
-	 * @param {HTMLElement} [slide=currentSlide]
-	 * @return {(string|null)}
-	 */
-	function getSlideNotes( slide = currentSlide ) {
-
-		// Notes can be specified via the data-notes attribute...
-		if( slide.hasAttribute( 'data-notes' ) ) {
-			return slide.getAttribute( 'data-notes' );
-		}
-
-		// ... or using an <aside class="notes"> element
-		let notesElement = slide.querySelector( 'aside.notes' );
-		if( notesElement ) {
-			return notesElement.innerHTML;
-		}
-
-		return null;
 
 	}
 
@@ -2789,7 +2697,7 @@ export default function( revealElement, options ) {
 		// State checks
 		isPaused,
 		isAutoSliding,
-		isSpeakerNotes,
+		isSpeakerNotes: notes.isSpeakerNotes.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
 		isPrintingPDF: print.isPrintingPDF.bind( print ),
 
@@ -2832,7 +2740,7 @@ export default function( revealElement, options ) {
 		getSlideBackground,
 
 		// Returns the speaker notes string for a slide, or null
-		getSlideNotes,
+		getSlideNotes: notes.getSlideNotes.bind( notes ),
 
 		// Returns an array with all horizontal/vertical slides in the deck
 		getHorizontalSlides,
@@ -2876,7 +2784,7 @@ export default function( revealElement, options ) {
 		// Helper method, retrieves query string as a key:value map
 		getQueryHash,
 
-		// Returns the top-level DOM element
+		// Returns reveal.js DOM elements
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
 		getSlidesElement: () => dom.slides,
 		getBackgroundsElement: () => dom.background,
@@ -2892,6 +2800,7 @@ export default function( revealElement, options ) {
 		announceStatus,
 		getStatusText,
 
+		print,
 		location,
 		overview,
 		fragments,

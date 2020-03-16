@@ -22,6 +22,32 @@ export default class Keyboard {
 	}
 
 	/**
+	 * Called when the reveal.js config is updated.
+	 */
+	configure( config, oldConfig ) {
+
+		if( config.navigationMode === 'linear' ) {
+			this.shortcuts['&#8594;  ,  &#8595;  ,  SPACE  ,  N  ,  L  ,  J'] = 'Next slide';
+			this.shortcuts['&#8592;  ,  &#8593;  ,  P  ,  H  ,  K']           = 'Previous slide';
+		}
+		else {
+			this.shortcuts['N  ,  SPACE']   = 'Next slide';
+			this.shortcuts['P']             = 'Previous slide';
+			this.shortcuts['&#8592;  ,  H'] = 'Navigate left';
+			this.shortcuts['&#8594;  ,  L'] = 'Navigate right';
+			this.shortcuts['&#8593;  ,  K'] = 'Navigate up';
+			this.shortcuts['&#8595;  ,  J'] = 'Navigate down';
+		}
+
+		this.shortcuts['Home  ,  Shift &#8592;']        = 'First slide';
+		this.shortcuts['End  ,  Shift &#8594;']         = 'Last slide';
+		this.shortcuts['B  ,  .']                       = 'Pause';
+		this.shortcuts['F']                             = 'Fullscreen';
+		this.shortcuts['ESC, O']                        = 'Slide overview';
+
+	}
+
+	/**
 	 * Starts listening for keyboard events.
 	 */
 	bind() {
@@ -70,32 +96,6 @@ export default class Keyboard {
 	removeKeyBinding( keyCode ) {
 
 		delete this.bindings[keyCode];
-
-	}
-
-	/**
-	 * Updates our keyboard shortcuts based on current settings.
-	 */
-	refreshSortcuts() {
-
-		if( this.Reveal.getConfig().navigationMode === 'linear' ) {
-			this.shortcuts['&#8594;  ,  &#8595;  ,  SPACE  ,  N  ,  L  ,  J'] = 'Next slide';
-			this.shortcuts['&#8592;  ,  &#8593;  ,  P  ,  H  ,  K']           = 'Previous slide';
-		}
-		else {
-			this.shortcuts['N  ,  SPACE']   = 'Next slide';
-			this.shortcuts['P']             = 'Previous slide';
-			this.shortcuts['&#8592;  ,  H'] = 'Navigate left';
-			this.shortcuts['&#8594;  ,  L'] = 'Navigate right';
-			this.shortcuts['&#8593;  ,  K'] = 'Navigate up';
-			this.shortcuts['&#8595;  ,  J'] = 'Navigate down';
-		}
-
-		this.shortcuts['Home  ,  Shift &#8592;']        = 'First slide';
-		this.shortcuts['End  ,  Shift &#8594;']         = 'Last slide';
-		this.shortcuts['B  ,  .']                       = 'Pause';
-		this.shortcuts['F']                             = 'Fullscreen';
-		this.shortcuts['ESC, O']                        = 'Slide overview';
 
 	}
 

@@ -9,7 +9,7 @@ export default class SlideNumber {
 
 	}
 
-	createElement() {
+	render() {
 
 		this.element = document.createElement( 'div' );
 		this.element.className = 'slide-number';
@@ -18,12 +18,9 @@ export default class SlideNumber {
 	}
 
 	/**
-	 * Shows or hides the slide number depending on the
-	 * current config and state.
+	 * Called when the reveal.js config is updated.
 	 */
-	refreshVisibility() {
-
-		let config = this.Reveal.getConfig();
+	configure( config, oldConfig ) {
 
 		let slideNumberDisplay = 'none';
 		if( config.slideNumber && !this.Reveal.isPrintingPDF() ) {

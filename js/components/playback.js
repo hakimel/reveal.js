@@ -1,6 +1,6 @@
 /**
- * Constructor for the playback component, which displays
- * play/pause/progress controls.
+ * UI component that lets the user control pause/resume
+ * and see the progress of auto-slide playback.
  *
  * @param {HTMLElement} container The component will append
  * itself to this
