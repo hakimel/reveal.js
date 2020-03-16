@@ -532,7 +532,7 @@ export default function( revealElement, options ) {
 		if( config.touch ) touch.bind();
 		if( config.keyboard ) keyboard.bind();
 
-		if( config.progress && dom.progress ) {
+		if( config.progress && config.progress !== 'passive' && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
 
@@ -578,7 +578,7 @@ export default function( revealElement, options ) {
 
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
 
-		if ( config.progress && dom.progress ) {
+		if ( config.progress && config.progress !== 'passive' && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
 		}
 
