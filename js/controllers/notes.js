@@ -1,7 +1,5 @@
-import { extend, toArray } from '../utils/util.js'
-
 /**
- *
+ * Handles the showing and 
  */
 export default class Notes {
 
@@ -81,7 +79,7 @@ export default class Notes {
 	 *
 	 * @return {boolean}
 	 */
-	isSpeakerNotes() {
+	isSpeakerNotesWindow() {
 
 		return !!window.location.search.match( /receiver/gi );
 

@@ -14,7 +14,7 @@ export default class Fragments {
 	}
 
 	/**
-	 * Called whenever the reveal.js config is updated.
+	 * Called when the reveal.js config is updated.
 	 */
 	configure( config, oldConfig ) {
 
@@ -331,7 +331,8 @@ export default class Fragments {
 					});
 				}
 
-				this.Reveal.updateControls();
+				this.Reveal.controls.update();
+
 				this.Reveal.updateProgress();
 
 				if( this.Reveal.getConfig().fragmentInURL ) {

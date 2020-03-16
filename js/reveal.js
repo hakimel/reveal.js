@@ -6,13 +6,14 @@ import Fragments from './controllers/fragments.js'
 import Overview from './controllers/overview.js'
 import Keyboard from './controllers/keyboard.js'
 import Location from './controllers/location.js'
+import Controls from './controllers/controls.js'
 import Plugins from './controllers/plugins.js'
 import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
 import Notes from './controllers/notes.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
-import { isMobile, isChrome, isAndroid, supportsZoom } from './utils/device.js'
+import { isMobile, isChrome, supportsZoom } from './utils/device.js'
 import {
 	SLIDES_SELECTOR,
 	HORIZONTAL_SLIDES_SELECTOR,
@@ -58,10 +59,12 @@ export default function( revealElement, options ) {
 		currentSlide,
 
 		// Remember which directions that the user has navigated towards
-		hasNavigatedHorizontally = false,
-		hasNavigatedVertically = false,
+		navigationHistory = {
+			hasNavigatedHorizontally: false,
+			hasNavigatedVertically: false
+		},
 
-		// Slides may hold a data-state attribute which we pick up and apply
+		// Slides may have a data-state attribute which we pick up and apply
 		// as a class to the body. This list contains the combined state of
 		// all current slides.
 		state = [],
@@ -80,6 +83,7 @@ export default function( revealElement, options ) {
 		overview = new Overview( Reveal ),
 		keyboard = new Keyboard( Reveal ),
 		location = new Location( Reveal ),
+		controls = new Controls( Reveal ),
 		plugins = new Plugins( Reveal ),
 		print = new Print( Reveal ),
 		touch = new Touch( Reveal ),
@@ -223,45 +227,22 @@ export default function( revealElement, options ) {
 			dom.wrapper.classList.remove( 'no-hover' );
 		}
 
-		// Slide backgrounds
-		backgrounds.render();
 
 		// Progress bar
 		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
 		dom.progressbar = dom.progress.querySelector( 'span' );
 
-		// Arrow controls
-		dom.controls = createSingletonNode( dom.wrapper, 'aside', 'controls',
-			`<button class="navigate-left" aria-label="${ config.rtl ? 'next slide' : 'previous slide' }"><div class="controls-arrow"></div></button>
-			<button class="navigate-right" aria-label="${ config.rtl ? 'previous slide' : 'next slide' }"><div class="controls-arrow"></div></button>
-			<button class="navigate-up" aria-label="above slide"><div class="controls-arrow"></div></button>
-			<button class="navigate-down" aria-label="below slide"><div class="controls-arrow"></div></button>` );
-
-		// Slide number
+		backgrounds.render();
 		slideNumber.render();
-
-		// Slide notes
+		controls.render();
 		notes.render();
 
 		// Overlay graphic which is displayed during the paused mode
 		dom.pauseOverlay = createSingletonNode( dom.wrapper, 'div', 'pause-overlay', config.controls ? '<button class="resume-button">Resume presentation</button>' : null );
 
-		dom.wrapper.setAttribute( 'role', 'application' );
-
-		// There can be multiple instances of controls throughout the page
-		dom.controlsLeft = toArray( dom.wrapper.querySelectorAll( '.navigate-left' ) );
-		dom.controlsRight = toArray( dom.wrapper.querySelectorAll( '.navigate-right' ) );
-		dom.controlsUp = toArray( dom.wrapper.querySelectorAll( '.navigate-up' ) );
-		dom.controlsDown = toArray( dom.wrapper.querySelectorAll( '.navigate-down' ) );
-		dom.controlsPrev = toArray( dom.wrapper.querySelectorAll( '.navigate-prev' ) );
-		dom.controlsNext = toArray( dom.wrapper.querySelectorAll( '.navigate-next' ) );
-
-		// The left, right and down arrows in the standard reveal.js controls
-		dom.controlsRightArrow = dom.controls.querySelector( '.navigate-right' );
-		dom.controlsLeftArrow = dom.controls.querySelector( '.navigate-left' );
-		dom.controlsDownArrow = dom.controls.querySelector( '.navigate-down' );
-
 		dom.statusElement = createStatusElement();
+
+		dom.wrapper.setAttribute( 'role', 'application' );
 	}
 
 	/**
@@ -423,11 +404,7 @@ export default function( revealElement, options ) {
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
-		dom.controls.style.display = config.controls ? 'block' : 'none';
 		dom.progress.style.display = config.progress ? 'block' : 'none';
-
-		dom.controls.setAttribute( 'data-controls-layout', config.controlsLayout );
-		dom.controls.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
 
 		if( config.shuffle ) {
 			shuffle();
@@ -511,9 +488,10 @@ export default function( revealElement, options ) {
 		}
 
 		notes.configure( config, oldConfig );
+		controls.configure( config, oldConfig );
+		keyboard.configure( config, oldConfig );
 		fragments.configure( config, oldConfig );
 		slideNumber.configure( config, oldConfig );
-		keyboard.configure( config, oldConfig );
 
 		sync();
 
@@ -531,6 +509,7 @@ export default function( revealElement, options ) {
 
 		if( config.touch ) touch.bind();
 		if( config.keyboard ) keyboard.bind();
+		controls.bind();
 
 		if( config.progress && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
@@ -541,25 +520,6 @@ export default function( revealElement, options ) {
 		if( config.focusBodyOnPageVisibilityChange ) {
 			document.addEventListener( 'visibilitychange', onPageVisibilityChange, false );
 		}
-
-		// Listen to both touch and click events, in case the device
-		// supports both
-		let pointerEvents = [ 'touchstart', 'click' ];
-
-		// Only support touch for Android, fixes double navigations in
-		// stock browser
-		if( isAndroid ) {
-			pointerEvents = [ 'touchstart' ];
-		}
-
-		pointerEvents.forEach( eventName => {
-			dom.controlsLeft.forEach( el => el.addEventListener( eventName, onNavigateLeftClicked, false ) );
-			dom.controlsRight.forEach( el => el.addEventListener( eventName, onNavigateRightClicked, false ) );
-			dom.controlsUp.forEach( el => el.addEventListener( eventName, onNavigateUpClicked, false ) );
-			dom.controlsDown.forEach( el => el.addEventListener( eventName, onNavigateDownClicked, false ) );
-			dom.controlsPrev.forEach( el => el.addEventListener( eventName, onNavigatePrevClicked, false ) );
-			dom.controlsNext.forEach( el => el.addEventListener( eventName, onNavigateNextClicked, false ) );
-		} );
 
 	}
 
@@ -572,6 +532,7 @@ export default function( revealElement, options ) {
 
 		touch.unbind();
 		keyboard.unbind();
+		controls.unbind();
 
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
@@ -581,15 +542,6 @@ export default function( revealElement, options ) {
 		if ( config.progress && dom.progress ) {
 			dom.progress.removeEventListener( 'click', onProgressClicked, false );
 		}
-
-		[ 'touchstart', 'click' ].forEach( eventName => {
-			dom.controlsLeft.forEach( el => el.removeEventListener( eventName, onNavigateLeftClicked, false ) );
-			dom.controlsRight.forEach( el => el.removeEventListener( eventName, onNavigateRightClicked, false ) );
-			dom.controlsUp.forEach( el => el.removeEventListener( eventName, onNavigateUpClicked, false ) );
-			dom.controlsDown.forEach( el => el.removeEventListener( eventName, onNavigateDownClicked, false ) );
-			dom.controlsPrev.forEach( el => el.removeEventListener( eventName, onNavigatePrevClicked, false ) );
-			dom.controlsNext.forEach( el => el.removeEventListener( eventName, onNavigateNextClicked, false ) );
-		} );
 
 	}
 
@@ -1397,9 +1349,9 @@ export default function( revealElement, options ) {
 		// Announce the current slide contents to screen readers
 		announceStatus( getStatusText( currentSlide ) );
 
-		updateControls();
 		updateProgress();
 
+		controls.update();
 		notes.update();
 		backgrounds.update();
 		backgrounds.updateParallax();
@@ -1461,7 +1413,8 @@ export default function( revealElement, options ) {
 
 		fragments.sortAll();
 
-		updateControls();
+		controls.update();
+
 		updateProgress();
 		updateSlidesVisibility();
 
@@ -1768,84 +1721,6 @@ export default function( revealElement, options ) {
 
 		}
 
-	}
-
-	/**
-	 * Updates the state of all control/navigation arrows.
-	 */
-	function updateControls() {
-
-		let routes = availableRoutes();
-		let fragmentsRoutes = fragments.availableRoutes();
-
-		// Remove the 'enabled' class from all directions
-		[...dom.controlsLeft, ...dom.controlsRight, ...dom.controlsUp, ...dom.controlsDown, ...dom.controlsPrev, ...dom.controlsNext].forEach( node => {
-			node.classList.remove( 'enabled', 'fragmented' );
-
-			// Set 'disabled' attribute on all directions
-			node.setAttribute( 'disabled', 'disabled' );
-		} );
-
-		// Add the 'enabled' class to the available routes; remove 'disabled' attribute to enable buttons
-		if( routes.left ) dom.controlsLeft.forEach( el => { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-		if( routes.right ) dom.controlsRight.forEach( el => { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-		if( routes.up ) dom.controlsUp.forEach( el => { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-		if( routes.down ) dom.controlsDown.forEach( el => { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-
-		// Prev/next buttons
-		if( routes.left || routes.up ) dom.controlsPrev.forEach( el => { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-		if( routes.right || routes.down ) dom.controlsNext.forEach( el => { el.classList.add( 'enabled' ); el.removeAttribute( 'disabled' ); } );
-
-		// Highlight fragment directions
-		if( currentSlide ) {
-
-			// Always apply fragment decorator to prev/next buttons
-			if( fragmentsRoutes.prev ) dom.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-			if( fragmentsRoutes.next ) dom.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-
-			// Apply fragment decorators to directional buttons based on
-			// what slide axis they are in
-			if( isVerticalSlide( currentSlide ) ) {
-				if( fragmentsRoutes.prev ) dom.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-				if( fragmentsRoutes.next ) dom.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-			}
-			else {
-				if( fragmentsRoutes.prev ) dom.controlsLeft.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-				if( fragmentsRoutes.next ) dom.controlsRight.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
-			}
-
-		}
-
-		if( config.controlsTutorial ) {
-
-			// Highlight control arrows with an animation to ensure
-			// that the viewer knows how to navigate
-			if( !hasNavigatedVertically && routes.down ) {
-				dom.controlsDownArrow.classList.add( 'highlight' );
-			}
-			else {
-				dom.controlsDownArrow.classList.remove( 'highlight' );
-
-				if( config.rtl ) {
-
-					if( !hasNavigatedHorizontally && routes.left && indexv === 0 ) {
-						dom.controlsLeftArrow.classList.add( 'highlight' );
-					}
-					else {
-						dom.controlsLeftArrow.classList.remove( 'highlight' );
-					}
-
-				} else {
-
-					if( !hasNavigatedHorizontally && routes.right && indexv === 0 ) {
-						dom.controlsRightArrow.classList.add( 'highlight' );
-					}
-					else {
-						dom.controlsRightArrow.classList.remove( 'highlight' );
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -2322,7 +2197,7 @@ export default function( revealElement, options ) {
 
 	function navigateLeft() {
 
-		hasNavigatedHorizontally = true;
+		navigationHistory.hasNavigatedHorizontally = true;
 
 		// Reverse for RTL
 		if( config.rtl ) {
@@ -2339,7 +2214,7 @@ export default function( revealElement, options ) {
 
 	function navigateRight() {
 
-		hasNavigatedHorizontally = true;
+		navigationHistory.hasNavigatedHorizontally = true;
 
 		// Reverse for RTL
 		if( config.rtl ) {
@@ -2365,7 +2240,7 @@ export default function( revealElement, options ) {
 
 	function navigateDown() {
 
-		hasNavigatedVertically = true;
+		navigationHistory.hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
 		if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().down ) {
@@ -2413,8 +2288,8 @@ export default function( revealElement, options ) {
 	 */
 	function navigateNext() {
 
-		hasNavigatedHorizontally = true;
-		hasNavigatedVertically = true;
+		navigationHistory.hasNavigatedHorizontally = true;
+		navigationHistory.hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
 		if( fragments.next() === false ) {
@@ -2524,16 +2399,6 @@ export default function( revealElement, options ) {
 		slide( slideIndex );
 
 	}
-
-	/**
-	 * Event handler for navigation control buttons.
-	 */
-	function onNavigateLeftClicked( event ) { event.preventDefault(); onUserInput(); config.navigationMode === 'linear' ? navigatePrev() : navigateLeft(); }
-	function onNavigateRightClicked( event ) { event.preventDefault(); onUserInput(); config.navigationMode === 'linear' ? navigateNext() : navigateRight(); }
-	function onNavigateUpClicked( event ) { event.preventDefault(); onUserInput(); navigateUp(); }
-	function onNavigateDownClicked( event ) { event.preventDefault(); onUserInput(); navigateDown(); }
-	function onNavigatePrevClicked( event ) { event.preventDefault(); onUserInput(); navigatePrev(); }
-	function onNavigateNextClicked( event ) { event.preventDefault(); onUserInput(); navigateNext(); }
 
 	/**
 	 * Handler for the window level 'hashchange' event.
@@ -2697,7 +2562,7 @@ export default function( revealElement, options ) {
 		// State checks
 		isPaused,
 		isAutoSliding,
-		isSpeakerNotes: notes.isSpeakerNotes.bind( notes ),
+		isSpeakerNotes: notes.isSpeakerNotesWindow.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
 		isPrintingPDF: print.isPrintingPDF.bind( print ),
 
@@ -2751,6 +2616,9 @@ export default function( revealElement, options ) {
 		hasHorizontalSlides,
 		hasVerticalSlides,
 
+		hasNavigatedHorizontally: () => navigationHistory.hasNavigatedHorizontally,
+		hasNavigatedVertically: () => navigationHistory.hasNavigatedVertically,
+
 		// Adds/removes a custom key binding
 		addKeyBinding: keyboard.addKeyBinding.bind( keyboard ),
 		removeKeyBinding: keyboard.removeKeyBinding.bind( keyboard ),
@@ -2800,6 +2668,7 @@ export default function( revealElement, options ) {
 		getStatusText,
 
 		print,
+		controls,
 		location,
 		overview,
 		fragments,
@@ -2808,7 +2677,6 @@ export default function( revealElement, options ) {
 
 		onUserInput,
 		closeOverlay,
-		updateControls,
 		updateProgress,
 		updateSlidesVisibility,
 		layoutSlideContents,
