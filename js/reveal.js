@@ -7,6 +7,7 @@ import Overview from './controllers/overview.js'
 import Keyboard from './controllers/keyboard.js'
 import Location from './controllers/location.js'
 import Controls from './controllers/controls.js'
+import Progress from './controllers/progress.js'
 import Plugins from './controllers/plugins.js'
 import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
@@ -84,6 +85,7 @@ export default function( revealElement, options ) {
 		keyboard = new Keyboard( Reveal ),
 		location = new Location( Reveal ),
 		controls = new Controls( Reveal ),
+		progress = new Progress( Reveal ),
 		plugins = new Plugins( Reveal ),
 		print = new Print( Reveal ),
 		touch = new Touch( Reveal ),
@@ -227,14 +229,10 @@ export default function( revealElement, options ) {
 			dom.wrapper.classList.remove( 'no-hover' );
 		}
 
-
-		// Progress bar
-		dom.progress = createSingletonNode( dom.wrapper, 'div', 'progress', '<span></span>' );
-		dom.progressbar = dom.progress.querySelector( 'span' );
-
 		backgrounds.render();
 		slideNumber.render();
 		controls.render();
+		progress.render();
 		notes.render();
 
 		// Overlay graphic which is displayed during the paused mode
@@ -404,8 +402,6 @@ export default function( revealElement, options ) {
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
-		dom.progress.style.display = config.progress ? 'block' : 'none';
-
 		if( config.shuffle ) {
 			shuffle();
 		}
@@ -489,6 +485,7 @@ export default function( revealElement, options ) {
 
 		notes.configure( config, oldConfig );
 		controls.configure( config, oldConfig );
+		progress.configure( config, oldConfig );
 		keyboard.configure( config, oldConfig );
 		fragments.configure( config, oldConfig );
 		slideNumber.configure( config, oldConfig );
@@ -510,10 +507,7 @@ export default function( revealElement, options ) {
 		if( config.touch ) touch.bind();
 		if( config.keyboard ) keyboard.bind();
 		controls.bind();
-
-		if( config.progress && dom.progress ) {
-			dom.progress.addEventListener( 'click', onProgressClicked, false );
-		}
+		progress.bind();
 
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
 
@@ -533,15 +527,12 @@ export default function( revealElement, options ) {
 		touch.unbind();
 		keyboard.unbind();
 		controls.unbind();
+		progress.unbind();
 
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
-
-		if ( config.progress && dom.progress ) {
-			dom.progress.removeEventListener( 'click', onProgressClicked, false );
-		}
 
 	}
 
@@ -911,7 +902,7 @@ export default function( revealElement, options ) {
 				}
 			}
 
-			updateProgress();
+			progress.update();
 			backgrounds.updateParallax();
 
 			if( overview.isActive() ) {
@@ -1349,8 +1340,8 @@ export default function( revealElement, options ) {
 		// Announce the current slide contents to screen readers
 		announceStatus( getStatusText( currentSlide ) );
 
-		updateProgress();
 
+		progress.update();
 		controls.update();
 		notes.update();
 		backgrounds.update();
@@ -1414,8 +1405,8 @@ export default function( revealElement, options ) {
 		fragments.sortAll();
 
 		controls.update();
+		progress.update();
 
-		updateProgress();
 		updateSlidesVisibility();
 
 		notes.update();
@@ -1704,20 +1695,6 @@ export default function( revealElement, options ) {
 			else {
 				dom.wrapper.classList.remove( 'has-horizontal-slides' );
 			}
-
-		}
-
-	}
-
-	/**
-	 * Updates the progress bar to reflect the current slide.
-	 */
-	function updateProgress() {
-
-		// Update progress if enabled
-		if( config.progress && dom.progressbar ) {
-
-			dom.progressbar.style.width = getProgress() * dom.wrapper.offsetWidth + 'px';
 
 		}
 
@@ -2376,31 +2353,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Clicking on the progress bar results in a navigation to the
-	 * closest approximate horizontal slide using this equation:
-	 *
-	 * ( clickX / presentationWidth ) * numberOfSlides
-	 *
-	 * @param {object} event
-	 */
-	function onProgressClicked( event ) {
-
-		onUserInput( event );
-
-		event.preventDefault();
-
-		let slidesTotal = getHorizontalSlides().length;
-		let slideIndex = Math.floor( ( event.clientX / dom.wrapper.offsetWidth ) * slidesTotal );
-
-		if( config.rtl ) {
-			slideIndex = slidesTotal - slideIndex;
-		}
-
-		slide( slideIndex );
-
-	}
-
-	/**
 	 * Handler for the window level 'hashchange' event.
 	 *
 	 * @param {object} [event]
@@ -2668,6 +2620,7 @@ export default function( revealElement, options ) {
 		getStatusText,
 
 		print,
+		progress,
 		controls,
 		location,
 		overview,
@@ -2677,7 +2630,6 @@ export default function( revealElement, options ) {
 
 		onUserInput,
 		closeOverlay,
-		updateProgress,
 		updateSlidesVisibility,
 		layoutSlideContents,
 		transformSlides,

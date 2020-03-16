@@ -1,8 +1,17 @@
 import { toArray } from '../utils/util.js'
-import { isMobile, isAndroid } from '../utils/device.js'
+import { isAndroid } from '../utils/device.js'
 
 /**
- *
+ * Manages our presentation controls. This includes both
+ * the built-in control arrows as well as event monitoring
+ * of any elements within the presentation with either of the
+ * following helper classes:
+ * - .navigate-up
+ * - .navigate-right
+ * - .navigate-down
+ * - .navigate-left
+ * - .navigate-next
+ * - .navigate-prev
  */
 export default class Controls {
 

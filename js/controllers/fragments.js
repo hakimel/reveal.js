@@ -332,8 +332,7 @@ export default class Fragments {
 				}
 
 				this.Reveal.controls.update();
-
-				this.Reveal.updateProgress();
+				this.Reveal.progress.update();
 
 				if( this.Reveal.getConfig().fragmentInURL ) {
 					this.Reveal.location.writeURL();

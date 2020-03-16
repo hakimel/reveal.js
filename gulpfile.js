@@ -26,11 +26,17 @@ const license = `/*!
 */\n`
 
 
+const swallowError = function(error) {
+  console.log(error.toString())
+  this.emit('end')
+}
+
 gulp.task('js', () => gulp.src(['./js/index.js'])
         .pipe(babel({ presets: ['@babel/preset-env'] }))
         .pipe(webpack({
             mode: 'production'
         }))
+        .on('error', swallowError)
         .pipe(header(license, {pkg: pkg}))
         .pipe(rename('reveal.min.js'))
         .pipe(gulp.dest('./dist')))
