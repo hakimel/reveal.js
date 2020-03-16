@@ -1,4 +1,4 @@
-import { toArray } from '../utils/util.js'
+import { queryAll } from '../utils/util.js'
 import { isAndroid } from '../utils/device.js'
 
 /**
@@ -44,12 +44,12 @@ export default class Controls {
 		this.Reveal.getRevealElement().appendChild( this.element );
 
 		// There can be multiple instances of controls throughout the page
-		this.controlsLeft = toArray( revealElement.querySelectorAll( '.navigate-left' ) );
-		this.controlsRight = toArray( revealElement.querySelectorAll( '.navigate-right' ) );
-		this.controlsUp = toArray( revealElement.querySelectorAll( '.navigate-up' ) );
-		this.controlsDown = toArray( revealElement.querySelectorAll( '.navigate-down' ) );
-		this.controlsPrev = toArray( revealElement.querySelectorAll( '.navigate-prev' ) );
-		this.controlsNext = toArray( revealElement.querySelectorAll( '.navigate-next' ) );
+		this.controlsLeft = queryAll( revealElement, '.navigate-left' );
+		this.controlsRight = queryAll( revealElement, '.navigate-right' );
+		this.controlsUp = queryAll( revealElement, '.navigate-up' );
+		this.controlsDown = queryAll( revealElement, '.navigate-down' );
+		this.controlsPrev = queryAll( revealElement, '.navigate-prev' );
+		this.controlsNext = queryAll( revealElement, '.navigate-next' );
 
 		// The left, right and down arrows in the standard reveal.js controls
 		this.controlsRightArrow = this.element.querySelector( '.navigate-right' );

@@ -1,5 +1,5 @@
 import { SLIDES_SELECTOR } from '../utils/constants.js'
-import { toArray, createStyleSheet } from '../utils/util.js'
+import { queryAll, createStyleSheet } from '../utils/util.js'
 
 /**
  * Setups up our presentation for printing/exporting to PDF.
@@ -45,12 +45,12 @@ export default class Print {
 
 		// Compute slide numbers now, before we start duplicating slides
 		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
-		toArray( this.Reveal.getRevealElement().querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+		queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( function( slide ) {
 			slide.setAttribute( 'data-slide-number', this.Reveal.slideNumber.getSlideNumber( slide ) );
 		}, this );
 
 		// Slide and slide background layout
-		toArray( this.Reveal.getRevealElement().querySelectorAll( SLIDES_SELECTOR ) ).forEach( function( slide ) {
+		queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( function( slide ) {
 
 			// Vertical stacks are not centred since their section
 			// children will be
@@ -169,7 +169,7 @@ export default class Print {
 				}
 				// Show all fragments
 				else {
-					toArray( page.querySelectorAll( '.fragment:not(.fade-out)' ) ).forEach( function( fragment ) {
+					queryAll( page, '.fragment:not(.fade-out)' ).forEach( function( fragment ) {
 						fragment.classList.add( 'visible' );
 					} );
 				}

@@ -1,4 +1,4 @@
-import { toArray } from '../utils/util.js'
+import { queryAll } from '../utils/util.js'
 import { colorToRgb, colorBrightness } from '../utils/color.js'
 
 /**
@@ -39,7 +39,7 @@ export default class Backgrounds {
 			let backgroundStack = this.createBackground( slideh, this.element );
 
 			// Iterate over all vertical slides
-			toArray( slideh.querySelectorAll( 'section' ) ).forEach( slidev => {
+			queryAll( slideh, 'section' ).forEach( slidev => {
 
 				this.createBackground( slidev, backgroundStack );
 
@@ -238,7 +238,7 @@ export default class Backgrounds {
 
 		// Update the classes of all backgrounds to match the
 		// states of their slides (past/present/future)
-		toArray( this.element.childNodes ).forEach( ( backgroundh, h ) => {
+		Array.from( this.element.childNodes ).forEach( ( backgroundh, h ) => {
 
 			backgroundh.classList.remove( 'past', 'present', 'future' );
 
@@ -256,7 +256,7 @@ export default class Backgrounds {
 			}
 
 			if( includeAll || h === indices.h ) {
-				toArray( backgroundh.querySelectorAll( '.slide-background' ) ).forEach( ( backgroundv, v ) => {
+				queryAll( backgroundh, '.slide-background' ).forEach( ( backgroundv, v ) => {
 
 					backgroundv.classList.remove( 'past', 'present', 'future' );
 

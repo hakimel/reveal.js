@@ -1,5 +1,5 @@
 import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/constants.js'
-import { extend, toArray, closestParent } from '../utils/util.js'
+import { extend, queryAll, closestParent } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 /**
@@ -47,7 +47,7 @@ export default class SlideContent {
 		slide.style.display = this.Reveal.getConfig().display;
 
 		// Media elements with data-src attributes
-		toArray( slide.querySelectorAll( 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ) ).forEach( element => {
+		queryAll( slide, 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ).forEach( element => {
 			if( element.tagName !== 'IFRAME' || this.shouldPreload( element ) ) {
 				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 				element.setAttribute( 'data-lazy-loaded', '' );
@@ -56,10 +56,10 @@ export default class SlideContent {
 		} );
 
 		// Media elements with <source> children
-		toArray( slide.querySelectorAll( 'video, audio' ) ).forEach( media => {
+		queryAll( slide, 'video, audio' ).forEach( media => {
 			let sources = 0;
 
-			toArray( media.querySelectorAll( 'source[data-src]' ) ).forEach( source => {
+			queryAll( media, 'source[data-src]' ).forEach( source => {
 				source.setAttribute( 'src', source.getAttribute( 'data-src' ) );
 				source.removeAttribute( 'data-src' );
 				source.setAttribute( 'data-lazy-loaded', '' );
@@ -176,19 +176,19 @@ export default class SlideContent {
 			background.style.display = 'none';
 
 			// Unload any background iframes
-			toArray( background.querySelectorAll( 'iframe[src]' ) ).forEach( element => {
+			queryAll( background, 'iframe[src]' ).forEach( element => {
 				element.removeAttribute( 'src' );
 			} );
 		}
 
 		// Reset lazy-loaded media elements with src attributes
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ) ).forEach( element => {
+		queryAll( slide, 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ).forEach( element => {
 			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
 			element.removeAttribute( 'src' );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children
-		toArray( slide.querySelectorAll( 'video[data-lazy-loaded] source[src], audio source[src]' ) ).forEach( source => {
+		queryAll( slide, 'video[data-lazy-loaded] source[src], audio source[src]' ).forEach( source => {
 			source.setAttribute( 'data-src', source.getAttribute( 'src' ) );
 			source.removeAttribute( 'src' );
 		} );
@@ -201,7 +201,7 @@ export default class SlideContent {
 	formatEmbeddedContent() {
 
 		let _appendParamToIframeSource = ( sourceAttribute, sourceURL, param ) => {
-			toArray( this.Reveal.getSlidesElement().querySelectorAll( 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ) ).forEach( el => {
+			queryAll( this.Reveal.getSlidesElement(), 'iframe['+ sourceAttribute +'*="'+ sourceURL +'"]' ).forEach( el => {
 				let src = el.getAttribute( sourceAttribute );
 				if( src && src.indexOf( param ) === -1 ) {
 					el.setAttribute( sourceAttribute, src + ( !/\?/.test( src ) ? '?' : '&' ) + param );
@@ -230,14 +230,14 @@ export default class SlideContent {
 		if( element && !this.Reveal.isSpeakerNotes() ) {
 
 			// Restart GIFs
-			toArray( element.querySelectorAll( 'img[src$=".gif"]' ) ).forEach( el => {
+			queryAll( element, 'img[src$=".gif"]' ).forEach( el => {
 				// Setting the same unchanged source like this was confirmed
 				// to work in Chrome, FF & Safari
 				el.setAttribute( 'src', el.getAttribute( 'src' ) );
 			} );
 
 			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( el => {
+			queryAll( element, 'video, audio' ).forEach( el => {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -285,7 +285,7 @@ export default class SlideContent {
 			} );
 
 			// Normal iframes
-			toArray( element.querySelectorAll( 'iframe[src]' ) ).forEach( el => {
+			queryAll( element, 'iframe[src]' ).forEach( el => {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -294,7 +294,7 @@ export default class SlideContent {
 			} );
 
 			// Lazy loading iframes
-			toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( el => {
+			queryAll( element, 'iframe[data-src]' ).forEach( el => {
 				if( closestParent( el, '.fragment' ) && !closestParent( el, '.fragment.visible' ) ) {
 					return;
 				}
@@ -390,7 +390,7 @@ export default class SlideContent {
 
 		if( element && element.parentNode ) {
 			// HTML5 media elements
-			toArray( element.querySelectorAll( 'video, audio' ) ).forEach( el => {
+			queryAll( element, 'video, audio' ).forEach( el => {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
 					el.setAttribute('data-paused-by-reveal', '');
 					el.pause();
@@ -398,20 +398,20 @@ export default class SlideContent {
 			} );
 
 			// Generic postMessage API for non-lazy loaded iframes
-			toArray( element.querySelectorAll( 'iframe' ) ).forEach( el => {
+			queryAll( element, 'iframe' ).forEach( el => {
 				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
 				el.removeEventListener( 'load', this.startEmbeddedIframe );
 			});
 
 			// YouTube postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="youtube.com/embed/"]' ) ).forEach( el => {
+			queryAll( element, 'iframe[src*="youtube.com/embed/"]' ).forEach( el => {
 				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"event":"command","func":"pauseVideo","args":""}', '*' );
 				}
 			});
 
 			// Vimeo postMessage API
-			toArray( element.querySelectorAll( 'iframe[src*="player.vimeo.com/"]' ) ).forEach( el => {
+			queryAll( element, 'iframe[src*="player.vimeo.com/"]' ).forEach( el => {
 				if( !el.hasAttribute( 'data-ignore' ) && el.contentWindow && typeof el.contentWindow.postMessage === 'function' ) {
 					el.contentWindow.postMessage( '{"method":"pause"}', '*' );
 				}
@@ -419,7 +419,7 @@ export default class SlideContent {
 
 			if( options.unloadIframes === true ) {
 				// Unload lazy-loaded iframes
-				toArray( element.querySelectorAll( 'iframe[data-src]' ) ).forEach( el => {
+				queryAll( element, 'iframe[data-src]' ).forEach( el => {
 					// Only removing the src doesn't actually unload the frame
 					// in all browsers (Firefox) so we set it to blank first
 					el.setAttribute( 'src', 'about:blank' );

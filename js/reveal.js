@@ -23,12 +23,13 @@ import {
 } from './utils/constants.js'
 import {
 	extend,
-	toArray,
+	queryAll,
 	deserialize,
 	transformElement,
 	createSingletonNode,
 	closestParent,
-	getQueryHash
+	getQueryHash,
+	getRemainingHeight
 } from './utils/util.js'
 
 /**
@@ -298,7 +299,7 @@ export default function( revealElement, options ) {
 			let isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
 			if( isAriaHidden !== 'true' && !isDisplayHidden ) {
 
-				toArray( node.childNodes ).forEach( child => {
+				Array.from( node.childNodes ).forEach( child => {
 					text += getStatusText( child );
 				} );
 
@@ -560,43 +561,6 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Returns the remaining height within the parent of the
-	 * target element.
-	 *
-	 * remaining height = [ configured parent height ] - [ current parent height ]
-	 *
-	 * @param {HTMLElement} element
-	 * @param {number} [height]
-	 */
-	function getRemainingHeight( element, height = 0 ) {
-
-		if( element ) {
-			let newHeight, oldHeight = element.style.height;
-
-			// Change the .stretch element height to 0 in order find the height of all
-			// the other elements
-			element.style.height = '0px';
-
-			// In Overview mode, the parent (.slide) height is set of 700px.
-			// Restore it temporarily to its natural height.
-			element.parentNode.style.height = 'auto';
-
-			newHeight = height - element.parentNode.offsetHeight;
-
-			// Restore the old height, just in case
-			element.style.height = oldHeight + 'px';
-
-			// Clear the parent (.slide) height. .removeProperty works in IE9+
-			element.parentNode.style.removeProperty('height');
-
-			return newHeight;
-		}
-
-		return height;
-
-	}
-
-	/**
 	 * Dispatches an event of the specified type from the
 	 * reveal DOM element.
 	 */
@@ -641,7 +605,7 @@ export default function( revealElement, options ) {
 	 */
 	function enablePreviewLinks( selector = 'a' ) {
 
-		toArray( dom.wrapper.querySelectorAll( selector ) ).forEach( element => {
+		Array.from( dom.wrapper.querySelectorAll( selector ) ).forEach( element => {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
 				element.addEventListener( 'click', onPreviewLinkClicked, false );
 			}
@@ -654,7 +618,7 @@ export default function( revealElement, options ) {
 	 */
 	function disablePreviewLinks( selector = 'a' ) {
 
-		toArray( dom.wrapper.querySelectorAll( selector ) ).forEach( element => {
+		Array.from( dom.wrapper.querySelectorAll( selector ) ).forEach( element => {
 			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
 				element.removeEventListener( 'click', onPreviewLinkClicked, false );
 			}
@@ -864,7 +828,7 @@ export default function( revealElement, options ) {
 				}
 
 				// Select all slides, vertical and horizontal
-				const slides = toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
+				const slides = Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) );
 
 				for( let i = 0, len = slides.length; i < len; i++ ) {
 					const slide = slides[ i ];
@@ -923,7 +887,7 @@ export default function( revealElement, options ) {
 	function layoutSlideContents( width, height ) {
 
 		// Handle sizing of elements with the 'stretch' class
-		toArray( dom.slides.querySelectorAll( 'section > .stretch' ) ).forEach( element => {
+		queryAll( dom.slides, 'section > .stretch' ).forEach( element => {
 
 			// Determine how much vertical space we can use
 			let remainingHeight = getRemainingHeight( element, height );
@@ -1340,7 +1304,6 @@ export default function( revealElement, options ) {
 		// Announce the current slide contents to screen readers
 		announceStatus( getStatusText( currentSlide ) );
 
-
 		progress.update();
 		controls.update();
 		notes.update();
@@ -1459,7 +1422,7 @@ export default function( revealElement, options ) {
 
 		getHorizontalSlides().forEach( horizontalSlide => {
 
-			toArray( horizontalSlide.querySelectorAll( 'section' ) ).forEach( ( verticalSlide, y ) => {
+			queryAll( horizontalSlide, 'section' ).forEach( ( verticalSlide, y ) => {
 
 				if( y > 0 ) {
 					verticalSlide.classList.remove( 'present' );
@@ -1506,7 +1469,7 @@ export default function( revealElement, options ) {
 
 		// Select all slides and convert the NodeList result to
 		// an array
-		let slides = toArray( dom.wrapper.querySelectorAll( selector ) ),
+		let slides = queryAll( dom.wrapper, selector ),
 			slidesLength = slides.length;
 
 		let printMode = print.isPrintingPDF();
@@ -1553,7 +1516,7 @@ export default function( revealElement, options ) {
 
 					if( config.fragments ) {
 						// Show all fragments in prior slides
-						toArray( element.querySelectorAll( '.fragment' ) ).forEach( fragment => {
+						queryAll( element, '.fragment' ).forEach( fragment => {
 							fragment.classList.add( 'visible' );
 							fragment.classList.remove( 'current-fragment' );
 						} );
@@ -1565,7 +1528,7 @@ export default function( revealElement, options ) {
 
 					if( config.fragments ) {
 						// Hide all fragments in future slides
-						toArray( element.querySelectorAll( '.fragment.visible' ) ).forEach( fragment => {
+						queryAll( element, '.fragment.visible' ).forEach( fragment => {
 							fragment.classList.remove( 'visible', 'current-fragment' );
 						} );
 					}
@@ -1640,7 +1603,7 @@ export default function( revealElement, options ) {
 			for( let x = 0; x < horizontalSlidesLength; x++ ) {
 				let horizontalSlide = horizontalSlides[x];
 
-				let verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) ),
+				let verticalSlides = queryAll( horizontalSlide, 'section' ),
 					verticalSlidesLength = verticalSlides.length;
 
 				// Determine how far away this slide is from the present
@@ -1867,7 +1830,7 @@ export default function( revealElement, options ) {
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
-				v = Math.max( toArray( slide.parentNode.querySelectorAll( 'section' ) ).indexOf( slide ), 0 );
+				v = Math.max( queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
 			}
 		}
 
@@ -1893,7 +1856,7 @@ export default function( revealElement, options ) {
 	 */
 	function getSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack):not([data-visibility="uncounted"])' ) );
+		return queryAll( dom.wrapper, SLIDES_SELECTOR + ':not(.stack):not([data-visibility="uncounted"])' );
 
 	}
 
@@ -1904,7 +1867,7 @@ export default function( revealElement, options ) {
 	 */
 	function getHorizontalSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
+		return queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR );
 
 	}
 
@@ -1913,7 +1876,7 @@ export default function( revealElement, options ) {
 	 */
 	function getVerticalSlides() {
 
-		return toArray( dom.wrapper.querySelectorAll( '.slides>section>section' ) );
+		return queryAll( dom.wrapper, '.slides>section>section' );
 
 	}
 
@@ -1922,7 +1885,7 @@ export default function( revealElement, options ) {
 	 */
 	function getVerticalStacks() {
 
-		return toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.stack') );
+		return queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.stack');
 
 	}
 
@@ -2102,7 +2065,7 @@ export default function( revealElement, options ) {
 			// is divided up into fragments.
 			// playbackRate is accounted for in the duration.
 			if( currentSlide.querySelectorAll( '.fragment' ).length === 0 ) {
-				toArray( currentSlide.querySelectorAll( 'video, audio' ) ).forEach( el => {
+				queryAll( currentSlide, 'video, audio' ).forEach( el => {
 					if( el.hasAttribute( 'data-autoplay' ) ) {
 						if( autoSlide && (el.duration * 1000 / el.playbackRate ) > autoSlide ) {
 							autoSlide = ( el.duration * 1000 / el.playbackRate ) + 1000;
@@ -2244,10 +2207,10 @@ export default function( revealElement, options ) {
 				let previousSlide;
 
 				if( config.rtl ) {
-					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.future' ) ).pop();
+					previousSlide = queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.future' ).pop();
 				}
 				else {
-					previousSlide = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR + '.past' ) ).pop();
+					previousSlide = queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.past' ).pop();
 				}
 
 				if( previousSlide ) {
@@ -2607,6 +2570,7 @@ export default function( revealElement, options ) {
 		// Returns reveal.js DOM elements
 		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
 		getSlidesElement: () => dom.slides,
+		getBackgroundsElement: () => backgrounds.element,
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,

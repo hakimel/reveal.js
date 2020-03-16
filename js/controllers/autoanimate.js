@@ -1,4 +1,4 @@
-import { extend, toArray, createStyleSheet } from '../utils/util.js'
+import { queryAll, extend, createStyleSheet } from '../utils/util.js'
 
 /**
  * Automatically animates matching elements across
@@ -87,12 +87,12 @@ export default class AutoAnimate {
 	reset() {
 
 		// Reset slides
-		toArray( this.Reveal.getRevealElement().querySelectorAll( '[data-auto-animate]:not([data-auto-animate=""])' ) ).forEach( element => {
+		queryAll( this.Reveal.getRevealElement(), '[data-auto-animate]:not([data-auto-animate=""])' ).forEach( element => {
 			element.dataset.autoAnimate = '';
 		} );
 
 		// Reset elements
-		toArray( this.Reveal.getRevealElement().querySelectorAll( '[data-auto-animate-target]' ) ).forEach( element => {
+		queryAll( this.Reveal.getRevealElement(), '[data-auto-animate-target]' ).forEach( element => {
 			delete element.dataset.autoAnimateTarget;
 		} );
 

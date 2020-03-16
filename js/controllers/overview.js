@@ -1,5 +1,5 @@
 import { SLIDES_SELECTOR } from '../utils/constants.js'
-import { extend, toArray, transformElement } from '../utils/util.js'
+import { extend, queryAll, transformElement } from '../utils/util.js'
 
 /**
  * Handles all logic related to the overview mode
@@ -38,7 +38,7 @@ export default class Overview {
 			this.Reveal.getSlidesElement().appendChild( this.Reveal.getBackgroundsElement() );
 
 			// Clicking on an overview slide navigates to it
-			toArray( this.Reveal.getRevealElement().querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
+			queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( slide => {
 				if( !slide.classList.contains( 'stack' ) ) {
 					slide.addEventListener( 'click', this.onSlideClicked, true );
 				}
@@ -91,7 +91,7 @@ export default class Overview {
 
 			if( hslide.classList.contains( 'stack' ) ) {
 
-				toArray( hslide.querySelectorAll( 'section' ) ).forEach( ( vslide, v ) => {
+				queryAll( hslide, 'section' ).forEach( ( vslide, v ) => {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
 
@@ -102,10 +102,10 @@ export default class Overview {
 		} );
 
 		// Layout slide backgrounds
-		toArray( this.Reveal.getBackgroundsElement().childNodes ).forEach( ( hbackground, h ) => {
+		Array.from( this.Reveal.getBackgroundsElement().childNodes ).forEach( ( hbackground, h ) => {
 			transformElement( hbackground, 'translate3d(' + ( h * this.overviewSlideWidth ) + 'px, 0, 0)' );
 
-			toArray( hbackground.querySelectorAll( '.slide-background' ) ).forEach( ( vbackground, v ) => {
+			queryAll( hbackground, '.slide-background' ).forEach( ( vbackground, v ) => {
 				transformElement( vbackground, 'translate3d(0, ' + ( v * this.overviewSlideHeight ) + 'px, 0)' );
 			} );
 		} );
@@ -158,14 +158,14 @@ export default class Overview {
 			this.Reveal.getRevealElement().appendChild( this.Reveal.getBackgroundsElement() );
 
 			// Clean up changes made to slides
-			toArray( this.Reveal.getRevealElement().querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
+			queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( slide => {
 				transformElement( slide, '' );
 
 				slide.removeEventListener( 'click', this.onSlideClicked, true );
 			} );
 
 			// Clean up changes made to backgrounds
-			toArray( this.Reveal.getBackgroundsElement().querySelectorAll( '.slide-background' ) ).forEach( background => {
+			queryAll( this.Reveal.getBackgroundsElement(), '.slide-background' ).forEach( background => {
 				transformElement( background, '' );
 			} );
 

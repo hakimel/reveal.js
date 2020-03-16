@@ -16,14 +16,11 @@ export const extend = ( a, b ) => {
 }
 
 /**
- * Converts the target object to an array.
- *
- * @param {object} o
- * @return {object[]}
+ * querySelectorAll but returns an Array.
  */
-export const toArray = ( o ) => {
+export const queryAll = ( el, selector ) => {
 
-	return Array.prototype.slice.call( o );
+	return Array.from( el.querySelectorAll( selector ) );
 
 }
 
@@ -219,5 +216,42 @@ export const getQueryHash = () => {
 	if( typeof query['dependencies'] !== 'undefined' ) delete query['dependencies'];
 
 	return query;
+
+}
+
+/**
+ * Returns the remaining height within the parent of the
+ * target element.
+ *
+ * remaining height = [ configured parent height ] - [ current parent height ]
+ *
+ * @param {HTMLElement} element
+ * @param {number} [height]
+ */
+export const getRemainingHeight = ( element, height = 0 ) => {
+
+	if( element ) {
+		let newHeight, oldHeight = element.style.height;
+
+		// Change the .stretch element height to 0 in order find the height of all
+		// the other elements
+		element.style.height = '0px';
+
+		// In Overview mode, the parent (.slide) height is set of 700px.
+		// Restore it temporarily to its natural height.
+		element.parentNode.style.height = 'auto';
+
+		newHeight = height - element.parentNode.offsetHeight;
+
+		// Restore the old height, just in case
+		element.style.height = oldHeight + 'px';
+
+		// Clear the parent (.slide) height. .removeProperty works in IE9+
+		element.parentNode.style.removeProperty('height');
+
+		return newHeight;
+	}
+
+	return height;
 
 }

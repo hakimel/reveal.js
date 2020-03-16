@@ -1,4 +1,4 @@
-import { extend, toArray } from '../utils/util.js'
+import { extend, queryAll } from '../utils/util.js'
 
 /**
  * Handles sorting and navigation of slide fragments.
@@ -33,7 +33,7 @@ export default class Fragments {
 	 */
 	disable() {
 
-		toArray( this.Reveal.getSlidesElement().querySelectorAll( '.fragment' ) ).forEach( element => {
+		queryAll( this.Reveal.getSlidesElement(), '.fragment' ).forEach( element => {
 			element.classList.add( 'visible' );
 			element.classList.remove( 'current-fragment' );
 		} );
@@ -46,7 +46,7 @@ export default class Fragments {
 	 */
 	enable() {
 
-		toArray( this.Reveal.getSlidesElement().querySelectorAll( '.fragment' ) ).forEach( element => {
+		queryAll( this.Reveal.getSlidesElement(), '.fragment' ).forEach( element => {
 			element.classList.remove( 'visible' );
 			element.classList.remove( 'current-fragment' );
 		} );
@@ -98,7 +98,7 @@ export default class Fragments {
 	 */
 	sort( fragments, grouped = false ) {
 
-		fragments = toArray( fragments );
+		fragments = Array.from( fragments );
 
 		let ordered = [],
 			unordered = [],
@@ -151,7 +151,7 @@ export default class Fragments {
 
 		this.Reveal.getHorizontalSlides().forEach( horizontalSlide => {
 
-			let verticalSlides = toArray( horizontalSlide.querySelectorAll( 'section' ) );
+			let verticalSlides = queryAll( horizontalSlide, 'section' );
 			verticalSlides.forEach( ( verticalSlide, y ) => {
 
 				this.sort( verticalSlide.querySelectorAll( '.fragment' ) );
@@ -197,7 +197,7 @@ export default class Fragments {
 					}
 				}
 
-				toArray( fragments ).forEach( ( el, i ) => {
+				Array.from( fragments ).forEach( ( el, i ) => {
 
 					if( el.hasAttribute( 'data-fragment-index' ) ) {
 						i = parseInt( el.getAttribute( 'data-fragment-index' ), 10 );
