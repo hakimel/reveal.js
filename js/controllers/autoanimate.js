@@ -45,11 +45,30 @@ export default class AutoAnimate {
 
 			// Animate unmatched elements, if enabled
 			if( toSlide.dataset.autoAnimateUnmatched !== 'false' && this.Reveal.getConfig().autoAnimateUnmatched === true ) {
-				this.getUnmatchedAutoAnimateElements( toSlide ).forEach( unmatchedElement => {
-					unmatchedElement.dataset.autoAnimateTarget = 'unmatched';
-				} );
 
-				css.push( `[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity ${animationOptions.duration*0.8}s ease ${animationOptions.duration*0.2}s; }` );
+				// Our default timings for unmatched elements
+				let defaultUnmatchedDuration = animationOptions.duration * 0.8,
+					defaultUnmatchedDelay = animationOptions.duration * 0.2;
+
+				this.getUnmatchedAutoAnimateElements( toSlide ).forEach( unmatchedElement => {
+
+					let unmatchedOptions = this.getAutoAnimateOptions( unmatchedElement, animationOptions );
+					let id = 'unmatched';
+
+					// If there is a duration or delay set specifically for this
+					// element our unmatched elements should adhere to those
+					if( unmatchedOptions.duration !== animationOptions.duration || unmatchedOptions.delay !== animationOptions.delay ) {
+						id = 'unmatched-' + this.autoAnimateCounter++;
+						css.push( `[data-auto-animate="running"] [data-auto-animate-target="${id}"] { transition: opacity ${unmatchedOptions.duration}s ease ${unmatchedOptions.delay}s; }` );
+					}
+
+					unmatchedElement.dataset.autoAnimateTarget = id;
+
+				}, this );
+
+				// Our default transition for unmatched elements
+				css.push( `[data-auto-animate="running"] [data-auto-animate-target="unmatched"] { transition: opacity ${defaultUnmatchedDuration}s ease ${defaultUnmatchedDelay}s; }` );
+
 			}
 
 			// Setting the whole chunk of CSS at once is the most
