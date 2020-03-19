@@ -1,4 +1,5 @@
 import { queryAll, extend, createStyleSheet } from '../utils/util.js'
+import { FRAGMENT_STYLE_REGEX } from '../utils/constants.js'
 
 /**
  * Automatically animates matching elements across
@@ -168,8 +169,17 @@ export default class AutoAnimate {
 			// conflicts with fragment animations
 			delete toProps.styles['opacity'];
 
-			if( from.classList.contains( 'fragment' ) && animationOptions.slideDirection === 'forward' ) {
-				to.classList.add( 'visible', 'disabled' );
+			if( from.classList.contains( 'fragment' ) ) {
+
+				let fromFragmentStyle = ( from.className.match( FRAGMENT_STYLE_REGEX ) || [''] )[0];
+				let toFragmentStyle = ( to.className.match( FRAGMENT_STYLE_REGEX ) || [''] )[0];
+
+				// Only skip the fragment if the fragment animation style
+				// remains unchanged
+				if( fromFragmentStyle === toFragmentStyle && animationOptions.slideDirection === 'forward' ) {
+					to.classList.add( 'visible', 'disabled' );
+				}
+
 			}
 
 		}
