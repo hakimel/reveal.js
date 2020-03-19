@@ -38,9 +38,13 @@ export default class AutoAnimate {
 			fromSlide.dataset.autoAnimate = 'pending';
 			toSlide.dataset.autoAnimate = 'pending';
 
+			// Flag the navigation direction, needed for fragment buildup
+			let allSlides = this.Reveal.getSlides();
+			animationOptions.slideDirection = allSlides.indexOf( toSlide ) > allSlides.indexOf( fromSlide ) ? 'forward' : 'backward';
+
 			// Inject our auto-animate styles for this transition
 			let css = this.getAutoAnimatableElements( fromSlide, toSlide ).map( elements => {
-				return this.getAutoAnimateCSS( elements.from, elements.to, elements.options || {}, animationOptions, this.autoAnimateCounter++ );
+				return this.autoAnimateElements( elements.from, elements.to, elements.options || {}, animationOptions, this.autoAnimateCounter++ );
 			} );
 
 			// Animate unmatched elements, if enabled
@@ -124,8 +128,9 @@ export default class AutoAnimate {
 	}
 
 	/**
-	 * Auto-animates the properties of an element from their original
-	 * values to their new state.
+	 * Creates a FLIP animation where the `to` element starts out
+	 * in the `from` element position and animates to its original
+	 * state.
 	 *
 	 * @param {HTMLElement} from
 	 * @param {HTMLElement} to
@@ -134,7 +139,7 @@ export default class AutoAnimate {
 	 * @param {String} id Unique ID that we can use to identify this
 	 * auto-animate element in the DOM
 	 */
-	getAutoAnimateCSS( from, to, elementOptions, animationOptions, id ) {
+	autoAnimateElements( from, to, elementOptions, animationOptions, id ) {
 
 		// 'from' elements are given a data-auto-animate-target with no value,
 		// 'to' elements are are given a data-auto-animate-target with an ID
@@ -153,6 +158,21 @@ export default class AutoAnimate {
 
 		let fromProps = this.getAutoAnimatableProperties( 'from', from, elementOptions ),
 			toProps = this.getAutoAnimatableProperties( 'to', to, elementOptions );
+
+		// Maintain fragment visibility for matching elements when
+		// we're navigating forwards, this way the viewer won't need
+		// to step through the same fragments twice
+		if( to.classList.contains( 'fragment' ) ) {
+
+			// Don't auto-animate the opacity of fragments to avoid
+			// conflicts with fragment animations
+			delete toProps.styles['opacity'];
+
+			if( from.classList.contains( 'fragment' ) && animationOptions.slideDirection === 'forward' ) {
+				to.classList.add( 'visible', 'disabled' );
+			}
+
+		}
 
 		// If translation and/or scaling are enabled, css transform
 		// the 'to' element so that it matches the position and size

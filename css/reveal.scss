@@ -45,6 +45,10 @@ body {
 		opacity: 1;
 		visibility: inherit;
 	}
+
+	&.disabled {
+		transition: none;
+	}
 }
 
 .reveal .slides section .fragment.grow {

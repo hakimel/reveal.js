@@ -42,6 +42,22 @@
 					<h1>Non-auto-animate slide</h1>
 				</section>
 
+				<section data-auto-animate>
+					<h1 class="fragment">h1</h1>
+					<h2 class="fragment">h2</h2>
+					<h3>h3</h3>
+				</section>
+
+				<section data-auto-animate>
+					<h1 class="fragment">h1</h1>
+					<h2 class="fragment">h2</h2>
+					<h3 class="fragment">h3</h3>
+				</section>
+
+				<section>
+					<h1>Non-auto-animate slide</h1>
+				</section>
+
 			</div>
 
 		</div>
@@ -117,6 +133,21 @@
 					}, 'All data-auto-animate attributes are reset' ) );
 
 					Reveal.configure({ autoAnimate: true });
+				});
+
+				QUnit.test( 'Carries forward matching fragment visibility', assert => {
+					Reveal.slide(4);
+					assert.ok( !slides[5].h1.classList.contains( 'visible' ) )
+					Reveal.next();
+					Reveal.next();
+					Reveal.next();
+					assert.ok( slides[5].h1.classList.contains( 'visible' ) )
+					assert.ok( slides[5].h2.classList.contains( 'visible' ) )
+					assert.ok( !slides[5].h3.classList.contains( 'visible' ) )
+					Reveal.next();
+					assert.ok( slides[5].h3.classList.contains( 'visible' ) )
+					Reveal.next();
+					assert.ok( slides[6].slide === Reveal.getCurrentSlide() )
 				});
 
 			} );
