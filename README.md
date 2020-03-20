@@ -1206,6 +1206,8 @@ The framework comes with a few different themes included:
 - serif: Cappuccino background, gray text, brown links
 - simple: White background, black text, blue links
 - solarized: Cream-colored background, dark green text, blue links
+- blood: Dark background, thick white text, red links
+- moon: Dark blue background, thick grey text, blue links
 
 Each theme is available as a separate stylesheet. To change theme you will need to replace **black** below with your desired theme name in index.html:
 
