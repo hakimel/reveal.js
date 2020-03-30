@@ -1212,6 +1212,36 @@ export default function( revealElement, options ) {
 		indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, h === undefined ? indexh : h );
 		indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, v === undefined ? indexv : v );
 
+		// Dispatch an event if the slide changed
+		let slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
+
+		// Ensure that the previous slide is never the same as the current
+		if( !slideChanged ) previousSlide = null;
+
+		// Find the current horizontal slide and any possible vertical slides
+		// within it
+		let currentHorizontalSlide = horizontalSlides[ indexh ],
+			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
+
+		// Store references to the previous and current slides
+		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
+
+		let autoAnimateTransition = false;
+
+		// Detect if we're moving between two auto-animated slides
+		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
+			// If this is an auto-animated transition, we disable the
+			// regular slide transition
+			//
+			// Note 20-03-2020:
+			// This needs to happen before we update slide visibility,
+			// otherwise transitions will still run in Safari.
+			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' ) ) {
+				autoAnimateTransition = true;
+				dom.slides.classList.add( 'disable-slide-transitions' );
+			}
+		}
+
 		// Update the visibility of slides now that the indices have changed
 		updateSlidesVisibility();
 
@@ -1222,24 +1252,9 @@ export default function( revealElement, options ) {
 			overview.update();
 		}
 
-		// Find the current horizontal slide and any possible vertical slides
-		// within it
-		let currentHorizontalSlide = horizontalSlides[ indexh ],
-			currentVerticalSlides = currentHorizontalSlide.querySelectorAll( 'section' );
-
-		// Store references to the previous and current slides
-		currentSlide = currentVerticalSlides[ indexv ] || currentHorizontalSlide;
-
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
 			fragments.goto( f );
-		}
-
-		// Dispatch an event if the slide changed
-		let slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
-		if (!slideChanged) {
-			// Ensure that the previous slide is never the same as the current
-			previousSlide = null;
 		}
 
 		// Solves an edge case where the previous slide maintains the
@@ -1318,21 +1333,15 @@ export default function( revealElement, options ) {
 		cueAutoSlide();
 
 		// Auto-animation
-		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
+		if( autoAnimateTransition ) {
 
-			// Skip the slide transition between our two slides
-			// when auto-animating individual elements
-			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' ) ) {
-				dom.slides.classList.add( 'disable-slide-transitions' );
+			setTimeout( () => {
+				dom.slides.classList.remove( 'disable-slide-transitions' );
+			}, 0 );
 
-				setTimeout( () => {
-					dom.slides.classList.remove( 'disable-slide-transitions' );
-				}, 0 );
-
-				if( config.autoAnimate ) {
-					// Run the auto-animation between our slides
-					autoAnimate.run( previousSlide, currentSlide );
-				}
+			if( config.autoAnimate ) {
+				// Run the auto-animation between our slides
+				autoAnimate.run( previousSlide, currentSlide );
 			}
 
 		}
