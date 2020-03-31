@@ -27,6 +27,7 @@
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
     "colors": "^1.4.0",
     "express": "^4.17.1",
     "glob": "^7.1.6",
@@ -48,6 +49,7 @@
     "webpack-stream": "^5.2.1",
     "yargs": "^15.1.0"
   },
+  "browserslist": "last 2 versions, > 0.5%, not dead",
   "eslintConfig": {
     "env": {
       "browser": true,

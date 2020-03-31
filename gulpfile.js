@@ -1,8 +1,8 @@
 const pkg = require('./package.json')
 const path = require('path')
 const glob = require('glob')
-const colors = require('colors')
 const yargs = require('yargs')
+const colors = require('colors')
 const webpack = require('webpack-stream')
 const { runQunitPuppeteer, printResultSummary, printFailedTests } = require('node-qunit-puppeteer')
 
@@ -10,7 +10,6 @@ const gulp = require('gulp')
 const tap = require('gulp-tap')
 const zip = require('gulp-zip')
 const sass = require('gulp-sass')
-const babel = require('gulp-babel')
 const header = require('gulp-header')
 const eslint = require('gulp-eslint')
 const uglify = require('gulp-uglify')
@@ -37,8 +36,7 @@ const swallowError = function(error) {
 }
 
 gulp.task('js', () => gulp.src(['./js/index.js'])
-        .pipe(babel({ presets: ['@babel/preset-env'] }))
-        .pipe(webpack({ mode: 'production' }))
+        .pipe(webpack(require('./webpack.config.js')))
         .on('error', swallowError)
         .pipe(header(license, {pkg: pkg}))
         .pipe(rename('reveal.min.js'))
@@ -55,9 +53,7 @@ gulp.task('css-core', gulp.series(
         .pipe(autoprefixer())
         .pipe(gulp.dest('./dist')),
     () => gulp.src(['dist/reveal.css'])
-        .pipe(minify({
-            compatibility: 'ie9'
-        }))
+        .pipe(minify({compatibility: 'ie9'}))
         .pipe(header(license, {pkg: pkg}))
         .pipe(gulp.dest('./dist'))
 
