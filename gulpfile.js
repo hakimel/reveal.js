@@ -65,7 +65,10 @@ gulp.task('test-qunit', function() {
 
     let testFiles = glob.sync('test/*.html' )
 
-    return Promise.all( testFiles.map( filename => {
+    let totalTests = 0;
+    let failingTests = 0;
+
+    let tests = Promise.all( testFiles.map( filename => {
         return new Promise( ( resolve, reject ) => {
             runQunitPuppeteer({
                 targetUrl: `file://${path.join(__dirname, filename)}`,
@@ -74,20 +77,43 @@ gulp.task('test-qunit', function() {
                 puppeteerArgs: ['--allow-file-access-from-files']
             })
                 .then(result => {
-                    console.log(`\n\n${('Testing '+filename+'...').bold.blue}`);
-                    printResultSummary(result, console);
                     if( result.stats.failed > 0 ) {
+                        console.log(`${'!'} ${filename} [${result.stats.passed}/${result.stats.total}] in ${result.stats.runtime}ms`.red);
+                        // printResultSummary(result, console);
                         printFailedTests(result, console);
                     }
+                    else {
+                        console.log(`${'✔'} ${filename} [${result.stats.passed}/${result.stats.total}] in ${result.stats.runtime}ms`.green);
+                    }
+
+                    totalTests += result.stats.total;
+                    failingTests += result.stats.failed;
 
                     resolve();
                 })
-                .catch(ex => {
-                    console.error(ex);
+                .catch(error => {
+                    console.error(error);
                     reject();
                 });
         } )
-    } ) )
+    } ) );
+
+    return new Promise( ( resolve, reject ) => {
+
+        tests.then( () => {
+                if( failingTests > 0 ) {
+                    reject( new Error(`${failingTests}/${totalTests} tests failed`.red) );
+                }
+                else {
+                    console.log(`${'✔'} Passed ${totalTests} tests`.green.bold);
+                    resolve();
+                }
+            } )
+            .catch( () => {
+                reject();
+            } );
+
+    } );
 } )
 
 gulp.task('test', gulp.series(
