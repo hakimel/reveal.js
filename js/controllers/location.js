@@ -1,3 +1,5 @@
+import { supportsHistoryAPI } from '../utils/device.js'
+
 /**
  * Reads and writes the URL based on reveal.js' current state.
  */
@@ -98,7 +100,7 @@ export default class Location {
 		else if( currentSlide ) {
 			// If we're configured to push to history OR the history
 			// API is not avaialble.
-			if( config.history || !window.history ) {
+			if( config.history || supportsHistoryAPI === false ) {
 				window.location.hash = this.getHash();
 			}
 			// If we're configured to reflect the current slide in the
