@@ -77,7 +77,7 @@ Presentations are written using HTML or Markdown but there's also an online edit
 
 ## Installation
 
-The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.
+The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins as well as the development tasks needed to make changes to the source.
 
 ### Basic setup
 
@@ -89,7 +89,7 @@ The core of reveal.js is very easy to install. You'll simply need to download a 
 
 ### Full setup
 
-Some reveal.js features, like external Markdown and speaker notes, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
+Some reveal.js features, like external Markdown, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
 
 1. Install [Node.js](https://nodejs.org/) (9.0.0 or later)
 
@@ -1317,8 +1317,6 @@ A speaker timer starts as soon as the speaker view is opened. You can reset it t
 Notes are defined by appending an `<aside>` element to a slide as seen below. You can add the `data-markdown` attribute to the aside element if you prefer writing notes using Markdown.
 
 Alternatively you can add your notes in a `data-notes` attribute on the slide. Like `<section data-notes="Something important"></section>`.
-
-When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
 
 ```html
 <section>
