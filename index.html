@@ -4,14 +4,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Casamento - Tamiris & Juan</title>
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
-
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+		<link rel="stylesheet" href="css/theme/beige.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,24 +21,52 @@
 	</head>
 	<body>
 		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+			<div id="wedding" class="slides"></div>
 		</div>
 
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
+			const putImageOnSection = () => {
+				let section = ""
+
+				for (let i = 1; i <= 300; i++) {
+					section += `<section data-background="images/IMG_${i}.jpg" data-background-transition="zoom"></section>`
+				}
+
+				document.getElementById('wedding').innerHTML = `
+					<section>
+						<h1>Tamiris & Juan</h1>
+						<h4>MS - Dourados - 21/12/2019</h3>
+					</section>
+					${section}
+					<section data-background="images/IMG_301.jpg">
+						<p>
+							<q class="text-white" cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">Melhor é serem dois do que um, porque têm melhor paga do seu trabalho. Porque, se um cair, o outro levanta o seu companheiro; mas ai do que estiver só; pois, caindo, não haverá outro que o levante.</q>
+						</p>
+					</section>
+				`
+			}
+
+			putImageOnSection()
+
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				transition: 'concave',
+				keyboard: true,
+				touch: true,
+				shuffle: false,
+				autoPlayMedia: true,
+				autoSlide: 3000,
+				slideNumber: true,
+				overview: true,
+				loop: true,
+				mouseWheel: true,
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
+					{ src: 'plugin/search/search.js', async: true }
 				]
 			});
 		</script>

@@ -1589,10 +1589,17 @@ body {
 
 .zoomed .reveal .progress,
 .zoomed .reveal .controls {
-  opacity: 0; }
+  opacity: 0;
+}
 
 .zoomed .reveal .roll span {
-  background: none; }
+  background: none;
+}
 
 .zoomed .reveal .roll span:after {
-  visibility: hidden; }
+  visibility: hidden;
+}
+
+.text-white {
+  color: #fff;
+}
