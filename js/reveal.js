@@ -137,14 +137,25 @@ export default function( revealElement, options ) {
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
 
-		// Force a layout when the whole page, incl fonts, has loaded
-		window.addEventListener( 'load', layout, false );
-
 		// Copy options over to our config object
 		config = { ...defaultConfig, ...options, ...getQueryHash() };
 
+		// Embedded decks use the reveal element as their viewport
+		if( config.embedded === true ) {
+			revealElement.classList.add( 'reveal-viewport' );
+		}
+		// Non-embedded decks cover the full page and use the body
+		// as their viewport
+		else {
+			document.body.classList.add( 'reveal-viewport' );
+			document.documentElement.classList.add( 'reveal-full-page' );
+		}
+
+		// Force a layout when the whole page, incl fonts, has loaded
+		window.addEventListener( 'load', layout, false );
+
 		// Load plugins then move on to #start()
-		plugins.load( config.dependencies ).then( start )
+		plugins.load( config.dependencies ).then( start );
 
 		return new Promise( resolve => Reveal.addEventListener( 'ready', resolve ) );
 
@@ -228,13 +239,6 @@ export default function( revealElement, options ) {
 		}
 		else {
 			dom.wrapper.classList.remove( 'no-hover' );
-		}
-
-		if( config.embedded === true ) {
-			revealElement.classList.add( 'reveal-viewport' );
-		}
-		else {
-			document.body.classList.add( 'reveal-viewport' );
 		}
 
 		backgrounds.render();
