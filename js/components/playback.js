@@ -1,15 +1,16 @@
 /**
- * UI component that lets the user control pause/resume
- * and see the progress of auto-slide playback.
- *
- * @param {HTMLElement} container The component will append
- * itself to this
- * @param {function} progressCheck A method which will be
- * called frequently to get the current progress on a range
- * of 0-1
+ * UI component that lets the use control auto-slide
+ * playback via play/pause.
  */
 export default class Playback {
 
+	/**
+	 * @param {HTMLElement} container The component will append
+	 * itself to this
+	 * @param {function} progressCheck A method which will be
+	 * called frequently to get the current playback progress on
+	 * a range of 0-1
+	 */
 	constructor( container, progressCheck ) {
 
 		// Cosmetics

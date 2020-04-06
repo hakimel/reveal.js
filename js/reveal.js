@@ -2494,7 +2494,7 @@ export default function( revealElement, options ) {
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
 
-		// Adds or removes all internal event listeners (such as keyboard)
+		// Adds or removes all internal event listeners
 		addEventListeners,
 		removeEventListeners,
 		dispatchEvent,
@@ -2515,8 +2515,8 @@ export default function( revealElement, options ) {
 		// Returns an Array of all slides
 		getSlides,
 
-		// Returns an Array of objects representing the attributes on
-		// the slides
+		// Returns an Array of key:value maps of the attributes of each
+		// slide in the deck
 		getSlidesAttributes,
 
 		// Returns the total number of slides
