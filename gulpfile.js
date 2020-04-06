@@ -149,6 +149,8 @@ gulp.task('serve', () => {
 
     gulp.watch(['js/**'], gulp.series('js', 'test'))
 
+    gulp.watch(['test/*.html'], gulp.series('test'))
+
     gulp.watch([
         'css/theme/source/*.{sass,scss}',
         'css/theme/template/*.{sass,scss}',
