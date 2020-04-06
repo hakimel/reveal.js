@@ -6,7 +6,7 @@
 
 @import "./exposer";
 
-body {
+.reveal-viewport {
 	@include bodyBackground();
 	background-color: $backgroundColor;
 }

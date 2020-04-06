@@ -12,26 +12,22 @@
 		<link rel="stylesheet" href="../../dist/theme/white.css" id="theme">
 	</head>
 
-	<body>
+	<body style="background: #ddd;">
 
 		<div style="display: flex; flex-direction: row;">
-			<div class="deck1" style="width: 100%; height: 50vh; padding: 10px;">
-				<div class="reveal">
-					<div class="slides">
-						<section>1.1</section>
-						<section>1.2</section>
-						<section>1.3</section>
-					</div>
+			<div class="reveal deck1" style="width: 100%; height: 50vh; margin: 10px;">
+				<div class="slides">
+					<section>1.1</section>
+					<section>1.2</section>
+					<section>1.3</section>
 				</div>
 			</div>
 
-			<div class="deck2" style="width: 100%; height: 50vh; padding: 10px;">
-				<div class="reveal">
-					<div class="slides">
-						<section>2.1</section>
-						<section>2.2</section>
-						<section>2.3</section>
-					</div>
+			<div class="reveal deck2" style="width: 100%; height: 50vh; margin: 10px;">
+				<div class="slides">
+					<section>2.1</section>
+					<section>2.2</section>
+					<section>2.3</section>
 				</div>
 			</div>
 		</div>
@@ -40,10 +36,14 @@
 
 		<script>
 
-			let r1 = new Reveal( document.querySelector( '.deck1 .reveal' ) );
+			let r1 = new Reveal( document.querySelector( '.deck1' ), {
+				embedded: true
+			} );
 			r1.initialize();
 
-			let r2 = new Reveal( document.querySelector( '.deck2 .reveal' ) );
+			let r2 = new Reveal( document.querySelector( '.deck2' ), {
+				embedded: true
+			} );
 			r2.initialize();
 
 		</script>

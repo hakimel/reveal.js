@@ -39,7 +39,7 @@ html * {
   --selection-background-color: #d33682;
   --selection-color: #fff; }
 
-body {
+.reveal-viewport {
   background: #002b36;
   background-color: #002b36; }
 

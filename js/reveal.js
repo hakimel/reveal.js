@@ -230,6 +230,13 @@ export default function( revealElement, options ) {
 			dom.wrapper.classList.remove( 'no-hover' );
 		}
 
+		if( config.embedded === true ) {
+			revealElement.classList.add( 'reveal-viewport' );
+		}
+		else {
+			document.body.classList.add( 'reveal-viewport' );
+		}
+
 		backgrounds.render();
 		slideNumber.render();
 		controls.render();

@@ -35,7 +35,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --selection-background-color: #bee4fd;
   --selection-color: #fff; }
 
-body {
+.reveal-viewport {
   background: #191919;
   background-color: #191919; }
 

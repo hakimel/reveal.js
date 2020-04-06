@@ -35,7 +35,7 @@
   --selection-background-color: #26351C;
   --selection-color: #fff; }
 
-body {
+.reveal-viewport {
   background: #F0F1EB;
   background-color: #F0F1EB; }
 
