@@ -127,6 +127,32 @@ var RevealNotes = (function() {
 
 		}
 
+
+		/**
+		 * Send MathJax configuration to speaker view, so that the correct
+         * math fonts are used in the preview and notes window.
+		 */
+        function sendMathJaxConfig()
+        {
+            // if the presentation uses the math plugin...
+            if (Reveal.hasPlugin('math'))
+            {            
+                // ...find the location of the MathJax script
+                var mathjaxScript = document.querySelector('script[src*="MathJax.js"]');
+                if (mathjaxScript)
+                {
+                    // ...and send it to the speaker notes view
+                    var messageData = {
+                        namespace: 'reveal-notes',
+                        type: 'mathjax',
+                        mathjax: mathjaxScript.src
+                    };
+                    notesPopup.postMessage( JSON.stringify( messageData ), '*' );
+                }
+            }
+        }
+
+
 		/**
 		 * Called once we have established a connection to the notes
 		 * window.
@@ -145,6 +171,8 @@ var RevealNotes = (function() {
 			// Post the initial state
 			post();
 
+            // Post information on MathJax URL and config
+            sendMathJaxConfig();
 		}
 
 		connect();

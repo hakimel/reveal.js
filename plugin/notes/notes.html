@@ -336,6 +336,7 @@
 		</div>
 
 		<script src="../../plugin/markdown/marked.js"></script>
+
 		<script>
 
 			(function() {
@@ -388,6 +389,9 @@
 							pendingCalls[data.callId](data.result);
 							delete pendingCalls[data.callId];
 						}
+						else if( data.type === 'mathjax' ) {
+							handleLoadMathJax( data );
+						}
 					}
 					// Messages sent by the reveal.js inside of the current slide preview
 					else if( data && data.namespace === 'reveal' ) {
@@ -435,8 +439,35 @@
 						setupNotes();
 						setupTimer();
 					}
+                }
 
-				}
+                /*
+                 * Loading mathjax is triggered twice. remember this and only
+                 * load it on the first call.
+				 */
+                var mathjaxLoaded=false; 
+
+				/**
+				 * Called when the main window uses MathJax and passes the URL to load it from.
+				 */
+				function handleLoadMathJax( data ) {
+                    if (!mathjaxLoaded)
+                    {
+                        console.log("load mathjax from " + data.mathjax );
+                        var head    = document.querySelector( 'head' );
+                        var script  = document.createElement( 'script' );
+                        script.type = 'text/javascript';
+                        script.src  = data.mathjax;
+                        script.onload = function() 
+                        {
+                            /* No need to typeset, since the pre-typeset equations are
+                             * sent from the main presentation to the speaker preview */
+                            MathJax.Hub.Config({ skipStartupTypeset: true });
+                        };
+                        head.appendChild( script );
+                        mathjaxLoaded = true;
+                    }
+                }
 
 				/**
 				 * Called when the main window sends an updated state.
