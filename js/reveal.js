@@ -157,7 +157,7 @@ export default function( revealElement, options ) {
 		// Load plugins then move on to #start()
 		plugins.load( config.dependencies ).then( start );
 
-		return new Promise( resolve => Reveal.addEventListener( 'ready', resolve ) );
+		return new Promise( resolve => Reveal.on( 'ready', resolve ) );
 
 	}
 
@@ -545,6 +545,25 @@ export default function( revealElement, options ) {
 		window.removeEventListener( 'resize', onWindowResize, false );
 
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
+
+	}
+
+	/**
+	 * Adds a listener to one of our custom reveal.js events,
+	 * like slidechanged.
+	 */
+	function on( type, listener, useCapture ) {
+
+		revealElement.addEventListener( type, listener, useCapture );
+
+	}
+
+	/**
+	 * Unsubscribes from a reveal.js event.
+	 */
+	function off( type, listener, useCapture ) {
+
+		revealElement.removeEventListener( type, listener, useCapture );
 
 	}
 
@@ -2442,27 +2461,26 @@ export default function( revealElement, options ) {
 		prev: navigatePrev,
 		next: navigateNext,
 
-		// Deprecated aliases
-		navigateTo: slide,
-		navigateLeft: navigateLeft,
-		navigateRight: navigateRight,
-		navigateUp: navigateUp,
-		navigateDown: navigateDown,
-		navigatePrev: navigatePrev,
-		navigateNext: navigateNext,
+		// Navigation aliases
+		navigateLeft,
+		navigateRight,
+		navigateUp,
+		navigateDown,
+		navigatePrev,
+		navigateNext,
 
 		// Fragment methods
 		navigateFragment: fragments.goto.bind( fragments ),
 		prevFragment: fragments.prev.bind( fragments ),
 		nextFragment: fragments.next.bind( fragments ),
 
-		// Forward event binding to the reveal DOM element
-		addEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().addEventListener( type, listener, useCapture );
-		},
-		removeEventListener: ( type, listener, useCapture ) => {
-			Reveal.getRevealElement().removeEventListener( type, listener, useCapture );
-		},
+		// Event binding
+		on,
+		off,
+
+		// Legacy event binding methods left in for backwards compatibility
+		addEventListener: on,
+		removeEventListener: off,
 
 		// Forces an update in slide layout
 		layout,
@@ -2588,7 +2606,7 @@ export default function( revealElement, options ) {
 		getQueryHash,
 
 		// Returns reveal.js DOM elements
-		getRevealElement: () => dom.wrapper || document.querySelector( '.reveal' ),
+		getRevealElement: () => revealElement,
 		getSlidesElement: () => dom.slides,
 		getBackgroundsElement: () => backgrounds.element,
 

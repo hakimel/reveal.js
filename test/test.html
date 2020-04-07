@@ -456,7 +456,7 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'fragmentshown', _onEvent );
+					Reveal.on( 'fragmentshown', _onEvent );
 
 					Reveal.slide( 2, 0 );
 					Reveal.slide( 2, 0 ); // should do nothing
@@ -465,7 +465,7 @@
 					Reveal.next();
 					Reveal.prev(); // shouldn't fire fragmentshown
 
-					Reveal.removeEventListener( 'fragmentshown', _onEvent );
+					Reveal.off( 'fragmentshown', _onEvent );
 				});
 
 				QUnit.test( 'fragmenthidden event', function( assert ) {
@@ -477,7 +477,7 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'fragmenthidden', _onEvent );
+					Reveal.on( 'fragmenthidden', _onEvent );
 
 					Reveal.slide( 2, 0, 2 );
 					Reveal.slide( 2, 0, 2 ); // should do nothing
@@ -485,7 +485,7 @@
 					Reveal.prev();
 					Reveal.next(); // shouldn't fire fragmenthidden
 
-					Reveal.removeEventListener( 'fragmenthidden', _onEvent );
+					Reveal.off( 'fragmenthidden', _onEvent );
 				});
 
 
@@ -524,13 +524,13 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'autoslidepaused', _onEvent );
+					Reveal.on( 'autoslidepaused', _onEvent );
 					Reveal.configure({ autoSlide: 10000 });
 					Reveal.toggleAutoSlide();
 
 					// cleanup
 					Reveal.configure({ autoSlide: 0 });
-					Reveal.removeEventListener( 'autoslidepaused', _onEvent );
+					Reveal.off( 'autoslidepaused', _onEvent );
 				});
 
 				QUnit.test( 'autoslideresumed', function( assert ) {
@@ -542,14 +542,14 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'autoslideresumed', _onEvent );
+					Reveal.on( 'autoslideresumed', _onEvent );
 					Reveal.configure({ autoSlide: 10000 });
 					Reveal.toggleAutoSlide();
 					Reveal.toggleAutoSlide();
 
 					// cleanup
 					Reveal.configure({ autoSlide: 0 });
-					Reveal.removeEventListener( 'autoslideresumed', _onEvent );
+					Reveal.off( 'autoslideresumed', _onEvent );
 				});
 
 
@@ -643,7 +643,7 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'slidechanged', _onEvent );
+					Reveal.on( 'slidechanged', _onEvent );
 
 					Reveal.slide( 1, 0 ); // should trigger
 					Reveal.slide( 1, 0 ); // should do nothing
@@ -651,7 +651,7 @@
 					Reveal.slide( 3, 0 ); // should trigger
 					Reveal.next(); // should do nothing
 
-					Reveal.removeEventListener( 'slidechanged', _onEvent );
+					Reveal.off( 'slidechanged', _onEvent );
 
 				});
 
@@ -664,12 +664,12 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'paused', _onEvent );
+					Reveal.on( 'paused', _onEvent );
 
 					Reveal.togglePause();
 					Reveal.togglePause();
 
-					Reveal.removeEventListener( 'paused', _onEvent );
+					Reveal.off( 'paused', _onEvent );
 				});
 
 				QUnit.test( 'resumed', function( assert ) {
@@ -681,12 +681,12 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'resumed', _onEvent );
+					Reveal.on( 'resumed', _onEvent );
 
 					Reveal.togglePause();
 					Reveal.togglePause();
 
-					Reveal.removeEventListener( 'resumed', _onEvent );
+					Reveal.off( 'resumed', _onEvent );
 				});
 
 			} );

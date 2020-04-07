@@ -73,7 +73,7 @@ gulp.task('test-qunit', function() {
             runQunitPuppeteer({
                 targetUrl: `file://${path.join(__dirname, filename)}`,
                 timeout: 10000,
-                redirectConsole: true,
+                redirectConsole: false,
                 puppeteerArgs: ['--allow-file-access-from-files']
             })
                 .then(result => {

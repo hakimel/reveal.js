@@ -76,7 +76,7 @@ var RevealMath = window.RevealMath || (function(){
 				MathJax.Hub.Queue( Reveal.layout );
 
 				// Reprocess equations in slides when they turn visible
-				Reveal.addEventListener( 'slidechanged', function( event ) {
+				Reveal.on( 'slidechanged', function( event ) {
 
 					MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
 

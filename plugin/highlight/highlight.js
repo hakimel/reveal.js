@@ -105,7 +105,7 @@
 
 			// If we're printing to PDF, scroll the code highlights of
 			// all blocks in the deck into view at once
-			Reveal.addEventListener( 'pdf-ready', function() {
+			Reveal.on( 'pdf-ready', function() {
 				[].slice.call( document.querySelectorAll( '.reveal pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
 					RevealHighlight.scrollHighlightedLineIntoView( block, {}, true );
 				} );

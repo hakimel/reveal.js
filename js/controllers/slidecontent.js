@@ -12,6 +12,8 @@ export default class SlideContent {
 
 		this.Reveal = Reveal;
 
+		this.startEmbeddedIframe = this.startEmbeddedIframe.bind( this );
+
 	}
 
 	/**

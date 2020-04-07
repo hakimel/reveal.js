@@ -369,7 +369,7 @@ Reveal.initialize({
 	autoSlideStoppable: true,
 
 	// Use this method for navigation when auto-sliding
-	autoSlideMethod: Reveal.navigateNext,
+	autoSlideMethod: Reveal.next,
 
 	// Specify the average time in seconds that you think you will spend
 	// presenting each slide. This is used to show a pacing timer in the
@@ -531,7 +531,7 @@ You can also include dependencies which are bundled/already present on the page.
 A `ready` event is fired when reveal.js has loaded all non-async dependencies and is ready to start navigating. To check if reveal.js is already 'ready' you can call `Reveal.isReady()`.
 
 ```javascript
-Reveal.addEventListener( 'ready', function( event ) {
+Reveal.on( 'ready', function( event ) {
 	// event.currentSlide, event.indexh, event.indexv
 } );
 ```
@@ -639,7 +639,7 @@ Each individual element is decorated with a `data-auto-animate-target` attribute
 
 Each time a presentation navigates between two auto-animated slides it dispatches the `autoanimate` event.
 ```javascript
-Reveal.addEventListener( 'autoanimate', function( event ) {
+Reveal.on( 'autoanimate', function( event ) {
 	// event.fromSlide, event.toSlide
 } );
 ```
@@ -812,7 +812,7 @@ A `slidechanged` event is fired each time the slide is changed (regardless of st
 Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/issues/226#issuecomment-10261609)), get confused by the transforms and display states of slides. Often times, this can be fixed by calling their update or render function from this callback.
 
 ```javascript
-Reveal.addEventListener( 'slidechanged', function( event ) {
+Reveal.on( 'slidechanged', function( event ) {
 	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
 ```
@@ -841,7 +841,7 @@ If you set `data-state="somestate"` on a slide `<section>`, "somestate" will be 
 Furthermore you can also listen to these changes in state via JavaScript:
 
 ```javascript
-Reveal.addEventListener( 'somestate', function() {
+Reveal.on( 'somestate', function() {
 	// TODO: Sprinkle magic
 }, false );
 ```
@@ -1048,10 +1048,10 @@ When a slide fragment is either shown or hidden reveal.js will dispatch an event
 Some libraries, like MathJax (see #505), get confused by the initially hidden fragment elements. Often times this can be fixed by calling their update or render function from this callback.
 
 ```javascript
-Reveal.addEventListener( 'fragmentshown', function( event ) {
+Reveal.on( 'fragmentshown', function( event ) {
 	// event.fragment = the fragment DOM element
 } );
-Reveal.addEventListener( 'fragmenthidden', function( event ) {
+Reveal.on( 'fragmenthidden', function( event ) {
 	// event.fragment = the fragment DOM element
 } );
 ```
@@ -1148,8 +1148,8 @@ Press »ESC« or »O« keys to toggle the overview mode on and off. While you're
 as if you were at 1,000 feet above your presentation. The overview mode comes with a few API hooks:
 
 ```javascript
-Reveal.addEventListener( 'overviewshown', function( event ) { /* ... */ } );
-Reveal.addEventListener( 'overviewhidden', function( event ) { /* ... */ } );
+Reveal.on( 'overviewshown', function( event ) { /* ... */ } );
+Reveal.on( 'overviewhidden', function( event ) { /* ... */ } );
 
 // Toggle the overview mode programmatically
 Reveal.toggleOverview();
@@ -1195,7 +1195,7 @@ Limitations:
 When reveal.js changes the scale of the slides it fires a resize event. You can subscribe to the event to resize your elements accordingly.
 
 ```javascript
-Reveal.addEventListener( 'resize', function( event ) {
+Reveal.on( 'resize', function( event ) {
 	// event.scale, event.oldScale, event.size
 } );
 ```
@@ -1394,7 +1394,7 @@ let MyPlugin = {
 	init: () =>  new Promise( resolve => setTimeout( resolve, 3000 ) )
 };
 Reveal.registerPlugin( 'myPlugin', MyPlugin );
-Reveal.addEventListener( 'ready', () => console.log( 'Three seconds later...' ) );
+Reveal.on( 'ready', () => console.log( 'Three seconds later...' ) );
 Reveal.initialize();
 ```
 

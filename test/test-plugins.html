@@ -80,7 +80,7 @@
 
 				assert.strictEqual( initCounter['PluginC'], 0, 'async plugin not immediately initialized' );
 
-				reveal.addEventListener( 'ready', function() {
+				reveal.on( 'ready', function() {
 					assert.strictEqual( initCounter['PluginC'], 1, 'finsihed initializing when reveal.js dispatches "ready"' );
 					done();
 

@@ -43,7 +43,7 @@ probePage.open( inputFile, function( status ) {
 		printPage.open( inputFile, function( status ) {
 			console.log( 'Export PDF: Preparing pdf [3/4]')
 			printPage.evaluate( function() {
-				Reveal.isReady() ? window.callPhantom() : Reveal.addEventListener( 'pdf-ready', window.callPhantom );
+				Reveal.isReady() ? window.callPhantom() : Reveal.on( 'pdf-ready', window.callPhantom );
 			} );
 		} );
 
