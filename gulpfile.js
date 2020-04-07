@@ -125,6 +125,8 @@ gulp.task('test', gulp.series(
 
 gulp.task('default', gulp.series(gulp.parallel('js', 'css'), 'test'))
 
+gulp.task('build', gulp.series(gulp.parallel('js', 'css'))
+
 gulp.task('package', gulp.series('default', () =>
 
     gulp.src([
