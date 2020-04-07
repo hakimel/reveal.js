@@ -8,6 +8,7 @@ import Keyboard from './controllers/keyboard.js'
 import Location from './controllers/location.js'
 import Controls from './controllers/controls.js'
 import Progress from './controllers/progress.js'
+import Pointer from './controllers/pointer.js'
 import Plugins from './controllers/plugins.js'
 import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
@@ -87,6 +88,7 @@ export default function( revealElement, options ) {
 		location = new Location( Reveal ),
 		controls = new Controls( Reveal ),
 		progress = new Progress( Reveal ),
+		pointer = new Pointer( Reveal ),
 		plugins = new Plugins( Reveal ),
 		print = new Print( Reveal ),
 		touch = new Touch( Reveal ),
@@ -101,15 +103,6 @@ export default function( revealElement, options ) {
 
 		// List of asynchronously loaded reveal.js dependencies
 		asyncDependencies = [],
-
-		// Throttles mouse wheel navigation
-		lastMouseWheelStep = 0,
-
-		// Is the mouse pointer currently hidden from view
-		cursorHidden = false,
-
-		// Timeout used to determine when the cursor is inactive
-		cursorInactiveTimeout = 0,
 
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
@@ -437,27 +430,6 @@ export default function( revealElement, options ) {
 			resume();
 		}
 
-		if( config.mouseWheel ) {
-			document.addEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
-			document.addEventListener( 'mousewheel', onDocumentMouseScroll, false );
-		}
-		else {
-			document.removeEventListener( 'DOMMouseScroll', onDocumentMouseScroll, false ); // FF
-			document.removeEventListener( 'mousewheel', onDocumentMouseScroll, false );
-		}
-
-		// Auto-hide the mouse pointer when its inactive
-		if( config.hideInactiveCursor ) {
-			document.addEventListener( 'mousemove', onDocumentCursorActive, false );
-			document.addEventListener( 'mousedown', onDocumentCursorActive, false );
-		}
-		else {
-			showCursor();
-
-			document.removeEventListener( 'mousemove', onDocumentCursorActive, false );
-			document.removeEventListener( 'mousedown', onDocumentCursorActive, false );
-		}
-
 		// Iframe link previews
 		if( config.previewLinks ) {
 			enablePreviewLinks();
@@ -496,6 +468,7 @@ export default function( revealElement, options ) {
 		}
 
 		notes.configure( config, oldConfig );
+		pointer.configure( config, oldConfig );
 		controls.configure( config, oldConfig );
 		progress.configure( config, oldConfig );
 		keyboard.configure( config, oldConfig );
@@ -1076,32 +1049,6 @@ export default function( revealElement, options ) {
 		}
 
 		return false;
-
-	}
-
-	/**
-	 * Shows the mouse pointer after it has been hidden with
-	 * #hideCursor.
-	 */
-	function showCursor() {
-
-		if( cursorHidden ) {
-			cursorHidden = false;
-			dom.wrapper.style.cursor = '';
-		}
-
-	}
-
-	/**
-	 * Hides the mouse pointer when it's on top of the .reveal
-	 * container.
-	 */
-	function hideCursor() {
-
-		if( cursorHidden === false ) {
-			cursorHidden = true;
-			dom.wrapper.style.cursor = 'none';
-		}
 
 	}
 
@@ -2310,46 +2257,6 @@ export default function( revealElement, options ) {
 
 		if( config.autoSlideStoppable ) {
 			pauseAutoSlide();
-		}
-
-	}
-
-	/**
-	 * Called whenever there is mouse input at the document level
-	 * to determine if the cursor is active or not.
-	 *
-	 * @param {object} event
-	 */
-	function onDocumentCursorActive( event ) {
-
-		showCursor();
-
-		clearTimeout( cursorInactiveTimeout );
-
-		cursorInactiveTimeout = setTimeout( hideCursor, config.hideCursorTime );
-
-	}
-
-	/**
-	 * Handles mouse wheel scrolling, throttled to avoid skipping
-	 * multiple slides.
-	 *
-	 * @param {object} event
-	 */
-	function onDocumentMouseScroll( event ) {
-
-		if( Date.now() - lastMouseWheelStep > 600 ) {
-
-			lastMouseWheelStep = Date.now();
-
-			let delta = event.detail || -event.wheelDelta;
-			if( delta > 0 ) {
-				navigateNext();
-			}
-			else if( delta < 0 ) {
-				navigatePrev();
-			}
-
 		}
 
 	}
