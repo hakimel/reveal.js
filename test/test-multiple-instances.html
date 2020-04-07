@@ -43,11 +43,13 @@
 
 			let r1 = new Reveal( document.querySelector( '.deck1 .reveal' ), {
 				embedded: true
+				keyboard: true
 			} );
 			r1.initialize();
 
 			let r2 = new Reveal( document.querySelector( '.deck2 .reveal' ), {
-				embedded: true
+				embedded: true,
+				keyboard: false
 			} );
 			r2.initialize();
 
@@ -62,6 +64,9 @@
 				assert.strictEqual( r1.isOverview(), false );
 				assert.strictEqual( r2.isOverview(), true );
 				r2.toggleOverview( false );
+
+				assert.strictEqual( r1.getConfig().keyboard, true );
+				assert.strictEqual( r2.getConfig().keyboard, false );
 
 			});
 
