@@ -117,22 +117,22 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 Here's a barebones example of a fully working reveal.js presentation:
 ```html
 <html>
-	<head>
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/white.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
-		<script src="dist/reveal.min.js"></script>
-		<script>
-			Reveal.initialize();
-		</script>
-	</body>
+  <head>
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>Slide 1</section>
+        <section>Slide 2</section>
+      </div>
+    </div>
+    <script src="dist/reveal.min.js"></script>
+    <script>
+      Reveal.initialize();
+    </script>
+  </body>
 </html>
 ```
 
@@ -140,13 +140,13 @@ The presentation markup hierarchy needs to be `.reveal > .slides > section` wher
 
 ```html
 <div class="reveal">
-	<div class="slides">
-		<section>Single Horizontal Slide</section>
-		<section>
-			<section>Vertical Slide 1</section>
-			<section>Vertical Slide 2</section>
-		</section>
-	</div>
+  <div class="slides">
+    <section>Single Horizontal Slide</section>
+    <section>
+      <section>Vertical Slide 1</section>
+      <section>Vertical Slide 2</section>
+    </section>
+  </div>
 </div>
 ```
 
@@ -155,14 +155,17 @@ It's also possible to write presentations using [Markdown](#markdown).
 ### Initialization
 
 If you only have a single presentation on the page we recommend initializing reveal.js using the singleton API.
-```js
-Reveal.initialize({ keyboard: true });
+```html
+<script src="dist/reveal.min.js"></script>
+<script>
+  Reveal.initialize({ keyboard: true });
+</script>
 ```
 
 The `initialize` method returns a promise which will resolve as soon as the presentation is ready and can be interacted with via the API.
 ```js
 Reveal.initialize.then( () => {
-	// reveal.js is ready
+  // reveal.js is ready
 } )
 ```
 
@@ -171,13 +174,13 @@ If you want to run multiple presentations side-by-side on the same page you can 
 <div class="reveal deck-1">...</div>
 <div class="reveal deck-2">...</div>
 <script type="module">
-	import Reveal from 'js/reveal.js';
+  import Reveal from 'js/reveal.js';
 
-	let deck1 = new Reveal( document.querySelector( 'deck-1' ), { embedded: true } );
-	let deck2 = new Reveal( document.querySelector( 'deck-2' ), { embedded: true } );
+  let deck1 = new Reveal( document.querySelector( 'deck-1' ), { embedded: true } );
+  let deck2 = new Reveal( document.querySelector( 'deck-2' ), { embedded: true } );
 
-	deck1.initialize();
-	deck2.initialize();
+  deck1.initialize();
+  deck2.initialize();
 </script>
 ```
 
@@ -188,193 +191,193 @@ At the end of your page you need to initialize reveal by running the following c
 ```javascript
 Reveal.initialize({
 
-	// Display presentation control arrows
-	controls: true,
+  // Display presentation control arrows
+  controls: true,
 
-	// Help the user learn the controls by providing hints, for example by
-	// bouncing the down arrow when they first encounter a vertical slide
-	controlsTutorial: true,
+  // Help the user learn the controls by providing hints, for example by
+  // bouncing the down arrow when they first encounter a vertical slide
+  controlsTutorial: true,
 
-	// Determines where controls appear, "edges" or "bottom-right"
-	controlsLayout: 'bottom-right',
+  // Determines where controls appear, "edges" or "bottom-right"
+  controlsLayout: 'bottom-right',
 
-	// Visibility rule for backwards navigation arrows; "faded", "hidden"
-	// or "visible"
-	controlsBackArrows: 'faded',
+  // Visibility rule for backwards navigation arrows; "faded", "hidden"
+  // or "visible"
+  controlsBackArrows: 'faded',
 
-	// Display a presentation progress bar
-	progress: true,
+  // Display a presentation progress bar
+  progress: true,
 
-	// Display the page number of the current slide
-	slideNumber: false,
+  // Display the page number of the current slide
+  slideNumber: false,
 
-	// Add the current slide number to the URL hash so that reloading the
-	// page/copying the URL will return you to the same slide
-	hash: false,
+  // Add the current slide number to the URL hash so that reloading the
+  // page/copying the URL will return you to the same slide
+  hash: false,
 
-	// Push each slide change to the browser history. Implies `hash: true`
-	history: false,
+  // Push each slide change to the browser history. Implies `hash: true`
+  history: false,
 
-	// Enable keyboard shortcuts for navigation
-	keyboard: true,
+  // Enable keyboard shortcuts for navigation
+  keyboard: true,
 
-	// Enable the slide overview mode
-	overview: true,
+  // Enable the slide overview mode
+  overview: true,
 
-	// Vertical centering of slides
-	center: true,
+  // Vertical centering of slides
+  center: true,
 
-	// Enables touch navigation on devices with touch input
-	touch: true,
+  // Enables touch navigation on devices with touch input
+  touch: true,
 
-	// Loop the presentation
-	loop: false,
+  // Loop the presentation
+  loop: false,
 
-	// Change the presentation direction to be RTL
-	rtl: false,
+  // Change the presentation direction to be RTL
+  rtl: false,
 
-	// See https://github.com/hakimel/reveal.js/#navigation-mode
-	navigationMode: 'default',
+  // See https://github.com/hakimel/reveal.js/#navigation-mode
+  navigationMode: 'default',
 
-	// Randomizes the order of slides each time the presentation loads
-	shuffle: false,
+  // Randomizes the order of slides each time the presentation loads
+  shuffle: false,
 
-	// Turns fragments on and off globally
-	fragments: true,
+  // Turns fragments on and off globally
+  fragments: true,
 
-	// Flags whether to include the current fragment in the URL,
-	// so that reloading brings you to the same fragment position
-	fragmentInURL: false,
+  // Flags whether to include the current fragment in the URL,
+  // so that reloading brings you to the same fragment position
+  fragmentInURL: false,
 
-	// Flags if the presentation is running in an embedded mode,
-	// i.e. contained within a limited portion of the screen
-	embedded: false,
+  // Flags if the presentation is running in an embedded mode,
+  // i.e. contained within a limited portion of the screen
+  embedded: false,
 
-	// Flags if we should show a help overlay when the questionmark
-	// key is pressed
-	help: true,
+  // Flags if we should show a help overlay when the questionmark
+  // key is pressed
+  help: true,
 
-	// Flags if speaker notes should be visible to all viewers
-	showNotes: false,
+  // Flags if speaker notes should be visible to all viewers
+  showNotes: false,
 
-	// Global override for autoplaying embedded media (video/audio/iframe)
-	// - null: Media will only autoplay if data-autoplay is present
-	// - true: All media will autoplay, regardless of individual setting
-	// - false: No media will autoplay, regardless of individual setting
-	autoPlayMedia: null,
+  // Global override for autoplaying embedded media (video/audio/iframe)
+  // - null: Media will only autoplay if data-autoplay is present
+  // - true: All media will autoplay, regardless of individual setting
+  // - false: No media will autoplay, regardless of individual setting
+  autoPlayMedia: null,
 
-	// Global override for preloading lazy-loaded iframes
-	// - null: Iframes with data-src AND data-preload will be loaded when within
-	//   the viewDistance, iframes with only data-src will be loaded when visible
-	// - true: All iframes with data-src will be loaded when within the viewDistance
-	// - false: All iframes with data-src will be loaded only when visible
-	preloadIframes: null,
+  // Global override for preloading lazy-loaded iframes
+  // - null: Iframes with data-src AND data-preload will be loaded when within
+  //   the viewDistance, iframes with only data-src will be loaded when visible
+  // - true: All iframes with data-src will be loaded when within the viewDistance
+  // - false: All iframes with data-src will be loaded only when visible
+  preloadIframes: null,
 
-	// Can be used to globally disable auto-animation
-	autoAnimate: true,
+  // Can be used to globally disable auto-animation
+  autoAnimate: true,
 
-	// Optionally provide a custom element matcher that will be
-	// used to dictate which elements we can animate between.
-	autoAnimateMatcher: null,
+  // Optionally provide a custom element matcher that will be
+  // used to dictate which elements we can animate between.
+  autoAnimateMatcher: null,
 
-	// Default settings for our auto-animate transitions, can be
-	// overridden per-slide or per-element via data arguments
-	autoAnimateEasing: 'ease',
-	autoAnimateDuration: 1.0,
-	autoAnimateUnmatched: true,
+  // Default settings for our auto-animate transitions, can be
+  // overridden per-slide or per-element via data arguments
+  autoAnimateEasing: 'ease',
+  autoAnimateDuration: 1.0,
+  autoAnimateUnmatched: true,
 
-	// CSS properties that can be auto-animated. Position & scale
-	// is matched separately so there's no need to include styles
-	// like top/right/bottom/left, width/height or margin.
-	autoAnimateStyles: [
-		'opacity',
-		'color',
-		'background-color',
-		'padding',
-		'font-size',
-		'line-height',
-		'letter-spacing',
-		'border-width',
-		'border-color',
-		'border-radius',
-		'outline',
-		'outline-offset'
-	],
+  // CSS properties that can be auto-animated. Position & scale
+  // is matched separately so there's no need to include styles
+  // like top/right/bottom/left, width/height or margin.
+  autoAnimateStyles: [
+    'opacity',
+    'color',
+    'background-color',
+    'padding',
+    'font-size',
+    'line-height',
+    'letter-spacing',
+    'border-width',
+    'border-color',
+    'border-radius',
+    'outline',
+    'outline-offset'
+  ],
 
-	// Number of milliseconds between automatically proceeding to the
-	// next slide, disabled when set to 0, this value can be overwritten
-	// by using a data-autoslide attribute on your slides
-	autoSlide: 0,
+  // Number of milliseconds between automatically proceeding to the
+  // next slide, disabled when set to 0, this value can be overwritten
+  // by using a data-autoslide attribute on your slides
+  autoSlide: 0,
 
-	// Stop auto-sliding after user input
-	autoSlideStoppable: true,
+  // Stop auto-sliding after user input
+  autoSlideStoppable: true,
 
-	// Use this method for navigation when auto-sliding
-	autoSlideMethod: Reveal.next,
+  // Use this method for navigation when auto-sliding
+  autoSlideMethod: Reveal.next,
 
-	// Specify the average time in seconds that you think you will spend
-	// presenting each slide. This is used to show a pacing timer in the
-	// speaker view
-	defaultTiming: 120,
+  // Specify the average time in seconds that you think you will spend
+  // presenting each slide. This is used to show a pacing timer in the
+  // speaker view
+  defaultTiming: 120,
 
-	// Specify the total time in seconds that is available to
-	// present.  If this is set to a nonzero value, the pacing
-	// timer will work out the time available for each slide,
-	// instead of using the defaultTiming value
-	totalTime: 0,
+  // Specify the total time in seconds that is available to
+  // present.  If this is set to a nonzero value, the pacing
+  // timer will work out the time available for each slide,
+  // instead of using the defaultTiming value
+  totalTime: 0,
 
-	// Specify the minimum amount of time you want to allot to
-	// each slide, if using the totalTime calculation method.  If
-	// the automated time allocation causes slide pacing to fall
-	// below this threshold, then you will see an alert in the
-	// speaker notes window
-	minimumTimePerSlide: 0,
+  // Specify the minimum amount of time you want to allot to
+  // each slide, if using the totalTime calculation method.  If
+  // the automated time allocation causes slide pacing to fall
+  // below this threshold, then you will see an alert in the
+  // speaker notes window
+  minimumTimePerSlide: 0,
 
-	// Enable slide navigation via mouse wheel
-	mouseWheel: false,
+  // Enable slide navigation via mouse wheel
+  mouseWheel: false,
 
-	// Hide cursor if inactive
-	hideInactiveCursor: true,
+  // Hide cursor if inactive
+  hideInactiveCursor: true,
 
-	// Time before the cursor is hidden (in ms)
-	hideCursorTime: 5000,
+  // Time before the cursor is hidden (in ms)
+  hideCursorTime: 5000,
 
-	// Opens links in an iframe preview overlay
-	// Add `data-preview-link` and `data-preview-link="false"` to customise each link
-	// individually
-	previewLinks: false,
+  // Opens links in an iframe preview overlay
+  // Add `data-preview-link` and `data-preview-link="false"` to customise each link
+  // individually
+  previewLinks: false,
 
-	// Transition style
-	transition: 'slide', // none/fade/slide/convex/concave/zoom
+  // Transition style
+  transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-	// Transition speed
-	transitionSpeed: 'default', // default/fast/slow
+  // Transition speed
+  transitionSpeed: 'default', // default/fast/slow
 
-	// Transition style for full page slide backgrounds
-	backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+  // Transition style for full page slide backgrounds
+  backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
 
-	// Number of slides away from the current that are visible
-	viewDistance: 3,
+  // Number of slides away from the current that are visible
+  viewDistance: 3,
 
-	// Number of slides away from the current that are visible on mobile
-	// devices. It is advisable to set this to a lower number than
-	// viewDistance in order to save resources.
-	mobileViewDistance: 2,
+  // Number of slides away from the current that are visible on mobile
+  // devices. It is advisable to set this to a lower number than
+  // viewDistance in order to save resources.
+  mobileViewDistance: 2,
 
-	// Parallax background image
-	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+  // Parallax background image
+  parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
 
-	// Parallax background size
-	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+  // Parallax background size
+  parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
 
-	// Number of pixels to move the parallax background per slide
-	// - Calculated automatically unless specified
-	// - Set to 0 to disable movement along an axis
-	parallaxBackgroundHorizontal: null,
-	parallaxBackgroundVertical: null,
+  // Number of pixels to move the parallax background per slide
+  // - Calculated automatically unless specified
+  // - Set to 0 to disable movement along an axis
+  parallaxBackgroundHorizontal: null,
+  parallaxBackgroundVertical: null,
 
-	// The display mode that will be used to show slides
-	display: 'block'
+  // The display mode that will be used to show slides
+  display: 'block'
 
 });
 ```
@@ -398,20 +401,20 @@ See below for a list of configuration options related to sizing, including defau
 ```javascript
 Reveal.initialize({
 
-	// ...
+  // ...
 
-	// The "normal" size of the presentation, aspect ratio will be preserved
-	// when the presentation is scaled to fit different resolutions. Can be
-	// specified using percentage units.
-	width: 960,
-	height: 700,
+  // The "normal" size of the presentation, aspect ratio will be preserved
+  // when the presentation is scaled to fit different resolutions. Can be
+  // specified using percentage units.
+  width: 960,
+  height: 700,
 
-	// Factor of the display size that should remain empty around the content
-	margin: 0.1,
+  // Factor of the display size that should remain empty around the content
+  margin: 0.1,
 
-	// Bounds for smallest/largest possible scale to apply to content
-	minScale: 0.2,
-	maxScale: 1.5
+  // Bounds for smallest/largest possible scale to apply to content
+  minScale: 0.2,
+  maxScale: 1.5
 
 });
 ```
@@ -421,13 +424,13 @@ If you wish to disable this behavior and do your own scaling (e.g. using media q
 ```javascript
 Reveal.initialize({
 
-	// ...
+  // ...
 
-	width: "100%",
-	height: "100%",
-	margin: 0,
-	minScale: 1,
-	maxScale: 1
+  width: "100%",
+  height: "100%",
+  margin: 0,
+  minScale: 1,
+  maxScale: 1
 });
 ```
 
@@ -437,23 +440,23 @@ Reveal.js doesn't _rely_ on any third party scripts to work but a few optional l
 
 ```javascript
 Reveal.initialize({
-	dependencies: [
-		// Interpret Markdown in <section> elements
-		{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-		{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+  dependencies: [
+    // Interpret Markdown in <section> elements
+    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 
-		// Syntax highlight for <code> elements
-		{ src: 'plugin/highlight/highlight.js', async: true },
+    // Syntax highlight for <code> elements
+    { src: 'plugin/highlight/highlight.js', async: true },
 
-		// Zoom in and out with Alt+click
-		{ src: 'plugin/zoom-js/zoom.js', async: true },
+    // Zoom in and out with Alt+click
+    { src: 'plugin/zoom-js/zoom.js', async: true },
 
-		// Speaker notes
-		{ src: 'plugin/notes/notes.js', async: true },
+    // Speaker notes
+    { src: 'plugin/notes/notes.js', async: true },
 
-		// MathJax
-		{ src: 'plugin/math/math.js', async: true }
-	]
+    // MathJax
+    { src: 'plugin/math/math.js', async: true }
+  ]
 });
 ```
 
@@ -473,7 +476,7 @@ A `ready` event is fired when reveal.js has loaded all non-async dependencies an
 
 ```javascript
 Reveal.on( 'ready', function( event ) {
-	// event.currentSlide, event.indexh, event.indexv
+  // event.currentSlide, event.indexh, event.indexv
 } );
 ```
 
@@ -496,9 +499,9 @@ You can also override the slide duration for individual slides and fragments by 
 
 ```html
 <section data-autoslide="2000">
-	<p>After 2 seconds the first fragment will be shown.</p>
-	<p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
-	<p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
+  <p>After 2 seconds the first fragment will be shown.</p>
+  <p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
+  <p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
 </section>
 ```
 
@@ -527,10 +530,10 @@ reveal.js can automatically animate elements across slides. All you need to do i
 Here's a simple example to give you a better idea of how it can be used. The resulting animation will be the word "Magic" sliding 100px downwards.
 ```html
 <section data-auto-animate>
-	<h1>Magic</h1>
+  <h1>Magic</h1>
 </section>
 <section data-auto-animate>
-	<h1 style="position: relative; top: 100px;">Magic</h1>
+  <h1 style="position: relative; top: 100px;">Magic</h1>
 </section>
 ```
 
@@ -581,7 +584,7 @@ Each individual element is decorated with a `data-auto-animate-target` attribute
 Each time a presentation navigates between two auto-animated slides it dispatches the `autoanimate` event.
 ```javascript
 Reveal.on( 'autoanimate', function( event ) {
-	// event.fromSlide, event.toSlide
+  // event.fromSlide, event.toSlide
 } );
 ```
 
@@ -634,7 +637,7 @@ according to the `viewDistance`.
 
 ```html
 <section>
-	<iframe data-src="http://hakim.se" data-preload></iframe>
+  <iframe data-src="http://hakim.se" data-preload></iframe>
 </section>
 ```
 
@@ -732,12 +735,12 @@ For example
 //          key: the key label to show in the help overlay
 //  description: the description of the action to show in the help overlay
 Reveal.addKeyBinding( { keyCode: 84, key: 'T', description: 'Start timer' }, function() {
-	// start timer
+  // start timer
 } )
 
 // The binding parameter can also be a direct keycode without providing the help description
 Reveal.addKeyBinding( 82, function() {
-	// reset timer
+  // reset timer
 } )
 ```
 
@@ -754,7 +757,7 @@ Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/is
 
 ```javascript
 Reveal.on( 'slidechanged', function( event ) {
-	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+  // event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
 ```
 
@@ -783,7 +786,7 @@ Furthermore you can also listen to these changes in state via JavaScript:
 
 ```javascript
 Reveal.on( 'somestate', function() {
-	// TODO: Sprinkle magic
+  // TODO: Sprinkle magic
 }, false );
 ```
 
@@ -802,7 +805,7 @@ All CSS color formats are supported, including hex values, keywords, `rgba()` or
 
 ```html
 <section data-background-color="#ff0000">
-	<h2>Color</h2>
+  <h2>Color</h2>
 </section>
 ```
 
@@ -820,10 +823,10 @@ By default, background images are resized to cover the full page. Available opti
 
 ```html
 <section data-background-image="http://example.com/image.png">
-	<h2>Image</h2>
+  <h2>Image</h2>
 </section>
 <section data-background-image="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
-	<h2>This background image will be sized to 100px and repeated</h2>
+  <h2>This background image will be sized to 100px and repeated</h2>
 </section>
 ```
 
@@ -841,7 +844,7 @@ Automatically plays a full size video behind the slide.
 
 ```html
 <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
-	<h2>Video</h2>
+  <h2>Video</h2>
 </section>
 ```
 
@@ -851,7 +854,7 @@ Embeds a web page as a slide background that covers 100% of the reveal.js width 
 
 ```html
 <section data-background-iframe="https://slides.com" data-background-interactive>
-	<h2>Iframe</h2>
+  <h2>Iframe</h2>
 </section>
 ```
 
@@ -869,17 +872,17 @@ If you want to use a parallax scrolling background, set the first two properties
 ```javascript
 Reveal.initialize({
 
-	// Parallax background image
-	parallaxBackgroundImage: '', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
+  // Parallax background image
+  parallaxBackgroundImage: '', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
 
-	// Parallax background size
-	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
+  // Parallax background size
+  parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
 
-	// Number of pixels to move the parallax background per slide
-	// - Calculated automatically unless specified
-	// - Set to 0 to disable movement along an axis
-	parallaxBackgroundHorizontal: 200,
-	parallaxBackgroundVertical: 50
+  // Number of pixels to move the parallax background per slide
+  // - Calculated automatically unless specified
+  // - Set to 0 to disable movement along an axis
+  parallaxBackgroundHorizontal: 200,
+  parallaxBackgroundVertical: 50
 
 });
 ```
@@ -892,11 +895,11 @@ The global presentation transition is set using the `transition` config value. Y
 
 ```html
 <section data-transition="zoom">
-	<h2>This slide will override the presentation transition and zoom!</h2>
+  <h2>This slide will override the presentation transition and zoom!</h2>
 </section>
 
 <section data-transition-speed="fast">
-	<h2>Choose from three transition speeds: default, fast or slow!</h2>
+  <h2>Choose from three transition speeds: default, fast or slow!</h2>
 </section>
 ```
 
@@ -948,17 +951,17 @@ The default fragment style is to start out invisible and fade in. This style can
 
 ```html
 <section>
-	<p class="fragment grow">grow</p>
-	<p class="fragment shrink">shrink</p>
-	<p class="fragment strike">strike</p>
-	<p class="fragment fade-out">fade-out</p>
-	<p class="fragment fade-up">fade-up (also down, left and right!)</p>
-	<p class="fragment fade-in-then-out">fades in, then out when we move to the next step</p>
-	<p class="fragment fade-in-then-semi-out">fades in, then obfuscate when we move to the next step</p>
-	<p class="fragment highlight-current-blue">blue only once</p>
-	<p class="fragment highlight-red">highlight-red</p>
-	<p class="fragment highlight-green">highlight-green</p>
-	<p class="fragment highlight-blue">highlight-blue</p>
+  <p class="fragment grow">grow</p>
+  <p class="fragment shrink">shrink</p>
+  <p class="fragment strike">strike</p>
+  <p class="fragment fade-out">fade-out</p>
+  <p class="fragment fade-up">fade-up (also down, left and right!)</p>
+  <p class="fragment fade-in-then-out">fades in, then out when we move to the next step</p>
+  <p class="fragment fade-in-then-semi-out">fades in, then obfuscate when we move to the next step</p>
+  <p class="fragment highlight-current-blue">blue only once</p>
+  <p class="fragment highlight-red">highlight-red</p>
+  <p class="fragment highlight-green">highlight-green</p>
+  <p class="fragment highlight-blue">highlight-blue</p>
 </section>
 ```
 
@@ -966,9 +969,9 @@ Multiple fragments can be applied to the same element sequentially by wrapping i
 
 ```html
 <section>
-	<span class="fragment fade-in">
-		<span class="fragment fade-out">I'll fade in, then out</span>
-	</span>
+  <span class="fragment fade-in">
+    <span class="fragment fade-out">I'll fade in, then out</span>
+  </span>
 </section>
 ```
 
@@ -976,9 +979,9 @@ The display order of fragments can be controlled using the `data-fragment-index`
 
 ```html
 <section>
-	<p class="fragment" data-fragment-index="3">Appears last</p>
-	<p class="fragment" data-fragment-index="1">Appears first</p>
-	<p class="fragment" data-fragment-index="2">Appears second</p>
+  <p class="fragment" data-fragment-index="3">Appears last</p>
+  <p class="fragment" data-fragment-index="1">Appears first</p>
+  <p class="fragment" data-fragment-index="2">Appears second</p>
 </section>
 ```
 
@@ -990,10 +993,10 @@ Some libraries, like MathJax (see #505), get confused by the initially hidden fr
 
 ```javascript
 Reveal.on( 'fragmentshown', function( event ) {
-	// event.fragment = the fragment DOM element
+  // event.fragment = the fragment DOM element
 } );
 Reveal.on( 'fragmenthidden', function( event ) {
-	// event.fragment = the fragment DOM element
+  // event.fragment = the fragment DOM element
 } );
 ```
 
@@ -1003,10 +1006,10 @@ By default, Reveal is configured with [highlight.js](https://highlightjs.org/) f
 
 ```javascript
 Reveal.initialize({
-	// More info https://github.com/hakimel/reveal.js#dependencies
-	dependencies: [
-		{ src: 'plugin/highlight/highlight.js', async: true },
-	]
+  // More info https://github.com/hakimel/reveal.js#dependencies
+  dependencies: [
+    { src: 'plugin/highlight/highlight.js', async: true },
+  ]
 });
 ```
 
@@ -1014,13 +1017,13 @@ Below is an example with clojure code that will be syntax highlighted. When the 
 
 ```html
 <section>
-	<pre><code data-trim data-noescape>
+  <pre><code data-trim data-noescape>
 (def lazy-fib
   (concat
    [0 1]
    <mark>((fn rfib [a b]</mark>
         (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
-	</code></pre>
+  </code></pre>
 </section>
 ```
 
@@ -1064,10 +1067,10 @@ If you would like to display the page number of the current slide you can do so 
 Reveal.configure({ slideNumber: true });
 
 // Slide number formatting can be configured using these variables:
-//  "h.v": 	horizontal . vertical slide number (default)
-//  "h/v": 	horizontal / vertical slide number
-//    "c": 	flattened slide number
-//  "c/t": 	flattened slide number / total slides
+//  "h.v":  horizontal . vertical slide number (default)
+//  "h/v":  horizontal / vertical slide number
+//    "c":  flattened slide number
+//  "c/t":  flattened slide number / total slides
 Reveal.configure({ slideNumber: 'c/t' });
 
 // You can provide a function to fully customize the number:
@@ -1122,7 +1125,7 @@ Sometimes it's desirable to have an element, like an image or video, stretch to 
 
 ```html
 <section>
-	<h2>This video will use up the remaining space on the slide</h2>
+  <h2>This video will use up the remaining space on the slide</h2>
     <video class="stretch" src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></video>
 </section>
 ```
@@ -1137,7 +1140,7 @@ When reveal.js changes the scale of the slides it fires a resize event. You can 
 
 ```javascript
 Reveal.on( 'resize', function( event ) {
-	// event.scale, event.oldScale, event.size
+  // event.scale, event.oldScale, event.size
 } );
 ```
 
@@ -1155,10 +1158,10 @@ When reveal.js runs inside of an iframe it can optionally bubble all of its even
 
 ```javascript
 window.addEventListener( 'message', function( event ) {
-	var data = JSON.parse( event.data );
-	if( data.namespace === 'reveal' && data.eventName === 'slidechanged' ) {
-		// Slide changed, see data.state for slide number
-	}
+  var data = JSON.parse( event.data );
+  if( data.namespace === 'reveal' && data.eventName === 'slidechanged' ) {
+    // Slide changed, see data.state for slide number
+  }
 } );
 ```
 
@@ -1170,11 +1173,11 @@ When you call any method via the postMessage API, reveal.js will dispatch a mess
 <revealWindow>.postMessage( JSON.stringify({ method: 'getTotalSlides' }), '*' );
 
 window.addEventListener( 'message', function( event ) {
-	var data = JSON.parse( event.data );
-	// `data.method`` is the method that we invoked
-	if( data.namespace === 'reveal' && data.eventName === 'callback' && data.method === 'getTotalSlides' ) {
-		data.result // = the total number of slides
-	}
+  var data = JSON.parse( event.data );
+  // `data.method`` is the method that we invoked
+  if( data.namespace === 'reveal' && data.eventName === 'callback' && data.method === 'getTotalSlides' ) {
+    data.result // = the total number of slides
+  }
 } );
 ```
 
@@ -1184,13 +1187,13 @@ This cross-window messaging can be toggled on or off using configuration flags. 
 
 ```javascript
 Reveal.initialize({
-	// ...
+  // ...
 
-	// Exposes the reveal.js API through window.postMessage
-	postMessage: true,
+  // Exposes the reveal.js API through window.postMessage
+  postMessage: true,
 
-	// Dispatches all reveal.js events to the parent window through postMessage
-	postMessageEvents: false
+  // Dispatches all reveal.js events to the parent window through postMessage
+  postMessageEvents: false
 });
 ```
 
@@ -1202,11 +1205,11 @@ This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Iri
 
 ```html
 <section data-markdown>
-	<textarea data-template>
-		## Page title
+  <textarea data-template>
+    ## Page title
 
-		A paragraph with some text and a [link](http://hakim.se).
-	</textarea>
+    A paragraph with some text and a [link](http://hakim.se).
+  </textarea>
 </section>
 ```
 
@@ -1235,10 +1238,10 @@ Special syntax (through HTML comments) is available for adding attributes to Mar
 
 ```html
 <section data-markdown>
-	<script type="text/template">
-		- Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
-		- Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
-	</script>
+  <script type="text/template">
+    - Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+    - Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+  </script>
 </section>
 ```
 
@@ -1248,10 +1251,10 @@ Special syntax (through HTML comments) is available for adding attributes to the
 
 ```html
 <section data-markdown>
-	<script type="text/template">
-	<!-- .slide: data-background="#ff0000" -->
-		Markdown content
-	</script>
+  <script type="text/template">
+  <!-- .slide: data-background="#ff0000" -->
+    Markdown content
+  </script>
 </section>
 ```
 
@@ -1261,11 +1264,11 @@ We use [marked](https://github.com/chjj/marked) to parse Markdown. To customise 
 
 ```javascript
 Reveal.initialize({
-	// Options which are passed into marked
-	// See https://marked.js.org/#/USING_ADVANCED.md#options
-	markdown: {
-		smartypants: true
-	}
+  // Options which are passed into marked
+  // See https://marked.js.org/#/USING_ADVANCED.md#options
+  markdown: {
+    smartypants: true
+  }
 });
 ```
 
@@ -1337,11 +1340,11 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 
 ```html
 <section>
-	<h2>Some Slide</h2>
+  <h2>Some Slide</h2>
 
-	<aside class="notes">
-		Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit »S« on your keyboard).
-	</aside>
+  <aside class="notes">
+    Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit »S« on your keyboard).
+  </aside>
 </section>
 ```
 
@@ -1382,12 +1385,12 @@ In some cases it can be desirable to run notes on a separate device from the one
 
 ```javascript
 Reveal.initialize({
-	// ...
+  // ...
 
-	dependencies: [
-		{ src: 'socket.io/socket.io.js', async: true },
-		{ src: 'plugin/notes-server/client.js', async: true }
-	]
+  dependencies: [
+    { src: 'socket.io/socket.io.js', async: true },
+    { src: 'plugin/notes-server/client.js', async: true }
+  ]
 });
 ```
 
@@ -1406,7 +1409,7 @@ When reveal.js is booted up via `Reveal.initialize()`, it will go through all re
 
 ```javascript
 let MyPlugin = {
-	init: () =>  new Promise( resolve => setTimeout( resolve, 3000 ) )
+  init: () =>  new Promise( resolve => setTimeout( resolve, 3000 ) )
 };
 Reveal.registerPlugin( 'myPlugin', MyPlugin );
 Reveal.on( 'ready', () => console.log( 'Three seconds later...' ) );
@@ -1445,25 +1448,25 @@ Example configuration:
 
 ```javascript
 Reveal.initialize({
-	// other options...
+  // other options...
 
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
-	},
+  multiplex: {
+    // Example values. To generate your own, see the socket.io server instructions.
+    secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
+    id: '1ea875674b17ca76', // Obtained from socket.io server
+    url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
+  },
 
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
-		{ src: 'plugin/multiplex/master.js', async: true },
+  // Don't forget to add the dependencies
+  dependencies: [
+    { src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
+    { src: 'plugin/multiplex/master.js', async: true },
 
-		// and if you want speaker notes
-		{ src: 'plugin/notes-server/client.js', async: true }
+    // and if you want speaker notes
+    { src: 'plugin/notes-server/client.js', async: true }
 
-		// other dependencies...
-	]
+    // other dependencies...
+  ]
 });
 ```
 
@@ -1475,22 +1478,22 @@ Example configuration:
 
 ```javascript
 Reveal.initialize({
-	// other options...
+  // other options...
 
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
-	},
+  multiplex: {
+    // Example values. To generate your own, see the socket.io server instructions.
+    secret: null, // null so the clients do not have control of the master presentation
+    id: '1ea875674b17ca76', // id, obtained from socket.io server
+    url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
+  },
 
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
+  // Don't forget to add the dependencies
+  dependencies: [
+    { src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
+    { src: 'plugin/multiplex/client.js', async: true }
 
-		// other dependencies...
-	]
+    // other dependencies...
+  ]
 });
 ```
 
@@ -1517,22 +1520,22 @@ Example configuration:
 
 ```javascript
 Reveal.initialize({
-	// other options...
+  // other options...
 
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'example.com:80' // Location of your socket.io server
-	},
+  multiplex: {
+    // Example values. To generate your own, see the socket.io server instructions.
+    secret: null, // null so the clients do not have control of the master presentation
+    id: '1ea875674b17ca76', // id, obtained from socket.io server
+    url: 'example.com:80' // Location of your socket.io server
+  },
 
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
+  // Don't forget to add the dependencies
+  dependencies: [
+    { src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
+    { src: 'plugin/multiplex/client.js', async: true }
 
-		// other dependencies...
-	]
+    // other dependencies...
+  ]
 ```
 
 It can also play the role of static file server for your master presentation and client presentations at the same time (as long as you don't want to use speaker notes). (Open [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/) in two browsers. Navigate through the slides on one, and the other will update to match. Navigate through the slides on the second, and the first will update to match.) This is probably not desirable, because you don't want your audience to mess with your slides while you're presenting. ;)
@@ -1541,23 +1544,23 @@ Example configuration:
 
 ```javascript
 Reveal.initialize({
-	// other options...
+  // other options...
 
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'example.com:80' // Location of your socket.io server
-	},
+  multiplex: {
+    // Example values. To generate your own, see the socket.io server instructions.
+    secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
+    id: '1ea875674b17ca76', // Obtained from socket.io server
+    url: 'example.com:80' // Location of your socket.io server
+  },
 
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
-		{ src: 'plugin/multiplex/master.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
+  // Don't forget to add the dependencies
+  dependencies: [
+    { src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js', async: true },
+    { src: 'plugin/multiplex/master.js', async: true },
+    { src: 'plugin/multiplex/client.js', async: true }
 
-		// other dependencies...
-	]
+    // other dependencies...
+  ]
 });
 ```
 
@@ -1572,18 +1575,18 @@ Below is an example of how the plugin can be configured. If you don't intend to 
 
 ```js
 Reveal.initialize({
-	// other options ...
+  // other options ...
 
-	math: {
-		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
-		config: 'TeX-AMS_HTML-full', // See http://docs.mathjax.org/en/latest/config-files.html
-		// pass other options into `MathJax.Hub.Config()`
-		TeX: { Macros: { RR: "{\\bf R}" } }
-	},
+  math: {
+    mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+    config: 'TeX-AMS_HTML-full', // See http://docs.mathjax.org/en/latest/config-files.html
+    // pass other options into `MathJax.Hub.Config()`
+    TeX: { Macros: { RR: "{\\bf R}" } }
+  },
 
-	dependencies: [
-		{ src: 'plugin/math/math.js', async: true }
-	]
+  dependencies: [
+    { src: 'plugin/math/math.js', async: true }
+  ]
 });
 ```
 
