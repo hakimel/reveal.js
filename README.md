@@ -14,12 +14,8 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
 - [Installation](#installation)
   - [Basic setup](#basic-setup)
   - [Full setup](#full-setup)
-  - [Folder Structure](#folder-structure)
-- [Instructions](#instructions)
-  - [Markup](#markup)
-  - [Markdown](#markdown)
-  - [Element Attributes](#element-attributes)
-  - [Slide Attributes](#slide-attributes)
+- [Markup](#markup)
+- [Initialization](#initialization)
 - [Configuration](#configuration)
 - [Presentation Size](#presentation-size)
 - [Dependencies](#dependencies)
@@ -49,6 +45,10 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
   - [Stretching elements](#stretching-elements)
   - [Resize Event](#resize-event)
   - [postMessage API](#postmessage-api)
+- [Markdown](#markdown)
+  - [External Markdown](#external-markdown)
+  - [Element Attributes](#element-attributes)
+  - [Slide Attributes](#slide-attributes)
 - [PDF Export](#pdf-export)
 - [Theming](#theming)
 - [Speaker Notes](#speaker-notes)
@@ -98,14 +98,9 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
    $ git clone https://github.com/hakimel/reveal.js.git
    ```
 
-1. Navigate to the reveal.js folder
+1. Move to the reveal.js folder and install dependencies
    ```sh
-   $ cd reveal.js
-   ```
-
-1. Install dependencies
-   ```sh
-   $ npm install
+   $ cd reveal.js && npm install
    ```
 
 1. Serve the presentation and monitor source files for changes
@@ -117,17 +112,7 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
    You can change the port by using `npm start -- --port=8001`.
 
-### Folder Structure
-
-- **css/** Core styles without which the project does not function
-- **js/** Like above but for JavaScript
-- **plugin/** Components that have been developed as extensions to reveal.js
-- **lib/** All other third party assets (JavaScript, CSS, fonts)
-
-
-## Instructions
-
-### Markup
+## Markup
 
 Here's a barebones example of a fully working reveal.js presentation:
 ```html
@@ -165,79 +150,35 @@ The presentation markup hierarchy needs to be `.reveal > .slides > section` wher
 </div>
 ```
 
-### Markdown
+It's also possible to write presentations using [Markdown](#markdown).
 
-It's possible to write your slides using Markdown. To enable Markdown, add the `data-markdown` attribute to your `<section>` elements and wrap the contents in a `<textarea data-template>` like the example below. You'll also need to add the `plugin/markdown/marked.js` and `plugin/markdown/markdown.js` scripts (in that order) to your HTML file. _Note: both these dependencies are already included in the default `index.html`._
+### Initialization
 
-This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) modified to use [marked](https://github.com/chjj/marked) to support [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown). Sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
-
-```html
-<section data-markdown>
-	<textarea data-template>
-		## Page title
-
-		A paragraph with some text and a [link](http://hakim.se).
-	</textarea>
-</section>
+If you only have a single presentation on the page we recommend initializing reveal.js using the singleton API.
+```js
+Reveal.initialize({ keyboard: true });
 ```
 
-#### External Markdown
-
-You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file: the `data-separator` attribute defines a regular expression for horizontal slides (defaults to `^\r?\n---\r?\n$`, a newline-bounded horizontal rule)  and `data-separator-vertical` defines vertical slides (disabled by default). The `data-separator-notes` attribute is a regular expression for specifying the beginning of the current slide's speaker notes (defaults to `notes?:`, so it will match both "note:" and "notes:"). The `data-charset` attribute is optional and specifies which charset to use when loading the external file.
-
-When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).  The following example customises all available options:
-
-```html
-<section data-markdown="example.md"
-         data-separator="^\n\n\n"
-         data-separator-vertical="^\n\n"
-         data-separator-notes="^Note:"
-         data-charset="iso-8859-15">
-    <!--
-        Note that Windows uses `\r\n` instead of `\n` as its linefeed character.
-        For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
-    -->
-</section>
+The `initialize` method returns a promise which will resolve as soon as the presentation is ready and can be interacted with via the API.
+```js
+Reveal.initialize.then( () => {
+	// reveal.js is ready
+} )
 ```
 
-#### Element Attributes
-
-Special syntax (through HTML comments) is available for adding attributes to Markdown elements. This is useful for fragments, amongst other things.
-
+If you want to run multiple presentations side-by-side on the same page you can create instances of the Reveal class. Note that you will also need to set the `embedded` config option to true.
 ```html
-<section data-markdown>
-	<script type="text/template">
-		- Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
-		- Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
-	</script>
-</section>
-```
+<div class="reveal deck-1">...</div>
+<div class="reveal deck-2">...</div>
+<script type="module">
+	import Reveal from 'js/reveal.js';
 
-#### Slide Attributes
+	let deck1 = new Reveal( document.querySelector( 'deck-1' ), { embedded: true } );
+	let deck2 = new Reveal( document.querySelector( 'deck-2' ), { embedded: true } );
 
-Special syntax (through HTML comments) is available for adding attributes to the slide `<section>` elements generated by your Markdown.
-
-```html
-<section data-markdown>
-	<script type="text/template">
-	<!-- .slide: data-background="#ff0000" -->
-		Markdown content
-	</script>
-</section>
-```
-
-#### Configuring *marked*
-
-We use [marked](https://github.com/chjj/marked) to parse Markdown. To customise marked's rendering, you can pass in options when [configuring Reveal](#configuration):
-
-```javascript
-Reveal.initialize({
-	// Options which are passed into marked
-	// See https://marked.js.org/#/USING_ADVANCED.md#options
-	markdown: {
-		smartypants: true
-	}
-});
+	deck1.initialize();
+	deck2.initialize();
+</script>
 ```
 
 ### Configuration
@@ -1253,6 +1194,80 @@ Reveal.initialize({
 });
 ```
 
+## Markdown
+
+It's possible to write your slides using Markdown. To enable Markdown, add the `data-markdown` attribute to your `<section>` elements and wrap the contents in a `<textarea data-template>` like the example below. You'll also need to add the `plugin/markdown/marked.js` and `plugin/markdown/markdown.js` scripts (in that order) to your HTML file. _Note: both these dependencies are already included in the default `index.html`._
+
+This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) modified to use [marked](https://github.com/chjj/marked) to support [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown). Sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
+
+```html
+<section data-markdown>
+	<textarea data-template>
+		## Page title
+
+		A paragraph with some text and a [link](http://hakim.se).
+	</textarea>
+</section>
+```
+
+### External Markdown
+
+You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file: the `data-separator` attribute defines a regular expression for horizontal slides (defaults to `^\r?\n---\r?\n$`, a newline-bounded horizontal rule)  and `data-separator-vertical` defines vertical slides (disabled by default). The `data-separator-notes` attribute is a regular expression for specifying the beginning of the current slide's speaker notes (defaults to `notes?:`, so it will match both "note:" and "notes:"). The `data-charset` attribute is optional and specifies which charset to use when loading the external file.
+
+When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).  The following example customises all available options:
+
+```html
+<section data-markdown="example.md"
+         data-separator="^\n\n\n"
+         data-separator-vertical="^\n\n"
+         data-separator-notes="^Note:"
+         data-charset="iso-8859-15">
+    <!--
+        Note that Windows uses `\r\n` instead of `\n` as its linefeed character.
+        For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
+    -->
+</section>
+```
+
+### Element Attributes
+
+Special syntax (through HTML comments) is available for adding attributes to Markdown elements. This is useful for fragments, amongst other things.
+
+```html
+<section data-markdown>
+	<script type="text/template">
+		- Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+		- Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+	</script>
+</section>
+```
+
+### Slide Attributes
+
+Special syntax (through HTML comments) is available for adding attributes to the slide `<section>` elements generated by your Markdown.
+
+```html
+<section data-markdown>
+	<script type="text/template">
+	<!-- .slide: data-background="#ff0000" -->
+		Markdown content
+	</script>
+</section>
+```
+
+### Configuring *marked*
+
+We use [marked](https://github.com/chjj/marked) to parse Markdown. To customise marked's rendering, you can pass in options when [configuring Reveal](#configuration):
+
+```javascript
+Reveal.initialize({
+	// Options which are passed into marked
+	// See https://marked.js.org/#/USING_ADVANCED.md#options
+	markdown: {
+		smartypants: true
+	}
+});
+```
 
 ## PDF Export
 
