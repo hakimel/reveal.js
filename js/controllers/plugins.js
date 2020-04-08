@@ -5,7 +5,9 @@ import { loadScript } from '../utils/loader.js'
  */
 export default class Plugins {
 
-	constructor() {
+	constructor( reveal ) {
+
+		this.Reveal = reveal;
 
 		// Flags our current state (idle -> loading -> loaded)
 		this.state = 'idle';
@@ -58,8 +60,8 @@ export default class Plugins {
 
 				// Load synchronous scripts
 				scripts.forEach( s => {
-					if( s.id ) {
-						this.registerPlugin( s.id, s.plugin );
+					if( s.plugin ) {
+						this.registerPlugin( s.plugin );
 						scriptLoadedCallback( s );
 					}
 					else {
@@ -104,7 +106,7 @@ export default class Plugins {
 
 					// If the plugin has an 'init' method, invoke it
 					if( typeof plugin.init === 'function' ) {
-						let callback = plugin.init();
+						let callback = plugin.init( this.Reveal );
 
 						// If the plugin returned a Promise, wait for it
 						if( callback && typeof callback.then === 'function' ) {
@@ -135,9 +137,9 @@ export default class Plugins {
 
 		if( this.asyncDependencies.length ) {
 			this.asyncDependencies.forEach( s => {
-				if( s.id ) {
-					this.registerPlugin( s.id, s.plugin );
-					if( typeof s.plugin.init === 'function' ) s.plugin.init();
+				if( s.plugin ) {
+					this.registerPlugin( s.plugin );
+					if( typeof s.plugin.init === 'function' ) s.plugin.init( this.Reveal );
 					if( typeof s.callback === 'function' ) s.callback();
 				}
 				else {
@@ -157,15 +159,20 @@ export default class Plugins {
 	 * before considering itself ready, as long as the plugin
 	 * is registered before calling `Reveal.initialize()`.
 	 */
-	registerPlugin( id, plugin ) {
+	registerPlugin( plugin ) {
 
-		if( this.registeredPlugins[id] === undefined ) {
+		let id = plugin.id;
+
+		if( typeof id !== 'string' ) {
+			console.warn( 'reveal.js: plugin.id is not a string' );
+		}
+		else if( this.registeredPlugins[id] === undefined ) {
 			this.registeredPlugins[id] = plugin;
 
 			// If a plugin is registered after reveal.js is loaded,
 			// initialize it right away
 			if( this.state === 'loaded' && typeof plugin.init === 'function' ) {
-				plugin.init();
+				plugin.init( this.Reveal );
 			}
 		}
 		else {

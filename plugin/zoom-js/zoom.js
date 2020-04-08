@@ -2,15 +2,17 @@
 var RevealZoom = (function(){
 
 	return {
-		init: function() {
+		id: 'zoom',
 
-			Reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
+		init: function( reveal ) {
+
+			reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
 				var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
-				var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
-				var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
+				var modifier = ( reveal.getConfig().zoomKey ? reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
+				var zoomLevel = ( reveal.getConfig().zoomLevel ? reveal.getConfig().zoomLevel : 2 );
 
-				if( event[ modifier ] && !Reveal.isOverview() ) {
+				if( event[ modifier ] && !reveal.isOverview() ) {
 					event.preventDefault();
 
 					zoom.to({
@@ -27,7 +29,7 @@ var RevealZoom = (function(){
 
 })();
 
-Reveal.registerPlugin( 'zoom', RevealZoom );
+Reveal.registerPlugin( RevealZoom );
 
 /*!
  * zoom.js 0.3 (modified for use with reveal.js)

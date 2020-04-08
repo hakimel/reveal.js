@@ -69,14 +69,16 @@
 
 	var RevealHighlight = {
 
+		id: 'highlight',
+
 		HIGHLIGHT_STEP_DELIMITER: '|',
 		HIGHLIGHT_LINE_DELIMITER: ',',
 		HIGHLIGHT_LINE_RANGE_DELIMITER: '-',
 
-		init: function() {
+		init: function( deck ) {
 
 			// Read the plugin config options and provide fallbacks
-			var config = Reveal.getConfig().highlight || {};
+			var config = deck.getConfig().highlight || {};
 			config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
 			config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
 
@@ -105,7 +107,7 @@
 
 			// If we're printing to PDF, scroll the code highlights of
 			// all blocks in the deck into view at once
-			Reveal.on( 'pdf-ready', function() {
+			deck.on( 'pdf-ready', function() {
 				[].slice.call( document.querySelectorAll( '.reveal pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
 					RevealHighlight.scrollHighlightedLineIntoView( block, {}, true );
 				} );
@@ -416,7 +418,7 @@
 
 	}
 
-	Reveal.registerPlugin( 'highlight', RevealHighlight );
+	Reveal.registerPlugin( RevealHighlight );
 
 	return RevealHighlight;
 

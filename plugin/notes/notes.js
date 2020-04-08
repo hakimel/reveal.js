@@ -13,6 +13,8 @@ var RevealNotes = (function() {
 
     var notesPopup = null;
 
+    var deck;
+
 	function openNotes( notesFilePath ) {
 
         if (notesPopup && !notesPopup.closed) {
@@ -46,7 +48,7 @@ var RevealNotes = (function() {
 					namespace: 'reveal-notes',
 					type: 'connect',
 					url: window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search,
-					state: Reveal.getState()
+					state: deck.getState()
 				} ), '*' );
 			}, 500 );
 
@@ -68,7 +70,7 @@ var RevealNotes = (function() {
 		 */
 		function callRevealApi( methodName, methodArguments, callId ) {
 
-			var result = Reveal[methodName].apply( Reveal, methodArguments );
+			var result = deck[methodName].apply( deck, methodArguments );
 			notesPopup.postMessage( JSON.stringify( {
 				namespace: 'reveal-notes',
 				type: 'return',
@@ -83,7 +85,7 @@ var RevealNotes = (function() {
 		 */
 		function post( event ) {
 
-			var slideElement = Reveal.getCurrentSlide(),
+			var slideElement = deck.getCurrentSlide(),
 				notesElement = slideElement.querySelector( 'aside.notes' ),
 				fragmentElement = slideElement.querySelector( '.current-fragment' );
 
@@ -93,7 +95,7 @@ var RevealNotes = (function() {
 				notes: '',
 				markdown: false,
 				whitespace: 'normal',
-				state: Reveal.getState()
+				state: deck.getState()
 			};
 
 			// Look for notes defined in a slide attribute
@@ -134,13 +136,13 @@ var RevealNotes = (function() {
 		function onConnected() {
 
 			// Monitor events that trigger a change in state
-			Reveal.on( 'slidechanged', post );
-			Reveal.on( 'fragmentshown', post );
-			Reveal.on( 'fragmenthidden', post );
-			Reveal.on( 'overviewhidden', post );
-			Reveal.on( 'overviewshown', post );
-			Reveal.on( 'paused', post );
-			Reveal.on( 'resumed', post );
+			deck.on( 'slidechanged', post );
+			deck.on( 'fragmentshown', post );
+			deck.on( 'fragmenthidden', post );
+			deck.on( 'overviewhidden', post );
+			deck.on( 'overviewshown', post );
+			deck.on( 'paused', post );
+			deck.on( 'resumed', post );
 
 			// Post the initial state
 			post();
@@ -152,7 +154,11 @@ var RevealNotes = (function() {
 	}
 
 	return {
-		init: function() {
+		id: 'notes',
+
+		init: function( revealInstance ) {
+
+			deck = revealInstance;
 
 			if( !/receiver/i.test( window.location.search ) ) {
 
@@ -162,7 +168,7 @@ var RevealNotes = (function() {
 				}
 
 				// Open the notes when the 's' key is hit
-				Reveal.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
+				deck.addKeyBinding({keyCode: 83, key: 'S', description: 'Speaker notes view'}, function() {
 					openNotes();
 				} );
 
@@ -175,4 +181,4 @@ var RevealNotes = (function() {
 
 })();
 
-Reveal.registerPlugin( 'notes', RevealNotes );
+Reveal.registerPlugin( RevealNotes );

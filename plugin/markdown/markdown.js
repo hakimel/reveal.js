@@ -403,14 +403,13 @@
 	// API
 	var RevealMarkdown = {
 
+		id: 'markdown',
+
 		/**
 		 * Starts processing and converting Markdown within the
 		 * current reveal.js deck.
-		 *
-		 * @param {function} callback function to invoke once
-		 * we've finished loading and parsing Markdown
 		 */
-		init: function( callback ) {
+		init: function( deck ) {
 
 			if( typeof marked === 'undefined' ) {
 				throw 'The reveal.js Markdown plugin requires marked to be loaded';
@@ -425,7 +424,7 @@
 			}
 
 			// marked can be configured via reveal.js config options
-			var options = Reveal.getConfig().markdown;
+			var options = deck.getConfig().markdown;
 			if( options ) {
 				marked.setOptions( options );
 			}
@@ -443,7 +442,7 @@
 
 	// Register our plugin so that reveal.js will call our
 	// plugin 'init' method as part of the initialization
-	Reveal.registerPlugin( 'markdown', RevealMarkdown );
+	Reveal.registerPlugin( RevealMarkdown );
 
 	return RevealMarkdown;
 

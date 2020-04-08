@@ -60,7 +60,9 @@ var RevealMath = window.RevealMath || (function(){
 	}
 
 	return {
-		init: function() {
+		id: 'math',
+
+		init: function( deck ) {
 
 			defaults( options, defaultOptions );
 			defaults( options.tex2jax, defaultOptions.tex2jax );
@@ -73,10 +75,10 @@ var RevealMath = window.RevealMath || (function(){
 				// Typeset followed by an immediate reveal.js layout since
 				// the typesetting process could affect slide height
 				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
-				MathJax.Hub.Queue( Reveal.layout );
+				MathJax.Hub.Queue( deck.layout );
 
 				// Reprocess equations in slides when they turn visible
-				Reveal.on( 'slidechanged', function( event ) {
+				deck.on( 'slidechanged', function( event ) {
 
 					MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
 
@@ -89,4 +91,4 @@ var RevealMath = window.RevealMath || (function(){
 
 })();
 
-Reveal.registerPlugin( 'math', RevealMath );
+Reveal.registerPlugin( RevealMath );

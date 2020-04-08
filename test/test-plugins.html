@@ -34,15 +34,15 @@
 			var initCounter = { PluginB: 0, PluginC: 0, PluginD: 0 };
 
 			// Plugin with no init method
-			var PluginA = {};
+			var PluginA = { id: 'PluginA' };
 
 			// Plugin with init method
-			var PluginB = { init: function() {
+			var PluginB = { id: 'PluginB', init: function() {
 				initCounter['PluginB'] += 1;
 			} };
 
 			// Async plugin with init method
-			var PluginC = { init: function() {
+			var PluginC = { id: 'PluginC', init: function() {
 				return new Promise(function( resolve ) {
 					setTimeout( () => {
 						initCounter['PluginC'] += 1;
@@ -52,24 +52,24 @@
 			} };
 
 			// Plugin initialized after reveal.js is ready
-			var PluginD = { init: function() {
+			var PluginD = { id: 'PluginD', init: function() {
 				initCounter['PluginD'] += 1;
 			} };
 
-			var PluginE = {};
+			var PluginE = { id: 'PluginE' };
 
 			var reveal = new Reveal( document.querySelector( '.reveal' ) );
 
-			reveal.registerPlugin( 'PluginA', PluginA );
-			reveal.registerPlugin( 'PluginB', PluginB );
-			reveal.registerPlugin( 'PluginC', PluginC );
+			reveal.registerPlugin( PluginA );
+			reveal.registerPlugin( PluginB );
+			reveal.registerPlugin( PluginC );
 
 			reveal.initialize();
 
 			QUnit.test( 'Can initialize synchronously', function( assert ) {
 				assert.strictEqual( initCounter['PluginB'], 1 );
 
-				reveal.registerPlugin( 'PluginB', PluginB );
+				reveal.registerPlugin( PluginB );
 
 				assert.strictEqual( initCounter['PluginB'], 1, 'prevents duplicate registration' );
 			});
@@ -84,7 +84,7 @@
 					assert.strictEqual( initCounter['PluginC'], 1, 'finsihed initializing when reveal.js dispatches "ready"' );
 					done();
 
-					reveal.registerPlugin( 'PluginD', PluginD );
+					reveal.registerPlugin( PluginD );
 					assert.strictEqual( initCounter['PluginD'], 1, 'plugin registered after reveal.js is ready still initiailizes' );
 					done();
 				});
@@ -93,7 +93,7 @@
 			QUnit.test( 'Can check if plugin is registered', function( assert ) {
 				assert.strictEqual( reveal.hasPlugin( 'PluginA' ), true );
 				assert.strictEqual( reveal.hasPlugin( 'PluginE' ), false );
-				reveal.registerPlugin( 'PluginE', PluginE );
+				reveal.registerPlugin( PluginE );
 				assert.strictEqual( reveal.hasPlugin( 'PluginE' ), true );
 			} );
 

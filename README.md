@@ -466,8 +466,7 @@ You can add your own extensions using the same syntax. The following properties 
 - **callback**: [optional] Function to execute when the script has loaded
 - **condition**: [optional] Function which must return true for the script to be loaded
 
-You can also include dependencies which are bundled/already present on the page. To include a bundled plugin. replace the `src` property with a plugin `id` and a reference to the `plugin` instance:
-- **id**: the id of the plugin
+You can also include dependencies which are bundled/already present on the page. To include a bundled plugin. replace the `src` property with a reference to a `plugin` instance:
 - **plugin**: the plugin instance (see [Plugins](#plugins))
 
 ### Ready Event
@@ -1403,17 +1402,20 @@ Then:
 
 ## Plugins
 
-Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( 'myPluginID', MyPlugin )`. Registered plugin instances can optionally expose an "init" function that reveal.js will call to initialize them.
+Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( MyPlugin )`. Registered plugins _must_ expose a unique `id` property and can optionally expose an `init` function that reveal.js will call to initialize them.
 
-When reveal.js is booted up via `Reveal.initialize()`, it will go through all registered plugins and invoke their "init" methods. If the "init" method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
+When reveal.js is booted up via `initialize()`, it will go through all registered plugins and invoke their `init` methods. If the `init` method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
 
 ```javascript
 let MyPlugin = {
-  init: () =>  new Promise( resolve => setTimeout( resolve, 3000 ) )
+  id: 'myPlugin',
+  init: deck => new Promise( resolve => setTimeout( resolve, 3000 ) )
 };
-Reveal.registerPlugin( 'myPlugin', MyPlugin );
-Reveal.on( 'ready', () => console.log( 'Three seconds later...' ) );
-Reveal.initialize();
+Reveal.initialize({
+  dependencies: [ { plugin: MyPlugin } ]
+}).then( () => {
+  console.log( 'Three seconds later...' )
+} );
 ```
 
 Note that reveal.js will *not* wait for init Promise fulfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
