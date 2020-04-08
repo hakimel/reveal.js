@@ -101,9 +101,6 @@ export default function( revealElement, options ) {
 		// Cached references to DOM elements
 		dom = {},
 
-		// List of asynchronously loaded reveal.js dependencies
-		asyncDependencies = [],
-
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
 

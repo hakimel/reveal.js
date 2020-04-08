@@ -174,10 +174,10 @@ If you want to run multiple presentations side-by-side on the same page you can 
 <div class="reveal deck-1">...</div>
 <div class="reveal deck-2">...</div>
 <script type="module">
-  import Reveal from 'js/reveal.js';
+  import Deck from 'js/reveal.js';
 
-  let deck1 = new Reveal( document.querySelector( 'deck-1' ), { embedded: true } );
-  let deck2 = new Reveal( document.querySelector( 'deck-2' ), { embedded: true } );
+  let deck1 = new Deck( document.querySelector( 'deck-1' ), { embedded: true } );
+  let deck2 = new Deck( document.querySelector( 'deck-2' ), { embedded: true } );
 
   deck1.initialize();
   deck2.initialize();
