@@ -41,6 +41,12 @@ import {
  */
 export default function( revealElement, options ) {
 
+	// Support initialization with only options
+	if( arguments.length === 1 ) {
+		options = arguments[0];
+		revealElement = document.querySelector( '.reveal' );
+	}
+
 	const Reveal = {};
 
 	// The reveal.js version
@@ -116,11 +122,6 @@ export default function( revealElement, options ) {
 	 * Starts up the presentation if the client is capable.
 	 */
 	function initialize() {
-
-		if( !revealElement ) {
-			console.warn( 'reveal.js can not initialize without a valid .reveal element.' );
-			return;
-		}
 
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
