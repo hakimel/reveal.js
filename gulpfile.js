@@ -42,6 +42,24 @@ gulp.task('js', () => gulp.src(['./js/index.js'])
         .pipe(rename('reveal.min.js'))
         .pipe(gulp.dest('./dist')))
 
+gulp.task('plugins', () => gulp.src(['./js/index.js'])
+        .pipe(webpack({
+            ...require('./webpack.config.js'),
+            entry: {
+                'highlight': './plugin/highlight/highlight.es5',
+                'markdown': './plugin/markdown/markdown.es5',
+                'search': './plugin/search/search.es5',
+                'notes': './plugin/notes/notes.es5',
+                'zoom': './plugin/zoom/zoom.es5',
+                'math': './plugin/math/math.es5'
+            },
+            output: {
+                filename: '[name].js'
+            }
+        }))
+        .on('error', swallowError)
+        .pipe(gulp.dest('./dist/plugin')))
+
 gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}'])
         .pipe(sass())
         .pipe(gulp.dest('./dist/theme')))

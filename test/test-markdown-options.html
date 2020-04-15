@@ -32,15 +32,13 @@
 		</div>
 
 		<script src="qunit-2.5.0.js"></script>
-		<script src="../dist/reveal.min.js"></script>
 
-		<script>
+		<script type="module">
+			import '../js/index.js'
+			import Markdown from '../plugin/markdown/markdown.js'
+
 			Reveal.initialize({
-				dependencies: [
-					{ src: '../plugin/markdown/marked.js' },
-					// Test loading JS files with query strings
-					{ src: '../plugin/markdown/markdown.js?query=string' },
-				],
+				dependencies: [ Markdown ],
 				markdown: {
 					smartypants: true
 				}
@@ -49,7 +47,7 @@
 				QUnit.module( 'Markdown' );
 
 				QUnit.test( 'Options are set', function( assert ) {
-					assert.strictEqual( marked.defaults.smartypants, true );
+					assert.strictEqual( Reveal.getPlugin( 'markdown' ).marked.defaults.smartypants, true );
 				});
 
 				QUnit.test( 'Smart quotes are activated', function( assert ) {

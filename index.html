@@ -22,7 +22,6 @@
 		</div>
 
 		<script src="dist/reveal.min.js"></script>
-
 		<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
@@ -30,10 +29,9 @@
 			Reveal.initialize({
 				hash: true,
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/highlight/highlight.js' },
-					{ src: 'plugin/notes/notes.js', async: true }
+					{ src: 'dist/plugin/markdown.js' },
+					{ src: 'dist/plugin/highlight.js' },
+					{ src: 'dist/plugin/notes.js' }
 				]
 			});
 		</script>

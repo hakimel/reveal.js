@@ -410,11 +410,17 @@ Reveal.on( 'customevent', function() {
 
 		</div>
 
-		<script type="module" src="js/index.js"></script>
 		<script type="module">
 
+			import Reveal from '/js/reveal.js';
+			import Zoom from '/plugin/zoom/zoom.js';
+			import Notes from '/plugin/notes/notes.js';
+			import Search from '/plugin/search/search.js';
+			import Markdown from '/plugin/markdown/markdown.js';
+			import Highlight from '/plugin/highlight/highlight.js';
+
 			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
+			let deck = new Reveal( document.querySelector( '.reveal' ), {
 				controls: true,
 				progress: true,
 				center: true,
@@ -423,15 +429,10 @@ Reveal.on( 'customevent', function() {
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js' },
-					{ src: 'plugin/search/search.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
+				dependencies: [ Zoom, Notes, Search, Markdown, Highlight ]
 			});
+
+			deck.initialize();
 
 		</script>
 

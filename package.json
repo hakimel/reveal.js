@@ -87,5 +87,8 @@
       "no-eq-null": 2,
       "no-unused-expressions": 0
     }
+  },
+  "dependencies": {
+    "highlight.js": "^9.18.1"
   }
 }

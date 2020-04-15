@@ -60,8 +60,8 @@ export default class Plugins {
 
 				// Load synchronous scripts
 				scripts.forEach( s => {
-					if( s.plugin ) {
-						this.registerPlugin( s.plugin );
+					if( typeof s.id === 'string' ) {
+						this.registerPlugin( s );
 						scriptLoadedCallback( s );
 					}
 					else {

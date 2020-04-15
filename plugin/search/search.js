@@ -200,7 +200,22 @@ function Hilitor(id, tag)
 			toggleSearch();
 		}
 	}, false );
-	if( window.Reveal ) Reveal.registerKeyboardShortcut( 'CTRL + Shift + F', 'Search' );
+
 	closeSearch();
-	return { open: openSearch };
+
+	return {
+
+		id: 'search',
+
+		init: reveal => {
+
+			reveal.registerKeyboardShortcut( 'CTRL + Shift + F', 'Search' );
+
+		},
+
+		open: openSearch
+
+	}
 })();
+
+export default RevealSearch;

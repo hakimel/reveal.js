@@ -4,7 +4,7 @@
  *
  * @author Hakim El Hattab
  */
-var RevealMath = window.RevealMath || (function(){
+var RevealMath = (function(){
 
 	var options = Reveal.getConfig().math || {};
 	var mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
@@ -91,4 +91,4 @@ var RevealMath = window.RevealMath || (function(){
 
 })();
 
-Reveal.registerPlugin( RevealMath );
+export default RevealMath;

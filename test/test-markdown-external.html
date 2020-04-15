@@ -24,14 +24,12 @@
 		</div>
 
 		<script src="qunit-2.5.0.js"></script>
-		<script src="../dist/reveal.min.js"></script>
 
-		<script>
+		<script type="module">
+			import '../js/index.js'
+			import Markdown from '../plugin/markdown/markdown.js'
 			Reveal.initialize({
-				dependencies: [
-					{ src: '../plugin/markdown/marked.js' },
-					{ src: '../plugin/markdown/markdown.js' },
-				]
+				dependencies: [ Markdown ]
 			}).then( function() {
 
 				QUnit.module( 'Markdown' );

@@ -23,9 +23,10 @@ var RevealNotes = (function() {
         }
 
 		if( !notesFilePath ) {
-			var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
-			jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
-			notesFilePath = jsFileLocation + 'notes.html';
+			// var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
+			// jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
+			// notesFilePath = jsFileLocation + 'notes.html';
+			notesFilePath = 'plugin/notes/notes.html'
 		}
 
 		notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
@@ -156,9 +157,9 @@ var RevealNotes = (function() {
 	return {
 		id: 'notes',
 
-		init: function( revealInstance ) {
+		init: function( reveal ) {
 
-			deck = revealInstance;
+			deck = reveal;
 
 			if( !/receiver/i.test( window.location.search ) ) {
 
@@ -181,4 +182,4 @@ var RevealNotes = (function() {
 
 })();
 
-Reveal.registerPlugin( RevealNotes );
+export default RevealNotes;

@@ -28,7 +28,6 @@ import {
 	deserialize,
 	transformElement,
 	createSingletonNode,
-	closestParent,
 	getQueryHash,
 	getRemainingHeight
 } from './utils/util.js'
