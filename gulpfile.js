@@ -81,6 +81,15 @@ gulp.task('css', gulp.parallel('css-themes', 'css-core'))
 
 gulp.task('test-qunit', function() {
 
+    let serverConfig = {
+        root,
+        port: 8009,
+        host: '0.0.0.0',
+        name: 'test-server'
+    }
+
+    connect.server( serverConfig )
+
     let testFiles = glob.sync('test/*.html' )
 
     let totalTests = 0;
@@ -89,7 +98,7 @@ gulp.task('test-qunit', function() {
     let tests = Promise.all( testFiles.map( filename => {
         return new Promise( ( resolve, reject ) => {
             runQunitPuppeteer({
-                targetUrl: `file://${path.join(__dirname, filename)}`,
+                targetUrl: `http://${serverConfig.host}:${serverConfig.port}/${filename}`,
                 timeout: 20000,
                 redirectConsole: false,
                 puppeteerArgs: ['--allow-file-access-from-files']
@@ -129,6 +138,9 @@ gulp.task('test-qunit', function() {
             } )
             .catch( () => {
                 reject();
+            } )
+            .finally( () => {
+                connect.serverClose();
             } );
 
     } );
