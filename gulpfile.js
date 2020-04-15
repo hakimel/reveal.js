@@ -88,7 +88,7 @@ gulp.task('test-qunit', function() {
         name: 'test-server'
     }
 
-    connect.server( serverConfig )
+    let server = connect.server( serverConfig )
 
     let testFiles = glob.sync('test/*.html' )
 
@@ -140,7 +140,7 @@ gulp.task('test-qunit', function() {
                 reject();
             } )
             .finally( () => {
-                connect.serverClose();
+                server.close();
             } );
 
     } );
