@@ -15,11 +15,10 @@ export default {
 	 * current reveal.js deck.
 	 */
 	init: function( deck ) {
-
-		if( typeof hljs !== 'undefined' ) {
+		if( typeof window.hljs !== 'undefined' ) {
 			marked.setOptions({
 				highlight: function( code, lang ) {
-					return hljs.highlightAuto( code, [lang] ).value;
+					return window.hljs.highlightAuto( code, lang ? [lang] : null ).value;
 				}
 			});
 		}
