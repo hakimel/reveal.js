@@ -85,7 +85,8 @@ export default class Plugins {
 
 		return new Promise( resolve => {
 
-			let pluginsToInitialize = Object.keys( this.registeredPlugins ).length;
+			let pluginValues = Object.values( this.registeredPlugins );
+			let pluginsToInitialize = pluginValues.length;
 
 			// If there are no plugins, skip this step
 			if( pluginsToInitialize === 0 ) {
@@ -94,23 +95,31 @@ export default class Plugins {
 			// ... otherwise initialize plugins
 			else {
 
+				let initNextPlugin;
+
 				let afterPlugInitialized = () => {
 					if( --pluginsToInitialize === 0 ) {
 						this.loadAsync().then( resolve );
 					}
+					else {
+						initNextPlugin();
+					}
 				};
 
-				for( let i in this.registeredPlugins ) {
+				let i = 0;
 
-					let plugin = this.registeredPlugins[i];
+				// Initialize plugins serially
+				initNextPlugin = () => {
+
+					let plugin = pluginValues[i++];
 
 					// If the plugin has an 'init' method, invoke it
 					if( typeof plugin.init === 'function' ) {
-						let callback = plugin.init( this.Reveal );
+						let promise = plugin.init( this.Reveal );
 
 						// If the plugin returned a Promise, wait for it
-						if( callback && typeof callback.then === 'function' ) {
-							callback.then( afterPlugInitialized );
+						if( promise && typeof promise.then === 'function' ) {
+							promise.then( afterPlugInitialized );
 						}
 						else {
 							afterPlugInitialized();
@@ -121,6 +130,8 @@ export default class Plugins {
 					}
 
 				}
+
+				initNextPlugin();
 
 			}
 

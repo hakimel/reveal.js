@@ -15,13 +15,15 @@ export default {
 	 * current reveal.js deck.
 	 */
 	init: function( deck ) {
-		if( typeof window.hljs !== 'undefined' ) {
-			marked.setOptions({
-				highlight: function( code, lang ) {
-					return window.hljs.highlightAuto( code, lang ? [lang] : null ).value;
-				}
-			});
-		}
+		// This should no longer be needed, as long as the highlight.js
+		// plugin is included after the markdown plugin
+		// if( typeof window.hljs !== 'undefined' ) {
+		// 	marked.setOptions({
+		// 		highlight: function( code, lang ) {
+		// 			return window.hljs.highlightAuto( code, lang ? [lang] : null ).value;
+		// 		}
+		// 	});
+		// }
 
 		// marked can be configured via reveal.js config options
 		var options = deck.getConfig().markdown;
