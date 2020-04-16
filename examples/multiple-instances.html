@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Multiple Instances</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+	</head>
+
+	<body style="background: #ddd;">
+
+		<div style="display: flex; flex-direction: row;">
+			<div class="reveal deck1" style="width: 100%; height: 50vh; margin: 10px;">
+				<div class="slides">
+					<section>Deck 1, Slide 1</section>
+					<section>Deck 1, Slide 2</section>
+				</div>
+			</div>
+
+			<div class="reveal deck2" style="width: 100%; height: 50vh; margin: 10px;">
+				<div class="slides">
+					<section>Deck 2, Slide 1</section>
+					<section>Deck 2, Slide 2</section>
+				</div>
+			</div>
+		</div>
+
+		<script src="../dist/reveal.min.js"></script>
+		<script>
+
+			let r1 = new Reveal( document.querySelector( '.deck1' ), {
+				embedded: true,
+				keyboard: false
+			} );
+			r1.initialize();
+
+			let r2 = new Reveal( document.querySelector( '.deck2' ), {
+				embedded: true,
+				keyboard: false
+			} );
+			r2.initialize().then( () => {
+				r2.slide(1);
+			} );
+
+		</script>
+
+	</body>
+</html>
