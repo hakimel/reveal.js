@@ -3,8 +3,12 @@ const path = require('path')
 const glob = require('glob')
 const yargs = require('yargs')
 const colors = require('colors')
-const webpack = require('webpack-stream')
-const { runQunitPuppeteer, printResultSummary, printFailedTests } = require('node-qunit-puppeteer')
+const qunit = require('node-qunit-puppeteer')
+
+const {rollup} = require('rollup');
+const {terser} = require('rollup-plugin-terser');
+const babel = require('rollup-plugin-babel');
+const resolve = require('@rollup/plugin-node-resolve');
 
 const gulp = require('gulp')
 const tap = require('gulp-tap')
@@ -12,8 +16,6 @@ const zip = require('gulp-zip')
 const sass = require('gulp-sass')
 const header = require('gulp-header')
 const eslint = require('gulp-eslint')
-const uglify = require('gulp-uglify')
-const rename = require('gulp-rename')
 const minify = require('gulp-clean-css')
 const connect = require('gulp-connect')
 const autoprefixer = require('gulp-autoprefixer')
@@ -21,65 +23,83 @@ const autoprefixer = require('gulp-autoprefixer')
 const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
 
-const license = `/*!
-* reveal.js <%= pkg.version %> (<%= new Date().toDateString() %>)
-* <%= pkg.homepage %>
+const banner = `/*!
+* reveal.js ${pkg.version} (${new Date().toDateString()})
+* ${pkg.homepage}
 * MIT licensed
 *
 * Copyright (C) 2020 Hakim El Hattab, https://hakim.se
 */\n`
 
+const rollupConfig = {
+    plugins: [
+        babel({
+            exclude: 'node_modules/**',
+            compact: false,
+            presets: [
+                [
+                    '@babel/preset-env',
+                    {
+                        corejs: 3,
+                        useBuiltIns: 'entry',
+                        modules: false
+                    }
+                ]
+            ]
+        }),
+        resolve(),
+        terser()
+    ]
+};
 
-const swallowError = function(error) {
-  console.log(error.toString())
-  this.emit('end')
-}
+gulp.task('js', () => {
+    return rollup({
+        input: 'js/index.js',
+        ...rollupConfig
+    }).then( bundle => {
+        bundle.write({
+            file: './dist/reveal.min.js',
+            format: 'umd',
+            banner: banner
+        });
+    });
+})
 
-gulp.task('js', () => gulp.src(['./js/index.js'])
-        .pipe(webpack(require('./webpack.config.js')))
-        .on('error', swallowError)
-        .pipe(header(license, {pkg: pkg}))
-        .pipe(rename('reveal.min.js'))
-        .pipe(gulp.dest('./dist')))
-
-gulp.task('plugins', () => gulp.src(['./js/index.js'])
-        .pipe(webpack({
-            ...require('./webpack.config.js'),
-            entry: {
-                'highlight': './plugin/highlight/highlight.es5',
-                'markdown': './plugin/markdown/markdown.es5',
-                'search': './plugin/search/search.es5',
-                'notes': './plugin/notes/notes.es5',
-                'zoom': './plugin/zoom/zoom.es5',
-                'math': './plugin/math/math.es5'
-            },
-            output: {
-                filename: '[name].js'
-            }
-        }))
-        .on('error', swallowError)
-        .pipe(gulp.dest('./dist/plugin')))
+gulp.task('plugins', () => {
+    return Promise.all([
+        { input: './plugin/highlight/highlight.es5', output: './dist/plugin/highlight.js' },
+        { input: './plugin/markdown/markdown.es5', output: './dist/plugin/markdown.js' },
+        { input: './plugin/search/search.es5', output: './dist/plugin/search.js' },
+        { input: './plugin/notes/notes.es5', output: './dist/plugin/notes.js' },
+        { input: './plugin/zoom/zoom.es5', output: './dist/plugin/zoom.js' },
+        { input: './plugin/math/math.es5', output: './dist/plugin/math.js' }
+    ].map( plugin => {
+        return rollup({
+                input: plugin.input,
+                ...rollupConfig
+            }).then( bundle => {
+                return bundle.write({
+                    file: plugin.output,
+                    format: 'umd'
+                })
+            });
+    } ));
+})
 
 gulp.task('css-themes', () => gulp.src(['./css/theme/source/*.{sass,scss}'])
         .pipe(sass())
         .pipe(gulp.dest('./dist/theme')))
 
-gulp.task('css-core', gulp.series(
-
-    () => gulp.src(['css/reveal.scss'])
-        .pipe(sass())
-        .pipe(autoprefixer())
-        .pipe(gulp.dest('./dist')),
-    () => gulp.src(['dist/reveal.css'])
-        .pipe(minify({compatibility: 'ie9'}))
-        .pipe(header(license, {pkg: pkg}))
-        .pipe(gulp.dest('./dist'))
-
-))
+gulp.task('css-core', () => gulp.src(['css/reveal.scss'])
+    .pipe(sass())
+    .pipe(autoprefixer())
+    .pipe(minify({compatibility: 'ie9'}))
+    .pipe(header(banner))
+    .pipe(gulp.dest('./dist')))
 
 gulp.task('css', gulp.parallel('css-themes', 'css-core'))
 
-gulp.task('test-qunit', function() {
+gulp.task('qunit', () => {
 
     let serverConfig = {
         root,
@@ -97,7 +117,7 @@ gulp.task('test-qunit', function() {
 
     let tests = Promise.all( testFiles.map( filename => {
         return new Promise( ( resolve, reject ) => {
-            runQunitPuppeteer({
+            qunit.runQunitPuppeteer({
                 targetUrl: `http://${serverConfig.host}:${serverConfig.port}/${filename}`,
                 timeout: 20000,
                 redirectConsole: false,
@@ -106,8 +126,8 @@ gulp.task('test-qunit', function() {
                 .then(result => {
                     if( result.stats.failed > 0 ) {
                         console.log(`${'!'} ${filename} [${result.stats.passed}/${result.stats.total}] in ${result.stats.runtime}ms`.red);
-                        // printResultSummary(result, console);
-                        printFailedTests(result, console);
+                        // qunit.printResultSummary(result, console);
+                        qunit.printFailedTests(result, console);
                     }
                     else {
                         console.log(`${'✔'} ${filename} [${result.stats.passed}/${result.stats.total}] in ${result.stats.runtime}ms`.green);
@@ -146,14 +166,13 @@ gulp.task('test-qunit', function() {
     } );
 } )
 
-gulp.task('test', gulp.series(
+gulp.task('eslint', () => gulp.src(['./js/**', 'gulpfile.js'])
+        .pipe(eslint())
+        .pipe(eslint.format()))
 
-    () => gulp.src(['./js/**', 'gulpfile.js']).pipe(eslint()).pipe(eslint.format()),
-    'test-qunit'
+gulp.task('test', gulp.series( 'eslint', 'qunit' ))
 
-))
-
-gulp.task('default', gulp.series(gulp.parallel('js', 'css'), 'test'))
+gulp.task('default', gulp.series(gulp.parallel('js', 'css', 'plugins'), 'test'))
 
 gulp.task('build', gulp.parallel('js', 'css'))
 
@@ -180,6 +199,8 @@ gulp.task('serve', () => {
     })
 
     gulp.watch(['js/**'], gulp.series('js', 'test'))
+
+    gulp.watch(['plugin/**/*.js'], gulp.series('plugins'))
 
     gulp.watch(['test/*.html'], gulp.series('test'))
 
