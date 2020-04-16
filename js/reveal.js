@@ -34,7 +34,7 @@ import {
 
 /**
  * reveal.js
- * http://revealjs.com
+ * https://revealjs.com
  * MIT licensed
  *
  * Copyright (C) 2020 Hakim El Hattab, https://hakim.se

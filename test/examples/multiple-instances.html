@@ -40,10 +40,9 @@
 			</div>
 		</div>
 
-		<script src="../../dist/reveal.min.js"></script>
-
 		<script type="module">
 
+			import Reveal from '../../js/reveal.js';
 			import Markdown from '../../plugin/markdown/markdown.js';
 
 			let r1 = new Reveal( document.querySelector( '.deck1' ), {
@@ -55,7 +54,7 @@
 				let r2 = new Reveal( document.querySelector( '.deck2' ), {
 					embedded: true,
 					keyboard: false,
-					dependencies: [{plugin: Markdown}]
+					dependencies: [ Markdown ]
 				} );
 				r2.initialize();
 
