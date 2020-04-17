@@ -37,13 +37,15 @@
 		</div>
 
 		<script src="../dist/reveal.es5.js"></script>
+		<script src="../dist/plugin/zoom.js"></script>
 		<script>
 
 			QUnit.module( 'Multiple reveal.js instances' );
 
 			let r1 = new Reveal( document.querySelector( '.deck1 .reveal' ), {
 				embedded: true,
-				keyboard: true
+				keyboard: true,
+				plugins: [RevealZoom]
 			} );
 			r1.initialize();
 
@@ -67,6 +69,13 @@
 
 				assert.strictEqual( r1.getConfig().keyboard, true );
 				assert.strictEqual( r2.getConfig().keyboard, false );
+
+			});
+
+			QUnit.test( 'Can register plugins independently', function( assert ) {
+
+				assert.ok( r1.hasPlugin( 'zoom' ) );
+				assert.notOk( r2.hasPlugin( 'zoom' ) );
 
 			});
 
