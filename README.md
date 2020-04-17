@@ -128,7 +128,7 @@ Here's a barebones example of a fully working reveal.js presentation:
         <section>Slide 2</section>
       </div>
     </div>
-    <script src="dist/reveal.min.js"></script>
+    <script src="dist/reveal.es5.js"></script>
     <script>
       Reveal.initialize();
     </script>
@@ -156,7 +156,7 @@ It's also possible to write presentations using [Markdown](#markdown).
 
 If you only have a single presentation on the page we recommend initializing reveal.js using the singleton API.
 ```html
-<script src="dist/reveal.min.js"></script>
+<script src="dist/reveal.es5.js"></script>
 <script>
   Reveal.initialize({ keyboard: true });
 </script>

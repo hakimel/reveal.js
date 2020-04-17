@@ -36,9 +36,8 @@
 			</div>
 		</div>
 
-		<script type="module">
-
-			import Reveal from '../dist/reveal.js';
+		<script src="../dist/reveal.es5.js"></script>
+		<script>
 
 			QUnit.module( 'Multiple reveal.js instances' );
 
@@ -71,11 +70,6 @@
 
 			});
 
-		</script>
-		<script>
-			QUnit.test( 'Reveal does not leak to window', function( assert ) {
-				assert.strictEqual( window.Reveal, undefined );
-			});
 		</script>
 
 	</body>

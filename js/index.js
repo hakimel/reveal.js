@@ -1,4 +1,4 @@
-import Presentation from './reveal.js'
+import Deck from './reveal.js'
 
 /**
  * Expose the Reveal class to the window. To create a
@@ -10,7 +10,7 @@ import Presentation from './reveal.js'
  *   // reveal.js is ready
  * });
  */
-window.Reveal = Presentation;
+var Reveal = Deck;
 
 
 /**
@@ -27,15 +27,15 @@ window.Reveal = Presentation;
 
 let enqueuedAPICalls = [];
 
-window.Reveal.initialize = options => {
+Reveal.initialize = options => {
 
 	// Create our singleton reveal.js instance
-	window.Reveal = new Presentation( document.querySelector( '.reveal' ), options );
+	Object.assign( Reveal, new Deck( document.querySelector( '.reveal' ), options ) );
 
 	// Invoke any enqueued API calls
-	enqueuedAPICalls.map( method => method( window.Reveal ) );
+	enqueuedAPICalls.map( method => method( Reveal ) );
 
-	return window.Reveal.initialize();
+	return Reveal.initialize();
 
 }
 
@@ -46,7 +46,9 @@ window.Reveal.initialize = options => {
  * when Reveal.initialize is called.
  */
 [ 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin' ].forEach( method => {
-	window.Reveal[method] = ( ...args ) => {
+	Reveal[method] = ( ...args ) => {
 		enqueuedAPICalls.push( deck => deck[method].call( null, ...args ) );
 	}
 } );
+
+export default Reveal;

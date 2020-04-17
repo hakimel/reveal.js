@@ -412,7 +412,7 @@ Reveal.on( 'customevent', function() {
 
 		<script type="module">
 
-			import Reveal from '/js/reveal.js';
+			import Reveal from '/dist/reveal.js';
 			import Zoom from '/plugin/zoom/zoom.js';
 			import Notes from '/plugin/notes/notes.js';
 			import Search from '/plugin/search/search.js';
@@ -420,7 +420,7 @@ Reveal.on( 'customevent', function() {
 			import Highlight from '/plugin/highlight/highlight.js';
 
 			// More info https://github.com/hakimel/reveal.js#configuration
-			let deck = new Reveal({
+			Reveal.initialize({
 				controls: true,
 				progress: true,
 				center: true,
@@ -431,8 +431,6 @@ Reveal.on( 'customevent', function() {
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				plugins: [ Zoom, Notes, Search, Markdown, Highlight ]
 			});
-
-			deck.initialize();
 
 		</script>
 

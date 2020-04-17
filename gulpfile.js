@@ -5,10 +5,10 @@ const yargs = require('yargs')
 const colors = require('colors')
 const qunit = require('node-qunit-puppeteer')
 
-const {rollup} = require('rollup');
-const {terser} = require('rollup-plugin-terser');
-const babel = require('rollup-plugin-babel');
-const resolve = require('@rollup/plugin-node-resolve');
+const {rollup} = require('rollup')
+const {terser} = require('rollup-plugin-terser')
+const babel = require('rollup-plugin-babel')
+const resolve = require('@rollup/plugin-node-resolve')
 
 const gulp = require('gulp')
 const tap = require('gulp-tap')
@@ -58,9 +58,18 @@ gulp.task('js', () => {
         ...rollupConfig
     }).then( bundle => {
         bundle.write({
-            file: './dist/reveal.min.js',
+            file: './dist/reveal.js',
+            format: 'es',
+            banner: banner,
+            sourcemap: true
+        });
+
+        bundle.write({
+            name: 'Reveal',
+            file: './dist/reveal.es5.js',
             format: 'umd',
-            banner: banner
+            banner: banner,
+            sourcemap: true
         });
     });
 })
@@ -175,7 +184,7 @@ gulp.task('test', gulp.series( 'eslint', 'qunit' ))
 
 gulp.task('default', gulp.series(gulp.parallel('js', 'css', 'plugins'), 'test'))
 
-gulp.task('build', gulp.parallel('js', 'css'))
+gulp.task('build', gulp.parallel('js', 'css', 'plugins'))
 
 gulp.task('package', gulp.series('default', () =>
 
