@@ -9,7 +9,7 @@
  * 3. This window proceeds to send the current presentation state
  *    to the notes window
  */
-var RevealNotes = (function() {
+let Plugin = (function() {
 
     var notesPopup = null;
 
@@ -182,4 +182,4 @@ var RevealNotes = (function() {
 
 })();
 
-export default RevealNotes;
+export default () => Plugin;

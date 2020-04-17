@@ -1,7 +1,7 @@
 /*!
  * reveal.js Zoom plugin
  */
-export default {
+var Plugin = {
 
 	id: 'zoom',
 
@@ -28,6 +28,8 @@ export default {
 	}
 
 };
+
+export default () => Plugin;
 
 /*!
  * zoom.js 0.3 (modified for use with reveal.js)

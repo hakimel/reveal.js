@@ -56,7 +56,7 @@ export default class Plugins {
 				scriptsToLoad = scripts.length;
 
 				const scriptLoadedCallback = (s) => {
-					if( typeof s.callback === 'function' ) s.callback();
+					if( s && typeof s.callback === 'function' ) s.callback();
 
 					if( --scriptsToLoad === 0 ) {
 						this.initPlugins().then( resolve );
@@ -69,8 +69,12 @@ export default class Plugins {
 						this.registerPlugin( s );
 						scriptLoadedCallback( s );
 					}
-					else {
+					else if( typeof s.src === 'string' ) {
 						loadScript( s.src, () => scriptLoadedCallback(s) );
+					}
+					else {
+						console.warn( 'Unrecognized plugin format', s );
+						scriptLoadedCallback();
 					}
 				} );
 			}

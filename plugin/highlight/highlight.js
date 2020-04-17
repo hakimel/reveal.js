@@ -5,54 +5,7 @@ import './highlight-line-numbers.js'
  * reveal.js plugin that adds syntax highlight support.
  */
 
-// Function to perform a better "data-trim" on code snippets
-// Will slice an indentation amount on each line of the snippet (amount based on the line having the lowest indentation length)
-function betterTrim(snippetEl) {
-	// Helper functions
-	function trimLeft(val) {
-		// Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim#Polyfill
-		return val.replace(/^[\s\uFEFF\xA0]+/g, '');
-	}
-	function trimLineBreaks(input) {
-		var lines = input.split('\n');
-
-		// Trim line-breaks from the beginning
-		for (var i = 0; i < lines.length; i++) {
-			if (lines[i].trim() === '') {
-				lines.splice(i--, 1);
-			} else break;
-		}
-
-		// Trim line-breaks from the end
-		for (var i = lines.length-1; i >= 0; i--) {
-			if (lines[i].trim() === '') {
-				lines.splice(i, 1);
-			} else break;
-		}
-
-		return lines.join('\n');
-	}
-
-	// Main function for betterTrim()
-	return (function(snippetEl) {
-		var content = trimLineBreaks(snippetEl.innerHTML);
-		var lines = content.split('\n');
-		// Calculate the minimum amount to remove on each line start of the snippet (can be 0)
-		var pad = lines.reduce(function(acc, line) {
-			if (line.length > 0 && trimLeft(line).length > 0 && acc > line.length - trimLeft(line).length) {
-				return line.length - trimLeft(line).length;
-			}
-			return acc;
-		}, Number.POSITIVE_INFINITY);
-		// Slice each line with this amount
-		return lines.map(function(line, index) {
-			return line.slice(pad);
-		})
-		.join('\n');
-	})(snippetEl);
-}
-
-var RevealHighlight = {
+let Plugin = {
 
 	id: 'highlight',
 
@@ -85,7 +38,7 @@ var RevealHighlight = {
 			}, false );
 
 			if( config.highlightOnLoad ) {
-				RevealHighlight.highlightBlock( block );
+				Plugin.highlightBlock( block );
 			}
 
 		} );
@@ -94,7 +47,7 @@ var RevealHighlight = {
 		// all blocks in the deck into view at once
 		deck.on( 'pdf-ready', function() {
 			[].slice.call( document.querySelectorAll( '.reveal pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
-				RevealHighlight.scrollHighlightedLineIntoView( block, {}, true );
+				Plugin.scrollHighlightedLineIntoView( block, {}, true );
 			} );
 		} );
 
@@ -122,7 +75,7 @@ var RevealHighlight = {
 
 			// If there is at least one highlight step, generate
 			// fragments
-			var highlightSteps = RevealHighlight.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
+			var highlightSteps = Plugin.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
 			if( highlightSteps.length > 1 ) {
 
 				// If the original code block has a fragment-index,
@@ -137,10 +90,10 @@ var RevealHighlight = {
 				highlightSteps.slice(1).forEach( function( highlight ) {
 
 					var fragmentBlock = block.cloneNode( true );
-					fragmentBlock.setAttribute( 'data-line-numbers', RevealHighlight.serializeHighlightSteps( [ highlight ] ) );
+					fragmentBlock.setAttribute( 'data-line-numbers', Plugin.serializeHighlightSteps( [ highlight ] ) );
 					fragmentBlock.classList.add( 'fragment' );
 					block.parentNode.appendChild( fragmentBlock );
-					RevealHighlight.highlightLines( fragmentBlock );
+					Plugin.highlightLines( fragmentBlock );
 
 					if( typeof fragmentIndex === 'number' ) {
 						fragmentBlock.setAttribute( 'data-fragment-index', fragmentIndex );
@@ -151,13 +104,13 @@ var RevealHighlight = {
 					}
 
 					// Scroll highlights into view as we step through them
-					fragmentBlock.addEventListener( 'visible', RevealHighlight.scrollHighlightedLineIntoView.bind( RevealHighlight, fragmentBlock, scrollState ) );
-					fragmentBlock.addEventListener( 'hidden', RevealHighlight.scrollHighlightedLineIntoView.bind( RevealHighlight, fragmentBlock.previousSibling, scrollState ) );
+					fragmentBlock.addEventListener( 'visible', Plugin.scrollHighlightedLineIntoView.bind( Plugin, fragmentBlock, scrollState ) );
+					fragmentBlock.addEventListener( 'hidden', Plugin.scrollHighlightedLineIntoView.bind( Plugin, fragmentBlock.previousSibling, scrollState ) );
 
 				} );
 
 				block.removeAttribute( 'data-fragment-index' )
-				block.setAttribute( 'data-line-numbers', RevealHighlight.serializeHighlightSteps( [ highlightSteps[0] ] ) );
+				block.setAttribute( 'data-line-numbers', Plugin.serializeHighlightSteps( [ highlightSteps[0] ] ) );
 
 			}
 
@@ -167,13 +120,13 @@ var RevealHighlight = {
 			var slide = typeof block.closest === 'function' ? block.closest( 'section:not(.stack)' ) : null;
 			if( slide ) {
 				var scrollFirstHighlightIntoView = function() {
-					RevealHighlight.scrollHighlightedLineIntoView( block, scrollState, true );
+					Plugin.scrollHighlightedLineIntoView( block, scrollState, true );
 					slide.removeEventListener( 'visible', scrollFirstHighlightIntoView );
 				}
 				slide.addEventListener( 'visible', scrollFirstHighlightIntoView );
 			}
 
-			RevealHighlight.highlightLines( block );
+			Plugin.highlightLines( block );
 
 		}
 
@@ -229,7 +182,7 @@ var RevealHighlight = {
 				time = Math.min( time + 0.02, 1 );
 
 				// Update our eased scroll position
-				block.scrollTop = startTop + ( targetTop - startTop ) * RevealHighlight.easeInOutQuart( time );
+				block.scrollTop = startTop + ( targetTop - startTop ) * Plugin.easeInOutQuart( time );
 
 				// Keep animating unless we've reached the end
 				if( time < 1 ) {
@@ -284,7 +237,7 @@ var RevealHighlight = {
 	 */
 	highlightLines: function( block, linesToHighlight ) {
 
-		var highlightSteps = RevealHighlight.deserializeHighlightSteps( linesToHighlight || block.getAttribute( 'data-line-numbers' ) );
+		var highlightSteps = Plugin.deserializeHighlightSteps( linesToHighlight || block.getAttribute( 'data-line-numbers' ) );
 
 		if( highlightSteps.length ) {
 
@@ -320,7 +273,7 @@ var RevealHighlight = {
 	 * numbers to highlight.
 	 *
 	 * @example
-	 * RevealHighlight.deserializeHighlightSteps( '1,2|3,5-10' )
+	 * Plugin.deserializeHighlightSteps( '1,2|3,5-10' )
 	 * // [
 	 * //   [ { start: 1 }, { start: 2 } ],
 	 * //   [ { start: 3 }, { start: 5, end: 10 } ]
@@ -332,16 +285,16 @@ var RevealHighlight = {
 		highlightSteps = highlightSteps.replace( /\s/g, '' );
 
 		// Divide up our line number groups
-		highlightSteps = highlightSteps.split( RevealHighlight.HIGHLIGHT_STEP_DELIMITER );
+		highlightSteps = highlightSteps.split( Plugin.HIGHLIGHT_STEP_DELIMITER );
 
 		return highlightSteps.map( function( highlights ) {
 
-			return highlights.split( RevealHighlight.HIGHLIGHT_LINE_DELIMITER ).map( function( highlight ) {
+			return highlights.split( Plugin.HIGHLIGHT_LINE_DELIMITER ).map( function( highlight ) {
 
 				// Parse valid line numbers
 				if( /^[\d-]+$/.test( highlight ) ) {
 
-					highlight = highlight.split( RevealHighlight.HIGHLIGHT_LINE_RANGE_DELIMITER );
+					highlight = highlight.split( Plugin.HIGHLIGHT_LINE_RANGE_DELIMITER );
 
 					var lineStart = parseInt( highlight[0], 10 ),
 						lineEnd = parseInt( highlight[1], 10 );
@@ -384,7 +337,7 @@ var RevealHighlight = {
 
 				// Line range
 				if( typeof highlight.end === 'number' ) {
-					return highlight.start + RevealHighlight.HIGHLIGHT_LINE_RANGE_DELIMITER + highlight.end;
+					return highlight.start + Plugin.HIGHLIGHT_LINE_RANGE_DELIMITER + highlight.end;
 				}
 				// Single line
 				else if( typeof highlight.start === 'number' ) {
@@ -395,12 +348,59 @@ var RevealHighlight = {
 					return '';
 				}
 
-			} ).join( RevealHighlight.HIGHLIGHT_LINE_DELIMITER );
+			} ).join( Plugin.HIGHLIGHT_LINE_DELIMITER );
 
-		} ).join( RevealHighlight.HIGHLIGHT_STEP_DELIMITER );
+		} ).join( Plugin.HIGHLIGHT_STEP_DELIMITER );
 
 	}
 
 }
 
-export default RevealHighlight;
+// Function to perform a better "data-trim" on code snippets
+// Will slice an indentation amount on each line of the snippet (amount based on the line having the lowest indentation length)
+function betterTrim(snippetEl) {
+	// Helper functions
+	function trimLeft(val) {
+		// Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim#Polyfill
+		return val.replace(/^[\s\uFEFF\xA0]+/g, '');
+	}
+	function trimLineBreaks(input) {
+		var lines = input.split('\n');
+
+		// Trim line-breaks from the beginning
+		for (var i = 0; i < lines.length; i++) {
+			if (lines[i].trim() === '') {
+				lines.splice(i--, 1);
+			} else break;
+		}
+
+		// Trim line-breaks from the end
+		for (var i = lines.length-1; i >= 0; i--) {
+			if (lines[i].trim() === '') {
+				lines.splice(i, 1);
+			} else break;
+		}
+
+		return lines.join('\n');
+	}
+
+	// Main function for betterTrim()
+	return (function(snippetEl) {
+		var content = trimLineBreaks(snippetEl.innerHTML);
+		var lines = content.split('\n');
+		// Calculate the minimum amount to remove on each line start of the snippet (can be 0)
+		var pad = lines.reduce(function(acc, line) {
+			if (line.length > 0 && trimLeft(line).length > 0 && acc > line.length - trimLeft(line).length) {
+				return line.length - trimLeft(line).length;
+			}
+			return acc;
+		}, Number.POSITIVE_INFINITY);
+		// Slice each line with this amount
+		return lines.map(function(line, index) {
+			return line.slice(pad);
+		})
+		.join('\n');
+	})(snippetEl);
+}
+
+export default () => Plugin;

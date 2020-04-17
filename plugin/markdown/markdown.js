@@ -6,7 +6,7 @@
 
 import marked from './marked.js'
 
-export default {
+let Plugin = {
 
 	id: 'markdown',
 
@@ -15,6 +15,7 @@ export default {
 	 * current reveal.js deck.
 	 */
 	init: function( deck ) {
+
 		// This should no longer be needed, as long as the highlight.js
 		// plugin is included after the markdown plugin
 		// if( typeof window.hljs !== 'undefined' ) {
@@ -42,6 +43,8 @@ export default {
 	marked: marked
 
 };
+
+export default () => Plugin;
 
 var DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
 	DEFAULT_NOTES_SEPARATOR = 'notes?:',

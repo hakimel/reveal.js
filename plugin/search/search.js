@@ -5,7 +5,7 @@
  * By Jon Snyder <snyder.jon@gmail.com>, February 2013
  */
 
-var RevealSearch = (function() {
+var Plugin = (function() {
 
 	var matchedSlides;
 	var currentMatchedIndex;
@@ -218,4 +218,4 @@ function Hilitor(id, tag)
 	}
 })();
 
-export default RevealSearch;
+export default () => Plugin;
