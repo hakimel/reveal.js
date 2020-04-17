@@ -58,9 +58,10 @@
 
 			var PluginE = { id: 'PluginE' };
 
-			var reveal = new Reveal( document.querySelector( '.reveal' ) );
+			var reveal = new Reveal( document.querySelector( '.reveal' ), {
+				plugins: [ PluginA ]
+			} );
 
-			reveal.registerPlugin( PluginA );
 			reveal.registerPlugin( PluginB );
 			reveal.registerPlugin( PluginC );
 

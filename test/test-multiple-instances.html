@@ -39,14 +39,14 @@
 		<script type="module">
 
 			import Reveal from '../dist/reveal.js';
-			import Zoom from '../plugin/zoom/zoom.js';
+			import zoom from '../plugin/zoom/zoom.js';
 
 			QUnit.module( 'Multiple reveal.js instances' );
 
 			let r1 = new Reveal( document.querySelector( '.deck1 .reveal' ), {
 				embedded: true,
 				keyboard: true,
-				plugins: [Zoom]
+				plugins: [zoom()]
 			} );
 			r1.initialize();
 

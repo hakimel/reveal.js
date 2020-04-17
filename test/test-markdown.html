@@ -246,9 +246,9 @@
 
 		<script type="module">
 			import Reveal from '../js/reveal.js'
-			import Markdown from '../plugin/markdown/markdown.js'
+			import markdown from '../plugin/markdown/markdown.js'
 
-			let deck1 = new Reveal( document.querySelector( '.deck1' ), { dependencies: [ Markdown ] })
+			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ markdown() ] })
 			deck1.addEventListener( 'ready', function() {
 
 				QUnit.module( 'Inline' );
@@ -263,7 +263,7 @@
 
 			} );
 
-			let deck2 = new Reveal( document.querySelector( '.deck2' ), { dependencies: [ Markdown ] })
+			let deck2 = new Reveal( document.querySelector( '.deck2' ), { plugins: [ markdown() ] })
 			deck2.addEventListener( 'ready', function() {
 
 				QUnit.module( 'External' );
@@ -278,7 +278,7 @@
 
 			} );
 
-			let deck3 = new Reveal( document.querySelector( '.deck3' ), { dependencies: [ Markdown ] })
+			let deck3 = new Reveal( document.querySelector( '.deck3' ), { plugins: [ markdown() ] })
 			deck3.addEventListener( 'ready', function() {
 
 				QUnit.module( 'Slide Attributes' );
@@ -322,7 +322,7 @@
 				markdown: {
 					smartypants: true
 				},
-				dependencies: [ Markdown ]
+				plugins: [ markdown() ]
 			})
 			deck4.addEventListener( 'ready', function() {
 
@@ -341,7 +341,7 @@
 
 			} );
 
-			let deck5 = new Reveal( document.querySelector( '.deck5' ), { dependencies: [ Markdown ] })
+			let deck5 = new Reveal( document.querySelector( '.deck5' ), { plugins: [ markdown() ] })
 			deck5.addEventListener( 'ready', function() {
 
 				QUnit.module( 'Element Attributes' );
