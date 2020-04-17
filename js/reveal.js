@@ -145,7 +145,7 @@ export default function( revealElement, options ) {
 		window.addEventListener( 'load', layout, false );
 
 		// Load plugins then move on to #start()
-		plugins.load( config.dependencies ).then( start );
+		plugins.load( [...config.dependencies, ...config.plugins] ).then( start );
 
 		return new Promise( resolve => Reveal.on( 'ready', resolve ) );
 

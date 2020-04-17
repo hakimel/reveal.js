@@ -20,11 +20,16 @@ export default class Plugins {
 	}
 
 	/**
-	 * Loads the dependencies of reveal.js. Dependencies are
-	 * defined via the configuration option 'dependencies'
-	 * and will be loaded prior to starting/binding reveal.js.
+	 * Loads reveal.js dependencies and registers plugins.
+	 *
+	 * Dependencies are defined via the 'dependencies' config
+	 * option and will be loaded prior to starting reveal.js.
 	 * Some dependencies may have an 'async' flag, if so they
 	 * will load after reveal.js has been started up.
+	 *
+	 * Plugins are direct references to a reveal.js plugin
+	 * object that we register and initialize after any
+	 * synchronous dependencies have loaded.
 	 */
 	load( dependencies ) {
 

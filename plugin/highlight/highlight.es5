@@ -1,7 +1,0 @@
-/**
- * This is used to compile a self-registering
- * es5 compatible version of the plugin.
- */
-
-import plugin from './highlight.js'
-Reveal.registerPlugin( plugin );

@@ -67,12 +67,12 @@ gulp.task('js', () => {
 
 gulp.task('plugins', () => {
     return Promise.all([
-        { input: './plugin/highlight/highlight.es5', output: './dist/plugin/highlight.js' },
-        { input: './plugin/markdown/markdown.es5', output: './dist/plugin/markdown.js' },
-        { input: './plugin/search/search.es5', output: './dist/plugin/search.js' },
-        { input: './plugin/notes/notes.es5', output: './dist/plugin/notes.js' },
-        { input: './plugin/zoom/zoom.es5', output: './dist/plugin/zoom.js' },
-        { input: './plugin/math/math.es5', output: './dist/plugin/math.js' }
+        { name: 'RevealHighlight', input: './plugin/highlight/highlight.js', output: './dist/plugin/highlight.js' },
+        { name: 'RevealMarkdown', input: './plugin/markdown/markdown.js', output: './dist/plugin/markdown.js' },
+        { name: 'RevealSearch', input: './plugin/search/search.js', output: './dist/plugin/search.js' },
+        { name: 'RevealNotes', input: './plugin/notes/notes.js', output: './dist/plugin/notes.js' },
+        { name: 'RevealZoom', input: './plugin/zoom/zoom.js', output: './dist/plugin/zoom.js' },
+        { name: 'RevealMath', input: './plugin/math/math.js', output: './dist/plugin/math.js' }
     ].map( plugin => {
         return rollup({
                 input: plugin.input,
@@ -80,6 +80,7 @@ gulp.task('plugins', () => {
             }).then( bundle => {
                 return bundle.write({
                     file: plugin.output,
+                    name: plugin.name,
                     format: 'umd'
                 })
             });

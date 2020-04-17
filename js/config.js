@@ -276,6 +276,9 @@ export default {
 	hideCursorTime: 5000,
 
 	// Script dependencies to load
-	dependencies: []
+	dependencies: [],
+
+	// Plugin objects to register and use for this presentation
+	plugins: []
 
 }
