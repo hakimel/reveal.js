@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - Multiple Instances</title>
+		<title>reveal.js - Multiple Presentations</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -37,6 +37,9 @@
 				embedded: true,
 				keyboard: false
 			} );
+			r1.on( 'slidechanged', () => {
+				console.log( 'Deck 1 slide changed' );
+			} );
 			r1.initialize();
 
 			let r2 = new Reveal( document.querySelector( '.deck2' ), {
@@ -45,6 +48,9 @@
 			} );
 			r2.initialize().then( () => {
 				r2.slide(1);
+			} );
+			r2.on( 'slidechanged', () => {
+				console.log( 'Deck 2 slide changed' );
 			} );
 
 		</script>

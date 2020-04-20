@@ -488,8 +488,8 @@ export default function( revealElement, options ) {
 
 		if( config.touch ) touch.bind();
 		if( config.keyboard ) keyboard.bind();
+		if( config.progress ) progress.bind();
 		controls.bind();
-		progress.bind();
 
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
 
@@ -2345,8 +2345,8 @@ export default function( revealElement, options ) {
 	// ------------------------------- API --------------------------------//
 	// --------------------------------------------------------------------//
 
-
-	return extend( Reveal, {
+	// The public reveal.js API
+	const API = {
 		VERSION,
 
 		initialize,
@@ -2366,12 +2366,7 @@ export default function( revealElement, options ) {
 		next: navigateNext,
 
 		// Navigation aliases
-		navigateLeft,
-		navigateRight,
-		navigateUp,
-		navigateDown,
-		navigatePrev,
-		navigateNext,
+		navigateLeft, navigateRight, navigateUp, navigateDown, navigatePrev, navigateNext,
 
 		// Fragment methods
 		navigateFragment: fragments.goto.bind( fragments ),
@@ -2423,6 +2418,9 @@ export default function( revealElement, options ) {
 		isOverview: overview.isActive.bind( overview ),
 		isPrintingPDF: print.isPrintingPDF.bind( print ),
 
+		// Checks if reveal.js has been loaded and is ready for use
+		isReady: () => ready,
+
 		// Slide preloading
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
@@ -2436,21 +2434,18 @@ export default function( revealElement, options ) {
 		getState,
 		setState,
 
-		// Presentation progress
-		getSlidePastCount,
-
 		// Presentation progress on range of 0-1
 		getProgress,
 
 		// Returns the indices of the current, or specified, slide
 		getIndices,
 
-		// Returns an Array of all slides
-		getSlides,
-
 		// Returns an Array of key:value maps of the attributes of each
 		// slide in the deck
 		getSlidesAttributes,
+
+		// Returns the number of slides that we have passed
+		getSlidePastCount,
 
 		// Returns the total number of slides
 		getTotalSlides,
@@ -2458,21 +2453,31 @@ export default function( revealElement, options ) {
 		// Returns the slide element at the specified index
 		getSlide,
 
+		// Returns the previous slide element, may be null
+		getPreviousSlide: () => previousSlide,
+
+		// Returns the current slide element
+		getCurrentSlide: () => currentSlide,
+
 		// Returns the slide background element at the specified index
 		getSlideBackground,
 
 		// Returns the speaker notes string for a slide, or null
 		getSlideNotes: notes.getSlideNotes.bind( notes ),
 
+		// Returns an Array of all slides
+		getSlides,
+
 		// Returns an array with all horizontal/vertical slides in the deck
 		getHorizontalSlides,
 		getVerticalSlides,
 
-		// Checks if the presentation contains two or more
-		// horizontal/vertical slides
+		// Checks if the presentation contains two or more horizontal
+		// and vertical slides
 		hasHorizontalSlides,
 		hasVerticalSlides,
 
+		// Checks if the deck has navigated on either axis at least once
 		hasNavigatedHorizontally: () => navigationHistory.hasNavigatedHorizontally,
 		hasNavigatedVertically: () => navigationHistory.hasNavigatedVertically,
 
@@ -2486,19 +2491,7 @@ export default function( revealElement, options ) {
 		// Registers a new shortcut to include in the help overlay
 		registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
 
-		// API for registering and retrieving plugins
-		registerPlugin: plugins.registerPlugin.bind( plugins ),
-		hasPlugin: plugins.hasPlugin.bind( plugins ),
-		getPlugin: plugins.getPlugin.bind( plugins ),
-		getPlugins: plugins.getRegisteredPlugins.bind( plugins ),
-
 		getComputedSlideSize,
-
-		// Returns the previous slide element, may be null
-		getPreviousSlide: () => previousSlide,
-
-		// Returns the current slide element
-		getCurrentSlide: () => currentSlide,
 
 		// Returns the current scale of the presentation content
 		getScale: () => scale,
@@ -2514,17 +2507,23 @@ export default function( revealElement, options ) {
 		getSlidesElement: () => dom.slides,
 		getBackgroundsElement: () => backgrounds.element,
 
-		// Checks if reveal.js has been loaded and is ready for use
-		isReady: () => ready,
+		// API for registering and retrieving plugins
+		registerPlugin: plugins.registerPlugin.bind( plugins ),
+		hasPlugin: plugins.hasPlugin.bind( plugins ),
+		getPlugin: plugins.getPlugin.bind( plugins ),
+		getPlugins: plugins.getRegisteredPlugins.bind( plugins )
 
+	};
 
-		// The following API methods are primarily intended for use
-		// by reveal.js controllers
+	// Our internal API which controllers have access to
+	extend( Reveal, {
+		...API,
 
 		// Methods for announcing content to screen readers
 		announceStatus,
 		getStatusText,
 
+		// Controllers
 		print,
 		progress,
 		controls,
@@ -2541,7 +2540,8 @@ export default function( revealElement, options ) {
 		transformSlides,
 		cueAutoSlide,
 		cancelAutoSlide
-
 	} );
+
+	return API;
 
 };
