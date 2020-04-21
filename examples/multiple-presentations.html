@@ -33,23 +33,23 @@
 		<script src="../dist/reveal.es5.js"></script>
 		<script>
 
-			let r1 = new Reveal( document.querySelector( '.deck1' ), {
+			let deck1 = new Reveal( document.querySelector( '.deck1' ), {
 				embedded: true,
 				keyboard: false
 			} );
-			r1.on( 'slidechanged', () => {
+			deck1.on( 'slidechanged', () => {
 				console.log( 'Deck 1 slide changed' );
 			} );
-			r1.initialize();
+			deck1.initialize();
 
-			let r2 = new Reveal( document.querySelector( '.deck2' ), {
+			let deck2 = new Reveal( document.querySelector( '.deck2' ), {
 				embedded: true,
 				keyboard: false
 			} );
-			r2.initialize().then( () => {
-				r2.slide(1);
+			deck2.initialize().then( () => {
+				deck2.slide(1);
 			} );
-			r2.on( 'slidechanged', () => {
+			deck2.on( 'slidechanged', () => {
 				console.log( 'Deck 2 slide changed' );
 			} );
 
