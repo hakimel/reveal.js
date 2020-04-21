@@ -33,8 +33,9 @@ import {
  */
 export default function( revealElement, options ) {
 
-	// Support initialization with only options
-	if( arguments.length === 1 ) {
+	// Support initialization with no args, one arg
+	// [options] or two args [revealElement, options]
+	if( arguments.length < 2 ) {
 		options = arguments[0];
 		revealElement = document.querySelector( '.reveal' );
 	}
@@ -136,8 +137,8 @@ export default function( revealElement, options ) {
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
 
-		// Load plugins then move on to #start()
-		plugins.load( [...config.dependencies, ...config.plugins] ).then( start );
+		// Register plugins and load dependencies, then move on to #start()
+		plugins.load( config.plugins, config.dependencies ).then( start );
 
 		return new Promise( resolve => Reveal.on( 'ready', resolve ) );
 

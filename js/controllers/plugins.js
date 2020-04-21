@@ -20,20 +20,23 @@ export default class Plugins {
 	}
 
 	/**
-	 * Loads reveal.js dependencies and registers plugins.
+	 * Loads reveal.js dependencies, registers and
+	 * initializes plugins.
+	 *
+	 * Plugins are direct references to a reveal.js plugin
+	 * object that we register and initialize after any
+	 * synchronous dependencies have loaded.
 	 *
 	 * Dependencies are defined via the 'dependencies' config
 	 * option and will be loaded prior to starting reveal.js.
 	 * Some dependencies may have an 'async' flag, if so they
 	 * will load after reveal.js has been started up.
-	 *
-	 * Plugins are direct references to a reveal.js plugin
-	 * object that we register and initialize after any
-	 * synchronous dependencies have loaded.
 	 */
-	load( dependencies ) {
+	load( plugins, dependencies ) {
 
 		this.state = 'loading';
+
+		plugins.forEach( this.registerPlugin.bind( this ) );
 
 		return new Promise( resolve => {
 
@@ -157,14 +160,7 @@ export default class Plugins {
 
 		if( this.asyncDependencies.length ) {
 			this.asyncDependencies.forEach( s => {
-				if( s.plugin ) {
-					this.registerPlugin( s.plugin );
-					if( typeof s.plugin.init === 'function' ) s.plugin.init( this.Reveal );
-					if( typeof s.callback === 'function' ) s.callback();
-				}
-				else {
-					loadScript( s.src, s.callback );
-				}
+				loadScript( s.src, s.callback );
 			} );
 		}
 
@@ -184,7 +180,7 @@ export default class Plugins {
 		let id = plugin.id;
 
 		if( typeof id !== 'string' ) {
-			console.warn( 'reveal.js: plugin.id is not a string' );
+			console.warn( 'Unrecognized plugin format; can\'t find plugin.id', plugin );
 		}
 		else if( this.registeredPlugins[id] === undefined ) {
 			this.registeredPlugins[id] = plugin;
