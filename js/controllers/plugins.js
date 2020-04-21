@@ -177,6 +177,13 @@ export default class Plugins {
 	 */
 	registerPlugin( plugin ) {
 
+		// Backwards compatibility to make reveal.js ~3.9.0
+		// plugins work with reveal.js 4.0.0
+		if( arguments.length === 2 && typeof arguments[0] === 'string' ) {
+			plugin = arguments[1];
+			plugin.id = arguments[0];
+		}
+
 		let id = plugin.id;
 
 		if( typeof id !== 'string' ) {
