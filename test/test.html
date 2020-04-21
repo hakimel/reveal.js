@@ -16,7 +16,7 @@
 		<div id="qunit"></div>
   		<div id="qunit-fixture"></div>
 
-		<div class="reveal" style="display: none;">
+		<div class="reveal" style="visibility: hidden;">
 
 			<div class="slides">
 
@@ -652,6 +652,32 @@
 					Reveal.next(); // should do nothing
 
 					Reveal.off( 'slidechanged', _onEvent );
+
+				});
+
+				QUnit.test( 'slidetransitionend', function( assert ) {
+					assert.expect( 2 );
+					let done = assert.async( 2 );
+					let time = Date.now();
+
+					let horizontalCallback = event => {
+						assert.ok( Date.now() - time > 200, 'horizontal event fired' );
+						done();
+
+						let verticalCallback = event => {
+							assert.ok( true, 'vertical event fired' );
+							done();
+							Reveal.off( 'slidetransitionend', verticalCallback );
+						}
+
+						Reveal.off( 'slidetransitionend', horizontalCallback );
+						Reveal.on( 'slidetransitionend', verticalCallback );
+						Reveal.slide( 1, 1 );
+					}
+
+					Reveal.slide( 0, 0 );
+					Reveal.on( 'slidetransitionend', horizontalCallback );
+					Reveal.slide( 1, 0 );
 
 				});
 

@@ -83,6 +83,9 @@ export default function( revealElement, options ) {
 		// Flags if the interaction event listeners are bound
 		eventsAreBound = false,
 
+		// The current slide transition state; idle or running
+		transition = 'idle',
+
 		// The current auto-slide duration
 		autoSlide = 0,
 
@@ -484,6 +487,7 @@ export default function( revealElement, options ) {
 		if( config.progress ) progress.bind();
 		controls.bind();
 
+		dom.slides.addEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
 
 		if( config.focusBodyOnPageVisibilityChange ) {
@@ -507,6 +511,7 @@ export default function( revealElement, options ) {
 		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
+		dom.slides.removeEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
 
 	}
@@ -1197,6 +1202,7 @@ export default function( revealElement, options ) {
 
 		// Detect if we're moving between two auto-animated slides
 		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
+
 			// If this is an auto-animated transition, we disable the
 			// regular slide transition
 			//
@@ -1207,6 +1213,9 @@ export default function( revealElement, options ) {
 				autoAnimateTransition = true;
 				dom.slides.classList.add( 'disable-slide-transitions' );
 			}
+
+			transition = 'running';
+
 		}
 
 		// Update the visibility of slides now that the indices have changed
@@ -2247,6 +2256,23 @@ export default function( revealElement, options ) {
 
 		if( config.autoSlideStoppable ) {
 			pauseAutoSlide();
+		}
+
+	}
+
+	/**
+	 * Event listener for transition end on the current slide.
+	 *
+	 * @param {object} [event]
+	 */
+	function onTransitionEnd( event ) {
+
+		if( transition === 'running' && /section/gi.test( event.target.nodeName ) ) {
+			transition = 'idle';
+			dispatchEvent({
+				type: 'slidetransitionend',
+				data: { indexh, indexv, previousSlide, currentSlide }
+			});
 		}
 
 	}

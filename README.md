@@ -28,7 +28,7 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
 - [Lazy Loading](#lazy-loading)
 - [API](#api)
   - [Custom Key Bindings](#custom-key-bindings)
-  - [Slide Changed Event](#slide-changed-event)
+  - [Slide Change Events](#slide-change-events)
   - [Presentation State](#presentation-state)
   - [Slide States](#slide-states)
   - [Slide Backgrounds](#slide-backgrounds)
@@ -458,8 +458,8 @@ Reveal.js doesn't _rely_ on any third party scripts to work but a few optional l
 Reveal.initialize({
   dependencies: [
     // Interpret Markdown in <section> elements
-    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/markdown/marked.js', condition: () => { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/markdown/markdown.js', condition: () => { return !!document.querySelector( '[data-markdown]' ); } },
 
     // Syntax highlight for <code> elements
     { src: 'plugin/highlight/highlight.js', async: true },
@@ -490,7 +490,7 @@ You can also include dependencies which are bundled/already present on the page.
 A `ready` event is fired when reveal.js has loaded all non-async dependencies and is ready to start navigating. To check if reveal.js is already 'ready' you can call `Reveal.isReady()`.
 
 ```javascript
-Reveal.on( 'ready', function( event ) {
+Reveal.on( 'ready', event => {
   // event.currentSlide, event.indexh, event.indexv
 } );
 ```
@@ -532,7 +532,7 @@ If you're unhappy with any of the default keyboard bindings you can override the
 Reveal.configure({
   keyboard: {
     13: 'next', // go to the next slide when the ENTER key is pressed
-    27: function() {}, // do something custom when ESC is pressed
+    27: () => { console.log('esc') }, // do something custom when ESC is pressed
     32: null // don't do anything when SPACE is pressed (i.e. disable a reveal.js default binding)
   }
 });
@@ -598,7 +598,7 @@ Each individual element is decorated with a `data-auto-animate-target` attribute
 
 Each time a presentation navigates between two auto-animated slides it dispatches the `autoanimate` event.
 ```javascript
-Reveal.on( 'autoanimate', function( event ) {
+Reveal.on( 'autoanimate', event => {
   // event.fromSlide, event.toSlide
 } );
 ```
@@ -749,12 +749,12 @@ For example
 //      keyCode: the keycode for binding to the callback
 //          key: the key label to show in the help overlay
 //  description: the description of the action to show in the help overlay
-Reveal.addKeyBinding( { keyCode: 84, key: 'T', description: 'Start timer' }, function() {
+Reveal.addKeyBinding( { keyCode: 84, key: 'T', description: 'Start timer' }, () => {
   // start timer
 } )
 
 // The binding parameter can also be a direct keycode without providing the help description
-Reveal.addKeyBinding( 82, function() {
+Reveal.addKeyBinding( 82, () => {
   // reset timer
 } )
 ```
@@ -764,16 +764,22 @@ This allows plugins to add key bindings directly to Reveal so they can
 * make use of Reveal's pre-processing logic for key handling (for example, ignoring key presses when paused); and
 * be included in the help overlay (optional)
 
-### Slide Changed Event
+### Slide Change Events
 
-A `slidechanged` event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
+A `slidechanged` event is fired each time the slide is changed. The event object holds the index values of the current slide as well as a reference to the previous and current slide DOM nodes.
 
 Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/issues/226#issuecomment-10261609)), get confused by the transforms and display states of slides. Often times, this can be fixed by calling their update or render function from this callback.
 
 ```javascript
-Reveal.on( 'slidechanged', function( event ) {
+Reveal.on( 'slidechanged', event => {
   // event.previousSlide, event.currentSlide, event.indexh, event.indexv
 } );
+```
+
+The `slidechanged` event fires instantly when the slide changes. If you'd rather invoke your event listener when the slide has finished transitioning and is fully visible, you can use the `slidetransitionend` event. The `slidetransitionend` event includes the same event data as described above.
+
+```javascript
+Reveal.on( 'slidetransitionend', event => console.log( event.currentSlide ) );
 ```
 
 ### Presentation State
@@ -800,7 +806,7 @@ If you set `data-state="somestate"` on a slide `<section>`, "somestate" will be 
 Furthermore you can also listen to these changes in state via JavaScript:
 
 ```javascript
-Reveal.on( 'somestate', function() {
+Reveal.on( 'somestate', () => {
   // TODO: Sprinkle magic
 }, false );
 ```
@@ -1007,10 +1013,10 @@ When a slide fragment is either shown or hidden reveal.js will dispatch an event
 Some libraries, like MathJax (see #505), get confused by the initially hidden fragment elements. Often times this can be fixed by calling their update or render function from this callback.
 
 ```javascript
-Reveal.on( 'fragmentshown', function( event ) {
+Reveal.on( 'fragmentshown', event => {
   // event.fragment = the fragment DOM element
 } );
-Reveal.on( 'fragmenthidden', function( event ) {
+Reveal.on( 'fragmenthidden', event => {
   // event.fragment = the fragment DOM element
 } );
 ```
@@ -1089,7 +1095,7 @@ Reveal.configure({ slideNumber: true });
 Reveal.configure({ slideNumber: 'c/t' });
 
 // You can provide a function to fully customize the number:
-Reveal.configure({ slideNumber: function( slide ) {
+Reveal.configure({ slideNumber: slide => {
     // Ignore numbering of vertical slides
     return [ Reveal.getIndices( slide ).h ];
 }});
@@ -1107,8 +1113,8 @@ Press »ESC« or »O« keys to toggle the overview mode on and off. While you're
 as if you were at 1,000 feet above your presentation. The overview mode comes with a few API hooks:
 
 ```javascript
-Reveal.on( 'overviewshown', function( event ) { /* ... */ } );
-Reveal.on( 'overviewhidden', function( event ) { /* ... */ } );
+Reveal.on( 'overviewshown', event => { /* ... */ } );
+Reveal.on( 'overviewhidden', event => { /* ... */ } );
 
 // Toggle the overview mode programmatically
 Reveal.toggleOverview();
@@ -1154,7 +1160,7 @@ Limitations:
 When reveal.js changes the scale of the slides it fires a resize event. You can subscribe to the event to resize your elements accordingly.
 
 ```javascript
-Reveal.on( 'resize', function( event ) {
+Reveal.on( 'resize', event => {
   // event.scale, event.oldScale, event.size
 } );
 ```
@@ -1172,7 +1178,7 @@ The framework has a built-in postMessage API that can be used when communicating
 When reveal.js runs inside of an iframe it can optionally bubble all of its events to the parent. Bubbled events are stringified JSON with three fields: namespace, eventName and state. Here's how you subscribe to them from the parent window:
 
 ```javascript
-window.addEventListener( 'message', function( event ) {
+window.addEventListener( 'message', event => {
   var data = JSON.parse( event.data );
   if( data.namespace === 'reveal' && data.eventName === 'slidechanged' ) {
     // Slide changed, see data.state for slide number
@@ -1187,7 +1193,7 @@ When you call any method via the postMessage API, reveal.js will dispatch a mess
 ```javascript
 <revealWindow>.postMessage( JSON.stringify({ method: 'getTotalSlides' }), '*' );
 
-window.addEventListener( 'message', function( event ) {
+window.addEventListener( 'message', event => {
   var data = JSON.parse( event.data );
   // `data.method`` is the method that we invoked
   if( data.namespace === 'reveal' && data.eventName === 'callback' && data.method === 'getTotalSlides' ) {
