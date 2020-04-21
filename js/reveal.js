@@ -15,22 +15,14 @@ import Touch from './controllers/touch.js'
 import Notes from './controllers/notes.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
-import { isMobile, isChrome, supportsZoom } from './utils/device.js'
+import * as Util from './utils/util.js'
+import * as Device from './utils/device.js'
 import {
 	SLIDES_SELECTOR,
 	HORIZONTAL_SLIDES_SELECTOR,
 	VERTICAL_SLIDES_SELECTOR,
 	POST_MESSAGE_METHOD_BLACKLIST
 } from './utils/constants.js'
-import {
-	extend,
-	queryAll,
-	deserialize,
-	transformElement,
-	createSingletonNode,
-	getQueryHash,
-	getRemainingHeight
-} from './utils/util.js'
 
 /**
  * reveal.js
@@ -80,25 +72,6 @@ export default function( revealElement, options ) {
 		// The current scale of the presentation (see width/height config)
 		scale = 1,
 
-		// Controllers for different aspects of our presentation. They're
-		// all given direct references to this Reveal instance since there
-		// may be multiple presentations running in parallel.
-		slideContent = new SlideContent( Reveal ),
-		slideNumber = new SlideNumber( Reveal ),
-		autoAnimate = new AutoAnimate( Reveal ),
-		backgrounds = new Backgrounds( Reveal ),
-		fragments = new Fragments( Reveal ),
-		overview = new Overview( Reveal ),
-		keyboard = new Keyboard( Reveal ),
-		location = new Location( Reveal ),
-		controls = new Controls( Reveal ),
-		progress = new Progress( Reveal ),
-		pointer = new Pointer( Reveal ),
-		plugins = new Plugins( Reveal ),
-		print = new Print( Reveal ),
-		touch = new Touch( Reveal ),
-		notes = new Notes( Reveal ),
-
 		// CSS transform that is currently applied to the slides container,
 		// split into two groups
 		slidesTransform = { layout: '', overview: '' },
@@ -116,7 +89,26 @@ export default function( revealElement, options ) {
 		autoSlidePlayer,
 		autoSlideTimeout = 0,
 		autoSlideStartTime = -1,
-		autoSlidePaused = false;
+		autoSlidePaused = false,
+
+		// Controllers for different aspects of our presentation. They're
+		// all given direct references to this Reveal instance since there
+		// may be multiple presentations running in parallel.
+		slideContent = new SlideContent( Reveal ),
+		slideNumber = new SlideNumber( Reveal ),
+		autoAnimate = new AutoAnimate( Reveal ),
+		backgrounds = new Backgrounds( Reveal ),
+		fragments = new Fragments( Reveal ),
+		overview = new Overview( Reveal ),
+		keyboard = new Keyboard( Reveal ),
+		location = new Location( Reveal ),
+		controls = new Controls( Reveal ),
+		progress = new Progress( Reveal ),
+		pointer = new Pointer( Reveal ),
+		plugins = new Plugins( Reveal ),
+		print = new Print( Reveal ),
+		touch = new Touch( Reveal ),
+		notes = new Notes( Reveal );
 
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -128,7 +120,7 @@ export default function( revealElement, options ) {
 		dom.slides = revealElement.querySelector( '.slides' );
 
 		// Copy options over to our config object
-		config = { ...defaultConfig, ...options, ...getQueryHash() };
+		config = { ...defaultConfig, ...options, ...Util.getQueryHash() };
 
 		// Embedded decks use the reveal element as their viewport
 		if( config.embedded === true ) {
@@ -224,7 +216,7 @@ export default function( revealElement, options ) {
 		// Prevent transitions while we're loading
 		dom.slides.classList.add( 'no-transition' );
 
-		if( isMobile ) {
+		if( Device.isMobile ) {
 			dom.wrapper.classList.add( 'no-hover' );
 		}
 		else {
@@ -238,7 +230,7 @@ export default function( revealElement, options ) {
 		notes.render();
 
 		// Overlay graphic which is displayed during the paused mode
-		dom.pauseOverlay = createSingletonNode( dom.wrapper, 'div', 'pause-overlay', config.controls ? '<button class="resume-button">Resume presentation</button>' : null );
+		dom.pauseOverlay = Util.createSingletonNode( dom.wrapper, 'div', 'pause-overlay', config.controls ? '<button class="resume-button">Resume presentation</button>' : null );
 
 		dom.statusElement = createStatusElement();
 
@@ -389,7 +381,7 @@ export default function( revealElement, options ) {
 
 		// New config options may be passed when this method
 		// is invoked through the API after initialization
-		if( typeof options === 'object' ) extend( config, options );
+		if( typeof options === 'object' ) Util.extend( config, options );
 
 		// Abort if reveal.js hasn't finished loading, config
 		// changes will be applied automatically once ready
@@ -552,10 +544,10 @@ export default function( revealElement, options ) {
 
 		// Apply the transforms to the slides container
 		if( slidesTransform.layout ) {
-			transformElement( dom.slides, slidesTransform.layout + ' ' + slidesTransform.overview );
+			Util.transformElement( dom.slides, slidesTransform.layout + ' ' + slidesTransform.overview );
 		}
 		else {
-			transformElement( dom.slides, slidesTransform.overview );
+			Util.transformElement( dom.slides, slidesTransform.overview );
 		}
 
 	}
@@ -568,7 +560,7 @@ export default function( revealElement, options ) {
 
 		let event = document.createEvent( 'HTMLEvents', 1, 2 );
 		event.initEvent( type, bubbles, true );
-		extend( event, data );
+		Util.extend( event, data );
 		target.dispatchEvent( event );
 
 		if( target === dom.wrapper ) {
@@ -591,7 +583,7 @@ export default function( revealElement, options ) {
 				state: getState()
 			};
 
-			extend( message, data );
+			Util.extend( message, data );
 
 			window.parent.postMessage( JSON.stringify( message ), '*' );
 		}
@@ -769,7 +761,7 @@ export default function( revealElement, options ) {
 				// property where 100x adds up to the correct height.
 				//
 				// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
-				if( isMobile ) {
+				if( Device.isMobile ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
@@ -805,7 +797,7 @@ export default function( revealElement, options ) {
 					// effects are minor differences in text layout and iframe
 					// viewports changing size. A 200x200 iframe viewport in a
 					// 2x zoomed presentation ends up having a 400x400 viewport.
-					if( scale > 1 && supportsZoom && window.devicePixelRatio < 2 ) {
+					if( scale > 1 && Device.supportsZoom && window.devicePixelRatio < 2 ) {
 						dom.slides.style.zoom = scale;
 						dom.slides.style.left = '';
 						dom.slides.style.top = '';
@@ -887,10 +879,10 @@ export default function( revealElement, options ) {
 	function layoutSlideContents( width, height ) {
 
 		// Handle sizing of elements with the 'stretch' class
-		queryAll( dom.slides, 'section > .stretch' ).forEach( element => {
+		Util.queryAll( dom.slides, 'section > .stretch' ).forEach( element => {
 
 			// Determine how much vertical space we can use
-			let remainingHeight = getRemainingHeight( element, height );
+			let remainingHeight = Util.getRemainingHeight( element, height );
 
 			// Consider the aspect ratio of media elements
 			if( /(img|video)/gi.test( element.nodeName ) ) {
@@ -1405,7 +1397,7 @@ export default function( revealElement, options ) {
 
 		getHorizontalSlides().forEach( horizontalSlide => {
 
-			queryAll( horizontalSlide, 'section' ).forEach( ( verticalSlide, y ) => {
+			Util.queryAll( horizontalSlide, 'section' ).forEach( ( verticalSlide, y ) => {
 
 				if( y > 0 ) {
 					verticalSlide.classList.remove( 'present' );
@@ -1452,7 +1444,7 @@ export default function( revealElement, options ) {
 
 		// Select all slides and convert the NodeList result to
 		// an array
-		let slides = queryAll( dom.wrapper, selector ),
+		let slides = Util.queryAll( dom.wrapper, selector ),
 			slidesLength = slides.length;
 
 		let printMode = print.isPrintingPDF();
@@ -1499,7 +1491,7 @@ export default function( revealElement, options ) {
 
 					if( config.fragments ) {
 						// Show all fragments in prior slides
-						queryAll( element, '.fragment' ).forEach( fragment => {
+						Util.queryAll( element, '.fragment' ).forEach( fragment => {
 							fragment.classList.add( 'visible' );
 							fragment.classList.remove( 'current-fragment' );
 						} );
@@ -1511,7 +1503,7 @@ export default function( revealElement, options ) {
 
 					if( config.fragments ) {
 						// Hide all fragments in future slides
-						queryAll( element, '.fragment.visible' ).forEach( fragment => {
+						Util.queryAll( element, '.fragment.visible' ).forEach( fragment => {
 							fragment.classList.remove( 'visible', 'current-fragment' );
 						} );
 					}
@@ -1574,7 +1566,7 @@ export default function( revealElement, options ) {
 
 			// Shorten the view distance on devices that typically have
 			// less resources
-			if( isMobile ) {
+			if( Device.isMobile ) {
 				viewDistance = overview.isActive() ? 6 : config.mobileViewDistance;
 			}
 
@@ -1586,7 +1578,7 @@ export default function( revealElement, options ) {
 			for( let x = 0; x < horizontalSlidesLength; x++ ) {
 				let horizontalSlide = horizontalSlides[x];
 
-				let verticalSlides = queryAll( horizontalSlide, 'section' ),
+				let verticalSlides = Util.queryAll( horizontalSlide, 'section' ),
 					verticalSlidesLength = verticalSlides.length;
 
 				// Determine how far away this slide is from the present
@@ -1813,7 +1805,7 @@ export default function( revealElement, options ) {
 
 			// If this is a vertical slide, grab the vertical index
 			if( isVertical ) {
-				v = Math.max( queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
+				v = Math.max( Util.queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
 			}
 		}
 
@@ -1839,7 +1831,7 @@ export default function( revealElement, options ) {
 	 */
 	function getSlides() {
 
-		return queryAll( dom.wrapper, SLIDES_SELECTOR + ':not(.stack):not([data-visibility="uncounted"])' );
+		return Util.queryAll( dom.wrapper, SLIDES_SELECTOR + ':not(.stack):not([data-visibility="uncounted"])' );
 
 	}
 
@@ -1850,7 +1842,7 @@ export default function( revealElement, options ) {
 	 */
 	function getHorizontalSlides() {
 
-		return queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR );
+		return Util.queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR );
 
 	}
 
@@ -1859,7 +1851,7 @@ export default function( revealElement, options ) {
 	 */
 	function getVerticalSlides() {
 
-		return queryAll( dom.wrapper, '.slides>section>section' );
+		return Util.queryAll( dom.wrapper, '.slides>section>section' );
 
 	}
 
@@ -1868,7 +1860,7 @@ export default function( revealElement, options ) {
 	 */
 	function getVerticalStacks() {
 
-		return queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.stack');
+		return Util.queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.stack');
 
 	}
 
@@ -1989,10 +1981,10 @@ export default function( revealElement, options ) {
 	function setState( state ) {
 
 		if( typeof state === 'object' ) {
-			slide( deserialize( state.indexh ), deserialize( state.indexv ), deserialize( state.indexf ) );
+			slide( Util.deserialize( state.indexh ), Util.deserialize( state.indexv ), Util.deserialize( state.indexf ) );
 
-			let pausedFlag = deserialize( state.paused ),
-				overviewFlag = deserialize( state.overview );
+			let pausedFlag = Util.deserialize( state.paused ),
+				overviewFlag = Util.deserialize( state.overview );
 
 			if( typeof pausedFlag === 'boolean' && pausedFlag !== isPaused() ) {
 				togglePause( pausedFlag );
@@ -2048,7 +2040,7 @@ export default function( revealElement, options ) {
 			// is divided up into fragments.
 			// playbackRate is accounted for in the duration.
 			if( currentSlide.querySelectorAll( '.fragment' ).length === 0 ) {
-				queryAll( currentSlide, 'video, audio' ).forEach( el => {
+				Util.queryAll( currentSlide, 'video, audio' ).forEach( el => {
 					if( el.hasAttribute( 'data-autoplay' ) ) {
 						if( autoSlide && (el.duration * 1000 / el.playbackRate ) > autoSlide ) {
 							autoSlide = ( el.duration * 1000 / el.playbackRate ) + 1000;
@@ -2190,10 +2182,10 @@ export default function( revealElement, options ) {
 				let previousSlide;
 
 				if( config.rtl ) {
-					previousSlide = queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.future' ).pop();
+					previousSlide = Util.queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.future' ).pop();
 				}
 				else {
-					previousSlide = queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.past' ).pop();
+					previousSlide = Util.queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.past' ).pop();
 				}
 
 				if( previousSlide ) {
@@ -2500,7 +2492,7 @@ export default function( revealElement, options ) {
 		getConfig: () => config,
 
 		// Helper method, retrieves query string as a key:value map
-		getQueryHash,
+		getQueryHash: Util.getQueryHash,
 
 		// Returns reveal.js DOM elements
 		getRevealElement: () => revealElement,
@@ -2516,7 +2508,7 @@ export default function( revealElement, options ) {
 	};
 
 	// Our internal API which controllers have access to
-	extend( Reveal, {
+	Util.extend( Reveal, {
 		...API,
 
 		// Methods for announcing content to screen readers
