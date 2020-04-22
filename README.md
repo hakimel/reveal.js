@@ -54,9 +54,9 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
 - [Speaker Notes](#speaker-notes)
   - [Share and Print Speaker Notes](#share-and-print-speaker-notes)
   - [Server Side Speaker Notes](#server-side-speaker-notes)
-- [Plugins](#plugins)
 - [Multiplexing](#multiplexing)
 - [MathJax](#mathjax)
+- [Plugins](#plugins)
 - [License](#license)
 
 #### More reading
@@ -1399,54 +1399,12 @@ The pacing timer can be enabled by configuring the `defaultTiming` parameter in 
 
 ## Server Side Speaker Notes
 
-In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the required scripts by adding the following dependencies:
-
-```javascript
-Reveal.initialize({
-  // ...
-
-  dependencies: [
-    { src: 'socket.io/socket.io.js', async: true },
-    { src: 'plugin/notes-server/client.js', async: true }
-  ]
-});
-```
-
-Then:
-
-1. Install [Node.js](http://nodejs.org/) (9.0.0 or later)
-2. Run `npm install`
-3. Run `node plugin/notes-server`
-
-
-## Plugins
-
-Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( MyPlugin )`. Registered plugins _must_ expose a unique `id` property and can optionally expose an `init` function that reveal.js will call to initialize them.
-
-When reveal.js is booted up via `initialize()`, it will go through all registered plugins and invoke their `init` methods. If the `init` method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
-
-```javascript
-let MyPlugin = {
-  id: 'myPlugin',
-  init: deck => new Promise( resolve => setTimeout( resolve, 3000 ) )
-};
-Reveal.initialize({
-  dependencies: [ { plugin: MyPlugin } ]
-}).then( () => {
-  console.log( 'Three seconds later...' )
-} );
-```
-
-Note that reveal.js will *not* wait for init Promise fulfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
-
-### Retrieving Plugins
-
-If you want to check if a specific plugin is registered you can use the `Reveal.hasPlugin` method and pass in a plugin ID, for example: `Reveal.hasPlugin( 'myPlugin' )`. If you want to retrieve a plugin instance you can use `Reveal.getPlugin( 'myPlugin' )`.
+In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. See <https://github.com/reveal/notes-server>.
 
 
 ## Multiplexing
 
-The multiplex plugin allows your audience to follow the slides of the presentation you are controlling on their own phone, tablet or laptop. As of 4.0.0 this plugin has moved to its own repo at <https://github.com/reveal/multiplex>;
+The multiplex plugin allows your audience to follow the slides of the presentation you are controlling on their own phone, tablet or laptop. As of 4.0.0 this plugin has moved to its own repo at <https://github.com/reveal/multiplex>.
 
 
 ## MathJax
@@ -1482,6 +1440,30 @@ If you want to include math inside of a presentation written in Markdown you nee
 ```
 `$$ J(\theta_0,\theta_1) = \sum_{i=0} $$`
 ```
+
+## Plugins
+
+Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( MyPlugin )`. Registered plugins _must_ expose a unique `id` property and can optionally expose an `init` function that reveal.js will call to initialize them.
+
+When reveal.js is booted up via `initialize()`, it will go through all registered plugins and invoke their `init` methods. If the `init` method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
+
+```javascript
+let MyPlugin = {
+  id: 'myPlugin',
+  init: deck => new Promise( resolve => setTimeout( resolve, 3000 ) )
+};
+Reveal.initialize({
+  dependencies: [ { plugin: MyPlugin } ]
+}).then( () => {
+  console.log( 'Three seconds later...' )
+} );
+```
+
+Note that reveal.js will *not* wait for init Promise fulfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
+
+### Retrieving Plugins
+
+If you want to check if a specific plugin is registered you can use the `Reveal.hasPlugin` method and pass in a plugin ID, for example: `Reveal.hasPlugin( 'myPlugin' )`. If you want to retrieve a plugin instance you can use `Reveal.getPlugin( 'myPlugin' )`.
 
 ## License
 
