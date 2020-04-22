@@ -160,7 +160,7 @@ export default class Keyboard {
 		this.Reveal.onUserInput( event );
 
 		// Is there a focused element that could be using the keyboard?
-		let activeElementIsCE = document.activeElement && document.activeElement.contentEditable !== 'inherit';
+		let activeElementIsCE = document.activeElement && document.activeElement.isContentEditable === true;
 		let activeElementIsInput = document.activeElement && document.activeElement.tagName && /input|textarea/i.test( document.activeElement.tagName );
 		let activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
