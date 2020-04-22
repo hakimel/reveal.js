@@ -31,6 +31,9 @@ const banner = `/*!
 * Copyright (C) 2020 Hakim El Hattab, https://hakim.se
 */\n`
 
+// Prevents warnings from opening too many test pages
+process.setMaxListeners(20);
+
 const rollupConfig = {
     plugins: [
         babel({
