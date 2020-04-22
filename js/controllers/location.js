@@ -12,6 +12,20 @@ export default class Location {
 		// Delays updates to the URL due to a Chrome thumbnailer bug
 		this.writeURLTimeout = 0;
 
+		this.onWindowHashChange = this.onWindowHashChange.bind( this );
+
+	}
+
+	bind() {
+
+		window.addEventListener( 'hashchange', this.onWindowHashChange, false );
+
+	}
+
+	unbind() {
+
+		window.removeEventListener( 'hashchange', this.onWindowHashChange, false );
+
 	}
 
 	/**
@@ -27,12 +41,21 @@ export default class Location {
 
 		// Attempt to parse the hash as either an index or name
 		let bits = hash.slice( 2 ).split( '/' ),
-			name = hash.replace( /#|\//gi, '' );
+			name = hash.replace( /#\/?/gi, '' );
 
 		// If the first bit is not fully numeric and there is a name we
 		// can assume that this is a named link
 		if( !/^[0-9]*$/.test( bits[0] ) && name.length ) {
 			let element;
+
+			let f;
+
+			// Parse named links with fragments (#/named-link/2)
+			if( /\/[-\d]+$/g.test( name ) ) {
+				f = parseInt( name.split( '/' ).pop(), 10 );
+				f = isNaN(f) ? undefined : f;
+				name = name.split( '/' ).shift();
+			}
 
 			// Ensure the named link is a valid HTML ID attribute
 			try {
@@ -45,10 +68,10 @@ export default class Location {
 
 			if( element ) {
 				// If the slide exists and is not the current slide...
-				if ( !isSameNameAsCurrentSlide ) {
+				if ( !isSameNameAsCurrentSlide || typeof f !== 'undefined' ) {
 					// ...find the position of the named slide and navigate to it
-					let elementIndex = this.Reveal.getIndices(element);
-					this.Reveal.slide(elementIndex.h, elementIndex.v);
+					let slideIndices = this.Reveal.getIndices( element );
+					this.Reveal.slide( slideIndices.h, slideIndices.v, f );
 				}
 			}
 			// If the slide doesn't exist, navigate to the current slide
@@ -141,18 +164,33 @@ export default class Location {
 
 		// If the current slide has an ID, use that as a named link,
 		// but we don't support named links with a fragment index
-		if( typeof id === 'string' && id.length && index.f === undefined ) {
+		if( typeof id === 'string' && id.length ) {
 			url = '/' + id;
+
+			// If there is also a fragment, append that at the end
+			// of the named link, like: #/named-link/2
+			if( index.f >= 0 ) url += '/' + index.f;
 		}
 		// Otherwise use the /h/v index
 		else {
 			let hashIndexBase = this.Reveal.getConfig().hashOneBasedIndex ? 1 : 0;
-			if( index.h > 0 || index.v > 0 || index.f !== undefined ) url += index.h + hashIndexBase;
-			if( index.v > 0 || index.f !== undefined ) url += '/' + (index.v + hashIndexBase );
-			if( index.f !== undefined ) url += '/' + index.f;
+			if( index.h > 0 || index.v > 0 || index.f >= 0 ) url += index.h + hashIndexBase;
+			if( index.v > 0 || index.f >= 0 ) url += '/' + (index.v + hashIndexBase );
+			if( index.f >= 0 ) url += '/' + index.f;
 		}
 
 		return url;
+
+	}
+
+	/**
+	 * Handler for the window level 'hashchange' event.
+	 *
+	 * @param {object} [event]
+	 */
+	onWindowHashChange( event ) {
+
+		this.readURL();
 
 	}
 

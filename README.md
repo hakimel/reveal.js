@@ -263,7 +263,7 @@ Reveal.initialize({
 
   // Flags whether to include the current fragment in the URL,
   // so that reloading brings you to the same fragment position
-  fragmentInURL: false,
+  fragmentInURL: true,
 
   // Flags if the presentation is running in an embedded mode,
   // i.e. contained within a limited portion of the screen

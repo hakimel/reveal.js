@@ -490,13 +490,13 @@ export default function( revealElement, options ) {
 
 		eventsAreBound = true;
 
-		window.addEventListener( 'hashchange', onWindowHashChange, false );
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		if( config.touch ) touch.bind();
 		if( config.keyboard ) keyboard.bind();
 		if( config.progress ) progress.bind();
 		controls.bind();
+		location.bind();
 
 		dom.slides.addEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
@@ -518,8 +518,8 @@ export default function( revealElement, options ) {
 		keyboard.unbind();
 		controls.unbind();
 		progress.unbind();
+		location.unbind();
 
-		window.removeEventListener( 'hashchange', onWindowHashChange, false );
 		window.removeEventListener( 'resize', onWindowResize, false );
 
 		dom.slides.removeEventListener( 'transitionend', onTransitionEnd, false );
@@ -2285,17 +2285,6 @@ export default function( revealElement, options ) {
 				data: { indexh, indexv, previousSlide, currentSlide }
 			});
 		}
-
-	}
-
-	/**
-	 * Handler for the window level 'hashchange' event.
-	 *
-	 * @param {object} [event]
-	 */
-	function onWindowHashChange( event ) {
-
-		location.readURL();
 
 	}
 

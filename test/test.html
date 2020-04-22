@@ -59,7 +59,7 @@
 						<iframe data-src="http://example.com"></iframe>
 					</section>
 
-					<section>
+					<section id="fragments3">
 						<h1>3.3</h1>
 						<ul>
 							<li class="fragment" data-fragment-index="1">3.3.1</li>
@@ -79,6 +79,8 @@
 
 		<script src="../dist/reveal.es5.js"></script>
 		<script>
+			window.location.hash = '';
+
 			// These tests expect the DOM to contain a presentation
 			// with the following slide structure:
 			//
@@ -308,6 +310,70 @@
 
 					Reveal.next();
 					assert.deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined } );
+				});
+
+
+				// ---------------------------------------------------------------
+				// URL TESTS
+
+				QUnit.module( 'URL' );
+
+				QUnit.test( 'Write (fragmentInURL: false)', function( assert ) {
+					Reveal.configure({ hash: true, fragmentInURL: false });
+
+					Reveal.slide( 2, 0 );
+					assert.strictEqual( window.location.hash, '#/2' );
+
+					Reveal.slide( 2, 1 );
+					assert.strictEqual( window.location.hash, '#/2/1' );
+
+					Reveal.slide( 2, 0, 1 );
+					assert.strictEqual( window.location.hash, '#/2' );
+
+					Reveal.slide( 2, 2, 0 );
+					assert.strictEqual( window.location.hash, '#/fragments3' );
+
+					Reveal.slide( 2, 2, 1 );
+					assert.strictEqual( window.location.hash, '#/fragments3' );
+				});
+
+				QUnit.test( 'Write (fragmentInURL: true)', function( assert ) {
+					Reveal.configure({ hash: true, fragmentInURL: true });
+
+					Reveal.slide( 2, 0, -1 );
+					assert.strictEqual( window.location.hash, '#/2' );
+
+					Reveal.slide( 2, 1, -1 );
+					assert.strictEqual( window.location.hash, '#/2/1' );
+
+					Reveal.slide( 2, 0, 1 );
+					assert.strictEqual( window.location.hash, '#/2/0/1' );
+
+					Reveal.slide( 2, 2, -1 );
+					assert.strictEqual( window.location.hash, '#/fragments3' );
+
+					Reveal.slide( 2, 2, 1 );
+					assert.strictEqual( window.location.hash, '#/fragments3/1' );
+				});
+
+				QUnit.test( 'Read', async function( assert ) {
+					Reveal.configure({ hash: true, fragmentInURL: true });
+
+					let test = function( hash, indices ) {
+						return new Promise( resolve => {
+							window.onhashchange = () => {
+								assert.deepEqual( Reveal.getIndices(), indices );
+								resolve();
+							};
+							window.location.hash = hash;
+						} );
+					}
+
+					await test( '#/0', { h: 0, v: 0, f: undefined } ); // horizontal
+					await test( '#/1/1', { h: 1, v: 1, f: undefined } ); // vertical
+					await test( '#/0/', { h: 0, v: 0, f: undefined } ); // trailing /
+					await test( '#/1/1/', { h: 1, v: 1, f: undefined } ); // trailing /
+					await test( '#/2/0/1', { h: 2, v: 0, f: 1 } ); // fragment
 				});
 
 
