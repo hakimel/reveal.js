@@ -115,27 +115,18 @@ export default function( revealElement, options ) {
 		notes = new Notes( Reveal );
 
 	/**
-	 * Starts up the presentation if the client is capable.
+	 * Starts up the presentation.
 	 */
-	function initialize() {
+	function initialize( initOptions ) {
 
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
 
-		// Copy options over to our config object
-		config = { ...defaultConfig, ...options, ...Util.getQueryHash() };
+		// Compose our config object
+		config = { ...defaultConfig, ...options, ...initOptions, ...Util.getQueryHash() };
 
-		// Embedded decks use the reveal element as their viewport
-		if( config.embedded === true ) {
-			revealElement.classList.add( 'reveal-viewport' );
-		}
-		// Non-embedded decks cover the full page and use the body
-		// as their viewport
-		else {
-			document.body.classList.add( 'reveal-viewport' );
-			document.documentElement.classList.add( 'reveal-full-page' );
-		}
+		setViewport();
 
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
@@ -144,6 +135,26 @@ export default function( revealElement, options ) {
 		plugins.load( config.plugins, config.dependencies ).then( start );
 
 		return new Promise( resolve => Reveal.on( 'ready', resolve ) );
+
+	}
+
+	/**
+	 * Encase the presentation in a reveal.js viewport. The
+	 * extent of the viewport differs based on configuration.
+	 */
+	function setViewport() {
+
+		// Embedded decks use the reveal element as their viewport
+		if( config.embedded === true ) {
+			if( revealElement.closest( '.reveal-viewport' ) === null ) {
+				revealElement.classList.add( 'reveal-viewport' );
+			}
+		}
+		// Full-page decks use the body as their viewport
+		else {
+			document.body.classList.add( 'reveal-viewport' );
+			document.documentElement.classList.add( 'reveal-full-page' );
+		}
 
 	}
 
