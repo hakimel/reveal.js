@@ -10,6 +10,7 @@
 
 		<link rel="stylesheet" href="../dist/reveal.css">
 		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+		<link rel="stylesheet" href="../lib/css/monokai.css">
 	</head>
 
 	<body style="background: #ddd;">
@@ -19,6 +20,14 @@
 				<div class="slides">
 					<section>Deck 1, Slide 1</section>
 					<section>Deck 1, Slide 2</section>
+					<section>
+						<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+							import React, { useState } from 'react';
+							function Example() {
+							  const [count, setCount] = useState(0);
+							}
+						</code></pre>
+					</section>
 				</div>
 			</div>
 
@@ -26,16 +35,38 @@
 				<div class="slides">
 					<section>Deck 2, Slide 1</section>
 					<section>Deck 2, Slide 2</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Markdown plugin
+
+							- 1
+							- 2
+							- 3
+						</script>
+					</section>
+					<section>
+						<h3>The Lorenz Equations</h3>
+
+						\[\begin{aligned}
+						\dot{x} &amp; = \sigma(y-x) \\
+						\dot{y} &amp; = \rho x - y - xz \\
+						\dot{z} &amp; = -\beta z + xy
+						\end{aligned} \]
+					</section>
 				</div>
 			</div>
 		</div>
 
 		<script src="../dist/reveal.es5.js"></script>
+		<script src="../dist/plugin/highlight.js"></script>
+		<script src="../dist/plugin/markdown.js"></script>
+		<script src="../dist/plugin/math.js"></script>
 		<script>
 
 			let deck1 = new Reveal( document.querySelector( '.deck1' ), {
 				embedded: true,
-				keyboard: false
+				keyboard: false,
+				plugins: [ RevealHighlight ]
 			} );
 			deck1.on( 'slidechanged', () => {
 				console.log( 'Deck 1 slide changed' );
@@ -44,7 +75,8 @@
 
 			let deck2 = new Reveal( document.querySelector( '.deck2' ), {
 				embedded: true,
-				keyboard: false
+				keyboard: true,
+				plugins: [ RevealMarkdown, RevealMath ]
 			} );
 			deck2.initialize().then( () => {
 				deck2.slide(1);

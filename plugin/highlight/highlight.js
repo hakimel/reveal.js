@@ -13,14 +13,22 @@ let Plugin = {
 	HIGHLIGHT_LINE_DELIMITER: ',',
 	HIGHLIGHT_LINE_RANGE_DELIMITER: '-',
 
-	init: function( deck ) {
+	/**
+	 * Highlights code blocks withing the given deck.
+	 *
+	 * Note that this can be called multiple times if
+	 * there are multiple presentations on one page.
+	 *
+	 * @param {Reveal} reveal the reveal.js instance
+	 */
+	init: function( reveal ) {
 
 		// Read the plugin config options and provide fallbacks
-		var config = deck.getConfig().highlight || {};
+		var config = reveal.getConfig().highlight || {};
 		config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
 		config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
 
-		[].slice.call( document.querySelectorAll( '.reveal pre code' ) ).forEach( function( block ) {
+		[].slice.call( reveal.getRevealElement().querySelectorAll( 'pre code' ) ).forEach( function( block ) {
 
 			// Trim whitespace if the "data-trim" attribute is present
 			if( block.hasAttribute( 'data-trim' ) && typeof block.innerHTML.trim === 'function' ) {
@@ -45,8 +53,8 @@ let Plugin = {
 
 		// If we're printing to PDF, scroll the code highlights of
 		// all blocks in the deck into view at once
-		deck.on( 'pdf-ready', function() {
-			[].slice.call( document.querySelectorAll( '.reveal pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
+		reveal.on( 'pdf-ready', function() {
+			[].slice.call( reveal.getRevealElement().querySelectorAll( 'pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
 				Plugin.scrollHighlightedLineIntoView( block, {}, true );
 			} );
 		} );

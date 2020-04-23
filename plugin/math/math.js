@@ -4,14 +4,12 @@
  *
  * @author Hakim El Hattab
  */
-let Plugin = (function(){
+const Plugin = () => {
 
-	var options = Reveal.getConfig().math || {};
-	var mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
-	var config = options.config || 'TeX-AMS_HTML-full';
-	var url = mathjax + '?config=' + config;
+	// The reveal.js instance this plugin is attached to
+	let deck;
 
-	var defaultOptions = {
+	let defaultOptions = {
 		messageStyle: 'none',
 		tex2jax: {
 			inlineMath: [ [ '$', '$' ], [ '\\(', '\\)' ] ],
@@ -20,25 +18,15 @@ let Plugin = (function(){
 		skipStartupTypeset: true
 	};
 
-	function defaults( options, defaultOptions ) {
-
-		for ( var i in defaultOptions ) {
-			if ( !options.hasOwnProperty( i ) ) {
-				options[i] = defaultOptions[i];
-			}
-		}
-
-	}
-
 	function loadScript( url, callback ) {
 
-		var head = document.querySelector( 'head' );
-		var script = document.createElement( 'script' );
+		let head = document.querySelector( 'head' );
+		let script = document.createElement( 'script' );
 		script.type = 'text/javascript';
 		script.src = url;
 
 		// Wrapper for callback to make sure it only fires once
-		var finish = function() {
+		let finish = () => {
 			if( typeof callback === 'function' ) {
 				callback.call();
 				callback = null;
@@ -48,7 +36,7 @@ let Plugin = (function(){
 		script.onload = finish;
 
 		// IE
-		script.onreadystatechange = function() {
+		script.onreadystatechange = () => {
 			if ( this.readyState === 'loaded' ) {
 				finish();
 			}
@@ -62,10 +50,19 @@ let Plugin = (function(){
 	return {
 		id: 'math',
 
-		init: function( deck ) {
+		init: function( reveal ) {
 
-			defaults( options, defaultOptions );
-			defaults( options.tex2jax, defaultOptions.tex2jax );
+			deck = reveal;
+
+			let revealOptions = deck.getConfig().math || {};
+
+			let options = { ...defaultOptions, ...revealOptions };
+			let mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
+			let config = options.config || 'TeX-AMS_HTML-full';
+			let url = mathjax + '?config=' + config;
+
+			options.tex2jax = { ...defaultOptions.tex2jax, ...revealOptions.tex2jax };
+
 			options.mathjax = options.config = null;
 
 			loadScript( url, function() {
@@ -74,7 +71,7 @@ let Plugin = (function(){
 
 				// Typeset followed by an immediate reveal.js layout since
 				// the typesetting process could affect slide height
-				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub ] );
+				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, deck.getRevealElement() ] );
 				MathJax.Hub.Queue( deck.layout );
 
 				// Reprocess equations in slides when they turn visible
@@ -89,6 +86,6 @@ let Plugin = (function(){
 		}
 	}
 
-})();
+};
 
-export default () => Plugin;
+export default Plugin;
