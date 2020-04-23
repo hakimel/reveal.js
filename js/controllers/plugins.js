@@ -183,6 +183,11 @@ export default class Plugins {
 			plugin = arguments[1];
 			plugin.id = arguments[0];
 		}
+		// Plugin can optionally be a function which we call
+		// to create an instance of the plugin
+		else if( typeof plugin === 'function' ) {
+			plugin = plugin();
+		}
 
 		let id = plugin.id;
 

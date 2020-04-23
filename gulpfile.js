@@ -39,16 +39,14 @@ const rollupConfig = {
         babel({
             exclude: 'node_modules/**',
             compact: false,
-            presets: [
-                [
-                    '@babel/preset-env',
-                    {
-                        corejs: 3,
-                        useBuiltIns: 'entry',
-                        modules: false
-                    }
-                ]
-            ]
+            presets: [[
+                '@babel/preset-env',
+                {
+                    corejs: 3,
+                    useBuiltIns: 'entry',
+                    modules: false
+                }
+            ]]
         }),
         resolve(),
         terser()
