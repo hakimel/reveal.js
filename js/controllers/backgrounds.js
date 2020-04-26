@@ -157,8 +157,13 @@ export default class Backgrounds {
 			else {
 				element.style.background = data.background;
 			}
-		} else if (data.backgroundHtml) {
-			element.innerHTML = data.backgroundHtml;
+		}
+
+		if (data.backgroundHtml) {
+			// making Html attribute easier to write
+			element.innerHTML = data.backgroundHtml
+				.replace(/#[\w\d-]+/, htmlIdName => ` id="${htmlIdName.substr(1)}"`)
+				.replace(/\.[\w\d-]+/, htmlClassName => ` class="${htmlClassName.substr(1)}"`);
 		}
 
 		// Create a hash for this combination of background settings.

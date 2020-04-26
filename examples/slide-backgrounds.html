@@ -97,6 +97,11 @@
 					<h2>Iframe background</h2>
 				</section>
 
+				<section data-background-html="<canvas#test-canvas></canvas>" data-state="canvas-active">
+					<h2>HTML background</h2>
+					<script src="assets/canvas.js"></script>
+				</section>
+
 				<section>
 					<section data-background="#417203">
 						<h2>Same background twice vertical (1/2)</h2>
@@ -134,6 +139,10 @@
 				// transitionSpeed: 'slow',
 				// backgroundTransition: 'slide'
 			});
+
+			Reveal.addEventListener( 'canvas-active', function() {
+				canvasStart();
+			}, false );
 
 		</script>
 
