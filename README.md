@@ -18,7 +18,6 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
 - [Initialization](#initialization)
 - [Configuration](#configuration)
 - [Presentation Size](#presentation-size)
-- [Dependencies](#dependencies)
 - [Ready Event](#ready-event)
 - [Auto-Slide](#auto-slide)
 - [Auto-Animate](#auto-animate)
@@ -26,6 +25,8 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
 - [Vertical Slide Navigation](#vertical-slide-navigation)
 - [Touch Navigation](#touch-navigation)
 - [Lazy Loading](#lazy-loading)
+- [Plugins](#plugins)
+- [Dependencies](#dependencies)
 - [API](#api)
   - [Custom Key Bindings](#custom-key-bindings)
   - [Slide Change Events](#slide-change-events)
@@ -56,7 +57,6 @@ This project was started and is maintained by [@hakimel](https://github.com/haki
   - [Server Side Speaker Notes](#server-side-speaker-notes)
 - [Multiplexing](#multiplexing)
 - [MathJax](#mathjax)
-- [Plugins](#plugins)
 - [License](#license)
 
 #### More reading
@@ -447,41 +447,6 @@ Reveal.initialize({
 });
 ```
 
-### Dependencies
-
-Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
-
-```javascript
-Reveal.initialize({
-  dependencies: [
-    // Interpret Markdown in <section> elements
-    { src: 'plugin/markdown/marked.js', condition: () => { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'plugin/markdown/markdown.js', condition: () => { return !!document.querySelector( '[data-markdown]' ); } },
-
-    // Syntax highlight for <code> elements
-    { src: 'plugin/highlight/highlight.js', async: true },
-
-    // Zoom in and out with Alt+click
-    { src: 'plugin/zoom-js/zoom.js', async: true },
-
-    // Speaker notes
-    { src: 'plugin/notes/notes.js', async: true },
-
-    // MathJax
-    { src: 'plugin/math/math.js', async: true }
-  ]
-});
-```
-
-You can add your own extensions using the same syntax. The following properties are available for each dependency object:
-- **src**: Path to the script to load
-- **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
-- **callback**: [optional] Function to execute when the script has loaded
-- **condition**: [optional] Function which must return true for the script to be loaded
-
-You can also include dependencies which are bundled/already present on the page. To include a bundled plugin. replace the `src` property with a reference to a `plugin` instance:
-- **plugin**: the plugin instance (see [Plugins](#plugins))
-
 ### Ready Event
 
 A `ready` event is fired when reveal.js has loaded all non-async dependencies and is ready to start navigating. To check if reveal.js is already 'ready' you can call `Reveal.isReady()`.
@@ -657,6 +622,67 @@ You can also change the default globally with the `preloadIframes` configuration
 `true` ALL iframes with a `data-src` attribute will be preloaded when within the `viewDistance`
 regardless of individual `data-preload` attributes. If set to `false`, all iframes will only be
 loaded when they become visible.
+
+### Plugins
+
+Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( MyPlugin )`. Registered plugins _must_ expose a unique `id` property and can optionally expose an `init` function that reveal.js will call to initialize them.
+
+When reveal.js is booted up via `initialize()`, it will go through all registered plugins and invoke their `init` methods. If the `init` method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here’s an example of a plugin that does some asynchronous work before reveal.js can proceed:
+
+```javascript
+let MyPlugin = {
+  id: ’my-plugin’,
+  init: deck => {
+    return new Promise( resolve => setTimeout( resolve, 3000 ) )
+  }
+};
+Reveal.initialize({
+  plugins: [ MyPlugin ]
+}).then( () => {
+  console.log( ’Three seconds later...’ )
+} );
+```
+
+Note that reveal.js will *not* wait for init Promise fulfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin’s init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
+
+### Retrieving Plugins
+
+If you want to check if a specific plugin is registered you can use the `Reveal.hasPlugin` method and pass in a plugin ID, for example: `Reveal.hasPlugin( ’myPlugin’ )`. If you want to retrieve a plugin instance you can use `Reveal.getPlugin( ’myPlugin’ )`.
+
+### Dependencies
+
+Reveal.js doesn’t _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
+
+```javascript
+Reveal.initialize({
+  dependencies: [
+    // Interpret Markdown in <section> elements
+    { src: ’plugin/markdown/marked.js’, condition: () => { return !!document.querySelector( ’[data-markdown]’ ); } },
+    { src: ’plugin/markdown/markdown.js’, condition: () => { return !!document.querySelector( ’[data-markdown]’ ); } },
+
+    // Syntax highlight for <code> elements
+    { src: ’plugin/highlight/highlight.js’, async: true },
+
+    // Zoom in and out with Alt+click
+    { src: ’plugin/zoom-js/zoom.js’, async: true },
+
+    // Speaker notes
+    { src: ’plugin/notes/notes.js’, async: true },
+
+    // MathJax
+    { src: ’plugin/math/math.js’, async: true }
+  ]
+});
+```
+
+You can add your own extensions using the same syntax. The following properties are available for each dependency object:
+- **src**: Path to the script to load
+- **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
+- **callback**: [optional] Function to execute when the script has loaded
+- **condition**: [optional] Function which must return true for the script to be loaded
+
+You can also include dependencies which are bundled/already present on the page. To include a bundled plugin. replace the `src` property with a reference to a `plugin` instance:
+- **plugin**: the plugin instance (see [Plugins](#plugins))
 
 ### API
 
@@ -1440,30 +1466,6 @@ If you want to include math inside of a presentation written in Markdown you nee
 ```
 `$$ J(\theta_0,\theta_1) = \sum_{i=0} $$`
 ```
-
-## Plugins
-
-Plugins should register themselves with reveal.js by calling `Reveal.registerPlugin( MyPlugin )`. Registered plugins _must_ expose a unique `id` property and can optionally expose an `init` function that reveal.js will call to initialize them.
-
-When reveal.js is booted up via `initialize()`, it will go through all registered plugins and invoke their `init` methods. If the `init` method returns a Promise, reveal.js will wait for that promise to be fulfilled before finishing the startup sequence and firing the [ready](#ready-event) event. Here's an example of a plugin that does some asynchronous work before reveal.js can proceed:
-
-```javascript
-let MyPlugin = {
-  id: 'myPlugin',
-  init: deck => new Promise( resolve => setTimeout( resolve, 3000 ) )
-};
-Reveal.initialize({
-  dependencies: [ { plugin: MyPlugin } ]
-}).then( () => {
-  console.log( 'Three seconds later...' )
-} );
-```
-
-Note that reveal.js will *not* wait for init Promise fulfillment if the plugin is loaded as an [async dependency](#dependencies). If the plugin's init method does _not_ return a Promise, the plugin is considered ready right away and will not hold up the reveal.js startup sequence.
-
-### Retrieving Plugins
-
-If you want to check if a specific plugin is registered you can use the `Reveal.hasPlugin` method and pass in a plugin ID, for example: `Reveal.hasPlugin( 'myPlugin' )`. If you want to retrieve a plugin instance you can use `Reveal.getPlugin( 'myPlugin' )`.
 
 ## License
 
