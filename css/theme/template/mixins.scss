@@ -27,3 +27,7 @@
 	background: -ms-radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
 	background: radial-gradient( center, $type cover,  $inner 0%, $outer 100% );
 }
+
+@mixin image_tile( $imgpath ) {
+	background-image: url($imgpath); 
+}
