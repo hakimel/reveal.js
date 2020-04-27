@@ -8,7 +8,6 @@ const qunit = require('node-qunit-puppeteer')
 const {rollup} = require('rollup')
 const {terser} = require('rollup-plugin-terser')
 const babel = require('rollup-plugin-babel')
-const resolve = require('@rollup/plugin-node-resolve')
 
 const gulp = require('gulp')
 const tap = require('gulp-tap')
@@ -48,7 +47,6 @@ const rollupConfig = {
                 }
             ]]
         }),
-        resolve(),
         terser()
     ]
 };

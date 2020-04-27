@@ -10,7 +10,7 @@ import Deck from './reveal.js'
  *   // reveal.js is ready
  * });
  */
-var Reveal = Deck;
+let Reveal = Deck;
 
 
 /**
@@ -42,8 +42,8 @@ Reveal.initialize = options => {
 /**
  * The pre 4.0 API let you add event listener before
  * initializing. We maintain the same behavior by
- * queuing up early API calls and invoking all of them
- * when Reveal.initialize is called.
+ * queuing up premature API calls and invoking all
+ * of them when Reveal.initialize is called.
  */
 [ 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin' ].forEach( method => {
 	Reveal[method] = ( ...args ) => {
