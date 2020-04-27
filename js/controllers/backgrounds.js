@@ -145,7 +145,8 @@ export default class Backgrounds {
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
 			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
-			backgroundOpacity: slide.getAttribute( 'data-background-opacity' )
+			backgroundOpacity: slide.getAttribute( 'data-background-opacity' ),
+			backgroundHtml: slide.getAttribute( 'data-background-html' ),
 		};
 
 		if( data.background ) {
@@ -156,6 +157,13 @@ export default class Backgrounds {
 			else {
 				element.style.background = data.background;
 			}
+		}
+
+		if (data.backgroundHtml) {
+			// making Html attribute easier to write
+			element.innerHTML = data.backgroundHtml
+				.replace(/#[\w\d-]+/, htmlIdName => ` id="${htmlIdName.substr(1)}"`)
+				.replace(/\.[\w\d-]+/, htmlClassName => ` class="${htmlClassName.substr(1)}"`);
 		}
 
 		// Create a hash for this combination of background settings.
