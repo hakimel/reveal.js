@@ -244,11 +244,52 @@
 			</div>
 		</div>
 
+		<div class="reveal deck6" style="display: block;">
+			<div class="slides">
+				<section data-markdown class="defaults">
+					<script type="text/template">
+						```
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-language">
+					<script type="text/template">
+						```javascript
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-numbers">
+					<script type="text/template">
+						```[]
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-highlights">
+					<script type="text/template">
+						```[1,2,3]
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-highlights-and-lanugage">
+					<script type="text/template">
+						```javascript [1,2,3]
+						code
+						```
+					</script>
+				</section>
+			</div>
+		</div>
+
 		<script type="module">
 			import Reveal from '../js/reveal.js'
-			import markdown from '../plugin/markdown/markdown.js'
+			import Markdown from '../plugin/markdown/markdown.js'
+			import Highlight from '../plugin/highlight/highlight.js'
 
-			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ markdown() ] })
+			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ Markdown ] })
 			deck1.addEventListener( 'ready', function() {
 
 				QUnit.module( 'Inline' );
@@ -263,7 +304,7 @@
 
 			} );
 
-			let deck2 = new Reveal( document.querySelector( '.deck2' ), { plugins: [ markdown() ] })
+			let deck2 = new Reveal( document.querySelector( '.deck2' ), { plugins: [ Markdown ] })
 			deck2.addEventListener( 'ready', function() {
 
 				QUnit.module( 'External' );
@@ -278,7 +319,7 @@
 
 			} );
 
-			let deck3 = new Reveal( document.querySelector( '.deck3' ), { plugins: [ markdown() ] })
+			let deck3 = new Reveal( document.querySelector( '.deck3' ), { plugins: [ Markdown ] })
 			deck3.addEventListener( 'ready', function() {
 
 				QUnit.module( 'Slide Attributes' );
@@ -322,7 +363,7 @@
 				markdown: {
 					smartypants: true
 				},
-				plugins: [ markdown() ]
+				plugins: [ Markdown ]
 			})
 			deck4.addEventListener( 'ready', function() {
 
@@ -341,7 +382,7 @@
 
 			} );
 
-			let deck5 = new Reveal( document.querySelector( '.deck5' ), { plugins: [ markdown() ] })
+			let deck5 = new Reveal( document.querySelector( '.deck5' ), { plugins: [ Markdown ] })
 			deck5.addEventListener( 'ready', function() {
 
 				QUnit.module( 'Element Attributes' );
@@ -385,11 +426,41 @@
 
 			} );
 
+			let deck6 = new Reveal( document.querySelector( '.deck6' ), {
+				plugins: [ Markdown, Highlight ]
+			})
+			deck6.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Code Blocks' );
+
+				QUnit.test( 'Defaults to no line numbers', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.defaults .hljs:not([data-line-numbers])' ).length, 1 );
+				});
+
+				QUnit.test( 'Can set language', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-language .hljs.javascript:not([data-line-numbers])' ).length, 1 );
+				});
+
+				QUnit.test( '```[] enables line numbers', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-numbers .hljs[data-line-numbers=""]' ).length, 1 );
+				});
+
+				QUnit.test( '```[1,2,3] enables line highlights', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights .hljs[data-line-numbers="1,2,3"]' ).length, 1 );
+				});
+
+				QUnit.test( '```javascript [1,2,3] enables line highlights and sets language', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights-and-lanugage .hljs.javascript[data-line-numbers="1,2,3"]' ).length, 1 );
+				});
+
+			} );
+
 			deck1.initialize();
 			deck2.initialize();
 			deck3.initialize();
 			deck4.initialize();
 			deck5.initialize();
+			deck6.initialize();
 		</script>
 
 	</body>

@@ -13,6 +13,8 @@ const DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
 
 const SCRIPT_END_PLACEHOLDER = '__SCRIPT_END__';
 
+const CODE_LINE_NUMBER_REGEX = /\[([\s\d,|-]*)\]/;
+
 const Plugin = () => {
 
 	// The reveal.js instance this plugin is attached to
@@ -408,11 +410,30 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			// marked can be configured via reveal.js config options
-			var options = deck.getConfig().markdown;
-			if( options ) {
-				marked.setOptions( options );
-			}
+			let renderer = new marked.Renderer();
+
+			renderer.code = ( code, language ) => {
+
+				// Off by default
+				let lineNumbers = '';
+
+				// Users can opt in to show line numbers and highlight
+				// specific lines.
+				// ```javascript []        show line numbers
+				// ```javascript [1,4-8]   highlights lines 1 and 4-8
+				if( CODE_LINE_NUMBER_REGEX.test( language ) ) {
+					lineNumbers = language.match( CODE_LINE_NUMBER_REGEX )[1].trim();
+					lineNumbers = `data-line-numbers="${lineNumbers}"`;
+					language = language.replace( CODE_LINE_NUMBER_REGEX, '' ).trim();
+				}
+
+				return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
+			};
+
+			marked.setOptions( {
+				renderer,
+				...deck.getConfig().markdown
+			} );
 
 			return processSlides( deck.getRevealElement() ).then( convertSlides );
 
