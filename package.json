@@ -21,7 +21,7 @@
     "url": "git://github.com/hakimel/reveal.js.git"
   },
   "engines": {
-    "node": ">=9.0.0"
+    "node": ">=10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
