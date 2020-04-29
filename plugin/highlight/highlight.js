@@ -5,7 +5,7 @@ import './highlight-line-numbers.js'
  * reveal.js plugin that adds syntax highlight support.
  */
 
-let Plugin = {
+const Plugin = {
 
 	id: 'highlight',
 

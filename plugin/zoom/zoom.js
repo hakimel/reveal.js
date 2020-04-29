@@ -1,7 +1,7 @@
 /*!
  * reveal.js Zoom plugin
  */
-var Plugin = {
+const Plugin = {
 
 	id: 'zoom',
 

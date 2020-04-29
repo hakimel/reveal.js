@@ -9,7 +9,7 @@
  * 3. This window proceeds to send the current presentation state
  *    to the notes window
  */
-let Plugin = (function() {
+const Plugin = () => {
 
     var notesPopup = null;
 
@@ -180,6 +180,6 @@ let Plugin = (function() {
 		open: openNotes
 	};
 
-})();
+};
 
-export default () => Plugin;
+export default Plugin;
