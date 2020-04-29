@@ -343,7 +343,16 @@ export default class AutoAnimate {
 				bounds = elementOptions.measure( element );
 			}
 			else {
-				bounds = element.getBoundingClientRect();
+				bounds = {
+					x: element.offsetLeft * scale,
+					y: element.offsetTop * scale,
+					width: element.offsetWidth * scale,
+					height: element.offsetHeight * scale
+				};
+
+				// More precise, but breaks when used in combination
+				// with zoom for scaling the deck ¯\_(ツ)_/¯
+				// bounds = element.getBoundingClientRect();
 			}
 
 			properties.x = bounds.x;
