@@ -343,6 +343,7 @@ export default class AutoAnimate {
 				bounds = elementOptions.measure( element );
 			}
 			else {
+				let scale = this.Reveal.getScale();
 				bounds = {
 					x: element.offsetLeft * scale,
 					y: element.offsetTop * scale,
