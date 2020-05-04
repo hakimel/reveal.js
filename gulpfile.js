@@ -35,39 +35,50 @@ const banner = `/*!
 // Prevents warnings from opening too many test pages
 process.setMaxListeners(20);
 
+const babelConfig = {
+    exclude: 'node_modules/**',
+    compact: false,
+    presets: [[
+        '@babel/preset-env',
+        {
+            corejs: 3,
+            useBuiltIns: 'entry',
+            modules: false
+        }
+    ]]
+};
+
 const rollupConfig = {
     plugins: [
-        babel({
-            exclude: 'node_modules/**',
-            compact: false,
-            presets: [[
-                '@babel/preset-env',
-                {
-                    corejs: 3,
-                    useBuiltIns: 'entry',
-                    modules: false
-                }
-            ]]
-        }),
+        babel( babelConfig ),
         resolve(),
         commonjs(),
         terser()
     ]
 };
 
-gulp.task('js', () => {
+// Our ES module bundle only needs to support modern
+// browser features
+const babelConfigESM = JSON.parse( JSON.stringify( babelConfig ) );
+babelConfigESM.presets[0][1].targets = { esmodules: true };
+
+const rollupConfigESM = {
+    plugins: [
+        babel( babelConfigESM ),
+        resolve(),
+        commonjs(),
+        terser()
+    ]
+};
+
+// Creates a bundle with broad browser support, exposed
+// as UMD
+gulp.task('js-es5', () => {
     return rollup({
         input: 'js/index.js',
         ...rollupConfig
     }).then( bundle => {
-        bundle.write({
-            file: './dist/reveal.esm.js',
-            format: 'es',
-            banner: banner,
-            sourcemap: true
-        });
-
-        bundle.write({
+        return bundle.write({
             name: 'Reveal',
             file: './dist/reveal.js',
             format: 'umd',
@@ -77,6 +88,24 @@ gulp.task('js', () => {
     });
 })
 
+// Creates an ES module bundle
+gulp.task('js-es6', () => {
+    return rollup({
+        input: 'js/index.js',
+        ...rollupConfigESM
+    }).then( bundle => {
+        return bundle.write({
+            file: './dist/reveal.esm.js',
+            format: 'es',
+            banner: banner,
+            sourcemap: true
+        });
+    });
+})
+gulp.task('js', gulp.parallel('js-es5', 'js-es6'));
+
+// Creates a UMD and ES module bundle for each of our
+// built-in plugins
 gulp.task('plugins', () => {
     return Promise.all([
         { name: 'RevealHighlight', input: './plugin/highlight/plugin.js', output: './dist/plugin/highlight' },
