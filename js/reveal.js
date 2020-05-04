@@ -146,15 +146,15 @@ export default function( revealElement, options ) {
 
 		// Embedded decks use the reveal element as their viewport
 		if( config.embedded === true ) {
-			if( revealElement.closest( '.reveal-viewport' ) === null ) {
-				revealElement.classList.add( 'reveal-viewport' );
-			}
+			dom.viewport = revealElement.closest( '.reveal-viewport' ) || revealElement;
 		}
 		// Full-page decks use the body as their viewport
 		else {
-			document.body.classList.add( 'reveal-viewport' );
+			dom.viewport = document.body;
 			document.documentElement.classList.add( 'reveal-full-page' );
 		}
+
+		dom.viewport.classList.add( 'reveal-viewport' );
 
 	}
 
@@ -1273,7 +1273,7 @@ export default function( revealElement, options ) {
 				}
 			}
 
-			document.documentElement.classList.add( state[i] );
+			dom.viewport.classList.add( state[i] );
 
 			// Dispatch custom event matching the state's name
 			dispatchEvent({ type: state[i] });
@@ -1281,7 +1281,7 @@ export default function( revealElement, options ) {
 
 		// Clean up the remains of the previous state
 		while( stateBefore.length ) {
-			document.documentElement.classList.remove( stateBefore.pop() );
+			dom.viewport.classList.remove( stateBefore.pop() );
 		}
 
 		if( slideChanged ) {
@@ -2524,6 +2524,7 @@ export default function( revealElement, options ) {
 		// Returns reveal.js DOM elements
 		getRevealElement: () => revealElement,
 		getSlidesElement: () => dom.slides,
+		getViewportElement: () => dom.viewport,
 		getBackgroundsElement: () => backgrounds.element,
 
 		// API for registering and retrieving plugins

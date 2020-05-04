@@ -20,7 +20,7 @@
 			<div class="reveal" style="display: none;">
 				<div class="slides">
 					<section>1.1</section>
-					<section>1.2</section>
+					<section data-state="deck1slide2">1.2</section>
 					<section>1.3</section>
 				</div>
 			</div>
@@ -77,6 +77,18 @@
 
 				assert.ok( r1.hasPlugin( 'zoom' ) );
 				assert.notOk( r2.hasPlugin( 'zoom' ) );
+
+			});
+
+			QUnit.test( 'Slide state is set at the viewport level', function( assert ) {
+
+				r1.slide(1);
+
+				assert.ok( r1.getViewportElement().classList.contains( r1.getCurrentSlide().getAttribute( 'data-state' ) ) );
+
+				r1.slide(2);
+
+				assert.ok( !r1.getViewportElement().classList.contains( r1.getCurrentSlide().getAttribute( 'data-state' ) ), 'unset' );
 
 			});
 
