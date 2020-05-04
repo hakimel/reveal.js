@@ -703,10 +703,8 @@ $controlsArrowAngleActive: 36deg;
 }
 
 /* Don't allow interaction with invisible slides */
-.reveal .slides>section.future,
-.reveal .slides>section>section.future,
-.reveal .slides>section.past,
-.reveal .slides>section>section.past {
+.reveal .slides>section:not(.present),
+.reveal .slides>section>section:not(.present) {
 	pointer-events: none;
 }
 
