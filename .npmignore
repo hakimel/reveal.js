@@ -1,1 +1,8 @@
-/test/
+/test
+/examples
+/css
+/js
+/plugin
+.github
+.gulpfile
+.sass-cache
