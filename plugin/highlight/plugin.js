@@ -1,4 +1,4 @@
-import hljs from './highlight-core.js'
+import hljs from 'highlight.js'
 import './highlight-line-numbers.js'
 
 /*!

@@ -8,6 +8,8 @@ const qunit = require('node-qunit-puppeteer')
 const {rollup} = require('rollup')
 const {terser} = require('rollup-plugin-terser')
 const babel = require('rollup-plugin-babel')
+const commonjs = require('@rollup/plugin-commonjs')
+const resolve = require('@rollup/plugin-node-resolve')
 
 const gulp = require('gulp')
 const tap = require('gulp-tap')
@@ -47,6 +49,8 @@ const rollupConfig = {
                 }
             ]]
         }),
+        resolve(),
+        commonjs(),
         terser()
     ]
 };
@@ -57,7 +61,7 @@ gulp.task('js', () => {
         ...rollupConfig
     }).then( bundle => {
         bundle.write({
-            file: './dist/reveal.js',
+            file: './dist/reveal.esm.js',
             format: 'es',
             banner: banner,
             sourcemap: true
@@ -65,7 +69,7 @@ gulp.task('js', () => {
 
         bundle.write({
             name: 'Reveal',
-            file: './dist/reveal.es5.js',
+            file: './dist/reveal.js',
             format: 'umd',
             banner: banner,
             sourcemap: true
@@ -75,19 +79,25 @@ gulp.task('js', () => {
 
 gulp.task('plugins', () => {
     return Promise.all([
-        { name: 'RevealHighlight', input: './plugin/highlight/highlight.js', output: './dist/plugin/highlight.js' },
-        { name: 'RevealMarkdown', input: './plugin/markdown/markdown.js', output: './dist/plugin/markdown.js' },
-        { name: 'RevealSearch', input: './plugin/search/search.js', output: './dist/plugin/search.js' },
-        { name: 'RevealNotes', input: './plugin/notes/notes.js', output: './dist/plugin/notes.js' },
-        { name: 'RevealZoom', input: './plugin/zoom/zoom.js', output: './dist/plugin/zoom.js' },
-        { name: 'RevealMath', input: './plugin/math/math.js', output: './dist/plugin/math.js' }
+        { name: 'RevealHighlight', input: './plugin/highlight/plugin.js', output: './dist/plugin/highlight' },
+        { name: 'RevealMarkdown', input: './plugin/markdown/plugin.js', output: './dist/plugin/markdown' },
+        { name: 'RevealSearch', input: './plugin/search/plugin.js', output: './dist/plugin/search' },
+        { name: 'RevealNotes', input: './plugin/notes/plugin.js', output: './dist/plugin/notes' },
+        { name: 'RevealZoom', input: './plugin/zoom/plugin.js', output: './dist/plugin/zoom' },
+        { name: 'RevealMath', input: './plugin/math/plugin.js', output: './dist/plugin/math' },
     ].map( plugin => {
         return rollup({
                 input: plugin.input,
                 ...rollupConfig
             }).then( bundle => {
-                return bundle.write({
-                    file: plugin.output,
+                bundle.write({
+                    file: plugin.output + '.esm.js',
+                    name: plugin.name,
+                    format: 'es'
+                })
+
+                bundle.write({
+                    file: plugin.output + '.js',
                     name: plugin.name,
                     format: 'umd'
                 })
