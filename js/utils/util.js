@@ -115,9 +115,9 @@ export const closestParent = ( target, selector ) => {
  * @see http://fullscreen.spec.whatwg.org/
  * @see https://developer.mozilla.org/en-US/docs/DOM/Using_fullscreen_mode
  */
-export const enterFullscreen = () => {
+export const enterFullscreen = element => {
 
-	let element = document.documentElement;
+	element = element || document.documentElement;
 
 	// Check which implementation is available
 	let requestMethod = element.requestFullscreen ||

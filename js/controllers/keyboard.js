@@ -333,7 +333,7 @@ export default class Keyboard {
 			}
 			// F
 			else if( keyCode === 70 ) {
-				enterFullscreen();
+				enterFullscreen( config.embedded ? this.Reveal.getViewportElement() : document.documentElement );
 			}
 			// A
 			else if( keyCode === 65 ) {
