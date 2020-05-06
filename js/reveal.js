@@ -215,7 +215,9 @@ export default function( revealElement, options ) {
 				print.setupPDF();
 			}
 			else {
-				window.addEventListener( 'load', print.setupPDF );
+				window.addEventListener( 'load', () => {
+					print.setupPDF();
+				} );
 			}
 		}
 
