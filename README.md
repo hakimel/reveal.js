@@ -5,7 +5,7 @@ reveal.js is an open source HTML presentation framework. It's a tool that enable
 ----
 
 ## Documentation
-The full reveal.js documentation is available at [revealjs.com](https://netlify.revealjs.com).
+The full reveal.js documentation is available at [revealjs.com](https://revealjs.netlify.com).
 
 ## License
 
