@@ -131,12 +131,16 @@ export default class Location {
 			else if( config.hash ) {
 				window.history.replaceState( null, null, '#' + this.getHash() );
 			}
+			// UPDATE: The below nuking of all hash changes breaks
+			// anchors on pages where reveal.js is running. Removed
+			// in 4.0. Why was it here in the first place? ¯\_(ツ)_/¯
+			//
 			// If history and hash are both disabled, a hash may still
 			// be added to the URL by clicking on a href with a hash
 			// target. Counter this by always removing the hash.
-			else {
-				window.history.replaceState( null, null, window.location.pathname + window.location.search );
-			}
+			// else {
+			// 	window.history.replaceState( null, null, window.location.pathname + window.location.search );
+			// }
 		}
 
 	}
