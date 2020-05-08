@@ -621,6 +621,11 @@ $controlsArrowAngleActive: 36deg;
 	touch-action: pinch-zoom;
 }
 
+// Swiping on an embedded deck should not block page scrolling
+.reveal.embedded {
+	touch-action: pan-y;
+}
+
 .reveal .slides {
 	position: absolute;
 	width: 100%;

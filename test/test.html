@@ -272,6 +272,9 @@
 
 					Reveal.slide( 1, 0 );
 					assert.deepEqual( Reveal.availableRoutes(), { left: true, up: false, down: true, right: true }, 'correct for vertical slide' );
+
+					Reveal.slide( 0, 0 );
+					assert.deepEqual( Reveal.availableRoutes({ includeFragments: true }), { left: false, up: false, down: false, right: true }, 'correct with fragments included' );
 				});
 
 				QUnit.test( 'Reveal.next', function( assert ) {

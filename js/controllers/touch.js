@@ -1,3 +1,5 @@
+import { isAndroid } from '../utils/device.js'
+
 const SWIPE_THRESHOLD = 40;
 
 /**
@@ -30,7 +32,7 @@ export default class Touch {
 	 */
 	bind() {
 
-		var revealElement = this.Reveal.getRevealElement();
+		let revealElement = this.Reveal.getRevealElement();
 
 		if( 'onpointerdown' in window ) {
 			// Use W3C pointer events
@@ -58,7 +60,7 @@ export default class Touch {
 	 */
 	unbind() {
 
-		var revealElement = this.Reveal.getRevealElement();
+		let revealElement = this.Reveal.getRevealElement();
 
 		revealElement.removeEventListener( 'pointerdown', this.onPointerDown, false );
 		revealElement.removeEventListener( 'pointermove', this.onPointerMove, false );
@@ -126,6 +128,8 @@ export default class Touch {
 			// There was only one touch point, look for a swipe
 			if( event.touches.length === 1 && this.touchStartCount !== 2 ) {
 
+				let availableRoutes = this.Reveal.availableRoutes({ includeFragments: true });
+
 				let deltaX = currentX - this.touchStartX,
 					deltaY = currentY - this.touchStartY;
 
@@ -136,7 +140,7 @@ export default class Touch {
 							this.Reveal.next();
 						}
 						else {
-							this.Reveal.prev()();
+							this.Reveal.prev();
 						}
 					}
 					else {
@@ -147,7 +151,7 @@ export default class Touch {
 					this.touchCaptured = true;
 					if( config.navigationMode === 'linear' ) {
 						if( config.rtl ) {
-							this.Reveal.prev()();
+							this.Reveal.prev();
 						}
 						else {
 							this.Reveal.next();
@@ -157,16 +161,16 @@ export default class Touch {
 						this.Reveal.right();
 					}
 				}
-				else if( deltaY > SWIPE_THRESHOLD ) {
+				else if( deltaY > SWIPE_THRESHOLD && availableRoutes.up ) {
 					this.touchCaptured = true;
 					if( config.navigationMode === 'linear' ) {
-						this.Reveal.prev()();
+						this.Reveal.prev();
 					}
 					else {
 						this.Reveal.up();
 					}
 				}
-				else if( deltaY < -SWIPE_THRESHOLD ) {
+				else if( deltaY < -SWIPE_THRESHOLD && availableRoutes.down ) {
 					this.touchCaptured = true;
 					if( config.navigationMode === 'linear' ) {
 						this.Reveal.next();
@@ -179,7 +183,7 @@ export default class Touch {
 				// If we're embedded, only block touch events if they have
 				// triggered an action
 				if( config.embedded ) {
-					if( this.touchCaptured || this.Reveal.isVerticalSlide( currentSlide ) ) {
+					if( this.touchCaptured || this.Reveal.isVerticalSlide() ) {
 						event.preventDefault();
 					}
 				}

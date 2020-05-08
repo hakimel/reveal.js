@@ -417,19 +417,9 @@ export default function( revealElement, options ) {
 			shuffle();
 		}
 
-		if( config.rtl ) {
-			dom.wrapper.classList.add( 'rtl' );
-		}
-		else {
-			dom.wrapper.classList.remove( 'rtl' );
-		}
-
-		if( config.center ) {
-			dom.wrapper.classList.add( 'center' );
-		}
-		else {
-			dom.wrapper.classList.remove( 'center' );
-		}
+		Util.toggleClass( dom.wrapper, 'embedded', config.embedded );
+		Util.toggleClass( dom.wrapper, 'rtl', config.rtl );
+		Util.toggleClass( dom.wrapper, 'center', config.center );
 
 		// Exit the paused mode if it was configured off
 		if( config.pause === false ) {
@@ -1666,7 +1656,7 @@ export default function( revealElement, options ) {
 	 *
 	 * @return {{left: boolean, right: boolean, up: boolean, down: boolean}}
 	 */
-	function availableRoutes() {
+	function availableRoutes({ includeFragments = false } = {}) {
 
 		let horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
@@ -1695,6 +1685,17 @@ export default function( revealElement, options ) {
 		if ( horizontalSlides.length > 1 && config.navigationMode === 'linear' ) {
 			routes.right = routes.right || routes.down;
 			routes.left = routes.left || routes.up;
+		}
+
+		// If includeFragments is set, a route will be considered
+		// availalbe if either a slid OR fragment is available in
+		// the given direction
+		if( includeFragments === true ) {
+			let fragmentRoutes = fragments.availableRoutes();
+			routes.left = routes.left || fragmentRoutes.prev;
+			routes.up = routes.up || fragmentRoutes.prev;
+			routes.down = routes.down || fragmentRoutes.next;
+			routes.right = routes.right || fragmentRoutes.next;
 		}
 
 		// Reverse horizontal controls for rtl

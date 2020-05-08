@@ -25,6 +25,18 @@ export const queryAll = ( el, selector ) => {
 }
 
 /**
+ * classList.toggle() with cross browser support
+ */
+export const toggleClass = ( el, className, value ) => {
+	if( value ) {
+		el.classList.add( className );
+	}
+	else {
+		el.classList.remove( className );
+	}
+}
+
+/**
  * Utility for deserializing a value.
  *
  * @param {*} value
