@@ -62,6 +62,9 @@ export default {
 	// page/copying the URL will return you to the same slide
 	hash: false,
 
+	// Flags if we should monitor the hash and change slides accordingly
+	respondToHashChanges: true,
+
 	// Push each slide change to the browser history.  Implies `hash: true`
 	history: false,
 

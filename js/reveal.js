@@ -487,8 +487,8 @@ export default function( revealElement, options ) {
 		if( config.touch ) touch.bind();
 		if( config.keyboard ) keyboard.bind();
 		if( config.progress ) progress.bind();
+		if( config.respondToHashChanges ) location.bind();
 		controls.bind();
-		location.bind();
 
 		dom.slides.addEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
