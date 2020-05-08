@@ -331,6 +331,8 @@ export default class AutoAnimate {
 	 */
 	getAutoAnimatableProperties( direction, element, elementOptions ) {
 
+		let config = this.Reveal.getConfig();
+
 		let properties = { styles: [] };
 
 		// Position and size
@@ -343,17 +345,20 @@ export default class AutoAnimate {
 				bounds = elementOptions.measure( element );
 			}
 			else {
-				let scale = this.Reveal.getScale();
-				bounds = {
-					x: element.offsetLeft * scale,
-					y: element.offsetTop * scale,
-					width: element.offsetWidth * scale,
-					height: element.offsetHeight * scale
-				};
-
-				// More precise, but breaks when used in combination
-				// with zoom for scaling the deck ¯\_(ツ)_/¯
-				// bounds = element.getBoundingClientRect();
+				if( config.center ) {
+					// More precise, but breaks when used in combination
+					// with zoom for scaling the deck ¯\_(ツ)_/¯
+					bounds = element.getBoundingClientRect();
+				}
+				else {
+					let scale = this.Reveal.getScale();
+					bounds = {
+						x: element.offsetLeft * scale,
+						y: element.offsetTop * scale,
+						width: element.offsetWidth * scale,
+						height: element.offsetHeight * scale
+					};
+				}
 			}
 
 			properties.x = bounds.x;
@@ -365,7 +370,7 @@ export default class AutoAnimate {
 		const computedStyles = getComputedStyle( element );
 
 		// CSS styles
-		( elementOptions.styles || this.Reveal.getConfig().autoAnimateStyles ).forEach( style => {
+		( elementOptions.styles || config.autoAnimateStyles ).forEach( style => {
 			let value;
 
 			// `style` is either the property name directly, or an object
