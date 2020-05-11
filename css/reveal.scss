@@ -230,8 +230,6 @@ html.reveal-full-page {
 // Layout helper: Stack multiple elements on top of each other
 .reveal .r-stack {
 	display: grid;
-	justify-content: center;
-    align-items: center;
 }
 
 .reveal .r-stack > * {
