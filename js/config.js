@@ -72,14 +72,17 @@ export default {
 	keyboard: true,
 
 	// Optional function that blocks keyboard events when retuning false
+	//
+	// If you set this to 'foucsed', we will only capture keyboard events
+	// for embdedded decks when they are in focus
 	keyboardCondition: null,
+
+	// Disables the default reveal.js slide layout (scaling and centering)
+	// so that you can use custom CSS layout
+	disableLayout: false,
 
 	// Enable the slide overview mode
 	overview: true,
-
-	// Disables the default reveal.js slide layout so that you can use
-	// custom CSS layout
-	disableLayout: false,
 
 	// Vertical centering of slides
 	center: true,

@@ -892,8 +892,8 @@ export default function( revealElement, options ) {
 	 */
 	function layoutSlideContents( width, height ) {
 
-		// Handle sizing of elements with the 'stretch' class
-		Util.queryAll( dom.slides, 'section > .stretch' ).forEach( element => {
+		// Handle sizing of elements with the 'r-stretch' class
+		Util.queryAll( dom.slides, 'section > .stretch, section > .r-stretch' ).forEach( element => {
 
 			// Determine how much vertical space we can use
 			let remainingHeight = Util.getRemainingHeight( element, height );
