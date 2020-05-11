@@ -151,6 +151,12 @@ export default class Keyboard {
 			return true;
 		}
 
+		// If keyboardCondition is set, only capture keyboard events
+		// for embedded decks when they are focused
+		if( config.keyboardCondition === 'focused' && !this.Reveal.isFocused() ) {
+			return true;
+		}
+
 		// Shorthand
 		let keyCode = event.keyCode;
 

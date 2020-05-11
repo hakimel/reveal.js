@@ -12,6 +12,7 @@ import Pointer from './controllers/pointer.js'
 import Plugins from './controllers/plugins.js'
 import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
+import Focus from './controllers/focus.js'
 import Notes from './controllers/notes.js'
 import Playback from './components/playback.js'
 import defaultConfig from './config.js'
@@ -111,6 +112,7 @@ export default function( revealElement, options ) {
 		pointer = new Pointer( Reveal ),
 		plugins = new Plugins( Reveal ),
 		print = new Print( Reveal ),
+		focus = new Focus( Reveal ),
 		touch = new Touch( Reveal ),
 		notes = new Notes( Reveal );
 
@@ -464,6 +466,7 @@ export default function( revealElement, options ) {
 		}
 
 		notes.configure( config, oldConfig );
+		focus.configure( config, oldConfig );
 		pointer.configure( config, oldConfig );
 		controls.configure( config, oldConfig );
 		progress.configure( config, oldConfig );
@@ -489,6 +492,7 @@ export default function( revealElement, options ) {
 		if( config.progress ) progress.bind();
 		if( config.respondToHashChanges ) location.bind();
 		controls.bind();
+		focus.bind();
 
 		dom.slides.addEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
@@ -507,6 +511,7 @@ export default function( revealElement, options ) {
 		eventsAreBound = false;
 
 		touch.unbind();
+		focus.unbind();
 		keyboard.unbind();
 		controls.unbind();
 		progress.unbind();
@@ -2438,6 +2443,7 @@ export default function( revealElement, options ) {
 		isAutoSliding,
 		isSpeakerNotes: notes.isSpeakerNotesWindow.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
+		isFocused: focus.isFocused.bind( focus ),
 		isPrintingPDF: print.isPrintingPDF.bind( print ),
 
 		// Checks if reveal.js has been loaded and is ready for use
@@ -2548,6 +2554,7 @@ export default function( revealElement, options ) {
 
 		// Controllers
 		print,
+		focus,
 		progress,
 		controls,
 		location,

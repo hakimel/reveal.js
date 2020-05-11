@@ -57,6 +57,15 @@
 			</div>
 		</div>
 
+		<style>
+			.reveal {
+				border: 4px solid #ccc;
+			}
+			.reveal.focused {
+				border-color: #94b5ff;
+			}
+		</style>
+
 		<script src="../dist/reveal.js"></script>
 		<script src="../dist/plugin/highlight.js"></script>
 		<script src="../dist/plugin/markdown.js"></script>
@@ -65,7 +74,8 @@
 
 			let deck1 = new Reveal( document.querySelector( '.deck1' ), {
 				embedded: true,
-				keyboard: false,
+				progress: false,
+				keyboardCondition: 'focused',
 				plugins: [ RevealHighlight ]
 			} );
 			deck1.on( 'slidechanged', () => {
@@ -75,7 +85,8 @@
 
 			let deck2 = new Reveal( document.querySelector( '.deck2' ), {
 				embedded: true,
-				keyboard: true,
+				progress: false,
+				keyboardCondition: 'focused',
 				plugins: [ RevealMarkdown, RevealMath ]
 			} );
 			deck2.initialize().then( () => {
