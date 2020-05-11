@@ -45,12 +45,12 @@ section.has-light-background, section.has-light-background h1, section.has-light
   font-weight: normal;
   color: #fff; }
 
-::selection {
+.reveal ::selection {
   color: #fff;
   background: #bee4fd;
   text-shadow: none; }
 
-::-moz-selection {
+.reveal ::-moz-selection {
   color: #fff;
   background: #bee4fd;
   text-shadow: none; }

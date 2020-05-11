@@ -18,13 +18,13 @@
 	color: $mainColor;
 }
 
-::selection {
+.reveal ::selection {
 	color: $selectionColor;
 	background: $selectionBackgroundColor;
 	text-shadow: none;
 }
 
-::-moz-selection {
+.reveal ::-moz-selection {
 	color: $selectionColor;
 	background: $selectionBackgroundColor;
 	text-shadow: none;

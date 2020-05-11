@@ -51,12 +51,12 @@
   font-weight: normal;
   color: #eee; }
 
-::selection {
+.reveal ::selection {
   color: #fff;
   background: #FF5E99;
   text-shadow: none; }
 
-::-moz-selection {
+.reveal ::-moz-selection {
   color: #fff;
   background: #FF5E99;
   text-shadow: none; }
