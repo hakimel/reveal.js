@@ -712,15 +712,18 @@ export default function( revealElement, options ) {
 
 			let html = '<p class="title">Keyboard Shortcuts</p><br/>';
 
+			let shortcuts = keyboard.getShortcuts(),
+				bindings = keyboard.getBindings();
+
 			html += '<table><th>KEY</th><th>ACTION</th>';
-			for( let key in keyboard.shortcuts ) {
-				html += `<tr><td>${key}</td><td>${keyboard.shortcuts[ key ]}</td></tr>`;
+			for( let key in shortcuts ) {
+				html += `<tr><td>${key}</td><td>${shortcuts[ key ]}</td></tr>`;
 			}
 
 			// Add custom key bindings that have associated descriptions
-			for( let binding in keyboard.registeredKeyBindings ) {
-				if( keyboard.registeredKeyBindings[binding].key && keyboard.registeredKeyBindings[binding].description ) {
-					html += `<tr><td>${keyboard.registeredKeyBindings[binding].key}</td><td>${keyboard.registeredKeyBindings[binding].description}</td></tr>`;
+			for( let binding in bindings ) {
+				if( bindings[binding].key && bindings[binding].description ) {
+					html += `<tr><td>${bindings[binding].key}</td><td>${bindings[binding].description}</td></tr>`;
 				}
 			}
 
@@ -775,7 +778,7 @@ export default function( revealElement, options ) {
 				// property where 100x adds up to the correct height.
 				//
 				// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
-				if( Device.isMobile ) {
+				if( Device.isMobile && !config.embedded ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 

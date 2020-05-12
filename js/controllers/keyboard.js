@@ -122,6 +122,18 @@ export default class Keyboard {
 
 	}
 
+	getShortcuts() {
+
+		return this.shortcuts;
+
+	}
+
+	getBindings() {
+
+		return this.bindings;
+
+	}
+
 	/**
 	 * Handler for the document level 'keypress' event.
 	 *

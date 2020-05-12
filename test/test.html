@@ -379,6 +379,31 @@
 					await test( '#/2/0/1', { h: 2, v: 0, f: 1 } ); // fragment
 				});
 
+				// ---------------------------------------------------------------
+				// KEYBOARD TESTS
+
+				QUnit.module( 'Keyboard' );
+
+				QUnit.test( 'Add key bindings', function( assert ) {
+					var done = assert.async( 1 );
+
+					Reveal.addKeyBinding({keyCode: 88, key: 'X', description: 'X-SHORTCUT-X'}, function() {
+						assert.ok( true, 'callback triggered' );
+						done();
+					} );
+
+					Reveal.toggleHelp( true );
+					assert.ok( /X\-SHORTCUT\-X/.test( document.body.innerHTML ), 'binding is added to help overlay' );
+					Reveal.toggleHelp( false );
+
+					let event = new KeyboardEvent( 'keydown', { 'keyCode':88 } );
+					document.dispatchEvent( event );
+
+					Reveal.removeKeyBinding( 88 );
+
+					// should do nothing
+					document.dispatchEvent( event );
+				});
 
 				// ---------------------------------------------------------------
 				// FRAGMENT TESTS
