@@ -233,14 +233,15 @@
 .reveal small * {
   vertical-align: top; }
 
+.reveal img {
+  margin: 20px 0; }
+
 /*********************************************
  * LINKS
  *********************************************/
 .reveal a {
   color: #a23;
   text-decoration: none;
-  -webkit-transition: color .15s ease;
-  -moz-transition: color .15s ease;
   transition: color .15s ease; }
 
 .reveal a:hover {
@@ -253,25 +254,16 @@
   background: #6a1520; }
 
 /*********************************************
- * IMAGES
+ * Frame helper
  *********************************************/
-.reveal section img {
-  margin: 15px 0px;
-  background: rgba(255, 255, 255, 0.12);
+.reveal .r-frame {
   border: 4px solid #eee;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
 
-.reveal section img.plain {
-  border: 0;
-  box-shadow: none; }
-
-.reveal a img {
-  -webkit-transition: all .15s linear;
-  -moz-transition: all .15s linear;
+.reveal a .r-frame {
   transition: all .15s linear; }
 
-.reveal a:hover img {
-  background: rgba(255, 255, 255, 0.2);
+.reveal a:hover .r-frame {
   border-color: #a23;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
@@ -289,8 +281,6 @@
   color: #a23; }
 
 .reveal .progress span {
-  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
 /*********************************************
