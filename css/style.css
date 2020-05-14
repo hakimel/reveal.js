@@ -1,3 +1,17 @@
 .tagline {
-    padding-top: 6em;
+    margin-top: 45%;
+}
+.videolink {
+    font-size: medium;
+    margin-top: 5%;
+}
+.videolink img {
+    width: 5%;
+    padding: 1em;
+}
+a img {
+    outline: none;
+}
+img {
+    border: 0;
 }
