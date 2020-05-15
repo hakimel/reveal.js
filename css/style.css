@@ -1,9 +1,11 @@
 .tagline {
     margin-top: 45%;
 }
+.topbox {
+    padding-top: 50%;
+}
 .videolink {
-    font-size: medium;
-    margin-top: 5%;
+    font-size: x-large;
 }
 .videolink img {
     width: 5%;
