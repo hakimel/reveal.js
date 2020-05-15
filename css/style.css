@@ -15,3 +15,13 @@ a img {
 img {
     border: 0;
 }
+.resumebox {
+    width: 30%;
+    float: left;
+    font-size: large;
+    padding-right: 3%;
+}
+.linkedin {
+    width: 5%;
+    vertical-align: middle;
+}
