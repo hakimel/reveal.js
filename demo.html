@@ -149,14 +149,14 @@
 						## Markdown support
 
 						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+						Instructions and more info available in the [readme](https://revealjs.netlify.app/markdown/).
 
 						```[]
 						<section data-markdown>
 						  ## Markdown support
 
 						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+						  Instructions and more info available in the [readme](https://revealjs.netlify.app/markdown/).
 						</section>
 						```
 					</script>
@@ -345,7 +345,7 @@
 
 				<section>
 					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
+					<p>There's a <a href="https://revealjs.netlify.app/speaker-view/">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
 					<p>Press the <em>S</em> key to try it out.</p>
 
 					<aside class="notes">
@@ -355,7 +355,7 @@
 
 				<section>
 					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+					<p>Presentations can be <a href="https://revealjs.netlify.app/pdf-export/">exported to PDF</a>, here's an example:</p>
 					<iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
 				</section>
 
@@ -391,10 +391,10 @@ Reveal.on( 'customevent', function() {
 					<h2>Much more</h2>
 					<ul>
 						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+						<li><a href="https://revealjs.netlify.app/api/">Extensive JavaScript API</a></li>
+						<li><a href="https://revealjs.netlify.app/auto-slide/">Auto-progression</a></li>
+						<li><a href="https://revealjs.netlify.app/backgrounds/#parallax-background">Parallax backgrounds</a></li>
+						<li><a href="https://revealjs.netlify.app/keyboard/">Custom keyboard bindings</a></li>
 					</ul>
 				</section>
 
@@ -410,26 +410,24 @@ Reveal.on( 'customevent', function() {
 
 		</div>
 
-		<script type="module">
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
 
-			import Reveal from '/dist/reveal.esm.js';
-			import Zoom from '/plugin/zoom/zoom.esm.js';
-			import Notes from '/plugin/notes/notes.esm.js';
-			import Search from '/plugin/search/search.esm.js';
-			import Markdown from '/plugin/markdown/markdown.esm.js';
-			import Highlight from '/plugin/highlight/highlight.esm.js';
-
-			// More info https://github.com/hakimel/reveal.js#configuration
+			// Also available as an ES module, see:
+			// https://revealjs.netlify.app/initialization/
 			Reveal.initialize({
 				controls: true,
 				progress: true,
 				center: true,
 				hash: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// More info https://github.com/hakimel/reveal.js#plugins
-				plugins: [ Zoom, Notes, Search, Markdown, Highlight ]
+				// Learn about plugins: https://revealjs.netlify.app/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
 			});
 
 		</script>
