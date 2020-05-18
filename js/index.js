@@ -16,7 +16,7 @@ let Reveal = Deck;
 /**
  * The below is a thin shell that mimics the pre 4.0
  * reveal.js API and ensures backwards compatibility.
- * This API only allows for once Reveal instance per
+ * This API only allows for one Reveal instance per
  * page, whereas the new API above lets you run many
  * presentations on the same page.
  *

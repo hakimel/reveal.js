@@ -1,3 +1,5 @@
+import speakerViewHTML from './speaker-view.html';
+
 /**
  * Handles opening of and synchronization with the reveal.js
  * notes window.
@@ -11,27 +13,21 @@
  */
 const Plugin = () => {
 
-    var notesPopup = null;
+    let popup = null;
 
-    var deck;
+    let deck;
 
-	function openNotes( notesFilePath ) {
+	function openNotes() {
 
-        if (notesPopup && !notesPopup.closed) {
-            notesPopup.focus();
+        if (popup && !popup.closed) {
+            popup.focus();
             return;
         }
 
-		if( !notesFilePath ) {
-			// var jsFileLocation = document.querySelector('script[src$="notes.js"]').src;  // this js file path
-			// jsFileLocation = jsFileLocation.replace(/notes\.js(\?.*)?$/, '');   // the js folder path
-			// notesFilePath = jsFileLocation + 'notes.html';
-			notesFilePath = 'plugin/notes/notes.html'
-		}
+		popup = window.open( 'about:blank', 'reveal.js - Notes', 'width=1100,height=700' );
+		popup.document.write( speakerViewHTML );
 
-		notesPopup = window.open( notesFilePath, 'reveal.js - Notes', 'width=1100,height=700' );
-
-		if( !notesPopup ) {
+		if( !popup ) {
 			alert( 'Speaker view popup failed to open. Please make sure popups are allowed and reopen the speaker view.' );
 			return;
 		}
@@ -44,8 +40,8 @@ const Plugin = () => {
 		 */
 		function connect() {
 			// Keep trying to connect until we get a 'connected' message back
-			var connectInterval = setInterval( function() {
-				notesPopup.postMessage( JSON.stringify( {
+			let connectInterval = setInterval( function() {
+				popup.postMessage( JSON.stringify( {
 					namespace: 'reveal-notes',
 					type: 'connect',
 					url: window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search,
@@ -54,7 +50,7 @@ const Plugin = () => {
 			}, 500 );
 
 			window.addEventListener( 'message', function( event ) {
-				var data = JSON.parse( event.data );
+				let data = JSON.parse( event.data );
 				if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
 					clearInterval( connectInterval );
 					onConnected();
@@ -71,8 +67,8 @@ const Plugin = () => {
 		 */
 		function callRevealApi( methodName, methodArguments, callId ) {
 
-			var result = deck[methodName].apply( deck, methodArguments );
-			notesPopup.postMessage( JSON.stringify( {
+			let result = deck[methodName].apply( deck, methodArguments );
+			popup.postMessage( JSON.stringify( {
 				namespace: 'reveal-notes',
 				type: 'return',
 				result: result,
@@ -86,11 +82,11 @@ const Plugin = () => {
 		 */
 		function post( event ) {
 
-			var slideElement = deck.getCurrentSlide(),
+			let slideElement = deck.getCurrentSlide(),
 				notesElement = slideElement.querySelector( 'aside.notes' ),
 				fragmentElement = slideElement.querySelector( '.current-fragment' );
 
-			var messageData = {
+			let messageData = {
 				namespace: 'reveal-notes',
 				type: 'state',
 				notes: '',
@@ -107,7 +103,7 @@ const Plugin = () => {
 
 			// Look for notes defined in a fragment
 			if( fragmentElement ) {
-				var fragmentNotes = fragmentElement.querySelector( 'aside.notes' );
+				let fragmentNotes = fragmentElement.querySelector( 'aside.notes' );
 				if( fragmentNotes ) {
 					notesElement = fragmentNotes;
 				}
@@ -126,7 +122,7 @@ const Plugin = () => {
 				messageData.markdown = typeof notesElement.getAttribute( 'data-markdown' ) === 'string';
 			}
 
-			notesPopup.postMessage( JSON.stringify( messageData ), '*' );
+			popup.postMessage( JSON.stringify( messageData ), '*' );
 
 		}
 
