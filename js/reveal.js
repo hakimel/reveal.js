@@ -44,7 +44,7 @@ export default function( revealElement, options ) {
 	const Reveal = {};
 
 	// The reveal.js version
-	const VERSION = '4.0.0-dev';
+	const VERSION = '4.0.0-rc.1';
 
 	// Configuration defaults, can be overridden at initialization time
 	let config,

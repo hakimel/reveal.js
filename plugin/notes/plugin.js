@@ -1,5 +1,7 @@
 import speakerViewHTML from './speaker-view.html';
 
+import marked from 'marked'
+
 /**
  * Handles opening of and synchronization with the reveal.js
  * notes window.
@@ -25,6 +27,7 @@ const Plugin = () => {
         }
 
 		popup = window.open( 'about:blank', 'reveal.js - Notes', 'width=1100,height=700' );
+		popup.marked = marked;
 		popup.document.write( speakerViewHTML );
 
 		if( !popup ) {
