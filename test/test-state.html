@@ -6,8 +6,9 @@
 
 		<title>reveal.js - Test State</title>
 
-		<link rel="stylesheet" href="../css/reveal.css">
-		<link rel="stylesheet" href="qunit-2.5.0.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -35,13 +36,11 @@
 
 		</div>
 
-		<script src="../js/reveal.js"></script>
-		<script src="qunit-2.5.0.js"></script>
-
+		<script src="../dist/reveal.js"></script>
 		<script>
 
-
-			Reveal.addEventListener( 'ready', function() {
+			Reveal.initialize().then( function() {
+				console.log(Reveal);
 
 				QUnit.module( 'State' );
 
@@ -60,14 +59,14 @@
 						state2();
 					}
 
-					Reveal.addEventListener( 'state1', _onState1 );
-					Reveal.addEventListener( 'state2', _onState2 );
+					Reveal.on( 'state1', _onState1 );
+					Reveal.on( 'state2', _onState2 );
 
 					Reveal.slide( 1 );
 					Reveal.slide( 3 );
 
-					Reveal.removeEventListener( 'state1', _onState1 );
-					Reveal.removeEventListener( 'state2', _onState2 );
+					Reveal.off( 'state1', _onState1 );
+					Reveal.off( 'state2', _onState2 );
 				});
 
 				QUnit.test( 'Fire state events for vertical slides', function( assert ) {
@@ -84,15 +83,15 @@
 						done();
 					}
 
-					Reveal.addEventListener( 'state1', _onState1 );
-					Reveal.addEventListener( 'state3', _onState3 );
+					Reveal.on( 'state1', _onState1 );
+					Reveal.on( 'state3', _onState3 );
 
 					Reveal.slide( 0 );
 					Reveal.slide( 4, 1 );
 					Reveal.slide( 4, 2 );
 
-					Reveal.removeEventListener( 'state1', _onState1 );
-					Reveal.removeEventListener( 'state3', _onState3 );
+					Reveal.off( 'state1', _onState1 );
+					Reveal.off( 'state3', _onState3 );
 				});
 
 				QUnit.test( 'No events if state remains unchanged', function( assert ) {
@@ -102,7 +101,7 @@
 						stateChanges += 1;
 					}
 
-					Reveal.addEventListener( 'state1', _onEvent );
+					Reveal.on( 'state1', _onEvent );
 
 					Reveal.slide( 0 );      // no state
 					Reveal.slide( 1 );      // state1
@@ -112,7 +111,7 @@
 					Reveal.slide( 4, 1 );   // state1
 					Reveal.slide( 0 );      // no state
 
-					Reveal.removeEventListener( 'state1', _onEvent );
+					Reveal.off( 'state1', _onEvent );
 
 					assert.strictEqual( stateChanges, 1, 'no event was fired when going to slide with same state' );
 				});
@@ -122,17 +121,15 @@
 						assert.ok( Reveal.getCurrentSlide() == document.querySelector( '#slide2' ), 'correct current slide immediately after state event' );
 					}
 
-					Reveal.addEventListener( 'state1', _onEvent );
+					Reveal.on( 'state1', _onEvent );
 
 					Reveal.slide( 0 );
 					Reveal.slide( 1 );
 
-					Reveal.removeEventListener( 'state1', _onEvent );
+					Reveal.off( 'state1', _onEvent );
 				});
 
 			} );
-
-			Reveal.initialize();
 		</script>
 
 	</body>

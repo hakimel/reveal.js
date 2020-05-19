@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Auto Animate</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>Auto-Animate Example</h3>
+					<p>This will fade out</p>
+					<img src="assets/image1.png" style="height: 100px;">
+					<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+						function Example() {
+						  const [count, setCount] = useState(0);
+						}
+					</code></pre>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="fade">
+					<h3>Auto-Animate Example</h3>
+					<p style="opacity: 0.2; margin-top: 100px;">This will fade out</p>
+					<p>This element is unmatched</p>
+					<img src="assets/image1.png" style="height: 150px;">
+					<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+						function Example() {
+						  New line!
+						  const [count, setCount] = useState(0);
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<p data-id="text-props" style="background: #555; line-height: 1em; letter-spacing: 0em;">Line Height & Letter Spacing</p>
+				</section>
+				<section data-auto-animate>
+					<p data-id="text-props" style="background: #555; line-height: 3em; letter-spacing: 0.2em;">Line Height & Letter Spacing</p>
+				</section>
+
+				<section>
+					<section data-auto-animate>
+						<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+							import React, { useState } from 'react';
+
+							function Example() {
+							  const [count, setCount] = useState(0);
+
+							  return (
+							    ...
+							  );
+							}
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+							function Example() {
+							  const [count, setCount] = useState(0);
+
+							  return (
+							    &lt;div&gt;
+							      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+							      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+							        Click me
+							      &lt;/button&gt;
+							    &lt;/div&gt;
+							  );
+							}
+						</code></pre>
+					</section>
+					<section data-auto-animate>
+						<pre data-id="code"><code data-line-numbers class="hljs" data-trim>
+							function Example() {
+							  // A comment!
+							  const [count, setCount] = useState(0);
+
+							  return (
+							    &lt;div&gt;
+							      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+							      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+							        Click me
+							      &lt;/button&gt;
+							    &lt;/div&gt;
+							  );
+							}
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section data-auto-animate>
+						<h3>Swapping list items</h3>
+						<ul>
+							<li>One</li>
+							<li>Two</li>
+							<li>Three</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<h3>Swapping list items</h3>
+						<ul>
+							<li>Two</li>
+							<li>One</li>
+							<li>Three</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<h3>Swapping list items</h3>
+						<ul>
+							<li>Two</li>
+							<li>Three</li>
+							<li>One</li>
+						</ul>
+					</section>
+				</section>
+
+				<section data-auto-animate style="height: 600px">
+					<h3 style="opacity: 0.3; font-size: 18px;">SLIDE 1</h2>
+					<h2 data-id="title" style="margin-top: 260px;">Animate Anything</h2>
+					<div data-id="1" style="background: white; position: absolute; top: 150px; left: 16%; width: 60px; height: 60px;"></div>
+					<div data-id="2" style="background: white; position: absolute; top: 150px; left: 36%; width: 60px; height: 60px;"></div>
+					<div data-id="3" style="background: white; position: absolute; top: 150px; left: 56%; width: 60px; height: 60px;"></div>
+					<div data-id="4" style="background: white; position: absolute; top: 150px; left: 76%; width: 60px; height: 60px;"></div>
+				</section>
+				<section data-auto-animate style="height: 600px">
+					<h3 style="opacity: 0.3; font-size: 18px;">SLIDE 2</h2>
+					<h2 data-id="title" style="margin-top: 500px">With Auto Animate</h2>
+					<div data-id="1" style="background: cyan; position: absolute; bottom: 190px; left: 16%; width: 60px; height: 60px;"></div>
+					<div data-id="2" style="background: magenta; position: absolute; bottom: 190px; left: 36%; width: 60px; height: 160px;"></div>
+					<div data-id="3" style="background: yellow; position: absolute; bottom: 190px; left: 56%; width: 60px; height: 260px;"></div>
+					<div data-id="4" style="background: red; position: absolute; bottom: 190px; left: 76%; width: 60px; height: 360px;"></div>
+				</section>
+				<section data-auto-animate style="height: 600px">
+					<h3 style="opacity: 0.3; font-size: 18px;">SLIDE 3</h2>
+					<h2 data-id="title" style="margin-top: 500px; opacity: 0;">With Auto Animate</h2>
+					<div data-id="1" style="background: cyan; position: absolute; top: 50%; left: 50%; width: 400px; height: 400px; margin: -200px 0 0 -200px; border-radius: 400px;"></div>
+					<div data-id="2" style="background: magenta; position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; margin: -150px 0 0 -150px; border-radius: 400px;"></div>
+					<div data-id="3" style="background: yellow; position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 400px;"></div>
+					<div data-id="4" style="background: red; position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 400px;"></div>
+				</section>
+				<section data-auto-animate style="height: 600px">
+					<h3 style="opacity: 0.3; font-size: 18px;">SLIDE 3</h2>
+					<h2 data-id="title" style="margin-top: 500px; opacity: 0;">With Auto Animate</h2>
+					<div data-id="1" style="background: red; position: absolute; top: 250px; left: 16%; width: 60px; height: 60px;"></div>
+					<div data-id="2" style="background: yellow; position: absolute; top: 250px; left: 36%; width: 60px; height: 60px;"></div>
+					<div data-id="3" style="background: magenta; position: absolute; top: 250px; left: 56%; width: 60px; height: 60px;"></div>
+					<div data-id="4" style="background: cyan; position: absolute; top: 250px; left: 76%; width: 60px; height: 60px;"></div>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				center: true,
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+
+	</body>
+</html>

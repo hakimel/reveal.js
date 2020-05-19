@@ -6,8 +6,9 @@
 
 		<title>reveal.js - Test Iframe Backgrounds</title>
 
-		<link rel="stylesheet" href="../css/reveal.css">
-		<link rel="stylesheet" href="qunit-2.5.0.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -19,24 +20,21 @@
 
 			<div class="slides">
 
-				<section data-background-iframe="#1">1</section>
-				<section data-background-iframe="#2">2</section>
-				<section data-background-iframe="#3" data-preload>3</section>
-				<section data-background-iframe="#4">4</section>
-				<section data-background-iframe="#5">5</section>
-				<section data-background-iframe="#6">6</section>
+				<section data-background-iframe="https://revealjs.com">1</section>
+				<section data-background-iframe="https://revealjs.com">2</section>
+				<section data-background-iframe="https://revealjs.com" data-preload>3</section>
+				<section data-background-iframe="https://revealjs.com">4</section>
+				<section data-background-iframe="https://revealjs.com">5</section>
+				<section data-background-iframe="https://revealjs.com">6</section>
 
 			</div>
 
 		</div>
 
-		<script src="../js/reveal.js"></script>
-		<script src="qunit-2.5.0.js"></script>
-
+		<script src="../dist/reveal.js"></script>
 		<script>
 
-
-			Reveal.addEventListener( 'ready', function() {
+			Reveal.initialize({ viewDistance: 3 }).then( () => {
 
 				function getIframe( index ) {
 					return document.querySelectorAll( '.slide-background' )[index].querySelector( 'iframe' );
@@ -94,10 +92,6 @@
 				});
 
 			} );
-
-			Reveal.initialize({
-				viewDistance: 3
-			});
 		</script>
 
 	</body>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Multiple Presentations</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+
+	<body style="background: #ddd;">
+
+		<div style="display: flex; flex-direction: row;">
+			<div class="reveal deck1" style="width: 100%; height: 50vh; margin: 10px;">
+				<div class="slides">
+					<section>Deck 1, Slide 1</section>
+					<section>Deck 1, Slide 2</section>
+					<section>
+						<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+							import React, { useState } from 'react';
+							function Example() {
+							  const [count, setCount] = useState(0);
+							}
+						</code></pre>
+					</section>
+				</div>
+			</div>
+
+			<div class="reveal deck2" style="width: 100%; height: 50vh; margin: 10px;">
+				<div class="slides">
+					<section>Deck 2, Slide 1</section>
+					<section>Deck 2, Slide 2</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Markdown plugin
+
+							- 1
+							- 2
+							- 3
+						</script>
+					</section>
+					<section>
+						<h3>The Lorenz Equations</h3>
+
+						\[\begin{aligned}
+						\dot{x} &amp; = \sigma(y-x) \\
+						\dot{y} &amp; = \rho x - y - xz \\
+						\dot{z} &amp; = -\beta z + xy
+						\end{aligned} \]
+					</section>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			.reveal {
+				border: 4px solid #ccc;
+			}
+			.reveal.focused {
+				border-color: #94b5ff;
+			}
+		</style>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+
+			let deck1 = new Reveal( document.querySelector( '.deck1' ), {
+				embedded: true,
+				progress: false,
+				keyboardCondition: 'focused',
+				plugins: [ RevealHighlight ]
+			} );
+			deck1.on( 'slidechanged', () => {
+				console.log( 'Deck 1 slide changed' );
+			} );
+			deck1.initialize();
+
+			let deck2 = new Reveal( document.querySelector( '.deck2' ), {
+				embedded: true,
+				progress: false,
+				keyboardCondition: 'focused',
+				plugins: [ RevealMarkdown, RevealMath ]
+			} );
+			deck2.initialize().then( () => {
+				deck2.slide(1);
+			} );
+			deck2.on( 'slidechanged', () => {
+				console.log( 'Deck 2 slide changed' );
+			} );
+
+		</script>
+
+	</body>
+</html>

@@ -6,8 +6,9 @@
 
 		<title>reveal.js - Test Markdown</title>
 
-		<link rel="stylesheet" href="../css/reveal.css">
-		<link rel="stylesheet" href="qunit-2.5.0.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -15,13 +16,8 @@
 		<div id="qunit"></div>
 		<div id="qunit-fixture"></div>
 
-		<div class="reveal" style="display: none;">
-
+		<div class="reveal deck1" style="display: none;">
 			<div class="slides">
-
-				<!-- <section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section> -->
-
-				<!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
 				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
 					<script type="text/template">
 						## Slide 1.1
@@ -35,17 +31,437 @@
 						## Slide 2
 					</script>
 				</section>
-
 			</div>
-
 		</div>
 
-		<script src="../js/reveal.js"></script>
-		<script src="../plugin/markdown/marked.js"></script>
-		<script src="../plugin/markdown/markdown.js"></script>
-		<script src="qunit-2.5.0.js"></script>
+		<div class="reveal deck2" style="display: none;">
+			<div class="slides">
+				<section data-markdown="simple.md" data-separator="^\r?\n\r?\n\r?\n" data-separator-vertical="^\r?\n\r?\n"></section>
+			</div>
+		</div>
 
-		<script src="test-markdown.js"></script>
+		<div class="reveal deck3" style="display: none;">
+			<div class="slides">
+				<section 	data-markdown data-separator="^\n\n\n"
+									data-separator-vertical="^\n\n"
+									data-separator-notes="^Note:"
+									data-attributes="--\s(.*?)$"
+									data-charset="utf-8">
+					<script type="text/template">
+						# Test attributes in Markdown
+						## Slide 1
+
+
+
+						## Slide 2
+						<!-- -- id="slide2" data-transition="zoom" data-background="#A0C66B" -->
+
+
+						## Slide 2.1
+						<!-- -- data-background="#ff0000" data-transition="fade" -->
+
+
+						## Slide 2.2
+						[Link to Slide2](#/slide2)
+
+
+
+						## Slide 3
+						<!-- -- data-transition="zoom" data-background="#C6916B" -->
+
+
+
+						## Slide 4
+					</script>
+				</section>
+
+				<section 	data-markdown data-separator="^\n\n\n"
+									data-separator-vertical="^\n\n"
+									data-separator-notes="^Note:"
+									data-charset="utf-8">
+					<script type="text/template">
+						# Test attributes in Markdown with default separator
+						## Slide 1 Def
+
+
+
+						## Slide 2 Def
+						<!-- .slide: id="slide2def" data-transition="concave" data-background="#A7C66B" -->
+
+
+						## Slide 2.1 Def
+						<!-- .slide: data-background="#f70000" data-transition="page" -->
+
+
+						## Slide 2.2 Def
+						[Link to Slide2](#/slide2def)
+
+
+
+						## Slide 3 Def
+						<!-- .slide: data-transition="concave" data-background="#C7916B" -->
+
+
+
+						## Slide 4
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						<!-- .slide: data-background="#ff0000" -->
+						## Hello world
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Hello world
+						<!-- .slide: data-background="#ff0000" -->
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Hello world
+
+						Test
+						<!-- .slide: data-background="#ff0000" -->
+
+						More Test
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<div class="reveal deck4" style="display: none;">
+			<div class="slides">
+				<section data-markdown>
+					<script type="text/template">
+						## Testing Markdown Options
+
+						This "slide" should contain 'smart' quotes.
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<div class="reveal deck5" style="display: none;">
+			<div class="slides">
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-element-attributes="{_\s*?([^}]+?)}">>
+					<script type="text/template">
+						## Slide 1.1
+						<!-- {_class="fragment fade-out" data-fragment-index="1"} -->
+
+						--
+
+						## Slide 1.2
+						<!-- {_class="fragment shrink"} -->
+
+						Paragraph 1
+						<!-- {_class="fragment grow"} -->
+
+						Paragraph 2
+						<!-- {_class="fragment grow"} -->
+
+						- list item 1 <!-- {_class="fragment grow"} -->
+						- list item 2 <!-- {_class="fragment grow"} -->
+						- list item 3 <!-- {_class="fragment grow"} -->
+
+
+						---
+
+						## Slide 2
+
+
+						Paragraph 1.2  
+						multi-line <!-- {_class="fragment highlight-red"} -->
+
+						Paragraph 2.2 <!-- {_class="fragment highlight-red"} -->
+
+						Paragraph 2.3 <!-- {_class="fragment highlight-red"} -->
+
+						Paragraph 2.4 <!-- {_class="fragment highlight-red"} -->
+
+						- list item 1 <!-- {_class="fragment highlight-green"} -->
+						- list item 2<!-- {_class="fragment highlight-green"} -->
+						- list item 3<!-- {_class="fragment highlight-green"} -->
+						- list item 4
+						<!-- {_class="fragment highlight-green"} -->
+						- list item 5<!-- {_class="fragment highlight-green"} -->
+
+						Test
+
+						![Example Picture](examples/assets/image2.png) <!-- {_class="reveal stretch"} -->
+
+					</script>
+				</section>
+
+
+
+				<section 	data-markdown data-separator="^\n\n\n"
+									data-separator-vertical="^\n\n"
+									data-separator-notes="^Note:"
+									data-charset="utf-8">
+					<script type="text/template">
+						# Test attributes in Markdown with default separator
+						## Slide 1 Def <!-- .element: class="fragment highlight-red" data-fragment-index="1" -->
+
+
+						## Slide 2 Def
+						<!-- .element: class="fragment highlight-red" -->
+
+					</script>
+				</section>
+
+				<section data-markdown>
+				  <script type="text/template">
+					## Hello world
+					A paragraph
+					<!-- .element: class="fragment highlight-blue" -->
+				  </script>
+				</section>
+
+				<section data-markdown>
+				  <script type="text/template">
+					## Hello world
+
+					Multiple  
+					Line
+					<!-- .element: class="fragment highlight-blue" -->
+				  </script>
+				</section>
+
+				<section data-markdown>
+				  <script type="text/template">
+					## Hello world
+
+					Test<!-- .element: class="fragment highlight-blue" -->
+
+					More Test
+				  </script>
+				</section>
+			</div>
+		</div>
+
+		<div class="reveal deck6" style="display: block;">
+			<div class="slides">
+				<section data-markdown class="defaults">
+					<script type="text/template">
+						```
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-language">
+					<script type="text/template">
+						```javascript
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-numbers">
+					<script type="text/template">
+						```[]
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-highlights">
+					<script type="text/template">
+						```[1,2,3]
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-highlights-and-lanugage">
+					<script type="text/template">
+						```javascript [1,2,3]
+						code
+						```
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<script type="module">
+			import Reveal from '../dist/reveal.esm.js'
+			import Markdown from '../plugin/markdown/markdown.esm.js'
+			import Highlight from '../plugin/highlight/highlight.esm.js'
+
+			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ Markdown ] })
+			deck1.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Inline' );
+
+				QUnit.test( 'Vertical separator', function( assert ) {
+					assert.strictEqual( deck1.getRevealElement().querySelectorAll( '.reveal .slides>section>section' ).length, 2, 'found two slides' );
+				});
+
+				QUnit.test( 'Horizontal separator', function( assert ) {
+					assert.strictEqual( deck1.getRevealElement().querySelectorAll( '.reveal .slides>section' ).length, 2, 'found two slides' );
+				});
+
+			} );
+
+			let deck2 = new Reveal( document.querySelector( '.deck2' ), { plugins: [ Markdown ] })
+			deck2.addEventListener( 'ready', function() {
+
+				QUnit.module( 'External' );
+
+				QUnit.test( 'Vertical separator', function( assert ) {
+					assert.strictEqual( deck2.getRevealElement().querySelectorAll( '.reveal .slides>section>section' ).length, 2, 'found two slides' );
+				});
+
+				QUnit.test( 'Horizontal separator', function( assert ) {
+					assert.strictEqual( deck2.getRevealElement().querySelectorAll( '.reveal .slides>section' ).length, 2, 'found two slides' );
+				});
+
+			} );
+
+			let deck3 = new Reveal( document.querySelector( '.deck3' ), { plugins: [ Markdown ] })
+			deck3.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Slide Attributes' );
+
+				QUnit.test( 'Id on slide', function( assert ) {
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section#slide2' ).length, 1, 'found one slide with id slide2' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section a[href="#/slide2"]' ).length, 1, 'found one slide with a link to slide2' );
+				});
+
+				QUnit.test( 'data-background attributes', function( assert ) {
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-background="#A0C66B"]' ).length, 1, 'found one vertical slide with data-background="#A0C66B"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-background="#ff0000"]' ).length, 1, 'found one vertical slide with data-background="#ff0000"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section[data-background="#C6916B"]' ).length, 1, 'found one slide with data-background="#C6916B"' );
+				});
+
+				QUnit.test( 'data-transition attributes', function( assert ) {
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-transition="zoom"]' ).length, 1, 'found one vertical slide with data-transition="zoom"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-transition="fade"]' ).length, 1, 'found one vertical slide with data-transition="fade"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides section [data-transition="zoom"]' ).length, 1, 'found one slide with data-transition="zoom"' );
+				});
+
+				QUnit.test( 'data-background attributes with default separator', function( assert ) {
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-background="#A7C66B"]' ).length, 1, 'found one vertical slide with data-background="#A0C66B"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-background="#f70000"]' ).length, 1, 'found one vertical slide with data-background="#ff0000"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section[data-background="#C7916B"]' ).length, 1, 'found one slide with data-background="#C6916B"' );
+				});
+
+				QUnit.test( 'data-transition attributes with default separator', function( assert ) {
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-transition="concave"]' ).length, 1, 'found one vertical slide with data-transition="zoom"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section>section[data-transition="page"]' ).length, 1, 'found one vertical slide with data-transition="fade"' );
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides section [data-transition="concave"]' ).length, 1, 'found one slide with data-transition="zoom"' );
+				});
+
+				QUnit.test( 'data-transition attributes with inline content', function( assert ) {
+					assert.strictEqual( deck3.getRevealElement().querySelectorAll( '.reveal .slides>section[data-background="#ff0000"]' ).length, 3, 'found three horizontal slides with data-background="#ff0000"' );
+				});
+
+			} );
+
+			let deck4 = new Reveal( document.querySelector( '.deck4' ), {
+				markdown: {
+					smartypants: true
+				},
+				plugins: [ Markdown ]
+			})
+			deck4.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Options' );
+
+				QUnit.test( 'Options are set', function( assert ) {
+					assert.strictEqual( deck4.getPlugin( 'markdown' ).marked.defaults.smartypants, true );
+				});
+
+				QUnit.test( 'Smart quotes are activated', function( assert ) {
+					var text = deck4.getRevealElement().querySelector( '.reveal .slides>section>p' ).textContent;
+
+					assert.strictEqual( /['"]/.test( text ), false );
+					assert.strictEqual( /[“”‘’]/.test( text ), true );
+				});
+
+			} );
+
+			let deck5 = new Reveal( document.querySelector( '.deck5' ), { plugins: [ Markdown ] })
+			deck5.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Element Attributes' );
+
+				QUnit.test( 'Vertical separator', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides>section>section' ).length, 4, 'found four slides' );
+				});
+
+				QUnit.test( 'Attributes on element header in vertical slides', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section>section h2.fragment.fade-out' ).length, 1, 'found one vertical slide with class fragment.fade-out on header' );
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section>section h2.fragment.shrink' ).length, 1, 'found one vertical slide with class fragment.shrink on header' );
+				});
+
+				QUnit.test( 'Attributes on element paragraphs in vertical slides', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section>section p.fragment.grow' ).length, 2, 'found a vertical slide with two paragraphs with class fragment.grow' );
+				});
+
+				QUnit.test( 'Attributes on element list items in vertical slides', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section>section li.fragment.grow' ).length, 3, 'found a vertical slide with three list items with class fragment.grow' );
+				});
+
+				QUnit.test( 'Attributes on element paragraphs in horizontal slides', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section p.fragment.highlight-red' ).length, 4, 'found a horizontal slide with four paragraphs with class fragment.grow' );
+				});
+
+				QUnit.test( 'Attributes on element list items in horizontal slides', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section li.fragment.highlight-green' ).length, 5, 'found a horizontal slide with five list items with class fragment.roll-in' );
+				});
+
+				QUnit.test( 'Attributes on element image in horizontal slides', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section img.reveal.stretch' ).length, 1, 'found a horizontal slide with stretched image, class img.reveal.stretch' );
+				});
+
+				QUnit.test( 'Attributes on elements in vertical slides with default element attribute separator', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section h2.fragment.highlight-red' ).length, 2, 'found two h2 titles with fragment highlight-red in vertical slides with default element attribute separator' );
+				});
+
+				QUnit.test( 'Attributes on elements in single slides with default element attribute separator', function( assert ) {
+					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section p.fragment.highlight-blue' ).length, 3, 'found three elements with fragment highlight-blue in single slide with default element attribute separator' );
+				});
+
+			} );
+
+			let deck6 = new Reveal( document.querySelector( '.deck6' ), {
+				plugins: [ Markdown, Highlight ]
+			})
+			deck6.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Code Blocks' );
+
+				QUnit.test( 'Defaults to no line numbers', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.defaults .hljs:not([data-line-numbers])' ).length, 1 );
+				});
+
+				QUnit.test( 'Can set language', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-language .hljs.javascript:not([data-line-numbers])' ).length, 1 );
+				});
+
+				QUnit.test( '```[] enables line numbers', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-numbers .hljs[data-line-numbers=""]' ).length, 1 );
+				});
+
+				QUnit.test( '```[1,2,3] enables line highlights', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights .hljs[data-line-numbers="1,2,3"]' ).length, 1 );
+				});
+
+				QUnit.test( '```javascript [1,2,3] enables line highlights and sets language', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights-and-lanugage .hljs.javascript[data-line-numbers="1,2,3"]' ).length, 1 );
+				});
+
+			} );
+
+			deck1.initialize();
+			deck2.initialize();
+			deck3.initialize();
+			deck4.initialize();
+			deck5.initialize();
+			deck6.initialize();
+		</script>
 
 	</body>
 </html>

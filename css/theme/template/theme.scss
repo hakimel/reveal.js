@@ -4,7 +4,9 @@
  * GLOBAL STYLES
  *********************************************/
 
-body {
+@import "./exposer";
+
+.reveal-viewport {
 	@include bodyBackground();
 	background-color: $backgroundColor;
 }
@@ -16,13 +18,13 @@ body {
 	color: $mainColor;
 }
 
-::selection {
+.reveal ::selection {
 	color: $selectionColor;
 	background: $selectionBackgroundColor;
 	text-shadow: none;
 }
 
-::-moz-selection {
+.reveal ::-moz-selection {
 	color: $selectionColor;
 	background: $selectionBackgroundColor;
 	text-shadow: none;
@@ -235,6 +237,10 @@ body {
 	vertical-align: top;
 }
 
+.reveal img {
+	margin: $blockMargin 0;
+}
+
 
 /*********************************************
  * LINKS
@@ -243,14 +249,10 @@ body {
 .reveal a {
 	color: $linkColor;
 	text-decoration: none;
-
-	-webkit-transition: color .15s ease;
-	   -moz-transition: color .15s ease;
-	        transition: color .15s ease;
+	transition: color .15s ease;
 }
 	.reveal a:hover {
 		color: $linkColorHover;
-
 		text-shadow: none;
 		border: none;
 	}
@@ -262,34 +264,22 @@ body {
 
 
 /*********************************************
- * IMAGES
+ * Frame helper
  *********************************************/
 
-.reveal section img {
-	margin: 15px 0px;
-	background: rgba(255,255,255,0.12);
+.reveal .r-frame {
 	border: 4px solid $mainColor;
-
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
-	.reveal section img.plain {
-		border: 0;
-		box-shadow: none;
-	}
+.reveal a .r-frame {
+	transition: all .15s linear;
+}
 
-	.reveal a img {
-		-webkit-transition: all .15s linear;
-		   -moz-transition: all .15s linear;
-		        transition: all .15s linear;
-	}
-
-	.reveal a:hover img {
-		background: rgba(255,255,255,0.2);
-		border-color: $linkColor;
-
-		box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
-	}
+.reveal a:hover .r-frame {
+	border-color: $linkColor;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+}
 
 
 /*********************************************
@@ -310,9 +300,7 @@ body {
 	color: $linkColor;
 }
 	.reveal .progress span {
-		-webkit-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-		   -moz-transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
-			transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 	}
 
 /*********************************************
