@@ -73,13 +73,17 @@ const rollupConfigESM = {
     ]
 };
 
+let rollupCache;
+
 // Creates a bundle with broad browser support, exposed
 // as UMD
 gulp.task('js-es5', () => {
     return rollup({
+        cache: rollupCache,
         input: 'js/index.js',
         ...rollupConfig
     }).then( bundle => {
+        rollupCache = bundle.cache;
         return bundle.write({
             name: 'Reveal',
             file: './dist/reveal.js',
@@ -93,9 +97,11 @@ gulp.task('js-es5', () => {
 // Creates an ES module bundle
 gulp.task('js-es6', () => {
     return rollup({
+        cache: rollupCache,
         input: 'js/index.js',
         ...rollupConfigESM
     }).then( bundle => {
+        rollupCache = bundle.cache;
         return bundle.write({
             file: './dist/reveal.esm.js',
             format: 'es',
