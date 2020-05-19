@@ -1,5 +1,5 @@
 /*!
-* reveal.js 4.0.0-dev (Mon May 18 2020)
+* reveal.js 4.0.0-rc.1 (Tue May 19 2020)
 * https://revealjs.com
 * MIT licensed
 *

@@ -6,6 +6,7 @@
  * Copyright (C) Hakim El Hattab, https://hakim.se
  */
 
+@import 'layout';
 
 /*********************************************
  * GLOBAL STYLES
@@ -211,30 +212,6 @@ html.reveal-full-page {
 /** Prevents layering issues in certain browser/transition combinations */
 .reveal a {
 	position: relative;
-}
-
-// Layout helper: Stretch an element vertically based on available space
-.reveal .stretch,
-.reveal .r-stretch {
-	max-width: none;
-	max-height: none;
-}
-
-.reveal pre.stretch code,
-.reveal pre.r-stretch code {
-	height: 100%;
-	max-height: 100%;
-	box-sizing: border-box;
-}
-
-// Layout helper: Stack multiple elements on top of each other
-.reveal .r-stack {
-	display: grid;
-}
-
-.reveal .r-stack > * {
-	grid-area: 1/1;
-	margin: auto;
 }
 
 

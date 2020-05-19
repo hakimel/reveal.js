@@ -260,7 +260,7 @@ gulp.task('serve', () => {
     ], gulp.series('css-themes'))
 
     gulp.watch([
-        'css/reveal.scss',
+        'css/*.scss',
         'css/print/*.{sass,scss,css}'
     ], gulp.series('css-core'))
 
