@@ -25,6 +25,9 @@ import {
 	POST_MESSAGE_METHOD_BLACKLIST
 } from './utils/constants.js'
 
+// The reveal.js version
+export const VERSION = '4.0.0-rc.1';
+
 /**
  * reveal.js
  * https://revealjs.com
@@ -42,9 +45,6 @@ export default function( revealElement, options ) {
 	}
 
 	const Reveal = {};
-
-	// The reveal.js version
-	const VERSION = '4.0.0-rc.1';
 
 	// Configuration defaults, can be overridden at initialization time
 	let config,

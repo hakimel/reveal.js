@@ -1,4 +1,4 @@
-import Deck from './reveal.js'
+import Deck, { VERSION } from './reveal.js'
 
 /**
  * Expose the Reveal class to the window. To create a
@@ -50,5 +50,7 @@ Reveal.initialize = options => {
 		enqueuedAPICalls.push( deck => deck[method].call( null, ...args ) );
 	}
 } );
+
+Reveal.VERSION = VERSION;
 
 export default Reveal;
