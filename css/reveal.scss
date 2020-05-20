@@ -567,10 +567,12 @@ $controlsArrowAngleActive: 36deg;
 	.reveal .progress span {
 		display: block;
 		height: 100%;
-		width: 0px;
+		width: 100%;
 
 		background-color: currentColor;
-		transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		transition: transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		transform-origin: 0 0;
+		transform: scaleX(0);
 	}
 
 /*********************************************

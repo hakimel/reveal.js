@@ -55,7 +55,7 @@ export default class Progress {
 		// Update progress if enabled
 		if( this.Reveal.getConfig().progress && this.bar ) {
 
-			this.bar.style.width = this.Reveal.getProgress() * this.getMaxWidth() + 'px';
+			this.bar.style.transform = 'scaleX('+ this.Reveal.getProgress() +')';
 
 		}
 
