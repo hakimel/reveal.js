@@ -1,6 +1,9 @@
 import { queryAll, extend, createStyleSheet } from '../utils/util.js'
 import { FRAGMENT_STYLE_REGEX } from '../utils/constants.js'
 
+// Counter used to generate unique IDs for auto-animated elements
+let autoAnimateCounter = 0;
+
 /**
  * Automatically animates matching elements across
  * slides with the [data-auto-animate] attribute.
@@ -10,9 +13,6 @@ export default class AutoAnimate {
 	constructor( Reveal ) {
 
 		this.Reveal = Reveal;
-
-		// Counter used to generate unique IDs for auto-animated elements
-		this.autoAnimateCounter = 0;
 
 	}
 
@@ -45,7 +45,7 @@ export default class AutoAnimate {
 
 			// Inject our auto-animate styles for this transition
 			let css = this.getAutoAnimatableElements( fromSlide, toSlide ).map( elements => {
-				return this.autoAnimateElements( elements.from, elements.to, elements.options || {}, animationOptions, this.autoAnimateCounter++ );
+				return this.autoAnimateElements( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
 			} );
 
 			// Animate unmatched elements, if enabled
@@ -63,7 +63,7 @@ export default class AutoAnimate {
 					// If there is a duration or delay set specifically for this
 					// element our unmatched elements should adhere to those
 					if( unmatchedOptions.duration !== animationOptions.duration || unmatchedOptions.delay !== animationOptions.delay ) {
-						id = 'unmatched-' + this.autoAnimateCounter++;
+						id = 'unmatched-' + autoAnimateCounter++;
 						css.push( `[data-auto-animate="running"] [data-auto-animate-target="${id}"] { transition: opacity ${unmatchedOptions.duration}s ease ${unmatchedOptions.delay}s; }` );
 					}
 
