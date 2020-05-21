@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Markdown Example</title>
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+
+        <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+                <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
+                <section data-markdown="markdown.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+
+                <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
+                <section data-markdown data-separator="---">
+                    <script type="text/template">
+                        ## Demo 1
+                        Slide 1
+                        ---
+                        ## Demo 1
+                        Slide 2
+                        ---
+                        ## Demo 1
+                        Slide 3
+                    </script>
+                </section>
+
+                <!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
+                <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+                    <script type="text/template">
+                        ## Demo 2
+                        Slide 1.1
+
+                        --
+
+                        ## Demo 2
+                        Slide 1.2
+
+                        ---
+
+                        ## Demo 2
+                        Slide 2
+                    </script>
+                </section>
+
+                <!-- No "extra" slides, since there are no separators defined (so they'll become horizontal rulers) -->
+                <section data-markdown>
+                    <script type="text/template">
+                        A
+
+                        ---
+
+                        B
+
+                        ---
+
+                        C
+                    </script>
+                </section>
+
+                <!-- Slide attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        <!-- .slide: data-background="#000000" -->
+                        ## Slide attributes
+                    </script>
+                </section>
+
+                <!-- Element attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Element attributes
+                        - Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+                        - Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+                    </script>
+                </section>
+
+                <!-- Code -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ```php [1|3-5]
+                        public function foo()
+                        {
+                            $foo = array(
+                                'bar' => 'bar'
+                            )
+                        }
+                        ```
+                    </script>
+                </section>
+
+                <!-- Images -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ![Sample image](https://s3.amazonaws.com/static.slid.es/logo/v2/slides-symbol-512x512.png)
+                    </script>
+                </section>
+
+            </div>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+        <script src="../plugin/markdown/markdown.js"></script>
+        <script src="../plugin/highlight/highlight.js"></script>
+        <script src="../plugin/notes/notes.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+
+		</script>
+
+	</body>
+</html>
