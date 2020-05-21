@@ -91,7 +91,7 @@ export default class Print {
 				if( config.showNotes ) {
 
 					// Are there notes for this slide?
-					let notes = getSlideNotes( slide );
+					let notes = this.Reveal.getSlideNotes( slide );
 					if( notes ) {
 
 						let notesSpacing = 8;
