@@ -1,0 +1,49 @@
+/**
+ * Layout helpers.
+ */
+
+// Stretch an element vertically based on available space
+.reveal .stretch,
+.reveal .r-stretch {
+	max-width: none;
+	max-height: none;
+}
+
+.reveal pre.stretch code,
+.reveal pre.r-stretch code {
+	height: 100%;
+	max-height: 100%;
+	box-sizing: border-box;
+}
+
+// Stack multiple elements on top of each other
+.reveal .r-stack {
+	display: grid;
+}
+
+.reveal .r-stack > * {
+	grid-area: 1/1;
+	margin: auto;
+}
+
+// Horizontal and vertical stacks
+.reveal .r-vstack,
+.reveal .r-hstack {
+	display: flex;
+}
+
+.reveal .r-vstack {
+	flex-direction: column;
+}
+
+.reveal .r-hstack {
+	flex-direction: row;
+}
+
+.reveal .items-center {
+	align-items: center;
+}
+
+.reveal .justify-center {
+	justify-content: center;
+}

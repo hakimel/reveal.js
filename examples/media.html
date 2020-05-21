@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Video, Audio and Iframes</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>Examples of embedded Video, Audio and Iframes</h2>
+				</section>
+
+				<section>
+					<h2>Iframe</h2>
+					<iframe data-autoplay width="700" height="540" src="https://slides.com/news/auto-animate/embed" frameborder="0"></iframe>
+				</section>
+
+				<section data-background-iframe="https://www.youtube.com/embed/h1_nyI3z8gI" data-background-interactive>
+					<h2 style="color: #fff;">Iframe Background</h2>
+				</section>
+
+				<section>
+					<h2>Auto-playing audio</h2>
+					<audio src="assets/beeping.wav" data-autoplay></audio>
+				</section>
+
+				<section>
+					<h2>Audio with controls</h2>
+					<audio src="assets/beeping.wav" controls></audio>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+				transition: 'linear'
+			});
+		</script>
+
+	</body>
+</html>
