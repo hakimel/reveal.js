@@ -14,526 +14,188 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 	</head>
 
 	<body>
 
 		<div class="reveal">
-
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="https://hakim.se">Hakim El Hattab</a> and <a href="https://github.com/hakimel/reveal.js/graphs/contributors">contributors</a></small>
-					</p>
-					<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYI553M&placement=revealjscom" id="_carbonads_js"></script>
+				<section data-background="img/slide1.jpg"> 	<!--slide1-->
+					<h1>History of programming languages</h1>
 				</section>
 
-				<section>
-					<h2>Hello There</h2>
+				<section> <!--slide2-->
 					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.
+						<small>
+						The history of programming languages spans from documentation of early mechanical computers to modern tools for software development. 
+						Early programming languages were highly specialized, relying on mathematical notation and similarly obscure syntax.
+						Throughout the 20th century, research in compiler theory lead to the creation of high-level programming languages, which use a more accessible syntax to communicate instructions.
+						The first high-level programming language was Plankalkül, created by Konrad Zuse between 1942 and 1945. The first high-level language to have an associated compiler was created by Corrado Böhm in 1951, for his PhD thesis. 
+						The first commercially available language was FORTRAN (FORmula TRANslation), developed in 1956 (first manual appeared in 1956, but first developed in 1954) by a team led by John Backus at IBM.
+						</small>
 					</p>
 				</section>
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down the <strong>alt</strong> key (<strong>ctrl</strong> in Linux) and click on any element to zoom towards it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Click again to zoom back out.
-					</p>
-					<p>
-						(NOTE: Use ctrl + click in Linux.)
-					</p>
-				</section>
-
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
+				<section> <!--slide3-->
+						<h3>Earliest history</h3>
+						<img src="img/Ada Lovelace.jpg" width="300px" height="300px">
+						<img src="img/Alan Turing.jpg"  width="300px" height="300px">
 						<p>
-							<span style="display: inline-block;" class="fragment fade-right">fade-right, </span>
-							<span style="display: inline-block;" class="fragment fade-up">up, </span>
-							<span style="display: inline-block;" class="fragment fade-down">down, </span>
-							<span style="display: inline-block;" class="fragment fade-left">left</span>
+						   <small>
+							The first-ever programming language was an algorithm that was created by Ada Lovelace in 1883. Ada Lovelace created this algorithm for Charles Babbage’s Analytical engine.
+							The purpose of this algorithm was to compute Bernoulli numbers.
+							In 1936, the first time, the computer codes were specialized by Alonzo Church and Alan Turing. Church expressed lambda calculus in a formulaic way.
+						   </small>
 						</p>
-						<p class="fragment fade-in-then-out">fade-in-then-out</p>
-						<p class="fragment fade-in-then-semi-out">fade-in-then-semi-out</p>
-						<p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
-					</section>
 				</section>
 
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
+				<section> <!--slide4-->
+					<h3>Assembly Language</h3>
 						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code class="hljs html">&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
+							<small>
+								The first modern computers (electrically powered) were created in the 1940s. These computers were limited in speed and memory capacity. 
+								Because of such limitations, programmers were forced to write assembly language programs manually. Being a low-level programming language, it was a tough task to program it manually. 
+								Programmers then realized the need for high-level languages to lower the effort that was required for writing the assembly language programs manually.
+							</small>
+						 </p>
 				</section>
 
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
+				
+				<section> <!--slide5-->
+					<h3>First programming languages</h3>
 					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code class="hljs javascript">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+						<img src="img/first.jpg" width="500" height="300">
+						<small>
+						In the 1940s, the first recognizably modern electrically powered computers were created. The limited speed and memory capacity forced programmers to write hand-tuned assembly language programs. It was eventually realized that programming in assembly language required a great deal of intellectual effort.
+						An early proposal for a high-level programming language was Plankalkül, developed by Konrad Zuse for his Z1 computer between 1943 and 1945 but not implemented at the time.
+						The first functioning programming languages designed to communicate instructions to a computer were written in the early 1950s. 
+						</small>
+					 </p>
 				</section>
 
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
+				<section> <!--slide6-->
+					<h4>Further Developments and Establishing Programming Paradigms</h4>
 					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section data-background-iframe="https://hakim.se" data-background-interactive>
-					<div style="position: absolute; width: 40%; right: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2); background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px; font-size: 20px; text-align: left;">
-						<h2>Iframe Backgrounds</h2>
-						<p>Since reveal.js runs on the web, you can easily embed other web content. Try interacting with the page in the background.</p>
-					</div>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code class="hljs" data-trim data-line-numbers="4,8-9">
-import React, { useState } from 'react';
-
-function Example() {
-  const [count, setCount] = useState(0);
-
-  return (
-    &lt;div&gt;
-      &lt;p&gt;You clicked {count} times&lt;/p&gt;
-      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-        Click me
-      &lt;/button&gt;
-    &lt;/div&gt;
-  );
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
+						<small>
+							COBOL was the first high-level programming language that could run on the type or brand of computers. It was developed in 1959 and it stands for COmmon Business Oriented Language. 
+							It is used in card processing, ATMs, and even it was used in the movie Terminator for the Terminator’s visual display. The same year, LISP was invented by  John McCarthy for use in artificial intelligence. These languages are still in use.
+							Many programming languages were developed in the last decade. There were many improvements but still programming was a tough task.  John G. Kemeny and Thomas E. Kurtz decided to create something for students who do not have good programming and mathematical understandings. 
+							They created a family of easily useable programming languages and named it BASIC. Years later, Bill Gates and Paul Allen modified BASIC and this modified version ended up as the first product of Microsoft.
+						</small>
 					</p>
 				</section>
 
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
-				<section>
-					<h2>Global State</h2>
+				<section> <!--slide7-->
+					<h6>Further Developments and Establishing Programming Paradigms</h6>
 					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
+						<img src="img/image2.png" width="300px" height="400px">
+						<small>
+							In 1972, Dennis Ritchie developed the C programming language. C became one of the most popular programming languages and in the coming years. 
+							It heavily influenced many programming languages such as Java, C++, GO, Ruby, Javascript, Perl, and Python.
+							The same year in 1972,  Donald D. Chamberlin and Raymond F. Boyce developed SQL.
+						</small>
 					</p>
 				</section>
 
-				<section data-state="customevent">
-					<h2>State Events</h2>
+				<section> <!--slide8-->
+					<h6>Consolidations and Improvements in the 1980s</h6>
 					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+						<small>
+							In this decade, instead of developing new paradigms, improvements were made to inventions of the last decade. One of such consolidations was C++. 
+							C++ was developed by Bjarne Stroustrup in 1983. It is an extension of C, with an important feature, object-oriented programming. It combined systems and object-oriented programming. 
+							Today, C++ is one of the most widely used programming languages. It is heavily used in game engines and web development. Popular software such as adobe photoshop also uses C++.
+							Another very important trend added during this time was the usage of modules, or simply, large-scale organizational units of code. In the future, modules became a very important part of the programming world. Also, the object-oriented features such as polymorphism originated in this decade.
+							Objective-C, the main language used in Apple’s operating system, macOS and IOS was developed in 1983. Other notable languages developed during this period were Perl in 1987 by Larry Wall, Tcl in 1988 by Tcl core team, Ada in 1983, Common Lisp in 1984 and Eiffel in 1984
+						</small>
 					</p>
 				</section>
 
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
-
-				<section style="text-align: left;">
-					<h1>THE END</h1>
+				
+				<section> <!--slide9-->
+					<h6>The Internet Age</h6>
+					<img src="img/The-internet-age.jpg" width="500px" height="300px">
 					<p>
-						- <a href="https://slides.com">Try the reveal.js editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+						<small>
+							By the end of the 1980s, the internet age began. The rapid growth of the internet was a major key point in the programming language world. 
+							One of the most important, as well as the most widely used programming language today, Javascript was created in 1995. 
+							It was created by Brendan Eich in just 10 days. Earlier, no one though Javascript would become such a huge thing in the programming world. 
+							This is why no one paid attention to javascript at that time. Today, it is one of the most popular programming languages, and almost every website that exists today is built on javascript. 
+							It is one of the core technologies of the World Wide Web, the other two being CSS and HTML.
+						</small>
 					</p>
 				</section>
 
+					
+				<section> <!--slide10-->
+					<h6>Java, Python and JavaScript</h6>
+					<img src="img/Java.png" width="300px" height="250px">
+					<img src="img/Python.png" width="300px" height="250px">
+					<img src="img/JavaScript.jpg" width="300px" height="250px">
+					<p>
+						<small>
+							Another major high-level programming language that came out in the 1990s was Java. Originally, it was developed for cable boxes and hand-held devices. But it enhanced so much that today, it is almost everywhere. 
+							In 1991, Guido Van Rossum created a very user-friendly programming language. He named it Python because he loved the British comedy group Monty Python so much. Python went on becoming a very popular language in the upcoming years. 
+							JavaScrpt was created in just 10 days by Brendan Eich, this language is mostly used to enhance many Web browser interactions. Almost every major website uses Javascript.
+							Today, along with java and javascript, python is one of the most popular languages.
+						</small>
+					</p>
+				</section>
+
+				<section> <!--slide11-->
+					<h6>The Growth of Modern Programming Languages</h6>
+					<img src="img/modern.jpg" width="400px" height="200px">
+					<p>
+						<small>
+							The evolution of programming languages continued with the start of a new century. Microsoft developed C# in 2001, it is very similar to C++, Java, and Visual Basic. 
+							C# is heavily used in Microsoft products, and desktop applications. In 2003, Martin Odersky created Scala that is used in Android development. 
+							Go was developed by Google in 2003 to address problems that were originating in large software systems. Later in the next decade, Google also invented another useful language, Dart.
+							Dart is used in Flutter to create cross-platform mobile applications.  TypeScript invented in 2012 is an important part of the Angular framework. Apple also developed a new language, named Swift in 2014 as a replacement for C#, C, and C++.
+						</small>
+					</p>
+				</section>
+
+				<section> <!--slide12-->
+					<h6>Conclusion</h6>
+					<p>
+						<small>
+							Programming languages have covered a lot in the last seventy years. From creating tough programs in assembly language to extremely user-friendly python programs, no doubt there is too much improvement. 
+							Thousands of people had worked during these decades. Some of the most prominent people of the programming language world are Dennis Ritchie, James Gosling, Guido van Rossum, John Backus, Konrad Zuse,
+							Rasmus Lerdorf, Cleve Moler, Chris Lattner, Bjarne Stroustrup, Anders Hejlsberg, and Yukihiro Matsumoto. There are many others. But inventions and improvements did not stop here.
+							This will continue in the future and maybe, it will continue forever.
+						</small>
+					</p>
+				</section>
 			</div>
 
 		</div>
 
-		<script src="js/reveal.js"></script>
-
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
 		<script>
 
-			// More info https://github.com/hakimel/reveal.js#configuration
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
 			Reveal.initialize({
 				controls: true,
 				progress: true,
 				center: true,
 				hash: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true },
-					{ src: 'plugin/search/search.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
 			});
 
-		</script>
-
-		<!-- Everything below this point is only used for the reveal.js demo page -->
-
-		<header class="reveal-header">
-			<a class="reveal-header-button" href="https://github.com/hakimel/reveal.js">Source on <em>GitHub</em></a>
-			<span class="reveal-header-delimiter">•</span>
-			<a class="reveal-header-button" href="https://slides.com">Try the reveal.js <em>editor</em></a>
-			<span class="reveal-header-delimiter">•</span>
-			<a class="reveal-header-button" href="https://twitter.com/revealjs">@revealjs</a>
-		</header>
-
-		<style>
-			.reveal-header {
-				display: block;
-				position: absolute;
-				top: 12px;
-				right: 16px;
-				z-index: 20;
-				color: #fff;
-				font-family: "Source Sans Pro", Helvetica, sans-serif;
-				font-size: 14px;
-				letter-spacing: 0.05em;
-			}
-
-			.reveal-header-button {
-				display: inline-block;
-				padding: 14px 10px;
-				color: rgba(255,255,255,0.7);
-				text-transform: uppercase;
-				text-decoration: none;
-				font-weight: 500;
-				box-sizing: border-box;
-				text-align: center;
-			}
-
-			.reveal-header-button em {
-				color: #fff;
-			}
-
-			.reveal-header-button:hover {
-				color: #fff;
-				background: rgba(0,0,0,0.2);
-			}
-
-			.reveal-header-button  + .reveal-header-button {
-				margin-left: 10px;
-			}
-
-			@media screen and (max-width: 500px) {
-				body {
-					display: flex;
-					flex-direction: column;
-				}
-
-				.reveal-header {
-					display: flex;
-					position: initial;
-					background: rgba(0,0,0,0.2);
-					align-items: center;
-					justify-content: flex-end;
-					font-size: 13px;
-					font-size: min(3.8vw, 14px);
-					align-items: center;
-					width: 100%;
-				}
-				.reveal-header-button {
-					flex-grow: 1;
-					margin: 0;
-					padding-left: 4px;
-					padding-right: 4px;
-					text-transform: none;
-				}
-				.reveal-header-delimiter {
-					display: none;
-				}
-			}
-
-			/* Advertising */
-			#carbonads {
-				width: 370px;
-				min-height: 100px;
-				font-size: 18px;
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				padding: 10px;
-				margin: 40px auto 0 auto;
-				font-size: 16px;
-				z-index: 10;
-				text-align: left;
-			}
-
-			#carbonads .carbon-img img {
-				float: left;
-				margin: 0 10px 0 0;
-				border: 0;
-				box-shadow: none;
-			}
-
-			#carbonads .carbon-poweredby {
-				display: block;
-				margin-top: 10px;
-				color: #aaa;
-			}
-		</style>
-
-		<script>
-		var _gaq = [['_setAccount', 'UA-15240703-1'], ['_trackPageview']];
-		(function(d, t) {
-		var g = d.createElement(t),
-			s = d.getElementsByTagName(t)[0];
-		g.async = true;
-		g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		s.parentNode.insertBefore(g, s);
-		})(document, 'script');
 		</script>
 
 	</body>
