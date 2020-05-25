@@ -25,7 +25,7 @@ const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
 
 const banner = `/*!
-* reveal.js ${pkg.version} (${new Date().toDateString()})
+* reveal.js ${pkg.version}
 * ${pkg.homepage}
 * MIT licensed
 *
