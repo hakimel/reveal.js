@@ -1,91 +1,81 @@
 /**
  * A plugin which enables rendering of math equations inside
- * of reveal.js slides. Essentially a thin wrapper for MathJax.
+ * of reveal.js slides. Essentially a thin wrapper for KaTeX.
  *
  * @author Hakim El Hattab
+ * @author Gerhard Burger
  */
 const Plugin = () => {
-
-	// The reveal.js instance this plugin is attached to
 	let deck;
 
 	let defaultOptions = {
-		messageStyle: 'none',
-		tex2jax: {
-			inlineMath: [ [ '$', '$' ], [ '\\(', '\\)' ] ],
-			skipTags: [ 'script', 'noscript', 'style', 'textarea', 'pre' ]
-		},
-		skipStartupTypeset: true
+		version: '0.11.1',
+		delimiters: [
+			{left: '$', right: '$', display: false},
+			{left: '$$', right: '$$', display: true},
+			{left: '\\(', right: '\\)', display: false},
+			{left: '\\[', right: '\\]', display: true}
+		],
+		ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+	}
+
+	const loadCss = src => {
+		let link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.href = src;
+		document.head.appendChild(link);
 	};
 
-	function loadScript( url, callback ) {
-
-		let head = document.querySelector( 'head' );
-		let script = document.createElement( 'script' );
-		script.type = 'text/javascript';
-		script.src = url;
-
-		// Wrapper for callback to make sure it only fires once
-		let finish = () => {
-			if( typeof callback === 'function' ) {
-				callback.call();
-				callback = null;
-			}
-		}
-
-		script.onload = finish;
-
-		// IE
-		script.onreadystatechange = () => {
-			if ( this.readyState === 'loaded' ) {
-				finish();
-			}
-		}
-
-		// Normal browsers
-		head.appendChild( script );
-
-	}
+	/**
+	 * Loads a JavaScript file and returns a Promise for when it is loaded
+	 * Credits: https://aaronsmith.online/easily-load-an-external-script-using-javascript/
+	 */
+	const loadScript = src => {
+		return new Promise((resolve, reject) => {
+			const script = document.createElement('script')
+			script.type = 'text/javascript'
+			script.onload = resolve
+			script.onerror = reject
+			script.src = src
+			document.head.append(script)
+		})
+	};
 
 	return {
 		id: 'math',
 
-		init: function( reveal ) {
+		init: function (reveal) {
 
 			deck = reveal;
 
 			let revealOptions = deck.getConfig().math || {};
 
-			let options = { ...defaultOptions, ...revealOptions };
-			let mathjax = options.mathjax || 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js';
-			let config = options.config || 'TeX-AMS_HTML-full';
-			let url = mathjax + '?config=' + config;
+			let options = {...defaultOptions, ...revealOptions};
+			const {local, version, ...katexOptions} = options;
 
-			options.tex2jax = { ...defaultOptions.tex2jax, ...revealOptions.tex2jax };
+			let baseUrl = options.local || 'https://cdn.jsdelivr.net/npm/katex';
+			let versionString = options.local ? '' : '@' + options.version;
 
-			options.mathjax = options.config = null;
+			let cssUrl = baseUrl + versionString + '/dist/katex.min.css';
+			let katexUrl = baseUrl + versionString + '/dist/katex.min.js';
+			let karUrl = baseUrl + versionString + '/dist/contrib/auto-render.js';
 
-			loadScript( url, function() {
+			loadCss(cssUrl);
 
-				MathJax.Hub.Config( options );
+			// For some reason dynamically loading with defer attribute doesn't result in the expected behavior, the below code does
+			loadScript(katexUrl)
+				.then(() => {
+					loadScript(karUrl)
+				})
 
-				// Typeset followed by an immediate reveal.js layout since
-				// the typesetting process could affect slide height
-				MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, deck.getRevealElement() ] );
-				MathJax.Hub.Queue( deck.layout );
-
-				// Reprocess equations in slides when they turn visible
-				deck.on( 'slidechanged', function( event ) {
-
-					MathJax.Hub.Queue( [ 'Typeset', MathJax.Hub, event.currentSlide ] );
-
-				} );
-
-			} );
-
+			window.addEventListener('load', (event) => {
+				renderMathInElement(document.body, katexOptions);
+				deck.layout();
+			});
 		}
 	}
 
 };
 
 export default Plugin;
+
