@@ -39,7 +39,8 @@ const babelConfig = {
     exclude: 'node_modules/**',
     compact: false,
     extensions: ['.js', '.html'],
-    plugins: ['transform-html-import-to-string'],
+    runtimeHelpers: true,
+    plugins: ['transform-html-import-to-string', '@babel/plugin-transform-runtime'],
     presets: [[
         '@babel/preset-env',
         {

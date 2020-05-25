@@ -41,6 +41,12 @@ const Plugin = () => {
 		})
 	};
 
+	async function loadScripts(urls) {
+		for(const url of urls) {
+			await loadScript(url);
+		}
+	}
+
 	return {
 		id: 'math',
 
@@ -51,27 +57,30 @@ const Plugin = () => {
 			let revealOptions = deck.getConfig().math || {};
 
 			let options = {...defaultOptions, ...revealOptions};
-			const {local, version, ...katexOptions} = options;
+			const {local, version, extensions, ...katexOptions} = options;
 
 			let baseUrl = options.local || 'https://cdn.jsdelivr.net/npm/katex';
 			let versionString = options.local ? '' : '@' + options.version;
 
 			let cssUrl = baseUrl + versionString + '/dist/katex.min.css';
 			let katexUrl = baseUrl + versionString + '/dist/katex.min.js';
-			let karUrl = baseUrl + versionString + '/dist/contrib/auto-render.js';
+			let mhchemUrl = baseUrl + versionString + '/dist/contrib/mhchem.min.js'
+			let karUrl = baseUrl + versionString + '/dist/contrib/auto-render.min.js';
+
+			let katexScripts = [katexUrl];
+			if(options.extensions && options.extensions.includes("mhchem")) {
+				katexScripts.push(mhchemUrl);
+			}
+			katexScripts.push(karUrl);
 
 			loadCss(cssUrl);
 
 			// For some reason dynamically loading with defer attribute doesn't result in the expected behavior, the below code does
-			loadScript(katexUrl)
-				.then(() => {
-					loadScript(karUrl)
-				})
-
-			window.addEventListener('load', (event) => {
+			loadScripts(katexScripts).then(() => {
 				renderMathInElement(document.body, katexOptions);
 				deck.layout();
 			});
+
 		}
 	}
 
