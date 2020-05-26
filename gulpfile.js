@@ -7,9 +7,9 @@ const qunit = require('node-qunit-puppeteer')
 
 const {rollup} = require('rollup')
 const {terser} = require('rollup-plugin-terser')
-const babel = require('rollup-plugin-babel')
+const babel = require('@rollup/plugin-babel').default
 const commonjs = require('@rollup/plugin-commonjs')
-const resolve = require('@rollup/plugin-node-resolve')
+const resolve = require('@rollup/plugin-node-resolve').default
 
 const gulp = require('gulp')
 const tap = require('gulp-tap')
@@ -25,7 +25,7 @@ const root = yargs.argv.root || '.'
 const port = yargs.argv.port || 8000
 
 const banner = `/*!
-* reveal.js ${pkg.version} (${new Date().toDateString()})
+* reveal.js ${pkg.version}
 * ${pkg.homepage}
 * MIT licensed
 *
@@ -36,43 +36,37 @@ const banner = `/*!
 process.setMaxListeners(20);
 
 const babelConfig = {
-    exclude: 'node_modules/**',
+    babelHelpers: 'bundled',
+    ignore: ['node_modules'],
     compact: false,
     extensions: ['.js', '.html'],
     runtimeHelpers: true,
-    plugins: ['transform-html-import-to-string', '@babel/plugin-transform-runtime'],
+    plugins: [
+        'transform-html-import-to-string',
+        '@babel/plugin-transform-runtime'  
+    ],
     presets: [[
         '@babel/preset-env',
         {
             corejs: 3,
-            useBuiltIns: 'entry',
+            useBuiltIns: 'usage',
             modules: false
         }
     ]]
 };
 
-const rollupConfig = {
-    plugins: [
-        babel( babelConfig ),
-        resolve(),
-        commonjs(),
-        terser()
-    ]
-};
-
-// Our ES module bundle only needs to support modern
-// browser features
+// Our ES module bundle only targets newer browsers with
+// module support. Browsers are targeted explicitly instead
+// of using the "esmodule: true" target since that leads to
+// polyfilling older browsers and a larger bundle.
 const babelConfigESM = JSON.parse( JSON.stringify( babelConfig ) );
-babelConfigESM.presets[0][1].targets = { esmodules: true };
-
-const rollupConfigESM = {
-    plugins: [
-        babel( babelConfigESM ),
-        resolve(),
-        commonjs(),
-        terser()
-    ]
-};
+babelConfigESM.presets[0][1].targets = { browsers: [
+    'last 2 Chrome versions', 'not Chrome < 60',
+    'last 2 Safari versions', 'not Safari < 10.1',
+    'last 2 iOS versions', 'not iOS < 10.3',
+    'last 2 Firefox versions', 'not Firefox < 60',
+    'last 2 Edge versions', 'not Edge < 16',
+] };
 
 let rollupCache;
 
@@ -82,7 +76,12 @@ gulp.task('js-es5', () => {
     return rollup({
         cache: rollupCache,
         input: 'js/index.js',
-        ...rollupConfig
+        plugins: [
+            resolve(),
+            commonjs(),
+            babel( babelConfig ),
+            terser()
+        ]
     }).then( bundle => {
         rollupCache = bundle.cache;
         return bundle.write({
@@ -100,7 +99,12 @@ gulp.task('js-es6', () => {
     return rollup({
         cache: rollupCache,
         input: 'js/index.js',
-        ...rollupConfigESM
+        plugins: [
+            resolve(),
+            commonjs(),
+            babel( babelConfigESM ),
+            terser()
+        ]
     }).then( bundle => {
         rollupCache = bundle.cache;
         return bundle.write({
@@ -126,7 +130,15 @@ gulp.task('plugins', () => {
     ].map( plugin => {
         return rollup({
                 input: plugin.input,
-                ...rollupConfig
+                plugins: [
+                    resolve(),
+                    commonjs(),
+                    babel({
+                        ...babelConfig,
+                        ignore: [/node_modules\/(?!(highlight\.js|marked)\/).*/],
+                    }),
+                    terser()
+                ]
             }).then( bundle => {
                 bundle.write({
                     file: plugin.output + '.esm.js',

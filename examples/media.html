@@ -32,8 +32,25 @@
 				</section>
 
 				<section>
+					<h2>Video</h2>
+					<video src="https://static.slid.es/site/homepage/v1/homepage-video-editor.mp4" data-autoplay></video>
+				</section>
+
+				<section>
 					<h2>Auto-playing audio</h2>
 					<audio src="assets/beeping.wav" data-autoplay></audio>
+				</section>
+
+				<section>
+					<h2>Audio inside slide fragments</h2>
+					<div class="fragment">
+						Beep 1
+						<audio src="assets/beeping.wav" data-autoplay></audio>
+					</div>
+					<div class="fragment">
+						Beep 2
+						<audio src="assets/beeping.wav" data-autoplay></audio>
+					</div>
 				</section>
 
 				<section>
@@ -47,9 +64,7 @@
 
 		<script src="../dist/reveal.js"></script>
 		<script>
-			Reveal.initialize({
-				transition: 'linear'
-			});
+			Reveal.initialize();
 		</script>
 
 	</body>

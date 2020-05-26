@@ -26,7 +26,7 @@ import {
 } from './utils/constants.js'
 
 // The reveal.js version
-export const VERSION = '4.0.0';
+export const VERSION = '4.0.1';
 
 /**
  * reveal.js
@@ -148,7 +148,7 @@ export default function( revealElement, options ) {
 
 		// Embedded decks use the reveal element as their viewport
 		if( config.embedded === true ) {
-			dom.viewport = revealElement.closest( '.reveal-viewport' ) || revealElement;
+			dom.viewport = Util.closest( revealElement, '.reveal-viewport' ) || revealElement;
 		}
 		// Full-page decks use the body as their viewport
 		else {
@@ -1489,7 +1489,10 @@ export default function( revealElement, options ) {
 
 				let reverse = config.rtl && !isVerticalSlide( element );
 
-				element.classList.remove( 'past', 'present', 'future' );
+				// Avoid .remove() with multiple args for IE11 support
+				element.classList.remove( 'past' );
+				element.classList.remove( 'present' );
+				element.classList.remove( 'future' );
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
@@ -2064,21 +2067,21 @@ export default function( revealElement, options ) {
 			}
 			else {
 				autoSlide = config.autoSlide;
-			}
 
-			// If there are media elements with data-autoplay,
-			// automatically set the autoSlide duration to the
-			// length of that media. Not applicable if the slide
-			// is divided up into fragments.
-			// playbackRate is accounted for in the duration.
-			if( currentSlide.querySelectorAll( '.fragment' ).length === 0 ) {
-				Util.queryAll( currentSlide, 'video, audio' ).forEach( el => {
-					if( el.hasAttribute( 'data-autoplay' ) ) {
-						if( autoSlide && (el.duration * 1000 / el.playbackRate ) > autoSlide ) {
-							autoSlide = ( el.duration * 1000 / el.playbackRate ) + 1000;
+				// If there are media elements with data-autoplay,
+				// automatically set the autoSlide duration to the
+				// length of that media. Not applicable if the slide
+				// is divided up into fragments.
+				// playbackRate is accounted for in the duration.
+				if( currentSlide.querySelectorAll( '.fragment' ).length === 0 ) {
+					Util.queryAll( currentSlide, 'video, audio' ).forEach( el => {
+						if( el.hasAttribute( 'data-autoplay' ) ) {
+							if( autoSlide && (el.duration * 1000 / el.playbackRate ) > autoSlide ) {
+								autoSlide = ( el.duration * 1000 / el.playbackRate ) + 1000;
+							}
 						}
-					}
-				} );
+					} );
+				}
 			}
 
 			// Cue the next auto-slide if:
