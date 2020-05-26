@@ -1,4 +1,4 @@
-import { queryAll, extend, createStyleSheet, matchesSelector } from '../utils/util.js'
+import { queryAll, extend, createStyleSheet, matches, closest } from '../utils/util.js'
 import { FRAGMENT_STYLE_REGEX } from '../utils/constants.js'
 
 // Counter used to generate unique IDs for auto-animated elements
@@ -299,8 +299,8 @@ export default class AutoAnimate {
 		options = extend( options, inheritedOptions );
 
 		// Inherit options from parent elements
-		if( element.closest && element.parentNode ) {
-			let autoAnimatedParent = element.parentNode.closest( '[data-auto-animate-target]' );
+		if( element.parentNode ) {
+			let autoAnimatedParent = closest( element.parentNode, '[data-auto-animate-target]' );
 			if( autoAnimatedParent ) {
 				options = this.getAutoAnimateOptions( autoAnimatedParent, options );
 			}
@@ -463,11 +463,11 @@ export default class AutoAnimate {
 
 			// Disable scale transformations on text nodes, we transiition
 			// each individual text property instead
-			if( matchesSelector( pair.from, textNodes ) ) {
+			if( matches( pair.from, textNodes ) ) {
 				pair.options = { scale: false };
 			}
 			// Animate individual lines of code
-			else if( matchesSelector( pair.from, codeNodes ) ) {
+			else if( matches( pair.from, codeNodes ) ) {
 
 				// Transition the code block's width and height instead of scaling
 				// to prevent its content from being squished

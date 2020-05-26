@@ -94,14 +94,10 @@ export const transformElement = ( element, transform ) => {
  *
  * @return {Boolean}
  */
-export const matchesSelector = ( target, selector ) => {
+export const matches = ( target, selector ) => {
 
-	// There's some overhead doing this each time, we don't
-	// want to rewrite the element prototype but should still
-	// be enough to feature detect once at startup...
-	let matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
+	let matchesMethod = target.matches || target.matchesSelector || target.msMatchesSelector;
 
-	// If we find a match, we're all set
 	return !!( matchesMethod && matchesMethod.call( target, selector ) );
 
 }
@@ -117,20 +113,21 @@ export const matchesSelector = ( target, selector ) => {
  * @return {HTMLElement} The matched parent or null
  * if no matching parent was found
  */
-export const closestParent = ( target, selector ) => {
+export const closest = ( target, selector ) => {
 
-	let parent = target.parentNode;
+	// Native Element.closest
+	if( typeof target.closest === 'function' ) {
+		return target.closest( selector );
+	}
 
-	while( parent ) {
-
-		// If we find a match, we're all set
-		if( matchesSelector( parent, selector ) ) {
-			return parent;
+	// Polyfill
+	while( target ) {
+		if( matches( target, selector ) ) {
+			return target;
 		}
 
 		// Keep searching
-		parent = parent.parentNode;
-
+		target = target.parentNode;
 	}
 
 	return null;

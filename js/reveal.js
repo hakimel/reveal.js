@@ -148,7 +148,7 @@ export default function( revealElement, options ) {
 
 		// Embedded decks use the reveal element as their viewport
 		if( config.embedded === true ) {
-			dom.viewport = revealElement.closest( '.reveal-viewport' ) || revealElement;
+			dom.viewport = Util.closest( revealElement, '.reveal-viewport' ) || revealElement;
 		}
 		// Full-page decks use the body as their viewport
 		else {
