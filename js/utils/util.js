@@ -86,6 +86,27 @@ export const transformElement = ( element, transform ) => {
 }
 
 /**
+ * Element.matches with IE support.
+ *
+ * @param {HTMLElement} target The element to match
+ * @param {String} selector The CSS selector to match
+ * the element against
+ *
+ * @return {Boolean}
+ */
+export const matchesSelector = ( target, selector ) => {
+
+	// There's some overhead doing this each time, we don't
+	// want to rewrite the element prototype but should still
+	// be enough to feature detect once at startup...
+	let matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
+
+	// If we find a match, we're all set
+	return !!( matchesMethod && matchesMethod.call( target, selector ) );
+
+}
+
+/**
  * Find the closest parent that matches the given
  * selector.
  *
@@ -102,13 +123,8 @@ export const closestParent = ( target, selector ) => {
 
 	while( parent ) {
 
-		// There's some overhead doing this each time, we don't
-		// want to rewrite the element prototype but should still
-		// be enough to feature detect once at startup...
-		let matchesMethod = parent.matches || parent.matchesSelector || parent.msMatchesSelector;
-
 		// If we find a match, we're all set
-		if( matchesMethod && matchesMethod.call( parent, selector ) ) {
+		if( matchesSelector( parent, selector ) ) {
 			return parent;
 		}
 

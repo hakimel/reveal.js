@@ -1489,7 +1489,10 @@ export default function( revealElement, options ) {
 
 				let reverse = config.rtl && !isVerticalSlide( element );
 
-				element.classList.remove( 'past', 'present', 'future' );
+				// Avoid .remove() with multiple args for IE11 support
+				element.classList.remove( 'past' );
+				element.classList.remove( 'present' );
+				element.classList.remove( 'future' );
 
 				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );

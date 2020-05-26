@@ -1,4 +1,4 @@
-import { queryAll, extend, createStyleSheet } from '../utils/util.js'
+import { queryAll, extend, createStyleSheet, matchesSelector } from '../utils/util.js'
 import { FRAGMENT_STYLE_REGEX } from '../utils/constants.js'
 
 // Counter used to generate unique IDs for auto-animated elements
@@ -463,11 +463,11 @@ export default class AutoAnimate {
 
 			// Disable scale transformations on text nodes, we transiition
 			// each individual text property instead
-			if( pair.from.matches( textNodes ) ) {
+			if( matchesSelector( pair.from, textNodes ) ) {
 				pair.options = { scale: false };
 			}
 			// Animate individual lines of code
-			else if( pair.from.matches( codeNodes ) ) {
+			else if( matchesSelector( pair.from, codeNodes ) ) {
 
 				// Transition the code block's width and height instead of scaling
 				// to prevent its content from being squished

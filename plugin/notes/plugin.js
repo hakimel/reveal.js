@@ -1,6 +1,6 @@
 import speakerViewHTML from './speaker-view.html';
 
-import marked from 'marked'
+import marked from 'marked';
 
 /**
  * Handles opening of and synchronization with the reveal.js
