@@ -51,6 +51,8 @@ Reveal.initialize = options => {
 	}
 } );
 
+Reveal.isReady = () => false;
+
 Reveal.VERSION = VERSION;
 
 export default Reveal;
