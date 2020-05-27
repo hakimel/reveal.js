@@ -1396,7 +1396,7 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal.rtl .progress span {
-	float: right
+	transform-origin: 100% 0;
 }
 
 /*********************************************
