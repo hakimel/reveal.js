@@ -47,7 +47,7 @@ export default function( revealElement, options ) {
 	const Reveal = {};
 
 	// Configuration defaults, can be overridden at initialization time
-	let config,
+	let config = {},
 
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		ready = false,
@@ -125,8 +125,14 @@ export default function( revealElement, options ) {
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
 
-		// Compose our config object
-		config = { ...defaultConfig, ...options, ...initOptions, ...Util.getQueryHash() };
+		// Compose our config object in order of increasing precedence:
+		// 1. Default reveal.js options
+		// 2. Options provided via Reveal.configure() prior to
+		//    initialization
+		// 3. Options passed to the Reveal constructor
+		// 4. Options passed to Reveal.initialize
+		// 5. Query params
+		config = { ...defaultConfig, ...config, ...options, ...initOptions, ...Util.getQueryHash() };
 
 		setViewport();
 

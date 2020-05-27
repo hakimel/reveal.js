@@ -45,7 +45,7 @@ Reveal.initialize = options => {
  * queuing up premature API calls and invoking all
  * of them when Reveal.initialize is called.
  */
-[ 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin' ].forEach( method => {
+[ 'configure', 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin' ].forEach( method => {
 	Reveal[method] = ( ...args ) => {
 		enqueuedAPICalls.push( deck => deck[method].call( null, ...args ) );
 	}

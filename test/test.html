@@ -81,6 +81,8 @@
 		<script>
 			window.location.hash = '';
 
+			Reveal.configure({maxScale: 1.11});
+
 			// These tests expect the DOM to contain a presentation
 			// with the following slide structure:
 			//
@@ -112,6 +114,10 @@
 				// API TESTS
 
 				QUnit.module( 'API' );
+
+				QUnit.test( 'Reveal.configure before initialization', function( assert ) {
+					assert.strictEqual( Reveal.getConfig().maxScale, 1.11 );
+				});
 
 				QUnit.test( 'Reveal.isReady', function( assert ) {
 					assert.strictEqual( Reveal.isReady(), true, 'returns true' );
