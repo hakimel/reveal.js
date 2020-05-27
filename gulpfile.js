@@ -66,13 +66,13 @@ babelConfigESM.presets[0][1].targets = { browsers: [
     'last 2 Edge versions', 'not Edge < 16',
 ] };
 
-let rollupCache;
+let cache = {};
 
 // Creates a bundle with broad browser support, exposed
 // as UMD
 gulp.task('js-es5', () => {
     return rollup({
-        cache: rollupCache,
+        cache: cache.umd,
         input: 'js/index.js',
         plugins: [
             resolve(),
@@ -81,7 +81,7 @@ gulp.task('js-es5', () => {
             terser()
         ]
     }).then( bundle => {
-        rollupCache = bundle.cache;
+        cache.umd = bundle.cache;
         return bundle.write({
             name: 'Reveal',
             file: './dist/reveal.js',
@@ -95,7 +95,7 @@ gulp.task('js-es5', () => {
 // Creates an ES module bundle
 gulp.task('js-es6', () => {
     return rollup({
-        cache: rollupCache,
+        cache: cache.esm,
         input: 'js/index.js',
         plugins: [
             resolve(),
@@ -104,7 +104,7 @@ gulp.task('js-es6', () => {
             terser()
         ]
     }).then( bundle => {
-        rollupCache = bundle.cache;
+        cache.esm = bundle.cache;
         return bundle.write({
             file: './dist/reveal.esm.js',
             format: 'es',
@@ -127,6 +127,7 @@ gulp.task('plugins', () => {
         { name: 'RevealMath', input: './plugin/math/plugin.js', output: './plugin/math/math' },
     ].map( plugin => {
         return rollup({
+                cache: cache[plugin.input],
                 input: plugin.input,
                 plugins: [
                     resolve(),
@@ -138,6 +139,7 @@ gulp.task('plugins', () => {
                     terser()
                 ]
             }).then( bundle => {
+                cache[plugin.input] = bundle.cache;
                 bundle.write({
                     file: plugin.output + '.esm.js',
                     name: plugin.name,
