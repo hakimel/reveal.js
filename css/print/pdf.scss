@@ -30,8 +30,6 @@ html.print-pdf {
 	.reveal .progress,
 	.reveal .playback,
 	.reveal.overview,
-	.fork-reveal,
-	.share-reveal,
 	.state-background {
 		display: none !important;
 	}
@@ -115,12 +113,11 @@ html.print-pdf {
 		box-shadow: none;
 	}
 
-	.reveal .roll {
-		overflow: visible;
-		line-height: 1em;
-	}
 
 	/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+	.reveal .backgrounds {
+		display: none;
+	}
 	.reveal .slide-background {
 		display: block !important;
 		position: absolute;
