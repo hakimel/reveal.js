@@ -422,8 +422,8 @@ export default function( revealElement, options ) {
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
 		// Expose our configured slide dimensions as custom props
-		dom.viewport.style.setProperty( '--size-width', config.width + 'px' );
-		dom.viewport.style.setProperty( '--size-height', config.height + 'px' );
+		dom.viewport.style.setProperty( '--slide-width', config.width + 'px' );
+		dom.viewport.style.setProperty( '--slide-height', config.height + 'px' );
 
 		if( config.shuffle ) {
 			shuffle();
