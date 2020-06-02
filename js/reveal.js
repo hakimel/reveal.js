@@ -174,6 +174,9 @@ export default function( revealElement, options ) {
 
 		ready = true;
 
+		// Remove slides hidden with data-visibility
+		removeHiddenSlides();
+
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
 
@@ -227,6 +230,24 @@ export default function( revealElement, options ) {
 					print.setupPDF();
 				} );
 			}
+		}
+
+	}
+
+	/**
+	 * Removes all slides with data-visibility="hidden". This
+	 * is done right before the rest of the presentation is
+	 * initialized.
+	 *
+	 * If you want to show all hidden slides, initialize
+	 * reveal.js with showHiddenSlides set to true.
+	 */
+	function removeHiddenSlides() {
+
+		if( !config.showHiddenSlides ) {
+			Util.queryAll( dom.wrapper, 'section[data-visibility="hidden"]' ).forEach( slide => {
+				slide.parentNode.removeChild( slide );
+			} );
 		}
 
 	}
