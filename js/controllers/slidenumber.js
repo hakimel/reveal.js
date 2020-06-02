@@ -11,9 +11,17 @@ export default class SlideNumber {
 
 	render() {
 
-		this.element = document.createElement( 'div' );
-		this.element.className = 'slide-number';
-		this.Reveal.getRevealElement().appendChild( this.element );
+		// check for a target container
+		const target = document.querySelector( '.slide-number-target' );
+
+		// reuse target container or create a new one
+		if( target ) {
+			this.element = target;
+		} else {
+			this.element = document.createElement( 'div' );
+			this.element.className = 'slide-number';
+			this.Reveal.getRevealElement().appendChild( this.element );	
+		}
 
 	}
 
@@ -25,10 +33,10 @@ export default class SlideNumber {
 		let slideNumberDisplay = 'none';
 		if( config.slideNumber && !this.Reveal.isPrintingPDF() ) {
 			if( config.showSlideNumber === 'all' ) {
-				slideNumberDisplay = 'block';
+				slideNumberDisplay = 'initial';
 			}
 			else if( config.showSlideNumber === 'speaker' && this.Reveal.isSpeakerNotes() ) {
-				slideNumberDisplay = 'block';
+				slideNumberDisplay = 'initial';
 			}
 		}
 
@@ -106,7 +114,7 @@ export default class SlideNumber {
 	formatNumber( a, delimiter, b, url = '#' + this.Reveal.location.getHash() ) {
 
 		if( typeof b === 'number' && !isNaN( b ) ) {
-			return  `<a href="${url}">
+			return	`<a href="${url}">
 					<span class="slide-number-a">${a}</span>
 					<span class="slide-number-delimiter">${delimiter}</span>
 					<span class="slide-number-b">${b}</span>
