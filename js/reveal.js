@@ -1793,7 +1793,7 @@ export default function( revealElement, options ) {
 
 			// Don't count the wrapping section for vertical slides and
 			// slides marked as uncounted
-			if( horizontalSlide.classList.contains( 'stack' ) === false && !horizontalSlide.dataset.visibility !== 'uncounted' ) {
+			if( horizontalSlide.classList.contains( 'stack' ) === false && horizontalSlide.dataset.visibility !== 'uncounted' ) {
 				pastCount++;
 			}
 
