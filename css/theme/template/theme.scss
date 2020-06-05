@@ -79,6 +79,16 @@
 	line-height: 1.3;
 }
 
+/* Remove trailing margins after titles */
+.reveal h1:last-child,
+.reveal h2:last-child,
+.reveal h3:last-child,
+.reveal h4:last-child,
+.reveal h5:last-child,
+.reveal h6:last-child {
+	margin-bottom: 0;
+}
+
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
 .reveal video,

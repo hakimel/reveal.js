@@ -25,6 +25,8 @@ import {
 	POST_MESSAGE_METHOD_BLACKLIST
 } from './utils/constants.js'
 
+import fitty from 'fitty';
+
 // The reveal.js version
 export const VERSION = '4.0.2';
 
@@ -281,6 +283,15 @@ export default function( revealElement, options ) {
 		dom.statusElement = createStatusElement();
 
 		dom.wrapper.setAttribute( 'role', 'application' );
+
+		// The r-fit-text helper resizes text to be as large as
+		// possible within its given container
+		fitty( '.r-fit-text', {
+			minSize: 24,
+			maxSize: config.height * 0.8,
+			observeMutations: false,
+			observeWindow: false
+		} );
 	}
 
 	/**
