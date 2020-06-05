@@ -10,6 +10,9 @@
  *
  */
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,700,300italic,700italic);
+section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
+  color: #222; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -290,6 +293,9 @@
 .reveal p {
   font-weight: 300;
   text-shadow: 1px 1px #222; }
+
+section.has-light-background p, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4 {
+  text-shadow: none; }
 
 .reveal h1,
 .reveal h2,
