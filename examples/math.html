@@ -176,6 +176,7 @@
 		</div>
 
 		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/math/math.js"></script>
 		<script>
 			Reveal.initialize({
 				history: true,
@@ -192,9 +193,7 @@
 					}
 				},
 
-				dependencies: [
-					{ src: '../plugin/math/math.js', async: true }
-				]
+				plugins: [ RevealMath ]
 			});
 		</script>
 
