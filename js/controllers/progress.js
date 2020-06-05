@@ -55,7 +55,14 @@ export default class Progress {
 		// Update progress if enabled
 		if( this.Reveal.getConfig().progress && this.bar ) {
 
-			this.bar.style.transform = 'scaleX('+ this.Reveal.getProgress() +')';
+			let scale = this.Reveal.getProgress();
+
+			// Don't fill the progress bar if there's only one slide
+			if( this.Reveal.getTotalSlides() < 2 ) {
+				scale = 0;
+			}
+
+			this.bar.style.transform = 'scaleX('+ scale +')';
 
 		}
 
