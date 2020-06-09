@@ -2,6 +2,8 @@ import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/c
 import { extend, queryAll, closest } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
+import fitty from 'fitty';
+
 /**
  * Handles loading, unloading and playback of slide
  * content such as images, videos and iframes.
@@ -158,6 +160,19 @@ export default class SlideContent {
 			}
 
 		}
+
+		// Autosize text with the r-fit-text class based on the
+		// size of its container. This needs to happen after the
+		// slide is visible in order to measure the text.
+		Array.from( document.querySelectorAll( '.r-fit-text:not([data-fitted])' ) ).forEach( element => {
+			element.dataset.fitted = '';
+			fitty( element, {
+				minSize: 24,
+				maxSize: this.Reveal.getConfig().height * 0.8,
+				observeMutations: false,
+				observeWindow: false
+			} );
+		} );
 
 	}
 
