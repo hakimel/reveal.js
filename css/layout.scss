@@ -36,6 +36,12 @@
 .reveal .r-vstack,
 .reveal .r-hstack {
 	display: flex;
+
+	img, video {
+		min-width: 0;
+		min-height: 0;
+		object-fit: contain;
+	}
 }
 
 .reveal .r-vstack {
