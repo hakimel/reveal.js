@@ -164,7 +164,7 @@ export default class SlideContent {
 		// Autosize text with the r-fit-text class based on the
 		// size of its container. This needs to happen after the
 		// slide is visible in order to measure the text.
-		Array.from( document.querySelectorAll( '.r-fit-text:not([data-fitted])' ) ).forEach( element => {
+		Array.from( slide.querySelectorAll( '.r-fit-text:not([data-fitted])' ) ).forEach( element => {
 			element.dataset.fitted = '';
 			fitty( element, {
 				minSize: 24,
