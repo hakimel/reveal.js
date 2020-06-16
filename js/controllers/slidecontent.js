@@ -70,6 +70,11 @@ export default class SlideContent {
 				sources += 1;
 			} );
 
+			// Enable inline video playback in mobile Safari
+			if( isMobile && media.tagName === 'VIDEO' ) {
+				media.setAttribute( 'playsinline', '' );
+			}
+
 			// If we rewrote sources for this video/audio element, we need
 			// to manually tell it to load from its new origin
 			if( sources > 0 ) {
@@ -111,12 +116,8 @@ export default class SlideContent {
 						video.muted = true;
 					}
 
-					// Inline video playback works (at least in Mobile Safari) as
-					// long as the video is muted and the `playsinline` attribute is
-					// present
+					// Enable inline playback in mobile Safari
 					if( isMobile ) {
-						video.muted = true;
-						video.autoplay = true;
 						video.setAttribute( 'playsinline', '' );
 					}
 
