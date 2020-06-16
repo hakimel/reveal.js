@@ -117,7 +117,12 @@ export default class SlideContent {
 					}
 
 					// Enable inline playback in mobile Safari
+					//
+					// Mute is required for video to play when using
+					// swipe gestures to navigate since they don't
+					// count as direct user actions :'(
 					if( isMobile ) {
+						video.muted = true;
 						video.setAttribute( 'playsinline', '' );
 					}
 
