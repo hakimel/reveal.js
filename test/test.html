@@ -505,6 +505,28 @@
 					assert.deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'up() goes to prev fragment' );
 				});
 
+				QUnit.test( 'Skipping fragments', function( assert ) {
+					Reveal.configure({ leftRightSkipFragments: true });
+
+					// forwards:
+
+					Reveal.slide( 2, 0, -1 );
+
+					Reveal.right();
+					assert.deepEqual( Reveal.getIndices(), { h: 3, v: 0, f: undefined }, 'when leftRightSkipFragments is set, right() goes to next slide' );
+
+					// backwards:
+
+					Reveal.left(); // return to previous slide
+					assert.deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 2 }, 'left() goes to prev fragment' );
+
+					Reveal.left();
+					assert.deepEqual( Reveal.getIndices(), { h: 1, v: 0, f: undefined }, 'when leftRightSkipFragments is set, left() goes to prev slide' );
+
+					Reveal.configure({ leftRightSkipFragments: false });
+				});
+
+
 				QUnit.test( 'Stepping past fragments', function( assert ) {
 					var fragmentSlide = document.querySelector( '#fragment-slides>section:nth-child(1)' );
 
