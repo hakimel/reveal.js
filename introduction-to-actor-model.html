@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to Actor Model</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<a href="https://revealjs.com">
+						<img src="https://cdn1.thr.com/sites/default/files/imagecache/landscape_928x523/2018/08/oscar_statuettes.jpg" alt="reveal.js logo" style="height: 180px; margin: 0 auto 4rem auto; background: transparent;" class="demo-logo">
+					</a>
+					<h2>The Actor Model Explained</h2>
+					<p>
+						<small><a href="mailto:matan.keidar@pipl.com">Matan Keidar</a> </small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Overview</h2>
+						<ul>
+							<li>Background</li>
+							<li>Why need a new programming model</li>
+							<li>What is Actor Model</li>
+							<li>Actor Model internals</li>
+							<li>Pitfalls of Actor Model</li>
+							<li>Demo</li>
+							<li>Summary</li>
+						</ul>
+				</section>
+
+				<!-- Background -->
+				<section>
+					<section>
+						<h2>Background</h2>
+						<ul>
+							<li>Our CPUs are not getting any faster.</li>
+							<li>Instead, we now have multiple cores on them.
+								<ul>
+									<li>We need to find ways to run our code concurrently</li>
+								</ul>
+							</li>
+							<li>Lots of untraceable bugs and developers depression
+								<ul>
+									<li><strong>Threads</strong> are not the way to go</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Background</h2>
+						<ul>
+							<li>Today: Distributed Systems
+								<ul>
+									<li>Cannot be fully solved with a traditional OOP</li>
+									<li>Lots of mismatches:
+										<ul>
+											<li>Traditional programming assumptions vs.</li>
+											<li>Modern multi-threaded, multi-CPU env.</li>
+										</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Actor Model Origins</h2>
+						<ul>
+							<li>Proposed by Carl Hewitt (1973)</li>
+							<li>Parallel processing in a high performance network 
+								<ul>
+									<li>Environment that was not available at the time 😲</li>
+								</ul>
+							</li>
+							<li>Inspired by physics ⚛</li>
+							<li>Languages that use this model: Erlang, Smalltalk</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>In production for high demanding applications</h3>
+						<ul>
+							<li>Twitter's infrastructure</li>
+							<li>Microsoft <em>Asynchronous Agents Library</em></li>
+							<li>Microsoft Azure <em>Service Fabric</em></li>
+							<li>JavaScript's <em>Web Workers</em> use same core ideas of message passing</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Libraries and Frameworks</h2>
+						<table>
+							<tbody>
+								<tr>
+									<td>Rust</td>
+									<td>Bastion, Acteur, Actix</td>
+								</tr>
+								<tr>
+									<td>Java,Scala</td>
+									<td>Vert.x, Actor4j, Akka</td>
+								</tr>
+								<tr>
+									<td>.Net</td>
+									<td>Akka.NET, ActorFx, Orleans</td>
+								</tr>
+								<tr>
+									<td>JavaScript</td>
+									<td>Vert.x, protoactor</td>
+								</tr>
+								<tr>
+									<td>Python</td>
+									<td>Thespian, Cloudl</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+
+					<section>
+						<h2>Use case: DAP Merge</h2>
+						<ul>
+							<li>Even in our organization (!)</li>
+							<li>DAP Merge application use cluster of actors</li>
+							<li>Actors share job & status information</li>
+							<li>When a node is joined, it is updated by other actors</li>
+
+						</ul>
+					</section>
+				</section>
+
+				<!-- Why modern systems need a new programming model -->
+				<section>
+					<section data-background="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" data-background-opacity="0.7">
+						<h2 style="color:darksalmon;">Why modern systems need a new programming model?</h2>
+					</section>
+
+					<section>
+						<h3>The Challenge of Encapsulation</h3>
+						<ul>
+							<li>Encapsulation is a core pillar of OOP</li>
+							<li>Internal state is not accesible directly from outside
+								<ul>
+									<li>It can only be modified by a set of curated methods</li>
+								</ul>
+							</li>
+							<li>The object is responsible for exposing safe ops 
+								<ul><li>Protect its encapsulated private data</li></ul>
+							</li>
+						</ul>
+						<aside class="notes">
+							For example, operations on an ordered binary tree implementation must not allow violation of 
+							the tree ordering invariant. 
+							Callers expect the ordering to be intact and when querying the tree for a certain piece of data, 
+							they need to be able to rely on this constraint.
+						  </aside>
+					</section>
+
+					<section data-auto-animate>
+						<h3>The Challenge of Encapsulation</h3>
+						<ul>
+							<li>We often would like to analyze runtime behavior</li>
+							<li>OOP: sequence diagram of method calls interactions</li>
+						</ul>
+						<img data-id="diagram" src="https://doc.akka.io/docs/akka/current/typed/guide/diagrams/seq_chart.png" style="background-color: aliceblue;">
+						<footer>Taken from Akka</footer>
+					</section>
+
+					<section data-auto-animate>
+						<h3>The Challenge of Encapsulation</h3>
+						<ul>
+							<li>However, it does not accurately represent the flow</li>
+							<li>In real life: 
+								<ul>
+									<li>A thread executes all these calls</li>
+									<li>Internal state is updated within the method's caller thread.</li>
+								</ul>
+							</li>
+							<li>Updating the diagram with the thread of execution:</li>
+						</ul>
+						<img data-id="diagram" src="https://doc.akka.io/docs/akka/current/typed/guide/diagrams/seq_chart_thread.png" style="background-color: aliceblue;">
+					</section>
+
+					<section data-auto-animate>
+						<h3>The Challenge of Encapsulation</h3>
+						<ul>
+							<li>Let's try to model what happens with multiple threads. </li>
+							<li>Suddenly, our diagram becomes inadequate.</li>
+							<li>Multiple threads accessing the same instance:</li>
+						</ul>
+						<img data-id="diagram" src="https://doc.akka.io/docs/akka/current/typed/guide/diagrams/seq_chart_multi_thread.png" style="background-color: aliceblue;">
+
+						<aside class="notes">
+							There is a section of execution where two threads enter the same method. 
+							Unfortunately, the encapsulation model of objects does not guarantee anything about what happens in that section. 
+							Instructions of the two invocations can be interleaved in arbitrary ways which eliminate any hope for 
+							keeping the invariants intact without some type of coordination between two threads. 
+							Now, imagine this issue compounded by the existence of many threads.
+						</aside>
+					</section>
+
+					<section data-auto-animate>
+						<h3>The Challenge of Encapsulation</h3>
+						<ul>
+							<li>A common solution is to add <em>Locks</em>: 🔐
+								<ul>
+									<li>At most one thread will enter the method</li>
+									<li>At any given time</li>
+								</ul>
+							</li>
+							<li class="fragment">However, this solution is expensive:
+								<ul>
+									<li>Locks seriously limit concurrency</li>
+									<li>They are very costly on modern CPUs.</li>
+									<li>Thread is now blocked, cannot do any other work. </li>
+									<li>Locks introduce a new menace: <em>deadlocks</em>. 💀</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section data-auto-animate>
+						<h3>The Challenge of Encapsulation</h3>
+						<p>These realities result in a no-win situation:</p>
+						<ul>
+							<li>Without locks: 
+								<ul><li>The state gets corrupted</li></ul>
+							</li>
+							<li>With many locks: 
+								<ul>
+									<li>Performance suffers</li>
+									<li>Very easily leads to deadlocks</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section data-auto-animate>
+						<h3>The Challenge of Encapsulation</h3>
+						<ul>
+							<li>Locks only really work well locally.</li>
+							<li>Distributed locks, are LESS efficient: 
+								<ul>
+									<li>Several communication round-trips over network</li>
+									<li>Across multiple machines</li>
+									<li>Really impact latency</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section data-background="https://media.giphy.com/media/3oFzmoOureQgnndVRu/giphy.gif">
+						<h2>Actor Model to the Rescue!</h2>
+					</section>
+				</section>
+
+				<!-- What is the Actor Model -->
+				<section>
+					<section data-background="https://media.giphy.com/media/RZQIIUO9qrTRC/giphy.gif" data-background-opacity="0.7">
+						<h2 style="color:darksalmon;">What is an actor?</h2>
+					</section>
+					<section data-auto-animate>
+						<h3>Actor Model Explained</h3>
+						<ul>
+							<li>An actor is the primitive unit of computation.</li>
+							<li>An entity with an address (like email address)</li>
+							<li>Can do 3 things:</li>
+						</ul>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actor Model Explained</h3>
+						<h4 style="text-align: justify; padding-left: 250px;"><span style="color: red;">Send</span> a message to another actor ✉️</h4>
+						<h4 class="fragment" style="text-align: justify; padding-left: 250px;"><span style="color: red;">Receive</span> a message (and do some computations) 📝</h4>
+						<h4 class="fragment" style="text-align: justify; padding-left: 250px;"><span style="color: red;">Create</span> more actors 🙋‍♂️🙋‍♂️🙋‍♂️🙋‍♂️🙋‍♂️</h4>
+						<p class="fragment">Simple as That!</p>
+					</section>
+
+					<section>
+						<h3>Actor's Internal State</h3>
+						<ul>
+							<li>Actor maintains its own iternal state.</li>
+							<li>The state is not accesible from the outside:
+								<ul>
+									<li>Can be changed by the actor itself only</li>
+									<li>Which means, state is updated by messages</li>
+								</ul>
+							</li>
+							<li>Similar to getter and setter methods in OOP</li>
+						</ul>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actor's Internal State</h3>
+						<p >Actor A wants to change Actor B's state</p>
+						<div class="r-stack">
+							<img data-id="actors" src="images/actors.001.png"/>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actor's Internal State</h3>
+						<p >Actor A sends a message to Actor B</p>
+						<div class="r-stack">
+							<img data-id="actors" src="images/actors.002.png"/>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actor's Internal State</h3>
+						<p >Actor B receives the messsge and acts</p>
+						<div class="r-stack">
+							<img data-id="actors" src="images/actors.003.png"/>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actor's Internal State</h3>
+						<p >Actor B's internal state is changed 🎉🎉🎉</p>
+						<div class="r-stack">
+							<img data-id="actors" src="images/actors.004.png"/>
+						</div>
+					</section>
+				</section>
+
+				<!-- Actor model internals -->
+				<section>
+					<section data-background="https://media.giphy.com/media/sRFEa8lbeC7zbcIZZR/giphy.gif">
+						<h3>Taste of</h3>
+						<h2>Actor System Internals</h2>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actors have mailboxes</h3>
+						<ul>
+							<li>An actor's purpose is the processing of messages.</li>
+							<li>Messages are sent to the actor from other actors.</li>
+							<li><em>Mailbox</em>: connects the sender and receiver</li>
+							<li>Each actor has exactly one mailbox</li>
+							<li>Messages from other actors may arrive out of order</li>
+							<li>Messages from same actor will arrive in order</li>
+						</ul>
+					</section>
+
+					<section data-auto-animate>
+						<h3>Actors have mailboxes</h3>
+						<ul>
+							<li>Various mailbox implementations:
+								<ul>
+									<li>FIFO (usually the default)</li>
+									<li>Priority mailbox </li>
+									<li>Many more</li>
+								</ul>
+							</li>
+						</ul>
+						<img style="background-color: gainsboro;" width="50%" height="30%" src="https://www.brianstorti.com/assets/images/actors.png"/>
+					</section>
+
+					<section>
+						<h3>Message Processing</h3>
+						<ul>
+							<li>Actors only process 1 message at a time</li>
+							<li>Dispatcher: matches threads and actors
+								<ul>
+									<li>On arrival of new messages to the mailbox</li>
+								</ul>
+							</li>
+							<li>Actor ≠ Thread</li>
+							<li>A single machine can host millions of actors 👌
+								<ul>
+									<li>Actor creation is cheap on resources!</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Actors have Mailboxes</h3>
+						<ul>
+							<li>Multiple actors can run at the same time</li>
+							<li>Each actor processes messages sequentially</li>
+							<li class="fragment">If you send 3 messages to the same actor:
+								<ul>
+									<li>It will execute one message at a time.</li>
+								</ul>
+							</li>
+							<li class="fragment">If we would like to execute concurrently:
+								<ul>
+									<li>Need to create 3 actors</li>
+									<li>Send one message to each actor</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h3>Actors have addresses</h3>
+					<ul>
+						<li>Like emails, each actor has its own address</li>
+						<li>Trick: Can assign one address to multiple actors</li>
+						<li>Improves scalability if one actor is not enough</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>Location Transparency</h2>
+						<ul>
+							<li>All interactions use asynchronous message passing</li>
+							<li>Single process or cluster of hunderds of machines</li>
+							<li>Key idea: 
+								<ul>
+									<li>Remote to local (optimization)</li>
+									<li>Instead of: local to remote (generalization)</li>
+								</ul>
+							</li>
+							<li>Application is agnostic to actor location</li>
+							<li>Works well for distributed systems</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Let it crash!</h2>
+						<ul>
+							<li>Actor model introduced the "let it crash" philosophy</li>
+							<li>Do not need to write defensive code</li>
+							<li>Developer cannot anticipate all possible problems</li>
+							<li>Instead, critical code is supervised by another actor</li>
+							<li>Supervisor: responsible to know what do to on error</li>
+							<li>Result: self healing systems 
+								<ul>
+									<li>Every actor has a supervisor actor</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<!-- Pitfalls of actor model -->
+				<section>
+					<section data-background="https://media.giphy.com/media/YOkrK8agZLEk2cXeLi/giphy.gif" data-background-opacity="0.7">
+						<h2>When NOT to use the actor model</h2>
+					</section>
+
+					<section>
+						<h2>When Not to use the actor model</h2>
+						<ul>
+							<li>If you: 
+								<ul>
+									<li>Need a sequential order of things to happen</li>
+									<li>Send messages and need to rollback if one failes</li>
+								</ul>
+							</li>
+							<li>Then, reconsider using the actor model.</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Bank Account Example</h2>
+						<ul>
+							<li>I transfer 100$ from <em>my</em> account to <em>your</em> account</li>
+							<li>The banking system should deduct it from my account and add to your account</li>
+							<li> If either of those steps don't occur, the bank system should roll back the transaction and output an error</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Mailboxes have finite space</h2>
+						<ul>
+							<li>Mailbox (i.e., queue) has limited space (configurable)</li>
+							<li>Sending messages in high rate may result in overflow</li>
+							<li class="fragment">Possible solutions:
+								<ul >
+									<li class="fragment fade-right">Increase mailbox size (not a solution...)</li>
+									<li class="fragment fade-right">Drop new/old messages</li>
+									<li class="fragment fade-right">Fail the actor (will be handled by supervisor)</li>
+									<li class="fragment fade-right">Apply backpressure mechanism</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<!-- Actors encapsulate state and behavior into a lightweight process/thread. 
+					In a sense they are like OO objects but with a major semantic difference; 
+					they do not share state with any other Actor. 
+					Each Actor has its own view of the world and can only have impact on other Actors by sending messages to them.
+					 Messages are sent asynchronously and non-blocking in a so-called “fire-and-forget” manner where the Actor sends off a 
+					 message to some other Actor and then do not wait for a reply but goes off doing other things or are suspended by 
+					 the runtime. Each Actor has a mailbox (ordered message queue) in which incoming messages are processed one by one.
+					  Since all processing is done asynchronously and Actors do not block and consume any resources while waiting for messages,
+					   Actors tend to give very good concurrency and scalability characteristics and are excellent for 
+					   building event-based systems. -->
+
+				
+					   <!-- Demo -->
+				<section>
+					<section data-background="https://media.giphy.com/media/dVuyBgq2z5gVBkFtDc/giphy.gif">
+						<h1>Demo</h1>
+						<h2>COVID-19 Simulation</h2>
+					</section>
+	
+					<section>
+						<img height="600px" src="https://factcheck.afp.com/sites/default/files/styles/list_xl/public/medias/factchecking/united_states/masks_fb.png?itok=0nW5vYTq"/>
+					</section>
+				</section>
+					   
+				<section >
+					<h2>Summary</h2>
+					<ul>
+						<li>Actor: lightweight process of state and behavior</li>
+						<li>Unlike OOP: do not share state with other actors</li>
+						<li>Each actor has its own view of the world</li>
+						<li>Actor can only have impact on other actors by sending messages to them</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Summary</h2>
+					<ul>
+						<li>Messages: asynchronous and non-blocking</li>
+						<li>Each actor has a mailbox for incoming messages</li>
+						<li>Messages are processed one by one</li>
+						<li>Actors do not block and consume any resources while waiting for messages
+							<ul>
+								<li>Good concurrency and scalability characteristics</li>
+								<li>Excellent for event-based and distributed systems</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section data-background="https://media.giphy.com/media/xT9KVwVraalcvmKBfW/giphy.gif">
+					<h2>Questions?</h2>
+				</section>
+
+				<section data-background="https://media.giphy.com/media/W7DHaxkSE4Lpm/giphy.gif">
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+	</body>
+</html>
