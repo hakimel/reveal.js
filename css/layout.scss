@@ -1,0 +1,57 @@
+/**
+ * Layout helpers.
+ */
+
+// Stretch an element vertically based on available space
+.reveal .stretch,
+.reveal .r-stretch {
+	max-width: none;
+	max-height: none;
+}
+
+.reveal pre.stretch code,
+.reveal pre.r-stretch code {
+	height: 100%;
+	max-height: 100%;
+	box-sizing: border-box;
+}
+
+// Stack multiple elements on top of each other
+.reveal .r-stack {
+	display: grid;
+}
+
+.reveal .r-stack > * {
+	grid-area: 1/1;
+	margin: auto;
+}
+
+// Horizontal and vertical stacks
+.reveal .r-vstack,
+.reveal .r-hstack {
+	display: flex;
+}
+
+.reveal .r-vstack {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.reveal .r-hstack {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+// Naming based on tailwindcss
+.reveal .items-stretch { align-items: stretch; }
+.reveal .items-start { align-items: flex-start; }
+.reveal .items-center { align-items: center; }
+.reveal .items-end { align-items: flex-end; }
+
+.reveal .justify-between { justify-content: space-between; }
+.reveal .justify-around { justify-content: space-around; }
+.reveal .justify-start { justify-content: flex-start; }
+.reveal .justify-center { justify-content: center; }
+.reveal .justify-end { justify-content: flex-end; }

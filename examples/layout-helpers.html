@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Layout Helpers</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>Layout Helper Examples</h2>
+					<ul>
+						<li><a href="#/stretch">Stretch</a></li>
+						<li><a href="#/stack">Stack</a></li>
+						<li><a href="#/hstack">HStack</a></li>
+						<li><a href="#/vstack">VStack</a></li>
+					</ul>
+				</section>
+
+				<section id="stretch">
+					<h2>Stretch</h2>
+					<p>Makes an element as tall as possible while remaining within the slide bounds.</p>
+					<pre><code class="html" data-trim data-line-numbers>
+					  <h2>Stretch Example</h2>
+					  <img src="assets/image2.png" class="r-stretch">
+					  <p>Image byline</p>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Stretch Example</h2>
+					<img src="assets/image2.png" class="r-stretch">
+					<p>Image byline</p>
+				</section>
+
+				<section id="stack">
+					<h2>Stack</h2>
+					<p>Stacks multiple elements on top of each other, for use with fragments.</p>
+					<pre><code class="html" data-trim data-line-numbers>
+					  <div class="r-stack">
+					    &lt;img class="fragment" width="450" height="300" src="..."&gt;
+					    &lt;img class="fragment" width="300" height="450" src="..."&gt;
+					    &lt;img class="fragment" width="400" height="400" src="..."&gt;
+					  </div>
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Stack Example</h2>
+					<div class="r-stack">
+						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment">
+						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment">
+						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment">
+					</div>
+				</section>
+
+				<section>
+					<h2>Stack Example</h2>
+					<p>One at a time.</p>
+					<div class="r-stack">
+						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment fade-out" data-fragment-index="0">
+						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment current-visible" data-fragment-index="0">
+						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment">
+					</div>
+				</section>
+
+				<section id="hstack">
+					<h2>HStack</h2>
+					<p>Stacks multiple elements horizontally.</p>
+					<pre><code class="html" data-trim data-line-numbers>
+					  <div class="r-hstack">
+					    &lt;img width="450" height="300" src="..."&gt;
+					    &lt;img width="300" height="450" src="..."&gt;
+					    &lt;img width="400" height="400" src="..."&gt;
+					  </div>
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h2>HStack Example</h2>
+					<div class="r-hstack">
+						<p style="padding: 0.50em; background: #eee; margin: 0.25em">One</p>
+						<p style="padding: 0.75em; background: #eee; margin: 0.25em">Two</p>
+						<p style="padding: 1.00em; background: #eee; margin: 0.25em">Three</p>
+					</div>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				center: true,
+				hash: true,
+				plugins: [ RevealHighlight ]
+			});
+		</script>
+
+	</body>
+</html>
