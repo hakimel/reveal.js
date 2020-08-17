@@ -1467,13 +1467,23 @@ export default function( revealElement, options ) {
 	/**
 	 * Randomly shuffles all slides in the deck.
 	 */
-	function shuffle() {
+	function shuffle( slides = getHorizontalSlides() ) {
 
-		getHorizontalSlides().forEach( ( slide, i, slides ) => {
+		slides.forEach( ( slide, i ) => {
 
-			// Insert this slide next to another random slide. This may
-			// cause the slide to insert before itself but that's fine.
-			dom.slides.insertBefore( slide, slides[ Math.floor( Math.random() * slides.length ) ] );
+			// Insert the slide next to a randomly picked sibling slide
+			// slide. This may cause the slide to insert before itself,
+			// but that's not an issue.
+			let beforeSlide = slides[ Math.floor( Math.random() * slides.length ) ];
+			if( beforeSlide.parentNode === slide.parentNode ) {
+				slide.parentNode.insertBefore( slide, beforeSlide );
+			}
+
+			// Randomize the order of vertical slides (if there are any)
+			let verticalSlides = slide.querySelectorAll( 'section' );
+			if( verticalSlides.length ) {
+				shuffle( verticalSlides );
+			}
 
 		} );
 
