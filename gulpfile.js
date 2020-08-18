@@ -40,8 +40,10 @@ const babelConfig = {
     ignore: ['node_modules'],
     compact: false,
     extensions: ['.js', '.html'],
+    runtimeHelpers: true,
     plugins: [
-        'transform-html-import-to-string'
+        'transform-html-import-to-string',
+        '@babel/plugin-transform-runtime'  
     ],
     presets: [[
         '@babel/preset-env',
