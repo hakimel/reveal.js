@@ -32,9 +32,9 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
-    "@rollup/plugin-babel": "^5.0.2",
-    "@rollup/plugin-commonjs": "^12.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-babel": "^5.2.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-html-import-to-string": "0.0.1",
     "colors": "^1.4.0",
@@ -54,7 +54,7 @@
     "marked": "^1.1.0",
     "node-qunit-puppeteer": "^2.0.1",
     "qunit": "^2.10.0",
-    "rollup": "^2.10.9",
+    "rollup": "^2.26.4",
     "rollup-plugin-terser": "^7.0.0",
     "yargs": "^15.1.0"
   },
