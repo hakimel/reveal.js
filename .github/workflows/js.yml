@@ -22,3 +22,4 @@ jobs:
     - run: npm test
       env:
         CI: true
+Ok
