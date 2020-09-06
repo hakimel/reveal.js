@@ -1,6 +1,6 @@
 ## Dependencies
 
-Themes are written using Sass to keep things modular and reduce the need for repeated selectors across files. Make sure that you have the reveal.js development environment installed before proceeding: https://revealjs.revealjs.com/installation/#full-setup
+Themes are written using Sass to keep things modular and reduce the need for repeated selectors across files. Make sure that you have the reveal.js development environment installed before proceeding: https://revealjs.com/installation/#full-setup
 
 ## Creating a Theme
 
