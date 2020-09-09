@@ -15,6 +15,14 @@ const SCRIPT_END_PLACEHOLDER = '__SCRIPT_END__';
 
 const CODE_LINE_NUMBER_REGEX = /\[([\s\d,|-]*)\]/;
 
+const HTML_ESCAPE_MAP = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+
 const Plugin = () => {
 
 	// The reveal.js instance this plugin is attached to
@@ -399,6 +407,12 @@ const Plugin = () => {
 
 	}
 
+	function escapeForHTML( input ) {
+
+	  return input.replace( /([&<>'"])/g, char => HTML_ESCAPE_MAP[char] );
+
+	}
+
 	return {
 		id: 'markdown',
 
@@ -426,6 +440,11 @@ const Plugin = () => {
 					lineNumbers = `data-line-numbers="${lineNumbers}"`;
 					language = language.replace( CODE_LINE_NUMBER_REGEX, '' ).trim();
 				}
+
+				// Escape before this gets injected into the DOM to
+				// avoid having the HTML parser alter our code before
+				// highlight.js is able to read it
+				code = escapeForHTML( code );
 
 				return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
 			};
