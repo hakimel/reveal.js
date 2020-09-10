@@ -2157,12 +2157,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().left ) {
+			if( ( overview.isActive() || config.leftRightSkipFragments || fragments.next() === false ) && availableRoutes().left ) {
 				slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().left ) {
+		else if( ( overview.isActive() || config.leftRightSkipFragments || fragments.prev() === false ) && availableRoutes().left ) {
 			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
@@ -2174,12 +2174,12 @@ export default function( revealElement, options ) {
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().right ) {
+			if( ( overview.isActive() || config.leftRightSkipFragments || fragments.prev() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().right ) {
+		else if( ( overview.isActive() || config.leftRightSkipFragments || fragments.next() === false ) && availableRoutes().right ) {
 			slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 

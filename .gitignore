@@ -10,3 +10,4 @@ tmp/**
 node_modules/
 .sass-cache
 dist/*.map
+.vscode/

@@ -122,6 +122,10 @@ export default {
 	// from 1.3 -> 2.3.
 	navigationMode: 'default',
 
+	// Make left/right arrow keys skip current slide's fragment
+	// and move directly to previous/next slide
+	leftRightSkipFragments: false,
+
 	// Randomizes the order of slides each time the presentation loads
 	shuffle: false,
 
