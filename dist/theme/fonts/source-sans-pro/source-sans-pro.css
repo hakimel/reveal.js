@@ -1,39 +1,39 @@
 @font-face {
     font-family: 'Source Sans Pro';
-    src: url('source-sans-pro-regular.eot');
-    src: url('source-sans-pro-regular.eot?#iefix') format('embedded-opentype'),
-         url('source-sans-pro-regular.woff') format('woff'),
-         url('source-sans-pro-regular.ttf') format('truetype');
+    src: url('./source-sans-pro-regular.eot');
+    src: url('./source-sans-pro-regular.eot?#iefix') format('embedded-opentype'),
+         url('./source-sans-pro-regular.woff') format('woff'),
+         url('./source-sans-pro-regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Source Sans Pro';
-    src: url('source-sans-pro-italic.eot');
-    src: url('source-sans-pro-italic.eot?#iefix') format('embedded-opentype'),
-         url('source-sans-pro-italic.woff') format('woff'),
-         url('source-sans-pro-italic.ttf') format('truetype');
+    src: url('./source-sans-pro-italic.eot');
+    src: url('./source-sans-pro-italic.eot?#iefix') format('embedded-opentype'),
+         url('./source-sans-pro-italic.woff') format('woff'),
+         url('./source-sans-pro-italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Source Sans Pro';
-    src: url('source-sans-pro-semibold.eot');
-    src: url('source-sans-pro-semibold.eot?#iefix') format('embedded-opentype'),
-         url('source-sans-pro-semibold.woff') format('woff'),
-         url('source-sans-pro-semibold.ttf') format('truetype');
+    src: url('./source-sans-pro-semibold.eot');
+    src: url('./source-sans-pro-semibold.eot?#iefix') format('embedded-opentype'),
+         url('./source-sans-pro-semibold.woff') format('woff'),
+         url('./source-sans-pro-semibold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Source Sans Pro';
-    src: url('source-sans-pro-semibolditalic.eot');
-    src: url('source-sans-pro-semibolditalic.eot?#iefix') format('embedded-opentype'),
-         url('source-sans-pro-semibolditalic.woff') format('woff'),
-         url('source-sans-pro-semibolditalic.ttf') format('truetype');
+    src: url('./source-sans-pro-semibolditalic.eot');
+    src: url('./source-sans-pro-semibolditalic.eot?#iefix') format('embedded-opentype'),
+         url('./source-sans-pro-semibolditalic.woff') format('woff'),
+         url('./source-sans-pro-semibolditalic.ttf') format('truetype');
     font-weight: 600;
     font-style: italic;
 }

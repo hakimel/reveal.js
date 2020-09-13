@@ -13,5 +13,3 @@ export const isAndroid = /android/gi.test( UA );
 // xbrowser quirks so we only use it in whitelisted browsers.
 export const supportsZoom = 'zoom' in testElement.style && !isMobile &&
 				( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
-
-export const supportsHistoryAPI = typeof window.history.replaceState === 'function' && !/PhantomJS/.test( UA );

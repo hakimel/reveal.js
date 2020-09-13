@@ -174,6 +174,9 @@ export default function( revealElement, options ) {
 
 		ready = true;
 
+		// Remove slides hidden with data-visibility
+		removeHiddenSlides();
+
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
 
@@ -227,6 +230,24 @@ export default function( revealElement, options ) {
 					print.setupPDF();
 				} );
 			}
+		}
+
+	}
+
+	/**
+	 * Removes all slides with data-visibility="hidden". This
+	 * is done right before the rest of the presentation is
+	 * initialized.
+	 *
+	 * If you want to show all hidden slides, initialize
+	 * reveal.js with showHiddenSlides set to true.
+	 */
+	function removeHiddenSlides() {
+
+		if( !config.showHiddenSlides ) {
+			Util.queryAll( dom.wrapper, 'section[data-visibility="hidden"]' ).forEach( slide => {
+				slide.parentNode.removeChild( slide );
+			} );
 		}
 
 	}
@@ -420,6 +441,10 @@ export default function( revealElement, options ) {
 
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
+
+		// Expose our configured slide dimensions as custom props
+		dom.viewport.style.setProperty( '--slide-width', config.width + 'px' );
+		dom.viewport.style.setProperty( '--slide-height', config.height + 'px' );
 
 		if( config.shuffle ) {
 			shuffle();
@@ -1442,13 +1467,23 @@ export default function( revealElement, options ) {
 	/**
 	 * Randomly shuffles all slides in the deck.
 	 */
-	function shuffle() {
+	function shuffle( slides = getHorizontalSlides() ) {
 
-		getHorizontalSlides().forEach( ( slide, i, slides ) => {
+		slides.forEach( ( slide, i ) => {
 
-			// Insert this slide next to another random slide. This may
-			// cause the slide to insert before itself but that's fine.
-			dom.slides.insertBefore( slide, slides[ Math.floor( Math.random() * slides.length ) ] );
+			// Insert the slide next to a randomly picked sibling slide
+			// slide. This may cause the slide to insert before itself,
+			// but that's not an issue.
+			let beforeSlide = slides[ Math.floor( Math.random() * slides.length ) ];
+			if( beforeSlide.parentNode === slide.parentNode ) {
+				slide.parentNode.insertBefore( slide, beforeSlide );
+			}
+
+			// Randomize the order of vertical slides (if there are any)
+			let verticalSlides = slide.querySelectorAll( 'section' );
+			if( verticalSlides.length ) {
+				shuffle( verticalSlides );
+			}
 
 		} );
 
@@ -1768,7 +1803,7 @@ export default function( revealElement, options ) {
 
 			// Don't count the wrapping section for vertical slides and
 			// slides marked as uncounted
-			if( horizontalSlide.classList.contains( 'stack' ) === false && !horizontalSlide.dataset.visibility !== 'uncounted' ) {
+			if( horizontalSlide.classList.contains( 'stack' ) === false && horizontalSlide.dataset.visibility !== 'uncounted' ) {
 				pastCount++;
 			}
 

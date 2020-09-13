@@ -72,17 +72,20 @@ export default class SlideNumber {
 				format = 'c';
 			}
 
+			// Offset the current slide number by 1 to make it 1-indexed
+			let horizontalOffset = slide && slide.dataset.visibility === 'uncounted' ? 0 : 1;
+
 			value = [];
 			switch( format ) {
 				case 'c':
-					value.push( this.Reveal.getSlidePastCount( slide ) + 1 );
+					value.push( this.Reveal.getSlidePastCount( slide ) + horizontalOffset );
 					break;
 				case 'c/t':
-					value.push( this.Reveal.getSlidePastCount( slide ) + 1, '/', this.Reveal.getTotalSlides() );
+					value.push( this.Reveal.getSlidePastCount( slide ) + horizontalOffset, '/', this.Reveal.getTotalSlides() );
 					break;
 				default:
 					let indices = this.Reveal.getIndices( slide );
-					value.push( indices.h + 1 );
+					value.push( indices.h + horizontalOffset );
 					let sep = format === 'h/v' ? '/' : '.';
 					if( this.Reveal.isVerticalSlide( slide ) ) value.push( sep, indices.v + 1 );
 			}

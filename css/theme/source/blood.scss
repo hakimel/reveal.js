@@ -46,6 +46,9 @@ $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: $blood;
 $selectionColor: #fff;
 
+// Change text colors against dark slide backgrounds
+@include light-bg-text-color(#222);
+
 
 // Theme template ------------------------------
 @import "../template/theme";
@@ -56,6 +59,12 @@ $selectionColor: #fff;
 .reveal p {
     font-weight: 300;
     text-shadow: 1px 1px $coal;
+}
+
+section.has-light-background {
+	p, h1, h2, h3, h4 {
+		text-shadow: none;
+	}
 }
 
 .reveal h1,

@@ -31,11 +31,8 @@ $linkColor: #00008B;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: rgba(0, 0, 0, 0.99);
 
-section.has-dark-background {
-	&, h1, h2, h3, h4, h5, h6 {
-		color: #fff;
-	}
-}
+// Change text colors against dark slide backgrounds
+@include dark-bg-text-color(#fff);
 
 
 // Theme template ------------------------------

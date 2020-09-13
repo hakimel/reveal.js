@@ -461,7 +461,7 @@ export default class AutoAnimate {
 
 		pairs.forEach( pair => {
 
-			// Disable scale transformations on text nodes, we transiition
+			// Disable scale transformations on text nodes, we transition
 			// each individual text property instead
 			if( matches( pair.from, textNodes ) ) {
 				pair.options = { scale: false };

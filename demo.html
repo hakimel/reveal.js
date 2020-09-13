@@ -77,6 +77,13 @@
 					</p>
 				</section>
 
+				<section data-visibility="hidden">
+					<h2>Hidden Slides</h2>
+					<p>
+						This slide is visible in the source, but hidden when the presentation is viewed. You can show all hidden slides by setting the `showHiddenSlides` config option to `true`.
+					</p>
+				</section>
+
 				<section data-auto-animate>
 					<h2 data-id="code-title">Pretty Code</h2>
 					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
@@ -95,19 +102,19 @@
 
 				<section data-auto-animate>
 					<h2 data-id="code-title">With animations</h2>
-					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24">
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24"><script type="text/template">
 						import React, { useState } from 'react';
 
 						function Example() {
 						  const [count, setCount] = useState(0);
 
 						  return (
-						    &lt;div&gt;
-						      &lt;p&gt;You clicked {count} times&lt;/p&gt;
-						      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+						    <div>
+						      <p>You clicked {count} times</p>
+						      <button onClick={() => setCount(count + 1)}>
 						        Click me
-						      &lt;/button&gt;
-						    &lt;/div&gt;
+						      </button>
+						    </div>
 						  );
 						}
 
@@ -115,15 +122,15 @@
 						  const [count, setCount] = useState(0);
 
 						  return (
-						    &lt;div&gt;
-						      &lt;p&gt;You clicked {count} times&lt;/p&gt;
-						      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+						    <div>
+						      <p>You clicked {count} times</p>
+						      <button onClick={() => setCount(count + 1)}>
 						        Click me
-						      &lt;/button&gt;
-						    &lt;/div&gt;
+						      </button>
+						    </div>
 						  );
 						}
-					</code></pre>
+					</script></code></pre>
 				</section>
 
 				<section>

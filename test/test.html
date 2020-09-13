@@ -20,6 +20,10 @@
 
 			<div class="slides">
 
+				<section data-visibility="hidden">
+					This should be remove by reveal.js before our tests run.
+				</section>
+
 				<section data-background-image="examples/assets/image1.png">
 					<h1>1</h1>
 					<img data-src="">
@@ -101,6 +105,7 @@
 				QUnit.test( 'Initial slides classes', function( assert ) {
 					var horizontalSlides = document.querySelectorAll( '.reveal .slides>section' )
 
+					assert.strictEqual( document.querySelectorAll( '.reveal .slides section[data-visibility="hidden"]' ).length, 0, 'no data-visibility="hidden" slides' );
 					assert.strictEqual( document.querySelectorAll( '.reveal .slides section.past' ).length, 0, 'no .past slides' );
 					assert.strictEqual( document.querySelectorAll( '.reveal .slides section.present' ).length, 1, 'one .present slide' );
 					assert.strictEqual( document.querySelectorAll( '.reveal .slides>section.future' ).length, horizontalSlides.length - 1, 'remaining horizontal slides are .future' );
