@@ -25,4 +25,4 @@ Want to create your presentation using a visual editor? Try the official reveal.
 
 MIT licensed
 
-Copyright (C) 2011-2020 Hakim El Hattab, https://hakim.se
+Copyright (C) 2011-2020 Hakim El Hattab, for more information go to https://hakim.se
