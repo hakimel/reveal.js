@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/league.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown="slides/libellula-web/index.md"></section>
+				<section data-markdown="slides/libellula-web/esempi-app-web.md"></section>
+				<section>
+					<section data-markdown="slides/libellula-web/strati-app-web-01.md"></section>
+					<section data-markdown="slides/libellula-web/strati-app-web-02.md"></section>
+					<section data-markdown="slides/libellula-web/strati-app-web-03.md"></section>
+					<section data-markdown="slides/libellula-web/strati-app-web-04.md"></section>
+				</section>
+				<section data-markdown="slides/libellula-web/sequar-structure.md"></section>
+				<section>
+					<section data-markdown="slides/libellula-web/da-app-a-servizio-01.md"></section>
+					<section data-markdown="slides/libellula-web/da-app-a-servizio-02.md"></section>
+					<section data-markdown="slides/libellula-web/da-app-a-servizio-03.md"></section>
+					<section data-markdown="slides/libellula-web/da-app-a-servizio-04.md"></section>
+					<section data-markdown="slides/libellula-web/da-app-a-servizio-05.md"></section>
+				</section>
+				<section data-markdown="slides/libellula-web/libellula-cad-web.md"></section>
+				<section>
+					<section data-markdown="slides/libellula-web/esempi-cad-web-01.md"></section>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
