@@ -34,8 +34,12 @@
 					<h2>Fit Text</h2>
 					<p>Resizes text to be as large as possible within its container.</p>
 					<pre><code class="html" data-trim data-line-numbers>
-					  <h2 class="r-fit-text">FIT-TEXT</h2>
+					  <h2 class="r-fit-text">FIT</h2>
 					</code></pre>
+				</section>
+
+				<section>
+					<h2 class="r-fit-text">FIT</h2>
 				</section>
 
 				<section>
@@ -74,6 +78,12 @@
 				<section>
 					<h2>Stack Example</h2>
 					<div class="r-stack">
+						<p class="fragment fade-in-then-out">One</p>
+						<p class="fragment fade-in-then-out">Two</p>
+						<p class="fragment fade-in-then-out">Three</p>
+						<p class="fragment fade-in-then-out">Four</p>
+					</div>
+					<div class="r-stack">
 						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment">
 						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment">
 						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment">
@@ -82,11 +92,11 @@
 
 				<section>
 					<h2>Stack Example</h2>
-					<p>One at a time.</p>
+					<p>fade-in-then-out fragments</p>
 					<div class="r-stack">
-						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment fade-out" data-fragment-index="0">
-						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment current-visible" data-fragment-index="0">
-						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment">
+						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment fade-in-then-out">
+						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment fade-in-then-out">
+						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment fade-in-then-out">
 					</div>
 				</section>
 
@@ -105,6 +115,27 @@
 				<section data-auto-animate>
 					<h2>HStack Example</h2>
 					<div class="r-hstack">
+						<p style="padding: 0.50em; background: #eee; margin: 0.25em">One</p>
+						<p style="padding: 0.75em; background: #eee; margin: 0.25em">Two</p>
+						<p style="padding: 1.00em; background: #eee; margin: 0.25em">Three</p>
+					</div>
+				</section>
+
+				<section id="vstack">
+					<h2>VStack</h2>
+					<p>Stacks multiple elements horizontally.</p>
+					<pre><code class="html" data-trim data-line-numbers>
+					  <div class="r-vstack">
+					    &lt;img width="450" height="300" src="..."&gt;
+					    &lt;img width="300" height="450" src="..."&gt;
+					    &lt;img width="400" height="400" src="..."&gt;
+					  </div>
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h2>VStack Example</h2>
+					<div class="r-vstack">
 						<p style="padding: 0.50em; background: #eee; margin: 0.25em">One</p>
 						<p style="padding: 0.75em; background: #eee; margin: 0.25em">Two</p>
 						<p style="padding: 1.00em; background: #eee; margin: 0.25em">Three</p>
