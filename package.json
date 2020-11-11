@@ -22,7 +22,7 @@
     "url": "git://github.com/hakimel/reveal.js.git"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=10.0.0 <15.0.0"
   },
   "keywords": [
     "reveal",
