@@ -55,6 +55,9 @@ export default class Print {
 			slideScrollHeights.push( slide.scrollHeight );
 		});
 
+		const pages = [];
+		const pageContainer = slides[0].parentNode;
+
 		// Slide and slide background layout
 		slides.forEach( function( slide, index ) {
 
@@ -79,9 +82,10 @@ export default class Print {
 				// Wrap the slide in a page element and hide its overflow
 				// so that no page ever flows onto another
 				const page = document.createElement( 'div' );
+				pages.push( page );
+
 				page.className = 'pdf-page';
 				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
-				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 
 				// Position the slide inside of the page
@@ -109,7 +113,7 @@ export default class Print {
 						notesElement.innerHTML = notes;
 
 						if( notesLayout === 'separate-page' ) {
-							page.parentNode.insertBefore( notesElement, page.nextSibling );
+							pages.push( notesElement );
 						}
 						else {
 							notesElement.style.left = notesSpacing + 'px';
@@ -141,7 +145,6 @@ export default class Print {
 					const fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
 
 					let previousFragmentStep;
-					let previousPage;
 
 					fragmentGroups.forEach( function( fragments ) {
 
@@ -159,10 +162,9 @@ export default class Print {
 
 						// Create a separate page for the current fragment state
 						let clonedPage = page.cloneNode( true );
-						page.parentNode.insertBefore( clonedPage, ( previousPage || page ).nextSibling );
+						pages.push( clonedPage );
 
 						previousFragmentStep = fragments;
-						previousPage = clonedPage;
 
 					}, this );
 
@@ -184,6 +186,11 @@ export default class Print {
 			}
 
 		}, this );
+
+		await new Promise(requestAnimationFrame);
+		pages.forEach( function( page ) {
+			pageContainer.appendChild( page );
+		})
 
 		// Notify subscribers that the PDF layout is good to go
 		this.Reveal.dispatchEvent({ type: 'pdf-ready' });
