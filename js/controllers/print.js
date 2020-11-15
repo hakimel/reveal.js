@@ -16,7 +16,7 @@ export default class Print {
 	 * Configures the presentation for printing to a static
 	 * PDF.
 	 */
-	setupPDF() {
+	async setupPDF() {
 
 		let config = this.Reveal.getConfig();
 
@@ -48,6 +48,13 @@ export default class Print {
 		// Compute slide numbers now, before we start duplicating slides
 		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
 
+		// Batch scrollHeight access to prevent layout thrashing
+		await new Promise(requestAnimationFrame);
+		const slideScrollHeights = []
+		slides.forEach( function( slide ) {
+			slideScrollHeights.push( slide.scrollHeight );
+		});
+
 		// Slide and slide background layout
 		slides.forEach( function( slide, index ) {
 
@@ -58,7 +65,7 @@ export default class Print {
 				let left = ( pageWidth - slideWidth ) / 2,
 					top = ( pageHeight - slideHeight ) / 2;
 
-				let contentHeight = slide.scrollHeight;
+				const contentHeight = slideScrollHeights[ index ];
 				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
 				// Adhere to configured pages per slide limit
