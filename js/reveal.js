@@ -2290,7 +2290,7 @@ export default function( revealElement, options ) {
 			// When looping is enabled `routes.down` is always available
 			// so we need a separate check for when we've reached the
 			// end of a stack and should move horizontally
-			if( routes.down && routes.right && config.loop && isLastVerticalSlide( currentSlide ) ) {
+			if( routes.down && routes.right && config.loop && isLastVerticalSlide() ) {
 				routes.down = false;
 			}
 
