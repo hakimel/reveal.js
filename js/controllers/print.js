@@ -43,14 +43,13 @@ export default class Print {
 		// Make sure stretch elements fit on slide
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
 
+		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
+
 		// Compute slide numbers now, before we start duplicating slides
 		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
-		queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( function( slide ) {
-			slide.setAttribute( 'data-slide-number', this.Reveal.slideNumber.getSlideNumber( slide ) );
-		}, this );
 
 		// Slide and slide background layout
-		queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( function( slide ) {
+		slides.forEach( function( slide, index ) {
 
 			// Vertical stacks are not centred since their section
 			// children will be
@@ -118,10 +117,11 @@ export default class Print {
 
 				// Inject slide numbers if `slideNumbers` are enabled
 				if( doingSlideNumbers ) {
-					let numberElement = document.createElement( 'div' );
+					const slideNumber = index + 1;
+					const numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = slide.getAttribute( 'data-slide-number' );
+					numberElement.innerHTML = slideNumber;
 					page.appendChild( numberElement );
 				}
 
