@@ -62,8 +62,8 @@ export default class Print {
 			// children will be
 			if( slide.classList.contains( 'stack' ) === false ) {
 				// Center the slide inside of the page, giving the slide some margin
-				let left = ( pageWidth - slideWidth ) / 2,
-					top = ( pageHeight - slideHeight ) / 2;
+				const left = ( pageWidth - slideWidth ) / 2;
+				let top = ( pageHeight - slideHeight ) / 2;
 
 				const contentHeight = slideScrollHeights[ index ];
 				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
@@ -78,7 +78,7 @@ export default class Print {
 
 				// Wrap the slide in a page element and hide its overflow
 				// so that no page ever flows onto another
-				let page = document.createElement( 'div' );
+				const page = document.createElement( 'div' );
 				page.className = 'pdf-page';
 				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
 				slide.parentNode.insertBefore( page, slide );
@@ -97,12 +97,12 @@ export default class Print {
 				if( config.showNotes ) {
 
 					// Are there notes for this slide?
-					let notes = this.Reveal.getSlideNotes( slide );
+					const notes = this.Reveal.getSlideNotes( slide );
 					if( notes ) {
 
-						let notesSpacing = 8;
-						let notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
-						let notesElement = document.createElement( 'div' );
+						const notesSpacing = 8;
+						const notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
+						const notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
 						notesElement.classList.add( 'speaker-notes-pdf' );
 						notesElement.setAttribute( 'data-layout', notesLayout );
@@ -138,7 +138,7 @@ export default class Print {
 					// Each fragment 'group' is an array containing one or more
 					// fragments. Multiple fragments that appear at the same time
 					// are part of the same group.
-					let fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
+					const fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
 
 					let previousFragmentStep;
 					let previousPage;
