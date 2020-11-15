@@ -1335,7 +1335,11 @@ export default function( revealElement, options ) {
 		}
 
 		// Announce the current slide contents to screen readers
-		announceStatus( getStatusText( currentSlide ) );
+		// Use animation frame to prevent getComputedStyle in getStatusText
+		// from triggering layout mid-frame
+		requestAnimationFrame( function() {
+			announceStatus( getStatusText( currentSlide ) );
+		});
 
 		progress.update();
 		controls.update();
