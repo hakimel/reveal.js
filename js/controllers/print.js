@@ -18,17 +18,23 @@ export default class Print {
 	 */
 	async setupPDF() {
 
-		let config = this.Reveal.getConfig();
+		const config = this.Reveal.getConfig();
+		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
 
-		let slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
+		// Compute slide numbers now, before we start duplicating slides
+		const doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
+
+		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 
 		// Dimensions of the PDF pages
-		let pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
+		const pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
 			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
 
 		// Dimensions of slides within the pages
-		let slideWidth = slideSize.width,
+		const slideWidth = slideSize.width,
 			slideHeight = slideSize.height;
+
+		await new Promise(requestAnimationFrame);
 
 		// Let the browser know what page size we want to print
 		createStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
@@ -41,12 +47,8 @@ export default class Print {
 		document.body.style.height = pageHeight + 'px';
 
 		// Make sure stretch elements fit on slide
+		await new Promise(requestAnimationFrame);
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
-
-		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
-
-		// Compute slide numbers now, before we start duplicating slides
-		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
 
 		// Batch scrollHeight access to prevent layout thrashing
 		await new Promise(requestAnimationFrame);
@@ -161,7 +163,7 @@ export default class Print {
 						}, this );
 
 						// Create a separate page for the current fragment state
-						let clonedPage = page.cloneNode( true );
+						const clonedPage = page.cloneNode( true );
 						pages.push( clonedPage );
 
 						previousFragmentStep = fragments;
