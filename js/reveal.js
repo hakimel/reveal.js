@@ -941,23 +941,23 @@ export default function( revealElement, options ) {
 				const nw = element.naturalWidth || element.videoWidth,
 					  nh = element.naturalHeight || element.videoHeight;
 
-				const es = Math.min( width / nw, remainingHeight / nh );
+				const fullWidthWcaling = width / nw;
+				const fullHeightScaling = remainingHeight / nh;
+				const scaling = Math.min( fullWidthWcaling, fullHeightScaling );
 
-				let full_width_image = width / nw < remainingHeight / nh;
-				element.style.width = ( nw * es ) + 'px';
-				element.style.height = ( nh * es ) + 'px';
+				element.style.width = ( nw * scaling ) + 'px';
+				element.style.height = ( nh * scaling ) + 'px';
 
-				if (full_width_image) {
+				if (fullWidthWcaling < fullHeightScaling) { // image is resized to full width
 					element.style.display = "block";
-
 					element.style.marginTop = "0px";
 					element.style.marginBottom = "0px";
 					element.style.paddingTop = "0px";
 					element.style.paddingBottom = "0px";
 
-					let rh = Util.getRemainingHeight(element, height);
+					let rh = Util.getRemainingHeight( element, height );
 
-					element.style.paddingTop = (rh - ( nh * es ))/2 + 'px';
+					element.style.paddingTop = (rh - ( nh * scaling ))/2 + 'px';
 					element.style.paddingBottom = element.style.paddingTop;
 				}
 			}
