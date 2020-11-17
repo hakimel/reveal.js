@@ -929,6 +929,10 @@ export default function( revealElement, options ) {
 		// Handle sizing of elements with the 'r-stretch' class
 		Util.queryAll( dom.slides, 'section > .stretch, section > .r-stretch' ).forEach( element => {
 
+			// remove custom padding
+			element.style.paddingTop = "";
+			element.style.paddingBottom = "";
+
 			// Determine how much vertical space we can use
 			let remainingHeight = Util.getRemainingHeight( element, height );
 
@@ -939,9 +943,23 @@ export default function( revealElement, options ) {
 
 				const es = Math.min( width / nw, remainingHeight / nh );
 
+				let full_width_image = width / nw < remainingHeight / nh;
 				element.style.width = ( nw * es ) + 'px';
 				element.style.height = ( nh * es ) + 'px';
 
+				if (full_width_image) {
+					element.style.display = "block";
+
+					element.style.marginTop = "0px";
+					element.style.marginBottom = "0px";
+					element.style.paddingTop = "0px";
+					element.style.paddingBottom = "0px";
+
+					let rh = Util.getRemainingHeight(element, height);
+
+					element.style.paddingTop = (rh - ( nh * es ))/2 + 'px';
+					element.style.paddingBottom = element.style.paddingTop;
+				}
 			}
 			else {
 				element.style.width = width + 'px';
