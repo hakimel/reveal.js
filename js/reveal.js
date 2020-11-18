@@ -929,6 +929,10 @@ export default function( revealElement, options ) {
 		// Handle sizing of elements with the 'r-stretch' class
 		Util.queryAll( dom.slides, 'section > .stretch, section > .r-stretch' ).forEach( element => {
 
+			// remove custom padding
+			element.style.paddingTop = "";
+			element.style.paddingBottom = "";
+
 			// Determine how much vertical space we can use
 			let remainingHeight = Util.getRemainingHeight( element, height );
 
@@ -937,11 +941,25 @@ export default function( revealElement, options ) {
 				const nw = element.naturalWidth || element.videoWidth,
 					  nh = element.naturalHeight || element.videoHeight;
 
-				const es = Math.min( width / nw, remainingHeight / nh );
+				const fullWidthWcaling = width / nw;
+				const fullHeightScaling = remainingHeight / nh;
+				const scaling = Math.min( fullWidthWcaling, fullHeightScaling );
 
-				element.style.width = ( nw * es ) + 'px';
-				element.style.height = ( nh * es ) + 'px';
+				element.style.width = ( nw * scaling ) + 'px';
+				element.style.height = ( nh * scaling ) + 'px';
 
+				if (fullWidthWcaling < fullHeightScaling) { // image is resized to full width
+					element.style.display = "block";
+					element.style.marginTop = "0px";
+					element.style.marginBottom = "0px";
+					element.style.paddingTop = "0px";
+					element.style.paddingBottom = "0px";
+
+					let rh = Util.getRemainingHeight( element, height );
+
+					element.style.paddingTop = (rh - ( nh * scaling ))/2 + 'px';
+					element.style.paddingBottom = element.style.paddingTop;
+				}
 			}
 			else {
 				element.style.width = width + 'px';
