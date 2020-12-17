@@ -59,6 +59,10 @@ export default class Print {
 				let left = ( pageWidth - slideWidth ) / 2,
 					top = ( pageHeight - slideHeight ) / 2;
 
+				// Re-run the slide layout so that r-fit-text is applied based on
+				// the printed slide size
+				this.Reveal.slideContent.layout( slide );
+
 				let contentHeight = slide.scrollHeight;
 				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
