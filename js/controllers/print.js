@@ -50,6 +50,12 @@ export default class Print {
 		await new Promise(requestAnimationFrame);
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
 
+		slides.forEach( function( slide ) {
+			// Re-run the slide layout so that r-fit-text is applied based on
+			// the printed slide size
+			this.Reveal.slideContent.layout( slide );
+		});
+
 		// Batch scrollHeight access to prevent layout thrashing
 		await new Promise(requestAnimationFrame);
 		const slideScrollHeights = []
