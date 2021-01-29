@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+		<link rel="stylesheet" href="css/twocolumn.css">
+		</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+<section data-background-image="img/bg_front_wide.png">
+    <h1>LaTeX og Overleaf</h1>
+    <p>
+    Arnfinn
+    </p>
+</section>
+<section data-background-image="img/bg_wide.png" data-markdown>
+<textarea data-template>
+### LaTeX
+
+- Skriver ren tekstfil (`*.tex`), med tekst og kommandoer
+- Et program kompilerer denne filen
+</textarea>
+</section>
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Enkel start</h3>
+	<div class="twocolumn">
+		<div>
+		<span><pre><code data-trim data-noescape class="tex">
+			\documentclass{article}
+			\begin{document}
+			Hello World!
+			\end{document}
+			</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/simple.png">
+		</div>	
+	</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Figurer</h3>
+	<div class="twocolumn">
+		<div>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="2,6">
+			\documentclass{article}
+			\usepackage{graphicx}
+			\begin{document}
+			Hello World!
+			
+			\includegraphics{fig.png}
+			\end{document}
+					</code></pre>
+		</div>
+		<div>
+			<img src="tex/fig1.png">
+		</div>	
+	</div>
+</section>
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Figurer</h3>
+	<div class="twocolumn">
+		<div>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="6,7">
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+Hello World!
+
+\includegraphics[width=0.5\textwidth,
+                 angle=180]{fig.png}
+\end{document}
+</code></pre>
+</div>
+<div>
+<img src="tex/fig1b.png">
+</div>	
+</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Figurer</h3>
+	<div class="twocolumn">
+		<div>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="6-8">
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+Hello World!
+
+\begin{figure}
+\includegraphics{fig.png}
+\end{figure}
+\end{document}
+					</code></pre>
+		</div>
+		<div>
+			<img src="tex/fig2.png">
+		</div>	
+	</div>
+</section>
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Figurer</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="6">
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+Hello World!
+
+\begin{figure}[h]
+\includegraphics{fig.png}
+\end{figure}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/fig4.png">
+		</div>	
+	</div>
+</section>
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Figurer</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="8">
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+Hello World!
+
+\begin{figure}[h]
+\includegraphics{fig.png}
+\caption{This is my caption}
+\end{figure}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/fig3.png">
+		</div>	
+	</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Figurer</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="6,9">
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+Hello World!
+
+\begin{table}[h]
+\includegraphics{fig.png}
+\caption{This is my caption}
+\end{table}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/fig5.png">
+		</div>	
+	</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Tabeller</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="6-13">
+\documentclass{article}
+\begin{document}
+Hello World!
+
+\begin{table}[h]
+\begin{tabular}{c|cc}
+\hline
+ cell1 & cell2 & cell3 \\ 
+ \hline
+ cell4 & cell5 & cell6 \\  
+ cell7 & cell8 & cell9 \\
+ \hline
+\end{tabular}
+\caption{This is my caption}
+\end{table}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/tab1.png">
+		</div>	
+	</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Tabeller</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="6,12">
+\documentclass{article}
+\begin{document}
+Hello World!
+
+\begin{table}[h]
+\begin{Huge}
+\begin{tabular}{c|cc}
+\hline
+ cell1 & cell2 & cell3 \\ 
+ ...
+\end{tabular}
+\end{Huge}
+\caption{This is my caption}
+\end{table}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/tab2.png">
+		</div>	
+	</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Tabeller</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="1">
+\documentclass[12pt]{article}
+\begin{document}
+Hello World!
+
+\begin{table}[h]
+\begin{Huge}
+\begin{tabular}{c|cc}
+\hline
+ cell1 & cell2 & cell3 \\ 
+ ...
+\end{tabular}
+\end{Huge}
+\caption{This is my caption}
+\end{table}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/tab3.png">
+		</div>	
+	</div>
+</section>
+
+
+<section data-auto-animate data-background-image="img/bg_wide.png">
+	<h3>Tabeller</h3>
+	<div class="twocolumn">
+		<div>
+			<span>
+		<pre><code data-trim data-noescape class="tex" data-line-numbers="2,7,8,10,12,14">
+\documentclass[12pt]{article}
+\usepackage{booktabs}
+\begin{document}
+...
+\begin{table}[h]
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{2019}  \\
+Opptaksområde & antall & andel \\
+\midrule
+...
+\midrule
+Norge &1 255 & 61,9\,\%\\
+\bottomrule
+\end{tabular}
+\caption{This is my caption}
+\end{table}
+\end{document}
+		</code></pre></span>
+		</div>
+		<div>
+			<img src="tex/tab4.png">
+		</div>	
+	</div>
+</section>
+
+
+
+	
+
+<section>
+	<object width="300" height="300" type="text/plain" data="tex/simple.tex" border="0" >
+	</object>
+</section>
+
+
+
+<section>
+	<pre><code class="tex">
+	<embed src="tex/simple.tex">
+	</code></pre>
+</section>
+
+
+<section data-background-image="img/bg_wide.png" data-markdown>
+<textarea data-template>
+
+### Spesialtegn
+
+- %
+- #
+- &
+- $
+- \
+- _
+
+</textarea>
+</section>
+
+
+</div>
+</div>
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
