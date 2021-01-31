@@ -15,8 +15,19 @@ export default class SlideContent {
 		this.Reveal = Reveal;
 
 		this.startEmbeddedIframe = this.startEmbeddedIframe.bind( this );
+        this.tag2srcattr = {
+            OBJECT: 'data'
+        };
 
 	}
+
+    /**
+     * Get src key for a tag name
+     */
+
+    getSrcAttr( tag ) {
+        return this.tag2srcattr[tag] || 'src';
+    }
 
 	/**
 	 * Should the given element be preloaded?
@@ -51,9 +62,10 @@ export default class SlideContent {
 		slide.style.display = this.Reveal.getConfig().display;
 
 		// Media elements with data-src attributes
-		queryAll( slide, 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ).forEach( element => {
+		queryAll( slide, 'img[data-src], video[data-src], audio[data-src], iframe[data-src], object[data-src]' ).forEach( element => {
 			if( element.tagName !== 'IFRAME' || this.shouldPreload( element ) ) {
-				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
+				element.setAttribute( this.getSrcAttr(element.tagName),
+                                      element.getAttribute( 'data-src' ) );
 				element.setAttribute( 'data-lazy-loaded', '' );
 				element.removeAttribute( 'data-src' );
 			}
@@ -205,9 +217,10 @@ export default class SlideContent {
 		}
 
 		// Reset lazy-loaded media elements with src attributes
-		queryAll( slide, 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src]' ).forEach( element => {
-			element.setAttribute( 'data-src', element.getAttribute( 'src' ) );
-			element.removeAttribute( 'src' );
+		queryAll( slide, 'video[data-lazy-loaded][src], audio[data-lazy-loaded][src], iframe[data-lazy-loaded][src], object[data-lazy-loaded][data]' ).forEach( element => {
+			element.setAttribute( 'data-src',
+                                  element.getAttribute( this.getSrcAttr(element.tagName) ) );
+			element.removeAttribute( this.getSrcAttr(element.tagName) );
 		} );
 
 		// Reset lazy-loaded media elements with <source> children
@@ -317,15 +330,15 @@ export default class SlideContent {
 			} );
 
 			// Lazy loading iframes
-			queryAll( element, 'iframe[data-src]' ).forEach( el => {
+			queryAll( element, 'iframe[data-src], object[data-src]' ).forEach( el => {
 				if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
 					return;
 				}
 
-				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
+				if( el.getAttribute( this.getSrcAttr(el.tagName) ) !== el.getAttribute( 'data-src' ) ) {
 					el.removeEventListener( 'load', this.startEmbeddedIframe ); // remove first to avoid dupes
 					el.addEventListener( 'load', this.startEmbeddedIframe );
-					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
+					el.setAttribute( this.getSrcAttr(el.tagName), el.getAttribute( 'data-src' ) );
 				}
 			} );
 
@@ -442,11 +455,11 @@ export default class SlideContent {
 
 			if( options.unloadIframes === true ) {
 				// Unload lazy-loaded iframes
-				queryAll( element, 'iframe[data-src]' ).forEach( el => {
+				queryAll( element, 'iframe[data-src], object[data-src]' ).forEach( el => {
 					// Only removing the src doesn't actually unload the frame
 					// in all browsers (Firefox) so we set it to blank first
-					el.setAttribute( 'src', 'about:blank' );
-					el.removeAttribute( 'src' );
+					el.setAttribute( this.getSrcAttr(el.tagName), 'about:blank' );
+					el.removeAttribute( this.getSrcAttr(el.tagName) );
 				} );
 			}
 		}
