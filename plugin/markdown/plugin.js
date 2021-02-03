@@ -74,6 +74,7 @@ const Plugin = () => {
 
 			// disregard attributes that are used for markdown loading/parsing
 			if( /data\-(markdown|separator|vertical|notes)/gi.test( name ) ) continue;
+			if( /data\-markdown\-text/gi.test( name ) ) continue;
 
 			if( value ) {
 				result.push( name + '="' + value + '"' );
@@ -206,9 +207,22 @@ const Plugin = () => {
 
 			var externalPromises = [];
 
-			[].slice.call( scope.querySelectorAll( '[data-markdown]:not([data-markdown-parsed])') ).forEach( function( section, i ) {
+			[].slice.call( scope.querySelectorAll( '[data-markdown-text], [data-markdown]:not([data-markdown-parsed])') ).forEach( function( section, i ) {
 
-				if( section.getAttribute( 'data-markdown' ).length ) {
+				var markdownText = section.getAttribute( 'data-markdown-text' );
+
+				if( markdownText ) {
+
+					// Set markdown text directly
+					section.outerHTML = slidify( unescape(markdownText), {
+						separator: section.getAttribute( 'data-separator' ),
+						verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
+						notesSeparator: section.getAttribute( 'data-separator-notes' ),
+						attributes: getForwardedAttributes( section )
+					});
+
+				}
+				else if( section.getAttribute( 'data-markdown' ).length ) {
 
 					externalPromises.push( loadExternalMarkdown( section ).then(
 
