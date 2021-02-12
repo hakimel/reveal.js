@@ -2461,6 +2461,9 @@ export default function( revealElement, options ) {
 		// Randomizes the order of slides
 		shuffle,
 
+		// Opens a preview window for the target URL
+		showPreview,
+
 		// Returns an object with the available routes as booleans (left/right/top/bottom)
 		availableRoutes,
 
