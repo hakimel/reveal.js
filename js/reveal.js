@@ -2461,9 +2461,6 @@ export default function( revealElement, options ) {
 		// Randomizes the order of slides
 		shuffle,
 
-		// Opens a preview window for the target URL
-		showPreview,
-
 		// Returns an object with the available routes as booleans (left/right/top/bottom)
 		availableRoutes,
 
@@ -2502,6 +2499,10 @@ export default function( revealElement, options ) {
 		// Slide preloading
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
+
+		// Preview management
+		showPreview,
+		hidePreview: closeOverlay,
 
 		// Adds or removes all internal event listeners
 		addEventListeners,
