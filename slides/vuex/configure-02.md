@@ -17,4 +17,6 @@ new Vue({
 <small>https://vuex.vuejs.org/guide/</small>
 
 <aside class="notes">
+After that you can import the store and pass it inside the start function of your Vue app,
+enabling the use of "this.$store" inside every other component.
 </aside>

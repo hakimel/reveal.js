@@ -20,4 +20,7 @@ test('extracts a number and render as expected', async () => {
 ```
 
 <aside class="notes">
+...then we test our "mutation", mocking the random function in order to retreive pre-definend values
+and expecting that the component matches our snapshot at each extraction.
+At the very end we restore the mock of the random function.
 </aside>

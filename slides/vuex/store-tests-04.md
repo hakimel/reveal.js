@@ -17,4 +17,9 @@ Mutations
 ```
 
 <aside class="notes">
+I'm calling the mutation, passing the state object here and expecting that
+after the call the state is changed in my desired way.
+
+I'm adding another call to be sure everything works as expected, then we can restore
+our random mock and finish this test.
 </aside>

@@ -13,4 +13,7 @@ Context object
 <small>https://vuex.vuejs.org/guide/actions.html</small>
 
 <aside class="notes">
+The context is the current store, we can use commit to commit a mutation,
+state and getters to access, obviusly, state and getters,
+and dispatch to call another action.
 </aside>

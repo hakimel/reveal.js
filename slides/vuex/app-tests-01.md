@@ -19,4 +19,11 @@ test('renders as expected', () => {
 ```
 
 <aside class="notes">
+I know, I know, you are thinking
+"Wait, are we testing this useless app? What can go wrong here?"
+You are right, I did not tested this app at the beginning,
+but it's very useful for understanting, later on, how to test components which uses Vuex.
+
+We are testing the sub-component, mocking the Vuetify pre-made components and passing specific properties.
+Then we expect that the mounted component match our snapshot.
 </aside>

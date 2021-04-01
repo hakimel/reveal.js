@@ -19,4 +19,5 @@ test('renders as expected', () => {
 ```
 
 <aside class="notes">
+Same for the main component, we expect that at the first render it matches the snapshot, ...
 </aside>

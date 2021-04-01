@@ -17,4 +17,5 @@ export default {
 <small>https://vuex.vuejs.org/guide/getters.html</small>
 
 <aside class="notes">
+You have also mapGetters, that works the same as the mapState we saw before.
 </aside>

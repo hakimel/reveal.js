@@ -20,4 +20,9 @@ const store = new Vuex.Store({
 <small>https://vuex.vuejs.org/guide/getters.html</small>
 
 <aside class="notes">
+Getters are like computed values for a Vuex store, they are defined as functions
+using the state and returning a value.
+Every time the state used in a getter changes, the getter is re-computed.
+
+In this example, every time the count changes, countIsEven is updated too.
 </aside>

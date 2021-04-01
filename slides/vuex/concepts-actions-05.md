@@ -23,4 +23,7 @@ export default {
 <small>https://vuex.vuejs.org/guide/actions.html</small>
 
 <aside class="notes">
+Here you can map actions in Vue component using mapActions,
+the same way you used the other helpers.
+Like mutations, actions should be mapped inside component methods.
 </aside>

@@ -19,4 +19,6 @@ export default new Vuex.Store({
 <small>https://vuex.vuejs.org/guide/</small>
 
 <aside class="notes">
+Configuring a store it's pretty simple, using this sintax you can define
+the default state and a few mutations, functions causing a mutation in the store state.
 </aside>

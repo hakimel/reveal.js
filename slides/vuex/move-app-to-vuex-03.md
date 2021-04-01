@@ -18,4 +18,10 @@ export const mutations = {
 ```
 
 <aside class="notes">
+Inside the extractNumber mutation we move the button click handler,
+acting on state properties instead.
+We update available numbers and extracted numbers in the state.
+
+No need for actions this time, but we can implement them the same way we did for mutations,
+creating a constant object with the actions as properties.
 </aside>

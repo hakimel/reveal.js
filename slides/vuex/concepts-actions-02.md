@@ -23,4 +23,6 @@ const store = new Vuex.Store({
 <small>https://vuex.vuejs.org/guide/actions.html</small>
 
 <aside class="notes">
+You can create an action keeping in mind that needs to call a mutation.
+In the example we wait a second before committing an increment of the state
 </aside>

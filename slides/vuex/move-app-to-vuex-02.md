@@ -13,4 +13,5 @@ export const getters = {
 ```
 
 <aside class="notes">
+Same for the computed value, we move it in a getter with the same name.
 </aside>

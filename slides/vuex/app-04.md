@@ -15,4 +15,7 @@ export default {
 ```
 
 <aside class="notes">
+Now we have a computed value returning the extracted numbers sorted by value.
+Please remember we are calling this section "component's getters",
+we are getting values that depends on the component's state.
 </aside>

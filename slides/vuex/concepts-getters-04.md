@@ -14,4 +14,5 @@ computed: {
 <small>https://vuex.vuejs.org/guide/getters.html</small>
 
 <aside class="notes">
+Same thing for the advanced usage, using spread operators for adding other computed values.
 </aside>

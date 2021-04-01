@@ -24,4 +24,9 @@ export default {
 ```
 
 <aside class="notes">
+Last but not least, our sub-component, using passed properties to display the title and the list.
+Oh, if the tags in the template seems strange, I'm sorry.
+I'm using Vuetify to fake my UI badass experience.
+Vuetify is a nice Vue UI library with pre-designed material components.
+So I can use them in no-brainer mode, without even touching a line of CSS.
 </aside>

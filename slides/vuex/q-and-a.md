@@ -1,8 +1,8 @@
 #### Links
 
 - [vuex.vuejs.org](https://vuex.vuejs.org/)
+- [vue-test-utils.vuejs.org](https://vue-test-utils.vuejs.org/guides/using-with-vuex.html)
 - [github.com/dennybiasiolli/bingo-extraction](https://github.com/dennybiasiolli/bingo-extraction)
-- Slides: [slideshare.net/DennyBiasiolli](https://www.slideshare.net/DennyBiasiolli/)
 
 <br>
 <br>
@@ -11,10 +11,6 @@
 <table>
 <tr>
 <td style="text-align:center;">
-
-<a href="mailto:denny.biasiolli@gmail.com" target="_blank">denny.biasiolli@gmail.com</a>
-
-<a href="https://www.dennybiasiolli.com" target="_blank">dennybiasiolli.com</a>
 
 @dennybiasiolli
 
@@ -37,7 +33,21 @@
     <img src="slides/images/twitter.png" title="Twitter" />
 </a>
 
+<a href="https://www.dennybiasiolli.com" target="_blank">dennybiasiolli.com</a>
+
 </td>
 </tr>
 </table>
 </small>
+
+<aside class="notes">
+I hope you enjoyed this talk, here's a bunch of links to the official Vuex
+and vue test utils documentation.
+The last link is the example bingo extraction app.
+You can see the result of the migration to Vuex and check in the commit history.
+
+This is a recorded video, but if you have questions I should be here live for that,
+or you can contact me wherever you prefer, these are my social contacts.
+
+Bye!
+</aside>

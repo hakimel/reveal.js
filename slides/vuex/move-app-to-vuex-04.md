@@ -13,4 +13,6 @@ export default new Vuex.Store({
 ```
 
 <aside class="notes">
+Now we can finally compose the store using the values we created before,
+passing them to the store creation.
 </aside>

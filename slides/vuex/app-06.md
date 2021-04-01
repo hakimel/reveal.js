@@ -18,4 +18,10 @@ Main component template
 ```
 
 <aside class="notes">
+Oh yes, I forgot the template section for our main component.
+It contains the "Extract" button, calling our "mutation",
+the header, displaying the last extracted number,
+and two sub-components displaing the two lists we have,
+the first from component data (our state),
+the second from our computed section (our getter).
 </aside>
