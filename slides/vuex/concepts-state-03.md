@@ -21,7 +21,7 @@ export default {
 <small>https://vuex.vuejs.org/guide/state.html</small>
 
 <aside class="notes">
-mapState allows us to map the store state with a simple sintax,
+mapState allows us to map the store state with a simple syntax,
 we can use whatever we want,
 
 an arrow function calling the state (count),

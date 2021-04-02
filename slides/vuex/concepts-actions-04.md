@@ -14,6 +14,6 @@ Context object
 
 <aside class="notes">
 The context is the current store, we can use commit to commit a mutation,
-state and getters to access, obviusly, state and getters,
+state and getters to access, obviously, state and getters,
 and dispatch to call another action.
 </aside>

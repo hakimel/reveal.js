@@ -6,7 +6,7 @@ describe('Home.vue', () => {
   let state, getters, mutations, actions, store;
   beforeEach(() => {
       state = { count: 0 };
-      getters = { getter1: 'mocked return value' };
+      getters = { getter1: () => 'mocked return value' };
       mutations = { mutation1: jest.fn() };
       actions = { action1: jest.fn() };
       store = new Vuex.Store({
