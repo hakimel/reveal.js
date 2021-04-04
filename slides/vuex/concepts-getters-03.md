@@ -8,7 +8,6 @@ import { mapGetters } from 'vuex';
 export default {
   // ...
   computed: mapGetters({
-    countIsEven: state => state.countIsEven,
     countIsEvenAlias: 'countIsEven'
   })
 };

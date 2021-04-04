@@ -1,6 +1,6 @@
 ![Vue logo](slides/vuex/images/vue-logo.svg)
 
-Introducing Vuex in your project
+Introducing Vuex in your projects
 
 <small>
 How to add and use Vuex in existing projects, with an eye for testing.
