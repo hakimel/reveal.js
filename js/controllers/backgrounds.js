@@ -192,8 +192,8 @@ export default class Backgrounds {
 		// color, no class will be added
 		let contrastColor = data.backgroundColor;
 
-		// If no bg color was found, check the computed background
-		if( !contrastColor ) {
+		// If no bg color was found, or it cannot be converted by colorToRgb, check the computed background
+		if( !contrastColor || !colorToRgb( contrastColor ) ) {
 			let computedBackgroundStyle = window.getComputedStyle( element );
 			if( computedBackgroundStyle && computedBackgroundStyle.backgroundColor ) {
 				contrastColor = computedBackgroundStyle.backgroundColor;
