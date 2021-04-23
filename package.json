@@ -51,7 +51,7 @@
     "gulp-tap": "^2.0.0",
     "gulp-zip": "^5.0.1",
     "highlight.js": "^10.0.3",
-    "marked": "^1.1.0",
+    "marked": "^2.0.3",
     "node-qunit-puppeteer": "^2.0.1",
     "node-sass": "^5.0.0",
     "qunit": "^2.10.0",
