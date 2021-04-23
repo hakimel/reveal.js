@@ -102,12 +102,12 @@ export default class SlideContent {
 
 				// Images
 				if( backgroundImage ) {
-					let backgroundString = ''
+					let backgroundString = '';
 					backgroundImage.split(',').forEach(background => {
 						backgroundString = backgroundString.concat(
 							'url(' + encodeURI(background.trim()) + '),'
 						);
-					})
+					});
 					backgroundContent.style.backgroundImage = backgroundString.substr(0, backgroundString.length - 1);
 				}
 				// Videos
