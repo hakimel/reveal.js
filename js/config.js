@@ -74,7 +74,7 @@ export default {
 	// Optional function that blocks keyboard events when retuning false
 	//
 	// If you set this to 'focused', we will only capture keyboard events
-	// for embdedded decks when they are in focus
+	// for embedded decks when they are in focus
 	keyboardCondition: null,
 
 	// Disables the default reveal.js slide layout (scaling and centering)
