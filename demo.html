@@ -458,6 +458,9 @@ Reveal.on( 'customevent', function() {
 		<script src="plugin/highlight/highlight.js"></script>
 		<script>
 
+			console.time( 'print' )
+			Reveal.addEventListener( 'pdf-ready', () => console.timeEnd( 'print' ) );
+
 			// Also available as an ES module, see:
 			// https://revealjs.com/initialization/
 			Reveal.initialize({

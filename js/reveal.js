@@ -1335,7 +1335,11 @@ export default function( revealElement, options ) {
 		}
 
 		// Announce the current slide contents to screen readers
-		announceStatus( getStatusText( currentSlide ) );
+		// Use animation frame to prevent getComputedStyle in getStatusText
+		// from triggering layout mid-frame
+		requestAnimationFrame( () => {
+			announceStatus( getStatusText( currentSlide ) );
+		});
 
 		progress.update();
 		controls.update();
@@ -2290,7 +2294,7 @@ export default function( revealElement, options ) {
 			// When looping is enabled `routes.down` is always available
 			// so we need a separate check for when we've reached the
 			// end of a stack and should move horizontally
-			if( routes.down && routes.right && config.loop && isLastVerticalSlide( currentSlide ) ) {
+			if( routes.down && routes.right && config.loop && isLastVerticalSlide() ) {
 				routes.down = false;
 			}
 
