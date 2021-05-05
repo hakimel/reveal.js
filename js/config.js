@@ -149,7 +149,7 @@ export default {
 	// Flags if slides with data-visibility="hidden" should be kep visible
 	showHiddenSlides: false,
 
-	// Global override for autolaying embedded media (video/audio/iframe)
+	// Global override for autoplaying embedded media (video/audio/iframe)
 	// - null:   Media will only autoplay if data-autoplay is present
 	// - true:   All media will autoplay, regardless of individual setting
 	// - false:  No media will autoplay, regardless of individual setting
