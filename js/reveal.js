@@ -2500,6 +2500,10 @@ export default function( revealElement, options ) {
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
 
+		// Preview management
+		showPreview,
+		hidePreview: closeOverlay,
+
 		// Adds or removes all internal event listeners
 		addEventListeners,
 		removeEventListeners,
