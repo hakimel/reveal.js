@@ -424,7 +424,7 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			let { renderer, ...markedOptions } = deck.getConfig().markdown;
+			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown;
 
 			if (!renderer) {
 				let renderer = new marked.Renderer();
@@ -451,6 +451,10 @@ const Plugin = () => {
 
 					return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
 				};
+			}
+
+			if (animateLists) {
+				renderer.listitem = (text) => `<li class="fragment">${text}</li>`;
 			}
 
 			marked.setOptions( {
