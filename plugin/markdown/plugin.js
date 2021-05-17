@@ -6,7 +6,7 @@
 
 import marked from 'marked'
 
-const DEFAULT_SLIDE_SEPARATOR = '^\r?\n---\r?\n$',
+const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_NOTES_SEPARATOR = 'notes?:',
 	  DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
 	  DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$';
@@ -234,7 +234,7 @@ const Plugin = () => {
 					) );
 
 				}
-				else if( section.getAttribute( 'data-separator' ) || section.getAttribute( 'data-separator-vertical' ) || section.getAttribute( 'data-separator-notes' ) ) {
+				else {
 
 					section.outerHTML = slidify( getMarkdownFromSlide( section ), {
 						separator: section.getAttribute( 'data-separator' ),
@@ -243,9 +243,6 @@ const Plugin = () => {
 						attributes: getForwardedAttributes( section )
 					});
 
-				}
-				else {
-					section.innerHTML = createMarkdownSlide( getMarkdownFromSlide( section ) );
 				}
 
 			});

@@ -32,6 +32,8 @@ const banner = `/*!
 * Copyright (C) 2020 Hakim El Hattab, https://hakim.se
 */\n`
 
+sass.compiler = require('node-sass');
+
 // Prevents warnings from opening too many test pages
 process.setMaxListeners(20);
 

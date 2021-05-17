@@ -235,6 +235,7 @@ export default class Fragments {
 						el.classList.remove( 'current-fragment' );
 
 						if( wasVisible ) {
+							this.Reveal.slideContent.stopEmbeddedContent( el );
 							changedFragments.hidden.push( el );
 							this.Reveal.dispatchEvent({
 								target: el,

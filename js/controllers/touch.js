@@ -1,4 +1,5 @@
 import { isAndroid } from '../utils/device.js'
+import { matches } from '../utils/util.js'
 
 const SWIPE_THRESHOLD = 40;
 
@@ -81,6 +82,9 @@ export default class Touch {
 	 * swipe navigation.
 	 */
 	isSwipePrevented( target ) {
+
+		// Prevent accidental swipes when scrubbing timelines
+		if( matches( target, 'video, audio' ) ) return true;
 
 		while( target && typeof target.hasAttribute === 'function' ) {
 			if( target.hasAttribute( 'data-prevent-swipe' ) ) return true;

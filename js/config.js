@@ -73,8 +73,8 @@ export default {
 
 	// Optional function that blocks keyboard events when retuning false
 	//
-	// If you set this to 'foucsed', we will only capture keyboard events
-	// for embdedded decks when they are in focus
+	// If you set this to 'focused', we will only capture keyboard events
+	// for embedded decks when they are in focus
 	keyboardCondition: null,
 
 	// Disables the default reveal.js slide layout (scaling and centering)
@@ -149,7 +149,7 @@ export default {
 	// Flags if slides with data-visibility="hidden" should be kep visible
 	showHiddenSlides: false,
 
-	// Global override for autolaying embedded media (video/audio/iframe)
+	// Global override for autoplaying embedded media (video/audio/iframe)
 	// - null:   Media will only autoplay if data-autoplay is present
 	// - true:   All media will autoplay, regardless of individual setting
 	// - false:  No media will autoplay, regardless of individual setting

@@ -191,7 +191,8 @@ html * {
 
 .reveal code {
   font-family: monospace;
-  text-transform: none; }
+  text-transform: none;
+  tab-size: 2; }
 
 .reveal pre code {
   display: block;
