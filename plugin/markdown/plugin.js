@@ -421,10 +421,10 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown;
+			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown || {};
 
-			if (!renderer) {
-				let renderer = new marked.Renderer();
+			if( !renderer ) {
+				renderer = new marked.Renderer();
 
 				renderer.code = ( code, language ) => {
 
@@ -450,8 +450,8 @@ const Plugin = () => {
 				};
 			}
 
-			if (animateLists) {
-				renderer.listitem = (text) => `<li class="fragment">${text}</li>`;
+			if( animateLists === true ) {
+				renderer.listitem = text => `<li class="fragment">${text}</li>`;
 			}
 
 			marked.setOptions( {
