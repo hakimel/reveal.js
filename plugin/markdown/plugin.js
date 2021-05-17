@@ -421,34 +421,42 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			let renderer = new marked.Renderer();
+			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown;
 
-			renderer.code = ( code, language ) => {
+			if (!renderer) {
+				let renderer = new marked.Renderer();
 
-				// Off by default
-				let lineNumbers = '';
+				renderer.code = ( code, language ) => {
 
-				// Users can opt in to show line numbers and highlight
-				// specific lines.
-				// ```javascript []        show line numbers
-				// ```javascript [1,4-8]   highlights lines 1 and 4-8
-				if( CODE_LINE_NUMBER_REGEX.test( language ) ) {
-					lineNumbers = language.match( CODE_LINE_NUMBER_REGEX )[1].trim();
-					lineNumbers = `data-line-numbers="${lineNumbers}"`;
-					language = language.replace( CODE_LINE_NUMBER_REGEX, '' ).trim();
-				}
+					// Off by default
+					let lineNumbers = '';
 
-				// Escape before this gets injected into the DOM to
-				// avoid having the HTML parser alter our code before
-				// highlight.js is able to read it
-				code = escapeForHTML( code );
+					// Users can opt in to show line numbers and highlight
+					// specific lines.
+					// ```javascript []        show line numbers
+					// ```javascript [1,4-8]   highlights lines 1 and 4-8
+					if( CODE_LINE_NUMBER_REGEX.test( language ) ) {
+						lineNumbers = language.match( CODE_LINE_NUMBER_REGEX )[1].trim();
+						lineNumbers = `data-line-numbers="${lineNumbers}"`;
+						language = language.replace( CODE_LINE_NUMBER_REGEX, '' ).trim();
+					}
 
-				return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
-			};
+					// Escape before this gets injected into the DOM to
+					// avoid having the HTML parser alter our code before
+					// highlight.js is able to read it
+					code = escapeForHTML( code );
+
+					return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
+				};
+			}
+
+			if (animateLists) {
+				renderer.listitem = (text) => `<li class="fragment">${text}</li>`;
+			}
 
 			marked.setOptions( {
 				renderer,
-				...deck.getConfig().markdown
+				...markedOptions
 			} );
 
 			return processSlides( deck.getRevealElement() ).then( convertSlides );
