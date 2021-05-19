@@ -6,10 +6,12 @@
 @import url(https://fonts.googleapis.com/css?family=Quicksand:400,700,400italic,700italic);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
 .reveal a {
-  line-height: 1.3em; }
+  line-height: 1.3em;
+}
 
 section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
-  color: #fff; }
+  color: #fff;
+}
 
 /*********************************************
  * GLOBAL STYLES
@@ -37,7 +39,8 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --link-color: #3b759e;
   --link-color-hover: #74a7cb;
   --selection-background-color: #134674;
-  --selection-color: #fff; }
+  --selection-color: #fff;
+}
 
 .reveal-viewport {
   background: #add9e4;
@@ -47,28 +50,33 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   background: -o-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
   background: -ms-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
   background: radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background-color: #f7fbfc; }
+  background-color: #f7fbfc;
+}
 
 .reveal {
   font-family: "Open Sans", sans-serif;
   font-size: 40px;
   font-weight: normal;
-  color: #333; }
+  color: #333;
+}
 
 .reveal ::selection {
   color: #fff;
   background: #134674;
-  text-shadow: none; }
+  text-shadow: none;
+}
 
 .reveal ::-moz-selection {
   color: #fff;
   background: #134674;
-  text-shadow: none; }
+  text-shadow: none;
+}
 
 .reveal .slides section,
 .reveal .slides section > section {
   line-height: 1.3;
-  font-weight: inherit; }
+  font-weight: inherit;
+}
 
 /*********************************************
  * HEADERS
@@ -87,29 +95,36 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   letter-spacing: -0.08em;
   text-transform: uppercase;
   text-shadow: none;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+}
 
 .reveal h1 {
-  font-size: 3.77em; }
+  font-size: 3.77em;
+}
 
 .reveal h2 {
-  font-size: 2.11em; }
+  font-size: 2.11em;
+}
 
 .reveal h3 {
-  font-size: 1.55em; }
+  font-size: 1.55em;
+}
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1em;
+}
 
 .reveal h1 {
-  text-shadow: none; }
+  text-shadow: none;
+}
 
 /*********************************************
  * OTHER
  *********************************************/
 .reveal p {
   margin: 20px 0;
-  line-height: 1.3; }
+  line-height: 1.3;
+}
 
 /* Remove trailing margins after titles */
 .reveal h1:last-child,
@@ -118,53 +133,65 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal h4:last-child,
 .reveal h5:last-child,
 .reveal h6:last-child {
-  margin-bottom: 0; }
+  margin-bottom: 0;
+}
 
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
 .reveal video,
 .reveal iframe {
   max-width: 95%;
-  max-height: 95%; }
+  max-height: 95%;
+}
 
 .reveal strong,
 .reveal b {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .reveal em {
-  font-style: italic; }
+  font-style: italic;
+}
 
 .reveal ol,
 .reveal dl,
 .reveal ul {
   display: inline-block;
   text-align: left;
-  margin: 0 0 0 1em; }
+  margin: 0 0 0 1em;
+}
 
 .reveal ol {
-  list-style-type: decimal; }
+  list-style-type: decimal;
+}
 
 .reveal ul {
-  list-style-type: disc; }
+  list-style-type: disc;
+}
 
 .reveal ul ul {
-  list-style-type: square; }
+  list-style-type: square;
+}
 
 .reveal ul ul ul {
-  list-style-type: circle; }
+  list-style-type: circle;
+}
 
 .reveal ul ul,
 .reveal ul ol,
 .reveal ol ol,
 .reveal ol ul {
   display: block;
-  margin-left: 40px; }
+  margin-left: 40px;
+}
 
 .reveal dt {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .reveal dd {
-  margin-left: 40px; }
+  margin-left: 40px;
+}
 
 .reveal blockquote {
   display: block;
@@ -174,14 +201,17 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   padding: 5px;
   font-style: italic;
   background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
 
 .reveal blockquote p:first-child,
 .reveal blockquote p:last-child {
-  display: inline-block; }
+  display: inline-block;
+}
 
 .reveal q {
-  font-style: italic; }
+  font-style: italic;
+}
 
 .reveal pre {
   display: block;
@@ -193,65 +223,79 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   font-family: monospace;
   line-height: 1.2em;
   word-wrap: break-word;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); }
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
 
 .reveal code {
   font-family: monospace;
   text-transform: none;
-  tab-size: 2; }
+  tab-size: 2;
+}
 
 .reveal pre code {
   display: block;
   padding: 5px;
   overflow: auto;
   max-height: 400px;
-  word-wrap: normal; }
+  word-wrap: normal;
+}
 
 .reveal table {
   margin: auto;
   border-collapse: collapse;
-  border-spacing: 0; }
+  border-spacing: 0;
+}
 
 .reveal table th {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .reveal table th,
 .reveal table td {
   text-align: left;
   padding: 0.2em 0.5em 0.2em 0.5em;
-  border-bottom: 1px solid; }
+  border-bottom: 1px solid;
+}
 
-.reveal table th[align="center"],
-.reveal table td[align="center"] {
-  text-align: center; }
+.reveal table th[align=center],
+.reveal table td[align=center] {
+  text-align: center;
+}
 
-.reveal table th[align="right"],
-.reveal table td[align="right"] {
-  text-align: right; }
+.reveal table th[align=right],
+.reveal table td[align=right] {
+  text-align: right;
+}
 
 .reveal table tbody tr:last-child th,
 .reveal table tbody tr:last-child td {
-  border-bottom: none; }
+  border-bottom: none;
+}
 
 .reveal sup {
   vertical-align: super;
-  font-size: smaller; }
+  font-size: smaller;
+}
 
 .reveal sub {
   vertical-align: sub;
-  font-size: smaller; }
+  font-size: smaller;
+}
 
 .reveal small {
   display: inline-block;
   font-size: 0.6em;
   line-height: 1.2em;
-  vertical-align: top; }
+  vertical-align: top;
+}
 
 .reveal small * {
-  vertical-align: top; }
+  vertical-align: top;
+}
 
 .reveal img {
-  margin: 20px 0; }
+  margin: 20px 0;
+}
 
 /*********************************************
  * LINKS
@@ -259,47 +303,57 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal a {
   color: #3b759e;
   text-decoration: none;
-  transition: color .15s ease; }
+  transition: color 0.15s ease;
+}
 
 .reveal a:hover {
   color: #74a7cb;
   text-shadow: none;
-  border: none; }
+  border: none;
+}
 
 .reveal .roll span:after {
   color: #fff;
-  background: #264c66; }
+  background: #264c66;
+}
 
 /*********************************************
  * Frame helper
  *********************************************/
 .reveal .r-frame {
   border: 4px solid #333;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
 
 .reveal a .r-frame {
-  transition: all .15s linear; }
+  transition: all 0.15s linear;
+}
 
 .reveal a:hover .r-frame {
   border-color: #3b759e;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+}
 
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
 .reveal .controls {
-  color: #3b759e; }
+  color: #3b759e;
+}
 
 /*********************************************
  * PROGRESS BAR
  *********************************************/
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
-  color: #3b759e; }
+  color: #3b759e;
+}
 
 /*********************************************
  * PRINT BACKGROUND
  *********************************************/
 @media print {
   .backgrounds {
-    background-color: #f7fbfc; } }
+    background-color: #f7fbfc;
+  }
+}
