@@ -237,6 +237,14 @@ section.has-light-background, section.has-light-background h1, section.has-light
   word-wrap: normal;
 }
 
+.reveal .code-wrapper {
+  white-space: normal;
+}
+
+.reveal .code-wrapper code {
+  white-space: pre;
+}
+
 .reveal table {
   margin: auto;
   border-collapse: collapse;
