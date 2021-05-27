@@ -21,6 +21,7 @@
   --heading4-size: #{$heading4Size};
   --code-font: #{$codeFont};
   --link-color: #{$linkColor};
+  --link-color-dark: #{darken($linkColor , 15% )};
   --link-color-hover: #{$linkColorHover};
   --selection-background-color: #{$selectionBackgroundColor};
   --selection-color: #{$selectionColor};
