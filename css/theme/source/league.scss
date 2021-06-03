@@ -15,7 +15,7 @@
 
 
 // Include theme-specific fonts
-@import url(../../lib/font/league-gothic/league-gothic.css);
+@import url(./fonts/league-gothic/league-gothic.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 
 // Override theme settings (see ../template/settings.scss)
@@ -27,6 +27,8 @@ $heading1TextShadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b
 	@include radial-gradient( rgba(28,30,32,1), rgba(85,90,95,1) );
 }
 
+// Change text colors against light slide backgrounds
+@include light-bg-text-color(#222);
 
 
 // Theme template ------------------------------

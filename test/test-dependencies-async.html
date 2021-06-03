@@ -6,8 +6,9 @@
 
 		<title>reveal.js - Test Async Dependencies</title>
 
-		<link rel="stylesheet" href="../css/reveal.css">
-		<link rel="stylesheet" href="qunit-2.5.0.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -25,9 +26,7 @@
 
 		</div>
 
-		<script src="../js/reveal.js"></script>
-		<script src="qunit-2.5.0.js"></script>
-
+		<script src="../dist/reveal.js"></script>
 		<script>
 			var	externalScriptSequence = '';
 			var scriptCount = 0;

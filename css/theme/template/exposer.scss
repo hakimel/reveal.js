@@ -1,0 +1,28 @@
+// Exposes theme's variables for easy re-use in CSS for plugin authors
+
+:root {
+  --background-color: #{$backgroundColor};
+  --main-font: #{$mainFont};
+  --main-font-size: #{$mainFontSize};
+  --main-color: #{$mainColor};
+  --block-margin: #{$blockMargin};
+  --heading-margin: #{$headingMargin};
+  --heading-font: #{$headingFont};
+  --heading-color: #{$headingColor};
+  --heading-line-height: #{$headingLineHeight};
+  --heading-letter-spacing: #{$headingLetterSpacing};
+  --heading-text-transform: #{$headingTextTransform};
+  --heading-text-shadow: #{$headingTextShadow};
+  --heading-font-weight: #{$headingFontWeight};
+  --heading1-text-shadow: #{$heading1TextShadow};
+  --heading1-size: #{$heading1Size};
+  --heading2-size: #{$heading2Size};
+  --heading3-size: #{$heading3Size};
+  --heading4-size: #{$heading4Size};
+  --code-font: #{$codeFont};
+  --link-color: #{$linkColor};
+  --link-color-dark: #{darken($linkColor , 15% )};
+  --link-color-hover: #{$linkColorHover};
+  --selection-background-color: #{$selectionBackgroundColor};
+  --selection-color: #{$selectionColor};
+}

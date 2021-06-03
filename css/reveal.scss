@@ -1,17 +1,18 @@
-/*!
+/**
  * reveal.js
  * http://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2019 Hakim El Hattab, http://hakim.se
+ * Copyright (C) Hakim El Hattab, https://hakim.se
  */
 
+@import 'layout';
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 
-html {
+html.reveal-full-page {
 	width: 100%;
 	height: 100%;
 	height: 100vh;
@@ -19,7 +20,7 @@ html {
 	overflow: hidden;
 }
 
-body {
+.reveal-viewport {
 	height: 100%;
 	overflow: hidden;
 	position: relative;
@@ -39,10 +40,15 @@ body {
 	opacity: 0;
 	visibility: hidden;
 	transition: all .2s ease;
+	will-change: opacity;
 
 	&.visible {
 		opacity: 1;
 		visibility: inherit;
+	}
+
+	&.disabled {
+		transition: none;
 	}
 }
 
@@ -102,7 +108,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-up {
-	transform: translate(0, 20%);
+	transform: translate(0, 40px);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -110,7 +116,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-down {
-	transform: translate(0, -20%);
+	transform: translate(0, -40px);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -118,7 +124,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-right {
-	transform: translate(-20%, 0);
+	transform: translate(-40px, 0);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -126,7 +132,7 @@ body {
 }
 
 .reveal .slides section .fragment.fade-left {
-	transform: translate(20%, 0);
+	transform: translate(40px, 0);
 
 	&.visible {
 		transform: translate(0, 0);
@@ -208,17 +214,6 @@ body {
 	position: relative;
 }
 
-.reveal .stretch {
-	max-width: none;
-	max-height: none;
-}
-
-.reveal pre.stretch code {
-	height: 100%;
-	max-height: 100%;
-	box-sizing: border-box;
-}
-
 
 /*********************************************
  * CONTROLS
@@ -228,6 +223,12 @@ body {
 	0%, 10%, 25%, 40%, 50% {transform: translateX(0);}
 	20% {transform: translateX(10px);}
 	30% {transform: translateX(-5px);}
+}
+
+@keyframes bounce-left {
+	0%, 10%, 25%, 40%, 50% {transform: translateX(0);}
+	20% {transform: translateX(-10px);}
+	30% {transform: translateX(5px);}
 }
 
 @keyframes bounce-down {
@@ -263,7 +264,7 @@ $controlsArrowAngleActive: 36deg;
 	bottom: $spacing;
 	right: $spacing;
 	left: auto;
-	z-index: 1;
+	z-index: 11;
 	color: #000;
 	pointer-events: none;
 	font-size: 10px;
@@ -327,6 +328,10 @@ $controlsArrowAngleActive: 36deg;
 		right: $controlArrowSize + $controlArrowSpacing*2;
 		bottom: $controlArrowSpacing + $controlArrowSize/2;
 		transform: translateX( -10px );
+
+		&.highlight {
+			animation: bounce-left 2s 50 both ease-out;
+		}
 	}
 
 	.navigate-right {
@@ -355,7 +360,8 @@ $controlsArrowAngleActive: 36deg;
 
 	.navigate-down {
 		right: $controlArrowSpacing + $controlArrowSize/2;
-		bottom: 0;
+		bottom: -$controlArrowSpacing;
+		padding-bottom: $controlArrowSpacing;
 		transform: translateY( 10px );
 
 		.controls-arrow {
@@ -370,7 +376,6 @@ $controlsArrowAngleActive: 36deg;
 	// Back arrow style: "faded":
 	// Deemphasize backwards navigation arrows in favor of drawing
 	// attention to forwards navigation
-	&[data-controls-back-arrows="faded"] .navigate-left.enabled,
 	&[data-controls-back-arrows="faded"] .navigate-up.enabled {
 		opacity: 0.3;
 
@@ -381,7 +386,6 @@ $controlsArrowAngleActive: 36deg;
 
 	// Back arrow style: "hidden":
 	// Never show arrows for backwards navigation
-	&[data-controls-back-arrows="hidden"] .navigate-left.enabled,
 	&[data-controls-back-arrows="hidden"] .navigate-up.enabled {
 		opacity: 0;
 		visibility: hidden;
@@ -404,6 +408,44 @@ $controlsArrowAngleActive: 36deg;
 	.enabled:hover,
 	.enabled.fragmented:hover {
 		opacity: 1;
+	}
+}
+
+.reveal:not(.rtl) .controls {
+	// Back arrow style: "faded":
+	// Deemphasize left arrow
+	&[data-controls-back-arrows="faded"] .navigate-left.enabled {
+		opacity: 0.3;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	// Back arrow style: "hidden":
+	// Never show left arrow
+	&[data-controls-back-arrows="hidden"] .navigate-left.enabled {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+.reveal.rtl .controls {
+	// Back arrow style: "faded":
+	// Deemphasize right arrow in RTL mode
+	&[data-controls-back-arrows="faded"] .navigate-right.enabled  {
+		opacity: 0.3;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	// Back arrow style: "hidden":
+	// Never show right arrow in RTL mode
+	&[data-controls-back-arrows="hidden"] .navigate-right.enabled {
+		opacity: 0;
+		visibility: hidden;
 	}
 }
 
@@ -452,7 +494,7 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$spacing: 8px;
+	$spacing: 0.8em;
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -489,7 +531,7 @@ $controlsArrowAngleActive: 36deg;
 		}
 
 		.navigate-down {
-			bottom: $spacing;
+			bottom: $spacing - $controlArrowSpacing + 0.3em;
 			left: 50%;
 			margin-left: -$controlArrowSize/2;
 		}
@@ -525,10 +567,12 @@ $controlsArrowAngleActive: 36deg;
 	.reveal .progress span {
 		display: block;
 		height: 100%;
-		width: 0px;
+		width: 100%;
 
 		background-color: currentColor;
-		transition: width 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		transition: transform 800ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+		transform-origin: 0 0;
+		transform: scaleX(0);
 	}
 
 /*********************************************
@@ -569,6 +613,11 @@ $controlsArrowAngleActive: 36deg;
 	touch-action: pinch-zoom;
 }
 
+// Swiping on an embedded deck should not block page scrolling
+.reveal.embedded {
+	touch-action: pan-y;
+}
+
 .reveal .slides {
 	position: absolute;
 	width: 100%;
@@ -596,7 +645,6 @@ $controlsArrowAngleActive: 36deg;
 	display: none;
 	position: absolute;
 	width: 100%;
-	padding: 20px 0px;
 	pointer-events: auto;
 
 	z-index: 10;
@@ -651,10 +699,8 @@ $controlsArrowAngleActive: 36deg;
 }
 
 /* Don't allow interaction with invisible slides */
-.reveal .slides>section.future,
-.reveal .slides>section>section.future,
-.reveal .slides>section.past,
-.reveal .slides>section>section.past {
+.reveal .slides>section:not(.present),
+.reveal .slides>section>section:not(.present) {
 	pointer-events: none;
 }
 
@@ -1034,45 +1080,14 @@ $controlsArrowAngleActive: 36deg;
  * FALLBACK
  *********************************************/
 
-.no-transforms {
-	overflow-y: auto;
-}
-
-.no-transforms .reveal {
-	overflow: visible;
-}
-
-.no-transforms .reveal .slides {
-	position: relative;
-	width: 80%;
-	max-width: 1280px;
-	height: auto;
-	top: 0;
-	margin: 0 auto;
-	text-align: center;
-}
-
-.no-transforms .reveal .controls,
-.no-transforms .reveal .progress {
-	display: none;
-}
-
-.no-transforms .reveal .slides section {
-	display: block;
-	opacity: 1;
-	position: relative;
-	height: auto;
-	min-height: 0;
-	top: 0;
-	left: 0;
-	margin: 10vh 0;
-	margin: 70px 0;
-	transform: none;
-}
-
 .reveal .no-transition,
-.reveal .no-transition * {
+.reveal .no-transition *,
+.reveal .slides.disable-slide-transitions section {
 	transition: none !important;
+}
+
+.reveal .slides.disable-slide-transitions section {
+	transform: none !important;
 }
 
 
@@ -1143,54 +1158,54 @@ $controlsArrowAngleActive: 36deg;
 	}
 
 /* Immediate transition style */
-.reveal[data-background-transition=none]>.backgrounds .slide-background,
+.reveal[data-background-transition=none]>.backgrounds .slide-background:not([data-background-transition]),
 .reveal>.backgrounds .slide-background[data-background-transition=none] {
 	transition: none;
 }
 
 /* Slide */
-.reveal[data-background-transition=slide]>.backgrounds .slide-background,
+.reveal[data-background-transition=slide]>.backgrounds .slide-background:not([data-background-transition]),
 .reveal>.backgrounds .slide-background[data-background-transition=slide] {
 	opacity: 1;
 	backface-visibility: hidden;
 }
-	.reveal[data-background-transition=slide]>.backgrounds .slide-background.past,
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background.past:not([data-background-transition]),
 	.reveal>.backgrounds .slide-background.past[data-background-transition=slide] {
 		transform: translate(-100%, 0);
 	}
-	.reveal[data-background-transition=slide]>.backgrounds .slide-background.future,
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background.future:not([data-background-transition]),
 	.reveal>.backgrounds .slide-background.future[data-background-transition=slide] {
 		transform: translate(100%, 0);
 	}
 
-	.reveal[data-background-transition=slide]>.backgrounds .slide-background>.slide-background.past,
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background>.slide-background.past:not([data-background-transition]),
 	.reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=slide] {
 		transform: translate(0, -100%);
 	}
-	.reveal[data-background-transition=slide]>.backgrounds .slide-background>.slide-background.future,
+	.reveal[data-background-transition=slide]>.backgrounds .slide-background>.slide-background.future:not([data-background-transition]),
 	.reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=slide] {
 		transform: translate(0, 100%);
 	}
 
 
 /* Convex */
-.reveal[data-background-transition=convex]>.backgrounds .slide-background.past,
+.reveal[data-background-transition=convex]>.backgrounds .slide-background.past:not([data-background-transition]),
 .reveal>.backgrounds .slide-background.past[data-background-transition=convex] {
 	opacity: 0;
 	transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
 }
-.reveal[data-background-transition=convex]>.backgrounds .slide-background.future,
+.reveal[data-background-transition=convex]>.backgrounds .slide-background.future:not([data-background-transition]),
 .reveal>.backgrounds .slide-background.future[data-background-transition=convex] {
 	opacity: 0;
 	transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
 }
 
-.reveal[data-background-transition=convex]>.backgrounds .slide-background>.slide-background.past,
+.reveal[data-background-transition=convex]>.backgrounds .slide-background>.slide-background.past:not([data-background-transition]),
 .reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=convex] {
 	opacity: 0;
 	transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
 }
-.reveal[data-background-transition=convex]>.backgrounds .slide-background>.slide-background.future,
+.reveal[data-background-transition=convex]>.backgrounds .slide-background>.slide-background.future:not([data-background-transition]),
 .reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=convex] {
 	opacity: 0;
 	transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
@@ -1198,54 +1213,54 @@ $controlsArrowAngleActive: 36deg;
 
 
 /* Concave */
-.reveal[data-background-transition=concave]>.backgrounds .slide-background.past,
+.reveal[data-background-transition=concave]>.backgrounds .slide-background.past:not([data-background-transition]),
 .reveal>.backgrounds .slide-background.past[data-background-transition=concave] {
 	opacity: 0;
 	transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
 }
-.reveal[data-background-transition=concave]>.backgrounds .slide-background.future,
+.reveal[data-background-transition=concave]>.backgrounds .slide-background.future:not([data-background-transition]),
 .reveal>.backgrounds .slide-background.future[data-background-transition=concave] {
 	opacity: 0;
 	transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
 }
 
-.reveal[data-background-transition=concave]>.backgrounds .slide-background>.slide-background.past,
+.reveal[data-background-transition=concave]>.backgrounds .slide-background>.slide-background.past:not([data-background-transition]),
 .reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=concave] {
 	opacity: 0;
 	transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
 }
-.reveal[data-background-transition=concave]>.backgrounds .slide-background>.slide-background.future,
+.reveal[data-background-transition=concave]>.backgrounds .slide-background>.slide-background.future:not([data-background-transition]),
 .reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=concave] {
 	opacity: 0;
 	transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
 }
 
 /* Zoom */
-.reveal[data-background-transition=zoom]>.backgrounds .slide-background,
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background:not([data-background-transition]),
 .reveal>.backgrounds .slide-background[data-background-transition=zoom] {
 	transition-timing-function: ease;
 }
 
-.reveal[data-background-transition=zoom]>.backgrounds .slide-background.past,
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background.past:not([data-background-transition]),
 .reveal>.backgrounds .slide-background.past[data-background-transition=zoom] {
 	opacity: 0;
 	visibility: hidden;
 	transform: scale(16);
 }
-.reveal[data-background-transition=zoom]>.backgrounds .slide-background.future,
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background.future:not([data-background-transition]),
 .reveal>.backgrounds .slide-background.future[data-background-transition=zoom] {
 	opacity: 0;
 	visibility: hidden;
 	transform: scale(0.2);
 }
 
-.reveal[data-background-transition=zoom]>.backgrounds .slide-background>.slide-background.past,
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background>.slide-background.past:not([data-background-transition]),
 .reveal>.backgrounds .slide-background>.slide-background.past[data-background-transition=zoom] {
 	opacity: 0;
 		visibility: hidden;
 		transform: scale(16);
 }
-.reveal[data-background-transition=zoom]>.backgrounds .slide-background>.slide-background.future,
+.reveal[data-background-transition=zoom]>.backgrounds .slide-background>.slide-background.future:not([data-background-transition]),
 .reveal>.backgrounds .slide-background>.slide-background.future[data-background-transition=zoom] {
 	opacity: 0;
 	visibility: hidden;
@@ -1259,6 +1274,19 @@ $controlsArrowAngleActive: 36deg;
 }
 .reveal[data-transition-speed="slow"]>.backgrounds .slide-background {
 	transition-duration: 1200ms;
+}
+
+
+/*********************************************
+ * AUTO ANIMATE
+ *********************************************/
+
+.reveal [data-auto-animate-target^="unmatched"] {
+	will-change: opacity;
+}
+
+.reveal section[data-auto-animate]:not(.stack):not([data-auto-animate="running"]) [data-auto-animate-target^="unmatched"] {
+	opacity: 0;
 }
 
 
@@ -1367,7 +1395,7 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal.rtl .progress span {
-	float: right
+	transform-origin: 100% 0;
 }
 
 /*********************************************
@@ -1391,6 +1419,9 @@ $controlsArrowAngleActive: 36deg;
  * OVERLAY FOR LINK PREVIEWS AND HELP
  *********************************************/
 
+$overlayHeaderHeight: 40px;
+$overlayHeaderPadding: 5px;
+
 .reveal > .overlay {
 	position: absolute;
 	top: 0;
@@ -1399,14 +1430,8 @@ $controlsArrowAngleActive: 36deg;
 	height: 100%;
 	z-index: 1000;
 	background: rgba( 0, 0, 0, 0.9 );
-	opacity: 0;
-	visibility: hidden;
 	transition: all 0.3s ease;
 }
-	.reveal > .overlay.visible {
-		opacity: 1;
-		visibility: visible;
-	}
 
 	.reveal > .overlay .spinner {
 		position: absolute;
@@ -1429,14 +1454,14 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 		top: 0;
 		width: 100%;
-		height: 40px;
+		padding: $overlayHeaderPadding;
 		z-index: 2;
-		border-bottom: 1px solid #222;
+		box-sizing: border-box;
 	}
 		.reveal > .overlay header a {
 			display: inline-block;
-			width: 40px;
-			height: 40px;
+			width: $overlayHeaderHeight;
+			height: $overlayHeaderHeight;
 			line-height: 36px;
 			padding: 0 10px;
 			float: right;
@@ -1466,7 +1491,7 @@ $controlsArrowAngleActive: 36deg;
 	.reveal > .overlay .viewport {
 		position: absolute;
 		display: flex;
-		top: 40px;
+		top: $overlayHeaderHeight + $overlayHeaderPadding*2;
 		right: 0;
 		bottom: 0;
 		left: 0;
@@ -1573,6 +1598,10 @@ $controlsArrowAngleActive: 36deg;
  * CODE HIGHLGIHTING
  *********************************************/
 
+.reveal .hljs {
+	min-height: 100%;
+}
+
 .reveal .hljs table {
 	margin: initial;
 }
@@ -1590,8 +1619,23 @@ $controlsArrowAngleActive: 36deg;
 	vertical-align: top;
 }
 
-.reveal .hljs[data-line-numbers]:not([data-line-numbers=""]) tr:not(.highlight-line) {
+.reveal .hljs.has-highlights tr:not(.highlight-line) {
 	opacity: 0.4;
+}
+
+.reveal .hljs:not(:first-child).fragment {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.reveal pre[data-auto-animate-target] {
+	overflow: hidden;
+}
+.reveal pre[data-auto-animate-target] code {
+	height: 100%;
 }
 
 
@@ -1766,3 +1810,12 @@ $notesWidthPercent: 25%;
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
 }
+
+
+/*********************************************
+ * PRINT STYLES
+ *********************************************/
+
+@import 'print/pdf.scss';
+@import 'print/paper.scss';
+
