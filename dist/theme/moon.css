@@ -20,53 +20,53 @@ section.has-light-background, section.has-light-background h1, section.has-light
  * GLOBAL STYLES
  *********************************************/
 :root {
-  --background-color: #002b36;
-  --main-font: Lato, sans-serif;
-  --main-font-size: 40px;
-  --main-color: #93a1a1;
-  --block-margin: 20px;
-  --heading-margin: 0 0 20px 0;
-  --heading-font: League Gothic, Impact, sans-serif;
-  --heading-color: #eee8d5;
-  --heading-line-height: 1.2;
-  --heading-letter-spacing: normal;
-  --heading-text-transform: uppercase;
-  --heading-text-shadow: none;
-  --heading-font-weight: normal;
-  --heading1-text-shadow: none;
-  --heading1-size: 3.77em;
-  --heading2-size: 2.11em;
-  --heading3-size: 1.55em;
-  --heading4-size: 1em;
-  --code-font: monospace;
-  --link-color: #268bd2;
-  --link-color-dark: #1a6091;
-  --link-color-hover: #78b9e6;
-  --selection-background-color: #d33682;
-  --selection-color: #fff;
+  --r-background-color: #002b36;
+  --r-main-font: Lato, sans-serif;
+  --r-main-font-size: 40px;
+  --r-main-color: #93a1a1;
+  --r-block-margin: 20px;
+  --r-heading-margin: 0 0 20px 0;
+  --r-heading-font: League Gothic, Impact, sans-serif;
+  --r-heading-color: #eee8d5;
+  --r-heading-line-height: 1.2;
+  --r-heading-letter-spacing: normal;
+  --r-heading-text-transform: uppercase;
+  --r-heading-text-shadow: none;
+  --r-heading-font-weight: normal;
+  --r-heading1-text-shadow: none;
+  --r-heading1-size: 3.77em;
+  --r-heading2-size: 2.11em;
+  --r-heading3-size: 1.55em;
+  --r-heading4-size: 1em;
+  --r-code-font: monospace;
+  --r-link-color: #268bd2;
+  --r-link-color-dark: #1a6091;
+  --r-link-color-hover: #78b9e6;
+  --r-selection-background-color: #d33682;
+  --r-selection-color: #fff;
 }
 
 .reveal-viewport {
   background: #002b36;
-  background-color: var(--background-color);
+  background-color: var(--r-background-color);
 }
 
 .reveal {
-  font-family: var(--main-font);
-  font-size: var(--main-font-size);
+  font-family: var(--r-main-font);
+  font-size: var(--r-main-font-size);
   font-weight: normal;
-  color: var(--main-color);
+  color: var(--r-main-color);
 }
 
 .reveal ::selection {
-  color: var(--selection-color);
-  background: var(--selection-background-color);
+  color: var(--r-selection-color);
+  background: var(--r-selection-background-color);
   text-shadow: none;
 }
 
 .reveal ::-moz-selection {
-  color: var(--selection-color);
-  background: var(--selection-background-color);
+  color: var(--r-selection-color);
+  background: var(--r-selection-background-color);
   text-shadow: none;
 }
 
@@ -85,42 +85,42 @@ section.has-light-background, section.has-light-background h1, section.has-light
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-  margin: var(--heading-margin);
-  color: var(--heading-color);
-  font-family: var(--heading-font);
-  font-weight: var(--heading-font-weight);
-  line-height: var(--heading-line-height);
-  letter-spacing: var(--heading-letter-spacing);
-  text-transform: var(--heading-text-transform);
-  text-shadow: var(--heading-text-shadow);
+  margin: var(--r-heading-margin);
+  color: var(--r-heading-color);
+  font-family: var(--r-heading-font);
+  font-weight: var(--r-heading-font-weight);
+  line-height: var(--r-heading-line-height);
+  letter-spacing: var(--r-heading-letter-spacing);
+  text-transform: var(--r-heading-text-transform);
+  text-shadow: var(--r-heading-text-shadow);
   word-wrap: break-word;
 }
 
 .reveal h1 {
-  font-size: var(--heading1-size);
+  font-size: var(--r-heading1-size);
 }
 
 .reveal h2 {
-  font-size: var(--heading2-size);
+  font-size: var(--r-heading2-size);
 }
 
 .reveal h3 {
-  font-size: var(--heading3-size);
+  font-size: var(--r-heading3-size);
 }
 
 .reveal h4 {
-  font-size: var(--heading4-size);
+  font-size: var(--r-heading4-size);
 }
 
 .reveal h1 {
-  text-shadow: var(--heading1-text-shadow);
+  text-shadow: var(--r-heading1-text-shadow);
 }
 
 /*********************************************
  * OTHER
  *********************************************/
 .reveal p {
-  margin: var(--block-margin) 0;
+  margin: var(--r-block-margin) 0;
   line-height: 1.3;
 }
 
@@ -195,7 +195,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   display: block;
   position: relative;
   width: 70%;
-  margin: var(--block-margin) auto;
+  margin: var(--r-block-margin) auto;
   padding: 5px;
   font-style: italic;
   background: rgba(255, 255, 255, 0.05);
@@ -215,17 +215,17 @@ section.has-light-background, section.has-light-background h1, section.has-light
   display: block;
   position: relative;
   width: 90%;
-  margin: var(--block-margin) auto;
+  margin: var(--r-block-margin) auto;
   text-align: left;
   font-size: 0.55em;
-  font-family: var(--code-font);
+  font-family: var(--r-code-font);
   line-height: 1.2em;
   word-wrap: break-word;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .reveal code {
-  font-family: var(--code-font);
+  font-family: var(--r-code-font);
   text-transform: none;
   tab-size: 2;
 }
@@ -300,34 +300,34 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 .reveal img {
-  margin: var(--block-margin) 0;
+  margin: var(--r-block-margin) 0;
 }
 
 /*********************************************
  * LINKS
  *********************************************/
 .reveal a {
-  color: var(--link-color);
+  color: var(--r-link-color);
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .reveal a:hover {
-  color: var(--link-color-hover);
+  color: var(--r-link-color-hover);
   text-shadow: none;
   border: none;
 }
 
 .reveal .roll span:after {
   color: #fff;
-  background: var(--link-color-dark);
+  background: var(--r-link-color-dark);
 }
 
 /*********************************************
  * Frame helper
  *********************************************/
 .reveal .r-frame {
-  border: 4px solid var(--main-color);
+  border: 4px solid var(--r-main-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -336,7 +336,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 .reveal a:hover .r-frame {
-  border-color: var(--link-color);
+  border-color: var(--r-link-color);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
@@ -344,7 +344,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
  * NAVIGATION CONTROLS
  *********************************************/
 .reveal .controls {
-  color: var(--link-color);
+  color: var(--r-link-color);
 }
 
 /*********************************************
@@ -352,7 +352,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
  *********************************************/
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
-  color: var(--link-color);
+  color: var(--r-link-color);
 }
 
 /*********************************************
@@ -360,6 +360,6 @@ section.has-light-background, section.has-light-background h1, section.has-light
  *********************************************/
 @media print {
   .backgrounds {
-    background-color: var(--background-color);
+    background-color: var(--r-background-color);
   }
 }
