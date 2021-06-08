@@ -18,6 +18,9 @@
 
 			<div class="slides">
 
+                <!-- Set markdown text directly, slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
+                <section data-markdown-text="%23%20Setting%20Markdown%20Text%20Demo%0A%0A---%0A%0A%23%23%20Set%20Text%201.1%0A%0AContent%201.1%0A%0ANote%3A%20This%20will%20only%20appear%20in%20the%20speaker%20notes%20window.%0A%0A--%0A%0A%23%23%20Set%20Text%201.2%0A%0AContent%201.2%0A%0A---%0A%0A%23%23%20Set%20Text%202%0A%0AContent%202.1%0A%0A---%0A%0A%23%23%20Set%20Text%203.1%0A%0AContent%203.1%0A%0A--%0A%0A%23%23%20Set%20Text%203.2%0A%0AContent%203.2%0A%0A--%0A%0A%23%23%20Set%20Text%203.3%0A%0A%21%5BExternal%20Image%5D%28https%3A//s3.amazonaws.com/static.slid.es/logo/v2/slides-symbol-512x512.png%29%0A" data-separator="^\n---\n$" data-separator-vertical="^\n--\n$"></section>
+
                 <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
                 <section data-markdown="markdown.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
