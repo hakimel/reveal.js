@@ -8,25 +8,25 @@
 
 .reveal-viewport {
 	@include bodyBackground();
-	background-color: var(--background-color);
+	background-color: var(--r-background-color);
 }
 
 .reveal {
-	font-family: var(--main-font);
-	font-size: var(--main-font-size);
+	font-family: var(--r-main-font);
+	font-size: var(--r-main-font-size);
 	font-weight: normal;
-	color: var(--main-color);
+	color: var(--r-main-color);
 }
 
 .reveal ::selection {
-	color: var(--selection-color);
-	background: var(--selection-background-color);
+	color: var(--r-selection-color);
+	background: var(--r-selection-background-color);
 	text-shadow: none;
 }
 
 .reveal ::-moz-selection {
-	color: var(--selection-color);
-	background: var(--selection-background-color);
+	color: var(--r-selection-color);
+	background: var(--r-selection-background-color);
 	text-shadow: none;
 }
 
@@ -46,27 +46,27 @@
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-	margin: var(--heading-margin);
-	color: var(--heading-color);
+	margin: var(--r-heading-margin);
+	color: var(--r-heading-color);
 
-	font-family: var(--heading-font);
-	font-weight: var(--heading-font-weight);
-	line-height: var(--heading-line-height);
-	letter-spacing: var(--heading-letter-spacing);
+	font-family: var(--r-heading-font);
+	font-weight: var(--r-heading-font-weight);
+	line-height: var(--r-heading-line-height);
+	letter-spacing: var(--r-heading-letter-spacing);
 
-	text-transform: var(--heading-text-transform);
-	text-shadow: var(--heading-text-shadow);
+	text-transform: var(--r-heading-text-transform);
+	text-shadow: var(--r-heading-text-shadow);
 
 	word-wrap: break-word;
 }
 
-.reveal h1 {font-size: var(--heading1-size); }
-.reveal h2 {font-size: var(--heading2-size); }
-.reveal h3 {font-size: var(--heading3-size); }
-.reveal h4 {font-size: var(--heading4-size); }
+.reveal h1 {font-size: var(--r-heading1-size); }
+.reveal h2 {font-size: var(--r-heading2-size); }
+.reveal h3 {font-size: var(--r-heading3-size); }
+.reveal h4 {font-size: var(--r-heading4-size); }
 
 .reveal h1 {
-	text-shadow: var(--heading1-text-shadow);
+	text-shadow: var(--r-heading1-text-shadow);
 }
 
 
@@ -75,7 +75,7 @@
  *********************************************/
 
 .reveal p {
-	margin: var(--block-margin) 0;
+	margin: var(--r-block-margin) 0;
 	line-height: 1.3;
 }
 
@@ -150,7 +150,7 @@
 	display: block;
 	position: relative;
 	width: 70%;
-	margin: var(--block-margin) auto;
+	margin: var(--r-block-margin) auto;
 	padding: 5px;
 
 	font-style: italic;
@@ -170,11 +170,11 @@
 	display: block;
 	position: relative;
 	width: 90%;
-	margin: var(--block-margin) auto;
+	margin: var(--r-block-margin) auto;
 
 	text-align: left;
 	font-size: 0.55em;
-	font-family: var(--code-font);
+	font-family: var(--r-code-font);
 	line-height: 1.2em;
 
 	word-wrap: break-word;
@@ -183,7 +183,7 @@
 }
 
 .reveal code {
-	font-family: var(--code-font);
+	font-family: var(--r-code-font);
 	text-transform: none;
 	tab-size: 2;
 }
@@ -257,7 +257,7 @@
 }
 
 .reveal img {
-	margin: var(--block-margin) 0;
+	margin: var(--r-block-margin) 0;
 }
 
 
@@ -266,20 +266,20 @@
  *********************************************/
 
 .reveal a {
-	color: var(--link-color);
+	color: var(--r-link-color);
 	text-decoration: none;
 	transition: color .15s ease;
 }
 	.reveal a:hover {
-		color: var(--link-color-hover);
+		color: var(--r-link-color-hover);
 		text-shadow: none;
 		border: none;
 	}
 
 .reveal .roll span:after {
 	color: #fff;
-	// background: darken( var(--link-color), 15% );
-	 background: var(--link-color-dark);
+	// background: darken( var(--r-link-color), 15% );
+	 background: var(--r-link-color-dark);
 
 }
 
@@ -289,7 +289,7 @@
  *********************************************/
 
 .reveal .r-frame {
-	border: 4px solid var(--main-color);
+	border: 4px solid var(--r-main-color);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -298,7 +298,7 @@
 }
 
 .reveal a:hover .r-frame {
-	border-color: var(--link-color);
+	border-color: var(--r-link-color);
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
@@ -308,7 +308,7 @@
  *********************************************/
 
 .reveal .controls {
-	color: var(--link-color);
+	color: var(--r-link-color);
 }
 
 
@@ -318,7 +318,7 @@
 
 .reveal .progress {
 	background: rgba(0,0,0,0.2);
-	color: var(--link-color);
+	color: var(--r-link-color);
 }
 
 /*********************************************
@@ -326,6 +326,6 @@
  *********************************************/
  @media print {
     .backgrounds {
-        background-color: var(--background-color);
+        background-color: var(--r-background-color);
     }
 }
