@@ -35,7 +35,7 @@ const Plugin = {
 
 		Array.from( reveal.getRevealElement().querySelectorAll( 'pre code' ) ).forEach( block => {
 
-			block.parentNode.className = 'code-wrapper';
+			block.parentNode.classList.add('code-wrapper');
 
 			// Code can optionally be wrapped in script template to avoid
 			// HTML being parsed by the browser (i.e. when you need to
