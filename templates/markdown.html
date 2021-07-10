@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#000000" />
+	<meta name="description" content="Reveal JS Presentation" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/reveal.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/theme/solarized.css"
+		id="theme" />
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/atelier-cave-light.min.css"
+		integrity="sha512-fNprY9f5BGeuC3KYaGc0+fAke3ZIFpsUXTMsqg2Bi2c7F/ktzTnutNkzNmq3izYkr2ke+/pyBpNsZbk1tA9OZw=="
+		crossorigin="anonymous" />
+
+	<title>Reveal JS - CDN Example - Markdown</title>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section data-markdown>
+				<textarea data-template>
+					# Simple Markdown
+					## Bayes' theorem
+					$$
+					P(A\mid B) = \frac{P(B \mid A) \\; P(A)}{P(B)}
+					$$
+				</textarea>
+			</section>
+
+			<section data-markdown data-separator="---">
+				<textarea data-template>
+					# Slides are separated by three dashes
+					---
+					## First
+					Slide 1
+					---
+					## Second
+					Slide 2
+					---
+					## Third
+					Slide 3
+				</textarea>
+			</section>
+
+			<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+				<textarea data-template>
+					# Using spaces and dashes
+
+					_Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes_
+
+					---
+
+					## First - main
+					Slide 1.1
+
+					--
+
+					## First - auxiliary
+					Slide 1.2
+
+					---
+
+					## Second
+					Slide 2
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					# No slide splitting
+
+					_Since there are no separators defined, dashes will become horizontal rulers_
+
+					---
+
+					A
+
+					---
+
+					B
+
+					---
+
+					C
+				</textarea>
+			</section>
+
+			<section data-markdown data-separator="---">
+				<textarea data-template>
+					<!-- .slide:  data-background="#FFDEE9" -->
+					# Setting slide background
+					---
+					<!-- .slide: data-background="linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%)" -->
+					## Slide background
+				</textarea>
+			</section>
+
+			<section data-markdown data-separator="---">
+				<textarea data-template>
+					# Setting element attributes
+					---
+					## Element attributes
+					- Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+					- Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+				</textarea>
+			</section>
+
+			<section data-markdown data-separator="---">
+				<textarea data-template>
+					# Presenting code
+
+					---
+
+					## Introduction to Python
+
+					**Print 10 Fibonacci numbers (basic)**
+
+					```python [1|2|3|4|5|6|7|8|9]
+					a = 0
+					b = 1
+					print(a)
+					print(b)
+					for k in range(2, 10):
+						c = a + b
+						a = b  # 'a' becomes 'b'
+						b = c  # and 'b' becomes 'c'
+						print(b)
+					```
+				</textarea>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/reveal.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/markdown/markdown.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/math/math.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/notes/notes.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/highlight/highlight.js"></script>
+
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+
+			// IMPORTANT: The order matters!
+			// So, RevealHightlight must be the LAST to load
+			plugins: [RevealMarkdown, RevealMath, RevealNotes, RevealHighlight]
+		});
+	</script>
+
+</body>
+
+</html>
