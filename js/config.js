@@ -211,6 +211,9 @@ export default {
 	// speaker view
 	defaultTiming: null,
 
+	// use 12-hour clock for current time in speaker view
+	speakerView12HourTimeFormat: true,
+
 	// Enable slide navigation via mouse wheel
 	mouseWheel: false,
 

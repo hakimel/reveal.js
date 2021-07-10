@@ -689,16 +689,20 @@
 
 					function _updateTimer() {
 
-						var diff, hours, minutes, seconds,
-						now = new Date();
+						callRevealApi( 'getConfig', [], function ( config ) {
+							var hour12 = config.speakerView12HourTimeFormat;
 
-						diff = now.getTime() - start.getTime();
+							var diff, hours, minutes, seconds,
+							now = new Date();
 
-						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
-						_displayTime( hoursEl, minutesEl, secondsEl, diff );
-						if (timings !== null) {
-							_updatePacing(diff);
-						}
+							diff = now.getTime() - start.getTime();
+
+							clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: hour12, hour: '2-digit', minute:'2-digit' } );
+							_displayTime( hoursEl, minutesEl, secondsEl, diff );
+							if (timings !== null) {
+								_updatePacing(diff);
+							}
+						} );
 
 					}
 
