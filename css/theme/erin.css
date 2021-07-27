@@ -80,7 +80,10 @@ body {
 .reveal video,
 .reveal iframe {
   max-width: 95%;
-  max-height: 95%; }
+  max-height: 95%;
+  width: 95%;
+  height: 95%;
+  object-fit: contain; }
 
 .reveal strong,
 .reveal b {
@@ -227,9 +230,6 @@ body {
  * IMAGES
  *********************************************/
 .reveal section img {
-  max-width: 90%;
-  width:  90%;
-  object-fit: contain;
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
   border: 0;
