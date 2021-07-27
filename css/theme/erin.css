@@ -85,14 +85,6 @@ body {
   height: 95%;
   object-fit: contain; }
 
-.reveal.reveal img
-{
-    border: none;
-    box-shadow: none;
-    max-height: calc(66vh);
-    max-width: calc(66vw);
-}
-
 .reveal strong,
 .reveal b {
   font-weight: bold; }
