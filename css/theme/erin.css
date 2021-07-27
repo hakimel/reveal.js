@@ -85,6 +85,14 @@ body {
   height: 95%;
   object-fit: contain; }
 
+img {
+  max-width: 95%;
+  max-height: 95%;
+  width: 95%;
+  height: 95%;
+  object-fit: contain; 
+}
+
 .reveal strong,
 .reveal b {
   font-weight: bold; }
