@@ -227,8 +227,7 @@ body {
  * IMAGES
  *********************************************/
 .reveal section img {
-  width: 90%;
-  padding: 5%;
+  max-width: 90%;
   object-fit: contain;
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
