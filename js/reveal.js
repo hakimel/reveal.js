@@ -44,11 +44,6 @@ export default function( revealElement, options ) {
 		revealElement = document.querySelector( '.reveal' );
 	}
 
-	// reveal.js can not be initialized without a root element
-	if( !revealElement ) {
-		throw 'Invalid or missing <div class="reveal"> element';
-	}
-
 	const Reveal = {};
 
 	// Configuration defaults, can be overridden at initialization time
@@ -126,9 +121,13 @@ export default function( revealElement, options ) {
 	 */
 	function initialize( initOptions ) {
 
+		if( !revealElement ) throw 'Unable to find presentation root (<div class="reveal">).';
+
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
+
+		if( !dom.slides ) throw 'Unable to find slides container (<div class="slides">).';
 
 		// Compose our config object in order of increasing precedence:
 		// 1. Default reveal.js options
