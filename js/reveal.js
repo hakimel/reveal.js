@@ -44,6 +44,11 @@ export default function( revealElement, options ) {
 		revealElement = document.querySelector( '.reveal' );
 	}
 
+	// reveal.js can not be initialized without a root element
+	if( !revealElement ) {
+		throw 'Invalid or missing <div class="reveal"> element';
+	}
+
 	const Reveal = {};
 
 	// Configuration defaults, can be overridden at initialization time
