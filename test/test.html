@@ -97,6 +97,11 @@
 			// 4
 			Reveal.initialize().then( function() {
 
+				// Helper methods
+				function triggerKeyboardEvent(config) {
+					document.dispatchEvent( new KeyboardEvent( 'keydown', config ) );
+				}
+
 				// ---------------------------------------------------------------
 				// DOM TESTS
 
@@ -407,13 +412,41 @@
 					assert.ok( /X\-SHORTCUT\-X/.test( document.body.innerHTML ), 'binding is added to help overlay' );
 					Reveal.toggleHelp( false );
 
-					let event = new KeyboardEvent( 'keydown', { 'keyCode':88 } );
-					document.dispatchEvent( event );
+					triggerKeyboardEvent({ keyCode: 88 });
 
 					Reveal.removeKeyBinding( 88 );
 
 					// should do nothing
-					document.dispatchEvent( event );
+					triggerKeyboardEvent({ keyCode: 88 });
+				});
+
+				QUnit.test( 'Navigation bindings', function( assert ) {
+					Reveal.slide( 0 );
+
+					// right arrow
+					triggerKeyboardEvent({ keyCode: 39 });
+					assert.strictEqual( Reveal.getIndices().h, 1 );
+
+					// down arrow + shift
+					triggerKeyboardEvent({ keyCode: 40, shiftKey: true });
+					assert.strictEqual( Reveal.getIndices().v, 2, 'shift + down arrow goes to last vertical slide' );
+
+					// up arrow
+					triggerKeyboardEvent({ keyCode: 38 });
+					assert.strictEqual( Reveal.getIndices().v, 1 );
+
+					// right arrow + shift
+					triggerKeyboardEvent({ keyCode: 39, shiftKey: true });
+					assert.ok( Reveal.isLastSlide(), 'shift + right arrow goes to last horizontal slide' );
+
+
+					// right arrow on slide with fragments
+					Reveal.slide( 2, 0, -1 );
+					triggerKeyboardEvent({ keyCode: 39 });
+					assert.deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'right arrow shows fragment' );
+
+					triggerKeyboardEvent({ keyCode: 39, altKey: true });
+					assert.strictEqual( Reveal.getIndices().h, 3, 'right arrow skips fragments when alt key is pressed' );
 				});
 
 				// ---------------------------------------------------------------
