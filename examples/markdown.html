@@ -21,8 +21,8 @@
                 <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
                 <section data-markdown="markdown.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
-                <!-- Slides are separated by three dashes (quick 'n dirty regular expression) -->
-                <section data-markdown data-separator="---">
+                <!-- Slides are separated by three dashes (the default) -->
+                <section data-markdown>
                     <script type="text/template">
                         ## Demo 1
                         Slide 1
@@ -35,7 +35,7 @@
                     </script>
                 </section>
 
-                <!-- Slides are separated by newline + three dashes + newline, vertical slides identical but two dashes -->
+                <!-- Slides are separated by regexp matching newline + three dashes + newline, vertical slides identical but two dashes -->
                 <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
                     <script type="text/template">
                         ## Demo 2
@@ -53,8 +53,8 @@
                     </script>
                 </section>
 
-                <!-- No "extra" slides, since there are no separators defined (so they'll become horizontal rulers) -->
-                <section data-markdown>
+                <!-- No "extra" slides, since the separator can't be matched ("---" will become horizontal rulers) -->
+                <section data-markdown data-separator="$x">
                     <script type="text/template">
                         A
 
