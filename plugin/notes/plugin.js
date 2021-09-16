@@ -86,7 +86,7 @@ const Plugin = () => {
 		function post( event ) {
 
 			let slideElement = deck.getCurrentSlide(),
-				notesElement = slideElement.querySelector( 'aside.notes' ),
+				notesElements = slideElement.querySelectorAll( 'aside.notes' ),
 				fragmentElement = slideElement.querySelector( '.current-fragment' );
 
 			let messageData = {
@@ -108,21 +108,29 @@ const Plugin = () => {
 			if( fragmentElement ) {
 				let fragmentNotes = fragmentElement.querySelector( 'aside.notes' );
 				if( fragmentNotes ) {
-					notesElement = fragmentNotes;
+					messageData.notes = fragmentNotes.innerHTML;
+					messageData.markdown = typeof fragmentNotes.getAttribute( 'data-markdown' ) === 'string';
+
+					// Ignore other slide notes
+					notesElements = null;
 				}
 				else if( fragmentElement.hasAttribute( 'data-notes' ) ) {
 					messageData.notes = fragmentElement.getAttribute( 'data-notes' );
 					messageData.whitespace = 'pre-wrap';
 
 					// In case there are slide notes
-					notesElement = null;
+					notesElements = null;
 				}
 			}
 
-			// Look for notes defined in an aside element
-			if( notesElement ) {
-				messageData.notes = notesElement.innerHTML;
-				messageData.markdown = typeof notesElement.getAttribute( 'data-markdown' ) === 'string';
+			// Look for notes defined in aside elements
+			if( notesElements ) {
+				let notes = "";
+				for (let i = 0; i < notesElements.length; i++) {
+					notes += notesElements[i].innerHTML + "\n";
+				}
+				messageData.notes = notes;
+				messageData.markdown = typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
 			}
 
 			popup.postMessage( JSON.stringify( messageData ), '*' );
