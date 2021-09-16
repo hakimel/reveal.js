@@ -296,7 +296,7 @@ export default class Keyboard {
 			// L, RIGHT
 			else if( keyCode === 76 || keyCode === 39 ) {
 				if( event.shiftKey ) {
-					this.Reveal.slide( Number.MAX_VALUE );
+					this.Reveal.slide( this.Reveal.getHorizontalSlides().length - 1 );
 				}
 				else if( !this.Reveal.overview.isActive() && useLinearMode ) {
 					this.Reveal.next({skipFragments: event.altKey});
@@ -335,7 +335,7 @@ export default class Keyboard {
 			}
 			// END
 			else if( keyCode === 35 ) {
-				this.Reveal.slide( Number.MAX_VALUE );
+				this.Reveal.slide( this.Reveal.getHorizontalSlides().length - 1 );
 			}
 			// SPACE
 			else if( keyCode === 32 ) {
