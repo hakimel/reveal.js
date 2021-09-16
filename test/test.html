@@ -781,6 +781,31 @@
 
 				QUnit.module( 'Events' );
 
+				QUnit.test( 'slidechange', function( assert ) {
+					var done = assert.async( 2 );
+
+					var normalEvent = function( event ) {
+						assert.ok( true, 'event fired' );
+						done();
+					}
+					var blockingEvent = function( event ) {
+						event.preventDefault();
+						assert.ok( true, 'event fired' );
+						done();
+					}
+
+					Reveal.on( 'slidechange', normalEvent );
+					Reveal.slide( 2, 0 );
+					Reveal.off( 'slidechange', normalEvent );
+
+					Reveal.on( 'slidechange', blockingEvent );
+					Reveal.slide( 3, 0 );
+					Reveal.off( 'slidechange', blockingEvent );
+
+					assert.strictEqual( Reveal.getIndices().h, 2, 'preventing "slidechange" blocks navigation ' );
+
+				});
+
 				QUnit.test( 'slidechanged', function( assert ) {
 					assert.expect( 3 );
 					var done = assert.async( 3 );
