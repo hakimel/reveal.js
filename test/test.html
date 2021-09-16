@@ -727,7 +727,16 @@
 					Reveal.right();
 					assert.equal( Reveal.getIndices().h, 0, 'looped from end to start' );
 
-					Reveal.configure({ loop: false });
+					Reveal.configure({ navigationMode: 'linear' });
+					Reveal.slide( 0, 0 );
+
+					Reveal.prev();
+					assert.notEqual( Reveal.getIndices().h, 0, 'looped from start to end in linear mode' );
+
+					Reveal.next();
+					assert.equal( Reveal.getIndices().h, 0, 'looped from end to start in linear mode' );
+
+					Reveal.configure({ loop: false, navigationMode: 'default' });
 				});
 
 

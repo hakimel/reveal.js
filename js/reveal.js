@@ -2275,10 +2275,15 @@ export default function( revealElement, options ) {
 					previousSlide = Util.queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.past' ).pop();
 				}
 
-				if( previousSlide ) {
+				// When going backwards and arriving on a stack we start
+				// at the bottom of the stack
+				if( previousSlide && previousSlide.classList.contains( 'stack' ) ) {
 					let v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
 					let h = indexh - 1;
 					slide( h, v );
+				}
+				else {
+					navigateLeft({skipFragments});
 				}
 			}
 		}
