@@ -781,7 +781,7 @@
 
 				QUnit.module( 'Events' );
 
-				QUnit.test( 'slidechange', function( assert ) {
+				QUnit.test( 'beforeslidechange', function( assert ) {
 					var done = assert.async( 2 );
 
 					var normalEvent = function( event ) {
@@ -794,15 +794,15 @@
 						done();
 					}
 
-					Reveal.on( 'slidechange', normalEvent );
+					Reveal.on( 'beforeslidechange', normalEvent );
 					Reveal.slide( 2, 0 );
-					Reveal.off( 'slidechange', normalEvent );
+					Reveal.off( 'beforeslidechange', normalEvent );
 
-					Reveal.on( 'slidechange', blockingEvent );
+					Reveal.on( 'beforeslidechange', blockingEvent );
 					Reveal.slide( 3, 0 );
-					Reveal.off( 'slidechange', blockingEvent );
+					Reveal.off( 'beforeslidechange', blockingEvent );
 
-					assert.strictEqual( Reveal.getIndices().h, 2, 'preventing "slidechange" blocks navigation ' );
+					assert.strictEqual( Reveal.getIndices().h, 2, 'preventing "beforeslidechange" blocks navigation ' );
 
 				});
 
