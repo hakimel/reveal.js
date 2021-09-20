@@ -1200,7 +1200,7 @@ export default function( revealElement, options ) {
 
 		// Dispatch an event before hte slide
 		const slidechange = dispatchEvent({
-			type: 'slidechange',
+			type: 'beforeslidechange',
 			data: {
 				indexh: h === undefined ? indexh : h,
 				indexv: v === undefined ? indexv : v,
