@@ -102,9 +102,16 @@ export default class SlideContent {
 
 				// Images
 				if( backgroundImage ) {
-					backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-						return `url(${encodeURI(background.trim())})`;
-					}).join( ',' );
+					// base64
+					if(  /^data:/.test( backgroundImage.trim() ) ) {
+						backgroundContent.style.backgroundImage = `url(${backgroundImage.trim()})`;
+					}
+					// URL(s)
+					else {
+						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
+							return `url(${encodeURI(background.trim())})`;
+						}).join( ',' );
+					}
 				}
 				// Videos
 				else if ( backgroundVideo && !this.Reveal.isSpeakerNotes() ) {
