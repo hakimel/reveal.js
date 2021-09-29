@@ -133,7 +133,7 @@ const Plugin = {
 
 				} );
 
-				block.removeAttribute( 'data-fragment-index' )
+				block.removeAttribute( 'data-fragment-index' );
 				block.setAttribute( 'data-line-numbers', Plugin.serializeHighlightSteps( [ highlightSteps[0] ] ) );
 
 			}
