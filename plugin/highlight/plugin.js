@@ -253,15 +253,10 @@ const Plugin = {
 	 * This only works on blocks with line numbering turned on.
 	 *
 	 * @param {HTMLElement} block a <code> block
-	 * @param {String} [linesToHighlight] The lines that should be
-	 * highlighted in this format:
-	 * "1" 		= highlights line 1
-	 * "2,5"	= highlights lines 2 & 5
-	 * "2,5-7"	= highlights lines 2, 5, 6 & 7
 	 */
-	highlightLines: function( block, linesToHighlight ) {
+	highlightLines: function( block ) {
 
-		var highlightSteps = Plugin.deserializeHighlightSteps( linesToHighlight || block.getAttribute( 'data-line-numbers' ) );
+		var highlightSteps = Plugin.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
 
 		if( highlightSteps.length ) {
 
