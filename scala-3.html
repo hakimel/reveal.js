@@ -14,21 +14,12 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/moon.css" id="theme">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/atom-dark-one.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+		<link rel="stylesheet" href="plugin/highlight/atom-dark-one.css">
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -49,7 +40,7 @@
 					</h1>
 					<h3><code><span class="fragment" data-fragment-index="1">Some(</span>New Features<span class="fragment" data-fragment-index="1">)</span></code></h3>
 					<p>
-						<small> <a href="http://twitter.com/matankdr">Matan Keidar</a> <a href="http://refinitiv.com">Refinitiv</a></small>
+						<small> <a href="http://twitter.com/matankdr">Matan Keidar</a> <a href="http://pipl.com">Pipl</a></small>
 					</p>
 				</section>
 
@@ -57,13 +48,14 @@
 					<h2>Towards Scala 3</h2>
 					<ul>
 						<li class="fragment">Scala 2.13 was released! 🎉</li>
-						<li class="fragment">Scala 2.14 will focus on smooth migration to Scala 3:
+						<li class="fragment"><span class="fragment strike"> Scala 2.14 will focus on smooth migration to Scala 3:
 							<ul>
 								<li>Feature freeze</li>
 								<li>Defining migration tools</li>
 								<li>Shim old libraries</li>
 								<li>Depracation of old components</li>
 							</ul>
+							</span>
 						</li>
 						<li class="fragment">Scala 3 is planned to be released on fall 2020</li>
 					</ul>
@@ -84,12 +76,12 @@
 					<section>
 						<h2>Drop New</h2>
 						<pre><code class="scala" data-trim>
-							class StringBuilder(s: String) {
-							  def this() = this("")
-							}
-	
-							StringBuilder("abc") // same as new StringBuilder("abc")
-							StringBuilder()      // same as new StringBuilder()
+class StringBuilder(s: String) {
+  def this() = this("")
+}
+
+StringBuilder("abc") // same as new StringBuilder("abc")
+StringBuilder()      // same as new StringBuilder()
 						</code></pre>
 						<p>
 						<ul>
@@ -410,7 +402,7 @@
 						</code></pre>
 						<ul>
 							<li>Works out of the box with extension methods</li>
-							<li>Provides a nice syntaxfor typeclasses</li>
+							<li>Provides a nice syntax for typeclasses</li>
 						</ul>
 					</section>
 					<section>
@@ -495,11 +487,11 @@
 							<li><b><code>Logarithm</code></b> is treated as abstract type:
 								<ul>
 									<pre><code class="scala" data-trim>
-									val l = Logarithm(1.0)
+									val l1 = Logarithm(1.0)
 									val l2 = Logarithm(2.0)
-									val l3 = l * l2
-									val l4 = l + l2
-									val d: Double = l       // error
+									val l3 = l1 * l2
+									val l4 = l1 + l2
+									val d: Double = l1       // error
 									val l2: Logarithm = 1.0 // error
 									</code></pre>
 								</ul>
@@ -517,8 +509,8 @@
 						<pre><code class="scala" data-trim>
 							type Elem[X] = X match {
 							  case String      => Char
-							  case Array[t]    => t
-							  case Iterable[t] => t
+							  case Array[T]    => T
+							  case Iterable[T] => T
 							}
 						</code></pre>
 						A match type reduces to one of a number of right hand sides, depending on a scrutinee type. 
@@ -680,6 +672,10 @@
 						<li class="fragment">Compile-from TASTY allows code to migrate without problems</li>
 					</ul>
 				</section>
+
+                                <section data-background="https://media.giphy.com/media/RI9ypgr60HsIpJEurl/giphy.gif">
+                                   <h2>Questions?</h2>
+                                </section>
 
 				<section data-background="https://media.giphy.com/media/KJ1f5iTl4Oo7u/giphy.gif">
 						
@@ -1024,31 +1020,13 @@ Reveal.addEventListener( 'customevent', function() {
 
 		</div>
 
-		<script src="js/reveal.js"></script>
-
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
 		<script>
-
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				center: true,
-				hash: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true },
-					{ src: 'plugin/search/search.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
-
+		  Reveal.initialize({
+			plugins: [ RevealMarkdown, RevealHighlight ]
+		  });
 		</script>
-
 	</body>
 </html>
