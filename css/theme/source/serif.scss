@@ -29,6 +29,9 @@ $selectionBackgroundColor: #26351C;
   line-height: 1.3em;
 }
 
+// Change text colors against dark slide backgrounds
+@include dark-bg-text-color(#fff);
+
 
 // Theme template ------------------------------
 @import "../template/theme";

@@ -16,19 +16,25 @@ export default class Print {
 	 * Configures the presentation for printing to a static
 	 * PDF.
 	 */
-	setupPDF() {
+	async setupPDF() {
 
-		let config = this.Reveal.getConfig();
+		const config = this.Reveal.getConfig();
+		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
 
-		let slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
+		// Compute slide numbers now, before we start duplicating slides
+		const doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
+
+		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 
 		// Dimensions of the PDF pages
-		let pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
+		const pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
 			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
 
 		// Dimensions of slides within the pages
-		let slideWidth = slideSize.width,
+		const slideWidth = slideSize.width,
 			slideHeight = slideSize.height;
+
+		await new Promise( requestAnimationFrame );
 
 		// Let the browser know what page size we want to print
 		createStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0px;}' );
@@ -41,25 +47,32 @@ export default class Print {
 		document.body.style.height = pageHeight + 'px';
 
 		// Make sure stretch elements fit on slide
+		await new Promise( requestAnimationFrame );
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
 
-		// Compute slide numbers now, before we start duplicating slides
-		let doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
-		queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( function( slide ) {
-			slide.setAttribute( 'data-slide-number', this.Reveal.slideNumber.getSlideNumber( slide ) );
-		}, this );
+		// Re-run the slide layout so that r-fit-text is applied based on
+		// the printed slide size
+		slides.forEach( slide => this.Reveal.slideContent.layout( slide ) );
+
+		// Batch scrollHeight access to prevent layout thrashing
+		await new Promise( requestAnimationFrame );
+
+		const slideScrollHeights = slides.map( slide => slide.scrollHeight );
+
+		const pages = [];
+		const pageContainer = slides[0].parentNode;
 
 		// Slide and slide background layout
-		queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR ).forEach( function( slide ) {
+		slides.forEach( function( slide, index ) {
 
 			// Vertical stacks are not centred since their section
 			// children will be
 			if( slide.classList.contains( 'stack' ) === false ) {
 				// Center the slide inside of the page, giving the slide some margin
-				let left = ( pageWidth - slideWidth ) / 2,
-					top = ( pageHeight - slideHeight ) / 2;
+				let left = ( pageWidth - slideWidth ) / 2;
+				let top = ( pageHeight - slideHeight ) / 2;
 
-				let contentHeight = slide.scrollHeight;
+				const contentHeight = slideScrollHeights[ index ];
 				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
 				// Adhere to configured pages per slide limit
@@ -72,10 +85,11 @@ export default class Print {
 
 				// Wrap the slide in a page element and hide its overflow
 				// so that no page ever flows onto another
-				let page = document.createElement( 'div' );
+				const page = document.createElement( 'div' );
+				pages.push( page );
+
 				page.className = 'pdf-page';
 				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
-				slide.parentNode.insertBefore( page, slide );
 				page.appendChild( slide );
 
 				// Position the slide inside of the page
@@ -91,19 +105,19 @@ export default class Print {
 				if( config.showNotes ) {
 
 					// Are there notes for this slide?
-					let notes = this.Reveal.getSlideNotes( slide );
+					const notes = this.Reveal.getSlideNotes( slide );
 					if( notes ) {
 
-						let notesSpacing = 8;
-						let notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
-						let notesElement = document.createElement( 'div' );
+						const notesSpacing = 8;
+						const notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
+						const notesElement = document.createElement( 'div' );
 						notesElement.classList.add( 'speaker-notes' );
 						notesElement.classList.add( 'speaker-notes-pdf' );
 						notesElement.setAttribute( 'data-layout', notesLayout );
 						notesElement.innerHTML = notes;
 
 						if( notesLayout === 'separate-page' ) {
-							page.parentNode.insertBefore( notesElement, page.nextSibling );
+							pages.push( notesElement );
 						}
 						else {
 							notesElement.style.left = notesSpacing + 'px';
@@ -118,10 +132,11 @@ export default class Print {
 
 				// Inject slide numbers if `slideNumbers` are enabled
 				if( doingSlideNumbers ) {
-					let numberElement = document.createElement( 'div' );
+					const slideNumber = index + 1;
+					const numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = slide.getAttribute( 'data-slide-number' );
+					numberElement.innerHTML = slideNumber;
 					page.appendChild( numberElement );
 				}
 
@@ -131,10 +146,9 @@ export default class Print {
 					// Each fragment 'group' is an array containing one or more
 					// fragments. Multiple fragments that appear at the same time
 					// are part of the same group.
-					let fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
+					const fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
 
 					let previousFragmentStep;
-					let previousPage;
 
 					fragmentGroups.forEach( function( fragments ) {
 
@@ -151,11 +165,10 @@ export default class Print {
 						}, this );
 
 						// Create a separate page for the current fragment state
-						let clonedPage = page.cloneNode( true );
-						page.parentNode.insertBefore( clonedPage, ( previousPage || page ).nextSibling );
+						const clonedPage = page.cloneNode( true );
+						pages.push( clonedPage );
 
 						previousFragmentStep = fragments;
-						previousPage = clonedPage;
 
 					}, this );
 
@@ -177,6 +190,10 @@ export default class Print {
 			}
 
 		}, this );
+
+		await new Promise( requestAnimationFrame );
+
+		pages.forEach( page => pageContainer.appendChild( page ) );
 
 		// Notify subscribers that the PDF layout is good to go
 		this.Reveal.dispatchEvent({ type: 'pdf-ready' });

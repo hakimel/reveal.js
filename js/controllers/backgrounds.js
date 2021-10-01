@@ -27,8 +27,6 @@ export default class Backgrounds {
 	 */
 	create() {
 
-		let printMode = this.Reveal.isPrintingPDF();
-
 		// Clear prior backgrounds
 		this.element.innerHTML = '';
 		this.element.classList.add( 'no-transition' );
@@ -114,8 +112,23 @@ export default class Backgrounds {
 	 */
 	sync( slide ) {
 
-		let element = slide.slideBackgroundElement,
+		const element = slide.slideBackgroundElement,
 			contentElement = slide.slideBackgroundContentElement;
+
+		const data = {
+			background: slide.getAttribute( 'data-background' ),
+			backgroundSize: slide.getAttribute( 'data-background-size' ),
+			backgroundImage: slide.getAttribute( 'data-background-image' ),
+			backgroundVideo: slide.getAttribute( 'data-background-video' ),
+			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
+			backgroundColor: slide.getAttribute( 'data-background-color' ),
+			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
+			backgroundPosition: slide.getAttribute( 'data-background-position' ),
+			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
+			backgroundOpacity: slide.getAttribute( 'data-background-opacity' ),
+		};
+
+		const dataPreload = slide.hasAttribute( 'data-preload' );
 
 		// Reset the prior background state in case this is not the
 		// initial sync
@@ -134,19 +147,6 @@ export default class Backgrounds {
 		contentElement.style.backgroundImage = '';
 		contentElement.style.opacity = '';
 		contentElement.innerHTML = '';
-
-		let data = {
-			background: slide.getAttribute( 'data-background' ),
-			backgroundSize: slide.getAttribute( 'data-background-size' ),
-			backgroundImage: slide.getAttribute( 'data-background-image' ),
-			backgroundVideo: slide.getAttribute( 'data-background-video' ),
-			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
-			backgroundColor: slide.getAttribute( 'data-background-color' ),
-			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
-			backgroundPosition: slide.getAttribute( 'data-background-position' ),
-			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
-			backgroundOpacity: slide.getAttribute( 'data-background-opacity' )
-		};
 
 		if( data.background ) {
 			// Auto-wrap image urls in url(...)
@@ -179,7 +179,7 @@ export default class Backgrounds {
 		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
-		if( slide.hasAttribute( 'data-preload' ) ) element.setAttribute( 'data-preload', '' );
+		if( dataPreload ) element.setAttribute( 'data-preload', '' );
 
 		// Background image options are set on the content wrapper
 		if( data.backgroundSize ) contentElement.style.backgroundSize = data.backgroundSize;
@@ -192,8 +192,8 @@ export default class Backgrounds {
 		// color, no class will be added
 		let contrastColor = data.backgroundColor;
 
-		// If no bg color was found, check the computed background
-		if( !contrastColor ) {
+		// If no bg color was found, or it cannot be converted by colorToRgb, check the computed background
+		if( !contrastColor || !colorToRgb( contrastColor ) ) {
 			let computedBackgroundStyle = window.getComputedStyle( element );
 			if( computedBackgroundStyle && computedBackgroundStyle.backgroundColor ) {
 				contrastColor = computedBackgroundStyle.backgroundColor;
@@ -201,7 +201,7 @@ export default class Backgrounds {
 		}
 
 		if( contrastColor ) {
-			let rgb = colorToRgb( contrastColor );
+			const rgb = colorToRgb( contrastColor );
 
 			// Ignore fully transparent backgrounds. Some browsers return
 			// rgba(0,0,0,0) when reading the computed background color of

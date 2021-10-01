@@ -39,6 +39,9 @@ $selectionBackgroundColor: #134674;
 	@include radial-gradient( #add9e4, #f7fbfc );
 }
 
+// Change text colors against dark slide backgrounds
+@include dark-bg-text-color(#fff);
+
 
 
 // Theme template ------------------------------

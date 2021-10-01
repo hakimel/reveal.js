@@ -26,7 +26,7 @@ import {
 } from './utils/constants.js'
 
 // The reveal.js version
-export const VERSION = '4.0.2';
+export const VERSION = '4.1.3';
 
 /**
  * reveal.js
@@ -121,9 +121,13 @@ export default function( revealElement, options ) {
 	 */
 	function initialize( initOptions ) {
 
+		if( !revealElement ) throw 'Unable to find presentation root (<div class="reveal">).';
+
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
+
+		if( !dom.slides ) throw 'Unable to find slides container (<div class="slides">).';
 
 		// Compose our config object in order of increasing precedence:
 		// 1. Default reveal.js options
@@ -173,6 +177,9 @@ export default function( revealElement, options ) {
 	function start() {
 
 		ready = true;
+
+		// Remove slides hidden with data-visibility
+		removeHiddenSlides();
 
 		// Make sure we've got all the DOM elements we need
 		setupDOM();
@@ -227,6 +234,24 @@ export default function( revealElement, options ) {
 					print.setupPDF();
 				} );
 			}
+		}
+
+	}
+
+	/**
+	 * Removes all slides with data-visibility="hidden". This
+	 * is done right before the rest of the presentation is
+	 * initialized.
+	 *
+	 * If you want to show all hidden slides, initialize
+	 * reveal.js with showHiddenSlides set to true.
+	 */
+	function removeHiddenSlides() {
+
+		if( !config.showHiddenSlides ) {
+			Util.queryAll( dom.wrapper, 'section[data-visibility="hidden"]' ).forEach( slide => {
+				slide.parentNode.removeChild( slide );
+			} );
 		}
 
 	}
@@ -421,6 +446,10 @@ export default function( revealElement, options ) {
 		dom.wrapper.setAttribute( 'data-transition-speed', config.transitionSpeed );
 		dom.wrapper.setAttribute( 'data-background-transition', config.backgroundTransition );
 
+		// Expose our configured slide dimensions as custom props
+		dom.viewport.style.setProperty( '--slide-width', config.width + 'px' );
+		dom.viewport.style.setProperty( '--slide-height', config.height + 'px' );
+
 		if( config.shuffle ) {
 			shuffle();
 		}
@@ -588,6 +617,8 @@ export default function( revealElement, options ) {
 			// parent window. Used by the notes plugin
 			dispatchPostMessage( type );
 		}
+
+		return event;
 
 	}
 
@@ -1163,9 +1194,22 @@ export default function( revealElement, options ) {
 	 * @param {number} [v=indexv] Vertical index of the target slide
 	 * @param {number} [f] Index of a fragment within the
 	 * target slide to activate
-	 * @param {number} [o] Origin for use in multimaster environments
+	 * @param {number} [origin] Origin for use in multimaster environments
 	 */
-	function slide( h, v, f, o ) {
+	function slide( h, v, f, origin ) {
+
+		// Dispatch an event before hte slide
+		const slidechange = dispatchEvent({
+			type: 'beforeslidechange',
+			data: {
+				indexh: h === undefined ? indexh : h,
+				indexv: v === undefined ? indexv : v,
+				origin
+			}
+		});
+
+		// Abort if this slide change was prevented by an event listener
+		if( slidechange.defaultPrevented ) return;
 
 		// Remember where we were at before
 		previousSlide = currentSlide;
@@ -1226,7 +1270,10 @@ export default function( revealElement, options ) {
 			// Note 20-03-2020:
 			// This needs to happen before we update slide visibility,
 			// otherwise transitions will still run in Safari.
-			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' ) ) {
+			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' )
+					&& previousSlide.getAttribute( 'data-auto-animate-id' ) === currentSlide.getAttribute( 'data-auto-animate-id' )
+					&& !( ( indexh > indexhBefore || indexv > indexvBefore ) ? currentSlide : previousSlide ).hasAttribute( 'data-auto-animate-restart' ) ) {
+
 				autoAnimateTransition = true;
 				dom.slides.classList.add( 'disable-slide-transitions' );
 			}
@@ -1298,7 +1345,7 @@ export default function( revealElement, options ) {
 					indexv,
 					previousSlide,
 					currentSlide,
-					origin: o
+					origin
 				}
 			});
 		}
@@ -1310,7 +1357,11 @@ export default function( revealElement, options ) {
 		}
 
 		// Announce the current slide contents to screen readers
-		announceStatus( getStatusText( currentSlide ) );
+		// Use animation frame to prevent getComputedStyle in getStatusText
+		// from triggering layout mid-frame
+		requestAnimationFrame( () => {
+			announceStatus( getStatusText( currentSlide ) );
+		});
 
 		progress.update();
 		controls.update();
@@ -1442,13 +1493,23 @@ export default function( revealElement, options ) {
 	/**
 	 * Randomly shuffles all slides in the deck.
 	 */
-	function shuffle() {
+	function shuffle( slides = getHorizontalSlides() ) {
 
-		getHorizontalSlides().forEach( ( slide, i, slides ) => {
+		slides.forEach( ( slide, i ) => {
 
-			// Insert this slide next to another random slide. This may
-			// cause the slide to insert before itself but that's fine.
-			dom.slides.insertBefore( slide, slides[ Math.floor( Math.random() * slides.length ) ] );
+			// Insert the slide next to a randomly picked sibling slide
+			// slide. This may cause the slide to insert before itself,
+			// but that's not an issue.
+			let beforeSlide = slides[ Math.floor( Math.random() * slides.length ) ];
+			if( beforeSlide.parentNode === slide.parentNode ) {
+				slide.parentNode.insertBefore( slide, beforeSlide );
+			}
+
+			// Randomize the order of vertical slides (if there are any)
+			let verticalSlides = slide.querySelectorAll( 'section' );
+			if( verticalSlides.length ) {
+				shuffle( verticalSlides );
+			}
 
 		} );
 
@@ -1768,7 +1829,7 @@ export default function( revealElement, options ) {
 
 			// Don't count the wrapping section for vertical slides and
 			// slides marked as uncounted
-			if( horizontalSlide.classList.contains( 'stack' ) === false && !horizontalSlide.dataset.visibility !== 'uncounted' ) {
+			if( horizontalSlide.classList.contains( 'stack' ) === false && horizontalSlide.dataset.visibility !== 'uncounted' ) {
 				pastCount++;
 			}
 
@@ -2151,55 +2212,55 @@ export default function( revealElement, options ) {
 
 	}
 
-	function navigateLeft() {
+	function navigateLeft({skipFragments=false}={}) {
 
 		navigationHistory.hasNavigatedHorizontally = true;
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().left ) {
+			if( ( overview.isActive() || skipFragments || fragments.next() === false ) && availableRoutes().left ) {
 				slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().left ) {
+		else if( ( overview.isActive() || skipFragments || fragments.prev() === false ) && availableRoutes().left ) {
 			slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
 	}
 
-	function navigateRight() {
+	function navigateRight({skipFragments=false}={}) {
 
 		navigationHistory.hasNavigatedHorizontally = true;
 
 		// Reverse for RTL
 		if( config.rtl ) {
-			if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().right ) {
+			if( ( overview.isActive() || skipFragments || fragments.prev() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, config.navigationMode === 'grid' ? indexv : undefined );
 			}
 		}
 		// Normal navigation
-		else if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().right ) {
+		else if( ( overview.isActive() || skipFragments || fragments.next() === false ) && availableRoutes().right ) {
 			slide( indexh + 1, config.navigationMode === 'grid' ? indexv : undefined );
 		}
 
 	}
 
-	function navigateUp() {
+	function navigateUp({skipFragments=false}={}) {
 
 		// Prioritize hiding fragments
-		if( ( overview.isActive() || fragments.prev() === false ) && availableRoutes().up ) {
+		if( ( overview.isActive() || skipFragments || fragments.prev() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
 		}
 
 	}
 
-	function navigateDown() {
+	function navigateDown({skipFragments=false}={}) {
 
 		navigationHistory.hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( ( overview.isActive() || fragments.next() === false ) && availableRoutes().down ) {
+		if( ( overview.isActive() || skipFragments || fragments.next() === false ) && availableRoutes().down ) {
 			slide( indexh, indexv + 1 );
 		}
 
@@ -2211,12 +2272,12 @@ export default function( revealElement, options ) {
 	 * 2) Previous vertical slide
 	 * 3) Previous horizontal slide
 	 */
-	function navigatePrev() {
+	function navigatePrev({skipFragments=false}={}) {
 
 		// Prioritize revealing fragments
-		if( fragments.prev() === false ) {
+		if( skipFragments || fragments.prev() === false ) {
 			if( availableRoutes().up ) {
-				navigateUp();
+				navigateUp({skipFragments});
 			}
 			else {
 				// Fetch the previous horizontal slide, if there is one
@@ -2229,10 +2290,15 @@ export default function( revealElement, options ) {
 					previousSlide = Util.queryAll( dom.wrapper, HORIZONTAL_SLIDES_SELECTOR + '.past' ).pop();
 				}
 
-				if( previousSlide ) {
+				// When going backwards and arriving on a stack we start
+				// at the bottom of the stack
+				if( previousSlide && previousSlide.classList.contains( 'stack' ) ) {
 					let v = ( previousSlide.querySelectorAll( 'section' ).length - 1 ) || undefined;
 					let h = indexh - 1;
 					slide( h, v );
+				}
+				else {
+					navigateLeft({skipFragments});
 				}
 			}
 		}
@@ -2242,31 +2308,31 @@ export default function( revealElement, options ) {
 	/**
 	 * The reverse of #navigatePrev().
 	 */
-	function navigateNext() {
+	function navigateNext({skipFragments=false}={}) {
 
 		navigationHistory.hasNavigatedHorizontally = true;
 		navigationHistory.hasNavigatedVertically = true;
 
 		// Prioritize revealing fragments
-		if( fragments.next() === false ) {
+		if( skipFragments || fragments.next() === false ) {
 
 			let routes = availableRoutes();
 
 			// When looping is enabled `routes.down` is always available
 			// so we need a separate check for when we've reached the
 			// end of a stack and should move horizontally
-			if( routes.down && routes.right && config.loop && isLastVerticalSlide( currentSlide ) ) {
+			if( routes.down && routes.right && config.loop && isLastVerticalSlide() ) {
 				routes.down = false;
 			}
 
 			if( routes.down ) {
-				navigateDown();
+				navigateDown({skipFragments});
 			}
 			else if( config.rtl ) {
-				navigateLeft();
+				navigateLeft({skipFragments});
 			}
 			else {
-				navigateRight();
+				navigateRight({skipFragments});
 			}
 		}
 
@@ -2464,6 +2530,10 @@ export default function( revealElement, options ) {
 		// Slide preloading
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
+
+		// Preview management
+		showPreview,
+		hidePreview: closeOverlay,
 
 		// Adds or removes all internal event listeners
 		addEventListeners,

@@ -281,6 +281,15 @@
 						```
 					</script>
 				</section>
+				<section data-markdown class="with-code-in-fragment">
+					<script type="text/template">
+					```js
+					foo.bar();
+					```
+
+					<!-- .element: class="fragment" -->
+					</script>
+				</section>
 			</div>
 		</div>
 
@@ -451,6 +460,10 @@
 
 				QUnit.test( '```javascript [1,2,3] enables line highlights and sets language', function( assert ) {
 					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights-and-lanugage .hljs.javascript[data-line-numbers="1,2,3"]' ).length, 1 );
+				});
+				
+				QUnit.test( '```block should allow custom fragment', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-code-in-fragment pre.fragment' ).length, 1 );
 				});
 
 			} );

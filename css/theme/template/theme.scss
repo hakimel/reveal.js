@@ -8,25 +8,25 @@
 
 .reveal-viewport {
 	@include bodyBackground();
-	background-color: $backgroundColor;
+	background-color: var(--r-background-color);
 }
 
 .reveal {
-	font-family: $mainFont;
-	font-size: $mainFontSize;
+	font-family: var(--r-main-font);
+	font-size: var(--r-main-font-size);
 	font-weight: normal;
-	color: $mainColor;
+	color: var(--r-main-color);
 }
 
 .reveal ::selection {
-	color: $selectionColor;
-	background: $selectionBackgroundColor;
+	color: var(--r-selection-color);
+	background: var(--r-selection-background-color);
 	text-shadow: none;
 }
 
 .reveal ::-moz-selection {
-	color: $selectionColor;
-	background: $selectionBackgroundColor;
+	color: var(--r-selection-color);
+	background: var(--r-selection-background-color);
 	text-shadow: none;
 }
 
@@ -46,27 +46,27 @@
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-	margin: $headingMargin;
-	color: $headingColor;
+	margin: var(--r-heading-margin);
+	color: var(--r-heading-color);
 
-	font-family: $headingFont;
-	font-weight: $headingFontWeight;
-	line-height: $headingLineHeight;
-	letter-spacing: $headingLetterSpacing;
+	font-family: var(--r-heading-font);
+	font-weight: var(--r-heading-font-weight);
+	line-height: var(--r-heading-line-height);
+	letter-spacing: var(--r-heading-letter-spacing);
 
-	text-transform: $headingTextTransform;
-	text-shadow: $headingTextShadow;
+	text-transform: var(--r-heading-text-transform);
+	text-shadow: var(--r-heading-text-shadow);
 
 	word-wrap: break-word;
 }
 
-.reveal h1 {font-size: $heading1Size; }
-.reveal h2 {font-size: $heading2Size; }
-.reveal h3 {font-size: $heading3Size; }
-.reveal h4 {font-size: $heading4Size; }
+.reveal h1 {font-size: var(--r-heading1-size); }
+.reveal h2 {font-size: var(--r-heading2-size); }
+.reveal h3 {font-size: var(--r-heading3-size); }
+.reveal h4 {font-size: var(--r-heading4-size); }
 
 .reveal h1 {
-	text-shadow: $heading1TextShadow;
+	text-shadow: var(--r-heading1-text-shadow);
 }
 
 
@@ -75,8 +75,18 @@
  *********************************************/
 
 .reveal p {
-	margin: $blockMargin 0;
+	margin: var(--r-block-margin) 0;
 	line-height: 1.3;
+}
+
+/* Remove trailing margins after titles */
+.reveal h1:last-child,
+.reveal h2:last-child,
+.reveal h3:last-child,
+.reveal h4:last-child,
+.reveal h5:last-child,
+.reveal h6:last-child {
+	margin-bottom: 0;
 }
 
 /* Ensure certain elements are never larger than the slide itself */
@@ -140,7 +150,7 @@
 	display: block;
 	position: relative;
 	width: 70%;
-	margin: $blockMargin auto;
+	margin: var(--r-block-margin) auto;
 	padding: 5px;
 
 	font-style: italic;
@@ -160,11 +170,11 @@
 	display: block;
 	position: relative;
 	width: 90%;
-	margin: $blockMargin auto;
+	margin: var(--r-block-margin) auto;
 
 	text-align: left;
 	font-size: 0.55em;
-	font-family: $codeFont;
+	font-family: var(--r-code-font);
 	line-height: 1.2em;
 
 	word-wrap: break-word;
@@ -173,8 +183,9 @@
 }
 
 .reveal code {
-	font-family: $codeFont;
+	font-family: var(--r-code-font);
 	text-transform: none;
+	tab-size: 2;
 }
 
 .reveal pre code {
@@ -183,6 +194,14 @@
 	overflow: auto;
 	max-height: 400px;
 	word-wrap: normal;
+}
+
+.reveal .code-wrapper {
+	white-space: normal;
+}
+
+.reveal .code-wrapper code {
+	white-space: pre;
 }
 
 .reveal table {
@@ -238,7 +257,7 @@
 }
 
 .reveal img {
-	margin: $blockMargin 0;
+	margin: var(--r-block-margin) 0;
 }
 
 
@@ -247,19 +266,21 @@
  *********************************************/
 
 .reveal a {
-	color: $linkColor;
+	color: var(--r-link-color);
 	text-decoration: none;
 	transition: color .15s ease;
 }
 	.reveal a:hover {
-		color: $linkColorHover;
+		color: var(--r-link-color-hover);
 		text-shadow: none;
 		border: none;
 	}
 
 .reveal .roll span:after {
 	color: #fff;
-	background: darken( $linkColor, 15% );
+	// background: darken( var(--r-link-color), 15% );
+	 background: var(--r-link-color-dark);
+
 }
 
 
@@ -268,7 +289,7 @@
  *********************************************/
 
 .reveal .r-frame {
-	border: 4px solid $mainColor;
+	border: 4px solid var(--r-main-color);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -277,7 +298,7 @@
 }
 
 .reveal a:hover .r-frame {
-	border-color: $linkColor;
+	border-color: var(--r-link-color);
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
@@ -287,7 +308,7 @@
  *********************************************/
 
 .reveal .controls {
-	color: $linkColor;
+	color: var(--r-link-color);
 }
 
 
@@ -297,7 +318,7 @@
 
 .reveal .progress {
 	background: rgba(0,0,0,0.2);
-	color: $linkColor;
+	color: var(--r-link-color);
 }
 
 /*********************************************
@@ -305,6 +326,6 @@
  *********************************************/
  @media print {
     .backgrounds {
-        background-color: $backgroundColor;
+        background-color: var(--r-background-color);
     }
 }

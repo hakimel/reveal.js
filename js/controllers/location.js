@@ -1,5 +1,3 @@
-import { supportsHistoryAPI } from '../utils/device.js'
-
 /**
  * Reads and writes the URL based on reveal.js' current state.
  */
@@ -121,15 +119,24 @@ export default class Location {
 			this.writeURLTimeout = setTimeout( this.writeURL, delay );
 		}
 		else if( currentSlide ) {
+
+			let hash = this.getHash();
+
 			// If we're configured to push to history OR the history
 			// API is not avaialble.
-			if( config.history || supportsHistoryAPI === false ) {
-				window.location.hash = this.getHash();
+			if( config.history ) {
+				window.location.hash = hash;
 			}
 			// If we're configured to reflect the current slide in the
 			// URL without pushing to history.
 			else if( config.hash ) {
-				window.history.replaceState( null, null, '#' + this.getHash() );
+				// If the hash is empty, don't add it to the URL
+				if( hash === '/' ) {
+					window.history.replaceState( null, null, window.location.pathname + window.location.search );
+				}
+				else {
+					window.history.replaceState( null, null, '#' + hash );
+				}
 			}
 			// UPDATE: The below nuking of all hash changes breaks
 			// anchors on pages where reveal.js is running. Removed
@@ -141,6 +148,7 @@ export default class Location {
 			// else {
 			// 	window.history.replaceState( null, null, window.location.pathname + window.location.search );
 			// }
+
 		}
 
 	}

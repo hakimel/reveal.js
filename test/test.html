@@ -20,6 +20,10 @@
 
 			<div class="slides">
 
+				<section data-visibility="hidden">
+					This should be remove by reveal.js before our tests run.
+				</section>
+
 				<section data-background-image="examples/assets/image1.png">
 					<h1>1</h1>
 					<img data-src="">
@@ -32,7 +36,7 @@
 					<section data-background="examples/assets/image2.png" data-notes="speaker notes 2">
 						<h1>2.1</h1>
 					</section>
-					<section>
+					<section data-background-image="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gIcSUNDX1BST0ZJTEUAAQEAAAIMbGNtcwIQAABtbnRyUkdCIFhZWiAH3AABABkAAwApADlhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApkZXNjAAAA/">
 						<h1>2.2</h1>
 					</section>
 					<section>
@@ -93,6 +97,11 @@
 			// 4
 			Reveal.initialize().then( function() {
 
+				// Helper methods
+				function triggerKeyboardEvent(config) {
+					document.dispatchEvent( new KeyboardEvent( 'keydown', config ) );
+				}
+
 				// ---------------------------------------------------------------
 				// DOM TESTS
 
@@ -101,6 +110,7 @@
 				QUnit.test( 'Initial slides classes', function( assert ) {
 					var horizontalSlides = document.querySelectorAll( '.reveal .slides>section' )
 
+					assert.strictEqual( document.querySelectorAll( '.reveal .slides section[data-visibility="hidden"]' ).length, 0, 'no data-visibility="hidden" slides' );
 					assert.strictEqual( document.querySelectorAll( '.reveal .slides section.past' ).length, 0, 'no .past slides' );
 					assert.strictEqual( document.querySelectorAll( '.reveal .slides section.present' ).length, 1, 'one .present slide' );
 					assert.strictEqual( document.querySelectorAll( '.reveal .slides>section.future' ).length, horizontalSlides.length - 1, 'remaining horizontal slides are .future' );
@@ -402,13 +412,41 @@
 					assert.ok( /X\-SHORTCUT\-X/.test( document.body.innerHTML ), 'binding is added to help overlay' );
 					Reveal.toggleHelp( false );
 
-					let event = new KeyboardEvent( 'keydown', { 'keyCode':88 } );
-					document.dispatchEvent( event );
+					triggerKeyboardEvent({ keyCode: 88 });
 
 					Reveal.removeKeyBinding( 88 );
 
 					// should do nothing
-					document.dispatchEvent( event );
+					triggerKeyboardEvent({ keyCode: 88 });
+				});
+
+				QUnit.test( 'Navigation bindings', function( assert ) {
+					Reveal.slide( 0 );
+
+					// right arrow
+					triggerKeyboardEvent({ keyCode: 39 });
+					assert.strictEqual( Reveal.getIndices().h, 1 );
+
+					// down arrow + shift
+					triggerKeyboardEvent({ keyCode: 40, shiftKey: true });
+					assert.strictEqual( Reveal.getIndices().v, 2, 'shift + down arrow goes to last vertical slide' );
+
+					// up arrow
+					triggerKeyboardEvent({ keyCode: 38 });
+					assert.strictEqual( Reveal.getIndices().v, 1 );
+
+					// right arrow + shift
+					triggerKeyboardEvent({ keyCode: 39, shiftKey: true });
+					assert.ok( Reveal.isLastSlide(), 'shift + right arrow goes to last horizontal slide' );
+
+
+					// right arrow on slide with fragments
+					Reveal.slide( 2, 0, -1 );
+					triggerKeyboardEvent({ keyCode: 39 });
+					assert.deepEqual( Reveal.getIndices(), { h: 2, v: 0, f: 0 }, 'right arrow shows fragment' );
+
+					triggerKeyboardEvent({ keyCode: 39, altKey: true });
+					assert.strictEqual( Reveal.getIndices().h, 3, 'right arrow skips fragments when alt key is pressed' );
 				});
 
 				// ---------------------------------------------------------------
@@ -689,7 +727,16 @@
 					Reveal.right();
 					assert.equal( Reveal.getIndices().h, 0, 'looped from end to start' );
 
-					Reveal.configure({ loop: false });
+					Reveal.configure({ navigationMode: 'linear' });
+					Reveal.slide( 0, 0 );
+
+					Reveal.prev();
+					assert.notEqual( Reveal.getIndices().h, 0, 'looped from start to end in linear mode' );
+
+					Reveal.next();
+					assert.equal( Reveal.getIndices().h, 0, 'looped from end to start in linear mode' );
+
+					Reveal.configure({ loop: false, navigationMode: 'default' });
 				});
 
 
@@ -722,10 +769,12 @@
 				QUnit.test( 'background images', function( assert ) {
 					var imageSource1 = Reveal.getSlide( 0 ).getAttribute( 'data-background-image' );
 					var imageSource2 = Reveal.getSlide( 1, 0 ).getAttribute( 'data-background' );
+					var imageSource3 = Reveal.getSlide( 1, 1 ).getAttribute( 'data-background-image' );
 
 					// check that the images are applied to the background elements
 					assert.ok( Reveal.getSlideBackground( 0 ).querySelector( '.slide-background-content' ).style.backgroundImage.indexOf( imageSource1 ) !== -1, 'data-background-image worked' );
 					assert.ok( Reveal.getSlideBackground( 1, 0 ).querySelector( '.slide-background-content' ).style.backgroundImage.indexOf( imageSource2 ) !== -1, 'data-background worked' );
+					assert.ok( Reveal.getSlideBackground( 1, 1 ).querySelector( '.slide-background-content' ).style.backgroundImage.indexOf( imageSource3 ) !== -1, 'data-background worked' );
 				});
 
 
@@ -733,6 +782,31 @@
 				// EVENT TESTS
 
 				QUnit.module( 'Events' );
+
+				QUnit.test( 'beforeslidechange', function( assert ) {
+					var done = assert.async( 2 );
+
+					var normalEvent = function( event ) {
+						assert.ok( true, 'event fired' );
+						done();
+					}
+					var blockingEvent = function( event ) {
+						event.preventDefault();
+						assert.ok( true, 'event fired' );
+						done();
+					}
+
+					Reveal.on( 'beforeslidechange', normalEvent );
+					Reveal.slide( 2, 0 );
+					Reveal.off( 'beforeslidechange', normalEvent );
+
+					Reveal.on( 'beforeslidechange', blockingEvent );
+					Reveal.slide( 3, 0 );
+					Reveal.off( 'beforeslidechange', blockingEvent );
+
+					assert.strictEqual( Reveal.getIndices().h, 2, 'preventing "beforeslidechange" blocks navigation ' );
+
+				});
 
 				QUnit.test( 'slidechanged', function( assert ) {
 					assert.expect( 3 );

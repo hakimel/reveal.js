@@ -55,7 +55,14 @@ export default class Progress {
 		// Update progress if enabled
 		if( this.Reveal.getConfig().progress && this.bar ) {
 
-			this.bar.style.transform = 'scaleX('+ this.Reveal.getProgress() +')';
+			let scale = this.Reveal.getProgress();
+
+			// Don't fill the progress bar if there's only one slide
+			if( this.Reveal.getTotalSlides() < 2 ) {
+				scale = 0;
+			}
+
+			this.bar.style.transform = 'scaleX('+ scale +')';
 
 		}
 
@@ -81,14 +88,16 @@ export default class Progress {
 
 		event.preventDefault();
 
-		let slidesTotal = this.Reveal.getHorizontalSlides().length;
+		let slides = this.Reveal.getSlides();
+		let slidesTotal = slides.length;
 		let slideIndex = Math.floor( ( event.clientX / this.getMaxWidth() ) * slidesTotal );
 
 		if( this.Reveal.getConfig().rtl ) {
 			slideIndex = slidesTotal - slideIndex;
 		}
 
-		this.Reveal.slide( slideIndex );
+		let targetIndices = this.Reveal.getIndices(slides[slideIndex]);
+		this.Reveal.slide( targetIndices.h, targetIndices.v );
 
 	}
 
