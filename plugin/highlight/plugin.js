@@ -30,6 +30,7 @@ const Plugin = {
 
 		// Read the plugin config options and provide fallbacks
 		var config = reveal.getConfig().highlight || {};
+		config.callback = typeof config.callback === 'function' ? config.callback : null;
 		config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
 		config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
 
@@ -59,6 +60,11 @@ const Plugin = {
 				hljs.highlightBlock( event.currentTarget );
 			}, false );
 
+			// Allow users to register additional languages via callback
+			if ( config.callback ) {
+				config.callback( hljs );
+			}
+			
 			if( config.highlightOnLoad ) {
 				Plugin.highlightBlock( block );
 			}
@@ -87,7 +93,7 @@ const Plugin = {
 
 		hljs.highlightBlock( block );
 
-		// Don't generate line numbers for empty code blocks
+		// Don't generate line numbers for empty	 code blocks
 		if( block.innerHTML.trim().length === 0 ) return;
 
 		if( block.hasAttribute( 'data-line-numbers' ) ) {
