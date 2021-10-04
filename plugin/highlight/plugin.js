@@ -29,7 +29,7 @@ const Plugin = {
 	init: function( reveal ) {
 
 		// Read the plugin config options and provide fallbacks
-		var config = reveal.getConfig().highlight || {};
+		let config = reveal.getConfig().highlight || {};
 		config.callback = typeof config.callback === 'function' ? config.callback : null;
 		config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
 		config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
