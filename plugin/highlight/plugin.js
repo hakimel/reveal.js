@@ -93,7 +93,7 @@ const Plugin = {
 
 		hljs.highlightBlock( block );
 
-		// Don't generate line numbers for empty	 code blocks
+		// Don't generate line numbers for empty code blocks
 		if( block.innerHTML.trim().length === 0 ) return;
 
 		if( block.hasAttribute( 'data-line-numbers' ) ) {
