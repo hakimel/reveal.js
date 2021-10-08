@@ -16,7 +16,7 @@ const Plugin = {
 	HIGHLIGHT_LINE_DELIMITER: ',',
 	HIGHLIGHT_LINE_RANGE_DELIMITER: '-',
 
-	hljs: hljs,
+	hljs,
 
 	/**
 	 * Highlights code blocks withing the given deck.
