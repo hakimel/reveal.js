@@ -32,6 +32,13 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+				<section data-markdown="github-actions.md"
+				data-separator="^\r?\n---\r?\n$"
+				data-separator-vertical="^\n\n">
+					
+				</section>
+
+
 				<section data-transition="fade">
 					<h1>
 						<img width="178" height="238" style="border:none; background-color:transparent" data-src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" > 
@@ -1021,11 +1028,13 @@ Reveal.addEventListener( 'customevent', function() {
 		</div>
 
 		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
 		<script>
 		  Reveal.initialize({
-			plugins: [ RevealMarkdown, RevealHighlight ]
+			hash: true,
+			plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 		  });
 		</script>
 	</body>
