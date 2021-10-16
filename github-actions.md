@@ -53,7 +53,6 @@
 ## maintenance, maintenance and... maintenance! <!-- .element: class="fragment fade-in" style="color: yellow;"  -->
 
 
-
 ## maintenance, maintenance and... maintenance!  <!-- .slide: data-auto-animate  --> 
 - Large number of project repositories           <!-- .element: class="fragment" style="list-style-type: '😱 ';" data-fragment-index="1" -->
 - Different types of projects                    <!-- .element: class="fragment" style="list-style-type: '😱 ';" data-fragment-index="2" -->
@@ -67,8 +66,14 @@
 
 ---
 
-## First Step: Jenkins
 <!-- .slide: data-auto-animate -->
+## First Step: 
+## Jenkins <!-- .element data-id="title" -->
+<img data-id="jenkins"  src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" />
+
+
+<!-- .slide: data-auto-animate -->
+## Jenkins <!-- .element data-id="title" -->
 - Pros <!-- .element style="list-style-type: '✅ ' ;" -->
   - Steep learning curve:
     - Developer is productive after a very short time
@@ -79,7 +84,7 @@
 
 
 
-## First Step: Jenkins
+## Jenkins <!-- .element data-id="title" -->
 <!-- .slide: data-auto-animate -->
 - Cons <!-- .element style="list-style-type: '❌ ' ;" -->
   - Developer needs to learn a proprietary DSL
@@ -95,27 +100,13 @@
 
 ---
 
-<div>
-    <img src="https://f.hubspotusercontent10.net/hubfs/6381214/pipl_logo_blue-1.svg"  style="width:20%; padding-right:40px;"/>  
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/A_perfect_SVG_heart.svg" style="width:10%"/>  
-    <img src="https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg" alt="Mountains" style="width:20%"/>
-
-</div>
-
----
-
-# We ❤️  GitHub
-
-GitHub Actions was released for public usage.
-
-We gave it a shot and loved it.
-
-<img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="200" height="200" />
-
----
-
-### Second Step: Propietary GitHub Action
+## Second step
 <!-- .slide: data-auto-animate -->
+## GitHub Actions <!-- .element data-id="title" -->
+<img src="https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg" alt="Mountains" style="width:20%"/>
+
+
+## Lack of Support
 - Does not have support out of the box: <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
   - No SBT support
   - No Scala installation
@@ -125,7 +116,7 @@ We gave it a shot and loved it.
   - Setup required dependencies on build machine
 
 
-### Second Step: Propietary GitHub Action
+## Propietary GitHub Action
 <!-- .slide: data-auto-animate -->
 - Created a tailor-made GitHub action <!-- .element class="fragment" -->
   - Slim and fast, based on OpenJDK Alpine
@@ -138,17 +129,19 @@ We gave it a shot and loved it.
   - Running given sbt command 
 
 
-### Second Step: Propietary GitHub Action
+<!-- .slide: data-background="https://media.giphy.com/media/x8TrYlgGVCAytbcBgC/giphy.gif" -->
+## Exactly what we need!
+
+
+## Propietary GitHub Action: The good <!-- .element data-id="title" -->
 <!-- .slide: data-auto-animate -->  
-#### The good
 - Tailor-made action that exactly fits
 - Flexible run: either on GitHub or on-premise node
 - Each build step is containered
 
 
-### Second Step: Propietary GitHub Action
+## Propietary GitHub Action: The bad <!-- .element data-id="title" -->
 <!-- .slide: data-auto-animate -->  
-#### The Bad
 - Configuration is not flexible <!-- .element class="fragment" -->
   - Manually updating build definition for each project
   - Cross compiliation is complicated
@@ -157,24 +150,37 @@ We gave it a shot and loved it.
   - Build tool and CI might run on different settings
   - For example: different Java/Scala versions
 
+
+<!-- .slide: data-background="https://media.giphy.com/media/TPdoPTIMMBzDqPVKg3/giphy.gif" data-background-size="90%" data-background-opacity="0.7" -->
+## Not Exactly what we need...
+
 ---
+
+## Third Step
+## Code Generation
+
 
 ## Third Step: Code Generation
 - Daniel Spiewak creates sbt-github-actions plugin https://github.com/djspiewak/sbt-github-actions
-- Enables generating GitHub Actions workflows from the sbt build definition.
+- Enables code generation GitHub Actions workflows 
+  - Directly from the sbt build definition!
 - Big improvement: sbt is now the *"source of truth"*!
 
 
 ## Ease of use
-```sbt [1|3-7|14-21|30-32]
+
+```scala [|1|3-7]
 githubWorkflowJavaVersions := Seq("adopt@1.11", "adopt@1.8")
 
 githubWorkflowEnv := Map(
-  "GITHUB_TOKEN"      -> ${{ secrets.BOT_TOKEN }},
+  "GITHUB_TOKEN"      -> "${{ secrets.BOT_TOKEN }}",
   "GITHUB_USERNAME"   -> "pipl-bot",
   "GITHUB_USER_EMAIL" -> "bot@pipl.com"
 )
+```
 
+
+```scala
 githubWorkflowBuildPreamble := Seq(
   WorkflowStep.Run(
     name = Some("Inject SBT Credentials"),
@@ -212,6 +218,13 @@ githubWorkflowBuildPreamble := Seq(
 )
 ```
 
+
+## Result
+- The workflow of each project is generated directly from its build definition!
+- Tailor made for each project level (????)
+- When build definition is updated, the workflow is updated
+- 
+
 ---
 
 ## Fourth Step: Double Code Generation
@@ -221,3 +234,22 @@ githubWorkflowBuildPreamble := Seq(
 - Self hosted in a click
 - Bad: copying secrets
 -  
+
+
+<div>
+    <img src="https://f.hubspotusercontent10.net/hubfs/6381214/pipl_logo_blue-1.svg"  style="width:20%; padding-right:40px;"/>  
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/A_perfect_SVG_heart.svg" style="width:10%"/>  
+    <img src="https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg" alt="Mountains" style="width:20%"/>
+
+</div>
+
+---
+
+# We ❤️  GitHub
+
+GitHub Actions was released for public usage.
+
+We gave it a shot and loved it.
+
+<img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="200" height="200" />
+
