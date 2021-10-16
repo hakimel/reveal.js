@@ -121,12 +121,13 @@
 - Created a tailor-made GitHub action <!-- .element class="fragment" -->
   - Slim and fast, based on OpenJDK Alpine
   - https://github.com/matankdr/github-docker-sbt
+  - External PRs were contributed to the project! 💪💪
 - Responsible for: <!-- .element class="fragment" -->
-  - Installing sbt 
+  - Installing `sbt` 
   - Installing other required dependencies (e.g., git)
   - Injecting GitHub secrets as environment variables
   - docker-login to our private docker registry
-  - Running given sbt command 
+  - Running given `sbt` command 
 
 
 <!-- .slide: data-background="https://media.giphy.com/media/x8TrYlgGVCAytbcBgC/giphy.gif" -->
@@ -161,17 +162,18 @@
 
 
 ## Third Step: Code Generation
-- Daniel Spiewak creates sbt-github-actions plugin https://github.com/djspiewak/sbt-github-actions
+- Daniel Spiewak creates `sbt-github-actions` plugin https://github.com/djspiewak/sbt-github-actions
 - Enables code generation GitHub Actions workflows 
-  - Directly from the sbt build definition!
-- Big improvement: sbt is now the *"source of truth"*!
+  - Directly from the `sbt` build definition!
+- Big improvement: `sbt` is now the *"source of truth"*!
 
 
-## Ease of use
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Set Environment Variables
 
-```scala [|1|3-7]
-githubWorkflowJavaVersions := Seq("adopt@1.11", "adopt@1.8")
-
+```scala
+// build.sbt
 githubWorkflowEnv := Map(
   "GITHUB_TOKEN"      -> "${{ secrets.BOT_TOKEN }}",
   "GITHUB_USERNAME"   -> "pipl-bot",
@@ -180,55 +182,156 @@ githubWorkflowEnv := Map(
 ```
 
 
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Set Environment Variables
+```yml
+# generated ci.yml
+env:
+  GITHUB_TOKEN: ${{ secrets.DAP_BOT_TOKEN }}
+  GITHUB_USERNAME: dap-bot
+  GITHUB_USER_EMAIL: dap-bot@pipl.com
+```
+
+
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Set Java versions
 ```scala
-githubWorkflowBuildPreamble := Seq(
-  WorkflowStep.Run(
-    name = Some("Inject SBT Credentials"),
-    id   = Some("sbt-credentials"),
-    commands = List(
-      "mkdir -p $HOME/.sbt/1.0/",
-      "touch $HOME/.sbt/1.0/github-credentials.sbt",
-      """echo '
-      val usr      = sys.env.get("GITHUB_USERNAME")
-      val pass    = sys.env.get("GITHUB_TOKEN")
-      credentials += Credentials("maven.pkg.github.com",usr,pass)
-       ' > $HOME/.sbt/1.0/github-credentials.sbt
-       """,
-    )
-  ),
-  WorkflowStep.Run(
-    name = Some("Set Git Credentials"),
-    id   = Some("git-credentials"),
-    commands = List(
-      "git config --global user.email ${GITHUB_USER_EMAIL}",
-      "git config --global user.name ${GITHUB_USERNAME}",
-      "git config --global user.password ${GITHUB_TOKEN}"
-    )
-  ),
-  WorkflowStep.Use(
-    ref = UseRef.Public(
-      owner = "elgohr",
-      repo  = "gcloud-login-action",
-      ref   = "master"
-    ),
-    id     = Some("gcloud"),
-    name   = Some("Login to gcloud registry"),
-    params = Map( "account_key" -> "${{ secrets.GCLOUD_KEY }}" )
-  ),
+// build.sbt
+githubWorkflowJavaVersions := Seq("adopt@1.11", "adopt@1.8")
+```
+
+
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Set Java versions
+```yml[1,9|]
+# generated ci.yml
+jobs:
+  build:
+    name: Build and Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        scala: [2.13.6]
+        java: [adopt@1.11, adopt@1.8]
+    runs-on: ${{ matrix.os }}
+```
+
+
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Execute shell commands
+```scala
+// build.sbt
+WorkflowStep.Run(
+  name = Some("Set Git Credentials"),
+  id   = Some("git-credentials"),
+  commands = List(
+    "git config --global user.email ${GITHUB_USER_EMAIL}",
+    "git config --global user.name ${GITHUB_USERNAME}",
+    "git config --global user.password ${GITHUB_TOKEN}"
+  )
 )
 ```
 
+
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Execute shell commands
+```yml
+# generated ci.yml
+- name: Set Git Credentials
+    id: git-credentials
+    run: |
+      git config --global user.email ${GITHUB_USER_EMAIL}
+      git config --global user.name ${GITHUB_USERNAME}
+      git config --global user.password ${GITHUB_TOKEN}
+```
+
+
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Using existing Github Actions
+```scala
+// build.sbt
+WorkflowStep.Use(
+  ref = UseRef.Public(
+    owner = "elgohr",
+    repo  = "gcloud-login-action",
+    ref   = "master"
+  ),
+  id     = Some("gcloud"),
+  name   = Some("Login to gcloud registry"),
+  params = Map( "account_key" -> "${{ secrets.GCLOUD_KEY }}" )
+)
+```
+
+
+### Ease of use
+<!-- .slide: data-auto-animate --> 
+#### Using existing Github Actions
+```yml
+# generated ci.yml
+  - name: Login to gcloud registry
+    id: gcloud
+    uses: elgohr/gcloud-login-action@master
+    with:
+      account_key: ${{ secrets.GCLOUD_KEY }}
+```
+
+---
 
 ## Result
 - The workflow of each project is generated directly from its build definition!
 - Tailor made for each project level (????)
 - When build definition is updated, the workflow is updated
-- 
+
+
+## Result
+<!-- .slide: data-background="https://media.giphy.com/media/10tIjpzIu8fe0/giphy.gif" data-background-opacity="0.4" -->
+Had to kill the propietary GitHub Action...
+
+
+## Result
+- Development cycle is significantly improved 🚀
+- Yet, some of the problems still remain: 🤦‍♂️
+  - Cannot automatically update build definition for our projects
+  - When creating a new repo, build definitions need to be copied
+    - Cannot use GitHub template 
+    - (multiple project types)
 
 ---
 
-## Fourth Step: Double Code Generation
 
+## And then we found it...
+<!-- .slide: data-background="https://media.giphy.com/media/XF3lU8cWrv4JcUeEmM/giphy.gif" -->
+
+
+## Fourth Step
+## Double Code Generation
+
+
+## sbt-plugin
+- Create `sbt` plugin for generating common settings
+- Settings are read by `sbt-github-actions` plugin
+- On update, only need to update the plugin version
+
+
+<!-- .slide: data-background="https://media.giphy.com/media/WNwErIxqX18xmm92UX/giphy.gif" data-background-opacity="0.7" -->
+## One plugin to rule them all!
+
+
+## Features
+- Generate Scala Steward GitHub workflow
+  - (like `Dependabot` but for Scala)
+  - Set auto merging commits created by our bot 
+- Generate Authentication steps:
+  - GCP, Docker, `sbt` credentials, `git` credentials
+- Generate common workflow steps:
+  - PR, publish and deployment
+  
 
 
 - Self hosted in a click

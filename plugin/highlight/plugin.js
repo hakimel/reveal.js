@@ -16,7 +16,7 @@ const Plugin = {
 	HIGHLIGHT_LINE_DELIMITER: ',',
 	HIGHLIGHT_LINE_RANGE_DELIMITER: '-',
 
-	hljs: hljs,
+	hljs,
 
 	/**
 	 * Highlights code blocks withing the given deck.
@@ -30,6 +30,7 @@ const Plugin = {
 
 		// Read the plugin config options and provide fallbacks
 		let config = reveal.getConfig().highlight || {};
+
 		config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
 		config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
 
@@ -61,11 +62,19 @@ const Plugin = {
 				hljs.highlightElement( event.currentTarget );
 			}, false );
 
-			if( config.highlightOnLoad ) {
-				Plugin.highlightBlock( block );
-			}
-
 		} );
+
+		// Triggers a callback function before we trigger highlighting
+		if( typeof config.beforeHighlight === 'function' ) {
+			config.beforeHighlight( hljs );
+		}
+
+		// Run initial highlighting for all code
+		if( config.highlightOnLoad ) {
+			Array.from( reveal.getRevealElement().querySelectorAll( 'pre code' ) ).forEach( block => {
+				Plugin.highlightBlock( block );
+			} );
+		}
 
 		// If we're printing to PDF, scroll the code highlights of
 		// all blocks in the deck into view at once

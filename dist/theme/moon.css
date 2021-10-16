@@ -226,15 +226,15 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 .reveal code {
-<<<<<<< HEAD
   font-family: 'Fira Code', monospace;
-  text-transform: none; }
-=======
+  text-transform: none;
+  tab-size: 2;
+}
+
   font-family: var(--r-code-font);
   text-transform: none;
   tab-size: 2;
 }
->>>>>>> 05e57dea66529a1b472f743f8ac520fb8bed0ba2
 
 .reveal pre code {
   display: block;
