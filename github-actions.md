@@ -1,8 +1,7 @@
 # Action Hero Tale
-
 ### Pipl's CI/CD workflow
-						
 #### Matan Keidar
+<img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="200" height="200" />
 
 ---
 
@@ -159,13 +158,18 @@
 
 ## Third Step
 ## Code Generation
+<!-- .slide: data-auto-animate -->
+<img src="https://media.giphy.com/media/l0JMrPWRQkTeg3jjO/giphy.gif"/>
 
 
-## Third Step: Code Generation
-- Daniel Spiewak creates `sbt-github-actions` plugin https://github.com/djspiewak/sbt-github-actions
+## Code Generation
+<!-- .slide: data-auto-animate -->
+- Daniel Spiewak creates `sbt-github-actions` 
+- https://github.com/djspiewak/sbt-github-actions
 - Enables code generation GitHub Actions workflows 
   - Directly from the `sbt` build definition!
 - Big improvement: `sbt` is now the *"source of truth"*!
+<img src="images/Github-actions-step2.png" />
 
 
 ### Ease of use
@@ -284,14 +288,14 @@ WorkflowStep.Use(
 ---
 
 ## Result
-- The workflow of each project is generated directly from its build definition!
-- Tailor made for each project level (????)
-- When build definition is updated, the workflow is updated
+- Workflow is generated directly from the project's build definition!
+- Specifically tailor made for each project
+- on build definition update, the workflow is updated
 
 
 ## Result
 <!-- .slide: data-background="https://media.giphy.com/media/10tIjpzIu8fe0/giphy.gif" data-background-opacity="0.4" -->
-Had to kill the propietary GitHub Action...
+Had to kill the open-sourced GitHub Action...
 
 
 ## Result
@@ -302,21 +306,24 @@ Had to kill the propietary GitHub Action...
     - Cannot use GitHub template 
     - (multiple project types)
 
----
-
 
 ## And then we found it...
 <!-- .slide: data-background="https://media.giphy.com/media/XF3lU8cWrv4JcUeEmM/giphy.gif" -->
 
+---
 
 ## Fourth Step
 ## Double Code Generation
+<img src="https://media.giphy.com/media/jP5p77MqB3mJGLRt5b/giphy.gif"/>
 
 
-## sbt-plugin
+## DAP sbt-plugin
 - Create `sbt` plugin for generating common settings
 - Settings are read by `sbt-github-actions` plugin
-- On update, only need to update the plugin version
+- On update, only need to upgrade the plugin version
+
+<img src="images/Github-actions-step4.png" />
+
 
 
 <!-- .slide: data-background="https://media.giphy.com/media/WNwErIxqX18xmm92UX/giphy.gif" data-background-opacity="0.7" -->
@@ -331,12 +338,26 @@ Had to kill the propietary GitHub Action...
   - GCP, Docker, `sbt` credentials, `git` credentials
 - Generate common workflow steps:
   - PR, publish and deployment
-  
 
 
-- Self hosted in a click
-- Bad: copying secrets
--  
+## Results
+- So far, we are still experimenting 
+- The plugin reduces the release cycle time
+- Not easily debuggable:
+  - Logic is encapsulated within the plugin  
+
+---
+
+## Conclusion
+- Working with GitHub actions improved productivity <!-- .element: class="fragment" -->
+  - Ease of use and evolving actions community
+- GitHub actions enables flexible CI/CD <!-- .element: class="fragment" -->
+  - Build definition can be easily updated
+  - Within a few lines of code  
+- One source of truth is pure gold <!-- .element: class="fragment" -->
+  - Enable the developers to avoid silly mistakes
+- If no 3rd party solution available, use your own <!-- .element: class="fragment" -->
+- Do not be afraid to kill your own projects 😩 <!-- .element: class="fragment" -->
 
 
 <div>
@@ -346,13 +367,11 @@ Had to kill the propietary GitHub Action...
 
 </div>
 
+
+
+# Questions <!-- .element: style="color: white; border: 10px; border-color: black;" -->
+<!-- .slide: data-background="https://thehomebasedmom.com/wp-content/uploads/2019/05/Frequently-Asked-Questions.jpg"  data-background-opacity="0.7" -->
+
 ---
 
-# We ❤️  GitHub
-
-GitHub Actions was released for public usage.
-
-We gave it a shot and loved it.
-
-<img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="200" height="200" />
-
+<!-- .slide: data-background="https://media.giphy.com/media/Pnh0Lou03fv92J4puZ/giphy.gif" data-background-size="50%" -->
