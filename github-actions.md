@@ -58,7 +58,7 @@
 - Builds have different complexity requirements     <!-- .element: class="fragment" data-fragment-index="3" style="list-style-type: '😱 ';" -->
   - Publishing docker image requires:           <!-- .element: class="fragment" data-fragment-index="4" -->
     - Login to GCP (`gcloud auth login`)
-    - Login to private Docker registry (`docker login`)
+    - Login to Docker registry (`docker login`)
   - Some builds should be run on a private node <!-- .element: class="fragment" data-fragment-index="5" -->
 - All the above should be managed by CI/CD       <!-- .element: class="fragment" style="list-style-type: '😱 ';" -->
 - Less developer fricition as possible           <!-- .element: class="fragment" style="list-style-type: '😱 ';" -->
@@ -120,7 +120,7 @@
 - Created a tailor-made GitHub action <!-- .element class="fragment" -->
   - Slim and fast, based on OpenJDK Alpine
   - https://github.com/matankdr/github-docker-sbt
-  - External PRs were contributed to the project! 💪💪
+  - External PRs were contributed to the project! 💪
 - Responsible for: <!-- .element class="fragment" -->
   - Installing `sbt` 
   - Installing other required dependencies (e.g., git)
