@@ -36,6 +36,15 @@
 
 ---
 
+## Preface
+- This talk is about a concept 
+- Telling our GitHub action story
+- Relevant for you if: <!-- .element: class="fragment" -->
+  - You work with Scala and sbt stack
+  - You work with other tech stack 😎 <!-- .element: class="fragment" -->
+
+---
+
 ## Use Case
 - Multiple kind of projects:
   - Microservices and Big-Data processes
@@ -73,24 +82,34 @@
 
 <!-- .slide: data-auto-animate -->
 ## Jenkins <!-- .element data-id="title" -->
-- Pros <!-- .element style="list-style-type: '✅ ' ;" -->
-  - Steep learning curve:
-    - Developer is productive after a very short time
-  - Very popular back then
-  - Lots of plugins
+- The Jenkins way: wrap everything in DSL
+- Need to directly setup Jenknis machine
+  - Install all dependencies
+  - Management:  secrets, users
+- Great visualization (especially *Blue Ocean*)  
+
+<img data-id="jenkins"  src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" />
+
+
+<!-- .slide: data-auto-animate -->
+## Jenkins: Pros <!-- .element data-id="title" -->
+- Steep learning curve: <!-- .element style="list-style-type: '✅ ' ;" -->
+  - Developer is productive after a very short time <!-- .element style="list-style-type: '✅ ' ;" -->
+- Very popular back then <!-- .element class="fragment"  style="list-style-type: '✅ ' ;" -->
+- Lots of plugins <!-- .element class="fragment"  style="list-style-type: '✅ ' ;" -->
 
 <img data-id="jenkins"  src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" />
 
 
 
-## Jenkins <!-- .element data-id="title" -->
+## Jenkins: Cons <!-- .element data-id="title" -->
 <!-- .slide: data-auto-animate -->
-- Cons <!-- .element style="list-style-type: '❌ ' ;" -->
-  - Developer needs to learn a proprietary DSL
-  - Flow was running on the host directly
-  - Management is hard:
-    - R&D team does not have full permissions
-    - Build process is not containered (or vitualized) 
+- Developer needs to learn a proprietary DSL <!-- .element style="list-style-type: '❌ ' ;" -->
+- Flow was running on the host directly <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
+- Management is hard: <!-- .element class="fragment"  style="list-style-type: '❌ ' ;" -->
+  - R&D team does not have full permissions <!-- .element style="list-style-type: '❌ ' ;" -->
+  - Build process is not containered (or vitualized) <!-- .element style="list-style-type: '❌ ' ;" -->
+- Not so clear what is actually installed <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
 
 <img data-id="jenkins" data-auto-animate-duration="3.0" width="22%" src="https://www.jenkins.io/images/logos/fire/fire.svg" />
 
@@ -103,6 +122,16 @@
 <!-- .slide: data-auto-animate -->
 ## GitHub Actions <!-- .element data-id="title" -->
 <img src="https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg" alt="Mountains" style="width:20%"/>
+
+
+## GitHub Actions vs. Jenkins
+- Every step runs within Docker container <!-- .element class="fragment" -->
+  - Build environment is set up by containers
+  - Build errors can be reproduced on a local machine
+- Simple DSL <!-- .element class="fragment" -->
+  - Use existing action or run shell script
+- No need to define a build project <!-- .element class="fragment" -->
+  - GitHub actions work out of the box
 
 
 ## Lack of Support
