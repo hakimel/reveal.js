@@ -28,11 +28,26 @@
 - Married, father of 2  <!-- .element: class="fragment" -->
 
 
+<!-- .slide: data-visibility="hidden" -->
 ## Who is Pipl?
+
+- Solving the **global identity crisis**
 
 ---
 
+<!-- .slide: data-visibility="hidden" -->
 ## Background
+- Pipl owns many records of people
+- Has search engine (merge to profile)
+- Creates profiles from various sources
+- Create records
+- Clean records (parsing)
+- Check against existing records (merge)
+- Build index (input to search engine)
+- Billions of records
+  - Multiple processes
+  - Runtime several days
+- Lean and fast Microservices in production
 
 ---
 
@@ -83,7 +98,7 @@
 <!-- .slide: data-auto-animate -->
 ## Jenkins <!-- .element data-id="title" -->
 - The Jenkins way: wrap everything in DSL
-- Need to directly setup Jenknis machine
+- Need to directly setup Jenkins machine
   - Install all dependencies
   - Management:  secrets, users
 - Great visualization (especially *Blue Ocean*)  
@@ -108,7 +123,7 @@
 - Flow was running on the host directly <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
 - Management is hard: <!-- .element class="fragment"  style="list-style-type: '❌ ' ;" -->
   - R&D team does not have full permissions <!-- .element style="list-style-type: '❌ ' ;" -->
-  - Build process is not containered (or vitualized) <!-- .element style="list-style-type: '❌ ' ;" -->
+  - Build process is not containered (or virtualized) <!-- .element style="list-style-type: '❌ ' ;" -->
 - Not so clear what is actually installed <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
 
 <img data-id="jenkins" data-auto-animate-duration="3.0" width="22%" src="https://www.jenkins.io/images/logos/fire/fire.svg" />
@@ -125,13 +140,15 @@
 
 
 ## GitHub Actions vs. Jenkins
-- Every step runs within Docker container <!-- .element class="fragment" -->
+- Every step runs within a Docker container <!-- .element class="fragment" style="list-style-type: '🐳 ' ;" -->
   - Build environment is set up by containers
   - Build errors can be reproduced on a local machine
-- Simple DSL <!-- .element class="fragment" -->
+- Simple DSL <!-- .element class="fragment" style="list-style-type: '👌 ' ;"-->
   - Use existing action or run shell script
-- No need to define a build project <!-- .element class="fragment" -->
-  - GitHub actions work out of the box
+  - And still, every action is a Docker image
+- No need to define a build project <!-- .element class="fragment" style="list-style-type: '🚀 ' ;" -->
+  - GitHub actions work out of the box 
+- Developers are much more independent <!-- .element class="fragment" style="list-style-type: '💪 ' ;" -->
 
 
 ## Lack of Support
@@ -141,7 +158,7 @@
 - Need to support: <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
   - Login to private cloud environment 
   - Docker login to org private registry
-  - Setup required dependencies on build machine
+  - Install required dependencies on build machine
 
 
 ## Propietary GitHub Action
@@ -173,14 +190,14 @@
 <!-- .slide: data-auto-animate -->  
 - Configuration is not flexible <!-- .element class="fragment" -->
   - Manually updating build definition for each project
-  - Cross compiliation is complicated
+  - Cross compilation is complicated
   - Publish image for each dependency combination
 - Build innaccuracy <!-- .element class="fragment" -->
   - Build tool and CI might run on different settings
   - For example: different Java/Scala versions
 
 
-<!-- .slide: data-background="https://media.giphy.com/media/TPdoPTIMMBzDqPVKg3/giphy.gif" data-background-size="90%" data-background-opacity="0.7" -->
+<!-- .slide: data-background="https://media.giphy.com/media/TPdoPTIMMBzDqPVKg3/giphy.gif" data-background-size="70%" data-background-opacity="0.7" -->
 ## Not Exactly what we need...
 
 ---
@@ -319,19 +336,24 @@ WorkflowStep.Use(
 ## Result
 - Workflow is generated directly from the project's build definition!
 - Specifically tailor made for each project
-- on build definition update, the workflow is updated
+- On build definition update, the workflow is updated
+
+
+## The build tool is
+<!-- .slide: data-background="https://media.giphy.com/media/kiCXF8mL3j6Oe0vAm9/giphy.gif" data-background-opacity="0.9" -->
+# Single source of truth!
+
+
+
+<!-- .slide: data-background="https://media.giphy.com/media/10tIjpzIu8fe0/giphy.gif" data-background-opacity="0.7" -->
+## Had to kill the open-sourced Action...
 
 
 ## Result
-<!-- .slide: data-background="https://media.giphy.com/media/10tIjpzIu8fe0/giphy.gif" data-background-opacity="0.4" -->
-Had to kill the open-sourced GitHub Action...
-
-
-## Result
-- Development cycle is significantly improved 🚀
-- Yet, some of the problems still remain: 🤦‍♂️
+- Development cycle is significantly improved! 
+- Yet, some of the problems still remain: 🤦‍♂️ <!-- .element class="fragment"  -->
   - Cannot automatically update build definition for our projects
-  - When creating a new repo, build definitions need to be copied
+  - When creating a new repo, build definitions need to be copied <!-- .element class="fragment"  -->
     - Cannot use GitHub template 
     - (multiple project types)
 
@@ -378,11 +400,17 @@ Had to kill the open-sourced GitHub Action...
 ---
 
 ## Conclusion
+<!-- .slide: data-auto-animate -->
 - Working with GitHub actions improved productivity <!-- .element: class="fragment" -->
   - Ease of use and evolving actions community
+  - Build virtualization is a first class citizen
 - GitHub actions enables flexible CI/CD <!-- .element: class="fragment" -->
   - Build definition can be easily updated
   - Within a few lines of code  
+
+
+## Conclusion
+<!-- .slide: data-auto-animate -->
 - One source of truth is pure gold <!-- .element: class="fragment" -->
   - Enable the developers to avoid silly mistakes
 - If no 3rd party solution available, use your own <!-- .element: class="fragment" -->
