@@ -392,7 +392,7 @@ WorkflowStep.Use(
 - Settings are read by `sbt-github-actions` plugin
 - On update, only need to upgrade the plugin version
 
-<img src="https://github.com/matankdr/reveal.js/blob/15db22a6504f82541bd90acdae30fd313b733748/images/GitHub-actions-step4.png" />
+<img src="images/Github-actions-step4.png" />
 
 
 ## DAP sbt-plugin
