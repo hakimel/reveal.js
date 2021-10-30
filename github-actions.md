@@ -120,10 +120,19 @@
 ## Jenkins: Cons <!-- .element data-id="title" -->
 <!-- .slide: data-auto-animate -->
 - Developer needs to learn a proprietary DSL <!-- .element style="list-style-type: '❌ ' ;" -->
-- Flow was running on the host directly <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
+- Jenkins is installed on-prem <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
+  - Cannot use a webhook on change
+  - Only polling for repo changes... ⏳
+
+<img data-id="jenkins" data-auto-animate-duration="3.0" width="22%" src="https://www.jenkins.io/images/logos/fire/fire.svg" />
+
+
+## Jenkins: Cons <!-- .element data-id="title" -->
+<!-- .slide: data-auto-animate -->
 - Management is hard: <!-- .element class="fragment"  style="list-style-type: '❌ ' ;" -->
   - R&D team does not have full permissions <!-- .element style="list-style-type: '❌ ' ;" -->
   - Build process is not containered (or virtualized) <!-- .element style="list-style-type: '❌ ' ;" -->
+- Flow was running on the host directly <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
 - Not so clear what is actually installed <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
 
 <img data-id="jenkins" data-auto-animate-duration="3.0" width="22%" src="https://www.jenkins.io/images/logos/fire/fire.svg" />
@@ -149,6 +158,10 @@
 - No need to define a build project <!-- .element class="fragment" style="list-style-type: '🚀 ' ;" -->
   - GitHub actions work out of the box 
 - Developers are much more independent <!-- .element class="fragment" style="list-style-type: '💪 ' ;" -->
+
+
+## Simple build management
+<img src="images/GitHub-actions-single-repo-2.png" alt="Mountains" />
 
 
 ## Lack of Support
@@ -350,12 +363,17 @@ WorkflowStep.Use(
 
 
 ## Result
+<!-- .slide: data-auto-animate -->
 - Development cycle is significantly improved! 
 - Yet, some of the problems still remain: 🤦‍♂️ <!-- .element class="fragment"  -->
-  - Cannot automatically update build definition for our projects
+  - No auto-update build definition for all projects
   - When creating a new repo, build definitions need to be copied <!-- .element class="fragment"  -->
-    - Cannot use GitHub template 
-    - (multiple project types)
+    - Cannot use GitHub template (multiple project types)
+
+
+## Result
+<!-- .slide: data-auto-animate -->
+<img src="images/Github-actions-multi-repos-extended.png" />
 
 
 ## And then we found it...
@@ -369,12 +387,17 @@ WorkflowStep.Use(
 
 
 ## DAP sbt-plugin
+<!-- .slide: data-auto-animate -->
 - Create `sbt` plugin for generating common settings
 - Settings are read by `sbt-github-actions` plugin
 - On update, only need to upgrade the plugin version
 
-<img src="images/Github-actions-step4.png" />
+<img src="https://github.com/matankdr/reveal.js/blob/15db22a6504f82541bd90acdae30fd313b733748/images/GitHub-actions-step4.png" />
 
+
+## DAP sbt-plugin
+<!-- .slide: data-auto-animate -->
+<img src="images/github-actions-with-dap.png" style="width:150%" />
 
 
 <!-- .slide: data-background="https://media.giphy.com/media/WNwErIxqX18xmm92UX/giphy.gif" data-background-opacity="0.7" -->
