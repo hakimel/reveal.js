@@ -28,26 +28,40 @@
 - Married, father of 2  <!-- .element: class="fragment" -->
 
 
-<!-- .slide: data-visibility="hidden" -->
-## Who is Pipl?
+## Who is Pipl? <!-- .slide: data-auto-animate -->
+<img src="images/pipl-overview.png" />
 
-- Solving the **global identity crisis**
+
+
+## Who is Pipl? <!-- .slide: data-auto-animate -->
+### Traditional vs. Online identities
+<img src="images/pipl-identities.png" />
+
+
+## Who is Pipl? <!-- .slide: data-auto-animate -->
+- Makes sense of the decentralized identity information <!-- .element: class="fragment" -->
+- Pipl connects you to online identities <!-- .element: class="fragment" -->
+  - More than a simple search engine result
+- Essential for verification and investigation <!-- .element: class="fragment" -->
+- Search with anything, find everything <!-- .element: class="fragment" -->
+  - name, email, phone, age, address, associations, education, jobs
+
+
+## Who is Pipl? <!-- .slide: data-auto-animate -->
+<img src="images/pipl-data.png" />
 
 ---
 
-<!-- .slide: data-visibility="hidden" -->
-## Background
-- Pipl owns many records of people
-- Has search engine (merge to profile)
-- Creates profiles from various sources
-- Create records
-- Clean records (parsing)
-- Check against existing records (merge)
-- Build index (input to search engine)
-- Billions of records
-  - Multiple processes
-  - Runtime several days
-- Lean and fast Microservices in production
+## Background: Data Systems Group
+- Pipl owns many records of people <!-- .element: class="fragment" -->
+- Creating profiles from various sources <!-- .element: class="fragment" -->
+- Billions of records <!-- .element: class="fragment" -->
+  - Multiple processes, running for several days
+  - Creating new data records
+  - Data cleaning and parsing
+  - Merging: new records with existing records
+- Build index (input to search engine) <!-- .element: class="fragment" -->
+- Lean and fast microservices in production <!-- .element: class="fragment" -->
 
 ---
 
