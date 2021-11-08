@@ -1,0 +1,35 @@
+section#section3
+	{
+		background: url(https://git.io/JUW4t);
+		background-size: cover;
+		overflow: hidden;
+	}
+
+div#panda
+	{
+		position:relative;
+	
+		background: url(https://git.io/JUW4L); 
+		width:250px;
+		height:330px;		
+		animation:walking_animation 1s steps(12) infinite,move_forward 8s linear infinite;	
+	}
+
+@keyframes walking_animation
+	{
+		0%{background-position:0px;}
+		100%{background-position:3000px;}
+	}
+
+@keyframes move_forward
+	{
+		0%{transform:translateX(-100px);}
+		100%{transform:translateX(1366px);}
+	}
+
+#street
+	{
+		position:relative;
+
+		border-bottom:5px groove green;
+	}

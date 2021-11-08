@@ -5,10 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<title>reveal.js</title>
-
+		
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href = "Moving_Panda.css">
+	
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,8 +18,73 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>This presentation is made with <span style="color : red ;">HTML</span>,
+						 <span style="color : red ;">CSS</span> and 
+						 <span style="color : red ;">Javascript</span></h1>
+				</section>
+				<section>
+					<h1>
+						You can do pretty much everything ..
+					</h1>
+				</section>
+				<section id ="section3"data-background-size="1000px"> 
+					<input type = "button" onclick = "play()" value = "music">  
+
+
+						<audio id="audio" src="https://git.io/JUW4q" loop="loop"></audio>
+					
+						<script>
+						  function play() 
+						  {
+							var audio = document.getElementById("audio");
+							audio.play();
+						  }
+						</script>
+						
+						<div id="panda"></div>
+						<div id="street"></div>
+						
+				</section>
+				<section data-background-size="300px" >
+					
+						<h3><span style="color: red;">Content of this workshop</span></h3>
+						<ol>
+						<li>Introduction the Web Development </li>
+						<li>Basic HTML Code </li>
+						<li>basic structure </li>
+						<li>useful HTML elements :</li>
+							<ol>
+									<li>paragraph, header tags etc ... </li>
+									<li>HTML Attributes </li>
+									<li>Inline elements vs block elements</li>
+							</ol>			
+						</ol>
+				</section>
+				<section>
+					<section data-markdown >
+						<textarea data-template>
+						
+						Web development is the building and maintenance of websites;<br>
+						it's the work that happens behind the scenes to make a website look great,
+						work fast and perform well with a seamless user experience
+						``` 
+						var r = 4 ; 
+						let r = 5 ; 
+						```
+						</textarea>
+					</section>
+					<section>
+						<img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" >
+					</section>
+
+				</section>
+				
+				<section>Slide 3</section>
+				<section data-state="make-it-pop">slide 4
+					<p>jelllo</p>
+				</section>
+
 			</div>
 		</div>
 
