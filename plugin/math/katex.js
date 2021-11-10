@@ -11,8 +11,8 @@ export const KaTeX = () => {
 	let defaultOptions = {
 		version: 'latest',
 		delimiters: [
+			{left: '$$', right: '$$', display: true}, // Note: $$ has to come before $
 			{left: '$', right: '$', display: false},
-			{left: '$$', right: '$$', display: true},
 			{left: '\\(', right: '\\)', display: false},
 			{left: '\\[', right: '\\]', display: true}
 		],
@@ -73,12 +73,21 @@ export const KaTeX = () => {
 			}
 			katexScripts.push(karUrl);
 
+			const renderMath = () => {
+				renderMathInElement(reveal.getSlidesElement(), katexOptions);
+				deck.layout();
+			}
+
 			loadCss(cssUrl);
 
 			// For some reason dynamically loading with defer attribute doesn't result in the expected behavior, the below code does
 			loadScripts(katexScripts).then(() => {
-				renderMathInElement(document.body, katexOptions);
-				deck.layout();
+				if( deck.isReady() ) {
+					renderMath();
+				}
+				else {
+					deck.on( 'ready', renderMath.bind( this ) );
+				}
 			});
 
 		}
