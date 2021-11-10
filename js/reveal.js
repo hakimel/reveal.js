@@ -529,6 +529,7 @@ export default function( revealElement, options ) {
 		controls.bind();
 		focus.bind();
 
+		dom.slides.addEventListener( 'click', onSlidesClicked, false );
 		dom.slides.addEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.addEventListener( 'click', resume, false );
 
@@ -554,6 +555,7 @@ export default function( revealElement, options ) {
 
 		window.removeEventListener( 'resize', onWindowResize, false );
 
+		dom.slides.removeEventListener( 'click', onSlidesClicked, false );
 		dom.slides.removeEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
 
@@ -2370,6 +2372,32 @@ export default function( revealElement, options ) {
 				type: 'slidetransitionend',
 				data: { indexh, indexv, previousSlide, currentSlide }
 			});
+		}
+
+	}
+
+	/**
+	 * A global listener for all click events inside of the
+	 * .slides container.
+	 *
+	 * @param {object} [event]
+	 */
+	function onSlidesClicked( event ) {
+
+		// If a hash link is clicked, we find the target slide
+		// and navigate to it. We previously relied on 'hashchange'
+		// for links like these but that prevented media with
+		// audio tracks from playing in mobile browsers since it
+		// wasn't considered a direct interaction with the document.
+		if( event.target.nodeName === 'A' ) {
+			const hash = event.target.getAttribute( 'href' );
+			if( /^#/.test( hash ) ) {
+				const indices = location.getIndicesFromHash( hash );
+				if( indices ) {
+					Reveal.slide( indices.h, indices.v, indices.f );
+					event.preventDefault();
+				}
+			}
 		}
 
 	}
