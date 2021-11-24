@@ -771,9 +771,6 @@ $controlsArrowAngleActive: 36deg;
  *********************************************/
 
 @each $stylename in slide, linear {
-	.reveal.#{$stylename} section {
-		backface-visibility: hidden;
-	}
 	@include transition-horizontal-past(#{$stylename}) {
 		transform: translate(-150%, 0);
 	}
@@ -1169,7 +1166,6 @@ $controlsArrowAngleActive: 36deg;
 .reveal[data-background-transition=slide]>.backgrounds .slide-background:not([data-background-transition]),
 .reveal>.backgrounds .slide-background[data-background-transition=slide] {
 	opacity: 1;
-	backface-visibility: hidden;
 }
 	.reveal[data-background-transition=slide]>.backgrounds .slide-background.past:not([data-background-transition]),
 	.reveal>.backgrounds .slide-background.past[data-background-transition=slide] {
