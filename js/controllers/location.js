@@ -96,9 +96,13 @@ export default class Location {
 		const currentIndices = this.Reveal.getIndices();
 		const newIndices = this.getIndicesFromHash();
 
-		if( newIndices && ( newIndices.h !== currentIndices.h || newIndices.v !== currentIndices.v || newIndices.f !== undefined ) ) {
-			this.Reveal.slide( newIndices.h, newIndices.v, newIndices.f );
+		if( newIndices ) {
+			if( ( newIndices.h !== currentIndices.h || newIndices.v !== currentIndices.v || newIndices.f !== undefined ) ) {
+					this.Reveal.slide( newIndices.h, newIndices.v, newIndices.f );
+			}
 		}
+		// If no new indices are available, we're trying to navigate to
+		// a slide hash that does not exist
 		else {
 			this.Reveal.slide( currentIndices.h || 0, currentIndices.v || 0 );
 		}
