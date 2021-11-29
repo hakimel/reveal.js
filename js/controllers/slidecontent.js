@@ -1,5 +1,4 @@
-import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/constants.js'
-import { extend, queryAll, closest } from '../utils/util.js'
+import { extend, queryAll, closest, getMimeTypeFromFile } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 import fitty from 'fitty';
@@ -102,9 +101,16 @@ export default class SlideContent {
 
 				// Images
 				if( backgroundImage ) {
-					backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-						return `url(${encodeURI(background.trim())})`;
-					}).join( ',' );
+					// base64
+					if(  /^data:/.test( backgroundImage.trim() ) ) {
+						backgroundContent.style.backgroundImage = `url(${backgroundImage.trim()})`;
+					}
+					// URL(s)
+					else {
+						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
+							return `url(${encodeURI(background.trim())})`;
+						}).join( ',' );
+					}
 				}
 				// Videos
 				else if ( backgroundVideo && !this.Reveal.isSpeakerNotes() ) {
@@ -130,7 +136,13 @@ export default class SlideContent {
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( source => {
-						video.innerHTML += '<source src="'+ source +'">';
+						let type = getMimeTypeFromFile( source );
+						if( type ) {
+							video.innerHTML += `<source src="${source}" type="${type}">`;
+						}
+						else {
+							video.innerHTML += `<source src="${source}">`;
+						}
 					} );
 
 					backgroundContent.appendChild( video );

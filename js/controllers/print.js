@@ -46,13 +46,18 @@ export default class Print {
 		document.body.style.width = pageWidth + 'px';
 		document.body.style.height = pageHeight + 'px';
 
+		const viewportElement = document.querySelector( '.reveal-viewport' );
+		let presentationBackground;
+		if( viewportElement ) {
+			const viewportStyles = window.getComputedStyle( viewportElement );
+			if( viewportStyles && viewportStyles.background ) {
+				presentationBackground = viewportStyles.background;
+			}
+		}
+
 		// Make sure stretch elements fit on slide
 		await new Promise( requestAnimationFrame );
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
-
-		// Re-run the slide layout so that r-fit-text is applied based on
-		// the printed slide size
-		slides.forEach( slide => this.Reveal.slideContent.layout( slide ) );
 
 		// Batch scrollHeight access to prevent layout thrashing
 		await new Promise( requestAnimationFrame );
@@ -90,12 +95,23 @@ export default class Print {
 
 				page.className = 'pdf-page';
 				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
+
+				// Copy the presentation-wide background to each individual
+				// page when printing
+				if( presentationBackground ) {
+					page.style.background = presentationBackground;
+				}
+
 				page.appendChild( slide );
 
 				// Position the slide inside of the page
 				slide.style.left = left + 'px';
 				slide.style.top = top + 'px';
 				slide.style.width = slideWidth + 'px';
+
+				// Re-run the slide layout so that r-fit-text is applied based on
+				// the printed slide size
+				this.Reveal.slideContent.layout( slide )
 
 				if( slide.slideBackgroundElement ) {
 					page.insertBefore( slide.slideBackgroundElement, slide );

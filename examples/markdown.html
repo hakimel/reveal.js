@@ -106,6 +106,16 @@
                     </script>
                 </section>
 
+                <!-- Math -->
+                <section data-markdown>
+					## The Lorenz Equations
+					`\[\begin{aligned}
+					\dot{x} &amp; = \sigma(y-x) \\
+					\dot{y} &amp; = \rho x - y - xz \\
+					\dot{z} &amp; = -\beta z + xy
+					\end{aligned} \]`
+                </section>
+
             </div>
 		</div>
 
@@ -113,6 +123,7 @@
         <script src="../plugin/markdown/markdown.js"></script>
         <script src="../plugin/highlight/highlight.js"></script>
         <script src="../plugin/notes/notes.js"></script>
+        <script src="../plugin/math/math.js"></script>
 
 		<script>
 
@@ -122,7 +133,7 @@
 				history: true,
 				center: true,
 
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
 			});
 
 		</script>
