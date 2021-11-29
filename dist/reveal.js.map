@@ -1,2 +1,4 @@
-// This dummy file exists to suppress jekyll errors.
-{ "version" : 3, "sources": [], "names": [], "mappings": "" }
+{
+"comment": "This dummy file exists to suppress jekyll errors.",
+"version" : 3, "sources": [], "names": [], "mappings": ""
+ }
