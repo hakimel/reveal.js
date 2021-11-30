@@ -356,6 +356,7 @@ export default class Keyboard {
 			// F
 			else if( keyCode === 70 ) {
 				enterFullscreen( config.embedded ? this.Reveal.getViewportElement() : document.documentElement );
+				setTimeout(() => { this.Reveal.layout() }, 100);
 			}
 			// A
 			else if( keyCode === 65 ) {
