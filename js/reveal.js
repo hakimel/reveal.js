@@ -190,6 +190,9 @@ export default function( revealElement, options ) {
 		// Prevent the slides from being scrolled out of view
 		setupScrollPrevention();
 
+		// Adds bindings for fullscreen mode
+		setupFullscreen();
+
 		// Resets all vertical slides so that only the first is visible
 		resetVerticalSlides();
 
@@ -373,6 +376,19 @@ export default function( revealElement, options ) {
 				dom.wrapper.scrollLeft = 0;
 			}
 		}, 1000 );
+
+	}
+
+	/**
+	 * After entering fullscreen we need to force a layout to
+	 * get our presentations to scale correctly. This behavior
+	 * is inconsistent across browsers but a force layout seems
+	 * to normalize it.
+	 */
+	function setupFullscreen() {
+
+		document.addEventListener( 'fullscreenchange', onFullscreenChange );
+		document.addEventListener( 'webkitfullscreenchange', onFullscreenChange );
 
 	}
 
@@ -2429,6 +2445,26 @@ export default function( revealElement, options ) {
 				document.activeElement.blur();
 			}
 			document.body.focus();
+		}
+
+	}
+
+	/**
+	 * Handler for the document level 'fullscreenchange' event.
+	 *
+	 * @param {object} [event]
+	 */
+	function onFullscreenChange( event ) {
+
+		let element = document.fullscreenElement || document.webkitFullscreenElement;
+		if( element === dom.wrapper ) {
+			event.stopImmediatePropagation();
+
+			// Timeout to avoid layout shift in Safari
+			setTimeout( () => {
+				Reveal.layout();
+				Reveal.focus.focus(); // focus.focus :'(
+			}, 1 );
 		}
 
 	}
