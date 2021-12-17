@@ -21,9 +21,9 @@ Getting started
 ## Sponsors
 <sup>Hakim's open source work is supported by <a href="https://github.com/sponsors/hakimel">GitHub sponsors</a> 🙌</sup>
 <div align="center">
-<a href="https://doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=chalk&utm_source=github">
+<a href="https://www.doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=awesomeforbeginners&utm_source=github">
   <div>
-    <img src="https://dashboard.doppler.com/imgs/logo-long.svg" width="240" alt="Doppler">
+    <img src="https://user-images.githubusercontent.com/629429/146530588-2980c34d-862f-4393-8ac3-65fbef6443ca.png" width="290" alt="Doppler">
   </div>
   <b>All your environment variables, in one place</b>
   <div>
@@ -37,7 +37,10 @@ Getting started
 ## Online Editor
 Want to create your presentation using a visual editor? Try the official reveal.js presentation platform for free at [Slides.com](https://slides.com). It's made by the same people behind reveal.js.
 
+<br>
+<br>
+
 --- 
 <div align="center">
-  MIT licensed | © 2011-2021 Hakim El Hattab, https://hakim.se
+  MIT licensed | Copyright © 2011-2021 Hakim El Hattab, https://hakim.se
 </div>
