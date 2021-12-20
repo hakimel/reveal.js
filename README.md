@@ -21,7 +21,7 @@ Getting started
 ## Sponsors
 <sup>Hakim's open source work is supported by <a href="https://github.com/sponsors/hakimel">GitHub sponsors</a> 🙌</sup>
 <div align="center">
-<a href="https://www.doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=awesomeforbeginners&utm_source=github">
+<a href="https://www.doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=revealjs&utm_source=github">
   <div>
     <img src="https://user-images.githubusercontent.com/629429/146530588-2980c34d-862f-4393-8ac3-65fbef6443ca.png" width="290" alt="Doppler">
   </div>
