@@ -11,15 +11,10 @@ reveal.js is an open source HTML presentation framework. It enables anyone with 
 
 The framework comes with a broad range of features including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and much more.
 
-Getting started
-- 🚀 [Install reveal.js](https://revealjs.com/installation)
-- 👀 [View a demo presentation](https://revealjs.com/demo)
-- 📖 [Read the documentation](https://revealjs.com/markup/)
-- 🧑‍🎨 [Try the visual editor for reveal.js at Slides.com](https://slides.com/)
-- 🎬 [Watch the reveal.js video course (paid)](https://revealjs.com/course)
+---
 
-## Sponsors
-<sup>Hakim's open source work is supported by <a href="https://github.com/sponsors/hakimel">GitHub sponsors</a> 🙌</sup>
+### Sponsors
+Hakim's open source work is supported by <a href="https://github.com/sponsors/hakimel">GitHub sponsors</a>. Special thanks to:
 <div align="center">
 <a href="https://www.doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=revealjs&utm_source=github">
   <div>
@@ -34,7 +29,18 @@ Getting started
 </a>
 </div>
 
-## Online Editor
+---
+
+### Getting started
+- 🚀 [Install reveal.js](https://revealjs.com/installation)
+- 👀 [View the demo presentation](https://revealjs.com/demo)
+- 📖 [Read the documentation](https://revealjs.com/markup/)
+- 🖌 [Try the visual editor for reveal.js at Slides.com](https://slides.com/)
+- 🎬 [Watch the reveal.js video course (paid)](https://revealjs.com/course)
+
+---
+
+### Online Editor
 Want to create your presentation using a visual editor? Try the official reveal.js presentation platform for free at [Slides.com](https://slides.com). It's made by the same people behind reveal.js.
 
 <br>
