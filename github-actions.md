@@ -406,7 +406,7 @@ WorkflowStep.Use(
 - Settings are read by `sbt-github-actions` plugin
 - On update, only need to upgrade the plugin version
 
-<img src="./images/GitHub-actions-step4.png" />
+<img src="./images/github-actions-step4.png" />
 
 
 ## DAP sbt-plugin
