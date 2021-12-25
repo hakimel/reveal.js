@@ -4,7 +4,6 @@
  */
 @import url(./fonts/league-gothic/league-gothic.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
-@import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css);
 /**
  * Solarized colors by Ethan Schoonover
  */
@@ -226,11 +225,6 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 
 .reveal code {
-  font-family: 'Fira Code', monospace;
-  text-transform: none;
-  tab-size: 2;
-}
-
   font-family: var(--r-code-font);
   text-transform: none;
   tab-size: 2;
