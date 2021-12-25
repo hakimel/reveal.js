@@ -21,7 +21,7 @@
 ---
 
 ## Who is Matan?
-- Current: Big data tech lead at Pipl  <!-- .element: class="fragment" -->
+- Current: Staff Engineer at Pipl  <!-- .element: class="fragment" -->
 - Scala enthusiast  <!-- .element: class="fragment" -->
 - Likes to fully automate all things  <!-- .element: class="fragment" -->
 - (Really!) likes to have a clean code  <!-- .element: class="fragment" -->
@@ -29,26 +29,26 @@
 
 
 ## Who is Pipl? <!-- .slide: data-auto-animate -->
-<img src="images/pipl-overview.png" />
+<img src="./images/pipl-overview.png" />
 
 
 
 ## Who is Pipl? <!-- .slide: data-auto-animate -->
-### Traditional vs. Online identities
-<img src="images/pipl-identities.png" />
+Providing data and tools in order to understand who is a trustworthy person
+<img src="./images/pipl-identities.png" />
 
 
 ## Who is Pipl? <!-- .slide: data-auto-animate -->
-- Makes sense of the decentralized identity information <!-- .element: class="fragment" -->
-- Pipl connects you to online identities <!-- .element: class="fragment" -->
-  - More than a simple search engine result
-- Essential for verification and investigation <!-- .element: class="fragment" -->
-- Search with anything, find everything <!-- .element: class="fragment" -->
-  - name, email, phone, age, address, associations, education, jobs
+### Quality and Quantity of public Data
+<img src="./images/pipl-data.png" />
 
 
 ## Who is Pipl? <!-- .slide: data-auto-animate -->
-<img src="images/pipl-data.png" />
+### Use cases
+- Identity verification
+  - eCommerce, Insurance, Banking
+- Investigation
+  - Authorities, law enforcement
 
 ---
 
@@ -175,7 +175,7 @@
 
 
 ## Simple build management
-<img src="images/GitHub-actions-single-repo-2.png" alt="Mountains" />
+<img src="./images/GitHub-actions-single-repo-2.png" alt="Mountains" />
 
 
 ## Lack of Support
@@ -242,7 +242,7 @@
 - Enables code generation GitHub Actions workflows 
   - Directly from the `sbt` build definition!
 - Big improvement: `sbt` is now the *"source of truth"*!
-<img src="images/Github-actions-step2.png" />
+<img src="./images/Github-actions-step2.png" />
 
 
 ### Ease of use
@@ -387,7 +387,7 @@ WorkflowStep.Use(
 
 ## Result
 <!-- .slide: data-auto-animate -->
-<img src="images/Github-actions-multi-repos-extended.png" />
+<img src="./images/Github-actions-multi-repos-extended.png" />
 
 
 ## And then we found it...
@@ -406,12 +406,12 @@ WorkflowStep.Use(
 - Settings are read by `sbt-github-actions` plugin
 - On update, only need to upgrade the plugin version
 
-<img src="images/Github-actions-step4.png" />
+<img src="./images/GitHub-actions-step4.png" />
 
 
 ## DAP sbt-plugin
 <!-- .slide: data-auto-animate -->
-<img src="images/github-actions-with-dap.png" style="width:150%" />
+<img src="./images/github-actions-with-dap.png" style="width:150%" />
 
 
 <!-- .slide: data-background="https://media.giphy.com/media/WNwErIxqX18xmm92UX/giphy.gif" data-background-opacity="0.7" -->
