@@ -387,7 +387,7 @@ WorkflowStep.Use(
 
 ## Result
 <!-- .slide: data-auto-animate -->
-<img src="./images/Github-actions-multi-repos-extended.png" />
+<img src="./images/github-actions-multi-repos-extended1.png" />
 
 
 ## And then we found it...
