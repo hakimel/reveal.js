@@ -37,14 +37,29 @@
 Providing data and tools in order to understand who is a trustworthy person
 <img src="./images/pipl-identities.png" />
 
+notes:
+Pipl's target is to provide data and tooling for helping its clients to better understand
+who is a real person in the real world and moreover, who is a trustworthy person.
+
+Why is it  Critical?
+Most of the identitify verifications are in the internet.
+We do not provide our ID card when performing online purchase or creating new account.
+Because most of our interactions are happening in the virtual world, it is very hackable and
+causes lots of mess due to huge number of digital identities. 
+And this is the place where Pipl steps into.
+
 
 ## Who is Pipl? <!-- .slide: data-auto-animate -->
 ### Quality and Quantity of public Data
 <img src="./images/pipl-data.png" />
 
+notes: 
+Besides the products we build, what makes us successful: 
+- Our ability to collect and process huge amounts of data, consistenly
+- Be able to correctly cluster profiles
+- Be able to show relations between data entities.
 
-## Who is Pipl? <!-- .slide: data-auto-animate -->
-### Use cases
+Use cases
 - Identity verification
   - eCommerce, Insurance, Banking
 - Investigation
@@ -52,7 +67,7 @@ Providing data and tools in order to understand who is a trustworthy person
 
 ---
 
-## Background: Data Systems Group
+## Background: Data Systems Group <!-- .slide: data-visibility="hidden" -->
 - Pipl owns many records of people <!-- .element: class="fragment" -->
 - Creating profiles from various sources <!-- .element: class="fragment" -->
 - Billions of records <!-- .element: class="fragment" -->
@@ -265,9 +280,9 @@ githubWorkflowEnv := Map(
 ```yml
 # generated ci.yml
 env:
-  GITHUB_TOKEN: ${{ secrets.DAP_BOT_TOKEN }}
-  GITHUB_USERNAME: dap-bot
-  GITHUB_USER_EMAIL: dap-bot@pipl.com
+  GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+  GITHUB_USERNAME: pipl-bot
+  GITHUB_USER_EMAIL: bot@pipl.com
 ```
 
 
@@ -276,7 +291,7 @@ env:
 #### Set Java versions
 ```scala
 // build.sbt
-githubWorkflowJavaVersions := Seq("adopt@1.11", "adopt@1.8")
+githubWorkflowJavaVersions := Seq("openjdk@1.11", "openjdk@1.8")
 ```
 
 
@@ -292,7 +307,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.6]
-        java: [adopt@1.11, adopt@1.8]
+        java: [openjdk@1.11, openjdk@1.8]
     runs-on: ${{ matrix.os }}
 ```
 
@@ -387,7 +402,7 @@ WorkflowStep.Use(
 
 ## Result
 <!-- .slide: data-auto-animate -->
-<img src="./images/github-actions-multi-repos-extended1.png" />
+<img src="./images/github-actions-multi-repos-extended.png" />
 
 
 ## And then we found it...
