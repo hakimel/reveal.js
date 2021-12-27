@@ -257,7 +257,7 @@ Use cases
 - Enables code generation GitHub Actions workflows 
   - Directly from the `sbt` build definition!
 - Big improvement: `sbt` is now the *"source of truth"*!
-<img src="./images/Github-actions-step2.png" />
+<img src="./images/github-actions-step2a.png" />
 
 
 ### Ease of use
@@ -402,7 +402,7 @@ WorkflowStep.Use(
 
 ## Result
 <!-- .slide: data-auto-animate -->
-<img src="./images/github-actions-multi-repos-extended.png" />
+<img src="./images/GitHub-actions-multi-repos-extended.png" />
 
 
 ## And then we found it...
