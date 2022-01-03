@@ -33,7 +33,7 @@ export const VERSION = '4.2.1';
  * https://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2011-2021 Hakim El Hattab, https://hakim.se
+ * Copyright (C) 2011-2022 Hakim El Hattab, https://hakim.se
  */
 export default function( revealElement, options ) {
 

@@ -31,7 +31,7 @@ const banner = `/*!
 * ${pkg.homepage}
 * MIT licensed
 *
-* Copyright (C) 2011-2021 Hakim El Hattab, https://hakim.se
+* Copyright (C) 2011-2022 Hakim El Hattab, https://hakim.se
 */\n`
 
 // Prevents warnings from opening too many test pages
