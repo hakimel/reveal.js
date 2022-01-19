@@ -451,23 +451,25 @@ Reveal.on( 'customevent', function() {
 		</div>
 
 		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
 		<script>
-			Reveal.initialize();
 
-			const loadScript = src => {
-				return new Promise((resolve, reject) => {
-						const script = document.createElement('script');
-						script.type = 'text/javascript';
-						script.onload = resolve;
-						script.onerror = reject;
-						script.src = src;
-						document.head.append(script);
-				})
-			}
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
 
-			loadScript( 'plugin/highlight/highlight.js' ).then(() => {
-				Reveal.registerPlugin( RevealHighlight )
-			})
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
 		</script>
 
 	</body>
