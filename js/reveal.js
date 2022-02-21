@@ -563,9 +563,14 @@ export default function( revealElement, options ) {
 		disablePreviewLinks();
 
 		// Destroy controllers
+		notes.destroy();
+		focus.destroy();
 		plugins.destroy();
 		pointer.destroy();
 		controls.destroy();
+		progress.destroy();
+		backgrounds.destroy();
+		slideNumber.destroy();
 
 		// Remove event listeners
 		document.removeEventListener( 'fullscreenchange', onFullscreenChange );
@@ -575,11 +580,34 @@ export default function( revealElement, options ) {
 		window.removeEventListener( 'load', layout, false );
 
 		// Undo DOM changes
-		dom.viewport.classList.remove( 'reveal-viewport' );
+		if( dom.pauseOverlay ) dom.pauseOverlay.remove();
+		if( dom.statusElement ) dom.statusElement.remove();
+
 		document.documentElement.classList.remove( 'reveal-full-page' );
 
+		dom.wrapper.classList.remove( 'ready', 'center', 'has-horizontal-slides', 'has-vertical-slides' );
+		dom.wrapper.removeAttribute( 'data-transition-speed' );
+		dom.wrapper.removeAttribute( 'data-background-transition' );
+
+		dom.viewport.classList.remove( 'reveal-viewport' );
 		dom.viewport.style.removeProperty( '--slide-width' );
 		dom.viewport.style.removeProperty( '--slide-height' );
+
+		dom.slides.style.removeProperty( 'width' );
+		dom.slides.style.removeProperty( 'height' );
+		dom.slides.style.removeProperty( 'zoom' );
+		dom.slides.style.removeProperty( 'left' );
+		dom.slides.style.removeProperty( 'top' );
+		dom.slides.style.removeProperty( 'bottom' );
+		dom.slides.style.removeProperty( 'right' );
+		dom.slides.style.removeProperty( 'transform' );
+
+		Array.from( dom.wrapper.querySelectorAll( SLIDES_SELECTOR ) ).forEach( slide => {
+			slide.style.removeProperty( 'display' );
+			slide.style.removeProperty( 'top' );
+			slide.removeAttribute( 'hidden' );
+			slide.removeAttribute( 'aria-hidden' );
+		} );
 
 	}
 

@@ -394,4 +394,10 @@ export default class Backgrounds {
 
 	}
 
+	destroy() {
+
+		this.element.remove();
+
+	}
+
 }
