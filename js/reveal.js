@@ -405,32 +405,7 @@ export default function( revealElement, options ) {
 	function setupPostMessage() {
 
 		if( config.postMessage ) {
-			window.addEventListener( 'message', event => {
-				let data = event.data;
-
-				// Make sure we're dealing with JSON
-				if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
-					data = JSON.parse( data );
-
-					// Check if the requested method can be found
-					if( data.method && typeof Reveal[data.method] === 'function' ) {
-
-						if( POST_MESSAGE_METHOD_BLACKLIST.test( data.method ) === false ) {
-
-							const result = Reveal[data.method].apply( Reveal, data.args );
-
-							// Dispatch a postMessage event with the returned value from
-							// our method invocation for getter functions
-							dispatchPostMessage( 'callback', { method: data.method, result: result } );
-
-						}
-						else {
-							console.warn( 'reveal.js: "'+ data.method +'" is is blacklisted from the postMessage API' );
-						}
-
-					}
-				}
-			}, false );
+			window.addEventListener( 'message', onPostMessage, false );
 		}
 
 	}
@@ -574,6 +549,37 @@ export default function( revealElement, options ) {
 		dom.slides.removeEventListener( 'click', onSlidesClicked, false );
 		dom.slides.removeEventListener( 'transitionend', onTransitionEnd, false );
 		dom.pauseOverlay.removeEventListener( 'click', resume, false );
+
+	}
+
+	/**
+	 * Uninitializes reveal.js by undoing changes made to the
+	 * DOM and removing all event listeners.
+	 */
+	function destroy() {
+
+		removeEventListeners();
+		cancelAutoSlide();
+		disablePreviewLinks();
+
+		// Destroy controllers
+		plugins.destroy();
+		pointer.destroy();
+		controls.destroy();
+
+		// Remove event listeners
+		document.removeEventListener( 'fullscreenchange', onFullscreenChange );
+		document.removeEventListener( 'webkitfullscreenchange', onFullscreenChange );
+		document.removeEventListener( 'visibilitychange', onPageVisibilityChange, false );
+		window.removeEventListener( 'message', onPostMessage, false );
+		window.removeEventListener( 'load', layout, false );
+
+		// Undo DOM changes
+		dom.viewport.classList.remove( 'reveal-viewport' );
+		document.documentElement.classList.remove( 'reveal-full-page' );
+
+		dom.viewport.style.removeProperty( '--slide-width' );
+		dom.viewport.style.removeProperty( '--slide-height' );
 
 	}
 
@@ -2376,6 +2382,38 @@ export default function( revealElement, options ) {
 	}
 
 	/**
+	* Listener for post message events posted to this window.
+	*/
+	function onPostMessage( event ) {
+
+		let data = event.data;
+
+		// Make sure we're dealing with JSON
+		if( typeof data === 'string' && data.charAt( 0 ) === '{' && data.charAt( data.length - 1 ) === '}' ) {
+			data = JSON.parse( data );
+
+			// Check if the requested method can be found
+			if( data.method && typeof Reveal[data.method] === 'function' ) {
+
+				if( POST_MESSAGE_METHOD_BLACKLIST.test( data.method ) === false ) {
+
+					const result = Reveal[data.method].apply( Reveal, data.args );
+
+					// Dispatch a postMessage event with the returned value from
+					// our method invocation for getter functions
+					dispatchPostMessage( 'callback', { method: data.method, result: result } );
+
+				}
+				else {
+					console.warn( 'reveal.js: "'+ data.method +'" is is blacklisted from the postMessage API' );
+				}
+
+			}
+		}
+
+	}
+
+	/**
 	 * Event listener for transition end on the current slide.
 	 *
 	 * @param {object} [event]
@@ -2521,6 +2559,7 @@ export default function( revealElement, options ) {
 
 		initialize,
 		configure,
+		destroy,
 
 		sync,
 		syncSlide,

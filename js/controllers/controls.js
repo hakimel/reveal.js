@@ -188,6 +188,13 @@ export default class Controls {
 		}
 	}
 
+	destroy() {
+
+		this.unbind();
+		this.element.remove();
+
+	}
+
 	/**
 	 * Event handlers for navigation control buttons.
 	 */
