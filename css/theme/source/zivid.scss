@@ -1,0 +1,61 @@
+/**
+ * Zivid theme for reveal.js
+ *
+ * By Anders Schau Knatten
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url(./fonts/Montserrat/montserrat.css);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #fff;
+@mixin bodyBackground() {
+    background-image: url("/dist/theme/images/LogoZGreyLight.png");
+    background-repeat: no-repeat;
+    background-position: 99% 98%;
+    background-size: 70px 70px;
+}
+
+$mainColor: #34323d;
+$zividPink: #ed3472;
+$headingColor: $mainColor;
+$subHeadingColor: $zividPink;
+$listStyleColor: $zividPink;
+$tableHeaderBackgroundColor: #f0276f;
+$tableHeaderColor: #ffffff;
+$tableCellBackgroundColor1: #faccd5;
+$tableCellBackgroundColor2: #fce8eb;
+$tableBorderColor: $backgroundColor;
+$tableBorderPixels: 2px;
+
+$mainFontSize: 42px;
+$mainFont: 'Montserrat', Helvetica, sans-serif;
+$headingFont: 'Montserrat', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: none;
+$headingFontWeight: 600;
+$linkColor: #ed3472;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+// Change text colors against dark slide backgrounds
+@include dark-bg-text-color(#fff);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------

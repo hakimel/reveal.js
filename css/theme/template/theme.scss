@@ -69,6 +69,13 @@
 	text-shadow: var(--r-heading1-text-shadow);
 }
 
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    color: var(--r-sub-heading-color);
+}
+
 
 /*********************************************
  * OTHER
@@ -120,6 +127,10 @@
 
 .reveal ul {
 	list-style-type: disc;
+}
+
+.reveal ul li::marker {
+	color: var(--r-list-style-color);
 }
 
 .reveal ul ul {
@@ -218,7 +229,11 @@
 .reveal table td {
 	text-align: left;
 	padding: 0.2em 0.5em 0.2em 0.5em;
-	border-bottom: 1px solid;
+}
+
+.reveal table:not(code table) th,
+.reveal table:not(code table) td {
+	border: var(--r-table-border-pixels) solid var(--r-table-header-color);
 }
 
 .reveal table th[align="center"],
@@ -234,6 +249,19 @@
 .reveal table tbody tr:last-child th,
 .reveal table tbody tr:last-child td {
 	border-bottom: none;
+}
+
+.reveal table tr th {
+    background-color: var(--r-table-header-background-color);
+    color: var(--r-table-header-color);
+}
+
+.reveal table:not(code table) tr:nth-child(odd) td {
+    background-color: var(--r-table-cell-background-color1);
+}
+
+.reveal table:not(code table) tr:nth-child(even) td {
+    background-color: var(--r-table-cell-background-color2);
 }
 
 .reveal sup {

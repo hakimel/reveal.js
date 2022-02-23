@@ -1,12 +1,10 @@
 /**
- * A simple theme for reveal.js presentations, similar
- * to the default theme. The accent color is darkblue.
+ * Zivid theme for reveal.js
  *
- * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
- * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ * By Anders Schau Knatten
  */
-@import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url(./fonts/source-sans-pro/source-sans-pro.css);
+@import url(./fonts/Montserrat/montserrat.css);
 section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
   color: #fff;
 }
@@ -16,41 +14,44 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  *********************************************/
 :root {
   --r-background-color: #fff;
-  --r-main-font: Lato, sans-serif;
-  --r-main-font-size: 40px;
-  --r-main-color: #000;
+  --r-main-font: Montserrat, Helvetica, sans-serif;
+  --r-main-font-size: 42px;
+  --r-main-color: #34323d;
   --r-block-margin: 20px;
   --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: News Cycle, Impact, sans-serif;
-  --r-heading-color: #000;
+  --r-heading-font: Montserrat, Helvetica, sans-serif;
+  --r-heading-color: #34323d;
   --r-heading-line-height: 1.2;
   --r-heading-letter-spacing: normal;
   --r-heading-text-transform: none;
   --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
+  --r-heading-font-weight: 600;
   --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
+  --r-heading1-size: 2.5em;
+  --r-heading2-size: 1.6em;
+  --r-heading3-size: 1.3em;
   --r-heading4-size: 1em;
   --r-code-font: monospace;
-  --r-link-color: #00008B;
-  --r-link-color-dark: #00003f;
-  --r-link-color-hover: #0000f1;
-  --r-selection-background-color: rgba(0, 0, 0, 0.99);
+  --r-link-color: #ed3472;
+  --r-link-color-dark: #c3114d;
+  --r-link-color-hover: #f37aa3;
+  --r-selection-background-color: #f7a9c3;
   --r-selection-color: #fff;
-  --r-sub-heading-color: #eee;
-  --r-list-style-color: #eee;
-  --r-table-header-background-color: #eee;
-  --r-table-header-color: #eee;
-  --r-table-cell-background-color1: #eee;
-  --r-table-cell-background-color2: #eee;
-  --r-table-border-color: #eee;
-  --r-table-border-pixels: 1px;
+  --r-sub-heading-color: #ed3472;
+  --r-list-style-color: #ed3472;
+  --r-table-header-background-color: #f0276f;
+  --r-table-header-color: #ffffff;
+  --r-table-cell-background-color1: #faccd5;
+  --r-table-cell-background-color2: #fce8eb;
+  --r-table-border-color: #fff;
+  --r-table-border-pixels: 2px;
 }
 
 .reveal-viewport {
-  background: #fff;
+  background-image: url("/dist/theme/images/LogoZGreyLight.png");
+  background-repeat: no-repeat;
+  background-position: 99% 98%;
+  background-size: 70px 70px;
   background-color: var(--r-background-color);
 }
 

@@ -8,16 +8,65 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/zivid.css">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<link rel="stylesheet" href="plugin/highlight/atom-one-light.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-markdown>
+                    # Zivid template
+                    ## Author / date
+                    ### Subtitle
+                </section>
+
+                <section>
+                    <img src="/dist/theme/images/ZividLogo(dark).png"/>
+                </section>
+
+				<section data-markdown>
+                    ## Source code
+                    ```c++ [1|2-4]
+                    int main()
+                    {
+                        return 40 + 2;
+                    }
+                    ```
+                </section>
+
+                <section data-markdown>
+                    ## Testing the template
+                    - Bullets
+                    - Link with title to [Zivid](http://zivid.com)
+                    - Regular link to http://zivid.com
+                </section>
+                <section>
+                    <h2>Font styles</h2>
+                    <ul>
+                        <li style="font-weight: lighter;">lighter</li>
+                        <li style="font-weight: normal;">normal</li>
+                        <li style="font-weight: bold;">bold</li>
+                        <li style="font-weight: 900;">900</li>
+                    </ul>
+                    <ul>
+                        <li style="font-weight: lighter;"><em>lighter</em></li>
+                        <li style="font-weight: normal;"><em>normal</em></li>
+                        <li style="font-weight: bold;"><em>bold</em></li>
+                        <li style="font-weight: 900;"><em>900</em></li>
+                    </ul>
+                </section>
+
+                <section data-markdown>
+                ## Table
+                |foo|bar|baz|
+                |---|---|---|
+                |foo|bar|baz|
+                |foo|bar|baz|
+                |foo|bar|baz|
+
+                </section>
 			</div>
 		</div>
 
