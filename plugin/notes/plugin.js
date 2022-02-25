@@ -67,13 +67,18 @@ const Plugin = () => {
 		*/
 	function connect() {
 
+		const presentationURL = deck.getConfig().url;
+
+		const url = typeof presentationURL === 'string' ? presentationURL :
+								window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search;
+
 		// Keep trying to connect until we get a 'connected' message back
 		connectInterval = setInterval( function() {
 			speakerWindow.postMessage( JSON.stringify( {
 				namespace: 'reveal-notes',
 				type: 'connect',
-				url: window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search,
-				state: deck.getState()
+				state: deck.getState(),
+				url
 			} ), '*' );
 		}, 500 );
 
