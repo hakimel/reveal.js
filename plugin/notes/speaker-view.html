@@ -368,6 +368,10 @@
 
 				window.addEventListener( 'message', function( event ) {
 
+					if (window.location.origin !== event.origin){
+						return;
+					}
+
 					clearTimeout( connectionTimeout );
 					connectionStatus.style.display = 'none';
 
