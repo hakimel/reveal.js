@@ -368,7 +368,8 @@
 
 				window.addEventListener( 'message', function( event ) {
 
-					if (window.location.origin !== event.origin){
+					// Ignore post messages from other origins to prevent XSS
+					if( window.location.origin !== event.origin ){
 						return;
 					}
 
