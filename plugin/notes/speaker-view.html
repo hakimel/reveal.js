@@ -365,11 +365,11 @@
 				var connectionTimeout = setTimeout( function() {
 					connectionStatus.innerHTML = 'Error connecting to main window.<br>Please try closing and reopening the speaker view.';
 				}, 5000 );
-
+;
 				window.addEventListener( 'message', function( event ) {
 
-					// Ignore post messages from other origins to prevent XSS
-					if( window.location.origin !== event.origin ){
+					// Validate the origin of this message to avoid XSS
+					if( window.location.origin !== event.origin && event.source !== window.opener ) {
 						return;
 					}
 
