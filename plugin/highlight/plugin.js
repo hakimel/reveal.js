@@ -106,7 +106,7 @@ const Plugin = {
 
 			var scrollState = { currentBlock: block };
 
-			// If there is at least one highlight step, generate
+			// If there is more than one highlight step, generate
 			// fragments
 			var highlightSteps = Plugin.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
 			if( highlightSteps.length > 1 ) {
