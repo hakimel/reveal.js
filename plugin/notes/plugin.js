@@ -203,6 +203,7 @@ const Plugin = () => {
 					// that we remain connected to the notes even if the presentation
 					// is reloaded.
 					window.addEventListener( 'message', event => {
+
 						if( !speakerWindow && typeof event.data === 'string' ) {
 							let data;
 
