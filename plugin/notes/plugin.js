@@ -203,8 +203,14 @@ const Plugin = () => {
 					// that we remain connected to the notes even if the presentation
 					// is reloaded.
 					window.addEventListener( 'message', event => {
-						if( !speakerWindow ) {
-							let data = JSON.parse( event.data );
+						if( !speakerWindow && typeof event.data === 'string' ) {
+							let data;
+
+							try {
+								data = JSON.parse( event.data );
+							}
+							catch( error ) {}
+
 							if( data && data.namespace === 'reveal-notes' && data.type === 'heartbeat' ) {
 								reconnectSpeakerWindow( event.source );
 							}
