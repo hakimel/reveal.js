@@ -1,3 +1,5 @@
+@use "sass:math";
+
 /**
  * reveal.js
  * http://revealjs.com
@@ -29,6 +31,16 @@ html.reveal-full-page {
 
 	background-color: #fff;
 	color: #000;
+}
+
+// Force the presentation to cover the full viewport when we
+// enter fullscreen mode. Fixes sizing issues in Safari.
+.reveal-viewport:fullscreen {
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	transform: none !important;
 }
 
 
@@ -247,11 +259,11 @@ $controlsArrowAngleActive: 36deg;
 
 @mixin controlsArrowTransform( $angle ) {
 	&:before {
-		transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( $angle );
+		transform: translateX(($controlArrowSize - $controlArrowLength)*0.5) translateY(($controlArrowSize - $controlArrowThickness)*0.5) rotate( $angle );
 	}
 
 	&:after {
-		transform: translateX(($controlArrowSize - $controlArrowLength)/2) translateY(($controlArrowSize - $controlArrowThickness)/2) rotate( -$angle );
+		transform: translateX(($controlArrowSize - $controlArrowLength)*0.5) translateY(($controlArrowSize - $controlArrowThickness)*0.5) rotate( -$angle );
 	}
 }
 
@@ -300,11 +312,11 @@ $controlsArrowAngleActive: 36deg;
 		left: 0;
 		width: $controlArrowLength;
 		height: $controlArrowThickness;
-		border-radius: $controlArrowThickness/2;
+		border-radius: $controlArrowThickness*0.5;
 		background-color: currentColor;
 
 		transition: all 0.15s ease, background-color 0.8s ease;
-		transform-origin: floor(($controlArrowThickness/2)*10)/10 50%;
+		transform-origin: math.div(floor(($controlArrowThickness*0.5)*10), 10) 50%;
 		will-change: transform;
 	}
 
@@ -326,7 +338,7 @@ $controlsArrowAngleActive: 36deg;
 
 	.navigate-left {
 		right: $controlArrowSize + $controlArrowSpacing*2;
-		bottom: $controlArrowSpacing + $controlArrowSize/2;
+		bottom: $controlArrowSpacing + $controlArrowSize*0.5;
 		transform: translateX( -10px );
 
 		&.highlight {
@@ -336,7 +348,7 @@ $controlsArrowAngleActive: 36deg;
 
 	.navigate-right {
 		right: 0;
-		bottom: $controlArrowSpacing + $controlArrowSize/2;
+		bottom: $controlArrowSpacing + $controlArrowSize*0.5;
 		transform: translateX( 10px );
 
 		.controls-arrow {
@@ -349,7 +361,7 @@ $controlsArrowAngleActive: 36deg;
 	}
 
 	.navigate-up {
-		right: $controlArrowSpacing + $controlArrowSize/2;
+		right: $controlArrowSpacing + $controlArrowSize*0.5;
 		bottom: $controlArrowSpacing*2 + $controlArrowSize;
 		transform: translateY( -10px );
 
@@ -359,7 +371,7 @@ $controlsArrowAngleActive: 36deg;
 	}
 
 	.navigate-down {
-		right: $controlArrowSpacing + $controlArrowSize/2;
+		right: $controlArrowSpacing + $controlArrowSize*0.5;
 		bottom: -$controlArrowSpacing;
 		padding-bottom: $controlArrowSpacing;
 		transform: translateY( 10px );
@@ -515,25 +527,25 @@ $controlsArrowAngleActive: 36deg;
 		.navigate-left {
 			top: 50%;
 			left: $spacing;
-			margin-top: -$controlArrowSize/2;
+			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-right {
 			top: 50%;
 			right: $spacing;
-			margin-top: -$controlArrowSize/2;
+			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-up {
 			top: $spacing;
 			left: 50%;
-			margin-left: -$controlArrowSize/2;
+			margin-left: -$controlArrowSize*0.5;
 		}
 
 		.navigate-down {
 			bottom: $spacing - $controlArrowSpacing + 0.3em;
 			left: 50%;
-			margin-left: -$controlArrowSize/2;
+			margin-left: -$controlArrowSize*0.5;
 		}
 	}
 
@@ -769,9 +781,6 @@ $controlsArrowAngleActive: 36deg;
  *********************************************/
 
 @each $stylename in slide, linear {
-	.reveal.#{$stylename} section {
-		backface-visibility: hidden;
-	}
 	@include transition-horizontal-past(#{$stylename}) {
 		transform: translate(-150%, 0);
 	}
@@ -1167,7 +1176,6 @@ $controlsArrowAngleActive: 36deg;
 .reveal[data-background-transition=slide]>.backgrounds .slide-background:not([data-background-transition]),
 .reveal>.backgrounds .slide-background[data-background-transition=slide] {
 	opacity: 1;
-	backface-visibility: hidden;
 }
 	.reveal[data-background-transition=slide]>.backgrounds .slide-background.past:not([data-background-transition]),
 	.reveal>.backgrounds .slide-background.past[data-background-transition=slide] {
@@ -1701,7 +1709,7 @@ $notesWidthPercent: 25%;
 .reveal .speaker-notes {
 	display: none;
 	position: absolute;
-	width: $notesWidthPercent / (1-$notesWidthPercent/100) * 1%;
+	width: math.div($notesWidthPercent, (1 - math.div($notesWidthPercent,100))) * 1%;
 	height: 100%;
 	top: 0;
 	left: 100%;
@@ -1764,7 +1772,6 @@ $notesWidthPercent: 25%;
 		top: 100%;
 		left: 0;
 		width: 100%;
-		height: (30/0.7)*1%;
 		height: 30vh;
 		border: 0;
 	}
@@ -1778,7 +1785,6 @@ $notesWidthPercent: 25%;
 
 	.reveal.show-notes .speaker-notes {
 		top: 100%;
-		height: (40/0.6)*1%;
 		height: 40vh;
 	}
 

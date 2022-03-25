@@ -4,7 +4,7 @@
  * of external markdown documents.
  */
 
-import marked from 'marked'
+import { marked } from 'marked';
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_NOTES_SEPARATOR = 'notes?:',

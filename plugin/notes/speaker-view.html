@@ -1,3 +1,6 @@
+<!--
+	NOTE: You need to build the notes plugin after making changes to this file.
+-->
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -347,7 +350,8 @@
 					layoutDropdown,
 					pendingCalls = {},
 					lastRevealApiCallId = 0,
-					connected = false;
+					connected = false,
+					whitelistedWindows = [window.opener];
 
 				var SPEAKER_LAYOUTS = {
 					'default': 'Default',
@@ -362,8 +366,13 @@
 				var connectionTimeout = setTimeout( function() {
 					connectionStatus.innerHTML = 'Error connecting to main window.<br>Please try closing and reopening the speaker view.';
 				}, 5000 );
-
+;
 				window.addEventListener( 'message', function( event ) {
+
+					// Validate the origin of this message to prevent XSS
+					if( window.location.origin !== event.origin && whitelistedWindows.indexOf( event.source ) === -1 ) {
+						return;
+					}
 
 					clearTimeout( connectionTimeout );
 					connectionStatus.style.display = 'none';
@@ -395,12 +404,20 @@
 						}
 						else if( /slidechanged|fragmentshown|fragmenthidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
 
-							window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ]} ), '*' );
+							dispatchStateToMainWindow( data.state );
 
 						}
 					}
 
 				} );
+
+				/**
+				 * Updates the presentation in the main window to match the state
+				 * of the presentation in the notes window.
+				 */
+				const dispatchStateToMainWindow = debounce(( state ) => {
+					window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ state ]} ), '*' );
+				}, 500);
 
 				/**
 				 * Asynchronously calls the Reveal.js API of the main frame.
@@ -432,6 +449,7 @@
 						setupKeyboard();
 						setupNotes();
 						setupTimer();
+						setupHeartbeat();
 					}
 
 				}
@@ -521,6 +539,8 @@
 					upcomingSlide.setAttribute( 'src', upcomingURL );
 					document.querySelector( '#upcoming-slide' ).appendChild( upcomingSlide );
 
+					whitelistedWindows.push( currentSlide.contentWindow, upcomingSlide.contentWindow );
+
 				}
 
 				/**
@@ -530,6 +550,18 @@
 
 					notes = document.querySelector( '.speaker-controls-notes' );
 					notesValue = document.querySelector( '.speaker-controls-notes .value' );
+
+				}
+
+				/**
+				 * We send out a heartbeat at all times to ensure we can
+				 * reconnect with the main presentation window after reloads.
+				 */
+				function setupHeartbeat() {
+
+					setInterval( () => {
+						window.opener.postMessage( JSON.stringify({ namespace: 'reveal-notes', type: 'heartbeat'} ), '*' );
+					}, 1000 );
 
 				}
 

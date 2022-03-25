@@ -1,5 +1,4 @@
-import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/constants.js'
-import { extend, queryAll, closest } from '../utils/util.js'
+import { extend, queryAll, closest, getMimeTypeFromFile } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 import fitty from 'fitty';
@@ -137,7 +136,13 @@ export default class SlideContent {
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( source => {
-						video.innerHTML += '<source src="'+ source +'">';
+						let type = getMimeTypeFromFile( source );
+						if( type ) {
+							video.innerHTML += `<source src="${source}" type="${type}">`;
+						}
+						else {
+							video.innerHTML += `<source src="${source}">`;
+						}
 					} );
 
 					backgroundContent.appendChild( video );

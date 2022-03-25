@@ -280,3 +280,18 @@ export const getRemainingHeight = ( element, height = 0 ) => {
 	return height;
 
 }
+
+const fileExtensionToMimeMap = {
+	'mp4': 'video/mp4',
+	'm4a': 'video/mp4',
+	'ogv': 'video/ogg',
+	'mpeg': 'video/mpeg',
+	'webm': 'video/webm'
+}
+
+/**
+ * Guess the MIME type for common file formats.
+ */
+export const getMimeTypeFromFile = ( filename='' ) => {
+	return fileExtensionToMimeMap[filename.split('.').pop()]
+}

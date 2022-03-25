@@ -75,6 +75,17 @@ export default class Pointer {
 
 	}
 
+	destroy() {
+
+		this.showCursor();
+
+		document.removeEventListener( 'DOMMouseScroll', this.onDocumentMouseScroll, false );
+		document.removeEventListener( 'mousewheel', this.onDocumentMouseScroll, false );
+		document.removeEventListener( 'mousemove', this.onDocumentCursorActive, false );
+		document.removeEventListener( 'mousedown', this.onDocumentCursorActive, false );
+
+	}
+
 	/**
 	 * Called whenever there is mouse input at the document level
 	 * to determine if the cursor is active or not.

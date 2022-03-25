@@ -123,4 +123,10 @@ export default class SlideNumber {
 
 	}
 
+	destroy() {
+
+		this.element.remove();
+
+	}
+
 }
