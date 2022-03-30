@@ -6,21 +6,355 @@
 
 		<title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
+		<!-- <link rel="stylesheet" href="dist/reset.css"> -->
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/night.css" id="theme">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 	</head>
 	<body>
-		<div class="reveal">
+		<div class="reveal has-dark-background" role="application">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h3>Design Patterns</h3>
+				</section>
+				<section>
+					<h3>Agenda</h3>
+					<ul>
+						<li>Discuss the need for Design Patterns</li>
+						<li>Discuss what Design Patterns are</li>
+						<li>Select the appropriate pattern for an example use case</li>
+						<li>Categories of Design Patterns</li>
+					</ul>
+					<aside class="notes">
+						<p>We are not going to do a deep dive into Design Patterns. If you are new to design patterns it <b>will</b> be overwhelming.</p>
+						<p>I just want to give a breif introduction. We can do a deep dive into a few specific patterns in a future lunch and learn.</p>
+					</aside>
+				</section>
+				<section>
+					<h3>Designing software for reuse is hard. It’s an enormous challenge.</h3>
+					<ul>
+						<li>Teams of developers, different skill levels, different areas of expertise</li>
+						<li>Somehow we are supposed to write code that is flexible, modular, elegant</li>
+					</ul>
+					<aside class="notes">
+						<p>You need to figure out how to represent a solution to a problem with code.</p>
+						<p>Factor these real world concepts into classes or structs at the right granularity. And you have all these questions...Should I define some interfaces? How do they relate to one another?</p>
+						<p>In the end, what you want is a balance between a design that is specific to the problem at hand, yet flexible enough to address future problems and requirements.</p>
+						<p>You want to avoid or minimize the need to redesign</p>
+					</aside>
+				</section>
+				<section>
+					<h3>We Try</h3>
+					<ul>
+						<li>Designs usually emerge from trial and error</li>
+						<li>Fallback to anti-patterns</li>
+						<li>Break/fix cycle</li>
+					</ul>
+					<aside class="notes">
+						<p>Usually what we end up with is design that has emerged from trial and error. We get frustrated. We fall back to anti-patterns that we've used before. Puts us in the break/fix cycle.</p>
+					</aside>
+				</section>
+				<section>
+					<section>
+						<h3>Good Design Does Exist</h3>
+					</section>
+					<section>
+						<blockquote>
+							"There are two parts to learning craftsmanship: knowledge and work. You must gain the knowledge of principles, patterns, and practices, that a craftsman knows. You must also grind that knowledge into your fingers, eyes, and gut by working hard and practicing."
+							<br>
+							-Robert C. Martin
+						</blockquote>
+						<aside class="notes">
+							<p>Good design does exist, but there's a catch!!</p>
+							<p>It takes a long time to learn what good software design is all about.</p>
+							<p>The programming language is the easy part. It's knowing how to Craft quality sotware that's hard.</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Good design is <i>not</i></h3>
+						<ul>
+							<li>It's not the latest/greatest UI framework</li>
+							<li>It's not Golang</li>
+							<li>It's not Java</li>
+							<li>It's not Microservices</li>
+						</ul>
+						<aside class="notes">
+							<p>There is no languange or framework in the  world that's going to relieve us of our responsibility as developers to actually know what we're doing.</p>
+							<p>I say if we're going to make better software, we have to make ourselves better software developers.</p>
+							<p>These frame works and programming languages are the easy part. It's knowing how to craft quality sotware that's hard.</p>
+							<p>It's experience and practice.</p>
+							<p>Anecdote about the young violinist on her way to a performance.</p>
+							<p>So, if it's not languages, frameworks and all that mumbo jumbo. What is it that allows us to achieve good design?</p>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>What are design patterns?</h3>
+						<p></p>
+						<p>Software Design patterns are lessons learned about how to write good, clean, maintainable code.</p>
+						<p>They are the common, accepted, and standardized solutions to software problems that occur in a given context.</p>
+					</section>
+					<section>
+						<ul>
+							<li>They help to short-circuit the trial and error phase</li>
+							<li>Produce more robust, scaleable, maintainable, readable, testable software faster.</li>
+							<li>Leads to flexible architecture</li>
+							<li>Independent of a programming language</li>
+							<li>Not code, need to be understood and applied</li>
+							<li>Identifies classes, functions, structures and their roles</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Benefits of Design Patterns</h3>
+					</section>
+					<section>
+						<h3>Common design vocabulary</h3>
+						<ul>
+							<li>allows developers to abstract a problem and talk about that abstraction in isolation from its implementation</li>
+							<li>creates a collaborative culture, domain-specific patterns increase design speed</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Patterns Capture Design Expertise</h3>
+						<ul>
+							<li>Allows expertise to be easily communicated</li>
+							<li>Promotes design reuse, saves time, avoids mistakes</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h3>Categories of Design Patterns</h3>
+					<ul>
+						<li>Creational</li>
+						<li>Structural</li>
+						<li>Behavioral</li>
+					</ul>
+					<aside class="notes">
+						<p><h4>Creational Patterns</h4> These design patterns provide ways to create objects while hiding the creation logic, instead of instantiating objects directly using the new operator. This gives the program more flexibility in deciding which objects need to be created for a given use case.</p>
+						<p><h4>Structural Patterns</h4> These design patterns deal with class and object composition. The concept of inheritance is used to compose interfaces and define ways to compose objects to obtain new functionality.</p>
+						<p><h4>Behavioral Patterns</h4> These design patterns are specifically concerned with communication between objects.</p>
+					</aside>
+				</section>
+				<section>
+					<section>
+						<h3>Problem</h3>
+						<p></p>
+						<p></p>
+						Navigator App
+						<aside class="notes">
+							One day you decided to create a navigation app for casual travelers. The app was centered around a beautiful map which helped users quickly orient themselves in any city.
+						</aside>
+					</section>
+					<section>
+						<h3>First version</h3>
+						<ul>
+							<li>automatic route planning, only over roads</li>
+						</ul>
+						<aside class="notes">
+							<p>A user should be able to enter an address and see the fastest route to that destination displayed on the map.</p>
+							<p>Great for people who travle by car, not so much for those people whow don't</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Second version</h3>
+						<ul>
+							<li>Option to build walking routes</li>
+						</ul>
+						<aside class="notes">
+							<p>The second version has walking routes. 
+						</aside>
+					</section>
+					<section>
+						<h3>Third version</h3>
+						<ul>
+							<li>Public transportation routes</li>
+						</ul>
+						<aside class="notes">
+							<p>Right after that, you added another option to let people use public transport in their routes.</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Future versions</h3>
+						<ul>
+							<li>Routes for cyclists</li>
+							<li>Routes through all of the city's tourist attractions</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Spaghetti Code</h3>
+						<section>
+							<div>
+								<img src="/images/spaghetti-code.png" alt="">
+							</div>
+						</section>
+						<aside class="notes">
+							<p>Anyone up for Italian?</p>
+							<p>From a business perspective the app is a success. But, the technical part... is starting to cause headaches and cardiacs.  
+							   Each time you add a new routing algorithm, the code becomes more brittle and unstable. Code changes get you back into the break/fix cycle.  
+							   The app is becoming hard became too hard to maintain. Feature delivery is slowing, devs are frustrated. 
+							</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Solution</h3>
+						<h4>Strategy Pattern</h4>
+					</section>
+					<section>
+						<ul>
+							<li>Suggests that you define a family of algorithms</li>
+							<li>Ecapsulate each one</li>
+							<li>Make them interchangeable</li>
+						</ul>
+						<aside class="notes">
+							<p>Despite the academic language used in the offical definition of the Strategy pattern, you can sum it up in these 3 points.</p>
+							<p>Encapsulate each one just means create a class or struct to represent the implementation</p>
+							<p>Make them interchangeable in this case means to create an interface or contract that each implementer must adhere to.</p>
+						</aside>
+					</section>
+					<section>
+						<div>
+							<img src="/images/strategy-pattern.png" alt="">
+						</div>
+						
+						<aside class="notes">
+							<p><b>Participants</b></p>
+							<p>Strategy: an interface common to all the supported algorithms or implementers</p>
+							<p>Concrete Strategy: implemenst the stragtegy interface</p>
+							<p>Context: Configured with a reference to a Concrete Strategy, an implementer.</p>
+						</aside>
+					</section>
+					<section>
+						<h4>Benefits</h4>
+						<ul>
+							<li>Change algorithms used in a context at runtime</li>
+							<li>Isolate the implementation details of an algorithm from the context</li>
+							<li>Replace inheritance with composition</li>
+							<li>Open/Closed Principle. Introduce new strategies without changing the context</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Drawbacks</h4>
+						<ul>
+							<li>Don't overcomplicate the code if only a couple of simple algorithms</li>
+							<li>Potential for clients to be aware stragtegy implementation details</li>
+						</ul>
+						<aside class="notes">
+							<p>Don't use Strategy Pattern to do simple things like return a string value</p>
+							<p>Careful about how much clients know about the implementation details of any interface</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Code Sample</h3>
+						<pre>
+							<code data-trim data-noescape>
+								type Strategy interface {
+									// Name returns the strategy name
+									Name() string
+								
+									// Authorize is the entrypoint for the strategy
+									// to process a new CMS Authorization
+									Authorize(context.Context) ([]*cms.AuthorizeResponse, error)
+								}
+							</code>
+						</pre>
+						<pre>
+							<code data-trim data-noescape>
+								func Determine(model interface{}) Strategy {
+									switch t := model.(type) {
+								
+									// Charges from kms-payments
+									case *pb.GatewayChargeRequest:
+										charge := t.GetCharge()
+										profile := t.GetProfile()
+								
+										// We have a profile, use the autoship strategy
+										if profile != nil {
+											return &Autoship{
+												charge:  charge,
+												profile: profile,
+												fields:  profile.Fields,
+											}
+										}
+								
+										// If not, use the online strategy
+										return &Online{
+											charge: charge,
+											fields: t.Fields,
+										}
+									}
+								
+									// Could not determine the strategy to use
+									return nil
+								}
+							</code>
+						</pre>
+					</section>
+				</section>
+
+				<section>
+					<h4>Creational Design Patterns</h4>
+					<p>Concerned with the creation of objects, while removing the need to know how the object is created.</p> 
+					<ul>
+						<li>Factory Method</li>
+						<li>Singleton</li>
+						<li>Abstract Factory</li>
+						<li>Prototype</li>
+						<li>Builder</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Structural Design Patterns</h4>
+					<p>Concerned with the ways we make up object and architecture composition, in order to achieve functionality or cleaner code.</p>
+					<ul>
+						<li>Adapter</li>
+						<li>Bridge</li>
+						<li>Composite</li>
+						<li>Decorator</li>
+						<li>Facade</li>
+						<li>Flyweight</li>
+						<li>Proxy</li>
+					</ul>
+				</section>
+				<section>
+					<h4>Behavioral Design Patterns</h4>
+					<p>Concerned with algorithms and the assignment of responsibilities between objects. </p>
+					<ul>
+						<li>Template Method</li>
+						<li>Strategy</li>
+						<li>State</li>
+						<li>Observer</li>
+						<li>Visitor</li>
+						<li>Command</li>
+						<li>Iterator</li>
+						<li>Chain of Responsibility</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Summary</h3>
+					<ul>
+						<li>Produce more robust, scaleable, maintainable, readable, testable software faster.</li>
+						<li>Leads to flexible architecture</li>
+						<li>Fosters collaboration and communication</li>
+						<li>Use carefully</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Future Lunch and Learns</h3>
+					<ul>
+						<li>Coding Standards</li>
+						<li>S.O.L.I.D Desing Principles</li>
+					</ul>
+				</section>
+
 			</div>
 		</div>
-
+		
 		<script src="dist/reveal.js"></script>
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
