@@ -1571,15 +1571,20 @@ export default function( revealElement, options ) {
 			slidesLength = slides.length;
 
 		let printMode = print.isPrintingPDF();
+		let loopedForwards = false;
+		let loopedBackwards = false;
 
 		if( slidesLength ) {
 
 			// Should the index loop?
 			if( config.loop ) {
+				if( index >= slidesLength ) loopedForwards = true;
+
 				index %= slidesLength;
 
 				if( index < 0 ) {
 					index = slidesLength + index;
+					loopedBackwards = true;
 				}
 			}
 
@@ -1617,10 +1622,7 @@ export default function( revealElement, options ) {
 
 					if( config.fragments ) {
 						// Show all fragments in prior slides
-						Util.queryAll( element, '.fragment' ).forEach( fragment => {
-							fragment.classList.add( 'visible' );
-							fragment.classList.remove( 'current-fragment' );
-						} );
+						showFragmentsIn( element );
 					}
 				}
 				else if( i > index ) {
@@ -1629,9 +1631,17 @@ export default function( revealElement, options ) {
 
 					if( config.fragments ) {
 						// Hide all fragments in future slides
-						Util.queryAll( element, '.fragment.visible' ).forEach( fragment => {
-							fragment.classList.remove( 'visible', 'current-fragment' );
-						} );
+						hideFragmentsIn( element );
+					}
+				}
+				// Update the visibility of fragments when a presentation loops
+				// in either direction
+				else if( i === index && config.fragments ) {
+					if( loopedForwards ) {
+						hideFragmentsIn( element );
+					}
+					else if( loopedBackwards ) {
+						showFragmentsIn( element );
 					}
 				}
 			}
@@ -1668,6 +1678,29 @@ export default function( revealElement, options ) {
 		}
 
 		return index;
+
+	}
+
+	/**
+	 * Shows all fragment elements within the given contaienr.
+	 */
+	function showFragmentsIn( container ) {
+
+		Util.queryAll( container, '.fragment' ).forEach( fragment => {
+			fragment.classList.add( 'visible' );
+			fragment.classList.remove( 'current-fragment' );
+		} );
+
+	}
+
+	/**
+	 * Hides all fragment elements within the given contaienr.
+	 */
+	function hideFragmentsIn( container ) {
+
+		Util.queryAll( container, '.fragment.visible' ).forEach( fragment => {
+			fragment.classList.remove( 'visible', 'current-fragment' );
+		} );
 
 	}
 
