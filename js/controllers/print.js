@@ -22,7 +22,7 @@ export default class Print {
 		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
 
 		// Compute slide numbers now, before we start duplicating slides
-		const doingSlideNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
+		const injectPageNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
 
 		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 
@@ -147,13 +147,12 @@ export default class Print {
 
 				}
 
-				// Inject slide numbers if `slideNumbers` are enabled
-				if( doingSlideNumbers ) {
+				// Inject page numbers if `slideNumbers` are enabled
+				if( injectPageNumbers ) {
 					const numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = slideNumber;
-					slideNumber++;
+					numberElement.innerHTML = slideNumber++;
 					page.appendChild( numberElement );
 				}
 
@@ -183,9 +182,14 @@ export default class Print {
 
 						// Create a separate page for the current fragment state
 						const clonedPage = page.cloneNode( true );
-						const numberElement = clonedPage.querySelector( '.slide-number-pdf' );
-						const fragmentNumber = index + 1;
-						numberElement.innerHTML = numberElement.innerHTML + "." + fragmentNumber;
+
+						// Inject unique page numbers for fragments
+						if( injectPageNumbers ) {
+							const numberElement = clonedPage.querySelector( '.slide-number-pdf' );
+							const fragmentNumber = index + 1;
+							numberElement.innerHTML += '.' + fragmentNumber;
+						}
+
 						pages.push( clonedPage );
 
 						previousFragmentStep = fragments;
