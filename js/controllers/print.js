@@ -66,6 +66,7 @@ export default class Print {
 
 		const pages = [];
 		const pageContainer = slides[0].parentNode;
+		let slideNumber = 1;
 
 		// Slide and slide background layout
 		slides.forEach( function( slide, index ) {
@@ -148,11 +149,11 @@ export default class Print {
 
 				// Inject slide numbers if `slideNumbers` are enabled
 				if( doingSlideNumbers ) {
-					const slideNumber = index + 1;
 					const numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
 					numberElement.innerHTML = slideNumber;
+					slideNumber++;
 					page.appendChild( numberElement );
 				}
 
@@ -166,7 +167,7 @@ export default class Print {
 
 					let previousFragmentStep;
 
-					fragmentGroups.forEach( function( fragments ) {
+					fragmentGroups.forEach( function( fragments, index ) {
 
 						// Remove 'current-fragment' from the previous group
 						if( previousFragmentStep ) {
@@ -182,6 +183,9 @@ export default class Print {
 
 						// Create a separate page for the current fragment state
 						const clonedPage = page.cloneNode( true );
+						const numberElement = clonedPage.querySelector( '.slide-number-pdf' );
+						const fragmentNumber = index + 1;
+						numberElement.innerHTML = numberElement.innerHTML + "." + fragmentNumber;
 						pages.push( clonedPage );
 
 						previousFragmentStep = fragments;
