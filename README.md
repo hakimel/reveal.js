@@ -29,8 +29,7 @@ Hakim's open source work is supported by <a href="https://github.com/sponsors/ha
       </a>
     </td>
     <td align="center">
-      <a href="https://www.doppler.com/?utm_cam![Uploading workos-logo-white-bg.svg…]()
-      paign=github_repo&utm_medium=referral&utm_content=revealjs&utm_source=github">
+      <a href="https://www.doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=revealjs&utm_source=github">
         <div>
           <img src="https://user-images.githubusercontent.com/629429/151510865-9fd454f1-fd8c-4df4-b227-a54b87313db4.png" width="290" alt="Doppler">
         </div>
