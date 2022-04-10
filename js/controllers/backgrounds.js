@@ -310,6 +310,19 @@ export default class Backgrounds {
 			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
 			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== this.previousBackground ) {
 				this.element.classList.add( 'no-transition' );
+
+				// Don't restart the video between two slides with same background
+				const video = currentBackground.querySelector("video");
+				if(video){
+
+					if(this.previousBackground){
+						const previousVideo = this.previousBackground.querySelector("video");
+
+						if(previousVideo) {
+							video.currentTime = previousVideo.currentTime;
+						}
+					}
+				}
 			}
 
 			this.previousBackground = currentBackground;
