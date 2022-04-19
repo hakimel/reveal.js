@@ -1,7 +1,8 @@
 ## The magical world of
 # Scava
 ### Matan Keidar
-<img src="https://www.clipartmax.com/png/middle/41-410102_scala-programming-language-icon.png" width="200" height="200" />
+<img src="https://www.scala-lang.org/resources/img/frontpage/scala-spiral.png" width="200" height="200" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Duke_%28Java_mascot%29_waving.svg/226px-Duke_%28Java_mascot%29_waving.svg.png" width="200" height="200" />
 
 ---
 
@@ -53,18 +54,17 @@ Meaning:
 - Effect:  Wrapper/Context of a computation value <!-- .element: class="fragment" -->
 
 
-## Avoid Nulls
+## Avoid Nulls 
 - `Option[T]`: Scala's built-in effect for representing 
-- Has 2 possible values:
+- Has 2 possible values: <!-- .element: class="fragment" -->
   - `Some[T]` represents a concrete value of type `T`
   - `None` represents an empty value
-- Example:
+- Example: <!-- .element: class="fragment" --> 
 ```scala
 val num1: Option[Int] = Some(4) 
 val num2: Option[Int] = None    
 ```
-
-- Nice Scala feature: 
+- Nice Scala feature: <!-- .element: class="fragment" -->
   ```scala
   Option(null) == None
   ```
@@ -136,16 +136,15 @@ What are the possible problems with this approach?
 
 
 ## Exceptions Management
-- `Try[T]` has 2 possible values:
+- `Try[T]` has 2 possible values: 
   - `Success[T]`:  a successful computation of type `T`
   - `Failure[Throwable]`: a failed computation
-- Example:
+- Example: <!-- .element: class="fragment" -->
 ```scala
 val num1: Try[Int] = Success(4) 
 val num2: Try[Int] = Failure(new Exception("oh my..."))    
 ```
-
-- Nice Scala feature: 
+- Nice Scala feature: <!-- .element: class="fragment" -->
   ```scala
   val result = Try { 5 / 0 }
   println(result) // Failure(ArithmeticException: / by zero)
@@ -162,8 +161,8 @@ val num2: Try[Int] = Failure(new Exception("oh my..."))
 > that piece of code with the value it computes and vice-versa, anywhere where that piece is used, without changing the meaning or result of our program. 
 
 
-## Early Returns
-```scala [|2]
+## Early Returns <!-- .slide: data-auto-animate -->
+```scala
 def isPositiveNumber1(number : Int) : Boolean = {
   val isTrue  = return true
   val isFalse = return false
@@ -180,11 +179,11 @@ isPositiveNumber2(-1) // false
 ```
 
 
-## Early Returns
+## Early Returns <!-- .slide: data-auto-animate -->
 The `return` keyword is <span style="color: red;">NOT</span> <span style="color: yellow;">referentially transparent </span>
 
 
-## Early Returns
+## Early Returns <!-- .slide: data-auto-animate -->
 ```java []
 int indexOf(String string, char character) {
   if(string.isEmpty()) {
@@ -205,7 +204,7 @@ int indexOf(String string, char character) {
 How to implement early returns in Scala?
 
 
-## Early Returns with Recursion
+## Early Returns with Recursion 
 ```scala []
 def indexOf(string : String , char : Char) : Int = {
    @tailrec
@@ -291,7 +290,7 @@ user match {
 # Immutability
 
 
-## Immutability
+## Immutability <!-- .slide: data-auto-animate -->
 - A common pattern is to create an empty collection 
 - And then populate it with values
 - Why is it bad?
@@ -299,7 +298,7 @@ user match {
 - How to avoid it?
 
 
-## Immutability
+## Immutability <!-- .slide: data-auto-animate -->
 ```scala
 val users: List[User] = getAllUsers()
 
@@ -317,7 +316,7 @@ val managers = users.filter(_.isManager)
 ```
 
 
-## Immutability
+## Immutability <!-- .slide: data-auto-animate -->
 ```scala
 // Imperative
 var onePerRegion: Map[Region, User] = Map()
@@ -329,7 +328,7 @@ users.foreach { user =>
 ```
 
 
-## Immutability
+## Immutability <!-- .slide: data-auto-animate -->
 ```scala
 // Functional
 val onePerRegion = users.foldLeft( (Seq.empty[User], "") ) {
@@ -342,14 +341,15 @@ val onePerRegion = users.foldLeft( (Seq.empty[User], "") ) {
 ```
 
 
-## Immutability
+## Immutability <!-- .slide: data-auto-animate -->
 - Always try to use an existing "builder" 
   - `toMap`, `toList`, `toSeq`, `toSet`
 
   ```scala
-    users.map(user => (user.age -> user) )
-      .toMap
+  users.map(user => (user.age -> user) )
+  .toMap
   ```
+
 - Or, manipulate an existing collection 
 
 
@@ -364,6 +364,7 @@ val onePerRegion = users.foldLeft( (Seq.empty[User], "") ) {
   - Increase memory consumption
   - GC works harder
 
+---
 
 # Scala/Java Converters
 
@@ -396,8 +397,324 @@ val jOption = sOption.toJava // there is also toScala
 - <span style="color: yellow;">`StreamConverters`</span>
   - converts between Scala and Java stream types  
 
+---
+
+# Implicits
 
 
+## Implicits
+- Scala 2 uses `implicit` keyword for 2 mechanisms:
+  - Implicit arguments
+  - Implicit functions/conversions
+- We will explore both of them
+
+
+## Implicit Arguments <!-- .slide: data-auto-animate -->
+```scala
+// single argument list
+def add(x: Int, y: Int) = x + y
+
+add(1,2) == 3
+
+// multiple argument lists
+def add(x: Int)(y: Int) = x + y
+
+add(1)(2) == 3
+```
+
+
+## Implicit Arguments <!-- .slide: data-auto-animate -->
+```scala []
+// multiple argument lists
+def add(x: Int)(implicit y: Int) = x + y
+
+add(1)(2) == 3 // explicit call (same as before)
+
+implicit val magic = 2
+add(1) == 3 // implicit call
+```
+
+
+## Implicit Arguments <!-- .slide: data-auto-animate -->
+- The compiler assigns the implicit args by itself
+  - Implicit args must exist in scope
+  - Otherwise, complication error
+- Great for creating nice DSLs
+- No magic...
+
+
+## Implicit Arguments <!-- .slide: data-auto-animate -->
+Improves code readability
+```scala
+// explicit
+def get(url: String, conn: Connection)
+def post(url: String, payload: Array[Byte], conn: Connection)
+
+// usage
+get("http://example.org", conn)
+post("http://example.org", "payload".getBytes, conn)
+```
+
+
+## Implicit Arguments <!-- .slide: data-auto-animate -->
+Improves code readability
+```scala
+// implicit
+def get(url: String)(implicit conn: Connection)
+def post(url: String, payload: String)
+        (implicit conn: Connection)
+
+// usage
+implicit val conn: Connection = ???
+doGet("http://example.org")
+doPost("http://example.org", "payload".getBytes)
+```
+
+
+## Implicit Conversions 
+- Implicits mechanism is very powerful
+- Also works on functions
+
+```scala
+case class Person(name: String, age: Int)
+implicit def personToString(p: Person) = s"${p.age}-${p.name}"
+
+def print(s: String) = println(s)
+
+val p = Person("Matan", 37)
+print(p) // type checked!!!
+```
+
+
+## Implicit Conversions <!-- .slide: data-auto-animate -->
+- DO NOT DO IMPLICIT CONVERSIONS
+- Might cause lots of trouble
+- Interrupt reasoning about the code
+
+```scala
+implicit def str2int(str: String): Int = Integer.parseInt(str)
+
+"foo" / 2 // this code compiles but fails at runtime
+```
+
+---
+
+# Extension Methods
+
+
+## Extension Methods <!-- .slide: data-auto-animate -->
+- Goal: add a new behavior to an existing type
+- Inheritence: OOP way to add a new behavior
+- Let's add a new behavior to `scala.lang.Int`
+  - add method to return `*` characters
+- Can we inherit an Int?
+
+
+## Extension Methods <!-- .slide: data-auto-animate -->
+- Let's write an extension method instead
+```scala
+  implicit class RichInt(i: Int) {
+    def stars = '*' * i
+  }
+
+  5.stars == "*****"
+```
+- Preferable over implicit conversions
+  - Easier to reason about
+- When applied correctly, provides a nice DSL  
+
+---
+
+# Futures
+
+
+## Futures
+`Future[T]` 
+- Effect that represents async computation
+  - That is <span style="color: yellow;">already running</span> and will be completed
+- Can succeed with value of type `T`
+- Can fail with value of type `Throwable`
+
+
+## A Future is NOT Thread <!-- .slide: data-auto-animate -->
+- Future is an abstraction of async computation
+- It is executed within an `ExecutionContext`
+  - Which wraps a thread pool
+- The developer is able to choose the context
+
+```scala
+object Future {
+  def apply[T](body: => T)
+              (implicit ec: ExecutionContext): Future[T]
+}
+```
+
+
+## A Future is NOT Thread <!-- .slide: data-auto-animate -->
+```scala
+import scala.concurrent._
+import scala.concurrent.ExecutionContext.Implicits.global
+
+Future(42) // represents an async computation that returns 42
+```
+
+
+## Useful Future Operations <!-- .slide: data-auto-animate -->
+```scala
+val f1: Future[Int] = ???
+val f2: Future[Int] = ???
+
+// register to callbacks
+f1.flatMap(x => f2.map(y => x + y)) 
+
+// syntactic sugar
+for {
+  x <- f1
+  y <- f2
+} yield x + y
+```
+
+
+## Useful Future Operations <!-- .slide: data-auto-animate -->
+```scala
+val f1: Future[Int] = ???
+val f2: Future[Int] = ???
+
+// waiting for all futures to complete
+val futures: List[Future[Int]] = List(f1, f2)
+val result: Future[List[Int]] = Future.sequence(futures)
+```
+
+
+## Useful Future Operations <!-- .slide: data-auto-animate -->
+```scala
+val f1: Future[Int] = ???
+val f2: Future[Int] = ???
+
+// racing futures
+Future.firstCompleteOf(List(f1, f2))
+```
+
+
+## Useful Future Operations <!-- .slide: data-auto-animate -->
+```scala
+val f: Future[Int] = ???
+
+// callbacks with side effect
+f.onComplete {
+  case Success(value) => // do something
+  case Failure(err)   => // handle failure
+}
+```
+
+
+## Awaiting for futures
+```scala
+import scala.concurrent.duration._
+
+val f: Future[Int] = ???
+
+// block future until completion, or timeout
+val result: Int = Await.result(f, 10.seconds)
+```
+
+- Blocking on futures is BAD
+  - Heavily impacts application performance
+- Future is an effect just like other effects
+  - Should be rolled over to next stage
+
+
+## Blocking on futures <!-- .slide: data-auto-animate -->
+- Sometimes we have to work with blocking IO
+  - Usually legacy APIs
+  - Not CPU bound
+- We do not like to keep the thread waiting on IO
+- We would like to: 
+  - Block the thread
+  - And "remove" it from the CPU
+
+
+## Blocking on futures <!-- .slide: data-auto-animate -->
+```scala []
+def foo(x: Int): Future[Unit] = 
+  Future {
+    blocking {
+      println(s"starting $x")
+      Thread.sleep(3000)
+      println(s"ending $x")
+    }
+  }
+
+for {
+  x <- 1 to 50
+} yield foo(x) 
+```
+
+
+## Future And Promises <!-- .slide: data-auto-animate -->
+- A future is linked with extactly one `promise` object
+- A `promise` allows us to complete a future
+  - Can be done at most one time
+- In other words:
+  - We can impact a future result via a worm hole
+  - `promise -> future`
+
+
+## Future And Promises <!-- .slide: data-auto-animate -->
+```scala
+case class TaxCut(reduction: Int)
+case class LameExcuse(msg: String) extends Exception(msg)
+
+val taxcut = Promise[TaxCut]()
+val taxcutF: Future[TaxCut] = taxcut.future
+```
+
+
+## Future And Promises <!-- .slide: data-auto-animate -->
+```scala 
+object Government {
+  def redeemCampaignPledge(): Future[TaxCut] = {
+    val p = Promise[TaxCut]()
+    
+    Future {
+      println("Starting the new legislative period.")
+      Thread.sleep(2000)
+      p.success(TaxCut(20))
+      println("We reduced the taxes! You must reelect us!!!!")
+    }
+
+    p.future
+  }
+}
+```
+
+
+## Future And Promises <!-- .slide: data-auto-animate -->
+```scala
+object Government {
+  def redeemCampaignPledge(): Future[TaxCut] = {
+    val p = Promise[TaxCut]()
+    Future {
+      println("Starting the new legislative period.")
+      Thread.sleep(2000)
+      p.failure(LameExcuse("global economy crisis"))
+      println("We didn't fulfill our promises")
+    }
+    
+    p.future
+  }
+}
+```
+
+---
+
+# Exercise
+
+
+## Exercise
+https://github.com/CodelyTV/scala-finder_refactoring-kata
+
+<a rel='nofollow' href='https://www.qr-code-generator.com' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fgithub.com%2FCodelyTV%2Fscala-finder_refactoring-kata&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
 
 
 ## Who is Matan?
