@@ -122,6 +122,7 @@ export default class Backgrounds {
 			backgroundVideo: slide.getAttribute( 'data-background-video' ),
 			backgroundIframe: slide.getAttribute( 'data-background-iframe' ),
 			backgroundColor: slide.getAttribute( 'data-background-color' ),
+			backgroundGradient: slide.getAttribute( 'data-background-gradient' ),
 			backgroundRepeat: slide.getAttribute( 'data-background-repeat' ),
 			backgroundPosition: slide.getAttribute( 'data-background-position' ),
 			backgroundTransition: slide.getAttribute( 'data-background-transition' ),
@@ -161,13 +162,14 @@ export default class Backgrounds {
 		// Create a hash for this combination of background settings.
 		// This is used to determine when two slide backgrounds are
 		// the same.
-		if( data.background || data.backgroundColor || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
+		if( data.background || data.backgroundColor || data.backgroundGradient || data.backgroundImage || data.backgroundVideo || data.backgroundIframe ) {
 			element.setAttribute( 'data-background-hash', data.background +
 															data.backgroundSize +
 															data.backgroundImage +
 															data.backgroundVideo +
 															data.backgroundIframe +
 															data.backgroundColor +
+															data.backgroundGradient +
 															data.backgroundRepeat +
 															data.backgroundPosition +
 															data.backgroundTransition +
@@ -177,6 +179,7 @@ export default class Backgrounds {
 		// Additional and optional background properties
 		if( data.backgroundSize ) element.setAttribute( 'data-background-size', data.backgroundSize );
 		if( data.backgroundColor ) element.style.backgroundColor = data.backgroundColor;
+		if( data.backgroundGradient ) element.style.backgroundImage = data.backgroundGradient;
 		if( data.backgroundTransition ) element.setAttribute( 'data-background-transition', data.backgroundTransition );
 
 		if( dataPreload ) element.setAttribute( 'data-preload', '' );
