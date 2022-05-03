@@ -1,40 +1,386 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
 
-		<title>reveal.js</title>
+        <title>Rank Estimation from Pairwise Comparisons</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+        <meta name="description" content="SP2020">
+        <meta name="author" content="Aytijhya Saha">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/night.css" id="theme">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+        <link href="css/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+        <link href="css/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-background="network2.gif" data-background-opacity=0.2 style="font-size: 33px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+                    <h3 id="heading" style="color: white; text-align: center; margin-bottom: 0.8cm; font-size: 60px;">
+                        <b>Rank Estimation from Pairwise Comparisons</b>
+                    </h3>
+
+					
+                    <hr>
+                    <div style="text-align: center; margin-top: 1.5cm;">
+                        A presentation by:
+                        <br>
+					</div>
+					<div style="text-align: center; margin-top: 0.5cm;">
+                        <strong>Aytijhya Saha</strong>
+                        <br>
+                        B.Stat 2nd Year<br>
+						Indian Statistical Institute, Kolkata
+                    </div>
+					<div style="text-align: center; margin-top: 0.8cm;">
+                        May 6, 2022
+                        <br>
+					</div>
+                </section>
+
+                
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
+                    <h3>
+                        Introduction
+                    </h3>
+					<div>
+						The ranking of n objects based on pairwise
+						comparisons is a core machine learning
+						problem, arising in recommender systems, player ranking, biological applications
+						and others. In many practical situations
+						the true pairwise comparisons cannot
+						be actively measured, but a subset of all
+						$n(n-1)/2$ comparisons is passively and noisily
+						observed.
+					</div>
+					<div>
+						Here we will discuss a few algorithms to estimate exact or approximate ranking.
+					</div>
+                    
+					
+                </section>
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
+                    <h3>
+                        Algorithms to find rank estimator
+                    </h3>
+                    
+                    <div>
+						<ul>
+							<li class="fragment">
+								Balanced Rank Estimator(BRE)
+							</li>
+						</ul>
+					</div>
+
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Unbalanced Rank Estimator(URE)
+							</li>
+						</ul>
+					</div>
+					<hr>
+					<div>
+						Reference: Efficient Ranking fron Pairwise Comparisons-Fabian L. Wauthier,
+						Michael I. Jordan, Nebojsa Jojic
+					</div>
+					
+                </section>
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
+                    <h3>
+						<font color="#FFFF00">  
+							Algorithms to find rank estimator <br>  
+							</font> 
+                        
+                    </h3>
+					<section>
+						<h5>
+							<font color="#FFEFD5">  
+								Prelimineries <br>  
+								</font>  
+							
+						</h5>	
+                    <div>
+						
+								We denote the true permutation we wish to recover by $\pi^{*} \in S_{n}$. Without loss of generality, let $\pi^{*}=(1,2, \ldots, n)$, so that $\pi^{*}(j)=j$. We will reveal 
+					to an algorithm a subset of binary comparisons, chosen among the $\frac{n(n-1)}{2}$ available pairs. Each comparison is measured
+					 independently with probability $m(n) / n$, so that on average $O(n m(n))$ measurements are made. Each comparison can be measured only once.
+					 Noiseless binary comparisons are denoted by $c_{i, j}=\mathbf{1}_{\left(\pi^{*}(i)< \pi^{*}(j)\right)}$. To capture the overall measurement process,
+					 we introduce binary variables $s_{i,j}$ which indicate whether $c_{i,j}$ was measured, and let $\bar{c}_{i, j}$ be the (possibly noisy) measurement 
+					 that was made. We will assume throughout that $s_{j,i}=s_{i,j}$ and if $s_{j, i}=s_{i, j}=1$, then $\bar{c}_{j, i}=1-\bar{c}_{i, j}$
+					    
+					</div>
+				    </section>
+
+					<section data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+						<h5>
+							<font color="#FFEFD5">  
+								BRE <br>  
+							</font>  
+						</h5>	
+						<div>
+							<font  style="font-size:20px">
+							Measure each binary comparison independently with probability $m(n) / n$. Define the scores
+							$$
+							\hat{\Pi}(j)=\frac{\sum_{i \neq j} s_{i, j}\left(2 \bar{c}_{i, j}-1\right)}{2 m(n)} \propto \sum_{i \neq j} s_{i, j}\left(2 \bar{c}_{i, j}-1\right) .
+							$$
+							Predict $\pi^{*}$ by the ordering $\hat{\pi}$ of the estimated scores, breaking ties randomly.
+							</font>
+							<br>
+						</div>
+						<div>
+							<font color="#66BB55" style="font-size:20px"> 
+								Given an average of $\Theta(n \log (n))$ measurements, BRE predicts permutations with uniform quality across the entire permutation.
+										<br>
+										For any $c>0$ and $0<\nu<1$, if each comparison is measured with probability $m(n) / n=$ $c \log (n) / n$, then BRE predicts with probability at least $1-2 n^{1-a_{n} \frac{3}{8}(2 p-1)^{2} \nu^{2} c}$ a permutation $\hat{\pi}$ with
+										$$
+										\max _{j}\left|\hat{\pi}(j)-\pi^{*}(j)\right| \leq \nu n,
+										$$
+										where $a_{n}$ is a sequence with $a_{n} \rightarrow 1$. 
+							</font>
+						
+					    </div>
+				    </section>
+					<section>
+						<h5>
+							<font color="#FFEFD5">  
+								URE <br>  
+							</font>  
+						</h5>
+						<div>
+							<font  style="font-size:20px">
+								Suppose then, that for some $0<\nu<1$ we wish to recover the placement of the first $\nu n$ elements 
+								in the permutation with fairly good accuracy, but care less about the remaining $(1-\nu) n$ elements.
+								Surprisingly, a very slight modification of the Balanced Rank Estimation Algorithm yields a method 
+								that is useful in this situation.
+							</font>
+							<br>
+						</div>
+						<div>
+							<font  style="font-size:20px">Algorithm:  
+								Measure each binary comparison independently with probability $m(n) / n$. Define the scores
+                                $$
+                                \hat{\Pi}(j)=\frac{1}{m(n)} \sum_{i \neq j} s_{i, j} \bar{c}_{i, j}^{n} \propto \sum_{i \neq j} s_{i, j} \bar{c}_{i, j}^{n}
+                                $$
+                                Predict $\pi^{*}$ by the ordering $\hat{\pi}$ of the estimated scores, breaking ties randomly.
+							</font>
+					    </div>
+					</section>
+				    <section>	
+						<h5>
+							<font color="#FFEFD5">  
+								URE <br>  
+							</font>  
+						</h5>
+						<div>
+							Our main interest in URE, however, is encapsulated in the following theorem which shows that predicted permutations are much more
+							accurate near the top than the bottom if an average of $\Theta(n \log (n))$ measurements are made.
+						</div>
+						<div class="fragment">
+						<font color="#66BB55" style="font-size:20px"> 
+							    
+								<b>Theorem:</b> For any $c>0$, and $0<\nu<1$, if each comparison is measured with probability $m(n) / n=$ $c \log (n) / n, U R E$ predicts with probability at least
+								$$
+								1-2 n^{1-\frac{3}{2}\left[(2 p-1)^{2} \nu^{2} /(3(1-p)+(5 p-1) \nu)\right] c}
+								$$
+								a permutation $\hat{\pi}$ with
+								$$
+								\left|\pi^{*}(j)-\hat{\pi}(j)\right| \leq\left\{\begin{array}{ll}
+								4 \nu n & \text { if } \pi^{*}(j)<\nu n \\
+								4 \sqrt{\nu \pi^{*}(j) n} & \text { if } \pi^{*}(j) \geq \nu n
+								\end{array} .\right.
+								$$
+						</font>	
+						</div>
+					</section>
+                </section>
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+                    <h3 data-id="heading-sne" style="font-size: 50px;">
+                        Algorithms for Approximate Ranking
+                    </h3>
+
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Hamming-LUCB Algorithm
+							</li>
+							<li class="fragment">
+								Approximate recovery under Hamming error
+							</li>
+						</ul>
+					</div>
+					<hr>
+					<div>
+						Reference: Approximate Ranking fron Pairwise Comparisons- Heckel,Simchowitz,Ramchandran,Wainwright
+						<br>
+						Simple, Robust and Optimal Ranking from Pairwise Comparisons- Shah,Wainwright
+					</div>
+                </section>
+
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+				<h3>
+					<font color="#FFFF00">  
+						Algorithms for Approximate Ranking <br>  
+					</font> 
+				</h3>
+
+				<section>
+					<h5>
+						<font color="#FFEFD5">  
+							Hamming-LUCB Algorithm <br>  
+						</font>  
+						
+					</h5>	
+					<font style="font-size:20px"> 
+                    The algorithm is based on actively identifying sets $ S_1$ and $S_2$ consisting of $k - h$ items and $n - k - h$ items,
+					respectively, such that with high confidence the items
+          			in the first set have a larger score than the items in
+					the second set. Once we have found such sets, we
+					can arbitrarily distribute the remaining items to the
+					sets $S_1$ and $S_2$ in order to obtain a Hamming-accurate ranking with high confidence.
+					We define a confidence bound of the form $\alpha(u) \propto \sqrt{\frac{\log (\log (u) n / \delta)}{u}}$, 
+					where $u$ is an integer corresponding to the number of comparisons, and with the constants involved explicitly chosen by setting
+					$\alpha(u)=\sqrt{\frac{\beta(u, \delta / n)}{2 u}}, \quad$ with 
+					$\beta\left(u, \delta^{\prime}\right)=\log \left(1 / \delta^{\prime}\right)+$ $0.75 \log \log \left(1 / \delta^{\prime}\right)+1.5 \log (1+\log (u / 2))$. For each item $i \in[n]$,
+					the algorithm stores a counter $T_{i}$ of the number of comparisons in which it has been involved, along with an empirical estimate 
+					of the associated score $\widehat{\tau}_{i}\left(T_{i}\right)$. For notational convenience,
+					we adopt the shorthands $\widehat{\tau}_{i}=\widehat{\tau}_{i}\left(T_{i}\right)$ and $\alpha_{i}=\alpha\left(T_{i}\right)$.
+					 Within each round, we also let $(\cdot)$ denote a permutation of 
+					$[n]$ such that $\widehat{\tau}_{(1)} \geq \widehat{\tau}_{(2)} \geq \cdots \geq \widehat{\tau}_{(n)} .$ 
+					We then define the indices
+					$$
+					\begin{gathered}
+					d_{1}=\underset{i \in\{(1), \ldots,(k-h)\}}{\arg \min } \widehat{\tau}_{i}-\alpha_{i}, 
+					d_{2}=\underset{i \in\{(k+1+h), \ldots,(n)\}}{\arg \max } \widehat{\tau}_{i}+\alpha_{i} .
+					\end{gathered}
+					$$
+					</font>
+				</section>
+				<section data-background="sp2020/bg-1.png" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+					<h5>
+						<font color="#FFEFD5">  
+							Hamming-LUCB Algorithm <br>  
+						</font>  
+						
+					</h5>	
+					</font>
+					<div style="margin-top: 0.6cm;">
+						<img src="LUCB.png" width="500" height="500">
+					</div>
+
+                </section>
+				<section data-background="sp2020/bg-1.png" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+					<h5>
+						<font color="#FFEFD5">  
+							Hamming-LUCB Algorithm <br>  
+						</font>  
+						
+					</h5>	
+					</font>
+					<div style="margin-top: 0.6cm;">
+						$\Delta_{i,j} := \tau_i - \tau_j $
+						For any $ M \in C_0$, the Hamming-
+						LUCB algorithm run with confidence parameter $\delta$ is
+						(h,$\delta$)-Hamming-accurate, and with probability at least
+						$1-\delta$, makes at most $N_{h}^{\mathrm{up}}(M)$ comparisons, where
+						$$
+						N_{h}^{\mathrm{up}}(M)=
+						$$
+						$$
+						\widetilde{O}\left(\sum_{i=1}^{k-h} \Delta_{i, k+1+h}^{-2}+\sum_{i=k+1+h}^{n} \Delta_{k-h, i}^{-2}+2 h \Delta_{k-h, k+1+h}^{-2}\right) \text {. }
+						$$
+						The notation $\widetilde{O}$ absorbs factors logarithmic in $n$, and doubly logarithmic in the gaps.
+
+
+					</div>
+
+                </section>
+
+
+				<section data-background="sp2020/bg-1.png" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
+					<div style="margin-top: 0.6cm; text-align: center; font-size: 50pt;">
+						<strong>Thank you</strong>
+					</div>
+                </section>
+
+            </div>
+        </div>
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/zoom/zoom.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script src="plugin/math/math.js"></script>
+        <script src="plugin/chalkboard/plugin.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+                transition: 'concave',
+				backgroundTransition: 'slide',
+                // controls: false,
+				controls: true,
+
+                // Display a presentation progress bar
+                progress: true,
+
+                // Push each slide change to the browser history
+                history: false,
+
+                // Enable keyboard shortcuts for navigation
+                keyboard: true,
+
+				slideNumber: true,
+
+				// Can be used to limit the contexts in which the slide number appears
+				// - "all":      Always show the slide number
+				// - "print":    Only when printing to PDF
+				// - "speaker":  Only in the speaker view
+				showSlideNumber: 'all',				
+
+                // Loop the presentation
+                loop: false,
+
+                // Number of milliseconds between automatically proceeding to the 
+                // next slide, disabled when set to 0
+                autoSlide: 0,
+
+                // Enable slide navigation via mouse wheel
+                mouseWheel: false,
+
+                // Apply a 3D roll to links on hover
+                rollingLinks: true,
+                // Learn about plugins: https://revealjs.com/plugins/
+                // chalkboard: {
+                    // src: "chalkboard/chalkboard.json",
+                    // toggleChalkboardButton: false,
+                    // toggleNotesButton: false,
+                // },
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ],
+            });
+        </script>
+    </body>
 </html>
