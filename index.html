@@ -30,7 +30,7 @@
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
                     <h3 id="heading" style="color: white; text-align: center; margin-bottom: 0.8cm; font-size: 60px;">
                         <b>Rank Estimation from Pairwise Comparisons</b>
-                    </h3>
+                	</h3>
 
 					
                     <hr>
@@ -208,7 +208,7 @@
 						</font>	
 						</div>
 					</section>
-                </section>
+                	</section>
 
 				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
@@ -317,13 +317,83 @@
 
                 </section>
 
+			</section>
+				
 
-				<section data-background="sp2020/bg-1.png" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
-					<div style="margin-top: 0.6cm; text-align: center; font-size: 50pt;">
-						<strong>Thank you</strong>
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
+                    <h3> 
+						<font color="#FFFF00">  
+							Rank Centrality <br>  
+						</font> 
+					</h3>
+					<section>
+						Rank Centrality is an iterative algorithm that takes the noisy
+						comparison answers between a subset of all possible
+						pairs of items as input and produces scores for each item as the output.
+					<div>
+						<div>
+							Reference:  Rank Centrality: Ranking from Pairwise Comparisons- Negahban, Oh, and Shah:
+							Operations Research 65(1), pp. 266-287, ©2017 INFORMS
+						</div>
 					</div>
-                </section>
-
+				  	</section>
+					<section>
+						<h5>
+							<font color="#FFEFD5">  
+								Prelimineries <br>  
+							</font>  
+							
+						</h5>
+					<div>
+						<font  style="font-size:25px">
+						Let, $Y_{i j}^{l}$ denote the outcome of the lth comparison of the pair i and j, such that $Y_{i j}^{l}=1$,if j is preferred
+						over i and 0 otherwise. $a_{i j}=\frac{1}{k}\sum_{l=1}^{k} Y_{i j}^{l}$. Consider a random walk on a weighted directed graph $G=([n], E, A)$, 
+						where a pair $(i, j) \in E$ iff the pair has been compared. The weight edges are defined as follows: $A_{i j}=\frac{a_{i j}}{a_{i j}+a_{j i}}$ and $A_{j i}=\frac{a_{j i}}{a_{i j}+a_{j i}}$ .
+						  We let $A_{i j}=0$ if the pair has not been compared. Note that by SLLN, as $k \rightarrow \infty$ , $A_{i j} \rightarrow \frac{w_{j}}{w_{i}+w_{j}}$ almost surely.
+						A random walk can be represented by a time-independent transition matrix $P$, where $P_{i j}=\mathbb{P}\left(X_{t+1}=\right.$ $\left.j \mid X_{t}=i\right)$. To ensure that each row-sum is exactly one, we define,
+					
+						</font>
+					</div>
+				  	</section>
+					
+					
+					<section>
+						<h5>
+							<font color="#FFEFD5">  
+								Algorithm <br>  
+							</font>  
+							
+						</h5>
+						<font  style="font-size:22px">
+					    <b> Input: </b> $G=([n], E, A)$
+						<ol>
+							<li class="fragment">
+								Compute the transition matrix P:
+								$$
+								P_{i j}= \begin{cases}\frac{1}{d_{\max } A_{i j}} & \text { if } i \neq j, \\ 1-\frac{1}{d_{\max }} \sum_{k \neq i} A_{i k} & \text { if } i=j .\end{cases}
+								$$
+								where $d_{\max }$ as the maximum out-degree of a node.
+							</li>
+							<li class="fragment">
+								Let $p_t$ denote the distribution of the random walk at time t .
+								<br>
+								Initialize $p_0$  as an arbitrary starting distribution on $[n]$. Then,
+								$$p_{t+1} = p_t P$$
+								Compute the stationary distribution $\pi$ of the MC,which is the the limit of the above equation as $t \rightarrow \infty$.
+							</li>
+						
+						</ol>
+						<b> Output: </b> Scores : $\pi ={\pi(i)}_{i \in [n]}$
+					 	</font> 
+				  	</section>
+				</section>
+				
+				<section data-background="network2.gif" data-background-opacity=0.2 style="font-size: 33px;" >
+                    <h3 style="color: rgb(11, 202, 245); text-align: center; margin-bottom: 0.8cm; font-size: 60px;">
+                        <strong>Thank you</strong>
+                    </h3>
+				</section>
+				
             </div>
         </div>
         <script src="dist/reveal.js"></script>
@@ -384,3 +454,4 @@
         </script>
     </body>
 </html>
+
