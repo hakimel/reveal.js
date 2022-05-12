@@ -151,15 +151,36 @@ const Plugin = () => {
 
 	}
 
+	/**
+	 * Check if the given event is from the same origin as the
+	 * current window.
+	 */
+	function isSameOriginEvent( event ) {
+
+		try {
+			return window.location.origin === event.source.location.origin;
+		}
+		catch ( error ) {
+			return false;
+		}
+
+	}
+
 	function onPostMessage( event ) {
 
-		let data = JSON.parse( event.data );
-		if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
-			clearInterval( connectInterval );
-			onConnected();
-		}
-		else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
-			callRevealApi( data.methodName, data.arguments, data.callId );
+		// Only allow same-origin messages
+		// (added 12/5/22 as a XSS safeguard)
+		if( isSameOriginEvent( event ) ) {
+
+			let data = JSON.parse( event.data );
+			if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+				clearInterval( connectInterval );
+				onConnected();
+			}
+			else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+				callRevealApi( data.methodName, data.arguments, data.callId );
+			}
+
 		}
 
 	}
