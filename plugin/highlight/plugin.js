@@ -19,7 +19,7 @@ const Plugin = {
 	hljs,
 
 	/**
-	 * Highlights code blocks withing the given deck.
+	 * Highlights code blocks within the given deck.
 	 *
 	 * Note that this can be called multiple times if
 	 * there are multiple presentations on one page.
