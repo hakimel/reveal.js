@@ -33,7 +33,7 @@ const Plugin = () => {
 
 			//present html has a main view (iframe) and a preview next frame (iframe)
 			//preview don't have controls (so they are explicitly hidden)
-			isSpeakerPreviewFrame = isSpeakerView && !params.hasOwnProperty('controls')
+			isSpeakerPreviewFrame = isSpeakerView && params.hasOwnProperty('controls')
 
 			reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
 				var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
@@ -68,7 +68,7 @@ const Plugin = () => {
 
       broadcastChannel.addEventListener('message', ( event) => {
 
-				if (isSpeakerView && !isSpeakerPreviewFrame) return //not zoom preview frame
+				if (isSpeakerView && isSpeakerPreviewFrame) return //not zoom preview frame
 
 				if (!reveal.getConfig().syncZoom) return
 
