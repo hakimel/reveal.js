@@ -127,6 +127,7 @@ gulp.task('plugins', () => {
         { name: 'RevealNotes', input: './plugin/notes/plugin.js', output: './plugin/notes/notes' },
         { name: 'RevealZoom', input: './plugin/zoom/plugin.js', output: './plugin/zoom/zoom' },
         { name: 'RevealMath', input: './plugin/math/plugin.js', output: './plugin/math/math' },
+        { name: 'RevealVideoSync', input: './plugin/videoSync/plugin.js', output: './plugin/videoSync/videoSync' },
     ].map( plugin => {
         return rollup({
                 cache: cache[plugin.input],
