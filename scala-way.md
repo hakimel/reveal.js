@@ -54,8 +54,14 @@ Meaning:
 - Effect:  Wrapper/Context of a computation value <!-- .element: class="fragment" -->
 
 
+## What is an Effect?
+- <code><span style="color: yellow;">F</span>[<span style="color: red;">T</span>]</code>
+- Computation <span style="color: yellow;">`F`</span> that returns value of type <span style="color: red;">`T`</span>
+- Context <span style="color: yellow;">`F`</span> that wraps value of type <span style="color: red;">`T`</span>  
+
+
 ## Avoid Nulls 
-- `Option[T]`: Scala's built-in effect for representing 
+- `Option[T]`: effect for representing "nothing"
 - Has 2 possible values: <!-- .element: class="fragment" -->
   - `Some[T]` represents a concrete value of type `T`
   - `None` represents an empty value
@@ -251,7 +257,7 @@ res.contains(User("matan")) // compare
 
 
 ## The basic rule
-Check if there are variables binding
+Check if there is a variable binding
 
 
 ## Example (bad)
@@ -294,8 +300,9 @@ user match {
 - A common pattern is to create an empty collection 
 - And then populate it with values
 - Why is it bad?
-  - Not thread safe
-- How to avoid it?
+  - Not thread safe <!-- .element: class="fragment"  -->
+  - Harder to reason about the code <!-- .element: class="fragment"  -->
+- How to avoid it? <!-- .element: class="fragment"  -->
 
 
 ## Immutability <!-- .slide: data-auto-animate -->
@@ -321,7 +328,7 @@ val managers = users.filter(_.isManager)
 // Imperative
 var onePerRegion: Map[Region, User] = Map()
 users.foreach { user => 
-  if (!onePerRegion.contains(user)) {
+  if (!onePerRegion.contains(user.region)) {
     onePerRegion += (user.region -> user)
   }
 }
@@ -488,7 +495,7 @@ print(p) // type checked!!!
 
 ## Implicit Conversions <!-- .slide: data-auto-animate -->
 - DO NOT DO IMPLICIT CONVERSIONS
-- Might cause lots of trouble
+- Might cause lots of troubles
 - Interrupt reasoning about the code
 
 ```scala
@@ -706,478 +713,365 @@ object Government {
 }
 ```
 
+
+## Exercise
+- Actor version
+  - How to implement ask pattern?
+
+- Non Actor version
+  - Given a function `def f(x: Int): Future[Int]`
+  - And a blocking function: `def g(x: Int): Int`
+  - How to call g from f without wrapping with Future?
+
 ---
 
 # Exercise
 
 
 ## Exercise
-https://github.com/CodelyTV/scala-finder_refactoring-kata
+https://github.com/matankdr/scala-finder-refactoring-kata
 
-<a rel='nofollow' href='https://www.qr-code-generator.com' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fgithub.com%2FCodelyTV%2Fscala-finder_refactoring-kata&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
-
-
-## Who is Matan?
-- Current: Staff Engineer at Pipl  <!-- .element: class="fragment" -->
-- Scala enthusiast  <!-- .element: class="fragment" -->
-- Likes to fully automate all things  <!-- .element: class="fragment" -->
-- (Really!) likes to have a clean code  <!-- .element: class="fragment" -->
-- Married, father of 2  <!-- .element: class="fragment" -->
-
-
-## Who is Pipl? <!-- .slide: data-auto-animate -->
-<img src="./images/pipl-overview.png" />
-
-
-
-## Who is Pipl? <!-- .slide: data-auto-animate -->
-Providing data and tools in order to understand who is a trustworthy person
-<img src="./images/pipl-identities.png" />
-
-notes:
-Pipl's target is to provide data and tooling for helping its clients to better understand
-who is a real person in the real world and moreover, who is a trustworthy person.
-
-Why is it  Critical?
-Most of the identitify verifications are in the internet.
-We do not provide our ID card when performing online purchase or creating new account.
-Because most of our interactions are happening in the virtual world, it is very hackable and
-causes lots of mess due to huge number of digital identities. 
-And this is the place where Pipl steps into.
-
-
-## Who is Pipl? <!-- .slide: data-auto-animate -->
-### Quality and Quantity of public Data
-<img src="./images/pipl-data.png" />
-
-notes: 
-Besides the products we build, what makes us successful: 
-- Our ability to collect and process huge amounts of data, consistenly
-- Be able to correctly cluster profiles
-- Be able to show relations between data entities.
-
-Use cases
-- Identity verification
-  - eCommerce, Insurance, Banking
-- Investigation
-  - Authorities, law enforcement
+<img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fgithub.com%2Fmatankdr%2Fscala-finder-refactoring-kata&chs=180x180&choe=UTF-8&chld=L|2' alt='qr code'><a href='https://www.qr-code-generator.com' border='0' style='cursor:default'  rel='nofollow'></a>
 
 ---
 
-## Background: Data Systems Group <!-- .slide: data-visibility="hidden" -->
-- Pipl owns many records of people <!-- .element: class="fragment" -->
-- Creating profiles from various sources <!-- .element: class="fragment" -->
-- Billions of records <!-- .element: class="fragment" -->
-  - Multiple processes, running for several days
-  - Creating new data records
-  - Data cleaning and parsing
-  - Merging: new records with existing records
-- Build index (input to search engine) <!-- .element: class="fragment" -->
-- Lean and fast microservices in production <!-- .element: class="fragment" -->
+# Variable Types
+
+
+## Variable Types
+- In Scala, there are multiple variable types
+- `var`: mutable reference (variable)
+- `val`: immutable reference (value, like `final` in Java)
+- `def`: the expression is re-evaluated on each call
+
+
+## Variable Types
+```scala
+var x: Int = 1
+x = 2 // ok
+
+val y: Int = 1
+y = 2 // compilation error
+```
+
+
+## Variable Types
+```scala
+def z: Unit = println("hello world")
+
+z()
+z()
+// hello world
+// hello world
+
+val z: Unit = println("hello world")
+
+z()
+z()
+// hello world
+```
+
+
+## Variable Types
+```scala 
+lazy val x = { println("init x"); 1 }
+
+val y = { println("init y"); 2}
+
+println(y)
+println(x)
+
+// init y
+// 2
+// init x
+// 1
+```
 
 ---
 
-## Preface
-- This talk is about a concept 
-- Telling our GitHub action story
-- Relevant for you if: <!-- .element: class="fragment" -->
-  - You work with Scala and sbt stack
-  - You work with other tech stack 😎 <!-- .element: class="fragment" -->
-
----
-
-## Use Case
-- Multiple kind of projects:
-  - Microservices and Big-Data processes
-  - All written in Scala/Java
-- Multiple repositories must be constantly maintained <!-- .element: class="fragment" -->
-- Multiple kind of build outputs: <!-- .element: class="fragment" -->
-  - Publishing packaged libraries
-  - Publishing Docker images
-  - Publishing files to GCP buckets
+# Functions as Objects
 
 
-## The Problem
-<!-- .slide: data-auto-animate -->
-## maintenance, maintenance and... maintenance! <!-- .element: class="fragment fade-in" style="color: yellow;"  -->
+## Functions as Objects
+- In Scala, functions are first class citizens
+- Which means, function has a type and can be stored as a value
+```scala
+val salaries = Seq(20000, 70000, 40000)
+val doubleSalary: Int => Int = (x: Int) => x * 2
+val newSalaries = salaries.map(doubleSalary)
+```
 
 
-## maintenance, maintenance and... maintenance!  <!-- .slide: data-auto-animate  --> 
-- Large number of project repositories           <!-- .element: class="fragment" style="list-style-type: '😱 ';" data-fragment-index="1" -->
-- Different types of projects                    <!-- .element: class="fragment" style="list-style-type: '😱 ';" data-fragment-index="2" -->
-- Builds have different complexity requirements     <!-- .element: class="fragment" data-fragment-index="3" style="list-style-type: '😱 ';" -->
-  - Publishing docker image requires:           <!-- .element: class="fragment" data-fragment-index="4" -->
-    - Login to GCP (`gcloud auth login`)
-    - Login to Docker registry (`docker login`)
-  - Some builds should be run on a private node <!-- .element: class="fragment" data-fragment-index="5" -->
-- All the above should be managed by CI/CD       <!-- .element: class="fragment" style="list-style-type: '😱 ';" -->
-- Less developer fricition as possible           <!-- .element: class="fragment" style="list-style-type: '😱 ';" -->
-
----
-
-<!-- .slide: data-auto-animate -->
-## First Step: 
-## Jenkins <!-- .element data-id="title" -->
-<img data-id="jenkins"  src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" />
+## Functions as Objects
+```scala
+// the following are equivalent
+val doubleSalary1: Int => Int = (x: Int) => x * 2
+val doubleSalary2: Int => Int = x => x * 2
+val doubleSalary3: Int => Int = _ * 2
+val doubleSalary4 = (x: Int) => x * 2
+```
 
 
-<!-- .slide: data-auto-animate -->
-## Jenkins <!-- .element data-id="title" -->
-- The Jenkins way: wrap everything in DSL
-- Need to directly setup Jenkins machine
-  - Install all dependencies
-  - Management:  secrets, users
-- Great visualization (especially *Blue Ocean*)  
-
-<img data-id="jenkins"  src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" />
-
-
-<!-- .slide: data-auto-animate -->
-## Jenkins: Pros <!-- .element data-id="title" -->
-- Steep learning curve: <!-- .element style="list-style-type: '✅ ' ;" -->
-  - Developer is productive after a very short time <!-- .element style="list-style-type: '✅ ' ;" -->
-- Very popular back then <!-- .element class="fragment"  style="list-style-type: '✅ ' ;" -->
-- Lots of plugins <!-- .element class="fragment"  style="list-style-type: '✅ ' ;" -->
-
-<img data-id="jenkins"  src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" />
-
-
-
-## Jenkins: Cons <!-- .element data-id="title" -->
-<!-- .slide: data-auto-animate -->
-- Developer needs to learn a proprietary DSL <!-- .element style="list-style-type: '❌ ' ;" -->
-- Jenkins is installed on-prem <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
-  - Cannot use a webhook on change
-  - Only polling for repo changes... ⏳
-
-<img data-id="jenkins" data-auto-animate-duration="3.0" width="22%" src="https://www.jenkins.io/images/logos/fire/fire.svg" />
-
-
-## Jenkins: Cons <!-- .element data-id="title" -->
-<!-- .slide: data-auto-animate -->
-- Management is hard: <!-- .element class="fragment"  style="list-style-type: '❌ ' ;" -->
-  - R&D team does not have full permissions <!-- .element style="list-style-type: '❌ ' ;" -->
-  - Build process is not containered (or virtualized) <!-- .element style="list-style-type: '❌ ' ;" -->
-- Flow was running on the host directly <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
-- Not so clear what is actually installed <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
-
-<img data-id="jenkins" data-auto-animate-duration="3.0" width="22%" src="https://www.jenkins.io/images/logos/fire/fire.svg" />
-
-
-<!-- .slide: data-background="https://media.giphy.com/media/11tTNkNy1SdXGg/giphy.gif" -->
-
----
-
-## Second step
-<!-- .slide: data-auto-animate -->
-## GitHub Actions <!-- .element data-id="title" -->
-<img src="https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg" alt="Mountains" style="width:20%"/>
-
-
-## GitHub Actions vs. Jenkins
-- Every step runs within a Docker container <!-- .element class="fragment" style="list-style-type: '🐳 ' ;" -->
-  - Build environment is set up by containers
-  - Build errors can be reproduced on a local machine
-- Simple DSL <!-- .element class="fragment" style="list-style-type: '👌 ' ;"-->
-  - Use existing action or run shell script
-  - And still, every action is a Docker image
-- No need to define a build project <!-- .element class="fragment" style="list-style-type: '🚀 ' ;" -->
-  - GitHub actions work out of the box 
-- Developers are much more independent <!-- .element class="fragment" style="list-style-type: '💪 ' ;" -->
-
-
-## Simple build management
-<img src="./images/GitHub-actions-single-repo-2.png" alt="Mountains" />
-
-
-## Lack of Support
-- Does not have support out of the box: <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
-  - No SBT support
-  - No Scala installation
-- Need to support: <!-- .element class="fragment" style="list-style-type: '❌ ' ;" -->
-  - Login to private cloud environment 
-  - Docker login to org private registry
-  - Install required dependencies on build machine
-
-
-## Propietary GitHub Action
-<!-- .slide: data-auto-animate -->
-- Created a tailor-made GitHub action <!-- .element class="fragment" -->
-  - Slim and fast, based on OpenJDK Alpine
-  - https://github.com/matankdr/github-docker-sbt
-  - External PRs were contributed to the project! 💪
-- Responsible for: <!-- .element class="fragment" -->
-  - Installing `sbt` 
-  - Installing other required dependencies (e.g., git)
-  - Injecting GitHub secrets as environment variables
-  - docker-login to our private docker registry
-  - Running given `sbt` command 
-
-
-<!-- .slide: data-background="https://media.giphy.com/media/x8TrYlgGVCAytbcBgC/giphy.gif" -->
-## Exactly what we need!
-
-
-## Propietary GitHub Action: The good <!-- .element data-id="title" -->
-<!-- .slide: data-auto-animate -->  
-- Tailor-made action that exactly fits
-- Flexible run: either on GitHub or on-premise node
-- Each build step is containered
-
-
-## Propietary GitHub Action: The bad <!-- .element data-id="title" -->
-<!-- .slide: data-auto-animate -->  
-- Configuration is not flexible <!-- .element class="fragment" -->
-  - Manually updating build definition for each project
-  - Cross compilation is complicated
-  - Publish image for each dependency combination
-- Build innaccuracy <!-- .element class="fragment" -->
-  - Build tool and CI might run on different settings
-  - For example: different Java/Scala versions
-
-
-<!-- .slide: data-background="https://media.giphy.com/media/TPdoPTIMMBzDqPVKg3/giphy.gif" data-background-size="70%" data-background-opacity="0.7" -->
-## Not Exactly what we need...
-
----
-
-## Third Step
-## Code Generation
-<!-- .slide: data-auto-animate -->
-<img src="https://media.giphy.com/media/l0JMrPWRQkTeg3jjO/giphy.gif"/>
-
-
-## Code Generation
-<!-- .slide: data-auto-animate -->
-- Daniel Spiewak creates `sbt-github-actions` 
-- https://github.com/djspiewak/sbt-github-actions
-- Enables code generation GitHub Actions workflows 
-  - Directly from the `sbt` build definition!
-- Big improvement: `sbt` is now the *"source of truth"*!
-<img src="./images/github-actions-step2a.png" />
-
-
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Set Environment Variables
+## Functions as Objects <!-- .slide: data-auto-animate -->
+We can even extend functions
 
 ```scala
-// build.sbt
-githubWorkflowEnv := Map(
-  "GITHUB_TOKEN"      -> "${{ secrets.BOT_TOKEN }}",
-  "GITHUB_USERNAME"   -> "pipl-bot",
-  "GITHUB_USER_EMAIL" -> "bot@pipl.com"
-)
+trait Set[T] extends (T => Boolean) {
+  
+}
 ```
 
 
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Set Environment Variables
-```yml
-# generated ci.yml
-env:
-  GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-  GITHUB_USERNAME: pipl-bot
-  GITHUB_USER_EMAIL: bot@pipl.com
-```
+## Functions as Objects <!-- .slide: data-auto-animate -->
+We can even extend functions
 
-
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Set Java versions
 ```scala
-// build.sbt
-githubWorkflowJavaVersions := Seq("openjdk@1.11", "openjdk@1.8")
+trait Set[T] extends (T => Boolean) {
+  def apply(elem: T): Boolean = this.contains(elem)
+}
 ```
 
 
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Set Java versions
-```yml[1,9|]
-# generated ci.yml
-jobs:
-  build:
-    name: Build and Test
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.6]
-        java: [openjdk@1.11, openjdk@1.8]
-    runs-on: ${{ matrix.os }}
-```
-
-
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Execute shell commands
+## High Order Functions
+- We can define a function that accepts a function
 ```scala
-// build.sbt
-WorkflowStep.Run(
-  name = Some("Set Git Credentials"),
-  id   = Some("git-credentials"),
-  commands = List(
-    "git config --global user.email ${GITHUB_USER_EMAIL}",
-    "git config --global user.name ${GITHUB_USERNAME}",
-    "git config --global user.password ${GITHUB_TOKEN}"
+def doSomething(s: String, f: String => String) = 
+    f(s.toUpperCase)
+```
+- Why is it useful? 
+  - Common FP constructs: map, flatMap, filter <!-- .element: class="fragment"  -->
+  - Code re-use (DRY) <!-- .element: class="fragment"  -->
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Currying
+
+```scala
+// all versions are logically equivalent
+def mult(x: Int, y: Int): Int = x * y
+def mult(x: Int)(y: Int): Int = x * y
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Currying
+
+```scala
+def mult(x: Int)(y: Int): Int = x * y
+def makeDouble = mult(2) _
+def makeTriple = mult(3) _
+
+makeTriple(4) // 12
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Currying
+Same as
+```scala
+val mult = (x: Int) => (y: Int) => x * y
+val makeTriple = mult(3)
+
+makeTriple(4) // 12
+```
+
+
+## High Order Functions
+Let's implement HTTP headers filter:
+
+```scala
+def internalFind(key: String)(headers: Map[String, String]) = 
+  headers.find(key)
+
+// HTTP header filters
+def getContentType = internalFind("Content-Type") _
+def getUserAgent   = internalFind("User-Agent") _
+def getHost        = internalFind("Host") _
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Composition
+```scala
+val f: Int => Int = _ + 1
+val g: Int => Int = _ * 2
+
+val h = f andThen y
+h(3) // g(f(3) == 8
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Composition
+```scala
+val f: Int => Int = _ + 1
+val g: Int => Int = _ * 2
+
+val h = f compose y
+h(3) // f(g(3)) == 7
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Composition
+Let's implement email predicate system
+```scala
+val mails = List(
+  Email(
+    subject = "It's me again, your stalker friend!",
+    text = "Hello my friend! How are you?",
+    sender = "johndoe@example.com",
+    recipient = "me@example.com"
   )
 )
+
+type EmailFilter = Email => Boolean
+def not[T](pred: T => Boolean) = (t: T) => !pred(t)
 ```
 
 
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Execute shell commands
-```yml
-# generated ci.yml
-- name: Set Git Credentials
-    id: git-credentials
-    run: |
-      git config --global user.email ${GITHUB_USER_EMAIL}
-      git config --global user.name ${GITHUB_USERNAME}
-      git config --global user.password ${GITHUB_TOKEN}
-```
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Composition
 
-
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Using existing Github Actions
 ```scala
-// build.sbt
-WorkflowStep.Use(
-  ref = UseRef.Public(
-    owner = "elgohr",
-    repo  = "gcloud-login-action",
-    ref   = "master"
-  ),
-  id     = Some("gcloud"),
-  name   = Some("Login to gcloud registry"),
-  params = Map( "account_key" -> "${{ secrets.GCLOUD_KEY }}" )
+def newMailsForUser(mails: Seq[Email], f: EmailFilter) = 
+  mails.filter(f)
+
+val sentByOneOf: Set[String] => EmailFilter = 
+  senders => email => senders.contains(email.sender)
+
+val notSentByAnyOf: Set[String] => EmailFilter = 
+  senders => email => !senders.contains(email.sender)
+
+val maximumSize: Int => EmailFilter = 
+  n => email => email.text.size <= n  
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Composition
+
+```scala
+def any[A](preds: (A => Boolean)*): A => Boolean = 
+  a => preds.exists(pred => pred(a))
+
+def none[A](preds: (A => Boolean)*) = 
+  not(any(preds: _*))
+
+def every[A](preds: (A => Boolean)*) = 
+  none(preds.map(not(_)): _*)
+```
+
+
+## High Order Functions <!-- .slide: data-auto-animate -->
+### Composition
+
+```scala
+val notSentByAnyOf = sentByOneOf andThen(not(_))
+```
+
+
+## Partial functions
+
+```scala
+val squareRoot = new PartialFunction[Double, Double] {
+  override def isDefinedAt(x: Double): Boolean = x >= 0
+  override def apply(x: Double): Double = Math.sqrt(x)
+}
+
+val squareRoot: PartialFunction[Double, Double] = {
+  case x if x >= 0 => Math.sqrt(x)
+}
+```
+
+
+## Partial functions
+```scala
+val squareRoot: PartialFunction[Double, Double] = {
+  case x if x >= 0 => Math.sqrt(x)
+}
+
+val abs: PartialFunction[Double, Double] = {
+  case x if x >= 0 =>  x
+  case x           => -x
+}
+
+val f = squareRoot orElse abs
+f(4.0) // 2
+f(-3)  // 3
+
+val g = abs andThen squareRoot
+g(-4) // 2
+```
+
+---
+
+// type classes
+// what is the pattern, why
+// comparator type class
+// encryptor type class
+
+---
+
+
+# Typesafe Config
+
+
+## Typesafe Config
+- Configuration library for JVM languages
+- Implemented in plain Java with no dependencies
+- Supported formats: Json, Hocon, Java properties
+- Can load from: files, URLs or classpath
+- Good support for:
+  - Nesting (subtree of config is a whole config)
+  - Overriding config settings
+  - Parsing properties
+
+
+## Typesafe Config
+```scala
+// basic usage
+val config = ConfigFactory.parseString(s"""
+     |hello : world
+     |foo : 1
+     |""".stripMargin
 )
+
+config.getString("hello") // "world"
+config.getInt("foo") // 1
 ```
 
 
-### Ease of use
-<!-- .slide: data-auto-animate --> 
-#### Using existing Github Actions
-```yml
-# generated ci.yml
-  - name: Login to gcloud registry
-    id: gcloud
-    uses: elgohr/gcloud-login-action@master
-    with:
-      account_key: ${{ secrets.GCLOUD_KEY }}
+## Config files
+- A single `application.conf` (per executable)
+- Multiple `reference.conf` files
+- All `reference.conf` files are resolved
+  - To a single config tree
+- `application.conf` overrides unresolved settings
+- Each conf file should be self-contained
+  - Don't leave unset value to `application.conf`
+
+
+## Merging Config Trees
+```scala
+config1.withFallback(config2)
 ```
 
----
 
-## Result
-- Workflow is generated directly from the project's build definition!
-- Specifically tailor made for each project
-- On build definition update, the workflow is updated
-
-
-## The build tool is
-<!-- .slide: data-background="https://media.giphy.com/media/kiCXF8mL3j6Oe0vAm9/giphy.gif" data-background-opacity="0.9" -->
-# Single source of truth!
+## Overrding Default Config File
+```bash
+java -jar app.jar -Dconfig.file=path/to/config/file
+```
 
 
-
-<!-- .slide: data-background="https://media.giphy.com/media/10tIjpzIu8fe0/giphy.gif" data-background-opacity="0.7" -->
-## Had to kill the open-sourced Action...
+# Overriding config settings
 
 
-## Result
-<!-- .slide: data-auto-animate -->
-- Development cycle is significantly improved! 
-- Yet, some of the problems still remain: 🤦‍♂️ <!-- .element class="fragment"  -->
-  - No auto-update build definition for all projects
-  - When creating a new repo, build definitions need to be copied <!-- .element class="fragment"  -->
-    - Cannot use GitHub template (multiple project types)
+-Dconfig.file
+overriding properties
 
 
-## Result
-<!-- .slide: data-auto-animate -->
-<img src="./images/GitHub-actions-multi-repos-extended.png" />
-
-
-## And then we found it...
-<!-- .slide: data-background="https://media.giphy.com/media/XF3lU8cWrv4JcUeEmM/giphy.gif" -->
-
----
-
-## Fourth Step
-## Double Code Generation
-<img src="https://media.giphy.com/media/jP5p77MqB3mJGLRt5b/giphy.gif"/>
-
-
-## DAP sbt-plugin
-<!-- .slide: data-auto-animate -->
-- Create `sbt` plugin for generating common settings
-- Settings are read by `sbt-github-actions` plugin
-- On update, only need to upgrade the plugin version
-
-<img src="./images/GitHub-actions-step4.png" />
-
-
-## DAP sbt-plugin
-<!-- .slide: data-auto-animate -->
-<img src="./images/github-actions-with-dap.png" style="width:150%" />
-
-
-<!-- .slide: data-background="https://media.giphy.com/media/WNwErIxqX18xmm92UX/giphy.gif" data-background-opacity="0.7" -->
-## One plugin to rule them all!
-
-
-## Features
-- Generate Scala Steward GitHub workflow
-  - (like `Dependabot` but for Scala)
-  - Set auto merging commits created by our bot 
-- Generate Authentication steps:
-  - GCP, Docker, `sbt` credentials, `git` credentials
-- Generate common workflow steps:
-  - PR, publish and deployment
-
-
-## Results
-- So far, we are still experimenting 
-- The plugin reduces the release cycle time
-- Not easily debuggable:
-  - Logic is encapsulated within the plugin  
-
----
-
-## Conclusion
-<!-- .slide: data-auto-animate -->
-- Working with GitHub actions improved productivity <!-- .element: class="fragment" -->
-  - Ease of use and evolving actions community
-  - Build virtualization is a first class citizen
-- GitHub actions enables flexible CI/CD <!-- .element: class="fragment" -->
-  - Build definition can be easily updated
-  - Within a few lines of code  
-
-
-## Conclusion
-<!-- .slide: data-auto-animate -->
-- One source of truth is pure gold <!-- .element: class="fragment" -->
-  - Enable the developers to avoid silly mistakes
-- If no 3rd party solution available, use your own <!-- .element: class="fragment" -->
-- Do not be afraid to kill your own projects 😩 <!-- .element: class="fragment" -->
-
-
-<div>
-    <img src="https://f.hubspotusercontent10.net/hubfs/6381214/pipl_logo_blue-1.svg"  style="width:20%; padding-right:40px;"/>  
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/A_perfect_SVG_heart.svg" style="width:10%"/>  
-    <img src="https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg" alt="Mountains" style="width:20%"/>
-
-</div>
-
-
-
-# Questions <!-- .element: style="color: white; border: 10px; border-color: black;" -->
-<!-- .slide: data-background="https://thehomebasedmom.com/wp-content/uploads/2019/05/Frequently-Asked-Questions.jpg"  data-background-opacity="0.7" -->
-
----
-
-<!-- .slide: data-background="https://media.giphy.com/media/Pnh0Lou03fv92J4puZ/giphy.gif" data-background-size="50%" -->
+hocon plugin
+click on config
+CMD option shift c
+click in 
