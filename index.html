@@ -90,6 +90,27 @@
             </div>
           </div>
         </section>
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究背景</h4>
+          <h4 style="text-align: left;">异步I/O与同步I/O对比：</h4>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">同步I/O在用户线程发起请求到I/O事件<br />完成之间存在阻塞现象；</li>
+                <li style="margin-bottom: 5px;">
+                  异步I/O在用户线程发起请求后不阻塞直接<br />返回到用户态，用户线程可以执行<br />其他任务，I/O事件完成后内核通知用户线程；
+                </li>
+                <li style="margin-bottom: 5px;">
+                  异步I/O消除了线程阻塞现象，可以提高CPU利用率。
+                </li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/sync-vs-async.drawio.svg" alt="sync-vs-async" width="600" style="float: right;">
+            </div>
+          </div>
+          <h3 class="fragment">Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口</h3>
+        </section>
 			</div>
 		</div>
 
