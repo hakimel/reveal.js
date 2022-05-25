@@ -20,5 +20,5 @@ jobs:
         env:
           PERSONAL_TOKEN: ${{ secrets.DEPLOY_KEY }}
           PUBLISH_BRANCH: deploy
-          PUBLISH_DIR: ./build
+          PUBLISH_DIR: ./
 
