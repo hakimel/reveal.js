@@ -2,7 +2,7 @@
   "name": "reveal.js",
   "version": "4.3.1",
   "description": "The HTML Presentation Framework",
-  "homepage": "https://SKTT1Ryze.github.io/ppt.js",
+  "homepage": "https://sktt1ryze.github.io/ppt.js",
   "subdomain": "revealjs",
   "main": "dist/reveal.js",
   "module": "dist/reveal.esm.js",
