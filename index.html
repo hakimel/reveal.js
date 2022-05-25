@@ -51,20 +51,22 @@
             <div class="tiedItem">指导老师：邵志远</div>
           </h3>
         </section>
+
 				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <h2>目录</h2>
           <h3 class="tiedContainer">
-            <div class="tiedItem"><a href="/#2">01 研究背景</a></div>
-            <div class="tiedItem"><a href="/#0">02 设计实现</a></div>
+            <div class="tiedItem"><a href="/#2">01 研究背景和目标</a></div>
+            <div class="tiedItem"><a href="/#0">02 系统设计与实现</a></div>
           </h3>
           <h3 class="tiedContainer">
-            <div class="tiedItem"><a href="/#0">03 性能测试</a></div>
-            <div class="tiedItem"><a href="/#0">04 分析总结</a></div>
+            <div class="tiedItem"><a href="/#0">03 性能测试与分析</a></div>
+            <div class="tiedItem"><a href="/#0">04 最终总结与展望</a></div>
           </h3>
         </section>
+
 				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">考虑一个TCP服务器的运作场景：</h4>
+          <h4 style="text-align: left;">考虑一个非常通用的后端开发场景：</h4>
           <div class="imageText">
             <div class="image">
               <img src="images/tcp-server.drawio.svg" alt="tcp-server" width="1200" style="float: left;">
@@ -75,6 +77,7 @@
             </div>
           </div>
         </section>
+
 				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <h4>研究背景</h4>
           <h4 style="text-align: left;">一个解决方案：</h4>
@@ -112,26 +115,82 @@
           </div>
           <h3 class="fragment">Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口</h3>
         </section>
+
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <h4>研究背景</h4>
           <h4 style="text-align: left;">什么是协程？</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">协程是xxx</li>
+                <li style="margin-bottom: 5px;">协程可以被理解为能挂起和恢复的函数；</li>
                 <li style="margin-bottom: 5px;">
-                  协程xxx
+                  协程恢复时从上次挂起的地方继续执行；
                 </li>
-                <li style="margin-bottom: 5px;">
-                  协程xxx
-                </li>
+                <li style="margin-bottom: 5px;">相比线程的优势：切换开销小；</li>
+                <li style="margin-bottom: 5px;">相比线程的劣势：不能利用多核CPU，<br />无法并发执行。</li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/sync-vs-async.drawio.svg" alt="sync-vs-async" width="600" style="float: right;">
+              <img src="images/coroutines.png" alt="coroutine" width="550" style="float: right;">
+            </div>
+          </div>
+          <h5 style="text-align: right;">
+            <a href="https://blog.eiler.eu/posts/20210512/">图片出处</a>
+          </h5>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究背景</h4>
+          <h4 style="text-align: left;">什么是异步编程框架？</h4>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">对异步I/O和协程进行封装；</li>
+                <li style="margin-bottom: 5px;">向上层网络/存储应用提供简单易用的编程接口；</li>
+                <li style="margin-bottom: 5px;">赋予代码异步执行的能力；</li>
+                <li style="margin-bottom: 5px;">相比同步I/O和多线程框架，更加轻量和高性能。</li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/async-framework.drawio.svg" alt="async-framework" width="600" height="400" style="float: right;">
             </div>
           </div>
         </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究现状</h4>
+          <h4 style="text-align: left;">目前国内外关于异步编程框架的研究现状主要体现在几个开源项目上：</h4>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">Tokio；最成熟的Rust异步运行时；</li>
+                <li style="margin-bottom: 5px;">Libco：微信后台C++协程库；</li>
+                <li style="margin-bottom: 5px;">Goroutine：Go语言原生协程；</li>
+                <li style="margin-bottom: 5px;">Node.js：跨平台的JavaScript运行时。</li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/tokio-libco-go-nodejs.drawio.svg" alt="tokio-libco-go-nodejs" width="600" height="400" style="float: right;">
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究目标</h4>
+          <h4 style="text-align: left;">基于io_uring和Rust/C++语言中的协程设计并实现高性能的异步编程框架：</h4>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">功能上：提供构建异步网络/存储应用程序的基础API；</li>
+                <li style="margin-bottom: 5px;">性能上：拥有比当前开源社区中主流的异步编程框架更高的性能。</li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/goal.drawio.svg" alt="goal" width="600" height="400" style="float: right;">
+            </div>
+          </div>
+        </section>
+
 			</div>
 		</div>
 
