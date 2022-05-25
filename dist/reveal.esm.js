@@ -1,6 +1,6 @@
 /*!
 * reveal.js 4.3.1
-* https://revealjs.com
+* https://sktt1ryze.github.io/ppt.js
 * MIT licensed
 *
 * Copyright (C) 2011-2022 Hakim El Hattab, https://hakim.se
