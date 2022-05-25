@@ -7,16 +7,28 @@
 		<title>sktt1ryze's oral defense ppt</title>
     
     <style>
-      .container {
+      .tiedContainer {
             display: flex;
-            flex-wrap: wrap;/*可换行*/
-            justify-content: center;/*内容居中*/
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .item{
+
+        .tiedItem{
             flex: 1 1 150px;
             margin: 5px;
             height: 50px;
-            
+        }
+
+        .imageText {
+          display: flex;
+          /* align-items: center; */
+          justify-content: space-between;
+        }
+
+        .imageTextItem {
+          display: flex;
+          flex-wrap: wrap;
+          align-content: center;
         }
     </style>
 
@@ -34,16 +46,49 @@
 				<section data-background-image="images/background2.jpeg" data-background-opacity=0.25>
           <h2>基于Linux异步I/O和协程的高性能异步编程框架设计与实现</h2>
           <h4>计算机科学与技术学院2018级 校际交流1班</h4>
-          <h3 class="container">
-            <div class="item">答辩学生：车春池</div><div class="item">指导老师：邵志远</div>
+          <h3 class="tiedContainer">
+            <div class="tiedItem">答辩学生：车春池</div>
+            <div class="tiedItem">指导老师：邵志远</div>
           </h3>
         </section>
-				<section data-markdown data-background-image="images/background.jpg" data-background-opacity=0.25>
-          <textarea data-template>
-            ## 字体测试
-            - 列表1
-            - 列表2
-          </textarea>
+				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h2>目录</h2>
+          <h3 class="tiedContainer">
+            <div class="tiedItem"><a href="/#2">01 研究背景</a></div>
+            <div class="tiedItem"><a href="/#0">02 设计实现</a></div>
+          </h3>
+          <h3 class="tiedContainer">
+            <div class="tiedItem"><a href="/#0">03 性能测试</a></div>
+            <div class="tiedItem"><a href="/#0">04 分析总结</a></div>
+          </h3>
+        </section>
+				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究背景</h4>
+          <h4 style="text-align: left;">考虑一个TCP服务器的运作场景：</h4>
+          <div class="imageText">
+            <div class="image">
+              <img src="images/tcp-server.drawio.svg" alt="tcp-server" width="1200" style="float: left;">
+            </div>
+            <div class="imageTextItem">
+              <div style="margin-bottom: 5px;">问题一：同步I/O会阻塞线程</div>
+              <div style="margin-top: 5px;">问题二：线程间切换开销大</div>
+            </div>
+          </div>
+        </section>
+				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究背景</h4>
+          <h4 style="text-align: left;">一个解决方案：</h4>
+          <div class="imageText">
+            <div class="image">
+              <img src="images/tcp-server-async.drawio.svg" alt="tcp-server-async" width="700" style="float: left;">
+            </div>
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">同步I/O-->异步I/O</li>
+                <li style="margin-top: 5px;">线程-->协程</li>
+              </ol>
+            </div>
+          </div>
         </section>
 			</div>
 		</div>
