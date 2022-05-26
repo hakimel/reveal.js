@@ -261,7 +261,7 @@
               </ol>
             </div>
             <div class="image">
-              <img src="images/op-task.drawio.svg" alt="op-task" width="600" height="600" style="float: right;">
+              <img src="images/op-task.drawio.svg" alt="op-task" width="600" height="400" style="float: right;">
             </div>
           </div>
         </section>
@@ -271,16 +271,24 @@
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">
-                  Task中的每个Op子对象均为一个切换点；
-                </li>
-                <li style="margin-bottom: 5px;">Task运行到切换点有两种状态：就绪和等待；</li>
+                <li style="margin-bottom: 5px;">Task在执行过程中可以挂起和恢复；</li>
+                <li style="margin-bottom: 5px;">Task中的每个Op子对象对应为一个切换点；</li>
+                <li style="margin-bottom: 5px;">Task执行到切换点有两种状态：就绪和等待；</li>
+                <ul>
+                  <li style="margin-bottom: 5px;">就绪状态下继续执行；</li>
+                  <li style="margin-bottom: 5px;">等待状态下挂起。</li>
+                </ul>
+                <li style="margin-bottom: 5px;">Task恢复时从上次挂起的地方继续执行。</li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/op-task.drawio.svg" alt="op-task" width="500" height="500" style="float: right;">
+              <img src="images/task-execute.drawio.svg" alt="task-execute" width="500" height="500" style="float: right;">
             </div>
           </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>Task模块实现</h4>
         </section>
 
 			</div>
