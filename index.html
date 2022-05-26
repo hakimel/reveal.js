@@ -93,6 +93,7 @@
             </div>
           </div>
         </section>
+
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <h4>研究背景</h4>
           <h4 style="text-align: left;">什么是异步I/O？</h4>
@@ -111,6 +112,27 @@
             </div>
             <div class="image">
               <img src="images/sync-vs-async.drawio.svg" alt="sync-vs-async" width="600" style="float: right;">
+            </div>
+          </div>
+          <h3 class="fragment">Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口</h3>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>研究背景</h4>
+          <h4 style="text-align: left;">io_uring架构：</h4>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">使用共享内存来实现内核态和用户态之间的信息交换；</li>
+                <li style="margin-bottom: 5px;">提交队列用来提交I/O请求；</li>
+                <li style="margin-bottom: 5px;">完成队列用于收割I/O完成事件；</li>
+                <li style="margin-bottom: 5px;">
+                  支持无锁并发，内部通过内存屏障技术实现状态同步。
+                </li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/io_uring.png" alt="io_uring" width="600" style="float: right;">
             </div>
           </div>
           <h3 class="fragment">Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口</h3>
@@ -190,6 +212,15 @@
             </div>
           </div>
         </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>单核架构设计</h4>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>多核架构设计</h4>
+        </section>
+        
 
 			</div>
 		</div>
