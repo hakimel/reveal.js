@@ -45,7 +45,7 @@
 		<div class="reveal">
 			<div class="slides">
         <img src="images/hust.png" alt="hust_logo" width=80 height=80 style="float: left">
-
+        
         <a href="https://github.com/SKTT1Ryze/ppt.js">
           <img src="images/github.svg" alt="github" width="50" height="50" style="float: right;">
         </a>
@@ -142,7 +142,6 @@
               <img src="images/io_uring.png" alt="io_uring" width="600" style="float: right;">
             </div>
           </div>
-          <h3 class="fragment">Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口</h3>
         </section>
 
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
@@ -223,24 +222,66 @@
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <div>
             <div><h4>整体架构设计</h4></div>
-            <div style="padding-top: 0px;">
-              <img src="images/system-design.drawio.svg" alt="system-design" width="600" height="600" style="margin-top: 0px;">
+            <div style="padding-top: 0px; padding-bottom: 0px;">
+              <img src="images/system-design.drawio.svg" alt="system-design" width="520" height="520" style="margin-top: 0px;">
+            </div>
+            <div>基础层负责底层封装，应用层负责提供API。</div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <div><h4>多核架构设计</h4></div>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">
+                  参考<a href="https://helda.helsinki.fi//bitstream/handle/10138/313642/tpc_ancs19.pdf?sequence=1">Thread-Per-Core</a>架构设计；
+                </li>
+                <li style="margin-bottom: 5px;">为每个核创建一个io_uring实例；</li>
+                <li style="margin-bottom: 5px;">在同一个io_uring实例注册的Task只能在同一个核上运行；</li>
+                <li style="margin-bottom: 5px;">设计目的是减少核间数据同步和线程切换。</li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/multicore-design.drawio.svg" alt="multicore-design" width="520" height="520" style="float: right;">
+            </div>
+          </div>
+        </section>
+        
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <div><h4>Task模块设计</h4></div>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">
+                  基于面向对象的思想，将所有I/O操作统一抽象成Op类；
+                </li>
+                <li style="margin-bottom: 5px;">继承Op父类可派生出Op子类，每个Op子对象对应一个I/O操作；</li>
+                <li style="margin-bottom: 5px;">一个Task由一个或多个Op子对象呈树状构成。</li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/op-task.drawio.svg" alt="op-task" width="600" height="600" style="float: right;">
             </div>
           </div>
         </section>
 
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
-          <div>
-            <div><h4>多核架构设计</h4></div>
-            <div style="padding-top: 0px;">
-              <img src="images/multicore-design.drawio.svg" alt="multicore-design" width="600" height="600" style="margin-top: 0px;">
+          <div><h4>Task模块设计</h4></div>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">
+                  Task中的每个Op子对象均为一个切换点；
+                </li>
+                <li style="margin-bottom: 5px;">Task运行到切换点有两种状态：就绪和等待；</li>
+              </ol>
+            </div>
+            <div class="image">
+              <img src="images/op-task.drawio.svg" alt="op-task" width="500" height="500" style="float: right;">
             </div>
           </div>
         </section>
-        
-      <section data-background-image="images/background.jpg" data-background-opacity=0.25>
-        <h4>Task模块设计</h4>
-      </section>
 
 			</div>
 		</div>
