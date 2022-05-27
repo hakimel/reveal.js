@@ -355,6 +355,40 @@
           </div>
         </section>
 
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>Task模块实现（Rust）</h4>
+          <div class="codeText">
+            <div class="codeTextItem" style="vertical-align: middle;">
+              <ol>
+                <li style="margin-bottom: 5px;">Future对象具有<mark>组合性</mark>；</li>
+                <li style="margin-bottom: 5px;">
+                  一个Op&ltT&gt对应一个叶子Future，
+                  一个Task对应一个树Future，
+                </li>
+                <li style="margin-bottom: 5px;">可以通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；</li>
+                <li style="margin-bottom: 5px;"><mark>async/await</mark>：Rust编译器在语言层面为Future组合性提供的支持。</li>
+              </ol>
+            </div>
+            <div class="codeTextItem">
+              <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+                // Rust编译器将async函数的返回值
+                // 转换成Future
+                async fn task() {
+                  ...
+
+                  op1.await;
+                  op2.await;
+                  
+                  ...
+                }
+              </script></code></pre>
+            </div>
+            <div class="codeTextItem">
+              <img src="images/future-combine.drawio.svg" alt="future-combine">
+            </div>
+          </div>
+        </section>
+
 			</div>
 		</div>
 
