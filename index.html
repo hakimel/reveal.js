@@ -79,7 +79,7 @@
             <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/10">02 系统设计与实现</a></div>
           </h3>
           <h3 class="tiedContainer">
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/0">03 性能测试与分析</a></div>
+            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/22">03 性能测试与分析</a></div>
             <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/0">04 最终总结与展望</a></div>
           </h3>
         </section>
@@ -284,6 +284,7 @@
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
+                <li style="margin-bottom: 5px;">一个Task对应一个协程；</li>
                 <li style="margin-bottom: 5px;">Task在执行过程中可以挂起和恢复；</li>
                 <li style="margin-bottom: 5px;">Task中的每个Op子对象对应为一个切换点；</li>
                 <li style="margin-bottom: 5px;">Task执行到切换点有两种状态：就绪和等待；</li>
@@ -532,7 +533,38 @@
           </div>
         </section>
 
-			</div>
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4><a href="https://github.com/sekirio-rs/Emma">Emma</a>（Rust）和<a href="https://github.com/sekirio-rs/Kuro">Kuro</a>（C++）</h4>
+          <div class="codeText">
+            <div class="codeTextItem"><img src="images/emma.png" alt="emma"></div>
+            <div class="codeTextItem"><img src="images/kuro.png" alt="kuro"></div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>性能测试</h4>
+          <div class="codeText">
+            <div class="codeTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">测试对象：Emma，Kuro和以下开源异步编程框架；</li>
+                  <ul>
+                    <li style="margin-bottom: 5px;">Tokio：最成熟的Rust异步运行时；</li>
+                    <li style="margin-bottom: 5px;">async-std：Rust异步运行时新起之秀；</li>
+                    <li style="margin-bottom: 5px;">Go：Go语言原生协程框架。</li>
+                  </ul>
+                <li style="margin-bottom: 5px;">
+                  测试方法：用各个框架实现一个HTTP服务器，然后使用Apache Benchmark软件对服务器进行压力测试，并对比测试结果；
+                </li>
+                <li style="margin-bottom: 5px;">测试指标：服务器吞吐量。</li>
+              </ol>
+            </div>
+            <div class="codeTextItem">
+              <img src="images/per-test.drawio.svg" alt="per-test" width="600">
+            </div>
+          </div>
+        </section>
+			
+      </div>
 		</div>
 
 		<script src="dist/reveal.js"></script>
