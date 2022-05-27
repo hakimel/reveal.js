@@ -79,7 +79,7 @@
             <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/10">02 系统设计与实现</a></div>
           </h3>
           <h3 class="tiedContainer">
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/0">03 性能测试与分析</a></div>
+            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/22">03 性能测试与分析</a></div>
             <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/0">04 最终总结与展望</a></div>
           </h3>
         </section>
@@ -543,16 +543,23 @@
 
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
           <h4>性能测试</h4>
-          <div class="imageText">
-            <div class="imageTextItem">
+          <div class="codeText">
+            <div class="codeTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">测试对象：xxx；</li>
-                <li style="margin-bottom: 5px;">测试方法：xxx；</li>
-                <li style="margin-bottom: 5px;">测试指标：xxx；</li>
+                <li style="margin-bottom: 5px;">测试对象：Emma，Kuro和以下开源异步编程框架；</li>
+                  <ul>
+                    <li style="margin-bottom: 5px;">Tokio：最成熟的Rust异步运行时；</li>
+                    <li style="margin-bottom: 5px;">async-std：Rust异步运行时新起之秀；</li>
+                    <li style="margin-bottom: 5px;">Go：Go语言原生协程框架。</li>
+                  </ul>
+                <li style="margin-bottom: 5px;">
+                  测试方法：用各个框架实现一个HTTP服务器，然后使用Apache Benchmark软件对服务器进行压力测试，并对比测试结果；
+                </li>
+                <li style="margin-bottom: 5px;">测试指标：服务器吞吐量。</li>
               </ol>
             </div>
-            <div class="image">
-              <img src="images/multicore-design.drawio.svg" alt="multicore-design" width="520" height="400" style="float: right;">
+            <div class="codeTextItem">
+              <img src="images/per-test.drawio.svg" alt="per-test" width="600">
             </div>
           </div>
         </section>
