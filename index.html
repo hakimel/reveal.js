@@ -13,22 +13,35 @@
             justify-content: center;
         }
 
-        .tiedItem{
+      .tiedItem{
             flex: 1 1 150px;
             margin: 5px;
             height: 50px;
         }
 
-        .imageText {
+      .imageText {
           display: flex;
           /* align-items: center; */
           justify-content: space-between;
         }
 
-        .imageTextItem {
+      .imageTextItem {
           display: flex;
           flex-wrap: wrap;
           align-content: center;
+        }
+
+      .codeText {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+        }
+
+      .codeTextItem{
+          flex: 1 1 150px;
+          margin-right: 50px;
+          margin-top: 0px;
         }
     </style>
 
@@ -254,7 +267,7 @@
             <div class="imageTextItem">
               <ol>
                 <li style="margin-bottom: 5px;">
-                  基于面向对象的思想，将所有I/O操作统一抽象成Op类；
+                  基于<mark>面向对象</mark>的思想，将所有I/O操作统一抽象成Op类；
                 </li>
                 <li style="margin-bottom: 5px;">继承Op父类可派生出Op子类，每个Op子对象对应一个I/O操作；</li>
                 <li style="margin-bottom: 5px;">一个Task由一个或多个Op子对象呈树状构成。</li>
@@ -288,9 +301,102 @@
         </section>
 
         <section data-background-image="images/background.jpg" data-background-opacity=0.25>
-          <h4>Task模块实现</h4>
+          <h4>Task模块实现（Rust）</h4>
+          <div class="codeText">
+            <div class="codeTextItem" style="vertical-align: middle;">
+              <ol>
+                <li style="margin-bottom: 5px;">
+                  Rust不支持面向对象编程，参考前端框架<a href="https://reactjs.org/">React</a>的设计，
+                  使用<mark>组件化</mark>的方式达到继承的效果；
+                </li>
+                <li style="margin-bottom: 5px;">子组件接口SubOp：创建I/O请求方法create_sqe；</li>
+                <li style="margin-bottom: 5px;">Future是Rust官方提供用于异步编程的接口；</li>
+                <li style="margin-bottom: 5px;">
+                  为Op&ltT&gt实现Future接口：第一次执行调用子组件的create_sqe方法创建sqe，
+                  然后注册到IoUring模块，接着挂起；恢复后（第二次调用）返回结果。
+                </li>
+              </ol>
+            </div>
+            <div class="codeTextItem">
+              <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+                /// 子组件需要实现的接口
+                trait SubOp {
+                  fn create_sqe(&self) -> Sqe;
+                }
+                /// Op结构体作为父组件
+                struct Op<T: SubOp> {
+                  component: T,
+                  is_completed: bool
+                  ...
+                }
+                // 为父组件实现Future接口
+                impl<T: SubOp> Future for Op<T> {
+                  type Output = ...;
+                  fn poll(&self, ...) -> Poll<Self::Output> {
+                    if !self.is_completed {
+                      // 第一次调用
+
+                      // 通过子组件创建I/O请求sqe
+                      let sqe = self.component.create_sqe();
+
+                      // 注册sqe到IoUring模块
+                      io_uring.submit(sqe);
+
+                      // 挂起
+                      return Poll::Pending;
+                    } else {
+                      // I/O事件已经完成
+                      return Poll::Ready(...);
+                    }
+                  }
+                }
+              </script></code></pre>
+            </div>
+          </div>
         </section>
 
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>Task模块实现（Rust）</h4>
+          <div class="codeText">
+            <div class="codeTextItem" style="vertical-align: middle;">
+              <ol>
+                <li style="margin-bottom: 5px;">Future对象具有<mark>组合性</mark>；</li>
+                <li style="margin-bottom: 5px;">
+                  一个Op&ltT&gt对应一个叶子Future，
+                  一个Task对应一个树Future，
+                </li>
+                <li style="margin-bottom: 5px;">可以通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；</li>
+                <li style="margin-bottom: 5px;"><mark>async/await</mark>：Rust编译器在语言层面为Future组合性提供的支持。</li>
+              </ol>
+            </div>
+            <div class="codeTextItem">
+              <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+                // Rust编译器将async函数的返回值
+                // 转换成Future
+                async fn task() {
+                  ...
+
+                  op1.await;
+                  op2.await;
+                  
+                  ...
+                }
+              </script></code></pre>
+            </div>
+            <div class="codeTextItem">
+              <img src="images/future-combine.drawio.svg" alt="future-combine">
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>Rust实现中Task执行流程</h4>
+          <div class="codeText">
+            <div class="codeTextItem">
+              <img src="images/task-rust.drawio.svg" alt="task-rust" width="650">
+            </div>
+          </div>
+        </section>
 			</div>
 		</div>
 
