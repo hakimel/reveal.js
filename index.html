@@ -80,7 +80,7 @@
           </h3>
           <h3 class="tiedContainer">
             <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/22">03 性能测试与分析</a></div>
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/0">04 最终总结与展望</a></div>
+            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/24">04 最终总结与展望</a></div>
           </h3>
         </section>
 
@@ -546,16 +546,23 @@
           <div class="codeText">
             <div class="codeTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">测试对象：Emma，Kuro和以下开源异步编程框架；</li>
+                <li style="margin-bottom: 5px;">测试对象：Emma，Kuro和以下框架；</li>
                   <ul>
                     <li style="margin-bottom: 5px;">Tokio：最成熟的Rust异步运行时；</li>
                     <li style="margin-bottom: 5px;">async-std：Rust异步运行时新起之秀；</li>
-                    <li style="margin-bottom: 5px;">Go：Go语言原生协程框架。</li>
+                    <li style="margin-bottom: 5px;">Go：Go语言原生协程框架;</li>
+                    <li style="margin-bottom: 5px;">Sync：同步I/O和多线程框架。</li>
                   </ul>
                 <li style="margin-bottom: 5px;">
                   测试方法：用各个框架实现一个HTTP服务器，然后使用Apache Benchmark软件对服务器进行压力测试，并对比测试结果；
                 </li>
-                <li style="margin-bottom: 5px;">测试指标：服务器吞吐量。</li>
+                <li style="margin-bottom: 5px;">测试指标：服务器吞吐量；</li>
+                <li style="margin-bottom: 5px;">测试环境：</li>
+                  <ul>
+                    <li style="margin-bottom: 5px;">CPU：Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，56核；</li>
+                    <li style="margin-bottom: 5px;">内存：32GB，2666 MT/s x 16（条）；</li>
+                    <li style="margin-bottom: 5px;">网卡：Intel Corporation Ethernet Connection X722 for 10GbE SFP+ (rev 09)。</li>
+                  </ul>
               </ol>
             </div>
             <div class="codeTextItem">
@@ -569,18 +576,46 @@
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">测试环境：</li>
-                  <ul>
-                    <li style="margin-bottom: 5px;">CPU：Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，56核；</li>
-                    <li style="margin-bottom: 5px;">内存：32GB，2666 MT/s x 16（条）；</li>
-                    <li style="margin-bottom: 5px;">网卡：Intel Corporation Ethernet Connection X722 for 10GbE SFP+ (rev 09)。</li>
-                  </ul>
-                <li style="margin-bottom: 5px;">横坐标是HTTP请求数；</li>
-                <li style="margin-bottom: 5px;">纵坐标是服务器吞吐量。</li>
+                <li style="margin-bottom: 5px;">横坐标是HTTP请求数，纵坐标是服务器吞吐量；</li>
+                <li style="margin-bottom: 5px;">随着请求数增大，服务器吞吐量趋于一个恒定值；</li>
+                <li style="margin-bottom: 5px;">Emma和Kuro框架的吞吐量最高，Go框架的吞吐量最低；</li>
+                <li style="margin-bottom: 5px;">Kuro框架比同步I/O和多线程框架在吞吐量指标上最高能达到78%的提升。</li>
               </ol>
             </div>
             <div class="image">
               <img src="images/test-result.png" alt="test-result" width="1000">
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>总结与展望</h4>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <ol>
+                <li style="margin-bottom: 5px;">
+                  基于Linux平台上的异步I/O技术（io_uring）和Rust/C++语言的协程技术设计并实现了两款
+                  异步编程框架<mark>Emma和Kuro</mark>，在给上层应用开发带来便利的同时，验证了异步I/O和协程
+                  的高效性；
+                </li>
+                <li style="margin-bottom: 5px;">后续计划可以从丰富功能和规范测试两个方面入手：</li>
+                <ul>
+                  <li style="margin-bottom: 5px;">为Emma和Kuro框架适配io_uring的高级用法，实现更多功能；</li>
+                  <li style="margin-bottom: 5px;">搭建更加规范，完善的测试环境，得出更准确，更全面的测试结果。</li>
+                </ul>
+                <li style="margin-bottom: 5px;">感谢我的校内导师-华中科技大学的邵志远老师和校外导师-清华大学的陈渝老师。</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <div class="imageText">
+            <div class="imageTextItem">
+              <h2>感谢观看！</h2>
+            </div>
+            <div class="imageTextItem">
+              <img src="images/chuangzhen.png" height="500">
             </div>
           </div>
         </section>
