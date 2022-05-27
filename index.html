@@ -365,7 +365,7 @@
                   一个Op&ltT&gt对应一个叶子Future，
                   一个Task对应一个树Future，
                 </li>
-                <li style="margin-bottom: 5px;">可以通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；</li>
+                <li style="margin-bottom: 5px;">通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；</li>
                 <li style="margin-bottom: 5px;"><mark>async/await</mark>：Rust编译器在语言层面为Future组合性提供的支持。</li>
               </ol>
             </div>
@@ -397,6 +397,141 @@
             </div>
           </div>
         </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>Task模块实现（C++）</h4>
+          <div class="codeText">
+            <div class="codeTextItem" style="vertical-align: middle;">
+              <ol>
+                <li style="margin-bottom: 5px;">C++20官方提供Promise和Awaitable两个接口用于协程编程；</li>
+                  <ul>
+                    <li>Promise：作为协程的函数返回类型必须实现Promise接口；</li>
+                    <li>Awaitable：对应于Rust中的Future接口，表示一个将来值。</li>
+                  </ul>
+                <li style="margin-bottom: 5px;">Task实现过程：</li>
+                  <ul>
+                    <li>定义Task类，并为其实现Promise接口；</li>
+                    <li>定义Op&ltT&gt类，并为其实现Awaitable接口，实现思路和在Rust中实现Future接口类似；</li>
+                    <li>通过重写create_sqe方法派生Op子类。</li>
+                  </ul>
+              </ol>
+            </div>
+            <div class="codeTextItem">
+              <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+                // 示例代码，无法编译
+                template <typename T>
+                class Task {
+                  public:
+                    struct promise_type;
+                    using handle_type = std::coroutine_handle<promise_type>;
+                    
+                    // 实现Promise接口
+                    struct promise_type {
+                      T value;
+
+                      Task get_return_object();
+                      std::suspend_never initial_suspend() { return {}; }
+                      std::suspend_never final_suspend() noexcept { return {}; }
+                      std::suspend_never return_value(T v) {
+                        value = v;
+                        return {};
+                      }
+                    }
+                    
+                    handle_type h_;
+
+                    T result() { return h_.promise().value; }
+                };
+
+                template <typename T>
+                class Op {
+                  public:
+                    std::shared_ptr<io_uring> uring;
+                    
+                    // Op子类需要重写该函数
+                    struct io_uring_sqe create_sqe();
+                    
+                    // 实现Awaitable接口
+                    bool await_ready() { return false; }
+                    void await_suspend(std::coroutine_handle<> h) {
+                      // 通过create_sqe方法创建I/O请求sqe
+                      auto sqe = this->create_sqe();
+
+                      // 将sqe注册到IoUring模块中
+                      this->uring.submit(sqe);
+
+                      // 挂起
+                      return;
+                    }
+                    auto await_resume() {
+                      // 恢复
+                      
+                      // 从IoUring模块收割结果
+                      auto res = this->uring.completion().result();
+                      
+                      return res;
+                    }
+
+                  private:
+                    T value;
+                };
+              </script></code></pre>
+            </div>
+          </div>
+        </section>
+
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>Task模块实现（C++）</h4>
+          <div class="codeText">
+            <div class="codeTextItem" style="vertical-align: middle;">
+              <ol>
+                <li style="margin-bottom: 5px;">Awaitable对象具有<mark>传递性</mark>；</li>
+                <li style="margin-bottom: 5px;">
+                  一个Op&ltT&gt对应一个Awaitable对象，
+                  多个Awaitable对象可以在一个Task内部传递；
+                </li>
+                <li style="margin-bottom: 5px;">通过Awaitable的传递性将一个或多个Op&ltT&gt组合成一个Task；</li>
+                <li style="margin-bottom: 5px;"><mark>co_await/co_return</mark>：C++20编译器在语言层面为Awaitable传递性提供的支持。</li>
+              </ol>
+            </div>
+            <div class="codeTextItem">
+              <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+                Task<int> task() {
+                  ...
+
+                  co_await op1;
+                  co_await op2;
+                  
+                  ...
+                  co_return 0;
+                }
+              </script></code></pre>
+            </div>
+            <div class="codeTextItem">
+              <img src="images/awaitable-combine.drawio.svg" alt="awaitable-combine">
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>C++实现中Task执行流程</h4>
+          <div class="codeText">
+            <div class="codeTextItem">
+              <img src="images/task-cpp.drawio.svg" alt="task-cpp" width="650">
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <h4>其他模块：...</h4>
+          <div class="codeText">
+            <div class="codeTextItem">
+              <img src="images/todo.drawio.svg" alt="todo" width="500">
+            </div>
+          </div>
+        </section>
+
 			</div>
 		</div>
 
