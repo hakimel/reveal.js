@@ -610,6 +610,45 @@
           </div>
         </section>
 
+        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+          <div class="codeText">
+            <div class="codeTextItem">
+              <h3>毕设成果为本PPT的演示提供支持！</h3>
+            </div>
+            <div class="codeTextItem">
+               <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+                 <!-- 前端 -->
+                <img src="http://172.26.222.85:3344/github.svg">
+
+                // 后端
+                async fn main() {
+                  // 监听ip地址和端口
+                  let listener = TcpListener::bind("0.0.0.0:3344").await;
+                  
+                  loop {
+                    // 建立TCP连接
+                    let stream = listener.accept().await;
+
+                    Runtime::spawn(async move {
+                      let mut buf = [0; BUF_LEN];
+                      
+                      // 接收HTTP请求
+                      stream.recv(&mut buf).await;
+                      
+                      // 处理HTTP请求
+                      handle_request(&mut buf);
+                      
+                      // 发送响应字节流
+                      stream.send(&buf).await;
+                    });
+                  }
+                }
+              </script></code></pre>
+            </div>
+          </div>
+        </section>
+
+
         <!-- <section data-background-image="images/background.jpg" data-background-opacity=0.25> -->
         <!--   <div class="imageText"> -->
         <!--     <div class="imageTextItem"> -->
