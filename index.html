@@ -148,6 +148,9 @@
             </div>
           </div>
         </section>
+        <!-- 我们先来考虑一个通用的后端开发场景，一个TCP服务器监听某个ip地址和端口，
+        建立连接后开启一个新的线程去处理TCP连接，然后这个线程会通过同步I/O来进行网络数据包的收发。
+        这样的架构存在两个问题，第一个同步I/O会阻塞整个线程，第二个是线程之间的切换开销很大。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -172,6 +175,7 @@
             </div>
           </div>
         </section>
+        <!-- 这里提出一个解决方案：使用异步I/O替换同步I/O，使用协程替换线程，采用异步I/O和协程结合的架构设计。 -->
 
         <section
           data-background-image="images/background.jpg"
@@ -209,6 +213,8 @@
             Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口
           </h3>
         </section>
+        <!-- 异步I/O是指一种不阻塞的I/O模型，能提高系统的CPU利用率，降低延迟。
+        Linux在5.1版本推出了高性能的异步I/O接口io_uring。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -241,6 +247,7 @@
             </div>
           </div>
         </section>
+        <!-- 这是io_uring的架构。 -->
 
         <section
           data-background-image="images/background.jpg"
@@ -276,6 +283,8 @@
             <a href="https://blog.eiler.eu/posts/20210512/">图片出处</a>
           </h5>
         </section>
+        <!-- 协程可以被理解为能在执行过程中挂起和恢复的函数，协程在恢复执行后从上次挂起的地方继续执行。
+        协程切换不设计特权级的切换，相比线程切换开销较小。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -307,6 +316,8 @@
             </div>
           </div>
         </section>
+        <!-- 异步编程框架是指对异步I/O和协程进行封装，并向上提供应用接口的底层框架，
+        它能赋予代码异步执行的能力。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -314,7 +325,7 @@
         >
           <h4>研究现状</h4>
           <h4 style="text-align: left">
-            目前国内外关于异步编程框架的研究现状主要体现在几个开源项目上：
+            目前国内外关于异步编程框架的研究主要体现在几个开源项目上：
           </h4>
           <div class="imageText">
             <div class="imageTextItem">
@@ -340,6 +351,7 @@
             </div>
           </div>
         </section>
+        <!-- 目前国内外关于异步编程框架的研究主要集中在以下几个开源项目上。 -->
 
         <section
           data-background-image="images/background.jpg"
