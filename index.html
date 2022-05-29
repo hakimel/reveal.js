@@ -1,70 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>sktt1ryze's oral defense ppt</title>
-    
+    <title>sktt1ryze's oral defense ppt</title>
+
     <style>
       .tiedContainer {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
 
-      .tiedItem{
-            flex: 1 1 150px;
-            margin: 5px;
-            height: 50px;
-        }
+      .tiedItem {
+        flex: 1 1 150px;
+        margin: 5px;
+        height: 50px;
+      }
 
       .imageText {
-          display: flex;
-          /* align-items: center; */
-          justify-content: space-between;
-        }
+        display: flex;
+        /* align-items: center; */
+        justify-content: space-between;
+      }
 
       .imageTextItem {
-          display: flex;
-          flex-wrap: wrap;
-          align-content: center;
-        }
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+      }
 
       .codeText {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          align-items: center;
-        }
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
 
-      .codeTextItem{
-          flex: 1 1 150px;
-          margin-right: 50px;
-          margin-top: 0px;
-        }
+      .codeTextItem {
+        flex: 1 1 150px;
+        margin-right: 50px;
+        margin-top: 0px;
+      }
     </style>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/custom.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/custom.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
 
     <link rel="icon" href="images/sktt1ryze.jpg" />
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-        <img src="images/hust.png" alt="hust_logo" width=80 height=80 style="float: left">
-        
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <img
+          src="images/hust.png"
+          alt="hust_logo"
+          width="80"
+          height="80"
+          style="float: left"
+        />
+
         <a href="https://github.com/SKTT1Ryze/ppt.js">
-          <img src="http://172.26.222.85:3344/github.svg" alt="github" width="50" height="50" style="float: right;" onerror="javascript:this.src='images/github.svg';">
+          <img
+            src="http://172.26.222.85:3344/github.svg"
+            alt="github"
+            width="50"
+            height="50"
+            style="float: right"
+            onerror="javascript:this.src='images/github.svg';"
+          />
           <!-- <img src="http://172.26.222.85:3344/github.svg" alt="github" width="50" height="50" style="float: right;"> -->
         </a>
 
-				<section data-background-image="images/background2.jpeg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background2.jpeg"
+          data-background-opacity="0.25"
+        >
           <h2>基于Linux异步I/O和协程的高性能异步编程框架设计与实现</h2>
           <h4>计算机科学与技术学院2018级 校际交流1班</h4>
           <h3 class="tiedContainer">
@@ -72,248 +91,434 @@
             <div class="tiedItem">指导老师：邵志远</div>
           </h3>
         </section>
+        <!-- 各位老师同学，早上好。我是来自校交1801班的车春池，我的毕设选题是基于Linux异步I/O和协程的高性能异步编
+        框架的设计与实现，指导老师是邵志远老师。
+        -->
 
-				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h2>目录</h2>
           <h3 class="tiedContainer">
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/2">01 研究背景和目标</a></div>
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/10">02 系统设计与实现</a></div>
+            <div class="tiedItem">
+              <a href="https://sktt1ryze.github.io/ppt.js/#/2"
+                >01 研究背景和目标</a
+              >
+            </div>
+            <div class="tiedItem">
+              <a href="https://sktt1ryze.github.io/ppt.js/#/10"
+                >02 系统设计与实现</a
+              >
+            </div>
           </h3>
           <h3 class="tiedContainer">
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/22">03 性能测试与分析</a></div>
-            <div class="tiedItem"><a href="https://sktt1ryze.github.io/ppt.js/#/24">04 最终总结与展望</a></div>
+            <div class="tiedItem">
+              <a href="https://sktt1ryze.github.io/ppt.js/#/22"
+                >03 性能测试与分析</a
+              >
+            </div>
+            <div class="tiedItem">
+              <a href="https://sktt1ryze.github.io/ppt.js/#/24"
+                >04 最终总结与展望</a
+              >
+            </div>
           </h3>
         </section>
+        <!-- 下面我将会从以下四个方面介绍我的毕设项目。 -->
 
-				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">考虑一个非常通用的后端开发场景：</h4>
+          <h4 style="text-align: left">考虑一个非常通用的后端开发场景：</h4>
           <div class="imageText">
             <div class="image">
-              <img src="images/tcp-server.drawio.svg" alt="tcp-server" width="1200" style="float: left;">
+              <img
+                src="images/tcp-server.drawio.svg"
+                alt="tcp-server"
+                width="1200"
+                style="float: left"
+              />
             </div>
             <div class="imageTextItem">
-              <div style="margin-bottom: 5px;">问题一：同步I/O会阻塞线程</div>
-              <div style="margin-top: 5px;">问题二：线程间切换开销大</div>
+              <div style="margin-bottom: 5px">问题一：同步I/O会阻塞线程</div>
+              <div style="margin-top: 5px">问题二：线程间切换开销大</div>
             </div>
           </div>
         </section>
 
-				<section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">一个解决方案：</h4>
+          <h4 style="text-align: left">一个解决方案：</h4>
           <div class="imageText">
             <div class="image">
-              <img src="images/tcp-server-async.drawio.svg" alt="tcp-server-async" width="700" style="float: left;">
+              <img
+                src="images/tcp-server-async.drawio.svg"
+                alt="tcp-server-async"
+                width="700"
+                style="float: left"
+              />
             </div>
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">同步I/O-->异步I/O</li>
-                <li style="margin-top: 5px;">线程-->协程</li>
+                <li style="margin-bottom: 5px">同步I/O-->异步I/O</li>
+                <li style="margin-top: 5px">线程-->协程</li>
               </ol>
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">什么是异步I/O？</h4>
+          <h4 style="text-align: left">什么是异步I/O？</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">异步I/O是一种不阻塞的I/O模型；</li>
-                <li style="margin-bottom: 5px;">同步I/O在用户线程发起请求到I/O事件<br />完成之间存在阻塞现象；</li>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
+                  异步I/O是一种不阻塞的I/O模型；
+                </li>
+                <li style="margin-bottom: 5px">
+                  同步I/O在用户线程发起请求到I/O事件<br />完成之间存在阻塞现象；
+                </li>
+                <li style="margin-bottom: 5px">
                   异步I/O在用户线程发起请求后不阻塞直接<br />返回到用户态，用户线程可以执行<br />其他任务，I/O事件完成后内核通知用户线程；
                 </li>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
                   异步I/O消除了线程阻塞现象，能降低网络<br />或存储系统的延迟。
                 </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/sync-vs-async.drawio.svg" alt="sync-vs-async" width="600" style="float: right;">
+              <img
+                src="images/sync-vs-async.drawio.svg"
+                alt="sync-vs-async"
+                width="600"
+                style="float: right"
+              />
             </div>
           </div>
-          <h3 class="fragment">Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口</h3>
+          <h3 class="fragment">
+            Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口
+          </h3>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">io_uring架构：</h4>
+          <h4 style="text-align: left">io_uring架构：</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">使用共享内存来实现内核态和用户态之间的信息交换；</li>
-                <li style="margin-bottom: 5px;">提交队列用来提交I/O请求；</li>
-                <li style="margin-bottom: 5px;">完成队列用于收割I/O完成事件；</li>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
+                  使用共享内存来实现内核态和用户态之间的信息交换；
+                </li>
+                <li style="margin-bottom: 5px">提交队列用来提交I/O请求；</li>
+                <li style="margin-bottom: 5px">
+                  完成队列用于收割I/O完成事件；
+                </li>
+                <li style="margin-bottom: 5px">
                   支持无锁并发，内部通过内存屏障技术实现状态同步。
                 </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/io_uring.png" alt="io_uring" width="600" style="float: right;">
+              <img
+                src="images/io_uring.png"
+                alt="io_uring"
+                width="600"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">什么是协程？</h4>
+          <h4 style="text-align: left">什么是协程？</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">协程可以被理解为能挂起和恢复的函数；</li>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
+                  协程可以被理解为能挂起和恢复的函数；
+                </li>
+                <li style="margin-bottom: 5px">
                   协程恢复时从上次挂起的地方继续执行；
                 </li>
-                <li style="margin-bottom: 5px;">相比线程的优势：切换开销小；</li>
-                <li style="margin-bottom: 5px;">相比线程的劣势：不能利用多核CPU，<br />无法并发执行。</li>
+                <li style="margin-bottom: 5px">相比线程的优势：切换开销小；</li>
+                <li style="margin-bottom: 5px">
+                  相比线程的劣势：不能利用多核CPU，<br />无法并发执行。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/coroutines.png" alt="coroutine" width="550" style="float: right;">
+              <img
+                src="images/coroutines.png"
+                alt="coroutine"
+                width="550"
+                style="float: right"
+              />
             </div>
           </div>
-          <h5 style="text-align: right;">
+          <h5 style="text-align: right">
             <a href="https://blog.eiler.eu/posts/20210512/">图片出处</a>
           </h5>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究背景</h4>
-          <h4 style="text-align: left;">什么是异步编程框架？</h4>
+          <h4 style="text-align: left">什么是异步编程框架？</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">对异步I/O和协程进行封装；</li>
-                <li style="margin-bottom: 5px;">向上层网络/存储应用提供简单易用的编程接口；</li>
-                <li style="margin-bottom: 5px;">赋予代码异步执行的能力；</li>
-                <li style="margin-bottom: 5px;">相比同步I/O和多线程框架，更加轻量和高性能。</li>
+                <li style="margin-bottom: 5px">对异步I/O和协程进行封装；</li>
+                <li style="margin-bottom: 5px">
+                  向上层网络/存储应用提供简单易用的编程接口；
+                </li>
+                <li style="margin-bottom: 5px">赋予代码异步执行的能力；</li>
+                <li style="margin-bottom: 5px">
+                  相比同步I/O和多线程框架，更加轻量和高性能。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/async-framework.drawio.svg" alt="async-framework" width="600" height="400" style="float: right;">
+              <img
+                src="images/async-framework.drawio.svg"
+                alt="async-framework"
+                width="600"
+                height="400"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究现状</h4>
-          <h4 style="text-align: left;">目前国内外关于异步编程框架的研究现状主要体现在几个开源项目上：</h4>
+          <h4 style="text-align: left">
+            目前国内外关于异步编程框架的研究现状主要体现在几个开源项目上：
+          </h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">Tokio；最成熟的Rust异步运行时；</li>
-                <li style="margin-bottom: 5px;">Libco：微信后台C++协程库；</li>
-                <li style="margin-bottom: 5px;">Goroutine：Go语言原生协程；</li>
-                <li style="margin-bottom: 5px;">Node.js：跨平台的JavaScript运行时。</li>
+                <li style="margin-bottom: 5px">
+                  Tokio；最成熟的Rust异步运行时；
+                </li>
+                <li style="margin-bottom: 5px">Libco：微信后台C++协程库；</li>
+                <li style="margin-bottom: 5px">Goroutine：Go语言原生协程；</li>
+                <li style="margin-bottom: 5px">
+                  Node.js：跨平台的JavaScript运行时。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/tokio-libco-go-nodejs.drawio.svg" alt="tokio-libco-go-nodejs" width="600" height="400" style="float: right;">
+              <img
+                src="images/tokio-libco-go-nodejs.drawio.svg"
+                alt="tokio-libco-go-nodejs"
+                width="600"
+                height="400"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>研究目标</h4>
-          <h4 style="text-align: left;">基于io_uring和Rust/C++语言中的协程设计并实现高性能的异步编程框架：</h4>
+          <h4 style="text-align: left">
+            基于io_uring和Rust/C++语言中的协程设计并实现高性能的异步编程框架：
+          </h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">功能上：提供构建异步网络/存储应用程序的基础API；</li>
-                <li style="margin-bottom: 5px;">性能上：拥有比当前开源社区中主流的异步编程框架更高的性能。</li>
+                <li style="margin-bottom: 5px">
+                  功能上：提供构建异步网络/存储应用程序的基础API；
+                </li>
+                <li style="margin-bottom: 5px">
+                  性能上：拥有比当前开源社区中主流的异步编程框架更高的性能。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/goal.drawio.svg" alt="goal" width="600" height="400" style="float: right;">
+              <img
+                src="images/goal.drawio.svg"
+                alt="goal"
+                width="600"
+                height="400"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <div>
             <div><h4>整体架构设计</h4></div>
-            <div style="padding-top: 0px; padding-bottom: 0px;">
-              <img src="images/system-design.drawio.svg" alt="system-design" width="520" height="520" style="margin-top: 0px;">
+            <div style="padding-top: 0px; padding-bottom: 0px">
+              <img
+                src="images/system-design.drawio.svg"
+                alt="system-design"
+                width="520"
+                height="520"
+                style="margin-top: 0px"
+              />
             </div>
             <div>基础层负责底层封装，应用层负责提供API。</div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <div><h4>多核架构设计</h4></div>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">
-                  参考<a href="https://helda.helsinki.fi//bitstream/handle/10138/313642/tpc_ancs19.pdf?sequence=1">Thread-Per-Core</a>架构设计；
+                <li style="margin-bottom: 5px">
+                  参考<a
+                    href="https://helda.helsinki.fi//bitstream/handle/10138/313642/tpc_ancs19.pdf?sequence=1"
+                    >Thread-Per-Core</a
+                  >架构设计；
                 </li>
-                <li style="margin-bottom: 5px;">为每个核创建一个io_uring实例；</li>
-                <li style="margin-bottom: 5px;">在同一个io_uring实例注册的Task只能在同一个核上运行；</li>
-                <li style="margin-bottom: 5px;">设计目的是减少核间数据同步和线程切换。</li>
+                <li style="margin-bottom: 5px">
+                  为每个核创建一个io_uring实例；
+                </li>
+                <li style="margin-bottom: 5px">
+                  在同一个io_uring实例注册的Task只能在同一个核上运行；
+                </li>
+                <li style="margin-bottom: 5px">
+                  设计目的是减少核间数据同步和线程切换。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/multicore-design.drawio.svg" alt="multicore-design" width="520" height="400" style="float: right;">
+              <img
+                src="images/multicore-design.drawio.svg"
+                alt="multicore-design"
+                width="520"
+                height="400"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
-        
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <div><h4>Task模块设计</h4></div>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
                   基于<mark>面向对象</mark>的思想，将所有I/O操作统一抽象成Op类；
                 </li>
-                <li style="margin-bottom: 5px;">继承Op父类可派生出Op子类，每个Op子对象对应一个I/O操作；</li>
-                <li style="margin-bottom: 5px;">一个Task由一个或多个Op子对象呈树状构成。</li>
+                <li style="margin-bottom: 5px">
+                  继承Op父类可派生出Op子类，每个Op子对象对应一个I/O操作；
+                </li>
+                <li style="margin-bottom: 5px">
+                  一个Task由一个或多个Op子对象呈树状构成。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/op-task.drawio.svg" alt="op-task" width="800" height="400" style="float: right;">
+              <img
+                src="images/op-task.drawio.svg"
+                alt="op-task"
+                width="800"
+                height="400"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <div><h4>Task模块设计</h4></div>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">一个Task对应一个协程；</li>
-                <li style="margin-bottom: 5px;">Task在执行过程中可以挂起和恢复；</li>
-                <li style="margin-bottom: 5px;">Task中的每个Op子对象对应为一个切换点；</li>
-                <li style="margin-bottom: 5px;">Task执行到切换点有两种状态：就绪和等待；</li>
+                <li style="margin-bottom: 5px">一个Task对应一个协程；</li>
+                <li style="margin-bottom: 5px">
+                  Task在执行过程中可以挂起和恢复；
+                </li>
+                <li style="margin-bottom: 5px">
+                  Task中的每个Op子对象对应为一个切换点；
+                </li>
+                <li style="margin-bottom: 5px">
+                  Task执行到切换点有两种状态：就绪和等待；
+                </li>
                 <ul>
-                  <li style="margin-bottom: 5px;">就绪状态下继续执行；</li>
-                  <li style="margin-bottom: 5px;">等待状态下挂起。</li>
+                  <li style="margin-bottom: 5px">就绪状态下继续执行；</li>
+                  <li style="margin-bottom: 5px">等待状态下挂起。</li>
                 </ul>
-                <li style="margin-bottom: 5px;">Task恢复时从上次挂起的地方继续执行。</li>
+                <li style="margin-bottom: 5px">
+                  Task恢复时从上次挂起的地方继续执行。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/task-execute.drawio.svg" alt="task-execute" width="500" height="400" style="float: right;">
+              <img
+                src="images/task-execute.drawio.svg"
+                alt="task-execute"
+                width="500"
+                height="400"
+                style="float: right"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>Task模块实现（Rust）</h4>
           <div class="codeText">
-            <div class="codeTextItem" style="vertical-align: middle;">
+            <div class="codeTextItem" style="vertical-align: middle">
               <ol>
-                <li style="margin-bottom: 5px;">
-                  Rust不支持面向对象编程，参考前端框架<a href="https://reactjs.org/">React</a>的设计，
-                  使用<mark>组件化</mark>的方式达到继承的效果；
+                <li style="margin-bottom: 5px">
+                  Rust不支持面向对象编程，参考前端框架<a
+                    href="https://reactjs.org/"
+                    >React</a
+                  >的设计， 使用<mark>组件化</mark>的方式达到继承的效果；
                 </li>
-                <li style="margin-bottom: 5px;">子组件接口SubOp：创建I/O请求方法create_sqe；</li>
-                <li style="margin-bottom: 5px;">Future是Rust官方提供用于异步编程的接口；</li>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
+                  子组件接口SubOp：创建I/O请求方法create_sqe；
+                </li>
+                <li style="margin-bottom: 5px">
+                  Future是Rust官方提供用于异步编程的接口；
+                </li>
+                <li style="margin-bottom: 5px">
                   为Op&ltT&gt实现Future接口：第一次执行调用子组件的create_sqe方法创建sqe，
                   然后注册到IoUring模块，接着挂起；恢复后（第二次调用）返回结果。
                 </li>
@@ -357,18 +562,27 @@
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>Task模块实现（Rust）</h4>
           <div class="codeText">
-            <div class="codeTextItem" style="vertical-align: middle;">
+            <div class="codeTextItem" style="vertical-align: middle">
               <ol>
-                <li style="margin-bottom: 5px;">Future对象具有<mark>组合性</mark>；</li>
-                <li style="margin-bottom: 5px;">
-                  一个Op&ltT&gt对应一个叶子Future，
-                  一个Task对应一个树Future，
+                <li style="margin-bottom: 5px">
+                  Future对象具有<mark>组合性</mark>；
                 </li>
-                <li style="margin-bottom: 5px;">通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；</li>
-                <li style="margin-bottom: 5px;"><mark>async/await</mark>：Rust编译器在语言层面为Future组合性提供的支持。</li>
+                <li style="margin-bottom: 5px">
+                  一个Op&ltT&gt对应一个叶子Future， 一个Task对应一个树Future，
+                </li>
+                <li style="margin-bottom: 5px">
+                  通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；
+                </li>
+                <li style="margin-bottom: 5px">
+                  <mark>async/await</mark
+                  >：Rust编译器在语言层面为Future组合性提供的支持。
+                </li>
               </ol>
             </div>
             <div class="codeTextItem">
@@ -386,36 +600,53 @@
               </script></code></pre>
             </div>
             <div class="codeTextItem">
-              <img src="images/future-combine.drawio.svg" alt="future-combine">
+              <img
+                src="images/future-combine.drawio.svg"
+                alt="future-combine"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>Rust实现中Task执行流程</h4>
           <div class="codeText">
             <div class="codeTextItem">
-              <img src="images/task-rust.drawio.svg" alt="task-rust" width="650">
+              <img
+                src="images/task-rust.drawio.svg"
+                alt="task-rust"
+                width="650"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>Task模块实现（C++）</h4>
           <div class="codeText">
-            <div class="codeTextItem" style="vertical-align: middle;">
+            <div class="codeTextItem" style="vertical-align: middle">
               <ol>
-                <li style="margin-bottom: 5px;">C++20官方提供Promise和Awaitable两个接口用于协程编程；</li>
-                  <ul>
-                    <li>Promise：作为协程的函数返回类型必须实现Promise接口；</li>
-                    <li>Awaitable：对应于Rust中的Future接口，表示一个将来值。</li>
-                  </ul>
-                <li style="margin-bottom: 5px;">Task实现过程：</li>
-                  <ul>
-                    <li>定义Task类，并为其实现Promise接口；</li>
-                    <li>定义Op&ltT&gt类，并为其实现Awaitable接口，实现思路和在Rust中实现Future接口类似；</li>
-                    <li>通过重写create_sqe方法派生Op子类。</li>
-                  </ul>
+                <li style="margin-bottom: 5px">
+                  C++20官方提供Promise和Awaitable两个接口用于协程编程；
+                </li>
+                <ul>
+                  <li>Promise：作为协程的函数返回类型必须实现Promise接口；</li>
+                  <li>Awaitable：对应于Rust中的Future接口，表示一个将来值。</li>
+                </ul>
+                <li style="margin-bottom: 5px">Task实现过程：</li>
+                <ul>
+                  <li>定义Task类，并为其实现Promise接口；</li>
+                  <li>
+                    定义Op&ltT&gt类，并为其实现Awaitable接口，实现思路和在Rust中实现Future接口类似；
+                  </li>
+                  <li>通过重写create_sqe方法派生Op子类。</li>
+                </ul>
               </ol>
             </div>
             <div class="codeTextItem">
@@ -482,19 +713,28 @@
           </div>
         </section>
 
-
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>Task模块实现（C++）</h4>
           <div class="codeText">
-            <div class="codeTextItem" style="vertical-align: middle;">
+            <div class="codeTextItem" style="vertical-align: middle">
               <ol>
-                <li style="margin-bottom: 5px;">Awaitable对象具有<mark>传递性</mark>；</li>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
+                  Awaitable对象具有<mark>传递性</mark>；
+                </li>
+                <li style="margin-bottom: 5px">
                   一个Op&ltT&gt对应一个Awaitable对象，
                   多个Awaitable对象可以在一个Task内部传递；
                 </li>
-                <li style="margin-bottom: 5px;">通过Awaitable的传递性将一个或多个Op&ltT&gt组合成一个Task；</li>
-                <li style="margin-bottom: 5px;"><mark>co_await/co_return</mark>：C++20编译器在语言层面为Awaitable传递性提供的支持。</li>
+                <li style="margin-bottom: 5px">
+                  通过Awaitable的传递性将一个或多个Op&ltT&gt组合成一个Task；
+                </li>
+                <li style="margin-bottom: 5px">
+                  <mark>co_await/co_return</mark
+                  >：C++20编译器在语言层面为Awaitable传递性提供的支持。
+                </li>
               </ol>
             </div>
             <div class="codeTextItem">
@@ -511,112 +751,189 @@
               </script></code></pre>
             </div>
             <div class="codeTextItem">
-              <img src="images/awaitable-combine.drawio.svg" alt="awaitable-combine">
+              <img
+                src="images/awaitable-combine.drawio.svg"
+                alt="awaitable-combine"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>C++实现中Task执行流程</h4>
           <div class="codeText">
             <div class="codeTextItem">
-              <img src="images/task-cpp.drawio.svg" alt="task-cpp" width="650">
+              <img
+                src="images/task-cpp.drawio.svg"
+                alt="task-cpp"
+                width="650"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>其他模块：...</h4>
           <div class="codeText">
             <div class="codeTextItem">
-              <img src="images/todo.drawio.svg" alt="todo" width="500">
+              <img src="images/todo.drawio.svg" alt="todo" width="500" />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
-          <h4><a href="https://github.com/sekirio-rs/Emma">Emma</a>（Rust）和<a href="https://github.com/sekirio-rs/Kuro">Kuro</a>（C++）</h4>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
+          <h4>
+            <a href="https://github.com/sekirio-rs/Emma">Emma</a>（Rust）和<a
+              href="https://github.com/sekirio-rs/Kuro"
+              >Kuro</a
+            >（C++）
+          </h4>
           <div class="codeText">
-            <div class="codeTextItem"><img src="images/emma.png" alt="emma"></div>
-            <div class="codeTextItem"><img src="images/kuro.png" alt="kuro"></div>
+            <div class="codeTextItem">
+              <img src="images/emma.png" alt="emma" />
+            </div>
+            <div class="codeTextItem">
+              <img src="images/kuro.png" alt="kuro" />
+            </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>性能测试</h4>
           <div class="codeText">
             <div class="codeTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">测试对象：Emma，Kuro和以下框架；</li>
-                  <ul>
-                    <li style="margin-bottom: 5px;">Tokio：最成熟的Rust异步运行时；</li>
-                    <li style="margin-bottom: 5px;">async-std：Rust异步运行时新起之秀；</li>
-                    <li style="margin-bottom: 5px;">Go：Go语言原生协程框架;</li>
-                    <li style="margin-bottom: 5px;">Sync：同步I/O和多线程框架。</li>
-                  </ul>
-                <li style="margin-bottom: 5px;">
-                  测试方法：用各个框架实现一个HTTP服务器，然后使用Apache Benchmark软件对服务器进行压力测试，并对比测试结果；
+                <li style="margin-bottom: 5px">
+                  测试对象：Emma，Kuro和以下框架；
                 </li>
-                <li style="margin-bottom: 5px;">测试指标：服务器吞吐量；</li>
-                <li style="margin-bottom: 5px;">测试环境：</li>
-                  <ul>
-                    <li style="margin-bottom: 5px;">CPU：Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，56核；</li>
-                    <li style="margin-bottom: 5px;">内存：32GB，2666 MT/s x 16（条）；</li>
-                    <li style="margin-bottom: 5px;">网卡：Intel Corporation Ethernet Connection X722 for 10GbE SFP+ (rev 09)。</li>
-                  </ul>
+                <ul>
+                  <li style="margin-bottom: 5px">
+                    Tokio：最成熟的Rust异步运行时；
+                  </li>
+                  <li style="margin-bottom: 5px">
+                    async-std：Rust异步运行时新起之秀；
+                  </li>
+                  <li style="margin-bottom: 5px">Go：Go语言原生协程框架;</li>
+                  <li style="margin-bottom: 5px">
+                    Sync：同步I/O和多线程框架。
+                  </li>
+                </ul>
+                <li style="margin-bottom: 5px">
+                  测试方法：用各个框架实现一个HTTP服务器，然后使用Apache
+                  Benchmark软件对服务器进行压力测试，并对比测试结果；
+                </li>
+                <li style="margin-bottom: 5px">测试指标：服务器吞吐量；</li>
+                <li style="margin-bottom: 5px">测试环境：</li>
+                <ul>
+                  <li style="margin-bottom: 5px">
+                    CPU：Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，56核；
+                  </li>
+                  <li style="margin-bottom: 5px">
+                    内存：32GB，2666 MT/s x 16（条）；
+                  </li>
+                  <li style="margin-bottom: 5px">
+                    网卡：Intel Corporation Ethernet Connection X722 for 10GbE
+                    SFP+ (rev 09)。
+                  </li>
+                </ul>
               </ol>
             </div>
             <div class="codeTextItem">
-              <img src="images/per-test.drawio.svg" alt="per-test" width="600">
+              <img
+                src="images/per-test.drawio.svg"
+                alt="per-test"
+                width="600"
+              />
             </div>
           </div>
         </section>
-			
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>测试结果</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">横坐标是HTTP请求数，纵坐标是服务器吞吐量；</li>
-                <li style="margin-bottom: 5px;">随着请求数增大，服务器吞吐量趋于一个恒定值；</li>
-                <li style="margin-bottom: 5px;">Emma和Kuro框架的吞吐量最高，Go框架的吞吐量最低；</li>
-                <li style="margin-bottom: 5px;">Kuro框架比同步I/O和多线程框架在吞吐量指标上最高能达到78%的提升。</li>
+                <li style="margin-bottom: 5px">
+                  横坐标是HTTP请求数，纵坐标是服务器吞吐量；
+                </li>
+                <li style="margin-bottom: 5px">
+                  随着请求数增大，服务器吞吐量趋于一个恒定值；
+                </li>
+                <li style="margin-bottom: 5px">
+                  Emma和Kuro框架的吞吐量最高，Go框架的吞吐量最低；
+                </li>
+                <li style="margin-bottom: 5px">
+                  Kuro框架比同步I/O和多线程框架在吞吐量指标上最高能达到78%的提升。
+                </li>
               </ol>
             </div>
             <div class="image">
-              <img src="images/test-result.png" alt="test-result" width="1000">
+              <img
+                src="images/test-result.png"
+                alt="test-result"
+                width="1000"
+              />
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <h4>总结与展望与致谢</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
-                <li style="margin-bottom: 5px;">
+                <li style="margin-bottom: 5px">
                   基于Linux平台上的异步I/O技术（io_uring）和Rust/C++语言的协程技术设计并实现了两款
                   异步编程框架<mark>Emma和Kuro</mark>，在给上层应用开发带来便利的同时，验证了异步I/O和协程
                   的高效性；
                 </li>
-                <li style="margin-bottom: 5px;">后续计划可以从丰富功能和规范测试两个方面入手：</li>
+                <li style="margin-bottom: 5px">
+                  后续计划可以从丰富功能和规范测试两个方面入手：
+                </li>
                 <ul>
-                  <li style="margin-bottom: 5px;">为Emma和Kuro框架适配io_uring的高级用法，实现更多功能；</li>
-                  <li style="margin-bottom: 5px;">搭建更加规范，完善的测试环境，得出更准确，更全面的测试结果。</li>
+                  <li style="margin-bottom: 5px">
+                    为Emma和Kuro框架适配io_uring的高级用法，实现更多功能；
+                  </li>
+                  <li style="margin-bottom: 5px">
+                    搭建更加规范，完善的测试环境，得出更准确，更全面的测试结果。
+                  </li>
                 </ul>
-                <li style="margin-bottom: 5px;">感谢我的校内导师-华中科技大学的邵志远老师和校外导师-清华大学的陈渝老师。</li>
+                <li style="margin-bottom: 5px">
+                  感谢我的校内导师-华中科技大学的邵志远老师和校外导师-清华大学的陈渝老师。
+                </li>
               </ol>
             </div>
           </div>
         </section>
 
-        <section data-background-image="images/background.jpg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+        >
           <div class="codeText">
             <div class="codeTextItem">
               <h3>毕设成果为本PPT的演示提供支持！</h3>
             </div>
             <div class="codeTextItem">
-               <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
+              <pre><code data-line-numbers data-trim data-noescape><script type="text/template">
                  <!-- 前端 -->
                 <img src="http://172.26.222.85:3344/github.svg">
 
@@ -648,7 +965,6 @@
           </div>
         </section>
 
-
         <!-- <section data-background-image="images/background.jpg" data-background-opacity=0.25> -->
         <!--   <div class="imageText"> -->
         <!--     <div class="imageTextItem"> -->
@@ -660,28 +976,29 @@
         <!--   </div> -->
         <!-- </section> -->
 
-        <section data-background-image="images/background2.jpeg" data-background-opacity=0.25>
+        <section
+          data-background-image="images/background2.jpeg"
+          data-background-opacity="0.25"
+        >
           <h2>感谢观看！</h2>
         </section>
-
-
       </div>
-		</div>
+    </div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
 </html>
