@@ -383,6 +383,9 @@
             </div>
           </div>
         </section>
+        <!-- 我的毕设目标是基于io_uring分别结合Rust语言和C++语言设计并实现两款
+        高性能的异步编程框架，在功能上提供构建网络或存储应用的异步接口，
+        在性能上希望比当前主流的开源异步编程框架具备更好的性能。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -402,6 +405,15 @@
             <div>基础层负责底层封装，应用层负责提供API。</div>
           </div>
         </section>
+        <!-- 这张图介绍了整体的架构设计。首先分为两层，基础层和应用层。
+        基础层主要负责对异步I/O和协程进行封装，应用层主要负责提供外部功能接口。
+        基础层采用模块划分的设计方法，分为几个功能模块。
+        其中将协程抽象成了Task模块，一个协程对应一个Task实例。
+        IoUring模块负责封装io_uring相关的操作，Scheduler模块负责调度Task实例，
+        Reactor模块负责唤醒Task实例，Executor负责执行Task实例。
+        应用层通过调用基础层提供的基础能力，实现了文件，Tcp监听器等面向
+        应用的功能模块。
+        -->
 
         <section
           data-background-image="images/background.jpg"
@@ -439,6 +451,11 @@
             </div>
           </div>
         </section>
+        <!-- 框架的多核架构设计参考了Thread-Per-Core模型，
+        为每个核配置一个io_uring实例，
+        在一个io_uring实例上注册的Task只能在同一个核上运行，
+        这样子避免了资源在线程间迁移，能减少CPU核之间的数据同步和线程切换，
+        进而减少系统开销。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -470,6 +487,14 @@
             </div>
           </div>
         </section>
+        <!-- 下面主要重点讲一下Task模块的设计与实现。
+        首先介绍一下Op类的概念。Linux平台上存在很多种I/O操作，
+        比如打开文件，文件读，文件写，建立Tcp连接等等，
+        这些I/O操作在io_uring的语境下的区别仅仅在于提交
+        的I/O请求不同，因此为了提高代码复用度，降低工作量，
+        这里基于面向对象的思想，将所有I/O请求抽象为Op类。
+        继承Op父类可以派生出Op子类，而实例化出来的Op子对象对应一个具体的I/O操作。
+        一个Task由一个或多个Op子对象呈多叉树状组合成。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -509,6 +534,12 @@
             </div>
           </div>
         </section>
+        <!-- Task对应协程的概念，它可以在执行过程中挂起和恢复，
+        Task由一个或多个Op子对象组成，每个Op子对象都是一个切换点，
+        Task运行到切换点时会检查此处的I/O状态，如果是就绪状态，
+        则继续运行，如果是等待状态，当前Task则需要被挂起，
+        等待I/O状态就绪后再恢复执行。恢复执行后，Task从上次挂起的地方继续执行。
+        右边是Task模块在执行时的时序图。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -573,6 +604,19 @@
             </div>
           </div>
         </section>
+        <!-- 这里介绍一下Rust语言中Task模块的实现。
+        Rust不支持面向对象编程，因此这里参考前端框架React的设计，
+        采用组件化的方式达到继承的效果。
+        先定义一个名为SubOp的接口，这个接口有一个create_sqe方法，
+        用于创建I/O请求。然后定义一个Op结构体，
+        这个Op以实现了SubOp接口的结构体作为子组件。
+        接着为Op实现Future接口，Future是Rust语言官方提供的用于
+        异步编程的接口，接口中只有一个poll方法。实现的具体逻辑是
+        第一次执行poll方法时调用子组件的create_sqe方法创建
+        I/O请求，然后将这个请求注册到IoUring模块，再返回Pending，
+        挂起当前Task；Task被恢复后，再次执行poll方法，
+        这时候直接返回I/O操作的结果。
+        右边是示例代码。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -586,7 +630,7 @@
                   Future对象具有<mark>组合性</mark>；
                 </li>
                 <li style="margin-bottom: 5px">
-                  一个Op&ltT&gt对应一个叶子Future， 一个Task对应一个树Future，
+                  一个Op&ltT&gt对应一个叶子Future， 一个Task对应一个大Future，
                 </li>
                 <li style="margin-bottom: 5px">
                   通过Future的组合性将一个或多个Op&ltT&gt组合成一个Task；
@@ -619,6 +663,13 @@
             </div>
           </div>
         </section>
+        <!-- 在Rust中，Future具有组合性，多个Future可以组合成一个大Future。
+        于是一个Op对应于一个Future，一个Task对应于一个大Future，
+        通过Future的组合性可以将一个或多个Op组合呈一个Task。
+        此外，Rust编译器为这种组合性提供了支持，它将async关键字标记的
+        函数或函数块的返回值转换成大Future，使得我们可以像写同步代码
+        一样编写异步代码。
+        -->
 
         <section
           data-background-image="images/background.jpg"
@@ -635,6 +686,7 @@
             </div>
           </div>
         </section>
+        <!-- 最终Rust实现中Task执行的时序图如下。 -->
 
         <section
           data-background-image="images/background.jpg"
@@ -649,7 +701,7 @@
                 </li>
                 <ul>
                   <li>Promise：作为协程的函数返回类型必须实现Promise接口；</li>
-                  <li>Awaitable：对应于Rust中的Future接口，表示一个将来值。</li>
+                  <li>Awaitable：类似于Rust中的Future接口，表示一个将来值。</li>
                 </ul>
                 <li style="margin-bottom: 5px">Task实现过程：</li>
                 <ul>
@@ -724,6 +776,14 @@
             </div>
           </div>
         </section>
+        <!-- 然后介绍下C++中的实现。
+        C++20官方提供了Promise和Awaitable两个接口用于异步编程。
+        在C++中返回类型实现了Promise接口的函数被视为协程，而Awaitable接口类似于
+        Rust中的Future接口，表示一个将来值。
+        因此，C++中Task的实现过程为：
+        先定义一个Task类，并为其实现Promise接口，
+        然后定义Op类，并为其实现Awaitable接口，实现思路和Rust中为Op实现Future接口类似。
+        最后通过重写Op父类中的create_sqe方法来派生Op子类。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -738,7 +798,7 @@
                 </li>
                 <li style="margin-bottom: 5px">
                   一个Op&ltT&gt对应一个Awaitable对象，
-                  多个Awaitable对象可以在一个Task内部传递；
+                  多个Op&ltT&gt可以在一个Task内部传递；
                 </li>
                 <li style="margin-bottom: 5px">
                   通过Awaitable的传递性将一个或多个Op&ltT&gt组合成一个Task；
@@ -770,6 +830,10 @@
             </div>
           </div>
         </section>
+        <!-- 和Rust类似，C++中Awaitable对象具有传递性，
+        一个Op子对象对应一哥Awaitable对象，多个Op可以在一个Task内部传递。
+        可以通过Awaitable对象的传递性将一个或多个Op组合成一个Task。
+        同样C++编译器也为这种传递性提供了支持。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -786,6 +850,7 @@
             </div>
           </div>
         </section>
+        <!-- 最终C++实现中Task执行的时序图如下。 -->
 
         <section
           data-background-image="images/background.jpg"
@@ -798,6 +863,8 @@
             </div>
           </div>
         </section>
+        <!-- 由于时间关系，其他一些功能模块这里不再介绍，
+        感兴趣的同学和老师可以参考毕业论文。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -818,6 +885,7 @@
             </div>
           </div>
         </section>
+        <!-- 最终成果是实现了两个异步编程框架Emma和Kuro。 -->
 
         <section
           data-background-image="images/background.jpg"
@@ -871,6 +939,16 @@
             </div>
           </div>
         </section>
+        <!-- 接下来讲下性能测试。因为毕设实现的是异步编程框架，
+        因此这里主要进行框架和框架之间的对比。
+        测试对象是实现的框架Emma和Kuro
+        和开源社区中三个比较主流的异步编程框架Tokio，async-std和Go。
+        同时，为了验证异步I/O和协程的高性能，添加一组对照组，同步I/O和多线程框架，
+        名叫Sync框架。
+        测试方法是用各个框架分别编写一个HTTP服务器应用程序，然后用Apache Benchmakr
+        这个测试工具对实现的服务器进行压力测试，最终对比测试结果。
+        测试指标是服务器的吞吐量。
+        这里介绍了测试环境。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -903,6 +981,13 @@
             </div>
           </div>
         </section>
+        <!-- 右边这两张图分别是在20和200个客户端并发请求场景下的测试结果。
+        横坐标是HTTP请求数，纵坐标是服务器吞吐量。
+        从图中可以看到，Emma和Kuro框架的整体吞吐量是最高的，Go框架的最低。
+        这证明我们实现的两款框架都有比较好的性能。
+        此外大部分异步编程框架的性能曲线都比同步I/O和多线程框架要高，
+        其中Kuro框架最高可以比Sync框架高78%左右的性能，
+        这证明了异步I/O和协程的高性能。-->
 
         <section
           data-background-image="images/background.jpg"
@@ -976,6 +1061,9 @@
             </div>
           </div>
         </section>
+        <!-- 本PPT演示依赖于我的毕设成果提供的支持。
+        这个PPT是一个前端项目，其中某些图片资源是请求后端返回的，
+        而后端服务是基于毕设项目Emma搭建的。-->
 
         <!-- <section data-background-image="images/background.jpg" data-background-opacity=0.25> -->
         <!--   <div class="imageText"> -->
