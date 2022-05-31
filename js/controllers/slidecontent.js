@@ -186,15 +186,14 @@ export default class SlideContent {
 	}
 
 	/**
-	 * Applies JS-dependent layout helpers for the given slide,
-	 * if there are any.
+	 * Applies JS-dependent layout helpers for the scope.
 	 */
-	layout( slide ) {
+	layout( scopeElement ) {
 
 		// Autosize text with the r-fit-text class based on the
 		// size of its container. This needs to happen after the
 		// slide is visible in order to measure the text.
-		Array.from( slide.querySelectorAll( '.r-fit-text' ) ).forEach( element => {
+		Array.from( scopeElement.querySelectorAll( '.r-fit-text' ) ).forEach( element => {
 			fitty( element, {
 				minSize: 24,
 				maxSize: this.Reveal.getConfig().height * 0.8,
