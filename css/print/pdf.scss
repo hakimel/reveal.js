@@ -96,10 +96,13 @@ html.print-pdf {
 		min-height: auto !important;
 	}
 
+	.reveal .r-fit-text {
+		white-space: normal !important;
+	}
+
 	.reveal img {
 		box-shadow: none;
 	}
-
 
 	/* Slide backgrounds are placed inside of their slide when exporting to PDF */
 	.reveal .backgrounds {
