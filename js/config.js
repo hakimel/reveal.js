@@ -278,8 +278,6 @@ export default {
 	// The display mode that will be used to show slides
 	display: 'block',
 
-	syncStartVideoFromSpeakView: true,
-
 	// Hide cursor if inactive
 	hideInactiveCursor: true,
 
