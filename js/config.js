@@ -286,6 +286,8 @@ export default {
 	// Time before the cursor is hidden (in ms)
 	hideCursorTime: 5000,
 
+	syncVideoFromSpeakView: true,
+
 	// Script dependencies to load
 	dependencies: [],
 
