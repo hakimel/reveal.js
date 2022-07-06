@@ -1,0 +1,21 @@
+name: Lint Code Base
+
+on:
+  push:
+    branches: 
+      - '**'
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: "master"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
