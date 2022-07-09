@@ -2,6 +2,7 @@ version: 2.1
 
 orbs: 
   node: circleci/node@5.0.2
+  browser-tools: circleci/browser-tools@1.3.0
 
 jobs:
   tests:
@@ -29,4 +30,4 @@ workflows:
       - tests:
           matrix:
             parameters:
-              node-ver: ["16.5.0", "14.19.3", "10.24.1", "current", "lts"]
+              node-ver: ["16.5.0", "14.19.3", "10.24.1", "lts"]
