@@ -10,7 +10,7 @@ jobs:
       node-ver:
         type: string
     docker:
-      - image: cimg/node:<< parameters.node-ver >>
+      - image: cimg/node:<< parameters.node-ver >>-browsers
     steps:
       - checkout
       - node/install:
