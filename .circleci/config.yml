@@ -29,4 +29,4 @@ workflows:
       - tests:
           matrix:
             parameters:
-              node-ver: ["16.5.0", "14.19.3", "10.24.1"]
+              node-ver: ["16.5.0", "14.19.3", "10.24.1", "current"]
