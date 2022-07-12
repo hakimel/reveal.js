@@ -1,0 +1,32 @@
+version: 2.1
+
+orbs: 
+  node: circleci/node@5.0.2
+
+jobs:
+  tests:
+    parameters:
+      node-ver:
+        type: string
+    docker:
+      - image: cimg/node:<< parameters.node-ver >>-browsers
+    steps:
+      - checkout
+      - node/install:
+          node-version: << parameters.node-ver >>
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: npm run build --if-present
+          name: Build app
+      - run: 
+          command: npm test
+          name: Test app
+
+workflows:
+  js-tests:
+    jobs:
+      - tests:
+          matrix:
+            parameters:
+              node-ver: ["16.5.0", "14.19.3", "10.24.1"]
