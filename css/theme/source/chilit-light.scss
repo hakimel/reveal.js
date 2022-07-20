@@ -1,0 +1,69 @@
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+// Include theme-specific fonts
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700;800&family=Open+Sans:wght@400;500;600;700;800&display=swap");
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #f8f8f8;
+
+$mainColor: #3c3c3b;
+$headingColor: #3c3c3b;
+
+$mainFontSize: 42px;
+$mainFont: 'Open Sans', sans-serif;
+$headingFont: Montserrat, 'Open Sans', sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 800;
+$linkColor: #c92b28;
+$linkColorHover: lighten($linkColor, 15%);
+$selectionBackgroundColor: lighten($linkColor, 25%);
+
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+$logoStart: 12px;
+
+// Change text colors against light slide backgrounds
+@include light-bg-text-color(#fff);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+
+body:before {
+  $logoSize: 60px;
+
+  content: ' ';
+  background-image: url(/dist/logo.svg);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: $logoSize;
+  position: fixed;
+  line-height: $logoSize;
+  width: $logoSize;
+  height: $logoSize;
+  bottom: $logoStart;
+  left: $logoStart;
+}
+
+body:after {
+  content: "CHILIT";
+  color: #3c3c3b;
+  font-family: $headingFont;
+  font-size: $mainFontSize;
+  font-weight: $headingFontWeight;
+  position: fixed;
+  bottom: $logoStart + 10.5px;
+  left: $logoStart + 73.5px;
+  letter-spacing: 6px;
+}
