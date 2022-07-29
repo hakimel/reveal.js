@@ -1,0 +1,28 @@
+@import "theme/source/chilit-dark";
+
+$textStart: $logoStart + 5px;
+
+body:after {
+  bottom: $textStart;
+}
+
+body {
+  font-family: $mainFont;
+  font-size: 24px;
+  color: $mainColor;
+  margin: $textStart;
+  background: $backgroundColor;
+}
+
+ul {
+  text-align: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  font-size: $mainFontSize;
+  color: $mainColor;
+  text-decoration: none;
+}
