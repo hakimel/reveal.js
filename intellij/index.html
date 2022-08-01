@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/chilit-dark.css">
+    <!--		<link rel="stylesheet" href="dist/theme/chilit-light.css">-->
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <img style="max-height: 500px" data-src="intellij-icon.png"/>
+            <h2>IntelliJ Tips & Tricks</h2>
+        </section>
+        <section data-markdown>
+            Which topic is next?
+            * [Hotkeys](#/hotkeys)
+            * [Git](#/git)
+            * [Plugins](#/plugins)
+            * [Productivity Hacks](#/productivity-hacks)
+            * [Useful Settings](#/useful-settings)
+        </section>
+        <section id="hotkeys">
+            <section data-markdown>
+                <textarea data-template>
+                    ### Default hotkeys 1/2
+
+                    | Hotkey         | Action              |
+                    |----------------|---------------------|
+                    | shift + f6     | rename              |
+                    | ctrl + d       | duplicate line      |
+                    | ctrl + f6      | change signature    |
+                    | ctrl + alt + m | extract method      |
+                    | ctrl + alt + n | inline variable     |
+                    | ctrl + alt + v | introduce variable  |
+                    | ctrl + alt + c | introduce constant  |
+
+                </textarea>
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                    ### Default hotkeys 2/2
+
+                    | Hotkey | Action |
+                    |--------|--------|
+                    | ctrl + alt + p | introduce parameter |
+                    | ctrl + alt + t | surround with... |
+                    | ctrl + shift + up/down | move line/code block up/down |
+                    | ctrl + shift + i | quick definition |
+                    | ctrl + alt + shift + insert |New scratch file... |
+<!--| ctrl + shift + enter | auto complete and make syntax correct |-->
+
+                </textarea>
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                    ### Make your own hotkeys 1/2
+
+                    <a href="jetbrains://idea/settings?name=Keymap">File | Settings | Keymap</a>
+
+                    | Hotkey         | Location                |
+                    |----------------|-------------------------|
+                    | ctrl + r       | Main Menu \| Refactor \| Rename...                |
+                    | ctrl + e       | Main Menu \| Refactor \| Extract/Introduce \| extract method          |
+                    | ctrl + s       | Main Menu \| Refactor \| Extract/Introduce \| change signature        |
+                    | ctrl + g       | generate ...            |
+                </textarea>
+            </section>
+            <section data-markdown>
+                <textarea data-template>
+                    ### Make your own hotkeys 2/2
+
+                    <a href="jetbrains://idea/settings?name=Keymap">File | Settings | Keymap</a>
+
+                    | Hotkey         | Location                |
+                    |----------------|-------------------------|
+                    | ctrl + up/down | Editor Actions \| Clone Caret Above/Below |
+
+                    [Next Topic](#/1)
+                </textarea>
+            </section>
+        </section>
+        <section id="git">
+            <section data-markdown>
+                ## Git
+
+                ### Breadcrumbs
+
+                ![breadcrumbs](breadcrumbs.png)
+            </section>
+            <section data-markdown>
+                ### Conflicts
+
+                ![conflict](conflict.png)
+
+                [Next Topic](#/1)
+            </section>
+        </section>
+        <section id="plugins" data-markdown>
+            ## Plugins
+
+            * Rainbow Brackets
+            * Cognitive Complexity for IDEA
+            * CodeGlance Pro
+            * string Manipulation
+            * Key Promotor X
+            * JPA Buddy
+
+            [Next Topic](#/1)
+        </section>
+        <section id="productivity-hacks" data-markdown>
+            ## Productivity Hacks
+
+            * Gele balken == Kans om je code te optimaliseren
+            * Code | Analyze Code | Cyclic Dependencies
+            * [File | Settings | Editor | Live Templates](jetbrains://idea/settings?name=Editor--Live+Templates)
+            * Undock de toolbars om altijd code voor je te hebben zonder afleiding (of ctrl + shift + F12)
+            * Pas je heap size aan met  Help | Change Memory Settings
+            * Wil je de shortcuts op papier? Help | Keyboard Shortcuts PDF
+
+            [Next Topic](#/1)
+        </section>
+        <section id="useful-settings" data-markdown>
+            * [File | Settings | Editor | General | Auto Import](jetbrains://idea/settings?name=Editor--General--Auto+Import)
+                * Add unambiguous imports on the fly
+                * Optimize imports on the fly
+            * [File | Settings | Build, Execution, Deployment | Build Tools](jetbrains://idea/settings?name=Build%2C+Execution%2C+Deployment--Build+Tools)
+            * File | New Projects Setup | Settings For New Projects...
+            * [File | Settings | Tools | Actions on Save](jetbrains://idea/settings?name=Tools--Actions+on+Save)
+            * [File | Settings | Tools | Web Browsers and Preview](jetbrains://idea/settings?name=Tools--Web+Browsers+and+Preview)
+            * [File | Settings | Tools | Actions on Save](jetbrains://idea/settings?name=Tools--Actions+on+Save)
+
+            [Next Topic](#/1)
+        </section>
+        <section id="grand-finale">
+            <h2>The end</h2>
+            <a href="#/0">Back to the start</a>
+        </section>
+    </div>
+</div>
+
+<script src="../dist/reveal.js"></script>
+<script src="../plugin/notes/notes.js"></script>
+<script src="../plugin/markdown/markdown.js"></script>
+<script src="../plugin/highlight/highlight.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+        transition: 'fade',
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+    });
+</script>
+</body>
+</html>
