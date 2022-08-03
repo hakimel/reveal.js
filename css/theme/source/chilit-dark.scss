@@ -13,7 +13,7 @@ $backgroundColor: #3c3c3b;
 $mainColor: #fff;
 $headingColor: #fff;
 
-$mainFontSize: 42px;
+$mainFontSize: 34px;
 $mainFont: 'Open Sans', sans-serif;
 $headingFont: Montserrat, 'Open Sans', sans-serif;
 $headingTextShadow: none;
@@ -54,6 +54,10 @@ body:before {
   height: $logoSize;
   bottom: $logoStart;
   left: $logoStart;
+}
+
+li {
+  list-style-type: circle;
 }
 
 body:after {

@@ -9,7 +9,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 :root {
   --r-background-color: #3c3c3b;
   --r-main-font: Open Sans, sans-serif;
-  --r-main-font-size: 42px;
+  --r-main-font-size: 34px;
   --r-main-color: #fff;
   --r-block-margin: 20px;
   --r-heading-margin: 0 0 20px 0;
@@ -364,11 +364,15 @@ body:before {
   left: 12px;
 }
 
+li {
+  list-style-type: circle;
+}
+
 body:after {
   content: "CHILIT";
   color: #fff;
   font-family: Montserrat, "Open Sans", sans-serif;
-  font-size: 42px;
+  font-size: 34px;
   font-weight: 800;
   position: fixed;
   bottom: 22.5px;
