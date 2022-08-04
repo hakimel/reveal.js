@@ -2,6 +2,10 @@
 
 $textStart: $logoStart + 5px;
 
+body:before {
+  background-image: url(./logo.svg);
+}
+
 body:after {
   bottom: $textStart;
 }
