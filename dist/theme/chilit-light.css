@@ -352,7 +352,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 }
 body:before {
   content: " ";
-  background-image: url(/dist/logo.svg);
+  background-image: url(../logo.svg);
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 60px;

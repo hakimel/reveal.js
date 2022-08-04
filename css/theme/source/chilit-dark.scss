@@ -44,7 +44,7 @@ body:before {
   $logoSize: 60px;
 
   content: ' ';
-  background-image: url(/dist/logo.svg);
+  background-image: url(../logo.svg);
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: $logoSize;
