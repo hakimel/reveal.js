@@ -58,7 +58,7 @@
     "sass": "^1.39.2",
     "yargs": "^15.1.0"
   },
-  "browserslist": "> 0.5%, IE 11, not dead",
+  "browserslist": "> 2%, not dead",
   "eslintConfig": {
     "env": {
       "browser": true,
