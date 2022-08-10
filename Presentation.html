@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <charset="utf-8">
+		<name="HTML Presentation" content="width=device-width, initial-scale=1.5, maximum-scale=2.0">
+
+		<title> The HTML Presentation Framework </title>
+
+		<link rel="stylesheet" href="dist/presentation.css">
+		<link rel="stylesheet" href="dist/theme/blue.css">
+
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="HTML Presentation">
+			<div class="slides">
+				<section> Slide 1 </section>
+				<section> Slide 2 </section>
+        <section> Slide 3 </section>
+        <section> Slide 4 </section>
+        <section> Slide 5 </section>
+			</div>
+		</div>
+
+		<script src="dist/presentation.js"> </script>
+		<script src="plugin/notes/notes.js"> </script>
+		<script src="plugin/markdown/markdown.js"> </script>
+		<script src="plugin/highlight/highlight.js"> </script>
+		<script>
+			Presentation.initialize({
+				hash: true,
+
+				plugins: [ PresentationMarkdown, PresentationHighlight, PresentationNotes ]
+			});
+		</script>
+	</body>
+</html>
