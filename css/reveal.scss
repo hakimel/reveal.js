@@ -723,6 +723,8 @@ $controlsArrowAngleActive: 36deg;
 
 .reveal .slides>section.past,
 .reveal .slides>section.future,
+.reveal .slides>section.past>section,
+.reveal .slides>section.future>section,
 .reveal .slides>section>section.past,
 .reveal .slides>section>section.future {
 	opacity: 0;
