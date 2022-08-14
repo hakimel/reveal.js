@@ -16,8 +16,173 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<p>My name is Asel</p>
+					<p>The theme is DRY (do not repeed yourself)</p>
+				</section>
+				<section>
+					<pre><code data-trim data-noescape>
+						const body = document.querySelector('body');
+						function createBtn() {
+							const btn1 = document.createElement('button');
+							const btn2 = document.createElement('button');
+							const btn3 = document.createElement('button');
+							const btn4 = document.createElement('button');
+							const btn5 = document.createElement('button');
+							btn1.textContent = `1 - Click me.`;
+							btn2.textContent = `2 - Click me.`;
+							btn3.textContent = `3 - Click me.`;
+							btn4.textContent = `4 - Click me.`;
+							btn5.textContent = `5 - Click me.`;
+							body.append(btn1);
+							body.append(btn2);
+							body.append(btn3);
+							body.append(btn4);
+							body.append(btn5);
+						}
+						
+						createBtn()
+					</code></pre>
+				</section>
+				<section>
+					<pre><code data-trim data-noescape data-line-numbers="3-17">
+						const body = document.querySelector('body');
+						function createBtn() {
+							const btn1 = document.createElement('button');
+							const btn2 = document.createElement('button');
+							const btn3 = document.createElement('button');
+							const btn4 = document.createElement('button');
+							const btn5 = document.createElement('button');
+							btn1.textContent = `1 - Click me.`;
+							btn2.textContent = `2 - Click me.`;
+							btn3.textContent = `3 - Click me.`;
+							btn4.textContent = `4 - Click me.`;
+							btn5.textContent = `5 - Click me.`;
+							body.append(btn1);
+							body.append(btn2);
+							body.append(btn3);
+							body.append(btn4);
+							body.append(btn5);
+						}
+						
+						createBtn()
+					</code></pre>
+				</section>
+				<section>
+					<pre><code data-trim data-noescape data-line-numbers="7,10,13">
+						const body = document.querySelector('body');
+						function createBtn() {
+							const btn1 = document.createElement('button');
+							const btn2 = document.createElement('button');
+							const btn3 = document.createElement('button');
+							const btn4 = document.createElement('button');
+							const btn5 = document.createElement('button');
+							btn1.textContent = `1 - Click me.`;
+							btn2.textContent = `2 - Click me.`;
+							btn3.textContent = `3 - Click me.`;
+							btn4.textContent = `4 - Click me.`;
+							btn5.textContent = `5 - Click me.`;
+							body.append(btn1);
+							body.append(btn2);
+							body.append(btn3);
+							body.append(btn4);
+							body.append(btn5);
+						}
+						
+						createBtn()
+					</code></pre>
+				</section>
+				<section>
+					<img src="./dist/img/pr-1.png" width="600px"  alt="">
+				</section>
+				<section>
+					<pre><code data-trim data-noescape>
+						
+							for (let i = 0; i < 5; i++) {
+								const btn = document.createElement('button');
+								btn.textContent = `${i + 1} - Click me.`;
+								body.append(btn);
+							}
+
+					</code></pre>
+				</section>
+				<section>
+					<img src="./dist/img/pr-2.png" width="600px"  alt="">
+				</section>
+				<section>
+					<pre><code data-trim data-noescape>
+						function createBtn2(text) {
+							const btn = document.createElement('button');
+							btn.textContent = `${text}`;
+							body.append(btn);
+						}
+						
+						for (let i = 0; i < 5; i++) {
+							createBtn2(`${i + 1} - Click me.`);
+						}
+						
+						const arr = ['one - arr', 'two - arr', 'three - arr'];
+						
+						arr.forEach((el) => createBtn2(el))
+					</code></pre>
+				</section>
+				<section>
+					<img src="./dist/img/pr-3.png" width="700px"  alt="">
+				</section>
+				<section>
+					<img src="./dist/img/pr-4.png" width="800px"  alt="">
+					<p>
+						<a href="https://www.figma.com/file/J25OSN25074DBzTI7Gy0BW/ORION-M?node-id=0%3A1">Go to the Figma</a>
+					</p>
+				</section>
+				<section>
+					<img src="./dist/img/pr-5.png" width="800px"  alt="">
+					<p>
+						<a href="https://miro.com/app/board/uXjVPfHlKcQ=/">Go to the Miro</a>
+					</p>
+				</section>
+				<section>
+					<pre><code data-trim data-noescape>
+						class Car {
+							constructor(model, collor, petrol) {
+							  this.speed = 0;
+							  this.collor = collor;
+							  this.model = model;
+							  this.petrol = petrol;
+							}
+							start(speed) {
+							  this.speed = speed;
+							  alert(`машина ${this.model} свет ${this.collor}  на ${this.petrol} едет со скоростью ${this.speed}.`);
+							}
+							stop() {
+							  this.speed = 0;
+							  alert(`машина ${this.model} стоит.`);
+							}
+						  }
+						  
+						  class ElectroCar extends Car {
+							advertising() {
+							  alert(`Электромашина ${this.model} свет ${this.collor}. И она не вредит окружающей природе!`);
+							}
+						  }
+						  
+						  let BMV = new Car('BMV', 'black', 'petrol');
+						  let electroCar = new ElectroCar('Tesla', 'red', 'electro');
+						
+						BMV.start('120km/cl');
+						electroCar.advertising();
+						electroCar.start('120km/cl');
+						electroCar.stop('120km/cl');
+					</code></pre>
+				</section>
+				<section>
+					<p class="fragment" data-fragment-index="1" style="color: beige;"> class ElectroCar</p>
+					<p class="fragment" data-fragment-index="2" style="color: rgb(105, 230, 140);">class Car</p>
+					<p class="fragment" data-fragment-index="3" style="color: rgb(129, 181, 224);">class ElectroCar <span style="color: rgb(233, 97, 109);">extends</span> Car </p>
+				</section>
+				<section>
+					<p>Thank you for listening to my report.</p>
+				</section>
 			</div>
 		</div>
 
