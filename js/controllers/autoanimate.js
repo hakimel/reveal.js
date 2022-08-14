@@ -399,7 +399,14 @@ export default class AutoAnimate {
 				value = { value: style.to, explicitValue: true };
 			}
 			else {
-				value = computedStyles[style.property];
+				// Use a unitless value for line-height so that it inherits properly
+				if( style.property === 'line-height' ) {
+					value = parseFloat( computedStyles['line-height'] ) / parseFloat( computedStyles['font-size'] );
+				}
+
+				if( isNaN(value) ) {
+					value = computedStyles[style.property];
+				}
 			}
 
 			if( value !== '' ) {
@@ -475,7 +482,6 @@ export default class AutoAnimate {
 		} );
 
 		pairs.forEach( pair => {
-
 			// Disable scale transformations on text nodes, we transition
 			// each individual text property instead
 			if( matches( pair.from, textNodes ) ) {
