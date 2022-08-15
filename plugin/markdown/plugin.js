@@ -200,7 +200,7 @@ const Plugin = () => {
 	 * multi-slide markdown into separate sections and
 	 * handles loading of external markdown.
 	 */
-	function processSlides( scope ) {
+	function processSlides( scope, options ) {
 
 		return new Promise( function( resolve ) {
 
@@ -239,7 +239,7 @@ const Plugin = () => {
 					section.outerHTML = slidify( getMarkdownFromSlide( section ), {
 						separator: section.getAttribute( 'data-separator' ),
 						verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
-						notesSeparator: section.getAttribute( 'data-separator-notes' ),
+						notesSeparator: section.getAttribute( 'data-separator-notes' ) || options.notesSeparator,
 						attributes: getForwardedAttributes( section )
 					});
 
@@ -421,7 +421,8 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown || {};
+			let options = deck.getConfig();
+			let { renderer, animateLists, ...markedOptions } = options.markdown || {};
 
 			if( !renderer ) {
 				renderer = new marked.Renderer();
@@ -459,7 +460,7 @@ const Plugin = () => {
 				...markedOptions
 			} );
 
-			return processSlides( deck.getRevealElement() ).then( convertSlides );
+			return processSlides( deck.getRevealElement(), options ).then( convertSlides );
 
 		},
 
