@@ -181,13 +181,13 @@ const Plugin = () => {
 				markdownSections += '<section '+ options.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' + createMarkdownSlide( child, options ) + '</section>';
+					markdownSections += '<section data-markdown data-separator-notes="' + options.notesSeparator + '">' + createMarkdownSlide( child, options ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
+				markdownSections += '<section '+ options.attributes +' data-markdown data-separator-notes="' + options.notesSeparator + '">' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
 			}
 		}
 
