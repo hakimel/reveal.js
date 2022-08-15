@@ -344,7 +344,7 @@ const Plugin = () => {
 					var j = i - 1;
 					while ( j >= 0 ) {
 						var aPreviousChildElement = element.childNodes[j];
-						if ( typeof aPreviousChildElement.setAttribute == 'function' && aPreviousChildElement.tagName != "BR" ) {
+						if ( typeof aPreviousChildElement.setAttribute === 'function' && aPreviousChildElement.tagName != "BR" ) {
 							previousParentElement = aPreviousChildElement;
 							break;
 						}
@@ -356,7 +356,7 @@ const Plugin = () => {
 					parentSection = childElement ;
 					previousParentElement = childElement ;
 				}
-				if ( typeof childElement.setAttribute == 'function' || childElement.nodeType == Node.COMMENT_NODE ) {
+				if ( typeof childElement.setAttribute === 'function' || childElement.nodeType == Node.COMMENT_NODE ) {
 					addAttributes( parentSection, childElement, previousParentElement, separatorElementAttributes, separatorSectionAttributes );
 				}
 			}
