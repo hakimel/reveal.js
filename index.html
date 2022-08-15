@@ -16,9 +16,374 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+					<h1>SVG and animtion</h1>
+				</section>
+				<section  data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+						<h3>1. To use an SVG as an &lt;img&gt;</h3>
+						<pre><code class="fragment"><img src="./examples/assets/circule.svg" alt="circule"></code></pre>
+						<img src="./examples/assets/circule.svg" width="200px" height="200px">
+						<p class="fragment"><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span> simplicity.</p>
+						<p class="fragment"><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span> the method doesn't give us advantages of SVG-files.</p>
+				
+				</section>
+				<section>
+				    <section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+						<h3>2. To use SVG as a CSS background-image</h3>
+						<pre><code class="fragment"><div class="circule"></div>
+ .circule {
+     background-image: url(./examples/assets/circule.svg);
+ }</code></pre>
+						<div class = "fragment" style = "background-image: url(./examples/assets/circule.svg); width:200px; height: 200px; margin: auto;" ></div>
+						<p class="fragment"><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span> simplicity.</p>
+						<p class="fragment"><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span> the method doesn't give us advantages of SVG-files.</p>
+					</section>
+				</section>
+				<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+				<section>
+					<h3>3. To use inline SVG images.</h3>
+						<pre><code class="fragment" data-line-numbers="2"><div>
+		<svg id="svg12" width="130" height="130" viewBox="0 0 130 130"
+		fill="none" xmlns="http://www.w3.org/2000/svg" 
+		xmlns:xlink="http://www.w3.org/1999/xlink">
+		<path d="M65 1C26.909 0.999986 1 32.0302 1 65.0002C1 
+		97.9703 28.1439 129 65 129C101.856 129 
+		129 99.9087 129 65.0002C129 30.0917 
+		100.886 1.00001 65 1Z" 
+		stroke-width="2px" stroke="white"/>
+		</svg>
+</div>
+				    </code></pre>
+					<div class="fragment" style="display:flex; flex-wrap:nowrap; flex-direction:row; justify-content: center; align-content: center; margin:auto;">
+						<div style="text-align: center;  padding:10px;">
+							<p style="font-size: 1rem;">width="130" height="130" viewBox="0 0 130 130"</p>
+							<?xml version="1.0"?>
+							<svg id="svg12" width="130" height="130" viewBox="0 0 130 130"
+							 fill="none" xmlns="http://www.w3.org/2000/svg" 
+							 xmlns:xlink="http://www.w3.org/1999/xlink">
+							<path d="M65 1C26.909 0.999986 1 32.0302 1 65.0002C1 
+							97.9703 28.1439 129 65 129C101.856 129 129 99.9087 129 65.0002C129 30.0917 
+							100.886 1.00001 65 1Z" stroke-width="2px" stroke="white"/>
+							</svg>
+						</div>
+						<div style="text-align: center;  padding:10px;">
+							<p style="font-size: 1rem;">width="130" height="130" viewBox="0 0 260 260"</p>
+							<?xml version="1.0"?>
+							<svg id="svg12" width="130" height="130" viewBox="0 0 260 260"
+							fill="none" xmlns="http://www.w3.org/2000/svg" 
+							xmlns:xlink="http://www.w3.org/1999/xlink">
+							<path d="M65 1C26.909 0.999986 1 32.0302 1 65.0002C1 
+							97.9703 28.1439 129 65 129C101.856 129 129 99.9087 129 65.0002C129 30.0917 
+							100.886 1.00001 65 1Z" stroke-width="2px" stroke="white"/>
+							</svg>
+						</div>
+						<div style="text-align: center;  padding:10px;">
+							<p style="font-size: 1rem;">width="130" height="130" viewBox="20 20 130 130"</p>
+							<?xml version="1.0"?>
+							<svg id="svg12" width="130" height="130" viewBox="20 20 130 130"
+							 fill="none" xmlns="http://www.w3.org/2000/svg" 
+							 xmlns:xlink="http://www.w3.org/1999/xlink">
+							<path d="M65 1C26.909 0.999986 1 32.0302 1 65.0002C1 
+							97.9703 28.1439 129 65 129C101.856 129 129 99.9087 129 65.0002C129 30.0917 
+							100.886 1.00001 65 1Z" stroke-width="2px" stroke="white"/>
+							</svg>
+						</div>
+						<div  style="margin-top: 50px; width: 350px; height: 350px; background-image: url('./examples/assets/view.jpg'); background-size: contain; background-repeat: no-repeat;">
+						</div>
+							</div>
+						</section>
+						<section>
+							<p><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span> full interaction with styles of image.</p>
+							<p class="fragment"><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span> to loooooooooong code.</p>
+						</section>
+			</section>
+			<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+				<section>
+					<h3>4. To use an SVG inline by means of teg &lt;use&gt;.</h3>
+					<pre><code class="fragment"><svg width=200 height=200 xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>			
+    <use href='./examples/assets/circule.svg#myCircle' x=50 y=50>	
+	  </use>	
+ </svg>
+					</code></pre>	
+					<div class="fragment" style="width: 200px; height: 200px; margin: auto;">
+						<svg width=200 height=200 xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+							<use href='./examples/assets/circule.svg#myCircle' x=30 y=30 />
+					</svg>
+					</div>
+					<p class="fragment"><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span> full interaction with styles of image.</p>
+					<p class="fragment"><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span> additional teg.</p>
+			</section>
+			</section>
+			<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+				<section>
+					<h3>5. To use an SVG as an &lt;object&gt;.</h3>
+					<pre><code class="fragment">
+ <object data="./examples/assets/circule.svg" width="200" height="200" type="image/svg+xml" > </object>
+					</code></pre>	
+					<div class="fragment" style="width: 200px; height: 200px; margin: auto;">
+						<object data="./examples/assets/circule.svg" width="200" height="200" type="image/svg+xml"> </object>
+					</svg>
+					</div>
+					<p class="fragment"><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span> possibility to interact in JS-code via Id.</p>
+					<p class="fragment"><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span> no way to apply style properties via CSS or HTML</p>
+			</section>
+              </section>
+			<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+			   <section>
+                  <h3>6. To use SVG as an &lt;iframe&gt;</h3>
+					<pre><code class="fragment"><iframe src="./examples/assets/circule.svg" width="200px" height="200px"></iframe></code></pre>
+					<div class="fragment" style="width: 200px; height: 200px; margin: auto;">
+						<iframe src="./examples/assets/circule.svg" width="200px" height="200px"></iframe>
+					</div>
+			   </section>
+			   <section>
+				   <div>
+					<p><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span><br/>
+						Supported in all major browsers.<br/>
+						Possibility to interact in JS-code via Id.
+					</p>
+				   </div>
+				   <div class="fragment">
+				        <p><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span><br/>
+					         Bad for site's Search Engine Optimization (SEO).<br/>
+					         SVG images added with this format are not scalable.</br>
+							 Have no advantages of SVG-file.
+				        </p>
+				    </div>
+				</section>
+			</section>
+		    <section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+				<section>
+				<h3>7. to use SVG as an &lt;embed&gt;</h3>
+				<pre><code class="fragment"><embed src="./examples/assets/circule.svg" type="image/svg+xml" style="width: 200px; height: 200px; margin: auto;" /></code></pre>
+				<embed class="fragment" style="width: 200px; height: 200px; margin: auto;" src="./examples/assets/circule.svg" type="image/svg+xml" />
+				<p class="fragment"><span style = 'Color:#1f648c; font-weight: 800;'>Advantages:</span> just one more way.</p>
+				<p class="fragment"><span style = 'Color:#cb6931; font-weight: 800;'>Disadvantages:</span> properties of svg-image can not be changed even by means of js and most modern browsers have deprecated and removed support for browser plug-ins. </p>
+			</section>
+		</section>
+		<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+			<section>
+				<h3>8. to add SVG dinamically with js</h3>
+				<pre><code class ="fragment"><svg id=SSS width="256" height="256"></svg>
+<input  type=button value='create' onclick='createSVG()'/></code>	</pre>
+<pre><code class ="fragment">
+<script type="text/template">function createSVG() {
+const SVGElem=document.getElementById("SSS");
+const circle=document.createElementNS("http://www.w3.org/2000/svg",'ellipse');
+circle.setAttribute("fill","yellow");
+circle.setAttribute("rx",50);
+circle.setAttribute("ry",50);
+circle.setAttribute("cx",100);
+circle.setAttribute("cy",60);
+SVGElem.appendChild(circle);
+}			
+</script></code></pre>
+			</section>
+			<section>
+				<div  style="width: 200px; height: 200px; margin: auto;">
+				<svg id=SSS width="200" height="200"></svg>
 			</div>
+				<input style = "font-family:sans-serif; color:white; font-size: 2rem; padding:1rem; border: solid 1px #1f648c; border-radius: 1rem; background:  linear-gradient(#1f648ca4 0%, #cb69319a 100%);" type=button value='create' onclick='createSVG()'>	
+<script>
+function createSVG() {
+const SVGElem=document.getElementById("SSS");
+const circle=document.createElementNS("http://www.w3.org/2000/svg",'ellipse');
+circle.setAttribute("fill","yellow");
+circle.setAttribute("rx",50);
+circle.setAttribute("ry",50);
+circle.setAttribute("cx",100);
+circle.setAttribute("cy",50);
+SVGElem.appendChild(circle);
+}	
+</script>
+			</section>
+		</section>
+			<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+			<section>
+			    <h4>To use event handler inside objects in teg &lt;svg&gt;</h4>
+						<pre><code class="fragment"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<circle onclick='circuleClicked()' cx="35" cy="25" r="23" stroke-width="1px" fill ="#1f648c"/>
+<rect onclick='rectClicked()' x="10" y="0" height="50" width="50" fill="#cb6931"/>
+</svg></code></pre>
+				<pre><code class="fragment"><script type="text/template">function circuleClicked(e) {
+	e=e||window.event;				
+	const color = Math.round(Math.random() * 0xFFFFFF);
+    const fill = '#' + color.toString(16).padStart(6,'0');
+    e.target.style.fill = fill;
+}
+function rectClicked(e) {
+	e=e||window.event;
+    e.target.style.stroke ='#1f648c';	
+	e.target.style.strokeWidth='5px';				
+}
+</script></code></pre>
+<div class="fragment" style="width: 200px; height: 200px; margin: auto;">
+	<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+		<rect onclick='rectClicked()' x="10" y="0" height="50" width="50" fill="#cb6931" />
+		<circle onclick='circleClicked()' cx="35" cy="25" r="23" stroke-width="1px" fill ="#1f648c"/>
+	  </svg>
+	</div>
+	  <script>
+		function circleClicked(e) {
+			e=e||window.event;
+			const color = Math.round(Math.random() * 0xFFFFFF);
+			const fill = '#' + color.toString(16).padStart(6,'0');
+			e.target.style.fill = fill;
+		}
+		function rectClicked(e) {
+			e=e||window.event;
+			e.target.style.stroke ='#1f648c';	
+			e.target.style.strokeWidth='5px';			
+		}
+		</script>
+
+					</section>
+					<section>
+						<h4>Attributes</h4>
+							<ul  style = "font-size: 1.5rem;">
+							<li><em style = "font-size: 2rem;">Animation Event Attributes</em>
+							onbegin, onend, onrepeat</li>
+							
+							<li><em style = "font-size: 2rem;">Document Event Attributes</em>
+							onabort, onerror, onresize, onscroll, onunload</li>
+							
+							<li><em style = "font-size: 2rem;">Document Element Event Attributes</em>
+							oncopy, oncut, onpaste</li>
+							
+							<li><em style = "font-size: 2rem;">Global Event Attributes</em>
+							oncancel, oncanplay, oncanplaythrough, onchange, onclick, onclose, oncuechange, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart, ondrop, ondurationchange, onemptied, onended, onerror, onfocus, oninput, oninvalid, onkeydown, onkeypress, onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onmousedown, onmouseenter, onmouseleave, onmousemove, onmouseout, onmouseover, onmouseup, onmousewheel, onpause, onplay, onplaying, onprogress, onratechange, onreset, onresize, onscroll, onseeked, onseeking, onselect, onshow, onstalled, onsubmit, onsuspend, ontimeupdate, ontoggle, onvolumechange, onwaiting</li>
+							
+							<li><em style = "font-size: 2rem;">Graphical Event Attributes</em>
+							onactivate, onfocusin, onfocusout</li></ul>
+					</section>
+					<section>
+						<h4>To use event listener inside code, finding the handled element by Id </h4>
+						<pre><code class = "fragment"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="0" height="50" width="50" fill="#cb6931" />
+<circle id='cir'  cx="35" cy="25" r="23" stroke-width="1px" fill ="#1f648c"/>
+</svg>
+</code></pre>
+<pre><code class = "fragment"><script  type="text/template">const circ = document.getElementById('cir');
+	circ.addEventListener('mouseup',((e) =>
+	e.target.style.fill="white"
+	));
+</script>
+</code></pre>
+						<div class="fragment" style="width: 200px; height: 200px; margin: auto;">
+							<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+								<rect  x="10" y="0" height="50" width="50" fill="#cb6931" />
+								<circle onclick = f() id='cir' cx="35" cy="25" r="23" stroke-width="1px" />
+							 </svg>
+						</div>
+							<script>
+							function f(){
+							  const circ = document.getElementById('cir');
+							  circ.addEventListener('mouseup',((e) =>
+							  e.target.style.fill="white"
+							  ));
+							}
+						</script>
+						
+						</section>
+					</section>
+					<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+						<section>
+						<h3>Pointer-events</h3>
+                        <pre><code class="fragment"><svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="0" height="50" width="50" fill="#cb6931" />
+<circle cx="35" cy="25" r="23" stroke-width="1px" fill ="#1f648c" pointer-events="visiblePainted"/>
+<rect x="10" y="0" height="50" width="50" fill="#cb6931" />
+<circle  cx="35" cy="25" r="23" stroke-width="1px" fill ="white" pointer-events="none"/>
+</svg></code></pre>
+										<pre><code class="fragment"><script type="text/template">window.addEventListener('mouseup', (e) => {
+const color = Math.round(Math.random() * 0xFFFFFF);
+const fill = '#' + color.toString(16).padStart(6,'0');
+e.target.style.fill = fill;
+})
+</script></code></pre>
+						<div id = 'fr' class="fragment" style="width: 200px; height: 200px; margin: auto;">
+							<svg viewBox="0 0 110 50" xmlns="http://www.w3.org/2000/svg">
+								<rect x="0" y="0" height="50" width="50" fill="#cb6931" />
+								<circle cx="25" cy="25" r="23" stroke-width="1px" fill ="#1f648c" pointer-events="visiblePainted"/>
+								<rect x="52" y="0" height="50" width="50" fill="#cb6931" />
+								<circle  cx="77" cy="25" r="23" stroke-width="1px" fill ="white" pointer-events="none"/>
+							  </svg>
+							</div>
+							  <script>
+							document.getElementById('fr').addEventListener('mouseup', (e) => {
+							const color = Math.round(Math.random() * 0xFFFFFF)
+							const fill = '#' + color.toString(16).padStart(6,'0')
+							e.target.style.fill = fill
+						  })
+								</script>
+					</section>
+					</section>
+					
+					<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+						<section><h3>How to animate SVG by js</h3>							
+<pre><code class ="fragment"><svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<circle id = 'c1' cx="50" cy="40" r="40" stroke="#ff8d35" stroke-width="1px" fill ="#1f648c"/>
+</svg></code></pre>
+<pre><code class ="fragment"><script  type="text/template">function start(){
+const myanim=document.createElementNS("http://www.w3.org/2000/svg", 'animate');
+myanim.setAttribute("id","myAnimation"); 
+myanim.setAttribute("attributeType","XML"); 
+myanim.setAttribute("attributeName","cx"); 
+myanim.setAttribute("from","0"); 
+myanim.setAttribute("to","400"); 
+myanim.setAttribute("dur","5s"); 
+myanim.setAttribute("repeatCount","indefinite"); 
+const myPath = document.getElementById("c1");
+myPath.appendChild(myanim);
+}
+</script></code></pre>
+							<div  style="width: 600px; height: 160px; margin: auto;">
+							<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+								<circle onclick='start()'id = 'c1' cx="50" cy="30" r="30" stroke="#ff8d35" stroke-width="1px" fill ="#1f648c"/>
+							  </svg>
+							</div>
+							
+							<script>
+								function start(){
+const myanim=document.createElementNS("http://www.w3.org/2000/svg", 'animate');
+myanim.setAttribute("id","myAnimation"); 
+myanim.setAttribute("attributeType","XML"); 
+myanim.setAttribute("attributeName","cx"); 
+myanim.setAttribute("from","0"); 
+myanim.setAttribute("to","400"); 
+myanim.setAttribute("dur","5s"); 
+myanim.setAttribute("repeatCount","indefinite"); 
+const myPath = document.getElementById("c1");
+
+myPath.appendChild(myanim);}
+							</script></section>
+					</section>
+
+					<section data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+					<section>
+						<h3>How to animate SVG inline?</h3>
+<pre><code class = "fragment"><svg id="svg8" width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="path9" fill="none" stroke-width="2px" stroke ="rgb(240,230,140)" stroke-dasharray= "1500" stroke-dashoffset="0" d="M64.5681 98.6604V92.1676C61.3817 83.955 47.9303 74.2221 42.249 74.2221C66.5971 81.5266 49.5535 90.86 42.249 85.5846C38.0077 82.022 39.8142 78.3704 36.9736 72.2833C42.249 68.6311 44.4973 66.2715 51.1767 67.4137C57.2637 68.4546 58.0753 76.2511 52.7999 78.2801C54.4231 80.6247 60.5101 83.5556 64.5681 91.2658V63.9596C61.1455 57.5057 49.5535 51.5875 45.0897 52.3991C60.1043 53.5263 55.6405 62.5441 49.5535 62.0481C44.2336 61.6146 43.0606 58.0803 39.8142 51.5875C42.4941 47.7648 44.6839 45.6748 51.5825 45.5005C58.4811 45.3261 58.4811 53.9321 54.8289 55.1495C57.8573 57.096 60.1043 57.8999 64.5681 63.2655V45.5005C61.0882 39.6053 56.4521 33.2362 48.3361 32.8304C61.3217 34.0478 59.6985 43.7871 50.3651 41.758C46.7129 40.5406 44.6839 38.1961 42.6548 32.109C45.4388 28.3865 47.5245 26.8336 54.8289 28.051C61.3217 30.4858 59.2927 34.4536 56.8579 35.671C59.6985 38.0156 61.3217 39.6388 64.5681 44.5987C66.0848 36.6466 58.8869 21.468 50.3651 14.9752C56.8579 21.0622 57.6695 22.6854 54.8289 24.8046C47.1187 27.6452 45.4955 18.7176 46.3071 12.2248C54.8289 11.4131 60.9159 11.0073 62.5391 15.8769C63.0164 20.3591 60.5101 23.2829 56.4521 20.7466C58.4811 23.0912 66.6015 35.9249 64.9739 44.5987C67.8145 40.1348 69.8435 37.7 73.0899 35.3554C69.4377 32.9206 71.4667 29.2684 77.1479 28.051C80.347 27.3655 82.8292 28.051 89.322 32.109C86.4814 36.0768 86.0756 37.8297 83.235 40.6309C76.7421 47.0335 63.4503 33.642 84.0466 33.2362C72.2783 32.4246 68.2948 40.1244 64.9739 45.5005V63.2655C69.0319 57.1785 71.4667 55.5553 74.7131 53.5263C70.2493 49.4682 74.3073 45.5005 80.8002 45.5005C86.5101 45.5005 87.6988 48.3411 92.5684 52.3991C90.5394 54.3379 89.322 54.7437 84.0466 60.5151C78.7711 66.2866 60.5101 52.7147 86.8872 51.9031C73.3596 51.9031 68.4938 57.3498 64.9739 63.9596V91.2658C67.9086 82.556 72.2783 79.9034 73.9015 77.4685C67.4087 73.8163 71.8725 67.4137 79.5827 66.1963C87.293 65.7905 89.7278 67.4137 95.409 72.2833C92.9742 75.1239 92.5684 80.3092 87.293 84.773C79.5827 90.7698 60.9159 79.9034 86.8872 72.5989C84.3087 72.464 71.0609 75.0337 64.9739 92.1676L65.3797 98.6604">
+<animate id="p9" attributeName="stroke-dashoffset"   begin="0.5s" values="1500; 0" dur="5s" repeatCount="indefinite"  fill="freeze"  calcMode="linear"/>
+    </path>
+</svg>
+</code></pre>
+					<p class="fragment highlight-red"> You should remember that tag &lt;path&gt; must have no closed slash at the end but should have one more closing tag &lt;path&gt;</p>
+				</section>
+				<section>
+					<div style="text-align: center;  padding:10px 0px 0px 0px;">
+						<svg id="svg8" width="300" height="300" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path id="path9" fill="none" stroke-width="2px" stroke ="rgb(240,230,140)" stroke-dasharray= "1500" stroke-dashoffset="0" d="M64.5681 98.6604V92.1676C61.3817 83.955 47.9303 74.2221 42.249 74.2221C66.5971 81.5266 49.5535 90.86 42.249 85.5846C38.0077 82.022 39.8142 78.3704 36.9736 72.2833C42.249 68.6311 44.4973 66.2715 51.1767 67.4137C57.2637 68.4546 58.0753 76.2511 52.7999 78.2801C54.4231 80.6247 60.5101 83.5556 64.5681 91.2658V63.9596C61.1455 57.5057 49.5535 51.5875 45.0897 52.3991C60.1043 53.5263 55.6405 62.5441 49.5535 62.0481C44.2336 61.6146 43.0606 58.0803 39.8142 51.5875C42.4941 47.7648 44.6839 45.6748 51.5825 45.5005C58.4811 45.3261 58.4811 53.9321 54.8289 55.1495C57.8573 57.096 60.1043 57.8999 64.5681 63.2655V45.5005C61.0882 39.6053 56.4521 33.2362 48.3361 32.8304C61.3217 34.0478 59.6985 43.7871 50.3651 41.758C46.7129 40.5406 44.6839 38.1961 42.6548 32.109C45.4388 28.3865 47.5245 26.8336 54.8289 28.051C61.3217 30.4858 59.2927 34.4536 56.8579 35.671C59.6985 38.0156 61.3217 39.6388 64.5681 44.5987C66.0848 36.6466 58.8869 21.468 50.3651 14.9752C56.8579 21.0622 57.6695 22.6854 54.8289 24.8046C47.1187 27.6452 45.4955 18.7176 46.3071 12.2248C54.8289 11.4131 60.9159 11.0073 62.5391 15.8769C63.0164 20.3591 60.5101 23.2829 56.4521 20.7466C58.4811 23.0912 66.6015 35.9249 64.9739 44.5987C67.8145 40.1348 69.8435 37.7 73.0899 35.3554C69.4377 32.9206 71.4667 29.2684 77.1479 28.051C80.347 27.3655 82.8292 28.051 89.322 32.109C86.4814 36.0768 86.0756 37.8297 83.235 40.6309C76.7421 47.0335 63.4503 33.642 84.0466 33.2362C72.2783 32.4246 68.2948 40.1244 64.9739 45.5005V63.2655C69.0319 57.1785 71.4667 55.5553 74.7131 53.5263C70.2493 49.4682 74.3073 45.5005 80.8002 45.5005C86.5101 45.5005 87.6988 48.3411 92.5684 52.3991C90.5394 54.3379 89.322 54.7437 84.0466 60.5151C78.7711 66.2866 60.5101 52.7147 86.8872 51.9031C73.3596 51.9031 68.4938 57.3498 64.9739 63.9596V91.2658C67.9086 82.556 72.2783 79.9034 73.9015 77.4685C67.4087 73.8163 71.8725 67.4137 79.5827 66.1963C87.293 65.7905 89.7278 67.4137 95.409 72.2833C92.9742 75.1239 92.5684 80.3092 87.293 84.773C79.5827 90.7698 60.9159 79.9034 86.8872 72.5989C84.3087 72.464 71.0609 75.0337 64.9739 92.1676L65.3797 98.6604">
+<animate id="p9" attributeName="stroke-dashoffset"   begin="0.5s" values="1500; 0" dur="5s" repeatCount="indefinite"  fill="freeze"  calcMode="linear"/>
+    </path>
+							</svg>
+							</div>
+						</section>
+					</section>
+					<section  data-background-gradient="linear-gradient(to bottom, #ca7849, #4d6d82)" data-transition="zoom-in fade-out">
+						<h3>The End</h3>
+					</section>
+				</div>
 		</div>
 
 		<script src="dist/reveal.js"></script>
