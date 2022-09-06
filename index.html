@@ -1,14 +1,14 @@
 <!doctype html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>reveal.js</title>
+		<title>ECN1003</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/ECN-black.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,8 +16,102 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<!-- 
+					INTRO 
+				PREMIÈRE DIAPO
+				-->
+				<section data-auto-animate>
+					<h1 class="v">Bienvenue au cours ECN1003</h1>
+					<div data-id="box" class="boxBef"></div>
+					<!-- <h2 class="f">Introduction aux technologies numériques</h2> -->
+				</section>
+				<section data-auto-animate>
+					<h1 class="v">Bienvenue au cours ECN1003</h1>
+					<div data-id="box" class="boxMid"></div>
+					<h2 class="f">Introduction aux Technologies Numériques</h2>
+				</section>
+				
+				<section data-auto-animate>
+					<h1 class="v">Notre parcours</h1>
+					<div data-id="box" class="boxAft"></div>
+					<h3 class="f">À la fin de ce semestre, vous serez en mesure de...</h3>
+				</section>
+
+				<!-- 
+					
+					LES COMPÉTENCES !!!! 
+				
+				-->
+				<section>
+					<section data-auto-animate>
+						<h3 class="f">À la fin de ce semestre, vous serez en
+						mesure de...</h3>
+						📈 <b class="v">
+							Situer l'évolution
+							des technologies numériques
+						</b> et leurs impacts sur la
+						création et la communication des données.
+						<video src="/media/hist_techvideo.MP4" height="300px"></video>
+					</section>
+					<section data-auto-animate>
+						<h3 class="f">À la fin de ce semestre, vous serez en
+						mesure de...</h3>
+						🎨 <b class="v">Identifier la terminologie et le
+						vocabulaire</b> - propre aux technologies
+						numériques et distinguer les fondements
+						conceptuels.
+						<video src="/media/terminology_tech.MP4" height="300px"></video>	
+					</section>
+					<section data-auto-animate>
+						<h3 class="f">À la fin de ce semestre, vous serez en
+						mesure de...</h3>
+						<p> 📈 <b class="v">
+							Identifier et analyser
+						 des enjeux </b> reliés aux nouvelles pratiques culturelles engendrées par le développement des technologies numériques et des données.</p>
+						 <video src="/media/stakes-tech.mp4" height="300px"></video>	
+					</section>
+					<section data-auto-animate data-background-video="/media/matrix_raining_code.mp4">
+						<div class="darkB">
+							<h3 class="f">À la fin de ce semestre, vous serez en
+							mesure de...</h3>
+							🎨 <b class="v"> Vous initier aux environnements
+							 de programmation multimédia </b> et <b class="v">vous
+							familiariser avec les principaux outils et méthodes
+							collaboratives </b> de travail en création et
+							communication des données.
+						</div>
+					</section>
+					<section data-auto-animate>
+						<h3 class="f">À la fin de ce semestre, vous serez en
+						mesure de...</h3>
+						 🎥 <b class="v">Cultiver votre autonomie, intégrité et
+						curiosité </b> à travers des méthodes d'enquête
+						numériques collaboratives et des stratégies de
+						recherches inductives. <br>
+						<video src="/media/cyberpunk_journalist.MP4" height="300px"></video>
+					</section>
+					<section data-auto-animate
+					data-background-iframe="https://vincentgarreau.com/particles.js/"
+					data-background-interactive data-background-transition="slide">
+						<div class="darkBB fragment fade-out-slide">
+							<h3 class="f">À la fin de ce semestre, vous serez en
+							mesure de...</h3>
+							📤  🛠 <b class="v">Concevoir des contenus originaux
+							et interactifs </b> en utilisant des stratégies de
+							recherche et de traitement adaptées aux enjeux de
+							—et controverses reliées à— la production
+							collaborative et la communication des données.
+						</div>
+					</section>
+					<!-- <section 
+					data-background-iframe="https://vincentgarreau.com/particles.js/"
+					data-background-interactive>
+					</section> -->
+				</section>
+
+				
+
+				<!-- FIN DE LA PRÉSENTATION -->
 			</div>
 		</div>
 
@@ -31,6 +125,8 @@
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+				autoPlayMedia: true,
+				// disableLayout: true,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]

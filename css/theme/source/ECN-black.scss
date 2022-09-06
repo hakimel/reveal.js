@@ -1,0 +1,109 @@
+/**
+ * Black theme for reveal.js. This is the opposite of the 'white' theme.
+ *
+ * By Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url(./fonts/Mulish/Mulish.css);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #191919;
+
+$mainColor: #fff;
+$headingColor: #fff;
+
+$mainFontSize: 42px;
+$mainFont: 'Mulish', Helvetica, sans-serif;
+$headingFont: 'Mulish', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColor: #42affa;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+
+// Change text colors against light slide backgrounds
+@include light-bg-text-color(#222);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+// couleurs ECN
+$vert: #81ca30;
+$fuchsia: #a43594;
+$bleu: #099cb3;
+$bleuF: #086D72;
+$bleuC: #10e9ff;
+$rouge: #ff007b;
+$jaune: #ffd704;
+
+//gradients
+$vertAfuchsia: linear-gradient(90deg, rgba(129,202,48,1) 0%, rgba(164,53,148,1) 100%);
+$fuchsiaAvert: linear-gradient(90deg, rgba(164,53,148,1) 0%, rgba(129,202,48,1) 100%); 
+
+
+.reveal .v {
+    color: $vert;
+}
+
+.reveal .f {
+    color: $fuchsia;
+}
+
+.reveal .boxBef {
+    height: 0px;
+    background: rgb(129,202,48);
+    background: linear-gradient(90deg, rgba(129,202,48,1) 0%, rgba(164,53,148,1) 100%);
+
+}
+
+.reveal .boxMid {
+    height: 15px;
+    background: $fuchsia;
+    background: $fuchsiaAvert;
+}
+
+.reveal .boxAft {
+    height: 15px;
+    background: $vert;
+    background: $vertAfuchsia;
+}
+
+.reveal .darkB {
+    background: rgba($color: #000000, $alpha: 0.7);
+}
+
+.reveal .darkBB {
+    background: rgba($color: #000000, $alpha: 1.0);
+}
+
+
+.reveal .slides section .fragment.fade-out-slide {
+	opacity: 1;
+	visibility: inherit;
+
+	&.visible {
+        transform: translate(0, -1200px);
+        transition-duration: 1.4s;
+		// opacity: 0;
+		// visibility: hidden;
+	}
+}
