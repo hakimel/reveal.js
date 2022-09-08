@@ -47,6 +47,7 @@
     "gulp-connect": "^5.7.0",
     "gulp-eslint": "^6.0.0",
     "gulp-header": "^2.0.9",
+    "gulp-pug": "^5.0.0",
     "gulp-tap": "^2.0.0",
     "gulp-zip": "^4.2.0",
     "highlight.js": "^10.0.3",

@@ -16,6 +16,7 @@ const sass = require('sass')
 const gulp = require('gulp')
 const tap = require('gulp-tap')
 const zip = require('gulp-zip')
+const pug = require('gulp-pug')
 const header = require('gulp-header')
 const eslint = require('gulp-eslint')
 const minify = require('gulp-clean-css')
@@ -286,6 +287,10 @@ gulp.task('package', gulp.series(() =>
 
 ))
 
+gulp.task('pug', () => gulp.src(['*.pug', '**/*.pug'])
+    .pipe(pug())
+    .pipe(gulp.dest('./')));
+
 gulp.task('reload', () => gulp.src(['*.html', '*.md'])
     .pipe(connect.reload()));
 
@@ -299,6 +304,8 @@ gulp.task('serve', () => {
     })
 
     gulp.watch(['*.html', '*.md'], gulp.series('reload'))
+
+    gulp.watch(['*.pug', '**/*.pug'], gulp.series('pug', 'reload'))
 
     gulp.watch(['js/**'], gulp.series('js', 'reload', 'eslint'))
 
