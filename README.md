@@ -10,7 +10,7 @@ Esperamos assim padronizar um meio de criar, persisitir e organiziar nossas apre
 
 ## Padronização e método
 
-Cada apresentação é composta por um arquivo `html` cujo o nome é identificador e está relacionado ao tema apresentado. Para as mídias, imagens, vídeos e afins, cria-se uma pasta, dentro da pasta `midia` com o mesmo nome de base do arquivo da apresentação para deixar o conteudo apartado do restante. Um link para a apresentação deve ser adicionado aqui neste `README` afim de tornar seu acesso mais simples, como por exemplo a apresnetação de demonstração do Reveal.js.
+Cada apresentação é composta por um arquivo `html` cujo o nome é identificador e está relacionado ao tema apresentado. Para as mídias, imagens, vídeos e afins, cria-se uma pasta, dentro da pasta `midia` com o mesmo nome de base do arquivo da apresentação para deixar o conteudo apartado do restante. Um link para a apresentação deve ser adicionado aqui neste `README` afim de tornar seu acesso mais simples, como por exemplo a apresentação de demonstração do Reveal.js.
 
 ## Apresentações, resultados
 
