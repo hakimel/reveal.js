@@ -19,7 +19,7 @@ Abaixo os links das apresentações com um breve descritivo:
 * [Demonstração do Reveal.js](demo.html) - Apresentação de demonstração do Reveal.js, incluida na disitribuição original.
 * [Apresentação dos Produtos do CEM para o InteSCity](apresentacao-cem-interscity.html) - Apresentação em elaboração, a ser realizada, sobre o estado de desenvolvimento dos produtos em desenvolvimento pelo CEM para o InterSCity/IME/USP.
 
-## Refer
+## Referências e créditos
 
 <p align="center">
   <a href="https://revealjs.com">
