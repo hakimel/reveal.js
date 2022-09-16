@@ -6,11 +6,18 @@ Repositório baseado em [reveal.js](https://revealjs.com/) para planejar e hospe
 
 reveal.js é um _framework_ de apresentação HTML de código aberto. Ele permite que qualquer pessoa com um navegador da Web crie apresentações com um padrão visual agradável por linha de código, que é tudo que, nós, desenvolvedores do CEM, gostamos de fazer.
 
-## Apresentações
+Esperamos assim padronizar um meio de criar, persisitir e organiziar nossas apresentações de forma análoga com o desenvolvimento dos projetos na equipe.
+
+## Padronização e método
+
+Cada apresentação é composta por um arquivo `html` cujo o nome é identificador e está relacionado ao tema apresentado. Para as mídias, imagens, vídeos e afins, cria-se uma pasta, dentro da pasta `midia` com o mesmo nome de base do arquivo da apresentação para deixar o conteudo apartado do restante. Um link para a apresentação deve ser adicionado aqui neste `README` afim de tornar seu acesso mais simples, como por exemplo a apresnetação de demonstração do Reveal.js.
+
+## Apresentações, resultados
 
 Abaixo os links das apresentações com um breve descritivo:
 
-... em breve
+* [Demonstração do Reveal.js](demo.html) - Apresentação de demonstração do Reveal.js, incluida na disitribuição original.
+* [Apresentação dos Produtos do CEM para o InteSCity](apresentacao-cem-interscity.html) - Apresentação em elaboração, a ser realizada, sobre o estado de desenvolvimento dos produtos em desenvolvimento pelo CEM para o InterSCity/IME/USP.
 
 <p align="center">
   <a href="https://revealjs.com">
