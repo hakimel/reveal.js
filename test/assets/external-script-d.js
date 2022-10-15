@@ -1,1 +1,1 @@
-window.externalScriptSequence += 'D';
+window.externalScriptSequence += "D";

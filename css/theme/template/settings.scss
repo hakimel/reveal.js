@@ -5,7 +5,7 @@
 $backgroundColor: #2b2b2b;
 
 // Primary/body text
-$mainFont: 'Lato', sans-serif;
+$mainFont: "Lato", sans-serif;
 $mainFontSize: 40px;
 $mainColor: #eee;
 
@@ -14,7 +14,7 @@ $blockMargin: 20px;
 
 // Headings
 $headingMargin: 0 0 $blockMargin 0;
-$headingFont: 'League Gothic', Impact, sans-serif;
+$headingFont: "League Gothic", Impact, sans-serif;
 $headingColor: #eee;
 $headingLineHeight: 1.2;
 $headingLetterSpacing: normal;
@@ -26,20 +26,20 @@ $heading1TextShadow: $headingTextShadow;
 $heading1Size: 3.77em;
 $heading2Size: 2.11em;
 $heading3Size: 1.55em;
-$heading4Size: 1.00em;
+$heading4Size: 1em;
 
 $codeFont: monospace;
 
 // Links and actions
-$linkColor: #13DAEC;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColor: #13daec;
+$linkColorHover: lighten($linkColor, 20%);
 
 // Text selection
-$selectionBackgroundColor: #FF5E99;
+$selectionBackgroundColor: #ff5e99;
 $selectionColor: #fff;
 
 // Generates the presentation background, can be overridden
 // to return a background image or gradient
 @mixin bodyBackground() {
-	background: $backgroundColor;
+  background: $backgroundColor;
 }

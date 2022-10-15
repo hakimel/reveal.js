@@ -21,7 +21,7 @@
   --r-heading4-size: #{$heading4Size};
   --r-code-font: #{$codeFont};
   --r-link-color: #{$linkColor};
-  --r-link-color-dark: #{darken($linkColor , 15% )};
+  --r-link-color-dark: #{darken($linkColor, 15%)};
   --r-link-color-hover: #{$linkColorHover};
   --r-selection-background-color: #{$selectionBackgroundColor};
   --r-selection-color: #{$selectionColor};

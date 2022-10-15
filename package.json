@@ -10,7 +10,9 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp serve",
-    "build": "gulp build"
+    "build": "gulp build",
+    "format": "prettier --write . --ignore-path .gitignore",
+    "test:format": "prettier --check . --ignore-path .gitignore"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -96,5 +98,8 @@
       "no-eq-null": 2,
       "no-unused-expressions": 0
     }
+  },
+  "dependencies": {
+    "prettier": "^2.7.1"
   }
 }

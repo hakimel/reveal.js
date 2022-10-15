@@ -7,7 +7,13 @@
  */
 @import url(./fonts/league-gothic/league-gothic.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
-section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
+section.has-light-background,
+section.has-light-background h1,
+section.has-light-background h2,
+section.has-light-background h3,
+section.has-light-background h4,
+section.has-light-background h5,
+section.has-light-background h6 {
   color: #222;
 }
 
@@ -28,26 +34,58 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --r-heading-text-transform: uppercase;
   --r-heading-text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
   --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
+  --r-heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
+    0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
+    0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+    0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+    0 20px 20px rgba(0, 0, 0, 0.15);
   --r-heading1-size: 3.77em;
   --r-heading2-size: 2.11em;
   --r-heading3-size: 1.55em;
   --r-heading4-size: 1em;
   --r-code-font: monospace;
-  --r-link-color: #13DAEC;
+  --r-link-color: #13daec;
   --r-link-color-dark: #0d99a5;
   --r-link-color-hover: #71e9f4;
-  --r-selection-background-color: #FF5E99;
+  --r-selection-background-color: #ff5e99;
   --r-selection-color: #fff;
 }
 
 .reveal-viewport {
   background: #1c1e20;
-  background: -moz-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #555a5f), color-stop(100%, #1c1e20));
-  background: -webkit-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -o-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background: -ms-radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
+  background: -moz-radial-gradient(
+    center,
+    circle cover,
+    #555a5f 0%,
+    #1c1e20 100%
+  );
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(0%, #555a5f),
+    color-stop(100%, #1c1e20)
+  );
+  background: -webkit-radial-gradient(
+    center,
+    circle cover,
+    #555a5f 0%,
+    #1c1e20 100%
+  );
+  background: -o-radial-gradient(
+    center,
+    circle cover,
+    #555a5f 0%,
+    #1c1e20 100%
+  );
+  background: -ms-radial-gradient(
+    center,
+    circle cover,
+    #555a5f 0%,
+    #1c1e20 100%
+  );
   background: radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
   background-color: var(--r-background-color);
 }
@@ -264,13 +302,13 @@ section.has-light-background, section.has-light-background h1, section.has-light
   border-bottom: 1px solid;
 }
 
-.reveal table th[align=center],
-.reveal table td[align=center] {
+.reveal table th[align="center"],
+.reveal table td[align="center"] {
   text-align: center;
 }
 
-.reveal table th[align=right],
-.reveal table td[align=right] {
+.reveal table th[align="right"],
+.reveal table td[align="right"] {
   text-align: right;
 }
 

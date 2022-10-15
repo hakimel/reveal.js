@@ -1,166 +1,179 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
 
-	<head>
-		<meta charset="utf-8">
+    <title>reveal.js - Test Auto-Animate</title>
 
-		<title>reveal.js - Test Auto-Animate</title>
+    <link rel="stylesheet" href="../dist/reveal.css" />
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css" />
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+  </head>
 
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
-	</head>
+  <body style="overflow: auto">
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
 
-	<body style="overflow: auto;">
+    <div class="reveal">
+      <div class="slides">
+        <section data-auto-animate>
+          <h1>h1</h1>
+          <h2>h2</h2>
+          <h3 style="position: absolute; left: 0">h3</h3>
+        </section>
 
-		<div id="qunit"></div>
-		<div id="qunit-fixture"></div>
+        <section data-auto-animate>
+          <h1 data-auto-animate-duration="0.1">h1</h1>
+          <h2 style="opacity: 0">h2</h2>
+          <h3 style="position: absolute; left: 100px">h3</h3>
+        </section>
 
-		<div class="reveal">
+        <section data-auto-animate data-auto-animate-duration="0.1">
+          <h1>h1</h1>
+          <h2>h2</h2>
+          <h3>h3</h3>
+        </section>
 
-			<div class="slides">
+        <section>
+          <h1>Non-auto-animate slide</h1>
+        </section>
 
-				<section data-auto-animate>
-					<h1>h1</h1>
-					<h2>h2</h2>
-					<h3 style="position: absolute; left: 0;">h3</h3>
-				</section>
+        <section data-auto-animate>
+          <h1 class="fragment">h1</h1>
+          <h2 class="fragment">h2</h2>
+          <h3>h3</h3>
+        </section>
 
-				<section data-auto-animate>
-					<h1 data-auto-animate-duration="0.1">h1</h1>
-					<h2 style="opacity: 0;">h2</h2>
-					<h3 style="position: absolute; left: 100px;">h3</h3>
-				</section>
+        <section data-auto-animate>
+          <h1 class="fragment">h1</h1>
+          <h2 class="fragment">h2</h2>
+          <h3 class="fragment">h3</h3>
+        </section>
 
-				<section data-auto-animate data-auto-animate-duration="0.1">
-					<h1>h1</h1>
-					<h2>h2</h2>
-					<h3>h3</h3>
-				</section>
+        <section>
+          <h1>Non-auto-animate slide</h1>
+        </section>
+      </div>
+    </div>
 
-				<section>
-					<h1>Non-auto-animate slide</h1>
-				</section>
+    <script src="../dist/reveal.js"></script>
+    <script>
+      QUnit.config.reorder = false;
 
-				<section data-auto-animate>
-					<h1 class="fragment">h1</h1>
-					<h2 class="fragment">h2</h2>
-					<h3>h3</h3>
-				</section>
+      const slides = Array.prototype.map.call(
+        document.querySelectorAll(".slides section"),
+        (slide) => {
+          return {
+            slide: slide,
+            h1: slide.querySelector("h1"),
+            h2: slide.querySelector("h2"),
+            h3: slide.querySelector("h3"),
+          };
+        }
+      );
 
-				<section data-auto-animate>
-					<h1 class="fragment">h1</h1>
-					<h2 class="fragment">h2</h2>
-					<h3 class="fragment">h3</h3>
-				</section>
+      Reveal.initialize().then(async () => {
+        QUnit.module("Auto-Animate");
 
-				<section>
-					<h1>Non-auto-animate slide</h1>
-				</section>
+        QUnit.test("Adds data-auto-animate-target", (assert) => {
+          Reveal.slide(1);
+          assert.strictEqual(
+            slides[0].h1.getAttribute("data-auto-animate-target"),
+            "",
+            "From elements have blank data-auto-animate-target"
+          );
+          assert.ok(
+            slides[1].h1.getAttribute("data-auto-animate-target").length > 0,
+            "To elements have a data-auto-animate-target value"
+          );
+        });
 
-			</div>
+        QUnit.test("Ends on correct target styles", (assert) => {
+          Reveal.slide(1);
+          assert.strictEqual(slides[1].h2.style.opacity, "0");
+          assert.strictEqual(slides[1].h3.offsetLeft, 100);
+        });
 
-		</div>
+        QUnit.test(
+          "Does not add [data-auto-animate] on non auto-animated slides",
+          (assert) => {
+            Reveal.slide(2);
+            Reveal.next();
+            assert.ok(
+              slides[3].slide.hasAttribute("data-auto-animate") === false
+            );
+          }
+        );
 
-		<script src="../dist/reveal.js"></script>
-		<script>
+        QUnit.test("autoAnimate config option", (assert) => {
+          Reveal.configure({ autoAnimate: false });
 
-			QUnit.config.reorder = false;
+          assert.ok(
+            document.querySelectorAll("data-auto-animate-target").length === 0,
+            "Removes all [data-auto-animate-target]"
+          );
+          assert.ok(
+            Array.prototype.every.call(
+              document.querySelectorAll("section[data-auto-animate]"),
+              (el) => {
+                return el.dataset.autoAnimate === "";
+              },
+              "All data-auto-animate attributes are reset"
+            )
+          );
 
-			const slides = Array.prototype.map.call( document.querySelectorAll( '.slides section' ), slide => {
-				return {
-					slide: slide,
-					h1: slide.querySelector( 'h1' ),
-					h2: slide.querySelector( 'h2' ),
-					h3: slide.querySelector( 'h3' )
-				};
-			} );
+          Reveal.configure({ autoAnimate: true });
+        });
 
-			Reveal.initialize().then( async () => {
+        QUnit.test("Carries forward matching fragment visibility", (assert) => {
+          Reveal.slide(4);
+          assert.ok(!slides[5].h1.classList.contains("visible"));
+          Reveal.next();
+          Reveal.next();
+          Reveal.next();
+          assert.ok(slides[5].h1.classList.contains("visible"));
+          assert.ok(slides[5].h2.classList.contains("visible"));
+          assert.ok(!slides[5].h3.classList.contains("visible"));
+          Reveal.next();
+          assert.ok(slides[5].h3.classList.contains("visible"));
+          Reveal.next();
+          assert.ok(slides[6].slide === Reveal.getCurrentSlide());
+        });
 
-				QUnit.module( 'Auto-Animate' );
+        QUnit.test("Slide specific data-auto-animate-duration", (assert) => {
+          assert.timeout(400);
+          assert.expect(1);
 
-				QUnit.test( 'Adds data-auto-animate-target', assert => {
-					Reveal.slide(1);
-					assert.strictEqual( slides[0].h1.getAttribute( 'data-auto-animate-target' ), '', 'From elements have blank data-auto-animate-target' );
-					assert.ok( slides[1].h1.getAttribute( 'data-auto-animate-target' ).length > 0, 'To elements have a data-auto-animate-target value' );
-				});
+          return new Promise((resolve) => {
+            let callback = () => {
+              slides[2].h3.removeEventListener("transitionend", callback);
+              assert.ok(true, "Transition ended within time window");
+              resolve();
+            };
 
-				QUnit.test( 'Ends on correct target styles', assert => {
-					Reveal.slide(1);
-					assert.strictEqual( slides[1].h2.style.opacity, "0" );
-					assert.strictEqual( slides[1].h3.offsetLeft, 100 );
-				});
+            Reveal.slide(1);
+            Reveal.slide(2);
 
-				QUnit.test( 'Does not add [data-auto-animate] on non auto-animated slides', assert => {
-					Reveal.slide(2);
-					Reveal.next();
-					assert.ok( slides[3].slide.hasAttribute( 'data-auto-animate' ) === false )
-				});
+            slides[2].h3.addEventListener("transitionend", callback);
+          });
+        });
 
-				QUnit.test( 'autoAnimate config option', assert => {
-					Reveal.configure({ autoAnimate: false });
+        // QUnit.test( 'Element specific data-auto-animate-duration', assert => {
+        // 	assert.timeout( 400 );
+        // 	assert.expect( 1 );
 
-					assert.ok( document.querySelectorAll( 'data-auto-animate-target' ).length === 0, 'Removes all [data-auto-animate-target]' )
-					assert.ok( Array.prototype.every.call( document.querySelectorAll( 'section[data-auto-animate]' ), el => {
-						return el.dataset.autoAnimate === '';
-					}, 'All data-auto-animate attributes are reset' ) );
+        // 	return new Promise( resolve => {
+        // 		let callback = () => {
+        // 			slides[1].h1.removeEventListener( 'transitionend', callback );
+        // 			assert.ok( true, 'Transition ended within time window' );
+        // 			resolve()
+        // 		}
 
-					Reveal.configure({ autoAnimate: true });
-				});
-
-				QUnit.test( 'Carries forward matching fragment visibility', assert => {
-					Reveal.slide(4);
-					assert.ok( !slides[5].h1.classList.contains( 'visible' ) )
-					Reveal.next();
-					Reveal.next();
-					Reveal.next();
-					assert.ok( slides[5].h1.classList.contains( 'visible' ) )
-					assert.ok( slides[5].h2.classList.contains( 'visible' ) )
-					assert.ok( !slides[5].h3.classList.contains( 'visible' ) )
-					Reveal.next();
-					assert.ok( slides[5].h3.classList.contains( 'visible' ) )
-					Reveal.next();
-					assert.ok( slides[6].slide === Reveal.getCurrentSlide() )
-				});
-
-				QUnit.test( 'Slide specific data-auto-animate-duration', assert => {
-					assert.timeout( 400 );
-					assert.expect( 1 );
-
-					return new Promise( resolve => {
-						let callback = () => {
-							slides[2].h3.removeEventListener( 'transitionend', callback );
-							assert.ok( true, 'Transition ended within time window' );
-							resolve();
-						}
-
-						Reveal.slide(1);
-						Reveal.slide(2);
-
-						slides[2].h3.addEventListener( 'transitionend', callback );
-					} );
-				});
-
-				// QUnit.test( 'Element specific data-auto-animate-duration', assert => {
-				// 	assert.timeout( 400 );
-				// 	assert.expect( 1 );
-
-				// 	return new Promise( resolve => {
-				// 		let callback = () => {
-				// 			slides[1].h1.removeEventListener( 'transitionend', callback );
-				// 			assert.ok( true, 'Transition ended within time window' );
-				// 			resolve()
-				// 		}
-
-
-				// 		Reveal.slide(1);
-				// 		slides[1].h1.addEventListener( 'transitionend', callback );
-				// 	} );
-				// });
-
-			} );
-		</script>
-
-	</body>
+        // 		Reveal.slide(1);
+        // 		slides[1].h1.addEventListener( 'transitionend', callback );
+        // 	} );
+        // });
+      });
+    </script>
+  </body>
 </html>

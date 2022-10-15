@@ -8,7 +8,13 @@
   line-height: 1.3em;
 }
 
-section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
+section.has-dark-background,
+section.has-dark-background h1,
+section.has-dark-background h2,
+section.has-dark-background h3,
+section.has-dark-background h4,
+section.has-dark-background h5,
+section.has-dark-background h6 {
   color: #fff;
 }
 
@@ -16,14 +22,14 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  * GLOBAL STYLES
  *********************************************/
 :root {
-  --r-background-color: #F0F1EB;
+  --r-background-color: #f0f1eb;
   --r-main-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
   --r-main-font-size: 40px;
   --r-main-color: #000;
   --r-block-margin: 20px;
   --r-heading-margin: 0 0 20px 0;
   --r-heading-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
-  --r-heading-color: #383D3D;
+  --r-heading-color: #383d3d;
   --r-heading-line-height: 1.2;
   --r-heading-letter-spacing: normal;
   --r-heading-text-transform: none;
@@ -35,15 +41,15 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --r-heading3-size: 1.55em;
   --r-heading4-size: 1em;
   --r-code-font: monospace;
-  --r-link-color: #51483D;
+  --r-link-color: #51483d;
   --r-link-color-dark: #25211c;
   --r-link-color-hover: #8b7c69;
-  --r-selection-background-color: #26351C;
+  --r-selection-background-color: #26351c;
   --r-selection-color: #fff;
 }
 
 .reveal-viewport {
-  background: #F0F1EB;
+  background: #f0f1eb;
   background-color: var(--r-background-color);
 }
 
@@ -259,13 +265,13 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   border-bottom: 1px solid;
 }
 
-.reveal table th[align=center],
-.reveal table td[align=center] {
+.reveal table th[align="center"],
+.reveal table td[align="center"] {
   text-align: center;
 }
 
-.reveal table th[align=right],
-.reveal table td[align=right] {
+.reveal table th[align="right"],
+.reveal table td[align="right"] {
   text-align: right;
 }
 

@@ -1,4 +1,4 @@
-import Deck, { VERSION } from './reveal.js'
+import Deck, { VERSION } from "./reveal.js";
 
 /**
  * Expose the Reveal class to the window. To create a
@@ -11,7 +11,6 @@ import Deck, { VERSION } from './reveal.js'
  * });
  */
 let Reveal = Deck;
-
 
 /**
  * The below is a thin shell that mimics the pre 4.0
@@ -27,17 +26,15 @@ let Reveal = Deck;
 
 let enqueuedAPICalls = [];
 
-Reveal.initialize = options => {
+Reveal.initialize = (options) => {
+  // Create our singleton reveal.js instance
+  Object.assign(Reveal, new Deck(document.querySelector(".reveal"), options));
 
-	// Create our singleton reveal.js instance
-	Object.assign( Reveal, new Deck( document.querySelector( '.reveal' ), options ) );
+  // Invoke any enqueued API calls
+  enqueuedAPICalls.map((method) => method(Reveal));
 
-	// Invoke any enqueued API calls
-	enqueuedAPICalls.map( method => method( Reveal ) );
-
-	return Reveal.initialize();
-
-}
+  return Reveal.initialize();
+};
 
 /**
  * The pre 4.0 API let you add event listener before
@@ -45,11 +42,18 @@ Reveal.initialize = options => {
  * queuing up premature API calls and invoking all
  * of them when Reveal.initialize is called.
  */
-[ 'configure', 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin' ].forEach( method => {
-	Reveal[method] = ( ...args ) => {
-		enqueuedAPICalls.push( deck => deck[method].call( null, ...args ) );
-	}
-} );
+[
+  "configure",
+  "on",
+  "off",
+  "addEventListener",
+  "removeEventListener",
+  "registerPlugin",
+].forEach((method) => {
+  Reveal[method] = (...args) => {
+    enqueuedAPICalls.push((deck) => deck[method].call(null, ...args));
+  };
+});
 
 Reveal.isReady = () => false;
 
