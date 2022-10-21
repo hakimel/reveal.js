@@ -18,7 +18,7 @@ Want to create reveal.js presentation in a graphical editor? Try <https://slides
 ---
 
 ### Sponsors
-Hakim's open source work is supported by <a href="https://github.com/sponsors/hakimel">GitHub sponsors</a>. Special thanks to:
+Hakim's open source work is supported by<a href="https://github.com/sponsors/hakimel">GitHub sponsors</a>. Special thanks to:
 <div align="center">
   <table>
     <td align="center">
