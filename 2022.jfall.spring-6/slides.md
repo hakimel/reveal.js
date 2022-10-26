@@ -67,7 +67,7 @@ What's new?
 - Rebranded from Java EE
 - Package relocation: `javax.*` to `jakarta.*`
 - New managed dependencies (`*-jakarta`)
-- Check your `pom.xml` / `buid.gradle`
+- Check your `pom.xml` / `build.gradle`
 
 --
 
@@ -260,7 +260,7 @@ Unfortunately, out of the box, that isn't much better for custom errors
 
 ### Customizing the problem
 
-```java [7-15|7|8-9|10|11-14|15]
+```java [5-15|6|7-8|9|10-13|14]
 @Transactional
 @PostMapping("/{project}")
 public void postTodo(@PathVariable String project, @RequestBody Todo todo) {
@@ -456,13 +456,13 @@ With GraalVM
 
 ![](./HotSpot.drawio.png)
 
----
+--
 
 ### Native image
 
 ![](./Substrate.drawio.png)
 
----
+--
 
 ### Ahead of Time
 
@@ -521,7 +521,7 @@ Optimizing your java bytecode for static analysis
 
 <!-- .slide: class="fragmented-lists" -->
 - Yes!
-- No additional configuraiton needed
+- No additional configuration needed
   - In most cases
 - Public repository with reachability data
 - Tooling will only improve going forward
