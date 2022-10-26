@@ -1,0 +1,16 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines
+[*]
+end_of_line = lf
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{html,md,js}]
+indent_style = space
+indent_size = 4
+
+[package.json]
+indent_style = space
+indent_size = 2
