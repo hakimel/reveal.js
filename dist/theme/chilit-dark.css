@@ -362,6 +362,7 @@ body:before {
   height: 60px;
   bottom: 12px;
   left: 12px;
+  z-index: 1;
 }
 
 li {
