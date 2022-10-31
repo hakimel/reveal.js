@@ -54,6 +54,7 @@ body:before {
   height: $logoSize;
   bottom: $logoStart;
   left: $logoStart;
+  z-index: 1;
 }
 
 body:after {
