@@ -1,3 +1,7 @@
+<!-- .slide: data-background-image="jfall_intro.png" -->
+
+---
+
 ## Spring Boot 3 / Spring 6 <!-- .element: style="margin-bottom: 300px" -->
 What's new?
 <!-- .slide: data-background-image="pexels-lenin-estrada-2569997.jpg" -->
@@ -46,18 +50,6 @@ What's new?
 - Dropped support for Java 8 and 11
 - Removal of `java.se.ee`
 - Dependency compatability
-
---
-
-## Java 17: New features
-
-<!-- .slide: class="fragmented-lists" -->
-- New HTTP Client
-- Records
-- Switch Expressions
-- Text Blocks
-- Low-latency garbage collectors
-- Better NullPointerExceptions
 
 --
 
@@ -546,3 +538,11 @@ Running:
 
 ## Migrating
 Live demonstration
+
+---
+
+## Thanks for your attention
+
+<!-- .slide: class="fragmented-lists" -->
+- Please rate my session in the app
+- Visit our ChilIT stand
