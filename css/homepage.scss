@@ -4,6 +4,7 @@ $textStart: $logoStart + 5px;
 
 body:before {
   background-image: url(./logo.svg);
+  z-index: 1;
 }
 
 body:after {
