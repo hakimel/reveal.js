@@ -108,7 +108,7 @@ export default class SlideContent {
 					// URL(s)
 					else {
 						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-							return `url(${encodeURI(background.trim())})`;
+							return `url(${encodeURI(background.trim()).replace( /\(/g, '%28' ).replace( /\)/g, '%29' ) })`;
 						}).join( ',' );
 					}
 				}
