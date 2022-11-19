@@ -33,7 +33,6 @@ const Plugin = () => {
 	 * element. Normalizes leading tabs/whitespace.
 	 */
 	function getMarkdownFromSlide( section ) {
-
 		// look for a <script> or <textarea data-template> wrapper
 		var template = section.querySelector( '[data-template]' ) || section.querySelector( 'script' );
 
@@ -47,10 +46,10 @@ const Plugin = () => {
 			leadingTabs = text.match( /^\n?(\t*)/ )[1].length;
 
 		if( leadingTabs > 0 ) {
-			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
+			text = text.replace( new RegExp('^\\n?\\t{' + leadingTabs + '}','g'), '\n' );
 		}
 		else if( leadingWs > 1 ) {
-			text = text.replace( new RegExp('\\n? {' + leadingWs + '}', 'g'), '\n' );
+			text = text.replace( new RegExp('^\\n? {' + leadingWs + '}', 'g'), '\n' );
 		}
 
 		return text;
