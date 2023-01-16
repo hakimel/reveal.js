@@ -43,6 +43,7 @@ export default class Keyboard {
 		this.shortcuts['Shift + &#8592;/&#8593/&#8594;/&#8595;']      = 'Jump to first/last slide';
 		this.shortcuts['B  ,  .']                       = 'Pause';
 		this.shortcuts['F']                             = 'Fullscreen';
+		this.shortcuts['G']                             = 'Jump to slide';
 		this.shortcuts['ESC, O']                        = 'Slide overview';
 
 	}

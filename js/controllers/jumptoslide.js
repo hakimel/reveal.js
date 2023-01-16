@@ -55,6 +55,9 @@ export default class JumpToSlide {
 
 	}
 
+	/**
+	 * Parses the current input and jumps to the given slide.
+	 */
 	jump() {
 
 		const value = this.jumpInput.value.trim( '' );
