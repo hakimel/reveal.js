@@ -45,6 +45,9 @@ export default class JumpToSlide {
 		if( this.isVisible() ) {
 			this.element.remove();
 			this.jumpInput.value = '';
+
+			clearTimeout( this.jumpTimeout );
+			delete this.jumpTimeout;
 		}
 
 	}
@@ -60,6 +63,9 @@ export default class JumpToSlide {
 	 */
 	jump() {
 
+		clearTimeout( this.jumpTimeout );
+		delete this.jumpTimeout;
+
 		const value = this.jumpInput.value.trim( '' );
 		const indices = this.Reveal.location.getIndicesFromHash( value );
 
@@ -71,6 +77,13 @@ export default class JumpToSlide {
 			this.Reveal.slide( this.indicesOnShow.h, this.indicesOnShow.v, this.indicesOnShow.f );
 			return false;
 		}
+
+	}
+
+	jumpAfter( delay ) {
+
+		clearTimeout( this.jumpTimeout );
+		this.jumpTimeout = setTimeout( () => this.jump(), delay );
 
 	}
 
@@ -116,7 +129,7 @@ export default class JumpToSlide {
 
 	onInput( event ) {
 
-		this.jump();
+		this.jumpAfter( 200 );
 
 	}
 
