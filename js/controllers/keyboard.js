@@ -363,6 +363,12 @@ export default class Keyboard {
 					this.Reveal.toggleAutoSlide( autoSlideWasPaused );
 				}
 			}
+			// G
+			else if( keyCode === 71 ) {
+				if ( config.jumpToSlide ) {
+					this.Reveal.toggleJumpToSlide();
+				}
+			}
 			else {
 				triggered = false;
 			}

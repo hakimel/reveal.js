@@ -1,5 +1,6 @@
 import SlideContent from './controllers/slidecontent.js'
 import SlideNumber from './controllers/slidenumber.js'
+import JumpToSlide from './controllers/jumptoslide.js'
 import Backgrounds from './controllers/backgrounds.js'
 import AutoAnimate from './controllers/autoanimate.js'
 import Fragments from './controllers/fragments.js'
@@ -101,6 +102,7 @@ export default function( revealElement, options ) {
 		// may be multiple presentations running in parallel.
 		slideContent = new SlideContent( Reveal ),
 		slideNumber = new SlideNumber( Reveal ),
+		jumpToSlide = new JumpToSlide( Reveal ),
 		autoAnimate = new AutoAnimate( Reveal ),
 		backgrounds = new Backgrounds( Reveal ),
 		fragments = new Fragments( Reveal ),
@@ -278,6 +280,7 @@ export default function( revealElement, options ) {
 
 		backgrounds.render();
 		slideNumber.render();
+		jumpToSlide.render();
 		controls.render();
 		progress.render();
 		notes.render();
@@ -571,6 +574,7 @@ export default function( revealElement, options ) {
 		progress.destroy();
 		backgrounds.destroy();
 		slideNumber.destroy();
+		jumpToSlide.destroy();
 
 		// Remove event listeners
 		document.removeEventListener( 'fullscreenchange', onFullscreenChange );
@@ -1187,6 +1191,20 @@ export default function( revealElement, options ) {
 	function isPaused() {
 
 		return dom.wrapper.classList.contains( 'paused' );
+
+	}
+
+	/**
+	 * Toggles visibility of the jump-to-slide UI.
+	 */
+	function toggleJumpToSlide( override ) {
+
+		if( typeof override === 'boolean' ) {
+			override ? jumpToSlide.show() : jumpToSlide.hide();
+		}
+		else {
+			jumpToSlide.isVisible() ? jumpToSlide.hide() : jumpToSlide.show();
+		}
 
 	}
 
@@ -2657,6 +2675,9 @@ export default function( revealElement, options ) {
 
 		// Toggles the auto slide mode on/off
 		toggleAutoSlide,
+
+		// Toggles visibility of the jump-to-slide UI
+		toggleJumpToSlide,
 
 		// Slide navigation checks
 		isFirstSlide,

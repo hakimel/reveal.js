@@ -1797,6 +1797,33 @@ $notesWidthPercent: 25%;
 
 
 /*********************************************
+ * JUMP-TO-SLIDE COMPONENT
+ *********************************************/
+
+ .reveal .jump-to-slide {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	z-index: 30;
+	transition: all 400ms ease;
+	font-size: 18px;
+	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+}
+
+.reveal .jump-to-slide-input {
+	background: transparent;
+	padding: 8px;
+	font-size: inherit;
+	color: currentColor;
+	border: 1px solid currentColor;
+}
+
+.reveal .jump-to-slide-input:focus {
+	outline: none;
+}
+
+
+/*********************************************
  * ZOOM PLUGIN
  *********************************************/
 
