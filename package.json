@@ -49,7 +49,7 @@
     "gulp-header": "^2.0.9",
     "gulp-tap": "^2.0.0",
     "gulp-zip": "^4.2.0",
-    "highlight.js": "^10.0.3",
+    "highlight.js": "^11.7.0",
     "marked": "^4.0.12",
     "node-qunit-puppeteer": "^2.1.2",
     "qunit": "^2.19.3",
