@@ -75,7 +75,7 @@ export default class JumpToSlide {
 			indices = this.search( query );
 		}
 
-		if( indices && query !== '' ) {
+		if( indices && query !== '' && query.length > 1 ) {
 			this.Reveal.slide( indices.h, indices.v, indices.f );
 			return true;
 		}
