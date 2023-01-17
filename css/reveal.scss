@@ -1816,6 +1816,11 @@ $notesWidthPercent: 25%;
 	color: currentColor;
 	border: 0;
 }
+.reveal .jump-to-slide-input::placeholder {
+	color: currentColor;
+	opacity: 0.3;
+}
+
 .reveal.has-dark-background .jump-to-slide-input {
 	color: #fff;
 }

@@ -66,10 +66,16 @@ export default class JumpToSlide {
 		clearTimeout( this.jumpTimeout );
 		delete this.jumpTimeout;
 
-		const value = this.jumpInput.value.trim( '' );
-		const indices = this.Reveal.location.getIndicesFromHash( value );
+		const query = this.jumpInput.value.trim( '' );
+		let indices = this.Reveal.location.getIndicesFromHash( query, { oneBasedIndex: true } );
 
-		if( indices && value !== '' ) {
+		// If no valid index was found and the input query is a
+		// string, fall back on a simple search
+		if( !indices && /\S+/i.test( query ) ) {
+			indices = this.search( query );
+		}
+
+		if( indices && query !== '' ) {
 			this.Reveal.slide( indices.h, indices.v, indices.f );
 			return true;
 		}
@@ -88,6 +94,27 @@ export default class JumpToSlide {
 	}
 
 	/**
+	 * A lofi search that looks for the given query in all
+	 * of our slides and returns the first match.
+	 */
+	search( query ) {
+
+		const regex = new RegExp( '\\b' + query.trim() + '\\b', 'i' );
+
+		const slide = this.Reveal.getSlides().find( ( slide ) => {
+			return regex.test( slide.innerText );
+		} );
+
+		if( slide ) {
+			return this.Reveal.getIndices( slide );
+		}
+		else {
+			return null;
+		}
+
+	}
+
+	/**
 	 * Reverts back to the slide we were on when jump to slide was
 	 * invoked.
 	 */
@@ -100,6 +127,7 @@ export default class JumpToSlide {
 
 	confirm() {
 
+		this.jump();
 		this.hide();
 
 	}
