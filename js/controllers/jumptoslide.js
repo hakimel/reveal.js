@@ -71,11 +71,11 @@ export default class JumpToSlide {
 
 		// If no valid index was found and the input query is a
 		// string, fall back on a simple search
-		if( !indices && /\S+/i.test( query ) ) {
+		if( !indices && /\S+/i.test( query ) && query.length > 1 ) {
 			indices = this.search( query );
 		}
 
-		if( indices && query !== '' && query.length > 1 ) {
+		if( indices && query !== '' ) {
 			this.Reveal.slide( indices.h, indices.v, indices.f );
 			return true;
 		}
