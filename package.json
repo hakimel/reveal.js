@@ -58,6 +58,10 @@
     "sass": "^1.39.2",
     "yargs": "^15.1.0"
   },
+  "overrides": {
+    "chokidar": "3.5.3",
+    "glob-parent": "6.0.2"
+  },
   "browserslist": "> 2%, not dead",
   "eslintConfig": {
     "env": {
