@@ -1,5 +1,5 @@
 /**
- * Makes it possble to jump to a slide by entering its
+ * Makes it possible to jump to a slide by entering its
  * slide number or id.
  */
 export default class JumpToSlide {
