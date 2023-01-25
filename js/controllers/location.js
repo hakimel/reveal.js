@@ -139,7 +139,7 @@ export default class Location {
 			let hash = this.getHash();
 
 			// If we're configured to push to history OR the history
-			// API is not avaialble.
+			// API is not available.
 			if( config.history ) {
 				window.location.hash = hash;
 			}

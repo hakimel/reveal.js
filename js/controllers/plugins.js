@@ -12,7 +12,7 @@ export default class Plugins {
 		// Flags our current state (idle -> loading -> loaded)
 		this.state = 'idle';
 
-		// An id:instance map of currently registed plugins
+		// An id:instance map of currently registered plugins
 		this.registeredPlugins = {};
 
 		this.asyncDependencies = [];
@@ -171,7 +171,7 @@ export default class Plugins {
 	/**
 	 * Registers a new plugin with this reveal.js instance.
 	 *
-	 * reveal.js waits for all regisered plugins to initialize
+	 * reveal.js waits for all registered plugins to initialize
 	 * before considering itself ready, as long as the plugin
 	 * is registered before calling `Reveal.initialize()`.
 	 */

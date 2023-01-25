@@ -1251,7 +1251,7 @@ export default function( revealElement, options ) {
 	 */
 	function slide( h, v, f, origin ) {
 
-		// Dispatch an event before hte slide
+		// Dispatch an event before the slide
 		const slidechange = dispatchEvent({
 			type: 'beforeslidechange',
 			data: {
@@ -1852,7 +1852,7 @@ export default function( revealElement, options ) {
 		}
 
 		// If includeFragments is set, a route will be considered
-		// availalbe if either a slid OR fragment is available in
+		// available if either a slid OR fragment is available in
 		// the given direction
 		if( includeFragments === true ) {
 			let fragmentRoutes = fragments.availableRoutes();

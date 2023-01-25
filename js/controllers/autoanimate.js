@@ -461,7 +461,7 @@ export default class AutoAnimate {
 		const textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
 		const mediaNodes = 'img, video, iframe';
 
-		// Eplicit matches via data-id
+		// Explicit matches via data-id
 		this.findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', node => {
 			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
 		} );
@@ -573,14 +573,14 @@ export default class AutoAnimate {
 
 			// Retrieve the 'from' element
 			if( fromMatches[key] ) {
-				const pimaryIndex = toMatches[key].length - 1;
+				const primaryIndex = toMatches[key].length - 1;
 				const secondaryIndex = fromMatches[key].length - 1;
 
 				// If there are multiple identical from elements, retrieve
 				// the one at the same index as our to-element.
-				if( fromMatches[key][ pimaryIndex ] ) {
-					fromElement = fromMatches[key][ pimaryIndex ];
-					fromMatches[key][ pimaryIndex ] = null;
+				if( fromMatches[key][ primaryIndex ] ) {
+					fromElement = fromMatches[key][ primaryIndex ];
+					fromMatches[key][ primaryIndex ] = null;
 				}
 				// If there are no matching from-elements at the same index,
 				// use the last one.
@@ -608,7 +608,7 @@ export default class AutoAnimate {
 	 * fading of unmatched elements is turned on, these elements
 	 * will fade when going between auto-animate slides.
 	 *
-	 * Note that parents of auto-animate targets are NOT considerd
+	 * Note that parents of auto-animate targets are NOT considered
 	 * unmatched since fading them would break the auto-animation.
 	 *
 	 * @param {HTMLElement} rootElement
