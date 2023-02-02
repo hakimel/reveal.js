@@ -47,10 +47,10 @@ const Plugin = () => {
 			leadingTabs = text.match( /^\n?(\t*)/ )[1].length;
 
 		if( leadingTabs > 0 ) {
-			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}','g'), '\n' );
+			text = text.replace( new RegExp('\\n?\\t{' + leadingTabs + '}(.*)','g'), function(m, p1) { return '\n' + p1 ; } );
 		}
 		else if( leadingWs > 1 ) {
-			text = text.replace( new RegExp('\\n? {' + leadingWs + '}', 'g'), '\n' );
+			text = text.replace( new RegExp('\\n? {' + leadingWs + '}(.*)', 'g'), function(m, p1) { return '\n' + p1 ; } );
 		}
 
 		return text;
