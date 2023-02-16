@@ -287,6 +287,10 @@ export default {
 	// Time before the cursor is hidden (in ms)
 	hideCursorTime: 5000,
 
+	// Should we automatmically sort and set indices for fragments
+	// at each sync? (See Reveal.sync)
+	sortFragmentsOnSync: true,
+
 	// Script dependencies to load
 	dependencies: [],
 

@@ -1471,7 +1471,9 @@ export default function( revealElement, options ) {
 		// Write the current hash to the URL
 		location.writeURL();
 
-		fragments.sortAll();
+		if( config.sortFragmentsOnSync === true ) {
+			fragments.sortAll();
+		}
 
 		controls.update();
 		progress.update();
