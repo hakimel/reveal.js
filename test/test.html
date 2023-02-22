@@ -83,6 +83,8 @@
 
 		<script src="../dist/reveal.js"></script>
 		<script>
+			QUnit.config.testTimeout = 30000;
+
 			window.location.hash = '';
 
 			Reveal.configure({maxScale: 1.11});

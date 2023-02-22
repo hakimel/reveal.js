@@ -295,3 +295,19 @@ const fileExtensionToMimeMap = {
 export const getMimeTypeFromFile = ( filename='' ) => {
 	return fileExtensionToMimeMap[filename.split('.').pop()]
 }
+
+/**
+ * Encodes a string for RFC3986-compliant URL format.
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI#encoding_for_rfc3986
+ *
+ * @param {string} url
+ */
+export const encodeRFC3986URI = ( url='' ) => {
+	return encodeURI(url)
+	  .replace(/%5B/g, "[")
+	  .replace(/%5D/g, "]")
+	  .replace(
+		/[!'()*]/g,
+		(c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+	  );
+}

@@ -40,7 +40,7 @@ export default class Location {
 	 *
 	 * @returns slide indices or null
 	 */
-	getIndicesFromHash( hash=window.location.hash ) {
+	getIndicesFromHash( hash=window.location.hash, options={} ) {
 
 		// Attempt to parse the hash as either an index or name
 		let name = hash.replace( /^#\/?/, '' );
@@ -72,7 +72,7 @@ export default class Location {
 		}
 		else {
 			const config = this.Reveal.getConfig();
-			let hashIndexBase = config.hashOneBasedIndex ? 1 : 0;
+			let hashIndexBase = config.hashOneBasedIndex || options.oneBasedIndex ? 1 : 0;
 
 			// Read the index components of the hash
 			let h = ( parseInt( bits[0], 10 ) - hashIndexBase ) || 0,
@@ -139,7 +139,7 @@ export default class Location {
 			let hash = this.getHash();
 
 			// If we're configured to push to history OR the history
-			// API is not avaialble.
+			// API is not available.
 			if( config.history ) {
 				window.location.hash = hash;
 			}

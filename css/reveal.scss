@@ -1797,6 +1797,43 @@ $notesWidthPercent: 25%;
 
 
 /*********************************************
+ * JUMP-TO-SLIDE COMPONENT
+ *********************************************/
+
+ .reveal .jump-to-slide {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	z-index: 30;
+	font-size: 32px;
+	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+}
+
+.reveal .jump-to-slide-input {
+	background: transparent;
+	padding: 8px;
+	font-size: inherit;
+	color: currentColor;
+	border: 0;
+}
+.reveal .jump-to-slide-input::placeholder {
+	color: currentColor;
+	opacity: 0.5;
+}
+
+.reveal.has-dark-background .jump-to-slide-input {
+	color: #fff;
+}
+.reveal.has-light-background .jump-to-slide-input {
+	color: #222;
+}
+
+.reveal .jump-to-slide-input:focus {
+	outline: none;
+}
+
+
+/*********************************************
  * ZOOM PLUGIN
  *********************************************/
 
