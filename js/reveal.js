@@ -1009,7 +1009,7 @@ export default function( revealElement, options ) {
 		let width = config.width;
 		let height = config.height;
 
-		if (config.disableLayout) {
+		if( config.disableLayout ) {
 			width = dom.slides.offsetWidth;
 			height = dom.slides.offsetHeight;
 		}

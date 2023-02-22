@@ -24,13 +24,13 @@ $backgroundColor: #000000;
 $mainColor: #fff;
 $headingColor: #fff;
 
-$mainFontSize: 25px;
+$mainFontSize: 42px;
 $mainFont: 'Source Sans Pro', Helvetica, sans-serif;
 $headingFont: 'Source Sans Pro', Helvetica, sans-serif;
 $headingTextShadow: none;
 $headingLetterSpacing: normal;
-$headingTextTransform: none;
-$headingFontWeight: 450;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
 $linkColor: #42affa;
 $linkColorHover: lighten( $linkColor, 15% );
 $selectionBackgroundColor: lighten( $linkColor, 25% );
