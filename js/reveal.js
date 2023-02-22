@@ -1006,11 +1006,18 @@ export default function( revealElement, options ) {
 	 * @param {number} [presentationHeight=dom.wrapper.offsetHeight]
 	 */
 	function getComputedSlideSize( presentationWidth, presentationHeight ) {
+		let width = config.width;
+		let height = config.height;
+
+		if (config.disableLayout) {
+			width = dom.slides.offsetWidth;
+			height = dom.slides.offsetHeight;
+		}
 
 		const size = {
 			// Slide size
-			width: config.width,
-			height: config.height,
+			width: width,
+			height: height,
 
 			// Presentation size
 			presentationWidth: presentationWidth || dom.wrapper.offsetWidth,
