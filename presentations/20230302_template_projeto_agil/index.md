@@ -5,18 +5,27 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 
 ## Agenda
 
-1. Template Projeto Ágil Documentação
-2. Template Projeto Ágil Kanban
+1. Pré-requisitos
+2. Documentação
+3. Kanban
 
 
 
-## Template Projeto Ágil Documentação
+## Pré-requisitos
+
+1. Python
+2. Git e Github
+3. Markdown
+
+
+
+## Documentação
 - [Repositório GitHub](https://github.com/transparencia-mg/template-projeto-agil)
-- Importância leitura arquivo [`README.md`](https://github.com/transparencia-mg/template-projeto-agil/blob/main/README.md)
 
 
 ## Documentação - Utilização
-- Criação via template
+- Template GitHub
+- Leitura arquivo [`README.md`](https://github.com/transparencia-mg/template-projeto-agil/blob/main/README.md)
 - Modificações básicas:
 	- Nome do projeto
 	- Repositório Github
