@@ -23,7 +23,7 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 
 ## Documentação
 
-- [Repositório GitHub](https://github.com/transparencia-mg/template-projeto-agil)
+- [Template criado no GitHub](https://github.com/transparencia-mg/template-projeto-agil)
 
 
 ## Documentação - Utilização
@@ -38,6 +38,8 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 
 ## kanban
 
+- [Template criado no GitHub Projects](https://github.com/orgs/transparencia-mg/projects/6/views/2).
+
 
 
 ## Acertos
@@ -45,10 +47,12 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 - Estrutura quase pronta de nossas necessidades (estórias de  usuários).
 - Utilização de ferramentas de controle de versão da documentação.
 - Não depender do fluxo de trabalho proposto pela empresa, que é praticamente inexistente.
+- Exigimos equipe fixa.
 
 
 
 ## Erros
 
+- Não pagamos por estudo de códigos.
 - Não configuramos ambiente de desenvolvimento na sprint 01.
 - Não realizamos testes ao final das sprints.
