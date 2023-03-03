@@ -15,9 +15,10 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 
 ## Pré-requisitos
 
-1. Python.
-2. Git e Github.
-3. Markdown.
+1. Filosofia de Governo Aberto
+2. Python.
+3. Git e Github.
+4. Markdown.
 
 
 
@@ -33,6 +34,7 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 - Modificações básicas:
 	- Nome do projeto
 	- Repositório Github
+- [Modelo de testes para aprovação das estórias](https://www.youtube.com/watch?v=z1qQP2A33xk&list=PLCbgbVHsUygBhGOxedp2CJGA2pDlSifZh)
 
 
 
@@ -44,15 +46,24 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 
 ## Acertos
 
+- Conhecimento prévio de que a execução não seria simples.
 - Estrutura quase pronta de nossas necessidades (estórias de  usuários).
-- Utilização de ferramentas de controle de versão da documentação.
-- Não depender do fluxo de trabalho proposto pela empresa, que é praticamente inexistente.
+- Utilização de todas as ferramentas aqui demonstradas.
+- Não depender do fluxo de trabalho proposto pela empresa, que não teve método.
 - Exigimos equipe fixa.
 
 
 
 ## Erros
 
+- Iniciar com o Roadmap próprio refletido no Kanban.
 - Não pagamos por estudo de códigos.
 - Não configuramos ambiente de desenvolvimento na sprint 01.
 - Não realizamos testes ao final das sprints.
+
+
+## Contatos
+
+gabriel.dornas@cge.mg.gov.br
+andre.amorim@cge.mg.gov.br
+flavia.vilela@cge.mg.gov.br
