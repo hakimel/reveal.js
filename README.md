@@ -7,44 +7,26 @@
   <a href="https://slides.com/"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
 </p>
 
-reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
-
-The framework comes with a powerful feature set including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and an [extensive API](https://revealjs.com/api/).
-
----
-
-Want to create reveal.js presentation in a graphical editor? Try <https://slides.com>. It's made by the same people behind reveal.js.
+A biblioteca open-source reveal.js é um fremework para criação de apresentações. 
+Uma demostração do poder da biblioteca poderá ser acessado em [revealjs.com](https://revealjs.com/).
+Esta biblioteca vem com várias funcionalidades poderoas como [slides hierárquicos](https://revealjs.com/vertical-slides/), [suporte a markdown support](https://revealjs.com/markdown/), [animações](https://revealjs.com/auto-animate/), [exportar para PDF](https://revealjs.com/pdf-export/), [notas para o apresentador](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [sintaxe para demonstrar código](https://revealjs.com/code/) e uma [extensiva API](https://revealjs.com/api/).
 
 ---
 
-### Sponsors
-Hakim's open source work is supported by <a href="https://github.com/sponsors/hakimel">GitHub sponsors</a>. Special thanks to:
-<div align="center">
-  <table>
-    <td align="center">
-      <a href="https://workos.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=revealjs&utm_source=github">
-        <div>
-          <img src="https://user-images.githubusercontent.com/629429/151508669-efb4c3b3-8fe3-45eb-8e47-e9510b5f0af1.svg" width="290" alt="WorkOS">
-        </div>
-        <b>Your app, enterprise-ready.</b>
-        <div>
-          <sub>Start selling to enterprise customers with just a few lines of code. Add Single Sign-On (and more) in minutes instead of months.</sup>
-        </div>
-      </a>
-    </td>
-  </table>
-</div>
+Este repositório é um fork do [repositório original](https://github.com/hakimel/reveal.js) visando sempre buscar as versões mais atualizadas do mesmo.
+Por não ser um repositório da organização [transparencia-mg](https://github.com/transparencia-mg) não é permitido a inclusão de issues no mesmo.
+Neste sentido, os issues para solicitação de melhoria e ou correção de bugs poderão ser abertos no repositório [handbook](https://github.com/transparencia-mg/handbook/issues), com a inclusão da tag `reveal.js`.
 
 ---
 
-### Getting started
-- 🚀 [Install reveal.js](https://revealjs.com/installation)
-- 👀 [View the demo presentation](https://revealjs.com/demo)
-- 📖 [Read the documentation](https://revealjs.com/markup/)
-- 🖌 [Try the visual editor for reveal.js at Slides.com](https://slides.com/)
-- 🎬 [Watch the reveal.js video course (paid)](https://revealjs.com/course)
+### Instalação
 
---- 
-<div align="center">
-  MIT licensed | Copyright © 2011-2023 Hakim El Hattab, https://hakim.se
-</div>
+Para utilização do repositório necessário realizar a instalação do programa docker.
+
+- 🚀 [Instalação docker windows](https://docs.docker.com/desktop/install/windows-install/#:~:text=Double%2Dclick%20Docker%20Desktop%20Installer,bottom%20of%20your%20web%20browser.)
+- 🚀 [Instalação docker linux](https://docs.docker.com/desktop/install/linux-install/)
+- Visualizar apresentações no endereço http://127.0.0.1:8080/
+
+```
+make container
+```
