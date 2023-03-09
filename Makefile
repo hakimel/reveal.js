@@ -8,3 +8,11 @@ container: ## Start Docker Container
 	-v $(PWD)/media:/reveal.js/media \
 	-v $(PWD)/css:/reveal.js/css \
 	-v $(PWD)/plugin:/reveal.js/plugin nbrown/revealjs
+
+index: 
+	@echo 'Atualizando index...'
+	@python scripts/generate_index.py
+
+presentation:
+	@echo 'Criando apresentação...'
+	@python scripts/generate_presentation.py $(NAME)

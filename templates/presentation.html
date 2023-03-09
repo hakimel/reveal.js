@@ -4,19 +4,19 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Apresentação DTA</title>
 
-		<link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='reveal.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='theme/black.css') }}">
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<link rel="stylesheet" href="../../dist/theme/black.css">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='plugin/highlight/monokai.css') }}">
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-markdown="docs/presentations/{{ name }}.md"
+				<section data-markdown="./index.md"
 				         data-separator="^\n\n\n"
 				         data-separator-vertical="^\n\n"
 				         data-separator-notes="^Note:"
@@ -28,12 +28,11 @@
 				</section>
 			</div>
 		</div>
-		
-		<script src="{{ url_for('static', filename='reveal.js') }}"></script>
-		<script src="{{ url_for('static', filename='plugin/notes/notes.js') }}"></script>
-		<script src="{{ url_for('static', filename='plugin/markdown/markdown.js') }}"></script>
-		<script src="{{ url_for('static', filename='plugin/highlight/highlight.js') }}"></script>
 
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
