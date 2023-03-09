@@ -21,12 +21,31 @@ Neste sentido, os issues para solicitação de melhoria e ou correção de bugs 
 
 ### Instalação
 
-Para utilização do repositório necessário realizar a instalação do programa docker.
+Para utilização do repositório necessário realizar a instalação dos programas 
 
-- 🚀 [Instalação docker windows](https://docs.docker.com/desktop/install/windows-install/#:~:text=Double%2Dclick%20Docker%20Desktop%20Installer,bottom%20of%20your%20web%20browser.)
-- 🚀 [Instalação docker linux](https://docs.docker.com/desktop/install/linux-install/)
-- Visualizar apresentações no endereço http://127.0.0.1:8080/
+- Docker.
+    - 🚀 [Instalação docker windows](https://docs.docker.com/desktop/install/windows-install/#:~:text=Double%2Dclick%20Docker%20Desktop%20Installer,bottom%20of%20your%20web%20browser.)
+    - 🚀 [Instalação docker linux](https://docs.docker.com/desktop/install/linux-install/)
+    - Visualizar apresentações no endereço http://127.0.0.1:8080/
+Poetry:
+    - [Instalação windows e linux](https://python-poetry.org/docs/#installation)
+
+### Utilização
 
 ```
-make container
+# Listar comandos disponíveis
+poetry run task --list
+
+# Update index.html file com novas apresentações
+poetry run task index        Update index.html file.
+
+# Criar strutura de nova apresentação
+poetry run task presentation <nome_da_nova_apresentação>
+
+Inicializa container docker e servidor local
+poetry run task container
 ```
+
+Obs.: Ao executar o comando `poetry run task presentation` o nome da nova apresentação deverá ser informada no padrão `snaque_small_case`.
+
+Comandos `poetry run task presentation` e `poetry run task index` realização modificações/criações nos arquivos do repositório, sendo necessário, portanto, commit para registro destas mudanças.
