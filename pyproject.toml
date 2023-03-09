@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "testes"
+version = "0.1.0"
+description = ""
+authors = ["Gabriel Dornas <gabrielbdornas@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.10.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+[tool.taskipy.tasks.index]
+cmd = "python scripts/generate_index.py" 
+help = "Update index.html file."
+
+[tool.taskipy.tasks.presentation]
+cmd = "python scripts/generate_presentation.py"
+help = "Criate new presentation."
+
+[tool.taskipy.tasks.container]
+cmd = """
+	docker run -it --rm -p 8000:8000 \
+		-v /$PWD/presentations:/reveal.js/presentations \
+		-v /$PWD/dist:/reveal.js/dist \
+		-v $PWD/index.html:/reveal.js/index.html \
+		-v $PWD/media:/reveal.js/media \
+		-v $PWD/css:/reveal.js/css \
+		-v $PWD/plugin:/reveal.js/plugin nbrown/revealjs
+"""
+help = "Starts docker container and local server."
