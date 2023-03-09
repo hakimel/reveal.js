@@ -1,6 +1,7 @@
 container: ## Start Docker Container
 	@echo 'Starting Docker Container...'
-	docker run -it --rm -p 8000:8000 \
+	@python scripts/generate_index.py
+	@docker run -it --rm -p 8000:8000 \
 	-v /$(PWD)/presentations:/reveal.js/presentations \
 	-v /$(PWD)/dist:/reveal.js/dist \
 	-v $(PWD)/index.html:/reveal.js/index.html \

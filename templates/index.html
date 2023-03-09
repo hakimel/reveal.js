@@ -6,10 +6,14 @@
 	<title>Apresentações DTA</title>
 </head>
 <body>
-<h1>{{ title }}</h1>
+<h1>Apresentações DTA</h1>
 
 {% for name in names  %}
   <ul>
-    <li><a href="/{{ name }}">{{ ' '.join(name.split('_')[1:]).title() }}</a></li>
+    <li><a style='text-decoration:none',
+    	     href='presentations/{{ name }}/index.html'>
+    	   	 {{ ' '.join(name.split('_')[1:]).title() }}
+    	   	 </a>
+   	</li>
   </ul>
 {% endfor %}
