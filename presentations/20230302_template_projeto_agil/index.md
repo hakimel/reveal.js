@@ -63,6 +63,7 @@ teste
 - Não configuramos ambiente de desenvolvimento na sprint 01.
 - Não realizamos testes ao final das sprints por falta de ambientes.
 - Não notificamos quando do 1º atraso (versão 2.10 dev do CKAN).
+- Não priorizamos a comunicação assincrona no início do projeto.
 
 
 
