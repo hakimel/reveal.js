@@ -8,8 +8,8 @@
 </p>
 
 A biblioteca open-source reveal.js é um fremework para criação de apresentações. 
-Uma demostração do poder da biblioteca poderá ser acessado em [revealjs.com](https://revealjs.com/).
-Esta biblioteca vem com várias funcionalidades poderoas como [slides hierárquicos](https://revealjs.com/vertical-slides/), [suporte a markdown support](https://revealjs.com/markdown/), [animações](https://revealjs.com/auto-animate/), [exportar para PDF](https://revealjs.com/pdf-export/), [notas para o apresentador](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [sintaxe para demonstrar código](https://revealjs.com/code/) e uma [extensiva API](https://revealjs.com/api/).
+Uma demostração de seu poderá ser acessado em [revealjs.com](https://revealjs.com/).
+Esta biblioteca vem com várias funcionalidades como [slides hierárquicos](https://revealjs.com/vertical-slides/), [suporte a markdown](https://revealjs.com/markdown/), [animações](https://revealjs.com/auto-animate/), [exportar para PDF](https://revealjs.com/pdf-export/), [notas para o apresentador](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [sintaxe para demonstrar código](https://revealjs.com/code/) e uma [extensiva API](https://revealjs.com/api/).
 
 ---
 
@@ -23,45 +23,45 @@ Neste sentido, os issues para solicitação de melhoria e ou correção de bugs 
 
 Para utilização do repositório necessário realizar a instalação dos programas 
 
-- Docker.
+- Docker
     - 🚀 [Instalação docker windows](https://docs.docker.com/desktop/install/windows-install/#:~:text=Double%2Dclick%20Docker%20Desktop%20Installer,bottom%20of%20your%20web%20browser.)
     - 🚀 [Instalação docker linux](https://docs.docker.com/desktop/install/linux-install/)
-    - Visualizar apresentações no endereço http://127.0.0.1:8080/
-Poetry:
-    - [Instalação windows e linux](https://python-poetry.org/docs/#installation)
 
-### Utilização
+- Poetry
+    - 🚀 [Instalação windows e linux](https://python-poetry.org/docs/#installation)
+
+### Comandos automatizados
 
 ```
 # Listar comandos disponíveis
 poetry run task --list
 
 # Update index.html file com novas apresentações
-poetry run task index        Update index.html file.
+poetry run task index     
 
-# Criar strutura de nova apresentação
+# Criar estrutura de nova apresentação
 poetry run task presentation <nome_da_nova_apresentação>
 
 Inicializa container docker e servidor local
 poetry run task container
 ```
 
-Obs.: Ao executar o comando `poetry run task presentation` o nome da nova apresentação deverá ser informada no padrão `snaque_small_case`.
+Obs.: Ao executar o comando `poetry run task presentation <nome_da_nova_apresentação>` o nome da nova apresentação deverá ser informada no padrão [`snaque_small_case`](https://en.wikipedia.org/wiki/Snake_case).
 
-Comandos `poetry run task presentation` e `poetry run task index` realização modificações/criações nos arquivos do repositório, sendo necessário, portanto, commit para registro destas mudanças.
+Comandos `poetry run task presentation <nome_da_nova_apresentação>` e `poetry run task index` realizam modificações/criações de arquivos no repositório, sendo necessário, portanto, posterior commit.
 
 ### Suas apresentações
 
 Para criar uma nova apresentação basta rodar o comando `poetry run task presentation nome_da_nova_apresentação`.
-Uma pasta com o nome da apresentação fornecido será adicionada em `presentations/`.
+Uma pasta com o nome da apresentação será adicionada em `presentations/`.
 A nova apresentação deverá ser criada utilizando Markdown no arquivo `index.md`.
 Três linhas em branco separam um slide do outro horizontalmente.
 Duas linhas em branco separam um slide do outro verticalmente.
-`Note:` Adiciona notas que podem ser acessadas com o "speaker view", como explicado abaixo.
+`Note:` Adiciona notas que podem ser acessadas com o "speaker view".
 
-Este template possui um "speaker view". 
+Este template possui a ferramenta "speaker view". 
 Ao apertar a tecla "s" uma nova janela será aberta, apenas para o apresentador, com um relógio, preview dos slides e notas (caso elas existam).
-O "speaker view" desta apresentação também foi configurado para ajudar na gestão do tempo da apresentação.
+O "speaker view" desta apresentação também foi configurado para ajudar na gestão do tempo.
 A configuração padrão adotada foi de 3600 segundos (ou uma hora). Caso necessite, esta  poderá ser modificada no parâmetro `totalTime` ta tag `script` do arquivo `index.html` existente na raiz da sua apresentação.
 
 
@@ -88,4 +88,4 @@ As apresentações pode ser [salvas em pdf](https://revealjs.com/pdf-export/) no
 
 - `esc`: Visualização de todos os slides.
 - `g`: Dá possibilidade de indicar o número do slide que deseja acessar.
-- `s`: Acessa página extra speaker view.
+- `s`: Acessa página speaker view.
