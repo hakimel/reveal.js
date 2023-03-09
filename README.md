@@ -49,3 +49,43 @@ poetry run task container
 Obs.: Ao executar o comando `poetry run task presentation` o nome da nova apresentação deverá ser informada no padrão `snaque_small_case`.
 
 Comandos `poetry run task presentation` e `poetry run task index` realização modificações/criações nos arquivos do repositório, sendo necessário, portanto, commit para registro destas mudanças.
+
+### Suas apresentações
+
+Para criar uma nova apresentação basta rodar o comando `poetry run task presentation nome_da_nova_apresentação`.
+Uma pasta com o nome da apresentação fornecido será adicionada em `presentations/`.
+A nova apresentação deverá ser criada utilizando Markdown no arquivo `index.md`.
+Três linhas em branco separam um slide do outro horizontalmente.
+Duas linhas em branco separam um slide do outro verticalmente.
+`Note:` Adiciona notas que podem ser acessadas com o "speaker view", como explicado abaixo.
+
+Este template possui um "speaker view". 
+Ao apertar a tecla "s" uma nova janela será aberta, apenas para o apresentador, com um relógio, preview dos slides e notas (caso elas existam).
+O "speaker view" desta apresentação também foi configurado para ajudar na gestão do tempo da apresentação.
+A configuração padrão adotada foi de 3600 segundos (ou uma hora). Caso necessite, esta  poderá ser modificada no parâmetro `totalTime` ta tag `script` do arquivo `index.html` existente na raiz da sua apresentação.
+
+
+```
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        progress: true,
+        slideNumber: 'c/t',
+        totalTime: 3600,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+```
+
+As apresentações pode ser [salvas em pdf](https://revealjs.com/pdf-export/) no navegador Google Chrome, bastando acrescentar `?print-pdf` ao final da URL da mesma e utilizando o atalho `CTRL+P` para selecionar o local aonde a mesma será salva em sua máquina.
+
+### Atalhos
+
+- `esc`: Visualização de todos os slides.
+- `g`: Dá possibilidade de indicar o número do slide que deseja acessar.
+- `s`: Acessa página extra speaker view.
