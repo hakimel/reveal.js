@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='reveal.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='theme/black.css') }}">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='plugin/highlight/monokai.css') }}">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown="docs/presentations/{{ name }}.md"
+				         data-separator="^\n\n\n"
+				         data-separator-vertical="^\n\n"
+				         data-separator-notes="^Note:"
+				         data-charset="utf-8">
+				    <!--
+				        Note that Windows uses `\r\n` instead of `\n` as its linefeed character.
+				        For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
+				    -->
+				</section>
+			</div>
+		</div>
+		
+		<script src="{{ url_for('static', filename='reveal.js') }}"></script>
+		<script src="{{ url_for('static', filename='plugin/notes/notes.js') }}"></script>
+		<script src="{{ url_for('static', filename='plugin/markdown/markdown.js') }}"></script>
+		<script src="{{ url_for('static', filename='plugin/highlight/highlight.js') }}"></script>
+
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>

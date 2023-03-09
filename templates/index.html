@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Apresentações DTA</title>
+</head>
+<body>
+<h1>{{ title }}</h1>
+
+{% for name in names  %}
+  <ul>
+    <li><a href="/{{ name }}">{{ ' '.join(name.split('_')[1:]).title() }}</a></li>
+  </ul>
+{% endfor %}
