@@ -56,10 +56,11 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 
 ## Erros
 
-- Iniciar com o Roadmap próprio refletido no Kanban.
 - Não pagamos por estudo de códigos.
+- Não iniciamos com o Roadmap refletido no Kanban.
 - Não configuramos ambiente de desenvolvimento na sprint 01.
-- Não realizamos testes ao final das sprints.
+- Não realizamos testes ao final das sprints por falta de ambientes.
+- Não notificamos quando do 1º atraso (versão 2.10 dev do CKAN).
 
 
 
