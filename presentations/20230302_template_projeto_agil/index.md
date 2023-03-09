@@ -11,6 +11,8 @@ Exemplo projeto [Work-Stefanini](https://transparencia-mg.github.io/work-stefani
 3. Kanban.
 4. Acertos e Erros.
 
+Note:
+teste
 
 
 ## Pré-requisitos
