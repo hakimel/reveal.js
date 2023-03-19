@@ -1,4 +1,4 @@
-import speakerViewHTML from './speaker-view.html';
+import speakerViewHTML from './speaker-view.html'
 
 import { marked } from 'marked';
 
@@ -108,7 +108,7 @@ const Plugin = () => {
 	function post( event ) {
 
 		let slideElement = deck.getCurrentSlide(),
-			notesElement = slideElement.querySelector( 'aside.notes' ),
+			notesElements = slideElement.querySelectorAll( 'aside.notes' ),
 			fragmentElement = slideElement.querySelector( '.current-fragment' );
 
 		let messageData = {
@@ -130,36 +130,61 @@ const Plugin = () => {
 		if( fragmentElement ) {
 			let fragmentNotes = fragmentElement.querySelector( 'aside.notes' );
 			if( fragmentNotes ) {
-				notesElement = fragmentNotes;
+				messageData.notes = fragmentNotes.innerHTML;
+				messageData.markdown = typeof fragmentNotes.getAttribute( 'data-markdown' ) === 'string';
+
+				// Ignore other slide notes
+				notesElements = null;
 			}
 			else if( fragmentElement.hasAttribute( 'data-notes' ) ) {
 				messageData.notes = fragmentElement.getAttribute( 'data-notes' );
 				messageData.whitespace = 'pre-wrap';
 
 				// In case there are slide notes
-				notesElement = null;
+				notesElements = null;
 			}
 		}
 
 		// Look for notes defined in an aside element
-		if( notesElement ) {
-			messageData.notes = notesElement.innerHTML;
-			messageData.markdown = typeof notesElement.getAttribute( 'data-markdown' ) === 'string';
+		if( notesElements ) {
+			messageData.notes = Array.from(notesElements).map( notesElement => notesElement.innerHTML ).join( '\n' );
+			messageData.markdown = notesElements[0] && typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
 		}
 
 		speakerWindow.postMessage( JSON.stringify( messageData ), '*' );
 
 	}
 
+	/**
+	 * Check if the given event is from the same origin as the
+	 * current window.
+	 */
+	function isSameOriginEvent( event ) {
+
+		try {
+			return window.location.origin === event.source.location.origin;
+		}
+		catch ( error ) {
+			return false;
+		}
+
+	}
+
 	function onPostMessage( event ) {
 
-		let data = JSON.parse( event.data );
-		if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
-			clearInterval( connectInterval );
-			onConnected();
-		}
-		else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
-			callRevealApi( data.methodName, data.arguments, data.callId );
+		// Only allow same-origin messages
+		// (added 12/5/22 as a XSS safeguard)
+		if( isSameOriginEvent( event ) ) {
+
+			let data = JSON.parse( event.data );
+			if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+				clearInterval( connectInterval );
+				onConnected();
+			}
+			else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+				callRevealApi( data.methodName, data.arguments, data.callId );
+			}
+
 		}
 
 	}

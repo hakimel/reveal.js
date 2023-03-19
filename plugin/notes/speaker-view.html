@@ -350,8 +350,9 @@
 					layoutDropdown,
 					pendingCalls = {},
 					lastRevealApiCallId = 0,
-					connected = false,
-					whitelistedWindows = [window.opener];
+					connected = false
+
+				var connectionStatus = document.querySelector( '#connection-status' );
 
 				var SPEAKER_LAYOUTS = {
 					'default': 'Default',
@@ -362,17 +363,25 @@
 
 				setupLayout();
 
-				var connectionStatus = document.querySelector( '#connection-status' );
+				let openerOrigin;
+
+				try {
+					openerOrigin = window.opener.location.origin;
+				}
+				catch ( error ) { console.warn( error ) }
+
+				// In order to prevent XSS, the speaker view will only run if its
+				// opener has the same origin as itself
+				if( window.location.origin !== openerOrigin ) {
+					connectionStatus.innerHTML = 'Cross origin error.<br>The speaker window can only be opened from the same origin.';
+					return;
+				}
+
 				var connectionTimeout = setTimeout( function() {
 					connectionStatus.innerHTML = 'Error connecting to main window.<br>Please try closing and reopening the speaker view.';
 				}, 5000 );
-;
-				window.addEventListener( 'message', function( event ) {
 
-					// Validate the origin of this message to prevent XSS
-					if( window.location.origin !== event.origin && whitelistedWindows.indexOf( event.source ) === -1 ) {
-						return;
-					}
+				window.addEventListener( 'message', function( event ) {
 
 					clearTimeout( connectionTimeout );
 					connectionStatus.style.display = 'none';
@@ -538,8 +547,6 @@
 					upcomingSlide.setAttribute( 'height', 512 );
 					upcomingSlide.setAttribute( 'src', upcomingURL );
 					document.querySelector( '#upcoming-slide' ).appendChild( upcomingSlide );
-
-					whitelistedWindows.push( currentSlide.contentWindow, upcomingSlide.contentWindow );
 
 				}
 

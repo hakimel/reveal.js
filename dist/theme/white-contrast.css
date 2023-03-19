@@ -1,25 +1,28 @@
 /**
- * Black theme for reveal.js. This is the opposite of the 'white' theme.
+ * White compact & high contrast reveal.js theme, with headers not in capitals.
  *
- * By Hakim El Hattab, http://hakim.se
+ * By Peter Kehl. Based on white.(s)css by Hakim El Hattab, http://hakim.se
+ *
+ * - Keep the source similar to black.css - for easy comparison.
+ * - $mainFontSize controls code blocks, too (although under some ratio).
  */
 @import url(./fonts/source-sans-pro/source-sans-pro.css);
-section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
-  color: #222;
+section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
+  color: #fff;
 }
 
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
 :root {
-  --r-background-color: #191919;
+  --r-background-color: #fff;
   --r-main-font: Source Sans Pro, Helvetica, sans-serif;
   --r-main-font-size: 42px;
-  --r-main-color: #fff;
+  --r-main-color: #000;
   --r-block-margin: 20px;
   --r-heading-margin: 0 0 20px 0;
   --r-heading-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-heading-color: #fff;
+  --r-heading-color: #000;
   --r-heading-line-height: 1.2;
   --r-heading-letter-spacing: normal;
   --r-heading-text-transform: uppercase;
@@ -31,15 +34,15 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --r-heading3-size: 1.3em;
   --r-heading4-size: 1em;
   --r-code-font: monospace;
-  --r-link-color: #42affa;
-  --r-link-color-dark: #068de9;
-  --r-link-color-hover: #8dcffc;
-  --r-selection-background-color: rgba(66, 175, 250, 0.75);
+  --r-link-color: #2a76dd;
+  --r-link-color-dark: #1a53a1;
+  --r-link-color-hover: #6ca0e8;
+  --r-selection-background-color: #98bdef;
   --r-selection-color: #fff;
 }
 
 .reveal-viewport {
-  background: #191919;
+  background: #fff;
   background-color: var(--r-background-color);
 }
 

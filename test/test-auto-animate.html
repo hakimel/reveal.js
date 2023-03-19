@@ -65,6 +65,7 @@
 		<script src="../dist/reveal.js"></script>
 		<script>
 
+			QUnit.config.testTimeout = 30000;
 			QUnit.config.reorder = false;
 
 			const slides = Array.prototype.map.call( document.querySelectorAll( '.slides section' ), slide => {

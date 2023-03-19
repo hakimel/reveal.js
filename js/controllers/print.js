@@ -110,9 +110,7 @@ export default class Print {
 				slide.style.top = top + 'px';
 				slide.style.width = slideWidth + 'px';
 
-				// Re-run the slide layout so that r-fit-text is applied based on
-				// the printed slide size
-				this.Reveal.slideContent.layout( slide )
+				this.Reveal.slideContent.layout( slide );
 
 				if( slide.slideBackgroundElement ) {
 					page.insertBefore( slide.slideBackgroundElement, slide );
@@ -218,6 +216,9 @@ export default class Print {
 		await new Promise( requestAnimationFrame );
 
 		pages.forEach( page => pageContainer.appendChild( page ) );
+
+		// Re-run JS-based content layout after the slide is added to page DOM
+		this.Reveal.slideContent.layout( this.Reveal.getSlidesElement() );
 
 		// Notify subscribers that the PDF layout is good to go
 		this.Reveal.dispatchEvent({ type: 'pdf-ready' });

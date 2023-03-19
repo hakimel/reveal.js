@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Rank Estimation from Pairwise Comparisons</title>
+        <title>Revisiting k-means: New Algorithms via Bayesian Nonparametrics </title>
 
         <meta name="description" content="SP2020">
         <meta name="author" content="Aytijhya Saha">
@@ -29,7 +29,7 @@
                 <section data-background="network2.gif" data-background-opacity=0.2 style="font-size: 33px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
                     <h3 id="heading" style="color: white; text-align: center; margin-bottom: 0.8cm; font-size: 60px;">
-                        <b>Rank Estimation from Pairwise Comparisons</b>
+                        <b>Revisiting k-means: New Algorithms via Bayesian Nonparametrics</b>
                 	</h3>
 
 					
@@ -41,47 +41,24 @@
 					<div style="text-align: center; margin-top: 0.5cm;">
                         <strong>Aytijhya Saha</strong>
                         <br>
-                        B.Stat 2nd Year<br>
+                        B.Stat 3rd Year<br>
 						Indian Statistical Institute, Kolkata
                     </div>
 					<div style="text-align: center; margin-top: 0.8cm;">
-                        May 6, 2022
+                        March 20, 2023
                         <br>
 					</div>
                 </section>
 
-                
-
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
-                    <h3>
-                        Introduction
-                    </h3>
-					<div>
-						The ranking of n objects based on pairwise
-						comparisons is a core machine learning
-						problem, arising in recommender systems, player ranking, biological applications
-						and others. In many practical situations
-						the true pairwise comparisons cannot
-						be actively measured, but a subset of all
-						$n(n-1)/2$ comparisons is passively and noisily
-						observed.
-					</div>
-					<div>
-						Here we will discuss a few algorithms to estimate exact or approximate ranking.
-					</div>
-                    
-					
-                </section>
-
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
-                    <h3>
-                        Algorithms to find rank estimator
-                    </h3>
+                <section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+                    <h4>
+                        Paper Description
+                    </h4>
                     
                     <div>
 						<ul>
 							<li class="fragment">
-								Balanced Rank Estimator(BRE)
+								Paper title: Revisiting k-means: New Algorithms via Bayesian Nonparametrics
 							</li>
 						</ul>
 					</div>
@@ -89,304 +66,602 @@
 					<div style="margin-top: 0.6cm;">
 						<ul>
 							<li class="fragment">
-								Unbalanced Rank Estimator(URE)
+								Authors: Brian Kulis (Department of CSE, Ohio State University, Columbus),
+                                 Michael I. Jordan (Departments of EECS and Statistics, University of California, Berkeley)
 							</li>
 						</ul>
 					</div>
-					<hr>
-					<div>
-						Reference: Efficient Ranking fron Pairwise Comparisons-Fabian L. Wauthier,
-						Michael I. Jordan, Nebojsa Jojic
-					</div>
-					
-                </section>
-
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
-                    <h3>
-						<font color="#FFFF00">  
-							Algorithms to find rank estimator <br>  
-							</font> 
-                        
-                    </h3>
-					<section>
-						<h5>
-							<font color="#FFEFD5">  
-								Prelimineries <br>  
-								</font>  
-							
-						</h5>	
-                    <div>
-						
-								We denote the true permutation we wish to recover by $\pi^{*} \in S_{n}$. Without loss of generality, let $\pi^{*}=(1,2, \ldots, n)$, so that $\pi^{*}(j)=j$. We will reveal 
-					to an algorithm a subset of binary comparisons, chosen among the $\frac{n(n-1)}{2}$ available pairs. Each comparison is measured
-					 independently with probability $m(n) / n$, so that on average $O(n m(n))$ measurements are made. Each comparison can be measured only once.
-					 Noiseless binary comparisons are denoted by $c_{i, j}=\mathbf{1}_{\left(\pi^{*}(i)< \pi^{*}(j)\right)}$. To capture the overall measurement process,
-					 we introduce binary variables $s_{i,j}$ which indicate whether $c_{i,j}$ was measured, and let $\bar{c}_{i, j}$ be the (possibly noisy) measurement 
-					 that was made. We will assume throughout that $s_{j,i}=s_{i,j}$ and if $s_{j, i}=s_{i, j}=1$, then $\bar{c}_{j, i}=1-\bar{c}_{i, j}$
-					    
-					</div>
-				    </section>
-
-					<section data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-						<h5>
-							<font color="#FFEFD5">  
-								BRE <br>  
-							</font>  
-						</h5>	
-						<div>
-							<font  style="font-size:20px">
-							Measure each binary comparison independently with probability $m(n) / n$. Define the scores
-							$$
-							\hat{\Pi}(j)=\frac{\sum_{i \neq j} s_{i, j}\left(2 \bar{c}_{i, j}-1\right)}{2 m(n)} \propto \sum_{i \neq j} s_{i, j}\left(2 \bar{c}_{i, j}-1\right) .
-							$$
-							Predict $\pi^{*}$ by the ordering $\hat{\pi}$ of the estimated scores, breaking ties randomly.
-							</font>
-							<br>
-						</div>
-						<div class="fragment">
-							<font color="#66BB55" style="font-size:20px"> 
-								Given an average of $\Theta(n \log (n))$ measurements, BRE predicts permutations with uniform quality across the entire permutation.
-										<br>
-										For any $c>0$ and $0<\nu<1$, if each comparison is measured with probability $m(n) / n=$ $c \log (n) / n$, then BRE predicts with probability at least $1-2 n^{1-a_{n} \frac{3}{8}(2 p-1)^{2} \nu^{2} c}$ a permutation $\hat{\pi}$ with
-										$$
-										\max _{j}\left|\hat{\pi}(j)-\pi^{*}(j)\right| \leq \nu n,
-										$$
-										where $a_{n}$ is a sequence with $a_{n} \rightarrow 1$. 
-							</font>
-						
-					    </div>
-				    </section>
-					<section>
-						<h5>
-							<font color="#FFEFD5">  
-								URE <br>  
-							</font>  
-						</h5>
-						<div>
-							<font  style="font-size:22px">
-								Suppose then, that for some $0<\nu<1$ we wish to recover the placement of the first $\nu n$ elements 
-								in the permutation with fairly good accuracy, but care less about the remaining $(1-\nu) n$ elements.
-								Surprisingly, a very slight modification of BRE Algorithm yields a method 
-								that is useful in this situation.
-							</font>
-							<br>
-						</div>
-						<div class="fragment">
-							<font  style="font-size:20px">Algorithm:  
-								Measure each binary comparison independently with probability $m(n) / n$. Define the scores
-                                $$
-                                \hat{\Pi}(j)=\frac{1}{m(n)} \sum_{i \neq j} s_{i, j} \bar{c}_{i, j}^{n} \propto \sum_{i \neq j} s_{i, j} \bar{c}_{i, j}^{n}
-                                $$
-                                Predict $\pi^{*}$ by the ordering $\hat{\pi}$ of the estimated scores, breaking ties randomly.
-							</font>
-					    </div>
-					</section>
-				    <section>	
-						<h5>
-							<font color="#FFEFD5">  
-								URE <br>  
-							</font>  
-						</h5>
-						<div>
-							Our main interest in URE is encapsulated in the following theorem which shows that predicted permutations are much more
-							accurate near the top than the bottom if an average of $\Theta(n \log (n))$ measurements are made.
-						</div>
-						<div class="fragment">
-						<font color="#66BB55" style="font-size:20px"> 
-							    
-								<b>Theorem:</b> For any $c>0$, and $0<\nu<1$, if each comparison is measured with probability $m(n) / n=$ $c \log (n) / n, U R E$ predicts with probability at least
-								$$
-								1-2 n^{1-\frac{3}{2}\left[(2 p-1)^{2} \nu^{2} /(3(1-p)+(5 p-1) \nu)\right] c}
-								$$
-								a permutation $\hat{\pi}$ with
-								$$
-								\left|\pi^{*}(j)-\hat{\pi}(j)\right| \leq\left\{\begin{array}{ll}
-								4 \nu n & \text { if } \pi^{*}(j)<\nu n \\
-								4 \sqrt{\nu \pi^{*}(j) n} & \text { if } \pi^{*}(j) \geq \nu n
-								\end{array} .\right.
-								$$
-						</font>	
-						</div>
-					</section>
-                	</section>
-
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
-				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-                    <h3 data-id="heading-sne" style="font-size: 50px;">
-                        Algorithms for Approximate Ranking
-                    </h3>
-
 					<div style="margin-top: 0.6cm;">
 						<ul>
 							<li class="fragment">
-								Hamming-LUCB Algorithm
+								Published at International Conference on Machine Learning (ICML), 2012
 							</li>
+						</ul>
+					</div>
+					<div style="margin-top: 0.6cm;">
+						<ul>
 							<li class="fragment">
-								Approximate recovery under Hamming error
+								Number of Citations: 441
 							</li>
 						</ul>
 					</div>
 					<hr>
-					<div>
-						Reference: Approximate Ranking fron Pairwise Comparisons- Heckel,Simchowitz,Ramchandran,Wainwright
-						<br>
-						Simple, Robust and Optimal Ranking from Pairwise Comparisons- Shah,Wainwright
-					</div>
-                </section>
-
-
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
-				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-				<h3>
-					<font color="#FFFF00">  
-						Algorithms for Approximate Ranking <br>  
-					</font> 
-				</h3>
-
-				<section>
-					<h5>
-						<font color="#FFEFD5">  
-							Hamming-LUCB Algorithm <br>  
-						</font>  
-						
-					</h5>	
-					<font style="font-size:20px"> 
-                    The algorithm is based on actively identifying sets $ S_1$ and $S_2$ consisting of $k - h$ items and $n - k - h$ items,
-					respectively, such that with high confidence the items
-          			in the first set have a larger score than the items in
-					the second set. Once we have found such sets, we
-					can arbitrarily distribute the remaining items to the
-					sets $S_1$ and $S_2$ in order to obtain a Hamming-accurate ranking with high confidence.
-					We define a confidence bound of the form $\alpha(u) \propto \sqrt{\frac{\log (\log (u) n / \delta)}{u}}$, 
-					where $u$ is an integer corresponding to the number of comparisons, and with the constants involved explicitly chosen by setting
-					$\alpha(u)=\sqrt{\frac{\beta(u, \delta / n)}{2 u}}, \quad$ with 
-					$\beta\left(u, \delta^{\prime}\right)=\log \left(1 / \delta^{\prime}\right)+$ $0.75 \log \log \left(1 / \delta^{\prime}\right)+1.5 \log (1+\log (u / 2))$. For each item $i \in[n]$,
-					the algorithm stores a counter $T_{i}$ of the number of comparisons in which it has been involved, along with an empirical estimate 
-					of the associated score $\widehat{\tau}_{i}\left(T_{i}\right)$. For notational convenience,
-					we adopt the shorthands $\widehat{\tau}_{i}=\widehat{\tau}_{i}\left(T_{i}\right)$ and $\alpha_{i}=\alpha\left(T_{i}\right)$.
-					 Within each round, we also let $(\cdot)$ denote a permutation of 
-					$[n]$ such that $\widehat{\tau}_{(1)} \geq \widehat{\tau}_{(2)} \geq \cdots \geq \widehat{\tau}_{(n)} .$ 
-					We then define the indices
-					$$
-					\begin{gathered}
-					d_{1}=\underset{i \in\{(1), \ldots,(k-h)\}}{\arg \min } \widehat{\tau}_{i}-\alpha_{i}, 
-					d_{2}=\underset{i \in\{(k+1+h), \ldots,(n)\}}{\arg \max } \widehat{\tau}_{i}+\alpha_{i} .
-					\end{gathered}
-					$$
-					</font>
+					
 				</section>
-				<section data-background="sp2020/bg-1.png" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
+
+			<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-					<h5>
-						<font color="#FFEFD5">  
-							Hamming-LUCB Algorithm <br>  
-						</font>  
-						
-					</h5>	
-					</font>
-					<div style="margin-top: 0.6cm;">
-						<img src="LUCB.png" width="500" height="500">
+				<h4>
+					<font color="#FFFF00">  
+						Introduction <br>  
+					</font> 
+				</h4>
+			    <section>
+                    <h3>
+						Statistical Learning/ Machine Learning  
+                    </h3>
+					
+					<div>
+						Machine Learning is a set of methods that can automatically detect patterns in data, and then use the uncovered patterns to 
+						predict future data, or to perform other kinds of decision-making under uncertainty.
 					</div>
-
-                </section>
-				<section data-background="sp2020/bg-1.png" data-background-opacity=0.4 style="text-align: left; font-size: 30px;" data-auto-animate
-				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-					<h5>
-						<font color="#FFEFD5">  
-							Hamming-LUCB Algorithm <br>  
-						</font>  
-						
-					</h5>	
-					</font>
-					<div style="margin-top: 0.6cm;">
-						$\Delta_{i,j} := \tau_i - \tau_j $
-						For any $ M \in C_0$, the Hamming-
-						LUCB algorithm run with confidence parameter $\delta$ is
-						(h,$\delta$)-Hamming-accurate, and with probability at least
-						$1-\delta$, makes at most $N_{h}^{\mathrm{up}}(M)$ comparisons, where
-						$$
-						N_{h}^{\mathrm{up}}(M)=
-						$$
-						$$
-						\widetilde{O}\left(\sum_{i=1}^{k-h} \Delta_{i, k+1+h}^{-2}+\sum_{i=k+1+h}^{n} \Delta_{k-h, i}^{-2}+2 h \Delta_{k-h, k+1+h}^{-2}\right) \text {. }
-						$$
-						The notation $\widetilde{O}$ absorbs factors logarithmic in $n$, and doubly logarithmic in the gaps.
-
-
-					</div>
-
+                    
+			
                 </section>
 
-			</section>
-				
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+                    <h3>
+                        What is cluster analysis?
+                    </h3>
+					<div>
+						
+					</div>
+					<div>
 
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 30px;">
-                    <h3> 
-						<font color="#FFFF00">  
-							Rank Centrality <br>  
-						</font> 
-					</h3>
-					<section>
-						Rank Centrality is an iterative algorithm that takes the noisy
-						comparison answers between a subset of all possible
-						pairs of items as input and produces scores for each item as the output.
+                    Clustering is an unsupervised method for partitioning a collection of data
+                    points, into groups, such that the objects in a group will be similar (or related) to one another and different from (or unrelated to) the objects in other groups.
+					</div>
+                    
+			
+                </section>
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+                    <h4>
+					Traditional Methods of Clustering
+                    </h4>
+                    <div>
+						<ul>
+							<li class="fragment">
+								K-means clustering \cite{macqueen1967classification}
+							</li>
+						</ul>
+					</div>
+
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Hierarchial Clustering \cite{ward1963hierarchical}
+							</li>
+						</ul>
+					</div>
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Spectral Clustering \cite{guattery1994performance}
+							</li>
+						</ul>
+					</div>
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Fuzzy Clustering \cite{dunn1973fuzzy}
+							</li>
+							
+						</ul>
+						
+					</div>
+					<div style="margin-top: 0.6cm;">
+						And so on....
+					</div>
 					<hr>
-					<div>
-						<div>
-							Reference:  Rank Centrality: Ranking from Pairwise Comparisons- Negahban, Oh, and Shah:
-							Operations Research 65(1), pp. 266-287, ©2017 INFORMS
-						</div>
-					</div>
-				  	</section>
-					<section>
-						<h5>
-							<font color="#FFEFD5">  
-								Prelimineries <br>  
-							</font>  
-							
-						</h5>
-					<div>
-						<font  style="font-size:25px">
-						Let, $Y_{i j}^{l}$ denote the outcome of the lth comparison of the pair i and j, such that $Y_{i j}^{l}=1$,if j is preferred
-						over i and 0 otherwise. $a_{i j}=\frac{1}{k}\sum_{l=1}^{k} Y_{i j}^{l}$. Consider a random walk on a weighted directed graph $G=([n], E, A)$, 
-						where a pair $(i, j) \in E$ iff the pair has been compared. The weight edges are defined as follows: $A_{i j}=\frac{a_{i j}}{a_{i j}+a_{j i}}$ and $A_{j i}=\frac{a_{j i}}{a_{i j}+a_{j i}}$ .
-						  We let $A_{i j}=0$ if the pair has not been compared.
-						A random walk can be represented by a time-independent transition matrix $P$, where $P_{i j}=\mathbb{P}\left(X_{t+1}=\right.$ $\left.j \mid X_{t}=i\right)$. To ensure that each row-sum is exactly one, we define,
 					
-						</font>
-					</div>
-				  	</section>
-					
-					
-					<section>
-						<h5>
-							<font color="#FFEFD5">  
-								Algorithm <br>  
-							</font>  
-							
-						</h5>
-						<font  style="font-size:22px">
-					    <b> Input: </b> $G=([n], E, A)$
-						<ol>
+                </section>
+            </section>
+
+			<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+				<h4>
+					<font color="#FFFF00">  
+						Background <br>  
+					</font> 
+				</h4>
+			    <section>
+                    <h4>
+                        K-means clustering alogorithm
+                    </h4>
+                    
+                    <div>
+						<ul>
 							<li class="fragment">
-								Compute the transition matrix P:
-								$$
-								P_{i j}= \begin{cases}\frac{1}{d_{\max } A_{i j}} & \text { if } i \neq j, \\ 1-\frac{1}{d_{\max }} \sum_{k \neq i} A_{i k} & \text { if } i=j .\end{cases}
-								$$
-								where $d_{\max }$ as the maximum out-degree of a node.
+								Decide on a value for the number of clusters, $k$.
 							</li>
+						</ul>
+					</div>
+
+					<div style="margin-top: 0.6cm;">
+						<ul>
 							<li class="fragment">
-								Let $p_t$ denote the distribution of the random walk at time t .
-								<br>
-								Initialize $p_0$  as an arbitrary starting distribution on $[n]$. Then,
-								$$p_{t+1} = p_t P$$
-								Compute the stationary distribution $\pi$ of the MC,which is the the limit of the above equation as $t \rightarrow \infty$.
+								Initialize the $k$ cluster centers (randomly).
+							</li>
+						</ul>
+					</div>
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Decide the class memberships of the $N$ objects by assigning them to the nearest cluster center.	
 							</li>
 						
-						</ol>
-						<b> Output: </b> Scores : $\pi ={\pi(i)}_{i \in [n]}$
-					 	</font> 
-				  	</section>
+						</ul>
+					</div>
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								Re-estimate the $k$ cluster centers, using the mean of each cluster.	
+							</li>
+						
+						</ul>
+					</div>
+					<div style="margin-top: 0.6cm;">
+						<ul>
+							<li class="fragment">
+								If none of the N objects changed membership in the last iteration, exit. Otherwise goto 3.	
+							</li>
+							
+						</ul>
+						
+					</div>
+					
+					<hr>
+				    </section>
+
+					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+						<h3>
+						K-means objective function
+						</h3>
+						
+						<div>
+						Note that, given a set of data points $\boldsymbol{x}_{1}, \ldots, \boldsymbol{x}_{n}$, the k-means algorithm attempts to find clusters $\ell_{1}, \ldots, \ell_{k}$ 
+						to minimize the following objective function:
+						$$
+						\min_{\left\{\ell_{c}\right\}_{c=1}^{k}} \sum_{c=1}^{k} \sum_{\boldsymbol{x} \in \ell_{c}}\left\|\boldsymbol{x}-\boldsymbol{\mu}_{c}\right\|_2^2
+						\text { , where }  \boldsymbol{\mu}_{c}=\dfrac{1}{\left|\ell_{c}\right|} \sum_{\boldsymbol{x} \in \ell_{c}} \boldsymbol{x} .
+						$$
+						</div>
+						
+				
+					</section>	
+                
+					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+						<h3>
+							Connection between EM algorithm for GMM and K-means Algorithm
+						</h3>
+						
+						<div>
+						Suppose in the mixture of Gaussians model that all Gaussians have the same fixed covariance equal to $\sigma I$. Because they are fixed, the covariances need not be re-estimated during the M-step. In this case, the E-step takes the following form:
+						$$
+						\gamma\left(z_{i c}\right)=\frac{\pi_{c} \cdot \exp \left(-\frac{1}{2 \sigma}\left\|\boldsymbol{x}_{i}-\boldsymbol{\mu}_{c}\right\|_{2}^{2}\right)}{\sum_{j=1}^{k} \pi_{j} \cdot \exp \left(-\frac{1}{2 \sigma}\left\|\boldsymbol{x}_{i}-\boldsymbol{\mu}_{j}\right\|_{2}^{2}\right)},
+						$$ 
+						here $\gamma\left(z_{i c}\right)$ is the probability of assigning point $i$ to cluster $c$.
+
+						Observe that as $\sigma \rightarrow 0$, $\gamma\left(z_{i c}\right)\to 1$, for $c=\arg \min \left\|\boldsymbol{x}_{i}-\mu_{c}\right\|_{2}^{2}$ and $\gamma\left(z_{i c}\right)\to 0$, otherwise.
+						This implies that the E-step is equivalent to the reassignment step of k-means, and one can further easily show that the M-step exactly recomputes the means of the new clusters, establishing the equivalence of the updates.
+
+						</div>
+					
+					</section>
+
+					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+						<h3>
+							Connection between EM algorithm for GMM and K-means Algorithm
+						</h3>
+						
+						<div class="fragment">
+							The k-means algorithm may be viewed as a limit of the expectation - maximization (EM) algorithm. 
+							If all of the covariance matrices corresponding to the clusters in a Gaussian mixture model 
+							are equal to $\sigma I$ and $\sigma \to 0$, the EM steps approach the $\mathrm{k}$-means steps in the limit.
+						</div>
+						<div class="fragment">	
+							K-means is straightforward
+							to implement and works well for a variety of applications.
+							But, a major drawback of this algorithm is that the value of k needs to be specified by the user, which is not known in prior.
+						</div>
+						<div class="fragment">	
+						Whereas, Bayesian nonparametric models, viz. the Dirichlet process mixture \cite{hjort2010bayesian}, result in infinite mixture models which do not
+						fix the number of clusters in the data upfront; these methods
+						continue to gain popularity in the statistical learning community.
+					    </div>
+					</section>
+
+					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+						<h3>
+							Connection between EM algorithm for GMM and K-means Algorithm
+						</h3>
+						
+						<div class="fragment">
+							A Bayesian extension to the mixture model arises by first placing a Dirichlet prior,
+							$\operatorname{Dir}\left(k, \boldsymbol{\pi}_{0}\right)$, on the mixing coefficients,
+							for some $\boldsymbol{\pi}_{0}$. If we further assume that the covariances of the Gaussians
+							are fixed to $\sigma I$ and that the means are drawn from some prior distribution $G_{0}$,
+						    we obtain the following Bayesian model:
+
+						</div>
+						<div class="fragment">
+							$$
+							\begin{aligned}
+							\boldsymbol{\mu}_{1}, \ldots, \boldsymbol{\mu}_{k} & \sim G_{0} \\
+							\boldsymbol{\pi} & \sim \operatorname{Dir}\left(k, (\alpha / k) \boldsymbol{e}\right) \\
+							\boldsymbol{z}_{1}, \ldots, \boldsymbol{z}_{n} & \sim \operatorname{Discrete}(\boldsymbol{\pi}) \\
+							\boldsymbol{x}_{1}, \ldots, \boldsymbol{x}_{n} & \sim \mathbf{N}\left(\boldsymbol{\mu}_{\boldsymbol{z}_{i}}, \sigma I\right)
+							\end{aligned}
+							$$
+						</div>
+						<div>
+							Dirichlet process mixture model is the above model, as $k \to \infty$.
+						</div>
+					
+					</section>
+				</section>
+
+                <section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+				<h4>
+					<font color="#FFFF00">  
+						Hard Clustering via Dirichlet Process <br>  
+					</font> 
+				</h4>
+				    <section>
+						<h4>
+						DP Gibbs Sampler 
+						</h4>
+						<div class="fragment">
+							A simplest algorithm for inference in a DP mixture is based on Gibbs sampling:
+
+						</div>
+
+						<div>
+							<ul>
+								<li class="fragment">
+									Let the state of the underlying Markov chain
+									consists of the set of all cluster indicators and the set of
+									all cluster means.
+								</li>
+							</ul>
+						</div>
+	
+						<div style="margin-top: 0.6cm;">
+							<ul>
+								<li class="fragment">
+									The algorithm proceeds by first looping
+									repeatedly through each of the data points and performing
+									Gibbs moves on the cluster indicators for each point.
+								</li>
+							</ul>
+						</div>
+						<div style="margin-top: 0.6cm;">
+							<ul>
+								<li class="fragment">
+									For $i=1, \ldots, n$, we reassign $\boldsymbol{x}_{i}$ to existing cluster $c$ with probability $\frac{n_{-i, c}}{Z} \cdot \mathcal{N}\left(\boldsymbol{x}_{i} \mid \boldsymbol{\mu}_{c}, \sigma I\right)$, where $n_{-i, c}$ is the number of data points (excluding $\boldsymbol{x}_{i}$) that are assigned to cluster $c$. With probability
+									$
+									\frac{\alpha}{Z} \int \mathcal{N}\left(\boldsymbol{x}_{i} \mid \boldsymbol{\mu}, \sigma I\right) d G_{0}(\boldsymbol{\mu})
+									$,
+									we start a new cluster. $Z$ is an appropriate normalizing constant here.
+
+                                    If we end up choosing to start a new cluster, we select its mean from the posterior distribution obtained from the prior $G_{0}$ and the single sample $\boldsymbol{x}_{i}$. 
+								</li>
+							
+							</ul>
+						</div>
+						<div style="margin-top: 0.6cm;">
+							<ul>
+								<li class="fragment">
+									Next, we perform Gibbs moves on the means: sample $\boldsymbol{\mu}_{c}$ from the posterior based on prior $G_0$ and all points currently assigned to cluster $c, \forall c$.
+								</li>
+							
+							</ul>
+						</div>
+						
+					</section>
+
+					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+							<h3>
+								Connection between EM algorithm for GMM and K-means Algorithm
+							</h3>
+							
+							<div>
+								Then, we have the following probabilities to be
+								used during Gibbs sampling:
+							</div>
+
+							<div style="margin-top: 0.6cm;">
+								<ul>
+									<li class="fragment">
+										The posterior probability
+										of point $i$ being assigned to cluster $c$,
+										$$\hat{\gamma}\left(z_{i c}\right)=\frac{n_{-i, c} \cdot \exp \left(-\frac{1}{2 \sigma}\left\|\boldsymbol{x}_{i}-\boldsymbol{\mu}_{c}\right\|^{2}\right)}{\exp \left(-\frac{\lambda}{2 \sigma}-\frac{\left\|\boldsymbol{x}_{i}\right\|^{2}}{2(\rho+\sigma)}\right)+\sum_{j=1}^{k} n_{-i, j} \cdot \exp \left(-\frac{1}{2 \sigma}\left\|\boldsymbol{x}_{i}-\boldsymbol{\mu}_{j}\right\|^{2}\right)}$$
+									</li>
+								
+								</ul>
+							</div>
+
+							<div style="margin-top: 0.6cm;">
+								<ul>
+									<li class="fragment">
+								     and the posterior probability of starting a new cluster
+                                     $$\hat{\gamma}\left(z_{i, n e w}\right)=\frac{\exp \left(-\frac{\lambda}{2 \sigma}-\frac{\left\|\boldsymbol{x}_{i}\right\|^{2}}{2(\rho+\sigma)}\right)}{\exp \left(-\frac{\lambda}{2 \sigma}-\frac{\left\|\boldsymbol{x}_{i}\right\|^{2}}{2(\rho+\sigma)}\right)+\sum_{j=1}^{k} n_{-i, j} \cdot \exp \left(-\frac{1}{2 \sigma}\left\|\boldsymbol{x}_{i}-\boldsymbol{\mu}_{j}\right\|^{2}\right)}.$$ 
+									</li>
+								
+								</ul>
+							</div>
+						
+					</section>
+
+					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+							<h4>
+								Asymptotics of the DP Gibbs Sampler
+							</h4>
+							
+							<div>
+								<ul>
+									<li class="fragment">
+										As $\sigma \rightarrow 0$, the values of $\hat{\gamma}\left(z_{i, c}\right)$ and $\hat{\gamma}\left(z_{i, n e w}\right)$ will be increasingly dominated by the smallest value of $\left\{\left\|\boldsymbol{x}_{i}-\boldsymbol{\mu}_{1}\right\|^{2}, \ldots, \| \boldsymbol{x}_{i}-\boldsymbol{\mu}_{k} \|^{2}, \lambda\right\}$ and only the smallest of these values will receive a non-zero $\hat{\gamma}$ value.
+									</li>
+								</ul>
+							</div>
+		
+							<div style="margin-top: 0.6cm;">
+								<ul>
+									<li class="fragment">
+										This implies reassignment a point to the cluster corresponding to the closest mean, if the closest cluster has squared distance smaller than $\lambda$. Otherwise, we start a new cluster, in which case we sample a new mean from the posterior based on the prior $G_{0}$ and  single observation 
+									</li>
+								</ul>
+							</div>
+							<div style="margin-top: 0.6cm;">
+								<ul>
+									<li class="fragment">
+										Similarly, once we have performed Gibbs moves on the cluster assignments, we must perform Gibbs moves on all the means, which amounts to sampling from the posterior based on $G_{0}$ and all observations in a cluster.
+									</li>
+								
+								</ul>
+							</div>
+							
+						
+					</section>
+                    <section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+							
+						<div style="margin-top: 0.6cm;">
+							<ul>
+								<li class="fragment">
+									Since the prior and likelihood are Gaussian, the posterior will be Gaussian as well. If we let $\overline{\boldsymbol{x}}_{c}$ be the mean of the points currently assigned to cluster $c$ and $n_{c}$ be the number of points assigned to cluster $c$, then the
+									posterior is a Gaussian with mean $\tilde{\boldsymbol{\mu}}_{c}$ and covariance $\tilde{\Sigma}_{c}$, where
+									$
+									\tilde{\boldsymbol{\mu}}_{c}=\left(1+\frac{\sigma}{\rho n_{c}}\right)^{-1} \overline{\boldsymbol{x}}_{c}, \quad \tilde{\Sigma}_{c}=\frac{\sigma \rho}{\sigma+\rho n_{c}} I
+									$.
+								</li>
+							
+							</ul>
+						</div>
+						<div style="margin-top: 0.6cm;">
+							<ul>
+								<li class="fragment">
+									As $\sigma \rightarrow 0$, $\tilde{\boldsymbol{\mu}}_{c}\to \overline{\boldsymbol{x}}_{c}$ and $\tilde{\Sigma}_{c}\to \mathbf{0}$,
+									meaning that the mass of the distribution becomes concentrated at $\overline{\boldsymbol{x}}_{c}$. Thus, in the limit we choose $\overline{\boldsymbol{x}}_{c}$ as the mean,
+									which leads us to:
+								</li>
+							
+							</ul>
+						</div>
+						
+						</section>
+		
+					</section>
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+						data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+				
+					<section>
+						<h3>
+							<font color="#FFFF00">  
+								Algorithm 1 : DP-means <br>  
+								</font> 
+							
+						</h3>
+						
+						<div class="fragment">
+							<font color="#FFFF01">  
+								Input :
+							</font>
+							$\boldsymbol{x}_1, \ldots, \boldsymbol{x}_n$ : input data, $\lambda:$ cluster penalty parameter
+						</div>
+						<div class="fragment">
+							<font color="#FFFF01">  
+								Output:
+							</font>
+							Clustering $\ell_1, \ldots, \ell_k$ and number of clusters $k$
+						</div>
+						<div class="fragment">
+							<ul>
+								<li class="fragment">
+									<font color="#FFFF01">  
+										Step 1.
+									</font> 
+									Initialize: $k=1, \ell_1=\left\{\boldsymbol{x}_1, \ldots, \boldsymbol{x}_n\right\}$ and $\boldsymbol{\mu}_1$ the global mean.
+								</li>
+								<li class="fragment">
+									<font color="#FFFF01">  
+										Step 2.
+									</font> 
+									Initialize: cluster indicators $z_i=1$ for all $i=1, \ldots, n$.
+								</li>
+								<li class="fragment">
+									<font color="#FFFF01">  
+										Step 3.
+									</font> 
+									Repeat until convergence:
+									<ol>
+										<li>
+											For each point $\boldsymbol{x}_i$, compute $d_{i c}=\left\|\boldsymbol{x}_i-\boldsymbol{\mu}_c\right\|^2$ for $c=1, \ldots, k$
+										</li>
+
+										<li>
+											If $\min _c d_{i c}>\lambda$, set $k=k+1, z_i=k$, and $\boldsymbol{\mu}_k=\boldsymbol{x}_i$.
+										\item Otherwise, set $z_i=\operatorname{argmin}_c d_{i c}$.
+
+										</li>
+										<li>
+											Generate clusters $\ell_1, \ldots, \ell_k$ based on $z_1, \ldots, z_k: \ell_j=$ $\left\{\boldsymbol{x}_i \mid z_i=j\right\}$
+										</li>
+										<li>
+											For each cluster $\ell_j$, compute $\boldsymbol{\mu}_j=\frac{1}{\left|\ell_j\right|} \sum_{\boldsymbol{x} \in \ell_j} \boldsymbol{x}$.
+										</li>
+									</ol>
+
+								</li>
+							</div>
+							
+					</section>
+
+					<section>
+
+						<h3>
+							<font color="#FFFF00">  
+								Convergence of Objective function of DP means <br>  
+							</font> 
+							
+						</h3>
+							<div class="fragment">
+							
+								<font color="#FFFF00">  
+									Theorem: 
+								</font>  DP means algorithm  monotonically decreases the following objective until local convergence:
+								$$
+								\begin{array}{cc}
+								\min _{\left\{\ell_{c}\right\}_{c=1}^{k}} & \sum_{c=1}^{k} \sum_{\boldsymbol{x} \in \ell_{c}}\left\|\boldsymbol{x}-\boldsymbol{\mu}_{c}\right\|^{2}+\lambda k \\
+								\text { where } & \boldsymbol{\mu}_{c}=\frac{1}{\left|\ell_{c}\right|} \sum_{\boldsymbol{x} \in \ell_{c}} \boldsymbol{x} .
+								\end{array}
+								$$	
+							
+							</div>
+							<div class="fragment">
+							
+								<font color="#FFFF00">  
+									Proof:
+								</font>
+									The reassignment step in the algorithm results in a non-increasing objective since the distance between
+									 a point and its newly assigned cluster mean never increases; for distances greater than $\lambda$,
+									  we can generate a new cluster and pay a penalty of $\lambda$ while still decreasing the objective.
+									 Similarly, the mean update step results in a non-increasing objective since the mean is the best representative of a cluster in terms of the squared Euclidean distance.
+									  The fact that the algorithm will converge locally follows from the fact that the objective function cannot increase,
+									and that there are only a finite number of possible clusterings of the data.
+							</div>
+					</section>	
+				</section>
+ 
+
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
+				<h4>
+					<font color="#FFFF00">  
+						Experimental Results <br>  
+					</font> 
+				</h4>
+
+				    <section>
+					<div class="fragment">
+						To demonstrate
+						comparable accuracies among the methods- k-means, DP-means, and Gibbs sampling, 8
+						common UCI data sets were selected.
+						The NMI (normalized
+						mutual information) is computed between the ground-truth and the computed clusters, and results are averaged over 10 runs. The
+						results are shown in the following table:
+					
+					</div>
+
+					<div class="fragment">
+						<table>
+							<tr>
+								<td>Dataset</td>
+								<td>DP Means</td>
+								<td>K-means</td>
+								<td>Gibbs</td>
+							</tr>
+							<tr>
+								<td>Soybean</td>
+								<td>.72</td>
+								<td>.66</td>
+								<td>.73</td>
+							</tr>
+							<tr>
+								<td>Wine</td>
+								<td>.41</td>
+								<td>.43</td>
+								<td>.42</td>
+							</tr>
+							<tr>
+								<td>Breast Cancer</td>
+								<td>.04</td>
+								<td>.03</td>
+								<td>.04</td>
+							</tr>
+							<tr>
+								<td>Car</td>
+								<td>.07</td>
+								<td>.05</td>
+								<td>.15</td>
+							</tr>
+							<tr>
+								<td>Balance Scale</td>
+								<td>.17</td>
+								<td>.11</td>
+								<td>.14</td>
+							</tr>
+							<tr>
+								<td>Vehicle</td>
+								<td>.18</td>
+								<td>.18</td>
+								<td>.17</td>
+							</tr>
+							<tr>
+								<td>Iris</td>
+								<td>.75</td>
+								<td>.76</td>
+								<td>.73</td>
+							</tr>
+							<tr>
+								<td>Pima</td>
+								<td>.02</td>
+								<td>.03</td>
+								<td>.02</td>
+							</tr>
+							<hr>
+						</table>
+					</div>
+				    </section>
+				</section>
+				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+                    <h4>
+						<font color="#FFFF00">  
+						Conclusion <br>  
+						</font> 
+					</h4>
+                    This paper outlines
+					connections arising between DP mixture models and hard
+					clustering algorithms, and develops scalable algorithms, like k-means for
+					hard clustering that is capable of retaining some of the benefits of Bayesian
+					nonparametric. This algorithm do not require to specify the number of clusters,
+					 which is a major advantage over k-means. But, it has some disadvantages also, for example,
+					the method involves a hyperparameter and sometimes it is difficult to tune the hyperpapameter.
+                    
+					
 				</section>
 				
 				<section data-background="network2.gif" data-background-opacity=0.2 style="font-size: 33px;" >

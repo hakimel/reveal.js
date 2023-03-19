@@ -65,6 +65,9 @@ export default {
 	// Flags if we should monitor the hash and change slides accordingly
 	respondToHashChanges: true,
 
+	// Enable support for jump-to-slide navigation shortcuts
+	jumpToSlide: true,
+
 	// Push each slide change to the browser history.  Implies `hash: true`
 	history: false,
 
@@ -283,6 +286,10 @@ export default {
 
 	// Time before the cursor is hidden (in ms)
 	hideCursorTime: 5000,
+
+	// Should we automatmically sort and set indices for fragments
+	// at each sync? (See Reveal.sync)
+	sortFragmentsOnSync: true,
 
 	// Script dependencies to load
 	dependencies: [],
