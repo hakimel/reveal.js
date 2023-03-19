@@ -26,10 +26,13 @@
     <body>
         <div class="reveal">
             <div class="slides">
-                <section data-background="network2.gif" data-background-opacity=0.2 style="font-size: 33px;" data-auto-animate
+                <section data-background="ai.gif" data-background-opacity=0.7 style="font-size: 33px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
                     <h3 id="heading" style="color: white; text-align: center; margin-bottom: 0.8cm; font-size: 60px;">
-                        <b>Revisiting k-means: New Algorithms via Bayesian Nonparametrics</b>
+						<font color="#FFFF00">  
+							<b>Revisiting k-means: New Algorithms via Bayesian Nonparametrics</b> 
+						</font> 
+                       
                 	</h3>
 
 					
@@ -50,10 +53,13 @@
 					</div>
                 </section>
 
-                <section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
-                    <h4>
-                        Paper Description
-                    </h4>
+                <section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+                    <h3>
+						<font color="#FFFF00">  
+							Paper Description <br>  
+						</font> 
+                        
+                    </h3>
                     
                     <div>
 						<ul>
@@ -89,27 +95,31 @@
 					
 				</section>
 
-			<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+			<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-				<h4>
+				<h3>
 					<font color="#FFFF00">  
 						Introduction <br>  
 					</font> 
-				</h4>
-			    <section>
+				</h3>
+			    <section data-transition="fade-in slide-out">
                     <h3>
 						Statistical Learning/ Machine Learning  
                     </h3>
 					
 					<div>
-						Machine Learning is a set of methods that can automatically detect patterns in data, and then use the uncovered patterns to 
-						predict future data, or to perform other kinds of decision-making under uncertainty.
+						<q>Machine Learning is a set of methods that can automatically detect patterns in data, and then use the uncovered patterns to 
+						predict future data, or to perform other kinds of decision-making under uncertainty.</q> 
+						<br>
+						- Kevin P. Murphy
 					</div>
-                    
+                    <center>
+						<img src="ml.png" height="300">
+					</center>
 			
                 </section>
 
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+				<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
                     <h3>
                         What is cluster analysis?
                     </h3>
@@ -125,7 +135,7 @@
 			
                 </section>
 
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+				<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
                     <h4>
 					Traditional Methods of Clustering
                     </h4>
@@ -168,63 +178,50 @@
                 </section>
             </section>
 
-			<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+			<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
 				<h4>
 					<font color="#FFFF00">  
 						Background <br>  
 					</font> 
 				</h4>
-			    <section>
+			    <section data-transition="fade-in slide-out">
                     <h4>
                         K-means clustering alogorithm
                     </h4>
                     
                     <div>
-						<ul>
+						<ol>
 							<li class="fragment">
 								Decide on a value for the number of clusters, $k$.
 							</li>
-						</ul>
-					</div>
-
-					<div style="margin-top: 0.6cm;">
-						<ul>
+						
 							<li class="fragment">
 								Initialize the $k$ cluster centers (randomly).
 							</li>
-						</ul>
-					</div>
-					<div style="margin-top: 0.6cm;">
-						<ul>
-							<li class="fragment">
-								Decide the class memberships of the $N$ objects by assigning them to the nearest cluster center.	
+						    <li class="fragment">
+								Repeat until convergence-
 							</li>
-						
-						</ul>
-					</div>
-					<div style="margin-top: 0.6cm;">
-						<ul>
-							<li class="fragment">
-								Re-estimate the $k$ cluster centers, using the mean of each cluster.	
-							</li>
-						
-						</ul>
-					</div>
-					<div style="margin-top: 0.6cm;">
-						<ul>
-							<li class="fragment">
-								If none of the N objects changed membership in the last iteration, exit. Otherwise goto 3.	
-							</li>
+							<ul>
+								<li class="fragment">
+									Decide the class memberships of the $N$ objects by assigning them to the nearest cluster center.	
+								</li>
 							
-						</ul>
+								<li class="fragment">
+									Re-estimate the $k$ cluster centers, using the mean of each cluster.	
+								</li>
 						
+						</ul>
+						</0l>
+						<center>
+						<img src="K-means.gif" class="centerImage" height="320" width="380">
+					    </center>
 					</div>
 					
-					<hr>
+				
 				    </section>
 
-					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+					<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
 						<h3>
 						K-means objective function
 						</h3>
@@ -241,7 +238,7 @@
 				
 					</section>	
                 
-					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+					<section data-background="bg-2jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
 						<h3>
 							Connection between EM algorithm for GMM and K-means Algorithm
 						</h3>
@@ -260,31 +257,36 @@
 					
 					</section>
 
-					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+					<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
 						<h3>
-							Connection between EM algorithm for GMM and K-means Algorithm
+							Remarks
 						</h3>
-						
-						<div class="fragment">
+						<ul>
+						<li class="fragment">
 							The k-means algorithm may be viewed as a limit of the expectation - maximization (EM) algorithm. 
 							If all of the covariance matrices corresponding to the clusters in a Gaussian mixture model 
 							are equal to $\sigma I$ and $\sigma \to 0$, the EM steps approach the $\mathrm{k}$-means steps in the limit.
-						</div>
-						<div class="fragment">	
+
+						</li>
+
+						<li class="fragment">	
 							K-means is straightforward
 							to implement and works well for a variety of applications.
 							But, a major drawback of this algorithm is that the value of k needs to be specified by the user, which is not known in prior.
-						</div>
-						<div class="fragment">	
+
+						</li>
+
+						<li class="fragment">	
 						Whereas, Bayesian nonparametric models, viz. the Dirichlet process mixture \cite{hjort2010bayesian}, result in infinite mixture models which do not
 						fix the number of clusters in the data upfront; these methods
 						continue to gain popularity in the statistical learning community.
-					    </div>
+					    </li>
+					    </ul>
 					</section>
 
-					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+					<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
 						<h3>
-							Connection between EM algorithm for GMM and K-means Algorithm
+							Dirichlet process mixture model
 						</h3>
 						
 						<div class="fragment">
@@ -312,14 +314,14 @@
 					</section>
 				</section>
 
-                <section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+                <section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
 				<h4>
 					<font color="#FFFF00">  
 						Hard Clustering via Dirichlet Process <br>  
 					</font> 
 				</h4>
-				    <section>
+				    <section data-transition="fade-in slide-out">
 						<h4>
 						DP Gibbs Sampler 
 						</h4>
@@ -372,10 +374,10 @@
 						
 					</section>
 
-					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
-							<h3>
-								Connection between EM algorithm for GMM and K-means Algorithm
-							</h3>
+					<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
+							<h4>
+								DP Gibbs Sampler 
+							</h4>
 							
 							<div>
 								Then, we have the following probabilities to be
@@ -405,7 +407,7 @@
 						
 					</section>
 
-					<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+					<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
 							<h4>
 								Asymptotics of the DP Gibbs Sampler
 							</h4>
@@ -436,7 +438,7 @@
 							
 						
 					</section>
-                    <section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
+                    <section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
 							
 						<div style="margin-top: 0.6cm;">
 							<ul>
@@ -465,10 +467,10 @@
 		
 					</section>
 
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+				<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
 						data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
 				
-					<section>
+					<section data-transition="fade-in slide-out">
 						<h3>
 							<font color="#FFFF00">  
 								Algorithm 1 : DP-means <br>  
@@ -530,7 +532,7 @@
 							
 					</section>
 
-					<section>
+					<section data-transition="fade-in slide-out">
 
 						<h3>
 							<font color="#FFFF00">  
@@ -567,7 +569,7 @@
 				</section>
  
 
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
+				<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-auto-animate
 				data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
 				<h4>
 					<font color="#FFFF00">  
@@ -575,7 +577,7 @@
 					</font> 
 				</h4>
 
-				    <section>
+				    <section data-transition="fade-in slide-out">
 					<div class="fragment">
 						To demonstrate
 						comparable accuracies among the methods- k-means, DP-means, and Gibbs sampling, 8
@@ -647,24 +649,25 @@
 					</div>
 				    </section>
 				</section>
-				<section data-background="bg.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;">
-                    <h4>
+				<section data-background="bg-2.jpeg" data-background-opacity=0.4 style="text-align: left; font-size: 26px;" data-transition="fade-in slide-out">
+                    <h3>
 						<font color="#FFFF00">  
 						Conclusion <br>  
 						</font> 
-					</h4>
+					</h3>
+				    <div>
                     This paper outlines
 					connections arising between DP mixture models and hard
 					clustering algorithms, and develops scalable algorithms, like k-means for
 					hard clustering that is capable of retaining some of the benefits of Bayesian
 					nonparametric. This algorithm do not require to specify the number of clusters,
-					 which is a major advantage over k-means. But, it has some disadvantages also, for example,
+					which is a major advantage over k-means. But, it has some disadvantages also, for example,
 					the method involves a hyperparameter and sometimes it is difficult to tune the hyperpapameter.
-                    
+				    </div>
 					
 				</section>
 				
-				<section data-background="network2.gif" data-background-opacity=0.2 style="font-size: 33px;" >
+				<section data-background="ai.gif" data-background-opacity=0.7 style="font-size: 33px;" >
                     <h3 style="color: rgb(11, 202, 245); text-align: center; margin-bottom: 0.8cm; font-size: 60px;">
                         <strong>Thank you</strong>
                     </h3>
