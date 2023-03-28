@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/chilit-dark.css">
+    <!--		<link rel="stylesheet" href="dist/theme/chilit-light.css">-->
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Git</h2>
+        </section>
+        <section data-markdown>
+            ### Agenda
+
+            * Commits
+            * Linear history
+            * Rebase
+            * Undo stuff
+            * Log
+            * Bisect
+
+        </section>
+        <section data-markdown>
+            ### Commits
+
+            * Use a concise headline; max 50 chars
+            * Only commit one thing at a time
+            * Use the body to
+                * give more context to what the motivation behind the change was
+                * what exactly was changed in the code
+                *
+
+        </section>
+        <section>
+            <section data-markdown>
+                ### Linear history
+                ![nonlinear-vs-linear](1-nonlinear-vs-linear.png)
+            </section>
+            <section data-markdown>
+                ### Why a linear history
+
+                * A non-linear history is hard to follow
+                * Ordering of features and bugfixes is hard to determine\
+                * Removing specific commits can become harder when there are also merge commits to consider
+            </section>
+            <section data-markdown>
+
+            </section>
+        </section>
+    </div>
+</div>
+
+<script src="../dist/reveal.js"></script>
+<script src="../plugin/notes/notes.js"></script>
+<script src="../plugin/markdown/markdown.js"></script>
+<script src="../plugin/highlight/highlight.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+        transition: 'fade',
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+    });
+</script>
+</body>
+</html>
