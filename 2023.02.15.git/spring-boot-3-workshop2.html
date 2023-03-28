@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <!-- This is a simple example template that you can edit to create your own custom templates -->
+
+    <!--[if gte mso 15]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Boot 3 hands-on Workshop by CHILIT</title>
+
+    <style type="text/css">
+        p{
+            margin:1em 0;
+            padding:0;
+        }
+        table{
+            border-collapse:collapse;
+        }
+        h1,h2,h3,h4,h5,h6{
+            display:block;
+            margin:0;
+            padding:0;
+        }
+        img,a img{
+            border:0;
+            height:auto;
+            outline:none;
+            text-decoration:none;
+        }
+        body,#bodyTable,#bodyCell{
+            height:100%;
+            margin:0;
+            padding:0;
+            width:100%;
+        }
+        #outlook a{
+            padding:0;
+        }
+        img{
+            -ms-interpolation-mode:bicubic;
+        }
+        table{
+            mso-table-lspace:0pt;
+            mso-table-rspace:0pt;
+        }
+        .ReadMsgBody{
+            width:100%;
+        }
+        .ExternalClass{
+            width:100%;
+        }
+        p,a,li,td,blockquote{
+            mso-line-height-rule:exactly;
+        }
+        a[href^=tel],a[href^=sms]{
+            color:inherit;
+            cursor:default;
+            text-decoration:none;
+        }
+        p,a,li,td,body,table,blockquote{
+            -ms-text-size-adjust:100%;
+            -webkit-text-size-adjust:100%;
+        }
+        .ExternalClass,.ExternalClass p,.ExternalClass td,.ExternalClass div,.ExternalClass span,.ExternalClass font{
+            line-height:100%;
+        }
+        a[x-apple-data-detectors]{
+            color:inherit !important;
+            text-decoration:none !important;
+            font-size:inherit !important;
+            font-family:inherit !important;
+            font-weight:inherit !important;
+            line-height:inherit !important;
+        }
+        #bodyCell{
+            padding:9px;
+        }
+        .templateImage{
+            height:auto;
+            max-width:564px;
+        }
+        .templateContainer{
+            max-width:600px !important;
+        }
+        #templatePreheader{
+            padding-right:9px;
+            padding-left:9px;
+            background-color:#fafafa;
+            background-position:center;
+            background-size:cover;
+        }
+        #templatePreheader .columnContainer td{
+            padding:0 9px;
+        }
+        #footerContent{
+            padding-top:27px;
+            padding-bottom:18px;
+        }
+        #templateHeader,#templateBody,#templateFooter{
+            padding-right:18px;
+            padding-left:18px;
+        }
+        /*
+        @tab Page
+        @section Background Style
+        */
+        body,#bodyTable{
+            /*@editable*/background-color:#FAFAFA;
+        }
+        /*
+        @tab Page
+        @section Email Border
+        */
+        .templateContainer{
+            /*@editable*/border:0;
+        }
+        /*
+        @tab Page
+        @section Heading 1
+        */
+        h1{
+            /*@editable*/color:#222222;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:40px;
+            /*@editable*/font-style:normal;
+            /*@editable*/font-weight:bold;
+            /*@editable*/line-height:150%;
+            /*@editable*/letter-spacing:normal;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Page
+        @section Heading 2
+        */
+        h2{
+            /*@editable*/color:#222222;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:28px;
+            /*@editable*/font-style:normal;
+            /*@editable*/font-weight:bold;
+            /*@editable*/line-height:150%;
+            /*@editable*/letter-spacing:normal;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Page
+        @section Heading 3
+        */
+        h3{
+            /*@editable*/color:#444444;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:22px;
+            /*@editable*/font-style:normal;
+            /*@editable*/font-weight:bold;
+            /*@editable*/line-height:150%;
+            /*@editable*/letter-spacing:normal;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Page
+        @section Heading 4
+        */
+        h4{
+            /*@editable*/color:#999999;
+            /*@editable*/font-family:Georgia;
+            /*@editable*/font-size:20px;
+            /*@editable*/font-style:italic;
+            /*@editable*/font-weight:normal;
+            /*@editable*/line-height:150%;
+            /*@editable*/letter-spacing:normal;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Preheader
+        @section Preheader Style
+        */
+        #templatePreheader{
+            /*@editable*/background-color:#fafafa;
+            /*@editable*/background-image:none;
+            /*@editable*/background-repeat:no-repeat;
+            /*@editable*/background-position:center;
+            /*@editable*/background-size:cover;
+            /*@editable*/border-top:0;
+            /*@editable*/border-bottom:0;
+            /*@editable*/padding-top:9px;
+            /*@editable*/padding-bottom:9px;
+        }
+        /*
+        @tab Preheader
+        @section Preheader Text
+        */
+        #templatePreheader,#templatePreheader p{
+            /*@editable*/color:#656565;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:12px;
+            /*@editable*/line-height:150%;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Preheader
+        @section Preheader Link
+        */
+        #templatePreheader a,#templatePreheader p a{
+            /*@editable*/color:#656565;
+            /*@editable*/font-weight:normal;
+            /*@editable*/text-decoration:underline;
+        }
+        /*
+        @tab Header
+        @section Header Style
+        */
+        #templateHeader{
+            /*@editable*/background-color:#ffffff;
+            /*@editable*/background-image:none;
+            /*@editable*/background-repeat:no-repeat;
+            /*@editable*/background-position:center;
+            /*@editable*/background-size:cover;
+            /*@editable*/border-top:1px none;
+            /*@editable*/border-bottom:0;
+            /*@editable*/padding-top:18px;
+            /*@editable*/padding-bottom:0;
+        }
+        /*
+        @tab Header
+        @section Header Text
+        */
+        #templateHeader,#templateHeader p{
+            /*@editable*/color:#606060;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:16px;
+            /*@editable*/line-height:150%;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Header
+        @section Header Link
+        */
+        #templateHeader a,#templateHeader p a{
+            /*@editable*/color:#237A91;
+            /*@editable*/font-weight:normal;
+            /*@editable*/text-decoration:underline;
+        }
+        /*
+        @tab Body
+        @section Body Style
+        */
+        #templateBody{
+            /*@editable*/background-color:#ffffff;
+            /*@editable*/background-image:none;
+            /*@editable*/background-repeat:no-repeat;
+            /*@editable*/background-position:center;
+            /*@editable*/background-size:cover;
+            /*@editable*/border-top:0;
+            /*@editable*/border-bottom:2px solid #EAEAEA;
+            /*@editable*/padding-top:0;
+            /*@editable*/padding-bottom:9px;
+        }
+        /*
+        @tab Body
+        @section Body Text
+        */
+        #templateBody,#templateBody p{
+            /*@editable*/color:#606060;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:16px;
+            /*@editable*/line-height:150%;
+            /*@editable*/text-align:left;
+        }
+        /*
+        @tab Body
+        @section Body Link
+        */
+        #templateBody a,#templateBody p a{
+            /*@editable*/color:#237A91;
+            /*@editable*/font-weight:normal;
+            /*@editable*/text-decoration:underline;
+        }
+        /*
+        @tab Footer
+        @section Footer Style
+        */
+        #templateFooter{
+            /*@editable*/background-color:#fafafa;
+            /*@editable*/background-image:none;
+            /*@editable*/background-repeat:no-repeat;
+            /*@editable*/background-position:center;
+            /*@editable*/background-size:cover;
+            /*@editable*/border-top:0;
+            /*@editable*/border-bottom:0;
+            /*@editable*/padding-top:36px;
+            /*@editable*/padding-bottom:9px;
+        }
+        /*
+        @tab Footer
+        @section Social Bar Style
+        */
+        #socialBar{
+            /*@editable*/background-color:#333333;
+            /*@editable*/border:0;
+            /*@editable*/padding:18px;
+        }
+        /*
+        @tab Footer
+        @section Social Bar Text
+        */
+        #socialBar,#socialBar p{
+            /*@editable*/color:#FFFFFF;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:12px;
+            /*@editable*/line-height:150%;
+            /*@editable*/text-align:center;
+        }
+        /*
+        @tab Footer
+        @section Social Bar Link
+        */
+        #socialBar a,#socialBar p a{
+            /*@editable*/color:#FFFFFF;
+            /*@editable*/font-weight:normal;
+            /*@editable*/text-decoration:underline;
+        }
+        /*
+        @tab Footer
+        @section Footer Text
+        */
+        #footerContent,#footerContent p{
+            /*@editable*/color:#656565;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:12px;
+            /*@editable*/line-height:150%;
+            /*@editable*/text-align:center;
+        }
+        /*
+        @tab Footer
+        @section Footer Link
+        */
+        #footerContent a,#footerContent p a{
+            /*@editable*/color:#656565;
+            /*@editable*/font-weight:normal;
+            /*@editable*/text-decoration:underline;
+        }
+        /*
+        @tab Footer
+        @section Utility Bar Style
+        */
+        #utilityBar{
+            /*@editable*/background-color:#FAFAFA;
+            /*@editable*/border:0;
+            /*@editable*/padding-top:9px;
+            /*@editable*/padding-bottom:9px;
+        }
+        /*
+        @tab Footer
+        @section Utility Bar Text
+        */
+        #utilityBar,#utilityBar p{
+            /*@editable*/color:#656565;
+            /*@editable*/font-family:Helvetica;
+            /*@editable*/font-size:12px;
+            /*@editable*/line-height:150%;
+            /*@editable*/text-align:center;
+        }
+        /*
+        @tab Footer
+        @section Utility Bar Link
+        */
+        #utilityBar a,#utilityBar p a{
+            /*@editable*/color:#656565;
+            /*@editable*/font-weight:normal;
+            /*@editable*/text-decoration:underline;
+        }
+        @media only screen and (max-width: 480px){
+            body,table,td,p,a,li,blockquote{
+                -webkit-text-size-adjust:none !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            body{
+                width:100% !important;
+                min-width:100% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            .templateImage{
+                width:100% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            .columnContainer{
+                max-width:100% !important;
+                width:100% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            .mobileHide{
+                display:none;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            .utilityLink{
+                display:block;
+                padding:9px 0;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Heading 1
+            */
+            h1{
+                /*@editable*/font-size:22px !important;
+                /*@editable*/line-height:175% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Heading 2
+            */
+            h2{
+                /*@editable*/font-size:20px !important;
+                /*@editable*/line-height:175% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Heading 3
+            */
+            h3{
+                /*@editable*/font-size:18px !important;
+                /*@editable*/line-height:175% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Heading 4
+            */
+            h4{
+                /*@editable*/font-size:16px !important;
+                /*@editable*/line-height:175% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Preheader Visibility
+            */
+            #templatePreheader{
+                /*@editable*/display:block !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Preheader Text
+            */
+            #templatePreheader,#templatePreheader p{
+                /*@editable*/font-size:14px !important;
+                /*@editable*/line-height:150% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Header Text
+            */
+            #templateHeader,#templateHeader p{
+                /*@editable*/font-size:16px !important;
+                /*@editable*/line-height:150% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Body Text
+            */
+            #templateBody,#templateBody p{
+                /*@editable*/font-size:16px !important;
+                /*@editable*/line-height:150% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Footer Text
+            */
+            #templateFooter,#templateFooter p{
+                /*@editable*/font-size:14px !important;
+                /*@editable*/line-height:150% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Social Bar Text
+            */
+            #socialBar,#socialBar p{
+                /*@editable*/font-size:14px !important;
+                /*@editable*/line-height:150% !important;
+            }
+
+        }	@media only screen and (max-width: 480px){
+            /*
+            @tab Mobile Styles
+            @section Utility Bar Text
+            */
+            #utilityBar,#utilityBar p{
+                /*@editable*/font-size:14px !important;
+                /*@editable*/line-height:150% !important;
+            }
+
+        }		#templateBody p a.chilit-call-to-action{
+                     background-color:#c92b28;
+                     display:inline-block;
+                     box-shadow:3px 10px 20px 2px rgba(0, 0, 0, 0.2);
+                     border-radius:5px;
+                     text-align:center;
+                     padding:15px 10px 15px 10px;
+                     border:none;
+                     color:white;
+                     text-transform:lowercase;
+                     position:relative;
+                     cursor:pointer;
+                     width:300px;
+                     vertical-align:middle;
+                     font-family:Montserrat, 'Open Sans', sans-serif;
+                     font-size:16px;
+                     font-weight:800;
+                     text-decoration:none;
+                 }
+        .chilit-call-to-action::first-letter{
+            text-transform:uppercase;
+        }
+        .chilit-call-to-action:focus{
+            box-shadow:3px 10px 20px 2px rgba(0, 0, 0, 0.2);
+        }
+        .chilit-call-to-action.transparent{
+            background-color:transparent;
+            border:1px solid white;
+            box-shadow:none;
+        }
+        .chilit-call-to-action::after{
+            position:absolute;
+            right:30px;
+            top:22px;
+            content:'';
+            border:solid white;
+            border-width:0 2px 2px 0;
+            display:inline-block;
+            padding:4px;
+            transform:rotate(-45deg);
+            -webkit-transform:rotate(-45deg);
+        }
+    </style></head>
+
+<body>
+<center>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+        <tr>
+            <td align="center" valign="top" id="bodyCell">
+                <!-- BEGIN TEMPLATE // -->
+                <!--[if gte mso 9]>
+                <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
+                    <tr>
+                        <td align="center" valign="top" width="600" style="width:600px;">
+                <![endif]-->
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
+                    <!-- BEGIN PREHEADER // -->
+                    <tr>
+                        <td valign="top" id="templatePreheader">
+
+                            <!-- BEGIN MODULE: STANDARD PREHEADER // -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td valign="top">
+                                        <!--[if mso]>
+                                        <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
+                                            <tr>
+                                                <td valign="top" width="384" style="width:384px;">
+                                        <![endif]-->
+
+                                        <!--[if mso]>
+                                        </td>
+                                        <td valign="top" width="180" style="width:180px;">
+                                        <![endif]-->
+                                        <div ><p style="text-align: center;"><a href="{webversion}">Webversie</a></p>
+                                        </div>
+                                        <!--[if mso]>
+                                        </td>
+                                        </tr>
+                                        </table>
+                                        <![endif]-->
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- // END MODULE: STANDARD PREHEADER -->
+
+                        </td>
+                    </tr>
+                    <!-- // END PREHEADER -->
+                    <!-- BEGIN HEADER // -->
+                    <tr>
+                        <td valign="top" id="templateHeader">
+
+                            <!-- BEGIN MODULE: HEADER IMAGE // -->
+                            <div style="text-align: center;" ><a href="https://www.chilit.nl" target="_blank"><img data-file-id="65703" height="331" src="https://mcusercontent.com/140533d570932a02811268621/images/68800299-e007-f305-ae43-7a9daf042fe8.jpg" style="border: 0px  ; width: 700px; height: 331px; margin: 0px;" width="700"></a></div>
+                            <!-- // END MODULE: HEADER IMAGE -->
+
+                        </td>
+                    </tr>
+                    <!-- // END HEADER -->
+                    <!-- BEGIN BODY // -->
+                    <tr>
+                        <td valign="top" id="templateBody">
+
+                            <!-- BEGIN MODULE: BODY CONTENT // -->
+                            <div ><h1 style="text-align: center;">Spring Boot 3&nbsp;</h1>
+
+                                <h2 style="text-align: center;">hands-on workshop</h2>
+
+                                <p>Hallo ,<br>
+                                    <br>
+                                    Wij developers willen onszelf blijven ontwikkelen. Ben jij al op de hoogte van de laatste ontwikkelingen op het gebied van Spring Boot 3 of wil jij hier alles over leren? Dan heeft CHILIT de perfecte workshop voor jou!</p>
+
+                                <!--                                <p style="text-align: center;"><a class="chilit-call-to-action" href="https://chilit.nl/events/spring-boot-3-workshop?utm_source=1">Bekijk de workshop</a></p>-->
+                                <p style="text-align: center;">
+                                    <a href="https://chilit.nl/events/spring-boot-3-workshop?utm_source=1">
+                                        <img src="https://mcusercontent.com/140533d570932a02811268621/images/3af915a5-358f-a3a8-ae25-aa63d43264c3.png" />
+                                    </a>
+                                </p>
+
+                                <p>
+                                    <strong>TL;DR:</strong><br>
+                                    <strong>Wat:</strong> Spring Boot 3 hands-on workshop<br>
+                                    <strong>Waar:</strong>&nbsp;Utrechtseweg 75, Zeist<br>
+                                    <strong>Wanneer:</strong> Donderdag 13 april vanaf 19:00 tot ongeveer 22:00<br>
+                                    &nbsp;</p>
+
+                                <hr>
+                                <p><br>
+                                    Op 13 april organiseert CHILIT een interactieve workshop die je niet wilt missen!
+                                    In een prachtig monumentaal pand midden in Zeist bieden wij je de kans om
+                                    je kennis en ervaring met Spring Boot 3 naar een hoger niveau te tillen. Tijdens
+                                    deze workshop delen we de belangrijkste nieuwe features van Spring Boot 3 en laten
+                                    we je zien hoe je deze in je dagelijkse werkzaamheden kunt toepassen. Wanneer je nog
+                                    niet bekend bent met de mogelijkheden van Spring Boot 3 is deze workshop ook
+                                    geschikt voor jou.<br>
+                                    <br>
+                                    <strong>Route en locatie</strong><br>
+                                    De workshop zal plaatsvinden aan de <strong>Utrechtseweg 75 in Zeist</strong>.<br>
+                                    Er is voldoende parkeergelegenheid voor het geval je met de auto komt.<br>
+                                    Indien je met het OV komt, zowel vanaf Utrecht Centraal als Driebergen-Zeist neem je bus 50 en stap je uit bij de halte Zeist, Griftlaan <br>
+                                    <br>
+                                    <img data-file-id="66189" height="349" src="https://mcusercontent.com/140533d570932a02811268621/images/d75c10f8-90b6-3d5a-746f-ceda8a28720f.jpg" style="border: 0px  ; width: 700px; height: 350px; margin: 0px;" width="700"><br>
+                                    <br>
+                                    <strong>Het programma</strong><br>
+                                    Je kunt van tevoren meedoen met de borrel en/of het diner. Als je dat wil, geef het dan aan bij je inschrijving.<br>
+                                    <br>
+                                    16:45 &ndash; Borrel (ontvangst: 16:30)<br>
+                                    18:00 &ndash; Diner (ontvangst: 17:45)<br>
+                                    19:00 &ndash; Kennissessie Spring Boot 3 (ontvangst: 18:45)<br>
+                                    <br>
+                                    <strong>De workshop</strong><br>
+                                    Onze workshop is gericht op het toepassen van Spring Boot 3 in de praktijk. Naast theoretische kennis zullen we ook hands-on opdrachten bieden waarbij je de nieuwe versie van het framework daadwerkelijk kunt toepassen. Zo leer je onder andere over Spring Problem details (de nieuwe standaard van het communiceren van fouten), Java interface clients, en hoe je een bestaand project kunt upgraden naar Spring Boot 3. Daarnaast behandelen we ook Observability met micrometer, hoe je je applicatie inzichtelijk maakt, en hoe Spring Native je kan helpen om je applicatie nog sneller te maken.<br>
+                                    <br>
+                                    <strong>Inschrijven</strong><br>
+                                    Klaar om jezelf uit te dagen en nieuwe kennis op te doen? Schrijf je nu in voor onze workshop op <strong>13 april</strong> via dit formulier en laat weten welke onderdelen van het programma jij wilt bijwonen. Wees er snel bij, want het aantal plekken is beperkt! Mis deze kans niet om jezelf te ontwikkelen in de wondere wereld van Spring Boot 3.&nbsp;</p>
+
+                                <!--                                <p style="text-align: center;"><a class="chilit-call-to-action" href="https://chilit.nl/events/spring-boot-3-workshop?utm_source=1">Ik wil mijzelf inschrijven</a></p>-->
+                                <p style="text-align: center;">
+                                    <a href="https://chilit.nl/events/spring-boot-3-workshop?utm_source=1">
+                                        <img src="https://mcusercontent.com/140533d570932a02811268621/images/42836f6f-f1d6-258e-9735-b2403df28713.png" />
+                                    </a>
+                                </p>
+
+                                <p style="text-align: left;">Groeten,<br>
+                                    CHILIT</p>
+                            </div>
+                            <!-- // END MODULE: BODY CONTENT -->
+
+                        </td>
+                    </tr>
+                    <!-- // END BODY -->
+                    <!-- BEGIN FOOTER // -->
+                    <tr>
+                        <td valign="top" id="templateFooter">
+
+                            <!-- BEGIN MODULE: STANDARD FOOTER // -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td valign="top" id="utilityBar">
+                                        <p style="text-align:center">Dit e-mailbericht is verstuurd naar {$profile.Emailadres}<br />
+                                            <a href="http://go.reshift.nl/NLJUG_Mailvoorkeur_wijzigen?profile={$profile.
+id}&code={$profile.code}">Mailvoorkeur wijzigen</a><br />
+                                            U ontvangt deze e-mail uit hoofde van uw aanmelding bij een van de merken van Reshift
+                                            Digital BV.<br />Op alle uitingen is het <a title="Privacy statement Reshift Digital BV"
+                                                                                        href="http://www.reshift.nl/privacy-statement">privacy statement</a> van Reshift Digital
+                                            BV van toepassing.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- // BEGIN MODULE: STANDARD FOOTER -->
+
+                        </td>
+                    </tr>
+                    <!-- // END FOOTER -->
+                </table>
+                <!--[if gte mso 9]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+                <!-- // END TEMPLATE -->
+            </td>
+        </tr>
+    </table>
+</center>
+</body>
+
+</html>
