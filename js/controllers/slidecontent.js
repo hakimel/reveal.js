@@ -1,4 +1,4 @@
-import { extend, queryAll, closest, getMimeTypeFromFile } from '../utils/util.js'
+import { extend, queryAll, closest, getMimeTypeFromFile, encodeRFC3986URI } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 import fitty from 'fitty';
@@ -108,7 +108,9 @@ export default class SlideContent {
 					// URL(s)
 					else {
 						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-							return `url(${encodeURI(background.trim())})`;
+							// Decode URL(s) that are already encoded first
+							let decoded = decodeURI(background.trim());
+							return `url(${encodeRFC3986URI(decoded)})`;
 						}).join( ',' );
 					}
 				}

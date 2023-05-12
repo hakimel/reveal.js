@@ -298,6 +298,8 @@
 			import Markdown from '../plugin/markdown/markdown.esm.js'
 			import Highlight from '../plugin/highlight/highlight.esm.js'
 
+			QUnit.config.testTimeout = 30000;
+
 			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ Markdown ] })
 			deck1.addEventListener( 'ready', function() {
 

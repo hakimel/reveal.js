@@ -31,7 +31,7 @@ const banner = `/*!
 * ${pkg.homepage}
 * MIT licensed
 *
-* Copyright (C) 2011-2022 Hakim El Hattab, https://hakim.se
+* Copyright (C) 2011-2023 Hakim El Hattab, https://hakim.se
 */\n`
 
 // Prevents warnings from opening too many test pages
@@ -278,7 +278,7 @@ gulp.task('package', gulp.series(() =>
             './lib/**',
             './images/**',
             './plugin/**',
-            './**.md'
+            './**/*.md'
         ],
         { base: './' }
     )
@@ -286,7 +286,7 @@ gulp.task('package', gulp.series(() =>
 
 ))
 
-gulp.task('reload', () => gulp.src(['*.html', '*.md'])
+gulp.task('reload', () => gulp.src(['**/*.html', '**/*.md'])
     .pipe(connect.reload()));
 
 gulp.task('serve', () => {
@@ -298,7 +298,7 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    gulp.watch(['*.html', '*.md'], gulp.series('reload'))
+    gulp.watch(['**/*.html', '**/*.md'], gulp.series('reload'))
 
     gulp.watch(['js/**'], gulp.series('js', 'reload', 'eslint'))
 

@@ -41,6 +41,7 @@
 			import Reveal from '../dist/reveal.esm.js';
 			import Zoom from '../plugin/zoom/zoom.esm.js';
 
+			QUnit.config.testTimeout = 30000;
 			QUnit.module( 'Multiple reveal.js instances' );
 
 			let r1 = new Reveal( document.querySelector( '.deck1 .reveal' ), {

@@ -1,6 +1,6 @@
 {
   "name": "reveal.js",
-  "version": "4.3.1",
+  "version": "4.5.0",
   "description": "The HTML Presentation Framework",
   "homepage": "https://revealjs.com",
   "subdomain": "revealjs",
@@ -49,16 +49,20 @@
     "gulp-header": "^2.0.9",
     "gulp-tap": "^2.0.0",
     "gulp-zip": "^4.2.0",
-    "highlight.js": "^10.0.3",
+    "highlight.js": "^11.7.0",
     "marked": "^4.0.12",
-    "node-qunit-puppeteer": "^2.1.0",
-    "qunit": "^2.17.2",
+    "node-qunit-puppeteer": "^2.1.2",
+    "qunit": "^2.19.3",
     "rollup": "^2.48.0",
     "rollup-plugin-terser": "^7.0.2",
     "sass": "^1.39.2",
     "yargs": "^15.1.0"
   },
-  "browserslist": "> 0.5%, IE 11, not dead",
+  "overrides": {
+    "chokidar": "3.5.3",
+    "glob-parent": "6.0.2"
+  },
+  "browserslist": "> 2%, not dead",
   "eslintConfig": {
     "env": {
       "browser": true,
