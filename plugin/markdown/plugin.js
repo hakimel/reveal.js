@@ -13,7 +13,9 @@ const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 
 const SCRIPT_END_PLACEHOLDER = '__SCRIPT_END__';
 
-const CODE_LINE_NUMBER_REGEX = /\[([\s\d,|-]*)\]/;
+// match an optional line number offset and highlight line numbers
+// [<line numbers>] or [<offset>: <line numbers>]
+const CODE_LINE_NUMBER_REGEX = /\[\s*((\d*):)?\s*([\s\d,|-]*)\]/;
 
 const HTML_ESCAPE_MAP = {
   '&': '&amp;',
@@ -429,14 +431,23 @@ const Plugin = () => {
 				renderer.code = ( code, language ) => {
 
 					// Off by default
+					let lineNumberOffset = '';
 					let lineNumbers = '';
 
 					// Users can opt in to show line numbers and highlight
 					// specific lines.
 					// ```javascript []        show line numbers
 					// ```javascript [1,4-8]   highlights lines 1 and 4-8
+					// optional line number offset:
+					// ```javascript [25: 1,4-8]   start line numbering at 25,
+					//                             highlights lines 1 (numbered as 25) and 4-8 (numbered as 28-32)
 					if( CODE_LINE_NUMBER_REGEX.test( language ) ) {
-						lineNumbers = language.match( CODE_LINE_NUMBER_REGEX )[1].trim();
+						let lineNumberOffsetMatch =  language.match( CODE_LINE_NUMBER_REGEX )[2];
+						if (lineNumberOffsetMatch){
+							lineNumberOffset =  `data-ln-start-from="${lineNumberOffsetMatch.trim()}"`;
+						}
+
+						lineNumbers = language.match( CODE_LINE_NUMBER_REGEX )[3].trim();
 						lineNumbers = `data-line-numbers="${lineNumbers}"`;
 						language = language.replace( CODE_LINE_NUMBER_REGEX, '' ).trim();
 					}
@@ -446,7 +457,9 @@ const Plugin = () => {
 					// highlight.js is able to read it
 					code = escapeForHTML( code );
 
-					return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
+					// return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
+					
+					return `<pre><code ${lineNumbers} ${lineNumberOffset} class="${language}">${code}</code></pre>`;
 				};
 			}
 
