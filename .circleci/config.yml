@@ -10,6 +10,7 @@ jobs:
         type: string
     docker:
       - image: cimg/node:<< parameters.node-ver >>-browsers
+    resource_class: large
     steps:
       - checkout
 #      - node/install:
