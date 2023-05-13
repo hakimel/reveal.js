@@ -12,8 +12,8 @@ jobs:
       - image: cimg/node:<< parameters.node-ver >>-browsers
     steps:
       - checkout
-      - node/install:
-          node-version: << parameters.node-ver >>
+#      - node/install:
+#          node-version: << parameters.node-ver >>
       - restore_cache:
           keys:
             - v1-dep-<< parameters.node-ver >>-{{ checksum "package-lock.json" }}
