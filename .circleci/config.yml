@@ -30,6 +30,8 @@ jobs:
       - run: 
           command: npm test
           name: Test app
+      - store_test_results:
+          path: test-results
 
 workflows:
   js-tests:
