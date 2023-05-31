@@ -20,7 +20,7 @@
 
 				<section>
 					<h2>reveal.js Math Plugin</h2>
-					<p>A thin wrapper for MathJax</p>
+					<p>Render math with KaTeX, MathJax 2 or MathJax 3</p>
 				</section>
 
 				<section>
@@ -182,8 +182,7 @@
 				history: true,
 				transition: 'linear',
 
-				math: {
-					// mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+				mathjax2: {
 					config: 'TeX-AMS_HTML-full',
 					TeX: {
 						Macros: {
@@ -193,7 +192,13 @@
 					}
 				},
 
-				plugins: [ RevealMath ]
+				// There are three typesetters available
+				// RevealMath.MathJax2 (default)
+				// RevealMath.MathJax3
+				// RevealMath.KaTeX
+				//
+				// More info at https://revealjs.com/math/
+				plugins: [ RevealMath.MathJax2 ]
 			});
 		</script>
 

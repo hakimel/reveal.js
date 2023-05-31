@@ -1,3 +1,6 @@
+<!--
+	NOTE: You need to build the notes plugin after making changes to this file.
+-->
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -347,7 +350,9 @@
 					layoutDropdown,
 					pendingCalls = {},
 					lastRevealApiCallId = 0,
-					connected = false;
+					connected = false
+
+				var connectionStatus = document.querySelector( '#connection-status' );
 
 				var SPEAKER_LAYOUTS = {
 					'default': 'Default',
@@ -358,7 +363,20 @@
 
 				setupLayout();
 
-				var connectionStatus = document.querySelector( '#connection-status' );
+				let openerOrigin;
+
+				try {
+					openerOrigin = window.opener.location.origin;
+				}
+				catch ( error ) { console.warn( error ) }
+
+				// In order to prevent XSS, the speaker view will only run if its
+				// opener has the same origin as itself
+				if( window.location.origin !== openerOrigin ) {
+					connectionStatus.innerHTML = 'Cross origin error.<br>The speaker window can only be opened from the same origin.';
+					return;
+				}
+
 				var connectionTimeout = setTimeout( function() {
 					connectionStatus.innerHTML = 'Error connecting to main window.<br>Please try closing and reopening the speaker view.';
 				}, 5000 );
@@ -395,12 +413,20 @@
 						}
 						else if( /slidechanged|fragmentshown|fragmenthidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
 
-							window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ]} ), '*' );
+							dispatchStateToMainWindow( data.state );
 
 						}
 					}
 
 				} );
+
+				/**
+				 * Updates the presentation in the main window to match the state
+				 * of the presentation in the notes window.
+				 */
+				const dispatchStateToMainWindow = debounce(( state ) => {
+					window.opener.postMessage( JSON.stringify({ method: 'setState', args: [ state ]} ), '*' );
+				}, 500);
 
 				/**
 				 * Asynchronously calls the Reveal.js API of the main frame.
@@ -432,6 +458,7 @@
 						setupKeyboard();
 						setupNotes();
 						setupTimer();
+						setupHeartbeat();
 					}
 
 				}
@@ -530,6 +557,18 @@
 
 					notes = document.querySelector( '.speaker-controls-notes' );
 					notesValue = document.querySelector( '.speaker-controls-notes .value' );
+
+				}
+
+				/**
+				 * We send out a heartbeat at all times to ensure we can
+				 * reconnect with the main presentation window after reloads.
+				 */
+				function setupHeartbeat() {
+
+					setInterval( () => {
+						window.opener.postMessage( JSON.stringify({ namespace: 'reveal-notes', type: 'heartbeat'} ), '*' );
+					}, 1000 );
 
 				}
 

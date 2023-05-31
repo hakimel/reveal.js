@@ -99,11 +99,40 @@
                     </script>
                 </section>
 
+                <!-- add optional line count offset, in this case 287 -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## echo.c
+
+                        ```c [287: 2|4,6]
+                        /* All of the options in this arg are valid, so handle them. */
+                        p = arg + 1;
+                        do {
+                            if (*p == 'n')
+                                nflag = 0;
+                            if (*p == 'e')
+                                eflag = '\\';
+                        } while (*++p); 
+                        ```
+                        [source](https://git.busybox.net/busybox/tree/coreutils/echo.c?h=1_36_stable#n287)
+                    </script>
+                </section>
+
                 <!-- Images -->
                 <section data-markdown>
                     <script type="text/template">
                         ![Sample image](https://s3.amazonaws.com/static.slid.es/logo/v2/slides-symbol-512x512.png)
                     </script>
+                </section>
+
+                <!-- Math -->
+                <section data-markdown>
+					## The Lorenz Equations
+					`\[\begin{aligned}
+					\dot{x} &amp; = \sigma(y-x) \\
+					\dot{y} &amp; = \rho x - y - xz \\
+					\dot{z} &amp; = -\beta z + xy
+					\end{aligned} \]`
                 </section>
 
             </div>
@@ -113,6 +142,7 @@
         <script src="../plugin/markdown/markdown.js"></script>
         <script src="../plugin/highlight/highlight.js"></script>
         <script src="../plugin/notes/notes.js"></script>
+        <script src="../plugin/math/math.js"></script>
 
 		<script>
 
@@ -122,7 +152,7 @@
 				history: true,
 				center: true,
 
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
 			});
 
 		</script>
