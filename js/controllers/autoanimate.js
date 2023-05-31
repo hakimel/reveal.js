@@ -504,7 +504,7 @@ export default class AutoAnimate {
 				} );
 
 				// Line numbers
-				this.findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', node => {
+				this.findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-numbers[data-line-number]', node => {
 					return node.getAttribute( 'data-line-number' );
 				}, {
 					scale: false,
