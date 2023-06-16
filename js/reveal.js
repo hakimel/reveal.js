@@ -2205,10 +2205,6 @@ export default function( revealElement, options ) {
 
 			let fragment = currentSlide.querySelector( '.current-fragment' );
 
-			// When the slide first appears there is no "current" fragment so
-			// we look for a data-autoslide timing on the first fragment
-			if( !fragment ) fragment = currentSlide.querySelector( '.fragment' );
-
 			let fragmentAutoSlide = fragment ? fragment.getAttribute( 'data-autoslide' ) : null;
 			let parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
 			let slideAutoSlide = currentSlide.getAttribute( 'data-autoslide' );
