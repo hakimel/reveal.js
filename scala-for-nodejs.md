@@ -12,13 +12,17 @@
 - tuples (-> vs , and _.1)
 - loops
 - functions
+- implicits
 - partial functions / composition
-- functional programming
+- functional programming (map, flatMap, filter, foldLeft)
+- Basic data structures
 - basic effects: Option, Try, Either
 - pattern matching
 - Async (Future vs. promise)
 - for comporehension
   - chaining concept
+- Implicits args
+- Implicit conversions
 
 ---
 
@@ -27,6 +31,19 @@
 - Responsible for interpreting compiled bytecode 
 - Result: interoperabilty between JVM languages
 - Great optimizations in runtime (JIT)
+
+---
+
+## Why Scala?
+- Best of all worlds
+  - All battle-tested JVM optimizations (~25 years)
+  - Modern language and advanced features
+- Both OOP and Functional
+  - Developer is free to choose
+- Scalable language
+  - Scripting, infras and even FE
+  - Concurrent and async apps
+- Big data pipelines 
 
 ---
 
@@ -71,7 +88,328 @@ def add = {
 }
 ```
 
+
+## Quiz: Are these the same?
+
+<div class='left' style='float:left;width:400px; font-size: 50px'>
+  <pre><code data-trim data-noescape class="scala">
+  // program 1  
+  val x = {
+    println("calc x")
+    42
+  }
+  </code></pre>
+</div>
+
+<div class='right' style='float:right;width:400px; font-size: 50px'>
+ <pre><code data-trim data-noescape class="scala">
+  // program 2
+  def x = {
+    println("calc x")
+    42
+  }
+  </code></pre>
+</div>
+
 ---
+
+## Tuples
+```scala
+val t2 = ("matan", 39)           // (String, Int)
+val t3 = ("matan", "keidar", 39) // (String, String, Int)
+
+// access to elements by index
+val lastName = t3._2 // "keidar"
+```
+
+### special case of Tuple-2 
+```scala
+val t2 = "matan" -> 39 // aka association, same as ("matan", 39)
+
+val numbers = Map(
+  "I"   -> 1,
+  "II"  -> 2,
+  "III" -> 3,
+  "IV"  -> 4
+)
+```
+
+---
+
+## Loops
+```scala
+val nums = List(1,2,3)
+
+// for loop
+for (i <- 1 to nums.size) { println(n) }
+for (n <- nums) println(n)
+
+// while loop
+var i = 0
+while (i < nums.size) println(num(i))
+```
+
+We are functional, do not do it! 😡
+
+---
+
+## Functions
+```scala
+def add(x: Int, y: Int) = x + y
+def mult(x: Int, y: Int) = {
+  x * y
+}
+```
+
+
+## Functions
+### Argument lists
+```scala
+def add1(x: Int, y: Int) = x + y
+def add2(x: Int)(y: Int) = x + y
+
+add1(1, 2) == 3
+add2(1)(2) == 3
+```
+
+---
+
+## Basic Collections
+```scala
+val myArray = Array(1,2,3,3) // (1,2,3,3)
+val myList = List(1,2,3,3)   // (1,2,3,3)
+val mySeq = Seq(1,2,3,3)     // (1,2,3,3)
+val mySet = Set(1,2,3,3)     // (1,2,3)
+
+val myMap = Map(1 -> "one", 2 -> "two")
+```
+
+---
+
+## Basic Effects
+- Effect: a value with context
+- Represents a computation
+- Computations can be wrapped and chained
+- Provides semantic information as well
+
+
+## Basic Effects
+### Option[T]
+- Represents emptiness, a value that exists or not 
+- `Some[T]`: an existing value
+- `None`: an empty value
+```scala
+val x: Option[Int] = Some(42)
+val y: Option[Int] = None
+```
+
+
+## Basic Effects
+### Try[T]
+- Represents a computation that can fail
+- `Success[T]`: successful result of the computation
+- `Failure[Throwable]`: failed computation
+```scala
+val x: Try[String] = Success("Hello There")
+val y: Try[String] = Fail(new RuntimeException("Boom!!!"))
+```
+
+
+## Basic Effects
+### Either[S, T]
+- A computation that can return either `S` or `T`
+- But NOT both!
+- `Right[T]` or `Left[T]`
+- Usually, left side represents failure
+```scala
+val x: Either[Int, String] = Right("Hello There")
+val y: Either[Int, String] = Left(-1)
+```
+
+
+## Basic Effects
+### Future[T]
+- Represents an async computation that can fail
+
+```scala
+val x: Future[String] = Future( "hello world")
+
+def div(n: Int) = Future { 
+  log("failing")
+  n / 0 
+}
+```
+
+---
+
+## Basic Functional Programming
+
+Goal: Write defensive code with minimal lines of code
+
+```scala
+case class User(
+  id: String, 
+  name: String, 
+  manager: Option[User] = None
+)
+
+def findUser(id: String): Option[User]
+```
+
+
+## Basic Functional Programming
+```scala
+// option 1
+def findUser(id: String): Option[User]
+
+val maybeUser = findUser("1234")
+
+if (maybeUser.isDefined) {
+  // do domething
+  val user = maybeUser.get
+  println(user)
+}
+```
+
+
+## Basic Functional Programming
+### map
+Traverse each element and apply a function
+```scala
+val myList = List(1,2,3,4)
+
+//myList.map(f: A => B)
+
+myList.map(x => x * 2) // List(2,4,6,8)
+myList.map(_ * 2) // same
+```
+
+
+## Basic Functional Programming
+### flatMap
+Same as map, but `f` returns value wrapped with context
+
+```scala
+val myList = List(1,2,3,4)
+
+myList.flatMap(x => List(x, x)) // List(1,1,2,2,3,3,4,4)
+```
+
+
+## Basic Functional Programming
+### filter
+Choose which elements are passed through 
+
+```scala
+val myList = List(1,2,3,4)
+
+myList.filter(x => x % 2 == 0) // List(2,4)
+myList.filter(_ % 2 == 0) // same
+```
+
+
+
+## Basic Functional Programming
+```scala
+// option 2
+def findUser(id: String): Option[User]
+
+val maybeUser = findUser("1234")
+
+maybeUser.map(user => println(user))
+// or
+maybeUser.map(println)
+// or
+findUser("1234").map(println)
+```
+
+
+## Basic Functional Programming
+How to return a managers list?
+```scala
+case class User(
+  id: String, 
+  name: String, 
+  manager: Option[User] = None
+)
+
+def findUser(id: String): Option[User]
+
+val userIds: List[String] = ???
+```
+
+
+## Basic Functional Programming
+How to return a managers list?
+```scala
+userIds
+  .flatMap(id => findUser(id))
+  .flatMap(user => user.manager)
+  .map(manager.id)
+
+userIds
+  .flatMap(findUser)
+  .flatMap(_.manager)
+  .map(_.id)
+```
+
+---
+
+## For Comprehension
+- Chains of functional combinators are cumbersome
+- Syntactic suger for flatMap/map/filter
+
+```scala
+for {
+  userId  <- userIds
+  user    <- findUser(userId)
+  manager <- user.manager
+} yield manager.id
+
+for {
+  userId  <- userIds
+  user    <- findUser(userId)
+  if user.manager.isDefined // just to show if example
+  manager <- user.manager
+} yield manager.id
+```
+
+
+## For Comprehension
+Can be considered as SQL-like syntax
+
+```scala
+val result = for {
+  x <- List(1,2,3) // FROM
+  if x % 2 == 0    // WHERE
+} yield {
+  x + 1            // SELECT
+}
+
+// result: List(3)
+```
+
+---
+
+## Pattern Matching
+- One of the most powerful Scala features
+- Adopted by other languages
+- Switch/case on steroids
+- Works both on case classes and primitive types
+
+```scala
+val dima  = User(id = "1", name: "Dima",  manager = None)
+val matan = User(id = "2", name: "Matan", manager = Some(dima))
+
+matan match {
+  case User(_, name, None) => 
+    println(s"user $name does not have manager")
+  
+  case User(_, name, Some(User(_,manager,_))) => 
+    println(s"user $name has manager: $manager")
+}
+```
+
 
 ## Are these the same?
 <!-- .slide: data-auto-animate -->
