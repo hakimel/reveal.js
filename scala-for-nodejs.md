@@ -1,5 +1,6 @@
-# Scala 101
-<img src="https://media.giphy.com/media/MGdfeiKtEiEPS/giphy.gif">
+<!-- # Scala 101 -->
+<img src="https://miro.medium.com/v2/resize:fit:1358/1*QtOyg7rBOnuPU0tehyNt7w.jpeg">
+<!-- <img src="https://media.giphy.com/media/MGdfeiKtEiEPS/giphy.gif"> -->
 
 ### Matan Keidar
 
@@ -7,18 +8,15 @@
 
 ## Outline
 - Why Scala (background)
-- Basic JVM
-- val vs. var vs. def
-- tuples (-> vs , and _.1)
+- Intro to JVM
+- Basic syntax
 - loops
 - functions
-- implicits
 - partial functions / composition
 - functional programming (map, flatMap, filter, foldLeft)
-- Basic data structures
-- basic effects: Option, Try, Either
+- Common data structures
+- basic effects
 - pattern matching
-- Async (Future vs. promise)
 - for comporehension
   - chaining concept
 - Implicits args
@@ -27,43 +25,59 @@
 ---
 
 ## (Very) Short Intro To JVM
-- JVM: Java Virtual Machine
-- Responsible for interpreting compiled bytecode 
-- Result: interoperabilty between JVM languages
-- Great optimizations in runtime (JIT)
+- JVM: Java Virtual Machine <!-- .element: class="fragment" -->
+- Source code is compiled to byte-code <!-- .element: class="fragment" -->
+- JVM interprets compiled bytecode and executes it <!-- .element: class="fragment" -->
+- Result: interoperabilty between JVM languages <!-- .element: class="fragment" -->
+- Great optimizations in runtime (JIT) <!-- .element: class="fragment" -->
+- Many JVM vendors (e.g., OpenJDK, HotSpot, Azul) <!-- .element: class="fragment" -->
 
 ---
 
 ## Why Scala?
-- Best of all worlds
-  - All battle-tested JVM optimizations (~25 years)
+- Best of all worlds <!-- .element: class="fragment" -->
+  - Battle-tested JVM optimizations (~25 years)
   - Modern language and advanced features
-- Both OOP and Functional
+- Both OOP and Functional <!-- .element: class="fragment" -->
   - Developer is free to choose
-- Scalable language
+- Scalable language <!-- .element: class="fragment" -->
   - Scripting, infras and even FE
   - Concurrent and async apps
-- Big data pipelines 
+- Big data pipelines (Spark) <!-- .element: class="fragment" -->
+  - 🤮 <!-- .element: class="fragment" -->
 
 ---
 
-## Variables
-```scala
+## Let's start!
+<img src="https://media.giphy.com/media/8boWfbwJLF33bVtedW/giphy-downsized-large.gif">
+
+
+<!-- .slide: data-auto-animate -->
+## Variables <!-- .element: data-id="title" -->
+```scala 
 // these are the same
 var a: String = "hello"
 var a = "hello"
+``` 
+<!-- .element: class="fragment" -->
 
+``` scala
 // mutable
 var a = "hello"
 a = "world"
+``` 
+<!-- .element: class="fragment" -->
 
+```scala
 // does not compile
-val a: String = "hello"
+var a = "hello"
 a = 5
-```
+``` 
+<!-- .element: class="fragment" -->
 
 
-## Values
+<!-- .slide: data-auto-animate -->
+## Values <!-- .element: data-id="title" -->
 ```scala
 // These are the same
 val a: String = "hello"
@@ -77,7 +91,8 @@ a = "world"
 ```
 
 
-## Definitions
+<!-- .slide: data-auto-animate -->
+## Definitions <!-- .element: data-id="title" -->
 ```scala
 def a = "hello"
 
@@ -122,7 +137,7 @@ val t3 = ("matan", "keidar", 39) // (String, String, Int)
 val lastName = t3._2 // "keidar"
 ```
 
-### special case of Tuple-2 
+### special case of Tuple-2 <!-- .element: class="fragment" -->
 ```scala
 val t2 = "matan" -> 39 // aka association, same as ("matan", 39)
 
@@ -133,6 +148,7 @@ val numbers = Map(
   "IV"  -> 4
 )
 ```
+<!-- .element: class="fragment" -->
 
 ---
 
@@ -141,7 +157,7 @@ val numbers = Map(
 val nums = List(1,2,3)
 
 // for loop
-for (i <- 1 to nums.size) { println(n) }
+for (n <- 1 to nums.size) { println(n) }
 for (n <- nums) println(n)
 
 // while loop
@@ -150,19 +166,23 @@ while (i < nums.size) println(num(i))
 ```
 
 We are functional, do not do it! 😡
+<!-- .element: class="fragment" -->
 
 ---
 
-## Functions
+<!-- .slide: data-auto-animate -->
+## Functions <!-- .element: data-id="title" -->
 ```scala
 def add(x: Int, y: Int) = x + y
 def mult(x: Int, y: Int) = {
   x * y
 }
 ```
+<!-- .element: data-id="code" -->
 
 
-## Functions
+<!-- .slide: data-auto-animate -->
+## Functions <!-- .element: data-id="title" -->
 ### Argument lists
 ```scala
 def add1(x: Int, y: Int) = x + y
@@ -171,6 +191,7 @@ def add2(x: Int)(y: Int) = x + y
 add1(1, 2) == 3
 add2(1)(2) == 3
 ```
+<!-- .element: data-id="code" -->
 
 ---
 
@@ -186,14 +207,18 @@ val myMap = Map(1 -> "one", 2 -> "two")
 
 ---
 
-## Basic Effects
-- Effect: a value with context
-- Represents a computation
-- Computations can be wrapped and chained
-- Provides semantic information as well
+<!-- .slide: data-auto-animate -->
+## Basic Effects <!-- .element: data-id="title" -->
+- Effect: a value with context <!-- .element: class="fragment" -->
+- Represents a computation <!-- .element: class="fragment" -->
+- Computations can be wrapped and chained <!-- .element: class="fragment" -->
+- Provides semantic information as well <!-- .element: class="fragment" -->
+- F[T]: Effect of type F that returns a value of type T  <!-- .element: class="fragment" -->
 
 
-## Basic Effects
+
+<!-- .slide: data-auto-animate -->
+## Basic Effects <!-- .element: data-id="title" -->
 ### Option[T]
 - Represents emptiness, a value that exists or not 
 - `Some[T]`: an existing value
@@ -204,18 +229,23 @@ val y: Option[Int] = None
 ```
 
 
-## Basic Effects
+<!-- .slide: data-auto-animate -->
+## Basic Effects <!-- .element: data-id="title" -->
 ### Try[T]
 - Represents a computation that can fail
 - `Success[T]`: successful result of the computation
 - `Failure[Throwable]`: failed computation
+
 ```scala
 val x: Try[String] = Success("Hello There")
 val y: Try[String] = Fail(new RuntimeException("Boom!!!"))
+
+def div(x: Int, y: Int): Try[Int] = Try { x / y }
 ```
 
 
-## Basic Effects
+<!-- .slide: data-auto-animate -->
+## Basic Effects <!-- .element: data-id="title" -->
 ### Either[S, T]
 - A computation that can return either `S` or `T`
 - But NOT both!
@@ -227,7 +257,8 @@ val y: Either[Int, String] = Left(-1)
 ```
 
 
-## Basic Effects
+<!-- .slide: data-auto-animate -->
+## Basic Effects <!-- .element: data-id="title" -->
 ### Future[T]
 - Represents an async computation that can fail
 
@@ -242,9 +273,14 @@ def div(n: Int) = Future {
 
 ---
 
-## Basic Functional Programming
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 
-Goal: Write defensive code with minimal lines of code
+### Goal <!-- .element: class="fragment" -->
+Write defensive code with minimal lines of code <!-- .element: class="fragment" -->
+
+### Question <!-- .element: class="fragment" -->
+Call findUser can print the retrieved user if exists <!-- .element: class="fragment" -->
 
 ```scala
 case class User(
@@ -255,9 +291,11 @@ case class User(
 
 def findUser(id: String): Option[User]
 ```
+<!-- .element: class="fragment" -->
 
 
-## Basic Functional Programming
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 ```scala
 // option 1
 def findUser(id: String): Option[User]
@@ -272,20 +310,26 @@ if (maybeUser.isDefined) {
 ```
 
 
-## Basic Functional Programming
+## Can we do better?  <!-- .element: data-id="title" -->
+<img src="https://media.giphy.com/media/TNO6mwK8s38vpHjh8Y/giphy.gif"> <!-- .element: class="fragment" -->
+
+
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 ### map
 Traverse each element and apply a function
 ```scala
 val myList = List(1,2,3,4)
 
-//myList.map(f: A => B)
+// myList.map(f: A => B)
 
 myList.map(x => x * 2) // List(2,4,6,8)
 myList.map(_ * 2) // same
 ```
 
 
-## Basic Functional Programming
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 ### flatMap
 Same as map, but `f` returns value wrapped with context
 
@@ -296,7 +340,8 @@ myList.flatMap(x => List(x, x)) // List(1,1,2,2,3,3,4,4)
 ```
 
 
-## Basic Functional Programming
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 ### filter
 Choose which elements are passed through 
 
@@ -308,8 +353,38 @@ myList.filter(_ % 2 == 0) // same
 ```
 
 
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
+### reduce
+Combine all elements to a single value
 
-## Basic Functional Programming
+```scala
+val myList = List(1,2,3,4)
+
+myList.reduce{ case (a, b) => a + b}
+myList.reduce(_ + _)
+// returns 10
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
+```scala
+// option 1
+def findUser(id: String): Option[User]
+
+val maybeUser = findUser("1234")
+
+if (maybeUser.isDefined) {
+  // do domething
+  val user = maybeUser.get
+  println(user)
+}
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 ```scala
 // option 2
 def findUser(id: String): Option[User]
@@ -324,7 +399,8 @@ findUser("1234").map(println)
 ```
 
 
-## Basic Functional Programming
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 How to return a managers list?
 ```scala
 case class User(
@@ -339,8 +415,10 @@ val userIds: List[String] = ???
 ```
 
 
-## Basic Functional Programming
+<!-- .slide: data-auto-animate -->
+## Basic Functional Programming  <!-- .element: data-id="title" -->
 How to return a managers list?
+
 ```scala
 userIds
   .flatMap(id => findUser(id))
@@ -356,16 +434,13 @@ userIds
 ---
 
 ## For Comprehension
-- Chains of functional combinators are cumbersome
-- Syntactic suger for flatMap/map/filter
+- Chains of functional combinators are cumbersome <!-- .element: class="fragment" -->
+- Syntactic sugar for flatMap/map/filter <!-- .element: class="fragment" -->
+- Has to be on the same "Monad" <!-- .element: class="fragment" -->
+  - i.e., operate on same type
+- Very useful for sequential flows! <!-- .element: class="fragment" -->
 
 ```scala
-for {
-  userId  <- userIds
-  user    <- findUser(userId)
-  manager <- user.manager
-} yield manager.id
-
 for {
   userId  <- userIds
   user    <- findUser(userId)
@@ -373,6 +448,7 @@ for {
   manager <- user.manager
 } yield manager.id
 ```
+<!-- .element: class="fragment" -->
 
 
 ## For Comprehension
@@ -389,210 +465,213 @@ val result = for {
 // result: List(3)
 ```
 
+
+## Basic Functional Programming
+### Examples
+<p float="left">
+  <pre style="font-size: 70%; width: fit-content;">
+    <code class="Scala" data-trim>
+        List(🐮, 🥔, 🐔, 🌽).map(cook) ==
+    </code>
+  </pre>  
+  <pre style="font-size: 70%; width: fit-content;">
+    <code class="Scala fragment" data-trim>
+        List(🍔, 🍟, 🍗, 🍿)
+    </code>
+  </pre>
+</p>
+
+
+## Basic Functional Programming
+### Examples
+<p float="left">
+  <pre style="font-size: 70%; width: fit-content;">
+    <code class="Scala" data-trim>
+        List(🍔, 🍟, 🍗, 🍿).filter(isVegan) ==
+    </code>
+  </pre>  
+  <pre style="font-size: 70%; width: fit-content;">
+    <code class="Scala fragment" data-trim>
+        List(🍟, 🍿)
+    </code>
+  </pre>
+</p>
+
+
+## Basic Functional Programming
+### Examples
+<p float="left">
+  <pre style="font-size: 70%; width: fit-content;">
+    <code class="Scala" data-trim>
+        List(🍔, 🍟, 🍗, 🍿).reduce(eat) ==
+    </code>
+  </pre>  
+  <pre style="font-size: 70%; width: fit-content;">
+    <code class="Scala fragment" data-trim>
+        💩
+    </code>
+  </pre>
+</p>
+
 ---
 
-## Pattern Matching
-- One of the most powerful Scala features
-- Adopted by other languages
-- Switch/case on steroids
-- Works both on case classes and primitive types
+<!-- .slide: data-auto-animate -->
+## Pattern Matching <!-- .element: data-id="title" -->
+- One of the most powerful Scala features <!-- .element: class="fragment" -->
+- Adopted by other languages <!-- .element: class="fragment" -->
+- Switch/case on steroids <!-- .element: class="fragment" -->
+- Works both on case classes and primitive types <!-- .element: class="fragment" -->
 
-```scala
-val dima  = User(id = "1", name: "Dima",  manager = None)
-val matan = User(id = "2", name: "Matan", manager = Some(dima))
+
+<!-- .slide: data-auto-animate -->
+## Pattern Matching <!-- .element: data-id="title" -->
+<pre><code class="r-stretch scala" style="padding=50px; height=100%" >
+case class User(id: Int, name: String, manager: Option[User])
+
+val nirzo = User(id = 1,   name = "Nirzo", manager = None)
+val dima  = User(id = 100, name = "Dima",  manager = None)
+val matan = User(id = 101, name = "Matan", manager = Some(dima))
 
 matan match {
+  case User(_, "Nirzo", None) => 
+    println(s"user $name does not have a manager")
+
+  case User(id, name, _) if id < 3 => 
+    println(s"user $name is a founder!")
+
   case User(_, name, None) => 
     println(s"user $name does not have manager")
   
   case User(_, name, Some(User(_,manager,_))) => 
     println(s"user $name has manager: $manager")
 }
-```
-
-
-## Are these the same?
-<!-- .slide: data-auto-animate -->
-<div class="fragment">
-It depends...🤔
-</div>
-<div class='left' style='float:left;width:400px; font-size: 60px'>
-  <pre><code data-trim data-noescape class="scala">
-  // program 1  
-  val a = &lt;expr&gt;
-  (a, a)
-  </code></pre>
-</div>
-
-<div class='right' style='float:right;width:400px; font-size: 60px'>
- <pre><code data-trim data-noescape class="scala">
-  // program 2
-  (&lt;expr&gt;, &lt;expr&gt;)
-  </code></pre>
-</div>
-
-
-## Are these the same?
-<!-- .slide: data-auto-animate -->
-<div class="fragment">
-Yes 🤩
-</div>
-<div class='left' style='float:left;width:400px; font-size: 60px'>
-  <pre><code data-trim data-noescape class="scala">
-  // program 1  
-  val a = 42
-  (a, a)
-  </code></pre>
-</div>
-
-<div class='right' style='float:right;width:400px; font-size: 60px'>
- <pre><code data-trim data-noescape class="scala">
-  // program 2
-  (42, 42)
-  </code></pre>
-</div>
-
-
-## Are these the same?
-<!-- .slide: data-auto-animate -->
-<div class="fragment">
-No 😩
-</div>
-<div class='left' style='float:left;width:480px; font-size: 48px'>
-  <pre><code data-trim data-noescape class="scala">
-  // program 1  
-  val a = print("hi")
-  (a, a)
-  </code></pre>
-</div>
-
-<div class='right' style='float:right;width:480px; font-size: 48px'>
- <pre><code data-trim data-noescape class="scala">
-  // program 2
-  (print("hi"), print("hi"))
-  </code></pre>
-</div>
-
-
-## Are these the same?
-<!-- .slide: data-auto-animate -->
-<div class="fragment">
-No 😩
-</div>
-<div class='left' style='float:left;width:480px; font-size: 48px'>
-  <pre><code data-trim data-noescape class="scala">
-  // program 1  
-  val a = iter.next()
-  (a, a)
-  </code></pre>
-</div>
-
-<div class='right' style='float:right;width:480px; font-size: 48px'>
- <pre><code data-trim data-noescape class="scala">
-  // program 2
-  (iter.next(), iter.next())
-  </code></pre>
-</div>
-
-
-## Are these the same?
-<!-- .slide: data-auto-animate -->
-<div class="fragment">
-It depends... 🤔
-</div>
-<div class='left' style='float:left;width:480px; font-size: 46px'>
-  <pre><code data-trim data-noescape class="scala">
-  // program 1  
-  val a = Array(1,2,3)
-  (a, a)
-  </code></pre>
-</div>
-
-<div class='right' style='float:right;width:480px; font-size: 46px'>
- <pre><code data-trim data-noescape class="scala">
-  // program 2
-  (Array(1,2,3), Array(1,2,3))
-  </code></pre>
-</div>
-
----
-
-## The Problem
-- Previous examples contain side effects
-- Each time we were forced to think about side effects
-- Result: <!-- .element: class="fragment" -->
-  - Hard to reason about the code
-  - Hard to debug
-  - Hard to test
-  - Silly bugs in production
-
----
-
-## What if I tell you there is another way...? 
-<!-- .element: style="color: white; border: 10px; border-color: black;" -->
-
-<!-- .slide: data-background="https://media.giphy.com/media/Tt9jctxaVjRny/giphy.gif" -->
-
----
-
-## Effect Management
-- Functional effect: turning a **computation** to a first-class value.
-  - **Effect** is about doing something 
-    - e.g., `println("hi")`
-  - **Functional Effect** is a description of an operation.
-- Effect management system: <!-- .element: class="fragment" -->
-  - A mechanism for managing and executing effects.
-  - Enables deterministic results.
-  - Enables much more testable code (!)
-
----
-
-# Enter ZIO ❤️
-- Zero-dependency library for effect management.
-- Enables writing async and concurrent programs.
-- Uses a pure functional approach.
-- `=>` Scalable, resilient and reactive applications.
-
-
-## The most important slide
-<div style="font-size: 80px;">
-<pre><code class="scala">
-ZIO[R,E,A]
 </code></pre>
-</div>
 
-- R: Requirements the effect needs to run
-- E: Failure type (how the effect can fail)
-- A: Success type (what the effect returns)
-- Similar to  `R => Either[E,A]`
+---
 
+<!-- .slide: data-auto-animate -->
+## Implicit Args <!-- .element: data-id="title" -->
+As said, a func can have multiple arg list
 
-## Everything is ZIO
 ```scala
-Option[A] == ZIO[Any, None, A]
-
-Try[A]    == ZIO[Any, Throwable, A]
-
-Future[A] == ZIO[ExecutionContext, Throwable, A]
+def add(x: Int, y: Int) = x + y // call add(1,2)
+def add(x: Int)(y: Int) = x + y // call add(1)(2)
 ```
 
 
-## Composition is everywhere!
+<!-- .slide: data-auto-animate -->
+## Implicit Args <!-- .element: data-id="title" -->
+
+Let's consider the following use case: 
+
 ```scala
-for {
-  a <- ZIO.succeed(42)
-  b <- ZIO.fromOption(Some(42))
-  c <- ZIO.fromTry(Try(42))
-  d <- ZIO.fromFuture(Future(42))
-} yield {
-  a + b + c + d
+def sendGet(url: String, client: Sttp)
+def sendPost(url: String, payload: String, client: Sttp)
+def sendPut(url: String, payload: String, client: Sttp)
+def sendOption(url: String, client: Sttp)
+```
+
+The developer has to *explictly* pass the `client`.
+```scala
+val client = new Sttp("localhost", 8000)
+
+sendGet("/foo", client)
+sendPost("/bar", "hello", client)
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Implicit Args <!-- .element: data-id="title" -->
+
+- Boilerplate is contained within implicit args
+- Focus on business logic itself
+
+```scala
+def sendGet(url: String)(implicit client: Sttp)
+def sendPost(url: String, payload: String)(implicit client: Sttp)
+def sendPut(url: String, payload: String)(implicit client: Sttp)
+def sendOption(url: String)(implicit client: Sttp)
+
+implicit val httpClient = new HttpClient("localhost", 8000)
+
+sendGet("/foo")
+sendPost("/bar", "hello")
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Implicit Functions <!-- .element: data-id="title" -->
+- Also known as implicit conversions
+- Compiler assistance on steroids
+
+```scala
+def func(str: String) = println(s"length = ${str.size}")
+
+val x: Int = 42
+func(42) // error! does not type checked
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Implicit Functions <!-- .element: data-id="title" -->
+```scala
+def func(str: String) = println(s"length = ${str.size}")
+
+implicit intToStr(x: Int): String = x.toString
+
+val x: Int = 42
+func(42) // output: 2
+```
+
+
+# Very BAD!
+# 👿
+
+---
+
+<!-- .slide: data-auto-animate -->
+## Extension Methods <!-- .element: data-id="title" -->
+- A.K.A Monkey Patching 🐵 <!-- .element: class="fragment" -->
+- Provides the best of all worlds: <!-- .element: class="fragment" -->
+  - Explicit conversion
+  - While having flexibility 
+
+
+<!-- .slide: data-auto-animate -->
+## Extension Methods <!-- .element: data-id="title" -->
+## How?
+  - Create a class that contains the dynamic behavior
+  - Import the class to current scope
+  - The compiler auto instantiates the wrapper class
+  - Wrapper contains the extension logic  
+
+
+<!-- .slide: data-auto-animate -->
+## Extension Methods <!-- .element: data-id="title" -->
+## Example:
+Let's extend `Int` type for creating `'*'` strings
+```scala
+5.stars // output: "*****"
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Extension Methods <!-- .element: data-id="title" -->
+```scala
+implicit class IntOps(x: Int) {
+  def stars = x * "*" 
 }
 ```
 
 ---
 
-## Demo
+## Exercise
 <!-- .slide: data-background="https://media.giphy.com/media/UrEQirmnMPxBwToULv/giphy.gif" -->
+
+
+## Exercise
+- Clone repo: https://github.com/matankdr/scala-bazel
+- Follow readme
 
 ---
 
