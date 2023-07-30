@@ -1,0 +1,8 @@
+/*!
+* reveal.js 4.3.1
+* https://revealjs.com
+* MIT licensed
+*
+* Copyright (C) 2011-2022 Hakim El Hattab, https://hakim.se
+*/
+.two-floating-elements>p~ul,.two-floating-elements>ul~p{max-width:50%;float:left;font-size:.7em;box-sizing:border-box}.two-floating-elements>p~ul{margin-left:0}
