@@ -2203,7 +2203,7 @@ export default function( revealElement, options ) {
 
 		if( currentSlide && config.autoSlide !== false ) {
 
-			let fragment = currentSlide.querySelector( '.current-fragment' );
+			let fragment = currentSlide.querySelector( '.current-fragment[data-autoslide]' );
 
 			let fragmentAutoSlide = fragment ? fragment.getAttribute( 'data-autoslide' ) : null;
 			let parentAutoSlide = currentSlide.parentNode ? currentSlide.parentNode.getAttribute( 'data-autoslide' ) : null;
