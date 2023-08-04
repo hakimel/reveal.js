@@ -6,21 +6,14 @@
 
 ---
 
-## Outline
-- Why Scala (background)
-- Intro to JVM
-- Basic syntax
-- loops
-- functions
-- partial functions / composition
-- functional programming (map, flatMap, filter, foldLeft)
-- Common data structures
-- basic effects
-- pattern matching
-- for comporehension
-  - chaining concept
-- Implicits args
-- Implicit conversions
+## By the end of this day, you will:
+- Know how to read Scala <!-- .element: class="fragment" -->
+- Know how to write Scala <!-- .element: class="fragment" -->
+- Understand the arrows <!-- .element: class="fragment" -->
+  - (Chen D.) <!-- .element: class="fragment" -->
+- Know common patterns in Scala <!-- .element: class="fragment" -->
+
+- We will not cover Wix framework stuff <!-- .element: class="fragment" -->
 
 ---
 
@@ -183,6 +176,20 @@ def mult(x: Int, y: Int) = {
 
 <!-- .slide: data-auto-animate -->
 ## Functions <!-- .element: data-id="title" -->
+### Function Objects
+```scala
+val add1: Int => Int = (x:Int) => x + 1
+val add1 = (x:Int) => x + 1
+val add1: Int => Int = x => x + 1
+val add1: Int => Int = _ + 1
+
+add1(1) == 2
+```
+<!-- .element: data-id="code" data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000) -->
+
+
+<!-- .slide: data-auto-animate -->
+## Functions <!-- .element: data-id="title" -->
 ### Argument lists
 ```scala
 def add1(x: Int, y: Int) = x + y
@@ -190,6 +197,75 @@ def add2(x: Int)(y: Int) = x + y
 
 add1(1, 2) == 3
 add2(1)(2) == 3
+```
+<!-- .element: data-id="code" data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)-->
+
+
+<!-- .slide: data-auto-animate -->
+## Functions <!-- .element: data-id="title" -->
+### High order functions
+- Let's implement HTTP request filters
+- Headers are stored lower/upper
+
+```scala
+case class Request(method: String, 
+                   uri: String, 
+                   headers: Map[String, String] = Map(), 
+                   content: String = ""
+                  )
+def isGET(req: Request): Boolean = ???
+def isPOST(req: Request): Boolean = ???
+
+def getContentType(req: Request): String = ???
+def getReferer(req: Request): String = ???
+```
+<!-- .element: data-id="code" -->
+
+
+<!-- .slide: data-auto-animate -->
+## Functions <!-- .element: data-id="title" -->
+### High order functions
+- Let's implement HTTP request filters
+
+```scala
+case class Request(method: String, 
+                   uri: String, 
+                   headers: Map[String, String] = Map(), 
+                   content: String = ""
+                  )
+def isGET(req: Request): Boolean = req.method == "GET"
+def isPOST(req: Request): Boolean = req.method == "POST"
+
+def getContentType(req: Request): Option[String] = 
+  headers.find(_._1.toLowerCase == "content-type").map(_._2)
+
+def getReferer(req: Request): Option[String] = 
+  headers.find(_._1.toLowerCase == "referer").map(_._2)
+```
+<!-- .element: data-id="code" -->
+
+
+<!-- .slide: data-auto-animate -->
+# Can we do better? <!-- .element: data-id="title" -->
+
+
+<!-- .slide: data-auto-animate -->
+## Functions <!-- .element: data-id="title" -->
+### High order functions
+
+```scala
+private def methodFilter(method: String)(req: Request) = 
+  req.method == method
+
+private def getHeader(name: String)
+                     (headers: Map[String, String]) = 
+  headers.find(_._1.toLowerCase == name).map(_._2)
+         
+val isGET: Request => Boolean = methodFilter("GET")
+val isPOST: Request => Boolean = methodFilter("POST")
+
+val getContentType: Request => String = getHeader("content-type")
+val getReferer: Request => String = getHeader("referer")
 ```
 <!-- .element: data-id="code" -->
 
@@ -204,6 +280,135 @@ val mySet = Set(1,2,3,3)     // (1,2,3)
 
 val myMap = Map(1 -> "one", 2 -> "two")
 ```
+
+---
+
+## Objects
+- Class: blueprint of creating instances
+- May contain fields and methods
+
+```scala
+class Person(first: String, last: String) {
+  def greet(): String = s"My name is $first $last!"
+}
+
+val matan = new Person("matan", "keidar")
+```
+
+
+## Objects
+- Object: a class that has *exactly* one instance
+- No constructor!
+
+```scala
+object Logger {
+  def info(msg: String): Unit = println(s"[INFO] $msg")
+}
+
+Logger.info("hello there")
+```
+
+
+## Objects
+- Common pattern: factory methods
+- Hide class constructor
+- Companion object creates class instances
+
+```scala
+class Person private (first: String, last: String) {
+  def greet(): String = s"My name is $first $last!"
+}
+
+object Person {
+  def apply(first: String, last: String) = new Person(first = first, last = last)
+
+  object johnDoe = Person(first = "john", last = "doe")
+}
+
+val matan = Person("matan", "keidar")
+```
+
+
+## Objects
+- Trait: an interface
+- Contains abstract members/methods
+- Or concrete methods implementation
+
+```scala
+trait Greeter {
+  def greet(): String
+}
+
+class Person(first: String, last: String) extends Greeter {
+  override def greet() = s"Greetings, I'm $first!"
+}
+```
+
+
+## Objects
+- Common pattern: mixins
+- Adding capabilities to classes on demand
+
+```scala
+trait Airplane {
+  def fly(): Unit
+}
+
+trait Car {
+  def drive(): Unit
+}
+
+class Ford extends Car
+class Boeing extends Airplane
+class Batmobile extends Car with Airplane
+```
+
+---
+
+## Case classes/objects
+- Like regular classes, but great of data modeling
+- Already provides us:
+  - Immutability and `copy`
+  - Constructor
+  - `hashCode`and `equals`
+  - `toString`
+  - Comparator
+  - Great for pattern-matching (later today)
+
+
+## Case classes/objects
+```scala
+case class HttpRequest(method: String, 
+                       uri: String, 
+                       headers: Map[String, String]
+                      )
+
+val req1 = HttpRequest("GET", "/hello", Map.empty)
+
+val req2 = req1.copy(uri = "/world", 
+                     headers = Map("Content-Length" -> 5)
+                     )
+```
+
+
+## Exercise
+- Create trait `Ordinal[T]` that defines ordering ops:
+  - lt, le, gt, gte
+  - Trait should be mixed in with any class
+- Hint: how many ops must be defined/abstract?
+- Bonus: let's define the ops to be: <, >, <=, >=
+  - It's just regular operator overloading
+
+```scala
+// Usage example: 
+class Person(name: String, age: Int) extends Ordinal[Person] { 
+  ???
+}
+  
+val grut = new Person("Grut", 100)
+val spiderMan = new Person("Peter Parker", 16)
+
+println(spiderMan < grut)
 
 ---
 
@@ -280,7 +485,7 @@ def div(n: Int) = Future {
 Write defensive code with minimal lines of code <!-- .element: class="fragment" -->
 
 ### Question <!-- .element: class="fragment" -->
-Call findUser can print the retrieved user if exists <!-- .element: class="fragment" -->
+Call findUser and print the retrieved user if exists <!-- .element: class="fragment" -->
 
 ```scala
 case class User(
@@ -401,7 +606,7 @@ findUser("1234").map(println)
 
 <!-- .slide: data-auto-animate -->
 ## Basic Functional Programming  <!-- .element: data-id="title" -->
-How to return a managers list?
+How to return a managers id list?
 ```scala
 case class User(
   id: String, 
@@ -417,7 +622,7 @@ val userIds: List[String] = ???
 
 <!-- .slide: data-auto-animate -->
 ## Basic Functional Programming  <!-- .element: data-id="title" -->
-How to return a managers list?
+How to return a managers id list?
 
 ```scala
 userIds
@@ -547,6 +752,20 @@ matan match {
 }
 </code></pre>
 
+
+## Exercise
+- Write a function that gets a `WixUser`
+- If score > 1000, return "$name you are legend!" 
+- If name size is exactly 2 chars, return "fake!"
+- If user has more than 3 sites, return "$name, you are a premium"
+- if name is "bot" and has more than 4 sites, return "rise of the machines"
+
+```scala
+case class WixUser(name: String, score: Int, sites: List[String])
+
+def func(user: WixUser): String = ???
+```
+
 ---
 
 <!-- .slide: data-auto-animate -->
@@ -663,15 +882,25 @@ implicit class IntOps(x: Int) {
 }
 ```
 
----
 
 ## Exercise
+- Let's revisit the `Ordinal[T]` trait 
+- Now, let's implement ordinal logic as extension methods
+- Meaning, we cannot directly extend any class
+  - In our example `Person` class
+
+---
+
+## Big Exercise
 <!-- .slide: data-background="https://media.giphy.com/media/UrEQirmnMPxBwToULv/giphy.gif" -->
 
 
-## Exercise
+## Big Exercise
 - Clone repo: https://github.com/matankdr/scala-bazel
 - Follow readme
+- Enjoy!
+
+<img src="https://www.wix.com/tools/qr-code-generator/_functions/svg/250/000/fff/aHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGbWF0YW5rZHIlMkZzY2FsYS1iYXplbA==">
 
 ---
 
