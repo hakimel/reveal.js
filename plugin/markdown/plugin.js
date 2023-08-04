@@ -7,6 +7,7 @@
 import { marked } from 'marked';
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
+	  DEFAULT_VERTICAL_SEPARATOR = null,
 	  DEFAULT_NOTES_SEPARATOR = 'notes?:',
 	  DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
 	  DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$';
@@ -94,10 +95,12 @@ const Plugin = () => {
 	 * values for what's not defined.
 	 */
 	function getSlidifyOptions( options ) {
+		const userDefaultOptions = deck.getConfig().markdown?.defaultOptions;
 
 		options = options || {};
-		options.separator = options.separator || DEFAULT_SLIDE_SEPARATOR;
-		options.notesSeparator = options.notesSeparator || DEFAULT_NOTES_SEPARATOR;
+		options.separator = options.separator || userDefaultOptions?.separator || DEFAULT_SLIDE_SEPARATOR;
+		options.verticalSeparator = options.verticalSeparator || userDefaultOptions?.verticalSeparator || DEFAULT_VERTICAL_SEPARATOR;
+		options.notesSeparator = options.notesSeparator || userDefaultOptions?.notesSeparator || DEFAULT_NOTES_SEPARATOR;
 		options.attributes = options.attributes || '';
 
 		return options;
@@ -423,7 +426,7 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown || {};
+			let { renderer, animateLists, defaultOptions, ...markedOptions } = deck.getConfig().markdown || {};
 
 			if( !renderer ) {
 				renderer = new marked.Renderer();
