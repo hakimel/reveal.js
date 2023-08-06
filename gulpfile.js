@@ -298,7 +298,12 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    gulp.watch(['**/*.html', '**/*.md'], gulp.series('reload'))
+    const slidesRoot = root.endsWith('/') ? root : root + '/'
+    gulp.watch([
+        slidesRoot + '**/*.html', 
+        slidesRoot + '**/*.md',
+        `!${slidesRoot}**/node_modules/**`, // ignore node_modules
+    ], gulp.series('reload'))
 
     gulp.watch(['js/**'], gulp.series('js', 'reload', 'eslint'))
 
