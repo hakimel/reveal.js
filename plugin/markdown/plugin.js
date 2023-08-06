@@ -8,7 +8,7 @@ import { marked } from 'marked';
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_VERTICAL_SEPARATOR = null,
-	  DEFAULT_NOTES_SEPARATOR = 'notes?:',
+	  DEFAULT_NOTES_SEPARATOR = '^\s*notes?:',
 	  DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
 	  DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$';
 
