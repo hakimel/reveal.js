@@ -95,12 +95,12 @@ const Plugin = () => {
 	 * values for what's not defined.
 	 */
 	function getSlidifyOptions( options ) {
-		const userDefaultOptions = deck.getConfig().markdown?.defaultOptions;
+		const markdownConfig = deck.getConfig().markdown;
 
 		options = options || {};
-		options.separator = options.separator || userDefaultOptions?.separator || DEFAULT_SLIDE_SEPARATOR;
-		options.verticalSeparator = options.verticalSeparator || userDefaultOptions?.verticalSeparator || DEFAULT_VERTICAL_SEPARATOR;
-		options.notesSeparator = options.notesSeparator || userDefaultOptions?.notesSeparator || DEFAULT_NOTES_SEPARATOR;
+		options.separator = options.separator || markdownConfig?.separator || DEFAULT_SLIDE_SEPARATOR;
+		options.verticalSeparator = options.verticalSeparator || markdownConfig?.verticalSeparator || DEFAULT_VERTICAL_SEPARATOR;
+		options.notesSeparator = options.notesSeparator || markdownConfig?.notesSeparator || DEFAULT_NOTES_SEPARATOR;
 		options.attributes = options.attributes || '';
 
 		return options;
@@ -426,7 +426,7 @@ const Plugin = () => {
 
 			deck = reveal;
 
-			let { renderer, animateLists, defaultOptions, ...markedOptions } = deck.getConfig().markdown || {};
+			let { renderer, animateLists, ...markedOptions } = deck.getConfig().markdown || {};
 
 			if( !renderer ) {
 				renderer = new marked.Renderer();
@@ -461,7 +461,7 @@ const Plugin = () => {
 					code = escapeForHTML( code );
 
 					// return `<pre><code ${lineNumbers} class="${language}">${code}</code></pre>`;
-					
+
 					return `<pre><code ${lineNumbers} ${lineNumberOffset} class="${language}">${code}</code></pre>`;
 				};
 			}
