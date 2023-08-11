@@ -1,10 +1,338 @@
-<!-- # Scala 101 -->
-<img src="https://miro.medium.com/v2/resize:fit:1358/1*QtOyg7rBOnuPU0tehyNt7w.jpeg">
-<!-- <img src="https://media.giphy.com/media/MGdfeiKtEiEPS/giphy.gif"> -->
+## Type Classes
+### Why are they useful?
+<img src="https://media.giphy.com/media/3oKIPjHCmuXqdVvak8/giphy.gif">
 
 ### Matan Keidar
 
 ---
+
+## Few slides on Wix ???
+
+---
+
+## Outline
+- What is the problem?
+- Explaining type classes
+- (Short) live coding
+- Summary
+
+---
+
+## Let's Encode!
+- Given the following class:
+```scala
+case class Point(x: Int, y: Int)
+```
+- We would like to serialize it to JSON string
+- For example: 
+  - Given `Point(3,4)`
+  - The expected json output should be:
+```json
+{ "x": 3, "y" : 4}
+```
+
+
+## Naive solution
+We can extend `Point` type to support this behavior:
+```scala
+case class Point(x: Int, y: Int) {
+  def encode: String = 
+    s"""{ "x": $x, "y": $y }"""
+}
+```
+
+
+## Naive solution
+It works for a simple case. Let's examine a more complicated case:
+```scala
+case class Point(x: Int, y: Int) {
+  def encode: String = 
+    s"""{ "x": $x, "y": $y }"""
+}
+
+case class Item(id: String, desc: String, price: Double) {
+  def encode: String = 
+    s"""{ "id": "${id}","desc": "${desc}","price": $price }"""
+
+}
+case class Delivery(item: Item, target: Point) {
+  def encode: String = 
+    s"""{ "item": ${item.encode}, "target": ${target.encode} }"""
+}
+```
+
+XXX Need to add concrete usage
+
+
+How to easily encode complex types?
+```scala
+case class Urgency(level: Int)
+
+case class Courier(deliveries: List[Delivery], 
+                   urgency: Option[Urgency] = None) {
+  def encode: String = ???
+}
+```
+🤯
+
+
+
+## The problem
+- Solution cannot be applied if we do not have the source code
+  - The class cannot be extended with new behavior
+- We had to manually JSON encode primitive types
+  - No code reuse
+- Complex hierarchies lead to complicated implementation
+
+---
+
+## Fixing that (1)
+Let's extract `encode` behavior to a dedicated type
+```scala
+trait JsonEncoder[T] {
+  def encode(t: T): String
+}
+
+val pointEncoder = new JsonEncoder[Point] = {
+  def encode(p: Point) = s""" { "x": ${p.x}, "y": ${p.y} }"""
+}
+
+def printJson[T](t: T, enc: JsonEncoder[T]) = enc.encode(t)
+
+printJson(Point(3,4), pointEncoder) // { "x": 3, "y": 4 }
+```
+Almost there, we are still required to explicitly provide the encoding logic 🙁
+
+
+## TODO: Reminder of implicits
+
+
+## Fixing that (2)
+Let's extract `encode` behavior to a dedicated type
+```scala
+trait JsonEncoder[T] {
+  def encode(t: T): String
+}
+
+implicit val pointEncoder = new JsonEncoder[Point] = {
+  def encode(p: Point) = s""" { "x": ${p.x}, "y": ${p.y} }"""
+}
+
+def printJson[T](t: T)(implicit enc: JsonEncoder[T]) = 
+  enc.encode(t)
+
+printJson(Point(3,4)) // { "x": 3, "y": 4 }
+```
+And we have just implemented our first type class!
+
+
+
+# Type Class
+> In computer science, a type class is a type system construct that supports ad hoc polymorphism. This is achieved by adding constraints to type variables in parametrically polymorphic types.
+>
+> [ [Wikipedia — Type class](https://en.wikipedia.org/wiki/Type_class)]
+
+
+# Type Class
+> A group of types that share a known set of behaviors.
+
+Examples: 
+- All types that support generating a unique identifier.
+- All types that support encoding to JSON string.
+
+
+## Why type classes?
+- Enables us to add new behavior to an existing data type 
+  - Without altering the source code
+- Single responsibility   
+- Type class pattern enables us to add new behaviors *without* having access to the source of those types.
+- Ad-hoc polymorphism 
+- We get the errors on compile time 
+
+---
+
+## Json Encoder Revisited
+Although it works, it is far from perfect.
+```scala
+implicit val pointEncoder = new JsonEncoder[Point] = {
+  def encode(p: Point) = s""" { "x": ${p.x}, "y": ${p.y} }"""
+}
+```
+Let's support better code reuse
+
+
+## Json Encoder Revisited
+```scala
+implicit val intEncoder = new JsonEncoder[Int] = {
+  def encode(i: Int) = i.toString
+}
+
+implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Point] = {
+  def encode(p: Point) = 
+    s""" { 
+           "x": ${enc.encode(p.x)}, 
+           "y": ${enc.encode(p.y)} 
+         }
+    """
+}
+```
+
+
+## Json Encoder Revisited
+```scala
+case class Item(id: String, desc: String, price: Int)
+
+implicit val strEncoder = new JsonEncoder[String] = {
+  def encode(str: String) = s""""$s""""
+}
+
+implicit val itemEncoder = new JsonEncoder[Item] {
+  def toJson(i: Item)
+             (implicit sEnc: JsonEncoder[String], iEnc: JsonEncoder[Int]): String =
+    s"""{
+          "id": ${sEnc.encode(i.id)},
+          "desc": ${sEnc.encode{i.desc},
+          "price": ${iEnc.encode(i.price)}}
+        }
+     """
+}
+```
+
+
+## Json Encoder Revisited
+- ‼️ Important: We added a new behavior to `String`
+  - Despite the fact it is a final class
+- We could have create some `String` wrapper that implements `JsonEncoder`
+  - All usages in the application should refer to the wrapper class
+  - Not practical at all...
+
+---
+
+## Syntactic sugar
+- We were able to invoke `JsonEncoder` implementation of our data model classes
+  - However, it was not very nice
+- Must have a reference to our type class instance
+  - And know its name
+- We would like to make API calls to look as natual as possible
+  - e.g., avoiding `encoder.encode(x)`
+  - Call json encoding directly as if it was a part of the object behavior
+
+
+## Syntactic sugar
+- Let's define an invocation helper 
+- Exposes an extension method for calling the type class in scope
+
+```scala
+  implicit class JsonEncoderSyntax[T](t: T) {
+    def toJson(implicit enc: JsonEncoder[T]): String = enc.toJson(t)
+  }
+```  
+
+
+## Syntactic sugar
+- Now, we can call the extension method directly
+- Pretending that all objects have `toJson` method
+
+```scala
+implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Point] = {
+  def encode(p: Point) = 
+    s""" { "x": ${p.x.toJson}, "y": ${p.y.toJson} }"""
+}
+
+implicit val itemEncoder = new JsonEncoder[Item] {
+  def toJson(i: Item)
+             (implicit se: JsonEncoder[String], ie: JsonEncoder[Int]): String =
+    s"""{
+          "id": ${i.id.toJson},
+          "desc": ${i.desc.toJson},
+          "price": ${i.price.toJson}
+        }
+     """
+}
+```
+
+
+## Compile time safety
+- We cannot call `encode` on a type that does not have a meaning of `encode` 
+  - Because it does not have an implementation
+- No instance of `JsonEncoder[T]` in the scope 
+  - Result: compiler throws an error
+
+
+## 3 Steps for a type class
+
+
+## Step 1: Define the type class
+Create the generic trait that defines new behavior
+
+```scala
+trait JsonEncoder[T] {
+  def encode(t: T): String
+}
+```
+
+
+## Step 2: Create type class instance
+- Create an implicit instance 
+- Implement the behavior that should be added
+
+```scala
+implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Point] = {
+  def encode(p: Point) = 
+    s""" { "x": ${enc.encode(p.x)}, "y": ${enc.encode(p.y)} } """
+}
+```
+
+
+## Step 3: Create the extension method
+- For accessing the behavior directly from the type
+- Instead of calling behavior from the type class 
+
+```scala
+  implicit class JsonEncoderSyntax[T](t: T) {
+    def toJson(implicit enc: JsonEncoder[T]): String = 
+      enc.toJson(t)
+  }
+```  
+
+
+
+
+## Type class derivation
+
+
+## Why type classes?
+- Type Class: an interface that defines some behavior.
+- Enables us to add new behavior to an existing data type without altering the source code
+- Naive way: directly inherit/extend an existing type for adding new behavior
+  - What if we are not able to do it? (final class)
+- Type class pattern enables us to add new behaviors *without* having access to the source of those types.
+
+
+
+## Summary
+- Type classes allow us to define a set of behaviors wholly separately from the objects and types that will implement those behaviors.
+- Type classes are expressed in pure Scala with traits that take type parameters, and implicits to make syntax clean.
+- Type classes allow us to extend or implement behavior for types and objects whose source we cannot modify.
+  - Provide the ad hoc polymorphism necessary to solve the expression problem).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## By the end of this day, you will:
 - Know how to read Scala <!-- .element: class="fragment" -->
