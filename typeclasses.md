@@ -61,9 +61,32 @@ case class Delivery(item: Item, target: Point) {
 }
 ```
 
-XXX Need to add concrete usage
+
+## Naive solution
+```scala
+val delivery = Delivery(
+  item = Item(id = "1", desc = "item-1"), 
+  target = Point(1, 2)
+)
+
+delivery.encode 
+```
+
+```json
+{
+  "item": {
+    "id": "1",
+    "desc": "item-1"
+  },
+  "target": {
+   "x": 1,
+   "y": 2
+  }
+}
+```
 
 
+## And the plot thickens...
 How to easily encode complex types?
 ```scala
 case class Urgency(level: Int)
@@ -104,7 +127,23 @@ printJson(Point(3,4), pointEncoder) // { "x": 3, "y": 4 }
 Almost there, we are still required to explicitly provide the encoding logic 🙁
 
 
-## TODO: Reminder of implicits
+## Reminder of implicits
+- Given a function call with an implicit arg of type `T`
+- The compiler searches for an implicit function that returns `T`
+- If such function exists in scope, the compiler uses its return value
+
+```scala
+implicit val shekels: String = "₪"
+
+def printBalance(coins: Int)(implicit currency: String) = 
+  s"$coins $currency"
+
+// call with implicit args
+printBalance(10) // "10 ₪"
+
+// call with explicit args
+printBalance(10)(shekels)
+```
 
 
 ## Fixing that (2)
@@ -126,15 +165,18 @@ printJson(Point(3,4)) // { "x": 3, "y": 4 }
 And we have just implemented our first type class!
 
 
-
-# Type Class
+<!-- .slide: data-auto-animate -->
+# Type Class <!-- .element: data-id="title" -->
 > In computer science, a type class is a type system construct that supports ad hoc polymorphism. This is achieved by adding constraints to type variables in parametrically polymorphic types.
 >
 > [ [Wikipedia — Type class](https://en.wikipedia.org/wiki/Type_class)]
+<!-- .element: data-id="box" -->
 
 
-# Type Class
+<!-- .slide: data-auto-animate -->
+# Type Class <!-- .element: data-id="title" -->
 > A group of types that share a known set of behaviors.
+<!-- .element: data-id="box" -->
 
 Examples: 
 - All types that support generating a unique identifier.
@@ -142,12 +184,12 @@ Examples:
 
 
 ## Why type classes?
-- Enables us to add new behavior to an existing data type 
+- Enables adding new behavior to an existing data type 
   - Without altering the source code
-- Single responsibility   
+- Single responsibility 
 - Type class pattern enables us to add new behaviors *without* having access to the source of those types.
 - Ad-hoc polymorphism 
-- We get the errors on compile time 
+- Errors on compile time 
 
 ---
 
@@ -179,7 +221,7 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 
 
 ## Json Encoder Revisited
-```scala
+<pre class="r-strech" style="width=1500px"><code class="scala" style="height=100%; width=1500px" >
 case class Item(id: String, desc: String, price: Int)
 
 implicit val strEncoder = new JsonEncoder[String] = {
@@ -188,15 +230,16 @@ implicit val strEncoder = new JsonEncoder[String] = {
 
 implicit val itemEncoder = new JsonEncoder[Item] {
   def toJson(i: Item)
-             (implicit sEnc: JsonEncoder[String], iEnc: JsonEncoder[Int]): String =
+            (implicit se: JsonEncoder[String], 
+                      ie: JsonEncoder[Int]): String =
     s"""{
-          "id": ${sEnc.encode(i.id)},
-          "desc": ${sEnc.encode{i.desc},
-          "price": ${iEnc.encode(i.price)}}
+          "id": ${se.encode(i.id)},
+          "desc": ${se.encode{i.desc},
+          "price": ${ie.encode(i.price)}}
         }
      """
 }
-```
+</code></pre>
 
 
 ## Json Encoder Revisited
@@ -296,9 +339,7 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 ```  
 
 
-
-
-## Type class derivation
+## Demo
 
 
 ## Why type classes?
@@ -310,11 +351,22 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 
 
 
-## Summary
+### In Summary, Type classes:
+- Are interfaces that define new behaviors
+- Enable adding new behavior to existing types *without* altering the source code
+- Provide ad hoc polymorphism
+- Usually expressed with generic traits and implicit calls to make clean API
+- Enables the compiler to write code instead of the developer
+  - Type class derivation
+
+
+
 - Type classes allow us to define a set of behaviors wholly separately from the objects and types that will implement those behaviors.
 - Type classes are expressed in pure Scala with traits that take type parameters, and implicits to make syntax clean.
 - Type classes allow us to extend or implement behavior for types and objects whose source we cannot modify.
   - Provide the ad hoc polymorphism necessary to solve the expression problem).
+- Type classes enables the compiler to write code instead of the developer
+  - Type class derivation  
 
 
 
