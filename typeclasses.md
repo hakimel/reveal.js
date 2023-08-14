@@ -128,7 +128,7 @@ def printJson[T](t: T, enc: JsonEncoder[T]) = enc.encode(t)
 
 printJson(Point(3,4), pointEncoder) // { "x": 3, "y": 4 }
 ```
-
+- (Will handle primitive types later)
 - Almost there, we are still required to explicitly provide the encoding logic 🙁
 <!-- .element: class="fragment" -->
 
@@ -239,7 +239,7 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 case class Item(id: String, desc: String, price: Int)
 
 implicit val strEncoder = new JsonEncoder[String] = {
-  def encode(str: String) = s""""$s""""
+  def encode(str: String) = s""""$str""""
 }
 
 implicit val itemEncoder = new JsonEncoder[Item] {
@@ -284,7 +284,7 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 
 ```scala
   implicit class JsonEncoderSyntax[T](t: T) {
-    def toJson(implicit enc: JsonEncoder[T]): String = enc.toJson(t)
+    def toJson(implicit enc: JsonEncoder[T]): String = enc.encode(t)
   }
 ```  
 
@@ -320,6 +320,52 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 - No instance of `JsonEncoder[T]` in the scope 
   - Result: compiler throws an error
 
+---
+
+## Type Classes: The bad side
+- The solution is based on traits with generic types
+- Generics do not work well with type sub-typing
+- The key idea is to have an implementation of a concrete type
+
+
+## Type Classes: The bad side
+<!-- <div class="r-strech"> -->
+<pre><code class="scala" data-trim data-line-numbers="3-5|8-10|13-15">
+trait Showable[T] {
+  def show(t: T): String
+}
+
+implicit val showableCircle = new Showable[Circle] {
+  def show(c: Circle): String = 
+    s"Circle(r=${c.radius})"
+}
+
+implicit val showableRectangle = new Showable[Rectangle] {
+  def show(r: Rectangle): String = 
+    s"Rectangle(w=${r.width}, h=${r.height})"
+}
+
+implicit def showableList[T](implicit s: Showable[T]): Showable[List[T]] =
+  elems => s"[ ${elems.map(s.show).mkString(",")} ]"
+
+def callShow[T](t: T)(implicit s: Showable[T]): String = s.show(t)
+
+val shapes = List(Circle(1.0), Rectangle(2.0, 3.0))
+
+println(callShow(shapes))
+</code></pre>
+<!-- </div> -->
+
+
+
+
+<!-- .element style="overflow-wrap: break-word;" -->
+```json
+could not find implicit value for parameter s: Showable[List[Shape]]
+```
+<!-- .element style="overflow-wrap: break-word;" -->
+
+---
 
 ## 3 Steps for a type class
 
@@ -366,32 +412,39 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 
 ## Demo
 
-
-## Why type classes?
+<!-- ## Why type classes?
 - Type Class: an interface that defines some behavior.
-- Enables us to add new behavior to an existing data type without altering the source code
+- Enables us to add new behavior to an existing data type *without* altering the source code
 - Naive way: directly inherit/extend an existing type for adding new behavior
-  - What if we are not able to do it? (final class)
-- Type class pattern enables us to add new behaviors *without* having access to the source of those types.
+  - What if we are not able to do it? (final class) -->
+<!-- - Type class pattern enables us to add new behaviors *without* having access to the source of those types. -->
 
-
+---
 
 ### In Summary, Type classes:
-- Are interfaces that define new behaviors
-- Enable adding new behavior to existing types *without* altering the source code
-- Provide ad hoc polymorphism
-- Usually expressed with generic traits and implicit calls to make clean API
-- Enables the compiler to write code instead of the developer
+- Are interfaces that define new behaviors <!-- .element: class="fragment" -->
+- Enable adding new behavior to existing types without altering the source code <!-- .element: class="fragment" -->
+- Provide ad hoc polymorphism <!-- .element: class="fragment" -->
+- Usually expressed with generic traits and implicit calls to make clean API <!-- .element: class="fragment" -->
+- Enables the compiler to write code instead of the developer <!-- .element: class="fragment" -->
   - Type class derivation
 
+---
+
+# Questions <!-- .element: style="color: white; border: 10px; border-color: black;" -->
+<!-- .slide: data-background="https://thehomebasedmom.com/wp-content/uploads/2019/05/Frequently-Asked-Questions.jpg"  data-background-opacity="0.7" -->
+
+---
+
+<!-- .slide: data-background="https://media.giphy.com/media/Pnh0Lou03fv92J4puZ/giphy.gif" data-background-size="50%" -->
 
 
-- Type classes allow us to define a set of behaviors wholly separately from the objects and types that will implement those behaviors.
+<!-- - Type classes allow us to define a set of behaviors wholly separately from the objects and types that will implement those behaviors.
 - Type classes are expressed in pure Scala with traits that take type parameters, and implicits to make syntax clean.
 - Type classes allow us to extend or implement behavior for types and objects whose source we cannot modify.
   - Provide the ad hoc polymorphism necessary to solve the expression problem).
 - Type classes enables the compiler to write code instead of the developer
-  - Type class derivation  
+  - Type class derivation   -->
 
 
 
