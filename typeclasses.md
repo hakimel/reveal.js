@@ -13,7 +13,7 @@
 ## Outline
 - What is the problem?
 - Explaining type classes
-- (Short) live coding
+- Live coding (short) 
 - Summary
 
 ---
@@ -23,10 +23,10 @@
 ```scala
 case class Point(x: Int, y: Int)
 ```
-- We would like to serialize it to JSON string
+- We would like to serialize it to a JSON string
 - For example: 
   - Given `Point(3,4)`
-  - The expected json output should be:
+  - The expected JSON output should be:
 ```json
 { "x": 3, "y" : 4}
 ```
@@ -34,7 +34,7 @@ case class Point(x: Int, y: Int)
 
 <!-- .slide: data-auto-animate -->
 ## Naive solution <!-- .element: data-id="title" -->
-We can extend `Point` type to support this behavior:
+Extend `Point` type to support this behavior:
 ```scala
 case class Point(x: Int, y: Int) {
   def encode: String = 
@@ -90,7 +90,7 @@ delivery.encode
 
 
 ## And the plot thickens...
-How to easily encode complex types?
+How can we easily encode complex types?
 ```scala
 case class Urgency(level: Int)
 
@@ -112,8 +112,8 @@ case class Courier(deliveries: List[Delivery],
 
 ---
 
-## Fixing that (1)
-- Let's extract `encode` behavior to a dedicated type
+## Fixing it (1)
+- Extract the `encode` behavior to a dedicated type
 
 ```scala[1-3|5-7|9|11]
 trait JsonEncoder[T] {
@@ -134,10 +134,10 @@ printJson(Point(3,4), pointEncoder) // { "x": 3, "y": 4 }
 
 ---
 
-## Reminder of implicits
+## Reminder about implicits
 - Given a function call with an implicit arg of type T <!-- .element: class="fragment" -->
 - The compiler searches an implicit value of T <!-- .element: class="fragment" -->
-- If such value exists in scope, the compiler use it <!-- .element: class="fragment" -->
+- If such value exists in the scope, the compiler uses it <!-- .element: class="fragment" -->
 
 ```scala
 implicit val shekels: String = "₪"
@@ -155,8 +155,8 @@ printBalance(10)(shekels)
 
 ---
 
-## Fixing that (2)
-Let's extract `encode` behavior to a dedicated type
+## Fixing it (2)
+Let's extract the `encode` behavior to a dedicated type
 ```scala[1-7|9-12]
 trait JsonEncoder[T] {
   def encode(t: T): String
@@ -190,23 +190,21 @@ And we have just implemented a type class! 😎
 
 Examples: 
 - All types that support generating a unique identifier.
-- All types that support encoding to JSON string.
+- All types that support encoding to a JSON string.
 
 
 ## Why type classes?
-- Enables adding new behavior to an existing data type <!-- .element: class="fragment" -->
-  - Without altering the source code
 - Single responsibility <!-- .element: class="fragment" -->
 - Enables adding new behaviors to existing types <!-- .element: class="fragment" -->
   - *without* having access to the source of those types
 - Ad-hoc polymorphism <!-- .element: class="fragment" -->
-- Errors on compile time <!-- .element: class="fragment" -->
+- Errors at compile time <!-- .element: class="fragment" -->
 
 ---
 
 <!-- .slide: data-auto-animate -->
 ## Json Encoder Revisited <!-- .element: data-id="title" -->
-Although it works, it is far from perfect.
+Although it works, it is far from perfect
 ```scala
 implicit val pointEncoder = new JsonEncoder[Point] = {
   def encode(p: Point) = s""" { "x": ${p.x}, "y": ${p.y} }"""
@@ -260,7 +258,7 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 ## Json Encoder Revisited <!-- .element: data-id="title" -->
 - ‼️ Important: We added a new behavior to <!-- .element: class="fragment" data-fragment-index="1" --> `String` <!-- .element: class="fragment" data-fragment-index="1" -->
   - Despite the fact it is a final class <!-- .element: class="fragment" data-fragment-index="2" -->
-- Alternative solution: create a wrapper to <!-- .element: class="fragment" data-fragment-index="3" --> `String` <!-- .element: class="fragment" data-fragment-index="3" --> type that implements <!-- .element: class="fragment" data-fragment-index="3" --> `JsonEncoder` <!-- .element: class="fragment" data-fragment-index="3" -->
+- Alternative solution: create a wrapper to the <!-- .element: class="fragment" data-fragment-index="3" --> `String` <!-- .element: class="fragment" data-fragment-index="3" --> type that implements <!-- .element: class="fragment" data-fragment-index="3" --> `JsonEncoder` <!-- .element: class="fragment" data-fragment-index="3" -->
   - All usages in the application should refer to the wrapper class <!-- .element: class="fragment" data-fragment-index="4" -->
   - Not practical at all... <!-- .element: class="fragment" data-fragment-index="4" -->
 
@@ -268,13 +266,13 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 
 <!-- .slide: data-auto-animate -->
 ## Syntactic sugar <!-- .element: data-id="title" -->
-- We were able to invoke `JsonEncoder` implementation of our data model classes 
+- We were able to invoke the `JsonEncoder` implementation of our data model classes 
   - However, it was not very nice
 - Must have a reference to our type class instance <!-- .element: class="fragment" data-fragment-index="2" -->
   - And know its name
-- We would like to make API calls to look as natual as possible <!-- .element: class="fragment" data-fragment-index="3" -->
+- Let's make the API calls look as natural as possible <!-- .element: class="fragment" data-fragment-index="3" -->
   - e.g., avoiding `encoder.encode(x)`
-  - Call json encoding directly as if it was a part of the object behavior
+  - Call JSON encoding directly as if it was a part of the object behavior
 
 
 <!-- .slide: data-auto-animate -->
@@ -292,7 +290,7 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 <!-- .slide: data-auto-animate -->
 ## Syntactic sugar <!-- .element: data-id="title" -->
 - Now, we can call the extension method directly
-- Pretending that all objects have `toJson` method
+- Pretending that all objects have a `toJson` method
 
 ```scala[3,11-13|]
 implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Point] = {
@@ -324,7 +322,7 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 
 ## Type Classes: The bad side
 - The solution is based on traits with generic types
-- Generics do not work well with type sub-typing
+- Generics do not work well with sub-typing
 - The key idea is to have an implementation of a concrete type
 
 
@@ -399,7 +397,7 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 <!-- .slide: data-auto-animate -->
 ## Step 3: Create the extension method <!-- .element: data-id="title" -->
 - For accessing the behavior directly from the type
-- Instead of calling behavior from the type class 
+- Instead of calling it from the type class 
 
 ```scala
   implicit class JsonEncoderSyntax[T](t: T) {
@@ -424,8 +422,8 @@ implicit def pointEncoder(implicit enc: JsonEncoder[Int]) = new JsonEncoder[Poin
 ### In Summary, Type classes:
 - Are interfaces that define new behaviors <!-- .element: class="fragment" -->
 - Enable adding new behavior to existing types without altering the source code <!-- .element: class="fragment" -->
-- Provide ad hoc polymorphism <!-- .element: class="fragment" -->
-- Usually expressed with generic traits and implicit calls to make clean API <!-- .element: class="fragment" -->
+- Provide ad-hoc polymorphism <!-- .element: class="fragment" -->
+- Usually expressed with generic traits and implicit calls to make a clean API <!-- .element: class="fragment" -->
 - Enables the compiler to write code instead of the developer <!-- .element: class="fragment" -->
   - Type class derivation
 
