@@ -313,17 +313,17 @@ const Plugin = () => {
 	 */
 	function addAttributeInElement( node, elementTarget, separator ) {
 
-		var mardownClassesInElementsRegex = new RegExp( separator, 'mg' );
-		var mardownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"]+?)\"|(data-[^\"= ]+?)(?=[\" ])", 'mg' );
+		var markdownClassesInElementsRegex = new RegExp( separator, 'mg' );
+		var markdownClassRegex = new RegExp( "([^\"= ]+?)=\"([^\"]+?)\"|(data-[^\"= ]+?)(?=[\" ])", 'mg' );
 		var nodeValue = node.nodeValue;
 		var matches,
 			matchesClass;
-		if( matches = mardownClassesInElementsRegex.exec( nodeValue ) ) {
+		if( matches = markdownClassesInElementsRegex.exec( nodeValue ) ) {
 
 			var classes = matches[1];
-			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( mardownClassesInElementsRegex.lastIndex );
+			nodeValue = nodeValue.substring( 0, matches.index ) + nodeValue.substring( markdownClassesInElementsRegex.lastIndex );
 			node.nodeValue = nodeValue;
-			while( matchesClass = mardownClassRegex.exec( classes ) ) {
+			while( matchesClass = markdownClassRegex.exec( classes ) ) {
 				if( matchesClass[2] ) {
 					elementTarget.setAttribute( matchesClass[1], matchesClass[2] );
 				} else {
