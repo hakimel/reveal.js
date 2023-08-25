@@ -2705,6 +2705,10 @@ export default function( revealElement, options ) {
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
 
+		// Media playback
+		startEmbeddedContent: () => slideContent.startEmbeddedContent( currentSlide ),
+		stopEmbeddedContent: () => slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } ),
+
 		// Preview management
 		showPreview,
 		hidePreview: closeOverlay,
