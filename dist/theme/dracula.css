@@ -372,15 +372,12 @@ section.has-light-background, section.has-light-background h1, section.has-light
 .reveal strong, .reveal b {
   color: var(--r-bold-color);
 }
-
 .reveal em, .reveal i, .reveal blockquote {
   color: var(--r-italic-color);
 }
-
 .reveal code {
   color: var(--r-inline-code-color);
 }
-
 .reveal ul li::marker, .reveal ol li::marker {
   color: var(--r-list-bullet-color);
 }

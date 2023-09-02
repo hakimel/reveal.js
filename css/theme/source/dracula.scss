@@ -86,20 +86,17 @@ $codeFont: "Fira Code", $systemFontsMono;
 	--r-list-bullet-color: #{$listBulletColor};
 }
 
-.reveal strong, .reveal b {
-	color: var(--r-bold-color);
-}
-
-.reveal em, .reveal i, .reveal blockquote {
-	color: var(--r-italic-color);
-}
-
-.reveal code {
-	color: var(--r-inline-code-color);
-}
-
-// Dracula colored list bullets and numbers
 .reveal {
+	strong, b {
+		color: var(--r-bold-color);
+	}
+	em, i, blockquote {
+		color: var(--r-italic-color);
+	}
+	code {
+		color: var(--r-inline-code-color);
+	}
+	// Dracula colored list bullets and numbers
 	ul, ol {
 		li::marker {
 			color: var(--r-list-bullet-color);
