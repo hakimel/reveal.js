@@ -99,34 +99,14 @@ $codeFont: "Fira Code", $systemFontsMono;
 }
 
 // Dracula colored list bullets and numbers
-.reveal ul {
-	list-style: none;
+.reveal {
+	ul, ol {
+		li::marker {
+			color: var(--r-list-bullet-color);
+		}
+	}
+	ol {
+		counter-reset: li;
+	}
 }
 
-.reveal ul li::before {
-	content: "•";
-	color: var(--r-list-bullet-color);
-	display: inline-block;
-	width: 1em;
-	margin-left: -1em
-}
-
-.reveal ol {
-	list-style: none;
-	counter-reset: li;
-}
-
-.reveal ol li::before {
-	content: counter(li) ".";
-	color: var(--r-list-bullet-color);
-	display: inline-block;
-	width: 2em;
-
-	margin-left: -2.5em;
-    margin-right: 0.5em;
-	text-align: right;
-}
-
-.reveal ol li {
-	counter-increment: li
-}
