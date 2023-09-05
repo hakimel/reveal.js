@@ -5,6 +5,8 @@
  */
 
 import { marked } from 'marked';
+import yaml from "js-yaml";
+import Mustache from "mustache";
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_VERTICAL_SEPARATOR = null,
@@ -124,6 +126,10 @@ const Plugin = () => {
 		// with parsing
 		content = content.replace( /<\/script>/g, SCRIPT_END_PLACEHOLDER );
 
+		if (options.metadata){
+			content = renderTemplate(content, options)
+		}
+
 		return '<script type="text/template">' + content + '</script>';
 
 	}
@@ -144,7 +150,9 @@ const Plugin = () => {
 			isHorizontal,
 			wasHorizontal = true,
 			content,
-			sectionStack = [];
+			sectionStack = [],
+			metadata,
+			parsedMetadata;
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
@@ -161,17 +169,27 @@ const Plugin = () => {
 			// pluck slide content from markdown input
 			content = markdown.substring( lastIndex, matches.index );
 
-			if( isHorizontal && wasHorizontal ) {
+			if (content.indexOf('metadata:') === 0) {
+				metadata = content;
+			} else if( isHorizontal && wasHorizontal ) {
 				// add to horizontal stack
 				sectionStack.push( content );
-			}
-			else {
+			} else {
 				// add to vertical stack
 				sectionStack[sectionStack.length-1].push( content );
 			}
 
 			lastIndex = separatorRegex.lastIndex;
 			wasHorizontal = isHorizontal;
+		}
+
+		if (metadata){
+			try {
+				parsedMetadata = yaml.load(metadata);
+			} catch (error) {
+				// TODO: handle error and show on slide
+				console.error("Error while parsing metadata", error)
+			}
 		}
 
 		// add the remaining slide
@@ -181,6 +199,10 @@ const Plugin = () => {
 
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
 		for( let i = 0, len = sectionStack.length; i < len; i++ ) {
+			if (parsedMetadata) {
+				options.metadata = parsedMetadata.metadata[i];
+				options.attributes = ' class=' + options.metadata.slideType;
+			}
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
 				markdownSections += '<section '+ options.attributes +'>';
@@ -413,6 +435,29 @@ const Plugin = () => {
 
 	  return input.replace( /([&<>'"])/g, char => HTML_ESCAPE_MAP[char] );
 
+	}
+
+	function renderTemplate(content, options) {
+		try {
+			options = getSlidifyOptions(options)
+			const templatePath = 'templates/' + options.metadata.slideType + '-template.html'
+			const xhr = new XMLHttpRequest()
+			xhr.open('GET', templatePath, false)
+			xhr.send()
+
+			if (xhr.status === 200) {
+				const renderedTemplate = Mustache.render(xhr.responseText, { content: content, images: options.metadata.images });
+				const tempDiv = document.createElement('div');
+				tempDiv.innerHTML = renderedTemplate;
+				return tempDiv.textContent;
+			} else {
+				console.error('Failed to fetch template. Status: ' + xhr.status);
+				return null
+			}
+		} catch (error) {
+			console.error('Error:', error);
+			throw error;
+		}
 	}
 
 	return {
