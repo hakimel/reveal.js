@@ -301,7 +301,7 @@ export default class SlideContent {
 				if( autoplay && typeof el.play === 'function' ) {
 
 					// If the media is ready, start playback
-					if( el.readyState > 1 ) {
+					if( el.readyState > 1 && el.paused || el.ended || el.currentTime == 0) {
 						this.startEmbeddedMedia( { target: el } );
 					}
 					// Mobile devices never fire a loaded event so instead

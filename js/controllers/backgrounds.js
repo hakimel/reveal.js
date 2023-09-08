@@ -281,43 +281,47 @@ export default class Backgrounds {
 
 		} );
 
+    let previousBackgroundHash = this.previousBackground ? this.previousBackground.getAttribute( 'data-background-hash' ) : null;
+    let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
+
+    const backgroundNotChanged = currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground.classList.contains('present') && this.previousBackground.classList.contains('present')
 		// Stop content inside of previous backgrounds
-		if( this.previousBackground ) {
+    // console.log(this.previousBackground, currentBackground, backgroundNotChanged, currentBackgroundHash)
 
-			this.Reveal.slideContent.stopEmbeddedContent( this.previousBackground, { unloadIframes: !this.Reveal.slideContent.shouldPreload( this.previousBackground ) } );
+    if (!backgroundNotChanged) {
+  		if(this.previousBackground) {
+  			this.Reveal.slideContent.stopEmbeddedContent( this.previousBackground, { unloadIframes: !this.Reveal.slideContent.shouldPreload( this.previousBackground ) } );
+  		}
 
-		}
 
-		// Start content in the current background
-		if( currentBackground ) {
+  		// Start content in the current background
+  		if(currentBackground) {
+  			this.Reveal.slideContent.startEmbeddedContent( currentBackground );
 
-			this.Reveal.slideContent.startEmbeddedContent( currentBackground );
+  			let currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
+  			if( currentBackgroundContent ) {
 
-			let currentBackgroundContent = currentBackground.querySelector( '.slide-background-content' );
-			if( currentBackgroundContent ) {
+  				let backgroundImageURL = currentBackgroundContent.style.backgroundImage || '';
 
-				let backgroundImageURL = currentBackgroundContent.style.backgroundImage || '';
+  				// Restart GIFs (doesn't work in Firefox)
+  				if( /\.gif/i.test( backgroundImageURL ) ) {
+  					currentBackgroundContent.style.backgroundImage = '';
+  					window.getComputedStyle( currentBackgroundContent ).opacity;
+  					currentBackgroundContent.style.backgroundImage = backgroundImageURL;
+  				}
 
-				// Restart GIFs (doesn't work in Firefox)
-				if( /\.gif/i.test( backgroundImageURL ) ) {
-					currentBackgroundContent.style.backgroundImage = '';
-					window.getComputedStyle( currentBackgroundContent ).opacity;
-					currentBackgroundContent.style.backgroundImage = backgroundImageURL;
-				}
+  			}
 
-			}
+  			// Don't transition between identical backgrounds. This
+  			// prevents unwanted flicker.
+  			if(backgroundNotChanged) {
+  				this.element.classList.add( 'no-transition' );
+  			}
+        this.previousBackground = currentBackground
+  		}
+    }
 
-			// Don't transition between identical backgrounds. This
-			// prevents unwanted flicker.
-			let previousBackgroundHash = this.previousBackground ? this.previousBackground.getAttribute( 'data-background-hash' ) : null;
-			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
-			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== this.previousBackground ) {
-				this.element.classList.add( 'no-transition' );
-			}
-
-			this.previousBackground = currentBackground;
-
-		}
+    this.previousBackground = currentBackground
 
 		// If there's a background brightness flag for this slide,
 		// bubble it to the .reveal container
