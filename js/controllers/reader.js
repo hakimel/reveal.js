@@ -4,7 +4,7 @@ import { queryAll, createStyleSheet } from '../utils/util.js'
 /**
  * Setups up our presentation for printing/exporting to PDF.
  */
-export default class Print {
+export default class Reader {
 
 	constructor( Reveal ) {
 
@@ -13,10 +13,11 @@ export default class Print {
 	}
 
 	/**
-	 * Configures the presentation for printing to a static
-	 * PDF.
+	 * Configures the presentation for printing to a static.
 	 */
-	async setupPDF() {
+	async setup() {
+
+		const printing = this.isPrintMode();
 
 		const config = this.Reveal.getConfig();
 		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
@@ -28,11 +29,11 @@ export default class Print {
 
 		// Dimensions of the PDF pages
 		const pageWidth = Math.floor( slideSize.width * ( 1 + config.margin ) ),
-			pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
+			  pageHeight = Math.floor( slideSize.height * ( 1 + config.margin ) );
 
 		// Dimensions of slides within the pages
 		const slideWidth = slideSize.width,
-			slideHeight = slideSize.height;
+			  slideHeight = slideSize.height;
 
 		await new Promise( requestAnimationFrame );
 
@@ -42,9 +43,14 @@ export default class Print {
 		// Limit the size of certain elements to the dimensions of the slide
 		createStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
 
-		document.documentElement.classList.add( 'print-pdf' );
-		document.body.style.width = pageWidth + 'px';
-		document.body.style.height = pageHeight + 'px';
+		if( printing ) {
+			document.documentElement.classList.add( 'reveal-print', 'print-pdf' );
+			document.body.style.width = pageWidth + 'px';
+			document.body.style.height = pageHeight + 'px';
+		}
+		else {
+			document.documentElement.classList.add( 'reveal-reader' );
+		}
 
 		const viewportElement = document.querySelector( '.reveal-viewport' );
 		let presentationBackground;
@@ -94,7 +100,7 @@ export default class Print {
 				const page = document.createElement( 'div' );
 				pages.push( page );
 
-				page.className = 'pdf-page';
+				page.className = printing ? 'pdf-page' : 'reader-page';
 				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
 
 				// Copy the presentation-wide background to each individual
@@ -106,8 +112,11 @@ export default class Print {
 				page.appendChild( slide );
 
 				// Position the slide inside of the page
-				slide.style.left = left + 'px';
-				slide.style.top = top + 'px';
+				if( printing ) {
+					slide.style.left = left + 'px';
+					slide.style.top = top + 'px';
+				}
+
 				slide.style.width = slideWidth + 'px';
 
 				this.Reveal.slideContent.layout( slide );
@@ -213,6 +222,9 @@ export default class Print {
 
 		}, this );
 
+		// Remove leftover stacks
+		queryAll( pageContainer, '.reveal .stack' ).forEach( stack => stack.remove() );
+
 		await new Promise( requestAnimationFrame );
 
 		pages.forEach( page => pageContainer.appendChild( page ) );
@@ -220,17 +232,43 @@ export default class Print {
 		// Re-run JS-based content layout after the slide is added to page DOM
 		this.Reveal.slideContent.layout( this.Reveal.getSlidesElement() );
 
-		// Notify subscribers that the PDF layout is good to go
-		this.Reveal.dispatchEvent({ type: 'pdf-ready' });
+		if( printing ) {
+			// Notify subscribers that the PDF layout is good to go
+			this.Reveal.dispatchEvent({ type: 'pdf-ready' });
+		}
 
 	}
 
 	/**
-	 * Checks if this instance is being used to print a PDF.
+	 * Checks if reveal.js was initialized in printing mode.
 	 */
-	isPrintingPDF() {
+	isPrintMode() {
 
-		return ( /print-pdf/gi ).test( window.location.search );
+		if( typeof this._isPrintMode === 'undefined' ) {
+			this._isPrintMode = this.Reveal.getConfig().mode === 'pdf' ||
+													( /print-pdf/gi ).test( window.location.search );
+		}
+
+		return this._isPrintMode;
+
+	}
+
+	/**
+	 * Checks if reveal.js was initialized in reader mode.
+	 */
+	isReaderMode() {
+
+		if( typeof this._isReaderMode === 'undefined' ) {
+			this._isReaderMode = this.Reveal.getConfig().mode === 'reader';
+		}
+
+		return this._isReaderMode;
+
+	}
+
+	isActive() {
+
+		return this.isPrintMode() || this.isReaderMode();
 
 	}
 

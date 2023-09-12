@@ -11,7 +11,7 @@ import Controls from './controllers/controls.js'
 import Progress from './controllers/progress.js'
 import Pointer from './controllers/pointer.js'
 import Plugins from './controllers/plugins.js'
-import Print from './controllers/print.js'
+import Reader from './controllers/reader.js'
 import Touch from './controllers/touch.js'
 import Focus from './controllers/focus.js'
 import Notes from './controllers/notes.js'
@@ -113,7 +113,7 @@ export default function( revealElement, options ) {
 		progress = new Progress( Reveal ),
 		pointer = new Pointer( Reveal ),
 		plugins = new Plugins( Reveal ),
-		print = new Print( Reveal ),
+		reader = new Reader( Reveal ),
 		focus = new Focus( Reveal ),
 		touch = new Touch( Reveal ),
 		notes = new Notes( Reveal );
@@ -225,18 +225,25 @@ export default function( revealElement, options ) {
 			});
 		}, 1 );
 
-		// Special setup and config is required when printing to PDF
-		if( print.isPrintingPDF() ) {
+		// Special setup and config is required when initializing a deck
+		// to be read or printed linearly
+		if( reader.isPrintMode() || reader.isReaderMode() ) {
+
 			removeEventListeners();
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			// Avoid content flickering during layout
+			revealElement.style.visibility = 'hidden';
 
 			// The document needs to have loaded for the PDF layout
 			// measurements to be accurate
 			if( document.readyState === 'complete' ) {
-				print.setupPDF();
+				reader.setup().then( () => layout() );
 			}
 			else {
 				window.addEventListener( 'load', () => {
-					print.setupPDF();
+					reader.setup().then( () => layout() );
 				} );
 			}
 		}
@@ -861,7 +868,7 @@ export default function( revealElement, options ) {
 	 */
 	function layout() {
 
-		if( dom.wrapper && !print.isPrintingPDF() ) {
+		if( dom.wrapper && !reader.isPrintMode() ) {
 
 			if( !config.disableLayout ) {
 
@@ -901,6 +908,15 @@ export default function( revealElement, options ) {
 					dom.slides.style.right = '';
 					transformSlides( { layout: '' } );
 				}
+				else if( reader.isActive() ) {
+					dom.slides.style.zoom = '';
+					dom.slides.style.left = 'auto';
+					dom.slides.style.top = 'auto';
+					dom.slides.style.bottom = 'auto';
+					dom.slides.style.right = 'auto';
+					dom.slides.style.height = 'auto';
+					transformSlides( { layout: 'scale('+ scale +')' } );
+				}
 				else {
 					dom.slides.style.zoom = '';
 					dom.slides.style.left = '50%';
@@ -921,7 +937,7 @@ export default function( revealElement, options ) {
 						continue;
 					}
 
-					if( config.center || slide.classList.contains( 'center' ) ) {
+					if( ( config.center || slide.classList.contains( 'center' ) ) && !reader.isActive() ) {
 						// Vertical stacks are not centred since their section
 						// children will be
 						if( slide.classList.contains( 'stack' ) ) {
@@ -1597,7 +1613,7 @@ export default function( revealElement, options ) {
 		let slides = Util.queryAll( dom.wrapper, selector ),
 			slidesLength = slides.length;
 
-		let printMode = print.isPrintingPDF();
+		let printMode = reader.isActive();
 		let loopedForwards = false;
 		let loopedBackwards = false;
 
@@ -1757,7 +1773,7 @@ export default function( revealElement, options ) {
 			}
 
 			// All slides need to be visible when exporting to PDF
-			if( print.isPrintingPDF() ) {
+			if( reader.isPrintMode() || reader.isReaderMode() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
 
@@ -2696,7 +2712,8 @@ export default function( revealElement, options ) {
 		isSpeakerNotes: notes.isSpeakerNotesWindow.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
 		isFocused: focus.isFocused.bind( focus ),
-		isPrintingPDF: print.isPrintingPDF.bind( print ),
+		isReaderMode: reader.isReaderMode.bind( reader ),
+		isPrintingPDF: reader.isPrintMode.bind( reader ),
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
@@ -2816,8 +2833,8 @@ export default function( revealElement, options ) {
 		getStatusText,
 
 		// Controllers
-		print,
 		focus,
+		reader,
 		progress,
 		controls,
 		location,
