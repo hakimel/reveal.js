@@ -1636,6 +1636,10 @@ $overlayHeaderPadding: 5px;
 	opacity: 0.4;
 }
 
+.reveal .hljs.has-highlights.fragment {
+	transition: all .2s ease;
+}
+
 .reveal .hljs:not(:first-child).fragment {
 	position: absolute;
 	top: 0;
