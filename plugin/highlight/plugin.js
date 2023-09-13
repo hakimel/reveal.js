@@ -194,8 +194,6 @@ const Plugin = {
 		var startTop = block.scrollTop;
 		var targetTop = highlightBounds.top + ( Math.min( highlightBounds.bottom - highlightBounds.top, viewportHeight ) - viewportHeight ) / 2;
 
-		console.log(startTop, targetTop)
-
 		// Account for offsets in position applied to the
 		// <table> that holds our lines of code
 		var lineTable = block.querySelector( '.hljs-ln' );
