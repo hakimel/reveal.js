@@ -1867,12 +1867,8 @@ $notesWidthPercent: 25%;
 /*********************************************
  * READER MODE
  *********************************************/
-html.reveal-reader {
-	width: 100%;
-	height: 100%;
-	overflow: visible;
-
-	.reveal-viewport, body {
+.reveal-viewport.reveal-reader {
+	& {
 		margin: 0 auto !important;
 		overflow: auto;
 	}
@@ -1892,7 +1888,6 @@ html.reveal-reader {
 	}
 	.reveal .slides {
 		position: static;
-		zoom: 1 !important;
 		pointer-events: initial;
 		transform-origin: 50% 0;
 

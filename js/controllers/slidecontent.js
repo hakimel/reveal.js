@@ -26,7 +26,7 @@ export default class SlideContent {
 	shouldPreload( element ) {
 
 		// Prefer an explicit global preload setting
-		let preload = this.Reveal.getConfig().preloadIframes;
+		let preload = this.Reveal.getConfig().preloadIframes || this.Reveal.isReaderMode();
 
 		// If no global setting is available, fall back on the element's
 		// own preload setting

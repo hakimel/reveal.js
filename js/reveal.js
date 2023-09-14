@@ -12,6 +12,7 @@ import Progress from './controllers/progress.js'
 import Pointer from './controllers/pointer.js'
 import Plugins from './controllers/plugins.js'
 import Reader from './controllers/reader.js'
+import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
 import Focus from './controllers/focus.js'
 import Notes from './controllers/notes.js'
@@ -114,6 +115,7 @@ export default function( revealElement, options ) {
 		pointer = new Pointer( Reveal ),
 		plugins = new Plugins( Reveal ),
 		reader = new Reader( Reveal ),
+		print = new Print( Reveal ),
 		focus = new Focus( Reveal ),
 		touch = new Touch( Reveal ),
 		notes = new Notes( Reveal );
@@ -225,9 +227,12 @@ export default function( revealElement, options ) {
 			});
 		}, 1 );
 
+		const isPrintMode = print.isActive();
+		const isReaderMode = reader.isActive();
+
 		// Special setup and config is required when initializing a deck
 		// to be read or printed linearly
-		if( reader.isPrintMode() || reader.isReaderMode() ) {
+		if( isPrintMode || isReaderMode ) {
 
 			removeEventListeners();
 
@@ -236,14 +241,23 @@ export default function( revealElement, options ) {
 			// Avoid content flickering during layout
 			revealElement.style.visibility = 'hidden';
 
+			const activate = () => {
+				if( isPrintMode ) {
+					print.activate();
+				}
+				else {
+					reader.activate();
+				}
+			};
+
 			// The document needs to have loaded for the PDF layout
 			// measurements to be accurate
 			if( document.readyState === 'complete' ) {
-				reader.setup().then( () => layout() );
+				activate();
 			}
 			else {
 				window.addEventListener( 'load', () => {
-					reader.setup().then( () => layout() );
+					activate();
 				} );
 			}
 		}
@@ -868,7 +882,7 @@ export default function( revealElement, options ) {
 	 */
 	function layout() {
 
-		if( dom.wrapper && !reader.isPrintMode() ) {
+		if( dom.wrapper && !print.isActive() ) {
 
 			if( !config.disableLayout ) {
 
@@ -969,6 +983,7 @@ export default function( revealElement, options ) {
 
 			progress.update();
 			backgrounds.updateParallax();
+			reader.update();
 
 			if( overview.isActive() ) {
 				overview.update();
@@ -1022,6 +1037,7 @@ export default function( revealElement, options ) {
 	 * @param {number} [presentationHeight=dom.wrapper.offsetHeight]
 	 */
 	function getComputedSlideSize( presentationWidth, presentationHeight ) {
+
 		let width = config.width;
 		let height = config.height;
 
@@ -1613,7 +1629,7 @@ export default function( revealElement, options ) {
 		let slides = Util.queryAll( dom.wrapper, selector ),
 			slidesLength = slides.length;
 
-		let printMode = reader.isActive();
+		let printMode = reader.isActive() || print.isActive();
 		let loopedForwards = false;
 		let loopedBackwards = false;
 
@@ -1773,7 +1789,7 @@ export default function( revealElement, options ) {
 			}
 
 			// All slides need to be visible when exporting to PDF
-			if( reader.isPrintMode() || reader.isReaderMode() ) {
+			if( print.isActive() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
 
@@ -2712,8 +2728,9 @@ export default function( revealElement, options ) {
 		isSpeakerNotes: notes.isSpeakerNotesWindow.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
 		isFocused: focus.isFocused.bind( focus ),
-		isReaderMode: reader.isReaderMode.bind( reader ),
-		isPrintingPDF: reader.isPrintMode.bind( reader ),
+
+		isReaderMode: reader.isActive.bind( reader ),
+		isPrintMode: print.isActive.bind( print ),
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
