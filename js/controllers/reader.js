@@ -11,6 +11,9 @@ export default class Reader {
 
 		this.Reveal = Reveal;
 
+		this.activated = false;
+		this.activatedCallbacks = [];
+
 	}
 
 	async activate() {
@@ -90,6 +93,10 @@ export default class Reader {
 
 		this.Reveal.layout();
 
+		this.activated = true;
+		this.activatedCallbacks.forEach( callback => callback() );
+		this.activatedCallbacks = [];
+
 	}
 
 	/**
@@ -107,6 +114,9 @@ export default class Reader {
 
 	generatePageMap() {
 
+		const viewportElement = this.Reveal.getViewportElement();
+		const viewportHeight = viewportElement.offsetHeight;
+
 		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 		const scale = this.Reveal.getScale();
 
@@ -116,6 +126,9 @@ export default class Reader {
 		this.pageElements = Array.from( this.Reveal.getRevealElement().querySelectorAll( '.reader-page' ) );
 
 		this.pageMap = this.pageElements.map( pageElement => {
+			// pageElement.style.width = ( viewportElement.offsetWidth / scale ) + 'px';
+			// pageElement.style.height = ( viewportElement.offsetHeight / scale ) + 'px';
+
 			const page = {
 				pageElement: pageElement,
 				slideElement: pageElement.querySelector( 'section' ),
@@ -140,7 +153,7 @@ export default class Reader {
 			page.bottom = page.top + page.totalHeight;
 
 			// Pad the page height to reserve scrollable height
-			page.pageElement.style.marginBottom = page.scrollHeight + 'px';
+			page.pageElement.style.marginBottom = page.scrollHeight / scale + 'px';
 
 			// Create scroll triggers that show/hide fragments
 			if( page.fragmentGroups.length ) {
@@ -155,6 +168,9 @@ export default class Reader {
 						fragmentIndex: i
 					}))
 				);
+
+				// Make this page freeze at the vertical center of the viewport
+				page.top -= ( viewportHeight - page.pageHeight ) / 2;
 			}
 
 			return page;
@@ -162,10 +178,21 @@ export default class Reader {
 
 	}
 
-	update() {
+	layout() {
 
 		this.generatePageMap();
 		this.onScroll();
+
+	}
+
+	scrollToSlide( slideElement ) {
+
+		if( !this.activated ) {
+			this.activatedCallbacks.push( () => this.scrollToSlide( slideElement ) );
+		}
+		else {
+			slideElement.parentNode.scrollIntoView();
+		}
 
 	}
 
@@ -196,7 +223,13 @@ export default class Reader {
 
 					page.scrollTriggers.forEach( trigger => {
 						if( scrollProgress >= trigger.range[0] && scrollProgress < trigger.range[1] ) {
-							this.Reveal.fragments.update( trigger.fragmentIndex, page.fragments );
+							if( !trigger.active ) {
+								trigger.active = true;
+								this.Reveal.fragments.update( trigger.fragmentIndex, page.fragments, page.slideElement );
+							}
+						}
+						else {
+							trigger.active = false;
 						}
 					} );
 				}

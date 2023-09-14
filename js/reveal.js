@@ -234,9 +234,13 @@ export default function( revealElement, options ) {
 		// to be read or printed linearly
 		if( isPrintMode || isReaderMode ) {
 
-			removeEventListeners();
-
-			window.addEventListener( 'resize', onWindowResize, false );
+			if( isPrintMode ) {
+				removeEventListeners();
+			}
+			else {
+				keyboard.unbind();
+				touch.unbind();
+			}
 
 			// Avoid content flickering during layout
 			revealElement.style.visibility = 'hidden';
@@ -896,7 +900,9 @@ export default function( revealElement, options ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
-				const size = getComputedSlideSize();
+				const size = reader.isActive() ?
+							 getComputedSlideSize( dom.viewport.offsetWidth, dom.viewport.offsetHeight ) :
+							 getComputedSlideSize();;
 
 				const oldScale = scale;
 
@@ -924,10 +930,10 @@ export default function( revealElement, options ) {
 				}
 				else if( reader.isActive() ) {
 					dom.slides.style.zoom = '';
-					dom.slides.style.left = 'auto';
-					dom.slides.style.top = 'auto';
-					dom.slides.style.bottom = 'auto';
-					dom.slides.style.right = 'auto';
+					dom.slides.style.left = '';
+					dom.slides.style.top = '';
+					dom.slides.style.bottom = '';
+					dom.slides.style.right = '';
 					dom.slides.style.height = 'auto';
 					transformSlides( { layout: 'scale('+ scale +')' } );
 				}
@@ -981,9 +987,10 @@ export default function( revealElement, options ) {
 
 			dom.viewport.style.setProperty( '--slide-scale', scale );
 
+			reader.layout();
+
 			progress.update();
 			backgrounds.updateParallax();
-			reader.update();
 
 			if( overview.isActive() ) {
 				overview.update();
@@ -1308,6 +1315,14 @@ export default function( revealElement, options ) {
 
 		// Query all horizontal slides in the deck
 		const horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
+
+		// If we're in reader mode we scroll the target slide into view
+		// instead of running our standard slide transition
+		if( reader.isActive() ) {
+			const scrollToSlide = dom.wrapper.querySelectorAll( SLIDES_SELECTOR )[ h ];
+			if( scrollToSlide ) reader.scrollToSlide( scrollToSlide );
+			return;
+		}
 
 		// Abort if there are no slides
 		if( horizontalSlides.length === 0 ) return;

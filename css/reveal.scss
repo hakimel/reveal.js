@@ -1885,6 +1885,7 @@ $notesWidthPercent: 25%;
 		width: auto !important;
 		height: auto !important;
 		overflow: visible !important;
+		touch-action: manipulation;
 	}
 	.reveal .slides {
 		position: static;
