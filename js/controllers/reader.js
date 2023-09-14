@@ -199,45 +199,59 @@ export default class Reader {
 	onScroll() {
 
 		const viewportElement = this.Reveal.getViewportElement();
+		const viewportHeight = viewportElement.offsetHeight;
 
 		const scrollTop = viewportElement.scrollTop;
 		const scale = this.Reveal.getScale();
 
 		this.pageMap.forEach( ( page, i ) => {
-			const isPartiallyVisible = scrollTop >= page.top && scrollTop < page.top + page.bottom;
+			const isWithinPreloadRange = scrollTop + viewportHeight >= page.top - viewportHeight && scrollTop < page.top + page.bottom + viewportHeight;
+			const isPartiallyVisible = scrollTop + viewportHeight >= page.top && scrollTop < page.top + page.bottom;
 
-			if( isPartiallyVisible ) {
-				// Load the slide content when it becomes visible
-				if( !page.visible ) {
-					page.visible = true;
+			// Preload content when it appears within range
+			if( isWithinPreloadRange ) {
+				if( !page.preloaded ) {
+					page.preloaded = true;
 					this.Reveal.slideContent.load( page.slideElement );
-					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
-				}
-
-				if( page.totalHeight > page.pageHeight ) {
-					const scrollProgress = Math.min( ( scrollTop - page.top ) / page.scrollHeight, 1 );
-
-					// Fix the slide to the top of the viewport while we're in its
-					// scrollable region
-					page.pageElement.style.transform = `translateY( ${ scrollProgress * page.scrollHeight / scale }px )`;
-
-					page.scrollTriggers.forEach( trigger => {
-						if( scrollProgress >= trigger.range[0] && scrollProgress < trigger.range[1] ) {
-							if( !trigger.active ) {
-								trigger.active = true;
-								this.Reveal.fragments.update( trigger.fragmentIndex, page.fragments, page.slideElement );
-							}
-						}
-						else {
-							trigger.active = false;
-						}
-					} );
 				}
 			}
-			else if( page.visible ) {
-				page.visible = false;
+			else if( page.preloaded ) {
+				page.preloaded = false;
 				this.Reveal.slideContent.unload( page.slideElement );
+			}
+
+			// Play slide content when the slide becomes visible
+			if( isPartiallyVisible ) {
+				if( !page.playing ) {
+					page.playing = true;
+					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
+				}
+			}
+			else if( page.playing ) {
+				page.playing = false;
 				this.Reveal.slideContent.stopEmbeddedContent( page.slideElement );
+			}
+
+			// Handle scroll freezing and triggers for slides in view
+			if( isPartiallyVisible && page.totalHeight > page.pageHeight ) {
+				let scrollProgress = ( scrollTop - page.top ) / page.scrollHeight;
+				scrollProgress = Math.max( Math.min( scrollProgress, 1 ), 0 );
+
+				// Fix the slide to the top of the viewport while we're in its
+				// scrollable region
+				page.pageElement.style.transform = `translateY( ${ scrollProgress * page.scrollHeight / scale }px )`;
+
+				page.scrollTriggers.forEach( trigger => {
+					if( scrollProgress >= trigger.range[0] && scrollProgress < trigger.range[1] ) {
+						if( !trigger.active ) {
+							trigger.active = true;
+							this.Reveal.fragments.update( trigger.fragmentIndex, page.fragments, page.slideElement );
+						}
+					}
+					else {
+						trigger.active = false;
+					}
+				} );
 			}
 		} );
 
