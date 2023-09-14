@@ -457,7 +457,7 @@ const Plugin = () => {
 			xhr.send()
 
 			if (xhr.status === 200) {
-				const renderedTemplate = Mustache.render(xhr.responseText, { content: content, images: options.metadata.images });
+				const renderedTemplate = Mustache.render(xhr.responseText, { content: content, metadata: options.metadata });
 				const tempDiv = document.createElement('div');
 				tempDiv.innerHTML = renderedTemplate;
 				return tempDiv.textContent;
