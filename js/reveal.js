@@ -255,7 +255,18 @@ export default function( revealElement, options ) {
 
 		if( !config.showHiddenSlides ) {
 			Util.queryAll( dom.wrapper, 'section[data-visibility="hidden"]' ).forEach( slide => {
-				slide.parentNode.removeChild( slide );
+				const parent = slide.parentNode;
+
+				// If this slide is part of a stack and that stack will be
+				// empty after removing the hidden slide, remove the entire
+				// stack
+				if( parent.childElementCount === 1 && /section/i.test( parent.nodeName ) ) {
+					parent.remove();
+				}
+				else {
+					slide.remove();
+				}
+
 			} );
 		}
 
