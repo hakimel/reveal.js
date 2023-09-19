@@ -146,7 +146,7 @@ const Plugin = () => {
 		}
 
 		// Look for notes defined in an aside element
-		if( notesElements ) {
+		if( notesElements && notesElements.length ) {
 			messageData.notes = Array.from(notesElements).map( notesElement => notesElement.innerHTML ).join( '\n' );
 			messageData.markdown = notesElements[0] && typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
 		}
