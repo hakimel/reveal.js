@@ -360,15 +360,19 @@ export default class Keyboard {
 			}
 			// A
 			else if( keyCode === 65 ) {
-				if ( config.autoSlideStoppable ) {
+				if( config.autoSlideStoppable ) {
 					this.Reveal.toggleAutoSlide( autoSlideWasPaused );
 				}
 			}
 			// G
 			else if( keyCode === 71 ) {
-				if ( config.jumpToSlide ) {
+				if( config.jumpToSlide ) {
 					this.Reveal.toggleJumpToSlide();
 				}
+			}
+			// R
+			else if( keyCode === 82 ) {
+				this.Reveal.toggleReader();
 			}
 			else {
 				triggered = false;

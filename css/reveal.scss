@@ -1867,6 +1867,10 @@ $notesWidthPercent: 25%;
 /*********************************************
  * READER MODE
  *********************************************/
+.reveal-viewport.loading-scroll-mode {
+	visibility: hidden;
+}
+
 .reveal-viewport.reveal-reader {
 	& {
 		margin: 0 auto !important;
@@ -1910,14 +1914,13 @@ $notesWidthPercent: 25%;
 		position: relative;
 		overflow: hidden;
 		z-index: 1;
-
-		page-break-after: always;
 	}
 
 	.reveal .slides .reader-page section {
 		visibility: visible !important;
 		display: block !important;
 		position: relative !important;
+		top: auto !important;
 
 		margin: 0 !important;
 		padding: 0 !important;

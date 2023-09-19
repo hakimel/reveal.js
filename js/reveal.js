@@ -228,7 +228,7 @@ export default function( revealElement, options ) {
 		}, 1 );
 
 		const isPrintMode = print.isActive();
-		const isReaderMode = reader.isActive();
+		const isReaderMode = config.mode === 'reader';
 
 		// Special setup and config is required when initializing a deck
 		// to be read or printed linearly
@@ -238,12 +238,11 @@ export default function( revealElement, options ) {
 				removeEventListeners();
 			}
 			else {
-				keyboard.unbind();
 				touch.unbind();
 			}
 
 			// Avoid content flickering during layout
-			revealElement.style.visibility = 'hidden';
+			dom.viewport.classList.add( 'loading-scroll-mode' );
 
 			const activate = () => {
 				if( isPrintMode ) {
@@ -2721,6 +2720,9 @@ export default function( revealElement, options ) {
 
 		// Toggles the overview mode on/off
 		toggleOverview: overview.toggle.bind( overview ),
+
+		// Toggles the reader mode on/off
+		toggleReader: reader.toggle.bind( reader ),
 
 		// Toggles the "black screen" mode on/off
 		togglePause,

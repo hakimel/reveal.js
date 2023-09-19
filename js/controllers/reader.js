@@ -11,26 +11,28 @@ export default class Reader {
 
 		this.Reveal = Reveal;
 
-		this.activated = false;
+		this.active = false;
 		this.activatedCallbacks = [];
 
 	}
 
 	async activate() {
 
-		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR );
+		if( this.active ) return;
+
+		this.active = true;
+
+		this.slideHTMLBeforeActivation = this.Reveal.getSlidesElement().innerHTML;
 
 		const viewportElement = this.Reveal.getViewportElement();
-
-		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
+		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR );
 
 		// Dimensions of slides within the pages
+		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 		const slideWidth = slideSize.width,
 			  slideHeight = slideSize.height;
 
-		await new Promise( requestAnimationFrame );
-
-		viewportElement.classList.add( 'reveal-reader' );
+		viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
 		viewportElement.addEventListener( 'scroll', this.onScroll.bind( this ) );
 
 		let presentationBackground;
@@ -93,22 +95,45 @@ export default class Reader {
 
 		this.Reveal.layout();
 
-		this.activated = true;
+		viewportElement.classList.remove( 'loading-scroll-mode' );
+
 		this.activatedCallbacks.forEach( callback => callback() );
 		this.activatedCallbacks = [];
 
 	}
 
+	deactivate() {
+
+		if( !this.active ) return;
+
+		this.active = false;
+
+		this.Reveal.getViewportElement().classList.remove( 'reveal-reader' );
+		this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation;
+		this.Reveal.sync();
+
+		// TODO Navigate to the slide that is currently scrolled into view
+		this.Reveal.slide( 0 );
+
+	}
+
+	toggle() {
+
+		if( this.active === true ) {
+			this.deactivate();
+		}
+		else {
+			this.activate();
+		}
+
+	}
+
 	/**
-	 * Checks if the reader mode is/should be activated.
+	 * Checks if the reader mode is currently active.
 	 */
 	isActive() {
 
-		if( typeof this._isReaderMode === 'undefined' ) {
-			this._isReaderMode = this.Reveal.getConfig().mode === 'reader';
-		}
-
-		return this._isReaderMode;
+		return this.active;
 
 	}
 
@@ -187,7 +212,7 @@ export default class Reader {
 
 	scrollToSlide( slideElement ) {
 
-		if( !this.activated ) {
+		if( !this.active ) {
 			this.activatedCallbacks.push( () => this.scrollToSlide( slideElement ) );
 		}
 		else {
