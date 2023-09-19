@@ -147,7 +147,11 @@ const Plugin = () => {
 
 		// Look for notes defined in an aside element
 		if( notesElements && notesElements.length ) {
-			messageData.notes = Array.from(notesElements).map( notesElement => notesElement.innerHTML ).join( '\n' );
+			// Ignore notes inside of fragments since those are shown
+			// individually when stepping through fragments
+			notesElements = Array.from( notesElements ).filter( notesElement => notesElement.closest( '.fragment' ) === null );
+
+			messageData.notes = notesElements.map( notesElement => notesElement.innerHTML ).join( '\n' );
 			messageData.markdown = notesElements[0] && typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
 		}
 
