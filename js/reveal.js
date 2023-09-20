@@ -142,6 +142,11 @@ export default function( revealElement, options ) {
 		// 5. Query params
 		config = { ...defaultConfig, ...config, ...options, ...initOptions, ...Util.getQueryHash() };
 
+		// Legacy support for the ?print-pdf query
+		if( /print-pdf/gi.test( window.location.search ) ) {
+			config.view = 'print';
+		}
+
 		setViewport();
 
 		// Force a layout when the whole page, incl fonts, has loaded
@@ -227,14 +232,14 @@ export default function( revealElement, options ) {
 			});
 		}, 1 );
 
-		const isPrintMode = print.isActive();
-		const isReaderMode = config.mode === 'reader';
+		const activatePrintView = config.view === 'print';
+		const activateReaderView = config.view === 'reader';
 
 		// Special setup and config is required when initializing a deck
 		// to be read or printed linearly
-		if( isPrintMode || isReaderMode ) {
+		if( activatePrintView || activateReaderView ) {
 
-			if( isPrintMode ) {
+			if( activatePrintView ) {
 				removeEventListeners();
 			}
 			else {
@@ -245,7 +250,7 @@ export default function( revealElement, options ) {
 			dom.viewport.classList.add( 'loading-scroll-mode' );
 
 			const activate = () => {
-				if( isPrintMode ) {
+				if( activatePrintView ) {
 					print.activate();
 				}
 				else {

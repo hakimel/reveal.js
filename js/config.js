@@ -256,11 +256,11 @@ export default {
 	parallaxBackgroundHorizontal: null,
 	parallaxBackgroundVertical: null,
 
-	// Can be used to initialize reveal.js in one of the following modes:
+	// Can be used to initialize reveal.js in one of the following views:
 	// - print:   Render the presentation so that it can be printed to PDF
 	// - reader:  Show the presentation as a tall scrollable page with scroll
 	//            triggered animations
-	mode: null,
+	view: null,
 
 	// When the presentation is in reader mode, this controls whether each
 	// page should be as tall as the presentation viewport. Set this to false

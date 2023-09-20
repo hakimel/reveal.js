@@ -230,12 +230,7 @@ export default class Print {
 	 */
 	isActive() {
 
-		if( typeof this._isPrintMode === 'undefined' ) {
-			this._isPrintMode = this.Reveal.getConfig().mode === 'pdf' ||
-								( /print-pdf/gi ).test( window.location.search );
-		}
-
-		return this._isPrintMode;
+		return this.Reveal.getConfig().view === 'print';
 
 	}
 
