@@ -1875,6 +1875,7 @@ $notesWidthPercent: 25%;
 	& {
 		margin: 0 auto !important;
 		overflow: auto;
+		z-index: 1;
 	}
 
 	.reveal .controls,
@@ -1884,20 +1885,16 @@ $notesWidthPercent: 25%;
 	}
 
 	.reveal {
-		display: flex;
-		justify-content: center;
-		width: auto !important;
-		height: auto !important;
-		overflow: visible !important;
+		overflow: visible;
 		touch-action: manipulation;
 	}
 	.reveal .slides {
 		position: static;
 		pointer-events: initial;
-		transform-origin: 50% 0;
 
 		left: auto;
 		top: auto;
+		width: 100% !important;
 		margin: 0 !important;
 		padding: 0 !important;
 
@@ -1909,34 +1906,40 @@ $notesWidthPercent: 25%;
 	}
 
 	.reveal .slides .reader-page {
-		display: grid;
-		place-items: center;
 		position: relative;
-		overflow: hidden;
+		width: 100%;
+		height: calc(var(--page-height) + var(--page-scroll-padding));
 		z-index: 1;
+		overflow: visible;
+	}
+
+	.reveal .slides .reader-page-sticky {
+		position: sticky;
+		height: var(--page-height);
+		top: 0px;
+	}
+
+	.reveal .slides .reader-page-content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 
 	.reveal .slides .reader-page section {
 		visibility: visible !important;
 		display: block !important;
-		position: relative !important;
-		top: auto !important;
-
-		margin: 0 !important;
-		padding: 0 !important;
-		box-sizing: border-box !important;
-		min-height: 1px;
-
+		position: absolute !important;
+		top: 50% !important;
+		left: 50% !important;
 		opacity: 1 !important;
-
 		transform-style: flat !important;
-		transform: none !important;
+		transform-origin: 0 0 !important;
 	}
 
 	.reveal section.stack {
 		position: relative !important;
-		margin: 0 !important;
-		padding: 0 !important;
 		page-break-after: avoid !important;
 		height: auto !important;
 		min-height: auto !important;

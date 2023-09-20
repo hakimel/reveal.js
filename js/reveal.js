@@ -901,7 +901,7 @@ export default function( revealElement, options ) {
 
 				const size = reader.isActive() ?
 							 getComputedSlideSize( dom.viewport.offsetWidth, dom.viewport.offsetHeight ) :
-							 getComputedSlideSize();;
+							 getComputedSlideSize();
 
 				const oldScale = scale;
 
@@ -918,23 +918,15 @@ export default function( revealElement, options ) {
 				scale = Math.max( scale, config.minScale );
 				scale = Math.min( scale, config.maxScale );
 
-				// Don't apply any scaling styles if scale is 1
-				if( scale === 1 ) {
+				// Don't apply any scaling styles if scale is 1 or we're
+				// in reader mode
+				if( scale === 1 || reader.isActive() ) {
 					dom.slides.style.zoom = '';
 					dom.slides.style.left = '';
 					dom.slides.style.top = '';
 					dom.slides.style.bottom = '';
 					dom.slides.style.right = '';
 					transformSlides( { layout: '' } );
-				}
-				else if( reader.isActive() ) {
-					dom.slides.style.zoom = '';
-					dom.slides.style.left = '';
-					dom.slides.style.top = '';
-					dom.slides.style.bottom = '';
-					dom.slides.style.right = '';
-					dom.slides.style.height = 'auto';
-					transformSlides( { layout: 'scale('+ scale +')' } );
 				}
 				else {
 					dom.slides.style.zoom = '';
@@ -956,7 +948,7 @@ export default function( revealElement, options ) {
 						continue;
 					}
 
-					if( ( config.center || slide.classList.contains( 'center' ) ) && !reader.isActive() ) {
+					if( ( config.center || slide.classList.contains( 'center' ) ) ) {
 						// Vertical stacks are not centred since their section
 						// children will be
 						if( slide.classList.contains( 'stack' ) ) {

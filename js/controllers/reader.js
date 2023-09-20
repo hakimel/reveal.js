@@ -47,7 +47,7 @@ export default class Reader {
 		await new Promise( requestAnimationFrame );
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
 
-		const pages = [];
+		const pageElements = [];
 		const pageContainer = slides[0].parentNode;
 
 		// Slide and slide background layout
@@ -59,13 +59,11 @@ export default class Reader {
 				// Wrap the slide in a page element and hide its overflow
 				// so that no page ever flows onto another
 				const page = document.createElement( 'div' );
-				pages.push( page );
-
 				page.className = 'reader-page';
-				page.style.width = slideWidth + 'px';
-				page.style.height = slideHeight + 'px';
+				pageElements.push( page );
 
 				slide.style.width = slideWidth + 'px';
+				// slide.style.height = slideHeight + 'px';
 
 				// Copy the presentation-wide background to each individual
 				// page when printing
@@ -73,10 +71,18 @@ export default class Reader {
 					page.style.background = presentationBackground;
 				}
 
-				page.appendChild( slide );
+				const stickyContainer = document.createElement( 'div' );
+				stickyContainer.className = 'reader-page-sticky';
+				page.appendChild( stickyContainer );
+
+				const contentContainer = document.createElement( 'div' );
+				contentContainer.className = 'reader-page-content';
+				stickyContainer.appendChild( contentContainer );
+
+				contentContainer.appendChild( slide );
 
 				if( slide.slideBackgroundElement ) {
-					page.insertBefore( slide.slideBackgroundElement, slide );
+					contentContainer.insertBefore( slide.slideBackgroundElement, slide );
 				}
 
 			}
@@ -88,7 +94,7 @@ export default class Reader {
 
 		await new Promise( requestAnimationFrame );
 
-		pages.forEach( page => pageContainer.appendChild( page ) );
+		pageElements.forEach( page => pageContainer.appendChild( page ) );
 
 		// Re-run JS-based content layout after the slide is added to page DOM
 		this.Reveal.slideContent.layout( this.Reveal.getSlidesElement() );
@@ -144,41 +150,53 @@ export default class Reader {
 
 		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 		const scale = this.Reveal.getScale();
+		const fullPageHeight = this.Reveal.getConfig().readerFullPageHeight;
+
+		const pageHeight = fullPageHeight === true ? viewportHeight : slideSize.height * scale;
 
 		// The height that needs to be scrolled between scroll triggers
-		const scrollTriggerHeight = slideSize.height * scale / 2;
+		const scrollTriggerHeight = viewportHeight / 2;
 
-		this.pageElements = Array.from( this.Reveal.getRevealElement().querySelectorAll( '.reader-page' ) );
+		viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
 
-		this.pageMap = this.pageElements.map( pageElement => {
-			// pageElement.style.width = ( viewportElement.offsetWidth / scale ) + 'px';
-			// pageElement.style.height = ( viewportElement.offsetHeight / scale ) + 'px';
+		const pageElements = Array.from( this.Reveal.getRevealElement().querySelectorAll( '.reader-page' ) );
 
+		this.pages = pageElements.map( pageElement => {
 			const page = {
 				pageElement: pageElement,
+				stickyElement: pageElement.querySelector( '.reader-page-sticky' ),
 				slideElement: pageElement.querySelector( 'section' ),
-				top: pageElement.offsetTop * scale,
-				pageHeight: pageElement.offsetHeight * scale,
+				backgroundElement: pageElement.querySelector( '.slide-background' ),
+				top: pageElement.offsetTop,
+				pageHeight: pageHeight,
 				scrollTriggers: []
 			};
-
-			page.fragments = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment:not(.disabled)' ) );
 
 			// Each fragment 'group' is an array containing one or more
 			// fragments. Multiple fragments that appear at the same time
 			// are part of the same group.
+			page.fragments = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment:not(.disabled)' ) );
 			page.fragmentGroups = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment' ), true );
 
 			// The amount of empty scrollable space that has been append
-			page.scrollHeight = scrollTriggerHeight * Math.max( page.fragmentGroups.length - 1, 0 );
+			page.scrollPadding = scrollTriggerHeight * Math.max( page.fragmentGroups.length - 1, 0 );
+
+			// This variable is used to pad the height of our page in CSS
+			page.pageElement.style.setProperty( '--page-scroll-padding', page.scrollPadding + 'px' );
 
 			// The total height including scrollable space
-			page.totalHeight = page.pageHeight + page.scrollHeight;
+			page.totalHeight = page.pageHeight + page.scrollPadding;
 
 			page.bottom = page.top + page.totalHeight;
 
-			// Pad the page height to reserve scrollable height
-			page.pageElement.style.marginBottom = page.scrollHeight / scale + 'px';
+			// If this is a sticky page, stick it to the vertical center
+			if( page.scrollPadding > 0 ) {
+				page.stickyElement.style.position = 'sticky';
+				page.stickyElement.style.top = Math.max( ( viewportHeight - page.pageHeight ) / 2, 0 ) + 'px';
+			}
+			else {
+				page.stickyElement.style.position = 'relative';
+			}
 
 			// Create scroll triggers that show/hide fragments
 			if( page.fragmentGroups.length ) {
@@ -206,6 +224,14 @@ export default class Reader {
 	layout() {
 
 		this.generatePageMap();
+
+		const scale = this.Reveal.getScale();
+
+		this.pages.forEach( ( page ) => {
+			page.slideElement.style.transform = `scale(${scale}) translate(-50%, -50%)`;
+		} );
+
+
 		this.onScroll();
 
 	}
@@ -227,9 +253,8 @@ export default class Reader {
 		const viewportHeight = viewportElement.offsetHeight;
 
 		const scrollTop = viewportElement.scrollTop;
-		const scale = this.Reveal.getScale();
 
-		this.pageMap.forEach( ( page, i ) => {
+		this.pages.forEach( ( page ) => {
 			const isWithinPreloadRange = scrollTop + viewportHeight >= page.top - viewportHeight && scrollTop < page.top + page.bottom + viewportHeight;
 			const isPartiallyVisible = scrollTop + viewportHeight >= page.top && scrollTop < page.top + page.bottom;
 
@@ -249,22 +274,30 @@ export default class Reader {
 			if( isPartiallyVisible ) {
 				if( !page.playing ) {
 					page.playing = true;
+					page.pageElement.classList.add( 'present' );
+					page.slideElement.classList.add( 'present' );
 					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
+
+					if( page.backgroundElement ) {
+						this.Reveal.slideContent.startEmbeddedContent( page.backgroundElement );
+					}
 				}
 			}
 			else if( page.playing ) {
 				page.playing = false;
+				page.pageElement.classList.remove( 'present' );
+				page.slideElement.classList.remove( 'present' );
 				this.Reveal.slideContent.stopEmbeddedContent( page.slideElement );
+
+				if( page.backgroundElement ) {
+					this.Reveal.slideContent.stopEmbeddedContent( page.backgroundElement );
+				}
 			}
 
 			// Handle scroll freezing and triggers for slides in view
 			if( isPartiallyVisible && page.totalHeight > page.pageHeight ) {
-				let scrollProgress = ( scrollTop - page.top ) / page.scrollHeight;
+				let scrollProgress = ( scrollTop - page.top ) / page.scrollPadding;
 				scrollProgress = Math.max( Math.min( scrollProgress, 1 ), 0 );
-
-				// Fix the slide to the top of the viewport while we're in its
-				// scrollable region
-				page.pageElement.style.transform = `translateY( ${ scrollProgress * page.scrollHeight / scale }px )`;
 
 				page.scrollTriggers.forEach( trigger => {
 					if( scrollProgress >= trigger.range[0] && scrollProgress < trigger.range[1] ) {

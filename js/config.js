@@ -256,6 +256,17 @@ export default {
 	parallaxBackgroundHorizontal: null,
 	parallaxBackgroundVertical: null,
 
+	// Can be used to initialize reveal.js in one of the following modes:
+	// - print:   Render the presentation so that it can be printed to PDF
+	// - reader:  Show the presentation as a tall scrollable page with scroll
+	//            triggered animations
+	mode: null,
+
+	// When the presentation is in reader mode, this controls whether each
+	// page should be as tall as the presentation viewport. Set this to false
+	// for a more compact layout with multiple slides visible at a time.
+	readerFullPageHeight: true,
+
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default
 	pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
