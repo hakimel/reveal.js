@@ -62,9 +62,6 @@ export default class Reader {
 				page.className = 'reader-page';
 				pageElements.push( page );
 
-				slide.style.width = slideWidth + 'px';
-				// slide.style.height = slideHeight + 'px';
-
 				// Copy the presentation-wide background to each individual
 				// page when printing
 				if( presentationBackground ) {
@@ -143,21 +140,29 @@ export default class Reader {
 
 	}
 
-	generatePageMap() {
+	/**
+	 * Updates our reader pages to match the latest configuration and
+	 * presentation size.
+	 */
+	sync() {
 
-		const viewportElement = this.Reveal.getViewportElement();
-		const viewportHeight = viewportElement.offsetHeight;
+		const config = this.Reveal.getConfig();
 
 		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 		const scale = this.Reveal.getScale();
-		const fullPageHeight = this.Reveal.getConfig().readerFullPageHeight;
+		const readerLayout = config.readerLayout;
 
-		const pageHeight = fullPageHeight === true ? viewportHeight : slideSize.height * scale;
+		const viewportElement = this.Reveal.getViewportElement();
+		const viewportHeight = viewportElement.offsetHeight;
+		const compactHeight = slideSize.height * scale;
+		const pageHeight = readerLayout === 'full' ? viewportHeight : compactHeight;
 
 		// The height that needs to be scrolled between scroll triggers
 		const scrollTriggerHeight = viewportHeight / 2;
 
 		viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
+		viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
+												`y ${config.readerScrollSnap}` : '';
 
 		const pageElements = Array.from( this.Reveal.getRevealElement().querySelectorAll( '.reader-page' ) );
 
@@ -168,35 +173,17 @@ export default class Reader {
 				slideElement: pageElement.querySelector( 'section' ),
 				backgroundElement: pageElement.querySelector( '.slide-background' ),
 				top: pageElement.offsetTop,
-				pageHeight: pageHeight,
 				scrollTriggers: []
 			};
+
+			page.slideElement.style.width = slideSize.width + 'px';
+			page.slideElement.style.height = config.center === true ? '' : slideSize.height + 'px';
 
 			// Each fragment 'group' is an array containing one or more
 			// fragments. Multiple fragments that appear at the same time
 			// are part of the same group.
 			page.fragments = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment:not(.disabled)' ) );
 			page.fragmentGroups = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment' ), true );
-
-			// The amount of empty scrollable space that has been append
-			page.scrollPadding = scrollTriggerHeight * Math.max( page.fragmentGroups.length - 1, 0 );
-
-			// This variable is used to pad the height of our page in CSS
-			page.pageElement.style.setProperty( '--page-scroll-padding', page.scrollPadding + 'px' );
-
-			// The total height including scrollable space
-			page.totalHeight = page.pageHeight + page.scrollPadding;
-
-			page.bottom = page.top + page.totalHeight;
-
-			// If this is a sticky page, stick it to the vertical center
-			if( page.scrollPadding > 0 ) {
-				page.stickyElement.style.position = 'sticky';
-				page.stickyElement.style.top = Math.max( ( viewportHeight - page.pageHeight ) / 2, 0 ) + 'px';
-			}
-			else {
-				page.stickyElement.style.position = 'relative';
-			}
 
 			// Create scroll triggers that show/hide fragments
 			if( page.fragmentGroups.length ) {
@@ -211,9 +198,44 @@ export default class Reader {
 						fragmentIndex: i
 					}))
 				);
+			}
+
+
+			// Add scroll padding based on how many scroll triggers we have
+			page.scrollPadding = scrollTriggerHeight * page.scrollTriggers.length;
+
+			// In the compact layout, only slides with scroll triggers cover the
+			// full viewport height. This helps avoid empty gaps before or after
+			// a sticky slide.
+			if( readerLayout === 'compact' && page.scrollTriggers.length > 0 ) {
+				page.pageHeight = viewportHeight;
+				page.pageElement.style.setProperty( '--page-height', viewportHeight + 'px' );
+			}
+			else {
+				page.pageHeight = pageHeight;
+				page.pageElement.style.removeProperty( '--page-height' );
+			}
+
+			page.pageElement.style.scrollSnapAlign = page.pageHeight < viewportHeight ? 'center' : 'start';
+
+			// This variable is used to pad the height of our page in CSS
+			page.pageElement.style.setProperty( '--page-scroll-padding', page.scrollPadding + 'px' );
+
+			// The total height including scrollable space
+			page.totalHeight = page.pageHeight + page.scrollPadding;
+
+			page.bottom = page.top + page.totalHeight;
+
+			// If this is a sticky page, stick it to the vertical center
+			if( page.scrollTriggers.length > 0 ) {
+				page.stickyElement.style.position = 'sticky';
+				page.stickyElement.style.top = Math.max( ( viewportHeight - page.pageHeight ) / 2, 0 ) + 'px';
 
 				// Make this page freeze at the vertical center of the viewport
 				page.top -= ( viewportHeight - page.pageHeight ) / 2;
+			}
+			else {
+				page.stickyElement.style.position = 'relative';
 			}
 
 			return page;
@@ -223,15 +245,7 @@ export default class Reader {
 
 	layout() {
 
-		this.generatePageMap();
-
-		const scale = this.Reveal.getScale();
-
-		this.pages.forEach( ( page ) => {
-			page.slideElement.style.transform = `scale(${scale}) translate(-50%, -50%)`;
-		} );
-
-
+		this.sync();
 		this.onScroll();
 
 	}

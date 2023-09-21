@@ -1934,6 +1934,7 @@ $notesWidthPercent: 25%;
 		top: 50% !important;
 		left: 50% !important;
 		opacity: 1 !important;
+		transform: scale(var(--slide-scale)) translate(-50%, -50%) !important;
 		transform-style: flat !important;
 		transform-origin: 0 0 !important;
 	}

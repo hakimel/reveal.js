@@ -2744,7 +2744,7 @@ export default function( revealElement, options ) {
 		isFocused: focus.isFocused.bind( focus ),
 
 		isReaderMode: reader.isActive.bind( reader ),
-		isPrintMode: print.isActive.bind( print ),
+		isPrinting: print.isActive.bind( print ),
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,

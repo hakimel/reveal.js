@@ -262,10 +262,19 @@ export default {
 	//            triggered animations
 	view: null,
 
-	// When the presentation is in reader mode, this controls whether each
-	// page should be as tall as the presentation viewport. Set this to false
-	// for a more compact layout with multiple slides visible at a time.
-	readerFullPageHeight: true,
+	// Adjusts the height of each slide in reader mode
+	// - full:       Each slide is as tall as the viewport
+	// - compact:    Slides are as small as possible, allowing multiple slides
+	//               to be visible in parallel on tall devices
+	readerLayout: 'full',
+
+	// Control how scroll snapping works in reader mode.
+	// - false:   	No snapping, scrolling is continuous
+	// - proximity:  Snap when close to a slide
+	// - mandatory:  Always snap to the closest slide
+	//
+	// Only applies to presentations in reader mode.
+	readerScrollSnap: 'proximity',
 
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default
