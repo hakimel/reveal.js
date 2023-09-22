@@ -27,11 +27,6 @@ export default class Reader {
 		const viewportElement = this.Reveal.getViewportElement();
 		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR );
 
-		// Dimensions of slides within the pages
-		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
-		const slideWidth = slideSize.width,
-			  slideHeight = slideSize.height;
-
 		viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
 		viewportElement.addEventListener( 'scroll', this.onScroll.bind( this ) );
 
@@ -42,10 +37,6 @@ export default class Reader {
 				presentationBackground = viewportStyles.background;
 			}
 		}
-
-		// Make sure stretch elements fit on slide
-		await new Promise( requestAnimationFrame );
-		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
 
 		const pageElements = [];
 		const pageContainer = slides[0].parentNode;
@@ -286,8 +277,8 @@ export default class Reader {
 
 			// Play slide content when the slide becomes visible
 			if( isPartiallyVisible ) {
-				if( !page.playing ) {
-					page.playing = true;
+				if( !page.active ) {
+					page.active = true;
 					page.pageElement.classList.add( 'present' );
 					page.slideElement.classList.add( 'present' );
 					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
@@ -297,8 +288,8 @@ export default class Reader {
 					}
 				}
 			}
-			else if( page.playing ) {
-				page.playing = false;
+			else if( page.active ) {
+				page.active = false;
 				page.pageElement.classList.remove( 'present' );
 				page.slideElement.classList.remove( 'present' );
 				this.Reveal.slideContent.stopEmbeddedContent( page.slideElement );

@@ -1004,7 +1004,6 @@ export default function( revealElement, options ) {
 	 * @param {string|number} height
 	 */
 	function layoutSlideContents( width, height ) {
-
 		// Handle sizing of elements with the 'r-stretch' class
 		Util.queryAll( dom.slides, 'section > .stretch, section > .r-stretch' ).forEach( element => {
 
