@@ -69,7 +69,10 @@ export default class Reader {
 
 				contentContainer.appendChild( slide );
 
+				slide.classList.remove( 'past', 'future' );
+
 				if( slide.slideBackgroundElement ) {
+					slide.slideBackgroundElement.remove( 'past', 'future' );
 					contentContainer.insertBefore( slide.slideBackgroundElement, slide );
 				}
 
@@ -191,7 +194,6 @@ export default class Reader {
 				);
 			}
 
-
 			// Add scroll padding based on how many scroll triggers we have
 			page.scrollPadding = scrollTriggerHeight * page.scrollTriggers.length;
 
@@ -259,9 +261,10 @@ export default class Reader {
 
 		const scrollTop = viewportElement.scrollTop;
 
-		this.pages.forEach( ( page ) => {
+		this.pages.forEach( ( page, pageIndex ) => {
 			const isWithinPreloadRange = scrollTop + viewportHeight >= page.top - viewportHeight && scrollTop < page.top + page.bottom + viewportHeight;
 			const isPartiallyVisible = scrollTop + viewportHeight >= page.top && scrollTop < page.top + page.bottom;
+			const isMostlyVisible = scrollTop + viewportHeight >= page.top + viewportHeight / 2 && scrollTop < page.top + page.bottom - viewportHeight / 2;
 
 			// Preload content when it appears within range
 			if( isWithinPreloadRange ) {
@@ -276,11 +279,13 @@ export default class Reader {
 			}
 
 			// Play slide content when the slide becomes visible
-			if( isPartiallyVisible ) {
+			if( isMostlyVisible ) {
 				if( !page.active ) {
 					page.active = true;
 					page.pageElement.classList.add( 'present' );
 					page.slideElement.classList.add( 'present' );
+
+					this.Reveal.setCurrentReaderPage( pageIndex, page.pageElement );
 					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
 
 					if( page.backgroundElement ) {

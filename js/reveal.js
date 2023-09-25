@@ -708,6 +708,26 @@ export default function( revealElement, options ) {
 	}
 
 	/**
+	 * Dispatches a slidechanged event.
+	 *
+	 * @param {string} origin Used to identify multiplex clients
+	 */
+	function dispatchSlideChanged( origin ) {
+
+		dispatchEvent({
+			type: 'slidechanged',
+			data: {
+				indexh,
+				indexv,
+				previousSlide,
+				currentSlide,
+				origin
+			}
+		});
+
+	}
+
+	/**
 	 * Dispatched a postMessage of the given type from our window.
 	 */
 	function dispatchPostMessage( type, data ) {
@@ -1440,16 +1460,7 @@ export default function( revealElement, options ) {
 		}
 
 		if( slideChanged ) {
-			dispatchEvent({
-				type: 'slidechanged',
-				data: {
-					indexh,
-					indexv,
-					previousSlide,
-					currentSlide,
-					origin
-				}
-			});
+			dispatchSlideChanged( origin );
 		}
 
 		// Handle embedded content
@@ -1491,6 +1502,18 @@ export default function( revealElement, options ) {
 			}
 
 		}
+
+	}
+
+	function setCurrentReaderPage( pageIndex, pageElement ) {
+
+		indexh = pageIndex;
+		indexv = 0;
+
+		previousSlide = currentSlide;
+		currentSlide = pageElement.querySelector( 'section' );
+
+		dispatchSlideChanged();
 
 	}
 
@@ -2827,6 +2850,7 @@ export default function( revealElement, options ) {
 		registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
 
 		getComputedSlideSize,
+		setCurrentReaderPage,
 
 		// Returns the current scale of the presentation content
 		getScale: () => scale,
