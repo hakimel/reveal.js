@@ -152,6 +152,8 @@ const Plugin = () => {
 			content,
 			sectionStack = [];
 
+		[ markdown, options ] = parseFrontMatter(markdown, options)
+
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
 			const notes = null;
@@ -191,7 +193,7 @@ const Plugin = () => {
 
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
-				markdownSections += '<section '+ options.attributes +'>';
+				markdownSections += '<section '+ newOptions.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
 					[content, newOptions] = parseMarkdown(child, newOptions)
@@ -425,24 +427,38 @@ const Plugin = () => {
 
 	}
 
-	function parseMarkdown (markdown, options) {
-		const yamlRegex = /```(yaml|yml)([\s\S]*?)```/g
-		if (!yamlRegex.test(markdown)){
-			return [markdown, options]
+	function parseFrontMatter (content, options) {
+		options = getSlidifyOptions( options)
+		let frontMatterRegex = /^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})?([\w\W]*)*/
+		if (frontMatterRegex.test(content)) {
+			frontMatterRegex.lastIndex = 0;
+			const parsedParts = frontMatterRegex.exec(content)
+			content = parsedParts[3] || '';
+			options.metadata = yaml.load(parsedParts[2]);
 		}
+		return [content, options];
+	}
 
-		const markdownParts = markdown.split(yamlRegex).filter(item => !/(yaml|yml)/i.test(item.trim()) && item.trim() !== '')
-		const metadata = markdownParts[0] || {}
-		markdown = markdownParts[1] || ''
+	function parseMarkdown (markdown, options) {
+		const yamlRegex =  /```(yaml|yml)\n([\s\S]*?)```(\n[\s\S]*)?/g;
+		if (yamlRegex.test(markdown)){
+			yamlRegex.lastIndex = 0;
 
-		if (metadata){
-			try {
-				options.metadata = yaml.load(metadata);
-				options.attributes = 'class=' + options.metadata.slideType;
-			} catch (error) {
-				markdown = "Error while parsing metadata"
-				console.error(markdown, error)
+			const markdownParts = yamlRegex.exec(markdown)
+			const metadata = markdownParts[2] || {}
+			markdown = markdownParts[3] || ''
+			if (metadata){
+				try {
+					const metadataYAML = yaml.load(metadata);
+					options.metadata = {...options.metadata, ...metadataYAML}
+					options.attributes = 'class=' + options.metadata.slideType;
+				} catch (error) {
+					markdown = "Error while parsing metadata"
+					console.error(markdown, error)
+				}
 			}
+		} else if (options.metadata){
+			options.attributes = 'class=' + options.metadata.slideType;
 		}
 
 		return [markdown, options]
