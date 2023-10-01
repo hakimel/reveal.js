@@ -1096,11 +1096,13 @@ $controlsArrowAngleActive: 36deg;
 
 .reveal .no-transition,
 .reveal .no-transition *,
-.reveal .slides.disable-slide-transitions section {
+.reveal .slides.disable-slide-transitions section,
+.reveal .backgrounds.disable-slide-transitions .slide-background {
 	transition: none !important;
 }
 
-.reveal .slides.disable-slide-transitions section {
+.reveal .slides.disable-slide-transitions section,
+.reveal .backgrounds.disable-slide-transitions .slide-background {
 	transform: none !important;
 }
 

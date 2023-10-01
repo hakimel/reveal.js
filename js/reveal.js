@@ -1347,6 +1347,7 @@ export default function( revealElement, options ) {
 
 				autoAnimateTransition = true;
 				dom.slides.classList.add( 'disable-slide-transitions' );
+				backgrounds.element.classList.add( 'disable-slide-transitions' );
 			}
 
 			transition = 'running';
@@ -1452,6 +1453,7 @@ export default function( revealElement, options ) {
 
 			setTimeout( () => {
 				dom.slides.classList.remove( 'disable-slide-transitions' );
+				backgrounds.element.classList.remove( 'disable-slide-transitions' );
 			}, 0 );
 
 			if( config.autoAnimate ) {
