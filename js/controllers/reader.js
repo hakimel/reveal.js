@@ -16,6 +16,10 @@ export default class Reader {
 
 	}
 
+	/**
+	 * Activates the reader mode. This rearranges the presentation DOM
+	 * by—among other things—wrapping each slide in a page element.
+	 */
 	async activate() {
 
 		if( this.active ) return;
@@ -99,6 +103,10 @@ export default class Reader {
 
 	}
 
+	/**
+	 * Deactivates the reader mode and restores the standard slide-based
+	 * presentation.
+	 */
 	deactivate() {
 
 		if( !this.active ) return;
@@ -261,10 +269,16 @@ export default class Reader {
 
 		const scrollTop = viewportElement.scrollTop;
 
+		// Find the page closest to the center of the viewport, this
+		// is the page we want to focus and activate
+		const activePage = this.pages.reduce( ( closestPage, page ) => {
+			const distance = Math.abs( ( page.top + page.pageHeight / 2 ) - scrollTop - viewportHeight / 2 );
+			return distance < closestPage.distance ? { page, distance } : closestPage;
+		}, { page: this.pages[0], distance: Infinity } ).page;
+
 		this.pages.forEach( ( page, pageIndex ) => {
 			const isWithinPreloadRange = scrollTop + viewportHeight >= page.top - viewportHeight && scrollTop < page.top + page.bottom + viewportHeight;
 			const isPartiallyVisible = scrollTop + viewportHeight >= page.top && scrollTop < page.top + page.bottom;
-			const isMostlyVisible = scrollTop + viewportHeight >= page.top + viewportHeight / 2 && scrollTop < page.top + page.bottom - viewportHeight / 2;
 
 			// Preload content when it appears within range
 			if( isWithinPreloadRange ) {
@@ -278,8 +292,9 @@ export default class Reader {
 				this.Reveal.slideContent.unload( page.slideElement );
 			}
 
-			// Play slide content when the slide becomes visible
-			if( isMostlyVisible ) {
+			// Activate the current page — there can only be one active page at
+			// a time.
+			if( page === activePage ) {
 				if( !page.active ) {
 					page.active = true;
 					page.pageElement.classList.add( 'present' );
@@ -293,6 +308,7 @@ export default class Reader {
 					}
 				}
 			}
+			// Deactivate previously active pages
 			else if( page.active ) {
 				page.active = false;
 				page.pageElement.classList.remove( 'present' );

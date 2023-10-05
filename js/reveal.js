@@ -1385,6 +1385,9 @@ export default function( revealElement, options ) {
 
 		// Detect if we're moving between two auto-animated slides
 		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
+			transition = 'running';
+
+			autoAnimateTransition = shoulAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexvBefore );
 
 			// If this is an auto-animated transition, we disable the
 			// regular slide transition
@@ -1392,16 +1395,9 @@ export default function( revealElement, options ) {
 			// Note 20-03-2020:
 			// This needs to happen before we update slide visibility,
 			// otherwise transitions will still run in Safari.
-			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' )
-					&& previousSlide.getAttribute( 'data-auto-animate-id' ) === currentSlide.getAttribute( 'data-auto-animate-id' )
-					&& !( ( indexh > indexhBefore || indexv > indexvBefore ) ? currentSlide : previousSlide ).hasAttribute( 'data-auto-animate-restart' ) ) {
-
-				autoAnimateTransition = true;
-				dom.slides.classList.add( 'disable-slide-transitions' );
+			if( autoAnimateTransition ) {
+				dom.slides.classList.add( 'disable-slide-transitions' )
 			}
-
-			transition = 'running';
-
 		}
 
 		// Update the visibility of slides now that the indices have changed
@@ -1505,13 +1501,48 @@ export default function( revealElement, options ) {
 
 	}
 
+	/**
+	 * Checks whether or not an auto-animation should take place between
+	 * the two given slides.
+	 *
+	 * @param {HTMLElement} fromSlide
+	 * @param {HTMLElement} toSlide
+	 * @param {number} indexhBefore
+	 * @param {number} indexvBefore
+	 *
+	 * @returns {boolean}
+	 */
+	function shoulAutoAnimateBetween( fromSlide, toSlide, indexhBefore, indexvBefore ) {
+
+		return 	fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' ) &&
+				fromSlide.getAttribute( 'data-auto-animate-id' ) === toSlide.getAttribute( 'data-auto-animate-id' ) &&
+				!( ( indexh > indexhBefore || indexv > indexvBefore ) ? toSlide : fromSlide ).hasAttribute( 'data-auto-animate-restart' );
+
+	}
+
+	/**
+	 * Called anytime current page in reader mode changes. The current
+	 * page is the page that occupies the most space in the viewport.
+	 *
+	 * @param {number} pageIndex
+	 * @param {HTMLElement} pageElement
+	 */
 	function setCurrentReaderPage( pageIndex, pageElement ) {
+
+		let indexhBefore = indexh || 0;
 
 		indexh = pageIndex;
 		indexv = 0;
 
 		previousSlide = currentSlide;
 		currentSlide = pageElement.querySelector( 'section' );
+
+		if( currentSlide && previousSlide ) {
+			if( config.autoAnimate && shoulAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexv ) ) {
+				// Run the auto-animation between our slides
+				// autoAnimate.run( previousSlide, currentSlide );
+			}
+		}
 
 		dispatchSlideChanged();
 

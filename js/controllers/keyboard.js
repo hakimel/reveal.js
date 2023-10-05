@@ -370,10 +370,6 @@ export default class Keyboard {
 					this.Reveal.toggleJumpToSlide();
 				}
 			}
-			// R
-			else if( keyCode === 82 ) {
-				this.Reveal.toggleReader();
-			}
 			else {
 				triggered = false;
 			}
