@@ -1,4 +1,4 @@
-import { SLIDES_SELECTOR } from '../utils/constants.js'
+import { HORIZONTAL_SLIDES_SELECTOR, SLIDES_SELECTOR } from '../utils/constants.js'
 import { queryAll, createStyleSheet } from '../utils/util.js'
 
 /**
@@ -26,12 +26,14 @@ export default class Reader {
 
 		if( this.active ) return;
 
+		const state = this.Reveal.getState();
+
 		this.active = true;
 
 		this.slideHTMLBeforeActivation = this.Reveal.getSlidesElement().innerHTML;
 
 		const viewportElement = this.Reveal.getViewportElement();
-		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR );
+		const horizontalSlides = queryAll( this.Reveal.getRevealElement(), HORIZONTAL_SLIDES_SELECTOR );
 
 		viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
 		viewportElement.addEventListener( 'scroll', this.onScroll );
@@ -44,42 +46,53 @@ export default class Reader {
 		}
 
 		const pageElements = [];
-		const pageContainer = slides[0].parentNode;
+		const pageContainer = horizontalSlides[0].parentNode;
+
+		function createPage( slide, h, v ) {
+
+			// Wrap the slide in a page element and hide its overflow
+			// so that no page ever flows onto another
+			const page = document.createElement( 'div' );
+			page.className = 'reader-page';
+			pageElements.push( page );
+
+			// Copy the presentation-wide background to each page
+			if( presentationBackground ) {
+				page.style.background = presentationBackground;
+			}
+
+			const stickyContainer = document.createElement( 'div' );
+			stickyContainer.className = 'reader-page-sticky';
+			page.appendChild( stickyContainer );
+
+			const contentContainer = document.createElement( 'div' );
+			contentContainer.className = 'reader-page-content';
+			stickyContainer.appendChild( contentContainer );
+
+			contentContainer.appendChild( slide );
+
+			slide.classList.remove( 'past', 'future' );
+
+			if( typeof h === 'number' ) slide.setAttribute( 'data-index-h', h );
+			if( typeof v === 'number' ) slide.setAttribute( 'data-index-v', v );
+
+			if( slide.slideBackgroundElement ) {
+				slide.slideBackgroundElement.remove( 'past', 'future' );
+				contentContainer.insertBefore( slide.slideBackgroundElement, slide );
+			}
+
+		}
 
 		// Slide and slide background layout
-		slides.forEach( function( slide ) {
+		horizontalSlides.forEach( ( horizontalSlide, h ) => {
 
-			// Vertical stacks are not centred since their section
-			// children will be
-			if( slide.classList.contains( 'stack' ) === false ) {
-				// Wrap the slide in a page element and hide its overflow
-				// so that no page ever flows onto another
-				const page = document.createElement( 'div' );
-				page.className = 'reader-page';
-				pageElements.push( page );
-
-				// Copy the presentation-wide background to each page
-				if( presentationBackground ) {
-					page.style.background = presentationBackground;
-				}
-
-				const stickyContainer = document.createElement( 'div' );
-				stickyContainer.className = 'reader-page-sticky';
-				page.appendChild( stickyContainer );
-
-				const contentContainer = document.createElement( 'div' );
-				contentContainer.className = 'reader-page-content';
-				stickyContainer.appendChild( contentContainer );
-
-				contentContainer.appendChild( slide );
-
-				slide.classList.remove( 'past', 'future' );
-
-				if( slide.slideBackgroundElement ) {
-					slide.slideBackgroundElement.remove( 'past', 'future' );
-					contentContainer.insertBefore( slide.slideBackgroundElement, slide );
-				}
-
+			if( this.Reveal.isVerticalStack( horizontalSlide ) ) {
+				horizontalSlide.querySelectorAll( 'section' ).forEach( ( verticalSlide, v ) => {
+					createPage( verticalSlide, h, v );
+				});
+			}
+			else {
+				createPage( horizontalSlide, h, 0 );
 			}
 
 		}, this );
@@ -93,6 +106,7 @@ export default class Reader {
 		this.Reveal.slideContent.layout( this.Reveal.getSlidesElement() );
 
 		this.Reveal.layout();
+		this.Reveal.setState( state );
 
 		viewportElement.classList.remove( 'loading-scroll-mode' );
 
@@ -109,6 +123,8 @@ export default class Reader {
 
 		if( !this.active ) return;
 
+		const state = this.Reveal.getState();
+
 		this.active = false;
 
 		const viewportElement = this.Reveal.getViewportElement();
@@ -119,8 +135,7 @@ export default class Reader {
 		this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation;
 		this.Reveal.sync();
 
-		// TODO Navigate to the slide that is currently scrolled into view
-		this.Reveal.slide( 0 );
+		this.Reveal.setState( state );
 
 	}
 
@@ -141,6 +156,14 @@ export default class Reader {
 	isActive() {
 
 		return this.active;
+
+	}
+
+	getSlideByIndices( h, v ) {
+
+		const page = this.pages.find( page => page.indexh === h && page.indexv === v );
+
+		return page ? page.slideElement : null;
 
 	}
 
@@ -177,8 +200,11 @@ export default class Reader {
 				slideElement: pageElement.querySelector( 'section' ),
 				backgroundElement: pageElement.querySelector( '.slide-background' ),
 				top: pageElement.offsetTop,
-				scrollTriggers: []
+				scrollTriggers: [],
 			};
+
+			page.indexh = parseInt( page.slideElement.getAttribute( 'data-index-h' ), 10 );
+			page.indexv = parseInt( page.slideElement.getAttribute( 'data-index-v' ), 10 );
 
 			page.slideElement.style.width = slideSize.width + 'px';
 			page.slideElement.style.height = config.center === true ? '' : slideSize.height + 'px';
@@ -302,7 +328,7 @@ export default class Reader {
 					page.pageElement.classList.add( 'present' );
 					page.slideElement.classList.add( 'present' );
 
-					this.Reveal.setCurrentReaderPage( pageIndex, page.pageElement );
+					this.Reveal.setCurrentReaderPage( page.pageElement, page.indexh, page.indexv );
 					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
 
 					if( page.backgroundElement ) {

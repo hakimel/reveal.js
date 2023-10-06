@@ -278,7 +278,7 @@ export default {
 
 	// Responsively activate the reader mode when we reach the specified
 	// width (in pixels)
-	readerActivationWidth: null,
+	readerActivationWidth: 800,
 
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default

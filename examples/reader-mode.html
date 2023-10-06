@@ -54,7 +54,7 @@
 						<li class="fragment">Fragment three</li>
 					</ul>
 				</section>
-				<section data-background-gradient="linear-gradient(to bottom, #283b95, #17b2c3)">
+				<section data-background-gradient="linear-gradient(to bottom, #283b95, #17b2c3)" id="gradient-bg">
 					<h2>Gradient Backgrounds</h2>
 				</section>
 				<section data-auto-animate>
@@ -89,13 +89,15 @@
 						}
 					</script></code></pre>
 				</section>
-				<section data-background="https://static.slid.es/reveal/image-placeholder.png">
-					<h2>Image Backgrounds</h2>
-					<pre><code class="hljs html">&lt;section data-background="image.png"&gt;</code></pre>
-				</section>
-				<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
-					<h2>Video background</h2>
-				</section>
+				<section class="stack">
+          <section data-background="https://static.slid.es/reveal/image-placeholder.png" id="image-bg">
+            <h2>Image Backgrounds</h2>
+            <pre><code class="hljs html">&lt;section data-background="image.png"&gt;</code></pre>
+          </section>
+          <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
+            <h2>Video background</h2>
+          </section>
+        </section>
 				<section><h2>The end</h2></section>
 
 			</div>
@@ -109,6 +111,7 @@
 		<script>
       Reveal.initialize({
         view: 'reader',
+        hash: true,
 
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 			});

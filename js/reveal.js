@@ -208,13 +208,14 @@ export default function( revealElement, options ) {
 		// Updates the presentation to match the current configuration values
 		configure();
 
-		// Read the initial hash
-		location.readURL();
-
 		// Create slide backgrounds
 		backgrounds.update( true );
 
+		// Activate the print/reader mode if configured
 		activateInitialView();
+
+		// Read the initial hash
+		location.readURL();
 
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
@@ -1161,6 +1162,19 @@ export default function( revealElement, options ) {
 	}
 
 	/**
+	 * Checks if the current or specified slide is a stack containing
+	 * vertical slides.
+	 *
+	 * @param {HTMLElement} [slide=currentSlide]
+	 * @return {Boolean}
+	 */
+	function isVerticalStack( slide = currentSlide ) {
+
+		return slide.classList.contains( '.stack' ) || slide.querySelector( 'section' ) !== null;
+
+	}
+
+	/**
 	 * Returns true if we're on the last slide in the current
 	 * vertical stack.
 	 */
@@ -1348,7 +1362,7 @@ export default function( revealElement, options ) {
 		// If we're in reader mode we scroll the target slide into view
 		// instead of running our standard slide transition
 		if( reader.isActive() ) {
-			const scrollToSlide = dom.wrapper.querySelectorAll( SLIDES_SELECTOR )[ h ];
+			const scrollToSlide = reader.getSlideByIndices( h, v );
 			if( scrollToSlide ) reader.scrollToSlide( scrollToSlide );
 			return;
 		}
@@ -1541,12 +1555,12 @@ export default function( revealElement, options ) {
 	 * @param {number} pageIndex
 	 * @param {HTMLElement} pageElement
 	 */
-	function setCurrentReaderPage( pageIndex, pageElement ) {
+	function setCurrentReaderPage( pageElement, h, v ) {
 
 		let indexhBefore = indexh || 0;
 
-		indexh = pageIndex;
-		indexv = 0;
+		indexh = h;
+		indexv = v;
 
 		previousSlide = currentSlide;
 		currentSlide = pageElement.querySelector( 'section' );
@@ -2098,21 +2112,30 @@ export default function( revealElement, options ) {
 
 		// If a slide is specified, return the indices of that slide
 		if( slide ) {
-			let isVertical = isVerticalSlide( slide );
-			let slideh = isVertical ? slide.parentNode : slide;
+			if( reader.isActive() ) {
+				h = parseInt( slide.getAttribute( 'data-index-h' ), 10 );
 
-			// Select all horizontal slides
-			let horizontalSlides = getHorizontalSlides();
+				if( slide.getAttribute( 'data-index-v' ) ) {
+					v = parseInt( slide.getAttribute( 'data-index-v' ), 10 );
+				}
+			}
+			else {
+				let isVertical = isVerticalSlide( slide );
+				let slideh = isVertical ? slide.parentNode : slide;
 
-			// Now that we know which the horizontal slide is, get its index
-			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
+				// Select all horizontal slides
+				let horizontalSlides = getHorizontalSlides();
 
-			// Assume we're not vertical
-			v = undefined;
+				// Now that we know which the horizontal slide is, get its index
+				h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
 
-			// If this is a vertical slide, grab the vertical index
-			if( isVertical ) {
-				v = Math.max( Util.queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
+				// Assume we're not vertical
+				v = undefined;
+
+				// If this is a vertical slide, grab the vertical index
+				if( isVertical ) {
+					v = Math.max( Util.queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
+				}
 			}
 		}
 
@@ -2802,6 +2825,7 @@ export default function( revealElement, options ) {
 		isLastSlide,
 		isLastVerticalSlide,
 		isVerticalSlide,
+		isVerticalStack,
 
 		// State checks
 		isPaused,
