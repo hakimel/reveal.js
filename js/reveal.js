@@ -999,6 +999,18 @@ export default function( revealElement, options ) {
 						}
 					});
 				}
+
+				// Responsively turn on the reader mode if there is an activation
+				// width configured. Ignore if we're configured to always be in
+				// reader mode.
+				if( typeof config.readerActivationWidth === 'number' && config.view !== 'reader' ) {
+					if( size.presentationWidth < config.readerActivationWidth ) {
+						if( !reader.isActive() ) reader.activate();
+					}
+					else {
+						if( reader.isActive() ) reader.deactivate();
+					}
+				}
 			}
 
 			dom.viewport.style.setProperty( '--slide-scale', scale );

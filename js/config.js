@@ -276,6 +276,10 @@ export default {
 	// Only applies to presentations in reader mode.
 	readerScrollSnap: 'proximity',
 
+	// Responsively activate the reader mode when we reach the specified
+	// width (in pixels)
+	readerActivationWidth: null,
+
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default
 	pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,

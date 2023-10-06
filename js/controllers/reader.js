@@ -14,6 +14,8 @@ export default class Reader {
 		this.active = false;
 		this.activatedCallbacks = [];
 
+		this.onScroll = this.onScroll.bind( this );
+
 	}
 
 	/**
@@ -32,7 +34,7 @@ export default class Reader {
 		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR );
 
 		viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
-		viewportElement.addEventListener( 'scroll', this.onScroll.bind( this ) );
+		viewportElement.addEventListener( 'scroll', this.onScroll );
 
 		let presentationBackground;
 		if( viewportElement ) {
@@ -113,7 +115,11 @@ export default class Reader {
 
 		this.active = false;
 
-		this.Reveal.getViewportElement().classList.remove( 'reveal-reader' );
+		const viewportElement = this.Reveal.getViewportElement();
+
+		viewportElement.removeEventListener( 'scroll', this.onScroll );
+		viewportElement.classList.remove( 'reveal-reader' );
+
 		this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation;
 		this.Reveal.sync();
 
