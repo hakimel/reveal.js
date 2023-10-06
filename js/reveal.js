@@ -249,24 +249,18 @@ export default function( revealElement, options ) {
 			// Avoid content flickering during layout
 			dom.viewport.classList.add( 'loading-scroll-mode' );
 
-			const activate = () => {
-				if( activatePrintView ) {
+			if( activatePrintView ) {
+				// The document needs to have loaded for the PDF layout
+				// measurements to be accurate
+				if( document.readyState === 'complete' ) {
 					print.activate();
 				}
 				else {
-					reader.activate();
+					window.addEventListener( 'load', () => print.activate() );
 				}
-			};
-
-			// The document needs to have loaded for the PDF layout
-			// measurements to be accurate
-			if( document.readyState === 'complete' ) {
-				activate();
 			}
 			else {
-				window.addEventListener( 'load', () => {
-					activate();
-				} );
+				reader.activate();
 			}
 		}
 
@@ -2784,7 +2778,7 @@ export default function( revealElement, options ) {
 		toggleOverview: overview.toggle.bind( overview ),
 
 		// Toggles the reader mode on/off
-		toggleReader: reader.toggle.bind( reader ),
+		toggleReaderMode: reader.toggle.bind( reader ),
 
 		// Toggles the "black screen" mode on/off
 		togglePause,

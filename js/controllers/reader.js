@@ -22,7 +22,7 @@ export default class Reader {
 	 * Activates the reader mode. This rearranges the presentation DOM
 	 * by—among other things—wrapping each slide in a page element.
 	 */
-	async activate() {
+	activate() {
 
 		if( this.active ) return;
 
@@ -89,8 +89,6 @@ export default class Reader {
 		// Remove leftover stacks
 		queryAll( this.Reveal.getRevealElement(), '.stack' ).forEach( stack => stack.remove() );
 
-		await new Promise( requestAnimationFrame );
-
 		pageElements.forEach( page => pageContainer.appendChild( page ) );
 
 		// Re-run JS-based content layout after the slide is added to page DOM
@@ -128,13 +126,13 @@ export default class Reader {
 
 	}
 
-	toggle() {
+	toggle( override ) {
 
-		if( this.active === true ) {
-			this.deactivate();
+		if( typeof override === 'boolean' ) {
+			override ? this.activate() : this.deactivate();
 		}
 		else {
-			this.activate();
+			this.isActive() ? this.deactivate() : this.activate();
 		}
 
 	}
