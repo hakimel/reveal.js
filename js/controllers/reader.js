@@ -37,11 +37,10 @@ export default class Reader {
 		viewportElement.addEventListener( 'scroll', this.onScroll );
 
 		let presentationBackground;
-		if( viewportElement ) {
-			const viewportStyles = window.getComputedStyle( viewportElement );
-			if( viewportStyles && viewportStyles.background ) {
-				presentationBackground = viewportStyles.background;
-			}
+
+		const viewportStyles = window.getComputedStyle( viewportElement );
+		if( viewportStyles && viewportStyles.background ) {
+			presentationBackground = viewportStyles.background;
 		}
 
 		const pageElements = [];
@@ -59,8 +58,7 @@ export default class Reader {
 				page.className = 'reader-page';
 				pageElements.push( page );
 
-				// Copy the presentation-wide background to each individual
-				// page when printing
+				// Copy the presentation-wide background to each page
 				if( presentationBackground ) {
 					page.style.background = presentationBackground;
 				}

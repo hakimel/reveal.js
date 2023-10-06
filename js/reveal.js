@@ -214,6 +214,8 @@ export default function( revealElement, options ) {
 		// Create slide backgrounds
 		backgrounds.update( true );
 
+		activateInitialView();
+
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
 		setTimeout( () => {
@@ -232,11 +234,17 @@ export default function( revealElement, options ) {
 			});
 		}, 1 );
 
+	}
+
+	/**
+	 * Activates the correct reveal.js view based on our config.
+	 * This is only invoked once during initialization.
+	 */
+	function activateInitialView() {
+
 		const activatePrintView = config.view === 'print';
 		const activateReaderView = config.view === 'reader';
 
-		// Special setup and config is required when initializing a deck
-		// to be read or printed linearly
 		if( activatePrintView || activateReaderView ) {
 
 			if( activatePrintView ) {
