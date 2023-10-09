@@ -148,6 +148,15 @@ export default function( revealElement, options ) {
 		// Register plugins and load dependencies, then move on to #start()
 		plugins.load( config.plugins, config.dependencies ).then( start );
 
+		if ( config.fragments ) {
+			Reveal.on( 'fragmentshown', () => { console.debug('shown'); notes.update(); } );
+			Reveal.on( 'fragmenthidden', () => { console.debug('hidden'); notes.update(); } );
+			Reveal.on( 'slidechanged', () => {
+				fragments.update();
+				notes.update();
+			} );
+		}
+
 		return new Promise( resolve => Reveal.on( 'ready', resolve ) );
 
 	}
