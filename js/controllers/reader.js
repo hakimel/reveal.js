@@ -1,6 +1,8 @@
 import { HORIZONTAL_SLIDES_SELECTOR, SLIDES_SELECTOR } from '../utils/constants.js'
 import { queryAll, createStyleSheet } from '../utils/util.js'
 
+const HIDE_SCROLLBAR_TIMEOUT = 500;
+
 /**
  * The reader mode lets you read a reveal.js presentation
  * as a linear scrollable page.
@@ -116,52 +118,6 @@ export default class Reader {
 
 	}
 
-	createProgressBar() {
-
-		this.progressBar = document.createElement( 'div' );
-		this.progressBar.className = 'reader-progress';
-
-		this.progressBarInner = document.createElement( 'div' );
-		this.progressBarInner.className = 'reader-progress-inner';
-		this.progressBar.appendChild( this.progressBarInner );
-
-		this.progressBarPlayhead = document.createElement( 'div' );
-		this.progressBarPlayhead.className = 'reader-progress-playhead';
-		this.progressBarInner.appendChild( this.progressBarPlayhead );
-
-		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
-
-		const handleMouseDown = ( event ) => {
-
-			event.preventDefault();
-
-			document.addEventListener( 'mousemove', handleDocumentMouseMove );
-			document.addEventListener( 'mouseup', handleDocumentMouseUp );
-
-			handleDocumentMouseMove( event );
-
-		};
-
-		const handleDocumentMouseMove	= ( event ) => {
-
-			let progress = Math.max( Math.min( ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight, 1 ), 0 );
-			progress = Math.max( Math.min( progress, 1 ), 0 );
-
-			this.viewportElement.scrollTop = progress * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
-
-		};
-
-		const handleDocumentMouseUp = ( event ) => {
-
-			document.removeEventListener( 'mousemove', handleDocumentMouseMove );
-			document.removeEventListener( 'mouseup', handleDocumentMouseUp );
-
-		};
-
-		this.progressBarInner.addEventListener( 'mousedown', handleMouseDown );
-
-	}
-
 	/**
 	 * Deactivates the reader mode and restores the standard slide-based
 	 * presentation.
@@ -177,7 +133,7 @@ export default class Reader {
 		this.viewportElement.removeEventListener( 'scroll', this.onScroll );
 		this.viewportElement.classList.remove( 'reveal-reader' );
 
-		this.progressBar.remove();
+		this.removeProgressBar();
 
 		this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation;
 		this.Reveal.sync();
@@ -324,7 +280,76 @@ export default class Reader {
 			return page;
 		} );
 
-		this.createProgressBarSlides();
+		if( config.readerScrollBar ) {
+			this.createProgressBar();
+			this.createProgressBarSlides();
+		}
+		else {
+			this.removeProgressBar();
+		}
+
+	}
+
+	createProgressBar() {
+
+		if( this.progressBar ) return;
+
+		this.progressBar = document.createElement( 'div' );
+		this.progressBar.className = 'reader-progress';
+
+		this.progressBarInner = document.createElement( 'div' );
+		this.progressBarInner.className = 'reader-progress-inner';
+		this.progressBar.appendChild( this.progressBarInner );
+
+		this.progressBarPlayhead = document.createElement( 'div' );
+		this.progressBarPlayhead.className = 'reader-progress-playhead';
+		this.progressBarInner.appendChild( this.progressBarPlayhead );
+
+		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
+
+		const handleMouseDown = ( event ) => {
+
+			event.preventDefault();
+
+			this.draggingProgressBar = true;
+
+			document.addEventListener( 'mousemove', handleDocumentMouseMove );
+			document.addEventListener( 'mouseup', handleDocumentMouseUp );
+
+			handleDocumentMouseMove( event );
+
+		};
+
+		const handleDocumentMouseMove	= ( event ) => {
+
+			let progress = ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight;
+
+			progress = Math.max( Math.min( progress, 1 ), 0 );
+
+			this.viewportElement.scrollTop = progress * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
+
+		};
+
+		const handleDocumentMouseUp = ( event ) => {
+
+			this.draggingProgressBar = false;
+			this.showProgressBar();
+
+			document.removeEventListener( 'mousemove', handleDocumentMouseMove );
+			document.removeEventListener( 'mouseup', handleDocumentMouseUp );
+
+		};
+
+		this.progressBarInner.addEventListener( 'mousedown', handleMouseDown );
+
+	}
+
+	removeProgressBar() {
+
+		if( this.progressBar ) {
+			this.progressBar.remove();
+			this.progressBar = null;
+		}
 
 	}
 
@@ -377,11 +402,33 @@ export default class Reader {
 
 	moveProgressBarTo( progress ) {
 
-		this.progressBarPlayhead.style.transform = `translateY(${progress * this.progressBarScrollableHeight}px)`;
+		if( this.progressBar ) {
 
-		this.pages.forEach( ( page ) => {
-			page.progressBarSlide.classList.toggle( 'active', !!page.active );
-		} );
+			this.progressBarPlayhead.style.transform = `translateY(${progress * this.progressBarScrollableHeight}px)`;
+
+			this.pages.forEach( ( page ) => {
+				page.progressBarSlide.classList.toggle( 'active', !!page.active );
+			} );
+
+			this.showProgressBar();
+
+		}
+
+	}
+
+	showProgressBar() {
+
+		this.progressBar.classList.add( 'visible' );
+
+		clearTimeout( this.hideProgressBarTimeout );
+
+		if( this.Reveal.getConfig().readerScrollBar === 'auto' && !this.draggingProgressBar ) {
+
+			this.hideProgressBarTimeout = setTimeout( () => {
+				this.progressBar.classList.remove( 'visible' );
+			}, HIDE_SCROLLBAR_TIMEOUT );
+
+		}
 
 	}
 

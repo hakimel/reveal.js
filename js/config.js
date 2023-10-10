@@ -276,9 +276,15 @@ export default {
 	// Only applies to presentations in reader mode.
 	readerScrollSnap: 'proximity',
 
+	// Enables and configure the reader mode scroll bar.
+	// - 'auto':    Show the scrollbar while scrolling, hide while idle
+	// - true:      Always show the scrollbar
+	// - false:     Never show the scrollbar
+	readerScrollBar: 'auto',
+
 	// Responsively activate the reader mode when we reach the specified
 	// width (in pixels)
-	readerActivationWidth: 800,
+	readerActivationWidth: null,
 
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default

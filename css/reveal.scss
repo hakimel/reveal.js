@@ -2011,6 +2011,13 @@ $notesWidthPercent: 25%;
 	position: sticky;
 	top: 50%;
 	z-index: 20;
+	opacity: 0;
+	transition: all 0.3s ease;
+
+	&.visible,
+	&:hover {
+		opacity: 1;
+	}
 
 	.reader-progress-inner {
 		position: absolute;
@@ -2021,6 +2028,18 @@ $notesWidthPercent: 25%;
 		transform: translateY(-50%);
 		border-radius: 8px;
 		z-index: 10;
+
+		// Hit area
+		&:after {
+			content: '';
+			position: absolute;
+			width: 200%;
+			height: 100%;
+			top: 0;
+			left: -50%;
+			background: rgba( 0, 0, 0, 0 );
+			z-index: -1;
+		}
 	}
 
 	.reader-progress-playhead {
