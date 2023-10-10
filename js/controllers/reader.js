@@ -1,7 +1,10 @@
-import { HORIZONTAL_SLIDES_SELECTOR, SLIDES_SELECTOR } from '../utils/constants.js'
-import { queryAll, createStyleSheet } from '../utils/util.js'
+import { HORIZONTAL_SLIDES_SELECTOR } from '../utils/constants.js'
+import { queryAll } from '../utils/util.js'
 
 const HIDE_SCROLLBAR_TIMEOUT = 500;
+const PROGRESS_SPACING = 4;
+const MIN_PROGRESS_SEGMENT_HEIGHT = 6;
+const MIN_PLAYHEAD_HEIGHT = 18;
 
 /**
  * The reader mode lets you read a reveal.js presentation
@@ -37,7 +40,7 @@ export default class Reader {
 		const horizontalSlides = queryAll( this.Reveal.getRevealElement(), HORIZONTAL_SLIDES_SELECTOR );
 
 		this.viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
-		this.viewportElement.addEventListener( 'scroll', this.onScroll );
+		this.viewportElement.addEventListener( 'scroll', this.onScroll, { passive: true } );
 
 		let presentationBackground;
 
@@ -137,7 +140,6 @@ export default class Reader {
 
 		this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation;
 		this.Reveal.sync();
-
 		this.Reveal.setState( state );
 
 	}
@@ -179,10 +181,83 @@ export default class Reader {
 	}
 
 	/**
+	 * Renders the progress bar component.
+	 */
+	createProgressBar() {
+
+		this.progressBar = document.createElement( 'div' );
+		this.progressBar.className = 'reader-progress';
+
+		this.progressBarInner = document.createElement( 'div' );
+		this.progressBarInner.className = 'reader-progress-inner';
+		this.progressBar.appendChild( this.progressBarInner );
+
+		this.progressBarPlayhead = document.createElement( 'div' );
+		this.progressBarPlayhead.className = 'reader-progress-playhead';
+		this.progressBarInner.appendChild( this.progressBarPlayhead );
+
+		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
+
+		const handleMouseDown = ( event ) => {
+
+			event.preventDefault();
+
+			this.draggingProgressBar = true;
+
+			document.addEventListener( 'mousemove', handleDocumentMouseMove );
+			document.addEventListener( 'mouseup', handleDocumentMouseUp );
+
+			handleDocumentMouseMove( event );
+
+		};
+
+		const handleDocumentMouseMove	= ( event ) => {
+
+			let progress = ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight;
+
+			progress = Math.max( Math.min( progress, 1 ), 0 );
+
+			this.viewportElement.scrollTop = progress * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
+
+		};
+
+		const handleDocumentMouseUp = ( event ) => {
+
+			this.draggingProgressBar = false;
+			this.showProgressBar();
+
+			document.removeEventListener( 'mousemove', handleDocumentMouseMove );
+			document.removeEventListener( 'mouseup', handleDocumentMouseUp );
+
+		};
+
+		this.progressBarInner.addEventListener( 'mousedown', handleMouseDown );
+
+	}
+
+	removeProgressBar() {
+
+		if( this.progressBar ) {
+			this.progressBar.remove();
+			this.progressBar = null;
+		}
+
+	}
+
+	layout() {
+
+		if( this.isActive() ) {
+			this.syncPages();
+			this.onScroll();
+		}
+
+	}
+
+	/**
 	 * Updates our reader pages to match the latest configuration and
 	 * presentation size.
 	 */
-	sync() {
+	syncPages() {
 
 		const config = this.Reveal.getConfig();
 
@@ -280,9 +355,13 @@ export default class Reader {
 			return page;
 		} );
 
+		this.viewportElement.setAttribute( 'data-reader-scroll-bar', config.readerScrollBar )
+
 		if( config.readerScrollBar ) {
-			this.createProgressBar();
-			this.createProgressBarSlides();
+			// Create the progress bar if it doesn't already exist
+			if( !this.progressBar ) this.createProgressBar();
+
+			this.syncProgressBar();
 		}
 		else {
 			this.removeProgressBar();
@@ -290,125 +369,75 @@ export default class Reader {
 
 	}
 
-	createProgressBar() {
-
-		if( this.progressBar ) return;
-
-		this.progressBar = document.createElement( 'div' );
-		this.progressBar.className = 'reader-progress';
-
-		this.progressBarInner = document.createElement( 'div' );
-		this.progressBarInner.className = 'reader-progress-inner';
-		this.progressBar.appendChild( this.progressBarInner );
-
-		this.progressBarPlayhead = document.createElement( 'div' );
-		this.progressBarPlayhead.className = 'reader-progress-playhead';
-		this.progressBarInner.appendChild( this.progressBarPlayhead );
-
-		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
-
-		const handleMouseDown = ( event ) => {
-
-			event.preventDefault();
-
-			this.draggingProgressBar = true;
-
-			document.addEventListener( 'mousemove', handleDocumentMouseMove );
-			document.addEventListener( 'mouseup', handleDocumentMouseUp );
-
-			handleDocumentMouseMove( event );
-
-		};
-
-		const handleDocumentMouseMove	= ( event ) => {
-
-			let progress = ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight;
-
-			progress = Math.max( Math.min( progress, 1 ), 0 );
-
-			this.viewportElement.scrollTop = progress * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
-
-		};
-
-		const handleDocumentMouseUp = ( event ) => {
-
-			this.draggingProgressBar = false;
-			this.showProgressBar();
-
-			document.removeEventListener( 'mousemove', handleDocumentMouseMove );
-			document.removeEventListener( 'mouseup', handleDocumentMouseUp );
-
-		};
-
-		this.progressBarInner.addEventListener( 'mousedown', handleMouseDown );
-
-	}
-
-	removeProgressBar() {
-
-		if( this.progressBar ) {
-			this.progressBar.remove();
-			this.progressBar = null;
-		}
-
-	}
-
-	createProgressBarSlides() {
+	/**
+	 * Rerenders progress bar segments so that they match the current
+	 * reveal.js config and size.
+	 */
+	syncProgressBar() {
 
 		this.progressBarInner.querySelectorAll( '.reader-progress-slide' ).forEach( slide => slide.remove() );
-
-		const spacing = 4;
 
 		const viewportHeight = this.viewportElement.offsetHeight;
 		const scrollHeight = this.viewportElement.scrollHeight;
 
 		this.progressBarHeight = this.progressBarInner.offsetHeight;
-		this.playheadHeight = viewportHeight / scrollHeight * this.progressBarHeight;
+		this.playheadHeight = Math.max( viewportHeight / scrollHeight * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
 		this.progressBarScrollableHeight = this.progressBarHeight - this.playheadHeight;
 
-		this.progressBarPlayhead.style.height = this.playheadHeight - spacing + 'px';
+		this.progressBarPlayhead.style.height = this.playheadHeight - PROGRESS_SPACING + 'px';
 
-		this.pages.forEach( page => {
+		const progressSegmentHeight = viewportHeight / scrollHeight * this.progressBarHeight;
 
-			page.progressBarSlide = document.createElement( 'div' );
-			page.progressBarSlide.className = 'reader-progress-slide';
-			page.progressBarSlide.classList.toggle( 'has-triggers', page.scrollTriggers.length > 0 );
-			page.progressBarSlide.style.top = page.top / scrollHeight * this.progressBarHeight + 'px';
-			page.progressBarSlide.style.height = page.totalHeight / scrollHeight * this.progressBarHeight - spacing + 'px';
-			this.progressBarInner.appendChild( page.progressBarSlide );
+		// Don't show individual segments if they're too small
+		if( progressSegmentHeight > MIN_PROGRESS_SEGMENT_HEIGHT ) {
 
-			page.scrollTriggers.forEach( trigger => {
+			this.pages.forEach( page => {
 
-				const triggerElement = document.createElement( 'div' );
-				triggerElement.className = 'reader-progress-trigger';
-				triggerElement.style.top = trigger.range[0] * page.totalHeight / scrollHeight * this.progressBarHeight + 'px';
-				triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * page.totalHeight / scrollHeight * this.progressBarHeight - spacing + 'px';
-				page.progressBarSlide.appendChild( triggerElement );
+				page.progressBarSlide = document.createElement( 'div' );
+				page.progressBarSlide.className = 'reader-progress-slide';
+				page.progressBarSlide.classList.toggle( 'has-triggers', page.scrollTriggers.length > 0 );
+				page.progressBarSlide.style.top = page.top / scrollHeight * this.progressBarHeight + 'px';
+				page.progressBarSlide.style.height = page.totalHeight / scrollHeight * this.progressBarHeight - PROGRESS_SPACING + 'px';
+				this.progressBarInner.appendChild( page.progressBarSlide );
+
+				// Create visual representations for each scroll trigger
+				page.scrollTriggers.forEach( trigger => {
+
+					const triggerElement = document.createElement( 'div' );
+					triggerElement.className = 'reader-progress-trigger';
+					triggerElement.style.top = trigger.range[0] * page.totalHeight / scrollHeight * this.progressBarHeight + 'px';
+					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * page.totalHeight / scrollHeight * this.progressBarHeight - PROGRESS_SPACING + 'px';
+					page.progressBarSlide.appendChild( triggerElement );
+
+				} );
 
 			} );
 
-		} );
+		}
+		else {
 
-	}
+			this.pages.forEach( page => page.progressBarSlide = null );
 
-	layout() {
-
-		if( this.isActive() ) {
-			this.sync();
-			this.onScroll();
 		}
 
 	}
 
-	moveProgressBarTo( progress ) {
+	/**
+	 * Moves the progress bar playhead to the specified position.
+	 *
+	 * @param {number} progress 0-1
+	 */
+	setProgressBarValue( progress ) {
 
 		if( this.progressBar ) {
 
 			this.progressBarPlayhead.style.transform = `translateY(${progress * this.progressBarScrollableHeight}px)`;
 
-			this.pages.forEach( ( page ) => {
-				page.progressBarSlide.classList.toggle( 'active', !!page.active );
-			} );
+			this.pages
+				.filter( page => page.progressBarSlide )
+				.forEach( ( page ) => {
+					page.progressBarSlide.classList.toggle( 'active', !!page.active );
+				} );
 
 			this.showProgressBar();
 
@@ -416,6 +445,10 @@ export default class Reader {
 
 	}
 
+	/**
+	 * Show the progress bar and, if configured, automatically hide
+	 * it after a delay.
+	 */
 	showProgressBar() {
 
 		this.progressBar.classList.add( 'visible' );
@@ -432,6 +465,11 @@ export default class Reader {
 
 	}
 
+	/**
+	 * Scrolls the given slide element into view.
+	 *
+	 * @param {HTMLElement} slideElement
+	 */
 	scrollToSlide( slideElement ) {
 
 		if( !this.active ) {
@@ -451,6 +489,7 @@ export default class Reader {
 		// Find the page closest to the center of the viewport, this
 		// is the page we want to focus and activate
 		const activePage = this.pages.reduce( ( closestPage, page ) => {
+
 			// For tall pages with multiple scroll triggers we need to
 			// check the distnace from both the top of the page and the
 			// bottom
@@ -458,7 +497,9 @@ export default class Reader {
 				Math.abs( ( page.top + page.pageHeight / 2 ) - scrollTop - viewportHeight / 2 ),
 				Math.abs( ( page.top + ( page.totalHeight - page.pageHeight / 2 ) ) - scrollTop - viewportHeight / 2 )
 			);
+
 			return distance < closestPage.distance ? { page, distance } : closestPage;
+
 		}, { page: this.pages[0], distance: Infinity } ).page;
 
 		this.pages.forEach( ( page, pageIndex ) => {
@@ -477,9 +518,9 @@ export default class Reader {
 				this.Reveal.slideContent.unload( page.slideElement );
 			}
 
-			// Activate the current page — there can only be one active page at
-			// a time.
+			// Activate the current page
 			if( page === activePage ) {
+				// Ignore if the page is already active
 				if( !page.active ) {
 					page.active = true;
 					page.pageElement.classList.add( 'present' );
@@ -505,7 +546,7 @@ export default class Reader {
 				}
 			}
 
-			// Handle scroll freezing and triggers for slides in view
+			// Handle scroll triggers for slides in view
 			if( isPartiallyVisible && page.totalHeight > page.pageHeight ) {
 				let scrollProgress = ( scrollTop - page.top ) / page.scrollPadding;
 				scrollProgress = Math.max( Math.min( scrollProgress, 1 ), 0 );
@@ -524,7 +565,7 @@ export default class Reader {
 			}
 		} );
 
-		this.moveProgressBarTo( scrollTop / ( this.viewportElement.scrollHeight - viewportHeight ) );
+		this.setProgressBarValue( scrollTop / ( this.viewportElement.scrollHeight - viewportHeight ) );
 
 	}
 
