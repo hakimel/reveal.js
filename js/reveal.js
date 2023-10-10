@@ -149,8 +149,8 @@ export default function( revealElement, options ) {
 		plugins.load( config.plugins, config.dependencies ).then( start );
 
 		if ( config.fragments ) {
-			Reveal.on( 'fragmentshown', () => { console.debug('shown'); notes.update(); } );
-			Reveal.on( 'fragmenthidden', () => { console.debug('hidden'); notes.update(); } );
+			Reveal.on( 'fragmentshown', () => { notes.update(); } );
+			Reveal.on( 'fragmenthidden', () => { notes.update(); } );
 			Reveal.on( 'slidechanged', () => {
 				fragments.update();
 				notes.update();
