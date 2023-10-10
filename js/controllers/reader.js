@@ -32,15 +32,14 @@ export default class Reader {
 
 		this.slideHTMLBeforeActivation = this.Reveal.getSlidesElement().innerHTML;
 
-		const viewportElement = this.Reveal.getViewportElement();
 		const horizontalSlides = queryAll( this.Reveal.getRevealElement(), HORIZONTAL_SLIDES_SELECTOR );
 
-		viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
-		viewportElement.addEventListener( 'scroll', this.onScroll );
+		this.viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
+		this.viewportElement.addEventListener( 'scroll', this.onScroll );
 
 		let presentationBackground;
 
-		const viewportStyles = window.getComputedStyle( viewportElement );
+		const viewportStyles = window.getComputedStyle( this.viewportElement );
 		if( viewportStyles && viewportStyles.background ) {
 			presentationBackground = viewportStyles.background;
 		}
@@ -97,6 +96,8 @@ export default class Reader {
 
 		}, this );
 
+		this.createProgressBar();
+
 		// Remove leftover stacks
 		queryAll( this.Reveal.getRevealElement(), '.stack' ).forEach( stack => stack.remove() );
 
@@ -108,10 +109,27 @@ export default class Reader {
 		this.Reveal.layout();
 		this.Reveal.setState( state );
 
-		viewportElement.classList.remove( 'loading-scroll-mode' );
+		this.viewportElement.classList.remove( 'loading-scroll-mode' );
 
 		this.activatedCallbacks.forEach( callback => callback() );
 		this.activatedCallbacks = [];
+
+	}
+
+	createProgressBar() {
+
+		this.progressBar = document.createElement( 'div' );
+		this.progressBar.className = 'reader-progress';
+
+		this.progressBarInner = document.createElement( 'div' );
+		this.progressBarInner.className = 'reader-progress-inner';
+		this.progressBar.appendChild( this.progressBarInner );
+
+		this.progressBarPlayhead = document.createElement( 'div' );
+		this.progressBarPlayhead.className = 'reader-progress-playhead';
+		this.progressBarInner.appendChild( this.progressBarPlayhead );
+
+		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
 
 	}
 
@@ -127,10 +145,10 @@ export default class Reader {
 
 		this.active = false;
 
-		const viewportElement = this.Reveal.getViewportElement();
+		this.viewportElement.removeEventListener( 'scroll', this.onScroll );
+		this.viewportElement.classList.remove( 'reveal-reader' );
 
-		viewportElement.removeEventListener( 'scroll', this.onScroll );
-		viewportElement.classList.remove( 'reveal-reader' );
+		this.progressBar.remove();
 
 		this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation;
 		this.Reveal.sync();
@@ -159,6 +177,14 @@ export default class Reader {
 
 	}
 
+	/**
+	 * Retrieve a slide by its original h/v index (i.e. the indices the
+	 * slide had before being linearized).
+	 *
+	 * @param {number} h
+	 * @param {number} v
+	 * @returns {HTMLElement}
+	 */
 	getSlideByIndices( h, v ) {
 
 		const page = this.pages.find( page => page.indexh === h && page.indexv === v );
@@ -179,16 +205,15 @@ export default class Reader {
 		const scale = this.Reveal.getScale();
 		const readerLayout = config.readerLayout;
 
-		const viewportElement = this.Reveal.getViewportElement();
-		const viewportHeight = viewportElement.offsetHeight;
+		const viewportHeight = this.viewportElement.offsetHeight;
 		const compactHeight = slideSize.height * scale;
 		const pageHeight = readerLayout === 'full' ? viewportHeight : compactHeight;
 
 		// The height that needs to be scrolled between scroll triggers
 		const scrollTriggerHeight = viewportHeight / 2;
 
-		viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
-		viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
+		this.viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
+		this.viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
 												`y ${config.readerScrollSnap}` : '';
 
 		const pageElements = Array.from( this.Reveal.getRevealElement().querySelectorAll( '.reader-page' ) );
@@ -270,12 +295,56 @@ export default class Reader {
 			return page;
 		} );
 
+		this.createProgressBarSlides();
+
+	}
+
+	createProgressBarSlides() {
+
+		this.progressBarInner.querySelectorAll( '.reader-progress-slide' ).forEach( slide => slide.remove() );
+
+		const spacing = 2;
+
+		const viewportHeight = this.viewportElement.offsetHeight;
+		const scrollHeight = this.viewportElement.scrollHeight;
+
+		this.progressBarHeight = this.progressBarInner.offsetHeight;
+		this.playheadHeight = viewportHeight / scrollHeight * this.progressBarHeight;
+		this.progressBarScrollableHeight = this.progressBarHeight - this.playheadHeight;
+
+		this.progressBarPlayhead.style.height = this.playheadHeight - spacing + 'px';
+
+		this.pages.forEach( page => {
+
+			page.progressBarSlide = document.createElement( 'div' );
+			page.progressBarSlide.className = 'reader-progress-slide';
+			page.progressBarSlide.style.top = page.top / scrollHeight * this.progressBarHeight + 'px';
+			page.progressBarSlide.style.height = page.totalHeight / scrollHeight * this.progressBarHeight - spacing + 'px';
+			this.progressBarInner.appendChild( page.progressBarSlide );
+
+		} );
+
 	}
 
 	layout() {
 
-		this.sync();
-		this.onScroll();
+		if( this.isActive() ) {
+			this.sync();
+			this.onScroll();
+		}
+
+	}
+
+	moveProgressBarTo( progress ) {
+
+		this.progressBarPlayhead.style.transform = `translateY(${progress * this.progressBarScrollableHeight}px)`;
+
+		this.pages.forEach( ( page ) => {
+			page.progressBarSlide.classList.toggle( 'active', !!page.active );
+			page.scrollTriggers.forEach( trigger => {
+				// page.progressBarSlide.classList.toggle( 'active', !!trigger.active );
+			} );
+		} );
 
 	}
 
@@ -292,10 +361,8 @@ export default class Reader {
 
 	onScroll() {
 
-		const viewportElement = this.Reveal.getViewportElement();
-		const viewportHeight = viewportElement.offsetHeight;
-
-		const scrollTop = viewportElement.scrollTop;
+		const viewportHeight = this.viewportElement.offsetHeight;
+		const scrollTop = this.viewportElement.scrollTop;
 
 		// Find the page closest to the center of the viewport, this
 		// is the page we want to focus and activate
@@ -366,6 +433,14 @@ export default class Reader {
 				} );
 			}
 		} );
+
+		this.moveProgressBarTo( scrollTop / ( this.viewportElement.scrollHeight - viewportHeight ) );
+
+	}
+
+	get viewportElement() {
+
+		return this.Reveal.getViewportElement();
 
 	}
 

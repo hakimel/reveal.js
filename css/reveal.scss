@@ -10,6 +10,8 @@
 
 @import 'layout';
 
+$controlsSpacing: 12px;
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -271,13 +273,11 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal .controls {
-	$spacing: 12px;
-
 	display: none;
 	position: absolute;
 	top: auto;
-	bottom: $spacing;
-	right: $spacing;
+	bottom: $controlsSpacing;
+	right: $controlsSpacing;
 	left: auto;
 	z-index: 11;
 	color: #000;
@@ -509,7 +509,7 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$spacing: 0.8em;
+	$controlsSpacing: 0.8em;
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -529,24 +529,24 @@ $controlsArrowAngleActive: 36deg;
 
 		.navigate-left {
 			top: 50%;
-			left: $spacing;
+			left: $controlsSpacing;
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-right {
 			top: 50%;
-			right: $spacing;
+			right: $controlsSpacing;
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-up {
-			top: $spacing;
+			top: $controlsSpacing;
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
 
 		.navigate-down {
-			bottom: $spacing - $controlArrowSpacing + 0.3em;
+			bottom: $controlsSpacing - $controlArrowSpacing + 0.3em;
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
@@ -2000,6 +2000,59 @@ $notesWidthPercent: 25%;
 	/* This accessibility tool is not useful in PDF and breaks it visually */
 	.aria-status {
 		display: none;
+	}
+}
+
+.reveal-viewport.reveal-reader::-webkit-scrollbar {
+  display: none;
+}
+
+.reveal-viewport.reveal-reader .reader-progress {
+	position: sticky;
+	top: 50%;
+	z-index: 20;
+
+	.reader-progress-inner {
+		position: absolute;
+		width: 8px;
+		height: 90vh;
+		right: $controlsSpacing;
+		top: 0;
+		transform: translateY(-50%);
+		border-radius: 8px;
+		z-index: 10;
+		overflow: hidden;
+	}
+
+	.reader-progress-playhead {
+		position: absolute;
+		width: 8px;
+		height: 8px;
+		top: 0;
+		left: 0;
+		border-radius: 8px;
+		background-color: rgba( 255, 255, 255, 0.7);
+		transition: all 0.1s ease;
+		z-index: 2;
+	}
+
+	.reader-progress-slide {
+		position: absolute;
+		width: 100%;
+		transition: all 0.2s ease;
+		background-color: rgba( 0, 0, 0, 0.4 );
+		border-radius: 8px;
+	}
+
+	.reader-progress-slide:last-child {
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+	}
+
+
+	.reader-progress-slide.active {
+		background-color: #000;
+		border-radius: 8px;
 	}
 }
 
