@@ -2021,7 +2021,6 @@ $notesWidthPercent: 25%;
 		transform: translateY(-50%);
 		border-radius: 8px;
 		z-index: 10;
-		overflow: hidden;
 	}
 
 	.reader-progress-playhead {
@@ -2031,7 +2030,7 @@ $notesWidthPercent: 25%;
 		top: 0;
 		left: 0;
 		border-radius: 8px;
-		background-color: rgba( 255, 255, 255, 0.7);
+		background-color: #fff;
 		transition: all 0.1s ease;
 		z-index: 2;
 	}
@@ -2040,19 +2039,35 @@ $notesWidthPercent: 25%;
 		position: absolute;
 		width: 100%;
 		transition: all 0.2s ease;
-		background-color: rgba( 0, 0, 0, 0.4 );
+		background-color: rgba( 255, 255, 255, 0.2 );
 		border-radius: 8px;
 	}
-
-	.reader-progress-slide:last-child {
-		border-bottom-left-radius: 8px;
-		border-bottom-right-radius: 8px;
-	}
-
 
 	.reader-progress-slide.active {
-		background-color: #000;
-		border-radius: 8px;
+		background-color: #fff;
+	}
+
+	.reader-progress-trigger {
+		position: absolute;
+		width: 100%;
+		transition: all 0.2s ease;
+	}
+
+	.reader-progress-slide.active.has-triggers {
+		background-color: rgba( 255, 255, 255, 0.4 );
+		z-index: 10;
+	}
+
+	.reader-progress-slide.active .reader-progress-trigger:after {
+		content: '';
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		border-radius: 6px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #000;
 	}
 }
 

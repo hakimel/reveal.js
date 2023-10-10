@@ -131,6 +131,35 @@ export default class Reader {
 
 		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
 
+		const handleMouseDown = ( event ) => {
+
+			event.preventDefault();
+
+			document.addEventListener( 'mousemove', handleDocumentMouseMove );
+			document.addEventListener( 'mouseup', handleDocumentMouseUp );
+
+			handleDocumentMouseMove( event );
+
+		};
+
+		const handleDocumentMouseMove	= ( event ) => {
+
+			let progress = Math.max( Math.min( ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight, 1 ), 0 );
+			progress = Math.max( Math.min( progress, 1 ), 0 );
+
+			this.viewportElement.scrollTop = progress * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
+
+		};
+
+		const handleDocumentMouseUp = ( event ) => {
+
+			document.removeEventListener( 'mousemove', handleDocumentMouseMove );
+			document.removeEventListener( 'mouseup', handleDocumentMouseUp );
+
+		};
+
+		this.progressBarInner.addEventListener( 'mousedown', handleMouseDown );
+
 	}
 
 	/**
@@ -210,7 +239,7 @@ export default class Reader {
 		const pageHeight = readerLayout === 'full' ? viewportHeight : compactHeight;
 
 		// The height that needs to be scrolled between scroll triggers
-		const scrollTriggerHeight = viewportHeight / 2;
+		const scrollTriggerHeight = viewportHeight;
 
 		this.viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
 		this.viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
@@ -303,7 +332,7 @@ export default class Reader {
 
 		this.progressBarInner.querySelectorAll( '.reader-progress-slide' ).forEach( slide => slide.remove() );
 
-		const spacing = 2;
+		const spacing = 4;
 
 		const viewportHeight = this.viewportElement.offsetHeight;
 		const scrollHeight = this.viewportElement.scrollHeight;
@@ -318,9 +347,20 @@ export default class Reader {
 
 			page.progressBarSlide = document.createElement( 'div' );
 			page.progressBarSlide.className = 'reader-progress-slide';
+			page.progressBarSlide.classList.toggle( 'has-triggers', page.scrollTriggers.length > 0 );
 			page.progressBarSlide.style.top = page.top / scrollHeight * this.progressBarHeight + 'px';
 			page.progressBarSlide.style.height = page.totalHeight / scrollHeight * this.progressBarHeight - spacing + 'px';
 			this.progressBarInner.appendChild( page.progressBarSlide );
+
+			page.scrollTriggers.forEach( trigger => {
+
+				const triggerElement = document.createElement( 'div' );
+				triggerElement.className = 'reader-progress-trigger';
+				triggerElement.style.top = trigger.range[0] * page.totalHeight / scrollHeight * this.progressBarHeight + 'px';
+				triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * page.totalHeight / scrollHeight * this.progressBarHeight - spacing + 'px';
+				page.progressBarSlide.appendChild( triggerElement );
+
+			} );
 
 		} );
 
@@ -341,9 +381,6 @@ export default class Reader {
 
 		this.pages.forEach( ( page ) => {
 			page.progressBarSlide.classList.toggle( 'active', !!page.active );
-			page.scrollTriggers.forEach( trigger => {
-				// page.progressBarSlide.classList.toggle( 'active', !!trigger.active );
-			} );
 		} );
 
 	}
@@ -367,7 +404,13 @@ export default class Reader {
 		// Find the page closest to the center of the viewport, this
 		// is the page we want to focus and activate
 		const activePage = this.pages.reduce( ( closestPage, page ) => {
-			const distance = Math.abs( ( page.top + page.pageHeight / 2 ) - scrollTop - viewportHeight / 2 );
+			// For tall pages with multiple scroll triggers we need to
+			// check the distnace from both the top of the page and the
+			// bottom
+			const distance = Math.min(
+				Math.abs( ( page.top + page.pageHeight / 2 ) - scrollTop - viewportHeight / 2 ),
+				Math.abs( ( page.top + ( page.totalHeight - page.pageHeight / 2 ) ) - scrollTop - viewportHeight / 2 )
+			);
 			return distance < closestPage.distance ? { page, distance } : closestPage;
 		}, { page: this.pages[0], distance: Infinity } ).page;
 
