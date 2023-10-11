@@ -198,19 +198,6 @@ export default class Reader {
 
 		this.viewportElement.insertBefore( this.progressBar, this.viewportElement.firstChild );
 
-		const handleMouseDown = ( event ) => {
-
-			event.preventDefault();
-
-			this.draggingProgressBar = true;
-
-			document.addEventListener( 'mousemove', handleDocumentMouseMove );
-			document.addEventListener( 'mouseup', handleDocumentMouseUp );
-
-			handleDocumentMouseMove( event );
-
-		};
-
 		const handleDocumentMouseMove	= ( event ) => {
 
 			let progress = ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight;
@@ -228,6 +215,19 @@ export default class Reader {
 
 			document.removeEventListener( 'mousemove', handleDocumentMouseMove );
 			document.removeEventListener( 'mouseup', handleDocumentMouseUp );
+
+		};
+
+		const handleMouseDown = ( event ) => {
+
+			event.preventDefault();
+
+			this.draggingProgressBar = true;
+
+			document.addEventListener( 'mousemove', handleDocumentMouseMove );
+			document.addEventListener( 'mouseup', handleDocumentMouseUp );
+
+			handleDocumentMouseMove( event );
 
 		};
 

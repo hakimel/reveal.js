@@ -2013,11 +2013,13 @@ $notesWidthPercent: 25%;
   display: none;
 }
 
-.has-dark-background {
+.reveal.has-dark-background,
+.reveal-viewport.has-dark-background {
 	--r-overlay-element-bg-color: 240, 240, 240;
 	--r-overlay-element-fg-color: 0, 0, 0;
 }
-.has-light-background {
+.reveal.has-light-background,
+.reveal-viewport.has-light-background {
 	--r-overlay-element-bg-color: 0, 0, 0;
 	--r-overlay-element-fg-color: 240, 240, 240;
 }
