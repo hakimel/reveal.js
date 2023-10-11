@@ -21,6 +21,7 @@ html.reveal-full-page {
 	height: 100%;
 	height: 100vh;
 	height: calc( var(--vh, 1vh) * 100 );
+	height: 100svh;
 	overflow: hidden;
 }
 
@@ -1882,7 +1883,8 @@ $notesWidthPercent: 25%;
 
 	.reveal .controls,
 	.reveal .progress,
-	.reveal .playback {
+	.reveal .playback,
+	.reveal .slide-number {
 		display: none !important;
 	}
 
@@ -2026,6 +2028,7 @@ $notesWidthPercent: 25%;
 		position: absolute;
 		width: var(--r-reader-progress-width);
 		height: 90vh;
+		height: 90svh;
 		right: $controlsSpacing;
 		top: 0;
 		transform: translateY(-50%);

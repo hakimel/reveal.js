@@ -274,7 +274,7 @@ export default {
 	// - mandatory:  Always snap to the closest slide
 	//
 	// Only applies to presentations in reader mode.
-	readerScrollSnap: 'proximity',
+	readerScrollSnap: 'mandatory',
 
 	// Enables and configure the reader mode scroll bar.
 	// - 'auto':    Show the scrollbar while scrolling, hide while idle
