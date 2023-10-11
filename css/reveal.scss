@@ -2012,6 +2012,15 @@ $notesWidthPercent: 25%;
   display: none;
 }
 
+.has-dark-background {
+	--r-overlay-element-bg-color: 240, 240, 240;
+	--r-overlay-element-fg-color: 0, 0, 0;
+}
+.has-light-background {
+	--r-overlay-element-bg-color: 0, 0, 0;
+	--r-overlay-element-fg-color: 240, 240, 240;
+}
+
 .reveal-viewport.reveal-reader .reader-progress {
 	position: sticky;
 	top: 50%;
@@ -2034,7 +2043,6 @@ $notesWidthPercent: 25%;
 		transform: translateY(-50%);
 		border-radius: var(--r-reader-progress-width);
 		z-index: 10;
-
 	}
 
 	// Hit area
@@ -2056,30 +2064,32 @@ $notesWidthPercent: 25%;
 		top: 0;
 		left: 0;
 		border-radius: var(--r-reader-progress-width);
-		background-color: #fff;
-		z-index: 2;
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+		z-index: 10;
+		transition: background-color 0.2s ease;
 	}
 
 	.reader-progress-slide {
 		position: absolute;
 		width: 100%;
-		background-color: rgba( 255, 255, 255, 0.2 );
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.2);
+		box-shadow: 0 0 0px 1px rgba(var(--r-overlay-element-fg-color), 0.1);
 		border-radius: var(--r-reader-progress-width);
-		transition: all 0.2s ease;
+		transition: background-color 0.2s ease;
 	}
 
 	.reader-progress-slide.active {
-		background-color: #fff;
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 	}
 
 	.reader-progress-trigger {
 		position: absolute;
 		width: 100%;
-		transition: all 0.2s ease;
+		transition: background-color 0.2s ease;
 	}
 
 	.reader-progress-slide.active.has-triggers {
-		background-color: rgba( 255, 255, 255, 0.4 );
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
 		z-index: 10;
 	}
 
@@ -2092,7 +2102,7 @@ $notesWidthPercent: 25%;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background: #000;
+		background-color: rgba(var(--r-overlay-element-fg-color), 0.8);
 	}
 }
 

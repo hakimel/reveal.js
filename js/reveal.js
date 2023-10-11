@@ -2963,6 +2963,7 @@ export default function( revealElement, options ) {
 		location,
 		overview,
 		fragments,
+		backgrounds,
 		slideContent,
 		slideNumber,
 

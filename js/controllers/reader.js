@@ -528,6 +528,7 @@ export default class Reader {
 
 					this.Reveal.setCurrentReaderPage( page.pageElement, page.indexh, page.indexv );
 					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
+					this.Reveal.backgrounds.bubbleSlideContrastClassToElement( page.slideElement, this.viewportElement );
 
 					if( page.backgroundElement ) {
 						this.Reveal.slideContent.startEmbeddedContent( page.backgroundElement );
