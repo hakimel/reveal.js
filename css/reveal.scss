@@ -10,8 +10,6 @@
 
 @import 'layout';
 
-$controlsSpacing: 12px;
-
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -36,6 +34,7 @@ html.reveal-full-page {
 	color: #000;
 
 	--r-reader-progress-width: 8px;
+	--r-controls-spacing: 12px;
 }
 
 // Force the presentation to cover the full viewport when we
@@ -279,8 +278,8 @@ $controlsArrowAngleActive: 36deg;
 	display: none;
 	position: absolute;
 	top: auto;
-	bottom: $controlsSpacing;
-	right: $controlsSpacing;
+	bottom: var(--r-controls-spacing);
+	right: var(--r-controls-spacing);
 	left: auto;
 	z-index: 11;
 	color: #000;
@@ -512,7 +511,9 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$controlsSpacing: 0.8em;
+	.reveal-viewport {
+		--r-controls-spacing: 0.8em;
+	}
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -532,24 +533,24 @@ $controlsArrowAngleActive: 36deg;
 
 		.navigate-left {
 			top: 50%;
-			left: $controlsSpacing;
+			left: var(--r-controls-spacing);
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-right {
 			top: 50%;
-			right: $controlsSpacing;
+			right: var(--r-controls-spacing);
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-up {
-			top: $controlsSpacing;
+			top: var(--r-controls-spacing);
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
 
 		.navigate-down {
-			bottom: $controlsSpacing - $controlArrowSpacing + 0.3em;
+			bottom: calc(var(--r-controls-spacing) - #{$controlArrowSpacing} + 0.3em);
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
@@ -2036,9 +2037,9 @@ $notesWidthPercent: 25%;
 	.reader-progress-inner {
 		position: absolute;
 		width: var(--r-reader-progress-width);
-		height: 90vh;
-		height: 90svh;
-		right: $controlsSpacing;
+		height: calc(100vh - var(--r-controls-spacing) * 2);
+		height: calc(100svh - var(--r-controls-spacing) * 2);
+		right: var(--r-controls-spacing);
 		top: 0;
 		transform: translateY(-50%);
 		border-radius: var(--r-reader-progress-width);
