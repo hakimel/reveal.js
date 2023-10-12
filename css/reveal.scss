@@ -1894,6 +1894,7 @@ $notesWidthPercent: 25%;
 	.reveal .controls,
 	.reveal .progress,
 	.reveal .playback,
+	.reveal .backgrounds,
 	.reveal .slide-number {
 		display: none !important;
 	}
@@ -1953,18 +1954,6 @@ $notesWidthPercent: 25%;
 		transform-origin: 0 0 !important;
 	}
 
-	.reveal section.stack {
-		position: relative !important;
-		page-break-after: avoid !important;
-		height: auto !important;
-		min-height: auto !important;
-	}
-
-	/* Slide backgrounds are nested inside of the page in reader mode */
-	.reveal .backgrounds {
-		display: none;
-	}
-
 	.reveal .slide-background {
 		display: block !important;
 		position: absolute;
@@ -1976,45 +1965,6 @@ $notesWidthPercent: 25%;
 		visibility: visible;
 		opacity: 1;
 		touch-action: manipulation;
-	}
-
-	/* Display slide speaker notes when 'showNotes' is enabled */
-	.reveal.show-notes {
-		max-width: none;
-		max-height: none;
-	}
-	.reveal .speaker-notes-pdf {
-		display: block;
-		width: 100%;
-		height: auto;
-		max-height: none;
-		top: auto;
-		right: auto;
-		bottom: auto;
-		left: auto;
-		z-index: 100;
-	}
-
-	/* Layout option which makes notes appear on a separate page */
-	.reveal .speaker-notes-pdf[data-layout="separate-page"] {
-		position: relative;
-		color: inherit;
-		background-color: transparent;
-		padding: 20px;
-		page-break-after: always;
-		border: 0;
-	}
-
-	/* Display slide numbers when 'slideNumber' is enabled */
-	.reveal .slide-number-pdf {
-		display: block;
-		position: absolute;
-		font-size: 14px;
-	}
-
-	/* This accessibility tool is not useful in PDF and breaks it visually */
-	.aria-status {
-		display: none;
 	}
 }
 
@@ -2077,7 +2027,7 @@ $notesWidthPercent: 25%;
 		left: 0;
 		border-radius: var(--r-reader-progress-width);
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
-		z-index: 10;
+		z-index: 11;
 		transition: background-color 0.2s ease, height 0.4s ease;
 	}
 

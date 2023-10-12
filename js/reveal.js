@@ -1577,6 +1577,10 @@ export default function( revealElement, options ) {
 			}
 		}
 
+		requestAnimationFrame( () => {
+			announceStatus( getStatusText( currentSlide ) );
+		});
+
 		dispatchSlideChanged();
 
 	}
