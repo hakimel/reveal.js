@@ -33,7 +33,6 @@ html.reveal-full-page {
 	background-color: #fff;
 	color: #000;
 
-	--r-reader-progress-width: 8px;
 	--r-controls-spacing: 12px;
 }
 
@@ -1879,7 +1878,15 @@ $notesWidthPercent: 25%;
 	& {
 		margin: 0 auto !important;
 		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
 		z-index: 1;
+
+		--r-reader-progress-width: 8px;
+	}
+
+	@media screen and (max-width: 500px) {
+		--r-reader-progress-width: 3px;
 	}
 
 	.reveal .controls,
@@ -2039,8 +2046,7 @@ $notesWidthPercent: 25%;
 	.reader-progress-inner {
 		position: absolute;
 		width: var(--r-reader-progress-width);
-		height: calc(100vh - var(--r-controls-spacing) * 2);
-		height: calc(100svh - var(--r-controls-spacing) * 2);
+		height: calc(var(--page-height) - var(--r-controls-spacing) * 2);
 		right: var(--r-controls-spacing);
 		top: 0;
 		transform: translateY(-50%);
@@ -2069,7 +2075,7 @@ $notesWidthPercent: 25%;
 		border-radius: var(--r-reader-progress-width);
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 		z-index: 10;
-		transition: background-color 0.2s ease;
+		transition: background-color 0.2s ease, height 0.4s ease;
 	}
 
 	.reader-progress-slide {
@@ -2099,12 +2105,12 @@ $notesWidthPercent: 25%;
 	.reader-progress-slide.active .reader-progress-trigger:after {
 		content: '';
 		position: absolute;
-		width: 4px;
-		height: 4px;
+		width: calc(var(--r-reader-progress-width) / 2);
+		height: calc(var(--r-reader-progress-width) / 2);
 		border-radius: 6px;
-		top: 50%;
+		bottom: 0;
 		left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, 0);
 		background-color: rgba(var(--r-overlay-element-fg-color), 0.8);
 	}
 }
