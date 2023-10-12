@@ -387,7 +387,7 @@ export default class Reader {
 		const scrollHeight = this.viewportElement.scrollHeight;
 
 		this.progressBarHeight = this.progressBarInner.offsetHeight;
-		this.playheadHeight = Math.max( viewportHeight / scrollHeight * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
+		this.playheadHeight = Math.max( this.pages[0].pageHeight / scrollHeight * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
 		this.progressBarScrollableHeight = this.progressBarHeight - this.playheadHeight;
 
 		this.progressBarPlayhead.style.height = this.playheadHeight - PROGRESS_SPACING + 'px';
@@ -410,13 +410,17 @@ export default class Reader {
 				const scrollPaddingProgressHeight = page.scrollPadding / scrollHeight * this.progressBarHeight;
 
 				// Create visual representations for each scroll trigger
-				page.scrollTriggers.slice(1).forEach( trigger => {
+				page.scrollTriggerElements = page.scrollTriggers.map( ( trigger, i ) => {
 
 					const triggerElement = document.createElement( 'div' );
 					triggerElement.className = 'reader-progress-trigger';
 					triggerElement.style.top = scrollTriggerTopOffset + trigger.range[0] * scrollPaddingProgressHeight + 'px';
 					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollPaddingProgressHeight - PROGRESS_SPACING + 'px';
 					page.progressBarSlide.appendChild( triggerElement );
+
+					if( i === 0 ) triggerElement.style.display = 'none';
+
+					return triggerElement;
 
 				} );
 
@@ -446,6 +450,10 @@ export default class Reader {
 				.filter( page => page.progressBarSlide )
 				.forEach( ( page ) => {
 					page.progressBarSlide.classList.toggle( 'active', !!page.active );
+
+					page.scrollTriggers.forEach( ( trigger, i ) => {
+						page.scrollTriggerElements[i].classList.toggle( 'active', page.active && trigger.active );
+					} );
 				} );
 
 			this.showProgressBar();

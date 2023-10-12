@@ -1883,10 +1883,12 @@ $notesWidthPercent: 25%;
 		z-index: 1;
 
 		--r-reader-progress-width: 8px;
+		--r-reader-progress-trigger-size: 6px;
 	}
 
 	@media screen and (max-width: 500px) {
 		--r-reader-progress-width: 3px;
+		--r-reader-progress-trigger-size: 3px;
 	}
 
 	.reveal .controls,
@@ -1973,6 +1975,7 @@ $notesWidthPercent: 25%;
 		z-index: auto !important;
 		visibility: visible;
 		opacity: 1;
+		touch-action: manipulation;
 	}
 
 	/* Display slide speaker notes when 'showNotes' is enabled */
@@ -2046,7 +2049,7 @@ $notesWidthPercent: 25%;
 	.reader-progress-inner {
 		position: absolute;
 		width: var(--r-reader-progress-width);
-		height: calc(var(--page-height) - var(--r-controls-spacing) * 2);
+		height: calc(var(--viewport-height) - var(--r-controls-spacing) * 2);
 		right: var(--r-controls-spacing);
 		top: 0;
 		transform: translateY(-50%);
@@ -2105,13 +2108,19 @@ $notesWidthPercent: 25%;
 	.reader-progress-slide.active .reader-progress-trigger:after {
 		content: '';
 		position: absolute;
-		width: calc(var(--r-reader-progress-width) / 2);
-		height: calc(var(--r-reader-progress-width) / 2);
-		border-radius: 6px;
+		width: var(--r-reader-progress-trigger-size);
+		height: var(--r-reader-progress-trigger-size);
+		border-radius: 20px;
 		bottom: 0;
 		left: 50%;
 		transform: translate(-50%, 0);
-		background-color: rgba(var(--r-overlay-element-fg-color), 0.8);
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.8);
+		transition: transform 0.2s ease;
+	}
+
+	.reader-progress-slide.active .reader-progress-trigger.active:after {
+		transform: translate(calc( var(--r-reader-progress-width) * -2), 0);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 	}
 }
 

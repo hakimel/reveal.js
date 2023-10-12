@@ -915,6 +915,9 @@ export default function( revealElement, options ) {
 
 		if( dom.wrapper && !print.isActive() ) {
 
+			const viewportWidth = dom.viewport.offsetWidth;
+			const viewportHeight = dom.viewport.offsetHeight;
+
 			if( !config.disableLayout ) {
 
 				// On some mobile devices '100vh' is taller than the visible
@@ -928,7 +931,7 @@ export default function( revealElement, options ) {
 				}
 
 				const size = reader.isActive() ?
-							 getComputedSlideSize( dom.viewport.offsetWidth, dom.viewport.offsetHeight ) :
+							 getComputedSlideSize( viewportWidth, viewportHeight ) :
 							 getComputedSlideSize();
 
 				const oldScale = scale;
@@ -1017,6 +1020,8 @@ export default function( revealElement, options ) {
 			}
 
 			dom.viewport.style.setProperty( '--slide-scale', scale );
+			dom.viewport.style.setProperty( '--viewport-width', viewportWidth + 'px' );
+			dom.viewport.style.setProperty( '--viewport-height', viewportHeight + 'px' );
 
 			reader.layout();
 
