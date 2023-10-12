@@ -256,6 +256,36 @@ export default {
 	parallaxBackgroundHorizontal: null,
 	parallaxBackgroundVertical: null,
 
+	// Can be used to initialize reveal.js in one of the following views:
+	// - print:   Render the presentation so that it can be printed to PDF
+	// - reader:  Show the presentation as a tall scrollable page with scroll
+	//            triggered animations
+	view: null,
+
+	// Adjusts the height of each slide in reader mode
+	// - full:       Each slide is as tall as the viewport
+	// - compact:    Slides are as small as possible, allowing multiple slides
+	//               to be visible in parallel on tall devices
+	readerLayout: 'full',
+
+	// Control how scroll snapping works in reader mode.
+	// - false:   	No snapping, scrolling is continuous
+	// - proximity:  Snap when close to a slide
+	// - mandatory:  Always snap to the closest slide
+	//
+	// Only applies to presentations in reader mode.
+	readerScrollSnap: 'mandatory',
+
+	// Enables and configure the reader mode scroll bar.
+	// - 'auto':    Show the scrollbar while scrolling, hide while idle
+	// - true:      Always show the scrollbar
+	// - false:     Never show the scrollbar
+	readerScrollbar: 'auto',
+
+	// Responsively activate the reader mode when we reach the specified
+	// width (in pixels)
+	readerActivationWidth: null,
+
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default
 	pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
@@ -287,7 +317,7 @@ export default {
 	// Time before the cursor is hidden (in ms)
 	hideCursorTime: 5000,
 
-	// Should we automatmically sort and set indices for fragments
+	// Should we automatically sort and set indices for fragments
 	// at each sync? (See Reveal.sync)
 	sortFragmentsOnSync: true,
 

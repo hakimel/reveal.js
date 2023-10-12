@@ -11,6 +11,7 @@ import Controls from './controllers/controls.js'
 import Progress from './controllers/progress.js'
 import Pointer from './controllers/pointer.js'
 import Plugins from './controllers/plugins.js'
+import Reader from './controllers/reader.js'
 import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
 import Focus from './controllers/focus.js'
@@ -113,6 +114,7 @@ export default function( revealElement, options ) {
 		progress = new Progress( Reveal ),
 		pointer = new Pointer( Reveal ),
 		plugins = new Plugins( Reveal ),
+		reader = new Reader( Reveal ),
 		print = new Print( Reveal ),
 		focus = new Focus( Reveal ),
 		touch = new Touch( Reveal ),
@@ -139,6 +141,11 @@ export default function( revealElement, options ) {
 		// 4. Options passed to Reveal.initialize
 		// 5. Query params
 		config = { ...defaultConfig, ...config, ...options, ...initOptions, ...Util.getQueryHash() };
+
+		// Legacy support for the ?print-pdf query
+		if( /print-pdf/gi.test( window.location.search ) ) {
+			config.view = 'print';
+		}
 
 		setViewport();
 
@@ -201,11 +208,14 @@ export default function( revealElement, options ) {
 		// Updates the presentation to match the current configuration values
 		configure();
 
-		// Read the initial hash
-		location.readURL();
-
 		// Create slide backgrounds
 		backgrounds.update( true );
+
+		// Activate the print/reader mode if configured
+		activateInitialView();
+
+		// Read the initial hash
+		location.readURL();
 
 		// Notify listeners that the presentation is ready but use a 1ms
 		// timeout to ensure it's not fired synchronously after #initialize()
@@ -225,19 +235,41 @@ export default function( revealElement, options ) {
 			});
 		}, 1 );
 
-		// Special setup and config is required when printing to PDF
-		if( print.isPrintingPDF() ) {
-			removeEventListeners();
+	}
 
-			// The document needs to have loaded for the PDF layout
-			// measurements to be accurate
-			if( document.readyState === 'complete' ) {
-				print.setupPDF();
+	/**
+	 * Activates the correct reveal.js view based on our config.
+	 * This is only invoked once during initialization.
+	 */
+	function activateInitialView() {
+
+		const activatePrintView = config.view === 'print';
+		const activateReaderView = config.view === 'reader';
+
+		if( activatePrintView || activateReaderView ) {
+
+			if( activatePrintView ) {
+				removeEventListeners();
 			}
 			else {
-				window.addEventListener( 'load', () => {
-					print.setupPDF();
-				} );
+				touch.unbind();
+			}
+
+			// Avoid content flickering during layout
+			dom.viewport.classList.add( 'loading-scroll-mode' );
+
+			if( activatePrintView ) {
+				// The document needs to have loaded for the PDF layout
+				// measurements to be accurate
+				if( document.readyState === 'complete' ) {
+					print.activate();
+				}
+				else {
+					window.addEventListener( 'load', () => print.activate() );
+				}
+			}
+			else {
+				reader.activate();
 			}
 		}
 
@@ -690,6 +722,26 @@ export default function( revealElement, options ) {
 	}
 
 	/**
+	 * Dispatches a slidechanged event.
+	 *
+	 * @param {string} origin Used to identify multiplex clients
+	 */
+	function dispatchSlideChanged( origin ) {
+
+		dispatchEvent({
+			type: 'slidechanged',
+			data: {
+				indexh,
+				indexv,
+				previousSlide,
+				currentSlide,
+				origin
+			}
+		});
+
+	}
+
+	/**
 	 * Dispatched a postMessage of the given type from our window.
 	 */
 	function dispatchPostMessage( type, data ) {
@@ -872,7 +924,10 @@ export default function( revealElement, options ) {
 	 */
 	function layout() {
 
-		if( dom.wrapper && !print.isPrintingPDF() ) {
+		if( dom.wrapper && !print.isActive() ) {
+
+			const viewportWidth = dom.viewport.offsetWidth;
+			const viewportHeight = dom.viewport.offsetHeight;
 
 			if( !config.disableLayout ) {
 
@@ -886,7 +941,9 @@ export default function( revealElement, options ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
-				const size = getComputedSlideSize();
+				const size = reader.isActive() ?
+							 getComputedSlideSize( viewportWidth, viewportHeight ) :
+							 getComputedSlideSize();
 
 				const oldScale = scale;
 
@@ -903,8 +960,9 @@ export default function( revealElement, options ) {
 				scale = Math.max( scale, config.minScale );
 				scale = Math.min( scale, config.maxScale );
 
-				// Don't apply any scaling styles if scale is 1
-				if( scale === 1 ) {
+				// Don't apply any scaling styles if scale is 1 or we're
+				// in reader mode
+				if( scale === 1 || reader.isActive() ) {
 					dom.slides.style.zoom = '';
 					dom.slides.style.left = '';
 					dom.slides.style.top = '';
@@ -932,7 +990,7 @@ export default function( revealElement, options ) {
 						continue;
 					}
 
-					if( config.center || slide.classList.contains( 'center' ) ) {
+					if( ( config.center || slide.classList.contains( 'center' ) ) ) {
 						// Vertical stacks are not centred since their section
 						// children will be
 						if( slide.classList.contains( 'stack' ) ) {
@@ -958,9 +1016,25 @@ export default function( revealElement, options ) {
 						}
 					});
 				}
+
+				// Responsively turn on the reader mode if there is an activation
+				// width configured. Ignore if we're configured to always be in
+				// reader mode.
+				if( typeof config.readerActivationWidth === 'number' && config.view !== 'reader' ) {
+					if( size.presentationWidth < config.readerActivationWidth ) {
+						if( !reader.isActive() ) reader.activate();
+					}
+					else {
+						if( reader.isActive() ) reader.deactivate();
+					}
+				}
 			}
 
 			dom.viewport.style.setProperty( '--slide-scale', scale );
+			dom.viewport.style.setProperty( '--viewport-width', viewportWidth + 'px' );
+			dom.viewport.style.setProperty( '--viewport-height', viewportHeight + 'px' );
+
+			reader.layout();
 
 			progress.update();
 			backgrounds.updateParallax();
@@ -981,7 +1055,6 @@ export default function( revealElement, options ) {
 	 * @param {string|number} height
 	 */
 	function layoutSlideContents( width, height ) {
-
 		// Handle sizing of elements with the 'r-stretch' class
 		Util.queryAll( dom.slides, 'section > .stretch, section > .r-stretch' ).forEach( element => {
 
@@ -1017,6 +1090,7 @@ export default function( revealElement, options ) {
 	 * @param {number} [presentationHeight=dom.wrapper.offsetHeight]
 	 */
 	function getComputedSlideSize( presentationWidth, presentationHeight ) {
+
 		let width = config.width;
 		let height = config.height;
 
@@ -1100,6 +1174,19 @@ export default function( revealElement, options ) {
 	function isVerticalSlide( slide = currentSlide ) {
 
 		return slide && slide.parentNode && !!slide.parentNode.nodeName.match( /section/i );
+
+	}
+
+	/**
+	 * Checks if the current or specified slide is a stack containing
+	 * vertical slides.
+	 *
+	 * @param {HTMLElement} [slide=currentSlide]
+	 * @return {Boolean}
+	 */
+	function isVerticalStack( slide = currentSlide ) {
+
+		return slide.classList.contains( '.stack' ) || slide.querySelector( 'section' ) !== null;
 
 	}
 
@@ -1288,6 +1375,14 @@ export default function( revealElement, options ) {
 		// Query all horizontal slides in the deck
 		const horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
+		// If we're in reader mode we scroll the target slide into view
+		// instead of running our standard slide transition
+		if( reader.isActive() ) {
+			const scrollToSlide = reader.getSlideByIndices( h, v );
+			if( scrollToSlide ) reader.scrollToSlide( scrollToSlide );
+			return;
+		}
+
 		// Abort if there are no slides
 		if( horizontalSlides.length === 0 ) return;
 
@@ -1334,6 +1429,9 @@ export default function( revealElement, options ) {
 
 		// Detect if we're moving between two auto-animated slides
 		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
+			transition = 'running';
+
+			autoAnimateTransition = shoulAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexvBefore );
 
 			// If this is an auto-animated transition, we disable the
 			// regular slide transition
@@ -1341,16 +1439,9 @@ export default function( revealElement, options ) {
 			// Note 20-03-2020:
 			// This needs to happen before we update slide visibility,
 			// otherwise transitions will still run in Safari.
-			if( previousSlide.hasAttribute( 'data-auto-animate' ) && currentSlide.hasAttribute( 'data-auto-animate' )
-					&& previousSlide.getAttribute( 'data-auto-animate-id' ) === currentSlide.getAttribute( 'data-auto-animate-id' )
-					&& !( ( indexh > indexhBefore || indexv > indexvBefore ) ? currentSlide : previousSlide ).hasAttribute( 'data-auto-animate-restart' ) ) {
-
-				autoAnimateTransition = true;
-				dom.slides.classList.add( 'disable-slide-transitions' );
+			if( autoAnimateTransition ) {
+				dom.slides.classList.add( 'disable-slide-transitions' )
 			}
-
-			transition = 'running';
-
 		}
 
 		// Update the visibility of slides now that the indices have changed
@@ -1409,16 +1500,7 @@ export default function( revealElement, options ) {
 		}
 
 		if( slideChanged ) {
-			dispatchEvent({
-				type: 'slidechanged',
-				data: {
-					indexh,
-					indexv,
-					previousSlide,
-					currentSlide,
-					origin
-				}
-			});
+			dispatchSlideChanged( origin );
 		}
 
 		// Handle embedded content
@@ -1460,6 +1542,57 @@ export default function( revealElement, options ) {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Checks whether or not an auto-animation should take place between
+	 * the two given slides.
+	 *
+	 * @param {HTMLElement} fromSlide
+	 * @param {HTMLElement} toSlide
+	 * @param {number} indexhBefore
+	 * @param {number} indexvBefore
+	 *
+	 * @returns {boolean}
+	 */
+	function shoulAutoAnimateBetween( fromSlide, toSlide, indexhBefore, indexvBefore ) {
+
+		return 	fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' ) &&
+				fromSlide.getAttribute( 'data-auto-animate-id' ) === toSlide.getAttribute( 'data-auto-animate-id' ) &&
+				!( ( indexh > indexhBefore || indexv > indexvBefore ) ? toSlide : fromSlide ).hasAttribute( 'data-auto-animate-restart' );
+
+	}
+
+	/**
+	 * Called anytime current page in reader mode changes. The current
+	 * page is the page that occupies the most space in the viewport.
+	 *
+	 * @param {number} pageIndex
+	 * @param {HTMLElement} pageElement
+	 */
+	function setCurrentReaderPage( pageElement, h, v ) {
+
+		let indexhBefore = indexh || 0;
+
+		indexh = h;
+		indexv = v;
+
+		previousSlide = currentSlide;
+		currentSlide = pageElement.querySelector( 'section' );
+
+		if( currentSlide && previousSlide ) {
+			if( config.autoAnimate && shoulAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexv ) ) {
+				// Run the auto-animation between our slides
+				// autoAnimate.run( previousSlide, currentSlide );
+			}
+		}
+
+		requestAnimationFrame( () => {
+			announceStatus( getStatusText( currentSlide ) );
+		});
+
+		dispatchSlideChanged();
 
 	}
 
@@ -1608,7 +1741,7 @@ export default function( revealElement, options ) {
 		let slides = Util.queryAll( dom.wrapper, selector ),
 			slidesLength = slides.length;
 
-		let printMode = print.isPrintingPDF();
+		let printMode = reader.isActive() || print.isActive();
 		let loopedForwards = false;
 		let loopedBackwards = false;
 
@@ -1768,7 +1901,7 @@ export default function( revealElement, options ) {
 			}
 
 			// All slides need to be visible when exporting to PDF
-			if( print.isPrintingPDF() ) {
+			if( print.isActive() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
 
@@ -1999,21 +2132,30 @@ export default function( revealElement, options ) {
 
 		// If a slide is specified, return the indices of that slide
 		if( slide ) {
-			let isVertical = isVerticalSlide( slide );
-			let slideh = isVertical ? slide.parentNode : slide;
+			if( reader.isActive() ) {
+				h = parseInt( slide.getAttribute( 'data-index-h' ), 10 );
 
-			// Select all horizontal slides
-			let horizontalSlides = getHorizontalSlides();
+				if( slide.getAttribute( 'data-index-v' ) ) {
+					v = parseInt( slide.getAttribute( 'data-index-v' ), 10 );
+				}
+			}
+			else {
+				let isVertical = isVerticalSlide( slide );
+				let slideh = isVertical ? slide.parentNode : slide;
 
-			// Now that we know which the horizontal slide is, get its index
-			h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
+				// Select all horizontal slides
+				let horizontalSlides = getHorizontalSlides();
 
-			// Assume we're not vertical
-			v = undefined;
+				// Now that we know which the horizontal slide is, get its index
+				h = Math.max( horizontalSlides.indexOf( slideh ), 0 );
 
-			// If this is a vertical slide, grab the vertical index
-			if( isVertical ) {
-				v = Math.max( Util.queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
+				// Assume we're not vertical
+				v = undefined;
+
+				// If this is a vertical slide, grab the vertical index
+				if( isVertical ) {
+					v = Math.max( Util.queryAll( slide.parentNode, 'section' ).indexOf( slide ), 0 );
+				}
 			}
 		}
 
@@ -2686,6 +2828,9 @@ export default function( revealElement, options ) {
 		// Toggles the overview mode on/off
 		toggleOverview: overview.toggle.bind( overview ),
 
+		// Toggles the reader mode on/off
+		toggleReaderMode: reader.toggle.bind( reader ),
+
 		// Toggles the "black screen" mode on/off
 		togglePause,
 
@@ -2700,6 +2845,7 @@ export default function( revealElement, options ) {
 		isLastSlide,
 		isLastVerticalSlide,
 		isVerticalSlide,
+		isVerticalStack,
 
 		// State checks
 		isPaused,
@@ -2707,7 +2853,9 @@ export default function( revealElement, options ) {
 		isSpeakerNotes: notes.isSpeakerNotesWindow.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
 		isFocused: focus.isFocused.bind( focus ),
-		isPrintingPDF: print.isPrintingPDF.bind( print ),
+
+		isReaderMode: reader.isActive.bind( reader ),
+		isPrinting: print.isActive.bind( print ),
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
@@ -2791,6 +2939,7 @@ export default function( revealElement, options ) {
 		registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
 
 		getComputedSlideSize,
+		setCurrentReaderPage,
 
 		// Returns the current scale of the presentation content
 		getScale: () => scale,
@@ -2827,13 +2976,14 @@ export default function( revealElement, options ) {
 		getStatusText,
 
 		// Controllers
-		print,
 		focus,
+		reader,
 		progress,
 		controls,
 		location,
 		overview,
 		fragments,
+		backgrounds,
 		slideContent,
 		slideNumber,
 
