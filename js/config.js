@@ -280,7 +280,7 @@ export default {
 	// - 'auto':    Show the scrollbar while scrolling, hide while idle
 	// - true:      Always show the scrollbar
 	// - false:     Never show the scrollbar
-	readerScrollBar: 'auto',
+	readerScrollbar: 'auto',
 
 	// Responsively activate the reader mode when we reach the specified
 	// width (in pixels)

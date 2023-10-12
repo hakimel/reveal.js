@@ -361,9 +361,9 @@ export default class Reader {
 			return page;
 		} );
 
-		this.viewportElement.setAttribute( 'data-reader-scroll-bar', config.readerScrollBar )
+		this.viewportElement.setAttribute( 'data-reader-scroll-bar', config.readerScrollbar )
 
-		if( config.readerScrollBar ) {
+		if( config.readerScrollbar ) {
 			// Create the progress bar if it doesn't already exist
 			if( !this.progressBar ) this.createProgressBar();
 
@@ -472,7 +472,7 @@ export default class Reader {
 
 		clearTimeout( this.hideProgressBarTimeout );
 
-		if( this.Reveal.getConfig().readerScrollBar === 'auto' && !this.draggingProgressBar ) {
+		if( this.Reveal.getConfig().readerScrollbar === 'auto' && !this.draggingProgressBar ) {
 
 			this.hideProgressBarTimeout = setTimeout( () => {
 				this.progressBar.classList.remove( 'visible' );
