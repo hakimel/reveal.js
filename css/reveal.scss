@@ -1883,7 +1883,7 @@ $notesWidthPercent: 25%;
 		z-index: 1;
 
 		--r-reader-progress-width: 8px;
-		--r-reader-progress-trigger-size: 6px;
+		--r-reader-progress-trigger-size: 5px;
 	}
 
 	@media screen and (max-width: 500px) {
@@ -1895,7 +1895,8 @@ $notesWidthPercent: 25%;
 	.reveal .progress,
 	.reveal .playback,
 	.reveal .backgrounds,
-	.reveal .slide-number {
+	.reveal .slide-number,
+	.reveal .speaker-notes {
 		display: none !important;
 	}
 
@@ -1968,9 +1969,16 @@ $notesWidthPercent: 25%;
 	}
 }
 
+// Chromium
 .reveal-viewport.reveal-reader[data-reader-scroll-bar="true"]::-webkit-scrollbar,
 .reveal-viewport.reveal-reader[data-reader-scroll-bar="auto"]::-webkit-scrollbar {
   display: none;
+}
+
+// Firefox
+.reveal-viewport.reveal-reader[data-reader-scroll-bar="true"],
+.reveal-viewport.reveal-reader[data-reader-scroll-bar="auto"] {
+  scrollbar-width: none;
 }
 
 .reveal.has-dark-background,
@@ -2041,7 +2049,7 @@ $notesWidthPercent: 25%;
 	}
 
 	.reader-progress-slide.active {
-		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
 	}
 
 	.reader-progress-trigger {
@@ -2061,14 +2069,20 @@ $notesWidthPercent: 25%;
 		width: var(--r-reader-progress-trigger-size);
 		height: var(--r-reader-progress-trigger-size);
 		border-radius: 20px;
-		bottom: 0;
+		top: 100%;
 		left: 50%;
 		transform: translate(-50%, 0);
 		background-color: rgba(var(--r-overlay-element-bg-color), 0.8);
-		transition: transform 0.2s ease;
+		transition: transform 0.2s ease, opacity 0.2s ease;
+		opacity: 0.4;
 	}
 
-	.reader-progress-slide.active .reader-progress-trigger.active:after {
+	.reader-progress-slide.active .reader-progress-trigger.active:after,
+	.reader-progress-slide.active .reader-progress-trigger.active ~ .reader-progress-trigger:after {
+		opacity: 1;
+	}
+
+	.reader-progress-slide.active .reader-progress-trigger ~ .reader-progress-trigger.active:after {
 		transform: translate(calc( var(--r-reader-progress-width) * -2), 0);
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 	}

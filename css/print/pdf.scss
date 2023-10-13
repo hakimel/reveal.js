@@ -70,6 +70,10 @@ html.reveal-print {
 		page-break-after: always;
 	}
 
+	.reveal .slides .pdf-page:last-of-type {
+		page-break-after: avoid;
+	}
+
 	.reveal .slides section {
 		visibility: visible !important;
 		display: block !important;
