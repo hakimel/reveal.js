@@ -1882,8 +1882,9 @@ $notesWidthPercent: 25%;
 		overflow-y: auto;
 		z-index: 1;
 
-		--r-reader-progress-width: 8px;
+		--r-reader-progress-width: 7px;
 		--r-reader-progress-trigger-size: 5px;
+		--r-controls-spacing: 8px;
 	}
 
 	@media screen and (max-width: 500px) {
@@ -2015,18 +2016,6 @@ $notesWidthPercent: 25%;
 		z-index: 10;
 	}
 
-	// Hit area
-	.reader-progress-inner:after {
-		content: '';
-		position: absolute;
-		width: 200%;
-		height: 100%;
-		top: 0;
-		left: -50%;
-		background: rgba( 0, 0, 0, 0 );
-		z-index: -1;
-	}
-
 	.reader-progress-playhead {
 		position: absolute;
 		width: var(--r-reader-progress-width);
@@ -2036,7 +2025,7 @@ $notesWidthPercent: 25%;
 		border-radius: var(--r-reader-progress-width);
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 		z-index: 11;
-		transition: background-color 0.2s ease, height 0.4s ease;
+		transition: background-color 0.2s ease;
 	}
 
 	.reader-progress-slide {
@@ -2048,6 +2037,19 @@ $notesWidthPercent: 25%;
 		transition: background-color 0.2s ease;
 	}
 
+	// Hit area
+	.reader-progress-slide:after {
+		content: '';
+		position: absolute;
+		width: 200%;
+		height: 100%;
+		top: 0;
+		left: -50%;
+		background: rgba( 0, 0, 0, 0 );
+		z-index: -1;
+	}
+
+	.reader-progress-slide:hover,
 	.reader-progress-slide.active {
 		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
 	}

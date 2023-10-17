@@ -363,7 +363,7 @@ export default class Reader {
 
 		this.viewportElement.setAttribute( 'data-reader-scroll-bar', config.readerScrollbar )
 
-		if( config.readerScrollbar ) {
+		if( config.readerScrollbar && this.pages.length > 1 ) {
 			// Create the progress bar if it doesn't already exist
 			if( !this.progressBar ) this.createProgressBar();
 
