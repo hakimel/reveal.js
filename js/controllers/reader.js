@@ -270,7 +270,7 @@ export default class Reader {
 		const pageHeight = readerLayout === 'full' ? viewportHeight : compactHeight;
 
 		// The height that needs to be scrolled between scroll triggers
-		const scrollTriggerHeight = viewportHeight / 2;
+		const scrollTriggerHeight = viewportHeight;
 
 		this.viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
 		this.viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
@@ -303,15 +303,15 @@ export default class Reader {
 
 			// Create scroll triggers that show/hide fragments
 			if( page.fragmentGroups.length ) {
-				const segmentSize = 1 / page.fragmentGroups.length;
-				let segmentY = segmentSize / 4;
+				const segmentSize = 1 / ( page.fragmentGroups.length + 1 );
+				let segmentY = segmentSize;
 				page.scrollTriggers.push(
 					// Trigger for the initial state with no fragments visible
 					{ range: [ 0, segmentY ], fragmentIndex: -1 },
 
 					// Triggers for each fragment group
 					...page.fragmentGroups.map( ( fragments, i ) => {
-						segmentY += segmentSize;
+							segmentY += segmentSize;
 							return {
 								range: [ segmentY - segmentSize, segmentY ],
 								fragmentIndex: i
@@ -319,6 +319,19 @@ export default class Reader {
 						}
 					)
 				);
+
+				// Clean up
+				page.pageElement.querySelectorAll( '.reader-page-sticky-trigger' ).forEach( el => el.remove() );
+
+				// Create snap points for each scroll trigger
+				page.scrollTriggers.map( () => {
+					const triggerStick = document.createElement( 'div' );
+					triggerStick.className = 'reader-page-sticky-trigger';
+					triggerStick.style.scrollSnapAlign = 'start';
+					triggerStick.style.height = scrollTriggerHeight + 'px';
+					page.pageElement.appendChild( triggerStick );
+					return triggerStick;
+				} );
 			}
 
 			// Add scroll padding based on how many scroll triggers we have
@@ -406,16 +419,15 @@ export default class Reader {
 				page.progressBarSlide.style.height = page.totalHeight / scrollHeight * this.progressBarHeight - PROGRESS_SPACING + 'px';
 				this.progressBarInner.appendChild( page.progressBarSlide );
 
-				const scrollTriggerTopOffset = page.scrollTriggerHeight / scrollHeight * this.progressBarHeight;
-				const scrollPaddingProgressHeight = page.scrollPadding / scrollHeight * this.progressBarHeight;
+				const scrollBarSlideHeight = page.totalHeight / scrollHeight * this.progressBarHeight;
 
 				// Create visual representations for each scroll trigger
 				page.scrollTriggerElements = page.scrollTriggers.map( ( trigger, i ) => {
 
 					const triggerElement = document.createElement( 'div' );
 					triggerElement.className = 'reader-progress-trigger';
-					triggerElement.style.top = scrollTriggerTopOffset + trigger.range[0] * scrollPaddingProgressHeight + 'px';
-					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollPaddingProgressHeight - PROGRESS_SPACING + 'px';
+					triggerElement.style.top = trigger.range[0] * scrollBarSlideHeight + 'px';
+					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollBarSlideHeight - PROGRESS_SPACING + 'px';
 					page.progressBarSlide.appendChild( triggerElement );
 
 					if( i === 0 ) triggerElement.style.display = 'none';
@@ -570,7 +582,7 @@ export default class Reader {
 				scrollProgress = Math.max( Math.min( scrollProgress, 1 ), 0 );
 
 				page.scrollTriggers.forEach( trigger => {
-					if( scrollProgress >= trigger.range[0] && scrollProgress < trigger.range[1] ) {
+					if( scrollProgress >= trigger.range[0] && scrollProgress <= trigger.range[1] ) {
 						if( !trigger.active ) {
 							trigger.active = true;
 							this.Reveal.fragments.update( trigger.fragmentIndex, page.fragments, page.slideElement );
