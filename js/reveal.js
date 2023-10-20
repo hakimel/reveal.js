@@ -1578,6 +1578,8 @@ export default function( revealElement, options ) {
 		indexh = h;
 		indexv = v;
 
+		const slideChanged = currentSlide !== slideElement;
+
 		previousSlide = currentSlide;
 		currentSlide = slideElement;
 
@@ -1586,6 +1588,17 @@ export default function( revealElement, options ) {
 				// Run the auto-animation between our slides
 				autoAnimate.run( previousSlide, currentSlide );
 			}
+		}
+
+		// Start or stop embedded content like videos and iframes
+		if( slideChanged ) {
+			if( previousSlide ) {
+				slideContent.stopEmbeddedContent( previousSlide );
+				slideContent.stopEmbeddedContent( previousSlide.slideBackgroundElement );
+			}
+
+			slideContent.startEmbeddedContent( currentSlide );
+			slideContent.startEmbeddedContent( currentSlide.slideBackgroundElement );
 		}
 
 		requestAnimationFrame( () => {
@@ -2132,6 +2145,7 @@ export default function( revealElement, options ) {
 
 		// If a slide is specified, return the indices of that slide
 		if( slide ) {
+			// In reader mode the original h/x index is stored on the slide
 			if( reader.isActive() ) {
 				h = parseInt( slide.getAttribute( 'data-index-h' ), 10 );
 
