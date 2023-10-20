@@ -2,9 +2,9 @@ import { HORIZONTAL_SLIDES_SELECTOR } from '../utils/constants.js'
 import { queryAll } from '../utils/util.js'
 
 const HIDE_SCROLLBAR_TIMEOUT = 500;
-const PROGRESS_SPACING = 4;
+const MAX_PROGRESS_SPACING = 4;
 const MIN_PROGRESS_SEGMENT_HEIGHT = 6;
-const MIN_PLAYHEAD_HEIGHT = 18;
+const MIN_PLAYHEAD_HEIGHT = 8;
 
 /**
  * The reader mode lets you read a reveal.js presentation
@@ -67,6 +67,7 @@ export default class Reader {
 			if( previousSlide && this.Reveal.shouldAutoAnimateBetween( previousSlide, slide ) ) {
 				contentContainer = document.createElement( 'div' );
 				contentContainer.className = 'reader-page-content reader-auto-animate-page';
+				contentContainer.style.display = 'none';
 				previousSlide.closest( '.reader-page-content' ).parentNode.appendChild( contentContainer );
 			}
 			else {
@@ -533,16 +534,18 @@ export default class Reader {
 
 		this.progressBarInner.querySelectorAll( '.reader-progress-slide' ).forEach( slide => slide.remove() );
 
-		const viewportHeight = this.viewportElement.offsetHeight;
 		const scrollHeight = this.viewportElement.scrollHeight;
+		const viewportHeight = this.viewportElement.offsetHeight;
+		const viewportHeightFactor = viewportHeight / scrollHeight;
 
 		this.progressBarHeight = this.progressBarInner.offsetHeight;
-		this.playheadHeight = Math.max( 1 / this.totalScrollTriggerCount * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
+		this.playheadHeight = Math.max( viewportHeightFactor * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
 		this.progressBarScrollableHeight = this.progressBarHeight - this.playheadHeight;
 
-		this.progressBarPlayhead.style.height = this.playheadHeight - PROGRESS_SPACING + 'px';
-
 		const progressSegmentHeight = viewportHeight / scrollHeight * this.progressBarHeight;
+		const spacing = Math.min( progressSegmentHeight / 8, MAX_PROGRESS_SPACING );
+
+		this.progressBarPlayhead.style.height = this.playheadHeight - spacing + 'px';
 
 		// Don't show individual segments if they're too small
 		if( progressSegmentHeight > MIN_PROGRESS_SEGMENT_HEIGHT ) {
@@ -555,7 +558,7 @@ export default class Reader {
 				page.progressBarSlide = document.createElement( 'div' );
 				page.progressBarSlide.className = 'reader-progress-slide';
 				page.progressBarSlide.style.top = trigger.range[0] * this.progressBarHeight + 'px';
-				page.progressBarSlide.style.height = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight - PROGRESS_SPACING + 'px';
+				page.progressBarSlide.style.height = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight - spacing + 'px';
 				page.progressBarSlide.classList.toggle( 'has-triggers', page.scrollTriggers.length > 0 );
 				this.progressBarInner.appendChild( page.progressBarSlide );
 
@@ -567,7 +570,7 @@ export default class Reader {
 					const triggerElement = document.createElement( 'div' );
 					triggerElement.className = 'reader-progress-trigger';
 					triggerElement.style.top = trigger.range[0] * scrollBarSlideHeight + 'px';
-					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollBarSlideHeight - PROGRESS_SPACING + 'px';
+					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollBarSlideHeight - spacing + 'px';
 					page.progressBarSlide.appendChild( triggerElement );
 
 					if( i === 0 ) triggerElement.style.display = 'none';
