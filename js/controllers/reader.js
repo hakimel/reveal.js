@@ -52,26 +52,37 @@ export default class Reader {
 		const pageElements = [];
 		const pageContainer = horizontalSlides[0].parentNode;
 
-		function createPage( slide, h, v ) {
+		let previousSlide;
 
-			// Wrap the slide in a page element and hide its overflow
-			// so that no page ever flows onto another
-			const page = document.createElement( 'div' );
-			page.className = 'reader-page';
-			pageElements.push( page );
+		const createPage = ( slide, h, v ) => {
 
-			// Copy the presentation-wide background to each page
-			if( presentationBackground ) {
-				page.style.background = presentationBackground;
+			let contentContainer;
+
+			if( previousSlide && this.Reveal.shouldAutoAnimateBetween( previousSlide, slide ) ) {
+				contentContainer = document.createElement( 'div' );
+				contentContainer.className = 'reader-page-content reader-auto-animate-page';
+				previousSlide.closest( '.reader-page-content' ).parentNode.appendChild( contentContainer );
 			}
+			else {
+				// Wrap the slide in a page element and hide its overflow
+				// so that no page ever flows onto another
+				const page = document.createElement( 'div' );
+				page.className = 'reader-page';
+				pageElements.push( page );
 
-			const stickyContainer = document.createElement( 'div' );
-			stickyContainer.className = 'reader-page-sticky';
-			page.appendChild( stickyContainer );
+				// Copy the presentation-wide background to each page
+				if( presentationBackground ) {
+					page.style.background = presentationBackground;
+				}
 
-			const contentContainer = document.createElement( 'div' );
-			contentContainer.className = 'reader-page-content';
-			stickyContainer.appendChild( contentContainer );
+				const stickyContainer = document.createElement( 'div' );
+				stickyContainer.className = 'reader-page-sticky';
+				page.appendChild( stickyContainer );
+
+				contentContainer = document.createElement( 'div' );
+				contentContainer.className = 'reader-page-content';
+				stickyContainer.appendChild( contentContainer );
+			}
 
 			contentContainer.appendChild( slide );
 
@@ -84,6 +95,8 @@ export default class Reader {
 				slide.slideBackgroundElement.remove( 'past', 'future' );
 				contentContainer.insertBefore( slide.slideBackgroundElement, slide );
 			}
+
+			previousSlide = slide;
 
 		}
 
@@ -174,9 +187,23 @@ export default class Reader {
 	 */
 	getSlideByIndices( h, v ) {
 
-		const page = this.pages.find( page => page.indexh === h && page.indexv === v );
+		const page = this.getAllPages().find( page => {
+			return page.indexh === h && page.indexv === v;
+		} );
 
 		return page ? page.slideElement : null;
+
+	}
+
+	getScrollTriggerBySlide( slide ) {
+
+		return this.slideTriggers.find( trigger => trigger.page.slideElement === slide );
+
+	}
+
+	getAllPages() {
+
+		return this.pages.flatMap( page => [page, ...(page.autoAnimatePages || [])] );
 
 	}
 
@@ -276,71 +303,78 @@ export default class Reader {
 		this.viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
 												`y ${config.readerScrollSnap}` : '';
 
+		// This will hold all scroll triggers used to show/hide slides
+		this.slideTriggers = [];
+
 		const pageElements = Array.from( this.Reveal.getRevealElement().querySelectorAll( '.reader-page' ) );
 
 		this.pages = pageElements.map( pageElement => {
 			const page = {
 				pageElement: pageElement,
-				stickyElement: pageElement.querySelector( '.reader-page-sticky' ),
 				slideElement: pageElement.querySelector( 'section' ),
+				stickyElement: pageElement.querySelector( '.reader-page-sticky' ),
+				contentElement: pageElement.querySelector( '.reader-page-content' ),
 				backgroundElement: pageElement.querySelector( '.slide-background' ),
+				autoAnimateElements: pageElement.querySelectorAll( '.reader-auto-animate-page' ),
+
 				top: pageElement.offsetTop,
+
 				scrollTriggers: [],
-				scrollTriggerHeight
+				scrollTriggerHeight,
+				scrollTriggerCount: 0
 			};
+
+			let additionalScrollTriggerCount = 0;
 
 			page.indexh = parseInt( page.slideElement.getAttribute( 'data-index-h' ), 10 );
 			page.indexv = parseInt( page.slideElement.getAttribute( 'data-index-v' ), 10 );
 
-			page.slideElement.style.width = slideSize.width + 'px';
-			page.slideElement.style.height = config.center === true ? '' : slideSize.height + 'px';
+			page.pageElement.style.setProperty( '--slide-height', config.center === true ? 'auto' : slideSize.height + 'px' );
 
-			// Each fragment 'group' is an array containing one or more
-			// fragments. Multiple fragments that appear at the same time
-			// are part of the same group.
-			page.fragments = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment:not(.disabled)' ) );
-			page.fragmentGroups = this.Reveal.fragments.sort( pageElement.querySelectorAll( '.fragment' ), true );
+			this.slideTriggers.push({
+				page: page,
+				activate: () => this.activatePage( page ),
+				deactivate: () => this.deactivatePage( page )
+			});
 
 			// Create scroll triggers that show/hide fragments
-			if( page.fragmentGroups.length ) {
-				const segmentSize = 1 / ( page.fragmentGroups.length + 1 );
-				let segmentY = segmentSize;
-				page.scrollTriggers.push(
-					// Trigger for the initial state with no fragments visible
-					{ range: [ 0, segmentY ], fragmentIndex: -1 },
+			page.scrollTriggerCount += this.createFragmentTriggersForPage( page );
 
-					// Triggers for each fragment group
-					...page.fragmentGroups.map( ( fragments, i ) => {
-							segmentY += segmentSize;
-							return {
-								range: [ segmentY - segmentSize, segmentY ],
-								fragmentIndex: i
-							};
-						}
-					)
-				);
+			if( page.autoAnimateElements.length > 0 ) {
+				// Create scroll triggers for triggering auto-animate steps
+				page.autoAnimatePages = this.createAutoAnimateTriggersForPage( page );
 
-				// Clean up
-				page.pageElement.querySelectorAll( '.reader-page-sticky-trigger' ).forEach( el => el.remove() );
+				additionalScrollTriggerCount = page.autoAnimatePages.reduce( ( total, page ) => {
+					return total + Math.max( page.scrollTriggerCount - 1, 0 );
+				}, page.autoAnimateElements.length );
+			}
 
-				// Create snap points for each scroll trigger
-				page.scrollTriggers.map( () => {
-					const triggerStick = document.createElement( 'div' );
-					triggerStick.className = 'reader-page-sticky-trigger';
-					triggerStick.style.scrollSnapAlign = 'start';
-					triggerStick.style.height = scrollTriggerHeight + 'px';
-					page.pageElement.appendChild( triggerStick );
-					return triggerStick;
-				} );
+			const totalScrollTriggerCount = Math.max( page.scrollTriggerCount - 1, 0 ) + additionalScrollTriggerCount;
+
+			// Clean up from previous renders
+			page.pageElement.querySelectorAll( '.reader-snap-point' ).forEach( el => el.remove() );
+
+			// Create snap points for all scroll triggers
+			// - Can't be absolute in FF
+			// - Can't be 0-height in Safari
+			for( let i = 0; i < totalScrollTriggerCount + 1; i++ ) {
+				const triggerStick = document.createElement( 'div' );
+				triggerStick.className = 'reader-snap-point';
+				triggerStick.style.height = scrollTriggerHeight + 'px';
+				page.pageElement.appendChild( triggerStick );
+
+				if( i === 0 ) {
+					triggerStick.style.marginTop = -scrollTriggerHeight + 'px';
+				}
 			}
 
 			// Add scroll padding based on how many scroll triggers we have
-			page.scrollPadding = scrollTriggerHeight * Math.max( page.scrollTriggers.length - 1, 0 );
+			page.scrollPadding = scrollTriggerHeight * totalScrollTriggerCount;
 
 			// In the compact layout, only slides with scroll triggers cover the
 			// full viewport height. This helps avoid empty gaps before or after
 			// a sticky slide.
-			if( readerLayout === 'compact' && page.scrollTriggers.length > 0 ) {
+			if( readerLayout === 'compact' && page.scrollTriggerCount > 0 ) {
 				page.pageHeight = viewportHeight;
 				page.pageElement.style.setProperty( '--page-height', viewportHeight + 'px' );
 			}
@@ -348,8 +382,6 @@ export default class Reader {
 				page.pageHeight = pageHeight;
 				page.pageElement.style.removeProperty( '--page-height' );
 			}
-
-			page.pageElement.style.scrollSnapAlign = page.pageHeight < viewportHeight ? 'center' : 'start';
 
 			// This variable is used to pad the height of our page in CSS
 			page.pageElement.style.setProperty( '--page-scroll-padding', page.scrollPadding + 'px' );
@@ -360,7 +392,7 @@ export default class Reader {
 			page.bottom = page.top + page.totalHeight;
 
 			// If this is a sticky page, stick it to the vertical center
-			if( page.scrollTriggers.length > 0 ) {
+			if( totalScrollTriggerCount > 0 ) {
 				page.stickyElement.style.position = 'sticky';
 				page.stickyElement.style.top = Math.max( ( viewportHeight - page.pageHeight ) / 2, 0 ) + 'px';
 
@@ -369,14 +401,43 @@ export default class Reader {
 			}
 			else {
 				page.stickyElement.style.position = 'relative';
+				page.pageElement.style.scrollSnapAlign = page.pageHeight < viewportHeight ? 'center' : 'start';
 			}
 
 			return page;
 		} );
 
-		this.viewportElement.setAttribute( 'data-reader-scroll-bar', config.readerScrollbar )
+		this.progressBarSegmentCount = this.slideTriggers.reduce( ( total, trigger ) => total + Math.max( trigger.page.scrollTriggerCount, 1 ), 0 );
+		let rangeStart = 0;
 
-		if( config.readerScrollbar && this.pages.length > 1 ) {
+		this.slideTriggers.forEach( ( trigger, i ) => {
+			const rangeEnd = rangeStart + Math.max( trigger.page.scrollTriggerCount, 1 ) / this.progressBarSegmentCount;
+			trigger.range = [rangeStart, rangeEnd];
+
+			const slideRange = trigger.range[1] - trigger.range[0];
+			trigger.page.scrollTriggers.forEach( scrollTrigger => {
+				scrollTrigger.globalRange = [
+					rangeStart + scrollTrigger.range[0] * slideRange,
+					rangeStart + scrollTrigger.range[1] * slideRange
+				];
+			} );
+			rangeStart = rangeEnd;
+		} );
+
+		/*
+		console.log(this.slideTriggers.map( t => {
+			return {
+				range: `${t.range[0].toFixed(2)}-${t.range[1].toFixed(2)}`,
+				triggers: t.page.scrollTriggers.map( t => {
+					return `${t.globalRange[0].toFixed(2)}-${t.globalRange[1].toFixed(2)}`
+				}).join( ', ' ),
+			}
+		}))
+		*/
+
+		this.viewportElement.setAttribute( 'data-reader-scroll-bar', config.readerScrollbar );
+
+		if( config.readerScrollbar && this.progressBarSegmentCount > 1 ) {
 			// Create the progress bar if it doesn't already exist
 			if( !this.progressBar ) this.createProgressBar();
 
@@ -385,6 +446,97 @@ export default class Reader {
 		else {
 			this.removeProgressBar();
 		}
+
+	}
+
+	/**
+	 * Creates scroll triggers for the fragments in the given page.
+	 *
+	 * @param {*} page
+	 */
+	createFragmentTriggersForPage( page, slideElement ) {
+
+		slideElement = slideElement || page.slideElement;
+
+		// Each fragment 'group' is an array containing one or more
+		// fragments. Multiple fragments that appear at the same time
+		// are part of the same group.
+		const fragmentGroups = this.Reveal.fragments.sort( slideElement.querySelectorAll( '.fragment' ), true );
+
+		// Create scroll triggers that show/hide fragments
+		if( fragmentGroups.length ) {
+			page.fragments = this.Reveal.fragments.sort( slideElement.querySelectorAll( '.fragment:not(.disabled)' ) );
+			page.scrollTriggers.push(
+				// Trigger for the initial state with no fragments visible
+				{
+					activate: () => {
+						this.Reveal.fragments.update( -1, page.fragments, slideElement );
+					}
+				},
+
+				// Triggers for each fragment group
+				...fragmentGroups.map( ( fragments, i ) => ({
+						activate: () => {
+							this.Reveal.fragments.update( i, page.fragments, slideElement );
+						}
+					})
+				)
+			);
+
+			const scrollTriggerRangeSegmentSize = 1 / page.scrollTriggers.length;
+			page.scrollTriggers.forEach( ( trigger, i ) => {
+				trigger.range = [i * scrollTriggerRangeSegmentSize, ( i + 1 ) * scrollTriggerRangeSegmentSize];
+			} );
+		}
+
+
+		return page.scrollTriggers.length;
+
+	}
+
+	/**
+	 * Creates scroll triggers for the auto-animate steps in the
+	 * given page.
+	 *
+	 * @param {*} page
+	 */
+	createAutoAnimateTriggersForPage( page ) {
+
+		let pages = [];
+
+		if( page.autoAnimateElements.length > 0 ) {
+
+			// Triggers for each subsequent auto-animate slide
+			this.slideTriggers.push( ...Array.from( page.autoAnimateElements ).map( ( autoAnimateElement, i ) => {
+				const slideElement = autoAnimateElement.querySelector( 'section' );
+
+				let autoAnimatePage = {
+					slideElement,
+					backgroundElement: autoAnimateElement.querySelector( '.slide-background' ),
+					contentElement: autoAnimateElement,
+					scrollTriggers: [],
+					scrollTriggerCount: 0,
+					scrollTriggerHeight: page.scrollTriggerHeight,
+					top: page.top,
+					bottom: page.bottom,
+					indexh: parseInt( slideElement.getAttribute( 'data-index-h' ), 10 ),
+					indexv: parseInt( slideElement.getAttribute( 'data-index-v' ), 10 )
+				};
+
+				// Create fragment scroll triggers for the auto-animate slide
+				autoAnimatePage.scrollTriggerCount = this.createFragmentTriggersForPage( autoAnimatePage, slideElement );
+
+				pages.push( autoAnimatePage );
+
+				return {
+					page: autoAnimatePage,
+					activate: () => this.activatePage( autoAnimatePage ),
+					deactivate: () => this.deactivatePage( autoAnimatePage )
+				};
+			}));
+		}
+
+		return pages;
 
 	}
 
@@ -400,7 +552,7 @@ export default class Reader {
 		const scrollHeight = this.viewportElement.scrollHeight;
 
 		this.progressBarHeight = this.progressBarInner.offsetHeight;
-		this.playheadHeight = Math.max( this.pages[0].pageHeight / scrollHeight * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
+		this.playheadHeight = Math.max( 1 / this.progressBarSegmentCount * this.progressBarHeight, MIN_PLAYHEAD_HEIGHT );
 		this.progressBarScrollableHeight = this.progressBarHeight - this.playheadHeight;
 
 		this.progressBarPlayhead.style.height = this.playheadHeight - PROGRESS_SPACING + 'px';
@@ -410,24 +562,26 @@ export default class Reader {
 		// Don't show individual segments if they're too small
 		if( progressSegmentHeight > MIN_PROGRESS_SEGMENT_HEIGHT ) {
 
-			this.pages.forEach( page => {
+			this.slideTriggers.forEach( trigger => {
+
+				const { page } = trigger;
 
 				page.progressBarSlide = document.createElement( 'div' );
 				page.progressBarSlide.className = 'reader-progress-slide';
+				page.progressBarSlide.style.top = trigger.range[0] * this.progressBarHeight + 'px';
+				page.progressBarSlide.style.height = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight - PROGRESS_SPACING + 'px';
 				page.progressBarSlide.classList.toggle( 'has-triggers', page.scrollTriggers.length > 0 );
-				page.progressBarSlide.style.top = page.top / scrollHeight * this.progressBarHeight + 'px';
-				page.progressBarSlide.style.height = page.totalHeight / scrollHeight * this.progressBarHeight - PROGRESS_SPACING + 'px';
 				this.progressBarInner.appendChild( page.progressBarSlide );
 
-				const scrollBarSlideHeight = page.totalHeight / scrollHeight * this.progressBarHeight;
+				const scrollBarSlideHeight = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight;
 
 				// Create visual representations for each scroll trigger
-				page.scrollTriggerElements = page.scrollTriggers.map( ( trigger, i ) => {
+				trigger.page.scrollTriggerElements = page.scrollTriggers.map( ( trigger, i ) => {
 
 					const triggerElement = document.createElement( 'div' );
 					triggerElement.className = 'reader-progress-trigger';
 					triggerElement.style.top = trigger.range[0] * scrollBarSlideHeight + 'px';
-					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollBarSlideHeight - PROGRESS_SPACING + 'px';
+					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollBarSlideHeight - PROGRESS_SPACING*2 + 'px';
 					page.progressBarSlide.appendChild( triggerElement );
 
 					if( i === 0 ) triggerElement.style.display = 'none';
@@ -458,7 +612,7 @@ export default class Reader {
 
 			this.progressBarPlayhead.style.transform = `translateY(${progress * this.progressBarScrollableHeight}px)`;
 
-			this.pages
+			this.getAllPages()
 				.filter( page => page.progressBarSlide )
 				.forEach( ( page ) => {
 					page.progressBarSlide.classList.toggle( 'active', !!page.active );
@@ -505,7 +659,66 @@ export default class Reader {
 			this.activatedCallbacks.push( () => this.scrollToSlide( slideElement ) );
 		}
 		else {
-			slideElement.parentNode.scrollIntoView();
+			// Find the trigger for this slide
+			const trigger = this.getScrollTriggerBySlide( slideElement );
+
+			if( trigger ) {
+				// Use the trigger's range to calculate the scroll position
+				this.viewportElement.scrollTop = trigger.range[0] * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
+			}
+		}
+
+	}
+
+	activatePage( page ) {
+
+		if( !page.active ) {
+
+			page.active = true;
+
+			const { slideElement, backgroundElement, contentElement, indexh, indexv } = page;
+
+			contentElement.style.display = 'block';
+
+			slideElement.classList.add( 'present' );
+			backgroundElement.classList.add( 'present' );
+
+			this.Reveal.setCurrentReaderPage( slideElement, indexh, indexv );
+			this.Reveal.slideContent.startEmbeddedContent( slideElement );
+			this.Reveal.backgrounds.bubbleSlideContrastClassToElement( slideElement, this.viewportElement );
+
+			if( backgroundElement ) {
+				this.Reveal.slideContent.startEmbeddedContent( backgroundElement );
+			}
+
+			// Hide all content element siblings
+			Array.from( contentElement.parentNode.children ).forEach( sibling => {
+				if( sibling !== contentElement ) {
+					sibling.style.display = 'none';
+				}
+			});
+
+		}
+
+	}
+
+	deactivatePage( page ) {
+
+		if( page.active ) {
+
+			page.active = false;
+
+			const { slideElement, backgroundElement } = page;
+
+			slideElement.classList.remove( 'present' );
+			backgroundElement.classList.remove( 'present' );
+
+			this.Reveal.slideContent.stopEmbeddedContent( slideElement );
+
+			if( backgroundElement ) {
+				this.Reveal.slideContent.stopEmbeddedContent( backgroundElement );
+			}
+
 		}
 
 	}
@@ -514,28 +727,16 @@ export default class Reader {
 
 		const viewportHeight = this.viewportElement.offsetHeight;
 		const scrollTop = this.viewportElement.scrollTop;
+		const scrollHeight = this.viewportElement.scrollHeight - viewportHeight
+		const scrollProgress = Math.max( Math.min( scrollTop / scrollHeight, 1 ), 0 );
+		const scrollProgressMid = Math.max( Math.min( ( scrollTop + viewportHeight / 2 ) / this.viewportElement.scrollHeight, 1 ), 0 );
 
-		// Find the page closest to the center of the viewport, this
-		// is the page we want to focus and activate
-		const activePage = this.pages.reduce( ( closestPage, page ) => {
+		let activePage;
 
-			// For tall pages with multiple scroll triggers we need to
-			// check the distnace from both the top of the page and the
-			// bottom
-			const distance = Math.min(
-				Math.abs( ( page.top + page.pageHeight / 2 ) - scrollTop - viewportHeight / 2 ),
-				Math.abs( ( page.top + ( page.totalHeight - page.pageHeight / 2 ) ) - scrollTop - viewportHeight / 2 )
-			);
+		this.slideTriggers.forEach( ( trigger, i ) => {
+			const { page } = trigger;
+			const isWithinPreloadRange = scrollProgress >= trigger.range[0] - 2 && scrollProgress <= trigger.range[1] + 2;
 
-			return distance < closestPage.distance ? { page, distance } : closestPage;
-
-		}, { page: this.pages[0], distance: Infinity } ).page;
-
-		this.pages.forEach( ( page, pageIndex ) => {
-			const isWithinPreloadRange = scrollTop + viewportHeight >= page.top - viewportHeight && scrollTop < page.top + page.bottom + viewportHeight;
-			const isPartiallyVisible = scrollTop + viewportHeight >= page.top && scrollTop < page.top + page.bottom;
-
-			// Preload content when it appears within range
 			if( isWithinPreloadRange ) {
 				if( !page.preloaded ) {
 					page.preloaded = true;
@@ -547,53 +748,34 @@ export default class Reader {
 				this.Reveal.slideContent.unload( page.slideElement );
 			}
 
-			// Activate the current page
-			if( page === activePage ) {
-				// Ignore if the page is already active
-				if( !page.active ) {
-					page.active = true;
-					page.pageElement.classList.add( 'present' );
-					page.slideElement.classList.add( 'present' );
-
-					this.Reveal.setCurrentReaderPage( page.pageElement, page.indexh, page.indexv );
-					this.Reveal.slideContent.startEmbeddedContent( page.slideElement );
-					this.Reveal.backgrounds.bubbleSlideContrastClassToElement( page.slideElement, this.viewportElement );
-
-					if( page.backgroundElement ) {
-						this.Reveal.slideContent.startEmbeddedContent( page.backgroundElement );
-					}
+			if( scrollProgress >= trigger.range[0] && scrollProgress <= trigger.range[1] ) {
+				if( !trigger.active ) {
+					trigger.active = true;
+					trigger.activate();
 				}
+
+				activePage = trigger.page;
 			}
-			// Deactivate previously active pages
-			else if( page.active ) {
-				page.active = false;
-				page.pageElement.classList.remove( 'present' );
-				page.slideElement.classList.remove( 'present' );
-				this.Reveal.slideContent.stopEmbeddedContent( page.slideElement );
-
-				if( page.backgroundElement ) {
-					this.Reveal.slideContent.stopEmbeddedContent( page.backgroundElement );
-				}
-			}
-
-			// Handle scroll triggers for slides in view
-			if( isPartiallyVisible && page.totalHeight > page.pageHeight ) {
-				let scrollProgress = ( scrollTop - page.top ) / page.scrollPadding;
-				scrollProgress = Math.max( Math.min( scrollProgress, 1 ), 0 );
-
-				page.scrollTriggers.forEach( trigger => {
-					if( scrollProgress >= trigger.range[0] && scrollProgress <= trigger.range[1] ) {
-						if( !trigger.active ) {
-							trigger.active = true;
-							this.Reveal.fragments.update( trigger.fragmentIndex, page.fragments, page.slideElement );
-						}
-					}
-					else {
-						trigger.active = false;
-					}
-				} );
+			else if( trigger.activate ) {
+				trigger.active = false;
+				if( trigger.deactivate ) trigger.deactivate();
 			}
 		} );
+
+		if( activePage ) {
+			activePage.scrollTriggers.forEach( trigger => {
+				if( scrollProgressMid >= trigger.globalRange[0] && scrollProgressMid <= trigger.globalRange[1] ) {
+					if( !trigger.active ) {
+						trigger.active = true;
+						trigger.activate();
+					}
+				}
+				else if( trigger.activate ) {
+					trigger.active = false;
+					if( trigger.deactivate ) trigger.deactivate();
+				}
+			} );
+		}
 
 		this.setProgressBarValue( scrollTop / ( this.viewportElement.scrollHeight - viewportHeight ) );
 

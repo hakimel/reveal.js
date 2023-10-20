@@ -1922,7 +1922,7 @@ $notesWidthPercent: 25%;
 		perspective-origin: 50% 50%;
 	}
 
-	.reveal .slides .reader-page {
+	.reveal .reader-page {
 		position: relative;
 		width: 100%;
 		height: calc(var(--page-height) + var(--page-scroll-padding));
@@ -1930,24 +1930,31 @@ $notesWidthPercent: 25%;
 		overflow: visible;
 	}
 
-	.reveal .slides .reader-page-sticky {
+	.reveal .reader-page-sticky {
 		position: sticky;
 		height: var(--page-height);
 		top: 0px;
 	}
 
-	.reveal .slides .reader-page-content {
+	.reveal .reader-page-content {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
+		overflow: hidden;
 	}
 
-	.reveal .slides .reader-page section {
+	.reveal .reader-snap-point {
+		scroll-snap-align: start;
+	}
+
+	.reveal .reader-page section {
 		visibility: visible !important;
 		display: block !important;
 		position: absolute !important;
+		width: var(--slide-width) !important;
+		height: var(--slide-height) !important;
 		top: 50% !important;
 		left: 50% !important;
 		opacity: 1 !important;

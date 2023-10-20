@@ -1431,7 +1431,7 @@ export default function( revealElement, options ) {
 		if( slideChanged && previousSlide && currentSlide && !overview.isActive() ) {
 			transition = 'running';
 
-			autoAnimateTransition = shoulAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexvBefore );
+			autoAnimateTransition = shouldAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexvBefore );
 
 			// If this is an auto-animated transition, we disable the
 			// regular slide transition
@@ -1556,7 +1556,7 @@ export default function( revealElement, options ) {
 	 *
 	 * @returns {boolean}
 	 */
-	function shoulAutoAnimateBetween( fromSlide, toSlide, indexhBefore, indexvBefore ) {
+	function shouldAutoAnimateBetween( fromSlide, toSlide, indexhBefore, indexvBefore ) {
 
 		return 	fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' ) &&
 				fromSlide.getAttribute( 'data-auto-animate-id' ) === toSlide.getAttribute( 'data-auto-animate-id' ) &&
@@ -1569,9 +1569,9 @@ export default function( revealElement, options ) {
 	 * page is the page that occupies the most space in the viewport.
 	 *
 	 * @param {number} pageIndex
-	 * @param {HTMLElement} pageElement
+	 * @param {HTMLElement} slideElement
 	 */
-	function setCurrentReaderPage( pageElement, h, v ) {
+	function setCurrentReaderPage( slideElement, h, v ) {
 
 		let indexhBefore = indexh || 0;
 
@@ -1579,12 +1579,12 @@ export default function( revealElement, options ) {
 		indexv = v;
 
 		previousSlide = currentSlide;
-		currentSlide = pageElement.querySelector( 'section' );
+		currentSlide = slideElement;
 
 		if( currentSlide && previousSlide ) {
-			if( config.autoAnimate && shoulAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexv ) ) {
+			if( config.autoAnimate && shouldAutoAnimateBetween( previousSlide, currentSlide, indexhBefore, indexv ) ) {
 				// Run the auto-animation between our slides
-				// autoAnimate.run( previousSlide, currentSlide );
+				autoAnimate.run( previousSlide, currentSlide );
 			}
 		}
 
@@ -2927,6 +2927,8 @@ export default function( revealElement, options ) {
 		// Checks if the deck has navigated on either axis at least once
 		hasNavigatedHorizontally: () => navigationHistory.hasNavigatedHorizontally,
 		hasNavigatedVertically: () => navigationHistory.hasNavigatedVertically,
+
+		shouldAutoAnimateBetween,
 
 		// Adds/removes a custom key binding
 		addKeyBinding: keyboard.addKeyBinding.bind( keyboard ),
