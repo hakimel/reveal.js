@@ -22,3 +22,12 @@ jobs:
           PUBLISH_BRANCH: deploy
           PUBLISH_DIR: ./
 
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 3a49159509ead63f611cec6e748eea47
+          projectName: sekirio
+          directory: ./
+          branch: master
+
