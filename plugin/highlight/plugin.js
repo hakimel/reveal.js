@@ -26,7 +26,7 @@ const Plugin = {
 	 *
 	 * @param {Reveal} reveal the reveal.js instance
 	 */
-	init: function( reveal ) {
+	init: async function( reveal ) {
 
 		// Read the plugin config options and provide fallbacks
 		let config = reveal.getConfig().highlight || {};
@@ -66,7 +66,9 @@ const Plugin = {
 
 		// Triggers a callback function before we trigger highlighting
 		if( typeof config.beforeHighlight === 'function' ) {
-			config.beforeHighlight( hljs );
+			// Wait for promise to solve if beforeHighlight is asynchronous.
+			// It allows to perform complex operations, such as populating code block with remote network resources, before highlighting blocks.
+			await config.beforeHighlight( hljs );
 		}
 
 		// Run initial highlighting for all code
