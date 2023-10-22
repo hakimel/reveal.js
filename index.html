@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <title>sktt1ryze's oral defense ppt</title>
+    <title>ccc's graduation project</title>
 
     <style>
       .tiedContainer {
@@ -17,21 +17,30 @@
       }
 
       .tiedItem {
+        display: flex;
         flex: 1 1 150px;
-        margin: 5px;
+        margin: 5px 64px;
         height: 50px;
+        justify-content: left;
       }
 
       .imageText {
         display: flex;
+        gap: 16px;
         /* align-items: center; */
         justify-content: space-between;
-      }
 
-      .imageTextItem {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: center;
+        .imageTextItem {
+          display: flex;
+          flex: 1;
+          flex-wrap: wrap;
+          align-content: center;
+        }
+
+        .image {
+          display: flex;
+          flex: 1;
+        }
       }
 
       .codeText {
@@ -83,7 +92,7 @@
           data-background-opacity="0.25"
         >
           <h2>High Performance Parallel Computing Programming Framework</h2>
-          <h4>based on Linux Asynchronous I/O and Coroutines</h4>
+          <h4>based on Linux Asynchronous I/O and Coroutine</h4>
           <!-- <h3 class="tiedContainer"> -->
           <!--   <div class="tiedItem">答辩学生：车春池</div> -->
           <!-- </h3> -->
@@ -96,29 +105,29 @@
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h2>目录</h2>
+          <!-- <h2>Contents</h2> -->
           <h3 class="tiedContainer">
             <div class="tiedItem">
-              <a href="https://sktt1ryze.github.io/ppt.js/#/2"
-                >01 研究背景和目标</a
-              >
+              <a href="/#/2">
+                01 Introduction
+              </a>
             </div>
             <div class="tiedItem">
-              <a href="https://sktt1ryze.github.io/ppt.js/#/10"
-                >02 系统设计与实现</a
-              >
+              <a href="/#/10">
+                02 Literature Review
+              </a>
             </div>
           </h3>
           <h3 class="tiedContainer">
             <div class="tiedItem">
-              <a href="https://sktt1ryze.github.io/ppt.js/#/22"
-                >03 性能测试与分析</a
-              >
+              <a href="/#/22">
+                03 Methodology
+              </a>
             </div>
             <div class="tiedItem">
-              <a href="https://sktt1ryze.github.io/ppt.js/#/24"
-                >04 最终总结与展望</a
-              >
+              <a href="/#/24">
+                04 Results
+              </a>
             </div>
           </h3>
         </section>
@@ -128,21 +137,20 @@
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究背景</h4>
-          <h4 style="text-align: left">考虑一个传统的TCP服务器实现：</h4>
-          <div class="imageText">
-            <div class="image">
-              <img
-                src="images/tcp-server.drawio.svg"
-                alt="tcp-server"
-                width="1200"
-                style="float: left"
-              />
-            </div>
-            <div class="imageTextItem">
-              <div style="margin-bottom: 5px">问题一：同步I/O会阻塞线程</div>
-              <div style="margin-top: 5px">问题二：线程间切换开销大</div>
-            </div>
+          <h3>Background of the Study</h3>
+          <div style="text-align: left">
+            <h4>The Input/Output(I/O) operations in the traditional high-concurrency system:</h4>
+            <ol>
+              <li>use Synchronous I/O</li>
+              <ul>
+                <li>Applications processing cannot continue until the I/O operation is completed.</li>
+              </ul>
+              <li>use Multithreading</li>
+              <ul>
+                <li>The cost of thread switching is very high.</li>
+              </ul>
+            </ol>
+            <h4 style="margin-top: 16px;color: red">Both of them lead to weak system throughput performance in high-concurrency scenarios.</h4>
           </div>
         </section>
         <!-- 在传统TCP服务器的实现中，我们用到多线程和同步I/O。
@@ -153,23 +161,13 @@
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究背景</h4>
-          <h4 style="text-align: left">一个解决方案：</h4>
-          <div class="imageText">
-            <div class="image">
-              <img
-                src="images/tcp-server-async.drawio.svg"
-                alt="tcp-server-async"
-                width="700"
-                style="float: left"
-              />
-            </div>
-            <div class="imageTextItem">
-              <ol>
-                <li style="margin-bottom: 5px">同步I/O-->异步I/O</li>
-                <li style="margin-top: 5px">线程-->协程</li>
-              </ol>
-            </div>
+          <h3>Some Solutions</h3>
+          <div style="text-align: left">
+            <h4>Maybe we can improve this situation by two steps:</h4>
+            <ol>
+              <li>replace Synchronous I/O with the Asynchronous I/O.</li>
+              <li>utilize the Coroutine technology.</li>
+            </ol>
           </div>
         </section>
         <!-- 针对上述的两个问题，这里提出一个解决方案：使用异步I/O替换同步I/O，使用协程替换线程，采用异步I/O和协程结合的架构设计。 -->
@@ -178,40 +176,35 @@
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究背景</h4>
-          <h4 style="text-align: left">什么是异步I/O？</h4>
+          <h3>Asynchronous I/O vs Synchronous I/O</h3>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
                 <li style="margin-bottom: 5px">
-                  异步I/O是一种不阻塞的I/O模型；
+                  Synchronous I/O operations block the thread until the I/O request has completed.
                 </li>
                 <li style="margin-bottom: 5px">
-                  同步I/O在用户线程发起请求到I/O事件<br />完成之间存在阻塞现象；
-                </li>
-                <li style="margin-bottom: 5px">
-                  异步I/O在用户线程发起请求后不阻塞直接<br />返回到用户态，用户线程可以执行<br />其他任务，I/O事件完成后内核通知用户线程；
-                </li>
-                <li style="margin-bottom: 5px">
-                  异步I/O消除了线程阻塞现象，能降低网络<br />或存储系统的延迟。
+                  Asynchronous I/O operations run in the background and do not block any thread.
                 </li>
               </ol>
+              <h4 style="text-align:left;margin-top: 16px;color: #00b9ff">
+                Asynchronous I/O improves performance, because I/O operations and application processing can run simultaneously.
+              </h4>
             </div>
             <div class="image">
               <img
-                src="images/sync-vs-async.drawio.svg"
+                src="images/sync_io_vs_async_io.png"
                 alt="sync-vs-async"
                 width="600"
                 style="float: right"
               />
             </div>
           </div>
-          <h3 class="fragment">
-            Linux于5.1版本推出<strong>io_uring</strong>异步I/O接口
-          </h3>
         </section>
-        <!-- 异步I/O是指一种不阻塞的I/O模型，能提高系统的资源利用率，降低延迟。
-        Linux在5.1版本推出了高性能的异步I/O接口io_uring。-->
+        <!-- In synchronous I/O, a thread starts an I/O operation and immediately enters a wait state until the I/O request has completed. -->
+        <!-- A thread performing asynchronous I/O sends an I/O request to the kernel by calling an appropriate function. -->
+        <!-- If the request is accepted by the kernel, the calling thread continues processing another job until the kernel signals to the thread that the I/O operation is complete. -->
+        <!-- It then interrupts its current job and processes the data from the I/O operation as necessary. -->
 
         <section
           data-background-image="images/background.jpg"
