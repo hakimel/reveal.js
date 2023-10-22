@@ -55,6 +55,66 @@
         margin-right: 50px;
         margin-top: 0px;
       }
+
+      .archDesignContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .io_uring {
+          display: flex;
+          height: 50px;
+          width: 200px;
+          border: solid yellow;
+          border-radius: 0.2rem;
+          background: #ffff0069;
+          margin: auto;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .scheduler {
+          display: flex;
+          height: 50px;
+          width: 500px;
+          border: solid blue;
+          border-radius: 0.2rem;
+          background: #00ceff73;
+          margin: auto;
+          padding-right: 30px;
+          justify-content: right;
+          align-items: center;
+        }
+
+        .executor {
+          display: flex;
+          height: 50px;
+          width: 200px;
+          border: solid red;
+          border-radius: 0.2rem;
+          background: #ff000045;
+          margin: auto;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .task {
+          display: flex;
+          position: fixed;
+          height: 30px;
+          width: 30px;
+          border: solid green;
+          border-radius: 0.2rem;
+          background: #00800054;
+          justify-content: center;
+          align-items: center;
+          font-size: small;
+        }
+
+        .label {
+          position: fixed;
+        }
+      }
     </style>
 
     <link rel="stylesheet" href="dist/reset.css" />
@@ -117,7 +177,7 @@
           </h3>
           <h3 class="tiedContainer">
             <div class="tiedItem">
-              <a href="/#/22">
+              <a href="/#/9">
                 03 Methodology
               </a>
             </div>
@@ -341,30 +401,232 @@
         <section
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
+          data-auto-animate
         >
           <div>
-            <div><h4>整体架构设计</h4></div>
-            <div style="padding-top: 0px; padding-bottom: 0px">
-              <img
-                src="images/system-design.drawio.svg"
-                alt="system-design"
-                width="520"
-                height="520"
-                style="margin-top: 0px"
-              />
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:90px;left:150px">
+                Task
+              </div>
+              <div class="label" style="bottom:90px;left:20px;">Create task</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
             </div>
-            <div>基础层负责底层封装，应用层负责提供API。</div>
           </div>
         </section>
-        <!-- 这张图介绍了整体的架构设计。首先分为两层，基础层和应用层。
-        基础层主要负责对异步I/O和协程进行封装，应用层主要负责提供外部功能接口。
-        基础层采用模块划分的设计方法，分为几个功能模块。
-        其中将协程抽象成了Task模块，一个协程对应一个Task实例。
-        IoUring模块负责封装io_uring相关的操作，Scheduler模块负责调度Task实例，
-        Reactor模块负责唤醒Task实例，Executor模块负责执行Task实例。
-        应用层通过调用基础层提供的基础能力，实现了文件，Tcp监听器等面向
-        应用的功能模块。
-        -->
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div>
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:90px;left:150px">
+                Task
+              </div>
+              <div class="label" style="bottom:180px;left:160px;">Submit I/O Request</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div>
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:90px;left:250px">
+                Task
+              </div>
+              <div class="label" style="bottom:90px;left:150px;">Push</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div>
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:90px;left:250px">
+                Task
+              </div>
+              <div class="label" style="bottom:180px;left:600px;">Complete</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div style="height:100%">
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:90px;left:800px">
+                Task
+              </div>
+              <div class="label" style="bottom:90px;left:750px;">Pop</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div style="height:100%">
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:10px;left:540px">
+                Task
+              </div>
+              <div class="label" style="bottom:10px;left:600px;">Execute</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div style="height:100%">
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:-80px;left:460px">
+                Task
+              </div>
+              <div class="label" style="bottom:-80px;left:520px;">Finish</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div style="height:100%">
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:10px;left:540px">
+                Task
+              </div>
+              <div class="label" style="bottom:10px;left:600px;">If reach next I/O...</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div style="height:100%">
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:10px;left:150px">
+                Task
+              </div>
+              <div class="label" style="bottom:10px;left:200px;">Suspend the task</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-background-image="images/background.jpg"
+          data-background-opacity="0.25"
+          data-auto-animate
+        >
+          <div style="height:100%">
+            <h3 style="position:relative;bottom:100px">Architectural Design</h3>
+            <div class="archDesignContainer">
+              <div data-id="io_uring" class="io_uring">IoUring</div>
+              <div data-id="scheduler" class="scheduler">Waiting Queue</div>
+              <div data-id="executor" class="executor">Executor</div>
+              <div data-id="task0" class="task" style="bottom:90px;left:150px">
+                Task
+              </div>
+              <div class="label" style="bottom:90px;left:20px;">Repeat</div>
+              <div data-id="task1" class="task" style="bottom:90px;left:300px"></div>
+              <div data-id="task2" class="task" style="bottom:90px;left:350px"></div>
+              <div data-id="task3" class="task" style="bottom:90px;left:400px"></div>
+              <div data-id="task4" class="task" style="bottom:90px;left:450px"><div>
+            </div>
+          </div>
+        </section>
 
         <section
           data-background-image="images/background.jpg"
