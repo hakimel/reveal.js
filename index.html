@@ -110,7 +110,7 @@
               </a>
             </div>
             <div class="tiedItem">
-              <a href="/#/10">
+              <a href="/#/8">
                 02 Literature Review
               </a>
             </div>
@@ -306,69 +306,37 @@
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究现状</h4>
+          <h3>Literature Review</h3>
           <h4 style="text-align: left">
-            目前国内外关于异步编程框架的研究主要体现在几个开源项目上：
+            There are some relevant literature:
           </h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
                 <li style="margin-bottom: 5px">
-                  Tokio；最成熟的Rust异步运行时；
+                  <a href="https://dl.acm.org/doi/abs/10.1145/3534056.3534945">
+                    Understanding modern storage APIs: a systematic study of libaio, SPDK, and io_uring
+                  </a>
                 </li>
-                <li style="margin-bottom: 5px">Libco：微信后台C++协程库；</li>
-                <li style="margin-bottom: 5px">Goroutine：Go语言原生协程；</li>
                 <li style="margin-bottom: 5px">
-                  Node.js：跨平台的JavaScript运行时。
+                  <a href="https://cir.nii.ac.jp/crid/1050011097152555264">
+                    Comparative Evaluation of Asynchronous IO Interface between io_uring and libaio implemented in a NoSQL DB for SSDs
+                  </a>
+                </li>
+                <li style="margin-bottom: 5px">
+                  <a href="http://131.159.16.103/~fent/papers/coroutines.pdf">
+                    Use Coroutines for Asynchronous I/O to Hide I/O Latencies and Maximize the Read Bandwidth
+                  </a>
+                </li>
+                <li style="margin-bottom: 5px">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/10177439">
+                    Evaluating Asynchronous Parallel I/O on HPC Systems
+                  </a>
                 </li>
               </ol>
             </div>
-            <div class="image">
-              <img
-                src="images/tokio-libco-go-nodejs.drawio.svg"
-                alt="tokio-libco-go-nodejs"
-                width="600"
-                height="400"
-                style="float: right"
-              />
-            </div>
           </div>
         </section>
-        <!-- 目前国内外关于异步编程框架的研究主要集中在以下几个开源项目上。 -->
-
-        <section
-          data-background-image="images/background.jpg"
-          data-background-opacity="0.25"
-        >
-          <h4>研究目标</h4>
-          <h4 style="text-align: left">
-            基于io_uring和Rust/C++语言中的协程设计并实现高性能的异步编程框架：
-          </h4>
-          <div class="imageText">
-            <div class="imageTextItem">
-              <ol>
-                <li style="margin-bottom: 5px">
-                  功能上：提供构建异步网络/存储应用程序的基础API；
-                </li>
-                <li style="margin-bottom: 5px">
-                  性能上：拥有比当前开源社区中主流的异步编程框架更高的性能。
-                </li>
-              </ol>
-            </div>
-            <div class="image">
-              <img
-                src="images/goal.drawio.svg"
-                alt="goal"
-                width="600"
-                height="400"
-                style="float: right"
-              />
-            </div>
-          </div>
-        </section>
-        <!-- 毕设目标是基于io_uring分别结合Rust语言和C++语言设计并实现两款
-        高性能的异步编程框架，在功能上提供构建异步网络/存储应用程序的基础API，
-        在性能上希望拥有比当前开源社区中主流的异步编程框架更高的性能。-->
 
         <section
           data-background-image="images/background.jpg"
