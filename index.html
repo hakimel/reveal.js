@@ -91,15 +91,12 @@
           data-background-image="images/background2.jpeg"
           data-background-opacity="0.25"
         >
-          <h2>High Performance Parallel Computing Programming Framework</h2>
+          <h2>High Performance Asynchronous Programming Framework</h2>
           <h4>based on Linux Asynchronous I/O and Coroutine</h4>
           <!-- <h3 class="tiedContainer"> -->
           <!--   <div class="tiedItem">答辩学生：车春池</div> -->
           <!-- </h3> -->
         </section>
-        <!-- 各位老师同学，早上好。我是来自计算机学院校交1801班的车春池，我的毕设选题是基于Linux异步I/O和协程的高性能异步编
-        框架的设计与实现，指导老师是邵志远老师。
-        -->
 
         <section
           data-background-image="images/background.jpg"
@@ -153,24 +150,20 @@
             <h4 style="margin-top: 16px;color: red">Both of them lead to weak system throughput performance in high-concurrency scenarios.</h4>
           </div>
         </section>
-        <!-- 在传统TCP服务器的实现中，我们用到多线程和同步I/O。
-        但这种实现存在两个问题：第一个是同步I/O会阻塞线程，
-        第二个是线程间切换开销比较大。-->
 
         <section
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h3>Some Solutions</h3>
+          <h3>Modern Solutions</h3>
           <div style="text-align: left">
-            <h4>Maybe we can improve this situation by two steps:</h4>
+            <h4>Maybe we can improve this situation with two steps:</h4>
             <ol>
               <li>replace Synchronous I/O with the Asynchronous I/O.</li>
               <li>utilize the Coroutine technology.</li>
             </ol>
           </div>
         </section>
-        <!-- 针对上述的两个问题，这里提出一个解决方案：使用异步I/O替换同步I/O，使用协程替换线程，采用异步I/O和协程结合的架构设计。 -->
 
         <section
           data-background-image="images/background.jpg"
@@ -210,21 +203,22 @@
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究背景</h4>
-          <h4 style="text-align: left">io_uring架构：</h4>
+          <h3>io_uring: Asynchronous I/O API for Linux</h3>
+          <h4 style="text-align: left">io_uring is a new asynchronous I/O API for Linux with very low performance overheads.</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
                 <li style="margin-bottom: 5px">
-                  使用共享内存来实现内核态和用户态之间的信息交换；
+                  Shared memory and circular queues for information exchange between kernel and user.
                 </li>
-                <li style="margin-bottom: 5px">提交队列用来提交I/O请求；</li>
+                <!-- it uses shared memory and circular queues to facilitate information exchange between kernel space and user space. -->
+                <li style="margin-bottom: 5px">Submission Queue(SQ) for submitting I/O requests.</li>
                 <li style="margin-bottom: 5px">
-                  完成队列用于收割I/O完成事件；
+                  Completion Queue(CQ) for obtaining I/O completion events.
                 </li>
-                <li style="margin-bottom: 5px">
-                  支持无锁并发，内部通过内存屏障技术实现状态同步。
-                </li>
+                <!-- <li style="margin-bottom: 5px"> -->
+                <!--   it supports lock-free concurrency, and achieves state synchronization internally through memory barrier techniques. -->
+                <!-- </li> -->
               </ol>
             </div>
             <div class="image">
@@ -237,26 +231,25 @@
             </div>
           </div>
         </section>
-        <!-- 这是io_uring的架构。 -->
 
         <section
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究背景</h4>
-          <h4 style="text-align: left">什么是协程？</h4>
+          <h3>Coroutine: suspendable and resumable Function</h3>
+          <h4 style="text-align: left">Coroutines are functions that allow execution to be suspended and resumed.</h4>
           <div class="imageText">
             <div class="imageTextItem">
               <ol>
                 <li style="margin-bottom: 5px">
-                  协程可以被理解为能挂起和恢复的函数；
+                  A coroutine is a function that can suspend execution to be resumed later.
                 </li>
                 <li style="margin-bottom: 5px">
-                  协程恢复时从上次挂起的地方继续执行；
+                  It allows handle non-blocking I/O without explicit callbacks.
                 </li>
-                <li style="margin-bottom: 5px">相比线程的优势：切换开销小；</li>
+                <li style="margin-bottom: 5px">Advantages over threads: Lower context-switching overhead.</li>
                 <li style="margin-bottom: 5px">
-                  相比线程的劣势：不能利用多核CPU，<br />无法并发执行。
+                  Disadvantages over threads: Inability to utilize multi-core CPU, cannot execute concurrently.
                 </li>
               </ol>
             </div>
@@ -270,43 +263,44 @@
             </div>
           </div>
           <h5 style="text-align: right">
-            <a href="https://blog.eiler.eu/posts/20210512/">图片出处</a>
+            <a href="https://blog.eiler.eu/posts/20210512/">reference</a>
           </h5>
         </section>
-        <!-- 协程可以被理解为能在执行过程中挂起和恢复的函数，它相比线程切换开销较小。-->
 
         <section
           data-background-image="images/background.jpg"
           data-background-opacity="0.25"
         >
-          <h4>研究背景</h4>
-          <h4 style="text-align: left">什么是异步编程框架？</h4>
+          <h3>Research Objectives</h3>
+          <h4 style="text-align: left">
+            The goal is to design and implement a high-performance programming framework similar to OpenMPI but with distinct features based on Linux io_uring and Coroutines.
+          </h4>
           <div class="imageText">
             <div class="imageTextItem">
+              <h4>Commonalities with OpenMPI:</h4>
               <ol>
-                <li style="margin-bottom: 5px">对异步I/O和协程进行封装；</li>
+                <li style="margin-bottom: 5px">Aim to enhance system performance.</li>
                 <li style="margin-bottom: 5px">
-                  向上层网络/存储应用提供简单易用的编程接口；
-                </li>
-                <li style="margin-bottom: 5px">赋予代码异步执行的能力；</li>
-                <li style="margin-bottom: 5px">
-                  相比同步I/O和多线程框架，更加轻量和高性能。
+                  Applicable to system where multiple tasks are executed concurrently.
                 </li>
               </ol>
             </div>
-            <div class="image">
-              <img
-                src="images/async-framework.drawio.svg"
-                alt="async-framework"
-                width="600"
-                height="400"
-                style="float: right"
-              />
+            <div class="imageTextItem">
+              <h4>Differences from OpenMPI:</h4>
+              <ol>
+                <li style="margin-bottom: 5px">
+                  It's designed for I/O-intensive tasks while OpenMPI is designed for compute-intensive tasks.
+                </li>
+                <li style="margin-bottom: 5px">
+                  It's based on asynchronous coroutines while OpenMPI is based on inter-process communication.
+                </li>
+                <li style="margin-bottom: 5px">
+                  It typically manages concurrency within a single computer while OpenMPI is primarily used across multiple computers or compute nodes.
+                </li>
+              </ol>
             </div>
           </div>
         </section>
-        <!-- 异步编程框架是指对异步I/O和协程进行封装，并向上提供应用接口的底层框架，
-        它能赋予代码异步执行的能力。-->
 
         <section
           data-background-image="images/background.jpg"
