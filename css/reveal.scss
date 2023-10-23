@@ -2081,7 +2081,7 @@ $notesWidthPercent: 25%;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background-color: rgba(var(--r-overlay-element-bg-color), 0.8);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 		transition: transform 0.2s ease, opacity 0.2s ease;
 		opacity: 0.4;
 	}

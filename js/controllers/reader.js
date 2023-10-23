@@ -381,7 +381,7 @@ export default class Reader {
 			return {
 				range: `${t.range[0].toFixed(2)}-${t.range[1].toFixed(2)}`,
 				triggers: t.page.scrollTriggers.map( t => {
-					return `${t.globalRange[0].toFixed(2)}-${t.globalRange[1].toFixed(2)}`
+					return `${t.range[0].toFixed(2)}-${t.range[1].toFixed(2)}`
 				}).join( ', ' ),
 			}
 		}))
@@ -422,17 +422,16 @@ export default class Reader {
 				rangeStart + Math.max( trigger.page.scrollTriggers.length, 1 ) / this.totalScrollTriggerCount
 			];
 
-			const slideRange = trigger.range[1] - trigger.range[0];
-			const slideRangeSegmentSize = 1 / trigger.page.scrollTriggers.length;
+			const scrollTriggerSegmentSize = ( trigger.range[1] - trigger.range[0] ) / trigger.page.scrollTriggers.length;
 
 			// Set the range for each inner scroll trigger
 			trigger.page.scrollTriggers.forEach( ( scrollTrigger, i ) => {
-				scrollTrigger.range = [i * slideRangeSegmentSize, ( i + 1 ) * slideRangeSegmentSize];
-				scrollTrigger.globalRange = [
-					rangeStart + scrollTrigger.range[0] * slideRange,
-					rangeStart + scrollTrigger.range[1] * slideRange
+				scrollTrigger.range = [
+					rangeStart + i * scrollTriggerSegmentSize,
+					rangeStart + ( i + 1 ) * scrollTriggerSegmentSize
 				];
 			} );
+
 			rangeStart = trigger.range[1];
 		} );
 
@@ -550,27 +549,25 @@ export default class Reader {
 		// Don't show individual segments if they're too small
 		if( progressSegmentHeight > MIN_PROGRESS_SEGMENT_HEIGHT ) {
 
-			this.slideTriggers.forEach( trigger => {
+			this.slideTriggers.forEach( slideTrigger => {
 
-				const { page } = trigger;
+				const { page } = slideTrigger;
 
 				// Visual representation of a slide
 				page.progressBarSlide = document.createElement( 'div' );
 				page.progressBarSlide.className = 'reader-progress-slide';
-				page.progressBarSlide.style.top = trigger.range[0] * this.progressBarHeight + 'px';
-				page.progressBarSlide.style.height = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight - spacing + 'px';
+				page.progressBarSlide.style.top = slideTrigger.range[0] * this.progressBarHeight + 'px';
+				page.progressBarSlide.style.height = ( slideTrigger.range[1] - slideTrigger.range[0] ) * this.progressBarHeight - spacing + 'px';
 				page.progressBarSlide.classList.toggle( 'has-triggers', page.scrollTriggers.length > 0 );
 				this.progressBarInner.appendChild( page.progressBarSlide );
 
-				const scrollBarSlideHeight = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight;
-
 				// Visual representations of each scroll trigger
-				trigger.page.scrollTriggerElements = page.scrollTriggers.map( ( trigger, i ) => {
+				page.scrollTriggerElements = page.scrollTriggers.map( ( trigger, i ) => {
 
 					const triggerElement = document.createElement( 'div' );
 					triggerElement.className = 'reader-progress-trigger';
-					triggerElement.style.top = trigger.range[0] * scrollBarSlideHeight + 'px';
-					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * scrollBarSlideHeight - spacing + 'px';
+					triggerElement.style.top = ( trigger.range[0] - slideTrigger.range[0] ) * this.progressBarHeight + 'px';
+					triggerElement.style.height = ( trigger.range[1] - trigger.range[0] ) * this.progressBarHeight - spacing + 'px';
 					page.progressBarSlide.appendChild( triggerElement );
 
 					if( i === 0 ) triggerElement.style.display = 'none';
@@ -819,7 +816,7 @@ export default class Reader {
 		// need to be activated/deactivated
 		if( activePage ) {
 			activePage.scrollTriggers.forEach( ( trigger ) => {
-				if( scrollProgressMid >= trigger.globalRange[0] && scrollProgressMid <= trigger.globalRange[1] ) {
+				if( scrollProgressMid >= trigger.range[0] && scrollProgressMid <= trigger.range[1] ) {
 					this.activateTrigger( trigger );
 				}
 				else if( trigger.active ) {
