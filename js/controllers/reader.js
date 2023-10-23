@@ -42,7 +42,6 @@ export default class Reader {
 		const horizontalSlides = queryAll( this.Reveal.getRevealElement(), HORIZONTAL_SLIDES_SELECTOR );
 
 		this.viewportElement.classList.add( 'loading-scroll-mode', 'reveal-reader' );
-		this.viewportElement.addEventListener( 'scroll', this.onScroll, { passive: true } );
 
 		let presentationBackground;
 
@@ -134,10 +133,13 @@ export default class Reader {
 		this.Reveal.layout();
 		this.Reveal.setState( stateBeforeActivation );
 
-		this.viewportElement.classList.remove( 'loading-scroll-mode' );
-
 		this.activatedCallbacks.forEach( callback => callback() );
 		this.activatedCallbacks = [];
+
+		this.restoreScrollPosition();
+
+		this.viewportElement.classList.remove( 'loading-scroll-mode' );
+		this.viewportElement.addEventListener( 'scroll', this.onScroll, { passive: true } );
 
 	}
 
@@ -253,7 +255,7 @@ export default class Reader {
 
 		if( this.isActive() ) {
 			this.syncPages();
-			this.onScroll();
+			this.syncScrollPosition();
 		}
 
 	}
@@ -588,6 +590,67 @@ export default class Reader {
 	}
 
 	/**
+	 * Reads the current scroll position and updates our active
+	 * trigger states accordingly.
+	 */
+	syncScrollPosition() {
+
+		const viewportHeight = this.viewportElement.offsetHeight;
+		const viewportHeightFactor = viewportHeight / this.viewportElement.scrollHeight;
+
+		const scrollTop = this.viewportElement.scrollTop;
+		const scrollHeight = this.viewportElement.scrollHeight - viewportHeight
+		const scrollProgress = Math.max( Math.min( scrollTop / scrollHeight, 1 ), 0 );
+		const scrollProgressMid = Math.max( Math.min( ( scrollTop + viewportHeight / 2 ) / this.viewportElement.scrollHeight, 1 ), 0 );
+
+		let activePage;
+
+		this.slideTriggers.forEach( ( trigger ) => {
+			const { page } = trigger;
+
+			const shouldPreload = scrollProgress >= trigger.range[0] - viewportHeightFactor*2 &&
+														scrollProgress <= trigger.range[1] + viewportHeightFactor*2;
+
+			// Load slides that are within the preload range
+			if( shouldPreload && !page.loaded ) {
+				page.loaded = true;
+				this.Reveal.slideContent.load( page.slideElement );
+			}
+			else if( page.loaded ) {
+				page.loaded = false;
+				this.Reveal.slideContent.unload( page.slideElement );
+			}
+
+			// If we're within this trigger range, activate it
+			if( scrollProgress >= trigger.range[0] && scrollProgress <= trigger.range[1] ) {
+				this.activateTrigger( trigger );
+				activePage = trigger.page;
+			}
+			// .. otherwise deactivate
+			else if( trigger.active ) {
+				this.deactivateTrigger( trigger );
+			}
+		} );
+
+		// Each page can have its own scroll triggers, check if any of those
+		// need to be activated/deactivated
+		if( activePage ) {
+			activePage.scrollTriggers.forEach( ( trigger ) => {
+				if( scrollProgressMid >= trigger.range[0] && scrollProgressMid <= trigger.range[1] ) {
+					this.activateTrigger( trigger );
+				}
+				else if( trigger.active ) {
+					this.deactivateTrigger( trigger );
+				}
+			} );
+		}
+
+		// Update our visual progress indication
+		this.setProgressBarValue( scrollTop / ( this.viewportElement.scrollHeight - viewportHeight ) );
+
+	}
+
+	/**
 	 * Moves the progress bar playhead to the specified position.
 	 *
 	 * @param {number} progress 0-1
@@ -653,6 +716,37 @@ export default class Reader {
 				// Use the trigger's range to calculate the scroll position
 				this.viewportElement.scrollTop = trigger.range[0] * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
 			}
+		}
+
+	}
+
+	/**
+	 * Persists the current scroll position to session storage
+	 * so that it can be restored.
+	 */
+	storeScrollPosition() {
+
+		clearTimeout( this.storeScrollPositionTimeout );
+
+		this.storeScrollPositionTimeout = setTimeout( () => {
+			sessionStorage.setItem( 'reveal-reader-scroll', this.viewportElement.scrollTop );
+			sessionStorage.setItem( 'reveal-reader-scroll-origin', location.origin + location.pathname );
+
+			this.storeScrollPositionTimeout = null;
+		}, 50 );
+
+	}
+
+	/**
+	 * Restores the scroll position when a deck is reloader.
+	 */
+	restoreScrollPosition() {
+
+		const scrollPosition = sessionStorage.getItem( 'reveal-reader-scroll' );
+		const scrollOrigin = sessionStorage.getItem( 'reveal-reader-scroll-origin' );
+
+		if( scrollPosition && scrollOrigin === location.origin + location.pathname ) {
+			this.viewportElement.scrollTop = parseInt( scrollPosition, 10 );
 		}
 
 	}
@@ -775,58 +869,8 @@ export default class Reader {
 
 	onScroll() {
 
-		const viewportHeight = this.viewportElement.offsetHeight;
-		const viewportHeightFactor = viewportHeight / this.viewportElement.scrollHeight;
-
-		const scrollTop = this.viewportElement.scrollTop;
-		const scrollHeight = this.viewportElement.scrollHeight - viewportHeight
-		const scrollProgress = Math.max( Math.min( scrollTop / scrollHeight, 1 ), 0 );
-		const scrollProgressMid = Math.max( Math.min( ( scrollTop + viewportHeight / 2 ) / this.viewportElement.scrollHeight, 1 ), 0 );
-
-		let activePage;
-
-		this.slideTriggers.forEach( ( trigger ) => {
-			const { page } = trigger;
-
-			const shouldPreload = scrollProgress >= trigger.range[0] - viewportHeightFactor*2 &&
-														scrollProgress <= trigger.range[1] + viewportHeightFactor*2;
-
-			// Load slides that are within the preload range
-			if( shouldPreload && !page.loaded ) {
-				page.loaded = true;
-				this.Reveal.slideContent.load( page.slideElement );
-			}
-			else if( page.loaded ) {
-				page.loaded = false;
-				this.Reveal.slideContent.unload( page.slideElement );
-			}
-
-			// If we're within this trigger range, activate it
-			if( scrollProgress >= trigger.range[0] && scrollProgress <= trigger.range[1] ) {
-				this.activateTrigger( trigger );
-				activePage = trigger.page;
-			}
-			// .. otherwise deactivate
-			else if( trigger.active ) {
-				this.deactivateTrigger( trigger );
-			}
-		} );
-
-		// Each page can have its own scroll triggers, check if any of those
-		// need to be activated/deactivated
-		if( activePage ) {
-			activePage.scrollTriggers.forEach( ( trigger ) => {
-				if( scrollProgressMid >= trigger.range[0] && scrollProgressMid <= trigger.range[1] ) {
-					this.activateTrigger( trigger );
-				}
-				else if( trigger.active ) {
-					this.deactivateTrigger( trigger );
-				}
-			} );
-		}
-
-		// Update our visual progress indication
-		this.setProgressBarValue( scrollTop / ( this.viewportElement.scrollHeight - viewportHeight ) );
+		this.syncScrollPosition();
+		this.storeScrollPosition();
 
 	}
 
