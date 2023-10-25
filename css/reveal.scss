@@ -1876,7 +1876,7 @@ $notesWidthPercent: 25%;
 
 .reveal-viewport.reveal-scroll {
 	& {
-		margin: 0 auto !important;
+		margin: 0 auto;
 		overflow: auto;
 		overflow-x: hidden;
 		overflow-y: auto;
