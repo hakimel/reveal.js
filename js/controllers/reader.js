@@ -270,14 +270,14 @@ export default class Reader {
 
 		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 		const scale = this.Reveal.getScale();
-		const readerLayout = config.readerLayout;
+		const useCompactLayout = config.readerLayout === 'compact';
 
 		const viewportHeight = this.viewportElement.offsetHeight;
 		const compactHeight = slideSize.height * scale;
-		const pageHeight = readerLayout === 'full' ? viewportHeight : compactHeight;
+		const pageHeight = useCompactLayout ? compactHeight : viewportHeight;
 
 		// The height that needs to be scrolled between scroll triggers
-		const scrollTriggerHeight = viewportHeight;
+		const scrollTriggerHeight = useCompactLayout ? compactHeight : viewportHeight;
 
 		this.viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
 		this.viewportElement.style.scrollSnapType = typeof config.readerScrollSnap === 'string' ?
@@ -335,6 +335,7 @@ export default class Reader {
 				const triggerStick = document.createElement( 'div' );
 				triggerStick.className = 'reader-snap-point';
 				triggerStick.style.height = scrollTriggerHeight + 'px';
+				triggerStick.style.scrollSnapAlign = useCompactLayout ? 'center' : 'start';
 				page.pageElement.appendChild( triggerStick );
 
 				if( i === 0 ) {
@@ -345,7 +346,7 @@ export default class Reader {
 			// In the compact layout, only slides with scroll triggers cover the
 			// full viewport height. This helps avoid empty gaps before or after
 			// a sticky slide.
-			if( readerLayout === 'compact' && page.scrollTriggers.length > 0 ) {
+			if( useCompactLayout && page.scrollTriggers.length > 0 ) {
 				page.pageHeight = viewportHeight;
 				page.pageElement.style.setProperty( '--page-height', viewportHeight + 'px' );
 			}
