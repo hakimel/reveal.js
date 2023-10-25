@@ -25,7 +25,7 @@ export default class SlideContent {
 	 */
 	shouldPreload( element ) {
 
-		if( this.Reveal.isReaderMode() ) {
+		if( this.Reveal.isScrollView() ) {
 			return true;
 		}
 

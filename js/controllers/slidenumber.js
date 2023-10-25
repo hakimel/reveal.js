@@ -23,7 +23,7 @@ export default class SlideNumber {
 	configure( config, oldConfig ) {
 
 		let slideNumberDisplay = 'none';
-		if( config.slideNumber && !this.Reveal.isPrinting() ) {
+		if( config.slideNumber && !this.Reveal.isPrintView() ) {
 			if( config.showSlideNumber === 'all' ) {
 				slideNumberDisplay = 'block';
 			}

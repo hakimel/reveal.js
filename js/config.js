@@ -258,33 +258,33 @@ export default {
 
 	// Can be used to initialize reveal.js in one of the following views:
 	// - print:   Render the presentation so that it can be printed to PDF
-	// - reader:  Show the presentation as a tall scrollable page with scroll
+	// - scroll:  Show the presentation as a tall scrollable page with scroll
 	//            triggered animations
 	view: null,
 
-	// Adjusts the height of each slide in reader mode
+	// Adjusts the height of each slide in the scroll view.
 	// - full:       Each slide is as tall as the viewport
 	// - compact:    Slides are as small as possible, allowing multiple slides
 	//               to be visible in parallel on tall devices
-	readerLayout: 'full',
+	scrollLayout: 'full',
 
-	// Control how scroll snapping works in reader mode.
+	// Control how scroll snapping works in the scroll view.
 	// - false:   	No snapping, scrolling is continuous
 	// - proximity:  Snap when close to a slide
 	// - mandatory:  Always snap to the closest slide
 	//
-	// Only applies to presentations in reader mode.
-	readerScrollSnap: 'mandatory',
+	// Only applies to presentations in scroll view.
+	scrollSnap: 'mandatory',
 
-	// Enables and configure the reader mode scroll bar.
+	// Enables and configure the scroll view progress bar.
 	// - 'auto':    Show the scrollbar while scrolling, hide while idle
 	// - true:      Always show the scrollbar
 	// - false:     Never show the scrollbar
-	readerScrollbar: 'auto',
+	scrollProgress: 'auto',
 
-	// Responsively activate the reader mode when we reach the specified
-	// width (in pixels)
-	readerActivationWidth: null,
+	// Automatically activate the scroll view when we the viewport falls
+	// below the given width.
+	scrollActivationWidth: 435,
 
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default

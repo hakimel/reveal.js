@@ -3,6 +3,8 @@ import SlideNumber from './controllers/slidenumber.js'
 import JumpToSlide from './controllers/jumptoslide.js'
 import Backgrounds from './controllers/backgrounds.js'
 import AutoAnimate from './controllers/autoanimate.js'
+import ScrollView from './controllers/scrollview.js'
+import PrintView from './controllers/printview.js'
 import Fragments from './controllers/fragments.js'
 import Overview from './controllers/overview.js'
 import Keyboard from './controllers/keyboard.js'
@@ -11,8 +13,6 @@ import Controls from './controllers/controls.js'
 import Progress from './controllers/progress.js'
 import Pointer from './controllers/pointer.js'
 import Plugins from './controllers/plugins.js'
-import Reader from './controllers/reader.js'
-import Print from './controllers/print.js'
 import Touch from './controllers/touch.js'
 import Focus from './controllers/focus.js'
 import Notes from './controllers/notes.js'
@@ -106,6 +106,8 @@ export default function( revealElement, options ) {
 		jumpToSlide = new JumpToSlide( Reveal ),
 		autoAnimate = new AutoAnimate( Reveal ),
 		backgrounds = new Backgrounds( Reveal ),
+		scrollView = new ScrollView( Reveal ),
+		printView = new PrintView( Reveal ),
 		fragments = new Fragments( Reveal ),
 		overview = new Overview( Reveal ),
 		keyboard = new Keyboard( Reveal ),
@@ -114,8 +116,6 @@ export default function( revealElement, options ) {
 		progress = new Progress( Reveal ),
 		pointer = new Pointer( Reveal ),
 		plugins = new Plugins( Reveal ),
-		reader = new Reader( Reveal ),
-		print = new Print( Reveal ),
 		focus = new Focus( Reveal ),
 		touch = new Touch( Reveal ),
 		notes = new Notes( Reveal );
@@ -211,7 +211,7 @@ export default function( revealElement, options ) {
 		// Create slide backgrounds
 		backgrounds.update( true );
 
-		// Activate the print/reader mode if configured
+		// Activate the print/scroll view if configured
 		activateInitialView();
 
 		// Read the initial hash
@@ -244,9 +244,9 @@ export default function( revealElement, options ) {
 	function activateInitialView() {
 
 		const activatePrintView = config.view === 'print';
-		const activateReaderView = config.view === 'reader';
+		const activateScrollView = config.view === 'scroll' || config.view === 'reader';
 
-		if( activatePrintView || activateReaderView ) {
+		if( activatePrintView || activateScrollView ) {
 
 			if( activatePrintView ) {
 				removeEventListeners();
@@ -262,14 +262,14 @@ export default function( revealElement, options ) {
 				// The document needs to have loaded for the PDF layout
 				// measurements to be accurate
 				if( document.readyState === 'complete' ) {
-					print.activate();
+					printView.activate();
 				}
 				else {
-					window.addEventListener( 'load', () => print.activate() );
+					window.addEventListener( 'load', () => printView.activate() );
 				}
 			}
 			else {
-				reader.activate();
+				scrollView.activate();
 			}
 		}
 
@@ -417,7 +417,7 @@ export default function( revealElement, options ) {
 	function setupScrollPrevention() {
 
 		setInterval( () => {
-			if( !reader.isActive() && dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
+			if( !scrollView.isActive() && dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
 				dom.wrapper.scrollTop = 0;
 				dom.wrapper.scrollLeft = 0;
 			}
@@ -924,7 +924,7 @@ export default function( revealElement, options ) {
 	 */
 	function layout() {
 
-		if( dom.wrapper && !print.isActive() ) {
+		if( dom.wrapper && !printView.isActive() ) {
 
 			const viewportWidth = dom.viewport.offsetWidth;
 			const viewportHeight = dom.viewport.offsetHeight;
@@ -941,7 +941,7 @@ export default function( revealElement, options ) {
 					document.documentElement.style.setProperty( '--vh', ( window.innerHeight * 0.01 ) + 'px' );
 				}
 
-				const size = reader.isActive() ?
+				const size = scrollView.isActive() ?
 							 getComputedSlideSize( viewportWidth, viewportHeight ) :
 							 getComputedSlideSize();
 
@@ -961,8 +961,8 @@ export default function( revealElement, options ) {
 				scale = Math.min( scale, config.maxScale );
 
 				// Don't apply any scaling styles if scale is 1 or we're
-				// in reader mode
-				if( scale === 1 || reader.isActive() ) {
+				// in the scroll view
+				if( scale === 1 || scrollView.isActive() ) {
 					dom.slides.style.zoom = '';
 					dom.slides.style.left = '';
 					dom.slides.style.top = '';
@@ -1017,15 +1017,15 @@ export default function( revealElement, options ) {
 					});
 				}
 
-				// Responsively turn on the reader mode if there is an activation
+				// Responsively turn on the scroll mode if there is an activation
 				// width configured. Ignore if we're configured to always be in
-				// reader mode.
-				if( typeof config.readerActivationWidth === 'number' && config.view !== 'reader' ) {
-					if( size.presentationWidth < config.readerActivationWidth ) {
-						if( !reader.isActive() ) reader.activate();
+				// scroll mode.
+				if( typeof config.scrollActivationWidth === 'number' && config.view !== 'scroll' ) {
+					if( size.presentationWidth <= config.scrollActivationWidth ) {
+						if( !scrollView.isActive() ) scrollView.activate();
 					}
 					else {
-						if( reader.isActive() ) reader.deactivate();
+						if( scrollView.isActive() ) scrollView.deactivate();
 					}
 				}
 			}
@@ -1034,7 +1034,7 @@ export default function( revealElement, options ) {
 			dom.viewport.style.setProperty( '--viewport-width', viewportWidth + 'px' );
 			dom.viewport.style.setProperty( '--viewport-height', viewportHeight + 'px' );
 
-			reader.layout();
+			scrollView.layout();
 
 			progress.update();
 			backgrounds.updateParallax();
@@ -1375,11 +1375,11 @@ export default function( revealElement, options ) {
 		// Query all horizontal slides in the deck
 		const horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR );
 
-		// If we're in reader mode we scroll the target slide into view
+		// If we're in scroll mode, we scroll the target slide into view
 		// instead of running our standard slide transition
-		if( reader.isActive() ) {
-			const scrollToSlide = reader.getSlideByIndices( h, v );
-			if( scrollToSlide ) reader.scrollToSlide( scrollToSlide );
+		if( scrollView.isActive() ) {
+			const scrollToSlide = scrollView.getSlideByIndices( h, v );
+			if( scrollToSlide ) scrollView.scrollToSlide( scrollToSlide );
 			return;
 		}
 
@@ -1565,13 +1565,14 @@ export default function( revealElement, options ) {
 	}
 
 	/**
-	 * Called anytime current page in reader mode changes. The current
-	 * page is the page that occupies the most space in the viewport.
+	 * Called anytime a new slide should be activated while in the scroll
+	 * view. The active slide is the page that occupies the most space in
+	 * the scrollable viewport.
 	 *
 	 * @param {number} pageIndex
 	 * @param {HTMLElement} slideElement
 	 */
-	function setCurrentReaderPage( slideElement, h, v ) {
+	function setCurrentScrollPage( slideElement, h, v ) {
 
 		let indexhBefore = indexh || 0;
 
@@ -1754,7 +1755,7 @@ export default function( revealElement, options ) {
 		let slides = Util.queryAll( dom.wrapper, selector ),
 			slidesLength = slides.length;
 
-		let printMode = reader.isActive() || print.isActive();
+		let printMode = scrollView.isActive() || printView.isActive();
 		let loopedForwards = false;
 		let loopedBackwards = false;
 
@@ -1914,7 +1915,7 @@ export default function( revealElement, options ) {
 			}
 
 			// All slides need to be visible when exporting to PDF
-			if( print.isActive() ) {
+			if( printView.isActive() ) {
 				viewDistance = Number.MAX_VALUE;
 			}
 
@@ -2145,8 +2146,8 @@ export default function( revealElement, options ) {
 
 		// If a slide is specified, return the indices of that slide
 		if( slide ) {
-			// In reader mode the original h/x index is stored on the slide
-			if( reader.isActive() ) {
+			// In scroll mode the original h/x index is stored on the slide
+			if( scrollView.isActive() ) {
 				h = parseInt( slide.getAttribute( 'data-index-h' ), 10 );
 
 				if( slide.getAttribute( 'data-index-v' ) ) {
@@ -2842,8 +2843,8 @@ export default function( revealElement, options ) {
 		// Toggles the overview mode on/off
 		toggleOverview: overview.toggle.bind( overview ),
 
-		// Toggles the reader mode on/off
-		toggleReaderMode: reader.toggle.bind( reader ),
+		// Toggles the scroll view on/off
+		toggleScrollView: scrollView.toggle.bind( scrollView ),
 
 		// Toggles the "black screen" mode on/off
 		togglePause,
@@ -2868,8 +2869,8 @@ export default function( revealElement, options ) {
 		isOverview: overview.isActive.bind( overview ),
 		isFocused: focus.isFocused.bind( focus ),
 
-		isReaderMode: reader.isActive.bind( reader ),
-		isPrinting: print.isActive.bind( print ),
+		isScrollView: scrollView.isActive.bind( scrollView ),
+		isPrintView: printView.isActive.bind( printView ),
 
 		// Checks if reveal.js has been loaded and is ready for use
 		isReady: () => ready,
@@ -2955,7 +2956,7 @@ export default function( revealElement, options ) {
 		registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
 
 		getComputedSlideSize,
-		setCurrentReaderPage,
+		setCurrentScrollPage,
 
 		// Returns the current scale of the presentation content
 		getScale: () => scale,
@@ -2993,7 +2994,7 @@ export default function( revealElement, options ) {
 
 		// Controllers
 		focus,
-		reader,
+		scroll: scrollView,
 		progress,
 		controls,
 		location,

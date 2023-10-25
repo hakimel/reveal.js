@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - Test Reader Mode</title>
+		<title>reveal.js - Test Scroll View</title>
 
 		<link rel="stylesheet" href="../dist/reveal.css">
 		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
@@ -57,18 +57,18 @@
 				return Reveal.getViewportElement().offsetHeight;
 			}
 
-			Reveal.initialize({ view: 'reader' }).then( async () => {
+			Reveal.initialize({ view: 'scroll' }).then( async () => {
 
-				QUnit.module( 'Reader Mode' );
+				QUnit.module( 'Scroll View' );
 
 				QUnit.test( 'Activates', assert => {
 					assert.ok( getScrollHeight() > getViewportHeight(), 'Is overflowing' );
 				});
 
 				QUnit.test( 'Can be toggled via API', assert => {
-					Reveal.toggleReaderMode( false );
+					Reveal.toggleScrollView( false );
 					assert.ok( getScrollHeight() <= getViewportHeight(), 'Is not overflowing' );
-					Reveal.toggleReaderMode( true );
+					Reveal.toggleScrollView( true );
 					assert.ok( getScrollHeight() > getViewportHeight(), 'Is overflowing' );
 				});
 

@@ -4,7 +4,7 @@ import { queryAll, createStyleSheet } from '../utils/util.js'
 /**
  * Setups up our presentation for printing/exporting to PDF.
  */
-export default class Print {
+export default class PrintView {
 
 	constructor( Reveal ) {
 
