@@ -1021,7 +1021,7 @@ export default function( revealElement, options ) {
 				// width configured. Ignore if we're configured to always be in
 				// scroll mode.
 				if( typeof config.scrollActivationWidth === 'number' && config.view !== 'scroll' ) {
-					if( size.presentationWidth <= config.scrollActivationWidth ) {
+					if( size.presentationWidth > 0 && size.presentationWidth <= config.scrollActivationWidth ) {
 						if( !scrollView.isActive() ) scrollView.activate();
 					}
 					else {
