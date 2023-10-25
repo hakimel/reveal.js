@@ -417,7 +417,7 @@ export default function( revealElement, options ) {
 	function setupScrollPrevention() {
 
 		setInterval( () => {
-			if( dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
+			if( !reader.isActive() && dom.wrapper.scrollTop !== 0 || dom.wrapper.scrollLeft !== 0 ) {
 				dom.wrapper.scrollTop = 0;
 				dom.wrapper.scrollLeft = 0;
 			}

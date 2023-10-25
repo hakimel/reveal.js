@@ -1892,12 +1892,12 @@ $notesWidthPercent: 25%;
 		--r-reader-progress-trigger-size: 3px;
 	}
 
-	.reveal .controls,
-	.reveal .progress,
-	.reveal .playback,
-	.reveal .backgrounds,
-	.reveal .slide-number,
-	.reveal .speaker-notes {
+	.controls,
+	.progress,
+	.playback,
+	.backgrounds,
+	.slide-number,
+	.speaker-notes {
 		display: none !important;
 	}
 
@@ -1905,7 +1905,8 @@ $notesWidthPercent: 25%;
 		overflow: visible;
 		touch-action: manipulation;
 	}
-	.reveal .slides {
+
+	.slides {
 		position: static;
 		pointer-events: initial;
 
@@ -1922,7 +1923,7 @@ $notesWidthPercent: 25%;
 		perspective-origin: 50% 50%;
 	}
 
-	.reveal .reader-page {
+	.reader-page {
 		position: relative;
 		width: 100%;
 		height: calc(var(--page-height) + var(--page-scroll-padding));
@@ -1930,13 +1931,13 @@ $notesWidthPercent: 25%;
 		overflow: visible;
 	}
 
-	.reveal .reader-page-sticky {
+	.reader-page-sticky {
 		position: sticky;
 		height: var(--page-height);
 		top: 0px;
 	}
 
-	.reveal .reader-page-content {
+	.reader-page-content {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -1945,11 +1946,11 @@ $notesWidthPercent: 25%;
 		overflow: hidden;
 	}
 
-	.reveal .reader-snap-point {
+	.reader-snap-point {
 		scroll-snap-align: start;
 	}
 
-	.reveal .reader-page section {
+	.reader-page section {
 		visibility: visible !important;
 		display: block !important;
 		position: absolute !important;
@@ -1963,7 +1964,7 @@ $notesWidthPercent: 25%;
 		transform-origin: 0 0 !important;
 	}
 
-	.reveal .slide-background {
+	.slide-background {
 		display: block !important;
 		position: absolute;
 		top: 0;
