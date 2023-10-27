@@ -19,6 +19,7 @@ html.reveal-full-page {
 	height: 100%;
 	height: 100vh;
 	height: calc( var(--vh, 1vh) * 100 );
+	height: 100svh;
 	overflow: hidden;
 }
 
@@ -31,6 +32,8 @@ html.reveal-full-page {
 
 	background-color: #fff;
 	color: #000;
+
+	--r-controls-spacing: 12px;
 }
 
 // Force the presentation to cover the full viewport when we
@@ -271,13 +274,11 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal .controls {
-	$spacing: 12px;
-
 	display: none;
 	position: absolute;
 	top: auto;
-	bottom: $spacing;
-	right: $spacing;
+	bottom: var(--r-controls-spacing);
+	right: var(--r-controls-spacing);
 	left: auto;
 	z-index: 11;
 	color: #000;
@@ -509,7 +510,9 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$spacing: 0.8em;
+	.reveal-viewport {
+		--r-controls-spacing: 0.8em;
+	}
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -529,24 +532,24 @@ $controlsArrowAngleActive: 36deg;
 
 		.navigate-left {
 			top: 50%;
-			left: $spacing;
+			left: var(--r-controls-spacing);
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-right {
 			top: 50%;
-			right: $spacing;
+			right: var(--r-controls-spacing);
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-up {
-			top: $spacing;
+			top: var(--r-controls-spacing);
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
 
 		.navigate-down {
-			bottom: $spacing - $controlArrowSpacing + 0.3em;
+			bottom: calc(var(--r-controls-spacing) - #{$controlArrowSpacing} + 0.3em);
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
@@ -1861,6 +1864,234 @@ $notesWidthPercent: 25%;
 
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
+}
+
+
+/*********************************************
+ * SCROLL VIEW
+ *********************************************/
+.reveal-viewport.loading-scroll-mode {
+	visibility: hidden;
+}
+
+.reveal-viewport.reveal-scroll {
+	& {
+		margin: 0 auto;
+		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
+		z-index: 1;
+
+		--r-scrollbar-width: 7px;
+		--r-scrollbar-trigger-size: 5px;
+		--r-controls-spacing: 8px;
+	}
+
+	@media screen and (max-width: 500px) {
+		--r-scrollbar-width: 3px;
+		--r-scrollbar-trigger-size: 3px;
+	}
+
+	.controls,
+	.progress,
+	.playback,
+	.backgrounds,
+	.slide-number,
+	.speaker-notes {
+		display: none !important;
+	}
+
+	.reveal {
+		overflow: visible;
+		touch-action: manipulation;
+	}
+
+	.slides {
+		position: static;
+		pointer-events: initial;
+
+		left: auto;
+		top: auto;
+		width: 100% !important;
+		margin: 0;
+		padding: 0;
+
+		overflow: visible;
+		display: block;
+
+		perspective: none;
+		perspective-origin: 50% 50%;
+	}
+
+	.scroll-page {
+		position: relative;
+		width: 100%;
+		height: calc(var(--page-height) + var(--page-scroll-padding));
+		z-index: 1;
+		overflow: visible;
+	}
+
+	.scroll-page-sticky {
+		position: sticky;
+		height: var(--page-height);
+		top: 0px;
+	}
+
+	.scroll-page-content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.scroll-page section {
+		visibility: visible !important;
+		display: block !important;
+		position: absolute !important;
+		width: var(--slide-width) !important;
+		height: var(--slide-height) !important;
+		top: 50% !important;
+		left: 50% !important;
+		opacity: 1 !important;
+		transform: scale(var(--slide-scale)) translate(-50%, -50%) !important;
+		transform-style: flat !important;
+		transform-origin: 0 0 !important;
+	}
+
+	.slide-background {
+		display: block !important;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: auto !important;
+		visibility: visible;
+		opacity: 1;
+		touch-action: manipulation;
+	}
+}
+
+// Chromium
+.reveal-viewport.reveal-scroll[data-scrollbar="true"]::-webkit-scrollbar,
+.reveal-viewport.reveal-scroll[data-scrollbar="auto"]::-webkit-scrollbar {
+  display: none;
+}
+
+// Firefox
+.reveal-viewport.reveal-scroll[data-scrollbar="true"],
+.reveal-viewport.reveal-scroll[data-scrollbar="auto"] {
+  scrollbar-width: none;
+}
+
+.reveal.has-dark-background,
+.reveal-viewport.has-dark-background {
+	--r-overlay-element-bg-color: 240, 240, 240;
+	--r-overlay-element-fg-color: 0, 0, 0;
+}
+.reveal.has-light-background,
+.reveal-viewport.has-light-background {
+	--r-overlay-element-bg-color: 0, 0, 0;
+	--r-overlay-element-fg-color: 240, 240, 240;
+}
+
+.reveal-viewport.reveal-scroll .scrollbar {
+	position: sticky;
+	top: 50%;
+	z-index: 20;
+	opacity: 0;
+	transition: all 0.3s ease;
+
+	&.visible,
+	&:hover {
+		opacity: 1;
+	}
+
+	.scrollbar-inner {
+		position: absolute;
+		width: var(--r-scrollbar-width);
+		height: calc(var(--viewport-height) - var(--r-controls-spacing) * 2);
+		right: var(--r-controls-spacing);
+		top: 0;
+		transform: translateY(-50%);
+		border-radius: var(--r-scrollbar-width);
+		z-index: 10;
+	}
+
+	.scrollbar-playhead {
+		position: absolute;
+		width: var(--r-scrollbar-width);
+		height: var(--r-scrollbar-width);
+		top: 0;
+		left: 0;
+		border-radius: var(--r-scrollbar-width);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+		z-index: 11;
+		transition: background-color 0.2s ease;
+	}
+
+	.scrollbar-slide {
+		position: absolute;
+		width: 100%;
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.2);
+		box-shadow: 0 0 0px 1px rgba(var(--r-overlay-element-fg-color), 0.1);
+		border-radius: var(--r-scrollbar-width);
+		transition: background-color 0.2s ease;
+	}
+
+	// Hit area
+	.scrollbar-slide:after {
+		content: '';
+		position: absolute;
+		width: 200%;
+		height: 100%;
+		top: 0;
+		left: -50%;
+		background: rgba( 0, 0, 0, 0 );
+		z-index: -1;
+	}
+
+	.scrollbar-slide:hover,
+	.scrollbar-slide.active {
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
+	}
+
+	.scrollbar-trigger {
+		position: absolute;
+		width: 100%;
+		transition: background-color 0.2s ease;
+	}
+
+	.scrollbar-slide.active.has-triggers {
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
+		z-index: 10;
+	}
+
+	.scrollbar-slide.active .scrollbar-trigger:after {
+		content: '';
+		position: absolute;
+		width: var(--r-scrollbar-trigger-size);
+		height: var(--r-scrollbar-trigger-size);
+		border-radius: 20px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+		transition: transform 0.2s ease, opacity 0.2s ease;
+		opacity: 0.4;
+	}
+
+	.scrollbar-slide.active .scrollbar-trigger.active:after,
+	.scrollbar-slide.active .scrollbar-trigger.active ~ .scrollbar-trigger:after {
+		opacity: 1;
+	}
+
+	.scrollbar-slide.active .scrollbar-trigger ~ .scrollbar-trigger.active:after {
+		transform: translate(calc( var(--r-scrollbar-width) * -2), 0);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+	}
 }
 
 

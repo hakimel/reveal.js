@@ -40,6 +40,8 @@ html * {
   --r-link-color-hover: #78b9e6;
   --r-selection-background-color: #d33682;
   --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 0, 0, 0;
+  --r-overlay-element-fg-color: 240, 240, 240;
 }
 
 .reveal-viewport {

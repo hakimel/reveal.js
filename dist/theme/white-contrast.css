@@ -39,6 +39,8 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --r-link-color-hover: #6ca0e8;
   --r-selection-background-color: #98bdef;
   --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 0, 0, 0;
+  --r-overlay-element-fg-color: 240, 240, 240;
 }
 
 .reveal-viewport {

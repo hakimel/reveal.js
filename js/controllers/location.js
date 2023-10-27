@@ -64,7 +64,7 @@ export default class Location {
 			try {
 				slide = document
 					.getElementById( decodeURIComponent( name ) )
-					.closest('.slides>section, .slides>section>section');
+					.closest('.slides section');
 			}
 			catch ( error ) { }
 
