@@ -754,7 +754,7 @@ export default class ScrollView {
 	}
 
 	/**
-	 * Activates the given page and starts its embedded conten
+	 * Activates the given page and starts its embedded content
 	 * if there is any.
 	 *
 	 * @param {object} page
