@@ -434,11 +434,11 @@ const Plugin = () => {
 		const parsedFrontMatter = fm(content)
 
 		content = parsedFrontMatter.body;
-		if (parsedFrontMatter.frontmatter !== undefined) {
+		if (parsedFrontMatter.frontmatter){
 			options.metadata = yaml.load(parsedFrontMatter.frontmatter);
-
-			if (!options.metadata.slideType) {
+			if (!('slideType' in options.metadata)) {
 				content = `Missing "slideType" in default metadata`
+				console.error(content)
 				delete options.metadata
 			}
 		}
@@ -477,16 +477,14 @@ const Plugin = () => {
 			const xhr = new XMLHttpRequest()
 			xhr.open('GET', templatePath, false)
 			xhr.send()
-
+			let tempDiv = document.createElement('div');
 			if (xhr.status === 200) {
-				const renderedTemplate = Mustache.render(xhr.responseText, { content: content, metadata: options.metadata });
-				const tempDiv = document.createElement('div');
-				tempDiv.innerHTML = renderedTemplate;
-				return tempDiv.textContent;
+				tempDiv.innerHTML = Mustache.render(xhr.responseText, { content: content, metadata: options.metadata });
 			} else {
+				tempDiv.innerHTML = `Template for slideType "${options.metadata.slideType}" not found.`
 				console.error('Failed to fetch template. Status: ' + xhr.status);
-				return null
 			}
+			return tempDiv.textContent;
 		} catch (error) {
 			console.error('Error:', error);
 			throw error;
