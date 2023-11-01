@@ -7,6 +7,7 @@
 import { marked } from 'marked';
 import yaml from "js-yaml";
 import Mustache from "mustache";
+import fm from "front-matter";
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_VERTICAL_SEPARATOR = null,
@@ -429,12 +430,17 @@ const Plugin = () => {
 
 	function parseFrontMatter (content, options) {
 		options = getSlidifyOptions( options)
-		let frontMatterRegex = /^(-{3}(?:\n|\r)([\w\W]+?)(?:\n|\r)-{3})?([\w\W]*)*/
-		if (frontMatterRegex.test(content)) {
-			frontMatterRegex.lastIndex = 0;
-			const parsedParts = frontMatterRegex.exec(content)
-			content = parsedParts[3] || '';
-			options.metadata = yaml.load(parsedParts[2]);
+
+		const parsedFrontMatter = fm(content)
+
+		content = parsedFrontMatter.body;
+		if (parsedFrontMatter.frontmatter !== undefined) {
+			options.metadata = yaml.load(parsedFrontMatter.frontmatter);
+
+			if (!options.metadata.slideType) {
+				content = `Missing "slideType" in default metadata`
+				delete options.metadata
+			}
 		}
 		return [content, options];
 	}
