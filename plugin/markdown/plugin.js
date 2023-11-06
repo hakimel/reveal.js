@@ -95,7 +95,7 @@ const Plugin = () => {
 	 * values for what's not defined.
 	 */
 	function getSlidifyOptions( options ) {
-		const markdownConfig = deck.getConfig().markdown;
+		const markdownConfig = deck.getConfig?.().markdown;
 
 		options = options || {};
 		options.separator = options.separator || markdownConfig?.separator || DEFAULT_SLIDE_SEPARATOR;
