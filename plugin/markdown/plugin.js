@@ -456,11 +456,14 @@ const Plugin = () => {
 			if (metadata){
 				try {
 					const metadataYAML = yaml.load(metadata);
+					if (metadataYAML === undefined || metadataYAML.slideType === undefined) {
+						throw new Error("The inline metadata is not valid.")
+					}
 					options.metadata = {...options.metadata, ...metadataYAML}
 					options.attributes = 'class=' + options.metadata.slideType;
 				} catch (error) {
-					markdown = "Error while parsing metadata"
-					console.error(markdown, error)
+					markdown = error.message
+					console.error(error)
 				}
 			}
 		} else if (options.metadata){
