@@ -476,7 +476,8 @@ const Plugin = () => {
 	function renderTemplate(content, options) {
 		try {
 			options = getSlidifyOptions(options)
-			const templatePath = 'templates/' + options.metadata.slideType + '-template.html'
+			const url = new URL(import.meta.url);
+			const templatePath = `${url.origin}/templates/${options.metadata.slideType}-template.html`
 			const xhr = new XMLHttpRequest()
 			xhr.open('GET', templatePath, false)
 			xhr.send()
