@@ -301,10 +301,12 @@ export default class Backgrounds {
 
 					backgroundv.classList.remove( 'past', 'present', 'future' );
 
-					if( v < indices.v ) {
+					const indexv = typeof indices.v === 'number' ? indices.v : 0;
+
+					if( v < indexv ) {
 						backgroundv.classList.add( 'past' );
 					}
-					else if ( v > indices.v ) {
+					else if ( v > indexv ) {
 						backgroundv.classList.add( 'future' );
 					}
 					else {
