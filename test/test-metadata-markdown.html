@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>reveal.js - Test Metadata Markdown</title>
+
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+
+<body style="overflow: auto;">
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<div class="reveal" style="display: none;">
+    <div class="slides">
+        <section data-markdown="metadata-markdown.md" data-separator="\r?\n---\r?\n"
+                 data-separator-vertical="\r?\n--\r?\n"></section>
+    </div>
+</div>
+
+<script type="module">
+    import Reveal from '../dist/reveal.esm.js'
+    import Markdown from '../plugin/markdown/markdown.esm.js'
+
+    QUnit.config.testTimeout = 30000;
+
+    Reveal.configure({
+        plugins: [Markdown]
+    })
+
+    Reveal.initialize().then(function () {
+
+        QUnit.module('Number of slides');
+
+        QUnit.test('Reveal.getTotalSlides', function (assert) {
+            assert.strictEqual(Reveal.getTotalSlides(), 5, 'Found five slides in total');
+        });
+
+        QUnit.test('Vertical slides', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section>section').length, 3, 'Found three vertical slides');
+        });
+
+        QUnit.test('Horizontal slides', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section').length, 3, 'Found three horizontal slides');
+        });
+
+        QUnit.module('Class Attribute');
+
+        QUnit.test('SlideType as slide class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section.cover').length, 1, 'Found one slides with class cover');
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section>section.title-content').length, 3, 'Found three slides with class title-content');
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section.title-content-image').length, 1, 'Found one slide with class title-content-image');
+        });
+
+        QUnit.test('content-container class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section .content-container').length, 5, 'Found five slides with class content-container');
+        });
+
+        QUnit.test('content-wrapper class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section .content-container .content-wrapper').length, 4, 'Found four slides with class content-wrapper');
+        });
+
+        QUnit.test('footer-content class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section footer .footer-content').length, 5, 'Found five slides with class footer-content');
+        });
+
+        QUnit.test('footer-logo class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section footer .footer-logo').length, 5, 'Found five slides with class footer-logo');
+        });
+
+        QUnit.test('image-container class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section .image-container').length, 1, 'Found one slide with class image-container');
+        });
+
+        QUnit.test('image-wrapper class', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section .image-container .image-wrapper').length, 1, 'Found one slide with class image-wrapper');
+        });
+
+        QUnit.module('Images');
+
+        QUnit.test('total images', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal section img').length, 6, 'Found 6 images in total');
+        });
+
+        QUnit.test('img with data-src', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal section img[src]').length, 6, 'Image data source has been set');
+        });
+
+        QUnit.test('img with description', function (assert) {
+            assert.strictEqual(document.querySelector('.reveal .slides>section.title-content-image .image-description>p ').textContent, 'Image Descriptions', 'Image description has been set');
+        });
+
+        QUnit.test('img with credit', function (assert) {
+            assert.strictEqual(document.querySelector('.reveal .slides>section.title-content-image .image-credit>p ').textContent, 'Source: Image Credits', 'Image credit has been set');
+        });
+
+        QUnit.test('logo', function (assert) {
+            assert.strictEqual(document.querySelectorAll('.reveal .slides>section footer .footer-logo img[src] ').length, 5, 'Logo has been set');
+        });
+    });
+
+</script>
+</body>
+</html>
