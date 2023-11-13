@@ -5,6 +5,9 @@
  */
 
 import { marked } from 'marked';
+import yaml from 'js-yaml';
+import Mustache from 'mustache';
+import fm from 'front-matter';
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_VERTICAL_SEPARATOR = null,
@@ -124,6 +127,10 @@ const Plugin = () => {
 		// with parsing
 		content = content.replace( /<\/script>/g, SCRIPT_END_PLACEHOLDER );
 
+		if (options.metadata){
+			content = renderTemplate(content, options)
+		}
+
 		return '<script type="text/template">' + content + '</script>';
 
 	}
@@ -145,6 +152,8 @@ const Plugin = () => {
 			wasHorizontal = true,
 			content,
 			sectionStack = [];
+
+		[ markdown, options ] = parseFrontMatter(markdown, options)
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
@@ -181,18 +190,22 @@ const Plugin = () => {
 
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
 		for( let i = 0, len = sectionStack.length; i < len; i++ ) {
+			let newOptions = {...options}
+
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
-				markdownSections += '<section '+ options.attributes +'>';
+				markdownSections += '<section '+ newOptions.attributes +'>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' + createMarkdownSlide( child, options ) + '</section>';
+					[content, newOptions] = parseMarkdown(child, newOptions)
+					markdownSections += '<section '+ newOptions.attributes +' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
+				[content, newOptions] = parseMarkdown(sectionStack[i], newOptions)
+				markdownSections += '<section '+ newOptions.attributes +' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
 			}
 		}
 
@@ -413,6 +426,73 @@ const Plugin = () => {
 
 	  return input.replace( /([&<>'"])/g, char => HTML_ESCAPE_MAP[char] );
 
+	}
+
+	function parseFrontMatter (content, options) {
+		options = getSlidifyOptions( options)
+
+		const parsedFrontMatter = fm(content)
+
+		content = parsedFrontMatter.body;
+		if (parsedFrontMatter.frontmatter){
+			options.metadata = yaml.load(parsedFrontMatter.frontmatter);
+			if (!('slideType' in options.metadata)) {
+				content = `Missing "slideType" in default metadata`
+				console.error(content)
+				delete options.metadata
+			}
+		}
+		return [content, options];
+	}
+
+	function parseMarkdown (markdown, options) {
+		const yamlRegex =  /```(yaml|yml)\n([\s\S]*?)```(\n[\s\S]*)?/g;
+		if (yamlRegex.test(markdown)){
+			yamlRegex.lastIndex = 0;
+
+			const markdownParts = yamlRegex.exec(markdown)
+			const metadata = markdownParts[2] || {}
+			markdown = markdownParts[3] || ''
+			if (metadata){
+				try {
+					const metadataYAML = yaml.load(metadata);
+					if (metadataYAML === undefined || metadataYAML.slideType === undefined) {
+						throw new Error("The inline metadata is not valid.")
+					}
+					options.metadata = {...options.metadata, ...metadataYAML}
+					options.attributes = 'class=' + options.metadata.slideType;
+				} catch (error) {
+					markdown = error.message
+					console.error(error)
+				}
+			}
+		} else if (options.metadata){
+			options.attributes = 'class=' + options.metadata.slideType;
+		}
+
+		return [markdown, options]
+	}
+
+	function renderTemplate(content, options) {
+		try {
+			options = getSlidifyOptions(options)
+			const url = new URL(import.meta.url);
+			const templatePath = `${url.origin}/templates/${options.metadata.slideType}-template.html`
+			const xhr = new XMLHttpRequest()
+			xhr.open('GET', templatePath, false)
+			xhr.send()
+			let tempDiv = document.createElement('div');
+			if (xhr.status === 200) {
+				tempDiv.innerHTML = Mustache.render(xhr.responseText, { content: content, metadata: options.metadata });
+			} else {
+				tempDiv.innerHTML = `Template for slideType "${options.metadata.slideType}" not found.`
+				console.error('Failed to fetch template. Status: ' + xhr.status);
+			}
+			return tempDiv.textContent;
+		} catch (error) {
+			console.error('Error:', error);
+			throw error;
+		}
 	}
 
 	return {
