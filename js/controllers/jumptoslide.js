@@ -1,3 +1,8 @@
+import {
+	SLIDE_NUMBER_FORMAT_CURRENT,
+	SLIDE_NUMBER_FORMAT_CURRENT_SLASH_TOTAL
+} from "../utils/constants";
+
 /**
  * Makes it possible to jump to a slide by entering its
  * slide number or id.
@@ -66,11 +71,33 @@ export default class JumpToSlide {
 		clearTimeout( this.jumpTimeout );
 		delete this.jumpTimeout;
 
-		const query = this.jumpInput.value.trim( '' );
-		let indices = this.Reveal.location.getIndicesFromHash( query, { oneBasedIndex: true } );
+		let query = this.jumpInput.value.trim( '' );
+		let indices;
 
-		// If no valid index was found and the input query is a
-		// string, fall back on a simple search
+		// When slide numbers are formatted to be a single linear mumber
+		// (instead of showing a separate horizontal/vertical index) we
+		// use the same format for slide jumps
+		if( /^\d+$/.test( query ) ) {
+			const slideNumberFormat = this.Reveal.getConfig().slideNumber;
+			if( slideNumberFormat === SLIDE_NUMBER_FORMAT_CURRENT || slideNumberFormat === SLIDE_NUMBER_FORMAT_CURRENT_SLASH_TOTAL ) {
+				const slide = this.Reveal.getSlides()[ parseInt( query, 10 ) - 1 ];
+				if( slide ) {
+					indices = this.Reveal.getIndices( slide );
+				}
+			}
+		}
+
+		if( !indices ) {
+			// If the query uses "horizontal.vertical" format, convert to
+			// "horizontal/vertical" so that our URL parser can understand
+			if( /^\d+\.\d+$/.test( query ) ) {
+				query = query.replace( '.', '/' );
+			}
+
+			indices = this.Reveal.location.getIndicesFromHash( query, { oneBasedIndex: true } );
+		}
+
+		// Still no valid index? Fall back on a text search
 		if( !indices && /\S+/i.test( query ) && query.length > 1 ) {
 			indices = this.search( query );
 		}
