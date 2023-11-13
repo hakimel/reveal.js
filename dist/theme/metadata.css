@@ -1,0 +1,32 @@
+/* metadata.scss */
+/* This css is only for example, you can add your own css.*/
+section {
+  width: 100%;
+  height: 100%;
+}
+
+.content-container {
+  height: 90%;
+  font-size: 32px;
+  text-align: left;
+}
+
+footer {
+  height: 10%;
+  color: #7f7f7f;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cover .content-container {
+  align-content: center;
+  display: grid;
+}
+
+.title-image .image-container {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

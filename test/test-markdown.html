@@ -8,6 +8,7 @@
 
 		<link rel="stylesheet" href="../dist/reveal.css">
 		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<link rel="stylesheet" href="../dist/theme/metadata.css">
 		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
@@ -174,7 +175,7 @@
 						## Slide 2
 
 
-						Paragraph 1.2  
+						Paragraph 1.2
 						multi-line <!-- {_class="fragment highlight-red"} -->
 
 						Paragraph 2.2 <!-- {_class="fragment highlight-red"} -->
@@ -226,7 +227,7 @@
 				  <script type="text/template">
 					## Hello world
 
-					Multiple  
+					Multiple
 					Line
 					<!-- .element: class="fragment highlight-blue" -->
 				  </script>
@@ -311,6 +312,13 @@
 					<!-- .element: class="fragment" -->
 					</script>
 				</section>
+			</div>
+		</div>
+
+		<div class="reveal deck7" style="display: none;">
+			<div class="slides">
+				<section data-markdown="metadata-markdown.md" data-separator="\r?\n---\r?\n"
+						 data-separator-vertical="\r?\n--\r?\n"></section>
 			</div>
 		</div>
 
@@ -497,11 +505,79 @@
 				QUnit.test( '```javascript [756:] add line offset and sets no line highlights and sets language', function( assert ) {
 					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-offset-and-lanugage .hljs.javascript[data-ln-start-from="756"]' ).length, 1 );
 				});
-				
+
 				QUnit.test( '```block should allow custom fragment', function( assert ) {
 					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-code-in-fragment pre.fragment' ).length, 1 );
 				});
 
+			} );
+
+			let deck7 = new Reveal( document.querySelector( '.deck7' ), { plugins: [ Markdown ] })
+			deck7.addEventListener( 'ready', function() {
+
+				QUnit.module('Metadata Markdown');
+
+				QUnit.test('Total number of slides', function (assert) {
+					assert.strictEqual(deck7.getTotalSlides(), 5, 'Found five slides in total');
+				});
+
+				QUnit.test('Number of Vertical slides', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section>section').length, 3, 'Found three vertical slides');
+				});
+
+				QUnit.test('Number of Horizontal slides', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section').length, 3, 'Found three horizontal slides');
+				});
+
+				QUnit.test('SlideType as slide class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section.cover').length, 1, 'Found one slides with class cover');
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section>section.title-content').length, 3, 'Found three slides with class title-content');
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section.title-image').length, 1, 'Found one slide with class title-image');
+				});
+
+				QUnit.test('content-container class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section .content-container').length, 5, 'Found five slides with class content-container');
+				});
+
+				QUnit.test('content-wrapper class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section .content-container .content-wrapper').length, 5, 'Found five slides with class content-wrapper');
+				});
+
+				QUnit.test('footer-content class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section footer .footer-content').length, 5, 'Found five slides with class footer-content');
+				});
+
+				QUnit.test('footer-logo class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section footer .footer-logo').length, 5, 'Found five slides with class footer-logo');
+				});
+
+				QUnit.test('image-container class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section .image-container').length, 1, 'Found one slide with class image-container');
+				});
+
+				QUnit.test('image-wrapper class', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section .image-container .image-wrapper').length, 1, 'Found one slide with class image-wrapper');
+				});
+
+				QUnit.test('Total images', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal section img').length, 6, 'Found 6 images in total');
+				});
+
+				QUnit.test('Image with data-src', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal section img[src]').length, 6, 'Image data source has been set');
+				});
+
+				QUnit.test('Image with description', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelector('.reveal .slides>section.title-image .image-description>p ').textContent, 'Image Descriptions', 'Image description has been set');
+				});
+
+				QUnit.test('Image with credit', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelector('.reveal .slides>section.title-image .image-credit>p ').textContent, 'Source: Image Credits', 'Image credit has been set');
+				});
+
+				QUnit.test('Logo', function (assert) {
+					assert.strictEqual(deck7.getRevealElement().querySelectorAll('.reveal .slides>section footer .footer-logo img[src] ').length, 5, 'Logo has been set');
+				});
 			} );
 
 			deck1.initialize();
@@ -510,6 +586,7 @@
 			deck4.initialize();
 			deck5.initialize();
 			deck6.initialize();
+			deck7.initialize();
 		</script>
 
 	</body>

@@ -194,18 +194,18 @@ const Plugin = () => {
 
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
-				markdownSections += '<section '+ newOptions.attributes +'>';
+				markdownSections += '<section ' + newOptions.attributes + '>';
 
 				sectionStack[i].forEach( function( child ) {
 					[content, newOptions] = parseMarkdown(child, newOptions)
-					markdownSections += '<section '+ newOptions.attributes +' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
+					markdownSections += '<section ' + newOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
 				[content, newOptions] = parseMarkdown(sectionStack[i], newOptions)
-				markdownSections += '<section '+ newOptions.attributes +' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
+				markdownSections += '<section ' + newOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
 			}
 		}
 
@@ -428,7 +428,7 @@ const Plugin = () => {
 
 	}
 
-	function parseFrontMatter (content, options) {
+	function parseFrontMatter(content, options) {
 		options = getSlidifyOptions( options)
 
 		const parsedFrontMatter = fm(content)
@@ -445,7 +445,7 @@ const Plugin = () => {
 		return [content, options];
 	}
 
-	function parseMarkdown (markdown, options) {
+	function parseMarkdown(markdown, options) {
 		const yamlRegex =  /```(yaml|yml)\n([\s\S]*?)```(\n[\s\S]*)?/g;
 		if (yamlRegex.test(markdown)){
 			yamlRegex.lastIndex = 0;
@@ -486,7 +486,7 @@ const Plugin = () => {
 				tempDiv.innerHTML = Mustache.render(xhr.responseText, { content: content, metadata: options.metadata });
 			} else {
 				tempDiv.innerHTML = `Template for slideType "${options.metadata.slideType}" not found.`
-				console.error('Failed to fetch template. Status: ' + xhr.status);
+				console.error(`Failed to fetch template. Status: ${xhr.status}`);
 			}
 			return tempDiv.textContent;
 		} catch (error) {
