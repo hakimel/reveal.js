@@ -127,6 +127,7 @@ const Plugin = () => {
 		// with parsing
 		content = content.replace( /<\/script>/g, SCRIPT_END_PLACEHOLDER );
 
+		// render the template with the content only if there is metadata
 		if (options.metadata){
 			content = renderTemplate(content, options)
 		}
@@ -153,6 +154,7 @@ const Plugin = () => {
 			content,
 			sectionStack = [];
 
+		// separates default metadata from the markdown file
 		[ markdown, options ] = parseFrontMatter(markdown, options)
 
 		// iterate until all blocks between separators are stacked up
@@ -190,22 +192,23 @@ const Plugin = () => {
 
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
 		for( let i = 0, len = sectionStack.length; i < len; i++ ) {
-			let newOptions = {...options}
+			// slideOptions is created to avoid mutating the original options object with default metadata
+			let slideOptions = {...options}
 
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
-				markdownSections += '<section ' + newOptions.attributes + '>';
+				markdownSections += '<section ' + slideOptions.attributes + '>';
 
 				sectionStack[i].forEach( function( child ) {
-					[content, newOptions] = parseMarkdown(child, newOptions)
-					markdownSections += '<section ' + newOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
+					[content, slideOptions] = separateInlineMetadataAndMarkdown(child, slideOptions)
+					markdownSections += '<section ' + slideOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, slideOptions ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				[content, newOptions] = parseMarkdown(sectionStack[i], newOptions)
-				markdownSections += '<section ' + newOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, newOptions ) + '</section>';
+				[content, slideOptions] = separateInlineMetadataAndMarkdown(sectionStack[i], slideOptions)
+				markdownSections += '<section ' + slideOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, slideOptions ) + '</section>';
 			}
 		}
 
@@ -428,6 +431,12 @@ const Plugin = () => {
 
 	}
 
+	/**
+	 * Parse the front matter from the Markdown document
+	 *
+	 * Returns updated options with the default metadata
+	 * and updated content without the front matter
+	 */
 	function parseFrontMatter(content, options) {
 		options = getSlidifyOptions( options)
 
@@ -445,7 +454,13 @@ const Plugin = () => {
 		return [content, options];
 	}
 
-	function parseMarkdown(markdown, options) {
+	/**
+	 * Separates the inline metadata and content for each slide
+	 *
+	 * Returns updated options with the inline metadata and
+	 * updated markdown without the inline metadata for each slide
+	 */
+	function separateInlineMetadataAndMarkdown(markdown, options) {
 		const yamlRegex =  /```(yaml|yml)\n([\s\S]*?)```(\n[\s\S]*)?/g;
 		if (yamlRegex.test(markdown)){
 			yamlRegex.lastIndex = 0;
@@ -473,6 +488,11 @@ const Plugin = () => {
 		return [markdown, options]
 	}
 
+	/**
+	 * Renders the template for each slide
+	 *
+	 * Returns the rendered template with the content
+	 */
 	function renderTemplate(content, options) {
 		try {
 			options = getSlidifyOptions(options)
