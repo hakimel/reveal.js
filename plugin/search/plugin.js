@@ -137,7 +137,9 @@ const Plugin = () => {
 
 		this.setRegex = function(input)
 		{
-			input = input.replace(/^[^\w]+|[^\w]+$/g, "").replace(/[^\w'-]+/g, "|");
+			input = input
+				.replace(/^[^\wÀ-ž]+|[^\wÀ-ž]+$/g, "") // trim non alphanumeric chars at the beginning and at the end
+				.replace(/[^\wÀ-ž'-]+/g, "|"); // replace all others non alphanumeric chars (except - and ') with a `|` (logical OR)
 			matchRegex = new RegExp("(" + input + ")","i");
 		}
 
