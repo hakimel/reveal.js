@@ -425,7 +425,6 @@ export default class ScrollView {
 			];
 
 			const scrollTriggerSegmentSize = ( trigger.range[1] - trigger.range[0] ) / trigger.page.scrollTriggers.length;
-
 			// Set the range for each inner scroll trigger
 			trigger.page.scrollTriggers.forEach( ( scrollTrigger, i ) => {
 				scrollTrigger.range = [
@@ -462,16 +461,17 @@ export default class ScrollView {
 					activate: () => {
 						this.Reveal.fragments.update( -1, page.fragments, slideElement );
 					}
-				},
-
-				// Triggers for each fragment group
-				...fragmentGroups.map( ( fragments, i ) => ({
-						activate: () => {
-							this.Reveal.fragments.update( i, page.fragments, slideElement );
-						}
-					})
-				)
+				}
 			);
+
+			// Triggers for each fragment group
+			fragmentGroups.forEach( ( fragments, i ) => {
+				page.scrollTriggers.push({
+					activate: () => {
+						this.Reveal.fragments.update( i, page.fragments, slideElement );
+					}
+				});
+			} );
 		}
 
 
