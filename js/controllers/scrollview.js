@@ -801,8 +801,8 @@ export default class ScrollView {
 		if( page.active ) {
 
 			page.active = false;
-			page.slideElement.classList.remove( 'present' );
-			page.backgroundElement.classList.remove( 'present' );
+			if( page.slideElement ) page.slideElement.classList.remove( 'present' );
+			if( page.backgroundElement ) page.backgroundElement.classList.remove( 'present' );
 
 		}
 
