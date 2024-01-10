@@ -2499,6 +2499,9 @@ export default function( revealElement, options ) {
 
 		navigationHistory.hasNavigatedHorizontally = true;
 
+		// Scroll view navigation is handled independently
+		if( scrollView.isActive() ) return scrollView.prev();
+
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( overview.isActive() || skipFragments || fragments.next() === false ) && availableRoutes().left ) {
@@ -2516,6 +2519,9 @@ export default function( revealElement, options ) {
 
 		navigationHistory.hasNavigatedHorizontally = true;
 
+		// Scroll view navigation is handled independently
+		if( scrollView.isActive() ) return scrollView.next();
+
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( overview.isActive() || skipFragments || fragments.prev() === false ) && availableRoutes().right ) {
@@ -2531,6 +2537,9 @@ export default function( revealElement, options ) {
 
 	function navigateUp({skipFragments=false}={}) {
 
+		// Scroll view navigation is handled independently
+		if( scrollView.isActive() ) return scrollView.prev();
+
 		// Prioritize hiding fragments
 		if( ( overview.isActive() || skipFragments || fragments.prev() === false ) && availableRoutes().up ) {
 			slide( indexh, indexv - 1 );
@@ -2541,6 +2550,9 @@ export default function( revealElement, options ) {
 	function navigateDown({skipFragments=false}={}) {
 
 		navigationHistory.hasNavigatedVertically = true;
+
+		// Scroll view navigation is handled independently
+		if( scrollView.isActive() ) return scrollView.next();
 
 		// Prioritize revealing fragments
 		if( ( overview.isActive() || skipFragments || fragments.next() === false ) && availableRoutes().down ) {
@@ -2556,6 +2568,9 @@ export default function( revealElement, options ) {
 	 * 3) Previous horizontal slide
 	 */
 	function navigatePrev({skipFragments=false}={}) {
+
+		// Scroll view navigation is handled independently
+		if( scrollView.isActive() ) return scrollView.prev();
 
 		// Prioritize revealing fragments
 		if( skipFragments || fragments.prev() === false ) {
@@ -2595,6 +2610,9 @@ export default function( revealElement, options ) {
 
 		navigationHistory.hasNavigatedHorizontally = true;
 		navigationHistory.hasNavigatedVertically = true;
+
+		// Scroll view navigation is handled independently
+		if( scrollView.isActive() ) return scrollView.next();
 
 		// Prioritize revealing fragments
 		if( skipFragments || fragments.next() === false ) {

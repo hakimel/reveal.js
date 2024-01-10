@@ -277,7 +277,7 @@ export default class ScrollView {
 		const pageHeight = useCompactLayout ? compactHeight : viewportHeight;
 
 		// The height that needs to be scrolled between scroll triggers
-		const scrollTriggerHeight = useCompactLayout ? compactHeight : viewportHeight;
+		this.scrollTriggerHeight = useCompactLayout ? compactHeight : viewportHeight;
 
 		this.viewportElement.style.setProperty( '--page-height', pageHeight + 'px' );
 		this.viewportElement.style.scrollSnapType = typeof config.scrollSnap === 'string' ? `y ${config.scrollSnap}` : '';
@@ -333,12 +333,12 @@ export default class ScrollView {
 			for( let i = 0; i < totalScrollTriggerCount + 1; i++ ) {
 				const triggerStick = document.createElement( 'div' );
 				triggerStick.className = 'scroll-snap-point';
-				triggerStick.style.height = scrollTriggerHeight + 'px';
+				triggerStick.style.height = this.scrollTriggerHeight + 'px';
 				triggerStick.style.scrollSnapAlign = useCompactLayout ? 'center' : 'start';
 				page.pageElement.appendChild( triggerStick );
 
 				if( i === 0 ) {
-					triggerStick.style.marginTop = -scrollTriggerHeight + 'px';
+					triggerStick.style.marginTop = -this.scrollTriggerHeight + 'px';
 				}
 			}
 
@@ -355,7 +355,7 @@ export default class ScrollView {
 			}
 
 			// Add scroll padding based on how many scroll triggers we have
-			page.scrollPadding = scrollTriggerHeight * totalScrollTriggerCount;
+			page.scrollPadding = this.scrollTriggerHeight * totalScrollTriggerCount;
 
 			// The total height including scrollable space
 			page.totalHeight = page.pageHeight + page.scrollPadding;
@@ -696,6 +696,24 @@ export default class ScrollView {
 			}, HIDE_SCROLLBAR_TIMEOUT );
 
 		}
+
+	}
+
+	/**
+	 * Scroll to the previous page.
+	 */
+	prev() {
+
+		this.viewportElement.scrollTop -= this.scrollTriggerHeight;
+
+	}
+
+	/**
+	 * Scroll to the next page.
+	 */
+	next() {
+
+		this.viewportElement.scrollTop += this.scrollTriggerHeight;
 
 	}
 
