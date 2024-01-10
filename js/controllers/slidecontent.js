@@ -375,7 +375,9 @@ export default class SlideContent {
 			isVisible  		= !!closest( event.target, '.present' );
 
 		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
+			const timeRegex = /#t=(\d+)/;
+			const matches = event.target.currentSrc.match(timeRegex);
+			event.target.currentTime = matches && matches.length > 0 ? matches[1] : 0;
 			event.target.play();
 		}
 
