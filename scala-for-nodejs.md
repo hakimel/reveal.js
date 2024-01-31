@@ -907,11 +907,12 @@ implicit class IntOps(x: Int) {
 
 
 ## Big Exercise
-- Clone repo: https://github.com/matankdr/scala-bazel
+- Clone repo: 
+  - https://github.com/matankdr/scala-workshop
 - Follow readme
 - Enjoy!
 
-<img src="https://www.wix.com/tools/qr-code-generator/_functions/svg/250/000/fff/aHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGbWF0YW5rZHIlMkZzY2FsYS1iYXplbA==">
+<img width="300px" src="https://www.wix.com/tools/qr-code-generator/_functions/png/500/000000/FFFFFF/aHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGbWF0YW5rZHIlMkZzY2FsYS13b3Jrc2hvcA==">
 
 ---
 
