@@ -1,4 +1,4 @@
-import { HORIZONTAL_SLIDES_SELECTOR } from '../utils/constants.js'
+import { HORIZONTAL_SLIDES_SELECTOR, SLIDES_BACKGROUNDS_SELECTOR } from '../utils/constants.js'
 import { queryAll } from '../utils/util.js'
 
 const HIDE_SCROLLBAR_TIMEOUT = 500;
@@ -40,6 +40,7 @@ export default class ScrollView {
 		this.slideHTMLBeforeActivation = this.Reveal.getSlidesElement().innerHTML;
 
 		const horizontalSlides = queryAll( this.Reveal.getRevealElement(), HORIZONTAL_SLIDES_SELECTOR );
+		const slideBackgrounds = queryAll( this.Reveal.getRevealElement(), SLIDES_BACKGROUNDS_SELECTOR );
 
 		this.viewportElement.classList.add( 'loading-scroll-mode', 'reveal-scroll' );
 
@@ -79,7 +80,16 @@ export default class ScrollView {
 				pageElements.push( page );
 
 				// Copy the presentation-wide background to each page
-				if( presentationBackground ) {
+				if( slideBackgrounds && slideBackgrounds.length > h ) {
+					const slideBackground = slideBackgrounds[h];
+					const pageBackground = window.getComputedStyle( slideBackground );
+					
+					if( pageBackground && pageBackground.background ) {
+						page.style.background = pageBackground.background;
+					} else if( presentationBackground ) {
+						page.style.background = presentationBackground;
+					}
+				} else if( presentationBackground ) {
 					page.style.background = presentationBackground;
 				}
 
