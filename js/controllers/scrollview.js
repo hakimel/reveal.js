@@ -77,7 +77,7 @@ export default class ScrollView {
 				page.className = 'scroll-page';
 				pageElements.push( page );
 
-				// Copy the presentation-wide background to each page
+				// If 
 				if( slideBackgrounds && slideBackgrounds.length > h ) {
 					const slideBackground = slideBackgrounds[h];
 					const pageBackground = window.getComputedStyle( slideBackground );
