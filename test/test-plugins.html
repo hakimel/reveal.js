@@ -29,6 +29,7 @@
 		<script src="../dist/reveal.js"></script>
 		<script>
 
+			QUnit.config.testTimeout = 30000;
 			QUnit.module( 'Plugins' );
 
 			var initCounter = { PluginB: 0, PluginC: 0, PluginD: 0 };

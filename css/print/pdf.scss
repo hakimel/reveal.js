@@ -5,7 +5,7 @@
  * https://revealjs.com/pdf-export/
  */
 
-html.print-pdf {
+html.reveal-print {
 	* {
 		-webkit-print-color-adjust: exact;
 	}
@@ -36,7 +36,6 @@ html.print-pdf {
 
 	.reveal pre code {
 		overflow: hidden !important;
-		font-family: Courier, 'Courier New', monospace !important;
 	}
 
 	.reveal {
@@ -69,6 +68,10 @@ html.print-pdf {
 		z-index: 1;
 
 		page-break-after: always;
+	}
+
+	.reveal .slides .pdf-page:last-of-type {
+		page-break-after: avoid;
 	}
 
 	.reveal .slides section {
@@ -146,6 +149,7 @@ html.print-pdf {
 		display: block;
 		position: absolute;
 		font-size: 14px;
+		visibility: visible;
 	}
 
 	/* This accessibility tool is not useful in PDF and breaks it visually */

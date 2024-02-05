@@ -1,4 +1,4 @@
-import { extend, queryAll, closest, getMimeTypeFromFile } from '../utils/util.js'
+import { extend, queryAll, closest, getMimeTypeFromFile, encodeRFC3986URI } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 import fitty from 'fitty';
@@ -24,6 +24,10 @@ export default class SlideContent {
 	 * @param {HTMLElement} element
 	 */
 	shouldPreload( element ) {
+
+		if( this.Reveal.isScrollView() ) {
+			return true;
+		}
 
 		// Prefer an explicit global preload setting
 		let preload = this.Reveal.getConfig().preloadIframes;
@@ -108,7 +112,9 @@ export default class SlideContent {
 					// URL(s)
 					else {
 						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-							return `url(${encodeURI(background.trim())})`;
+							// Decode URL(s) that are already encoded first
+							let decoded = decodeURI(background.trim());
+							return `url(${encodeRFC3986URI(decoded)})`;
 						}).join( ',' );
 					}
 				}
@@ -136,13 +142,15 @@ export default class SlideContent {
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( source => {
+						const sourceElement = document.createElement( 'source' );
+						sourceElement.setAttribute( 'src', source );
+
 						let type = getMimeTypeFromFile( source );
 						if( type ) {
-							video.innerHTML += `<source src="${source}" type="${type}">`;
+							sourceElement.setAttribute( 'type', type );
 						}
-						else {
-							video.innerHTML += `<source src="${source}">`;
-						}
+
+						video.appendChild( sourceElement );
 					} );
 
 					backgroundContent.appendChild( video );

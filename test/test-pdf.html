@@ -75,7 +75,12 @@
 
 		<script src="../dist/reveal.js"></script>
 		<script>
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.autostart = false;
+
 			Reveal.initialize({ pdf: true }).then( function() {
+
+				QUnit.start();
 
 				// Only one test for now, we're mainly ensuring that there
 				// are no execution errors when running PDF mode

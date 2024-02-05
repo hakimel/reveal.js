@@ -99,6 +99,25 @@
                     </script>
                 </section>
 
+                <!-- add optional line count offset, in this case 287 -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## echo.c
+
+                        ```c [287: 2|4,6]
+                        /* All of the options in this arg are valid, so handle them. */
+                        p = arg + 1;
+                        do {
+                            if (*p == 'n')
+                                nflag = 0;
+                            if (*p == 'e')
+                                eflag = '\\';
+                        } while (*++p); 
+                        ```
+                        [source](https://git.busybox.net/busybox/tree/coreutils/echo.c?h=1_36_stable#n287)
+                    </script>
+                </section>
+
                 <!-- Images -->
                 <section data-markdown>
                     <script type="text/template">

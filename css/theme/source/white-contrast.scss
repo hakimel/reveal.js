@@ -1,7 +1,10 @@
 /**
- * Black theme for reveal.js. This is the opposite of the 'white' theme.
+ * White compact & high contrast reveal.js theme, with headers not in capitals.
  *
- * By Hakim El Hattab, http://hakim.se
+ * By Peter Kehl. Based on white.(s)css by Hakim El Hattab, http://hakim.se
+ *
+ * - Keep the source similar to black.css - for easy comparison.
+ * - $mainFontSize controls code blocks, too (although under some ratio).
  */
 
 
@@ -16,10 +19,10 @@
 
 
 // Override theme settings (see ../template/settings.scss)
-$backgroundColor: #191919;
+$backgroundColor: #fff;
 
-$mainColor: #fff;
-$headingColor: #fff;
+$mainColor: #000;
+$headingColor: #000;
 
 $mainFontSize: 42px;
 $mainFont: 'Source Sans Pro', Helvetica, sans-serif;
@@ -28,17 +31,20 @@ $headingTextShadow: none;
 $headingLetterSpacing: normal;
 $headingTextTransform: uppercase;
 $headingFontWeight: 600;
-$linkColor: #42affa;
+$linkColor: #2a76dd;
 $linkColorHover: lighten( $linkColor, 15% );
-$selectionBackgroundColor: rgba( $linkColor, 0.75 );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
 
 $heading1Size: 2.5em;
 $heading2Size: 1.6em;
 $heading3Size: 1.3em;
 $heading4Size: 1.0em;
 
-// Change text colors against light slide backgrounds
-@include light-bg-text-color(#222);
+$overlayElementBgColor: 0, 0, 0;
+$overlayElementFgColor: 240, 240, 240;
+
+// Change text colors against dark slide backgrounds
+@include dark-bg-text-color(#fff);
 
 
 // Theme template ------------------------------

@@ -30,6 +30,10 @@
 		<script>
 			window.externalScriptSequence = '';
 
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.autostart = false;
+			QUnit.module( 'Dependencies' );
+
 			Reveal.initialize({
 				dependencies: [
 					{ src: 'assets/external-script-a.js' },
@@ -38,7 +42,7 @@
 				]
 			}).then( () => {
 
-				QUnit.module( 'Dependencies' );
+				QUnit.start();
 
 				QUnit.test( 'Load synchronous scripts', function( assert ) {
 					assert.strictEqual( window.externalScriptSequence, 'ABC', 'Loaded and executed in order' );

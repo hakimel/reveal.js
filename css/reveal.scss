@@ -19,6 +19,7 @@ html.reveal-full-page {
 	height: 100%;
 	height: 100vh;
 	height: calc( var(--vh, 1vh) * 100 );
+	height: 100svh;
 	overflow: hidden;
 }
 
@@ -31,6 +32,8 @@ html.reveal-full-page {
 
 	background-color: #fff;
 	color: #000;
+
+	--r-controls-spacing: 12px;
 }
 
 // Force the presentation to cover the full viewport when we
@@ -48,11 +51,14 @@ html.reveal-full-page {
  * VIEW FRAGMENTS
  *********************************************/
 
-.reveal .slides section .fragment {
-	opacity: 0;
-	visibility: hidden;
+.reveal .fragment {
 	transition: all .2s ease;
-	will-change: opacity;
+
+	&:not(.custom) {
+		opacity: 0;
+		visibility: hidden;
+		will-change: opacity;
+	}
 
 	&.visible {
 		opacity: 1;
@@ -64,7 +70,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.grow {
+.reveal .fragment.grow {
 	opacity: 1;
 	visibility: inherit;
 
@@ -73,7 +79,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.shrink {
+.reveal .fragment.shrink {
 	opacity: 1;
 	visibility: inherit;
 
@@ -82,7 +88,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.zoom-in {
+.reveal .fragment.zoom-in {
 	transform: scale( 0.1 );
 
 	&.visible {
@@ -90,7 +96,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-out {
+.reveal .fragment.fade-out {
 	opacity: 1;
 	visibility: inherit;
 
@@ -100,7 +106,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.semi-fade-out {
+.reveal .fragment.semi-fade-out {
 	opacity: 1;
 	visibility: inherit;
 
@@ -110,7 +116,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.strike {
+.reveal .fragment.strike {
 	opacity: 1;
 	visibility: inherit;
 
@@ -119,7 +125,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-up {
+.reveal .fragment.fade-up {
 	transform: translate(0, 40px);
 
 	&.visible {
@@ -127,7 +133,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-down {
+.reveal .fragment.fade-down {
 	transform: translate(0, -40px);
 
 	&.visible {
@@ -135,7 +141,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-right {
+.reveal .fragment.fade-right {
 	transform: translate(-40px, 0);
 
 	&.visible {
@@ -143,7 +149,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-left {
+.reveal .fragment.fade-left {
 	transform: translate(40px, 0);
 
 	&.visible {
@@ -151,8 +157,8 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-in-then-out,
-.reveal .slides section .fragment.current-visible {
+.reveal .fragment.fade-in-then-out,
+.reveal .fragment.current-visible {
 	opacity: 0;
 	visibility: hidden;
 
@@ -162,7 +168,7 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.fade-in-then-semi-out {
+.reveal .fragment.fade-in-then-semi-out {
 	opacity: 0;
 	visibility: hidden;
 
@@ -177,32 +183,32 @@ html.reveal-full-page {
 	}
 }
 
-.reveal .slides section .fragment.highlight-red,
-.reveal .slides section .fragment.highlight-current-red,
-.reveal .slides section .fragment.highlight-green,
-.reveal .slides section .fragment.highlight-current-green,
-.reveal .slides section .fragment.highlight-blue,
-.reveal .slides section .fragment.highlight-current-blue {
+.reveal .fragment.highlight-red,
+.reveal .fragment.highlight-current-red,
+.reveal .fragment.highlight-green,
+.reveal .fragment.highlight-current-green,
+.reveal .fragment.highlight-blue,
+.reveal .fragment.highlight-current-blue {
 	opacity: 1;
 	visibility: inherit;
 }
-	.reveal .slides section .fragment.highlight-red.visible {
+	.reveal .fragment.highlight-red.visible {
 		color: #ff2c2d
 	}
-	.reveal .slides section .fragment.highlight-green.visible {
+	.reveal .fragment.highlight-green.visible {
 		color: #17ff2e;
 	}
-	.reveal .slides section .fragment.highlight-blue.visible {
+	.reveal .fragment.highlight-blue.visible {
 		color: #1b91ff;
 	}
 
-.reveal .slides section .fragment.highlight-current-red.current-fragment {
+.reveal .fragment.highlight-current-red.current-fragment {
 	color: #ff2c2d
 }
-.reveal .slides section .fragment.highlight-current-green.current-fragment {
+.reveal .fragment.highlight-current-green.current-fragment {
 	color: #17ff2e;
 }
-.reveal .slides section .fragment.highlight-current-blue.current-fragment {
+.reveal .fragment.highlight-current-blue.current-fragment {
 	color: #1b91ff;
 }
 
@@ -268,13 +274,11 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal .controls {
-	$spacing: 12px;
-
 	display: none;
 	position: absolute;
 	top: auto;
-	bottom: $spacing;
-	right: $spacing;
+	bottom: var(--r-controls-spacing);
+	right: var(--r-controls-spacing);
 	left: auto;
 	z-index: 11;
 	color: #000;
@@ -506,7 +510,9 @@ $controlsArrowAngleActive: 36deg;
 // Edge aligned controls layout
 @media screen and (min-width: 500px) {
 
-	$spacing: 0.8em;
+	.reveal-viewport {
+		--r-controls-spacing: 0.8em;
+	}
 
 	.reveal .controls[data-controls-layout="edges"] {
 		& {
@@ -526,24 +532,24 @@ $controlsArrowAngleActive: 36deg;
 
 		.navigate-left {
 			top: 50%;
-			left: $spacing;
+			left: var(--r-controls-spacing);
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-right {
 			top: 50%;
-			right: $spacing;
+			right: var(--r-controls-spacing);
 			margin-top: -$controlArrowSize*0.5;
 		}
 
 		.navigate-up {
-			top: $spacing;
+			top: var(--r-controls-spacing);
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
 
 		.navigate-down {
-			bottom: $spacing - $controlArrowSpacing + 0.3em;
+			bottom: calc(var(--r-controls-spacing) - #{$controlArrowSpacing} + 0.3em);
 			left: 50%;
 			margin-left: -$controlArrowSize*0.5;
 		}
@@ -1439,7 +1445,8 @@ $overlayHeaderPadding: 5px;
 	width: 100%;
 	height: 100%;
 	z-index: 1000;
-	background: rgba( 0, 0, 0, 0.9 );
+	background: rgba( 0, 0, 0, 0.95 );
+	backdrop-filter: blur( 6px );
 	transition: all 0.3s ease;
 }
 
@@ -1583,7 +1590,6 @@ $overlayHeaderPadding: 5px;
 		padding-bottom: 20px;
 	}
 
-
 /*********************************************
  * PLAYBACK COMPONENT
  *********************************************/
@@ -1631,6 +1637,10 @@ $overlayHeaderPadding: 5px;
 
 .reveal .hljs.has-highlights tr:not(.highlight-line) {
 	opacity: 0.4;
+}
+
+.reveal .hljs.has-highlights.fragment {
+	transition: all .2s ease;
 }
 
 .reveal .hljs:not(:first-child).fragment {
@@ -1797,6 +1807,43 @@ $notesWidthPercent: 25%;
 
 
 /*********************************************
+ * JUMP-TO-SLIDE COMPONENT
+ *********************************************/
+
+ .reveal .jump-to-slide {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	z-index: 30;
+	font-size: 32px;
+	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+}
+
+.reveal .jump-to-slide-input {
+	background: transparent;
+	padding: 8px;
+	font-size: inherit;
+	color: currentColor;
+	border: 0;
+}
+.reveal .jump-to-slide-input::placeholder {
+	color: currentColor;
+	opacity: 0.5;
+}
+
+.reveal.has-dark-background .jump-to-slide-input {
+	color: #fff;
+}
+.reveal.has-light-background .jump-to-slide-input {
+	color: #222;
+}
+
+.reveal .jump-to-slide-input:focus {
+	outline: none;
+}
+
+
+/*********************************************
  * ZOOM PLUGIN
  *********************************************/
 
@@ -1817,6 +1864,239 @@ $notesWidthPercent: 25%;
 
 .zoomed .reveal .roll span:after {
 	visibility: hidden;
+}
+
+
+/*********************************************
+ * SCROLL VIEW
+ *********************************************/
+.reveal-viewport.loading-scroll-mode {
+	visibility: hidden;
+}
+
+.reveal-viewport.reveal-scroll {
+	& {
+		margin: 0 auto;
+		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
+		z-index: 1;
+
+		--r-scrollbar-width: 7px;
+		--r-scrollbar-trigger-size: 5px;
+		--r-controls-spacing: 8px;
+	}
+
+	@media screen and (max-width: 500px) {
+		--r-scrollbar-width: 3px;
+		--r-scrollbar-trigger-size: 3px;
+	}
+
+	.controls,
+	.progress,
+	.playback,
+	.backgrounds,
+	.slide-number,
+	.speaker-notes {
+		display: none !important;
+	}
+
+	.overlay,
+	.pause-overlay {
+		position: fixed;
+	}
+
+	.reveal {
+		overflow: visible;
+		touch-action: manipulation;
+	}
+
+	.slides {
+		position: static;
+		pointer-events: initial;
+
+		left: auto;
+		top: auto;
+		width: 100% !important;
+		margin: 0;
+		padding: 0;
+
+		overflow: visible;
+		display: block;
+
+		perspective: none;
+		perspective-origin: 50% 50%;
+	}
+
+	.scroll-page {
+		position: relative;
+		width: 100%;
+		height: calc(var(--page-height) + var(--page-scroll-padding));
+		z-index: 1;
+		overflow: visible;
+	}
+
+	.scroll-page-sticky {
+		position: sticky;
+		height: var(--page-height);
+		top: 0px;
+	}
+
+	.scroll-page-content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.scroll-page section {
+		visibility: visible !important;
+		display: block !important;
+		position: absolute !important;
+		width: var(--slide-width) !important;
+		height: var(--slide-height) !important;
+		top: 50% !important;
+		left: 50% !important;
+		opacity: 1 !important;
+		transform: scale(var(--slide-scale)) translate(-50%, -50%) !important;
+		transform-style: flat !important;
+		transform-origin: 0 0 !important;
+	}
+
+	.slide-background {
+		display: block !important;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: auto !important;
+		visibility: visible;
+		opacity: 1;
+		touch-action: manipulation;
+	}
+}
+
+// Chromium
+.reveal-viewport.reveal-scroll[data-scrollbar="true"]::-webkit-scrollbar,
+.reveal-viewport.reveal-scroll[data-scrollbar="auto"]::-webkit-scrollbar {
+  display: none;
+}
+
+// Firefox
+.reveal-viewport.reveal-scroll[data-scrollbar="true"],
+.reveal-viewport.reveal-scroll[data-scrollbar="auto"] {
+  scrollbar-width: none;
+}
+
+.reveal.has-dark-background,
+.reveal-viewport.has-dark-background {
+	--r-overlay-element-bg-color: 240, 240, 240;
+	--r-overlay-element-fg-color: 0, 0, 0;
+}
+.reveal.has-light-background,
+.reveal-viewport.has-light-background {
+	--r-overlay-element-bg-color: 0, 0, 0;
+	--r-overlay-element-fg-color: 240, 240, 240;
+}
+
+.reveal-viewport.reveal-scroll .scrollbar {
+	position: sticky;
+	top: 50%;
+	z-index: 20;
+	opacity: 0;
+	transition: all 0.3s ease;
+
+	&.visible,
+	&:hover {
+		opacity: 1;
+	}
+
+	.scrollbar-inner {
+		position: absolute;
+		width: var(--r-scrollbar-width);
+		height: calc(var(--viewport-height) - var(--r-controls-spacing) * 2);
+		right: var(--r-controls-spacing);
+		top: 0;
+		transform: translateY(-50%);
+		border-radius: var(--r-scrollbar-width);
+		z-index: 10;
+	}
+
+	.scrollbar-playhead {
+		position: absolute;
+		width: var(--r-scrollbar-width);
+		height: var(--r-scrollbar-width);
+		top: 0;
+		left: 0;
+		border-radius: var(--r-scrollbar-width);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+		z-index: 11;
+		transition: background-color 0.2s ease;
+	}
+
+	.scrollbar-slide {
+		position: absolute;
+		width: 100%;
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.2);
+		box-shadow: 0 0 0px 1px rgba(var(--r-overlay-element-fg-color), 0.1);
+		border-radius: var(--r-scrollbar-width);
+		transition: background-color 0.2s ease;
+	}
+
+	// Hit area
+	.scrollbar-slide:after {
+		content: '';
+		position: absolute;
+		width: 200%;
+		height: 100%;
+		top: 0;
+		left: -50%;
+		background: rgba( 0, 0, 0, 0 );
+		z-index: -1;
+	}
+
+	.scrollbar-slide:hover,
+	.scrollbar-slide.active {
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
+	}
+
+	.scrollbar-trigger {
+		position: absolute;
+		width: 100%;
+		transition: background-color 0.2s ease;
+	}
+
+	.scrollbar-slide.active.has-triggers {
+		background-color: rgba(var(--r-overlay-element-bg-color), 0.4);
+		z-index: 10;
+	}
+
+	.scrollbar-slide.active .scrollbar-trigger:after {
+		content: '';
+		position: absolute;
+		width: var(--r-scrollbar-trigger-size);
+		height: var(--r-scrollbar-trigger-size);
+		border-radius: 20px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+		transition: transform 0.2s ease, opacity 0.2s ease;
+		opacity: 0.4;
+	}
+
+	.scrollbar-slide.active .scrollbar-trigger.active:after,
+	.scrollbar-slide.active .scrollbar-trigger.active ~ .scrollbar-trigger:after {
+		opacity: 1;
+	}
+
+	.scrollbar-slide.active .scrollbar-trigger ~ .scrollbar-trigger.active:after {
+		transform: translate(calc( var(--r-scrollbar-width) * -2), 0);
+		background-color: rgba(var(--r-overlay-element-bg-color), 1);
+	}
 }
 
 

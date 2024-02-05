@@ -17,7 +17,6 @@ export default class Keyboard {
 		this.bindings = {};
 
 		this.onDocumentKeyDown = this.onDocumentKeyDown.bind( this );
-		this.onDocumentKeyPress = this.onDocumentKeyPress.bind( this );
 
 	}
 
@@ -43,6 +42,7 @@ export default class Keyboard {
 		this.shortcuts['Shift + &#8592;/&#8593/&#8594;/&#8595;']      = 'Jump to first/last slide';
 		this.shortcuts['B  ,  .']                       = 'Pause';
 		this.shortcuts['F']                             = 'Fullscreen';
+		this.shortcuts['G']                             = 'Jump to slide';
 		this.shortcuts['ESC, O']                        = 'Slide overview';
 
 	}
@@ -53,7 +53,6 @@ export default class Keyboard {
 	bind() {
 
 		document.addEventListener( 'keydown', this.onDocumentKeyDown, false );
-		document.addEventListener( 'keypress', this.onDocumentKeyPress, false );
 
 	}
 
@@ -63,7 +62,6 @@ export default class Keyboard {
 	unbind() {
 
 		document.removeEventListener( 'keydown', this.onDocumentKeyDown, false );
-		document.removeEventListener( 'keypress', this.onDocumentKeyPress, false );
 
 	}
 
@@ -135,20 +133,6 @@ export default class Keyboard {
 	}
 
 	/**
-	 * Handler for the document level 'keypress' event.
-	 *
-	 * @param {object} event
-	 */
-	onDocumentKeyPress( event ) {
-
-		// Check if the pressed key is question mark
-		if( event.shiftKey && event.charCode === 63 ) {
-			this.Reveal.toggleHelp();
-		}
-
-	}
-
-	/**
 	 * Handler for the document level 'keydown' event.
 	 *
 	 * @param {object} event
@@ -183,10 +167,10 @@ export default class Keyboard {
 		let activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
 		// Whitelist certain modifiers for slide navigation shortcuts
-		let isNavigationKey = [32, 37, 38, 39, 40, 78, 80].indexOf( event.keyCode ) !== -1;
+		let keyCodeUsesModifier = [32, 37, 38, 39, 40, 78, 80, 191].indexOf( event.keyCode ) !== -1;
 
 		// Prevent all other events when a modifier is pressed
-		let unusedModifier = 	!( isNavigationKey && event.shiftKey || event.altKey ) &&
+		let unusedModifier = 	!( keyCodeUsesModifier && event.shiftKey || event.altKey ) &&
 								( event.shiftKey || event.altKey || event.ctrlKey || event.metaKey );
 
 		// Disregard the event if there's a focused element or a
@@ -350,7 +334,7 @@ export default class Keyboard {
 				}
 			}
 			// TWO-SPOT, SEMICOLON, B, V, PERIOD, LOGITECH PRESENTER TOOLS "BLACK SCREEN" BUTTON
-			else if( keyCode === 58 || keyCode === 59 || keyCode === 66 || keyCode === 86 || keyCode === 190 || keyCode === 191 ) {
+			else if( [58, 59, 66, 86, 190].includes( keyCode ) || ( keyCode === 191 && !event.shiftKey ) ) {
 				this.Reveal.togglePause();
 			}
 			// F
@@ -359,9 +343,19 @@ export default class Keyboard {
 			}
 			// A
 			else if( keyCode === 65 ) {
-				if ( config.autoSlideStoppable ) {
+				if( config.autoSlideStoppable ) {
 					this.Reveal.toggleAutoSlide( autoSlideWasPaused );
 				}
+			}
+			// G
+			else if( keyCode === 71 ) {
+				if( config.jumpToSlide ) {
+					this.Reveal.toggleJumpToSlide();
+				}
+			}
+			// ?
+			else if( keyCode === 191 && event.shiftKey ) {
+				this.Reveal.toggleHelp();
 			}
 			else {
 				triggered = false;

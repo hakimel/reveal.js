@@ -1,42 +1,30 @@
-/* Default Print Stylesheet Template
-   by Rob Glazebrook of CSSnewbie.com
-   Last Updated: June 4, 2008
-
-   Feel free (nay, compelled) to edit, append, and
-   manipulate this file as you see fit. */
 
 @media print {
 	html:not(.print-pdf) {
-
-		background: #fff;
+		overflow: visible;
 		width: auto;
 		height: auto;
-		overflow: visible;
 
 		body {
-			background: #fff;
-			font-size: 20pt;
-			width: auto;
-			height: auto;
-			border: 0;
-			margin: 0 5%;
+			margin: 0;
 			padding: 0;
 			overflow: visible;
-			float: none !important;
 		}
+	}
 
-		.nestedarrow,
+	html:not(.print-pdf) .reveal {
+		background: #fff;
+		font-size: 20pt;
+
 		.controls,
-		.fork-reveal,
-		.share-reveal,
 		.state-background,
-		.reveal .progress,
-		.reveal .backgrounds,
-		.reveal .slide-number {
+		.progress,
+		.backgrounds,
+		.slide-number {
 			display: none !important;
 		}
 
-		body, p, td, li {
+		p, td, li {
 			font-size: 20pt!important;
 			color: #000;
 		}
@@ -49,7 +37,6 @@
 			letter-spacing: normal;
 		}
 
-		/* Need to reduce the size of the fonts for printing */
 		h1 { font-size: 28pt !important; }
 		h2 { font-size: 24pt !important; }
 		h3 { font-size: 22pt !important; }
@@ -74,18 +61,19 @@
 			margin: 0;
 			text-align: left !important;
 		}
-		.reveal pre,
-		.reveal table {
+		pre,
+		table {
 			margin-left: 0;
 			margin-right: 0;
 		}
-		.reveal pre code {
+		pre code {
 			padding: 20px;
 		}
-		.reveal blockquote {
+		blockquote {
 			margin: 20px 0;
 		}
-		.reveal .slides {
+
+		.slides {
 			position: static !important;
 			width: auto !important;
 			height: auto !important;
@@ -106,7 +94,7 @@
 
 			perspective-origin: 50% 50%;
 		}
-		.reveal .slides section {
+		.slides section {
 			visibility: visible !important;
 			position: static !important;
 			width: auto !important;
@@ -129,24 +117,24 @@
 			transform: none !important;
 			transition: none !important;
 		}
-		.reveal .slides section.stack {
+		.slides section.stack {
 			padding: 0 !important;
 		}
-		.reveal section:last-of-type {
+		.slides section:last-of-type {
 			page-break-after: avoid !important;
 		}
-		.reveal section .fragment {
+		.slides section .fragment {
 			opacity: 1 !important;
 			visibility: visible !important;
 
 			transform: none !important;
 		}
 
-		.reveal .r-fit-text {
+		.r-fit-text {
 			white-space: normal !important;
 		}
 
-		.reveal section img {
+		section img {
 			display: block;
 			margin: 15px 0px;
 			background: rgba(255,255,255,1);
@@ -154,11 +142,11 @@
 			box-shadow: none;
 		}
 
-		.reveal section small {
+		section small {
 			font-size: 0.8em;
 		}
 
-		.reveal .hljs {
+		.hljs {
 			max-height: 100%;
 			white-space: pre-wrap;
 			word-wrap: break-word;
@@ -166,11 +154,11 @@
 			font-size: 15pt;
 		}
 
-		.reveal .hljs .hljs-ln-numbers {
+		.hljs .hljs-ln-numbers {
 			white-space: nowrap;
 		}
 
-		.reveal .hljs td {
+		.hljs td {
 			font-size: inherit !important;
 			color: inherit !important;
 		}

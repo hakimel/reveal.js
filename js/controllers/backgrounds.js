@@ -190,10 +190,30 @@ export default class Backgrounds {
 		if( data.backgroundPosition ) contentElement.style.backgroundPosition = data.backgroundPosition;
 		if( data.backgroundOpacity ) contentElement.style.opacity = data.backgroundOpacity;
 
+		const contrastClass = this.getContrastClass( slide );
+
+		if( typeof contrastClass === 'string' ) {
+			slide.classList.add( contrastClass );
+		}
+
+	}
+
+	/**
+	 * Returns a class name that can be applied to a slide to indicate
+	 * if it has a light or dark background.
+	 *
+	 * @param {*} slide
+	 *
+	 * @returns {string|null}
+	 */
+	getContrastClass( slide ) {
+
+		const element = slide.slideBackgroundElement;
+
 		// If this slide has a background color, we add a class that
 		// signals if it is light or dark. If the slide has no background
 		// color, no class will be added
-		let contrastColor = data.backgroundColor;
+		let contrastColor = slide.getAttribute( 'data-background-color' );
 
 		// If no bg color was found, or it cannot be converted by colorToRgb, check the computed background
 		if( !contrastColor || !colorToRgb( contrastColor ) ) {
@@ -211,13 +231,31 @@ export default class Backgrounds {
 			// an element with no background
 			if( rgb && rgb.a !== 0 ) {
 				if( colorBrightness( contrastColor ) < 128 ) {
-					slide.classList.add( 'has-dark-background' );
+					return 'has-dark-background';
 				}
 				else {
-					slide.classList.add( 'has-light-background' );
+					return 'has-light-background';
 				}
 			}
 		}
+
+		return null;
+
+	}
+
+	/**
+	 * Bubble the 'has-light-background'/'has-dark-background' classes.
+	 */
+	bubbleSlideContrastClassToElement( slide, target ) {
+
+		[ 'has-light-background', 'has-dark-background' ].forEach( classToBubble => {
+			if( slide.classList.contains( classToBubble ) ) {
+				target.classList.add( classToBubble );
+			}
+			else {
+				target.classList.remove( classToBubble );
+			}
+		}, this );
 
 	}
 
@@ -263,10 +301,12 @@ export default class Backgrounds {
 
 					backgroundv.classList.remove( 'past', 'present', 'future' );
 
-					if( v < indices.v ) {
+					const indexv = typeof indices.v === 'number' ? indices.v : 0;
+
+					if( v < indexv ) {
 						backgroundv.classList.add( 'past' );
 					}
-					else if ( v > indices.v ) {
+					else if ( v > indexv ) {
 						backgroundv.classList.add( 'future' );
 					}
 					else {
@@ -322,14 +362,7 @@ export default class Backgrounds {
 		// If there's a background brightness flag for this slide,
 		// bubble it to the .reveal container
 		if( currentSlide ) {
-			[ 'has-light-background', 'has-dark-background' ].forEach( classToBubble => {
-				if( currentSlide.classList.contains( classToBubble ) ) {
-					this.Reveal.getRevealElement().classList.add( classToBubble );
-				}
-				else {
-					this.Reveal.getRevealElement().classList.remove( classToBubble );
-				}
-			}, this );
+			this.bubbleSlideContrastClassToElement( currentSlide, this.Reveal.getRevealElement() );
 		}
 
 		// Allow the first background to apply without transition

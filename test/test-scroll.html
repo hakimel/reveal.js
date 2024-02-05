@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Scroll View</title>
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="opacity: 0; pointer-events: none;">
+
+			<div class="slides">
+
+				<section>
+					<h1>slide 1</h1>
+				</section>
+
+				<section>
+					<h1>slide 2</h1>
+				</section>
+
+				<section>
+					<h1>slide 3</h1>
+					<p class="fragment">fragment 1</p>
+					<p class="fragment">fragment 2</p>
+					<p class="fragment">fragment 3</p>
+				</section>
+
+				<section>
+					<h1>slide 4</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script>
+
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.reorder = false;
+
+			function getScrollHeight() {
+				return Reveal.getViewportElement().scrollHeight;
+			}
+
+			function getViewportHeight() {
+				return Reveal.getViewportElement().offsetHeight;
+			}
+
+			Reveal.initialize({ view: 'scroll' }).then( async () => {
+
+				QUnit.module( 'Scroll View' );
+
+				QUnit.test( 'Activates', assert => {
+					assert.ok( getScrollHeight() > getViewportHeight(), 'Is overflowing' );
+				});
+
+				QUnit.test( 'Can be toggled via API', assert => {
+					Reveal.toggleScrollView( false );
+					assert.ok( getScrollHeight() <= getViewportHeight(), 'Is not overflowing' );
+					Reveal.toggleScrollView( true );
+					assert.ok( getScrollHeight() > getViewportHeight(), 'Is overflowing' );
+				});
+
+				QUnit.test( 'Changes present slide when scrolling', assert => {
+					assert.timeout( 200 );
+					assert.expect( 2 );
+
+					const slides = document.querySelectorAll( '.reveal .slides section' );
+
+					assert.ok( slides[0].classList.contains( 'present' ), 'First slide is present' );
+					Reveal.getViewportElement().scrollTop = getViewportHeight() * 1;
+
+					return new Promise( resolve => {
+						setTimeout(() => {
+							assert.ok( slides[1].classList.contains( 'present' ), 'Second slide is present' );
+							resolve();
+						}, 100);
+					} );
+				});
+
+				QUnit.test( 'Fires slideschanged event when scrolling', assert => {
+					assert.timeout( 200 );
+					assert.expect( 2 );
+
+					const slides = document.querySelectorAll( '.reveal .slides section' );
+
+					return new Promise( resolve => {
+						let callback = ( event ) => {
+								Reveal.off( 'slidechanged', callback );
+								assert.ok( true, 'slidechanged event fired' );
+								assert.ok( event.currentSlide.classList.contains( 'present' ), 'slidechanged provides reference to currentSlide' );
+								resolve();
+							}
+
+							Reveal.on( 'slidechanged', callback );
+							Reveal.getViewportElement().scrollTop = getViewportHeight() * 2;
+					});
+				});
+
+			} );
+		</script>
+
+	</body>
+</html>
