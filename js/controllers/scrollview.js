@@ -46,8 +46,10 @@ export default class ScrollView {
 		let presentationBackground;
 
 		const viewportStyles = window.getComputedStyle( this.viewportElement );
+		console.log(viewportStyles);
 		if( viewportStyles && viewportStyles.background ) {
 			presentationBackground = viewportStyles.background;
+			console.log(presentationBackground);
 		}
 
 		const pageElements = [];
