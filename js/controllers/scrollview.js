@@ -77,7 +77,9 @@ export default class ScrollView {
 				page.className = 'scroll-page';
 				pageElements.push( page );
 
-				// If 
+				// This transfers over the background of the vertical stack containing
+				//  the slide if it exists. Otherwise, it uses the presentation-wide
+				//  background.
 				if( slideBackgrounds && slideBackgrounds.length > h ) {
 					const slideBackground = slideBackgrounds[h];
 					const pageBackground = window.getComputedStyle( slideBackground );
