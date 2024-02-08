@@ -2633,7 +2633,12 @@ export default function( revealElement, options ) {
 				navigateLeft({skipFragments});
 			}
 			else {
-				navigateRight({skipFragments});
+				// When going forward we start at the top of any (optional) stack
+				if( availableRoutes().right ) {
+					let v = 0;
+					let h = indexh + 1;
+					slide( h, v );
+				}
 			}
 		}
 
