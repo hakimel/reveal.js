@@ -176,12 +176,16 @@ export default class Fragments {
 	 */
 	update( index, fragments, slide = this.Reveal.getCurrentSlide() ) {
 
+		console.log('update: ', index, fragments, slide);
+
 		let changedFragments = {
 			shown: [],
 			hidden: []
 		};
 
 		if( slide && this.Reveal.getConfig().fragments ) {
+
+			console.log('update 2');
 
 			fragments = fragments || this.sort( slide.querySelectorAll( '.fragment' ) );
 
