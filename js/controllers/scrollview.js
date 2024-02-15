@@ -480,7 +480,26 @@ export default class ScrollView {
 			fragmentGroups.forEach( ( fragments, i ) => {
 				page.scrollTriggers.push({
 					activate: () => {
-						this.Reveal.fragments.update( i, page.fragments, slideElement );
+						let changedFragments = this.Reveal.fragments.update( i, page.fragments, slideElement );
+						if( changedFragments.hidden.length ) {
+							this.Reveal.dispatchEvent({
+								type: 'fragmenthidden',
+								data: {
+									fragment: changedFragments.hidden[0],
+									fragments: changedFragments.hidden
+								}
+							});
+						}
+		
+						if( changedFragments.shown.length ) {
+							this.Reveal.dispatchEvent({
+								type: 'fragmentshown',
+								data: {
+									fragment: changedFragments.shown[0],
+									fragments: changedFragments.shown
+								}
+							});
+						}
 					}
 				});
 			} );
