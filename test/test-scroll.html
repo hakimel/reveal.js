@@ -97,14 +97,61 @@
 
 					return new Promise( resolve => {
 						let callback = ( event ) => {
-								Reveal.off( 'slidechanged', callback );
-								assert.ok( true, 'slidechanged event fired' );
-								assert.ok( event.currentSlide.classList.contains( 'present' ), 'slidechanged provides reference to currentSlide' );
-								resolve();
-							}
+							Reveal.off( 'slidechanged', callback );
+							assert.ok( true, 'slidechanged event fired' );
+							assert.ok( event.currentSlide.classList.contains( 'present' ), 'slidechanged provides reference to currentSlide' );
+							resolve();
+						}
 
-							Reveal.on( 'slidechanged', callback );
-							Reveal.getViewportElement().scrollTop = getViewportHeight() * 2;
+						Reveal.on( 'slidechanged', callback );
+						Reveal.getViewportElement().scrollTop = getViewportHeight() * 2;
+					});
+				});
+
+				QUnit.test( 'Fires fragmentshown event when scrolling', assert => {
+					assert.timeout( 200 );
+					assert.expect( 2 );
+
+					const slides = document.querySelectorAll( '.reveal .slides section' );
+
+					return new Promise( resolve => {
+						let callback = ( event ) => {
+							Reveal.off( 'fragmentshown', callback );
+							assert.ok( true, 'fragmentshown event fired' );
+							assert.ok( event.fragments.length > 0, 'fragmentshown provides reference to fragment nodes' );
+							resolve();
+						}
+
+						Reveal.on( 'fragmentshown', callback );
+
+						Reveal.getViewportElement().scrollTop = 0;
+						Reveal.next();
+						Reveal.next();
+						Reveal.getViewportElement().scrollTop += getViewportHeight();
+					});
+				});
+
+				QUnit.test( 'Fires fragmenthidden event when scrolling', assert => {
+					assert.timeout( 200 );
+					assert.expect( 2 );
+
+					const slides = document.querySelectorAll( '.reveal .slides section' );
+
+					return new Promise( resolve => {
+						let callback = ( event ) => {
+							Reveal.off( 'fragmenthidden', callback );
+							assert.ok( true, 'fragmenthidden event fired' );
+							assert.ok( event.fragments.length > 0, 'fragmenthidden provides reference to fragment nodes' );
+							resolve();
+						}
+
+						Reveal.on( 'fragmenthidden', callback );
+
+						Reveal.getViewportElement().scrollTop = 0;
+						Reveal.next();
+						Reveal.next();
+						Reveal.next();
+						Reveal.getViewportElement().scrollTop -= getViewportHeight();
 					});
 				});
 

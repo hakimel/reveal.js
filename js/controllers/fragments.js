@@ -257,6 +257,26 @@ export default class Fragments {
 
 		}
 
+		if( changedFragments.hidden.length ) {
+			this.Reveal.dispatchEvent({
+				type: 'fragmenthidden',
+				data: {
+					fragment: changedFragments.hidden[0],
+					fragments: changedFragments.hidden
+				}
+			});
+		}
+
+		if( changedFragments.shown.length ) {
+			this.Reveal.dispatchEvent({
+				type: 'fragmentshown',
+				data: {
+					fragment: changedFragments.shown[0],
+					fragments: changedFragments.shown
+				}
+			});
+		}
+
 		return changedFragments;
 
 	}
@@ -310,26 +330,6 @@ export default class Fragments {
 				index += offset;
 
 				let changedFragments = this.update( index, fragments );
-
-				if( changedFragments.hidden.length ) {
-					this.Reveal.dispatchEvent({
-						type: 'fragmenthidden',
-						data: {
-							fragment: changedFragments.hidden[0],
-							fragments: changedFragments.hidden
-						}
-					});
-				}
-
-				if( changedFragments.shown.length ) {
-					this.Reveal.dispatchEvent({
-						type: 'fragmentshown',
-						data: {
-							fragment: changedFragments.shown[0],
-							fragments: changedFragments.shown
-						}
-					});
-				}
 
 				this.Reveal.controls.update();
 				this.Reveal.progress.update();
