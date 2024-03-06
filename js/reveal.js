@@ -2629,9 +2629,6 @@ export default function( revealElement, options ) {
 			if( routes.down ) {
 				navigateDown({skipFragments});
 			}
-			else if( config.rtl ) {
-				navigateLeft({skipFragments});
-			}
 			else {
 				navigateRight({skipFragments});
 			}
