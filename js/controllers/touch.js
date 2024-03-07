@@ -84,7 +84,7 @@ export default class Touch {
 	isSwipePrevented( target ) {
 
 		// Prevent accidental swipes when scrubbing timelines
-		if( matches( target, 'video, audio' ) ) return true;
+		if( matches( target, 'video[controls], audio[controls]' ) ) return true;
 
 		while( target && typeof target.hasAttribute === 'function' ) {
 			if( target.hasAttribute( 'data-prevent-swipe' ) ) return true;
