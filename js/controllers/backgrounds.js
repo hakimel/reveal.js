@@ -353,6 +353,25 @@ export default class Backgrounds {
 			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
 			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== this.previousBackground ) {
 				this.element.classList.add( 'no-transition' );
+
+				// If multiple slides have the same background video, we carry
+				// the <video> element forward so that it doesn't restart
+				const currentVideo = currentBackground.querySelector( 'video' );
+				if( currentVideo && this.previousBackground ) {
+					const previousVideo = this.previousBackground.querySelector( 'video' );
+
+					if( previousVideo ) {
+						const currentVideoParent = currentVideo.parentNode;
+						const previousVideoParent = previousVideo.parentNode;
+
+						// Swap the two videos
+						previousVideoParent.appendChild( currentVideo );
+						currentVideoParent.appendChild( previousVideo );
+
+						// Resume playing if the previous video was playing
+						previousVideo.play();
+					}
+				}
 			}
 
 			this.previousBackground = currentBackground;
@@ -368,7 +387,7 @@ export default class Backgrounds {
 		// Allow the first background to apply without transition
 		setTimeout( () => {
 			this.element.classList.remove( 'no-transition' );
-		}, 1 );
+		}, 10 );
 
 	}
 
