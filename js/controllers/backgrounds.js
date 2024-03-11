@@ -326,6 +326,11 @@ export default class Backgrounds {
 
 			this.Reveal.slideContent.stopEmbeddedContent( this.previousBackground, { unloadIframes: !this.Reveal.slideContent.shouldPreload( this.previousBackground ) } );
 
+			// Clear the previous background if it was removed from DOM
+			if( !this.previousBackground.closest( 'body' ) ) {
+				this.previousBackground = null;
+			}
+
 		}
 
 		// Start content in the current background
