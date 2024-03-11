@@ -2917,7 +2917,7 @@ export default function( revealElement, options ) {
 		loadSlide: slideContent.load.bind( slideContent ),
 		unloadSlide: slideContent.unload.bind( slideContent ),
 
-		// Media playback
+		// Start/stop all media inside of the current slide
 		startEmbeddedContent: () => slideContent.startEmbeddedContent( currentSlide ),
 		stopEmbeddedContent: () => slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } ),
 

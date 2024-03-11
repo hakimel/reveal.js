@@ -375,8 +375,11 @@ export default class SlideContent {
 			isVisible  		= !!closest( event.target, '.present' );
 
 		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
-			event.target.play();
+			// Don't restart if media is already playing
+			if( event.target.paused || event.target.ended ) {
+				event.target.currentTime = 0;
+				event.target.play();
+			}
 		}
 
 		event.target.removeEventListener( 'loadeddata', this.startEmbeddedMedia );
