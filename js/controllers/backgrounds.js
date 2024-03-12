@@ -322,15 +322,46 @@ export default class Backgrounds {
 
 		} );
 
+		// The previous background may refer to a DOM element that has
+		// been removed after a presentation is synced & bgs are recreated
+		if( this.previousBackground && !this.previousBackground.closest( 'body' ) ) {
+			this.previousBackground = null;
+		}
+
+		if( currentBackground && this.previousBackground ) {
+
+			// Don't transition between identical backgrounds. This
+			// prevents unwanted flicker.
+			let previousBackgroundHash = this.previousBackground.getAttribute( 'data-background-hash' );
+			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
+
+			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== this.previousBackground ) {
+				this.element.classList.add( 'no-transition' );
+
+				// If multiple slides have the same background video, carry
+				// the <video> element forward so that it plays continuously
+				// across multiple slides
+				const currentVideo = currentBackground.querySelector( 'video' );
+				const previousVideo = this.previousBackground.querySelector( 'video' );
+
+				if( currentVideo && previousVideo ) {
+
+					const currentVideoParent = currentVideo.parentNode;
+					const previousVideoParent = previousVideo.parentNode;
+
+					// Swap the two videos
+					previousVideoParent.appendChild( currentVideo );
+					currentVideoParent.appendChild( previousVideo );
+
+				}
+			}
+
+		}
+
 		// Stop content inside of previous backgrounds
 		if( this.previousBackground ) {
 
 			this.Reveal.slideContent.stopEmbeddedContent( this.previousBackground, { unloadIframes: !this.Reveal.slideContent.shouldPreload( this.previousBackground ) } );
-
-			// Clear the previous background if it was removed from DOM
-			if( !this.previousBackground.closest( 'body' ) ) {
-				this.previousBackground = null;
-			}
 
 		}
 
@@ -351,34 +382,6 @@ export default class Backgrounds {
 					currentBackgroundContent.style.backgroundImage = backgroundImageURL;
 				}
 
-			}
-
-			// Don't transition between identical backgrounds. This
-			// prevents unwanted flicker.
-			let previousBackgroundHash = this.previousBackground ? this.previousBackground.getAttribute( 'data-background-hash' ) : null;
-			let currentBackgroundHash = currentBackground.getAttribute( 'data-background-hash' );
-			if( currentBackgroundHash && currentBackgroundHash === previousBackgroundHash && currentBackground !== this.previousBackground ) {
-				this.element.classList.add( 'no-transition' );
-
-				// If multiple slides have the same background video, we carry
-				// the <video> element forward so that it doesn't restart
-				const currentVideo = currentBackground.querySelector( 'video' );
-				if( currentVideo && this.previousBackground ) {
-					const previousVideo = this.previousBackground.querySelector( 'video' );
-
-					if( previousVideo ) {
-						const currentVideoParent = currentVideo.parentNode;
-						const previousVideoParent = previousVideo.parentNode;
-
-						// Swap the two videos
-						previousVideoParent.appendChild( currentVideo );
-						currentVideoParent.appendChild( previousVideo );
-
-						if( config.autoPlayMedia !== false ) {
-							previousVideo.play();
-						}
-					}
-				}
 			}
 
 			this.previousBackground = currentBackground;
