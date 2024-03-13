@@ -271,7 +271,12 @@ export default class Keyboard {
 					this.Reveal.slide( 0 );
 				}
 				else if( !this.Reveal.overview.isActive() && useLinearMode ) {
-					this.Reveal.prev({skipFragments: event.altKey});
+					if( config.rtl ) {
+						this.Reveal.next({skipFragments: event.altKey});
+					}
+					else {
+						this.Reveal.prev({skipFragments: event.altKey});
+					}
 				}
 				else {
 					this.Reveal.left({skipFragments: event.altKey});
@@ -283,7 +288,12 @@ export default class Keyboard {
 					this.Reveal.slide( this.Reveal.getHorizontalSlides().length - 1 );
 				}
 				else if( !this.Reveal.overview.isActive() && useLinearMode ) {
-					this.Reveal.next({skipFragments: event.altKey});
+					if( config.rtl ) {
+						this.Reveal.prev({skipFragments: event.altKey});
+					}
+					else {
+						this.Reveal.next({skipFragments: event.altKey});
+					}
 				}
 				else {
 					this.Reveal.right({skipFragments: event.altKey});
