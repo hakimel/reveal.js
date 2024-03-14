@@ -180,14 +180,16 @@ const Plugin = () => {
 		// (added 12/5/22 as a XSS safeguard)
 		if( isSameOriginEvent( event ) ) {
 
-			let data = JSON.parse( event.data );
-			if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
-				clearInterval( connectInterval );
-				onConnected();
-			}
-			else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
-				callRevealApi( data.methodName, data.arguments, data.callId );
-			}
+			try {
+				let data = JSON.parse( event.data );
+				if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+					clearInterval( connectInterval );
+					onConnected();
+				}
+				else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+					callRevealApi( data.methodName, data.arguments, data.callId );
+				}
+		  } catch (e) {}
 
 		}
 
