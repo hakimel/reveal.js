@@ -103,6 +103,8 @@ export default class Touch {
 	 */
 	onTouchStart( event ) {
 
+		this.touchCaptured = false;
+
 		if( this.isSwipePrevented( event.target ) ) return true;
 
 		this.touchStartX = event.touches[0].clientX;
