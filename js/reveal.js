@@ -51,6 +51,9 @@ export default function( revealElement, options ) {
 	// Configuration defaults, can be overridden at initialization time
 	let config = {},
 
+		// Flags if initialize() has been invoked for this reveal instance
+		initialized = false,
+
 		// Flags if reveal.js is loaded (has dispatched the 'ready' event)
 		ready = false,
 
@@ -126,6 +129,8 @@ export default function( revealElement, options ) {
 	function initialize( initOptions ) {
 
 		if( !revealElement ) throw 'Unable to find presentation root (<div class="reveal">).';
+
+		initialized = true;
 
 		// Cache references to key DOM elements
 		dom.wrapper = revealElement;
@@ -603,6 +608,10 @@ export default function( revealElement, options ) {
 	 * DOM and removing all event listeners.
 	 */
 	function destroy() {
+
+		// There's nothing to destroy if this instance hasn't been
+		// initialized yet
+		if( initialized === false ) return;
 
 		removeEventListeners();
 		cancelAutoSlide();
