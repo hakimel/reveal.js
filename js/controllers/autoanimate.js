@@ -31,10 +31,13 @@ export default class AutoAnimate {
 		let toSlideIndex = allSlides.indexOf( toSlide );
 		let fromSlideIndex = allSlides.indexOf( fromSlide );
 
-		// Ensure that both slides are auto-animate targets with the same data-auto-animate-id value
-		// (including null if absent on both) and that data-auto-animate-restart isn't set on the
-		// physically latter slide (independent of slide direction)
-		if( fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' )
+		// Ensure that;
+		// 1. Both slides exist.
+		// 2. Both slides are auto-animate targets with the same
+		//    data-auto-animate-id value (including null if absent on both).
+		// 3. data-auto-animate-restart isn't set on the physically latter
+		//    slide (independent of slide direction).
+		if( fromSlide && toSlide && fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' )
 				&& fromSlide.getAttribute( 'data-auto-animate-id' ) === toSlide.getAttribute( 'data-auto-animate-id' ) 
 				&& !( toSlideIndex > fromSlideIndex ? toSlide : fromSlide ).hasAttribute( 'data-auto-animate-restart' ) ) {
 
