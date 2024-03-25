@@ -1389,6 +1389,8 @@ export default function( revealElement, options ) {
 	 */
 	function slide( h, v, f, origin ) {
 
+		if( Reveal.isReady() ===  false ) return;
+
 		// Dispatch an event before the slide
 		const slidechange = dispatchEvent({
 			type: 'beforeslidechange',
@@ -1652,6 +1654,8 @@ export default function( revealElement, options ) {
 	 * the configuration has changed.
 	 */
 	function sync() {
+
+		if( Reveal.isReady() ===  false ) return;
 
 		// Subscribe to input
 		removeEventListeners();

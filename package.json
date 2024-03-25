@@ -10,7 +10,8 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp serve",
-    "build": "gulp build"
+    "build": "gulp build",
+    "dev:react": "npm --prefix ./react run dev"
   },
   "author": {
     "name": "Hakim El Hattab",
