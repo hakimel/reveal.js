@@ -1,0 +1,62 @@
+:root {
+  --r-main-font:  Arial, Helvetica, sans-serif;
+  --r-heading-font: Arial, Helvetica, sans-serif;
+  --r-main-font-size: 30px;
+  --r-heading-font-weight: lighter;
+  --r-heading1-text-shadow: none;
+  --r-heading1-size: 1.75em;
+  --r-heading2-size: 1.5em;
+  --r-heading3-size: 1.25em;
+  --r-heading4-size: 1.00em;
+}
+
+section {
+  text-align: left;
+}
+
+textarea {
+  text-align: left;
+  width: 100%;
+}
+
+h1, h2, h3, h4, p {
+  text-align: left;
+}
+
+h2, h3, h4 {
+  padding-top: 1rem;
+}
+
+.slide-title .company-logo {
+    height: 2rem;
+}
+
+.slide-title .text-block {
+  width: 50%;
+  text-align: right;
+}
+
+.slide-title .title {
+  border-color:#a6182e;
+  border-width: 0.3rem 0;
+  border-style: solid;
+  background: rgba(0,0,0,0.5);
+  padding: 3rem 1rem;
+  text-align: right;
+}
+
+.slide-title .authors {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 4rem;
+  border-radius: 0.5rem;
+}
+
+.reveal table td {
+  font-size: 1.7rem;
+}
