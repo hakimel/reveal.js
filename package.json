@@ -4,13 +4,49 @@
   "description": "The HTML Presentation Framework",
   "homepage": "https://revealjs.com",
   "subdomain": "revealjs",
-  "main": "dist/reveal.js",
-  "module": "dist/reveal.esm.js",
   "license": "MIT",
+  "main": "dist/reveal.js",
+  "module": "dist/reveal.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/reveal.mjs",
+      "require": "./dist/reveal.js"
+    },
+
+    "./reveal.css": "./dist/reveal.css",
+    "./reset.css": "./dist/reset.css",
+
+    "./plugin/highlight": {
+      "import": "./dist/plugin/highlight.mjs",
+      "require": "./dist/plugin/highlight.js"
+    },
+    "./plugin/markdown": {
+      "import": "./dist/plugin/markdown.mjs",
+      "require": "./dist/plugin/markdown.js"
+    },
+    "./plugin/math": {
+      "import": "./dist/plugin/math.mjs",
+      "require": "./dist/plugin/math.js"
+    },
+    "./plugin/notes": {
+      "import": "./dist/plugin/notes.mjs",
+      "require": "./dist/plugin/notes.js"
+    },
+    "./plugin/search": {
+      "import": "./dist/plugin/search.mjs",
+      "require": "./dist/plugin/search.js"
+    },
+    "./plugin/zoom": {
+      "import": "./dist/plugin/zoom.mjs",
+      "require": "./dist/plugin/zoom.js"
+    }
+  },
   "scripts": {
+    "dev": "vite",
+    "build:core": "tsc && vite build && vite build -c vite.config.styles.ts",
+    "build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts",
     "test": "gulp test",
-    "start": "gulp serve",
-    "build": "gulp build"
+    "start": "vite"
   },
   "author": {
     "name": "Hakim El Hattab",
@@ -56,6 +92,9 @@
     "qunit": "^2.20.0",
     "rollup": "^4.1.5",
     "sass": "^1.69.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.8.0",
     "yargs": "^17.7.2"
   },
   "overrides": {

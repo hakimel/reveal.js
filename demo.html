@@ -455,13 +455,19 @@ Reveal.on( 'customevent', function() {
 
 		</div>
 
-		<script src="dist/reveal.js"></script>
+		<!-- <script src="dist/reveal.js"></script>
 		<script src="plugin/zoom/zoom.js"></script>
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/search/search.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
+		<script src="plugin/highlight/highlight.js"></script> -->
+		<script type="module">
+			import Reveal from 'reveal.js';
+			import RevealZoom from 'reveal.js/plugin/zoom';
+			import RevealNotes from 'reveal.js/plugin/notes';
+			import RevealSearch from 'reveal.js/plugin/search';
+			import RevealMarkdown from 'reveal.js/plugin/markdown';
+			import RevealHighlight from 'reveal.js/plugin/highlight';
 
 			// Also available as an ES module, see:
 			// https://revealjs.com/initialization/
