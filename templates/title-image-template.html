@@ -1,0 +1,37 @@
+<script type="x-tmpl-mustache">
+<div class="content-container">
+<div class="content-wrapper">
+
+{{ content }}
+
+</div>
+
+<div class="image-container">
+{{ #metadata.images }}
+<div class="image-wrapper">
+<img data-src="{{ url }}" alt="{{ url }}">
+{{ #imageDescription }}
+<div class="image-description">
+<p>{{ . }}</p>
+</div>
+{{ /imageDescription }}
+
+{{ #imageCredit }}
+<div class="image-credit">
+<p>Source: {{ . }}</p>
+</div>
+{{ /imageCredit }}
+</div>
+{{ /metadata.images }}
+</div>
+</div>
+
+<footer>
+<div class="footer-content">
+<p>{{ metadata.styles }}</p>
+</div>
+
+<div class="footer-logo">
+<img data-src="{{ metadata.logo }}" alt="Logo"></div>
+</footer>
+</script>

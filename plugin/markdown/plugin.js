@@ -5,6 +5,9 @@
  */
 
 import { marked } from 'marked';
+import yaml from 'js-yaml';
+import Mustache from 'mustache';
+import fm from 'front-matter';
 
 const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_VERTICAL_SEPARATOR = null,
@@ -124,6 +127,11 @@ const Plugin = () => {
 		// with parsing
 		content = content.replace( /<\/script>/g, SCRIPT_END_PLACEHOLDER );
 
+		// render the template with the content only if there is metadata
+		if (options.metadata){
+			content = renderTemplate(content, options)
+		}
+
 		return '<script type="text/template">' + content + '</script>';
 
 	}
@@ -145,6 +153,9 @@ const Plugin = () => {
 			wasHorizontal = true,
 			content,
 			sectionStack = [];
+
+		// separates default metadata from the markdown file
+		[ markdown, options ] = parseFrontMatter(markdown, options)
 
 		// iterate until all blocks between separators are stacked up
 		while( matches = separatorRegex.exec( markdown ) ) {
@@ -181,18 +192,23 @@ const Plugin = () => {
 
 		// flatten the hierarchical stack, and insert <section data-markdown> tags
 		for( let i = 0, len = sectionStack.length; i < len; i++ ) {
+			// slideOptions is created to avoid mutating the original options object with default metadata
+			let slideOptions = {...options}
+
 			// vertical
 			if( sectionStack[i] instanceof Array ) {
-				markdownSections += '<section '+ options.attributes +'>';
+				markdownSections += '<section ' + slideOptions.attributes + '>';
 
 				sectionStack[i].forEach( function( child ) {
-					markdownSections += '<section data-markdown>' + createMarkdownSlide( child, options ) + '</section>';
+					[content, slideOptions] = separateInlineMetadataAndMarkdown(child, slideOptions)
+					markdownSections += '<section ' + slideOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, slideOptions ) + '</section>';
 				} );
 
 				markdownSections += '</section>';
 			}
 			else {
-				markdownSections += '<section '+ options.attributes +' data-markdown>' + createMarkdownSlide( sectionStack[i], options ) + '</section>';
+				[content, slideOptions] = separateInlineMetadataAndMarkdown(sectionStack[i], slideOptions)
+				markdownSections += '<section ' + slideOptions.attributes + ' data-markdown>' + createMarkdownSlide( content, slideOptions ) + '</section>';
 			}
 		}
 
@@ -413,6 +429,90 @@ const Plugin = () => {
 
 	  return input.replace( /([&<>'"])/g, char => HTML_ESCAPE_MAP[char] );
 
+	}
+
+	/**
+	 * Parse the front matter from the Markdown document
+	 *
+	 * Returns updated options with the default metadata
+	 * and updated content without the front matter
+	 */
+	function parseFrontMatter(content, options) {
+		options = getSlidifyOptions( options)
+
+		const parsedFrontMatter = fm(content)
+
+		content = parsedFrontMatter.body;
+		if (parsedFrontMatter.frontmatter){
+			options.metadata = yaml.load(parsedFrontMatter.frontmatter);
+			if (!('slideType' in options.metadata)) {
+				content = `Missing "slideType" in default metadata`
+				console.error(content)
+				delete options.metadata
+			}
+		}
+		return [content, options];
+	}
+
+	/**
+	 * Separates the inline metadata and content for each slide
+	 *
+	 * Returns updated options with the inline metadata and
+	 * updated markdown without the inline metadata for each slide
+	 */
+	function separateInlineMetadataAndMarkdown(markdown, options) {
+		const yamlRegex =  /```(yaml|yml)\n([\s\S]*?)```(\n[\s\S]*)?/g;
+		if (yamlRegex.test(markdown)){
+			yamlRegex.lastIndex = 0;
+
+			const markdownParts = yamlRegex.exec(markdown)
+			const metadata = markdownParts[2] || {}
+			markdown = markdownParts[3] || ''
+			if (metadata){
+				try {
+					const metadataYAML = yaml.load(metadata);
+					if (metadataYAML === undefined || metadataYAML.slideType === undefined) {
+						throw new Error("The inline metadata is not valid.")
+					}
+					options.metadata = {...options.metadata, ...metadataYAML}
+					options.attributes = 'class=' + options.metadata.slideType;
+				} catch (error) {
+					markdown = error.message
+					console.error(error)
+				}
+			}
+		} else if (options.metadata){
+			options.attributes = 'class=' + options.metadata.slideType;
+		}
+
+		return [markdown, options]
+	}
+
+	/**
+	 * Renders the template for each slide
+	 *
+	 * Returns the rendered template with the content
+	 */
+	function renderTemplate(content, options) {
+		try {
+			options = getSlidifyOptions(options)
+			const url = new URL(import.meta.url);
+			const templatePath = `${url.origin}/templates/${options.metadata.slideType}-template.html`
+			const xhr = new XMLHttpRequest()
+			xhr.open('GET', templatePath, false)
+			xhr.send()
+			let tempDiv = document.createElement('div');
+			if (xhr.status === 200) {
+				tempDiv.innerHTML = Mustache.render(xhr.responseText, { content: content, metadata: options.metadata });
+			} else {
+				tempDiv.innerHTML = `Template for slideType "${options.metadata.slideType}" not found.`
+				console.error(`Failed to fetch template. Status: ${xhr.status}`);
+			}
+			return tempDiv.textContent;
+		} catch (error) {
+			console.error('Error:', error);
+			throw error;
+		}
 	}
 
 	return {
