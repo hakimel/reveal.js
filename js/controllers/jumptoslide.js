@@ -74,7 +74,7 @@ export default class JumpToSlide {
 		let query = this.jumpInput.value.trim( '' );
 		let indices;
 
-		// When slide numbers are formatted to be a single linear mumber
+		// When slide numbers are formatted to be a single linear number
 		// (instead of showing a separate horizontal/vertical index) we
 		// use the same format for slide jumps
 		if( /^\d+$/.test( query ) ) {
