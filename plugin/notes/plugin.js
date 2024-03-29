@@ -229,7 +229,7 @@ const Plugin = () => {
 					openSpeakerWindow();
 				}
 				else {
-					// Keep listening for speaker view hearbeats. If we receive a
+					// Keep listening for speaker view heartbeats. If we receive a
 					// heartbeat from an orphaned window, reconnect it. This ensures
 					// that we remain connected to the notes even if the presentation
 					// is reloaded.
