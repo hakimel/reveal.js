@@ -167,7 +167,7 @@ export default class Keyboard {
 		let activeElementIsNotes = document.activeElement && document.activeElement.className && /speaker-notes/i.test( document.activeElement.className);
 
 		// Whitelist certain modifiers for slide navigation shortcuts
-		let keyCodeUsesModifier = [32, 37, 38, 39, 40, 78, 80, 191].indexOf( event.keyCode ) !== -1;
+		let keyCodeUsesModifier = [32, 37, 38, 39, 40, 63, 78, 80, 191].indexOf( event.keyCode ) !== -1;
 
 		// Prevent all other events when a modifier is pressed
 		let unusedModifier = 	!( keyCodeUsesModifier && event.shiftKey || event.altKey ) &&
@@ -364,7 +364,7 @@ export default class Keyboard {
 				}
 			}
 			// ?
-			else if( keyCode === 191 && event.shiftKey ) {
+			else if( ( keyCode === 63 || keyCode === 191 ) && event.shiftKey ) {
 				this.Reveal.toggleHelp();
 			}
 			// F1
