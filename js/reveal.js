@@ -28,7 +28,7 @@ import {
 } from './utils/constants.js'
 
 // The reveal.js version
-export const VERSION = '5.0.5';
+export const VERSION = '5.1.0';
 
 /**
  * reveal.js
