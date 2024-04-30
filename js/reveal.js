@@ -1252,7 +1252,7 @@ export default function( revealElement, options ) {
 
 	/**
 	 * Returns true if we're currently on the last slide in
-	 * the presenation. If the last slide is a stack, we only
+	 * the presentation. If the last slide is a stack, we only
 	 * consider this the last slide if it's at the end of the
 	 * stack.
 	 */
