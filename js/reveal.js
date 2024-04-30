@@ -1231,9 +1231,7 @@ export default function( revealElement, options ) {
 
 		if( currentSlide && isVerticalSlide( currentSlide ) ) {
 			// Does this slide have a next sibling?
-			if( currentSlide.nextElementSibling ) return false;
-
-			return true;
+			return !currentSlide.nextElementSibling;
 		}
 
 		return false;
@@ -1263,9 +1261,7 @@ export default function( revealElement, options ) {
 			if( currentSlide.nextElementSibling ) return false;
 
 			// If it's vertical, does its parent have a next sibling?
-			if( isVerticalSlide( currentSlide ) && currentSlide.parentNode.nextElementSibling ) return false;
-
-			return true;
+			return !(isVerticalSlide(currentSlide) && currentSlide.parentNode.nextElementSibling);
 		}
 
 		return false;
