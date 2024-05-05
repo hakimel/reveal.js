@@ -274,9 +274,30 @@
 						```
 					</script>
 				</section>
+				<section data-markdown class="with-offset">
+					<script type="text/template">
+						```[123:]
+						code
+						```
+					</script>
+				</section>
 				<section data-markdown class="with-line-highlights-and-lanugage">
 					<script type="text/template">
 						```javascript [1,2,3]
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-highlights-offset-and-lanugage">
+					<script type="text/template">
+						```javascript [456: 3,4,5]
+						code
+						```
+					</script>
+				</section>
+				<section data-markdown class="with-line-offset-and-lanugage">
+					<script type="text/template">
+						```javascript [756:]
 						code
 						```
 					</script>
@@ -297,6 +318,8 @@
 			import Reveal from '../dist/reveal.esm.js'
 			import Markdown from '../plugin/markdown/markdown.esm.js'
 			import Highlight from '../plugin/highlight/highlight.esm.js'
+
+			QUnit.config.testTimeout = 30000;
 
 			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ Markdown ] })
 			deck1.addEventListener( 'ready', function() {
@@ -458,8 +481,21 @@
 					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights .hljs[data-line-numbers="1,2,3"]' ).length, 1 );
 				});
 
+				QUnit.test( '```[234: ] line offset only', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-offset .hljs[data-ln-start-from="123"]' ).length, 1 );
+				});
+
 				QUnit.test( '```javascript [1,2,3] enables line highlights and sets language', function( assert ) {
 					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights-and-lanugage .hljs.javascript[data-line-numbers="1,2,3"]' ).length, 1 );
+				});
+
+				QUnit.test( '```javascript [123: 3,4,5] add line offset and enables line highlights and sets language', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights-offset-and-lanugage .hljs.javascript[data-line-numbers="3,4,5"]' ).length, 1 );
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-highlights-offset-and-lanugage .hljs.javascript[data-ln-start-from="456"]' ).length, 1 );
+				});
+
+				QUnit.test( '```javascript [756:] add line offset and sets no line highlights and sets language', function( assert ) {
+					assert.strictEqual( deck6.getRevealElement().querySelectorAll( '.with-line-offset-and-lanugage .hljs.javascript[data-ln-start-from="756"]' ).length, 1 );
 				});
 				
 				QUnit.test( '```block should allow custom fragment', function( assert ) {

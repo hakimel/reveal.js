@@ -32,17 +32,6 @@ Hakim's open source work is supported by <a href="https://github.com/sponsors/ha
         </div>
       </a>
     </td>
-    <td align="center">
-      <a href="https://www.doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=revealjs&utm_source=github">
-        <div>
-          <img src="https://user-images.githubusercontent.com/629429/151510865-9fd454f1-fd8c-4df4-b227-a54b87313db4.png" width="290" alt="Doppler">
-        </div>
-        <b>All your environment variables, in one place</b>
-        <div>
-          <sub>Stop struggling with scattered API keys, hacking together home-brewed tools, and avoiding access controls. Keep your team and servers in sync with Doppler.</sup>
-        </div>
-      </a>
-    </td>
   </table>
 </div>
 
@@ -57,5 +46,5 @@ Hakim's open source work is supported by <a href="https://github.com/sponsors/ha
 
 --- 
 <div align="center">
-  MIT licensed | Copyright © 2011-2022 Hakim El Hattab, https://hakim.se
+  MIT licensed | Copyright © 2011-2024 Hakim El Hattab, https://hakim.se
 </div>

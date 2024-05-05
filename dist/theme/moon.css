@@ -7,11 +7,6 @@
 /**
  * Solarized colors by Ethan Schoonover
  */
-html * {
-  color-profile: sRGB;
-  rendering-intent: auto;
-}
-
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
   color: #222;
 }
@@ -44,6 +39,8 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --r-link-color-hover: #78b9e6;
   --r-selection-background-color: #d33682;
   --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 240, 240, 240;
+  --r-overlay-element-fg-color: 0, 0, 0;
 }
 
 .reveal-viewport {

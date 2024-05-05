@@ -21,7 +21,7 @@ export const MathJax3 = () => {
             ready: () => {
                 MathJax.startup.defaultReady();
                 MathJax.startup.promise.then(() => {
-                    Reveal.layout();
+                    deck.layout();
                 });
             }
         }
@@ -66,7 +66,7 @@ export const MathJax3 = () => {
 
             loadScript( url, function() {
                 // Reprocess equations in slides when they turn visible
-                Reveal.addEventListener( 'slidechanged', function( event ) {
+                deck.addEventListener( 'slidechanged', function( event ) {
                     MathJax.typeset();
                 } );
             } );

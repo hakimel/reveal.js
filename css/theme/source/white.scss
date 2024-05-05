@@ -37,6 +37,9 @@ $heading2Size: 1.6em;
 $heading3Size: 1.3em;
 $heading4Size: 1.0em;
 
+$overlayElementBgColor: 0, 0, 0;
+$overlayElementFgColor: 240, 240, 240;
+
 // Change text colors against dark slide backgrounds
 @include dark-bg-text-color(#fff);
 

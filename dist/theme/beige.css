@@ -37,16 +37,18 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --r-link-color-hover: #c0a86e;
   --r-selection-background-color: rgba(79, 64, 28, 0.99);
   --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 0, 0, 0;
+  --r-overlay-element-fg-color: 240, 240, 240;
 }
 
 .reveal-viewport {
-  background: #f7f2d3;
-  background: -moz-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, white), color-stop(100%, #f7f2d3));
-  background: -webkit-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
-  background: -o-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
-  background: -ms-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
-  background: radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background: rgb(247, 242, 211);
+  background: -moz-radial-gradient(center, circle cover, rgb(255, 255, 255) 0%, rgb(247, 242, 211) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgb(255, 255, 255)), color-stop(100%, rgb(247, 242, 211)));
+  background: -webkit-radial-gradient(center, circle cover, rgb(255, 255, 255) 0%, rgb(247, 242, 211) 100%);
+  background: -o-radial-gradient(center, circle cover, rgb(255, 255, 255) 0%, rgb(247, 242, 211) 100%);
+  background: -ms-radial-gradient(center, circle cover, rgb(255, 255, 255) 0%, rgb(247, 242, 211) 100%);
+  background: radial-gradient(center, circle cover, rgb(255, 255, 255) 0%, rgb(247, 242, 211) 100%);
   background-color: var(--r-background-color);
 }
 
