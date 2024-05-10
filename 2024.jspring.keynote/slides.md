@@ -9,7 +9,7 @@ Discovering performance bottlenecks in real world
     <div style="display: flex; flex-direction: column; justify-content: center; text-align: left;">
         <div>
             Lennart ten Wolde<br /><br/>
-            Software Engineer, ChilIT
+            Software Engineer, CHILIT
         </div>
     </div>
 </div>
@@ -22,7 +22,6 @@ Discovering performance bottlenecks in real world
 2. Diagnosis: What went wrong
 3. Lessons for the future
 4. What are performance bottlenecks?
-5. Prevention
 
 ---
 
@@ -170,6 +169,56 @@ Was move the place where we create a transaction so that each row runs in its ow
 This prevents slowing down the database as it grows with new entries being added, only becoming
 an issue as we approach 100,000 entries in the database, way more than we ever tested with!
 
+--
+
+```java[|5,12]
+@Scheduled("0 0 15 * * *")
+public void importDataFromCsv() {
+    CsvReader csvReader = ...
+    while(csvReader.next()) {
+        transactionTemplate.doInTransactionWithoutResult(status -> {
+            MortgageRecord row = csvReader.parse(MortgageRecord.class);
+            Mortgage mortgage = mortgageRepository.findById(row.id())
+                .orElse(new Mortgage());
+            updateMortgage(mortgage, row);
+            mortgageRepository.persist(mortgage);
+            mortgageRepository.flush();
+        }
+    }
+}
+```
+
+--
+
+### Fixing more bottlenecks
+
+<!-- .slide: class="fragmented-lists" -->
+* Bottleneck is now networking IO to database
+* Use batch inserts
+    * With batch select queries for updating
+* Utilize concurrency
+    * Be careful not to exhaust connection pool
+    * Apply backpressure
+
+Note:
+This is not the ideal solution. And probably not what I would do today.
+But it was enough at the time to meet our performance needs and deadlines.
+
+The bottleneck has changed from a technical issue around the use of @Transactional to now
+being the networking between the applicaiton in database throughout its various queries.
+Each time a query is executed the application waits for a response from the DB.
+
+You can improve this by utilizing batch inserts, inserting several hundred entries in a single query.
+When you do this though, it adds some complexity because we want to update existing entities, which will have
+to be queried first in a batch select query, and then upserted.
+
+Finally you can utilize concurrency to allow multiple of these batch operations to take place at the same time,
+further reducing the impact of the database round trip.
+This does have diminishing returns due to actual database bottlenecks and some pitfalls to avoid.
+Such as using up your limited pool of database connections by accident or not applying backpressure when you
+queue up the entries imported from the CSV and offer them to a set of worker threads, resulting in the entire
+CSV being loaded in memory.
+
 ---
 
 ## Lessons for the future
@@ -181,10 +230,35 @@ an issue as we approach 100,000 entries in the database, way more than we ever t
 
 ---
 
+## Bottlenecks in software
+
+![](./bottleneck-data.png)
+
+--
+
+## Hierarchy of bottlenecks
+
+![](./Bottleneck%20pyramid.png) <!-- .element: height="500" -->
+
+--
+
+### There is always a bottleneck
+
+<!-- .slide: class="fragmented-lists" -->
+* Have a good understanding of where bottlenecks are
+* Eliminate bottlenecks until you reach a performance target
+* Don't prematurely optimize
+* But do: Stay one step ahead of your next production issue
+
+---
+
 ## Thank You!
 
 <!-- .slide: class="fragmented-lists" -->
 * Visit the break-out session for more information
+  * More complex examples
+  * Diagnostic tools and profilers
+  * Performing load tests
 * Visit the ChilIT stand
 
 Note:
