@@ -190,6 +190,9 @@ export default function( revealElement, options ) {
 	 */
 	function start() {
 
+		// Don't proceed if this instance has been destroyed
+		if( initialized === false ) return;
+
 		ready = true;
 
 		// Remove slides hidden with data-visibility
@@ -609,9 +612,11 @@ export default function( revealElement, options ) {
 	 */
 	function destroy() {
 
-		// There's nothing to destroy if this instance hasn't been
-		// initialized yet
-		if( initialized === false ) return;
+		initialized = false;
+
+		// There's nothing to destroy if this instance hasn't finished
+		// initializing
+		if( ready === false ) return;
 
 		removeEventListeners();
 		cancelAutoSlide();
