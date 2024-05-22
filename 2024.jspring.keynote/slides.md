@@ -121,8 +121,8 @@ Why was this process never finishing?
 Note:
 I remember that the processing time for each new insert increased
 as more and more rows were being inserted.
-So while it was very fast at first, after 50,000 entries it took over 10
-seconds to process a single entry!
+So while it was very fast at first, after 50,000 entries it took
+over a second to process a single entry!
 
 --
 
@@ -154,6 +154,12 @@ Do most people even have a good idea of how hibernate functions internally anywa
 But in this case, the main issue was with the use of this Transactional annotation.
 It makes sense on the surface. If the process fails roll back everything. And one transaction should be faster than auto-commit for each insert.
 But we are also searching for existing entries each time we process a new row!
+
+--
+
+## Inspecting the metrics
+
+![](./POSGTRES%20LOCAL%20JPA%20SINGLE.png)
 
 --
 
@@ -190,6 +196,12 @@ public void importDataFromCsv() {
 
 --
 
+### The metrics again
+
+![](./POSTGRES%20LOCAL%20JPA%20MULTI.png)
+
+--
+
 ### Fixing more bottlenecks
 
 <!-- .slide: class="fragmented-lists" -->
@@ -218,6 +230,32 @@ This does have diminishing returns due to actual database bottlenecks and some p
 Such as using up your limited pool of database connections by accident or not applying backpressure when you
 queue up the entries imported from the CSV and offer them to a set of worker threads, resulting in the entire
 CSV being loaded in memory.
+
+--
+
+### In the numbers
+
+When trying to insert records in bulk with a sample size of 30,000.
+
+<!-- .slide: class="fragmented-lists" -->
+* Simple solution: transaction per entry
+  * PT 9M35.083S
+* Transaction per 50 entries
+  * PT 7M35.885S (26% faster)
+* Multi-insert 50 entries at once
+  * PT 7M22.781S (3% faster)
+* (Hibernate) batch inserts
+  * PT 2M55.247S (153% faster)
+* Batch query existing entries
+  * PT 32.733S (430% faster)
+* Concurrent batch processing
+  * PT 2.982S (1000% faster)
+
+--
+
+### In the numbers
+
+19,066% faster than baseline after resolving 4 bottlenecks
 
 ---
 
