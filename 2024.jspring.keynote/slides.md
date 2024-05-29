@@ -1,5 +1,5 @@
 ## J-Spring 2024 Keynote <!-- .element: style="margin-bottom: 300px" -->
-Discovering performance bottlenecks in real world
+Discovering performance bottlenecks in the real world
 <!-- .slide: data-background-image="intro-slide.webp" -->
 
 ---
@@ -16,7 +16,7 @@ Discovering performance bottlenecks in real world
 
 ---
 
-## Agenda
+## Agenda 03:00
 
 1. Why performance matters
 2. Diagnosis: What went wrong
@@ -297,7 +297,7 @@ When trying to insert records in bulk with a sample size of 30,000.
   * More complex examples
   * Diagnostic tools and profilers
   * Performing load tests
-* Visit the ChilIT stand
+* Visit the CHILIT stand
 
 Note:
 If you want to know more about this topic,
