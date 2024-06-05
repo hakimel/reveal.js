@@ -1,6 +1,7 @@
-## J-Spring 2024 Keynote <!-- .element: style="margin-bottom: 300px" -->
-Discovering performance bottlenecks in the real world
-<!-- .slide: data-background-image="intro-slide.webp" -->
+## J-Spring 2024 Keynote <!-- .element: style="margin-bottom: 300px" style="text-shadow: 0px 0px 12px rgba(0,0,0,0.8);" -->
+<p>Discovering performance bottlenecks in the real world</p> <!-- .element: style="text-shadow: 0px 0px 12px rgba(0,0,0,0.8);" -->
+
+<!-- .slide: data-background-image="intro-slide-w-logo.png" -->
 
 ---
 
@@ -8,33 +9,17 @@ Discovering performance bottlenecks in the real world
     <img src="./profile.jpg" height="400" width="400" style="border: 5px solid; border-image-source: linear-gradient(-45deg, #FFC796 0%, #FF6B95 100%); border-image-slice: 1;" />
     <div style="display: flex; flex-direction: column; justify-content: center; text-align: left;">
         <div>
-            Lennart ten Wolde<br /><br/>
-            Software Engineer, CHILIT
+            Lennart ten Wolde<br />
+            Software Engineer<br />
+            <br/>
+            <img src="./Chilit-logo-wit.svg" height="48" />
         </div>
     </div>
 </div>
 
 ---
 
-## Agenda 03:00
-
-1. Why performance matters
-2. Diagnosis: What went wrong
-3. Lessons for the future
-4. What are performance bottlenecks?
-
----
-
 ## Why performance matters
-
---
-
-## Interest-only mortgages
-
-![](./mortgage-explained.jpg)
-
-Note:
-
 
 --
 
@@ -63,15 +48,21 @@ Note:
 
 --
 
-## Test: 1, 2, 3
+Note:
+* Cup of coffee in my hand. Getting ready to go live
+* All lights green
+* And we're stuck!
 
 --
 
-## And we're live!
+![Frustrated engineer](./frustrated-engineer.webp)
 
-```shell
-15:00:00.000 [INFO] Beginning mortgage import process
-```
+Note:
+This process can be frustrating. Especially when you are in a rush.
+Just imagine if you were in the middle of a migration process between different systems or
+environments, and you cannot go back!
+And because we are ill-prepared for these kinds of issues we don't know where to look.
+We don't understand our bottlenecks, we don't have insight in them, and so we shoot in the dark.
 
 --
 
@@ -94,17 +85,6 @@ But, you get overwhelmed by logging the wrong thing
 So then, reduce logging frequency. Ah ha! Its getting slower!
 But why?
 I made a bad assumption and assumed the bottleneck was related to memory running out
-
---
-
-![](./frustrated-engineer.webp)
-
-Note:
-This process can be frustrating. Especially when you are in a rush.
-Just imagine if you were in the middle of a migration process between different systems or
-environments, and you cannot go back!  
-And because we are ill-prepared for these kinds of issues we don't know where to look.  
-We don't understand our bottlenecks, we don't have insight in them, and so we shoot in the dark.
 
 ---
 
@@ -161,6 +141,24 @@ But we are also searching for existing entries each time we process a new row!
 
 ![](./POSGTRES%20LOCAL%20JPA%20SINGLE.png)
 
+<!-- .slide: data-auto-animate -->
+
+--
+
+## Inspecting the metrics
+
+![](./POSGTRES%20LOCAL%20JPA%20SINGLE_1.png)
+
+<!-- .slide: data-auto-animate -->
+
+--
+
+## Inspecting the metrics
+
+![](./POSGTRES%20LOCAL%20JPA%20SINGLE_2.png)
+
+<!-- .slide: data-auto-animate -->
+
 --
 
 ## Solution
@@ -174,6 +172,26 @@ So what we had to do in this case.
 Was move the place where we create a transaction so that each row runs in its own transaction.
 This prevents slowing down the database as it grows with new entries being added, only becoming
 an issue as we approach 100,000 entries in the database, way more than we ever tested with!
+
+--
+
+```java[|]
+@Scheduled("0 0 15 * * *")
+public void importDataFromCsv() {
+    CsvReader csvReader = ...
+    while(csvReader.next()) {
+            MortgageRecord row = csvReader.parse(MortgageRecord.class);
+            Mortgage mortgage = mortgageRepository.findById(row.id())
+                .orElse(new Mortgage());
+            updateMortgage(mortgage, row);
+            mortgageRepository.persist(mortgage);
+            mortgageRepository.flush();
+    }
+}
+```
+<!-- .element: data-id="code-solution" -->
+
+<!-- .slide: data-auto-animate -->
 
 --
 
@@ -193,12 +211,33 @@ public void importDataFromCsv() {
     }
 }
 ```
+<!-- .element: data-id="code-solution" -->
+
+<!-- .slide: data-auto-animate -->
 
 --
 
 ### The metrics again
 
 ![](./POSTGRES%20LOCAL%20JPA%20MULTI.png)
+
+<!-- .slide: data-auto-animate -->
+
+--
+
+### The metrics again
+
+![](./POSTGRES%20LOCAL%20JPA%20MULTI_1.png)
+
+<!-- .slide: data-auto-animate -->
+
+--
+
+### The metrics again
+
+![](./POSTGRES%20LOCAL%20JPA%20MULTI_2.png)
+
+<!-- .slide: data-auto-animate -->
 
 --
 
@@ -276,7 +315,7 @@ When trying to insert records in bulk with a sample size of 30,000.
 
 ## Hierarchy of bottlenecks
 
-![](./Bottleneck%20pyramid.png) <!-- .element: height="500" -->
+![](./Hierarchy_01.png) <!-- .element: height="500" -->
 
 --
 
@@ -290,23 +329,21 @@ When trying to insert records in bulk with a sample size of 30,000.
 
 ---
 
-## Thank You!
+## And now its up to you
 
-<!-- .slide: class="fragmented-lists" -->
-* Visit the break-out session for more information
-  * More complex examples
-  * Diagnostic tools and profilers
-  * Performing load tests
-* Visit the CHILIT stand
+![](./bottle_factory.png)
 
 Note:
-If you want to know more about this topic,
-explore different kinds of performance bottlenecks commonly found in practice,
-learn how to diagnose issues quickly,
-get an idea of issues you might encounter by performing load tests
-and profiling your own code,
-Visit our break-out session at XX:YY
+* Visit the break-out session for more information
+  * More complex examples
+* Diagnostic tools and profilers
+* Performing load tests
+* Visit the CHILIT stand
 
-Also come and say hi to us at our ChilIT stand,
-do our programming challenge and talk to us
-about the keynote or anything else related to programming or J-Spring.
+--
+
+<!-- .slide: data-background-image="outro_chilit.png" -->
+
+---
+
+<!-- .slide: data-background-image="jspring_outro.png" -->

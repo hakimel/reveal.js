@@ -24,7 +24,6 @@ $linkColor: #c92b28;
 $linkColorHover: lighten($linkColor, 15%);
 $selectionBackgroundColor: lighten($linkColor, 25%);
 
-
 $heading1Size: 2.5em;
 $heading2Size: 1.6em;
 $heading3Size: 1.3em;
@@ -38,37 +37,3 @@ $logoStart: 12px;
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
-
-
-body:before {
-  $logoSize: 60px;
-
-  content: ' ';
-  background-image: url(../logo.svg);
-  background-repeat: no-repeat;
-  background-position: 50%;
-  background-size: $logoSize;
-  position: fixed;
-  line-height: $logoSize;
-  width: $logoSize;
-  height: $logoSize;
-  bottom: $logoStart;
-  left: $logoStart;
-  z-index: 1;
-}
-
-li {
-  list-style-type: circle;
-}
-
-body:after {
-  content: "CHILIT";
-  color: #fff;
-  font-family: $headingFont;
-  font-size: $mainFontSize;
-  font-weight: $headingFontWeight;
-  position: fixed;
-  bottom: $logoStart + 10.5px;
-  left: $logoStart + 73.5px;
-  letter-spacing: 6px;
-}

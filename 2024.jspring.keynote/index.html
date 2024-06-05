@@ -8,7 +8,8 @@
 
     <link rel="stylesheet" href="../dist/reset.css">
     <link rel="stylesheet" href="../dist/reveal.css">
-    <link rel="stylesheet" href="../dist/theme/chilit-dark.css">
+    <!--<link rel="stylesheet" href="../dist/theme/chilit-dark.css">-->
+    <link rel="stylesheet" href="../dist/theme/chilit-simple.css">
     <!--		<link rel="stylesheet" href="dist/theme/chilit-light.css">-->
 
     <!-- Theme used for syntax highlighted code -->
@@ -40,7 +41,11 @@
     // - https://revealjs.com/config/
     Reveal.initialize({
         hash: true,
-        transition: 'fade',
+        transition: 'slide',
+
+        progress: false,
+        controls: false,
+
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
     });
