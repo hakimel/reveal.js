@@ -31,6 +31,8 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --r-link-color-hover: #df615e;
   --r-selection-background-color: #e88b89;
   --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 240, 240, 240;
+  --r-overlay-element-fg-color: 0, 0, 0;
 }
 
 .reveal-viewport {

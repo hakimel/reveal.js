@@ -38,6 +38,11 @@ $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #FF5E99;
 $selectionColor: #fff;
 
+// Colors used for UI elements that are overlaid on top of
+// the presentation
+$overlayElementBgColor: 240, 240, 240;
+$overlayElementFgColor: 0, 0, 0;
+
 // Generates the presentation background, can be overridden
 // to return a background image or gradient
 @mixin bodyBackground() {

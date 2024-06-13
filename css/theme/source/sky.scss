@@ -29,6 +29,9 @@ $linkColor: #3b759e;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #134674;
 
+$overlayElementBgColor: 0, 0, 0;
+$overlayElementFgColor: 240, 240, 240;
+
 // Fix links so they are not cut off
 .reveal a {
 	line-height: 1.3em;

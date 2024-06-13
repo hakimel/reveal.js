@@ -1,4 +1,4 @@
-import { queryAll } from '../utils/util.js'
+import { queryAll, enterFullscreen } from '../utils/util.js'
 import { isAndroid } from '../utils/device.js'
 
 /**
@@ -12,6 +12,7 @@ import { isAndroid } from '../utils/device.js'
  * - .navigate-left
  * - .navigate-next
  * - .navigate-prev
+ * - .enter-fullscreen
  */
 export default class Controls {
 
@@ -25,6 +26,7 @@ export default class Controls {
 		this.onNavigateDownClicked = this.onNavigateDownClicked.bind( this );
 		this.onNavigatePrevClicked = this.onNavigatePrevClicked.bind( this );
 		this.onNavigateNextClicked = this.onNavigateNextClicked.bind( this );
+		this.onEnterFullscreen = this.onEnterFullscreen.bind( this );
 
 	}
 
@@ -50,6 +52,7 @@ export default class Controls {
 		this.controlsDown = queryAll( revealElement, '.navigate-down' );
 		this.controlsPrev = queryAll( revealElement, '.navigate-prev' );
 		this.controlsNext = queryAll( revealElement, '.navigate-next' );
+		this.controlsFullscreen = queryAll( revealElement, '.enter-fullscreen' );
 
 		// The left, right and down arrows in the standard reveal.js controls
 		this.controlsRightArrow = this.element.querySelector( '.navigate-right' );
@@ -89,6 +92,7 @@ export default class Controls {
 			this.controlsDown.forEach( el => el.addEventListener( eventName, this.onNavigateDownClicked, false ) );
 			this.controlsPrev.forEach( el => el.addEventListener( eventName, this.onNavigatePrevClicked, false ) );
 			this.controlsNext.forEach( el => el.addEventListener( eventName, this.onNavigateNextClicked, false ) );
+			this.controlsFullscreen.forEach( el => el.addEventListener( eventName, this.onEnterFullscreen, false ) );
 		} );
 
 	}
@@ -102,6 +106,7 @@ export default class Controls {
 			this.controlsDown.forEach( el => el.removeEventListener( eventName, this.onNavigateDownClicked, false ) );
 			this.controlsPrev.forEach( el => el.removeEventListener( eventName, this.onNavigatePrevClicked, false ) );
 			this.controlsNext.forEach( el => el.removeEventListener( eventName, this.onNavigateNextClicked, false ) );
+			this.controlsFullscreen.forEach( el => el.removeEventListener( eventName, this.onEnterFullscreen, false ) );
 		} );
 
 	}
@@ -262,5 +267,13 @@ export default class Controls {
 
 	}
 
+	onEnterFullscreen( event ) {
+
+		const config = this.Reveal.getConfig();
+		const viewport = this.Reveal.getViewportElement();
+
+		enterFullscreen( config.embedded ? viewport : viewport.parentElement );
+
+	}
 
 }

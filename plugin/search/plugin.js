@@ -137,7 +137,7 @@ const Plugin = () => {
 
 		this.setRegex = function(input)
 		{
-			input = input.replace(/^[^\w]+|[^\w]+$/g, "").replace(/[^\w'-]+/g, "|");
+			input = input.trim();
 			matchRegex = new RegExp("(" + input + ")","i");
 		}
 
