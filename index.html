@@ -1,40 +1,136 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Cloud computing</h1>
+            <h4>Computação em nuvem</h4>
+        </section>
+        <section>
+            <h1>Quem sou eu?</h1>
+            <h2>Estevan Bartmann Silveira</h2>
+            <p>Desenvolvedor na TecnoSpeed</p>
+            <p>Organizador no DevPR</p>
+            <p>github.com/estevanbs</p>
+            <p>linkedin.com/in/estevan-silveira</p>
+        </section>
+        <section>
+            <ul>
+                <li>História da computação na nuvem</li>
+                <li>Tipos</li>
+                <li>Vantagens e desvantagens</li>
+                <li>Impacto no mercado</li>
+                <li>Principais provedores públicos</li>
+            </ul>
+        </section>
+        <section>
+            <h3>O que é cloud computing?</h3>
+            <p>É um termo utilizado para se referenciar a utilização de recursos computacionais através da
+                <b>internet</b> (nuvem).</p>
+        </section>
+        <section>
+            Como surgiu essa ideia?
+        </section>
+        <section>
+            <h2>Time-sharing</h2>
+            <figure>
+                <img src="assets/john-mccarthy.jpg">
+                <figcaption>John Mccarthy</figcaption>
+            </figure>
+        </section>
+        <section>
+            <h2>Remote job entry</h2>
+            <p class="fragment">É enviada uma tarefa de processamento não interativo para um mainframe a partir uma
+                estação de trabalho remota.</p>
+            <p class="fragment">Quando o processamento é finalizado, ele retorna o resultado para a estação de
+                trabalho.</p>
+        </section>
+        <section>
+            <h2>Cloud computing</h2>
+            <figure>
+                <img src="assets/ramnath-chellapa.jpg">
+                <figcaption>Ramnath Chellapa</figcaption>
+            </figure>
+            <p>"Cloud computing é um paradigma da computação onde os limites computacionais estão determinados pelo
+                custo, não pelos limites técnicos."</p>
+        </section>
+        <section><h1>Tipos de cloud computing</h1></section>
+        <section>
+            <section>IaaS (Infrastructure as a Service)</section>
+            <section><img src="assets/aws-logo.png"></section>
+            <section><img src="assets/azure-logo.png"></section>
+            <section><img src="assets/raspberry-pi-logo"></section>
+        </section>
+        <section>
+            <section>SaaS (Software as a Service)</section>
+            <section><img src="assets/chatgpt-logo"></section>
+            <section><img src="assets/youtube-logo"></section>
+            <section><img src="assets/xboxcloud-logo"></section>
+        </section>
+        <section>
+            <section><h3>Modelos de implantação de Infrastructure as a Service</h3></section>
+            <section>
+                <h3>Nuvem Pública</h3>
+                <p class="fragment">
+                    Infraestrutura compartilhada por várias organizações.
+                </p>
+                <p class="fragment">
+                    Os recursos pertencem a um provedor terceirizado e são operados por ele.
+                </p>
+            </section>
+            <section>
+                <h3>Nuvem Privada</h3>
+                <p class="fragment">
+                    A infraestrutura é organizada pela organização que está contratando ela.
+                </p>
+                <p class="fragment">
+                    Pode ser on-premise ou off-premise.
+                </p>
+            </section>
+            <section>
+                <h3>Nuvem Híbrida</h3>
+                <p class="fragment">
+                    Combinação de nuvens públicas e privadas, com portabilidade de dados e aplicativos entre elas.
+                </p>
+            </section>
+        </section>
+        <section>
+            <section>SaaS (Software as a Service)</section>
+            <section><img src="assets/chatgpt-logo"></section>
+            <section><img src="assets/youtube-logo"></section>
+            <section><img src="assets/xboxcloud-logo"></section>
+        </section>
+    </div>
+</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  // More info about initialization & config:
+  // - https://revealjs.com/initialization/
+  // - https://revealjs.com/config/
+  Reveal.initialize({
+    hash: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+    // Learn about plugins: https://revealjs.com/plugins/
+    plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+  });
+</script>
+</body>
 </html>
