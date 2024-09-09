@@ -62,8 +62,7 @@ export default class Progress {
 				scale = 0;
 			}
 
-			this.bar.style.transform = 'scaleX('+ scale +')';
-
+			this.bar.style.width =  `${scale * 100}vw`;
 		}
 
 	}
