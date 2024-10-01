@@ -741,6 +741,10 @@ $controlsArrowAngleActive: 36deg;
 	opacity: 0;
 }
 
+/* Slide-specific vertical centering override */
+.reveal .slides section[data-vertical-align-top]{
+	top: 0 !important;
+}
 
 /*********************************************
  * Mixins for readability of transitions
