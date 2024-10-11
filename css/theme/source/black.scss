@@ -6,6 +6,7 @@
 
 
 // Default mixins and settings -----------------
+@use "sass:color";
 @import "../template/mixins";
 @import "../template/settings";
 // ---------------------------------------------
@@ -29,7 +30,7 @@ $headingLetterSpacing: normal;
 $headingTextTransform: uppercase;
 $headingFontWeight: 600;
 $linkColor: #42affa;
-$linkColorHover: lighten( $linkColor, 15% );
+$linkColorHover: color.scale( $linkColor, $lightness: 15% );
 $selectionBackgroundColor: rgba( $linkColor, 0.75 );
 
 $heading1Size: 2.5em;

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Base settings for all themes that can optionally be
 // overridden by the super-theme
 
@@ -32,7 +34,7 @@ $codeFont: monospace;
 
 // Links and actions
 $linkColor: #13DAEC;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: color.scale( $linkColor, $lightness: 20% );
 
 // Text selection
 $selectionBackgroundColor: #FF5E99;

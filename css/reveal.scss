@@ -1,5 +1,3 @@
-@use "sass:math";
-
 /**
  * reveal.js
  * http://revealjs.com
@@ -8,6 +6,7 @@
  * Copyright (C) Hakim El Hattab, https://hakim.se
  */
 
+@use "sass:math";
 @import 'layout';
 
 /*********************************************

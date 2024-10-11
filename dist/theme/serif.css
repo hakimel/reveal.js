@@ -36,8 +36,8 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --r-heading4-size: 1em;
   --r-code-font: monospace;
   --r-link-color: #51483D;
-  --r-link-color-dark: #25211c;
-  --r-link-color-hover: #8b7c69;
+  --r-link-color-dark: rgb(68.85, 61.2, 51.85);
+  --r-link-color-hover: rgb(122.9830985915, 109.3183098592, 92.6169014085);
   --r-selection-background-color: #26351C;
   --r-selection-color: #fff;
   --r-overlay-element-bg-color: 0, 0, 0;

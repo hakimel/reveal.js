@@ -7,6 +7,7 @@
 
 
 // Default mixins and settings -----------------
+@use "sass:color";
 @import "../template/mixins";
 @import "../template/settings";
 // ---------------------------------------------
@@ -22,7 +23,7 @@ $headingTextShadow: none;
 $headingTextTransform: none;
 $backgroundColor: #F0F1EB;
 $linkColor: #51483D;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: color.scale( $linkColor, $lightness: 20% );
 $selectionBackgroundColor: #26351C;
 
 $overlayElementBgColor: 0, 0, 0;

@@ -38,8 +38,8 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --r-heading4-size: 1em;
   --r-code-font: monospace;
   --r-link-color: #a23;
-  --r-link-color-dark: #6a1520;
-  --r-link-color-hover: #dd5566;
+  --r-link-color-dark: rgb(144.5, 28.9, 43.35);
+  --r-link-color-hover: rgb(214.2, 51, 71.4);
   --r-selection-background-color: #a23;
   --r-selection-color: #fff;
   --r-overlay-element-bg-color: 240, 240, 240;
