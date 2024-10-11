@@ -147,7 +147,7 @@ var zoom = (function(){
 	}
 
 	/**
-	 * Pan the document when the mosue cursor approaches the edges
+	 * Pan the document when the mouse cursor approaches the edges
 	 * of the window.
 	 */
 	function pan() {
