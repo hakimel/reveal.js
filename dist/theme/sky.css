@@ -9,7 +9,13 @@
   line-height: 1.3em;
 }
 
-section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
+section.has-dark-background,
+section.has-dark-background h1,
+section.has-dark-background h2,
+section.has-dark-background h3,
+section.has-dark-background h4,
+section.has-dark-background h5,
+section.has-dark-background h6 {
   color: #fff;
 }
 
@@ -47,11 +53,39 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 
 .reveal-viewport {
   background: #add9e4;
-  background: -moz-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #f7fbfc), color-stop(100%, #add9e4));
-  background: -webkit-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: -o-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background: -ms-radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
+  background: -moz-radial-gradient(
+    center,
+    circle cover,
+    #f7fbfc 0%,
+    #add9e4 100%
+  );
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(0%, #f7fbfc),
+    color-stop(100%, #add9e4)
+  );
+  background: -webkit-radial-gradient(
+    center,
+    circle cover,
+    #f7fbfc 0%,
+    #add9e4 100%
+  );
+  background: -o-radial-gradient(
+    center,
+    circle cover,
+    #f7fbfc 0%,
+    #add9e4 100%
+  );
+  background: -ms-radial-gradient(
+    center,
+    circle cover,
+    #f7fbfc 0%,
+    #add9e4 100%
+  );
   background: radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
   background-color: var(--r-background-color);
 }
@@ -268,13 +302,13 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   border-bottom: 1px solid;
 }
 
-.reveal table th[align=center],
-.reveal table td[align=center] {
+.reveal table th[align="center"],
+.reveal table td[align="center"] {
   text-align: center;
 }
 
-.reveal table th[align=right],
-.reveal table td[align=right] {
+.reveal table th[align="right"],
+.reveal table td[align="right"] {
   text-align: right;
 }
 

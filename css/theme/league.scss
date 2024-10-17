@@ -8,6 +8,7 @@
 
 
 // Default mixins and settings -----------------
+@use "sass:color";
 @import "./template/mixins";
 @import "./template/settings";
 // ---------------------------------------------
@@ -15,8 +16,8 @@
 
 
 // Include theme-specific fonts
-@import url(./fonts/league-gothic/league-gothic.css);
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url("/theme/fonts/league-gothic/league-gothic.css");
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic");
 
 // Override theme settings (see ../template/settings.scss)
 $headingTextShadow: 0px 0px 6px rgba(0,0,0,0.2);

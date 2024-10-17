@@ -1,6 +1,6 @@
 var vi = Object.defineProperty;
 var mi = (h, e, t) => e in h ? vi(h, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : h[e] = t;
-var Pt = (h, e, t) => (mi(h, typeof e != "symbol" ? e + "" : e, t), t);
+var Pt = (h, e, t) => mi(h, typeof e != "symbol" ? e + "" : e, t);
 const ue = (h, e) => {
   for (let t in e)
     h[t] = e[t];
@@ -9,14 +9,10 @@ const ue = (h, e) => {
   t ? h.classList.add(e) : h.classList.remove(e);
 }, he = (h) => {
   if (typeof h == "string") {
-    if (h === "null")
-      return null;
-    if (h === "true")
-      return !0;
-    if (h === "false")
-      return !1;
-    if (h.match(/^-?[\d\.]+$/))
-      return parseFloat(h);
+    if (h === "null") return null;
+    if (h === "true") return !0;
+    if (h === "false") return !1;
+    if (h.match(/^-?[\d\.]+$/)) return parseFloat(h);
   }
   return h;
 }, ie = (h, e) => {
@@ -926,8 +922,7 @@ class Fi {
    * by—among other things—wrapping each slide in a page element.
    */
   activate() {
-    if (this.active)
-      return;
+    if (this.active) return;
     const e = this.Reveal.getState();
     this.active = !0, this.slideHTMLBeforeActivation = this.Reveal.getSlidesElement().innerHTML;
     const t = E(this.Reveal.getRevealElement(), te), i = E(this.Reveal.getRevealElement(), ki);
@@ -946,8 +941,7 @@ class Fi {
         if (A.className = "scroll-page", n.push(A), w && i.length > v) {
           const V = i[v], O = window.getComputedStyle(V);
           O && O.background ? A.style.background = O.background : s && (A.style.background = s);
-        } else
-          s && (A.style.background = s);
+        } else s && (A.style.background = s);
         const T = document.createElement("div");
         T.className = "scroll-page-sticky", A.appendChild(T), r = document.createElement("div"), r.className = "scroll-page-content", T.appendChild(r);
       }
@@ -964,8 +958,7 @@ class Fi {
    * presentation.
    */
   deactivate() {
-    if (!this.active)
-      return;
+    if (!this.active) return;
     const e = this.Reveal.getState();
     this.active = !1, this.viewportElement.removeEventListener("scroll", this.onScroll), this.viewportElement.classList.remove("reveal-scroll"), this.removeProgressBar(), this.Reveal.getSlidesElement().innerHTML = this.slideHTMLBeforeActivation, this.Reveal.sync(), this.Reveal.setState(e), this.slideHTMLBeforeActivation = null;
   }
@@ -1731,8 +1724,7 @@ class Ui {
     let i = e.keyCode, s = !this.Reveal.isAutoSliding();
     this.Reveal.onUserInput(e);
     let d = document.activeElement && document.activeElement.isContentEditable === !0, n = document.activeElement && document.activeElement.tagName && /input|textarea/i.test(document.activeElement.tagName), o = document.activeElement && document.activeElement.className && /speaker-notes/i.test(document.activeElement.className), f = !([32, 37, 38, 39, 40, 78, 80, 191].indexOf(e.keyCode) !== -1 && e.shiftKey || e.altKey) && (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey);
-    if (d || n || o || f)
-      return;
+    if (d || n || o || f) return;
     let g = [66, 86, 190, 191, 112], v;
     if (typeof t.keyboard == "object")
       for (v in t.keyboard)
@@ -2189,11 +2181,9 @@ class Xi {
    * swipe navigation.
    */
   isSwipePrevented(e) {
-    if (Pe(e, "video[controls], audio[controls]"))
-      return !0;
+    if (Pe(e, "video[controls], audio[controls]")) return !0;
     for (; e && typeof e.hasAttribute == "function"; ) {
-      if (e.hasAttribute("data-prevent-swipe"))
-        return !0;
+      if (e.hasAttribute("data-prevent-swipe")) return !0;
       e = e.parentNode;
     }
     return !1;
@@ -2205,8 +2195,7 @@ class Xi {
    * @param {object} event
    */
   onTouchStart(e) {
-    if (this.touchCaptured = !1, this.isSwipePrevented(e.target))
-      return !0;
+    if (this.touchCaptured = !1, this.isSwipePrevented(e.target)) return !0;
     this.touchStartX = e.touches[0].clientX, this.touchStartY = e.touches[0].clientY, this.touchStartCount = e.touches.length;
   }
   /**
@@ -2215,8 +2204,7 @@ class Xi {
    * @param {object} event
    */
   onTouchMove(e) {
-    if (this.isSwipePrevented(e.target))
-      return !0;
+    if (this.isSwipePrevented(e.target)) return !0;
     let t = this.Reveal.getConfig();
     if (this.touchCaptured)
       zt && e.preventDefault();
@@ -2674,10 +2662,8 @@ function Ot(h, e) {
     hasNavigatedVertically: !1
   }, v = [], y = 1, w = { layout: "", overview: "" }, r = {}, A = "idle", T = 0, V, O = 0, se = -1, z = !1, k = new Ri(t), I = new xi(t), U = new Ti(t), W = new Mi(t), P = new Ni(t), R = new Fi(t), D = new Vi(t), L = new Oi(t), u = new qi(t), S = new Ui(t), N = new Wi(t), $ = new ji(t), j = new _i(t), Z = new Ki(t), H = new $i(t), ae = new Yi(t), xe = new Xi(t), K = new Gi(t);
   function Ut(a) {
-    if (!h)
-      throw 'Unable to find presentation root (<div class="reveal">).';
-    if (s = !0, r.wrapper = h, r.slides = h.querySelector(".slides"), !r.slides)
-      throw 'Unable to find slides container (<div class="slides">).';
+    if (!h) throw 'Unable to find presentation root (<div class="reveal">).';
+    if (s = !0, r.wrapper = h, r.slides = h.querySelector(".slides"), !r.slides) throw 'Unable to find slides container (<div class="slides">).';
     return i = { ...Qi, ...i, ...e, ...a, ...xt() }, /print-pdf/gi.test(window.location.search) && (i.view = "print"), Wt(), window.addEventListener("load", le, !1), H.load(i.plugins, i.dependencies).then(jt), new Promise((l) => t.on("ready", l));
   }
   function Wt() {
@@ -2740,8 +2726,7 @@ function Ot(h, e) {
   }
   function Ke(a) {
     const l = { ...i };
-    if (typeof a == "object" && ue(i, a), t.isReady() === !1)
-      return;
+    if (typeof a == "object" && ue(i, a), t.isReady() === !1) return;
     const p = r.wrapper.querySelectorAll(re).length;
     r.wrapper.classList.remove(l.transition), r.wrapper.classList.add(i.transition), r.wrapper.setAttribute("data-transition-speed", i.transitionSpeed), r.wrapper.setAttribute("data-background-transition", i.backgroundTransition), r.viewport.style.setProperty("--slide-width", typeof i.width == "string" ? i.width : i.width + "px"), r.viewport.style.setProperty("--slide-height", typeof i.height == "string" ? i.height : i.height + "px"), i.shuffle && He(), qe(r.wrapper, "embedded", i.embedded), qe(r.wrapper, "rtl", i.rtl), qe(r.wrapper, "center", i.center), i.pause === !1 && pe(), i.previewLinks ? (Qe(), Ne("[data-preview-link=false]")) : (Ne(), Qe("[data-preview-link]:not([data-preview-link=false])")), W.reset(), V && (V.destroy(), V = null), p > 1 && i.autoSlide && i.autoSlideStoppable && (V = new Ji(r.wrapper, () => Math.min(Math.max((Date.now() - se) / T, 0), 1)), V.on("click", gi), z = !1), i.navigationMode !== "default" ? r.wrapper.setAttribute("data-navigation-mode", i.navigationMode) : r.wrapper.removeAttribute("data-navigation-mode"), K.configure(i, l), ae.configure(i, l), Z.configure(i, l), $.configure(i, l), j.configure(i, l), S.configure(i, l), L.configure(i, l), I.configure(i, l), lt();
   }
@@ -2958,8 +2943,7 @@ function Ot(h, e) {
         indexv: l === void 0 ? o : l,
         origin: m
       }
-    }).defaultPrevented)
-      return;
+    }).defaultPrevented) return;
     c = f;
     const C = r.wrapper.querySelectorAll(te);
     if (R.isActive()) {
@@ -2967,8 +2951,7 @@ function Ot(h, e) {
       Y && R.scrollToSlide(Y);
       return;
     }
-    if (C.length === 0)
-      return;
+    if (C.length === 0) return;
     l === void 0 && !u.isActive() && (l = st(C[a])), c && c.parentNode && c.parentNode.classList.contains("stack") && it(c.parentNode, o);
     const x = v.concat();
     v.length = 0;
@@ -2984,15 +2967,14 @@ function Ot(h, e) {
         it(Y, 0);
       });
     }, 0));
-    e:
-      for (let Y = 0, pi = v.length; Y < pi; Y++) {
-        for (let Le = 0; Le < x.length; Le++)
-          if (x[Le] === v[Y]) {
-            x.splice(Le, 1);
-            continue e;
-          }
-        r.viewport.classList.add(v[Y]), _({ type: v[Y] });
-      }
+    e: for (let Y = 0, pi = v.length; Y < pi; Y++) {
+      for (let Le = 0; Le < x.length; Le++)
+        if (x[Le] === v[Y]) {
+          x.splice(Le, 1);
+          continue e;
+        }
+      r.viewport.classList.add(v[Y]), _({ type: v[Y] });
+    }
     for (; x.length; )
       r.viewport.classList.remove(x.pop());
     Q && Ge(m), (Q || !c) && (k.stopEmbeddedContent(c), k.startEmbeddedContent(f)), requestAnimationFrame(() => {
@@ -3104,18 +3086,17 @@ function Ot(h, e) {
   }
   function ut(a = f) {
     let l = ee(), p = 0;
-    e:
-      for (let m = 0; m < l.length; m++) {
-        let b = l[m], C = b.querySelectorAll("section");
-        for (let x = 0; x < C.length; x++) {
-          if (C[x] === a)
-            break e;
-          C[x].dataset.visibility !== "uncounted" && p++;
-        }
-        if (b === a)
-          break;
-        b.classList.contains("stack") === !1 && b.dataset.visibility !== "uncounted" && p++;
+    e: for (let m = 0; m < l.length; m++) {
+      let b = l[m], C = b.querySelectorAll("section");
+      for (let x = 0; x < C.length; x++) {
+        if (C[x] === a)
+          break e;
+        C[x].dataset.visibility !== "uncounted" && p++;
       }
+      if (b === a)
+        break;
+      b.classList.contains("stack") === !1 && b.dataset.visibility !== "uncounted" && p++;
+    }
     return p;
   }
   function li() {
@@ -3221,28 +3202,23 @@ function Ot(h, e) {
     T && z && (z = !1, _({ type: "autoslideresumed" }), de());
   }
   function Ae({ skipFragments: a = !1 } = {}) {
-    if (g.hasNavigatedHorizontally = !0, R.isActive())
-      return R.prev();
+    if (g.hasNavigatedHorizontally = !0, R.isActive()) return R.prev();
     i.rtl ? (u.isActive() || a || L.next() === !1) && J().left && X(n + 1, i.navigationMode === "grid" ? o : void 0) : (u.isActive() || a || L.prev() === !1) && J().left && X(n - 1, i.navigationMode === "grid" ? o : void 0);
   }
   function Re({ skipFragments: a = !1 } = {}) {
-    if (g.hasNavigatedHorizontally = !0, R.isActive())
-      return R.next();
+    if (g.hasNavigatedHorizontally = !0, R.isActive()) return R.next();
     i.rtl ? (u.isActive() || a || L.prev() === !1) && J().right && X(n - 1, i.navigationMode === "grid" ? o : void 0) : (u.isActive() || a || L.next() === !1) && J().right && X(n + 1, i.navigationMode === "grid" ? o : void 0);
   }
   function Fe({ skipFragments: a = !1 } = {}) {
-    if (R.isActive())
-      return R.prev();
+    if (R.isActive()) return R.prev();
     (u.isActive() || a || L.prev() === !1) && J().up && X(n, o - 1);
   }
   function Ve({ skipFragments: a = !1 } = {}) {
-    if (g.hasNavigatedVertically = !0, R.isActive())
-      return R.next();
+    if (g.hasNavigatedVertically = !0, R.isActive()) return R.next();
     (u.isActive() || a || L.next() === !1) && J().down && X(n, o + 1);
   }
   function wt({ skipFragments: a = !1 } = {}) {
-    if (R.isActive())
-      return R.prev();
+    if (R.isActive()) return R.prev();
     if (a || L.prev() === !1)
       if (J().up)
         Fe({ skipFragments: a });
@@ -3251,13 +3227,11 @@ function Ot(h, e) {
         if (i.rtl ? l = E(r.wrapper, te + ".future").pop() : l = E(r.wrapper, te + ".past").pop(), l && l.classList.contains("stack")) {
           let p = l.querySelectorAll("section").length - 1 || void 0, m = n - 1;
           X(m, p);
-        } else
-          i.rtl ? Re({ skipFragments: a }) : Ae({ skipFragments: a });
+        } else i.rtl ? Re({ skipFragments: a }) : Ae({ skipFragments: a });
       }
   }
   function Oe({ skipFragments: a = !1 } = {}) {
-    if (g.hasNavigatedHorizontally = !0, g.hasNavigatedVertically = !0, R.isActive())
-      return R.next();
+    if (g.hasNavigatedHorizontally = !0, g.hasNavigatedVertically = !0, R.isActive()) return R.next();
     if (a || L.next() === !1) {
       let l = J();
       l.down && l.right && i.loop && at() && (l.down = !1), l.down ? Ve({ skipFragments: a }) : i.rtl ? Ae({ skipFragments: a }) : Re({ skipFragments: a });

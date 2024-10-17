@@ -1,4 +1,4 @@
-(function(z,T){typeof exports=="object"&&typeof module<"u"?module.exports=T():typeof define=="function"&&define.amd?define(T):(z=typeof globalThis<"u"?globalThis:z||self,z.RevealNotes=T())})(this,function(){"use strict";var kt=Object.defineProperty;var wt=(z,T,_)=>T in z?kt(z,T,{enumerable:!0,configurable:!0,writable:!0,value:_}):z[T]=_;var G=(z,T,_)=>(wt(z,typeof T!="symbol"?T+"":T,_),_);const z=`<!--
+(function(z,T){typeof exports=="object"&&typeof module<"u"?module.exports=T():typeof define=="function"&&define.amd?define(T):(z=typeof globalThis<"u"?globalThis:z||self,z.RevealNotes=T())})(this,function(){"use strict";var kt=Object.defineProperty;var wt=(z,T,_)=>T in z?kt(z,T,{enumerable:!0,configurable:!0,writable:!0,value:_}):z[T]=_;var G=(z,T,_)=>wt(z,typeof T!="symbol"?T+"":T,_);const z=`<!--
 	NOTE: You need to build the notes plugin after making changes to this file.
 -->
 <html lang="en">

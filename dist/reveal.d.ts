@@ -1,3 +1,4 @@
-export * from './index'
+export {}
 import Reveal from './index'
 export default Reveal
+export {}
