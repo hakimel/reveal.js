@@ -47,7 +47,7 @@
     "dev": "vite --port 8000",
     "build:core": "tsc && vite build && vite build -c vite.config.styles.ts",
     "build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts",
-    "test": "gulp test",
+    "test": "node test.cjs",
     "start": "vite --port 8000"
   },
   "author": {
