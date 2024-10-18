@@ -76,27 +76,31 @@ var Ai = function(h) {
     var e = function(u) {
       return [].slice.call(u);
     }, t = 0, i = 1, s = 2, d = 3, n = [], o = null, c = "requestAnimationFrame" in h ? function() {
-      h.cancelAnimationFrame(o), o = h.requestAnimationFrame(function() {
-        return g(n.filter(function(u) {
-          return u.dirty && u.active;
+      var u = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : { sync: !1 };
+      h.cancelAnimationFrame(o);
+      var S = function() {
+        return g(n.filter(function(x) {
+          return x.dirty && x.active;
         }));
-      });
+      };
+      if (u.sync) return S();
+      o = h.requestAnimationFrame(S);
     } : function() {
     }, f = function(u) {
-      return function() {
-        n.forEach(function(S) {
-          return S.dirty = u;
-        }), c();
+      return function(S) {
+        n.forEach(function(x) {
+          return x.dirty = u;
+        }), c(S);
       };
     }, g = function(u) {
-      u.filter(function(N) {
-        return !N.styleComputed;
-      }).forEach(function(N) {
-        N.styleComputed = r(N);
-      }), u.filter(A).forEach(T);
+      u.filter(function(x) {
+        return !x.styleComputed;
+      }).forEach(function(x) {
+        x.styleComputed = r(x);
+      }), u.filter(A).forEach(I);
       var S = u.filter(w);
-      S.forEach(y), S.forEach(function(N) {
-        T(N), v(N);
+      S.forEach(y), S.forEach(function(x) {
+        I(x), v(x);
       }), S.forEach(V);
     }, v = function(u) {
       return u.dirty = t;
@@ -110,13 +114,13 @@ var Ai = function(h) {
     }, A = function(u) {
       var S = !1;
       return !u.preStyleTestCompleted && (/inline-/.test(u.display) || (S = !0, u.display = "inline-block"), u.whiteSpace !== "nowrap" && (S = !0, u.whiteSpace = "nowrap"), u.preStyleTestCompleted = !0, S);
-    }, T = function(u) {
+    }, I = function(u) {
       u.element.style.whiteSpace = u.whiteSpace, u.element.style.display = u.display, u.element.style.fontSize = u.currentFontSize + "px";
     }, V = function(u) {
       u.element.dispatchEvent(new CustomEvent("fit", { detail: { oldValue: u.previousFontSize, newValue: u.currentFontSize, scaleFactor: u.currentFontSize / u.previousFontSize } }));
     }, O = function(u, S) {
-      return function() {
-        u.dirty = S, u.active && c();
+      return function(x) {
+        u.dirty = S, u.active && c(x);
       };
     }, se = function(u) {
       return function() {
@@ -132,23 +136,23 @@ var Ai = function(h) {
       return function() {
         return u.active = !1;
       };
-    }, I = function(u) {
+    }, N = function(u) {
       u.observeMutations && (u.observer = new MutationObserver(O(u, i)), u.observer.observe(u.element, u.observeMutations));
     }, U = { minSize: 16, maxSize: 512, multiLine: !0, observeMutations: "MutationObserver" in h && { subtree: !0, childList: !0, characterData: !0 } }, W = null, P = function() {
       h.clearTimeout(W), W = h.setTimeout(f(s), L.observeWindowDelay);
     }, R = ["resize", "orientationchange"];
     return Object.defineProperty(L, "observeWindow", { set: function(u) {
       var S = "".concat(u ? "add" : "remove", "EventListener");
-      R.forEach(function(N) {
-        h[S](N, P);
+      R.forEach(function(x) {
+        h[S](x, P);
       });
     } }), L.observeWindow = !0, L.observeWindowDelay = 100, L.fitAll = f(d), L;
   }
   function D(u, S) {
-    var N = Object.assign({}, U, S), $ = u.map(function(j) {
-      var Z = Object.assign({}, N, { element: j, active: !0 });
+    var x = Object.assign({}, U, S), $ = u.map(function(j) {
+      var Z = Object.assign({}, x, { element: j, active: !0 });
       return function(H) {
-        H.originalStyle = { whiteSpace: H.element.style.whiteSpace, display: H.element.style.display, fontSize: H.element.style.fontSize }, I(H), H.newbie = !0, H.dirty = !0, n.push(H);
+        H.originalStyle = { whiteSpace: H.element.style.whiteSpace, display: H.element.style.display, fontSize: H.element.style.fontSize }, N(H), H.newbie = !0, H.dirty = !0, n.push(H);
       }(Z), { element: j, fit: O(Z, d), unfreeze: z(Z), freeze: k(Z), unsubscribe: se(Z) };
     });
     return c(), $;
@@ -942,8 +946,8 @@ class Fi {
           const V = i[v], O = window.getComputedStyle(V);
           O && O.background ? A.style.background = O.background : s && (A.style.background = s);
         } else s && (A.style.background = s);
-        const T = document.createElement("div");
-        T.className = "scroll-page-sticky", A.appendChild(T), r = document.createElement("div"), r.className = "scroll-page-content", T.appendChild(r);
+        const I = document.createElement("div");
+        I.className = "scroll-page-sticky", A.appendChild(I), r = document.createElement("div"), r.className = "scroll-page-content", I.appendChild(r);
       }
       r.appendChild(g), g.classList.remove("past", "future"), g.setAttribute("data-index-h", v), g.setAttribute("data-index-v", y), g.slideBackgroundElement && (g.slideBackgroundElement.remove("past", "future"), r.insertBefore(g.slideBackgroundElement, g)), c = g;
     };
@@ -1275,28 +1279,28 @@ class Vi {
     await new Promise(requestAnimationFrame), this.Reveal.layoutSlideContents(o, c), await new Promise(requestAnimationFrame);
     const v = t.map((A) => A.scrollHeight), y = [], w = t[0].parentNode;
     let r = 1;
-    t.forEach(function(A, T) {
+    t.forEach(function(A, I) {
       if (A.classList.contains("stack") === !1) {
         let V = (d - o) / 2, O = (n - c) / 2;
-        const se = v[T];
+        const se = v[I];
         let z = Math.max(Math.ceil(se / n), 1);
         z = Math.min(z, e.pdfMaxPagesPerSlide), (z === 1 && e.center || A.classList.contains("center")) && (O = Math.max((n - se) / 2, 0));
         const k = document.createElement("div");
         if (y.push(k), k.className = "pdf-page", k.style.height = (n + e.pdfPageHeightOffset) * z + "px", g && (k.style.background = g), k.appendChild(A), A.style.left = V + "px", A.style.top = O + "px", A.style.width = o + "px", this.Reveal.slideContent.layout(A), A.slideBackgroundElement && k.insertBefore(A.slideBackgroundElement, A), e.showNotes) {
-          const I = this.Reveal.getSlideNotes(A);
-          if (I) {
+          const N = this.Reveal.getSlideNotes(A);
+          if (N) {
             const W = typeof e.showNotes == "string" ? e.showNotes : "inline", P = document.createElement("div");
-            P.classList.add("speaker-notes"), P.classList.add("speaker-notes-pdf"), P.setAttribute("data-layout", W), P.innerHTML = I, W === "separate-page" ? y.push(P) : (P.style.left = "8px", P.style.bottom = "8px", P.style.width = d - 8 * 2 + "px", k.appendChild(P));
+            P.classList.add("speaker-notes"), P.classList.add("speaker-notes-pdf"), P.setAttribute("data-layout", W), P.innerHTML = N, W === "separate-page" ? y.push(P) : (P.style.left = "8px", P.style.bottom = "8px", P.style.width = d - 8 * 2 + "px", k.appendChild(P));
           }
         }
         if (i) {
-          const I = document.createElement("div");
-          I.classList.add("slide-number"), I.classList.add("slide-number-pdf"), I.innerHTML = r++, k.appendChild(I);
+          const N = document.createElement("div");
+          N.classList.add("slide-number"), N.classList.add("slide-number-pdf"), N.innerHTML = r++, k.appendChild(N);
         }
         if (e.pdfSeparateFragments) {
-          const I = this.Reveal.fragments.sort(k.querySelectorAll(".fragment"), !0);
+          const N = this.Reveal.fragments.sort(k.querySelectorAll(".fragment"), !0);
           let U;
-          I.forEach(function(W, P) {
+          N.forEach(function(W, P) {
             U && U.forEach(function(D) {
               D.classList.remove("current-fragment");
             }), W.forEach(function(D) {
@@ -1308,14 +1312,14 @@ class Vi {
               D.innerHTML += "." + L;
             }
             y.push(R), U = W;
-          }, this), I.forEach(function(W) {
+          }, this), N.forEach(function(W) {
             W.forEach(function(P) {
               P.classList.remove("visible", "current-fragment");
             });
           });
         } else
-          E(k, ".fragment:not(.fade-out)").forEach(function(I) {
-            I.classList.add("visible");
+          E(k, ".fragment:not(.fade-out)").forEach(function(N) {
+            N.classList.add("visible");
           });
       }
     }, this), await new Promise(requestAnimationFrame), y.forEach((A) => w.appendChild(A)), this.Reveal.slideContent.layout(this.Reveal.getSlidesElement()), this.Reveal.dispatchEvent({ type: "pdf-ready" }), f.classList.remove("loading-scroll-mode");
@@ -2660,7 +2664,7 @@ function Ot(h, e) {
   let i = {}, s = !1, d = !1, n, o, c, f, g = {
     hasNavigatedHorizontally: !1,
     hasNavigatedVertically: !1
-  }, v = [], y = 1, w = { layout: "", overview: "" }, r = {}, A = "idle", T = 0, V, O = 0, se = -1, z = !1, k = new Ri(t), I = new xi(t), U = new Ti(t), W = new Mi(t), P = new Ni(t), R = new Fi(t), D = new Vi(t), L = new Oi(t), u = new qi(t), S = new Ui(t), N = new Wi(t), $ = new ji(t), j = new _i(t), Z = new Ki(t), H = new $i(t), ae = new Yi(t), xe = new Xi(t), K = new Gi(t);
+  }, v = [], y = 1, w = { layout: "", overview: "" }, r = {}, A = "idle", I = 0, V, O = 0, se = -1, z = !1, k = new Ri(t), N = new xi(t), U = new Ti(t), W = new Mi(t), P = new Ni(t), R = new Fi(t), D = new Vi(t), L = new Oi(t), u = new qi(t), S = new Ui(t), x = new Wi(t), $ = new ji(t), j = new _i(t), Z = new Ki(t), H = new $i(t), ae = new Yi(t), xe = new Xi(t), K = new Gi(t);
   function Ut(a) {
     if (!h) throw 'Unable to find presentation root (<div class="reveal">).';
     if (s = !0, r.wrapper = h, r.slides = h.querySelector(".slides"), !r.slides) throw 'Unable to find slides container (<div class="slides">).';
@@ -2670,7 +2674,7 @@ function Ot(h, e) {
     i.embedded === !0 ? r.viewport = F(h, ".reveal-viewport") || h : (r.viewport = document.body, document.documentElement.classList.add("reveal-full-page")), r.viewport.classList.add("reveal-viewport");
   }
   function jt() {
-    d = !0, Kt(), $t(), Jt(), Yt(), Gt(), oi(), Ke(), P.update(!0), _t(), N.readURL(), setTimeout(() => {
+    d = !0, Kt(), $t(), Jt(), Yt(), Gt(), oi(), Ke(), P.update(!0), _t(), x.readURL(), setTimeout(() => {
       r.slides.classList.remove("no-transition"), r.wrapper.classList.add("ready"), _({
         type: "ready",
         data: {
@@ -2692,7 +2696,7 @@ function Ot(h, e) {
     });
   }
   function $t() {
-    r.slides.classList.add("no-transition"), fe ? r.wrapper.classList.add("no-hover") : r.wrapper.classList.remove("no-hover"), P.render(), I.render(), U.render(), $.render(), j.render(), K.render(), r.pauseOverlay = yi(r.wrapper, "div", "pause-overlay", i.controls ? '<button class="resume-button">Resume presentation</button>' : null), r.statusElement = Xt(), r.wrapper.setAttribute("role", "application");
+    r.slides.classList.add("no-transition"), fe ? r.wrapper.classList.add("no-hover") : r.wrapper.classList.remove("no-hover"), P.render(), N.render(), U.render(), $.render(), j.render(), K.render(), r.pauseOverlay = yi(r.wrapper, "div", "pause-overlay", i.controls ? '<button class="resume-button">Resume presentation</button>' : null), r.statusElement = Xt(), r.wrapper.setAttribute("role", "application");
   }
   function Xt() {
     let a = r.wrapper.querySelector(".aria-status");
@@ -2728,16 +2732,16 @@ function Ot(h, e) {
     const l = { ...i };
     if (typeof a == "object" && ue(i, a), t.isReady() === !1) return;
     const p = r.wrapper.querySelectorAll(re).length;
-    r.wrapper.classList.remove(l.transition), r.wrapper.classList.add(i.transition), r.wrapper.setAttribute("data-transition-speed", i.transitionSpeed), r.wrapper.setAttribute("data-background-transition", i.backgroundTransition), r.viewport.style.setProperty("--slide-width", typeof i.width == "string" ? i.width : i.width + "px"), r.viewport.style.setProperty("--slide-height", typeof i.height == "string" ? i.height : i.height + "px"), i.shuffle && He(), qe(r.wrapper, "embedded", i.embedded), qe(r.wrapper, "rtl", i.rtl), qe(r.wrapper, "center", i.center), i.pause === !1 && pe(), i.previewLinks ? (Qe(), Ne("[data-preview-link=false]")) : (Ne(), Qe("[data-preview-link]:not([data-preview-link=false])")), W.reset(), V && (V.destroy(), V = null), p > 1 && i.autoSlide && i.autoSlideStoppable && (V = new Ji(r.wrapper, () => Math.min(Math.max((Date.now() - se) / T, 0), 1)), V.on("click", gi), z = !1), i.navigationMode !== "default" ? r.wrapper.setAttribute("data-navigation-mode", i.navigationMode) : r.wrapper.removeAttribute("data-navigation-mode"), K.configure(i, l), ae.configure(i, l), Z.configure(i, l), $.configure(i, l), j.configure(i, l), S.configure(i, l), L.configure(i, l), I.configure(i, l), lt();
+    r.wrapper.classList.remove(l.transition), r.wrapper.classList.add(i.transition), r.wrapper.setAttribute("data-transition-speed", i.transitionSpeed), r.wrapper.setAttribute("data-background-transition", i.backgroundTransition), r.viewport.style.setProperty("--slide-width", typeof i.width == "string" ? i.width : i.width + "px"), r.viewport.style.setProperty("--slide-height", typeof i.height == "string" ? i.height : i.height + "px"), i.shuffle && He(), qe(r.wrapper, "embedded", i.embedded), qe(r.wrapper, "rtl", i.rtl), qe(r.wrapper, "center", i.center), i.pause === !1 && pe(), i.previewLinks ? (Qe(), Ne("[data-preview-link=false]")) : (Ne(), Qe("[data-preview-link]:not([data-preview-link=false])")), W.reset(), V && (V.destroy(), V = null), p > 1 && i.autoSlide && i.autoSlideStoppable && (V = new Ji(r.wrapper, () => Math.min(Math.max((Date.now() - se) / I, 0), 1)), V.on("click", gi), z = !1), i.navigationMode !== "default" ? r.wrapper.setAttribute("data-navigation-mode", i.navigationMode) : r.wrapper.removeAttribute("data-navigation-mode"), K.configure(i, l), ae.configure(i, l), Z.configure(i, l), $.configure(i, l), j.configure(i, l), S.configure(i, l), L.configure(i, l), N.configure(i, l), lt();
   }
   function $e() {
-    window.addEventListener("resize", Rt, !1), i.touch && xe.bind(), i.keyboard && S.bind(), i.progress && j.bind(), i.respondToHashChanges && N.bind(), $.bind(), ae.bind(), r.slides.addEventListener("click", At, !1), r.slides.addEventListener("transitionend", St, !1), r.pauseOverlay.addEventListener("click", pe, !1), i.focusBodyOnPageVisibilityChange && document.addEventListener("visibilitychange", kt, !1);
+    window.addEventListener("resize", Rt, !1), i.touch && xe.bind(), i.keyboard && S.bind(), i.progress && j.bind(), i.respondToHashChanges && x.bind(), $.bind(), ae.bind(), r.slides.addEventListener("click", At, !1), r.slides.addEventListener("transitionend", St, !1), r.pauseOverlay.addEventListener("click", pe, !1), i.focusBodyOnPageVisibilityChange && document.addEventListener("visibilitychange", kt, !1);
   }
   function ye() {
-    xe.unbind(), ae.unbind(), S.unbind(), $.unbind(), j.unbind(), N.unbind(), window.removeEventListener("resize", Rt, !1), r.slides.removeEventListener("click", At, !1), r.slides.removeEventListener("transitionend", St, !1), r.pauseOverlay.removeEventListener("click", pe, !1);
+    xe.unbind(), ae.unbind(), S.unbind(), $.unbind(), j.unbind(), x.unbind(), window.removeEventListener("resize", Rt, !1), r.slides.removeEventListener("click", At, !1), r.slides.removeEventListener("transitionend", St, !1), r.pauseOverlay.removeEventListener("click", pe, !1);
   }
   function Qt() {
-    s !== !1 && (ye(), we(), Ne(), K.destroy(), ae.destroy(), H.destroy(), Z.destroy(), $.destroy(), j.destroy(), P.destroy(), I.destroy(), U.destroy(), document.removeEventListener("fullscreenchange", ke), document.removeEventListener("webkitfullscreenchange", ke), document.removeEventListener("visibilitychange", kt, !1), window.removeEventListener("message", Et, !1), window.removeEventListener("load", le, !1), r.pauseOverlay && r.pauseOverlay.remove(), r.statusElement && r.statusElement.remove(), document.documentElement.classList.remove("reveal-full-page"), r.wrapper.classList.remove("ready", "center", "has-horizontal-slides", "has-vertical-slides"), r.wrapper.removeAttribute("data-transition-speed"), r.wrapper.removeAttribute("data-background-transition"), r.viewport.classList.remove("reveal-viewport"), r.viewport.style.removeProperty("--slide-width"), r.viewport.style.removeProperty("--slide-height"), r.slides.style.removeProperty("width"), r.slides.style.removeProperty("height"), r.slides.style.removeProperty("zoom"), r.slides.style.removeProperty("left"), r.slides.style.removeProperty("top"), r.slides.style.removeProperty("bottom"), r.slides.style.removeProperty("right"), r.slides.style.removeProperty("transform"), Array.from(r.wrapper.querySelectorAll(re)).forEach((a) => {
+    s !== !1 && (ye(), we(), Ne(), K.destroy(), ae.destroy(), H.destroy(), Z.destroy(), $.destroy(), j.destroy(), P.destroy(), N.destroy(), U.destroy(), document.removeEventListener("fullscreenchange", ke), document.removeEventListener("webkitfullscreenchange", ke), document.removeEventListener("visibilitychange", kt, !1), window.removeEventListener("message", Et, !1), window.removeEventListener("load", le, !1), r.pauseOverlay && r.pauseOverlay.remove(), r.statusElement && r.statusElement.remove(), document.documentElement.classList.remove("reveal-full-page"), r.wrapper.classList.remove("ready", "center", "has-horizontal-slides", "has-vertical-slides"), r.wrapper.removeAttribute("data-transition-speed"), r.wrapper.removeAttribute("data-background-transition"), r.viewport.classList.remove("reveal-viewport"), r.viewport.style.removeProperty("--slide-width"), r.viewport.style.removeProperty("--slide-height"), r.slides.style.removeProperty("width"), r.slides.style.removeProperty("height"), r.slides.style.removeProperty("zoom"), r.slides.style.removeProperty("left"), r.slides.style.removeProperty("top"), r.slides.style.removeProperty("bottom"), r.slides.style.removeProperty("right"), r.slides.style.removeProperty("transform"), Array.from(r.wrapper.querySelectorAll(re)).forEach((a) => {
       a.style.removeProperty("display"), a.style.removeProperty("top"), a.removeAttribute("hidden"), a.removeAttribute("aria-hidden");
     }));
   }
@@ -2840,7 +2844,7 @@ function Ot(h, e) {
         const p = R.isActive() ? be(a, l) : be(), m = y;
         tt(i.width, i.height), r.slides.style.width = p.width + "px", r.slides.style.height = p.height + "px", y = Math.min(p.presentationWidth / p.width, p.presentationHeight / p.height), y = Math.max(y, i.minScale), y = Math.min(y, i.maxScale), y === 1 || R.isActive() ? (r.slides.style.zoom = "", r.slides.style.left = "", r.slides.style.top = "", r.slides.style.bottom = "", r.slides.style.right = "", Ie({ layout: "" })) : (r.slides.style.zoom = "", r.slides.style.left = "50%", r.slides.style.top = "50%", r.slides.style.bottom = "auto", r.slides.style.right = "auto", Ie({ layout: "translate(-50%, -50%) scale(" + y + ")" }));
         const b = Array.from(r.wrapper.querySelectorAll(re));
-        for (let C = 0, x = b.length; C < x; C++) {
+        for (let C = 0, T = b.length; C < T; C++) {
           const B = b[C];
           B.style.display !== "none" && (i.center || B.classList.contains("center") ? B.classList.contains("stack") ? B.style.top = 0 : B.style.top = Math.max((p.height - B.scrollHeight) / 2, 0) + "px" : B.style.top = "");
         }
@@ -2860,8 +2864,8 @@ function Ot(h, e) {
     E(r.slides, "section > .stretch, section > .r-stretch").forEach((p) => {
       let m = bi(p, l);
       if (/(img|video)/gi.test(p.nodeName)) {
-        const b = p.naturalWidth || p.videoWidth, C = p.naturalHeight || p.videoHeight, x = Math.min(a / b, m / C);
-        p.style.width = b * x + "px", p.style.height = C * x + "px";
+        const b = p.naturalWidth || p.videoWidth, C = p.naturalHeight || p.videoHeight, T = Math.min(a / b, m / C);
+        p.style.width = b * T + "px", p.style.height = C * T + "px";
       } else
         p.style.width = a + "px", p.style.height = m + "px";
     });
@@ -2933,7 +2937,7 @@ function Ot(h, e) {
     typeof a == "boolean" ? a ? Se() : Ee() : z ? Se() : Ee();
   }
   function ai() {
-    return !!(T && !z);
+    return !!(I && !z);
   }
   function X(a, l, p, m) {
     if (_({
@@ -2953,7 +2957,7 @@ function Ot(h, e) {
     }
     if (C.length === 0) return;
     l === void 0 && !u.isActive() && (l = st(C[a])), c && c.parentNode && c.parentNode.classList.contains("stack") && it(c.parentNode, o);
-    const x = v.concat();
+    const T = v.concat();
     v.length = 0;
     let B = n || 0, ne = o || 0;
     n = dt(te, a === void 0 ? n : a), o = dt(Tt, l === void 0 ? o : l);
@@ -2968,18 +2972,18 @@ function Ot(h, e) {
       });
     }, 0));
     e: for (let Y = 0, pi = v.length; Y < pi; Y++) {
-      for (let Le = 0; Le < x.length; Le++)
-        if (x[Le] === v[Y]) {
-          x.splice(Le, 1);
+      for (let Le = 0; Le < T.length; Le++)
+        if (T[Le] === v[Y]) {
+          T.splice(Le, 1);
           continue e;
         }
       r.viewport.classList.add(v[Y]), _({ type: v[Y] });
     }
-    for (; x.length; )
-      r.viewport.classList.remove(x.pop());
+    for (; T.length; )
+      r.viewport.classList.remove(T.pop());
     Q && Ge(m), (Q || !c) && (k.stopEmbeddedContent(c), k.startEmbeddedContent(f)), requestAnimationFrame(() => {
       Te(me(f));
-    }), j.update(), $.update(), K.update(), P.update(), P.updateParallax(), I.update(), L.update(), N.writeURL(), de(), ce && (setTimeout(() => {
+    }), j.update(), $.update(), K.update(), P.update(), P.updateParallax(), N.update(), L.update(), x.writeURL(), de(), ce && (setTimeout(() => {
       r.slides.classList.remove("disable-slide-transitions");
     }, 0), i.autoAnimate && W.run(c, f));
   }
@@ -2995,7 +2999,7 @@ function Ot(h, e) {
     }), Ge();
   }
   function lt() {
-    ye(), $e(), le(), T = i.autoSlide, de(), P.create(), N.writeURL(), i.sortFragmentsOnSync === !0 && L.sortAll(), $.update(), j.update(), De(), K.update(), K.updateVisibility(), P.update(!0), I.update(), k.formatEmbeddedContent(), i.autoPlayMedia === !1 ? k.stopEmbeddedContent(f, { unloadIframes: !1 }) : k.startEmbeddedContent(f), u.isActive() && u.layout();
+    ye(), $e(), le(), I = i.autoSlide, de(), P.create(), x.writeURL(), i.sortFragmentsOnSync === !0 && L.sortAll(), $.update(), j.update(), De(), K.update(), K.updateVisibility(), P.update(!0), N.update(), k.formatEmbeddedContent(), i.autoPlayMedia === !1 ? k.stopEmbeddedContent(f, { unloadIframes: !1 }) : k.startEmbeddedContent(f), u.isActive() && u.layout();
   }
   function ri(a = f) {
     P.sync(a), L.sync(a), k.load(a), P.update(), K.update();
@@ -3016,16 +3020,16 @@ function Ot(h, e) {
     });
   }
   function dt(a, l) {
-    let p = E(r.wrapper, a), m = p.length, b = R.isActive() || D.isActive(), C = !1, x = !1;
+    let p = E(r.wrapper, a), m = p.length, b = R.isActive() || D.isActive(), C = !1, T = !1;
     if (m) {
-      i.loop && (l >= m && (C = !0), l %= m, l < 0 && (l = m + l, x = !0)), l = Math.max(Math.min(l, m - 1), 0);
+      i.loop && (l >= m && (C = !0), l %= m, l < 0 && (l = m + l, T = !0)), l = Math.max(Math.min(l, m - 1), 0);
       for (let q = 0; q < m; q++) {
         let M = p[q], ce = i.rtl && !ge(M);
         if (M.classList.remove("past"), M.classList.remove("present"), M.classList.remove("future"), M.setAttribute("hidden", ""), M.setAttribute("aria-hidden", "true"), M.querySelector("section") && M.classList.add("stack"), b) {
           M.classList.add("present");
           continue;
         }
-        q < l ? (M.classList.add(ce ? "future" : "past"), i.fragments && ct(M)) : q > l ? (M.classList.add(ce ? "past" : "future"), i.fragments && ht(M)) : q === l && i.fragments && (C ? ht(M) : x && ct(M));
+        q < l ? (M.classList.add(ce ? "future" : "past"), i.fragments && ct(M)) : q > l ? (M.classList.add(ce ? "past" : "future"), i.fragments && ht(M)) : q === l && i.fragments && (C ? ht(M) : T && ct(M));
       }
       let B = p[l], ne = B.classList.contains("present");
       B.classList.add("present"), B.removeAttribute("hidden"), B.removeAttribute("aria-hidden"), ne || _({
@@ -3055,9 +3059,9 @@ function Ot(h, e) {
       let b = u.isActive() ? 10 : i.viewDistance;
       fe && (b = u.isActive() ? 6 : i.mobileViewDistance), D.isActive() && (b = Number.MAX_VALUE);
       for (let C = 0; C < l; C++) {
-        let x = a[C], B = E(x, "section"), ne = B.length;
-        if (p = Math.abs((n || 0) - C) || 0, i.loop && (p = Math.abs(((n || 0) - C) % (l - b)) || 0), p < b ? k.load(x) : k.unload(x), ne) {
-          let Q = st(x);
+        let T = a[C], B = E(T, "section"), ne = B.length;
+        if (p = Math.abs((n || 0) - C) || 0, i.loop && (p = Math.abs(((n || 0) - C) % (l - b)) || 0), p < b ? k.load(T) : k.unload(T), ne) {
+          let Q = st(T);
           for (let q = 0; q < ne; q++) {
             let M = B[q];
             m = Math.abs(C === (n || 0) ? (o || 0) - q : q - Q), p + m < b ? k.load(M) : k.unload(M);
@@ -3088,10 +3092,10 @@ function Ot(h, e) {
     let l = ee(), p = 0;
     e: for (let m = 0; m < l.length; m++) {
       let b = l[m], C = b.querySelectorAll("section");
-      for (let x = 0; x < C.length; x++) {
-        if (C[x] === a)
+      for (let T = 0; T < C.length; T++) {
+        if (C[T] === a)
           break e;
-        C[x].dataset.visibility !== "uncounted" && p++;
+        C[T].dataset.visibility !== "uncounted" && p++;
       }
       if (b === a)
         break;
@@ -3116,8 +3120,8 @@ function Ot(h, e) {
       if (R.isActive())
         l = parseInt(a.getAttribute("data-index-h"), 10), a.getAttribute("data-index-v") && (p = parseInt(a.getAttribute("data-index-v"), 10));
       else {
-        let b = ge(a), C = b ? a.parentNode : a, x = ee();
-        l = Math.max(x.indexOf(C), 0), p = void 0, b && (p = Math.max(E(a.parentNode, "section").indexOf(a), 0));
+        let b = ge(a), C = b ? a.parentNode : a, T = ee();
+        l = Math.max(T.indexOf(C), 0), p = void 0, b && (p = Math.max(E(a.parentNode, "section").indexOf(a), 0));
       }
     if (!a && f && f.querySelectorAll(".fragment").length > 0) {
       let C = f.querySelector(".current-fragment");
@@ -3185,21 +3189,21 @@ function Ot(h, e) {
   function de() {
     if (we(), f && i.autoSlide !== !1) {
       let a = f.querySelector(".current-fragment[data-autoslide]"), l = a ? a.getAttribute("data-autoslide") : null, p = f.parentNode ? f.parentNode.getAttribute("data-autoslide") : null, m = f.getAttribute("data-autoslide");
-      l ? T = parseInt(l, 10) : m ? T = parseInt(m, 10) : p ? T = parseInt(p, 10) : (T = i.autoSlide, f.querySelectorAll(".fragment").length === 0 && E(f, "video, audio").forEach((b) => {
-        b.hasAttribute("data-autoplay") && T && b.duration * 1e3 / b.playbackRate > T && (T = b.duration * 1e3 / b.playbackRate + 1e3);
-      })), T && !z && !ve() && !u.isActive() && (!Me() || L.availableRoutes().next || i.loop === !0) && (O = setTimeout(() => {
+      l ? I = parseInt(l, 10) : m ? I = parseInt(m, 10) : p ? I = parseInt(p, 10) : (I = i.autoSlide, f.querySelectorAll(".fragment").length === 0 && E(f, "video, audio").forEach((b) => {
+        b.hasAttribute("data-autoplay") && I && b.duration * 1e3 / b.playbackRate > I && (I = b.duration * 1e3 / b.playbackRate + 1e3);
+      })), I && !z && !ve() && !u.isActive() && (!Me() || L.availableRoutes().next || i.loop === !0) && (O = setTimeout(() => {
         typeof i.autoSlideMethod == "function" ? i.autoSlideMethod() : Oe(), de();
-      }, T), se = Date.now()), V && V.setPlaying(O !== -1);
+      }, I), se = Date.now()), V && V.setPlaying(O !== -1);
     }
   }
   function we() {
     clearTimeout(O), O = -1;
   }
   function Ee() {
-    T && !z && (z = !0, _({ type: "autoslidepaused" }), clearTimeout(O), V && V.setPlaying(!1));
+    I && !z && (z = !0, _({ type: "autoslidepaused" }), clearTimeout(O), V && V.setPlaying(!1));
   }
   function Se() {
-    T && z && (z = !1, _({ type: "autoslideresumed" }), de());
+    I && z && (z = !1, _({ type: "autoslideresumed" }), de());
   }
   function Ae({ skipFragments: a = !1 } = {}) {
     if (g.hasNavigatedHorizontally = !0, R.isActive()) return R.prev();
@@ -3258,7 +3262,7 @@ function Ot(h, e) {
   function At(a) {
     const l = F(a.target, 'a[href^="#"]');
     if (l) {
-      const p = l.getAttribute("href"), m = N.getIndicesFromHash(p);
+      const p = l.getAttribute("href"), m = x.getIndicesFromHash(p);
       m && (t.slide(m.h, m.v, m.f), a.preventDefault());
     }
   }
@@ -3417,7 +3421,7 @@ function Ot(h, e) {
     // Helper method, retrieves query string as a key:value map
     getQueryHash: xt,
     // Returns the path to the current slide as represented in the URL
-    getSlidePath: N.getHash.bind(N),
+    getSlidePath: x.getHash.bind(x),
     // Returns reveal.js DOM elements
     getRevealElement: () => h,
     getSlidesElement: () => r.slides,
@@ -3439,12 +3443,12 @@ function Ot(h, e) {
     scroll: R,
     progress: j,
     controls: $,
-    location: N,
+    location: x,
     overview: u,
     fragments: L,
     backgrounds: P,
     slideContent: k,
-    slideNumber: I,
+    slideNumber: N,
     onUserInput: fi,
     closeOverlay: G,
     updateSlidesVisibility: De,

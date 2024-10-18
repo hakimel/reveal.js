@@ -7,7 +7,14 @@
  */
 
 @use "sass:math";
-@import 'layout';
+@use 'layout';
+
+/*********************************************
+ * PRINT STYLES
+ *********************************************/
+
+ @use 'print/pdf.scss';
+ @use 'print/paper.scss';
 
 /*********************************************
  * GLOBAL STYLES
@@ -329,7 +336,7 @@ $controlsArrowAngleActive: 36deg;
 		background-color: currentColor;
 
 		transition: all 0.15s ease, background-color 0.8s ease;
-		transform-origin: math.div(floor(($controlArrowThickness*0.5)*10), 10) 50%;
+		transform-origin: math.div(math.floor(($controlArrowThickness*0.5)*10), 10) 50%;
 		will-change: transform;
 	}
 
@@ -2179,12 +2186,4 @@ $notesWidthPercent: 25%;
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 	}
 }
-
-
-/*********************************************
- * PRINT STYLES
- *********************************************/
-
-@import 'print/pdf.scss';
-@import 'print/paper.scss';
 

@@ -3,6 +3,8 @@
 // Base settings for all themes that can optionally be
 // overridden by the super-theme
 
+@use 'sass:color';
+
 // Background of the presentation
 $backgroundColor: #2b2b2b;
 

@@ -77,16 +77,15 @@
     "presentation"
   ],
   "devDependencies": {
-    "colors": "^1.4.0",
-    "fitty": "^2.3.7",
+    "fitty": "^2.4.2",
     "glob": "^10.3.10",
-    "highlight.js": "^11.9.0",
+    "highlight.js": "^11.10.0",
     "marked": "^4.3.0",
     "node-qunit-puppeteer": "^2.2.0",
-    "qunit": "^2.20.0",
-    "sass": "^1.69.5",
+    "qunit": "^2.22.0",
+    "sass": "^1.80.2",
     "typescript": "^5.2.2",
-    "vite": "^5.4.8",
+    "vite": "^5.4.9",
     "vite-plugin-dts": "^4.2.4"
   },
   "browserslist": "> 2%, not dead",
