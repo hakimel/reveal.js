@@ -1,7 +1,11 @@
-const path = require("path");
-const glob = require("glob");
-const { runQunitPuppeteer, printFailedTests, printOutput } = require("node-qunit-puppeteer");
-const { createServer } = require('vite');
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { glob } from "glob";
+import { runQunitPuppeteer, printFailedTests } from "node-qunit-puppeteer";
+import { createServer } from 'vite';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const testFiles = glob.sync('test/*.html');
 
@@ -48,7 +52,7 @@ const runTests = async (server) => {
     }
   }));
 
-  console.log(`\n${combinedResults.failed}/${combinedResults.total} tests failed, ${combinedResults.runtime}ms runtime`);
+  console.log(`\n${combinedResults.passed}/${combinedResults.total} tests passed, ${combinedResults.failed} failed, ${combinedResults.runtime}ms runtime`);
 
   // Exit with status code 1 if any tests failed, otherwise exit with 0
   process.exit(combinedResults.failed > 0 ? 1 : 0);

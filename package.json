@@ -12,43 +12,52 @@
   "exports": {
     ".": {
       "import": "./dist/reveal.mjs",
-      "require": "./dist/reveal.js"
+      "require": "./dist/reveal.js",
+      "default": "./dist/reveal.js"
     },
 
     "./reveal.css": "./dist/reveal.css",
     "./reset.css": "./dist/reset.css",
 
+    "./theme/*": "./dist/theme/*",
+
     "./plugin/highlight": {
       "import": "./dist/plugin/highlight.mjs",
-      "require": "./dist/plugin/highlight.js"
+      "require": "./dist/plugin/highlight.js",
+      "default": "./dist/plugin/highlight.js"
     },
     "./plugin/markdown": {
       "import": "./dist/plugin/markdown.mjs",
-      "require": "./dist/plugin/markdown.js"
+      "require": "./dist/plugin/markdown.js",
+      "default": "./dist/plugin/markdown.js"
     },
     "./plugin/math": {
       "import": "./dist/plugin/math.mjs",
-      "require": "./dist/plugin/math.js"
+      "require": "./dist/plugin/math.js",
+      "default": "./dist/plugin/math.js"
     },
     "./plugin/notes": {
       "import": "./dist/plugin/notes.mjs",
-      "require": "./dist/plugin/notes.js"
+      "require": "./dist/plugin/notes.js",
+      "default": "./dist/plugin/notes.js"
     },
     "./plugin/search": {
       "import": "./dist/plugin/search.mjs",
-      "require": "./dist/plugin/search.js"
+      "require": "./dist/plugin/search.js",
+      "default": "./dist/plugin/search.js"
     },
     "./plugin/zoom": {
       "import": "./dist/plugin/zoom.mjs",
-      "require": "./dist/plugin/zoom.js"
+      "require": "./dist/plugin/zoom.js",
+      "default": "./dist/plugin/zoom.js"
     }
   },
   "scripts": {
-    "dev": "vite --port 8000",
+    "dev": "npm run start",
+    "start": "vite --port 8000",
     "build:core": "tsc && vite build && vite build -c vite.config.styles.ts",
     "build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts",
-    "test": "node test.cjs",
-    "start": "vite --port 8000"
+    "test": "node test.js"
   },
   "author": {
     "name": "Hakim El Hattab",
