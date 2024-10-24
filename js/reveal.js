@@ -130,11 +130,15 @@ export default function( revealElement, options ) {
 
 		if( !revealElement ) throw 'Unable to find presentation root (<div class="reveal">).';
 
-		initialized = true;
+		// Skip initialization if initialize is already called
+		if( Object.is( revealElement, dom.wrapper ) ) return;
 
 		// Cache references to key DOM elements
+		// Need to set immediately after Object.is check
 		dom.wrapper = revealElement;
 		dom.slides = revealElement.querySelector( '.slides' );
+
+		initialized = true;
 
 		if( !dom.slides ) throw 'Unable to find slides container (<div class="slides">).';
 
@@ -670,6 +674,10 @@ export default function( revealElement, options ) {
 			slide.removeAttribute( 'aria-hidden' );
 		} );
 
+		// Free cached references to allow re-initialization
+		// Need to be the last step of destroy
+		delete dom.wrapper;
+		delete dom.slides;
 	}
 
 	/**
