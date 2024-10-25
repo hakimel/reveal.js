@@ -130,6 +130,8 @@ export default function( revealElement, options ) {
 
 		if( !revealElement ) throw 'Unable to find presentation root (<div class="reveal">).';
 
+		if( initialized ) throw 'Reveal.js has already been initialized.';
+
 		initialized = true;
 
 		// Cache references to key DOM elements
