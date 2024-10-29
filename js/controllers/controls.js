@@ -146,9 +146,14 @@ export default class Controls {
 			if( fragmentsRoutes.prev ) this.controlsPrev.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			if( fragmentsRoutes.next ) this.controlsNext.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 
+			const isVerticalStack = this.Reveal.isVerticalSlide( currentSlide );
+			const hasVerticalSiblings = isVerticalStack &&
+																	currentSlide.parentElement &&
+																	currentSlide.parentElement.querySelectorAll( ':scope > section' ).length > 1;
+
 			// Apply fragment decorators to directional buttons based on
 			// what slide axis they are in
-			if( this.Reveal.isVerticalSlide( currentSlide ) ) {
+			if( isVerticalStack && hasVerticalSiblings ) {
 				if( fragmentsRoutes.prev ) this.controlsUp.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 				if( fragmentsRoutes.next ) this.controlsDown.forEach( el => { el.classList.add( 'fragmented', 'enabled' ); el.removeAttribute( 'disabled' ); } );
 			}
