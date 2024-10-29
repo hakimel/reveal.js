@@ -288,7 +288,7 @@ gulp.task('package', gulp.series(async () => {
     if (fs.existsSync('./images')) dirs.push('./images/**');
     if (fs.existsSync('./slides')) dirs.push('./slides/**');
 
-    return gulp.src( dirs, { base: './' } )
+    return gulp.src( dirs, { base: './', encoding: false } )
     .pipe(zip('reveal-js-presentation.zip')).pipe(gulp.dest('./'))
 
 }))
