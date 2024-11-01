@@ -15,12 +15,9 @@
       "require": "./dist/reveal.js",
       "default": "./dist/reveal.js"
     },
-
     "./reveal.css": "./dist/reveal.css",
     "./reset.css": "./dist/reset.css",
-
     "./theme/*": "./dist/theme/*",
-
     "./plugin/highlight": {
       "import": "./dist/plugin/highlight.mjs",
       "require": "./dist/plugin/highlight.js",
