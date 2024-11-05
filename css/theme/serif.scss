@@ -6,43 +6,42 @@
  */
 
 // Load utils
-@use "sass:color";
-@use "template/mixins" as mixins;
+@use 'sass:color';
+@use 'template/mixins' as mixins;
 
-$active-color: #51483D;
+$active-color: #51483d;
 
 // Inject theme variables (with some overrides)
-@use "template/settings" with (
-    $background-color: #F0F1EB,
+@use 'template/settings' with (
+	$background-color: #f0f1eb,
 
-    $main-font: #{'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif},
-    $main-font-size: 42px,
-    $main-color: #000,
+	$main-font: "'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif",
+	$main-font-size: 42px,
+	$main-color: #000,
 
-    $heading-color: #383D3D,
-    $heading-font: #{'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif},
-    $heading-font-weight: 600,
-    $heading-text-transform: none,
+	$heading-color: #383d3d,
+	$heading-font: "'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif",
+	$heading-font-weight: 600,
+	$heading-text-transform: none,
 
-    $link-color: $active-color,
-    $link-color-hover: color.scale( $active-color, $lightness: 25% ),
+	$link-color: $active-color,
+	$link-color-hover: color.scale($active-color, $lightness: 25%),
+	$selection-color: #fff,
+	$selection-background-color: $active-color,
 
-    $selection-color: #fff,
-    $selection-background-color: $active-color,
-
-    $overlay-element-bg-color: #{0, 0, 0},
-    $overlay-element-fg-color: #{240, 240, 240}
+	$overlay-element-bg-color: '0 0 0',
+	$overlay-element-fg-color: '240 240 240'
 );
 
 // Inject the theme template
-@use "template/theme";
+@use 'template/theme';
 
 // Include theme-specific fonts
-@import url("./fonts/source-sans-pro/source-sans-pro.css");
+@import url('./fonts/source-sans-pro/source-sans-pro.css');
 
 // Change text colors against light slide backgrounds
 @include mixins.dark-bg-text-color(#fff);
 
 .reveal a {
-  line-height: 1.3em;
+	line-height: 1.3em;
 }

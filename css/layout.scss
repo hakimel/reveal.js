@@ -38,7 +38,8 @@
 .reveal .r-hstack {
 	display: flex;
 
-	img, video {
+	img,
+	video {
 		min-width: 0;
 		min-height: 0;
 		object-fit: contain;
@@ -58,13 +59,31 @@
 }
 
 // Naming based on tailwindcss
-.reveal .items-stretch { align-items: stretch; }
-.reveal .items-start { align-items: flex-start; }
-.reveal .items-center { align-items: center; }
-.reveal .items-end { align-items: flex-end; }
+.reveal .items-stretch {
+	align-items: stretch;
+}
+.reveal .items-start {
+	align-items: flex-start;
+}
+.reveal .items-center {
+	align-items: center;
+}
+.reveal .items-end {
+	align-items: flex-end;
+}
 
-.reveal .justify-between { justify-content: space-between; }
-.reveal .justify-around { justify-content: space-around; }
-.reveal .justify-start { justify-content: flex-start; }
-.reveal .justify-center { justify-content: center; }
-.reveal .justify-end { justify-content: flex-end; }
+.reveal .justify-between {
+	justify-content: space-between;
+}
+.reveal .justify-around {
+	justify-content: space-around;
+}
+.reveal .justify-start {
+	justify-content: flex-start;
+}
+.reveal .justify-center {
+	justify-content: center;
+}
+.reveal .justify-end {
+	justify-content: flex-end;
+}

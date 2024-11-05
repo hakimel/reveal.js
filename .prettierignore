@@ -1,3 +1,6 @@
-**/*
+**/*.html
+
 js/**/*.js
 plugin/**/*.js
+test/**/*.md
+examples/**/*.md

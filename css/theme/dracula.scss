@@ -4,84 +4,64 @@
  */
 
 // Load utils
-@use "sass:color";
-@use "template/mixins" as mixins;
+@use 'sass:color';
+@use 'template/mixins' as mixins;
 
 // Include theme-specific fonts
-@import url(./fonts/league-gothic/league-gothic.css);
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+$systemFontsSansSerif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
+	helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+$systemFontsMono: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 
-$systemFontsSansSerif: -apple-system,
-					   BlinkMacSystemFont,
-					   avenir next,
-					   avenir,
-					   segoe ui,
-					   helvetica neue,
-					   helvetica,
-					   Cantarell,
-					   Ubuntu,
-					   roboto,
-					   noto,
-					   arial,
-					   sans-serif;
-$systemFontsMono: Menlo,
-				  Consolas,
-				  Monaco,
-				  Liberation Mono,
-				  Lucida Console,
-				  monospace;
-
-$background: #282A36;
-$foreground: #F8F8F2;
-$selection: #44475A;
-$comment: #6272A4;
-$red: #FF5555;
-$orange: #FFB86C;
-$yellow: #F1FA8C;
-$green: #50FA7B;
-$purple: #BD93F9;
-$cyan: #8BE9FD;
-$pink: #FF79C6;
+$background: #282a36;
+$foreground: #f8f8f2;
+$selection: #44475a;
+$comment: #6272a4;
+$red: #ff5555;
+$orange: #ffb86c;
+$yellow: #f1fa8c;
+$green: #50fa7b;
+$purple: #bd93f9;
+$cyan: #8be9fd;
+$pink: #ff79c6;
 
 $mainFont: $systemFontsSansSerif;
-$codeFont: "Fira Code", $systemFontsMono;
+$codeFont: 'Fira Code', $systemFontsMono;
 
 // Inject theme variables (with some overrides)
-@use "template/settings" with (
-    $background-color: #191919,
+@use 'template/settings' with (
+	$background-color: #191919,
 
-    $main-font: $mainFont,
-    $main-font-size: 42px,
-    $main-color: $foreground,
+	$main-font: $mainFont,
+	$main-font-size: 42px,
+	$main-color: $foreground,
 
-		$code-font: $codeFont,
+	$code-font: $codeFont,
 
-    $heading-color: $purple,
-    $heading-font: $mainFont,
-    $heading-font-weight: 600,
-		$heading-text-transform: none,
+	$heading-color: $purple,
+	$heading-font: $mainFont,
+	$heading-font-weight: 600,
+	$heading-text-transform: none,
 
-    $heading1-size: 2.5em,
-    $heading2-size: 1.6em,
-    $heading3-size: 1.3em,
-    $heading4-size: 1.0em,
+	$heading1-size: 2.5em,
+	$heading2-size: 1.6em,
+	$heading3-size: 1.3em,
+	$heading4-size: 1em,
 
-    $link-color: $pink,
-    $link-color-hover: $cyan,
+	$link-color: $pink,
+	$link-color-hover: $cyan,
 
-    $selection-color: #fff,
-    $selection-background-color: $selection
+	$selection-color: #fff,
+	$selection-background-color: $selection
 );
 
 // Inject the theme template
-@use "template/theme";
+@use 'template/theme';
 
 // Include theme-specific fonts
-@import url("./fonts/source-sans-pro/source-sans-pro.css");
+@import url('./fonts/source-sans-pro/source-sans-pro.css');
 
 // Change text colors against light slide backgrounds
 @include mixins.light-bg-text-color($background);
-
 
 // Define additional color effects based on Dracula spec
 // https://spec.draculatheme.com/
@@ -97,20 +77,23 @@ $codeFont: "Fira Code", $systemFontsMono;
  * https://draculatheme.com/contribute
  */
 .reveal {
-	strong, b {
+	strong,
+	b {
 		color: var(--r-bold-color);
 	}
-	em, i, blockquote {
+	em,
+	i,
+	blockquote {
 		color: var(--r-italic-color);
 	}
 	code {
 		color: var(--r-inline-code-color);
 	}
 	// Dracula colored list bullets and numbers
-	ul, ol {
+	ul,
+	ol {
 		li::marker {
 			color: var(--r-list-bullet-color);
 		}
 	}
 }
-

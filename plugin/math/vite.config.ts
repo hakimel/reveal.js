@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 import { appendExtension } from '../../vite.config.ts';
 
 // Once Vite supports multiple entries for plugins, this build can
@@ -15,8 +15,8 @@ export default defineConfig({
         'plugin/math': resolve(__dirname, 'index.js'),
       },
       name: 'RevealMath',
-      fileName: appendExtension
-    }
+      fileName: appendExtension,
+    },
   },
   plugins: [],
-})
+});
