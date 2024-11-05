@@ -36,4 +36,11 @@ export default defineConfig({
     },
   },
   plugins: [dts({ insertTypesEntry: true, rollupTypes: true })],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
 });

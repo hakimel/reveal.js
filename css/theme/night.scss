@@ -4,31 +4,37 @@
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
 
-// Default mixins and settings -----------------
+// Load utils
 @use "sass:color";
-@import "../template/mixins";
-@import "../template/settings";
-// ---------------------------------------------
+@use "template/mixins" as mixins;
+
+$active-color: #e7ad52;
+
+// Inject theme variables (with some overrides)
+@use "template/settings" with (
+    $background-color: #111,
+
+    $main-font: #{'Open Sans', sans-serif},
+    $main-color: #fff,
+
+    $heading-color: #fff,
+    $heading-font: #{'Montserrat', Impact, sans-serif},
+    $heading-text-transform: none,
+    $heading-letter-spacing: -0.03em,
+
+    $link-color: $active-color,
+    $link-color-hover: color.scale( $active-color, $lightness: 20% ),
+
+    $selection-color: #111,
+    $selection-background-color: $active-color
+);
+
+// Inject the theme template
+@use "template/theme";
 
 // Include theme-specific fonts
 @import url("https://fonts.googleapis.com/css?family=Montserrat:700");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic");
 
-// Override theme settings (see ../template/settings.scss)
-$backgroundColor: #111;
-
-$mainFont: "Open Sans", sans-serif;
-$linkColor: #e7ad52;
-$linkColorHover: color.scale($linkColor, $lightness: 20%);
-$headingFont: "Montserrat", Impact, sans-serif;
-$headingTextShadow: none;
-$headingLetterSpacing: -0.03em;
-$headingTextTransform: none;
-$selectionBackgroundColor: #e7ad52;
-
 // Change text colors against light slide backgrounds
-@include light-bg-text-color(#222);
-
-// Theme template ------------------------------
-@import "./template/theme";
-// ---------------------------------------------
+@include mixins.light-bg-text-color(#222);

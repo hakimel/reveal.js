@@ -5,34 +5,44 @@
  * This theme is Copyright (C) 2012-2013 Owen Versteeg, http://owenversteeg.com - it is MIT licensed.
  */
 
-// Default mixins and settings -----------------
+// Load utils
 @use "sass:color";
-@import "../template/mixins";
-@import "../template/settings";
-// ---------------------------------------------
+@use "template/mixins" as mixins;
 
-// Override theme settings (see ../template/settings.scss)
-$mainFont: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
-$mainColor: #000;
-$headingFont: "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
-$headingColor: #383d3d;
-$headingTextShadow: none;
-$headingTextTransform: none;
-$backgroundColor: #f0f1eb;
-$linkColor: #51483d;
-$linkColorHover: color.scale($linkColor, $lightness: 20%);
-$selectionBackgroundColor: #26351c;
+$active-color: #51483D;
 
-$overlayElementBgColor: 0, 0, 0;
-$overlayElementFgColor: 240, 240, 240;
+// Inject theme variables (with some overrides)
+@use "template/settings" with (
+    $background-color: #F0F1EB,
+
+    $main-font: #{'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif},
+    $main-font-size: 42px,
+    $main-color: #000,
+
+    $heading-color: #383D3D,
+    $heading-font: #{'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif},
+    $heading-font-weight: 600,
+    $heading-text-transform: none,
+
+    $link-color: $active-color,
+    $link-color-hover: color.scale( $active-color, $lightness: 25% ),
+
+    $selection-color: #fff,
+    $selection-background-color: $active-color,
+
+    $overlay-element-bg-color: #{0, 0, 0},
+    $overlay-element-fg-color: #{240, 240, 240}
+);
+
+// Inject the theme template
+@use "template/theme";
+
+// Include theme-specific fonts
+@import url("./fonts/source-sans-pro/source-sans-pro.css");
+
+// Change text colors against light slide backgrounds
+@include mixins.dark-bg-text-color(#fff);
 
 .reveal a {
   line-height: 1.3em;
 }
-
-// Change text colors against dark slide backgrounds
-@include dark-bg-text-color(#fff);
-
-// Theme template ------------------------------
-@import "./template/theme";
-// ---------------------------------------------

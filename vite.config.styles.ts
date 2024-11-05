@@ -13,6 +13,13 @@ const themeEntries = themeFiles.reduce((acc, file) => {
 
 export default defineConfig({
   root: './',
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
   build: {
     emptyOutDir: false,
     cssCodeSplit: true,

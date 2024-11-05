@@ -4,43 +4,44 @@
  * By Hakim El Hattab, http://hakim.se
  */
 
-// Default mixins and settings -----------------
+// Load utils
 @use "sass:color";
-@import "../template/mixins";
-@import "../template/settings";
-// ---------------------------------------------
+@use "template/mixins" as mixins;
+
+$active-color: #2a76dd;
+
+// Inject theme variables (with some overrides)
+@use "template/settings" with (
+    $background-color: #fff,
+
+    $main-color: #222,
+    $main-font: #{'Source Sans Pro', Helvetica, sans-serif},
+    $main-font-size: 42px,
+
+    $heading-color: #222,
+    $heading-font: #{'Source Sans Pro', Helvetica, sans-serif},
+    $heading-font-weight: 600,
+
+    $heading1-size: 2.5em,
+    $heading2-size: 1.6em,
+    $heading3-size: 1.3em,
+    $heading4-size: 1.0em,
+
+    $link-color: $active-color,
+    $link-color-hover: color.scale( $active-color, $lightness: 15% ),
+
+    $selection-color: #fff,
+    $selection-background-color: $active-color,
+
+    $overlay-element-bg-color: #{0, 0, 0},
+    $overlay-element-fg-color: #{240, 240, 240}
+);
+
+// Inject the theme template
+@use "template/theme";
 
 // Include theme-specific fonts
 @import url("./fonts/source-sans-pro/source-sans-pro.css");
 
-// Override theme settings (see ../template/settings.scss)
-$backgroundColor: #fff;
-
-$mainColor: #222;
-$headingColor: #222;
-
-$mainFontSize: 42px;
-$mainFont: "Source Sans Pro", Helvetica, sans-serif;
-$headingFont: "Source Sans Pro", Helvetica, sans-serif;
-$headingTextShadow: none;
-$headingLetterSpacing: normal;
-$headingTextTransform: uppercase;
-$headingFontWeight: 600;
-$linkColor: #2a76dd;
-$linkColorHover: color.scale($linkColor, $lightness: 15%);
-$selectionBackgroundColor: color.scale($linkColor, $lightness: 25%);
-
-$heading1Size: 2.5em;
-$heading2Size: 1.6em;
-$heading3Size: 1.3em;
-$heading4Size: 1em;
-
-$overlayElementBgColor: 0, 0, 0;
-$overlayElementFgColor: 240, 240, 240;
-
-// Change text colors against dark slide backgrounds
-@include dark-bg-text-color(#fff);
-
-// Theme template ------------------------------
-@import "./template/theme";
-// ---------------------------------------------
+// Change text when the background is inverted
+@include mixins.dark-bg-text-color(#fff);

@@ -4,10 +4,8 @@
  * GLOBAL STYLES
  *********************************************/
 
-@import "./exposer";
-
 .reveal-viewport {
-	@include bodyBackground();
+	background: var(--r-background);
 	background-color: var(--r-background-color);
 }
 
