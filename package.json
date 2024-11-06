@@ -1,6 +1,6 @@
 {
 	"name": "reveal.js",
-	"version": "5.0.5",
+	"version": "6.0.0-rc.1",
 	"description": "The HTML Presentation Framework",
 	"homepage": "https://revealjs.com",
 	"subdomain": "revealjs",
@@ -83,46 +83,8 @@
 		"qunit": "^2.22.0",
 		"sass": "^1.80.2",
 		"typescript": "^5.2.2",
-		"vite": "^5.4.9",
+		"vite": "^5.4.10",
 		"vite-plugin-dts": "^4.2.4"
 	},
-	"browserslist": "> 2%, not dead",
-	"eslintConfig": {
-		"env": {
-			"browser": true,
-			"es6": true
-		},
-		"parser": "@babel/eslint-parser",
-		"parserOptions": {
-			"sourceType": "module",
-			"allowImportExportEverywhere": true,
-			"requireConfigFile": false
-		},
-		"globals": {
-			"module": false,
-			"console": false,
-			"unescape": false,
-			"define": false,
-			"exports": false
-		},
-		"rules": {
-			"curly": 0,
-			"eqeqeq": 2,
-			"wrap-iife": [
-				2,
-				"any"
-			],
-			"no-use-before-define": [
-				2,
-				{
-					"functions": false
-				}
-			],
-			"new-cap": 2,
-			"no-caller": 2,
-			"dot-notation": 0,
-			"no-eq-null": 2,
-			"no-unused-expressions": 0
-		}
-	}
+	"browserslist": "> 2%, not dead"
 }

@@ -6,6 +6,7 @@ import fs from 'fs';
 const themeFiles = fs
 	.readdirSync(resolve(__dirname, 'css/theme'))
 	.filter((file) => file.endsWith('.scss'));
+
 const themeEntries = themeFiles.reduce((acc, file) => {
 	acc[`theme/${file.replace('.scss', '')}`] = resolve(__dirname, `css/theme/${file}`);
 	return acc;

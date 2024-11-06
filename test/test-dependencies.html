@@ -5,10 +5,6 @@
 		<meta charset="utf-8">
 
 		<title>reveal.js - Test Dependencies</title>
-
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -26,8 +22,12 @@
 
 		</div>
 
-		<script src="../dist/reveal.js"></script>
-		<script>
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
 			window.externalScriptSequence = '';
 
 			QUnit.config.testTimeout = 30000;

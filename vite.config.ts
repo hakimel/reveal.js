@@ -31,8 +31,9 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			// Matches the exported paths in package.json
-			'reveal.js/plugin': './plugin',
+			'reveal.js/plugin': '/plugin',
 			'reveal.js': '/js',
+			'reveal.css': '/css/reveal.scss',
 		},
 	},
 	plugins: [dts({ insertTypesEntry: true, rollupTypes: true })],
