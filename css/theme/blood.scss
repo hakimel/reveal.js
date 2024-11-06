@@ -19,7 +19,7 @@ $active-color: #a23;
 $code-background-color: #23241f;
 
 // Inject theme variables (with some overrides)
-@use 'template/variables' with (
+@use 'template/settings' with (
 	$background-color: $coal,
 
 	$main-font: 'Ubuntu, sans-serif',
