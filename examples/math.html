@@ -1,21 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 
 		<title>reveal.js - Math Plugin</title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
 
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../dist/theme/night.css" id="theme">
+		<link rel="stylesheet" href="../dist/reveal.css" />
+		<link rel="stylesheet" href="../dist/theme/night.css" id="theme" />
 	</head>
 
 	<body>
-
 		<div class="reveal">
-
+			<!-- prettier-ignore -->
 			<div class="slides">
 
 				<section>
@@ -26,6 +27,7 @@
 				<section>
 					<h3>The Lorenz Equations</h3>
 
+					<!-- prettier-ignore -->
 					\[\begin{aligned}
 					\dot{x} &amp; = \sigma(y-x) \\
 					\dot{y} &amp; = \rho x - y - xz \\
@@ -172,11 +174,10 @@
 				</section>
 
 			</div>
-
 		</div>
 
 		<script src="../dist/reveal.js"></script>
-		<script src="../plugin/math/math.js"></script>
+		<script src="../dist/plugin/math.js"></script>
 		<script>
 			Reveal.initialize({
 				history: true,
@@ -187,9 +188,9 @@
 					TeX: {
 						Macros: {
 							R: '\\mathbb{R}',
-							set: [ '\\left\\{#1 \\; ; \\; #2\\right\\}', 2 ]
-						}
-					}
+							set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2],
+						},
+					},
 				},
 
 				// There are three typesetters available
@@ -198,9 +199,8 @@
 				// RevealMath.KaTeX
 				//
 				// More info at https://revealjs.com/math/
-				plugins: [ RevealMath.MathJax2 ]
+				plugins: [RevealMath.MathJax2],
 			});
 		</script>
-
 	</body>
 </html>

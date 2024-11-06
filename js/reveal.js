@@ -17,7 +17,7 @@ import Touch from './controllers/touch.js'
 import Focus from './controllers/focus.js'
 import Notes from './controllers/notes.js'
 import Playback from './components/playback.js'
-import defaultConfig from './config.js'
+import { defaultConfig } from './config.ts'
 import * as Util from './utils/util.js'
 import * as Device from './utils/device.js'
 import {
@@ -28,7 +28,7 @@ import {
 } from './utils/constants.js'
 
 // The reveal.js version
-export const VERSION = '5.1.0';
+export const VERSION = '6.0.0';
 
 /**
  * reveal.js
