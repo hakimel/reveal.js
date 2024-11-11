@@ -16,7 +16,7 @@ export const KaTeX = () => {
 			{left: '\\(', right: '\\)', display: false},
 			{left: '\\[', right: '\\]', display: true}
 		],
-		ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+		ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
 	}
 
 	const loadCss = src => {
