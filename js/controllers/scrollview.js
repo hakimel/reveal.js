@@ -449,6 +449,10 @@ export default class ScrollView {
 			rangeStart = trigger.range[1];
 		} );
 
+		// Ensure the last trigger extends to the end of the page, otherwise
+		// rounding errors can cause the last trigger to end at 0.999999...
+		this.slideTriggers[this.slideTriggers.length - 1].range[1] = 1;
+
 	}
 
 	/**
