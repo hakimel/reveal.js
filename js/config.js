@@ -29,6 +29,9 @@ export default {
 	// or "visible"
 	controlsBackArrows: 'faded',
 
+	// Only display controls for the speaker
+	controlsOnlyForSpeaker: true,
+
 	// Display a presentation progress bar
 	progress: true,
 
