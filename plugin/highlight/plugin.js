@@ -52,7 +52,7 @@ const Plugin = {
 				block.innerHTML = betterTrim( block );
 			}
 
-			// Escape HTML tags unless the "data-noescape" attrbute is present
+			// Escape HTML tags unless the "data-noescape" attribute is present
 			if( config.escapeHTML && !block.hasAttribute( 'data-noescape' )) {
 				block.innerHTML = block.innerHTML.replace( /</g,"&lt;").replace(/>/g, '&gt;' );
 			}
