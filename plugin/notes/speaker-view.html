@@ -419,9 +419,30 @@
 							window.opener.postMessage( JSON.stringify({ namespace: 'reveal-notes', type: 'connected'} ), '*' );
 						}
 						else if( /slidechanged|fragmentshown|fragmenthidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+							// Current state
+							const c = window.opener.Reveal.getState();
+							// Target state
+							const t = data.state;
 
-							dispatchStateToMainWindow( data.state );
+							// Check whether or not this state change is either a "next" or a "previous" action
+							const modeEqual = (c.paused || false) == (t.paused || false) && (c.overview || false) == (t.overview || false);
+							const isSamePage = c.indexh == t.indexh && c.indexv == t.indexv
+							const isNextPage = (c.indexh + 1) == t.indexh;
+							const isPrevPage = (c.indexh - 1) == t.indexh;
+							const isNextFrag = (isSamePage && c.indexf != undefined && (c.indexf + 1) == t.indexf)
+							const isPrevFrag = (isSamePage && c.indexf != undefined && (c.indexf - 1) == t.indexf)
+							const isNext = isNextPage || (isSamePage && isNextFrag)
+							const isPrev = isPrevPage || (isSamePage && isPrevFrag)
 
+							// If this is a next or previous action, post that message instead. setState will cause things like background
+							// videos to reset when controlled through the notes view, unlike when just pressing next or previous.
+							if (modeEqual && isNext) {
+								window.opener.postMessage( JSON.stringify({ method: 'next', args: []} ), '*' );
+							} else if (modeEqual && isPrev) {
+								window.opener.postMessage( JSON.stringify({ method: 'prev', args: []} ), '*' );
+							} else {
+								dispatchStateToMainWindow(t)
+							}
 						}
 					}
 
