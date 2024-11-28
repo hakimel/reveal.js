@@ -308,6 +308,9 @@ export default {
 	// viewDistance in order to save resources.
 	mobileViewDistance: 2,
 
+	// if speak view and the normal view should sync the zoom
+	syncZoom: true,
+
 	// The display mode that will be used to show slides
 	display: 'block',
 
