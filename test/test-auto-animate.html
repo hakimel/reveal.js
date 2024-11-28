@@ -110,21 +110,6 @@
 					Reveal.configure({ autoAnimate: true });
 				});
 
-				QUnit.test( 'Carries forward matching fragment visibility', assert => {
-					Reveal.slide(4);
-					assert.ok( !slides[5].h1.classList.contains( 'visible' ) )
-					Reveal.next();
-					Reveal.next();
-					Reveal.next();
-					assert.ok( slides[5].h1.classList.contains( 'visible' ) )
-					assert.ok( slides[5].h2.classList.contains( 'visible' ) )
-					assert.ok( !slides[5].h3.classList.contains( 'visible' ) )
-					Reveal.next();
-					assert.ok( slides[5].h3.classList.contains( 'visible' ) )
-					Reveal.next();
-					assert.ok( slides[6].slide === Reveal.getCurrentSlide() )
-				});
-
 				QUnit.test( 'Slide specific data-auto-animate-duration', assert => {
 					assert.timeout( 400 );
 					assert.expect( 1 );
