@@ -231,6 +231,10 @@ html.reveal-full-page {
 	position: relative;
 }
 
+*:has(> .reveal) {
+	height: 100%;
+}
+
 
 /*********************************************
  * CONTROLS
