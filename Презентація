@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Техніка гри воротаря</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/white.css" id="theme">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Слайд 1 -->
+            <section>
+                <h1>Техніка гри воротаря</h1>
+                <p>Ключові аспекти гри воротаря у футболі</p>
+            </section>
+
+            <!-- Слайд 2 -->
+            <section>
+                <h2>Основні обов'язки воротаря</h2>
+                <ul>
+                    <li>Захист воріт</li>
+                    <li>Керування захистом</li>
+                    <li>Відбиття ударів</li>
+                </ul>
+            </section>
+
+            <!-- Слайд 3 -->
+            <section>
+                <h2>Позиційна гра</h2>
+                <p>Вміння правильно обирати позицію під час атаки суперника:</p>
+                <ul>
+                    <li>Тримати баланс</li>
+                    <li>Розташування відносно м'яча</li>
+                    <li>Контроль поля зору</li>
+                </ul>
+            </section>
+
+            <!-- Слайд 4 -->
+            <section>
+                <h2>Реакція та рефлекси</h2>
+                <p>Ключові моменти:</p>
+                <ul>
+                    <li>Швидкість реагування</li>
+                    <li>Тренування реакції</li>
+                    <li>Використання рук і ніг</li>
+                </ul>
+            </section>
+
+            <!-- Слайд 5 -->
+            <section>
+                <h2>Навички гри ногами</h2>
+                <p>У сучасному футболі воротар має бути не лише захисником, але й частиною атаки:</p>
+                <ul>
+                    <li>Точність передач</li>
+                    <li>Вміння грати під тиском</li>
+                    <li>Довгі та короткі передачі</li>
+                </ul>
+            </section>
+
+            <!-- Слайд 6 -->
+            <section>
+                <h2>Тренування воротаря</h2>
+                <p>Рекомендації:</p>
+                <ul>
+                    <li>Щоденні вправи на реакцію</li>
+                    <li>Робота над позиційною грою</li>
+                    <li>Симуляції реальних ігрових ситуацій</li>
+                </ul>
+            </section>
+
+            <!-- Слайд 7 -->
+            <section>
+                <h2>Висновок</h2>
+                <p>Роль воротаря в команді є вирішальною. Постійні тренування та вдосконалення техніки допомагають досягати успіху.</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+</html>
