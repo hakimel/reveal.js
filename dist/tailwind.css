@@ -185,6 +185,10 @@
   margin-bottom: 14rem !important
 }
 
+.\!mb-10 {
+  margin-bottom: 2.5rem !important
+}
+
 .block {
   display: block !important
 }
@@ -223,6 +227,38 @@
 
 .w-full {
   width: 100% !important
+}
+
+.max-w-5 {
+  max-width: 1.25rem !important
+}
+
+.max-w-52 {
+  max-width: 13rem !important
+}
+
+.max-w-10 {
+  max-width: 2.5rem !important
+}
+
+.max-w-lg {
+  max-width: 32rem !important
+}
+
+.max-w-md {
+  max-width: 28rem !important
+}
+
+.max-w-sm {
+  max-width: 24rem !important
+}
+
+.max-w-20 {
+  max-width: 5rem !important
+}
+
+.max-w-56 {
+  max-width: 14rem !important
 }
 
 .shrink {
@@ -265,13 +301,34 @@
   gap: 1rem !important
 }
 
+.gap-1 {
+  gap: 0.25rem !important
+}
+
 .bg-white {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1)) !important
 }
 
+.bg-gray-700 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1)) !important
+}
+
 .p-8 {
   padding: 2rem !important
+}
+
+.pl-20 {
+  padding-left: 5rem !important
+}
+
+.text-right {
+  text-align: right !important
+}
+
+.text-justify {
+  text-align: justify !important
 }
 
 .text-4xl {
@@ -289,8 +346,32 @@
   line-height: 1.75rem !important
 }
 
+.text-2xl {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important
+}
+
+.text-xl {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important
+}
+
+.text-5xl {
+  font-size: 3rem !important;
+  line-height: 1 !important
+}
+
+.text-sm {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important
+}
+
 .font-bold {
   font-weight: 700 !important
+}
+
+.italic {
+  font-style: italic !important
 }
 
 .text-gray-300 {
@@ -306,6 +387,21 @@
 .text-gray-900 {
   --tw-text-opacity: 1 !important;
   color: rgb(17 24 39 / var(--tw-text-opacity, 1)) !important
+}
+
+.text-gray-100 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(243 244 246 / var(--tw-text-opacity, 1)) !important
+}
+
+.\!text-gray-100 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(243 244 246 / var(--tw-text-opacity, 1)) !important
+}
+
+.text-gray-500 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1)) !important
 }
 
 .outline {
@@ -327,4 +423,24 @@
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter !important;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
   transition-duration: 150ms !important
+}
+
+@media (min-width: 640px) {
+  .sm\:flex-col {
+    flex-direction: column !important
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:max-w-lg {
+    max-width: 32rem !important
+  }
+
+  .md\:flex-row {
+    flex-direction: row !important
+  }
+
+  .md\:flex-col {
+    flex-direction: column !important
+  }
 }
