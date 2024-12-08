@@ -12,13 +12,20 @@
 		<link rel="preconnect" href="https://cdn.jsdelivr.net" />
 		<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
 		<style>
-			body {
+			/* Override reveal.js default styles */
+			.reveal {
 				font-family: 'Vazir', sans-serif !important;
 			}
-			h1 {
-				color: #222 !important;
+			
+			.reveal section {
+				height: 100%;
 			}
-			.reveal,
+			
+			.reveal .slides section {
+				padding: 0;
+			}
+			
+			/* Override text colors */
 			.reveal h1,
 			.reveal h2,
 			.reveal h3,
@@ -28,6 +35,32 @@
 			.reveal p,
 			.reveal li {
 				font-family: 'Vazir', sans-serif !important;
+				color: inherit !important;
+			}
+			
+			/* Reset reveal.js text shadows */
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6 {
+				text-shadow: none !important;
+			}
+			
+			/* Override reveal.js background */
+			.reveal,
+			.reveal .slides {
+				background: transparent !important;
+			}
+			
+			/* Ensure Tailwind colors work */
+			[class*="text-"] {
+				color: inherit;
+			}
+			
+			[class*="bg-"] {
+				background-color: inherit;
 			}
 		</style>
 		<!-- Theme used for syntax highlighted code -->
@@ -43,17 +76,17 @@
 					</div>
 				</section>
 				<section>
-					<div class="container">
-						<div class="flex flex-row gap-4 justify-between min-h-[550px]">
-							<div class="text-gray-700">
-								<h1 class="text-4xl font-bold text-gray-900 !mb-20">سلام</h1>
+					<div class="container mx-auto p-8 h-full w-full">
+						<div class="flex flex-row gap-4 justify-between items-center h-full">
+							<div class="text-gray-700 mb-56">
+								<h1 class="text-9xl font-bold text-gray-900 mb-20">سلام</h1>
 								<ul>
 									<li>آیتم ۱</li>
 									<li>آیتم ۲</li>
 									<li>آیتم ۳</li>
 								</ul>
 							</div>
-							<div class=" flex items-center">
+							<div class="flex items-center">
 								<img src="./assets/img/self_ref.png" alt="Image">
 							</div>
 						</div>
