@@ -169,6 +169,11 @@
   margin-right: auto !important
 }
 
+.my-5 {
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important
+}
+
 .\!mb-20 {
   margin-bottom: 5rem !important
 }
@@ -269,6 +274,10 @@
   flex-grow: 1 !important
 }
 
+.border-collapse {
+  border-collapse: collapse !important
+}
+
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important
 }
@@ -305,6 +314,19 @@
   gap: 0.25rem !important
 }
 
+.overflow-x-auto {
+  overflow-x: auto !important
+}
+
+.border {
+  border-width: 1px !important
+}
+
+.border-gray-300 {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1)) !important
+}
+
 .bg-white {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1)) !important
@@ -315,12 +337,25 @@
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1)) !important
 }
 
+.bg-gray-100 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important
+}
+
 .p-8 {
   padding: 2rem !important
 }
 
+.p-4 {
+  padding: 1rem !important
+}
+
 .pl-20 {
   padding-left: 5rem !important
+}
+
+.text-center {
+  text-align: center !important
 }
 
 .text-right {
