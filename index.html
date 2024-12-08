@@ -5,20 +5,60 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<title>reveal.js</title>
-
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
-
+		<link rel="stylesheet" href="dist/tailwind.css">
+		<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+		<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+		<style>
+			body {
+				font-family: 'Vazir', sans-serif !important;
+			}
+			h1 {
+				color: #222 !important;
+			}
+			.reveal,
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6,
+			.reveal p,
+			.reveal li {
+				font-family: 'Vazir', sans-serif !important;
+			}
+		</style>
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<!-- <link rel="stylesheet" href="plugin/highlight/monokai.css"> -->
 	</head>
-	<body>
+	<body dir="rtl" class="bg-white">
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-				<section>Slide 2</section>
+				<section>
+					<div class="container mx-auto p-8">
+						<h1 class="text-4xl font-bold mb-4">Your Title</h1>
+						<p class="text-lg text-gray-300">Your content</p>
+					</div>
+				</section>
+				<section>
+					<div class="container">
+						<div class="flex flex-row gap-4 justify-between min-h-[550px]">
+							<div class="text-gray-700">
+								<h1 class="text-4xl font-bold text-gray-900 !mb-20">سلام</h1>
+								<ul>
+									<li>آیتم ۱</li>
+									<li>آیتم ۲</li>
+									<li>آیتم ۳</li>
+								</ul>
+							</div>
+							<div class=" flex items-center">
+								<img src="./assets/img/self_ref.png" alt="Image">
+							</div>
+						</div>
+					</div>
+				</section>
 			</div>
 		</div>
 
