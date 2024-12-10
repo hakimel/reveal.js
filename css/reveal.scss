@@ -13,6 +13,8 @@
  * GLOBAL STYLES
  *********************************************/
 
+
+
 html.reveal-full-page {
 	width: 100%;
 	height: 100%;
@@ -231,6 +233,9 @@ html.reveal-full-page {
 	position: relative;
 }
 
+.reveal a:hover{
+	animation: glow 1s infinite alternate;
+}
 
 /*********************************************
  * CONTROLS
@@ -264,7 +269,8 @@ $controlsArrowAngleActive: 36deg;
 
 @mixin controlsArrowTransform( $angle ) {
 	&:before {
-		transform: translateX(($controlArrowSize - $controlArrowLength)*0.5) translateY(($controlArrowSize - $controlArrowThickness)*0.5) rotate( $angle );
+		transform:  translateX(($controlArrowSize - $controlArrowLength)*0.5) translateY(($controlArrowSize - $controlArrowThickness)*0.5) rotate( $angle );
+		
 	}
 
 	&:after {
@@ -332,10 +338,13 @@ $controlsArrowAngleActive: 36deg;
 
 		&:hover {
 			@include controlsArrowTransform( $controlsArrowAngleHover );
+			animation: glow 2s infinite alternate;
+			
 		}
 
 		&:active {
 			@include controlsArrowTransform( $controlsArrowAngleActive );
+			animation: glow 2s infinite alternate;
 		}
 	}
 
@@ -656,6 +665,9 @@ $controlsArrowAngleActive: 36deg;
 	text-align: center;
 	perspective: 600px;
 	perspective-origin: 50% 40%;
+	font-size:70%;
+	line-height: 1.5em;
+	font-family:'Handlee',cursive;
 }
 
 .reveal .slides>section {
@@ -2108,6 +2120,50 @@ $notesWidthPercent: 25%;
  * PRINT STYLES
  *********************************************/
 
-@import 'print/pdf.scss';
-@import 'print/paper.scss';
 
+
+.scrollable {
+	overflow: auto; /* Activa el scroll */
+	max-height: 100%; /* Asegura que respete los límites de la diapositiva */
+	padding: 20px; /* Opcional, para separar el contenido del borde */
+  }
+
+.reveal body{
+	font-family: Arial, cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Clase para texto con glow animado */
+.glow-text {
+	font-size: 2em; /* Tamaño del texto */
+	color: #ffffff; /* Color base del texto */
+	text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ff00ff, 
+				 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff;
+	animation: glow 2s infinite alternate;
+  }
+  
+  /* Animación para alternar el brillo */
+  @keyframes glow {
+	0% {
+	  text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ff00ff,
+				   0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff;
+	}
+	100% {
+	  text-shadow: 0 0 2px #ffffff, 0 0 5px #ff00ff, 0 0 10px #ff00ff,
+				   0 0 15px #ff00ff, 0 0 20px #ff00ff, 0 0 25px #ff00ff;
+	}
+  }
+  
+  h1,h2,h3,h4,span{
+	@extend .glow-text;
+  }
+
+  ul li::marker {
+	color: #ff00ff; /* Change bullet color on hover */
+	font-size: 1em; /* Enlarge the bullet on hover */
+  }
+
+  ul li:hover::marker{
+	animation:glow 2s infinite alternate;
+  }
