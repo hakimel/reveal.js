@@ -6,7 +6,13 @@
   <a href="https://github.com/hakimel/reveal.js/actions"><img src="https://github.com/hakimel/reveal.js/workflows/tests/badge.svg"></a>
   <a href="https://slides.com/"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
 </p>
-
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcFXRms5iz8vARVutPJ0GptS
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcGaGWeJ-z_CkdqJkwA8q1cM
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcGENFQ4acFeTeR7oOFEka6f
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcGouhL-xYX-Z3tqHG5EX5ln
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcGE4VXYZgGU18alIDbFPdE8
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcFOAe9x9FocULkZI5lj17gN
+-	https://www.youtube.com/playlist?list=PLVq7cu5H0HcEBbcs0AB6Ki_DNiawD6gQU
 reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
 
 The framework comes with a powerful feature set including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and an [extensive API](https://revealjs.com/api/).
