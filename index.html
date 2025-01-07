@@ -16,8 +16,56 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Example</h2>
+				<pre><code class="language-js" data-trim>
+					let now = new Date();
+
+					// defaults for everything
+					console.log(new Intl.DateTimeFormat().format(now));
+					</code>
+				</pre>
+				</section>
+				<section data-execute="let now = new Date();new Intl.DateTimeFormat().format(now);">
+					<p class="fragment result"></p>
+				</section>
+				<section>
+					<h1>LOLOL</h1>
+					<pre><code  data-line-numbers="3,5-7">
+						<style>
+						  :root {
+							--hw-color: orange;
+						  }
+						</style>
+						<hello-world type="amazing">Light DOM fallback</hello-world>
+						</code></pre>
+						<div style="background:blue;" data-edit>
+						<!-- repeat code or leave empty; this element will be populated when you change the code-->
+
+						</div>
+				</section>
+
+				<section>	
+					<pre>
+					<code data-line-numbers="3,8-10">
+						.testing {
+							display: flex;
+						}
+						<table>
+							<tr>
+								<td>Apples</td>
+								<td>$1</td>
+								<td>7</td>
+							</tr>
+							<tr>
+								<td>Oranges</td>
+								<td>$2</td>
+								<td>18</td>
+							</tr>
+						</table>
+					</code>
+					</pre>
+				</section>
 			</div>
 		</div>
 
@@ -25,7 +73,9 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
-		<script>
+		<script type="module">
+			import Editor from './plugin/editor/editor.esm.js';
+
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
@@ -33,7 +83,17 @@
 				hash: true,
 
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, Editor ]
+			});
+
+			Reveal.on('slidechanged', (event) => {
+				if(event.currentSlide.dataset.execute) {
+
+					console.log('going to eval', event.currentSlide.dataset.execute);
+					let result = eval(event.currentSlide.dataset.execute);
+					let $result = event.currentSlide.querySelector('p.result');
+					$result.innerHTML = result;
+				}
 			});
 		</script>
 	</body>
