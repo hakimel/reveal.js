@@ -12,11 +12,42 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+    <style>
+      .code-block {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+      }
+
+      .slide-container {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .scene {
+        width: 50%;
+      }
+
+      section .code-wrapper {
+        flex-grow: 1;
+        width: 50%;
+      }
+
+      p {
+        color: black;
+      }
+
+      .container {
+        border-radius: 1rem;
+        background: white;
+        height: 500px;
+        overflow: hidden;
+      }
+    </style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>
+				<!-- <section>
 					<h2>Example</h2>
 				<pre><code class="language-js" data-trim>
 					let now = new Date();
@@ -28,14 +59,110 @@
 				</section>
 				<section data-execute="let now = new Date();new Intl.DateTimeFormat().format(now);">
 					<p class="fragment result"></p>
+				</section> -->
+        <section>
+					<h3>Centering a DIV</h3>
+          <div class="slide-container"">
+            <pre>
+              <code class="code-block">
+  <style>
+    .container {
+      /* align-content: center; */
+    }
+    .box {
+      width: 50px;
+      height: 50px;
+      background: salmon;
+    }
+  </style>
+  <div class="container">
+    <p class="content">I am sentence</p>
+    <p class="content">Lorem Ipsum</p>
+  </div>
+              </code>
+            </pre>
+            <div class="scene" data-edit></div>
+          </div>
+				</section>
+        <section>
+					<h3>Centering a DIV</h3>
+					<pre style="display: block;">
+						<code id="full-code" class="code-block" data-line-numbers="3,8-10">
+						<style>
+              .container {
+                background: lightblue;
+              }
+              .box {
+                width: 50px;
+                height: 50px;
+                background: salmon;
+              }
+						</style>
+            <div class="container">
+              <div class="box"></div>
+            </div>
+						</code>
+          </pre>
+          <pre>
+            <code id="editable-code" contenteditable="true" data-line-numbers="3,8-10">
+            </code>
+          </pre>
+          <div style="background:blue;" data-edit>
+          </div>
+          <script>
+            // // Extract and display only lines 2-4 (container and box styles)
+            // const fullCode = document.getElementById('full-code').textContent.split('\n');
+            // const selectedLines = fullCode.slice(2, 20).join('\n'); // Lines 2 to 4 (0-based index)
+            // document.getElementById('editable-code').textContent = selectedLines;
+          // Extract and display only lines 2-4 (container and box styles)
+          const fullCodeElement = document.getElementById('full-code');
+            const editableCodeElement = document.getElementById('editable-code');
+
+            // Extract the full code as a single string
+            let fullCodeText = fullCodeElement.textContent;
+
+            // Split the code into lines
+            const fullCodeLines = fullCodeText.split('\n');
+            
+            // Define the range of lines to show/edit
+            const startLine = 2; // Start at line 2 (zero-based index)
+            const endLine = 5;   // End at line 5 (exclusive)
+
+            // Extract the portion to edit and display in editable-code
+            editableCodeElement.textContent = fullCodeLines.slice(startLine, endLine).join('\n');
+
+            // Add event listener to sync changes back to full-code
+            editableCodeElement.addEventListener('input', () => {
+              // Split the edited content by lines
+              const editedLines = editableCodeElement.textContent.split('\n');
+              
+              // Create a new array that includes the updated lines in place
+              const updatedFullCodeLines = [
+                ...fullCodeLines.slice(0, startLine),   // Lines before the edited portion
+                ...editedLines,                         // Edited lines
+                ...fullCodeLines.slice(endLine)         // Lines after the edited portion
+              ];
+
+              // Update the content of full-code as innerHTML
+              fullCodeElement.innerHTML = updatedFullCodeLines.join('\n');
+
+              // Re-run syntax highlighting using RevealHighlight
+              const highlight = Reveal.getPlugin('highlight');
+              highlight.highlightBlock(fullCodeElement);
+
+              // Trigger a synthetic input event to notify RevealLiveCode
+              fullCodeElement.dispatchEvent(new Event('input'));
+            });
+          </script>
 				</section>
 				<section>
-					<h1>LOLOL</h1>
-					<pre><code  data-line-numbers="3,5-7">
+					<h1>NOPE</h1>
+					<pre>
+						<code  data-line-numbers="3,5-7">
 						<style>
-						  :root {
+						:root {
 							--hw-color: orange;
-						  }
+						}
 						</style>
 						<hello-world type="amazing">Light DOM fallback</hello-world>
 						</code></pre>
@@ -81,7 +208,9 @@
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
-
+        highlight: {
+          highlightOnLoad: false, // Disable automatic highlighting
+        },
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, Editor ]
 			});
@@ -95,6 +224,85 @@
 					$result.innerHTML = result;
 				}
 			});
+
+  // Wait for Reveal.js to initialize
+  Reveal.on('ready', () => {
+    // Find all sections containing a code block and a data-edit div
+    document.querySelectorAll('section .slide-container').forEach((container) => {
+      const codeBlock = container.querySelector('.code-block');
+      const dataEditDiv = container.querySelector('[data-edit]');
+      
+      if (codeBlock && dataEditDiv) {
+        // Populate the data-edit div with the initial content of the code block
+        dataEditDiv.innerHTML = codeBlock.textContent;
+      }
+
+      const highlight = Reveal.getPlugin('highlight');
+      highlight.highlightBlock(codeBlock);
+
+      codeBlock.addEventListener('input', () => {
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        const preHighlightOffset = range.startOffset;
+        const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
+
+        codeBlock.removeAttribute('data-highlighted');
+        // Remove existing highlight classes before re-highlighting
+        codeBlock.className = 'code-block hljs';
+        // const highlight = Reveal.getPlugin('highlight');
+        highlight.highlightBlock(codeBlock);
+        setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
+
+      });
+    });
+
+    /**
+     * Get the caret position relative to the entire text content of an element
+     */
+    function getCaretCharacterOffsetWithin(element) {
+      const selection = window.getSelection();
+      let caretOffset = 0;
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.startContainer, range.startOffset);
+        caretOffset = preCaretRange.toString().length;
+      }
+      return caretOffset;
+    }
+
+    /**
+     * Set the caret at the given character offset within an element
+     */
+    function setCaretAtCharacterOffset(element, offset) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      let charCount = 0, found = false;
+
+      function traverseNodes(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const nextCharCount = charCount + node.length;
+          if (!found && offset >= charCount && offset <= nextCharCount) {
+            range.setStart(node, offset - charCount);
+            range.collapse(true);
+            found = true;
+          }
+          charCount = nextCharCount;
+        } else {
+          for (let i = 0; i < node.childNodes.length; i++) {
+            traverseNodes(node.childNodes[i]);
+            if (found) break;
+          }
+        }
+      }
+
+      traverseNodes(element);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  });
+
 		</script>
 	</body>
 </html>
