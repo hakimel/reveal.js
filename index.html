@@ -1,114 +1,122 @@
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minecraft Server erstellen</title>
-    <link rel="stylesheet" href="dist/reset.css" />
-    <link rel="stylesheet" href="dist/reveal.css" />
-    <link rel="stylesheet" href="dist/theme/black.css" />
-    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
-  </head>
+<!doctype html>
+<html lang="en">
 
-  <body>
-    <div class="reveal">
-      <div class="slides">
-        <section>
-          <h1>Minecraft Server erstellen: eine Einführung</h1>
-          <p>von Benjamin Hartmann</p>
-        </section>
-        <section>
-          <section>
-            <h2>Installiere den server</h2>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-            <p>|</p>
-            <p>\/</p>
-          </section>
-          <section>
-            Lade die aktuelle Server-Datei herunter
-            <p>
-              <a href="https://www.minecraft.net/en-us/download/server"
-                >Hier geht es zur offiziellen Website von Minecraft</a
-              >
-            </p>
-            <p>
-              Drücke dann auf minecraft_server.X.XX.X um die Datei
-              herunterzuladen
-            </p>
-          </section>
-          <section>
-            Kopiere die server.jar in ein neuer Verzeichnis, zum Beispiel
-            mcserver.
-            <p class="fragment fade-up">
-              Benenne die Datei in "minecraft_server um"
-            </p>
-          </section>
-          <section>
-            Erstelle eine neue Textdatei namens "start.bat", in die du nun
-            schreibst:
-            <pre><code data-trim data-noescape>
-              @echo off
-						  java -Xmx1024M -Xms1024M -jar minecraft_server.jar
-              pause
-						</code></pre>
-            <p class="fragment fade-up">
-              Das @echo off wird verwendet, um die Ausgabe zu verschönern
-            </p>
-            <p class="fragment fade-up">
-              Der pause Befehl sorgt dafür, dass wenn der Server crasht, man
-              zuerst [ENTER] drücken muss, um das Fenster zu schließen
-            </p>
-            <p class="fragment fade-up">
-              der Java Befehl wird verwendet um den Server zu starten
-            </p>
-          </section>
-          <section>
-            Führe die start.bat nun aus, ein paar Ordner und Dateien werden
-            erstellt und ...
-            <p class="fragment fade-up">sie wird abstürzen</p>
-          </section>
-          <section>
-            Öffne nun die neue Datei eula.txt und ändere die Zeile eula=false in
-            eula=true. Damit akzeptierst du die Endbenutzerlizenzvereinbarung
-            von Minecraft-Servern
-            <p class="fragment fade-up">Starte nun die Datei neu</p>
-          </section>
-        </section>
-        <section>
-          <section>
-            Nun passiert etwas mehr:
-            <h2>Den neu installierten Server starten</h2>
-          </section>
-          <section>
-            Führe start.bat aus, um deinen Server zu starten, 2 Fenster wergen sich öffnen:
-            <p><ul><li>ein schwarz-weißes mit Text und</li><li>eines mit 3 abteilungen</li></ul></p>
-          </section>
-          <section>
-            schreibe nun in das schwarze "op [DEIN SPIELERNAME IN MINECRAFT]"
-            <p class="fragment">starte Minecraft</p>
-            <p class="fragment">klicke auf Mehrspieler</p> 
-            <p class="fragment">Die Serveradresse ist "localhost";<br>
-              dieser Server wird nur bei dir funktionieren</p>
-          </section>
-        </section>
-      </div>
-    </div>
+	<title>reveal.js</title>
 
-    <script src="dist/reveal.js"></script>
-    <script src="plugin/notes/notes.js"></script>
-    <script src="plugin/markdown/markdown.js"></script>
-    <script src="plugin/highlight/highlight.js"></script>
-    <script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-  </body>
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Minecraft Server erstellen: eine Einführung</h1>
+				<p>von Benjamin Hartmann</p>
+			</section>
+			<section>
+				<section>
+					<h2>Installiere den server</h2>
+					<p>|</p>
+					<p>\/</p>
+				</section>
+				<section>
+					Lade die aktuelle Server-Datei herunter
+					<p>
+						<a href="https://www.minecraft.net/en-us/download/server">Hier geht es zur offiziellen Website
+							von Minecraft</a>
+					</p>
+					<p>
+						Drücke dann auf minecraft_server.X.XX.X um die Datei
+						herunterzuladen
+					</p>
+				</section>
+				<section>
+					Kopiere die server.jar in ein neuer Verzeichnis, zum Beispiel
+					mcserver.
+					<p class="fragment fade-up">
+						Benenne die Datei in "minecraft_server um"
+					</p>
+				</section>
+				<section>
+					Erstelle eine neue Textdatei namens "start.bat", in die du nun
+					schreibst:
+					<pre><code data-trim data-noescape>
+						@echo off
+						java -Xmx1024M -Xms1024M -jar minecraft_server.jar
+						pause
+					</code></pre>
+					<p class="fragment fade-up">
+						Das @echo off wird verwendet, um die Ausgabe zu verschönern
+					</p>
+					<p class="fragment fade-up">
+						Der pause Befehl sorgt dafür, dass wenn der Server crasht, man
+						zuerst [ENTER] drücken muss, um das Fenster zu schließen
+					</p>
+					<p class="fragment fade-up">
+						der Java Befehl wird verwendet um den Server zu starten
+					</p>
+				</section>
+				<section>
+					Führe die start.bat nun aus, ein paar Ordner und Dateien werden
+					erstellt und ...
+					<p class="fragment fade-up">sie wird abstürzen</p>
+				</section>
+				<section>
+					Öffne nun die neue Datei eula.txt und ändere die Zeile eula=false in
+					eula=true. Damit akzeptierst du die Endbenutzerlizenzvereinbarung
+					von Minecraft-Servern
+					<p class="fragment fade-up">Starte nun die Datei neu</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					Nun passiert etwas mehr:
+					<h2>Den neu installierten Server starten</h2>
+				</section>
+				<section>
+					Führe start.bat aus, um deinen Server zu starten, 2 Fenster wergen sich öffnen:
+					<p>
+					<ul>
+						<li>ein schwarz-weißes mit Text und</li>
+						<li>eines mit 3 abteilungen</li>
+					</ul>
+					</p>
+				</section>
+				<section>
+					schreibe nun in das schwarze "op [DEIN SPIELERNAME IN MINECRAFT]"
+					<p class="fragment">starte Minecraft</p>
+					<p class="fragment">klicke auf Mehrspieler</p>
+					<p class="fragment">Die Serveradresse ist "localhost";<br>
+						dieser Server wird nur bei dir funktionieren</p>
+				</section>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
 </html>
