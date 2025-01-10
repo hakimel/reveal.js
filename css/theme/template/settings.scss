@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Base settings for all themes that can optionally be
 // overridden by the super-theme
 
@@ -32,11 +34,16 @@ $codeFont: monospace;
 
 // Links and actions
 $linkColor: #13DAEC;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: color.scale( $linkColor, $lightness: 20% );
 
 // Text selection
 $selectionBackgroundColor: #FF5E99;
 $selectionColor: #fff;
+
+// Colors used for UI elements that are overlaid on top of
+// the presentation
+$overlayElementBgColor: 240, 240, 240;
+$overlayElementFgColor: 0, 0, 0;
 
 // Generates the presentation background, can be overridden
 // to return a background image or gradient

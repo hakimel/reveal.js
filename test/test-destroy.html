@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Dependencies</title>
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal deck1" style="display: none;">
+			<div class="slides">
+				<section>Slide content</section>
+			</div>
+		</div>
+
+		<div class="reveal deck2" style="display: none;">
+			<div class="slides">
+				<section>Slide content</section>
+			</div>
+		</div>
+
+		<script type="module">
+			import Reveal from '../dist/reveal.esm.js'
+			import Markdown from '../plugin/markdown/markdown.esm.js'
+
+			QUnit.module( 'Destroy' );
+
+			QUnit.test( 'Destruction during initialization', function( assert ) {
+
+				let deck = new Reveal( document.querySelector( '.deck1' ) );
+
+				deck.initialize({ plugins: [ Markdown ] });
+
+				let firstAttemptSuccess = false;
+				let repeatedAttemptSuccess = false;
+
+				try {
+					deck.destroy();
+					firstAttemptSuccess = true;
+				}
+				catch( error ) {
+					console.error( error );
+				}
+
+				assert.ok( firstAttemptSuccess, 'was successful' );
+
+				// should be able to destroy twice with no side effect
+				try {
+					deck.destroy();
+					repeatedAttemptSuccess = true;
+				}
+				catch( error ) {
+					console.error( error );
+				}
+
+				assert.ok( repeatedAttemptSuccess, 'destroyed twice with no exceptions' );
+
+			} );
+
+			QUnit.test( 'Destruction after initialization', function( assert ) {
+
+				assert.expect( 1 );
+				let done = assert.async( 1 );
+				let deck = new Reveal( document.querySelector( '.deck2' ) );
+
+				deck.initialize({ plugins: [ Markdown ] }).then(() => {
+					let wasSuccessful = false;
+
+					try {
+						deck.destroy();
+						wasSuccessful = true;
+					}
+					catch( error ) {
+						console.error( error );
+					}
+
+					if( wasSuccessful ) {
+						assert.ok( true, 'was successful' );
+					}
+
+					done();
+				});
+
+			} );
+		</script>
+
+	</body>
+</html>

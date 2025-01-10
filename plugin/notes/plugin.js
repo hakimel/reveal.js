@@ -146,9 +146,13 @@ const Plugin = () => {
 		}
 
 		// Look for notes defined in an aside element
-		if( notesElements ) {
-			messageData.notes = Array.from(notesElements).map( notesElement => notesElement.innerHTML ).join( '\n' );
-			messageData.markdown = typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
+		if( notesElements && notesElements.length ) {
+			// Ignore notes inside of fragments since those are shown
+			// individually when stepping through fragments
+			notesElements = Array.from( notesElements ).filter( notesElement => notesElement.closest( '.fragment' ) === null );
+
+			messageData.notes = notesElements.map( notesElement => notesElement.innerHTML ).join( '\n' );
+			messageData.markdown = notesElements[0] && typeof notesElements[0].getAttribute( 'data-markdown' ) === 'string';
 		}
 
 		speakerWindow.postMessage( JSON.stringify( messageData ), '*' );
@@ -176,14 +180,16 @@ const Plugin = () => {
 		// (added 12/5/22 as a XSS safeguard)
 		if( isSameOriginEvent( event ) ) {
 
-			let data = JSON.parse( event.data );
-			if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
-				clearInterval( connectInterval );
-				onConnected();
-			}
-			else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
-				callRevealApi( data.methodName, data.arguments, data.callId );
-			}
+			try {
+				let data = JSON.parse( event.data );
+				if( data && data.namespace === 'reveal-notes' && data.type === 'connected' ) {
+					clearInterval( connectInterval );
+					onConnected();
+				}
+				else if( data && data.namespace === 'reveal-notes' && data.type === 'call' ) {
+					callRevealApi( data.methodName, data.arguments, data.callId );
+				}
+		  } catch (e) {}
 
 		}
 

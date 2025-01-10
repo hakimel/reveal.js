@@ -44,7 +44,7 @@ export const colorToRgb = ( color ) => {
 		};
 	}
 
-	let rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
+	let rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
 	if( rgba ) {
 		return {
 			r: parseInt( rgba[1], 10 ),

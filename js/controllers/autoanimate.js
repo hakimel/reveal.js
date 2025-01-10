@@ -31,10 +31,13 @@ export default class AutoAnimate {
 		let toSlideIndex = allSlides.indexOf( toSlide );
 		let fromSlideIndex = allSlides.indexOf( fromSlide );
 
-		// Ensure that both slides are auto-animate targets with the same data-auto-animate-id value
-		// (including null if absent on both) and that data-auto-animate-restart isn't set on the
-		// physically latter slide (independent of slide direction)
-		if( fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' )
+		// Ensure that;
+		// 1. Both slides exist.
+		// 2. Both slides are auto-animate targets with the same
+		//    data-auto-animate-id value (including null if absent on both).
+		// 3. data-auto-animate-restart isn't set on the physically latter
+		//    slide (independent of slide direction).
+		if( fromSlide && toSlide && fromSlide.hasAttribute( 'data-auto-animate' ) && toSlide.hasAttribute( 'data-auto-animate' )
 				&& fromSlide.getAttribute( 'data-auto-animate-id' ) === toSlide.getAttribute( 'data-auto-animate-id' ) 
 				&& !( toSlideIndex > fromSlideIndex ? toSlide : fromSlide ).hasAttribute( 'data-auto-animate-restart' ) ) {
 
@@ -175,27 +178,11 @@ export default class AutoAnimate {
 		let fromProps = this.getAutoAnimatableProperties( 'from', from, elementOptions ),
 			toProps = this.getAutoAnimatableProperties( 'to', to, elementOptions );
 
-		// Maintain fragment visibility for matching elements when
-		// we're navigating forwards, this way the viewer won't need
-		// to step through the same fragments twice
 		if( to.classList.contains( 'fragment' ) ) {
 
 			// Don't auto-animate the opacity of fragments to avoid
 			// conflicts with fragment animations
 			delete toProps.styles['opacity'];
-
-			if( from.classList.contains( 'fragment' ) ) {
-
-				let fromFragmentStyle = ( from.className.match( FRAGMENT_STYLE_REGEX ) || [''] )[0];
-				let toFragmentStyle = ( to.className.match( FRAGMENT_STYLE_REGEX ) || [''] )[0];
-
-				// Only skip the fragment if the fragment animation style
-				// remains unchanged
-				if( fromFragmentStyle === toFragmentStyle && animationOptions.slideDirection === 'forward' ) {
-					to.classList.add( 'visible', 'disabled' );
-				}
-
-			}
 
 		}
 
@@ -461,14 +448,14 @@ export default class AutoAnimate {
 		const textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
 		const mediaNodes = 'img, video, iframe';
 
-		// Eplicit matches via data-id
+		// Explicit matches via data-id
 		this.findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', node => {
 			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
 		} );
 
 		// Text
 		this.findAutoAnimateMatches( pairs, fromSlide, toSlide, textNodes, node => {
-			return node.nodeName + ':::' + node.innerText;
+			return node.nodeName + ':::' + node.textContent.trim();
 		} );
 
 		// Media
@@ -478,7 +465,7 @@ export default class AutoAnimate {
 
 		// Code
 		this.findAutoAnimateMatches( pairs, fromSlide, toSlide, codeNodes, node => {
-			return node.nodeName + ':::' + node.innerText;
+			return node.nodeName + ':::' + node.textContent.trim();
 		} );
 
 		pairs.forEach( pair => {
@@ -504,7 +491,7 @@ export default class AutoAnimate {
 				} );
 
 				// Line numbers
-				this.findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-line[data-line-number]', node => {
+				this.findAutoAnimateMatches( pairs, pair.from, pair.to, '.hljs .hljs-ln-numbers[data-line-number]', node => {
 					return node.getAttribute( 'data-line-number' );
 				}, {
 					scale: false,
@@ -573,14 +560,14 @@ export default class AutoAnimate {
 
 			// Retrieve the 'from' element
 			if( fromMatches[key] ) {
-				const pimaryIndex = toMatches[key].length - 1;
+				const primaryIndex = toMatches[key].length - 1;
 				const secondaryIndex = fromMatches[key].length - 1;
 
 				// If there are multiple identical from elements, retrieve
 				// the one at the same index as our to-element.
-				if( fromMatches[key][ pimaryIndex ] ) {
-					fromElement = fromMatches[key][ pimaryIndex ];
-					fromMatches[key][ pimaryIndex ] = null;
+				if( fromMatches[key][ primaryIndex ] ) {
+					fromElement = fromMatches[key][ primaryIndex ];
+					fromMatches[key][ primaryIndex ] = null;
 				}
 				// If there are no matching from-elements at the same index,
 				// use the last one.
@@ -608,7 +595,7 @@ export default class AutoAnimate {
 	 * fading of unmatched elements is turned on, these elements
 	 * will fade when going between auto-animate slides.
 	 *
-	 * Note that parents of auto-animate targets are NOT considerd
+	 * Note that parents of auto-animate targets are NOT considered
 	 * unmatched since fading them would break the auto-animation.
 	 *
 	 * @param {HTMLElement} rootElement

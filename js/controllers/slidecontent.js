@@ -1,4 +1,4 @@
-import { extend, queryAll, closest, getMimeTypeFromFile } from '../utils/util.js'
+import { extend, queryAll, closest, getMimeTypeFromFile, encodeRFC3986URI } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 import fitty from 'fitty';
@@ -24,6 +24,10 @@ export default class SlideContent {
 	 * @param {HTMLElement} element
 	 */
 	shouldPreload( element ) {
+
+		if( this.Reveal.isScrollView() ) {
+			return true;
+		}
 
 		// Prefer an explicit global preload setting
 		let preload = this.Reveal.getConfig().preloadIframes;
@@ -108,19 +112,21 @@ export default class SlideContent {
 					// URL(s)
 					else {
 						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-							return `url(${encodeURI(background.trim())})`;
+							// Decode URL(s) that are already encoded first
+							let decoded = decodeURI(background.trim());
+							return `url(${encodeRFC3986URI(decoded)})`;
 						}).join( ',' );
 					}
 				}
 				// Videos
-				else if ( backgroundVideo && !this.Reveal.isSpeakerNotes() ) {
+				else if ( backgroundVideo ) {
 					let video = document.createElement( 'video' );
 
 					if( backgroundVideoLoop ) {
 						video.setAttribute( 'loop', '' );
 					}
 
-					if( backgroundVideoMuted ) {
+					if( backgroundVideoMuted || this.Reveal.isSpeakerNotes() ) {
 						video.muted = true;
 					}
 
@@ -136,13 +142,15 @@ export default class SlideContent {
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( source => {
+						const sourceElement = document.createElement( 'source' );
+						sourceElement.setAttribute( 'src', source );
+
 						let type = getMimeTypeFromFile( source );
 						if( type ) {
-							video.innerHTML += `<source src="${source}" type="${type}">`;
+							sourceElement.setAttribute( 'type', type );
 						}
-						else {
-							video.innerHTML += `<source src="${source}">`;
-						}
+
+						video.appendChild( sourceElement );
 					} );
 
 					backgroundContent.appendChild( video );
@@ -272,7 +280,9 @@ export default class SlideContent {
 	 */
 	startEmbeddedContent( element ) {
 
-		if( element && !this.Reveal.isSpeakerNotes() ) {
+		if( element ) {
+
+			const isSpeakerNotesWindow = this.Reveal.isSpeakerNotes();
 
 			// Restart GIFs
 			queryAll( element, 'img[src$=".gif"]' ).forEach( el => {
@@ -297,6 +307,9 @@ export default class SlideContent {
 				}
 
 				if( autoplay && typeof el.play === 'function' ) {
+
+					// In teh speaker view we only auto-play muted media
+					if( isSpeakerNotesWindow && !el.muted ) return;
 
 					// If the media is ready, start playback
 					if( el.readyState > 1 ) {
@@ -329,27 +342,33 @@ export default class SlideContent {
 				}
 			} );
 
-			// Normal iframes
-			queryAll( element, 'iframe[src]' ).forEach( el => {
-				if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
-					return;
-				}
+			// Don't play iframe content in the speaker view since we can't
+			// guarantee that it's muted
+			if( !isSpeakerNotesWindow ) {
 
-				this.startEmbeddedIframe( { target: el } );
-			} );
+				// Normal iframes
+				queryAll( element, 'iframe[src]' ).forEach( el => {
+					if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
+						return;
+					}
 
-			// Lazy loading iframes
-			queryAll( element, 'iframe[data-src]' ).forEach( el => {
-				if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
-					return;
-				}
+					this.startEmbeddedIframe( { target: el } );
+				} );
 
-				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
-					el.removeEventListener( 'load', this.startEmbeddedIframe ); // remove first to avoid dupes
-					el.addEventListener( 'load', this.startEmbeddedIframe );
-					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
-				}
-			} );
+				// Lazy loading iframes
+				queryAll( element, 'iframe[data-src]' ).forEach( el => {
+					if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
+						return;
+					}
+
+					if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
+						el.removeEventListener( 'load', this.startEmbeddedIframe ); // remove first to avoid dupes
+						el.addEventListener( 'load', this.startEmbeddedIframe );
+						el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
+					}
+				} );
+
+			}
 
 		}
 
@@ -367,8 +386,11 @@ export default class SlideContent {
 			isVisible  		= !!closest( event.target, '.present' );
 
 		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
-			event.target.play();
+			// Don't restart if media is already playing
+			if( event.target.paused || event.target.ended ) {
+				event.target.currentTime = 0;
+				event.target.play();
+			}
 		}
 
 		event.target.removeEventListener( 'loadeddata', this.startEmbeddedMedia );
