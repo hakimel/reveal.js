@@ -66,7 +66,10 @@ export default class Controls {
 	 */
 	configure( config, oldConfig ) {
 
-		this.element.style.display = config.controls ? 'block' : 'none';
+		this.element.style.display = (
+			config.controls &&
+			(config.controls !== 'speaker-only' || this.Reveal.isSpeakerNotes())
+		) ? 'block' : 'none';
 
 		this.element.setAttribute( 'data-controls-layout', config.controlsLayout );
 		this.element.setAttribute( 'data-controls-back-arrows', config.controlsBackArrows );
