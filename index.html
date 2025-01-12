@@ -47,173 +47,71 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-<section>
-			<h3>Centering a DIV</h3>
-			<div class="slide-container">
-				<!-- Visible code block -->
-				<pre>
-					<code class="code-block hljs" contenteditable="true">
-		<style>
-			.container {
-				align-content: center;
-			}
-			.box {
-				width: 50px;
-				height: 50px;
-				background: salmon;
-			}
-		</style>
-					</code>
-				</pre>
-		
-				<!-- Hidden code block -->
-				<pre style="display: none;">
-					<code class="hidden-code-block hljs">
-		<div class="container">
-			<p class="content">I am sentence</p>
-			<p class="content">Lorem Ipsum</p>
-		</div>
-					</code>
-				</pre>
-		
-				<!-- Data-edit container -->
-				<div class="scene" data-edit></div>
-			</div>
-</section>
-		
-<!--/* <section>
-					<h3>Centering a DI2</h3>
-          <div class="slide-container"">
+
+        <section>
+          <h3>Centering a DIV WITH BLUE</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
             <pre>
-              <code class="code-block">
-  <style>
-    .container {
-      align-content: center;
-    }
-    .box {
-      width: 50px;
-      height: 50px;
-      background: salmon;
-    }
-  </style>
-  <div class="container">
-    <p class="content">I am sentence</p>
-    <p class="content">Lorem Ipsum</p>
-  </div>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <style>
+                .container {
+                  align-content: center;
+                  background: blue;
+                }
+                .box {
+                  width: 50px;
+                  height: 50px;
+                  background: salmon;
+                }
+              </style>
               </code>
             </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <p class="content">I am sentence</p>
+                <p class="content">Lorem Ipsum</p>
+              </div>
+            </script>
+        
+            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
-</section> */-->
+        </section>
+
         <section>
-					<h3>Centering a DIV</h3>
-					<pre style="display: block;">
-						<code id="full-code" class="code-block" data-line-numbers="3,8-10">
-						<style>
-              .container {
-                background: lightblue;
-              }
-              .box {
-                width: 50px;
-                height: 50px;
-                background: salmon;
-              }
-						</style>
-            <div class="container">
-              <div class="box"></div>
-            </div>
-						</code>
-          </pre>
-          <pre>
-            <code id="editable-code" contenteditable="true" data-line-numbers="3,8-10">
-            </code>
-          </pre>
-          <div style="background:blue;" data-edit>
+          <h3>Centering a DIV 2</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <style>
+                .container {
+                  align-content: center;
+                }
+                .box {
+                  width: 50px;
+                  height: 50px;
+                  background: salmon;
+                }
+              </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <p class="content">I am sentence</p>
+                <p class="content">Lorem Ipsum</p>
+              </div>
+            </script>
+        
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
           </div>
-          <script>
-            // // Extract and display only lines 2-4 (container and box styles)
-            // const fullCode = document.getElementById('full-code').textContent.split('\n');
-            // const selectedLines = fullCode.slice(2, 20).join('\n'); // Lines 2 to 4 (0-based index)
-            // document.getElementById('editable-code').textContent = selectedLines;
-          // Extract and display only lines 2-4 (container and box styles)
-          const fullCodeElement = document.getElementById('full-code');
-            const editableCodeElement = document.getElementById('editable-code');
-
-            // Extract the full code as a single string
-            let fullCodeText = fullCodeElement.textContent;
-
-            // Split the code into lines
-            const fullCodeLines = fullCodeText.split('\n');
-            
-            // Define the range of lines to show/edit
-            const startLine = 2; // Start at line 2 (zero-based index)
-            const endLine = 5;   // End at line 5 (exclusive)
-
-            // Extract the portion to edit and display in editable-code
-            editableCodeElement.textContent = fullCodeLines.slice(startLine, endLine).join('\n');
-
-            // Add event listener to sync changes back to full-code
-            editableCodeElement.addEventListener('input', () => {
-              // Split the edited content by lines
-              const editedLines = editableCodeElement.textContent.split('\n');
-              
-              // Create a new array that includes the updated lines in place
-              const updatedFullCodeLines = [
-                ...fullCodeLines.slice(0, startLine),   // Lines before the edited portion
-                ...editedLines,                         // Edited lines
-                ...fullCodeLines.slice(endLine)         // Lines after the edited portion
-              ];
-
-              // Update the content of full-code as innerHTML
-              fullCodeElement.innerHTML = updatedFullCodeLines.join('\n');
-
-              // Re-run syntax highlighting using RevealHighlight
-              const highlight = Reveal.getPlugin('highlight');
-              highlight.highlightBlock(fullCodeElement);
-
-              // Trigger a synthetic input event to notify RevealLiveCode
-              fullCodeElement.dispatchEvent(new Event('input'));
-            });
-          </script>
-				</section>
-				<section>
-					<h1>NOPE</h1>
-					<pre>
-						<code  data-line-numbers="3,5-7">
-						<style>
-						:root {
-							--hw-color: orange;
-						}
-						</style>
-						<hello-world type="amazing">Light DOM fallback</hello-world>
-						</code></pre>
-						<div style="background:blue;" data-edit>
-						<!-- repeat code or leave empty; this element will be populated when you change the code-->
-
-						</div>
-				</section>
-
-				<section>	
-					<pre>
-					<code data-line-numbers="3,8-10">
-						.testing {
-							display: flex;
-						}
-						<table>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Oranges</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-						</table>
-					</code>
-					</pre>
-				</section>
+        </section>
 			</div>
 		</div>
 
@@ -256,16 +154,16 @@
 					if (codeBlock && dataEditDiv) {
 						// Function to update data-edit with content from both blocks
 						const updateDataEdit = () => {
-							const visibleContent = codeBlock.textContent;
-							const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
-			
-							// Populate the data-edit div with content from both blocks
-							dataEditDiv.innerHTML = `
-								<pre><code>${visibleContent}</code></pre>
-								<pre><code>${hiddenContent}</code></pre>
-							`;
-						};
-			
+              const visibleContent = codeBlock.textContent;
+              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
+
+              // Populate the data-edit div with combined content (renders as actual HTML)
+              dataEditDiv.innerHTML = `
+                ${visibleContent}
+                ${hiddenContent}
+              `;
+            };
+
 						// Initial update of data-edit
 						updateDataEdit();
 			
@@ -335,82 +233,6 @@
 					selection.addRange(range);
 				}
 			});
-			
-
-  /* // Wait for Reveal.js to initialize
-  Reveal.on('ready', () => {
-    // Find all sections containing a code block and a data-edit div
-    document.querySelectorAll('section .slide-container').forEach((container) => {
-      const codeBlock = container.querySelector('.code-block');
-      const dataEditDiv = container.querySelector('[data-edit]');
-      
-      if (codeBlock && dataEditDiv) {
-        // Populate the data-edit div with the initial content of the code block
-        dataEditDiv.innerHTML = codeBlock.textContent;
-      }
-
-      const highlight = Reveal.getPlugin('highlight');
-      highlight.highlightBlock(codeBlock);
-
-      codeBlock.addEventListener('input', () => {
-        const selection = window.getSelection();
-        const range = selection.getRangeAt(0);
-        const preHighlightOffset = range.startOffset;
-        const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
-
-        codeBlock.removeAttribute('data-highlighted');
-        // Remove existing highlight classes before re-highlighting
-        codeBlock.className = 'code-block hljs';
-        // const highlight = Reveal.getPlugin('highlight');
-        highlight.highlightBlock(codeBlock);
-        setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
-
-      });
-    });
-
-  	// Get the caret position relative to the entire text content of an element
-    function getCaretCharacterOffsetWithin(element) {
-      const selection = window.getSelection();
-      let caretOffset = 0;
-      if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        const preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.startContainer, range.startOffset);
-        caretOffset = preCaretRange.toString().length;
-      }
-      return caretOffset;
-    }
-
-    // Set the caret at the given character offset within an element
-    function setCaretAtCharacterOffset(element, offset) {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      let charCount = 0, found = false;
-
-      function traverseNodes(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-          const nextCharCount = charCount + node.length;
-          if (!found && offset >= charCount && offset <= nextCharCount) {
-            range.setStart(node, offset - charCount);
-            range.collapse(true);
-            found = true;
-          }
-          charCount = nextCharCount;
-        } else {
-          for (let i = 0; i < node.childNodes.length; i++) {
-            traverseNodes(node.childNodes[i]);
-            if (found) break;
-          }
-        }
-      }
-
-      traverseNodes(element);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  }); */
-
 		</script>
 	</body>
 </html>
