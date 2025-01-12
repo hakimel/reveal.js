@@ -48,12 +48,12 @@
 		<div class="reveal">
 			<div class="slides">
 
-        <section>
+        <section id="section1">
           <h3>Centering a DIV WITH BLUE</h3>
           <div class="slide-container">
             <!-- Visible code block -->
             <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <code class="code-block hljs" data-trim contenteditable="true">
               <style>
                 .container {
                   align-content: center;
@@ -81,7 +81,7 @@
           </div>
         </section>
 
-        <section>
+        <section id="section2">
           <h3>Centering a DIV 2</h3>
           <div class="slide-container">
             <!-- Visible code block -->
@@ -122,6 +122,47 @@
 		<script type="module">
 			import Editor from './plugin/editor/editor.esm.js';
 
+      /**
+       * Given raw CSS text and a scope selector (e.g. '#section1'),
+       * this function prefixes each selector with the scope.
+       *
+       * Note: This is a simplistic approach that assumes:
+       * - CSS blocks are in a <style> tag without nested rules.
+       * - Selectors do not include edge-cases like commas in strings.
+       *
+       * You might need a more robust parser for production use.
+       */
+       function scopeCSS(cssText, scope) {
+        // This regex finds selectors and the block following them.
+        // Explanation:
+        // - ([^{}]+?) matches one or more characters (non-greedily) that aren't { or } (the selectors).
+        // - \s*\{ matches the opening brace (with possible whitespace)
+        // - ([^}]*?) matches the property block until the closing brace.
+        // - \} matches the closing brace.
+        const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
+
+        return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
+          // Process each selector in the comma-separated list
+          const scopedSelectors = selectors
+            .split(',')
+            .map(sel => {
+              let trimmed = sel.trim();
+              // Skip if the selector already starts with the scope
+              if (trimmed.indexOf(scope) === 0) {
+                return trimmed;
+              }
+              // Also, if the selector starts with an at-rule (e.g. @keyframes, @media) or is a percentage value, skip prefixing.
+              if (trimmed.startsWith('@') || trimmed.match(/^[\d\.%]+$/)) {
+                return trimmed;
+              }
+              return scope + ' ' + trimmed;
+            })
+            .join(', ');
+          return scopedSelectors + ' {' + declarations + '}';
+        });
+      }
+
+
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
@@ -150,19 +191,41 @@
 					const codeBlock = container.querySelector('.code-block'); // Visible code block
 					const hiddenCodeBlock = container.querySelector('.hidden-code-block'); // Hidden code block
 					const dataEditDiv = container.querySelector('[data-edit]');
-			
-					if (codeBlock && dataEditDiv) {
-						// Function to update data-edit with content from both blocks
-						const updateDataEdit = () => {
-              const visibleContent = codeBlock.textContent;
-              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
+			    // Get the parent section for scoping (assuming an id is provided on the <section>)
+          const section = container.closest('section');
+          const sectionScope = section.id ? `#${section.id}` : '';
 
-              // Populate the data-edit div with combined content (renders as actual HTML)
-              dataEditDiv.innerHTML = `
-                ${visibleContent}
-                ${hiddenContent}
-              `;
+					if (codeBlock && dataEditDiv) {
+            // Function to update data-edit with combined & processed content
+            const updateDataEdit = () => {
+              // Gather raw content from the two code blocks.
+              const visibleContent = codeBlock.textContent;
+              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : '';
+              
+              // Combine both contents.
+              let combinedContent = visibleContent + "\n" + hiddenContent;
+              
+              // Process any <style> tags in the combined content to scope them.
+              combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
+                // Apply the scoping based on the current slide’s unique identifier.
+                const scopedCSS = scopeCSS(cssContent, sectionScope);
+                return `<style>${scopedCSS}</style>`;
+              });
+              
+              // Update the data-edit container with the modified content.
+              dataEditDiv.innerHTML = combinedContent;
             };
+						// // Function to update data-edit with content from both blocks
+						// const updateDataEdit = () => {
+            //   const visibleContent = codeBlock.textContent;
+            //   const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
+
+            //   // Populate the data-edit div with combined content (renders as actual HTML)
+            //   dataEditDiv.innerHTML = `
+            //     ${visibleContent}
+            //     ${hiddenContent}
+            //   `;
+            // };
 
 						// Initial update of data-edit
 						updateDataEdit();
@@ -173,6 +236,8 @@
 			
 						// Add event listener for input changes in the visible code block
 						codeBlock.addEventListener('input', () => {
+              updateDataEdit();
+
 							const selection = window.getSelection();
 							const range = selection.getRangeAt(0);
 							const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
