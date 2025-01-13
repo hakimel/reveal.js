@@ -16,8 +16,9 @@ export default {
 	maxScale: 2.0,
 
 	// Display presentation control arrows.
-	// This can be a boolean (true / false) or 'speaker-only' to only display
-	// the controls on the speaker's screen.
+	// - true: Display controls on all screens
+	// - false: Hide controls on all screens
+	// - "speaker-only": Only display controls in the speaker view
 	controls: true,
 
 	// Help the user learn the controls by providing hints, for example by
