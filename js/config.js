@@ -15,7 +15,9 @@ export default {
 	minScale: 0.2,
 	maxScale: 2.0,
 
-	// Display presentation control arrows
+	// Display presentation control arrows.
+	// This can be a boolean (true / false) or 'speaker-only' to only display
+	// the controls on the speaker's screen.
 	controls: true,
 
 	// Help the user learn the controls by providing hints, for example by
