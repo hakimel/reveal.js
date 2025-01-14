@@ -14,8 +14,37 @@
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
     <style>
-      .reveal .hljs table {
-          width: 100%;
+      .reveal {
+				.hljs table {
+						width: 100%;
+				}
+				
+				h3 {
+					text-transform: initial;
+				}
+
+				.code-wrapper code {
+					box-sizing: border-box;
+				}
+			}
+
+			baseline-status {
+        text-align: left;
+        font-size: 12px;
+      }
+
+			li {
+        font-size: 1.5rem;
+      }
+
+			section .code-wrapper {
+        flex-grow: 1;
+        width: 60%;
+        margin: 0;
+      }
+
+      p {
+        color: black;
       }
 
       .code-block {
@@ -33,18 +62,7 @@
       }
 
       .scene {
-        /* width: 40%; */
         flex-grow: 1;
-      }
-
-      section .code-wrapper {
-        flex-grow: 1;
-        width: 60%;
-        margin: 0;
-      }
-
-      p {
-        color: black;
       }
 
       .container {
@@ -56,15 +74,6 @@
         overflow: hidden;
         height: 100%;
         align-content: center;
-      }
-
-      baseline-status {
-        text-align: left;
-        font-size: 12px;
-      }
-
-      li {
-        font-size: 1.5rem;
       }
 
       .baseline-container {
@@ -91,19 +100,21 @@
             <li>Usage: Requires color-scheme: light dark; on the :root pseudo-class for proper support.</li>
           </ul>
         </section>
-        <section id="section1">
-          <h3>Comparing Light/Dark Modes</h3>
+
+        <section>
+          <h3>class switching vs light-dark()</h3>
           <div class="slide-container">
+						<!-- Visible Code Block -->
             <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-13,18-19">
                 <style>
                   :root {
-                    --bg-color: #ffffff;
-                    --text-color: #000000;
+                    --bg-color: #fff;
+                    --text-color: #000;
                   }
                   .dark-mode {
-                    --bg-color: #000000;
-                    --text-color: #ffffff;
+                    --bg-color: #000;
+                    --text-color: #fff;
                   }
                   .container {
                     background-color: var(--bg-color);
@@ -113,12 +124,14 @@
                 <script>
                   function toggleTheme(mode) {
                     const container = document.getElementById('containerId');
-                    mode === 'dark' ? container.classList.add("dark-mode") : container.classList.remove("dark-mode")
+                  	mode === 'dark' ? container.classList.add("dark-mode") : 
+																			container.classList.remove("dark-mode")
                   }
                 </script>
               </code>
             </pre>
-            <!-- Hidden code block and data-edit container for the preview -->
+
+						<!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -127,21 +140,20 @@
                 }
               </style>
               <div class="container" id="containerId">
-                <!-- <button onclick="toggleTheme()">Toggle Theme</button> -->
                 <div class="row gap">
-                  <label><input name="mode1" type="radio" onclick="toggleTheme('light');" checked>light</label>
-                  <label><input name="mode1" type="radio" onclick="toggleTheme('dark');"> dark</label>
+                  <label><input name="mode1" type="radio" onclick="toggleTheme('light');" checked>Light</label>
+                  <label><input name="mode1" type="radio" onclick="toggleTheme('dark');">Dark</label>
                 </div>
               </div>
             </script>
-              <!-- (The preview will show the basic implementation) -->
+
             <div class="scene" data-edit></div>
           </div>
         
           <div class="slide-container">
-            <!-- Bottom: Using light-dark() -->
+						<!-- Visible Code Block -->
             <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12">
                 <style>
                   :root {
                     &:has(input[name="mode"][value="l"]:checked) {
@@ -152,95 +164,26 @@
                     }
                   }
                   .container {
-                    color: light-dark(#333b3c, #efefec);
-                    background-color: light-dark(#efedea, #223a2c);
+                    color: light-dark(#000, #fff);
+                    background-color: light-dark(#fff, #000);
                   }
                 </style>
               </code>
             </pre>
 
+						<!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <div class="container">
                 <div class="row gap">
-                  <label><input name="mode" type="radio" value="l"  checked>light</label>
-                  <label><input name="mode" type="radio" value="d"> dark</label>
+                  <label><input name="mode" type="radio" value="l" checked>Light</label>
+                  <label><input name="mode" type="radio" value="d">Dark</label>
                 </div>
               </div>
             </script>
-            <!-- Hidden code block and data-edit container for the preview -->
+
             <div class="scene" data-edit></div>
           </div>
         </section>
-
-         <section id="section3">
-          <h3>light-dark()</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
-              <style>
-                .container {
-                }
-                body {
-                  color: CanvasText;
-                  background-color: Canvas;
-                }
-              </style>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <div class="container">
-                <p class="content">I am sentence</p>
-                <p class="content">Lorem Ipsum</p>
-              </div>
-            </script>
-        
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
-              <style>
-                :root {
-                  &:has(input[name="color-scheme"][value="light dark"]:checked) {
-                    color-scheme: light dark;
-                  }
-                  &:has(input[name="color-scheme"][value="light"]:checked) {
-                    color-scheme: light;
-                  }
-                  &:has(input[name="color-scheme"][value="dark"]:checked) {
-                    color-scheme: dark;
-                  }
-                }
-                .container {
-                  color: light-dark(#333b3c, #efefec);
-                  background-color: light-dark(#efedea, #223a2c);    
-                }
-              </style>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <div class="container">
-                <div class="row gap">
-                  <label><input name="color-scheme" type="radio" value="light dark" checked>light dark</label>
-                  <label><input name="color-scheme" type="radio" value="light">light</label>
-                  <label><input name="color-scheme" type="radio" value="dark"> dark</label>
-                </div>
-              </div>
-            </script>
-        
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
 			</div>
 		</div>
 
@@ -252,17 +195,13 @@
 			import Editor from './plugin/editor/editor.esm.js';
 
       function wrapRootInScope(rootBlock, scope) {
-        // Use a regex to capture the inner content of the :root block.
         const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
         const match = rootBlock.match(rootContentRegex);
         if (match) {
           let innerCSS = match[1].trim();
-          // Remove any occurrence of the container scope from innerCSS
           const scopeRegex = new RegExp(scope + "\\s*", "g");
           innerCSS = innerCSS.replace(scopeRegex, "");
-          // Wrap the inner CSS with a single instance of the container scope.
           const wrappedInner = scope + " {\n" + innerCSS + "\n}";
-          // Return a new :root block with the wrapped content.
           return ":root {\n" + wrappedInner + "\n}\n";
         }
         return rootBlock;
@@ -271,18 +210,14 @@
       function extractRootBlock(cssText) {
         const rootIndex = cssText.indexOf(":root");
         if (rootIndex === -1) {
-          // No :root found – return empty rootBlock, full CSS as remainder.
           return { rootBlock: "", cssWithoutRoot: cssText };
         }
 
-        // Find the opening brace that begins the :root block.
         const startBrace = cssText.indexOf("{", rootIndex);
         if (startBrace === -1) {
-          // Malformed CSS – no "{" found after :root.
           return { rootBlock: "", cssWithoutRoot: cssText };
         }
 
-        // Use a simple stack method to find the matching closing brace.
         let count = 1;
         let endBrace = startBrace + 1;
         while (endBrace < cssText.length && count > 0) {
@@ -294,34 +229,18 @@
           endBrace++;
         }
 
-        // endBrace now points just after the matching "}".
         const rootBlock = cssText.substring(rootIndex, endBrace);
-        // Remove the extracted :root block from the original CSS.
         const cssWithoutRoot = cssText.slice(0, rootIndex) + cssText.slice(endBrace);
         return { rootBlock, cssWithoutRoot };
       }
 
-
-      /**
-       * Given raw CSS text and a scope selector (e.g. '#section1'),
-       * this function prefixes each selector with the scope.
-       *
-       * Note: This is a simplistic approach that assumes:
-       * - CSS blocks are in a <style> tag without nested rules.
-       * - Selectors do not include edge-cases like commas in strings.
-       *
-       * You might need a more robust parser for production use.
-      */
       function scopeCSS(cssText, scope) {
-        // This regex finds selectors and their blocks in flat CSS.
-        // (We assume that the :root block has been removed already.)
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
         return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
           const scopedSelectors = selectors
             .split(',')
             .map(sel => {
               let trimmed = sel.trim();
-              // Skip at-rules or selectors that look like numbers/percentages.
               if (trimmed.startsWith('@') || /^[\d\.%]+$/.test(trimmed)) {
                 return trimmed;
               }
@@ -338,7 +257,7 @@
 			Reveal.initialize({
 				hash: true,
         highlight: {
-          highlightOnLoad: false, // Disable automatic highlighting
+          highlightOnLoad: false,
         },
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, Editor ]
@@ -346,8 +265,6 @@
 
 			Reveal.on('slidechanged', (event) => {
 				if(event.currentSlide.dataset.execute) {
-
-					console.log('going to eval', event.currentSlide.dataset.execute);
 					let result = eval(event.currentSlide.dataset.execute);
 					let $result = event.currentSlide.querySelector('p.result');
 					$result.innerHTML = result;
@@ -358,19 +275,15 @@
         const slideContainers = document.querySelectorAll('.slide-container');
 
         slideContainers.forEach((container, index) => {
-          // If the container doesn't have an id, assign one:
           if (!container.id) {
             container.id = 'slide-container-' + (index + 1);
           }
-          // Use the container's id as the scope (e.g., "#slide-container-1")
           const containerScope = `#${container.id}`;
-
           const codeBlock = container.querySelector('.code-block');
           const hiddenCodeBlock = container.querySelector('.hidden-code-block');
           const dataEditDiv = container.querySelector('[data-edit]');
 
           if (codeBlock && dataEditDiv) {
-            // Make sure raw text is stored for caret work as discussed earlier
             codeBlock.dataset.rawContent = codeBlock.innerText;
 
             const updateDataEdit = () => {
@@ -378,51 +291,22 @@
               const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
               let combinedContent = visibleContent + "\n" + hiddenContent;
 
-              // Process <style> tags for scoping using the containerScope variable
-              // combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-              //   const scopedCSS = scopeCSS(cssContent, containerScope);
-              //   return `<style>${scopedCSS}</style>`;
-              // });
-
-              // combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-              //   console.log('BEFORE: ', cssContent);
-
-              //   // First perform your normal scoping (if needed)
-              //   let processedCSS = scopeCSS(cssContent, containerScope);
-              //   console.log('processedCss: ', processedCSS);
-                
-              //   // Next, look for a :root block and wrap its content within the scope.
-              //   processedCSS = wrapRootInScope(processedCSS, containerScope);
-                
-              //   return `<style>${processedCSS}</style>`;
-              // });
-
               combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-                // 1. Extract the :root block.
                 const { rootBlock, cssWithoutRoot } = extractRootBlock(cssContent);
-                
-                // 2. Process the rest of the CSS (non‑:root) with scopeCSS.
                 const processedNonRoot = scopeCSS(cssWithoutRoot, containerScope);
-                
-                // 3. Optionally, process the extracted :root block.
-                //    If you want to wrap its contents inside your container scope:
                 const processedRoot = rootBlock ? wrapRootInScope(rootBlock, containerScope) : "";
                 
-                // 4. Combine the processed :root block with the processed remainder.
                 return `<style>${processedRoot}${processedNonRoot}</style>`;
               });
 
               dataEditDiv.innerHTML = combinedContent;
             };
 
-            // Initial update
             updateDataEdit();
 
-            // Apply initial syntax highlighting
 						const highlight = Reveal.getPlugin('highlight');
 						highlight.highlightBlock(codeBlock);
 
-            // Update raw content when the code block changes
             codeBlock.addEventListener('input', () => {
               codeBlock.dataset.rawContent = codeBlock.innerText;
               updateDataEdit();
@@ -438,8 +322,6 @@
             const preCaretRange = range.cloneRange();
             preCaretRange.selectNodeContents(element);
             preCaretRange.setEnd(range.startContainer, range.startOffset);
-            // Instead of using toString() on the DOM, use the stored raw content.
-            // This assumes that codeBlock.dataset.rawContent is up to date.
             caretOffset = preCaretRange.toString().length;
           }
           return caretOffset;
@@ -450,7 +332,6 @@
           const range = document.createRange();
           let charCount = 0, found = false;
 
-          // A helper function that traverses only text nodes
           function traverseNodes(node) {
             if (node.nodeType === Node.TEXT_NODE) {
               const nextCharCount = charCount + node.length;
