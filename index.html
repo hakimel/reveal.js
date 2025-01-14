@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
+    <script type="module" src="./node_modules/baseline-status/baseline-status.min.js"></script>
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -56,6 +57,22 @@
         height: 100%;
         align-content: center;
       }
+
+      baseline-status {
+        text-align: left;
+        font-size: 12px;
+      }
+
+      li {
+        font-size: 1.5rem;
+      }
+
+      .baseline-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
     </style>
 	</head>
 	<body>
@@ -63,8 +80,15 @@
 			<div class="slides">
         <section>
           <h3>light-dark()</h3>
+
+          <div class="baseline-container">
+            <baseline-status featureId="light-dark"></baseline-status>
+          </div>
+
           <ul>
-            <li></li>
+            <li>light-dark() CSS function: Sets two color options based on the user's light or dark mode preference, without needing prefers-color-scheme media queries.</li>
+            <li>User preference detection: Detects system or browser settings for light or dark themes automatically.</li>
+            <li>Usage: Requires color-scheme: light dark; on the :root pseudo-class for proper support.</li>
           </ul>
         </section>
         <section id="section1">
