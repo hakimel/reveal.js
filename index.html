@@ -18,6 +18,8 @@
       }
 
       .code-block {
+        font-size: 0.8rem;
+        line-height: 1rem;
         border-radius: 1rem;
       }
 
@@ -25,16 +27,19 @@
         display: flex;
         gap: 1rem;
 
-        align-items: center;
+        align-items: stretch;
+        margin-bottom: 1rem;
       }
 
       .scene {
-        width: 50%;
+        /* width: 40%; */
+        flex-grow: 1;
       }
 
       section .code-wrapper {
         flex-grow: 1;
-        width: 50%;
+        width: 60%;
+        margin: 0;
       }
 
       p {
@@ -48,12 +53,100 @@
         line-height: 1.5rem;
         background: white;
         overflow: hidden;
+        height: 100%;
+        align-content: center;
       }
     </style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
+        <section>
+          <h3>light-dark()</h3>
+          <ul>
+            <li></li>
+          </ul>
+        </section>
+        <section id="section1">
+          <h3>Comparing Light/Dark Modes</h3>
+          <div class="slide-container">
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+                <style>
+                  :root {
+                    --bg-color: #ffffff;
+                    --text-color: #000000;
+                  }
+                  .dark-mode {
+                    --bg-color: #000000;
+                    --text-color: #ffffff;
+                  }
+                  .container {
+                    background-color: var(--bg-color);
+                    color: var(--text-color);
+                  }
+                </style>
+                <script>
+                  function toggleTheme(mode) {
+                    const container = document.getElementById('containerId');
+                    mode === 'dark' ? container.classList.add("dark-mode") : container.classList.remove("dark-mode")
+                  }
+                </script>
+              </code>
+            </pre>
+            <!-- Hidden code block and data-edit container for the preview -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  all: unset;
+                  color: var(--text-color);
+                }
+              </style>
+              <div class="container" id="containerId">
+                <!-- <button onclick="toggleTheme()">Toggle Theme</button> -->
+                <div class="row gap">
+                  <label><input name="mode1" type="radio" onclick="toggleTheme('light');" checked>light</label>
+                  <label><input name="mode1" type="radio" onclick="toggleTheme('dark');"> dark</label>
+                </div>
+              </div>
+            </script>
+              <!-- (The preview will show the basic implementation) -->
+            <div class="scene" data-edit></div>
+          </div>
+        
+          <div class="slide-container">
+            <!-- Bottom: Using light-dark() -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+                <style>
+                  :root {
+                    &:has(input[name="mode"][value="l"]:checked) {
+                      color-scheme: light;
+                    }
+                    &:has(input[name="mode"][value="d"]:checked) {
+                      color-scheme: dark;
+                    }
+                  }
+                  .container {
+                    color: light-dark(#333b3c, #efefec);
+                    background-color: light-dark(#efedea, #223a2c);
+                  }
+                </style>
+              </code>
+            </pre>
+
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <div class="row gap">
+                  <label><input name="mode" type="radio" value="l"  checked>light</label>
+                  <label><input name="mode" type="radio" value="d"> dark</label>
+                </div>
+              </div>
+            </script>
+            <!-- Hidden code block and data-edit container for the preview -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
 
          <section id="section3">
           <h3>light-dark()</h3>
@@ -124,64 +217,6 @@
           </div>
         </section>
 
-        <section id="section1">
-          <h3>Centering a DIV WITH BLUE</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
-              <style>
-                .container {
-                  align-content: center;
-                }
-              </style>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <div class="container">
-                <p class="content">I am sentence</p>
-                <p class="content">Lorem Ipsum</p>
-              </div>
-            </script>
-        
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section id="section2">
-          <h3>Centering a DIV 2</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
-              <style>
-                .container {
-                  align-content: center;
-                }
-                .box {
-                  width: 50px;
-                  height: 50px;
-                  background: salmon;
-                }
-              </style>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <div class="container">
-                <p class="content">I am sentence</p>
-                <p class="content">Lorem Ipsum</p>
-              </div>
-            </script>
-        
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
 			</div>
 		</div>
 
@@ -192,6 +227,57 @@
 		<script type="module">
 			import Editor from './plugin/editor/editor.esm.js';
 
+      function wrapRootInScope(rootBlock, scope) {
+        // Use a regex to capture the inner content of the :root block.
+        const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
+        const match = rootBlock.match(rootContentRegex);
+        if (match) {
+          let innerCSS = match[1].trim();
+          // Remove any occurrence of the container scope from innerCSS
+          const scopeRegex = new RegExp(scope + "\\s*", "g");
+          innerCSS = innerCSS.replace(scopeRegex, "");
+          // Wrap the inner CSS with a single instance of the container scope.
+          const wrappedInner = scope + " {\n" + innerCSS + "\n}";
+          // Return a new :root block with the wrapped content.
+          return ":root {\n" + wrappedInner + "\n}\n";
+        }
+        return rootBlock;
+      }
+    
+      function extractRootBlock(cssText) {
+        const rootIndex = cssText.indexOf(":root");
+        if (rootIndex === -1) {
+          // No :root found – return empty rootBlock, full CSS as remainder.
+          return { rootBlock: "", cssWithoutRoot: cssText };
+        }
+
+        // Find the opening brace that begins the :root block.
+        const startBrace = cssText.indexOf("{", rootIndex);
+        if (startBrace === -1) {
+          // Malformed CSS – no "{" found after :root.
+          return { rootBlock: "", cssWithoutRoot: cssText };
+        }
+
+        // Use a simple stack method to find the matching closing brace.
+        let count = 1;
+        let endBrace = startBrace + 1;
+        while (endBrace < cssText.length && count > 0) {
+          if (cssText[endBrace] === "{") {
+            count++;
+          } else if (cssText[endBrace] === "}") {
+            count--;
+          }
+          endBrace++;
+        }
+
+        // endBrace now points just after the matching "}".
+        const rootBlock = cssText.substring(rootIndex, endBrace);
+        // Remove the extracted :root block from the original CSS.
+        const cssWithoutRoot = cssText.slice(0, rootIndex) + cssText.slice(endBrace);
+        return { rootBlock, cssWithoutRoot };
+      }
+
+
       /**
        * Given raw CSS text and a scope selector (e.g. '#section1'),
        * this function prefixes each selector with the scope.
@@ -201,28 +287,18 @@
        * - Selectors do not include edge-cases like commas in strings.
        *
        * You might need a more robust parser for production use.
-       */
-       function scopeCSS(cssText, scope) {
-        // This regex finds selectors and the block following them.
-        // Explanation:
-        // - ([^{}]+?) matches one or more characters (non-greedily) that aren't { or } (the selectors).
-        // - \s*\{ matches the opening brace (with possible whitespace)
-        // - ([^}]*?) matches the property block until the closing brace.
-        // - \} matches the closing brace.
+      */
+      function scopeCSS(cssText, scope) {
+        // This regex finds selectors and their blocks in flat CSS.
+        // (We assume that the :root block has been removed already.)
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
-
         return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
-          // Process each selector in the comma-separated list
           const scopedSelectors = selectors
             .split(',')
             .map(sel => {
               let trimmed = sel.trim();
-              // Skip if the selector already starts with the scope
-              if (trimmed.indexOf(scope) === 0) {
-                return trimmed;
-              }
-              // Also, if the selector starts with an at-rule (e.g. @keyframes, @media) or is a percentage value, skip prefixing.
-              if (trimmed.startsWith('@') || trimmed.match(/^[\d\.%]+$/)) {
+              // Skip at-rules or selectors that look like numbers/percentages.
+              if (trimmed.startsWith('@') || /^[\d\.%]+$/.test(trimmed)) {
                 return trimmed;
               }
               return scope + ' ' + trimmed;
@@ -231,7 +307,6 @@
           return scopedSelectors + ' {' + declarations + '}';
         });
       }
-
 
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
@@ -280,9 +355,37 @@
               let combinedContent = visibleContent + "\n" + hiddenContent;
 
               // Process <style> tags for scoping using the containerScope variable
+              // combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
+              //   const scopedCSS = scopeCSS(cssContent, containerScope);
+              //   return `<style>${scopedCSS}</style>`;
+              // });
+
+              // combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
+              //   console.log('BEFORE: ', cssContent);
+
+              //   // First perform your normal scoping (if needed)
+              //   let processedCSS = scopeCSS(cssContent, containerScope);
+              //   console.log('processedCss: ', processedCSS);
+                
+              //   // Next, look for a :root block and wrap its content within the scope.
+              //   processedCSS = wrapRootInScope(processedCSS, containerScope);
+                
+              //   return `<style>${processedCSS}</style>`;
+              // });
+
               combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-                const scopedCSS = scopeCSS(cssContent, containerScope);
-                return `<style>${scopedCSS}</style>`;
+                // 1. Extract the :root block.
+                const { rootBlock, cssWithoutRoot } = extractRootBlock(cssContent);
+                
+                // 2. Process the rest of the CSS (non‑:root) with scopeCSS.
+                const processedNonRoot = scopeCSS(cssWithoutRoot, containerScope);
+                
+                // 3. Optionally, process the extracted :root block.
+                //    If you want to wrap its contents inside your container scope:
+                const processedRoot = rootBlock ? wrapRootInScope(rootBlock, containerScope) : "";
+                
+                // 4. Combine the processed :root block with the processed remainder.
+                return `<style>${processedRoot}${processedNonRoot}</style>`;
               });
 
               dataEditDiv.innerHTML = combinedContent;
