@@ -9,27 +9,38 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
+    <script type="module" src="./node_modules/baseline-status/baseline-status.min.js"></script>
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
     <style>
+      .reveal .hljs table {
+          width: 100%;
+      }
+
       .code-block {
-        font-size: 1.5rem;
-        line-height: 1.5rem;
+        font-size: 0.8rem;
+        line-height: 1rem;
+        border-radius: 1rem;
       }
 
       .slide-container {
         display: flex;
         gap: 1rem;
+
+        align-items: stretch;
+        margin-bottom: 1rem;
       }
 
       .scene {
-        width: 50%;
+        /* width: 40%; */
+        flex-grow: 1;
       }
 
       section .code-wrapper {
         flex-grow: 1;
-        width: 50%;
+        width: 60%;
+        margin: 0;
       }
 
       p {
@@ -38,182 +49,198 @@
 
       .container {
         border-radius: 1rem;
+
+        font-size: 1.5rem;
+        line-height: 1.5rem;
         background: white;
-        height: 500px;
         overflow: hidden;
+        height: 100%;
+        align-content: center;
+      }
+
+      baseline-status {
+        text-align: left;
+        font-size: 12px;
+      }
+
+      li {
+        font-size: 1.5rem;
+      }
+
+      .baseline-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
       }
     </style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-<section>
-			<h3>Centering a DIV</h3>
-			<div class="slide-container">
-				<!-- Visible code block -->
-				<pre>
-					<code class="code-block hljs" contenteditable="true">
-		<style>
-			.container {
-				align-content: center;
-			}
-			.box {
-				width: 50px;
-				height: 50px;
-				background: salmon;
-			}
-		</style>
-					</code>
-				</pre>
-		
-				<!-- Hidden code block -->
-				<pre style="display: none;">
-					<code class="hidden-code-block hljs">
-		<div class="container">
-			<p class="content">I am sentence</p>
-			<p class="content">Lorem Ipsum</p>
-		</div>
-					</code>
-				</pre>
-		
-				<!-- Data-edit container -->
-				<div class="scene" data-edit></div>
-			</div>
-</section>
-		
-<!--/* <section>
-					<h3>Centering a DI2</h3>
-          <div class="slide-container"">
+        <section>
+          <h3>light-dark()</h3>
+
+          <div class="baseline-container">
+            <baseline-status featureId="light-dark"></baseline-status>
+          </div>
+
+          <ul>
+            <li>light-dark() CSS function: Sets two color options based on the user's light or dark mode preference, without needing prefers-color-scheme media queries.</li>
+            <li>User preference detection: Detects system or browser settings for light or dark themes automatically.</li>
+            <li>Usage: Requires color-scheme: light dark; on the :root pseudo-class for proper support.</li>
+          </ul>
+        </section>
+        <section id="section1">
+          <h3>Comparing Light/Dark Modes</h3>
+          <div class="slide-container">
             <pre>
-              <code class="code-block">
-  <style>
-    .container {
-      align-content: center;
-    }
-    .box {
-      width: 50px;
-      height: 50px;
-      background: salmon;
-    }
-  </style>
-  <div class="container">
-    <p class="content">I am sentence</p>
-    <p class="content">Lorem Ipsum</p>
-  </div>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+                <style>
+                  :root {
+                    --bg-color: #ffffff;
+                    --text-color: #000000;
+                  }
+                  .dark-mode {
+                    --bg-color: #000000;
+                    --text-color: #ffffff;
+                  }
+                  .container {
+                    background-color: var(--bg-color);
+                    color: var(--text-color);
+                  }
+                </style>
+                <script>
+                  function toggleTheme(mode) {
+                    const container = document.getElementById('containerId');
+                    mode === 'dark' ? container.classList.add("dark-mode") : container.classList.remove("dark-mode")
+                  }
+                </script>
               </code>
             </pre>
+            <!-- Hidden code block and data-edit container for the preview -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  all: unset;
+                  color: var(--text-color);
+                }
+              </style>
+              <div class="container" id="containerId">
+                <!-- <button onclick="toggleTheme()">Toggle Theme</button> -->
+                <div class="row gap">
+                  <label><input name="mode1" type="radio" onclick="toggleTheme('light');" checked>light</label>
+                  <label><input name="mode1" type="radio" onclick="toggleTheme('dark');"> dark</label>
+                </div>
+              </div>
+            </script>
+              <!-- (The preview will show the basic implementation) -->
             <div class="scene" data-edit></div>
           </div>
-</section> */-->
-        <section>
-					<h3>Centering a DIV</h3>
-					<pre style="display: block;">
-						<code id="full-code" class="code-block" data-line-numbers="3,8-10">
-						<style>
-              .container {
-                background: lightblue;
-              }
-              .box {
-                width: 50px;
-                height: 50px;
-                background: salmon;
-              }
-						</style>
-            <div class="container">
-              <div class="box"></div>
-            </div>
-						</code>
-          </pre>
-          <pre>
-            <code id="editable-code" contenteditable="true" data-line-numbers="3,8-10">
-            </code>
-          </pre>
-          <div style="background:blue;" data-edit>
+        
+          <div class="slide-container">
+            <!-- Bottom: Using light-dark() -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+                <style>
+                  :root {
+                    &:has(input[name="mode"][value="l"]:checked) {
+                      color-scheme: light;
+                    }
+                    &:has(input[name="mode"][value="d"]:checked) {
+                      color-scheme: dark;
+                    }
+                  }
+                  .container {
+                    color: light-dark(#333b3c, #efefec);
+                    background-color: light-dark(#efedea, #223a2c);
+                  }
+                </style>
+              </code>
+            </pre>
+
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <div class="row gap">
+                  <label><input name="mode" type="radio" value="l"  checked>light</label>
+                  <label><input name="mode" type="radio" value="d"> dark</label>
+                </div>
+              </div>
+            </script>
+            <!-- Hidden code block and data-edit container for the preview -->
+            <div class="scene" data-edit></div>
           </div>
-          <script>
-            // // Extract and display only lines 2-4 (container and box styles)
-            // const fullCode = document.getElementById('full-code').textContent.split('\n');
-            // const selectedLines = fullCode.slice(2, 20).join('\n'); // Lines 2 to 4 (0-based index)
-            // document.getElementById('editable-code').textContent = selectedLines;
-          // Extract and display only lines 2-4 (container and box styles)
-          const fullCodeElement = document.getElementById('full-code');
-            const editableCodeElement = document.getElementById('editable-code');
+        </section>
 
-            // Extract the full code as a single string
-            let fullCodeText = fullCodeElement.textContent;
+         <section id="section3">
+          <h3>light-dark()</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <style>
+                .container {
+                }
+                body {
+                  color: CanvasText;
+                  background-color: Canvas;
+                }
+              </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <p class="content">I am sentence</p>
+                <p class="content">Lorem Ipsum</p>
+              </div>
+            </script>
+        
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
 
-            // Split the code into lines
-            const fullCodeLines = fullCodeText.split('\n');
-            
-            // Define the range of lines to show/edit
-            const startLine = 2; // Start at line 2 (zero-based index)
-            const endLine = 5;   // End at line 5 (exclusive)
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <style>
+                :root {
+                  &:has(input[name="color-scheme"][value="light dark"]:checked) {
+                    color-scheme: light dark;
+                  }
+                  &:has(input[name="color-scheme"][value="light"]:checked) {
+                    color-scheme: light;
+                  }
+                  &:has(input[name="color-scheme"][value="dark"]:checked) {
+                    color-scheme: dark;
+                  }
+                }
+                .container {
+                  color: light-dark(#333b3c, #efefec);
+                  background-color: light-dark(#efedea, #223a2c);    
+                }
+              </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <div class="row gap">
+                  <label><input name="color-scheme" type="radio" value="light dark" checked>light dark</label>
+                  <label><input name="color-scheme" type="radio" value="light">light</label>
+                  <label><input name="color-scheme" type="radio" value="dark"> dark</label>
+                </div>
+              </div>
+            </script>
+        
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
 
-            // Extract the portion to edit and display in editable-code
-            editableCodeElement.textContent = fullCodeLines.slice(startLine, endLine).join('\n');
-
-            // Add event listener to sync changes back to full-code
-            editableCodeElement.addEventListener('input', () => {
-              // Split the edited content by lines
-              const editedLines = editableCodeElement.textContent.split('\n');
-              
-              // Create a new array that includes the updated lines in place
-              const updatedFullCodeLines = [
-                ...fullCodeLines.slice(0, startLine),   // Lines before the edited portion
-                ...editedLines,                         // Edited lines
-                ...fullCodeLines.slice(endLine)         // Lines after the edited portion
-              ];
-
-              // Update the content of full-code as innerHTML
-              fullCodeElement.innerHTML = updatedFullCodeLines.join('\n');
-
-              // Re-run syntax highlighting using RevealHighlight
-              const highlight = Reveal.getPlugin('highlight');
-              highlight.highlightBlock(fullCodeElement);
-
-              // Trigger a synthetic input event to notify RevealLiveCode
-              fullCodeElement.dispatchEvent(new Event('input'));
-            });
-          </script>
-				</section>
-				<section>
-					<h1>NOPE</h1>
-					<pre>
-						<code  data-line-numbers="3,5-7">
-						<style>
-						:root {
-							--hw-color: orange;
-						}
-						</style>
-						<hello-world type="amazing">Light DOM fallback</hello-world>
-						</code></pre>
-						<div style="background:blue;" data-edit>
-						<!-- repeat code or leave empty; this element will be populated when you change the code-->
-
-						</div>
-				</section>
-
-				<section>	
-					<pre>
-					<code data-line-numbers="3,8-10">
-						.testing {
-							display: flex;
-						}
-						<table>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Oranges</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-						</table>
-					</code>
-					</pre>
-				</section>
 			</div>
 		</div>
 
@@ -223,6 +250,87 @@
 		<script src="plugin/highlight/highlight.js"></script>
 		<script type="module">
 			import Editor from './plugin/editor/editor.esm.js';
+
+      function wrapRootInScope(rootBlock, scope) {
+        // Use a regex to capture the inner content of the :root block.
+        const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
+        const match = rootBlock.match(rootContentRegex);
+        if (match) {
+          let innerCSS = match[1].trim();
+          // Remove any occurrence of the container scope from innerCSS
+          const scopeRegex = new RegExp(scope + "\\s*", "g");
+          innerCSS = innerCSS.replace(scopeRegex, "");
+          // Wrap the inner CSS with a single instance of the container scope.
+          const wrappedInner = scope + " {\n" + innerCSS + "\n}";
+          // Return a new :root block with the wrapped content.
+          return ":root {\n" + wrappedInner + "\n}\n";
+        }
+        return rootBlock;
+      }
+    
+      function extractRootBlock(cssText) {
+        const rootIndex = cssText.indexOf(":root");
+        if (rootIndex === -1) {
+          // No :root found – return empty rootBlock, full CSS as remainder.
+          return { rootBlock: "", cssWithoutRoot: cssText };
+        }
+
+        // Find the opening brace that begins the :root block.
+        const startBrace = cssText.indexOf("{", rootIndex);
+        if (startBrace === -1) {
+          // Malformed CSS – no "{" found after :root.
+          return { rootBlock: "", cssWithoutRoot: cssText };
+        }
+
+        // Use a simple stack method to find the matching closing brace.
+        let count = 1;
+        let endBrace = startBrace + 1;
+        while (endBrace < cssText.length && count > 0) {
+          if (cssText[endBrace] === "{") {
+            count++;
+          } else if (cssText[endBrace] === "}") {
+            count--;
+          }
+          endBrace++;
+        }
+
+        // endBrace now points just after the matching "}".
+        const rootBlock = cssText.substring(rootIndex, endBrace);
+        // Remove the extracted :root block from the original CSS.
+        const cssWithoutRoot = cssText.slice(0, rootIndex) + cssText.slice(endBrace);
+        return { rootBlock, cssWithoutRoot };
+      }
+
+
+      /**
+       * Given raw CSS text and a scope selector (e.g. '#section1'),
+       * this function prefixes each selector with the scope.
+       *
+       * Note: This is a simplistic approach that assumes:
+       * - CSS blocks are in a <style> tag without nested rules.
+       * - Selectors do not include edge-cases like commas in strings.
+       *
+       * You might need a more robust parser for production use.
+      */
+      function scopeCSS(cssText, scope) {
+        // This regex finds selectors and their blocks in flat CSS.
+        // (We assume that the :root block has been removed already.)
+        const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
+        return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
+          const scopedSelectors = selectors
+            .split(',')
+            .map(sel => {
+              let trimmed = sel.trim();
+              // Skip at-rules or selectors that look like numbers/percentages.
+              if (trimmed.startsWith('@') || /^[\d\.%]+$/.test(trimmed)) {
+                return trimmed;
+              }
+              return scope + ' ' + trimmed;
+            })
+            .join(', ');
+          return scopedSelectors + ' {' + declarations + '}';
+        });
+      }
 
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
@@ -247,170 +355,123 @@
 			});
 
 			Reveal.on('ready', () => {
-				// Find all sections containing a code block and a data-edit div
-				document.querySelectorAll('section .slide-container').forEach((container) => {
-					const codeBlock = container.querySelector('.code-block'); // Visible code block
-					const hiddenCodeBlock = container.querySelector('.hidden-code-block'); // Hidden code block
-					const dataEditDiv = container.querySelector('[data-edit]');
-			
-					if (codeBlock && dataEditDiv) {
-						// Function to update data-edit with content from both blocks
-						const updateDataEdit = () => {
-							const visibleContent = codeBlock.textContent;
-							const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
-			
-							// Populate the data-edit div with content from both blocks
-							dataEditDiv.innerHTML = `
-								<pre><code>${visibleContent}</code></pre>
-								<pre><code>${hiddenContent}</code></pre>
-							`;
-						};
-			
-						// Initial update of data-edit
-						updateDataEdit();
-			
-						// Apply initial syntax highlighting
+        const slideContainers = document.querySelectorAll('.slide-container');
+
+        slideContainers.forEach((container, index) => {
+          // If the container doesn't have an id, assign one:
+          if (!container.id) {
+            container.id = 'slide-container-' + (index + 1);
+          }
+          // Use the container's id as the scope (e.g., "#slide-container-1")
+          const containerScope = `#${container.id}`;
+
+          const codeBlock = container.querySelector('.code-block');
+          const hiddenCodeBlock = container.querySelector('.hidden-code-block');
+          const dataEditDiv = container.querySelector('[data-edit]');
+
+          if (codeBlock && dataEditDiv) {
+            // Make sure raw text is stored for caret work as discussed earlier
+            codeBlock.dataset.rawContent = codeBlock.innerText;
+
+            const updateDataEdit = () => {
+              const visibleContent = codeBlock.dataset.rawContent || codeBlock.innerText;
+              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
+              let combinedContent = visibleContent + "\n" + hiddenContent;
+
+              // Process <style> tags for scoping using the containerScope variable
+              // combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
+              //   const scopedCSS = scopeCSS(cssContent, containerScope);
+              //   return `<style>${scopedCSS}</style>`;
+              // });
+
+              // combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
+              //   console.log('BEFORE: ', cssContent);
+
+              //   // First perform your normal scoping (if needed)
+              //   let processedCSS = scopeCSS(cssContent, containerScope);
+              //   console.log('processedCss: ', processedCSS);
+                
+              //   // Next, look for a :root block and wrap its content within the scope.
+              //   processedCSS = wrapRootInScope(processedCSS, containerScope);
+                
+              //   return `<style>${processedCSS}</style>`;
+              // });
+
+              combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
+                // 1. Extract the :root block.
+                const { rootBlock, cssWithoutRoot } = extractRootBlock(cssContent);
+                
+                // 2. Process the rest of the CSS (non‑:root) with scopeCSS.
+                const processedNonRoot = scopeCSS(cssWithoutRoot, containerScope);
+                
+                // 3. Optionally, process the extracted :root block.
+                //    If you want to wrap its contents inside your container scope:
+                const processedRoot = rootBlock ? wrapRootInScope(rootBlock, containerScope) : "";
+                
+                // 4. Combine the processed :root block with the processed remainder.
+                return `<style>${processedRoot}${processedNonRoot}</style>`;
+              });
+
+              dataEditDiv.innerHTML = combinedContent;
+            };
+
+            // Initial update
+            updateDataEdit();
+
+            // Apply initial syntax highlighting
 						const highlight = Reveal.getPlugin('highlight');
 						highlight.highlightBlock(codeBlock);
-			
-						// Add event listener for input changes in the visible code block
-						codeBlock.addEventListener('input', () => {
-							const selection = window.getSelection();
-							const range = selection.getRangeAt(0);
-							const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
-			
-							// Remove 'data-highlighted' and reapply highlighting
-							codeBlock.removeAttribute('data-highlighted');
-							codeBlock.className = 'code-block hljs';
-							highlight.highlightBlock(codeBlock);
-			
-							// Restore caret position
-							setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
-			
-							// Update the data-edit div
-							updateDataEdit();
-						});
-					}
-				});
-			
-				// Helper functions for caret position
-				function getCaretCharacterOffsetWithin(element) {
-					const selection = window.getSelection();
-					let caretOffset = 0;
-					if (selection.rangeCount > 0) {
-						const range = selection.getRangeAt(0);
-						const preCaretRange = range.cloneRange();
-						preCaretRange.selectNodeContents(element);
-						preCaretRange.setEnd(range.startContainer, range.startOffset);
-						caretOffset = preCaretRange.toString().length;
-					}
-					return caretOffset;
-				}
-			
-				function setCaretAtCharacterOffset(element, offset) {
-					const selection = window.getSelection();
-					const range = document.createRange();
-					let charCount = 0,
-						found = false;
-			
-					function traverseNodes(node) {
-						if (node.nodeType === Node.TEXT_NODE) {
-							const nextCharCount = charCount + node.length;
-							if (!found && offset >= charCount && offset <= nextCharCount) {
-								range.setStart(node, offset - charCount);
-								range.collapse(true);
-								found = true;
-							}
-							charCount = nextCharCount;
-						} else {
-							for (let i = 0; i < node.childNodes.length; i++) {
-								traverseNodes(node.childNodes[i]);
-								if (found) break;
-							}
-						}
-					}
-			
-					traverseNodes(element);
-					selection.removeAllRanges();
-					selection.addRange(range);
-				}
-			});
-			
 
-  /* // Wait for Reveal.js to initialize
-  Reveal.on('ready', () => {
-    // Find all sections containing a code block and a data-edit div
-    document.querySelectorAll('section .slide-container').forEach((container) => {
-      const codeBlock = container.querySelector('.code-block');
-      const dataEditDiv = container.querySelector('[data-edit]');
-      
-      if (codeBlock && dataEditDiv) {
-        // Populate the data-edit div with the initial content of the code block
-        dataEditDiv.innerHTML = codeBlock.textContent;
-      }
-
-      const highlight = Reveal.getPlugin('highlight');
-      highlight.highlightBlock(codeBlock);
-
-      codeBlock.addEventListener('input', () => {
-        const selection = window.getSelection();
-        const range = selection.getRangeAt(0);
-        const preHighlightOffset = range.startOffset;
-        const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
-
-        codeBlock.removeAttribute('data-highlighted');
-        // Remove existing highlight classes before re-highlighting
-        codeBlock.className = 'code-block hljs';
-        // const highlight = Reveal.getPlugin('highlight');
-        highlight.highlightBlock(codeBlock);
-        setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
-
-      });
-    });
-
-  	// Get the caret position relative to the entire text content of an element
-    function getCaretCharacterOffsetWithin(element) {
-      const selection = window.getSelection();
-      let caretOffset = 0;
-      if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        const preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.startContainer, range.startOffset);
-        caretOffset = preCaretRange.toString().length;
-      }
-      return caretOffset;
-    }
-
-    // Set the caret at the given character offset within an element
-    function setCaretAtCharacterOffset(element, offset) {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      let charCount = 0, found = false;
-
-      function traverseNodes(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-          const nextCharCount = charCount + node.length;
-          if (!found && offset >= charCount && offset <= nextCharCount) {
-            range.setStart(node, offset - charCount);
-            range.collapse(true);
-            found = true;
+            // Update raw content when the code block changes
+            codeBlock.addEventListener('input', () => {
+              codeBlock.dataset.rawContent = codeBlock.innerText;
+              updateDataEdit();
+            });
           }
-          charCount = nextCharCount;
-        } else {
-          for (let i = 0; i < node.childNodes.length; i++) {
-            traverseNodes(node.childNodes[i]);
-            if (found) break;
+        });
+
+        function getCaretCharacterOffsetWithin(element) {
+          const selection = window.getSelection();
+          let caretOffset = 0;
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.startContainer, range.startOffset);
+            // Instead of using toString() on the DOM, use the stored raw content.
+            // This assumes that codeBlock.dataset.rawContent is up to date.
+            caretOffset = preCaretRange.toString().length;
           }
+          return caretOffset;
         }
-      }
 
-      traverseNodes(element);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  }); */
+        function setCaretAtCharacterOffset(element, offset) {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          let charCount = 0, found = false;
 
+          // A helper function that traverses only text nodes
+          function traverseNodes(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+              const nextCharCount = charCount + node.length;
+              if (!found && offset >= charCount && offset <= nextCharCount) {
+                range.setStart(node, offset - charCount);
+                range.collapse(true);
+                found = true;
+              }
+              charCount = nextCharCount;
+            } else {
+              for (let i = 0; i < node.childNodes.length; i++) {
+                traverseNodes(node.childNodes[i]);
+                if (found) break;
+              }
+            }
+          }
+          traverseNodes(element);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+			});
 		</script>
 	</body>
 </html>
