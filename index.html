@@ -13,10 +13,13 @@
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
     <style>
-      .code-block {
+      .reveal .hljs table {
+          width: 100%;
+      }
+      /* .code-block {
         font-size: 1.5rem;
         line-height: 1.5rem;
-      }
+      } */
 
       .slide-container {
         display: flex;
@@ -38,6 +41,9 @@
 
       .container {
         border-radius: 1rem;
+
+        font-size: 1.5rem;
+        line-height: 1.5rem;
         background: white;
         height: 500px;
         overflow: hidden;
@@ -48,21 +54,42 @@
 		<div class="reveal">
 			<div class="slides">
 
+         <section id="section3">
+          <h3>Centering a DIV WITH BLUE</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <style>
+                .container {
+                  align-content: center;
+                }
+              </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <p class="content">I am sentence</p>
+                <p class="content">Lorem Ipsum</p>
+              </div>
+            </script>
+        
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
         <section id="section1">
           <h3>Centering a DIV WITH BLUE</h3>
           <div class="slide-container">
             <!-- Visible code block -->
             <pre>
-              <code class="code-block hljs" data-trim contenteditable="true">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
               <style>
                 .container {
                   align-content: center;
-                  background: blue;
-                }
-                .box {
-                  width: 50px;
-                  height: 50px;
-                  background: salmon;
                 }
               </style>
               </code>
@@ -196,6 +223,8 @@
           const sectionScope = section.id ? `#${section.id}` : '';
 
 					if (codeBlock && dataEditDiv) {
+            codeBlock.dataset.rawContent = codeBlock.innerText;
+
             // Function to update data-edit with combined & processed content
             const updateDataEdit = () => {
               // Gather raw content from the two code blocks.
@@ -235,68 +264,73 @@
 						highlight.highlightBlock(codeBlock);
 			
 						// Add event listener for input changes in the visible code block
-						codeBlock.addEventListener('input', () => {
+            codeBlock.addEventListener('input', () => {
+              // Save the plain text version in a data attribute
+              codeBlock.dataset.rawContent = codeBlock.innerText; 
               updateDataEdit();
+            });
+						// codeBlock.addEventListener('input', () => {
+            //   updateDataEdit();
 
-							const selection = window.getSelection();
-							const range = selection.getRangeAt(0);
-							const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
+						// 	const selection = window.getSelection();
+						// 	const range = selection.getRangeAt(0);
+						// 	const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
 			
-							// Remove 'data-highlighted' and reapply highlighting
-							codeBlock.removeAttribute('data-highlighted');
-							codeBlock.className = 'code-block hljs';
-							highlight.highlightBlock(codeBlock);
+						// 	// Remove 'data-highlighted' and reapply highlighting
+						// 	codeBlock.removeAttribute('data-highlighted');
+						// 	codeBlock.className = 'code-block hljs';
+						// 	highlight.highlightBlock(codeBlock);
 			
-							// Restore caret position
-							setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
+						// 	// Restore caret position
+						// 	setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
 			
-							// Update the data-edit div
-							updateDataEdit();
-						});
+						// 	// Update the data-edit div
+						// 	updateDataEdit();
+						// });
 					}
 				});
-			
-				// Helper functions for caret position
-				function getCaretCharacterOffsetWithin(element) {
-					const selection = window.getSelection();
-					let caretOffset = 0;
-					if (selection.rangeCount > 0) {
-						const range = selection.getRangeAt(0);
-						const preCaretRange = range.cloneRange();
-						preCaretRange.selectNodeContents(element);
-						preCaretRange.setEnd(range.startContainer, range.startOffset);
-						caretOffset = preCaretRange.toString().length;
-					}
-					return caretOffset;
-				}
-			
-				function setCaretAtCharacterOffset(element, offset) {
-					const selection = window.getSelection();
-					const range = document.createRange();
-					let charCount = 0,
-						found = false;
-			
-					function traverseNodes(node) {
-						if (node.nodeType === Node.TEXT_NODE) {
-							const nextCharCount = charCount + node.length;
-							if (!found && offset >= charCount && offset <= nextCharCount) {
-								range.setStart(node, offset - charCount);
-								range.collapse(true);
-								found = true;
-							}
-							charCount = nextCharCount;
-						} else {
-							for (let i = 0; i < node.childNodes.length; i++) {
-								traverseNodes(node.childNodes[i]);
-								if (found) break;
-							}
-						}
-					}
-			
-					traverseNodes(element);
-					selection.removeAllRanges();
-					selection.addRange(range);
-				}
+
+        function getCaretCharacterOffsetWithin(element) {
+          const selection = window.getSelection();
+          let caretOffset = 0;
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.startContainer, range.startOffset);
+            // Instead of using toString() on the DOM, use the stored raw content.
+            // This assumes that codeBlock.dataset.rawContent is up to date.
+            caretOffset = preCaretRange.toString().length;
+          }
+          return caretOffset;
+        }
+
+        function setCaretAtCharacterOffset(element, offset) {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          let charCount = 0, found = false;
+
+          // A helper function that traverses only text nodes
+          function traverseNodes(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+              const nextCharCount = charCount + node.length;
+              if (!found && offset >= charCount && offset <= nextCharCount) {
+                range.setStart(node, offset - charCount);
+                range.collapse(true);
+                found = true;
+              }
+              charCount = nextCharCount;
+            } else {
+              for (let i = 0; i < node.childNodes.length; i++) {
+                traverseNodes(node.childNodes[i]);
+                if (found) break;
+              }
+            }
+          }
+          traverseNodes(element);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
 			});
 		</script>
 	</body>
