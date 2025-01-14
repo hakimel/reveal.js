@@ -16,14 +16,16 @@
       .reveal .hljs table {
           width: 100%;
       }
-      /* .code-block {
-        font-size: 1.5rem;
-        line-height: 1.5rem;
-      } */
+
+      .code-block {
+        border-radius: 1rem;
+      }
 
       .slide-container {
         display: flex;
         gap: 1rem;
+
+        align-items: center;
       }
 
       .scene {
@@ -45,7 +47,6 @@
         font-size: 1.5rem;
         line-height: 1.5rem;
         background: white;
-        height: 500px;
         overflow: hidden;
       }
     </style>
@@ -55,14 +56,17 @@
 			<div class="slides">
 
          <section id="section3">
-          <h3>Centering a DIV WITH BLUE</h3>
+          <h3>light-dark()</h3>
           <div class="slide-container">
             <!-- Visible code block -->
             <pre>
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
               <style>
                 .container {
-                  align-content: center;
+                }
+                body {
+                  color: CanvasText;
+                  background-color: Canvas;
                 }
               </style>
               </code>
@@ -73,6 +77,45 @@
               <div class="container">
                 <p class="content">I am sentence</p>
                 <p class="content">Lorem Ipsum</p>
+              </div>
+            </script>
+        
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="3,8-10">
+              <style>
+                :root {
+                  &:has(input[name="color-scheme"][value="light dark"]:checked) {
+                    color-scheme: light dark;
+                  }
+                  &:has(input[name="color-scheme"][value="light"]:checked) {
+                    color-scheme: light;
+                  }
+                  &:has(input[name="color-scheme"][value="dark"]:checked) {
+                    color-scheme: dark;
+                  }
+                }
+                .container {
+                  color: light-dark(#333b3c, #efefec);
+                  background-color: light-dark(#efedea, #223a2c);    
+                }
+              </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <div class="container">
+                <div class="row gap">
+                  <label><input name="color-scheme" type="radio" value="light dark" checked>light dark</label>
+                  <label><input name="color-scheme" type="radio" value="light">light</label>
+                  <label><input name="color-scheme" type="radio" value="dark"> dark</label>
+                </div>
               </div>
             </script>
         
@@ -213,82 +256,52 @@
 			});
 
 			Reveal.on('ready', () => {
-				// Find all sections containing a code block and a data-edit div
-				document.querySelectorAll('section .slide-container').forEach((container) => {
-					const codeBlock = container.querySelector('.code-block'); // Visible code block
-					const hiddenCodeBlock = container.querySelector('.hidden-code-block'); // Hidden code block
-					const dataEditDiv = container.querySelector('[data-edit]');
-			    // Get the parent section for scoping (assuming an id is provided on the <section>)
-          const section = container.closest('section');
-          const sectionScope = section.id ? `#${section.id}` : '';
+        const slideContainers = document.querySelectorAll('.slide-container');
 
-					if (codeBlock && dataEditDiv) {
+        slideContainers.forEach((container, index) => {
+          // If the container doesn't have an id, assign one:
+          if (!container.id) {
+            container.id = 'slide-container-' + (index + 1);
+          }
+          // Use the container's id as the scope (e.g., "#slide-container-1")
+          const containerScope = `#${container.id}`;
+
+          const codeBlock = container.querySelector('.code-block');
+          const hiddenCodeBlock = container.querySelector('.hidden-code-block');
+          const dataEditDiv = container.querySelector('[data-edit]');
+
+          if (codeBlock && dataEditDiv) {
+            // Make sure raw text is stored for caret work as discussed earlier
             codeBlock.dataset.rawContent = codeBlock.innerText;
 
-            // Function to update data-edit with combined & processed content
             const updateDataEdit = () => {
-              // Gather raw content from the two code blocks.
-              const visibleContent = codeBlock.textContent;
-              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : '';
-              
-              // Combine both contents.
+              const visibleContent = codeBlock.dataset.rawContent || codeBlock.innerText;
+              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
               let combinedContent = visibleContent + "\n" + hiddenContent;
-              
-              // Process any <style> tags in the combined content to scope them.
+
+              // Process <style> tags for scoping using the containerScope variable
               combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-                // Apply the scoping based on the current slide’s unique identifier.
-                const scopedCSS = scopeCSS(cssContent, sectionScope);
+                const scopedCSS = scopeCSS(cssContent, containerScope);
                 return `<style>${scopedCSS}</style>`;
               });
-              
-              // Update the data-edit container with the modified content.
+
               dataEditDiv.innerHTML = combinedContent;
             };
-						// // Function to update data-edit with content from both blocks
-						// const updateDataEdit = () => {
-            //   const visibleContent = codeBlock.textContent;
-            //   const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
 
-            //   // Populate the data-edit div with combined content (renders as actual HTML)
-            //   dataEditDiv.innerHTML = `
-            //     ${visibleContent}
-            //     ${hiddenContent}
-            //   `;
-            // };
+            // Initial update
+            updateDataEdit();
 
-						// Initial update of data-edit
-						updateDataEdit();
-			
-						// Apply initial syntax highlighting
+            // Apply initial syntax highlighting
 						const highlight = Reveal.getPlugin('highlight');
 						highlight.highlightBlock(codeBlock);
-			
-						// Add event listener for input changes in the visible code block
+
+            // Update raw content when the code block changes
             codeBlock.addEventListener('input', () => {
-              // Save the plain text version in a data attribute
-              codeBlock.dataset.rawContent = codeBlock.innerText; 
+              codeBlock.dataset.rawContent = codeBlock.innerText;
               updateDataEdit();
             });
-						// codeBlock.addEventListener('input', () => {
-            //   updateDataEdit();
-
-						// 	const selection = window.getSelection();
-						// 	const range = selection.getRangeAt(0);
-						// 	const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
-			
-						// 	// Remove 'data-highlighted' and reapply highlighting
-						// 	codeBlock.removeAttribute('data-highlighted');
-						// 	codeBlock.className = 'code-block hljs';
-						// 	highlight.highlightBlock(codeBlock);
-			
-						// 	// Restore caret position
-						// 	setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
-			
-						// 	// Update the data-edit div
-						// 	updateDataEdit();
-						// });
-					}
-				});
+          }
+        });
 
         function getCaretCharacterOffsetWithin(element) {
           const selection = window.getSelection();
