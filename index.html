@@ -1,43 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
-    <script type="module" src="./node_modules/baseline-status/baseline-status.min.js"></script>
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+    <script
+      type="module"
+      src="./node_modules/baseline-status/baseline-status.min.js"
+    ></script>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
     <style>
       .reveal {
-				.hljs table {
-						width: 100%;
-				}
-				
-				h3 {
-					text-transform: initial;
-				}
+        .hljs table {
+          width: 100%;
+        }
 
-				.code-wrapper code {
-					box-sizing: border-box;
-				}
-			}
+        h3 {
+          text-transform: initial;
+        }
 
-			baseline-status {
+        .code-wrapper code {
+          box-sizing: border-box;
+        }
+      }
+
+      baseline-status {
         text-align: left;
         font-size: 12px;
       }
 
-			li {
+      li {
         font-size: 1.5rem;
       }
 
-			section .code-wrapper {
+      section .code-wrapper {
         flex-grow: 1;
         width: 60%;
         margin: 0;
@@ -83,10 +89,10 @@
         margin-bottom: 1.5rem;
       }
     </style>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
         <section>
           <h3>light-dark()</h3>
 
@@ -95,16 +101,26 @@
           </div>
 
           <ul>
-            <li>light-dark() CSS function: Sets two color options based on the user's light or dark mode preference, without needing prefers-color-scheme media queries.</li>
-            <li>User preference detection: Detects system or browser settings for light or dark themes automatically.</li>
-            <li>Usage: Requires color-scheme: light dark; on the :root pseudo-class for proper support.</li>
+            <li>
+              light-dark() CSS function: Sets two color options based on the
+              user's light or dark mode preference, without needing
+              prefers-color-scheme media queries.
+            </li>
+            <li>
+              User preference detection: Detects system or browser settings for
+              light or dark themes automatically.
+            </li>
+            <li>
+              Usage: Requires color-scheme: light dark; on the :root
+              pseudo-class for proper support.
+            </li>
           </ul>
         </section>
 
         <section>
           <h3>class switching vs light-dark()</h3>
           <div class="slide-container">
-						<!-- Visible Code Block -->
+            <!-- Visible Code Block -->
             <pre>
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-13,18-19">
                 <style>
@@ -124,14 +140,14 @@
                 <script>
                   function toggleTheme(mode) {
                     const container = document.getElementById('containerId');
-                  	mode === 'dark' ? container.classList.add("dark-mode") : 
-																			container.classList.remove("dark-mode")
+                    mode === 'dark' ? container.classList.add("dark-mode") : 
+                      container.classList.remove("dark-mode")
                   }
                 </script>
               </code>
             </pre>
 
-						<!-- Hidden Code Block -->
+            <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -149,11 +165,11 @@
 
             <div class="scene" data-edit></div>
           </div>
-        
+
           <div class="slide-container">
-						<!-- Visible Code Block -->
+            <!-- Visible Code Block -->
             <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12,15">
                 <style>
                   :root {
                     &:has(input[name="mode"][value="l"]:checked) {
@@ -167,32 +183,44 @@
                     color: light-dark(#000, #fff);
                     background-color: light-dark(#fff, #000);
                   }
+                  .circle {
+                    background-color: salmon;
+                  }
                 </style>
               </code>
             </pre>
 
-						<!-- Hidden Code Block -->
+            <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
-              <div class="container">
-                <div class="row gap">
-                  <label><input name="mode" type="radio" value="l" checked>Light</label>
-                  <label><input name="mode" type="radio" value="d">Dark</label>
-                </div>
-              </div>
+              <style>
+              	.circle {
+              		width: 50px;
+              		aspect-ratio: 1 / 1;
+              		margin: 1rem auto;
+                  border-radius: 50%;
+              	}
+              </style>
+                     <div class="container">
+              	      <div class="circle"></div>
+                       <div class="row gap">
+                         <label><input name="mode" type="radio" value="l" checked>Light</label>
+                         <label><input name="mode" type="radio" value="d">Dark</label>
+                       </div>
+                     </div>
             </script>
 
             <div class="scene" data-edit></div>
           </div>
         </section>
-			</div>
-		</div>
+      </div>
+    </div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script type="module">
-			import Editor from './plugin/editor/editor.esm.js';
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script type="module">
+      import Editor from "./plugin/editor/editor.esm.js";
 
       function wrapRootInScope(rootBlock, scope) {
         const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
@@ -206,7 +234,7 @@
         }
         return rootBlock;
       }
-    
+
       function extractRootBlock(cssText) {
         const rootIndex = cssText.indexOf(":root");
         if (rootIndex === -1) {
@@ -230,84 +258,100 @@
         }
 
         const rootBlock = cssText.substring(rootIndex, endBrace);
-        const cssWithoutRoot = cssText.slice(0, rootIndex) + cssText.slice(endBrace);
+        const cssWithoutRoot =
+          cssText.slice(0, rootIndex) + cssText.slice(endBrace);
         return { rootBlock, cssWithoutRoot };
       }
 
       function scopeCSS(cssText, scope) {
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
-        return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
-          const scopedSelectors = selectors
-            .split(',')
-            .map(sel => {
-              let trimmed = sel.trim();
-              if (trimmed.startsWith('@') || /^[\d\.%]+$/.test(trimmed)) {
-                return trimmed;
-              }
-              return scope + ' ' + trimmed;
-            })
-            .join(', ');
-          return scopedSelectors + ' {' + declarations + '}';
-        });
+        return cssText.replace(
+          cssRuleRegex,
+          (match, selectors, declarations) => {
+            const scopedSelectors = selectors
+              .split(",")
+              .map((sel) => {
+                let trimmed = sel.trim();
+                if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
+                  return trimmed;
+                }
+                return scope + " " + trimmed;
+              })
+              .join(", ");
+            return scopedSelectors + " {" + declarations + "}";
+          }
+        );
       }
 
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
         highlight: {
           highlightOnLoad: false,
         },
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, Editor ]
-			});
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, Editor],
+      });
 
-			Reveal.on('slidechanged', (event) => {
-				if(event.currentSlide.dataset.execute) {
-					let result = eval(event.currentSlide.dataset.execute);
-					let $result = event.currentSlide.querySelector('p.result');
-					$result.innerHTML = result;
-				}
-			});
+      Reveal.on("slidechanged", (event) => {
+        if (event.currentSlide.dataset.execute) {
+          let result = eval(event.currentSlide.dataset.execute);
+          let $result = event.currentSlide.querySelector("p.result");
+          $result.innerHTML = result;
+        }
+      });
 
-			Reveal.on('ready', () => {
-        const slideContainers = document.querySelectorAll('.slide-container');
+      Reveal.on("ready", () => {
+        const slideContainers = document.querySelectorAll(".slide-container");
 
         slideContainers.forEach((container, index) => {
           if (!container.id) {
-            container.id = 'slide-container-' + (index + 1);
+            container.id = "slide-container-" + (index + 1);
           }
           const containerScope = `#${container.id}`;
-          const codeBlock = container.querySelector('.code-block');
-          const hiddenCodeBlock = container.querySelector('.hidden-code-block');
-          const dataEditDiv = container.querySelector('[data-edit]');
+          const codeBlock = container.querySelector(".code-block");
+          const hiddenCodeBlock = container.querySelector(".hidden-code-block");
+          const dataEditDiv = container.querySelector("[data-edit]");
 
           if (codeBlock && dataEditDiv) {
             codeBlock.dataset.rawContent = codeBlock.innerText;
 
             const updateDataEdit = () => {
-              const visibleContent = codeBlock.dataset.rawContent || codeBlock.innerText;
-              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
+              const visibleContent =
+                codeBlock.dataset.rawContent || codeBlock.innerText;
+              const hiddenContent = hiddenCodeBlock
+                ? hiddenCodeBlock.textContent
+                : "";
               let combinedContent = visibleContent + "\n" + hiddenContent;
 
-              combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-                const { rootBlock, cssWithoutRoot } = extractRootBlock(cssContent);
-                const processedNonRoot = scopeCSS(cssWithoutRoot, containerScope);
-                const processedRoot = rootBlock ? wrapRootInScope(rootBlock, containerScope) : "";
-                
-                return `<style>${processedRoot}${processedNonRoot}</style>`;
-              });
+              combinedContent = combinedContent.replace(
+                /<style>([\s\S]*?)<\/style>/gi,
+                (match, cssContent) => {
+                  const { rootBlock, cssWithoutRoot } =
+                    extractRootBlock(cssContent);
+                  const processedNonRoot = scopeCSS(
+                    cssWithoutRoot,
+                    containerScope
+                  );
+                  const processedRoot = rootBlock
+                    ? wrapRootInScope(rootBlock, containerScope)
+                    : "";
+
+                  return `<style>${processedRoot}${processedNonRoot}</style>`;
+                }
+              );
 
               dataEditDiv.innerHTML = combinedContent;
             };
 
             updateDataEdit();
 
-						const highlight = Reveal.getPlugin('highlight');
-						highlight.highlightBlock(codeBlock);
+            const highlight = Reveal.getPlugin("highlight");
+            highlight.highlightBlock(codeBlock);
 
-            codeBlock.addEventListener('input', () => {
+            codeBlock.addEventListener("input", () => {
               codeBlock.dataset.rawContent = codeBlock.innerText;
               updateDataEdit();
             });
@@ -330,7 +374,8 @@
         function setCaretAtCharacterOffset(element, offset) {
           const selection = window.getSelection();
           const range = document.createRange();
-          let charCount = 0, found = false;
+          let charCount = 0,
+            found = false;
 
           function traverseNodes(node) {
             if (node.nodeType === Node.TEXT_NODE) {
@@ -352,7 +397,7 @@
           selection.removeAllRanges();
           selection.addRange(range);
         }
-			});
-		</script>
-	</body>
+      });
+    </script>
+  </body>
 </html>
