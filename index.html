@@ -193,22 +193,371 @@
             <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <style>
-              	.circle {
-              		width: 50px;
-              		aspect-ratio: 1 / 1;
-              		margin: 1rem auto;
+                .circle {
+                  width: 50px;
+                  aspect-ratio: 1 / 1;
+                  margin: 1rem auto;
                   border-radius: 50%;
-              	}
+                }
               </style>
-                     <div class="container">
-              	      <div class="circle"></div>
-                       <div class="row gap">
-                         <label><input name="mode" type="radio" value="l" checked>Light</label>
-                         <label><input name="mode" type="radio" value="d">Dark</label>
-                       </div>
-                     </div>
+                      <div class="container">
+                      <div class="circle"></div>
+                        <div class="row gap">
+                          <label><input name="mode" type="radio" value="l" checked>Light</label>
+                          <label><input name="mode" type="radio" value="d">Dark</label>
+                        </div>
+                      </div>
             </script>
 
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <!-- <section id="section3">
+          <h3>popover</h3>
+          <div class="slide-container">
+            
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="1-8">
+                <style>
+                popover {
+                  display: block;
+                  border: 1px solid #ccc;
+                  background: #fff;
+                  padding: 20px;
+                  width: 300px;
+                  border-radius: 8px;
+                }
+                </style>
+              </code>
+            </pre>
+        
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  padding: 10px 20px;
+                  font-size: 16px;
+                  cursor: pointer;
+                }
+
+                .popover-content {
+                  text-align: center;
+                }
+
+                .popover-content button {
+                  background-color: #007bff;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  padding: 8px 16px;
+                }
+
+                .popover-content button:hover {
+                  background-color: #0056b3;
+                }
+              </style>
+              <div class="container">
+                <button id="openPopover" onclick="openPopover();">Open Modal</button>
+                <dialog popover id="modalPopover">
+                  <div class="popover-content">
+                    <h2>Modal Popover</h2>
+                    <p>This is a popover dialog!</p>
+                    <button id="closePopover" onclick="closePopover();">Close</button>
+                  </div>
+                </dialog>
+              </div>
+            </script>
+
+            <script>
+              function openPopover() {
+                const popover = document.getElementById('modalPopover');
+                // Check if popover exists and supports the dialog API
+                if (popover && typeof popover.showModal === "function") {
+                  popover.showModal();
+                } else {
+                  console.warn("Popover element not found or showModal() is not supported.");
+                }
+              }
+
+              function closePopover() {
+                const popover = document.getElementById('modalPopover');
+                if (popover && typeof popover.close === "function") {
+                  popover.close();
+                } else {
+                  console.warn("Popover element not found or close() is not supported.");
+                }
+              }
+            </script>
+        
+            <div class="scene" data-edit></div>
+          </div>
+        </section> -->
+
+        <section>
+          <h3>&lt;popover&gt;</h3>
+
+          <div class="baseline-container">
+            <baseline-status featureId="Popover"></baseline-status>
+          </div>
+
+          <ul>
+            <li>Small overlay window that appears on demand—providing contextual information or interactive options without navigating away from the current page.</li>
+            <li>Often implemented with the HTML <code>&lt;dialog&gt;</code> element.</li>
+          </ul>
+        </section>
+
+        <section id="section3">
+          <h3>&lt;popover&gt;</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-5,10-12">
+                <style>
+                  [popover] {
+                    top: 50%;
+                    transform: translateY(-50%) scale(2);
+                  }
+                </style>
+
+                <div class="container">
+                  <button popovertarget="my-popover0">Open Popover</button>
+                  <div id="my-popover0" popover>
+                    <p>I am a Popover</p>
+                  </div>
+                </div>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  font-size: 100%;
+                  padding: 0.75rem;
+                  background: white;
+                  transition-duration: 0.5s;
+                  border: 4px solid plum;
+                  background: lavenderblush;
+                  border-radius: 1rem;
+                  
+                  &:hover,
+                  &:focus {
+                    background: plum;
+                    color: white;
+                  }
+                }
+
+                [popover] {
+                  /* background: black; */
+                  color: white;
+                  font-weight: 400;
+                  padding: 1rem 1.5rem;
+                  border-radius: 1rem;
+                  max-width: 20ch;
+                  line-height: 1.4;
+                  /* top: 2rem; */
+                  margin: 0 auto;
+                }
+
+                body {
+                  background: #fcf9fb;
+                  display: grid;
+                  font-size: 1.5rem;
+                  font-family: system-ui, sans-serif;
+                  place-items: center;
+                  height: 100dvh;
+                }
+              </style>
+
+            </script>
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <section>
+          <h3>@starting-style</h3>
+        
+          <div class="baseline-container">
+            <baseline-status featureId="starting-style"></baseline-status>
+          </div>
+        
+          <ul>
+            <li>
+              The <code>@starting-style</code> rule allows styles to be applied at the start of an animation or transition.
+            </li>
+            <li>Specifies how elements should appear before the first frame is rendered.</li>
+          </ul>
+        </section>
+
+        <section id="section5">
+          <h3>@starting-style</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
+                <style>
+                  [popover] {
+                    top: 50%;
+                    transform: translateY(1000%) scale(2);
+                    transition: all 0.4s ease-in allow-discrete;       
+                  }
+
+                  [popover]:popover-open {
+                    transform: translateY(-50%) scale(2);
+                    @starting-style {
+                        transform: translateY(-1000%) scale(2);
+                    }
+                  }
+                </style>
+
+                <div class="container">
+                  <button popovertarget="my-popover1">Open Popover</button>
+                  <div id="my-popover1" popover>
+                    <p>I am a Popover</p>
+                  </div>
+                </div>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  font-size: 100%;
+                  padding: 0.75rem;
+                  background: white;
+                  transition-duration: 0.5s;
+                  border: 4px solid plum;
+                  background: lavenderblush;
+                  border-radius: 1rem;
+                  
+                  &:hover,
+                  &:focus {
+                    background: plum;
+                    color: white;
+                  }
+                }
+
+                [popover] {
+                  /* background: black; */
+                  color: white;
+                  font-weight: 400;
+                  padding: 1rem 1.5rem;
+                  border-radius: 1rem;
+                  max-width: 20ch;
+                  line-height: 1.4;
+                  /* top: 2rem; */
+                  margin: 0 auto;
+                }
+
+                body {
+                  background: #fcf9fb;
+                  display: grid;
+                  font-size: 1.5rem;
+                  font-family: system-ui, sans-serif;
+                  place-items: center;
+                  height: 100dvh;
+                }
+              </style>
+
+            </script>
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Individual Transform Properties</h3>
+        
+          <div class="baseline-container">
+            <baseline-status featureId="translate"></baseline-status>
+          </div>
+        
+          <ul>
+            <li>
+              Individual transform properties, <code>translate</code>, <code>rotate</code>, and <code>scale</code>, allows transformations separately instead of using the shorthand <code>transform</code> property.
+            </li>
+            <li>
+              Improves performance and enables finer control over individual animations
+            </li>
+          </ul>
+        </section>
+
+        <section id="section5">
+          <h3>Translate Scale Rotate</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+                <style>
+                  [popover] {
+                    top: 50%;
+                    translate: 0 1000%;
+                    scale: 2;
+                    transition: all 0.4s ease-out allow-discrete;       
+                  }
+
+                  [popover]:popover-open {
+                    translate: 0 -50%;
+                    @starting-style {
+                      translate: 0 -1000%;
+                    }
+                  }
+                </style>
+
+                <div class="container">
+                  <button popovertarget="my-popover2">Open Popover</button>
+                  <div id="my-popover2" popover>
+                    <p>I am a Popover<p>
+                  </div>
+                </div>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  font-size: 100%;
+                  padding: 0.75rem;
+                  background: white;
+                  transition-duration: 0.5s;
+                  border: 4px solid plum;
+                  background: lavenderblush;
+                  border-radius: 1rem;
+                  
+                  &:hover,
+                  &:focus {
+                    background: plum;
+                    color: white;
+                  }
+                }
+
+                [popover] {
+                  /* background: black; */
+                  color: white;
+                  font-weight: 400;
+                  padding: 1rem 1.5rem;
+                  border-radius: 1rem;
+                  max-width: 20ch;
+                  line-height: 1.4;
+                  /* top: 2rem; */
+                  margin: 0 auto;
+                }
+
+                body {
+                  background: #fcf9fb;
+                  display: grid;
+                  font-size: 1.5rem;
+                  font-family: system-ui, sans-serif;
+                  place-items: center;
+                  height: 100dvh;
+                }
+              </style>
+
+            </script>
+            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
         </section>
