@@ -1,43 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
-    <script type="module" src="./node_modules/baseline-status/baseline-status.min.js"></script>
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+    <script
+      type="module"
+      src="./node_modules/baseline-status/baseline-status.min.js"
+    ></script>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
     <style>
       .reveal {
-				.hljs table {
-						width: 100%;
-				}
-				
-				h3 {
-					text-transform: initial;
-				}
+        .hljs table {
+          width: 100%;
+        }
 
-				.code-wrapper code {
-					box-sizing: border-box;
-				}
-			}
+        h2, h3 {
+          text-transform: initial;
+        }
 
-			baseline-status {
+        .code-wrapper code {
+          box-sizing: border-box;
+        }
+      }
+
+      baseline-status {
         text-align: left;
         font-size: 12px;
       }
 
-			li {
+      li {
         font-size: 1.5rem;
       }
 
-			section .code-wrapper {
+      section .code-wrapper {
         flex-grow: 1;
         width: 60%;
         margin: 0;
@@ -82,11 +88,16 @@
         justify-content: center;
         margin-bottom: 1.5rem;
       }
+
+      .reveal img {
+        max-width: none;
+        max-height: none;
+      }
     </style>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
         <section>
           <h3>light-dark()</h3>
 
@@ -95,16 +106,26 @@
           </div>
 
           <ul>
-            <li>light-dark() CSS function: Sets two color options based on the user's light or dark mode preference, without needing prefers-color-scheme media queries.</li>
-            <li>User preference detection: Detects system or browser settings for light or dark themes automatically.</li>
-            <li>Usage: Requires color-scheme: light dark; on the :root pseudo-class for proper support.</li>
+            <li>
+              light-dark() CSS function: Sets two color options based on the
+              user's light or dark mode preference, without needing
+              prefers-color-scheme media queries.
+            </li>
+            <li>
+              User preference detection: Detects system or browser settings for
+              light or dark themes automatically.
+            </li>
+            <li>
+              Usage: Requires color-scheme: light dark; on the :root
+              pseudo-class for proper support.
+            </li>
           </ul>
         </section>
 
         <section>
           <h3>class switching vs light-dark()</h3>
           <div class="slide-container">
-						<!-- Visible Code Block -->
+            <!-- Visible Code Block -->
             <pre>
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-13,18-19">
                 <style>
@@ -124,14 +145,14 @@
                 <script>
                   function toggleTheme(mode) {
                     const container = document.getElementById('containerId');
-                  	mode === 'dark' ? container.classList.add("dark-mode") : 
-																			container.classList.remove("dark-mode")
+                    mode === 'dark' ? container.classList.add("dark-mode") : 
+                      container.classList.remove("dark-mode")
                   }
                 </script>
               </code>
             </pre>
 
-						<!-- Hidden Code Block -->
+            <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -149,11 +170,11 @@
 
             <div class="scene" data-edit></div>
           </div>
-        
+
           <div class="slide-container">
-						<!-- Visible Code Block -->
+            <!-- Visible Code Block -->
             <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12,15">
                 <style>
                   :root {
                     &:has(input[name="mode"][value="l"]:checked) {
@@ -167,32 +188,550 @@
                     color: light-dark(#000, #fff);
                     background-color: light-dark(#fff, #000);
                   }
+                  .circle {
+                    background-color: salmon;
+                  }
                 </style>
               </code>
             </pre>
 
-						<!-- Hidden Code Block -->
+            <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
-              <div class="container">
-                <div class="row gap">
-                  <label><input name="mode" type="radio" value="l" checked>Light</label>
-                  <label><input name="mode" type="radio" value="d">Dark</label>
-                </div>
-              </div>
+              <style>
+                .circle {
+                  width: 50px;
+                  aspect-ratio: 1 / 1;
+                  margin: 1rem auto;
+                  border-radius: 50%;
+                }
+              </style>
+                      <div class="container">
+                      <div class="circle"></div>
+                        <div class="row gap">
+                          <label><input name="mode" type="radio" value="l" checked>Light</label>
+                          <label><input name="mode" type="radio" value="d">Dark</label>
+                        </div>
+                      </div>
             </script>
 
             <div class="scene" data-edit></div>
           </div>
         </section>
-			</div>
-		</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script type="module">
-			import Editor from './plugin/editor/editor.esm.js';
+        <!-- <section id="section3">
+          <h3>popover</h3>
+          <div class="slide-container">
+            
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="1-8">
+                <style>
+                popover {
+                  display: block;
+                  border: 1px solid #ccc;
+                  background: #fff;
+                  padding: 20px;
+                  width: 300px;
+                  border-radius: 8px;
+                }
+                </style>
+              </code>
+            </pre>
+        
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  padding: 10px 20px;
+                  font-size: 16px;
+                  cursor: pointer;
+                }
+
+                .popover-content {
+                  text-align: center;
+                }
+
+                .popover-content button {
+                  background-color: #007bff;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  padding: 8px 16px;
+                }
+
+                .popover-content button:hover {
+                  background-color: #0056b3;
+                }
+              </style>
+              <div class="container">
+                <button id="openPopover" onclick="openPopover();">Open Modal</button>
+                <dialog popover id="modalPopover">
+                  <div class="popover-content">
+                    <h2>Modal Popover</h2>
+                    <p>This is a popover dialog!</p>
+                    <button id="closePopover" onclick="closePopover();">Close</button>
+                  </div>
+                </dialog>
+              </div>
+            </script>
+
+            <script>
+              function openPopover() {
+                const popover = document.getElementById('modalPopover');
+                // Check if popover exists and supports the dialog API
+                if (popover && typeof popover.showModal === "function") {
+                  popover.showModal();
+                } else {
+                  console.warn("Popover element not found or showModal() is not supported.");
+                }
+              }
+
+              function closePopover() {
+                const popover = document.getElementById('modalPopover');
+                if (popover && typeof popover.close === "function") {
+                  popover.close();
+                } else {
+                  console.warn("Popover element not found or close() is not supported.");
+                }
+              }
+            </script>
+        
+            <div class="scene" data-edit></div>
+          </div>
+        </section> -->
+
+        <section>
+          <h3>&lt;popover&gt;</h3>
+
+          <div class="baseline-container">
+            <baseline-status featureId="Popover"></baseline-status>
+          </div>
+
+          <ul>
+            <li>Small overlay window that appears on demand—providing contextual information or interactive options without navigating away from the current page.</li>
+            <li>Often implemented with the HTML <code>&lt;dialog&gt;</code> element.</li>
+          </ul>
+        </section>
+
+        <section id="section3">
+          <h3>&lt;popover&gt;</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-5,10-12">
+                <style>
+                  [popover] {
+                    top: 50%;
+                    transform: translateY(-50%) scale(2);
+                  }
+                </style>
+
+                <div class="container">
+                  <button popovertarget="my-popover0">Open Popover</button>
+                  <div id="my-popover0" popover>
+                    <p>I am a Popover</p>
+                  </div>
+                </div>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  font-size: 100%;
+                  padding: 0.75rem;
+                  background: white;
+                  transition-duration: 0.5s;
+                  border: 4px solid plum;
+                  background: lavenderblush;
+                  border-radius: 1rem;
+                  
+                  &:hover,
+                  &:focus {
+                    background: plum;
+                    color: white;
+                  }
+                }
+
+                [popover] {
+                  /* background: black; */
+                  color: white;
+                  font-weight: 400;
+                  padding: 1rem 1.5rem;
+                  border-radius: 1rem;
+                  max-width: 20ch;
+                  line-height: 1.4;
+                  /* top: 2rem; */
+                  margin: 0 auto;
+                }
+
+                body {
+                  background: #fcf9fb;
+                  display: grid;
+                  font-size: 1.5rem;
+                  font-family: system-ui, sans-serif;
+                  place-items: center;
+                  height: 100dvh;
+                }
+              </style>
+
+            </script>
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <section>
+          <h3>@starting-style</h3>
+        
+          <div class="baseline-container">
+            <baseline-status featureId="starting-style"></baseline-status>
+          </div>
+        
+          <ul>
+            <li>
+              The <code>@starting-style</code> rule allows styles to be applied at the start of an animation or transition.
+            </li>
+            <li>Specifies how elements should appear before the first frame is rendered.</li>
+          </ul>
+        </section>
+
+        <section id="section5">
+          <h3>@starting-style</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
+                <style>
+                  [popover] {
+                    top: 50%;
+                    transform: translateY(1000%) scale(2);
+                    transition: all 0.4s ease-in allow-discrete;       
+                  }
+
+                  [popover]:popover-open {
+                    transform: translateY(-50%) scale(2);
+                    @starting-style {
+                        transform: translateY(-1000%) scale(2);
+                    }
+                  }
+                </style>
+
+                <div class="container">
+                  <button popovertarget="my-popover1">Open Popover</button>
+                  <div id="my-popover1" popover>
+                    <p>I am a Popover</p>
+                  </div>
+                </div>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  font-size: 100%;
+                  padding: 0.75rem;
+                  background: white;
+                  transition-duration: 0.5s;
+                  border: 4px solid plum;
+                  background: lavenderblush;
+                  border-radius: 1rem;
+                  
+                  &:hover,
+                  &:focus {
+                    background: plum;
+                    color: white;
+                  }
+                }
+
+                [popover] {
+                  /* background: black; */
+                  color: white;
+                  font-weight: 400;
+                  padding: 1rem 1.5rem;
+                  border-radius: 1rem;
+                  max-width: 20ch;
+                  line-height: 1.4;
+                  /* top: 2rem; */
+                  margin: 0 auto;
+                }
+
+                body {
+                  background: #fcf9fb;
+                  display: grid;
+                  font-size: 1.5rem;
+                  font-family: system-ui, sans-serif;
+                  place-items: center;
+                  height: 100dvh;
+                }
+              </style>
+
+            </script>
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Individual Transform Properties</h3>
+        
+          <div class="baseline-container">
+            <baseline-status featureId="translate"></baseline-status>
+          </div>
+        
+          <ul>
+            <li>
+              Individual transform properties, <code>translate</code>, <code>rotate</code>, and <code>scale</code>, allows transformations separately instead of using the shorthand <code>transform</code> property.
+            </li>
+            <li>
+              Improves performance and enables finer control over individual animations
+            </li>
+          </ul>
+        </section>
+
+        <section id="section5">
+          <h3>Translate Scale Rotate</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+                <style>
+                  [popover] {
+                    top: 50%;
+                    translate: 0 1000%;
+                    scale: 2;
+                    transition: all 0.4s ease-out allow-discrete;       
+                  }
+
+                  [popover]:popover-open {
+                    translate: 0 -50%;
+                    @starting-style {
+                      translate: 0 -1000%;
+                    }
+                  }
+                </style>
+
+                <div class="container">
+                  <button popovertarget="my-popover2">Open Popover</button>
+                  <div id="my-popover2" popover>
+                    <p>I am a Popover<p>
+                  </div>
+                </div>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                button {
+                  font-size: 100%;
+                  padding: 0.75rem;
+                  background: white;
+                  transition-duration: 0.5s;
+                  border: 4px solid plum;
+                  background: lavenderblush;
+                  border-radius: 1rem;
+                  
+                  &:hover,
+                  &:focus {
+                    background: plum;
+                    color: white;
+                  }
+                }
+
+                [popover] {
+                  /* background: black; */
+                  color: white;
+                  font-weight: 400;
+                  padding: 1rem 1.5rem;
+                  border-radius: 1rem;
+                  max-width: 20ch;
+                  line-height: 1.4;
+                  /* top: 2rem; */
+                  margin: 0 auto;
+                }
+
+                body {
+                  background: #fcf9fb;
+                  display: grid;
+                  font-size: 1.5rem;
+                  font-family: system-ui, sans-serif;
+                  place-items: center;
+                  height: 100dvh;
+                }
+              </style>
+
+            </script>
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Subgrid</h3>
+          
+          <div class="baseline-container">
+            <baseline-status featureId="subgrid"></baseline-status>
+          </div>
+          
+          <ul>
+            <li>
+              The <code>subgrid</code> value allows a child grid to inherit the grid tracks (rows or columns) from its parent grid.
+            </li>
+            <li>
+              It ensures consistent alignment between nested grid elements without duplicating grid definitions in the CSS.
+            </li>
+            <li>
+              Useful for maintaining alignment across components, especially in complex layouts with nested grids.
+            </li>
+            <li>
+              Improves layout consistency and reduces code repetition.
+            </li>
+          </ul>
+        </section>
+        
+
+        <section id="sectiongrid">
+          <h3>Subgrid</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
+                <style>
+                  main {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    grid-template-rows: auto;
+                    gap: 0.5rem;
+                  }
+
+                  .card {
+                    display: grid;
+                    grid-column: span 2;
+                    gap: 1rem;
+                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-rows: min-content 1fr;
+                    background: salmon;
+                  }
+                </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                body {
+                  font-size: 1.125rem;
+                  line-height: 1.2;
+                  font-family: "Gill Sans", sans-serif;
+                }
+
+                  /* h2 {
+                    grid-column: 2;
+                  } */
+
+                img {
+                  margin: 0;
+                  /* max-width: 100%; */
+                }
+
+                h2, p {
+                  margin: 0;
+                  /* padding: 0.5rem; */
+                  /* padding-left: 0; */
+                  text-align: left;
+                }
+
+                h2 {
+                  font-size: 1.75rem;
+                  padding-right: 1rem;
+                  padding-top: 1rem;
+                }
+
+                p {
+                  font-size: 0.75rem;
+                  padding-right: 1rem;
+                  padding-bottom: 1rem;
+                }
+
+                .card {
+                  border-radius: 1rem;
+                  overflow: clip;
+                }
+                  
+                .card img {
+                  grid-column: 1;
+                  grid-row: 1 / span 2;
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                }
+
+                .reveal img { 
+                  max-height: none;
+                }
+              </style>
+
+              <main>
+                <article class="card">
+                  <h2 class="title">Quibusdam, recusandae odio</h2>
+                  <p class="description">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda recusandae maxime distinctio quos ullam incidunt. 
+                  </p>
+                  <img src="//unsplash.it/501" alt="Random Image 501">
+                </article>
+                <article class="card">
+                  <h2 class="title">Omnis, veritatis odio.</h2>
+                  <p class="description">
+                    Enim molestiae recusandae ut dolor sit amet consectetur adipisicing. Odit possimu
+                  </p>
+                  <img src="//unsplash.it/502" alt="Random Image 502">
+                </article>
+                <article class="card">
+                  <h2 class="title">Cave</h2>
+                  <p class="description">
+                    Error maiores culpa eaque. Quam quisquam quae nostrum ipsa dolorum atque aperiam fugit soluta error! Lorem ipsum dolor sit amet.
+                  </p>
+                  <img src="//unsplash.it/503" alt="Random Image 503">
+                </article>
+                <article class="card">
+                  <h2 class="title">Extended Title for Misalignment</h2>
+                  <p class="description">
+                    Corporis laboriosam, neque est commodi architecto voluptatem, ipsam corrupti ullam similique eligendi hic qui natus? Quisquam quam voluptas 
+                  </p>
+                  <img src="//unsplash.it/504" alt="Random Image 504">
+                </article>
+                <!-- <article class="card">
+                  <h2 class="title">Short Title</h2>
+                  <p class="description">
+                    Laboriosam, aliquam tempore minus dolorem ullam et veniam asperiores, eveniet vitae odi
+                  </p>
+                  <img src="//unsplash.it/505" alt="Random Image 505">
+                </article>
+                <article class="card">
+                  <h2 class="title">City with a Very Long Title that Wraps</h2>
+                  <p class="description">
+                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                  </p>
+                  <img src="//unsplash.it/506" alt="Random Image 506">
+                </article> -->
+              </main>
+
+
+            </script>
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script type="module">
+      import Editor from "./plugin/editor/editor.esm.js";
 
       function wrapRootInScope(rootBlock, scope) {
         const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
@@ -206,7 +745,7 @@
         }
         return rootBlock;
       }
-    
+
       function extractRootBlock(cssText) {
         const rootIndex = cssText.indexOf(":root");
         if (rootIndex === -1) {
@@ -230,84 +769,100 @@
         }
 
         const rootBlock = cssText.substring(rootIndex, endBrace);
-        const cssWithoutRoot = cssText.slice(0, rootIndex) + cssText.slice(endBrace);
+        const cssWithoutRoot =
+          cssText.slice(0, rootIndex) + cssText.slice(endBrace);
         return { rootBlock, cssWithoutRoot };
       }
 
       function scopeCSS(cssText, scope) {
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
-        return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
-          const scopedSelectors = selectors
-            .split(',')
-            .map(sel => {
-              let trimmed = sel.trim();
-              if (trimmed.startsWith('@') || /^[\d\.%]+$/.test(trimmed)) {
-                return trimmed;
-              }
-              return scope + ' ' + trimmed;
-            })
-            .join(', ');
-          return scopedSelectors + ' {' + declarations + '}';
-        });
+        return cssText.replace(
+          cssRuleRegex,
+          (match, selectors, declarations) => {
+            const scopedSelectors = selectors
+              .split(",")
+              .map((sel) => {
+                let trimmed = sel.trim();
+                if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
+                  return trimmed;
+                }
+                return scope + " " + trimmed;
+              })
+              .join(", ");
+            return scopedSelectors + " {" + declarations + "}";
+          }
+        );
       }
 
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
         highlight: {
           highlightOnLoad: false,
         },
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, Editor ]
-			});
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, Editor],
+      });
 
-			Reveal.on('slidechanged', (event) => {
-				if(event.currentSlide.dataset.execute) {
-					let result = eval(event.currentSlide.dataset.execute);
-					let $result = event.currentSlide.querySelector('p.result');
-					$result.innerHTML = result;
-				}
-			});
+      Reveal.on("slidechanged", (event) => {
+        if (event.currentSlide.dataset.execute) {
+          let result = eval(event.currentSlide.dataset.execute);
+          let $result = event.currentSlide.querySelector("p.result");
+          $result.innerHTML = result;
+        }
+      });
 
-			Reveal.on('ready', () => {
-        const slideContainers = document.querySelectorAll('.slide-container');
+      Reveal.on("ready", () => {
+        const slideContainers = document.querySelectorAll(".slide-container");
 
         slideContainers.forEach((container, index) => {
           if (!container.id) {
-            container.id = 'slide-container-' + (index + 1);
+            container.id = "slide-container-" + (index + 1);
           }
           const containerScope = `#${container.id}`;
-          const codeBlock = container.querySelector('.code-block');
-          const hiddenCodeBlock = container.querySelector('.hidden-code-block');
-          const dataEditDiv = container.querySelector('[data-edit]');
+          const codeBlock = container.querySelector(".code-block");
+          const hiddenCodeBlock = container.querySelector(".hidden-code-block");
+          const dataEditDiv = container.querySelector("[data-edit]");
 
           if (codeBlock && dataEditDiv) {
             codeBlock.dataset.rawContent = codeBlock.innerText;
 
             const updateDataEdit = () => {
-              const visibleContent = codeBlock.dataset.rawContent || codeBlock.innerText;
-              const hiddenContent = hiddenCodeBlock ? hiddenCodeBlock.textContent : "";
+              const visibleContent =
+                codeBlock.dataset.rawContent || codeBlock.innerText;
+              const hiddenContent = hiddenCodeBlock
+                ? hiddenCodeBlock.textContent
+                : "";
               let combinedContent = visibleContent + "\n" + hiddenContent;
 
-              combinedContent = combinedContent.replace(/<style>([\s\S]*?)<\/style>/gi, (match, cssContent) => {
-                const { rootBlock, cssWithoutRoot } = extractRootBlock(cssContent);
-                const processedNonRoot = scopeCSS(cssWithoutRoot, containerScope);
-                const processedRoot = rootBlock ? wrapRootInScope(rootBlock, containerScope) : "";
-                
-                return `<style>${processedRoot}${processedNonRoot}</style>`;
-              });
+              combinedContent = combinedContent.replace(
+                /<style>([\s\S]*?)<\/style>/gi,
+                (match, cssContent) => {
+                  const { rootBlock, cssWithoutRoot } =
+                    extractRootBlock(cssContent);
+                  const processedNonRoot = scopeCSS(
+                    cssWithoutRoot,
+                    containerScope
+                  );
+                  const processedRoot = rootBlock
+                    ? wrapRootInScope(rootBlock, containerScope)
+                    : "";
+
+                  return `<style>${processedRoot}${processedNonRoot}</style>`;
+                }
+              );
 
               dataEditDiv.innerHTML = combinedContent;
             };
 
             updateDataEdit();
 
-						const highlight = Reveal.getPlugin('highlight');
-						highlight.highlightBlock(codeBlock);
+            const highlight = Reveal.getPlugin("highlight");
+            highlight.highlightBlock(codeBlock);
 
-            codeBlock.addEventListener('input', () => {
+            codeBlock.addEventListener("input", () => {
               codeBlock.dataset.rawContent = codeBlock.innerText;
               updateDataEdit();
             });
@@ -330,7 +885,8 @@
         function setCaretAtCharacterOffset(element, offset) {
           const selection = window.getSelection();
           const range = document.createRange();
-          let charCount = 0, found = false;
+          let charCount = 0,
+            found = false;
 
           function traverseNodes(node) {
             if (node.nodeType === Node.TEXT_NODE) {
@@ -352,7 +908,7 @@
           selection.removeAllRanges();
           selection.addRange(range);
         }
-			});
-		</script>
-	</body>
+      });
+    </script>
+  </body>
 </html>
