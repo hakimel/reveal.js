@@ -819,14 +819,14 @@ export default function( revealElement, options ) {
 		dom.wrapper.appendChild( dom.overlay );
 
 		dom.overlay.innerHTML =
-			`<header>
-				<a class="close" href="#"><span class="icon"></span></a>
-				<a class="external" href="${url}" target="_blank"><span class="icon"></span></a>
+			`<header class="overlay-header">
+				<a class="overlay-external" href="${url}" target="_blank"><span class="icon"></span></a>
+				<a class="overlay-close" href="#"><span class="icon"></span></a>
 			</header>
-			<div class="spinner"></div>
-			<div class="viewport">
+			<div class="overlay-spinner"></div>
+			<div class="overlay-viewport">
 				<iframe src="${url}"></iframe>
-				<small class="viewport-inner">
+				<small class="overlay-viewport-inner">
 					<span class="x-frame-error">Unable to load iframe. This is likely due to the site's policy (x-frame-options).</span>
 				</small>
 			</div>`;
@@ -835,12 +835,12 @@ export default function( revealElement, options ) {
 			dom.overlay.classList.add( 'loaded' );
 		}, false );
 
-		dom.overlay.querySelector( '.close' ).addEventListener( 'click', event => {
+		dom.overlay.querySelector( '.overlay-close' ).addEventListener( 'click', event => {
 			closeOverlay();
 			event.preventDefault();
 		}, false );
 
-		dom.overlay.querySelector( '.external' ).addEventListener( 'click', event => {
+		dom.overlay.querySelector( '.overlay-external' ).addEventListener( 'click', event => {
 			closeOverlay();
 		}, false );
 
@@ -902,15 +902,15 @@ export default function( revealElement, options ) {
 			html += '</table>';
 
 			dom.overlay.innerHTML = `
-				<header>
-					<a class="close" href="#"><span class="icon"></span></a>
+				<header class="overlay-header">
+					<a class="overlay-close" href="#"><span class="icon"></span></a>
 				</header>
-				<div class="viewport">
-					<div class="viewport-inner">${html}</div>
+				<div class="overlay-viewport">
+					<div class="overlay-viewport-inner">${html}</div>
 				</div>
 			`;
 
-			dom.overlay.querySelector( '.close' ).addEventListener( 'click', event => {
+			dom.overlay.querySelector( '.overlay-close' ).addEventListener( 'click', event => {
 				closeOverlay();
 				event.preventDefault();
 			}, false );
