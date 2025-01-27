@@ -34,7 +34,16 @@ Hakim's open source work is supported by <a href="https://github.com/sponsors/ha
     </td>
   </table>
 </div>
-
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGgDwXK8VjB9ArmneRLteXJs
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGgGPfesDcLR51mNVeYUFWlG
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGgm3RnGoY6uqmLAD5fYGkrj
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGgsVeOHLRyhYG2f56WPWEw6
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGh137fU8lIgp5_7uy8KTvuV
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGhBEeuPaZtziyfT0UstC1y5
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGhQaQ1wHJinetnnt37bx-Uv
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGhRWhpYNFbX8vXG-ZAesjVU
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGhlKBpClVNhMy_2VkwlOFK1
+- https://www.youtube.com/playlist?list=PLEhVNq2dBsGjNjaJ0bu_gdMH3ZnN45yhb
 ---
 
 ### Getting started
