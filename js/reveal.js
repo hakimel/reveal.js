@@ -882,7 +882,7 @@ export default function( revealElement, options ) {
 			dom.overlay.classList.add( 'overlay-help' );
 			dom.wrapper.appendChild( dom.overlay );
 
-			let html = '<p class="title">Keyboard Shortcuts</p><br/>';
+			let html = '<p class="title">Keyboard Shortcuts</p>';
 
 			let shortcuts = keyboard.getShortcuts(),
 				bindings = keyboard.getBindings();
