@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Екосистема лавандового поля</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="presentation">
+        <div class="slide">
+            <h1>Екосистема лавандового поля: дослідження та аналіз</h1>
+            <p><strong>Автор:</strong> Вознюк Анастасія</p>
+            <p><strong>Науковий керівник:</strong> Ковба Світлана Василівна </p>
+            <p><strong>Навчальний заклад:</strong> рівненський ліцей №8 </p>
+            <p><strong>Рік виконання:</strong> 2025</p>
+        </div>
+
+        <div class="slide">
+            <h2>Об'єкт дослідження</h2>
+            <p>Лавандове поле як комплексна екологічна система, що включає біотичні (рослини, тварини, мікроорганізми) та абіотичні (клімат, грунт, вода) компоненти, що взаємодіють між собою.</p>
+            <p>Особливості лаванди як культури, її біологічні властивості та роль у формуванні екосистеми.</p>
+        </div>
+
+        <div class="slide
