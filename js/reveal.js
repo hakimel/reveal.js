@@ -2748,7 +2748,7 @@ export default function( revealElement, options ) {
 		isSpeakerNotes: notes.isSpeakerNotesWindow.bind( notes ),
 		isOverview: overview.isActive.bind( overview ),
 		isFocused: focus.isFocused.bind( focus ),
-
+		isOverlayOpen: overlay.isOpen.bind( overlay ),
 		isScrollView: scrollView.isActive.bind( scrollView ),
 		isPrintView: printView.isActive.bind( printView ),
 
@@ -2766,7 +2766,7 @@ export default function( revealElement, options ) {
 		// Preview management
 		showIframePreview: overlay.showIframePreview.bind( overlay ),
 		showMediaPreview: overlay.showMediaPreview.bind( overlay ),
-		showPreview: overlay.showIframePreview.bind( overlay ),
+		showPreview: overlay.showIframePreview.bind( overlay ), // deprecated in favor of showIframePreview
 		hidePreview: overlay.close.bind( overlay ),
 
 		// Adds or removes all internal event listeners

@@ -39,6 +39,20 @@ export default class Overlay {
 
 	}
 
+	createOverlay( className ) {
+
+		this.dom = document.createElement( 'div' );
+		this.dom.classList.add( 'overlay' );
+		this.dom.classList.add( className );
+
+		this.viewport = document.createElement( 'div' );
+		this.viewport.classList.add( 'overlay-viewport' );
+
+		this.dom.appendChild( this.viewport );
+		this.Reveal.getRevealElement().appendChild( this.dom );
+
+	}
+
 	/**
 	 * Opens a preview window for the target URL.
 	 *
@@ -48,35 +62,32 @@ export default class Overlay {
 
 		this.close();
 
-		this.element = document.createElement( 'div' );
-		this.element.classList.add( 'overlay' );
-		this.element.classList.add( 'overlay-preview' );
-		this.element.dataset.state = 'loading';
-		this.Reveal.getRevealElement().appendChild( this.element );
+		this.createOverlay( 'overlay-preview' );
+		this.dom.dataset.state = 'loading';
 
-		this.element.innerHTML =
+		this.viewport.innerHTML =
 			`<header class="overlay-header">
 				<a class="overlay-button overlay-external" href="${url}" target="_blank"><span class="icon"></span></a>
 				<button class="overlay-button overlay-close"><span class="icon"></span></button>
 			</header>
 			<div class="overlay-spinner"></div>
-			<div class="overlay-viewport">
+			<div class="overlay-content">
 				<iframe src="${url}"></iframe>
-				<small class="overlay-viewport-inner">
+				<small class="overlay-content-inner">
 					<span class="overlay-error x-frame-error">Unable to load iframe. This is likely due to the site's policy (x-frame-options).</span>
 				</small>
 			</div>`;
 
-		this.element.querySelector( 'iframe' ).addEventListener( 'load', event => {
-			this.element.dataset.state = 'loaded';
+		this.dom.querySelector( 'iframe' ).addEventListener( 'load', event => {
+			this.dom.dataset.state = 'loaded';
 		}, false );
 
-		this.element.querySelector( '.overlay-close' ).addEventListener( 'click', event => {
+		this.dom.querySelector( '.overlay-close' ).addEventListener( 'click', event => {
 			this.close();
 			event.preventDefault();
 		}, false );
 
-		this.element.querySelector( '.overlay-external' ).addEventListener( 'click', event => {
+		this.dom.querySelector( '.overlay-external' ).addEventListener( 'click', event => {
 			this.close();
 		}, false );
 
@@ -88,49 +99,50 @@ export default class Overlay {
 	 *
 	 * @param {string} url - url to the image/video to preview
 	 * @param {image|video} mediaType
-	 * @param {HTMLElement} trigger - the element that triggered
+	 * @param {HTMLElement} [trigger] - the element that triggered
 	 * the preview
 	 */
 	showMediaPreview( url, mediaType, trigger ) {
 
+		if( mediaType !== 'image' && mediaType !== 'video' ) {
+			console.warn( 'Please specify a valid media type to preview (image|video)' );
+			return;
+		}
+
 		this.close();
 
-		this.element = document.createElement( 'div' );
-		this.element.classList.add( 'overlay' );
-		this.element.classList.add( 'overlay-preview' );
-		this.element.dataset.state = 'loading';
-		this.Reveal.getRevealElement().appendChild( this.element );
+		this.createOverlay( 'overlay-preview' );
+		this.dom.dataset.state = 'loading';
+		this.dom.dataset.previewFit = trigger ? trigger.dataset.previewFit || 'scale-down' : 'scale-down';
 
-		this.element.dataset.previewFit = trigger.dataset.previewFit || 'scale-down';
-
-		this.element.innerHTML =
+		this.viewport.innerHTML =
 			`<header class="overlay-header">
 				<button class="overlay-button overlay-close">Esc <span class="icon"></span></button>
 			</header>
 			<div class="overlay-spinner"></div>
-			<div class="overlay-viewport"></div>`;
+			<div class="overlay-content"></div>`;
 
-		const viewport = this.element.querySelector( '.overlay-viewport' );
+		const contentElement = this.dom.querySelector( '.overlay-content' );
 
 		if( mediaType === 'image' ) {
 
 			const img = document.createElement( 'img', {} );
 			img.src = url;
-			viewport.appendChild( img );
+			contentElement.appendChild( img );
 
 			img.addEventListener( 'load', () => {
-				this.element.dataset.state = 'loaded';
+				this.dom.dataset.state = 'loaded';
 			}, false );
 
 			img.addEventListener( 'error', () => {
-				this.element.dataset.state = 'error';
-				viewport.innerHTML =
+				this.dom.dataset.state = 'error';
+				contentElement.innerHTML =
 						`<span class="overlay-error">Unable to load image.</span>`
 			}, false );
 
 			// Hide image overlays when clicking outside the overlay
-			this.element.style.cursor = 'zoom-out';
-			this.element.addEventListener( 'click', ( event ) => {
+			this.dom.style.cursor = 'zoom-out';
+			this.dom.addEventListener( 'click', ( event ) => {
 				this.close();
 			}, false );
 
@@ -138,20 +150,20 @@ export default class Overlay {
 		else if( mediaType === 'video' ) {
 
 			const video = document.createElement( 'video' );
-			video.autoplay = this.element.dataset.previewAutoplay === 'false' ? false : true;
-			video.controls = this.element.dataset.previewControls === 'false' ? false : true;
-			video.loop = this.element.dataset.previewLoop === 'true' ? true : false;
-			video.muted = this.element.dataset.previewMuted === 'true' ? true : false;
+			video.autoplay = this.dom.dataset.previewAutoplay === 'false' ? false : true;
+			video.controls = this.dom.dataset.previewControls === 'false' ? false : true;
+			video.loop = this.dom.dataset.previewLoop === 'true' ? true : false;
+			video.muted = this.dom.dataset.previewMuted === 'true' ? true : false;
 			video.src = url;
-			viewport.appendChild( video );
+			contentElement.appendChild( video );
 
 			video.addEventListener( 'loadeddata', () => {
-				this.element.dataset.state = 'loaded';
+				this.dom.dataset.state = 'loaded';
 			}, false );
 
 			video.addEventListener( 'error', () => {
-				this.element.dataset.state = 'error';
-				viewport.innerHTML =
+				this.dom.dataset.state = 'error';
+				contentElement.innerHTML =
 					`<span class="overlay-error">Unable to load video.</span>`;
 			}, false );
 
@@ -160,7 +172,7 @@ export default class Overlay {
 			throw new Error( 'Please specify a valid media type to preview' );
 		}
 
-		this.element.querySelector( '.overlay-close' ).addEventListener( 'click', ( event ) => {
+		this.dom.querySelector( '.overlay-close' ).addEventListener( 'click', ( event ) => {
 			this.close();
 			event.preventDefault();
 		}, false );
@@ -180,7 +192,7 @@ export default class Overlay {
 			override ? this.showHelp() : this.close();
 		}
 		else {
-			if( this.element ) {
+			if( this.dom ) {
 				this.close();
 			}
 			else {
@@ -198,10 +210,7 @@ export default class Overlay {
 
 			this.close();
 
-			this.element = document.createElement( 'div' );
-			this.element.classList.add( 'overlay' );
-			this.element.classList.add( 'overlay-help' );
-			this.Reveal.getRevealElement().appendChild( this.element );
+			this.createOverlay( 'overlay-help' );
 
 			let html = '<p class="title">Keyboard Shortcuts</p>';
 
@@ -222,16 +231,16 @@ export default class Overlay {
 
 			html += '</table>';
 
-			this.element.innerHTML = `
+			this.viewport.innerHTML = `
 				<header class="overlay-header">
 					<button class="overlay-button overlay-close">Esc <span class="icon"></span></button>
 				</header>
-				<div class="overlay-viewport">
+				<div class="overlay-content">
 					<div class="overlay-help-content">${html}</div>
 				</div>
 			`;
 
-			this.element.querySelector( '.overlay-close' ).addEventListener( 'click', event => {
+			this.dom.querySelector( '.overlay-close' ).addEventListener( 'click', event => {
 				this.close();
 				event.preventDefault();
 			}, false );
@@ -240,14 +249,18 @@ export default class Overlay {
 
 	}
 
+	isOpen() {
+		return this.dom !== null;
+	}
+
 	/**
 	 * Closes any currently open overlay.
 	 */
 	close() {
 
-		if( this.element ) {
-			this.element.remove();
-			this.element = null;
+		if( this.dom ) {
+			this.dom.remove();
+			this.dom = null;
 			return true;
 		}
 
