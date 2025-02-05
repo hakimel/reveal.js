@@ -107,10 +107,27 @@ export default class Notes {
 			return slide.getAttribute( 'data-notes' );
 		}
 
+		if ( Reveal.getConfig().fragments ) {
+			let fragmentElement = slide.querySelector( '.current-fragment' );
+			if( fragmentElement ) {
+				let fragmentNotes = fragmentElement.querySelector( 'aside.notes' );
+				if( fragmentNotes ) {
+					return fragmentNotes.innerHTML;
+				}
+				else if( fragmentElement.hasAttribute( 'data-notes' ) ) {
+					return fragmentElement.getAttribute( 'data-notes' );
+				}
+			}
+		}
 		// ... or using <aside class="notes"> elements
 		let notesElements = slide.querySelectorAll( 'aside.notes' );
 		if( notesElements ) {
-			return Array.from(notesElements).map( notesElement => notesElement.innerHTML ).join( '\n' );
+			// ignore notes inside of fragments since those are shown individually when stepping through fragments
+			let notes = Array.from(notesElements);
+			if ( Reveal.getConfig().fragments ) {
+				notes = notes.filter( notesElement => notesElement.closest( '.fragment' ) === null );
+			}
+			return notes.map( notesElement => notesElement.innerHTML ).join('\n');
 		}
 
 		return null;
