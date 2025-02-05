@@ -8,65 +8,34 @@ export default class Overlay {
 
 		this.Reveal = Reveal;
 
-		this.onPreviewLinkClicked = this.onPreviewLinkClicked.bind( this );
-		this.onPreviewMediaClicked = this.onPreviewMediaClicked.bind( this );
+		this.onSlidesClicked = this.onSlidesClicked.bind( this );
 
-		this.linkPreviews = [];
-		this.mediaPreviews = [];
+		this.linkPreviewSelector = null;
+		this.mediaPreviewSelector = '[data-preview-image], [data-preview-video]';
 
 	}
 
 	update() {
 
-		this.removePreviewListeneres();
-
+		// Enable link previews globally
 		if( this.Reveal.getConfig().previewLinks ) {
-			// Enable link previews globally
-			this.enableLinkPreviews( 'a[href]:not([data-preview-link=false])' );
+			this.linkPreviewSelector = 'a[href]:not([data-preview-link=false])';
+		}
+		// Enable link previews for individual elements
+		else {
+			this.linkPreviewSelector = '[data-preview-link]:not([data-preview-link=false])';
+		}
+
+		this.hasLinkPreviews = this.Reveal.getSlidesElement().querySelectorAll( this.linkPreviewSelector ).length > 0;
+		this.hasMediaPreviews = this.Reveal.getSlidesElement().querySelectorAll( this.mediaPreviewSelector ).length > 0;
+
+		// Only add the listener when there are previewable elements in the slides
+		if( this.hasLinkPreviews || this.hasMediaPreviews ) {
+			this.Reveal.getSlidesElement().addEventListener( 'click', this.onSlidesClicked, false );
 		}
 		else {
-			// Enable link previews for individual elements
-			this.enableLinkPreviews( '[data-preview-link]:not([data-preview-link=false])' );
+			this.Reveal.getSlidesElement().removeEventListener( 'click', this.onSlidesClicked, false );
 		}
-
-		this.enableMediaPreviews( '[data-preview-image], [data-preview-video]' );
-
-	}
-
-	/**
-	 * Bind preview frame links.
-	 *
-	 * @param {string} [selector=a] - selector for anchors
-	 */
-	enableLinkPreviews( selector = 'a' ) {
-
-		Array.from( this.Reveal.getSlidesElement().querySelectorAll( selector ) ).forEach( element => {
-			if( /^(http|www)/gi.test( element.getAttribute( 'href' ) ) ) {
-				element.addEventListener( 'click', this.onPreviewLinkClicked, false );
-				this.linkPreviews.push( element );
-			}
-		} );
-
-	}
-
-	/**
-	 * Bind image/video preview links.
-	 *
-	 * @param {string} selector - css selector for images/videos
-	 */
-	enableMediaPreviews( selector ) {
-
-		Array.from( this.Reveal.getSlidesElement().querySelectorAll( selector ) ).forEach( element => {
-			element.addEventListener( 'click', this.onPreviewMediaClicked, false );
-			this.mediaPreviews.push( element );
-		} );
-
-	}
-
-	removePreviewListeneres() {
-
-		this.linkPreviews.forEach( element => element.removeEventListener( 'click', this.onPreviewLinkClicked, false ) );
-		this.mediaPreviews.forEach( element => element.removeEventListener( 'click', this.onPreviewMediaClicked, false ) );
 
 	}
 
@@ -132,7 +101,7 @@ export default class Overlay {
 		this.element.dataset.state = 'loading';
 		this.Reveal.getRevealElement().appendChild( this.element );
 
-		this.element.dataset.objectFit = trigger.dataset.objectFit || 'none';
+		this.element.dataset.previewFit = trigger.dataset.previewFit || 'scale-down';
 
 		this.element.innerHTML =
 			`<header class="overlay-header">
@@ -169,8 +138,10 @@ export default class Overlay {
 		else if( mediaType === 'video' ) {
 
 			const video = document.createElement( 'video' );
-			video.autoplay = true;
-			video.controls = true;
+			video.autoplay = this.element.dataset.previewAutoplay === 'false' ? false : true;
+			video.controls = this.element.dataset.previewControls === 'false' ? false : true;
+			video.loop = this.element.dataset.previewLoop === 'true' ? true : false;
+			video.muted = this.element.dataset.previewMuted === 'true' ? true : false;
 			video.src = url;
 			viewport.appendChild( video );
 
@@ -284,52 +255,40 @@ export default class Overlay {
 
 	}
 
-	/**
-	 * Handles clicks on links that are set to preview in the
-	 * iframe overlay.
-	 *
-	 * @param {object} event
-	 */
-	onPreviewLinkClicked( event ) {
+	onSlidesClicked( event ) {
 
-		if( event.currentTarget && event.currentTarget.hasAttribute( 'href' ) ) {
-			let url = event.currentTarget.getAttribute( 'href' );
+		const target = event.target;
+
+		const linkTarget = target.closest( this.linkPreviewSelector );
+		const mediaTarget = target.closest( this.mediaPreviewSelector );
+
+		// Was a link preview clicked?
+		if( linkTarget ) {
+			let url = linkTarget.getAttribute( 'href' );
 			if( url ) {
 				this.showIframePreview( url );
 				event.preventDefault();
 			}
 		}
-
-	}
-
-	/**
-	 * Handles clicks on images/videos that are set to preview
-	 * in the iframe overlay.
-	 *
-	 * @param {object} event
-	 */
-	onPreviewMediaClicked( event ) {
-
-		const trigger = event.currentTarget;
-
-		if( trigger ) {
-			if( trigger.hasAttribute( 'data-preview-image' ) ) {
-				let url = trigger.dataset.previewImage || event.currentTarget.getAttribute( 'src' );
+		// Was a media preview clicked?
+		else if( mediaTarget ) {
+			if( mediaTarget.hasAttribute( 'data-preview-image' ) ) {
+				let url = mediaTarget.dataset.previewImage || mediaTarget.getAttribute( 'src' );
 				if( url ) {
-					this.showMediaPreview( url, 'image', trigger );
+					this.showMediaPreview( url, 'image', mediaTarget );
 					event.preventDefault();
 				}
 			}
-			else if( trigger.hasAttribute( 'data-preview-video' ) ) {
-				let url = trigger.dataset.previewVideo || event.currentTarget.getAttribute( 'src' );
+			else if( mediaTarget.hasAttribute( 'data-preview-video' ) ) {
+				let url = mediaTarget.dataset.previewVideo || mediaTarget.getAttribute( 'src' );
 				if( !url ) {
-					let source = event.currentTarget.querySelector( 'source' );
+					let source = mediaTarget.querySelector( 'source' );
 					if( source ) {
 						url = source.getAttribute( 'src' );
 					}
 				}
 				if( url ) {
-					this.showMediaPreview( url, 'video', trigger );
+					this.showMediaPreview( url, 'video', mediaTarget );
 					event.preventDefault();
 				}
 			}
@@ -340,9 +299,6 @@ export default class Overlay {
 	destroy() {
 
 		this.close();
-
-		this.linkPreviews = [];
-		this.mediaPreviews = [];
 
 	}
 

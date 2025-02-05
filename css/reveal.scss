@@ -1553,21 +1553,26 @@ $overlayHeaderPadding: 5px;
 	width: 100%;
 	height: 100%;
 	margin: 0;
+	object-fit: scale-down;
+}
+
+.reveal .overlay-preview[data-preview-fit="none"] img,
+.reveal .overlay-preview[data-preview-fit="none"] video {
 	object-fit: none;
 }
 
-.reveal .overlay-preview[data-object-fit="none"] img,
-.reveal .overlay-preview[data-object-fit="none"] video {
-	object-fit: none;
+.reveal .overlay-preview[data-preview-fit="scale-down"] img,
+.reveal .overlay-preview[data-preview-fit="scale-down"] video {
+	object-fit: scale-down;
 }
 
-.reveal .overlay-preview[data-object-fit="contain"] img,
-.reveal .overlay-preview[data-object-fit="contain"] video {
+.reveal .overlay-preview[data-preview-fit="contain"] img,
+.reveal .overlay-preview[data-preview-fit="contain"] video {
 	object-fit: contain;
 }
 
-.reveal .overlay-preview[data-object-fit="cover"] img,
-.reveal .overlay-preview[data-object-fit="cover"] video {
+.reveal .overlay-preview[data-preview-fit="cover"] img,
+.reveal .overlay-preview[data-preview-fit="cover"] video {
 	object-fit: cover;
 }
 
