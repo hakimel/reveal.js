@@ -77,7 +77,7 @@ export default {
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
 
-	// Optional function that blocks keyboard events when retuning false
+	// Optional function that blocks keyboard events when returning false
 	//
 	// If you set this to 'focused', we will only capture keyboard events
 	// for embedded decks when they are in focus
