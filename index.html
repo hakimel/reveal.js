@@ -11,26 +11,50 @@
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
-    <link rel="stylesheet" href="dist/theme/black.css" />
+    <link rel="stylesheet" href="dist/theme/white.css" />
     <script
       type="module"
       src="./node_modules/baseline-status/baseline-status.min.js"
     ></script>
 
     <!-- Theme used for syntax highlighted code -->
-    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/highlight/atom-one-light.css" />
     <style>
+      h3 {
+        text-align: left;
+        display: inline-block;
+        position: relative;
+      }
+      h3::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: -25px;
+        width: 12px; /* Adjust size */
+        height: 50px;
+        background-color: blue;
+        transform: skewX(-30deg); /* Slant the rectangle */
+      }
       .reveal {
         .hljs table {
           width: 100%;
+        }
+
+        .slides {
+          text-align: left;
         }
 
         h2, h3 {
           text-transform: initial;
         }
 
-        .code-wrapper code {
-          box-sizing: border-box;
+        .code-wrapper {
+          border-radius: 1rem;
+          code {
+            box-sizing: border-box;
+            border-radius: 1rem;
+
+          }
         }
       }
 
@@ -43,11 +67,17 @@
         font-size: 1.5rem;
       }
 
-      section .code-wrapper {
-        flex-grow: 1;
-        width: 60%;
-        margin: 0;
+      section {
+        padding: 0 2rem;
+        box-sizing: border-box;
+        .code-wrapper {
+          flex-grow: 1;
+          width: 60%;
+          margin: 0;
+        }
       }
+
+      
 
       p {
         color: black;
@@ -722,6 +752,137 @@
             <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
+        </section>
+
+        <section>
+          <h3>Content Visibility</h3>
+          
+          <div class="baseline-container">
+            <baseline-status featureId="content-visibi"></baseline-status>
+          </div>
+          
+          <ul>
+            <li>
+              The <code>subgrid</code> value allows a child grid to inherit the grid tracks (rows or columns) from its parent grid.
+            </li>
+            <li>
+              It ensures consistent alignment between nested grid elements without duplicating grid definitions in the CSS.
+            </li>
+            <li>
+              Useful for maintaining alignment across components, especially in complex layouts with nested grids.
+            </li>
+            <li>
+              Improves layout consistency and reduces code repetition.
+            </li>
+          </ul>
+        </section>
+        <section id="section-content-visibility">
+          <h3>Content Visibility</h3>
+          <div class="slide-container">
+            <!-- Visible code block -->
+            <pre>
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
+                <style>
+                .with-cv {
+                  background-color: #444;
+                  content-visibility: auto;
+                }
+                </style>
+              </code>
+            </pre>
+        
+            <!-- Hidden code block -->
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                main {
+                  max-height: 500px;
+                  overflow-y: scroll;
+                  color: white;
+                }
+                p {
+                  color: white;
+                }
+                .section {
+                  /* height: 100vh; */
+                  padding: 10px;
+                  overflow: auto;
+                }
+                /* Section without content-visibility */
+                .no-cv {
+                  background-color: #222;
+                  margin-bottom: 150rem;
+                }
+                /* contain-intrinsic-size: 1500px; */
+                /* Section headers */
+                .section h2 {
+                  color: #fff;
+                  text-align: center;
+                  margin-bottom: 10px;
+                }
+                /* Heavy content container */
+                .heavy {
+                  display: grid;
+                  grid-template-columns: repeat(20, 1fr);
+                  gap: 2px;
+                }
+                /* Each heavy element has complex styling */
+                .heavy div {
+                  background: linear-gradient(45deg, #e74c3c, #f1c40f, #3498db);
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+                  border-radius: 3px;
+                  width: 100%;
+                  padding-bottom: 100%; /* Keeps it square */
+                  transition: transform 0.3s ease;
+                  /* Adding a CSS filter (optional) for extra load */
+                  filter: contrast(1.2) brightness(1.1);
+                }
+                /* A simple hover effect */
+                .heavy div:hover {
+                  transform: scale(1.1);
+                }
+              </style>
+
+              <main>
+                <button id="" onclick="generateBoxes();">Generate Boxes</button>
+
+                <div class="section no-cv">
+                  <p>Without content-visibility</p>
+                  <div class="heavy" id="heavy-no-cv"></div>
+                </div>
+              
+                <!-- Section with content-visibility auto (defers off-screen work) -->
+                <div class="section with-cv">
+                  <p>With content-visibility: auto</p>
+                  <div class="heavy" id="heavy-with-cv"></div>
+                </div>
+              </main>
+            </script>
+            
+            <!-- Data-edit container -->
+            <div class="scene" data-edit></div>
+          </div>
+          <script>
+            function generateHeavyContent(containerId, count) {
+              console.log('container id: ', containerId);
+              const container = document.getElementById(containerId);
+
+              console.log('container: ', container);
+              let html = '';
+              for (let i = 0; i < count; i++) {
+                html += '<div></div>';
+              }
+              container.innerHTML = html;
+            }
+
+            function generateBoxes() {
+              generateHeavyContent('heavy-no-cv', 400);
+              generateHeavyContent('heavy-with-cv', 8000);
+            }
+            // Adjust the count as needed. For example, 800 or 1000 boxes will be even heavier.
+            // setTimeout(() => {
+
+            // }, 1000)
+          </script>
         </section>
       </div>
     </div>
