@@ -20,21 +20,23 @@
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/atom-one-light.css" />
     <style>
-      h3 {
+      section > h3 {
         text-align: left;
         display: inline-block;
         position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: -10px;
+          left: -25px;
+          width: 12px; /* Adjust size */
+          height: 50px;
+          background-color: blue;
+          transform: skewX(-30deg); /* Slant the rectangle */
+        }
       }
-      h3::before {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: -25px;
-        width: 12px; /* Adjust size */
-        height: 50px;
-        background-color: blue;
-        transform: skewX(-30deg); /* Slant the rectangle */
-      }
+
       .reveal {
         .hljs table {
           width: 100%;
@@ -50,11 +52,18 @@
 
         .code-wrapper {
           border-radius: 1rem;
+          resize: both;
+          overflow: hidden;
           code {
             box-sizing: border-box;
             border-radius: 1rem;
 
           }
+        }
+
+        p {
+          margin: 0;
+          color: black;
         }
       }
 
@@ -74,13 +83,15 @@
           flex-grow: 1;
           width: 60%;
           margin: 0;
+
         }
-      }
+        .fifty-fifty {
+          width: 50%;
+        }
 
-      
-
-      p {
-        color: black;
+        .forty-sixty {
+          width: 40%;
+        }
       }
 
       .code-block {
@@ -95,10 +106,15 @@
 
         align-items: stretch;
         margin-bottom: 1rem;
+
+        &.column {
+          flex-direction: column;
+        }
       }
 
       .scene {
         flex-grow: 1;
+        width: 50%;
       }
 
       .container {
@@ -155,8 +171,7 @@
         <section>
           <h3>class switching vs light-dark()</h3>
           <div class="slide-container">
-            <!-- Visible Code Block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-13,18-19">
                 <style>
                   :root {
@@ -182,7 +197,6 @@
               </code>
             </pre>
 
-            <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -202,8 +216,7 @@
           </div>
 
           <div class="slide-container">
-            <!-- Visible Code Block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12,15">
                 <style>
                   :root {
@@ -225,7 +238,6 @@
               </code>
             </pre>
 
-            <!-- Hidden Code Block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 .circle {
@@ -248,86 +260,6 @@
           </div>
         </section>
 
-        <!-- <section id="section3">
-          <h3>popover</h3>
-          <div class="slide-container">
-            
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="1-8">
-                <style>
-                popover {
-                  display: block;
-                  border: 1px solid #ccc;
-                  background: #fff;
-                  padding: 20px;
-                  width: 300px;
-                  border-radius: 8px;
-                }
-                </style>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  padding: 10px 20px;
-                  font-size: 16px;
-                  cursor: pointer;
-                }
-
-                .popover-content {
-                  text-align: center;
-                }
-
-                .popover-content button {
-                  background-color: #007bff;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  padding: 8px 16px;
-                }
-
-                .popover-content button:hover {
-                  background-color: #0056b3;
-                }
-              </style>
-              <div class="container">
-                <button id="openPopover" onclick="openPopover();">Open Modal</button>
-                <dialog popover id="modalPopover">
-                  <div class="popover-content">
-                    <h2>Modal Popover</h2>
-                    <p>This is a popover dialog!</p>
-                    <button id="closePopover" onclick="closePopover();">Close</button>
-                  </div>
-                </dialog>
-              </div>
-            </script>
-
-            <script>
-              function openPopover() {
-                const popover = document.getElementById('modalPopover');
-                // Check if popover exists and supports the dialog API
-                if (popover && typeof popover.showModal === "function") {
-                  popover.showModal();
-                } else {
-                  console.warn("Popover element not found or showModal() is not supported.");
-                }
-              }
-
-              function closePopover() {
-                const popover = document.getElementById('modalPopover');
-                if (popover && typeof popover.close === "function") {
-                  popover.close();
-                } else {
-                  console.warn("Popover element not found or close() is not supported.");
-                }
-              }
-            </script>
-        
-            <div class="scene" data-edit></div>
-          </div>
-        </section> -->
-
         <section>
           <h3>&lt;popover&gt;</h3>
 
@@ -344,8 +276,7 @@
         <section id="section3">
           <h3>&lt;popover&gt;</h3>
           <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-5,10-12">
                 <style>
                   [popover] {
@@ -363,7 +294,6 @@
               </code>
             </pre>
         
-            <!-- Hidden code block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -383,14 +313,12 @@
                 }
 
                 [popover] {
-                  /* background: black; */
                   color: white;
                   font-weight: 400;
                   padding: 1rem 1.5rem;
                   border-radius: 1rem;
                   max-width: 20ch;
                   line-height: 1.4;
-                  /* top: 2rem; */
                   margin: 0 auto;
                 }
 
@@ -405,7 +333,6 @@
               </style>
 
             </script>
-            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
         </section>
@@ -425,11 +352,10 @@
           </ul>
         </section>
 
-        <section id="section5">
+        <section id="section-starting-style-popover">
           <h3>@starting-style</h3>
           <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
                 <style>
                   [popover] {
@@ -455,7 +381,6 @@
               </code>
             </pre>
         
-            <!-- Hidden code block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -475,14 +400,12 @@
                 }
 
                 [popover] {
-                  /* background: black; */
                   color: white;
                   font-weight: 400;
                   padding: 1rem 1.5rem;
                   border-radius: 1rem;
                   max-width: 20ch;
                   line-height: 1.4;
-                  /* top: 2rem; */
                   margin: 0 auto;
                 }
 
@@ -497,7 +420,6 @@
               </style>
 
             </script>
-            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
         </section>
@@ -519,11 +441,10 @@
           </ul>
         </section>
 
-        <section id="section5">
+        <section id="section6">
           <h3>Translate Scale Rotate</h3>
           <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
                 <style>
                   [popover] {
@@ -550,7 +471,6 @@
               </code>
             </pre>
         
-            <!-- Hidden code block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 button {
@@ -570,14 +490,12 @@
                 }
 
                 [popover] {
-                  /* background: black; */
                   color: white;
                   font-weight: 400;
                   padding: 1rem 1.5rem;
                   border-radius: 1rem;
                   max-width: 20ch;
                   line-height: 1.4;
-                  /* top: 2rem; */
                   margin: 0 auto;
                 }
 
@@ -592,7 +510,6 @@
               </style>
 
             </script>
-            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
         </section>
@@ -624,8 +541,7 @@
         <section id="sectiongrid">
           <h3>Subgrid</h3>
           <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
                 <style>
                   main {
@@ -647,7 +563,6 @@
               </code>
             </pre>
         
-            <!-- Hidden code block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 body {
@@ -656,19 +571,12 @@
                   font-family: "Gill Sans", sans-serif;
                 }
 
-                  /* h2 {
-                    grid-column: 2;
-                  } */
-
                 img {
                   margin: 0;
-                  /* max-width: 100%; */
                 }
 
                 h2, p {
                   margin: 0;
-                  /* padding: 0.5rem; */
-                  /* padding-left: 0; */
                   text-align: left;
                 }
 
@@ -731,25 +639,10 @@
                   </p>
                   <img src="//unsplash.it/504" alt="Random Image 504">
                 </article>
-                <!-- <article class="card">
-                  <h2 class="title">Short Title</h2>
-                  <p class="description">
-                    Laboriosam, aliquam tempore minus dolorem ullam et veniam asperiores, eveniet vitae odi
-                  </p>
-                  <img src="//unsplash.it/505" alt="Random Image 505">
-                </article>
-                <article class="card">
-                  <h2 class="title">City with a Very Long Title that Wraps</h2>
-                  <p class="description">
-                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                  </p>
-                  <img src="//unsplash.it/506" alt="Random Image 506">
-                </article> -->
               </main>
 
 
             </script>
-            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
         </section>
@@ -779,8 +672,7 @@
         <section id="section-content-visibility">
           <h3>Content Visibility</h3>
           <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
+            <pre class="visible-code-block">
               <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
                 <style>
                 .with-cv {
@@ -791,7 +683,6 @@
               </code>
             </pre>
         
-            <!-- Hidden code block -->
             <script type="text/template" class="hidden-code-block">
               <style>
                 main {
@@ -803,40 +694,33 @@
                   color: white;
                 }
                 .section {
-                  /* height: 100vh; */
                   padding: 10px;
                   overflow: auto;
                 }
-                /* Section without content-visibility */
                 .no-cv {
                   background-color: #222;
                   margin-bottom: 150rem;
                 }
-                /* contain-intrinsic-size: 1500px; */
-                /* Section headers */
+
                 .section h2 {
                   color: #fff;
                   text-align: center;
                   margin-bottom: 10px;
                 }
-                /* Heavy content container */
                 .heavy {
                   display: grid;
                   grid-template-columns: repeat(20, 1fr);
                   gap: 2px;
                 }
-                /* Each heavy element has complex styling */
                 .heavy div {
                   background: linear-gradient(45deg, #e74c3c, #f1c40f, #3498db);
                   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
                   border-radius: 3px;
                   width: 100%;
-                  padding-bottom: 100%; /* Keeps it square */
+                  padding-bottom: 100%;
                   transition: transform 0.3s ease;
-                  /* Adding a CSS filter (optional) for extra load */
                   filter: contrast(1.2) brightness(1.1);
                 }
-                /* A simple hover effect */
                 .heavy div:hover {
                   transform: scale(1.1);
                 }
@@ -850,7 +734,6 @@
                   <div class="heavy" id="heavy-no-cv"></div>
                 </div>
               
-                <!-- Section with content-visibility auto (defers off-screen work) -->
                 <div class="section with-cv">
                   <p>With content-visibility: auto</p>
                   <div class="heavy" id="heavy-with-cv"></div>
@@ -858,7 +741,6 @@
               </main>
             </script>
             
-            <!-- Data-edit container -->
             <div class="scene" data-edit></div>
           </div>
           <script>
@@ -878,11 +760,350 @@
               generateHeavyContent('heavy-no-cv', 400);
               generateHeavyContent('heavy-with-cv', 8000);
             }
-            // Adjust the count as needed. For example, 800 or 1000 boxes will be even heavier.
-            // setTimeout(() => {
-
-            // }, 1000)
           </script>
+        </section>
+        <!-- Highlight how container queries DOES NOT WORK on the selected content itself -->
+        <section id="section-container-queries">
+          <h3>Container Queries</h3>
+          <div class="slide-container">
+            <pre class="visible-code-block forty-sixty">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+                <style>
+                @container card (max-width: 150px) {
+                  .card {
+                    justify-content: center;
+                    height: unset;
+                    position: relative;
+                  }
+                  .card-image { height: 4rem; }
+                  .card-content {
+                    position: absolute;
+
+                    & h4 { color: white; }
+                    & p { display: none; }
+                  }
+                }
+
+                @container card (max-width: 399px) and (min-width: 150px) {
+                  .card {
+                    flex-direction: column;
+                    height: unset;
+                  }
+                  .card-image {
+                    height: 6rem;
+                    width: 100%;
+
+                    & img { width: 100%; }
+                  }
+                  .card-content { text-align: center; }
+                }
+                </style>
+              </code>
+            </pre>
+
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                .demo-wrapper {
+                  padding: 1rem;
+                }
+
+                h4 {
+                  font-size: 1.5rem;
+                  text-transform: unset;
+                  margin: 0;
+                }
+
+                .resizable {
+                  resize: both;
+                  overflow: auto;
+                  border: 2px dashed #ccc;
+                  padding: 1rem;
+                  background: #fff;
+                  margin: 0 auto 1rem;
+                }
+
+                .row {
+                  display: flex;
+                  gap: 1rem;
+                  margin-bottom: 1rem;
+                }
+
+                .card-container {
+                  container-type: inline-size;
+                  container-name: card;
+                  width: 100%;
+                }
+
+                .card {
+                  background: #fff;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  overflow: hidden;
+                  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                  transition: all 0.3s ease;
+                  
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  width: 100%;
+                  height: 12rem;
+                }
+
+                .card-image {
+                  height: 100%;
+                }
+          
+                .card-image img {
+                  width: 200px;
+                  height: 100%;
+                  object-fit: cover;
+                  margin: 0;
+                }
+
+                .card-content {
+                  padding: 1rem;
+                  text-align: left;
+
+                  & p {
+                    font-size: 1rem;
+                  }
+                }
+              </style>
+              <div class="demo-wrapper">
+                <div class="resizable">
+                  
+                  <div class="row row-single">
+                    <div class="card-container">
+                      <div class="card">
+                        <!-- <p class="width-text"></p> -->
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row row-triple">
+                    <div class="card-container">
+                      <div class="card">
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-container">
+                      <div class="card">
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-container">
+                      <div class="card">
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/4/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </script>
+        
+            <div class="scene" data-edit></div>
+          </div>
+        </section>
+
+        <section id="section-container-queries-2">
+          <h3>Container Queries</h3>
+          <div class="slide-container">
+            <pre class="visible-code-block forty-sixty">
+              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+                <style>
+                @media (max-width: 1200px) {
+                  .card {
+                    justify-content: center;
+                    height: unset;
+                    position: relative;
+                  }
+                  .card-image {
+                    height: 4rem;
+                    width: 100%;
+
+                    & img { width: 100% }
+                  }
+                  .card-content {
+                    position: absolute;
+
+                    & h4 { color: white; }
+                    & p { display: none; }
+                  }
+                }
+
+                @media (min-width: 1200px) and (max-width: 1800px) {
+                  .card {
+                    flex-direction: column;
+                    height: unset;
+                  }
+                  .card-image {
+                    height: 6rem;
+                    width: 100%;
+
+                    & img { width: 100% }
+                  }
+                  .card-content {
+                    text-align: center;
+                  }
+                }
+                </style>
+              </code>
+            </pre>
+
+            <script type="text/template" class="hidden-code-block">
+              <style>
+                .demo-wrapper {
+                  padding: 1rem;
+                }
+
+                h4 {
+                  font-size: 1.5rem;
+                  text-transform: unset;
+                  margin: 0;
+                }
+
+                .resizable {
+                  resize: both;
+                  overflow: auto;
+                  border: 2px dashed #ccc;
+                  padding: 1rem;
+                  background: #fff;
+                  margin: 0 auto 1rem;
+                }
+
+                .row {
+                  display: flex;
+                  gap: 1rem;
+                  margin-bottom: 1rem;
+                }
+
+                .card-container {
+                  container-type: inline-size;
+                  container-name: card;
+                  width: 100%;
+                }
+
+                .card {
+                  background: #fff;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  overflow: hidden;
+                  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                  transition: all 0.3s ease;
+                  
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  width: 100%;
+                  height: 12rem;
+                }
+
+                .card-image {
+                  height: 100%;
+                }
+          
+                .card-image img {
+                  width: 200px;
+                  height: 100%;
+                  object-fit: cover;
+                  margin: 0;
+                }
+
+                .card-content {
+                  padding: 1rem;
+                  text-align: left;
+
+                  & p {
+                    font-size: 1rem;
+                  }
+                }
+              </style>
+              <div class="demo-wrapper">
+                <div class="resizable">
+                  
+                  <div class="row row-single">
+                    <div class="card-container">
+                      <div class="card">
+                        <!-- <p class="width-text"></p> -->
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row row-triple">
+                    <div class="card-container">
+                      <div class="card">
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-container">
+                      <div class="card">
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="card-container">
+                      <div class="card">
+                        <div class="card-image">
+                          <img src="https://picsum.photos/seed/4/600/400" alt="Card Image">
+                        </div>
+                        <div class="card-content">
+                          <h4>Card Title</h4>
+                          <p>This card adapts based on its container width.</p>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                  
+                </div>
+              </div>
+            </script>
+        
+            <div class="scene" data-edit></div>
+          </div>
         </section>
       </div>
     </div>
@@ -935,24 +1156,101 @@
         return { rootBlock, cssWithoutRoot };
       }
 
-      function scopeCSS(cssText, scope) {
+      function scopeCSSGood(cssText, scope) {
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
         return cssText.replace(
           cssRuleRegex,
           (match, selectors, declarations) => {
+            // console.log('------------------------------------');
+            // console.log('match: ', match)
+            // console.log('selectors: ', selectors)
             const scopedSelectors = selectors
               .split(",")
               .map((sel) => {
                 let trimmed = sel.trim();
+                console.log('scope: ', scope, ' trimmerD: ', trimmed);
                 if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
                   return trimmed;
                 }
                 return scope + " " + trimmed;
               })
               .join(", ");
+
+            // console.log('scopedSelectors: ', scopedSelectors);
+            // console.log('declarations: ', declarations);
+            // console.log('returning: ', scopedSelectors + " {" + declarations + "}")
             return scopedSelectors + " {" + declarations + "}";
           }
         );
+      }
+
+      function scopeCSSSkipAt(cssText, scope) {
+        const lines = cssText.split("\n");
+        let output = "";
+        let skipMode = false; // when true, we skip lines that start with '@'
+        
+        for (let i = 0; i < lines.length; i++) {
+          let line = lines[i];
+          let trimmed = line.trim();
+          
+          // If the line starts with an at‑rule, output it as-is and enter skipMode.
+          if (trimmed.startsWith("@")) {
+            output += line + "\n";
+            skipMode = true;
+            continue;
+          }
+          
+          // If we're in skipMode, we want to look for a line that contains a "{" 
+          // and does NOT start with "@". That indicates the beginning of a "normal" rule.
+          if (skipMode) {
+            if (line.indexOf("{") !== -1 && !trimmed.startsWith("@")) {
+              // We found a selector line after at‑rules—process its selector.
+              let idx = line.indexOf("{");
+              let selectors = line.substring(0, idx).trim();
+              if (!selectors.startsWith(scope)) {
+                selectors = scope + " " + selectors;
+              }
+              output += selectors + " {" + line.substring(idx + 1) + "\n";
+              skipMode = false;
+            } else {
+              // If the line doesn't contain a "{" (or it still starts with "@"), just output it.
+              output += line + "\n";
+            }
+          } else {
+            // If not in skipMode and the line doesn't start with "@",
+            // process it as usual.
+            if (line.indexOf("{") !== -1) {
+              let idx = line.indexOf("{");
+              let selectors = line.substring(0, idx).trim();
+              if (!selectors.startsWith(scope)) {
+                selectors = scope + " " + selectors;
+              }
+              output += selectors + " {" + line.substring(idx + 1) + "\n";
+            } else {
+              output += line + "\n";
+            }
+          }
+        }
+        return output;
+      }
+
+      function scopeCSS(cssText, scope) {
+        // Use the 'm' (multiline) flag so the regex works line‐by‐line
+        const cssRuleRegex = /([^{}]+?)\s*\{([^{}]*?)\}/gm;
+        return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
+          const scopedSelectors = selectors
+            .split(",")
+            .map((sel) => {
+              let trimmed = sel.trim();
+              // If the selector starts with "@" (an at‑rule) or already starts with our scope, skip scoping.
+              if (trimmed.startsWith("@") || trimmed.startsWith(scope) || /^[\d\.%]+$/.test(trimmed)) {
+                return trimmed;
+              }
+              return scope + " " + trimmed;
+            })
+            .join(", ");
+          return scopedSelectors + " {" + declarations + "}";
+        });
       }
 
       // More info about initialization & config:
@@ -996,21 +1294,31 @@
               const hiddenContent = hiddenCodeBlock
                 ? hiddenCodeBlock.textContent
                 : "";
-              let combinedContent = visibleContent + "\n" + hiddenContent;
+              // let combinedContent = visibleContent + "\n" + hiddenContent;
+              let combinedContent = hiddenContent + "\n" + visibleContent;
 
               combinedContent = combinedContent.replace(
                 /<style>([\s\S]*?)<\/style>/gi,
                 (match, cssContent) => {
+                  // console.log('====================================')
+                  // console.log('match combined: ', match);
+                  // console.log('cssContent: ', cssContent);
                   const { rootBlock, cssWithoutRoot } =
                     extractRootBlock(cssContent);
-                  const processedNonRoot = scopeCSS(
+                  const processedNonRoot = scopeCSSSkipAt(
                     cssWithoutRoot,
                     containerScope
                   );
+                  // console.log('css without root: ', cssWithoutRoot)
+                  // const processedNonRoot = scopeCSS2(
+                  //   cssWithoutRoot,
+                  //   containerScope
+                  // );
                   const processedRoot = rootBlock
                     ? wrapRootInScope(rootBlock, containerScope)
                     : "";
 
+                  // console.log('ENDING!!!: ', `<style>${processedRoot}${processedNonRoot}</style>`)
                   return `<style>${processedRoot}${processedNonRoot}</style>`;
                 }
               );
