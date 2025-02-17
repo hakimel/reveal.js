@@ -1433,6 +1433,16 @@ $controlsArrowAngleActive: 36deg;
  * OVERLAY FOR LINK PREVIEWS AND HELP
  *********************************************/
 
+@keyframes fade-in {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes scale-up {
+	from { transform: scale( 0.95 ); }
+	to { transform: scale( 1 ); }
+}
+
 .reveal [data-preview-image],
 .reveal [data-preview-video] {
 	cursor: zoom-in;
@@ -1450,6 +1460,7 @@ $controlsArrowAngleActive: 36deg;
 	backdrop-filter: blur( 10px );
 	transition: all 0.3s ease;
 	color: #fff;
+	animation: fade-in 0.3s ease;
 }
 
 .reveal .overlay-viewport {
@@ -1516,6 +1527,7 @@ $controlsArrowAngleActive: 36deg;
 	overflow: hidden;
 	flex-grow: 1;
 	background-color: rgba(20, 20, 20, 0.8);
+	animation: scale-up 0.5s cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
 .reveal .overlay-spinner {

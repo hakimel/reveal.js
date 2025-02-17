@@ -250,7 +250,7 @@ export default class Overlay {
 	}
 
 	isOpen() {
-		return this.dom !== null;
+		return !!this.dom;
 	}
 
 	/**
