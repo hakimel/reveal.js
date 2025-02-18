@@ -1,0 +1,81 @@
+<section id="popover-info">
+  <h3>&lt;popover&gt;</h3>
+
+  <div class="baseline-container">
+    <baseline-status featureId="Popover"></baseline-status>
+  </div>
+
+  <ul>
+    <li>
+      Small overlay window that appears on demand—providing contextual
+      information or interactive options without navigating away from the
+      current page.
+    </li>
+    <li>
+      Often implemented with the HTML
+      <code>&lt;dialog&gt;</code> element.
+    </li>
+  </ul>
+</section>
+<section id="popover-demo">
+  <h3>&lt;popover&gt;</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-5,10-12">
+          <style>
+            [popover] {
+              top: 50%;
+              transform: translateY(-50%) scale(2);
+            }
+          </style>
+
+          <div class="container">
+            <button popovertarget="my-popover0">Open Popover</button>
+            <div id="my-popover0" popover>
+              <p>I am a Popover</p>
+            </div>
+          </div>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        button {
+          font-size: 100%;
+          padding: 0.75rem;
+          background: white;
+          transition-duration: 0.5s;
+          border: 4px solid plum;
+          background: lavenderblush;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+        [popover] {
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          max-width: 20ch;
+          line-height: 1.4;
+          margin: 0 auto;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>

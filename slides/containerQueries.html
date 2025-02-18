@@ -1,0 +1,330 @@
+<!-- Highlight how container queries DOES NOT WORK on the selected content itself -->
+<section id="container-queries-demo-1">
+  <h3>Container Queries</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block forty-sixty">
+        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+          <style>
+          @container card (max-width: 150px) {
+            .card {
+              justify-content: center;
+              height: unset;
+              position: relative;
+            }
+            .card-image { height: 4rem; }
+            .card-content {
+              position: absolute;
+
+              & h4 { color: white; }
+              & p { display: none; }
+            }
+          }
+
+          @container card (max-width: 399px) and (min-width: 150px) {
+            .card {
+              flex-direction: column;
+              height: unset;
+            }
+            .card-image {
+              height: 6rem;
+              width: 100%;
+
+              & img { width: 100%; }
+            }
+            .card-content { text-align: center; }
+          }
+          </style>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .demo-wrapper {
+          padding: 1rem;
+        }
+
+        h4 {
+          font-size: 1.5rem;
+          text-transform: unset;
+          margin: 0;
+        }
+
+        .resizable {
+          resize: both;
+          overflow: auto;
+          border: 2px dashed #ccc;
+          padding: 1rem;
+          background: #fff;
+          margin: 0 auto 1rem;
+        }
+
+        .row {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .card-container {
+          container-type: inline-size;
+          container-name: card;
+          width: 100%;
+        }
+
+        .card {
+          background: #fff;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+          transition: all 0.3s ease;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+          height: 12rem;
+        }
+
+        .card-image {
+          height: 100%;
+        }
+
+        .card-image img {
+          width: 200px;
+          height: 100%;
+          object-fit: cover;
+          margin: 0;
+        }
+
+        .card-content {
+          padding: 1rem;
+          text-align: left;
+
+          & p {
+            font-size: 1rem;
+          }
+        }
+      </style>
+      <div class="demo-wrapper">
+        <div class="resizable">
+
+          <div class="row row-single">
+            <div class="card-container">
+              <div class="card">
+                <!-- <p class="width-text"></p> -->
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row row-triple">
+            <div class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/4/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+<section id="container-queries-demo-2">
+  <h3>Container Queries</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block forty-sixty">
+        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+          <style>
+          @media (max-width: 1200px) {
+            .card {
+              justify-content: center;
+              height: unset;
+              position: relative;
+            }
+            .card-image {
+              height: 4rem;
+              width: 100%;
+
+              & img { width: 100% }
+            }
+            .card-content {
+              position: absolute;
+
+              & h4 { color: white; }
+              & p { display: none; }
+            }
+          }
+
+          @media (min-width: 1200px) and (max-width: 1800px) {
+            .card {
+              flex-direction: column;
+              height: unset;
+            }
+            .card-image {
+              height: 6rem;
+              width: 100%;
+
+              & img { width: 100% }
+            }
+            .card-content {
+              text-align: center;
+            }
+          }
+          </style>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .demo-wrapper {
+          padding: 1rem;
+        }
+
+        h4 {
+          font-size: 1.5rem;
+          text-transform: unset;
+          margin: 0;
+        }
+
+        .resizable {
+          resize: both;
+          overflow: auto;
+          border: 2px dashed #ccc;
+          padding: 1rem;
+          background: #fff;
+          margin: 0 auto 1rem;
+        }
+
+        .row {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .card-container {
+          container-type: inline-size;
+          container-name: card;
+          width: 100%;
+        }
+
+        .card {
+          background: #fff;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+          transition: all 0.3s ease;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+          height: 12rem;
+        }
+
+        .card-image {
+          height: 100%;
+        }
+
+        .card-image img {
+          width: 200px;
+          height: 100%;
+          object-fit: cover;
+          margin: 0;
+        }
+
+        .card-content {
+          padding: 1rem;
+          text-align: left;
+
+          & p {
+            font-size: 1rem;
+          }
+        }
+      </style>
+      <div class="demo-wrapper">
+        <div class="resizable">
+
+          <div class="row row-single">
+            <div class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row row-triple">
+            <div class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+</section>

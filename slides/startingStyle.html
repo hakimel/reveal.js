@@ -1,0 +1,87 @@
+<section id="starting-style-info">
+  <h3>@starting-style</h3>
+
+  <div class="baseline-container">
+    <baseline-status featureId="starting-style"></baseline-status>
+  </div>
+
+  <ul>
+    <li>
+      The <code>@starting-style</code> rule allows styles to be applied at the
+      start of an animation or transition.
+    </li>
+    <li>
+      Specifies how elements should appear before the first frame is rendered.
+    </li>
+  </ul>
+</section>
+<section id="starting-style-demo-popover">
+  <h3>@starting-style</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
+          <style>
+            [popover] {
+              top: 50%;
+              transform: translateY(1000%) scale(2);
+              transition: all 0.4s ease-in allow-discrete;       
+            }
+
+            [popover]:popover-open {
+              transform: translateY(-50%) scale(2);
+              @starting-style {
+                  transform: translateY(-1000%) scale(2);
+              }
+            }
+          </style>
+
+          <div class="container">
+            <button popovertarget="my-popover1">Open Popover</button>
+            <div id="my-popover1" popover>
+              <p>I am a Popover</p>
+            </div>
+          </div>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        button {
+          font-size: 100%;
+          padding: 0.75rem;
+          background: white;
+          transition-duration: 0.5s;
+          border: 4px solid plum;
+          background: lavenderblush;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+        [popover] {
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          max-width: 20ch;
+          line-height: 1.4;
+          margin: 0 auto;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>

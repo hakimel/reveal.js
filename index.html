@@ -11,26 +11,60 @@
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
-    <link rel="stylesheet" href="dist/theme/black.css" />
+    <link rel="stylesheet" href="dist/theme/white.css" />
     <script
       type="module"
       src="./node_modules/baseline-status/baseline-status.min.js"
     ></script>
 
     <!-- Theme used for syntax highlighted code -->
-    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/highlight/atom-one-light.css" />
     <style>
+      section > h3 {
+        font-size: 2.5rem !important;
+        text-align: left;
+        display: inline-block;
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: -10px;
+          left: -25px;
+          width: 12px; /* Adjust size */
+          height: 50px;
+          background-color: blue;
+          transform: skewX(-30deg); /* Slant the rectangle */
+        }
+      }
+
       .reveal {
         .hljs table {
           width: 100%;
         }
 
-        h2, h3 {
+        .slides {
+          text-align: left;
+        }
+
+        h2,
+        h3 {
           text-transform: initial;
         }
 
-        .code-wrapper code {
-          box-sizing: border-box;
+        .code-wrapper {
+          border-radius: 1rem;
+          resize: both;
+          overflow: hidden;
+          code {
+            box-sizing: border-box;
+            border-radius: 1rem;
+          }
+        }
+
+        p {
+          margin: 0;
+          color: black;
         }
       }
 
@@ -43,14 +77,21 @@
         font-size: 1.5rem;
       }
 
-      section .code-wrapper {
-        flex-grow: 1;
-        width: 60%;
-        margin: 0;
-      }
+      section {
+        padding: 0 2rem;
+        box-sizing: border-box;
+        .code-wrapper {
+          flex-grow: 1;
+          width: 60%;
+          margin: 0;
+        }
+        .fifty-fifty {
+          width: 50%;
+        }
 
-      p {
-        color: black;
+        .forty-sixty {
+          width: 40%;
+        }
       }
 
       .code-block {
@@ -65,10 +106,15 @@
 
         align-items: stretch;
         margin-bottom: 1rem;
+
+        &.column {
+          flex-direction: column;
+        }
       }
 
       .scene {
         flex-grow: 1;
+        width: 50%;
       }
 
       .container {
@@ -98,631 +144,13 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section>
-          <h3>light-dark()</h3>
-
-          <div class="baseline-container">
-            <baseline-status featureId="light-dark"></baseline-status>
-          </div>
-
-          <ul>
-            <li>
-              light-dark() CSS function: Sets two color options based on the
-              user's light or dark mode preference, without needing
-              prefers-color-scheme media queries.
-            </li>
-            <li>
-              User preference detection: Detects system or browser settings for
-              light or dark themes automatically.
-            </li>
-            <li>
-              Usage: Requires color-scheme: light dark; on the :root
-              pseudo-class for proper support.
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>class switching vs light-dark()</h3>
-          <div class="slide-container">
-            <!-- Visible Code Block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-13,18-19">
-                <style>
-                  :root {
-                    --bg-color: #fff;
-                    --text-color: #000;
-                  }
-                  .dark-mode {
-                    --bg-color: #000;
-                    --text-color: #fff;
-                  }
-                  .container {
-                    background-color: var(--bg-color);
-                    color: var(--text-color);
-                  }
-                </style>
-                <script>
-                  function toggleTheme(mode) {
-                    const container = document.getElementById('containerId');
-                    mode === 'dark' ? container.classList.add("dark-mode") : 
-                      container.classList.remove("dark-mode")
-                  }
-                </script>
-              </code>
-            </pre>
-
-            <!-- Hidden Code Block -->
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  all: unset;
-                  color: var(--text-color);
-                }
-              </style>
-              <div class="container" id="containerId">
-                <div class="row gap">
-                  <label><input name="mode1" type="radio" onclick="toggleTheme('light');" checked>Light</label>
-                  <label><input name="mode1" type="radio" onclick="toggleTheme('dark');">Dark</label>
-                </div>
-              </div>
-            </script>
-
-            <div class="scene" data-edit></div>
-          </div>
-
-          <div class="slide-container">
-            <!-- Visible Code Block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12,15">
-                <style>
-                  :root {
-                    &:has(input[name="mode"][value="l"]:checked) {
-                      color-scheme: light;
-                    }
-                    &:has(input[name="mode"][value="d"]:checked) {
-                      color-scheme: dark;
-                    }
-                  }
-                  .container {
-                    color: light-dark(#000, #fff);
-                    background-color: light-dark(#fff, #000);
-                  }
-                  .circle {
-                    background-color: salmon;
-                  }
-                </style>
-              </code>
-            </pre>
-
-            <!-- Hidden Code Block -->
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                .circle {
-                  width: 50px;
-                  aspect-ratio: 1 / 1;
-                  margin: 1rem auto;
-                  border-radius: 50%;
-                }
-              </style>
-                      <div class="container">
-                      <div class="circle"></div>
-                        <div class="row gap">
-                          <label><input name="mode" type="radio" value="l" checked>Light</label>
-                          <label><input name="mode" type="radio" value="d">Dark</label>
-                        </div>
-                      </div>
-            </script>
-
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <!-- <section id="section3">
-          <h3>popover</h3>
-          <div class="slide-container">
-            
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="1-8">
-                <style>
-                popover {
-                  display: block;
-                  border: 1px solid #ccc;
-                  background: #fff;
-                  padding: 20px;
-                  width: 300px;
-                  border-radius: 8px;
-                }
-                </style>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  padding: 10px 20px;
-                  font-size: 16px;
-                  cursor: pointer;
-                }
-
-                .popover-content {
-                  text-align: center;
-                }
-
-                .popover-content button {
-                  background-color: #007bff;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  padding: 8px 16px;
-                }
-
-                .popover-content button:hover {
-                  background-color: #0056b3;
-                }
-              </style>
-              <div class="container">
-                <button id="openPopover" onclick="openPopover();">Open Modal</button>
-                <dialog popover id="modalPopover">
-                  <div class="popover-content">
-                    <h2>Modal Popover</h2>
-                    <p>This is a popover dialog!</p>
-                    <button id="closePopover" onclick="closePopover();">Close</button>
-                  </div>
-                </dialog>
-              </div>
-            </script>
-
-            <script>
-              function openPopover() {
-                const popover = document.getElementById('modalPopover');
-                // Check if popover exists and supports the dialog API
-                if (popover && typeof popover.showModal === "function") {
-                  popover.showModal();
-                } else {
-                  console.warn("Popover element not found or showModal() is not supported.");
-                }
-              }
-
-              function closePopover() {
-                const popover = document.getElementById('modalPopover');
-                if (popover && typeof popover.close === "function") {
-                  popover.close();
-                } else {
-                  console.warn("Popover element not found or close() is not supported.");
-                }
-              }
-            </script>
-        
-            <div class="scene" data-edit></div>
-          </div>
-        </section> -->
-
-        <section>
-          <h3>&lt;popover&gt;</h3>
-
-          <div class="baseline-container">
-            <baseline-status featureId="Popover"></baseline-status>
-          </div>
-
-          <ul>
-            <li>Small overlay window that appears on demand—providing contextual information or interactive options without navigating away from the current page.</li>
-            <li>Often implemented with the HTML <code>&lt;dialog&gt;</code> element.</li>
-          </ul>
-        </section>
-
-        <section id="section3">
-          <h3>&lt;popover&gt;</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-5,10-12">
-                <style>
-                  [popover] {
-                    top: 50%;
-                    transform: translateY(-50%) scale(2);
-                  }
-                </style>
-
-                <div class="container">
-                  <button popovertarget="my-popover0">Open Popover</button>
-                  <div id="my-popover0" popover>
-                    <p>I am a Popover</p>
-                  </div>
-                </div>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  font-size: 100%;
-                  padding: 0.75rem;
-                  background: white;
-                  transition-duration: 0.5s;
-                  border: 4px solid plum;
-                  background: lavenderblush;
-                  border-radius: 1rem;
-                  
-                  &:hover,
-                  &:focus {
-                    background: plum;
-                    color: white;
-                  }
-                }
-
-                [popover] {
-                  /* background: black; */
-                  color: white;
-                  font-weight: 400;
-                  padding: 1rem 1.5rem;
-                  border-radius: 1rem;
-                  max-width: 20ch;
-                  line-height: 1.4;
-                  /* top: 2rem; */
-                  margin: 0 auto;
-                }
-
-                body {
-                  background: #fcf9fb;
-                  display: grid;
-                  font-size: 1.5rem;
-                  font-family: system-ui, sans-serif;
-                  place-items: center;
-                  height: 100dvh;
-                }
-              </style>
-
-            </script>
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>@starting-style</h3>
-        
-          <div class="baseline-container">
-            <baseline-status featureId="starting-style"></baseline-status>
-          </div>
-        
-          <ul>
-            <li>
-              The <code>@starting-style</code> rule allows styles to be applied at the start of an animation or transition.
-            </li>
-            <li>Specifies how elements should appear before the first frame is rendered.</li>
-          </ul>
-        </section>
-
-        <section id="section5">
-          <h3>@starting-style</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
-                <style>
-                  [popover] {
-                    top: 50%;
-                    transform: translateY(1000%) scale(2);
-                    transition: all 0.4s ease-in allow-discrete;       
-                  }
-
-                  [popover]:popover-open {
-                    transform: translateY(-50%) scale(2);
-                    @starting-style {
-                        transform: translateY(-1000%) scale(2);
-                    }
-                  }
-                </style>
-
-                <div class="container">
-                  <button popovertarget="my-popover1">Open Popover</button>
-                  <div id="my-popover1" popover>
-                    <p>I am a Popover</p>
-                  </div>
-                </div>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  font-size: 100%;
-                  padding: 0.75rem;
-                  background: white;
-                  transition-duration: 0.5s;
-                  border: 4px solid plum;
-                  background: lavenderblush;
-                  border-radius: 1rem;
-                  
-                  &:hover,
-                  &:focus {
-                    background: plum;
-                    color: white;
-                  }
-                }
-
-                [popover] {
-                  /* background: black; */
-                  color: white;
-                  font-weight: 400;
-                  padding: 1rem 1.5rem;
-                  border-radius: 1rem;
-                  max-width: 20ch;
-                  line-height: 1.4;
-                  /* top: 2rem; */
-                  margin: 0 auto;
-                }
-
-                body {
-                  background: #fcf9fb;
-                  display: grid;
-                  font-size: 1.5rem;
-                  font-family: system-ui, sans-serif;
-                  place-items: center;
-                  height: 100dvh;
-                }
-              </style>
-
-            </script>
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>Individual Transform Properties</h3>
-        
-          <div class="baseline-container">
-            <baseline-status featureId="translate"></baseline-status>
-          </div>
-        
-          <ul>
-            <li>
-              Individual transform properties, <code>translate</code>, <code>rotate</code>, and <code>scale</code>, allows transformations separately instead of using the shorthand <code>transform</code> property.
-            </li>
-            <li>
-              Improves performance and enables finer control over individual animations
-            </li>
-          </ul>
-        </section>
-
-        <section id="section5">
-          <h3>Translate Scale Rotate</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
-                <style>
-                  [popover] {
-                    top: 50%;
-                    translate: 0 1000%;
-                    scale: 2;
-                    transition: all 0.4s ease-out allow-discrete;       
-                  }
-
-                  [popover]:popover-open {
-                    translate: 0 -50%;
-                    @starting-style {
-                      translate: 0 -1000%;
-                    }
-                  }
-                </style>
-
-                <div class="container">
-                  <button popovertarget="my-popover2">Open Popover</button>
-                  <div id="my-popover2" popover>
-                    <p>I am a Popover<p>
-                  </div>
-                </div>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  font-size: 100%;
-                  padding: 0.75rem;
-                  background: white;
-                  transition-duration: 0.5s;
-                  border: 4px solid plum;
-                  background: lavenderblush;
-                  border-radius: 1rem;
-                  
-                  &:hover,
-                  &:focus {
-                    background: plum;
-                    color: white;
-                  }
-                }
-
-                [popover] {
-                  /* background: black; */
-                  color: white;
-                  font-weight: 400;
-                  padding: 1rem 1.5rem;
-                  border-radius: 1rem;
-                  max-width: 20ch;
-                  line-height: 1.4;
-                  /* top: 2rem; */
-                  margin: 0 auto;
-                }
-
-                body {
-                  background: #fcf9fb;
-                  display: grid;
-                  font-size: 1.5rem;
-                  font-family: system-ui, sans-serif;
-                  place-items: center;
-                  height: 100dvh;
-                }
-              </style>
-
-            </script>
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>Subgrid</h3>
-          
-          <div class="baseline-container">
-            <baseline-status featureId="subgrid"></baseline-status>
-          </div>
-          
-          <ul>
-            <li>
-              The <code>subgrid</code> value allows a child grid to inherit the grid tracks (rows or columns) from its parent grid.
-            </li>
-            <li>
-              It ensures consistent alignment between nested grid elements without duplicating grid definitions in the CSS.
-            </li>
-            <li>
-              Useful for maintaining alignment across components, especially in complex layouts with nested grids.
-            </li>
-            <li>
-              Improves layout consistency and reduces code repetition.
-            </li>
-          </ul>
-        </section>
-        
-
-        <section id="sectiongrid">
-          <h3>Subgrid</h3>
-          <div class="slide-container">
-            <!-- Visible code block -->
-            <pre>
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
-                <style>
-                  main {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    grid-template-rows: auto;
-                    gap: 0.5rem;
-                  }
-
-                  .card {
-                    display: grid;
-                    grid-column: span 2;
-                    gap: 1rem;
-                    grid-template-columns: repeat(2, 1fr);
-                    grid-template-rows: min-content 1fr;
-                    background: salmon;
-                  }
-                </style>
-              </code>
-            </pre>
-        
-            <!-- Hidden code block -->
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                body {
-                  font-size: 1.125rem;
-                  line-height: 1.2;
-                  font-family: "Gill Sans", sans-serif;
-                }
-
-                  /* h2 {
-                    grid-column: 2;
-                  } */
-
-                img {
-                  margin: 0;
-                  /* max-width: 100%; */
-                }
-
-                h2, p {
-                  margin: 0;
-                  /* padding: 0.5rem; */
-                  /* padding-left: 0; */
-                  text-align: left;
-                }
-
-                h2 {
-                  font-size: 1.75rem;
-                  padding-right: 1rem;
-                  padding-top: 1rem;
-                }
-
-                p {
-                  font-size: 0.75rem;
-                  padding-right: 1rem;
-                  padding-bottom: 1rem;
-                }
-
-                .card {
-                  border-radius: 1rem;
-                  overflow: clip;
-                }
-                  
-                .card img {
-                  grid-column: 1;
-                  grid-row: 1 / span 2;
-                  width: 100%;
-                  height: 100%;
-                  object-fit: cover;
-                }
-
-                .reveal img { 
-                  max-height: none;
-                }
-              </style>
-
-              <main>
-                <article class="card">
-                  <h2 class="title">Quibusdam, recusandae odio</h2>
-                  <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda recusandae maxime distinctio quos ullam incidunt. 
-                  </p>
-                  <img src="//unsplash.it/501" alt="Random Image 501">
-                </article>
-                <article class="card">
-                  <h2 class="title">Omnis, veritatis odio.</h2>
-                  <p class="description">
-                    Enim molestiae recusandae ut dolor sit amet consectetur adipisicing. Odit possimu
-                  </p>
-                  <img src="//unsplash.it/502" alt="Random Image 502">
-                </article>
-                <article class="card">
-                  <h2 class="title">Cave</h2>
-                  <p class="description">
-                    Error maiores culpa eaque. Quam quisquam quae nostrum ipsa dolorum atque aperiam fugit soluta error! Lorem ipsum dolor sit amet.
-                  </p>
-                  <img src="//unsplash.it/503" alt="Random Image 503">
-                </article>
-                <article class="card">
-                  <h2 class="title">Extended Title for Misalignment</h2>
-                  <p class="description">
-                    Corporis laboriosam, neque est commodi architecto voluptatem, ipsam corrupti ullam similique eligendi hic qui natus? Quisquam quam voluptas 
-                  </p>
-                  <img src="//unsplash.it/504" alt="Random Image 504">
-                </article>
-                <!-- <article class="card">
-                  <h2 class="title">Short Title</h2>
-                  <p class="description">
-                    Laboriosam, aliquam tempore minus dolorem ullam et veniam asperiores, eveniet vitae odi
-                  </p>
-                  <img src="//unsplash.it/505" alt="Random Image 505">
-                </article>
-                <article class="card">
-                  <h2 class="title">City with a Very Long Title that Wraps</h2>
-                  <p class="description">
-                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                  </p>
-                  <img src="//unsplash.it/506" alt="Random Image 506">
-                </article> -->
-              </main>
-
-
-            </script>
-            <!-- Data-edit container -->
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
+        <section data-external="slides/lightDark.html"></section>
+        <section data-external="slides/popover.html"></section>
+        <section data-external="slides/startingStyle.html"></section>
+        <section data-external="slides/individualTransform.html"></section>
+        <section data-external="slides/subgrid.html"></section>
+        <section data-external="slides/contentVisibility.html"></section>
+        <section data-external="slides/containerQueries.html"></section>
       </div>
     </div>
 
@@ -730,8 +158,10 @@
     <script src="plugin/notes/notes.js"></script>
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
+    <!-- <script src="plugin/external/external.js"></script> -->
     <script type="module">
       import Editor from "./plugin/editor/editor.esm.js";
+      import External from "./plugin/external/external.js";
 
       function wrapRootInScope(rootBlock, scope) {
         const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
@@ -774,8 +204,87 @@
         return { rootBlock, cssWithoutRoot };
       }
 
-      function scopeCSS(cssText, scope) {
+      function scopeCSSGood(cssText, scope) {
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
+        return cssText.replace(
+          cssRuleRegex,
+          (match, selectors, declarations) => {
+            // console.log('------------------------------------');
+            // console.log('match: ', match)
+            // console.log('selectors: ', selectors)
+            const scopedSelectors = selectors
+              .split(",")
+              .map((sel) => {
+                let trimmed = sel.trim();
+                console.log("scope: ", scope, " trimmerD: ", trimmed);
+                if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
+                  return trimmed;
+                }
+                return scope + " " + trimmed;
+              })
+              .join(", ");
+
+            // console.log('scopedSelectors: ', scopedSelectors);
+            // console.log('declarations: ', declarations);
+            // console.log('returning: ', scopedSelectors + " {" + declarations + "}")
+            return scopedSelectors + " {" + declarations + "}";
+          }
+        );
+      }
+
+      function scopeCSSSkipAt(cssText, scope) {
+        const lines = cssText.split("\n");
+        let output = "";
+        let skipMode = false; // when true, we skip lines that start with '@'
+
+        for (let i = 0; i < lines.length; i++) {
+          let line = lines[i];
+          let trimmed = line.trim();
+
+          // If the line starts with an at‑rule, output it as-is and enter skipMode.
+          if (trimmed.startsWith("@")) {
+            output += line + "\n";
+            skipMode = true;
+            continue;
+          }
+
+          // If we're in skipMode, we want to look for a line that contains a "{"
+          // and does NOT start with "@". That indicates the beginning of a "normal" rule.
+          if (skipMode) {
+            if (line.indexOf("{") !== -1 && !trimmed.startsWith("@")) {
+              // We found a selector line after at‑rules—process its selector.
+              let idx = line.indexOf("{");
+              let selectors = line.substring(0, idx).trim();
+              if (!selectors.startsWith(scope)) {
+                selectors = scope + " " + selectors;
+              }
+              output += selectors + " {" + line.substring(idx + 1) + "\n";
+              skipMode = false;
+            } else {
+              // If the line doesn't contain a "{" (or it still starts with "@"), just output it.
+              output += line + "\n";
+            }
+          } else {
+            // If not in skipMode and the line doesn't start with "@",
+            // process it as usual.
+            if (line.indexOf("{") !== -1) {
+              let idx = line.indexOf("{");
+              let selectors = line.substring(0, idx).trim();
+              if (!selectors.startsWith(scope)) {
+                selectors = scope + " " + selectors;
+              }
+              output += selectors + " {" + line.substring(idx + 1) + "\n";
+            } else {
+              output += line + "\n";
+            }
+          }
+        }
+        return output;
+      }
+
+      function scopeCSS(cssText, scope) {
+        // Use the 'm' (multiline) flag so the regex works line‐by‐line
+        const cssRuleRegex = /([^{}]+?)\s*\{([^{}]*?)\}/gm;
         return cssText.replace(
           cssRuleRegex,
           (match, selectors, declarations) => {
@@ -783,7 +292,12 @@
               .split(",")
               .map((sel) => {
                 let trimmed = sel.trim();
-                if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
+                // If the selector starts with "@" (an at‑rule) or already starts with our scope, skip scoping.
+                if (
+                  trimmed.startsWith("@") ||
+                  trimmed.startsWith(scope) ||
+                  /^[\d\.%]+$/.test(trimmed)
+                ) {
                   return trimmed;
                 }
                 return scope + " " + trimmed;
@@ -803,7 +317,13 @@
           highlightOnLoad: false,
         },
         // Learn about plugins: https://revealjs.com/plugins/
-        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, Editor],
+        plugins: [
+          External,
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          Editor,
+        ],
       });
 
       Reveal.on("slidechanged", (event) => {
@@ -822,6 +342,7 @@
             container.id = "slide-container-" + (index + 1);
           }
           const containerScope = `#${container.id}`;
+          console.log("containerScope", container.parentNode);
           const codeBlock = container.querySelector(".code-block");
           const hiddenCodeBlock = container.querySelector(".hidden-code-block");
           const dataEditDiv = container.querySelector("[data-edit]");
@@ -835,17 +356,19 @@
               const hiddenContent = hiddenCodeBlock
                 ? hiddenCodeBlock.textContent
                 : "";
-              let combinedContent = visibleContent + "\n" + hiddenContent;
+
+              let combinedContent = hiddenContent + "\n" + visibleContent;
 
               combinedContent = combinedContent.replace(
                 /<style>([\s\S]*?)<\/style>/gi,
                 (match, cssContent) => {
                   const { rootBlock, cssWithoutRoot } =
                     extractRootBlock(cssContent);
-                  const processedNonRoot = scopeCSS(
+                  const processedNonRoot = scopeCSSSkipAt(
                     cssWithoutRoot,
                     containerScope
                   );
+
                   const processedRoot = rootBlock
                     ? wrapRootInScope(rootBlock, containerScope)
                     : "";
@@ -855,6 +378,7 @@
               );
 
               dataEditDiv.innerHTML = combinedContent;
+              runInjectedScripts(container.parentNode);
             };
 
             updateDataEdit();
@@ -907,6 +431,22 @@
           traverseNodes(element);
           selection.removeAllRanges();
           selection.addRange(range);
+        }
+
+        function runInjectedScripts(container) {
+          console.log("container: ", container);
+          const scripts = container.querySelectorAll("script");
+
+          console.log("scripts: ", scripts);
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement("script");
+            // Copy attributes from the old script (like type, src, etc.)
+            Array.from(oldScript.attributes).forEach((attr) => {
+              newScript.setAttribute(attr.name, attr.value);
+            });
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
         }
       });
     </script>

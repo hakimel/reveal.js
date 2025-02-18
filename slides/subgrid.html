@@ -1,0 +1,129 @@
+<section id="subgrid-info">
+  <h3>Subgrid</h3>
+
+  <div class="baseline-container">
+    <baseline-status featureId="subgrid"></baseline-status>
+  </div>
+
+  <ul>
+    <li>
+      The <code>subgrid</code> value allows a child grid to inherit the grid
+      tracks (rows or columns) from its parent grid.
+    </li>
+    <li>
+      It ensures consistent alignment between nested grid elements without
+      duplicating grid definitions in the CSS.
+    </li>
+    <li>
+      Useful for maintaining alignment across components, especially in complex
+      layouts with nested grids.
+    </li>
+    <li>Improves layout consistency and reduces code repetition.</li>
+  </ul>
+</section>
+<section id="subgrid-demo">
+  <h3>Subgrid</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
+          <style>
+            main {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              grid-template-rows: auto;
+              gap: 0.5rem;
+            }
+
+            .card {
+              display: grid;
+              grid-column: span 2;
+              gap: 1rem;
+              grid-template-columns: repeat(2, 1fr);
+              grid-template-rows: min-content 1fr;
+              background: salmon;
+            }
+          </style>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        body {
+          font-size: 1.125rem;
+          line-height: 1.2;
+          font-family: "Gill Sans", sans-serif;
+        }
+
+        img {
+          margin: 0;
+        }
+
+        h2, p {
+          margin: 0;
+          text-align: left;
+        }
+
+        h2 {
+          font-size: 1.75rem;
+          padding-right: 1rem;
+          padding-top: 1rem;
+        }
+
+        p {
+          font-size: 0.75rem;
+          padding-right: 1rem;
+          padding-bottom: 1rem;
+        }
+
+        .card {
+          border-radius: 1rem;
+          overflow: clip;
+        }
+
+        .card img {
+          grid-column: 1;
+          grid-row: 1 / span 2;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .reveal img {
+          max-height: none;
+        }
+      </style>
+
+      <main>
+        <article class="card">
+          <h2 class="title">Quibusdam, recusandae odio</h2>
+          <p class="description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda recusandae maxime distinctio quos ullam incidunt.
+          </p>
+          <img src="//unsplash.it/501" alt="Random Image 501">
+        </article>
+        <article class="card">
+          <h2 class="title">Omnis, veritatis odio.</h2>
+          <p class="description">
+            Enim molestiae recusandae ut dolor sit amet consectetur adipisicing. Odit possimu
+          </p>
+          <img src="//unsplash.it/502" alt="Random Image 502">
+        </article>
+        <article class="card">
+          <h2 class="title">Cave</h2>
+          <p class="description">
+            Error maiores culpa eaque. Quam quisquam quae nostrum ipsa dolorum atque aperiam fugit soluta error! Lorem ipsum dolor sit amet.
+          </p>
+          <img src="//unsplash.it/503" alt="Random Image 503">
+        </article>
+        <article class="card">
+          <h2 class="title">Extended Title for Misalignment</h2>
+          <p class="description">
+            Corporis laboriosam, neque est commodi architecto voluptatem, ipsam corrupti ullam similique eligendi hic qui natus? Quisquam quam voluptas
+          </p>
+          <img src="//unsplash.it/504" alt="Random Image 504">
+        </article>
+      </main>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
