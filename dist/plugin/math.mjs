@@ -8,7 +8,7 @@ const M = () => {
       { left: "\\(", right: "\\)", display: !1 },
       { left: "\\[", right: "\\]", display: !0 }
     ],
-    ignoredTags: ["script", "noscript", "style", "textarea", "pre"]
+    ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
   };
   const r = (t) => {
     let e = document.createElement("link");
@@ -42,7 +42,7 @@ const M = () => {
     messageStyle: "none",
     tex2jax: {
       inlineMath: [["$", "$"], ["\\(", "\\)"]],
-      skipTags: ["script", "noscript", "style", "textarea", "pre"]
+      skipTags: ["script", "noscript", "style", "textarea", "pre", "code"]
     },
     skipStartupTypeset: !0
   };
@@ -74,7 +74,7 @@ const M = () => {
       inlineMath: [["$", "$"], ["\\(", "\\)"]]
     },
     options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"]
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
     },
     startup: {
       ready: () => {

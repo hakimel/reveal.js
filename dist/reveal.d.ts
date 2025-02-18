@@ -32,10 +32,13 @@ declare interface Config {
     maxScale?: number;
     /**
      * Display presentation control arrows
+     * - true: Display controls in all views
+     * - false: Hide controls in all views
+     * - 'speaker-only': Display controls only in the speaker view
      *
      * @defaultValue true
      */
-    controls?: boolean;
+    controls?: boolean | 'speaker-only';
     /**
      * Help the user learn the controls by providing hints, for example by
      * bouncing the down arrow when they first encounter a vertical slide
