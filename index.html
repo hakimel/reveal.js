@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="plugin/highlight/atom-one-light.css" />
     <style>
       section > h3 {
+        font-size: 2.5rem !important;
         text-align: left;
         display: inline-block;
         position: relative;
@@ -46,7 +47,8 @@
           text-align: left;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
           text-transform: initial;
         }
 
@@ -57,7 +59,6 @@
           code {
             box-sizing: border-box;
             border-radius: 1rem;
-
           }
         }
 
@@ -83,7 +84,6 @@
           flex-grow: 1;
           width: 60%;
           margin: 0;
-
         }
         .fifty-fifty {
           width: 50%;
@@ -144,967 +144,13 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section>
-          <h3>light-dark()</h3>
-
-          <div class="baseline-container">
-            <baseline-status featureId="light-dark"></baseline-status>
-          </div>
-
-          <ul>
-            <li>
-              light-dark() CSS function: Sets two color options based on the
-              user's light or dark mode preference, without needing
-              prefers-color-scheme media queries.
-            </li>
-            <li>
-              User preference detection: Detects system or browser settings for
-              light or dark themes automatically.
-            </li>
-            <li>
-              Usage: Requires color-scheme: light dark; on the :root
-              pseudo-class for proper support.
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>class switching vs light-dark()</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-13,18-19">
-                <style>
-                  :root {
-                    --bg-color: #fff;
-                    --text-color: #000;
-                  }
-                  .dark-mode {
-                    --bg-color: #000;
-                    --text-color: #fff;
-                  }
-                  .container {
-                    background-color: var(--bg-color);
-                    color: var(--text-color);
-                  }
-                </style>
-                <script>
-                  function toggleTheme(mode) {
-                    const container = document.getElementById('containerId');
-                    mode === 'dark' ? container.classList.add("dark-mode") : 
-                      container.classList.remove("dark-mode")
-                  }
-                </script>
-              </code>
-            </pre>
-
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  all: unset;
-                  color: var(--text-color);
-                }
-              </style>
-              <div class="container" id="containerId">
-                <div class="row gap">
-                  <label><input name="mode1" type="radio" onclick="toggleTheme('light');" checked>Light</label>
-                  <label><input name="mode1" type="radio" onclick="toggleTheme('dark');">Dark</label>
-                </div>
-              </div>
-            </script>
-
-            <div class="scene" data-edit></div>
-          </div>
-
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12,15">
-                <style>
-                  :root {
-                    &:has(input[name="mode"][value="l"]:checked) {
-                      color-scheme: light;
-                    }
-                    &:has(input[name="mode"][value="d"]:checked) {
-                      color-scheme: dark;
-                    }
-                  }
-                  .container {
-                    color: light-dark(#000, #fff);
-                    background-color: light-dark(#fff, #000);
-                  }
-                  .circle {
-                    background-color: salmon;
-                  }
-                </style>
-              </code>
-            </pre>
-
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                .circle {
-                  width: 50px;
-                  aspect-ratio: 1 / 1;
-                  margin: 1rem auto;
-                  border-radius: 50%;
-                }
-              </style>
-                      <div class="container">
-                      <div class="circle"></div>
-                        <div class="row gap">
-                          <label><input name="mode" type="radio" value="l" checked>Light</label>
-                          <label><input name="mode" type="radio" value="d">Dark</label>
-                        </div>
-                      </div>
-            </script>
-
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>&lt;popover&gt;</h3>
-
-          <div class="baseline-container">
-            <baseline-status featureId="Popover"></baseline-status>
-          </div>
-
-          <ul>
-            <li>Small overlay window that appears on demand—providing contextual information or interactive options without navigating away from the current page.</li>
-            <li>Often implemented with the HTML <code>&lt;dialog&gt;</code> element.</li>
-          </ul>
-        </section>
-
-        <section id="section3">
-          <h3>&lt;popover&gt;</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="2-5,10-12">
-                <style>
-                  [popover] {
-                    top: 50%;
-                    transform: translateY(-50%) scale(2);
-                  }
-                </style>
-
-                <div class="container">
-                  <button popovertarget="my-popover0">Open Popover</button>
-                  <div id="my-popover0" popover>
-                    <p>I am a Popover</p>
-                  </div>
-                </div>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  font-size: 100%;
-                  padding: 0.75rem;
-                  background: white;
-                  transition-duration: 0.5s;
-                  border: 4px solid plum;
-                  background: lavenderblush;
-                  border-radius: 1rem;
-                  
-                  &:hover,
-                  &:focus {
-                    background: plum;
-                    color: white;
-                  }
-                }
-
-                [popover] {
-                  color: white;
-                  font-weight: 400;
-                  padding: 1rem 1.5rem;
-                  border-radius: 1rem;
-                  max-width: 20ch;
-                  line-height: 1.4;
-                  margin: 0 auto;
-                }
-
-                body {
-                  background: #fcf9fb;
-                  display: grid;
-                  font-size: 1.5rem;
-                  font-family: system-ui, sans-serif;
-                  place-items: center;
-                  height: 100dvh;
-                }
-              </style>
-
-            </script>
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>@starting-style</h3>
-        
-          <div class="baseline-container">
-            <baseline-status featureId="starting-style"></baseline-status>
-          </div>
-        
-          <ul>
-            <li>
-              The <code>@starting-style</code> rule allows styles to be applied at the start of an animation or transition.
-            </li>
-            <li>Specifies how elements should appear before the first frame is rendered.</li>
-          </ul>
-        </section>
-
-        <section id="section-starting-style-popover">
-          <h3>@starting-style</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
-                <style>
-                  [popover] {
-                    top: 50%;
-                    transform: translateY(1000%) scale(2);
-                    transition: all 0.4s ease-in allow-discrete;       
-                  }
-
-                  [popover]:popover-open {
-                    transform: translateY(-50%) scale(2);
-                    @starting-style {
-                        transform: translateY(-1000%) scale(2);
-                    }
-                  }
-                </style>
-
-                <div class="container">
-                  <button popovertarget="my-popover1">Open Popover</button>
-                  <div id="my-popover1" popover>
-                    <p>I am a Popover</p>
-                  </div>
-                </div>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  font-size: 100%;
-                  padding: 0.75rem;
-                  background: white;
-                  transition-duration: 0.5s;
-                  border: 4px solid plum;
-                  background: lavenderblush;
-                  border-radius: 1rem;
-                  
-                  &:hover,
-                  &:focus {
-                    background: plum;
-                    color: white;
-                  }
-                }
-
-                [popover] {
-                  color: white;
-                  font-weight: 400;
-                  padding: 1rem 1.5rem;
-                  border-radius: 1rem;
-                  max-width: 20ch;
-                  line-height: 1.4;
-                  margin: 0 auto;
-                }
-
-                body {
-                  background: #fcf9fb;
-                  display: grid;
-                  font-size: 1.5rem;
-                  font-family: system-ui, sans-serif;
-                  place-items: center;
-                  height: 100dvh;
-                }
-              </style>
-
-            </script>
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>Individual Transform Properties</h3>
-        
-          <div class="baseline-container">
-            <baseline-status featureId="translate"></baseline-status>
-          </div>
-        
-          <ul>
-            <li>
-              Individual transform properties, <code>translate</code>, <code>rotate</code>, and <code>scale</code>, allows transformations separately instead of using the shorthand <code>transform</code> property.
-            </li>
-            <li>
-              Improves performance and enables finer control over individual animations
-            </li>
-          </ul>
-        </section>
-
-        <section id="section6">
-          <h3>Translate Scale Rotate</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
-                <style>
-                  [popover] {
-                    top: 50%;
-                    translate: 0 1000%;
-                    scale: 2;
-                    transition: all 0.4s ease-out allow-discrete;       
-                  }
-
-                  [popover]:popover-open {
-                    translate: 0 -50%;
-                    @starting-style {
-                      translate: 0 -1000%;
-                    }
-                  }
-                </style>
-
-                <div class="container">
-                  <button popovertarget="my-popover2">Open Popover</button>
-                  <div id="my-popover2" popover>
-                    <p>I am a Popover<p>
-                  </div>
-                </div>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                button {
-                  font-size: 100%;
-                  padding: 0.75rem;
-                  background: white;
-                  transition-duration: 0.5s;
-                  border: 4px solid plum;
-                  background: lavenderblush;
-                  border-radius: 1rem;
-                  
-                  &:hover,
-                  &:focus {
-                    background: plum;
-                    color: white;
-                  }
-                }
-
-                [popover] {
-                  color: white;
-                  font-weight: 400;
-                  padding: 1rem 1.5rem;
-                  border-radius: 1rem;
-                  max-width: 20ch;
-                  line-height: 1.4;
-                  margin: 0 auto;
-                }
-
-                body {
-                  background: #fcf9fb;
-                  display: grid;
-                  font-size: 1.5rem;
-                  font-family: system-ui, sans-serif;
-                  place-items: center;
-                  height: 100dvh;
-                }
-              </style>
-
-            </script>
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>Subgrid</h3>
-          
-          <div class="baseline-container">
-            <baseline-status featureId="subgrid"></baseline-status>
-          </div>
-          
-          <ul>
-            <li>
-              The <code>subgrid</code> value allows a child grid to inherit the grid tracks (rows or columns) from its parent grid.
-            </li>
-            <li>
-              It ensures consistent alignment between nested grid elements without duplicating grid definitions in the CSS.
-            </li>
-            <li>
-              Useful for maintaining alignment across components, especially in complex layouts with nested grids.
-            </li>
-            <li>
-              Improves layout consistency and reduces code repetition.
-            </li>
-          </ul>
-        </section>
-        
-
-        <section id="sectiongrid">
-          <h3>Subgrid</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
-                <style>
-                  main {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    grid-template-rows: auto;
-                    gap: 0.5rem;
-                  }
-
-                  .card {
-                    display: grid;
-                    grid-column: span 2;
-                    gap: 1rem;
-                    grid-template-columns: repeat(2, 1fr);
-                    grid-template-rows: min-content 1fr;
-                    background: salmon;
-                  }
-                </style>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                body {
-                  font-size: 1.125rem;
-                  line-height: 1.2;
-                  font-family: "Gill Sans", sans-serif;
-                }
-
-                img {
-                  margin: 0;
-                }
-
-                h2, p {
-                  margin: 0;
-                  text-align: left;
-                }
-
-                h2 {
-                  font-size: 1.75rem;
-                  padding-right: 1rem;
-                  padding-top: 1rem;
-                }
-
-                p {
-                  font-size: 0.75rem;
-                  padding-right: 1rem;
-                  padding-bottom: 1rem;
-                }
-
-                .card {
-                  border-radius: 1rem;
-                  overflow: clip;
-                }
-                  
-                .card img {
-                  grid-column: 1;
-                  grid-row: 1 / span 2;
-                  width: 100%;
-                  height: 100%;
-                  object-fit: cover;
-                }
-
-                .reveal img { 
-                  max-height: none;
-                }
-              </style>
-
-              <main>
-                <article class="card">
-                  <h2 class="title">Quibusdam, recusandae odio</h2>
-                  <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda recusandae maxime distinctio quos ullam incidunt. 
-                  </p>
-                  <img src="//unsplash.it/501" alt="Random Image 501">
-                </article>
-                <article class="card">
-                  <h2 class="title">Omnis, veritatis odio.</h2>
-                  <p class="description">
-                    Enim molestiae recusandae ut dolor sit amet consectetur adipisicing. Odit possimu
-                  </p>
-                  <img src="//unsplash.it/502" alt="Random Image 502">
-                </article>
-                <article class="card">
-                  <h2 class="title">Cave</h2>
-                  <p class="description">
-                    Error maiores culpa eaque. Quam quisquam quae nostrum ipsa dolorum atque aperiam fugit soluta error! Lorem ipsum dolor sit amet.
-                  </p>
-                  <img src="//unsplash.it/503" alt="Random Image 503">
-                </article>
-                <article class="card">
-                  <h2 class="title">Extended Title for Misalignment</h2>
-                  <p class="description">
-                    Corporis laboriosam, neque est commodi architecto voluptatem, ipsam corrupti ullam similique eligendi hic qui natus? Quisquam quam voluptas 
-                  </p>
-                  <img src="//unsplash.it/504" alt="Random Image 504">
-                </article>
-              </main>
-
-
-            </script>
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section>
-          <h3>Content Visibility</h3>
-          
-          <div class="baseline-container">
-            <baseline-status featureId="content-visibi"></baseline-status>
-          </div>
-          
-          <ul>
-            <li>
-              The <code>subgrid</code> value allows a child grid to inherit the grid tracks (rows or columns) from its parent grid.
-            </li>
-            <li>
-              It ensures consistent alignment between nested grid elements without duplicating grid definitions in the CSS.
-            </li>
-            <li>
-              Useful for maintaining alignment across components, especially in complex layouts with nested grids.
-            </li>
-            <li>
-              Improves layout consistency and reduces code repetition.
-            </li>
-          </ul>
-        </section>
-        <section id="section-content-visibility">
-          <h3>Content Visibility</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
-                <style>
-                .with-cv {
-                  background-color: #444;
-                  content-visibility: auto;
-                }
-                </style>
-              </code>
-            </pre>
-        
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                main {
-                  max-height: 500px;
-                  overflow-y: scroll;
-                  color: white;
-                }
-                p {
-                  color: white;
-                }
-                .section {
-                  padding: 10px;
-                  overflow: auto;
-                }
-                .no-cv {
-                  background-color: #222;
-                  margin-bottom: 150rem;
-                }
-
-                .section h2 {
-                  color: #fff;
-                  text-align: center;
-                  margin-bottom: 10px;
-                }
-                .heavy {
-                  display: grid;
-                  grid-template-columns: repeat(20, 1fr);
-                  gap: 2px;
-                }
-                .heavy div {
-                  background: linear-gradient(45deg, #e74c3c, #f1c40f, #3498db);
-                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-                  border-radius: 3px;
-                  width: 100%;
-                  padding-bottom: 100%;
-                  transition: transform 0.3s ease;
-                  filter: contrast(1.2) brightness(1.1);
-                }
-                .heavy div:hover {
-                  transform: scale(1.1);
-                }
-              </style>
-
-              <main>
-                <button id="" onclick="generateBoxes();">Generate Boxes</button>
-
-                <div class="section no-cv">
-                  <p>Without content-visibility</p>
-                  <div class="heavy" id="heavy-no-cv"></div>
-                </div>
-              
-                <div class="section with-cv">
-                  <p>With content-visibility: auto</p>
-                  <div class="heavy" id="heavy-with-cv"></div>
-                </div>
-              </main>
-            </script>
-            
-            <div class="scene" data-edit></div>
-          </div>
-          <script>
-            function generateHeavyContent(containerId, count) {
-              console.log('container id: ', containerId);
-              const container = document.getElementById(containerId);
-
-              console.log('container: ', container);
-              let html = '';
-              for (let i = 0; i < count; i++) {
-                html += '<div></div>';
-              }
-              container.innerHTML = html;
-            }
-
-            function generateBoxes() {
-              generateHeavyContent('heavy-no-cv', 400);
-              generateHeavyContent('heavy-with-cv', 8000);
-            }
-          </script>
-        </section>
-        <!-- Highlight how container queries DOES NOT WORK on the selected content itself -->
-        <section id="section-container-queries">
-          <h3>Container Queries</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block forty-sixty">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
-                <style>
-                @container card (max-width: 150px) {
-                  .card {
-                    justify-content: center;
-                    height: unset;
-                    position: relative;
-                  }
-                  .card-image { height: 4rem; }
-                  .card-content {
-                    position: absolute;
-
-                    & h4 { color: white; }
-                    & p { display: none; }
-                  }
-                }
-
-                @container card (max-width: 399px) and (min-width: 150px) {
-                  .card {
-                    flex-direction: column;
-                    height: unset;
-                  }
-                  .card-image {
-                    height: 6rem;
-                    width: 100%;
-
-                    & img { width: 100%; }
-                  }
-                  .card-content { text-align: center; }
-                }
-                </style>
-              </code>
-            </pre>
-
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                .demo-wrapper {
-                  padding: 1rem;
-                }
-
-                h4 {
-                  font-size: 1.5rem;
-                  text-transform: unset;
-                  margin: 0;
-                }
-
-                .resizable {
-                  resize: both;
-                  overflow: auto;
-                  border: 2px dashed #ccc;
-                  padding: 1rem;
-                  background: #fff;
-                  margin: 0 auto 1rem;
-                }
-
-                .row {
-                  display: flex;
-                  gap: 1rem;
-                  margin-bottom: 1rem;
-                }
-
-                .card-container {
-                  container-type: inline-size;
-                  container-name: card;
-                  width: 100%;
-                }
-
-                .card {
-                  background: #fff;
-                  border: 1px solid #ddd;
-                  border-radius: 8px;
-                  overflow: hidden;
-                  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-                  transition: all 0.3s ease;
-                  
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  width: 100%;
-                  height: 12rem;
-                }
-
-                .card-image {
-                  height: 100%;
-                }
-          
-                .card-image img {
-                  width: 200px;
-                  height: 100%;
-                  object-fit: cover;
-                  margin: 0;
-                }
-
-                .card-content {
-                  padding: 1rem;
-                  text-align: left;
-
-                  & p {
-                    font-size: 1rem;
-                  }
-                }
-              </style>
-              <div class="demo-wrapper">
-                <div class="resizable">
-                  
-                  <div class="row row-single">
-                    <div class="card-container">
-                      <div class="card">
-                        <!-- <p class="width-text"></p> -->
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="row row-triple">
-                    <div class="card-container">
-                      <div class="card">
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-container">
-                      <div class="card">
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-container">
-                      <div class="card">
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/4/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
-            </script>
-        
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
-
-        <section id="section-container-queries-2">
-          <h3>Container Queries</h3>
-          <div class="slide-container">
-            <pre class="visible-code-block forty-sixty">
-              <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
-                <style>
-                @media (max-width: 1200px) {
-                  .card {
-                    justify-content: center;
-                    height: unset;
-                    position: relative;
-                  }
-                  .card-image {
-                    height: 4rem;
-                    width: 100%;
-
-                    & img { width: 100% }
-                  }
-                  .card-content {
-                    position: absolute;
-
-                    & h4 { color: white; }
-                    & p { display: none; }
-                  }
-                }
-
-                @media (min-width: 1200px) and (max-width: 1800px) {
-                  .card {
-                    flex-direction: column;
-                    height: unset;
-                  }
-                  .card-image {
-                    height: 6rem;
-                    width: 100%;
-
-                    & img { width: 100% }
-                  }
-                  .card-content {
-                    text-align: center;
-                  }
-                }
-                </style>
-              </code>
-            </pre>
-
-            <script type="text/template" class="hidden-code-block">
-              <style>
-                .demo-wrapper {
-                  padding: 1rem;
-                }
-
-                h4 {
-                  font-size: 1.5rem;
-                  text-transform: unset;
-                  margin: 0;
-                }
-
-                .resizable {
-                  resize: both;
-                  overflow: auto;
-                  border: 2px dashed #ccc;
-                  padding: 1rem;
-                  background: #fff;
-                  margin: 0 auto 1rem;
-                }
-
-                .row {
-                  display: flex;
-                  gap: 1rem;
-                  margin-bottom: 1rem;
-                }
-
-                .card-container {
-                  container-type: inline-size;
-                  container-name: card;
-                  width: 100%;
-                }
-
-                .card {
-                  background: #fff;
-                  border: 1px solid #ddd;
-                  border-radius: 8px;
-                  overflow: hidden;
-                  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-                  transition: all 0.3s ease;
-                  
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  width: 100%;
-                  height: 12rem;
-                }
-
-                .card-image {
-                  height: 100%;
-                }
-          
-                .card-image img {
-                  width: 200px;
-                  height: 100%;
-                  object-fit: cover;
-                  margin: 0;
-                }
-
-                .card-content {
-                  padding: 1rem;
-                  text-align: left;
-
-                  & p {
-                    font-size: 1rem;
-                  }
-                }
-              </style>
-              <div class="demo-wrapper">
-                <div class="resizable">
-                  
-                  <div class="row row-single">
-                    <div class="card-container">
-                      <div class="card">
-                        <!-- <p class="width-text"></p> -->
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="row row-triple">
-                    <div class="card-container">
-                      <div class="card">
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-container">
-                      <div class="card">
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="card-container">
-                      <div class="card">
-                        <div class="card-image">
-                          <img src="https://picsum.photos/seed/4/600/400" alt="Card Image">
-                        </div>
-                        <div class="card-content">
-                          <h4>Card Title</h4>
-                          <p>This card adapts based on its container width.</p>
-                        </div>
-                      </div>
-                    </div> -->
-                  </div>
-                  
-                </div>
-              </div>
-            </script>
-        
-            <div class="scene" data-edit></div>
-          </div>
-        </section>
+        <section data-external="slides/lightDark.html"></section>
+        <section data-external="slides/popover.html"></section>
+        <section data-external="slides/startingStyle.html"></section>
+        <section data-external="slides/individualTransform.html"></section>
+        <section data-external="slides/subgrid.html"></section>
+        <section data-external="slides/contentVisibility.html"></section>
+        <section data-external="slides/containerQueries.html"></section>
       </div>
     </div>
 
@@ -1112,8 +158,10 @@
     <script src="plugin/notes/notes.js"></script>
     <script src="plugin/markdown/markdown.js"></script>
     <script src="plugin/highlight/highlight.js"></script>
+    <!-- <script src="plugin/external/external.js"></script> -->
     <script type="module">
       import Editor from "./plugin/editor/editor.esm.js";
+      import External from "./plugin/external/external.js";
 
       function wrapRootInScope(rootBlock, scope) {
         const rootContentRegex = /:root\s*\{([\s\S]*)\}\s*$/;
@@ -1168,7 +216,7 @@
               .split(",")
               .map((sel) => {
                 let trimmed = sel.trim();
-                console.log('scope: ', scope, ' trimmerD: ', trimmed);
+                console.log("scope: ", scope, " trimmerD: ", trimmed);
                 if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
                   return trimmed;
                 }
@@ -1188,19 +236,19 @@
         const lines = cssText.split("\n");
         let output = "";
         let skipMode = false; // when true, we skip lines that start with '@'
-        
+
         for (let i = 0; i < lines.length; i++) {
           let line = lines[i];
           let trimmed = line.trim();
-          
+
           // If the line starts with an at‑rule, output it as-is and enter skipMode.
           if (trimmed.startsWith("@")) {
             output += line + "\n";
             skipMode = true;
             continue;
           }
-          
-          // If we're in skipMode, we want to look for a line that contains a "{" 
+
+          // If we're in skipMode, we want to look for a line that contains a "{"
           // and does NOT start with "@". That indicates the beginning of a "normal" rule.
           if (skipMode) {
             if (line.indexOf("{") !== -1 && !trimmed.startsWith("@")) {
@@ -1237,20 +285,27 @@
       function scopeCSS(cssText, scope) {
         // Use the 'm' (multiline) flag so the regex works line‐by‐line
         const cssRuleRegex = /([^{}]+?)\s*\{([^{}]*?)\}/gm;
-        return cssText.replace(cssRuleRegex, (match, selectors, declarations) => {
-          const scopedSelectors = selectors
-            .split(",")
-            .map((sel) => {
-              let trimmed = sel.trim();
-              // If the selector starts with "@" (an at‑rule) or already starts with our scope, skip scoping.
-              if (trimmed.startsWith("@") || trimmed.startsWith(scope) || /^[\d\.%]+$/.test(trimmed)) {
-                return trimmed;
-              }
-              return scope + " " + trimmed;
-            })
-            .join(", ");
-          return scopedSelectors + " {" + declarations + "}";
-        });
+        return cssText.replace(
+          cssRuleRegex,
+          (match, selectors, declarations) => {
+            const scopedSelectors = selectors
+              .split(",")
+              .map((sel) => {
+                let trimmed = sel.trim();
+                // If the selector starts with "@" (an at‑rule) or already starts with our scope, skip scoping.
+                if (
+                  trimmed.startsWith("@") ||
+                  trimmed.startsWith(scope) ||
+                  /^[\d\.%]+$/.test(trimmed)
+                ) {
+                  return trimmed;
+                }
+                return scope + " " + trimmed;
+              })
+              .join(", ");
+            return scopedSelectors + " {" + declarations + "}";
+          }
+        );
       }
 
       // More info about initialization & config:
@@ -1262,7 +317,13 @@
           highlightOnLoad: false,
         },
         // Learn about plugins: https://revealjs.com/plugins/
-        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, Editor],
+        plugins: [
+          External,
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          Editor,
+        ],
       });
 
       Reveal.on("slidechanged", (event) => {
@@ -1281,6 +342,7 @@
             container.id = "slide-container-" + (index + 1);
           }
           const containerScope = `#${container.id}`;
+          console.log("containerScope", container.parentNode);
           const codeBlock = container.querySelector(".code-block");
           const hiddenCodeBlock = container.querySelector(".hidden-code-block");
           const dataEditDiv = container.querySelector("[data-edit]");
@@ -1294,36 +356,29 @@
               const hiddenContent = hiddenCodeBlock
                 ? hiddenCodeBlock.textContent
                 : "";
-              // let combinedContent = visibleContent + "\n" + hiddenContent;
+
               let combinedContent = hiddenContent + "\n" + visibleContent;
 
               combinedContent = combinedContent.replace(
                 /<style>([\s\S]*?)<\/style>/gi,
                 (match, cssContent) => {
-                  // console.log('====================================')
-                  // console.log('match combined: ', match);
-                  // console.log('cssContent: ', cssContent);
                   const { rootBlock, cssWithoutRoot } =
                     extractRootBlock(cssContent);
                   const processedNonRoot = scopeCSSSkipAt(
                     cssWithoutRoot,
                     containerScope
                   );
-                  // console.log('css without root: ', cssWithoutRoot)
-                  // const processedNonRoot = scopeCSS2(
-                  //   cssWithoutRoot,
-                  //   containerScope
-                  // );
+
                   const processedRoot = rootBlock
                     ? wrapRootInScope(rootBlock, containerScope)
                     : "";
 
-                  // console.log('ENDING!!!: ', `<style>${processedRoot}${processedNonRoot}</style>`)
                   return `<style>${processedRoot}${processedNonRoot}</style>`;
                 }
               );
 
               dataEditDiv.innerHTML = combinedContent;
+              runInjectedScripts(container.parentNode);
             };
 
             updateDataEdit();
@@ -1376,6 +431,22 @@
           traverseNodes(element);
           selection.removeAllRanges();
           selection.addRange(range);
+        }
+
+        function runInjectedScripts(container) {
+          console.log("container: ", container);
+          const scripts = container.querySelectorAll("script");
+
+          console.log("scripts: ", scripts);
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement("script");
+            // Copy attributes from the old script (like type, src, etc.)
+            Array.from(oldScript.attributes).forEach((attr) => {
+              newScript.setAttribute(attr.name, attr.value);
+            });
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
         }
       });
     </script>
