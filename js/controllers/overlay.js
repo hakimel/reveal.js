@@ -49,7 +49,7 @@ export default class Overlay {
 		this.viewport.classList.add( 'r-overlay-viewport' );
 
 		this.dom.appendChild( this.viewport );
-		this.Reveal.getViewportElement().appendChild( this.dom );
+		this.Reveal.getRevealElement().appendChild( this.dom );
 
 	}
 
@@ -90,6 +90,8 @@ export default class Overlay {
 		this.dom.querySelector( '.r-overlay-external' ).addEventListener( 'click', event => {
 			this.close();
 		}, false );
+
+		this.Reveal.dispatchEvent({ type: 'showiframepreview', data: { url } });
 
 	}
 
@@ -178,6 +180,8 @@ export default class Overlay {
 			event.preventDefault();
 		}, false );
 
+		this.Reveal.dispatchEvent({ type: 'showmediapreview', data: { mediaType, url, trigger } });
+
 	}
 
 	/**
@@ -245,6 +249,8 @@ export default class Overlay {
 				this.close();
 				event.preventDefault();
 			}, false );
+
+			this.Reveal.dispatchEvent({ type: 'showhelp' });
 
 		}
 
