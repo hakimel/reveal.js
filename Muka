@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Презентация о муке</title>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Мука</h2>
+                <p>Основной продукт для выпечки</p>
+            </section>
+            <section>
+                <h2>Виды муки</h2>
+                <ul>
+                    <li>Пшеничная</li>
+                    <li>Ржаная</li>
+                    <li>Кукурузная</li>
+                    <li>Миндальная</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Как получают муку?</h2>
+                <p>Процесс включает в себя помол зёрен и очистку.</p>
+            </section>
+            <section>
+                <h2>Использование муки</h2>
+                <p>Мука используется для хлеба, тортов, макарон и многого другого.</p>
+            </section>
+            <section>
+                <h2>Спасибо за внимание!</h2>
+            </section>
+        </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+</html>
