@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'League Gothic';
+    src: url('./league-gothic.woff') format('woff');
+
+    font-weight: normal;
+    font-style: normal;
+}
