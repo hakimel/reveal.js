@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Redes de comunicación industrial</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/league.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<link rel="stylesheet" href="dist/theme/night.css">
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+
+	<script src="plugin/math/math.js"></script>
+
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema:</h4>
+	<h2>Comunicaciones y redes de computadoras</h2>
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>
+
+<section>
+	<section>
+	<h1>Introducción</h1>
+	</section>
+	<section>
+		<p>En torno a los años 70 y 80 se produjo una sinergia entre los campos de las <mark>computadoras</mark> y  las <mark>comunicaciones</mark>, que ha desencadenado un <b>cambio drástico en las tecnologías.</b></p>
+	</section>
+	<section>
+		<p><strong>La revolución antes mencionada ha producido los siguientes hechos significativo</strong></p>
+			<ul>
+				<li class="fragment">No hay grandes diferencias entre el procesamiento de datos (computadoras) y las comunicaciones de datos (la t ransmisión y los sistemas de comunicación)</li>
+				<li class="fragment">No hay diferencias fundamentales entre las transmisión de <em>datos de voz o vídeo.</em></li>
+				<li class="fragment">Las fronteras entres las computadoras monoprocesador y multiprocesador así como entre redes de área local, metropolinanas y deárea amplia son cada vez más difusas.</li>
+			</ul>
+	</section>
+</section>
+				<section data-markdown
+				data-separator="^---"
+				data-separator-vertical="^\n"
+				data-separator-notes="^Note:">
+				<textarea data-template>
+# Un modelo para las comunicaciones
+
+El objetivo principal de todo sistema de comunicaciones es intercambiar información entre dos entidades.
+
+Modelo simplificado para las telecomunicaciones</br></br></br>
+[![](fig1.1.svg)](https://excalidraw.com/#json=QfqPsGL-xycwcHWywraqb,mauR0KDrVaEc4TWdTiiL6g)
+
+Ejemplo de comunicacón entre una estación de trabajo y un servidor de una red telefónica pública.
+[![](fig1.1b.svg)](https://excalidraw.com/#json=F2lEXbaeqJpNSO6hsz6V6,vXLXVyqnGMoa6AxOYWH3Ng)
+
+Los elementos claves de este modelo son los siguientes:
+
+| | |
+|-|-|
+|La fuente|Este dispositivo genera los datos a transmitir (teléfonos o PCs)
+|El transmisor|El transmisor transforma y codifica la información, generando señales electromagnéticas susceptibles de ser transmitidas a través de algún sistema de transmisión.|
+|El sistema de transmisión|Puede ser desde una sencilla línea de transmisión hasta una compleja red que conecte a la fuente con el destino|
+
+| | |
+|-|-|
+|El receptor|Acepta la señal proveniente del sistema de transmisión y la transforma de tal manera que pueda ser manejada por el dispositivo de destino.|
+|El destino|Toma los datos del receptor.|
+
+[![Tabla](tabla1.1.svg)](https://excalidraw.com/#json=mz9dfXyKw76GguVpVwpqq,cC0VuYEahCktcH67JhsJVA)
+---
+# Comunicaciones de datos
+
+Modelo simplificado para las comunicaciones de datos
+![Modelo simplificado para las comunicaciones de datos](fig1.2.svg)
+
+Para explicar estos conceptos se explica con un ejemplo de la aplicación de correo electrónico.
+
+<iframe data-src="ejemplo.html" height="600px" width="90%"></iframe>
+				</textarea>
+				</section>
+<section data-markdown
+	data-separator="^---"
+	data-separator-vertical="^\n"
+	data-separator-notes="^Nota:">
+<textarea data-template>
+# Comunicación de datos a través de redes 
+
+A veces no es práctico que dos dispositvos de comunicaciones se conecten directamente mediante un enlace punto a punto.
+
+Esto es debido a que alguna (o las dos) de las siguientes circunstancias:
+
+- <span style="color:limegreen">**Los dispositivos están muy alejados**</span>. En este caso no estaría justificado, por ejemplo, utilizar un enlace dedicado entre cada dos dispositivos, que puedan estar separados por miles de kilómetros.
+
+- <span style="color:limegreen">**Hay un conjunto de dispositivos que necesitan conectarse entre ellos en instantes de tiempo diferentes.**</span> Un ejemplo de esta necesida es la red telefónica mundial, o el conjunto de computadoras pertenecientes a una compañía. Salvo el caso de que el número de dispositivos sea pequeño, no es práctico utilizar un enlace entre cada dos.
+
+La solución a este problema es conectar cada dispositivo a una <mark>RED DE COMUNICACIÓN</mark>.
+
+La Figura relaciona este concepto dentro del modelo de comunicaciones original.
+![](fig1.3.svg)
+
+Sugiere dos grandes categorías en las que se clasifican tradicionalmente las redes:
+1. Redes de área amplia (WAN, Wide Area Networks)
+2. Redes de área local (LAN, Local Area Networks).
+
+Recientemente, las diferencias entre estas dos categorías son cada vez más difusas, tanto en términos tecnológicos como de posibles aplicaciones; no obstante, es una forma natural y didáctica de organizar su estudio, por lo que aquí se adoptará dicha clasificación.
+---
+# REDES DE ÁREA AMPLIA
+## (WAN)
+
+Generalmente, se considera como redes de área amplia a todas aquellas que cubren una extensa área geográfica, requieren atravesar rutas de acceso público, y utilizan parcialmente circuitos proporcionados por una entidad proveedora de servicios de telecomunicación.
+
+Típicamente, <mark>una WAN consiste en una serie de dispositivos de conmutación interconectados</mark>. La transmisión generada por cualquier dispositivo se encaminará a través de estos nodos internos hasta alcanzar el destino. 
+
+A estos nodos (incluyendo a los situados en los contornos) no les concierne el contenido de los datos, al contrario, su función es proporcionar el servicio de conmutación, necesario para transmitir los datos de nodo en nodo hasta alcanzar su destino final.
+
+Tradicionalmente, las WAN se han implementando usando una de las dos tecnologías siguientes:
+- conmutación de circuitos y
+- conmutación de paquetes.
+
+Aunque últimamente, se está empleando como solución la técnica de retransmisión de tramas («frame relay»), así como las redes ATM.
+
+## Conmutación de circuitos
+![](conmuta.png)
+
+En las redes de conmutación de circuitos se establece a través de los nodos de la red un camino dedicado a la interconexión de dos estaciones. El camino es una secuencia conectada de enlaces físicos entre nodos. En cada enlace, se dedica un canal lógico a cada conexión. 
+
+Los datos generados por la estación fuente se transmiten por el camino dedicado tan rápido como se pueda. En cada nodo, los datos de entrada se encaminan o conmutan por el canal apropiado de salida sin retardos. El ejemplo más ilustrativo de la conmutación de circuitos es la red telefónica.
+
+## Conmutación de paquetes
+![](paquetes.gif)
+
+Un enfoque diferente al anterior es el adoptado en redes de conmutación de paquetes. En este caso, no es necesario hacer una reserva a priori de recursos (capacidad de transmisión) en el camino (o sucesión de nodos). Por el contrario, los datos se envían en secuencias de pequeñas unidades llamadas paquetes. Cada paquete se pasa de nodo a nodo en la red siguiendo algún camino entre la estación origen y la destino.
+
+En cada nodo, el paquete se recibe completamente, se almacena durante un intervalo breve y posteriormente se transmite al siguiente nodo. Las redes de conmutación de paquetes se usan fundamentalmente para comunicaciones terminal-computador y computador-computador.
+
+## Retransmisión de tramas (Frame Relay)
+![](framerelay.png)
+
+La conmutación de paquetes se desarrolló en la época en la que los servicios de transmisión a larga distancia sufrían una tasa de error relativamente elevada, comparada con los servicios de los que se dispone actualmente.
+
+Por tanto, para compensar esos errores relativamente frecuentes, en los esquemas de conmutación de paquetes se realiza un esfuerzo considerable, que se traduce en añadir información redundante en cada paquete, así como la realización de un procesamiento extra, tanto en el destino final como en los nodos intermedios de conmutación, necesario para detectar los errores y en su caso, corregirlos.
+
+Ahora bien, con los modernos sistemas de comunicaciones de alta velocidad, este esfuerzo adicional es innecesario y contraproducente. Es innecesario ya que la tasa de errores se ha reducido drásticamente y los escasos errores que aparecen se pueden tratar en el sistema final mediante dispositivos que operan por encima del nivel de la lógica dedicada a la conmutación de paquetes. A su vez es contraproducente ya que los bits redundantes significan un desperdicio de parte de la capacidad proporcionada por la red.
+
+La retransmisión de tramas (frame relay) se ha desarrollado teniendo presente las mayores velocidades de transmisión que actualmente se disponen, así como de las bajas tasas de error. Mientras que las redes originales de conmutación de paquetes se diseñaron para ofrecer una velocidad de transmisión al usuario final de 64 kbps, las redes «frame relay» están diseñadas para operar eficazmente a velocidades de transmisión de usuario de 2 Mbps. La clave para conseguir estas velocidades reside en eliminar la mayor parte de la información redundante y el procesamiento asociado para el control de errores.
+
+## ATM
+![](atm_network.gif)
+
+El Modo de Transferencia Asíncrono (ATM, Asynchronous Transfer Mode), a veces denominado como modo de retransmisión de celdas (cell relay), es la culminación de todos los desarrollos en conmutación de circuitos y conmutación de paquetes realizados durante los últimos 25 años.
+
+ATM se puede interpretar como una evolución de la retransmisión de tramas (frame relay). La diferencia más obvia entre frame relay y ATM es que frame relay usa paquetes de longitud variable, llamados tramas, y ATM usa paquetes de longitud fija denominadas celdas. 
+
+Al igual que en frame relay, ATM introduce poca información adicional para el control de errores, confiando en la inherente robustez del medio de transmisión así como en la lógica adicional localizada en el sistema destino para detectar y corregir errores. 
+
+Al utilizar paquetes de longitud fija, el esfuerzo adicional de procesamiento se reduce incluso todavía más aquí que en frame relay. El resultado es que ATM se ha diseñado para trabajar a velocidades de transmisión del orden de 10 a 100 Mbps, e incluso del orden de Gbps.
+
+ATM se puede considerar a su vez como una evolución de la conmutación de circuitos. En la conmutación de circuitos, se dispone solamente de circuitos a velocidad fija de transmisión entre los sistemas finales. 
+
+ATM permite la definición de múltiples canales virtuales con velocidades de transmisión que se definen dinámicamente en el instante en que el canal virtual se crea. 
+
+Mediante la utilización de celdas de tamaño fijo, ATM es tan eficaz que puede ofrecer un canal a velocidad de transmisión constante aunque esté usando una técnica de conmutación de paquetes. 
+
+Por lo tanto, ATM es una ampliación de la conmutación de circuitos en la que se ofrecen varios canales, en los que la velocidad de transmisión para cada canal se fija dinámicamente según las necesidades.
+
+## RDSI y RDSI de banda ancha
+![](RDSI.png)
+
+La sinergia y evolución entre las comunicaciones y las tecnologías de la computación, junto con la creciente demanda de servicios eficaces de captación, procesamiento y diseminación de la información, está desembocando en el desarrollo de sistemas integrados que transmiten y procesan todo tipo de datos. Una consecuencia significativa de esta tendencia ha sido el desarrollo de la Red Digital de Servicios Integrados (RDSI).
+
+La RDSI se ha diseñado para sustituir a las redes públicas de telecomunicaciones existentes, proporcionando una gran variedad de servicios. 
+
+La RDSI se define mediante la estandarización de las interfaces de usuario, y se ha implementado como un conjunto de conmutadores digitales y enlaces que proporcionan una gran variedad de tipos de tráfico, a la vez que servicios de valor añadido. 
+
+En la práctica, se trata de múltiples redes, implementadas dentro de los límites nacionales, pero desde el punto de vista del usuario se considera como una única red mundial, uniformemente accesible.
+
+A pesar de que la RDSI tiene todavía que conseguir la cobertura mundial para la que fue diseñada, está ya en su segunda generación. La primera generación, a veces denominada como RDSI de banda estrecha, se basa en el uso de canales de 64 kbps como unidad básica de conmutación, presentando una clara orientación hacia la conmutación de circuitos. 
+
+Técnicamente hablando, la principal contribución de la RDSI de banda estrecha ha sido el «frame relay». La segunda generación, denominada RDSI de banda ancha, proporciona velocidades de transmisión muy elevadas (cientos de Mbps) y tiene una clara orientación hacia la conmutación de paquetes. 
+
+La contribución técnica principal de la RDSI de banda ancha ha sido el modo de transferencia asíncrono (ATM), también denominado retransmisión de celdas cell relay.
+</textarea>
+</section>
+
+<section>
+	<section>
+		<h1>Comparacion</h1>
+	</section>
+	<section>
+<div class="r-stack justify-center">
+  <img
+    class="fragment current-visible"
+    data-fragment-index="0"
+    src="comp_a.svg"
+  />
+  <img
+    class="fragment current-visible"
+    data-fragment-index="1"
+    src="comp_b.svg"
+  />
+  <img
+    class="fragment current-visible"
+    data-fragment-index="2"
+    src="comp_c.svg"
+  />
+</div>
+	</section>
+
+</section>
+<section data-markdown
+	data-separator="^---"
+	data-separator-vertical="^\n"
+	data-separator-notes="^Nota:">
+<textarea data-template>
+# REDES DE ÁREA LOCAL
+
+Al igual que las redes de área amplia, una red de área local es una red de comunicaciones que interconecta varios dispositivos y proporciona un medio para, el intercambio de información entre ellos. No obstante, hay algunas diferencias entre las LAN y las WAN que se enumeran a continuación:
+
+1. La cobertura de una LAN es pequeña, típicamente un edificio o como mucho un conjunto de edificios próximos. Como se verá más adelante, esta diferencia en cuanto a la cobertura geográfica, condicionará la solución técnica finalmente adoptada.
+
+2. Es común que la LAN sea propiedad de la misma entidad que es propietaria de los dispositivos conectados a la red. En WAN, esto no es tan corriente, o al menos una fracción significativa de recursos de la red son ajenos. Esto tiene dos implicaciones. La primera es que se debe cuidar mucho la elección de la LAN, ya que evidentemente, lleva acarreado una inversión substancial de capital (comparado con los gastos de conexión o alquiler de líneas en redes de área amplia) tanto en la adquisición como en el mantenimiento. Segunda, la responsabilidad de la gestión de la red local recae solamente en el usuario.
+
+3. Las velocida des de transmisión internas en una LAN son mucho mayores.
+
+- Tradicionalmente, en LAN se utiliza la difusión en lugar de utilizar técnicas de conmutación.
+
+- En una red de difusión, no hay nodos intermedios.
+- En cada estación hay un transmisor/receptor que se comunica con las otras estaciones a través de un medio compartido.
+- Una transmisión desde cualquier estación se recibirá por todas las otras estaciones. 
+
+- Los datos se transmiten en forma de paquetes. Debido a que el medio es compartido, una y sólo una estación en cada instante de tiempo podrá transmitir el paquete. Más recientemente, la conmutación también se está utilizando en LAN, fundamentalmente en LAN tipo Ethernet. Otros dos ejemplos de especial relevancia son las LAN ATM, en las que se usa una red ATM como una red de área local, así como los Canales de Fibra. 
+---
+# Protocolos y arquitectura de protocolos
+
+Considérese, por ejemplo, la transferencia de un fichero entre dos computadores. En este caso, debe haber un camino entre los dos computadores, directo o a través de un red de comunicación, pero además, típicamente se requiere la realización de las siguientes tareas adicionales:
+
+1. El sistema fuente de información debe activar el camino directo de datos, o bien debe proporcionar a la red de comunicación la identificación del sistema destino deseado.
+
+2. El sistema fuente debe asegurarse de que el destino está preparado para recibir datos.
+
+3. La aplicación de transferencia de fichero en el origen debe asegurarse de que el programa gestor en el destino está preparado para aceptar y almacenar el fichero para el usuario determinado.
+
+4. Si los formatos de los dos ficheros son incompatibles entre ambos sistemas, uno de los dos deberá realizar una operación de adecuación.
+
+Al intercambio de información entre computadores con el propósito de cooperar se le denomina <mark>comunicación entre computadores</mark>.
+
+De igual manera, al conjunto de computadores que se interconectan a través de una red de comunicaciones, se les denomina <mark>red de computadores</mark>. Estos términos se extienden igualmente a cuando alguna de las partes es un terminal, ya xque el grado de cooperación en este caso es similar.
+
+En el estudio de las comunicaciones entre computadores y las redes de computadores, son especialmente relevantes los dos conceptos siguientes:
+- Los protocolos.
+- Las arquitecturas para comunicaciones entre computadores.
+
+### Nota
+Para la comunicación entre dos entidades situadas en sistemas diferentes es necesario la definición y utilización de un protocolo. 
+
+Nótese que los términos «entidad» y «sistema» se están usando en un sentido muy general. 
+
+#### <span style="color:red">Ejemplos de entidades son:</span>
+los programas de aplicación de los usuarios, las utilidades para transferencia de ficheros, los sistemas de gestión de bases de datos, así como los gestores de correo electrónico y terminales. 
+
+#### <span style="color:red">Ejemplos de sistemas son:</span>
+Los computadores, los terminales y los sensores remotos. 
+
+Nótese que en algunos casos la entidad y el sistema en el que se ubica son coincidentes (por ejemplo los terminales). En general, una entidad es cualquier cosa capaz de enviar y recibir información, y un sistema es un objeto físico que contiene a una o más entidades. 
+
+Para que dos entidades se comuniquen con éxito, se requiere que «hablen el mismo idioma». Qué se comunica, cómo se comunica, y cuándo se comunica debe seguir una serie de convenciones mutuamente aceptadas por las entidades involucradas. 
+
+<mark>Este conjunto de convenios se denominan protocolos</mark>, que se pueden definir como el conjunto de reglas que gobiernan el intercambio de datos entre dos entidades. Los puntos clave que definen o caracterizan a un protocolo son:
+
+- La sintaxis: incluye aspectos tales como el formato de los datos y los niveles de señal.
+- La semántica: incluye información de control para la coordinación y el manejo de errores.
+- La temporización: incluye la sintonización de velocidades y secuenciación.
+
+Tras haber introducido el concepto de protocolo, se está en disposición de definir el concepto de arquitectura para las comunicaciones entre computadores.
+
+Es claro que debe haber un grado alto de cooperación entre los computadores. En lugar de implementar toda la lógica para llevar a cabo la comunicación en un único módulo, dicha tarea se divide en subtareas, cada una de las cuales se realiza por separado. 
+
+A modo de ejemplo, la Figura muestra cómo empleando tres módulos, se podría implementar una aplicación de transferencia de fichero.
+
+![](fig1.4.svg)
+
+Las tareas 3 y 4 de la lista anterior se podrían realizar por el módulo de transferencia de ficheros. Los dos módulos en ambos sistemas intercambian ficheros y órdenes.
+
+Sin embargo, en vez de exigir que el módulo de transferencia se encargue de los detalles con los que se realiza el envío de datos y órdenes, dichos módulos delegan en los módulos de servicio de comunicaciones. 
+
+Éste se encargará de asegurar que el intercambio de órdenes y datos se realice fiablemente. Entre otras cosas, este módulo realizará la tarea 2. Por lo que a partir de este momento, la naturaleza del intercambio entre los sistemas será independiente de la naturaleza de la red que los interconecta. 
+
+Por lo tanto, en vez de implementar la interfaz de red en el módulo de servicio de comunicaciones, tiene sentido prever un módulo adicional de acceso a la red que lleve a cabo la tarea 1.
+
+Resumiendo, de los tres módulos de la Figura 
+![](fig1.4.svg)
+
+el módulo de transferencia de fichero contiene toda la lógica que es exclusiva de la aplicación para la transferencia de ficheros, tal como la transmisión de una palabra clave, órdenes de fichero, y registros del fichero. Se necesita que esta información se transmita de una forma segura. Sin embargo, esta necesidad de seguridad es compartida por otro tipo de aplicaciones (por ejemplo, el correo electrónico y la transferencia de documentos). 
+
+Por tanto, estos requerimientos se localizan en el módulo separado de servicio de comunicaciones de tal forma que puedan ser utilizados por otras aplicaciones. 
+
+El módulo de servicio de comunicaciones trata de asegurar que los dos computadores estén activos y preparados para la transferencia de datos, así como de seguir la pista de los datos que se intercambian, garantizando su envío. 
+
+No obstante, estas tareas son independientes del tipo de red que se esté usando. Por tanto, la lógica encargada de tratar con la red se considera en un módulo separado. 
+
+De esta forma, si se modifica la red que se esté usando, sólo se verá afectado el módulo de acceso a la red.
+
+
+Así, en vez de disponer de un solo módulo que realice todas las tareas involucradas en la comunicación, se considera una estructura consistente en un conjunto de módulos que realizarán todas las funciones. Esta estructura se denomina arquitectura de protocolos. 
+
+A continuación, dentro de esta sección se generalizará el ejemplo precedente para presentar una arquitectura de protocolos sencilla, considerando posteriormente ejemplos más realistas y complejos, como son TCP/IP y OSI.
+
+---
+# Un Modelo de Tres Capas
+
+En términos muy generales, se puede afirmar que las comunicaciones involucran a tres agentes: 
+
+1. aplicaciones, 
+2. computadores y 
+3. redes.
+
+Un ejemplo de aplicación es la transferencia de ficheros. Este tipo de aplicaciones se ejecutan frecuentemente en computadores que procesan múltiples aplicaciones simultáneamente. 
+
+Los computadores se conectan a redes, y los datos a intercambiar se transfieren por la red de un computador a otro. Por tanto, la transferencia de datos desde una aplicación a otra implica en primer lugar la obtención de los mismos y posteriormente hacerlos llegar a la aplicación correspondiente en el computador remoto.
+
+
+Por todo lo dicho, parece natural organizar la tarea en tres capas independientes:
+- Capa de acceso a la red.
+- Capa de transporte.
+- Capa de aplicación.
+
+La capa de acceso a la red está relacionada con el intercambio de datos entre el computador y la red a la que está conectado. El computador emisor debe proporcionar a la red la dirección del destino, de tal forma que la red pueda encaminar los datos al destino apropiado. 
+
+El computador emisor necesitará hacer uso de algunos de los servicios proporcionados por la red, como, por ejemplo, la gestión de prioridades. Las características del software de esta capa dependerán del tipo de red que se use. 
+
+Así, se han desarrollado diferentes estándares para conmutación de circuitos, conmutación de paquetes, redes de área local y otros. 
+
+De esta manera, se pretende separar las funciones que tienen que ver con el acceso a la red en una capa independiente. Haciendo esto, el resto del software de comunicaciones que esté por encima de la capa de acceso a la red no tendrá que ocuparse de las características específicas de la red que se use. 
+
+El mismo software de las capas superiores funcionará adecuado e independientemente del tipo de red particular a la que el computador esté conectado.
+
+Independientemente de la naturaleza de las aplicaciones que estén intercambiando datos, es un requisito habitual que los datos se intercambien de una manera segura. Esto es, sería deseable estar seguros de que todos los datos llegan a la aplicación destino y además llegan en el mismo orden en que fueron enviados. 
+
+Como se verá, los mecanismos que proporcionan dicha seguridad son independientes de la naturaleza de las aplicaciones. Por tanto, tiene sentido concentrar todos estos procedimientos en una capa común que se comparta por todas las aplicaciones, denominada capa de transporte.
+
+Finalmente, la capa de aplicación contiene la lógica necesaria para admitir varias aplicaciones de usuario. Para cada tipo distinto de aplicación, como por ejemplo la transferencia de ficheros, se necesita un módulo independiente y con características bien diferenciadas.
+
+Las Figuras siguientes ilustran esta arquitectura sencilla. 
+
+
+![](fig1.5.svg)
+
+![](fig1.6.svg)
+
+Aquí se muestran tres computadores conectados a una red. 
+![](fig1.5.svg)
+
+Cada computador contiene software en las capas de acceso a la red, de transporte y de aplicación para una o más aplicaciones. Para una comunicación con éxito, cada entidad deberá tener una dirección única. 
+
+En realidad se necesitan dos niveles de direccionamiento. Cada computador en la red debe tener una dirección de red; esto permite a la red proporcionar los datos al computador apropiado. 
+
+A su vez, cada aplicación en el computador debe tener una dirección que sea única dentro del propio computador, esto permitirá a la capa de transporte proporcionar los datos a la aplicación apropiada. 
+
+Las anteriores direcciones son denominadas puntos de acceso al servicio (SAP, Service Access Point), nótese que cada aplicación accede individualmente a los servicios proporcionados por la capa de transporte.
+
+Aquí se muestra cómo se comunican, mediante un protocolo, los módulos en el mismo nivel de computadores diferentes. 
+![](fig1.6.svg)
+
+Veamos su funcionamiento. Supóngase que una aplicación, asociada al SAP I en el computador X, quiere transmitir un mensaje a otra aplicación, asociada al SAP 2 del computador Y. 
+
+La aplicación en X pasa el mensaje a la capa de transporte con la instrucción de que lo envíe al SAP 2 de Y. La capa de transporte pasa el mensaje a la capa de acceso a la red, la cual proporciona las instrucciones necesarias a la red para que envíe el mensaje a Y. 
+
+Debe observarse que la red no necesita conocer la dirección del punto de acceso al servicio en el destino. Todo lo que necesita conocer es que los datos estén dirigidos al computador Y.
+
+Para controlar esta operación, se debe transmitir información de control junto a los datos del usuario, como así se muestra a continuación
+
+![](fig1.7.svg)
+
+Supongamos que la aplicación emisora genera un bloque de datos y se lo pasa a la capa de transporte. Esta última puede fraccionar el bloque en unidades más pequeñas para hacerlas más manejables. 
+
+A cada una de estas pequeñas unidades la capa de transporte añadirá una cabecera, que contendrá información de control según el protocolo. La unión de los datos generados por la capa superior junto con la información de control de la capa actual se denomina unidad de datos del protocolo (PDU, Protocol Data Unit); en este caso, se denominará como PDU de transporte. 
+
+La cabecera en cada PDU de transporte contiene información de control que se usará por el mismo protocolo de transporte en el computador Y. La información que se debe almacenar en la cabecera es por ejemplo:
+
+- SAP destino: cuando la capa de transporte destino reciba la PDU de transporte, deberá saber para quién van destinados los datos.
+- Número de secuencia: ya que el protocolo de transporte está enviando una secuencia de PDU, éstas se numerarán secuencialmente para que si llegan desordenadas, la entidad de transporte destino sea capaz de ordenarlas.
+
+- Código de detección de error: la entidad de transporte emisora debe incluir un código que es función del contenido del resto de la PDU. El protocolo de transporte receptor realiza el mismo cálculo y compara los resultados con el código recibido. Si hay discrepancia se concluirá que ha habido un error en la transmisión, y en ese caso el receptor, podrá descartar la PDU y adoptar las acciones oportunas para su corrección.
+
+El siguiente paso en la capa de transporte es pasar cada una de las PDU a la capa de red, con la instrucción de que sea transmitida al computador destino. Para satisfacer este requerimiento, el protocolo de acceso a la red debe pasar los datos a la red con una solicitud de transmisión. 
+
+Como anteriormente, esta operación requiere el uso de información de control. En este caso, el protocolo de acceso a la red añade la cabecera de acceso a la red a los datos provenientes de la capa de transporte, creando así la PDU de acceso a la red. A modo de ejemplo, la cabecera debe contener la siguiente información:
+
+
+- La dirección del computador destino: la red debe conocer a quién (qué computador de la red) debe entregar los datos.
+
+- Solicitud de recursos: el protocolo de acceso a la red puede pedir a la red que realice algunas funciones, como por ejemplo gestionar prioridades.
+
+En la Figura 1.8 se conjugan todos estos conceptos, mostrando la interacción entre los módulos para transferir un bloque de datos. Supongamos que el módulo de transferencia de ficheros en el computador X está transfiriendo registro a registro al computador Y. Cada registro se pasa al módulo de la capa de transporte. Se puede describir esta acción como si se tratase de una orden o una llamada a un procedimiento. Posibles argumentos de este procedimiento serán la dirección del destino, el SAP destino y el registro del fichero. La capa de transporte añade el punto de acceso al servicio e información de control adicional, que se agregará al registro para formar la PDU de transporte. Ésta se pasa a la capa inferior de acceso a la red mediante la llamada a otro procedimiento. En este caso, los argumentos para esta llamada serán la dirección del computador destino y la unidad de datos del protocolo de transporte. La capa de acceso a la red usará esta información para construir la PDU de red. La PDU de transporte es el campo de datos de la PDU de red, y su cabecera contendrá información relativa a las direcciones origen y destino. Nótese que la cabecera de transporte no es «visible» al nivel de acceso a la red; en otras palabras, a dicho nivel no le concierne el contenido concreto de la PDU de transporte.
+
+![](fig1.8.svg)
+
+La red acepta la PDU de transporte de X y la transmite a Y. El módulo de acceso a la red en Y recibe la PDU, elimina la cabecera y pasa la PDU de transporte adjunta al módulo de la capa de transporte de Y. La capa de transporte examina la cabecera de la unidad de datos del protocolo de transporte y en función del campo en la cabecera que contenga el SAP, entregará el registro correspondiente a la aplicación pertinente, en este caso al módulo de transferencia de ficheros de Y.
+---
+# La arquitectura de protocolos TCP/IP
+
+Hay dos arquitecturas que han sido determinantes y básicas en el desarrollo de los estándares de comu- nicación: el conjunto de protocolos TCP/IP y el modelo de referencia de OSI. TCP/IP es la arquitectura más adoptada para la interconexión de sistemas, mientras que OSI se ha convertido en el modelo están- dar para clasificar las funciones de comunicación. En esta sección, se incluye un breve resumen de las dos arquitecturas, aunque posteriormente se desarrollarán con más detalle en el Capítulo 2.
+TCP/IP es resultado de la investigación y desarrollo llevados a cabo en la red experimental de con- mutación de paquetes ARPANET, financiada por la Agencia de Proyectos de Investigación Avanzada para la Defensa (DARPA, Defense Advanced Research Projects Agency), y se denomina globalmente como la familia de protocolos TCP/IP. Esta familia consiste en un extensa colección de protocolos que se han erigido como estándares de Internet.
+Al contrario que en OSI, no hay un modelo oficial de referencia TCP/IP. No obstante, basándose en los protocolos estándar que se han desarrollado, todas las tareas involucradas en la comunicación se puede organizar en cinco capas relativamente independientes:
+• Capa de aplicación.
+• Capa origen-destino o de transporte.
+• Capa internet.
+• Capa de acceso a la red.
+• Capa física.
+La capa física define la interfaz física entre el dispositivo de transmisión de datos (por ejemplo, la estación de trabajo o el computador) y el medio de transmisión o red. Esta capa se encarga de la especi- ficación de las características del medio de transmisión, la naturaleza de las señales, la velocidad de datos, y cuestiones afines.
+La capa de acceso a la red es responsable del intercambio de datos entre el sistema final y la red a
+la cual se está conectado. El emisor debe proporcionar a la red la dirección del destino, de tal manera
+que la red pueda encaminar los datos hasta el destino apropiado. El emisor puede requerir ciertos servi-
+cios, como por ejemplo solicitar una determinada prioridad, que pueden ser proporcionados por el nivel
+de red. El software en particular que se use en esta capa dependerá del tipo de red que se disponga; se
+han desarrollado diversos estándares para conmutación de circuitos, conmutación de paquetes (por
+ejemplo, X.25), redes de área local (por ejemplo, Ethernet), entre otros.
+
+La capa de acceso a la red está relacionada con el acceso y encaminamiento de los datos a través de la red. En situaciones en las que los dos dispositivos estén conectados a redes diferentes, se necesitarán una serie de procedimientos que permitan que los datos atraviesen las distintas redes interconectadas. Ésta es la función de la capa Internet. El protocolo internet (IP, Internet Protocol) se utiliza en esta capa para ofrecer el servicio de encaminamiento a través de varias redes. Este protocolo se implementa tanto en los sistemas finales como en los «routers>> intermedios. Un «router>> es un dispositivo con capacidad de procesamiento que conecta dos redes y cuya función principal es retransmitir datos desde una red a otra siguiendo la ruta adecuada para alcanzar al destino.
+
+Independientemente de la naturaleza de las aplicaciones que están intercambiando datos, es usual re- querir que los datos se intercambien de forma segura. Esto es, sería deseable asegurar que todos los datos llegan a la aplicación destino y en el mismo orden en el que fueron enviados. Los procedimientos que garantizan una transmisión segura están localizados en la capa origen-destino, o capa de transporte. El protocolo TCP (Transmission Control Protocol) es el más utilizado para proporcionar esta funcionalidad. Finalmente, la capa de aplicación contiene la lógica necesaria para posibilitar las distintas aplica- ciones de usuario. Para cada tipo particular de aplicación, como por ejemplo la transferencia de ficheros, se necesitará un módulo bien diferenciado.
+
+La Figura 1.9 muestra como se implementan los protocolos TCP/IP en los sistemas finales, a la vez que relaciona la arquitectura con el modelo para las comunicaciones de la Figura 1.la. Nótese que las capas física y de acceso a la red proporcionan la interacción entre el sistema final y la red, mientras que las capas de aplicación y transporte albergan los protocolos denominados «extremo a extremo», ya que facilitan la interacción entre los dos sistemas finales. La capa internet tiene algo de las dos aproximaciones anteriores. En esta capa, los sistemas origen y destino proporcionan a la red la información necesaria para realizar el encaminamiento, pero a la vez, deben proporcionar algunas funciones adicionales de intercam- bio entre los dos sistemas finales; estos aspectos se desarrollarán posteriormente en los Capítulos 15 y 16.
+
+![](fig1.9.svg)
+---
+# El modelo OSI
+
+El modelo de OSI (Open Systems Interconection) se desarrolló por la Organización Internacional de Estandarización ISO (International Organization for Standarization) como una arquitectura para comunicaciones entre computadores, con el objetivo de ser el marco de referencia en el desarrollo de protoco- los estándares. OSI considera siete capas:
+
+• Aplicación.
+• Presentación.
+• Sesión.
+• Transporte.
+• Red.
+• Enlace de datos.
+• Física.
+
+En la Figura 1.10 se muestra el modelo OSI y se definen brevemente las funciones que se realizan en cada capa. La intención del modelo OSI es que los protocolos se desarrollen de forma tal que reali- cen las funciones de cada una de las capas.
+
+![](fig1.10.svg)
+
+Los diseñadores de OSI consideraron que este modelo y los protocolos asociados llegarían a domi- nar las comunicaciones entre computadores, reemplazando eventualmente las implementaciones particu- lares de protocolos, así como a modelos rivales tales como TCP/IP. Sin embargo, esto no ha sido así. Aunque se han desarrollado muchos protocolos de utilidad dentro del contexto de OSI, el modelo de las siete capas en su conjunto no ha prosperado. Por el contrario, la arquitectura TCP/IP se ha erigido como dominante. Por tanto, en este libro se pondrá mayor énfasis en TCP/IP.
+La Figura 1.11 muestra las capas de las arquitecturas OSI y TCP/IP, indicando la posible correspon- dencia en términos de funcionalidad entre ambas. La misma figura sugiere a su vez formas de imple- mentar las diferentes capas.
+
+![](fig1.11.svg)
+---
+# Normalizaciones
+</textarea>
+</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

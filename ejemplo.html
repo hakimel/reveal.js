@@ -1,0 +1,15 @@
+<style>
+	p {color:lightgreen;font-size:25px;text;text-align:justify}
+</style>
+<p>
+	Suponiendo que tanto el dispositivo de entrada como el transmisor están en un computador personal. Y que por ejemplo, el usuario de dicho PC desea enviar el mensaje <b>m</b> a otro. El usuario activa la aplicación de correo en el PC y compone el mensaje con el teclado (dispositivo de entrada). La cadena de caracteres se almacenará temporalmente en la memoria principal como una secuencia de bits (g).
+</p>
+<p>
+	El computador se conecta a algún medio de transmisión, por ejemplo una red local o una línea telefónica, a través de un dispositivo de E/S (transmisor), como por ejemplo el «transceiver» a una red local o modem. Los datos de entrada se transfieren al transmisor como una secuencia de niveles de tensión [g(t)] que representan los bits en algún tipo de bus de comunicaciones o cable. El transmisor se conecta directamente al medio y convierte la cadena [g(t)] en la señal a transmitir [s(t)].
+</p>
+<p>
+	Al transmitir s(t) a través del medio, antes de llegar al receptor, aparecerán una serie de dificultades. Por lo tanto, la señal recibida r(t) puede diferir de alguna manera de la transmitida s(t). El receptor intentará estimar la señal original s(t), a partir de la señal r(t) y de su conocimiento acerca del medio, obteniendo una secuencia de bits g'(t). Estos bits se envían al computador de salida, donde se almacenan temporalmente en memoria como un bloque de bits (g').
+</p>
+<p>
+	En muchos casos, el destino intentará determinar si ha ocurrido un error, y en su caso, cooperar con el origen para eventualmente conseguir el bloque de datos completo y sin errores. Los datos, finalmente se presentan al usuario a través del dispositivo de salida, que por ejemplo puede ser la impresora o la pantalla de su terminal. El mensaje recibido por el usuario (m') será normalmente una copia exacta del mensaje original (m).
+</p>

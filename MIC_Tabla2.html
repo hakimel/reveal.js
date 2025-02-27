@@ -1,0 +1,1260 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Tablas de Código</title>
+		<meta name="description" content="Tablas de Código">
+		<meta name="author" content="M.C. Francisco Ruvalcaba Granados">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+
+		<!-- <script src="dist/reveal.js"></script> -->
+		<!-- <script src="plugin/notes/notes.js"></script> -->
+		<!-- <script src="plugin/markdown/markdown.js"></script> -->
+		<!-- <script src="plugin/highlight/highlight.js"></script> -->
+		<script src="plugin/math/math.js"></script>
+		<!-- <script src="plugin/zoom/zoom.js"></script> -->
+		<!-- <script src="plugin/search/search.js"></script> -->
+		<!-- <script src="plugin/menu/menu.js"></script> -->
+		<!-- <script src="plugin/anything/plugin.js"></script> -->
+		<!-- <script src="plugin/anything/Chart.min.js"></script> -->
+
+
+	<!-- <script src="plugin/revealjs-animated/revealjs-animated.js"></script> -->
+
+	<!-- <script src="anything/d3.v3.min.js"></script>				 -->
+	<!-- <script src="anything/d3.patch.js"></script>			 -->
+	<!-- <script src="anything/d3/queue.v1.min.js"></script>		 -->
+	<!-- <script src="anything/d3/topojson.v1.min.js"></script>		 -->
+	<!-- <script src="anything/function-plot.js"></script> -->
+
+		<div class="reveal">
+			<div class="slides">
+
+<!-- <section>
+<h1
+	class="fragment animated move-to-middle-top"  
+	data-animated-duration="1000" 
+	data-animated-iterations="1" 
+	data-animated-fill="forwards">
+	Criterio 5
+</h1>	
+</section> -->
+
+
+<section data-markdown
+data-separator="^---"
+data-separator-vertical="^\n"
+data-separator-notes="^Note:">
+	<textarea data-template>
+<style>span.a {  width: 400px; display: block;  padding: 20px;border: 1px solid gray;  text-align: left;box-shadow: 10px 10px 7px gray;}</style>
+# Tabla de datos
+	</textarea>
+</section>
+
+<section>
+	<h2>1. Llenar la tabla con los datos</h2>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+		a4 
+   </code></pre>
+</section>
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+
+  </code></pre>
+</section>
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+
+   </code></pre>
+</section>
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+
+  </code></pre>
+</section>
+<section data-auto-animate>
+	<p>En este caso nuestro dato de entrada es el código 8241</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+
+  </code></pre>
+</section>
+<section data-auto-animate>
+	<p>En este caso nuestro dato de entrada es el código 8241</p>
+	<p>Por lo que llenamos la tabla basándonos en este código.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+	<p>En este caso nuestro dato de entrada es el código 8241</p>
+	<p>Por lo que llenamos la tabla basándonos en este código.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+ 0  0  1  0  0
+ 0  0  1  0  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+ 0  0  1  0  0
+ 0  0  1  0  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+ 0  0  1  0  0
+ 0  0  1  0  1
+ 0  0  0  1  0
+ 0  0  0  1  1
+
+	</code></pre>
+</section>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+ 0  0  1  0  0
+ 0  0  1  0  1
+ 0  0  0  1  0
+ 0  0  0  1  1
+ 0  0  1  1  0
+ 0  0  1  1  1
+
+  </code></pre>
+</section>
+
+
+<section data-auto-animate>
+	<p>Vamos a dejar estos 8 datos a manera de ejemplo</p>
+	<pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5
+ 0  0  0  0  0
+ 0  0  0  0  1
+ 0  0  1  0  0
+ 0  0  1  0  1
+ 0  0  0  1  0
+ 0  0  0  1  1
+ 0  0  1  1  0
+ 0  0  1  1  1
+
+  </code></pre>
+</section>
+
+</section>
+
+
+<section>
+	<h2>2. Llenar la tabla con los datos de <u>salida</u></h2>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0
+ 0  0  0  0  0  
+ 0  0  0  0  1  
+ 0  0  1  0  0  
+ 0  0  1  0  1
+ 0  0  0  1  0
+ 0  0  0  1  1
+ 0  0  1  1  0
+ 0  0  1  1  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0
+ 0  0  0  0  0     0  0  0  0  0
+ 0  0  0  0  1     0  0  0  0  1
+ 0  0  1  0  0     0  0  0  1  0
+ 0  0  1  0  1
+ 0  0  0  1  0
+ 0  0  0  1  1
+ 0  0  1  1  0
+ 0  0  1  1  1
+
+  </code></pre>
+</section>
+
+
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0
+ 0  0  0  0  0     0  0  0  0  0
+ 0  0  0  0  1     0  0  0  0  1
+ 0  0  1  0  0     0  0  0  1  0
+ 0  0  1  0  1     0  0  0  1  1
+ 0  0  0  1  0     0  0  1  0  0
+ 0  0  0  1  1     0  0  1  0  1
+ 0  0  1  1  0     0  0  1  1  0
+ 0  0  1  1  1     0  0  1  1  1
+
+  </code></pre>
+</section>
+
+
+
+</section>
+
+
+<section>
+	<h3>3. Poner los datos de salida en el Max Loader</h3>
+
+<section data-auto-animate>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0
+ 0  0  0  0  0     0  0  0  0  0
+ 0  0  0  0  1     0  0  0  0  1
+ 0  0  1  0  0     0  0  0  1  0
+ 0  0  1  0  1     0  0  0  1  1
+ 0  0  0  1  0     0  0  1  0  0
+ 0  0  0  1  1     0  0  1  0  1
+ 0  0  1  1  0     0  0  1  1  0
+ 0  0  1  1  1     0  0  1  1  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+<p>Para facilitar el traslado de los datos al Max Loader nos conviene poner la dirección real en la que estará cada dato.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0
+ 0  0  0  0  0     0  0  0  0  0
+ 0  0  0  0  1     0  0  0  0  1
+ 0  0  1  0  0     0  0  0  1  0
+ 0  0  1  0  1     0  0  0  1  1
+ 0  0  0  1  0     0  0  1  0  0
+ 0  0  0  1  1     0  0  1  0  1
+ 0  0  1  1  0     0  0  1  1  0
+ 0  0  1  1  1     0  0  1  1  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+<p>Para facilitar el traslado de los datos al Max Loader nos conviene poner la dirección real en la que estará cada dato.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="1">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección
+ 0  0  0  0  0     0  0  0  0  0
+ 0  0  0  0  1     0  0  0  0  1
+ 0  0  1  0  0     0  0  0  1  0
+ 0  0  1  0  1     0  0  0  1  1
+ 0  0  0  1  0     0  0  1  0  0
+ 0  0  0  1  1     0  0  1  0  1
+ 0  0  1  1  0     0  0  1  1  0
+ 0  0  1  1  1     0  0  1  1  1
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+<p>Para facilitar el traslado de los datos al Max Loader nos conviene poner la dirección real en la que estará cada dato.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1 
+ 0  0  1  0  0     0  0  0  1  0 
+ 0  0  1  0  1     0  0  0  1  1 
+ 0  0  0  1  0     0  0  1  0  0 
+ 0  0  0  1  1     0  0  1  0  1 
+ 0  0  1  1  0     0  0  1  1  0 
+ 0  0  1  1  1     0  0  1  1  1 
+
+  </code></pre>
+</section>
+
+
+<section data-auto-animate>
+<p>Para facilitar el traslado de los datos al Max Loader nos conviene poner la dirección real en la que estará cada dato.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  
+ 0  0  1  0  1     0  0  0  1  1  
+ 0  0  0  1  0     0  0  1  0  0  
+ 0  0  0  1  1     0  0  1  0  1  
+ 0  0  1  1  0     0  0  1  1  0  
+ 0  0  1  1  1     0  0  1  1  1  
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+<p>Para facilitar el traslado de los datos al Max Loader nos conviene poner la dirección real en la que estará cada dato.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  
+ 0  0  0  1  1     0  0  1  0  1  
+ 0  0  1  1  0     0  0  1  1  0  
+ 0  0  1  1  1     0  0  1  1  1  
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+<p>Para facilitar el traslado de los datos al Max Loader nos conviene poner la dirección real en la que estará cada dato.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="3">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="6">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="7">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="4">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="5">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="8">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Podemos observar que las direcciones están "desordenadas".</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="9">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Una manera de resolver este problema es <i><u>reordenando</u></i> los datos en su respectiva dirección, cómo veremos en el siguente paso.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="9">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section>
+<h3>4. Reordenamos</h3>
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Como el primer dato desordenado es la dirección 2 (decimal)</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="6">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Como el primer dato desordenado es la dirección 2 (decimal)</p>
+<p>movemos todo el renglón al a dirección que le corresponde.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Como el primer dato desordenado es la dirección 2 (decimal)</p>
+<p>movemos todo el renglón al a dirección que le corresponde.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Lo mismo haremos con el resto de los renglones.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Lo que obtendremos aquí son los datos ordenados de manera secuencial (tal como estarán en la memoria).</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Es decir, ya podremos meter estos datos en el Max Loader de manera directa.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+
+</section>
+
+</section>
+
+
+
+
+
+
+<section>
+<h3>5. Escribimos los datos en el Max Loader</h3>
+
+</section>
+
+
+
+
+
+
+<section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  00000000 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="3">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  00000000 10000000 11111111 11111111 11111111 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="4">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  00000000 10000000 00100000 11111111 11111111 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="5">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  00000000 10000000 00100000 10100000 11111111 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p></p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="6">
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers="2">
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  00000000 10000000 00100000 10100000 01000000 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+</section>
+
+
+
+
+
+
+
+
+
+<section data-auto-animate>
+<p>Y así vamos llenando la tabla hasta poner los datos en las 32 direcciones.</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+a4 a3 a2 a4 a5    A4 A3 A2 A1 A0  Dirección (en decimal)
+ 0  0  0  0  0     0  0  0  0  0  0000
+ 0  0  0  0  1     0  0  0  0  1  0001
+ 0  0  0  1  0     0  0  1  0  0  0002
+ 0  0  0  1  1     0  0  1  0  1  0003
+ 0  0  1  0  0     0  0  0  1  0  0004
+ 0  0  1  0  1     0  0  0  1  1  0005
+ 0  0  1  1  0     0  0  1  1  0  0006
+ 0  0  1  1  1     0  0  1  1  1  0007
+
+  </code></pre>
+  
+  <p>MAX LOADER</p>
+  <pre data-id="code-animation"><code data-trim data-line-numbers>
+
+DIRECCIÓN     0        1        2        3        4        5        6        7
+00000000  00000000 10000000 00100000 10100000 01000000 11111111 11111111 11111111
+00000008  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000010  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000018  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+00000020  11111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
+
+  </code></pre>
+
+
+</section>
+
+
+
+
+</section>
+
+
+
+
+<section>
+
+<p>OJO, en caso de que no existiera (o no usen) una dirección, salténsela (dejando el dato en 11111111)<p>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

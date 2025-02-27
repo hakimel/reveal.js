@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Diseño Asistido por Computadora</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+		<link rel="stylesheet" href="dist/theme/league.css">
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/night.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+
+	<script src="plugin/math/math.js"></script>
+
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema 1</h4>
+	<h2>INTRODUCCIÓN AL DISEÑO ASISTIDO POR COMPUTADORA</h2>
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>	
+<section>
+	<h2>ÍNDICE</h2>
+		<ol>
+			<li><a href="#/3">Introducción</a></li>
+			<li><a href="#/4">Definición de los Sistemas CAD y CAM</a></li>
+			<li><a href="#/5">CAD en el proceso de diseño y fabricación</a></li>
+			<li><a href="#/6">Desarrollo Histórico</a></li>
+		</ol>
+</section>
+
+	
+				<section data-markdown
+				data-separator="^---"
+				data-separator-vertical="^\n"
+				data-separator-notes="^Note:">
+				<textarea data-template>
+# INTRODUCCIÓN
+
+Los programas de CAD/CAM contribuyen fuertemente al desarrollo de conocimiento basado en la ingeniería, ya que, en cierta manera, ejecutan la información almacenada del conocimiento.
+
+En el presente capitulo se definen el CAD y CAM, así como otras tecnologías derivadas como el CAE, que a partir de su desarrollo a través de la informática fueron implantándose en la industria de tal forma que hoy día, no se concibe la ingeniería sin estos sistemas.
+
+<!-- Al igual que en el capítulo anterior ... -->
+Describiremos el proceso histórico en el que se observará su desarrollo informático, las empresas que los implementan y sus usuarios finales en la industria.
+
+Por último se analizará sus componentes esenciales y se hará un breve repaso de la situación actual en distintos campos de la técnica. 
+---
+# DEFINICIÓN DE LOS SISTEMAS CAD/CAM
+
+El Diseño y la fabricación asistidos por ordenador (CAD/CAM) es una disciplina que estudia el uso de sistemas informáticos como herramienta de soporte en todos los procesos involucrados en el diseño y la fabricación de cualquier tipo de producto.
+
+- Esta disciplina se ha convertido en un requisito indispensable para la industria actual que se enfrenta a la necesidad de mejorar la calidad<!-- , disminuir los costes y acortar los tiempos de diseño y producción. La única alternativa para conseguir este triple objetivo es la de utilizar la potencia de las herramientas informáticas actuales e integrar todos los procesos, para reducir los costes (de tiempo y dinero) en el desarrollo de los productos y en su fabricación. -->
+
+El uso cooperativo de herramientas de diseño y de fabricación ha dado lugar a la aparición de una nueva tecnología denominada ‘Fabricación Integrada por Ordenador’ e incluso se habla de la ‘Gestión Integrada por Ordenador’ como el último escalón de automatización hacia el que todas las empresas deben orientar sus esfuerzos. Esta tecnología consiste en la gestión integral de todas las actividades y procesos desarrollados dentro de una empresa mediante un sistema informático.
+
+Para llegar a este escalón sería necesario integrar, además de los procesos de diseño y fabricación, los procesos administrativos y de gestión de la empresa lo que rebasa el objetivo más modesto de este apartado que se centra en los procesos de diseño y fabricación, básicos para la gestión integrada. 
+
+CAD es el acrónimo de ‘Computer Aided Design’ o diseño asistido por computador.
+
+Se trata de la tecnología implicada en el uso de ordenadores para realizar tareas de creación, modificación, análisis y optimización de un diseño. De esta forma, cualquier aplicación que incluya una interfaz gráfica y realice alguna tarea de ingeniería se considera software de CAD. 
+
+Las herramientas de CAD abarcan desde herramientas de modelado geométrico hasta aplicaciones a medida para el análisis u optimización de un producto especifico. Entre estos dos extremos se encuentran herramientas de modelado y análisis de tolerancias, calculo de propiedades físicas (masa, volumen, momentos, etc.), modelado y análisis de elementos finitos, ensamblado, etc.
+
+La función principal en estas herramientas es la definición de la geometría del diseño (pieza mecánica, arquitectura, circuito electrónico, etc.) ya que la geometría es esencial para las actividades subsecuentes en el ciclo de producto.
+<!-- descrito en la figura 2.1. -->
+ 
+La geometría de un objeto se usa en etapas posteriores en las que se realizan tareas de ingeniería y fabricación. De esta forma se habla también de Ingeniería asistida por Ordenador o Computer Aided Engineering (CAE) para referirse a las tareas de análisis, evaluación, simulación y optimización desarrolladas a lo largo del ciclo de vida del producto.
+
+De hecho, este es el mayor de los beneficios de la tecnología CAD, la reutilización de la información creada en la etapa de síntesis en las etapas de análisis y también en el proceso CAM.
+
+El termino CAD se puede definir como el uso de sistemas informáticos en la creación, modificación, análisis u optimización de un producto. Dichos sistemas informáticos constarían de un hardware y un software.
+
+El termino CAM se puede definir como el uso de sistemas informáticos para la planificación, gestión y control de las operaciones de una planta de fabricación mediante una interfaz directa o indirecta entre el sistema informático y los recursos de producción.
+
+Así pues, las aplicaciones del CAM se dividen en dos categorías:
+
+**Interfaz directa:** Son aplicaciones en las que el ordenador se conecta directamente con el proceso de producción para monitorizar su actividad y realizar tareas de supervisión y control. Así pues estas aplicaciones se dividen en dos grupos:
+- Supervisión: implica un flujo de datos del proceso de producción al computador con el propósito de observar el proceso y los recursos asociados y recoger datos.
+- Control: supone un paso más allá que la supervisión, ya que no solo se observa el proceso, sino que se ejerce un control basándose en dichas observaciones.
+
+**Interfaz indirecta:** Se trata de aplicaciones en las que el ordenador se utiliza como herramienta de ayuda para la fabricación, pero en las que no existe una conexión directa con el proceso de producción. 
+
+### Supervisión y control
+<img src="supervision.jpg" width="80%">
+
+Una de las técnicas más utilizadas en la fase de fabricación es el Control Numérico. Se trata de la tecnología que utiliza instrucciones programadas para controlar maquinas herramienta que cortan, doblan, perforan o transforman una materia prima en un producto terminado. 
+
+Las aplicaciones informáticas son capaces de generar, de forma automática, gran cantidad de instrucciones de control numérico utilizando la información geométrica generada en la etapa de diseño junto con otra información referente a materiales, máquinas, etc. que también se encuentra en la base de datos. Los esfuerzos de investigación se concentran en la reducción de la intervención de los operarios.
+
+Otra función significativa del CAM es la programación de robots que operan normalmente en células de fabricación seleccionando y posicionando herramientas y piezas para las máquinas de control numérico. Estos robots también pueden realizar tareas individuales tales como soldadura, pintura o transporte de equipos y piezas dentro del taller. 
+
+La planificación de procesos es la tarea clave en para conseguir la automatización deseada, sirviendo de unión entre los procesos de CAD y CAM. 
+
+El plan de procesos determina de forma detallada la secuencia de pasos de producción requeridos para fabricar y ensamblar, desde el inicio a la finalización del proceso de producción. Aunque la generación automática de planes de producción es una tarea compleja, el uso de la Tecnología de Grupos supone una gran ayuda, ya que permite generar nuevos planes a partir de los planes existentes para piezas similares.
+
+Las piezas se organizan en familias y cada nueva pieza se clasifica dentro de una familia, según las características o los elementos que la componen. Esta tarea puede realizarse fácilmente utilizando técnicas de Modelado Basado en Características (Feature-Based Modeling) junto con la Tecnología de Grupos.
+
+Además, los sistemas informáticos pueden usarse para determinar el aprovisionamiento de materias primas y piezas necesarias para cumplir el programa de trabajo de la manera más eficiente, minimizando los costes financieros y de almacenaje. Esta actividad se denomina Planificación de Recursos Materiales (Material Requirement Planning o MRP).
+
+También es posible ejercer tareas de monitorización y control de la actividad de las máquinas del taller que se integran bajo el nombre de Planificación de Recursos de Manufacturación (Manufacturing Requirement Planning o MRPII).
+
+La Ingeniería Asistida por Ordenador (Computer Aided Engineering o CAE) es la tecnología que se ocupa del uso de sistemas informáticos para analizar la geometría generada por las aplicaciones de CAD, permitiendo al diseñador simular y estudiar el comportamiento del producto para refinar y optimizar dicho diseño. 
+
+Existen herramientas para un amplio rango de análisis. Los programas de cinemática, por ejemplo, pueden usarse para determinar trayectorias de movimiento y velocidades de ensamblado de mecanismos. 
+
+Los programas de análisis dinámico de (grandes) desplazamientos se usan para determinar cargas y desplazamientos en productos complejos como los automóviles.
+
+Las aplicaciones de temporización lógica y verificación simulan el comportamiento de circuitos electrónicos complejos.
+
+El método de análisis por ordenador más ampliamente usado en ingeniería es el método de elementos finitos o FEM (de Finite Element Method). Se utiliza para determinar tensiones, deformaciones, transmisión de calor, distribución de campos magnéticos, flujo de fluidos y cualquier otro problema de campos continuos que serían prácticamente imposibles de resolver utilizando otros métodos. En este método, la estructura se representa por un modelo de análisis constituido de elementos interconectados que dividen el problema en elementos manejables por el ordenador
+
+Como se ha mencionado anteriormente, el método de elementos finitos requiere más un modelo abstracto de descomposición espacial que la propia geometría del diseño.
+
+Dicho modelo se obtiene eliminando los detalles innecesarios de dicha geometría o reduciendo el número de dimensiones. Por ejemplo, un objeto tridimensional de poco espesor se puede convertir en un objeto bidimensional cuando se hace la conversión al modelo de análisis. Por tanto, es necesario generar dicho modelo abstracto de forma interactiva o automática para poder aplicar el método de elementos finitos. Una vez creado dicho modelo, se genera la malla de elementos finitos para poder aplicar el método. Al software que se encarga de generar el modelo abstracto y la malla de elementos finitos se le denomina pre-procesador. Después de realizar el análisis de cada elemento, el ordenador ensambla los resultados y los visualiza. Las regiones con gran tensión se destacan, por ejemplo, mostrándose en color rojo. Las herramientas que realizan este tipo de visualización se denominan post-procesadores.
+
+Existen también numerosas herramientas para la optimización de diseños. Se están realizando investigaciones para determinar automáticamente la forma de un diseño, integrando el análisis y la optimización. Para ello se asume que el diseño tiene una forma inicial simple a partir de la cual el procedimiento de optimización calcula los valores óptimos de ciertos parámetros para satisfacer un cierto criterio al mismo tiempo que se cumplen unas restricciones, obteniéndose la forma óptima con dicho parámetros.  La ventaja del análisis y optimización de diseños es que permite a los ingenieros determinar cómo se va a comportar el diseño y eliminar errores sin la necesidad gastar tiempo y dinero construyendo y evaluando prototipos reales. Ya que el coste de reingeniería crece exponencialmente en las últimas etapas del desarrollo de un producto y en la producción, la optimización temprana que permiten las herramientas CAE supone un gran ahorro de tiempo y una notable disminución de costes.
+ 
+Así pues, CAD; CAM y CAE son tecnologías que tratan de automatizar ciertas tareas del ciclo de producto y hacerlas más eficientes. Dado que se han desarrollado de forma separada, aun no se han conseguido todos los beneficios potenciales de integrar las actividades de diseño y fabricación del ciclo de producto. Para solucionar este problema ha aparecido una nueva tecnología: la fabricación integrada por ordenador o CIM (de Computer Integrated Manufacturing). Esta tecnología tiene el objetivo de aunar las islas de automatización conjuntándolas para que cooperen en un sistema único y eficiente. El CIM trata de usar una única base de datos que integre toda la información de la empresa y a partir de la cual se pueda realizar una gestión integral de todas las actividades de la misma, repercutiendo sobre todas las actividades de administración y gestión que se realicen en la empresa, además de las tareas de ingeniería propias del CAD y el CAM.
+
+Se dice que el CIM es más una filosofía de negocio que un sistema informático. El CIM sobrepasa los objetivos de este proyecto ya que integra conceptos de administración y gestión empresarial que no estudiaremos. 
+---
+# CAD/CAM EN EL PROCESO DE DISEÑO Y FABRICACIÓN
+---
+# DESARROLLO HISTÓRICO
+
+En la historia del CAD/CAM, se pueden encontrar precursores de estas técnicas en dibujos de civilizaciones antiguas como Egipto Grecia o Roma. Los trabajos de Leonardo da Vinci muestran técnicas CAD actuales como el uso de perspectivas. Sin embargo, el desarrollo de estas técnicas está ligado a la evolución de los ordenadores que se produce a partir de los años 50.
+
+Hace tan sólo 25 años, casi todos los dibujos se ejecutaban utilizando lápiz y papel. Cuando se precisaba realizar cambios, era necesario borrar y volver a dibujar. Si el cambio era importante, se repetía el dibujo por completo. Si un cambio afectaba a otros documentos (planos de montaje, planos de conjunto, etc…) se tenía que buscar a mano en cada uno de ellos y modificarlos.
+
+El diseño asistido por ordenador (Computer Aided Design–CAD) ha modificado este método de trabajo, mejorando la forma en que se llevan a cabo las tareas de diseño. Siendo originalmente una herramienta de dibujo 2D, ha evolucionado en el tiempo a la fase intermedia de 2,5D, hasta la fase 3D y la realidad virtual.
+
+Los beneficios no se han limitado a la obtención de una potente herramienta de dibujo que permite mejorar la calidad y la productividad, sino que también se obtienen otros beneficios. En paralelo al desarrollo de las aplicaciones de diseño asistido por ordenador, se han desarrollado también otras de simulación, modelización y manufactura de productos (Computer Aided Manufacturing-CAM). La fabricación asistida por ordenador ofrece significativas ventajas con respecto a los métodos más tradicionales de control de equipos de fabricación. Por lo general, los equipos CAM conllevan la eliminación de los errores del operador y la reducción de los costes de mano de obra. Esta evolución, ha ido paralela al aumento de la capacidad de proceso y a la facilidad de uso de los ordenadores, avanzando notablemente desde la llegada de los PCs. 
+
+A principios de la década # 1950 aparece la primera pantalla gráfica en el MIT capaz de representar dibujos simples de forma no interactiva. En esta época y también en el MIT se desarrolla el concepto de programación de control numérico. A mediados de esta década aparece el lápiz óptico que supone el inicio de los gráficos interactivos. A finales de la década aparecen las primeras máquinas herramienta y General Motors comienza a usar técnicas basadas en el uso interactivo de gráficos para sus diseños. 
+---
+# 1955
+- El primer sistema gráfico SAGE (Semi Automatic Ground Environment) de la Fuerzas aéreas norteamericanas (US Air Forces), es desarrollado en el Lincoln Laboratory del MIT (Massachusetts Institute of Technology). Consistía en un sistema para mostrar la información computada por el radar junto con otras informaciones de localización de objetos mostrándolos a través de una pantalla CTR.
+
+La década de los 60 representa un periodo crucial para el desarrollo de los gráficos por ordenador. Aparece el termino CAD y varios grupos de investigación dedican gran esfuerzo a estas técnicas. Fruto de este esfuerzo es la aparición de unos pocos sistemas de CAD. Un hecho determinante de este periodo es la aparición comercial de pantallas de ordenador.
+
+# 1962
+<!-- - Basado en su tesis doctoral Ivan E. Sutherland desarrolla también en el Lincoln Laboratory del MIT el sistema SKETCHPAD. -->
+- Se desarrolla también en el Lincoln Laboratory del MIT el sistema SKETCHPAD.
+
+- La tesis " A Machines Graphics Comunications System" establece las bases de los gráficos interactivos por ordenador tal y como hoy los conocemos. Sutherland propuso la idea de utilizar un teclado y un lápiz óptico para seleccionar situar y dibujar, conjuntamente con una imagen representada en la pantalla.
+
+- Aun más innovadora, era la estructura de datos utilizada por Sutherland. A diferencia de todo lo que se había hecho hasta entonces, estaba basada en la topología del objeto que iba a representar, es decir describía con toda exactitud las relaciones entre las diferentes partes que lo componía, introduciendo así, lo que conoce como Programación orientada a Objetos.
+
+- Antes de esto, las representaciones visuales de un objeto realizadas en el ordenador, se habían basado en un dibujo y no en el objeto en sí mismo. Con el sistema Sketchpad de Sutherland, se trazaba una clara distinción entre el modelo representado en la estructura de datos y el dibujo que se veía en la pantalla. 
+
+- Otros proyectos paralelos se desarrollaban en ITEK y General Motors. El proyecto de ITEK se llamaba The Electronic Drafting Machine (La máquina electrónica de dibujo) y la entrada de datos se realizaba con un lápiz de luz electrónico.
+
+- Al principio los primeros programas de CAD consistían en simples algoritmos para mostrar modelos de líneas en dos dimensiones.
+
+# 1963
+
+- El sistema Sketchpad introducido en las universidades causa gran expectación.
+
+- Quizás lo más interesante fuera la demostración de que el ordenador podía calcular que líneas eran las que definían la parte vista del objeto al tiempo que borraba de la pantalla el resto.
+
+- Las líneas ocultas permanecían en la memoria del ordenador, en la base de datos, y volvían a aparecer cada vez que se colocaba el cuerpo en una posición distinta respecto al observador. Las limitaciones del sistema provenían más de la capacidad del ordenador que del principio conceptual como tal.
+
+- El Prof. Charles Eastman de Carnegie-Mellon University desarrolla BDS (Building Descripcion System). Estaba basado en una librería de cientos de miles de elementos arquitectónicos, los cuales, pueden ser ensamblados y mostrar sobre la pantalla un diseño arquitectónico completo.
+
+- A mediados de los 60 la industria del CAD se caracteriza por utilizar grandes computadores, terminales de representación vectorial y programas desarrollados en lenguaje ensamblador. # 1965
+
+- El único intento significativo de crear un sistemas de CAD comercial lo realiza Control Data Corporation’s Digigraphics division, sucesora de ITEK. El sistema costaba medio millón de dólares y se vendieron muy pocas unidades.
+
+- El Prof. J. F. Baker Jefe del Cambridge University Engineering Department, inicia las investigaciones en Europa trabajando con un ordenador gráfico PDP11. A. R. Forrest realiza el primer estudio de investigación con un CAD, realizando intersección de dos cilindros.
+
+- Lockheed anuncia CADAM (Computer Augmented Design and Manufacturing).
+
+# 1968
+
+- Durante este año pensaban que los ordenadores podrían ayudar a los diseñadores a resolver los problemas del modelado de formas complejas en 3D; cuando en ese  momento solamente había disponibles sistemas 2D básicos utilizables desde terminales conectados a un gran ordenador central. Donal Welbourn, responsable de la cooperación industrial de la Universidad de Cambridge, consigue el patrocinio de Control Data. Ofreciendo así, ambas entidades en colaboración, DUCT, que en un principio consistía simplemente en utilidades para oficina, especialmente orientado a sus dos grandes clientes alemanes Volkswagen y Daimler Benz.
+
+# 1969
+
+- Se funda Computervision, compañía creada para el desarrollo de sistemas de producción de dibujos. En el mismo año venden el primer sistema comercial de CAD a Xerox y se desarrolla el primer plotter
+
+- En la década de los 70 se consolidan las investigaciones anteriores y la industria se percata del potencial del uso de estas técnicas, lo que lanza definitivamente la implantación y uso de estos sistemas, limitada por la capacidad de los ordenadores de esta época. Aparecen los primeros sistemas 3D (prototipos), sistemas de modelado de elementos finitos, control numérico, etc. Hechos relevantes de esta década son, entre otros, la celebración del primer SIGGRAPH y la aparición de IGES. # 1970
+
+- Varias compañías empiezan a ofrecer sistemas automatizados de dibujo y diseño. Muchas de estas empresas son realmente empresas orientadas a otros sectores, pero empiezan a emigrar a la industria gráfica, bien completamente, bien algún departamento de nueva creación. Encontramos así a empresas como Applicon, Colma, Auto-trol. También hubo un importante desarrollo en la mayoría de las empresas aeronáuticas y de automoción, tales como General Motors, Ford, Chrysler y Lockheed; que se pusieron a trabajar intensamente en el CAD/CAM. # 1971
+
+- Se funda Manufacturing and Consulting Services Inc. y empieza aproducir Arvil Express. Su fundador era diseñador en General Motors de DAC (Design Auntomated by computer, diseño automatizado por computadora), el primer sistema de producción de gráficos interactivos para la fabricación.
+
+- Mientras tanto Control Data se interesa por su colaboración con Cambridge, viendo en ella la posibilidad de creación de mallados para elementos finitos.
+
+- Por otro lado ante la posibilidad de que el consejo de investigación de la universidad bloquease el programa de desarrollo de DUCT, porque la industria opinaba que era un sistema que requería aún mucho más desarrollo; Welbourn se dedica a probar el programa y desarrollar un completo manual de instrucciones.
+
+Este manual fue la causa de que finalmente Volkswagen y Daimler Benz   compraran la licencia de DUCT, ya que opinaban que jamás se habían escrito instrucciones tan claras por parte de ninguna compañía.
+
+# 1972
+
+- CUED (Cambridge University Engineering Department) consigue obtener dos máquinas de control numérico de 3 ejes, permitiendo utilizar todo el trabajo realizado para el CAD en el CAM. Poco después en una exhibición de máquinas herramientas realizan la primera demostración en público de un sistema CAD/CAM 3D.
+
+# 1974
+
+- Múltiples empresas se interesan en la creación de piezas usando un sistema CAD/CAM.
+
+# 1975
+
+- Se funda Electronic Data System (EDS)
+
+- Tektronix desarrolla la primera pantalla de # 19". Supone un gran avance, ya que permiten representar dibujos mayores que las pantallas originarias de tan sólo 11 pulgadas.
+
+- Avions Marcel Dassault (AMD) compra licencias del software CADAM a Lockheed, convirtiéndose en el primer cliente del sistema CADAM.
+
+# 1976
+
+- United Computing, empresa desarrolladora de “Unigraphics CAD/CAM/CAE system”, es comprada por Mc Donnell Douglas. # 1977
+
+- Avions Marcel Dassault encarga a sus ingenieros la creación de un programa tridimensional e interactivo, el precursor de CATIA (Computer-Aided ThreeDimensional Interactive Application). Pasan así al modelado 3D.
+
+- Se crea DELTA TECHNICAL SERVICES en la Cambridge University
+
+# 1978
+
+- Computervision desarrolla el primer terminal gráfico que utiliza la tecnología raster
+
+# 1979
+
+- Boeing, General Electric y NIST desarrollan un formato de archivo neutral para el intercambio de información CAD/CAM entre sistemas distintos. El formato IGES (Initial Graphic Exchange Standard, estándar inicial de intercambio de gráficos), se convertirá en el formato estándar de la industria y el más ampliamente aceptado para transferir información de superficies complejas.
+
+- Cymap, empieza a desarrollar un software para dibujos de instalaciones eléctricas y de HVAC (heating, ventilation, air-conditioning; calefacción, ventilación y aire acondicionado).
+
+ A finales de los 70 el típico sistema de CAD está constituido por un microordenador de 16 bits con un máximo de 512 Kb de memoria y sistema de almacenamiento con una capacidad de 20 a 300 Mb; a un precio de unos 125000 dólares con primeros programas de modelado sólido. Estos utilizan geometrías básicas, como esferas, cilindros y paralelepípedos; combinándolas utilizando operaciones booleanas.
+
+ En la década de los 80 se generaliza el uso de las técnicas CAD/CAM propiciada por los avances en hardware y la aparición de aplicaciones en 3D capaces de manejar superficies complejas y modelado sólido. Aparecen multitud de aplicaciones en todos los campos de la industria que usan técnicas de CAD/CAM, y se empieza a hablar de realidad virtual.
+
+# 1980
+
+- Matra Datavision es fundada, como parte de Lagardene Group, y comienza a producir software CAD/CAM.
+
+- Se crea la empresa española INVESTRONICA, con desarrollos CAD y CAM para la industria textil.
+
+# 1981
+
+- Avions Marcel Dassault crea Dassault Systemes, y firma un acuerdo con IBM.
+
+- Computer graphics de la Universidad Cornell funda 3D/Eye Inc.
+
+- Unigraphics crea el primer sistema de modelado sólido UniSolid.
+
+# 1982
+
+- Aparece CATIA Version 1, producto para el diseño 3D, modelado de superficies y programación de control numérico.
+
+- Empiezan a aparecer ordenadores con mucha más potencia y menor coste; esto implica un gran paso adelante, pero no será hasta # 1984 que la tecnología empieza a ser competitiva con los métodos tradicionales. Durante muchos años en la industria aeronáutica se había estado diseñando utilizando computadoras; pero en este momento estaba empezando a ser posible económicamente, diseñar cacerolas y otros utensilios domésticos, con complejas formas 3D, usando ordenadores.
+
+- Autodesk es fundada en California por setenta personas por iniciativa de Jonh Walker. El objetivo era crear un programa de CAD a un precio de 1.000 $ que pudiese funcionar en un PC.
+
+- En noviembre en Las Vegas se hace la primera demostración pública en el mundo de un programa de CAD que funciona en un PC. Se trataba de la primera entrega de AutoCAD, y las ventas empiezan en diciembre.
+
+# 1983
+
+- Aparece en el mercado Unigraphics II.
+
+- Primeras versiones en alemán y francés de AutoCAD.
+
+- Empiezan los trabajos para un nuevo sistema universal de transferencia de datos, llamado STEP (Stándar for The Exchange of Product model data). STEP puede transferir información CAD incluyendo detalles complejos del modelado del producto, materiales y múltiples parámetros de diseño. El primer “traductor” disponible de STEP aparece en # 1991.
+
+# 1984
+
+- El producto desarrollado por Cambridge y Delta, DUCT, era uno de los pocos que habían sido desarrollados desde el principio para el diseño y control numérico del mecanizado de productos. Eso suponía una diferencia con el resto de sistemas, que se habían desarrollado primero como dibujo plano, seguido por el modelado 3D, y por último añadiendo el mecanizado posteriormente.
+
+- Se introducen capacidades de dibujo a CATIA, pudiendo así funcionar independientemente de CADAM.
+
+- Se crea el primer centro de formación de Autodesk.
+
+# 1985
+
+- MicroStation proporciona CAD avanzado para PC. MicroStation había empezado como un “clon” de otro paquete de CAD; llamándose originalmente PseudoStation, permitiendo ver dibujos IGDS sin necesidad del software de Intergraph. La versión siguiente ya se llamó MicroStation y permitía editar los archivos IGDS. Cuando Intergraph compró el 50 % de Bentley System, empresa que desarrollaba MicroStation, este paso a usar la extensión DGN.
+
+- CATIA se convierte en la aplicación líder del sector aeronáutico. Su Version 2 incluye dibujo, sólidos y robotización completamente integradas.
+
+- Se funda Diehl Graphsoft Inc. Y en el mismo año aparece la primera versión de MiniCAD. Este será el programa de CAD para Macintosh más vendido.
+
+- La versión 2.1 de AutoCAD incluye características 3D y de polilíneas.
+
+# 1986
+
+- La versión 2.18 de AutoCAD incluye el completo lenguaje de programación AutoLISP. Este, es un lenguaje basado en el ASCII, permite a los usuarios escribir y grabar programas LISP que complementan de forma personalizada los comandos.
+
+- Aparece la revista CADENCE, que se transformará en la mayor publicación independiente de CAD del mundo.
+
+- AutoCAD alcanza las 50.000 copias vendidas en el mundo entero.
+
+# 1987
+
+- ISICAD compra CADVANCE, y la desarrolla hasta convertirla en la primera aplicación de CAD basada en iconos y ventanas del mercado.
+
+- AutoCAD Release 9 es la primera versión de AutoCAD que necesita un coprocesador matemático 80x87 en ordenadores basados en procesadores Intel 8086. Incluye además un avanzado interfaz de usuario que incorpora barra de herramientas, menús desplegables, menús de iconos y cuadros de diálogo. Se incorpora el ADS (AutoCAD Development System) que permite usar el C en lugar de AutoLISP para programar.
+
+# 1988
+
+- Aparece Canvas 2.0, convirtiéndose en una potente herramienta del naciente mundo de los gráficos digitales. Esta versión incluye grandes innovaciones como: curvas de Bezier de múltiples puntos, número de capas ilimitado, color de 32-bit, dibujo de precisión, separación por colores ...
+
+- Se anuncia CATIA Version 3, con funciones de AEC (Architectural Engineering and Construction). CATIA se convierte en la aplicación líder del sector automovilístico.
+
+- Autodesk saca AutoCAD Release 10, con mejorías en el campo 3D.
+
+# 1989
+
+- Unigraphics anuncia un compromiso con UNIX y arquitectura de código abierto.
+
+- Parametric ProO lanza T-FLEX, el primer programa para PC de CAD mecánico paramétrico.
+
+- CSC presenta MicroCADAM, un programa de CAD/CAM que se convertirá en el producto de CAD más vendido de Japón.
+
+- Parametric Technology ofrece la primera versión de Pro/ENGINEER.
+
+ La década de los 90 se caracteriza por una automatización cada vez más completa de los procesos industriales en los que se va generalizando la integración de las diversas técnicas de diseño, análisis, simulación y fabricación. La evolución del hardware y las comunicaciones hacen posible que la aplicación de técnicas CAD/CAM este limitada tan solo por la imaginación de los usuarios.
+
+# 1990
+
+- McDonnell Douglas elige Unigraphics como el estándar de la empresa para el CAD/CAM/CAE mecánico.
+
+- Se funda la empresa Visionary Design Systems Inc., pionera en la tecnología del modelado sólido.
+
+- Autodesk lanza AutoCAD Release 11, con soporte para red, lo que permite instalar una única copia del programa en un servidor de red. También aparece Auto Shade 2, un complemento para AutoCAD que permite sombrear los modelos tridimensionales creados.
+
+- A final de año Autodesk había vendido 500.000 copias de AutoCAD, 300.000 de Generic CAD y 200.000 de Auto Sketch. Siendo los programas de CAD de más venta de todo el mundo.
+
+# 1991
+
+- Microsoft desarrolla Open GL, para su uso con Windows NT. Open GL es un interfaz de software para la producción de gráficos 3D. Incorpora aproximadamente 120 comandos para dibujar varias formas primitivas como puntos, líneas y polígonos; también incluye soporte para el sombreado, aplicación de texturas, iluminación, animación, efectos atmosféricos (como neblina) y simulación de la profundidad de campo. Open GL, desarrollado por Silicon Graphics, es un estándar para la programación y renderizado de gráficos 3D en color.
+
+- GE Aircraft Engine y GE Power Generation eligen Unigraphics como su programa de CAD/CAM.
+
+- Aparece Canvas Release 3, con múltiples primicias, lo que le hace obtener premios al mejor programa de dibujo e ilustración.
+
+- Aparece el primer AutoCAD para plataformas SUN.
+
+# 1992
+
+- IBM acepta comprar una participación minoritaria de Dassault Systemes. A partir de ahí empiezan progresivamente a unificar CATIA y CADAM, conjuntando las mejores características tecnológicas de ambos sistemas.
+
+- Autodesk lanza 3D Studio y AutoCAD 12, ambos para DOS.
+
+# 1993
+
+- Unigraphics Solutions compra la empresa especialista en CAM UNC Software Gmbh. Introduce el modelado híbrido, caracterizado por utilizar tanto parametrización avanzada como las tradicionales tecnologías de modelado constructivo.
+
+- Se presenta CATIA-CADAM Version 4, que mejora de forma significativa la línea de producción, la robustez del sistema, la arquitectura abierta de programación, capacidades y facilidad de uso. Permite desarrollar múltiples operaciones en simultáneo - ingeniería concurrente - permitiendo una concepción global del diseño.
+
+- Un comité de 16 instituciones y empresas definen y desarrollan SVF (Simple Vector Format), considerado el método más eficiente para trabajar con archivos de dibujos vectoriales en Internet.
+
+- Autodesk lanza 3D Studio version 3 para DOS, que permite hacer complejas animaciones a partir de dibujos de AutoCAD; y la primera versión de AutoCAD (Release 12) para Windows.
+
+- Se funda una nueva compañía de CAD llamada SolidWorks Inc
+
+# 1994
+
+- Autodesk lanza 3D Studio version 4, la última versión para DOS; y AutoCAD Release 13.
+
+- Micrografx Designer ver 4.1 para Windows. 
+
+- MicroStation version 5
+
+- MiniCAD version 5
+
+- Hewlett Packard desarrolla la versión 3.5 de PE/Solid Designer ; su programa avanzado de modelado sólido. Se instalan 50.000 puestos.
+
+- A final de año AutoCAD, él sólo, alcanza la marca de un millón de copias en el mundo entero. Los siguientes sistemas de CAD son Cadkey con 180.000 copias vendidas, y MicroStation con 155.000 copias vendidas.
+
+# 1995
+
+- Bentley incorpora a MicroStation un avanzado sistema de modelado sólido para diseño mecánico. El número de puestos instalados llega a los 200.000.
+
+- 3M, Delphi Interior & Lighting Systems, Motor Coach Industries escogen Unigraphics. EDS Corporation tiene instalados más de 35.000 puestos de Unigraphics en el mundo entero, incluyendo compañías como General Motors, Mc Donnell-Douglas, US Navy ...
+
+- Empieza Unigraphics para Microsoft Windows NT. Y es nombrada la compañía más prometedora para el futuro.
+
+- Se presenta CATIA-CADAM AEC Solutions (Architectural Engineering and Construction). Sistema de modelado de plantas que permite perfeccionar de manera espectacular el proceso de diseño de una planta, construcción y funcionamiento.
+
+- 3D Studio MAX, primera versión de 3D Studio para plataformas NT.
+
+- Cadkey version 7
+
+- IDEAS Master Series version 2.1, de SDRC.
+
+- Computervision lanza Medusa, un programa de CAD para ingeniería mecánica, y MicroDraft version 6.1, un programa CAD 2D para DOS y plataformas UNIX.
+
+- MicroStation 95 es el primer sistema desarrollado para plataformas Windows 95.
+
+- Parametric Technology anuncia Pro/Engineer version15, el primer programa de CAD/CAM de modelado paramétrico y el primer paquete de modelado sólido 3D  disponible para plataformas NT. Lanza también una versión reducida del producto, llamada Pro/Junior que funciona bajo Windows 95.
+
+- Dassault Systemes lanza ProCADAM, una versión reducida de CATIA para su uso en sistemas NT.
+
+- Autodesk lanza la primera versión de Mechanical Desktop, un sistema de diseño para el módulo de trabajo mecánico integrado en AutoCAD 13.
+
+- Autodesk pasa a ser la quinta compañía de software del mundo por tamaño.
+
+# 1996
+
+- Bentley saca MicroStation Architectural modeling & plant engineering.
+
+- General Motors firma el mayor contrato de CAD/CAM de la historia escogiendo Unigraphics como el único programa para el desarrollo de sus vehículos.
+
+- CATIA-CADAM Solutions Version 4 está disponible para plataformas Silicon Graphics, Hewlett Packard y Sun.
+
+- Intergraph lanza la primera versión de su programa de CAD 2D Imagineer Technical.
+
+- Solid Edge version 3 de Intergraph impacta en el mercado al lanzarse a un precio de unos 6000 dólares.
+
+- SolidWorks Co. lanza Solid Works, un ambicioso paquete 3D. Incorpora un complejo modelador de superficies y una buena interfaz de usuario gráfica.
+
+- 3D/EYE Inc. lanza Tri Spectives Technical version 2, un programa de modelado, ilustración y animación para Windows a un precio muy bajo.
+
+- Unigraphics versión 11, con cuatro nuevos módulos de CAM. EDS Corporation distribuye también Unigraphics/Creator, una versión reducida de Unigraphics para plataformas Windows NT (con total interoperabilidad con la versión completa).
+
+- Varimetrix versión 5, usado por compañías como AT & T y British Aerospace.
+
+- Diehl Graphsoft anuncia MiniCAD 6 para Windows, la primera versión multiplataforma de MiniCAD.
+
+- Se funda DATACAD LLC comprando los derechos de desarrollo, distribución y marketing de la línea de productos DataCAD a Micro Control Systems Inc. DataCAD es un programa profesional de AEC CADD para el diseño arquitectónico, renderizaciones fotorrealistas y animaciones (en el año 2000 es el segundo programa de CAD más usado por los arquitectos).
+
+- AutoCAD LT 95
+
+- Matra Datavision lanza Moldmaker, un paquete de modelado 3D para plataformas UNIX.
+
+- Pro/Engineer version 17, con un nuevo módulo que permite exportar los archivos a formato VRML para mostrarlos en Internet.
+
+- MicroStation Modeler version 4
+
+- Camans version 11, un producto de CAM de SDRC.
+
+# 1997
+
+- Autodesk anuncia AutoCAD LT 97; 3D Studio MAX release 2 y una versión reducida llamada 3D Studio Viz; AEC Professional Suite 2, paquete a integrar en AutoCAD con utilidades de AEC, animación y renderizado; AutoCAD 13 Internet Publishing Kit, para acceder y compartir dibujos a través de Internet; y World Creation Toolkit, colección de objetos, animaciones, y demás prediseñados.
+
+- Bentley lanza MicroStation Modeler version 5.5.
+
+- Dassault Systemes S.A. compra Deneb, el reconocido proveedor de las soluciones líderes en producción digital.
+
+- Dassault Systemes S.A. y SolidWorks Corporation anuncia la firma de un acuerdo definitivo por el cual Dassault Systemes adquiere SolidWorks, el proveedor líder de software de diseño mecánico para Windows.
+
+- EDS incorpora varias nuevas características de nuevos procesos industriales con su nueva versión de Unigraphics. Incluyendo WAVE, que permite la definición, control y evaluación de las plantillas de los productos, considerada la nueva tecnología en relación con el CAD/CAM/CAE más importante de los últimos años.
+
+- Primera versión de IDEAS Artisan Series de SDRC, completamente compatible con Master Series. 
+
+- Revit Technology Corporation revoluciona el diseño de los edificios con Revit, el primer modelador paramétrico de edificios desarrollado para la industria de AEC.
+
+- EDS e Intergraph anuncian planes para conjuntar las ventajas de sus programas de CAD, Unigraphics y Solid Edge, en una aventura conjunta.
+
+- Matra Datavision lanza STRIM, un paquete de CAD/CAM.
+
+- MiniCAD version 7, para Mac y Windows.
+
+- Pro/Engineer version 18.
+
+- Unigraphics version 12.
+
+- Autodesk lanza en noviembre Mechanical Desktop version 2 integrado con AutoCAD 14.
+
+- Mercado de CAD/CAM a nivel mundial:
+1. Parametric Technology
+2. Dassault Systemes
+3. EDS / Intergraph
+4. SDRC
+5. Autodesk
+
+- Con un volumen del mercado de 95.800 millones de dólares en Estados Unidos y en Europa de 24.500 millones de Euros.
+
+# 1998
+
+- Dassault Systemes crea ENOVIA Corporation, una subempresa encargada de desarrollar las soluciones de ENOVIA PDM II (Product Development Management).
+
+- Dassault Systemes, Matra Datavision e IBM anuncian un propósito de cooperación. Consistente entre otras cosas en la compra por parte de Dassault Systemes del software de Matra Datavision de superficies y modelado libre, control numérico de maquinaria, así como otros productos complementarios dedicados a la simulación de la inyección de plástico.
+
+- Matra Datavision pasa a dar asistencia técnica para CATIA y a integrar sus productos en CATIA.
+
+- Unigraphics Solutions pasa a ser una subsidiaria de EDS, y pasa a llamarse Unigraphics Solutions EDS.
+
+- Termina la adquisición de la parte de CAD/CAM mecánico de Intergraph, Solid Edge y EMS.
+
+- Unigraphics Solutions EDS se convierte en la primera organización de CAD/CAM/CAE/PDM en recibir el certificado ISO 9001.
+
+- Autodesk lanza 3D Studio MAX version 2.5, Autodesk Architectural Desktop y AutoCAD Mechanical (herramienta mecánica para integrar en AutoCAD 14).
+
+- Solid Edge version 3.
+
+- Solid Works 98.
+
+# 1999
+
+- Unigraphics Solutions compra la empresa alemana de tecnología punta dCADE.
+
+- Dassault systemes presenta CATIA Versión 5 para sistemas basados en Windows NT y UNIX.
+
+- Dassault Systemes compra SAFEWORK, que pasa a encargarse de la infraestructura avanzada del modelado humano para la arquitectura de la V5. Adquiere también Smart Solutions Ltd. Esta empresa se había convertido en líder de soporte y desarrollo de soluciones PDM para pequeñas y medianas empresas; por lo que así se complementa ENOVIA que está orientado a grandes empresas.
+
+- VectorWorks surge como sustituto de MiniCAD.
+
+- Pro/Engineer 2000i
+
+- Parametric Technology compra Computervision y su producto CADDS 5.
+
+ A principios del siglo XXI, el uso de estas técnicas ha dejado de ser una opción dentro del ámbito industrial, para convertirse en la única opción existente. Podemos afirmar por tanto que el CAD/CAM es una tecnología de supervivencia. Solo aquellas empresas que lo usan de forma eficiente son capaces de mantenerse en un mercado cada vez más competitivo.
+
+# Siglo XXI
+
+- ACIS v6.0 de Spatial.
+
+- Eagle Point, el máximo proveedor de software para aplicaciones AEC anuncia Eagle Point 2000.
+
+- Parametric Technology Corp. anuncia InPart Mechanical, la mayor biblioteca de elementos 3D CAD, con más de un millón de elementos.
+
+- Autodesk inicia la venta por Internet de AutoCAD 2000.
+
+- REALVIZ líder en tecnología para el proceso de imágenes anuncia ImageModeler, software para la creación de modelos 3D realistas mediante el modelado a partir de fotografías, videos o imágenes estáticas.
+
+- Alibre Inc. anuncia su programa de CAD mecánico Alibre Design, que permite a sus usuarios utilizar Internet como plataforma de colaboración para el diseño y desarrollo de sus productos.
+
+- Dassault Systemes anuncia la disponibilidad de CATIA Solutions Version 5 Release 3 para plataformas bajo Microsoft Windows 2000.
+
+- Parametric Technologies Corp. lanza dos actualizaciones para sus i-Series de soluciones flexibles de ingeniería: Pro/MECHANICA 2000i2 y Pro/DESKTOP 2000i2.
+
+- SDRC crea SDRC Imageware Version 10, un conjunto de software que permite diseñar, construir e inspeccionar productos con superficies libres de gran calidad en menos tiempo. Es un avanzado modelador de superficies 3D.
+
+- Bentley Systems anuncia una nueva tecnología de visualización, “Particle tracing” que proporciona soluciones de iluminación foto realistas para grandes modelos creados por arquitectos, diseñadores de interiores y diseñadores de plantas.
+
+- Spatial Inc. lanza ACIS 3D v6.2. Esta será la última versión ACIS bajo el nombre de Spatial porque Dassault Systemes compra el producto, en una operación inesperada que sorprende al mundo del CAD.
+
+- Mechanical Desktop Release 5 incorpora el software AutoCAD 2000i. El paquete añade además 1.2 millones de elementos y operaciones estándar 2D y 3D prediseñadas.
+
+- Parametric Technologies Corp. anuncia una nueva versión de CADDS 5i, la release 11, que ofrece una mayor integración con el resto de paquetes de la compañía, tales como Pro/ENGINEER.
+
+- CADKEY # 19, disponible para Windows 95,98, NT y 2000.
+
+- Dassault Systemes integra Microsoft Visual BASIC para aplicaciones en sus productos SolidWorks, CATIA, SmarTeam, ENOVIA y DELMIA.
+
+- Año 2001. Presentación versión AutoCAD 2002. Destacan la función de asociación de funciones de las dimensiones en el dibujo, el editor gráfico de atributos. la definición de bloques y un conversor de capas asociado a la funcionalidad del gestor de normas. Orientación hacia Internet.
+
+- El mercado de los programas de alta gama se lo reparten cuatro compañías: Dassault Systemes con CATIA, Parametric Technologies Corp. Con Pro/ENGINEER y CADDS, SDRC con IDEAS Master Series, y Unigraphics Solutions EDS con Unigraphics.
+---
+# COMPONENTES DEL CAD/CAM
+---
+# CAD/CAM DESDE EL PUNTO DE VISTA INDUSTRIAL
+---
+# SITUACIÓN ACTUAL Y PERSPECTIVAS
+---
+
+---
+
+<!-- <img src="linea.png" width="25%"> -->
+
+
+ 
+				</textarea>
+				</section>
+				
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-stack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box" style="background: dodgerblue; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+					
+				<!-- </section> -->
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-stack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+				<!-- </section> -->
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-vstack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+				<!-- </section> -->
+				<!-- <section>ok</section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

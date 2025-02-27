@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>CAD</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/league.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/night.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<link rel="stylesheet" href="dist/theme/moon.css">
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+
+	<script src="plugin/math/math.js"></script>
+
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema</h4>
+	<h2>Creación de Modelo CAD utilizando NX de Siemens</h2>
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>
+
+	
+				<section data-markdown
+				data-separator="^---"
+				data-separator-vertical="^\n"
+				data-separator-notes="^Note:">
+				<textarea data-template>
+# Modelo 3D estático
+
+Para crear un gemelo digital, es esencial contar, ante todo, con un modelo 3D adecuado. El modelo puede proceder del diseño de una instalación futura o tomarse de una instalación ya existente que se prevé ampliar. Puede abarcar una instalación completa o únicamente algunas unidades de proceso.
+
+Como ya se comentó en el módulo 1 de la serie de talleres DigitalTwin@Education, el grado de detalle del modelo 3D es decisivo para la calidad de un gemelo digital. Cuanto más detallada sea la elaboración del modelo, más se asemejará su comportamiento al de una planta real. Hay que tener presente, sin embargo, que, a mayor grado de detalle, mayor serán el trabajo y la capacidad de cálculo necesarios. Por lo tanto, antes de crear el modelo 3D es importante tener una idea clara de las tareas y funciones que deberán desempeñar la instalación o los componentes que van a diseñarse. Solo así puede calcularse de modo realista el coste necesario.
+
+Cuando la tarea se limita a crear un simple modelo CAD, hablamos de un modelo 3D estático. En este contexto, "estático" significa que no se han incorporado propiedades dinámicas al modelo. Algunos ejemplos de propiedades dinámicas de un sólido son la gravitación y el comportamiento ante la actuación de fuerzas. En consecuencia, con un modelo 3D puramente estático no es posible realizar una simulación en los módulos anteriores. Sin embargo, para la dinamización de un modelo digital es necesario partir siempre de un modelo estático. Por lo tanto, es necesario elaborar también este último
+---
+# Creación de un modelo 3D estático con el sistema CAD NX
+
+En este módulo podrá crear su primer modelo estático de una "planta de clasificación" de manera completamente autónoma, con ayuda del sistema CAD NX de Siemens. De paso tendrá la ocasión de conocer las tareas y el funcionamiento básicos de NX.
+
+# Modelado en NX
+
+El modelado de modelos 3D en NX se basa en dos formas distintas:
+- Modelo
+- Módulo
+
+Un modelo siempre es un componente individual, cerrado en sí mismo, de un subsistema o un sistema completo. Normalmente, el diseño de un modelo se inicia creando digitalmente un croquis 2D (boceto). Este croquis debe asignarse a un plano de referencia. Un plano de referencia determina la orientación en el espacio tridimensional. Los planos más sencillos y comunes se encuentran entre los ejes X e Y, los ejes Y y Z, y los ejes X y Z. Se muestran en la Figura.
+
+![Planos de referencia estándar en NX](screenshot.1072.jpg)
+
+Sin embargo, si se desea también pueden definirse planos de referencia específicos que sigan otras orientaciones. Una vez finalizados los croquis bidimensionales, hay que insertarlos en los planos correspondientes y modelarlos para transformarlos en un sólido tridimensional. En NX existe un gran número de posibilidades de moldeo, como la extrusión o el giro. En este módulo solo se utilizan funciones relevantes para la planta de clasificación.
+
+Pueden agruparse varios modelos para formar un subsistema o un módulo. Así, el sistema completo se obtiene agrupando los módulos y, si es necesario, otros modelos. A este respecto son importantes también la orientación y el posicionamiento en el espacio tridimensional. El modelo 3D resultante puede usarse posteriormente para la dinamización.
+
+La herramienta NX no es un simple sistema CAD 3D. Permite usar distintas aplicaciones accesibles a través de una misma interfaz. Entre ellas se cuentan las aplicaciones "Modeling" y "Mechatronics Concept Designer".
+
+En NX, el modelado se realiza exclusivamente en la aplicación "Modeling", como se muestra en la Figura.
+
+![Aplicación "Modeling" en NX con indicación de las zonas que se describen en el texto](screenshot.1073.jpg)
+
+Para crear la planta de clasificación se utilizan cuatro ventanas en el modo de diseño:
+
+- En la pantalla central (ver la Figura 3, zona 1) se encuentra el área de trabajo tridimensional. En ella se ejecutan todos los pasos de diseño necesarios, tanto en el ámbito bidimensional como en el tridimensional.
+- En la parte izquierda de la barra de menús (ver la Figura 3, zona 2) se encuentran todas las herramientas necesarias para la creación de bocetos bidimensionales.
+
+- En la parte central de la barra de menús (ver la Figura 3, zona 3) hay una lista de todos los elementos de forma. Estos permiten, en primer lugar, crear modelos tridimensionales a partir de bocetos bidimensionales. Además, permiten seguir moldeando los modelos tridimensionales ya creados, por ejemplo, redondeando aristas.
+- Con la barra de recursos (ver la Figura 3, zona 4) puede visualizarse el historial del modelo para hacer un seguimiento de los pasos de diseño ejecutados. Además, en ella pueden mostrarse también los distintos componentes individuales de un determinado módulo
+
+Tanto los modelos como los módulos se guardan en NX como piezas (parts) con la extensión de archivo ".prt". Para poder distinguir fácilmente a qué forma de modelado corresponde el archivo abierto en cada momento, es recomendable acordar unas convenciones de nombre unívocas.
+
+En caso de duda, cuando hay un archivo abierto dentro de la aplicación "Modeling" de NX, puede abrir el menú "Assembly Navigator (Navegador de módulos)" de la barra de recursos. En él se aplica la siguiente distinción:
+
+- Los modelos se guardan siempre con el icono . En este caso, solo puede tratarse de una pieza (ver la Figura 4, lado izquierdo).
+- Los módulos se representan con el icono . En este caso puede tratarse una combinación de varios modelos y módulos (ver la Figura 4, lado derecho)
+---
+# Tarea planteada
+
+En este módulo debe crear por sí mismo el modelo 3D estático de la planta de clasificación
+
+En primer lugar, hay que diseñar en NX varios componentes individuales de la planta de clasificación utilizando diversas funciones básicas de la aplicación "Modeling". A continuación, deben agruparse en un módulo los componentes individuales creados con modelos proporcionados y los posicionarse correctamente
+---
+# Instrucciones estructuradas paso a paso
+
+## Diseño de todos los componentes individuales de la planta de clasificación
+
+![planta](planta.jpg)
+
+<!-- <img src="linea.png" width="25%"> -->
+				</textarea>
+				</section>
+				
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-stack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box" style="background: dodgerblue; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+					
+				<!-- </section> -->
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-stack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+				<!-- </section> -->
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-vstack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+				<!-- </section> -->
+				<!-- <section>ok</section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

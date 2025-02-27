@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Redes de Comunicación Industrial</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+		<link rel="stylesheet" href="dist/theme/league.css">
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/night.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+
+	<script src="plugin/math/math.js"></script>
+
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema 1</h4>
+	<h2> Par de Hilos de Cobre trenzado</h2>
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>	
+
+<!-- <section> -->
+	<!-- <h2>ÍNDICE</h2> -->
+		<!-- <ol> -->
+			<!-- <li><a href="#/3">Introducción</a></li> -->
+			<!-- <li><a href="#/4">Definición de los Sistemas CAD y CAM</a></li> -->
+			<!-- <li><a href="#/5">CAD en el proceso de diseño y fabricación</a></li> -->
+			<!-- <li><a href="#/6">Desarrollo Histórico</a></li> -->
+		<!-- </ol> -->
+<!-- </section> -->	
+				<section data-markdown
+				data-separator="^---"
+				data-separator-vertical="^\n"
+				data-separator-notes="^Note:">
+				<textarea data-template>
+## Historia
+
+- El cable par trenzado lleva con nosotros más de 100 años, más concretamente desde 1881 <!-- , claro que a un nivel bastante inferior a lo que hoy día tenemos.-->
+- Su precursor fue  Alexander Graham Bell <!--  el inventor del teléfono y las primeras redes de comunicación por voz años antes. -->
+
+- Las primeras redes de comunicación telegráfica utilizan simples conductores abiertos, y desempeñaban medianamente bien su función hasta que se comenzaron a instalar los primeros tranvías eléctricos en Estados Unidos.
+
+- Desde entonces, las interferencias debidas a los altos voltajes de las líneas de tranvías y el campo electromagnético que se generaba a su alrededor dificultaban enormemente las comunicaciones.
+- Fue entonces cuando Bell creo el primer cable par trenzado.
+
+- Los primeros cables presentaban cuatro trenzados por cada kilómetro de distancia o seis por cada milla.
+- La gran ventaja de trenzar los cables es que mejoraban drásticamente su inmunidad a las interferencias electromagnéticas al presentar una organización alternada de los cables.
+- Esto permitía también aumentar la distancias de las comunicaciones y su ancho de banda, por lo que se pudo mejorar la calidad de las comunicaciones bidireccionales.
+
+![](https://www.profesionalreview.com/wp-content/uploads/2020/08/cable-de-par-trenzado-diagram.jpg)
+
+## Definición
+
+- Los cables de par trenzado son un tipo de medio de transmisión que se puede utilizar para transmitir señales tanto digitales como analógicas. Es uno de los tipos de cables más populares que se utilizan en la actualidad.
+- El cable de par trenzado se compone de dos hilos de cobre aislados que están trenzados entre sí para reducir la interferencia electromagnética (EMI). La torsión también ayuda a mantener los cables separados para que no se toquen entre sí y provoquen un cortocircuito.
+---
+## ¿Qué son los cables UTP y los cables STP?
+
+- UTP significa cable de par trenzado no blindado, y es común en instalaciones de Ethernet.
+- El par trenzado blindado (STP) tiene diferentes tipos de blindaje, como trenzado o papel de aluminio, utilizado en varias redes para evitar la diafonía y la interferencia electromagnética.
+
+![UTP](https://cabling.crxconec.com/Templates/pic/What%20is%20UTP%20cable.jpg)
+
+### Construcción de Cable Ethernet: Ripcord, Cable de Drenaje y Separador. ¿Por qué los necesitamos?
+
+- Par Trenzado: Cuatro pares de cables para transmisión de datos, color naranja/blanco naranja, azul/blanco azul, verde/blanco verde, marrón/blanco marrón.
+- Ripcord: Un cordón de hilo resistente, utilizado para pelar la cubierta y reducir el riesgo de cortar algún cable en su interior.
+
+- Cable de Drenaje: Un cable entre el cable aislado y el blindaje para puesta a tierra.
+- Relleno (Cruz): Separa los cuatro pares de cables para reducir la interferencia mutua de los cables trenzados durante la transmisión de señales.
+
+- Foil: Para reducir el ruido eléctrico que afecta las señales.
+- Funda: Proporciona protección física al cable trenzado.
+
+![](https://cabling.crxconec.com/Templates/pic/Twisted%20Pair%20Etherent%20Cable%20Structure.jpg)
+
+# ¿Cuáles son las categorías de cables Ethernet?
+
+Según TIA/EIA-568.2-D, un cable de red se puede dividir en varias categorías, la última Categoría 8 está definida en ancho de banda de transmisión a 2 GHz, y la distancia de transmisión más larga es de 30m.
+
+![](https://cabling.crxconec.com/Templates/pic/Etherent%20Cable%20Category.jpg)
+
+## ¿Cómo elegir cable blindado o no blindado? ¿Cuándo deberías usarlo?
+
+Si hay muchas máquinas que generarán mucha interferencia en el entorno de cableado, o cuando necesite desplegar cables junto a motores de alta potencia, los cables blindados pueden proporcionar una buena protección. 
+
+Si no hay mucha interferencia en el entorno de cableado, se recomienda utilizar un cable UTP, que no solo reducirá el costo sino que también será igualmente confiable.
+
+Los cables de par trenzado no pueden transmitir señales a largas distancias y también son susceptibles a interferencias electromagnéticas, por lo que la mayoría de ellos se utilizan en despliegues en edificios. Si se requiere una transmisión a larga distancia, las fibras ópticas son una mejor opción.
+
+## Tipos de conexiones con el cable par trenzado
+![](https://www.profesionalreview.com/wp-content/uploads/2020/08/Cable-par-trenzado-03.jpg)
+
+Pese a que el cable de par trenzado tiene distintos usos, como los enlaces de comunicaciones telefónicas y demás, nosotros vamos a centrarnos en su uso principal, que es el de redes de datos bajo el estándar IEEE 802.3 conocido como Ethernet.
+
+Este tipo de cable cuenta con cuatro pares trenzados en su interior, y la conexión se efectúa a través de un puerto llamado RJ45. 
+
+Se trata de un puerto provisto de 8 contactos planos y alineados que requieren de una herramienta especial llamada crimpadora para integrarlo en el extremo de los cables. 
+
+Esta es una diferencia fundamental por ejemplo con el conector RJ11, el cual consta de 4 contactos y es el utilizado para las líneas telefónicas.
+
+Este fue diseñado por la EIA (Electronic Industries Alliance), en donde se creó el estándar TIA/EIA-568-B, 568-A y 568-B1 que engloban las directrices sobre el diseño e instalación de sistemas de red cableados. 
+
+En ellas se mencionan una serie de prácticas para asegurar que las redes se diseñen para soportar servicios en un futuro y la calidad de los cables.
+
+- TIA/EIA 568-A: regula todo lo que tiene que ver con instalaciones en edificios, topologías, distancia máxima de cableado, su rendimiento y las tomas que se utilizarán.
+- TIA/EIA-568-B y 568-B1: en ella se definen los tipos de cables, conectores utilizados, características y mantenimiento.
+---
+# Cable directo y cruzado: código de colores
+
+En este aspecto, ambas normas regulan su propio sistema de conexión para los conectores basados en los colores, aunque ambas se unen en el caso del cable cruzado. Veamos los dos tipos de conexión existentes.
+
+### Directo
+
+![](https://www.profesionalreview.com/wp-content/uploads/2020/08/Cable-par-trenzado-T568A.png)
+
+![](https://www.profesionalreview.com/wp-content/uploads/2020/08/Cable-par-trenzado-T568B.png)
+
+La conexión directa se utilizará para conectar dos nodos que no son iguales, por ejemplo, un ordenador con un router o switch. Este cable será el que tenga nuestro ordenador hacia el router. Este tipo de conexión también se utiliza para conexión telefónica, a veces en RJ45 o más comúnmente en RJ11, y para suministro de red y energía (PoE o Power over Ethernet) a cámaras IP y otros dispositivos.
+
+### Cruzado
+
+![](https://www.profesionalreview.com/wp-content/uploads/2020/08/Cable-par-trenzado-cruzado-1.png)
+
+![](https://www.profesionalreview.com/wp-content/uploads/2020/08/Cable-par-trenzado-crizado-2.png)
+
+El cable par trenzado cruzado, sirve para conectar dos equipos que sean iguales, por ejemplo, dos ordenadores entre sí. La diferencia con el otro es que los dos extremos son distintos, teniendo algunos cables intercambiados entre sí para asegurar una conexión full-dúplex entre dos tarjetas de red.
+				</textarea>
+				</section>
+				
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-stack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box" style="background: dodgerblue; width: 100px; height: 100px; margin: 0px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+					
+				<!-- </section> -->
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-stack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 1500px; height: 3px; margin: 0px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+				<!-- </section> -->
+				<!-- <section data-auto-animate data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"> -->
+					<!-- <div class="r-vstack justify-center"> -->
+						<!-- <div data-id="box1" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box2" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box3" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box4" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box5" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box6" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+						<!-- <div data-id="box7" style="background:    salmon; width: 1500px; height: 3px; margin: 5px; border-radius: 0px;"></div> -->
+					<!-- </div> -->
+				<!-- </section> -->
+				<!-- <section>ok</section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+				<!-- <section></section> -->
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
