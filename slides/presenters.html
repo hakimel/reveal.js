@@ -1,0 +1,89 @@
+<section id="presenters">
+    <h3>Presenters</h3>
+    
+    <div class="presenter-container">
+        <div class="presenter">
+            <div class="avatar-container">
+                <div class="avatar-border">
+                    <img src="/images/presenter-1.png" alt="Jackie Chui" class="avatar">
+                </div>
+            </div>
+            <div class="presenter-info">
+                <h4>Jackie</h4>
+                <p>Chui</p>
+            </div>
+        </div>
+        
+        <div class="presenter">
+            <div class="avatar-container">
+                <div class="avatar-border">
+                    <img src="/images/presenter-2.png" alt="Albert Chan" class="avatar">
+                </div>
+            </div>
+            <div class="presenter-info">
+                <h4>Albert</h4>
+                <p>Chan</p>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        .presenter-container {
+            display: flex;
+            justify-content: center;
+            gap: 120px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .presenter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .avatar-container {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 15px;
+        }
+        
+        .avatar-border {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .avatar {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        .presenter-info {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .presenter-info h4 {
+            font-size: 24px;
+            margin: 0;
+            font-weight: 700;
+            text-transform: capitalize;
+            text-align: center;
+        }
+        
+        .presenter-info p {
+            font-size: 20px;
+            margin: 5px 0 0 0;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</section>

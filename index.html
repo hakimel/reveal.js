@@ -7,7 +7,8 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <title>reveal.js</title>
+    <title>Power Hour - The Latest in CSS and Web UI</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
@@ -20,8 +21,8 @@
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/atom-one-light.css" />
     <style>
+      section > h2,
       section > h3 {
-        font-size: 2.5rem !important;
         text-align: left;
         display: inline-block;
         position: relative;
@@ -29,12 +30,30 @@
         &::before {
           content: "";
           position: absolute;
+          background-color: blue;
+          transform: skewX(-30deg);
+        }
+      }
+
+      section > h2 {
+        font-size: 4rem !important;
+
+        &::before {
+          top: -20px;
+          left: -40px;
+          width: 20px;
+          height: 80px;
+        }
+      }
+
+      section > h3 {
+        font-size: 2.5rem !important;
+
+        &::before {
           top: -10px;
           left: -25px;
-          width: 12px; /* Adjust size */
+          width: 12px;
           height: 50px;
-          background-color: blue;
-          transform: skewX(-30deg); /* Slant the rectangle */
         }
       }
 
@@ -144,6 +163,8 @@
   <body>
     <div class="reveal">
       <div class="slides">
+        <section data-external="slides/introduction.html"></section>
+        <section data-external="slides/presenters.html"></section>
         <section data-external="slides/lightDark.html"></section>
         <section data-external="slides/popover.html"></section>
         <section data-external="slides/startingStyle.html"></section>
