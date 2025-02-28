@@ -112,3 +112,74 @@
     <div class="scene" data-edit></div>
   </div>
 </section>
+
+<section id="light-dark-demo-2">
+  <h3>class switching vs light-dark() 2</h3>
+
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4,7,11-12,15">
+          <style>
+            :root {
+              &:has(input[name="mode"][value="l"]:checked) {
+                color-scheme: light;
+              }
+              &:has(input[name="mode"][value="d"]:checked) {
+                color-scheme: dark;
+              }
+
+              --bg-color: light-dark(#fff, #000);
+              --text-color: light-dark(#000, #fff);
+            }
+
+            .magenta-blast {
+              --bg-color: light-dark(green, blue);
+              --text-color: light-dark(blue, green);
+            }
+            .container {
+              color: var(--text-color);
+              background-color: var(--bg-color);
+            }
+            .circle {
+              background-color: salmon;
+            }
+          </style>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .container {
+          text-align: center;
+        }
+        .circle {
+          width: 50px;
+          aspect-ratio: 1 / 1;
+          margin: 1rem auto;
+          border-radius: 50%;
+        }
+      </style>
+      <div class="container" id="container2">
+        <div class="circle"></div>
+        <div class="row gap">
+          <label><input name="mode" type="radio" value="l" checked>Light</label>
+          <label><input name="mode" type="radio" value="d">Dark</label>
+        </div>
+        <button onclick="toggleTheme2('magenta-blast')">Toggle Theme</button>
+      </div>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+  <script>
+    function toggleTheme2(mode) {
+      const container = document.getElementById("container2");
+      container.classList.toggle(mode);
+      // mode === 'dark' ? container.classList.add("magenta-blast") :
+      //   container.classList.remove("dark-mode")
+    }
+
+    // function toggleDarkMode() {
+
+    // }
+  </script>
+</section>
