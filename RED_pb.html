@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Redes de comunicación industrial</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/white.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/league.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<link rel="stylesheet" href="dist/theme/night.css">
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+
+	<script src="plugin/math/math.js"></script>
+
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema:</h4>
+	<h2>PRINCIPIOS BÁSICOS DE LAS REDES DE COMUNICACIONES ANALÓGICAS Y DIGITALES</h2>
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>
+<section data-markdown
+data-separator="^---"
+data-separator-vertical="^\n"
+data-separator-notes="^Note:">
+<textarea data-template>
+# FUNDAMENTOS DE LA COMUNICACIÓN 
+
+Cualquier sistema de comunicación está compuesto por tres grandes bloques: 
+
+1. Sistema emisor: elemento que necesita comunicar algo. A su vez está constituido por dos subsistemas:
+
+- Fuente del mensaje: dispositivo que da servicio a la necesidad de transmitir, genera los datos y decide el destinatario.
+- Transmisor: el formato de los datos es propio del sistema que los genera y no tiene por qué ser compatible con el medio de transmisión. Los elementos que componen el transmisor transforman y codifican la información, generando señales compatibles con el medio de transmisión que se va a utilizar. Se emplean técnicas de modulación de señal, codificación, control de enlace y multiplexación. 
+
+2. El sistema físico de transmisión es tanto el soporte físico de la trasmisión por donde se propagan las señales como la estructura y topología del sistema de transmisión, incluyendo los dispositivos que forman parte de esta red.
+
+- Sistema receptor: elemento que recibe la comunicación. También
+constituido por dos subsistemas: 
+
+- Receptor: realiza el proceso inverso al transmisor. Son importantes los mecanismos de sincronización, detección y/o corrección de errores y control de flujo.
+- Destinatario del mensaje: toma los datos del receptor y los interpreta. Comparte con la fuente del mensaje, el lenguaje, el sistema de codificación y los formatos de mensaje. Además considera cuestiones de seguridad, privacidad y autenticidad.
+</textarea>
+</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
