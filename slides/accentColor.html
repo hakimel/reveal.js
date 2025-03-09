@@ -1,20 +1,252 @@
 <section id="accent-color-info">
-    <h3>Accent Color</h3>
+  <h3>Accent Color</h3>
+  <div class="baseline-container">
+    <baseline-status featureId="accent-color"></baseline-status>
+  </div>
 
-    <div class="baseline-container">
-      <baseline-status featureId="accent-color"></baseline-status>
-    </div>
+  <ul>
+    <li>
+      Sets a color for form elements:
+      <ul>
+        <li><code>&lt;input type="radio"&gt;</code></li>
+        <li><code>&lt;input type="checkbox"&gt;</code></li>
+        <li><code>&lt;input type="range"&gt;</code></li>
+        <li><code>&lt;progress&gt;</code></li>
+      </ul>
+    </li>
+    <li>Easy color styling for basic controls</li>
+    <li>Automatically maintains accessibility contrast</li>
+    <li>
+      For intricate custom designs—beyond just a color change—you'll need to use additional CSS (e.g., pseudo-elements like <code>::before</code> and <code>::after</code>) to achieve the desired look.
+    </li>
+    <!-- explain how a bad thing about it is that you have no control over the other color, looks bad on colours like salmon -->
+  </ul>
+</section>
 
-    <ul>
-        <li>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </li>
-        <li>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </li>
-        <li>
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        </li>
-        <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-    </ul>
+<section id="accent-color-1">
+  <h3>Accent Color</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          input[type="radio"] {
+            appearance: none;
+            border: 2px solid #ccc;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            position: relative;
+            margin-right: 0.5rem;
+
+            &:checked { border-color: red; }
+
+            &:checked::after {
+              content: "";
+              position: absolute;
+              translate: -50% -50%;
+              border: solid 2px white;
+              top: 50%;
+              left: 50%;
+              width: 9px;
+              height: 9px;
+              border-radius: 50%;
+              background: red;
+            }
+          }
+        </style>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+      :root {
+        --accent: red;
+        --bg-light: #f0f0f0;
+        --bg-dark: #121212;
+        --text-light: #333;
+        --text-dark: #eee;
+      }
+
+      body {
+        background: var(--bg-light);
+        color: var(--text-light);
+        font-family: sans-serif;
+        padding: 2rem;
+        transition: background 0.5s ease, color 0.5s ease;
+      }
+
+      [data-theme="dark"] {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+        --accent: green;
+      }
+
+      .toggle-button {
+        background: white;
+        border: solid 2px black;
+        color: black;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+      }
+
+      .toggle-button:hover {
+        transform: scale(1.05);
+      }
+
+      /* Simple layout for demo */
+      .form-group {
+        margin-bottom: 1.5rem;
+        display: flex;
+        gap: 1rem;
+      }
+
+      label {
+        display: flex;
+      }
+
+      .container {
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+      </style>
+      <div class="container" id="container-accent-1">
+        <!-- <button class="toggle-button" id="toggleTheme1">Toggle Theme</button>
+         -->
+        <div class="form-group">
+          <label for="radio1">
+            <input type="radio" id="radio1" name="group-1">
+            Radio 1
+          </label>
+          <label for="radio2">
+            <input type="radio" id="radio2" name="group-1">
+            Radio 2
+          </label>
+        </div>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+  <script>
+    const toggleButton1 = document.getElementById("toggleTheme1");
+    toggleButton1.addEventListener("click", () => {
+      const container = document.getElementById('container-accent-1');
+      if (container.getAttribute("data-theme") === "dark") {
+        container.removeAttribute("data-theme");
+      } else {
+        container.setAttribute("data-theme", "dark");
+      }
+    });
+
+  </script>
+</section>
+
+<section id="accent-color-2">
+  <h3>Accent Color</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          :root {
+            --accent: red;
+          }
+
+          input[type="checkbox"],
+          input[type="radio"],
+          input[type="range"],
+          progress {
+            accent-color: var(--accent);
+          }
+        </style>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+      :root {
+        --accent: red;
+        --accent-dark: green;
+        --bg-dark: #121212;
+        --bg-light: white;
+        --text-light: #333;
+        --text-dark: #eee;
+      }
+      /* Light Theme */
+      .container {
+        background: var(--bg-light);
+        color: var(--text-light);
+        font-family: sans-serif;
+        padding: 2rem;
+        transition: background 0.5s ease, color 0.5s ease;
+      }
+
+      /* Dark Theme */
+      [data-theme="dark"] {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+        --accent: green;
+      }
+
+      .toggle-button {
+        background: white;
+        border: solid 2px black;
+        color: black;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+      }
+
+      .toggle-button:hover {
+        transform: scale(1.05);
+      }
+
+      /* Simple layout for demo */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .container {
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+      </style>
+      <div class="container" id="container-accent-2">
+        <!-- <button class="toggle-button" id="toggleTheme2">Toggle Theme</button> -->
+        <div class="form-group">
+          <input type="checkbox" id="check1-2">
+          <label for="check1-2">Checkbox</label>
+        </div>
+        
+        <div class="form-group">
+          <input type="radio" id="radio1-2" name="group-2">
+          <label for="radio1-2">Radio 1</label>
+          <input type="radio" id="radio2-2" name="group-2">
+          <label for="radio2-2">Radio 2</label>
+        </div>
+        
+        <div class="form-group">
+          <label for="rangeInput-2">Range Input</label><br>
+          <input type="range" id="rangeInput-2" min="0" max="100">
+        </div>
+        <progress>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+  <script>
+    const toggleButton2 = document.getElementById("toggleTheme2");
+    toggleButton2?.addEventListener("click", () => {
+      const container = document.getElementById('container-accent-2');
+      if (container.getAttribute("data-theme") === "dark") {
+        container.removeAttribute("data-theme");
+      } else {
+        container.setAttribute("data-theme", "dark");
+      }
+    });
+
+  </script>
 </section>

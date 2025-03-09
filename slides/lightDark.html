@@ -7,13 +7,11 @@
 
   <ul>
     <li>
-      light-dark() CSS function: Sets two color options based on the user's
-      light or dark mode preference, without needing prefers-color-scheme media
-      queries.
+      Sets two color options based on the user's light or dark mode preference,
+      without needing prefers-color-scheme media queries.
     </li>
     <li>
-      User preference detection: Detects system or browser settings for light or
-      dark themes automatically.
+      Detects system or browser settings for light or dark themes automatically.
     </li>
     <li>
       Usage: Requires color-scheme: light dark; on the :root pseudo-class for
@@ -21,7 +19,289 @@
     </li>
   </ul>
 </section>
+
 <section id="light-dark-demo-1">
+  <h3>class switching vs light-dark()</h3>
+  <!-- <div class="slide-container" id="slide-container-1"> -->
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true">
+          <style>
+            :root {
+              --bg-color: #fff;
+              --text-color: #000;
+            }
+            .container {
+              background-color: var(--bg-color);
+              color: var(--text-color);
+            }
+            .circle { background-color: salmon; }
+            @media (prefers-color-scheme: dark) { 
+              :root {
+                --bg-color: #000;
+                --text-color: #fff;
+              }
+              .circle { background-color: lightblue; }
+            }
+          </style>
+        </code>
+        <!-- Note: explain to them that order matters in prefers-color-scheme dark, if i place it above the salmon circle, light blue won't work -->
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .circle {
+          width: 50px;
+          aspect-ratio: 1 / 1;
+          margin: 1rem auto;
+          border-radius: 50%;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      </style>
+      <div class="container">
+        <div class="circle"></div>
+        <p>Hello I am a text</p>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true">
+          <style>
+            :root {
+              color-scheme: light dark;
+              --bg-color: light-dark(#fff, #000);
+              --text-color: light-dark(#000, #fff);
+            }
+            .container {
+              background-color: var(--bg-color);
+              color: var(--text-color);
+            }
+            .circle { background-color: salmon; }
+          </style>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .circle {
+          width: 50px;
+          aspect-ratio: 1 / 1;
+          margin: 1rem auto;
+          border-radius: 50%;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      </style>
+      <div class="container">
+        <div class="circle"></div>
+        <p>Hello I am a text</p>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+<section id="light-dark-demo-2">
+  <h3>class switching vs light-dark() 2</h3>
+
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true">
+          <style>
+            :root {
+              &:has(input[name="mode"][value="l"]:checked) {
+                color-scheme: light;
+              }
+              &:has(input[name="mode"][value="d"]:checked) {
+                color-scheme: dark;
+              }
+
+              --bg-color: light-dark(#fff, #000);
+              --text-color: light-dark(#000, #fff);
+              --circle-color: light-dark(#000, #fff);
+            }
+
+            .magenta-blast {
+              --bg-color: light-dark(rebeccapurple, darkorchid);
+              --text-color: light-dark(lavender, thistle);
+              --circle-color: light-dark(mediumorchid, slateblue);
+            }
+            .container {
+              color: var(--text-color);
+              background-color: var(--bg-color);
+            }
+            .circle {
+              background-color: var(--circle-color);
+            }
+          </style>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .container {
+          text-align: center;
+        }
+        .circle {
+          width: 50px;
+          aspect-ratio: 1 / 1;
+          margin: 1rem auto;
+          border-radius: 50%;
+        }
+        .theme-button {
+          margin-top: 1rem;
+          background: var(--circle-color);
+          border: none;
+          border-radius: 8px;
+          color: var(--bg-color);
+          font-size: 16px;
+          padding: 0.75em 1.5em;
+          letter-spacing: 0.05em;
+        }
+
+      </style>
+      <div class="container" id="container2">
+        <div class="circle"></div>
+        <div class="row gap">
+          <label><input name="mode" type="radio" value="l" checked>Light</label>
+          <label><input name="mode" type="radio" value="d">Dark</label>
+        </div>
+        <button class="theme-button" onclick="toggleThemeLD2('magenta-blast')">Toggle Theme</button>
+      </div>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+  <script>
+    function toggleThemeLD2(mode) {
+      const container = document.getElementById("container2");
+      container.classList.toggle(mode);
+    }
+  </script>
+</section>
+
+<section id="accent-color-3">
+  <h3>Light Dark with Accent Color</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          :root {
+            color-scheme: light dark;
+            --accent: light-dark(red, green);
+            --bg-light: #f0f0f0;
+            --bg-dark: #121212;
+            --text-light: #333;
+            --text-dark: #eee;
+          }
+
+          input[type="checkbox"],
+          input[type="radio"],
+          input[type="range"],
+          progress {
+            accent-color: var(--accent);
+          }
+        </style>
+        <script>
+
+        </script>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+      /* Light Theme */
+      body {
+        background: var(--bg-light);
+        color: var(--text-light);
+        font-family: sans-serif;
+        padding: 2rem;
+        transition: background 0.5s ease, color 0.5s ease;
+      }
+
+      /* Dark Theme */
+      /* [data-theme="dark"] {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+        --accent: green;
+      } */
+
+      .toggle-button {
+        background: white;
+        border: solid 2px black;
+        color: black;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+      }
+
+      .toggle-button:hover {
+        transform: scale(1.05);
+      }
+
+      /* Simple layout for demo */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .container {
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+      </style>
+      <div class="container" id="container-accent-2">
+        <!-- <button class="toggle-button" id="toggleThemeLD2">Toggle Theme</button> -->
+        <div class="form-group">
+          <input type="checkbox" id="check1-2">
+          <label for="check1-2">Checkbox</label>
+        </div>
+
+        <div class="form-group">
+          <input type="radio" id="radio1-2" name="group-2">
+          <label for="radio1-2">Radio 1</label>
+          <input type="radio" id="radio2-2" name="group-2">
+          <label for="radio2-2">Radio 2</label>
+        </div>
+
+        <div class="form-group">
+          <label for="rangeInput-2">Range Input</label><br>
+          <input type="range" id="rangeInput-2" min="0" max="100">
+        </div>
+        <progress>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+  <script>
+    const toggleButton3 = document.getElementById("toggleTheme3");
+    toggleButton3?.addEventListener("click", () => {
+      const container = document.getElementById("container-accent-3");
+      if (container.getAttribute("data-theme") === "dark") {
+        container.removeAttribute("data-theme");
+      } else {
+        container.setAttribute("data-theme", "dark");
+      }
+    });
+  </script>
+</section>
+
+<!-- Saving this incase i need it -->
+<!-- <section id="light-dark-demo-1">
   <h3>class switching vs light-dark()</h3>
   <div class="slide-container">
     <pre class="visible-code-block">
@@ -111,9 +391,8 @@
 
     <div class="scene" data-edit></div>
   </div>
-</section>
-
-<section id="light-dark-demo-2">
+</section> -->
+<!-- <section id="light-dark-demo-2">
   <h3>class switching vs light-dark() 2</h3>
 
   <div class="slide-container">
@@ -165,21 +444,15 @@
           <label><input name="mode" type="radio" value="l" checked>Light</label>
           <label><input name="mode" type="radio" value="d">Dark</label>
         </div>
-        <button onclick="toggleTheme2('magenta-blast')">Toggle Theme</button>
+        <button onclick="toggleThemeLD2('magenta-blast')">Toggle Theme</button>
       </div>
     </script>
     <div class="scene" data-edit></div>
   </div>
   <script>
-    function toggleTheme2(mode) {
+    function toggleThemeLD2(mode) {
       const container = document.getElementById("container2");
       container.classList.toggle(mode);
-      // mode === 'dark' ? container.classList.add("magenta-blast") :
-      //   container.classList.remove("dark-mode")
     }
-
-    // function toggleDarkMode() {
-
-    // }
   </script>
-</section>
+</section> -->

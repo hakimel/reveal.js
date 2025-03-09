@@ -1,20 +1,207 @@
 <section id="has-info">
-    <h3>:has()</h3>
+  <h3>:has()</h3>
 
-    <div class="baseline-container">
-      <baseline-status featureId="has"></baseline-status>
-    </div>
+  <div class="baseline-container">
+    <baseline-status featureId="has"></baseline-status>
+  </div>
 
-    <ul>
-        <li>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </li>
-        <li>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </li>
-        <li>
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        </li>
-        <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-    </ul>
+  <ul>
+    <li>
+      Allows styling based on its related elements - Parent, Children, Siblings
+    </li>
+    <li>
+      Simplifies styling decisions by “looking ahead” or “back” in the DOM,
+      which was not possible with traditional CSS selectors.
+    </li>
+    <li>
+      Useful in form validations, toggling content visibility, and designing
+      complex interactive components solely with CSS.
+    </li>
+  </ul>
+</section>
+
+<section id="has-2">
+  <h3>:has</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+
+        </style>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+      form {
+        width: 320px;
+        padding: 20px;
+        background: #fff;
+        border: 2px solid grey;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: border-color 0.3s ease;
+      }
+      /* When all inputs have been interacted with (no placeholder shown) and at least one is invalid, turn form border red */
+      form:not(:has(input:placeholder-shown)):has(input:invalid) {
+        border-color: red;
+      }
+      /* When all inputs have been interacted with and none are invalid, turn form border green */
+      form:not(:has(input:placeholder-shown)):not(:has(input:invalid)) {
+        border-color: green;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      /* Default input styling */
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+      }
+      /* Input focus styling */
+      input:focus {
+        outline: none;
+        border-color: #007BFF;
+      }
+      /* If an input has been interacted with (no placeholder) and is invalid, turn its border red */
+      input:not(:placeholder-shown):invalid {
+        border-color: red;
+      }
+      /* When an input is valid, turn its border green */
+      input:valid {
+        border-color: green;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+
+      .container {
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+      </style>
+      <div class="container" id="container-has-2">
+        <body>
+          <form novalidate>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter your password" required minlength="6">
+            </div>
+            <button type="">Submit</button>
+          </form>
+        </body>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+  <script>
+    const toggleButton2 = document.getElementById("toggleTheme2");
+    toggleButton2?.addEventListener("click", () => {
+      const container = document.getElementById("container-accent-2");
+      if (container.getAttribute("data-theme") === "dark") {
+        container.removeAttribute("data-theme");
+      } else {
+        container.setAttribute("data-theme", "dark");
+      }
+    });
+  </script>
+</section>
+
+<section id="has-2">
+  <h3>:has</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          .button-list:has(button:hover) button:not(:hover) {
+            scale: 0.8;
+            opacity: 0.5;
+          }
+
+          button:has(+ button:hover) {
+            /* Styles applied to a button immediately preceding a hovered button */
+            background-color: #ffcc00;
+            scale: 0.9 !important;
+          }
+
+          .button-list:has(button:hover) button:not(:hover) {
+            scale: 0.8;
+            opacity: 0.5;
+          }
+
+          .button-list button:hover + button {
+            scale: 0.9 !important;
+            background: green;
+          }
+        </style>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+        <style>
+        .button-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 300px;
+      }
+      .button-list button {
+        padding: 12px;
+        font-size: 1em;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, scale 0.4s ease, opacity 0.4s ease;
+      }
+      .button-list button:hover {
+        background-color: #0056b3;
+      }
+      .button-list button:active {
+        background-color: #004494;
+      }
+        </style>
+          <div class="button-list">
+            <button>Button 1</button>
+            <button>Button 2</button>
+            <button>Button 3</button>
+            <button>Button 4</button>
+            <button>Button 5</button>
+          </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+  <script></script>
 </section>
