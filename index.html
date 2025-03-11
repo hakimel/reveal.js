@@ -155,6 +155,10 @@
         width: 50%;
       }
 
+      .split-list {
+        display: flex;
+      }
+
       .container {
         border-radius: 1rem;
 
@@ -249,6 +253,7 @@
         return { rootBlock, cssWithoutRoot };
       }
 
+      // Not used
       function scopeCSSGood(cssText, scope) {
         const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
         return cssText.replace(
@@ -261,7 +266,7 @@
               .split(",")
               .map((sel) => {
                 let trimmed = sel.trim();
-                console.log("scope: ", scope, " trimmerD: ", trimmed);
+                // console.log("scope: ", scope, " trimmerD: ", trimmed);
                 if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
                   return trimmed;
                 }
@@ -282,11 +287,12 @@
         let output = "";
         let skipMode = false; // when true, we skip lines that start with '@'
         // console.log('-----')
+        let depth = 0;
         for (let i = 0; i < lines.length; i++) {
           let line = lines[i];
           let trimmed = line.trim();
 
-          // console.log('trimmed: ', trimmed);
+          // console.log("trimmed: ", trimmed);
 
           // If the line starts with an at‑rule, output it as-is and enter skipMode.
           // Add anything that you don't want to start with a scope here
@@ -303,8 +309,8 @@
               // We found a selector line after at‑rules—process its selector.
               let idx = line.indexOf("{");
               let selectors = line.substring(0, idx).trim();
-              console.log("selector: ", selectors, " scope: ", scope);
-              if (!selectors.startsWith(scope)) {
+              // console.log("selector: ", selectors, " scope: ", scope);
+              if (depth === 0 && !selectors.startsWith(scope)) {
                 // NOte: When you use root with Id scope appendor
                 // it just makes it so its :root #slide-container-id
                 // we need to reverse it here when we detect root to counteract it
@@ -315,10 +321,19 @@
                 }
               }
               output += selectors + " {" + line.substring(idx + 1) + "\n";
+              depth++;
               skipMode = false;
             } else {
               // If the line doesn't contain a "{" (or it still starts with "@"), just output it.
               output += line + "\n";
+
+              // Also update depth if there are any braces.
+              if (line.indexOf("{") !== -1) {
+                depth++;
+              }
+              if (line.indexOf("}") !== -1) {
+                depth--;
+              }
             }
           } else {
             // If not in skipMode and the line doesn't start with "@",
@@ -327,16 +342,17 @@
             if (line.indexOf("{") !== -1) {
               let idx = line.indexOf("{");
               let selectors = line.substring(0, idx).trim();
-              if (!selectors.startsWith(scope)) {
+              if (depth === 0 && !selectors.startsWith(scope)) {
                 selectors = scope + " " + selectors;
               }
               output += selectors + " {" + line.substring(idx + 1) + "\n";
+              depth++; // Increase depth because of "{"
             }
             // else if (line.indexOf(",") !== -1) {
             else if (line.endsWith(",")) {
               let idx = line.indexOf(",");
               let selectors = line.substring(0, idx).trim();
-              if (!selectors.startsWith(scope)) {
+              if (depth === 0 && !selectors.startsWith(scope)) {
                 selectors = scope + " " + selectors;
               }
               output += selectors + " ," + line.substring(idx + 1) + "\n";
@@ -344,12 +360,18 @@
               output += line + "\n";
             }
           }
+
+          // Check if the line contains a closing brace "}" to update depth.
+          if (line.indexOf("}") !== -1) {
+            depth--;
+          }
         }
 
         // console.log('output: ', output)
         return output;
       }
 
+      // Not used
       function scopeCSS(cssText, scope) {
         // Use the 'm' (multiline) flag so the regex works line‐by‐line
         const cssRuleRegex = /([^{}]+?)\s*\{([^{}]*?)\}/gm;
@@ -410,7 +432,7 @@
             container.id = "slide-container-" + (index + 1);
           }
           const containerScope = `#${container.id}`;
-          console.log("containerScope", container.parentNode);
+          // console.log("containerScope", container.parentNode);
           const codeBlock = container.querySelector(".code-block");
           const hiddenCodeBlock = container.querySelector(".hidden-code-block");
           const dataEditDiv = container.querySelector("[data-edit]");
@@ -431,6 +453,8 @@
               combinedContent = combinedContent.replace(
                 /<style>([\s\S]*?)<\/style>/gi,
                 (match, cssContent) => {
+                  // console.log("match: ", match);
+                  // console.log("cssContent: ", cssContent);
                   const { rootBlock, cssWithoutRoot } =
                     extractRootBlock(cssContent);
                   const processedNonRoot = scopeCSSSkipAt(
@@ -438,11 +462,11 @@
                     containerScope
                   );
 
-                  // console.log('processedNonRoot: ', processedNonRoot)
+                  // console.log("processedNonRoot: ", processedNonRoot);
                   const processedRoot = rootBlock
                     ? wrapRootInScope(rootBlock, containerScope)
                     : "";
-
+                  // console.log("processedRoot: ", processedRoot);
                   return `<style>${processedRoot}${processedNonRoot}</style>`;
                 }
               );
@@ -504,10 +528,10 @@
         }
 
         function runInjectedScripts(container) {
-          console.log("container: ", container);
+          // console.log("container: ", container);
           const scripts = container.querySelectorAll("script");
 
-          console.log("scripts: ", scripts);
+          // console.log("scripts: ", scripts);
           scripts.forEach((oldScript) => {
             const newScript = document.createElement("script");
             // Copy attributes from the old script (like type, src, etc.)
