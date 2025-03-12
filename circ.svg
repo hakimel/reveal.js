@@ -40,7 +40,8 @@
      id="layer1"
      transform="translate(-47.917918,-92.654314)">
     <g
-       id="g3">
+       id="g3"
+       inkscape:label="#g3">
       <circle
          style="fill:#e9afaf;stroke:#000080;stroke-width:0.264583"
          id="circle1"
@@ -56,7 +57,8 @@
          y="107.21841" />
     </g>
     <g
-       id="g4">
+       id="g4"
+       inkscape:label="#g4">
       <circle
          style="fill:#ffffff;stroke:#ff0000;stroke-width:0.264583"
          id="circle3"
