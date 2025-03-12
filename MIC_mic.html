@@ -27,16 +27,16 @@
 
 
 	<script src="plugin/math/math.js"></script>
-	<!-- Load content plugin -->
-	<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/loadcontent/plugin.js"></script>
 	<!-- Animate plugin -->
 	<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/animate/plugin.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.1.2/svg.min.js"></script>
-
+	<!-- Load content plugin -->
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/loadcontent/plugin.js"></script>
 	<!-- Audio slideshow plugin -->
 	<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/audio-slideshow/plugin.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/audio-slideshow/recorder.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.js"></script>
+
 
 
 	<body>
@@ -56,6 +56,11 @@
 	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
 	</small>
 	</p>
+</section>
+
+<section>
+    <h2 data-animate="fade-in">Bienvenido</h2>
+    <p data-animate="fade-up">Esto es una animación</p>
 </section>
 
 <section>
@@ -166,14 +171,14 @@
 				slideNumber: 'h.v',
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [
-					RevealMarkdown,
-					RevealHighlight, 
-					RevealNotes,
-					RevealMath.KaTeX, 
 					RevealLoadContent, 
 					RevealAnimate,
 					RevealAudioSlideshow,
-					RevealAudioRecorder 
+					RevealAudioRecorder,
+					RevealMarkdown,
+					RevealHighlight, 
+					RevealNotes,
+					RevealMath.KaTeX
 				]
 			});
 		</script>
