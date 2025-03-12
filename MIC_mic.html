@@ -24,14 +24,7 @@
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 	</head>
-	<style>
-		.fragment.blur {
-		filter: blur(5px);
-		}
-		.fragment.blur.visible {
-		filter: none;
-		}
-	</style>
+
 	<body>
 
 	<script src="plugin/math/math.js"></script>
@@ -105,10 +98,13 @@
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
 			Reveal.initialize({
+				animate:{
+					autoplay: true // default is false
+				},
 				hash: true,
 				slideNumber: 'h.v',
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes,RevealMath.KaTeX, RevealLoadContent, RevealAnimate  ]
 			});
 		</script>
 	</body>
