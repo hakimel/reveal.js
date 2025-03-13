@@ -56,7 +56,7 @@
      inkscape:label="Capa 1"
      id="layer1" />
   <g
-     id="H1"
+     id="K1"
      inkscape:label="#Figura1">
     <circle
        style="fill:#e9afaf;stroke:#000080;stroke-width:0.264583"
@@ -73,7 +73,7 @@
        y="107.21841" />
   </g>
   <g
-     id="H2"
+     id="K2"
      inkscape:label="#Figura2">
     <circle
        style="fill:#ffffff;stroke:#ff0000;stroke-width:0.264583"
@@ -90,7 +90,7 @@
        ry="13.508597" />
   </g>
   <g
-     id="H3">
+     id="K3">
     <path
        sodipodi:type="spiral"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583"
@@ -113,7 +113,7 @@
        y="149.53973" />
   </g>
   <g
-     id="H4">
+     id="K4">
     <ellipse
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path2"
