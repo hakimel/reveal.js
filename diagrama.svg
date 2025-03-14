@@ -25,15 +25,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.77680314"
-     inkscape:cx="233.64993"
-     inkscape:cy="429.3237"
+     inkscape:zoom="0.98610058"
+     inkscape:cx="436.56804"
+     inkscape:cy="248.9604"
      inkscape:window-width="1920"
      inkscape:window-height="991"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer6" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
   <g
@@ -42,7 +42,8 @@
      inkscape:label="Layer 1"
      style="display:inline">
     <g
-       id="g19">
+       id="g19"
+       style="display:inline">
       <rect
          fill="#1e90ff"
          height="36.296902"
@@ -63,257 +64,6 @@
          y="304.47949"
          id="text1">Microprocesador</text>
     </g>
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,-168.8907 30,-168.8907 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path7" />
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,-112.5938 30,-112.5938 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path8" />
-    <g
-       id="g24">
-      <rect
-         fill="#f1f1f1"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="85.515602"
-         x="666.08691"
-         y="132.5938"
-         id="rect8" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="65.515602"
-         x="676.08691"
-         y="155.5889"
-         id="text9">Registros</text>
-    </g>
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,-56.2969 30,-56.2969 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path9" />
-    <g
-       id="g25">
-      <rect
-         fill="#f1f1f1"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="115.3271"
-         x="666.08691"
-         y="188.89059"
-         id="rect9" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="95.327103"
-         x="676.08691"
-         y="211.8857"
-         id="text10">Codificadores</text>
-    </g>
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,0 30,0 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path10" />
-    <g
-       id="g26">
-      <rect
-         fill="#f1f1f1"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="132.64259"
-         x="666.08691"
-         y="245.1875"
-         id="rect10" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="112.6426"
-         x="676.08691"
-         y="268.18259"
-         id="text11">Decodificadores</text>
-    </g>
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,56.2968 30,56.2968 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path11" />
-    <g
-       id="g27">
-      <rect
-         fill="#f1f1f1"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="122.8945"
-         x="666.08691"
-         y="301.48441"
-         id="rect11" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="102.8945"
-         x="676.08691"
-         y="324.47949"
-         id="text12">Comparadores</text>
-    </g>
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,112.5937 30,112.5937 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path12" />
-    <g
-       id="g28">
-      <rect
-         fill="#f1f1f1"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="41.799801"
-         x="666.08691"
-         y="357.78131"
-         id="rect12" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="21.799801"
-         x="676.08691"
-         y="380.7764"
-         id="text13">etc</text>
-    </g>
-    <path
-       d="m 616.0869,207.0391 h 10 c 15,0 15,168.8906 30,168.8906 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path13" />
-    <path
-       d="m 482.4854,207.0391 h 10 c 15,0 15,0 30,0 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path14" />
-    <path
-       d="m 270.5225,207.0391 h 10 c 15,0 15,0 30,0 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path15" />
-    <path
-       d="m 146.5869,299.6328 h 10 c 15,0 15,-92.5937 30,-92.5937 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path16" />
-    <g
-       id="g29">
-      <rect
-         fill="#fa8072"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="143.8604"
-         x="196.5869"
-         y="414.07809"
-         id="rect16" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="123.8604"
-         x="206.5869"
-         y="437.07321"
-         id="text16">Un solo chip (C.I.)</text>
-    </g>
-    <path
-       d="m 146.5869,299.6328 h 10 c 15,0 15,132.5938 30,132.5938 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path17" />
-    <g
-       id="g30">
-      <rect
-         fill="#fa8072"
-         height="52.5938"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="173.084"
-         x="196.5869"
-         y="470.375"
-         id="rect17" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="148.6338"
-         x="206.5869"
-         y="493.37009"
-         id="text17">Dispositivo Lógico de</text>
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="125.0771"
-         x="206.5869"
-         y="509.66699"
-         id="text18">Propósito General</text>
-    </g>
-    <path
-       d="m 146.5869,299.6328 h 10 c 15,0 15,197.0391 30,197.0391 h 10"
-       fill="none"
-       style="stroke:#181818;stroke-width:1"
-       id="path18" />
-    <g
-       id="g31"
-       style="display:inline">
-      <rect
-         fill="#fa8072"
-         height="36.296902"
-         rx="12.5"
-         ry="12.5"
-         style="stroke:#181818;stroke-width:1.5"
-         width="154.85941"
-         x="196.5869"
-         y="542.96881"
-         id="rect18" />
-      <text
-         fill="#000000"
-         font-family="sans-serif"
-         font-size="14px"
-         lengthAdjust="spacing"
-         textLength="134.85941"
-         x="206.5869"
-         y="565.96393"
-         id="text19">Sistema secuencial</text>
-    </g>
-    <path
-       d="m 146.5869,299.6328 h 10 c 15,0 15,261.4844 30,261.4844 h 10"
-       fill="none"
-       style="display:inline;stroke:#181818;stroke-width:1"
-       id="path19" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -343,6 +93,11 @@
          y="211.8857"
          id="text2">Circuito</text>
     </g>
+    <path
+       d="m 146.5869,299.6328 h 10 c 15,0 15,-92.5937 30,-92.5937 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path16" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -359,6 +114,11 @@
        y="211.8857"
        id="text3"
        style="display:inline">compuesto de muchos</text>
+    <path
+       d="m 270.5225,207.0391 h 10 c 15,0 15,0 30,0 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path15" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -406,6 +166,11 @@
          y="228.1826"
          id="text6">simples</text>
     </g>
+    <path
+       d="m 482.4854,207.0391 h 10 c 15,0 15,0 30,0 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path14" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -435,14 +200,20 @@
          y="42.995098"
          id="text7">Biestables</text>
     </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,-168.8907 30,-168.8907 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path7" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer6"
-     inkscape:label="Layer 6">
+     inkscape:label="Layer 6"
+     style="display:inline">
     <g
        id="g23"
-       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+       style="display:inline">
       <rect
          fill="#f1f1f1"
          height="36.296902"
@@ -463,5 +234,283 @@
          y="99.292"
          id="text8">Contadores</text>
     </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,-112.5938 30,-112.5938 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path8" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="Layer 7">
+    <g
+       id="g24"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#f1f1f1"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="85.515602"
+         x="666.08691"
+         y="132.5938"
+         id="rect8" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="65.515602"
+         x="676.08691"
+         y="155.5889"
+         id="text9">Registros</text>
+    </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,-56.2969 30,-56.2969 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path9" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer8"
+     inkscape:label="Layer 8">
+    <g
+       id="g25"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#f1f1f1"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="115.3271"
+         x="666.08691"
+         y="188.89059"
+         id="rect9" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="95.327103"
+         x="676.08691"
+         y="211.8857"
+         id="text10">Codificadores</text>
+    </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,0 30,0 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path10" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer9"
+     inkscape:label="Layer 9">
+    <g
+       id="g26"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#f1f1f1"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="132.64259"
+         x="666.08691"
+         y="245.1875"
+         id="rect10" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="112.6426"
+         x="676.08691"
+         y="268.18259"
+         id="text11">Decodificadores</text>
+    </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,56.2968 30,56.2968 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path11" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer10"
+     inkscape:label="Layer 10">
+    <g
+       id="g27"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#f1f1f1"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="122.8945"
+         x="666.08691"
+         y="301.48441"
+         id="rect11" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="102.8945"
+         x="676.08691"
+         y="324.47949"
+         id="text12">Comparadores</text>
+    </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,112.5937 30,112.5937 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path12" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer11"
+     inkscape:label="Layer 11">
+    <g
+       id="g28"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#f1f1f1"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="41.799801"
+         x="666.08691"
+         y="357.78131"
+         id="rect12" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="21.799801"
+         x="676.08691"
+         y="380.7764"
+         id="text13">etc</text>
+    </g>
+    <path
+       d="m 616.0869,207.0391 h 10 c 15,0 15,168.8906 30,168.8906 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path13" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer12"
+     inkscape:label="Layer 12">
+    <g
+       id="g29"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#fa8072"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="143.8604"
+         x="196.5869"
+         y="414.07809"
+         id="rect16" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="123.8604"
+         x="206.5869"
+         y="437.07321"
+         id="text16">Un solo chip (C.I.)</text>
+    </g>
+    <path
+       d="m 146.5869,299.6328 h 10 c 15,0 15,132.5938 30,132.5938 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path17" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer13"
+     inkscape:label="Layer 13">
+    <g
+       id="g30"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#fa8072"
+         height="52.5938"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="173.084"
+         x="196.5869"
+         y="470.375"
+         id="rect17" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="148.6338"
+         x="206.5869"
+         y="493.37009"
+         id="text17">Dispositivo Lógico de</text>
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="125.0771"
+         x="206.5869"
+         y="509.66699"
+         id="text18">Propósito General</text>
+    </g>
+    <path
+       d="m 146.5869,299.6328 h 10 c 15,0 15,197.0391 30,197.0391 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path18" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer14"
+     inkscape:label="Layer 14">
+    <g
+       id="g31"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline">
+      <rect
+         fill="#fa8072"
+         height="36.296902"
+         rx="12.5"
+         ry="12.5"
+         style="stroke:#181818;stroke-width:1.5"
+         width="154.85941"
+         x="196.5869"
+         y="542.96881"
+         id="rect18" />
+      <text
+         fill="#000000"
+         font-family="sans-serif"
+         font-size="14px"
+         lengthAdjust="spacing"
+         textLength="134.85941"
+         x="206.5869"
+         y="565.96393"
+         id="text19">Sistema secuencial</text>
+    </g>
+    <path
+       d="m 146.5869,299.6328 h 10 c 15,0 15,261.4844 30,261.4844 h 10"
+       fill="none"
+       style="width:810px;height:601px;background:#FFFFFF;display:inline;stroke:#181818;stroke-width:1"
+       id="path19" />
   </g>
 </svg>
