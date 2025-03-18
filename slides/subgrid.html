@@ -22,29 +22,28 @@
   </ul>
 </section>
 <section id="subgrid-demo">
-  <h3>Subgrid</h3>
+  <h3>Subgrid demo</h3>
   <div class="slide-container">
-    <pre class="visible-code-block">
-        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4, 13">
-          <style>
-            main {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              grid-template-rows: auto;
-              gap: 0.5rem;
-            }
+    <pre class="visible-code-block forty-sixty">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-templates-rows: auto;
+            gap: 0.5rem;
+          }
 
-            .card {
-              display: grid;
-              grid-column: span 2;
-              gap: 1rem;
-              grid-template-columns: repeat(2, 1fr);
-              grid-template-rows: min-content 1fr;
-              background: salmon;
-            }
-          </style>
-        </code>
-      </pre>
+          .card {
+            display: grid;
+            grid-column: span 1;
+            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: min-content 1fr;
+          }
+        </style>
+      </code>
+    </pre>
 
     <script type="text/template" class="hidden-code-block">
       <style>
@@ -65,6 +64,7 @@
         }
 
         h2 {
+          margin-top: auto;
           font-size: 1.75rem;
           padding-right: 1rem;
           padding-top: 1rem;
@@ -79,6 +79,7 @@
         .card {
           border-radius: 1rem;
           overflow: clip;
+          box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
         }
 
         .card img {
@@ -103,7 +104,7 @@
           <img src="//unsplash.it/501" alt="Random Image 501">
         </article>
         <article class="card">
-          <h2 class="title">Omnis, veritatis odio.</h2>
+          <h2 class="title">Omnis, veritatis</h2>
           <p class="description">
             Enim molestiae recusandae ut dolor sit amet consectetur adipisicing. Odit possimu
           </p>
@@ -124,6 +125,117 @@
           <img src="//unsplash.it/504" alt="Random Image 504">
         </article>
       </main>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+
+
+<section id="subgrid-demo-complete">
+  <h3>Subgrid demo complete</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block forty-sixty">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+            gap: 0.5rem;
+          }
+
+          .card {
+            display: grid;
+            grid-column: span 2;
+            grid-row: span 2;
+            gap: 1rem;
+            grid-template-columns: subgrid;
+            grid-template-rows: subgrid;
+          }
+        </style>
+        
+      <main>
+        <article class="card">
+          <h2 class="title">Quibusdam, recusandae odio</h2>
+          <p class="description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda recusandae maxime distinctio quos ullam incidunt.
+          </p>
+          <img src="//unsplash.it/501" alt="Random Image 501">
+        </article>
+        <article class="card">
+          <h2 class="title">Omnis, veritatis</h2>
+          <p class="description">
+            Enim molestiae recusandae ut dolor sit amet consectetur adipisicing. Odit possimu
+          </p>
+          <img src="//unsplash.it/502" alt="Random Image 502">
+        </article>
+        <article class="card">
+          <h2 class="title">Cave</h2>
+          <p class="description">
+            Error maiores culpa eaque. Quam quisquam quae nostrum ipsa dolorum atque aperiam fugit soluta error! Lorem ipsum dolor sit amet.
+          </p>
+          <img src="//unsplash.it/503" alt="Random Image 503">
+        </article>
+        <article class="card">
+          <h2 class="title">Extended Title for Misalignment</h2>
+          <p class="description">
+            Corporis laboriosam, neque est commodi architecto voluptatem, ipsam corrupti ullam similique eligendi hic qui natus? Quisquam quam voluptas
+          </p>
+          <img src="//unsplash.it/504" alt="Random Image 504">
+        </article>
+      </main>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        body {
+          font-size: 1.125rem;
+          line-height: 1.2;
+          font-family: "Gill Sans", sans-serif;
+        }
+
+        img {
+          margin: 0;
+        }
+
+        h2,
+        p {
+          margin: 0;
+          text-align: left;
+        }
+
+        h2 {
+          margin-top: auto;
+          font-size: 1.75rem;
+          padding-right: 1rem;
+          padding-top: 1rem;
+        }
+
+        p {
+          font-size: 0.75rem;
+          padding-right: 1rem;
+          padding-bottom: 1rem;
+        }
+
+        .card {
+          border-radius: 1rem;
+          overflow: clip;
+          box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+          grid-column: 1;
+          grid-row: 1 / span 2;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .reveal img {
+          max-height: none;
+        }
+      </style>
     </script>
     <div class="scene" data-edit></div>
   </div>

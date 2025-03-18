@@ -20,36 +20,41 @@
   </ul>
 </section>
 
-<section id="has-2">
-  <h3>:has</h3>
+<section id="has-demo-1">
+  <h3>:has demo 1</h3>
   <div class="slide-container">
     <pre class="visible-code-block">
       <code class="code-block hljs" data-trim contenteditable="true">
         <style>
+          form {
+            width: 320px;
+            padding: 20px;
+            border: 3px solid grey;
+            border-radius: 8px;
 
+            /* if form has no more placeholders and has one input invalid */
+            /* if form has no more place older and has no more input invalid */
+          }
         </style>
+
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter your password" required minlength="6">
+            </div>
+            <button type="button">Submit</button>
+          </form>
+        </div>
       </code>
     </pre>
 
     <script type="text/template" class="hidden-code-block">
       <style>
-      form {
-        width: 320px;
-        padding: 20px;
-        background: #fff;
-        border: 2px solid grey;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: border-color 0.3s ease;
-      }
-      /* When all inputs have been interacted with (no placeholder shown) and at least one is invalid, turn form border red */
-      form:not(:has(input:placeholder-shown)):has(input:invalid) {
-        border-color: red;
-      }
-      /* When all inputs have been interacted with and none are invalid, turn form border green */
-      form:not(:has(input:placeholder-shown)):not(:has(input:invalid)) {
-        border-color: green;
-      }
       .form-group {
         margin-bottom: 15px;
       }
@@ -57,12 +62,13 @@
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
+        font-size: 1rem;
       }
       /* Default input styling */
       input {
+        font-size: 1rem;
         width: 100%;
         padding: 10px;
-        font-size: 1em;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
@@ -91,6 +97,7 @@
         font-size: 1em;
         cursor: pointer;
         transition: background 0.3s ease;
+        font-size: 1rem;
       }
       button:hover {
         background: #0056b3;
@@ -101,107 +108,420 @@
         box-sizing: border-box;
       }
       </style>
-      <div class="container" id="container-has-2">
-        <body>
-          <form novalidate>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" placeholder="Enter your name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" placeholder="Enter your password" required minlength="6">
-            </div>
-            <button type="">Submit</button>
-          </form>
-        </body>
-      </div>
     </script>
 
     <div class="scene" data-edit></div>
   </div>
-  <script>
-    const toggleButton2 = document.getElementById("toggleTheme2");
-    toggleButton2?.addEventListener("click", () => {
-      const container = document.getElementById("container-accent-2");
-      if (container.getAttribute("data-theme") === "dark") {
-        container.removeAttribute("data-theme");
-      } else {
-        container.setAttribute("data-theme", "dark");
-      }
-    });
-  </script>
 </section>
 
-<section id="has-2">
-  <h3>:has</h3>
+<section id="has-demo-1-complete">
+  <h3>:has demo 1 complete</h3>
   <div class="slide-container">
     <pre class="visible-code-block">
       <code class="code-block hljs" data-trim contenteditable="true">
         <style>
-          .button-list:has(button:hover) button:not(:hover) {
-            scale: 0.8;
-            opacity: 0.5;
-          }
+          form {
+            width: 320px;
+            padding: 20px;
+            border: 3px solid grey;
+            border-radius: 8px;
 
-          button:has(+ button:hover) {
-            /* Styles applied to a button immediately preceding a hovered button */
-            background-color: #ffcc00;
-            scale: 0.9 !important;
-          }
-
-          .button-list:has(button:hover) button:not(:hover) {
-            scale: 0.8;
-            opacity: 0.5;
-          }
-
-          .button-list button:hover + button {
-            scale: 0.9 !important;
-            background: green;
+            &:not(:has(input:placeholder-shown)) {
+              /* if form has no more placeholders and has one input invalid */
+              &:has(input:invalid) { border-color: red; }
+  
+              /* if form has no more place older and has no more input invalid */
+              &:not(:has(input:invalid)) { border-color: green; }
+            }
           }
         </style>
       </code>
     </pre>
 
     <script type="text/template" class="hidden-code-block">
-        <style>
-        .button-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 300px;
+      <style>
+      .form-group {
+        margin-bottom: 15px;
       }
-      .button-list button {
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+      /* Default input styling */
+      input {
+        font-size: 1rem;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+      }
+      /* Input focus styling */
+      input:focus {
+        outline: none;
+        border-color: #007BFF;
+      }
+      /* If an input has been interacted with (no placeholder) and is invalid, turn its border red */
+      input:not(:placeholder-shown):invalid {
+        border-color: red;
+      }
+      /* When an input is valid, turn its border green */
+      input:valid {
+        border-color: green;
+      }
+      button {
+        width: 100%;
         padding: 12px;
-        font-size: 1em;
-        background-color: #007BFF;
+        background: #007BFF;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 4px;
+        font-size: 1em;
         cursor: pointer;
-        transition: background-color 0.3s ease, scale 0.4s ease, opacity 0.4s ease;
+        transition: background 0.3s ease;
+        font-size: 1rem;
       }
-      .button-list button:hover {
-        background-color: #0056b3;
+      button:hover {
+        background: #0056b3;
       }
-      .button-list button:active {
-        background-color: #004494;
+
+      .container {
+        padding: 1rem;
+        box-sizing: border-box;
       }
-        </style>
-          <div class="button-list">
-            <button>Button 1</button>
-            <button>Button 2</button>
-            <button>Button 3</button>
-            <button>Button 4</button>
-            <button>Button 5</button>
+      </style>
+      <div class="container">
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
           </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required minlength="6">
+          </div>
+          <button type="button">Submit</button>
+        </form>
+      </div>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+
+<section id="has-2-demo">
+  <h3>:has - target previous sibling (javascript)</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          .button-list {
+            button:hover {
+              scale: 1.3;
+            }
+
+            /* target next sibling */
+            button:hover + button {
+              scale: 1.1;
+              background: green;
+            }
+
+            /* target previous sibling */
+            .yellow-hover {
+              background-color: orange;
+              scale: 1.1;
+            }
+          }
+
+        </style>
+        <div class="button-list">
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+          <button>Button 4</button>
+          <button>Button 5</button>
+        </div>
+        <script>
+          (() => {
+            const buttons = document.querySelectorAll('.button-list button');
+
+            buttons.forEach(button => {
+              button.addEventListener('mouseenter', function() {
+                const prevButton = button.previousElementSibling;
+                if (prevButton && prevButton.tagName.toLowerCase() === 'button') {
+                  prevButton.classList.add('yellow-hover');
+                }
+              });
+
+              button.addEventListener('mouseleave', function() {
+                const prevButton = button.previousElementSibling;
+                if (prevButton && prevButton.tagName.toLowerCase() === 'button') {
+                  prevButton.classList.remove('yellow-hover');
+                }
+              });
+            });
+          })();
+        </script>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        button:hover {
+          z-index: 1;
+        }
+        .button-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: 300px;
+        }
+        .button-list button {
+          padding: 12px;
+          font-size: 1em;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, scale 0.4s ease, opacity 0.4s ease;
+        }
+        .button-list button:hover {
+          background-color: #0056b3;
+        }
+        .button-list button:active {
+          background-color: #004494;
+        }
+      </style>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+
+<section id="has-2-demo-complete">
+  <h3>:has - target previous sibling</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          .button-list {
+            button:hover {
+              scale: 1.3;
+            }
+
+            button:hover + button {
+              scale: 1.1;
+              background: green;
+            }
+
+            /* applies before a button that is hovered */
+            button:has(+ button:hover) {
+              background-color: pink;
+              scale: 1.1;
+            }
+          }
+
+        </style>
+        <div class="button-list">
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+          <button>Button 4</button>
+          <button>Button 5</button>
+        </div>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        button:hover {
+          z-index: 1;
+        }
+        .button-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: 300px;
+        }
+        .button-list button {
+          padding: 12px;
+          font-size: 1em;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, scale 0.4s ease, opacity 0.4s ease;
+        }
+        .button-list button:hover {
+          background-color: #0056b3;
+        }
+        .button-list button:active {
+          background-color: #004494;
+        }
+      </style>
     </script>
 
     <div class="scene" data-edit></div>
   </div>
   <script></script>
 </section>
+
+<!-- <section id="has-2">
+  <h3>:has</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          .button-list:has(button:hover) {
+            button:not(:hover) {
+              scale: 0.8;
+              opacity: 0.5;
+            }
+
+            /* applies before a button that is hovered */
+            button:has(+ button:hover) {
+              background-color: #ffcc00;
+              scale: 0.9;
+            }
+
+            button:hover + button {
+              scale: 0.9;
+              background: green;
+            }
+          }
+
+        </style>
+        <div class="button-list">
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+          <button>Button 4</button>
+          <button>Button 5</button>
+        </div>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .button-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: 300px;
+        }
+        .button-list button {
+          padding: 12px;
+          font-size: 1em;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, scale 0.4s ease, opacity 0.4s ease;
+        }
+        .button-list button:hover {
+          background-color: #0056b3;
+        }
+        .button-list button:active {
+          background-color: #004494;
+        }
+      </style>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+  <script></script>
+</section> -->
+
+<!-- <section id="has-3">
+  <h3>without :has using javascript</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          .button-list:has(button:hover) {
+            button:not(:hover) {
+              scale: 0.8;
+              opacity: 0.5;
+            }
+
+            button:hover + button {
+              scale: 0.9;
+              background: green;
+            }
+
+            .yellow-hover {
+              background-color: #ffcc00;
+              scale: 0.9 !important;
+            }
+          }
+
+        </style>
+        <div class="button-list">
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+          <button>Button 4</button>
+          <button>Button 5</button>
+        </div>
+        <script>
+          const buttons = document.querySelectorAll('.button-list button');
+      
+          // Loop through each button to add hover event listeners
+          buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+              // Get the previous sibling element
+              const prevButton = button.previousElementSibling;
+              // Check if the previous sibling exists and is a button
+              if (prevButton && prevButton.tagName.toLowerCase() === 'button') {
+                prevButton.classList.add('yellow-hover');
+              }
+            });
+          
+            // remove style
+            button.addEventListener('mouseleave', function() {
+              const prevButton = button.previousElementSibling;
+              if (prevButton && prevButton.tagName.toLowerCase() === 'button') {
+                prevButton.classList.remove('yellow-hover');
+              }
+            });
+          });
+        </script>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .button-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          width: 300px;
+        }
+        .button-list button {
+          padding: 12px;
+          font-size: 1em;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, scale 0.4s ease, opacity 0.4s ease;
+        }
+        .button-list button:hover {
+          background-color: #0056b3;
+        }
+        .button-list button:active {
+          background-color: #004494;
+        }
+      </style>
+    </script>
+
+    <div class="scene" data-edit></div>
+  </div>
+</section> -->

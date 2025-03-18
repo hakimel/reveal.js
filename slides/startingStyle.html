@@ -16,43 +16,68 @@
   </ul>
 </section>
 <section id="starting-style-demo-popover">
-  <h3>@starting-style</h3>
+  <h3>@starting-style demo</h3>
   <div class="slide-container">
     <pre class="visible-code-block">
-        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="10-12">
+        <code class="code-block hljs" data-trim contenteditable="true">
           <style>
             [popover] {
-              top: 50%;
-              transform: translateY(1000%) scale(2);
-              transition: all 0.4s ease-in allow-discrete;       
+              width: calc(100% - 3rem);
+              margin: 1.5rem;
+              background: black;
+              transform-origin: top center;
+
+              transition: all 0.4s ease-in-out allow-discrete;       
+              opacity: 0;
+              transform: translate(100%, 0) rotateX(0) scale(0.8);
             }
 
             [popover]:popover-open {
-              transform: translateY(-50%) scale(2);
-              @starting-style {
-                  transform: translateY(-1000%) scale(2);
-              }
+              display: flex;
+              transform: translate(0, 0) rotateX(0) scale(0.8);
+              opacity: 1;
+            }
+
+            [popover].start {
+              transition: none;
+              transform: translate(0, -120%) rotateX(0) scale(0.8);
             }
           </style>
 
           <div class="container">
-            <button popovertarget="my-popover1">Open Popover</button>
-            <div id="my-popover1" popover>
+            <button id="openPopover-1" popovertarget="my-popover-startStyle-0">Open Popover</button>
+            <div class="popover" id="my-popover-startStyle-0" popover>
               <p>I am a Popover</p>
             </div>
           </div>
+          <script>
+            const openBtn = document.getElementById('openPopover-1');
+            const popover = document.getElementById('my-popover-startStyle-0');
+
+            function openPopover() {
+              popover.classList.add('start');
+        
+              setTimeout(() => { popover.classList.remove('start')}, 100)
+            }
+
+            openBtn.addEventListener('click', openPopover);
+          </script>
         </code>
       </pre>
 
     <script type="text/template" class="hidden-code-block">
       <style>
+        .container {
+          display: grid;
+          place-items: center;
+        }
+
         button {
-          font-size: 100%;
-          padding: 0.75rem;
-          background: white;
-          transition-duration: 0.5s;
-          border: 4px solid plum;
-          background: lavenderblush;
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
           border-radius: 1rem;
 
           &:hover,
@@ -62,14 +87,104 @@
           }
         }
 
-        [popover] {
+        .popover {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           color: white;
           font-weight: 400;
           padding: 1rem 1.5rem;
           border-radius: 1rem;
-          max-width: 20ch;
           line-height: 1.4;
           margin: 0 auto;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+          margin: 1rem;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+<section id="starting-style-demo-popover-complete">
+  <h3>@starting-style demo complete</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true">
+          <style>
+            [popover] {
+              width: calc(100% - 3rem);
+              margin: 1.5rem;
+              background: black;
+              transform-origin: top center;
+
+              transition: all 0.4s ease-in-out allow-discrete;       
+              opacity: 0;
+              transform: translate(100%, 0) rotateX(0) scale(0.8);
+            }
+
+            [popover]:popover-open {
+              display: flex;
+              transform: translate(0, 0) rotateX(0) scale(0.8);
+              opacity: 1;
+
+              @starting-style {
+                transform: translate(0, -100%) rotateX(90deg) scale(0.8);
+              }
+            }
+          </style>
+
+          <div class="container">
+            <button popovertarget="my-popover-startStyle-1">Open Popover</button>
+            <div class="popover" id="my-popover-startStyle-1" popover>
+              <p>I am a Popover</p>
+            </div>
+          </div>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .container {
+          display: grid;
+          place-items: center;
+        }
+
+        button {
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+
+        [popover], .popover {
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          line-height: 1.4;
+          margin: 0 auto;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+          margin: 1rem;
         }
 
         body {

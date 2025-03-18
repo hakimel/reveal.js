@@ -106,6 +106,6 @@
     }
   },
   "dependencies": {
-    "baseline-status": "^1.0.10"
+    "baseline-status": "^1.0.11"
   }
 }
