@@ -1,0 +1,219 @@
+<section id="inert-info">
+    <h3>Inert</h3>
+
+    <div class="baseline-container">
+        <baseline-status featureId="inert"></baseline-status>
+    </div>
+
+    <ul>
+        <li>
+            The <code>inert</code> property when present, makes the browser "ignore" user input events for the element.
+        </li>
+        <li>
+            This is great for accessibility as it removes focus events and elements from assistive technologies.
+        </li>
+        <li>
+            Previously, developers had to create a "focus trapping" strategy.
+        </li>
+        <li>
+            With <code>inert</code>, no trapping is required because you can freeze or guard entire sections of the page or app.
+        </li>
+    </ul>
+</section>
+<section id="inert-1">
+    <h3>alert() and &lt;dialog&gt;</h3></h3>
+    <div class="slide-container">
+        <pre class="visible-code-block">
+            <code class="code-block hljs" data-trim contenteditable="true">
+                <div class="container">
+                    <button onclick="window.alert('This is an alert')">Open alert</button>
+                    <button onclick="window.inertDialog.showModal()" id="openDialog">Open dialog</button>
+                    <dialog id="inertDialog">
+                        <form method="dialog">
+                            <p>This is a dialog</p>
+                            <button>Close</button>
+                        </form>
+                    </dialog>
+                </div>
+            </code>
+        </pre>
+        <script type="text/template" class="hidden-code-block">
+        <style>
+        .container {
+            display: grid;
+            place-items: center;
+        }
+
+        button {
+            color: white;
+            padding: 1rem;
+            transition-duration: 0.3s;
+            border: none;
+            background: black;
+            border-radius: 1rem;
+            margin-top: 1rem;
+
+            &:hover,
+            &:focus {
+                background: plum;
+                color: white;
+            }
+        }
+
+        dialog {
+            padding: 2rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        dialog[open]::backdrop {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        </style>
+        </script>
+        <div class="scene" data-edit></div>
+    </div>
+</section>
+<section id="inert-2">
+    <h3>Using inert in a drawer</h3>
+    <div class="slide-container">
+        <pre class="visible-code-block">
+            <code class="code-block hljs" data-trim contenteditable="true" data-trim contenteditable="true" data-line-numbers="10,16">
+                <script>
+                    const toggleBtn = document.querySelector('.drawer-toggle');
+                    const closeBtn = document.querySelector('.drawer-close');
+                    const drawer = document.querySelector('.drawer');
+                    const content = document.querySelector('.content');
+                    
+                    toggleBtn.addEventListener('click', () => {
+                        drawer.classList.add('open');
+                        drawer.classList.add("inactive");
+                        content.toggleAttribute("inert");
+                    });
+                    
+                    closeBtn.addEventListener('click', () => {
+                        drawer.classList.remove('open');
+                        drawer.classList.remove("inactive");
+                        content.toggleAttribute("inert");
+                    });
+                </script>
+            </code>
+        </pre>
+        <script type="text/template" class="hidden-code-block">
+            <div class="container">                    
+                <div class="content">
+                    <button class="drawer-toggle">Open Drawer</button>
+                </div>
+                <div class="drawer">
+                    <button class="drawer-close">×</button>
+                    <ul>
+                        <li><a href="/">Menu item 1</a></li>
+                        <li><a href="/">Menu item 2</a></li>
+                        <li><a href="/">Menu item 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        <style>
+            .p {
+                font-size: 2px;
+            }
+
+            .container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            
+            .drawer-toggle {
+                padding: 10px 20px;
+                margin-left: 20px;
+                background-color: black;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            
+            .drawer-toggle:hover {
+                background-color: plum;
+            }
+            
+            .content {
+                width: 100%;
+                height: 100%;
+                align-content: center;
+            }
+
+            .content[inert] {
+                background-color: gray;
+                opacity: 50%;
+            }
+            
+            .drawer {
+                position: absolute;
+                top: 0;
+                right: -400px;
+                width: 300px;
+                height: 100%;
+                background-color: white;
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease-in-out;
+                padding: 20px;
+                border-left: 1px solid #ddd;
+                z-index: 10;
+            }
+            
+            .drawer.open {
+                right: 0;
+            }
+            
+            .drawer-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #666;
+            }
+
+            .drawer > ul {
+                list-style: none    ;
+            }
+
+            .drawer > ul > li {
+                margin-top: 1rem;
+            }
+        </style>
+        </script>
+        <div class="scene" data-edit></div>
+    </div>
+</section>
+<section id="inert-3">
+    <h3>Other use cases</h3>
+    <div class="slide-container">
+        <div>
+            <p>Custom confirm boxes</p>
+            <img src="images/confirm-box-demonstration.webp"alt="Confirm box demonstration" style="max-width:100%; height:auto">
+        </div>
+        <div>
+            <p>Authentication forms</p>
+            <img src="images/conditional-form-validation-demo.gif" alt="Conditional form validation demo" style="max-width:100%; height:auto">
+        </div>
+    </div>
+    <p class="footnote">
+        Credit: <a href="https://blog.logrocket.com/using-html-inert-property-manage-user-focus/#potential-use-cases-inert">Using the HTML inert property to manage user focus</a>
+    </p>
+    <style>
+        .footnote {
+            font-size: small;
+        }
+    </style>
+</section>
