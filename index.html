@@ -307,7 +307,7 @@
               if (line.indexOf("{") !== -1) {
                 depth++;
               }
-              if (line.indexOf("}") !== -1) {
+              if (line.indexOf("}") !== -1 && depth > 0) {
                 depth--;
               }
             }
@@ -338,12 +338,12 @@
           }
 
           // Check if the line contains a closing brace "}" to update depth.
-          if (line.indexOf("}") !== -1) {
+          if (line.indexOf("}") !== -1 && depth > 0) {
             depth--;
           }
         }
 
-        // console.log('output: ', output)
+        // console.log('f output: ', output)
         return output;
       }
 
@@ -433,15 +433,15 @@
             // console.log('codeblock: ', codeBlock)
 
             // Delete, dont use this
-            codeBlock.addEventListener("input", () => {
-              codeBlock.removeAttribute("data-highlighted");
-              codeBlock.dataset.rawContent = codeBlock.innerText;
-              updateDataEdit();
-              console.log('codeBlock listener: ', codeBlock);
+            // codeBlock.addEventListener("input", () => {
+            //   codeBlock.removeAttribute("data-highlighted");
+            //   codeBlock.dataset.rawContent = codeBlock.innerText;
+            //   updateDataEdit();
+            //   console.log('codeBlock listener: ', codeBlock);
 
-              // highlight.highlightBlock(codeBlock);
+            //   // highlight.highlightBlock(codeBlock);
 
-            });
+            // });
 
             codeBlock.addEventListener('input', () => {
               // updateDataEdit();
