@@ -6,41 +6,47 @@
   </div>
 
   <ul>
+    <li>You can now use  <code>translate</code>,
+      <code>rotate</code>, and <code>scale</code> on its own!</li>
     <li>
-      Individual transform properties, <code>translate</code>,
-      <code>rotate</code>, and <code>scale</code>, allows transformations
-      separately instead of using the shorthand <code>transform</code> property.
+      No need for <code>transform</code> property anymore.
     </li>
     <li>
       Improves performance and enables finer control over individual animations
     </li>
   </ul>
 </section>
-<section id="individual-transform-demo">
+
+<section id="individual transform demo">
   <h3>Translate Scale Rotate</h3>
   <div class="slide-container">
     <pre class="visible-code-block">
-        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+        <code class="code-block hljs" data-trim contenteditable="true">
           <style>
             [popover] {
-              top: 50%;
-              translate: 0 1000%;
-              scale: 2;
-              transition: all 0.4s ease-out allow-discrete;       
+              width: calc(100% - 3rem);
+              margin: 1.5rem;
+              transform-origin: top center;
+
+              transition: all 0.4s ease-in-out allow-discrete;       
+              opacity: 0;
+              transform: translate(100%, 0) rotateX(0) scale(0.8);
             }
 
             [popover]:popover-open {
-              translate: 0 -50%;
+              transform: translate(0, 0) rotateX(0) scale(0.8);
+              opacity: 1;
+
               @starting-style {
-                translate: 0 -1000%;
+                transform: translate(0, -100%) rotateX(90deg) scale(0.8);
               }
             }
           </style>
 
           <div class="container">
-            <button popovertarget="my-popover2">Open Popover</button>
-            <div id="my-popover2" popover>
-              <p>I am a Popover<p>
+            <button popovertarget="my-popover-itp-0">Open Popover</button>
+            <div class="popover" id="my-popover-itp-0" popover>
+              <p>I am a Popover</p>
             </div>
           </div>
         </code>
@@ -48,13 +54,104 @@
 
     <script type="text/template" class="hidden-code-block">
       <style>
+        .container {
+          display: grid;
+          place-items: center;
+        }
+
         button {
-          font-size: 100%;
-          padding: 0.75rem;
-          background: white;
-          transition-duration: 0.5s;
-          border: 4px solid plum;
-          background: lavenderblush;
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+
+        [popover], .popover {
+          background: black;
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          line-height: 1.4;
+          margin: 0 auto;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+          margin: 1rem;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+<section id="individual-transform-demo">
+  <h3>Translate Scale Rotate</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true">
+          <style>
+            [popover] {
+              width: calc(100% - 3rem);
+              margin: 1.5rem;
+
+              transform-origin: top center;
+              transition: all 0.4s ease-in-out allow-discrete;       
+              opacity: 0;
+              translate: 100% 0;
+              scale: 0.8;
+            }
+
+            [popover]:popover-open {
+              opacity: 1;
+              translate: 0;
+              
+              @starting-style {
+                translate: 0 -100%;
+                rotate: x 90deg;
+              }
+            }
+          </style>
+
+          <div class="container">
+            <button popovertarget="my-popover-itp-1">Open Popover</button>
+            <div id="my-popover-itp-1" popover>
+              <p>I am a Popover<p>
+            </div>
+          </div>
+        </code>
+      </pre>
+      <!-- can't do translateY -->
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .container {
+          display: grid;
+          place-items: center;
+        }
+
+        button {
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
           border-radius: 1rem;
 
           &:hover,
@@ -65,13 +162,16 @@
         }
 
         [popover] {
+          background: black;
           color: white;
           font-weight: 400;
           padding: 1rem 1.5rem;
           border-radius: 1rem;
-          max-width: 20ch;
           line-height: 1.4;
           margin: 0 auto;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+          margin: 1rem;
         }
 
         body {

@@ -168,6 +168,7 @@
         overflow: hidden;
         height: 100%;
         align-content: center;
+
       }
 
       .baseline-container {
@@ -254,33 +255,6 @@
       }
 
       // Not used
-      function scopeCSSGood(cssText, scope) {
-        const cssRuleRegex = /([^{}]+?)\s*\{([^}]*?)\}/g;
-        return cssText.replace(
-          cssRuleRegex,
-          (match, selectors, declarations) => {
-            // console.log('------------------------------------');
-            // console.log('match: ', match)
-            // console.log('selectors: ', selectors)
-            const scopedSelectors = selectors
-              .split(",")
-              .map((sel) => {
-                let trimmed = sel.trim();
-                // console.log("scope: ", scope, " trimmerD: ", trimmed);
-                if (trimmed.startsWith("@") || /^[\d\.%]+$/.test(trimmed)) {
-                  return trimmed;
-                }
-                return scope + " " + trimmed;
-              })
-              .join(", ");
-
-            // console.log('scopedSelectors: ', scopedSelectors);
-            // console.log('declarations: ', declarations);
-            // console.log('returning: ', scopedSelectors + " {" + declarations + "}")
-            return scopedSelectors + " {" + declarations + "}";
-          }
-        );
-      }
 
       function scopeCSSSkipAt(cssText, scope) {
         const lines = cssText.split("\n");
@@ -296,7 +270,9 @@
 
           // If the line starts with an at‑rule, output it as-is and enter skipMode.
           // Add anything that you don't want to start with a scope here
-          if (trimmed.startsWith("@")) {
+          if (
+            trimmed.startsWith("@")
+          ) {
             output += line + "\n";
             skipMode = true;
             continue;
@@ -331,7 +307,7 @@
               if (line.indexOf("{") !== -1) {
                 depth++;
               }
-              if (line.indexOf("}") !== -1) {
+              if (line.indexOf("}") !== -1 && depth > 0) {
                 depth--;
               }
             }
@@ -362,40 +338,13 @@
           }
 
           // Check if the line contains a closing brace "}" to update depth.
-          if (line.indexOf("}") !== -1) {
+          if (line.indexOf("}") !== -1 && depth > 0) {
             depth--;
           }
         }
 
-        // console.log('output: ', output)
+        // console.log('f output: ', output)
         return output;
-      }
-
-      // Not used
-      function scopeCSS(cssText, scope) {
-        // Use the 'm' (multiline) flag so the regex works line‐by‐line
-        const cssRuleRegex = /([^{}]+?)\s*\{([^{}]*?)\}/gm;
-        return cssText.replace(
-          cssRuleRegex,
-          (match, selectors, declarations) => {
-            const scopedSelectors = selectors
-              .split(",")
-              .map((sel) => {
-                let trimmed = sel.trim();
-                // If the selector starts with "@" (an at‑rule) or already starts with our scope, skip scoping.
-                if (
-                  trimmed.startsWith("@") ||
-                  trimmed.startsWith(scope) ||
-                  /^[\d\.%]+$/.test(trimmed)
-                ) {
-                  return trimmed;
-                }
-                return scope + " " + trimmed;
-              })
-              .join(", ");
-            return scopedSelectors + " {" + declarations + "}";
-          }
-        );
       }
 
       // More info about initialization & config:
@@ -406,6 +355,8 @@
         highlight: {
           highlightOnLoad: false,
         },
+        minScale: 1,
+        maxScale: 1,
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [
           External,
@@ -479,11 +430,40 @@
 
             const highlight = Reveal.getPlugin("highlight");
             highlight.highlightBlock(codeBlock);
+            // console.log('codeblock: ', codeBlock)
 
-            codeBlock.addEventListener("input", () => {
+            // Delete, dont use this
+            // codeBlock.addEventListener("input", () => {
+            //   codeBlock.removeAttribute("data-highlighted");
+            //   codeBlock.dataset.rawContent = codeBlock.innerText;
+            //   updateDataEdit();
+            //   console.log('codeBlock listener: ', codeBlock);
+
+            //   // highlight.highlightBlock(codeBlock);
+
+            // });
+
+            codeBlock.addEventListener('input', () => {
+              // updateDataEdit();
+
+							const selection = window.getSelection();
+							const range = selection.getRangeAt(0);
+							const preHighlightCaretPosition = getCaretCharacterOffsetWithin(codeBlock);
+
+							// Remove 'data-highlighted' and reapply highlighting
+							codeBlock.removeAttribute('data-highlighted');
+							codeBlock.className = 'code-block hljs';
+							highlight.highlightBlock(codeBlock);
+
+							// Restore caret position
+							setCaretAtCharacterOffset(codeBlock, preHighlightCaretPosition);
+
+
               codeBlock.dataset.rawContent = codeBlock.innerText;
-              updateDataEdit();
-            });
+
+							// Update the data-edit div
+							updateDataEdit();
+						});
           }
         });
 

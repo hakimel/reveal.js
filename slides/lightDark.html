@@ -36,6 +36,7 @@
               color: var(--text-color);
             }
             .circle { background-color: salmon; }
+
             @media (prefers-color-scheme: dark) { 
               :root {
                 --bg-color: #000;
@@ -78,7 +79,6 @@
         <code class="code-block hljs" data-trim contenteditable="true">
           <style>
             :root {
-              color-scheme: light dark;
               --bg-color: light-dark(#fff, #000);
               --text-color: light-dark(#000, #fff);
             }
@@ -111,6 +111,7 @@
         <p>Hello I am a text</p>
       </div>
     </script>
+          <!-- Note: need color-scheme: light dark -->
 
     <div class="scene" data-edit></div>
   </div>

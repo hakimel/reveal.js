@@ -20,11 +20,14 @@
 </ul>
 </section>
 <section id="container-queries-demo-1">
-  <h3>Container Queries</h3>
+  <h3>Container Queries before</h3>
   <div class="slide-container">
     <pre class="visible-code-block forty-sixty">
-        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
+        <code class="code-block hljs" data-trim contenteditable="true">
           <style>
+          .card-container {
+            width: 100%;
+          }
           @media (max-width: 1200px) {
             .card {
               justify-content: center;
@@ -34,8 +37,6 @@
             .card-image {
               height: 4rem;
               width: 100%;
-
-              & img { width: 100% }
             }
             .card-content {
               position: absolute;
@@ -56,11 +57,50 @@
 
               & img { width: 100% }
             }
-            .card-content {
-              text-align: center;
-            }
+            .card-content { text-align: center; }
           }
           </style>
+
+          <div class="demo-wrapper resizable">
+            <div class="row row-single">
+              <article class="card-container">
+                <div class="card">
+                  <div class="card-image">
+                    <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
+                  </div>
+                  <div class="card-content">
+                    <h4>Card Title</h4>
+                    <p>This card adapts based on its container width.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+  
+            <div class="row row-triple">
+              <article class="card-container">
+                <div class="card">
+                  <div class="card-image">
+                    <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
+                  </div>
+                  <div class="card-content">
+                    <h4>Card Title</h4>
+                    <p>This card adapts based on its container width.</p>
+                  </div>
+                </div>
+              </article>
+              <article class="card-container">
+                <div class="card">
+                  <div class="card-image">
+                    <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
+                  </div>
+                  <div class="card-content">
+                    <h4>Card Title</h4>
+                    <p>This card adapts based on its container width.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
         </code>
       </pre>
 
@@ -92,8 +132,6 @@
         }
 
         .card-container {
-          container-type: inline-size;
-          container-name: card;
           width: 100%;
         }
 
@@ -117,7 +155,7 @@
         }
 
         .card-image img {
-          width: 200px;
+          width: 100%;
           height: 100%;
           object-fit: cover;
           margin: 0;
@@ -132,96 +170,101 @@
           }
         }
       </style>
-      <div class="demo-wrapper">
-        <div class="resizable">
-
-          <div class="row row-single">
-            <div class="card-container">
-              <div class="card">
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row row-triple">
-            <div class="card-container">
-              <div class="card">
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-container">
-              <div class="card">
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </script>
 
     <div class="scene" data-edit></div>
   </div>
 </section>
 <section id="container-queries-demo-2">
-  <h3>Container Queries</h3>
+  <h3>Container Queries after</h3>
   <div class="slide-container">
     <pre class="visible-code-block forty-sixty">
-        <code class="code-block hljs" data-trim contenteditable="true" data-line-numbers="4-5, 10, 12">
-          <style>
-          @container card (max-width: 150px) {
-            .card {
-              justify-content: center;
-              height: unset;
-              position: relative;
-            }
-            .card-image { height: 4rem; }
-            .card-content {
-              position: absolute;
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+        .card-container {
+          container-type: inline-size;
+          container-name: card;
+          width: 100%;
+        }
 
-              & h4 { color: white; }
-              & p { display: none; }
-            }
+        @container card (max-width: 150px) {
+          .card {
+            justify-content: center;
+            height: unset;
+            position: relative;
           }
-
-          @container card (max-width: 399px) and (min-width: 150px) {
-            .card {
-              flex-direction: column;
-              height: unset;
-            }
-            .card-image {
-              height: 6rem;
-              width: 100%;
-
-              & img { width: 100%; }
-            }
-            .card-content { text-align: center; }
+          .card-image { 
+            height: 4rem;
+            width: 100%; 
           }
-          </style>
-        </code>
-      </pre>
+          .card-content {
+            position: absolute;
+
+            & h4 { color: white; }
+            & p { display: none; }
+          }
+        }
+
+        @container card (max-width: 399px) and (min-width: 150px) {
+          .card {
+            flex-direction: column;
+            height: unset;
+          }
+          .card-image {
+            height: 6rem;
+            width: 100%;
+
+            & img { width: 100%; }
+          }
+          .card-content { text-align: center; }
+        }
+        </style>
+        <div class="demo-wrapper resizable">
+          <div class="row row-single">
+            <article class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="row row-triple">
+            <article class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </article>
+            <article class="card-container">
+              <div class="card">
+                <div class="card-image">
+                  <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
+                </div>
+                <div class="card-content">
+                  <h4>Card Title</h4>
+                  <p>This card adapts based on its container width.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </code>
+    </pre>
 
     <script type="text/template" class="hidden-code-block">
       <style>
-        .demo-wrapper {
+       .demo-wrapper {
           padding: 1rem;
         }
 
@@ -245,13 +288,7 @@
           gap: 1rem;
           margin-bottom: 1rem;
         }
-
-        .card-container {
-          container-type: inline-size;
-          container-name: card;
-          width: 100%;
-        }
-
+  
         .card {
           background: #fff;
           border: 1px solid #ddd;
@@ -272,7 +309,7 @@
         }
 
         .card-image img {
-          width: 200px;
+          width: 100%;
           height: 100%;
           object-fit: cover;
           margin: 0;
@@ -287,62 +324,6 @@
           }
         }
       </style>
-      <div class="demo-wrapper">
-        <div class="resizable">
-
-          <div class="row row-single">
-            <div class="card-container">
-              <div class="card">
-                <!-- <p class="width-text"></p> -->
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/1/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row row-triple">
-            <div class="card-container">
-              <div class="card">
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/2/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-container">
-              <div class="card">
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/3/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-container">
-              <div class="card">
-                <div class="card-image">
-                  <img src="https://picsum.photos/seed/4/600/400" alt="Card Image">
-                </div>
-                <div class="card-content">
-                  <h4>Card Title</h4>
-                  <p>This card adapts based on its container width.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </script>
 
     <div class="scene" data-edit></div>

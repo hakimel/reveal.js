@@ -14,8 +14,9 @@
     <li>Great for Toasts, Action Menu*</li>
   </ul>
 </section>
-<!-- <section id="popover-demo">
-  <h3>&lt;popover&gt;</h3>
+
+<section id="popover-demo-complete">
+  <h3>&lt;popover&gt; complete</h3>
   <div class="slide-container">
     <pre class="visible-code-block">
         <code class="code-block hljs" data-trim contenteditable="true">
@@ -32,10 +33,10 @@
           </style>
 
           <div class="container">
-              <button popovertarget="my-popover0">open popover</button>
-              <div id="my-popover0" popover>
-                <p>I am a Popover</p>
-              </div>
+            <button>open popover</button>
+            <div id="my-popover0">
+              <p>I am a Popover</p>
+            </div>
           </div>
         </code>
       </pre>
@@ -45,8 +46,8 @@
         .container {
           display: grid;
           place-items: center;
-
         }
+
         button {
           color: white;
           padding: 1rem;
@@ -86,7 +87,81 @@
     </script>
     <div class="scene" data-edit></div>
   </div>
-</section> -->
+</section>
+
+<section id="popover-demo-complete">
+  <h3>&lt;popover&gt; complete</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+        <code class="code-block hljs" data-trim contenteditable="true">
+          <style>
+            [popover] {
+              width: calc(100% - 3rem);
+              margin: 1.5rem;
+            }
+
+            [popover]:popover-open {
+              display: flex;
+            }
+          </style>
+
+          <div class="container">
+              <button popovertarget="my-popover0-complete">open popover</button>
+              <div id="my-popover0-complete" popover>
+                <p>I am a Popover</p>
+              </div>
+          </div>
+        </code>
+      </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .container {
+          display: grid;
+          place-items: center;
+        }
+
+        button {
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+        [popover] {
+          background: black;
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          line-height: 1.4;
+          margin: 0 auto;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+          margin: 1rem;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
 
 <section id="popover-vs-dialog-info">
   <h3>What about &lt;dialog&gt;?</h3>
@@ -112,8 +187,8 @@
       </ul>
     </div>
   </div>
-  <!-- https://frontendmasters.com/blog/whats-the-difference-between-htmls-dialog-element-and-popovers/ -->
 </section>
+<!-- https://frontendmasters.com/blog/whats-the-difference-between-htmls-dialog-element-and-popovers/ -->
 
 <section id="popover-demo-2">
   <h3>&lt;popover&gt; and &lt;dialog&gt;</h3>
@@ -124,7 +199,6 @@
             [popover] {
               width: calc(100% - 3rem);
               margin: 1.5rem;
-              background: black;
             }
 
             [popover]:popover-open {
@@ -144,8 +218,8 @@
           </style>
 
           <div class="container">
-              <button popovertarget="my-popover0">open popover</button>
-              <div id="my-popover0" popover>
+              <button popovertarget="my-popover1">open popover</button>
+              <div id="my-popover1" popover>
                 <p>I am a Popover</p>
               </div>
 
@@ -184,6 +258,7 @@
         }
 
         [popover] {
+          background: black;
           color: white;
           font-weight: 400;
           padding: 1rem 1.5rem;
@@ -211,6 +286,185 @@
     </script>
     <div class="scene" data-edit></div>
   </div>
+</section>
+
+<section id="popover-anchor-demo">
+  <h3>&lt;popover&gt; anchor demo</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          [popover] {
+            width: calc(100% - 3rem);
+            margin: 1.5rem;
+            inset: auto;
+          }
+
+          .popover__button { 
+          }
+        </style>
+
+        <div class="container">
+          <button 
+            class="popover__button" 
+            popovertarget="my-popover-anchor-0">
+            open popover
+          </button>
+          <div id="my-popover-anchor-0" popover>
+            <p>I am a popover tooltip!</p>
+          </div>
+        </div>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .slides {
+          transform: none !important;
+        }
+        .container {
+          display: grid;
+          place-items: center;
+        }
+        button {
+          background: lightgray;
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+        [popover] {
+          background: black;
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          line-height: 1.4;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+
+<section id="popover-anchor-demo-complete">
+  <h3>&lt;popover&gt; anchor demo complete</h3>
+  <div class="slide-container">
+    <pre class="visible-code-block">
+      <code class="code-block hljs" data-trim contenteditable="true">
+        <style>
+          [popover] {
+            inset: auto;
+            
+            position-anchor: --myButton;
+            bottom: anchor(top);
+            right: anchor(center);
+            transform: translateX(50%);
+          }
+
+          .popover__button { 
+            anchor-name: --myButton; 
+          }
+        </style>
+
+        <div class="container">
+          <button 
+            class="popover__button" 
+            popovertarget="my-popover-anchor-0-c">
+            open popover
+          </button>
+          <div id="my-popover-anchor-0-c" popover>
+            <p>I am a popover tooltip!</p>
+          </div>
+        </div>
+      </code>
+    </pre>
+
+    <script type="text/template" class="hidden-code-block">
+      <style>
+        .slides {
+          transform: none !important;
+        }
+        .container {
+          display: grid;
+          place-items: center;
+        }
+        button {
+          background: lightgray;
+          color: white;
+          padding: 1rem;
+          transition-duration: 0.3s;
+          border: none;
+          background: black;
+          border-radius: 1rem;
+
+          &:hover,
+          &:focus {
+            background: plum;
+            color: white;
+          }
+        }
+
+        [popover] {
+          background: black;
+          color: white;
+          font-weight: 400;
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          line-height: 1.4;
+          box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+          box-sizing: border-box;
+        }
+
+        body {
+          background: #fcf9fb;
+          display: grid;
+          font-size: 1.5rem;
+          font-family: system-ui, sans-serif;
+          place-items: center;
+          height: 100dvh;
+        }
+      </style>
+    </script>
+    <div class="scene" data-edit></div>
+  </div>
+</section>
+
+<section id="popover-anchor-info">
+  <h3>&lt;position-anchor&gt;</h3>
+
+  <div class="baseline-container">
+    <baseline-status featureId="anchor"></baseline-status>
+  </div>
+
+  <ul>
+    <li>
+      Small overlay window that appears on demand—providing contextual
+      information or interactive options without navigating away from the
+      current page.
+    </li>
+    <li>Great for Toasts, Action Menu*</li>
+  </ul>
 </section>
 
 <!-- <section id="popover-demo-DELETE">
