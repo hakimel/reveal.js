@@ -308,7 +308,7 @@ export default class SlideContent {
 
 				if( autoplay && typeof el.play === 'function' ) {
 
-					// In teh speaker view we only auto-play muted media
+					// In the speaker view we only auto-play muted media
 					if( isSpeakerNotesWindow && !el.muted ) return;
 
 					// If the media is ready, start playback
