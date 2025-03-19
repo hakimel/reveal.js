@@ -1,6 +1,6 @@
 # Codespell configuration is within .codespellrc
 ---
-name: Codespell
+name: Spellcheck
 
 on:
   push:
