@@ -1547,7 +1547,7 @@ $controlsArrowAngleActive: 36deg;
 }
 
 // Preview overlay
-.r-overlay-preview iframe {
+.r-overlay-preview .r-overlay-content iframe {
 	width: 100%;
 	height: 100%;
 	max-width: 100%;
@@ -1564,8 +1564,8 @@ $controlsArrowAngleActive: 36deg;
 	visibility: visible;
 }
 
-.r-overlay-preview img,
-.r-overlay-preview video {
+.r-overlay-preview .r-overlay-content img,
+.r-overlay-preview .r-overlay-content video {
 	position: absolute;
 	max-width: 100%;
 	max-height: 100%;
