@@ -358,15 +358,17 @@ export default class Backgrounds {
 
 		}
 
+		const backgroundChanged = currentBackground !== this.previousBackground;
+
 		// Stop content inside of previous backgrounds
-		if( this.previousBackground ) {
+		if( backgroundChanged && this.previousBackground ) {
 
 			this.Reveal.slideContent.stopEmbeddedContent( this.previousBackground, { unloadIframes: !this.Reveal.slideContent.shouldPreload( this.previousBackground ) } );
 
 		}
 
 		// Start content in the current background
-		if( currentBackground ) {
+		if( backgroundChanged && currentBackground ) {
 
 			this.Reveal.slideContent.startEmbeddedContent( currentBackground );
 
