@@ -121,13 +121,13 @@ El conjunto de estos bits y su orden va formando distintas tramas de comunicaci�
 
 El puerto I2C esta disponible si las dos líneas, SDA y SCL están en un nivel lógico alto.
 ---
-## I2C – modos de comunicación
+## Modos de comunicación
 
 Los modos de comunicación en I2C se refieren a las distintas tramas que pueden formarse en el bus. Estas tramas o modos dependen de por ejemplo, si queremos leer al sensor esclavo, o si lo queremos configurar. Existen principalmente dos modos de comunicación:
 
 - Maestro-Transmisor y Esclavo-Receptor. Este modo se usa cuando se desea configurar un registro del esclavo I2C.
 - Maestro-Receptor Y Esclavo-Transmisor. Se usa cuando queremos leer información del sensor I2C.
-
+---
 ### Ejemplo-1 configuración de 1-registro
 
 **Ejemplo-1**. Para diseñar registrador de datos, es necesario en algunas circunstancias usar un reloj de tiempo Real, RTC. Un **RTC** común es el **DS1307** que tiene un puerto para poder leer y configurar el tiempo. La Figura-2, muestra la trama de datos necesaria para configurar la hora para que sean las 08 hrs. Para poder encontrar el sensor se requiere conocer su dirección. Para determinar la dirección se tienen 7 bits ( 2^7 = 128 ), de aquí que se puedan comunicar con dos líneas hasta 127 sensores, la dirección 0 es una llamada general.
@@ -136,7 +136,7 @@ Después se requiere un bit de lectura o escritura. Entonces, este bit acompaña
 
 <img width="680" height="469" src="https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo1-DS1307-rtc-1024x706.jpg"/>
 Figura-2. Trama de bits que se colocan en el puerto I2C para configurar el registro 0x02 del RTC-DS1307, con el valor de 0x08.
-
+---
 ### Ejemplo-2. Lectura del día RTC-DS1307 I2C
 
 La Figura-3, muestra la trama que se requiere escribir en el puerto para leer un byte del registro cuya dirección es 0x03. Este registro guarda el día del RTC-DS1307 cuya dirección para el puerto es 0x68. Para poder leer el byte, primero es necesario indicar al dispositivo esclavo que se quiere LEER la dirección 0x03. Una vez que el esclavo responde con el ACK, el Maestro entonces enviará un bit de Inicio-repetido seguido de la dirección pero con bit de Lectura. Después, el esclavo responde con el byte que contiene la memoria 0x03 y seguirá respondiendo con la información de la siguiente memoria (0x04) hasta que el MAESTRO dé por terminado la comunicación, esta vez con un NACK antes del bit de Paro.
@@ -144,13 +144,13 @@ La Figura-3, muestra la trama que se requiere escribir en el puerto para leer un
 ![Trama de lectura I2C - DS1307](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg)
 Trama de lectura I2C – DS1307
 **Figura-3**. Trama de datos para el protocolo I2C para leer el registro 0x03 del DS1307. El RTC retorna el valor 0x07 que corresponde al día 7, es decir, Domingo.
-
+---
 ## Velocidad del puerto I2C
 
 La velocidad del puerto I2C se refiere al tiempo que le toma al puerto transferir un bit de información. Entonces, este valor se mide en bits/segundo. Típicamente vamos a encontrar la referencia en ciclos/segundo o Herz. Existen tres velocidades estándar, 100Khz, 400Khz y 1Mhz, es decir, 100kbits/s, 400kbits/s y 1000kbits/s. Por ejemplo, para la trama de la Figura-2,  ese paquete de datos tiene 29 bits, por lo que a una velocidad de 100kbits/s le tomaría al puerto 0.29 ms enviar la información.
 
 El dato digital ó lógica que leerá cada uno de los dispositivos, corresponde el voltaje en los flancos de subida de la señal de reloj – SCL.
-
+---
 ## Condiciones eléctricas
 
 Cada uno de los bits antes descritos (**Inicio-S**, **ACK**, **NACK**, Parada, **RS**) significan condiciones eléctricas en el bus I2C.  Las condiciones de voltaje son las siguientes:
