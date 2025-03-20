@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Microcontroladores</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<link rel="stylesheet" href="dist/theme/white.css">
+		<!-- <link rel="stylesheet" href="dist/theme/league.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/night.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+
+
+	<script src="plugin/math/math.js"></script>
+
+
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema:</h4>
+	<h2>Bus de campo: aplicaciones en la automatización industrial
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>
+
+<section data-markdown
+data-separator="^---"
+data-separator-vertical="^\n"
+data-separator-notes="^Note:">
+<textarea data-template>
+# Introducción
+
+Durante muchos años, las **redes industriales** se conectaban mediante **comunicaciones serie RS232**. Estos sistemas eran bastante limitados, ya que sólo permitían que los dispositivos de una red se comunicaran a través de conexiones serie directas.
+
+En otras palabras, sólo podían comunicarse dos dispositivos por cada conexión. Sin embargo, a finales del siglo XX, el desarrollo de la **norma internacional del bus de campo** marcó un punto de inflexión en la conexión de las redes industriales.
+
+Note:
+En este artículo analizaremos qué se entiende por bus de campo y el por qué de su implantación en el sector industrial.
+---
+## **¿Qué es un bus de campo y para qué sirve?**
+
+Un bus de campo es un sistema de transferencia de datos que se utiliza en la [**maquinaria industrial**](https://www.sicma21.com/maquinaria-industrial-que-es-y-tipos/) y en los sistemas industriales para conectar [**sensores**](https://www.sicma21.com/que-son-los-sensores-industriales/) y [**actuadores**](https://www.sicma21.com/que-son-los-actuadores-en-la-industria/) entre sí con uno o varios maestros (PC industriales, [**PLC**](https://www.sicma21.com/que-es-un-plc/)).
+
+En pocas palabras, es una **red de área local** dedicada a la [**automatización industrial**](https://www.sicma21.com/automatizacion-industrial-importancia-y-beneficios/). Sustituye las redes de control centralizadas por redes de control distribuidas.
+
+Los **buses de campo** permiten intercambiar datos entre distintos componentes del sistema a larga distancia y con una gran carga externa.
+
+Funcionan en modo maestro-esclavo: Mientras el maestro se encarga de controlar los procesos, el esclavo se encarga de las subtareas individuales.
+
+Se diferencian en la **«capa física»** que utilizan, es decir, el nivel de hardware (por ejemplo, CAN, RS485, Ethernet), y en el **nivel de protocolo** que define la forma de la información intercambiada.
+
+Por un lado, el **nivel de hardware** determina las propiedades fundamentales del bus, como la longitud de los cables y la capacidad de transmisión. Por otro lado el **nivel de protocolo** determina qué mensajes y funciones estandarizadas están disponibles entre el maestro y el esclavo.
+
+En resumen, el bus de campo proporciona un medio eficiente y eficaz para conectar varios dispositivos a una única red industrial, facilitando el control y la supervisión en tiempo real.
+
+Dicho esto, el bus de campo no es necesariamente un tipo de conexión. Más bien, se refiere a un grupo de protocolos que se implementan en aplicaciones industriales.
+
+En la actualidad, el estándar para los **protocolos de bus de campo** es la **norma** [**IEC 61158**](https://webstore.iec.ch/publication/59890) de la «Comisión Electrotécnica Internacional». Esta norma abarca las comunicaciones digitales de datos para la medición y el control.
+
+Se ha desarrollado para protocolos de **redes informáticas industriales** que ofrecen control distribuido en tiempo real, proporcionando ayuda y especificaciones sobre las [**redes de comunicación industrial**](https://www.sicma21.com/que-son-las-redes-de-comunicacion-industrial/).
+---
+## <a id="Como_funciona_un_bus_de_campo"></a>**Cómo funciona un bus de campo**
+
+En lugar de facilitar la comunicación mediante comunicaciones directas en serie, el bus de campo permite que numerosos dispositivos de campo se conecten a un único punto de conexión. Este punto único se conecta entonces al controlador para facilitar la difusión de la información en todo el sistema.
+
+Por lo general, la transferencia de información en un bus de campo tiene lugar a través de pequeños paquetes que se transmiten de forma secuencial y se multiplican en el tiempo.
+
+Este formato de comunicación elimina de forma efectiva los enlaces punto a punto entre los dispositivos de campo y los controladores, de modo que se requieren menos líneas de conexión en comparación con las transferencias en paralelo.
+
+En lugar de permitir que sólo dos dispositivos se comuniquen por cada conexión, la creación de una única conexión a través de la cual se comunica toda la información permite que cientos de dispositivos se conecten a un controlador.
+---
+## <a id="Que_elementos_pueden_conectarse_a_un_bus_de_campo"></a>**¿Qué elementos pueden conectarse a un bus de campo?**
+
+Para entender qué elementos pueden conectarse a una red de bus de campo, hay que conocer los diferentes **niveles de un sistema de bus de campo**.
+
+En esencia, un **sistema de bus de campo** puede constar de **cuatro niveles diferentes** (aunque existen otras formas de distribuir y/o denominar los niveles jerárquicos como el propuesto por la [**piramide CIM de la automatización industrial**](https://www.sicma21.com/wp-content/uploads/2020/12/priamide-mes-1.png), en este caso, vamos a centrarnos en los niveles de bus de campo de un sistema de automatización en una planta de producción para que lo entiendas mejor).
+
+Estos niveles incluyen: una red de bus de sensores, una red de bus de dispositivos, una red de bus de control y una red de bus de empresa, que se enumeran en orden de complejidad de menor a mayor.
+---
+### <a id="Red_de_bus_de_sensores"></a>**Red de bus de sensores**
+
+El nivel más básico de un sistema de bus de campo desarrollado para aplicaciones industriales es una **red de bus de sensores**.
+
+Este nivel incluye todos los dispositivos de campo básicos, es decir, todos los sensores y las salidas del controlador en una unidad. Todos los sensores están conectados a un cable de red, al igual que los dispositivos de salida del controlador.
+
+Este nivel puede transmitir señales de salida desde el controlador a través de un cable a las alarmas, lámparas indicadoras u otros dispositivos de actuación.
+---
+### <a id="Red_de_bus_de_dispositivos"></a>**Red de bus de dispositivos**
+
+La **red de bus de dispositivos** funciona de forma similar a la red de bus de sensores, pero a mayor escala. Este nivel conecta un gran número de sensores y actuadores entre sí, además de conectar los equipos a los variadores de velocidad y a los centros de control de motores (CCM) que facilitan el control de los elementos individuales de la red.
+---
+### <a id="Red_de_bus_de_control"></a>**Red de bus de control**
+
+En cuanto a las redes utilizadas en la planta de producción, las redes de bus de control son las más complejas. En ellas, la comunicación de datos se produce a un alto nivel.
+
+Dentro de estas redes, los **controladores lógicos programables (PLC)** y la **sensórica inteligente** se conectan entre sí y se vinculan a [**pantallas HMI**](https://www.sicma21.com/que-es-un-hmi-y-como-funciona/) para facilitar la configuración y el control completo de cada instrumento de la red.
+---
+### <a id="Red_de_bus_de_empresa"></a>**Red de bus de empresa**
+
+Más conocida como **red de nivel de información**, la red de bus de empresa conecta todos los ordenadores y departamentos entre sí. Este nivel de red es el más complejo y amplio de un sistema de bus de campo.
+
+Este nivel dirigido por ordenador permite la supervisión de datos, la gestión de archivos, la transferencia de archivos a gran escala, etc.
+
+[![Niveles de bus de campo](data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20645%20516'%3E%3C/svg%3E)](https://www.sicma21.com/wp-content/uploads/2022/11/Niveles-de-bus-de-campo-1.png)
+
+Niveles de bus de campo
+----
+## <a id="Cuales_son_los_tipos_de_protocolo_de_bus_de_campo"></a>**¿Cuáles son los tipos de protocolo de bus de campo?**
+
+Al principio, cuando se introdujo el bus de campo, presentaba numerosos problemas, como los protocolos exclusivos, la lentitud de la transmisión y los diferentes formatos de datos.
+
+Las mejoras en la tecnología de transmisión de señales de campo provocaron un aumento de los niveles de descentralización.
+
+En 1985, los expertos del sector se reunieron para elaborar un estándar de bus de campo independiente del proveedor, es decir, que fuera compatible.
+
+El estándar de bus proporcionaría alimentación de bus, seguridad intrínseca y la capacidad de comunicarse a largas distancias a través de los cables existentes: los requisitos básicos para un **sistema de automatización de plantas de proceso**.
+
+Debido, en parte, a la complejidad de la instrumentación en los sistemas de automatización y, sobre todo, a la reticencia de los fabricantes, aún no se ha establecido una arquitectura de protocolo estándar única.
+
+**Foundation Fieldbus** y [**PROFIBUS**](https://www.cursosaula21.com/que-es-profibus/) son ahora las dos tecnologías de bus de campo más utilizadas en la **automatización de procesos**.
+
+Los dispositivos que adoptan estas dos tecnologías no pueden comunicarse entre sí debido a la falta de correspondencia de los protocolos, por lo que aún no se ha logrado una interoperabilidad perfecta.
+
+Hoy en día, se utilizan muchos tipos de bus de campo; el tipo concreto que se utiliza depende del tipo de industria: automatización de procesos discretos o de fabricación.
+
+Entre los distintos tipos de bus de campo se encuentran: Foundation Fieldbus, PROFIBUS, DeviceNet, ControlNet, InterBus, HART, AS-i, MODBUS, CAN Bus, Ethernet, entre otros.
+
+## <a id="Cuantos_buses_tiene_un_PLC"></a>**¿Cuántos buses tiene un PLC?**
+
+Al principio, los controladores lógicos programables (PLC) eran relativamente sencillos en el sentido de que su función era sustituir la lógica de los relés.
+
+En los últimos años, los fabricantes han dedicado considerables recursos a desarrollar soluciones para conectar instrumentos y actuadores en una red.
+
+Por lo general, un PLC tiene cuatro buses:
+
+- **Bus de direcciones:** para transferir las direcciones de memoria desde las que se obtendrán los datos o a las que se enviarán.
+- **Bus de datos:** para la transferencia de datos entre la CPU, la memoria y las E/S
+- **Bus de control:** para sincronizar y controlar a los buses de datos y de direcciones.
+- **Bus de sistema:** para la comunicación de E/S.
+
+Un PLC debe ser programado para que pueda realizar sus tareas. Cuando los sensores que detectan las magnitudes físicas se conectan a un módulo de entrada del PLC, éste dispone de toda la información necesaria para controlar y supervisar un proceso.
+
+Junto con los sensores, los actuadores y el programa de usuario los buses de campo son esenciales para que un PLC funcione.
+---
+## <a id="Beneficios_de_un_bus_de_campo"></a>**Beneficios de un bus de campo**
+
+En las **plantas de producción y procesos industriales**, ante todo, emplean el bus de campo para **aumentar la productividad** mediante mediciones precisas de las condiciones de funcionamiento.
+
+Las comunicaciones digitales bidireccionales de banda ancha con cada dispositivo de campo proporcionan el tipo de información que necesita el sistema de control para **mejorar la productividad y la fiabilidad**.
+
+Más allá de la ejecución de la configuración inicial del dispositivo y la posterior entrega de las variables digitales del proceso, el uso más extendido de los sistemas de bus de campo es el **acceso a la información de diagnóstico y estado del dispositivo de campo**.
+
+Tras la configuración inicial, los dispositivos de campo requieren una calibración periódica y comprobaciones de estado; un sistema de bus de campo ayuda de dos maneras.
+
+En primer lugar, proporciona **acceso a parámetros** que pueden indicar cuándo es necesario realizar una calibración u otra acción.
+
+Calibrar los dispositivos de campo de forma periódica no es la mejor opción, ya que algunos se calibran con demasiada frecuencia y otros no lo suficiente.
+
+Un sistema de bus de campo junto con las herramientas de verificación puede acceder a la información de los dispositivos de campo para **establecer eventos de calibración o verificación** según sea necesario, ahorrando dinero y mejorando el rendimiento.
+
+En segundo lugar, un sistema de bus de campo permite la **calibración y la recopilación automática de datos de forma local** o **remota**.
+
+En lugar de ir a cada dispositivo de campo con lápiz y papel, un técnico puede **configurar o realizar el mantenimiento de varios dispositivos electrónicamente**. Esto mejora enormemente la productividad al ahorrar tiempo y documentar de forma automática los resultados.
+
+Los dispositivos de campo individuales conectados en red pueden vincularse con los datos del dispositivo, como la documentación, la calibración y el historial de mantenimiento, y estos datos pueden mantenerse en un sistema de gestión del ciclo de vida de los instrumentos basado en la web.
+
+Esto **reduce en gran medida el tiempo necesario y los costes generales** en comparación con las instalaciones que actualmente mantienen de forma manual sus propias bases de datos de dispositivos y la documentación de apoyo.
+
+Los sistemas de bus de campo también proporcionan la **información de diagnóstico necesaria para el mantenimiento predictivo**. Con el cableado rígido analógico de 4-20 ma, un problema del dispositivo de campo se comunica sólo cuando la señal cae por debajo de 4 ma.
+
+Los operarios se ven entonces obligados a **reaccionar en tiempo real** para gestionar el proceso afectado por la pérdida de información, y el mantenimiento se ve empujado a solucionar el problema inmediatamente.
+
+El bus de campo proporciona al personal de la planta las herramientas necesarias para **predecir los problemas de los dispositivos de campo** antes de que se produzcan.
+
+Los problemas menores de rendimiento pueden medirse y abordarse antes de que se produzca un fallo catastrófico, lo que **permite realizar reparaciones o ejecutar soluciones**.
+
+Sin embargo, para obtener estas ventajas es necesario **implementar un sistema de bus de campo** de forma sistemática.
+---
+## <a id="Necesitas_implementar_un_sistema_de_bus_de_campo_en_tu_empresa"></a>**¿Necesitas implementar un sistema de bus de campo en tu empresa?**
+
+En **SICMA21** te podemos ayudar en el montaje, integración y el mantenimiento de **sistemas de** **automatización industrial.** 
+
+Disponemos de un equipo profesional con más de **20 años de experiencia** que se encargará de todo el proyecto.
+
+Desde la instalación de los sistemas de transporte de información (cables de red, fibra, sistemas wifi), la implantación de los interfaces de comunicación y el mapeo de las máquinas, hasta el almacenamiento de información en los servidores.
+
+Además, prestamos servicios en **localización de averías** y **mantenimiento de plantas industriales** en general.
+
+Si estás buscando un **socio de confianza**, podemos proporcionarte un servicio adaptado a los requisitos únicos de tu negocio.
+
+Hemos trabajado con una serie de empresas de muchos sectores y nuestros técnicos tienen la experiencia y los conocimientos necesarios para optimizar tu entorno de trabajo.
+
+¡Ponte en contacto! Hablemos de tu proyecto o de los recursos que tu empresa necesita para actualizar tus sistemas de producción a los requisitos que la **industria 4.0** demanda.
+
+Contacta de forma directa con nuestros **asesores técnicos** en el **número de teléfono: 652 128 486** o escríbenos un **correo electrónico** a: **[asesortecnico@sicma21.com](mailto:asesortecnico@sicma21.com)**
+
+También, nos puedes dejar un mensaje en el icono de **WhatsApp** de aquí abajo a la derecha y te atenderemos a la mayor brevedad posible.
+
+Si te ha gustado compártelo con tus contactos
+</textarea>
+</section>
+
+<section>
+</section>
+
+<section>
+	<ul>
+		<li><a href="https://yjxgm4nnyy.joplinusercontent.com/shares/nhGjIVeyrM9IW313AYKdvJ">MICROPROCESADORES Y MICROCONTROLADORES</a></li>
+		<li><a href="https://yjxgm4nnyy.joplinusercontent.com/shares/K2gPxVdUnKHOU62UpQ4Y0w">Microprocesadores y Microcontroladores</a></li>
+		<li><a href="https://yjxgm4nnyy.joplinusercontent.com/shares/5xGHC9zycqT7xt0JPW5iwo">Fabricantes de Microcontroladores</a></li>
+		<li><a href="https://yjxgm4nnyy.joplinusercontent.com/shares/LfkbT507XpPLcklQdbHgNb">Notas de ARQUITECTURA BÁSICA</a></li>
+		<li><a href=""></a></li>
+		<li><a href=""></a></li>
+	</ul>
+</section>
+<!-- <section data-markdown -->
+<!-- data-separator="^---" -->
+<!-- data-separator-vertical="^\n" -->
+<!-- data-separator-notes="^Note:"> -->
+<!-- <textarea data-template> -->
+<!-- </textarea> -->
+<!-- </section> -->
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [
+					RevealMarkdown,
+					RevealHighlight, 
+					RevealNotes,
+					RevealMath.KaTeX
+				]
+			});
+		</script>
+	</body>
+</html>
