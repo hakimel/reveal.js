@@ -1,0 +1,179 @@
+	<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Redes de comunicación industrial</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- <link rel="stylesheet" href="dist/theme/black.css"> -->
+		<link rel="stylesheet" href="dist/theme/white.css">
+		<!-- <link rel="stylesheet" href="dist/theme/league.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/beige.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/night.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/serif.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/simply.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/solarized.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/dracula.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/sky.css"> -->
+		<!-- <link rel="stylesheet" href="dist/theme/blood.css"> -->
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+
+
+	<script src="plugin/math/math.js"></script>
+
+
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+<!-- ...................................................................................  -->
+<!-- .........................Inicio de la presentación.................................  -->
+<!-- ...................................................................................  -->
+<section>
+	<!-- <a href="https://revealjs.com"> -->
+	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
+	<!-- </a> -->
+	<h4>Tema:</h4>
+	<h2>Qué es un bus de campo, para qué sirve y cómo funciona
+	<p>
+	<small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
+	</small>
+	</p>
+</section>
+
+<section data-markdown
+data-separator="^---"
+data-separator-vertical="^\n"
+data-separator-notes="^Note:">
+<textarea data-template>
+# [Introducción](https://www.cursosaula21.com/que-es-un-bus-de-campo)
+
+Antes de la introducción del **bus de campo**, la vía de comunicación para la [**automatización industrial**](https://www.cursosaula21.com/que-es-la-automatizacion-industrial/) se basaba en un cableado paralelo, en el que los dispositivos se conectaban de forma independiente con el nivel de regulación y control.
+
+Sin embargo, con el aumento de los **sistemas de automatización**, el número de equipos implicados también se incrementó. Esto condujo a una amplia utilización de cableado para conectar todos los dispositivos, creando un entramado complejo y costoso. En consecuencia,  se sustituyó por sistemas de bus de campo más rápidos y económicos.
+---
+## **Definición de bus de campo**
+
+El bus de campo es una [**red de comunicación industrial**](https://www.cursosaula21.com/que-son-las-redes-de-comunicacion-industrial/) bidireccional y multipunto entre dispositivos de campo inteligentes. En otras palabras, es una red de área local dedicada a la automatización industrial.
+
+En definitiva, sustituye las redes de control centralizadas por redes de control distribuidas y enlaza los dispositivos de entrada (sensores, interruptores, etc.) y los dispositivos de salida (válvulas, accionamientos, lámparas de indicación, etc.) sin necesidad de conectar cada dispositivo individualmente al controlador (PLC, PC industrial, etc.).
+
+Antes de su introducción, los ordenadores se conectaban mediante conexiones seriales directas, por lo que sólo dos dispositivos podían comunicarse por conexión. El bus de campo, por otro lado, permite que cientos de puntos analógicos y digitales se conecten simultáneamente. Esto reduce tanto el número de cables necesarios como la longitud de los mismos.
+
+Existen muchas variantes de bus de campo porque los fabricantes de equipos de automatización han desarrollado buses de campo propios con características y funciones diferentes para poder afrontar mejor su nicho de mercado y competir entre ellos a nivel técnico. Por lo tanto, no es sorprendente que algunos buses sean mejores en funciones específicas que otros.
+
+Debido a la demanda del mercado, la mayoría de los buses de campo suelen ser «abiertos» (algunos más que otros). Son capaces de conectar y utilizar la plataforma de control instalada (por ejemplo, PLC) para comunicarse a través del bus de campo con dispositivos especializados de una gama de diferentes fabricantes para, esencialmente, «hablar» con la plataforma de control.
+---
+## **Para qué sirve el bus de campo**
+
+Un sistema de automatización industrial, como las líneas de montaje de fabricación, normalmente requiere una jerarquía organizada de sistemas de control. En esta jerarquía, suele haber una [**Interfaz Hombre-Máquina (HMI)**](https://www.cursosaula21.com/que-es-un-hmi/) en la parte superior, donde el operador puede supervisar u operar el sistema.
+
+Esto normalmente está relacionado con la fase intermedia de un [**controlador lógico programable (PLC)**](https://www.cursosaula21.com/que-es-un-automata-programable-o-plc-y-como-funciona/) a través de una red de comunicación compatible como por ejemplo, el **[protocolo Ethernet Industrial](https://www.cursosaula21.com/que-es-ethernet-industrial/)**.
+
+En la parte inferior del sistema de control se encuentra **el bus de campo que conecta el PLC con los componentes** que realmente hacen el trabajo, como **sensores, actuadores, motores eléctricos, luces de la consola, interruptores, válvulas y contratistas**.
+
+![](https://www.cursosaula21.com/wp-content/uploads/2020/01/Qu%C3%A9-es-un-bus-de-campo.png)
+<small>Diagrama Básico del Bus de Campo</small>
+---
+## **Tipos de bus de campo**
+
+Hoy en día se utilizan muchos tipos de buses de campo; el tipo concreto a utilizar depende del tipo de industria o de automatización de la fabricación. Algunos de los más utilizados son:
+
+### **Profibus**
+
+**Profibus (Field Bus Process)** es el estándar para la comunicación por bus en la tecnología de automatización y fue promovido por primera vez en 1989 por el BMBF (departamento alemán de educación e investigación) y luego utilizado por Siemens. No debe confundirse con el estándar Profinet para la industria de Ethernet.
+
+Profibus no es un protocolo abierto y libre de derechos como Modbus.
+
+### **ModBus**
+
+**Modbus** es un protocolo de comunicación en serie publicado por **Modicon** en 1979 para su uso con controladores lógicos programables (PLC). Simple y potente, se ha convertido desde entonces en uno de los protocolos de comunicación estándar de facto en la industria, y ahora se encuentra entre las formas más comunes disponibles para conectar dispositivos electrónicos industriales.
+
+Las principales razones para el amplio uso de Modbus en un entorno industrial son:
+
+- Ha sido desarrollado con aplicaciones industriales.
+- Se publica abiertamente y está libre de derechos.
+- Es fácil de instalar y mantener.
+- Los bits o palabras sin procesar se mueven sin poner muchas restricciones al proveedor.
+
+Modbus permite la comunicación entre múltiples salidas (alrededor de 240) conectadas a la misma red. Por ejemplo un sistema que mide la temperatura, la humedad y comunica los resultados a un ordenador. El Modbus se utiliza a menudo para conectar ordenadores de vigilancia con **unidades terminales remotas (RTU)** en el [**sistema de control y adquisición de datos (SCADA)**](https://www.cursosaula21.com/que-es-un-sistema-scada/).
+
+### **Bus CAN (Controller Area Network)**
+
+El **bus CAN** es un protocolo basado en mensajes, diseñado específicamente para aplicaciones de automoción, pero que ahora también se utiliza en otras áreas como la automatización industrial y los equipos médicos.
+
+El desarrollo del bus CAN comenzó inicialmente en 1983 en Robert Bosch GmbH. Este protocolo se publicó oficialmente en 1986 en la Sociedad de Ingenieros de Automoción (SAE) en Detroit.
+
+### **AS-Interface:**
+
+**AS-Interface** (Actuator Sensor Interface, AS-i) es una solución de red industrial (capa física, método y protocolo de acceso a datos) utilizada en sistemas de automatización basados en PLC, [**DCS**](https://www.cursosaula21.com/que-es-un-sistema-de-control-distribuido/) y PC.
+
+Está diseñada para conectar dispositivos simples de I/O (binarios como dispositivos ON/OFF : actuadores, sensores, codificadores rotativos, entradas y salidas analógicas, pulsadores y sensores de posición de válvulas) en aplicaciones de fabricación discreta y de proceso utilizando 2 cables de un solo conductor.
+
+La AS-Interface es una tecnología ‘abierta’ utilizada por muchos proveedores de equipos de automatización.
+
+### **Interbus**
+
+El **Interbus** con velocidades de transmisión de hasta 2 Mbps se caracteriza por una seguridad de transmisión especialmente alta y un tiempo de ciclo corto y constante. Está dividido en subsistemas y consta del bus remoto, el bus remoto de instalación y el bus local dispuesto en una topología de anillo.
+
+Como su nombre indica, el bus remoto sirve para conectar hasta 254 usuarios que se encuentran a grandes distancias entre sí, mientras que el bus local conecta al sistema a los usuarios que se encuentran cerca unos de otros.
+---
+## **Ventajas del bus de campo**
+
+- **La velocidad:** Gracias a la reducción del cableado, los sistemas de bus de campo pueden planificarse e instalarse más rápidamente. Así mismo se comunican a través de un solo cable.
+- **Fiabilidad:** Los trayectos de señal cortos aumentan la disponibilidad y la fiabilidad de los sistemas.
+- **Fiabilidad frente a las interferencias:** Ofrecen una mayor protección contra las interferencias, especialmente en el caso de valores analógicos.
+- **Uniformidad:** Debido a los protocolos de bus estandarizados y a la técnica de conexión unificada, se pueden utilizar e intercambiar equipos de diferentes fabricantes. Por lo tanto, no es necesario que todos los componentes individuales sean del mismo fabricante.
+- **Flexibilidad:** Incluso las ampliaciones y modificaciones pueden realizarse de forma sencilla y rápida con los buses de campo. De este modo, los sistemas pueden adaptarse de forma variable a los nuevos requisitos y pueden utilizarse también en el futuro.
+---
+## **Desventajas del bus de campo**
+
+- **Complejidad:** Dado que un bus de campo representa un sistema completo, se requiere personal cualificado para su utilización.
+- **Los costes:** Los componentes individuales del bus de campo son considerablemente más caros.
+- **Peligros en caso de averías en el bus:** El sistema de control se puede desconectar de los sensores y actuadores. Para evitarlo, en caso necesario, deben utilizarse sistemas de bus adicionales.
+- **Falta de uniformidad:** los protocolos estándar pueden ser los predominantes en ciertos periodos de tiempo, como volverse obsoletos por el auge de otros protocolos.
+- **Aumento costes dispositivos:** Los fabricantes de equipos tienen que ofrecer diferentes versiones de sus equipos (p. ej. sensores, actuadores) debido a la cantidad de diferentes estándares de bus de campo (incompatibles). Esto puede aumentar el coste de los dispositivos, la dificultad de selección y disponibilidad de los mismos.
+</textarea>
+</section>
+
+<!-- <section data-markdown -->
+<!-- data-separator="^---" -->
+<!-- data-separator-vertical="^\n" -->
+<!-- data-separator-notes="^Note:"> -->
+<!-- <textarea data-template> -->
+<!-- </textarea> -->
+<!-- </section> -->
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'h.v',
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [
+					RevealMarkdown,
+					RevealHighlight, 
+					RevealNotes,
+					RevealMath.KaTeX
+				]
+			});
+		</script>
+	</body>
+</html>
