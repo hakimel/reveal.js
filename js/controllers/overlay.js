@@ -51,6 +51,19 @@ export default class Overlay {
 		this.dom.appendChild( this.viewport );
 		this.Reveal.getRevealElement().appendChild( this.dom );
 
+		// avoid shortcuts on the underlying presentation
+		this.dom.tabIndex = 0;
+		this.dom.focus()
+		this.dom.addEventListener('keydown', (event) => {
+			// custom event to handle close when we're in fullscreen mode
+			if(event.key === 'c') {
+				this.close();
+			}
+			// continue with escape, pause and fullscreen shortcuts while we're in an overlay
+			if (!['Escape', 'b', '.', 'f'].includes(event.key)) {
+				event.stopPropagation();
+			}
+		});
 	}
 
 	/**
