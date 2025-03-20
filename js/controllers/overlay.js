@@ -19,7 +19,7 @@ export default class Overlay {
 
 		// Enable link previews globally
 		if( this.Reveal.getConfig().previewLinks ) {
-			this.linkPreviewSelector = 'a[href]:not([data-preview-link=false])';
+			this.linkPreviewSelector = 'a[href]:not([data-preview-link=false]), [data-preview-link]:not(a):not([data-preview-link=false])';
 		}
 		// Enable link previews for individual elements
 		else {
@@ -284,7 +284,7 @@ export default class Overlay {
 
 		// Was a link preview clicked?
 		if( linkTarget ) {
-			let url = linkTarget.getAttribute( 'href' );
+			let url = linkTarget.getAttribute( 'href' ) || linkTarget.getAttribute( 'data-preview-link' );
 			if( url ) {
 				this.showIframePreview( url );
 				event.preventDefault();

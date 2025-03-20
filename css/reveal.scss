@@ -1444,7 +1444,8 @@ $controlsArrowAngleActive: 36deg;
 }
 
 .reveal [data-preview-image],
-.reveal [data-preview-video] {
+.reveal [data-preview-video],
+.reveal [data-preview-link]:not(a):not([data-preview-link=false]) {
 	cursor: zoom-in;
 }
 
