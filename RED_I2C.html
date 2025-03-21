@@ -55,8 +55,9 @@
 	<ul>
 		<li><a href="#/intro">Intro</a></li>
 		<li><a href="#/esquema">Esquema de comunicación y elementos</a></li>
-		<li><a href="#/sirve">Para qué sirve</a></li>
-		<li><a href="#/tipos">Tipos</a></li>
+		<li><a href="#/master">Maestro</a></li>
+		<li><a href="#/esclavo">Esclavo</a></li>
+		<li><a href="#/bits">Bits de la trama de puerto</a></li>
 	</ul>
 </section>
 
@@ -65,10 +66,10 @@ data-separator="^---"
 data-separator-vertical="^\n"
 data-separator-notes="^Note:">
 <textarea data-template>
-## [Puerto, Introducción, trama y protocol(https://hetpro-store.com/TUTORIALES/i2c/)
+## [Puerto, Introducción, trama y protocolo](https://hetpro-store.com/TUTORIALES/i2c/)
 <p id="intro"></p>
 
-**I2C** es un puerto y protocolo de comunicación serial, define la trama de datos y las conexiones físicas para transferir bits entre 2 dispositivos digitales. El puerto incluye dos cables de comunicación, SDA y SCL. Además el protocolo permite conectar hasta 127 dispositivos esclavos con esas dos líneas, con hasta velocidades de 100, 400 y 1000 kbits/s. También es conocido como IIC ó TWI – Two Wire Interface.
+**I2C** es un puerto y protocolo de comunicación serial, define la trama de datos y las conexiones físicas para transferir bits entre 2 dispositivos digitales. El puerto incluye dos cables de comunicación, $SDA$ y $SCL$. Además el protocolo permite conectar hasta 127 dispositivos esclavos con esas dos líneas, con hasta velocidades de $100$, $400$ y $1000\ kbits/s$. También es conocido como IIC ó TWI – Two Wire Interface.
 
 El protocolo I2C es uno de los más utilizados para comunicarse con sensores digitales, ya que a diferencia del puerto Serial, su arquitectura permite tener una confirmación de los datos recibidos, dentro de la misma trama, entre otras ventajas.
 
@@ -85,6 +86,7 @@ Siempre que hablamos de una comunicación oral, se entiende que es entre dos o m
 **Figura-1**. Conexión de tres dispositivos a un bus de comunicación I2C.
 ---
 ## Maestro
+<p id="master"></p>
 
 El **MAESTRO** I2C se encarga de controlar al cable de reloj, por sus siglas en inglés llamada SCL – Serial CLock. Además el MAESTRO se encarga de iniciar y parar la comunicación. La información binaria serial se envía sólo por la línea o cable de datos seriales, en inglés se llama SDA – Serial DAta. Dos Maestros no pueden hacer uso de un mismo puerto I2C. Puede funcionar de dos maneras, como maestro-transmisor o maestro-receptor. Sus funciones principales son:
 
@@ -98,6 +100,7 @@ El **MAESTRO** I2C se encarga de controlar al cable de reloj, por sus siglas en 
 - Finalizar la comunicación
 ---
 ## Esclavo
+<p id="esclavo"></p>
 
 El **ESCLAVO** I2C, generalmente suele ser un sensor. Este elemento suministra de la información de interés al MAESTRO. Puede actuar de dos formas: esclavo-transmisor ó esclavo-receptor.  Un dispositivo I2C esclavo, no puede generar a la señal SCL. Sus funciones principales son:
 
@@ -105,6 +108,7 @@ El **ESCLAVO** I2C, generalmente suele ser un sensor. Este elemento suministra d
 - Enviar confirmaciones de recepción, llamadas ACK
 ---
 ## Bits de la trama del puerto
+<p id="bits"></p>
 
 El protocolo de comunicación I2C se refiere al conjunto de bits que son necesarios para enviar uno o varios bytes de información. En lo particular, para este protocolo existen los siguientes bits importantes:
 
@@ -157,25 +161,35 @@ Cada uno de los bits antes descritos (**Inicio-S**, **ACK**, **NACK**, Parada, *
 
 ### Inicio
 La condición de inicio se genera cuando el bus esta disponible, cuando mientras la línea de SCL esta en alto (1), existe un flanco de bajada (un cambio de estado lógico de alto a bajo), en la línea de SDA).  Este bit sólo lo puede generar el MAESTRO.
+
 ![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-INICIO-I2C-150x150.jpg)
 
 ### Paro
 La señal o bit de PARO se genera cuando hay un flanco de subida en la línea de datos, mientras que la línea de reloj se encuentra en alto. Está condición sólo es posible generarla desde el MAESTRO. 
+
 ![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-PARO-I2C-150x150.jpg)
 
 ### ACK
 Confirmación de recepción. Está condición se crea cuando estando la señal SCL en alto, SDA est en bajo. Está señal la puede generar tanto el MAESTRO como el ESCLAVO. 
+
 ![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-ACK-I2C-150x150.jpg)
 
 ### NACK
 Este bit es usado en el esquema de comunicación donde se leen varios bytes de un ESCLAVO en una sola transmisión. Entonces, el bit NACK se usa cuando ya no se quieren recibir más bytes. La condición sólo la puede generar el MAESTRO. 
+
 ![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-NACK-I2C-150x150.jpg)
 ---
 ## Resumen
 
-El puerto y protocolo I2C es un tema de mucha importancia para los ingenieros que desarrollan sistemas embebidos. Además de poder conectar hasta 127 sensores, el protocolo I2C permite manejar una comunicación segura entre dos dispositivos digitales. Como desventaja podemos mencionar el esquema de comunicación. Debido a que el esquema usado es UN-Maestro MUCHOS-Esclavos, esto puede generar una latencia en el envío y recepción de datos de cada uno de los esclavos. Esto sucede al que sólo podemos usar el bus I2C para comunicar un esclavo a la vez. Sin embargo, el puerto I2C es uno de los más utilizados en aplicaciones embebidas. Podemos encontrar sensores I2C en la mayoría de los dispositivos electrónicos digitales, desde televisores, celulares o laptops. En otro tutorial mencionaré ejemplos del uso de I2C con distintos lenguajes de programación, como Arduino, Mbed, ensamblador y C/C++. Otro puerto similar, es el [puerto serial](https://hetpro-store.com/TUTORIALES/puerto-serial/).
+El puerto y protocolo I2C es un tema de mucha importancia para los ingenieros que desarrollan sistemas embebidos. Además de poder conectar hasta 127 sensores, el protocolo I2C permite manejar una comunicación segura entre dos dispositivos digitales. 
 
-Fuentes.
+Como desventaja podemos mencionar el esquema de comunicación. Debido a que el esquema usado es UN-Maestro MUCHOS-Esclavos, esto puede generar una latencia en el envío y recepción de datos de cada uno de los esclavos. 
+
+Esto sucede al que sólo podemos usar el bus I2C para comunicar un esclavo a la vez. Sin embargo, el puerto I2C es uno de los más utilizados en aplicaciones embebidas. 
+
+Podemos encontrar sensores I2C en la mayoría de los dispositivos electrónicos digitales, desde televisores, celulares o laptops. En otro tutorial mencionaré ejemplos del uso de I2C con distintos lenguajes de programación, como Arduino, Mbed, ensamblador y C/C++. Otro puerto similar, es el [puerto serial](https://hetpro-store.com/TUTORIALES/puerto-serial/).
+---
+### Fuentes.
 
 \[1\] – https://datasheets.maximintegrated.com/en/ds/DS1307.pdf</textarea>
 </section>
