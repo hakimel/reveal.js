@@ -414,14 +414,25 @@
 					}
 					// Messages sent by the reveal.js inside of the current slide preview
 					else if( data && data.namespace === 'reveal' ) {
+						const supportedEvents = [
+							'slidechanged',
+							'fragmentshown',
+							'fragmenthidden',
+							'paused',
+							'resumed',
+							'showiframepreview',
+							'showmediapreview'
+						];
+
 						if( /ready/.test( data.eventName ) ) {
 							// Send a message back to notify that the handshake is complete
 							window.opener.postMessage( JSON.stringify({ namespace: 'reveal-notes', type: 'connected'} ), '*' );
 						}
-						else if( /slidechanged|fragmentshown|fragmenthidden|paused|resumed/.test( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
-
+						else if( /closeoverlay/.test( data.eventName ) ) {
 							dispatchStateToMainWindow( data.state );
-
+						}
+						else if( supportedEvents.includes( data.eventName ) && currentState !== JSON.stringify( data.state ) ) {
+							dispatchStateToMainWindow( data.state );
 						}
 					}
 

@@ -2,6 +2,7 @@
  * Handles the display of reveal.js' overlay elements used
  * to preview iframes, images & videos.
  */
+
 export default class Overlay {
 
 	constructor( Reveal ) {
@@ -12,6 +13,8 @@ export default class Overlay {
 
 		this.linkPreviewSelector = null;
 		this.mediaPreviewSelector = '[data-preview-image], [data-preview-video]';
+
+		this.state = {};
 
 	}
 
@@ -61,6 +64,8 @@ export default class Overlay {
 	showIframePreview( url ) {
 
 		this.close();
+
+		this.state.previewIframe = url;
 
 		this.createOverlay( 'r-overlay-preview' );
 		this.dom.dataset.state = 'loading';
@@ -113,9 +118,11 @@ export default class Overlay {
 
 		this.close();
 
+		const fitMode = trigger ? trigger.dataset.previewFit || 'scale-down' : 'scale-down';
+
 		this.createOverlay( 'r-overlay-preview' );
 		this.dom.dataset.state = 'loading';
-		this.dom.dataset.previewFit = trigger ? trigger.dataset.previewFit || 'scale-down' : 'scale-down';
+		this.dom.dataset.previewFit = fitMode;
 
 		this.viewport.innerHTML =
 			`<header class="r-overlay-header">
@@ -127,6 +134,8 @@ export default class Overlay {
 		const contentElement = this.dom.querySelector( '.r-overlay-content' );
 
 		if( mediaType === 'image' ) {
+
+			this.state = { previewImage: url, previewFit: fitMode }
 
 			const img = document.createElement( 'img', {} );
 			img.src = url;
@@ -150,6 +159,8 @@ export default class Overlay {
 
 		}
 		else if( mediaType === 'video' ) {
+
+			this.state = { previewVideo: url, previewFit: fitMode }
 
 			const video = document.createElement( 'video' );
 			video.autoplay = this.dom.dataset.previewAutoplay === 'false' ? false : true;
@@ -257,7 +268,9 @@ export default class Overlay {
 	}
 
 	isOpen() {
+
 		return !!this.dom;
+
 	}
 
 	/**
@@ -268,10 +281,38 @@ export default class Overlay {
 		if( this.dom ) {
 			this.dom.remove();
 			this.dom = null;
+
+			this.state = {};
+
+			this.Reveal.dispatchEvent({ type: 'closeoverlay' });
+
 			return true;
 		}
 
 		return false;
+
+	}
+
+	getState() {
+
+		return this.state;
+
+	}
+
+	setState( state ) {
+
+		if( state.previewIframe ) {
+			this.showIframePreview( state.previewIframe );
+		}
+		else if( state.previewImage ) {
+			this.showMediaPreview( state.previewImage, 'image' );
+		}
+		else if( state.previewVideo ) {
+			this.showMediaPreview( state.previewVideo, 'video' );
+		}
+		else {
+			this.close();
+		}
 
 	}
 
