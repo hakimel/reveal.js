@@ -190,7 +190,7 @@ export default class Keyboard {
 			}
 		}
 
-		if( this.Reveal.isOverlayOpen() && !['Escape', 'f', 'c'].includes(event.key) ) {
+		if( this.Reveal.isOverlayOpen() && !["Escape", "f", "c", "b", "."].includes(event.key) ) {
 			return false;
 		}
 

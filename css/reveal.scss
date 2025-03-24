@@ -1456,7 +1456,7 @@ $controlsArrowAngleActive: 36deg;
 	bottom: var(--r-overlay-margin);
 	left: var(--r-overlay-margin);
 	border-radius: min( var(--r-overlay-margin), 6px );
-	z-index: 1000;
+	z-index: 99;
 	background: rgba( 0, 0, 0, 0.95 );
 	backdrop-filter: blur( 10px );
 	transition: all 0.3s ease;
