@@ -398,6 +398,12 @@ export default class Keyboard {
 
 			event.preventDefault && event.preventDefault();
 		}
+		
+		// Enter to exit overview mode
+		else if (keyCode === 13 && this.Reveal.overview.isActive()) {
+			this.Reveal.overview.deactivate();
+			event.preventDefault && event.preventDefault();
+		}
 
 		// If auto-sliding is enabled we need to cue up
 		// another timeout
