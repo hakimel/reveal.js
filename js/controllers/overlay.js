@@ -284,6 +284,10 @@ export default class Overlay {
 
 		// Was a link preview clicked?
 		if( linkTarget ) {
+			if (event.metaKey || event.shiftKey || event.altKey) {
+				// Let the browser handle meta keys naturally so users can cmd+click, cmd+shift+click, shift+click, alt+click, etc.
+				return;
+			  }
 			let url = linkTarget.getAttribute( 'href' ) || linkTarget.getAttribute( 'data-preview-link' );
 			if( url ) {
 				this.showIframePreview( url );
