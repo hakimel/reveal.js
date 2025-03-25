@@ -2210,7 +2210,8 @@ export default function( revealElement, options ) {
 			indexv: indices.v,
 			indexf: indices.f,
 			paused: isPaused(),
-			overview: overview.isActive()
+			overview: overview.isActive(),
+			...overlay.getState()
 		};
 
 	}
@@ -2236,6 +2237,8 @@ export default function( revealElement, options ) {
 			if( typeof overviewFlag === 'boolean' && overviewFlag !== overview.isActive() ) {
 				overview.toggle( overviewFlag );
 			}
+
+			overlay.setState( state );
 		}
 
 	}

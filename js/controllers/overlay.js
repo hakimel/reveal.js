@@ -13,6 +13,8 @@ export default class Overlay {
 		this.linkPreviewSelector = null;
 		this.mediaPreviewSelector = '[data-preview-image], [data-preview-video]';
 
+		this.state = {};
+
 	}
 
 	update() {
@@ -62,6 +64,8 @@ export default class Overlay {
 
 		this.close();
 
+		this.state.previewIframe = url;
+
 		this.createOverlay( 'r-overlay-preview' );
 		this.dom.dataset.state = 'loading';
 
@@ -101,10 +105,9 @@ export default class Overlay {
 	 *
 	 * @param {string} url - url to the image/video to preview
 	 * @param {image|video} mediaType
-	 * @param {HTMLElement} [trigger] - the element that triggered
-	 * the preview
+	 * @param {string} [fitMode] - the fit mode to use for the preview
 	 */
-	showMediaPreview( url, mediaType, trigger ) {
+	showMediaPreview( url, mediaType, fitMode ) {
 
 		if( mediaType !== 'image' && mediaType !== 'video' ) {
 			console.warn( 'Please specify a valid media type to preview (image|video)' );
@@ -113,9 +116,11 @@ export default class Overlay {
 
 		this.close();
 
+		fitMode = fitMode || 'scale-down';
+
 		this.createOverlay( 'r-overlay-preview' );
 		this.dom.dataset.state = 'loading';
-		this.dom.dataset.previewFit = trigger ? trigger.dataset.previewFit || 'scale-down' : 'scale-down';
+		this.dom.dataset.previewFit = fitMode;
 
 		this.viewport.innerHTML =
 			`<header class="r-overlay-header">
@@ -127,6 +132,8 @@ export default class Overlay {
 		const contentElement = this.dom.querySelector( '.r-overlay-content' );
 
 		if( mediaType === 'image' ) {
+
+			this.state = { previewImage: url, previewFit: fitMode }
 
 			const img = document.createElement( 'img', {} );
 			img.src = url;
@@ -150,6 +157,8 @@ export default class Overlay {
 
 		}
 		else if( mediaType === 'video' ) {
+
+			this.state = { previewVideo: url, previewFit: fitMode }
 
 			const video = document.createElement( 'video' );
 			video.autoplay = this.dom.dataset.previewAutoplay === 'false' ? false : true;
@@ -180,7 +189,7 @@ export default class Overlay {
 			event.preventDefault();
 		}, false );
 
-		this.Reveal.dispatchEvent({ type: 'showmediapreview', data: { mediaType, url, trigger } });
+		this.Reveal.dispatchEvent({ type: 'showmediapreview', data: { mediaType, url } });
 
 	}
 
@@ -257,7 +266,9 @@ export default class Overlay {
 	}
 
 	isOpen() {
+
 		return !!this.dom;
+
 	}
 
 	/**
@@ -268,10 +279,38 @@ export default class Overlay {
 		if( this.dom ) {
 			this.dom.remove();
 			this.dom = null;
+
+			this.state = {};
+
+			this.Reveal.dispatchEvent({ type: 'closeoverlay' });
+
 			return true;
 		}
 
 		return false;
+
+	}
+
+	getState() {
+
+		return this.state;
+
+	}
+
+	setState( state ) {
+
+		if( state.previewIframe ) {
+			this.showIframePreview( state.previewIframe );
+		}
+		else if( state.previewImage ) {
+			this.showMediaPreview( state.previewImage, 'image', state.previewFit );
+		}
+		else if( state.previewVideo ) {
+			this.showMediaPreview( state.previewVideo, 'video', state.previewFit );
+		}
+		else {
+			this.close();
+		}
 
 	}
 
@@ -284,10 +323,10 @@ export default class Overlay {
 
 		// Was a link preview clicked?
 		if( linkTarget ) {
-			if (event.metaKey || event.shiftKey || event.altKey) {
+			if( event.metaKey || event.shiftKey || event.altKey ) {
 				// Let the browser handle meta keys naturally so users can cmd+click, cmd+shift+click, shift+click, alt+click, etc.
 				return;
-			  }
+			}
 			let url = linkTarget.getAttribute( 'href' ) || linkTarget.getAttribute( 'data-preview-link' );
 			if( url ) {
 				this.showIframePreview( url );
@@ -299,7 +338,7 @@ export default class Overlay {
 			if( mediaTarget.hasAttribute( 'data-preview-image' ) ) {
 				let url = mediaTarget.dataset.previewImage || mediaTarget.getAttribute( 'src' );
 				if( url ) {
-					this.showMediaPreview( url, 'image', mediaTarget );
+					this.showMediaPreview( url, 'image', mediaTarget.dataset.previewFit );
 					event.preventDefault();
 				}
 			}
@@ -312,7 +351,7 @@ export default class Overlay {
 					}
 				}
 				if( url ) {
-					this.showMediaPreview( url, 'video', mediaTarget );
+					this.showMediaPreview( url, 'video', mediaTarget.dataset.previewFit );
 					event.preventDefault();
 				}
 			}

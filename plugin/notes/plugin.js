@@ -209,6 +209,9 @@ const Plugin = () => {
 		deck.on( 'overviewshown', post );
 		deck.on( 'paused', post );
 		deck.on( 'resumed', post );
+		deck.on( 'showmediapreview', post );
+		deck.on( 'showiframepreview', post );
+		deck.on( 'closeoverlay', post );
 
 		// Post the initial state
 		post();
