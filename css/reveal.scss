@@ -1343,7 +1343,7 @@ $controlsArrowAngleActive: 36deg;
 		outline-offset: 10px;
 	}
 	.slides section:hover {
-		&:not(:active) {
+		&:not(:active):not(.present) {
 			outline: solid 2px rgba(150,150,150,0.4);
 			outline-offset: 10px;
 		}
