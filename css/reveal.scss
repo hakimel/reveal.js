@@ -1337,10 +1337,16 @@ $controlsArrowAngleActive: 36deg;
 		cursor: pointer;
 		box-sizing: border-box;
 	}
-	.slides section:hover,
-	.slides section.present {
-		outline: 10px solid rgba(150,150,150,0.4);
+	.slides:not(:has(:active)) section.present,
+	.slides section:active {
+		outline: solid 10px rgba(150,150,150,0.4);
 		outline-offset: 10px;
+	}
+	.slides section:hover {
+		&:not(:active) {
+			outline: solid 2px rgba(150,150,150,0.4);
+			outline-offset: 10px;
+		}
 	}
 	.slides section .fragment {
 		opacity: 1;
