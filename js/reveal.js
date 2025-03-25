@@ -2766,10 +2766,12 @@ export default function( revealElement, options ) {
 		startEmbeddedContent: () => slideContent.startEmbeddedContent( currentSlide ),
 		stopEmbeddedContent: () => slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } ),
 
-		// Preview management
-		showIframePreview: overlay.showIframePreview.bind( overlay ),
-		showMediaPreview: overlay.showMediaPreview.bind( overlay ),
-		showPreview: overlay.showIframePreview.bind( overlay ), // deprecated in favor of showIframePreview
+		// Lightbox previews
+		previewIframe: overlay.previewIframe.bind( overlay ),
+		previewImage: overlay.previewImage.bind( overlay ),
+		previewVideo: overlay.previewVideo.bind( overlay ),
+
+		showPreview: overlay.previewIframe.bind( overlay ), // deprecated in favor of showIframeLightbox
 		hidePreview: overlay.close.bind( overlay ),
 
 		// Adds or removes all internal event listeners
