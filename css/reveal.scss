@@ -39,6 +39,12 @@ html.reveal-full-page {
 	--r-overlay-gap: 5px;
 }
 
+@media screen and (max-width: 1024px), (max-height: 768px) {
+	.reveal-viewport {
+		--r-overlay-header-height: 26px;
+	}
+}
+
 // Force the presentation to cover the full viewport when we
 // enter fullscreen mode. Fixes sizing issues in Safari.
 .reveal-viewport:fullscreen {
@@ -1492,7 +1498,7 @@ $controlsArrowAngleActive: 36deg;
 	justify-content: center;
 	min-width: var(--r-overlay-header-height);
 	min-height: var(--r-overlay-header-height);
-	padding: 0 10px;
+	padding: 0 calc(var(--r-overlay-header-height) / 4);
 	opacity: 1;
 	border-radius: 6px;
 	font-size: 18px;

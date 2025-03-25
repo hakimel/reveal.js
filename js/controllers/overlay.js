@@ -13,6 +13,7 @@ export default class Overlay {
 		this.iframeTriggerSelector = null;
 		this.mediaTriggerSelector = '[data-preview-image], [data-preview-video]';
 
+		this.stateProps = ['previewIframe', 'previewImage', 'previewVideo', 'previewFit'];
 		this.state = {};
 
 	}
@@ -64,7 +65,7 @@ export default class Overlay {
 
 		this.close();
 
-		this.state.previewIframe = url;
+		this.state = { previewIframe: url };
 
 		this.createOverlay( 'r-overlay-preview' );
 		this.dom.dataset.state = 'loading';
@@ -313,6 +314,12 @@ export default class Overlay {
 
 	setState( state ) {
 
+		// Ignore the incoming state if none of the preview related
+		// props have changed
+		if( this.stateProps.every( key => this.state[ key ] === state[ key ] ) ) {
+			return;
+		}
+
 		if( state.previewIframe ) {
 			this.previewIframe( state.previewIframe );
 		}
@@ -338,7 +345,7 @@ export default class Overlay {
 		// Was an iframe lightbox trigger clicked?
 		if( linkTarget ) {
 			if( event.metaKey || event.shiftKey || event.altKey ) {
-				// Let the browser handle meta keys naturally so users can cmd+click, cmd+shift+click, shift+click, alt+click, etc.
+				// Let the browser handle meta keys naturally so users can cmd+click
 				return;
 			}
 			let url = linkTarget.getAttribute( 'href' ) || linkTarget.getAttribute( 'data-preview-link' );
