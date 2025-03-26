@@ -159,7 +159,9 @@ La Figura-3, muestra la trama que se requiere escribir en el puerto para leer un
 
 Una vez que el esclavo responde con el ACK, el Maestro entonces enviará un bit de Inicio-repetido seguido de la dirección pero con bit de Lectura. Después, el esclavo responde con el byte que contiene la memoria 0x03 y seguirá respondiendo con la información de la siguiente memoria (0x04) hasta que el MAESTRO dé por terminado la comunicación, esta vez con un NACK antes del bit de Paro.
 
-![Trama de lectura I2C - DS1307](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg)
+<!-- ![Trama de lectura I2C - DS1307](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg){style="width:100px"} -->
+<img src="https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg" style="width:73%">
+
 Trama de lectura I2C – DS1307
 **Figura-3**. Trama de datos para el protocolo I2C para leer el registro 0x03 del DS1307. El RTC retorna el valor 0x07 que corresponde al día 7, es decir, Domingo.
 ---
