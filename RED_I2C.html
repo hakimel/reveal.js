@@ -141,9 +141,13 @@ Los modos de comunicación en I2C se refieren a las distintas tramas que pueden 
 ### Ejemplo-1 configuración de 1-registro
 <p id="ej1"></p>
 
-**Ejemplo-1**. Para diseñar registrador de datos, es necesario en algunas circunstancias usar un reloj de tiempo Real, RTC. Un **RTC** común es el **DS1307** que tiene un puerto para poder leer y configurar el tiempo. La Figura-2, muestra la trama de datos necesaria para configurar la hora para que sean las 08 hrs. Para poder encontrar el sensor se requiere conocer su dirección. Para determinar la dirección se tienen 7 bits ( 2^7 = 128 ), de aquí que se puedan comunicar con dos líneas hasta 127 sensores, la dirección 0 es una llamada general.
+**Ejemplo-1**. Para diseñar registrador de datos, es necesario en algunas circunstancias usar un reloj de tiempo Real, RTC. Un **RTC** común es el **DS1307** que tiene un puerto para poder leer y configurar el tiempo. La Figura-2, muestra la trama de datos necesaria para configurar la hora para que sean las 08 hrs. 
 
-Después se requiere un bit de lectura o escritura. Entonces, este bit acompaña a los 7-bits de dirección. Si el bit de lectura/escritura vale = 0, significa que se escribirá al esclavo. Si este bit vale = 1, significa entonces que se leerá. Cuando el Esclavo I2C recibe su dirección, es cuando esté, responde con una confirmación (ACK). El esclavo queda en espera de 8 bits de la memoria que se quiere escribir y responde con un ACK. Posteriormente el esclavo espera a que el maestro le envié los 8-bits de datos correspondientes a la configuración del registro anterior y responde con un ACK. Finalmente el Maestro-I2C responde con un bit de fin de comunicación.
+Para poder encontrar el sensor se requiere conocer su dirección. Para determinar la dirección se tienen 7 bits ( 2^7 = 128 ), de aquí que se puedan comunicar con dos líneas hasta 127 sensores, la dirección 0 es una llamada general.
+
+Después se requiere un bit de lectura o escritura. Entonces, este bit acompaña a los 7-bits de dirección. Si el bit de lectura/escritura vale = 0, significa que se escribirá al esclavo. Si este bit vale = 1, significa entonces que se leerá. Cuando el Esclavo I2C recibe su dirección, es cuando esté, responde con una confirmación (ACK). 
+
+El esclavo queda en espera de 8 bits de la memoria que se quiere escribir y responde con un ACK. Posteriormente el esclavo espera a que el maestro le envié los 8-bits de datos correspondientes a la configuración del registro anterior y responde con un ACK. Finalmente el Maestro-I2C responde con un bit de fin de comunicación.
 
 <img width="680" height="469" src="https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo1-DS1307-rtc-1024x706.jpg"/>
 Figura-2. Trama de bits que se colocan en el puerto I2C para configurar el registro 0x02 del RTC-DS1307, con el valor de 0x08.
@@ -151,7 +155,9 @@ Figura-2. Trama de bits que se colocan en el puerto I2C para configurar el regis
 ### Ejemplo-2. Lectura del día RTC-DS1307 I2C
 <p id="ej2"></p>
 
-La Figura-3, muestra la trama que se requiere escribir en el puerto para leer un byte del registro cuya dirección es 0x03. Este registro guarda el día del RTC-DS1307 cuya dirección para el puerto es 0x68. Para poder leer el byte, primero es necesario indicar al dispositivo esclavo que se quiere LEER la dirección 0x03. Una vez que el esclavo responde con el ACK, el Maestro entonces enviará un bit de Inicio-repetido seguido de la dirección pero con bit de Lectura. Después, el esclavo responde con el byte que contiene la memoria 0x03 y seguirá respondiendo con la información de la siguiente memoria (0x04) hasta que el MAESTRO dé por terminado la comunicación, esta vez con un NACK antes del bit de Paro.
+La Figura-3, muestra la trama que se requiere escribir en el puerto para leer un byte del registro cuya dirección es 0x03. Este registro guarda el día del RTC-DS1307 cuya dirección para el puerto es 0x68. Para poder leer el byte, primero es necesario indicar al dispositivo esclavo que se quiere LEER la dirección 0x03. 
+
+Una vez que el esclavo responde con el ACK, el Maestro entonces enviará un bit de Inicio-repetido seguido de la dirección pero con bit de Lectura. Después, el esclavo responde con el byte que contiene la memoria 0x03 y seguirá respondiendo con la información de la siguiente memoria (0x04) hasta que el MAESTRO dé por terminado la comunicación, esta vez con un NACK antes del bit de Paro.
 
 ![Trama de lectura I2C - DS1307](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg)
 Trama de lectura I2C – DS1307
