@@ -42,7 +42,7 @@
 	<!-- <img src="uttlogo.png" alt="UTT Logo" style="background: transparent;" class="demo-logo"> -->
 	<!-- </a> -->
 	<h4>Tema:</h4>
-	<h2>BUS DE COMUNICACIÓN I2C</h2>
+	<h2>Descripción y funcionamiento del Bus I2C</h2>
 	<p>
 	<br>
 	<small><small>Maestro: <a href="https://franciscoruvalcaba.carrd.co/">Francisco Ruvalcaba Grandos</a>
@@ -53,16 +53,16 @@
 <section>
 	<h3>Contenido</h3>
 	<ul>
-		<li><a href="#/intro">Intro</a></li>
-		<li><a href="#/esquema">Esquema de comunicación y elementos</a></li>
-		<li><a href="#/master">Maestro</a></li>
-		<li><a href="#/esclavo">Esclavo</a></li>
-		<li><a href="#/bits">Bits de la trama de puerto</a></li>
-		<li><a href="#/ej1">Ejemplo 1</a></li>
-		<li><a href="#/ej2">Ejemplo 2</a></li>
-		<li><a href="#/vel">Velocidad del puerto</a></li>
-		<li><a href="#/condiciones">Condiciones eléctricas</a></li>
-		<li><a href="#/resumen">Resumen</a></li>
+		<!-- <li><a href="#/intro">Intro</a></li> -->
+		<!-- <li><a href="#/esquema">Esquema de comunicación y elementos</a></li> -->
+		<!-- <li><a href="#/master">Maestro</a></li> -->
+		<!-- <li><a href="#/esclavo">Esclavo</a></li> -->
+		<!-- <li><a href="#/bits">Bits de la trama de puerto</a></li> -->
+		<!-- <li><a href="#/ej1">Ejemplo 1</a></li> -->
+		<!-- <li><a href="#/ej2">Ejemplo 2</a></li> -->
+		<!-- <li><a href="#/vel">Velocidad del puerto</a></li> -->
+		<!-- <li><a href="#/condiciones">Condiciones eléctricas</a></li> -->
+		<!-- <li><a href="#/resumen">Resumen</a></li> -->
 	</ul>
 </section>
 
@@ -71,146 +71,137 @@ data-separator="^---"
 data-separator-vertical="^\n"
 data-separator-notes="^Note:">
 <textarea data-template>
-## [Puerto, Introducción, trama y protocolo](https://hetpro-store.com/TUTORIALES/i2c/)
-<p id="intro"></p>
+# **Introducción**
+[![](:/29619a7f0ed34fadbdf6075734ef30bc)](http://robots-argentina.com.ar/didactica/wp-content/uploads/I2C.png)
 
-**I2C** es un puerto y protocolo de comunicación serial, define la trama de datos y las conexiones físicas para transferir bits entre 2 dispositivos digitales. El puerto incluye dos cables de comunicación, $SDA$ y $SCL$. Además el protocolo permite conectar hasta 127 dispositivos esclavos con esas dos líneas, con hasta velocidades de $100$, $400$ y $1000\ kbits/s$. También es conocido como IIC ó TWI – Two Wire Interface.
+**DEFINICIÓN DE I2C (I<sup>2</sup>C):** Abreviatura de Inter-IC (inter integrated circuits), un tipo de bus diseñado por Philips Semiconductors a principios de los 80s, que se utiliza para conectar circuitos integrados (ICs). El I<sup>2</sup>C es un bus con múltiples maestros, lo que significa que se pueden conectar varios chips al mismo bus y que todos ellos pueden actuar como maestro, sólo con iniciar la transferencia de datos. Este bus se utiliza dentro de una misma placa de un dispositivo.
 
-El protocolo I2C es uno de los más utilizados para comunicarse con sensores digitales, ya que a diferencia del puerto Serial, su arquitectura permite tener una confirmación de los datos recibidos, dentro de la misma trama, entre otras ventajas.
+El bus I<sup>2</sup>C, un estándar que facilita la comunicación entre microcontroladores, memorias y otros dispositivos con cierto nivel de «inteligencia», sólo requiere de dos líneas de señal y un común o masa. Fue diseñado a este efecto por Philips y permite el intercambio de información entre muchos dispositivos a una velocidad aceptable, de unos 100 Kbits por segundo, aunque hay casos especiales en los que el reloj llega hasta los 3,4 MHz.
 
-La conexión de tantos dispositivos al mismo bus, es una de las principales ventajas. Además si comparamos a I2C con otro protocolo serial, como Serial TTL, este incluye más bits en su trama de comunicación que permite enviar mensajes más completos y detallados.
+La metodología de comunicación de datos del bus I<sup>2</sup>C es en serie y sincrónica. Una de las señales del bus marca el tiempo (pulsos de reloj) y la otra se utiliza para intercambiar datos.
 
-Los mensajes que se envían mediante un puerto I2C, incluye además del byte de información, una dirección tanto del registro como del sensor. Para la información que se envía siempre existe una confirmación de recepción por parte del dispositivo. Por esta razón es bueno diferenciar a los distintos elementos involucrados en este tipo de comunicación.
----
-## Esquema de comunicación y elementos
-<p id="esquema"></p>
+**Descripción de las señales**
 
-Siempre que hablamos de una comunicación oral, se entiende que es entre dos o más personas. Como consecuencia podemos también indicar que en una comunicación digital existen distintos dispositivos o elementos. En el caso de **I2C** se diferencian dos elementos básicos, un **MAESTRO** y un **ESCLAVO**. La **Figura-1**, muestra una conexión típica de tres dispositivos, el bus consiste de dos líneas llamadas, **S**erial **DA**ta – **SDA** y **S**erial **CL**ock – **SCL**. Es decir, Datos Seriales y Reloj Serial. En particular al bus se le conectan dos resistencias en arreglo **pull-up**, de entre 2.2K y 10K.
+- **SCL** (System Clock) es la línea de los pulsos de reloj que sincronizan el sistema.
+- **SDA** (System Data) es la línea por la que se mueven los datos entre los dispositivos.
+- **GND** (Masa) común de la interconexión entre todos los dispositivos «enganchados» al bus.
 
-![Conexion I2C by hetpro](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/I2C-Conexiones-768x633.jpg)
-**Figura-1**. Conexión de tres dispositivos a un bus de comunicación I2C.
----
-## Maestro
-<p id="master"></p>
+Las líneas **SDA** y **SCL** son del tipo drenaje abierto, es decir, un estado similar al de colector abierto, pero asociadas a un transistor de efecto de campo (o FET). Se deben polarizar en estado alto (conectando a la alimentación por medio de resistores «pull-up») lo que define una estructura de bus que permite conectar en paralelo múltiples entradas y salidas.
 
-El **MAESTRO** I2C se encarga de controlar al cable de reloj, por sus siglas en inglés llamada SCL – Serial CLock. Además el MAESTRO se encarga de iniciar y parar la comunicación. La información binaria serial se envía sólo por la línea o cable de datos seriales, en inglés se llama SDA – Serial DAta. Dos Maestros no pueden hacer uso de un mismo puerto I2C. Puede funcionar de dos maneras, como maestro-transmisor o maestro-receptor. Sus funciones principales son:
+[![](:/45ed32262196408bbb40796b7e223263)](http://robots-argentina.com.ar/didactica/wp-content/uploads/Comunicacion_busI2Cblk.gif)
 
-- Iniciar la comunicación – S
-- Enviar 7 bits de dirección – ADDR
-- Generar 1 bit de Lectura ó Escritura – R/W
-- Enviar 8 bits de dirección de memoria
-- Transmitir 8 bits de datos –
-- Confirmar la recepción de datos – ACK – ACKnowledged
-- Generar confirmación de No-recepción, NACK – No-ACKnowledged
-- Finalizar la comunicación
----
-## Esclavo
-<p id="esclavo"></p>
+El diagrama es suficientemente autoexplicativo. Las dos líneas del bus están en un nivel lógico alto cuando están inactivas. En principio, el número de dispositivos que se puede conectar al bus no tiene límites, aunque hay que observar que la capacidad máxima sumada de todos los dispositivos no supere los 400 pF. El valor de los resistores de polarización no es muy crítico, y puede ir desde 1K8 (1.800 ohms) a 47K (47.000 ohms). Un valor menor de resistencia incrementa el consumo de los integrados pero disminuye la sensibilidad al ruido y mejora el tiempo de los flancos de subida y bajada de las señales. Los valores más comunes en uso son entre 1K8 y 10K.
 
-El **ESCLAVO** I2C, generalmente suele ser un sensor. Este elemento suministra de la información de interés al MAESTRO. Puede actuar de dos formas: esclavo-transmisor ó esclavo-receptor.  Un dispositivo I2C esclavo, no puede generar a la señal SCL. Sus funciones principales son:
+**Protocolo de comunicación del bus I<sup>2</sup>C**
 
-- Enviar información en paquetes de 8 bits.
-- Enviar confirmaciones de recepción, llamadas ACK
----
-## Bits de la trama del puerto
-<p id="bits"></p>
+Habiendo varios dispositivos conectados sobre el bus, es lógico que para establecer una comunicación a través de él se deba respetar un protocolo. Digamos, en primer lugar, lo más importante: existen dispositivos maestros y dispositivos esclavos. Sólo los dispositivos maestros pueden iniciar una comunicación.
 
-El protocolo de comunicación I2C se refiere al conjunto de bits que son necesarios para enviar uno o varios bytes de información. En lo particular, para este protocolo existen los siguientes bits importantes:
+[![](:/d2b5988dc5224ae8811c85eac90c5d4c)](http://robots-argentina.com.ar/didactica/wp-content/uploads/Comunicacion_busI2Cinicio.gif)
 
-- Inicio ó Start – S
-- Parada – P
-- Confirmación – ACK
-- NoConfirmación – NACK
-- Lectura-/Escritura – L/W
-- 7 bits para la dirección del dispositivo esclavo/maestro
-- 8 bits de dirección ( para algunos sensores pueden ser 16 bits)
-- 8 bits de datos
+La condición inicial, de bus libre, es cuando ambas señales están en estado lógico alto. En este estado cualquier dispositivo maestro puede ocuparlo, estableciendo la condición de inicio (start). Esta condición se presenta cuando un dispositivo maestro pone en estado bajo la línea de datos (**SDA**), pero dejando en alto la línea de reloj (**SCL**).
 
-El conjunto de estos bits y su orden va formando distintas tramas de comunicación. Existen distintos modos de comunicación dependiendo del arreglo de estos bits. Tanto el maestro como el esclavo pueden o no generar los bits anteriores, según los modos de comunicación.
+El primer byte que se transmite luego de la condición de inicio contiene siete bits que componen la dirección del dispositivo que se desea seleccionar, y un octavo bit que corresponde a la operación que se quiere realizar con él (lectura o escritura).
 
-El puerto I2C esta disponible si las dos líneas, SDA y SCL están en un nivel lógico alto.
----
-## Modos de comunicación
-<p id="modos"></p>
+Si el dispositivo cuya dirección corresponde a la que se indica en los siete bits (A0-A6) está presente en el bus, éste contesta con un bit en bajo, ubicado inmediatamente luego del octavo bit que ha enviado el dispositivo maestro. Este bit de reconocimiento (ACK) en bajo le indica al dispositivo maestro que el esclavo reconoce la solicitud y está en condiciones de comunicarse. Aquí la comunicación se establece en firme y comienza el intercambio de información entre los dispositivos.
 
-Los modos de comunicación en I2C se refieren a las distintas tramas que pueden formarse en el bus. Estas tramas o modos dependen de por ejemplo, si queremos leer al sensor esclavo, o si lo queremos configurar. Existen principalmente dos modos de comunicación:
+[![](:/6afbf4982d174ff5819d75b35c97c584)](http://robots-argentina.com.ar/didactica/wp-content/uploads/Comunicacion_busI2Cack.gif)
 
-- Maestro-Transmisor y Esclavo-Receptor. Este modo se usa cuando se desea configurar un registro del esclavo I2C.
-- Maestro-Receptor Y Esclavo-Transmisor. Se usa cuando queremos leer información del sensor I2C.
----
-### Ejemplo-1 configuración de 1-registro
-<p id="ej1"></p>
+Si el bit de lectura/escritura (R/W) fue puesto en esta comunicación a nivel lógico bajo (escritura), el dispositivo maestro envía datos al dispositivo esclavo. Esto se mantiene mientras continúe recibiendo señales de reconocimiento, y el contacto concluye cuando se hayan transmitido todos los datos.
 
-**Ejemplo-1**. Para diseñar registrador de datos, es necesario en algunas circunstancias usar un reloj de tiempo Real, RTC. Un **RTC** común es el **DS1307** que tiene un puerto para poder leer y configurar el tiempo. La Figura-2, muestra la trama de datos necesaria para configurar la hora para que sean las 08 hrs. 
+[![](:/158b1a49207a490a95396f3e3e52a15f)](http://robots-argentina.com.ar/didactica/wp-content/uploads/Comunicacion_busI2Cparada.gif)
 
-Para poder encontrar el sensor se requiere conocer su dirección. Para determinar la dirección se tienen 7 bits ( 2^7 = 128 ), de aquí que se puedan comunicar con dos líneas hasta 127 sensores, la dirección 0 es una llamada general.
+En el caso contrario, cuando el bit de lectura/escritura estaba a nivel lógico alto (lectura), el dispositivo maestro genera pulsos de reloj para que el dispositivo esclavo pueda enviar los datos. Luego de cada byte recibido el dispositivo maestro (quien está recibiendo los datos) genera un pulso de reconocimiento.
 
-Después se requiere un bit de lectura o escritura. Entonces, este bit acompaña a los 7-bits de dirección. Si el bit de lectura/escritura vale = 0, significa que se escribirá al esclavo. Si este bit vale = 1, significa entonces que se leerá. Cuando el Esclavo I2C recibe su dirección, es cuando esté, responde con una confirmación (ACK). 
+El dispositivo maestro puede dejar libre el bus generando una condición de parada (o detención; stop en inglés).
 
-El esclavo queda en espera de 8 bits de la memoria que se quiere escribir y responde con un ACK. Posteriormente el esclavo espera a que el maestro le envié los 8-bits de datos correspondientes a la configuración del registro anterior y responde con un ACK. Finalmente el Maestro-I2C responde con un bit de fin de comunicación.
+Si se desea seguir transmitiendo, el dispositivo maestro puede generar otra condición de inicio en lugar de una condición de parada. Esta nueva condición de inicio se denomina «inicio reiterado» y se puede emplear para direccionar un dispositivo esclavo diferente o para alterar el estado del bit de lectura/escritura.
 
-<img width="680" height="469" src="https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo1-DS1307-rtc-1024x706.jpg"/>
-Figura-2. Trama de bits que se colocan en el puerto I2C para configurar el registro 0x02 del RTC-DS1307, con el valor de 0x08.
----
-### Ejemplo-2. Lectura del día RTC-DS1307 I2C
-<p id="ej2"></p>
+**Definición de términos:**
 
-La Figura-3, muestra la trama que se requiere escribir en el puerto para leer un byte del registro cuya dirección es 0x03. Este registro guarda el día del RTC-DS1307 cuya dirección para el puerto es 0x68. Para poder leer el byte, primero es necesario indicar al dispositivo esclavo que se quiere LEER la dirección 0x03. 
+- **Maestro (Master):** Dispositivo que determina los tiempos y la dirección del tráfico en el bus. Es el único que aplica los pulsos de reloj en la línea **SCL**. Cuando se conectan varios dispositivos maestros a un mismo bus la configuración obtenida se denomina «multi-maestro».
+- **Esclavo (Slave):** Todo dispositivo conectado al bus que no tiene la capacidad de generar pulsos de reloj. Los dispositivos esclavos reciben señales de comando y de reloj generados desde el maestro.
+- **Bus libre (Bus Free):** Estado en el que ambas líneas (**SDA** y **SCL**) están inactivas, presentando un estado lógico alto. Es el único momento en que un dispositivo maestro puede comenzar a hacer uso del bus.
+- **Comienzo (Start):** Se produce cuando un dispositivo maestro ocupa el bus, generando la condición. La línea de datos (**SDA**) toma un estado bajo mientras que la línea de reloj (**SCL**) permanece alta.
+- **Parada (Stop):** Un dispositivo maestro puede generar esta condición, dejando libre el bus. La línea de datos y la de reloj toman un estado lógico alto.
+- **Dato válido (Valid Data):** Situación presente cuando un dato presente en la línea **SDA** es estable al tiempo que la línea **SCL** está a nivel lógico alto.
+- **Formato de Datos (Data Format):** La transmisión de un dato a través de este bus consiste de 8 bits de dato (1 byte). A cada byte transmitido al bus le sigue un noveno pulso de reloj durante el cual el dispositivo receptor del byte debe generar un pulso de reconocimiento.
+- **Reconocimiento (Acknowledge):** El pulso de reconocimiento, conocido como ACK (del inglés Acknowledge), se logra colocando la línea de datos a un nivel lógico bajo durante el transcurso del noveno pulso de reloj.
+- **Dirección (Address):** Todo dispositivo diseñado para funcionar en este bus posee su propia y única dirección de acceso, preestablecida por el fabricante. Hay dispositivos que permiten definir externamente parte de la dirección de acceso, lo que habilita que se pueda conectar en un mismo bus un conjunto de dispositivos del mismo tipo, sin problemas de identificación. La dirección 00 es la denominada «de acceso general»; a ésta responden todos los dispositivos conectados al bus.
+- **Lectura/Escritura (Bit R/W):** Cada dispositivo tiene una dirección de 7 bits. El octavo bit (el menos significativo) que se envía durante la operación de direccionamiento, completando el byte, indica el tipo de operación a realizar. Si este bit es alto el dispositivo maestro lee información proveniente de un dispositivo esclavo. Si este bit es bajo, el dispositivo maestro escribe información en un dispositivo esclavo.
 
-Una vez que el esclavo responde con el ACK, el Maestro entonces enviará un bit de Inicio-repetido seguido de la dirección pero con bit de Lectura. Después, el esclavo responde con el byte que contiene la memoria 0x03 y seguirá respondiendo con la información de la siguiente memoria (0x04) hasta que el MAESTRO dé por terminado la comunicación, esta vez con un NACK antes del bit de Paro.
+**La comunicación en más detalle**
 
-<!-- ![Trama de lectura I2C - DS1307](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg){style="width:100px"} -->
-<img src="https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Trama-I2C-Ejemplo2-DS1307-rtc-1024x963.jpg" style="width:73%">
+Cuando el dispositivo maestro quiere comunicarse con un esclavo, produce una secuencia de inicio en el bus. La secuencia de inicio es una de las dos secuencias especiales que se han definido en el bus I<sup>2</sup>C; la otra es la secuencia de parada. Las secuencias de inicio y la de parada son especiales porque son los dos únicos casos en que se permite que la línea de datos (**SDA**) cambie cuando la línea de reloj (**SCL**) está alta. Cuando se están transmitiendo datos, la línea **SDA** debe permanecer estable, y jamás cambiar, mientras la línea **SCL** está alta. Las secuencias de inicio y de parada señalan el comienzo y el final de una transacción con los dispositivos esclavos.
 
-Trama de lectura I2C – DS1307
-**Figura-3**. Trama de datos para el protocolo I2C para leer el registro 0x03 del DS1307. El RTC retorna el valor 0x07 que corresponde al día 7, es decir, Domingo.
----
-## Velocidad del puerto I2C
-<p id="vel"></p>
+Los datos se transfieren en secuencias de 8 bits. Estos bits se colocan en la línea **SDA** comenzando por el bit de más peso (o más significativo). Una vez puesto un bit en **SDA**, se lleva la línea **SCL** a alto. Debemos recordar que el chip no puede llevar la línea a un estado alto, en realidad, lo que hace es «soltarla», y el que la pone en nivel lógico alto es el resistor de polarización. Por cada 8 bits que se transfieren, el dispositivo que recibe el dato envía de regreso un bit de reconocimiento, de modo que en realidad por cada byte de dato se producen 9 pulsos sobre la línea **SCL** (es decir, 9 pulsos de reloj por cada 8 bits de dato). Si el dispositivo que recibe envía un bit de reconocimiento bajo, indica que ha recibido el dato y que está listo para aceptar otro byte. Si retorna un alto, lo que indica es que no puede recibir más datos y el dispositivo maestro debería terminar la transferencia enviando una secuencia de parada.
 
-La velocidad del puerto I2C se refiere al tiempo que le toma al puerto transferir un bit de información. Entonces, este valor se mide en bits/segundo. Típicamente vamos a encontrar la referencia en ciclos/segundo o Herz. Existen tres velocidades estándar, 100Khz, 400Khz y 1Mhz, es decir, 100kbits/s, 400kbits/s y 1000kbits/s. Por ejemplo, para la trama de la Figura-2,  ese paquete de datos tiene 29 bits, por lo que a una velocidad de 100kbits/s le tomaría al puerto 0.29 ms enviar la información.
+**Direccionamiento de dispositivos en el bus I<sup>2</sup>C**
 
-El dato digital ó lógica que leerá cada uno de los dispositivos, corresponde el voltaje en los flancos de subida de la señal de reloj – SCL.
----
-## Condiciones eléctricas
-<p id="condiciones"></p>
+Lo más común en los dispositivos para el bus I<sup>2</sup>C es que utilicen direcciones de 7 bits, aunque existen dispositivos de 10 bits. Este último caso es raro.
 
-Cada uno de los bits antes descritos (**Inicio-S**, **ACK**, **NACK**, Parada, **RS**) significan condiciones eléctricas en el bus I2C.  Las condiciones de voltaje son las siguientes:
+Una dirección de 7 bits implica que se pueden poner hasta 128 dispositivos sobre un bus I<sup>2</sup>C, ya que un número de 7 bits puede ir desde 0 a 127. Cuando se envían las direcciones de 7 bit, de cualquier modo la transmisión es de 8 bits. El bit extra se utiliza para informarle al dispositivo esclavo si el dispositivo maestro va a escribir o va a leer datos desde él. Si el bit de lectura/escritura (R/W) es cero, el dispositivo maestro está escribiendo en el esclavo. Si el bit es 1 el maestro está leyendo desde el esclavo. La dirección de 7 bit se coloca en los 7 bist más significativos del byte y el bit de lectura/escritura es el bit menos significativo.
 
-### Inicio
-La condición de inicio se genera cuando el bus esta disponible, cuando mientras la línea de SCL esta en alto (1), existe un flanco de bajada (un cambio de estado lógico de alto a bajo), en la línea de SDA).  Este bit sólo lo puede generar el MAESTRO.
+El hecho de colocar la dirección de 7 bits en los 7 bits más significativos del byte produce confusiones entre quienes comienzan a trabajar con este bus. Si, por ejemplo, se desea escribir en la dirección 21 (hexadecimal), en realidad se debe enviar un 42, que es un 21 desplazado un bit hacia arriba. También se pueden tomar las direcciones del bus I<sup>2</sup>C como direcciones de 8 bit, en las que las pares son de sólo escritura y las impares son de sólo lectura. Para dar un ejemplo, el integrado de brújula magnética [CMPS03](https://www.robot-electronics.co.uk/htm/cmps3tech.htm) es fijado en fábrica en la dirección 0xC0 ($C0). La dirección 0xC0 se utiliza para escribir en él y la dirección 0xC1 es para leer de él.
 
-![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-INICIO-I2C-150x150.jpg)
+**Protocolo de programación para el bus I<sup>2</sup>C**
 
-### Paro
-La señal o bit de PARO se genera cuando hay un flanco de subida en la línea de datos, mientras que la línea de reloj se encuentra en alto. Está condición sólo es posible generarla desde el MAESTRO. 
+Lo primero que ocurre en un bus I<sup>2</sup>C es que el dispositivo maestro envía una secuencia de inicio. Esto alerta a los dispositivos esclavos, poniéndolos a la espera de una transacción. Éstos quedan atentos para ver si se trata de una solicitud para ellos. A continuación el dispositivo maestro envía la dirección de dispositivo. El dispositivo esclavo que posee esa dirección continuará con la transacción, y los otros ignorarán el resto de los intercambios, esperando la próxima secuencia de inicio.
 
-![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-PARO-I2C-150x150.jpg)
+Habiendo direccionado ya el dispositivo esclavo, lo que debe hacer ahora el maestro es enviar la ubicación interna o número de registro desde el que desea leer o al que va a escribir. La cantidad depende, obviamente, de qué dispositivo es y de cuántos registros internos posee. Algunos dispositivos muy simples no tienen ninguno, pero la mayoría sí los poseen.
 
-### ACK
-Confirmación de recepción. Está condición se crea cuando estando la señal SCL en alto, SDA est en bajo. Está señal la puede generar tanto el MAESTRO como el ESCLAVO. 
+Siguiendo con el ejemplo del CMPS03, éste posee 16 ubicaciones internas, numeradas desde el 0 al 15. Otro dispositivo, el medidor ultrasónico de distancia SRF08, tiene 36 registros.
 
-![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-ACK-I2C-150x150.jpg)
+Una vez que el maestro ha enviado la dirección del dispositivo en el bus I<sup>2</sup>C y la dirección del registro interno del dispositivo, puede enviar ahora el byte o bytes de datos. El dispositivo maestro puede seguir enviando bytes al esclavo, que normalmente serán puestos en registros con direcciones sucesivas, ya que el esclavo incrementa automáticamente la dirección del registro interno después de recibir cada byte. Cuando el maestro ha terminado de escribir datos en el esclavo, envía una secuencia de parada que concluye la transacción.
 
-### NACK
-Este bit es usado en el esquema de comunicación donde se leen varios bytes de un ESCLAVO en una sola transmisión. Entonces, el bit NACK se usa cuando ya no se quieren recibir más bytes. La condición sólo la puede generar el MAESTRO. 
+**Escritura en un dispositivo esclavo:**
 
-![](https://hetpro-store.com/TUTORIALES/wp-content/uploads/2017/10/Condicion-NACK-I2C-150x150.jpg)
----
-## Resumen
-<p id="resumen"></p>
+- 1\. Enviar una secuencia de inicio
+- 2\. Enviar la dirección de dispositivo con el bit de lectura/escritura en bajo
+- 3\. Enviar el número de registro interno en el que se desea escribir
+- 4\. Enviar el byte de dato
+- 5\. \[Opcionalmente, enviar más bytes de dato\]
+- 6\. Enviar la secuencia de parada
 
-El puerto y protocolo I2C es un tema de mucha importancia para los ingenieros que desarrollan sistemas embebidos. Además de poder conectar hasta 127 sensores, el protocolo I2C permite manejar una comunicación segura entre dos dispositivos digitales. 
+Como ejemplo, veamos un [SRF08](https://www.robot-electronics.co.uk/htm/srf08tech.html), que tiene una dirección de bus fijada en fábrica de 0xE0. Para comenzar una medición de distancia con el SRF08 se debe escribir 0x51 en el registro de comando, ubicado en la dirección interna 0x00. La secuencia es la que sigue:
 
-Como desventaja podemos mencionar el esquema de comunicación. Debido a que el esquema usado es UN-Maestro MUCHOS-Esclavos, esto puede generar una latencia en el envío y recepción de datos de cada uno de los esclavos. 
+- 1\. Enviar una secuencia de inicio
+- 2\. Enviar 0xE0 (La dirección de dispositivo del SRF08 con el bit de lectura/escritura en bajo)
+- 3\. Enviar 0x00 (dirección interna del registro de comando)
+- 4\. Enviar 0x51 (el comando para comenzar la medición del SRF08)
+- 5\. Enviar la secuencia de parada
 
-Esto sucede al que sólo podemos usar el bus I2C para comunicar un esclavo a la vez. Sin embargo, el puerto I2C es uno de los más utilizados en aplicaciones embebidas. 
+**Lectura desde un dispositivo esclavo:**
 
-Podemos encontrar sensores I2C en la mayoría de los dispositivos electrónicos digitales, desde televisores, celulares o laptops. En otro tutorial mencionaré ejemplos del uso de I2C con distintos lenguajes de programación, como Arduino, Mbed, ensamblador y C/C++. Otro puerto similar, es el [puerto serial](https://hetpro-store.com/TUTORIALES/puerto-serial/).
----
-### Fuentes.
+Esta operación es algo más complicada, pero no demasiado. Antes de leer datos desde el dispositivo esclavo, primero se le debe informar desde cuál de sus direcciones internas se va a leer. De manera que una lectura desde un dispositivo esclavo en realidad comienza con una operación de escritura en él. Es igual a cuando se desea escribir en él: Se envía la secuencia de inicio, la dirección de dispositivo con el bit de lectura/escritura en bajo y el registro interno desde el que se desea leer. Ahora se envía otra secuencia de inicio nuevamente con la dirección de dispositivo, pero esta vez con el bit de lectura/escritura en alto. Luego se leen todos los bytes necesarios y se termina la transacción con una secuencia de parada.
 
-\[1\] – https://datasheets.maximintegrated.com/en/ds/DS1307.pdf</textarea>
+Volviendo al ejemplo del módulo de brújula CMPS03, veamos cómo se lee el registro de ángulo:
+
+- 1\. Enviar una secuencia de inicio
+- 2\. Enviar 0xC0 (La dirección de dispositivo del CMPS03 con el bit de lectura/escritura en bajo)
+- 3\. Enviar 0x01 (dirección interna del registro de ángulo en valor 0-255)
+- 4\. Enviar una secuencia de inicio (inicio reiterado)
+- 5\. Enviar 0xC1 (La dirección de dispositivo del CMPS03 con el bit de lectura/escritura en alto)
+- 6\. Leer un byte de dato desde el CMPS03
+- 7\. Enviar la secuencia de parada
+
+La secuencia se verá así:
+
+[![](:/db58be64c26444c19bc37b3718dac721)](http://robots-argentina.com.ar/didactica/wp-content/uploads/Comunicacion_busI2Clectura.gif)
+
+  
+
+**Un caso un poco más complicado**
+
+Esto es todo cuando se trata de comunicaciones simples, pero debemos considerar una posible complicación: Cuando el dispositivo maestro está leyendo desde el esclavo, quien pone los datos en la línea **SDA** del bus es el dispositivo esclavo, y el maestro es el que controla el pulso de reloj. ¿Qué pasa si el esclavo no está listo para enviar un dato? Con dispositivos como una EEPROMs esto no sería problema, pero si el dispositivo esclavo es un microprocesador, que tiene otras tareas que realizar, pueden surgir inconvenientes.
+
+Para atender la transacción, el microprocesador debe pasar a una rutina de interrupción, guardar sus registros de trabajo, determinar qué dirección desea leer el dispositivo maestro, obtener el dato y ponerlo en su registro de transmisión. Esto puede llevar varios microsegundos, lo que implica que el dispositivo maestro podría estar enviando pulsos de reloj ciegamente por la línea **SCL** sin que el dispositivo esclavo pueda responderle. El protocolo I2C ofrece una solución para esto: el esclavo puede mantener la línea **SCL** en bajo. A esto se le llama estiramiento del reloj. Cuando el esclavo recibe el comando de lectura lo primero que hace es poner la línea de reloj en bajo. Entonces sí, obtiene el dato solicitado, lo pone en el registro de transmisión, y recién entonces libera la línea de reloj, que pasará de inmediato a alto debido al nivel que aporta el resistor de polarización.
+
+Desde el punto de vista del dispositivo maestro, éste tratará de enviar el primer pulso de reloj para la lectura de datos liberando la línea **SCL** para que pase a alto, pero antes de continuar comprobará que ésta realmente haya ido al nivel lógico 1. Si la línea **SCL** permanece en bajo, el dispositivo maestro interpreta que el esclavo la mantiene así y espera a que **SCL** vaya a alto antes de continuar. Por suerte, la mayoría de los puertos I2C de los microprocesadores manejan esto de manera automática.
+
+Sin embargo, a veces el manejo de I<sup>2</sup>C en el dispositivo maestro no está implementado por circuito, sino que es un juego de subrutinas que maneja dos líneas de un puerto. Algunas implementaciones ignoran este estiramiento del reloj. Estas soluciones trabajarán bien con dispositivos tales como las EEPROM, pero no podrán intercambiar datos correctamente con microprocesadores esclavos que utilizan el estiramiento del pulso de reloj. Como resultado, se obtendrán datos erróneos.
+
+[Especificaciones de Philips sobre el bus I2C (PDF)](http://www.semiconductors.philips.com/acrobat_download/literature/9398/39340011.pdf)
+</textarea>
 </section>
 
 <!-- <section data-markdown -->
