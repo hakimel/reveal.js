@@ -2,6 +2,8 @@
  * Dracula Dark theme for reveal.js.
  * Based on https://draculatheme.com
  */
+@import url(./fonts/league-gothic/league-gothic.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 /**
  * Dracula colors by Zeno Rocha
  * https://draculatheme.com/contribute
