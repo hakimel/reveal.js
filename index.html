@@ -1,40 +1,161 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-		<title>reveal.js</title>
-
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
-
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
-
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
-
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadSquared Government Sector Strategy</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .gradient-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #1e40af 0%, #3b82f6 50%, #f97316 100%);
+        }
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .accent-text {
+            color: #f97316;
+        }
+        .blue-text {
+            color: #2563eb;
+        }
+        .bg-pattern {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 380px;
+            height: 380px;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232563eb' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.8;
+            z-index: 0;
+        }
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            font-weight: bold;
+            font-size: 24px;
+            z-index: 10;
+        }
+        /* Navigation buttons */
+        .nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        .nav-button {
+            background-color: #e5e7eb;
+            color: #4b5563;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        .nav-button:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        /* For responsive design */
+        @media (max-width: 1280px) {
+            .slide-container {
+                width: 100%;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="gradient-accent"></div>
+        <div class="bg-pattern"></div>
+       
+        <div class="logo">
+            <span class="blue-text">Lead</span><span class="accent-text">Squared</span>
+        </div>
+       
+        <div class="flex flex-col justify-center items-center h-full px-24 z-10 relative">
+            <div class="text-center mb-10">
+                <h1 class="text-5xl font-bold mb-6">
+                    <span class="blue-text">Building LeadSquared's</span>
+                    <span class="accent-text"> Government & Public Sector</span>
+                    <span class="blue-text"> Business</span>
+                </h1>
+                <p class="text-xl text-gray-600 mt-4">Strategic Roadmap for Market Entry & Growth</p>
+               
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-orange-500 mx-auto my-8"></div>
+            </div>
+           
+            <div class="grid grid-cols-3 gap-8 text-center mt-8">
+                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Market Opportunity</h3>
+                    <p class="text-gray-600">Tapping into India's growing public sector digitization initiatives</p>
+                </div>
+               
+                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                    <div class="text-orange-500 text-4xl mb-4">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Strategic Approach</h3>
+                    <p class="text-gray-600">Customized solutions for government workflows & citizen engagement</p>
+                </div>
+               
+                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Action Plan</h3>
+                    <p class="text-gray-600">Targeting active tenders & building a sustainable growth roadmap</p>
+                </div>
+            </div>
+           
+            <div class="mt-12 text-gray-500 text-lg">
+                Prepared for: Executive Leadership Team
+            </div>
+        </div>
+       
+        <!-- Navigation buttons -->
+        <div class="nav-buttons">
+            <button class="nav-button" disabled><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+            <button class="nav-button" onclick="window.location.href='introduction.html'">Next <i class="fas fa-arrow-right ml-2"></i></button>
+        </div>
+       
+        <div class="slide-number">1 / 20</div>
+    </div>
+</body>
 </html>
