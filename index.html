@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <style>
+        /* All your existing styles */
         body {
             margin: 0;
             padding: 0;
@@ -62,7 +63,8 @@
             font-size: 24px;
             z-index: 10;
         }
-        /* Navigation buttons */
+        
+        /* Navigation styles */
         .nav-buttons {
             position: absolute;
             bottom: 20px;
@@ -70,7 +72,7 @@
             transform: translateX(-50%);
             display: flex;
             gap: 10px;
-            z-index: 10;
+            z-index: 20;
         }
         .nav-button {
             background-color: #e5e7eb;
@@ -84,12 +86,30 @@
             display: flex;
             align-items: center;
         }
-        .nav-button:hover {
+        .nav-button:hover:not(:disabled) {
             background-color: #3b82f6;
             color: white;
         }
-        /* For responsive design */
-        @media (max-width: 1280px) {
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Slide styles */
+        .slide {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .slide.active {
+            display: block;
+        }
+        
+        /* Responsive design for different screen sizes */
+        @media (max-width: 1300px) {
             .slide-container {
                 width: 100%;
                 height: 100vh;
@@ -101,61 +121,211 @@
     <div class="slide-container">
         <div class="gradient-accent"></div>
         <div class="bg-pattern"></div>
-       
+        
         <div class="logo">
             <span class="blue-text">Lead</span><span class="accent-text">Squared</span>
         </div>
-       
-        <div class="flex flex-col justify-center items-center h-full px-24 z-10 relative">
-            <div class="text-center mb-10">
-                <h1 class="text-5xl font-bold mb-6">
-                    <span class="blue-text">Building LeadSquared's</span>
-                    <span class="accent-text"> Government & Public Sector</span>
-                    <span class="blue-text"> Business</span>
-                </h1>
-                <p class="text-xl text-gray-600 mt-4">Strategic Roadmap for Market Entry & Growth</p>
-               
-                <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-orange-500 mx-auto my-8"></div>
-            </div>
-           
-            <div class="grid grid-cols-3 gap-8 text-center mt-8">
-                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Market Opportunity</h3>
-                    <p class="text-gray-600">Tapping into India's growing public sector digitization initiatives</p>
+        
+        <!-- Slide 1: Cover Slide -->
+        <div id="slide-1" class="slide active">
+            <div class="flex flex-col justify-center items-center h-full px-24 z-10 relative">
+                <div class="text-center mb-10">
+                    <h1 class="text-5xl font-bold mb-6">
+                        <span class="blue-text">Building LeadSquared's</span>
+                        <span class="accent-text"> Government & Public Sector</span>
+                        <span class="blue-text"> Business</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mt-4">Strategic Roadmap for Market Entry & Growth</p>
+                   
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-orange-500 mx-auto my-8"></div>
                 </div>
                
-                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
-                    <div class="text-orange-500 text-4xl mb-4">
-                        <i class="fas fa-bullseye"></i>
+                <div class="grid grid-cols-3 gap-8 text-center mt-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Market Opportunity</h3>
+                        <p class="text-gray-600">Tapping into India's growing public sector digitization initiatives</p>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Strategic Approach</h3>
-                    <p class="text-gray-600">Customized solutions for government workflows & citizen engagement</p>
+                   
+                    <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                        <div class="text-orange-500 text-4xl mb-4">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Strategic Approach</h3>
+                        <p class="text-gray-600">Customized solutions for government workflows & citizen engagement</p>
+                    </div>
+                   
+                    <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Action Plan</h3>
+                        <p class="text-gray-600">Targeting active tenders & building a sustainable growth roadmap</p>
+                    </div>
                 </div>
                
-                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Action Plan</h3>
-                    <p class="text-gray-600">Targeting active tenders & building a sustainable growth roadmap</p>
+                <div class="mt-12 text-gray-500 text-lg">
+                    Prepared for: Executive Leadership Team
                 </div>
-            </div>
-           
-            <div class="mt-12 text-gray-500 text-lg">
-                Prepared for: Executive Leadership Team
             </div>
         </div>
-       
+        
+        <!-- Slide 2: Introduction -->
+        <div id="slide-2" class="slide">
+            <div class="flex flex-col p-16 h-full z-10 relative">
+                <h2 class="section-title">Introduction</h2>
+               
+                <div class="grid grid-cols-2 gap-10 mt-4">
+                    <div class="pr-8">
+                        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                            <h3 class="text-xl font-semibold mb-3 blue-text">
+                                <i class="fas fa-building mr-2"></i> About LeadSquared
+                            </h3>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>SaaS platform providing end-to-end sales, marketing, and onboarding automation</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Achieved unicorn status in 2022 with $1 billion valuation</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Established presence across Education, Healthcare, BFSI, and Real Estate sectors</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Known for verticalized, industry-specific solutions</span>
+                                </li>
+                            </ul>
+                        </div>
+                       
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <h3 class="text-xl font-semibold mb-3 accent-text">
+                                <i class="fas fa-bullseye mr-2"></i> Purpose of This Strategy
+                            </h3>
+                            <p class="text-gray-700 mb-4">
+                                To outline a comprehensive approach for LeadSquared to enter and expand within India's government and public sector market, leveraging our existing strengths while addressing unique public sector requirements.
+                            </p>
+                        </div>
+                    </div>
+                   
+                    <div>
+                        <div class="bg-gradient-to-br from-blue-50 to-orange-50 p-6 rounded-lg shadow-lg mb-6">
+                            <h3 class="text-xl font-semibold mb-3 blue-text">
+                                <i class="fas fa-lightbulb mr-2"></i> The Opportunity
+                            </h3>
+                            <p class="text-gray-700 mb-4">
+                                India's government sector represents a significant untapped market for LeadSquared's CRM and marketing automation solutions.
+                            </p>
+                           
+                            <div class="bg-white p-4 rounded-md shadow-inner mb-4">
+                                <h4 class="font-semibold text-gray-800 mb-2">Market Indicators</h4>
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                        <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Digital India initiative driving e-governance transformation</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-4">
+                                        <i class="fas fa-gavel text-orange-500 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Active tenders for CRM solutions across government agencies</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                        <i class="fas fa-users text-blue-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Growing demand for citizen engagement platforms</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="bg-white p-6 rounded-lg border-l-4 border-blue-500 shadow-lg">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Why Now?</h3>
+                            <p class="text-gray-700">
+                                The convergence of Digital India initiatives, increased public sector tech spending, and growing citizen expectations creates an optimal entry point for LeadSquared's solutions in the government sector.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add more slides here... -->
+        
         <!-- Navigation buttons -->
         <div class="nav-buttons">
-            <button class="nav-button" disabled><i class="fas fa-arrow-left mr-2"></i> Previous</button>
-            <button class="nav-button" onclick="window.location.href='introduction.html'">Next <i class="fas fa-arrow-right ml-2"></i></button>
+            <button id="prev-button" class="nav-button" onclick="prevSlide()"><i class="fas fa-arrow-left mr-2"></i> Previous</button>
+            <button id="next-button" class="nav-button" onclick="nextSlide()">Next <i class="fas fa-arrow-right ml-2"></i></button>
         </div>
-       
-        <div class="slide-number">1 / 20</div>
+        
+        <div id="slide-counter" class="slide-number">1 / 20</div>
     </div>
+    
+    <script>
+        // Slide navigation logic
+        let currentSlide = 1;
+        const totalSlides = 2; // Update this number as you add more slides
+        
+        function updateNavigation() {
+            // Update slide counter
+            document.getElementById('slide-counter').textContent = `${currentSlide} / ${totalSlides}`;
+            
+            // Disable/enable navigation buttons
+            document.getElementById('prev-button').disabled = currentSlide === 1;
+            document.getElementById('next-button').disabled = currentSlide === totalSlides;
+        }
+        
+        function showSlide(slideNumber) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show the requested slide
+            document.getElementById(`slide-${slideNumber}`).classList.add('active');
+            
+            // Update current slide number
+            currentSlide = slideNumber;
+            
+            // Update navigation
+            updateNavigation();
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+        
+        // Initialize navigation
+        updateNavigation();
+    </script>
 </body>
 </html>
