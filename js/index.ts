@@ -13,7 +13,7 @@ import Deck, { VERSION } from './reveal.js';
  *   // reveal.js is ready
  * });
  */
-let Reveal: {
+const Reveal: {
   initialize: (options?: Config) => Promise<void>;
   [key: string]: any;
 } = Deck;
@@ -32,7 +32,7 @@ let Reveal: {
 
 type RevealApiFunction = (...args: any[]) => any;
 
-let enqueuedAPICalls: RevealApiFunction[] = [];
+const enqueuedAPICalls: RevealApiFunction[] = [];
 
 Reveal.initialize = (options?: Config) => {
   // Create our singleton reveal.js instance
