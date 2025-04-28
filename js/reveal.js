@@ -1782,14 +1782,16 @@ export default function( revealElement, options ) {
 
 		if( horizontalSlidesLength && typeof indexh !== 'undefined' ) {
 
+			const isOverview = overview.isActive();
+
 			// The number of steps away from the present slide that will
 			// be visible
-			let viewDistance = overview.isActive() ? 10 : config.viewDistance;
+			let viewDistance = isOverview ? 10 : config.viewDistance;
 
 			// Shorten the view distance on devices that typically have
 			// less resources
 			if( Device.isMobile ) {
-				viewDistance = overview.isActive() ? 6 : config.mobileViewDistance;
+				viewDistance = isOverview ? 6 : config.mobileViewDistance;
 			}
 
 			// All slides need to be visible when exporting to PDF
@@ -1822,7 +1824,7 @@ export default function( revealElement, options ) {
 
 				if( verticalSlidesLength ) {
 
-					let oy = getPreviousVerticalIndex( horizontalSlide );
+					let oy = isOverview ? 0 : getPreviousVerticalIndex( horizontalSlide );
 
 					for( let y = 0; y < verticalSlidesLength; y++ ) {
 						let verticalSlide = verticalSlides[y];
