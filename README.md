@@ -32,4 +32,12 @@ Want to create reveal.js presentation in a graphical editor? Try <https://slides
 =======
 # sbom-talk
 A talk about SBOMs, based on reveal.js
+<<<<<<< HEAD
 >>>>>>> ca180c60 (Initial commit)
+=======
+
+---
+
+# Slide 1
+This file is also serving as the content for the Presentation at https://dim-0.github.io/sbom-talk/
+>>>>>>> 8faf8173 (Modified Index)
