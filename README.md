@@ -70,8 +70,26 @@ is purely coincidental.
 
 <img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="500" height="auto">
 
-No CISOs were harmed  
-in the making of this presentation
+No CISOs were harmed in the making  
+of this presentation
+
+---
+
+# 1. Akt
+
+## _Introductio_
+
+---
+
+# 2. Akt
+
+## _Disputatio_
+
+---
+
+# 3. Akt
+
+## _Conclusio_
 
 ---
 >>>>>>> 93fcb8b2 (No CISOs were harmed)
