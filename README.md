@@ -56,6 +56,6 @@ The rendered presentation is available via the repository's [GitHub Pages websit
 The characters depicted in this play are purely fictional and are not based on any real persons either living or dead.
 Any coincidental resemblance is unintentional and accidential.
 
-## No CISOs were harmed in making this presentation
+## No CISOs were harmed in the making of this presentation
 
 >>>>>>> 535d44d2 (Added first slides)
