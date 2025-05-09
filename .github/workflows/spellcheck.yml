@@ -22,4 +22,4 @@ jobs:
       - name: Codespell
         uses: codespell-project/actions-codespell@v2
         with:
-          skip: .git*,package-lock.json,*.css,.codespellrc,/dist*
+          skip: ./.git,./dist,.package-lock.json,*.css,.codespellrc
