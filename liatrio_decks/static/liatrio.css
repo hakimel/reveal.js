@@ -1,0 +1,303 @@
+/*
+ * Liatrio Custom Reveal.js Theme
+ * Brand palette and typography based on official Liatrio Brand Guide
+ * https://www.liatrio.com/brand
+ */
+
+/* Import Liatrio Custom Fonts */
+/* Clash Display */
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@700,500,400&display=swap');
+/* DM Sans */
+@import url('https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap');
+
+:root {
+  --liatrio-grey-800:   #111111; /* background */
+  --liatrio-white:      #ffffff; /* main text */
+  --liatrio-primarygreen: #24AE1D;
+  --liatrio-brightgreen: #89DF00;
+  --liatrio-grey-700:   #1e1e1e;
+  --liatrio-grey-100:   #eeeeee;
+  --liatrio-lagoon:     #00C1DB;
+  --liatrio-grey-600:   #3a3a3a;
+  --liatrio-grey-500:   #444444;
+  --liatrio-grey-400:   #757575;
+  --liatrio-grey-300:   #9c9c9c;
+  --liatrio-grey-200:   #dedfdc;
+  --liatrio-darkblue:   #20343a;
+  --liatrio-deepsea:    #007DAA;
+  --liatrio-hotred:     #FF5100;
+  --liatrio-flameorange: #FFAA00;
+}
+
+
+.reveal {
+  background: var(--liatrio-grey-800);
+  color: var(--liatrio-white);
+  font-family: 'DM Sans', Arial, sans-serif;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  font-family: 'Clash Display', 'Anybody', Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.reveal h1 {
+  font-size: 2em;
+  color: var(--liatrio-brightgreen);
+  word-spacing: 0.33em;
+  text-transform: uppercase;
+}
+
+.liatrio-title-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.liatrio-title-slide .slide-logo {
+  max-width: 80vw;
+  max-height: 30vh !important;
+  margin-bottom: 2em;
+}
+
+.liatrio-title-slide h1 {
+  margin: 0;
+  font-size: 1.6em;
+  text-align: left;
+}
+
+.liatrio-title-slide p {
+  margin: 0;
+  font-size: 1em;
+  text-align: left;
+}
+
+.liatrio-title-slide .subtitle {
+  font-size: 0.85em;
+  color: var(--liatrio-white);
+  margin-bottom: 0.3em;
+}
+
+.liatrio-title-slide .presenter {
+  font-size: 0.5em;
+  color: #ccc;
+  font-style: italic;
+  margin-top: 1em;
+}
+
+.reveal h2 {
+  font-size: 1.5em;
+  color: var(--liatrio-brightgreen);
+  word-spacing: 0.33em;
+}
+
+.reveal h3 {
+  font-size: 1.25em;
+  color: var(--liatrio-brightgreen);
+  word-spacing: 0.33em;
+}
+
+.reveal a, .reveal a:visited {
+  color: var(--liatrio-lagoon);
+  text-decoration: underline;
+}
+
+.reveal strong, .reveal b {
+  color: var(--liatrio-primarygreen);
+}
+
+.reveal em, .reveal i {
+  color: var(--liatrio-flameorange);
+}
+
+.reveal .controls, .reveal .progress {
+  background: var(--liatrio-grey-600);
+}
+
+.reveal .slide-background {
+  background: var(--liatrio-grey-800);
+}
+
+.reveal blockquote {
+  border-left: 4px solid var(--liatrio-primarygreen);
+  background: var(--liatrio-grey-700);
+  color: var(--liatrio-brightgreen);
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  font-style: italic;
+}
+
+.reveal table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.reveal th, .reveal td {
+  border: 1px solid var(--liatrio-grey-600);
+  padding: 0.5em 1em;
+}
+.reveal th {
+  background: var(--liatrio-grey-700);
+  color: var(--liatrio-lagoon);
+}
+.reveal tr:nth-child(even) td {
+  background: var(--liatrio-grey-800);
+}
+.reveal tr:nth-child(odd) td {
+  background: var(--liatrio-grey-700);
+}
+
+.reveal ul, .reveal ol {
+  color: var(--liatrio-white);
+}
+
+.reveal .slide-logo {
+  max-height: 60px;
+  margin-bottom: 1em;
+  display: block;
+}
+
+.reveal .callout {
+  background: var(--liatrio-darkblue);
+  color: var(--liatrio-white);
+  border-left: 6px solid var(--liatrio-lagoon);
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 6px;
+  font-size: 1.1em;
+}
+
+.reveal .summary-note {
+  background: var(--liatrio-grey-100);
+  color: var(--liatrio-grey-500);
+  border-left: 5px solid var(--liatrio-primarygreen);
+  padding: 0.75em 1em;
+  margin: 1.5em auto 0.5em auto;
+  border-radius: 5px;
+  font-size: 0.5em;
+  font-style: italic;
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,0.06);
+  max-width: 66%;
+  width: 100%;
+  display: block;
+}
+
+
+.reveal .important {
+  color: var(--liatrio-hotred);
+  font-weight: bold;
+}
+
+.reveal .success {
+  color: var(--liatrio-primarygreen);
+  font-weight: bold;
+}
+
+.reveal .warning {
+  color: var(--liatrio-flameorange);
+  font-weight: bold;
+}
+
+/* Reveal.js progress bar and controls */
+.reveal .progress span {
+  background: var(--liatrio-primarygreen);
+}
+
+.reveal .controls button {
+  color: var(--liatrio-white);
+}
+
+/* Custom scrollbar styling */
+.reveal ::-webkit-scrollbar {
+  width: 8px;
+  background: var(--liatrio-grey-600);
+}
+.reveal ::-webkit-scrollbar-thumb {
+  background: var(--liatrio-lagoon);
+  border-radius: 4px;
+}
+
+/* Selection color */
+.reveal ::selection {
+  background: var(--liatrio-lagoon);
+  color: var(--liatrio-grey-800);
+}
+
+/* Slide transitions (optional, can be customized further) */
+.reveal .slide-background {
+  transition: background 0.5s;
+}
+
+/* --- Code Styling --- */
+
+/* Code block container */
+.reveal pre {
+  overflow-x: auto;
+  max-height: 400px;
+  background: #222;
+  border-radius: 6px;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.15);
+  scrollbar-width: thin;
+  scrollbar-color: #444 #222;
+}
+
+/* Code inside block */
+.reveal pre > code {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--liatrio-white);
+  background: none;
+  border-radius: 0;
+  font-family: 'DM Sans', 'Fira Mono', 'Menlo', 'Monaco', monospace;
+  overflow: visible !important;
+  white-space: pre !important;
+  word-break: break-word;
+  padding: 0;
+  margin: 0;
+}
+
+/* Inline code */
+.reveal code:not(pre > code) {
+  background: var(--liatrio-grey-700);
+  color: var(--liatrio-flameorange);
+  font-family: 'DM Sans', 'Fira Mono', 'Menlo', 'Monaco', monospace;
+  border-radius: 0.33em;
+  padding: 0 0.33em;
+  font-size: 0.85em;
+}
+
+/* Custom scrollbars for Chrome/Safari */
+.reveal pre::-webkit-scrollbar {
+  height: 8px;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.reveal pre:hover::-webkit-scrollbar,
+.reveal pre:focus-within::-webkit-scrollbar {
+  opacity: 1;
+  background: #222;
+}
+.reveal pre::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+  opacity: 0.7;
+}
+.reveal pre:hover::-webkit-scrollbar-thumb,
+.reveal pre:focus-within::-webkit-scrollbar-thumb {
+  background: #666;
+  opacity: 1;
+}
+/* Firefox scrollbar */
+.reveal pre {
+  scrollbar-width: none;
+}
+.reveal pre:hover,
+.reveal pre:focus-within {
+  scrollbar-width: thin;
+}

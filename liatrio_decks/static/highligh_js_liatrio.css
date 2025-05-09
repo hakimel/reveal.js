@@ -1,0 +1,110 @@
+/*
+ * Liatrio Custom Highlight.js Theme based on the
+ * official palette from Liatrio Brand Guide at
+ * https://liatrio.com/brand
+ */
+
+:root {
+  --liatrio-grey-800:    #111111; /* background */
+  --liatrio-white:       #ffffff; /* main text */
+  --liatrio-lagoon:      #00C1DB; /* keywords, highlights */
+  --liatrio-brightgreen: #89DF00; /* strings, additions */
+  --liatrio-primarygreen:#24AE1D; /* numbers, attributes */
+  --liatrio-grey-400:    #757575; /* comments */
+  --liatrio-deepsea:     #007DAA; /* types, classes */
+  --liatrio-flameorange: #FFAA00; /* functions, attrs */
+  --liatrio-hotred:      #FF5100; /* constants, important */
+}
+
+.hljs {
+  color: var(--liatrio-white);
+  background: var(--liatrio-grey-800);
+}
+
+.hljs-ln,
+.hljs-ln-line,
+.hljs-ln td {
+  background: #222 !important;
+}
+
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section, .hljs-link {
+  color: var(--liatrio-lagoon);
+  font-weight: bold;
+}
+
+.hljs-string, .hljs-symbol, .hljs-template-tag, .hljs-template-variable {
+  color: var(--liatrio-white );
+}
+
+.hljs-number, .hljs-attr, .hljs-variable, .hljs-bullet {
+  color: var(--liatrio-brightgreen);
+}
+
+.hljs-title, .hljs-name, .hljs-type, .hljs-selector-id, .hljs-selector-class {
+  color: var(--liatrio-deepsea);
+}
+
+.hljs-comment, .hljs-quote, .hljs-meta {
+  color: var(--liatrio-grey-400);
+  font-style: italic;
+}
+
+.hljs-built_in, .hljs-builtin-name, .hljs-tag {
+  color: var(--liatrio-flameorange);
+}
+
+.hljs-addition {
+  color: var(--liatrio-flameorange);
+  background-color: #20343a;
+}
+
+.hljs-deletion {
+  color: var(--liatrio-hotred);
+  background-color: #3a1a11;
+  color: #FF5A5F;
+  background-color: #4d1a22;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-code {
+  color: var(--liatrio-white);
+}
+
+.hljs-section {
+  color: var(--liatrio-lagoon);
+}
+
+.hljs-literal {
+  color: var(--liatrio-lagoon);
+}
+
+.hljs-selector-attr, .hljs-selector-pseudo {
+  color: var(--liatrio-deepsea);
+}
+
+.hljs-regexp {
+  color: var(--liatrio-flameorange);
+}
+
+.hljs-title.class_, .hljs-class .hljs-title {
+  color: var(--liatrio-deepsea);
+}
+
+.hljs-meta .hljs-string {
+  color: var(--liatrio-brightgreen);
+}
+
+.hljs-subst {
+  color: var(--liatrio-white);
+}
+
+.hljs-keyword.hljs-constant {
+  color: var(--liatrio-brightgreen);
+}

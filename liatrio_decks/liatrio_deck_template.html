@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Liatrio Presentation Template</title>
+
+    <link rel="stylesheet" href="../dist/reset.css" />
+    <link rel="stylesheet" href="../dist/reveal.css" />
+    <link rel="stylesheet" href="../dist/theme/black.css" />
+
+    <!-- Liatrio Custom Theme -->
+    <link rel="stylesheet" href="static/liatrio.css" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=clash-display@700,500,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="static/images/favicon_Liatrio_website.png"
+      rel="shortcut icon"
+    />
+    <!-- Syntax Highlighting Theme -->
+    <link rel="stylesheet" href="static/highligh_js_liatrio.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Reminder Slide: Use Speaker Notes -->
+        <section data-background-color="#222" data-transition="fade">
+          <h2 style="color: #b58900">Remember to Use Speaker Notes!</h2>
+          <p class="summary-note">
+            Press <strong>S</strong> to open the speaker notes window while
+            presenting. Add your talking points, context, and reminders for each
+            slide using
+            <code>&lt;aside class=&quot;notes&quot;&gt;</code> blocks.
+          </p>
+        </section>
+        <!-- Title Slide -->
+        <section
+          class="liatrio-title-slide"
+          data-background-color="#111111"
+          data-transition="fade"
+        >
+          <img
+            src="static/images/logo_Liatrio_reverse-preferred.svg"
+            alt="Liatrio Logo"
+            class="slide-logo"
+          />
+          <h1>Presentation Title</h1>
+          <p class="subtitle">Subtitle or Tagline</p>
+          <p class="presenter">Presenter: Your Name</p>
+          <aside class="notes">
+            Welcome! This is your title slide. Add your introduction and key
+            points here for reference during your talk.
+          </aside>
+        </section>
+
+        <!-- Example Content Slide -->
+        <section data-transition="fade">
+          <h3>Section Title</h3>
+          <ul>
+            <li class="fragment">First point</li>
+            <li class="fragment">Second point</li>
+            <li class="fragment">Third point</li>
+          </ul>
+          <aside class="notes">
+            Use this slide to highlight the main topics or agenda. Speaker notes
+            can help you remember transitions, stories, or details you want to
+            mention.
+          </aside>
+        </section>
+
+        <!-- Example Image Slide -->
+        <section data-transition="fade">
+          <h3>Image Example</h3>
+          <img
+            src="static/images/logo_Liatrio_reverse-preferred.svg"
+            alt="Example image"
+            style="
+              max-width: 400px;
+              background: #fff;
+              border-radius: 8px;
+              border: 1px solid #444;
+            "
+          />
+          <p style="font-size: 0.8em; color: #888">
+            Replace with your own images/screenshots
+          </p>
+          <aside class="notes">
+            Describe what this image demonstrates and why it matters to your
+            audience. Speaker notes are great for reminders about what to
+            emphasize.
+          </aside>
+        </section>
+
+        <!-- Example Code Slide -->
+        <section data-transition="fade">
+          <h3>Code Examples</h3>
+          <code style="font-size: 0.5em">pipeline.yaml</code>
+          <pre><code data-trim data-line-numbers class="language-yaml"># Example YAML
+pipeline:
+  stages:
+    - build
+    - test
+    - deploy
+</code></pre>
+          <code style="font-size: 0.5em">greet.js</code>
+          <pre><code data-trim data-line-numbers class="language-javascript">// Example JavaScript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+console.log(greet('Liatrio'));
+</code></pre>
+          <code style="font-size: 0.5em">greet.py</code>
+          <pre><code data-trim data-line-numbers class="language-python"># Example Python
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Liatrio"))
+</code></pre>
+          <aside class="notes">
+            Explain the code samples, their context, and any tips for the
+            audience. Use notes for explanations you don't want on the slide.
+          </aside>
+        </section>
+
+        <!-- Example Callout Slide -->
+        <section data-transition="fade">
+          <h3>Using Callouts</h3>
+          <p>
+            Callout boxes are great for drawing attention to important
+            information, warnings, or tips. Use them sparingly to highlight key
+            points or actions your audience should remember.
+          </p>
+          <div class="callout">
+            This is a callout box for important information.
+          </div>
+          <ul>
+            <li>Use for warnings, tips, or must-know facts</li>
+            <li>Keep callout content concise</li>
+            <li>Combine with other content for context</li>
+          </ul>
+          <aside class="notes">
+            Highlight the key message of this callout. Notes can help you
+            remember to pause or ask a question.
+          </aside>
+        </section>
+
+        <!-- Summary Slide -->
+        <section data-transition="fade">
+          <h3>Summary & Next Steps</h3>
+          <ul>
+            <li>Summarize key takeaways</li>
+            <li>List next steps or actions</li>
+            <li>Provide contact info or links</li>
+          </ul>
+          <p class="summary-note">
+            Questions? Reach out to the team or see the README!
+          </p>
+          <aside class="notes">
+            Wrap up your presentation, thank your audience, and provide any
+            final reminders or calls to action. Add links or follow-up details
+            here for your reference.
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/notes/notes.js"></script>
+    <script src="../plugin/markdown/markdown.js"></script>
+    <script src="../plugin/highlight/highlight.js"></script>
+    <script>
+      // Reveal.js initialization
+      Reveal.initialize({
+        hash: true,
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
