@@ -99,6 +99,10 @@ of this presentation
 
 ---
 
+<img src="images/dependency-tree.png" alt="Example Dependency Tree" width="800" height="auto">
+
+---
+
 # 2. Akt
 
 ## _Disputatio_
