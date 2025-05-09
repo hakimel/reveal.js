@@ -126,5 +126,9 @@ of this presentation
 >>>>>>> 93fcb8b2 (No CISOs were harmed)
 =======
 
+<<<<<<< HEAD
 <img src="images/the-end1.jpg" alt="The End" width="1000" height="auto">
 >>>>>>> 6e7e7ea7 (Added The End)
+=======
+<img src="images/the-end.jpg" alt="The End" width="1000" height="auto">
+>>>>>>> 827d186f (Correcting image source for end slide)
