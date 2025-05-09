@@ -562,7 +562,7 @@ declare interface Config {
  *   // reveal.js is ready
  * });
  */
-declare let Reveal: {
+declare const Reveal: {
     initialize: (options?: Config) => Promise<void>;
     [key: string]: any;
 };
