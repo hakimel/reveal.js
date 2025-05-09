@@ -46,6 +46,8 @@ This file is also serving as the content for the Presentation at https://dim-0.g
 # SBOMs
 ## Eine Tragikomödie in 3 Akten
 
+_by *Jasmin Mair* and *Lukas Mika*_
+
 Note:
 This slide deck is based on [reveal.js](https://revealjs.com/).
 
@@ -54,6 +56,7 @@ This file provides the Payload for the presentation and might therefore contain 
 The rendered presentation is available via the repository's [GitHub Pages website](https://dim-0.github.io/sbom-talk/).
 
 ---
+
 
 # Disclaimer
 
@@ -64,16 +67,23 @@ Any resemblance to real persons, living or dead,
 is purely coincidental.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 535d44d2 (Added first slides)
 =======
+=======
+
+>>>>>>> 5975023a (Added First Memes)
 ---
+
 
 <img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="500" height="auto">
 
 No CISOs were harmed in the making  
 of this presentation
 
+
 ---
+
 
 # 1. Akt
 
@@ -81,9 +91,25 @@ of this presentation
 
 ---
 
+<img src="images/sboms-rainbow.jpg" alt="SBOM Meme with Spongebob holding a rainbow" width="800" height="auto">
+
+---
+
+<img src="images/distracted-by-sbom.jpg" alt="Distracted by SBOM" width="800" height="auto"> 
+
+---
+
 # 2. Akt
 
 ## _Disputatio_
+
+---
+
+# Sponsor open source projects!
+
+---
+
+<img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
 
 ---
 
