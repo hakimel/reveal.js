@@ -92,7 +92,7 @@ of this presentation
 ---
 
 <figure>
-    <img src="images/supply-chain-attacks.png" width=800 height="auto">
+    <img src="images/supply-chain-attacks.png" width="800" height="auto">
     <figcaption><a href="https://www.sonatype.com/hubfs/1-2023%20New%20Site%20Assets/SSCR/8th-Annual-SSCR-digital-0206%20update.pdf">Sonatype: 2022 State of the Supply Chain</a></figcaption>
 </figure>
 
@@ -109,6 +109,13 @@ of this presentation
 <figure>
     <img src="images/dependency-tree.png" alt="Example Dependency Tree" width="600" height="auto">
     <figcaption><a href="https://blog.droidchef.dev/mastering-the-gradle-dependency-tree/">Ishan Khanna: Mastering the Gradle Dependency Tree</a></figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="images/oss-proliferation.png" alt="Open Source Software Proliferation" width="1000" height="auto">
+    <figcaption><a href="https://www.blackduck.com/content/dam/black-duck/en-us/reports/rep-ossra.pdf">Black Duck: 2025 Open Source Security and Risk Analysis Report</a></figcaption>
 </figure>
 
 ---
@@ -131,6 +138,12 @@ of this presentation
 ---
 
 <img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
+
+---
+<figure>
+    <img src="images/common-types-of-vulns.webp" alt="Common Types of Vulnerabilities" width="600" height="auto">
+    <figcaption><a href="https://github.blog/news-insights/octoverse/octoverse-2024/">GitHub: Octoverse 2024</a></figcaption>
+</figure>
 
 ---
 
