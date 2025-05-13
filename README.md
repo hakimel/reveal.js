@@ -57,7 +57,6 @@ The rendered presentation is available via the repository's [GitHub Pages websit
 
 ---
 
-
 # Disclaimer
 
 All characters appearing in this work  
@@ -68,22 +67,22 @@ is purely coincidental.
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 535d44d2 (Added first slides)
 =======
 =======
 
 >>>>>>> 5975023a (Added First Memes)
+=======
+>>>>>>> 7ecd15a0 (Formatting changes)
 ---
-
 
 <img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="500" height="auto">
 
 No CISOs were harmed in the making  
 of this presentation
 
-
 ---
-
 
 # 1. Akt
 
