@@ -140,10 +140,14 @@ of this presentation
 <img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
 
 ---
-<figure>
-    <img src="images/common-types-of-vulns.webp" alt="Common Types of Vulnerabilities" width="600" height="auto">
-    <figcaption><a href="https://github.blog/news-insights/octoverse/octoverse-2024/">GitHub: Octoverse 2024</a></figcaption>
-</figure>
+
+# Supply Chain Attack Vectors
+
+- Malicious Code Injection
+- Typosquatting
+- Repo-Jacking
+- Dependency Confusion
+- Protestware
 
 ---
 
@@ -157,8 +161,18 @@ of this presentation
 =======
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <img src="images/the-end1.jpg" alt="The End" width="1000" height="auto">
 >>>>>>> 6e7e7ea7 (Added The End)
 =======
+=======
+<figure>
+    <img src="images/common-types-of-vulns.webp" alt="Common Types of Vulnerabilities" width="600" height="auto">
+    <figcaption><a href="https://github.blog/news-insights/octoverse/octoverse-2024/">GitHub: Octoverse 2024</a></figcaption>
+</figure>
+
+---
+
+>>>>>>> 3a233d00 (Added numerous screenshots for future slides)
 <img src="images/the-end.jpg" alt="The End" width="1000" height="auto">
 >>>>>>> 827d186f (Correcting image source for end slide)
