@@ -147,7 +147,7 @@ of this presentation
 ---
 
 <figure>
-    <img src="images/maintainers.png" alt="Open Source Projects by number of maintainers" width="500" height="auto">
+    <img src="images/maintainers.png" alt="Open Source Projects by number of maintainers" width="700" height="auto">
     <figcaption><a href="https://anchore.com/blog/open-source-is-bigger-than-you-imagine/">Anchore: Open Source is bigger than you imagine</a></figcaption>
 </figure>
 
