@@ -112,6 +112,10 @@ of this presentation
 
 ---
 
+<img src="images/yo-dawg.jpg" alt="Dependencies over Dependencies" width="1000" height="auto">
+
+---
+
 <figure>
     <img src="images/oss-proliferation.png" alt="Open Source Software Proliferation" width="1000" height="auto">
     <figcaption><a href="https://www.blackduck.com/content/dam/black-duck/en-us/reports/rep-ossra.pdf">Black Duck: 2025 Open Source Security and Risk Analysis Report</a></figcaption>
