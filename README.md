@@ -127,8 +127,29 @@ of this presentation
 ---
 
 <figure>
+    <img src="images/sbom-publishing-isolated.png" alt="Evolution of SBOM publishing" width="1000" height="auto">
+    <figcaption><a href="https://www.sonatype.com/state-of-the-software-supply-chain/2024/10-year-look">Sonatype: 2024 State of the Supply Chain</a></figcaption>
+</figure>
+
+---
+
+<figure>
     <img src="images/projects-vs-sboms.png" alt="Projects vs SBOMs" width="500" height="auto">
     <figcaption><a href="https://www.sonatype.com/state-of-the-software-supply-chain/2024/10-year-look">Sonatype: 2024 State of the Supply Chain</a></figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="images/sbom-publishing.png" alt="Evolution of SBOM publishing" width="1000" height="auto">
+    <figcaption><a href="https://www.sonatype.com/state-of-the-software-supply-chain/2024/10-year-look">Sonatype: 2024 State of the Supply Chain</a></figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="images/maintainers.png" alt="Open Source Projects by number of maintainers" width="500" height="auto">
+    <figcaption><a href="https://anchore.com/blog/open-source-is-bigger-than-you-imagine/">Anchore: Open Source is bigger than you imagine</a></figcaption>
 </figure>
 
 ---
@@ -173,6 +194,16 @@ of this presentation
 
 ---
 
+<<<<<<< HEAD
 >>>>>>> 3a233d00 (Added numerous screenshots for future slides)
+=======
+<figure>
+    <img src="images/log4j.png" alt="Downloaded versions of log4j" width="1000" height="auto">
+    <figcaption><a href="https://www.sonatype.com/state-of-the-software-supply-chain/2024/risk">Sonatype: 2024 State of the Supply Chain</a></figcaption>
+</figure>
+
+---
+
+>>>>>>> 05854103 (Added Slides and Pictures)
 <img src="images/the-end.jpg" alt="The End" width="1000" height="auto">
 >>>>>>> 827d186f (Correcting image source for end slide)
