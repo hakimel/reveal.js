@@ -42,6 +42,7 @@ A: SBOMs die Lösung von supply chain attacks? Wissen sie was eine SBOMs ist? Ic
 
 C: Ja klar, eine SBOM ist eine Zutatenliste, die mir sagt was in in Lebensmitteln enthalten ist. Das sagt mir dann dass 30 Zeilen HTML und 50 Zeilen Java enthält.
 
+<<<<<<< HEAD
 A: Gar nicht soooo schlecht. Nur ist das sehr realitätsfern. In der modernen Softwareentwicklung schreibt die Entwickler:in nicht jede Zeile Code selbst, sondern verwendet vorgefertigte Bibliotheken. Nehmen wir die Datumsauswahl Funktion in einer x-beliebigen Anwendung -> x edge cases und komplexität -> somit library die wiederverwendet wird. Je nach Report (Github, Blackduck) kursieren Zahlen zwischen 70 - 90% third party vs. first party code. Das unterstreicht schon den Bedarf einer Inventarisierung der genutzten Komponenten.
 
 C: Wofür geben wir unmengen an Geld für die Entwicklungsteams aus????
@@ -59,6 +60,16 @@ Machen wir das Beispiel mit einem Auto, die SBOM ist eine Liste aller Komponente
 Bei Software und digitalen Komponenten ist es ein bisschen komplizierter, da die Industrie erst jetzt damit anfängt und das sehr schnell sehr unübersichtligh wird. Da verschiedenen Komponenten, sub-komponenten vielleicht auch in verschiedenen Versionen in einem Programm verwendet werden. Jede Software-Entwickler:in nutzt unzählige Bibliotheken und Komponenten in ihrer Arbeit. Der "2025 Open Source Security and Risk Analysis Report" von Blackduck berichtet dass sich die Anzahl an Open Source files in einer Applikation sich in den letzten 4 Jahren verdreifacht hat, und mehr als die Hälfte davon sind indirekte Abhängigkeiten. Es wird sehr wichtig die Beziehung zwischen den Komponenten darzustellen um direkte und indirekte Abhängigkeiten handhaben zu können. Außerdem ist ein wichtiger Bestandteil der SBOM Lizenzinformationen zu den benutzen Bibliotheken. *-> Slide mit SBOM tree?*
 
 C: Haben sie das geschrieben??   
+=======
+A: Laut der technischen Richtlinie des BSI: Eine “Software Bill of Materials” (SBOM) ist eine maschinenlesbare Datei, die Informationen über Lieferkettenbeziehungen und Details zu den Komponenten enthält, die in einem Softwareprodukt verwendet werden. Sie ermöglicht die automatisierte Verarbeitung dieser Informationen. Dabei werden sowohl die sogenannte Primärkomponente als auch verwendete (z. B. externe oder Drittanbieter-) Komponenten erfasst. Hier mal ein Beispiel einer SBOM. *-> Spdx Slide im Background*
+  
+C: Oh, das kann ja kein Mensch lesen!!
+
+A: Korrekt, SBOMs sind auch eigentlich nur für Maschinen gedacht. Machen wir das Beispiel mit einem Auto, die SBOM ist eine Liste aller Komponenten die im Auto verbaut wurden. Motor wurde von X hergestellt, Bremsen von Y, Airbags von Z. Die SBOM ist eine Liste aller Teile, Komponenten und Frameworks die für die Entwicklung eines digitalen Produkts eingesetzt wurden mit der verwendeten Versionsnummer, Lizenzen und Herstellern. Genau wie beim Auto ist das wichtig für z.B. Wartungsarbeiten, man weiß was man updaten muss oder austauschen. Oder bei Rückrufaktionen, z.B. wenn die software kritische Schwachstellen beinhalten. Bei Hardware Teilelisten ist die Industrie daran gewohnt bill of materials zu generieren und die Liste hat eine physische Grenze.
+Bei Software und digitalen Komponenten ist es ein bisschen komplizierter, da die Industrie erst jetzt damit anfängt und das sehr schnell sehr unübersichtligh wird. Da verschiedenen Komponenten, sub-komponenten vielleicht auch in verschiedenen Versionen in einem Programm verwendet werden. Jede Software-Entwickler:in nutzt unzählige Bibliotheken und Komponenten in ihrer Arbeit. Der "2025 Open Source Security and Risk Analysis Report" von Blackduck berichtet dass sich die Anzahl an Open Source files in einer Applikation sich in den letzten 4 Jahren verdreifacht hat, und mehr als die Hälfte davon sind indirekte Abhängigkeiten. Es wird sehr wichtig die Beziehung zwischen den Komponenten darzustellen um direkte und indirekte Abhängigkeiten handhaben zu können. Außerdem ist ein wichtiger Bestandteil der SBOM Lizenzinformationen zu den benutzen Bibliotheken. *-> Slide mit SBOM tree?*
+
+C: Haben sie das geschrieben??  
+>>>>>>> d510adae (docs: update dialog, finisch act 1)
 
 A: Nein, das wäre unmöglich. Diese SBOM haben wir von unserem Lieferanten erhalten.
 
@@ -70,6 +81,7 @@ A: Nein. SBOMs werden aus verschiedenen Quellen bezogen. Für unsere Eigenentwic
 
 C: Wow, also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir einsetzen?  
 
+<<<<<<< HEAD
 A: Teilweise. Für unsere moderneren Applikationen, dessen build und deployment Prozess durchautomatisiert ist, ist die Erstellung einer SBOM trivial. Viele Legacy Anwendungen, speziell die auf compilierte Sprachen basieren, stehen vor großen Herausforderungen. Und dabei haben wir noch nicht unsere Zulieferer betrachtet.
 
 C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu uns die SBOMs zu geben! Jeder macht das ja und alle tun das
@@ -107,6 +119,27 @@ A: *verdrehte augen* Aktuell kommen die SBOMs auf verschiedene Wege zu uns, den 
 
 C: Wenn wir die SBOMs von allen Applikationen, in jeder Version bei uns dann haben...ist das ein vollständiges Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
 
+=======
+A: Nicht so wirklich. Die Erstellung von SBOMs hinkt aktuell noch sehr stark hinterher. Der State of Software Supply Chain von Sonatype hat die veröffentlichten Software Komponenten im Vergleich zu den veröffentlichten SBOMs dargestellt. Fast 7M veröffentlichte Komponenten und nur 61k SBOMs. So ähnlich sieht es auch bei unseren Lieferanten aus, die großen sind nicht so problematisch, kleine Nichen-Hersteller die nicht auf Software Entwicklung spezialisiert sind stehen hier vor großen Herausforderungen. 
+
+C: dann halt in die Verträge schreiben, Supplier zwingen  
+A: Es geht nicht nur im unsere direkten Zulieferer -> z.B. Open source Projekte müssen nicht  
+C: ja einfach, dann nutzen wir das nicht mehr  
+A: Hinweis, nutzung von Opensource überall im Unternehmen -> software nur in kleinen teilen first party code, ganz viel third party (unzählige pakete!) weil budget, rad neu erfinden, Expertise   
+C: können wir die Projekte nicht zwingen das zu machen?  
+A: maintenance vieler Projekte ist manchmal von einzelnen Personen abhängig, aber wir könnten da ja als unternehmen unterstützen und sponsoren (-> slide support open source projects, give back ;))  
+C: ach nein, das wurde in diesem FY nicht budgetiert, finanzplanung abgeschlossen  
+A: mal abgesehen von den Open source projekten, gibt es noch weitere Challenges -> legacy (death by powerpoint/legacy code) -> erklärung warum problematisch, zu alt, nicht maintained, nicht kommentiert  
+C: dann halt einfach erstellt werden, muss man dann tun -> kann ja nicht so schwer sein   
+A: doch schon, nicht standardisierte erstellung, viele guidelines -> struktur ist definiert, aber nicht granularität, welche tiefe...-> und für jede neue Version und neue SBOM - und niemand garantiert uns, dass diese SBOMs denn auch korrekt und vollständig sind  
+C: gibt es ein kostenloses tool das man dafür verwenden kann? das muss man ja irgendwie automatisieren können  
+A: automatisierte SBOM erstellung in bestimmten bereichen einfacher ist (Web/Container...) abhängig von technologien, nicht alle tools sind gleich gut -> heterogene landschaft and verschiedenen SBOMs in verschiedenen tiefen -> verschiedenen qualitäten an SBOMs, sehr abhängig vom ersteller -> supplier vs intern  
+C: dann harmonisieren wir einfach wenn wir alle zusammen haben, vielleicht mit einer KI?  
+A: schappatmung? dann kommt schon das nächste Problem: die übermittlung von SBOMs ist auch nicht standardisiert -> download hersteller website, als metadaten des produkts, email übermittlung, attestations  
+C: können wir nicht allen einfach einen link zu unserem Sharepoint geben?  
+A: verdrehte augen :D aktuell kommen die SBOMs auf verschiedene Wege zu uns -> integrität anbringen, meistens aktuell noch on demand per e-mail  
+C: also haben wir dann bei uns ein vollständiges inventar, in welchem wir nach unseren log4js suchen können  
+>>>>>>> d510adae (docs: update dialog, finisch act 1)
 A: nö, da die ja bisher alle item-spezifisch sind und erst konsolidiert werden müssen. darüber hinaus sind sie ja auch nur maschinenlesbar - oder wollen SIE noch einmal einen blick reinwerfen?  
 C: wenn wir das dann alles haben, dann haben wir für alle bekannten dinge auch die log4js zu finden -> log4j meme  
 A: ja genau das stimmt  
