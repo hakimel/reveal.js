@@ -163,11 +163,13 @@ of this presentation
 
 # Supply Chain Attack Vectors
 
-- Malicious Code Injection
 - Typosquatting
-- Repo-Jacking
+- Malicious Code Injection
+  - Social Engineering
+  - Compromised Build Systems
+  - Repo-/Project-jacking
+- Malicious Maintainer (e.g. "Protestware")
 - Dependency Confusion
-- Protestware
 
 ---
 
