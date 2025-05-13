@@ -119,6 +119,30 @@ of this presentation
 
 ---
 
+# SBOM
+
+- Supplier Name
+- Component Name
+- Version of the Component
+- Other Unique Identifiers
+- Dependency Relationship
+- Author of SBOM Data
+- Timestamp
+- Licenses
+
+<!--
+- Component (incl. Identifiers)
+- Used Version
+- Creator
+- Timestamp
+- Filename
+- Dependencies on others
+- License
+- Origin
+- Relations
+-->
+---
+
 # 2. Akt
 
 ## _Disputatio_
