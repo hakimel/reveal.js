@@ -175,8 +175,8 @@ in the Making of this Presentation_
 ---
 
 <figure>
-    <img src="images/maintainers.png" alt="Open Source Projects by number of maintainers" width="700" height="auto">
-    <figcaption><a href="https://anchore.com/blog/open-source-is-bigger-than-you-imagine/">Anchore: Open Source is bigger than you imagine</a></figcaption>
+    <img src="images/package-maintainers.png" alt="Open Source Projects by number of maintainers" width="1000" height="auto">
+    <figcaption><a href="https://www.intel.com/content/www/us/en/developer/articles/guide/the-careful-consumption-of-open-source-software.html">Intel: The Careful Consumption of Open Source Software</a></figcaption>
 </figure>
 
 ---
