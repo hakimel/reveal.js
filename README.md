@@ -106,9 +106,10 @@ in the Making of this Presentation_
 ---
 
 <figure>
-    <img src="images/dependency-tree.png" alt="Example Dependency Tree" width="600" height="auto">
-    <figcaption><a href="https://blog.droidchef.dev/mastering-the-gradle-dependency-tree/">Ishan Khanna: Mastering the Gradle Dependency Tree</a></figcaption>
+    <img src="images/oss-proliferation.png" alt="Open Source Software Proliferation" width="1000" height="auto">
+    <figcaption><a href="https://www.blackduck.com/content/dam/black-duck/en-us/reports/rep-ossra.pdf">Black Duck: 2025 Open Source Security and Risk Analysis Report</a></figcaption>
 </figure>
+
 
 ---
 
@@ -117,8 +118,22 @@ in the Making of this Presentation_
 ---
 
 <figure>
-    <img src="images/oss-proliferation.png" alt="Open Source Software Proliferation" width="1000" height="auto">
-    <figcaption><a href="https://www.blackduck.com/content/dam/black-duck/en-us/reports/rep-ossra.pdf">Black Duck: 2025 Open Source Security and Risk Analysis Report</a></figcaption>
+    <img src="images/transitive-dependencies.png" alt="Transitive Dependencies" width="800" height="auto">
+    <figcaption><a href="https://blog.phylum.io/hidden-dependencies-lurking-in-the-software-dependency-network/">Phylum: Hidden Dependencies lurking in the Software Dependency Network</a></figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="images/dependency-tree.png" alt="Example Dependency Tree" width="600" height="auto">
+    <figcaption><a href="https://blog.droidchef.dev/mastering-the-gradle-dependency-tree/">Ishan Khanna: Mastering the Gradle Dependency Tree</a></figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="images/ndepend-messy-graph.png" alt="Messy Dependency Graph" width="1000" height="auto">
+    <figcaption><a href="https://understandlegacycode.com/blog/safely-restructure-codebase-with-dependency-graphs/">Nicolas Carlo: Safely restructure your codebase with Dependency Graphs</a></figcaption>
 </figure>
 
 ---
@@ -145,6 +160,11 @@ in the Making of this Presentation_
 - Origin
 - Relations
 -->
+
+---
+
+<img src="images/sbom-example.png" alt="SPDX JSON Example" width="800" height="auto">
+
 ---
 
 # 2. Akt
