@@ -77,10 +77,10 @@ is purely coincidental.
 >>>>>>> 7ecd15a0 (Formatting changes)
 ---
 
-<img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="500" height="auto">
+<img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="1000" height="auto">
 
-No CISOs were harmed in the making  
-of this presentation
+_No CISOs were harmed   
+in the Making of this Presentation_
 
 ---
 
