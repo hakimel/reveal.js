@@ -10,7 +10,6 @@
 - Know how to read Scala <!-- .element: class="fragment" -->
 - Know how to write Scala <!-- .element: class="fragment" -->
 - Understand the arrows <!-- .element: class="fragment" -->
-  - (Chen D.) <!-- .element: class="fragment" -->
 - Know common patterns in Scala <!-- .element: class="fragment" -->
 
 - We will not cover Wix framework stuff <!-- .element: class="fragment" -->
@@ -166,7 +165,7 @@ We are functional, do not do it! 😡
 <!-- .slide: data-auto-animate -->
 ## Functions <!-- .element: data-id="title" -->
 ```scala
-def add(x: Int, y: Int) = x + y
+def add(x: Int, y: Int): Int = x + y
 def mult(x: Int, y: Int) = {
   x * y
 }
@@ -205,7 +204,8 @@ add2(1)(2) == 3
 ## Functions <!-- .element: data-id="title" -->
 ### High order functions
 - Let's implement HTTP request filters
-- Headers are stored lower/upper
+- Header values are stored lower/upper
+- Answer should be lowered-case
 
 ```scala
 case class Request(method: String, 
@@ -225,7 +225,6 @@ def getReferer(req: Request): String = ???
 <!-- .slide: data-auto-animate -->
 ## Functions <!-- .element: data-id="title" -->
 ### High order functions
-- Let's implement HTTP request filters
 
 ```scala
 case class Request(method: String, 
@@ -236,11 +235,11 @@ case class Request(method: String,
 def isGET(req: Request): Boolean = req.method == "GET"
 def isPOST(req: Request): Boolean = req.method == "POST"
 
-def getContentType(req: Request): Option[String] = 
-  headers.find(_._1.toLowerCase == "content-type").map(_._2)
+def getContentType(req: Request): String = 
+  headers("content-type").toLowerCase
 
-def getReferer(req: Request): Option[String] = 
-  headers.find(_._1.toLowerCase == "referer").map(_._2)
+def getReferer(req: Request): String = 
+  headers("referer").toLowerCase
 ```
 <!-- .element: data-id="code" -->
 
@@ -257,9 +256,8 @@ def getReferer(req: Request): Option[String] =
 private def methodFilter(method: String)(req: Request) = 
   req.method == method
 
-private def getHeader(name: String)
-                     (req: Request) = 
-  req.headers.find(_._1.toLowerCase == name).map(_._2)
+private def getHeader(name: String)(req: Request) = 
+  req.headers(name).toLowerCase
          
 val isGET: Request => Boolean = methodFilter("GET")
 val isPOST: Request => Boolean = methodFilter("POST")
@@ -320,6 +318,28 @@ Logger.info("hello there")
 - Companion object creates class instances
 
 ```scala
+class Person private (first: String, last: String) {
+  def greet(): String = s"My name is $first $last!"
+}
+
+object Person {
+  def apply(first: String, last: String) = 
+    new Person(first = first, last = last)
+
+  object johnDoe = Person(first = "john", last = "doe")
+}
+
+val matan = Person("matan", "keidar")
+```
+
+
+<!-- .slide: data-auto-animate -->
+## Objects <!-- .element: data-id="title" -->
+- Common pattern: factory methods
+- Hide class constructor
+- Companion object creates class instances
+
+```scala[6-7,12]
 class Person private (first: String, last: String) {
   def greet(): String = s"My name is $first $last!"
 }
@@ -625,9 +645,15 @@ case class User(
   manager: Option[User] = None
 )
 
+val avishai = User("1", "avishai")
+val nirzo   = User("2", "nirzo")
+val user3   = User("3", "Alice", manager = Some(avishai))
+val user4   = User("4", "Bob", manager = Some(nirzo))
+val userIds = List("1", "2", "3", "4")
+
 def findUser(id: String): Option[User]
 
-val userIds: List[String] = ???
+val managerIds: List[String] = ???
 ```
 
 

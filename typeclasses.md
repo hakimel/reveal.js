@@ -66,6 +66,7 @@ case class Delivery(item: Item, target: Point) {
 
 <!-- .slide: data-auto-animate -->
 ## Naive solution <!-- .element: data-id="title" -->
+
 ```scala
 val delivery = Delivery(
   item = Item(id = "1", desc = "item-1"), 
@@ -328,7 +329,7 @@ implicit val itemEncoder = new JsonEncoder[Item] {
 
 ## Type Classes: The bad side
 <!-- <div class="r-strech"> -->
-<pre><code class="scala" data-trim data-line-numbers="3-5|8-10|13-15">
+<pre><code class="scala" data-trim data-line-numbers="1-3|4-8|9-13">
 trait Showable[T] {
   def show(t: T): String
 }

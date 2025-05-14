@@ -36,7 +36,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
   --r-heading2-size: 2.11em;
   --r-heading3-size: 1.55em;
   --r-heading4-size: 1em;
-  --r-code-font: Fira Code;
+  --r-code-font: monospace;
   --r-link-color: #a23;
   --r-link-color-dark: #6a1520;
   --r-link-color-hover: #dd5566;
