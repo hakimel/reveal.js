@@ -185,14 +185,27 @@ export default class AutoAnimate {
 			delete toProps.styles['opacity'];
 
 		}
-
 		// If translation and/or scaling are enabled, css transform
 		// the 'to' element so that it matches the position and size
 		// of the 'from' element
-		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
+		if(from.tagName === "path") {
+            // Paths don't have translation or scale, so we only animate the "d" attribute.
+            let path = elementOptions.path !== false && ( fromProps.d !== toProps.d);
+            if(path) {
+                fromProps.styles['d'] = `path("${fromProps.d}")`
+				toProps.styles['d'] = `path("${toProps.d}")`;
+            }
+        }
+		else if(elementOptions.translate !== false || elementOptions.scale !== false) {
 
 			let presentationScale = this.Reveal.getScale();
+            var factor = 1.0;
 
+            if(from.parentElement.tagName == "svg") {
+                // Without this, svg animations jumps halfway for me.
+				// Why? I don't know. At least this is a workaround that works.
+                factor = 2.0;
+            }
 			let delta = {
 				x: ( fromProps.x - toProps.x ) / presentationScale,
 				y: ( fromProps.y - toProps.y ) / presentationScale,
@@ -200,9 +213,10 @@ export default class AutoAnimate {
 				scaleY: fromProps.height / toProps.height
 			};
 
+
 			// Limit decimal points to avoid 0.0001px blur and stutter
-			delta.x = Math.round( delta.x * 1000 ) / 1000;
-			delta.y = Math.round( delta.y * 1000 ) / 1000;
+			delta.x = factor * Math.round( delta.x * 1000 ) / 1000;
+			delta.y = factor * Math.round( delta.y * 1000 ) / 1000;
 			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 
@@ -231,17 +245,18 @@ export default class AutoAnimate {
 			const toValue = toProps.styles[propertyName];
 			const fromValue = fromProps.styles[propertyName];
 
-			if( toValue === fromValue ) {
+			if( toValue === fromValue) {
 				delete toProps.styles[propertyName];
+                delete fromProps.styles[propertyName];
 			}
-			else {
+            else {
 				// If these property values were set via a custom matcher providing
 				// an explicit 'from' and/or 'to' value, we always inject those values.
 				if( toValue.explicitValue === true ) {
 					toProps.styles[propertyName] = toValue.value;
 				}
 
-				if( fromValue.explicitValue === true ) {
+                if( fromValue.explicitValue === true ) {
 					fromProps.styles[propertyName] = fromValue.value;
 				}
 			}
@@ -263,6 +278,7 @@ export default class AutoAnimate {
 			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
 			toProps.styles['will-change'] = toStyleProperties.join( ', ' );
 
+			
 			// Build up our custom CSS. We need to override inline styles
 			// so we need to make our styles vErY IMPORTANT!1!!
 			let fromCSS = Object.keys( fromProps.styles ).map( propertyName => {
@@ -337,6 +353,11 @@ export default class AutoAnimate {
 
 		let properties = { styles: [] };
 
+
+        if(element.tagName === "path") {
+            // We can auto-animate paths using their "d" attribute
+            properties.d = element.attributes.d.value;
+        }
 		// Position and size
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 			let bounds;
