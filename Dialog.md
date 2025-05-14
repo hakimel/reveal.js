@@ -30,7 +30,7 @@ A: Bitte was?
 
 C: S-B-O-M-S
 
-A: SBOMs????
+A: SBOMs??
 
 C: ja ja, dann halt so: SBOMs werden uns retten
 
