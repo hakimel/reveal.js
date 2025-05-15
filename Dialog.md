@@ -1,7 +1,7 @@
 Dauer: 35 min
 
-Rollen:
-CISO: begeistert ohne zu verstehen worum es eigentlich geht, naiv
+Rollen:  
+CISO: begeistert ohne zu verstehen worum es eigentlich geht, naiv  
 Architektin: Kritisch zu SBOMs, versucht, alles anschaulich zu erklären
 
 # Dialog [30min]
