@@ -432,12 +432,12 @@ val req2 = req1.copy(uri = "/world",
 
 ```scala
 // Usage example: 
-class Person(name: String, age: Int) extends Ordinal[Person] { 
+case class Person(name: String, age: Int) extends Ordinal[Person] { 
   ???
 }
   
-val grut = new Person("Grut", 100)
-val spiderMan = new Person("Peter Parker", 16)
+val grut = Person("Grut", 100)
+val spiderMan = Person("Peter Parker", 16)
 
 println(spiderMan < grut)
 ```
