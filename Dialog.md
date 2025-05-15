@@ -218,25 +218,45 @@ C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle daz
 =======
 >>>>>>> 64618adb (docs: review act 1 & 2)
 
-A: Es geht aber nicht nur um die Lieferanten, die komplette Software Industrie hinkt noch sehr stark bei der Erstellung von SBOMs hinterher. Der State of Software Supply Chain von Sonatype hat die veröffentlichten Open Source Software Komponenten im Vergleich zu den veröffentlichten SBOMs dargestellt. Fast 7M veröffentlichte Komponenten und nur 61k SBOMs. So ähnlich sieht es auch bei unseren Lieferanten aus, die großen sind nicht so problematisch, kleine Nichen-Hersteller die nicht auf Software Entwicklung spezialisiert sind stehen hier vor großen Herausforderungen. Außerdem, ist Open Source aus den aktuellen Regularien wie den Cyber Resilience Act oder die Executive Direktive, und FDA in den USA, die SBOMs vorschreiben, großteils ausgenommen. (zunahme nimmt nicht ansatzweise so schnell zu wie die der Entwicklung neuer komponenten)
+A: Es geht aber nicht nur um die Lieferanten, die komplette Software Industrie hinkt noch sehr stark bei der Erstellung von SBOMs hinterher. Fast 7M veröffentlichte Komponenten und nur 61k SBOMs. So ähnlich sieht es auch bei unseren Lieferanten aus, die großen sind nicht so problematisch, kleine Nichen-Hersteller die nicht auf Software Entwicklung spezialisiert sind stehen hier vor großen Herausforderungen. Außerdem, ist Open Source aus den aktuellen Regularien wie den Cyber Resilience Act oder die Executive Direktive, und FDA in den USA, die SBOMs vorschreiben, großteils ausgenommen. **-> review OSS sentence**
 
 C: Na das lässt sich ja auch einfach lösen. Wir verbieten unseren Entwickler:innen Open Source zu verwenden. 
 
-A: Sie haben keine wirkliche Ahnung wie viel Open Source bei uns im Unternehmen verwendet wird, oder? Blackduck hat im "2025 Open Source Security and Risk Analysis Report" veröffentlicht, dass 97% der Anwendungen die Sie gescannt haben, open source Komponenten im Einsatz haben. Es geht nicht nur um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen und nicht immer das Rad neu erfinden, sondern auch bei Datenbanktechnologien, CI/CD tools, Programmiersprachen und Containertechnologie.
+A: Sie haben keine wirkliche Ahnung wie viel Open Source bei uns im Unternehmen verwendet wird, oder? Je nach 97% der Anwendungen die Sie gescannt haben, open source Komponenten im Einsatz haben. Es geht nicht nur um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, sondern auch bei Datenbanktechnologien, CI/CD tools, Programmiersprachen und Containertechnologie.
 
 C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen SBOMs zur Verfügung zu stellen um den Marktanteil zu erhöhen.
 
-A: Kritisch ;) Die meisten open source Projekte sind tatsächlich von einzelnen Maintainern abhängig und wie wir im xz-Utils backdoor Szenario letztes Jahr gesehen haben, kann dies potentiell kritische Folgen haben. Overload, wenig zeit, kein support. Wir als Unternehmen könnten da sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
+A: Kritisch ;) Die meisten open source Projekte sind tatsächlich von einzelnen Maintainern abhängig...overload, wenig zeit, kein support. Wir als Unternehmen könnten da sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
 
 C: Ach nein, das wurde in diesem fiscal year nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
-A: Mal abgesehen von den Open Source Projekten gibt es noch weitere Challenges, ich habe es vorhin kurz angedeutet. SBOMs sind im Kontext neuer Projekte und aktueller Technologien kein Hexenwerk. Bei interpretierten Programmiersprachen wie JavaScript oder Python sind die externen Abhängigkeiten in manifests wie package.json gelistet und können weiterverarbeitet werden. Da erhält man direkt den direkten Bibliotheken die eingesetzt werden. Bei kompilierten Sprachen, werden Abhängigkeiten und Libraries in Binaries verpackt und erfordern deutlich mehr Maintenance und Arbeit von den Entwicklungsteams. Und wir reden gar nicht über Legacy code, bei dem keiner so genau weiß was da reingepackt wurde. Dann sind wir schon beim Endgegner: Compilierte 20 Jahre alte legacy anwendung, die nicht mehr gewartet wird aber trotzdem weiter im Einsatz bleibt.
+A: Mal abgesehen von den Open Source Projekten gibt es noch weitere Challenges, ich habe es vorhin kurz angedeutet. SBOMs sind im Kontext neuer Projekte und aktueller Technologien kein Hexenwerk. Bei interpretierten Programmiersprachen wie JavaScript oder Python sind die externen Abhängigkeiten in manifests wie package.json gelistet und können weiterverarbeitet werden. Da erhält man direkt den direkten Bibliotheken die eingesetzt werden. Bei kompilierten Sprachen, werden Abhängigkeiten und Libraries in Binaries verpackt und erfordern deutlich mehr Maintenance und Arbeit von den Entwicklungsteams. Und wir reden gar nicht über Legacy code, bei dem keiner so genau weiß was da reingepackt wurde. Dann sind wir schon beim Endgegner: Compilierte 20 Jahre alte legacy anwendung, die nicht mehr gewartet wird aber trotzdem weiter im Einsatz bleibt. **weniger technisch**
   
 C: Naja da wird es wohl eine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Das kann ja nicht so schwer sein.
   
+<<<<<<< HEAD
 A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. Es gibt Richtlinien und Standards bezüglich der Struktur, alles andere wie Granularität, Tiefe, Beziehung zwischen den Komponenten sidn nicht definiert und jeder macht das ein bisschen anders. Dazu kommt dass eine neue SBOM bei jedem Software Update notwendig ist.
 ----------
 
+=======
+A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. Es gibt Richtlinien und Standards bezüglich der Struktur, alles andere wie Granularität, Tiefe, Beziehung zwischen den Komponenten sind nicht definiert und jeder macht das ein bisschen anders. Da kann man sehr schnell den Überblick verlieren, außerdem ist noch gar nicht definiert ob die gelieferte SBOM korrekt und vollständig ist.
+
+C: Tools gibt es ja bereits, ich habe bereits den Prozess initiiert um ein kostenloses Tool für uns auszuwählen um das alles zu beschleunigen.
+
+A: Einige unserer Teams haben bereits SBOMs, die aus den automatisierten Pipelines herauspurzeln. Bei den anderen Teams, wo es um Kompilate geht hängt die Qualität der Tools von den Frameworks und Programmiersprachen ab und worauf sich ein Tool für die automatische SBOM Generierung fokussiert. Die heterogene Landschaft in diesem Kontext bringt weitere Herausforderungen. Man nehme eine Applikation und lässt 2 Tools zur Erstellung von SBOMs drüber laufen: die Ergebnisse werden unterschiedlich sein, und womöglich keine komplett falsch, sondern eher unvollständig. Letztendlich haben wir irgendwann einen Haufen SBOMs, in verschiedenen Tiefen mit denen man wenig anfangen kann.
+
+**compiled vs anderes weg lassen**
+
+C: Dann sollten wir diese ganzen SBOMs ja einfach harmonisieren, das geht bestimmt mit irgendeiner KI.
+  
+A: *schappatmung* Ich will ja keine Spielverderberin sein, aber da kommt schon das nächste Problem: die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wieder stellen sie via Email auf Anfrage zur Verfügung.
+
+C: Können wir nicht allen einfach einen link zu unserem Sharepoint geben?  
+
+A: *verdrehte augen* Aktuell kommen die SBOMs auf verschiedene Wege zu uns, den größten Teil müssen wir aber bei den Suppliern anfragen und je nach Unternehmensgröße ist die Reaktion darauf. Abgesehen davon müsste man sich auch überlegen wie man die Integrität dieser Dokumente sicherstellt. 
+
+C: Wenn wir die SBOMs von allen Applikationen, in jeder Version bei uns dann haben...ist das ein vollständiges Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
+>>>>>>> a5a09447 (docs: review act2)
 
 <<<<<<< HEAD
 nicht standardisierte erstellung, viele guidelines -> struktur ist definiert, aber nicht granularität, welche tiefe...-> und für jede neue Version und neue SBOM - und niemand garantiert uns, dass diese SBOMs denn auch korrekt und vollständig sind  
@@ -264,12 +284,18 @@ C: Ja, dann haben wir das ja zusammen. Noch ein Tool einkaufen kriegen wir auch 
 
 A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg Räumen.
 <<<<<<< HEAD
+<<<<<<< HEAD
 Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer Schwachstellen in der Lieferkette von Software und/oder Dienstleistungen ausnutzt, um indirekt das eigentliche Zielsystem zu kompromittieren. Das Ziel davon kann somit eine opensource-Bibliothek, ein CI/CD tool oder eine Drittanbieter-Software sein. Z.B. Beim SolarWinds Angriff in 2020 wurde Schadcode in ein Tool eingeschleust, dass dan bei Kunden weltweit installiert wurde, da die Software legitim ist. Es wir auch regelmäßig versucht z.B. in python pakete schadcode einzuführen. Log4j war eine kritische 0-day Schwachstelle, keine supply chain attacke.
 
 **angriff auf die supply chain um das eigentliche Opfer anzugreifen**
 =======
 Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer Schwachstellen in der Lieferkette von Software und/oder Dienstleistungen ausnutzt, um indirekt das eigentliche Zielsystem zu kompromittieren. Das Ziel davon kann somit eine opensource-Bibliothek, ein CI/CD tool oder eine Drittanbieter-Software sein. Z.B. Beim SolarWinds Angriff in 2020 wurde Schadcode in ein Tool eingeschleust, dass dan bei Kunden weltweit installiert wurde, da die Software legitim ist oder bei xz-utils, wo ein Contributor eine backdoor in ein opensource Paket eingeschleust hat. Es wir auch regelmäßig versucht z.B. in python pakete schadcode einzuführen. Log4j war eine kritische 0-day Schwachstelle, keine supply chain attacke.
 >>>>>>> 71610d9c (docs: finish act 2 and start act 3)
+=======
+Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer Schwachstellen in der Lieferkette von Software und/oder Dienstleistungen ausnutzt, um indirekt das eigentliche Zielsystem zu kompromittieren. Das Ziel davon kann somit eine opensource-Bibliothek, ein CI/CD tool oder eine Drittanbieter-Software sein. Z.B. Beim SolarWinds Angriff in 2020 wurde Schadcode in ein Tool eingeschleust, dass dan bei Kunden weltweit installiert wurde, da die Software legitim ist. Es wir auch regelmäßig versucht z.B. in python pakete schadcode einzuführen. Log4j war eine kritische 0-day Schwachstelle, keine supply chain attacke.
+
+**angriff auf die supply chain um das eigentliche Opfer anzugreifen**
+>>>>>>> a5a09447 (docs: review act2)
 
 C: Verstanden, aber ich möchte dann trotzdem alle Schwachstellen in meinen Produkten kennen.
 
@@ -277,10 +303,15 @@ A: Das ist ein berechtigter Wunsch, leider wird das zunehmend komplexer. Um Schw
 Grundsätzlich ist es schon schwierig an sich diese Datenbasis zu handhaben, da die Qualität der Daten stark con der Community abhängt. Man kann auch klar sehen wie die Anzahl an gemeldeten Schwachstellen von Jahr zu Jahr steigt. *diagram evolution CVEs*
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 **zusammenhang zwischen SBOM und vulnerabilities**
 
 =======
 >>>>>>> 71610d9c (docs: finish act 2 and start act 3)
+=======
+**zusammenhang zwischen SBOM und vulnerabilities**
+
+>>>>>>> a5a09447 (docs: review act2)
 C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
 
 A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fas "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert. Es wird somit verschiedene IDs geben, ob eine 1:1 Mapping immer gewährlistet wird, ist dann auch fragwürdig und wird sich noch herausstellen. Außerdem müssen die verschiedenen Tools, die nach Schwachstellen schauen diese Datenbanken alle unterstützen.
