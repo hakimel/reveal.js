@@ -1,68 +1,118 @@
 Dauer: 35 min
 
-Intro Jasmin und Lukas
-Intro Vortrag
-
-Slides only  
-Disclaimer dass alles frei erfunden ist und alle referenzen zufällig sind  
-No CISOs were harmed  
-Nach einer wahren Gegebenheit  
-  
-Setting the scene -> stellt euch vor, ihr arbeitet an xyz, und euer CISO kommt an
-
 Rollen:
-CISO: begeistert ohne zu verstehen worum es eigentlich geht, naive
-Arch: lass mal gucken
- 
-3 Minuten
+CISO: begeistert ohne zu verstehen worum es eigentlich geht, naiv
+Architektin: Kritisch zu SBOMs, versucht, alles anschaulich zu erklären
 
-# Dialog
+# Dialog [30min]
 
-## Akt 1
+## Setting the Stage
 
-C: Guten Morgen! Wie geht's uns denn heute? Ich hoffe es war eine produktive Woche, meine war großartig.
+Slides:
+- Disclaimer
+- No CISOs were harmed
+- 1. Akt
 
-A: "augen verdrehen" guten morgen, ja natürlich...wir haben ja nur X Sachen die uns beschäftigen
+Architektin sitzt mit Laptop am Tisch und arbeitet
+CISO kommt herein, kommt zu Architektin, setzt sich 'legere' auf die Tischkante
 
-C: Haben Sie schon von den ganzen Supply Chain Angriffen gehört? Wir müssen uns hier wirklich dagegen schützen! Und die Lösung dafür sind S-B-O-M-S
+## Akt 1 [5min]
+
+C: Einen wunderschönen guten Morgen, Frau Mair! Wie geht's uns denn heute?
+
+A [verdreht Augen]: Guten Morgen. Ich kann ja nur für mich sprechen, aber wir haben gerade monsterviel Stress mit...
+
+C: Mir geht es grandios, danke der Nachfrage!
+
+A [seufzt]: Was kann ich denn für Sie tun?
+
+C: Haben Sie schon von den ganzen Supply Chain Angriffen gehört? Die sind gerade überall! Wir müssen uns hier wirklich _schnellstmöglich_ dagegen schützen! Aber ich habe auch schon die Lösung dafür: S-B-O-M-S
 
 A: Bitte was?
 
 C: S-B-O-M-S
 
+<<<<<<< HEAD
 A: SBOMs??
+=======
+A: Was?
+>>>>>>> 53e51699 (Erster Akt)
 
-C: ja ja, dann halt so: SBOMs werden uns retten
+C: Software... Billy...
 
+<<<<<<< HEAD
 A: waren sie wieder auf einem Compliance Kongress? *-> compliance meme*
+=======
+A: Software Bills of Materials? SBOMs?
+>>>>>>> 53e51699 (Erster Akt)
 
-C: Die Anzahl an supply chain attacks wie log4j hat in den letzten Jahren schon stark zugenommen und wir müssen uns dagegen schützen. Hier gibt es mit SBOMs wirklich eine tolle Lösung!
+C: Ja genau, hab ich ja gesagt! Die müssen jetzt alle erstellen, um ihre Security Posture zu verbessern!.
 
+<<<<<<< HEAD
 A: SBOMs die Lösung von supply chain attacks? Wissen sie was eine SBOMs ist? Ich glaube wir müssen auch noch kurz das Thema Supply Chain Angriff näher beleuchten! *-> SBOM meme*
+=======
+A: Waren sie wieder auf einem Compliance Kongress? **-> compliance meme**
+>>>>>>> 53e51699 (Erster Akt)
 
-C: Ja klar, eine SBOM ist eine Zutatenliste, die mir sagt was in in Lebensmitteln enthalten ist. Das sagt mir dann dass 30 Zeilen HTML und 50 Zeilen Java enthält.
+C: Woher... [sammelt sich kurz] Die Anzahl an Supply Chain Attacks wie log4j hat in den letzten Jahren so stark zugenommen und wir müssen uns dagegen schützen. Hier gibt es mit SBOMs wirklich eine tolle Lösung!
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
 >>>>>>> 64618adb (docs: review act 1 & 2)
 A: Gar nicht soooo schlecht. Nur ist das sehr realitätsfern. In der modernen Softwareentwicklung schreibt die Entwickler:in nicht jede Zeile Code selbst, sondern verwendet vorgefertigte Bibliotheken. Nehmen wir die Datumsauswahl Funktion in einer x-beliebigen Anwendung -> x edge cases und komplexität -> somit library die wiederverwendet wird. Je nach Report (Github, Blackduck) kursieren Zahlen zwischen 70 - 90% third party vs. first party code. Das unterstreicht schon den Bedarf einer Inventarisierung der genutzten Komponenten.
+=======
+A: SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOMs ist?
+>>>>>>> 53e51699 (Erster Akt)
 
-C: Wofür geben wir unmengen an Geld für die Entwicklungsteams aus????
+C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Lebensmittel enthalten ist, nur halt für Software. Also 30 Zeilen HTML, 50 Zeilen Java, sowas halt.
 
-A: Wollen sie etwa geld ausgeben damit jedes Team sein Datumsauswahltool selbst schreibt oder sollen sie lieber business value generieren? :D
+A: Gar nicht mal soooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseit recht komplex, andererseits wird es immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
 
-C: Zurück zu den SBOMs bitte
+C: Die Entwickler:innen nehmen schon fertigen Code aus dem Internet? Wofür geben wir denn dann Unmengen an Geld für die Entwicklungsteams aus?
 
+<<<<<<< HEAD
 A: Laut der technischen Richtlinie des BSI: Eine “Software Bill of Materials” (SBOM) ist eine maschinenlesbare Datei, die Informationen über Lieferkettenbeziehungen und Details zu den Komponenten enthält, die in einem Softwareprodukt verwendet werden. *-> Spdx Slide im Background*
 <<<<<<< HEAD
   
+=======
+A: Wollen Sie das Geld ausgeben, damit jedes Team sein Datumsauswahltool selbst schreibt, oder sollen sie lieber Business Value generieren? :D
+
+C: Ja, Business Value...
+
+A: Das wäre ohne den Einsatz solcher externen Komponenten heutzutage kaum mehr möglich. Unterschiedliche Analysen kommen zu dem Schluss, dass durchschnittlich 70-90% aller halbwegs moderner Software aus externen Komponenten besteht.
+
+C: So viel?! Aber so viele Datumsfelder haben wir doch gar nicht in unserer Software?!
+
+A: Es geht ja nicht nur um Datumsfelder, sondern um ganz unterschiedliche, grundlegende Funktionalitäten, die in Form von Bibliotheken oder Frameworks aus unterschiedlichen Fremdquellen geladen werden und ihrerseits wiederum von anderen Komponenten abhängen, den sogenannten 'Transitiven Abhängigkeiten' - wie beispielsweise von log4j
+
+C: log4j, ja, genau! Da wusste ja auch niemand, wo das alles drinhängt.
+
+A: Richtig. Und diese Komponenten haben wiederum ihre eigenen Abhängigkeiten, auf die sie zurückgreifen.
+
+C: ...und die wiederum...
+
+A: So können also auch schon wenige _direkte_ Komponenten einen Rattenschwanz an weiteren Abhängigkeiten nachladen.
+
+C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
+
+A [grinst] ...und genau da kommen SBOMs ins Spiel!
+
+C: Ja klar, die Zutatenliste!
+
+A: Sehr gut! SBOMs sind folglich standardisierte Strukturen, in denen die wichtigsten Datenpunkte zu all diesen Abhängigkeiten aufgeführt werden. Was ist das für eine Komponente, wo kommt sie her, welche Version hat sie, welche Lizenz,... Wollen Sie mal eine solche SBOM sehen?
+
+C: Oh, ja, gerne!
+
+[SPDX Slide]
+
+>>>>>>> 53e51699 (Erster Akt)
 C: Oh, das kann ja kein Mensch lesen!!
 
-A: Korrekt, SBOMs sind auch eigentlich nur für Maschinen gedacht. SBOMs sind Listen an Komponenten mit bestimmten Datenpunkten.
-Machen wir das Beispiel mit einem Auto, die SBOM ist eine Liste aller Komponenten die im Auto verbaut wurden. Motor wurde von X hergestellt, Bremsen von Y, Airbags von Z. Die SBOM ist eine Liste aller Teile, Komponenten und Frameworks die für die Entwicklung eines digitalen Produkts eingesetzt wurden mit der verwendeten Versionsnummer, Lizenzen und Herstellern. Genau wie beim Auto ist das wichtig für z.B. Wartungsarbeiten, man weiß was man updaten muss oder austauschen. Oder bei Rückrufaktionen, z.B. wenn die software kritische Schwachstellen beinhalten. Bei Hardware Teilelisten ist die Industrie daran gewohnt bill of materials zu generieren und die Liste hat eine physische Grenze.
-Bei Software und digitalen Komponenten ist es ein bisschen komplizierter, da die Industrie erst jetzt damit anfängt und das sehr schnell sehr unübersichtligh wird. Da verschiedenen Komponenten, sub-komponenten vielleicht auch in verschiedenen Versionen in einem Programm verwendet werden. Jede Software-Entwickler:in nutzt unzählige Bibliotheken und Komponenten in ihrer Arbeit. Der "2025 Open Source Security and Risk Analysis Report" von Blackduck berichtet dass sich die Anzahl an Open Source files in einer Applikation sich in den letzten 4 Jahren verdreifacht hat, und mehr als die Hälfte davon sind indirekte Abhängigkeiten. Es wird sehr wichtig die Beziehung zwischen den Komponenten darzustellen um direkte und indirekte Abhängigkeiten handhaben zu können. Außerdem ist ein wichtiger Bestandteil der SBOM Lizenzinformationen zu den benutzen Bibliotheken. *-> Slide mit SBOM tree?*
+A: Korrekt, SBOMs sind auch eigentlich in erster Linie für Maschinen gedacht.
 
+<<<<<<< HEAD
 C: Haben sie das geschrieben??   
 =======
 A: Laut der technischen Richtlinie des BSI: Eine “Software Bill of Materials” (SBOM) ist eine maschinenlesbare Datei, die Informationen über Lieferkettenbeziehungen und Details zu den Komponenten enthält, die in einem Softwareprodukt verwendet werden. Sie ermöglicht die automatisierte Verarbeitung dieser Informationen. Dabei werden sowohl die sogenannte Primärkomponente als auch verwendete (z. B. externe oder Drittanbieter-) Komponenten erfasst. Hier mal ein Beispiel einer SBOM. *-> Spdx Slide im Background*
@@ -83,14 +133,36 @@ C: Haben sie das geschrieben??
 =======
 C: Haben sie das geschrieben??   
 >>>>>>> 64618adb (docs: review act 1 & 2)
+=======
+C: ...und für solche Top-Talente wie Sie! Haben sie das geschrieben??   
+>>>>>>> 53e51699 (Erster Akt)
 
-A: Nein, das wäre unmöglich. Diese SBOM haben wir von unserem Lieferanten erhalten.
+A: Nein, das wäre unmöglich. Diese SBOM haben wir von einem unserer Software-Lieferanten erhalten.
 
 C: Ach, das stammt gar nicht von unserer Software?  
 
-A: Nein. SBOMs werden aus verschiedenen Quellen bezogen. Für unsere Eigenentwicklungen, wird eine SBOM als Teil der CI/CD Pipeline beim Build unserer Software direkt erstellt. Unsere Software-liferanten müssten uns bald auch mit jeder neuen Software-Version eine SBOM mitliefern. Spannend wird es immer dann wenn die eingesetzten Komponenten wiederum auf andere Open Source Bibliotheken aufbauen, denn Open Source Projekte sind bis heute ausgenommen von der Pflicht SBOMs zu erstellen, auch unter dem Cyber Resilience Act.
+A: Nein, diese nicht. Die listet die Komponenten auf, die in seiner Software genutzt werden. Aber für unsere eigene Software können wir auch SBOMs erstellen, die wiederum unsere Abhängigkeiten auflistet.
 
-## Akt 2
+C: ...und die geben wir dann wiederum an unsere Kunden?
+
+A: Ja, genau!
+
+C: Aber dann wissen die ja, wie unsere Software gebaut wurde! Können die das dann nicht einfach nachbauen?
+
+A: Nein, in der SBOM steht ja nur drin, welche externen Komponenten genutzt werden. Die Geschäftslogik und wie die diese Komponenten nutzt, ist ja nicht aufgeführt.
+
+C: Okay... aber wenn wir so viele Komponenten in unserer Software nutzen, müsste die SBOM ja jedes Mal neu erstellt werden, wenn sich daran etwas ändert...
+
+A: Richtig.
+
+C: Ist das nicht ein Riesenaufwand? Ist das der Grund, warum die Entwickler:innen immer so stark ausgelastet sind?
+
+A: In moderner Software-Entwicklung glücklicherweise nicht, weil sich die Erstellung im Build Process automatisieren lässt; die SBOM wird also jedes Mal automatisch generiert, wenn wir aus dem Quellcode das entsprechende Programm kompilieren.
+
+C: Ach, das ist ja praktisch!
+
+
+## Akt 2 [15min]
 
 C: Wow, also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir einsetzen?  
 
@@ -190,17 +262,8 @@ C: wenn ich unser Gespräch so mal betrachte macht mir eine Zutatenliste unserer
 
 A: nein
 
-\- Abtrennung zwischen den Akten? Wie wird das mit dem Gesprächsfaden machen
+## Akt 3 [10min]
 
-10 Minuten
-
-## Akt 3
-
-Dialog:
 C:
 
-5 Minuten
-
-Q&A
-
-5 Minuten
+# Q&A [5min]
