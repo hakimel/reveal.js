@@ -99,7 +99,7 @@ C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
 
 A [grinst] ...und genau da kommen SBOMs ins Spiel!
 
-C: Ja klar, die Zutatenliste!
+C: Ja klar, die Zutatenliste, wusste ich doch!
 
 A: Sehr gut! SBOMs sind folglich standardisierte Strukturen, in denen die wichtigsten Datenpunkte zu all diesen Abhängigkeiten aufgeführt werden. Was ist das für eine Komponente, wo kommt sie her, welche Version hat sie, welche Lizenz,... Wollen Sie mal eine solche SBOM sehen?
 
