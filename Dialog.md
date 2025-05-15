@@ -1,8 +1,8 @@
 Dauer: 35 min
 
-Rollen:  
-CISO: begeistert ohne zu verstehen worum es eigentlich geht, naiv  
-Architektin: Kritisch zu SBOMs, versucht, alles anschaulich zu erklären
+Rollen:
+- CISO: begeistert ohne zu verstehen worum es eigentlich geht, naiv
+- Architektin: Kritisch zu SBOMs, versucht, alles anschaulich zu erklären
 
 # Dialog [30min]
 
@@ -13,7 +13,7 @@ Slides:
 - No CISOs were harmed
 - 1. Akt
 
-Architektin sitzt mit Laptop am Tisch und arbeitet
+Architektin sitzt mit Laptop am Tisch und arbeitet  
 CISO kommt herein, kommt zu Architektin, setzt sich 'legere' auf die Tischkante
 
 ## Akt 1 [5min]
