@@ -238,6 +238,7 @@ A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. Es gibt
 ----------
 
 
+<<<<<<< HEAD
 nicht standardisierte erstellung, viele guidelines -> struktur ist definiert, aber nicht granularität, welche tiefe...-> und für jede neue Version und neue SBOM - und niemand garantiert uns, dass diese SBOMs denn auch korrekt und vollständig sind  
 C: gibt es ein kostenloses tool das man dafür verwenden kann? das muss man ja irgendwie automatisieren können  
 A: automatisierte SBOM erstellung in bestimmten bereichen einfacher ist (Web/Container...) abhängig von technologien, nicht alle tools sind gleich gut -> heterogene landschaft and verschiedenen SBOMs in verschiedenen tiefen -> verschiedenen qualitäten an SBOMs, sehr abhängig vom ersteller -> supplier vs intern  
@@ -255,21 +256,31 @@ A: ähm... nein. Viele Abhängigkeiten z.B. Vulnerability Databases mit gemeldet
 =======
 A: Vergessen Sie nicht, dass die SBOMs nur maschienenlesbar sind - oder wollen SIE noch einmal einen blick reinwerfen? Bedeutet wir brauchen ein Tool, das die SBOMs verwalten kann um diese durchsuchbar zu machen und in einem zweitern Schritt Schwachstellen anzeigen kann.
 >>>>>>> 8a678b5e (docs: finish act 2 and start act 3)
+=======
+A: Vergessen Sie nicht, dass die SBOMs nur maschienenlesbar sind - oder wollen SIE noch einmal einen blick reinwerfen? Bedeutet wir brauchen ein Tool, das die SBOMs verwalten kann um diese durchsuchbar zu machen und in einem zweitern Schritt Schwachstellen anzeigen kann.
+>>>>>>> 71610d9c (docs: finish act 2 and start act 3)
 
 C: Ja, dann haben wir das ja zusammen. Noch ein Tool einkaufen kriegen wir auch noch hin. Dann wissen wir direkt welche Schwachstellen die ganzen Produkte besitzen und die Supply Chain Angriffe beheben. Großartig!
 
 A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg Räumen.
+<<<<<<< HEAD
 Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer Schwachstellen in der Lieferkette von Software und/oder Dienstleistungen ausnutzt, um indirekt das eigentliche Zielsystem zu kompromittieren. Das Ziel davon kann somit eine opensource-Bibliothek, ein CI/CD tool oder eine Drittanbieter-Software sein. Z.B. Beim SolarWinds Angriff in 2020 wurde Schadcode in ein Tool eingeschleust, dass dan bei Kunden weltweit installiert wurde, da die Software legitim ist. Es wir auch regelmäßig versucht z.B. in python pakete schadcode einzuführen. Log4j war eine kritische 0-day Schwachstelle, keine supply chain attacke.
 
 **angriff auf die supply chain um das eigentliche Opfer anzugreifen**
+=======
+Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer Schwachstellen in der Lieferkette von Software und/oder Dienstleistungen ausnutzt, um indirekt das eigentliche Zielsystem zu kompromittieren. Das Ziel davon kann somit eine opensource-Bibliothek, ein CI/CD tool oder eine Drittanbieter-Software sein. Z.B. Beim SolarWinds Angriff in 2020 wurde Schadcode in ein Tool eingeschleust, dass dan bei Kunden weltweit installiert wurde, da die Software legitim ist oder bei xz-utils, wo ein Contributor eine backdoor in ein opensource Paket eingeschleust hat. Es wir auch regelmäßig versucht z.B. in python pakete schadcode einzuführen. Log4j war eine kritische 0-day Schwachstelle, keine supply chain attacke.
+>>>>>>> 71610d9c (docs: finish act 2 and start act 3)
 
 C: Verstanden, aber ich möchte dann trotzdem alle Schwachstellen in meinen Produkten kennen.
 
 A: Das ist ein berechtigter Wunsch, leider wird das zunehmend komplexer. Um Schwachstellen zu identifizieren und aufzuzeigen sind diese werden diese zentral angemeldet bei MITRE mit einer eindeutigen CVE-ID. Das ist die größte (?) Datenbank mit allen Schwachstellen und diese sind öffentlich zugänglich. Alle Schwachstellen-scanner tools binden diese Datenbank ein um auf neue Probleme hinzuweise. MITRE war letztens auch in der Presse, da eine große Abhängigkeit von funding von z.B. der USAen Regierung abhängig ist um weiterhin die Leistung zu erbringen. Politische Einflüsse können eine große Auswirkung darauf haben.
 Grundsätzlich ist es schon schwierig an sich diese Datenbasis zu handhaben, da die Qualität der Daten stark con der Community abhängt. Man kann auch klar sehen wie die Anzahl an gemeldeten Schwachstellen von Jahr zu Jahr steigt. *diagram evolution CVEs*
 
+<<<<<<< HEAD
 **zusammenhang zwischen SBOM und vulnerabilities**
 
+=======
+>>>>>>> 71610d9c (docs: finish act 2 and start act 3)
 C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
 
 A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fas "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert. Es wird somit verschiedene IDs geben, ob eine 1:1 Mapping immer gewährlistet wird, ist dann auch fragwürdig und wird sich noch herausstellen. Außerdem müssen die verschiedenen Tools, die nach Schwachstellen schauen diese Datenbanken alle unterstützen.
