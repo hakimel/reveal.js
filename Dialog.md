@@ -399,24 +399,25 @@ A: Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ei
 
 C: War das bei log4j nicht der Fall?
 
-A: Nein, log4j war eine kritische Zero-Day Schwachstelle, kein Supply Chain Angriff.
+A: Nein, log4j war eine kritische Zero-Day Schwachstelle. //Die Angriffsvektoren einer Supply Chain Attacke sind z.B. ...Malicious code -> genau wie bei solarwinds
 
 C: Aber Supply Chain Angriffe nehmen doch zu...
 
-A: Ja, das stimmt. Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war Solarwinds in 2020: dabei wurde Schadcode in eine Orion Software von SolarWinds eingeschleust, die legitime Anwendung wurde dann von Kunden weltweit installiert. Durch den Schadcode, haben sich die Angreifer Zugriff auf die Zielsysteme verschafft.
+A: Ja, das stimmt. Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war Solarwinds in 2020: dabei wurde Schadcode in eine Orion Software von SolarWinds eingeschleust, die legitime Anwendung wurde dann von Kunden weltweit installiert. Durch den Schadcode, haben sich die Angreifer Zugriff auf die Zielsysteme verschafft. //Solarwinds einfacher erklären, build system wurde kompromittiert um schadhafte updates an die eigenltichen Ziele zu verteilen
 
-C: Verstanden, aber ich möchte dann trotzdem alle Schwachstellen in meinen Produkten kennen.
+C: Ja, das würden ja anhand von der SBOM verstehen, dass da was drin ist was nicht da sein sollte.
 
-A: Das ist ein berechtigter Wunsch, leider wird das zunehmend komplexer.
+A: Aber woher erhalten wir die SBOM?
 
-C:[ungläubig]..noch mehr?
+C: Ja vom Anbieter
 
-A: Machen wir einen kurzen Schritt zurück, was haben Schwachstellen mit SBOMs zu tun und wie funktioniert die Zuordnung?
+A: Der kompromittiert wurde und wahrscheinlich auch die SBOM entsprechend anpasst. Das Vertrauen in dieses Artefakt ist nicht möglich herzustellen //review
 
-C: Stimmt eigentlich, die SBOM ist ja nur eine Liste an Komponenten mit einigen Details...
+C: Verstanden, also helfen SBOMS gar nicht gegen supply chain attacken?
 
-A: Durch dieses Inventar bekommt das Team in erster Linie einen Überblick über deren Abhängigkeiten. Durch die Informationen wie Hersteller, Name und Version der Komponenten wird ein eindeutiger String generiert, der die Komponente eindeutig identifiziert, der CPE-String (Common Platform Enumeration).
+A: Nein...
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -434,26 +435,47 @@ C: Wozu soll der gut sein?
 
 A: Bei der Veröffentlich von Schwachstellen, werden die gleichen Informationen abgefragt, die in der SBOM enthalten sind...sodass jede Schwachstelle einem oder mehreren CPEs zugewiesen wird. 
 >>>>>>> ef9b1027 (docs: vulnerabilities expanded)
+=======
+C: Was ist denn mit log4j?
 
-C: Und damit matchen die Hersteller die CPEs in den SBOMs mit denen der Schwachstellen...
+A: Ja, das schon eher, weil es Dependency mit einer kritischen Schwachstelle ist.
+>>>>>>> 04669493 (docs: added comments to review, added notes for finale)
 
-A: Genau so, das führt uns auch schon zur nächsten Herausforderung. Nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig dass diese ausgenutzt werden kann.
+C: Das war ja ein Alptraum herauszufinden wo das im Einsatz war. Jetzt hätten wir ja die Schwachstellen alle in der SBOM gelistet.
+
+A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt das Team in erster Linie einen Überblick über deren Abhängigkeiten. Durch die Informationen wie Hersteller, Name und Version der Komponenten wird ein eindeutiger String generiert, der die Komponente eindeutig identifiziert. //CPE in Folie, technische Details ausblenden
+
+C: Und woher kriegen wir dann die Schwachstellen zu den Abhängigkeiten?
+
+A: Die werden gegen Datenbanken gecheckt. Und wir begeben uns in deren Abhängigkeit. Die größte Datenbank an CVEs von MITRE betrieben... 
+
+C: Die waren letztens doch in der Presse wegen der auslaufenden Finanzierung
+
+A: Das war eine bewusste Entscheidung, die von politischen Einflüssen stammt. Das CVE-Programm wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern, weil Sicherheitsforscher:innen und Unternehmen dort die bekannten Schwachstellen melden. Das Programm ist ein Eckpfeiler der globalen Sicherheit, man hat aber gemerkt wie politische Einflüsse sich darauf auswirken können.
+
+C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
+
+A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fast "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
+
+C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar bin. Doppel gemoppelt hält ja besser!
+
+A: Naja, wir haben dann eine sehr lange liste an Schwachstellen. Aber nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig dass diese ausgenutzt werden kann.
 
 C: Wie geht das denn? Schwachstelle ist Schwachstelle
 
 A: Nicht wirklich, wenn die Entwickler:innen den Teil nicht benutzen der von der Schwachstelle betroffen ist, dann haben Angreifende auch nicht die Möglichkeit diese zu misbrauchen. Das ist das Konzept der Exploitability.
 
-C: Das muss man doch feststellen können, oder?
+C: Aber woher wissen wir ob wir angreifbar sind oder nicht?
 
-A: Ja, die Entwickler:innen der jeweiligen Komponenten und Bibliotheken müssen das bewerden und damit umgehen. Mit den SBOMs erhalten wir erstmal nur eine Liste mit allen Schwachstellen die zu einer gewissen Version einer Komponente gemappt werden.
+A: Das müssten wir dann entsprechend testen und damit verbundene Risiko bewerten.
 
-C: hm, schwierig... ha! dann sollten doch einfach die anbieter am besten selber testen und die ergebnisse in die SBOM mit einfügen!  
+C: Das klingt nach ganz schön viel Aufwand! Hah, warum lassen wir das nicht die anbieter selber testen und die Ergebnisse mit uns teilen.
 
 A: Ja, das gibt es auch schon. Das ist das sogenannte VEX "Vulnerability Exploitability eXchange"
 
 C: Wieder ein nur maschinell lesbares Dokument? -.- 
 
-A: Ja, das kann die SBOM erweitern um die Ausnutzbarkeit von Schwachstellen zu klären in den aufgelisteten Komponenten.
+A: Ja, damit kann der Anbieter die SBOM erweitern um die Ausnutzbarkeit von Schwachstellen zu klären in den aufgelisteten Komponenten.
 
 C: Klingt doch vielversprechend?
 
@@ -461,17 +483,7 @@ A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sin
 
 C: Ja, dann ertrinken wir ja diesen Unterlagen!
 
-A: Genau und zum Thema Schwachstellen Management kommt noch hinzu dass die größte Datenbank an CVEs von MITRE betrieben... 
-
-C: Die waren letztens doch in der Presse wegen der auslaufenden Finanzierung
-
-A: Ja, das CVE-Programm wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern. Das Programm ist ein Eckpfeiler der globalen Sicherheit, man hat aber gemerkt wie politische Einflüsse sich darauf auswirken können.
-
-C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
-
-A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fast "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
-
-C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
+A: //Anreiz vulnerabilities nicht exploitable zu markieren, und kein standardisiertes Testen gegen Schwachstellen
 
 
 ## Akt 3
@@ -509,3 +521,14 @@ Q&A
 5 Minuten
 
 **SBOMs sind per Definition auch flach abgebildet...bedeutet die Teams brauchen ein tiefes Verständnis der verwendeten Bibliotheken.**
+
+C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
+
+// developer awareness -> Bewusstsein wie sie mit abhängigkeiten umgehen -> reduce, woran erkenne ich eine gute vs böse Dependency -> wo problematisch openssf checken -> kennzahlen was eine gute dependency
+
+//governance -> nicht nur alles mögliche haben -> man braucht lifecycle mgmt
+
+//
+
+
+Streichkandidaten: Integrität, ENISA, VEX,...
