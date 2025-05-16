@@ -278,6 +278,7 @@ A: Ja, hier muss man aktuell noch alles händisch signieren und auch so anforder
 C: Aber wenn wir die SBOMs von allen Applikationen, in jeder Version bei uns dann haben...ist das ein vollständiges Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 A: Nicht so wirklich. Die Erstellung von SBOMs hinkt aktuell noch sehr stark hinterher. Der State of Software Supply Chain von Sonatype hat die veröffentlichten Software Komponenten im Vergleich zu den veröffentlichten SBOMs dargestellt. Fast 7M veröffentlichte Komponenten und nur 61k SBOMs. So ähnlich sieht es auch bei unseren Lieferanten aus, die großen sind nicht so problematisch, kleine Nichen-Hersteller die nicht auf Software Entwicklung spezialisiert sind stehen hier vor großen Herausforderungen. 
 =======
@@ -366,12 +367,40 @@ Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein C
 
 **angriff auf die supply chain um das eigentliche Opfer anzugreifen**
 >>>>>>> a5a09447 (docs: review act2)
+=======
+A: Vergessen Sie nicht, dass die SBOMs nur maschienenlesbar sind - oder wollen SIE noch einmal einen blick reinwerfen? 
 
-**SBOMs sind per Definition auch flach abgebildet...bedeutet die Teams brauchen ein tiefes Verständnis der verwendeten Bibliotheken.**
+C: Nein, nein, auf keinen Fall!
+
+A: Das bedeutet wir brauchen ein Tool, das die SBOMs verwalten kann um diese durchsuchbar zu machen und in einem zweitern Schritt Schwachstellen anzeigen kann.
+
+C: Ja, dann haben wir das ja zusammen. Noch ein Tool einkaufen kriegen wir auch noch hin. Dann wissen wir direkt welche Schwachstellen die ganzen Produkte besitzen und die Supply Chain Angriffe beheben. Großartig!
+
+A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg räumen.
+
+C: Wie das? 
+>>>>>>> f9d0146c (docs: supply chain attack explained)
+
+A: Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer die Software Supply Chain einer dritten Partei angreift um dadurch an das eigentliche Opfer zu gelangen.
+
+C: War das bei log4j nicht der Fall?
+
+A: Nein, log4j war eine kritische Zero-Day Schwachstelle, kein Supply Chain Angriff.
+
+C: Aber Supply Chain Angriffe nehmen doch zu...
+
+A: Ja, das stimmt. Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war Solarwinds in 2020: dabei wurde Schadcode in eine Orion Software von SolarWinds eingeschleust, die legitime Anwendung wurde dann von Kunden weltweit installiert. Durch den Schadcode, haben sich die Angreifer Zugriff auf die Zielsysteme verschafft.
 
 C: Verstanden, aber ich möchte dann trotzdem alle Schwachstellen in meinen Produkten kennen.
 
-A: Das ist ein berechtigter Wunsch, leider wird das zunehmend komplexer. Um Schwachstellen zu identifizieren und aufzuzeigen sind diese werden diese zentral angemeldet bei MITRE mit einer eindeutigen CVE-ID. Das ist die größte (?) Datenbank mit allen Schwachstellen und diese sind öffentlich zugänglich. Alle Schwachstellen-scanner tools binden diese Datenbank ein um auf neue Probleme hinzuweise. MITRE war letztens auch in der Presse, da eine große Abhängigkeit von funding von z.B. der USAen Regierung abhängig ist um weiterhin die Leistung zu erbringen. Politische Einflüsse können eine große Auswirkung darauf haben.
+A: Das ist ein berechtigter Wunsch, leider wird das zunehmend komplexer.
+
+C:[ungläubig]..noch mehr?
+
+A: 
+
+
+ Um Schwachstellen zu identifizieren und aufzuzeigen sind diese werden diese zentral angemeldet bei MITRE mit einer eindeutigen CVE-ID. Das ist die größte (?) Datenbank mit allen Schwachstellen und diese sind öffentlich zugänglich. Alle Schwachstellen-scanner tools binden diese Datenbank ein um auf neue Probleme hinzuweise. MITRE war letztens auch in der Presse, da eine große Abhängigkeit von funding von z.B. der USAen Regierung abhängig ist um weiterhin die Leistung zu erbringen. Politische Einflüsse können eine große Auswirkung darauf haben.
 Grundsätzlich ist es schon schwierig an sich diese Datenbasis zu handhaben, da die Qualität der Daten stark con der Community abhängt. Man kann auch klar sehen wie die Anzahl an gemeldeten Schwachstellen von Jahr zu Jahr steigt. *diagram evolution CVEs*
 
 <<<<<<< HEAD
@@ -423,3 +452,5 @@ C:
 Q&A
 
 5 Minuten
+
+**SBOMs sind per Definition auch flach abgebildet...bedeutet die Teams brauchen ein tiefes Verständnis der verwendeten Bibliotheken.**
