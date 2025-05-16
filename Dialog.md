@@ -225,17 +225,37 @@ A: Kritisch ;) Die meisten open source Projekte werden von einzelnen oder wenige
 
 C: Ach nein, das wurde in diesem fiscal year nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
-A: Mal abgesehen von den Open Source Projekten gibt es noch weitere Challenges, ich habe es vorhin kurz angedeutet. SBOMs sind im Kontext neuer Projekte und aktueller Technologien kein Hexenwerk. Bei interpretierten Programmiersprachen wie JavaScript oder Python sind die externen Abhängigkeiten in manifests wie package.json gelistet und können weiterverarbeitet werden. Da erhält man direkt den direkten Bibliotheken die eingesetzt werden. Bei kompilierten Sprachen, werden Abhängigkeiten und Libraries in Binaries verpackt und erfordern deutlich mehr Maintenance und Arbeit von den Entwicklungsteams. Und wir reden gar nicht über Legacy code, bei dem keiner so genau weiß was da reingepackt wurde. Dann sind wir schon beim Endgegner: Compilierte 20 Jahre alte legacy anwendung, die nicht mehr gewartet wird aber trotzdem weiter im Einsatz bleibt. **weniger technisch**
+A: Mal abgesehen von diesen Herausforderungen ist die Erstellung von SBOMs nicht trivial. Die Einfachheit hängt stark von der Programmiersprache und den verwendeten Frameworks ab.
+
+C: Warum denn das? Code ist ja code!
+
+A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man automatisch die direkten Abhängigkeiten einer Application, bei den nächsten Ebenen, den transitiven Abhängigkeiten ist es schon schwieriger.
+
+C: Wir haben aber nicht nur web-applikationen bei uns...
+
+A: Genau, bei Hardware-naher Entwicklung, werden Drittanbieter Bibliotheken anders eingebunden und es gibt keine schöne Liste wie in der Web Welt. Da müssen die Etnwicklungsteams daran arbeiten die Abhängigkeiten klar zu dokumentieren. Je älter die Applikation, je schwieriger es wird eine SBOM dafür zu erstellen.
   
 C: Naja da wird es wohl eine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Das kann ja nicht so schwer sein.
   
-A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. Es gibt Richtlinien und Standards bezüglich der Struktur, alles andere wie Granularität, Tiefe, Beziehung zwischen den Komponenten sind nicht definiert und jeder macht das ein bisschen anders. Da kann man sehr schnell den Überblick verlieren, außerdem ist noch gar nicht definiert ob die gelieferte SBOM korrekt und vollständig ist.
+A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. 
+
+C: Es gibt doch Richtlinien...
+
+A: Ja, die Richtlinien und Standards beziehen sich auf die Struktur.
+
+C: Das ist ja was wir brauchen!
+
+A: Das ist wichtig, aber nicht genug. Granularität, Tiefe, Beziehung zwischen den Komponenten sind nicht definiert und jeder macht das ein bisschen anders. 
+
+C: Stellt das ein echtes Problem dar?
+
+A: So ist es sehr schwer herauszufinden ob eine gelieferte SBOM korrekt und vollständig ist.
 
 C: Tools gibt es ja bereits, ich habe bereits den Prozess initiiert um ein kostenloses Tool für uns auszuwählen um das alles zu beschleunigen.
 
-A: Einige unserer Teams haben bereits SBOMs, die aus den automatisierten Pipelines herauspurzeln. Bei den anderen Teams, wo es um Kompilate geht hängt die Qualität der Tools von den Frameworks und Programmiersprachen ab und worauf sich ein Tool für die automatische SBOM Generierung fokussiert. Die heterogene Landschaft in diesem Kontext bringt weitere Herausforderungen. Man nehme eine Applikation und lässt 2 Tools zur Erstellung von SBOMs drüber laufen: die Ergebnisse werden unterschiedlich sein, und womöglich keine komplett falsch, sondern eher unvollständig. Letztendlich haben wir irgendwann einen Haufen SBOMs, in verschiedenen Tiefen mit denen man wenig anfangen kann.
+A: Wie vorhin bereits angedeutet, einige unserer Teams erstellen SBOMs als Teil der automatisierten Build Pipelines,
 
-**compiled vs anderes weg lassen**
+Einige unserer Teams haben bereits SBOMs, die aus den automatisierten Pipelines herauspurzeln. Bei den anderen Teams, wo es um Kompilate geht hängt die Qualität der Tools von den Frameworks und Programmiersprachen ab und worauf sich ein Tool für die automatische SBOM Generierung fokussiert. Die heterogene Landschaft in diesem Kontext bringt weitere Herausforderungen. Man nehme eine Applikation und lässt 2 Tools zur Erstellung von SBOMs drüber laufen: die Ergebnisse werden unterschiedlich sein, und womöglich keine komplett falsch, sondern eher unvollständig. Letztendlich haben wir irgendwann einen Haufen SBOMs, in verschiedenen Tiefen mit denen man wenig anfangen kann.
 
 C: Dann sollten wir diese ganzen SBOMs ja einfach harmonisieren, das geht bestimmt mit irgendeiner KI.
   
