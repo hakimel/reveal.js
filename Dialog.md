@@ -176,9 +176,9 @@ A: In moderner Software-Entwicklung glücklicherweise nicht, weil sich die Erste
 C: Ach, das ist ja praktisch!
 
 
-## Akt 2 [15min]
+## Akt 2 [15min] -> slide, sip of water, weiter
 
-C: Wow, also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?  
+C: Also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?  
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -197,6 +197,8 @@ A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren könn
 
 C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu uns die SBOMs zu geben! SBOMs macht ja jeder.
 
+//alle machen SBOMs, also müssen wir das auch tun
+
 A: Es stimmt, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da wo wir sein sollten. Fast 7M veröffentlichte Komponenten in 2024 und nur 61k SBOMs. 
 
 C: Nur so wenige???
@@ -205,7 +207,9 @@ A: Die großen Hersteller sind nicht so problematisch, die kleinen Lieferanten, 
 
 C: SBOMs sollten dann trotzdem in den Verträgen bei den nächsten Verlängerungen mit aufgenommen werden...
 
-A: Ja, das stimmt. Das hilt trotzdem nicht ganz so viel, da Open Source Projekte nicht unbedingt eine SBOM liefern müssen.
+//sprung zu weit zum opensource von lieferanten...
+
+A: Ja, das stimmt. Das hilft trotzdem nicht ganz so viel, da Open Source Projekte nicht unbedingt eine SBOM liefern müssen und wir mit denen keine Verträge haben.
 
 C: Na das lässt sich ja auch einfach lösen. Wir verbieten unseren Entwickler:innen Open Source zu verwenden. 
 
@@ -217,19 +221,21 @@ A: 97% der Anwendungen die ein Hersteller gescannt hat, hat open source Komponen
 
 C: Dann nutzen wir kein Linux mehr... 
 
-A: Es geht nicht nur um Betriebssysteme sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD tools, Programmiersprachen und Containertechnologie.
+A: Es geht nicht nur um Betriebssysteme sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD tools, Programmiersprachen und Containertechnologin.
 
-C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen SBOMs zur Verfügung zu stellen um den Marktanteil zu erhöhen.
+C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen SBOMs zur Verfügung zu stellen. Das erhöht ja schlußendlich auch deren Marktanteil
 
-A: Kritisch ;) Die meisten open source Projekte werden von einzelnen oder wenigen Menschen gewartet. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck...da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
+A: Marktanteile spielen im Opensource Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten open source Projekte werden von einzelnen oder wenigen Menschen gewartet. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu. Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
 
-C: Ach nein, das wurde in diesem fiscal year nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
+C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
-A: Mal abgesehen von diesen Herausforderungen ist die Erstellung von SBOMs nicht trivial. Die Einfachheit hängt stark von der Programmiersprache und den verwendeten Frameworks ab.
+A: Mal abgesehen von diesen Herausforderungen ist die Erstellung von SBOMs nicht trivial. Die Komplexität hängt stark von der Programmiersprache und den verwendeten Frameworks ab.
+
+//widerspruch -> einfach SBOM erstellen vs nicht
 
 C: Warum denn das? Code ist ja code!
 
-A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man automatisch die direkten Abhängigkeiten einer Applikation, bei den nächsten Ebenen, den transitiven Abhängigkeiten ist es schon schwieriger.
+A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man automatisch die direkten Abhängigkeiten einer Applikation, bei den nächsten Ebenen, den transitiven Abhängigkeiten kann es schon schwieriger werden.
 
 C: Wir haben aber nicht nur web-applikationen bei uns...
 
@@ -253,7 +259,7 @@ A: So ist es sehr schwer herauszufinden ob eine gelieferte SBOM korrekt und voll
 
 C: Das sollte man ja technisch lösen können, es gibt ha bereits verschiedenste Tools auf dem Markt! Ich habe bereits den Prozess initiiert um ein kostenloses Tool für uns auszuwählen um das alles zu beschleunigen.
 
-A: Wie vorhin bereits angedeutet, einige unserer Teams erstellen SBOMs als Teil der automatisierten Build Pipelines, die direkten Abhängigkeiten sind da auch enthalten, bei den transitiven Abhängigkeiten kann es dann schnell komplex werden und zwei Tools zur automatischen Erstellung von SBOMs würden höchstwahrscheinlich verschiedene Ergebnisse liefern.
+A: Wie vorhin bereits angedeutet, einige unserer Teams erstellen SBOMs als Teil der automatisierten Build Pipelines, zwei Tools zur automatischen Erstellung von SBOMs würden höchstwahrscheinlich verschiedene Ergebnisse liefern. //review satz
 
 C: Na da muss dann eins falsch sein!
 
@@ -269,13 +275,21 @@ A: die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller 
 
 C: Können wir nicht allen einfach einen link zu unserem Sharepoint geben?  
 
+// schlechte Überleitung
+
 A: *verdrehte augen* Aktuell kommen die meisten SBOMs auf Anfrage bei uns an. Die Integrität der Dokumente wird aktuell nicht berücksichtigt. 
 
 C: Da gibt es ja bewährte Methoden, wie z.B. Signaturen oder Checksums die man auch an anderer Stelle benutzt.
 
-A: Ja, hier muss man aktuell noch alles händisch signieren und auch so anfordern, da es nicht standardisiert ist.
+A: Ok, dann bekommen wir eine signierte SBOM, woher wissen wir dass die Person diese signieren darf?
 
-C: Aber wenn wir die SBOMs von allen Applikationen, in jeder Version bei uns dann haben...ist das ein vollständiges Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
+C: Sie haben wohl wirklich Zero Trust
+
+A: -.-
+
+C: Nun ja, dann nehmen wir mal das was wir bekommen können her. Das ist dann mein Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
+
+//fehlt menge an einzelnen SBOMs und thats it, in jeder SBOM einzeln prüfen müssen
 
 <<<<<<< HEAD
 <<<<<<< HEAD
