@@ -478,7 +478,7 @@ A: Naja mit der SCA wird die Applikation nach OSS durchsucht und überprüft ob 
 
 C: Das klingt aber nach nichts neuem...
 
-A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es schon seit einiger Zeit.
+A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten und erweitert um kommerzielle Componenten. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es schon seit einiger Zeit.
 
 C: Aber was soll das dann konkret bringen?
 
