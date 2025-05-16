@@ -397,12 +397,13 @@ A: Das ist ein berechtigter Wunsch, leider wird das zunehmend komplexer.
 
 C:[ungläubig]..noch mehr?
 
-A: 
+A: Machen wir einen kurzen Schritt zurück, was haben Schwachstellen mit SBOMs zu tun und wie funktioniert die Zuordnung?
 
+C: Stimmt eigentlich, die SBOM ist ja nur eine Liste an Komponenten mit einigen Details...
 
- Um Schwachstellen zu identifizieren und aufzuzeigen sind diese werden diese zentral angemeldet bei MITRE mit einer eindeutigen CVE-ID. Das ist die größte (?) Datenbank mit allen Schwachstellen und diese sind öffentlich zugänglich. Alle Schwachstellen-scanner tools binden diese Datenbank ein um auf neue Probleme hinzuweise. MITRE war letztens auch in der Presse, da eine große Abhängigkeit von funding von z.B. der USAen Regierung abhängig ist um weiterhin die Leistung zu erbringen. Politische Einflüsse können eine große Auswirkung darauf haben.
-Grundsätzlich ist es schon schwierig an sich diese Datenbasis zu handhaben, da die Qualität der Daten stark con der Community abhängt. Man kann auch klar sehen wie die Anzahl an gemeldeten Schwachstellen von Jahr zu Jahr steigt. *diagram evolution CVEs*
+A: Durch dieses Inventar bekommt das Team in erster Linie einen Überblick über deren Abhängigkeiten. Durch die Informationen wie Hersteller, Name und Version der Komponenten wird ein eindeutiger String generiert, der die Komponente eindeutig identifiziert, der CPE-String (Common Platform Enumeration).
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 **zusammenhang zwischen SBOM und vulnerabilities**
@@ -414,16 +415,52 @@ Grundsätzlich ist es schon schwierig an sich diese Datenbasis zu handhaben, da 
 
 >>>>>>> a5a09447 (docs: review act2)
 C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
+=======
+C: Wozu soll der gut sein?
 
-A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fas "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert. Es wird somit verschiedene IDs geben, ob eine 1:1 Mapping immer gewährlistet wird, ist dann auch fragwürdig und wird sich noch herausstellen. Außerdem müssen die verschiedenen Tools, die nach Schwachstellen schauen diese Datenbanken alle unterstützen.
+A: Bei der Veröffentlich von Schwachstellen, werden die gleichen Informationen abgefragt, die in der SBOM enthalten sind...sodass jede Schwachstelle einem oder mehreren CPEs zugewiesen wird. 
+>>>>>>> ef9b1027 (docs: vulnerabilities expanded)
+
+C: Und damit matchen die Hersteller die CPEs in den SBOMs mit denen der Schwachstellen...
+
+A: Genau so, das führt uns auch schon zur nächsten Herausforderung. Nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig dass diese ausgenutzt werden kann.
+
+C: Wie geht das denn? Schwachstelle ist Schwachstelle
+
+A: Nicht wirklich, wenn die Entwickler:innen den Teil nicht benutzen der von der Schwachstelle betroffen ist, dann haben Angreifende auch nicht die Möglichkeit diese zu misbrauchen. Das ist das Konzept der Exploitability.
+
+C: Das muss man doch feststellen können, oder?
+
+A: Ja, die Entwickler:innen der jeweiligen Komponenten und Bibliotheken müssen das bewerden und damit umgehen. Mit den SBOMs erhalten wir erstmal nur eine Liste mit allen Schwachstellen die zu einer gewissen Version einer Komponente gemappt werden.
 
 C: hm, schwierig... ha! dann sollten doch einfach die anbieter am besten selber testen und die ergebnisse in die SBOM mit einfügen!  
 
-A: Ja, das gibt es auch schon. Das ist das sogenannte VEX "Vulnerability Exploitability eXchange", wieder ein machine-readable Dokument, das die SBOM erweitern kann um die Ausnutzbarkeit von Schwachstellen zu klären. Hier ist ein Punkt ganz besonders wichtig, die entdeckung neuer Schwachstellen ist nicht statisch, das Vex Dokument aber schon. Oder ein Hersteller müsste bei jeder neuen Schwachstelle in Componenten in ihrer Software eine neue Vex für ein Produkt zur Verfügung stellen. Denn 99% der Zeit kann nur das Entwicklungsteam eine aussage treffen ob eine bestimmte Schwachstelle ausnutzbar ist. Aktuell gibt es keine besonderen Anreize für die Supplier um Schwachstellen zu veröffentlichen.
+A: Ja, das gibt es auch schon. Das ist das sogenannte VEX "Vulnerability Exploitability eXchange"
+
+C: Wieder ein nur maschinell lesbares Dokument? -.- 
+
+A: Ja, das kann die SBOM erweitern um die Ausnutzbarkeit von Schwachstellen zu klären in den aufgelisteten Komponenten.
+
+C: Klingt doch vielversprechend?
+
+A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sind ein bisschen dynamischer. Der VEX gibt mir nur einen Snapshot zu einem gewissen Zeitpunkt. Wenn neue Schwachstellen entdeckt werden muss der Hersteller diese neu bewerten und uns eine neue VEX Datei für das Produkt schicken.
+
+C: Ja, dann ertrinken wir ja diesen Unterlagen!
+
+A: Genau und zum Thema Schwachstellen Management kommt noch hinzu dass die größte Datenbank an CVEs von MITRE betrieben... 
+
+C: Die waren letztens doch in der Presse wegen der auslaufenden Finanzierung
+
+A: Ja, das CVE-Programm wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern. Das Programm ist ein Eckpfeiler der globalen Sicherheit, man hat aber gemerkt wie politische Einflüsse sich darauf auswirken können.
+
+C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
+
+A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fast "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
 
 C: Das klingt irgendwie alles nicht besonders vielversprechend!
 
-A: Um nochmal zurück auf das Thema Supply chain Angriffe zurückzukommen. Wenn ein Drittanbieter von dem wir Software beziehen, dann kann diese auch potentiell kompormittiert werden. Es gibt kein standardisiertes Verfahren, dass die SBOMs auf Integrität und Authentizität prüft.
+A: 
+
 
 C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
 
