@@ -457,20 +457,24 @@ C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollt
 
 A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fast "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
 
-C: Das klingt irgendwie alles nicht besonders vielversprechend!
-
-A: 
-
-
 C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
+
 
 ## Akt 3
 
-A: Ich kann die Frustration gut nachvollziehen. SBOMs können aber auch einen sinnvollen Einsatz haben. Nur sind sie nicht die silver bullet die man sich oft erhofft. SBOMs werden in vielen Regularien genannt und bilden die Grundlage für sichere Produkte wie z.B. der CRA. Da wir das somit eh machen müssen, sollten wir auch was sinnvolles damit anstellen und nicht nur wie eine Checkbox betrachten.
+A: Ich kann die Frustration gut nachvollziehen. SBOMs können aber auch einen sinnvollen Einsatz haben. Nur sind sie nicht die silver bullet die man sich oft erhofft.
+
+C: Und das wäre?
+
+A: Auf der einen Seite, werden SBOMs in neuen Regularien genannt und bilden die Grundlage für sichere Produkte wie z.B. der CRA. Da wir das somit eh machen müssen, sollten wir auch was sinnvolles damit anstellen und nicht nur wie eine Checkbox betrachten.
 
 C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie zerrissen...
 
-A: In der Software Entwicklung ist ein thema von vitaler Wichtigkeit: Dependencies tracken. Entwicklungsteams müssen ihre Abhängigkeiten managen, updaten, patchen und warten. Wenn Componenten z.B. End-of-life gehen müssen diese ausgetauscht werden und man muss nicht nur den selbst-geschriebenen Code absichern, sondern vielmehr die Abhängigkeiten.
+A: In der Software Entwicklung ist ein thema von vitaler Wichtigkeit: Abhängigkeiten tracken. Das macht man in Bezug auf Open Source Packages mit einer Software Composition Analyse.
+
+C: Was bringt mir das?
+
+A: Naja mit der SCA wird die Applikation nach OSS durchsucht und überprüft ob die Komponenten aktuell sind, schwachstellen enthalten und ob diese problematische Lizenzen beinhalten.
 
 C: Das klingt aber nach nichts neuem...
 
