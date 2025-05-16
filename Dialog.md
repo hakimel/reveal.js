@@ -41,13 +41,18 @@ A: Was?
 C: Software... Billy...
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 A: waren sie wieder auf einem Compliance Kongress? *-> compliance meme*
 =======
 A: Software Bills of Materials? SBOMs?
 >>>>>>> 53e51699 (Erster Akt)
+=======
+A: Software Bill of Materials? SBOMs?
+>>>>>>> a7f351ce (docs: vendor vs. oss)
 
-C: Ja genau, hab ich ja gesagt! Die müssen jetzt alle erstellen, um ihre Security Posture zu verbessern!.
+C: Ja genau, hab ich ja gesagt! Die müssen jetzt alle erstellen, um ihre Security Posture zu verbessern!
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 A: SBOMs die Lösung von supply chain attacks? Wissen sie was eine SBOMs ist? Ich glaube wir müssen auch noch kurz das Thema Supply Chain Angriff näher beleuchten! *-> SBOM meme*
 =======
@@ -65,10 +70,19 @@ A: Gar nicht soooo schlecht. Nur ist das sehr realitätsfern. In der modernen So
 =======
 A: SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOMs ist?
 >>>>>>> 53e51699 (Erster Akt)
+=======
+A: Waren sie wieder auf einem Compliance Kongress?
+
+[SBOM meme]
+
+C: Woher... [sammelt sich kurz] Die Anzahl an Supply Chain Attacks wie log4j hat in den letzten Jahren so stark zugenommen und wir müssen uns dagegen schützen. Hier gibt es mit SBOMs wirklich eine tolle Lösung!
+
+A: SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOM ist?
+>>>>>>> a7f351ce (docs: vendor vs. oss)
 
 C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Lebensmittel enthalten ist, nur halt für Software. Also 30 Zeilen HTML, 50 Zeilen Java, sowas halt.
 
-A: Gar nicht mal soooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseit recht komplex, andererseits wird es immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
+A: Gar nicht mal sooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseits recht komplex, andererseits wird es immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
 
 C: Die Entwickler:innen nehmen schon fertigen Code aus dem Internet? Wofür geben wir denn dann Unmengen an Geld für die Entwicklungsteams aus?
 
@@ -157,31 +171,57 @@ A: Richtig.
 
 C: Ist das nicht ein Riesenaufwand? Ist das der Grund, warum die Entwickler:innen immer so stark ausgelastet sind?
 
-A: In moderner Software-Entwicklung glücklicherweise nicht, weil sich die Erstellung im Build Process automatisieren lässt; die SBOM wird also jedes Mal automatisch generiert, wenn wir aus dem Quellcode das entsprechende Programm kompilieren.
+A: In moderner Software-Entwicklung glücklicherweise nicht, weil sich die Erstellung im Build Process automatisieren lässt; die SBOM wird also jedes Mal automatisch generiert, wenn wir aus dem Quellcode das entsprechende Programm bauen.
 
 C: Ach, das ist ja praktisch!
 
 
 ## Akt 2 [15min]
 
-C: Wow, also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir einsetzen?  
+C: Wow, also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?  
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 A: Teilweise. Für unsere moderneren Applikationen, dessen build und deployment Prozess durchautomatisiert ist, ist die Erstellung einer SBOM trivial. Viele Legacy Anwendungen, speziell die auf compilierte Sprachen basieren, stehen vor großen Herausforderungen. Und dabei haben wir noch nicht unsere Zulieferer betrachtet.
 
 C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu uns die SBOMs zu geben! Jeder macht das ja und alle tun das
 <<<<<<< HEAD
+=======
+A: Ja, teilweise. Unsere Entwickler:innen arbeiten dran, SBOMs für unsere Produkte zu erstellen. 
 
-A: Es geht aber nicht nur um die Lieferanten, die komplette Software Industrie hinkt noch sehr stark bei der Erstellung von SBOMs hinterher. Fast 7M veröffentlichte Komponenten und nur 61k SBOMs. So ähnlich sieht es auch bei unseren Lieferanten aus, die großen sind nicht so problematisch, kleine Nichen-Hersteller die nicht auf Software Entwicklung spezialisiert sind stehen hier vor großen Herausforderungen. Außerdem, ist Open Source aus den aktuellen Regularien wie den Cyber Resilience Act oder die Executive Direktive, und FDA in den USA, die SBOMs vorschreiben, großteils ausgenommen. **-> review OSS sentence**
+C: ..und dann sind wir ja fertig damit! Prima!
+>>>>>>> a7f351ce (docs: vendor vs. oss)
+
+A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können brauchen wir die SBOMs von Komponenten die von unseren Lieferanten kommen.
+
+C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu uns die SBOMs zu geben! SBOMs macht ja jeder.
+
+A: Es stimmt, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da wo wir sein sollten. Fast 7M veröffentlichte Komponenten in 2024 und nur 61k SBOMs. 
+
+C: Nur so wenige???
+
+A: Die großen Hersteller sind nicht so problematisch, die kleinen Lieferanten, in bestimmten Nichen die nicht auf Software-Entwicklung spezialisiert sind haben es schon schwieriger.
+
+C: SBOMs sollten dann trotzdem in den Verträgen bei den nächsten Verlängerungen mit aufgenommen werden...
+
+A: Ja, das stimmt. Das hilt trotzdem nicht ganz so viel, da Open Source Projekte nicht unbedingt eine SBOM liefern müssen.
 
 C: Na das lässt sich ja auch einfach lösen. Wir verbieten unseren Entwickler:innen Open Source zu verwenden. 
 
-A: Sie haben keine wirkliche Ahnung wie viel Open Source bei uns im Unternehmen verwendet wird, oder? Je nach 97% der Anwendungen die Sie gescannt haben, open source Komponenten im Einsatz haben. Es geht nicht nur um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, sondern auch bei Datenbanktechnologien, CI/CD tools, Programmiersprachen und Containertechnologie.
+A: Sie haben keine wirkliche Ahnung wie viel Open Source bei uns im Unternehmen verwendet wird, oder? 
+
+C: Das kann doch nicht so viel sein
+
+A: 97% der Anwendungen die ein Hersteller gescannt hat, hat open source Komponenten im Einsatz.
+
+C: Dann nutzen wir kein Linux mehr... 
+
+A: Es geht nicht nur um Betriebssysteme sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD tools, Programmiersprachen und Containertechnologie.
 
 C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen SBOMs zur Verfügung zu stellen um den Marktanteil zu erhöhen.
 
-A: Kritisch ;) Die meisten open source Projekte sind tatsächlich von einzelnen Maintainern abhängig...overload, wenig zeit, kein support. Wir als Unternehmen könnten da sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
+A: Kritisch ;) Die meisten open source Projekte werden von einzelnen oder wenigen Menschen gewartet. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck...da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
 
 C: Ach nein, das wurde in diesem fiscal year nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
