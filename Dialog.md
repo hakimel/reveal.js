@@ -9,9 +9,9 @@ Rollen:
 ## Setting the Stage
 
 Slides:
-- Disclaimer
-- No CISOs were harmed
-- 1. Akt
+- #1 Disclaimer
+- #2 No CISOs were harmed
+- #3 1. Akt
 
 Architektin sitzt mit Laptop am Tisch und arbeitet  
 CISO kommt herein, kommt zu Architektin, setzt sich 'legere' auf die Tischkante
@@ -21,6 +21,8 @@ CISO kommt herein, kommt zu Architektin, setzt sich 'legere' auf die Tischkante
 C: Einen wunderschönen guten Morgen, Frau Mair! Wie geht's uns denn heute?
 
 A [verdreht Augen]: Guten Morgen. Ich kann ja nur für mich sprechen, aber wir haben gerade monsterviel Stress mit...
+
+- #4 State of supply chain attacks
 
 C: Mir geht es grandios, danke der Nachfrage!
 
@@ -54,6 +56,7 @@ C: Ja genau, hab ich ja gesagt! Die müssen jetzt alle erstellen, um ihre Securi
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 A: SBOMs die Lösung von supply chain attacks? Wissen sie was eine SBOMs ist? Ich glaube wir müssen auch noch kurz das Thema Supply Chain Angriff näher beleuchten! *-> SBOM meme*
 =======
 A: Waren sie wieder auf einem Compliance Kongress? **-> compliance meme**
@@ -72,8 +75,11 @@ A: SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOMs 
 >>>>>>> 53e51699 (Erster Akt)
 =======
 A: Waren sie wieder auf einem Compliance Kongress?
+=======
+- #5 Spongebob SBOMs
+>>>>>>> e5ae364b (docs: fixed all comments in act 2)
 
-[SBOM meme]
+A: Waren sie wieder auf einem Compliance Kongress?
 
 C: Woher... [sammelt sich kurz] Die Anzahl an Supply Chain Attacks wie log4j hat in den letzten Jahren so stark zugenommen und wir müssen uns dagegen schützen. Hier gibt es mit SBOMs wirklich eine tolle Lösung!
 
@@ -81,6 +87,8 @@ A: SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOM i
 >>>>>>> a7f351ce (docs: vendor vs. oss)
 
 C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Lebensmittel enthalten ist, nur halt für Software. Also 30 Zeilen HTML, 50 Zeilen Java, sowas halt.
+
+- #8 blackduck scan folie
 
 A: Gar nicht mal sooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseits recht komplex, andererseits wird es immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
 
@@ -107,11 +115,15 @@ A: Richtig. Und diese Komponenten haben wiederum ihre eigenen Abhängigkeiten, a
 
 C: ...und die wiederum...
 
+- #9 direct/transitive dependencies
+
 A: So können also auch schon wenige _direkte_ Komponenten einen Rattenschwanz an weiteren Abhängigkeiten nachladen.
 
 C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
 
 A [grinst] ...und genau da kommen SBOMs ins Spiel!
+
+- #12 SBOM contents
 
 C: Ja klar, die Zutatenliste, wusste ich doch!
 
@@ -119,7 +131,7 @@ A: Sehr gut! SBOMs sind folglich standardisierte Strukturen, in denen die wichti
 
 C: Oh, ja, gerne!
 
-[SPDX Slide]
+- #13 SPDX slide
 
 >>>>>>> 53e51699 (Erster Akt)
 C: Oh, das kann ja kein Mensch lesen!!
@@ -195,11 +207,13 @@ C: ..und dann sind wir ja fertig damit! Prima!
 
 A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können brauchen wir die SBOMs von Komponenten die von unseren Lieferanten kommen.
 
-C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu uns die SBOMs zu geben! SBOMs macht ja jeder.
+C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
 
-//alle machen SBOMs, also müssen wir das auch tun
+- #15 cumulative SBOMs
 
-A: Es stimmt, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da wo wir sein sollten. Fast 7M veröffentlichte Komponenten in 2024 und nur 61k SBOMs. 
+A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da wo wir sein sollten. Fast 7M veröffentlichte Komponenten in 2024 und nur 61k SBOMs. 
+
+- #17 cumulative vs. packages
 
 C: Nur so wenige???
 
@@ -207,9 +221,11 @@ A: Die großen Hersteller sind nicht so problematisch, die kleinen Lieferanten, 
 
 C: SBOMs sollten dann trotzdem in den Verträgen bei den nächsten Verlängerungen mit aufgenommen werden...
 
-//sprung zu weit zum opensource von lieferanten...
+A: Wie vorhin kurz angedeutet, beinhalten unsere Anwendungen nicht nur Componenten von unseren Lieferanten, sondern auch...
 
-A: Ja, das stimmt. Das hilft trotzdem nicht ganz so viel, da Open Source Projekte nicht unbedingt eine SBOM liefern müssen und wir mit denen keine Verträge haben.
+C: Opensource Teile
+
+A: Genau, und diese Projekte müssen nicht unbedingt eine SBOM liefern, Verträge haben wir in diesen Fällen auch nicht.
 
 C: Na das lässt sich ja auch einfach lösen. Wir verbieten unseren Entwickler:innen Open Source zu verwenden. 
 
@@ -225,13 +241,15 @@ A: Es geht nicht nur um Betriebssysteme sondern um Bibliotheken, die Entwickler:
 
 C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen SBOMs zur Verfügung zu stellen. Das erhöht ja schlußendlich auch deren Marktanteil
 
+- #18 maintainer open source
+
 A: Marktanteile spielen im Opensource Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten open source Projekte werden von einzelnen oder wenigen Menschen gewartet. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu. Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
+
+- #19 sponsor open source
 
 C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
-A: Mal abgesehen von diesen Herausforderungen ist die Erstellung von SBOMs nicht trivial. Die Komplexität hängt stark von der Programmiersprache und den verwendeten Frameworks ab.
-
-//widerspruch -> einfach SBOM erstellen vs nicht
+A: Mal abgesehen von diesen Herausforderungen, hängt die Komplexität für die Erstellung einer SBOM stark von der Programmiersprache und den verwendeten Frameworks ab.
 
 C: Warum denn das? Code ist ja code!
 
@@ -257,9 +275,9 @@ C: Stellt das ein echtes Problem dar?
 
 A: So ist es sehr schwer herauszufinden ob eine gelieferte SBOM korrekt und vollständig ist.
 
-C: Das sollte man ja technisch lösen können, es gibt ha bereits verschiedenste Tools auf dem Markt! Ich habe bereits den Prozess initiiert um ein kostenloses Tool für uns auszuwählen um das alles zu beschleunigen.
+C: Das sollte man ja technisch lösen können, es gibt ja bereits verschiedenste Tools auf dem Markt! Ich habe bereits den Prozess initiiert um ein kostenloses Tool für uns auszuwählen um das alles zu beschleunigen.
 
-A: Wie vorhin bereits angedeutet, einige unserer Teams erstellen SBOMs als Teil der automatisierten Build Pipelines, zwei Tools zur automatischen Erstellung von SBOMs würden höchstwahrscheinlich verschiedene Ergebnisse liefern. //review satz
+A: Wie vorhin bereits angedeutet, einige unserer Teams erstellen SBOMs als Teil der automatisierten Build Pipelines. Würden wir jetzt zwei Tools zur automatischen Erstellung von SBOMs über die Anwendungen laufen lasseen, würden diese mit hoher Wahrscheinlichkeit verschiedene Ergebnisse liefern.
 
 C: Na da muss dann eins falsch sein!
 
@@ -273,13 +291,11 @@ C: Was kann denn jetzt noch fehlen?
 
 A: die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wieder stellen sie via Email auf Anfrage zur Verfügung.
 
-C: Können wir nicht allen einfach einen link zu unserem Sharepoint geben?  
+C: Das ist doch super aufwendig.
 
-// schlechte Überleitung
+A: Genau, wir fragen die aktuell meistens per Email an und auf dem selben Weg erhalten wir diese auch. So richtig können wir dabei auch die Integrität und Authentizität der SBOMs nicht überprüfen.
 
-A: *verdrehte augen* Aktuell kommen die meisten SBOMs auf Anfrage bei uns an. Die Integrität der Dokumente wird aktuell nicht berücksichtigt. 
-
-C: Da gibt es ja bewährte Methoden, wie z.B. Signaturen oder Checksums die man auch an anderer Stelle benutzt.
+C: Dafür gibt es ja bewährte Methoden, wie z.B. Signaturen oder Checksums die man auch an anderer Stelle benutzt.
 
 A: Ok, dann bekommen wir eine signierte SBOM, woher wissen wir dass die Person diese signieren darf?
 
@@ -289,6 +305,7 @@ A: -.-
 
 C: Nun ja, dann nehmen wir mal das was wir bekommen können her. Das ist dann mein Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
 
+<<<<<<< HEAD
 //fehlt menge an einzelnen SBOMs und thats it, in jeder SBOM einzeln prüfen müssen
 
 <<<<<<< HEAD
@@ -383,6 +400,9 @@ Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein C
 >>>>>>> a5a09447 (docs: review act2)
 =======
 A: Vergessen Sie nicht, dass die SBOMs nur maschienenlesbar sind - oder wollen SIE noch einmal einen blick reinwerfen? 
+=======
+A: Erstmal haben Sie nur eine Menge einzelner Dokumente die händisch durchsucht werden müssten. Und vergessen Sie nicht, dass die SBOMs nur maschienenlesbar sind - oder wollen SIE noch einmal einen blick reinwerfen? 
+>>>>>>> e5ae364b (docs: fixed all comments in act 2)
 
 C: Nein, nein, auf keinen Fall!
 
@@ -399,19 +419,19 @@ A: Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ei
 
 C: War das bei log4j nicht der Fall?
 
-A: Nein, log4j war eine kritische Zero-Day Schwachstelle. //Die Angriffsvektoren einer Supply Chain Attacke sind z.B. ...Malicious code -> genau wie bei solarwinds
+A: Nein, log4j war eine kritische Zero-Day Schwachstelle. Supply Chain Angriffe sind zum Beispiel, schadcode in einem legitimen Code-Repository zu injizieren oder die Entwendung von Zertifikaten zum Signieren von Anwendungen.
 
 C: Aber Supply Chain Angriffe nehmen doch zu...
 
-A: Ja, das stimmt. Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war Solarwinds in 2020: dabei wurde Schadcode in eine Orion Software von SolarWinds eingeschleust, die legitime Anwendung wurde dann von Kunden weltweit installiert. Durch den Schadcode, haben sich die Angreifer Zugriff auf die Zielsysteme verschafft. //Solarwinds einfacher erklären, build system wurde kompromittiert um schadhafte updates an die eigenltichen Ziele zu verteilen
+A: Ja, das stimmt. Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war Solarwinds in 2020: dabei wurde deren Build System kompromittiert und hat den Angreifern ermöglicht schadcode in das entwickelte Produkt einzubauen. Die Kunden haben dann die Software installiert, weil diese von ihrem Lieferanten kam und damit haben sich die Angreifer Zugriff auf die Zielsysteme verschafft.
 
 C: Ja, das würden ja anhand von der SBOM verstehen, dass da was drin ist was nicht da sein sollte.
 
 A: Aber woher erhalten wir die SBOM?
 
-C: Ja vom Anbieter
+C: Ja... vom Anbieter!
 
-A: Der kompromittiert wurde und wahrscheinlich auch die SBOM entsprechend anpasst. Das Vertrauen in dieses Artefakt ist nicht möglich herzustellen //review
+A: Der kompromittiert wurde und wahrscheinlich auch die SBOM entsprechend anpasst. Außerdem wenn was neues eingebaut wird, muss die SBOMs sich nicht notwendigerweise ändern. Es ist ausgeschlossen, dass Angreifer ihre Schadsoftware in der SBOM als solche auflisten :D 
 
 C: Verstanden, also helfen SBOMS gar nicht gegen supply chain attacken?
 
@@ -443,21 +463,21 @@ A: Ja, das schon eher, weil es Dependency mit einer kritischen Schwachstelle ist
 
 C: Das war ja ein Alptraum herauszufinden wo das im Einsatz war. Jetzt hätten wir ja die Schwachstellen alle in der SBOM gelistet.
 
-A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt das Team in erster Linie einen Überblick über deren Abhängigkeiten. Durch die Informationen wie Hersteller, Name und Version der Komponenten wird ein eindeutiger String generiert, der die Komponente eindeutig identifiziert. //CPE in Folie, technische Details ausblenden
+A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt das Team in erster Linie einen Überblick über deren Abhängigkeiten. Durch die Informationen wie Hersteller, Name und Version der Komponenten diese eindeutig identifiziert.
 
 C: Und woher kriegen wir dann die Schwachstellen zu den Abhängigkeiten?
 
 A: Die werden gegen Datenbanken gecheckt. Und wir begeben uns in deren Abhängigkeit. Die größte Datenbank an CVEs von MITRE betrieben... 
 
-C: Die waren letztens doch in der Presse wegen der auslaufenden Finanzierung
+C: Die waren letztens doch in der Presse wegen der Entscheidung des USA Präs das Programm nicht weiter zu Unterstützen.
 
-A: Das war eine bewusste Entscheidung, die von politischen Einflüssen stammt. Das CVE-Programm wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern, weil Sicherheitsforscher:innen und Unternehmen dort die bekannten Schwachstellen melden. Das Programm ist ein Eckpfeiler der globalen Sicherheit, man hat aber gemerkt wie politische Einflüsse sich darauf auswirken können.
+A: Ja genau. Es wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern, weil Sicherheitsforscher:innen und Unternehmen dort die bekannten Schwachstellen melden. Das Programm ist ein Eckpfeiler der globalen Sicherheit, man hat aber gemerkt wie politische Einflüsse sich darauf auswirken können.
 
 C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
 
-A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von einer fast "signle source of truth", das die MITRE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
+A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von der aktuellen "signle source of truth", das die CVE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
 
-C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar bin. Doppel gemoppelt hält ja besser!
+C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar bin. Doppelt gemoppelt hält ja besser!
 
 A: Naja, wir haben dann eine sehr lange liste an Schwachstellen. Aber nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig dass diese ausgenutzt werden kann.
 
@@ -483,7 +503,13 @@ A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sin
 
 C: Ja, dann ertrinken wir ja diesen Unterlagen!
 
-A: //Anreiz vulnerabilities nicht exploitable zu markieren, und kein standardisiertes Testen gegen Schwachstellen
+A: Nicht nur das, Hersteller haben natürlich einen impliziten Anreiz zu zeigen, dass sie von wenigen Schwachstellen betroffen sind. Und wir können nicht bewerten ob und wie der Hersteller bestimmte die Anwendbarkeit getestet hat. 
+
+C: Weil es auch hier an einheitlichen Ansätzen fehlt?
+
+A: Ja, sowohl bei SBOMs als auch VEX Dokumente müssen wir darauf vertrauen, dass die Verfasser:innen ordentlich arbeiten und wissen was sie tun... ;)
+
+C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
 
 
 ## Akt 3
@@ -521,8 +547,6 @@ Q&A
 5 Minuten
 
 **SBOMs sind per Definition auch flach abgebildet...bedeutet die Teams brauchen ein tiefes Verständnis der verwendeten Bibliotheken.**
-
-C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
 
 // developer awareness -> Bewusstsein wie sie mit abhängigkeiten umgehen -> reduce, woran erkenne ich eine gute vs böse Dependency -> wo problematisch openssf checken -> kennzahlen was eine gute dependency
 
