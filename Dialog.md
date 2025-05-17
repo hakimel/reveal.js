@@ -534,25 +534,48 @@ A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in
 
 C: Aber was soll das dann konkret bringen?
 
-A: Naja, eine sinnvolle Inventarisierung gekoppelt mit entsprechender Governance rund um das Monitoring, Schwachstellen Management wie es schon auf Infrastruktur erfolgt auf die Software anwenden -> dies gibt einem Unternehmen eine sehr gute visibility in die Software und kann dann auch darauf besser reagieren. Und ja, mit einem ordentlichen Inventar, kann man sich bei einer kritischen zero-day lücke wie log4j das Leben leichter machen und schneller identifizieren wo diese zu finden ist, allerdings nur unter der Annahme dass die SBOMs gepflegt, richtig, zentral durchsuchbar und up to date sind.
+A: Das kann hilfreich sein um die Awareness der Entwickler:innen zu erhöhen so wenig Abhängigkeiten wie möglich einzubinden. Aber ihnen auch helfen Kriterien zu definieren für Komponenten die nicht in produktive Software eingebaut werden sollten.
+
+C: Komponenten mit zu vielen Schwachstellen zum Beispiel?
+
+A: Das ist ein Parameter der bei der Entscheidung helfen kann, aber nicht nur...wichtig ist auch ob die Library weiterhin maintained wird oder wie häufig diese verwendet wird. Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekten direkt in den Pipelines.
+
+C: Sollten das Entwickler:innen nicht schon alles kennen?
+
+A: Nicht unbedingt, das Thema gewinnt immer mehr an wichtigkeit und sollte auch so weitergeben werden. Wie sie schon sagten..."Doppelt gemoppelt hält ja besser!"
+
+C: Also sind die Entwickler:innen die Verantwortlichen rund um die SBOMs
+
+A: So weit würde ich nicht gehen, die Entwicklungsteams müssen sicherstellen, dass sie nur die nötigen und "guten" Abhängigkeiten einbauen und diese regelmäßig aktualisieren während der Entwicklung. Ein netter side-effect ist, dass man durch die transitiven Abhängigkeiten einen besseren Einblick in die Lizenzen der open source bibliotheken hat... //wollen wir das Fass aufmachen??
+
+C: Wer soll da noch was tun?
+
+A: Es Bedarf auch einer ordentlichen Governance und Monitoring rund um Produkte die auf dem Markt sind und den ganzen Hersteller SBOMs.
+
+C: Es reicht nicht aus einfach die SBOMs irgendwo liegen zu haben.
+
+A: Nein, die müssen zentral gemonitort werden um neue kritische Schwachstellen zu identifizieren, bewerten und in die Kommunikation mit Entwicklungsteams und Lieferanten zu treten. 
 
 C: *nachdenklich*
 
 A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen mit SBOMs zu Arbeiten. Z.B. indem man die Infromationen der SBOM wie vulnerabilities mit in ein DAST tool fließen lässt um z.B. die Exploitability zu überprüfen und das Produkt zu verbessen.
 
-C: 
+..... -> hier fehlt noch was
 
-Q&A
+C: Großartig! Toll dass Sie da auch meiner Meinung sind!
+
+[C schaut auf's Handy]
+
+C: Oh, entschuldigen Sie bitte, da muss ich rangehen. Arbeiten Sie mir dann bitte mal ein Konzept aus, wie wir die besprochenen Sachen alle im nächsten Quartal umsetzen können. Schaffen Sie das bis nächste Woche?
+
+[C nimmt Handy ans Ohr]
+
+C: Ja Tachchen Hermann! Du, wir machen jetzt auch SBOMs... ja, richtig, die Supply Chain Attacken sind damit abgewehrt
+
+[A schlägt die Hände vor's Gesicht]
+
+## Q&A
 
 5 Minuten
-
-**SBOMs sind per Definition auch flach abgebildet...bedeutet die Teams brauchen ein tiefes Verständnis der verwendeten Bibliotheken.**
-
-// developer awareness -> Bewusstsein wie sie mit abhängigkeiten umgehen -> reduce, woran erkenne ich eine gute vs böse Dependency -> wo problematisch openssf checken -> kennzahlen was eine gute dependency
-
-//governance -> nicht nur alles mögliche haben -> man braucht lifecycle mgmt
-
-//
-
 
 Streichkandidaten: Integrität, ENISA, VEX,...
