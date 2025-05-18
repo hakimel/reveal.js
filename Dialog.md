@@ -297,8 +297,7 @@ A: Genau, wir fragen die aktuell meistens per Email an und auf dem selben Weg er
 
 C: Dafür gibt es ja bewährte Methoden, wie z.B. Signaturen oder Checksums die man auch an anderer Stelle benutzt.
 
-A: Ok, dann bekommen wir eine signierte SBOM, woher wissen wir dass die Person diese signieren darf?
-
+A: Ok, dann bekommen wir eine signierte SBOM, woher wissen wir dass es sich um eine legitime Signatur handelt.
 C: Sie haben wohl wirklich Zero Trust
 
 A: -.-
@@ -415,11 +414,13 @@ A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe
 C: Wie das? 
 >>>>>>> f9d0146c (docs: supply chain attack explained)
 
-A: Fangen wir mit den Supply Chain Angriffen an: Ein Supply Chain Angriff ist ein Cyberangriff, bei dem ein Angreifer die Software Supply Chain einer dritten Partei angreift um dadurch an das eigentliche Opfer zu gelangen.
+A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. Zum Beispiel ein Softwarelieferant mit schlechteren Sicherheitsmaßnahmen oder ei 
 
 C: War das bei log4j nicht der Fall?
 
-A: Nein, log4j war eine kritische Zero-Day Schwachstelle. Supply Chain Angriffe sind zum Beispiel, schadcode in einem legitimen Code-Repository zu injizieren oder die Entwendung von Zertifikaten zum Signieren von Anwendungen.
+A: Nein, log4j war eine kritische Zero-Day Schwachstelle. Supply Chain Angriffe sind zum Beispiel, schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen dass sie schadhafte Abhängigkeiten installieren.
+
+- typosquatting folie
 
 C: Aber Supply Chain Angriffe nehmen doch zu...
 
@@ -467,15 +468,19 @@ A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar b
 
 C: Und woher kriegen wir dann die Schwachstellen zu den Abhängigkeiten?
 
-A: Die werden gegen Datenbanken gecheckt. Und wir begeben uns in deren Abhängigkeit. Die größte Datenbank an CVEs von MITRE betrieben... 
+A: Die werden gegen Datenbanken gecheckt. In diese Datenbanken werden Schwachstellen dokumentiert, die von Unternehmen und Sicherheitsforscher:innen veröffentlicht werden. Die größte Datenbank an Schwachstellen wird nebenbei vom US amerik. MITRE betrieben... 
 
-C: Die waren letztens doch in der Presse wegen der Entscheidung des USA Präs das Programm nicht weiter zu Unterstützen.
+C: Dann hoffen wir mal, dass wir uns auf denen wirklich stützen können...
 
-A: Ja genau. Es wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern, weil Sicherheitsforscher:innen und Unternehmen dort die bekannten Schwachstellen melden. Das Programm ist ein Eckpfeiler der globalen Sicherheit, man hat aber gemerkt wie politische Einflüsse sich darauf auswirken können.
+A: Genau da liegt das nächste Problem. Durch die monetäre Unterstützung der USA, hat man gemerkt wie politische Einflüsse sich darauf auswirken können.
 
-C: Ich habe doch letztens von einer neuen Datenbank in Europa gelesen, das sollte damit ja abgedeckt sein.
+C: Das könnte problematisch sein..
 
-A: Ja, die ENISA hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von der aktuellen "signle source of truth", das die CVE DB war, zu mehreren Datenbanken und das ganze wird fragmentiert.
+A: Ja genau, Das Programm ist ein Eckpfeiler der globalen Sicherheit, da es wird weltweit von Unternehmen genutzt um Schwachstellen zu veröffentlichen und von Security-Tool Herstellern um ihre Tools damit zu füttern. 
+
+C: Vielleicht sollten wir auch an dieser Stelle in Europa ein bisschen suveräner werden und unsere eigene Datenbank bauen.
+
+A: Ja, die ENISA arbeitet bereits daran und hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von der aktuellen "signle source of truth", das die Datenbank von MITRE war, zu mehreren Datenbanken und das ganze wird fragmentiert.
 
 C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar bin. Doppelt gemoppelt hält ja besser!
 
@@ -560,7 +565,9 @@ C: *nachdenklich*
 
 A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen mit SBOMs zu Arbeiten. Z.B. indem man die Infromationen der SBOM wie vulnerabilities mit in ein DAST tool fließen lässt um z.B. die Exploitability zu überprüfen und das Produkt zu verbessen.
 
-..... -> hier fehlt noch was
+C: Also sind SBOMs nicht nur Schwachsinn
+
+A: Nein...
 
 C: Großartig! Toll dass Sie da auch meiner Meinung sind!
 
