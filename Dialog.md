@@ -552,9 +552,14 @@ A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, das
 ## Akt 3
 
 // TODO
+
+// Regulations
+
+// Staged Dependencies
+
 C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
 
-A: Ich kann die Frustration gut nachvollziehen. SBOMs können aber auch einen sinnvollen Einsatz haben. Nur sind sie nicht die silver bullet die man sich oft erhofft.
+A: Ich kann die Frustration gut nachvollziehen. SBOMs sind schlicht nicht die Silver Bullet, viele sich erhoffen. SBOMs können aber auch einen sinnvollen Einsatz haben. 
 
 C: Und das wäre?
 
@@ -562,18 +567,23 @@ A: Auf der einen Seite, werden SBOMs in neuen Regularien genannt und bilden die 
 
 C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie zerrissen...
 
-A: In der Software Entwicklung ist ein thema von vitaler Wichtigkeit: Abhängigkeiten tracken. Das macht man in Bezug auf Open Source Packages mit einer Software Composition Analyse.
+
+
+
+A: In der Software Entwicklung ist ein Thema von vitaler Wichtigkeit: Abhängigkeiten tracken! Das macht man in Bezug auf Open Source Packages mit einer sogenannten "Software Composition Analysis".
 
 C: Was bringt mir das?
 
-A: Naja mit der SCA wird die Applikation nach OSS durchsucht und überprüft ob die Komponenten aktuell sind, schwachstellen enthalten und ob diese problematische Lizenzen beinhalten.
+A: Naja mit der Software Composition Analysis wird die Applikation nach externen Abhängigkeiten durchsucht und überprüft, ob die Komponenten aktuell sind, Schwachstellen enthalten und gegebenenfalls problematische Lizenzen beinhalten.
 
-C: Das klingt aber nach nichts neuem...
+C: Das klingt aber nach nichts Neuem...
 
-A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten und erweitert um kommerzielle Componenten. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es schon seit einiger Zeit.
+A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten und um kommerzielle Komponenten erweitert worden. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es aber schon seit einiger Zeit.
 
 C: Aber was soll das dann konkret bringen?
 
+
+// TODO
 A: Das kann hilfreich sein um die Awareness der Entwickler:innen zu erhöhen so wenig Abhängigkeiten wie möglich einzubinden. Aber ihnen auch helfen Kriterien zu definieren für Komponenten die nicht in produktive Software eingebaut werden sollten.
 
 C: Komponenten mit zu vielen Schwachstellen zum Beispiel?
@@ -582,7 +592,10 @@ A: Das ist ein Parameter der bei der Entscheidung helfen kann, aber nicht nur...
 
 C: Sollten das Entwickler:innen nicht schon alles kennen?
 
-A: Nicht unbedingt, das Thema gewinnt immer mehr an wichtigkeit und sollte auch so weitergeben werden. Wie sie schon sagten..."Doppelt gemoppelt hält ja besser!"
+A: Nicht unbedingt, das Thema gewinnt immer mehr an Wichtigkeit und sollte auch so weitergeben werden. Wie sie schon sagten..."Doppelt gemoppelt hält ja besser!"
+
+
+
 
 C: Also sind die Entwickler:innen die Verantwortlichen rund um die SBOMs
 
@@ -598,7 +611,11 @@ A: Nein, die müssen zentral gemonitort werden um neue kritische Schwachstellen 
 
 C: *nachdenklich*
 
-A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen, produktiv mit SBOMs zu Arbeiten. Beispielsweise indem man die Informationen der SBOM sowie die dazugehörigen Vulnerabilities in automatisierte Tests einpflegt um z.B. die Exploitability zu überprüfen und das Produkt zu verbessen.
+// TODO: Veraltete Abhängigkeiten auch updaten! --> log4j
+
+
+
+A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen, produktiv mit SBOMs zu Arbeiten. Beispielsweise indem man die Informationen der SBOM sowie die dazugehörigen Vulnerabilities in automatisierte Tests einpflegt um z.B. die Exploitability zu überprüfen und das Produkt sukzessive zu verbessen.
 
 C: Also sind SBOMs nicht nur Schwachsinn
 
