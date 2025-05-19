@@ -551,24 +551,15 @@ A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, das
 
 ## Akt 3
 
-// TODO
+C: Lohnt sich der scheinbar riesige Aufwand dann überhaupt bei all den Unzulänglichkeiten...
 
-// Regulations
+A: SBOMs können einen Mehrwert bieten, sie sind schlicht nicht die Silver Bullet, die viele sich erhoffen. Außerdem, werden sie direkt oder indirekt in einigen neuen Cybersecurity Regularien abgebildet.
 
-// Staged Dependencies
+C: Also müssen wir das in unserem Kontext sowieso machen
 
-C: Na jetzt haben sie es aber geschafft mir die SBOMs komplett kaputt zu machen! Das ist ja nur noch sinnloser Aufwand der gar keinen Mehrwert bringt!
+A: Ja, aber lassen Sie uns das nicht als Compliance-Checkbox betrachten, sondern was sinnvolles damit anstellen.
 
-A: Ich kann die Frustration gut nachvollziehen. SBOMs sind schlicht nicht die Silver Bullet, viele sich erhoffen. SBOMs können aber auch einen sinnvollen Einsatz haben. 
-
-C: Und das wäre?
-
-A: Auf der einen Seite, werden SBOMs in neuen Regularien genannt und bilden die Grundlage für sichere Produkte wie z.B. der CRA. Da wir das somit eh machen müssen, sollten wir auch was sinnvolles damit anstellen und nicht nur wie eine Checkbox betrachten.
-
-C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie zerrissen...
-
-
-
+C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie auseinandergenommen...
 
 A: In der Software Entwicklung ist ein Thema von vitaler Wichtigkeit: Abhängigkeiten tracken! Das macht man in Bezug auf Open Source Packages mit einer sogenannten "Software Composition Analysis".
 
@@ -582,46 +573,37 @@ A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in
 
 C: Aber was soll das dann konkret bringen?
 
+A: Die Inventarisierung schafft die Datengrundlage um die Qualität der Software und die damit verbundenen operativen Risiken bewerten zu können. Die Information/Metadaten einfach nur rumliegen zu haben bringt uns nichts, aber diese Transparenz ermöglicht uns folglich zu priorisieren wo die Entwicklungsteams patchen und nacharbeiten müssen. 
 
-// TODO
-A: Das kann hilfreich sein um die Awareness der Entwickler:innen zu erhöhen so wenig Abhängigkeiten wie möglich einzubinden. Aber ihnen auch helfen Kriterien zu definieren für Komponenten die nicht in produktive Software eingebaut werden sollten.
+C: Wer kontrolliert denn das das auch wirklich gemacht wird? Das bedarf ja auch einer neuen Governance Funktion
 
-C: Komponenten mit zu vielen Schwachstellen zum Beispiel?
+A: Ja wir sollten ein Auge darauf haben dass zumindest die kritischen Punkte zeitnah behoben werden, wissen Sie wie häufig noch heute die veraltete und verwundabare log4j Version verwendet wird?
 
-A: Das ist ein Parameter der bei der Entscheidung helfen kann, aber nicht nur...wichtig ist auch ob die Library weiterhin maintained wird oder wie häufig diese verwendet wird. Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekten direkt in den Pipelines.
+C: Nirgends hoffe ich mal!
 
-C: Sollten das Entwickler:innen nicht schon alles kennen?
+A: Weit verfehlt, diese wird noch regelmäßig heruntergeladen und in Software eingebunden. Daher müssen wir bei den Entwickler:innen das Bewusstsein für einen verantwortungsvollen Umgang mit Abhängigkeiten schärfen.
 
-A: Nicht unbedingt, das Thema gewinnt immer mehr an Wichtigkeit und sollte auch so weitergeben werden. Wie sie schon sagten..."Doppelt gemoppelt hält ja besser!"
+C: Z.B. nur Abhängigkeiten ohne jegliche Schwachstellen...
 
+A: Ganz ohne Schwachstellen wird es sehr schwierig...allerdings könnte ein adequates Risikoprofil als eines der Auswahlkriterien die wir mit den Enticklungsteams ausarbeiten sein. Andere wären z.B. dass sie aktiv gepflegt werden oder ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
 
+C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir direkt einsetzen können (Ratiopharm meme)
 
+A: Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekten die man auch direkt in den Pipelines einbinden kann um den Entwickler:innen direkt Rückmeldung zu geben.
 
-C: Also sind die Entwickler:innen die Verantwortlichen rund um die SBOMs
+C: Was hat den das alles mit SBOMs zu tun?
 
-A: So weit würde ich nicht gehen, die Entwicklungsteams müssen sicherstellen, dass sie nur die nötigen und "guten" Abhängigkeiten einbauen und diese regelmäßig aktualisieren während der Entwicklung. Ein netter side-effect ist, dass man durch die transitiven Abhängigkeiten einen besseren Einblick in die Lizenzen der open source bibliotheken hat... //wollen wir das Fass aufmachen??
+A: SBOMs stellen ein mögliches Artefakt dar um eine Inventarisierung der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. 
 
-C: Wer soll da noch was tun?
+C: Können wir dann nicht mehr rausholen?
 
-A: Es Bedarf auch einer ordentlichen Governance und Monitoring rund um Produkte die auf dem Markt sind und den ganzen Hersteller SBOMs.
-
-C: Es reicht nicht aus einfach die SBOMs irgendwo liegen zu haben.
-
-A: Nein, die müssen zentral gemonitort werden um neue kritische Schwachstellen zu identifizieren, bewerten und in die Kommunikation mit Entwicklungsteams und Lieferanten zu treten. 
-
-C: *nachdenklich*
-
-// TODO: Veraltete Abhängigkeiten auch updaten! --> log4j
-
-
-
-A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen, produktiv mit SBOMs zu Arbeiten. Beispielsweise indem man die Informationen der SBOM sowie die dazugehörigen Vulnerabilities in automatisierte Tests einpflegt um z.B. die Exploitability zu überprüfen und das Produkt sukzessive zu verbessen.
+A: Ja, wenn man erst mal die Basics gemeistert haben...können wir anfangen mit SBOMs zu arbeiten. Beispielsweise indem man die Informationen der SBOM sowie die dazugehörigen Vulnerabilities in automatisierte Tests einpflegt um z.B. die Exploitability zu überprüfen und das Produkt sukzessive zu verbessen.
 
 C: Also sind SBOMs nicht nur Schwachsinn
 
 A: Nein...
 
-C: Großartig! Toll dass Sie da auch meiner Meinung sind!
+C: Großartig! Toll dass ich Sie überzeugen konnte...
 
 [C schaut auf's Handy]
 
@@ -634,5 +616,3 @@ C: Ja Tachchen Hermann! Du, wir machen jetzt auch SBOMs... ja, richtig, die Supp
 [A schlägt die Hände vor's Gesicht]
 
 # Q&A [5min]
-
-// Streichkandidaten: Integrität, ENISA, VEX
