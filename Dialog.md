@@ -139,7 +139,7 @@ A [grinst] ...und genau da kommen SBOMs ins Spiel!
 
 C: Ja klar, die Zutatenliste, wusste ich doch!
 
-- #12 SBOM contents
+- Slide: SBOM contents
 
 A: Sehr gut! SBOMs sind folglich standardisierte Strukturen, in denen die wichtigsten Datenpunkte zu all diesen Abhängigkeiten aufgeführt werden. Was ist das für eine Komponente, wo kommt sie her, welche Version hat sie, welche Lizenz,... Wollen Sie mal eine solche SBOM sehen?
 
@@ -231,17 +231,21 @@ A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren könn
 
 C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
 
-- #15 cumulative SBOMs
+- Slide: Cumulative SBOMs
 
-A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da, wo wir sein sollten. Fast 7M veröffentlichte Komponenten in 2024 und nur 61k SBOMs. 
+A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da, wo wir sein sollten. 2024 gab es auf npm ganze 7 Mio. veröffentlichte Komponenten, von denen gerade einmal 61k SBOMs besaßen.
 
-- #17 cumulative vs. packages
+- Slide: 61k SBOMs
 
 C: Nur so wenige???
 
-A: Die großen Hersteller sind nicht so problematisch, die kleinen Lieferanten, in bestimmten Nichen die nicht auf Software-Entwicklung spezialisiert sind haben es schon schwieriger.
+A: Ja, und die Rate, mit der die Bereitstellung von SBOMs zunimmt, macht da auch nicht viel mehr Hoffnung.
 
-C: SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden...
+- Slide Cumulative vs. Packages
+
+A: Die großen Hersteller sind dabei gar nicht einmal so problematisch; die kleinen Lieferanten, in bestimmten Nischen, die nicht auf Software-Entwicklung spezialisiert sind, haben es schon schwieriger.
+
+C: SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden!
 
 A: Wie vorhin kurz angedeutet, beinhalten unsere Anwendungen nicht nur Komponenten von unseren Lieferanten, sondern auch...
 
@@ -255,8 +259,7 @@ A: Sie haben keine wirkliche Ahnung, wie viel Open Source bei uns im Unternehmen
 
 C: Das kann doch nicht so viel sein...
 
-// TODO
-A: 97% der Anwendungen die ein Hersteller gescannt hat, haben Open Source Komponenten im Einsatz.
+A: Naja, einzelne Untersuchungen schätzen den Anteil von Open Source in modernen Anwendungen auf bis zu 90%
 
 C: Dann nutzen wir halt einfach kein Linux mehr... 
 
