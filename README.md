@@ -217,7 +217,18 @@ in the Making of this Presentation_
   - Compromised Build Systems
   - Repo-/Project-jacking
 - Malicious Maintainer (e.g. "Protestware")
-- Dependency Confusion
+- Dependency Confusion/Hallucination
+
+---
+
+<img src="images/sbom-defense.jpg" alt="SBOM vs Supply Chain Attacks" width="1000" height="auto">
+
+---
+
+<figure>
+    <img src="images/mitre-funding.png" alt="News Article: In last-minute reversal, US agency extends support for cyber vulnerability database" width="1000" height="auto">
+    <figcaption><a href="https://www.reuters.com/world/us/us-agency-extends-support-last-minute-cyber-vulnerability-database-2025-04-16/">Reuters: In last-minute reversal, US agency extends support for cyber vulnerability database</a></figcaption>
+</figure>
 
 ---
 
