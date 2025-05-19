@@ -9,26 +9,32 @@ Rollen:
 ## Setting the Stage
 
 Slides:
-- #1 Disclaimer
-- #2 No CISOs were harmed
-- #3 1. Akt
+- Disclaimer
+- No CISOs were harmed
+- 1. Akt
 
-Architektin sitzt mit Laptop am Tisch und arbeitet  
+Architektin sitzt mit Laptop am Tisch und arbeitet
 CISO kommt herein, kommt zu Architektin, setzt sich 'legere' auf die Tischkante
 
 ## Akt 1 [5min]
 
 C: Einen wunderschönen guten Morgen, Frau Mair! Wie geht's uns denn heute?
 
-A [verdreht Augen]: Guten Morgen. Ich kann ja nur für mich sprechen, aber wir haben gerade monsterviel Stress mit...
-
-- #4 State of supply chain attacks
+A [verdreht Augen]: Guten Morgen, Chef. Ich kann ja nur für mich sprechen, aber wir haben gerade monsterviel Stress mit...
 
 C: Mir geht es grandios, danke der Nachfrage!
 
 A [seufzt]: Was kann ich denn für Sie tun?
 
-C: Haben Sie schon von den ganzen Supply Chain Angriffen gehört? Die sind gerade überall! Wir müssen uns hier wirklich _schnellstmöglich_ dagegen schützen! Aber ich habe auch schon die Lösung dafür: S-B-O-M-S
+- Slide: State of Supply Chain Attacks
+
+C: Haben Sie schon von den ganzen Supply Chain Angriffen gehört? Die sind gerade überall! Wir müssen uns hier wirklich _schnellstmöglich_ dagegen schützen!
+
+A: Naja, also...
+
+C: Aber ich habe auch schon die Lösung dafür: S-B-O-M-S
+
+- Slide: Spongebob SBOMs
 
 A: Bitte was?
 
@@ -57,6 +63,7 @@ C: Ja genau, hab ich ja gesagt! Die müssen jetzt alle erstellen, um ihre Securi
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 A: SBOMs die Lösung von supply chain attacks? Wissen sie was eine SBOMs ist? Ich glaube wir müssen auch noch kurz das Thema Supply Chain Angriff näher beleuchten! *-> SBOM meme*
 =======
 A: Waren sie wieder auf einem Compliance Kongress? **-> compliance meme**
@@ -78,19 +85,26 @@ A: Waren sie wieder auf einem Compliance Kongress?
 =======
 - #5 Spongebob SBOMs
 >>>>>>> e5ae364b (docs: fixed all comments in act 2)
+=======
+A: Waren sie mal wieder auf einem Compliance Kongress?
+>>>>>>> e9caac23 (Dialog Update)
 
-A: Waren sie wieder auf einem Compliance Kongress?
+- Slide: Distracted by SBOMs
 
 C: Woher... [sammelt sich kurz] Die Anzahl an Supply Chain Attacks wie log4j hat in den letzten Jahren so stark zugenommen und wir müssen uns dagegen schützen. Hier gibt es mit SBOMs wirklich eine tolle Lösung!
 
+<<<<<<< HEAD
 A: SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOM ist?
 >>>>>>> a7f351ce (docs: vendor vs. oss)
+=======
+A: Ähm... SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOM ist?
+>>>>>>> e9caac23 (Dialog Update)
 
 C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Lebensmittel enthalten ist, nur halt für Software. Also 30 Zeilen HTML, 50 Zeilen Java, sowas halt.
 
-- #8 blackduck scan folie
+- Slide: Blackduck Scans
 
-A: Gar nicht mal sooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseits recht komplex, andererseits wird es immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
+A: Gar nicht mal sooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseits recht komplex, andererseits wird sie immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
 
 C: Die Entwickler:innen nehmen schon fertigen Code aus dem Internet? Wofür geben wir denn dann Unmengen an Geld für die Entwicklungsteams aus?
 
@@ -113,31 +127,32 @@ C: log4j, ja, genau! Da wusste ja auch niemand, wo das alles drinhängt.
 
 A: Richtig. Und diese Komponenten haben wiederum ihre eigenen Abhängigkeiten, auf die sie zurückgreifen.
 
-C: ...und die wiederum...
+C: ...und die wiederum haben auch wieder Abhängigkeiten, die ihrerseits wieder...
 
-- #9 direct/transitive dependencies
+- Slide: Direct/Transitive Dependencies
 
-A: So können also auch schon wenige _direkte_ Komponenten einen Rattenschwanz an weiteren Abhängigkeiten nachladen.
+A: Genau! So können also auch schon wenige _direkte_ Komponenten einen Rattenschwanz an weiteren Abhängigkeiten nachladen.
 
 C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
 
 A [grinst] ...und genau da kommen SBOMs ins Spiel!
 
-- #12 SBOM contents
-
 C: Ja klar, die Zutatenliste, wusste ich doch!
+
+- #12 SBOM contents
 
 A: Sehr gut! SBOMs sind folglich standardisierte Strukturen, in denen die wichtigsten Datenpunkte zu all diesen Abhängigkeiten aufgeführt werden. Was ist das für eine Komponente, wo kommt sie her, welche Version hat sie, welche Lizenz,... Wollen Sie mal eine solche SBOM sehen?
 
 C: Oh, ja, gerne!
 
-- #13 SPDX slide
+- Slide: SPDX JSON
 
 >>>>>>> 53e51699 (Erster Akt)
 C: Oh, das kann ja kein Mensch lesen!!
 
 A: Korrekt, SBOMs sind auch eigentlich in erster Linie für Maschinen gedacht.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 C: Haben sie das geschrieben??   
 =======
@@ -162,12 +177,15 @@ C: Haben sie das geschrieben??
 =======
 C: ...und für solche Top-Talente wie Sie! Haben sie das geschrieben??   
 >>>>>>> 53e51699 (Erster Akt)
+=======
+C: [schleimig] ...und für solche Top-Talente wie Sie! Haben sie das geschrieben?
+>>>>>>> e9caac23 (Dialog Update)
 
 A: Nein, das wäre unmöglich. Diese SBOM haben wir von einem unserer Software-Lieferanten erhalten.
 
-C: Ach, das stammt gar nicht von unserer Software?  
+C: Ach, das stammt gar nicht von unserer Software?
 
-A: Nein, diese nicht. Die listet die Komponenten auf, die in seiner Software genutzt werden. Aber für unsere eigene Software können wir auch SBOMs erstellen, die wiederum unsere Abhängigkeiten auflistet.
+A: Nein, diese nicht. Die listet die Komponenten auf, die in seiner Software genutzt werden. Aber für unsere eigene Software können wir auch SBOMs erstellen, die wiederum unsere Abhängigkeiten auflisten.
 
 C: ...und die geben wir dann wiederum an unsere Kunden?
 
@@ -190,7 +208,7 @@ C: Ach, das ist ja praktisch!
 
 ## Akt 2 [15min] -> slide, sip of water, weiter
 
-C: Also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?  
+C: Also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -246,11 +264,11 @@ A: Es geht hierbei nicht um Betriebssysteme, sondern um Bibliotheken, die Entwic
 
 C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil
 
-- #18 maintainer open source
+- Slide: Open Source Maintainer
 
 A: Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten Open Source Projekte von einzelnen oder wenigen Menschen gewartet werden. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu. Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
 
-- #19 sponsor open source
+- Slide: Sponsor Open Source Projects!
 
 C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
@@ -304,11 +322,11 @@ C: Dafür gibt es doch bewährte Methoden, wie z.B. Signaturen oder Checksums, d
 
 A: Ok, dann bekommen wir eine signierte SBOM, aber woher wissen wir, dass es sich um eine legitime Signatur handelt und nicht von jemandem, der uns etwas unterschieben möchte?
 
-C: Sie haben wohl wirklich Zero Trust, hm?
+C: [schleimig] Sie haben wohl wirklich Zero Trust, hm?
 
-A: -.-
+A: [seufzt]
 
-C: Nun ja, dann nehmen wir erstmal das, was wir bekommen können her. Das ist dann mein Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
+C: Nun ja, dann nehmen wir erstmal das, was wir bekommen können. Das ist dann mein Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann.
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -424,13 +442,11 @@ A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe
 C: Wie das? 
 >>>>>>> f9d0146c (docs: supply chain attack explained)
 
-A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. Zum Beispiel ein Softwarelieferant mit schlechteren Sicherheitsmaßnahmen. Andere Beispiele wären, Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
+A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. Zum Beispiel über einen Softwarelieferanten mit schlechteren Sicherheitsmaßnahmen. Andere Beispiele wären, Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
 
 C: War das bei log4j nicht der Fall?
 
 A: Nein, log4j war eine kritische Zero-Day Schwachstelle.
-
-- typosquatting folie
 
 C: Aber Supply Chain Angriffe nehmen doch zu...
 
@@ -442,7 +458,7 @@ A: Aber woher erhalten wir die SBOM?
 
 C: Ja... vom Anbieter!
 
-A: ...der von einem Angreifer kompromittiert wurde, welcher dann wahrscheinlich auch die SBOM entsprechend anpasst, um seine Absichten zu verschleiern. ...und selbst wenn es eine Änderung an der SBOM geben sollte, haben wir als Konsument kaum Anhaltspunkte, um eine bösartige Änderung der Software von einer regulären Weiterentwicklung zu unterscheiden.
+A: ...der von einem Angreifer kompromittiert wurde, welcher dann wahrscheinlich auch die SBOM entsprechend anpasst, um seine Absichten zu verschleiern. ...und selbst wenn es eine Änderung an der SBOM geben sollte, haben wir als Konsumenten kaum Anhaltspunkte, um eine bösartige Änderung der Software von einer regulären Weiterentwicklung zu unterscheiden.
 
 C: Verstanden... also helfen SBOMs gar nicht gegen Supply Chain Attacken?
 
@@ -478,7 +494,7 @@ C: ...und was ist denn dann mit log4j?
 A: Ja, da wären SBOMs schon eher hilfreich, weil es eine Dependency mit einer kritischen Schwachstelle war.
 >>>>>>> a8cef1d4 (Polished 2nd Act)
 
-C: Das war ja ein Alptraum herauszufinden wo das im Einsatz war. Aber mit einer SBOM hätten wir ja jetzt die Schwachstellen alle in der SBOM gelistet.
+C: Das war ein Alptraum herauszufinden wo das im Einsatz war! Aber mit den SBOMs hätten wir ja jetzt die Schwachstellen alle in der SBOM gelistet.
 
 A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt ein Entwicklungsteam in erster Linie einen Überblick über die Abhängigkeiten ihrer Software. Durch die Informationen wie Hersteller, Name und Version der Komponenten werden diese zunächst einmal eindeutig identifiziert.
 
@@ -579,7 +595,7 @@ A: Nein, die müssen zentral gemonitort werden um neue kritische Schwachstellen 
 
 C: *nachdenklich*
 
-A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen mit SBOMs zu Arbeiten. Z.B. indem man die Infromationen der SBOM wie vulnerabilities mit in ein DAST tool fließen lässt um z.B. die Exploitability zu überprüfen und das Produkt zu verbessen.
+A: Wenn man dann die Hausaufgaben gemacht hat, kann man auch anfangen, produktiv mit SBOMs zu Arbeiten. Beispielsweise indem man die Informationen der SBOM sowie die dazugehörigen Vulnerabilities in automatisierte Tests einpflegt um z.B. die Exploitability zu überprüfen und das Produkt zu verbessen.
 
 C: Also sind SBOMs nicht nur Schwachsinn
 
@@ -591,14 +607,12 @@ C: Großartig! Toll dass Sie da auch meiner Meinung sind!
 
 C: Oh, entschuldigen Sie bitte, da muss ich rangehen. Arbeiten Sie mir dann bitte mal ein Konzept aus, wie wir die besprochenen Sachen alle im nächsten Quartal umsetzen können. Schaffen Sie das bis nächste Woche?
 
-[C nimmt Handy ans Ohr]
+[C nimmt Handy ans Ohr und läuft von der Bühne]
 
 C: Ja Tachchen Hermann! Du, wir machen jetzt auch SBOMs... ja, richtig, die Supply Chain Attacken sind damit abgewehrt
 
 [A schlägt die Hände vor's Gesicht]
 
-## Q&A
+# Q&A [5min]
 
-5 Minuten
-
-Streichkandidaten: Integrität, ENISA, VEX,...
+// Streichkandidaten: Integrität, ENISA, VEX
