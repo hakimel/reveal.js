@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center">
   <a href="https://revealjs.com">
   <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
@@ -18,6 +19,9 @@
 =======
 <section data-visibility="hidden">[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/dim-0/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/dim-0/sbom-talk)</section>
 >>>>>>> 39ba9448 (Update README.md)
+=======
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/dim-0/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/dim-0/sbom-talk)
+>>>>>>> 5509ae59 (Update README.md)
 
 reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
 
