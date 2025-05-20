@@ -82,7 +82,7 @@ This slide deck is based on [reveal.js](https://revealjs.com/).
 
 This file provides the Payload for the presentation and might therefore contain code, which is not natively supported by GitHub's MarkDown implementation.
 
-The rendered presentation is available via the repository's [GitHub Pages website](https://dim-0.github.io/sbom-talk/).
+The rendered presentation is available via the repository's [GitHub Pages website](https://lukas-mika.github.io/sbom-talk/).
 
 ---
 
