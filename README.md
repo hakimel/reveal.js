@@ -341,6 +341,23 @@ in the Making of this Presentation
 
 ---
 
+<<<<<<< HEAD
 >>>>>>> 05854103 (Added Slides and Pictures)
 <img src="images/the-end.jpg" alt="The End" width="1000" height="auto">
 >>>>>>> 827d186f (Correcting image source for end slide)
+=======
+<figure>
+    <img src="images/openssf.png" alt="Example OpenSSF Scorecard Report" width="1000" height="auto">
+    <figcaption>Example OpenSSF Scorecard Report; see <a href="https://scorecard.dev/">https://scorecard.dev/</a></figcaption>
+</figure>
+
+---
+
+<img src="images/the-end.jpg" alt="The End" width="1000" height="auto">
+
+---
+
+Slides and Content available at<br/>https://github.com/lukas-mika/sbom-talk
+
+<img src="images/qr-code.gif" alt="QR Code">
+>>>>>>> d0cdd4cc (Added further slides)
