@@ -136,6 +136,10 @@ in the Making of this Presentation
 
 ---
 
+<img src="images/sbom-big.jpg" alt="SBOM Big!" width="1000" height="auto">
+
+---
+
 <figure>
     <img src="images/dependency-tree.png" alt="Example Dependency Tree" width="600" height="auto">
     <figcaption><a href="https://blog.droidchef.dev/mastering-the-gradle-dependency-tree/">Ishan Khanna: Mastering the Gradle Dependency Tree</a></figcaption>
@@ -261,6 +265,14 @@ in the Making of this Presentation
 
 ---
 
+<img src="images/trustworthy.jpg" alt="Trustworthy Racoon" width="1000" height="auto">
+
+---
+
+Hier fehlt eine Slide zum Thema "Konsolidierung"
+
+---
+
 # Supply Chain Attack Vectors
 
 - Typosquatting
@@ -292,6 +304,10 @@ in the Making of this Presentation
     <img src="images/mitre-funding.png" alt="News Article: In last-minute reversal, US agency extends support for cyber vulnerability database" width="1000" height="auto">
     <figcaption><a href="https://www.reuters.com/world/us/us-agency-extends-support-last-minute-cyber-vulnerability-database-2025-04-16/">Reuters: In last-minute reversal, US agency extends support for cyber vulnerability database</a></figcaption>
 </figure>
+
+---
+
+Slide zu ENISA?
 
 ---
 

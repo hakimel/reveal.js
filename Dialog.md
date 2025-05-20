@@ -273,9 +273,9 @@ A: Naja, einzelne Untersuchungen schätzen, dass Open Source in 97% der modernen
 
 C: Dann nutzen wir halt einfach kein Linux mehr... 
 
-A: Es geht hierbei nicht um Betriebssysteme, sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD-Tools, Programmiersprachen und Containertechnologin.
+A: Es geht hierbei nicht nur um Betriebssysteme, sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD-Tools, Programmiersprachen und Containertechnologin.
 
-C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil
+C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie dazu bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil
 
 - Slide: Open Source Maintainer
 
@@ -283,7 +283,7 @@ A: Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu 
 
 - Slide: Sponsor More Open Source Projects!
 
-C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
+C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist auch bereits abgeschlossen. Vielleicht aber nächstes Jahr?
 
 A: Mal abgesehen von diesen Herausforderungen hängt die Komplexität für die Erstellung einer SBOM stark von der Programmiersprache und den verwendeten Frameworks ab.
 
@@ -294,6 +294,8 @@ A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der
 C: Wir haben aber nicht nur Web-Applikationen bei uns...
 
 A: Genau! Bei Server-Applikationen oder Hardware-naher Entwicklung werden Drittanbieter-Bibliotheken oftmals anders eingebunden und es gibt keine schöne Liste wie in der Web-Welt. Da müssen die Entwicklungsteams daran arbeiten, die Abhängigkeiten klar zu dokumentieren. Je älter die Technologie, desto schwieriger wird es, eine SBOM dafür zu erstellen.
+
+- Slide: SBOM holding back Developers
   
 C: Naja, da wird es wohl schon irgendeine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Das kann doch nicht so schwer sein.
   
@@ -320,20 +322,24 @@ C: Na, da muss doch dann eins falsch sein!
 A: Womöglich ist keine SBOM falsch, sondern beide unvollständig.
 
 C: Dann sollten wir diese ganzen SBOMs einfach harmonisieren. Das geht bestimmt mit irgendeiner KI.
-  
-A: *schappatmung* Ich will ja keine Spielverderberin sein, aber da kommt schon das nächste Problem...
+
+- Slide: Nevermind
+
+A: [Schnappatmung] Ich will ja keine Spielverderberin sein, aber da kommt schon das nächste Problem...
 
 C: Was kann denn jetzt noch fehlen?
+
+- Slide: SBOM Transmission
 
 A: Die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wiederum stellen sie via e-Mail auf Anfrage zur Verfügung.
 
 C: Das ist doch super aufwendig. Mit Sharepoint ginge das bestimmt einfacher.
 
-- Slide: Nevermind
-
 A: [Verdreht die Augen] Aktuell fragen wir die SBOMs meistens per e-Mail an und auf demselben Weg erhalten wir diese dann auch. Aber so richtig können wir dabei auch die Integrität und Authentizität der SBOMs nicht überprüfen; wir können also nichtmal automatisiert sicherstellen, dass die aus der richtigen Quelle kommen und auf dem Weg zu uns nicht manipuliert wurden.
 
 C: Dafür gibt es doch bewährte Methoden, wie z.B. Signaturen oder Checksums, die man ja auch an anderer Stelle benutzt.
+
+- Slide: Trustworthy
 
 A: Ok, dann bekommen wir eine signierte SBOM, aber woher wissen wir, dass es sich um eine legitime Signatur handelt und nicht von jemandem, der uns etwas unterschieben möchte?
 
@@ -559,6 +565,8 @@ C: Das klingt nach ganz schön viel Aufwand... Hah, warum lassen wir das nicht d
 
 A: Ja, das gibt es auch schon. Das ist das sogenannte "Vulnerability Exploitability eXchange", kurz "VEX"
 
+- Slide: Anatomy of VEX
+
 C: Lassen Sie mich raten: Wieder ein nur maschinell lesbares Dokument?
 
 A: Ja, damit kann der Anbieter die SBOM erweitern, um die Ausnutzbarkeit von Schwachstellen in den aufgelisteten Komponenten zu klären.
@@ -629,6 +637,8 @@ C: Z.B. nur Abhängigkeiten ohne jegliche Schwachstellen...
 A: Ganz ohne Schwachstellen wird es sehr schwierig...allerdings könnte ein adequates Risikoprofil als eines der Auswahlkriterien sein, die wir mit den Entwicklungsteams ausarbeiten. Andere wären z.B., dass sie aktiv gepflegt werden, ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
 
 C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir direkt einsetzen können? (Ratiopharm meme)
+
+- Slide: OpenSSF Scorecard Report
 
 A: Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekten die man auch direkt in den Pipelines einbinden kann um den Entwickler:innen direkt Rückmeldung zu geben.
 
