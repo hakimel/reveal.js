@@ -102,7 +102,7 @@ A: Ähm... SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was ein
 
 C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Lebensmittel enthalten ist, nur halt für Software. Also 30 Zeilen HTML, 50 Zeilen Java, sowas halt.
 
-- Slide: Blackduck Scans
+- Slide: Dependency Tree
 
 A: Gar nicht mal sooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseits recht komplex, andererseits wird sie immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
 
@@ -117,23 +117,31 @@ A: Wollen Sie das Geld ausgeben, damit jedes Team sein Datumsauswahltool selbst 
 
 C: Ja, Business Value...
 
+- Slide: OS Percentage
+
 A: Das wäre ohne den Einsatz solcher externen Komponenten heutzutage kaum mehr möglich. Unterschiedliche Analysen kommen zu dem Schluss, dass durchschnittlich 70-90% aller halbwegs moderner Software aus externen Komponenten besteht.
 
 C: So viel?! Aber so viele Datumsfelder haben wir doch gar nicht in unserer Software?!
 
 A: Es geht ja nicht nur um Datumsfelder, sondern um ganz unterschiedliche, grundlegende Funktionalitäten, die in Form von Bibliotheken oder Frameworks aus unterschiedlichen Fremdquellen geladen werden und ihrerseits wiederum von anderen Komponenten abhängen, den sogenannten 'Transitiven Abhängigkeiten' - wie beispielsweise von log4j
 
+- Slide: Squid Game log4j
+
 C: log4j, ja, genau! Da wusste ja auch niemand, wo das alles drinhängt.
 
 A: Richtig. Und diese Komponenten haben wiederum ihre eigenen Abhängigkeiten, auf die sie zurückgreifen.
 
-C: ...und die wiederum haben auch wieder Abhängigkeiten, die ihrerseits wieder...
+- Slide: Yo Dawg
+
+C: ...und die wiederum haben auch wieder Abhängigkeiten, die ihrerseits wiederum Abhängigkeiten haben, welche...
 
 - Slide: Direct/Transitive Dependencies
 
 A: Genau! So können also auch schon wenige _direkte_ Komponenten einen Rattenschwanz an weiteren Abhängigkeiten nachladen.
 
 C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
+
+- Slide: Big Dependency Graph
 
 A [grinst] ...und genau da kommen SBOMs ins Spiel!
 
@@ -259,7 +267,9 @@ A: Sie haben keine wirkliche Ahnung, wie viel Open Source bei uns im Unternehmen
 
 C: Das kann doch nicht so viel sein...
 
-A: Naja, einzelne Untersuchungen schätzen den Anteil von Open Source in modernen Anwendungen auf bis zu 90%
+- Slide: OSS Proliferation
+
+A: Naja, einzelne Untersuchungen schätzen, dass Open Source in 97% der modernen Anwendungen verwendet werden
 
 C: Dann nutzen wir halt einfach kein Linux mehr... 
 
@@ -271,7 +281,7 @@ C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie b
 
 A: Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten Open Source Projekte von einzelnen oder wenigen Menschen gewartet werden. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu. Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
 
-- Slide: Sponsor Open Source Projects!
+- Slide: Sponsor More Open Source Projects!
 
 C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist bereits abgeschlossen. Vielleicht nächstes Jahr.
 
@@ -318,6 +328,8 @@ C: Was kann denn jetzt noch fehlen?
 A: Die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wiederum stellen sie via e-Mail auf Anfrage zur Verfügung.
 
 C: Das ist doch super aufwendig. Mit Sharepoint ginge das bestimmt einfacher.
+
+- Slide: Nevermind
 
 A: [Verdreht die Augen] Aktuell fragen wir die SBOMs meistens per e-Mail an und auf demselben Weg erhalten wir diese dann auch. Aber so richtig können wir dabei auch die Integrität und Authentizität der SBOMs nicht überprüfen; wir können also nichtmal automatisiert sicherstellen, dass die aus der richtigen Quelle kommen und auf dem Weg zu uns nicht manipuliert wurden.
 
@@ -442,8 +454,14 @@ C: Ja, dann haben wir das ja zusammen. Noch ein weiteres Tool einkaufen kriegen 
 
 A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg räumen.
 
+<<<<<<< HEAD
 C: Wie das? 
 >>>>>>> f9d0146c (docs: supply chain attack explained)
+=======
+C: Wie das?
+
+- Slide: Supply Chain Attack Vectors
+>>>>>>> 38a68973 (Added more slides with memes)
 
 A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. Zum Beispiel über einen Softwarelieferanten mit schlechteren Sicherheitsmaßnahmen. Andere Beispiele wären, Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
 
@@ -464,6 +482,8 @@ C: Ja... vom Anbieter!
 A: ...der von einem Angreifer kompromittiert wurde, welcher dann wahrscheinlich auch die SBOM entsprechend anpasst, um seine Absichten zu verschleiern. ...und selbst wenn es eine Änderung an der SBOM geben sollte, haben wir als Konsumenten kaum Anhaltspunkte, um eine bösartige Änderung der Software von einer regulären Weiterentwicklung zu unterscheiden.
 
 C: Verstanden... also helfen SBOMs gar nicht gegen Supply Chain Attacken?
+
+- Slide: SBOM vs Supply Chain Attacks
 
 A: Nein.
 
@@ -511,6 +531,8 @@ A: Ja, genau. In diesen Datenbanken werden alle möglichen Sicherheitslücken do
 
 C: Welch ein Glück, dass wir uns in Punkto Sicherheit mal wieder auf die USA verlassen können!
 
+- Slide: Reuters on CVE
+
 A: Genau da liegt das nächste Problem: Durch die monetäre Abhängigkeit von der US-amerikanischen Regierung können sich politische Entscheidungen, z.B. von freidrehenden Präsidenten, recht schnell auf die Verfügbarkeit solcher zentralen Services auswirken.
 
 C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dieser Stelle in Europa ein bisschen suveräner werden und unsere eigene Datenbank bauen.
@@ -553,11 +575,21 @@ A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, das
 
 C: Lohnt sich der scheinbar riesige Aufwand dann überhaupt bei all den Unzulänglichkeiten...
 
-A: SBOMs können einen Mehrwert bieten, sie sind schlicht nicht die Silver Bullet, die viele sich erhoffen. Außerdem, werden sie direkt oder indirekt in einigen neuen Cybersecurity Regularien abgebildet.
+- Slide: Silver Bullet
+
+A: SBOMs können einen Mehrwert bieten, sie sind bloß schlicht nicht die Silver Bullet, die viele sich erhoffen.
+
+C: Aber wofür brauchen wir die denn dann?
+
+A: Allein schon, weil sie direkt oder indirekt in einigen neuen Cybersecurity Regularien abgebildet werden.
+
+- Slide: Regulations
 
 C: Also müssen wir das in unserem Kontext sowieso machen
 
 A: Ja, aber lassen Sie uns das nicht als Compliance-Checkbox betrachten, sondern was sinnvolles damit anstellen.
+
+- Slide: Regulatory Requirements
 
 C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie auseinandergenommen...
 
@@ -573,21 +605,25 @@ A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in
 
 C: Aber was soll das dann konkret bringen?
 
-A: Die Inventarisierung schafft die Datengrundlage um die Qualität der Software und die damit verbundenen operativen Risiken bewerten zu können. Die Information/Metadaten einfach nur rumliegen zu haben bringt uns nichts, aber diese Transparenz ermöglicht uns folglich zu priorisieren wo die Entwicklungsteams patchen und nacharbeiten müssen. 
+A: Die Inventarisierung schafft die Datengrundlage um die Qualität der Software und die damit verbundenen operativen Risiken bewerten zu können. Die Information/Metadaten einfach nur rumliegen zu haben bringt uns nichts, aber diese Transparenz ermöglicht uns folglich zu priorisieren wo die Entwicklungsteams patchen und nacharbeiten müssen.
+
+- Slide: No Need to spend Efforts
 
 C: Wer kontrolliert denn das das auch wirklich gemacht wird? Das bedarf ja auch einer neuen Governance Funktion
 
-A: Ja wir sollten ein Auge darauf haben dass zumindest die kritischen Punkte zeitnah behoben werden, wissen Sie wie häufig noch heute die veraltete und verwundabare log4j Version verwendet wird?
+A: Ja wir sollten ein Auge darauf haben, dass zumindest die kritischen Punkte zeitnah behoben werden, wissen Sie wie häufig noch heute die veraltete und verwundabare log4j Version verwendet wird?
 
 C: Nirgends hoffe ich mal!
+
+- Slide: log4j legacy versions
 
 A: Weit verfehlt, diese wird noch regelmäßig heruntergeladen und in Software eingebunden. Daher müssen wir bei den Entwickler:innen das Bewusstsein für einen verantwortungsvollen Umgang mit Abhängigkeiten schärfen.
 
 C: Z.B. nur Abhängigkeiten ohne jegliche Schwachstellen...
 
-A: Ganz ohne Schwachstellen wird es sehr schwierig...allerdings könnte ein adequates Risikoprofil als eines der Auswahlkriterien die wir mit den Enticklungsteams ausarbeiten sein. Andere wären z.B. dass sie aktiv gepflegt werden oder ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
+A: Ganz ohne Schwachstellen wird es sehr schwierig...allerdings könnte ein adequates Risikoprofil als eines der Auswahlkriterien sein, die wir mit den Entwicklungsteams ausarbeiten. Andere wären z.B., dass sie aktiv gepflegt werden, ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
 
-C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir direkt einsetzen können (Ratiopharm meme)
+C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir direkt einsetzen können? (Ratiopharm meme)
 
 A: Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekten die man auch direkt in den Pipelines einbinden kann um den Entwickler:innen direkt Rückmeldung zu geben.
 
@@ -603,7 +639,7 @@ C: Also sind SBOMs nicht nur Schwachsinn
 
 A: Nein...
 
-C: Großartig! Toll dass ich Sie überzeugen konnte...
+C: Großartig! Toll, dass ich Sie überzeugen konnte...
 
 [C schaut auf's Handy]
 

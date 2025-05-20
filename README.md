@@ -104,8 +104,10 @@ is purely coincidental.
 
 <img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="1000" height="auto">
 
-_No CISOs were harmed   
-in the Making of this Presentation_
+<div style="font-family: serif; font-size: 0.8em; font-style: italic">
+No CISOs were harmed <br/>
+in the Making of this Presentation
+</div>
 
 ---
 
@@ -131,10 +133,20 @@ in the Making of this Presentation_
 ---
 
 <figure>
-    <img src="images/oss-proliferation.png" alt="Open Source Software Proliferation" width="1000" height="auto">
-    <figcaption><a href="https://www.blackduck.com/content/dam/black-duck/en-us/reports/rep-ossra.pdf">Black Duck: 2025 Open Source Security and Risk Analysis Report</a></figcaption>
+    <img src="images/dependency-tree.png" alt="Example Dependency Tree" width="600" height="auto">
+    <figcaption><a href="https://blog.droidchef.dev/mastering-the-gradle-dependency-tree/">Ishan Khanna: Mastering the Gradle Dependency Tree</a></figcaption>
 </figure>
 
+---
+
+<figure>
+    <img src="images/oss-percentage.png" alt="70-90% of all Software is Open Source" width="1000" height="auto">
+    <figcaption><a href="https://www.intel.com/content/www/us/en/developer/articles/guide/the-careful-consumption-of-open-source-software.html">Intel: The Careful Consumption of Open Source Software</a></figcaption>
+</figure>
+
+---
+
+<img src="images/squid-game-log4j.jpg" alt="Next Task: Find log4j in your Org" width="1000" height="auto">
 
 ---
 
@@ -145,13 +157,6 @@ in the Making of this Presentation_
 <figure>
     <img src="images/transitive-dependencies.png" alt="Transitive Dependencies" width="800" height="auto">
     <figcaption><a href="https://blog.phylum.io/hidden-dependencies-lurking-in-the-software-dependency-network/">Phylum: Hidden Dependencies lurking in the Software Dependency Network</a></figcaption>
-</figure>
-
----
-
-<figure>
-    <img src="images/dependency-tree.png" alt="Example Dependency Tree" width="600" height="auto">
-    <figcaption><a href="https://blog.droidchef.dev/mastering-the-gradle-dependency-tree/">Ishan Khanna: Mastering the Gradle Dependency Tree</a></figcaption>
 </figure>
 
 ---
@@ -220,15 +225,8 @@ in the Making of this Presentation_
 ---
 
 <figure>
-    <img src="images/sbom-sharing.png" alt="SBOM Sharing" width="600" height="auto">
-    <figcaption><a href="https://www.cisa.gov/sites/default/files/2024-05/SBOM%20Sharing%20Primer.pdf">CISA: SBOM Sharing Primer</a></figcaption>
-</figure>
-
----
-
-<figure>
-    <img src="images/oss-percentage.png" alt="70-90% of all Software is Open Source" width="1000" height="auto">
-    <figcaption><a href="https://www.intel.com/content/www/us/en/developer/articles/guide/the-careful-consumption-of-open-source-software.html">Intel: The Careful Consumption of Open Source Software</a></figcaption>
+    <img src="images/oss-proliferation.png" alt="Open Source Software Proliferation" width="1000" height="auto">
+    <figcaption><a href="https://www.blackduck.com/content/dam/black-duck/en-us/reports/rep-ossra.pdf">Black Duck: 2025 Open Source Security and Risk Analysis Report</a></figcaption>
 </figure>
 
 ---
@@ -240,7 +238,14 @@ in the Making of this Presentation_
 
 ---
 
-# Sponsor open source projects!
+# Sponsor more<br/>open source<br/>projects!
+
+---
+
+<figure>
+    <img src="images/sbom-sharing.png" alt="SBOM Sharing" width="600" height="auto">
+    <figcaption><a href="https://www.cisa.gov/sites/default/files/2024-05/SBOM%20Sharing%20Primer.pdf">CISA: SBOM Sharing Primer</a></figcaption>
+</figure>
 
 ---
 
@@ -283,6 +288,7 @@ in the Making of this Presentation_
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <img src="images/the-end1.jpg" alt="The End" width="1000" height="auto">
 >>>>>>> 6e7e7ea7 (Added The End)
 =======
@@ -292,6 +298,12 @@ in the Making of this Presentation_
     <figcaption><a href="https://github.blog/news-insights/octoverse/octoverse-2024/">GitHub: Octoverse 2024</a></figcaption>
 </figure>
 =======
+=======
+<img src="images/not-the-silver-bullet.jpg" alt="Not the Silver Bullet you're looking for" width="1000" height="auto">
+
+---
+
+>>>>>>> 38a68973 (Added more slides with memes)
 | **Regulation**           | **Industry**                     |
 |--------------------------|----------------------------------|
 | NIS-2 Directive          | Critical Infrastructure          |
@@ -305,8 +317,19 @@ in the Making of this Presentation_
 ---
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 3a233d00 (Added numerous screenshots for future slides)
 =======
+=======
+<img src="images/regulatory-requirements.jpg" alt="Regulatory Requirements" width="600" height="auto">
+
+---
+
+<img src="images/no-need.jpg" alt="No need to spend efforts, if you don't look at your SBOM" width="1000" height="auto">
+
+---
+
+>>>>>>> 38a68973 (Added more slides with memes)
 <figure>
     <img src="images/log4j.png" alt="Downloaded versions of log4j" width="1000" height="auto">
     <figcaption><a href="https://www.sonatype.com/state-of-the-software-supply-chain/2024/risk">Sonatype: 2024 State of the Supply Chain</a></figcaption>
