@@ -2,3 +2,7 @@ figcaption {
   font-size: small;
   line-height: 0;
 }
+
+.hidden {
+  display: none;
+}
