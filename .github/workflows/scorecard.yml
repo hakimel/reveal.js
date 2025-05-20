@@ -15,20 +15,7 @@ on:
     branches: [ "main" ]
 
 # Declare default permissions as read only.
-permissions:
-  actions: read
-  checks: read
-  contents: read
-  deployments: read
-  id-token: write
-  issues: read
-  discussions: read
-  packages: read
-  pages: read
-  pull-requests: read
-  repository-projects: read
-  security-events: read
-  statuses: read
+permissions: read-all
 
 jobs:
   analysis:
