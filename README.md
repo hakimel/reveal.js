@@ -108,7 +108,7 @@ is purely coincidental.
 
 <img src="images/no-cisos-harmed.png" alt="No CISOs were harmed Logo" width="1000" height="auto">
 
-<div style="font-family: serif; font-size: 0.8em; font-style: italic">
+<div style="font-family: serif; font-size: 0.8em">
 No CISOs were harmed <br/>
 in the Making of this Presentation
 </div>
@@ -243,6 +243,10 @@ in the Making of this Presentation
 ---
 
 # Sponsor more<br/>open source<br/>projects!
+
+---
+
+<img src="images/sbom-devs.jpg" alt="SBOMs holding back Developers" width="450" height="auto">
 
 ---
 
