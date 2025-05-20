@@ -246,14 +246,14 @@ in the Making of this Presentation
 
 ---
 
+<img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
+
+---
+
 <figure>
     <img src="images/sbom-sharing.png" alt="SBOM Sharing" width="600" height="auto">
     <figcaption><a href="https://www.cisa.gov/sites/default/files/2024-05/SBOM%20Sharing%20Primer.pdf">CISA: SBOM Sharing Primer</a></figcaption>
 </figure>
-
----
-
-<img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
 
 ---
 
