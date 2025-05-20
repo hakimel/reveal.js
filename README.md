@@ -291,6 +291,13 @@ in the Making of this Presentation
 
 ---
 
+<figure>
+    <img src="images/anatomy_of_vex.webp" width="1000" height="auto">
+    <figcaption><a href="https://blog.adolus.com/a-deeper-dive-into-vex-documents">Adolus: A Deeper Dive into VEX Documents</a></figcaption
+</figure>
+
+---
+
 # 3. Akt
 
 ## _Conclusio_
