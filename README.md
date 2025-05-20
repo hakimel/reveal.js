@@ -273,6 +273,17 @@ in the Making of this Presentation
 
 ---
 
+<img src="images/log4j-vendors.jpg" alt="Vendors need to patch, too" width="400" height="auto">
+
+---
+
+<figure>
+    <img src="images/log4j-cve.png" alt="CVE-2021-44228" width="1000" height="auto">
+    <figcaption><a href="https://www.cve.org/CVERecord?id=CVE-2021-44228">CVE-2021-44228 on https://cve.mitre.org/</a></figcaption>
+</figure>
+
+---
+
 <figure>
     <img src="images/mitre-funding.png" alt="News Article: In last-minute reversal, US agency extends support for cyber vulnerability database" width="1000" height="auto">
     <figcaption><a href="https://www.reuters.com/world/us/us-agency-extends-support-last-minute-cyber-vulnerability-database-2025-04-16/">Reuters: In last-minute reversal, US agency extends support for cyber vulnerability database</a></figcaption>

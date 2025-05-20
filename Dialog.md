@@ -514,6 +514,8 @@ A: Ja, das schon eher, weil es Dependency mit einer kritischen Schwachstelle ist
 =======
 C: ...und was ist denn dann mit log4j?
 
+- Slide: Log4j Vendors
+
 A: Ja, da wären SBOMs schon eher hilfreich, weil es eine Dependency mit einer kritischen Schwachstelle war.
 >>>>>>> a8cef1d4 (Polished 2nd Act)
 
@@ -522,6 +524,8 @@ C: Das war ein Alptraum herauszufinden wo das im Einsatz war! Aber mit den SBOMs
 A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt ein Entwicklungsteam in erster Linie einen Überblick über die Abhängigkeiten ihrer Software. Durch die Informationen wie Hersteller, Name und Version der Komponenten werden diese zunächst einmal eindeutig identifiziert.
 
 C: Und woher kriegen wir dann die Schwachstellen zu diesen Abhängigkeiten?
+
+- Slide: CVE-2021-44228
 
 A: Indem wir öffentliche Schwachstellen-Datenbanken nach Informationen dazu durchsuchen.
 
@@ -570,6 +574,7 @@ A: Nicht nur das: Hersteller haben natürlich einen impliziten Anreiz zu zeigen,
 C: ...weil es auch hier an einheitlichen Ansätzen fehlt?
 
 A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, dass die Verfasser:innen ordentlich arbeiten und wissen was sie tun...
+
 
 ## Akt 3
 
