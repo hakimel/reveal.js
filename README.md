@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center">
   <a href="https://revealjs.com">
   <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
@@ -46,6 +47,9 @@ This file is also serving as the content for the Presentation at https://dim-0.g
 =======
 =======
 ![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/dim-0/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/dim-0/sbom-talk)
+=======
+![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/dim-0/sbom-talk/badge)]
+>>>>>>> e9d62e80 (Update README.md)
 
 >>>>>>> 399887d8 (Update README.md)
 # SBOMs
