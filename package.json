@@ -50,7 +50,7 @@
     "gulp-header-comment": "^0.10.0",
     "gulp-zip": "^5.1.0",
     "highlight.js": "^11.9.0",
-    "marked": "^4.3.0",
+    "marked": "^15.0.12",
     "node-qunit-puppeteer": "^2.2.0",
     "through2": "^4.0.2",
     "qunit": "^2.22.0",
