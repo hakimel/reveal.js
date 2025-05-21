@@ -43,7 +43,7 @@
     "fitty": "^2.3.7",
     "glob": "^10.3.10",
     "gulp": "^5.0.0",
-    "gulp-autoprefixer": "^8.0.0",
+    "gulp-autoprefixer": "^9.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-connect": "^5.7.0",
     "gulp-eslint": "^6.0.0",
