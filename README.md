@@ -311,7 +311,10 @@ Hier fehlt eine Slide zum Thema "Konsolidierung"
 
 ---
 
-Slide zu ENISA?
+<figure>
+    <img src="images/enisa.png" alt="ENISA Website" width="1000" height="auto">
+    <figcaption><a href="https://euvd.enisa.europa.eu/">https://euvd.enisa.europa.eu/</a></figcaption>
+</figure>
 
 ---
 
