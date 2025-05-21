@@ -399,7 +399,7 @@ Slide zu ENISA?
 
 ---
 
-Slides and Content available at<br/>https://github.com/lukas-mika/sbom-talk
+Slides and Content available at<br/>https://github.com/something-appsec/sbom-talk
 
 <img src="images/qr-code.gif" alt="QR Code">
 >>>>>>> d0cdd4cc (Added further slides)
