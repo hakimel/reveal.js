@@ -7,6 +7,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center">
   <a href="https://revealjs.com">
   <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
@@ -30,6 +31,9 @@
 =======
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/lukas-mika/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/lukas-mika/sbom-talk) <!-- .element: class="hidden" data-fragment-index="2" -->
 >>>>>>> 171ba215 (Update README.md)
+=======
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/something-appsec/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/something-appsec/sbom-talk) <!-- .element: class="hidden" data-fragment-index="2" -->
+>>>>>>> da72a7aa (Update README.md)
 
 reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
 
@@ -82,7 +86,7 @@ This slide deck is based on [reveal.js](https://revealjs.com/).
 
 This file provides the Payload for the presentation and might therefore contain code, which is not natively supported by GitHub's MarkDown implementation.
 
-The rendered presentation is available via the repository's [GitHub Pages website](https://lukas-mika.github.io/sbom-talk/).
+The rendered presentation is available via the repository's [GitHub Pages website](https://something-appsec.github.io/sbom-talk/).
 
 ---
 
