@@ -183,10 +183,7 @@ in the Making of this Presentation
 
 ---
 
-<figure>
-    <img src="images/express-dependency-graph.svg" alt="express Dependency Graph" width="800" height="auto">
-    <figcaption><a href="https://npmgraph.js.org/?q=express">Dependency Graph for npm package 'express' by https://npmgraph.js.org</a></figcaption>
-</figure>
+<img src="images/dependency-graph.png" alt="Dependency Graph" width="500" height="auto">
 
 ---
 
