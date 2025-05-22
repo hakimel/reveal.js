@@ -36,9 +36,6 @@ $active-color: #51483d;
 // Inject the theme template
 @use 'template/theme';
 
-// Include theme-specific fonts
-@import url('./fonts/source-sans-pro/source-sans-pro.css');
-
 // Change text colors against light slide backgrounds
 @include mixins.dark-bg-text-color(#fff);
 

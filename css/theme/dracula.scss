@@ -57,9 +57,6 @@ $codeFont: 'Fira Code', $systemFontsMono;
 // Inject the theme template
 @use 'template/theme';
 
-// Include theme-specific fonts
-@import url('./fonts/source-sans-pro/source-sans-pro.css');
-
 // Change text colors against light slide backgrounds
 @include mixins.light-bg-text-color($background);
 
