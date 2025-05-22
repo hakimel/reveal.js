@@ -215,6 +215,14 @@ in the Making of this Presentation
 
 ---
 
+# About SBOM
+
+- Machine-readable nested inventory list of ingredients making up software components
+- High expectations from different stakeholders
+- SBOM enhances Software Composition Analysis with proprietary and commercial components
+
+---
+
 # 2. Akt
 
 ## _Disputatio_
@@ -279,7 +287,7 @@ in the Making of this Presentation
 
 ---
 
-Hier fehlt eine Slide zum Thema "Konsolidierung"
+<img src="images/SBOMs-everywhere.jpg" alt="SBOMs everywhere" width="1000" height="auto">
 
 ---
 
@@ -328,6 +336,16 @@ Hier fehlt eine Slide zum Thema "Konsolidierung"
     <img src="images/anatomy_of_vex.webp" width="1000" height="auto">
     <figcaption><a href="https://blog.adolus.com/a-deeper-dive-into-vex-documents">Adolus: A Deeper Dive into VEX Documents</a></figcaption
 </figure>
+
+---
+
+# SBOM challenges
+
+- Getting SBOMs from suppliers, open source components and other third parties is challenging
+- Creation of complete and correct SBOMs can be hard for development teams
+- Generation, transmission and update of SBOMs lacks standardization
+- Managing vulnerabilities through SBOMs is unrealistic with current means
+- SBOMs are not helpful against supply chain attacks
 
 ---
 
@@ -401,6 +419,14 @@ Hier fehlt eine Slide zum Thema "Konsolidierung"
     <img src="images/openssf.png" alt="Example OpenSSF Scorecard Report" width="1000" height="auto">
     <figcaption>Example OpenSSF Scorecard Report; see <a href="https://scorecard.dev/">https://scorecard.dev/</a></figcaption>
 </figure>
+
+---
+
+# Meaningful use of SBOMs
+
+- SBOMs can extend a proper Software Composition Analysis with proprietary components
+- Raise awareness in development teams about third party dependencies
+- Proper governance around the usage of third party dependencies
 
 ---
 
