@@ -16,12 +16,12 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link rel="stylesheet" href="dist/reset.css" />
-		<link rel="stylesheet" href="dist/reveal.css" />
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme" />
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/reveal.scss" />
+		<link rel="stylesheet" href="css/theme/black.scss" id="theme" />
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" />
 	</head>
 
 	<body>
@@ -117,13 +117,15 @@
 				<section data-auto-animate>
 					<h2 data-id="code-title">Pretty Code</h2>
 					<pre data-id="code-animation"><code class="hljs javascript" data-trim data-line-numbers>
-						import React, { useState } from 'react';
+						import { useState } from 'react';
 
 						function Example() {
 						  const [count, setCount] = useState(0);
 
 						  return (
-						    ...
+
+							  ...
+
 						  );
 						}
 					</code></pre>
@@ -138,7 +140,7 @@
 					<pre
 						data-id="code-animation"
 					><code class="hljs javascript" data-trim data-line-numbers="|4,8-11|17|22-24"><script type="text/template">
-						import React, { useState } from 'react';
+						import { useState } from 'react';
 
 						function Example() {
 						  const [count, setCount] = useState(0);
