@@ -287,7 +287,7 @@ in the Making of this Presentation
 
 ---
 
-<img src="images/SBOMs-everywhere.jpg" alt="SBOMs everywhere" width="1000" height="auto">
+<img src="images/sbom-everywhere.jpg" alt="SBOMs everywhere" width="1000" height="auto">
 
 ---
 
