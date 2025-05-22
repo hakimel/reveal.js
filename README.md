@@ -8,6 +8,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center">
   <a href="https://revealjs.com">
   <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
@@ -34,6 +35,9 @@
 =======
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/something-appsec/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/something-appsec/sbom-talk) <!-- .element: class="hidden" data-fragment-index="2" -->
 >>>>>>> da72a7aa (Update README.md)
+=======
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/something-appsec/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/something-appsec/sbom-talk) <!-- .element: class="hidden" -->
+>>>>>>> 3574dde3 (Minor Adjustments)
 
 reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
 
@@ -125,7 +129,7 @@ in the Making of this Presentation
 
 ---
 
-# 1. Akt
+# 1st Act
 
 ## _Introductio_
 
@@ -197,18 +201,6 @@ in the Making of this Presentation
 - Timestamp
 - Licenses
 
-<!--
-- Component (incl. Identifiers)
-- Used Version
-- Creator
-- Timestamp
-- Filename
-- Dependencies on others
-- License
-- Origin
-- Relations
--->
-
 ---
 
 <img src="images/sbom-example.png" alt="SPDX JSON Example" width="1000" height="auto">
@@ -223,7 +215,7 @@ in the Making of this Presentation
 
 ---
 
-# 2. Akt
+# 2nd Act
 
 ## _Disputatio_
 
@@ -349,7 +341,7 @@ in the Making of this Presentation
 
 ---
 
-# 3. Akt
+# 3rd Act
 
 ## _Conclusio_
 
