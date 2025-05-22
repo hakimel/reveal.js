@@ -6,3 +6,7 @@ figcaption {
 .hidden {
   display: none;
 }
+
+.smaller-size {
+  font-size: 0.9em;
+}

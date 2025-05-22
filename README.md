@@ -142,7 +142,7 @@ in the Making of this Presentation
 
 ---
 
-<img src="images/sboms-rainbow.jpg" alt="SBOM Meme with Spongebob holding a rainbow" width="1000" height="auto">
+<img src="images/sboms-rainbow.jpg" alt="SBOM Meme with Spongebob holding a rainbow" width="800" height="auto">
 
 ---
 
@@ -150,7 +150,7 @@ in the Making of this Presentation
 
 ---
 
-<img src="images/sbom-big.jpg" alt="SBOM Big!" width="1000" height="auto">
+<img src="images/sbom-big.jpg" alt="SBOM Big!" width="700" height="auto">
 
 ---
 
@@ -301,7 +301,7 @@ in the Making of this Presentation
 ---
 
 <figure>
-    <img src="images/log4j-cve.png" alt="CVE-2021-44228" width="1000" height="auto">
+    <img src="images/log4j-cve.png" alt="CVE-2021-44228" width="800" height="auto">
     <figcaption><a href="https://www.cve.org/CVERecord?id=CVE-2021-44228">CVE-2021-44228 on https://cve.mitre.org/</a></figcaption>
 </figure>
 
@@ -327,6 +327,8 @@ in the Making of this Presentation
 </figure>
 
 ---
+
+<!-- .slide: class="smaller-size" -->
 
 # SBOM challenges
 
@@ -405,7 +407,7 @@ in the Making of this Presentation
 >>>>>>> 827d186f (Correcting image source for end slide)
 =======
 <figure>
-    <img src="images/openssf.png" alt="Example OpenSSF Scorecard Report" width="1000" height="auto">
+    <img src="images/openssf.png" alt="Example OpenSSF Scorecard Report" width="800" height="auto">
     <figcaption>Example OpenSSF Scorecard Report; see <a href="https://scorecard.dev/">https://scorecard.dev/</a></figcaption>
 </figure>
 
