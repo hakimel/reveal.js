@@ -55,6 +55,7 @@
 		"build:core": "tsc && vite build && vite build -c vite.config.styles.ts",
 		"build:styles": "vite build -c vite.config.styles.ts",
 		"build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts",
+		"package": "node zip.js",
 		"test": "node test.js"
 	},
 	"author": {
@@ -78,6 +79,7 @@
 		"fitty": "^2.4.2",
 		"glob": "^10.3.10",
 		"highlight.js": "^11.10.0",
+		"jszip": "^3.10.1",
 		"marked": "^4.3.0",
 		"node-qunit-puppeteer": "^2.2.0",
 		"qunit": "^2.22.0",
