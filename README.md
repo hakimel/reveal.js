@@ -184,8 +184,8 @@ in the Making of this Presentation
 ---
 
 <figure>
-    <img src="images/ndepend-messy-graph.png" alt="Messy Dependency Graph" width="1000" height="auto">
-    <figcaption><a href="https://understandlegacycode.com/blog/safely-restructure-codebase-with-dependency-graphs/">Nicolas Carlo: Safely restructure your codebase with Dependency Graphs</a></figcaption>
+    <img src="images/express-dependency-graph.svg" alt="express Dependency Graph" width="800" height="auto">
+    <figcaption><a href="https://npmgraph.js.org/?q=express">Dependency Graph for npm package 'express' by https://npmgraph.js.org</a></figcaption>
 </figure>
 
 ---
