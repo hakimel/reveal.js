@@ -653,13 +653,9 @@ C: Was hat den das alles mit SBOMs zu tun?
 
 A: SBOMs stellen ein mögliches Artefakt dar um eine Inventarisierung der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Und wenn man einmal die Basics gemeistert hat...und die Entwicklungsteams besser Acht geben auf was sie so einbinden...gestaltet sich auch die ganze SBOM generierung und Gvernance einfacher.
 
-C: Und somit bringen wir sicherer
+C: Also sind SBOMs doch nicht gänzlich nutzlos?
 
-//to do Ende!!
-
-C: Also sind SBOMs nicht nur Schwachsinn
-
-A: Nein...
+A: Nicht gänzlich...
 
 C: Großartig! Toll, dass ich Sie überzeugen konnte...
 
