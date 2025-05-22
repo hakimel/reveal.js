@@ -217,7 +217,6 @@ C: Ach, das ist ja praktisch!
 
 ## Akt 2 [15min] 
 
-
 C: Also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?
 
 <<<<<<< HEAD
@@ -652,11 +651,11 @@ A: Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekt
 
 C: Was hat den das alles mit SBOMs zu tun?
 
-A: SBOMs stellen ein mögliches Artefakt dar um eine Inventarisierung der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. 
+A: SBOMs stellen ein mögliches Artefakt dar um eine Inventarisierung der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Und wenn man einmal die Basics gemeistert hat...und die Entwicklungsteams besser Acht geben auf was sie so einbinden...gestaltet sich auch die ganze SBOM generierung und Gvernance einfacher.
 
-C: Können wir dann nicht mehr rausholen?
+C: Und somit bringen wir sicherer
 
-A: Ja, wenn man erst mal die Basics gemeistert haben...können wir anfangen mit SBOMs zu arbeiten. Beispielsweise indem man die Informationen der SBOM sowie die dazugehörigen Vulnerabilities in automatisierte Tests einpflegt um z.B. die Exploitability zu überprüfen und das Produkt sukzessive zu verbessen.
+//to do Ende!!
 
 C: Also sind SBOMs nicht nur Schwachsinn
 

@@ -219,7 +219,7 @@ in the Making of this Presentation
 
 - Machine-readable nested inventory list of ingredients making up software components
 - High expectations from different stakeholders
-- SBOM enhances Software Composition Analysis with proprietary and commercial components
+- Differentiation between direct and transitive dependencies
 
 ---
 
@@ -344,7 +344,7 @@ in the Making of this Presentation
 - Getting SBOMs from suppliers, open source components and other third parties is challenging
 - Creation of complete and correct SBOMs can be hard for development teams
 - Generation, transmission and update of SBOMs lacks standardization
-- Managing vulnerabilities through SBOMs is unrealistic with current means
+- Managing vulnerabilities through SBOMs is unrealistic with current means (VEX)
 - SBOMs are not helpful against supply chain attacks
 
 ---
