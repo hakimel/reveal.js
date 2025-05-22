@@ -1,108 +1,92 @@
 {
-  "name": "reveal.js",
-  "version": "5.2.1",
-  "description": "The HTML Presentation Framework",
-  "homepage": "https://revealjs.com",
-  "subdomain": "revealjs",
-  "main": "dist/reveal.js",
-  "module": "dist/reveal.esm.js",
-  "license": "MIT",
-  "scripts": {
-    "test": "gulp test",
-    "start": "gulp serve",
-    "build": "gulp build"
-  },
-  "author": {
-    "name": "Hakim El Hattab",
-    "email": "hakim.elhattab@gmail.com",
-    "web": "https://hakim.se"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/hakimel/reveal.js.git"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "reveal",
-    "slides",
-    "presentation"
-  ],
-  "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@babel/eslint-parser": "^7.22.15",
-    "@babel/preset-env": "^7.23.2",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-terser": "^0.4.4",
-    "babel-plugin-transform-html-import-to-string": "2.0.0",
-    "colors": "^1.4.0",
-    "core-js": "^3.33.1",
-    "fitty": "^2.3.7",
-    "glob": "^10.3.10",
-    "gulp": "^5.0.0",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-connect": "^5.7.0",
-    "gulp-eslint": "^6.0.0",
-    "gulp-header-comment": "^0.10.0",
-    "gulp-zip": "^5.1.0",
-    "highlight.js": "^11.9.0",
-    "marked": "^4.3.0",
-    "node-qunit-puppeteer": "^2.2.0",
-    "through2": "^4.0.2",
-    "qunit": "^2.22.0",
-    "rollup": "^4.1.5",
-    "sass": "^1.79.4",
-    "yargs": "^17.7.2"
-  },
-  "overrides": {
-    "gulp-connect": {
-      "send": "0.19.0"
-    },
-    "gulp-header-comment": {
-      "moment": "2.30.1"
-    }
-  },
-  "browserslist": "> 2%, not dead",
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es6": true
-    },
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "sourceType": "module",
-      "allowImportExportEverywhere": true,
-      "requireConfigFile": false
-    },
-    "globals": {
-      "module": false,
-      "console": false,
-      "unescape": false,
-      "define": false,
-      "exports": false
-    },
-    "rules": {
-      "curly": 0,
-      "eqeqeq": 2,
-      "wrap-iife": [
-        2,
-        "any"
-      ],
-      "no-use-before-define": [
-        2,
-        {
-          "functions": false
-        }
-      ],
-      "new-cap": 2,
-      "no-caller": 2,
-      "dot-notation": 0,
-      "no-eq-null": 2,
-      "no-unused-expressions": 0
-    }
-  }
+	"name": "reveal.js",
+	"version": "6.0.0-rc.1",
+	"description": "The HTML Presentation Framework",
+	"homepage": "https://revealjs.com",
+	"subdomain": "revealjs",
+	"license": "MIT",
+	"main": "dist/reveal.js",
+	"module": "dist/reveal.mjs",
+	"types": "dist/reveal.d.ts",
+	"type": "module",
+	"exports": {
+		".": {
+			"import": "./dist/reveal.mjs",
+			"require": "./dist/reveal.js",
+			"default": "./dist/reveal.js"
+		},
+		"./reveal.css": "./dist/reveal.css",
+		"./reset.css": "./dist/reset.css",
+		"./theme/*": "./dist/theme/*",
+		"./plugin/highlight": {
+			"import": "./dist/plugin/highlight.mjs",
+			"require": "./dist/plugin/highlight.js",
+			"default": "./dist/plugin/highlight.js"
+		},
+		"./plugin/markdown": {
+			"import": "./dist/plugin/markdown.mjs",
+			"require": "./dist/plugin/markdown.js",
+			"default": "./dist/plugin/markdown.js"
+		},
+		"./plugin/math": {
+			"import": "./dist/plugin/math.mjs",
+			"require": "./dist/plugin/math.js",
+			"default": "./dist/plugin/math.js"
+		},
+		"./plugin/notes": {
+			"import": "./dist/plugin/notes.mjs",
+			"require": "./dist/plugin/notes.js",
+			"default": "./dist/plugin/notes.js"
+		},
+		"./plugin/search": {
+			"import": "./dist/plugin/search.mjs",
+			"require": "./dist/plugin/search.js",
+			"default": "./dist/plugin/search.js"
+		},
+		"./plugin/zoom": {
+			"import": "./dist/plugin/zoom.mjs",
+			"require": "./dist/plugin/zoom.js",
+			"default": "./dist/plugin/zoom.js"
+		}
+	},
+	"scripts": {
+		"dev": "npm run start",
+		"start": "vite --port 8000",
+		"build:core": "tsc && vite build && vite build -c vite.config.styles.ts",
+		"build:styles": "vite build -c vite.config.styles.ts",
+		"build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts",
+		"package": "node zip.js",
+		"test": "node test.js"
+	},
+	"author": {
+		"name": "Hakim El Hattab",
+		"email": "hakim.elhattab@gmail.com",
+		"web": "https://hakim.se"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/hakimel/reveal.js.git"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"keywords": [
+		"reveal",
+		"slides",
+		"presentation"
+	],
+	"devDependencies": {
+		"fitty": "^2.4.2",
+		"glob": "^10.3.10",
+		"highlight.js": "^11.10.0",
+		"jszip": "^3.10.1",
+		"marked": "^4.3.0",
+		"node-qunit-puppeteer": "^2.2.0",
+		"qunit": "^2.22.0",
+		"sass": "^1.80.2",
+		"typescript": "^5.2.2",
+		"vite": "^5.4.10",
+		"vite-plugin-dts": "^4.2.4"
+	},
+	"browserslist": "> 2%, not dead"
 }
