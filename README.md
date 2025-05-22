@@ -211,7 +211,7 @@ in the Making of this Presentation
 
 ---
 
-<img src="images/sbom-example.png" alt="SPDX JSON Example" width="800" height="auto">
+<img src="images/sbom-example.png" alt="SPDX JSON Example" width="1000" height="auto">
 
 ---
 
