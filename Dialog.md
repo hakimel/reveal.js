@@ -665,7 +665,7 @@ C: Oh, entschuldigen Sie bitte, da muss ich rangehen. Arbeiten Sie mir dann bitt
 
 [C nimmt Handy ans Ohr und läuft von der Bühne]
 
-C: Ja Tachchen Hermann! Du, wir machen jetzt auch SBOMs... ja, richtig, die Supply Chain Attacken sind damit abgewehrt
+C: Ja Tachchen Hermann! Du, wir machen jetzt auch S-B-O-M-S... ja, richtig, die Supply Chain Attacken sind damit abgewehrt
 
 [A schlägt die Hände vor's Gesicht]
 
