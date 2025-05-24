@@ -637,7 +637,7 @@ C: Nirgends hoffe ich mal!
 
 - Slide: log4j legacy versions
 
-A: Weit verfehlt, diese wird noch regelmäßig heruntergeladen und in Software eingebunden. Daher müssen wir bei den Entwickler:innen das Bewusstsein für einen verantwortungsvollen Umgang mit Abhängigkeiten schärfen.
+A: Weit gefehlt, diese wird noch regelmäßig heruntergeladen und in Software eingebunden. Daher müssen wir bei den Entwickler:innen das Bewusstsein für einen verantwortungsvollen Umgang mit Abhängigkeiten schärfen.
 
 C: Z.B. nur Abhängigkeiten ohne jegliche Schwachstellen...
 
