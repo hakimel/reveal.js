@@ -127,6 +127,10 @@ No CISOs were harmed <br/>
 in the Making of this Presentation
 </div>
 
+Notes:
+
+A [am Telefon]: ...ich sag's dir, wenn noch jemand mit SBOMs um die Ecke kommt, dann kündige ich. Oh, ich melde mich nachher der Chef kommt gerade.
+
 ---
 
 # 1st Act
@@ -355,7 +359,7 @@ C: ...dann sind wir ja bald fertig damit! Prima!
 
 Notes:
 
-A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können, brauchen wir die SBOMs von Komponenten, die von unseren Lieferanten kommen.
+A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können, brauchen wir alle SBOMs von Komponenten, die von unseren Lieferanten kommen.
 
 C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
 
@@ -383,11 +387,9 @@ C: Nur so wenige???
 
 A: Ja, und die Rate, mit der die Bereitstellung von SBOMs zunimmt, macht da auch nicht viel mehr Hoffnung.
 
-problematisch; die kleinen Lieferanten, in bestimmten Nischen, die nicht auf Software-Entwicklung spezialisiert sind, haben es schon schwieriger.
+A: Die großen Hersteller sind dabei gar nicht einmal so problematisch; die kleinen Lieferanten, in bestimmten Nischen, die nicht auf Software-Entwicklung spezialisiert sind, haben es schon schwieriger.
 
 C: SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden!
-
-A: Die großen Hersteller sind dabei gar nicht einmal so 
 
 A: Wie vorhin kurz angedeutet, beinhalten unsere Anwendungen nicht nur Komponenten von unseren Lieferanten, sondern auch...
 
@@ -416,7 +418,7 @@ C: Dann nutzen wir halt einfach kein Linux mehr...
 
 A: Es geht hierbei nicht nur um Betriebssysteme, sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD-Tools, Programmiersprachen und Containertechnologin.
 
-C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie dazu bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil
+C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie dazu bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil.
 
 ---
 
@@ -449,11 +451,11 @@ A: Mal abgesehen von diesen Herausforderungen hängt die Komplexität für die E
 
 C: Hä, warum denn das? Code ist doch Code, egal in welcher Sprache!
 
-A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man häufig schon automatisch die direkten Abhängigkeiten einer Applikation. Bei den nächsten Ebenen, den Transitiven Abhängigkeiten, kann es aber schon schwieriger werden.
+A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man häufig schon automatisch die direkten Abhängigkeiten einer Applikation.
 
 C: Wir haben aber nicht nur Web-Applikationen bei uns...
 
-A: Genau! Bei Server-Applikationen oder Hardware-naher Entwicklung werden Drittanbieter-Bibliotheken oftmals anders eingebunden und es gibt keine schöne Liste wie in der Web-Welt. Da müssen die Entwicklungsteams daran arbeiten, die Abhängigkeiten klar zu dokumentieren. Je älter die Technologie, desto schwieriger wird es, eine SBOM dafür zu erstellen.
+A: Genau! Bei Legacy-Applikationen oder auch Hardware-naher Entwicklung werden Drittanbieter-Bibliotheken oftmals anders eingebunden und es gibt keine schöne Liste wie in der Web-Welt. Da müssen die Entwicklungsteams daran arbeiten, die Abhängigkeiten klar zu dokumentieren. Je älter die Technologie, desto schwieriger wird es, eine SBOM dafür zu erstellen.
 
 C: Naja, da wird es wohl schon irgendeine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Das kann doch nicht so schwer sein.
   
@@ -461,11 +463,11 @@ A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert.
 
 C: Es gibt doch Richtlinien und Standards!
 
-A: Ja, die Richtlinien und Standards beziehen sich auf die Struktur.
+A: Ja, die Richtlinien und Standards beziehen sich auf die Struktur, und sind in erster Linie nur Mindestanforderungen.
 
 C: Das ist ja, was wir brauchen!
 
-A: Das ist wichtig, aber nicht genug. Granularität, Tiefe, oder die Beziehung zwischen den Komponenten sind nicht definiert und jeder macht das ein bisschen anders. 
+A: Das ist wichtig, aber nicht genug. Granularität, Tiefe, oder die Beziehung zwischen den Komponenten macht dann jeder ein bisschen anders.
 
 C: Stellt das ein echtes Problem dar?
 
@@ -554,15 +556,19 @@ C: Wie das?
 
 Notes:
 
-A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. Zum Beispiel über einen Softwarelieferanten mit schlechteren Sicherheitsmaßnahmen. Andere Beispiele wären, Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
+A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. 
+
+C: So wie der Name schon sagt...
+
+A: Zum Beispiel über Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
 
 C: War das bei log4j nicht der Fall?
 
-A: Nein, log4j war eine kritische Zero-Day Schwachstelle.
+A: Nein, log4j war eine Bibliothek die von einer kritischen Zero-Day Schwachstelle - log4shell - betroffen war.
 
-C: Aber Supply Chain Angriffe nehmen doch zu...
+C: Zurück zu den Supply Chain Angriffen...
 
-A: Ja, das stimmt. Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war, als der Software-Hersteller Solarwinds in 2020 gehackt wurde: dabei haben die Angreifer das Build System kompromittiert und es ihnen so ermöglicht, Schadcode in das entwickelte Produkt einzubauen. Die Kunden haben dann die Software installiert, weil diese von ihrem Lieferanten kam. Dadurch haben sich die Angreifer dann Zugriff auf die Zielsysteme verschafft.
+A: Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war, als der Software-Hersteller Solarwinds in 2020 gehackt wurde: dabei haben die Angreifer das Build System kompromittiert und es ihnen so ermöglicht, Schadcode in das entwickelte Produkt einzubauen. Die Kunden haben dann die Software installiert, weil diese von ihrem Lieferanten kam. Dadurch haben sich die Angreifer dann Zugriff auf die Zielsysteme verschafft.
 
 C: Ja, aber das würden wir ja anhand der SBOM verstehen, dass da was drin ist, was nicht da sein sollte.
 
@@ -643,9 +649,9 @@ C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar b
 
 A: Naja, wir haben dann eine sehr lange, eventuell inkonsistente Liste an Schwachstellen. Aber nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig, dass diese ausgenutzt werden kann.
 
-C: Wie geht das denn?
+C: Wie geht das denn? Man kann ja nicht ein bisschen angreifbar sein. Genau wie man nicht nur ein bisschen schwanger sein kann.
 
-A: Wenn die Entwickler:innen den verwundbaren Teil nicht benutzen der von der Schwachstelle betroffen ist, dann haben Angreifende häufig auch nicht die Möglichkeit, diese zu missbrauchen. Das ist das Konzept der sogenannten "Exploitability".
+A: Wenn die Entwickler:innen den verwundbaren Teil nicht benutzen der von der Schwachstelle betroffen ist, dann haben Angreifende häufig auch nicht die Möglichkeit, diese zu missbrauchen. Das ist das Konzept von "Exploitability".
 
 C: Aber woher wissen wir denn dann, ob wir angreifbar sind oder nicht?
 
@@ -670,7 +676,7 @@ A: Ja, damit kann der Anbieter die SBOM erweitern, um die Ausnutzbarkeit von Sch
 
 C: Das klingt doch vielversprechend!
 
-A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sind aber leider ein bisschen dynamischer. Der VEX gibt mir nur einen Snapshot zu einem gewissen Zeitpunkt. Wenn neue Schwachstellen entdeckt werden, muss der Hersteller diese neu für jede noch aktiv genutzte Version seiner Software bewerten und neue VEX-Dateien für diese Produkte schicken.
+A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sind aber leider ein bisschen dynamischer. Der VEX gibt mir nur einen Snapshot zu einem gewissen Zeitpunkt. Wenn neue Schwachstellen entdeckt werden, müssen alle Hersteller, die diese Komponente einsetzen, ihre Produkte bewerten und neue VEX-Dateien für alle noch aktiv genutzten Versionen bereitstellen.
 
 C: Ohje, dann ertrinken wir ja diesen Unterlagen!
 
@@ -803,7 +809,7 @@ A: Weit gefehlt, diese wird noch regelmäßig heruntergeladen und in Software ei
 
 C: Z.B. nur Abhängigkeiten ohne jegliche Schwachstellen...
 
-A: Ganz ohne Schwachstellen wird es sehr schwierig...allerdings könnte ein adequates Risikoprofil als eines der Auswahlkriterien sein, die wir mit den Entwicklungsteams ausarbeiten. Andere wären z.B., dass sie aktiv gepflegt werden, ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
+A: Ganz ohne Schwachstellen wird es sehr schwierig... Einmal sollten Entwickler:innen die Anzahl externer Abhängigkeiten wo möglich reduzieren. Die Auswahl sollte auch bestimmten Qualitätskriterien unterliegen z.B., dass sie aktiv gepflegt werden, ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
 
 C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir direkt einsetzen können? (Ratiopharm meme)
 
@@ -821,7 +827,7 @@ C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir dire
 
 Notes:
 
-A: Hier gibt es z.B. die openssf scorecard zur Bewertung von open source projekten die man auch direkt in den Pipelines einbinden kann um den Entwickler:innen direkt Rückmeldung zu geben.
+A: Hier gibt es für Open Source z.B. die openssf scorecard zur Bewertung von Projekten die man auch direkt in den Pipelines einbinden kann um den Entwickler:innen direkt eine Einschätzung ihrer Abhängigkeiten zu geben.
 
 C: Was hat den das alles mit SBOMs zu tun
 
@@ -835,7 +841,7 @@ C: Was hat den das alles mit SBOMs zu tun
 
 Notes:
 
-A: SBOMs stellen ein mögliches Artefakt dar um eine Inventarisierung der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Und wenn man einmal die Basics gemeistert hat...und die Entwicklungsteams besser Acht geben auf was sie so einbinden...gestaltet sich auch die ganze SBOM generierung und Gvernance einfacher.
+A: SBOMs stellen ein mögliches Artefakt dar um eine Zutaten der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Gepaart mit einer ordentlichen Software Composition Analyse ermöglicht uns das Aussagen über Qualität und Risiken zu treffen.
 
 C: Also sind SBOMs doch nicht gänzlich nutzlos?
 
@@ -856,6 +862,10 @@ C: Ja Tachchen Hermann! Du, wir machen jetzt auch SBOMs... ja, richtig, die Supp
 ---
 
 <img src="images/the-end.jpg" alt="The End" width="1000" height="auto">
+
+Notes:
+
+A: ...ich kündige.
 
 ---
 
