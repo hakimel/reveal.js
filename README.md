@@ -271,7 +271,7 @@ Notes:
 
 A [grinst] ...und genau da kommen SBOMs ins Spiel!
 
-C: Ja klar, die Zutatenliste, wusste ich doch!
+C: Ja klar, die Zutatenliste, wusste ich doch! Ich wollt Sie nur testen [zwinkert]
 
 ---
 
@@ -361,7 +361,7 @@ Notes:
 
 A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können, brauchen wir alle SBOMs von Komponenten, die von unseren Lieferanten kommen.
 
-C: Das geht doch schnell, wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
+C: Frau Mair, das geht doch einfach; wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
 
 ---
 
@@ -389,7 +389,7 @@ A: Ja, und die Rate, mit der die Bereitstellung von SBOMs zunimmt, macht da auch
 
 A: Die großen Hersteller sind dabei gar nicht einmal so problematisch; die kleinen Lieferanten, in bestimmten Nischen, die nicht auf Software-Entwicklung spezialisiert sind, haben es schon schwieriger.
 
-C: SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden!
+C: Da können wir nun wirklch keine Rücksicht nehmen; SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden!
 
 A: Wie vorhin kurz angedeutet, beinhalten unsere Anwendungen nicht nur Komponenten von unseren Lieferanten, sondern auch...
 
@@ -414,7 +414,7 @@ Notes:
 
 A: Naja, einzelne Untersuchungen schätzen, dass Open Source in 97% der modernen Anwendungen verwendet werden
 
-C: Dann nutzen wir halt einfach kein Linux mehr... 
+C: Dann nutzen wir halt einfach kein Linux mehr... Haben Sie schon die neuen MacBooks im Marketing-Team gesehen?
 
 A: Es geht hierbei nicht nur um Betriebssysteme, sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD-Tools, Programmiersprachen und Containertechnologin.
 
@@ -429,7 +429,7 @@ C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie d
 
 Notes:
 
-A: Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten Open Source Projekte von einzelnen oder wenigen Menschen gewartet werden. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu.
+A: Marktanteile? Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten Open Source Projekte von einzelnen oder wenigen Menschen gewartet werden. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu.
 
 ---
 
@@ -439,7 +439,7 @@ Notes:
 
 A: Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
 
-C: Ach nein, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist auch bereits abgeschlossen. Vielleicht aber nächstes Jahr?
+C: Whoooow, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist auch bereits abgeschlossen. Vielleicht aber nächstes Jahr?
 
 ---
 
@@ -449,7 +449,7 @@ Notes:
 
 A: Mal abgesehen von diesen Herausforderungen hängt die Komplexität für die Erstellung einer SBOM stark von der Programmiersprache und den verwendeten Frameworks ab.
 
-C: Hä, warum denn das? Code ist doch Code, egal in welcher Sprache!
+C: Ach kommen sie schon! Code ist doch Code, egal in welcher Sprache!
 
 A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man häufig schon automatisch die direkten Abhängigkeiten einer Applikation.
 
@@ -457,11 +457,11 @@ C: Wir haben aber nicht nur Web-Applikationen bei uns...
 
 A: Genau! Bei Legacy-Applikationen oder auch Hardware-naher Entwicklung werden Drittanbieter-Bibliotheken oftmals anders eingebunden und es gibt keine schöne Liste wie in der Web-Welt. Da müssen die Entwicklungsteams daran arbeiten, die Abhängigkeiten klar zu dokumentieren. Je älter die Technologie, desto schwieriger wird es, eine SBOM dafür zu erstellen.
 
-C: Naja, da wird es wohl schon irgendeine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Das kann doch nicht so schwer sein.
+C: Naja, da wird es wohl schon irgendeine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Seien Sie doch mal forward thinking! Das kann doch nicht so schwer sein.
   
 A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. 
 
-C: Es gibt doch Richtlinien und Standards!
+C: Es gibt doch Richtlinien und Standards! Sogsr vom BSI!
 
 A: Ja, die Richtlinien und Standards beziehen sich auf die Struktur, und sind in erster Linie nur Mindestanforderungen.
 
@@ -473,7 +473,7 @@ C: Stellt das ein echtes Problem dar?
 
 A: So ist es sehr schwer herauszufinden, ob eine gelieferte SBOM korrekt und vollständig ist.
 
-C: Das sollte man aber technisch lösen können, es gibt ja bereits verschiedenste Tools auf dem Markt! Ich habe sogar bereits den Prozess initiiert, um ein kostenloses Tool für uns auszuwählen und das alles zu beschleunigen.
+C: Aber es gibt doch tausende Tools auf dem Markt! Sagen Sie mir welches wir nehmen sollen, dann bring ich das für Sie durch den Einkauf.
 
 A: Wie vorhin bereits angedeutet: einige unserer Teams erstellen bereits SBOMs als Teil der automatisierten Build Pipelines. Würden wir aber jetzt zwei Tools zur automatischen Erstellung von SBOMs über die Anwendungen laufen lassen, würden diese mit hoher Wahrscheinlichkeit verschiedene Ergebnisse liefern.
 
@@ -481,7 +481,7 @@ C: Na, da muss doch dann eins falsch sein!
 
 A: Womöglich ist keine SBOM falsch, sondern beide unvollständig.
 
-C: Dann sollten wir diese ganzen SBOMs einfach harmonisieren. Das geht bestimmt mit irgendeiner KI.
+C: Dann sollten wir diese ganzen SBOMs einfach harmonisieren. Das geht bestimmt mit KI!
 
 ---
 
@@ -504,11 +504,11 @@ Notes:
 
 A: Die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wiederum stellen sie via e-Mail auf Anfrage zur Verfügung.
 
-C: Das ist doch super aufwendig. Mit Sharepoint ginge das bestimmt einfacher.
+C: Denken Sie doch nicht so kompliziert! Mit Sharepoint ginge das bestimmt einfacher.
 
 A: [Verdreht die Augen] Aktuell fragen wir die SBOMs meistens per e-Mail an und auf demselben Weg erhalten wir diese dann auch. Aber so richtig können wir dabei auch die Integrität und Authentizität der SBOMs nicht überprüfen; wir können also nichtmal automatisiert sicherstellen, dass die aus der richtigen Quelle kommen und auf dem Weg zu uns nicht manipuliert wurden.
 
-C: Dafür gibt es doch bewährte Methoden, wie z.B. Signaturen oder Checksums, die man ja auch an anderer Stelle benutzt.
+C: Dafür gibt es doch bereits bewährte Methoden mit elektronischen Signaturen. Kennen Sie das?
 
 ---
 
@@ -532,7 +532,7 @@ Notes:
 
 A: Erstmal haben Sie nur eine Menge einzelner Dokumente, die händisch durchsucht werden müssten. Und vergessen Sie nicht, dass die SBOMs in erster Linie maschinenlesbar sind - oder wollen SIE noch einmal einen Blick reinwerfen? [grinst]
 
-C: Nein, nein, auf keinen Fall!
+C: Nein danke, nein danke, auf keinen Fall!
 
 A: Das bedeutet also, wir brauchen ein Tool, das die SBOMs verwalten kann, um diese durchsuchbar zu machen.
 
@@ -540,7 +540,7 @@ C: Ja, dann haben wir das ja zusammen. Noch ein weiteres Tool einkaufen kriegen 
 
 A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg räumen.
 
-C: Wie das?
+C: Was denn für Missverständnisse?
 
 ---
 
@@ -598,7 +598,7 @@ Note:
 
 A: Ja, da wären SBOMs schon eher hilfreich, weil es eine Dependency mit einer kritischen Schwachstelle war.
 
-C: Das war ein Alptraum herauszufinden wo das im Einsatz war! Aber mit den SBOMs hätten wir ja jetzt die Schwachstellen alle in der SBOM gelistet.
+C: Das war ein Alptraum herauszufinden wo das im Einsatz war! Aber mit den SBOMs hätten wir ja jetzt die Schwachstellen alle zentral gelistet.
 
 A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt ein Entwicklungsteam in erster Linie einen Überblick über die Abhängigkeiten ihrer Software. Durch die Informationen wie Hersteller, Name und Version der Komponenten werden diese zunächst einmal eindeutig identifiziert.
 
@@ -632,7 +632,7 @@ Notes:
 
 A: Genau da liegt das nächste Problem: Durch die monetäre Abhängigkeit von der US-amerikanischen Regierung können sich politische Entscheidungen, z.B. von freidrehenden Präsidenten, recht schnell auf die Verfügbarkeit solcher zentralen Services auswirken.
 
-C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dieser Stelle in Europa ein bisschen suveräner werden und unsere eigene Datenbank bauen.
+C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dieser Stelle in Europa ein bisschen souveräner werden und unsere eigene Datenbank bauen.
 
 ---
 
@@ -706,7 +706,7 @@ A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, das
 
 Notes:
 
-C: Lohnt sich der scheinbar riesige Aufwand dann überhaupt bei all den Unzulänglichkeiten...
+C: Bei all den Unzulänglichkeiten und dem Riesenaufwand... Lohnt es sich denn dann, in SBOMs zu investieren?
 
 ---
 <<<<<<< HEAD
@@ -771,7 +771,7 @@ C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie auseinandergenom
 
 A: In der Software Entwicklung ist ein Thema von vitaler Wichtigkeit: Abhängigkeiten tracken! Das macht man in Bezug auf Open Source Packages mit einer sogenannten "Software Composition Analysis".
 
-C: Was bringt mir das?
+C: Und was bringtmir diese "Software Composition Analyse? Versuchen Sie mal einen Elevator Pitch!
 
 A: Naja mit der Software Composition Analysis wird die Applikation nach externen Abhängigkeiten durchsucht und überprüft, ob die Komponenten aktuell sind, Schwachstellen enthalten und gegebenenfalls problematische Lizenzen beinhalten.
 
@@ -807,11 +807,11 @@ Notes:
 
 A: Weit gefehlt, diese wird noch regelmäßig heruntergeladen und in Software eingebunden. Daher müssen wir bei den Entwickler:innen das Bewusstsein für einen verantwortungsvollen Umgang mit Abhängigkeiten schärfen.
 
-C: Z.B. nur Abhängigkeiten ohne jegliche Schwachstellen...
+C: Z.B. mit einer Policy: nur Abhängigkeiten ohne jegliche Schwachstellen!
 
 A: Ganz ohne Schwachstellen wird es sehr schwierig... Einmal sollten Entwickler:innen die Anzahl externer Abhängigkeiten wo möglich reduzieren. Die Auswahl sollte auch bestimmten Qualitätskriterien unterliegen z.B., dass sie aktiv gepflegt werden, ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
 
-C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas was wir direkt einsetzen können? (Ratiopharm meme)
+C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas von Ratiopharm?
 
 ---
 
@@ -841,9 +841,9 @@ C: Was hat den das alles mit SBOMs zu tun
 
 Notes:
 
-A: SBOMs stellen ein mögliches Artefakt dar um eine Zutaten der Software darzustellen. Schlußendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Gepaart mit einer ordentlichen Software Composition Analyse ermöglicht uns das Aussagen über Qualität und Risiken zu treffen.
+A: SBOMs stellen ein mögliches Artefakt dar um eine Zutaten der Software darzustellen. Schlussendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Gepaart mit einer ordentlichen Software Composition Analyse ermöglicht uns das Aussagen über Qualität und Risiken zu treffen.
 
-C: Also sind SBOMs doch nicht gänzlich nutzlos?
+C: Also würden Sie mir zustimmen, wenn ich sagen würde, SBOMs sind doch nicht gänzlich nutzlos?
 
 A: Nicht gänzlich...
 
@@ -855,7 +855,7 @@ C: Oh, entschuldigen Sie bitte, da muss ich rangehen. Arbeiten Sie mir dann bitt
 
 [C nimmt Handy ans Ohr und läuft von der Bühne]
 
-C: Ja Tachchen Hermann! Du, wir machen jetzt auch SBOMs... ja, richtig, die Supply Chain Attacken sind damit abgewehrt
+C: Ja Tachchen Hermann! Ja, ja, Supply Chain Attacks kenn ich. Da nutzen wir jetzt S-B-O-M-S
 
 [A schlägt die Hände vor's Gesicht]
 
