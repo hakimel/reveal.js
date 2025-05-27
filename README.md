@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center">
   <a href="https://revealjs.com">
   <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">
@@ -114,6 +115,17 @@ The rendered presentation is available [here](https://something-appsec.github.io
 =======
 > This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika. The rendered presentation is available **[here](https://something-appsec.github.io/sbom-talk/)**.
 >>>>>>> afa91ca8 (Single line?)
+=======
+<!-- .slide: data-visibility="hidden" -->
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/something-appsec/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/something-appsec/sbom-talk)
+
+> [!NOTE]
+> This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
+> 
+> The rendered presentation is available **[here](https://something-appsec.github.io/sbom-talk/)**.
+
+---
+>>>>>>> 4ee23168 (Intro Section)
 
 >>>>>>> b230e4c5 (Introduction)
 # SBOMs
