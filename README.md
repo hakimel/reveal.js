@@ -883,9 +883,9 @@ SBOM available <!-- .element class="smaller-text" -->[here](https://github.com/s
 ---
 
 <img src="images/cc.svg" style="width: 5em; height: auto; margin-left: .5em"><img src="images/by.svg" style="width: 5em; height: auto; margin-left: .5em"><img src="images/sa.svg" style="width: 5em; height: auto; margin-left: .5em;"><br/>
-<div class="smaller-text"><a href="https://github.com/something-appsec/sbom-talk">SBOM - Eine Tragikomödie in 3 Akten</a><br/>© 2025 by Jasmin Mair, Lukas Mika<br/>is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a><br/></div>
+<div class="smaller-text"><a href="https://github.com/something-appsec/sbom-talk">SBOM - Eine Tragikomödie in 3 Akten</a><br/>© 2025 by Jasmin Mair, Lukas Mika<br/>is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div>
 
-
+<br/>
 Notes:
 
 <<<<<<< HEAD
