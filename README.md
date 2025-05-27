@@ -92,10 +92,16 @@ This file is also serving as the content for the Presentation at https://dim-0.g
 </div>
 =======
 [!Note] <!-- .element: class="hidden" -->
+<<<<<<< HEAD
 This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
 This file provides the Payload for the presentation and might therefore contain code, which is not natively rendered by GitHub's MarkDown implementation.
 The rendered presentation is available [here](https://something-appsec.github.io/sbom-talk/).
 >>>>>>> f263489c (Reformat intro to Note)
+=======
+> This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
+>
+> The rendered presentation is available **[here](https://something-appsec.github.io/sbom-talk/)**.
+>>>>>>> 175bad2f (Note correction)
 
 >>>>>>> b230e4c5 (Introduction)
 # SBOMs
