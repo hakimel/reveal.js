@@ -832,7 +832,7 @@ A: Naja mit der Software Composition Analysis wird die Applikation nach externen
 
 ---
 
-<<Screenshot OWASP Dependency Tracker>>
+<img src="images/dependency-track.png" alt="Screenshot of Dependency Track" width="1000" height="auto">
 
 Notes:
 
