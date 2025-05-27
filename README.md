@@ -869,7 +869,18 @@ A: ...ich kündige.
 
 ---
 
+# Q & A
+
 Slides and Content available at<br/>https://github.com/something-appsec/sbom-talk
 
 <img src="images/qr-code.gif" alt="QR Code">
+<<<<<<< HEAD
 >>>>>>> d0cdd4cc (Added further slides)
+=======
+
+SBOM available <!-- .element class="smaller-text" -->[here](https://github.com/something-appsec/sbom-talk/dependency-graph/sbom) 
+
+Notes:
+
+Dieser Vortrag ist in Gänze, Script und Slides, open source verfügbar. Einschließlich der SBOM.
+>>>>>>> b86b91f4 (docs: add SBOM and adjust fonz size)
