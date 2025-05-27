@@ -87,7 +87,7 @@ This file is also serving as the content for the Presentation at https://dim-0.g
 
 <p>This file provides the Payload for the presentation and might therefore contain code, which is not natively rendered by GitHub's MarkDown implementation.</p>
 
-<p>The rendered presentation is available via the repository's [GitHub Pages website](https://something-appsec.github.io/sbom-talk/)</p>.
+<p>The rendered presentation is available <a href="https://something-appsec.github.io/sbom-talk/">here</a></p>.
 </div>
 
 >>>>>>> b230e4c5 (Introduction)
