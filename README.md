@@ -41,6 +41,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create beautiful presentations for free. Check out the live demo at [revealjs.com](https://revealjs.com/).
 
 The framework comes with a powerful feature set including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX typesetting](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and an [extensive API](https://revealjs.com/api/).
@@ -98,6 +99,9 @@ This file provides the Payload for the presentation and might therefore contain 
 The rendered presentation is available [here](https://something-appsec.github.io/sbom-talk/).
 >>>>>>> f263489c (Reformat intro to Note)
 =======
+=======
+> [!Note] <!-- .element: class="hidden" -->
+>>>>>>> 58271d2d (Next fix)
 > This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
 >
 > The rendered presentation is available **[here](https://something-appsec.github.io/sbom-talk/)**.
