@@ -834,15 +834,15 @@ A: Naja mit der Software Composition Analysis wird die Applikation nach externen
 
 <img src="images/dependency-track.png" alt="Screenshot of Dependency Track" width="1000" height="auto">
 
-Notes:
+Dialog:
 
 C: Gekauft!
 
 A: Open Source!
 
-C: Das klingt jetzt aber so insgesamt nach nichts Neuem...
+C: Das klingt jetzt aber so insgesamt mehr nach Zutatenliste, als etwas Neuem...
 
-A: Ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten und um kommerzielle Komponenten erweitert worden. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es aber schon seit einiger Zeit.
+A: Neu ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten und um kommerzielle Komponenten erweitert worden. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es aber schon seit einiger Zeit.
 
 C: Aber was soll das dann konkret bringen?
 
