@@ -452,17 +452,17 @@ C: Well, let's take what we can get for now. This is my inventory where I can se
 
 Dialog:
 
-A: Erstmal haben Sie nur eine Menge einzelner Dokumente, die händisch durchsucht werden müssten. Und vergessen Sie nicht, dass die SBOMs in erster Linie maschinenlesbar sind - oder wollen SIE noch einmal einen Blick reinwerfen? [grinst]
+A: Well, first of all, we only have a lot of individual documents that would have to be searched manually. And don't forget that the SBOMs are primarily machine-readable - or do YOU want to take another look? [grins]
 
-C: Nein danke, nein danke, auf keinen Fall!
+C: No, no thanks, absolutely not!
 
-A: Das bedeutet also, wir brauchen ein Tool, das die SBOMs verwalten kann, um diese durchsuchbar zu machen.
+A: So that means we need a tool that can manage the SBOMs to make them searchable.
 
-C: Ja, dann haben wir das ja zusammen. Noch ein weiteres Tool einkaufen kriegen wir auch noch hin! Dann wissen wir endlich, welche Schwachstellen die ganzen Produkte besitzen und können die Supply Chain Angriffe beheben. Großartig!
+C: Yes, then we've got that together. We can also buy another tool! Then we'll finally know what vulnerabilities all the products have and can fix the supply chain attacks. That's great!
 
-A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg räumen.
+A: I think we need to clear up a few misunderstandings about supply chain attacks and vulnerabilities.
 
-C: Was denn für Missverständnisse?
+C: What misconceptions?
 
 ---
 
@@ -478,23 +478,23 @@ C: Was denn für Missverständnisse?
 
 Dialog:
 
-A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. 
+A: Let's start with supply chain attacks: In a supply chain attack, a victim is attacked through its supply chain instead of directly penetrating the victim's systems. 
 
-C: So wie der Name schon sagt...
+C: As the name suggests...
 
-A: Zum Beispiel über Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
+A: For example, by injecting malicious code into a legitimate code repository or tricking developers into installing malicious dependencies.
 
-C: War das bei log4j nicht der Fall?
+C: Was that not the case with log4j?
 
-A: Nein, log4j war eine Bibliothek die von einer kritischen Zero-Day Schwachstelle - log4shell - betroffen war.
+A: No, log4j was a library affected by a critical zero-day vulnerability - log4shell.
 
-C: Zurück zu den Supply Chain Angriffen...
+C: Back to the supply chain attacks...
 
-A: Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war, als der Software-Hersteller Solarwinds in 2020 gehackt wurde: dabei haben die Angreifer das Build System kompromittiert und es ihnen so ermöglicht, Schadcode in das entwickelte Produkt einzubauen. Die Kunden haben dann die Software installiert, weil diese von ihrem Lieferanten kam. Dadurch haben sich die Angreifer dann Zugriff auf die Zielsysteme verschafft.
+A: A very well-known example of a supply chain attack was when the software manufacturer Solarwinds was hacked in 2020: the attackers compromised the build system, allowing them to insert malware into the developed product. Customers then installed the software because it came from their trusted supplier. This allowed the attackers to gain access to the target systems.
 
-C: Ja, aber das würden wir ja anhand der SBOM verstehen, dass da was drin ist, was nicht da sein sollte.
+C: Yes, but we would understand from the SBOM that there is something in there that shouldn't be there.
 
-A: Aber woher erhalten wir die SBOM?
+A: But where do we get the SBOM from?
 
 ---
 
@@ -502,15 +502,15 @@ A: Aber woher erhalten wir die SBOM?
 
 Dialog:
 
-C: Ja... vom Anbieter!
+C: Well...from the supplier!
 
-A: ...der von einem Angreifer kompromittiert wurde, welcher dann wahrscheinlich auch die SBOM entsprechend anpasst, um seine Absichten zu verschleiern. ...und selbst wenn es eine Änderung an der SBOM geben sollte, haben wir als Konsumenten kaum Anhaltspunkte, um eine bösartige Änderung der Software von einer regulären Weiterentwicklung zu unterscheiden.
+A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a regular product development, like new features from a malicious change to the software.
 
-C: Verstanden... also helfen SBOMs gar nicht gegen Supply Chain Attacken?
+C: Got it... So SBOMs don't help against supply chain attacks?
 
-A: Nein.
+A: No.
 
-C: ...und was ist denn dann mit log4j?
+C: ...and then what about log4j?
 
 ---
 
@@ -518,13 +518,17 @@ C: ...und was ist denn dann mit log4j?
 
 Dialog:
 
-A: Ja, da wären SBOMs schon eher hilfreich, weil es eine Dependency mit einer kritischen Schwachstelle war.
+A: Yes, SBOMs could be helpful there because it was a dependency with a critical vulnerability.
 
-C: Das war ein Alptraum herauszufinden wo das im Einsatz war! Aber mit den SBOMs hätten wir ja jetzt die Schwachstellen alle zentral gelistet.
+C: That was a nightmare to find out where it was in use! 
 
-A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt ein Entwicklungsteam in erster Linie einen Überblick über die Abhängigkeiten ihrer Software. Durch die Informationen wie Hersteller, Name und Version der Komponenten werden diese zunächst einmal eindeutig identifiziert.
+A: For you?!?
 
-C: Und woher kriegen wir dann die Schwachstellen zu diesen Abhängigkeiten?
+C: But with the SBOMs we would now have all the vulnerabilities listed centrally.
+
+A: Not so fast! Let's take a quick step back. This inventory primarily gives development teams an overview of the dependencies or ingredients of their software. Information such as the manufacturer, name and version of the components means that they can be clearly identified.
+
+C: And where do we get the vulnerabilities for these dependencies?
 
 ---
 
@@ -536,13 +540,13 @@ C: Und woher kriegen wir dann die Schwachstellen zu diesen Abhängigkeiten?
 
 Dialog:
 
-A: Indem wir öffentliche Schwachstellen-Datenbanken nach Informationen dazu durchsuchen.
+A: By searching public vulnerability databases for information.
 
-C: Öffentliche Schwachstellen-Datenbanken? Kann man sich da einfach anschauen, in welcher Software Sicherheitslücken enthalten sind?
+C: Public vulnerability databases? Is it simply possible to see which software contains security vulnerabilities?
 
-A: Ja, genau. In diesen Datenbanken werden alle möglichen Sicherheitslücken dokumentiert, die von Unternehmen und Sicherheitsforscher:innen veröffentlicht werden. Die größte Datenbank an Schwachstellen wird nebenbei vom US-amerikanischen MITRE betrieben. Das Programm ist ein Eckpfeiler der globalen Sicherheit, da es weltweit von Unternehmen genutzt wird, um Schwachstellen zu veröffentlichen und von Security-Tool-Herstellern, um ihre Services damit zu füttern.
+A: Yes, exactly. These databases document all possible vulnerabilities that are published by companies and security researchers worldwide. The largest database of vulnerabilities is operated by MITRE in the US. The program is a cornerstone of global security, as it is used worldwide by companies to publish vulnerabilities and by security tool vendors to feed their services.
 
-C: Welch ein Glück, dass wir uns in Punkto Sicherheit mal wieder auf die USA verlassen können!
+C: Lucky us...we can once again rely on the USA when it comes to security!
 
 ---
 
@@ -554,9 +558,9 @@ C: Welch ein Glück, dass wir uns in Punkto Sicherheit mal wieder auf die USA ve
 
 Dialog:
 
-A: Genau da liegt das nächste Problem: Durch die monetäre Abhängigkeit von der US-amerikanischen Regierung können sich politische Entscheidungen, z.B. von freidrehenden Präsidenten, recht schnell auf die Verfügbarkeit solcher zentralen Services auswirken.
+A: That's where the next problem lies: due to the monetary dependence on the US government, political decisions, can have a very rapid impact on the availability of such centralized services.
 
-C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dieser Stelle in Europa ein bisschen souveräner werden und unsere eigene Datenbank bauen.
+C: Oh, yes, that could be problematic... Perhaps we should also become a little more sovereign in Europe at this point and build our own database.
 
 ---
 
@@ -568,21 +572,21 @@ C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dies
 
 Dialog:
 
-A: Ja, die ENISA arbeitet bereits daran und hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von der aktuellen "single source of truth", welche die Datenbank von MITRE war, hin zu mehreren Datenbanken und das Ganze wird fragmentiert.
+A: Yes, ENISA is already working on it and has launched the beta version of its own platform. This means that we are moving away from the current "single source of truth", which was the MITRE database, towards multiple databases and the whole thing is becoming fragmented.
 
-C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar bin. Doppelt gemoppelt hält ja besser!
+C: All right, then we'll have several sources that tell us where we're vulnerable. Better safe than sorry!
 
-A: Naja, wir haben dann eine sehr lange, eventuell inkonsistente Liste an Schwachstellen. Aber nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig, dass diese ausgenutzt werden kann.
+A: Well, we then have a very long, possibly inconsistent list of vulnerabilities. But just because a library used contains a vulnerability doesn't necessarily mean that it can be exploited.
 
-C: Wie geht das denn? Man kann ja nicht ein bisschen angreifbar sein. Genau wie man nicht nur ein bisschen schwanger sein kann.
+C: How does that work? You can't be just a little bit vulnerable. Just like you can't be just a little bit pregnant.
 
-A: Wenn die Entwickler:innen den verwundbaren Teil nicht benutzen der von der Schwachstelle betroffen ist, dann haben Angreifende häufig auch nicht die Möglichkeit, diese zu missbrauchen. Das ist das Konzept von "Exploitability".
+A: If the developers don't use the vulnerable part that is affected by the vulnerability, then attackers often don't have the opportunity to abuse it. This is the concept of "exploitability".
 
-C: Aber woher wissen wir denn dann, ob wir angreifbar sind oder nicht?
+C: But how do we know whether we are vulnerable or not?
 
-A: Das müssen wir entsprechend testen und das damit verbundene Risiko bewerten.
+A: We have to test the issues and and assess the associated risk.
 
-C: Das klingt nach ganz schön viel Aufwand... Hah, warum lassen wir das nicht die Anbieter selber testen und die Ergebnisse mit uns teilen?
+C: That sounds like a lot of effort... Hah, why don't we let the software suppliers test it themselves and share the results with us?
 
 ---
 
@@ -594,23 +598,23 @@ C: Das klingt nach ganz schön viel Aufwand... Hah, warum lassen wir das nicht d
 
 Dialog:
 
-A: Ja, das gibt es auch schon. Das ist das sogenannte "Vulnerability Exploitability eXchange", kurz "VEX"
+A: Yes, that already exists. This is the so-called “Vulnerability Exploitability eXchange”, “VEX” for short. 
 
-C: Lassen Sie mich raten: Wieder ein nur maschinell lesbares Dokument?
+C: Let me guess: another machine-read-only document?
 
-A: Ja, damit kann der Anbieter die SBOM erweitern, um die Ausnutzbarkeit von Schwachstellen in den aufgelisteten Komponenten zu klären.
+A: Exactly, suppliers can use it to extend the SBOM to clarify the exploitability of vulnerabilities in the listed components.
 
-C: Das klingt doch vielversprechend!
+C: That sounds promising!
 
-A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sind aber leider ein bisschen dynamischer. Der VEX gibt mir nur einen Snapshot zu einem gewissen Zeitpunkt. Wenn neue Schwachstellen entdeckt werden, müssen alle Hersteller, die diese Komponente einsetzen, ihre Produkte bewerten und neue VEX-Dateien für alle noch aktiv genutzten Versionen bereitstellen.
+A: Well, not really. The VEX is a static document, but vulnerabilities are unfortunately a bit more dynamic. The VEX only gives us a snapshot at a certain point in time. If new vulnerabilities are discovered, all manufacturers using the affected component must evaluate their products and provide new VEX files for all versions still in active use.
 
-C: Ohje, dann ertrinken wir ja diesen Unterlagen!
+C: Oh dear, then we'll drown this documentation!
 
-A: Nicht nur das: Hersteller haben natürlich einen impliziten Anreiz zu zeigen, dass sie von möglichst wenigen Schwachstellen betroffen sind. Und wir können auch nicht bewerten, ob und wie der Hersteller die Anwendbarkeit getestet hat. 
+A: Not only that: manufacturers have an implicit incentive to show that they are affected by as few vulnerabilities as possible. And we can't assess whether and how the manufacturer tests the applicability.
 
-C: ...weil es auch hier an einheitlichen Ansätzen fehlt?
+C: ...because there is also a lack of standardized approaches here?
 
-A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, dass die Verfasser:innen ordentlich arbeiten und wissen was sie tun...
+A: Yes, with both SBOMs and VEX documents, we have to trust that the authors work properly and that know what they are doing...
 
 ---
 
