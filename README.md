@@ -120,7 +120,7 @@ The rendered presentation is available [here](https://something-appsec.github.io
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/something-appsec/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/something-appsec/sbom-talk)
 
 > [!NOTE]
-> This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
+> This is the [reveal.js](https://revealjs.com/) slide deck for the talk **"SBOMs - A Tragicomedy in Three Acts"** by Jasmin Mair and Lukas Mika.
 > 
 > The rendered presentation is available **[here](https://something-appsec.github.io/sbom-talk/)**.
 
@@ -129,12 +129,12 @@ The rendered presentation is available [here](https://something-appsec.github.io
 
 >>>>>>> b230e4c5 (Introduction)
 # SBOMs
-## Eine Tragikomödie in 3 Akten
+## A Tragicomedy in Three Acts
 
 _by *Jasmin Mair* and *Lukas Mika*_
 
 <div style="font-size: 0.6em; margin-top: 2em">
-Presentation Slides and Script available at<br/>
+Presentation slides and script available at<br/>
 <a href="https://github.com/something-appsec/sbom-talk">https://github.com/something-appsec/sbom-talk</a><br/>
 <img src="images/qr-code.gif" width="100" height="auto"><br/>
 </div>
@@ -165,12 +165,12 @@ is purely coincidental.
 
 <div style="font-family: serif; font-size: 0.8em">
 No CISOs were harmed <br/>
-in the Making of this Presentation
+in the making of this presentation
 </div>
 
 Dialog:
 
-A [am Telefon]: ...ich sag's dir, wenn noch jemand mit SBOMs um die Ecke kommt, dann kündige ich. Oh, ich melde mich nachher der Chef kommt gerade.
+A [on the phone]: ...I’m telling you, if one more person comes at me with SBOMs, I’m quitting. Oh, I’ll call you back later, the manager is coming right now.
 
 ---
 
@@ -180,13 +180,13 @@ A [am Telefon]: ...ich sag's dir, wenn noch jemand mit SBOMs um die Ecke kommt, 
 
 Dialog:
 
-C [kommt herein]: Einen wunderschönen guten Morgen, Frau Mair! Wie geht's uns denn heute?
+C [entering the room]: Wonderful good morning, Ms. Mair! So, how are WE doing today?
 
-A [verdreht Augen]: Guten Morgen, Chef. Ich kann ja nur für mich sprechen, aber wir haben gerade monsterviel Stress mit...
+A [rolls eyes]: Good morning Mr. Mika. I can only speak for myself, but we're under a lot of stress at the...
 
-C: Mir geht es grandios, danke der Nachfrage!
+C: I'm doing wonderfully, thanks for asking!
 
-A [seufzt]: Was kann ich denn für Sie tun?
+A [sighs]: What can I do for you?
 
 ---
 
@@ -198,11 +198,11 @@ A [seufzt]: Was kann ich denn für Sie tun?
 
 Dialog:
 
-C: Haben Sie schon von den ganzen Supply Chain Angriffen gehört? Die sind gerade überall! Wir müssen uns hier wirklich _schnellstmöglich_ dagegen schützen!
+C: Have you heard about all the supply chain attacks? They happen everywhere! We need to protect ourselves against them _as soon as possible_!
 
-A: Naja, also...
+A: Well, I mean...
 
-C: Aber ich habe auch schon die Lösung dafür: S-B-O-M-S
+C: I even found the solution for it: S-B-O-M-S
 
 ---
 
@@ -210,19 +210,19 @@ C: Aber ich habe auch schon die Lösung dafür: S-B-O-M-S
 
 Dialog:
 
-A: Bitte was?
+A: Excuse me?
 
 C: S-B-O-M-S
 
-A: Was?
+A: Come again?
 
 C: Software... Billy...
 
-A: Software Bill of Materials? SBOMs?
+A: You mean Software Bill of Materials? SBOMs?
 
-C: Ja genau, hab ich ja gesagt! Die müssen jetzt alle erstellen, um ihre Security Posture zu verbessern!
+C: Exactly what I said! Everyone needs to create them these days to improve the overall security posture!
 
-A: Waren sie mal wieder auf einem Compliance Kongress?
+A: Did you attend a compliance conference once again?
 
 ---
 
@@ -230,7 +230,7 @@ A: Waren sie mal wieder auf einem Compliance Kongress?
 
 Dialog:
 
-C: Woher... [sammelt sich kurz] Die Anzahl an Supply Chain Attacks wie log4j hat in den letzten Jahren so stark zugenommen und wir müssen uns dagegen schützen. Hier gibt es mit SBOMs wirklich eine tolle Lösung!
+C: How do you... [collects himself] The number of supply chain attacks like log4j has been on the rise in the last years and we need to protect ourselves against them. There is a really great solution here with SBOMs!
 
 ---
 
@@ -238,9 +238,9 @@ C: Woher... [sammelt sich kurz] Die Anzahl an Supply Chain Attacks wie log4j hat
 
 Dialog:
 
-A: Ähm... SBOMs als Lösung für Supply Chain Attacks? Wissen sie denn, was eine SBOM ist?
+A: Ähm... SBOMs as solution for supply chain attacks? Do you even know, what an SBOM is?
 
-C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Lebensmittel enthalten ist, nur halt für Software. Also 30 Zeilen HTML, 50 Zeilen Java, sowas halt.
+C: Absolutely yes! An SBOM is a kind of a list of ingredients that tells me what's in food, but for software. For example: 30 lines of HTML, 50 lines of Java, that sort of things.
 
 ---
 
@@ -252,13 +252,13 @@ C: Ja klar, eine SBOM ist wie so eine Zutatenliste, die mir sagt was in einem Le
 
 Dialog:
 
-A: Gar nicht mal sooo schlecht. Aber fangen wir mal etwas kleiner an: In der modernen Softwareentwicklung schreiben die Entwickler:innen nicht jede Zeile Code selbst, sondern greifen auf vorgefertigte Teile zurück. Nehmen wir die Datumsauswahlfunktion in einer x-beliebigen Anwendung: das ist einerseits recht komplex, andererseits wird sie immer wieder benötigt. Somit ist es effizienter, solchen Code in Form von Bibliotheken oder Frameworks aus dem Internet zu laden, statt jedes Mal das Rad neu zu erfinden.
+A: Not bad at all. But let's start a little smaller: In modern software development, developers don't write every line of code themselves, they rely on ready-made parts. Let's take the date-picker function in any application: on the one hand, this is quite complex, but on the other hand, it is needed again and again. It is therefore more efficient to download such code from the Internet in the form of libraries or frameworks instead of reinventing the wheel every time.
 
-C: Die Entwickler:innen nehmen schon fertigen Code aus dem Internet? Wofür geben wir denn dann Unmengen an Geld für die Entwicklungsteams aus?
+C: Our software developers take ready-made code from the internet? So why are we spending huge amounts of money on the development teams?
 
-A: Wollen Sie das Geld ausgeben, damit jedes Team sein Datumsauswahltool selbst schreibt, oder sollen sie lieber Business Value generieren? :D
+A: Would you rather spend money to have each team write their own data-picker tool? Or should they generate business value?
 
-C: Ja, Business Value...
+C: Definitely business value...
 
 ---
 
@@ -270,11 +270,11 @@ C: Ja, Business Value...
 
 Dialog:
 
-A: Das wäre ohne den Einsatz solcher externen Komponenten heutzutage kaum mehr möglich. Unterschiedliche Analysen kommen zu dem Schluss, dass durchschnittlich 70-90% aller halbwegs moderner Software aus externen Komponenten besteht.
+A: That would be near to impossible without such external components nowadays. Different studies found that 70-90% of any given software code base is made up of open source components.
 
-C: So viel?! Aber so viele Datumsfelder haben wir doch gar nicht in unserer Software?!
+C: That many!?! I doubt we have that many date-pickers in our software?!
 
-A: Es geht ja nicht nur um Datumsfelder, sondern um ganz unterschiedliche, grundlegende Funktionalitäten, die in Form von Bibliotheken oder Frameworks aus unterschiedlichen Fremdquellen geladen werden und ihrerseits wiederum von anderen Komponenten abhängen, den sogenannten 'Transitiven Abhängigkeiten' - wie beispielsweise von log4j
+A: Well, it's not only about date-pickers, but very different and basic functionalities that are loaded in as libraries or frameworks from various external sources. These in turn depend on other components, the so-called 'transitive dependencies' - such as log4j
 
 ---
 
@@ -282,9 +282,9 @@ A: Es geht ja nicht nur um Datumsfelder, sondern um ganz unterschiedliche, grund
 
 Dialog:
 
-C: log4j, ja, genau! Da wusste ja auch niemand, wo das alles drinhängt.
+C: log4j, right! Nobody knew where it was nested!
 
-A: Richtig. Und diese Komponenten haben wiederum ihre eigenen Abhängigkeiten, auf die sie zurückgreifen.
+A: Exactly. And these components in turn have their own dependencies on which they rely.
 
 ---
 
@@ -292,7 +292,7 @@ A: Richtig. Und diese Komponenten haben wiederum ihre eigenen Abhängigkeiten, a
 
 Dialog:
 
-C: ...und die wiederum haben auch wieder Abhängigkeiten, die ihrerseits wiederum Abhängigkeiten haben, welche...
+C: ...and these in turn have other dependencies, which on their part rely on other dependencies, which....
 
 ---
 
@@ -304,9 +304,9 @@ C: ...und die wiederum haben auch wieder Abhängigkeiten, die ihrerseits wiederu
 
 Dialog:
 
-A: Genau! So können also auch schon wenige _direkte_ Komponenten einen Rattenschwanz an weiteren Abhängigkeiten nachladen.
+A: Exactly! So even a few _direct_ dependencies can load a lot of further dependencies.
 
-C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
+C: This gets more and more complex! How do you keep track of it all?
 
 ---
 
@@ -314,9 +314,9 @@ C: Das wird ja dann immer komplexer! Wie behalten Sie denn da den Überblick?
 
 Dialog:
 
-A [grinst] ...und genau da kommen SBOMs ins Spiel!
+A [grins] ...and that's where SBOMs come into play!
 
-C: Ja klar, die Zutatenliste, wusste ich doch! Ich wollt Sie nur testen [zwinkert]
+C: Yeah right, the list of ingredients! I knew it, I just wanted to test you! [winks]
 
 ---
 
@@ -333,9 +333,9 @@ C: Ja klar, die Zutatenliste, wusste ich doch! Ich wollt Sie nur testen [zwinker
 
 Dialog:
 
-A: Sehr gut! SBOMs sind folglich standardisierte Strukturen, in denen die wichtigsten Datenpunkte zu all diesen Abhängigkeiten aufgeführt werden. Was ist das für eine Komponente, wo kommt sie her, welche Version hat sie, welche Lizenz,... Wollen Sie mal eine solche SBOM sehen?
+A: Very good! SBOMs are therefore standardized structures in which the most important data points for all these dependencies are listed. What kind of component is it, where does it come from, what version does it have, what license is associated...? Would you like to see an SBOM like this?
 
-C: Oh, ja, gerne!
+C: Oh, yes! I'd love to!
 
 ---
 
@@ -343,35 +343,35 @@ C: Oh, ja, gerne!
 
 Dialog:
 
-C: Oh, das kann ja kein Mensch lesen!!
+C: Oh, nobody can read that!!
 
-A: Korrekt, SBOMs sind auch eigentlich in erster Linie für Maschinen gedacht.
+A: Correct, SBOMs are actually primarily intended for machines.
 
-C: [schleimig] ...und für solche Top-Talente wie Sie! Haben sie das geschrieben?
+C: [slimy] ...and for top talents like you! Did you write that?
 
-A: Nein, das wäre unmöglich. Diese SBOM haben wir von einem unserer Software-Lieferanten erhalten.
+A: No, that would be near to impossible. We received this SBOM from one of our software suppliers.
 
-C: Ach, das stammt gar nicht von unserer Software?
+C: Oh, it's not from our software?
 
-A: Nein, diese nicht. Die listet die Komponenten auf, die in seiner Software genutzt werden. Aber für unsere eigene Software können wir auch SBOMs erstellen, die wiederum unsere Abhängigkeiten auflisten.
+A: No, not this one. It lists the components that are used in his software. But we can also create SBOMs for our own software, which in turn list our dependencies.
 
-C: ...und die geben wir dann wiederum an unsere Kunden?
+C: ...and we then pass these on to our customers?
 
-A: Ja, genau!
+A: Yes, exactly!
 
-C: Aber dann wissen die ja, wie unsere Software gebaut wurde! Können die das dann nicht einfach nachbauen?
+C: But then they know how our software was built! Can't they simply rebuild it?
 
-A: Nein, in der SBOM steht ja nur drin, welche externen Komponenten genutzt werden. Die Geschäftslogik und wie die diese Komponenten nutzt, ist ja nicht aufgeführt.
+A: No, the SBOM only states which external components are used. The business logic and how it uses these components is not listed.
 
-C: Okay... aber wenn wir so viele Komponenten in unserer Software nutzen, müsste die SBOM ja jedes Mal neu erstellt werden, wenn sich daran etwas ändert...
+C: Okay... but if we use so many components in our software, the SBOM would have to be recreated every time something changes...
 
-A: Richtig.
+A: Right.
 
-C: Ist das nicht ein Riesenaufwand? Ist das der Grund, warum die Entwickler:innen immer so stark ausgelastet sind?
+C: Isn't that a lot of work? Is that the reason why developers are always so busy?
 
-A: In moderner Software-Entwicklung glücklicherweise nicht, weil sich die Erstellung im Build Process automatisieren lässt; die SBOM wird also jedes Mal automatisch generiert, wenn wir aus dem Quellcode das entsprechende Programm bauen.
+A: Fortunately not in modern software development, because the creation can be automated in the build process; the SBOM is generated automatically every time we build the corresponding program from the source code.
 
-C: Ach, das ist ja praktisch!
+C: Oh, that's practical!
 
 ---
 
@@ -389,11 +389,11 @@ C: Ach, das ist ja praktisch!
 
 Dialog:
 
-C: Also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?
+C: So with all these SBOMs we have the ingredient list of every software we develop and use?
 
-A: Ja, teilweise. Unsere Entwickler:innen arbeiten dran, SBOMs für unsere Produkte zu erstellen. 
+A: Yes, partly. Our developers are working on creating SBOMs for our own products.
 
-C: ...dann sind wir ja bald fertig damit! Prima!
+C: ...then we'll be finished soon! Great!
 
 ---
 
@@ -405,9 +405,9 @@ C: ...dann sind wir ja bald fertig damit! Prima!
 
 Dialog:
 
-A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können, brauchen wir alle SBOMs von Komponenten, die von unseren Lieferanten kommen.
+A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all components that come from our suppliers.
 
-C: Frau Mair, das geht doch einfach; wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
+C: Well Ms. Mair, that's easy; we write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days, so we have to keep up!
 
 ---
 
@@ -419,7 +419,7 @@ C: Frau Mair, das geht doch einfach; wir schreiben es in die Verträge und zwing
 
 Dialog:
 
-A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da, wo wir sein sollten. 2024 gab es auf npm ganze 7 Mio. veröffentlichte Komponenten, von denen gerade einmal 61k SBOMs besaßen.
+A: Well... it is true that more and more SBOMs are being created, but we're nowhere near where we should be. In 2024, there were 7 million published components on npm, of which just 61k had SBOMs.
 
 ---
 
@@ -431,25 +431,25 @@ A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind
 
 Dialog:
 
-C: Nur so wenige???
+C: Only so few???
 
-A: Ja, und die Rate, mit der die Bereitstellung von SBOMs zunimmt, macht da auch nicht viel mehr Hoffnung.
+A: Yes, and the rate at which the provision of SBOMs is increasing doesn't give much more hope.
 
-A: Die großen Hersteller sind dabei gar nicht einmal so problematisch; die kleinen Lieferanten, in bestimmten Nischen, die nicht auf Software-Entwicklung spezialisiert sind, haben es schon schwieriger.
+A: The large manufacturers are not even that problematic; the small suppliers in certain niches that are not specialized in software development have a more difficult time.
 
-C: Da können wir nun wirklch keine Rücksicht nehmen; SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden!
+C: We really can't take that into consideration; SBOMs should still be included in the contracts for the next renewals!
 
-A: Wie vorhin kurz angedeutet, beinhalten unsere Anwendungen nicht nur Komponenten von unseren Lieferanten, sondern auch...
+A: As briefly mentioned earlier, our applications don't only contain components from our suppliers, but also...
 
-C: Open Source Teile?
+C: Open source components?
 
-A: Genau, und diese Projekte müssen nicht unbedingt eine SBOM liefern. Verträge haben wir in diesen Fällen auch nicht.
+A: Exactly, and open source projects do not necessarily have to deliver an SBOM. We don't have contracts in these cases either.
 
-C: Na, das lässt sich ja auch einfach lösen. Wir verbieten unseren Entwickler:innen einfach, Open Source zu verwenden. 
+C: Well, that's easy to solve. We simply forbid our developers the usage of open source.
 
-A: Sie haben keine wirkliche Ahnung, wie viel Open Source bei uns im Unternehmen verwendet wird, oder? 
+A: You have no idea how much open source is used in our company, do you?
 
-C: Das kann doch nicht so viel sein...
+C: It can't be that much...
 
 ---
 
@@ -461,13 +461,13 @@ C: Das kann doch nicht so viel sein...
 
 Dialog:
 
-A: Naja, einzelne Untersuchungen schätzen, dass Open Source in 97% der modernen Anwendungen verwendet werden
+A: Well, some studies estimate that open source is used in 97% of modern applications.
 
-C: Dann nutzen wir halt einfach kein Linux mehr... Haben Sie schon die neuen MacBooks im Marketing-Team gesehen?
+C: Then we just don't use Linux anymore... Have you seen the new MacBooks in the marketing team?
 
-A: Es geht hierbei nicht nur um Betriebssysteme, sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD-Tools, Programmiersprachen und Containertechnologin.
+A: This is not just about operating systems, but about libraries that developers use to speed up work, database technologies, CI/CD tools, programming languages and container technology.
 
-C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie dazu bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil.
+C: Then we should go to the source and somehow get the open source projects to provide SBOMs. Ultimately, this will also increase their market share.
 
 ---
 
@@ -479,7 +479,7 @@ C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie d
 
 Dialog:
 
-A: Marktanteile? Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten Open Source Projekte von einzelnen oder wenigen Menschen gewartet werden. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu.
+A: Market share? Market share does not really play a role in the open source context. In addition, most open source projects are maintained by individuals or a small number of people. They have little time, little support and are under a lot of pressure and don't really get to do it.
 
 ---
 
@@ -487,9 +487,9 @@ A: Marktanteile? Marktanteile spielen im Open Source Kontext nicht wirklich eine
 
 Dialog:
 
-A: Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
+A: Here we, as company, could provide both financial and technical support!
 
-C: Whoooow, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist auch bereits abgeschlossen. Vielleicht aber nächstes Jahr?
+C: Whoooow, that wasn't budgeted for in this financial year and the financial planning has already been completed. But maybe next year?
 
 ---
 
@@ -497,51 +497,50 @@ C: Whoooow, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzpl
 
 Dialog:
 
-A: Mal abgesehen von diesen Herausforderungen hängt die Komplexität für die Erstellung einer SBOM stark von der Programmiersprache und den verwendeten Frameworks ab.
+A: Apart from these challenges, the complexity of creating an SBOM depends heavily on the programming language and the frameworks used.
 
-C: Ach kommen sie schon! Code ist doch Code, egal in welcher Sprache!
+C: Oh come on! Code is code, no matter what language!
 
-A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man häufig schon automatisch die direkten Abhängigkeiten einer Applikation.
+A: The languages and how they work are quite different. In the modern web world, you get the direct dependencies of an application automatically most of the time.
 
-C: Wir haben aber nicht nur Web-Applikationen bei uns...
+C: But we don't just have web applications...
 
-A: Genau! Bei Legacy-Applikationen oder auch Hardware-naher Entwicklung werden Drittanbieter-Bibliotheken oftmals anders eingebunden und es gibt keine schöne Liste wie in der Web-Welt. Da müssen die Entwicklungsteams daran arbeiten, die Abhängigkeiten klar zu dokumentieren. Je älter die Technologie, desto schwieriger wird es, eine SBOM dafür zu erstellen.
+A: Exactly! With legacy applications or hardware-related development, third-party libraries are integrated differently and there is no nice list like in the web world. The development teams have to work on clearly documenting the dependencies. And spoiler alert...the older the technology, the more difficult it is to create an SBOM for it.
 
-C: Naja, da wird es wohl schon irgendeine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Seien Sie doch mal forward thinking! Das kann doch nicht so schwer sein.
+C: Well, there will probably be some technical solution to create these SBOMs easily. Just be forward thinking! It can't be that difficult.
   
-A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. 
+A: Unfortunately, it is. The creation of SBOMs is not standardized.
 
-C: Es gibt doch Richtlinien und Standards! Sogsr vom BSI!
+C: There are guidelines and standards! Even from the German BSI!
 
-A: Ja, die Richtlinien und Standards beziehen sich auf die Struktur, und sind in erster Linie nur Mindestanforderungen.
+A: Yes, the guidelines and standards relate to the structure and are primarily just minimum requirements.
 
-C: Das ist ja, was wir brauchen!
+C: That's what we need here!
 
-A: Das ist wichtig, aber nicht genug. Granularität, Tiefe, oder die Beziehung zwischen den Komponenten macht dann jeder ein bisschen anders.
+A: That's important, but not enough. Granularity, depth, or the relationship between the components is something everyone does a bit differently.
 
-C: Stellt das ein echtes Problem dar?
+C: Is that a real problem?
 
-A: So ist es sehr schwer herauszufinden, ob eine gelieferte SBOM korrekt und vollständig ist.
+A: This makes very difficult to find out whether a supplied SBOM is correct and complete.
 
-C: Aber es gibt doch tausende Tools auf dem Markt! Sagen Sie mir welches wir nehmen sollen, dann bring ich das für Sie durch den Einkauf.
+C: But there are thousands of tools on the market! Tell me which one we should use and I'll take it through the purchasing process for you.
 
-A: Wie vorhin bereits angedeutet: einige unserer Teams erstellen bereits SBOMs als Teil der automatisierten Build Pipelines. Würden wir aber jetzt zwei Tools zur automatischen Erstellung von SBOMs über die Anwendungen laufen lassen, würden diese mit hoher Wahrscheinlichkeit verschiedene Ergebnisse liefern.
+A: As mentioned earlier, some of our teams already create SBOMs as part of the automated build pipelines. However, if we were to run two tools to automatically create SBOMs on the applications, they would most likely deliver different results.
 
-C: Na, da muss doch dann eins falsch sein!
+C: Well, there must be something wrong!
 
-A: Womöglich ist keine SBOM falsch, sondern beide unvollständig.
+A: Maybe neither SBOM is wrong, but both are incomplete.
 
-C: Dann sollten wir diese ganzen SBOMs einfach harmonisieren. Das geht bestimmt mit KI!
-
+C: Then we should simply harmonize all these SBOMs. That can certainly be done with AI!
 ---
 
 <img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
 
 Dialog:
 
-A: [Schnappatmung] Ich will ja keine Spielverderberin sein, aber da kommt schon das nächste Problem...
+A: [Gasping] I don't want to be a spoilsport, but here comes the next problem...
 
-C: Was kann denn jetzt noch fehlen?
+C: What else could be missing now?
 
 ---
 
@@ -553,13 +552,13 @@ C: Was kann denn jetzt noch fehlen?
 
 Dialog:
 
-A: Die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wiederum stellen sie via e-Mail auf Anfrage zur Verfügung.
+A: The transmission of SBOMs is also not standardized. Some manufacturers make them available for download on their website, others as metadata of the product, others provide them via e-mail on request.
 
-C: Denken Sie doch nicht so kompliziert! Mit Sharepoint ginge das bestimmt einfacher.
+C: Don't think so complicated! It would certainly be easier with Sharepoint.
 
-A: [Verdreht die Augen] Aktuell fragen wir die SBOMs meistens per e-Mail an und auf demselben Weg erhalten wir diese dann auch. Aber so richtig können wir dabei auch die Integrität und Authentizität der SBOMs nicht überprüfen; wir können also nichtmal automatisiert sicherstellen, dass die aus der richtigen Quelle kommen und auf dem Weg zu uns nicht manipuliert wurden.
+A: [Rolls eyes] At the moment, we usually request the SBOMs by e-mail and receive them in the same way. But we can't really check the integrity and authenticity of the documents; we can't even automatically ensure that they come from the right source and have not been manipulated on their way to us.
 
-C: Dafür gibt es doch bereits bewährte Methoden mit elektronischen Signaturen. Kennen Sie das?
+C: There are already proven methods with electronic signatures for this. Are you familiar with them?
 
 ---
 
@@ -567,13 +566,13 @@ C: Dafür gibt es doch bereits bewährte Methoden mit elektronischen Signaturen.
 
 Dialog:
 
-A: Ok, dann bekommen wir eine signierte SBOM, aber woher wissen wir, dass es sich um eine legitime Signatur handelt und nicht von jemandem, der uns etwas unterschieben möchte?
+A: Ok, so we get a signed SBOM, but how do we know it's a legitimate signature and not from someone trying to frame us?
 
-C: [schleimig] Sie haben wohl wirklich Zero Trust, hm?
+C: [slimy] I guess you really have zero trust, huh?
 
-A: [seufzt]
+A: [sighs] ...
 
-C: Nun ja, dann nehmen wir erstmal das, was wir bekommen können. Das ist dann mein Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann
+C: Well, let's take what we can get for now. This is my inventory where I can search for log4j and other supply chain attacks
 
 ---
 
@@ -581,17 +580,17 @@ C: Nun ja, dann nehmen wir erstmal das, was wir bekommen können. Das ist dann m
 
 Dialog:
 
-A: Erstmal haben Sie nur eine Menge einzelner Dokumente, die händisch durchsucht werden müssten. Und vergessen Sie nicht, dass die SBOMs in erster Linie maschinenlesbar sind - oder wollen SIE noch einmal einen Blick reinwerfen? [grinst]
+A: Well, first of all, we only have a lot of individual documents that would have to be searched manually. And don't forget that the SBOMs are primarily machine-readable - or do YOU want to take another look? [grins]
 
-C: Nein danke, nein danke, auf keinen Fall!
+C: No, no thanks, absolutely not!
 
-A: Das bedeutet also, wir brauchen ein Tool, das die SBOMs verwalten kann, um diese durchsuchbar zu machen.
+A: So that means we need a tool that can manage the SBOMs to make them searchable.
 
-C: Ja, dann haben wir das ja zusammen. Noch ein weiteres Tool einkaufen kriegen wir auch noch hin! Dann wissen wir endlich, welche Schwachstellen die ganzen Produkte besitzen und können die Supply Chain Angriffe beheben. Großartig!
+C: Yes, then we've got that together. We can also buy another tool! Then we'll finally know what vulnerabilities all the products have and can fix the supply chain attacks. That's great!
 
-A: Hier sollten wir kurz einige Missverständnisse rund um Supply Chain Angriffe und Vulnerabilities aus dem Weg räumen.
+A: I think we need to clear up a few misunderstandings about supply chain attacks and vulnerabilities.
 
-C: Was denn für Missverständnisse?
+C: What misconceptions?
 
 ---
 
@@ -607,23 +606,23 @@ C: Was denn für Missverständnisse?
 
 Dialog:
 
-A: Fangen wir mit den Supply Chain Angriffen an: Bei einem Supply Chain Angriff wird ein Opfer über seine Supply Chain angegriffen, anstatt direkt seine Systeme zu penetrieren. 
+A: Let's start with supply chain attacks: In a supply chain attack, a victim is attacked through its supply chain instead of directly penetrating the victim's systems. 
 
-C: So wie der Name schon sagt...
+C: As the name suggests...
 
-A: Zum Beispiel über Schadcode in einem legitimen Code-Repository zu injizieren oder die Entwickler:innen zu täuschen, dass sie schadhafte Abhängigkeiten installieren.
+A: For example, by injecting malicious code into a legitimate code repository or tricking developers into installing malicious dependencies.
 
-C: War das bei log4j nicht der Fall?
+C: Was that not the case with log4j?
 
-A: Nein, log4j war eine Bibliothek die von einer kritischen Zero-Day Schwachstelle - log4shell - betroffen war.
+A: No, log4j was a library affected by a critical zero-day vulnerability - log4shell.
 
-C: Zurück zu den Supply Chain Angriffen...
+C: Back to the supply chain attacks...
 
-A: Ein sehr bekanntes Beispiel für eine Supply Chain Attacke war, als der Software-Hersteller Solarwinds in 2020 gehackt wurde: dabei haben die Angreifer das Build System kompromittiert und es ihnen so ermöglicht, Schadcode in das entwickelte Produkt einzubauen. Die Kunden haben dann die Software installiert, weil diese von ihrem Lieferanten kam. Dadurch haben sich die Angreifer dann Zugriff auf die Zielsysteme verschafft.
+A: A very well-known example of a supply chain attack was when the software manufacturer Solarwinds was hacked in 2020: the attackers compromised the build system, allowing them to insert malware into the developed product. Customers then installed the software because it came from their trusted supplier. This allowed the attackers to gain access to the target systems.
 
-C: Ja, aber das würden wir ja anhand der SBOM verstehen, dass da was drin ist, was nicht da sein sollte.
+C: Yes, but we would understand from the SBOM that there is something in there that shouldn't be there.
 
-A: Aber woher erhalten wir die SBOM?
+A: But where do we get the SBOM from?
 
 ---
 
@@ -631,15 +630,15 @@ A: Aber woher erhalten wir die SBOM?
 
 Dialog:
 
-C: Ja... vom Anbieter!
+C: Well...from the supplier!
 
-A: ...der von einem Angreifer kompromittiert wurde, welcher dann wahrscheinlich auch die SBOM entsprechend anpasst, um seine Absichten zu verschleiern. ...und selbst wenn es eine Änderung an der SBOM geben sollte, haben wir als Konsumenten kaum Anhaltspunkte, um eine bösartige Änderung der Software von einer regulären Weiterentwicklung zu unterscheiden.
+A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a regular product development, like new features from a malicious change to the software.
 
-C: Verstanden... also helfen SBOMs gar nicht gegen Supply Chain Attacken?
+C: Got it... So SBOMs don't help against supply chain attacks?
 
-A: Nein.
+A: No.
 
-C: ...und was ist denn dann mit log4j?
+C: ...and then what about log4j?
 
 ---
 
@@ -647,13 +646,17 @@ C: ...und was ist denn dann mit log4j?
 
 Dialog:
 
-A: Ja, da wären SBOMs schon eher hilfreich, weil es eine Dependency mit einer kritischen Schwachstelle war.
+A: Yes, SBOMs could be helpful there because it was a dependency with a critical vulnerability.
 
-C: Das war ein Alptraum herauszufinden wo das im Einsatz war! Aber mit den SBOMs hätten wir ja jetzt die Schwachstellen alle zentral gelistet.
+C: That was a nightmare to find out where it was in use! 
 
-A: Mooooooment, machen wir einen kurzen Schritt zurück. Durch dieses Inventar bekommt ein Entwicklungsteam in erster Linie einen Überblick über die Abhängigkeiten ihrer Software. Durch die Informationen wie Hersteller, Name und Version der Komponenten werden diese zunächst einmal eindeutig identifiziert.
+A: For you?!?
 
-C: Und woher kriegen wir dann die Schwachstellen zu diesen Abhängigkeiten?
+C: But with the SBOMs we would now have all the vulnerabilities listed centrally.
+
+A: Not so fast! Let's take a quick step back. This inventory primarily gives development teams an overview of the dependencies or ingredients of their software. Information such as the manufacturer, name and version of the components means that they can be clearly identified.
+
+C: And where do we get the vulnerabilities for these dependencies?
 
 ---
 
@@ -665,13 +668,13 @@ C: Und woher kriegen wir dann die Schwachstellen zu diesen Abhängigkeiten?
 
 Dialog:
 
-A: Indem wir öffentliche Schwachstellen-Datenbanken nach Informationen dazu durchsuchen.
+A: By searching public vulnerability databases for information.
 
-C: Öffentliche Schwachstellen-Datenbanken? Kann man sich da einfach anschauen, in welcher Software Sicherheitslücken enthalten sind?
+C: Public vulnerability databases? Is it simply possible to see which software contains security vulnerabilities?
 
-A: Ja, genau. In diesen Datenbanken werden alle möglichen Sicherheitslücken dokumentiert, die von Unternehmen und Sicherheitsforscher:innen veröffentlicht werden. Die größte Datenbank an Schwachstellen wird nebenbei vom US-amerikanischen MITRE betrieben. Das Programm ist ein Eckpfeiler der globalen Sicherheit, da es weltweit von Unternehmen genutzt wird, um Schwachstellen zu veröffentlichen und von Security-Tool-Herstellern, um ihre Services damit zu füttern.
+A: Yes, exactly. These databases document all possible vulnerabilities that are published by companies and security researchers worldwide. The largest database of vulnerabilities is operated by MITRE in the US. The program is a cornerstone of global security, as it is used worldwide by companies to publish vulnerabilities and by security tool vendors to feed their services.
 
-C: Welch ein Glück, dass wir uns in Punkto Sicherheit mal wieder auf die USA verlassen können!
+C: Lucky us...we can once again rely on the USA when it comes to security!
 
 ---
 
@@ -683,9 +686,9 @@ C: Welch ein Glück, dass wir uns in Punkto Sicherheit mal wieder auf die USA ve
 
 Dialog:
 
-A: Genau da liegt das nächste Problem: Durch die monetäre Abhängigkeit von der US-amerikanischen Regierung können sich politische Entscheidungen, z.B. von freidrehenden Präsidenten, recht schnell auf die Verfügbarkeit solcher zentralen Services auswirken.
+A: That's where the next problem lies: due to the monetary dependence on the US government, political decisions, can have a very rapid impact on the availability of such centralized services.
 
-C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dieser Stelle in Europa ein bisschen souveräner werden und unsere eigene Datenbank bauen.
+C: Oh, yes, that could be problematic... Perhaps we should also become a little more sovereign in Europe at this point and build our own database.
 
 ---
 
@@ -697,21 +700,21 @@ C: Oh, ja, das könnte problematisch sein... Vielleicht sollten wir auch an dies
 
 Dialog:
 
-A: Ja, die ENISA arbeitet bereits daran und hat gerade die Beta-Version ihrer Platform im Einsatz. Damit bewegen wir uns weg von der aktuellen "single source of truth", welche die Datenbank von MITRE war, hin zu mehreren Datenbanken und das Ganze wird fragmentiert.
+A: Yes, ENISA is already working on it and has launched the beta version of its own platform. This means that we are moving away from the current "single source of truth", which was the MITRE database, towards multiple databases and the whole thing is becoming fragmented.
 
-C: Na gut, dann haben wir halt mehrere Quellen die mir sagen wo ich angreifbar bin. Doppelt gemoppelt hält ja besser!
+C: All right, then we'll have several sources that tell us where we're vulnerable. Better safe than sorry!
 
-A: Naja, wir haben dann eine sehr lange, eventuell inkonsistente Liste an Schwachstellen. Aber nur weil eine verwendete Bibliothek eine Schwachstelle enthält, bedeutet es nicht zwangsläufig, dass diese ausgenutzt werden kann.
+A: Well, we then have a very long, possibly inconsistent list of vulnerabilities. But just because a library used contains a vulnerability doesn't necessarily mean that it can be exploited.
 
-C: Wie geht das denn? Man kann ja nicht ein bisschen angreifbar sein. Genau wie man nicht nur ein bisschen schwanger sein kann.
+C: How does that work? You can't be just a little bit vulnerable. Just like you can't be just a little bit pregnant.
 
-A: Wenn die Entwickler:innen den verwundbaren Teil nicht benutzen der von der Schwachstelle betroffen ist, dann haben Angreifende häufig auch nicht die Möglichkeit, diese zu missbrauchen. Das ist das Konzept von "Exploitability".
+A: If the developers don't use the vulnerable part that is affected by the vulnerability, then attackers often don't have the opportunity to abuse it. This is the concept of "exploitability".
 
-C: Aber woher wissen wir denn dann, ob wir angreifbar sind oder nicht?
+C: But how do we know whether we are vulnerable or not?
 
-A: Das müssen wir entsprechend testen und das damit verbundene Risiko bewerten.
+A: We have to test the issues and and assess the associated risk.
 
-C: Das klingt nach ganz schön viel Aufwand... Hah, warum lassen wir das nicht die Anbieter selber testen und die Ergebnisse mit uns teilen?
+C: That sounds like a lot of effort... Hah, why don't we let the software suppliers test it themselves and share the results with us?
 
 ---
 
@@ -723,23 +726,23 @@ C: Das klingt nach ganz schön viel Aufwand... Hah, warum lassen wir das nicht d
 
 Dialog:
 
-A: Ja, das gibt es auch schon. Das ist das sogenannte "Vulnerability Exploitability eXchange", kurz "VEX"
+A: Yes, that already exists. This is the so-called “Vulnerability Exploitability eXchange”, “VEX” for short. 
 
-C: Lassen Sie mich raten: Wieder ein nur maschinell lesbares Dokument?
+C: Let me guess: another machine-read-only document?
 
-A: Ja, damit kann der Anbieter die SBOM erweitern, um die Ausnutzbarkeit von Schwachstellen in den aufgelisteten Komponenten zu klären.
+A: Exactly, suppliers can use it to extend the SBOM to clarify the exploitability of vulnerabilities in the listed components.
 
-C: Das klingt doch vielversprechend!
+C: That sounds promising!
 
-A: Naja, nicht wirklich. Die VEX ist ein statisches Dokument, Schwachstellen sind aber leider ein bisschen dynamischer. Der VEX gibt mir nur einen Snapshot zu einem gewissen Zeitpunkt. Wenn neue Schwachstellen entdeckt werden, müssen alle Hersteller, die diese Komponente einsetzen, ihre Produkte bewerten und neue VEX-Dateien für alle noch aktiv genutzten Versionen bereitstellen.
+A: Well, not really. The VEX is a static document, but vulnerabilities are unfortunately a bit more dynamic. The VEX only gives us a snapshot at a certain point in time. If new vulnerabilities are discovered, all manufacturers using the affected component must evaluate their products and provide new VEX files for all versions still in active use.
 
-C: Ohje, dann ertrinken wir ja diesen Unterlagen!
+C: Oh dear, then we'll drown this documentation!
 
-A: Nicht nur das: Hersteller haben natürlich einen impliziten Anreiz zu zeigen, dass sie von möglichst wenigen Schwachstellen betroffen sind. Und wir können auch nicht bewerten, ob und wie der Hersteller die Anwendbarkeit getestet hat. 
+A: Not only that: manufacturers have an implicit incentive to show that they are affected by as few vulnerabilities as possible. And we can't assess whether and how the manufacturer tests the applicability.
 
-C: ...weil es auch hier an einheitlichen Ansätzen fehlt?
+C: ...because there is also a lack of standardized approaches here?
 
-A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, dass die Verfasser:innen ordentlich arbeiten und wissen was sie tun...
+A: Yes, with both SBOMs and VEX documents, we have to trust that the authors work properly and that know what they are doing...
 
 ---
 
@@ -761,7 +764,7 @@ A: Ja, sowohl bei SBOMs als auch VEX-Dokumente müssen wir darauf vertrauen, das
 
 Dialog:
 
-C: Bei all den Unzulänglichkeiten und dem Riesenaufwand... Lohnt es sich denn dann, in SBOMs zu investieren?
+C: With all the shortcomings, the huge efforts and expenses associated... Is it even worth investing in SBOMs?
 
 ---
 <<<<<<< HEAD
@@ -786,9 +789,9 @@ C: Bei all den Unzulänglichkeiten und dem Riesenaufwand... Lohnt es sich denn d
 
 Dialog:
 
-A: SBOMs können einen Mehrwert bieten, sie sind bloß schlicht nicht die Silver Bullet, die viele sich erhoffen.
+A: SBOMs can offer an added value, they are just simply not the silver bullet that many are hoping for.
 
-C: Aber wofür brauchen wir die denn dann?
+C: But why do we need them then?
 
 ---
 
@@ -805,9 +808,9 @@ C: Aber wofür brauchen wir die denn dann?
 
 Dialog:
 
-A: Allein schon, weil sie direkt oder indirekt in einigen neuen Cybersecurity Regularien abgebildet werden.
+A: Simply because they are directly or indirectly reflected in some new cybersecurity regulations.
 
-C: Also müssen wir das in unserem Kontext sowieso machen
+C: So we have to create them anyway in our context.
 
 ---
 
@@ -820,15 +823,15 @@ C: Also müssen wir das in unserem Kontext sowieso machen
 
 Dialog:
 
-A: Ja, aber lassen Sie uns das nicht als Compliance-Checkbox betrachten, sondern was sinnvolles damit anstellen.
+A: Yes, but let's not think of it as a compliance checkbox, if we need to do them anyways let's do something useful with it.
 
-C: Wie soll dass jetzt funktionieren? All meine Ideen haben sie auseinandergenommen...
+C: How is that supposed to work now? You've ripped all my ideas apart...
 
-A: In der Software Entwicklung ist ein Thema von vitaler Wichtigkeit: Abhängigkeiten tracken! Das macht man in Bezug auf Open Source Packages mit einer sogenannten "Software Composition Analysis".
+A: In software development, one topic is of vital importance: tracking and managing dependencies! This is done in relation to open source packages with a so-called “software composition analysis”.
 
-C: Und was bringt mir diese "Software Composition Analyse"? Versuchen Sie mal einen Elevator Pitch!
+C: And what does this “software composition analysis” do for me? Try an elevator pitch!
 
-A: Naja mit der Software Composition Analysis wird die Applikation nach externen Abhängigkeiten durchsucht und überprüft, ob die Komponenten aktuell sind, Schwachstellen enthalten und gegebenenfalls problematische Lizenzen beinhalten. So sieht das beispielsweise mit dem 'OWASP Dependency Tracker' aus.
+A: Well, the software composition analysis searches the application for external dependencies and checks whether the components are up-to-date, contain vulnerabilities and even contain problematic licenses. This is what it looks like with the ‘OWASP Dependency Track’, for example.
 
 ---
 
@@ -836,15 +839,15 @@ A: Naja mit der Software Composition Analysis wird die Applikation nach externen
 
 Dialog:
 
-C: Gekauft!
+C: Let's buy it!
 
-A: Open Source!
+A: It's open source!!
 
-C: Das klingt jetzt aber so insgesamt mehr nach Zutatenliste, als etwas Neuem...
+C: But that sounds more like the already discussed list of ingredients rather than anything new...
 
-A: Neu ist es auch nicht, durch die Einführung von SBOMs ist dieses Thema wieder in den Vordergrund getreten und um kommerzielle Komponenten erweitert worden. Die Notwendigkeit einer ordentlichen Inventarisierung von Software gibt es aber schon seit einiger Zeit.
+A: It's not new either; the introduction of SBOMs has brought this topic back to the foreground and expanded it to include commercial components. However, the need for a proper inventory of software has been around for some time.
 
-C: Aber was soll das dann konkret bringen?
+C: But what is this supposed to achieve in concrete terms?
 
 ---
 
@@ -852,13 +855,13 @@ C: Aber was soll das dann konkret bringen?
 
 Dialog:
 
-A: Die Inventarisierung schafft die Datengrundlage um die Qualität der Software und die damit verbundenen operativen Risiken bewerten zu können. Die Information/Metadaten einfach nur rumliegen zu haben bringt uns nichts, aber diese Transparenz ermöglicht uns folglich zu priorisieren wo die Entwicklungsteams patchen und nacharbeiten müssen.
+A: The inventory creates the data basis for assessing the quality of the software and the associated operational risks. Simply having the information/metadata lying around does us no good, but this transparency enables us to prioritize what the development teams need to patch and where they need to do some rework.
 
-C: Wer kontrolliert denn das das auch wirklich gemacht wird? Das bedarf ja auch einer neuen Governance Funktion
+C: Who checks that this is actually being done? That also requires a new governance function
 
-A: Ja wir sollten ein Auge darauf haben, dass zumindest die kritischen Punkte zeitnah behoben werden, wissen Sie wie häufig noch heute die veraltete und verwundabare log4j Version verwendet wird?
+A: Yes, we should keep an eye on ensuring that at least the critical points are fixed promptly, do you know how often the outdated and vulnerable log4j version is still being used today?
 
-C: Nirgends hoffe ich mal!
+C: Nowhere I hope!
 
 ---
 
@@ -871,13 +874,13 @@ C: Nirgends hoffe ich mal!
 
 Dialog:
 
-A: Weit gefehlt, diese wird noch regelmäßig heruntergeladen und in Software eingebunden. Daher müssen wir bei den Entwickler:innen das Bewusstsein für einen verantwortungsvollen Umgang mit Abhängigkeiten schärfen.
+A: Far from it, it is still regularly downloaded and integrated into software. That's why we need to raise awareness among developers for the responsible and reasonable use of dependencies.
 
-C: Z.B. mit einer Policy: nur Abhängigkeiten ohne jegliche Schwachstellen!
+C: With a policy for example: only dependencies without any vulnerabilities!
 
-A: Ganz ohne Schwachstellen wird es sehr schwierig... Einmal sollten Entwickler:innen die Anzahl externer Abhängigkeiten wo möglich reduzieren. Die Auswahl sollte auch bestimmten Qualitätskriterien unterliegen z.B., dass sie aktiv gepflegt werden, ob sie von einem vertrauenswürdigen Publisher kommen, oder wie schnell Schwachstellen oder issues gelöst werden.
+A: It will be very difficult without any vulnerabilities... Developers should reduce the number of external dependencies wherever possible. The selection should also be subject to certain quality criteria, e.g. that they are actively maintained, whether they come from a trustworthy source and publisher, or how quickly vulnerabilities and other issues are resolved.
 
-C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas von Ratiopharm?
+C: How can you recognize this? Is there anything we can use out of the box?
 
 ---
 
@@ -894,9 +897,9 @@ C: Woran können sie das denn erkennen? Gibt es da vielleicht etwas von Ratiopha
 
 Dialog:
 
-A: Hier gibt es für Open Source z.B. die openssf scorecard zur Bewertung von Projekten die man auch direkt in den Pipelines einbinden kann um den Entwickler:innen direkt eine Einschätzung ihrer Abhängigkeiten zu geben.
+A: For open source, for example, there is the openssf scorecard for evaluating projects, which can be integrated directly into the pipelines to give developers a direct assessment of their dependencies.
 
-C: Was hat den das alles mit SBOMs zu tun
+C: What does all this have to do with SBOMs?
 
 ---
 
@@ -908,23 +911,23 @@ C: Was hat den das alles mit SBOMs zu tun
 
 Dialog:
 
-A: SBOMs stellen ein mögliches Artefakt dar um eine Zutaten der Software darzustellen. Schlussendlich ist das nur ein Format in dem bestimmte Informationen dargestellt und ausgetauscht werden. Gepaart mit einer ordentlichen Software Composition Analyse ermöglicht uns das Aussagen über Qualität und Risiken zu treffen.
+A: SBOMs are one possible artifact to represent the ingredients list of the software. Ultimately, it is just a format in which certain information is displayed and exchanged. Coupled with a proper software composition analysis, this allows us to make statements about quality and risks of a certain software.
 
-C: Also würden Sie mir zustimmen, wenn ich sagen würde, SBOMs sind doch nicht gänzlich nutzlos?
+C: So would you agree with me if I said that SBOMs are not completely useless?
 
-A: Nicht gänzlich...
+A: Not completely...
 
-C: Großartig! Toll, dass ich Sie überzeugen konnte...
+C: Awesome! Great that I was able to convince you...
 
-[C schaut auf's Handy]
+[C looks at cell phone]
 
-C: Oh, entschuldigen Sie bitte, da muss ich rangehen. Arbeiten Sie mir dann bitte mal ein Konzept aus, wie wir die besprochenen Sachen alle im nächsten Quartal umsetzen können. Schaffen Sie das bis nächste Woche?
+C: Oh, excuse me, I have to take this. Could you work out a concept on how we can implement everything we've discussed in the next quarter. Can you do that by next week?
 
-[C nimmt Handy ans Ohr und läuft von der Bühne]
+[C picks up his cell phone and walks off the stage]
 
-C: Ja Tachchen Hermann! Ja, ja, Supply Chain Attacks kenn ich. Da nutzen wir jetzt S-B-O-M-S
+C: Yes, hello Hermann! Yes, yes, I know Supply Chain Attacks. We are also using S-B-O-M-S now
 
-[A schlägt die Hände vor's Gesicht]
+[A puts his hands in front of his face]
 
 ---
 
@@ -932,7 +935,7 @@ C: Ja Tachchen Hermann! Ja, ja, Supply Chain Attacks kenn ich. Da nutzen wir jet
 
 Dialog:
 
-A: ...ich kündige.
+A: ...I quit
 
 ---
 
@@ -950,14 +953,18 @@ SBOM available <!-- .element class="smaller-text" -->[here](https://github.com/s
 ---
 
 <img src="images/cc.svg" style="width: 5em; height: auto; margin-left: .5em"><img src="images/by.svg" style="width: 5em; height: auto; margin-left: .5em"><img src="images/sa.svg" style="width: 5em; height: auto; margin-left: .5em;"><br/>
-<div class="smaller-text"><a href="https://github.com/something-appsec/sbom-talk">SBOM - Eine Tragikomödie in 3 Akten</a><br/>© 2025 by Jasmin Mair, Lukas Mika<br/>is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div>
+<div class="smaller-text"><a href="https://github.com/something-appsec/sbom-talk">SBOMs - A Tragicomedy in Three Acts</a><br/>© 2025 by Jasmin Mair, Lukas Mika<br/>is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div>
 
 <br/>
 Dialog:
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 Dieser Vortrag ist in Gänze, Script und Slides, open source verfügbar. Einschließlich der SBOM.
 >>>>>>> b86b91f4 (docs: add SBOM and adjust fonz size)
 =======
 Dieser Vortrag ist in Gänze, einschließlich Script und Slides, unter Creative-Commons-Lizenz auf unserem Github Repository verfügbar. Einschließlich der SBOM.
 >>>>>>> f8a324b1 (Formatting)
+=======
+This talk is available in its entirety, including script and slides, under Creative Commons license on our Github repository. Including the SBOM.
+>>>>>>> 5dd11883 (docs: updated main language to english)
