@@ -261,11 +261,11 @@ C: Oh, that's practical!
 
 Dialog:
 
-C: Also haben wir mit diesen ganzen SBOMs die Zutatenliste von jeder Software die wir entwickeln und einsetzen?
+C: So with all these SBOMs we have the ingredient list of every software we develop and use?
 
-A: Ja, teilweise. Unsere Entwickler:innen arbeiten dran, SBOMs für unsere Produkte zu erstellen. 
+A: Yes, partly. Our developers are working on creating SBOMs for our own products.
 
-C: ...dann sind wir ja bald fertig damit! Prima!
+C: ...then we'll be finished soon! Great!
 
 ---
 
@@ -277,9 +277,9 @@ C: ...dann sind wir ja bald fertig damit! Prima!
 
 Dialog:
 
-A: Nicht so schnell! Damit wir die SBOMs für unsere Produkte finalisieren können, brauchen wir alle SBOMs von Komponenten, die von unseren Lieferanten kommen.
+A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all components that come from our suppliers.
 
-C: Frau Mair, das geht doch einfach; wir schreiben es in die Verträge und zwingen alle dazu. Jeder macht heutzutage SBOMs, da müssen wir auch mithalten!
+C: Well Mrs. Mair, that's easy; we write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days, so we have to keep up!
 
 ---
 
@@ -291,7 +291,7 @@ C: Frau Mair, das geht doch einfach; wir schreiben es in die Verträge und zwing
 
 Dialog:
 
-A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind noch lange nicht da, wo wir sein sollten. 2024 gab es auf npm ganze 7 Mio. veröffentlichte Komponenten, von denen gerade einmal 61k SBOMs besaßen.
+A: Well... it is true that more and more SBOMs are being created, but we're nowhere near where we should be. In 2024, there were 7 million published components on npm, of which just 61k had SBOMs.
 
 ---
 
@@ -303,25 +303,25 @@ A: Naja... es stimmt schon, dass immer mehr SBOMs erstellt werden, aber wir sind
 
 Dialog:
 
-C: Nur so wenige???
+C: Only so few???
 
-A: Ja, und die Rate, mit der die Bereitstellung von SBOMs zunimmt, macht da auch nicht viel mehr Hoffnung.
+A: Yes, and the rate at which the provision of SBOMs is increasing doesn't give much more hope.
 
-A: Die großen Hersteller sind dabei gar nicht einmal so problematisch; die kleinen Lieferanten, in bestimmten Nischen, die nicht auf Software-Entwicklung spezialisiert sind, haben es schon schwieriger.
+A: The large manufacturers are not even that problematic; the small suppliers in certain niches that are not specialized in software development have a more difficult time.
 
-C: Da können wir nun wirklch keine Rücksicht nehmen; SBOMs sollten dann trotzdem bei den nächsten Verlängerungen in die Verträge mit aufgenommen werden!
+C: We really can't take that into consideration; SBOMs should still be included in the contracts for the next renewals!
 
-A: Wie vorhin kurz angedeutet, beinhalten unsere Anwendungen nicht nur Komponenten von unseren Lieferanten, sondern auch...
+A: As briefly mentioned earlier, our applications don't only contain components from our suppliers, but also...
 
-C: Open Source Teile?
+C: Open source components?
 
-A: Genau, und diese Projekte müssen nicht unbedingt eine SBOM liefern. Verträge haben wir in diesen Fällen auch nicht.
+A: Exactly, and open source projects do not necessarily have to deliver an SBOM. We don't have contracts in these cases either.
 
-C: Na, das lässt sich ja auch einfach lösen. Wir verbieten unseren Entwickler:innen einfach, Open Source zu verwenden. 
+C: Well, that's easy to solve. We simply forbid our developers the usage of open source.
 
-A: Sie haben keine wirkliche Ahnung, wie viel Open Source bei uns im Unternehmen verwendet wird, oder? 
+A: You have no idea how much open source is used in our company, do you?
 
-C: Das kann doch nicht so viel sein...
+C: It can't be that much...
 
 ---
 
@@ -333,13 +333,13 @@ C: Das kann doch nicht so viel sein...
 
 Dialog:
 
-A: Naja, einzelne Untersuchungen schätzen, dass Open Source in 97% der modernen Anwendungen verwendet werden
+A: Well, some studies estimate that open source is used in 97% of modern applications.
 
-C: Dann nutzen wir halt einfach kein Linux mehr... Haben Sie schon die neuen MacBooks im Marketing-Team gesehen?
+C: Then we just don't use Linux anymore... Have you seen the new MacBooks in the marketing team?
 
-A: Es geht hierbei nicht nur um Betriebssysteme, sondern um Bibliotheken, die Entwickler:innen verwenden um die Arbeit zu beschleunigen, Datenbanktechnologien, CI/CD-Tools, Programmiersprachen und Containertechnologin.
+A: This is not just about operating systems, but about libraries that developers use to speed up work, database technologies, CI/CD tools, programming languages and container technology.
 
-C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie dazu bringen, SBOMs zur Verfügung zu stellen. Das erhöht ja schlussendlich auch deren Marktanteil.
+C: Then we should go to the source and somehow get the open source projects to provide SBOMs. Ultimately, this will also increase their market share.
 
 ---
 
@@ -351,7 +351,7 @@ C: Dann sollten wir an die Quelle gehen und die Open Source Projekte irgendwie d
 
 Dialog:
 
-A: Marktanteile? Marktanteile spielen im Open Source Kontext nicht wirklich eine Rolle. Hinzu kommt, dass die meisten Open Source Projekte von einzelnen oder wenigen Menschen gewartet werden. Diese haben wenig Zeit, wenig Support und sind sehr unter Druck und kommen nicht wirklich dazu.
+A: Market share? Market share does not really play a role in the open source context. In addition, most open source projects are maintained by individuals or a small number of people. They have little time, little support and are under a lot of pressure and don't really get to do it.
 
 ---
 
@@ -359,9 +359,9 @@ A: Marktanteile? Marktanteile spielen im Open Source Kontext nicht wirklich eine
 
 Dialog:
 
-A: Da könnten wir als Unternehmen sowohl mit finanzieller als auch mit fachlicher Unterstützung supporten!
+A: Here we, as company, could provide both financial and technical support!
 
-C: Whoooow, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzplanung ist auch bereits abgeschlossen. Vielleicht aber nächstes Jahr?
+C: Whoooow, that wasn't budgeted for in this financial year and the financial planning has already been completed. But maybe next year?
 
 ---
 
@@ -369,51 +369,50 @@ C: Whoooow, das wurde in diesem Geschäftsjahr nicht budgetiert und die Finanzpl
 
 Dialog:
 
-A: Mal abgesehen von diesen Herausforderungen hängt die Komplexität für die Erstellung einer SBOM stark von der Programmiersprache und den verwendeten Frameworks ab.
+A: Apart from these challenges, the complexity of creating an SBOM depends heavily on the programming language and the frameworks used.
 
-C: Ach kommen sie schon! Code ist doch Code, egal in welcher Sprache!
+C: Oh come on! Code is code, no matter what language!
 
-A: Die Sprachen und wie sie funktionieren unterscheiden sich recht stark. In der modernen Web-Welt erhält man häufig schon automatisch die direkten Abhängigkeiten einer Applikation.
+A: The languages and how they work are quite different. In the modern web world, you get the direct dependencies of an application automatically most of the time.
 
-C: Wir haben aber nicht nur Web-Applikationen bei uns...
+C: But we don't just have web applications...
 
-A: Genau! Bei Legacy-Applikationen oder auch Hardware-naher Entwicklung werden Drittanbieter-Bibliotheken oftmals anders eingebunden und es gibt keine schöne Liste wie in der Web-Welt. Da müssen die Entwicklungsteams daran arbeiten, die Abhängigkeiten klar zu dokumentieren. Je älter die Technologie, desto schwieriger wird es, eine SBOM dafür zu erstellen.
+A: Exactly! With legacy applications or hardware-related development, third-party libraries are integrated differently and there is no nice list like in the web world. The development teams have to work on clearly documenting the dependencies. And spoiler alert...the older the technology, the more difficult it is to create an SBOM for it.
 
-C: Naja, da wird es wohl schon irgendeine technische Lösung geben, um diese SBOMs ganz einfach zu erstellen. Seien Sie doch mal forward thinking! Das kann doch nicht so schwer sein.
+C: Well, there will probably be some technical solution to create these SBOMs easily. Just be forward thinking! It can't be that difficult.
   
-A: Leider doch schon. Die Erstellung von SBOMs ist nicht standardisiert. 
+A: Unfortunately, it is. The creation of SBOMs is not standardized.
 
-C: Es gibt doch Richtlinien und Standards! Sogsr vom BSI!
+C: There are guidelines and standards! Even from the German BSI!
 
-A: Ja, die Richtlinien und Standards beziehen sich auf die Struktur, und sind in erster Linie nur Mindestanforderungen.
+A: Yes, the guidelines and standards relate to the structure and are primarily just minimum requirements.
 
-C: Das ist ja, was wir brauchen!
+C: That's what we need here!
 
-A: Das ist wichtig, aber nicht genug. Granularität, Tiefe, oder die Beziehung zwischen den Komponenten macht dann jeder ein bisschen anders.
+A: That's important, but not enough. Granularity, depth, or the relationship between the components is something everyone does a bit differently.
 
-C: Stellt das ein echtes Problem dar?
+C: Is that a real problem?
 
-A: So ist es sehr schwer herauszufinden, ob eine gelieferte SBOM korrekt und vollständig ist.
+A: This makes very difficult to find out whether a supplied SBOM is correct and complete.
 
-C: Aber es gibt doch tausende Tools auf dem Markt! Sagen Sie mir welches wir nehmen sollen, dann bring ich das für Sie durch den Einkauf.
+C: But there are thousands of tools on the market! Tell me which one we should use and I'll take it through the purchasing process for you.
 
-A: Wie vorhin bereits angedeutet: einige unserer Teams erstellen bereits SBOMs als Teil der automatisierten Build Pipelines. Würden wir aber jetzt zwei Tools zur automatischen Erstellung von SBOMs über die Anwendungen laufen lassen, würden diese mit hoher Wahrscheinlichkeit verschiedene Ergebnisse liefern.
+A: As mentioned earlier, some of our teams already create SBOMs as part of the automated build pipelines. However, if we were to run two tools to automatically create SBOMs on the applications, they would most likely deliver different results.
 
-C: Na, da muss doch dann eins falsch sein!
+C: Well, there must be something wrong!
 
-A: Womöglich ist keine SBOM falsch, sondern beide unvollständig.
+A: Maybe neither SBOM is wrong, but both are incomplete.
 
-C: Dann sollten wir diese ganzen SBOMs einfach harmonisieren. Das geht bestimmt mit KI!
-
+C: Then we should simply harmonize all these SBOMs. That can certainly be done with AI!
 ---
 
 <img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
 
 Dialog:
 
-A: [Schnappatmung] Ich will ja keine Spielverderberin sein, aber da kommt schon das nächste Problem...
+A: [Gasping] I don't want to be a spoilsport, but here comes the next problem...
 
-C: Was kann denn jetzt noch fehlen?
+C: What else could be missing now?
 
 ---
 
@@ -425,13 +424,13 @@ C: Was kann denn jetzt noch fehlen?
 
 Dialog:
 
-A: Die Übermittlung von SBOMs ist auch nicht standardisiert. Manche Hersteller stellen diese auf ihrer Website zum Download zur Verfügung, andere als Metadaten des Produkts, andere wiederum stellen sie via e-Mail auf Anfrage zur Verfügung.
+A: The transmission of SBOMs is also not standardized. Some manufacturers make them available for download on their website, others as metadata of the product, others provide them via e-mail on request.
 
-C: Denken Sie doch nicht so kompliziert! Mit Sharepoint ginge das bestimmt einfacher.
+C: Don't think so complicated! It would certainly be easier with Sharepoint.
 
-A: [Verdreht die Augen] Aktuell fragen wir die SBOMs meistens per e-Mail an und auf demselben Weg erhalten wir diese dann auch. Aber so richtig können wir dabei auch die Integrität und Authentizität der SBOMs nicht überprüfen; wir können also nichtmal automatisiert sicherstellen, dass die aus der richtigen Quelle kommen und auf dem Weg zu uns nicht manipuliert wurden.
+A: [Rolls eyes] At the moment, we usually request the SBOMs by e-mail and receive them in the same way. But we can't really check the integrity and authenticity of the documents; we can't even automatically ensure that they come from the right source and have not been manipulated on their way to us.
 
-C: Dafür gibt es doch bereits bewährte Methoden mit elektronischen Signaturen. Kennen Sie das?
+C: There are already proven methods with electronic signatures for this. Are you familiar with them?
 
 ---
 
@@ -439,13 +438,13 @@ C: Dafür gibt es doch bereits bewährte Methoden mit elektronischen Signaturen.
 
 Dialog:
 
-A: Ok, dann bekommen wir eine signierte SBOM, aber woher wissen wir, dass es sich um eine legitime Signatur handelt und nicht von jemandem, der uns etwas unterschieben möchte?
+A: Ok, so we get a signed SBOM, but how do we know it's a legitimate signature and not from someone trying to frame us?
 
-C: [schleimig] Sie haben wohl wirklich Zero Trust, hm?
+C: [slimy] I guess you really have zero trust, huh?
 
-A: [seufzt]
+A: [sighs] ...
 
-C: Nun ja, dann nehmen wir erstmal das, was wir bekommen können. Das ist dann mein Inventar in dem ich nach log4j und anderen Supply Chain Attacken suchen kann
+C: Well, let's take what we can get for now. This is my inventory where I can search for log4j and other supply chain attacks
 
 ---
 
