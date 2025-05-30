@@ -50,7 +50,7 @@ A [on the phone]: ...I’m telling you, if one more person comes at me with SBOM
 
 Dialog:
 
-C [entering the room]: Wonderful good morning, Mrs. Mair! So, how are WE doing today?
+C [entering the room]: Wonderful good morning, Ms. Mair! So, how are WE doing today?
 
 A [rolls eyes]: Good morning Mr. Mika. I can only speak for myself, but we're under a lot of stress at the...
 
@@ -186,9 +186,7 @@ Dialog:
 
 A [grins] ...and that's where SBOMs come into play!
 
-C: Yeah right, the list of ingredients! I knew it, I just wanted to test you! 
-
-Ja klar, die Zutatenliste, wusste ich doch! Ich wollt Sie nur testen [winks]
+C: Yeah right, the list of ingredients! I knew it, I just wanted to test you! [winks]
 
 ---
 
@@ -279,7 +277,7 @@ Dialog:
 
 A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all components that come from our suppliers.
 
-C: Well Mrs. Mair, that's easy; we write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days, so we have to keep up!
+C: Well Ms. Mair, that's easy; we write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days, so we have to keep up!
 
 ---
 
@@ -792,7 +790,7 @@ SBOM available <!-- .element class="smaller-text" -->[here](https://github.com/s
 ---
 
 <img src="images/cc.svg" style="width: 5em; height: auto; margin-left: .5em"><img src="images/by.svg" style="width: 5em; height: auto; margin-left: .5em"><img src="images/sa.svg" style="width: 5em; height: auto; margin-left: .5em;"><br/>
-<div class="smaller-text"><a href="https://github.com/something-appsec/sbom-talk">SBOM - Eine Tragikomödie in 3 Akten</a><br/>© 2025 by Jasmin Mair, Lukas Mika<br/>is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div>
+<div class="smaller-text"><a href="https://github.com/something-appsec/sbom-talk">SBOMs - A Tragicomedy in Three Acts</a><br/>© 2025 by Jasmin Mair, Lukas Mika<br/>is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div>
 
 <br/>
 Dialog:
