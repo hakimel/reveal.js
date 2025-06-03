@@ -56,7 +56,7 @@
     "qunit": "^2.22.0",
     "rollup": "^4.1.5",
     "sass": "^1.79.4",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   },
   "overrides": {
     "gulp-connect": {
