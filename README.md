@@ -170,7 +170,7 @@ in the making of this presentation
 
 Dialog:
 
-A [on the phone]: ...I’m telling you, if one more person comes at me with SBOMs, I’m quitting. Oh, I’ll call you back later, the manager is coming right now.
+A [on the phone]: ...I’m telling you, if one more person comes at me with SBOMs, I’m quitting. Oh, I’ll call you back later, my manager is coming right now.
 
 ---
 
@@ -252,7 +252,7 @@ C: Absolutely yes! An SBOM is a kind of a list of ingredients that tells me what
 
 Dialog:
 
-A: Not bad at all. But let's start a little smaller: In modern software development, developers don't write every line of code themselves, they rely on ready-made parts. Let's take the date-picker function in any application: on the one hand, this is quite complex, but on the other hand, it is needed again and again. It is therefore more efficient to download such code from the Internet in the form of libraries or frameworks instead of reinventing the wheel every time.
+A: Not bad at all. But let's start a little smaller: In modern software development, developers don't write every line of code themselves, they rely on ready-made parts. Let's take the date-picker function in any application for example: on the one hand, this is quite a complex feature, on the other hand, it is needed again and again. It is therefore more efficient to download such code from the Internet in the form of libraries or frameworks instead of reinventing the wheel every time.
 
 C: Our software developers take ready-made code from the internet? So why are we spending huge amounts of money on the development teams?
 
@@ -333,7 +333,7 @@ C: Yeah right, the list of ingredients! I knew it, I just wanted to test you! [w
 
 Dialog:
 
-A: Very good! SBOMs are therefore standardized structures in which the most important data points for all these dependencies are listed. What kind of component is it, where does it come from, what version does it have, what license is associated...? Would you like to see an SBOM like this?
+A: Very good! SBOMs are therefore standardized structures in which the most important data points for all these dependencies are listed. What kind of component is it, where does it come from, what version does it have, what license is associated...? Would you like to take a look at an SBOM?
 
 C: Oh, yes! I'd love to!
 
@@ -345,7 +345,7 @@ Dialog:
 
 C: Oh, nobody can read that!!
 
-A: Correct, SBOMs are actually primarily intended for machines.
+A: Correct, SBOMs are primarily intended to be machine-readable.
 
 C: [slimy] ...and for top talents like you! Did you write that?
 
@@ -353,7 +353,7 @@ A: No, that would be near to impossible. We received this SBOM from one of our s
 
 C: Oh, it's not from our software?
 
-A: No, not this one. It lists the components that are used in his software. But we can also create SBOMs for our own software, which in turn list our dependencies.
+A: No, not this one. It lists the components that are used in the supplier's software. But we can also create SBOMs for our own software, which in turn list our dependencies.
 
 C: ...and we then pass these on to our customers?
 
@@ -405,7 +405,7 @@ C: ...then we'll be finished soon! Great!
 
 Dialog:
 
-A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all components that come from our suppliers.
+A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all components we get from our suppliers.
 
 C: Well Ms. Mair, that's easy; we write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days, so we have to keep up!
 
@@ -443,7 +443,7 @@ A: As briefly mentioned earlier, our applications don't only contain components 
 
 C: Open source components?
 
-A: Exactly, and open source projects do not necessarily have to deliver an SBOM. We don't have contracts in these cases either.
+A: Exactly, and open source projects do not necessarily have to deliver an SBOM. And we don't have contracts in these cases either.
 
 C: Well, that's easy to solve. We simply forbid our developers the usage of open source.
 
@@ -463,7 +463,7 @@ Dialog:
 
 A: Well, some studies estimate that open source is used in 97% of modern applications.
 
-C: Then we just don't use Linux anymore... Have you seen the new MacBooks in the marketing team?
+C: Then we just don't use Linux anymore...
 
 A: This is not just about operating systems, but about libraries that developers use to speed up work, database technologies, CI/CD tools, programming languages and container technology.
 
@@ -501,7 +501,7 @@ A: Apart from these challenges, the complexity of creating an SBOM depends heavi
 
 C: Oh come on! Code is code, no matter what language!
 
-A: The languages and how they work are quite different. In the modern web world, you get the direct dependencies of an application automatically most of the time.
+A: The languages and how they work can differ quite a bit! In the modern web world, you get the direct dependencies of an application automatically most of the time.
 
 C: But we don't just have web applications...
 
@@ -532,6 +532,7 @@ C: Well, there must be something wrong!
 A: Maybe neither SBOM is wrong, but both are incomplete.
 
 C: Then we should simply harmonize all these SBOMs. That can certainly be done with AI!
+
 ---
 
 <img src="images/nevermind.webp"  alt="Nevermind" width="1000" height="auto">
