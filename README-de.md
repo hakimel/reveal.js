@@ -2,7 +2,7 @@
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/something-appsec/sbom-talk/badge)](https://scorecard.dev/viewer/?uri=github.com/something-appsec/sbom-talk)
 
 > [!NOTE]
-> This is the [reveal.js](https://revealjs.com/) Slide Deck for the Talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
+> This is the [reveal.js](https://revealjs.com/) slide deck for the talk **"SBOMs - Eine Tragikomödie in 3 Akten"** by Jasmin Mair and Lukas Mika.
 > 
 > The rendered presentation is available **[here](https://something-appsec.github.io/sbom-talk/)**.
 
@@ -14,7 +14,7 @@
 _by *Jasmin Mair* and *Lukas Mika*_
 
 <div style="font-size: 0.6em; margin-top: 2em">
-Presentation Slides and Script available at<br/>
+Presentation slides and script available at<br/>
 <a href="https://github.com/something-appsec/sbom-talk">https://github.com/something-appsec/sbom-talk</a><br/>
 <img src="images/qr-code.gif" width="100" height="auto"><br/>
 </div>
@@ -35,7 +35,7 @@ is purely coincidental.
 
 <div style="font-family: serif; font-size: 0.8em">
 No CISOs were harmed <br/>
-in the Making of this Presentation
+in the making of this presentation
 </div>
 
 Dialog:
