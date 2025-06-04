@@ -497,7 +497,7 @@ C: Whoooow, that wasn't budgeted for in this financial year and the financial pl
 
 ---
 
-<img src="images/sboms-castle" alt="Dramatic SBOM paths" width="450" height="auto">
+<img src="images/sboms-castles.jpg" alt="Dramatic SBOM paths" width="450" height="auto">
 
 Dialog:
 
