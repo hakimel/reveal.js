@@ -497,7 +497,7 @@ C: Whoooow, that wasn't budgeted for in this financial year and the financial pl
 
 ---
 
-<img src="images/sboms-castles.jpg" alt="Dramatic SBOM paths" width="450" height="auto">
+<img src="images/sboms-castles.jpg" alt="Dramatic SBOM paths" width="600" height="auto">
 
 Dialog:
 
@@ -517,7 +517,7 @@ A: Unfortunately, it is. The creation of SBOMs is not standardized.
 
 ---
 
-<img src="images/sbom-devs.jpg" alt="SBOMs holding back Developers" width="600" height="auto">
+<img src="images/sbom-devs.jpg" alt="SBOMs holding back Developers" width="450" height="auto">
 
 Dialog:
 
