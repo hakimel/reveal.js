@@ -497,7 +497,7 @@ C: Whoooow, that wasn't budgeted for in this financial year and the financial pl
 
 ---
 
-<img src="images/sbom-devs.jpg" alt="SBOMs holding back Developers" width="450" height="auto">
+<img src="images/sboms-castle" alt="Dramatic SBOM paths" width="450" height="auto">
 
 Dialog:
 
@@ -514,6 +514,12 @@ A: Exactly! With legacy applications or hardware-related development, third-part
 C: Well, there will probably be some technical solution to create these SBOMs easily. Just be forward thinking! It can't be that difficult.
   
 A: Unfortunately, it is. The creation of SBOMs is not standardized.
+
+---
+
+<img src="images/sbom-devs.jpg" alt="SBOMs holding back Developers" width="450" height="auto">
+
+Dialog:
 
 C: There are guidelines and standards! Even from the German BSI!
 
