@@ -379,11 +379,13 @@ C: Oh, that's practical!
 
 ---
 
-# About SBOM
+# 1st Act: Learnings
 
-- Machine-readable nested inventory list of ingredients making up software components
-- High expectations from different stakeholders
-- Differentiation between direct and transitive dependencies
+- SBOM: "List of ingredients" for Software
+- Structured Software Metadata
+- Machine-readable
+- Nested: "Transitive Dependencies"
+- Generated per Software Release
 
 ---
 
@@ -437,7 +439,7 @@ Dialog:
 
 C: Only so few???
 
-A: Yes, and the rate at which the provision of SBOMs is increasing doesn't give much more hope.
+A: Yes, and the rate at which the provision of SBOMs is increasing doesn't give much more hope either.
 
 A: The large manufacturers are not even that problematic; the small suppliers in certain niches that are not specialized in software development have a more difficult time.
 
@@ -453,7 +455,7 @@ C: Well, that's easy to solve. We simply forbid our developers the usage of open
 
 A: You have no idea how much open source is used in our company, do you?
 
-C: It can't be that much...
+C: Come on, it can't be that much...
 
 ---
 
@@ -763,13 +765,16 @@ A: Yes, with both SBOMs and VEX documents, we have to trust that the authors wor
 
 <!-- .slide: class="smaller-size" -->
 
-# SBOM challenges
+# 2nd Act: Learnings
 
-- Getting SBOMs from suppliers, open source components and other third parties is challenging
-- Creation of complete and correct SBOMs can be hard for development teams
-- Generation, transmission and update of SBOMs lacks standardization
-- Managing vulnerabilities through SBOMs is unrealistic with current means (VEX)
-- SBOMs are not helpful against supply chain attacks
+- Limited SBOM Availability
+- Lack of Standardization:
+  - Generation
+  - Transmission
+- Effort depends on Programming Language/Ecosystem
+- Vulnerabilities: documented in centralized Databases
+- VEX: Supplier information about Exploitability
+- **SBOMs do not defend Supply Chain Attacks**
 
 ---
 
@@ -844,7 +849,7 @@ C: How is that supposed to work now? You've ripped all my ideas apart...
 
 A: In software development, one topic is of vital importance: tracking and managing dependencies! In context of open source packages, this is often done through a so-called “software composition analysis”.
 
-C: And what does this “software composition analysis” do for me? Try an elevator pitch!
+C: And what does this “software composition analysis” do for me? Why don't you try an elevator pitch?
 
 A: Well, the software composition analysis searches the application for external dependencies and checks whether the components are up-to-date, contain known vulnerabilities or carry problematic licenses. This is what it looks like with the ‘OWASP Dependency Track’, for example.
 
@@ -854,13 +859,13 @@ A: Well, the software composition analysis searches the application for external
 
 Dialog:
 
-C: Bought!
+C: Consider it bought!
 
-A: Open source!!
+A: Consider it Open Source!
 
 C: But that sounds more like the already discussed list of ingredients rather than anything new...
 
-A: It's not new either; the introduction of SBOMs has brought this topic back to attention and expanded it to include commercial components. However, the need for a proper inventory of software has been around for quite some time.
+A: Because it isn't! The introduction of SBOMs has simply brought this topic back to attention and expanded it to include commercial components. However, the need for a proper inventory of software has been around for quite some time.
 
 C: But what is this supposed to achieve in concrete terms?
 
@@ -918,11 +923,15 @@ C: What does all this have to do with SBOMs?
 
 ---
 
-# Meaningful use of SBOMs
+# 3rd Act: Learnings
 
-- SBOMs can extend a proper Software Composition Analysis with proprietary components
-- Raise awareness in development teams about third party dependencies
-- Proper governance around the usage of third party dependencies
+- Software Composition Analysis:  
+Track your Dependencies!
+- Raise Awareness in Development Teams
+  - Reduce Complexity:  
+  As few Dependencies as possible
+  - Define Quality Criteria
+- Patch your Vulnerabilities
 
 Dialog:
 
