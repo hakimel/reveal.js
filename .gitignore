@@ -9,7 +9,11 @@ out/
 log/*.log
 tmp/**
 node_modules/
+<<<<<<< HEAD
 .sass-cache
 =======
 node_modules/
 >>>>>>> 93fcb8b2 (No CISOs were harmed)
+=======
+.DS_Store
+>>>>>>> 15bf00c9 (docs: add gitignore)
