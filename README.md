@@ -180,9 +180,9 @@ A [on the phone]: ...I’m telling you, if one more person comes at me with SBOM
 
 Dialog:
 
-C [entering the room]: Wonderful good morning, Ms. Mair! So, how are WE doing today?
+C [entering the room]: Wonderful good morning, Ms. Mair! How are WE doing today?
 
-A [rolls eyes]: Good morning Mr. Mika. I can only speak for myself, but we're under a lot of stress at the...
+A [rolls eyes]: Good morning, Mr. Mika. I can only speak for myself, but we're under a lot of stress at the...
 
 C: I'm doing wonderfully, thanks for asking!
 
@@ -198,11 +198,11 @@ A [sighs]: What can I do for you?
 
 Dialog:
 
-C: Have you heard about all the supply chain attacks? They happen everywhere! We need to protect ourselves against them _as soon as possible_!
+C: Have you heard about all the supply chain attacks? They're happening everywhere! And we need to protect ourselves against them _ASAP_!
 
 A: Well, I mean...
 
-C: I even already found the solution for it: S-B-O-M-S
+C: ...but I already found the perfect solution for it: S-B-O-M-S
 
 ---
 
@@ -220,7 +220,7 @@ C: Software... Billy...
 
 A: You mean Software Bill of Materials? SBOMs?
 
-C: Exactly what I said! Everyone needs to create them these days to improve the overall security posture!
+C: Exactly what I said! Everyone needs to create them these days, to improve the overall security posture!
 
 A: Did you attend a compliance conference once again?
 
@@ -230,7 +230,7 @@ A: Did you attend a compliance conference once again?
 
 Dialog:
 
-C: How do you... [collects himself] The number of supply chain attacks like log4j has been on a massive rise in the last years and we need to protect ourselves against them. There is a really great solution here with SBOMs!
+C: How do you... [collects himself] The number of supply chain attacks like log4j has been on a massive rise in the recent years and we need to protect ourselves against them immediately. There is a really great solution here with SBOMs!
 
 ---
 
@@ -238,9 +238,9 @@ C: How do you... [collects himself] The number of supply chain attacks like log4
 
 Dialog:
 
-A: Erm... SBOMs as solution for supply chain attacks? Do you even know, what an SBOM is?
+A: Erm... SBOMs as solution for supply chain attacks? Do you actually know, what an SBOM is?
 
-C: Absolutely yes! An SBOM is a kind of a list of ingredients that tells me what's in food, but for software. For example: 30 lines of HTML, 50 lines of Java, that sort of things.
+C: Absolutely yes! An SBOM is like a list of ingredients, that tells me what's in food, just for software. For example: 30 lines of HTML, 50 lines of Java, that sort of things.
 
 ---
 
@@ -253,16 +253,20 @@ C: Absolutely yes! An SBOM is a kind of a list of ingredients that tells me what
 Dialog:
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 A: Not bad at all. But let's start a little smaller: In modern software development, developers don't write every line of code themselves, they rely on ready-made parts. Let's take the date-picker function in any application for example: on the one hand, this is quite a complex feature, on the other hand, it is needed again and again. It is therefore more efficient to download such code from the Internet in the form of libraries or frameworks instead of reinventing the wheel every time.
 =======
 A: Not too wrong. But let's start a little smaller: In modern software development, developers don't write every line of code themselves, they rely on ready-made parts. Let's take the date-picker function in any application: on the one hand, this is quite complex, but on the other hand, it is needed again and again. It is therefore more efficient to download such code from the Internet in the form of libraries or frameworks instead of reinventing the wheel every time.
 >>>>>>> 688d13b8 (Review and slight modifications)
+=======
+A: Not _too_ bad. But let's start a little smaller: In modern software development, developers don't write every line of code themselves, they rely on ready-made parts. Let's take the date-picker function in any application for example: on the one hand, this is quite a complex feature, on the other hand, it is needed again and again. It is therefore more efficient to download such code from the Internet in the form of libraries or frameworks instead of reinventing the wheel every time.
+>>>>>>> fc16e349 (formulations adjusted)
 
-C: Our software developers take ready-made code from the internet? So why are we spending huge amounts of money on the development teams?
+C: Our software developers take ready-made code from the internet? Then what are we spending huge amounts of money on the development teams for?
 
-A: Would you rather spend money to have each team write their own data-picker tool? Or should they generate business value?
+A: Would you rather spend money to have each team write their own data-picker tool? Or should they rather generate business value instead?
 
-C: Definitely business value...
+C: Yeah, sure, business value, definitely...
 
 ---
 
@@ -276,7 +280,7 @@ Dialog:
 
 A: That would be near to impossible without such external components nowadays. Different studies found that 70-90% of any given software code base is made up of open source components.
 
-C: That many!?! I doubt we have that many date-pickers in our software?!
+C: That much!? I doubt we have that many date-pickers in our software?!
 
 A: Well, it's not only about date-pickers, but very different and basic functionalities that are loaded in as libraries or frameworks from various external sources. These in turn depend on other components, the so-called 'transitive dependencies' - such as log4j
 
@@ -286,7 +290,7 @@ A: Well, it's not only about date-pickers, but very different and basic function
 
 Dialog:
 
-C: log4j, right! Nobody knew where it was nested!
+C: Yeah, log4j, right! Nobody knew where it was all embedded!
 
 A: Exactly. And these components in turn have their own dependencies on which they rely.
 
@@ -296,7 +300,7 @@ A: Exactly. And these components in turn have their own dependencies on which th
 
 Dialog:
 
-C: ...and these in turn have other dependencies, which on their part rely on other dependencies, which....
+C: ...and these in turn have other components? Which on their part rely on other dependencies? Which... Phew!
 
 ---
 
@@ -310,7 +314,7 @@ Dialog:
 
 A: Exactly! So even a few _direct_ dependencies can load a lot of further dependencies.
 
-C: This gets more and more complex! How do you keep track of it all?
+C: But this gets more and more complex! How do you keep track of it all?
 
 ---
 
@@ -337,9 +341,9 @@ C: Yeah right, the list of ingredients! I knew it, I just wanted to test you! [w
 
 Dialog:
 
-A: Very good! SBOMs are therefore standardized structures in which the most important data points for all these dependencies are listed. What kind of component is it, where does it come from, what version does it have, what license is associated...? Would you like to take a look at an SBOM?
+A: Alright. SBOMs are therefore standardized structures, in which the most important data points for all these dependencies are listed. What kind of component is it, where does it come from, what version does it have, what license is associated... Would you like to take a look at an SBOM like this?
 
-C: Oh, yes! I'd love to!
+C: Oh, yes, absolutely! I'd love to!
 
 ---
 
@@ -347,19 +351,19 @@ C: Oh, yes! I'd love to!
 
 Dialog:
 
-C: Oh, nobody can read that!!
+C: Whoa, nobody can read that!
 
-A: Correct, SBOMs are primarily intended to be machine-readable.
+A: Correct, SBOMs are primarily intended for machines.
 
 C: [slimy] ...and for top talents like you! Did you write that?
 
 A: No, that would be near to impossible. We received this SBOM from one of our software suppliers.
 
-C: Oh, it's not from our software?
+C: Oh, it's not even from our software?
 
-A: No, not this one. It lists the components that are used in the supplier's software. But we can also create SBOMs for our own software, which in turn list our dependencies.
+A: No, not this one. It lists the components that are used in the _supplier's_ software. But we can also create SBOMs for _our own_ software, which in turn list _our_ dependencies.
 
-C: ...and we then pass these on to our customers?
+C: ...and then we pass these on to our customers?
 
 A: Yes, exactly!
 
@@ -367,11 +371,11 @@ C: But then they know how our software was built! Can't they simply rebuild it?
 
 A: No, the SBOM only states which external components are used. The business logic and how it uses these components is not listed.
 
-C: Okay... but if we use so many components in our software, the SBOM would have to be recreated every time something changes...
+C: Okay... but if we use so many components in our software, the SBOM would have to be recreated every time something changes in there...
 
 A: Right.
 
-C: Isn't that a lot of work? Is that the reason why developers are always so busy?
+C: Isn't that a huge amount of effort? Ah, is _that_ the reason why developers are always so busy?
 
 A: Fortunately not in modern software development, because the creation can be automated in the build process; the SBOM is generated automatically every time we build the corresponding program from the source code.
 
@@ -395,7 +399,7 @@ C: Oh, that's practical!
 
 Dialog:
 
-C: So with all these SBOMs we have the ingredient list of every software we develop and use?
+C: So, with all these SBOMs, we have the ingredient list of every software we develop and operate?
 
 A: Yes, partly. Our developers are working on creating SBOMs for our own products.
 
@@ -411,9 +415,9 @@ C: ...then we'll be finished soon! Great!
 
 Dialog:
 
-A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all components we get from our suppliers.
+A: Not so fast! In order for us to finalize the SBOMs for our products, we need the SBOMs for all embedded components, which we source from our suppliers.
 
-C: Well Ms. Mair, that's easy; we write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days, so we have to keep up!
+C: Well Ms. Mair, that's so easy; we simply write it into the contracts and force everyone to do it. Everyone is doing SBOMs these days; we have to keep up!
 
 ---
 
@@ -425,7 +429,7 @@ C: Well Ms. Mair, that's easy; we write it into the contracts and force everyone
 
 Dialog:
 
-A: Well... it is true that more and more SBOMs are being created, but we're nowhere near where we should be. In 2024, there were 7 million published components on npm, of which just 61k had SBOMs.
+A: Well... it is true that more and more SBOMs are being created, but we're nowhere near to where we should be. In 2024, there were 7 million published components on npm, of which just 61k had SBOMs available.
 
 ---
 
@@ -437,25 +441,25 @@ A: Well... it is true that more and more SBOMs are being created, but we're nowh
 
 Dialog:
 
-C: Only so few???
+C: Only so few?
 
-A: Yes, and the rate at which the provision of SBOMs is increasing doesn't give much more hope either.
+A: Yes, and the rate at which the provision of SBOMs is increasing doesn't give much more hope, either.
 
-A: The large manufacturers are not even that problematic; the small suppliers in certain niches that are not specialized in software development have a more difficult time.
+A: The large manufacturers are not even that problematic; the small suppliers, in certain niches, that are not specialized in software development, have a more difficult time.
 
 C: We really can't take that into consideration; SBOMs should still be included in the contracts for the next renewals!
 
 A: As briefly mentioned earlier, our applications don't only contain components from our suppliers, but also...
 
-C: Open source components?
+C: Open source components!
 
-A: Exactly, and open source projects do not necessarily have to deliver an SBOM. And we don't have contracts in these cases either.
+A: Exactly, and open source projects do not necessarily have to deliver an SBOM. And we don't have contracts in these cases, either.
 
-C: Well, that's easy to solve. We simply forbid our developers the usage of open source.
+C: Well, that's easy to solve. We simply forbid our developers to use open source.
 
-A: You have no idea how much open source is used in our company, do you?
+A: You really have no idea how much open source is used across our company, do you?
 
-C: Come on, it can't be that much...
+C: Come on, it can't be _that_ much...
 
 ---
 
@@ -469,11 +473,11 @@ Dialog:
 
 A: Well, some studies estimate that open source is used in 97% of modern applications.
 
-C: Then we just don't use Linux anymore...
+C: Oh,... then we just don't use Linux anymore!
 
 A: This is not just about operating systems, but about libraries that developers use to speed up work, database technologies, CI/CD tools, programming languages and container technology.
 
-C: Then we should go to the base and somehow get the open source projects to provide SBOMs. Ultimately, this will also increase their market share.
+C: Then... we should go to the base and somehow get the open source projects to provide SBOMs. Ultimately, this will also increase their market share.
 
 ---
 
@@ -495,7 +499,7 @@ Dialog:
 
 A: Here we, as company, could provide both financial and technical support!
 
-C: Whoooow, that wasn't budgeted for in this financial year and the financial planning has already been completed. But maybe next year?
+C: Whoooow, that wasn't budgeted in for this fiscal year and the financial planning has already been completed. But maybe next year.
 
 ---
 
@@ -505,15 +509,15 @@ Dialog:
 
 A: Apart from these challenges, the complexity of creating an SBOM depends heavily on the programming language and the frameworks used.
 
-C: Oh come on! Code is code, no matter the language!
+C: Oh, come on! Code is code, no matter the language!
 
 A: The languages and how they work can differ quite a bit! In the modern web world, you get the direct dependencies of an application automatically most of the time.
 
-C: But we don't just run web applications...
+C: But we don't only run web applications...
 
-A: Exactly! With legacy applications or hardware-related development, third-party libraries are integrated differently and there is no nice list like in the web world. The development teams have to work on clearly documenting the dependencies. And spoiler alert...the older the technology, the more difficult it is to create an SBOM for it.
+A: Exactly! With legacy applications or hardware-related development, third-party libraries are integrated differently and there is no nice list like in the web world. The development teams have to work on clearly documenting the dependencies. And spoiler alert: the older the technology, the more difficult it is to create an SBOM for it.
 
-C: Well, there will probably be some technical solution to create these SBOMs easily. Just be forward thinking! It can't be that difficult.
+C: Well, there will probably be some technical solution to simply create SBOMs for these. Just be forward-thinking! It can't be _that_ difficult.
   
 A: Unfortunately, it is. The creation of SBOMs is not standardized.
 
@@ -523,19 +527,19 @@ A: Unfortunately, it is. The creation of SBOMs is not standardized.
 
 Dialog:
 
-C: There are guidelines and standards! Even from the German BSI!
+C: Indeed there _are_ guidelines and standards! Even from the German BSI!
 
 A: Yes, the guidelines and standards relate to the structure and are primarily just minimum requirements.
 
-C: That's what we need here!
+C: But the structure is what we need here!
 
-A: That's important, but far from enough. Granularity, depth, or the relationship between the components are some of the things everyone does a bit differently.
+A: The structure is important, but far from enough. Granularity, depth, or the relationship between the components are some of the things everyone does a bit differently.
 
 C: Is that really such of a problem?
 
-A: This makes very difficult to find out whether a supplied SBOM is correct and complete.
+A: This makes it very difficult to find out, whether a supplied SBOM is correct and complete.
 
-C: But there are thousands of tools on the market! Tell me which one we should use and I'll take it through procurement for you.
+C: But there are thousands of tools on the market! Just pick the best one and I'll take it through procurement for you.
 
 A: As mentioned earlier, some of our teams already create SBOMs as part of the automated build pipelines. However, if we were to run two tools to automatically create SBOMs on the applications, they would most likely deliver different results.
 
@@ -571,7 +575,7 @@ Dialog:
 
 A: The transmission of SBOMs isn't standardized, either. Some manufacturers make them available for download on their website, others as metadata of the product, and others in turn provide them via e-mail on request.
 
-C: Don't over-complicate! It would certainly be easier through Sharepoint.
+C: Ms. Mair, don't over-complicate! It would certainly be easier through Sharepoint.
 
 A: [Rolls eyes] At the moment, we usually request the SBOMs by e-mail and receive them in the same way. But we can't really check the integrity and authenticity of these documents; we can't even automatically ensure that they come from the right source and have not been manipulated on their way to us.
 
@@ -583,13 +587,13 @@ C: There are already proven methods using electronic signatures for this. Are yo
 
 Dialog:
 
-A: Fine, so we get a signed SBOM, but how do we know it's a legitimate signature and not by someone trying to frame us?
+A: Fine, so then we get a _signed_ SBOM, but how do we know it's a legitimate signature and not by someone trying to frame us?
 
 C: [slimy] I guess you really have zero trust, huh?
 
 A: [sighs] ...
 
-C: Well, let's take what we can get for now. Then that's my inventory that I can query for log4j and other supply chain attacks
+C: Well, let's take what we can get for now. Then that's my inventory that I can query for log4j and other supply chain attacks!
 
 ---
 
@@ -603,7 +607,7 @@ C: No, no thanks, absolutely not!
 
 A: Let's conclude, we need a tool that can index the SBOMs to make them searchable.
 
-C: Yes, then we've got that together. We can also easily buy another tool, if needed! Then we'll finally know what vulnerabilities all the products have and can fix the supply chain attacks. That's awesome!
+C: Yes, then we've got that together. We can easily buy yet another tool! Then we'll finally know what vulnerabilities all the products have and can fix the supply chain attacks. That's awesome!
 
 A: I think we need to clear up a few misconceptions about supply chain attacks and vulnerabilities here.
 
@@ -629,11 +633,11 @@ C: As the name suggests...
 
 A: For example, by injecting malicious code into a legitimate code repository or tricking developers into installing malicious dependencies.
 
-C: Wasn't that the case with log4j?
+C: Wasn't that also the case with log4j?
 
-A: No, log4j was a library affected by a critical zero-day vulnerability - log4shell.
+A: No, log4j was a library affected by a critical zero-day vulnerability.
 
-C: Back to the supply chain attacks...
+C: ...and supply chain attacks?
 
 A: A very well-known example of a supply chain attack was when the software manufacturer Solarwinds was hacked in 2020: the attackers compromised the build system, allowing them to insert malware into the compiled product. Customers then installed the software because it came from their trusted supplier. This allowed the attackers to gain access to the target systems.
 
@@ -649,9 +653,9 @@ Dialog:
 
 C: Well...from the supplier!
 
-A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a regular product development, like new features from a malicious change to the software.
+A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a legitimitage product change, like the implementation of new features, from a malicious modification of the software.
 
-C: Got it... So you mean, SBOMs don't defend supply chain attacks at all?
+C: Got it... So you mean, SBOMs don't defend supply chain attacks _at all_?
 
 A: Correct.
 
@@ -665,7 +669,7 @@ Dialog:
 
 A: Yes, SBOMs could possibly offer value in such scenarios, since this was a dependency with a critical vulnerability.
 
-C: That was a freaking nightmare to find out where it was in use! 
+C: Oh yeah, that was a freaking nightmare to find out where it was embedded! 
 
 A: For you?!?
 
@@ -703,9 +707,9 @@ C: Lucky us... once again we can rely on the USA when it comes to security!
 
 Dialog:
 
-A: That's where the next issue waits: due to the monetary dependence on the US government, political decisions can have a rapid impact on the availability of such centralized services.
+A: That's where the next issue waits: due to the monetary dependence on the US government, political decisions, such as those taken by a mad president, can have a rapid impact on the availability of such centralized services.
 
-C: Oh, yes, that could become risky... Perhaps we should also become a little more sovereign in Europe at this point and host our own databases.
+C: Oh, yes, I do see a certain risk for a mad president... Perhaps we should also become a little more sovereign in Europe at this point and host our own databases.
 
 ---
 
@@ -719,19 +723,19 @@ Dialog:
 
 A: Yes, ENISA is already working on it and has recently launched the beta version of its own platform. This means, though, that we are moving away from the current "single source of truth", which was the MITRE database, towards a more fragmented space.
 
-C: All right, then we'll have several sources that tell us where we're vulnerable. Better safe than sorry!
+C: What's the matter? Then we'll have several sources that tell us where we're vulnerable. Better safe than sorry!
 
-A: Well, we then have a very long, possibly inconsistent list of vulnerabilities. But just because a library used contains a vulnerability, it doesn't necessarily mean that it can be exploited.
+A: Well, in the first place, we then have a very long, possibly inconsistent list of vulnerabilities. But just because a library used contains a vulnerability, it doesn't necessarily mean that it can actually be exploited.
 
-C: How does that work? You can't be just a little bit vulnerable. Just like you can't be just a little bit pregnant.
+C: How does that work? You can't be just a little vulnerable. Just like you can't be just a little pregnant, huh?
 
 A: If the developers don't use the vulnerable part that is affected by the vulnerability, then attackers often don't have the opportunity to abuse it. This is the concept of "exploitability".
 
-C: But how do we know whether we are vulnerable or not?
+C: But how do we know, whether we are vulnerable or not?
 
 A: We have to test the issues and assess the associated risk.
 
-C: That sounds like a lot of effort... Hah, why don't we simply let the software suppliers test it themselves and share the results with us?
+C: "Test the issues, test the issues"... That effort is gonna delay our time-to-market! Hah, why don't we simply let the software suppliers test it themselves and share the results with us?
 
 ---
 
@@ -745,13 +749,13 @@ Dialog:
 
 A: Yes, that also already exists. That's the so-called “Vulnerability Exploitability eXchange”, short "VEX".
 
-C: Let me guess: yet another machine-read-only document?
+C: Let me guess: yet another machine-readable document?
 
 A: Exactly, suppliers can use it to extend the SBOM to clarify the exploitability of vulnerabilities in the listed components.
 
 C: That sounds promising!
 
-A: Well, not really. The VEX is a static document, but vulnerabilities are unfortunately a bit more dynamic. The VEX only gives us a snapshot at a certain point in time. If new vulnerabilities are discovered, all manufacturers using the affected component must evaluate their products and provide new VEX files for all versions of of every affected product still in active use.
+A: Well, not really. The VEX is a static document, but vulnerabilities are unfortunately a bit more dynamic. The VEX only gives us a snapshot at a certain point in time. If new vulnerabilities are discovered in a component, all manufacturers using said component must evaluate their products and provide new VEX files for every version of every affected product still in active use.
 
 C: Oh dear, then we'll drown in documentation!
 
@@ -784,7 +788,7 @@ A: Yes, with both SBOMs and VEX documents, we have to trust that the authors wor
 
 Dialog:
 
-C: With all the shortcomings, the huge efforts and expenses associated... Is it even worth investing in SBOMs?
+C: So with all the shortcomings, the huge efforts and expenses associated... Is it even worth investing in SBOMs?
 
 ---
 <<<<<<< HEAD
@@ -809,7 +813,7 @@ C: With all the shortcomings, the huge efforts and expenses associated... Is it 
 
 Dialog:
 
-A: SBOMs can offer an added value, they are just simply not the silver bullet that many are hoping for.
+A: SBOMs _can_ offer an added value, they are simply not the silver bullet that many are hoping for.
 
 C: But why do we need them, after all?
 
@@ -845,11 +849,11 @@ Dialog:
 
 A: Yes, but let's not think of it as a compliance checkbox. If we need to do them anyways, let's do something useful with it.
 
-C: How is that supposed to work now? You've ripped all my ideas apart...
+C: How is that supposed to work now? You've ripped all my ideas apart already!
 
 A: In software development, one topic is of vital importance: tracking and managing dependencies! In context of open source packages, this is often done through a so-called “software composition analysis”.
 
-C: And what does this “software composition analysis” do for me? Why don't you try an elevator pitch?
+C: And what does this “software composition analysis” do for me? Why don't you try an elevator pitch!
 
 A: Well, the software composition analysis searches the application for external dependencies and checks whether the components are up-to-date, contain known vulnerabilities or carry problematic licenses. This is what it looks like with the ‘OWASP Dependency Track’, for example.
 
@@ -859,13 +863,13 @@ A: Well, the software composition analysis searches the application for external
 
 Dialog:
 
-C: Consider it bought!
+C: Cool! Consider it bought!
 
 A: Consider it Open Source!
 
-C: But that sounds more like the already discussed list of ingredients rather than anything new...
+C: But all this sounds more like another list of ingredients rather than anything new...
 
-A: Because it isn't! The introduction of SBOMs has simply brought this topic back to attention and expanded it to include commercial components. However, the need for a proper inventory of software has been around for quite some time.
+A: Because it isn't! The introduction of SBOMs has simply brought this topic back to attention and expanded it to include commercial components. However, the need for a proper inventory of software has been around for _quite_ some time.
 
 C: But what is this supposed to achieve in concrete terms?
 
@@ -875,11 +879,11 @@ C: But what is this supposed to achieve in concrete terms?
 
 Dialog:
 
-A: The inventory creates the data basis for assessing the quality of the software and the associated operational risks. Simply having the information/metadata lying around does us no good, but this transparency enables us to prioritize what the development teams need to patch and where they need to do some rework.
+A: The inventory creates the data basis for assessing the quality of the software and the associated operational risks. Simply having the metadata lying around does us no good, but this transparency enables us to prioritize what the development teams need to patch and where they need to do some rework.
 
-C: Who checks that this is actually being done? That calls for a new governance function!
+C: But who will check that this is actually being done? Ha, that calls for a new governance function!
 
-A: Well, at least we should keep an eye on ensuring that at least the critical points are fixed promptly. Make a guess: How often is the outdated and vulnerable log4j version still being used for building today?
+A: Well, at least we should keep an eye on ensuring that at a minimum the critical points are fixed promptly. Make a guess: How often is the outdated and vulnerable log4j version still being used in software builds today?
 
 C: Not at all, I hope!
 
@@ -894,13 +898,13 @@ C: Not at all, I hope!
 
 Dialog:
 
-A: Far off! It is still frequently downloaded and baked into software. That's why we need to raise awareness among developers for the responsible and reasonable use of dependencies.
+A: Far off! It is still frequently downloaded and baked into software! That's why we need to raise awareness among developers for the responsible and reasonable use of dependencies.
 
-C: With a policy such as: only dependencies without any vulnerabilities are permitted!
+C: How about a policy such as: only dependencies without any vulnerabilities are permitted!
 
-A: It will be very difficult to try to go without any vulnerabilities... But developers should reduce the number of external dependencies wherever possible. The selection should also be subject to certain quality criteria, e.g. whether they are actively maintained, whether they come from a trustworthy source and publisher, or how quickly vulnerabilities and other issues are resolved.
+A: It will be very difficult to try to go completely without vulnerabilities... But developers should reduce complexity and the number of external dependencies wherever possible. The selection should also be subject to certain quality criteria, e.g., whether they are actively maintained, whether they come from a trustworthy source and publisher, or how quickly vulnerabilities and other issues are resolved.
 
-C: How can you recognize this? Is there anything we can use out of the box?
+C: And how can you recognize this? Is there anything we can use out of the box?
 
 ---
 
@@ -917,14 +921,15 @@ C: How can you recognize this? Is there anything we can use out of the box?
 
 Dialog:
 
-A: For open source, for example, there is the openssf scorecard for evaluating projects, which can be integrated directly into the pipelines to provide developers with a useful, automated assessment report of the project in question.
+A: For open source, for example, there is the OpenSSF scorecard for evaluating projects, which can be integrated directly into the pipelines to provide developers with a useful, automated assessment report of the project in question.
 
-C: What does all this have to do with SBOMs?
+C: ...and what does all this have to do with SBOMs, now?
 
 ---
 
 # 3rd Act: Learnings
 
+- SBOMs required in multiple regulations
 - Software Composition Analysis:  
 Track your Dependencies!
 - Raise Awareness in Development Teams
@@ -937,9 +942,9 @@ Dialog:
 
 A: SBOMs are one possible artifact to represent the ingredients list of software. Ultimately, it is just a format in which certain information is stored and exchanged. Coupled with a proper software composition analysis, this allows us to make statements about quality and risks of a certain piece of software.
 
-C: So would you agree with me if I said that SBOMs are not completely useless?
+C: So would you agree with me, if I said that SBOMs are not _completely_ useless?
 
-A: Not completely...
+A: Not _completely_...
 
 C: Awesome! Great that I was able to convince you...
 
@@ -949,7 +954,7 @@ C: Oh, excuse me, I have to take this one. Could you work out a concept on how w
 
 [C picks up his cell phone and walks off the stage]
 
-C: Yes, hello Hermann! Yes, yes, I know Supply Chain Attacks. We are also using S-B-O-M-S now
+C: Yes, hello Hermann! Yes, yes, I know Supply Chain Attacks. We are currently implementing S-B-O-M-S, hear me? S-B-O-M-S!
 
 [A facepalms]
 
