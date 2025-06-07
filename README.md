@@ -653,7 +653,7 @@ Dialog:
 
 C: Well...from the supplier!
 
-A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a legitimitage product change, like the implementation of new features, from a malicious modification of the software.
+A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a legitimate product change, like the implementation of new features, from a malicious modification of the software.
 
 C: Got it... So you mean, SBOMs don't defend supply chain attacks _at all_?
 
@@ -875,7 +875,7 @@ C: But what is this supposed to achieve in concrete terms?
 
 ---
 
-<img src="images/no-need.jpg" alt="No need to spend efforts, if you don't look at your SBOM" width="1000" height="auto">
+<img src="images/99-bugs-in-the-code.jpg" alt="99 Bugs in Code" width="1000" height="auto">
 
 Dialog:
 
