@@ -385,7 +385,7 @@ C: Oh, that's practical!
 
 # 1st Act: Learnings
 
-- SBOM: "List of ingredients" for Software
+- SBOM: "List of Ingredients" for Software
 - Structured Software Metadata
 - Machine-readable
 - Nested: "Transitive Dependencies"
@@ -655,7 +655,7 @@ C: Well...from the supplier!
 
 A: ...which has been compromised by an attacker, who has the possibility to adapt the SBOM accordingly in order to conceal their intentions. ...and even if there is a change to the SBOM, we as consumers have little evidence to distinguish a legitimate product change, like the implementation of new features, from a malicious modification of the software.
 
-C: Got it... So you mean, SBOMs don't defend supply chain attacks _at all_?
+C: Got it... So you mean, SBOMs don't protect against supply chain attacks _at all_?
 
 A: Correct.
 
@@ -707,9 +707,9 @@ C: Lucky us... once again we can rely on the USA when it comes to security!
 
 Dialog:
 
-A: That's where the next issue waits: due to the monetary dependence on the US government, political decisions, such as those taken by a mad president, can have a rapid impact on the availability of such centralized services.
+A: That's where the next issue waits: due to the monetary dependence on the US government, political decisions, can have a rapid impact on the availability of such centralized services.
 
-C: Oh, yes, I do see a certain risk for a mad president... Perhaps we should also become a little more sovereign in Europe at this point and host our own databases.
+C: Oh, yes, I do see a certain risk here... Perhaps we should also become a little more sovereign in Europe at this point and host our own databases.
 
 ---
 
@@ -775,10 +775,10 @@ A: Yes, with both SBOMs and VEX documents, we have to trust that the authors wor
 - Lack of Standardization:
   - Generation
   - Transmission
-- Effort depends on Programming Language/Ecosystem
-- Vulnerabilities: documented in centralized Databases
-- VEX: Supplier information about Exploitability
-- **SBOMs do not defend Supply Chain Attacks**
+- Effort Depends on Programming Language/Ecosystem
+- Vulnerabilities: Documented in Centralized Databases
+- VEX: Supplier Information About Exploitability
+- **SBOMs Do Not Protect Against Supply Chain Attacks**
 
 ---
 
@@ -929,14 +929,14 @@ C: ...and what does all this have to do with SBOMs, now?
 
 # 3rd Act: Learnings
 
-- SBOMs required in multiple regulations
+- SBOMs Required in Multiple Regulations
 - Software Composition Analysis:  
-Track your Dependencies!
+Track Your Dependencies!
 - Raise Awareness in Development Teams
   - Reduce Complexity:  
-  As few Dependencies as possible
+  As Few Dependencies as Possible
   - Define Quality Criteria
-- Patch your Vulnerabilities
+- Patch Your Vulnerabilities
 
 Dialog:
 
