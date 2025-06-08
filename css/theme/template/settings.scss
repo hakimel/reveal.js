@@ -48,7 +48,7 @@ $selection-color: #fff !default;
 $overlay-element-bg-color: 240, 240, 240 !default;
 $overlay-element-fg-color: 0, 0, 0 !default;
 
-// Expose all variables to the DOM
+// Expose all SCSS variables as CSS custom properties
 :root {
 	// Background of the presentation
 	--r-background: #{$background};

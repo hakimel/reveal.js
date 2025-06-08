@@ -1,5 +1,5 @@
-import { isAndroid } from '../utils/device.js'
-import { matches } from '../utils/util.js'
+import { isAndroid } from '../utils/device'
+import { matches } from '../utils/util'
 
 const SWIPE_THRESHOLD = 40;
 

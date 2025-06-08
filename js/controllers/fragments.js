@@ -1,4 +1,4 @@
-import { extend, queryAll } from '../utils/util.js'
+import { extend, queryAll } from '../utils/util'
 
 /**
  * Handles sorting and navigation of slide fragments.
