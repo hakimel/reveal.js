@@ -161,13 +161,15 @@
 }
 
 .reveal .callout {
-  background: var(--liatrio-darkblue);
+  background: var(--liatrio-grey-700);
   color: var(--liatrio-white);
-  border-left: 6px solid var(--liatrio-lagoon);
-  padding: 1em;
-  margin: 1em 0;
+  border-left: 6px solid var(--liatrio-flameorange);
+  padding: 0.25em 1em 1em 1em;
+  margin: 1em auto;
+  width: fit-content;
+  max-width: 70%;
   border-radius: 6px;
-  font-size: 1.1em;
+  /* font-size: 1.1em; */
 }
 
 .reveal .summary-note {
@@ -259,6 +261,18 @@
   word-break: break-word;
   padding: 0;
   margin: 0;
+}
+
+.quote-block {
+  border-left: 4px solid #4caf50;
+  background: rgba(255,255,255,0.03);
+  color: var(--liatrio-white) !important;
+  margin: 1em 0 1em 2em;
+  padding: 0.75em 1em;
+  font-style: italic;
+  font-size: 0.65em;
+  border-radius: 0.25em;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 /* Inline code */

@@ -1,3 +1,18 @@
+<!--
+Challenge:
+-
+-
+-
+
+Solution:
+-
+-
+
+Benefits:
+-
+-
+-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -49,11 +64,52 @@
           data-background-color="#111111"
           data-transition="fade"
         >
-          <img
-            src="static/images/logo_Liatrio_reverse-preferred.svg"
-            alt="Liatrio Logo"
-            class="slide-logo"
-          />
+          <div
+            id="logo-container"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center; /* Centers content inside the div */
+              margin-left: auto; /* Centers the div itself */
+              margin-right: auto; /* Centers the div itself */
+              margin-bottom: 20px;
+              background-color: var(--liatrio-grey-700);
+              border-radius: 10px;
+              padding: 10px 20px;
+            "
+          >
+            <img
+              src="static/images/logo_Liatrio_reverse-preferred.svg"
+              alt="Liatrio Logo"
+              class="slide-logo"
+              style="height: 170px; margin-right: 20px"
+            />
+            <span
+              id="plus-sign"
+              style="
+                font-size: 200px;
+                color: var(--liatrio-brightgreen);
+                margin-right: 20px;
+                display: none;
+              "
+              >+</span
+            >
+            <img
+              id="client-logo"
+              src="./custom_assets/client_logo.jpeg"
+              alt="Client Logo"
+              class="slide-logo"
+              style="
+                height: 170px;
+                background-color: white;
+                padding: 5px;
+                border-radius: 5px;
+                display: none;
+              "
+              onerror="this.style.display='none'"
+              onload="document.getElementById('plus-sign').style.display='block'; this.style.display='block'"
+            />
+          </div>
           <h1>Presentation Title</h1>
           <p class="subtitle">Subtitle or Tagline</p>
           <p class="presenter">Presenter: Your Name</p>

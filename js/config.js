@@ -294,7 +294,7 @@ export default {
 	pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
 
 	// Prints each fragment on a separate slide
-	pdfSeparateFragments: true,
+	pdfSeparateFragments: false,
 
 	// Offset used to reduce the height of content within exported PDF pages.
 	// This exists to account for environment differences based on how you

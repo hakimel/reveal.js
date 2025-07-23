@@ -33,6 +33,7 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 
 1. **Copy the Template File**
    - Duplicate `liatrio_deck_template.html` and rename it for your presentation (e.g., `my_presentation.html`).
+   - Note: All HTML files in the `liatrio_decks/` folder are git-ignored except for the template file, so your custom presentations won't be accidentally committed.
 
 2. **Customize Your Deck**
    - Update the title, subtitle, and presenter fields.
@@ -40,6 +41,8 @@ Use this template to quickly create new, branded Liatrio presentations with cons
    - Add or remove slides as needed.
    - Replace images/screenshots where indicated.
    - Use the provided code block and callout examples as a starting point for technical content.
+   - Store any custom assets (images, logos, etc.) in the `liatrio_decks/custom_assets/` folder - all files in this folder are git-ignored.
+   - **Client Logo**: To display a client logo alongside the Liatrio logo on the title slide, add a `client_logo.jpeg` file to `static/images/`. If no client logo is found, only the Liatrio logo will be displayed.
 
 3. **Speaker Notes**
    - Add your talking points using `<aside class="notes">...</aside>` blocks under each slide.
@@ -68,6 +71,14 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 - Keep slides focused and concise.
 - Use callouts sparingly for maximum impact.
 - Reach out to the DevOps Enablement team if you need help or want to contribute improvements.
+
+## Git Ignore Configuration
+
+The repository is configured to ignore:
+- All HTML presentation files in `liatrio_decks/` (except `liatrio_deck_template.html`)
+- All files in `liatrio_decks/custom_assets/` (except `.keep`)
+
+This ensures that personal presentations and custom assets are not accidentally committed to the repository.
 
 ---
 

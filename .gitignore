@@ -9,3 +9,13 @@ log/*.log
 tmp/**
 node_modules/
 .sass-cache
+
+# Ignore all HTML files in liatrio_decks/
+liatrio_decks/*.html
+# But keep the template file
+!liatrio_decks/liatrio_deck_template.html
+
+# Ignore everything in liatrio_decks/custom_assets/
+liatrio_decks/custom_assets/*
+# But keep the .keep file
+!liatrio_decks/custom_assets/.keep
