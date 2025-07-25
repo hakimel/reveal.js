@@ -169,7 +169,7 @@
   width: fit-content;
   max-width: 70%;
   border-radius: 6px;
-  /* font-size: 1.1em; */
+  font-size: 0.8em;
 }
 
 .reveal .summary-note {

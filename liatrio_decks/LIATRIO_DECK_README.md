@@ -65,6 +65,69 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 5. Review the generated deck for accuracy and completeness
 6. Make any necessary adjustments to the deck
 
+## Exporting to PDF
+
+You can easily export your presentation to PDF using our automated npm task. This approach uses [decktape](https://github.com/astefanutti/decktape) for high-quality PDF generation.
+
+### Basic PDF Export
+
+```bash
+npm run export-pdf my_presentation.html
+```
+
+This command will:
+
+1. Automatically start the reveal.js server
+2. Generate a PDF with the same name as your presentation title
+3. Clean up and stop the server when complete
+
+### Including Speaker Notes
+
+To include your speaker notes on separate pages in the PDF:
+
+```bash
+npm run export-pdf my_presentation.html --show-notes
+```
+
+The script will temporarily configure reveal.js to show notes on separate pages, generate the PDF, then restore the original configuration.
+
+### How It Works
+
+The export script:
+
+- **Extracts the presentation title** from your HTML file's `<title>` tag or first heading
+- **Generates a clean filename** by sanitizing the title (e.g., "My Great Presentation" becomes "My-Great-Presentation.pdf")
+- **Handles server management** automatically - no need to manually start/stop the server
+- **Manages configuration** - temporarily enables speaker notes if requested, then restores settings
+
+### Advanced Options
+
+**Custom Port**: By default, the script uses a random port (8001-9999) to avoid conflicts. You can specify a custom port:
+
+```bash
+npm run export-pdf my_presentation.html --port 8080
+```
+
+### Examples
+
+```bash
+# Export without speaker notes (uses random port)
+npm run export-pdf client_demo.html
+# Output: Client-Demo.pdf
+
+# Export with speaker notes on separate pages
+npm run export-pdf team_training.html --show-notes
+# Output: Team-Training.pdf (with notes)
+
+# Export using a specific port
+npm run export-pdf my_deck.html --port 3000
+# Output: My-Deck.pdf
+
+# Combine all options
+npm run export-pdf presentation.html --show-notes --port 8080
+# Output: Presentation.pdf (with notes, using port 8080)
+```
+
 ## Additional Tips
 
 - Review the template for example slides, code, callouts, and speaker notes.
@@ -75,6 +138,7 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 ## Git Ignore Configuration
 
 The repository is configured to ignore:
+
 - All HTML presentation files in `liatrio_decks/` (except `liatrio_deck_template.html`)
 - All files in `liatrio_decks/custom_assets/` (except `.keep`)
 
