@@ -10,8 +10,9 @@ tmp/**
 node_modules/
 .sass-cache
 
-# Ignore all HTML files in liatrio_decks/
+# Ignore all HTML and PDF files in liatrio_decks/
 liatrio_decks/*.html
+liatrio_decks/*.pdf
 # But keep the template file
 !liatrio_decks/liatrio_deck_template.html
 
