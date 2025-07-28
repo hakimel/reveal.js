@@ -158,72 +158,77 @@ Benefits:
             src="static/images/logo_Liatrio_reverse-preferred.svg"
             alt="Example image"
             style="
-              max-width: 400px;
+              max-height: 60vh;
+              max-width: 80vw;
+              object-fit: contain;
               background: #fff;
               border-radius: 8px;
               border: 1px solid #444;
             "
           />
           <p style="font-size: 0.8em; color: #888">
-            Replace with your own images/screenshots
+            Images should use max-height: 60vh to prevent overflow
           </p>
           <aside class="notes">
-            Describe what this image demonstrates and why it matters to your
-            audience. Speaker notes are great for reminders about what to
-            emphasize.
+            Always constrain images with max-height: 60vh and object-fit:
+            contain to ensure they fit properly on 1920x1080 displays. This
+            prevents vertical overflow issues.
           </aside>
         </section>
 
         <!-- Example Code Slide -->
         <section data-transition="fade">
-          <h3>Code Examples</h3>
+          <h3>Code Example</h3>
           <code style="font-size: 0.5em">pipeline.yaml</code>
-          <pre><code data-trim data-line-numbers class="language-yaml"># Example YAML
+          <pre><code data-trim data-line-numbers class="language-yaml"># Example YAML configuration
 pipeline:
   stages:
     - build
     - test
     - deploy
-</code></pre>
-          <code style="font-size: 0.5em">greet.js</code>
-          <pre><code data-trim data-line-numbers class="language-javascript">// Example JavaScript
-function greet(name) {
-  return `Hello, ${name}!`;
-}
-console.log(greet('Liatrio'));
-</code></pre>
-          <code style="font-size: 0.5em">greet.py</code>
-          <pre><code data-trim data-line-numbers class="language-python"># Example Python
-def greet(name):
-    return f"Hello, {name}!"
 
-print(greet("Liatrio"))
+  variables:
+    NODE_VERSION: "18"
 </code></pre>
           <aside class="notes">
-            Explain the code samples, their context, and any tips for the
-            audience. Use notes for explanations you don't want on the slide.
+            Show ONE code block per slide to avoid vertical overflow. Keep code
+            concise (under 15 lines) or reduce the font size. Use the filename
+            label to provide context.
           </aside>
         </section>
 
         <!-- Example Callout Slide -->
         <section data-transition="fade">
           <h3>Using Callouts</h3>
-          <p>
-            Callout boxes are great for drawing attention to important
-            information, warnings, or tips. Use them sparingly to highlight key
-            points or actions your audience should remember.
-          </p>
           <div class="callout">
-            This is a callout box for important information.
+            Callout boxes draw attention to critical information. Use sparingly
+            for maximum impact.
           </div>
-          <ul>
-            <li>Use for warnings, tips, or must-know facts</li>
+          <ul style="font-size: 0.8em">
+            <li>Highlight warnings or must-know facts</li>
             <li>Keep callout content concise</li>
-            <li>Combine with other content for context</li>
           </ul>
           <aside class="notes">
-            Highlight the key message of this callout. Notes can help you
-            remember to pause or ask a question.
+            Callouts should contain the most important message on the slide.
+            Notice the smaller font size on the list to fit content properly.
+          </aside>
+        </section>
+
+        <!-- Example Dense Content Slide -->
+        <section data-transition="fade">
+          <h3>Lists with Multiple Items</h3>
+          <ul style="font-size: 0.8em">
+            <li class="fragment">Use font-size: 0.8em for 3+ bullet points</li>
+            <li class="fragment">
+              This prevents vertical overflow on 1920x1080
+            </li>
+            <li class="fragment">Maximum 4 bullet points per slide</li>
+            <li class="fragment">Keep each point concise and focused</li>
+          </ul>
+          <aside class="notes">
+            When you have multiple bullet points, always use the smaller font
+            size. This template demonstrates the proper way to handle dense
+            content without overflow.
           </aside>
         </section>
 

@@ -84,6 +84,16 @@ Your goal is to review and update a Reveal.js presentation deck based on the pro
 5. Keep the content structured so the deck can be delivered in a 15 minute presentation.
 6. Be sure to include notes and talking points for each slide.
 7. Search the web for any relevant resources and information as necessary
+
+CONTENT LIMITS (CRITICAL for 1920x1080 displays):
+- Maximum 4 bullet points per slide
+- Use only ONE content type per slide (code OR image OR list, not multiple)
+- For code slides: ONE code block maximum per slide, keep code concise (under 15 lines)
+- For lists with 3+ items: add style="font-size: 0.8em" to the <ul> element
+- Keep paragraphs to 2-3 sentences maximum
+- Images should have style="max-height: 60vh; object-fit: contain" constraint
+- Callout slides: header + callout + maximum 2 bullet points
+- Avoid combining multiple content types on the same slide
 ```
 
 ### Post-Generation
