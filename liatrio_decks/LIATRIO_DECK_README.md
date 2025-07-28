@@ -25,6 +25,8 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 
     ```bash
     npm start
+    # or to run on a custom port:
+    npm start -- --port 8080
     ```
 
 4. Open <http://localhost:8000/liatrio_decks> in your browser to view the template and any decks you create.
@@ -36,13 +38,14 @@ Use this template to quickly create new, branded Liatrio presentations with cons
    - Note: All HTML files in the `liatrio_decks/` folder are git-ignored except for the template file, so your custom presentations won't be accidentally committed.
 
 2. **Customize Your Deck**
-   - Update the title, subtitle, and presenter fields.
-   - Replace example slides and content with your own material.
-   - Add or remove slides as needed.
-   - Replace images/screenshots where indicated.
-   - Use the provided code block and callout examples as a starting point for technical content.
-   - Store any custom assets (images, logos, etc.) in the `liatrio_decks/custom_assets/` folder - all files in this folder are git-ignored.
-   - **Client Logo**: To display a client logo alongside the Liatrio logo on the title slide, add a `client_logo.jpeg` file to `static/images/`. If no client logo is found, only the Liatrio logo will be displayed.
+   - Update the `<title>` tag in the `<head>` section to your presentation title
+   - Update the title, subtitle, and presenter fields in the Title Slide section
+   - Replace example slides and content with your own material
+   - Add or remove slides as needed
+   - Replace images/screenshots where indicated
+   - Use the provided code block and callout examples as a starting point for technical content
+   - Store any custom assets (images, logos, etc.) in the `liatrio_decks/custom_assets/` folder - all files in this folder are git-ignored
+   - **Client Logo**: To display a client logo alongside the Liatrio logo on the title slide, add a `client_logo.jpeg` file to `custom_assets/`. The logo will automatically appear with a "+" sign between the Liatrio and client logos
 
 3. **Speaker Notes**
    - Add your talking points using `<aside class="notes">...</aside>` blocks under each slide.
@@ -58,18 +61,58 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 
 ## Using AI to Generate a Deck
 
-1. Open this directory in your IDE along with the code you're working on.
-2. Add the [liatrio_decks](liatrio_decks) directory to your AI context
-3. Add git logs, PR descriptions, and other relevant references to the AI context
-4. Instruct the AI to generate a new deck from the template based on the context
-5. Review the generated deck for accuracy and completeness
-6. Make any necessary adjustments to the deck
+### Preparation
+
+1. Copy `liatrio_deck_template.html` and rename it to your presentation title
+2. Update the Challenge, Solution, and Benefits sections in the HTML comments at the top of the file with a high-level overview of your presentation
+3. Open this directory in your IDE or AI editor
+    - Optional: also open the code you're working on to provide context to the AI
+4. Add the `liatrio_decks` directory to your AI context
+5. Add git logs, screenshots, web pages, files, and other relevant references to the AI context
+
+### Example AI Prompt
+
+```markdown
+You are a presentation expert with a deep understanding of software development and delivery.
+
+Your goal is to review and update a Reveal.js presentation deck based on the provided context and attached files. Follow these detailed steps:
+
+1. Analyze the 'Challenge,' 'Solution,' and 'Benefits' sections at the top of the current deck, as well as the content in the attached files (if any).
+2. Identify key points, gaps, or outdated information in each section.
+3. Incorporate relevant insights from the attached files to enrich and clarify each section.
+4. Ensure the updated sections are concise, clear, and aligned with the overall presentation goal.
+5. Keep the content structured so the deck can be delivered in a 15 minute presentation.
+6. Be sure to include notes and talking points for each slide.
+7. Search the web for any relevant resources and information as necessary
+```
+
+### Post-Generation
+
+1. Review the generated deck for accuracy and completeness.
+2. Remove the instruction comments from the top of your presentation file.
+3. Make any necessary adjustments to the deck.
+4. Be sure the title slide has the correct title, subtitle, and presenter name.
+5. Export the deck to PDF for easy sharing after you've completed your presentation (see below).
 
 ## Exporting to PDF
 
-You can easily export your presentation to PDF using our automated npm task. This approach uses [decktape](https://github.com/astefanutti/decktape) for high-quality PDF generation.
+You can easily export your presentation to PDF using our automated export tool. This approach uses [decktape](https://github.com/astefanutti/decktape) for high-quality PDF generation.
 
-### Basic PDF Export
+### Interactive PDF Export (Recommended)
+
+```bash
+npm run export-pdf
+```
+
+This will launch an interactive terminal interface that:
+
+- Shows a list of all available presentations
+- Lets you select which presentation to export
+- Asks if you want to include speaker notes
+- Confirms before overwriting existing PDFs
+- Provides clear status updates throughout the process
+
+### Command Line PDF Export
 
 ```bash
 npm run export-pdf my_presentation.html
@@ -108,6 +151,12 @@ The export script:
 npm run export-pdf my_presentation.html --port 8080
 ```
 
+**Force Overwrite**: Skip the confirmation prompt when overwriting existing PDFs:
+
+```bash
+npm run export-pdf my_presentation.html --overwrite
+```
+
 ### Examples
 
 ```bash
@@ -128,12 +177,34 @@ npm run export-pdf presentation.html --show-notes --port 8080
 # Output: Presentation.pdf (with notes, using port 8080)
 ```
 
+## Template Features
+
+### Slide Types
+
+1. **Title Slide**: Includes Liatrio logo, optional client logo, title, subtitle, and presenter name
+2. **Content Slides**: Standard slides with headers and bullet points
+3. **Image Slides**: For screenshots and diagrams
+4. **Code Slides**: Syntax-highlighted code blocks with optional filenames
+5. **Callout Slides**: Special emphasis boxes for important information
+6. **Summary Slides**: For key takeaways and next steps
+
+### Special Features
+
+- **Fragments**: Add `class="fragment"` to list items to reveal them one by one
+- **Speaker Notes**: Add notes using `<aside class="notes">...</aside>` blocks
+- **Transitions**: Control slide transitions with `data-transition="fade"` (or slide, convex, concave, zoom)
+- **Background Colors**: Use `data-background-color="#hexcolor"` on sections
+- **Code Highlighting**: Supports multiple languages with line numbers
+- **Reminder Slide**: Template includes a reminder to use speaker notes (press 'S')
+
 ## Additional Tips
 
-- Review the template for example slides, code, callouts, and speaker notes.
-- Keep slides focused and concise.
-- Use callouts sparingly for maximum impact.
-- Reach out to the DevOps Enablement team if you need help or want to contribute improvements.
+- Review the template for example slides, code, callouts, and speaker notes
+- Keep slides focused and concise
+- Use callouts sparingly for maximum impact
+- Test your presentation in presenter mode (press 'S') to see speaker notes
+- Reach out to the DevOps Enablement team if you need help or want to contribute improvements
+- Preview your presentation in the format you will present (for example, a 1920x1080 resolution) to be sure it looks correct and content fits on the slides
 
 ## Git Ignore Configuration
 
