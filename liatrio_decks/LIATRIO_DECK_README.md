@@ -70,20 +70,47 @@ Use this template to quickly create new, branded Liatrio presentations with cons
 4. Add the `liatrio_decks` directory to your AI context
 5. Add git logs, screenshots, web pages, files, and other relevant references to the AI context
 
+### Context Engineering: The Key to Better Presentations
+
+Modern AI models work best when provided with rich context rather than perfect prompts. **Context is more important than prompt perfection.** The more relevant information you provide, the more targeted and effective your presentation will be.
+
+**Add specific context about:**
+
+- **Your audience:** Who are you presenting to? What's their background and experience level?
+- **The situation:** What problem are you solving? What's the current state vs. desired state?
+- **Your goal:** What do you want the audience to do or understand after your presentation?
+- **Constraints:** Time limits, technical restrictions, or organizational considerations
+
+**Example context:**
+
+```text
+I'm presenting to client developers who currently use manual release creation
+with datestamps. They've never used automated releases before. The goal is to
+demonstrate how Semantic Release would benefit them, but this represents a
+completely new way of working. The audience is skeptical of change and needs
+to see concrete benefits and a clear migration path.
+```
+
+This context will produce a much more targeted presentation than a generic prompt about Semantic Release.
+
 ### Example AI Prompt
 
 ```markdown
 You are a presentation expert with a deep understanding of software development and delivery.
 
+CONTEXT: [Add your specific context here - audience, situation, goals, constraints]
+
 Your goal is to review and update a Reveal.js presentation deck based on the provided context and attached files. Follow these detailed steps:
 
 1. Analyze the 'Challenge,' 'Solution,' and 'Benefits' sections at the top of the current deck, as well as the content in the attached files (if any).
-2. Identify key points, gaps, or outdated information in each section.
-3. Incorporate relevant insights from the attached files to enrich and clarify each section.
-4. Ensure the updated sections are concise, clear, and aligned with the overall presentation goal.
-5. Keep the content structured so the deck can be delivered in a 15 minute presentation.
-6. Be sure to include notes and talking points for each slide.
-7. Search the web for any relevant resources and information as necessary
+2. Consider the specific audience, situation, and goals provided in the CONTEXT section above.
+3. Identify key points, gaps, or outdated information in each section.
+4. Incorporate relevant insights from the attached files to enrich and clarify each section.
+5. Tailor the content to address the specific audience needs and concerns mentioned in the context.
+6. Ensure the updated sections are concise, clear, and aligned with the overall presentation goal.
+7. Keep the content structured so the deck can be delivered in a 15 minute presentation.
+8. Be sure to include notes and talking points for each slide.
+9. Search the web for any relevant resources and information as necessary
 
 CONTENT LIMITS (CRITICAL for 1920x1080 displays):
 - Maximum 4 bullet points per slide
