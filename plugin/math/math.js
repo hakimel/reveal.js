@@ -302,8 +302,8 @@
 	    function loadScript( url, callback ) {
 
 	        let script = document.createElement( 'script' );
-	        script.type = "text/javascript";
-	        script.id = "MathJax-script";
+	        script.type = 'text/javascript';
+	        script.id = 'MathJax-script';
 	        script.src = url;
 	        script.async = true;
 
