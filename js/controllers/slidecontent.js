@@ -14,6 +14,7 @@ export default class SlideContent {
 		this.Reveal = Reveal;
 
 		this.startEmbeddedIframe = this.startEmbeddedIframe.bind( this );
+		this.ensureMobileMediaPlaying = this.ensureMobileMediaPlaying.bind( this );
 
 	}
 
@@ -320,6 +321,8 @@ export default class SlideContent {
 					else if( isMobile ) {
 						let promise = el.play();
 
+						el.addEventListener( 'canplay', this.ensureMobileMediaPlaying );
+
 						// If autoplay does not work, ensure that the controls are visible so
 						// that the viewer can start the media on their own
 						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
@@ -371,6 +374,40 @@ export default class SlideContent {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Ensure that an HTMLMediaElement is playing on mobile devices.
+	 *
+	 * This is a workaround for a bug in mobile Safari where
+	 * the media fails to display if many videos are started
+	 * at the same moment. When this happens, Mobile Safari
+	 * reports the video is playing, and the current time
+	 * advances, but nothing is visible.
+	 *
+	 * @param {Event} event
+	 */
+	ensureMobileMediaPlaying( event ) {
+
+		const el = event.target;
+
+		// Ignore this check incompatible browsers
+		if( typeof el.getVideoPlaybackQuality !== 'function' ) {
+			return;
+		}
+
+		setTimeout( () => {
+
+			const playing = el.paused === false;
+			const totalFrames = el.getVideoPlaybackQuality().totalVideoFrames;
+
+			if( playing && totalFrames === 0 ) {
+				el.load();
+				el.play();
+			}
+
+		}, 1000 );
 
 	}
 
@@ -461,6 +498,10 @@ export default class SlideContent {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
 					el.setAttribute('data-paused-by-reveal', '');
 					el.pause();
+
+					if( isMobile ) {
+						el.removeEventListener( 'canplay', this.ensureMobileMediaPlaying );
+					}
 				}
 			} );
 
