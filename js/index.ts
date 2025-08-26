@@ -1,3 +1,5 @@
+/// <reference path="./reveal.d.ts" />
+
 import { Config } from './config.ts';
 
 // @ts-ignore
@@ -14,7 +16,7 @@ import Deck, { VERSION } from './reveal.js';
  * });
  */
 const Reveal: {
-	initialize: (options?: Config) => Promise<void>;
+	initialize: (options?: Config) => Promise<Reveal.Api>;
 	[key: string]: any;
 } = Deck;
 
@@ -30,7 +32,7 @@ const Reveal: {
  * });
  */
 
-type RevealApiFunction = (...args: any[]) => any;
+type RevealApiFunction = (deck: Reveal.Api) => any;
 
 const enqueuedAPICalls: RevealApiFunction[] = [];
 
@@ -39,7 +41,7 @@ Reveal.initialize = (options?: Config) => {
 	Object.assign(Reveal, new Deck(document.querySelector('.reveal'), options));
 
 	// Invoke any enqueued API calls
-	enqueuedAPICalls.map((method) => method(Reveal));
+	enqueuedAPICalls.map((method) => method(Reveal as Reveal.Api));
 
 	return Reveal.initialize();
 };
@@ -50,13 +52,13 @@ Reveal.initialize = (options?: Config) => {
  * queuing up premature API calls and invoking all
  * of them when Reveal.initialize is called.
  */
-['configure', 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin'].forEach(
-	(method) => {
-		Reveal[method] = (...args: any) => {
-			enqueuedAPICalls.push((deck) => deck[method].call(null, ...args));
-		};
-	}
-);
+(
+	['configure', 'on', 'off', 'addEventListener', 'removeEventListener', 'registerPlugin'] as const
+).forEach((method) => {
+	Reveal[method] = (...args: any) => {
+		enqueuedAPICalls.push((deck) => (deck[method] as any).call(null, ...args));
+	};
+});
 
 Reveal.isReady = () => false;
 
