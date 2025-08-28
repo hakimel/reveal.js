@@ -206,7 +206,6 @@ export default class Plugins {
 		else {
 			console.warn( 'reveal.js: "'+ id +'" plugin has already been registered' );
 		}
-
 	}
 
 	/**
