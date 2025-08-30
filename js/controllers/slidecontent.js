@@ -52,7 +52,13 @@ export default class SlideContent {
 	load( slide, options = {} ) {
 
 		// Show the slide element
-		slide.style.display = this.Reveal.getConfig().display;
+		const displayValue = this.Reveal.getConfig().display;
+		if( displayValue.includes('!important') ) {
+			const value = displayValue.replace(/\s*!important\s*$/, '').trim();
+			slide.style.setProperty('display', value, 'important');
+		} else {
+			slide.style.display = displayValue;
+		}
 
 		// Media elements with data-src attributes
 		queryAll( slide, 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ).forEach( element => {
