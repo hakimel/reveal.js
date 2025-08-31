@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Pie Chart Example</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="./../../dist/reveal.css">
+    <link rel="stylesheet" href="./../../dist/theme/solarized.css">
+    
+    <!-- Chart.js for the pie chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom styling for the presentation */
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .slide-title {
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        .next-slide-btn {
+            margin-top: 30px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .next-slide-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(to right, #2980b9, #2471a3);
+        }
+        
+        .slide-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Moving border animation for the pie chart slide */
+        #pie-chart-slide {
+            background: linear-gradient(-45deg, #f8f9fa, #e9ecef, #dee2e6, #ced4da);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            padding: 20px;
+            position: relative;
+        }
+        
+        #pie-chart-slide::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #3498db, #2ecc71, #e74c3c, #f39c12, #9b59b6);
+            background-size: 400% 400%;
+            z-index: 1;
+            animation: borderAnimation 8s linear infinite;
+            border-radius: 20px;
+            filter: blur(10px);
+            opacity: 0.7;
+        }
+        
+        @keyframes borderAnimation {
+            0% {
+                background-position: 0% 50%;
+                transform: scale(1);
+            }
+            50% {
+                background-position: 100% 50%;
+                transform: scale(1.02);
+            }
+            100% {
+                background-position: 0% 50%;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        .reveal .slides section {
+            color: #2c3e50;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Budget Allocation Analysis</h1>
+                <p>Visualizing project resources with interactive charts</p>
+            </section>
+            
+            <!-- Pie Chart Slide -->
+            <section id="pie-chart-slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">Project Budget Allocation</h2>
+                    <div class="chart-container">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                    
+                    <!-- MODIFICATION AREA: Update the data-id attribute to point to your next slide -->
+                    <button class="next-slide-btn" data-id="next-slide">
+                        View Project Timeline
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Next Slide (example) -->
+            <section id="next-slide">
+                <h2>Next Section: Project Timeline</h2>
+                <p>This is the slide that follows the pie chart.</p>
+                <p>You would replace this with your actual content.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js Initialization & Chart Code -->
+    <script src="./../../dist/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide'
+        });
+        
+        // Create gradient colors for the chart (light theme)
+        function createGradients(ctx) {
+            const gradients = [];
+            
+            // Create gradient for Development
+            const devGradient = ctx.createLinearGradient(0, 0, 400, 400);
+            devGradient.addColorStop(0, '#3498db');
+            devGradient.addColorStop(1, '#2c3e50');
+            
+            // Create gradient for Design
+            const designGradient = ctx.createLinearGradient(0, 0, 400, 400);
+            designGradient.addColorStop(0, '#2ecc71');
+            designGradient.addColorStop(1, '#27ae60');
+            
+            // Create gradient for Testing
+            const testingGradient = ctx.createLinearGradient(0, 0, 400, 400);
+            testingGradient.addColorStop(0, '#e74c3c');
+            testingGradient.addColorStop(1, '#c0392b');
+            
+            // Create gradient for Documentation
+            const docGradient = ctx.createLinearGradient(0, 0, 400, 400);
+            docGradient.addColorStop(0, '#f39c12');
+            docGradient.addColorStop(1, '#d35400');
+            
+            // Create gradient for Marketing
+            const marketingGradient = ctx.createLinearGradient(0, 0, 400, 400);
+            marketingGradient.addColorStop(0, '#9b59b6');
+            marketingGradient.addColorStop(1, '#8e44ad');
+            
+            return [devGradient, designGradient, testingGradient, docGradient, marketingGradient];
+        }
+        
+        // Create the pie chart when the slide is loaded
+        Reveal.addEventListener('ready', function() {
+            createPieChart();
+        });
+        
+        // Recreate chart when navigating to the slide (in case of viewport changes)
+        Reveal.addEventListener('slidechanged', function(event) {
+            if (event.currentSlide.querySelector('#pieChart')) {
+                createPieChart();
+            }
+        });
+        
+        function createPieChart() {
+            const ctx = document.getElementById('pieChart').getContext('2d');
+            
+            // Create gradients for the chart
+            const gradients = createGradients(ctx);
+            
+            // MODIFICATION AREA: Update this data with your chart information
+            const chartData = {
+                labels: ['Development', 'Design', 'Testing', 'Documentation', 'Marketing'],
+                datasets: [{
+                    data: [40, 20, 15, 10, 15],
+                    backgroundColor: gradients,
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                    hoverOffset: 15
+                }]
+            };
+            
+            const config = {
+                type: 'pie',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 16,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                },
+                                color: '#2c3e50'
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                size: 16,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            // Destroy previous chart instance if it exists
+            if (window.pieChartInstance) {
+                window.pieChartInstance.destroy();
+            }
+            
+            // Create new chart instance
+            window.pieChartInstance = new Chart(ctx, config);
+        }
+        
+        // Add navigation functionality to the button
+        document.querySelector('.next-slide-btn').addEventListener('click', function() {
+            // MODIFICATION AREA: Update the data-id value to match your target slide
+            const nextSlideId = this.getAttribute('data-id');
+            const nextSlideElement = document.getElementById(nextSlideId);
+            
+            if (nextSlideElement) {
+                const nextSlideIndex = Array.from(nextSlideElement.parentNode.children).indexOf(nextSlideElement);
+                Reveal.slide(nextSlideIndex);
+            } else {
+                // Fallback: just go to the next slide
+                Reveal.next();
+            }
+        });
+    </script>
+</body>
+</html>
