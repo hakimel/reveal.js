@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Presentation Template</title>
+    
+    <!-- Reveal.js CSS -->
+	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .reveal {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #16213e 100%);
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        .reveal .slides {
+            width: 90% !important;
+            height: 90% !important;
+            text-align: left;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.8em;
+        }
+        
+        .reveal p, .reveal li {
+            color: var(--light-color);
+            font-size: 1.4rem;
+            line-height: 1.5;
+        }
+        
+        .reveal a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .reveal a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .intro-slide {
+            text-align: center !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            padding: 20px;
+        }
+        
+        .intro-slide h1 {
+            font-size: 3.2rem;
+            margin-bottom: 0.5em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .intro-slide p {
+            font-size: 1.6rem;
+            color: var(--secondary-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .intro-slide .author {
+            margin-top: 2em;
+            font-style: italic;
+            color: var(--light-color);
+        }
+        
+        /* Improved Roadmap Styles */
+        .roadmap-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1.5em;
+            width: 100%;
+            max-height: 65vh;
+            overflow: hidden;
+        }
+        
+        .roadmap-item {
+            display: flex;
+            margin-bottom: 1.8rem;
+            align-items: flex-start;
+            width: 100%;
+        }
+        
+        .roadmap-number {
+            flex: 0 0 60px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 0 8px rgba(255, 107, 107, 0.2);
+            margin-right: 25px;
+            position: relative;
+        }
+        
+        .roadmap-number:after {
+            content: "";
+            position: absolute;
+            bottom: -1.9rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 1.8rem;
+            background: var(--secondary-color);
+        }
+        
+        .roadmap-item:last-child .roadmap-number:after {
+            display: none;
+        }
+        
+        .roadmap-content {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .roadmap-content h3 {
+            margin: 0 0 12px 0;
+            color: var(--secondary-color);
+            font-size: 1.7rem;
+        }
+        
+        .roadmap-content p {
+            margin: 8px 0;
+            font-size: 1.3rem;
+        }
+        
+        .final-slide {
+            text-align: center !important;
+            padding: 20px;
+        }
+        
+        .final-slide h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2em;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 2em;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            text-align: center;
+            flex: 0 0 180px;
+        }
+        
+        .contact-icon {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+        
+        .logo {
+            margin-top: 2em;
+            max-width: 180px;
+            opacity: 0.8;
+        }
+        
+        .controls {
+            color: var(--primary-color) !important;
+        }
+        
+        .progress {
+            color: var(--primary-color) !important;
+        }
+        
+        .navigation-help {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: inline-block;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 800px) {
+            .reveal .slides {
+                width: 95% !important;
+                height: 95% !important;
+            }
+            
+            .roadmap-number {
+                flex: 0 0 50px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                margin-right: 15px;
+            }
+            
+            .roadmap-content {
+                padding: 12px 15px;
+            }
+            
+            .roadmap-content h3 {
+                font-size: 1.5rem;
+            }
+            
+            .roadmap-content p {
+                font-size: 1.2rem;
+            }
+            
+            .contact-info {
+                gap: 20px;
+            }
+            
+            .contact-item {
+                flex: 0 0 140px;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            .roadmap-container {
+                max-height: 55vh;
+                overflow-y: auto;
+                padding-right: 10px;
+            }
+            
+            .roadmap-container::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .roadmap-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+            }
+            
+            .roadmap-container::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Introduction Slide -->
+            <section class="intro-slide">
+                <h1>Reveal.js Presentation</h1>
+                <p>A modern framework for creating beautiful presentations using HTML, CSS, and JavaScript</p>
+                <p class="author">Created by [Your Name]</p>
+            </section>
+            
+            <!-- Content Slide with Improved Roadmap -->
+            <section>
+                <h2>Project Roadmap</h2>
+                <p>Our plan for developing an outstanding Reveal.js presentation framework</p>
+                
+                <div class="roadmap-container">
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">1</div>
+                        <div class="roadmap-content">
+                            <h3>Research & Planning</h3>
+                            <p>Define presentation requirements and structure</p>
+                            <p>Study best practices for effective presentations</p>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">2</div>
+                        <div class="roadmap-content">
+                            <h3>Design & Development</h3>
+                            <p>Create visually appealing slide templates</p>
+                            <p>Implement smooth transitions and animations</p>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">3</div>
+                        <div class="roadmap-content">
+                            <h3>Testing & Feedback</h3>
+                            <p>Gather user feedback on presentation flow</p>
+                            <p>Test across different browsers and devices</p>
+                        </div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">4</div>
+                        <div class="roadmap-content">
+                            <h3>Launch & Documentation</h3>
+                            <p>Publish the final presentation</p>
+                            <p>Create comprehensive usage documentation</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Final Slide -->
+            <section class="final-slide">
+                <h2>Thank You</h2>
+                <p>We appreciate your time and attention</p>
+                <p>Let's create amazing presentations together!</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <p>www.example.com</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <p>contact@example.com</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <p>github.com/username</p>
+                    </div>
+                </div>
+                
+                <div class="navigation-help">
+                    <p>Press <strong>ESC</strong> to overview</p>
+                    <p><strong>Space</strong> or arrow keys to navigate</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js initialization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            
+        });
+    </script>
+</body>
+</html>
