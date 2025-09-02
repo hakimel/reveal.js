@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+
+    <style>
+      /* Custom style for slides tagged with data-state="highlighted" */
+      section[data-state="highlighted"] {
+        background: #222;
+        color: #ffcc00;
+        text-align: center;
+      }
+
+      /* Small timer overlay we can toggle with JS */
+      #timer {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: none;
+        font-family: monospace;
+      }
+
+	/* make inline word highlight win over hljs + line-number overlays */
+.reveal pre { position: relative; }                 /* stacking context */
+.reveal pre code { position: relative; z-index: 2; }
+
+/* Inline word highlight inside <code> blocks */
+pre code .hl {
+  background: yellow;
+  color: black;
+  padding: 0 .15em;
+  border-radius: .2em;
+  font-weight: 600;
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Timer overlay -->
+    <div id="timer">00:00</div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- Basic slide -->
+        <section>Slide 1</section>
+
+        <!-- Vertical stack (use up/down arrows to navigate inside) -->
+        <section>
+          <section>Slide 2a (top of stack)</section>
+          <section>Slide 2b (nested slide)</section>
+        </section>
+		<!--Two <section> tags nested inside another <section>. So you can move up/down as well as left/right.-->
+
+        <!-- Fragments: reveal bullet points step by step -->
+        <section>
+          <h2>Fragments Example</h2>
+          <p class="fragment">First point</p>
+          <p class="fragment">Second point</p>
+          <p class="fragment">Third point</p>
+        </section>
+		<!--class="fragment" makes each point appear one at a time when you press next.-->
+
+        <!-- Auto-animate: same data-id across slides will tween smoothly -->
+        <section data-auto-animate>
+          <h2 data-id="title">Auto Animate</h2>
+          <div
+            data-id="box"
+            style="width:100px;height:100px;background:tomato;"
+          ></div>
+        </section>
+        <section data-auto-animate>
+          <h2 data-id="title">Auto Animate</h2>
+          <div
+            data-id="box"
+            style="width:200px;height:50px;background:lime;"
+          ></div>
+        </section>
+		<!--Because both slides share the same data-id values (title and box), Reveal.js animates between them automatically.-->
+
+        <!-- Syntax highlighting for code -->
+        <section>
+          <h2>Code Highlight</h2>
+          <pre><code data-trim data-noescape>
+function hello() {
+  console.log("Hello World!");
+}
+          </code></pre>
+        </section>
+		<!--<pre><code> block + the highlight plugin gives you colorful, readable code-->
+
+        <!-- Background video demo (place a bg.mp4 file in assets/) -->
+        <section
+          data-background-video="assets/bg.mp4"
+          data-background-video-loop
+          data-background-opacity="0.3"
+        >
+          <h2>Video Background</h2>
+        </section>
+		<!--This slide plays assets/bg.mp4 behind the text.-->
+
+        <!-- Custom state styling -->
+        <section data-state="highlighted">
+          <h2>Custom State Example</h2>
+          <p>This slide uses custom CSS rules.</p>
+        </section>
+		<!--Notice data-state="highlighted". In the <style> section at the top, you defined how slides with this state should look:-->
+
+		<section>
+  			<h2>Code: lines + word highlight</h2>
+  			<pre>
+    			<!-- data-noescape lets our <span> render inside code -->
+    			<code class="hljs javascript" data-trim data-noescape data-line-numbers="|1,3">
+				if (<span class="hl">condition</span>) {
+  					doSomething(); // Block A
+				} else {
+  					doOther();     // Block B
+				}
+    			</code>
+  			</pre>
+  			<p class="caption">Lines 1 & 3 are highlighted; the word <b>condition</b> is highlighted inline.</p>
+		</section>
+
+		<section>                   <!--New Feature  feature-demo.html-->
+        	<h2>Navigation</h2>
+        	<ul>
+        		<li><a href="index.html">Minimal Starter</a></li>
+        		<li><a href="feature-demo.html">Feature Demo</a></li>
+        		<li><a href="demo.html">Full Official Demo</a></li>
+        	</ul>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // Initialize reveal.js with some extras
+      Reveal.initialize({
+        hash: true, // Allows direct links to specific slides
+        slideNumber: "c/t", // Show current/total slide numbers
+		progress: true, // shows a progress bar at the bottom
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+
+      // Simple JavaScript timer overlay (toggle with 'T' key)
+      const timer = document.getElementById("timer");
+      let startTime = null;
+      let interval = null;
+      let visible = false;
+
+      function toggleTimer() {
+        if (!visible) {
+          startTime = Date.now();
+          interval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const mins = String(Math.floor(elapsed / 60)).padStart(2, "0");
+            const secs = String(elapsed % 60).padStart(2, "0");
+            timer.textContent = `${mins}:${secs}`;
+          }, 1000);
+          timer.style.display = "block";
+        } else {
+          clearInterval(interval);
+          timer.style.display = "none";
+        }
+        visible = !visible;
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "t" || e.key === "T") {
+          toggleTimer();
+        }
+      });
+    </script>
+  </body>
+</html>
