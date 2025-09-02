@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Player</title>
+  <style>
+    body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    video { max-width: auto; height:100%; }
+  </style>
+</head>
+<body>
+  <video id="myVideo" controls>
+    <source src="funnyvid.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <script>
+    window.addEventListener('message', function (event) {
+      const video = document.getElementById('myVideo');
+      if (!video) return;
+
+      switch (event.data) {
+        case 'play':
+          video.play();
+          break;
+        case 'pause':
+          video.pause();
+          break;
+        case 'toggle':
+          video.paused ? video.play() : video.pause();
+          break;
+        case 'rewind':
+          video.currentTime = Math.max(video.currentTime - 5, 0);
+          break;
+        case 'forward':
+          video.currentTime = Math.min(video.currentTime + 5, video.duration);
+          break;
+      }
+    });
+	
+	
+	
+	
+
+  </script>
+</body>
+</html>
