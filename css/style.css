@@ -1,0 +1,36 @@
+/* General slide styling */
+.reveal h1 {
+  font-size: 2.5em;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.reveal p {
+  font-size: 1.2em;
+  color: #f1f1f1;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Custom Flip Transition */
+.reveal .slides section[data-transition="flip"] {
+  animation: flipIn 1s ease-in-out;
+}
+
+@keyframes flipIn {
+  from { transform: rotateY(90deg); opacity: 0; }
+  to   { transform: rotateY(0); opacity: 1; }
+}
+
+/* Custom Rotate Transition */
+.reveal .slides section[data-transition="rotate"] {
+  animation: rotateIn 1s ease-in-out;
+}
+
+@keyframes rotateIn {
+  from { transform: rotate(-180deg) scale(0.5); opacity: 0; }
+  to   { transform: rotate(0) scale(1); opacity: 1; }
+}
