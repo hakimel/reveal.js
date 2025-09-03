@@ -9,6 +9,8 @@ import fitty from 'fitty';
  */
 export default class SlideContent {
 
+	allowedToPlay = true;
+
 	constructor( Reveal ) {
 
 		this.Reveal = Reveal;
@@ -332,7 +334,11 @@ export default class SlideContent {
 						// If autoplay does not work, ensure that the controls are visible so
 						// that the viewer can start the media on their own
 						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
-							promise.catch( () => {
+							promise
+							.then( () => {
+								this.allowedToPlay = true;
+							})
+							.catch( () => {
 								el.controls = true;
 
 								// Once the video does start playing, hide the controls again
@@ -432,7 +438,19 @@ export default class SlideContent {
 			// Don't restart if media is already playing
 			if( event.target.paused || event.target.ended ) {
 				event.target.currentTime = 0;
-				event.target.play();
+				const promise = event.target.play();
+
+				if( promise && typeof promise.catch === 'function' ) {
+					promise
+						.then( () => {
+							this.allowedToPlay = true;
+						} )
+						.catch( ( error ) => {
+							if( error.name === 'NotAllowedError' ) {
+								this.allowedToPlay = false;
+							}
+						} );
+				}
 			}
 		}
 
@@ -541,6 +559,17 @@ export default class SlideContent {
 				} );
 			}
 		}
+
+	}
+
+	/**
+	 * Checks whether media playback is blocked by the browser. This
+	 * typically happens when media playback is initiated without a
+	 * direct user interaction.
+	 */
+	isNotAllowedToPlay() {
+
+		return !this.allowedToPlay;
 
 	}
 
