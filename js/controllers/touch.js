@@ -216,6 +216,14 @@ export default class Touch {
 	 */
 	onTouchEnd( event ) {
 
+		// Media playback is only allowed as a direct result of a
+		// user interaction. Some mobile devices do not consider a
+		// 'touchmove' to be a direct user action. If this is the
+		// case, we fall back to starting playback here instead.
+		if( this.touchCaptured && this.Reveal.slideContent.isNotAllowedToPlay() ) {
+			this.Reveal.startEmbeddedContent( this.Reveal.getCurrentSlide() );
+		}
+
 		this.touchCaptured = false;
 
 	}
