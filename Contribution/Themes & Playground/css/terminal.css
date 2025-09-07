@@ -1,0 +1,8 @@
+/* Fancy terminal */
+.terminal{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0b1020;color:#d1d5db}
+.term-output{height:240px;overflow:auto;padding:.75rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+.term-line{display:flex;gap:.5rem;align-items:flex-start;white-space:pre-wrap;margin:.1rem 0}
+.term-prompt{display:flex;gap:.5rem;align-items:center;padding:.5rem;border-top:1px solid #111827;background:#0f172a}
+.prompt-label{color:#22d3ee}
+#term-in{flex:1;background:#0b1020;color:#e5e7eb;border:none;outline:none;font-family:ui-monospace}
+kbd{background:#111827;color:#e5e7eb;border:1px solid #1f2937;border-radius:6px;padding:2px 6px}

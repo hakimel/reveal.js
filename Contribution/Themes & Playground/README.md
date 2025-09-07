@@ -1,88 +1,29 @@
-# Reveal.js — Themes & Playground (Advanced)
+# Themes & Playground for Reveal.js
 
-> Drop-in bundle that adds a **Theme Switcher**, **Color Palettes**, a **Code Playground** (HTML/CSS/JS live), and a **Terminal Simulation** to any Reveal.js deck.
+An advanced module that adds **Theme switching**, **Color Palettes**, an **in-slide Code Playground**, and a **Terminal Simulation** to Reveal.js.
 
-- **Author**: Generated for your Web Technologies group project
-- **Date**: 2025-08-31
+## Features
 
-## Highlights
+- Theme switcher (Light, Dark, Solarized, Midnight, Pastel) + Live theme editor
+- Color palette generator (HSL rotation, golden-ratio, complementary, triad)
+- Save/Load palettes to LocalStorage, import/export JSON
+- Code Playground using CodeMirror with HTML/CSS/JS tabs, live run, reset, and share via URL
+- Terminal simulation with command history, typing animation, faux filesystem and integration:
+  - `help`, `ls`, `cat`, `echo`, `date`, `clear`, `theme set <name>`, `palette new <mode>`, `run sample`
+- AI helpers (local heuristic) for palette & theme suggestions (no network/API needed)
+- All components are designed to work **inside Reveal.js slides**
 
-- 🎨 **Six production-ready themes** (CSS variables powered) + on-slide theme overrides
-- 🌈 **Palette system**: global accent colors with live picker and algorithmic shade generator
-- 🧪 **Code Playground**: embedded or overlay editors for HTML/CSS/JS with live preview (iframe sandbox)
-- 🖥️ **Terminal Simulation**: demo-friendly CLI inside slides (commands: `help`, `echo`, `theme`, `palette`, `js`, `date`, `clear`, `history`)
-- ⚡ **Shortcuts**: `T` (theme/palette panel), `P` (playground overlay), `\`` (terminal toggle)
-- 🧩 **Plugins**: `RevealThemeSwitcher`, `RevealPalettes`, `RevealPlayground`, `RevealTerminal`
+## Quick Start
 
-## Quick Start (CDN demo)
+1. Open `index.html` in a modern browser (or serve via a static server).
+2. Use arrow keys to navigate slides.
+3. Try the **Themes**, **Palettes**, **Code Playground**, and **Terminal** sections.
 
-```html
-<!-- See demo.html in this folder; minimal snippet: -->
-<link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
-<link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css">
-<script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+## Dev Notes
 
-<link rel="stylesheet" href="./plugin/themes/theme-switcher.css">
-<link rel="stylesheet" href="./plugin/palettes/palettes.css">
-<link rel="stylesheet" href="./plugin/playground/playground.css">
-<link rel="stylesheet" href="./plugin/terminal/terminal.css">
-
-<script src="./plugin/utils/shared.js"></script>
-<script src="./plugin/themes/theme-switcher.js"></script>
-<script src="./plugin/palettes/palettes.js"></script>
-<script src="./plugin/playground/playground.js"></script>
-<script src="./plugin/terminal/terminal.js"></script>
-
-<script>
-  const deck = new Reveal({ hash: true });
-  deck.initialize({
-    plugins: [ RevealThemeSwitcher, RevealPalettes, RevealPlayground, RevealTerminal ]
-  });
-</script>
-```
-
-## Using in Your Team Repo
-
-1. Copy the entire `plugin/` and `assets/` folders into your `reveal.js` project (or keep as submodule).
-2. In your **demo** or **index.html**, include the CSS/JS files exactly like above, but point to your local paths.
-3. Register the plugins in the `Reveal.initialize` call.
-
-## Authoring: Themes & Palettes
-
-- Add `data-theme="neon-night"` on a `<section>` to apply per-slide.
-- Switch globally via the **Theme Switcher** UI or terminal command: `theme neon-night`.
-- Change accent color palette from UI or terminal: `palette set 312` (H value).
-
-## Authoring: Code Playground
-
-Option A — **Overlay Playground** (keyboard `P` or UI button):
-- Type HTML/CSS/JS and click **Run** to render in the live preview.
-
-Option B — **Inline playground slide**:
-```html
-<section data-playground
-  data-html="&lt;h1&gt;Hello&lt;/h1&gt;"
-  data-css="h1{{font-family:sans-serif;text-align:center}}"
-  data-js="console.log('Hi')">
-</section>
-```
-
-## Authoring: Terminal Simulation
-
-- Toggle with `\`` (backtick) or UI button.
-- Useful commands:
-  - `help` — show help
-  - `theme <name>` — switch theme (`minimal-dark`, `neon-night`, `solarized-plus`, `aurora`, `paper`, `oceanic`)
-  - `palette set <hue>` — set accent hue (0–360)
-  - `js <code>` — run JavaScript in the slide context
-  - `date`, `echo`, `clear`, `history`
-
-## Extending
-
-- Edit or add new CSS themes under `plugin/themes/`.
-- Modify palette generation logic in `plugin/palettes/palettes.js` (HSL → variables).
-- Improve editor UX inside `plugin/playground` (you can swap textareas for Monaco/CodeMirror later).
+- Uses CDNs for Reveal.js, Prism, and CodeMirror (no build step required).
+- Feel free to copy the widgets into your own decks.
+- To package: zip the folder or deploy to static hosting.
 
 ## License
-
-MIT — do anything with attribution.
+MIT
