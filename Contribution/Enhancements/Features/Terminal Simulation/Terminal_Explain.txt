@@ -1,0 +1,18 @@
+Explaining Terminal Simulation (CDN Version)
+
+What it is
+A slide that mimics a terminal window, auto-typing commands and showing outputs.
+
+Why this file is standalone
+This demo loads Reveal.js and its plugins from CDN, so it doesn’t need local dist/ or plugin/ folders.
+
+How the code works (short breakdown)
+• HTML: Terminal container with a pre block for output.
+• CSS: Monospace font, dark theme, and blinking cursor animation.
+• JS:
+  - Stores steps in a script array (type 'cmd' or 'out').
+  - setInterval() writes one line every 700ms.
+  - On 'slidechanged', animation restarts if the terminal slide is shown.
+
+One-sentence explanation to say out loud
+“This terminal slide replays a scripted build process with JavaScript typing effect, and it runs from any folder because it uses CDN links.”

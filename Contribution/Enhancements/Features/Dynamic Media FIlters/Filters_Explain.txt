@@ -1,0 +1,18 @@
+Explaining Dynamic Media Filters (CDN Version)
+
+What it is
+A demo slide that lets you adjust blur, grayscale, hue rotation, brightness, and contrast on an image.
+
+Why this file is standalone
+It loads Reveal.js from CDN, so it works no matter where it’s saved.
+
+How the code works (short breakdown)
+• HTML: An <img> with id="filterTarget" and five range sliders.
+• CSS: Styles the image and slider layout.
+• JS:
+  - Reads slider values via getElementById().value.
+  - Applies a CSS filter string (e.g., blur(2px) grayscale(0.5)).
+  - Updates image instantly on input events.
+
+One-sentence explanation to say out loud
+“This filter demo uses sliders to change an image’s CSS filters live, and it works from any folder thanks to CDN links.”

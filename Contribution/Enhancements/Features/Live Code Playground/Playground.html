@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Live Code Playground Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    .playground { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    .playground textarea { width: 100%; height: 300px; font-family: ui-monospace, monospace; font-size: 14px; }
+    .playground iframe { width: 100%; height: 320px; border: 1px solid #444; border-radius: 8px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Live Code Playground</h2>
+        <p>Edit the code on the left and click Run ▶ to see the live preview.</p>
+        <div class="playground">
+          <div>
+<textarea id="pgCode"><!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; }
+    .box { width: 120px; height: 120px; border-radius: 12px; display: grid; place-items: center; border: 2px solid #222; }
+  </style>
+</head>
+<body>
+  <h3>Hello, Playground!</h3>
+  <div class="box" id="b">Click me</div>
+  <script>
+    const b = document.getElementById('b');
+    let n = 0;
+    b.addEventListener('click', ()=>{
+      n++; b.style.transform = `rotate(${n*15}deg)`;
+      b.style.background = `hsl(${(n*40)%360} 80% 80%)`;
+      b.textContent = n;
+    });
+  </script>
+</body>
+</html></textarea>
+            <button id="pgRun">Run ▶</button>
+          </div>
+          <iframe id="pgOutput" title="Playground Output"></iframe>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    const code=document.getElementById('pgCode');
+    const run=document.getElementById('pgRun');
+    const out=document.getElementById('pgOutput');
+    function go(){ out.srcdoc=code.value; }
+    run.addEventListener('click', go);
+    go();
+  </script>
+</body>
+</html>

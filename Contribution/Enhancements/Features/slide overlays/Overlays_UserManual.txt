@@ -1,0 +1,15 @@
+Slide Overlays — User Manual (CDN Version)
+
+Feature
+Adds decorative overlays per slide, such as dark shading, grid, or dotted patterns.
+
+How to Use
+1) Open this HTML file in a browser (works anywhere because of CDN links).
+2) Each slide can specify data-overlay="dark", "grid", or "dots".
+3) Optionally add <div class="corner-badge"> or <div class="bottom-ribbon"> for labels/captions.
+4) Press 'O' to toggle overlays on or off during the presentation.
+
+Advantages
+• Visual variety and separation between slides.
+• Lightweight CSS approach, no external libraries needed.
+• CDN links ensure portability across folders.

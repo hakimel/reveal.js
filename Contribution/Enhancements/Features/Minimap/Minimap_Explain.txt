@@ -1,0 +1,19 @@
+Explaining the Slide Minimap (for Lecturer) — CDN Version
+
+What it is
+A simple navigation aid: a floating panel with clickable dots representing each slide.
+
+Why this file is standalone
+This demo loads Reveal.js and its plugins from a CDN (cdnjs). That means it works from any folder without needing local `dist/` or `plugin/` paths.
+
+How the code works (short breakdown)
+• HTML: A button (#minimapToggle) and a container div (#minimap). The slides are standard <section> elements inside Reveal.js.
+• CSS: Positions the panel fixed at the top-left; styles each dot and the active state.
+• JS:
+  - Reveal.initialize(...) boots Reveal.js (from CDN).
+  - buildMinimap(): collects all top-level slides and creates a span.dot for each. Each dot uses Reveal.slide(i) to jump.
+  - highlightActive(): checks the current slide index via Reveal.getIndices().h and toggles the 'active' class.
+  - Events: Clicking the button shows/hides the panel. The 'slidechanged' event keeps highlight in sync.
+
+One-sentence explanation to say out loud
+“This minimap builds clickable dots for each slide and uses Reveal.slide(i) to jump; thanks to CDN links, it runs from any folder.”

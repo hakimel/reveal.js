@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reveal.js Feature Demos — Gallery</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: #0b0d10; color: #e6e6e6; }
+    header { padding: 28px 20px; border-bottom: 1px solid #1c2127; background: linear-gradient(180deg, #10151a, #0b0d10); position: sticky; top: 0; }
+    h1 { margin: 0 0 6px 0; font-weight: 700; letter-spacing: .3px; }
+    p.sub { margin: 0; opacity: .8; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .card { background: #0f141a; border: 1px solid #1c2127; border-radius: 16px; padding: 16px; transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.35); border-color: #2a323b; }
+    .title { font-size: 1.05rem; margin: 0 0 8px 0; display:flex; align-items:center; gap:8px; }
+    .desc { font-size: .95rem; opacity: .9; margin: 0 0 12px 0; min-height: 48px; }
+    .tags { display:flex; gap:6px; flex-wrap:wrap; }
+    .tag { font-size: .75rem; padding: 4px 8px; border-radius: 999px; background:#121920; border:1px solid #222b35; opacity:.95; }
+    a.btn { display:inline-block; margin-top: 6px; padding: 8px 12px; border-radius: 10px; background:#1a2330; border:1px solid #223043; color:#e6e6e6; text-decoration:none; }
+    a.btn:hover { background:#1f2a3a; }
+    footer { text-align:center; font-size:.9rem; opacity:.7; padding: 20px; border-top: 1px solid #1c2127; margin-top: 24px; }
+    .emoji { font-size: 1.15rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reveal.js Feature Demos — Gallery</h1>
+    <p class="sub">Open any demo. All are CDN-based and work from any folder.</p>
+  </header>
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <div class="title"><span class="emoji">🖊️</span><strong>Whiteboard</strong></div>
+        <p class="desc">Draw on slides with a fullscreen canvas overlay; color/size controls + clear.</p>
+        <div class="tags"><span class="tag">overlay</span><span class="tag">canvas</span><span class="tag">interactive</span></div>
+        <a class="btn" href="Whiteboard.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">🗺️</span><strong>Minimap</strong></div>
+        <p class="desc">Clickable dots for each slide. Jump instantly. Current slide highlighted.</p>
+        <div class="tags"><span class="tag">navigation</span><span class="tag">UX</span></div>
+        <a class="btn" href="Minimap.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">📊</span><strong>Poll</strong></div>
+        <p class="desc">Local vote buttons with a live-updating canvas bar chart.</p>
+        <div class="tags"><span class="tag">engagement</span><span class="tag">chart</span></div>
+        <a class="btn" href="Poll.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">✨</span><strong>Media Effects</strong></div>
+        <p class="desc">Glitch, VHS, and BlurPulse effects toggled via buttons, pure CSS + JS.</p>
+        <div class="tags"><span class="tag">visual</span><span class="tag">css</span></div>
+        <a class="btn" href="Effects.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">🎨</span><strong>Slide Overlays</strong></div>
+        <p class="desc">Dark, grid, and dotted overlays, plus badges and ribbon captions.</p>
+        <div class="tags"><span class="tag">styling</span><span class="tag">layout</span></div>
+        <a class="btn" href="Overlays.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">🧪</span><strong>Live Playground</strong></div>
+        <p class="desc">Edit HTML/CSS/JS and preview immediately in an iframe.</p>
+        <div class="tags"><span class="tag">education</span><span class="tag">live</span></div>
+        <a class="btn" href="Playground.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">💻</span><strong>Terminal</strong></div>
+        <p class="desc">Scripted typing effect simulating CLI output for safe, repeatable demos.</p>
+        <div class="tags"><span class="tag">demo</span><span class="tag">animation</span></div>
+        <a class="btn" href="Terminal.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">🎚️</span><strong>Filters</strong></div>
+        <p class="desc">Adjust blur, grayscale, hue, brightness, and contrast live.</p>
+        <div class="tags"><span class="tag">image</span><span class="tag">css</span></div>
+        <a class="btn" href="Filters.html">Open demo</a>
+      </div>
+      <div class="card">
+        <div class="title"><span class="emoji">🏷️</span><strong>Drag-and-Drop</strong></div>
+        <p class="desc">Move blocks inside a canvas area to build quick diagrams.</p>
+        <div class="tags"><span class="tag">interactive</span><span class="tag">pointer</span></div>
+        <a class="btn" href="Dragdrop.html">Open demo</a>
+      </div>
+    </div>
+    <footer>
+      Tip: Keep this gallery file in the same folder as the demos so links work directly.
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+Media Effects — User Manual (CDN Version)
+
+Feature
+Adds cinematic visual effects (Glitch, VHS, BlurPulse) to images or videos on a slide.
+
+How to Use
+1) Open this HTML file in a browser. It works anywhere since it loads Reveal.js from CDN.
+2) On the Media Effects slide, click one of the effect buttons (Glitch, VHS, BlurPulse).
+3) The effect is applied instantly to all elements with class="fx-target".
+4) Click "None" to remove effects.
+
+Advantages
+• Enhances visuals with attention-grabbing styles.
+• Fully CSS-based — smooth and lightweight.
+• CDN links ensure it works from any folder.

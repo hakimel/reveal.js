@@ -1,0 +1,18 @@
+Explaining Live Code Playground (CDN Version)
+
+What it is
+A mini code editor + preview inside a slide. Useful for showing HTML, CSS, and JavaScript live.
+
+Why this file is standalone
+It loads Reveal.js from CDN, so no need to worry about project folder structure.
+
+How the code works (short breakdown)
+• HTML: A <textarea> holds code, a button triggers execution, and an <iframe> shows output.
+• CSS: Splits layout into two columns (editor and preview).
+• JS:
+  - Reads the textarea content.
+  - Sets the iframe's srcdoc property with that code.
+  - Run ▶ button reloads preview with new edits.
+
+One-sentence explanation to say out loud
+“This playground slide lets me edit code in a textarea and instantly preview it in an iframe, and it works from any folder thanks to CDN links.”

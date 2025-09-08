@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dynamic Media Filters Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    .filter-controls { display:grid; grid-template-columns:max-content 1fr; gap:8px 12px; align-items:center; margin-top:10px; }
+    .filter-target { max-width:60%; border-radius:12px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Dynamic Media Filters</h2>
+        <p>Use the sliders to apply CSS filters to the image below.</p>
+        <img id="filterTarget" class="filter-target" src="https://static.slid.es/reveal/image-placeholder.png" alt="sample">
+        <div class="filter-controls">
+          <label>Blur</label><input id="fBlur" type="range" min="0" max="10" step="0.5" value="0">
+          <label>Grayscale</label><input id="fGray" type="range" min="0" max="1" step="0.05" value="0">
+          <label>Hue</label><input id="fHue" type="range" min="0" max="360" step="1" value="0">
+          <label>Brightness</label><input id="fBright" type="range" min="0.5" max="1.5" step="0.05" value="1">
+          <label>Contrast</label><input id="fContrast" type="range" min="0.5" max="1.5" step="0.05" value="1">
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    function apply(){
+      const img=document.getElementById('filterTarget');
+      const blur=fBlur.value, gray=fGray.value, hue=fHue.value, bri=fBright.value, con=fContrast.value;
+      img.style.filter=`blur(${blur}px) grayscale(${gray}) hue-rotate(${hue}deg) brightness(${bri}) contrast(${con})`;
+    }
+    ['fBlur','fGray','fHue','fBright','fContrast'].forEach(id=>document.getElementById(id).addEventListener('input',apply));
+    apply();
+  </script>
+</body>
+</html>

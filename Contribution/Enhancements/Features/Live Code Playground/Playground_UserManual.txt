@@ -1,0 +1,15 @@
+Live Code Playground — User Manual (CDN Version)
+
+Feature
+A two-pane code editor where you can edit HTML/CSS/JS on the left and see the results live in a preview on the right.
+
+How to Use
+1) Open this HTML file in any browser. Reveal.js loads from CDN, so it works anywhere.
+2) Edit the code in the textarea.
+3) Click the 'Run ▶' button to reload the preview iframe with your code.
+4) The iframe shows the result instantly.
+
+Advantages
+• Perfect for teaching coding interactively.
+• Lets you demonstrate live changes without switching tools.
+• CDN links mean you can place this file in any folder and it works.

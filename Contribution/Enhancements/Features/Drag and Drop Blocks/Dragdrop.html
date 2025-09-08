@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Drag-and-Drop Blocks Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    .canvas-area { position:relative; height:420px; background:rgba(255,255,255,.05); border-radius:12px; overflow:hidden; }
+    .node { position:absolute; padding:10px 14px; border-radius:10px; background:rgba(0,0,0,.6); color:#fff; user-select:none; touch-action:none; border:1px solid rgba(255,255,255,.15); }
+    .node:active { box-shadow:0 0 0 3px rgba(255,255,255,.2) inset; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Drag-and-Drop Blocks</h2>
+        <p>Drag the blocks inside the canvas to arrange a diagram.</p>
+        <div class="canvas-area" id="dragArea">
+          <div class="node" style="left:20px;top:20px;">Start</div>
+          <div class="node" style="left:200px;top:60px;">Process</div>
+          <div class="node" style="left:380px;top:140px;">Decision?</div>
+          <div class="node" style="left:120px;top:260px;">Result</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    const dragArea=document.getElementById('dragArea');
+    let dragTarget=null,dx=0,dy=0;
+    dragArea.querySelectorAll('.node').forEach(node=>{
+      node.addEventListener('pointerdown',e=>{
+        dragTarget=node; node.setPointerCapture(e.pointerId);
+        const rect=node.getBoundingClientRect();
+        dx=e.clientX-rect.left; dy=e.clientY-rect.top;
+      });
+      node.addEventListener('pointermove',e=>{
+        if(!dragTarget||dragTarget!==node)return;
+        const p=dragArea.getBoundingClientRect();
+        const x=Math.min(Math.max(0,e.clientX-p.left-dx),p.width-node.offsetWidth);
+        const y=Math.min(Math.max(0,e.clientY-p.top-dy),p.height-node.offsetHeight);
+        node.style.left=x+'px'; node.style.top=y+'px';
+      });
+      node.addEventListener('pointerup',()=>{ dragTarget=null; });
+      node.addEventListener('pointercancel',()=>{ dragTarget=null; });
+    });
+  </script>
+</body>
+</html>

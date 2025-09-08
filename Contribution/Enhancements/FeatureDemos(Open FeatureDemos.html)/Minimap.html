@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide Minimap Demo (CDN)</title>
+  <!-- Reveal.js via CDN (works from any folder) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    #minimapToggle { position: fixed; top: 12px; left: 12px; z-index: 9999; }
+    #minimap {
+      position: fixed; top: 56px; left: 12px; z-index: 9999;
+      background: rgba(0,0,0,0.6); color: #fff; padding: 10px; border-radius: 8px;
+      max-height: 50vh; overflow: auto; display: none;
+    }
+    #minimap .dot {
+      width: 12px; height: 12px; border-radius: 50%; background: #777;
+      display: inline-block; margin: 4px; cursor: pointer;
+    }
+    #minimap .dot.active { background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section><h2>Slide 1</h2><p>Open the 🗺️ Minimap. Click dots to jump.</p></section>
+      <section><h2>Slide 2</h2></section>
+      <section><h2>Slide 3</h2></section>
+      <section><h2>Slide 4</h2></section>
+    </div>
+  </div>
+
+  <!-- Minimap UI -->
+  <button id="minimapToggle">🗺️ Minimap</button>
+  <div id="minimap"></div>
+
+  <!-- Scripts (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    const miniBtn = document.getElementById('minimapToggle');
+    const mini = document.getElementById('minimap');
+
+    function buildMinimap() {
+      mini.innerHTML = '';
+      const slides = Array.from(document.querySelectorAll('.reveal .slides > section'));
+      slides.forEach((s, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        dot.title = (s.querySelector('h2')?.textContent || 'Slide') + ` (#${i+1})`;
+        dot.addEventListener('click', () => Reveal.slide(i));
+        mini.appendChild(dot);
+      });
+      highlightActive();
+    }
+
+    function highlightActive() {
+      const idx = Reveal.getIndices().h;
+      mini.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    miniBtn.addEventListener('click', () => {
+      if (mini.style.display === 'block') {
+        mini.style.display = 'none';
+      } else {
+        buildMinimap();
+        mini.style.display = 'block';
+      }
+    });
+
+    Reveal.on('slidechanged', highlightActive);
+  </script>
+</body>
+</html>

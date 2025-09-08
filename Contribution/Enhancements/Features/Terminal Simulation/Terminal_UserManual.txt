@@ -1,0 +1,15 @@
+Terminal Simulation — User Manual (CDN Version)
+
+Feature
+Simulates a terminal (CLI) session inside a slide by auto-typing commands and outputs.
+
+How to Use
+1) Open this HTML file in a browser. Reveal.js loads from CDN, so it works from any folder.
+2) Navigate to the Terminal slide — the script plays automatically.
+3) Leaving and re-entering the slide replays the animation.
+4) To customize, edit the script array in the JavaScript.
+
+Advantages
+• Demonstrates workflows (e.g., build processes) without using a real terminal.
+• Eliminates risk of errors in live demos.
+• CDN links ensure no broken paths, portable anywhere.

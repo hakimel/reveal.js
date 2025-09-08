@@ -1,0 +1,18 @@
+Explaining Drag-and-Drop Blocks (CDN Version)
+
+What it is
+A slide with draggable blocks for simple diagrams or brainstorming.
+
+Why this file is standalone
+It uses CDN links for Reveal.js, so no need for local dist/ or plugin/ folders.
+
+How the code works (short breakdown)
+• HTML: A container div (canvas-area) with child divs (nodes).
+• CSS: Styles nodes with backgrounds, borders, and absolute positioning.
+• JS:
+  - Listens for pointerdown, pointermove, and pointerup events.
+  - Calculates new x,y positions based on pointer location.
+  - Constrains movement within the canvas area.
+
+One-sentence explanation to say out loud
+“This drag-and-drop slide lets me move blocks to form diagrams, and it works anywhere because it loads Reveal.js from CDN.”

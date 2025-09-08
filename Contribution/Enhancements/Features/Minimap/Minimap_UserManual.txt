@@ -1,0 +1,14 @@
+Slide Minimap — User Manual (CDN Version)
+
+Feature
+A small, toggleable panel that shows one dot per slide. Click a dot to jump directly to that slide. Works anywhere because Reveal.js is loaded from a CDN.
+
+How to Use
+1) Open this HTML file in any browser (no setup needed).
+2) Click the 🗺️ Minimap button (top-left) to open/close the panel.
+3) Click a dot to navigate to that slide. The current slide’s dot is highlighted automatically.
+
+Advantages
+• Fast navigation during demos and Q&A.
+• Clear visual overview of deck structure.
+• CDN-powered: no broken paths or local plugin setup required.

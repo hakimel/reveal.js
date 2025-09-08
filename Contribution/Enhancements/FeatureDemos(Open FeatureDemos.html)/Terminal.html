@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Terminal Simulation Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    .terminal { font-family: ui-monospace, monospace; background:#0a0f14; color:#c6d0f5; border-radius:12px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+    .cursor { display:inline-block; width:10px; background:#c6d0f5; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { background:transparent; } }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Terminal Simulation</h2>
+        <p>Simulated CLI output appears automatically on entering this slide.</p>
+        <div class="terminal" id="term">
+          <div>$ <span style="color:#A6D189">npm run build</span><span class="cursor">&nbsp;</span></div>
+          <pre id="termOut" style="margin:8px 0 0 0; white-space: pre-wrap;"></pre>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    const termOut=document.getElementById('termOut');
+    const script=[
+      {type:'cmd', text:'npm run build'},
+      {type:'out', text:'vite v5 building for production...'},
+      {type:'out', text:'✓ 42 modules transformed.'},
+      {type:'out', text:'dist/assets/app.abc123.js   12.34 kB'},
+      {type:'out', text:'dist/index.html             0.85 kB'},
+      {type:'out', text:'Build completed in 2.34s'}
+    ];
+    function play(){
+      termOut.textContent='';
+      let i=0;
+      const t=setInterval(()=>{
+        if(i>=script.length){clearInterval(t);return;}
+        const s=script[i++];
+        const p=s.type==='cmd'?'$ ':'';
+        termOut.textContent+=p+s.text+'\n';
+      },700);
+    }
+    Reveal.on('slidechanged', e=>{ if(e.currentSlide.querySelector('#term')) play(); });
+    play();
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+Explaining Slide Overlays (CDN Version)
+
+What it is
+Overlays add decorative visual layers (dark gradient, grid lines, or dots) to slides.
+
+Why this file is standalone
+It loads Reveal.js from CDN, so the demo works from any folder with no local paths needed.
+
+How the code works (short breakdown)
+• HTML: Each <section> has data-overlay="dark", "grid", or "dots".
+• CSS: Uses ::after pseudo-element to draw the overlay.
+• Extra: corner-badge and bottom-ribbon elements provide labels/captions.
+• JS: A keydown listener toggles overlays globally with 'O'.
+
+One-sentence explanation to say out loud
+“This overlay demo uses CSS and a data-overlay attribute to add visual styles to slides, and it runs anywhere thanks to CDN links.”

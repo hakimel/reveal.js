@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide Overlays Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    section[data-overlay]{position:relative;overflow:hidden}
+    section[data-overlay]::after{content:"";position:absolute;inset:0;pointer-events:none}
+    section[data-overlay="dark"]::after{background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.15))}
+    section[data-overlay="grid"]::after{background-image:linear-gradient(rgba(255,255,255,.08) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.08) 2px,transparent 2px);background-size:40px 40px,40px 40px}
+    section[data-overlay="dots"]::after{background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:12px 12px}
+    .corner-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);color:#fff;padding:6px 10px;border-radius:999px;font-size:14px}
+    .bottom-ribbon{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,0));color:#fff;padding:8px 12px;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-overlay="dark">
+        <div class="corner-badge">Overlay: dark</div>
+        <h2>Dark Overlay Example</h2>
+        <div class="bottom-ribbon">This is a bottom ribbon caption</div>
+      </section>
+      <section data-overlay="grid">
+        <div class="corner-badge">Overlay: grid</div>
+        <h2>Grid Overlay Example</h2>
+      </section>
+      <section data-overlay="dots">
+        <div class="corner-badge">Overlay: dots</div>
+        <h2>Dots Overlay Example</h2>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    // Toggle overlays on/off with 'O'
+    addEventListener('keydown', e => { if(e.key.toLowerCase() === 'o') document.body.classList.toggle('overlays-off'); });
+  </script>
+</body>
+</html>

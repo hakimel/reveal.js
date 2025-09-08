@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Poll Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    .poll { display: grid; gap: 10px; }
+    .poll button {
+      padding: 8px 10px; border-radius: 8px; border: 1px solid #444;
+      background: #111; color: #fff; cursor: pointer; margin-right: 6px;
+    }
+    .poll-chart {
+      width: 100%; height: 220px; background: #111; border: 1px solid #444; border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Live Poll (Local, CDN Powered)</h2>
+        <p>Click buttons to vote. Chart updates instantly.</p>
+        <div class="poll">
+          <div>
+            <button data-choice="React">React</button>
+            <button data-choice="Vue">Vue</button>
+            <button data-choice="Svelte">Svelte</button>
+          </div>
+          <canvas id="pollChart" class="poll-chart"></canvas>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    const pollCanvas=document.getElementById('pollChart');
+    const ctx=pollCanvas.getContext('2d');
+    const choices=['React','Vue','Svelte'];
+    const counts={React:0,Vue:0,Svelte:0};
+
+    function drawPoll(){
+      pollCanvas.width=pollCanvas.clientWidth;
+      pollCanvas.height=pollCanvas.clientHeight;
+      const {width,height}=pollCanvas;
+      ctx.clearRect(0,0,width,height);
+      ctx.strokeStyle='#666';
+      ctx.beginPath();
+      ctx.moveTo(40,10); ctx.lineTo(40,height-30); ctx.lineTo(width-10,height-30); ctx.stroke();
+      const max=Math.max(1,...Object.values(counts));
+      const barW=(width-80)/choices.length;
+      choices.forEach((label,idx)=>{
+        const val=counts[label];
+        const h=Math.round(((height-60)*val)/max);
+        const x=50+idx*barW+10;
+        const y=height-30-h;
+        ctx.fillStyle='#ddd';
+        ctx.fillRect(x,y,barW-20,h);
+        ctx.fillStyle='#aaa'; ctx.textAlign='center';
+        ctx.fillText(label,x+(barW-20)/2,height-10);
+        ctx.fillText(String(val),x+(barW-20)/2,y-6);
+      });
+    }
+
+    function resizePoll(){
+      pollCanvas.width=pollCanvas.clientWidth;
+      pollCanvas.height=pollCanvas.clientHeight;
+      drawPoll();
+    }
+
+    window.addEventListener('resize',resizePoll);
+    resizePoll();
+
+    document.querySelectorAll('.poll button').forEach(btn=>{
+      btn.addEventListener('click',()=>{ counts[btn.dataset.choice]++; drawPoll(); });
+    });
+  </script>
+</body>
+</html>
