@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Pitches Templates</title>
-    <link rel="stylesheet" href="../dist/reveal.css">
-    <link rel="stylesheet" href="../dist/theme/solarized.css">
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/solarized.css">
     <link rel="stylesheet" href="custom.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="reveal">
@@ -37,7 +38,9 @@
 
         <section>
             <h2>Market / Competition</h2>
-            <img src="https://via.placeholder.com/400x250?text=Market+Chart" alt="Market Chart">
+            <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+            </div>
             <p>Market size, competitors, opportunities</p>
         </section>
 
@@ -53,7 +56,8 @@
 
     </div>
 </div>
-<script src="../dist/reveal.js"></script>
+<script src="../../../dist/reveal.js"></script>
+<script src="businesschart.js"></script>
 <script>
     Reveal.initialize({ hash: true, slideNumber: true });
 </script>

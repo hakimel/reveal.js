@@ -1,2 +1,0 @@
-I added 3 pie charts
-A simple pie chart, a grdaient style pie chart, a gradient pie chart with animated border

@@ -121,3 +121,17 @@
         flex-direction: column;
     }
 }
+.chart-container {
+    position: relative;
+    height: 60vh;
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+
+.reveal .slides section img {
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
+}
