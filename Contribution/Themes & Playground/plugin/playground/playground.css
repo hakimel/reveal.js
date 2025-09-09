@@ -1,0 +1,19 @@
+
+/* Overlay playground panel */
+.rtp-playground {
+  position: fixed; left: 5vw; top: 5vh; width: 90vw; height: 90vh; z-index: 9998;
+  background: rgba(12,14,20,.98); color: #e8eef8; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45); display: none; flex-direction: column;
+}
+.rtp-pg-header { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(255,255,255,0.05); }
+.rtp-pg-title { font: 700 14px/1 system-ui; letter-spacing: .4px; }
+.rtp-pg-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; flex: 1; min-height: 0; }
+.rtp-pg-editors { display: grid; grid-template-rows: 1fr 1fr 1fr; border-right: 1px solid rgba(255,255,255,.08); }
+.rtp-pg-editor { display: flex; flex-direction: column; min-height: 0; }
+.rtp-pg-editor label { font: 600 12px/1 system-ui; padding: 6px 10px; background: rgba(255,255,255,0.04); }
+.rtp-pg-editor textarea { flex: 1; resize: none; background: transparent; color: inherit; border: 0; outline: none; padding: 10px; font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
+.rtp-pg-preview { position: relative; }
+.rtp-pg-iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+.rtp-pg-actions { margin-left: auto; display: flex; gap: 8px; }
+.rtp-small-btn { border: 0; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,.08); color: #fff; cursor: pointer; font: 600 12px/1 system-ui; }
+.rtp-small-btn:hover { background: rgba(255,255,255,.15); }
