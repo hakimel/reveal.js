@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grid Particle Attraction - Interactive Tool</title>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: -1; /* Keep behind Reveal content */
+    }
+    .reveal {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Interactive Tool:</h2>
+		<h2>Grid Particle Attraction</h2>
+        <p>Move your mouse to see the particles react!</p>
+      </section>
+    </div>
+  </div>
+
+  <canvas id="particleCanvas"></canvas>
+
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize();
+
+    const canvas = document.getElementById("particleCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      createGrid();
+    });
+
+    let mouse = { x: width / 2, y: height / 2 };
+
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+	
+    const spacing = 50;
+    let particles = [];
+
+    function createGrid() {
+      particles = [];
+      for (let x = 0; x < width; x += spacing) {
+        for (let y = 0; y < height; y += spacing) {
+          particles.push({ x, y, baseX: x, baseY: y });
+        }
+      }
+    }
+
+    createGrid();
+	
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let p of particles) {
+        let dx = mouse.x - p.x;
+        let dy = mouse.y - p.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        let force = Math.max(0, 150 - dist) / 150; 
+
+        p.x = p.baseX + dx * force * 0.3;
+        p.y = p.baseY + dy * force * 0.3;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = "cyan";
+        ctx.fill();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

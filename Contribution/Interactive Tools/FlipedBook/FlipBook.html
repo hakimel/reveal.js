@@ -3,8 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <title>FlipBook Reveal.js Demo</title>
-
-  <!-- Reveal core styles -->
   <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
   <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css" id="theme">
 
@@ -83,7 +81,6 @@
         <p>Normal slide before the demo.</p>
       </section>
 
-      <!-- Flipbook slide -->
       <section>
         <h2>📖 INTERACTIVE FLIPBOOK </h2>
 
@@ -110,14 +107,12 @@
           <button class="flipbook-btn">Flip Page</button>
         </div>
 
-        <!-- ✅ Flip sound -->
         <audio id="flipSound" src="page-flip.mp3" preload="auto"></audio>
       </section>
 
     </div>
   </div>
 
-  <!-- Reveal.js -->
   <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
 
   <script>
@@ -126,15 +121,13 @@
       center: true
     });
 
-    // Flipbook logic + sound
     Reveal.addEventListener('ready', () => {
       const pages = document.querySelectorAll('.flipbook .page');
       const button = document.querySelector('.flipbook-btn');
-      const flipSound = document.getElementById('flipSound'); // ✅ sound element
+      const flipSound = document.getElementById('flipSound'); 
       let current = 0;
 
       button.addEventListener('click', () => {
-        // ✅ play flip sound
         flipSound.currentTime = 0;
         flipSound.play();
 
