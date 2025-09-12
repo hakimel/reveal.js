@@ -1,14 +1,28 @@
-Slide Minimap — User Manual (CDN Version)
+Minimap Feature - User Manual
 
-Feature
-A small, toggleable panel that shows one dot per slide. Click a dot to jump directly to that slide. Works anywhere because Reveal.js is loaded from a CDN.
+Overview:
+The Minimap feature provides a quick overview of all slides in your Reveal.js presentation. It appears as a draggable panel with tiny thumbnails of each slide, making navigation faster and more intuitive.
 
-How to Use
-1) Open this HTML file in any browser (no setup needed).
-2) Click the 🗺️ Minimap button (top-left) to open/close the panel.
-3) Click a dot to navigate to that slide. The current slide’s dot is highlighted automatically.
+How to Use:
+1. Toggle Minimap:
+   - Click the 🗺️ Minimap button at the top-left corner to open/close the minimap.
+   - Press the keyboard shortcut 'M' to toggle visibility quickly.
 
-Advantages
-• Fast navigation during demos and Q&A.
-• Clear visual overview of deck structure.
-• CDN-powered: no broken paths or local plugin setup required.
+2. Thumbnails:
+   - Each slide is represented as a small thumbnail preview with its background and heading.
+   - The current slide is highlighted with a glowing border for easy identification.
+
+3. Navigation:
+   - Click on any thumbnail to jump directly to that slide.
+   - The active slide thumbnail updates automatically as you navigate.
+
+4. Dragging:
+   - Both the Minimap button and the panel are draggable.
+   - Move them anywhere on the screen to avoid blocking slide content.
+   - Their positions are saved automatically and restored when reloading the presentation.
+
+Advantages:
+- Provides a clear overview of the entire presentation structure.
+- Enables quick navigation without leaving the current context.
+- Fully integrated with Reveal.js via CDN (works standalone).
+- Improves accessibility during live talks by making it easy to jump between topics.

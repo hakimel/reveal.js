@@ -1,96 +1,130 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Poll Demo (CDN)</title>
-  <!-- Reveal.js via CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Live Poll — Host & Voter</title>
+
+  <!-- Reveal.js (optional; poll works standalone too) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/theme/black.min.css" id="theme" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+
   <style>
-    .poll { display: grid; gap: 10px; }
-    .poll button {
-      padding: 8px 10px; border-radius: 8px; border: 1px solid #444;
-      background: #111; color: #fff; cursor: pointer; margin-right: 6px;
-    }
-    .poll-chart {
-      width: 100%; height: 220px; background: #111; border: 1px solid #444; border-radius: 8px;
-    }
+    :root { --bg:#111; --fg:#fff; --muted:#aaa; --border:#444; --accent:#66f; }
+    body{ background:#000; color:var(--fg); }
+    .poll{ display:grid; gap:12px; }
+    .poll-controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .poll button{ padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:#171717; color:var(--fg); cursor:pointer; }
+    .poll button[data-choice]:hover{ transform:translateY(-1px); }
+    .poll button[aria-pressed="true"]{ outline:2px solid var(--accent); outline-offset:2px; }
+    .poll .muted{ color:var(--muted); font-size:.95rem; }
+    .poll-card{ border:1px solid var(--border); border-radius:12px; padding:14px; background:#0b0b0b; }
+    .row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .grow{ flex:1 1 auto; }
+    canvas{ width:100%; height:280px; display:block; }
+    .sr-only{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
   </style>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
       <section>
-        <h2>Live Poll (Local, CDN Powered)</h2>
-        <p>Click buttons to vote. Chart updates instantly.</p>
-        <div class="poll">
-          <div>
-            <button data-choice="React">React</button>
-            <button data-choice="Vue">Vue</button>
-            <button data-choice="Svelte">Svelte</button>
+        <h2>Live Poll</h2>
+        <p class="muted">Audience votes via link, host sees results.</p>
+
+        <div id="poll" class="poll" data-poll-id="demo-abc">
+          <div class="poll-card">
+            <div class="row">
+              <div class="grow">
+                <strong>Which option do you prefer?</strong>
+                <div class="muted">Edit this question to your needs.</div>
+              </div>
+              <label class="muted" style="display:inline-flex;align-items:center;gap:.4rem;">
+                <input type="checkbox" id="realtimeToggle" /> Realtime
+              </label>
+            </div>
+
+            <div class="poll-controls" style="margin-top:10px;">
+              <button data-choice="A" aria-pressed="false">A — Alpha</button>
+              <button data-choice="B" aria-pressed="false">B — Beta</button>
+              <button data-choice="C" aria-pressed="false">C — Gamma</button>
+              <button data-choice="D" aria-pressed="false">D — Delta</button>
+              <button id="resetPoll" title="Reset poll">Reset</button>
+              <button id="exportResults" title="Download history">Export Results</button>
+            </div>
+
+            <div class="poll-card" id="hostChartCard" style="margin-top:12px;">
+              <canvas id="pollChart"></canvas>
+            </div>
+
+            <p id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+            <p class="muted" id="totals" style="margin-top:8px;"></p>
           </div>
-          <canvas id="pollChart" class="poll-chart"></canvas>
+
+          <script>
+            // Your Supabase project config
+            window.SUPABASE_CONFIG = {
+              url: "https://kaupcegazlrytozgoamm.supabase.co",
+              anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthdXBjZWdhemxyeXRvemdvYW1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NDY5NDQsImV4cCI6MjA3MzIyMjk0NH0.9yAAhrqlMURndCPnGOhFigM_qX3ObyzLGrsNmCZXS6w"
+            };
+          </script>
         </div>
       </section>
     </div>
   </div>
 
-  <!-- Reveal.js scripts via CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
   <script>
-    Reveal.initialize({
-      controls: true,
-      progress: true,
-      slideNumber: 'c/t',
-      hash: true,
-      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-    });
+  (function(){
+    // --- Role by URL param ---
+    function getParam(n){ try { return new URL(window.location.href).searchParams.get(n); } catch { return null; } }
+    const role = (getParam('mode') || 'host').toLowerCase();
+    const root = document.getElementById('poll');
+    let pollId = (root?.dataset?.pollId || 'default').trim();
+    const urlPoll = getParam('poll'); if (urlPoll) pollId = urlPoll;
 
-    const pollCanvas=document.getElementById('pollChart');
-    const ctx=pollCanvas.getContext('2d');
-    const choices=['React','Vue','Svelte'];
-    const counts={React:0,Vue:0,Svelte:0};
+    const storageKey=`pollCounts:${pollId}:v2`, historyKey=`pollHistory:${pollId}:v1`, rtKey=`pollRealtime:${pollId}`;
+    function loadCounts(){ try{const r=localStorage.getItem(storageKey);if(!r)return{A:0,B:0,C:0,D:0};const p=JSON.parse(r);return{A:p.A||0,B:p.B||0,C:p.C||0,D:p.D||0};}catch{return{A:0,B:0,C:0,D:0};}}
+    function saveCounts(c){ localStorage.setItem(storageKey,JSON.stringify(c)); }
+    function loadHistory(){ try{ return JSON.parse(localStorage.getItem(historyKey))||[];}catch{return[];} }
+    function saveHistory(h){ localStorage.setItem(historyKey,JSON.stringify(h)); }
 
-    function drawPoll(){
-      pollCanvas.width=pollCanvas.clientWidth;
-      pollCanvas.height=pollCanvas.clientHeight;
-      const {width,height}=pollCanvas;
-      ctx.clearRect(0,0,width,height);
-      ctx.strokeStyle='#666';
-      ctx.beginPath();
-      ctx.moveTo(40,10); ctx.lineTo(40,height-30); ctx.lineTo(width-10,height-30); ctx.stroke();
-      const max=Math.max(1,...Object.values(counts));
-      const barW=(width-80)/choices.length;
-      choices.forEach((label,idx)=>{
-        const val=counts[label];
-        const h=Math.round(((height-60)*val)/max);
-        const x=50+idx*barW+10;
-        const y=height-30-h;
-        ctx.fillStyle='#ddd';
-        ctx.fillRect(x,y,barW-20,h);
-        ctx.fillStyle='#aaa'; ctx.textAlign='center';
-        ctx.fillText(label,x+(barW-20)/2,height-10);
-        ctx.fillText(String(val),x+(barW-20)/2,y-6);
-      });
-    }
+    let counts=loadCounts();
+    const chartCtx=document.getElementById('pollChart').getContext('2d');
+    const colors=['#60a5fa','#f87171','#34d399','#fbbf24'];
+    let chart=new Chart(chartCtx,{type:'bar',data:{labels:['A','B','C','D'],datasets:[{data:[counts.A,counts.B,counts.C,counts.D],backgroundColor:colors}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true,ticks:{precision:0}}},plugins:{legend:{display:false}}}});
+    const liveRegion=document.getElementById('liveRegion'),totalsEl=document.getElementById('totals'),buttons=root.querySelectorAll('button[data-choice]'),chartCard=document.getElementById('hostChartCard');
 
-    function resizePoll(){
-      pollCanvas.width=pollCanvas.clientWidth;
-      pollCanvas.height=pollCanvas.clientHeight;
-      drawPoll();
-    }
+    function totalVotes(){return counts.A+counts.B+counts.C+counts.D;}
+    function snapshot(meta={reason:'manual'}){const e={ts:new Date().toISOString(),counts:{...counts},total:totalVotes(),...meta};const h=loadHistory();h.push(e);saveHistory(h);return e;}
+    function updateUI(){chart.data.datasets[0].data=[counts.A,counts.B,counts.C,counts.D];chart.update();const t=totalVotes();const pct=v=>t?`${Math.round((v/t)*100)}%`:'0%';totalsEl.textContent=`Total: ${t} — A ${counts.A} (${pct(counts.A)}), B ${counts.B} (${pct(counts.B)}), C ${counts.C} (${pct(counts.C)}), D ${counts.D} (${pct(counts.D)})`;liveRegion.textContent='Poll updated.';}
+    function setPressed(c){buttons.forEach(b=>b.setAttribute('aria-pressed',b.dataset.choice===c?'true':'false'));}
+    function castVote(c,{broadcast=true,localTally=true}={}){if(localTally){counts[c]++;saveCounts(counts);setPressed(c);updateUI();}if(broadcast&&channel){channel.send({type:'broadcast',event:'vote',payload:{choice:c}});}}
+    function resetPoll({broadcast=true}={}){snapshot({reason:'reset'});counts={A:0,B:0,C:0,D:0};localStorage.removeItem(storageKey);setPressed('');updateUI();if(broadcast&&channel){channel.send({type:'broadcast',event:'reset'});}}
 
-    window.addEventListener('resize',resizePoll);
-    resizePoll();
+    if(role==='voter'){buttons.forEach(btn=>btn.addEventListener('click',()=>castVote(btn.dataset.choice,{broadcast:true,localTally:false})));document.getElementById('resetPoll').style.display='none';document.getElementById('exportResults').style.display='none';chartCard.style.display='none';}else{buttons.forEach(btn=>btn.addEventListener('click',()=>castVote(btn.dataset.choice)));}
 
-    document.querySelectorAll('.poll button').forEach(btn=>{
-      btn.addEventListener('click',()=>{ counts[btn.dataset.choice]++; drawPoll(); });
-    });
+    document.getElementById('resetPoll').addEventListener('click',()=>resetPoll());
+    document.getElementById('exportResults').addEventListener('click',()=>exportResults());
+    updateUI();
+
+    function download(f,t,ty="application/json"){const b=new Blob([t],{type:ty});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=f;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+    function toCSVRow(o){return Object.values(o).map(v=>String(v).replaceAll('\"','\"\"')).map(v=>`\"${v}\"`).join(',');}
+    function exportResults(){snapshot({reason:'export'});const h=loadHistory();const payload={pollId,exportedAt:new Date().toISOString(),current:{counts:{...counts},total:totalVotes()},history:h};download(`poll-${pollId}-history.json`,JSON.stringify(payload,null,2));const header=['ts','reason','total','A','B','C','D'];const rows=h.map(x=>({ts:x.ts,reason:x.reason||'',total:x.total||0,A:x.counts.A,B:x.counts.B,C:x.counts.C,D:x.counts.D}));const csv=[header.join(',')].concat(rows.map(r=>toCSVRow(r))).join('\\n');download(`poll-${pollId}-history.csv`,csv,'text/csv');}
+
+    let supabaseClient=null,channel=null;
+    function canRealtime(){return !!(window.SUPABASE_CONFIG&&window.SUPABASE_CONFIG.url&&window.SUPABASE_CONFIG.anonKey);}
+    function connectRealtime(){if(!canRealtime()||supabaseClient)return;const {url,anonKey}=window.SUPABASE_CONFIG;supabaseClient=window.supabase?.createClient(url,anonKey);channel=supabaseClient.channel(`poll-${pollId}`);channel.on('broadcast',{event:'vote'},msg=>{const c=msg?.payload?.choice;if(!c)return;if(role==='host')castVote(c,{broadcast:false,localTally:true});}).on('broadcast',{event:'reset'},()=>{if(role==='host')resetPoll({broadcast:false});}).subscribe();}
+    function disconnectRealtime(){if(channel){try{supabaseClient.removeChannel(channel);}catch{}channel=null;}supabaseClient=null;}
+    function setRealtime(on){try{localStorage.setItem(rtKey,on?'on':'off');}catch{}if(on)connectRealtime();else disconnectRealtime();}
+    const toggle=document.getElementById('realtimeToggle');if(role==='voter'){toggle.checked=true;toggle.disabled=true;}else{try{toggle.checked=localStorage.getItem(rtKey)==='on';}catch{}}
+    toggle.addEventListener('change',()=>setRealtime(toggle.checked));
+    if(toggle.checked&&canRealtime())connectRealtime();
+  })();
   </script>
 </body>
 </html>

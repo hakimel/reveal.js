@@ -2,33 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Live Code Playground Demo (CDN)</title>
+  <title>Reveal.js + Custom Code Playground Slide</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
   <!-- Reveal.js via CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+
   <style>
-    .playground { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
-    .playground textarea { width: 100%; height: 300px; font-family: ui-monospace, monospace; font-size: 14px; }
-    .playground iframe { width: 100%; height: 320px; border: 1px solid #444; border-radius: 8px; background: #fff; }
+    .playground {
+      display: grid; gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .pg-editor { display: grid; gap: 8px; }
+    .pg-editor textarea {
+      width: 100%; height: 320px;
+      font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: #e6e6e6; background: #1e1e1e;
+      border: 1px solid #333; border-radius: 10px;
+      padding: 10px; resize: vertical;
+    }
+    .pg-toolbar { display: flex; gap: 8px; align-items: center; }
+    .pg-toolbar button {
+      border: 1px solid #444; background: #2b2b2b; color: #eee;
+      padding: 6px 10px; border-radius: 8px; cursor: pointer;
+    }
+    .pg-toolbar button:hover { background: #383838; }
+    .pg-status { margin-left: auto; font-size: 12px; opacity: .8; }
+    .pg-output {
+      width: 100%; height: 340px; border: 1px solid #444;
+      border-radius: 10px; background: #fff;
+    }
+    /* Optional: nicer code blocks used in fragments preview (not the editor) */
+    .pg-fragment-preview { font-size: 12px; opacity: .8; }
   </style>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
-      <section>
-        <h2>Live Code Playground</h2>
-        <p>Edit the code on the left and click Run ▶ to see the live preview.</p>
-        <div class="playground">
-          <div>
-<textarea id="pgCode"><!doctype html>
+
+      <!-- ✅ Example: a reusable playground slide -->
+      <section data-playground data-autorun-on-fragment="true">
+        <h2>Live Code Playground (Custom Slide)</h2>
+        <p class="pg-fragment-preview">Step through the fragments to evolve the code; it will auto-run on each step.</p>
+
+        <!-- Initial code template -->
+        <script type="text/plain" data-initial>
+<!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; }
-    .box { width: 120px; height: 120px; border-radius: 12px; display: grid; place-items: center; border: 2px solid #222; }
+    body { font-family: system-ui,sans-serif; padding: 24px; }
+    .box { width: 120px; height: 120px; border-radius: 12px;
+           display: grid; place-items: center; border: 2px solid #222; }
   </style>
 </head>
 <body>
@@ -44,12 +73,43 @@
     });
   </script>
 </body>
-</html></textarea>
-            <button id="pgRun">Run ▶</button>
-          </div>
-          <iframe id="pgOutput" title="Playground Output"></iframe>
-        </div>
+</html>
+        </script>
+
+        <!-- Fragment 1: add a drop shadow and a transition -->
+        <script type="text/plain" class="fragment" data-playground-step data-fragment-index="1">
+<!-- Mod 1: add transition and shadow -->
+<style>
+  .box { transition: transform .3s ease, background .3s ease;
+         box-shadow: 0 10px 30px rgba(0,0,0,.15); }
+</style>
+        </script>
+
+        <!-- Fragment 2: add a button to reset -->
+        <script type="text/plain" class="fragment" data-playground-step data-fragment-index="2">
+<!-- Mod 2: add a reset button -->
+<button id="reset">Reset</button>
+<script>
+  const reset = document.getElementById('reset');
+  reset.addEventListener('click', ()=>{
+    const b = document.getElementById('b');
+    b.style.transform = 'none';
+    b.style.background = '';
+    b.textContent = 'Click me';
+    // If we kept n in a closure, this resets the counter in a hacky demo way:
+    location.reload(); // simple for demo; in real code, refactor to a shared state
+  });
+</script>
+        </script>
+
       </section>
+
+      <!-- You can add more slides with data-playground and their own steps -->
+      <section>
+        <h2>Regular Slide</h2>
+        <p>This is just here to show you can mix & match.</p>
+      </section>
+
     </div>
   </div>
 
@@ -58,6 +118,133 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+
+  <script>
+    // -----------------------------
+    // Tiny "Playground" plugin
+    // -----------------------------
+    (function () {
+      function qs(el, sel) { return el.querySelector(sel); }
+      function qsa(el, sel) { return Array.from(el.querySelectorAll(sel)); }
+
+      function buildPlayground(section) {
+        // Layout container
+        const wrap = document.createElement('div');
+        wrap.className = 'playground';
+
+        // Editor side
+        const editor = document.createElement('div');
+        editor.className = 'pg-editor';
+
+        const ta = document.createElement('textarea');
+        ta.setAttribute('spellcheck', 'false');
+
+        const toolbar = document.createElement('div');
+        toolbar.className = 'pg-toolbar';
+
+        const runBtn   = document.createElement('button'); runBtn.textContent = 'Run ▶';
+        const resetBtn = document.createElement('button'); resetBtn.textContent = 'Reset ⟲';
+        const status   = document.createElement('span');   status.className = 'pg-status'; status.textContent = 'idle';
+
+        toolbar.append(runBtn, resetBtn, status);
+        editor.append(ta, toolbar);
+
+        // Output side
+        const iframe = document.createElement('iframe');
+        iframe.className = 'pg-output';
+        iframe.title = 'Playground Output';
+        // Safer execution: allow scripts & same-origin for srcdoc, but block top-nav, popups, etc.
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+
+        // Assemble
+        wrap.append(editor, iframe);
+        section.append(wrap);
+
+        // Load initial code
+        const initial = qs(section, 'script[type="text/plain"][data-initial]');
+        const steps = qsa(section, 'script.fragment[type="text/plain"][data-playground-step]');
+
+        const baseDoc = (initial && initial.textContent) ? initial.textContent.trim() : '<!doctype html><title>Empty</title>';
+        ta.value = baseDoc;
+
+        function run() {
+          status.textContent = 'running…';
+          iframe.srcdoc = ta.value;
+          // cheap "ready" indicator
+          setTimeout(() => status.textContent = 'ok', 80);
+        }
+
+        function reset() {
+          ta.value = baseDoc;
+          run();
+        }
+
+        // Wire buttons
+        runBtn.addEventListener('click', run);
+        resetBtn.addEventListener('click', reset);
+
+        // Fragments → patch code
+        // Strategy: on fragmentshown, append that fragment's text into the current code
+        // A minimal-but-safe approach: insert right before </body> if present, else at end.
+        function applyStep(txt) {
+          const code = ta.value;
+          const hasBodyClose = /<\/body>/i.test(code);
+          if (hasBodyClose) {
+            ta.value = code.replace(/<\/body>/i, txt.trim() + '\n</body>');
+          } else {
+            ta.value = code + '\n' + txt.trim();
+          }
+        }
+        function removeStep(txt) {
+          // naive removal: delete the exact text block if present
+          ta.value = ta.value.replace(txt.trim(), '');
+        }
+
+        // Listen for fragments shown/hidden within THIS section
+        Reveal.on('fragmentshown', evt => {
+          if (!section.contains(evt.fragment)) return;
+          if (evt.fragment.matches('script[type="text/plain"][data-playground-step]')) {
+            applyStep(evt.fragment.textContent);
+            if (section.hasAttribute('data-autorun-on-fragment')) run();
+          }
+        });
+        Reveal.on('fragmenthidden', evt => {
+          if (!section.contains(evt.fragment)) return;
+          if (evt.fragment.matches('script[type="text/plain"][data-playground-step]')) {
+            removeStep(evt.fragment.textContent);
+            if (section.hasAttribute('data-autorun-on-fragment')) run();
+          }
+        });
+
+        // First render
+        run();
+
+        // Optional: Ctrl/Cmd+Enter to run, Esc to reset (while textarea focused)
+        ta.addEventListener('keydown', (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); run(); }
+          if (e.key === 'Escape') { e.preventDefault(); reset(); }
+        });
+
+        return { run, reset, ta, iframe, steps };
+      }
+
+      // Initialize on DOM ready (after Reveal.init below as well)
+      function initAll() {
+        qsa(document, 'section[data-playground]').forEach(buildPlayground);
+      }
+
+      // Export a tiny API on window for debugging if needed
+      window.RevealPlayground = { initAll };
+
+      // If Reveal is already ready, init; otherwise wait for 'ready'
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(initAll, 0);
+      } else {
+        document.addEventListener('DOMContentLoaded', initAll);
+      }
+    })();
+  </script>
+
   <script>
     Reveal.initialize({
       controls: true,
@@ -66,13 +253,6 @@
       hash: true,
       plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
     });
-
-    const code=document.getElementById('pgCode');
-    const run=document.getElementById('pgRun');
-    const out=document.getElementById('pgOutput');
-    function go(){ out.srcdoc=code.value; }
-    run.addEventListener('click', go);
-    go();
   </script>
 </body>
 </html>

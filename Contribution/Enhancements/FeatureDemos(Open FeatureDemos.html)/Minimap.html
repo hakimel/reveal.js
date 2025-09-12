@@ -1,85 +1,244 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Slide Minimap Demo (CDN)</title>
-  <!-- Reveal.js via CDN (works from any folder) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Slide Minimap with Tiny Thumbnails — Draggable</title>
+
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" id="theme" />
+
   <style>
-    #minimapToggle { position: fixed; top: 12px; left: 12px; z-index: 9999; }
+    :root {
+      --mini-z: 9999;
+      --thumb-w: 140px;
+      --thumb-h: 80px;
+      --thumb-scale: .18;
+    }
+
+    /* Toggle button (draggable) */
+    #minimapToggle {
+      position: fixed; top: 12px; left: 12px; z-index: var(--mini-z);
+      cursor: move; padding: 6px 10px; border-radius: 8px;
+      border: 1px solid #444; background:#111; color:#fff;
+      user-select: none;
+    }
+
+    /* Minimap panel (draggable) */
     #minimap {
-      position: fixed; top: 56px; left: 12px; z-index: 9999;
-      background: rgba(0,0,0,0.6); color: #fff; padding: 10px; border-radius: 8px;
-      max-height: 50vh; overflow: auto; display: none;
+      position: fixed; top: 56px; left: 12px; z-index: var(--mini-z);
+      background: rgba(0,0,0,0.6); color: #fff;
+      padding: 10px; border-radius: 10px;
+      max-height: 60vh; overflow: auto; display: none;
+      cursor: move; user-select: none;
+      border: 1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(4px);
+      min-width: calc(var(--thumb-w) * 2 + 36px);
     }
-    #minimap .dot {
-      width: 12px; height: 12px; border-radius: 50%; background: #777;
-      display: inline-block; margin: 4px; cursor: pointer;
+    #miniHeader {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom: 8px; font-size: 12px; opacity: .85;
+      cursor: move;
     }
-    #minimap .dot.active { background: #fff; }
+    #miniHeader kbd { background: rgba(255,255,255,.1); padding: 1px 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,.15); }
+
+    /* Grid inside the panel (not draggable so clicks work) */
+    #miniGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--thumb-w), 1fr));
+      gap: 10px;
+      cursor: default; /* allow clicking thumbnails */
+      user-select: none;
+    }
+
+    /* Thumbnails */
+    .thumb {
+      width: var(--thumb-w);
+      height: var(--thumb-h);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background: #222;
+      border: 1px solid #444;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .thumb:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.45); }
+    .thumb.active { border-color: #6cf; box-shadow: 0 0 0 2px #6cf inset, 0 6px 16px rgba(102,204,255,.35); }
+
+    /* Scaled slide content */
+    .thumbInner {
+      position: absolute; top: 0; left: 0;
+      width: calc(var(--thumb-w) / var(--thumb-scale));
+      height: calc(var(--thumb-h) / var(--thumb-scale));
+      transform-origin: top left; transform: scale(var(--thumb-scale));
+      pointer-events: none; display: grid; place-items: center; padding: 40px;
+    }
+    .thumbInner h1, .thumbInner h2, .thumbInner h3 { margin: 0; font-size: 48px; line-height: 1.1; text-align: center; }
+    .thumbInner p { margin-top: 12px; font-size: 24px; opacity: .85; text-align: center; }
+
+    /* Number badge */
+    .thumbNum {
+      position: absolute; top: 6px; left: 6px;
+      background: rgba(0,0,0,.55); color: #fff;
+      padding: 2px 8px; font-size: 12px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.2);
+      backdrop-filter: blur(2px);
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <!-- A larger deck so you can see scaling behavior -->
   <div class="reveal">
     <div class="slides">
-      <section><h2>Slide 1</h2><p>Open the 🗺️ Minimap. Click dots to jump.</p></section>
-      <section><h2>Slide 2</h2></section>
-      <section><h2>Slide 3</h2></section>
-      <section><h2>Slide 4</h2></section>
+      <section style="background:#101822;color:#e6f1ff"><h2>Welcome</h2><p>Intro slide</p></section>
+      <section style="background:#f6f7fb;color:#111"><h2>Agenda</h2><ul><li>Topic A</li><li>Topic B</li></ul></section>
+      <section data-background-gradient="linear-gradient(to right, #283e51, #485563)" style="color:#fff"><h2>Gradient</h2></section>
+      <section data-background="https://static.slid.es/reveal/image-placeholder.png" style="color:#fff"><h2>Image</h2></section>
+      <section style="background:#222;color:#fff"><h2>Code</h2><pre><code class="hljs js">console.log("Hello World");</code></pre></section>
+      <section style="background:#121212;color:#eee"><h2>Closing</h2><p>Thank you!</p></section>
+
+      <!-- extra slides -->
+      <section style="background:#234;color:#fff"><h2>Slide 7</h2></section>
+      <section style="background:#345;color:#fff"><h2>Slide 8</h2></section>
+      <section style="background:#456;color:#fff"><h2>Slide 9</h2></section>
+      <section style="background:#567;color:#fff"><h2>Slide 10</h2></section>
+      <section style="background:#678;color:#fff"><h2>Slide 11</h2></section>
+      <section style="background:#789;color:#fff"><h2>Slide 12</h2></section>
+      <section style="background:#89a;color:#fff"><h2>Slide 13</h2></section>
+      <section style="background:#9ab;color:#fff"><h2>Slide 14</h2></section>
+      <section style="background:#abc;color:#111"><h2>Slide 15</h2></section>
+      <section style="background:#bcd;color:#111"><h2>Slide 16</h2></section>
+      <section style="background:#cde;color:#111"><h2>Slide 17</h2></section>
+      <section style="background:#def;color:#111"><h2>Slide 18</h2></section>
+      <section style="background:#fed;color:#111"><h2>Slide 19</h2></section>
+      <section style="background:#edc;color:#111"><h2>Slide 20</h2></section>
     </div>
   </div>
 
   <!-- Minimap UI -->
-  <button id="minimapToggle">🗺️ Minimap</button>
-  <div id="minimap"></div>
+  <button id="minimapToggle" title="Toggle minimap">🗺️ Minimap</button>
+  <div id="minimap" title="Drag me">
+    <div id="miniHeader">
+      <div>Minimap</div>
+      <div><kbd>M</kbd> toggle • click a thumbnail to jump</div>
+    </div>
+    <div id="miniGrid"></div>
+  </div>
 
-  <!-- Scripts (CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
   <script>
     Reveal.initialize({
       controls: true,
       progress: true,
       slideNumber: 'c/t',
-      hash: true,
-      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      hash: true
     });
 
-    const miniBtn = document.getElementById('minimapToggle');
-    const mini = document.getElementById('minimap');
+    const miniBtn  = document.getElementById('minimapToggle');
+    const mini     = document.getElementById('minimap');
+    const miniGrid = document.getElementById('miniGrid');
 
-    function buildMinimap() {
-      mini.innerHTML = '';
-      const slides = Array.from(document.querySelectorAll('.reveal .slides > section'));
-      slides.forEach((s, i) => {
-        const dot = document.createElement('span');
-        dot.className = 'dot';
-        dot.title = (s.querySelector('h2')?.textContent || 'Slide') + ` (#${i+1})`;
-        dot.addEventListener('click', () => Reveal.slide(i));
-        mini.appendChild(dot);
+    /* ------------ Helpers: drag + remember position ------------- */
+    function savePos(key, el){
+      const r = el.getBoundingClientRect();
+      localStorage.setItem(key, JSON.stringify({ left: r.left, top: r.top }));
+    }
+    function loadPos(key, el, fallbackLeft, fallbackTop){
+      const v = localStorage.getItem(key);
+      if(!v){ el.style.left = fallbackLeft; el.style.top = fallbackTop; return; }
+      try{
+        const {left, top} = JSON.parse(v);
+        el.style.left = left + 'px'; el.style.top = top + 'px';
+        el.style.right='auto'; el.style.bottom='auto';
+      }catch{ el.style.left = fallbackLeft; el.style.top = fallbackTop; }
+    }
+    function makeDraggable(el, storageKey, guardSelector){
+      let dragging=false, sx=0, sy=0, sl=0, st=0;
+      el.addEventListener('pointerdown', e=>{
+        // If you start dragging from inside the content grid, ignore (so clicks work)
+        if (guardSelector && e.target.closest(guardSelector)) return;
+        dragging=true;
+        const r=el.getBoundingClientRect();
+        sx=e.clientX; sy=e.clientY; sl=r.left; st=r.top;
       });
+      window.addEventListener('pointermove', e=>{
+        if(!dragging) return;
+        el.style.left = (sl + e.clientX - sx) + 'px';
+        el.style.top  = (st + e.clientY - sy) + 'px';
+        el.style.right='auto'; el.style.bottom='auto';
+      });
+      window.addEventListener('pointerup', ()=>{
+        if(dragging && storageKey) savePos(storageKey, el);
+        dragging=false;
+      });
+      window.addEventListener('pointercancel', ()=> dragging=false);
+    }
+
+    // apply draggable + restore last position
+    makeDraggable(miniBtn, 'minimapTogglePos', null);
+    makeDraggable(mini, 'minimapPanelPos', '#miniGrid');
+    loadPos('minimapTogglePos', miniBtn, '12px', '12px');
+    loadPos('minimapPanelPos', mini, '12px', '56px');
+
+    /* ------------------- Thumbnails ------------------- */
+    function getSlideBackground(slide){
+      const bgImg  = slide.getAttribute('data-background');
+      const grad   = slide.getAttribute('data-background-gradient');
+      if (bgImg) return `center/cover no-repeat url("${bgImg}")`;
+      if (grad) return grad;
+      const cs = getComputedStyle(slide);
+      // Prefer backgroundImage when present
+      if (cs.backgroundImage && cs.backgroundImage !== 'none') return cs.backgroundImage;
+      return cs.backgroundColor || '#222';
+    }
+
+    function buildMinimap(){
+      miniGrid.innerHTML = '';
+      const slides = Array.from(document.querySelectorAll('.reveal .slides > section'));
+
+      slides.forEach((slide, i) => {
+        const t = document.createElement('div'); t.className='thumb'; t.title=`${(slide.querySelector('h1,h2,h3')?.textContent?.trim()||'Slide')} (#${i+1})`;
+        const inner = document.createElement('div'); inner.className='thumbInner'; inner.style.background = getSlideBackground(slide);
+
+        const h = slide.querySelector('h1,h2,h3');
+        const p = slide.querySelector('p');
+        if (h) { const hh = document.createElement(h.tagName); hh.textContent = h.textContent; inner.appendChild(hh); }
+        if (p) { const pp = document.createElement('p'); pp.textContent = p.textContent; inner.appendChild(pp); }
+
+        const num = document.createElement('div'); num.className='thumbNum'; num.textContent = i+1;
+
+        t.appendChild(inner); t.appendChild(num);
+        t.addEventListener('click', ()=> Reveal.slide(i));
+        miniGrid.appendChild(t);
+      });
+
       highlightActive();
     }
 
-    function highlightActive() {
+    function highlightActive(){
       const idx = Reveal.getIndices().h;
-      mini.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      miniGrid.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+      const active = miniGrid.querySelector('.thumb.active');
+      if(active) active.scrollIntoView({ block: 'nearest' });
     }
 
-    miniBtn.addEventListener('click', () => {
-      if (mini.style.display === 'block') {
+    /* --------------- Toggle + Events --------------- */
+    function toggleMinimap(){
+      const open = mini.style.display === 'block';
+      if (open) {
         mini.style.display = 'none';
       } else {
         buildMinimap();
         mini.style.display = 'block';
       }
-    });
-
+    }
+    miniBtn.addEventListener('click', toggleMinimap);
+    document.addEventListener('keydown', e => { if (e.key.toLowerCase() === 'm') toggleMinimap(); });
+    Reveal.on('ready', highlightActive);
     Reveal.on('slidechanged', highlightActive);
   </script>
 </body>

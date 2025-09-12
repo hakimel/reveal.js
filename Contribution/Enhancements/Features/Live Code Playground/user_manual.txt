@@ -1,0 +1,48 @@
+Reveal.js Playground - User Manual
+
+Overview:
+The Playground feature lets you edit code directly within a presentation slide and see the results instantly in a live preview. 
+It is designed to be embedded inside Reveal.js presentations.
+
+How to Use Inside Reveal.js:
+1. Add a Playground Slide:
+   - Create a new <section> element in your Reveal.js slide deck.
+   - Inside it, place a <textarea> with your code (HTML, CSS, or JavaScript).
+   - Add an <iframe> that will display the live output.
+   - Include a "Run ▶" button to refresh the preview.
+
+2. Example Slide Structure:
+   <section>
+     <h2>Live Code Playground</h2>
+     <div class="playground">
+       <div>
+         <textarea id="pgCode"><h1>Hello World</h1></textarea>
+         <button id="pgRun">Run ▶</button>
+       </div>
+       <iframe id="pgOutput"></iframe>
+     </div>
+   </section>
+
+3. JavaScript Initialization:
+   - Add a script in your Reveal.js deck to connect the textarea, button, and iframe:
+     const code = document.getElementById('pgCode');
+     const run = document.getElementById('pgRun');
+     const out = document.getElementById('pgOutput');
+     function go(){ out.srcdoc = code.value; }
+     run.addEventListener('click', go);
+     go(); // auto-run on load
+
+4. Run the Presentation:
+   - Open your Reveal.js deck in a browser.
+   - Navigate to the slide with the Playground.
+   - Edit the code on the left, click "Run ▶", and see changes instantly in the iframe.
+
+Tips:
+- Use multiple Playground slides to show different demos throughout your presentation.
+- Combine with Reveal.js fragments to progressively enhance the demo step-by-step.
+- Keep the code small and focused for clarity during live presentations.
+
+Best Use Cases:
+- Teaching HTML, CSS, and JavaScript basics.
+- Demonstrating live web effects (animations, interactivity).
+- Allowing interactive experiments during talks or lessons.

@@ -2,90 +2,177 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Whiteboard Overlay (Standalone • CDN • Draggable Fix)</title>
+  <title>Reveal.js + Custom Code Playground Slide</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
   <!-- Reveal.js via CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" id="theme">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
 
   <style>
-    :root { --wb-z-ui: 9999; --wb-z-canvas: 9990; }
-
-    /* Draggable toggle button */
-    #whiteboardToggle {
-      position: fixed; top: 12px; right: 12px;
-      z-index: var(--wb-z-ui);
-      cursor: move;
-      padding: 8px 10px; border-radius: 10px;
-      border: 1px solid #444; background: #111; color: #fff;
-      user-select: none;
+    .playground {
+      display: grid; gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
     }
-
-    /* Draggable toolbar */
-    #whiteboardToolbar {
-      position: fixed; top: 56px; right: 12px;
-      z-index: var(--wb-z-ui);
-      display: none;
-      background: rgba(0,0,0,0.6); color: #fff;
-      padding: 8px 10px; border-radius: 8px;
-      backdrop-filter: blur(4px);
-      cursor: move; user-select: none;
-      border: 1px solid rgba(255,255,255,.2);
+    .pg-editor { display: grid; gap: 8px; }
+    .pg-editor textarea {
+      width: 100%; height: 320px;
+      font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: #e6e6e6; background: #1e1e1e;
+      border: 1px solid #333; border-radius: 10px;
+      padding: 10px; resize: vertical;
     }
-    #whiteboardToolbar .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    #whiteboardToolbar label { user-select: none; }
-    #whiteboardToolbar input[type="color"],
-    #whiteboardToolbar input[type="range"] { vertical-align: middle; }
-    #sizeVal { min-width: 2ch; display:inline-block; text-align:right; }
-
-    /* Fullscreen overlay canvas */
-    #whiteboardCanvas {
-      position: fixed; inset: 0;
-      z-index: var(--wb-z-canvas);
-      display: none; cursor: crosshair;
+    .pg-toolbar { display: flex; gap: 8px; align-items: center; }
+    .pg-toolbar button {
+      border: 1px solid #444; background: #2b2b2b; color: #eee;
+      padding: 6px 10px; border-radius: 8px; cursor: pointer;
     }
+    .pg-toolbar button:hover { background: #383838; }
+    .pg-status { margin-left: auto; font-size: 12px; opacity: .8; }
+    .pg-output {
+      width: 100%; height: 340px; border: 1px solid #444;
+      border-radius: 10px; background: #fff;
+    }
+    .pg-fragment-preview { font-size: 12px; opacity: .8; }
   </style>
 </head>
 <body>
-  <!-- Whiteboard UI -->
-  <button id="whiteboardToggle" title="Toggle whiteboard overlay">✏️ Whiteboard</button>
-  <div id="whiteboardToolbar" title="Drag me">
-    <div class="row">
-      <label>Color <input id="wbColor" type="color" value="#ffcc00"></label>
-      <label>Size <input id="wbSize" type="range" min="1" max="30" value="6" step="1">
-        <span id="sizeVal">6</span>px
-      </label>
-      <button id="wbClear">Clear</button>
-      <small>Hotkeys: <b>W</b> toggle • <b>ESC</b> exit</small>
-    </div>
-  </div>
-  <canvas id="whiteboardCanvas"></canvas>
-
-  <!-- Minimal slides to test on -->
   <div class="reveal">
     <div class="slides">
-      <section>
-        <h2>Whiteboard (Standalone)</h2>
-        <p>Click ✏️ to toggle, drag the toggle/toolbar, change brush size, draw, then Clear.</p>
+
+      <!-- Playground slide with updated initial code template -->
+      <section data-playground>
+        <h2>Live Code Playground</h2>
+        <p class="pg-fragment-preview">Click <b>Run ▶</b>, then click the button inside the preview.</p>
+
+        <!-- Initial code template (pure HTML/CSS/JS) -->
+        <script type="text/plain" data-initial>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spinning Color Button</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { display: grid; place-items: center; background: #f4f4f4; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    #magicBtn {
+      padding: 20px 40px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.6s ease, background-color 0.4s ease;
+      will-change: transform, background-color;
+    }
+    .spin { transform: rotate(360deg); }
+  </style>
+</head>
+<body>
+  <button id="magicBtn">Click Me!</button>
+  <script>
+    (function () {
+      const btn = document.getElementById('magicBtn');
+      const colors = ["#03a9f4", "#e91e63", "#4caf50", "#ff9800", "#9c27b0", "#2196f3", "#795548"];
+      let last = -1;
+      btn.addEventListener('click', () => {
+        btn.classList.add('spin');
+        let idx; do { idx = Math.floor(Math.random() * colors.length); } while (idx === last);
+        last = idx;
+        btn.style.backgroundColor = colors[idx];
+        btn.textContent = 'Color: ' + colors[idx];
+        setTimeout(() => btn.classList.remove('spin'), 600);
+      });
+    })();
+  </script>
+</body>
+</html>
+        </script>
+
       </section>
-      <section style="background:#f6f7f9;color:#111"><h2>Light Slide</h2></section>
-      <section style="background:#121212;color:#eee"><h2>Dark Slide</h2></section>
+
+      <section>
+        <h2>Regular Slide</h2>
+        <p>You can add more slides as needed.</p>
+      </section>
+
     </div>
   </div>
 
-  <!-- Reveal.js (CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
 
   <script>
-    // Reveal init
+    // Tiny Playground plugin
+    (function () {
+      function qs(el, sel) { return el.querySelector(sel); }
+      function qsa(el, sel) { return Array.from(el.querySelectorAll(sel)); }
+
+      function buildPlayground(section) {
+        const wrap = document.createElement('div');
+        wrap.className = 'playground';
+
+        const editor = document.createElement('div');
+        editor.className = 'pg-editor';
+
+        const ta = document.createElement('textarea');
+        ta.setAttribute('spellcheck', 'false');
+
+        const toolbar = document.createElement('div');
+        toolbar.className = 'pg-toolbar';
+
+        const runBtn   = document.createElement('button'); runBtn.textContent = 'Run ▶';
+        const resetBtn = document.createElement('button'); resetBtn.textContent = 'Reset ⟲';
+        const status   = document.createElement('span');   status.className = 'pg-status'; status.textContent = 'idle';
+
+        toolbar.append(runBtn, resetBtn, status);
+        editor.append(ta, toolbar);
+
+        const iframe = document.createElement('iframe');
+        iframe.className = 'pg-output';
+        iframe.title = 'Playground Output';
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+
+        wrap.append(editor, iframe);
+        section.append(wrap);
+
+        const initial = qs(section, 'script[type="text/plain"][data-initial]');
+        const baseDoc = (initial && initial.textContent) ? initial.textContent.trim() : '<!doctype html><title>Empty</title>';
+        ta.value = baseDoc;
+
+        function run() {
+          status.textContent = 'running…';
+          iframe.srcdoc = ta.value;
+          setTimeout(() => status.textContent = 'ok', 80);
+        }
+
+        function reset() {
+          ta.value = baseDoc;
+          run();
+        }
+
+        runBtn.addEventListener('click', run);
+        resetBtn.addEventListener('click', reset);
+
+        run(); // autorun once on load
+      }
+
+      function initAll() { qsa(document, 'section[data-playground]').forEach(buildPlayground); }
+
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(initAll, 0);
+      } else {
+        document.addEventListener('DOMContentLoaded', initAll);
+      }
+    })();
+
     Reveal.initialize({
       controls: true,
       progress: true,
@@ -93,123 +180,6 @@
       hash: true,
       plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
     });
-
-    // --- Elements
-    const wbCanvas  = document.getElementById('whiteboardCanvas');
-    const wbCtx     = wbCanvas.getContext('2d');
-    const wbToggle  = document.getElementById('whiteboardToggle');
-    const wbToolbar = document.getElementById('whiteboardToolbar');
-    const wbColor   = document.getElementById('wbColor');
-    const wbSize    = document.getElementById('wbSize');
-    const sizeVal   = document.getElementById('sizeVal');
-    const wbClear   = document.getElementById('wbClear');
-
-    // --- Drag helper (FIXED):
-    // Ignore inputs/buttons INSIDE a draggable container (toolbar),
-    // but DO allow dragging when the draggable element itself is a button (the toggle).
-    function isInteractive(el){ return el.closest('input,select,textarea,button,[contenteditable=""],[contenteditable="true"]'); }
-    function makeDraggable(el){
-      let dragging=false, sx=0, sy=0, sl=0, st=0;
-      el.addEventListener('pointerdown', e=>{
-        // Only block if clicking an interactive descendant.
-        // If the draggable root itself is the button, allow dragging.
-        const interactive = isInteractive(e.target);
-        if (interactive && e.currentTarget !== e.target) return;
-
-        dragging=true;
-        const r=el.getBoundingClientRect();
-        sx=e.clientX; sy=e.clientY; sl=r.left; st=r.top;
-      });
-      window.addEventListener('pointermove', e=>{
-        if(!dragging) return;
-        el.style.left  = (sl + e.clientX - sx) + 'px';
-        el.style.top   = (st + e.clientY - sy) + 'px';
-        el.style.right = 'auto'; el.style.bottom = 'auto';
-      });
-      window.addEventListener('pointerup', ()=> dragging=false);
-      window.addEventListener('pointercancel', ()=> dragging=false);
-    }
-    makeDraggable(wbToggle);
-    makeDraggable(wbToolbar);
-
-    // --- Canvas sizing (CSS px == canvas px)
-    function resizeWB(){
-      wbCanvas.width  = window.innerWidth;
-      wbCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeWB);
-    resizeWB();
-
-    // --- Visibility + hotkeys
-    let wbActive=false;
-    function setWBVisible(v){
-      wbCanvas.style.display  = v ? 'block' : 'none';
-      wbToolbar.style.display = v ? 'block' : 'none';
-      wbActive = v;
-    }
-    function toggleWB(){ setWBVisible(!wbActive); }
-
-    wbToggle.addEventListener('click', toggleWB);
-    document.addEventListener('keydown', e=>{
-      if(e.key === 'Escape' && wbActive) setWBVisible(false);
-      if(e.key.toLowerCase() === 'w') toggleWB();
-    });
-
-    // --- Brush size UI updates (live)
-    function updateSizeLabel(){ sizeVal.textContent = wbSize.value; }
-    wbSize.addEventListener('input', updateSizeLabel);
-    updateSizeLabel();
-
-    // --- Drawing (reads slider value on every move)
-    let drawing=false, lastX=0, lastY=0;
-    wbCanvas.addEventListener('pointerdown', e => { drawing=true; [lastX,lastY]=[e.clientX,e.clientY]; });
-    wbCanvas.addEventListener('pointerup',   () => { drawing=false; });
-    wbCanvas.addEventListener('pointerout',  () => { drawing=false; });
-    wbCanvas.addEventListener('pointermove', e => {
-      if(!drawing) return;
-      wbCtx.strokeStyle = wbColor.value;
-      wbCtx.lineWidth   = Number(wbSize.value);
-      wbCtx.lineCap     = 'round';
-      wbCtx.beginPath();
-      wbCtx.moveTo(lastX, lastY);
-      wbCtx.lineTo(e.clientX, e.clientY);
-      wbCtx.stroke();
-      [lastX,lastY] = [e.clientX, e.clientY];
-    });
-
-    // --- Clear
-    wbClear.addEventListener('click', () => {
-      wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
-    });
-
-    // --- Optional: Auto-contrast UI for light/dark slides
-    function parseRGB(str){ const m=str && str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m?m.slice(1,4).map(Number):null; }
-    function brightness([r,g,b]){ return (r*299 + g*587 + b*114) / 1000; }
-    function applyUI(rgb){
-      if(!rgb) return;
-      if(brightness(rgb) > 128){
-        wbToggle.style.background='#111'; wbToggle.style.color='#fff'; wbToggle.style.border='1px solid #444';
-        wbToolbar.style.background='rgba(0,0,0,0.6)'; wbToolbar.style.color='#fff'; wbToolbar.style.border='1px solid rgba(255,255,255,.2)';
-      } else {
-        wbToggle.style.background='#fff'; wbToggle.style.color='#000'; wbToggle.style.border='1px solid #ddd';
-        wbToolbar.style.background='rgba(255,255,255,0.85)'; wbToolbar.style.color='#000'; wbToolbar.style.border='1px solid rgba(0,0,0,.15)';
-      }
-    }
-    function updateContrast(){
-      const bgEl = document.querySelector('.reveal .backgrounds .slide-background.present');
-      let rgb = null;
-      if(bgEl){
-        const cs = getComputedStyle(bgEl);
-        rgb = parseRGB(cs.backgroundColor);
-        if (rgb && cs.backgroundColor !== 'rgba(0, 0, 0, 0)') return applyUI(rgb);
-      }
-      const slide = Reveal.getCurrentSlide();
-      const cs = slide && getComputedStyle(slide);
-      rgb = parseRGB((cs && cs.backgroundColor) || 'rgb(0,0,0)') || [0,0,0];
-      applyUI(rgb);
-    }
-    Reveal.on('ready', updateContrast);
-    Reveal.on('slidechanged', updateContrast);
   </script>
 </body>
 </html>

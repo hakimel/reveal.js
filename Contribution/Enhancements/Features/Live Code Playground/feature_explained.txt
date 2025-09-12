@@ -1,0 +1,22 @@
+Reveal.js Playground Feature - Language Support
+
+What it is:
+The Playground is a live, interactive code editor embedded inside a Reveal.js presentation. It allows users to type or edit code and run it instantly in a sandboxed preview frame.
+
+Languages Supported:
+- HTML: Runs natively in all browsers. Defines structure and markup of the page.
+- CSS: Runs natively in all browsers. Handles styling, layout, and visual effects.
+- JavaScript: Runs natively in all browsers. Provides interactivity, animations, and logic.
+
+Why these are supported:
+Because the Playground runs directly inside the browser’s iframe (`srcdoc`), only the web’s built-in technologies (HTML, CSS, JavaScript) can be executed without extra tools.
+
+Languages NOT Supported (by default):
+- Python, Java, C, C++, C#, Rust, Go, etc.
+- Reason: Browsers cannot directly execute these languages. They require compilers or interpreters that don’t exist in plain browser environments.
+
+Workarounds:
+- With additional runtimes/transpilers (e.g., Pyodide or Brython for Python, WebAssembly builds for C/Rust/Go), it is possible to add limited support. But this requires including extra libraries and increases complexity.
+
+Conclusion:
+Out of the box, the Playground is meant for experimenting with standard web languages (HTML, CSS, JavaScript). Highlight.js may color-code many programming languages for display, but execution is restricted to what browsers natively support.

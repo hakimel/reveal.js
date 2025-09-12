@@ -1,39 +1,117 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Slide Overlays Demo (CDN)</title>
-  <!-- Reveal.js via CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Slide Overlays Demo (Improved)</title>
+
+  <!-- Reveal.js via CDN (kept same major setup; CDN can be updated later if you want) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css" />
+
   <style>
-    section[data-overlay]{position:relative;overflow:hidden}
-    section[data-overlay]::after{content:"";position:absolute;inset:0;pointer-events:none}
-    section[data-overlay="dark"]::after{background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.15))}
-    section[data-overlay="grid"]::after{background-image:linear-gradient(rgba(255,255,255,.08) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.08) 2px,transparent 2px);background-size:40px 40px,40px 40px}
-    section[data-overlay="dots"]::after{background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:12px 12px}
-    .corner-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);color:#fff;padding:6px 10px;border-radius:999px;font-size:14px}
-    .bottom-ribbon{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,0));color:#fff;padding:8px 12px;font-size:14px}
+    /* =========
+       Overlay system (no plugin)
+       - Each slide can declare one overlay via data-overlay
+       - You can tune overlay intensity with CSS variables set on the section
+         e.g. <section style="--overlay-opacity:.85; --overlay-grid-size:32px">
+       ========= */
+    :root{
+      --overlay-opacity: .9;           /* default intensity */
+      --overlay-fade: 220ms;           /* fade duration */
+      --overlay-grid-size: 40px;       /* px */
+      --overlay-dot-size: 12px;        /* px */
+      --overlay-color-rgb: 255,255,255;/* used by grid/dots */
+      --badge-bg: rgba(0,0,0,.6);
+      --ribbon-bg: linear-gradient(90deg, rgba(0,0,0,.72), rgba(0,0,0,0));
+    }
+
+    /* Base positioning for sections that opt into overlays */
+    section[data-overlay]{ position: relative; overflow: hidden; }
+    section[data-overlay]::after{
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      opacity: var(--overlay-opacity);
+      transition: opacity var(--overlay-fade) ease;
+    }
+
+    /* Overlay types */
+    section[data-overlay="dark"]::after{
+      background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.15));
+    }
+    section[data-overlay="grid"]::after{
+      background-image:
+        linear-gradient(rgba(var(--overlay-color-rgb), .08) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(var(--overlay-color-rgb), .08) 2px, transparent 2px);
+      background-size: var(--overlay-grid-size) var(--overlay-grid-size), var(--overlay-grid-size) var(--overlay-grid-size);
+      background-position: -1px -1px, -1px -1px; /* avoid seams */
+    }
+    section[data-overlay="dots"]::after{
+      background-image: radial-gradient(rgba(var(--overlay-color-rgb), .12) 1px, transparent 1px);
+      background-size: var(--overlay-dot-size) var(--overlay-dot-size);
+    }
+
+    /* Global toggle for overlays */
+    .overlays-off section[data-overlay]::after{ opacity: 0 !important; }
+
+    /* Reduced motion users = no fades */
+    @media (prefers-reduced-motion: reduce){
+      section[data-overlay]::after{ transition: none; }
+    }
+
+    /* Labels */
+    .corner-badge{
+      position: absolute; top: 12px; right: 12px;
+      background: var(--badge-bg); color: #fff; padding: 6px 10px;
+      border-radius: 999px; font-size: 14px; line-height: 1;
+    }
+    .bottom-ribbon{
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: var(--ribbon-bg); color: #fff; padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    /* Small on-screen toggle button */
+    .overlay-toggle{
+      position: fixed; left: 14px; bottom: 14px; z-index: 9999;
+      background: rgba(0,0,0,.65); color: #fff; border: 0; border-radius: 999px;
+      padding: 8px 12px; font: inherit; cursor: pointer;
+    }
+    .overlay-toggle:focus{ outline: 2px solid #66f; outline-offset: 2px; }
+    .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </head>
 <body>
+  <!-- Live region for announcements -->
+  <div class="sr-only" aria-live="polite" id="overlay-announcer"></div>
+
+  <button class="overlay-toggle" type="button" id="overlayToggle" aria-pressed="false" title="Toggle overlays (O)">Overlays: on</button>
+
   <div class="reveal">
     <div class="slides">
+
+      <!-- Example 1: dark overlay + caption -->
       <section data-overlay="dark">
-        <div class="corner-badge">Overlay: dark</div>
+        <div class="corner-badge" role="note" aria-label="Overlay: dark">Overlay: dark</div>
         <h2>Dark Overlay Example</h2>
-        <div class="bottom-ribbon">This is a bottom ribbon caption</div>
+        <p>Use dark when your background image makes text hard to read.</p>
+        <div class="bottom-ribbon" role="note" aria-label="This is a bottom ribbon caption">This is a bottom ribbon caption</div>
       </section>
-      <section data-overlay="grid">
-        <div class="corner-badge">Overlay: grid</div>
+
+      <!-- Example 2: grid overlay with custom density (via CSS vars on the section) -->
+      <section data-overlay="grid" style="--overlay-grid-size:32px; --overlay-opacity:.85; --overlay-color-rgb:255,255,255;">
+        <div class="corner-badge" role="note" aria-label="Overlay: grid">Overlay: grid</div>
         <h2>Grid Overlay Example</h2>
+        <p>Tune <code>--overlay-grid-size</code>, <code>--overlay-opacity</code>, and <code>--overlay-color-rgb</code>.</p>
       </section>
-      <section data-overlay="dots">
-        <div class="corner-badge">Overlay: dots</div>
+
+      <!-- Example 3: dots overlay with custom dot size -->
+      <section data-overlay="dots" style="--overlay-dot-size:10px; --overlay-opacity:.9;">
+        <div class="corner-badge" role="note" aria-label="Overlay: dots">Overlay: dots</div>
         <h2>Dots Overlay Example</h2>
+        <p>Dots are subtle and good for texture without distraction.</p>
       </section>
+
     </div>
   </div>
 
@@ -42,7 +120,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+
   <script>
+    // Initialize Reveal
     Reveal.initialize({
       controls: true,
       progress: true,
@@ -51,8 +131,28 @@
       plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
     });
 
-    // Toggle overlays on/off with 'O'
-    addEventListener('keydown', e => { if(e.key.toLowerCase() === 'o') document.body.classList.toggle('overlays-off'); });
+    // Global overlays toggle (keyboard 'O' + button), with persistence
+    (function(){
+      const STORAGE_KEY = 'overlays.hidden';
+      const btn = document.getElementById('overlayToggle');
+      const announcer = document.getElementById('overlay-announcer');
+
+      function setHidden(hidden){
+        document.body.classList.toggle('overlays-off', hidden);
+        btn.setAttribute('aria-pressed', hidden ? 'true' : 'false');
+        btn.textContent = hidden ? 'Overlays: off' : 'Overlays: on';
+        localStorage.setItem(STORAGE_KEY, hidden ? '1' : '0');
+        announcer.textContent = hidden ? 'Overlays off' : 'Overlays on';
+      }
+
+      function toggle(){ setHidden(!document.body.classList.contains('overlays-off')); }
+
+      // Restore previous state
+      setHidden(localStorage.getItem(STORAGE_KEY) === '1');
+
+      btn.addEventListener('click', toggle);
+      addEventListener('keydown', e => { if(e.key && e.key.toLowerCase() === 'o') toggle(); });
+    })();
   </script>
 </body>
 </html>
