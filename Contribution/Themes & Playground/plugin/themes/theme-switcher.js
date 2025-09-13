@@ -3,7 +3,14 @@
 var RevealThemeSwitcher = window.RevealThemeSwitcher || (function(){
   const { el, keyToggle } = window.RTP_SHARED;
   const THEMES = [
-    'minimal-dark','neon-night','solarized-plus','aurora','paper','oceanic'
+    'minimal-dark','neon-night','solarized-plus','aurora','paper','oceanic','dragula','monokai-pro',
+	'one-dark-pro','nord','cobalt2','shades-of purple','material-darker','night-owl','ayu-mirage','tokyo-night',
+	'horizon-dark','synthwave84','cyberpunk','gruvbox-dark','solarized-light','material-light',
+	'ayu-light','quite-light','one-light','bluloco-light','palenight-light','minimal-light',
+	'papercolor-light','catppuccin-latte','catppuccin-mocha','catppuccin-frappe','catppuccin-macchiato',
+	'rose-pine-dawn','rose-pine-moon','fairyfloss','panda.css','iceberg','nightfox','dayfox',
+	'afterglow','dark-vibrant','challenger-deep','hopscotch','high-contrast-dark','high-contrast-light',
+	'noctis','material-palenight','blackboard','flatland','spacegray'
   ];
   function applyTheme(name) {
     const path = `./plugin/themes/${name}.css`;

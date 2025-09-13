@@ -13,6 +13,8 @@ var RevealPlayground = window.RevealPlayground || (function(){
         el('div', { class: 'rtp-pg-title' }, 'Reveal Code Playground'),
         el('div', { class: 'rtp-pg-actions' }, [
           el('button', { class: 'rtp-small-btn', onclick: run }, 'Run'),
+          el('button', { class: 'rtp-small-btn', onclick: reset }, 'Reset'),
+          el('button', { class: 'rtp-small-btn', onclick: share }, 'Share'),
           el('button', { class: 'rtp-small-btn', onclick: () => toggle(false) }, 'Close')
         ])
       ]),
@@ -58,6 +60,59 @@ var RevealPlayground = window.RevealPlayground || (function(){
     </body></html>`;
     iframe.srcdoc = doc;
   }
+	
+	function reset() {
+    const slide = (typeof Reveal !== 'undefined' && Reveal.getCurrentSlide) ? Reveal.getCurrentSlide() : null;
+
+    // Ensure overlay and textarea elements exist
+    let pg = document.getElementById('rtp-playground');
+    if (!pg) pg = buildOverlay();
+
+    const htmlTA = document.getElementById('rtp-ta-html');
+    const cssTA  = document.getElementById('rtp-ta-css');
+    const jsTA   = document.getElementById('rtp-ta-js');
+
+    if (!htmlTA || !cssTA || !jsTA) return; // defensive
+
+    // If the current slide has data-playground (i.e., it provided preload values), restore them.
+    if (slide && slide.hasAttribute && slide.hasAttribute('data-playground')) {
+      htmlTA.value = slide.getAttribute('data-html') || '';
+      cssTA.value  = slide.getAttribute('data-css')  || '';
+      jsTA.value   = slide.getAttribute('data-js')   || '';
+    } else {
+      // otherwise clear editors
+      htmlTA.value = '';
+      cssTA.value  = '';
+      jsTA.value   = '';
+    }
+
+    // Update preview
+    run();
+  }
+  
+  function share() {
+  const html = document.getElementById('rtp-ta-html').value;
+  const css  = document.getElementById('rtp-ta-css').value;
+  const js   = document.getElementById('rtp-ta-js').value;
+
+  const content = `/* Reveal Playground Code Snippet */\n\n/* HTML */\n${html}\n\n/* CSS */\n${css}\n\n/* JS */\n${js}`;
+
+  // Copy code to clipboard
+  navigator.clipboard.writeText(content).then(() => {
+    console.log("Code copied to clipboard.");
+
+    // Open Codeshare in a new tab
+    window.open('https://codeshare.io/new', '_blank');
+
+    // Show popup reminder
+    setTimeout(() => {
+      alert("✅ Your code is copied!\n\nPlease paste it into the Codeshare editor (Ctrl+V or Cmd+V).");
+    }, 1000);
+  }).catch(err => {
+    console.error("Clipboard copy failed:", err);
+    alert("❌ Failed to copy code. Please copy manually.");
+  });
+}
 
   function mountButton(){
     const bar = document.querySelector('.rtp-floating');
