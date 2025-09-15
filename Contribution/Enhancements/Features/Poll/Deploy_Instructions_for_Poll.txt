@@ -19,15 +19,15 @@ Here are the steps to make the Poll.html file available as a working link on Git
      https://<username>.github.io/reveal.js/Poll.html
    - If you keep it in a nested folder (Contribution/Enhancements/Features/Poll/):
      The live URL will be longer:
-     https://<username>.github.io/reveal.js/Contribution/Enhancements/Features/Poll/Poll.html
+     	Thin link >> https://mohamedrishard.github.io/reveal.js/Contribution/Enhancements/Features/Poll/Poll.html
 
 3. After committing and pushing Poll.html to the correct branch, wait 1–2 minutes for Pages to redeploy.
 
 4. Share the links
    - Host view (for lecturer/presenter):
-     https://<username>.github.io/reveal.js/Poll.html?mode=host&poll=demo-abc
+     >>  https://mohamedrishard.github.io/reveal.js/Contribution/Enhancements/Features/Poll/Poll.html?mode=host&poll=demo-abc
    - Voter view (for audience):
-     https://<username>.github.io/reveal.js/Poll.html?mode=voter&poll=demo-abc
+     >> https://mohamedrishard.github.io/reveal.js/Contribution/Enhancements/Features/Poll/Poll.html?mode=voter&poll=demo-abc
 
 Important:
 - GitHub Pages is case-sensitive. Folder names in the URL must exactly match the repo.
