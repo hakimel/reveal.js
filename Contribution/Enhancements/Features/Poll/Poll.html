@@ -1,1 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Live Poll — Firebase RTDB</title>
 
+  <!-- Optional Reveal.js styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/theme/black.min.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+    // --- Your Firebase config ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCWyWepJTNv3MvRvfuVeTr063O6fug-urQ",
+      authDomain: "webtechnologiespollfeature.firebaseapp.com",
+      databaseURL: "https://webtechnologiespollfeature-default-rtdb.firebaseio.com",
+      projectId: "webtechnologiespollfeature",
+      storageBucket: "webtechnologiespollfeature.firebasestorage.app",
+      messagingSenderId: "354217528493",
+      appId: "1:354217528493:web:8a0b0fe25c88c8f7d90a24",
+      measurementId: "G-4KHLCRBCKN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getDatabase(app);
+
+    // Helpers
+    const qp = (k) => new URL(location.href).searchParams.get(k);
+    const role = (qp('mode') || 'host').toLowerCase(); // host | voter
+    let pollId = (qp('poll') || 'demo-abc').trim();
+
+    // UI refs
+    const totalsEl   = document.getElementById('totals');
+    const liveEl     = document.getElementById('liveRegion');
+    const chartCard  = document.getElementById('hostChartCard');
+    const resetBtn   = document.getElementById('resetPoll');
+    const exportBtn  = document.getElementById('exportResults');
+    const buttons    = [...document.querySelectorAll('button[data-choice]')];
+
+    // Chart state
+    let counts = { A:0, B:0, C:0, D:0 };
+    const ctx   = document.getElementById('pollChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: ['A','B','C','D'], datasets: [{ data:[0,0,0,0] }] },
+      options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }, plugins:{ legend:{ display:false } } }
+    });
+
+    const setPressed = (c) => buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.choice === c ? 'true' : 'false'));
+    const updateUI = () => {
+      chart.data.datasets[0].data = [counts.A, counts.B, counts.C, counts.D];
+      chart.update();
+      const t = counts.A + counts.B + counts.C + counts.D;
+      const pct = (v) => t ? `${Math.round((v/t)*100)}%` : '0%';
+      totalsEl.textContent = `Total: ${t} — A ${counts.A} (${pct(counts.A)}), B ${counts.B} (${pct(counts.B)}), C ${counts.C} (${pct(counts.C)}), D ${counts.D} (${pct(counts.D)})`;
+    };
+
+    // Host: subscribe to all votes
+    function hostSubscribe() {
+      const votesRef = ref(db, `polls/${pollId}/votes`);
+      onValue(votesRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        counts = { A:0, B:0, C:0, D:0 };
+        Object.values(data).forEach(v => { const ch = v?.choice; if (counts[ch] != null) counts[ch]++; });
+        updateUI();
+        liveEl.textContent = 'Poll updated.';
+      });
+    }
+
+    // Voter: cast vote
+    async function voterVote(uid, choice) {
+      const myRef = ref(db, `polls/${pollId}/votes/${uid}`);
+      await set(myRef, { choice, ts: new Date().toISOString() })
+        .then(() => {
+          setPressed(choice);
+          buttons.forEach(b => b.disabled = true);
+          liveEl.textContent = 'Vote submitted.';
+        })
+        .catch((e) => console.warn('Vote failed:', e));
+    }
+
+    // Wire UI
+    function wireUI(uid) {
+      if (role === 'host') {
+        buttons.forEach(b => b.addEventListener('click', () => setPressed(b.dataset.choice)));
+        hostSubscribe();
+      } else {
+        buttons.forEach(b => b.addEventListener('click', () => voterVote(uid, b.dataset.choice)));
+        chartCard.style.display = 'none';
+        resetBtn.style.display  = 'none';
+        exportBtn.style.display = 'none';
+      }
+    }
+
+    // Reset (UI only, for true reset use new pollId)
+    function doResetUI() {
+      counts = { A:0, B:0, C:0, D:0 };
+      setPressed('');
+      updateUI();
+      liveEl.textContent = 'Poll cleared (use new ?poll= for fresh session).';
+    }
+    resetBtn.addEventListener('click', doResetUI);
+
+    // Export results
+    exportBtn.addEventListener('click', () => {
+      const payload = { pollId, exportedAt:new Date().toISOString(), counts, total: counts.A+counts.B+counts.C+counts.D };
+      const blob = new Blob([JSON.stringify(payload,null,2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download=`poll-${pollId}-export.json`; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      liveEl.textContent='Exported current tallies.';
+    });
+
+    // Start
+    signInAnonymously(auth);
+    onAuthStateChanged(auth, (user) => { if (user) wireUI(user.uid); });
+  </script>
+
+  <style>
+    body{ background:#000; color:#fff; }
+    .poll{ display:grid; gap:12px; }
+    .poll-card{ border:1px solid #444; border-radius:12px; padding:14px; background:#0b0b0b; }
+    .poll-controls{ display:flex; flex-wrap:wrap; gap:10px; }
+    button{ padding:10px 12px; border-radius:10px; border:1px solid #444; background:#171717; color:#fff; cursor:pointer; }
+    button[disabled]{ opacity:.5; cursor:not-allowed; }
+    canvas{ width:100%; height:280px; display:block; }
+    .sr-only{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Live Poll</h2>
+        <p class="muted">Anonymous voting via Firebase Realtime Database. One vote per device. Use new <code>?poll=</code> for a reset.</p>
+
+        <div class="poll">
+          <div class="poll-card">
+            <div style="margin-bottom:10px;">
+              <strong>Which option do you prefer?</strong><br/>
+              <span class="muted">Host: <code>?mode=host&poll=demo-abc</code> • Voter: <code>?mode=voter&poll=demo-abc</code></span>
+            </div>
+
+            <div class="poll-controls">
+              <button data-choice="A" aria-pressed="false">A — Alpha</button>
+              <button data-choice="B" aria-pressed="false">B — Beta</button>
+              <button data-choice="C" aria-pressed="false">C — Gamma</button>
+              <button data-choice="D" aria-pressed="false">D — Delta</button>
+              <button id="resetPoll">Reset</button>
+              <button id="exportResults">Export Results</button>
+            </div>
+
+            <div class="poll-card" id="hostChartCard" style="margin-top:12px;">
+              <canvas id="pollChart"></canvas>
+            </div>
+
+            <p id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+            <p id="totals" style="margin-top:8px;"></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
