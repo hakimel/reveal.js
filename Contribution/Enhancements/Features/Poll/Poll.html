@@ -2,35 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-  />
-  <title>Live Poll — Host & Voter (Supabase DB + Realtime)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Live Poll — Firebase RTDB</title>
 
-  <!-- Optional: Reveal.js styles (safe to include; file works without Reveal too) -->
+  <!-- Optional Reveal.js styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/reveal.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/theme/black.min.css" id="theme" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/theme/black.min.css" />
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getDatabase, ref, set, onValue, off } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+    // --- Your Firebase config (from Project Settings) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCWyWepJTNv3MvRvfuVeTr063O6fug-urQ",
+      authDomain: "webtechnologiespollfeature.firebaseapp.com",
+      databaseURL: "https://webtechnologiespollfeature-default-rtdb.firebaseio.com",
+      projectId: "webtechnologiespollfeature",
+      storageBucket: "webtechnologiespollfeature.firebasestorage.app",
+      messagingSenderId: "354217528493",
+      appId: "1:354217528493:web:8a0b0fe25c88c8f7d90a24",
+      measurementId: "G-4KHLCRBCKN"
+    };
+
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getDatabase(app);
+
+    // Helpers
+    const qp = (k) => new URL(location.href).searchParams.get(k);
+    const role = (qp('mode') || 'host').toLowerCase(); // host or voter
+    let pollId = (qp('poll') || 'demo-abc').trim();
+
+    // UI refs
+    const totalsEl   = document.getElementById('totals');
+    const liveEl     = document.getElementById('liveRegion');
+    const chartCard  = document.getElementById('hostChartCard');
+    const resetBtn   = document.getElementById('resetPoll');
+    const exportBtn  = document.getElementById('exportResults');
+    const buttons    = [...document.querySelectorAll('button[data-choice]')];
+
+    // Local counts
+    let counts = { A:0, B:0, C:0, D:0 };
+    const ctx   = document.getElementById('pollChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: ['A','B','C','D'], datasets: [{ data:[0,0,0,0] }] },
+      options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }, plugins:{ legend:{ display:false } } }
+    });
+
+    const setPressed = (c) => buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.choice === c ? 'true' : 'false'));
+    const updateUI = () => {
+      chart.data.datasets[0].data = [counts.A, counts.B, counts.C, counts.D];
+      chart.update();
+      const t = counts.A + counts.B + counts.C + counts.D;
+      const pct = (v) => t ? `${Math.round((v/t)*100)}%` : '0%';
+      totalsEl.textContent = `Total: ${t} — A ${counts.A} (${pct(counts.A)}), B ${counts.B} (${pct(counts.B)}), C ${counts.C} (${pct(counts.C)}), D ${counts.D} (${pct(counts.D)})`;
+    };
+
+    // Host subscribe
+    let unsubscribeRef = null;
+    function hostSubscribe() {
+      const votesRef = ref(db, `polls/${pollId}/votes`);
+      onValue(votesRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        counts = { A:0, B:0, C:0, D:0 };
+        Object.values(data).forEach(v => { const ch = v?.choice; if (counts[ch] != null) counts[ch]++; });
+        updateUI();
+        liveEl.textContent = 'Poll updated.';
+      });
+      unsubscribeRef = votesRef;
+    }
+
+    // Voter vote
+    async function voterVote(uid, choice) {
+      const myRef = ref(db, `polls/${pollId}/votes/${uid}`);
+      await set(myRef, { choice, ts: new Date().toISOString() })
+        .then(() => {
+          setPressed(choice);
+          buttons.forEach(b => b.disabled = true);
+          liveEl.textContent = 'Vote submitted.';
+        })
+        .catch((e) => console.warn('Vote failed:', e));
+    }
+
+    // Wire UI
+    function wireUI(uid) {
+      if (role === 'host') {
+        buttons.forEach(b => b.addEventListener('click', () => setPressed(b.dataset.choice)));
+        hostSubscribe();
+      } else {
+        buttons.forEach(b => b.addEventListener('click', () => voterVote(uid, b.dataset.choice)));
+        chartCard.style.display = 'none';
+        resetBtn.style.display  = 'none';
+        exportBtn.style.display = 'none';
+      }
+    }
+
+    // Reset: new poll ID recommended
+    function doResetUI() {
+      counts = { A:0, B:0, C:0, D:0 };
+      setPressed('');
+      updateUI();
+      liveEl.textContent = 'Poll cleared (use new ?poll= for backend-fresh round).';
+    }
+    resetBtn.addEventListener('click', doResetUI);
+
+    // Export
+    exportBtn.addEventListener('click', () => {
+      const payload = { pollId, exportedAt:new Date().toISOString(), counts, total: counts.A+counts.B+counts.C+counts.D };
+      const blob = new Blob([JSON.stringify(payload,null,2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download=`poll-${pollId}-export.json`; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      liveEl.textContent='Exported current tallies.';
+    });
+
+    // Start
+    signInAnonymously(auth);
+    onAuthStateChanged(auth, (user) => { if (user) wireUI(user.uid); });
+  </script>
 
   <style>
-    :root { --bg:#111; --fg:#fff; --muted:#aaa; --border:#444; --accent:#66f; }
-    body { background:#000; color:var(--fg); }
-    .poll { display:grid; gap:12px; }
-    .poll-controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-    .poll button { padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:#171717; color:var(--fg); cursor:pointer; }
-    .poll button[data-choice]:hover { transform: translateY(-1px); }
-    .poll button[disabled] { opacity:.5; cursor:not-allowed; }
-    .poll button[aria-pressed="true"]{ outline:2px solid var(--accent); outline-offset:2px; }
-    .poll .muted { color:var(--muted); font-size:.95rem; }
-    .poll-card { border:1px solid var(--border); border-radius:12px; padding:14px; background:#0b0b0b; }
-    .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-    .grow { flex:1 1 auto; }
-    canvas { width:100%; height:280px; display:block; }
+    body{ background:#000; color:#fff; }
+    .poll{ display:grid; gap:12px; }
+    .poll-card{ border:1px solid #444; border-radius:12px; padding:14px; background:#0b0b0b; }
+    .poll-controls{ display:flex; flex-wrap:wrap; gap:10px; }
+    button{ padding:10px 12px; border-radius:10px; border:1px solid #444; background:#171717; color:#fff; cursor:pointer; }
+    button[disabled]{ opacity:.5; cursor:not-allowed; }
+    canvas{ width:100%; height:280px; display:block; }
     .sr-only{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
   </style>
 </head>
@@ -39,305 +145,34 @@
     <div class="slides">
       <section>
         <h2>Live Poll</h2>
-        <p class="muted">
-          Anonymous. One vote per device (DB-enforced). Toggle Realtime to sync across devices.
-        </p>
+        <p class="muted">Anonymous voting via Firebase Realtime Database. One vote per user/device. Use new <code>?poll=</code> for fresh round.</p>
 
-        <div id="poll" class="poll" data-poll-id="demo-abc">
+        <div class="poll">
           <div class="poll-card">
-            <div class="row">
-              <div class="grow">
-                <strong>Which option do you prefer?</strong>
-                <div class="muted">Edit this question or the labels below to suit your slide.</div>
-              </div>
-              <label class="muted" style="display:inline-flex;align-items:center;gap:.4rem;">
-                <input type="checkbox" id="realtimeToggle" /> Realtime
-              </label>
+            <div style="margin-bottom:10px;">
+              <strong>Which option do you prefer?</strong><br/>
+              <span class="muted">Voter link: <code>?mode=voter&poll=YOUR-ID</code> • Host link: <code>?mode=host&poll=YOUR-ID</code></span>
             </div>
 
-            <div class="poll-controls" style="margin-top:10px;">
+            <div class="poll-controls">
               <button data-choice="A" aria-pressed="false">A — Alpha</button>
               <button data-choice="B" aria-pressed="false">B — Beta</button>
               <button data-choice="C" aria-pressed="false">C — Gamma</button>
               <button data-choice="D" aria-pressed="false">D — Delta</button>
-              <button id="resetPoll"  title="Reset poll">Reset</button>
-              <button id="exportResults" title="Download history">Export Results</button>
+              <button id="resetPoll">Reset</button>
+              <button id="exportResults">Export Results</button>
             </div>
 
             <div class="poll-card" id="hostChartCard" style="margin-top:12px;">
-              <canvas id="pollChart" aria-label="Bar chart of poll results" role="img"></canvas>
+              <canvas id="pollChart"></canvas>
             </div>
 
             <p id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></p>
-            <p class="muted" id="totals" style="margin-top:8px;"></p>
+            <p id="totals" style="margin-top:8px;"></p>
           </div>
-
-          <!-- Your Supabase project config -->
-          <script>
-            // Replace if you ever rotate keys; these are fine to be public in the browser.
-            window.SUPABASE_CONFIG = {
-              url: "https://kaupcegazlrytozgoamm.supabase.co",
-              anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthdXBjZWdhemxyeXRvemdvYW1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NDY5NDQsImV4cCI6MjA3MzIyMjk0NH0.9yAAhrqlMURndCPnGOhFigM_qX3ObyzLGrsNmCZXS6w"
-            };
-          </script>
         </div>
       </section>
     </div>
   </div>
-
-  <!-- Optional: Reveal.js script (won’t crash if blocked) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/reveal.min.js"></script>
-  <script>
-    try { if (window.Reveal) { Reveal.initialize({ controls:true, progress:true, slideNumber:'c/t', hash:true }); } }
-    catch(e){ console.warn('Reveal init skipped:', e); }
-  </script>
-
-  <script>
-  (function(){
-    // ---------- URL params & roles ----------
-    function qp(name){ try { return new URL(window.location.href).searchParams.get(name); } catch { return null; } }
-    const role = (qp('mode') || 'host').toLowerCase();   // 'host' or 'voter'
-    const root = document.getElementById('poll');
-    if (!root) return;
-
-    // Poll id (?poll=your-id). Use new IDs when you want a truly fresh backend tally.
-    let pollId = (root.dataset.pollId || 'default').trim();
-    if (qp('poll')) pollId = qp('poll');
-
-    // ---------- Stable per-device UUID (DB unique per poll_id + voter_id) ----------
-    const DEVICE_KEY = 'pollDeviceId:v1';
-    let deviceId = localStorage.getItem(DEVICE_KEY);
-    if (!deviceId) {
-      deviceId = (crypto?.randomUUID && crypto.randomUUID()) ||
-                 ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
-      localStorage.setItem(DEVICE_KEY, deviceId);
-    }
-
-    // ---------- Keys & local storage ----------
-    const storageKey = `pollCounts:${pollId}:v2`;     // local mirror of counts (UI)
-    const votedKey   = `pollVoted:${pollId}:v1`;      // local lock: one vote per device per poll
-    const choiceKey  = `pollChoice:${pollId}:v1`;
-    const historyKey = `pollHistory:${pollId}:v1`;
-    const rtKey      = `pollRealtime:${pollId}`;
-
-    function loadCounts(){ try{ const r=localStorage.getItem(storageKey); if(!r) return {A:0,B:0,C:0,D:0}; const p=JSON.parse(r); return {A:p.A||0,B:p.B||0,C:p.C||0,D:p.D||0}; } catch{ return {A:0,B:0,C:0,D:0}; } }
-    function saveCounts(c){ localStorage.setItem(storageKey, JSON.stringify(c)); }
-    function loadHistory(){ try{ return JSON.parse(localStorage.getItem(historyKey))||[]; } catch{ return []; } }
-    function saveHistory(h){ localStorage.setItem(historyKey, JSON.stringify(h)); }
-    function markVoted(choice){ localStorage.setItem(votedKey, '1'); localStorage.setItem(choiceKey, choice); }
-    function clearVoted(){ localStorage.removeItem(votedKey); localStorage.removeItem(choiceKey); }
-    function hasVoted(){ return localStorage.getItem(votedKey) === '1'; }
-    function votedChoice(){ return localStorage.getItem(choiceKey) || ''; }
-
-    // ---------- State ----------
-    let counts = loadCounts();
-
-    // ---------- Chart (host only visible) ----------
-    const chartCtx = document.getElementById('pollChart').getContext('2d');
-    const colors = ['#60a5fa','#f87171','#34d399','#fbbf24'];
-    let chart = new Chart(chartCtx, {
-      type: 'bar',
-      data: { labels: ['A','B','C','D'], datasets: [{ label:'Votes', data:[counts.A,counts.B,counts.C,counts.D], backgroundColor: colors }] },
-      options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }, plugins:{ legend:{ display:false } } }
-    });
-
-    // ---------- DOM refs ----------
-    const buttons   = root.querySelectorAll('button[data-choice]');
-    const totalsEl  = document.getElementById('totals');
-    const liveRegion= document.getElementById('liveRegion');
-    const chartCard = document.getElementById('hostChartCard');
-    const resetBtn  = document.getElementById('resetPoll');
-    const exportBtn = document.getElementById('exportResults');
-    const toggle    = document.getElementById('realtimeToggle');
-
-    // ---------- Helpers ----------
-    function totalVotes(){ return counts.A + counts.B + counts.C + counts.D; }
-    function setPressed(choice){ buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.choice === choice ? 'true' : 'false')); }
-    function updateButtonsDisabled(){
-      const locked = (role === 'voter') && hasVoted();
-      buttons.forEach(b => b.disabled = locked);
-      if (locked) setPressed(votedChoice());
-    }
-    function updateUI(){
-      chart.data.datasets[0].data = [counts.A,counts.B,counts.C,counts.D];
-      chart.update();
-      const t = totalVotes();
-      const pct = v => t ? `${Math.round((v/t)*100)}%` : '0%';
-      totalsEl.textContent = `Total: ${t} — A ${counts.A} (${pct(counts.A)}), B ${counts.B} (${pct(counts.B)}), C ${counts.C} (${pct(counts.C)}), D ${counts.D} (${pct(counts.D)})`;
-      liveRegion.textContent = 'Poll updated.';
-    }
-    function snapshot(meta={reason:'manual'}){
-      const entry = { ts:new Date().toISOString(), counts:{...counts}, total: totalVotes(), ...meta };
-      const hist = loadHistory(); hist.push(entry); saveHistory(hist); return entry;
-    }
-    function download(name, text, type="application/json"){
-      const blob = new Blob([text], { type }); const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = name; a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
-    function toCSVRow(obj){ return Object.values(obj).map(v => String(v).replaceAll('"','""')).map(v => `"${v}"`).join(','); }
-
-    // ---------- Supabase client & realtime ----------
-    let supabaseClient = null;
-    let changesChannel = null;   // DB row INSERTs
-    let ctrlChannel    = null;   // broadcast resets
-
-    function canSupabase(){ return !!(window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url && window.SUPABASE_CONFIG.anonKey); }
-
-    async function connectSupabase(){
-      if (!canSupabase()) return;
-      if (!supabaseClient) {
-        const { url, anonKey } = window.SUPABASE_CONFIG;
-        supabaseClient = window.supabase?.createClient(url, anonKey);
-      }
-
-      // 1) Host hydrates counts from backend truth
-      if (role === 'host') {
-        const { data, error } = await supabaseClient.rpc('poll_counts', { p_id: pollId });
-        if (!error && Array.isArray(data)) {
-          counts = { A:0, B:0, C:0, D:0 };
-          for (const row of data) { if (counts[row.choice] != null) counts[row.choice] = Number(row.count) || 0; }
-          saveCounts(counts); updateUI();
-        }
-      }
-
-      // 2) Subscribe to DB INSERTs for this poll (live updates for host)
-      if (!changesChannel) {
-        changesChannel = supabaseClient
-          .channel('realtime:poll-votes:' + pollId)
-          .on('postgres_changes', {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'votes',
-            filter: `poll_id=eq.${pollId}`
-          }, (payload) => {
-            const ch = payload?.new?.choice;
-            if (role === 'host' && ch && counts[ch] != null) {
-              counts[ch]++; saveCounts(counts); updateUI();
-            }
-          })
-          .subscribe();
-      }
-
-      // 3) Lightweight broadcast channel for resets (so voters unlock instantly)
-      if (!ctrlChannel) {
-        ctrlChannel = supabaseClient
-          .channel('ctrl:' + pollId)
-          .on('broadcast', { event: 'reset' }, () => {
-            if (role === 'host') return; // host performs the reset itself
-            clearVoted(); updateButtonsDisabled(); setPressed('');
-          })
-          .subscribe();
-      }
-    }
-
-    function disconnectSupabase(){
-      if (supabaseClient) {
-        try {
-          if (changesChannel) supabaseClient.removeChannel(changesChannel);
-          if (ctrlChannel)    supabaseClient.removeChannel(ctrlChannel);
-        } catch {}
-      }
-      changesChannel = null; ctrlChannel = null;
-      // keep client;
-    }
-
-    // ---------- Voting (DB-backed) ----------
-    async function castVote(choice, { enforceOneVote = true } = {}) {
-      if (role === 'voter' && enforceOneVote && hasVoted()) return;
-
-      // Voters write to DB; DB constraint enforces 1 vote per device per poll
-      if (role === 'voter') {
-        if (!supabaseClient) await connectSupabase();
-        const { error } = await supabaseClient
-          .from('votes')
-          .insert({ poll_id: pollId, voter_id: deviceId, choice }, { returning: 'minimal' });
-
-        // Ignore duplicate constraint errors (already voted)
-        const dup = error && (String(error.code) === '23505' || /duplicate|unique/i.test(error.message));
-        if (error && !dup) { console.warn('Vote insert failed:', error); return; }
-
-        markVoted(choice); updateButtonsDisabled(); setPressed(choice);
-        liveRegion.textContent = 'Vote submitted.';
-        return; // Host will increment on INSERT via realtime
-      }
-
-      // Host clicking its own buttons (optional; usually you don't)
-      counts[choice]++; saveCounts(counts); setPressed(choice); updateUI();
-    }
-
-    function doLocalResetUI(){
-      counts = {A:0,B:0,C:0,D:0};
-      saveCounts(counts);
-      clearVoted();
-      buttons.forEach(b => b.disabled = false);
-      setPressed('');
-      updateUI();
-    }
-
-    async function resetPoll(){
-      // Snapshot locally (for export history), then clear the host UI
-      snapshot({ reason:'reset' });
-      doLocalResetUI();
-
-      // Broadcast a reset so voters unlock immediately
-      try {
-        if (supabaseClient && ctrlChannel) {
-          ctrlChannel.send({ type:'broadcast', event:'reset', payload:{} });
-        }
-      } catch (e) { console.warn('Reset broadcast failed:', e); }
-
-      // NOTE: We DON’T delete rows from DB with anon key (for security).
-      // For a true backend reset, RECOMMENDED: change pollId (use ?poll=new-id)
-      // or add a server-side admin endpoint (service key) to archive/clear.
-    }
-
-    // ---------- Wire UI ----------
-    if (role === 'voter') {
-      buttons.forEach(btn => btn.addEventListener('click', () => castVote(btn.dataset.choice)));
-      document.getElementById('hostChartCard').style.display = 'none';
-      resetBtn.style.display = 'none';
-      exportBtn.style.display = 'none';
-    } else {
-      buttons.forEach(btn => btn.addEventListener('click', () => castVote(btn.dataset.choice)));
-    }
-
-    resetBtn.addEventListener('click', resetPoll);
-    exportBtn.addEventListener('click', () => {
-      snapshot({ reason:'export' });
-      const history = loadHistory();
-      const payload = { pollId, exportedAt:new Date().toISOString(), current:{ counts:{...counts}, total: totalVotes() }, history };
-      download(`poll-${pollId}-history.json`, JSON.stringify(payload, null, 2));
-      const header = ['ts','reason','total','A','B','C','D'];
-      const rows = history.map(h => ({ ts:h.ts, reason:h.reason||'', total:h.total||0, A:h.counts.A, B:h.counts.B, C:h.counts.C, D:h.counts.D }));
-      const csv = [header.join(',')].concat(rows.map(r => toCSVRow(r))).join('\n');
-      download(`poll-${pollId}-history.csv`, csv, 'text/csv');
-      liveRegion.textContent = 'Results exported.';
-    });
-
-    // First paint & lock state
-    updateUI();
-    updateButtonsDisabled();
-
-    // Reveal resize fix
-    const resizeChart = () => chart.resize();
-    if (window.Reveal && typeof Reveal.on === 'function') {
-      Reveal.on('ready', resizeChart); Reveal.on('slidechanged', resizeChart);
-    } else { window.addEventListener('load', resizeChart); }
-
-    // ---------- Realtime toggle ----------
-    if (role === 'voter') { toggle.checked = true; toggle.disabled = true; }
-    else { try { toggle.checked = localStorage.getItem(rtKey) === 'on'; } catch {} }
-
-    toggle.addEventListener('change', () => {
-      try { localStorage.setItem(rtKey, toggle.checked ? 'on' : 'off'); } catch {}
-      if (toggle.checked) connectSupabase(); else disconnectSupabase();
-    });
-
-    if (toggle.checked && canSupabase()) connectSupabase();
-    if (toggle.checked && !canSupabase()) console.warn('Realtime ON but Supabase config missing.');
-  })();
-  </script>
 </body>
 </html>
