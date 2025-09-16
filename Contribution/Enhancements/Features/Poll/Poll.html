@@ -3,22 +3,109 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Live Poll — Firebase RTDB</title>
+  <title>Live Poll — Editable (Firebase RTDB)</title>
 
-  <!-- Optional Reveal.js styles -->
+  <!-- Optional Reveal.js styles (page works without Reveal, too) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/reveal.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.2/theme/black.min.css" />
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
-  <!-- Firebase SDKs -->
+  <style>
+    :root { --fg:#fff; --muted:#aaa; --border:#444; --bg:#000; }
+    body{ background:var(--bg); color:var(--fg); }
+    .poll{ display:grid; gap:12px; }
+    .poll-card{ border:1px solid var(--border); border-radius:12px; padding:14px; background:#0b0b0b; }
+    .poll-controls{ display:flex; flex-wrap:wrap; gap:10px; }
+    button{ padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:#171717; color:var(--fg); cursor:pointer; }
+    button[disabled]{ opacity:.55; cursor:not-allowed; }
+    input[type="text"], input[type="number"]{ padding:8px 10px; border-radius:8px; border:1px solid var(--border); background:#111; color:var(--fg); width:100%; }
+    label{ font-size:.95rem; color:var(--muted); }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .col{ display:flex; flex-direction:column; gap:6px; width:100%; } /* full width rows */
+    .grid{ display:grid; gap:10px; }
+    .grid-1{ grid-template-columns: 1fr; } /* single column: one item per line */
+    .sr-only{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+    canvas{ width:100%; height:300px; display:block; }
+    .muted{ color:var(--muted); }
+    .divider{ height:1px; background:var(--border); margin:10px 0; }
+    .spacer{ flex:1 1 auto; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Live Poll</h2>
+        <p class="muted">Edit the question & options in <code>host</code> mode. Share the <code>voter</code> link with your audience.</p>
+
+        <div class="poll">
+          <!-- Host-only: Edit Panel (hidden until Edit is toggled) -->
+          <div id="editPanel" class="poll-card" style="display:none;">
+            <!-- Question (full line) -->
+            <div class="col">
+              <label>Poll Question</label>
+              <input id="qInput" type="text" placeholder="Type your question…" maxlength="200" />
+            </div>
+
+            <!-- Number of options (full line) -->
+            <div class="col">
+              <label>Number of options (2–8)</label>
+              <input id="nInput" type="number" min="2" max="8" step="1" value="4" />
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Options (one per line) -->
+            <div id="optionsGrid" class="grid grid-1">
+              <!-- Option inputs injected here, one per row -->
+            </div>
+
+            <div class="row" style="justify-content:flex-end;">
+              <button id="saveConfig">Save Config</button>
+            </div>
+            <p id="editNote" class="muted" style="margin:8px 0 0;"></p>
+          </div>
+
+          <!-- Poll UI -->
+          <div class="poll-card">
+            <div class="row" style="align-items:flex-end;">
+              <div>
+                <strong id="questionText">Which option do you prefer?</strong><br/>
+                <span class="muted">Links → Host: <code>?mode=host&poll=YOUR-ID</code> • Voter: <code>?mode=voter&poll=YOUR-ID</code></span>
+              </div>
+              <div class="spacer"></div>
+              <div class="row">
+                <button id="toggleEdit" style="display:none;">Edit</button>
+                <button id="resetPoll" title="UI reset (use new ?poll= for backend-fresh round)">Reset</button>
+                <button id="exportResults">Export Results</button>
+              </div>
+            </div>
+
+            <div id="buttonsWrap" class="poll-controls" style="margin-top:10px;">
+              <!-- Vote buttons injected here -->
+            </div>
+
+            <div id="hostChartCard" class="poll-card" style="margin-top:12px;">
+              <canvas id="pollChart" aria-label="Bar chart of poll results" role="img"></canvas>
+            </div>
+
+            <p id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+            <p id="totals" class="muted" style="margin-top:8px;"></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs at the end so DOM is ready -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-    // --- Your Firebase config ---
+    // Your Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyCWyWepJTNv3MvRvfuVeTr063O6fug-urQ",
       authDomain: "webtechnologiespollfeature.firebaseapp.com",
@@ -30,146 +117,242 @@
       measurementId: "G-4KHLCRBCKN"
     };
 
+    // Init
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db   = getDatabase(app);
 
-    // Helpers
+    // URL params
     const qp = (k) => new URL(location.href).searchParams.get(k);
-    const role = (qp('mode') || 'host').toLowerCase(); // host | voter
-    let pollId = (qp('poll') || 'demo-abc').trim();
+    const role  = (qp('mode') || 'host').toLowerCase();   // 'host' or 'voter'
+    const pollId = (qp('poll') || 'demo-abc').trim();
 
-    // UI refs
-    const totalsEl   = document.getElementById('totals');
-    const liveEl     = document.getElementById('liveRegion');
-    const chartCard  = document.getElementById('hostChartCard');
-    const resetBtn   = document.getElementById('resetPoll');
-    const exportBtn  = document.getElementById('exportResults');
-    const buttons    = [...document.querySelectorAll('button[data-choice]')];
+    // DOM refs
+    const editPanel  = document.getElementById('editPanel');
+    const qInput     = document.getElementById('qInput');
+    const nInput     = document.getElementById('nInput');
+    const optionsGrid= document.getElementById('optionsGrid');
+    const saveBtn    = document.getElementById('saveConfig');
+    const editNote   = document.getElementById('editNote');
+
+    const questionText = document.getElementById('questionText');
+    const buttonsWrap  = document.getElementById('buttonsWrap');
+    const chartCard    = document.getElementById('hostChartCard');
+    const resetBtn     = document.getElementById('resetPoll');
+    const exportBtn    = document.getElementById('exportResults');
+    const totalsEl     = document.getElementById('totals');
+    const liveEl       = document.getElementById('liveRegion');
+    const toggleEditBtn= document.getElementById('toggleEdit');
+
+    // Admin state
+    let adminUid = null;
+    let isAdmin  = false;
 
     // Chart state
-    let counts = { A:0, B:0, C:0, D:0 };
-    const ctx   = document.getElementById('pollChart').getContext('2d');
-    const chart = new Chart(ctx, {
-      type: 'bar',
-      data: { labels: ['A','B','C','D'], datasets: [{ data:[0,0,0,0] }] },
-      options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }, plugins:{ legend:{ display:false } } }
-    });
+    let options = ["Alpha","Beta","Gamma","Delta"];  // default if no config yet
+    let counts = [];
+    let chart  = null;
 
-    const setPressed = (c) => buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.choice === c ? 'true' : 'false'));
-    const updateUI = () => {
-      chart.data.datasets[0].data = [counts.A, counts.B, counts.C, counts.D];
+    // Helpers
+    const alphaLabel = (i) => String.fromCharCode(65 + i); // 0->A, 1->B ...
+    const clamp      = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+    function rebuildChart() {
+      counts = new Array(options.length).fill(0);
+      const ctx = document.getElementById('pollChart').getContext('2d');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: options.map((_,i)=>alphaLabel(i)), datasets: [{ data: counts }] },
+        options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }, plugins:{ legend:{ display:false } } }
+      });
+      updateUI();
+    }
+
+    function updateUI() {
+      chart.data.labels = options.map((_,i)=>alphaLabel(i));
+      chart.data.datasets[0].data = counts;
       chart.update();
-      const t = counts.A + counts.B + counts.C + counts.D;
+      const t = counts.reduce((a,b)=>a+b,0);
       const pct = (v) => t ? `${Math.round((v/t)*100)}%` : '0%';
-      totalsEl.textContent = `Total: ${t} — A ${counts.A} (${pct(counts.A)}), B ${counts.B} (${pct(counts.B)}), C ${counts.C} (${pct(counts.C)}), D ${counts.D} (${pct(counts.D)})`;
-    };
+      const parts = counts.map((v,i)=> `${alphaLabel(i)} ${v} (${pct(v)})`);
+      totalsEl.textContent = `Total: ${t} — ${parts.join(', ')}`;
+    }
 
-    // Host: subscribe to all votes
-    function hostSubscribe() {
-      const votesRef = ref(db, `polls/${pollId}/votes`);
-      onValue(votesRef, (snapshot) => {
-        const data = snapshot.val() || {};
-        counts = { A:0, B:0, C:0, D:0 };
-        Object.values(data).forEach(v => { const ch = v?.choice; if (counts[ch] != null) counts[ch]++; });
+    function renderButtons(uid) {
+      buttonsWrap.innerHTML = '';
+      options.forEach((text, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `${alphaLabel(i)} — ${text}`;
+        btn.dataset.choice = String(i);
+        btn.addEventListener('click', () => voterVote(uid, i));
+        buttonsWrap.appendChild(btn);
+      });
+    }
+
+    // Options inputs: one per line
+    function renderOptionInputs() {
+      const n = clamp(Number(nInput.value || 4), 2, 8);
+      optionsGrid.innerHTML = '';
+      for (let i=0; i<n; i++) {
+        const wrap = document.createElement('div');
+        wrap.className = 'col';               // full width row
+        const lab = document.createElement('label');
+        lab.textContent = `Option ${alphaLabel(i)}`;
+        const inp = document.createElement('input');
+        inp.type = 'text'; inp.maxLength = 60;
+        inp.value = options[i] || `Option ${alphaLabel(i)}`;
+        inp.id = `opt-${i}`;
+        inp.disabled = !isAdmin;
+        wrap.appendChild(lab);
+        wrap.appendChild(inp);
+        optionsGrid.appendChild(wrap);
+      }
+      qInput.disabled = !isAdmin;
+      nInput.disabled = !isAdmin;
+      saveBtn.disabled = !isAdmin;
+      editNote.textContent = isAdmin
+        ? 'You are the admin for this poll.'
+        : 'View-only: only the admin can save changes.';
+    }
+
+    async function saveConfig(uid) {
+      // First writer of adminUid becomes admin
+      if (!adminUid) {
+        await set(ref(db, `polls/${pollId}/adminUid`), uid).catch(()=>{});
+      }
+      const n = clamp(Number(nInput.value || 4), 2, 8);
+      const newOpts = [];
+      for (let i=0; i<n; i++) {
+        const v = (document.getElementById(`opt-${i}`)?.value || '').trim();
+        newOpts.push(v || `Option ${alphaLabel(i)}`);
+      }
+      const q = (qInput.value || 'Which option do you prefer?').trim();
+      await set(ref(db, `polls/${pollId}/config`), { question: q, options: newOpts })
+        .then(()=> editNote.textContent = 'Config saved.')
+        .catch(e => editNote.textContent = `Save failed: ${e?.message || e}`);
+    }
+
+    function applyConfig(cfg) {
+      const q = (cfg?.question || 'Which option do you prefer?');
+      const arr = Array.isArray(cfg?.options) && cfg.options.length >= 2
+        ? cfg.options.slice(0,8)
+        : options;
+      options = arr;
+      questionText.textContent = q;
+      rebuildChart();
+    }
+
+    function subscribeToConfigAndVotes(uid) {
+      // Config
+      onValue(ref(db, `polls/${pollId}/config`), (snap) => {
+        const cfg = snap.val();
+        applyConfig(cfg);
+
+        // Buttons by role
+        if (role === 'voter') {
+          renderButtons(uid);
+          chartCard.style.display = 'none';
+          resetBtn.style.display = 'none';
+          exportBtn.style.display = 'none';
+          toggleEditBtn.style.display = 'none';
+        } else {
+          renderButtons(uid); // host can also vote if desired
+        }
+      });
+
+      // Votes
+      onValue(ref(db, `polls/${pollId}/votes`), (snap) => {
+        const data = snap.val() || {};
+        counts = new Array(options.length).fill(0);
+        Object.values(data).forEach(v => {
+          const idx = Number(v?.choice);
+          if (Number.isInteger(idx) && idx >= 0 && idx < options.length) counts[idx]++;
+        });
         updateUI();
         liveEl.textContent = 'Poll updated.';
       });
     }
 
-    // Voter: cast vote
-    async function voterVote(uid, choice) {
+    async function voterVote(uid, idx) {
       const myRef = ref(db, `polls/${pollId}/votes/${uid}`);
-      await set(myRef, { choice, ts: new Date().toISOString() })
+      await set(myRef, { choice: idx, ts: new Date().toISOString() })
         .then(() => {
-          setPressed(choice);
-          buttons.forEach(b => b.disabled = true);
+          [...buttonsWrap.querySelectorAll('button')].forEach(b => b.disabled = true);
           liveEl.textContent = 'Vote submitted.';
         })
-        .catch((e) => console.warn('Vote failed:', e));
+        .catch(e => console.warn('Vote failed:', e));
     }
 
-    // Wire UI
-    function wireUI(uid) {
-      if (role === 'host') {
-        buttons.forEach(b => b.addEventListener('click', () => setPressed(b.dataset.choice)));
-        hostSubscribe();
-      } else {
-        buttons.forEach(b => b.addEventListener('click', () => voterVote(uid, b.dataset.choice)));
-        chartCard.style.display = 'none';
-        resetBtn.style.display  = 'none';
-        exportBtn.style.display = 'none';
-      }
+    // Toggle edit mode button
+    function wireToggleEdit(uid) {
+      if (role !== 'host') return;
+      toggleEditBtn.style.display = 'inline-block';
+      toggleEditBtn.addEventListener('click', () => {
+        const open = editPanel.style.display !== 'none';
+        editPanel.style.display = open ? 'none' : 'block';
+      });
     }
 
-    // Reset (UI only, for true reset use new pollId)
+    async function hydrateAdmin(uid) {
+      const snap = await get(ref(db, `polls/${pollId}/adminUid`));
+      adminUid = snap.exists() ? snap.val() : null;
+      isAdmin  = !adminUid || adminUid === uid; // first host or the stored admin
+    }
+
+    async function wireEditPanel(uid) {
+      if (role !== 'host') { editPanel.style.display = 'none'; return; }
+      await hydrateAdmin(uid);
+
+      // hydrate inputs from current config
+      const cfgSnap = await get(ref(db, `polls/${pollId}/config`));
+      const cfg = cfgSnap.val() || { question: 'Which option do you prefer?', options };
+      qInput.value = cfg.question || 'Which option do you prefer?';
+      nInput.value = Array.isArray(cfg.options) ? clamp(cfg.options.length, 2, 8) : 4;
+      options = Array.isArray(cfg.options) && cfg.options.length ? cfg.options : options;
+
+      renderOptionInputs();
+      nInput.addEventListener('change', renderOptionInputs);
+      saveBtn.addEventListener('click', () => {
+        if (!isAdmin) { editNote.textContent = 'Only the admin can save.'; return; }
+        saveConfig(uid);
+      });
+    }
+
     function doResetUI() {
-      counts = { A:0, B:0, C:0, D:0 };
-      setPressed('');
-      updateUI();
-      liveEl.textContent = 'Poll cleared (use new ?poll= for fresh session).';
+      counts = new Array(options.length).fill(0);
+      rebuildChart();
+      [...buttonsWrap.querySelectorAll('button')].forEach(b => b.disabled = false);
+      liveEl.textContent = 'Poll cleared (use new ?poll= for a backend-fresh round).';
     }
     resetBtn.addEventListener('click', doResetUI);
 
-    // Export results
     exportBtn.addEventListener('click', () => {
-      const payload = { pollId, exportedAt:new Date().toISOString(), counts, total: counts.A+counts.B+counts.C+counts.D };
-      const blob = new Blob([JSON.stringify(payload,null,2)], { type:'application/json' });
+      const payload = {
+        pollId,
+        exportedAt: new Date().toISOString(),
+        question: questionText.textContent,
+        options,
+        counts,
+        total: counts.reduce((a,b)=>a+b,0)
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
       const url = URL.createObjectURL(blob);
-      const a=document.createElement('a'); a.href=url; a.download=`poll-${pollId}-export.json`; a.click();
-      setTimeout(()=>URL.revokeObjectURL(url),1000);
-      liveEl.textContent='Exported current tallies.';
+      const a = document.createElement('a'); a.href = url; a.download = `poll-${pollId}-export.json`; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+      liveEl.textContent = 'Exported current tallies.';
     });
 
     // Start
     signInAnonymously(auth);
-    onAuthStateChanged(auth, (user) => { if (user) wireUI(user.uid); });
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      const uid = user.uid;
+
+      wireToggleEdit(uid);         // show the Edit button for host
+      await wireEditPanel(uid);    // prepare edit panel (enable/disable based on admin)
+      subscribeToConfigAndVotes(uid);
+    });
   </script>
-
-  <style>
-    body{ background:#000; color:#fff; }
-    .poll{ display:grid; gap:12px; }
-    .poll-card{ border:1px solid #444; border-radius:12px; padding:14px; background:#0b0b0b; }
-    .poll-controls{ display:flex; flex-wrap:wrap; gap:10px; }
-    button{ padding:10px 12px; border-radius:10px; border:1px solid #444; background:#171717; color:#fff; cursor:pointer; }
-    button[disabled]{ opacity:.5; cursor:not-allowed; }
-    canvas{ width:100%; height:280px; display:block; }
-    .sr-only{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
-  </style>
-</head>
-<body>
-  <div class="reveal">
-    <div class="slides">
-      <section>
-        <h2>Live Poll</h2>
-        <p class="muted">Anonymous voting via Firebase Realtime Database. One vote per device. Use new <code>?poll=</code> for a reset.</p>
-
-        <div class="poll">
-          <div class="poll-card">
-            <div style="margin-bottom:10px;">
-              <strong>Which option do you prefer?</strong><br/>
-              <span class="muted">Host: <code>?mode=host&poll=demo-abc</code> • Voter: <code>?mode=voter&poll=demo-abc</code></span>
-            </div>
-
-            <div class="poll-controls">
-              <button data-choice="A" aria-pressed="false">A — Alpha</button>
-              <button data-choice="B" aria-pressed="false">B — Beta</button>
-              <button data-choice="C" aria-pressed="false">C — Gamma</button>
-              <button data-choice="D" aria-pressed="false">D — Delta</button>
-              <button id="resetPoll">Reset</button>
-              <button id="exportResults">Export Results</button>
-            </div>
-
-            <div class="poll-card" id="hostChartCard" style="margin-top:12px;">
-              <canvas id="pollChart"></canvas>
-            </div>
-
-            <p id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></p>
-            <p id="totals" style="margin-top:8px;"></p>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
 </body>
 </html>
