@@ -468,6 +468,24 @@ export default class SlideContent {
 
 		let iframe = event.target;
 
+		if( this.Reveal.getConfig().preventIframeAutoFocus ) {
+
+			let elapsed = 0;
+			const interval = 100;
+			const maxTime = 1000;
+			const checkFocus = () => {
+				if( document.activeElement === iframe ) {
+					document.activeElement.blur();
+				} else if( elapsed < maxTime ) {
+					elapsed += interval;
+					setTimeout( checkFocus, interval );
+				}
+			};
+
+			setTimeout( checkFocus, interval );
+
+		}
+
 		if( iframe && iframe.contentWindow ) {
 
 			let isAttachedToDOM = !!closest( event.target, 'html' ),

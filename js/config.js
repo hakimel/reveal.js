@@ -168,6 +168,9 @@ export default {
 	// - false:  All iframes with data-src will be loaded only when visible
 	preloadIframes: null,
 
+	// Prevent embedded iframes from automatically focusing on themselves
+	preventIframeAutoFocus: true,
+
 	// Can be used to globally disable auto-animation
 	autoAnimate: true,
 
