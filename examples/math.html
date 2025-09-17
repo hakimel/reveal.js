@@ -20,7 +20,7 @@
 
 				<section>
 					<h2>reveal.js Math Plugin</h2>
-					<p>Render math with KaTeX, MathJax 2 or MathJax 3</p>
+					<p>Render math with KaTeX, MathJax 2, MathJax 3 or MathJax 4</p>
 				</section>
 
 				<section>
@@ -169,6 +169,7 @@
 						\[L^2(\R) = \set{u : \R \to \R}{\int_\R |u|^2 &lt; +\infty}\]
 						used in functional analysis.
 					</section>
+
 				</section>
 
 			</div>
@@ -182,6 +183,8 @@
 				history: true,
 				transition: 'linear',
 
+				// MathJax2 configuration (commented out)
+				/*
 				mathjax2: {
 					config: 'TeX-AMS_HTML-full',
 					TeX: {
@@ -191,14 +194,42 @@
 						}
 					}
 				},
+				*/
 
-				// There are three typesetters available
+				// MathJax4 configuration
+				mathjax4: {
+					tex: {
+						inlineMath: [['$', '$'], ['\\(', '\\)']],
+						displayMath: [['$$', '$$'], ['\\[', '\\]']],
+						macros: {
+							R: '\\mathbb{R}',
+							set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2]
+						}
+					},
+					options: {
+						skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+					},
+					output: {
+						font: 'mathjax-stix2',
+						displayOverflow: 'linebreak',
+						linebreaks: {             // options for when overflow is linebreak
+							inline: true,              // true for browser-based breaking of inline equations
+							width: '100%',             // a fixed size or a percentage of the container width
+							lineleading: .2,           // the default lineleading in em units
+							LinebreakVisitor: null     // The LinebreakVisitor to use
+						}
+					}
+				},
+
+				// There are four typesetters available
 				// RevealMath.MathJax2 (default)
 				// RevealMath.MathJax3
+				// RevealMath.MathJax4
 				// RevealMath.KaTeX
 				//
+				// This example uses MathJax4 with macros support
 				// More info at https://revealjs.com/math/
-				plugins: [ RevealMath.MathJax2 ]
+				plugins: [ RevealMath.MathJax4 ]
 			});
 		</script>
 
