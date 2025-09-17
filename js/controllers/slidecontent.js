@@ -16,6 +16,7 @@ export default class SlideContent {
 		this.Reveal = Reveal;
 
 		this.startEmbeddedIframe = this.startEmbeddedIframe.bind( this );
+		this.preventIframeAutoFocus = this.preventIframeAutoFocus.bind( this );
 		this.ensureMobileMediaPlaying = this.ensureMobileMediaPlaying.bind( this );
 
 	}
@@ -62,12 +63,17 @@ export default class SlideContent {
 			slide.style.display = displayValue;
 		}
 
-		// Media elements with data-src attributes
+		// Media and iframe elements with data-src attributes
 		queryAll( slide, 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ).forEach( element => {
-			if( element.tagName !== 'IFRAME' || this.shouldPreload( element ) ) {
+			const isIframe = element.tagName === 'IFRAME';
+			if( !isIframe || this.shouldPreload( element ) ) {
 				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 				element.setAttribute( 'data-lazy-loaded', '' );
 				element.removeAttribute( 'data-src' );
+
+				if( isIframe ) {
+					element.addEventListener( 'load', this.preventIframeAutoFocus );
+				}
 			}
 		} );
 
@@ -468,6 +474,8 @@ export default class SlideContent {
 
 		let iframe = event.target;
 
+		this.preventIframeAutoFocus( event );
+
 		if( iframe && iframe.contentWindow ) {
 
 			let isAttachedToDOM = !!closest( event.target, 'html' ),
@@ -532,6 +540,7 @@ export default class SlideContent {
 			// Generic postMessage API for non-lazy loaded iframes
 			queryAll( element, 'iframe' ).forEach( el => {
 				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
+				el.removeEventListener( 'load', this.preventIframeAutoFocus );
 				el.removeEventListener( 'load', this.startEmbeddedIframe );
 			});
 
@@ -570,6 +579,37 @@ export default class SlideContent {
 	isNotAllowedToPlay() {
 
 		return !this.allowedToPlay;
+
+	}
+
+	/**
+	 * Prevents iframes from automatically focusing themselves.
+	 *
+	 * @param {Event} event
+	 */
+	preventIframeAutoFocus( event ) {
+
+		const iframe = event.target;
+
+		console.log(111)
+
+		if( iframe && this.Reveal.getConfig().preventIframeAutoFocus ) {
+
+			let elapsed = 0;
+			const interval = 100;
+			const maxTime = 1000;
+			const checkFocus = () => {
+				if( document.activeElement === iframe ) {
+					document.activeElement.blur();
+				} else if( elapsed < maxTime ) {
+					elapsed += interval;
+					setTimeout( checkFocus, interval );
+				}
+			};
+
+			setTimeout( checkFocus, interval );
+
+		}
 
 	}
 
