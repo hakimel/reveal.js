@@ -55,22 +55,40 @@
 <head>
   <meta charset="utf-8" />
   <style>
-    body { font-family: system-ui,sans-serif; padding: 24px; }
-    .box { width: 120px; height: 120px; border-radius: 12px;
-           display: grid; place-items: center; border: 2px solid #222; }
+    body { 
+      font-family: system-ui, sans-serif; 
+      padding: 24px; 
+    }
+    .box { 
+      width: 120px; 
+      height: 120px; 
+      border-radius: 12px;
+      display: grid; 
+      place-items: center; 
+      border: 2px solid #222; 
+      background: hsl(0, 80%, 80%); /* Initial background color */
+      color: #222; /* Text color for visibility */
+      font-size: 24px; /* Larger font for readability */
+      user-select: none; /* Prevent text selection */
+      cursor: pointer; /* Indicate clickability */
+    }
   </style>
 </head>
 <body>
-  <h3>Hello, Playground!</h3>
+  <h3>Hello Playground!</h3>
   <div class="box" id="b">Click me</div>
   <script>
     const b = document.getElementById('b');
     let n = 0;
-    b.addEventListener('click', ()=>{
-      n++; b.style.transform = `rotate(${n*15}deg)`;
-      b.style.background = `hsl(${(n*40)%360} 80% 80%)`;
-      b.textContent = n;
-    });
+    
+    if (b) { // Check if element exists
+      b.addEventListener('click', () => {
+        n = (n + 1) % 360; // Reset n after 360 clicks to prevent overflow
+        b.style.transform = `rotate(${n * 15}deg)`;
+        b.style.background = `hsl(${(n * 40) % 360}, 80%, 80%)`;
+        b.textContent = n || 'Click me'; // Show 'Click me' when n resets to 0
+      });
+    }
   </script>
 </body>
 </html>
