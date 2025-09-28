@@ -2,9 +2,6 @@
 let data = {
   global: {
     theme: "white",
-    fontFamily: "Arial, Helvetica, sans-serif",
-    fontSize: "32px",
-    textColor: "#000000",
     customThemeCss: ""
   },
   slides: []
@@ -42,16 +39,12 @@ function bindUI() {
 
   document.getElementById('undo').addEventListener('click', undo);
   document.getElementById('redo').addEventListener('click', redo);
-  document.getElementById('save-json').addEventListener('click', saveJson);
-  document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-json').click());
-  document.getElementById('import-json').addEventListener('change', importJson);
   document.getElementById('export-html').addEventListener('click', exportHtml);
   document.getElementById('export-pdf').addEventListener('click', exportPdf);
   document.getElementById('play-deck').addEventListener('click', playDeck);
 
   window.addEventListener('keydown', (ev) => {
     const mod = (ev.ctrlKey || ev.metaKey);
-    if (mod && ev.key === 's') { ev.preventDefault(); saveJson(); return; }
     if (mod && ev.key === 'n' && !ev.shiftKey) { ev.preventDefault(); addSlide(); return; }
     if (mod && ev.shiftKey && ev.key.toLowerCase() === 'n') { ev.preventDefault(); document.getElementById('new-deck').click(); return; }
     if (mod && ev.key === 'z') { ev.preventDefault(); undo(); return; }
@@ -63,7 +56,6 @@ function bindUI() {
 function addSlide() {
   const newSlide = {
     id: Date.now() + Math.floor(Math.random() * 1000),
-    background: { type: "image", value: "" },
     transition: "none",
     notes: "",
     elements: []
@@ -208,42 +200,6 @@ function updateGlobalPanel() {
     console.log('Theme changed to:', data.global.theme);
     change();
   };
-
-  panel.appendChild(createLabel('Font family:'));
-  const fontInput = document.createElement('input');
-  fontInput.value = data.global.fontFamily;
-  fontInput.onchange = () => {
-    data.global.fontFamily = fontInput.value;
-    console.log('Font family changed to:', data.global.fontFamily);
-    change();
-  };
-  panel.appendChild(fontInput);
-
-  panel.appendChild(createLabel('Font size (e.g. 28px):'));
-  const sizeInput = document.createElement('input');
-  sizeInput.value = data.global.fontSize;
-  sizeInput.onchange = () => {
-    const val = sizeInput.value;
-    if (/^\d+px$/.test(val)) {
-      data.global.fontSize = val;
-      console.log('Font size changed to:', data.global.fontSize);
-      change();
-    } else {
-      alert('Please enter a valid font size (e.g., 28px)');
-    }
-  };
-  panel.appendChild(sizeInput);
-
-  panel.appendChild(createLabel('Text color:'));
-  const colorInput = document.createElement('input');
-  colorInput.type = 'color';
-  colorInput.value = data.global.textColor;
-  colorInput.onchange = () => {
-    data.global.textColor = colorInput.value;
-    console.log('Text color changed to:', data.global.textColor);
-    change();
-  };
-  panel.appendChild(colorInput);
 }
 
 function createLabel(text) {
@@ -263,23 +219,6 @@ function updateEditPanel() {
     return;
   }
   const slide = data.slides[currentSlideIndex];
-
-  panel.appendChild(createLabel('Background type:'));
-  const bgSelect = document.createElement('select');
-  ['color', 'image', 'gradient'].forEach(t => {
-    const opt = new Option(t, t);
-    if (t === slide.background.type) opt.selected = true;
-    bgSelect.add(opt);
-  });
-  bgSelect.onchange = () => { slide.background.type = bgSelect.value; updateEditPanel(); change(); };
-  panel.appendChild(bgSelect);
-
-  panel.appendChild(createLabel('Background value:'));
-  const bgValue = document.createElement('input');
-  bgValue.value = slide.background.value || '';
-  bgValue.placeholder = slide.background.type === 'color' ? '#hex or color name' : (slide.background.type === 'image' ? 'https://...' : 'linear-gradient(...)');
-  bgValue.onchange = () => { slide.background.value = bgValue.value; change(); };
-  panel.appendChild(bgValue);
 
   panel.appendChild(createLabel('Transition:'));
   const transSelect = document.createElement('select');
@@ -310,10 +249,10 @@ function updateEditPanel() {
   addBtn.onclick = () => {
     const type = addSelect.value;
     let newElem;
-    if (type === 'bullets') newElem = { type, items: ['New point'], animation: 'none', fontSize: '32px', color: '#000000' };
-    else if (type === 'image') newElem = { type, src: '', alt: '', animation: 'none' };
+    if (type === 'bullets') newElem = { type, items: ['New point'], animation: 'none', position: { top: '0px', left: '0px' }, fontSize: '1em', fontFamily: 'Arial', color: '#000000' };
+    else if (type === 'image') newElem = { type, src: '', alt: '', animation: 'none', width: '80%', position: { top: '0px', left: '0px' } };
     else if (type === 'video') newElem = { type, src: '', controls: true, animation: 'none' };
-    else newElem = { type, text: 'Edit me', animation: 'none', fontSize: '32px', color: '#000000' };
+    else newElem = { type, text: 'Edit me', animation: 'none', position: { top: '0px', left: '0px' }, fontSize: '1em', fontFamily: 'Arial', color: '#000000', ...(type === 'text' ? { align: 'center' } : {}) };
     slide.elements.push(newElem);
     updateEditPanel();
     change();
@@ -354,7 +293,8 @@ function createElementEditor(elem, eIndex) {
     if (eIndex <= 0) return;
     const arr = data.slides[currentSlideIndex].elements;
     [arr[eIndex - 1], arr[eIndex]] = [arr[eIndex], arr[eIndex - 1]];
-    updateEditPanel(); change();
+    updateEditPanel();
+    change();
   };
   controls.appendChild(up);
 
@@ -364,7 +304,8 @@ function createElementEditor(elem, eIndex) {
     const arr = data.slides[currentSlideIndex].elements;
     if (eIndex >= arr.length - 1) return;
     [arr[eIndex], arr[eIndex + 1]] = [arr[eIndex + 1], arr[eIndex]];
-    updateEditPanel(); change();
+    updateEditPanel();
+    change();
   };
   controls.appendChild(down);
 
@@ -379,54 +320,152 @@ function createElementEditor(elem, eIndex) {
     if (a === elem.animation) opt.selected = true;
     animSelect.add(opt);
   });
-  animSelect.onchange = () => { elem.animation = animSelect.value; change(); };
+  animSelect.onchange = () => { elem.animation = animSelect.value; updatePreview(true); saveState(); };
   wrapper.appendChild(animSelect);
 
-  if (['title', 'subtitle', 'text'].includes(elem.type)) {
-    const inp = document.createElement('input');
-    inp.value = elem.text || '';
-    inp.onchange = () => { elem.text = inp.value; change(); };
-    wrapper.appendChild(inp);
+  // Position controls for all relevant element types
+  if (['title', 'subtitle', 'text', 'bullets', 'image'].includes(elem.type)) {
+    const positionControls = document.createElement('div');
+    positionControls.style.display = 'flex';
+    positionControls.style.gap = '8px';
+    positionControls.style.marginTop = '8px';
 
-    const fontSizeControls = document.createElement('div');
-    fontSizeControls.style.display = 'flex';
-    fontSizeControls.style.gap = '8px';
-    fontSizeControls.style.marginTop = '8px';
-
-    const increaseFontBtn = document.createElement('button');
-    increaseFontBtn.textContent = 'Increase Font';
-    increaseFontBtn.onclick = () => {
-      const currentSize = parseInt(elem.fontSize || data.global.fontSize);
-      elem.fontSize = `${currentSize + 2}px`;
+    const moveUpBtn = document.createElement('button');
+    moveUpBtn.textContent = '↑ Up';
+    moveUpBtn.onclick = () => {
+      const currentTop = parseInt(elem.position?.top || '0px');
+      elem.position = elem.position || { top: '0px', left: '0px' };
+      elem.position.top = `${currentTop - 10}px`;
       updateEditPanel();
-      change();
+      updatePreview(true);
+      saveState();
     };
-    fontSizeControls.appendChild(increaseFontBtn);
+    positionControls.appendChild(moveUpBtn);
 
-    const decreaseFontBtn = document.createElement('button');
-    decreaseFontBtn.textContent = 'Decrease Font';
-    decreaseFontBtn.onclick = () => {
-      const currentSize = parseInt(elem.fontSize || data.global.fontSize);
-      if (currentSize > 10) {
-        elem.fontSize = `${currentSize - 2}px`;
+    const moveDownBtn = document.createElement('button');
+    moveDownBtn.textContent = '↓ Down';
+    moveDownBtn.onclick = () => {
+      const currentTop = parseInt(elem.position?.top || '0px');
+      elem.position = elem.position || { top: '0px', left: '0px' };
+      elem.position.top = `${currentTop + 10}px`;
+      updateEditPanel();
+      updatePreview(true);
+      saveState();
+    };
+    positionControls.appendChild(moveDownBtn);
+
+    const moveLeftBtn = document.createElement('button');
+    moveLeftBtn.textContent = '← Left';
+    moveLeftBtn.onclick = () => {
+      const currentLeft = parseInt(elem.position?.left || '0px');
+      elem.position = elem.position || { top: '0px', left: '0px' };
+      elem.position.left = `${currentLeft - 10}px`;
+      updateEditPanel();
+      updatePreview(true);
+      saveState();
+    };
+    positionControls.appendChild(moveLeftBtn);
+
+    const moveRightBtn = document.createElement('button');
+    moveRightBtn.textContent = '→ Right';
+    moveRightBtn.onclick = () => {
+      const currentLeft = parseInt(elem.position?.left || '0px');
+      elem.position = elem.position || { top: '0px', left: '0px' };
+      elem.position.left = `${currentLeft + 10}px`;
+      updateEditPanel();
+      updatePreview(true);
+      saveState();
+    };
+    positionControls.appendChild(moveRightBtn);
+    wrapper.appendChild(positionControls);
+  }
+
+  // Font size, style, color, and alignment controls for title, subtitle, text, bullets
+  if (['title', 'subtitle', 'text', 'bullets'].includes(elem.type)) {
+    const fontControls = document.createElement('div');
+    fontControls.style.display = 'flex';
+    fontControls.style.gap = '8px';
+    fontControls.style.marginTop = '8px';
+
+    const increaseSizeBtn = document.createElement('button');
+    increaseSizeBtn.textContent = 'Increase Size';
+    increaseSizeBtn.onclick = () => {
+      const currentSize = parseFloat(elem.fontSize || '1');
+      elem.fontSize = `${currentSize + 0.1}em`;
+      updateEditPanel();
+      updatePreview(true);
+      saveState();
+    };
+    fontControls.appendChild(increaseSizeBtn);
+
+    const decreaseSizeBtn = document.createElement('button');
+    decreaseSizeBtn.textContent = 'Decrease Size';
+    decreaseSizeBtn.onclick = () => {
+      const currentSize = parseFloat(elem.fontSize || '1');
+      if (currentSize > 0.2) {
+        elem.fontSize = `${currentSize - 0.1}em`;
         updateEditPanel();
-        change();
+        updatePreview(true);
+        saveState();
       }
     };
-    fontSizeControls.appendChild(decreaseFontBtn);
+    fontControls.appendChild(decreaseSizeBtn);
 
-    const colorLabel = createLabel('Text color:');
+    const fontSelect = document.createElement('select');
+    ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond'].forEach(f => {
+      const opt = new Option(f, f);
+      if (f === elem.fontFamily) opt.selected = true;
+      fontSelect.add(opt);
+    });
+    fontSelect.onchange = () => {
+      elem.fontFamily = fontSelect.value;
+      updateEditPanel();
+      updatePreview(true);
+      saveState();
+    };
+    fontControls.appendChild(fontSelect);
+
+    const colorLabel = createLabel('Text Color:');
     const colorInput = document.createElement('input');
     colorInput.type = 'color';
     colorInput.value = elem.color || '#000000';
     colorInput.onchange = () => {
       elem.color = colorInput.value;
       updateEditPanel();
-      change();
+      updatePreview(true);
+      saveState();
     };
-    wrapper.appendChild(colorLabel);
-    wrapper.appendChild(colorInput);
-    wrapper.appendChild(fontSizeControls);
+    fontControls.appendChild(colorLabel);
+    fontControls.appendChild(colorInput);
+
+    // Alignment control only for text elements
+    if (elem.type === 'text') {
+      const alignLabel = createLabel('Text Alignment:');
+      const alignSelect = document.createElement('select');
+      ['left', 'center', 'right'].forEach(a => {
+        const opt = new Option(a, a);
+        if (a === (elem.align || 'center')) opt.selected = true;
+        alignSelect.add(opt);
+      });
+      alignSelect.onchange = () => {
+        elem.align = alignSelect.value;
+        updateEditPanel();
+        updatePreview(true);
+        saveState();
+      };
+      fontControls.appendChild(alignLabel);
+      fontControls.appendChild(alignSelect);
+    }
+
+    wrapper.appendChild(fontControls);
+  }
+
+  if (['title', 'subtitle', 'text'].includes(elem.type)) {
+    const inp = document.createElement('input');
+    inp.value = elem.text || '';
+    inp.style.textTransform = 'none'; // Prevent automatic capitalization
+    inp.oninput = () => { elem.text = inp.value; updatePreview(true); saveState(); };
+    wrapper.appendChild(inp);
   } else if (elem.type === 'bullets') {
     const ul = document.createElement('div');
     elem.items.forEach((it, i) => {
@@ -435,71 +474,74 @@ function createElementEditor(elem, eIndex) {
       row.style.gap = '8px';
       const bIn = document.createElement('input');
       bIn.value = it;
-      bIn.onchange = () => { elem.items[i] = bIn.value; change(); };
+      bIn.style.textTransform = 'none'; // Prevent automatic capitalization
+      bIn.oninput = () => { elem.items[i] = bIn.value; updatePreview(true); saveState(); };
       const delB = document.createElement('button');
       delB.textContent = 'Del';
-      delB.onclick = () => { elem.items.splice(i, 1); updateEditPanel(); change(); };
+      delB.onclick = () => { elem.items.splice(i, 1); updateEditPanel(); updatePreview(true); saveState(); };
       row.appendChild(bIn);
       row.appendChild(delB);
       ul.appendChild(row);
     });
     const addB = document.createElement('button');
     addB.textContent = 'Add Bullet';
-    addB.onclick = () => { elem.items.push('New point'); updateEditPanel(); change(); };
+    addB.onclick = () => { elem.items.push('New point'); updateEditPanel(); updatePreview(true); saveState(); };
     wrapper.appendChild(ul);
     wrapper.appendChild(addB);
+  } else if (elem.type === 'image') {
+    const src = document.createElement('input');
+    src.placeholder = 'Image URL';
+    src.value = elem.src || '';
+    src.oninput = () => { elem.src = src.value; updatePreview(true); saveState(); };
+    wrapper.appendChild(src);
 
-    const fontSizeControls = document.createElement('div');
-    fontSizeControls.style.display = 'flex';
-    fontSizeControls.style.gap = '8px';
-    fontSizeControls.style.marginTop = '8px';
+    const alt = document.createElement('input');
+    alt.placeholder = 'Alt text';
+    alt.value = elem.alt || '';
+    alt.oninput = () => { elem.alt = alt.value; updatePreview(true); saveState(); };
+    wrapper.appendChild(alt);
 
-    const increaseFontBtn = document.createElement('button');
-    increaseFontBtn.textContent = 'Increase Font';
-    increaseFontBtn.onclick = () => {
-      const currentSize = parseInt(elem.fontSize || data.global.fontSize);
-      elem.fontSize = `${currentSize + 2}px`;
+    // Image size controls
+    const sizeControls = document.createElement('div');
+    sizeControls.style.display = 'flex';
+    sizeControls.style.gap = '8px';
+    sizeControls.style.marginTop = '8px';
+
+    const increaseSizeBtn = document.createElement('button');
+    increaseSizeBtn.textContent = 'Increase Size';
+    increaseSizeBtn.onclick = () => {
+      const currentWidth = parseInt(elem.width || '80%');
+      elem.width = `${currentWidth + 10}%`;
       updateEditPanel();
-      change();
+      updatePreview(true);
+      saveState();
     };
-    fontSizeControls.appendChild(increaseFontBtn);
+    sizeControls.appendChild(increaseSizeBtn);
 
-    const decreaseFontBtn = document.createElement('button');
-    decreaseFontBtn.textContent = 'Decrease Font';
-    decreaseFontBtn.onclick = () => {
-      const currentSize = parseInt(elem.fontSize || data.global.fontSize);
-      if (currentSize > 10) {
-        elem.fontSize = `${currentSize - 2}px`;
+    const decreaseSizeBtn = document.createElement('button');
+    decreaseSizeBtn.textContent = 'Decrease Size';
+    decreaseSizeBtn.onclick = () => {
+      const currentWidth = parseInt(elem.width || '80%');
+      if (currentWidth > 10) {
+        elem.width = `${currentWidth - 10}%`;
         updateEditPanel();
-        change();
+        updatePreview(true);
+        saveState();
       }
     };
-    fontSizeControls.appendChild(decreaseFontBtn);
-
-    const colorLabel = createLabel('Text color:');
-    const colorInput = document.createElement('input');
-    colorInput.type = 'color';
-    colorInput.value = elem.color || '#000000';
-    colorInput.onchange = () => {
-      elem.color = colorInput.value;
-      updateEditPanel();
-      change();
-    };
-    wrapper.appendChild(colorLabel);
-    wrapper.appendChild(colorInput);
-    wrapper.appendChild(fontSizeControls);
-  } else if (elem.type === 'image') {
-    const src = document.createElement('input'); src.placeholder = 'Image URL'; src.value = elem.src || '';
-    src.onchange = () => { elem.src = src.value; change(); };
-    const alt = document.createElement('input'); alt.placeholder = 'Alt text'; alt.value = elem.alt || '';
-    alt.onchange = () => { elem.alt = alt.value; change(); };
-    wrapper.appendChild(src); wrapper.appendChild(alt);
+    sizeControls.appendChild(decreaseSizeBtn);
+    wrapper.appendChild(sizeControls);
   } else if (elem.type === 'video') {
-    const vsrc = document.createElement('input'); vsrc.placeholder = 'Video URL'; vsrc.value = elem.src || '';
-    vsrc.onchange = () => { elem.src = vsrc.value; change(); };
-    const ctrl = document.createElement('input'); ctrl.type = 'checkbox'; ctrl.checked = !!elem.controls;
-    ctrl.onchange = () => { elem.controls = ctrl.checked; change(); };
-    const ctrlLabel = document.createElement('span'); ctrlLabel.textContent = ' Show controls';
+    const vsrc = document.createElement('input');
+    vsrc.placeholder = 'Video URL';
+    vsrc.value = elem.src || '';
+    vsrc.oninput = () => { elem.src = vsrc.value; updatePreview(true); saveState(); };
+    const ctrl = document.createElement('input');
+    ctrl.type = 'checkbox';
+    ctrl.checked = !!elem.controls;
+    ctrl.onchange = () => { elem.controls = ctrl.checked; updatePreview(true); saveState(); };
+    const ctrlLabel = document.createElement('span');
+    ctrlLabel.textContent = ' Show controls';
     wrapper.appendChild(vsrc);
     wrapper.appendChild(ctrl);
     wrapper.appendChild(ctrlLabel);
@@ -510,7 +552,7 @@ function createElementEditor(elem, eIndex) {
 
 /* --------------- Preview generation & interactivity --------------- */
 function change() {
-  updatePreview();
+  updatePreview(true);
   saveState();
 }
 
@@ -579,18 +621,18 @@ function handlePreviewClick(e) {
   if (el.tagName === 'LI' && slide.elements[elemIdx] && slide.elements[elemIdx].type === 'bullets') {
     const itemIdx = Number(el.dataset.item);
     const newVal = prompt('Edit bullet:', slide.elements[elemIdx].items[itemIdx]);
-    if (newVal !== null) { slide.elements[elemIdx].items[itemIdx] = newVal; change(); updateEditPanel(); }
+    if (newVal !== null) { slide.elements[elemIdx].items[itemIdx] = newVal; updateEditPanel(); updatePreview(true); saveState(); }
   } else if (slide.elements[elemIdx]) {
     const elem = slide.elements[elemIdx];
     if (['title', 'subtitle', 'text'].includes(elem.type)) {
       const newVal = prompt('Edit text:', elem.text);
-      if (newVal !== null) { elem.text = newVal; change(); updateEditPanel(); }
+      if (newVal !== null) { elem.text = newVal; updateEditPanel(); updatePreview(true); saveState(); }
     } else if (elem.type === 'image') {
       const newVal = prompt('Edit image URL:', elem.src);
-      if (newVal !== null) { elem.src = newVal; change(); updateEditPanel(); }
+      if (newVal !== null) { elem.src = newVal; updateEditPanel(); updatePreview(true); saveState(); }
     } else if (elem.type === 'video') {
       const newVal = prompt('Edit video URL:', elem.src);
-      if (newVal !== null) { elem.src = newVal; change(); updateEditPanel(); }
+      if (newVal !== null) { elem.src = newVal; updateEditPanel(); updatePreview(true); saveState(); }
     }
   }
 }
@@ -616,27 +658,24 @@ function generateRevealHtml() {
   }
 
   const style = `<style>
-    .reveal, .reveal .slides {
-      font-family: ${escapeHtml(data.global.fontFamily)} !important;
-      font-size: ${escapeHtml(data.global.fontSize)} !important;
-      color: ${escapeHtml(data.global.textColor)} !important;
-    }
-    .reveal .slides h1, .reveal .slides h2, .reveal .slides p, .reveal .slides ul, .reveal .slides li {
-      font-family: ${escapeHtml(data.global.fontFamily)} !important;
-    }
-    .reveal .slides img { max-width: 80%; height: auto; display: block; margin: 0.6em 0; }
+    .reveal .slides img { max-width: 80%; height: auto; display: block; margin: 0.6em 0; position: relative; }
     .reveal .slides video { max-width: 90%; display: block; margin: 0.6em 0; }
     ${data.slides.map((slide, sIndex) => slide.elements.map((elem, eIndex) => {
       let styles = '';
       if (['title', 'subtitle', 'text', 'bullets'].includes(elem.type)) {
-        if (elem.fontSize) {
+        styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+          ${elem.position ? `position: relative; top: ${escapeHtml(elem.position.top || '0px')}; left: ${escapeHtml(elem.position.left || '0px')};` : ''}
+          font-size: ${escapeHtml(elem.fontSize || '1em')};
+          font-family: ${escapeHtml(elem.fontFamily || 'Arial')};
+          color: ${escapeHtml(elem.color || '#000000')};
+          text-transform: none;
+          ${elem.type === 'text' && elem.align ? `text-align: ${escapeHtml(elem.align)};` : ''}
+        }`;
+      } else if (elem.type === 'image') {
+        if (elem.width || elem.position) {
           styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
-            font-size: ${escapeHtml(elem.fontSize)} !important;
-          }`;
-        }
-        if (elem.color) {
-          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
-            color: ${escapeHtml(elem.color)} !important;
+            max-width: ${escapeHtml(elem.width || '80%')} !important;
+            ${elem.position ? `position: relative; top: ${escapeHtml(elem.position.top || '0px')}; left: ${escapeHtml(elem.position.left || '0px')};` : ''}
           }`;
         }
       }
@@ -645,12 +684,6 @@ function generateRevealHtml() {
   </style>`;
 
   const slidesHtml = data.slides.map((slide, sIndex) => {
-    let bgAttr = '';
-    if (slide.background) {
-      if (slide.background.type === 'color') bgAttr = `data-background-color="${escapeAttr(slide.background.value || '')}"`;
-      if (slide.background.type === 'image') bgAttr = `data-background-image="${escapeAttr(slide.background.value || '')}"`;
-      if (slide.background.type === 'gradient') bgAttr = `data-background-gradient="${escapeAttr(slide.background.value || '')}"`;
-    }
     const transAttr = `data-transition="${escapeAttr(slide.transition || 'none')}"`;
     const elementsHtml = (slide.elements || []).map((elem, eIndex) => {
       const frag = elem.animation && elem.animation !== 'none' ? `class="fragment ${escapeAttr(elem.animation)}"` : '';
@@ -670,7 +703,7 @@ function generateRevealHtml() {
       }
     }).join('');
     const notesHtml = slide.notes ? `<aside class="notes">${escapeHtml(slide.notes)}</aside>` : '';
-    return `<section ${bgAttr} ${transAttr}>${elementsHtml}${notesHtml}</section>`;
+    return `<section ${transAttr}>${elementsHtml}${notesHtml}</section>`;
   }).join('');
 
   return `<!DOCTYPE html>
@@ -734,36 +767,6 @@ function redo() {
     currentSlideIndex = Math.min(currentSlideIndex, data.slides.length - 1);
     updateAll();
   }
-}
-
-function saveJson() {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'presentation.json';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function importJson(e) {
-  const file = e.target.files && e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    try {
-      const parsed = JSON.parse(ev.target.result);
-      if (!parsed.global) parsed.global = data.global;
-      if (!Array.isArray(parsed.slides)) parsed.slides = [];
-      data = parsed;
-      currentSlideIndex = data.slides.length > 0 ? 0 : -1;
-      saveState();
-      updateAll();
-    } catch (err) {
-      alert('Invalid JSON file: ' + (err.message || 'parse error'));
-    }
-  };
-  reader.readAsText(file);
 }
 
 function exportHtml() {
