@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Reveal Poll — Voter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, Arial, sans-serif; margin: 20px; max-width: 640px; }
+    h1 { margin: 0 0 16px; font-size: 20px; }
+    .card { border: 1px solid #ddd; border-radius: 14px; padding: 16px; }
+    .opts { display: grid; gap: 10px; margin: 14px 0; }
+    label.opt { padding: 10px 12px; border: 1px solid #bbb; border-radius: 10px; display: flex; gap: 10px; align-items: center; cursor: pointer; }
+    button { width: 100%; padding: 12px 16px; border: 0; border-radius: 12px; background: #4f46e5; color: white; font-weight: 700; cursor: pointer; }
+    .muted { color: #666; font-size: 12px; }
+    .ok { color: #10b981; font-weight: 700; }
+    .err { color: #ef4444; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="pollIdView" class="muted"></div>
+    <h1 id="question">Loading…</h1>
+    <div id="rule" class="muted"></div>
+    <form id="form" class="opts" aria-live="polite"></form>
+    <button id="submit" disabled>Submit vote</button>
+    <div id="msg" class="muted" style="margin-top:10px;"></div>
+  </div>
+
+  <!-- Firebase (client SDK for metadata reads) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    // --- Your Firebase web config (public) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCb3pWl_fpJiDZ7qZPuNxb4_1t0hRj0Eis",
+      authDomain: "pollfeature.firebaseapp.com",
+      databaseURL: "https://pollfeature-default-rtdb.firebaseio.com",
+      projectId: "pollfeature",
+      storageBucket: "pollfeature.appspot.com",
+      messagingSenderId: "68650811635",
+      appId: "1:68650811635:web:c2e238496ac3a08354b786"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const $ = (id) => document.getElementById(id);
+    const qs = new URLSearchParams(location.search);
+    const pollId = qs.get("poll") || "test123";
+    $("pollIdView").textContent = `Poll: ${pollId}`;
+
+    // Stable anon device id
+    let anonId = localStorage.getItem("anonId");
+    if (!anonId) { anonId = (crypto?.randomUUID?.() || Math.random().toString(36).slice(2)) + "-v"; localStorage.setItem("anonId", anonId); }
+
+    let meta = null, activeVersion = null, multiMax = 1;
+
+    async function loadMeta() {
+      const root = ref(db, `polls/${pollId}`);
+      const av = await get(child(root, "activeVersion"));
+      if (!av.exists()) throw new Error("No active poll version");
+      activeVersion = av.val();
+
+      const m = await get(child(root, `versions/${activeVersion}`));
+      if (!m.exists()) throw new Error("Poll not found");
+      meta = m.val();
+
+      $("question").textContent = meta.question || "Untitled poll";
+      multiMax = Math.max(1, meta.multiMax || 1);
+      $("rule").textContent = multiMax === 1 ? "Select one option" : `Select up to ${multiMax}`;
+
+      renderOptions(meta.options || []);
+    }
+
+    function renderOptions(options) {
+      const form = $("form");
+      form.innerHTML = "";
+      const type = multiMax === 1 ? "radio" : "checkbox";
+      options.forEach((opt, idx) => {
+        const w = document.createElement("label");
+        w.className = "opt";
+        w.innerHTML = `<input name="opt" type="${type}" value="${idx}" /> <span>${opt}</span>`;
+        form.appendChild(w);
+      });
+      $("submit").disabled = false;
+    }
+
+    function getChoices() {
+      const nodes = Array.from(document.querySelectorAll('input[name="opt"]'));
+      const picks = nodes.filter(n => n.checked).map(n => parseInt(n.value, 10));
+      if (picks.length === 0) throw new Error("Choose at least one option");
+      if (picks.length > multiMax) throw new Error(`Select up to ${multiMax}`);
+      return picks;
+    }
+
+    async function vote(choices) {
+      const res = await fetch("/.netlify/functions/vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pollId, choices, anonId })
+      });
+      const data = await res.json().catch(()=> ({}));
+      if (!res.ok) throw new Error(data?.error || "Vote failed");
+      return data;
+    }
+
+    $("submit").onclick = async (e) => {
+      e.preventDefault();
+      $("msg").className = "muted"; $("msg").textContent = "Submitting…";
+      try {
+        const picks = getChoices();
+        const out = await vote(picks);
+        $("msg").className = "ok";
+        $("msg").textContent = `Vote recorded. (v${out.version})`;
+      } catch (err) {
+        $("msg").className = "err";
+        $("msg").textContent = err.message || String(err);
+      }
+    };
+
+    loadMeta().catch(err => { $("msg").className="err"; $("msg").textContent = err.message || String(err); });
+  </script>
+</body>
+</html>

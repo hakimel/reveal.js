@@ -1,0 +1,23 @@
+const { getAdmin, ok, bad, deny, err, requireHost } = require("./_common");
+
+exports.handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") return ok({ ok: true });
+  if (event.httpMethod !== "POST")    return bad({ error: "POST only" });
+  if (!requireHost(event))            return deny({ error: "Forbidden" });
+
+  try {
+    const { pollId } = JSON.parse(event.body || "{}");
+    if (!pollId) return bad({ error: "pollId required" });
+
+    const admin = getAdmin();
+    const db = admin.database();
+    const rootRef = db.ref(`polls/${pollId}`);
+    const activeVersion = (await rootRef.child("activeVersion").get()).val();
+    if (!activeVersion) return bad({ error: "No active version" });
+
+    await rootRef.child(`versions/${activeVersion}/state`).set("locked");
+    return ok({ ok: true, version: activeVersion, state: "locked" });
+  } catch (e) {
+    return err(e);
+  }
+};
