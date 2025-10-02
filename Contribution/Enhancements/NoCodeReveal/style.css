@@ -8,7 +8,7 @@
 
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,Segoe UI,Roboto,Inter,Arial}
-button,input{font:inherit}
+button,input,select,textarea{font:inherit}
 
 #toolbar{
   position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
@@ -29,10 +29,13 @@ button,input{font:inherit}
 #left-column{display:flex;flex-direction:column;gap:12px}
 #slide-list{display:flex;flex-direction:column;gap:8px}
 .slide-item{
-  display:flex;align-items:center;gap:8px;padding:8px;border:1px dashed var(--border);border-radius:10px;cursor:pointer
+  display:flex;align-items:flex-start;gap:8px;padding:8px;border:1px dashed var(--border);border-radius:10px;cursor:pointer
 }
 .slide-item.active{border-color:var(--accent);background:color-mix(in oklab,var(--accent),transparent 92%)}
 .slide-item small{color:var(--muted)}
+.slide-item{ position:relative }              /* drag visuals */
+.slide-item.dragging{ opacity:.6; border-style:solid }
+.slide-item.drag-over{ outline:2px dashed var(--accent) }
 
 #edit-panel-wrapper{min-width:0}
 #edit-panel .row{display:grid;grid-template-columns:120px 1fr;gap:8px;margin-bottom:10px}
@@ -54,3 +57,18 @@ button,input{font:inherit}
   padding:10px 14px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);display:none;z-index:99
 }
 .snackbar.show{display:block}
+
+/* Modal */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; z-index:100;
+}
+.modal{
+  position:fixed; top:8%; left:50%; transform:translateX(-50%);
+  width:min(680px,calc(100% - 24px));
+  background:var(--bg-panel); border:1px solid var(--border); border-radius:12px;
+  padding:16px; z-index:101; display:none;
+}
+.modal.show, .modal-backdrop.show{ display:block }
+.modal h3{ margin-top:0 }
+.modal pre{ white-space:pre-wrap; background:transparent; border:1px solid var(--border); padding:8px; border-radius:8px }
+.modal .close{ float:right; border:1px solid var(--border); background:transparent; border-radius:8px; padding:4px 8px; cursor:pointer }

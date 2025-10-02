@@ -1,10 +1,18 @@
-/* ---------------------------
-   No-Code Reveal.js Builder MVP
-   Features: autosave, JSON import/export, live preview, templates,
-   keyboard shortcuts, theme toggle, basic AI outline (local).
----------------------------- */
+/* ===========================
+   No-Code Reveal.js Builder — MVP+
+   Features:
+   - Autosave + restore toast
+   - JSON import/export
+   - Live preview (iframe, sandboxed)
+   - Starter templates
+   - Theme toggle (editor); deck theme dropdown
+   - Keyboard shortcuts + Help modal
+   - Drag & drop reordering, duplicate, delete confirm
+   - AI Outline Generator (local heuristic, no API)
+   - Export standalone HTML via CDN
+=========================== */
 
-const $ = sel => document.querySelector(sel);
+const $  = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
 
 /* ---------- State ---------- */
@@ -13,15 +21,25 @@ let activeIndex = 0;
 const HISTORY = [];
 const REDO = [];
 const STORAGE_KEY = 'nocode-revealjs-deck-v1';
-const THEME_KEY = 'nocode-theme';
+const THEME_KEY   = 'nocode-theme';
+
+const fmtTime = d => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+let lastSavedAt = null;
+function updateAutosaveIndicator(){
+  const el = $('#autosave-indicator');
+  if(!el) return;
+  el.textContent = lastSavedAt ? `Saved · ${fmtTime(lastSavedAt)}` : 'Saved · —';
+}
+function markSaved(){ lastSavedAt = new Date(); updateAutosaveIndicator(); }
 
 /* ---------- Init ---------- */
 window.addEventListener('DOMContentLoaded', () => {
-  // Theme from storage
+  // Editor theme (chrome)
   const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
   if(savedTheme === 'light') document.documentElement.classList.add('light');
 
   bindToolbar();
+  updateAutosaveIndicator();
   maybeRestoreSession();
   if(!deck){ newDeck('Untitled Deck'); }
   renderAll();
@@ -31,22 +49,22 @@ window.addEventListener('DOMContentLoaded', () => {
 /* ---------- Toolbar ---------- */
 function bindToolbar(){
   $('#new-deck').addEventListener('click', () => { newDeck(); toast('New deck created'); });
-  $('#add-slide').addEventListener('click', () => { addSlide(); });
+  $('#add-slide').addEventListener('click', () => addSlide());
   $('#undo').addEventListener('click', undo);
   $('#redo').addEventListener('click', redo);
   $('#theme-toggle').addEventListener('click', toggleTheme);
+
   $('#save-json').addEventListener('click', downloadJSON);
   $('#export-html').addEventListener('click', exportHTMLStandalone);
   $('#export-pdf').addEventListener('click', exportPDFHint);
   $('#play-deck').addEventListener('click', openPlayerWindow);
   $('#ai-generate').addEventListener('click', aiGenerateOutline);
 
-  // hidden inputs
   $('#import-btn').addEventListener('click', ()=> $('#import-json').click());
   $('#import-json').addEventListener('change', importJSON);
 
   $('#import-designs').addEventListener('click', ()=> $('#import-designs-json').click());
-  $('#import-designs-json').addEventListener('change', importDesigns); // simple token import demo
+  $('#import-designs-json').addEventListener('change', importDesigns);
 }
 
 function toggleTheme(){
@@ -63,11 +81,8 @@ function newDeck(title='Untitled Deck'){
     id: crypto.randomUUID(),
     title,
     theme: document.documentElement.classList.contains('light') ? 'white' : 'black',
-    slides: [
-      templateSlide('title', 'Welcome', 'Add your content here…'),
-    ],
+    slides: [ templateSlide('title', 'Welcome', 'Add your content here…') ],
     tokens: {
-      // design tokens (starter)
       primary: '#4f46e5',
       text: document.documentElement.classList.contains('light') ? '#111827' : '#e6edf3',
       background: document.documentElement.classList.contains('light') ? '#ffffff' : '#0b0d10'
@@ -142,11 +157,11 @@ function redo(){
 function saveAutosave(){
   try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(deck)); }
   catch(e){ console.warn('Autosave failed', e); }
+  markSaved();
 }
 function maybeRestoreSession(){
   const raw = localStorage.getItem(STORAGE_KEY);
   if(!raw) return;
-  // show a snackbar asking to restore
   const bar = ensureSnackbar();
   bar.innerHTML = `Found an autosaved deck. <button id="restore-btn">Restore</button> <button id="dismiss-btn">Dismiss</button>`;
   bar.classList.add('show');
@@ -171,10 +186,10 @@ function toast(msg){
   const bar = ensureSnackbar();
   bar.textContent = msg;
   bar.classList.add('show');
-  setTimeout(()=>bar.classList.remove('show'), 2000);
+  setTimeout(()=>bar.classList.remove('show'), 1500);
 }
 
-/* ---------- Render UI ---------- */
+/* ---------- Rendering ---------- */
 function renderAll(){
   renderSlideList();
   renderEditor();
@@ -189,24 +204,64 @@ function renderSlideList(){
     const item = document.createElement('div');
     item.className = 'slide-item' + (i===activeIndex?' active':'');
     item.setAttribute('role','button');
+    item.setAttribute('tabindex','0');
     item.setAttribute('aria-label', `Slide ${i+1}: ${s.title}`);
+    item.draggable = true; // drag
+
     item.innerHTML = `
-      <strong>${i+1}. ${escapeHTML(s.title || '(untitled)')}</strong>
-      <small class="badge">${s.layout}${s.hidden?' · H':''}${s.autoAnimate?' · AA':''}</small>
+      <div>
+        <strong>${i+1}. ${escapeHTML(s.title || '(untitled)')}</strong>
+        <div><small class="badge">${s.layout}${s.hidden?' · H':''}${s.autoAnimate?' · AA':''}</small></div>
+      </div>
       <div style="margin-left:auto;display:flex;gap:6px">
         <button title="Up" aria-label="Move up">↑</button>
         <button title="Down" aria-label="Move down">↓</button>
+        <button title="Duplicate" aria-label="Duplicate slide">⧉</button>
         <button title="Delete" aria-label="Delete slide">✕</button>
       </div>
     `;
+
     item.addEventListener('click', (e)=>{
-      if(e.target.tagName==='BUTTON') return; // avoid selecting when clicking controls
+      if(e.target.tagName==='BUTTON') return;
       activeIndex = i; renderAll();
     });
-    const [btnUp, btnDown, btnDel] = item.querySelectorAll('button');
-    btnUp.onclick = (e)=>{ e.stopPropagation(); moveSlide(i,-1); };
-    btnDown.onclick = (e)=>{ e.stopPropagation(); moveSlide(i,+1); };
-    btnDel.onclick = (e)=>{ e.stopPropagation(); removeSlide(i); };
+    item.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' || e.key===' '){ activeIndex = i; renderAll(); }
+    });
+
+    const [btnUp, btnDown, btnDup, btnDel] = item.querySelectorAll('button');
+    btnUp.onclick  = (e)=>{ e.stopPropagation(); moveSlide(i,-1); };
+    btnDown.onclick= (e)=>{ e.stopPropagation(); moveSlide(i,+1); };
+    btnDup.onclick = (e)=>{ e.stopPropagation(); duplicateSlide(i); };
+    btnDel.onclick = (e)=>{ e.stopPropagation(); confirmDeleteSlide(i); };
+
+    // Drag & drop
+    item.addEventListener('dragstart', (e)=>{
+      item.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', String(i));
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', ()=> item.classList.remove('dragging'));
+    item.addEventListener('dragover', (e)=>{
+      e.preventDefault();
+      item.classList.add('drag-over');
+      e.dataTransfer.dropEffect = 'move';
+    });
+    item.addEventListener('dragleave', ()=> item.classList.remove('drag-over'));
+    item.addEventListener('drop', (e)=>{
+      e.preventDefault();
+      item.classList.remove('drag-over');
+      const from = Number(e.dataTransfer.getData('text/plain'));
+      const to   = i;
+      if(from===to) return;
+      pushHistory();
+      const [s] = deck.slides.splice(from,1);
+      deck.slides.splice(to,0,s);
+      activeIndex = to;
+      saveAutosave();
+      renderAll();
+    });
+
     container.appendChild(item);
   });
 }
@@ -218,16 +273,13 @@ function renderGlobalPanel(){
     <div class="row"><label>Title</label><input id="deck-title" type="text" value="${escapeAttr(deck.title)}"></div>
     <div class="row"><label>Theme</label>
       <select id="deck-theme">
-        <option ${deck.theme==='black'?'selected':''} value="black">Black</option>
-        <option ${deck.theme==='white'?'selected':''} value="white">White</option>
-        <option ${deck.theme==='league'?'selected':''} value="league">League</option>
-        <option ${deck.theme==='beige'?'selected':''} value="beige">Beige</option>
-        <option ${deck.theme==='night'?'selected':''} value="night">Night</option>
+        ${['black','white','league','beige','night','moon','serif','simple','sky','blood','solarized']
+          .map(t=>`<option ${deck.theme===t?'selected':''} value="${t}">${t}</option>`).join('')}
       </select>
     </div>
     <p class="badge">Press <span class="kbd">?</span> for shortcuts.</p>
   `;
-  $('#deck-title').oninput = e => { deck.title = e.target.value; saveAutosave(); renderPreviewSoon(); };
+  $('#deck-title').oninput  = e => { deck.title = e.target.value; saveAutosave(); renderPreviewSoon(); };
   $('#deck-theme').onchange = e => { deck.theme = e.target.value; saveAutosave(); renderPreview(); };
 }
 
@@ -263,11 +315,11 @@ function renderEditor(){
   `;
 
   $('#s-layout').onchange = e => { s.layout = e.target.value; saveAutosave(); renderPreview(); renderSlideList(); };
-  $('#s-title').oninput = e => { s.title = e.target.value; saveAutosave(); renderSlideList(); renderPreviewSoon(); };
+  $('#s-title').oninput   = e => { s.title = e.target.value; saveAutosave(); renderSlideList(); renderPreviewSoon(); };
   $('#s-content').oninput = e => { s.content = e.target.value; saveAutosave(); renderPreviewSoon(); };
-  $('#s-notes').oninput = e => { s.notes = e.target.value; saveAutosave(); };
+  $('#s-notes').oninput   = e => { s.notes = e.target.value; saveAutosave(); };
   $('#s-hidden').onchange = e => { s.hidden = e.target.checked; saveAutosave(); renderSlideList(); renderPreview(); };
-  $('#s-aa').onchange = e => { s.autoAnimate = e.target.checked; saveAutosave(); renderSlideList(); renderPreview(); };
+  $('#s-aa').onchange     = e => { s.autoAnimate = e.target.checked; saveAutosave(); renderSlideList(); renderPreview(); };
 
   $$('#edit-panel .tpl').forEach(b=> b.onclick = ()=>applyTemplateToSlide(b.dataset.tpl));
   $('#btn-add-slide').onclick = ()=> addSlide('title');
@@ -306,6 +358,25 @@ function applyTemplateToSlide(kind){
   renderAll();
 }
 
+/* ---------- Duplicate / Delete helpers ---------- */
+function duplicateSlide(idx){
+  pushHistory();
+  const c = JSON.parse(JSON.stringify(deck.slides[idx]));
+  c.id = crypto.randomUUID();
+  deck.slides.splice(idx+1,0,c);
+  activeIndex = idx+1;
+  saveAutosave();
+  renderAll();
+}
+function confirmDeleteSlide(idx){
+  const bypass = window.event && (window.event.altKey || window.event.metaKey);
+  if(!bypass){
+    const name = deck.slides[idx]?.title || `Slide ${idx+1}`;
+    if(!confirm(`Delete "${name}"?`)) return;
+  }
+  removeSlide(idx);
+}
+
 /* ---------- Preview ---------- */
 let previewTimer = null;
 function renderPreviewSoon(){
@@ -318,7 +389,6 @@ function renderPreview(){
   const url = URL.createObjectURL(blob);
   const iframe = $('#preview-frame');
   iframe.src = url;
-  // cleanup old URL after load
   iframe.onload = ()=> setTimeout(()=> URL.revokeObjectURL(url), 1000);
 }
 
@@ -340,9 +410,7 @@ function buildRevealHTML(d){
 <link rel="stylesheet" href="https://unpkg.com/reveal.js@5.0.4/dist/reveal.css">
 <link rel="stylesheet" href="${themeHref}">
 <link rel="stylesheet" href="https://unpkg.com/reveal.js@5.0.4/plugin/highlight/monokai.css">
-<style>
-.reveal pre{white-space:pre-wrap}
-</style>
+<style>.reveal pre{white-space:pre-wrap}</style>
 </head>
 <body>
 <div class="reveal"><div class="slides">
@@ -359,7 +427,6 @@ Reveal.initialize({hash:true, plugins:[RevealMarkdown, RevealHighlight, RevealNo
 }
 
 function renderSlideSection(s){
-  // Simple mapping by layout; content is raw HTML (trusted from editor)
   const title = `<h2>${escapeHTML(s.title||'')}</h2>`;
   let body = s.content || '';
   return `${title}\n${body}\n${s.notes?`<aside class="notes">${escapeHTML(s.notes)}</aside>`:''}`;
@@ -371,18 +438,14 @@ function downloadJSON(){
   downloadFile(`${safeFilename(deck.title||'deck')}.json`, data, 'application/json');
   toast('JSON downloaded');
 }
-
 function exportHTMLStandalone(){
   const html = buildRevealHTML(deck);
   downloadFile(`${safeFilename(deck.title||'deck')}.html`, html, 'text/html');
   toast('Exported HTML');
 }
-
 function exportPDFHint(){
-  // Reveal v5 supports printing to PDF via browser. Give the user a hint.
-  alert('PDF export tip: open the exported HTML in your browser, then use Print (Ctrl/Cmd+P) → Save as PDF. Enable backgrounds if needed.');
+  alert('PDF tip: open the exported HTML, then Print (Ctrl/Cmd+P) → Save as PDF. Enable background graphics if needed.');
 }
-
 function importJSON(evt){
   const file = evt.target.files[0];
   if(!file) return;
@@ -404,7 +467,6 @@ function importJSON(evt){
   reader.readAsText(file);
   evt.target.value = '';
 }
-
 function importDesigns(evt){
   const file = evt.target.files[0];
   if(!file) return;
@@ -432,13 +494,11 @@ function openPlayerWindow(){
   setTimeout(()=>URL.revokeObjectURL(url), 2000);
 }
 
-/* ---------- Tiny “AI” Outline (offline heuristic) ---------- */
+/* ---------- “AI” Outline (offline heuristic) ---------- */
 function aiGenerateOutline(){
   const topic = prompt('Enter a topic (e.g., “Intro to Web Security”)');
   if(!topic) return;
-  // Lightweight heuristic generator: 6–8 slide skeleton
   const slides = synthesizeOutline(topic);
-  // Preview & confirm
   const preview = slides.map((s,i)=>`${i+1}. ${s.title}`).join('\n');
   const ok = confirm(`Proposed slides:\n\n${preview}\n\nApply? This will replace current deck (you can Undo).`);
   if(!ok) return;
@@ -449,46 +509,58 @@ function aiGenerateOutline(){
   saveAutosave();
   renderAll();
 }
-
 function synthesizeOutline(topic){
   const parts = [
-    ['Title', `What is ${topic}?`, `<ul><li>Definition</li><li>Why it matters</li></ul>`],
+    ['title', `What is ${topic}?`, `<ul><li>Definition</li><li>Why it matters</li></ul>`],
     ['two-col', 'Key Concepts', `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div><ul><li>Term A</li><li>Term B</li></ul></div><div><ul><li>Term C</li><li>Term D</li></ul></div></div>`],
     ['image-left', 'Real-World Example', `<div style="display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:center"><img src="https://picsum.photos/400/300" alt="${escapeAttr(topic)}"><div><p>Short story / case study.</p></div></div>`],
     ['quote', 'Insight', `<blockquote>“If you can’t explain it simply, you don’t understand it well enough.”<br/><small>— Einstein (apocryphal)</small></blockquote>`],
     ['code', 'Demo / Snippet', `<pre><code class="hljs javascript">// Replace with your demo\nconsole.log('${escapeJS(topic)}')</code></pre>`],
-    ['Title', 'Best Practices', `<ul><li>Do X</li><li>Avoid Y</li><li>Measure Z</li></ul>`],
-    ['Title', 'Summary', `<ul><li>Key takeaways</li><li>Next steps</li></ul>`],
+    ['title', 'Best Practices', `<ul><li>Do X</li><li>Avoid Y</li><li>Measure Z</li></ul>`],
+    ['title', 'Summary', `<ul><li>Key takeaways</li><li>Next steps</li></ul>`],
   ];
   return parts.map(([layout, title, content])=>({
-    id: crypto.randomUUID(), layout: layout.toLowerCase().replace('title','title'),
+    id: crypto.randomUUID(), layout,
     title, content, notes:'', hidden:false, autoAnimate:false
   }));
 }
 
-/* ---------- Shortcuts ---------- */
+/* ---------- Shortcuts & Help ---------- */
 function setupShortcuts(){
   window.addEventListener('keydown', (e)=>{
     const mod = e.ctrlKey || e.metaKey;
+
+    // File ops
     if(mod && e.key.toLowerCase()==='s'){ e.preventDefault(); downloadJSON(); }
     if(mod && e.key.toLowerCase()==='n'){ e.preventDefault(); if(e.shiftKey) newDeck(); else addSlide(); }
     if(mod && e.key.toLowerCase()==='z'){ e.preventDefault(); undo(); }
     if(mod && (e.key.toLowerCase()==='y' || (e.shiftKey && e.key.toLowerCase()==='z'))){ e.preventDefault(); redo(); }
+
+    // Navigation
+    if(e.key==='ArrowLeft'){ e.preventDefault(); activeIndex = Math.max(0, activeIndex-1); renderAll(); }
+    if(e.key==='ArrowRight'){ e.preventDefault(); activeIndex = Math.min(deck.slides.length-1, activeIndex+1); renderAll(); }
+
+    // Delete current slide (unless typing)
+    const tag = document.activeElement.tagName;
+    if((e.key==='Delete' || e.key==='Backspace') && tag!=='INPUT' && tag!=='TEXTAREA'){
+      e.preventDefault(); confirmDeleteSlide(activeIndex);
+    }
+
+    // Help
     if(e.key==='?' || (mod && e.key.toLowerCase()==='/')) showHelp();
   });
 }
 
 function showHelp(){
-  alert(
-`Shortcuts
-─────────
-Ctrl/Cmd + Shift + N  New deck
-Ctrl/Cmd + N          Add slide
-Ctrl/Cmd + S          Save JSON
-Ctrl/Cmd + Z          Undo
-Ctrl/Cmd + Y          Redo
-? or Ctrl/Cmd + /     Shortcuts`
-  );
+  const m = $('#help-modal'), b = $('#help-backdrop'), close = $('#help-close');
+  if(!m || !b) return alert('Help modal not mounted.');
+  m.classList.add('show'); b.classList.add('show');
+  function end(){ m.classList.remove('show'); b.classList.remove('show'); cleanup(); }
+  function onKey(e){ if(e.key==='Escape') end(); }
+  function cleanup(){ close.removeEventListener('click', end); document.removeEventListener('keydown', onKey); b.removeEventListener('click', end); }
+  close.addEventListener('click', end);
+  b.addEventListener('click', end);
+  document.addEventListener('keydown', onKey);
 }
 
 /* ---------- Utils ---------- */
