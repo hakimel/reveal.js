@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>QR Quiz - Presenter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/white.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!-- Slide 1: QR code -->
+      <section>
+        <h2 class="center">Live Quiz — Scan & Join</h2>
+        <div class="qr-left">
+          <canvas id="qrcode"></canvas>
+          <div>
+            <p>Scan with your phone to open the quiz. Enter name and start answering.</p>
+            <p class="small-note">Quiz has 3 questions, 60 seconds each.</p>
+            <div class="alert">Note: Backend active. Audience will submit answers and presenter sees live stats.</div>
+          </div>
+        </div>
+      </section>
+
+                <!-- Slide 2: Live Leaderboard -->
+          <section>
+            <div style="text-align:center;">
+              <h2 style="margin-bottom:10px;">LIVE LEADERBOARD</h2>
+              <div id="participantCount" style="margin-bottom:15px; font-weight:bold;">Participants: 0</div>
+            </div>
+
+            <div style="display:flex; justify-content:center;">
+              <table id="leaderboardTable" class="lb-table" 
+                    style="width:80%; border-collapse: collapse; text-align:left; font-size:18px;">
+                <thead>
+                  <tr style="background:#f0f0f0;">
+                    <th style="padding:8px;">Rank</th>
+                    <th style="padding:8px;">Name</th>
+                    <th style="padding:8px;">Score</th>
+                    <th style="padding:8px;">Progress</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+  <script>
+    Reveal.initialize({ center: true });
+
+    // QR code
+    fetch('/ip')
+      .then(res => res.json())
+      .then(data => {
+        QRCode.toCanvas(document.getElementById('qrcode'), data.url, { width: 220 }, err => { if(err) console.error(err); });
+      });
+
+    const socket = io();
+
+    // Join as presenter
+    socket.on('connect', () => { socket.emit('join', { role: 'presenter' }); });
+
+    function updateLeaderboard(lb) {
+  const tableBody = document.querySelector('#leaderboardTable tbody');
+  const countDiv = document.getElementById('participantCount');
+  countDiv.textContent = `Participants: ${lb.length}`;
+  tableBody.innerHTML = '';
+  if(lb.length === 0) return;
+
+  const maxScore = Math.max(...lb.map(p => p.score));
+
+  lb.forEach(p => {
+    const tr = document.createElement('tr');
+
+    // Rank (from server)
+    const rankCell = document.createElement('td');
+    if(p.rank === 1) rankCell.innerHTML = '🥇';
+    else if(p.rank === 2) rankCell.innerHTML = '🥈';
+    else if(p.rank === 3) rankCell.innerHTML = '🥉';
+    else rankCell.textContent = p.rank;
+    tr.appendChild(rankCell);
+
+    // Name
+    const nameCell = document.createElement('td');
+    nameCell.textContent = p.name;
+    tr.appendChild(nameCell);
+
+    // Score
+    const scoreCell = document.createElement('td');
+    scoreCell.textContent = p.score;
+    tr.appendChild(scoreCell);
+
+    // Progress bar
+    const progCell = document.createElement('td');
+    const bar = document.createElement('div');
+    bar.style.height = '14px';
+    bar.style.width = ((p.score / maxScore) * 100 || 0) + '%';
+    bar.style.background = '#4caf50';
+    bar.style.borderRadius = '4px';
+    bar.style.transition = 'width 0.5s';
+    progCell.appendChild(bar);
+    tr.appendChild(progCell);
+
+    tableBody.appendChild(tr);
+  });
+}
+
+
+
+    // Listen for leaderboard updates
+    socket.on('leaderboard', lb => { updateLeaderboard(lb); });
+  </script>
+</body>
+</html>

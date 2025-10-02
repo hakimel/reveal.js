@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Quiz — Join</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="startScreen" class="center">
+      <h2>Welcome to the Quiz</h2>
+      <p>Enter your name to start</p>
+      <input id="nameInput" placeholder="Your name" style="padding:8px;font-size:16px;">
+      <br><br>
+      <button id="startBtn" class="btn">Start Quiz</button>
+    </div>
+
+    <div id="questionScreen" style="display:none;">
+      <div class="center">
+        <h3 id="questionText"></h3>
+        <div id="options"></div>
+        <div class="timer">Time left: <span id="timeLeft">60</span> s</div>
+        <div class="small-note">Answer will submit automatically when you click option or timer ends.</div>
+      </div>
+    </div>
+
+    <div id="endScreen" style="display:none;" class="center">
+      <h2>Quiz Completed</h2>
+      <div id="finalMsg"></div>
+      <p class="small-note">Only you can see your score. Thank you for participating.</p>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="assets/js/quiz.js"></script>
+</body>
+</html>
