@@ -1,0 +1,68 @@
+Local Q&A Chatbot for Reveal.js — Quick Usage Guide
+
+What this is
+A single-file helper (QA.html) that adds a draggable Q&A panel on top of a Reveal.js deck.
+It runs fully local (no internet, no APIs) and answers only from the slide text and speaker notes.
+
+Where to save it
+C:\Users\iamda\OneDrive\Desktop\WebTechnologies\reveal.js\Contribution\Enhancements\Features\Local Chatbot\QA.html
+
+How to open
+1) Double-click QA.html (or open in Chrome/Edge/Firefox).
+2) Press Q to toggle the Q&A panel.
+3) Type a question and press Enter.
+
+What gets indexed
+• Slide text (headings, paragraphs, lists, code blocks)
+• Speaker notes (inside <aside class="notes"> or data-notes)
+• Hidden slides are ignored unless you explicitly include them when you customize
+
+Keyboard shortcuts
+• Q — Toggle the panel
+• R — Rebuild the index (with the panel open); Shift+R always rebuilds
+• ESC — Close the panel
+• Enter — Ask the question when the input is focused
+
+Draggable controls
+• Floating “💬 Q&A” button: drag anywhere; click to open/close the panel
+• Q&A panel: drag by its header; resize from the bottom-right corner
+
+Answer behavior
+• Answers are grounded in the deck only; the panel shows “Grounded in:” citations
+• Clicking a citation jumps to that slide and briefly highlights it
+• If the bot cannot find a good match, it shows this message:
+  “I couldn’t find a reliable answer in these slides. Try rephrasing your question or check if the topic is covered in the deck.”
+
+Panel options
+• Sources: Slides / Notes / Both (default: Both)
+• Style: Concise / Detailed
+• Quotes‑only: When ON, the bot stitches direct quotes from the slides instead of paraphrasing
+
+Rebuild Index (↻)
+Click ↻ or press R to re-scan the current deck after you add, remove, or edit slides.
+A toast confirms the number of slides/notes/chunks indexed.
+
+Copying answers
+Use “Copy answer” or “Copy w/ citations” to put the response on your clipboard.
+
+Testing questions (demo deck)
+• “What is Auto‑Animate and how do I enable it?”
+• “How do I change the theme?”
+• “Show me the keyboard shortcuts.”
+• “Who developed relativity?”
+• “Which scientist discovered radium?”
+
+Using with your own slides
+Option A (simple): Replace the demo slides inside QA.html with your slides content.
+Option B (separate deck): Keep QA.html as your main file and paste/import your slides into its <section> blocks later.
+Either way, re-open or ↻ Rebuild to index new content.
+
+Troubleshooting
+• Panel won’t close: click the ✕ in the panel header; if unresponsive, reload the page.
+• Dragging the bubble opens the panel: drag farther (or release on empty area) — the button has drag/click protection.
+• Old and new answers mixed: the panel clears old results automatically each ask; reload if you customized heavily.
+• Nothing is indexed: verify slides exist and load; then press ↻ Rebuild.
+• CDN blocked: if offline, swap the Reveal.js assets to local files in the same folder (advanced).
+
+Privacy
+Everything runs inside your browser. No questions or slides are sent anywhere.
