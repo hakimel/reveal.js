@@ -32,28 +32,43 @@ function importDesigns(e) {
     try {
       const parsed = JSON.parse(ev.target.result);
 
-      if (!Array.isArray(parsed.slides)) {
+      if (!Array.isArray(parsed.slides) || parsed.slides.length === 0) {
         alert("Invalid design file: no slides found");
         return;
       }
 
-      // Merge imported slide designs into current deck
-      parsed.slides.forEach(slide => {
-        data.slides.push(slide);
-      });
+      // 1. Get the first slide as the design template
+      const designTemplate = parsed.slides[0];
 
-      currentSlideIndex = data.slides.length - 1;
+      if (data.slides.length === 0) {
+          // If the deck is empty, just add the template as the first slide
+          data.slides.push(designTemplate);
+          currentSlideIndex = 0;
+      } else {
+          // 2. Iterate over ALL existing slides and apply the template's design
+          data.slides.forEach(slide => {
+              // Overwrite styling properties
+              slide.background = designTemplate.background;
+              slide.transition = designTemplate.transition;
+              
+              // Deep copy the elements to prevent cross-slide modification issues
+              slide.elements = designTemplate.elements.map(elem => ({ ...elem })); 
+          });
+
+          // Keep the current slide selected
+      }
+
       saveState();
       updateAll();
 
-      alert("Designs imported successfully!");
+      alert("Design template successfully applied to all slides!");
+
     } catch (err) {
       alert("Invalid design JSON: " + err.message);
     }
   };
   reader.readAsText(file);
 }
-
 
 function bindUI() {
   document.getElementById('add-slide').addEventListener('click', addSlide);
@@ -417,13 +432,35 @@ function updateEditPanel() {
     if (t === slide.background.type) opt.selected = true;
     bgSelect.add(opt);
   });
-  bgSelect.onchange = () => { slide.background.type = bgSelect.value; updateEditPanel(); change(); };
+  
+  // --- MODIFIED LOGIC START ---
+  bgSelect.onchange = () => { 
+    slide.background.type = bgSelect.value; 
+    
+    // Set your desired default gradient format
+    if (bgSelect.value === 'gradient' && !slide.background.value) {
+        slide.background.value = 'linear-gradient(to right, #06b6d4, #3b82f6)';
+    }
+    updateEditPanel(); 
+    change(); 
+  };
+  // --- MODIFIED LOGIC END ---
+  
   panel.appendChild(bgSelect);
 
   panel.appendChild(createLabel('Background value:'));
   const bgValue = document.createElement('input');
   bgValue.value = slide.background.value || '';
-  bgValue.placeholder = slide.background.type === 'color' ? '#hex or color name' : (slide.background.type === 'image' ? 'https://...' : 'linear-gradient(...)');
+  
+  // --- MODIFIED LOGIC START ---
+  if (slide.background.type === 'gradient') {
+      // Set the specific placeholder you requested
+      bgValue.placeholder = 'linear-gradient(to right, #hex1, #hex2)';
+  } else {
+      bgValue.placeholder = slide.background.type === 'color' ? '#hex or color name' : (slide.background.type === 'image' ? 'https://...' : 'linear-gradient(...)');
+  }
+  // --- MODIFIED LOGIC END ---
+  
   bgValue.onchange = () => { slide.background.value = bgValue.value; change(); };
   panel.appendChild(bgValue);
 
