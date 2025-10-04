@@ -1,0 +1,304 @@
+{
+  "slides": [
+    {
+      "id": 3001,
+      "background": { "type": "color", "value": "#FFFFFF" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Office Theme", "animation": "fade-in", "fontSize": "48px", "color": "#000000" },
+        { "type": "subtitle", "text": "Clean and Simple", "animation": "none", "fontSize": "24px", "color": "#666666" }
+      ]
+    },
+    {
+      "id": 3002,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #90EE90 0%, #FFFFFF 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Green Diagonal", "animation": "fade-in", "fontSize": "48px", "color": "#2d5016" },
+        { "type": "subtitle", "text": "Fresh and Natural", "animation": "none", "fontSize": "24px", "color": "#4a7c2c" }
+      ]
+    },
+    {
+      "id": 3003,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #E8D5C4 0%, #F5F5F5 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Beige Modern", "animation": "fade-in", "fontSize": "48px", "color": "#5D4E37" },
+        { "type": "subtitle", "text": "Elegant and Timeless", "animation": "none", "fontSize": "24px", "color": "#8B7355" }
+      ]
+    },
+    {
+      "id": 3004,
+      "background": { "type": "color", "value": "#4BACC6" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Blue Circles", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Geometric Pattern", "animation": "none", "fontSize": "24px", "color": "#E6F7FF" }
+      ]
+    },
+    {
+      "id": 3005,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #006064 0%, #00838F 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Teal Corporate", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Modern and Professional", "animation": "none", "fontSize": "24px", "color": "#B2EBF2" }
+      ]
+    },
+    {
+      "id": 3006,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #4B0082 0%, #8B008B 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Royal Purple", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Elegant and Bold", "animation": "none", "fontSize": "24px", "color": "#E6D5F5" }
+      ]
+    },
+    {
+      "id": 3007,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #D2B48C 0%, #F5DEB3 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Tan Classic", "animation": "fade-in", "fontSize": "48px", "color": "#5D4E37" },
+        { "type": "subtitle", "text": "Warm and Inviting", "animation": "none", "fontSize": "24px", "color": "#8B7355" }
+      ]
+    },
+    {
+      "id": 3008,
+      "background": { "type": "color", "value": "#F5F5F5" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "White Minimalist", "animation": "fade-in", "fontSize": "48px", "color": "#333333" },
+        { "type": "subtitle", "text": "Clean Design", "animation": "none", "fontSize": "24px", "color": "#666666" }
+      ]
+    },
+    {
+      "id": 3009,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #00BFFF 0%, #1E90FF 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Sky Blue", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Bright and Clear", "animation": "none", "fontSize": "24px", "color": "#E6F7FF" }
+      ]
+    },
+    {
+      "id": 3010,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #8B7355 0%, #A0826D 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Brown Earth", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Natural Tones", "animation": "none", "fontSize": "24px", "color": "#F5F5DC" }
+      ]
+    },
+    {
+      "id": 3011,
+      "background": { "type": "color", "value": "#FF0000" },
+      "transition": "slide",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Bold Red", "animation": "slide-in-left", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "High Energy", "animation": "none", "fontSize": "26px", "color": "#FFE6E6" }
+      ]
+    },
+    {
+      "id": 3012,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #00BFFF 0%, #87CEEB 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Azure Blue", "animation": "fade-in", "fontSize": "48px", "color": "#003366" },
+        { "type": "subtitle", "text": "Professional Theme", "animation": "none", "fontSize": "24px", "color": "#004080" }
+      ]
+    },
+    {
+      "id": 3013,
+      "background": { "type": "color", "value": "#9ACD32" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Yellow Green", "animation": "fade-in", "fontSize": "48px", "color": "#3d5a14" },
+        { "type": "subtitle", "text": "Vibrant Energy", "animation": "none", "fontSize": "24px", "color": "#2d4410" }
+      ]
+    },
+    {
+      "id": 3014,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #FF8C00 0%, #FF4500 100%)" },
+      "transition": "slide",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Sunset Orange", "animation": "slide-in-right", "fontSize": "50px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Warm Gradient", "animation": "none", "fontSize": "26px", "color": "#FFF5E6" }
+      ]
+    },
+    {
+      "id": 3015,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #4B0082 0%, #663399 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Deep Purple", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Rich and Luxurious", "animation": "none", "fontSize": "24px", "color": "#E6D5F5" }
+      ]
+    },
+    {
+      "id": 3016,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #00CED1 0%, #48D1CC 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Turquoise", "animation": "fade-in", "fontSize": "48px", "color": "#004D4D" },
+        { "type": "subtitle", "text": "Refreshing Blue", "animation": "none", "fontSize": "24px", "color": "#003333" }
+      ]
+    },
+    {
+      "id": 3017,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #2C3E50 0%, #1a252f 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Dark Navy", "animation": "fade-in", "fontSize": "48px", "color": "#ECF0F1" },
+        { "type": "subtitle", "text": "Professional Dark", "animation": "none", "fontSize": "24px", "color": "#BDC3C7" }
+      ]
+    },
+    {
+      "id": 3018,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #2C5F73 0%, #3A7C8F 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Deep Ocean", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Corporate Blue", "animation": "none", "fontSize": "24px", "color": "#D0E8F0" }
+      ]
+    },
+    {
+      "id": 3019,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #5C2E5C 0%, #8B4789 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Plum Purple", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Creative Theme", "animation": "none", "fontSize": "24px", "color": "#F0E6F0" }
+      ]
+    },
+    {
+      "id": 3020,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #B0B0B0 0%, #D3D3D3 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Silver Gray", "animation": "fade-in", "fontSize": "48px", "color": "#333333" },
+        { "type": "subtitle", "text": "Minimalist Style", "animation": "none", "fontSize": "24px", "color": "#666666" }
+      ]
+    },
+    {
+      "id": 3021,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #90EE90 0%, #FFFFFF 50%, #90EE90 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Green Accent", "animation": "fade-in", "fontSize": "48px", "color": "#2d5016" },
+        { "type": "subtitle", "text": "Fresh Design", "animation": "none", "fontSize": "24px", "color": "#4a7c2c" }
+      ]
+    },
+    {
+      "id": 3022,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #00BFFF 0%, #87CEEB 50%, #00BFFF 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Blue Horizon", "animation": "fade-in", "fontSize": "48px", "color": "#003366" },
+        { "type": "subtitle", "text": "Sky Theme", "animation": "none", "fontSize": "24px", "color": "#004080" }
+      ]
+    },
+    {
+      "id": 3023,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #E0E0E0 0%, #F5F5F5 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Light Gray", "animation": "fade-in", "fontSize": "48px", "color": "#424242" },
+        { "type": "subtitle", "text": "Neutral Theme", "animation": "none", "fontSize": "24px", "color": "#616161" }
+      ]
+    },
+    {
+      "id": 3024,
+      "background": { "type": "color", "value": "#4BACC6" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Aqua Pattern", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Geometric Design", "animation": "none", "fontSize": "24px", "color": "#E6F7FF" }
+      ]
+    },
+    {
+      "id": 3025,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Light Blue Frame", "animation": "fade-in", "fontSize": "48px", "color": "#1565C0" },
+        { "type": "subtitle", "text": "Soft and Professional", "animation": "none", "fontSize": "24px", "color": "#1976D2" }
+      ]
+    },
+    {
+      "id": 3026,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #2C3E50 0%, #34495E 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Charcoal", "animation": "fade-in", "fontSize": "48px", "color": "#ECF0F1" },
+        { "type": "subtitle", "text": "Dark Professional", "animation": "none", "fontSize": "24px", "color": "#BDC3C7" }
+      ]
+    },
+    {
+      "id": 3027,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #1a1a1a 0%, #000000 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Midnight Black", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Dramatic Theme", "animation": "none", "fontSize": "24px", "color": "#CCCCCC" }
+      ]
+    },
+    {
+      "id": 3028,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #FF0000 0%, #8B0000 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Red Gradient", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Bold Statement", "animation": "none", "fontSize": "24px", "color": "#FFE6E6" }
+      ]
+    },
+    {
+      "id": 3029,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, #00695C 0%, #00897B 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Teal Green", "animation": "fade-in", "fontSize": "48px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Balanced Design", "animation": "none", "fontSize": "24px", "color": "#B2DFDB" }
+      ]
+    },
+    {
+      "id": 3030,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #8B4513 0%, #A0522D 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Saddle Brown", "animation": "fade-in", "fontSize": "48px", "color": "#FAEBD7" },
+        { "type": "subtitle", "text": "Rustic Theme", "animation": "none", "fontSize": "24px", "color": "#FFE4B5" }
+      ]
+    }
+  ]
+}

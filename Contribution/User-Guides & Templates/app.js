@@ -37,37 +37,99 @@ function importDesigns(e) {
         return;
       }
 
-      // 1. Get the first slide as the design template
-      const designTemplate = parsed.slides[0];
+      // Show a selection dialog for which design template to apply
+      const designChoices = parsed.slides.map((slide, idx) => {
+        const bgDesc = slide.background.type === 'color' ? slide.background.value :
+                       slide.background.type === 'gradient' ? 'gradient' :
+                       'image';
+        return `Design ${idx + 1}: ${bgDesc} with ${slide.elements.length} elements`;
+      }).join('\n');
+
+      const selectedIndex = prompt(
+        `Select a design template to apply (enter number 1-${parsed.slides.length}):\n\n${designChoices}`,
+        '1'
+      );
+
+      if (selectedIndex === null) return; // User cancelled
+
+      const designIndex = parseInt(selectedIndex, 10) - 1;
+      if (isNaN(designIndex) || designIndex < 0 || designIndex >= parsed.slides.length) {
+        alert("Invalid selection. Please enter a number between 1 and " + parsed.slides.length);
+        return;
+      }
+
+      // Get the selected design template
+      const designTemplate = parsed.slides[designIndex];
 
       if (data.slides.length === 0) {
-          // If the deck is empty, just add the template as the first slide
-          data.slides.push(designTemplate);
-          currentSlideIndex = 0;
+        // If the deck is empty, add the template as the first slide
+        data.slides.push(JSON.parse(JSON.stringify(designTemplate)));
+        currentSlideIndex = 0;
       } else {
-          // 2. Iterate over ALL existing slides and apply the template's design
-          data.slides.forEach(slide => {
-              // Overwrite styling properties
-              slide.background = designTemplate.background;
-              slide.transition = designTemplate.transition;
-              
-              // Deep copy the elements to prevent cross-slide modification issues
-              slide.elements = designTemplate.elements.map(elem => ({ ...elem })); 
-          });
+        // Apply to all existing slides or ask user
+        const applyChoice = confirm(
+          "Apply this design to ALL slides?\n\n" +
+          "OK = Apply to all slides\n" +
+          "Cancel = Apply only to current slide"
+        );
 
-          // Keep the current slide selected
+        if (applyChoice) {
+          // Apply to all slides
+          data.slides.forEach((slide, idx) => {
+            applyDesignToSlide(slide, designTemplate, idx === currentSlideIndex);
+          });
+        } else {
+          // Apply only to current slide
+          if (currentSlideIndex >= 0) {
+            applyDesignToSlide(data.slides[currentSlideIndex], designTemplate, true);
+          }
+        }
       }
 
       saveState();
       updateAll();
 
-      alert("Design template successfully applied to all slides!");
+      alert("Design template successfully applied!");
 
     } catch (err) {
       alert("Invalid design JSON: " + err.message);
     }
   };
   reader.readAsText(file);
+}
+
+// Helper function to apply design template to a slide
+function applyDesignToSlide(targetSlide, designTemplate, preserveContent = true) {
+  // Store existing content if we want to preserve it
+  const existingContent = preserveContent ? {
+    elements: JSON.parse(JSON.stringify(targetSlide.elements)),
+    notes: targetSlide.notes
+  } : null;
+
+  // Apply design properties
+  targetSlide.background = JSON.parse(JSON.stringify(designTemplate.background));
+  targetSlide.transition = designTemplate.transition;
+
+  if (!preserveContent) {
+    // Replace everything with template
+    targetSlide.elements = JSON.parse(JSON.stringify(designTemplate.elements));
+    targetSlide.notes = designTemplate.notes || '';
+  } else if (existingContent && existingContent.elements.length === 0) {
+    // If slide is empty, use template elements
+    targetSlide.elements = JSON.parse(JSON.stringify(designTemplate.elements));
+  } else if (existingContent) {
+    // Merge: Apply template styling to existing elements
+    targetSlide.elements = existingContent.elements.map((elem, idx) => {
+      const templateElem = designTemplate.elements[idx];
+      if (templateElem && templateElem.type === elem.type) {
+        // Apply style properties from template
+        if (templateElem.fontSize) elem.fontSize = templateElem.fontSize;
+        if (templateElem.color) elem.color = templateElem.color;
+        if (templateElem.animation) elem.animation = templateElem.animation;
+      }
+      return elem;
+    });
+  }
 }
 
 function bindUI() {
