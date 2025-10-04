@@ -46,7 +46,19 @@ const questions = [
     text: "Which JavaScript method logs output to the browser console?",
     options: ["print()", "console.log()", "echo()", "log()"],
     correct: 1
-  }
+  },
+  {
+    id: 4,
+    text: "Which HTML element is used to create a hyperlink?",
+    options: ["<link>", "<a>", "<href>", "<hyper>"],
+    correct: 1
+	},
+	{
+    id: 5,
+    text: "Which JavaScript keyword is used to declare a variable?",
+    options: ["var", "let", "const", "All of the above"],
+    correct: 3
+	}
 ];
 
 // players: socketId -> { name, answers: { qIndex: choiceIndex }, score }
