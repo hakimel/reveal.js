@@ -22,7 +22,7 @@
           <canvas id="qrcode"></canvas>
           <div>
             <p>Scan with your phone to open the quiz. Enter name and start answering.</p>
-            <p class="small-note">Quiz has 3 questions, 60 seconds each.</p>
+            <p class="small-note">Quiz has 5 questions, 60 seconds each.</p>
             <div class="alert">Note: Backend active. Audience will submit answers and presenter sees live stats.</div>
           </div>
         </div>
@@ -65,7 +65,7 @@
     fetch('/ip')
       .then(res => res.json())
       .then(data => {
-        QRCode.toCanvas(document.getElementById('qrcode'), data.url, { width: 220 }, err => { if(err) console.error(err); });
+        QRCode.toCanvas(document.getElementById('qrcode'), data.url, { width: 500 }, err => { if(err) console.error(err); });
       });
 
     const socket = io();
