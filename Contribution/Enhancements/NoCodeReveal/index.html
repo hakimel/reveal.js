@@ -2,36 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>No-Code Reveal.js Presentation Builder — MVP+</title>
+  <title>No-Code Reveal.js Presentation Builder</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Top toolbar -->
   <div id="toolbar">
+  
     <div class="left">
       <button id="new-deck" title="New deck (Ctrl+Shift+N)">New Deck</button>
       <button id="add-slide" title="Add slide (Ctrl+N)">Add Slide</button>
       <button id="undo" title="Undo (Ctrl+Z)">Undo</button>
-      <button id="redo" title="Redo (Ctrl+Y / Shift+Ctrl+Z)">Redo</button>
-      <button id="theme-toggle" title="Toggle editor theme">Toggle Theme</button>
+      <button id="redo" title="Redo (Ctrl+Y)">Redo</button>
+      <button id="theme-toggle" title="Toggle dark mode">Toggle Theme</button>
     </div>
+
     <div class="right">
-      <button id="save-json" title="Save deck as JSON (Ctrl+S)">Save JSON</button>
-      <button id="import-btn" title="Import deck from JSON">Import JSON</button>
+      <button id="save-json" title="Save JSON (Ctrl+S)">Save JSON</button>
+      <button id="import-btn">Import JSON</button>
       <input type="file" id="import-json" accept=".json" style="display:none" />
-      <button id="export-html" title="Export standalone HTML">Export HTML</button>
-      <button id="export-pdf" title="How to export PDF">Export PDF</button>
-      <button id="play-deck" title="Open player window">Play Deck</button>
-      <button id="ai-generate" title="AI outline generator">AI Generate</button>
-      <button id="import-designs" title="Merge design tokens from JSON">Import Designs</button>
-      <input type="file" id="import-designs-json" accept=".json" style="display:none" />
+      <button id="export-html">Export HTML</button>
+      <button id="export-pdf">Export PDF</button>
+      <button id="play-deck">Play Deck</button>
+	  <button id="ai-generate">AI Generate</button>
+	  <button id="import-designs">Import Designs</button>
+	  <input type="file" id="import-designs-json" accept=".json" style="display:none" />
+
     </div>
   </div>
 
-  <!-- Main layout -->
+  <!-- Main content -->
   <div id="main">
-    <!-- Left column: slides + deck settings -->
+    <!-- Left column: slides + global -->
     <aside id="left-column">
       <section class="panel" id="slide-list-panel">
         <h3>Slides</h3>
@@ -39,41 +42,24 @@
       </section>
 
       <section class="panel" id="global-panel">
-        <!-- Deck settings injected by JS -->
+        <!-- Global settings injected by JS -->
       </section>
     </aside>
 
-    <!-- Middle column: editor -->
+    <!-- Center column: edit panel -->
     <section id="edit-panel-wrapper">
       <section class="panel" id="edit-panel">
-        <!-- Editor injected by JS -->
+        <!-- Slide editor injected by JS -->
       </section>
     </section>
 
     <!-- Right column: preview -->
     <section id="preview-column">
       <div id="preview-top" class="panel">
-        <strong>Preview <span id="autosave-indicator" class="badge">Saved · —</span></strong>
+        <strong>Preview</strong>
       </div>
       <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
     </section>
-  </div>
-
-  <!-- Minimal help modal + backdrop -->
-  <div class="modal-backdrop" id="help-backdrop"></div>
-  <div class="modal" id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
-    <button class="close" id="help-close" title="Close (Esc)">Close</button>
-    <h3 id="help-title">Shortcuts & Tips</h3>
-    <p>Navigate, rearrange, and export fast.</p>
-    <pre>
-Ctrl/Cmd + Shift + N   New deck
-Ctrl/Cmd + N           Add slide
-Ctrl/Cmd + S           Save JSON
-Ctrl/Cmd + Z / Y       Undo / Redo
-Left / Right           Previous / Next slide
-Del / Backspace        Delete current slide (asks to confirm)
-?                      Open this help
-    </pre>
   </div>
 
   <script src="app.js"></script>

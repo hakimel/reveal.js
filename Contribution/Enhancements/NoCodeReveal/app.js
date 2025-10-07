@@ -1,577 +1,1428 @@
-/* ===========================
-   No-Code Reveal.js Builder — MVP+
-   Features:
-   - Autosave + restore toast
-   - JSON import/export
-   - Live preview (iframe, sandboxed)
-   - Starter templates
-   - Theme toggle (editor); deck theme dropdown
-   - Keyboard shortcuts + Help modal
-   - Drag & drop reordering, duplicate, delete confirm
-   - AI Outline Generator (local heuristic, no API)
-   - Export standalone HTML via CDN
-=========================== */
+/* --------------- Data & state --------------- */
+let data = {
+  global: {
+    theme: "white",
+    customThemeCss: ""
+  },
+  slides: []
+};
 
-const $  = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
+let currentSlideIndex = -1;
+let history = [];
+let historyIndex = -1;
+let draggedItem = null;
+let isGreenYellowTheme = false; // Track theme state
 
-/* ---------- State ---------- */
-let deck = null;
-let activeIndex = 0;
-const HISTORY = [];
-const REDO = [];
-const STORAGE_KEY = 'nocode-revealjs-deck-v1';
-const THEME_KEY   = 'nocode-theme';
-
-const fmtTime = d => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-let lastSavedAt = null;
-function updateAutosaveIndicator(){
-  const el = $('#autosave-indicator');
-  if(!el) return;
-  el.textContent = lastSavedAt ? `Saved · ${fmtTime(lastSavedAt)}` : 'Saved · —';
-}
-function markSaved(){ lastSavedAt = new Date(); updateAutosaveIndicator(); }
-
-/* ---------- Init ---------- */
-window.addEventListener('DOMContentLoaded', () => {
-  // Editor theme (chrome)
-  const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
-  if(savedTheme === 'light') document.documentElement.classList.add('light');
-
-  bindToolbar();
-  updateAutosaveIndicator();
-  maybeRestoreSession();
-  if(!deck){ newDeck('Untitled Deck'); }
-  renderAll();
-  setupShortcuts();
-});
-
-/* ---------- Toolbar ---------- */
-function bindToolbar(){
-  $('#new-deck').addEventListener('click', () => { newDeck(); toast('New deck created'); });
-  $('#add-slide').addEventListener('click', () => addSlide());
-  $('#undo').addEventListener('click', undo);
-  $('#redo').addEventListener('click', redo);
-  $('#theme-toggle').addEventListener('click', toggleTheme);
-
-  $('#save-json').addEventListener('click', downloadJSON);
-  $('#export-html').addEventListener('click', exportHTMLStandalone);
-  $('#export-pdf').addEventListener('click', exportPDFHint);
-  $('#play-deck').addEventListener('click', openPlayerWindow);
-  $('#ai-generate').addEventListener('click', aiGenerateOutline);
-
-  $('#import-btn').addEventListener('click', ()=> $('#import-json').click());
-  $('#import-json').addEventListener('change', importJSON);
-
-  $('#import-designs').addEventListener('click', ()=> $('#import-designs-json').click());
-  $('#import-designs-json').addEventListener('change', importDesigns);
+/* --------------- Initialization --------------- */
+function init() {
+  bindUI();
+  addSlide();
+  saveState();
+  updateAll();
 }
 
-function toggleTheme(){
-  document.documentElement.classList.toggle('light');
-  const mode = document.documentElement.classList.contains('light') ? 'light' : 'dark';
-  localStorage.setItem(THEME_KEY, mode);
-  renderPreview();
-}
+function importDesigns(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
 
-/* ---------- Deck Model ---------- */
-function newDeck(title='Untitled Deck'){
-  pushHistory();
-  deck = {
-    id: crypto.randomUUID(),
-    title,
-    theme: document.documentElement.classList.contains('light') ? 'white' : 'black',
-    slides: [ templateSlide('title', 'Welcome', 'Add your content here…') ],
-    tokens: {
-      primary: '#4f46e5',
-      text: document.documentElement.classList.contains('light') ? '#111827' : '#e6edf3',
-      background: document.documentElement.classList.contains('light') ? '#ffffff' : '#0b0d10'
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+
+      if (!Array.isArray(parsed.slides)) {
+        alert("Invalid design file: no slides found");
+        return;
+      }
+
+      parsed.slides.forEach(slide => {
+        const { background, ...rest } = slide;
+        rest.elements = (rest.elements || []).map(elem => {
+          if (['title', 'subtitle', 'text', 'bullets'].includes(elem.type)) {
+            return {
+              ...elem,
+              fontFamily: elem.fontFamily || 'Arial',
+              textAlign: elem.textAlign || 'left',
+              x: elem.x || 0,
+              y: elem.y || 0
+            };
+          } else if (elem.type === 'image') {
+            return {
+              ...elem,
+              width: elem.width || 'auto',
+              height: elem.height || 'auto',
+              x: elem.x || 0,
+              y: elem.y || 0
+            };
+          } else if (elem.type === 'video') {
+            return {
+              ...elem,
+              width: elem.width || 'auto',
+              height: elem.height || 'auto',
+              x: elem.x || 0,
+              y: elem.y || 0,
+              controls: elem.controls !== undefined ? elem.controls : true
+            };
+          }
+          return elem;
+        });
+        data.slides.push(rest);
+      });
+
+      currentSlideIndex = data.slides.length - 1;
+      saveState();
+      updateAll();
+
+      alert("Designs imported successfully!");
+    } catch (err) {
+      alert("Invalid design JSON: " + err.message);
     }
   };
-  activeIndex = 0;
-  saveAutosave();
-  renderAll();
+  reader.readAsText(file);
 }
 
-function templateSlide(layout='title', title='Slide Title', content=''){
-  return {
-    id: crypto.randomUUID(),
-    layout, title, content,
-    notes: '',
-    hidden: false,
-    autoAnimate: false
-  };
-}
+function bindUI() {
+  document.getElementById('add-slide').addEventListener('click', addSlide);
+  document.getElementById('new-deck').addEventListener('click', () => {
+    data = { global: { ...data.global }, slides: [] };
+    currentSlideIndex = -1;
+    addSlide();
+    saveState();
+    updateAll();
+  });
 
-function addSlide(layout='title'){
-  pushHistory();
-  deck.slides.splice(activeIndex+1,0, templateSlide(layout,'New Slide',''));
-  activeIndex++;
-  saveAutosave();
-  renderAll();
-}
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    isGreenYellowTheme = !isGreenYellowTheme;
+    document.body.classList.toggle('green-yellow-theme', isGreenYellowTheme);
+    console.log('Toggled theme to:', isGreenYellowTheme ? 'light green to yellow' : 'violet to orange');
+    updatePreview(true); // Refresh preview to apply theme
+  });
 
-function removeSlide(idx){
-  if(deck.slides.length===1) return toast('Keep at least one slide');
-  pushHistory();
-  deck.slides.splice(idx,1);
-  activeIndex = Math.max(0, Math.min(activeIndex, deck.slides.length-1));
-  saveAutosave();
-  renderAll();
-}
+  document.getElementById('undo').addEventListener('click', undo);
+  document.getElementById('redo').addEventListener('click', redo);
+  document.getElementById('save-json').addEventListener('click', saveJson);
+  document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-json').click());
+  document.getElementById('import-json').addEventListener('change', importJson);
+  document.getElementById('export-html').addEventListener('click', exportHtml);
+  document.getElementById('export-pdf').addEventListener('click', exportPdf);
+  document.getElementById('play-deck').addEventListener('click', playDeck);
 
-function moveSlide(idx, dir){
-  const to = idx + dir;
-  if(to<0 || to>=deck.slides.length) return;
-  pushHistory();
-  const [s] = deck.slides.splice(idx,1);
-  deck.slides.splice(to,0,s);
-  activeIndex = to;
-  saveAutosave();
-  renderAll();
-}
+  document.getElementById('ai-generate').addEventListener('click', async () => {
+    const topic = prompt("Enter topic for AI slides:");
+    if (!topic) return;
+    const num = parseInt(prompt("How many slides? (1-15)", "5"), 10) || 5;
 
-/* ---------- History ---------- */
-function pushHistory(){
-  if(deck) HISTORY.push(JSON.stringify(deck));
-  if(HISTORY.length>100) HISTORY.shift();
-  REDO.length = 0;
-}
-function undo(){
-  if(!HISTORY.length) return;
-  REDO.push(JSON.stringify(deck));
-  deck = JSON.parse(HISTORY.pop());
-  activeIndex = Math.min(activeIndex, deck.slides.length-1);
-  saveAutosave();
-  renderAll();
-}
-function redo(){
-  if(!REDO.length) return;
-  HISTORY.push(JSON.stringify(deck));
-  deck = JSON.parse(REDO.pop());
-  saveAutosave();
-  renderAll();
-}
+    const finalNum = Math.max(1, Math.min(num, 15));
+    const normalizedTopic = topic.trim();
 
-/* ---------- Autosave ---------- */
-function saveAutosave(){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(deck)); }
-  catch(e){ console.warn('Autosave failed', e); }
-  markSaved();
-}
-function maybeRestoreSession(){
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if(!raw) return;
-  const bar = ensureSnackbar();
-  bar.innerHTML = `Found an autosaved deck. <button id="restore-btn">Restore</button> <button id="dismiss-btn">Dismiss</button>`;
-  bar.classList.add('show');
-  $('#restore-btn').onclick = () => {
-    deck = JSON.parse(raw);
-    activeIndex = 0;
-    bar.classList.remove('show');
-    renderAll();
-  };
-  $('#dismiss-btn').onclick = () => bar.classList.remove('show');
-}
-function ensureSnackbar(){
-  let bar = $('.snackbar');
-  if(!bar){
-    bar = document.createElement('div');
-    bar.className = 'snackbar';
-    document.body.appendChild(bar);
-  }
-  return bar;
-}
-function toast(msg){
-  const bar = ensureSnackbar();
-  bar.textContent = msg;
-  bar.classList.add('show');
-  setTimeout(()=>bar.classList.remove('show'), 1500);
-}
+    try {
+      const generatedSlides = [];
+      const contentSlidesNeeded = Math.max(1, finalNum - 2);
 
-/* ---------- Rendering ---------- */
-function renderAll(){
-  renderSlideList();
-  renderEditor();
-  renderGlobalPanel();
-  renderPreview();
-}
+      generatedSlides.push({
+        title: normalizedTopic,
+        subtitle: `A Comprehensive Overview of ${normalizedTopic}`,
+        points: [`Presented by the Slide Builder AI`, `Focus on Key Concepts and Practical Applications`]
+      });
 
-function renderSlideList(){
-  const container = $('#slide-list');
-  container.innerHTML = '';
-  deck.slides.forEach((s, i)=>{
-    const item = document.createElement('div');
-    item.className = 'slide-item' + (i===activeIndex?' active':'');
-    item.setAttribute('role','button');
-    item.setAttribute('tabindex','0');
-    item.setAttribute('aria-label', `Slide ${i+1}: ${s.title}`);
-    item.draggable = true; // drag
+      const mainSections = [
+        `Introduction & Context`,
+        `Core Components and Mechanics`,
+        `Real-World Applications and Case Studies`,
+        `Challenges, Risks, and Mitigation Strategies`,
+        `Future Trends and Long-term Impact`
+      ];
 
-    item.innerHTML = `
-      <div>
-        <strong>${i+1}. ${escapeHTML(s.title || '(untitled)')}</strong>
-        <div><small class="badge">${s.layout}${s.hidden?' · H':''}${s.autoAnimate?' · AA':''}</small></div>
-      </div>
-      <div style="margin-left:auto;display:flex;gap:6px">
-        <button title="Up" aria-label="Move up">↑</button>
-        <button title="Down" aria-label="Move down">↓</button>
-        <button title="Duplicate" aria-label="Duplicate slide">⧉</button>
-        <button title="Delete" aria-label="Delete slide">✕</button>
-      </div>
-    `;
+      let sections = mainSections.slice(0, contentSlidesNeeded);
+      while (sections.length < contentSlidesNeeded) {
+        sections.push(`Detailed Analysis: Aspect ${sections.length - mainSections.length + 1}`);
+      }
 
-    item.addEventListener('click', (e)=>{
-      if(e.target.tagName==='BUTTON') return;
-      activeIndex = i; renderAll();
-    });
-    item.addEventListener('keydown', (e)=>{
-      if(e.key==='Enter' || e.key===' '){ activeIndex = i; renderAll(); }
-    });
+      for (let i = 0; i < sections.length; i++) {
+        const sectionTitle = sections[i];
+        let points = [];
+        if (sectionTitle.includes('Introduction')) {
+          points = ['Definition and background of the topic.', 'Historical perspective and evolution.', 'Why this topic is important today.'];
+        } else if (sectionTitle.includes('Core Components')) {
+          points = ['Breakdown of essential elements.', 'How the system or process works (detailed step).', 'Diagram/Model concept (visual idea).'];
+        } else if (sectionTitle.includes('Applications')) {
+          points = ['Example 1: Specific industry use case.', 'Example 2: Measurable results or impact.', 'Lessons learned from successful deployment.'];
+        } else if (sectionTitle.includes('Challenges')) {
+          points = ['Identifying the top 3 difficulties.', 'Proposed solution for each challenge.', 'Risk assessment and severity level.'];
+        } else if (sectionTitle.includes('Future Trends')) {
+          points = ['Predicted developments in the next 5 years.', 'Opportunities for innovation.', 'Call to Action for the audience.'];
+        } else {
+          points = [`Key detail on the topic's sub-aspect ${i+1}.`, `Supporting data or statistics for this aspect.`, `Conclusion for this specific detail.`];
+        }
 
-    const [btnUp, btnDown, btnDup, btnDel] = item.querySelectorAll('button');
-    btnUp.onclick  = (e)=>{ e.stopPropagation(); moveSlide(i,-1); };
-    btnDown.onclick= (e)=>{ e.stopPropagation(); moveSlide(i,+1); };
-    btnDup.onclick = (e)=>{ e.stopPropagation(); duplicateSlide(i); };
-    btnDel.onclick = (e)=>{ e.stopPropagation(); confirmDeleteSlide(i); };
+        generatedSlides.push({
+          'title': sectionTitle,
+          'subtitle': `${normalizedTopic}: ${sectionTitle}`,
+          'points': points
+        });
+      }
 
-    // Drag & drop
-    item.addEventListener('dragstart', (e)=>{
-      item.classList.add('dragging');
-      e.dataTransfer.setData('text/plain', String(i));
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    item.addEventListener('dragend', ()=> item.classList.remove('dragging'));
-    item.addEventListener('dragover', (e)=>{
-      e.preventDefault();
-      item.classList.add('drag-over');
-      e.dataTransfer.dropEffect = 'move';
-    });
-    item.addEventListener('dragleave', ()=> item.classList.remove('drag-over'));
-    item.addEventListener('drop', (e)=>{
-      e.preventDefault();
-      item.classList.remove('drag-over');
-      const from = Number(e.dataTransfer.getData('text/plain'));
-      const to   = i;
-      if(from===to) return;
-      pushHistory();
-      const [s] = deck.slides.splice(from,1);
-      deck.slides.splice(to,0,s);
-      activeIndex = to;
-      saveAutosave();
-      renderAll();
-    });
+      if (finalNum > 1) {
+        generatedSlides.push({
+          'title': 'Summary & Next Steps',
+          'subtitle': `Concluding Thoughts on ${normalizedTopic}`,
+          'points': ['Recap of the most critical takeaways.', 'Open Q&A session.', 'Thank you and contact information.']
+        });
+      }
 
-    container.appendChild(item);
+      const slidesToAdd = generatedSlides.slice(0, finalNum);
+
+      slidesToAdd.forEach(sl => {
+        const newSlide = {
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          transition: "fade",
+          notes: "",
+          elements: [
+            { type: "title", text: sl.title, animation: "none", fontSize: "40px", color: "#000000", fontFamily: "Arial", textAlign: "left", x: 0, y: 0 },
+            { type: "subtitle", text: sl.subtitle, animation: "none", fontSize: "24px", color: "#333333", fontFamily: "Arial", textAlign: "left", x: 0, y: 0 },
+            { type: "bullets", items: sl.points, animation: "none", fontSize: "20px", color: "#000000", fontFamily: "Arial", textAlign: "left", x: 0, y: 0 }
+          ]
+        };
+        data.slides.push(newSlide);
+      });
+
+      currentSlideIndex = data.slides.length - 1;
+      saveState();
+      updateAll();
+
+    } catch (err) {
+      alert("AI generation failed unexpectedly. Check the console for details.");
+      console.error(err);
+    }
+  });
+
+  document.getElementById('import-designs').addEventListener('click', () => {
+    document.getElementById('import-designs-json').click();
+  });
+
+  document.getElementById('import-designs-json').addEventListener('change', importDesigns);
+
+  window.addEventListener('keydown', (ev) => {
+    const mod = (ev.ctrlKey || ev.metaKey);
+    if (mod && ev.key === 's') { ev.preventDefault(); saveJson(); return; }
+    if (mod && ev.key === 'n' && !ev.shiftKey) { ev.preventDefault(); addSlide(); return; }
+    if (mod && ev.shiftKey && ev.key.toLowerCase() === 'n') { ev.preventDefault(); document.getElementById('new-deck').click(); return; }
+    if (mod && ev.key === 'z') { ev.preventDefault(); undo(); return; }
+    if (mod && (ev.key === 'y' || (ev.shiftKey && ev.key === 'Z'))) { ev.preventDefault(); redo(); return; }
   });
 }
 
-function renderGlobalPanel(){
-  const el = $('#global-panel');
-  el.innerHTML = `
-    <h3>Deck</h3>
-    <div class="row"><label>Title</label><input id="deck-title" type="text" value="${escapeAttr(deck.title)}"></div>
-    <div class="row"><label>Theme</label>
-      <select id="deck-theme">
-        ${['black','white','league','beige','night','moon','serif','simple','sky','blood','solarized']
-          .map(t=>`<option ${deck.theme===t?'selected':''} value="${t}">${t}</option>`).join('')}
-      </select>
-    </div>
-    <p class="badge">Press <span class="kbd">?</span> for shortcuts.</p>
-  `;
-  $('#deck-title').oninput  = e => { deck.title = e.target.value; saveAutosave(); renderPreviewSoon(); };
-  $('#deck-theme').onchange = e => { deck.theme = e.target.value; saveAutosave(); renderPreview(); };
+/* --------------- Slide management --------------- */
+function addSlide() {
+  const newSlide = {
+    id: Date.now() + Math.floor(Math.random() * 1000),
+    transition: "none",
+    notes: "",
+    elements: []
+  };
+  data.slides.push(newSlide);
+  selectSlide(data.slides.length - 1);
+  saveState();
+  updateAll();
 }
 
-function renderEditor(){
-  const s = deck.slides[activeIndex];
-  const el = $('#edit-panel');
-  el.innerHTML = `
-    <h3>Edit Slide</h3>
-    <div class="row"><label>Layout</label>
-      <select id="s-layout">
-        ${['title','two-col','quote','image-left','code'].map(opt=>`<option ${s.layout===opt?'selected':''} value="${opt}">${opt}</option>`).join('')}
-      </select>
-    </div>
-    <div class="row"><label>Title</label><input id="s-title" type="text" value="${escapeAttr(s.title)}"></div>
-    <div class="row"><label>Content</label><textarea id="s-content" placeholder="HTML or Markdown accepted">${escapeHTML(s.content||'')}</textarea></div>
-    <div class="row"><label>Notes</label><textarea id="s-notes" placeholder="Speaker notes">${escapeHTML(s.notes||'')}</textarea></div>
-    <div class="row"><label>Flags</label>
-      <div>
-        <label><input id="s-hidden" type="checkbox" ${s.hidden?'checked':''}> Hidden</label>
-        <label style="margin-left:10px"><input id="s-aa" type="checkbox" ${s.autoAnimate?'checked':''}> Auto-animate</label>
-      </div>
-    </div>
-    <div class="row"><label>Templates</label>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="tpl" data-tpl="title">Title</button>
-        <button class="tpl" data-tpl="two-col">Two-Column</button>
-        <button class="tpl" data-tpl="quote">Quote</button>
-        <button class="tpl" data-tpl="image-left">Image-Left</button>
-        <button class="tpl" data-tpl="code">Code</button>
-        <button id="btn-add-slide">+ Add Slide</button>
-      </div>
-    </div>
-  `;
-
-  $('#s-layout').onchange = e => { s.layout = e.target.value; saveAutosave(); renderPreview(); renderSlideList(); };
-  $('#s-title').oninput   = e => { s.title = e.target.value; saveAutosave(); renderSlideList(); renderPreviewSoon(); };
-  $('#s-content').oninput = e => { s.content = e.target.value; saveAutosave(); renderPreviewSoon(); };
-  $('#s-notes').oninput   = e => { s.notes = e.target.value; saveAutosave(); };
-  $('#s-hidden').onchange = e => { s.hidden = e.target.checked; saveAutosave(); renderSlideList(); renderPreview(); };
-  $('#s-aa').onchange     = e => { s.autoAnimate = e.target.checked; saveAutosave(); renderSlideList(); renderPreview(); };
-
-  $$('#edit-panel .tpl').forEach(b=> b.onclick = ()=>applyTemplateToSlide(b.dataset.tpl));
-  $('#btn-add-slide').onclick = ()=> addSlide('title');
-}
-
-/* ---------- Templates ---------- */
-function applyTemplateToSlide(kind){
-  const s = deck.slides[activeIndex];
-  pushHistory();
-  s.layout = kind;
-  if(kind==='title'){
-    s.title = s.title || 'Big Title';
-    s.content = `<p>Subtitle or tagline</p>`;
-  } else if(kind==='two-col'){
-    s.title ||= 'Two Column';
-    s.content = `
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-  <div><ul><li>Point A</li><li>Point B</li></ul></div>
-  <div><ul><li>Point C</li><li>Point D</li></ul></div>
-</div>`;
-  } else if(kind==='quote'){
-    s.title ||= 'Quote';
-    s.content = `<blockquote>“Your powerful quote here.”<br><small>— Source</small></blockquote>`;
-  } else if(kind==='image-left'){
-    s.title ||= 'Image + Text';
-    s.content = `
-<div style="display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:center">
-  <img src="https://picsum.photos/400/300" alt="placeholder" style="width:100%;border-radius:8px">
-  <div><h3>Key Message</h3><p>Add supporting text.</p></div>
-</div>`;
-  } else if(kind==='code'){
-    s.title ||= 'Code Sample';
-    s.content = `<pre><code class="hljs javascript">console.log('Hello Reveal');</code></pre>`;
+function deleteSlide(index) {
+  if (index < 0 || index >= data.slides.length) return;
+  data.slides.splice(index, 1);
+  if (data.slides.length === 0) {
+    currentSlideIndex = -1;
+  } else {
+    currentSlideIndex = Math.max(0, Math.min(currentSlideIndex, data.slides.length - 1));
   }
-  saveAutosave();
-  renderAll();
+  saveState();
+  updateAll();
 }
 
-/* ---------- Duplicate / Delete helpers ---------- */
-function duplicateSlide(idx){
-  pushHistory();
-  const c = JSON.parse(JSON.stringify(deck.slides[idx]));
-  c.id = crypto.randomUUID();
-  deck.slides.splice(idx+1,0,c);
-  activeIndex = idx+1;
-  saveAutosave();
-  renderAll();
+function selectSlide(index) {
+  if (index < 0 || index >= data.slides.length) return;
+  currentSlideIndex = index;
+  updateSlideList();
+  updateEditPanel();
+  updatePreview(true);
 }
-function confirmDeleteSlide(idx){
-  const bypass = window.event && (window.event.altKey || window.event.metaKey);
-  if(!bypass){
-    const name = deck.slides[idx]?.title || `Slide ${idx+1}`;
-    if(!confirm(`Delete "${name}"?`)) return;
+
+/* --------------- UI updates --------------- */
+function updateSlideList() {
+  const list = document.getElementById('slide-list');
+  list.innerHTML = '';
+  data.slides.forEach((slide, index) => {
+    const div = document.createElement('div');
+    div.className = 'slide-item' + (index === currentSlideIndex ? ' selected' : '');
+    div.draggable = true;
+    div.dataset.id = slide.id;
+    const label = document.createElement('div');
+    label.textContent = `Slide ${index + 1}`;
+    label.style.flex = '1';
+    div.appendChild(label);
+
+    const del = document.createElement('button');
+    del.className = 'delete-slide';
+    del.textContent = 'Delete';
+    del.title = 'Delete slide';
+    del.addEventListener('click', (e) => { e.stopPropagation(); deleteSlide(index); });
+    div.appendChild(del);
+
+    div.addEventListener('click', () => selectSlide(index));
+    list.appendChild(div);
+  });
+  setupDragDrop();
+}
+
+function setupDragDrop() {
+  const list = document.getElementById('slide-list');
+  list.ondragstart = null;
+  list.ondragover = null;
+  list.ondragend = null;
+
+  list.addEventListener('dragstart', (e) => {
+    draggedItem = e.target.closest('.slide-item');
+    if (!draggedItem) return;
+    e.dataTransfer.effectAllowed = 'move';
+    try { e.dataTransfer.setData('text/plain', draggedItem.dataset.id); } catch (err) {}
+  });
+
+  list.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const target = e.target.closest('.slide-item');
+    if (!target || !draggedItem || target === draggedItem) return;
+    const rect = target.getBoundingClientRect();
+    const after = (e.clientY - rect.top) > rect.height / 2;
+    if (after) target.after(draggedItem); else target.before(draggedItem);
+  });
+
+  list.addEventListener('dragend', () => {
+    if (!list.children.length) return;
+    const newOrder = Array.from(list.children).map(div => Number(div.dataset.id));
+    data.slides.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+    const selectedDom = list.querySelector('.selected');
+    if (selectedDom) {
+      const selId = Number(selectedDom.dataset.id);
+      currentSlideIndex = data.slides.findIndex(s => s.id === selId);
+    } else {
+      currentSlideIndex = 0;
+    }
+    updateSlideList();
+    saveState();
+    updateAll();
+  });
+}
+
+function updateGlobalPanel() {
+  const panel = document.getElementById('global-panel');
+  panel.innerHTML = '';
+  const header = document.createElement('h3');
+  header.textContent = 'Global settings';
+  panel.appendChild(header);
+
+  panel.appendChild(createLabel('Theme:'));
+  const themeSelect = document.createElement('select');
+  ['white', 'black', 'league', 'sky', 'beige', 'simple', 'serif', 'night', 'moon', 'solarized', 'custom'].forEach(t => {
+    const opt = new Option(t, t);
+    if (t === data.global.theme) opt.selected = true;
+    themeSelect.add(opt);
+  });
+  panel.appendChild(themeSelect);
+
+  const customThemeDiv = document.createElement('div');
+  customThemeDiv.style.display = data.global.theme === 'custom' ? 'block' : 'none';
+  customThemeDiv.style.marginTop = '10px';
+
+  const customLabel = createLabel('Upload custom theme CSS:');
+  const customInput = document.createElement('input');
+  customInput.type = 'file';
+  customInput.accept = '.css';
+  customInput.id = 'custom-theme-upload'; // Added ID for CSS styling
+  customInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        data.global.customThemeCss = ev.target.result;
+        console.log('Custom CSS loaded:', data.global.customThemeCss.substring(0, 100) + '...');
+        updatePreview(true); // Refresh preview immediately
+        saveState();
+      };
+      reader.onerror = () => alert('Error reading CSS file. Ensure it is a valid CSS file.');
+      reader.readAsText(file);
+    }
+  });
+  customThemeDiv.appendChild(customLabel);
+  customThemeDiv.appendChild(customInput);
+  panel.appendChild(customThemeDiv);
+
+  themeSelect.onchange = () => {
+    data.global.theme = themeSelect.value;
+    customThemeDiv.style.display = data.global.theme === 'custom' ? 'block' : 'none';
+    if (data.global.theme !== 'custom') data.global.customThemeCss = '';
+    console.log('Theme changed to:', data.global.theme);
+    updatePreview(true);
+    saveState();
+  };
+}
+
+function createLabel(text) {
+  const l = document.createElement('div');
+  l.style.marginTop = '10px';
+  l.style.fontSize = '13px';
+  l.style.color = 'var(--muted)';
+  l.textContent = text;
+  return l;
+}
+
+function updateEditPanel() {
+  const panel = document.getElementById('edit-panel');
+  panel.innerHTML = '';
+  if (currentSlideIndex < 0 || !data.slides[currentSlideIndex]) {
+    panel.innerHTML = '<p>No slide selected</p>';
+    return;
   }
-  removeSlide(idx);
+  const slide = data.slides[currentSlideIndex];
+
+  panel.appendChild(createLabel('Transition:'));
+  const transSelect = document.createElement('select');
+  ['none', 'fade', 'slide', 'convex', 'concave', 'zoom'].forEach(t => {
+    const opt = new Option(t, t);
+    if (t === slide.transition) opt.selected = true;
+    transSelect.add(opt);
+  });
+  transSelect.onchange = () => { slide.transition = transSelect.value; change(); };
+  panel.appendChild(transSelect);
+
+  panel.appendChild(createLabel('Speaker notes:'));
+  const notes = document.createElement('textarea');
+  notes.rows = 4;
+  notes.value = slide.notes || '';
+  notes.onchange = () => { slide.notes = notes.value; change(); };
+  panel.appendChild(notes);
+
+  panel.appendChild(createLabel('Elements:'));
+  const addRow = document.createElement('div');
+  addRow.style.display = 'flex';
+  addRow.style.gap = '8px';
+  const addSelect = document.createElement('select');
+  ['title', 'subtitle', 'text', 'bullets', 'image', 'video'].forEach(t => addSelect.add(new Option(t, t)));
+  const addBtn = document.createElement('button');
+  addBtn.textContent = 'Add Element';
+  addBtn.style.background = 'var(--accent)';
+  addBtn.onclick = () => {
+    const type = addSelect.value;
+    let newElem;
+    if (type === 'bullets') newElem = { type, items: ['New point'], animation: 'none', fontSize: '32px', color: '#000000', fontFamily: 'Arial', textAlign: 'left', x: 0, y: 0 };
+    else if (type === 'image') newElem = { type, src: '', alt: '', animation: 'none', width: 'auto', height: 'auto', x: 0, y: 0 };
+    else if (type === 'video') newElem = { type, src: '', controls: true, animation: 'none', width: 'auto', height: 'auto', x: 0, y: 0 };
+    else newElem = { type, text: 'Edit me', animation: 'none', fontSize: '32px', color: '#000000', fontFamily: 'Arial', textAlign: 'left', x: 0, y: 0 };
+    slide.elements.push(newElem);
+    updateEditPanel();
+    change();
+  };
+  addRow.appendChild(addSelect);
+  addRow.appendChild(addBtn);
+  panel.appendChild(addRow);
+
+  slide.elements.forEach((elem, eIndex) => {
+    const editor = createElementEditor(elem, eIndex);
+    panel.appendChild(editor);
+  });
 }
 
-/* ---------- Preview ---------- */
-let previewTimer = null;
-function renderPreviewSoon(){
-  clearTimeout(previewTimer);
-  previewTimer = setTimeout(renderPreview, 200);
-}
-function renderPreview(){
-  const src = buildRevealHTML(deck);
-  const blob = new Blob([src], {type:'text/html'});
-  const url = URL.createObjectURL(blob);
-  const iframe = $('#preview-frame');
-  iframe.src = url;
-  iframe.onload = ()=> setTimeout(()=> URL.revokeObjectURL(url), 1000);
+function createElementEditor(elem, eIndex) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'element-item';
+
+  const header = document.createElement('div');
+  header.style.display = 'flex';
+  header.style.justifyContent = 'space-between';
+  header.style.alignItems = 'center';
+
+  const title = document.createElement('strong');
+  title.textContent = elem.type;
+  header.appendChild(title);
+
+  const controls = document.createElement('div');
+
+  const del = document.createElement('button');
+  del.textContent = 'Delete';
+  del.onclick = () => { data.slides[currentSlideIndex].elements.splice(eIndex, 1); updateEditPanel(); change(); };
+  controls.appendChild(del);
+
+  const up = document.createElement('button');
+  up.textContent = 'Up';
+  up.onclick = () => {
+    if (eIndex <= 0) return;
+    const arr = data.slides[currentSlideIndex].elements;
+    [arr[eIndex - 1], arr[eIndex]] = [arr[eIndex], arr[eIndex - 1]];
+    updateEditPanel();
+    change();
+  };
+  controls.appendChild(up);
+
+  const down = document.createElement('button');
+  down.textContent = 'Down';
+  down.onclick = () => {
+    const arr = data.slides[currentSlideIndex].elements;
+    if (eIndex >= arr.length - 1) return;
+    [arr[eIndex], arr[eIndex + 1]] = [arr[eIndex + 1], arr[eIndex]];
+    updateEditPanel();
+    change();
+  };
+  controls.appendChild(down);
+
+  header.appendChild(controls);
+  wrapper.appendChild(header);
+
+  const animLabel = createLabel('Animation:');
+  wrapper.appendChild(animLabel);
+  const animSelect = document.createElement('select');
+  ['none', 'appear', 'fade-in', 'fade-out', 'slide-in-left', 'slide-in-right'].forEach(a => {
+    const opt = new Option(a, a);
+    if (a === elem.animation) opt.selected = true;
+    animSelect.add(opt);
+  });
+  animSelect.onchange = () => { elem.animation = animSelect.value; change(); };
+  wrapper.appendChild(animSelect);
+
+  if (['title', 'subtitle', 'text'].includes(elem.type)) {
+    const inp = document.createElement('input');
+    inp.value = elem.text || '';
+    inp.style.textTransform = 'none';
+    inp.onchange = () => { elem.text = inp.value; change(); };
+    wrapper.appendChild(inp);
+
+    const fontSizeControls = document.createElement('div');
+    fontSizeControls.style.display = 'flex';
+    fontSizeControls.style.gap = '8px';
+    fontSizeControls.style.marginTop = '8px';
+
+    const increaseFontBtn = document.createElement('button');
+    increaseFontBtn.textContent = 'Increase Font';
+    increaseFontBtn.onclick = () => {
+      const currentSize = parseInt(elem.fontSize || '32px');
+      elem.fontSize = `${currentSize + 2}px`;
+      updateEditPanel();
+      change();
+    };
+    fontSizeControls.appendChild(increaseFontBtn);
+
+    const decreaseFontBtn = document.createElement('button');
+    decreaseFontBtn.textContent = 'Decrease Font';
+    decreaseFontBtn.onclick = () => {
+      const currentSize = parseInt(elem.fontSize || '32px');
+      if (currentSize > 10) {
+        elem.fontSize = `${currentSize - 2}px`;
+        updateEditPanel();
+        change();
+      }
+    };
+    fontSizeControls.appendChild(decreaseFontBtn);
+
+    const fontFamilyLabel = createLabel('Font Family:');
+    const fontFamilySelect = document.createElement('select');
+    ['Arial', 'Times New Roman', 'Helvetica', 'Courier New', 'Verdana', 'Georgia'].forEach(f => {
+      const opt = new Option(f, f);
+      if (f === elem.fontFamily) opt.selected = true;
+      fontFamilySelect.add(opt);
+    });
+    fontFamilySelect.onchange = () => { elem.fontFamily = fontFamilySelect.value; change(); };
+    wrapper.appendChild(fontFamilyLabel);
+    wrapper.appendChild(fontFamilySelect);
+
+    const textAlignLabel = createLabel('Text Align:');
+    const textAlignSelect = document.createElement('select');
+    ['left', 'center', 'right'].forEach(a => {
+      const opt = new Option(a, a);
+      if (a === elem.textAlign) opt.selected = true;
+      textAlignSelect.add(opt);
+    });
+    textAlignSelect.onchange = () => { elem.textAlign = textAlignSelect.value; change(); };
+    wrapper.appendChild(textAlignLabel);
+    wrapper.appendChild(textAlignSelect);
+
+    const positionControls = document.createElement('div');
+    positionControls.style.display = 'flex';
+    positionControls.style.gap = '8px';
+    positionControls.style.marginTop = '8px';
+
+    const moveUpBtn = document.createElement('button');
+    moveUpBtn.textContent = 'Move Up';
+    moveUpBtn.onclick = () => {
+      elem.y = (elem.y || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveUpBtn);
+
+    const moveDownBtn = document.createElement('button');
+    moveDownBtn.textContent = 'Move Down';
+    moveDownBtn.onclick = () => {
+      elem.y = (elem.y || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveDownBtn);
+
+    const moveLeftBtn = document.createElement('button');
+    moveLeftBtn.textContent = 'Move Left';
+    moveLeftBtn.onclick = () => {
+      elem.x = (elem.x || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveLeftBtn);
+
+    const moveRightBtn = document.createElement('button');
+    moveRightBtn.textContent = 'Move Right';
+    moveRightBtn.onclick = () => {
+      elem.x = (elem.x || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveRightBtn);
+
+    const colorLabel = createLabel('Text color:');
+    const colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    colorInput.value = elem.color || '#000000';
+    colorInput.onchange = () => {
+      elem.color = colorInput.value;
+      updateEditPanel();
+      change();
+    };
+    wrapper.appendChild(fontSizeControls);
+    wrapper.appendChild(colorLabel);
+    wrapper.appendChild(colorInput);
+    wrapper.appendChild(positionControls);
+  } else if (elem.type === 'bullets') {
+    const ul = document.createElement('div');
+    elem.items.forEach((it, i) => {
+      const row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.gap = '8px';
+      const bIn = document.createElement('input');
+      bIn.value = it;
+      bIn.style.textTransform = 'none';
+      bIn.onchange = () => { elem.items[i] = bIn.value; change(); };
+      const delB = document.createElement('button');
+      delB.textContent = 'Del';
+      delB.onclick = () => { elem.items.splice(i, 1); updateEditPanel(); change(); };
+      row.appendChild(bIn);
+      row.appendChild(delB);
+      ul.appendChild(row);
+    });
+    const addB = document.createElement('button');
+    addB.textContent = 'Add Bullet';
+    addB.onclick = () => { elem.items.push('New point'); updateEditPanel(); change(); };
+    wrapper.appendChild(ul);
+    wrapper.appendChild(addB);
+
+    const fontSizeControls = document.createElement('div');
+    fontSizeControls.style.display = 'flex';
+    fontSizeControls.style.gap = '8px';
+    fontSizeControls.style.marginTop = '8px';
+
+    const increaseFontBtn = document.createElement('button');
+    increaseFontBtn.textContent = 'Increase Font';
+    increaseFontBtn.onclick = () => {
+      const currentSize = parseInt(elem.fontSize || '32px');
+      elem.fontSize = `${currentSize + 2}px`;
+      updateEditPanel();
+      change();
+    };
+    fontSizeControls.appendChild(increaseFontBtn);
+
+    const decreaseFontBtn = document.createElement('button');
+    decreaseFontBtn.textContent = 'Decrease Font';
+    decreaseFontBtn.onclick = () => {
+      const currentSize = parseInt(elem.fontSize || '32px');
+      if (currentSize > 10) {
+        elem.fontSize = `${currentSize - 2}px`;
+        updateEditPanel();
+        change();
+      }
+    };
+    fontSizeControls.appendChild(decreaseFontBtn);
+
+    const fontFamilyLabel = createLabel('Font Family:');
+    const fontFamilySelect = document.createElement('select');
+    ['Arial', 'Times New Roman', 'Helvetica', 'Courier New', 'Verdana', 'Georgia'].forEach(f => {
+      const opt = new Option(f, f);
+      if (f === elem.fontFamily) opt.selected = true;
+      fontFamilySelect.add(opt);
+    });
+    fontFamilySelect.onchange = () => { elem.fontFamily = fontFamilySelect.value; change(); };
+    wrapper.appendChild(fontFamilyLabel);
+    wrapper.appendChild(fontFamilySelect);
+
+    const textAlignLabel = createLabel('Text Align:');
+    const textAlignSelect = document.createElement('select');
+    ['left', 'center', 'right'].forEach(a => {
+      const opt = new Option(a, a);
+      if (a === elem.textAlign) opt.selected = true;
+      textAlignSelect.add(opt);
+    });
+    textAlignSelect.onchange = () => { elem.textAlign = textAlignSelect.value; change(); };
+    wrapper.appendChild(textAlignLabel);
+    wrapper.appendChild(textAlignSelect);
+
+    const positionControls = document.createElement('div');
+    positionControls.style.display = 'flex';
+    positionControls.style.gap = '8px';
+    positionControls.style.marginTop = '8px';
+
+    const moveUpBtn = document.createElement('button');
+    moveUpBtn.textContent = 'Move Up';
+    moveUpBtn.onclick = () => {
+      elem.y = (elem.y || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveUpBtn);
+
+    const moveDownBtn = document.createElement('button');
+    moveDownBtn.textContent = 'Move Down';
+    moveDownBtn.onclick = () => {
+      elem.y = (elem.y || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveDownBtn);
+
+    const moveLeftBtn = document.createElement('button');
+    moveLeftBtn.textContent = 'Move Left';
+    moveLeftBtn.onclick = () => {
+      elem.x = (elem.x || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveLeftBtn);
+
+    const moveRightBtn = document.createElement('button');
+    moveRightBtn.textContent = 'Move Right';
+    moveRightBtn.onclick = () => {
+      elem.x = (elem.x || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveRightBtn);
+
+    const colorLabel = createLabel('Text color:');
+    const colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    colorInput.value = elem.color || '#000000';
+    colorInput.onchange = () => {
+      elem.color = colorInput.value;
+      updateEditPanel();
+      change();
+    };
+    wrapper.appendChild(fontSizeControls);
+    wrapper.appendChild(colorLabel);
+    wrapper.appendChild(colorInput);
+    wrapper.appendChild(positionControls);
+  } else if (elem.type === 'image') {
+    const src = document.createElement('input');
+    src.placeholder = 'Image URL';
+    src.value = elem.src || '';
+    src.onchange = () => { elem.src = src.value; change(); };
+    wrapper.appendChild(src);
+
+    const alt = document.createElement('input');
+    alt.placeholder = 'Alt text';
+    alt.value = elem.alt || '';
+    alt.onchange = () => { elem.alt = alt.value; change(); };
+    wrapper.appendChild(alt);
+
+    const sizeControls = document.createElement('div');
+    sizeControls.style.display = 'flex';
+    sizeControls.style.gap = '8px';
+    sizeControls.style.marginTop = '8px';
+
+    const increaseSizeBtn = document.createElement('button');
+    increaseSizeBtn.textContent = 'Increase Size';
+    increaseSizeBtn.onclick = () => {
+      const currentWidth = elem.width === 'auto' ? 200 : parseInt(elem.width);
+      const currentHeight = elem.height === 'auto' ? 200 : parseInt(elem.height);
+      elem.width = `${currentWidth + 10}px`;
+      elem.height = `${currentHeight + 10}px`;
+      updateEditPanel();
+      change();
+    };
+    sizeControls.appendChild(increaseSizeBtn);
+
+    const decreaseSizeBtn = document.createElement('button');
+    decreaseSizeBtn.textContent = 'Decrease Size';
+    decreaseSizeBtn.onclick = () => {
+      const currentWidth = elem.width === 'auto' ? 200 : parseInt(elem.width);
+      const currentHeight = elem.height === 'auto' ? 200 : parseInt(elem.height);
+      if (currentWidth > 50 && currentHeight > 50) {
+        elem.width = `${currentWidth - 10}px`;
+        elem.height = `${currentHeight - 10}px`;
+        updateEditPanel();
+        change();
+      }
+    };
+    sizeControls.appendChild(decreaseSizeBtn);
+
+    const positionControls = document.createElement('div');
+    positionControls.style.display = 'flex';
+    positionControls.style.gap = '8px';
+    positionControls.style.marginTop = '8px';
+
+    const moveUpBtn = document.createElement('button');
+    moveUpBtn.textContent = 'Move Up';
+    moveUpBtn.onclick = () => {
+      elem.y = (elem.y || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveUpBtn);
+
+    const moveDownBtn = document.createElement('button');
+    moveDownBtn.textContent = 'Move Down';
+    moveDownBtn.onclick = () => {
+      elem.y = (elem.y || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveDownBtn);
+
+    const moveLeftBtn = document.createElement('button');
+    moveLeftBtn.textContent = 'Move Left';
+    moveLeftBtn.onclick = () => {
+      elem.x = (elem.x || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveLeftBtn);
+
+    const moveRightBtn = document.createElement('button');
+    moveRightBtn.textContent = 'Move Right';
+    moveRightBtn.onclick = () => {
+      elem.x = (elem.x || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveRightBtn);
+
+    wrapper.appendChild(sizeControls);
+    wrapper.appendChild(positionControls);
+  } else if (elem.type === 'video') {
+    const vsrc = document.createElement('input');
+    vsrc.placeholder = 'Video URL (e.g., .mp4 or YouTube link)';
+    vsrc.value = elem.src || '';
+    vsrc.onchange = () => { elem.src = vsrc.value; change(); };
+    
+    const ctrl = document.createElement('input');
+    ctrl.type = 'checkbox';
+    ctrl.checked = !!elem.controls;
+    ctrl.onchange = () => { elem.controls = ctrl.checked; change(); };
+    
+    const ctrlLabel = document.createElement('span');
+    ctrlLabel.textContent = ' Show controls (for direct videos)';
+    
+    wrapper.appendChild(vsrc);
+    wrapper.appendChild(ctrl);
+    wrapper.appendChild(ctrlLabel);
+
+    // Add position controls for video
+    const positionControls = document.createElement('div');
+    positionControls.style.display = 'flex';
+    positionControls.style.flexWrap = 'wrap';
+    positionControls.style.gap = '8px';
+    positionControls.style.marginTop = '8px';
+
+    const moveUpBtn = document.createElement('button');
+    moveUpBtn.textContent = 'Move Up';
+    moveUpBtn.onclick = () => {
+      elem.y = (elem.y || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveUpBtn);
+
+    const moveDownBtn = document.createElement('button');
+    moveDownBtn.textContent = 'Move Down';
+    moveDownBtn.onclick = () => {
+      elem.y = (elem.y || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveDownBtn);
+
+    const moveLeftBtn = document.createElement('button');
+    moveLeftBtn.textContent = 'Move Left';
+    moveLeftBtn.onclick = () => {
+      elem.x = (elem.x || 0) - 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveLeftBtn);
+
+    const moveRightBtn = document.createElement('button');
+    moveRightBtn.textContent = 'Move Right';
+    moveRightBtn.onclick = () => {
+      elem.x = (elem.x || 0) + 10;
+      updateEditPanel();
+      change();
+    };
+    positionControls.appendChild(moveRightBtn);
+
+    // Add size controls for video
+    const widthLabel = createLabel('Width:');
+    wrapper.appendChild(widthLabel);
+
+    const widthControls = document.createElement('div');
+    widthControls.style.display = 'flex';
+    widthControls.style.gap = '8px';
+    widthControls.style.alignItems = 'center';
+
+    const decreaseWidthBtn = document.createElement('button');
+    decreaseWidthBtn.textContent = '-';
+    decreaseWidthBtn.onclick = () => {
+      const currentWidth = elem.width === 'auto' ? 600 : parseInt(elem.width);
+      if (currentWidth > 100) {
+        elem.width = `${currentWidth - 20}px`;
+        updateEditPanel();
+        change();
+      }
+    };
+    widthControls.appendChild(decreaseWidthBtn);
+
+    const widthDisplay = document.createElement('span');
+    widthDisplay.textContent = elem.width || 'auto';
+    widthDisplay.style.minWidth = '60px';
+    widthDisplay.style.textAlign = 'center';
+    widthControls.appendChild(widthDisplay);
+
+    const increaseWidthBtn = document.createElement('button');
+    increaseWidthBtn.textContent = '+';
+    increaseWidthBtn.onclick = () => {
+      const currentWidth = elem.width === 'auto' ? 600 : parseInt(elem.width);
+      elem.width = `${currentWidth + 20}px`;
+      updateEditPanel();
+      change();
+    };
+    widthControls.appendChild(increaseWidthBtn);
+
+    const resetWidthBtn = document.createElement('button');
+    resetWidthBtn.textContent = 'Reset';
+    resetWidthBtn.onclick = () => {
+      elem.width = 'auto';
+      updateEditPanel();
+      change();
+    };
+    widthControls.appendChild(resetWidthBtn);
+
+    // Height controls
+    const heightLabel = createLabel('Height:');
+    wrapper.appendChild(heightLabel);
+
+    const heightControls = document.createElement('div');
+    heightControls.style.display = 'flex';
+    heightControls.style.gap = '8px';
+    heightControls.style.alignItems = 'center';
+
+    const decreaseHeightBtn = document.createElement('button');
+    decreaseHeightBtn.textContent = '-';
+    decreaseHeightBtn.onclick = () => {
+      const currentHeight = elem.height === 'auto' ? 400 : parseInt(elem.height);
+      if (currentHeight > 80) {
+        elem.height = `${currentHeight - 20}px`;
+        updateEditPanel();
+        change();
+      }
+    };
+    heightControls.appendChild(decreaseHeightBtn);
+
+    const heightDisplay = document.createElement('span');
+    heightDisplay.textContent = elem.height || 'auto';
+    heightDisplay.style.minWidth = '60px';
+    heightDisplay.style.textAlign = 'center';
+    heightControls.appendChild(heightDisplay);
+
+    const increaseHeightBtn = document.createElement('button');
+    increaseHeightBtn.textContent = '+';
+    increaseHeightBtn.onclick = () => {
+      const currentHeight = elem.height === 'auto' ? 400 : parseInt(elem.height);
+      elem.height = `${currentHeight + 20}px`;
+      updateEditPanel();
+      change();
+    };
+    heightControls.appendChild(increaseHeightBtn);
+
+    const resetHeightBtn = document.createElement('button');
+    resetHeightBtn.textContent = 'Reset';
+    resetHeightBtn.onclick = () => {
+      elem.height = 'auto';
+      updateEditPanel();
+      change();
+    };
+    heightControls.appendChild(resetHeightBtn);
+
+    wrapper.appendChild(positionControls);
+    wrapper.appendChild(widthControls);
+    wrapper.appendChild(heightControls);
+  }
+
+  return wrapper;
 }
 
-/* ---------- Build Reveal HTML (Standalone) ---------- */
-function buildRevealHTML(d){
-  const themeHref = `https://unpkg.com/reveal.js@5.0.4/dist/theme/${d.theme}.css`;
-  const slidesHTML = d.slides.map(s=>{
-    if(s.hidden) return `<section data-visibility="hidden">${renderSlideSection(s)}</section>`;
-    return `<section ${s.autoAnimate?'data-auto-animate':''}>${renderSlideSection(s)}</section>`;
-  }).join('\n');
+/* --------------- Preview generation & interactivity --------------- */
+function change() {
+  updatePreview(true);
+  saveState();
+}
 
-  return `<!doctype html>
-<html>
+function updatePreview(maintainCurrentSlide = false) {
+  const html = generateRevealHtml();
+  const iframe = document.getElementById('preview-frame');
+  const targetSlide = maintainCurrentSlide && currentSlideIndex >= 0 ? currentSlideIndex : data.slides.length - 1;
+
+  try {
+    iframe.srcdoc = '';
+    iframe.srcdoc = html;
+    console.log('Preview updated with new HTML, targeting slide:', targetSlide + 1);
+  } catch (err) {
+    console.error('Error setting srcdoc:', err);
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(html);
+    doc.close();
+  }
+
+  iframe.onload = () => {
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const revealRoot = doc.querySelector('.reveal');
+      if (revealRoot) {
+        const Reveal = iframe.contentWindow.Reveal;
+        if (Reveal) {
+          Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            overview: true,
+            width: 960,
+            height: 700,
+            margin: 0.1
+          }).then(() => {
+            if (targetSlide >= 0 && targetSlide < data.slides.length) {
+              Reveal.slide(targetSlide);
+              console.log('Navigated to slide:', targetSlide + 1);
+            }
+            revealRoot.addEventListener('click', handlePreviewClick);
+            console.log('Reveal.js initialized in preview');
+          }).catch((e) => {
+            console.error('Reveal.js initialization failed:', e);
+          });
+        } else {
+          console.error('Reveal.js not available in iframe');
+        }
+      } else {
+        console.error('Reveal.js root not found in preview');
+      }
+    } catch (e) {
+      console.error('Error in iframe onload:', e);
+    }
+  };
+}
+
+function handlePreviewClick(e) {
+  let el = e.target;
+  const slideAttr = el.closest('[data-slide]');
+  if (!slideAttr) return;
+  const slideIdx = Number(slideAttr.dataset.slide);
+  const elemIdx = Number(el.dataset.elem ?? slideAttr.dataset.elem ?? -1);
+  if (isNaN(slideIdx) || slideIdx < 0) return;
+  const slide = data.slides[slideIdx];
+  if (!slide) return;
+
+  if (el.tagName === 'LI' && slide.elements[elemIdx] && slide.elements[elemIdx].type === 'bullets') {
+    const itemIdx = Number(el.dataset.item);
+    const newVal = prompt('Edit bullet:', slide.elements[elemIdx].items[itemIdx]);
+    if (newVal !== null) {
+      slide.elements[elemIdx].items[itemIdx] = newVal;
+      updateEditPanel();
+      updatePreview(true);
+      saveState();
+    }
+  } else if (slide.elements[elemIdx]) {
+    const elem = slide.elements[elemIdx];
+    if (['title', 'subtitle', 'text'].includes(elem.type)) {
+      const newVal = prompt('Edit text:', elem.text);
+      if (newVal !== null) {
+        elem.text = newVal;
+        updateEditPanel();
+        updatePreview(true);
+        saveState();
+      }
+    } else if (elem.type === 'image') {
+      const newVal = prompt('Edit image URL:', elem.src);
+      if (newVal !== null) {
+        elem.src = newVal;
+        updateEditPanel();
+        updatePreview(true);
+        saveState();
+      }
+    } else if (elem.type === 'video') {
+      const newVal = prompt('Edit video URL:', elem.src);
+      if (newVal !== null) {
+        elem.src = newVal;
+        updateEditPanel();
+        updatePreview(true);
+        saveState();
+      }
+    }
+  }
+}
+
+// New function to detect and transform YouTube URLs
+function getYouTubeEmbedUrl(url) {
+  if (!url) return null;
+  const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(youtubeRegex);
+  if (match && match[1]) {
+    return `https://www.youtube.com/embed/${match[1]}`;
+  }
+  return null;
+}
+
+function generateRevealHtml() {
+  let themeCss = '';
+  if (data.global.theme === 'custom' && data.global.customThemeCss) {
+    themeCss = `<style>
+      .reveal, .reveal .slides, .reveal .slides section {
+        ${data.global.customThemeCss}
+      }
+      .reveal .slides section {
+        display: block !important;
+        opacity: 1 !important;
+        transform: none !important;
+        position: relative !important;
+      }
+    </style>`;
+    console.log('Applying custom theme CSS');
+  } else if (data.global.theme !== 'custom') {
+    themeCss = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/theme/${escapeHtml(data.global.theme)}.min.css" onerror="console.error('Failed to load theme CSS: ${data.global.theme}')">`;
+    console.log('Applying built-in theme:', data.global.theme);
+  }
+
+  // Apply green-yellow theme only if not using custom theme
+  const greenYellowCss = isGreenYellowTheme && data.global.theme !== 'custom' ? `
+    <style>
+      .reveal-viewport {
+        background: linear-gradient(to right, #90EE90, #FFFF00);
+      }
+      .reveal .slides section {
+        color: #000000;
+      }
+    </style>
+  ` : '';
+
+  const style = `<style>
+    .reveal .slides img { max-width: 80%; height: auto; display: block; margin: 0.6em 0; }
+    .reveal .slides video { max-width: 90%; display: block; margin: 0.6em 0; }
+    .reveal .slides iframe.youtube-embed { width: 90%; height: 400px; display: block; margin: 0.6em 0; border: none; }
+    .reveal .slides h1, .reveal .slides h2, .reveal .slides p, .reveal .slides ul { text-transform: none !important; }
+    ${data.slides.map((slide, sIndex) => slide.elements.map((elem, eIndex) => {
+      let styles = '';
+      if (['title', 'subtitle', 'text', 'bullets'].includes(elem.type)) {
+        if (elem.fontSize) {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            font-size: ${escapeHtml(elem.fontSize)} !important;
+          }`;
+        }
+        if (elem.color) {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            color: ${escapeHtml(elem.color)} !important;
+          }`;
+        }
+        if (elem.fontFamily) {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            font-family: ${escapeHtml(elem.fontFamily)} !important;
+          }`;
+        }
+        if (elem.textAlign) {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            text-align: ${escapeHtml(elem.textAlign)} !important;
+          }`;
+        }
+        if (elem.x !== undefined || elem.y !== undefined) {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            transform: translate(${elem.x || 0}px, ${elem.y || 0}px) !important;
+            position: relative !important;
+          }`;
+        }
+      } else if (elem.type === 'image') {
+        if (elem.width && elem.width !== 'auto') {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            width: ${escapeHtml(elem.width)} !important;
+          }`;
+        }
+        if (elem.height && elem.height !== 'auto') {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            height: ${escapeHtml(elem.height)} !important;
+          }`;
+        }
+        if (elem.x !== undefined || elem.y !== undefined) {
+          styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+            transform: translate(${elem.x || 0}px, ${elem.y || 0}px) !important;
+            position: relative !important;
+          }`;
+        }
+      } else if (elem.type === 'video') {
+        const embedUrl = getYouTubeEmbedUrl(elem.src);
+        if (!embedUrl) {
+          // For non-YouTube videos, apply positioning and sizing
+          if (elem.width && elem.width !== 'auto') {
+            styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+              width: ${escapeHtml(elem.width)} !important;
+            }`;
+          }
+          if (elem.height && elem.height !== 'auto') {
+            styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+              height: ${escapeHtml(elem.height)} !important;
+            }`;
+          }
+          if (elem.x !== undefined || elem.y !== undefined) {
+            styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+              transform: translate(${elem.x || 0}px, ${elem.y || 0}px) !important;
+              position: relative !important;
+            }`;
+          }
+        } else {
+          // For YouTube embeds, apply positioning and sizing to the iframe
+          if (elem.width && elem.width !== 'auto') {
+            styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+              width: ${escapeHtml(elem.width)} !important;
+            }`;
+          }
+          if (elem.height && elem.height !== 'auto') {
+            styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+              height: ${escapeHtml(elem.height)} !important;
+            }`;
+          }
+          if (elem.x !== undefined || elem.y !== undefined) {
+            styles += `.reveal .slides section:nth-child(${sIndex + 1}) [data-elem="${eIndex}"] {
+              transform: translate(${elem.x || 0}px, ${elem.y || 0}px) !important;
+              position: relative !important;
+            }`;
+          }
+        }
+      }
+      return styles;
+    }).join('')).join('')}
+  </style>`;
+
+  const slidesHtml = data.slides.map((slide, sIndex) => {
+    const transAttr = `data-transition="${escapeAttr(slide.transition || 'none')}"`;
+    const elementsHtml = (slide.elements || []).map((elem, eIndex) => {
+      const frag = elem.animation && elem.animation !== 'none' ? `class="fragment ${escapeAttr(elem.animation)}"` : '';
+      const ds = `data-slide="${sIndex}" data-elem="${eIndex}"`;
+      switch (elem.type) {
+        case 'title': return `<h1 ${frag} ${ds}>${escapeHtml(elem.text || '')}</h1>`;
+        case 'subtitle': return `<h2 ${frag} ${ds}>${escapeHtml(elem.text || '')}</h2>`;
+        case 'text': return `<p ${frag} ${ds}>${escapeHtml(elem.text || '')}</p>`;
+        case 'bullets':
+          return `<ul ${ds}>${(elem.items || []).map((item, i) => {
+            const iFrag = elem.animation && elem.animation !== 'none' ? `class="fragment ${escapeAttr(elem.animation)}"` : '';
+            return `<li ${iFrag} data-item="${i}" ${ds}>${escapeHtml(item)}</li>`;
+          }).join('')}</ul>`;
+        case 'image': return `<img ${frag} ${ds} src="${escapeAttr(elem.src || '')}" alt="${escapeHtml(elem.alt || '')}">`;
+        case 'video':
+          const embedUrl = getYouTubeEmbedUrl(elem.src);
+          if (embedUrl) {
+            return `<iframe class="youtube-embed" ${frag} ${ds} src="${escapeAttr(embedUrl)}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          }
+          return `<video ${frag} ${ds} src="${escapeAttr(elem.src || '')}" ${elem.controls ? 'controls' : ''}></video>`;
+        default: return '';
+      }
+    }).join('');
+    const notesHtml = slide.notes ? `<aside class="notes">${escapeHtml(slide.notes)}</aside>` : '';
+    return `<section ${transAttr}>${elementsHtml}${notesHtml}</section>`;
+  }).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>${escapeHTML(d.title)}</title>
-<link rel="stylesheet" href="https://unpkg.com/reveal.js@5.0.4/dist/reset.css">
-<link rel="stylesheet" href="https://unpkg.com/reveal.js@5.0.4/dist/reveal.css">
-<link rel="stylesheet" href="${themeHref}">
-<link rel="stylesheet" href="https://unpkg.com/reveal.js@5.0.4/plugin/highlight/monokai.css">
-<style>.reveal pre{white-space:pre-wrap}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.css" onerror="console.error('Failed to load Reveal.js CSS')">
+  ${themeCss}
+  ${style}
+  ${greenYellowCss}
 </head>
 <body>
-<div class="reveal"><div class="slides">
-${slidesHTML}
-</div></div>
-<script src="https://unpkg.com/reveal.js@5.0.4/dist/reveal.js"></script>
-<script src="https://unpkg.com/reveal.js@5.0.4/plugin/notes/notes.js"></script>
-<script src="https://unpkg.com/reveal.js@5.0.4/plugin/markdown/markdown.js"></script>
-<script src="https://unpkg.com/reveal.js@5.0.4/plugin/highlight/highlight.js"></script>
-<script>
-Reveal.initialize({hash:true, plugins:[RevealMarkdown, RevealHighlight, RevealNotes]});
-</script>
-</body></html>`;
-}
-
-function renderSlideSection(s){
-  const title = `<h2>${escapeHTML(s.title||'')}</h2>`;
-  let body = s.content || '';
-  return `${title}\n${body}\n${s.notes?`<aside class="notes">${escapeHTML(s.notes)}</aside>`:''}`;
-}
-
-/* ---------- Export / Import ---------- */
-function downloadJSON(){
-  const data = JSON.stringify(deck, null, 2);
-  downloadFile(`${safeFilename(deck.title||'deck')}.json`, data, 'application/json');
-  toast('JSON downloaded');
-}
-function exportHTMLStandalone(){
-  const html = buildRevealHTML(deck);
-  downloadFile(`${safeFilename(deck.title||'deck')}.html`, html, 'text/html');
-  toast('Exported HTML');
-}
-function exportPDFHint(){
-  alert('PDF tip: open the exported HTML, then Print (Ctrl/Cmd+P) → Save as PDF. Enable background graphics if needed.');
-}
-function importJSON(evt){
-  const file = evt.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try{
-      const obj = JSON.parse(reader.result);
-      if(!obj.slides) throw new Error('Not a deck JSON');
-      pushHistory();
-      deck = obj;
-      activeIndex = 0;
-      saveAutosave();
-      renderAll();
-      toast('Deck imported');
-    }catch(e){
-      alert('Invalid JSON: '+e.message);
+  <div class="reveal">
+    <div class="slides">
+      ${slidesHtml}
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.js" onerror="console.error('Failed to load Reveal.js JS')"></script>
+  <script>
+    try {
+      Reveal.initialize({
+        hash: true,
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        overview: true,
+        width: 960,
+        height: 700,
+        margin: 0.1
+      }).then(() => {
+        console.log('Reveal.js initialized successfully');
+      }).catch((e) => {
+        console.error('Reveal.js initialization failed:', e);
+      });
+    } catch (e) {
+      console.error('Error initializing Reveal.js:', e);
     }
-  };
-  reader.readAsText(file);
-  evt.target.value = '';
-}
-function importDesigns(evt){
-  const file = evt.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try{
-      const obj = JSON.parse(reader.result);
-      deck.tokens = {...deck.tokens, ...obj.tokens};
-      toast('Design tokens merged');
-      renderPreview();
-    }catch(e){
-      alert('Invalid designs JSON: '+e.message);
-    }
-  };
-  reader.readAsText(file);
-  evt.target.value = '';
+  </script>
+</body>
+</html>`;
 }
 
-/* ---------- Player ---------- */
-function openPlayerWindow(){
-  const html = buildRevealHTML(deck);
-  const blob = new Blob([html], {type:'text/html'});
+/* --------------- Utilities & persistence --------------- */
+function saveState() {
+  if (historyIndex < history.length - 1) history = history.slice(0, historyIndex + 1);
+  history.push(JSON.stringify(data));
+  historyIndex = history.length - 1;
+}
+
+function undo() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    data = JSON.parse(history[historyIndex]);
+    currentSlideIndex = Math.min(currentSlideIndex, data.slides.length - 1);
+    updateAll();
+  }
+}
+
+function redo() {
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    data = JSON.parse(history[historyIndex]);
+    currentSlideIndex = Math.min(currentSlideIndex, data.slides.length - 1);
+    updateAll();
+  }
+}
+
+function saveJson() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  window.open(url, '_blank', 'noopener');
-  setTimeout(()=>URL.revokeObjectURL(url), 2000);
-}
-
-/* ---------- “AI” Outline (offline heuristic) ---------- */
-function aiGenerateOutline(){
-  const topic = prompt('Enter a topic (e.g., “Intro to Web Security”)');
-  if(!topic) return;
-  const slides = synthesizeOutline(topic);
-  const preview = slides.map((s,i)=>`${i+1}. ${s.title}`).join('\n');
-  const ok = confirm(`Proposed slides:\n\n${preview}\n\nApply? This will replace current deck (you can Undo).`);
-  if(!ok) return;
-  pushHistory();
-  deck.title = topic;
-  deck.slides = slides;
-  activeIndex = 0;
-  saveAutosave();
-  renderAll();
-}
-function synthesizeOutline(topic){
-  const parts = [
-    ['title', `What is ${topic}?`, `<ul><li>Definition</li><li>Why it matters</li></ul>`],
-    ['two-col', 'Key Concepts', `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div><ul><li>Term A</li><li>Term B</li></ul></div><div><ul><li>Term C</li><li>Term D</li></ul></div></div>`],
-    ['image-left', 'Real-World Example', `<div style="display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:center"><img src="https://picsum.photos/400/300" alt="${escapeAttr(topic)}"><div><p>Short story / case study.</p></div></div>`],
-    ['quote', 'Insight', `<blockquote>“If you can’t explain it simply, you don’t understand it well enough.”<br/><small>— Einstein (apocryphal)</small></blockquote>`],
-    ['code', 'Demo / Snippet', `<pre><code class="hljs javascript">// Replace with your demo\nconsole.log('${escapeJS(topic)}')</code></pre>`],
-    ['title', 'Best Practices', `<ul><li>Do X</li><li>Avoid Y</li><li>Measure Z</li></ul>`],
-    ['title', 'Summary', `<ul><li>Key takeaways</li><li>Next steps</li></ul>`],
-  ];
-  return parts.map(([layout, title, content])=>({
-    id: crypto.randomUUID(), layout,
-    title, content, notes:'', hidden:false, autoAnimate:false
-  }));
-}
-
-/* ---------- Shortcuts & Help ---------- */
-function setupShortcuts(){
-  window.addEventListener('keydown', (e)=>{
-    const mod = e.ctrlKey || e.metaKey;
-
-    // File ops
-    if(mod && e.key.toLowerCase()==='s'){ e.preventDefault(); downloadJSON(); }
-    if(mod && e.key.toLowerCase()==='n'){ e.preventDefault(); if(e.shiftKey) newDeck(); else addSlide(); }
-    if(mod && e.key.toLowerCase()==='z'){ e.preventDefault(); undo(); }
-    if(mod && (e.key.toLowerCase()==='y' || (e.shiftKey && e.key.toLowerCase()==='z'))){ e.preventDefault(); redo(); }
-
-    // Navigation
-    if(e.key==='ArrowLeft'){ e.preventDefault(); activeIndex = Math.max(0, activeIndex-1); renderAll(); }
-    if(e.key==='ArrowRight'){ e.preventDefault(); activeIndex = Math.min(deck.slides.length-1, activeIndex+1); renderAll(); }
-
-    // Delete current slide (unless typing)
-    const tag = document.activeElement.tagName;
-    if((e.key==='Delete' || e.key==='Backspace') && tag!=='INPUT' && tag!=='TEXTAREA'){
-      e.preventDefault(); confirmDeleteSlide(activeIndex);
-    }
-
-    // Help
-    if(e.key==='?' || (mod && e.key.toLowerCase()==='/')) showHelp();
-  });
-}
-
-function showHelp(){
-  const m = $('#help-modal'), b = $('#help-backdrop'), close = $('#help-close');
-  if(!m || !b) return alert('Help modal not mounted.');
-  m.classList.add('show'); b.classList.add('show');
-  function end(){ m.classList.remove('show'); b.classList.remove('show'); cleanup(); }
-  function onKey(e){ if(e.key==='Escape') end(); }
-  function cleanup(){ close.removeEventListener('click', end); document.removeEventListener('keydown', onKey); b.removeEventListener('click', end); }
-  close.addEventListener('click', end);
-  b.addEventListener('click', end);
-  document.addEventListener('keydown', onKey);
-}
-
-/* ---------- Utils ---------- */
-function escapeHTML(s=''){ return s.replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
-function escapeAttr(s=''){ return escapeHTML(s); }
-function escapeJS(s=''){ return s.replace(/[`\\$]/g, '\\$&'); }
-function safeFilename(s){ return s.trim().replace(/[^a-z0-9\-_]+/gi,'-').replace(/-+/g,'-'); }
-function downloadFile(name, content, type){
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([content], {type}));
-  a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+  a.href = url;
+  a.download = 'presentation.json';
+  a.click();
+  URL.revokeObjectURL(url);
 }
+
+function importJson(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      if (!parsed.global) parsed.global = data.global;
+      if (!Array.isArray(parsed.slides)) parsed.slides = [];
+      parsed.slides = parsed.slides.map(({ background, ...rest }) => {
+        rest.elements = (rest.elements || []).map(elem => {
+          if (['title', 'subtitle', 'text', 'bullets'].includes(elem.type)) {
+            return {
+              ...elem,
+              fontFamily: elem.fontFamily || 'Arial',
+              textAlign: elem.textAlign || 'left',
+              x: elem.x || 0,
+              y: elem.y || 0
+            };
+          } else if (elem.type === 'image') {
+            return {
+              ...elem,
+              width: elem.width || 'auto',
+              height: elem.height || 'auto',
+              x: elem.x || 0,
+              y: elem.y || 0
+            };
+          } else if (elem.type === 'video') {
+            return {
+              ...elem,
+              width: elem.width || 'auto',
+              height: elem.height || 'auto',
+              x: elem.x || 0,
+              y: elem.y || 0,
+              controls: elem.controls !== undefined ? elem.controls : true
+            };
+          }
+          return elem;
+        });
+        return rest;
+      });
+      data = parsed;
+      currentSlideIndex = data.slides.length > 0 ? 0 : -1;
+      saveState();
+      updateAll();
+    } catch (err) {
+      alert('Invalid JSON file: ' + (err.message || 'parse error'));
+    }
+  };
+  reader.readAsText(file);
+}
+
+function exportHtml() {
+  const html = generateRevealHtml();
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'presentation.html';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportPdf() {
+  const html = generateRevealHtml();
+  const w = window.open('', '_blank');
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => {
+    try { w.print(); } catch (e) { console.warn('Print failed', e); }
+  }, 1000);
+}
+
+function playDeck() {
+  const html = generateRevealHtml();
+  const newWin = window.open('', '_blank');
+  newWin.document.open();
+  newWin.document.write(html);
+  newWin.document.close();
+}
+
+function updateAll() {
+  updateSlideList();
+  updateGlobalPanel();
+  updateEditPanel();
+  updatePreview(true);
+}
+
+/* --------------- Helpers --------------- */
+function escapeHtml(str = '') {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+function escapeAttr(s = '') { return escapeHtml(s); }
+
+/* --------------- start --------------- */
+window.addEventListener('load', init);
