@@ -1,41 +1,103 @@
 /*!
  * reveal.js Zoom plugin
  */
-const Plugin = {
+const Plugin = () => {
+	/**
+	 * @typedef {Object} ZoomOptions
+	 * @property {number} [scale] - the scaling factor
+	 * @property {number} [x] - the x coordinate
+	 * @property {number} [y] - the y coordinate
+	 * @property {boolean} [pan] - is panning?
+	 */
 
-	id: 'zoom',
+	/**
+	 * @typedef {Object} ZoomBroadcastMessage
+	 * @property {("speaker"|"main")} source - the type of message
+	 * @property {number} relativeX - relative x coordinate
+	 * @property {number} relativeY - relative y coordinate
+	 */
 
-	init: function( reveal ) {
+	let isSpeakerView = false; //true: presenter/speaker view, false: main view
+	let isSpeakerPreviewFrame = false; //we only want to zoom in the main presenter frame (not presenter preview frame)
+	let broadcastChannel = new BroadcastChannel('zoom_channel');
 
-		reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
-			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
+	return {
+		id: 'zoom',
 
-			var modifier = ( reveal.getConfig().zoomKey ? reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
-			var zoomLevel = ( reveal.getConfig().zoomLevel ? reveal.getConfig().zoomLevel : 2 );
+		init: function( reveal ) {
 
-			if( event[ modifier ] && !reveal.isOverview() ) {
-				event.preventDefault();
+			const urlSearchParams = new URLSearchParams(window.location.search);
+			const params = Object.fromEntries(urlSearchParams.entries());
 
-				zoom.to({
-					x: event.clientX,
-					y: event.clientY,
-					scale: zoomLevel,
-					pan: false
-				});
-			}
-		} );
+			isSpeakerView = params.hasOwnProperty('receiver')
 
-	},
+			//present html has a main view (iframe) and a preview next frame (iframe)
+			//preview don't have controls (so they are explicitly hidden)
+			isSpeakerPreviewFrame = isSpeakerView && params.hasOwnProperty('controls')
 
-	destroy: () => {
+			reveal.getRevealElement().addEventListener( 'mousedown', function( event ) {
+				var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
 
-		zoom.reset();
+				var modifier = ( reveal.getConfig().zoomKey ? reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
+				var zoomLevel = ( reveal.getConfig().zoomLevel ? reveal.getConfig().zoomLevel : 2 );
+
+				if( event[ modifier ] && !reveal.isOverview() ) {
+					event.preventDefault();
+
+					/** @type {ZoomOptions} */
+					let zoomOptions = {
+						x: event.clientX,
+						y: event.clientY,
+						scale: zoomLevel,
+						pan: false
+					};
+					zoom.to(zoomOptions);
+
+					if (reveal.getConfig().syncZoom) {
+						/** @type {ZoomBroadcastMessage} */
+						const msg =  {
+							source: isSpeakerView ? 'speaker' : 'main',
+							relativeX: event.clientX / document.body.clientWidth,
+							relativeY: event.clientY / document.body.clientHeight,
+						};
+						broadcastChannel.postMessage(msg);
+					}
+
+				}
+			} );
+
+      broadcastChannel.addEventListener('message', ( event) => {
+
+				if (isSpeakerView && isSpeakerPreviewFrame) return //not zoom preview frame
+
+				if (!reveal.getConfig().syncZoom) return
+
+        var zoomLevel = ( reveal.getConfig().zoomLevel ? reveal.getConfig().zoomLevel : 2 );
+
+        /** @type ZoomBroadcastMessage */
+        const msg = event.data;
+
+        let zoomToOptions = {
+          x: msg.relativeX * document.body.clientWidth,
+          y: msg.relativeY * document.body.clientHeight,
+          scale: zoomLevel,
+          pan: false
+        }
+        zoom.to(zoomToOptions);
+      })
+
+		},
+
+		destroy: () => {
+
+			zoom.reset();
+
+		}
 
 	}
-
 };
 
-export default () => Plugin;
+export default Plugin;
 
 /*!
  * zoom.js 0.3 (modified for use with reveal.js)
