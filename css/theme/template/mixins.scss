@@ -36,9 +36,37 @@
 	}
 }
 
+@mixin light-bg-main-color( $color ) {
+	section.has-light-background {
+		color: $color;
+	}
+}
+
+@mixin light-bg-heading-color( $color ) {
+	section.has-light-background {
+		h1, h2, h3, h4, h5, h6 {
+			color: $color;
+		}
+	}
+}
+
 @mixin dark-bg-text-color( $color ) {
 	section.has-dark-background {
 		&, h1, h2, h3, h4, h5, h6 {
+			color: $color;
+		}
+	}
+}
+
+@mixin dark-bg-main-color( $color ) {
+	section.has-dark-background {
+		color: $color;
+	}
+}
+
+@mixin dark-bg-heading-color( $color ) {
+	section.has-dark-background {
+		h1, h2, h3, h4, h5, h6 {
 			color: $color;
 		}
 	}
