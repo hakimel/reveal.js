@@ -60,11 +60,13 @@ export default class Location {
 				name = name.split( '/' ).shift();
 			}
 
-			// Ensure the named link is a valid HTML ID attribute
+			// Ensure the named link is a valid HTML id or data-id attribute
 			try {
-				slide = document
-					.getElementById( decodeURIComponent( name ) )
-					.closest('.slides section');
+				const decodedName = decodeURIComponent( name );
+				slide = (
+					document.getElementById( decodedName ) ||
+					document.querySelector( `[data-id="${decodedName}"]` )
+				).closest('.slides section');
 			}
 			catch ( error ) { }
 
