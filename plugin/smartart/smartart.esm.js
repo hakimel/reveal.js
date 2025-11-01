@@ -8,7 +8,8 @@ const ORIENTATION_MAP = {
         LR: 'horizontal',
         RL: 'horizontal',
         GRID: 'grid',
-        AUTO: 'grid'
+        AUTO: 'grid',
+        LINED: 'lined'
 };
 
 const DEFAULT_ICONS = [
@@ -66,6 +67,9 @@ function injectStyles() {
         color: var(--r-muted-foreground, rgba(55, 65, 81, 0.85));
         font-size: clamp(1rem, 1.1vw, 1.125rem);
         line-height: 1.6;
+}
+.reveal .smartart[data-layout="lined"] .smartart__intro {
+        margin-bottom: 1.75rem;
 }
 .reveal .smartart__card {
         display: flex;
@@ -131,6 +135,78 @@ function injectStyles() {
         background: #0f6bd1;
         transform: translateY(-1px);
 }
+.reveal .smartart[data-layout="lined"] .smartart__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background: color-mix(in srgb, var(--r-background-color, #f9fafb) 65%, #ffffff 35%);
+        border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+        border-radius: 0.85rem;
+        box-shadow: 0 20px 35px -28px rgba(15, 23, 42, 0.38);
+        overflow: hidden;
+}
+.reveal .smartart[data-layout="lined"] .smartart__list-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.25rem clamp(1rem, 2vw, 1.75rem);
+        transition: background 0.2s ease;
+}
+.reveal .smartart[data-layout="lined"] .smartart__list-item + .smartart__list-item {
+        border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+}
+.reveal .smartart[data-layout="lined"] .smartart__list-item:hover {
+        background: color-mix(in srgb, var(--r-background-color, #f1f5f9) 55%, transparent);
+}
+.reveal .smartart__list-icon {
+        flex: 0 0 auto;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(19, 127, 236, 0.14);
+        color: #137fec;
+}
+.reveal .smartart__list-icon img,
+.reveal .smartart__list-icon svg {
+        width: 1.5rem;
+        height: 1.5rem;
+}
+.reveal .smartart__list-content {
+        flex: 1 1 auto;
+}
+.reveal .smartart__list-title {
+        font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+        font-weight: 600;
+        margin: 0;
+        color: inherit;
+}
+.reveal .smartart__list-description {
+        margin: 0.35rem 0 0;
+        color: color-mix(in srgb, currentColor 70%, transparent);
+        font-size: clamp(0.9rem, 1.1vw, 1rem);
+        line-height: 1.55;
+}
+.reveal .smartart__list-meta {
+        flex: 0 0 auto;
+        margin-left: clamp(0.75rem, 2vw, 1.5rem);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: color-mix(in srgb, currentColor 65%, transparent);
+}
+.reveal .has-dark-background .smartart[data-layout="lined"] .smartart__list {
+        background: rgba(15, 23, 42, 0.82);
+        border-color: rgba(148, 163, 184, 0.2);
+        box-shadow: 0 16px 32px -26px rgba(15, 23, 42, 0.8);
+}
+.reveal .has-dark-background .smartart__list-item + .smartart__list-item {
+        border-color: rgba(148, 163, 184, 0.18);
+}
+.reveal .has-dark-background .smartart__list-description {
+        color: rgba(226, 232, 240, 0.72);
+}
 .reveal .has-dark-background .smartart {
         color: #f8fafc;
 }
@@ -177,6 +253,7 @@ function parseBlock( text ) {
         const firstLineTokens = lines[ 0 ].split( /\s+/ ).filter( Boolean );
         const orientationIndex = firstLineTokens.findIndex( token => ORIENTATION_MAP[ token.toUpperCase() ] );
         const orientation = orientationIndex >= 0 ? firstLineTokens[ orientationIndex ].toUpperCase() : 'TB';
+        const layout = orientationToLayout( orientation );
         const headingTokens = orientationIndex >= 0 ? firstLineTokens.slice( 0, orientationIndex ) : firstLineTokens;
         const remainderTokens = orientationIndex >= 0 ? firstLineTokens.slice( orientationIndex + 1 ) : [];
 
@@ -187,24 +264,34 @@ function parseBlock( text ) {
         let intro = '';
         const itemSegments = [];
 
+        if( firstItemCandidate ) {
+                const sanitizedFirst = firstItemCandidate.replace( /^[-*+]\s+/, '' );
+                const introMatch = sanitizedFirst.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
+                if( introMatch ) {
+                        intro = introMatch[ 1 ].trim();
+                }
+                else {
+                        itemSegments.push( sanitizedFirst );
+                }
+        }
+
         detailLines.forEach( line => {
-                const introMatch = line.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
+                const sanitized = line.replace( /^[-*+]\s+/, '' );
+                const introMatch = sanitized.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
                 if( introMatch ) {
                         intro = introMatch[ 1 ].trim();
                         return;
                 }
 
-                itemSegments.push( line );
+                itemSegments.push( sanitized );
         } );
 
-        if( firstItemCandidate ) itemSegments.unshift( firstItemCandidate );
-
         const rawItems = itemSegments
-                .flatMap( segment => segment.split( /\s*;\s*/ ) )
+                .flatMap( segment => splitSegment( segment, layout ) )
                 .map( segment => segment.trim() )
                 .filter( Boolean );
 
-        const items = rawItems.map( ( raw, index ) => parseItem( raw, index ) ).filter( Boolean );
+        const items = rawItems.map( ( raw, index ) => parseItem( raw, index, layout ) ).filter( Boolean );
 
         if( items.length === 0 ) {
                 return null;
@@ -214,11 +301,34 @@ function parseBlock( text ) {
                 heading,
                 intro,
                 orientation,
+                layout,
                 items
         };
 }
 
-function parseItem( raw, index ) {
+function splitSegment( segment, layout ) {
+        const cleaned = segment.trim();
+        if( !cleaned ) return [];
+
+        if( layout === 'lined' ) {
+                const bulletless = cleaned.replace( /^[-*+]\s+/, '' );
+                if( /;/.test( bulletless ) ) {
+                        return bulletless.split( /\s*;\s*/ );
+                }
+                if( /\w\s*=/.test( bulletless ) || bulletless.includes( '|' ) ) {
+                        return [ bulletless ];
+                }
+                const matches = bulletless.match( /"[^"]+"|[^\s]+/g ) || [];
+                if( matches.length > 0 ) {
+                        return matches.map( token => token.replace( /^"|"$/g, '' ) );
+                }
+                return [ bulletless ];
+        }
+
+        return segment.split( /\s*;\s*/ );
+}
+
+function parseItem( raw, index, layout ) {
         const item = {
                 title: '',
                 description: '',
@@ -236,9 +346,14 @@ function parseItem( raw, index ) {
                         assignKeyValue( item, kvMatch[ 1 ], kvMatch[ 2 ] );
                 }
                 else {
-                        const words = single.split( /\s+/ );
-                        item.title = words.shift() || '';
-                        item.description = words.join( ' ' ).trim();
+                        const colonIndex = single.indexOf( ':' );
+                        if( colonIndex > 0 && !/^https?:/i.test( single ) ) {
+                                item.title = single.slice( 0, colonIndex ).trim();
+                                item.description = single.slice( colonIndex + 1 ).trim();
+                        }
+                        else {
+                                item.title = single.trim();
+                        }
                 }
         }
         else {
@@ -257,7 +372,7 @@ function parseItem( raw, index ) {
         }
 
         if( item.ctaLabel && !item.ctaUrl ) item.ctaUrl = '#';
-        if( !item.icon ) item.icon = defaultIcon( index );
+        if( !item.icon && layout !== 'lined' ) item.icon = defaultIcon( index );
 
         if( !item.title ) return null;
 
@@ -318,10 +433,59 @@ function createCard( item ) {
         return card;
 }
 
+function createListItem( item ) {
+        const listItem = document.createElement( 'li' );
+        listItem.className = 'smartart__list-item';
+        listItem.setAttribute( 'role', 'listitem' );
+
+        if( item.icon ) {
+                const iconWrapper = document.createElement( 'div' );
+                iconWrapper.className = 'smartart__list-icon';
+                const icon = document.createElement( 'img' );
+                icon.src = iconToUrl( item.icon );
+                icon.alt = item.title ? `${ item.title } icon` : 'List icon';
+                icon.loading = 'lazy';
+                iconWrapper.appendChild( icon );
+                listItem.appendChild( iconWrapper );
+        }
+
+        const content = document.createElement( 'div' );
+        content.className = 'smartart__list-content';
+
+        if( item.title ) {
+                const title = document.createElement( 'p' );
+                title.className = 'smartart__list-title';
+                title.textContent = item.title;
+                content.appendChild( title );
+        }
+
+        if( item.description ) {
+                const description = document.createElement( 'p' );
+                description.className = 'smartart__list-description';
+                description.textContent = item.description;
+                content.appendChild( description );
+        }
+
+        listItem.appendChild( content );
+
+        if( item.ctaLabel ) {
+                const meta = document.createElement( 'a' );
+                meta.className = 'smartart__list-meta';
+                meta.textContent = item.ctaLabel;
+                meta.href = item.ctaUrl || '#';
+                meta.target = /^https?:/i.test( item.ctaUrl ) ? '_blank' : '_self';
+                meta.rel = 'noreferrer noopener';
+                listItem.appendChild( meta );
+        }
+
+        return listItem;
+}
+
 function buildSmartArt( data ) {
         const container = document.createElement( 'div' );
         container.className = 'smartart';
-        container.dataset.layout = orientationToLayout( data.orientation );
+        const layout = data.layout || orientationToLayout( data.orientation );
+        container.dataset.layout = layout;
         container.dataset.smartartGenerated = 'true';
 
         if( data.heading ) {
@@ -338,12 +502,24 @@ function buildSmartArt( data ) {
                 container.appendChild( intro );
         }
 
-        const grid = document.createElement( 'div' );
-        grid.className = 'smartart__grid';
-        data.items.forEach( item => {
-                grid.appendChild( createCard( item ) );
-        } );
-        container.appendChild( grid );
+        if( layout === 'lined' ) {
+                const list = document.createElement( 'ul' );
+                list.className = 'smartart__list';
+                list.setAttribute( 'role', 'list' );
+                data.items.forEach( ( item, index ) => {
+                        if( !item.icon ) item.icon = defaultIcon( index );
+                        list.appendChild( createListItem( item ) );
+                } );
+                container.appendChild( list );
+        }
+        else {
+                const grid = document.createElement( 'div' );
+                grid.className = 'smartart__grid';
+                data.items.forEach( item => {
+                        grid.appendChild( createCard( item ) );
+                } );
+                container.appendChild( grid );
+        }
 
         return container;
 }
