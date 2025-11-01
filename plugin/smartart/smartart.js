@@ -37,106 +37,89 @@
 
                 const style = document.createElement( 'style' );
                 style.id = STYLE_ELEMENT_ID;
-        style.textContent = `
+                style.textContent = `
 .reveal .smartart {
-        width: min(100%, 980px);
+        width: min(100%, 960px);
         margin: 0 auto;
-        padding: clamp(1rem, 1.8vw, 2rem) clamp(0.75rem, 2.2vw, 2.25rem);
+        padding: 1.5rem clamp(0.5rem, 2vw, 2rem);
         color: var(--r-main-color, #111827);
-        box-sizing: border-box;
-        overflow: visible;
-}
-.reveal .smartart__grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 28vw, 320px), 1fr));
-        gap: clamp(1rem, 2vw, 1.75rem);
-        align-items: stretch;
-        width: 100%;
-        margin: 0 auto;
 }
 .reveal .smartart[data-layout="horizontal"] .smartart__grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        align-items: stretch;
-        gap: clamp(1rem, 2vw, 1.5rem);
+        gap: 1.5rem;
 }
 .reveal .smartart[data-layout="horizontal"] .smartart__card {
-        flex: 1 1 clamp(180px, 32vw, 320px);
-        max-width: clamp(220px, 34vw, 360px);
+        flex: 1 1 clamp(240px, 30vw, 320px);
 }
-.reveal .smartart[data-layout="vertical"] .smartart__grid,
+.reveal .smartart[data-layout="vertical"] .smartart__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+}
 .reveal .smartart[data-layout="grid"] .smartart__grid,
 .reveal .smartart:not([data-layout]) .smartart__grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 28vw, 320px), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
 }
 .reveal .smartart__heading {
         text-align: center;
-        margin-bottom: clamp(0.5rem, 1.5vw, 0.9rem);
+        margin-bottom: 0.75rem;
         font-size: clamp(2rem, 3vw, 2.8rem);
         font-weight: 700;
-        line-height: 1.15;
 }
 .reveal .smartart__intro {
-        max-width: min(65ch, 100%);
-        margin: 0.75rem auto clamp(1.5rem, 3vw, 2.5rem);
+        max-width: 52ch;
+        margin: 0.5rem auto 2.5rem;
         text-align: center;
-        color: var(--r-muted-foreground, rgba(55, 65, 81, 0.8));
+        color: var(--r-muted-foreground, rgba(55, 65, 81, 0.85));
         font-size: clamp(1rem, 1.1vw, 1.125rem);
         line-height: 1.6;
 }
 .reveal .smartart__card {
         display: flex;
         flex-direction: column;
-        gap: clamp(0.65rem, 1.6vw, 1rem);
         justify-content: flex-start;
-        background: color-mix(in srgb, var(--r-background-color, #f6f7f8) 60%, #ffffff 40%);
-        border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-        border-radius: 0.9rem;
-        padding: clamp(1.25rem, 2vw, 1.8rem) clamp(1.1rem, 2vw, 1.75rem);
-        box-shadow: 0 18px 35px -26px rgba(15, 23, 42, 0.5);
+        background: color-mix(in srgb, var(--r-background-color, #f6f7f8) 65%, #ffffff 35%);
+        border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+        border-radius: 0.85rem;
+        padding: 1.75rem 1.5rem;
+        box-shadow: 0 20px 35px -24px rgba(15, 23, 42, 0.4);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        min-height: clamp(210px, 34vh, 320px);
-        max-width: 100%;
-        box-sizing: border-box;
-        word-break: break-word;
+        min-height: 240px;
 }
 .reveal .smartart__card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 26px 46px -24px rgba(15, 23, 42, 0.45);
+        transform: translateY(-6px);
+        box-shadow: 0 26px 46px -22px rgba(15, 23, 42, 0.45);
 }
 .reveal .smartart__icon {
-        width: clamp(2.6rem, 6vw, 3.2rem);
-        height: clamp(2.6rem, 6vw, 3.2rem);
-        border-radius: 0.9rem;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.85rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: clamp(0.4rem, 1.2vw, 0.9rem);
+        margin-bottom: 1.4rem;
         background: rgba(19, 127, 236, 0.16);
         color: #137fec;
 }
 .reveal .smartart__icon img,
 .reveal .smartart__icon svg {
-        width: clamp(1.4rem, 4vw, 1.85rem);
-        height: clamp(1.4rem, 4vw, 1.85rem);
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
+        width: 1.75rem;
+        height: 1.75rem;
 }
 .reveal .smartart__title {
-        font-size: clamp(1.1rem, 1.9vw, 1.4rem);
+        font-size: clamp(1.15rem, 2vw, 1.4rem);
         font-weight: 700;
-        margin: 0;
+        margin: 0 0 0.6rem;
         color: inherit;
-        line-height: 1.25;
 }
 .reveal .smartart__description {
-        font-size: clamp(0.95rem, 1.3vw, 1.05rem);
-        line-height: 1.65;
-        color: color-mix(in srgb, currentColor 70%, transparent);
-        margin: 0 0 clamp(0.6rem, 1.8vw, 1.3rem);
+        font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+        line-height: 1.6;
+        color: color-mix(in srgb, currentColor 72%, transparent);
+        margin-bottom: 1.5rem;
 }
 .reveal .smartart__cta {
         margin-top: auto;
@@ -147,13 +130,12 @@
         background: #137fec;
         color: #ffffff !important;
         padding: 0.65rem 1.1rem;
-        border-radius: 0.6rem;
+        border-radius: 0.55rem;
         font-size: 0.9rem;
         font-weight: 600;
         text-decoration: none;
         transition: background 0.2s ease, transform 0.2s ease;
         box-shadow: 0 8px 16px -8px rgba(19, 127, 236, 0.5);
-        align-self: flex-start;
 }
 .reveal .smartart__cta:hover {
         background: #0f6bd1;
@@ -163,38 +145,15 @@
         color: #f8fafc;
 }
 .reveal .has-dark-background .smartart__intro {
-        color: rgba(226, 232, 240, 0.78);
+        color: rgba(226, 232, 240, 0.75);
 }
 .reveal .has-dark-background .smartart__card {
-        background: rgba(15, 23, 42, 0.86);
-        border-color: rgba(148, 163, 184, 0.22);
-        box-shadow: 0 16px 32px -22px rgba(15, 23, 42, 0.9);
+        background: rgba(15, 23, 42, 0.84);
+        border-color: rgba(148, 163, 184, 0.2);
+        box-shadow: 0 16px 32px -20px rgba(15, 23, 42, 0.9);
 }
 .reveal .has-dark-background .smartart__cta {
         box-shadow: 0 8px 18px -8px rgba(19, 127, 236, 0.65);
-}
-@media (max-width: 720px) {
-        .reveal .smartart {
-                padding: clamp(0.75rem, 2.5vw, 1.5rem) clamp(0.75rem, 4vw, 1.5rem);
-        }
-        .reveal .smartart__grid {
-                grid-template-columns: repeat(auto-fit, minmax(clamp(160px, 70vw, 280px), 1fr));
-        }
-        .reveal .smartart[data-layout="horizontal"] .smartart__card {
-                flex: 1 1 clamp(160px, 80vw, 320px);
-                max-width: 100%;
-        }
-}
-@media (max-width: 520px) {
-        .reveal .smartart__heading {
-                font-size: clamp(1.6rem, 7vw, 2.2rem);
-        }
-        .reveal .smartart__intro {
-                font-size: clamp(0.95rem, 3.6vw, 1.05rem);
-        }
-        .reveal .smartart__grid {
-                gap: clamp(0.85rem, 4vw, 1.25rem);
-        }
 }
 `;
 
