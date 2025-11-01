@@ -71,11 +71,11 @@
                 .reveal [class*="xl-col"] * {
                     box-sizing: border-box;
                 }
-                
+
                 /* ============================================
                    CONTAINERS
                    ============================================ */
-                
+
                 .reveal .xl-container {
                     width: 100%;
                     padding-right: var(--xl-gutter-x, 1rem);
@@ -83,6 +83,10 @@
                     margin-right: auto;
                     margin-left: auto;
                     max-width: ${this.config.containerMaxWidth};
+                    max-height: 85vh;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
                 }
                 
                 .reveal .xl-container-fluid {
@@ -102,8 +106,10 @@
                 
                 .reveal .xl-grid {
                     display: grid;
-                    gap: var(--xl-gap, 1.5rem);
+                    gap: var(--xl-gap, clamp(0.75rem, 1.5vw, 1.5rem));
                     width: 100%;
+                    max-height: 100%;
+                    overflow: hidden;
                 }
                 
                 /* Grid Templates */
@@ -135,8 +141,10 @@
                 .reveal .xl-row {
                     display: grid;
                     grid-template-columns: repeat(12, 1fr);
-                    gap: var(--xl-gap, 1.5rem);
+                    gap: var(--xl-gap, clamp(0.75rem, 1.5vw, 1.5rem));
                     width: 100%;
+                    max-height: 100%;
+                    overflow: hidden;
                 }
                 
                 /* Column spans */
@@ -170,58 +178,70 @@
                 .reveal .xl-sidebar-left {
                     display: grid;
                     grid-template-columns: 1fr 2fr;
-                    gap: var(--xl-gap, 2rem);
+                    gap: var(--xl-gap, clamp(1rem, 2vw, 2rem));
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
-                
+
                 .reveal .xl-sidebar-right {
                     display: grid;
                     grid-template-columns: 2fr 1fr;
-                    gap: var(--xl-gap, 2rem);
+                    gap: var(--xl-gap, clamp(1rem, 2vw, 2rem));
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
-                
+
                 /* Focus layout */
                 .reveal .xl-focus {
                     display: grid;
                     grid-template-columns: 1fr 3fr 1fr;
-                    gap: var(--xl-gap, 1.5rem);
+                    gap: var(--xl-gap, clamp(0.75rem, 1.5vw, 1.5rem));
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
-                
+
                 /* Comparison layout */
                 .reveal .xl-comparison {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: var(--xl-gap, 2rem);
+                    gap: var(--xl-gap, clamp(1rem, 2vw, 2rem));
                     align-items: start;
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
                 
                 /* Timeline layout */
                 .reveal .xl-timeline {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                    gap: var(--xl-gap, 1rem);
+                    gap: var(--xl-gap, clamp(0.5rem, 1vw, 1rem));
                     position: relative;
-                    padding-top: 3rem;
+                    padding-top: clamp(2rem, 3vh, 3rem);
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
-                
+
                 .reveal .xl-timeline::before {
                     content: '';
                     position: absolute;
-                    top: 1.5rem;
+                    top: clamp(1rem, 1.5vh, 1.5rem);
                     left: 0;
                     right: 0;
                     height: 2px;
                     background: currentColor;
                     opacity: 0.3;
                 }
-                
+
                 .reveal .xl-timeline > * {
                     position: relative;
+                    flex: 1 1 auto;
+                    min-height: 0;
                 }
-                
+
                 .reveal .xl-timeline > *::before {
                     content: '';
                     position: absolute;
-                    top: -1.5rem;
+                    top: clamp(-1.2rem, -1.5vh, -1.5rem);
                     left: 50%;
                     transform: translateX(-50%);
                     width: 12px;
@@ -235,26 +255,31 @@
                 .reveal .xl-stats {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                    gap: var(--xl-gap, 2rem);
+                    gap: var(--xl-gap, clamp(1rem, 2vw, 2rem));
                     text-align: center;
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
-                
+
                 .reveal .xl-stats > * {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
+                    flex: 1 1 auto;
+                    min-height: 0;
                 }
-                
+
                 .reveal .xl-stats .xl-stat-value {
-                    font-size: 2.5em;
+                    font-size: clamp(1.8rem, 3vw + 0.5rem, 2.5rem);
                     font-weight: bold;
                     line-height: 1.2;
                     margin-bottom: 0.25em;
+                    flex-shrink: 0;
                 }
-                
+
                 .reveal .xl-stats .xl-stat-label {
-                    font-size: 0.9em;
+                    font-size: clamp(0.8rem, 1.2vw + 0.2rem, 0.9rem);
                     opacity: 0.8;
                 }
                 
@@ -263,9 +288,11 @@
                     display: grid;
                     grid-template-columns: 1fr 1fr;
                     grid-template-rows: 1fr 1fr;
-                    gap: var(--xl-gap, 2rem);
-                    height: 60vh;
+                    gap: var(--xl-gap, clamp(1rem, 2vw, 2rem));
+                    height: clamp(50vh, 60vh, 70vh);
+                    max-height: 85vh;
                     position: relative;
+                    overflow: hidden;
                 }
                 
                 .reveal .xl-matrix::before,
@@ -294,51 +321,55 @@
                 .reveal .xl-process {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                    gap: var(--xl-gap, 0.5rem);
+                    gap: var(--xl-gap, clamp(0.25rem, 0.5vw, 0.5rem));
                     align-items: center;
+                    max-height: 85vh;
+                    overflow: hidden;
                 }
-                
+
                 .reveal .xl-process > * {
                     position: relative;
-                    padding: 1.5rem;
+                    padding: clamp(1rem, 1.5vh, 1.5rem);
                     text-align: center;
+                    flex: 1 1 auto;
+                    min-height: 0;
                 }
-                
+
                 .reveal .xl-process > *:not(:last-child)::after {
                     content: '→';
                     position: absolute;
-                    right: -1rem;
+                    right: clamp(-0.8rem, -1vw, -1rem);
                     top: 50%;
                     transform: translateY(-50%);
-                    font-size: 1.5em;
+                    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
                     opacity: 0.5;
                 }
                 
                 /* ============================================
                    GUTTERS
                    ============================================ */
-                
+
                 .reveal .xl-g-0 { --xl-gap: 0; }
-                .reveal .xl-g-1 { --xl-gap: 0.25rem; }
-                .reveal .xl-g-2 { --xl-gap: 0.5rem; }
-                .reveal .xl-g-3 { --xl-gap: 1rem; }
-                .reveal .xl-g-4 { --xl-gap: 1.5rem; }
-                .reveal .xl-g-5 { --xl-gap: 3rem; }
-                
+                .reveal .xl-g-1 { --xl-gap: clamp(0.15rem, 0.25vw, 0.25rem); }
+                .reveal .xl-g-2 { --xl-gap: clamp(0.3rem, 0.5vw, 0.5rem); }
+                .reveal .xl-g-3 { --xl-gap: clamp(0.6rem, 1vw, 1rem); }
+                .reveal .xl-g-4 { --xl-gap: clamp(0.9rem, 1.5vw, 1.5rem); }
+                .reveal .xl-g-5 { --xl-gap: clamp(1.8rem, 3vw, 3rem); }
+
                 /* Separate X and Y gutters */
                 .reveal .xl-gx-0 { column-gap: 0; }
-                .reveal .xl-gx-1 { column-gap: 0.25rem; }
-                .reveal .xl-gx-2 { column-gap: 0.5rem; }
-                .reveal .xl-gx-3 { column-gap: 1rem; }
-                .reveal .xl-gx-4 { column-gap: 1.5rem; }
-                .reveal .xl-gx-5 { column-gap: 3rem; }
-                
+                .reveal .xl-gx-1 { column-gap: clamp(0.15rem, 0.25vw, 0.25rem); }
+                .reveal .xl-gx-2 { column-gap: clamp(0.3rem, 0.5vw, 0.5rem); }
+                .reveal .xl-gx-3 { column-gap: clamp(0.6rem, 1vw, 1rem); }
+                .reveal .xl-gx-4 { column-gap: clamp(0.9rem, 1.5vw, 1.5rem); }
+                .reveal .xl-gx-5 { column-gap: clamp(1.8rem, 3vw, 3rem); }
+
                 .reveal .xl-gy-0 { row-gap: 0; }
-                .reveal .xl-gy-1 { row-gap: 0.25rem; }
-                .reveal .xl-gy-2 { row-gap: 0.5rem; }
-                .reveal .xl-gy-3 { row-gap: 1rem; }
-                .reveal .xl-gy-4 { row-gap: 1.5rem; }
-                .reveal .xl-gy-5 { row-gap: 3rem; }
+                .reveal .xl-gy-1 { row-gap: clamp(0.15rem, 0.25vh, 0.25rem); }
+                .reveal .xl-gy-2 { row-gap: clamp(0.3rem, 0.5vh, 0.5rem); }
+                .reveal .xl-gy-3 { row-gap: clamp(0.6rem, 1vh, 1rem); }
+                .reveal .xl-gy-4 { row-gap: clamp(0.9rem, 1.5vh, 1.5rem); }
+                .reveal .xl-gy-5 { row-gap: clamp(1.8rem, 3vh, 3rem); }
                 
                 /* ============================================
                    ALIGNMENT UTILITIES
@@ -387,56 +418,56 @@
                 /* ============================================
                    SPACING UTILITIES
                    ============================================ */
-                
+
                 /* Padding */
                 .reveal .xl-p-0 { padding: 0; }
-                .reveal .xl-p-1 { padding: 0.25rem; }
-                .reveal .xl-p-2 { padding: 0.5rem; }
-                .reveal .xl-p-3 { padding: 1rem; }
-                .reveal .xl-p-4 { padding: 1.5rem; }
-                .reveal .xl-p-5 { padding: 3rem; }
-                
+                .reveal .xl-p-1 { padding: clamp(0.15rem, 0.25vw, 0.25rem); }
+                .reveal .xl-p-2 { padding: clamp(0.3rem, 0.5vw, 0.5rem); }
+                .reveal .xl-p-3 { padding: clamp(0.6rem, 1vw, 1rem); }
+                .reveal .xl-p-4 { padding: clamp(0.9rem, 1.5vw, 1.5rem); }
+                .reveal .xl-p-5 { padding: clamp(1.8rem, 3vw, 3rem); }
+
                 /* Padding X-axis */
                 .reveal .xl-px-0 { padding-left: 0; padding-right: 0; }
-                .reveal .xl-px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
-                .reveal .xl-px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-                .reveal .xl-px-3 { padding-left: 1rem; padding-right: 1rem; }
-                .reveal .xl-px-4 { padding-left: 1.5rem; padding-right: 1.5rem; }
-                .reveal .xl-px-5 { padding-left: 3rem; padding-right: 3rem; }
-                
+                .reveal .xl-px-1 { padding-left: clamp(0.15rem, 0.25vw, 0.25rem); padding-right: clamp(0.15rem, 0.25vw, 0.25rem); }
+                .reveal .xl-px-2 { padding-left: clamp(0.3rem, 0.5vw, 0.5rem); padding-right: clamp(0.3rem, 0.5vw, 0.5rem); }
+                .reveal .xl-px-3 { padding-left: clamp(0.6rem, 1vw, 1rem); padding-right: clamp(0.6rem, 1vw, 1rem); }
+                .reveal .xl-px-4 { padding-left: clamp(0.9rem, 1.5vw, 1.5rem); padding-right: clamp(0.9rem, 1.5vw, 1.5rem); }
+                .reveal .xl-px-5 { padding-left: clamp(1.8rem, 3vw, 3rem); padding-right: clamp(1.8rem, 3vw, 3rem); }
+
                 /* Padding Y-axis */
                 .reveal .xl-py-0 { padding-top: 0; padding-bottom: 0; }
-                .reveal .xl-py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
-                .reveal .xl-py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-                .reveal .xl-py-3 { padding-top: 1rem; padding-bottom: 1rem; }
-                .reveal .xl-py-4 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-                .reveal .xl-py-5 { padding-top: 3rem; padding-bottom: 3rem; }
-                
+                .reveal .xl-py-1 { padding-top: clamp(0.15rem, 0.25vh, 0.25rem); padding-bottom: clamp(0.15rem, 0.25vh, 0.25rem); }
+                .reveal .xl-py-2 { padding-top: clamp(0.3rem, 0.5vh, 0.5rem); padding-bottom: clamp(0.3rem, 0.5vh, 0.5rem); }
+                .reveal .xl-py-3 { padding-top: clamp(0.6rem, 1vh, 1rem); padding-bottom: clamp(0.6rem, 1vh, 1rem); }
+                .reveal .xl-py-4 { padding-top: clamp(0.9rem, 1.5vh, 1.5rem); padding-bottom: clamp(0.9rem, 1.5vh, 1.5rem); }
+                .reveal .xl-py-5 { padding-top: clamp(1.8rem, 3vh, 3rem); padding-bottom: clamp(1.8rem, 3vh, 3rem); }
+
                 /* Margin */
                 .reveal .xl-m-0 { margin: 0; }
-                .reveal .xl-m-1 { margin: 0.25rem; }
-                .reveal .xl-m-2 { margin: 0.5rem; }
-                .reveal .xl-m-3 { margin: 1rem; }
-                .reveal .xl-m-4 { margin: 1.5rem; }
-                .reveal .xl-m-5 { margin: 3rem; }
+                .reveal .xl-m-1 { margin: clamp(0.15rem, 0.25vw, 0.25rem); }
+                .reveal .xl-m-2 { margin: clamp(0.3rem, 0.5vw, 0.5rem); }
+                .reveal .xl-m-3 { margin: clamp(0.6rem, 1vw, 1rem); }
+                .reveal .xl-m-4 { margin: clamp(0.9rem, 1.5vw, 1.5rem); }
+                .reveal .xl-m-5 { margin: clamp(1.8rem, 3vw, 3rem); }
                 .reveal .xl-m-auto { margin: auto; }
-                
+
                 /* Margin X-axis */
                 .reveal .xl-mx-0 { margin-left: 0; margin-right: 0; }
-                .reveal .xl-mx-1 { margin-left: 0.25rem; margin-right: 0.25rem; }
-                .reveal .xl-mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
-                .reveal .xl-mx-3 { margin-left: 1rem; margin-right: 1rem; }
-                .reveal .xl-mx-4 { margin-left: 1.5rem; margin-right: 1.5rem; }
-                .reveal .xl-mx-5 { margin-left: 3rem; margin-right: 3rem; }
+                .reveal .xl-mx-1 { margin-left: clamp(0.15rem, 0.25vw, 0.25rem); margin-right: clamp(0.15rem, 0.25vw, 0.25rem); }
+                .reveal .xl-mx-2 { margin-left: clamp(0.3rem, 0.5vw, 0.5rem); margin-right: clamp(0.3rem, 0.5vw, 0.5rem); }
+                .reveal .xl-mx-3 { margin-left: clamp(0.6rem, 1vw, 1rem); margin-right: clamp(0.6rem, 1vw, 1rem); }
+                .reveal .xl-mx-4 { margin-left: clamp(0.9rem, 1.5vw, 1.5rem); margin-right: clamp(0.9rem, 1.5vw, 1.5rem); }
+                .reveal .xl-mx-5 { margin-left: clamp(1.8rem, 3vw, 3rem); margin-right: clamp(1.8rem, 3vw, 3rem); }
                 .reveal .xl-mx-auto { margin-left: auto; margin-right: auto; }
-                
+
                 /* Margin Y-axis */
                 .reveal .xl-my-0 { margin-top: 0; margin-bottom: 0; }
-                .reveal .xl-my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
-                .reveal .xl-my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
-                .reveal .xl-my-3 { margin-top: 1rem; margin-bottom: 1rem; }
-                .reveal .xl-my-4 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
-                .reveal .xl-my-5 { margin-top: 3rem; margin-bottom: 3rem; }
+                .reveal .xl-my-1 { margin-top: clamp(0.15rem, 0.25vh, 0.25rem); margin-bottom: clamp(0.15rem, 0.25vh, 0.25rem); }
+                .reveal .xl-my-2 { margin-top: clamp(0.3rem, 0.5vh, 0.5rem); margin-bottom: clamp(0.3rem, 0.5vh, 0.5rem); }
+                .reveal .xl-my-3 { margin-top: clamp(0.6rem, 1vh, 1rem); margin-bottom: clamp(0.6rem, 1vh, 1rem); }
+                .reveal .xl-my-4 { margin-top: clamp(0.9rem, 1.5vh, 1.5rem); margin-bottom: clamp(0.9rem, 1.5vh, 1.5rem); }
+                .reveal .xl-my-5 { margin-top: clamp(1.8rem, 3vh, 3rem); margin-bottom: clamp(1.8rem, 3vh, 3rem); }
                 .reveal .xl-my-auto { margin-top: auto; margin-bottom: auto; }
                 
                 /* ============================================
@@ -486,19 +517,70 @@
                 /* ============================================
                    TEXT UTILITIES
                    ============================================ */
-                
+
                 .reveal .xl-text-left { text-align: left; }
-                .reveal .xl-text-center { text-align: center; }
+                .reveal .xl-text-center {
+                    text-align: center;
+                    white-space: normal;
+                }
                 .reveal .xl-text-right { text-align: right; }
                 .reveal .xl-text-justify { text-align: justify; }
-                
+
                 .reveal .xl-text-uppercase { text-transform: uppercase; }
                 .reveal .xl-text-lowercase { text-transform: lowercase; }
                 .reveal .xl-text-capitalize { text-transform: capitalize; }
-                
+
                 .reveal .xl-font-weight-light { font-weight: 300; }
                 .reveal .xl-font-weight-normal { font-weight: 400; }
                 .reveal .xl-font-weight-bold { font-weight: 700; }
+
+                /* Responsive heading sizes within xlayouts components */
+                .reveal .xl-container h1,
+                .reveal .xl-grid h1,
+                .reveal .xl-row h1 {
+                    font-size: clamp(1.8rem, 3vw + 0.5rem, 2.5rem);
+                    margin-bottom: clamp(0.5rem, 1vh, 1rem);
+                }
+
+                .reveal .xl-container h2,
+                .reveal .xl-grid h2,
+                .reveal .xl-row h2 {
+                    font-size: clamp(1.4rem, 2.5vw + 0.3rem, 2rem);
+                    margin-bottom: clamp(0.4rem, 0.8vh, 0.8rem);
+                }
+
+                .reveal .xl-container h3,
+                .reveal .xl-grid h3,
+                .reveal .xl-row h3,
+                .reveal .xl-card h3 {
+                    font-size: clamp(1.1rem, 2vw + 0.2rem, 1.5rem);
+                    margin-bottom: clamp(0.3rem, 0.6vh, 0.6rem);
+                }
+
+                .reveal .xl-container p,
+                .reveal .xl-grid p,
+                .reveal .xl-row p,
+                .reveal .xl-card p {
+                    font-size: clamp(0.85rem, 1.2vw + 0.2rem, 1rem);
+                    line-height: 1.6;
+                    margin-bottom: clamp(0.3rem, 0.5vh, 0.5rem);
+                }
+
+                .reveal .xl-container ul,
+                .reveal .xl-grid ul,
+                .reveal .xl-row ul,
+                .reveal .xl-card ul {
+                    font-size: clamp(0.8rem, 1.1vw + 0.15rem, 0.95rem);
+                    line-height: 1.5;
+                }
+
+                .reveal .xl-container code,
+                .reveal .xl-grid code,
+                .reveal .xl-row code,
+                .reveal .xl-card code {
+                    font-size: clamp(0.75rem, 1vw + 0.1rem, 0.9rem);
+                    padding: 0.1rem 0.3rem;
+                }
                 
                 /* ============================================
                    POSITION UTILITIES
@@ -602,69 +684,171 @@
                 /* ============================================
                    CARD COMPONENT
                    ============================================ */
-                
+
                 .reveal .xl-card {
-                    padding: 1.5rem;
+                    padding: clamp(0.75rem, 1.5vh, 1.5rem);
                     background: rgba(255, 255, 255, 0.05);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 0.5rem;
                     backdrop-filter: blur(10px);
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 0;
+                    min-width: 0;
+                    overflow: hidden;
                 }
-                
+
                 .reveal .xl-card-highlight {
                     background: rgba(255, 255, 255, 0.1);
                     border: 2px solid var(--r-main-color);
                     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
                 }
-                
+
                 .reveal .xl-card-header {
-                    font-size: 1.2em;
+                    font-size: clamp(1rem, 1.5vw + 0.3rem, 1.2rem);
                     font-weight: bold;
-                    margin-bottom: 0.5em;
-                    padding-bottom: 0.5em;
+                    margin-bottom: clamp(0.3rem, 0.5vh, 0.5rem);
+                    padding-bottom: clamp(0.3rem, 0.5vh, 0.5rem);
                     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    flex-shrink: 0;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    hyphens: auto;
                 }
-                
+
                 .reveal .xl-card-body {
-                    padding: 0.5rem 0;
+                    padding: clamp(0.3rem, 0.5vh, 0.5rem) 0;
+                    flex: 1 1 auto;
+                    overflow: hidden;
+                    font-size: clamp(0.8rem, 1.2vw + 0.2rem, 1rem);
+                    line-height: 1.5;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
                 }
-                
+
                 .reveal .xl-card-footer {
-                    margin-top: 1rem;
-                    padding-top: 0.5rem;
+                    margin-top: clamp(0.5rem, 1vh, 1rem);
+                    padding-top: clamp(0.3rem, 0.5vh, 0.5rem);
                     border-top: 1px solid rgba(255, 255, 255, 0.1);
+                    flex-shrink: 0;
                 }
                 
                 /* ============================================
                    RESPONSIVE UTILITIES
                    ============================================ */
-                
+
                 /* Portrait mode adjustments */
                 @media (orientation: portrait) {
                     .reveal .xl-portrait-stack > * {
                         grid-column: span 12 !important;
                     }
-                    
+
                     .reveal .xl-portrait-hide {
                         display: none !important;
                     }
                 }
-                
+
                 /* Landscape mode adjustments */
                 @media (orientation: landscape) {
                     .reveal .xl-landscape-hide {
                         display: none !important;
                     }
                 }
-                
+
                 /* Small screens */
                 @media (max-width: 768px) {
                     .reveal .xl-sm-stack {
                         grid-template-columns: 1fr !important;
                     }
-                    
+
                     .reveal .xl-sm-hide {
                         display: none !important;
+                    }
+                }
+
+                /* Height-based media queries for better vertical scaling */
+                @media (max-height: 768px) {
+                    .reveal .xl-container {
+                        max-height: 90vh;
+                    }
+
+                    .reveal .xl-card {
+                        padding: clamp(0.5rem, 1vh, 1rem);
+                    }
+
+                    .reveal .xl-card-header {
+                        font-size: clamp(0.9rem, 1.3vw + 0.2rem, 1.1rem);
+                        margin-bottom: clamp(0.2rem, 0.3vh, 0.4rem);
+                        padding-bottom: clamp(0.2rem, 0.3vh, 0.4rem);
+                    }
+
+                    .reveal .xl-card-body {
+                        font-size: clamp(0.75rem, 1vw + 0.15rem, 0.9rem);
+                        padding: clamp(0.2rem, 0.3vh, 0.4rem) 0;
+                    }
+
+                    .reveal .xl-grid,
+                    .reveal .xl-row {
+                        gap: clamp(0.5rem, 1vw, 1rem);
+                    }
+
+                    .reveal .xl-stats .xl-stat-value {
+                        font-size: clamp(1.5rem, 2.5vw + 0.3rem, 2rem);
+                    }
+
+                    .reveal .xl-timeline {
+                        padding-top: clamp(1.5rem, 2vh, 2rem);
+                    }
+
+                    .reveal .xl-process > * {
+                        padding: clamp(0.75rem, 1vh, 1rem);
+                    }
+                }
+
+                @media (max-height: 600px) {
+                    .reveal .xl-container {
+                        max-height: 95vh;
+                    }
+
+                    .reveal .xl-card {
+                        padding: clamp(0.4rem, 0.8vh, 0.8rem);
+                    }
+
+                    .reveal .xl-card-header {
+                        font-size: clamp(0.85rem, 1.2vw + 0.15rem, 1rem);
+                        margin-bottom: clamp(0.15rem, 0.25vh, 0.3rem);
+                        padding-bottom: clamp(0.15rem, 0.25vh, 0.3rem);
+                    }
+
+                    .reveal .xl-card-body {
+                        font-size: clamp(0.7rem, 0.9vw + 0.1rem, 0.85rem);
+                        padding: clamp(0.15rem, 0.25vh, 0.3rem) 0;
+                        line-height: 1.4;
+                    }
+
+                    .reveal .xl-grid,
+                    .reveal .xl-row {
+                        gap: clamp(0.4rem, 0.8vw, 0.8rem);
+                    }
+
+                    .reveal .xl-stats .xl-stat-value {
+                        font-size: clamp(1.3rem, 2vw + 0.2rem, 1.8rem);
+                    }
+
+                    .reveal .xl-stats .xl-stat-label {
+                        font-size: clamp(0.7rem, 1vw + 0.1rem, 0.8rem);
+                    }
+
+                    .reveal .xl-timeline {
+                        padding-top: clamp(1.2rem, 1.5vh, 1.5rem);
+                    }
+
+                    .reveal .xl-process > * {
+                        padding: clamp(0.5rem, 0.8vh, 0.8rem);
+                    }
+
+                    .reveal .xl-process > *:not(:last-child)::after {
+                        font-size: clamp(1rem, 1.2vw, 1.3rem);
                     }
                 }
                 
