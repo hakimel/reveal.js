@@ -1,0 +1,1250 @@
+{
+  "template_applied": "workshop-course",
+  "template_version": "1.0.0",
+  "topic": "AI in Product Discovery",
+  "total_slides": 38,
+  "estimated_duration": "3h 13m",
+  "estimated_minutes": 193,
+  "slide_blueprint": [
+    {
+      "slide_number": 1,
+      "slide_type": "title",
+      "section": "opening",
+      "content_formula": "title_formula",
+      "template_content": {
+        "title": "[GENERATED TITLE FOR: AI in Product Discovery]",
+        "subtitle": "[GENERATED SUBTITLE WITH CREDENTIAL]",
+        "presenter": "[PRESENTER NAME & TITLE]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Introduce yourself and topic]",
+      "image_requirements": {
+        "needed": true,
+        "type": "hero",
+        "style_hint": "professional",
+        "position": "background"
+      },
+      "required": true
+    },
+    {
+      "slide_number": 2,
+      "slide_type": "welcome",
+      "section": "opening",
+      "content_formula": "welcome_formula",
+      "template_content": {
+        "heading": "Welcome",
+        "intro": "[GENERATED WELCOME FOR: AI in Product Discovery]",
+        "credentials": "[GENERATED CREDENTIALS]",
+        "logistics": "[DURATION, BREAKS, FORMAT]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Welcome participants, share background, set expectations]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 3,
+      "slide_type": "learning_outcomes",
+      "section": "opening",
+      "content_formula": "learning_outcomes_formula",
+      "template_content": {
+        "heading": "What You'll Learn",
+        "outcomes": [
+          "[OUTCOME 1 FOR: AI in Product Discovery]",
+          "[OUTCOME 2 FOR: AI in Product Discovery]",
+          "[OUTCOME 3 FOR: AI in Product Discovery]",
+          "[OUTCOME 4 FOR: AI in Product Discovery]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Review each outcome, emphasize practical benefits]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 4,
+      "slide_type": "overview",
+      "section": "opening",
+      "content_formula": "overview_formula",
+      "template_content": {
+        "heading": "Today's Journey",
+        "modules": "[GENERATED MODULE LIST FOR: AI in Product Discovery]",
+        "timing": "[GENERATED TIMING BREAKDOWN]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Walk through structure, note breaks and activities]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 5,
+      "slide_type": "module_intro",
+      "section": "module_1",
+      "content_formula": "module_intro_formula",
+      "template_content": {
+        "title": "[MODULE TITLE: Understanding AI in Product Work]",
+        "context": "[GENERATED CONTEXT FOR: Understanding AI in Product Work]",
+        "objectives": "[GENERATED OBJECTIVES FOR: Understanding AI in Product Work]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Set context for Understanding AI in Product Work, explain relevance]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 6,
+      "slide_type": "concept_explanation",
+      "section": "module_1",
+      "content_formula": "concept_explanation_formula",
+      "template_content": {
+        "heading": "[CONCEPT HEADING: Understanding AI in Product Work]",
+        "definition": "[GENERATED DEFINITION FOR: Understanding AI in Product Work]",
+        "process": "[GENERATED PROCESS STEPS FOR: Understanding AI in Product Work]",
+        "actions": [
+          "[ACTION 1 FOR: Understanding AI in Product Work]",
+          "[ACTION 2 FOR: Understanding AI in Product Work]",
+          "[ACTION 3 FOR: Understanding AI in Product Work]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Explain concept with examples, refer to visual]",
+      "image_requirements": {
+        "needed": true,
+        "type": "concept",
+        "style_hint": "illustration or photorealistic",
+        "position": "right_column"
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 7,
+      "slide_type": "concept_explanation",
+      "section": "module_1",
+      "content_formula": "concept_explanation_formula",
+      "template_content": {
+        "heading": "[CONCEPT HEADING: Understanding AI in Product Work]",
+        "definition": "[GENERATED DEFINITION FOR: Understanding AI in Product Work]",
+        "process": "[GENERATED PROCESS STEPS FOR: Understanding AI in Product Work]",
+        "actions": [
+          "[ACTION 1 FOR: Understanding AI in Product Work]",
+          "[ACTION 2 FOR: Understanding AI in Product Work]",
+          "[ACTION 3 FOR: Understanding AI in Product Work]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Explain concept with examples, refer to visual]",
+      "image_requirements": {
+        "needed": true,
+        "type": "concept",
+        "style_hint": "illustration",
+        "position": "right_column"
+      },
+      "required": false,
+      "custom_time": null
+    },
+    {
+      "slide_number": 8,
+      "slide_type": "activity_setup",
+      "section": "module_1",
+      "content_formula": "activity_setup_formula",
+      "template_content": {
+        "heading": "[ACTIVITY NAME: Understanding AI in Product Work]",
+        "context": "[GENERATED ACTIVITY CONTEXT FOR: Understanding AI in Product Work]",
+        "bullets": [
+          "[SETUP POINT 1 FOR: Understanding AI in Product Work]",
+          "[SETUP POINT 2 FOR: Understanding AI in Product Work]",
+          "[SETUP POINT 3 FOR: Understanding AI in Product Work]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Build excitement, clarify expectations]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 9,
+      "slide_type": "activity_instructions",
+      "section": "module_1",
+      "content_formula": "activity_instructions_formula",
+      "template_content": {
+        "phase": "[ACTIVITY PHASE: Understanding AI in Product Work]",
+        "duration": "[TIME ALLOCATION]",
+        "instructions": [
+          "[STEP 1 FOR: Understanding AI in Product Work]",
+          "[STEP 2 FOR: Understanding AI in Product Work]",
+          "[STEP 3 FOR: Understanding AI in Product Work]"
+        ],
+        "tools": "[TOOLS NEEDED FOR: Understanding AI in Product Work]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Walk through each step, answer questions]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 10,
+      "slide_type": "group_activity",
+      "section": "module_1",
+      "content_formula": "group_activity_formula",
+      "template_content": {
+        "heading": "[ACTIVITY IN PROGRESS: Understanding AI in Product Work]",
+        "duration": "15 minutes",
+        "reminder": "[KEY INSTRUCTION REMINDER FOR: Understanding AI in Product Work]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Circulate, observe, provide guidance as needed]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": 900
+    },
+    {
+      "slide_number": 11,
+      "slide_type": "key_takeaways",
+      "section": "module_1",
+      "content_formula": "key_takeaways_formula",
+      "template_content": {
+        "heading": "Key Takeaways",
+        "principles": [
+          "**[PRINCIPLE 1]**: [10-15 word explanation for Understanding AI in Product Work]",
+          "**[PRINCIPLE 2]**: [10-15 word explanation for Understanding AI in Product Work]",
+          "**[PRINCIPLE 3]**: [10-15 word explanation for Understanding AI in Product Work]",
+          "**[PRINCIPLE 4]**: [10-15 word explanation for Understanding AI in Product Work]"
+        ],
+        "reflection_questions": [
+          "[CONCRETE QUESTION FOR: Understanding AI in Product Work]",
+          "[STRATEGIC QUESTION FOR: Understanding AI in Product Work]",
+          "[FUTURE-FOCUSED QUESTION FOR: Understanding AI in Product Work]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Review each principle, facilitate reflection discussion]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 12,
+      "slide_type": "module_intro",
+      "section": "module_2",
+      "content_formula": "module_intro_formula",
+      "template_content": {
+        "title": "[MODULE TITLE: Discovery Research with AI]",
+        "context": "[GENERATED CONTEXT FOR: Discovery Research with AI]",
+        "objectives": "[GENERATED OBJECTIVES FOR: Discovery Research with AI]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Set context for Discovery Research with AI, explain relevance]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 13,
+      "slide_type": "concept_explanation",
+      "section": "module_2",
+      "content_formula": "concept_explanation_formula",
+      "template_content": {
+        "heading": "[CONCEPT HEADING: Discovery Research with AI]",
+        "definition": "[GENERATED DEFINITION FOR: Discovery Research with AI]",
+        "process": "[GENERATED PROCESS STEPS FOR: Discovery Research with AI]",
+        "actions": [
+          "[ACTION 1 FOR: Discovery Research with AI]",
+          "[ACTION 2 FOR: Discovery Research with AI]",
+          "[ACTION 3 FOR: Discovery Research with AI]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Explain concept with examples, refer to visual]",
+      "image_requirements": {
+        "needed": true,
+        "type": "concept",
+        "style_hint": "illustration or photorealistic",
+        "position": "right_column"
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 14,
+      "slide_type": "activity_setup",
+      "section": "module_2",
+      "content_formula": "activity_setup_formula",
+      "template_content": {
+        "heading": "[ACTIVITY NAME: Discovery Research with AI]",
+        "context": "[GENERATED ACTIVITY CONTEXT FOR: Discovery Research with AI]",
+        "bullets": [
+          "[SETUP POINT 1 FOR: Discovery Research with AI]",
+          "[SETUP POINT 2 FOR: Discovery Research with AI]",
+          "[SETUP POINT 3 FOR: Discovery Research with AI]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Build excitement, clarify expectations]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 15,
+      "slide_type": "activity_instructions",
+      "section": "module_2",
+      "content_formula": "activity_instructions_formula",
+      "template_content": {
+        "phase": "[ACTIVITY PHASE: Discovery Research with AI]",
+        "duration": "[TIME ALLOCATION]",
+        "instructions": [
+          "[STEP 1 FOR: Discovery Research with AI]",
+          "[STEP 2 FOR: Discovery Research with AI]",
+          "[STEP 3 FOR: Discovery Research with AI]"
+        ],
+        "tools": "[TOOLS NEEDED FOR: Discovery Research with AI]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Walk through each step, answer questions]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 16,
+      "slide_type": "group_activity",
+      "section": "module_2",
+      "content_formula": "group_activity_formula",
+      "template_content": {
+        "heading": "[ACTIVITY IN PROGRESS: Discovery Research with AI]",
+        "duration": "15 minutes",
+        "reminder": "[KEY INSTRUCTION REMINDER FOR: Discovery Research with AI]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Circulate, observe, provide guidance as needed]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": 900
+    },
+    {
+      "slide_number": 17,
+      "slide_type": "key_takeaways",
+      "section": "module_2",
+      "content_formula": "key_takeaways_formula",
+      "template_content": {
+        "heading": "Key Takeaways",
+        "principles": [
+          "**[PRINCIPLE 1]**: [10-15 word explanation for Discovery Research with AI]",
+          "**[PRINCIPLE 2]**: [10-15 word explanation for Discovery Research with AI]",
+          "**[PRINCIPLE 3]**: [10-15 word explanation for Discovery Research with AI]",
+          "**[PRINCIPLE 4]**: [10-15 word explanation for Discovery Research with AI]"
+        ],
+        "reflection_questions": [
+          "[CONCRETE QUESTION FOR: Discovery Research with AI]",
+          "[STRATEGIC QUESTION FOR: Discovery Research with AI]",
+          "[FUTURE-FOCUSED QUESTION FOR: Discovery Research with AI]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Review each principle, facilitate reflection discussion]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 18,
+      "slide_type": "knowledge_check",
+      "section": "knowledge_check",
+      "content_formula": "knowledge_check_formula",
+      "template_content": {
+        "heading": "Knowledge Check",
+        "questions": [
+          "[QUESTION 1 FOR: Discovery Research with AI]",
+          "[QUESTION 2 FOR: Discovery Research with AI]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Ask questions, facilitate discussion, clarify misconceptions]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 19,
+      "slide_type": "break_slide",
+      "section": "break",
+      "content_formula": "break_formula",
+      "template_content": {
+        "heading": "Break",
+        "duration": "15 minutes",
+        "return_time": "[SPECIFIC RETURN TIME]",
+        "prompt": "[OPTIONAL REFLECTION PROMPT]"
+      },
+      "speaker_notes": "[15 minute break - return at specified time]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 20,
+      "slide_type": "module_intro",
+      "section": "module_3",
+      "content_formula": "module_intro_formula",
+      "template_content": {
+        "title": "[MODULE TITLE: User Interview Analysis]",
+        "context": "[GENERATED CONTEXT FOR: User Interview Analysis]",
+        "objectives": "[GENERATED OBJECTIVES FOR: User Interview Analysis]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Set context for User Interview Analysis, explain relevance]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 21,
+      "slide_type": "concept_explanation",
+      "section": "module_3",
+      "content_formula": "concept_explanation_formula",
+      "template_content": {
+        "heading": "[CONCEPT HEADING: User Interview Analysis]",
+        "definition": "[GENERATED DEFINITION FOR: User Interview Analysis]",
+        "process": "[GENERATED PROCESS STEPS FOR: User Interview Analysis]",
+        "actions": [
+          "[ACTION 1 FOR: User Interview Analysis]",
+          "[ACTION 2 FOR: User Interview Analysis]",
+          "[ACTION 3 FOR: User Interview Analysis]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Explain concept with examples, refer to visual]",
+      "image_requirements": {
+        "needed": true,
+        "type": "concept",
+        "style_hint": "illustration or photorealistic",
+        "position": "right_column"
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 22,
+      "slide_type": "concept_explanation",
+      "section": "module_3",
+      "content_formula": "concept_explanation_formula",
+      "template_content": {
+        "heading": "[CONCEPT HEADING: User Interview Analysis]",
+        "definition": "[GENERATED DEFINITION FOR: User Interview Analysis]",
+        "process": "[GENERATED PROCESS STEPS FOR: User Interview Analysis]",
+        "actions": [
+          "[ACTION 1 FOR: User Interview Analysis]",
+          "[ACTION 2 FOR: User Interview Analysis]",
+          "[ACTION 3 FOR: User Interview Analysis]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Explain concept with examples, refer to visual]",
+      "image_requirements": {
+        "needed": true,
+        "type": "concept",
+        "style_hint": "illustration",
+        "position": "right_column"
+      },
+      "required": false,
+      "custom_time": null
+    },
+    {
+      "slide_number": 23,
+      "slide_type": "activity_setup",
+      "section": "module_3",
+      "content_formula": "activity_setup_formula",
+      "template_content": {
+        "heading": "[ACTIVITY NAME: User Interview Analysis]",
+        "context": "[GENERATED ACTIVITY CONTEXT FOR: User Interview Analysis]",
+        "bullets": [
+          "[SETUP POINT 1 FOR: User Interview Analysis]",
+          "[SETUP POINT 2 FOR: User Interview Analysis]",
+          "[SETUP POINT 3 FOR: User Interview Analysis]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Build excitement, clarify expectations]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 24,
+      "slide_type": "activity_instructions",
+      "section": "module_3",
+      "content_formula": "activity_instructions_formula",
+      "template_content": {
+        "phase": "[ACTIVITY PHASE: User Interview Analysis]",
+        "duration": "[TIME ALLOCATION]",
+        "instructions": [
+          "[STEP 1 FOR: User Interview Analysis]",
+          "[STEP 2 FOR: User Interview Analysis]",
+          "[STEP 3 FOR: User Interview Analysis]"
+        ],
+        "tools": "[TOOLS NEEDED FOR: User Interview Analysis]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Walk through each step, answer questions]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 25,
+      "slide_type": "group_activity",
+      "section": "module_3",
+      "content_formula": "group_activity_formula",
+      "template_content": {
+        "heading": "[ACTIVITY IN PROGRESS: User Interview Analysis]",
+        "duration": "15 minutes",
+        "reminder": "[KEY INSTRUCTION REMINDER FOR: User Interview Analysis]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Circulate, observe, provide guidance as needed]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": 900
+    },
+    {
+      "slide_number": 26,
+      "slide_type": "key_takeaways",
+      "section": "module_3",
+      "content_formula": "key_takeaways_formula",
+      "template_content": {
+        "heading": "Key Takeaways",
+        "principles": [
+          "**[PRINCIPLE 1]**: [10-15 word explanation for User Interview Analysis]",
+          "**[PRINCIPLE 2]**: [10-15 word explanation for User Interview Analysis]",
+          "**[PRINCIPLE 3]**: [10-15 word explanation for User Interview Analysis]",
+          "**[PRINCIPLE 4]**: [10-15 word explanation for User Interview Analysis]"
+        ],
+        "reflection_questions": [
+          "[CONCRETE QUESTION FOR: User Interview Analysis]",
+          "[STRATEGIC QUESTION FOR: User Interview Analysis]",
+          "[FUTURE-FOCUSED QUESTION FOR: User Interview Analysis]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Review each principle, facilitate reflection discussion]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 27,
+      "slide_type": "module_intro",
+      "section": "module_4",
+      "content_formula": "module_intro_formula",
+      "template_content": {
+        "title": "[MODULE TITLE: Synthesis and Insights]",
+        "context": "[GENERATED CONTEXT FOR: Synthesis and Insights]",
+        "objectives": "[GENERATED OBJECTIVES FOR: Synthesis and Insights]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Set context for Synthesis and Insights, explain relevance]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 28,
+      "slide_type": "concept_explanation",
+      "section": "module_4",
+      "content_formula": "concept_explanation_formula",
+      "template_content": {
+        "heading": "[CONCEPT HEADING: Synthesis and Insights]",
+        "definition": "[GENERATED DEFINITION FOR: Synthesis and Insights]",
+        "process": "[GENERATED PROCESS STEPS FOR: Synthesis and Insights]",
+        "actions": [
+          "[ACTION 1 FOR: Synthesis and Insights]",
+          "[ACTION 2 FOR: Synthesis and Insights]",
+          "[ACTION 3 FOR: Synthesis and Insights]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Explain concept with examples, refer to visual]",
+      "image_requirements": {
+        "needed": true,
+        "type": "concept",
+        "style_hint": "illustration or photorealistic",
+        "position": "right_column"
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 29,
+      "slide_type": "activity_setup",
+      "section": "module_4",
+      "content_formula": "activity_setup_formula",
+      "template_content": {
+        "heading": "[ACTIVITY NAME: Synthesis and Insights]",
+        "context": "[GENERATED ACTIVITY CONTEXT FOR: Synthesis and Insights]",
+        "bullets": [
+          "[SETUP POINT 1 FOR: Synthesis and Insights]",
+          "[SETUP POINT 2 FOR: Synthesis and Insights]",
+          "[SETUP POINT 3 FOR: Synthesis and Insights]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Build excitement, clarify expectations]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 30,
+      "slide_type": "activity_instructions",
+      "section": "module_4",
+      "content_formula": "activity_instructions_formula",
+      "template_content": {
+        "phase": "[ACTIVITY PHASE: Synthesis and Insights]",
+        "duration": "[TIME ALLOCATION]",
+        "instructions": [
+          "[STEP 1 FOR: Synthesis and Insights]",
+          "[STEP 2 FOR: Synthesis and Insights]",
+          "[STEP 3 FOR: Synthesis and Insights]"
+        ],
+        "tools": "[TOOLS NEEDED FOR: Synthesis and Insights]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Walk through each step, answer questions]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 31,
+      "slide_type": "group_activity",
+      "section": "module_4",
+      "content_formula": "group_activity_formula",
+      "template_content": {
+        "heading": "[ACTIVITY IN PROGRESS: Synthesis and Insights]",
+        "duration": "15 minutes",
+        "reminder": "[KEY INSTRUCTION REMINDER FOR: Synthesis and Insights]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Circulate, observe, provide guidance as needed]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": 900
+    },
+    {
+      "slide_number": 32,
+      "slide_type": "key_takeaways",
+      "section": "module_4",
+      "content_formula": "key_takeaways_formula",
+      "template_content": {
+        "heading": "Key Takeaways",
+        "principles": [
+          "**[PRINCIPLE 1]**: [10-15 word explanation for Synthesis and Insights]",
+          "**[PRINCIPLE 2]**: [10-15 word explanation for Synthesis and Insights]",
+          "**[PRINCIPLE 3]**: [10-15 word explanation for Synthesis and Insights]",
+          "**[PRINCIPLE 4]**: [10-15 word explanation for Synthesis and Insights]"
+        ],
+        "reflection_questions": [
+          "[CONCRETE QUESTION FOR: Synthesis and Insights]",
+          "[STRATEGIC QUESTION FOR: Synthesis and Insights]",
+          "[FUTURE-FOCUSED QUESTION FOR: Synthesis and Insights]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Review each principle, facilitate reflection discussion]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true,
+      "custom_time": null
+    },
+    {
+      "slide_number": 33,
+      "slide_type": "knowledge_check",
+      "section": "knowledge_check",
+      "content_formula": "knowledge_check_formula",
+      "template_content": {
+        "heading": "Knowledge Check",
+        "questions": [
+          "[QUESTION 1 FOR: Synthesis and Insights]",
+          "[QUESTION 2 FOR: Synthesis and Insights]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Ask questions, facilitate discussion, clarify misconceptions]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 34,
+      "slide_type": "reflection",
+      "section": "closing",
+      "content_formula": "reflection_formula",
+      "template_content": {
+        "heading": "Reflection",
+        "prompts": [
+          "[REFLECTION PROMPT 1 FOR: AI in Product Discovery]",
+          "[REFLECTION PROMPT 2 FOR: AI in Product Discovery]",
+          "[REFLECTION PROMPT 3 FOR: AI in Product Discovery]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Give time for silent reflection, optionally pair-share]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 35,
+      "slide_type": "threading",
+      "section": "closing",
+      "content_formula": "threading_formula",
+      "template_content": {
+        "heading": "Connecting the Threads",
+        "connections": "[GENERATED CONNECTIONS FOR: AI in Product Discovery]",
+        "synthesis": "[UNIFIED FRAMEWORK FOR: AI in Product Discovery]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Show connections between modules, synthesize key themes]",
+      "image_requirements": {
+        "needed": true,
+        "type": "diagram",
+        "style_hint": "minimalist or abstract",
+        "position": "center"
+      },
+      "required": true
+    },
+    {
+      "slide_number": 36,
+      "slide_type": "qa",
+      "section": "closing",
+      "content_formula": "qa_formula",
+      "template_content": {
+        "heading": "Questions & Discussion",
+        "prompts": [
+          "[CONVERSATION STARTER 1 FOR: AI in Product Discovery]",
+          "[CONVERSATION STARTER 2 FOR: AI in Product Discovery]"
+        ]
+      },
+      "speaker_notes": "[SPEAKER NOTES: Facilitate open discussion, use conversation starters if needed]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 37,
+      "slide_type": "next_steps",
+      "section": "closing",
+      "content_formula": "next_steps_formula",
+      "template_content": {
+        "heading": "Next Steps",
+        "actions": [
+          "[ACTION 1 FOR: AI in Product Discovery]",
+          "[ACTION 2 FOR: AI in Product Discovery]",
+          "[ACTION 3 FOR: AI in Product Discovery]"
+        ],
+        "resources": "[RESOURCES FOR: AI in Product Discovery]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Emphasize actionable takeaways, share resources]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    },
+    {
+      "slide_number": 38,
+      "slide_type": "series_context",
+      "section": "closing",
+      "content_formula": "series_context_formula",
+      "template_content": {
+        "heading": "[SERIES NAME FOR: AI in Product Discovery]",
+        "current": "[POSITION IN SERIES: AI in Product Discovery]",
+        "upcoming": "[UPCOMING SESSIONS FOR: AI in Product Discovery]",
+        "contact": "[CONTACT INFO]"
+      },
+      "speaker_notes": "[SPEAKER NOTES: Preview upcoming content, provide contact info]",
+      "image_requirements": {
+        "needed": false
+      },
+      "required": true
+    }
+  ],
+  "module_breakdown": {
+    "opening": 4,
+    "module_1": 7,
+    "module_2": 6,
+    "knowledge_check_2": 1,
+    "break": 1,
+    "module_3": 7,
+    "module_4": 6,
+    "knowledge_check_4": 1,
+    "closing": 5
+  },
+  "timing": {
+    "total_slides": 38,
+    "total_seconds": 11580,
+    "total_minutes": 193,
+    "total_hours": 3,
+    "duration_formatted": "3h 13m",
+    "sections": {
+      "opening": {
+        "section": "opening",
+        "total_slides": 4,
+        "total_seconds": 360,
+        "total_formatted": "6 minutes",
+        "total_minutes": 6,
+        "slides": [
+          {
+            "slide_number": 1,
+            "slide_type": "title",
+            "duration_seconds": 30,
+            "duration_formatted": "30 seconds",
+            "cumulative_seconds": 30
+          },
+          {
+            "slide_number": 2,
+            "slide_type": "welcome",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 150
+          },
+          {
+            "slide_number": 3,
+            "slide_type": "learning_outcomes",
+            "duration_seconds": 90,
+            "duration_formatted": "1m 30s",
+            "cumulative_seconds": 240
+          },
+          {
+            "slide_number": 4,
+            "slide_type": "overview",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 360
+          }
+        ]
+      },
+      "module_1": {
+        "section": "module_1",
+        "total_slides": 7,
+        "total_seconds": 2280,
+        "total_formatted": "38 minutes",
+        "total_minutes": 38,
+        "slides": [
+          {
+            "slide_number": 5,
+            "slide_type": "module_intro",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 180
+          },
+          {
+            "slide_number": 6,
+            "slide_type": "concept_explanation",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 480
+          },
+          {
+            "slide_number": 7,
+            "slide_type": "concept_explanation",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 780
+          },
+          {
+            "slide_number": 8,
+            "slide_type": "activity_setup",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 900
+          },
+          {
+            "slide_number": 9,
+            "slide_type": "activity_instructions",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 1080
+          },
+          {
+            "slide_number": 10,
+            "slide_type": "group_activity",
+            "duration_seconds": 900,
+            "duration_formatted": "15 minutes",
+            "cumulative_seconds": 1980
+          },
+          {
+            "slide_number": 11,
+            "slide_type": "key_takeaways",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 2280
+          }
+        ]
+      },
+      "module_2": {
+        "section": "module_2",
+        "total_slides": 6,
+        "total_seconds": 1980,
+        "total_formatted": "33 minutes",
+        "total_minutes": 33,
+        "slides": [
+          {
+            "slide_number": 12,
+            "slide_type": "module_intro",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 180
+          },
+          {
+            "slide_number": 13,
+            "slide_type": "concept_explanation",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 480
+          },
+          {
+            "slide_number": 14,
+            "slide_type": "activity_setup",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 600
+          },
+          {
+            "slide_number": 15,
+            "slide_type": "activity_instructions",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 780
+          },
+          {
+            "slide_number": 16,
+            "slide_type": "group_activity",
+            "duration_seconds": 900,
+            "duration_formatted": "15 minutes",
+            "cumulative_seconds": 1680
+          },
+          {
+            "slide_number": 17,
+            "slide_type": "key_takeaways",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 1980
+          }
+        ]
+      },
+      "knowledge_check": {
+        "section": "knowledge_check",
+        "total_slides": 2,
+        "total_seconds": 360,
+        "total_formatted": "6 minutes",
+        "total_minutes": 6,
+        "slides": [
+          {
+            "slide_number": 18,
+            "slide_type": "knowledge_check",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 180
+          },
+          {
+            "slide_number": 33,
+            "slide_type": "knowledge_check",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 360
+          }
+        ]
+      },
+      "break": {
+        "section": "break",
+        "total_slides": 1,
+        "total_seconds": 900,
+        "total_formatted": "15 minutes",
+        "total_minutes": 15,
+        "slides": [
+          {
+            "slide_number": 19,
+            "slide_type": "break_slide",
+            "duration_seconds": 900,
+            "duration_formatted": "15 minutes",
+            "cumulative_seconds": 900
+          }
+        ]
+      },
+      "module_3": {
+        "section": "module_3",
+        "total_slides": 7,
+        "total_seconds": 2280,
+        "total_formatted": "38 minutes",
+        "total_minutes": 38,
+        "slides": [
+          {
+            "slide_number": 20,
+            "slide_type": "module_intro",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 180
+          },
+          {
+            "slide_number": 21,
+            "slide_type": "concept_explanation",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 480
+          },
+          {
+            "slide_number": 22,
+            "slide_type": "concept_explanation",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 780
+          },
+          {
+            "slide_number": 23,
+            "slide_type": "activity_setup",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 900
+          },
+          {
+            "slide_number": 24,
+            "slide_type": "activity_instructions",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 1080
+          },
+          {
+            "slide_number": 25,
+            "slide_type": "group_activity",
+            "duration_seconds": 900,
+            "duration_formatted": "15 minutes",
+            "cumulative_seconds": 1980
+          },
+          {
+            "slide_number": 26,
+            "slide_type": "key_takeaways",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 2280
+          }
+        ]
+      },
+      "module_4": {
+        "section": "module_4",
+        "total_slides": 6,
+        "total_seconds": 1980,
+        "total_formatted": "33 minutes",
+        "total_minutes": 33,
+        "slides": [
+          {
+            "slide_number": 27,
+            "slide_type": "module_intro",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 180
+          },
+          {
+            "slide_number": 28,
+            "slide_type": "concept_explanation",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 480
+          },
+          {
+            "slide_number": 29,
+            "slide_type": "activity_setup",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 600
+          },
+          {
+            "slide_number": 30,
+            "slide_type": "activity_instructions",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 780
+          },
+          {
+            "slide_number": 31,
+            "slide_type": "group_activity",
+            "duration_seconds": 900,
+            "duration_formatted": "15 minutes",
+            "cumulative_seconds": 1680
+          },
+          {
+            "slide_number": 32,
+            "slide_type": "key_takeaways",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 1980
+          }
+        ]
+      },
+      "closing": {
+        "section": "closing",
+        "total_slides": 5,
+        "total_seconds": 1440,
+        "total_formatted": "24 minutes",
+        "total_minutes": 24,
+        "slides": [
+          {
+            "slide_number": 34,
+            "slide_type": "reflection",
+            "duration_seconds": 300,
+            "duration_formatted": "5 minutes",
+            "cumulative_seconds": 300
+          },
+          {
+            "slide_number": 35,
+            "slide_type": "threading",
+            "duration_seconds": 240,
+            "duration_formatted": "4 minutes",
+            "cumulative_seconds": 540
+          },
+          {
+            "slide_number": 36,
+            "slide_type": "qa",
+            "duration_seconds": 600,
+            "duration_formatted": "10 minutes",
+            "cumulative_seconds": 1140
+          },
+          {
+            "slide_number": 37,
+            "slide_type": "next_steps",
+            "duration_seconds": 180,
+            "duration_formatted": "3 minutes",
+            "cumulative_seconds": 1320
+          },
+          {
+            "slide_number": 38,
+            "slide_type": "series_context",
+            "duration_seconds": 120,
+            "duration_formatted": "2 minutes",
+            "cumulative_seconds": 1440
+          }
+        ]
+      }
+    },
+    "breakdown": {
+      "opening": {
+        "slides": 4,
+        "duration": "6 minutes",
+        "minutes": 6
+      },
+      "module_1": {
+        "slides": 7,
+        "duration": "38 minutes",
+        "minutes": 38
+      },
+      "module_2": {
+        "slides": 6,
+        "duration": "33 minutes",
+        "minutes": 33
+      },
+      "knowledge_check": {
+        "slides": 2,
+        "duration": "6 minutes",
+        "minutes": 6
+      },
+      "break": {
+        "slides": 1,
+        "duration": "15 minutes",
+        "minutes": 15
+      },
+      "module_3": {
+        "slides": 7,
+        "duration": "38 minutes",
+        "minutes": 38
+      },
+      "module_4": {
+        "slides": 6,
+        "duration": "33 minutes",
+        "minutes": 33
+      },
+      "closing": {
+        "slides": 5,
+        "duration": "24 minutes",
+        "minutes": 24
+      }
+    }
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "Timing differs by 47 minutes (tolerance: ±15m)"
+    ],
+    "summary": {
+      "total_slides": 38,
+      "total_modules": 4,
+      "total_duration": "3h 13m",
+      "checks_passed": "All"
+    }
+  },
+  "metadata": {
+    "generated_at": "2025-11-01T19:53:54.060Z",
+    "content_spec": {
+      "topic": "AI in Product Discovery",
+      "duration_hours": 4,
+      "modules": [
+        {
+          "name": "Understanding AI in Product Work",
+          "complexity": "standard"
+        },
+        {
+          "name": "Discovery Research with AI",
+          "complexity": "standard"
+        },
+        {
+          "name": "User Interview Analysis",
+          "complexity": "standard"
+        },
+        {
+          "name": "Synthesis and Insights",
+          "complexity": "standard"
+        }
+      ],
+      "include_breaks": true,
+      "include_knowledge_checks": true
+    },
+    "template_rules": {
+      "module_count": {
+        "min": 3,
+        "max": 5,
+        "recommended": 4
+      },
+      "knowledge_checks": {
+        "frequency": "after every 2 modules",
+        "questions_per_check": 2
+      },
+      "breaks": {
+        "placement": "at midpoint for 3+ hour sessions",
+        "duration": 15
+      },
+      "total_slides": {
+        "min": 35,
+        "max": 55,
+        "typical": 45
+      }
+    }
+  }
+}
