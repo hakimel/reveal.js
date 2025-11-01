@@ -1,0 +1,98 @@
+/**
+ * AdaptiveX theme for reveal.js presentations
+ *
+ * Branded with AdaptiveX official colors and typography
+ *
+ * AdaptiveX is a professional training and consulting firm specializing in
+ * organizational agility, innovation, and AI integration at enterprise scale.
+ */
+
+
+// Default mixins and settings -----------------
+@use "sass:color";
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include brand fonts
+// Using Montserrat as a web-safe alternative to Averta (geometric sans-serif)
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap);
+
+
+// Override theme settings with AdaptiveX brand
+// Colors
+$axPurple: #6B3FA0;        // Primary brand color
+$axYellow: #F9C80E;        // Secondary accent color
+$axDarkGray: #2C2C2C;      // Primary text
+$axLightGray: #F5F5F5;     // Light backgrounds
+$axMidGray: #808080;       // Secondary elements
+
+// Typography - using Montserrat as alternative to Averta
+$mainFont: 'Montserrat', Arial, Helvetica, sans-serif;
+$mainFontSize: 40px;
+$mainColor: $axDarkGray;
+
+$headingFont: 'Montserrat', Arial, Helvetica, sans-serif;
+$headingColor: $axPurple;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$headingFontWeight: 600;
+$headingLetterSpacing: -0.02em;
+$headingLineHeight: 1.2;
+
+// Background
+$backgroundColor: #fff;
+
+// Links - using AdaptiveX Yellow for energy and calls-to-action
+$linkColor: $axYellow;
+$linkColorHover: color.scale($linkColor, $lightness: -15%);
+
+// Text selection
+$selectionBackgroundColor: $axPurple;
+$selectionColor: #fff;
+
+// Overlay elements
+$overlayElementBgColor: 107, 63, 160;  // AX Purple RGB
+$overlayElementFgColor: 255, 255, 255; // White
+
+// Block margins
+$blockMargin: 20px;
+
+// Heading sizes - professional hierarchy
+$heading1Size: 2.5em;
+$heading2Size: 1.8em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+// Change text colors against dark slide backgrounds
+@include dark-bg-text-color(#fff);
+
+
+// Custom styles for AdaptiveX branding
+section.has-dark-background {
+	h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+	}
+}
+
+// Accent elements in AX Yellow
+.reveal .slides section .accent {
+	color: $axYellow;
+	font-weight: 600;
+}
+
+// Purple backgrounds for title slides
+.reveal .slides section.title-slide {
+	background-color: $axPurple;
+	color: #fff;
+
+	h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+	}
+}
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
