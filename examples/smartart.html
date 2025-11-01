@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+        <head>
+                <meta charset="utf-8">
+
+                <title>reveal.js - SmartArt Plugin</title>
+
+                <link rel="stylesheet" href="../dist/reveal.css">
+                <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+        </head>
+
+        <body>
+
+                <div class="reveal">
+
+                        <div class="slides">
+
+                                <section data-markdown>
+                                        <script type="text/template">
+                                        ## SmartArt Grid
+                                        ::: smartart Our Services TB
+                                        intro: Discover the range of solutions we offer to help you achieve your goals. Each service is tailored to provide maximum value and impact.
+                                        Cloud Solutions | Scalable and secure cloud infrastructure to power your applications. | icon=lucide:cloud | Learn More | https://example.com/cloud
+                                        Data Analytics | Unlock powerful insights from your data with our advanced analytics services. | icon=lucide:line-chart | Explore | https://example.com/data
+                                        Cyber Security | Protect your digital assets with comprehensive security solutions. | icon=lucide:shield-check | View Details | https://example.com/security
+                                        Software Development | Custom software development tailored to your business needs. | icon=lucide:laptop-minimal | Get Started | https://example.com/dev
+                                        Managed IT Services | Keep your systems running smoothly with proactive support. | icon=lucide:headset | Discover More | https://example.com/managed
+                                        Network Solutions | Robust networking solutions for seamless connectivity. | icon=lucide:network | Learn More | https://example.com/network
+                                        :::
+                                        </script>
+                                </section>
+
+                                <section data-markdown>
+                                        <script type="text/template">
+                                        ## Compact Layout
+                                        ::: smartart Spotlight LR
+                                        intro: Use a space separated list or pipe delimiters for quick card creation.
+                                        icon=lucide:brain | AI Consulting | Guidance on leveraging AI responsibly. | Book a Call | https://example.com/ai
+                                        Workshops Empowerment Growth
+                                        :::
+                                        </script>
+                                </section>
+
+                        </div>
+
+                </div>
+
+                <script src="../dist/reveal.js"></script>
+                <script src="../plugin/markdown/markdown.js"></script>
+                <script src="../plugin/notes/notes.js"></script>
+                <script src="../plugin/smartart/smartart.js"></script>
+
+                <script>
+                        Reveal.initialize({
+                                hash: true,
+                                plugins: [ RevealMarkdown, RevealNotes, RevealSmartArt ]
+                        });
+                </script>
+
+        </body>
+</html>
