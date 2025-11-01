@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SmartArt Checklist Test</title>
+
+	<!-- Reveal.js core CSS -->
+	<link rel="stylesheet" href="../dist/reset.css">
+	<link rel="stylesheet" href="../dist/reveal.css">
+
+	<!-- Theme -->
+	<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Test 1: Basic Checklist -->
+			<section data-markdown>
+				<script type="text/template">
+				## Basic Checklist Test
+
+				::: smartart My Tasks CHECKLIST
+				intro: This is a test checklist with mixed states.
+				- [x] Completed task one
+				- [ ] Uncompleted task two
+				- [X] Completed task three (uppercase X)
+				- Task four (no checkbox marker)
+				:::
+				</script>
+			</section>
+
+			<!-- Test 2: Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				## Dark Theme Checklist
+
+				::: smartart Dark Tasks CHECKLIST
+				intro: Testing dark theme support.
+				- [x] Item one
+				- [ ] Item two
+				- [x] Item three
+				:::
+				</script>
+			</section>
+
+			<!-- Test 3: No Intro -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Compact List CHECKLIST
+				- [x] First item
+				- [ ] Second item
+				- [x] Third item
+				:::
+				</script>
+			</section>
+
+			<!-- Test 4: Many Items -->
+			<section data-markdown>
+				<script type="text/template">
+				## Long Checklist
+
+				::: smartart Project Roadmap CHECKLIST
+				intro: Testing with many items to check scrolling and layout.
+				- [x] Phase 1: Planning
+				- [x] Phase 2: Design
+				- [x] Phase 3: Development Setup
+				- [ ] Phase 4: Core Feature Development
+				- [ ] Phase 5: Testing
+				- [ ] Phase 6: Deployment
+				- [ ] Phase 7: Monitoring
+				- [ ] Phase 8: Optimization
+				:::
+				</script>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../dist/reveal.js"></script>
+	<script src="../plugin/markdown/markdown.js"></script>
+	<script src="../plugin/smartart/smartart.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			controls: true,
+			progress: true,
+			center: false,
+			transition: 'slide',
+			plugins: [ RevealMarkdown, RevealSmartArt ]
+		});
+	</script>
+</body>
+</html>

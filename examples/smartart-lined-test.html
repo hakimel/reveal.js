@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SmartArt LINED List Test</title>
+
+	<!-- Reveal.js core CSS -->
+	<link rel="stylesheet" href="../dist/reset.css">
+	<link rel="stylesheet" href="../dist/reveal.css">
+	<link rel="stylesheet" href="../dist/theme/white.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Test the exact example from the screenshot -->
+			<section data-markdown>
+				<script type="text/template">
+				## SMARTART LINED LIST
+
+				::: smartart Project Updates LINED intro: Quick overview of the team's current priorities.
+				- Design System Refresh | Update components to the new brand guidelines. | icon=lucide:brush
+				- API Integration Testing | Final phase of testing for the new payment gateway. | icon=lucide:server-cog
+				- Q3 Marketing Campaign | Launch plan and creative asset review. | icon=lucide:megaphone
+				- User Onboarding Flow | Finalize the new sign-up experience. | icon=lucide:user-check
+				:::
+				</script>
+			</section>
+
+			<!-- Additional test with separate intro line -->
+			<section data-markdown>
+				<script type="text/template">
+				## Test with Separate Intro Line
+
+				::: smartart Q3 Roadmap LINED
+				intro: Key initiatives driving product innovation this quarter.
+				- Design System Refresh | Modernize UI components with updated brand guidelines. | icon=lucide:brush
+				- API Integration Testing | Complete end-to-end testing of payment gateway. | icon=lucide:server-cog
+				- Marketing Campaign Launch | Execute multi-channel Q3 campaign. | icon=lucide:megaphone
+				- User Onboarding Flow | Redesign sign-up experience to reduce friction. | icon=lucide:user-check
+				:::
+				</script>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../dist/reveal.js"></script>
+	<script src="../plugin/markdown/markdown.js"></script>
+	<script src="../plugin/smartart/smartart.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			controls: true,
+			progress: true,
+			center: true,
+			transition: 'slide',
+			plugins: [ RevealMarkdown, RevealSmartArt ]
+		});
+	</script>
+</body>
+</html>

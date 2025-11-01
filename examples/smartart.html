@@ -25,6 +25,20 @@
 			font-size: 1.5em;
 			color: #666;
 		}
+
+		/* Left-aligned hero text */
+		.reveal .left-aligned-hero .smartart__hero-content {
+			text-align: left;
+		}
+		.reveal .left-aligned-hero .smartart__hero-heading {
+			text-align: left;
+		}
+		.reveal .left-aligned-hero .smartart__hero-intro {
+			text-align: left;
+		}
+		.reveal .left-aligned-hero .smartart__hero-actions {
+			justify-content: flex-start;
+		}
 	</style>
 </head>
 <body>
@@ -161,6 +175,140 @@
 				</script>
 			</section>
 
+			<!-- Hero Layout Demo - Technology Platform -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Welcome to Our Platform HERO
+				intro: Quickly design and customize responsive mobile-first presentations with SmartArt, featuring flexible layouts, beautiful components, and powerful reveal.js integration.
+				image: https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop&q=80
+				cta: Get Started | https://example.com/start
+				cta2: Learn More | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Business Analytics -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Transform Your Business HERO
+				intro: Leverage cutting-edge cloud infrastructure and AI-powered analytics to accelerate digital transformation and drive sustainable growth across your organization.
+				image: https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80
+				cta: Start Free Trial | https://example.com/trial
+				cta2: View Pricing | https://example.com/pricing
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Developer Platform (Dark Theme) -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				::: smartart Innovate with Confidence HERO
+				intro: Build next-generation applications with our enterprise-grade developer platform. Deploy globally in seconds with built-in CI/CD, monitoring, and collaboration tools.
+				image: https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&q=80
+				cta: Explore Platform | https://example.com/platform
+				cta2: Contact Sales | https://example.com/contact
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Healthcare Innovation -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Healthcare Innovation HERO
+				intro: Revolutionize patient care with AI-driven diagnostics and seamless electronic health record integration designed for modern healthcare providers.
+				image: https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&q=80
+				cta: Request Demo | https://example.com/demo
+				cta2: Documentation | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Left Aligned Education -->
+			<section data-markdown class="left-aligned-hero">
+				<script type="text/template">
+				::: smartart Empower Your Learning Journey HERO
+				intro: Access world-class courses taught by industry experts. Learn at your own pace with interactive content, hands-on projects, and personalized feedback from instructors.
+				image: https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&q=80
+				cta: Browse Courses | https://example.com/courses
+				cta2: Start Learning | https://example.com/signup
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Left Aligned E-commerce (Dark) -->
+			<section data-markdown data-background="#1e293b" class="left-aligned-hero">
+				<script type="text/template">
+				::: smartart Scale Your Online Store HERO
+				intro: Launch and grow your e-commerce business with powerful tools for inventory management, payment processing, and customer analytics. Join thousands of successful merchants.
+				image: https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&q=80
+				cta: Get Started Free | https://example.com/signup
+				cta2: View Features | https://example.com/features
+				:::
+				</script>
+			</section>
+
+			<!-- Checklist - Project Tasks -->
+			<section data-markdown>
+				<script type="text/template">
+				## Sprint Tasks
+
+				::: smartart Development Priorities CHECKLIST
+				intro: Select the tasks you have completed this sprint.
+				- [x] Design the homepage mockup
+				- [x] Develop the user authentication flow
+				- [ ] Set up the database schema
+				- [ ] Write API documentation
+				- [ ] Deploy application to staging environment
+				:::
+				</script>
+			</section>
+
+			<!-- Checklist - Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				## Feature Checklist
+
+				::: smartart Required Features CHECKLIST
+				intro: Track completion of core features for the v2.0 release.
+				- [x] User registration and login
+				- [x] Dashboard with analytics
+				- [ ] Multi-language support
+				- [ ] Dark mode toggle
+				- [ ] Export to PDF functionality
+				- [ ] Real-time notifications
+				:::
+				</script>
+			</section>
+
+			<!-- Compact Checklist -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Quick Checklist CHECKLIST
+				- [x] Review pull requests
+				- [ ] Update documentation
+				- [ ] Run integration tests
+				- [x] Deploy to production
+				:::
+				</script>
+			</section>
+
+			<!-- Checklist - Meeting Agenda -->
+			<section data-markdown>
+				<script type="text/template">
+				## Team Meeting Agenda
+
+				::: smartart Action Items CHECKLIST
+				intro: Items to discuss in today's standup meeting.
+				- [x] Review last sprint achievements
+				- [x] Assign new sprint tasks
+				- [ ] Discuss API architecture changes
+				- [ ] Plan client demo for Friday
+				- [ ] Update project timeline
+				- [ ] Review budget allocation
+				:::
+				</script>
+			</section>
+
 			<!-- Final Slide -->
 			<section class="center-content" data-markdown>
 				<script type="text/template">
@@ -168,7 +316,10 @@
 
 				✅ **Responsive Design** - Fluid grids adapt to any screen size
 				✅ **Dark Theme Support** - Beautiful on light and dark backgrounds
-				✅ **Multiple Layouts** - GRID, LINED, LR, TB orientations
+				✅ **Multiple Layouts** - GRID, LINED, LR, TB, HERO, CHECKLIST orientations
+				✅ **Hero Sections** - Bootstrap-style heroes with images and CTAs
+				✅ **Interactive Checklists** - Task lists with checkbox states
+				✅ **Unsplash Integration** - Easy image sourcing with unsplash:keyword
 				✅ **Icon Integration** - Lucide icons via Iconify CDN
 				✅ **No Overflow** - Content scales perfectly on all devices
 				✅ **Accessible** - Proper ARIA roles and semantic HTML
