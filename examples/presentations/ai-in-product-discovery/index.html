@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI in Product Discovery</title>
+  <link rel="stylesheet" href="../../dist/reset.css">
+  <link rel="stylesheet" href="../../dist/reveal.css">
+  <link rel="stylesheet" href="../../dist/theme/adaptivex.css">
+  <link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+  <style>
+    /* Custom presentation styles */
+    .reveal .slides section {
+      text-align: left;
+    }
+
+    .reveal .slides section.center {
+      text-align: center;
+    }
+
+    .reveal .slide-image {
+      max-width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+    }
+
+    .reveal .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .reveal .principle {
+      margin-bottom: 1rem;
+    }
+
+    .reveal .principle strong {
+      color: var(--r-heading-color);
+    }
+
+    .reveal ul {
+      margin-top: 1rem;
+    }
+
+    .reveal ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .reveal .accent {
+      color: #F9C80E;
+      font-weight: 600;
+    }
+
+    .reveal .break-slide {
+      background-color: #6B3FA0;
+      color: white;
+    }
+
+    .reveal .break-slide h2 {
+      color: white;
+    }
+
+    .reveal .module-intro {
+      background: linear-gradient(135deg, #6B3FA0 0%, #8B5FC0 100%);
+      color: white;
+    }
+
+    .reveal .module-intro h2,
+    .reveal .module-intro h3 {
+      color: white;
+    }
+  </style>
+
+    <!-- Custom CSS for AI Product Discovery Workshop -->
+    <style>
+      /* ==============================================
+         SLIDE LAYOUT - PREVENT OVERFLOW
+         ============================================== */
+      .reveal .slides section {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px 50px;
+        box-sizing: border-box;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* Two-column layouts for concept slides */
+      .reveal .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+      }
+
+      @media screen and (max-width: 1200px) {
+        .reveal .two-column {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+      }
+
+      /* ==============================================
+         IMAGE STYLING - PROFESSIONAL BALANCE
+         ============================================== */
+      .hero-image {
+        max-height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(107, 63, 160, 0.3);
+        margin: 0.5em 0;
+      }
+
+      .side-image {
+        width: 280px;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(107, 63, 160, 0.3);
+        margin-left: 20px;
+        margin-bottom: 15px;
+        float: right;
+        flex-shrink: 0;
+      }
+
+      /* Images in grid layouts */
+      .reveal .two-column img {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      /* ==============================================
+         TYPOGRAPHY - READABLE HIERARCHY
+         ============================================== */
+      .reveal h1 {
+        font-size: 1.9em;
+        line-height: 1.2;
+        margin-bottom: 0.4em;
+        font-weight: 600;
+      }
+
+      .reveal h2 {
+        font-size: 1.4em;
+        line-height: 1.25;
+        margin-bottom: 0.5em;
+        margin-top: 0.3em;
+      }
+
+      .reveal h3 {
+        font-size: 1.15em;
+        line-height: 1.3;
+        margin-bottom: 0.4em;
+      }
+
+      .reveal p, .reveal li {
+        font-size: 0.9em;
+        line-height: 1.4;
+        margin-bottom: 0.5em;
+      }
+
+      .reveal strong {
+        color: #6B3FA0;
+        font-weight: 600;
+      }
+
+      .reveal .accent {
+        color: #F9C80E;
+        font-weight: 600;
+      }
+
+      /* ==============================================
+         CODE BLOCK STYLING - SYNTAX HIGHLIGHTING
+         ============================================== */
+      .reveal pre {
+        width: 95%;
+        margin: 1em auto;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        font-size: 0.55em;
+        line-height: 1.4;
+      }
+
+      .reveal code {
+        font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        padding: 0.2em 0.4em;
+        background: rgba(107, 63, 160, 0.1);
+        border-radius: 4px;
+        color: #6B3FA0;
+      }
+
+      .reveal pre code {
+        padding: 1.5em;
+        max-height: 400px;
+        overflow: auto;
+        background: #2d2d2d;
+        color: #f8f8f2;
+      }
+
+      /* Syntax highlighting colors */
+      .reveal pre code .keyword { color: #66d9ef; }
+      .reveal pre code .string { color: #a6e22e; }
+      .reveal pre code .comment { color: #75715e; font-style: italic; }
+      .reveal pre code .function { color: #e6db74; }
+      .reveal pre code .number { color: #ae81ff; }
+
+      /* ==============================================
+         LISTS - BETTER SPACING
+         ============================================== */
+      .reveal ul, .reveal ol {
+        margin: 0.5em 0 0.5em 1.5em;
+      }
+
+      .reveal li {
+        margin-bottom: 0.4em;
+      }
+
+      .reveal li ul, .reveal li ol {
+        margin-top: 0.3em;
+      }
+
+      /* ==============================================
+         RESPONSIVE BREAKPOINTS
+         ============================================== */
+      @media screen and (max-height: 768px) {
+        .reveal h1 { font-size: 1.7em; }
+        .reveal h2 { font-size: 1.3em; }
+        .hero-image { max-height: 160px; }
+        .side-image { width: 220px; max-height: 160px; }
+        .reveal pre { font-size: 0.5em; }
+      }
+
+      @media screen and (max-height: 600px) {
+        .reveal h1 { font-size: 1.5em; }
+        .reveal h2 { font-size: 1.2em; }
+        .hero-image { max-height: 120px; }
+        .side-image { width: 180px; max-height: 120px; }
+        .reveal pre { font-size: 0.45em; }
+      }
+
+      /* ==============================================
+         WORKSHOP-SPECIFIC STYLES
+         ============================================== */
+      .activity-box {
+        background: rgba(107, 63, 160, 0.05);
+        border-left: 4px solid #6B3FA0;
+        padding: 1em 1.5em;
+        margin: 1em 0;
+        border-radius: 4px;
+      }
+
+      .activity-box h3 {
+        color: #6B3FA0;
+        margin-top: 0;
+      }
+
+      .knowledge-check {
+        background: rgba(249, 200, 14, 0.1);
+        border-left: 4px solid #F9C80E;
+        padding: 1em 1.5em;
+        margin: 1em 0;
+        border-radius: 4px;
+      }
+
+      .key-takeaway {
+        background: linear-gradient(135deg, rgba(107, 63, 160, 0.1), rgba(249, 200, 14, 0.1));
+        padding: 1.5em;
+        margin: 1em 0;
+        border-radius: 8px;
+        border: 2px solid rgba(107, 63, 160, 0.2);
+      }
+
+      .key-takeaway h3 {
+        color: #6B3FA0;
+        margin-top: 0;
+      }
+
+      /* ==============================================
+         ANIMATIONS - SUBTLE ENTRANCE
+         ============================================== */
+      .reveal .slides section > * {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      /* ==============================================
+         PRINT STYLES
+         ============================================== */
+      @media print {
+        .reveal .slides section {
+          page-break-inside: avoid;
+        }
+
+        .reveal pre code {
+          max-height: none;
+          overflow: visible;
+        }
+      }
+    </style>
+  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class="center title-slide" data-state="title">
+        <h1>AI in Product Discovery</h1>
+        <h3>A Comprehensive Workshop</h3>
+        <p>November 1, 2025</p>
+        
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Introduce yourself and topic]
+        </aside>
+      </section>
+      <section>
+        <h2>Welcome</h2>
+        <p>Welcome to this comprehensive workshop on AI in Product Discovery. We&#039;re excited to share insights and practical strategies that you can apply immediately.</p>
+        <ul>
+          <li>Expert instructors with years of industry experience</li>
+          <li>Practical, hands-on approach to learning</li>
+          <li>Real-world case studies and examples</li>
+        </ul>
+        <p><em>4-hour workshop with breaks, interactive activities, and Q&amp;A sessions</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Welcome participants, share background, set expectations]
+        </aside>
+      </section>
+      <section>
+        <h2>What You&#039;ll Learn</h2>
+        <ul>
+          <li>Understand the fundamental concepts and principles of AI in Product Discovery</li>
+          <li>Apply proven strategies and best practices in your work</li>
+          <li>Identify opportunities and challenges in your context</li>
+          <li>Develop actionable plans for implementation</li>
+          <li>Connect with peers and share experiences</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Review each outcome, emphasize practical benefits]
+        </aside>
+      </section>
+      <section>
+        <h2>Today&#039;s Journey</h2>
+        <p>[GENERATED MODULE LIST FOR: AI in Product Discovery]</p>
+        <p><em>Each module: 45-60 minutes with activities and discussion</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Walk through structure, note breaks and activities]
+        </aside>
+      </section>
+      <section class="module-intro">
+        <h2>Understanding AI in Product Work</h2>
+        <h3>Module 1</h3>
+        <p>Understanding AI in Product Work represents a critical component of AI in Product Discovery. Understanding this area will enable you to make informed decisions and implement effective solutions.</p>
+        <ul>
+          <li>Understand the key concepts of Understanding AI in Product Work</li>
+          <li>Apply practical strategies in real-world scenarios</li>
+          <li>Identify implementation opportunities</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Set context for Understanding AI in Product Work, explain relevance]
+        </aside>
+      </section>
+      <section>
+        <h2>Understanding AI in Product Work</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Definition:</strong> Understanding AI in Product Work is a fundamental approach in AI in Product Discovery that combines technology capabilities with human expertise to achieve better outcomes.</p>
+            <ul>
+            <li>Step 1: Key aspect of Understanding AI in Product Work</li>
+            <li>Step 2: Key aspect of Understanding AI in Product Work</li>
+            <li>Step 3: Key aspect of Understanding AI in Product Work</li>
+          </ul>
+            <p><em>Together, these elements create a powerful approach to achieving your goals</em></p>
+          </div>
+          
+        </div>
+        <h3>Action Steps:</h3>
+        <ul>
+            <li>Action 1: Practical step for implementing Understanding AI in Product Work</li>
+            <li>Action 2: Practical step for implementing Understanding AI in Product Work</li>
+            <li>Action 3: Practical step for implementing Understanding AI in Product Work</li>
+            <li>Action 4: Practical step for implementing Understanding AI in Product Work</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Explain concept with examples, refer to visual]
+        </aside>
+      </section>
+      <section>
+        <h2>Understanding AI in Product Work</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Definition:</strong> Understanding AI in Product Work is a fundamental approach in AI in Product Discovery that combines technology capabilities with human expertise to achieve better outcomes.</p>
+            <ul>
+            <li>Step 1: Key aspect of Understanding AI in Product Work</li>
+            <li>Step 2: Key aspect of Understanding AI in Product Work</li>
+            <li>Step 3: Key aspect of Understanding AI in Product Work</li>
+          </ul>
+            <p><em>Together, these elements create a powerful approach to achieving your goals</em></p>
+          </div>
+          
+        </div>
+        <h3>Action Steps:</h3>
+        <ul>
+            <li>Action 1: Practical step for implementing Understanding AI in Product Work</li>
+            <li>Action 2: Practical step for implementing Understanding AI in Product Work</li>
+            <li>Action 3: Practical step for implementing Understanding AI in Product Work</li>
+            <li>Action 4: Practical step for implementing Understanding AI in Product Work</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Explain concept with examples, refer to visual]
+        </aside>
+      </section>
+      <section>
+        <h2>Understanding AI in Product Work</h2>
+        <p>This activity helps you apply AI in Product Discovery concepts to real-world scenarios.</p>
+        <ul>
+          <li>Work in small groups or individually</li>
+          <li>Use the provided materials and templates</li>
+          <li>Focus on practical application</li>
+          <li>Be prepared to share insights</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Build excitement, clarify expectations]
+        </aside>
+      </section>
+      <section>
+        <h2>Understanding AI in Product Work</h2>
+        <p><strong>Duration:</strong> 20 minutes</p>
+        <p>Follow these steps to complete the activity</p>
+        <ol>
+          <li><strong>Step 1:</strong> Review the scenario or problem statement</li>
+          <li><strong>Step 2:</strong> Identify key factors and constraints</li>
+          <li><strong>Step 3:</strong> Develop your approach or solution</li>
+          <li><strong>Step 4:</strong> Document your reasoning and decisions</li>
+          <li><strong>Step 5:</strong> Prepare to share with the group</li>
+        </ol>
+        <p><em>Tools: Worksheets, templates, and reference materials provided</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Walk through each step, answer questions]
+        </aside>
+      </section>
+      <section class="center">
+        <h2>[ACTIVITY IN PROGRESS: Understanding AI in Product Work - In Progress</h2>
+        <h3 class="accent">15 minutes</h3>
+        <p>Work through the steps systematically. Facilitator is available for questions.</p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Circulate, observe, provide guidance as needed]
+        </aside>
+      </section>
+      <section>
+        <h2>Key Takeaways</h2>
+          <div class="principle"><strong>Foundation First</strong>: Build understanding before implementation</div>
+          <div class="principle"><strong>Practical Focus</strong>: Apply concepts to real situations</div>
+          <div class="principle"><strong>Continuous Learning</strong>: Iterate and improve over time</div>
+          <div class="principle"><strong>Human-Centered</strong>: Keep people at the center of solutions</div>
+        <h3>Reflection Questions:</h3>
+        <ul>
+          <li>What specific aspect of Key Takeaways is most relevant to your work?</li>
+          <li>How might you apply these concepts to a current challenge?</li>
+          <li>What resources or support would help you implement these ideas?</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Review each principle, facilitate reflection discussion]
+        </aside>
+      </section>
+      <section class="module-intro">
+        <h2>Discovery Research with AI</h2>
+        <h3>Module 2</h3>
+        <p>Discovery Research with AI represents a critical component of AI in Product Discovery. Understanding this area will enable you to make informed decisions and implement effective solutions.</p>
+        <ul>
+          <li>Understand the key concepts of Discovery Research with AI</li>
+          <li>Apply practical strategies in real-world scenarios</li>
+          <li>Identify implementation opportunities</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Set context for Discovery Research with AI, explain relevance]
+        </aside>
+      </section>
+      <section>
+        <h2>Discovery Research with AI</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Definition:</strong> Discovery Research with AI is a fundamental approach in AI in Product Discovery that combines technology capabilities with human expertise to achieve better outcomes.</p>
+            <ul>
+            <li>Step 1: Key aspect of Discovery Research with AI</li>
+            <li>Step 2: Key aspect of Discovery Research with AI</li>
+            <li>Step 3: Key aspect of Discovery Research with AI</li>
+          </ul>
+            <p><em>Together, these elements create a powerful approach to achieving your goals</em></p>
+          </div>
+          
+        </div>
+        <h3>Action Steps:</h3>
+        <ul>
+            <li>Action 1: Practical step for implementing Discovery Research with AI</li>
+            <li>Action 2: Practical step for implementing Discovery Research with AI</li>
+            <li>Action 3: Practical step for implementing Discovery Research with AI</li>
+            <li>Action 4: Practical step for implementing Discovery Research with AI</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Explain concept with examples, refer to visual]
+        </aside>
+      </section>
+      <section>
+        <h2>Discovery Research with AI</h2>
+        <p>This activity helps you apply AI in Product Discovery concepts to real-world scenarios.</p>
+        <ul>
+          <li>Work in small groups or individually</li>
+          <li>Use the provided materials and templates</li>
+          <li>Focus on practical application</li>
+          <li>Be prepared to share insights</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Build excitement, clarify expectations]
+        </aside>
+      </section>
+      <section>
+        <h2>Discovery Research with AI</h2>
+        <p><strong>Duration:</strong> 20 minutes</p>
+        <p>Follow these steps to complete the activity</p>
+        <ol>
+          <li><strong>Step 1:</strong> Review the scenario or problem statement</li>
+          <li><strong>Step 2:</strong> Identify key factors and constraints</li>
+          <li><strong>Step 3:</strong> Develop your approach or solution</li>
+          <li><strong>Step 4:</strong> Document your reasoning and decisions</li>
+          <li><strong>Step 5:</strong> Prepare to share with the group</li>
+        </ol>
+        <p><em>Tools: Worksheets, templates, and reference materials provided</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Walk through each step, answer questions]
+        </aside>
+      </section>
+      <section class="center">
+        <h2>[ACTIVITY IN PROGRESS: Discovery Research with AI - In Progress</h2>
+        <h3 class="accent">15 minutes</h3>
+        <p>Work through the steps systematically. Facilitator is available for questions.</p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Circulate, observe, provide guidance as needed]
+        </aside>
+      </section>
+      <section>
+        <h2>Key Takeaways</h2>
+          <div class="principle"><strong>Foundation First</strong>: Build understanding before implementation</div>
+          <div class="principle"><strong>Practical Focus</strong>: Apply concepts to real situations</div>
+          <div class="principle"><strong>Continuous Learning</strong>: Iterate and improve over time</div>
+          <div class="principle"><strong>Human-Centered</strong>: Keep people at the center of solutions</div>
+        <h3>Reflection Questions:</h3>
+        <ul>
+          <li>What specific aspect of Key Takeaways is most relevant to your work?</li>
+          <li>How might you apply these concepts to a current challenge?</li>
+          <li>What resources or support would help you implement these ideas?</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Review each principle, facilitate reflection discussion]
+        </aside>
+      </section>
+      <section>
+        <h2>Knowledge Check</h2>
+          <div>
+            <h3>Question 1:</h3>
+            <p>What are the key benefits of applying AI in Product Discovery in your organization?</p>
+            <p><em>Think about both short-term and long-term impacts</em></p>
+          </div>
+          <div>
+            <h3>Question 2:</h3>
+            <p>Which implementation challenge would you address first?</p>
+            <p><em>Consider feasibility, impact, and available resources</em></p>
+          </div>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Ask questions, facilitate discussion, clarify misconceptions]
+        </aside>
+      </section>
+      <section class="center break-slide">
+        <h2>Break</h2>
+        <h3 class="accent">15 minutes</h3>
+        <p>Please return by 04:08 PM</p>
+        <p><em>Feel free to network and discuss what you&#039;ve learned so far</em></p>
+        
+        <aside class="notes">
+          [15 minute break - return at specified time]
+        </aside>
+      </section>
+      <section class="module-intro">
+        <h2>User Interview Analysis</h2>
+        <h3>Module 3</h3>
+        <p>User Interview Analysis represents a critical component of AI in Product Discovery. Understanding this area will enable you to make informed decisions and implement effective solutions.</p>
+        <ul>
+          <li>Understand the key concepts of User Interview Analysis</li>
+          <li>Apply practical strategies in real-world scenarios</li>
+          <li>Identify implementation opportunities</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Set context for User Interview Analysis, explain relevance]
+        </aside>
+      </section>
+      <section>
+        <h2>User Interview Analysis</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Definition:</strong> User Interview Analysis is a fundamental approach in AI in Product Discovery that combines technology capabilities with human expertise to achieve better outcomes.</p>
+            <ul>
+            <li>Step 1: Key aspect of User Interview Analysis</li>
+            <li>Step 2: Key aspect of User Interview Analysis</li>
+            <li>Step 3: Key aspect of User Interview Analysis</li>
+          </ul>
+            <p><em>Together, these elements create a powerful approach to achieving your goals</em></p>
+          </div>
+          
+        </div>
+        <h3>Action Steps:</h3>
+        <ul>
+            <li>Action 1: Practical step for implementing User Interview Analysis</li>
+            <li>Action 2: Practical step for implementing User Interview Analysis</li>
+            <li>Action 3: Practical step for implementing User Interview Analysis</li>
+            <li>Action 4: Practical step for implementing User Interview Analysis</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Explain concept with examples, refer to visual]
+        </aside>
+      </section>
+      <section>
+        <h2>User Interview Analysis</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Definition:</strong> User Interview Analysis is a fundamental approach in AI in Product Discovery that combines technology capabilities with human expertise to achieve better outcomes.</p>
+            <ul>
+            <li>Step 1: Key aspect of User Interview Analysis</li>
+            <li>Step 2: Key aspect of User Interview Analysis</li>
+            <li>Step 3: Key aspect of User Interview Analysis</li>
+          </ul>
+            <p><em>Together, these elements create a powerful approach to achieving your goals</em></p>
+          </div>
+          
+        </div>
+        <h3>Action Steps:</h3>
+        <ul>
+            <li>Action 1: Practical step for implementing User Interview Analysis</li>
+            <li>Action 2: Practical step for implementing User Interview Analysis</li>
+            <li>Action 3: Practical step for implementing User Interview Analysis</li>
+            <li>Action 4: Practical step for implementing User Interview Analysis</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Explain concept with examples, refer to visual]
+        </aside>
+      </section>
+      <section>
+        <h2>User Interview Analysis</h2>
+        <p>This activity helps you apply AI in Product Discovery concepts to real-world scenarios.</p>
+        <ul>
+          <li>Work in small groups or individually</li>
+          <li>Use the provided materials and templates</li>
+          <li>Focus on practical application</li>
+          <li>Be prepared to share insights</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Build excitement, clarify expectations]
+        </aside>
+      </section>
+      <section>
+        <h2>User Interview Analysis</h2>
+        <p><strong>Duration:</strong> 20 minutes</p>
+        <p>Follow these steps to complete the activity</p>
+        <ol>
+          <li><strong>Step 1:</strong> Review the scenario or problem statement</li>
+          <li><strong>Step 2:</strong> Identify key factors and constraints</li>
+          <li><strong>Step 3:</strong> Develop your approach or solution</li>
+          <li><strong>Step 4:</strong> Document your reasoning and decisions</li>
+          <li><strong>Step 5:</strong> Prepare to share with the group</li>
+        </ol>
+        <p><em>Tools: Worksheets, templates, and reference materials provided</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Walk through each step, answer questions]
+        </aside>
+      </section>
+      <section class="center">
+        <h2>[ACTIVITY IN PROGRESS: User Interview Analysis - In Progress</h2>
+        <h3 class="accent">15 minutes</h3>
+        <p>Work through the steps systematically. Facilitator is available for questions.</p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Circulate, observe, provide guidance as needed]
+        </aside>
+      </section>
+      <section>
+        <h2>Key Takeaways</h2>
+          <div class="principle"><strong>Foundation First</strong>: Build understanding before implementation</div>
+          <div class="principle"><strong>Practical Focus</strong>: Apply concepts to real situations</div>
+          <div class="principle"><strong>Continuous Learning</strong>: Iterate and improve over time</div>
+          <div class="principle"><strong>Human-Centered</strong>: Keep people at the center of solutions</div>
+        <h3>Reflection Questions:</h3>
+        <ul>
+          <li>What specific aspect of Key Takeaways is most relevant to your work?</li>
+          <li>How might you apply these concepts to a current challenge?</li>
+          <li>What resources or support would help you implement these ideas?</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Review each principle, facilitate reflection discussion]
+        </aside>
+      </section>
+      <section class="module-intro">
+        <h2>Synthesis and Insights</h2>
+        <h3>Module 4</h3>
+        <p>Synthesis and Insights represents a critical component of AI in Product Discovery. Understanding this area will enable you to make informed decisions and implement effective solutions.</p>
+        <ul>
+          <li>Understand the key concepts of Synthesis and Insights</li>
+          <li>Apply practical strategies in real-world scenarios</li>
+          <li>Identify implementation opportunities</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Set context for Synthesis and Insights, explain relevance]
+        </aside>
+      </section>
+      <section>
+        <h2>Synthesis and Insights</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Definition:</strong> Synthesis and Insights is a fundamental approach in AI in Product Discovery that combines technology capabilities with human expertise to achieve better outcomes.</p>
+            <ul>
+            <li>Step 1: Key aspect of Synthesis and Insights</li>
+            <li>Step 2: Key aspect of Synthesis and Insights</li>
+            <li>Step 3: Key aspect of Synthesis and Insights</li>
+          </ul>
+            <p><em>Together, these elements create a powerful approach to achieving your goals</em></p>
+          </div>
+          
+        </div>
+        <h3>Action Steps:</h3>
+        <ul>
+            <li>Action 1: Practical step for implementing Synthesis and Insights</li>
+            <li>Action 2: Practical step for implementing Synthesis and Insights</li>
+            <li>Action 3: Practical step for implementing Synthesis and Insights</li>
+            <li>Action 4: Practical step for implementing Synthesis and Insights</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Explain concept with examples, refer to visual]
+        </aside>
+      </section>
+      <section>
+        <h2>Synthesis and Insights</h2>
+        <p>This activity helps you apply AI in Product Discovery concepts to real-world scenarios.</p>
+        <ul>
+          <li>Work in small groups or individually</li>
+          <li>Use the provided materials and templates</li>
+          <li>Focus on practical application</li>
+          <li>Be prepared to share insights</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Build excitement, clarify expectations]
+        </aside>
+      </section>
+      <section>
+        <h2>Synthesis and Insights</h2>
+        <p><strong>Duration:</strong> 20 minutes</p>
+        <p>Follow these steps to complete the activity</p>
+        <ol>
+          <li><strong>Step 1:</strong> Review the scenario or problem statement</li>
+          <li><strong>Step 2:</strong> Identify key factors and constraints</li>
+          <li><strong>Step 3:</strong> Develop your approach or solution</li>
+          <li><strong>Step 4:</strong> Document your reasoning and decisions</li>
+          <li><strong>Step 5:</strong> Prepare to share with the group</li>
+        </ol>
+        <p><em>Tools: Worksheets, templates, and reference materials provided</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Walk through each step, answer questions]
+        </aside>
+      </section>
+      <section class="center">
+        <h2>[ACTIVITY IN PROGRESS: Synthesis and Insights - In Progress</h2>
+        <h3 class="accent">15 minutes</h3>
+        <p>Work through the steps systematically. Facilitator is available for questions.</p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Circulate, observe, provide guidance as needed]
+        </aside>
+      </section>
+      <section>
+        <h2>Key Takeaways</h2>
+          <div class="principle"><strong>Foundation First</strong>: Build understanding before implementation</div>
+          <div class="principle"><strong>Practical Focus</strong>: Apply concepts to real situations</div>
+          <div class="principle"><strong>Continuous Learning</strong>: Iterate and improve over time</div>
+          <div class="principle"><strong>Human-Centered</strong>: Keep people at the center of solutions</div>
+        <h3>Reflection Questions:</h3>
+        <ul>
+          <li>What specific aspect of Key Takeaways is most relevant to your work?</li>
+          <li>How might you apply these concepts to a current challenge?</li>
+          <li>What resources or support would help you implement these ideas?</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Review each principle, facilitate reflection discussion]
+        </aside>
+      </section>
+      <section>
+        <h2>Knowledge Check</h2>
+          <div>
+            <h3>Question 1:</h3>
+            <p>What are the key benefits of applying AI in Product Discovery in your organization?</p>
+            <p><em>Think about both short-term and long-term impacts</em></p>
+          </div>
+          <div>
+            <h3>Question 2:</h3>
+            <p>Which implementation challenge would you address first?</p>
+            <p><em>Consider feasibility, impact, and available resources</em></p>
+          </div>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Ask questions, facilitate discussion, clarify misconceptions]
+        </aside>
+      </section>
+      <section>
+        <h2>Reflection</h2>
+        <ul>
+          <li>What key insights have you gained about AI in Product Discovery?</li>
+          <li>How will you apply these concepts in your work?</li>
+          <li>What questions or areas would you like to explore further?</li>
+          <li>What first step will you take when you return to work?</li>
+        </ul>
+        <p><em>Take 5 minutes for silent reflection, then pair-share if desired</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Give time for silent reflection, optionally pair-share]
+        </aside>
+      </section>
+      <section>
+        <h2>Connecting the Threads</h2>
+        <p>Throughout this workshop, we&#039;ve explored how different aspects of AI in Product Discovery interconnect and reinforce each other.</p>
+        <p><strong>These concepts form a unified framework for understanding and implementing effective solutions.</strong></p>
+        <ul>
+          <li>Foundation concepts build upon each other</li>
+          <li>Theory and practice work together</li>
+          <li>Human and technology elements complement each other</li>
+          <li>Continuous improvement is essential</li>
+        </ul>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Show connections between modules, synthesize key themes]
+        </aside>
+      </section>
+      <section>
+        <h2>Questions &amp; Discussion</h2>
+        <ul>
+          <li>What aspects of AI in Product Discovery would you like to discuss further?</li>
+          <li>What challenges do you anticipate in implementation?</li>
+          <li>What success stories or lessons learned can you share?</li>
+        </ul>
+        <p><em>Open discussion - all questions and comments welcome</em></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Facilitate open discussion, use conversation starters if needed]
+        </aside>
+      </section>
+      <section>
+        <h2>Next Steps</h2>
+        <ul>
+          <li>Review key concepts and materials from today&#039;s workshop</li>
+          <li>Identify one specific area to focus on first</li>
+          <li>Connect with colleagues and stakeholders</li>
+          <li>Develop a 30-day implementation plan</li>
+          <li>Schedule time to apply what you&#039;ve learned</li>
+        </ul>
+        <p><em>All materials, templates, and resources are available in your workshop packet</em></p>
+        <p><strong>Start applying concepts within the next week for best results</strong></p>
+        
+        <aside class="notes">
+          [SPEAKER NOTES: Emphasize actionable takeaways, share resources]
+        </aside>
+      </section>
+      <section>
+        <h2>AI in Product Discovery Workshop Series</h2>
+        <p><strong>Today: Foundation concepts and practical applications</strong></p>
+        <h3>Coming Next:</h3>
+        <ul>
+          <li>Advanced topics and specialized applications</li>
+          <li>Implementation strategies and change management</li>
+          <li>Measuring success and continuous improvement</li>
+        </ul>
+        <p>Stay connected: training@adaptivex.com</p>
+
+        <aside class="notes">
+          [SPEAKER NOTES: Preview upcoming content, provide contact info]
+        </aside>
+      </section>
+
+      <!-- BONUS: CODE-HIGHLIGHTED AI PROMPT EXAMPLES -->
+
+      <section>
+        <h2>Bonus: AI Prompt Templates</h2>
+        <h3>Getting Started with AI in Discovery</h3>
+        <pre><code class="javascript">// Understanding AI Capabilities Prompt
+const discoveryPrompt = `
+You are a product discovery expert. Help me understand:
+
+1. What AI can do well in product research
+2. What AI cannot replace (human judgment, empathy)
+3. How to use AI as a thinking partner, not replacement
+
+Provide 3 specific examples of AI-human collaboration
+in user research.
+`;
+
+// Pro tip: Start broad, then iterate based on results
+</code></pre>
+        <aside class="notes">
+          Share this template with students. Emphasize that AI is a collaborator, not a replacement.
+          The best results come from combining AI capabilities with human intuition.
+        </aside>
+      </section>
+
+      <section>
+        <h2>AI-Assisted Research Planning</h2>
+        <pre><code class="javascript">// Generating Research Questions
+const researchPrompt = `
+I'm researching [your product area here].
+
+Context:
+- Target users: [describe users]
+- Current pain points: [known issues]
+- Research goals: [what you want to learn]
+
+Generate 10 open-ended interview questions that will help me understand:
+1. User motivations and goals
+2. Current workflow and pain points
+3. Desired outcomes and success criteria
+4. Context and environment of use
+
+Format as: Category | Question | Follow-up probes
+`;
+</code></pre>
+        <aside class="notes">
+          Encourage students to provide rich context. The more context AI has, the better the questions.
+          Always review and refine AI-generated questions before using them.
+        </aside>
+      </section>
+
+      <section>
+        <h2>Analyzing User Interviews with AI</h2>
+        <pre><code class="javascript">// Interview Analysis Template
+const analysisPrompt = `
+Analyze this user interview transcript and identify:
+
+📊 Key Insights:
+1. Pain points mentioned (with severity indicators)
+2. Unmet needs or desires
+3. Workarounds the user has created
+4. Jobs-to-be-done
+5. Emotional reactions to current solutions
+
+📝 Evidence:
+- Include direct quotes for each insight
+- Note frequency of mentions
+- Identify contradictions or tensions
+
+Interview transcript:
+[Paste your transcript here]
+
+Format output as structured JSON for easy analysis.
+`;
+</code></pre>
+        <aside class="notes">
+          This is a powerful template for post-interview analysis. Emphasize the importance of
+          keeping original quotes and context. AI can find patterns, but humans validate meaning.
+        </aside>
+      </section>
+
+      <section>
+        <h2>Synthesis: From Data to Insights</h2>
+        <pre><code class="javascript">// Cross-Interview Synthesis
+const synthesisPrompt = `
+Based on these insights from 5 user interviews:
+
+[Paste 8-10 key quotes or observations from different users]
+
+Identify:
+1. **Common themes** across users (3-5 themes)
+2. **Behavioral patterns** - what users actually do vs say
+3. **User segments** - are there distinct groups?
+4. **Priority insights** - what should drive product decisions?
+
+For each theme:
+- Theme name
+- Supporting evidence (quotes from multiple users)
+- Implications for product development
+- Confidence level (high/medium/low)
+`;
+</code></pre>
+        <aside class="notes">
+          The synthesis stage is where AI really shines - finding patterns across multiple conversations.
+          Always validate AI-identified themes with your own review of the raw data.
+        </aside>
+      </section>
+
+      <section>
+        <h2>Advanced: AI-Assisted Persona Creation</h2>
+        <pre><code class="javascript">// Persona Generation from Research
+const personaPrompt = `
+Based on this user research data:
+- 10 user interviews (summaries below)
+- Identified themes: [list your themes]
+- Behavioral patterns: [list patterns]
+
+Create 2-3 distinct user personas that represent
+our user base.
+
+For each persona include:
+1. Name and role
+2. Goals and motivations
+3. Pain points and frustrations
+4. Current workflow
+5. Technology comfort level
+6. Quote that captures their mindset
+
+Base personas on ACTUAL research data, not assumptions.
+Include evidence from interviews to support each trait.
+`;
+</code></pre>
+        <aside class="notes">
+          Personas should emerge from research, not imagination. Use AI to synthesize patterns,
+          but always ground personas in real user quotes and behaviors.
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../../dist/reveal.js"></script>
+  <script src="../../plugin/markdown/markdown.js"></script>
+  <script src="../../plugin/notes/notes.js"></script>
+  <script src="../../plugin/highlight/highlight.js"></script>
+  <script>
+    
+    // Enhanced reveal.js configuration
+    Reveal.configure({
+      width: 1920,
+      height: 1080,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      center: true,
+      controlsLayout: 'bottom-right',
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      hash: true,
+      respondToHashChanges: true
+    });
+  
+		Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      slideNumber: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      plugins: [ RevealMarkdown, RevealNotes, RevealHighlight ]
+    });
+  </script>
+</body>
+</html>
