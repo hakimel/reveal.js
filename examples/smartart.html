@@ -1,77 +1,202 @@
 <!doctype html>
 <html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>reveal.js - SmartArt Plugin Demo</title>
 
-        <head>
-                <meta charset="utf-8">
+	<!-- Reveal.js core CSS -->
+	<link rel="stylesheet" href="../dist/reset.css">
+	<link rel="stylesheet" href="../dist/reveal.css">
 
-                <title>reveal.js - SmartArt Plugin</title>
+	<!-- Theme -->
+	<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
 
-                <link rel="stylesheet" href="../dist/reveal.css">
-                <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
-        </head>
+	<style>
+		/* Demo-specific styles */
+		.reveal section.center-content {
+			text-align: center;
+		}
+		.reveal section.title-slide h1 {
+			font-size: 3em;
+			margin-bottom: 0.5em;
+		}
+		.reveal section.title-slide p {
+			font-size: 1.5em;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
 
-        <body>
+			<!-- Title Slide -->
+			<section class="center-content title-slide">
+				<h1>SmartArt Plugin</h1>
+				<p>Responsive Grid & List Layouts for Reveal.js</p>
+				<small>Navigate with arrow keys or swipe</small>
+			</section>
 
-                <div class="reveal">
+			<!-- Grid Layout Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Enterprise Solutions
 
-                        <div class="slides">
+				::: smartart Digital Transformation GRID
+				intro: Comprehensive services designed to accelerate your organization's journey into the digital age.
+				Cloud Infrastructure | Scalable and secure cloud architecture with 99.9% uptime. | icon=lucide:cloud | Learn More | https://example.com/cloud
+				Data Analytics | Transform data into actionable insights with AI-powered analytics. | icon=lucide:line-chart | Explore Services | https://example.com/data
+				Cyber Security | Enterprise-grade protection for your digital assets. | icon=lucide:shield-check | View Solutions | https://example.com/security
+				DevOps Engineering | Streamline development with CI/CD and automation. | icon=lucide:laptop-minimal | Get Started | https://example.com/devops
+				:::
+				</script>
+			</section>
 
-                                <section data-markdown>
-                                        <script type="text/template">
-                                        ## SmartArt Grid
-                                        ::: smartart Our Services TB
-                                        intro: Discover the range of solutions we offer to help you achieve your goals. Each service is tailored to provide maximum value and impact.
-                                        Cloud Solutions | Scalable and secure cloud infrastructure to power your applications. | icon=lucide:cloud | Learn More | https://example.com/cloud
-                                        Data Analytics | Unlock powerful insights from your data with our advanced analytics services. | icon=lucide:line-chart | Explore | https://example.com/data
-                                        Cyber Security | Protect your digital assets with comprehensive security solutions. | icon=lucide:shield-check | View Details | https://example.com/security
-                                        Software Development | Custom software development tailored to your business needs. | icon=lucide:laptop-minimal | Get Started | https://example.com/dev
-                                        Managed IT Services | Keep your systems running smoothly with proactive support. | icon=lucide:headset | Discover More | https://example.com/managed
-                                        Network Solutions | Robust networking solutions for seamless connectivity. | icon=lucide:network | Learn More | https://example.com/network
-                                        :::
-                                        </script>
-                                </section>
+			<!-- 6-Card Grid Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Complete Service Portfolio
 
-                                <section data-markdown>
-                                        <script type="text/template">
-                                        ## Compact Layout
-                                        ::: smartart Spotlight LR
-                                        intro: Use a space separated list or pipe delimiters for quick card creation.
-                                        icon=lucide:brain | AI Consulting | Guidance on leveraging AI responsibly. | Book a Call | https://example.com/ai
-                                        Workshops Empowerment Growth
-                                        :::
-                                        </script>
-                                </section>
+				::: smartart Full Suite GRID
+				intro: Our comprehensive range of services across six key areas.
+				Cloud | Scalable infrastructure | icon=lucide:cloud | Details
+				Analytics | Data insights | icon=lucide:line-chart | Learn
+				Security | Asset protection | icon=lucide:shield-check | Info
+				DevOps | CI/CD automation | icon=lucide:laptop-minimal | View
+				Support | 24/7 monitoring | icon=lucide:headset | Contact
+				Network | Connectivity | icon=lucide:network | More
+				:::
+				</script>
+			</section>
 
-                                <section data-markdown>
-                                        <script type="text/template">
-                                        ## SmartArt Lined List
-                                        ::: smartart Project Updates LINED
-                                        intro: Quick overview of the team's current priorities.
-                                        - Design System Refresh | Update components to the new brand guidelines. | icon=lucide:brush
-                                        - API Integration Testing | Final phase of testing for the new payment gateway. | icon=lucide:server-cog
-                                        - Q3 Marketing Campaign | Launch plan and creative asset review. | icon=lucide:megaphone
-                                        - User Onboarding Flow | Finalize the new sign-up experience. | icon=lucide:user-check
-                                        :::
+			<!-- Horizontal Layout Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## AI Consulting Services
 
-                                        ::: smartart Sprint Backlog LINED Task Alpha Task Beta Task Gamma :::
-                                        </script>
-                                </section>
+				::: smartart Featured Offerings LR
+				intro: Expert guidance on leveraging artificial intelligence responsibly and effectively.
+				icon=lucide:brain | Strategy & Planning | Develop AI roadmaps aligned with business objectives. | Book Consultation | https://example.com/strategy
+				icon=lucide:workflow | Implementation | Deploy AI solutions with proven methodologies. | View Process | https://example.com/implementation
+				icon=lucide:graduation-cap | Training & Workshops | Empower teams through hands-on AI training. | Explore Programs | https://example.com/training
+				:::
+				</script>
+			</section>
 
-                        </div>
+			<!-- Lined List Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Q3 Project Roadmap
 
-                </div>
+				::: smartart Development Priorities LINED
+				intro: Key initiatives driving product innovation and customer value this quarter.
+				- Design System Refresh | Modernize UI components with updated brand guidelines and accessibility standards. | icon=lucide:brush
+				- API Integration Testing | Complete end-to-end testing of payment gateway integrations. | icon=lucide:server-cog
+				- Marketing Campaign Launch | Execute multi-channel Q3 campaign with creative asset rollout. | icon=lucide:megaphone
+				- User Onboarding Flow | Redesign sign-up experience to reduce friction and increase conversion. | icon=lucide:user-check
+				- Mobile App Performance | Optimize load times and reduce memory footprint by 30%. | icon=lucide:smartphone
+				- Security Audit | Conduct comprehensive security review and implement recommendations. | icon=lucide:shield-alert
+				:::
+				</script>
+			</section>
 
-                <script src="../dist/reveal.js"></script>
-                <script src="../plugin/markdown/markdown.js"></script>
-                <script src="../plugin/notes/notes.js"></script>
-                <script src="../plugin/smartart/smartart.js"></script>
+			<!-- Dark Theme Slide - Grid -->
+			<section data-markdown data-background="#1e293b">
+				<script type="text/template">
+				## Innovation Labs
 
-                <script>
-                        Reveal.initialize({
-                                hash: true,
-                                plugins: [ RevealMarkdown, RevealNotes, RevealSmartArt ]
-                        });
-                </script>
+				::: smartart Research & Development GRID
+				intro: Exploring cutting-edge technologies to shape the future of digital experiences.
+				Machine Learning | Advanced ML models powering intelligent automation and predictive analytics. | icon=lucide:cpu | Explore | https://example.com/ml
+				Quantum Computing | Investigating quantum algorithms for complex optimization problems. | icon=lucide:atom | Research | https://example.com/quantum
+				AR/VR Experiences | Creating immersive digital experiences for training and entertainment. | icon=lucide:glasses | Demo | https://example.com/arvr
+				Blockchain Solutions | Distributed ledger technology for secure and transparent transactions. | icon=lucide:blocks | Details | https://example.com/blockchain
+				:::
+				</script>
+			</section>
 
-        </body>
+			<!-- Dark Theme Slide - Lined List -->
+			<section data-markdown data-background="#2d3748">
+				<script type="text/template">
+				## Team Achievements
+
+				::: smartart Recent Milestones LINED
+				intro: Celebrating our team's outstanding accomplishments and contributions.
+				- Product Launch | Successfully launched v2.0 with 50K+ signups in first week. | icon=lucide:rocket
+				- Customer Satisfaction | Achieved 4.8/5.0 rating across all support channels. | icon=lucide:star
+				- Code Quality | Reduced technical debt by 40% through systematic refactoring. | icon=lucide:code
+				- Team Growth | Onboarded 15 talented engineers across 3 continents. | icon=lucide:users
+				- Performance Gains | Improved app load time by 60% through optimization. | icon=lucide:zap
+				:::
+				</script>
+			</section>
+
+			<!-- Vertical Layout Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Product Features
+
+				::: smartart Key Capabilities TB
+				intro: Essential features that make our platform powerful and easy to use.
+				Real-time Collaboration | Work together seamlessly with live editing and instant sync. | icon=lucide:users-round | Try It | https://example.com/collab
+				Advanced Analytics | Gain deep insights with customizable dashboards and reports. | icon=lucide:chart-bar | View Demo | https://example.com/analytics
+				Enterprise Security | Bank-level encryption and compliance with SOC 2 Type II. | icon=lucide:lock | Security | https://example.com/security
+				API Integrations | Connect with 500+ tools through our robust API ecosystem. | icon=lucide:plug | Browse | https://example.com/integrations
+				:::
+				</script>
+			</section>
+
+			<!-- Compact Layout -->
+			<section data-markdown>
+				<script type="text/template">
+				## Quick Links
+
+				::: smartart Resources LR
+				intro: Access documentation, support, and community resources.
+				icon=lucide:book-open | Documentation | Comprehensive guides and API references.
+				icon=lucide:life-buoy | Support Center | 24/7 help and troubleshooting.
+				icon=lucide:message-circle | Community | Join discussions and share knowledge.
+				:::
+				</script>
+			</section>
+
+			<!-- Final Slide -->
+			<section class="center-content" data-markdown>
+				<script type="text/template">
+				## SmartArt Features
+
+				✅ **Responsive Design** - Fluid grids adapt to any screen size
+				✅ **Dark Theme Support** - Beautiful on light and dark backgrounds
+				✅ **Multiple Layouts** - GRID, LINED, LR, TB orientations
+				✅ **Icon Integration** - Lucide icons via Iconify CDN
+				✅ **No Overflow** - Content scales perfectly on all devices
+				✅ **Accessible** - Proper ARIA roles and semantic HTML
+
+				---
+
+				### View Source
+				Check `examples/smartart.html` for implementation details
+				</script>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../dist/reveal.js"></script>
+	<script src="../plugin/markdown/markdown.js"></script>
+	<script src="../plugin/notes/notes.js"></script>
+	<script src="../plugin/smartart/smartart.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			controls: true,
+			progress: true,
+			center: false,
+			transition: 'slide',
+			plugins: [ RevealMarkdown, RevealNotes, RevealSmartArt ]
+		});
+	</script>
+</body>
 </html>
