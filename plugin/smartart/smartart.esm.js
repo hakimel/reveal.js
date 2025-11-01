@@ -536,6 +536,17 @@ function parseBlock( text ) {
         let intro = '';
         const itemSegments = [];
 
+        if( firstItemCandidate ) {
+                const sanitizedFirst = firstItemCandidate.replace( /^[-*+]\s+/, '' );
+                const introMatch = sanitizedFirst.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
+                if( introMatch ) {
+                        intro = introMatch[ 1 ].trim();
+                }
+                else {
+                        itemSegments.push( sanitizedFirst );
+                }
+        }
+
         detailLines.forEach( line => {
                 const sanitized = line.replace( /^[-*+]\s+/, '' );
                 const introMatch = sanitized.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
@@ -546,8 +557,6 @@ function parseBlock( text ) {
 
                 itemSegments.push( sanitized );
         } );
-
-        if( firstItemCandidate ) itemSegments.unshift( firstItemCandidate );
 
         const rawItems = itemSegments
                 .flatMap( segment => splitSegment( segment, layout ) )
