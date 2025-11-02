@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Poll Plugin - Standalone Demo (No Server Required)</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/moon.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title Slide -->
+            <section>
+                <h1>Standalone Poll Demo</h1>
+                <h3>No Server Required!</h3>
+                <p>This demo works entirely in your browser</p>
+                <p><small>Press <kbd>Space</kbd> or <kbd>→</kbd> to continue</small></p>
+                <p><small>Press <kbd>Ctrl+Shift+R</kbd> to reset all polls</small></p>
+            </section>
+
+            <!-- Simple Poll -->
+            <section>
+                <h2>Quick Opinion Poll</h2>
+                <p>Let's start with something simple:</p>
+                <div data-poll-standalone
+                     data-poll-question="How do you feel about polls in presentations?"
+                     data-poll-answers='["Love them! 😍", "They are useful 👍", "Neutral 😐", "Not a fan 👎"]'
+                     data-poll-display="live">
+                </div>
+                <p><small>Click "Add Random Vote" to simulate other users voting!</small></p>
+            </section>
+
+            <!-- Quiz with Correct Answer -->
+            <section>
+                <h2>Knowledge Check</h2>
+                <div data-poll-standalone
+                     data-poll-question="What company created Reveal.js?"
+                     data-poll-answers='["Google", "Microsoft", "Hakim El Hattab", "Facebook"]'
+                     data-poll-correct="2"
+                     data-poll-display="live">
+                </div>
+                <p><small>The correct answer will be highlighted after you vote!</small></p>
+            </section>
+
+            <!-- Multiple Choice -->
+            <section>
+                <h2>Feature Preferences</h2>
+                <div data-poll-standalone
+                     data-poll-question="Which presentation features do you use? (Select all)"
+                     data-poll-answers='["Speaker Notes", "Code Highlighting", "Fragments/Animations", "Math Formulas", "Background Videos"]'
+                     data-poll-multiple="true"
+                     data-poll-display="live">
+                </div>
+            </section>
+
+            <!-- HTML-based Poll -->
+            <section>
+                <h2>Programming Languages</h2>
+                <p>You can also define polls using HTML:</p>
+                <div data-poll-standalone data-poll-multiple="true">
+                    <div class="poll-question">Which languages do you know?</div>
+                    <div class="poll-answer">JavaScript/TypeScript</div>
+                    <div class="poll-answer">Python</div>
+                    <div class="poll-answer">Java/Kotlin</div>
+                    <div class="poll-answer">Go</div>
+                    <div class="poll-answer">Rust</div>
+                </div>
+            </section>
+
+            <!-- Quiz with Multiple Correct Answers -->
+            <section>
+                <h2>Web Technologies Quiz</h2>
+                <div data-poll-standalone
+                     data-poll-question="Which are CSS preprocessors? (Select all correct)"
+                     data-poll-answers='["Sass", "React", "Less", "Vue", "Stylus", "Angular"]'
+                     data-poll-multiple="true"
+                     data-poll-correct="0,2,4"
+                     data-poll-display="live">
+                </div>
+                <p><small>Multiple answers are correct!</small></p>
+            </section>
+
+            <!-- Fun Rating Poll -->
+            <section>
+                <h2>Rate This Demo</h2>
+                <div data-poll-standalone
+                     data-poll-question="How would you rate this standalone poll demo?"
+                     data-poll-answers='["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]'
+                     data-poll-display="live">
+                </div>
+                <p><small>Your votes are saved locally and persist across page reloads!</small></p>
+            </section>
+
+            <!-- Features Overview -->
+            <section>
+                <h2>Standalone Features</h2>
+                <ul>
+                    <li>✅ Works without any server</li>
+                    <li>✅ Saves votes in browser storage</li>
+                    <li>✅ Persists across page reloads</li>
+                    <li>✅ Quiz mode with correct answers</li>
+                    <li>✅ Multiple choice support</li>
+                    <li>✅ Live results display</li>
+                    <li>✅ Demo mode (add random votes)</li>
+                    <li>✅ Reset individual or all polls</li>
+                </ul>
+            </section>
+
+            <!-- How It Works -->
+            <section>
+                <h2>How It Works</h2>
+                <pre><code class="language-html" data-trim>
+&lt;!-- Just add data-poll-standalone attribute --&gt;
+&lt;div data-poll-standalone
+     data-poll-question="Your question?"
+     data-poll-answers='["Option 1", "Option 2", "Option 3"]'
+     data-poll-display="live"&gt;
+&lt;/div&gt;
+
+&lt;!-- Include the standalone plugin --&gt;
+&lt;script src="reveal-poll-standalone.js"&gt;&lt;/script&gt;
+                </code></pre>
+            </section>
+
+            <!-- Use Cases -->
+            <section>
+                <h2>Perfect For</h2>
+                <ul>
+                    <li>📚 Educational presentations</li>
+                    <li>🎯 Self-assessment quizzes</li>
+                    <li>🎤 Single-presenter scenarios</li>
+                    <li>💻 Offline presentations</li>
+                    <li>🔒 Privacy-focused environments</li>
+                    <li>🚀 Quick demos without setup</li>
+                </ul>
+            </section>
+
+            <!-- End Slide -->
+            <section>
+                <h1>Thank You!</h1>
+                <div data-poll-standalone
+                     data-poll-question="Will you use the standalone poll plugin?"
+                     data-poll-answers='["Definitely!", "I will try it", "Maybe later", "I need the full version with server"]'
+                     data-poll-display="live">
+                </div>
+                <p><small>Remember: Press <kbd>Ctrl+Shift+R</kbd> to reset all polls</small></p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    
+    <!-- Standalone Poll Plugin -->
+    <script src="reveal-poll-standalone.js"></script>
+    
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            
+            // Poll plugin configuration
+            poll: {
+                theme: 'gradient'
+            },
+            
+            // Load standalone plugin
+            plugins: [ RevealPollStandalone ]
+        });
+    </script>
+</body>
+</html>

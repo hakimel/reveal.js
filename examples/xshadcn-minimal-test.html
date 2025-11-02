@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XShadcn Minimal Test</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/white.css">
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.0/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        .reveal .slides section {
+            pointer-events: auto;
+        }
+
+        .component-demo {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Buttons -->
+            <section>
+                <h2>Interactive Buttons</h2>
+                <p>Click the buttons to see them count!</p>
+                <div class="component-demo">
+                    <span data-xshadcn='{"component":"Button","variant":"default"}'>Default</span>
+                    <span data-xshadcn='{"component":"Button","variant":"secondary"}'>Secondary</span>
+                    <span data-xshadcn='{"component":"Button","variant":"outline"}'>Outline</span>
+                    <span data-xshadcn='{"component":"Button","variant":"ghost"}'>Ghost</span>
+                    <span data-xshadcn='{"component":"Button","variant":"destructive"}'>Danger</span>
+                </div>
+                <div class="component-demo">
+                    <span data-xshadcn='{"component":"Button","props":{"size":"sm"}}'>Small</span>
+                    <span data-xshadcn='{"component":"Button"}'>Medium</span>
+                    <span data-xshadcn='{"component":"Button","props":{"size":"lg"}}'>Large</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: Form Components -->
+            <section>
+                <h2>Form Components</h2>
+                <div style="max-width: 400px; margin: 0 auto;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="block text-sm font-medium mb-2">Name</label>
+                        <span data-xshadcn='{"component":"Input","props":{"placeholder":"Enter your name"}}'></span>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="block text-sm font-medium mb-2">Email</label>
+                        <span data-xshadcn='{"component":"Input","props":{"placeholder":"your@email.com","type":"email"}}'></span>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span data-xshadcn="Switch"></span>
+                        <label class="text-sm">Enable notifications</label>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="block text-sm font-medium mb-2">Volume</label>
+                        <span data-xshadcn='{"component":"Slider","props":{"min":0,"max":100}}'></span>
+                    </div>
+
+                    <div class="component-demo">
+                        <span data-xshadcn='{"component":"Button","variant":"default"}'>Submit</span>
+                        <span data-xshadcn='{"component":"Button","variant":"outline"}'>Cancel</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Cards & Badges -->
+            <section>
+                <h2>Cards & Badges</h2>
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <span data-xshadcn='{"component":"Card","props":{"className":"p-6 mb-4"}}'>
+                        <h3 class="text-xl font-bold mb-2">Welcome Card</h3>
+                        <p class="text-gray-600 mb-4">This is a card component with some content inside.</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <span data-xshadcn='{"component":"Badge"}'>New</span>
+                            <span data-xshadcn='{"component":"Badge","variant":"secondary"}'>Featured</span>
+                            <span data-xshadcn='{"component":"Badge","variant":"outline"}'>Popular</span>
+                        </div>
+                    </span>
+                </div>
+            </section>
+
+            <!-- Slide 4: Alerts -->
+            <section>
+                <h2>Alert Messages</h2>
+                <div style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                    <span data-xshadcn='{"component":"Alert","props":{"children":"ℹ️ This is an informational message."}}'></span>
+                    <span data-xshadcn='{"component":"Alert","variant":"destructive","props":{"children":"⚠️ Error: Something went wrong!"}}'></span>
+                </div>
+            </section>
+
+            <!-- Slide 5: Progress & Charts -->
+            <section>
+                <h2>Data Visualization</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <div style="margin-bottom: 2rem;">
+                        <label class="block text-sm font-medium mb-2">Progress Bar</label>
+                        <span data-xshadcn='{"component":"Progress","props":{"value":75,"max":100}}'></span>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-lg font-semibold mb-4">Sales Chart</h3>
+                        <span data-xshadcn='{
+                            "component":"Chart",
+                            "props":{
+                                "type":"bar",
+                                "height":250,
+                                "data":[
+                                    {"label":"Jan","value":45},
+                                    {"label":"Feb","value":65},
+                                    {"label":"Mar","value":55},
+                                    {"label":"Apr","value":75},
+                                    {"label":"May","value":85}
+                                ]
+                            }
+                        }'></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Metrics Dashboard -->
+            <section>
+                <h2>Metrics Dashboard</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 800px; margin: 0 auto;">
+                    <span data-xshadcn='{
+                        "component":"Metrics",
+                        "props":{
+                            "title":"Revenue",
+                            "value":"$45,231",
+                            "change":12.5
+                        }
+                    }'></span>
+                    <span data-xshadcn='{
+                        "component":"Metrics",
+                        "props":{
+                            "title":"Users",
+                            "value":"2,350",
+                            "change":-4.3
+                        }
+                    }'></span>
+                    <span data-xshadcn='{
+                        "component":"Metrics",
+                        "props":{
+                            "title":"Conversion",
+                            "value":"3.2%",
+                            "change":8.1
+                        }
+                    }'></span>
+                </div>
+            </section>
+
+            <!-- Slide 7: Terminal -->
+            <section>
+                <h2>Terminal Component</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <span data-xshadcn='{
+                        "component":"Terminal",
+                        "props":{
+                            "commands":[
+                                {"prompt":true,"text":"npm install xshadcn"},
+                                {"type":"output","text":"Installing packages..."},
+                                {"type":"output","text":"✓ react@18.2.0"},
+                                {"type":"output","text":"✓ react-dom@18.2.0"},
+                                {"type":"output","text":"✓ Complete!"}
+                            ]
+                        }
+                    }'></span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- ES Module Shims (polyfill for older browsers) -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+    <!-- XShadcn Plugin with Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom": "https://esm.sh/react-dom@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "clsx": "https://esm.sh/clsx@2.0.0",
+            "tailwind-merge": "https://esm.sh/tailwind-merge@2.0.0"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import XShadcn from '../plugin/xshadcn/dist/xshadcn.js';
+
+        console.log('XShadcn module loaded:', XShadcn);
+
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+
+            // XShadcn plugin configuration
+            xshadcn: {
+                theme: 'light',
+                interactive: true,
+                defaultAnimation: 'fade',
+                animationDuration: 300
+            },
+
+            plugins: [ XShadcn ]
+        });
+
+        Reveal.on('ready', () => {
+            console.log('✓ Reveal.js ready');
+            console.log('✓ XShadcn plugin loaded');
+        });
+    </script>
+</body>
+</html>

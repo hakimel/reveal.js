@@ -26,7 +26,11 @@
                 PRICING: 'pricing',
 		STATS: 'stats',
 		NAVBAR: 'navbar',
-		ACCORDION: 'accordion'
+			ACCORDION: 'accordion',
+			CAROUSEL: 'carousel',
+			OFFCANVAS: 'drawer',
+			SIDEDRAWER: 'drawer',
+			DRAWER: 'drawer'
         };
 
 	const DEFAULT_ICONS = [
@@ -428,6 +432,313 @@
 	        border-color: rgba(148, 163, 184, 0.22);
 	}
 	.reveal .has-dark-background .smartart__accordion-panel-inner { color: rgba(226,232,240,0.8); }
+
+	/* ================================================
+	   CAROUSEL LAYOUT - IMAGE SLIDER
+	   ================================================ */
+	.reveal .smartart[data-layout="carousel"] {
+	        width: 100%;
+	        max-width: min(96%, 1100px);
+	        margin: 0 auto;
+	}
+	.reveal .smartart__carousel {
+	        position: relative;
+	        overflow: hidden;
+	        border-radius: 10px;
+	        background: color-mix(in srgb, var(--r-background-color, #f1f5f9) 60%, #fff 40%);
+	        height: var(--smartart-carousel-height, clamp(240px, 48vh, 520px));
+	}
+	.reveal .smartart__carousel-track {
+	        display: flex;
+	        height: 100%;
+	        transition: transform 400ms ease;
+	}
+	.reveal .smartart__carousel-slide {
+	        position: relative;
+	        min-width: 100%;
+	        height: 100%;
+	}
+	.reveal .smartart__carousel-slide img {
+	        width: 100%;
+	        height: 100%;
+	        object-fit: cover;
+	        display: block;
+	}
+	.reveal .smartart__carousel-caption {
+	        position: absolute;
+	        left: 0; right: 0; bottom: 0;
+	        background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.6) 100%);
+	        color: #fff;
+	        padding: 1rem 1.25rem;
+	}
+	.reveal .smartart__carousel-caption h3 { margin: 0 0 0.25rem; font-size: clamp(1rem, 1.6vw, 1.4rem); }
+	.reveal .smartart__carousel-caption p { margin: 0; opacity: 0.9; font-size: clamp(0.85rem, 1.2vw, 1rem); }
+
+	/* Controls */
+	.reveal .smartart__carousel-control {
+	        position: absolute;
+	        top: 50%; transform: translateY(-50%);
+	        background: rgba(0,0,0,0.35);
+	        color: #fff;
+	        border: 0;
+	        width: 42px; height: 42px;
+	        border-radius: 999px;
+	        cursor: pointer;
+	        display: grid; place-items: center;
+	}
+	.reveal .smartart__carousel-control:hover { background: rgba(0,0,0,0.5); }
+	.reveal .smartart__carousel-control[disabled] { opacity: 0.5; cursor: default; }
+	.reveal .smartart__carousel-control--prev { left: 10px; }
+	.reveal .smartart__carousel-control--next { right: 10px; }
+
+	/* Indicators */
+	.reveal .smartart__carousel-indicators {
+	        position: absolute; left: 0; right: 0; bottom: 8px;
+	        display: flex; justify-content: center; gap: 6px;
+	}
+	.reveal .smartart__carousel-indicators button {
+	        width: 8px; height: 8px; border-radius: 999px; border: 0;
+	        background: rgba(255,255,255,0.5);
+	        padding: 0; cursor: pointer;
+	}
+	.reveal .smartart__carousel-indicators button[aria-current="true"] { background: #fff; }
+
+	/* Dark background optimization */
+	.reveal .has-dark-background .smartart[data-layout="carousel"] .smartart__carousel { background: rgba(15,23,42,0.6); }
+
+	/* ================================================
+	   DRAWER LAYOUT - OFFCANVAS SIDEDRAWER
+	   ================================================ */
+	.reveal .smartart[data-layout="drawer"] {
+	        width: 100%;
+	        max-width: min(96%, 1100px);
+	        margin: 0 auto;
+	}
+	.reveal .smartart__drawer-toggle { /* inline button */
+	        display: inline-flex;
+	        align-items: center; justify-content: center; gap: .4rem;
+	        padding: .55rem 1rem; border-radius: .55rem; border: 2px solid #137fec;
+	        background: #137fec; color: #fff !important; text-decoration: none;
+	        font-weight: 600; cursor: pointer;
+	}
+	.reveal .smartart__drawer-toggle:hover { background:#0f6bd1; border-color:#0f6bd1; }
+
+	.reveal .smartart__drawer-backdrop, .smartart__drawer-backdrop {
+		position: fixed; inset: 0; background: rgba(0,0,0,.45);
+	        opacity: 0; pointer-events: none; transition: opacity .25s ease; z-index: 1000;
+	}
+	.reveal .smartart__drawer-backdrop.is-visible, .smartart__drawer-backdrop.is-visible { opacity: 1; pointer-events: auto; }
+
+	.reveal .smartart__drawer-panel, .smartart__drawer-panel {
+		position: fixed; background: color-mix(in srgb, var(--r-background-color,#f8fafc) 75%, #fff 25%);
+	        color: var(--r-main-color, #111827);
+	        z-index: 1001; box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+	        border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+	        border-radius: 10px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
+	        transition: transform .3s ease;
+	}
+	/* Positions */
+	.reveal .smartart__drawer-panel[data-position="start"],
+	.reveal .smartart__drawer-panel[data-position="left"],
+	.smartart__drawer-panel[data-position="start"],
+	.smartart__drawer-panel[data-position="left"] { top:0; bottom:0; left:0; width: var(--smartart-drawer-size, 320px); height: 100vh; transform: translateX(-100%); }
+	.reveal .smartart__drawer-panel[data-position="end"],
+	.reveal .smartart__drawer-panel[data-position="right"],
+	.smartart__drawer-panel[data-position="end"],
+	.smartart__drawer-panel[data-position="right"] { top:0; bottom:0; right:0; width: var(--smartart-drawer-size, 320px); height: 100vh; transform: translateX(100%); }
+	.reveal .smartart__drawer-panel[data-position="top"],
+	.smartart__drawer-panel[data-position="top"] { top:0; left:0; right:0; height: var(--smartart-drawer-size, 45vh); transform: translateY(-100%); }
+	.reveal .smartart__drawer-panel[data-position="bottom"],
+	.smartart__drawer-panel[data-position="bottom"] { bottom:0; left:0; right:0; height: var(--smartart-drawer-size, 45vh); transform: translateY(100%); }
+
+	.reveal .smartart__drawer-panel.is-open[data-position="start"],
+	.reveal .smartart__drawer-panel.is-open[data-position="left"],
+	.reveal .smartart__drawer-panel.is-open[data-position="end"],
+	.reveal .smartart__drawer-panel.is-open[data-position="right"],
+	.reveal .smartart__drawer-panel.is-open[data-position="top"],
+	.reveal .smartart__drawer-panel.is-open[data-position="bottom"],
+	.smartart__drawer-panel.is-open[data-position] { transform: translate(0,0); }
+
+	/* Drawer inner */
+	.reveal .smartart__drawer-header, .smartart__drawer-header { display:flex; align-items:center; justify-content:space-between; padding: 1rem 1rem .5rem 1rem; position: sticky; top:0; background: inherit; z-index: 1; }
+	.reveal .smartart__drawer-title, .smartart__drawer-title { margin:0; font-weight:700; font-size: clamp(1rem, 1.6vw, 1.25rem); }
+	.reveal .smartart__drawer-close, .smartart__drawer-close { background: transparent; border:0; width:38px; height:38px; border-radius:10px; cursor:pointer; display:grid; place-items:center; }
+	.reveal .smartart__drawer-close:hover, .smartart__drawer-close:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+	.reveal .smartart__drawer-body, .smartart__drawer-body { padding: .25rem 1rem 1rem 1rem; display:flex; flex-direction:column; gap:.75rem; }
+	.reveal .smartart__drawer-list, .smartart__drawer-list { list-style:none; margin:0; padding:0; }
+	.reveal .smartart__drawer-list li, .smartart__drawer-list li { padding: .5rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+	.reveal .smartart__drawer-list li:last-child, .smartart__drawer-list li:last-child { border-bottom: 0; }
+	.smartart__drawer-list li strong { display:block; font-size: clamp(.95rem, 1.2vw, 1.05rem); margin-bottom:.25rem; }
+	.smartart__drawer-list li div { color: color-mix(in srgb, currentColor 70%, transparent); font-size: .95em; margin-bottom: .35rem; }
+	.smartart__drawer-panel .smartart__cta { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; background:#137fec; color:#fff !important; padding:.45rem .9rem; border-radius:.55rem; font-weight:600; text-decoration:none; border:2px solid #137fec; }
+	.smartart__drawer-panel .smartart__cta:hover { background:#0f6bd1; border-color:#0f6bd1; }
+
+	/* Dark background adjustments */
+	.reveal .has-dark-background .smartart__drawer-panel { background: rgba(15,23,42,0.9); color:#f8fafc; border-color: rgba(148,163,184,0.25); }
+	.reveal .has-dark-background .smartart__drawer-toggle { box-shadow:none; }
+
+	/* ================================================
+	   Drawer Form Elements - Bootstrap-like comfort
+	   ================================================ */
+	.smartart__drawer-panel form, .smartart__drawer-body form { display:flex; flex-direction:column; gap: .75rem; }
+	.smartart__drawer-panel label { display:block; font-weight:600; font-size: .95rem; margin-bottom: .35rem; }
+	.smartart__drawer-panel input[type="text"],
+	.smartart__drawer-panel input[type="email"],
+	.smartart__drawer-panel input[type="number"],
+	.smartart__drawer-panel input[type="search"],
+	.smartart__drawer-panel input[type="password"],
+	.smartart__drawer-panel select,
+	.smartart__drawer-panel textarea {
+	        width: 100%;
+	        padding: .6rem .75rem;
+	        border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	        border-radius: .6rem;
+	        background: color-mix(in srgb, var(--r-background-color, #ffffff) 85%, #fff 15%);
+	        color: inherit;
+	        font-size: 1rem;
+	        line-height: 1.4;
+	        min-height: 42px;
+	        box-sizing: border-box;
+	        transition: border-color .15s ease, box-shadow .15s ease;
+	}
+	.smartart__drawer-panel textarea { min-height: 120px; resize: vertical; }
+	.smartart__drawer-panel input:focus,
+	.smartart__drawer-panel select:focus,
+	.smartart__drawer-panel textarea:focus {
+	        outline: none;
+	        border-color: #137fec;
+	        box-shadow: 0 0 0 3px rgba(19,127,236,.15);
+	}
+	.smartart__drawer-panel input::placeholder,
+	.smartart__drawer-panel textarea::placeholder { color: color-mix(in srgb, currentColor 55%, transparent); }
+	.smartart__drawer-panel input[disabled],
+	.smartart__drawer-panel select[disabled],
+	.smartart__drawer-panel textarea[disabled] { background: color-mix(in srgb, currentColor 6%, transparent); opacity:.7; cursor: not-allowed; }
+
+	/* Input group */
+	.smartart__input-group { display:flex; align-items: stretch; width: 100%; }
+	.smartart__input-group > .smartart__input-group-text { flex: 0 0 auto; display:grid; place-items:center; padding: .6rem .75rem; background: color-mix(in srgb, currentColor 8%, transparent); border: 1px solid color-mix(in srgb, currentColor 18%, transparent); color: inherit; }
+	.smartart__input-group > input,
+	.smartart__input-group > select,
+	.smartart__input-group > textarea { flex: 1 1 auto; border-left: 0; }
+	.smartart__input-group > input:first-child,
+	.smartart__input-group > select:first-child,
+	.smartart__input-group > textarea:first-child { border-left: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+	.smartart__input-group > .smartart__input-group-text:first-child { border-top-left-radius: .6rem; border-bottom-left-radius: .6rem; }
+	.smartart__input-group > .smartart__input-group-text:last-child { border-top-right-radius: .6rem; border-bottom-right-radius: .6rem; border-left:0; }
+
+	/* Actions */
+	.smartart__drawer-actions { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.25rem; }
+	.smartart__btn { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; padding:.55rem 1rem; border-radius:.6rem; border:2px solid #137fec; background:#137fec; color:#fff !important; font-weight:600; text-decoration:none; cursor:pointer; }
+	.smartart__btn:hover { background:#0f6bd1; border-color:#0f6bd1; }
+	.smartart__btn--secondary { background:transparent; color:#137fec !important; }
+	.smartart__btn--secondary:hover { background: rgba(19,127,236,.08); }
+
+	/* Dark theme tweaks for forms */
+	.reveal .has-dark-background .smartart__drawer-panel input,
+	.reveal .has-dark-background .smartart__drawer-panel select,
+	.reveal .has-dark-background .smartart__drawer-panel textarea { background: rgba(15,23,42,.75); border-color: rgba(148,163,184,.25); color:#f8fafc; }
+	.reveal .has-dark-background .smartart__input-group > .smartart__input-group-text { background: rgba(148,163,184,.15); border-color: rgba(148,163,184,.25); color:#e2e8f0; }
+
+	/* === XShadcn-lite skin (adapts to AdaptiveX theme) === */
+	.smartart__drawer-panel.smartart--xshadcn,
+	.smartart__drawer-panel.smartart--xshadcn .smartart__drawer-body {
+		--primary: var(--ax-purple, #6B3FA0);
+		--ring: var(--ax-purple, #6B3FA0);
+		--border: color-mix(in srgb, currentColor 18%, transparent);
+		--background: var(--r-background-color, #ffffff);
+		--foreground: var(--r-main-color, #111827);
+	}
+
+	.smartart__drawer-panel.smartart--xshadcn label { 
+		font-weight: 600; 
+		font-size: .9rem; 
+		margin-bottom: .35rem; 
+		color: color-mix(in srgb, var(--foreground) 92%, transparent);
+	}
+
+	.smartart__drawer-panel.smartart--xshadcn input[type="text"],
+	.smartart__drawer-panel.smartart--xshadcn input[type="email"],
+	.smartart__drawer-panel.smartart--xshadcn input[type="number"],
+	.smartart__drawer-panel.smartart--xshadcn input[type="search"],
+	.smartart__drawer-panel.smartart--xshadcn input[type="password"],
+	.smartart__drawer-panel.smartart--xshadcn select,
+	.smartart__drawer-panel.smartart--xshadcn textarea {
+		appearance: none;
+		background: var(--background);
+		color: var(--foreground);
+		border: 1px solid var(--border);
+		border-radius: .6rem;
+		padding: .6rem .75rem;
+		line-height: 1.4;
+		box-shadow: 0 1px 0 rgba(0,0,0,0.02) inset;
+		transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
+	}
+
+	.smartart__drawer-panel.smartart--xshadcn textarea { min-height: 120px; resize: vertical; }
+
+	.smartart__drawer-panel.smartart--xshadcn input:focus,
+	.smartart__drawer-panel.smartart--xshadcn select:focus,
+	.smartart__drawer-panel.smartart--xshadcn textarea:focus {
+		outline: none;
+		border-color: color-mix(in srgb, var(--ring) 75%, transparent);
+		box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 55%, transparent);
+		background: color-mix(in srgb, var(--background) 98%, transparent);
+	}
+
+	.smartart__drawer-panel.smartart--xshadcn input::placeholder,
+	.smartart__drawer-panel.smartart--xshadcn textarea::placeholder { 
+		color: color-mix(in srgb, var(--foreground) 45%, transparent); 
+	}
+
+	.smartart__drawer-panel.smartart--xshadcn .smartart__input-group > .smartart__input-group-text {
+		background: color-mix(in srgb, var(--background) 94%, transparent);
+		border-color: var(--border);
+	}
+
+	.smartart__drawer-panel.smartart--xshadcn .smartart__btn { 
+		background: var(--primary); 
+		border-color: var(--primary);
+	}
+	.smartart__drawer-panel.smartart--xshadcn .smartart__btn:hover { 
+		background: color-mix(in srgb, var(--primary) 85%, transparent); 
+		border-color: color-mix(in srgb, var(--primary) 85%, transparent); 
+	}
+
+	/* Dark background harmonization */
+	.reveal .has-dark-background .smartart__drawer-panel.smartart--xshadcn { 
+		--background: rgba(15,23,42,.85); 
+		--foreground: #f8fafc; 
+		--border: rgba(148,163,184,.25); 
+	}
+
+	/* Card variant for carousel */
+	.reveal .smartart[data-layout="carousel"][data-variant="cards"] .smartart__carousel-slide {
+	        display: grid;
+	        place-items: center;
+	}
+	.reveal .smartart__carousel-card {
+	        display: flex;
+	        flex-direction: column;
+	        gap: clamp(0.5rem, 1vh, 0.75rem);
+	        width: min(92%, 820px);
+	        margin: 0 auto;
+	        padding: clamp(1rem, 2vh, 1.5rem) clamp(1rem, 3vw, 2rem);
+	        background: color-mix(in srgb, var(--r-background-color, #f8fafc) 65%, #ffffff 35%);
+	        border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+	        border-radius: clamp(0.6rem, 1vw, 0.9rem);
+	        box-shadow: 0 20px 35px -24px rgba(15, 23, 42, 0.35);
+	        text-align: left;
+	}
+	.reveal .smartart__carousel-card-header { display: flex; align-items: center; gap: 0.75rem; }
+	.reveal .smartart__carousel-card-icon { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; background: rgba(19,127,236,0.14); }
+	.reveal .smartart__carousel-card-icon img { width: 24px; height: 24px; }
+	.reveal .smartart__carousel-card-title { margin: 0; font-size: clamp(1.1rem, 2vw, 1.4rem); }
+	.reveal .smartart__carousel-card-body { margin: 0; color: color-mix(in srgb, currentColor 72%, transparent); font-size: clamp(0.9rem, 1.2vw, 1rem); line-height: 1.6; }
+	.reveal .smartart__carousel-card-actions { margin-top: 0.5rem; }
+
+	/* Dark tweaks */
+	.reveal .has-dark-background .smartart__carousel-card { background: rgba(15, 23, 42, 0.86); border-color: rgba(148,163,184,0.22); box-shadow: 0 18px 36px -22px rgba(0,0,0,0.7); }
 
 	/* Hero Container */
 	.reveal .smartart[data-layout="hero"] {
@@ -1925,8 +2236,23 @@
 	        let align = '';
 	        let subtitle = '';
 	        let cta = '';
-	        let cta2 = '';
-	        let multiple = '';
+			let cta2 = '';
+			let multiple = '';
+	        // Carousel options
+	        let interval = '';
+	        let autoplay = '';
+	        let loop = '';
+	        let indicators = '';
+	        let controls = '';
+			let variant = '';
+			let cards = '';
+			// Drawer options
+			let position = '';
+			let size = '';
+			let backdrop = '';
+			let keyboard = '';
+			let autostart = '';
+			let toggle = '';
 	        const itemSegments = [];
 	
 	        if( firstItemCandidate ) {
@@ -1936,11 +2262,24 @@
 	                const backgroundMatch = sanitizedFirst.match( /^background\s*:\s*(.+)$/i );
 	                const subtitleMatch = sanitizedFirst.match( /^subtitle\s*:\s*(.+)$/i );
 	                const colorMatch = sanitizedFirst.match( /^color\s*:\s*(.+)$/i );
-	                const heightMatch = sanitizedFirst.match( /^height\s*:\s*(.+)$/i );
+			        const heightMatch = sanitizedFirst.match( /^height\s*:\s*(.+)$/i );
 	                const alignMatch = sanitizedFirst.match( /^align\s*:\s*(left|center|right)\s*$/i );
 	                const ctaMatch = sanitizedFirst.match( /^cta\s*:\s*(.+)$/i );
 	                const cta2Match = sanitizedFirst.match( /^cta2\s*:\s*(.+)$/i );
 	                const multipleMatch = sanitizedFirst.match( /^multiple\s*:\s*(true|false)\s*$/i );
+	                const intervalMatch = sanitizedFirst.match( /^interval\s*:\s*(\d+)(ms|s)?\s*$/i );
+	                const autoplayMatch = sanitizedFirst.match( /^autoplay\s*:\s*(true|false)\s*$/i );
+	                const loopMatch = sanitizedFirst.match( /^loop\s*:\s*(true|false)\s*$/i );
+	                const indicatorsMatch = sanitizedFirst.match( /^indicators\s*:\s*(true|false)\s*$/i );
+			        const controlsMatch = sanitizedFirst.match( /^controls\s*:\s*(true|false)\s*$/i );
+			        const variantMatch = sanitizedFirst.match( /^(?:variant|mode)\s*:\s*(\w+)\s*$/i );
+			        const cardsMatch = sanitizedFirst.match( /^cards\s*:\s*(true|false)\s*$/i );
+			        const positionMatch = sanitizedFirst.match( /^position\s*:\s*(start|end|left|right|top|bottom)\s*$/i );
+			        const sizeMatch = sanitizedFirst.match( /^size\s*:\s*(.+)$/i );
+			        const backdropMatch = sanitizedFirst.match( /^backdrop\s*:\s*(true|false)\s*$/i );
+			        const keyboardMatch = sanitizedFirst.match( /^keyboard\s*:\s*(true|false)\s*$/i );
+			        const autostartMatch = sanitizedFirst.match( /^autostart\s*:\s*(true|false)\s*$/i );
+			        const toggleMatch = sanitizedFirst.match( /^toggle\s*:\s*(.+)$/i );
 
 	                if( introMatch ) {
 	                        intro = introMatch[ 1 ].trim();
@@ -1972,6 +2311,35 @@
 	                else if( multipleMatch ) {
 	                        multiple = multipleMatch[ 1 ].toLowerCase() === 'true';
 	                }
+	                else if( intervalMatch ) {
+	                        const num = parseInt(intervalMatch[1],10);
+	                        const unit = (intervalMatch[2]||'ms').toLowerCase();
+	                        interval = unit === 's' ? num*1000 : num;
+	                }
+	                else if( autoplayMatch ) {
+	                        autoplay = autoplayMatch[1].toLowerCase() === 'true';
+	                }
+	                else if( loopMatch ) {
+	                        loop = loopMatch[1].toLowerCase() === 'true';
+	                }
+	                else if( indicatorsMatch ) {
+	                        indicators = indicatorsMatch[1].toLowerCase() === 'true';
+	                }
+			        else if( controlsMatch ) {
+	                        controls = controlsMatch[1].toLowerCase() === 'true';
+	                }
+			        else if( variantMatch ) {
+			                variant = variantMatch[1].toLowerCase();
+			        }
+			        else if( cardsMatch ) {
+			                cards = cardsMatch[1].toLowerCase() === 'true';
+			        }
+			        else if( positionMatch ) { position = positionMatch[1].toLowerCase(); }
+			        else if( sizeMatch ) { size = sizeMatch[1].trim(); }
+			        else if( backdropMatch ) { backdrop = backdropMatch[1].toLowerCase()==='true'; }
+			        else if( keyboardMatch ) { keyboard = keyboardMatch[1].toLowerCase()==='true'; }
+			        else if( autostartMatch ) { autostart = autostartMatch[1].toLowerCase()==='true'; }
+			        else if( toggleMatch ) { toggle = toggleMatch[1].trim(); }
 	                else {
 	                        itemSegments.push( sanitizedFirst );
 	                }
@@ -1989,6 +2357,19 @@
 	                const ctaMatch = sanitized.match( /^cta\s*:\s*(.+)$/i );
 	                const cta2Match = sanitized.match( /^cta2\s*:\s*(.+)$/i );
 	                const multipleMatch = sanitized.match( /^multiple\s*:\s*(true|false)\s*$/i );
+	                const intervalMatch = sanitized.match( /^interval\s*:\s*(\d+)(ms|s)?\s*$/i );
+	                const autoplayMatch = sanitized.match( /^autoplay\s*:\s*(true|false)\s*$/i );
+	                const loopMatch = sanitized.match( /^loop\s*:\s*(true|false)\s*$/i );
+	                const indicatorsMatch = sanitized.match( /^indicators\s*:\s*(true|false)\s*$/i );
+			        const controlsMatch = sanitized.match( /^controls\s*:\s*(true|false)\s*$/i );
+			        const variantMatch = sanitized.match( /^(?:variant|mode)\s*:\s*(\w+)\s*$/i );
+			        const cardsMatch = sanitized.match( /^cards\s*:\s*(true|false)\s*$/i );
+			        const positionMatch = sanitized.match( /^position\s*:\s*(start|end|left|right|top|bottom)\s*$/i );
+			        const sizeMatch = sanitized.match( /^size\s*:\s*(.+)$/i );
+			        const backdropMatch = sanitized.match( /^backdrop\s*:\s*(true|false)\s*$/i );
+			        const keyboardMatch = sanitized.match( /^keyboard\s*:\s*(true|false)\s*$/i );
+			        const autostartMatch = sanitized.match( /^autostart\s*:\s*(true|false)\s*$/i );
+			        const toggleMatch = sanitized.match( /^toggle\s*:\s*(.+)$/i );
 
 	                if( introMatch ) {
 	                        intro = introMatch[ 1 ].trim();
@@ -2030,17 +2411,30 @@
 	                        multiple = multipleMatch[ 1 ].toLowerCase() === 'true';
 	                        return;
 	                }
+	                if( intervalMatch ) { interval = (intervalMatch[2]||'ms').toLowerCase()==='s' ? parseInt(intervalMatch[1],10)*1000 : parseInt(intervalMatch[1],10); return; }
+	                if( autoplayMatch ) { autoplay = autoplayMatch[1].toLowerCase()==='true'; return; }
+	                if( loopMatch ) { loop = loopMatch[1].toLowerCase()==='true'; return; }
+	                if( indicatorsMatch ) { indicators = indicatorsMatch[1].toLowerCase()==='true'; return; }
+			        if( controlsMatch ) { controls = controlsMatch[1].toLowerCase()==='true'; return; }
+			        if( variantMatch ) { variant = variantMatch[1].toLowerCase(); return; }
+			        if( cardsMatch ) { cards = cardsMatch[1].toLowerCase()==='true'; return; }
+			        if( positionMatch ) { position = positionMatch[1].toLowerCase(); return; }
+			        if( sizeMatch ) { size = sizeMatch[1].trim(); return; }
+			        if( backdropMatch ) { backdrop = backdropMatch[1].toLowerCase()==='true'; return; }
+			        if( keyboardMatch ) { keyboard = keyboardMatch[1].toLowerCase()==='true'; return; }
+			        if( autostartMatch ) { autostart = autostartMatch[1].toLowerCase()==='true'; return; }
+			        if( toggleMatch ) { toggle = toggleMatch[1].trim(); return; }
 
 	                itemSegments.push( sanitized );
 	        } );
 
 	
-	        const rawItems = itemSegments
+			const rawItems = itemSegments
 	                .flatMap( segment => splitSegment( segment, layout ) )
 	                .map( segment => segment.trim() )
 	                .filter( Boolean );
 
-	        const items = rawItems.map( ( raw, index ) => parseItem( raw, index, layout ) ).filter( Boolean );
+			const items = rawItems.map( ( raw, index ) => parseItem( raw, index, layout, { variant, cards } ) ).filter( Boolean );
 
 	        // Allow some layouts to have zero items
 	        const layoutsAllowingNoItems = new Set(['hero', 'navbar']);
@@ -2054,7 +2448,7 @@
 	                image = `https://source.unsplash.com/800x600/?${encodeURIComponent( keyword )}`;
 	        }
 
-	        return {
+			return {
 	                heading,
 	                intro,
 	                orientation,
@@ -2068,7 +2462,20 @@
 	                subtitle,
 	                cta,
 	                cta2,
-	                multiple
+	                multiple,
+	                interval,
+	                autoplay,
+	                loop,
+	                indicators,
+			        controls,
+			        variant,
+			        cards,
+			        position,
+			        size,
+			        backdrop,
+			        keyboard,
+			        autostart,
+			        toggle
 	        };
 	}
 
@@ -2085,6 +2492,11 @@
 	                // For roadmap, each item is a single line (no splitting)
 	                return [ cleaned ];
 	        }
+
+		if( layout === 'carousel' ) {
+			// Each carousel item is a line
+			return [ cleaned ];
+		}
 
 	        if( layout === 'lined' ) {
 	                const bulletless = cleaned.replace( /^[-*+]\s+/, '' );
@@ -2104,13 +2516,14 @@
 	        return segment.split( /\s*;\s*/ );
 	}
 
-	function parseItem( raw, index, layout ) {
+	function parseItem( raw, index, layout, ctx ) {
+	        ctx = ctx || {};
 	        const item = {
 	                title: '',
 	                description: '',
 	                icon: '',
 	                ctaLabel: '',
-	                ctaUrl: '',
+			ctaUrl: '',
 	                checked: false,
 	                status: '',
 	                featured: false,
@@ -2119,8 +2532,92 @@
 	                value: '',
 	                iconColor: '',
 	                open: false,
-	                id: ''
+			id: '',
+			image: '',
+			alt: ''
 	        };
+		// Carousel items
+		if( layout === 'carousel' ) {
+			const variant = (ctx.variant||'').toLowerCase();
+			const isCards = ctx.cards === true || variant === 'cards';
+
+			if( isCards ) {
+				// Text card format: Title | Description | [CTA Label] | [URL] | [icon=...] | [image=...]
+				const segments = raw.split(/\|/).map(s=>s.trim()).filter(Boolean);
+				segments.forEach(seg => {
+					const kv = seg.match(/^(\w+)\s*=\s*(.+)$/);
+					if( kv ) {
+						const key = kv[1].toLowerCase();
+						const val = kv[2].trim();
+						if( key === 'icon' ) item.icon = val;
+						else if( key === 'image' || key === 'src' ) item.image = val;
+						else if( key === 'title' ) item.title = val;
+						else if( key === 'text' || key === 'description' ) item.description = val;
+						else if( key === 'cta' ) item.ctaLabel = val;
+						else if( key === 'link' || key === 'url' || key === 'href' ) item.ctaUrl = val;
+						else if( key === 'alt' ) item.alt = val;
+					} else {
+						if( !item.title ) item.title = seg;
+						else if( !item.description ) item.description = seg;
+						else if( !item.ctaLabel ) item.ctaLabel = seg;
+						else if( !item.ctaUrl ) item.ctaUrl = seg;
+					}
+				});
+				if( !item.alt ) item.alt = item.title || `Slide ${index+1}`;
+				return item.title || item.description ? item : null;
+			}
+
+			// Image slide format: image | caption | subcaption OR key=value pairs
+			const segments = raw.split(/\|/).map(s=>s.trim()).filter(Boolean);
+
+			if( segments.length === 1 ) {
+				// Could be a bare URL or key=value
+				const kv = segments[0].match(/^(\w+)\s*=\s*(.+)$/);
+				if( kv ) {
+					const key = kv[1].toLowerCase();
+					const val = kv[2].trim();
+					if( key === 'image' || key === 'src' || key === 'url' ) item.image = val;
+					else if( key === 'alt' ) item.alt = val;
+					else if( key === 'title' ) item.title = val;
+					else if( key === 'caption' ) item.title = val;
+					else if( key === 'text' || key === 'description' ) item.description = val;
+					else if( key === 'link' || key === 'href' ) item.ctaUrl = val;
+				} else {
+					// Assume it's an image URL
+					item.image = segments[0];
+				}
+			} else {
+				// First non-kv treated as image if it looks like URL
+				segments.forEach(seg => {
+					const kv = seg.match(/^(\w+)\s*=\s*(.+)$/);
+					if( kv ) {
+						const key = kv[1].toLowerCase();
+						const val = kv[2].trim();
+						if( key === 'image' || key === 'src' || key === 'url' ) item.image = val;
+						else if( key === 'alt' ) item.alt = val;
+						else if( key === 'link' || key === 'href' ) item.ctaUrl = val;
+						else if( key === 'title' || key === 'caption' ) item.title = val;
+						else if( key === 'text' || key === 'description' ) item.description = val;
+					} else {
+						if( !item.image && /^(https?:|data:|\.\/|\/.+|[^\s]+\.(jpg|jpeg|png|gif|webp|svg))/.test(seg) ) item.image = seg;
+						else if( !item.title ) item.title = seg;
+						else if( !item.description ) item.description = seg;
+					}
+				});
+			}
+			if( !item.alt ) item.alt = item.title || `Slide ${index+1}`;
+			return item.image ? item : null;
+		}
+	        // Handle drawer items: Title | Description | [CTA] | [URL]
+	        if( layout === 'drawer' ) {
+	                const segments = raw.split(/\|/).map(p=>p.trim()).filter(Boolean);
+	                if( segments.length >= 1 ) item.title = segments[0];
+	                if( segments.length >= 2 ) item.description = segments[1];
+	                if( segments.length >= 3 ) item.ctaLabel = segments[2];
+	                if( segments.length >= 4 ) item.ctaUrl = segments[3];
+	                return (item.title || item.description) ? item : null;
+	        }
+
 	        // Handle accordion items: [*] Title | Content (supports id=...)
 	        if( layout === 'accordion' ) {
 	                // Default-open marker
@@ -2663,6 +3160,408 @@ function buildAccordion( data ) {
 	return container;
 }
 
+function buildCarousel( data ) {
+	const container = document.createElement('div');
+	container.className = 'smartart';
+	container.dataset.layout = 'carousel';
+	container.dataset.smartartGenerated = 'true';
+	if( data.cards === true || (data.variant||'').toLowerCase() === 'cards' ) {
+		container.dataset.variant = 'cards';
+	}
+
+	if( data.heading ) {
+		const h = document.createElement('h2');
+		h.className = 'smartart__heading';
+		h.textContent = data.heading;
+		container.appendChild(h);
+	}
+	if( data.intro ) {
+		const p = document.createElement('p');
+		p.className = 'smartart__intro';
+		p.textContent = data.intro;
+		container.appendChild(p);
+	}
+
+	const carousel = document.createElement('div');
+	carousel.className = 'smartart__carousel';
+	carousel.setAttribute('role', 'region');
+	carousel.setAttribute('aria-roledescription', 'carousel');
+	carousel.tabIndex = 0; // focusable for keyboard
+	if( data.height ) carousel.style.setProperty('--smartart-carousel-height', data.height);
+
+	const track = document.createElement('div');
+	track.className = 'smartart__carousel-track';
+	carousel.appendChild(track);
+
+	const slides = [];
+	data.items.forEach((item, idx) => {
+		const slide = document.createElement('div');
+		slide.className = 'smartart__carousel-slide';
+		slide.setAttribute('aria-roledescription', 'slide');
+		slide.dataset.index = String(idx);
+
+		const isCards = container.dataset.variant === 'cards';
+		if( isCards ) {
+			// Build a text card within the slide
+			const card = document.createElement('div');
+			card.className = 'smartart__carousel-card';
+			const header = document.createElement('div');
+			header.className = 'smartart__carousel-card-header';
+			if( item.icon ) {
+				const iw = document.createElement('div');
+				iw.className = 'smartart__carousel-card-icon';
+				const ic = document.createElement('img');
+				ic.src = iconToUrl(item.icon);
+				ic.alt = '';
+				ic.loading = 'lazy';
+				iw.appendChild(ic);
+				header.appendChild(iw);
+			}
+			if( item.title ) {
+				const t = document.createElement('h3');
+				t.className = 'smartart__carousel-card-title';
+				t.textContent = item.title;
+				header.appendChild(t);
+			}
+			card.appendChild(header);
+
+			if( item.image ) {
+				// Optional small illustration at top
+				const pic = document.createElement('img');
+				pic.src = item.image;
+				pic.alt = item.alt || '';
+				pic.style.maxHeight = '200px';
+				pic.style.objectFit = 'cover';
+				pic.style.borderRadius = '10px';
+				pic.style.width = '100%';
+				card.appendChild(pic);
+			}
+
+			if( item.description ) {
+				const d = document.createElement('p');
+				d.className = 'smartart__carousel-card-body';
+				d.textContent = item.description;
+				card.appendChild(d);
+			}
+
+			if( item.ctaLabel ) {
+				const actions = document.createElement('div');
+				actions.className = 'smartart__carousel-card-actions';
+				const a = document.createElement('a');
+				a.className = 'smartart__cta';
+				a.textContent = item.ctaLabel;
+				a.href = item.ctaUrl || '#';
+				a.target = /^https?:/i.test(item.ctaUrl) ? '_blank' : '_self';
+				a.rel = 'noreferrer noopener';
+				actions.appendChild(a);
+				card.appendChild(actions);
+			}
+
+			slide.appendChild(card);
+		}
+		else {
+			const img = document.createElement('img');
+			img.src = item.image;
+			img.alt = item.alt || item.title || `Slide ${idx+1}`;
+			img.loading = 'lazy';
+			slide.appendChild(img);
+
+			if( item.title || item.description ) {
+				const cap = document.createElement('div');
+				cap.className = 'smartart__carousel-caption';
+				if( item.title ) {
+					const t = document.createElement('h3');
+					t.textContent = item.title;
+					cap.appendChild(t);
+				}
+				if( item.description ) {
+					const d = document.createElement('p');
+					d.textContent = item.description;
+					cap.appendChild(d);
+				}
+				slide.appendChild(cap);
+			}
+		}
+
+		track.appendChild(slide);
+		slides.push(slide);
+	});
+
+	// Controls/indicators options
+	const showControls = data.controls !== '' ? !!data.controls : true;
+	const showIndicators = data.indicators !== '' ? !!data.indicators : true;
+	const loop = data.loop !== '' ? !!data.loop : true;
+	const autoplay = data.autoplay !== '' ? !!data.autoplay : false;
+	const interval = (typeof data.interval === 'number' && !isNaN(data.interval)) ? data.interval : 5000;
+
+	// Indicators
+	let indicatorsEl = null;
+	if( showIndicators ) {
+		indicatorsEl = document.createElement('div');
+		indicatorsEl.className = 'smartart__carousel-indicators';
+		data.items.forEach((_, i) => {
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.setAttribute('aria-label', `Go to slide ${i+1}`);
+			btn.addEventListener('click', () => goTo(i));
+			indicatorsEl.appendChild(btn);
+		});
+		carousel.appendChild(indicatorsEl);
+	}
+
+	// Controls
+	let prevBtn = null, nextBtn = null;
+	if( showControls ) {
+		prevBtn = document.createElement('button');
+		prevBtn.className = 'smartart__carousel-control smartart__carousel-control--prev';
+		prevBtn.setAttribute('aria-label', 'Previous slide');
+		prevBtn.innerHTML = '&#10094;';
+		prevBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); prev(); });
+		prevBtn.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
+
+		nextBtn = document.createElement('button');
+		nextBtn.className = 'smartart__carousel-control smartart__carousel-control--next';
+		nextBtn.setAttribute('aria-label', 'Next slide');
+		nextBtn.innerHTML = '&#10095;';
+		nextBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); next(); });
+		nextBtn.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
+
+		carousel.appendChild(prevBtn);
+		carousel.appendChild(nextBtn);
+	}
+
+	// State and behavior
+	let index = 0;
+	let timer = null;
+
+	function update() {
+		const clamped = Math.max(0, Math.min(index, slides.length-1));
+		index = clamped;
+		const width = carousel.clientWidth || 0;
+		track.style.transform = `translateX(${-(index * width)}px)`;
+		slides.forEach((s, i) => {
+			const active = i === index;
+			s.setAttribute('aria-hidden', active ? 'false' : 'true');
+			if( active ) s.setAttribute('aria-current', 'true'); else s.removeAttribute('aria-current');
+		});
+		if( indicatorsEl ) {
+			const buttons = Array.from(indicatorsEl.querySelectorAll('button'));
+			buttons.forEach((b,i)=>{
+				if( i === index ) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current');
+			});
+		}
+		if( showControls && !loop ) {
+			if( prevBtn ) prevBtn.disabled = index === 0;
+			if( nextBtn ) nextBtn.disabled = index === slides.length-1;
+		}
+	}
+
+	function goTo(i) {
+		if( i < 0 ) index = loop ? (slides.length-1) : 0;
+		else if( i >= slides.length ) index = loop ? 0 : (slides.length-1);
+		else index = i;
+		update();
+	}
+	function next() { goTo(index+1); }
+	function prev() { goTo(index-1); }
+
+	// Keyboard
+	carousel.addEventListener('keydown', (e) => {
+		if( e.key === 'ArrowRight' ) { e.preventDefault(); e.stopPropagation(); next(); }
+		else if( e.key === 'ArrowLeft' ) { e.preventDefault(); e.stopPropagation(); prev(); }
+	});
+
+	// Touch/Swipe
+	let startX = 0, dragging = false;
+	carousel.addEventListener('pointerdown', e => { dragging = true; startX = e.clientX; e.stopPropagation(); carousel.setPointerCapture && carousel.setPointerCapture(e.pointerId); });
+	carousel.addEventListener('pointerup', e => {
+		if(!dragging) return; dragging = false;
+		const dx = e.clientX - startX;
+		if( Math.abs(dx) > 30 ) { dx < 0 ? next() : prev(); }
+		e.stopPropagation();
+	});
+	carousel.addEventListener('pointermove', e => { if(dragging) e.stopPropagation(); });
+
+	// Autoplay
+	function startAuto() { if( autoplay && slides.length>1 ) { stopAuto(); timer = setInterval(()=> next(), interval); } }
+	function stopAuto() { if( timer ) { clearInterval(timer); timer = null; } }
+	carousel.addEventListener('mouseenter', stopAuto);
+	carousel.addEventListener('mouseleave', startAuto);
+	document.addEventListener('visibilitychange', () => { if( document.hidden ) stopAuto(); else startAuto(); });
+
+	// Init after insertion so sizes are measurable
+	container.appendChild(carousel);
+	const init = () => { update(); startAuto(); };
+	if( document.readyState === 'complete' ) requestAnimationFrame(init);
+	else window.addEventListener('load', () => requestAnimationFrame(init), { once: true });
+	window.addEventListener('resize', () => requestAnimationFrame(update));
+	return container;
+}
+
+
+function buildDrawer( data ) {
+	const container = document.createElement('div');
+	container.className = 'smartart';
+	container.dataset.layout = 'drawer';
+	container.dataset.smartartGenerated = 'true';
+
+	if( data.heading ) {
+		const h = document.createElement('h2');
+		h.className = 'smartart__heading';
+		h.textContent = data.heading;
+		container.appendChild(h);
+	}
+	if( data.intro ) {
+		const p = document.createElement('p');
+		p.className = 'smartart__intro';
+		p.textContent = data.intro;
+		container.appendChild(p);
+	}
+
+	const toggleLabel = data.toggle || 'Open';
+	const pos = (data.position || 'end').toLowerCase();
+	const size = data.size || '320px';
+	const hasBackdrop = (data.backdrop !== '' ? !!data.backdrop : true);
+	const escEnabled = (data.keyboard !== '' ? !!data.keyboard : true);
+	const autoStart = !!data.autostart;
+
+	const btn = document.createElement('button');
+	btn.className = 'smartart__drawer-toggle';
+	btn.type = 'button';
+	btn.textContent = toggleLabel;
+	container.appendChild(btn);
+
+	// Backdrop + panel should be attached to body to avoid being affected by Reveal transforms
+	const backdrop = document.createElement('div');
+	backdrop.className = 'smartart__drawer-backdrop';
+
+	const panel = document.createElement('div');
+	panel.className = 'smartart__drawer-panel';
+	panel.setAttribute('role','dialog');
+	panel.setAttribute('aria-modal','true');
+	panel.dataset.position = pos;
+	panel.style.setProperty('--smartart-drawer-size', size);
+
+	// Opt into the xshadcn-lite skin for better form visuals
+	panel.classList.add('smartart--xshadcn');
+	// If the XShadcn plugin is available, also tag as an xshadcn container
+	try {
+		if (window.Reveal && typeof window.Reveal.getPlugin === 'function' && window.Reveal.getPlugin('xshadcn')) {
+			panel.classList.add('xshadcn-container');
+		}
+	} catch(err) { /* non-fatal */ }
+
+	// Header
+	const header = document.createElement('div');
+	header.className = 'smartart__drawer-header';
+	if( data.heading ) {
+		const title = document.createElement('h3');
+		title.className = 'smartart__drawer-title';
+		title.textContent = data.heading;
+		header.appendChild(title);
+	}
+	const closeBtn = document.createElement('button');
+	closeBtn.className = 'smartart__drawer-close';
+	closeBtn.setAttribute('aria-label','Close');
+	closeBtn.innerHTML = '&#10005;';
+	header.appendChild(closeBtn);
+	panel.appendChild(header);
+
+	// Body
+	const body = document.createElement('div');
+	body.className = 'smartart__drawer-body';
+	if( data.items && data.items.length ) {
+		const list = document.createElement('ul');
+		list.className = 'smartart__drawer-list';
+		data.items.forEach(raw => {
+			const li = document.createElement('li');
+			if( raw.title ) {
+				const t = document.createElement('strong');
+				t.textContent = raw.title;
+				li.appendChild(t);
+			}
+			if( raw.description ) {
+				const d = document.createElement('div');
+				d.textContent = raw.description;
+				li.appendChild(d);
+			}
+			if( raw.ctaLabel ) {
+				const a = document.createElement('a');
+				a.href = raw.ctaUrl || '#';
+				a.target = /^https?:/i.test(raw.ctaUrl) ? '_blank' : '_self';
+				a.rel = 'noreferrer noopener';
+				a.className = 'smartart__cta';
+				a.textContent = raw.ctaLabel;
+				li.appendChild(a);
+			}
+			list.appendChild(li);
+		});
+		body.appendChild(list);
+	}
+	panel.appendChild(body);
+
+	// Progressive enhancement: when content (like forms) is inserted later
+	// into the drawer body, normalize inputs so they adopt the xshadcn skin
+	// without requiring React components.
+	(function enhanceForms(root){
+		const decorate = (scope)=>{
+			// If xshadcn skin is active, nothing else to do; our CSS targets descendants
+			// but we ensure reasonable defaults even without it.
+			scope.querySelectorAll('input, select, textarea').forEach(el=>{
+				// Avoid clobbering existing custom styles
+				el.style.boxSizing = el.style.boxSizing || 'border-box';
+				if(!el.hasAttribute('data-smartart-skinned')) {
+					el.setAttribute('data-smartart-skinned','true');
+				}
+			});
+		};
+		decorate(body);
+		const mo = new MutationObserver(muts => {
+			for (const m of muts) {
+				if (m.type === 'childList' && (m.addedNodes && m.addedNodes.length)) {
+					m.addedNodes.forEach(n=>{ if(n.nodeType===1) decorate(n); });
+				}
+			}
+		});
+		mo.observe(body, { childList:true, subtree:true });
+	})(body);
+
+	// Append overlay pieces to document body so position:fixed anchors to viewport
+	(document.body || container).appendChild(backdrop);
+	(document.body || container).appendChild(panel);
+
+	// Behavior
+	let lastFocused = null;
+	function open() {
+		lastFocused = document.activeElement;
+		panel.classList.add('is-open');
+		if( hasBackdrop ) backdrop.classList.add('is-visible');
+		// focus first focusable in panel
+		requestAnimationFrame(()=>{
+			const focusable = panel.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			(focusable||closeBtn).focus();
+		});
+	}
+	function close() {
+		panel.classList.remove('is-open');
+		backdrop.classList.remove('is-visible');
+		if( lastFocused && lastFocused.focus ) lastFocused.focus();
+	}
+
+	btn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); open(); });
+	closeBtn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); close(); });
+	if( hasBackdrop ) backdrop.addEventListener('click', (e)=>{ e.stopPropagation(); close(); });
+	panel.addEventListener('click', e=> e.stopPropagation());
+	panel.addEventListener('keydown', e=> { if( e.key === 'Escape' && escEnabled ) { e.preventDefault(); e.stopPropagation(); close(); } });
+
+	if( autoStart ) {
+		// Open shortly after render
+		setTimeout(open, 120);
+	}
+
+	return container;
+}
+
 	function buildChecklist( data ) {
 	        const container = document.createElement( 'div' );
 	        container.className = 'smartart';
@@ -2686,9 +3585,21 @@ function buildAccordion( data ) {
 	        const checklist = document.createElement( 'div' );
 	        checklist.className = 'smartart__checklist';
 
+	        // Support for fragments: progressive reveal with auto-check
+	        const useFragments = data.fragments !== false; // Default to true
+	        const fragmentAnimation = data.fragmentAnimation || 'fade-up'; // Default animation
+	        const autoCheck = data.autoCheck !== false; // Auto-check on reveal (default true)
+
 	        data.items.forEach( ( item, index ) => {
 	                const label = document.createElement( 'label' );
 	                label.className = 'smartart__checklist-item';
+
+	                // Add fragment classes for progressive reveal
+	                if( useFragments ) {
+	                        label.classList.add( 'fragment', fragmentAnimation );
+	                        // Set fragment index to ensure proper order
+	                        label.dataset.fragmentIndex = index;
+	                }
 
 	                const checkbox = document.createElement( 'input' );
 	                checkbox.type = 'checkbox';
@@ -2706,6 +3617,12 @@ function buildAccordion( data ) {
 	        } );
 
 	        container.appendChild( checklist );
+
+	        // Set up fragment event listener for auto-checking
+	        if( useFragments && autoCheck ) {
+	                // Store reference for cleanup
+	                container.dataset.hasFragmentListener = 'true';
+	        }
 
 	        return container;
 	}
@@ -3110,7 +4027,7 @@ function buildAccordion( data ) {
 	                return buildNavbar( data );
 	        }
 
-	        // Use specialized builder for HERO layout
+		// Use specialized builder for HERO layout
 	        if( layout === 'hero' ) {
 	                return buildHero( data );
 	        }
@@ -3130,10 +4047,25 @@ function buildAccordion( data ) {
 	                return buildStats( data );
 	        }
 
-	        // Use specialized builder for ROADMAP layout
+		// Use specialized builder for ROADMAP layout
 	        if( layout === 'roadmap' ) {
 	                return buildRoadmap( data );
 	        }
+
+		// Use specialized builder for ACCORDION layout
+		if( layout === 'accordion' ) {
+			return buildAccordion( data );
+		}
+
+		// Use specialized builder for CAROUSEL layout
+		if( layout === 'carousel' ) {
+			return buildCarousel( data );
+		}
+
+		// Use specialized builder for DRAWER layout
+		if( layout === 'drawer' ) {
+			return buildDrawer( data );
+		}
 
 	        // Use specialized builder for ACCORDION layout
 	        if( layout === 'accordion' ) {
@@ -3323,6 +4255,37 @@ function buildAccordion( data ) {
 
 	                reveal.on( 'slidechanged', event => {
 	                        if( event && event.currentSlide ) renderWithin( event.currentSlide );
+	                        // Close any open drawers when changing slides
+	                        const openPanels = document.querySelectorAll('.smartart__drawer-panel.is-open');
+	                        openPanels.forEach(p => p.classList.remove('is-open'));
+	                        const backdrops = document.querySelectorAll('.smartart__drawer-backdrop.is-visible');
+	                        backdrops.forEach(b => b.classList.remove('is-visible'));
+	                } );
+
+	                // Fragment event handler for checklist auto-check
+	                reveal.on( 'fragmentshown', event => {
+	                        const fragment = event.fragment;
+	                        // Check if this fragment is a checklist item
+	                        if( fragment && fragment.classList.contains('smartart__checklist-item') ) {
+	                                const checkbox = fragment.querySelector('.smartart__checklist-checkbox');
+	                                if( checkbox ) {
+	                                        // Auto-check with a smooth animation
+	                                        setTimeout(() => {
+	                                                checkbox.checked = true;
+	                                        }, 200);
+	                                }
+	                        }
+	                } );
+
+	                // Fragment hidden handler to uncheck when going backwards
+	                reveal.on( 'fragmenthidden', event => {
+	                        const fragment = event.fragment;
+	                        if( fragment && fragment.classList.contains('smartart__checklist-item') ) {
+	                                const checkbox = fragment.querySelector('.smartart__checklist-checkbox');
+	                                if( checkbox ) {
+	                                        checkbox.checked = false;
+	                                }
+	                        }
 	                } );
 
 	                // Defer processing until reveal.js signals ready

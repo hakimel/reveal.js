@@ -1,0 +1,518 @@
+/* ================================================
+   LLM RUNNER PLUGIN - ADAPTIVEX THEMED STYLES
+   ================================================
+
+   Elegant, modern design matching AdaptiveX brand
+   Colors: Purple (#6B3FA0), Gold (#F9C80E), Clean whites/grays
+   Typography: Montserrat
+   ================================================ */
+
+/* Import AdaptiveX brand font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Main wrapper - elegant card design */
+.reveal .llm-runner-wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+    border: 2px solid #6B3FA0;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    box-shadow:
+        0 10px 40px rgba(107, 63, 160, 0.15),
+        0 2px 8px rgba(107, 63, 160, 0.08);
+    display: flex;
+    flex-direction: column;
+    height: 550px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal .llm-runner-wrapper:hover {
+    box-shadow:
+        0 15px 50px rgba(107, 63, 160, 0.2),
+        0 5px 15px rgba(107, 63, 160, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Toolbar - AdaptiveX branded header */
+.reveal .llm-runner-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #6B3FA0 0%, #5d3690 100%);
+    border-bottom: 3px solid #F9C80E;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle animated background pattern */
+.reveal .llm-runner-toolbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(45deg, transparent 30%, rgba(249, 200, 14, 0.05) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: shimmer 8s ease infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Type indicator - elegant badge */
+.reveal .llm-runner-type {
+    padding: 6px 14px;
+    background: rgba(249, 200, 14, 0.95);
+    color: #2C2C2C;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+}
+
+/* Status indicator - modern pill design */
+.reveal .llm-runner-status {
+    margin-left: auto;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.95);
+    color: #2d7d2d;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.reveal .llm-runner-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: statusPulse 2s ease infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+.reveal .llm-runner-status.running {
+    background: linear-gradient(135deg, #F9C80E 0%, #e5b700 100%);
+    color: #2C2C2C;
+    animation: none;
+}
+
+.reveal .llm-runner-status.running::before {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.reveal .llm-runner-status.error {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: #fff;
+}
+
+.reveal .llm-runner-status.disconnected {
+    background: rgba(255, 255, 255, 0.5);
+    color: #6b7280;
+}
+
+.reveal .llm-runner-status.disconnected::before {
+    animation: none;
+    opacity: 0.5;
+}
+
+/* Actions row - clean button area */
+.reveal .llm-runner-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #ebebeb 100%);
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Buttons - AdaptiveX styled */
+.reveal .llm-runner-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    border: 2px solid transparent;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.reveal .llm-runner-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.reveal .llm-runner-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Primary Button - AdaptiveX Purple */
+.reveal .llm-runner-btn-primary {
+    background: linear-gradient(135deg, #6B3FA0 0%, #5d3690 100%);
+    color: #ffffff;
+    border-color: #6B3FA0;
+    box-shadow:
+        0 4px 12px rgba(107, 63, 160, 0.3),
+        0 2px 4px rgba(107, 63, 160, 0.2);
+}
+
+.reveal .llm-runner-btn-primary:hover {
+    background: linear-gradient(135deg, #7d4fb8 0%, #6B3FA0 100%);
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 20px rgba(107, 63, 160, 0.4),
+        0 3px 8px rgba(107, 63, 160, 0.25);
+}
+
+.reveal .llm-runner-btn-primary:active {
+    transform: translateY(0);
+    box-shadow:
+        0 2px 8px rgba(107, 63, 160, 0.3),
+        0 1px 4px rgba(107, 63, 160, 0.2);
+}
+
+/* Secondary Button - Gold accent */
+.reveal .llm-runner-btn-secondary {
+    background: linear-gradient(135deg, #F9C80E 0%, #e5b700 100%);
+    color: #2C2C2C;
+    border-color: #F9C80E;
+    box-shadow:
+        0 4px 12px rgba(249, 200, 14, 0.3),
+        0 2px 4px rgba(249, 200, 14, 0.2);
+}
+
+.reveal .llm-runner-btn-secondary:hover {
+    background: linear-gradient(135deg, #ffd42a 0%, #F9C80E 100%);
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 20px rgba(249, 200, 14, 0.4),
+        0 3px 8px rgba(249, 200, 14, 0.25);
+}
+
+/* Ghost Button - Minimal */
+.reveal .llm-runner-btn-ghost {
+    background: transparent;
+    color: #6B3FA0;
+    border-color: #6B3FA0;
+}
+
+.reveal .llm-runner-btn-ghost:hover {
+    background: rgba(107, 63, 160, 0.08);
+    border-color: #5d3690;
+    transform: translateY(-1px);
+}
+
+/* Editor area - clean, professional */
+.reveal .llm-runner-editor {
+    width: 100%;
+    flex: 1;
+    min-height: 180px;
+    padding: 20px;
+    background: #ffffff;
+    color: #2C2C2C;
+    border: none;
+    font-family: 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    overflow-y: auto;
+    transition: background 0.2s ease;
+}
+
+.reveal .llm-runner-editor::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.reveal .llm-runner-editor:focus {
+    background: #fafafa;
+}
+
+/* Output area - clean terminal look */
+.reveal .llm-runner-output {
+    flex: 1;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+    color: #2C2C2C;
+    overflow-y: auto;
+    font-family: 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 120px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.reveal .llm-runner-output:empty::before {
+    content: '✨ Output will appear here...';
+    color: #9ca3af;
+    font-style: italic;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Output lines - color-coded */
+.reveal .llm-runner-output .output-line {
+    margin-bottom: 6px;
+    color: #2C2C2C;
+    padding-left: 12px;
+    border-left: 3px solid transparent;
+}
+
+.reveal .llm-runner-output .error-line {
+    margin-bottom: 6px;
+    color: #dc2626;
+    font-weight: 500;
+    padding-left: 12px;
+    border-left: 3px solid #dc2626;
+    background: rgba(220, 38, 38, 0.05);
+    padding: 4px 4px 4px 12px;
+    border-radius: 4px;
+}
+
+.reveal .llm-runner-output .stream-line {
+    margin-bottom: 6px;
+    color: #6B3FA0;
+    animation: fadeInUp 0.3s ease-in;
+    padding-left: 12px;
+    border-left: 3px solid #F9C80E;
+    font-weight: 500;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar styling - AdaptiveX themed */
+.reveal .llm-runner-editor::-webkit-scrollbar,
+.reveal .llm-runner-output::-webkit-scrollbar {
+    width: 10px;
+}
+
+.reveal .llm-runner-editor::-webkit-scrollbar-track,
+.reveal .llm-runner-output::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 10px;
+}
+
+.reveal .llm-runner-editor::-webkit-scrollbar-thumb,
+.reveal .llm-runner-output::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #6B3FA0 0%, #5d3690 100%);
+    border-radius: 10px;
+    border: 2px solid #f3f4f6;
+}
+
+.reveal .llm-runner-editor::-webkit-scrollbar-thumb:hover,
+.reveal .llm-runner-output::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7d4fb8 0%, #6B3FA0 100%);
+}
+
+/* Loading animation for streaming - gold accent */
+.reveal .llm-runner-output .stream-line::after {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 16px;
+    background: #F9C80E;
+    margin-left: 3px;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    border-radius: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+    .reveal .llm-runner-wrapper {
+        max-width: 95%;
+        height: 500px;
+        font-size: 13px;
+        border-radius: 12px;
+    }
+
+    .reveal .llm-runner-toolbar {
+        gap: 8px;
+        padding: 12px 16px;
+    }
+
+    .reveal .llm-runner-btn {
+        padding: 8px 18px;
+        font-size: 12px;
+    }
+
+    .reveal .llm-runner-editor,
+    .reveal .llm-runner-output {
+        padding: 16px;
+        font-size: 12px;
+    }
+}
+
+/* Compact mode for smaller viewports */
+@media (max-height: 768px) {
+    .reveal .llm-runner-wrapper {
+        height: 450px;
+    }
+
+    .reveal .llm-runner-editor {
+        min-height: 140px;
+    }
+
+    .reveal .llm-runner-output {
+        min-height: 100px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .reveal .llm-runner-wrapper {
+        border: 2px solid #6B3FA0;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    .reveal .llm-runner-toolbar {
+        background: #6B3FA0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .reveal .llm-runner-actions {
+        display: none;
+    }
+
+    .reveal .llm-runner-editor {
+        background: white;
+        color: black;
+    }
+
+    .reveal .llm-runner-output {
+        background: #f9fafb;
+        color: black;
+    }
+}
+
+/* Focus states for accessibility - AdaptiveX purple */
+.reveal .llm-runner-btn:focus-visible {
+    outline: 3px solid #F9C80E;
+    outline-offset: 2px;
+}
+
+.reveal .llm-runner-editor:focus-visible {
+    outline: 2px solid #6B3FA0;
+    outline-offset: -2px;
+}
+
+/* Slide transitions - smooth integration */
+.reveal .llm-runner-wrapper {
+    will-change: transform, opacity;
+}
+
+/* Dark theme compatibility - inverted but still branded */
+.reveal.has-dark-background .llm-runner-wrapper {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-color: #F9C80E;
+}
+
+.reveal.has-dark-background .llm-runner-editor {
+    background: #0f0f0f;
+    color: #e5e7eb;
+}
+
+.reveal.has-dark-background .llm-runner-output {
+    background: linear-gradient(to bottom, #0a0a0a 0%, #121212 100%);
+    color: #e5e7eb;
+}
+
+.reveal.has-dark-background .llm-runner-output .output-line {
+    color: #e5e7eb;
+}
+
+.reveal.has-dark-background .llm-runner-output .stream-line {
+    color: #F9C80E;
+}
+
+/* Enhanced visual polish */
+.reveal .llm-runner-wrapper * {
+    box-sizing: border-box;
+}
+
+/* Syntax highlighting hints */
+.reveal .llm-runner-editor {
+    tab-size: 4;
+}
+
+/* Success state hint */
+.reveal .llm-runner-status.success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+}
+
+/* Info state */
+.reveal .llm-runner-status.info {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #fff;
+}
+
+/* Elevated card effect on focus */
+.reveal .llm-runner-wrapper:focus-within {
+    box-shadow:
+        0 20px 60px rgba(107, 63, 160, 0.25),
+        0 8px 20px rgba(107, 63, 160, 0.15);
+}

@@ -10,6 +10,7 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp serve",
+    "start:llm": "node start-with-llm.js",
     "build": "gulp build"
   },
   "author": {
@@ -106,6 +107,8 @@
     }
   },
   "dependencies": {
-    "reveal.js": "^5.2.1"
+    "postprocessing": "^6.37.8",
+    "reveal.js": "^5.2.1",
+    "three": "^0.181.0"
   }
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XShadcn Plugin Build Test</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css">
+  <style>
+    body { margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>XShadcn Plugin Build Test</h1>
+        <p>Testing the webpack-built plugin</p>
+      </section>
+
+      <section>
+        <h2>Component Test</h2>
+        <div data-xshadcn='{"component":"Button","props":{"children":"Click Me!"}}'>Button Placeholder</div>
+      </section>
+
+      <section>
+        <h2>Card Component</h2>
+        <div data-xshadcn='{"component":"Card","props":{"className":"p-6","children":"This is a test card"}}'>Card Placeholder</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Load React and ReactDOM from CDN (required externals) -->
+  <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+
+  <!-- Load Reveal.js -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+
+  <!-- Load XShadcn Plugin (built version) -->
+  <script type="module">
+    // Import the built plugin
+    import XShadcnPlugin from './dist/xshadcn.js';
+
+    // Initialize Reveal.js with the plugin
+    Reveal.initialize({
+      hash: true,
+      plugins: [ XShadcnPlugin() ],
+      xshadcn: {
+        theme: 'light',
+        debug: true
+      }
+    });
+
+    console.log('XShadcn Plugin loaded successfully!');
+  </script>
+</body>
+</html>

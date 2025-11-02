@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SmartArt Carousel Cards Test</title>
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+  <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+<body style="overflow:auto;">
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <div class="reveal" style="visibility:hidden;">
+    <div class="slides">
+      <section data-markdown>
+        <script type="text/template">
+        ## Cards Carousel
+
+::: smartart Updates CAROUSEL
+cards: true
+height: 300px
+indicators: true
+controls: true
+icon=lucide:megaphone | Feature One | Description A
+icon=lucide:users | Feature Two | Description B
+icon=lucide:zap | Feature Three | Description C
+:::
+        </script>
+      </section>
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    QUnit.config.testTimeout = 15000;
+
+    Reveal.initialize({
+      hash: false,
+      progress: false,
+      controls: false,
+      center: false,
+      plugins: [ RevealMarkdown, RevealSmartArt ]
+    }).then(() => {
+      QUnit.module('SmartArt Carousel Cards');
+
+      QUnit.test('renders slides and indicators', assert => {
+        const done = assert.async();
+        setTimeout(() => {
+          const carousel = document.querySelector('.smartart[data-layout="carousel"][data-variant="cards"] .smartart__carousel');
+          assert.ok(carousel, 'carousel exists');
+          const slides = carousel ? carousel.querySelectorAll('.smartart__carousel-slide') : [];
+          assert.equal(slides.length, 3, 'three slides');
+          const cards = carousel ? carousel.querySelectorAll('.smartart__carousel-card') : [];
+          assert.equal(cards.length, 3, 'three cards');
+          const indicators = carousel ? carousel.querySelectorAll('.smartart__carousel-indicators button') : [];
+          assert.ok(indicators.length >= 3, 'indicators exist');
+          done();
+        }, 250);
+      });
+    });
+  </script>
+</body>
+</html>

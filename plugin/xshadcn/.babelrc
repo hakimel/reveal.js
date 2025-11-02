@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "env": {
+    "development": {
+      "plugins": []
+    },
+    "production": {
+      "plugins": []
+    }
+  }
+}

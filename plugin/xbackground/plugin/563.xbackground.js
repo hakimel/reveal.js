@@ -1,0 +1,1 @@
+export const __webpack_esm_id__=563;export const __webpack_esm_ids__=[563];export const __webpack_esm_modules__={563:(e,_,t)=>{t.r(_),t.d(_,{default:()=>c});var o=t(156);const c=e=>o.createElement("div",null,"DarkVeil Background - To be implemented")}};

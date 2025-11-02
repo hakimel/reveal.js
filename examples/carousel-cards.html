@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reveal.js - SmartArt Carousel Cards Demo</title>
+  <link rel="stylesheet" href="../dist/reset.css">
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Cards carousel with controls & indicators -->
+      <section data-markdown>
+        <script type="text/template">
+        ## Carousel Cards
+
+::: smartart Product Updates CAROUSEL
+cards: true
+height: 340px
+indicators: true
+controls: true
+icon=lucide:megaphone | Public roadmap launched | Track planned features and vote on ideas. | View Roadmap | https://example.com/roadmap
+icon=lucide:users-round | Team workspaces | Organize projects by team with role-based access. | Learn More | https://example.com/workspaces
+icon=lucide:zap | Performance boost | Up to 45% faster loads across dashboards. | Read Details | https://example.com/performance
+:::
+        </script>
+      </section>
+
+      <!-- Autoplay variant -->
+      <section data-markdown>
+        <script type="text/template">
+        ## Carousel Cards: Autoplay
+
+::: smartart Tips & Tricks CAROUSEL
+cards: true
+autoplay: true
+interval: 3500
+height: 320px
+icon=lucide:lightbulb | Keyboard Shortcuts | Press / to search and ? for help.
+icon=lucide:sparkles | New Themes | Try the "Moon" and "Dracula" themes for dark mode.
+icon=lucide:link | Integrations | Connect with 500+ tools via our API. | See Docs | https://example.com/integrations
+:::
+        </script>
+      </section>
+
+      <!-- Dark background slide -->
+      <section data-markdown data-background="#0f172a">
+        <script type="text/template">
+        ## Carousel Cards: Dark
+
+::: smartart Announcements CAROUSEL
+cards: true
+height: 320px
+indicators: true
+controls: true
+icon=lucide:shield-check | Security Update | SOC2 Type II certification achieved.
+icon=lucide:globe | Regional rollout | EU data center now available. | Learn More | https://example.com/eu
+icon=lucide:rocket | Launch Week | Daily feature drops all week long. | Follow Along | https://example.com/launch
+:::
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'slide',
+      plugins: [ RevealMarkdown, RevealSmartArt ]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XShadcn Test</title>
+</head>
+<body>
+    <h1>Testing XShadcn Import</h1>
+    <div id="error"></div>
+
+    <!-- React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Test Module -->
+    <script type="module">
+        try {
+            console.log('About to import XShadcn...');
+            const module = await import('../plugin/xshadcn/dist/xshadcn.js');
+            console.log('XShadcn loaded successfully:', module);
+            document.body.innerHTML += '<p style="color: green;">Success! Module loaded</p>';
+        } catch (error) {
+            console.error('Error loading XShadcn:', error);
+            document.getElementById('error').innerHTML = `
+                <pre style="color: red; background: #fee; padding: 20px;">
+Error: ${error.message}
+${error.stack}
+                </pre>
+            `;
+        }
+    </script>
+</body>
+</html>
