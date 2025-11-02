@@ -283,11 +283,13 @@
     background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
     color: #2C2C2C;
     overflow-y: auto;
-    font-family: 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', monospace;
-    font-size: 13px;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 14px;
     line-height: 1.7;
     min-height: 120px;
     border-top: 1px solid #e5e7eb;
+    white-space: pre-wrap; /* preserve line breaks but wrap */
+    word-break: break-word; /* avoid overflow on long tokens */
 }
 
 .reveal .llm-runner-output:empty::before {
@@ -381,7 +383,7 @@
 /* Responsive adjustments */
 @media (max-width: 960px) {
     .reveal .llm-runner-wrapper {
-        max-width: 95%;
+        max-width: 100%;
         height: 500px;
         font-size: 13px;
         border-radius: 12px;
