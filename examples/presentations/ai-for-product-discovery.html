@@ -1,0 +1,1678 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Product Discovery | AdaptiveX Workshop</title>
+    <link rel="stylesheet" href="../../dist/reset.css">
+    <link rel="stylesheet" href="../../dist/reveal.css">
+    <link rel="stylesheet" href="../../dist/theme/black.css">
+
+    <style>
+        /* AdaptiveX Brand Colors */
+        :root {
+            --ax-purple: #6B3FA0;
+            --ax-yellow: #F9C80E;
+            --ax-dark-gray: #2C2C2C;
+            --ax-mid-gray: #808080;
+            --ax-light-gray: #F5F5F5;
+        }
+
+        /* Import Averta font (fallback to Arial if not available) */
+        body, .reveal {
+            font-family: 'Averta', Arial, Helvetica, sans-serif;
+            color: var(--ax-dark-gray);
+        }
+
+        /* Custom AdaptiveX Theme */
+        .reveal {
+            background-color: #fff;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--ax-purple);
+            font-weight: 700;
+            text-transform: none;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h1 {
+            font-size: 2em;
+            line-height: 1.2;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h3 {
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        .reveal p, .reveal ul, .reveal ol {
+            color: var(--ax-dark-gray);
+            font-size: 0.8em;
+            line-height: 1.25;
+        }
+
+        /* Title slide styling */
+        .title-slide {
+            background: linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%);
+            color: white !important;
+            text-align: center;
+            padding: 1em !important;
+        }
+
+        .title-slide h1 {
+            color: white !important;
+            font-size: 2.5em;
+        }
+
+        .title-slide h2,
+        .title-slide p {
+            color: white !important;
+        }
+
+        .title-slide .subtitle {
+            color: var(--ax-yellow) !important;
+            font-size: 1.1em;
+            margin-top: 0.8em;
+        }
+
+        /* Section divider slides */
+        .section-divider {
+            background: var(--ax-purple);
+            color: white !important;
+        }
+
+        .section-divider h1 {
+            color: white !important;
+            font-size: 2.5em;
+        }
+
+        .section-divider h2 {
+            color: white !important;
+            font-size: 1.8em;
+        }
+
+        .section-divider p {
+            color: white !important;
+        }
+
+        /* Content slides with responsive fluid grid */
+        .reveal .slides section {
+            text-align: left;
+            padding: 0.3em 0.5em;
+        }
+
+        /* Responsive container system */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container > p {
+            margin: 0.3em 0;
+        }
+
+        /* Fluid grid system */
+        .grid {
+            display: grid;
+            gap: 0.5em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .grid-2col {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Force 2-column layout for dense content */
+        .grid-2col-fixed {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5em;
+        }
+
+        /* Single column for very dense slides */
+        .grid-1col {
+            grid-template-columns: 1fr;
+            gap: 0.4em;
+        }
+
+        /* Card system with no overflow */
+        .card {
+            background: white;
+            border: 2px solid var(--ax-purple);
+            border-radius: 8px;
+            padding: 0.5em;
+            box-sizing: border-box;
+            overflow: hidden;
+            height: auto;
+            min-height: 0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 0.9em;
+            color: var(--ax-purple);
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .card p, .card ul {
+            font-size: 0.75em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .card ul {
+            padding-left: 1em;
+        }
+
+        .card li {
+            margin: 0.1em 0;
+            line-height: 1.2;
+        }
+
+        /* Extra compact cards for dense slides */
+        .card.compact {
+            padding: 0.4em;
+        }
+
+        .card.compact h3 {
+            font-size: 0.85em;
+            margin-bottom: 0.15em;
+        }
+
+        .card.compact p,
+        .card.compact ul,
+        .card.compact li {
+            font-size: 0.7em;
+            margin: 0.15em 0;
+        }
+
+        /* Highlight cards with yellow accent */
+        .card.highlight {
+            border-color: var(--ax-yellow);
+            background: linear-gradient(to bottom, #fff 0%, #fffef5 100%);
+        }
+
+        .card.highlight h3 {
+            color: var(--ax-yellow);
+        }
+
+        /* Responsive images */
+        .reveal img {
+            max-width: 100%;
+            max-height: 380px;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .img-container {
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-container img {
+            max-height: 330px;
+        }
+
+        .title-slide .img-container img {
+            max-height: 250px;
+        }
+
+        .compact .img-container img {
+            max-height: 280px;
+        }
+
+        /* Two-column layout for text + image */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5em;
+            align-items: start;
+        }
+
+        /* Compact two-column for dense slides */
+        .compact .two-col {
+            gap: 0.4em;
+        }
+
+        /* Activity boxes */
+        .activity {
+            background: var(--ax-light-gray);
+            border-left: 5px solid var(--ax-yellow);
+            padding: 0.5em;
+            margin: 0.3em 0;
+            border-radius: 4px;
+        }
+
+        .activity h3 {
+            color: var(--ax-yellow);
+            margin-top: 0;
+            font-size: 0.9em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .activity .time {
+            background: var(--ax-yellow);
+            color: var(--ax-dark-gray);
+            padding: 0.15em 0.4em;
+            border-radius: 20px;
+            font-size: 0.65em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.2em;
+        }
+
+        .activity p, .activity ol, .activity ul {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .activity li {
+            margin: 0.1em 0;
+            line-height: 1.2;
+        }
+
+        .activity strong {
+            font-size: 1em;
+        }
+
+        /* Key takeaways */
+        .takeaway {
+            background: linear-gradient(to right, var(--ax-purple) 0%, #8b5fc0 100%);
+            color: white;
+            padding: 0.4em 0.6em;
+            border-radius: 8px;
+            margin: 0.25em 0;
+        }
+
+        .takeaway p {
+            font-size: 0.7em;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .takeaway strong {
+            color: var(--ax-yellow);
+        }
+
+        /* Knowledge check styling */
+        .quiz {
+            background: white;
+            border: 3px solid var(--ax-purple);
+            padding: 0.5em;
+            border-radius: 8px;
+            margin: 0.3em 0;
+        }
+
+        .quiz h4 {
+            color: var(--ax-purple);
+            margin-top: 0;
+            font-size: 0.9em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .quiz p {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+            margin: 0.2em 0;
+        }
+
+        .quiz-options li {
+            background: var(--ax-light-gray);
+            padding: 0.3em 0.5em;
+            margin: 0.2em 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.65em;
+            line-height: 1.2;
+        }
+
+        .quiz-options li:hover {
+            background: var(--ax-yellow);
+            transform: translateX(5px);
+        }
+
+        .quiz > div {
+            padding: 0.4em;
+            margin-top: 0.3em;
+        }
+
+        .quiz > div p {
+            font-size: 0.65em;
+        }
+
+        .quiz > div p strong {
+            font-size: 1em;
+        }
+
+        /* Case study box */
+        .case-study {
+            background: linear-gradient(135deg, #f5f0fa 0%, #fff 100%);
+            border: 2px solid var(--ax-purple);
+            padding: 0.5em;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        .case-study .logo {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--ax-purple);
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .case-study .tagline {
+            color: var(--ax-yellow);
+            font-style: italic;
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .case-study h3 {
+            font-size: 0.9em;
+            margin-top: 0.3em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .case-study p {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        /* Prompt library styling */
+        .prompt-box {
+            background: var(--ax-dark-gray);
+            color: #fff;
+            padding: 0.4em 0.5em;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.65em;
+            margin: 0.25em 0;
+            overflow-x: auto;
+            line-height: 1.2;
+        }
+
+        .prompt-box strong {
+            display: block;
+            margin-bottom: 0.2em;
+        }
+
+        /* Footer styling */
+        .reveal .slide-number {
+            color: var(--ax-purple);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5em;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 1400px) {
+            .reveal h1 { font-size: 1.8em; }
+            .reveal h2 { font-size: 1.5em; }
+            .grid { gap: 0.8em; }
+            .card { padding: 0.8em; }
+            .two-col { gap: 0.8em; }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .reveal h1 { font-size: 1.6em; }
+            .reveal h2 { font-size: 1.4em; }
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 0.8em;
+            }
+            .grid-2col, .grid-3col {
+                grid-template-columns: 1fr;
+            }
+            .card { padding: 0.8em; }
+        }
+
+        @media screen and (max-width: 700px) {
+            .reveal h1 { font-size: 1.4em; }
+            .reveal h2 { font-size: 1.2em; }
+            .reveal h3 { font-size: 1em; }
+            .reveal p, .reveal ul { font-size: 0.8em; }
+            .card { padding: 0.6em; }
+            .activity { padding: 0.8em; }
+            .grid { gap: 0.6em; }
+        }
+
+        /* Prevent overflow on all elements */
+        * {
+            box-sizing: border-box;
+        }
+
+        .reveal .slides section {
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .reveal .slides section > * {
+            max-width: 100%;
+        }
+
+        /* List styling */
+        .reveal ul, .reveal ol {
+            margin-left: 1em;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal li {
+            margin: 0.1em 0;
+            line-height: 1.25;
+        }
+
+        /* Optimize specific content types */
+        .reveal section h2 {
+            margin-bottom: 0.25em;
+        }
+
+        .reveal section h3 {
+            margin-bottom: 0.2em;
+        }
+
+        /* Compact mode for dense content slides */
+        .reveal section.compact h2 {
+            font-size: 1.3em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal section.compact .grid {
+            gap: 0.4em;
+        }
+
+        .reveal section.compact .card,
+        .reveal section.compact .activity,
+        .reveal section.compact .takeaway,
+        .reveal section.compact .quiz {
+            padding: 0.4em;
+            margin: 0.2em 0;
+        }
+
+        .reveal section.compact .card h3,
+        .reveal section.compact .activity h3,
+        .reveal section.compact .quiz h4 {
+            font-size: 0.8em;
+            margin-bottom: 0.15em;
+        }
+
+        .reveal section.compact p,
+        .reveal section.compact li {
+            font-size: 0.68em;
+            margin: 0.15em 0;
+            line-height: 1.2;
+        }
+
+        .reveal section.compact .card ul,
+        .reveal section.compact .activity ul,
+        .reveal section.compact .activity ol {
+            margin: 0.15em 0;
+            padding-left: 1em;
+        }
+
+        /* Extra-compact for very dense slides */
+        .reveal section.ultra-compact h2 {
+            font-size: 1.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal section.ultra-compact .grid {
+            gap: 0.35em;
+        }
+
+        .reveal section.ultra-compact .card,
+        .reveal section.ultra-compact .takeaway,
+        .reveal section.ultra-compact .quiz {
+            padding: 0.35em;
+            margin: 0.2em 0;
+        }
+
+        .reveal section.ultra-compact .card h3,
+        .reveal section.ultra-compact .quiz h4 {
+            font-size: 0.75em;
+            margin-bottom: 0.15em;
+        }
+
+        .reveal section.ultra-compact p,
+        .reveal section.ultra-compact li {
+            font-size: 0.62em;
+            margin: 0.1em 0;
+            line-height: 1.15;
+        }
+
+        /* Strong emphasis with brand yellow */
+        .reveal strong {
+            color: var(--ax-purple);
+            font-weight: 600;
+        }
+
+        .reveal .highlight-yellow {
+            color: var(--ax-yellow);
+            font-weight: 600;
+        }
+
+        /* Section number badges */
+        .section-badge {
+            background: var(--ax-yellow);
+            color: var(--ax-dark-gray);
+            padding: 0.2em 0.5em;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.2em;
+        }
+
+        /* Global vertical compression to prevent overflow */
+        .reveal .slides section > .container > *:first-child {
+            margin-top: 0;
+        }
+
+        .reveal .slides section > .container > *:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Reduce default p margins globally */
+        .reveal p {
+            margin: 0.2em 0;
+        }
+
+        /* Compress h3 within sections */
+        .reveal section h3 {
+            margin-top: 0.3em;
+            margin-bottom: 0.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <h1>AI for Product Discovery</h1>
+                <p class="subtitle">AI for Products Skills Collection | AI Micro-credential</p>
+                <div class="img-container" style="margin-top: 1em;">
+                    <img src="images/hero.png" alt="AI Product Discovery" style="border-radius: 12px;">
+                </div>
+                <p style="margin-top: 1em; font-size: 0.85em;">AdaptiveX Workshop | V1.0 | © 2025</p>
+            </section>
+
+            <!-- Slide 2: Welcome & What We'll Explore -->
+            <section>
+                <h2>Welcome & What We'll Explore</h2>
+                <div class="container">
+                    <p style="margin-bottom: 0.4em; font-size: 0.75em; line-height: 1.2;">Welcome to this hands-on workshop on using <strong>generative AI</strong> to transform product discovery.</p>
+
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>What This Workshop Is</h3>
+                            <ul>
+                                <li>Practical AI applications across discovery phases</li>
+                                <li>Hands-on exercises with real tools</li>
+                                <li>Balance of AI capabilities + human judgment</li>
+                                <li>Ethical frameworks for responsible use</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight">
+                            <h3>Who This Is For</h3>
+                            <ul>
+                                <li>Product Managers</li>
+                                <li>Business Analysts</li>
+                                <li>UX/Product Designers</li>
+                                <li>Product Leaders</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 0.4em; font-size: 0.7em; line-height: 1.2;"><strong>Pre-work:</strong> Foundations of AI (ICP-FAI) or general experience with generative AI tools recommended.</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: Learning Outcomes -->
+            <section class="compact">
+                <h2>Learning Outcomes</h2>
+                <div class="container">
+                    <p style="margin-bottom: 0.3em; font-size: 0.75em; line-height: 1.2;">By the end of this workshop, you will be able to:</p>
+
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>1️⃣ Identify Problems</h3>
+                            <p>Surface 2+ customer problems from qualitative data with AI assistance</p>
+                        </div>
+                        <div class="card">
+                            <h3>2️⃣ Generate Ideas</h3>
+                            <p>Create diverse product ideas and explain how AI broadened ideation scope</p>
+                        </div>
+                        <div class="card">
+                            <h3>3️⃣ Refine & Select</h3>
+                            <p>Use AI scoring + human judgment to select top ideas systematically</p>
+                        </div>
+                        <div class="card">
+                            <h3>4️⃣ Design Artifacts</h3>
+                            <p>Create one AI-assisted discovery artifact and explain the process</p>
+                        </div>
+                        <div class="card">
+                            <h3>5️⃣ Reflect Ethically</h3>
+                            <p>Articulate AI's role and draft ethical guardrails for responsible use</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Course Activities Overview -->
+            <section class="compact">
+                <h2>Course Flow & Activities</h2>
+                <div class="container">
+                    <div class="grid grid-3col">
+                        <div class="card">
+                            <h3>Part 1</h3>
+                            <p style="color: var(--ax-purple); font-weight: 600;">Customer Problem Discovery</p>
+                            <p style="font-size: 0.85em;">Mine pain points from data, prioritize problem statements</p>
+                        </div>
+                        <div class="card">
+                            <h3>Part 2</h3>
+                            <p style="color: var(--ax-purple); font-weight: 600;">AI-Driven Idea Generation</p>
+                            <p style="font-size: 0.85em;">Build diverse Idea Bank spanning MVPs to radical concepts</p>
+                        </div>
+                        <div class="card">
+                            <h3>Part 3</h3>
+                            <p style="color: var(--ax-purple); font-weight: 600;">Idea Refinement & Selection</p>
+                            <p style="font-size: 0.85em;">Score, map, and select top ideas with rationale</p>
+                        </div>
+                        <div class="card">
+                            <h3>Part 4</h3>
+                            <p style="color: var(--ax-purple); font-weight: 600;">AI-Assisted Artifacts</p>
+                            <p style="font-size: 0.85em;">Draft low-fi discovery tools with peer feedback</p>
+                        </div>
+                        <div class="card">
+                            <h3>Part 5</h3>
+                            <p style="color: var(--ax-purple); font-weight: 600;">Ethics & Guardrails</p>
+                            <p style="font-size: 0.85em;">Map risks, create actionable if-then guardrails</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: NovaFit Case Study -->
+            <section class="compact">
+                <h2>Our Case Study: NovaFit</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="case-study">
+                            <div class="logo">NovaFit</div>
+                            <p class="tagline">"Health and wellness with a fitness plan that works for you."</p>
+
+                            <h3>Product Vision</h3>
+                            <p>AI-powered fitness app for busy users (ages 24-45) building healthy habits with minimal time commitment.</p>
+
+                            <h3>Mission</h3>
+                            <p>Inclusive wellness through personalized experiences, anytime, anywhere.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="img-container" style="margin-bottom: 0.4em;">
+                            <img src="images/novafit.png" alt="NovaFit App" style="border: 2px solid var(--ax-purple); max-height: 240px;">
+                        </div>
+                        <div class="card">
+                            <h3>Key Insights</h3>
+                            <ul>
+                                <li>Rigid routines overwhelm users</li>
+                                <li>Habits are inconsistent</li>
+                                <li>Mix of data-driven & habit-driven users</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 1: CUSTOMER PROBLEM DISCOVERY -->
+
+            <!-- Slide 6: Section Divider -->
+            <section class="section-divider">
+                <h1>Part 1</h1>
+                <h2>Customer Problem Discovery</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">From qualitative data to validated problem statements</p>
+            </section>
+
+            <!-- Slide 7: Problem Discovery - Goal -->
+            <section class="compact">
+                <h2>Customer Problem Discovery</h2>
+                <div class="container">
+                    <span class="section-badge">Part 1 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Surface customer pain points from quotes, tickets, and feedback—then refine and prioritize <strong>two problem statements</strong> to carry forward.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 0.5em;">How It Works</h3>
+                            <ol>
+                                <li><strong>Prompt AI</strong> to list top pain points from pasted snippets</li>
+                                <li><strong>De-duplicate</strong> and rewrite as concise problem statements</li>
+                                <li><strong>Prioritize</strong> the two most important to address</li>
+                            </ol>
+
+                            <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                                <p style="font-size: 0.75em; margin: 0; line-height: 1.2;"><strong>Tools:</strong> AI assistant (ChatGPT, Claude, etc.) + Mural "Problem Discovery" board</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/customer-problems.png" alt="Customer Problem Discovery">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Problem Mining Activity -->
+            <section class="compact">
+                <h2>Activity: Problem Mining</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 15 minutes</span>
+                        <h3>In Pairs: Discover Pain Points</h3>
+                        <p><strong>Instructions:</strong></p>
+                        <ol>
+                            <li>Paste 3-4 customer quotes or support tickets into your AI tool</li>
+                            <li>Prompt: "List the top 5 customer pain points or unmet needs from these quotes"</li>
+                            <li>Capture each pain point as a sticky note in Mural's "Problem Discovery" board</li>
+                            <li>Label each with the quote snippet for traceability</li>
+                        </ol>
+                    </div>
+
+                    <div class="grid grid-2col" style="margin-top: 0.5em;">
+                        <div class="card">
+                            <h3>Example: NovaFit Feedback</h3>
+                            <p style="font-size: 0.8em; font-style: italic; margin: 0.15em 0; line-height: 1.2;">"I start strong but lose motivation after 2 weeks. I need something that adapts when I fall off track."</p>
+                            <p style="font-size: 0.8em; font-style: italic; margin: 0.15em 0; line-height: 1.2;">"The app expects me to work out 5 days a week. Who has time for that?"</p>
+                        </div>
+                        <div class="card highlight">
+                            <h3>AI Output Example</h3>
+                            <ul style="font-size: 0.8em; margin: 0.15em 0;">
+                                <li><strong>Pain point:</strong> Motivation drops after initial phase</li>
+                                <li><strong>Pain point:</strong> Time commitment unrealistic for target users</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Synthesis & Prioritization Activity -->
+            <section class="compact">
+                <h2>Activity: Synthesis & Prioritization</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 15 minutes</span>
+                        <h3>Refine and Select Top Problems</h3>
+                        <p><strong>Instructions:</strong></p>
+                        <ol>
+                            <li>Review all pain points on your Mural board</li>
+                            <li>Merge duplicates—cluster similar themes</li>
+                            <li>Rewrite top themes as clear problem statements (1-2 sentences)</li>
+                            <li>Prioritize using: <strong>Frequency</strong> (how often mentioned) × <strong>Severity</strong> (impact on user experience)</li>
+                            <li>Select your <strong>top two problem statements</strong> to carry forward</li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Example Problem Statements</h3>
+                        <ul>
+                            <li><strong>Problem 1:</strong> Users struggle to maintain motivation beyond initial 2-3 weeks, especially when life disrupts their routine.</li>
+                            <li><strong>Problem 2:</strong> Target users (busy professionals 24-45) cannot commit to rigid 5-day workout schedules and need flexible, time-efficient options.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Problem Discovery - Key Takeaways -->
+            <section class="ultra-compact">
+                <h2>Key Takeaways: Problem Discovery</h2>
+                <div class="container">
+                    <div class="takeaway">
+                        <p><strong>AI speeds pattern mining:</strong> Analyzing dozens of quotes manually is time-consuming; AI surfaces themes in seconds.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Human review adds nuance:</strong> AI may miss context, cultural subtleties, or emerging weak signals. Your domain expertise catches what AI cannot.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Bias mitigation is critical:</strong> If your qualitative data lacks diversity (e.g., no input from underrepresented users), AI will amplify that gap. Always audit your data sources.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Prioritization guides validation:</strong> Selecting top problems focuses your limited resources on high-impact opportunities. Document your rationale for future reference.</p>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Reflection Questions</h3>
+                        <ol style="font-size: 0.65em; line-height: 1.2; margin: 0.2em 0;">
+                            <li>What patterns did AI reveal that you might have missed manually?</li>
+                            <li>Where did you override or refine AI's suggestions? Why?</li>
+                            <li>How will you validate these problem statements with real users?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: AI-DRIVEN IDEA GENERATION -->
+
+            <!-- Slide 11: Section Divider -->
+            <section class="section-divider">
+                <h1>Part 2</h1>
+                <h2>AI-Driven Idea Generation</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Build a diverse Idea Bank with AI-powered brainstorming</p>
+            </section>
+
+            <!-- Slide 12: Idea Generation - Goal -->
+            <section class="compact">
+                <h2>AI-Driven Idea Generation</h2>
+                <div class="container">
+                    <span class="section-badge">Part 2 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Generate a <strong>diverse Idea Bank</strong> spanning MVP features, radical concepts, UX patterns, business-model tweaks, and distribution channels.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>Draft targeted prompts</strong> for different idea categories</li>
+                                <li><strong>Run prompts</strong> and capture all outputs in your Idea Bank</li>
+                                <li><strong>Iterate prompts</strong> to push into unexplored territories</li>
+                                <li><strong>Highlight 3-4</strong> most novel or surprising ideas</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/idea-generation.png" alt="Idea Generation">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Prompt Library for Ideas -->
+            <section class="compact">
+                <h2>Prompt Library: Idea Generation</h2>
+                <div class="container">
+                    <p style="margin-bottom: 0.3em; font-size: 0.75em; line-height: 1.2;">Use these prompts with NovaFit's problems, or adapt for your own context:</p>
+
+                    <div class="prompt-box">
+                        <strong>MVP Features:</strong><br>
+                        "Brainstorm 8 MVP features to solve [Problem 1: motivation drop-off]. Label each as either MVP or experiment."
+                    </div>
+
+                    <div class="prompt-box">
+                        <strong>Radical Concepts:</strong><br>
+                        "Suggest 5 radical product concepts that address [Problem 2: time constraints] in novel ways—not just features, but reimagined approaches."
+                    </div>
+
+                    <div class="prompt-box">
+                        <strong>UX & Business Models:</strong><br>
+                        "Iterate: surface UX patterns, business-model tweaks, and channel experiments for [combined problems]. Think beyond the app itself."
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Pro Tips</h3>
+                        <ul>
+                            <li><strong>Be specific:</strong> Reference your actual problem statements</li>
+                            <li><strong>Request diversity:</strong> Explicitly ask for "novel," "unconventional," or "outside the box"</li>
+                            <li><strong>Iterate:</strong> If first output is too conservative, ask AI to "go further" or "challenge assumptions"</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: Idea Generation Activity -->
+            <section class="compact">
+                <h2>Activity: Build Your Idea Bank</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 40 minutes total</span>
+                        <h3>Prompt Crafting + Idea Generation + Highlighting</h3>
+
+                        <p><strong>Phase 1 (10 min): Craft Your Prompts</strong></p>
+                        <ul>
+                            <li>Choose 2-3 prompts from the library or write your own</li>
+                            <li>Customize with your problem statements from Part 1</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (20 min): Generate Ideas</strong></p>
+                        <ul>
+                            <li>Run each prompt through your AI tool</li>
+                            <li>Capture all ideas in Mural "Idea Bank" board</li>
+                            <li>Aim for 20-30 total ideas across categories</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (10 min): Highlight Novelty</strong></p>
+                        <ul>
+                            <li>Tag 3-4 ideas that surprised you or pushed boundaries</li>
+                            <li>Note why each is interesting (even if not immediately feasible)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: Idea Generation - Key Takeaways -->
+            <section class="ultra-compact">
+                <h2>Key Takeaways: Idea Generation</h2>
+                <div class="container">
+                    <div class="takeaway">
+                        <p><strong>Prompt quality widens idea space:</strong> Generic prompts yield generic ideas. Targeted, iterative prompts unlock novel solutions you wouldn't reach solo.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Scale and speed from AI:</strong> Generating 30 ideas manually might take hours across multiple brainstorm sessions. AI delivers in minutes, letting you focus energy on evaluation.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Iteration matters:</strong> First AI output is rarely optimal. Push back, ask "what if," challenge constraints. The conversation with AI is where breakthrough ideas emerge.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Human filtering for alignment:</strong> AI doesn't know your strategy, brand values, or technical constraints. Your curation ensures ideas align with organizational reality.</p>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Reflection Questions</h3>
+                        <ol style="font-size: 0.65em; line-height: 1.2; margin: 0.2em 0;">
+                            <li>Which category of ideas (MVP, radical, UX, business model) was most fruitful? Why?</li>
+                            <li>Did AI suggest anything you'd never considered? What made it novel?</li>
+                            <li>How will you balance "safe" MVP ideas with more experimental concepts?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: IDEA REFINEMENT & SELECTION -->
+
+            <!-- Slide 16: Section Divider -->
+            <section class="section-divider">
+                <h1>Part 3</h1>
+                <h2>Idea Refinement & Selection</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">From Idea Bank to prioritized concepts with rationale</p>
+            </section>
+
+            <!-- Slide 17: Refinement - Goal -->
+            <section class="compact">
+                <h2>Idea Refinement & Selection</h2>
+                <div class="container">
+                    <span class="section-badge">Part 3 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Combine <strong>AI-assisted scoring</strong> with <strong>human judgment</strong> to converge from 20-30 ideas down to <strong>two final concepts</strong> with clear rationale.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>AI Scoring:</strong> Rate each idea on feasibility and customer impact (1-5 scale)</li>
+                                <li><strong>Visual Mapping:</strong> Plot ideas on a 2×2 matrix (Feasibility × Impact)</li>
+                                <li><strong>Human Override:</strong> Debate, adjust scores, and record rationales</li>
+                                <li><strong>Final Selection:</strong> Choose top two with documented reasoning</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/idea-matrix.png" alt="Idea Matrix">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18: Scoring Prompt & Matrix -->
+            <section class="compact">
+                <h2>AI-Assisted Scoring</h2>
+                <div class="container">
+                    <div class="prompt-box">
+                        <strong>Scoring Prompt:</strong><br>
+                        "Rate each of the following ideas on:<br>
+                        • <strong>Technical Feasibility</strong> (1=very hard, 5=easy)<br>
+                        • <strong>Customer Impact</strong> (1=low value, 5=transformative)<br><br>
+                        Provide a 1-2 sentence rationale for each score. Output as a table. Note any assumptions we should double-check."
+                    </div>
+
+                    <div style="margin-top: 0.5em;">
+                        <h3 style="font-size: 0.95em; margin-bottom: 0.3em;">Feasibility × Impact Matrix</h3>
+                        <div class="grid grid-2col">
+                            <div class="card highlight">
+                                <h3>High Impact, High Feasibility</h3>
+                                <p style="font-size: 0.8em; margin: 0; line-height: 1.2;"><strong>Quick Wins:</strong> Pursue immediately</p>
+                            </div>
+                            <div class="card">
+                                <h3>High Impact, Low Feasibility</h3>
+                                <p style="font-size: 0.8em; margin: 0; line-height: 1.2;"><strong>Big Bets:</strong> Consider for long-term roadmap</p>
+                            </div>
+                            <div class="card">
+                                <h3>Low Impact, High Feasibility</h3>
+                                <p style="font-size: 0.8em; margin: 0; line-height: 1.2;"><strong>Fill-ins:</strong> Nice-to-haves if capacity exists</p>
+                            </div>
+                            <div class="card" style="opacity: 0.6;">
+                                <h3>Low Impact, Low Feasibility</h3>
+                                <p style="font-size: 0.8em; margin: 0; line-height: 1.2;"><strong>Deprioritize:</strong> Park for now</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 19: Refinement Activity -->
+            <section class="compact">
+                <h2>Activity: Score, Map, Select</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 30 minutes total</span>
+                        <h3>AI Scoring + Matrix Mapping + Selection</h3>
+
+                        <p><strong>Phase 1 (10 min): AI Scoring</strong></p>
+                        <ul>
+                            <li>Feed your Idea Bank to AI with the scoring prompt</li>
+                            <li>Review AI's ratings and rationales</li>
+                            <li>Challenge scores that seem off—ask AI to explain reasoning</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (10 min): Matrix Mapping</strong></p>
+                        <ul>
+                            <li>Place each idea on the Feasibility × Impact grid in Mural</li>
+                            <li>Use AI scores as starting point, adjust based on your context</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (10 min): Selection & Rationale</strong></p>
+                        <ul>
+                            <li>Identify top 2 ideas (prioritize high-impact quadrants)</li>
+                            <li>Document: Why these two? What trade-offs did you make?</li>
+                            <li>Capture any ideas to revisit later (parking lot)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Refinement - Key Takeaways -->
+            <section class="ultra-compact">
+                <h2>Key Takeaways: Refinement & Selection</h2>
+                <div class="container">
+                    <div class="takeaway">
+                        <p><strong>Structured scoring reduces bias:</strong> Explicit criteria (feasibility, impact) prevent "loudest voice" or "personal favorite" from dominating decisions.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Visual mapping reveals trade-offs:</strong> The 2×2 matrix makes opportunity costs visible. Choosing one idea often means deferring another—document that decision.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Override with rationale, not hunches:</strong> When you disagree with AI scores, articulate why. "I have a gut feeling" is weak; "Our infrastructure doesn't support this" is actionable.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Selection is hypothesis, not certainty:</strong> You're choosing what to validate next, not predicting the future. Stay humble and plan to learn quickly.</p>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Reflection Questions</h3>
+                        <ol style="font-size: 0.65em; line-height: 1.2; margin: 0.2em 0;">
+                            <li>Where did AI scoring align with your intuition? Where did it diverge?</li>
+                            <li>What criteria beyond feasibility/impact mattered to your selection?</li>
+                            <li>How will you test whether your top two ideas truly have high impact?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 21: Break -->
+            <section class="section-divider">
+                <h1>☕ Break</h1>
+                <h2>15 Minutes</h2>
+                <p style="font-size: 1.2em; margin-top: 2em;">Stretch, refresh, and get ready for designing artifacts!</p>
+            </section>
+
+            <!-- SECTION 4: DESIGNING AI-ASSISTED ARTIFACTS -->
+
+            <!-- Slide 22: Section Divider -->
+            <section class="section-divider">
+                <h1>Part 4</h1>
+                <h2>Designing AI-Assisted Discovery Artifacts</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">From ideas to testable prototypes and research tools</p>
+            </section>
+
+            <!-- Slide 23: Artifacts - Goal -->
+            <section class="compact">
+                <h2>AI-Assisted Discovery Artifacts</h2>
+                <div class="container">
+                    <span class="section-badge">Part 4 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Produce <strong>one low-fidelity discovery artifact</strong> (prototype sketch, interview guide, survey, or journey map) to validate your top idea.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>Choose artifact type</strong> aligned to your hypothesis</li>
+                                <li><strong>Draft with AI</strong> to create scaffold quickly</li>
+                                <li><strong>Refine for context:</strong> Adjust tone, scope, specificity</li>
+                                <li><strong>Peer feedback</strong> via "glow & grow" review</li>
+                                <li><strong>Reflect on process:</strong> How did AI help? Where did you add value?</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/artifacts.png" alt="Discovery Artifacts">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 24: Artifact Types & Prompts -->
+            <section class="compact">
+                <h2>Artifact Scaffolding Prompts</h2>
+                <div class="container">
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Interview Guide</h3>
+                            <div class="prompt-box">
+                                "Draft a 6-question interview guide to validate [idea]. Questions should probe behaviors, constraints, and success signals."
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Survey</h3>
+                            <div class="prompt-box">
+                                "Produce a low-fi survey with 6-8 items (mix multiple choice and open-ended) to validate [hypothesis]."
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Journey Map</h3>
+                            <div class="prompt-box">
+                                "Sketch a journey map for [persona] attempting [goal] in NovaFit. Include stages, tasks, emotions, breakpoints."
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Prototype Sketch</h3>
+                            <div class="prompt-box">
+                                "Describe a low-fi prototype for [feature]. Include key screens, user flows, and interactions to test."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>Refinement Checklist</h3>
+                        <ul>
+                            <li>✓ Does it test your primary hypothesis?</li>
+                            <li>✓ Is the language appropriate for your target users?</li>
+                            <li>✓ Are questions/prompts open-ended enough to avoid bias?</li>
+                            <li>✓ Can you execute this in your timeframe and budget?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Artifacts Activity -->
+            <section class="compact">
+                <h2>Activity: Design Your Artifact</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 30 minutes total</span>
+                        <h3>Select → Draft → Refine → Review</h3>
+
+                        <p><strong>Phase 1 (5 min): Artifact Selection</strong></p>
+                        <ul>
+                            <li>Pick one artifact type to validate your top idea</li>
+                            <li>Write down the specific hypothesis you're testing</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (15 min): AI Drafting + Refinement</strong></p>
+                        <ul>
+                            <li>Use the appropriate prompt to generate scaffold</li>
+                            <li>Review AI output: adjust tone, add context-specific questions</li>
+                            <li>Ensure artifact aligns with hypothesis and user needs</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (5 min): Peer Feedback</strong></p>
+                        <ul>
+                            <li><strong>Glow:</strong> What's working well?</li>
+                            <li><strong>Grow:</strong> What could be clearer or stronger?</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 4 (5 min): Process Reflection</strong></p>
+                        <ul>
+                            <li>How did AI accelerate your work? Where did you add critical value?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 26: Artifacts - Key Takeaways -->
+            <section class="ultra-compact">
+                <h2>Key Takeaways: Discovery Artifacts</h2>
+                <div class="container">
+                    <div class="takeaway">
+                        <p><strong>AI jump-starts, humans sharpen:</strong> AI gives you a draft in seconds. Your refinement—adjusting for tone, context, and hypothesis alignment—is where quality emerges.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Hypothesis clarity drives artifact quality:</strong> If you're fuzzy on what you're testing, even the best AI scaffold won't help. Crisp hypothesis = crisp artifact.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Peer review surfaces blind spots:</strong> You're close to your work; fresh eyes catch ambiguous questions, leading prompts, or missing elements.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Low-fi is a feature, not a bug:</strong> Polished artifacts invite feedback on aesthetics, not substance. Rough scaffolds focus conversation on the right things.</p>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Reflection Questions</h3>
+                        <ol style="font-size: 0.65em; line-height: 1.2; margin: 0.2em 0;">
+                            <li>What part of the artifact required the most human refinement? Why?</li>
+                            <li>How will you ensure your artifact doesn't bias responses toward a desired answer?</li>
+                            <li>When will you deploy this artifact, and with whom?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: ETHICS & GUARDRAILS -->
+
+            <!-- Slide 27: Section Divider -->
+            <section class="section-divider">
+                <h1>Part 5</h1>
+                <h2>AI Reflection & Ethical Guardrails</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Responsible AI use with actionable safeguards</p>
+            </section>
+
+            <!-- Slide 28: Ethics - Goal -->
+            <section class="compact">
+                <h2>AI Reflection & Ethical Guardrails</h2>
+                <div class="container">
+                    <span class="section-badge">Part 5 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Map the <strong>benefits vs. risks</strong> of AI across discovery phases, and co-create <strong>2-3 actionable "if-then" guardrails</strong> for responsible use.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>Map value:</strong> Where did AI add speed, creativity, or scale?</li>
+                                <li><strong>Map risks:</strong> Bias, blind spots, over-reliance, hallucinations</li>
+                                <li><strong>Note impacts:</strong> What happens if AI assumptions are wrong?</li>
+                                <li><strong>Draft guardrails:</strong> Concrete "if-then" rules with examples from your work</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/ethics.png" alt="AI Ethics">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 29: Benefits vs Risks Map -->
+            <section class="compact">
+                <h2>Benefits vs. Risks Across Discovery</h2>
+                <div class="container">
+                    <div class="grid grid-2col">
+                        <div class="card highlight">
+                            <h3>✅ Benefits</h3>
+                            <ul>
+                                <li><strong>Speed:</strong> Hours → minutes for pattern mining and ideation</li>
+                                <li><strong>Scale:</strong> Process 100s of inputs without human bottleneck</li>
+                                <li><strong>Creativity:</strong> Surface ideas outside your usual frame</li>
+                                <li><strong>Consistency:</strong> Apply same criteria across all ideas</li>
+                                <li><strong>Documentation:</strong> Auto-generate rationales and records</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>⚠️ Risks</h3>
+                            <ul>
+                                <li><strong>Bias amplification:</strong> AI reflects patterns in training data</li>
+                                <li><strong>Blind spots:</strong> Missing cultural context or emerging signals</li>
+                                <li><strong>Over-reliance:</strong> Accepting AI output without critical review</li>
+                                <li><strong>Hallucinations:</strong> Plausible-sounding but false information</li>
+                                <li><strong>Homogenization:</strong> Converging on "safe" ideas that AI favors</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Real-World Impact Example</h3>
+                        <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.2;"><strong>Scenario:</strong> AI analysis of NovaFit feedback emphasizes "busy professionals" pain points because that segment is over-represented in your data.</p>
+                        <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.2;"><strong>Consequence:</strong> You build features that exclude stay-at-home parents, students, or retirees—shrinking addressable market and missing diverse user needs.</p>
+                        <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.2;"><strong>Guardrail needed:</strong> Audit data sources for demographic balance before analysis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 30: Creating Guardrails -->
+            <section class="ultra-compact">
+                <h2>Crafting "If-Then" Guardrails</h2>
+                <div class="container">
+                    <p style="margin-bottom: 0.3em; font-size: 0.75em; line-height: 1.2;">Guardrails should be <strong>specific, actionable, and tied to concrete examples.</strong></p>
+
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Example 1: Data Diversity</h3>
+                            <p><strong>If</strong> qualitative data lacks representation from minority users or edge-case scenarios,</p>
+                            <p><strong>Then</strong> oversample interviews or surveys from those groups before running AI analysis.</p>
+                            <p style="font-size: 0.7em; margin-top: 0.4em; font-style: italic;">Tie-in: NovaFit data skewed toward 30-40 age range; we'll add 10 interviews with 24-29 and 41-45 users.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Example 2: Human Override</h3>
+                            <p><strong>If</strong> AI scoring conflicts with domain expertise or strategic priorities,</p>
+                            <p><strong>Then</strong> document the override rationale and review decision in next sprint retrospective.</p>
+                            <p style="font-size: 0.7em; margin-top: 0.4em; font-style: italic;">Tie-in: AI rated "gamification badges" as low feasibility, but our eng team has a reusable system—we overrode to high feasibility.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Example 3: Validation Check</h3>
+                            <p><strong>If</strong> AI generates a "fact" about user behavior or market data,</p>
+                            <p><strong>Then</strong> verify with primary sources (user interviews, analytics) before building on that assumption.</p>
+                            <p style="font-size: 0.7em; margin-top: 0.4em; font-style: italic;">Tie-in: AI claimed "most users abandon fitness apps after 21 days"—we'll check our own retention curves before designing around this.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Example 4: Bias Audit</h3>
+                            <p><strong>If</strong> a discovery artifact (interview guide, survey) was AI-drafted,</p>
+                            <p><strong>Then</strong> have someone from a different background review for leading language or cultural assumptions.</p>
+                            <p style="font-size: 0.7em; margin-top: 0.4em; font-style: italic;">Tie-in: Our AI-generated interview guide used "gym" language; peer feedback noted not all cultures have gym-centric fitness norms.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 31: Ethics Activity -->
+            <section class="compact">
+                <h2>Activity: Map & Mitigate</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 25 minutes total</span>
+                        <h3>Benefits, Risks, Guardrails</h3>
+
+                        <p><strong>Phase 1 (10 min): Map Benefits & Risks</strong></p>
+                        <ul>
+                            <li>In Mural "Ethics & Reflection" board, create two columns</li>
+                            <li>List where AI added value in your work today (left column)</li>
+                            <li>List potential risks or failure modes you noticed (right column)</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (10 min): Draft Guardrails</strong></p>
+                        <ul>
+                            <li>Choose 2-3 risks that feel most relevant to your context</li>
+                            <li>Write "if-then" guardrails using the template</li>
+                            <li>Tie each to a concrete example from today's exercises</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (5 min): Share & Refine</strong></p>
+                        <ul>
+                            <li>Share one guardrail with the group</li>
+                            <li>Get feedback: Is it specific enough? Actionable?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 32: Ethics - Key Takeaways -->
+            <section class="ultra-compact">
+                <h2>Key Takeaways: Ethics & Guardrails</h2>
+                <div class="container">
+                    <div class="takeaway">
+                        <p><strong>Balanced reflection, not fear:</strong> AI risks are real but manageable. The goal is informed use, not avoidance. Acknowledge both power and pitfalls.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Concrete > abstract:</strong> "Be careful with bias" is useless. "If data lacks X, then oversample Y" is actionable. Specificity drives compliance.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Guardrails evolve:</strong> Your first set won't be perfect. Revisit after each sprint or project. Learn from near-misses and update rules.</p>
+                    </div>
+                    <div class="takeaway">
+                        <p><strong>Ethics is a team sport:</strong> One person's guardrails aren't enough. Diverse perspectives catch blind spots. Make review collaborative and ongoing.</p>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Reflection Questions</h3>
+                        <ol style="font-size: 0.65em; line-height: 1.2; margin: 0.2em 0;">
+                            <li>Which risk feels most pressing in your organization? Why?</li>
+                            <li>How will you communicate these guardrails to stakeholders or team members?</li>
+                            <li>What process will you use to review and update guardrails over time?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KNOWLEDGE CHECKS -->
+
+            <!-- Slide 33: Knowledge Check 1 -->
+            <section class="ultra-compact">
+                <h2>Knowledge Check</h2>
+                <div class="container">
+                    <div class="quiz">
+                        <h4>Question 1: Ethical Guardrails</h4>
+                        <p>Which of the following is an effective "if-then" guardrail for AI-assisted discovery?</p>
+                        <ul class="quiz-options">
+                            <li>A) Always use AI for everything</li>
+                            <li>B) Never trust AI outputs</li>
+                            <li>C) If qualitative data lacks diversity, then oversample underrepresented groups before AI analysis</li>
+                            <li>D) Only use AI for simple tasks</li>
+                        </ul>
+                        <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 4px;">
+                            <p style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.2;"><strong>Correct Answer:</strong> C</p>
+                            <p style="font-size: 0.65em; margin: 0.15em 0; line-height: 1.2;"><strong>Rationale:</strong> Effective guardrails are specific, actionable, and address concrete risks. Option C provides a clear trigger condition and mitigation action.</p>
+                        </div>
+                    </div>
+
+                    <div class="quiz" style="margin-top: 0.8em;">
+                        <h4>Question 2: Correlation to Action</h4>
+                        <p>NovaFit's AI analysis shows: "Users with sleep tracking enabled complete 30% more challenge workouts." What should you do FIRST?</p>
+                        <ul class="quiz-options">
+                            <li>A) Immediately build sleep tracking as the top priority feature</li>
+                            <li>B) Validate the correlation with user interviews to understand causation</li>
+                            <li>C) Ignore it—correlation doesn't matter</li>
+                            <li>D) Remove sleep tracking from the app</li>
+                        </ul>
+                        <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 4px;">
+                            <p style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.2;"><strong>Correct Answer:</strong> B</p>
+                            <p style="font-size: 0.65em; margin: 0.15em 0; line-height: 1.2;"><strong>Rationale:</strong> Correlation ≠ causation. Validate with qualitative research before making product decisions. Perhaps motivated users enable all features, not that sleep tracking drives motivation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 34: Knowledge Check 2 -->
+            <section class="ultra-compact">
+                <h2>Knowledge Check (Continued)</h2>
+                <div class="container">
+                    <div class="quiz">
+                        <h4>Question 3: Human Judgment + AI</h4>
+                        <p>During idea selection, AI rates a concept as "low feasibility" but your engineering team says it's easy given existing infrastructure. What should you do?</p>
+                        <ul class="quiz-options">
+                            <li>A) Trust AI—it has more data than your team</li>
+                            <li>B) Override the AI score, document the rationale, and proceed with high feasibility</li>
+                            <li>C) Discard the idea entirely</li>
+                            <li>D) Ask AI again until it agrees with your team</li>
+                        </ul>
+                        <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 4px;">
+                            <p style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.2;"><strong>Correct Answer:</strong> B</p>
+                            <p style="font-size: 0.65em; margin: 0.15em 0; line-height: 1.2;"><strong>Rationale:</strong> Human expertise (especially context-specific like your tech stack) should override generic AI scoring. Document why for transparency and learning.</p>
+                        </div>
+                    </div>
+
+                    <div class="quiz" style="margin-top: 0.8em;">
+                        <h4>Question 4: Bias Spotting (Short Answer)</h4>
+                        <p style="margin-bottom: 0.4em; line-height: 1.2;">Name one potential bias that could emerge during AI-assisted problem discovery, and explain how you would catch it.</p>
+                        <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 4px;">
+                            <p style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.2;"><strong>Sample Answer:</strong></p>
+                            <p style="font-size: 0.65em; margin: 0.15em 0; line-height: 1.2;"><strong>Bias:</strong> Selection bias—if your feedback data comes only from power users or vocal complainers, AI will surface problems specific to that group.</p>
+                            <p style="font-size: 0.65em; margin: 0.15em 0; line-height: 1.2;"><strong>How to catch:</strong> Audit data sources for demographic and behavioral diversity. If a segment is missing, proactively gather input from that group before finalizing problem statements.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLOSING SLIDES -->
+
+            <!-- Slide 35: Threading It All Together -->
+            <section class="compact">
+                <h2>Threading It All Together</h2>
+                <div class="container">
+                    <p style="font-size: 0.8em; margin-bottom: 0.4em; line-height: 1.2;">Let's trace the journey from messy feedback to validated discovery artifacts:</p>
+
+                    <div class="grid grid-3col">
+                        <div class="card">
+                            <h3>1️⃣ Problems</h3>
+                            <p style="font-size: 0.9em;">You used AI to mine patterns from qualitative data, then refined with human nuance to prioritize 2 problem statements.</p>
+                        </div>
+                        <div class="card">
+                            <h3>2️⃣ Ideas</h3>
+                            <p style="font-size: 0.9em;">AI helped generate 20-30 diverse ideas spanning MVPs, radical concepts, UX, and business models.</p>
+                        </div>
+                        <div class="card">
+                            <h3>3️⃣ Selection</h3>
+                            <p style="font-size: 0.9em;">AI scored ideas on feasibility and impact; you mapped them visually and selected top 2 with documented rationale.</p>
+                        </div>
+                        <div class="card">
+                            <h3>4️⃣ Artifacts</h3>
+                            <p style="font-size: 0.9em;">AI drafted a discovery scaffold (interview guide, survey, etc.); you refined for context and hypothesis alignment.</p>
+                        </div>
+                        <div class="card">
+                            <h3>5️⃣ Guardrails</h3>
+                            <p style="font-size: 0.9em;">You mapped benefits vs. risks and created actionable "if-then" rules to mitigate bias and over-reliance.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1em; padding: 1em; background: linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%); color: white; border-radius: 12px; text-align: center;">
+                        <h3 style="color: var(--ax-yellow); margin-top: 0; margin-bottom: 0.3em; font-size: 1em;">The Core Principle</h3>
+                        <p style="font-size: 0.9em; line-height: 1.3; color: white; margin: 0;">AI amplifies your capabilities—speed, scale, creativity—but <strong style="color: var(--ax-yellow);">human judgment</strong> remains the compass. You bring context, ethics, and strategic vision that no model can replicate.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 36: Course Reflection -->
+            <section class="compact">
+                <h2>Course Reflection</h2>
+                <div class="container">
+                    <p style="font-size: 0.8em; margin-bottom: 0.4em; line-height: 1.2;">Take a moment to reflect on your experience:</p>
+
+                    <div class="activity">
+                        <h3>Individual Reflection (5 minutes)</h3>
+                        <ol>
+                            <li><strong>What surprised you?</strong> Where did AI exceed or fall short of your expectations?</li>
+                            <li><strong>What will you apply immediately?</strong> Pick one technique from today to use in your next project.</li>
+                            <li><strong>What questions remain?</strong> What aspects of AI-assisted discovery do you want to explore further?</li>
+                        </ol>
+                    </div>
+
+                    <div class="grid grid-2col" style="margin-top: 0.5em;">
+                        <div class="card highlight">
+                            <h3>Share (Optional)</h3>
+                            <p>Volunteer 1-2 key takeaways or "aha" moments with the group.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Next Steps</h3>
+                            <ul>
+                                <li>Save your Mural boards for reference</li>
+                                <li>Document your guardrails in team wiki</li>
+                                <li>Schedule time to apply one technique this week</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 37: Q&A / Next Steps -->
+            <section>
+                <h2>Q&A & Next Steps</h2>
+                <div class="container">
+                    <div style="margin-bottom: 1em;">
+                        <h3 style="color: var(--ax-purple);">Open Floor for Questions</h3>
+                        <p style="font-size: 0.8em; line-height: 1.2;">Let's discuss any remaining questions, challenges, or scenarios you'd like to explore.</p>
+                    </div>
+
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Continue Your Learning</h3>
+                            <ul>
+                                <li><strong>AI for Product Strategy:</strong> Roadmapping and vision with AI</li>
+                                <li><strong>AI for Product Delivery:</strong> Sprint planning and execution</li>
+                                <li><strong>AI for Product Analytics:</strong> Data-driven decisions at scale</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight">
+                            <h3>Micro-Credential Pathway</h3>
+                            <p style="font-size: 0.9em;">This workshop is part of the <strong>AI for Products Skills Collection</strong>.</p>
+                            <p style="font-size: 0.9em;">Complete all modules to earn your <strong>AI Micro-credential</strong> from ICAgile.</p>
+                            <p style="font-size: 0.9em; margin-top: 0.8em;"><strong>Prerequisites met:</strong> Foundations of AI (ICP-FAI)</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1em; padding: 1em; background: var(--ax-light-gray); border-radius: 8px; text-align: center;">
+                        <h3 style="margin-top: 0; margin-bottom: 0.3em; font-size: 0.95em;">Stay Connected</h3>
+                        <p style="margin: 0.2em 0; font-size: 0.8em; line-height: 1.2;">AdaptiveX Community | <a href="https://adaptivex.com" style="color: var(--ax-purple);">adaptivex.com</a></p>
+                        <p style="font-size: 0.75em; margin-top: 0.3em; line-height: 1.2;">Share your success stories, challenges, and learnings with fellow practitioners.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 38: Thank You -->
+            <section class="title-slide">
+                <h1>Thank You!</h1>
+                <p class="subtitle">AI for Product Discovery</p>
+                <div style="margin-top: 2em;">
+                    <p style="font-size: 1.2em; color: white;">Keep exploring, keep learning, keep building.</p>
+                    <p style="font-size: 1em; color: var(--ax-yellow); margin-top: 1em;">Questions? Reach out to your instructor or AdaptiveX team.</p>
+                </div>
+                <div style="margin-top: 3em; font-size: 0.9em; opacity: 0.9;">
+                    <p>AI for Product Discovery V1.0 | © AdaptiveX 2025</p>
+                    <p>Part of the AI for Products Skills Collection</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            transition: 'slide',
+            slideNumber: true,
+            width: 1280,
+            height: 720,
+            margin: 0.08,
+            minScale: 0.2,
+            maxScale: 2.0,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+</html>

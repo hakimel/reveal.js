@@ -11,7 +11,10 @@ const ORIENTATION_MAP = {
         AUTO: 'grid',
         LINED: 'lined',
         HERO: 'hero',
-        CHECKLIST: 'checklist'
+        CHECKLIST: 'checklist',
+        ROADMAP: 'roadmap',
+        PRICING: 'pricing',
+        STATS: 'stats'
 };
 
 const DEFAULT_ICONS = [
@@ -588,6 +591,482 @@ function injectStyles() {
 }
 
 /* ================================================
+   PRICING LAYOUT - COMPARISON/PRICING CARDS
+   ================================================ */
+
+/* Pricing Container */
+.reveal .smartart[data-layout="pricing"] {
+        padding: clamp(0.75rem, 1.5vh, 1rem) clamp(1rem, 2.5vw, 2rem);
+        max-height: 75vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+}
+
+/* Pricing Grid - 3 Column Responsive */
+.reveal .smartart__pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+        grid-template-rows: 1fr;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+        flex: 1 1 auto;
+        overflow: hidden;
+        align-content: start;
+        align-items: stretch;
+        max-height: 65vh;
+}
+
+/* Individual Pricing Card */
+.reveal .smartart__pricing-card {
+        display: flex;
+        flex-direction: column;
+        background: color-mix(in srgb, var(--r-background-color, #ffffff) 80%, transparent);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        border-radius: clamp(0.75rem, 1vw, 1rem);
+        padding: clamp(1.25rem, 2vh, 1.5rem) clamp(1rem, 1.8vw, 1.25rem);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+        min-height: 0;
+        max-height: 100%;
+}
+
+.reveal .smartart__pricing-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Featured/Highlighted Plan */
+.reveal .smartart__pricing-card--featured {
+        border: 2px solid #137fec;
+        box-shadow: 0 20px 40px rgba(19, 127, 236, 0.3);
+}
+
+.reveal .smartart__pricing-card--featured:hover {
+        box-shadow: 0 24px 48px rgba(19, 127, 236, 0.35);
+}
+
+/* Popular Badge - Diagonal Ribbon */
+.reveal .smartart__pricing-badge {
+        position: absolute;
+        top: 16px;
+        right: -25px;
+        background: #f59e0b;
+        color: #ffffff;
+        font-size: clamp(0.65rem, 0.8vw, 0.75rem);
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 6px 0;
+        width: 100px;
+        text-align: center;
+        transform: rotate(45deg);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+}
+
+/* Card Header Section */
+.reveal .smartart__pricing-header {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.4rem, 0.6vh, 0.6rem);
+        margin-bottom: clamp(0.75rem, 1.2vh, 1rem);
+        padding-bottom: clamp(0.5rem, 0.8vh, 0.75rem);
+        flex-shrink: 0;
+}
+
+/* Plan Name */
+.reveal .smartart__pricing-title {
+        font-size: clamp(1rem, 1.3vw, 1.2rem);
+        font-weight: 700;
+        margin: 0 0 clamp(0.3rem, 0.5vh, 0.5rem);
+        color: inherit;
+        line-height: 1.3;
+}
+
+/* Price Wrapper */
+.reveal .smartart__pricing-price-wrapper {
+        display: flex;
+        align-items: baseline;
+        gap: 0.25rem;
+        margin: clamp(0.3rem, 0.6vh, 0.5rem) 0;
+}
+
+/* Price Amount */
+.reveal .smartart__pricing-price {
+        font-size: clamp(2rem, 3.5vw, 2.5rem);
+        font-weight: 800;
+        color: inherit;
+        line-height: 1;
+}
+
+/* Price Period */
+.reveal .smartart__pricing-period {
+        font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+        font-weight: 400;
+        color: color-mix(in srgb, currentColor 60%, transparent);
+}
+
+/* Description Text */
+.reveal .smartart__pricing-description {
+        font-size: clamp(0.75rem, 0.85vw, 0.85rem);
+        line-height: 1.4;
+        color: color-mix(in srgb, currentColor 70%, transparent);
+        margin: 0;
+        max-height: 3em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+
+/* CTA Button */
+.reveal .smartart__pricing-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(0.65rem, 1vh, 0.85rem) clamp(1rem, 1.8vw, 1.25rem);
+        font-size: clamp(0.8rem, 0.95vw, 0.9rem);
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: clamp(0.5rem, 0.8vw, 0.65rem);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin: clamp(0.75rem, 1.2vh, 1rem) 0 clamp(0.5rem, 0.8vh, 0.75rem);
+        width: 100%;
+        text-align: center;
+}
+
+/* Featured Button - Primary Blue */
+.reveal .smartart__pricing-cta--primary {
+        background: #137fec;
+        color: #ffffff !important;
+        border: 2px solid #137fec;
+        box-shadow: 0 8px 16px -8px rgba(19, 127, 236, 0.5);
+}
+
+.reveal .smartart__pricing-cta--primary:hover {
+        background: #0f6bd1;
+        border-color: #0f6bd1;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 20px -6px rgba(19, 127, 236, 0.6);
+}
+
+/* Standard Button - Light Gray */
+.reveal .smartart__pricing-cta--secondary {
+        background: color-mix(in srgb, currentColor 8%, transparent);
+        color: inherit !important;
+        border: 2px solid color-mix(in srgb, currentColor 20%, transparent);
+        box-shadow: none;
+}
+
+.reveal .smartart__pricing-cta--secondary:hover {
+        background: color-mix(in srgb, currentColor 12%, transparent);
+        border-color: color-mix(in srgb, currentColor 30%, transparent);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.1);
+}
+
+/* Features List */
+.reveal .smartart__pricing-features {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        padding-top: clamp(0.75rem, 1.2vh, 1rem);
+        border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.6rem, 1vh, 0.8rem);
+        flex: 1 1 auto;
+        max-height: 25vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+}
+
+/* Individual Feature Item */
+.reveal .smartart__pricing-feature {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.6rem, 1vw, 0.75rem);
+        font-size: clamp(0.75rem, 0.9vw, 0.875rem);
+        line-height: 1.5;
+        color: color-mix(in srgb, currentColor 80%, transparent);
+}
+
+/* Custom scrollbar for feature lists */
+.reveal .smartart__pricing-features::-webkit-scrollbar {
+        width: 4px;
+}
+.reveal .smartart__pricing-features::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.4);
+        border-radius: 2px;
+}
+.reveal .smartart__pricing-features::-webkit-scrollbar-track {
+        background: transparent;
+}
+
+/* Checkmark Icon */
+.reveal .smartart__pricing-icon {
+        width: clamp(16px, 1.2vw, 18px);
+        height: clamp(16px, 1.2vw, 18px);
+        flex-shrink: 0;
+        color: #10b981;
+        filter: brightness(0) saturate(100%) invert(61%) sepia(78%) saturate(450%) hue-rotate(102deg) brightness(95%) contrast(92%);
+        opacity: 0.9;
+}
+
+/* Dark Theme Support for Pricing */
+.reveal .has-dark-background .smartart__pricing-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-color: rgba(148, 163, 184, 0.2);
+}
+
+.reveal .has-dark-background .smartart__pricing-card:hover {
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.reveal .has-dark-background .smartart__pricing-card--featured {
+        border-color: #137fec;
+        box-shadow: 0 20px 40px rgba(19, 127, 236, 0.4);
+}
+
+.reveal .has-dark-background .smartart__pricing-card--featured:hover {
+        box-shadow: 0 24px 48px rgba(19, 127, 236, 0.45);
+}
+
+.reveal .has-dark-background .smartart__pricing-description {
+        color: rgba(226, 232, 240, 0.7);
+}
+
+.reveal .has-dark-background .smartart__pricing-period {
+        color: rgba(226, 232, 240, 0.6);
+}
+
+.reveal .has-dark-background .smartart__pricing-cta--secondary {
+        background: rgba(148, 163, 184, 0.2);
+        border-color: rgba(148, 163, 184, 0.3);
+}
+
+.reveal .has-dark-background .smartart__pricing-cta--secondary:hover {
+        background: rgba(148, 163, 184, 0.3);
+        border-color: rgba(148, 163, 184, 0.4);
+}
+
+.reveal .has-dark-background .smartart__pricing-features {
+        border-color: rgba(148, 163, 184, 0.2);
+}
+
+.reveal .has-dark-background .smartart__pricing-feature {
+        color: rgba(226, 232, 240, 0.85);
+}
+
+/* Dark theme scrollbar for pricing features */
+.reveal .has-dark-background .smartart__pricing-features::-webkit-scrollbar-thumb {
+        background: rgba(226, 232, 240, 0.3);
+}
+
+/* ================================================
+   STATS/DASHBOARD LAYOUT - METRIC CARDS
+   ================================================ */
+
+/* Stats Container */
+.reveal .smartart[data-layout="stats"] {
+        padding: clamp(0.75rem, 1.5vh, 1rem) clamp(1rem, 2.5vw, 2rem);
+        max-height: 75vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+}
+
+/* Stats Grid - Responsive 3 Column */
+.reveal .smartart__stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+        gap: clamp(1rem, 2vw, 1.5rem);
+        flex: 1 1 auto;
+        overflow: hidden;
+        align-content: start;
+        align-items: stretch;
+}
+
+/* Individual Stat Card */
+.reveal .smartart__stat-card {
+        display: flex;
+        flex-direction: column;
+        background: color-mix(in srgb, var(--r-background-color, #ffffff) 80%, transparent);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: clamp(0.75rem, 1vw, 1rem);
+        padding: clamp(1.25rem, 2vh, 1.75rem) clamp(1.25rem, 2vw, 1.5rem);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+}
+
+.reveal .smartart__stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        border-color: rgba(148, 163, 184, 0.35);
+}
+
+/* Stat Card Header - Label and Icon */
+.reveal .smartart__stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: clamp(0.75rem, 1.2vh, 1rem);
+        gap: 0.75rem;
+}
+
+/* Stat Label */
+.reveal .smartart__stat-label {
+        font-size: clamp(0.85rem, 1vw, 0.95rem);
+        font-weight: 600;
+        color: color-mix(in srgb, currentColor 70%, transparent);
+        line-height: 1.3;
+        margin: 0;
+        flex: 1 1 auto;
+}
+
+/* Stat Icon Container - Top Right */
+.reveal .smartart__stat-icon {
+        width: clamp(2.5rem, 4vw, 3rem);
+        height: clamp(2.5rem, 4vw, 3rem);
+        border-radius: clamp(0.6rem, 0.9vw, 0.75rem);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+}
+
+.reveal .smartart__stat-card:hover .smartart__stat-icon {
+        transform: scale(1.05);
+}
+
+.reveal .smartart__stat-icon img,
+.reveal .smartart__stat-icon svg {
+        width: 55%;
+        height: 55%;
+        max-width: 1.5rem;
+        max-height: 1.5rem;
+        filter: brightness(0) saturate(100%) invert(100%);
+}
+
+/* Icon Color Variants */
+.reveal .smartart__stat-icon--blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.reveal .smartart__stat-icon--green {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.reveal .smartart__stat-icon--purple {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.reveal .smartart__stat-icon--orange {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.reveal .smartart__stat-icon--red {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.reveal .smartart__stat-icon--teal {
+        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+}
+
+/* Stat Value - Large Number */
+.reveal .smartart__stat-value {
+        font-size: clamp(2rem, 4vw, 2.75rem);
+        font-weight: 800;
+        color: inherit;
+        line-height: 1.1;
+        margin: clamp(0.5rem, 1vh, 0.75rem) 0;
+}
+
+/* Stat Description/Trend */
+.reveal .smartart__stat-description {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+        line-height: 1.4;
+        color: color-mix(in srgb, currentColor 65%, transparent);
+        margin-top: auto;
+}
+
+/* Trend Indicator */
+.reveal .smartart__stat-trend {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-weight: 600;
+        padding: 0.15rem 0.4rem;
+        border-radius: 0.35rem;
+        font-size: clamp(0.75rem, 0.85vw, 0.85rem);
+}
+
+.reveal .smartart__stat-trend--up {
+        color: #059669;
+        background: rgba(16, 185, 129, 0.1);
+}
+
+.reveal .smartart__stat-trend--down {
+        color: #dc2626;
+        background: rgba(239, 68, 68, 0.1);
+}
+
+.reveal .smartart__stat-trend--neutral {
+        color: color-mix(in srgb, currentColor 60%, transparent);
+        background: rgba(148, 163, 184, 0.1);
+}
+
+/* Trend Arrow */
+.reveal .smartart__stat-trend-arrow {
+        font-size: 1em;
+        line-height: 1;
+}
+
+/* Dark Theme Support for Stats */
+.reveal .has-dark-background .smartart__stat-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-color: rgba(148, 163, 184, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.reveal .has-dark-background .smartart__stat-card:hover {
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+        border-color: rgba(148, 163, 184, 0.3);
+}
+
+.reveal .has-dark-background .smartart__stat-label {
+        color: rgba(226, 232, 240, 0.75);
+}
+
+.reveal .has-dark-background .smartart__stat-description {
+        color: rgba(226, 232, 240, 0.65);
+}
+
+.reveal .has-dark-background .smartart__stat-trend--up {
+        color: #34d399;
+        background: rgba(16, 185, 129, 0.15);
+}
+
+.reveal .has-dark-background .smartart__stat-trend--down {
+        color: #f87171;
+        background: rgba(239, 68, 68, 0.15);
+}
+
+.reveal .has-dark-background .smartart__stat-trend--neutral {
+        color: rgba(226, 232, 240, 0.6);
+        background: rgba(148, 163, 184, 0.15);
+}
+
+/* ================================================
    RESPONSIVE BREAKPOINTS
    ================================================ */
 
@@ -655,6 +1134,21 @@ function injectStyles() {
         .reveal .smartart__hero-cta {
                 width: 100%;
                 justify-content: center;
+        }
+
+        /* Pricing - Stack to Single Column on Mobile */
+        .reveal .smartart__pricing-grid {
+                grid-template-columns: 1fr;
+        }
+        .reveal .smartart__pricing-badge {
+                font-size: 0.65rem;
+                width: 90px;
+                right: -22px;
+        }
+
+        /* Stats - Stack to Single Column on Mobile */
+        .reveal .smartart__stats-grid {
+                grid-template-columns: 1fr;
         }
 }
 
@@ -806,6 +1300,60 @@ function injectStyles() {
         .reveal .smartart__list-description {
                 font-size: 0.75rem;
                 margin-top: 0.2rem;
+        }
+}
+
+/* Height-Based Media Queries - Pricing Layout Specific */
+@media screen and (max-height: 800px) {
+        .reveal .smartart[data-layout="pricing"] {
+                max-height: 70vh;
+        }
+        .reveal .smartart__pricing-grid {
+                max-height: 60vh;
+        }
+        .reveal .smartart__pricing-card {
+                padding: 0.75rem;
+        }
+        .reveal .smartart__pricing-price {
+                font-size: 2rem;
+        }
+        .reveal .smartart__pricing-features {
+                max-height: 22vh;
+        }
+}
+
+@media screen and (max-height: 700px) {
+        .reveal .smartart[data-layout="pricing"] {
+                max-height: 65vh;
+        }
+        .reveal .smartart__pricing-grid {
+                max-height: 55vh;
+        }
+        .reveal .smartart__pricing-card {
+                padding: 0.65rem;
+        }
+        .reveal .smartart__pricing-title {
+                font-size: 1rem;
+        }
+        .reveal .smartart__pricing-price {
+                font-size: 1.8rem;
+        }
+        .reveal .smartart__pricing-description {
+                font-size: 0.7rem;
+                max-height: 2.5em;
+        }
+        .reveal .smartart__pricing-cta {
+                padding: 0.45rem 0.65rem;
+                font-size: 0.7rem;
+                margin: 0.4rem 0;
+        }
+        .reveal .smartart__pricing-features {
+                max-height: 20vh;
+                gap: 0.35rem;
+        }
+        .reveal .smartart__pricing-feature {
+                font-size: 0.65rem;
+                line-height: 1.2;
         }
 }
 
@@ -987,7 +1535,12 @@ function parseItem( raw, index, layout ) {
                 icon: '',
                 ctaLabel: '',
                 ctaUrl: '',
-                checked: false
+                checked: false,
+                featured: false,
+                price: '',
+                features: [],
+                value: '',
+                iconColor: ''
         };
 
         // Handle checklist items
@@ -1003,6 +1556,59 @@ function parseItem( raw, index, layout ) {
                         item.title = raw.trim();
                 }
                 return item.title ? item : null;
+        }
+
+        // Handle pricing items with featured marker [*] or [!]
+        if( layout === 'pricing' ) {
+                const featuredMatch = raw.match( /^\[\s*([*!])\s*\]\s*(.+)$/ );
+                if( featuredMatch ) {
+                        item.featured = true;
+                        raw = featuredMatch[ 2 ].trim();
+                }
+
+                // Parse pricing format: Plan Name | Price | Description | CTA Label | Features
+                const segments = raw.split( /\|/ ).map( part => part.trim() ).filter( part => part.length > 0 );
+
+                if( segments.length >= 2 ) {
+                        item.title = segments[ 0 ];
+                        item.price = segments[ 1 ];
+                        if( segments.length >= 3 ) item.description = segments[ 2 ];
+                        if( segments.length >= 4 ) item.ctaLabel = segments[ 3 ];
+                        if( segments.length >= 5 ) {
+                                // Features are semicolon-separated
+                                item.features = segments[ 4 ].split( /\s*;\s*/ ).map( f => f.trim() ).filter( Boolean );
+                        }
+                }
+
+                if( item.ctaLabel && !item.ctaUrl ) item.ctaUrl = '#';
+                return item.title && item.price ? item : null;
+        }
+
+        // Handle stats items: Label | Value | Description | icon=... | color=...
+        if( layout === 'stats' ) {
+                const segments = raw.split( /\|/ ).map( part => part.trim() ).filter( part => part.length > 0 );
+
+                if( segments.length >= 2 ) {
+                        item.title = segments[ 0 ];
+                        item.value = segments[ 1 ];
+                        if( segments.length >= 3 ) item.description = segments[ 2 ];
+
+                        // Process any key=value pairs in remaining segments
+                        for( let i = 3; i < segments.length; i++ ) {
+                                const kvMatch = segments[ i ].match( /^(\w+)\s*=\s*(.+)$/ );
+                                if( kvMatch ) {
+                                        const key = kvMatch[ 1 ].toLowerCase();
+                                        const value = kvMatch[ 2 ].trim();
+                                        if( key === 'icon' ) item.icon = value;
+                                        else if( key === 'color' ) item.iconColor = value;
+                                }
+                        }
+                }
+
+                // If no icon specified, use default
+                if( !item.icon ) item.icon = defaultIcon( index );
+
+                return item.title && item.value ? item : null;
         }
 
         const segments = raw.split( /\|/ ).map( part => part.trim() ).filter( part => part.length > 0 );
@@ -1280,6 +1886,290 @@ function buildChecklist( data ) {
         return container;
 }
 
+function parsePrice( priceString ) {
+        // Match patterns like "$9/month", "$29", "Contact Us"
+        const match = priceString.match( /^(\$?\d+(?:\.\d{2})?)(.*)$/ );
+        if( match ) {
+                return {
+                        amount: match[ 1 ],
+                        period: match[ 2 ].trim() // e.g., "/month", "/year"
+                };
+        }
+        return {
+                amount: priceString, // e.g., "Contact Us", "Custom"
+                period: ''
+        };
+}
+
+function buildPricing( data ) {
+        const container = document.createElement( 'div' );
+        container.className = 'smartart';
+        container.dataset.layout = 'pricing';
+        container.dataset.smartartGenerated = 'true';
+
+        if( data.heading ) {
+                const heading = document.createElement( 'h2' );
+                heading.className = 'smartart__heading';
+                heading.textContent = data.heading;
+                container.appendChild( heading );
+        }
+
+        if( data.intro ) {
+                const intro = document.createElement( 'p' );
+                intro.className = 'smartart__intro';
+                intro.textContent = data.intro;
+                container.appendChild( intro );
+        }
+
+        const grid = document.createElement( 'div' );
+        grid.className = 'smartart__pricing-grid';
+
+        data.items.forEach( ( item, index ) => {
+                const card = document.createElement( 'div' );
+                card.className = 'smartart__pricing-card';
+                if( item.featured ) {
+                        card.classList.add( 'smartart__pricing-card--featured' );
+                }
+
+                // Popular badge for featured plans
+                if( item.featured ) {
+                        const badge = document.createElement( 'div' );
+                        badge.className = 'smartart__pricing-badge';
+                        badge.textContent = 'Popular';
+                        card.appendChild( badge );
+                }
+
+                // Card header
+                const header = document.createElement( 'div' );
+                header.className = 'smartart__pricing-header';
+
+                // Plan name
+                if( item.title ) {
+                        const title = document.createElement( 'h3' );
+                        title.className = 'smartart__pricing-title';
+                        title.textContent = item.title;
+                        header.appendChild( title );
+                }
+
+                // Price
+                if( item.price ) {
+                        const priceWrapper = document.createElement( 'div' );
+                        priceWrapper.className = 'smartart__pricing-price-wrapper';
+
+                        const parsedPrice = parsePrice( item.price );
+
+                        const priceAmount = document.createElement( 'span' );
+                        priceAmount.className = 'smartart__pricing-price';
+                        priceAmount.textContent = parsedPrice.amount;
+                        priceWrapper.appendChild( priceAmount );
+
+                        if( parsedPrice.period ) {
+                                const pricePeriod = document.createElement( 'span' );
+                                pricePeriod.className = 'smartart__pricing-period';
+                                pricePeriod.textContent = parsedPrice.period;
+                                priceWrapper.appendChild( pricePeriod );
+                        }
+
+                        header.appendChild( priceWrapper );
+                }
+
+                // Description
+                if( item.description ) {
+                        const description = document.createElement( 'p' );
+                        description.className = 'smartart__pricing-description';
+                        description.textContent = item.description;
+                        header.appendChild( description );
+                }
+
+                card.appendChild( header );
+
+                // CTA Button
+                if( item.ctaLabel ) {
+                        const cta = document.createElement( 'a' );
+                        cta.className = 'smartart__pricing-cta';
+                        cta.classList.add( item.featured ? 'smartart__pricing-cta--primary' : 'smartart__pricing-cta--secondary' );
+                        cta.textContent = item.ctaLabel;
+                        cta.href = item.ctaUrl || '#';
+                        cta.target = /^https?:/i.test( item.ctaUrl ) ? '_blank' : '_self';
+                        cta.rel = 'noreferrer noopener';
+                        card.appendChild( cta );
+                }
+
+                // Features list
+                if( item.features && item.features.length > 0 ) {
+                        const featuresList = document.createElement( 'ul' );
+                        featuresList.className = 'smartart__pricing-features';
+
+                        item.features.forEach( feature => {
+                                const featureItem = document.createElement( 'li' );
+                                featureItem.className = 'smartart__pricing-feature';
+
+                                const icon = document.createElement( 'img' );
+                                icon.className = 'smartart__pricing-icon';
+                                icon.src = 'https://api.iconify.design/lucide:check-circle.svg';
+                                icon.alt = 'Included';
+                                icon.loading = 'lazy';
+
+                                const featureText = document.createElement( 'span' );
+                                featureText.textContent = feature;
+
+                                featureItem.appendChild( icon );
+                                featureItem.appendChild( featureText );
+                                featuresList.appendChild( featureItem );
+                        } );
+
+                        card.appendChild( featuresList );
+                }
+
+                grid.appendChild( card );
+        } );
+
+        container.appendChild( grid );
+
+        return container;
+}
+
+function buildStats( data ) {
+        const container = document.createElement( 'div' );
+        container.className = 'smartart';
+        container.dataset.layout = 'stats';
+        container.dataset.smartartGenerated = 'true';
+
+        if( data.heading ) {
+                const heading = document.createElement( 'h2' );
+                heading.className = 'smartart__heading';
+                heading.textContent = data.heading;
+                container.appendChild( heading );
+        }
+
+        if( data.intro ) {
+                const intro = document.createElement( 'p' );
+                intro.className = 'smartart__intro';
+                intro.textContent = data.intro;
+                container.appendChild( intro );
+        }
+
+        const grid = document.createElement( 'div' );
+        grid.className = 'smartart__stats-grid';
+
+        const iconColors = ['blue', 'green', 'purple', 'orange', 'teal', 'red'];
+
+        data.items.forEach( ( item, index ) => {
+                const card = document.createElement( 'div' );
+                card.className = 'smartart__stat-card';
+
+                // Header with label and icon
+                const header = document.createElement( 'div' );
+                header.className = 'smartart__stat-header';
+
+                // Label
+                if( item.title ) {
+                        const label = document.createElement( 'p' );
+                        label.className = 'smartart__stat-label';
+                        label.textContent = item.title;
+                        header.appendChild( label );
+                }
+
+                // Icon (top right)
+                if( item.icon ) {
+                        const iconWrapper = document.createElement( 'div' );
+                        iconWrapper.className = 'smartart__stat-icon';
+
+                        // Auto-assign color or use specified color
+                        const colorClass = item.iconColor || iconColors[ index % iconColors.length ];
+                        iconWrapper.classList.add( `smartart__stat-icon--${colorClass}` );
+
+                        const icon = document.createElement( 'img' );
+                        icon.src = iconToUrl( item.icon );
+                        icon.alt = item.title ? `${ item.title } icon` : 'Stat icon';
+                        icon.loading = 'lazy';
+                        iconWrapper.appendChild( icon );
+                        header.appendChild( iconWrapper );
+                }
+
+                card.appendChild( header );
+
+                // Value (large number)
+                if( item.value ) {
+                        const value = document.createElement( 'div' );
+                        value.className = 'smartart__stat-value';
+                        value.textContent = item.value;
+                        card.appendChild( value );
+                }
+
+                // Description/Trend
+                if( item.description ) {
+                        const description = document.createElement( 'div' );
+                        description.className = 'smartart__stat-description';
+
+                        // Parse trend indicators
+                        const trendMatch = item.description.match( /^(.*?)(\↑|\[up\]|\↓|\[down\]|)(.*?)$/i );
+
+                        if( trendMatch ) {
+                                const beforeTrend = trendMatch[ 1 ].trim();
+                                const trendIndicator = trendMatch[ 2 ].trim();
+                                const afterTrend = trendMatch[ 3 ].trim();
+
+                                // Determine trend type
+                                let trendType = 'neutral';
+                                let trendArrow = '';
+
+                                if( trendIndicator === '↑' || trendIndicator.toLowerCase() === '[up]' ) {
+                                        trendType = 'up';
+                                        trendArrow = '↑';
+                                } else if( trendIndicator === '↓' || trendIndicator.toLowerCase() === '[down]' ) {
+                                        trendType = 'down';
+                                        trendArrow = '↓';
+                                }
+
+                                // Build description with trend
+                                if( beforeTrend ) {
+                                        const textBefore = document.createElement( 'span' );
+                                        textBefore.textContent = beforeTrend + ' ';
+                                        description.appendChild( textBefore );
+                                }
+
+                                if( trendType !== 'neutral' && afterTrend ) {
+                                        const trend = document.createElement( 'span' );
+                                        trend.className = `smartart__stat-trend smartart__stat-trend--${trendType}`;
+
+                                        if( trendArrow ) {
+                                                const arrow = document.createElement( 'span' );
+                                                arrow.className = 'smartart__stat-trend-arrow';
+                                                arrow.textContent = trendArrow;
+                                                trend.appendChild( arrow );
+                                        }
+
+                                        const trendText = document.createElement( 'span' );
+                                        trendText.textContent = afterTrend;
+                                        trend.appendChild( trendText );
+
+                                        description.appendChild( trend );
+                                } else if( afterTrend ) {
+                                        const textAfter = document.createElement( 'span' );
+                                        textAfter.textContent = afterTrend;
+                                        description.appendChild( textAfter );
+                                }
+
+                                // If no trend indicator found, just show full text
+                                if( !beforeTrend && !trendArrow && !afterTrend ) {
+                                        description.textContent = item.description;
+                                }
+                        } else {
+                                description.textContent = item.description;
+                        }
+
+                        card.appendChild( description );
+                }
+
+                grid.appendChild( card );
+        } );
+
+        container.appendChild( grid );
+
+        return container;
+}
+
 function buildSmartArt( data ) {
         const layout = data.layout || orientationToLayout( data.orientation );
 
@@ -1291,6 +2181,16 @@ function buildSmartArt( data ) {
         // Use specialized builder for CHECKLIST layout
         if( layout === 'checklist' ) {
                 return buildChecklist( data );
+        }
+
+        // Use specialized builder for PRICING layout
+        if( layout === 'pricing' ) {
+                return buildPricing( data );
+        }
+
+        // Use specialized builder for STATS layout
+        if( layout === 'stats' ) {
+                return buildStats( data );
         }
 
         const container = document.createElement( 'div' );
