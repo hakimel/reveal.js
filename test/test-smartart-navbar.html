@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>reveal.js - SmartArt Navbar Test</title>
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+  <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+<body style="overflow: auto;">
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <div class="reveal" style="display:none;">
+    <div class="slides">
+
+      <section data-id="navbar-slide" data-markdown>
+        <script type="text/template">
+        ::: smartart Product Suite NAVBAR
+        subtitle: Making teams faster
+        height: 64px
+        align: left
+        :::
+
+        ### Content Should Be Below
+        Paragraph text under the navbar.
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    console.log('navbar-md: boot');
+    QUnit.config.testTimeout = 30000;
+    QUnit.module('SmartArt-Navbar');
+
+    var reveal = new Reveal(document.querySelector('.reveal'), {
+      plugins: [ RevealMarkdown, RevealSmartArt ],
+      hash: false,
+      controls: false,
+      progress: false,
+      center: false
+    });
+
+  reveal.initialize();
+  console.log('navbar-md: initialize called');
+
+    var ready = new Promise(function(resolve) {
+      if (reveal.isReady && reveal.isReady()) resolve();
+  else reveal.on('ready', function() { console.log('navbar-md: ready'); resolve(); });
+    });
+
+    QUnit.test('Navbar is inserted at top and section flagged', function(assert) {
+      return ready.then(function() {
+        var outer = document.querySelector('section[data-id="navbar-slide"]');
+        assert.ok(outer, 'Slide exists');
+        // Inner content section (in case markdown created a child section)
+        var inner = outer.querySelector(':scope > section') || outer;
+        assert.ok(inner.getAttribute('data-has-navbar') === 'true' || outer.getAttribute('data-has-navbar') === 'true', 'Either inner or outer section flagged');
+        var firstChild = inner.firstElementChild;
+        assert.ok(firstChild && firstChild.classList.contains('smartart') && firstChild.dataset.layout === 'navbar', 'Navbar is first element in content section');
+      });
+    });
+
+    QUnit.test('Content is present below navbar', function(assert) {
+      return ready.then(function() {
+        var outer = document.querySelector('section[data-id="navbar-slide"]');
+        var inner = outer.querySelector(':scope > section') || outer;
+        var elems = Array.from(inner.children);
+        assert.ok(elems.length >= 2, 'Section has navbar plus additional content');
+        var hasHeading = !!inner.querySelector('h3, h2, h1');
+        assert.ok(hasHeading, 'Heading below navbar exists');
+      });
+    });
+  </script>
+</body>
+</html>

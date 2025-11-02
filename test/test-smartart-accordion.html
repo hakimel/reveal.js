@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>reveal.js - SmartArt Accordion Tests</title>
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+  <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+<body style="overflow: auto;">
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <div class="reveal" style="display: none;">
+    <div class="slides">
+      <section data-markdown data-separator="^\n---\n$">
+        <script type="text/template">
+        ::: smartart Test Single ACCORDION
+        intro: Single-open by default.
+        ---
+        [*] First | First content
+        Second | Second content
+        Third | Third content
+        :::
+        ---
+        ::: smartart Test Multiple ACCORDION
+        intro: Multiple open panels allowed.
+        multiple: true
+        ---
+        [*] A | Alpha
+        [*] B | Beta
+        C | Gamma
+        :::
+        </script>
+      </section>
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    QUnit.config.testTimeout = 30000;
+    QUnit.module('SmartArt Accordion');
+
+    const reveal = new Reveal(document.querySelector('.reveal'), {
+      plugins: [ RevealMarkdown, RevealSmartArt ],
+      embedded: true,
+      controls: false,
+      progress: false,
+      center: false
+    });
+
+    function waitForReady() {
+      return new Promise(resolve => {
+        if (reveal && typeof reveal.isReady === 'function' && reveal.isReady()) return resolve();
+        reveal.on('ready', () => resolve());
+      });
+    }
+
+    reveal.initialize();
+
+    QUnit.test('renders accordion structure', function(assert) {
+      const done = assert.async();
+      waitForReady().then(function() {
+        const accordions = document.querySelectorAll('.smartart[data-layout="accordion"] .smartart__accordion');
+        assert.ok(accordions.length >= 2, 'Found at least two accordions');
+
+        const firstAcc = accordions[0];
+        const items = firstAcc.querySelectorAll('.smartart__accordion-item');
+        assert.equal(items.length, 3, 'First accordion has 3 items');
+
+        done();
+      });
+    });
+
+    QUnit.test('single-open by default', function(assert) {
+      const done = assert.async();
+      waitForReady().then(function() {
+        const firstAcc = document.querySelectorAll('.smartart[data-layout="accordion"] .smartart__accordion')[0];
+        const buttons = firstAcc.querySelectorAll('.smartart__accordion-button');
+        assert.equal(buttons.length, 3, '3 buttons');
+        const expanded = Array.from(buttons).map(b => b.getAttribute('aria-expanded'));
+        assert.deepEqual(expanded, ['true','false','false'], 'Only first is open initially');
+
+        // Click second, should close first in single-open mode
+        buttons[1].click();
+        const expandedAfter = Array.from(buttons).map(b => b.getAttribute('aria-expanded'));
+        assert.deepEqual(expandedAfter, ['false','true','false'], 'Second open, first closed after click');
+        done();
+      });
+    });
+
+    QUnit.test('multiple-open when multiple:true', function(assert) {
+      const done = assert.async();
+      waitForReady().then(function() {
+        const accordions = document.querySelectorAll('.smartart[data-layout="accordion"] .smartart__accordion');
+        const multiAcc = accordions[1];
+        assert.ok(multiAcc.hasAttribute('data-allow-multiple'), 'Has data-allow-multiple');
+        const buttons = multiAcc.querySelectorAll('.smartart__accordion-button');
+        const expanded = Array.from(buttons).map(b => b.getAttribute('aria-expanded'));
+        assert.deepEqual(expanded, ['true','true','false'], 'First two open initially');
+
+        // Click third, first two should remain open
+        buttons[2].click();
+        const after = Array.from(buttons).map(b => b.getAttribute('aria-expanded'));
+        assert.deepEqual(after, ['true','true','true'], 'All three open after click');
+        done();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -24,7 +24,9 @@
                 CHECKLIST: 'checklist',
                 ROADMAP: 'roadmap',
                 PRICING: 'pricing',
-                STATS: 'stats'
+		STATS: 'stats',
+		NAVBAR: 'navbar',
+		ACCORDION: 'accordion'
         };
 
 	const DEFAULT_ICONS = [
@@ -315,6 +317,118 @@
 	   HERO LAYOUT - BOOTSTRAP-STYLE HERO SECTIONS
 	   ================================================ */
 
+	/* ================================================
+	   NAVBAR LAYOUT - FULL-WIDTH TOP BANNER
+	   ================================================ */
+	.reveal .smartart[data-layout="navbar"] {
+	        --smartart-navbar-height: clamp(48px, 8vh, 72px);
+	        --smartart-navbar-bg: var(--r-link-color, #137fec);
+	        --smartart-navbar-fg: #ffffff;
+	        width: 100%;
+	        max-width: 100%;
+	        padding: 0;
+	        margin: 0;
+	        border-radius: 0;
+	        background: var(--smartart-navbar-bg);
+	        color: var(--smartart-navbar-fg);
+	        min-height: var(--smartart-navbar-height);
+	        display: flex;
+	        align-items: center;
+	        box-shadow: 0 6px 16px -8px rgba(0,0,0,0.25);
+	        box-sizing: border-box;
+	}
+
+	.reveal .smartart__navbar-inner {
+	        width: 100%;
+	        padding: 0 clamp(1rem, 3vw, 2rem);
+	        display: flex;
+	        flex-direction: column;
+	        gap: clamp(2px, 0.6vh, 6px);
+	        align-items: center;
+	        justify-content: center;
+	}
+
+	.reveal .smartart[data-layout="navbar"][data-align="left"] .smartart__navbar-inner { align-items: flex-start; }
+	.reveal .smartart[data-layout="navbar"][data-align="right"] .smartart__navbar-inner { align-items: flex-end; }
+
+	.reveal .smartart__navbar-title {
+	        margin: 0;
+	        font-weight: 700;
+	        line-height: 1.2;
+	        font-size: clamp(1rem, 2.1vw, 1.5rem);
+	}
+
+	.reveal .smartart__navbar-subtitle {
+	        margin: 0;
+	        opacity: 0.9;
+	        line-height: 1.4;
+	        font-size: clamp(0.8rem, 1.4vw, 1rem);
+	}
+
+	/* Ensure slide content sits below the navbar when present */
+	.reveal section[data-has-navbar="true"] { 
+	        padding-top: calc(var(--smartart-navbar-height, 64px) + clamp(6px, 1vh, 12px));
+	}
+
+	/* ================================================
+	   ACCORDION LAYOUT - COLLAPSIBLE SECTIONS
+	   ================================================ */
+	.reveal .smartart[data-layout="accordion"] {
+	        width: 100%;
+	        max-width: min(96%, 900px);
+	        margin: 0 auto;
+	}
+	.reveal .smartart__accordion {
+	        border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	        border-radius: 10px;
+	        overflow: hidden;
+	        background: color-mix(in srgb, var(--r-background-color, #f8fafc) 65%, #ffffff 35%);
+
+	}
+	.reveal .smartart__accordion-item + .smartart__accordion-item { border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+	.reveal .smartart__accordion-header {
+	        margin: 0;
+	}
+	.reveal .smartart__accordion-button {
+	        appearance: none;
+	        width: 100%;
+	        text-align: left;
+	        padding: clamp(0.9rem, 1.6vh, 1.2rem) clamp(1rem, 2.5vw, 1.5rem);
+	        background: transparent;
+	        border: 0;
+	        font-weight: 700;
+	        font-size: clamp(0.95rem, 1.3vw + 0.15rem, 1.15rem);
+	        line-height: 1.3;
+	        display: flex;
+	        align-items: center;
+	        gap: 0.75rem;
+	        cursor: pointer;
+	}
+	.reveal .smartart__accordion-icon {
+	        margin-left: auto;
+	        transition: transform 0.2s ease;
+	}
+	.reveal .smartart__accordion-button[aria-expanded="true"] .smartart__accordion-icon { transform: rotate(90deg); }
+	.reveal .smartart__accordion-panel {
+	        overflow: hidden;
+	        max-height: 0;
+	        transition: max-height 0.25s ease;
+	}
+	.reveal .smartart__accordion-panel-inner {
+	        padding: 0 1.5rem 1rem 1.5rem;
+	        color: color-mix(in srgb, currentColor 78%, transparent);
+	        font-size: clamp(0.85rem, 1vw, 1rem);
+	        line-height: 1.6;
+	        text-align: left;
+	}
+
+	/* Dark theme adjustments */
+	.reveal .has-dark-background .smartart[data-layout="accordion"] .smartart__accordion { 
+	        background: rgba(15, 23, 42, 0.86);
+	        border-color: rgba(148, 163, 184, 0.22);
+	}
+	.reveal .has-dark-background .smartart__accordion-panel-inner { color: rgba(226,232,240,0.8); }
+
 	/* Hero Container */
 	.reveal .smartart[data-layout="hero"] {
 	        padding: clamp(1.5rem, 3vh, 2.5rem) clamp(1rem, 3vw, 3rem);
@@ -462,6 +576,112 @@
 	        background: rgba(148, 163, 184, 0.15);
 	        border-color: rgba(148, 163, 184, 0.7);
 	        color: #f8fafc !important;
+	}
+
+	/* Hero Background-Image Variant - Full Viewport */
+	/* Reveal.js handles backgrounds via data-background-image attributes */
+
+	/* Ensure sections with hero components take full height */
+	.reveal .slides section:has(.smartart--hero) {
+	        height: 100% !important;
+	        display: flex !important;
+	        align-items: center !important;
+	        justify-content: center !important;
+	}
+
+	.reveal .smartart--hero {
+	        display: flex;
+	        align-items: center;
+	        justify-content: center;
+	        width: 100%;
+	        min-height: 100%;
+	}
+
+	.reveal .smartart__hero-content-centered {
+	        position: relative;
+	        z-index: 1;
+	        text-align: center;
+	        width: 100%;
+	        max-width: 800px;
+	        padding: clamp(2rem, 4vh, 3rem) clamp(1.5rem, 3vw, 2rem);
+	        color: #ffffff;
+	        margin: 0 auto;
+	        background: rgba(0, 0, 0, 0.5);
+	        border-radius: clamp(1rem, 2vw, 2rem);
+	        backdrop-filter: blur(8px);
+	        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	}
+
+	.reveal .smartart__hero-heading-centered {
+	        font-size: clamp(2.5rem, 6vw, 4rem);
+	        font-weight: 700;
+	        line-height: 1.1;
+	        margin: 0 0 clamp(1rem, 2vh, 1.5rem);
+	        color: #ffffff;
+	        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
+	}
+
+	.reveal .smartart__hero-subtitle {
+	        font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+	        line-height: 1.6;
+	        margin: 0 0 clamp(1.5rem, 3vh, 2rem);
+	        color: rgba(255, 255, 255, 0.95);
+	        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4);
+	}
+
+	.reveal .smartart__hero-cta-centered {
+	        display: inline-flex;
+	        align-items: center;
+	        justify-content: center;
+	        gap: 0.5rem;
+	        background: #6B46C1;
+	        color: #ffffff !important;
+	        padding: clamp(0.8rem, 1.5vh, 1rem) clamp(1.5rem, 3vw, 2rem);
+	        border-radius: clamp(0.5rem, 1vw, 0.75rem);
+	        font-size: clamp(1rem, 1.8vw, 1.25rem);
+	        font-weight: 600;
+	        text-decoration: none;
+	        transition: all 0.3s ease;
+	        box-shadow: 0 4px 14px 0 rgba(107, 70, 193, 0.4);
+	        border: 2px solid #6B46C1;
+	}
+
+	.reveal .smartart__hero-cta-centered:hover {
+	        background: #5a3ba1;
+	        border-color: #5a3ba1;
+	        transform: translateY(-2px);
+	        box-shadow: 0 6px 20px 0 rgba(107, 70, 193, 0.5);
+	}
+
+	/* Mobile Responsive for Background Hero */
+	@media (max-width: 768px) {
+	        .reveal .smartart__hero-heading-centered {
+	                font-size: 2rem;
+	        }
+
+	        .reveal .smartart__hero-subtitle {
+	                font-size: 1.1rem;
+	        }
+
+	        .reveal .smartart__hero-cta-centered {
+	                padding: 0.75rem 1.5rem;
+	                font-size: 1rem;
+	        }
+	}
+
+	@media (max-width: 480px) {
+	        .reveal .smartart__hero-heading-centered {
+	                font-size: 1.75rem;
+	        }
+
+	        .reveal .smartart__hero-subtitle {
+	                font-size: 1rem;
+	        }
+
+	        .reveal .smartart__hero-cta-centered {
+	                padding: 0.7rem 1.25rem;
+	                font-size: 0.95rem;
+	        }
 	}
 
 	/* ================================================
@@ -1699,16 +1919,28 @@
 	        const detailLines = lines.slice( 1 );
 	        let intro = '';
 	        let image = '';
+	        let background = '';
+	        let color = '';
+	        let height = '';
+	        let align = '';
+	        let subtitle = '';
 	        let cta = '';
 	        let cta2 = '';
+	        let multiple = '';
 	        const itemSegments = [];
 	
 	        if( firstItemCandidate ) {
 	                const sanitizedFirst = firstItemCandidate.replace( /^[-*+]\s+/, '' );
 	                const introMatch = sanitizedFirst.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
 	                const imageMatch = sanitizedFirst.match( /^image\s*:\s*(.+)$/i );
+	                const backgroundMatch = sanitizedFirst.match( /^background\s*:\s*(.+)$/i );
+	                const subtitleMatch = sanitizedFirst.match( /^subtitle\s*:\s*(.+)$/i );
+	                const colorMatch = sanitizedFirst.match( /^color\s*:\s*(.+)$/i );
+	                const heightMatch = sanitizedFirst.match( /^height\s*:\s*(.+)$/i );
+	                const alignMatch = sanitizedFirst.match( /^align\s*:\s*(left|center|right)\s*$/i );
 	                const ctaMatch = sanitizedFirst.match( /^cta\s*:\s*(.+)$/i );
 	                const cta2Match = sanitizedFirst.match( /^cta2\s*:\s*(.+)$/i );
+	                const multipleMatch = sanitizedFirst.match( /^multiple\s*:\s*(true|false)\s*$/i );
 
 	                if( introMatch ) {
 	                        intro = introMatch[ 1 ].trim();
@@ -1716,11 +1948,29 @@
 	                else if( imageMatch ) {
 	                        image = imageMatch[ 1 ].trim();
 	                }
+	                else if( backgroundMatch ) {
+	                        background = backgroundMatch[ 1 ].trim();
+	                }
+	                else if( subtitleMatch ) {
+	                        subtitle = subtitleMatch[ 1 ].trim();
+	                }
+	                else if( colorMatch ) {
+	                        color = colorMatch[ 1 ].trim();
+	                }
+	                else if( heightMatch ) {
+	                        height = heightMatch[ 1 ].trim();
+	                }
+	                else if( alignMatch ) {
+	                        align = alignMatch[ 1 ].toLowerCase();
+	                }
 	                else if( ctaMatch ) {
 	                        cta = ctaMatch[ 1 ].trim();
 	                }
 	                else if( cta2Match ) {
 	                        cta2 = cta2Match[ 1 ].trim();
+	                }
+	                else if( multipleMatch ) {
+	                        multiple = multipleMatch[ 1 ].toLowerCase() === 'true';
 	                }
 	                else {
 	                        itemSegments.push( sanitizedFirst );
@@ -1731,8 +1981,14 @@
 	                const sanitized = line.replace( /^[-*+]\s+/, '' );
 	                const introMatch = sanitized.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
 	                const imageMatch = sanitized.match( /^image\s*:\s*(.+)$/i );
+	                const backgroundMatch = sanitized.match( /^background\s*:\s*(.+)$/i );
+	                const subtitleMatch = sanitized.match( /^subtitle\s*:\s*(.+)$/i );
+	                const colorMatch = sanitized.match( /^color\s*:\s*(.+)$/i );
+	                const heightMatch = sanitized.match( /^height\s*:\s*(.+)$/i );
+	                const alignMatch = sanitized.match( /^align\s*:\s*(left|center|right)\s*$/i );
 	                const ctaMatch = sanitized.match( /^cta\s*:\s*(.+)$/i );
 	                const cta2Match = sanitized.match( /^cta2\s*:\s*(.+)$/i );
+	                const multipleMatch = sanitized.match( /^multiple\s*:\s*(true|false)\s*$/i );
 
 	                if( introMatch ) {
 	                        intro = introMatch[ 1 ].trim();
@@ -1742,12 +1998,36 @@
 	                        image = imageMatch[ 1 ].trim();
 	                        return;
 	                }
+	                if( backgroundMatch ) {
+	                        background = backgroundMatch[ 1 ].trim();
+	                        return;
+	                }
+	                if( subtitleMatch ) {
+	                        subtitle = subtitleMatch[ 1 ].trim();
+	                        return;
+	                }
+	                if( colorMatch ) {
+	                        color = colorMatch[ 1 ].trim();
+	                        return;
+	                }
+	                if( heightMatch ) {
+	                        height = heightMatch[ 1 ].trim();
+	                        return;
+	                }
+	                if( alignMatch ) {
+	                        align = alignMatch[ 1 ].toLowerCase();
+	                        return;
+	                }
 	                if( ctaMatch ) {
 	                        cta = ctaMatch[ 1 ].trim();
 	                        return;
 	                }
 	                if( cta2Match ) {
 	                        cta2 = cta2Match[ 1 ].trim();
+	                        return;
+	                }
+	                if( multipleMatch ) {
+	                        multiple = multipleMatch[ 1 ].toLowerCase() === 'true';
 	                        return;
 	                }
 
@@ -1762,8 +2042,9 @@
 
 	        const items = rawItems.map( ( raw, index ) => parseItem( raw, index, layout ) ).filter( Boolean );
 
-	        // For HERO layout, we don't require items (hero content can be just heading, intro, image, and CTAs)
-	        if( layout !== 'hero' && items.length === 0 ) {
+	        // Allow some layouts to have zero items
+	        const layoutsAllowingNoItems = new Set(['hero', 'navbar']);
+	        if( !layoutsAllowingNoItems.has( layout ) && items.length === 0 ) {
 	                return null;
 	        }
 
@@ -1780,8 +2061,14 @@
 	                layout,
 	                items,
 	                image,
+	                background,
+	                color,
+	                height,
+	                align,
+	                subtitle,
 	                cta,
-	                cta2
+	                cta2,
+	                multiple
 	        };
 	}
 
@@ -1830,8 +2117,36 @@
 	                price: '',
 	                features: [],
 	                value: '',
-	                iconColor: ''
+	                iconColor: '',
+	                open: false,
+	                id: ''
 	        };
+	        // Handle accordion items: [*] Title | Content (supports id=...)
+	        if( layout === 'accordion' ) {
+	                // Default-open marker
+	                const openMatch = raw.match(/^\[\s*\*\s*\]\s*(.+)$/);
+	                if( openMatch ) {
+	                        item.open = true;
+	                        raw = openMatch[1].trim();
+	                }
+	                const segments = raw.split(/\|/).map(p=>p.trim()).filter(Boolean);
+	                if( segments.length >= 1 ) item.title = segments[0];
+	                if( segments.length >= 2 ) item.description = segments.slice(1).join(' | ');
+
+	                // Extract key=value pairs from any trailing segments
+	                segments.forEach(seg => {
+	                        const m = seg.match(/^(\w+)\s*=\s*(.+)$/);
+	                        if( m ) {
+	                                const key = m[1].toLowerCase();
+	                                const val = m[2].trim();
+	                                if( key === 'id' ) item.id = val;
+	                                if( key === 'icon' ) item.icon = val;
+	                        }
+	                });
+
+	                if( !item.id ) item.id = `acc-${Date.now()}-${index}`;
+	                return item.title ? item : null;
+	        }
 
 	        // Handle checklist items
 	        if( layout === 'checklist' ) {
@@ -2085,10 +2400,59 @@
 
 	function buildHero( data ) {
 	        const container = document.createElement( 'div' );
-	        container.className = 'smartart';
+	        container.className = 'smartart smartart--hero';
 	        container.dataset.layout = 'hero';
 	        container.dataset.smartartGenerated = 'true';
 
+	        // Check if this is a background-image variant (background parameter present)
+	        if( data.background ) {
+	                // Full-viewport background image variant using reveal.js native backgrounds
+	                const content = document.createElement( 'div' );
+	                content.className = 'smartart__hero-content-centered';
+
+	                if( data.heading ) {
+	                        const heading = document.createElement( 'h2' );
+	                        heading.className = 'smartart__hero-heading-centered';
+	                        heading.textContent = data.heading;
+	                        content.appendChild( heading );
+	                }
+
+
+	                // Support both 'subtitle' and 'intro' for the subtitle text
+	                const subtitleText = data.subtitle || data.intro;
+	                if( subtitleText ) {
+	                        const subtitle = document.createElement( 'p' );
+	                        subtitle.className = 'smartart__hero-subtitle';
+	                        subtitle.textContent = subtitleText;
+	                        content.appendChild( subtitle );
+	                }
+
+	                if( data.cta ) {
+	                        const ctaParts = data.cta.split( '|' ).map( part => part.trim() );
+	                        const ctaLabel = ctaParts[ 0 ] || 'Learn More';
+	                        const ctaUrl = ctaParts[ 1 ] || '#';
+
+	                        const cta = document.createElement( 'a' );
+	                        cta.className = 'smartart__hero-cta-centered';
+	                        cta.textContent = ctaLabel;
+	                        cta.href = ctaUrl;
+	                        cta.target = /^https?:/i.test( ctaUrl ) ? '_blank' : '_self';
+	                        cta.rel = 'noreferrer noopener';
+	                        content.appendChild( cta );
+	                }
+
+	                container.appendChild( content );
+
+	                // Store background info as data attributes for post-processing
+	                container.dataset.backgroundUrl = data.background;
+	                if (data.backgroundOpacity) {
+	                        container.dataset.backgroundOpacity = data.backgroundOpacity;
+	                }
+
+	                return container;
+	        }
+
+	        // Original two-column variant (image parameter)
 	        const grid = document.createElement( 'div' );
 	        grid.className = 'smartart__hero-grid';
 
@@ -2166,6 +2530,138 @@
 
 	        return container;
 	}
+
+function buildNavbar( data ) {
+	const container = document.createElement( 'div' );
+	container.className = 'smartart smartart--navbar';
+	container.dataset.layout = 'navbar';
+	container.dataset.smartartGenerated = 'true';
+
+	// Apply custom background/foreground and height via CSS variables
+	if( data.background ) container.style.setProperty( '--smartart-navbar-bg', data.background );
+	if( data.color ) container.style.setProperty( '--smartart-navbar-fg', data.color );
+	if( data.height ) container.style.setProperty( '--smartart-navbar-height', data.height );
+	if( data.align ) container.dataset.align = data.align;
+
+	const inner = document.createElement( 'div' );
+	inner.className = 'smartart__navbar-inner';
+
+	if( data.heading ) {
+		const title = document.createElement( 'div' );
+		title.className = 'smartart__navbar-title';
+		title.textContent = data.heading;
+		inner.appendChild( title );
+	}
+
+	const subtitleText = data.subtitle || data.intro;
+	if( subtitleText ) {
+		const subtitle = document.createElement( 'div' );
+		subtitle.className = 'smartart__navbar-subtitle';
+		subtitle.textContent = subtitleText;
+		inner.appendChild( subtitle );
+	}
+
+	container.appendChild( inner );
+	return container;
+}
+
+function buildAccordion( data ) {
+	const container = document.createElement('div');
+	container.className = 'smartart';
+	container.dataset.layout = 'accordion';
+	container.dataset.smartartGenerated = 'true';
+
+	if( data.heading ) {
+		const heading = document.createElement('h2');
+		heading.className = 'smartart__heading';
+		heading.textContent = data.heading;
+		container.appendChild( heading );
+	}
+
+	if( data.intro ) {
+		const intro = document.createElement('p');
+		intro.className = 'smartart__intro';
+		intro.textContent = data.intro;
+		container.appendChild( intro );
+	}
+
+	const acc = document.createElement('div');
+	acc.className = 'smartart__accordion';
+	if( data.multiple ) acc.setAttribute('data-allow-multiple', 'true');
+
+	data.items.forEach((item, index) => {
+		const itemEl = document.createElement('div');
+		itemEl.className = 'smartart__accordion-item';
+
+		const header = document.createElement('h3');
+		header.className = 'smartart__accordion-header';
+
+		const button = document.createElement('button');
+		button.className = 'smartart__accordion-button';
+		const btnId = `${item.id}-btn`;
+		const panelId = `${item.id}-panel`;
+		button.id = btnId;
+		button.setAttribute('aria-controls', panelId);
+		button.setAttribute('aria-expanded', String(!!item.open));
+
+		// Button content: title + chevron
+		const titleSpan = document.createElement('span');
+		titleSpan.textContent = item.title || `Item ${index+1}`;
+		button.appendChild(titleSpan);
+
+		const icon = document.createElement('span');
+		icon.className = 'smartart__accordion-icon';
+		icon.textContent = '›';
+		button.appendChild(icon);
+
+		header.appendChild(button);
+
+		const panel = document.createElement('div');
+		panel.className = 'smartart__accordion-panel';
+		panel.id = panelId;
+		panel.setAttribute('role', 'region');
+		panel.setAttribute('aria-labelledby', btnId);
+
+		const inner = document.createElement('div');
+		inner.className = 'smartart__accordion-panel-inner';
+		inner.textContent = item.description || '';
+		panel.appendChild(inner);
+
+		// Toggle behavior
+		button.addEventListener('click', () => {
+			const isOpen = button.getAttribute('aria-expanded') === 'true';
+			const allowMultiple = acc.hasAttribute('data-allow-multiple');
+
+			if( !allowMultiple ) {
+				// Close other open panels
+				acc.querySelectorAll('.smartart__accordion-button[aria-expanded="true"]').forEach(btn => {
+					if( btn !== button ) {
+						btn.setAttribute('aria-expanded', 'false');
+						const pid = btn.getAttribute('aria-controls');
+						const pp = pid && document.getElementById(pid);
+						if( pp ) pp.style.maxHeight = '0px';
+					}
+				});
+			}
+
+			button.setAttribute('aria-expanded', String(!isOpen));
+			panel.style.maxHeight = !isOpen ? (panel.querySelector('.smartart__accordion-panel-inner')?.scrollHeight + 'px') : '0px';
+		});
+
+		itemEl.appendChild(header);
+		itemEl.appendChild(panel);
+		acc.appendChild(itemEl);
+
+		// Initialize open state after in-DOM for proper measurement
+		if( item.open ) {
+			const h = inner.scrollHeight;
+			panel.style.maxHeight = h + 'px';
+		}
+	});
+
+	container.appendChild(acc);
+	return container;
+}
 
 	function buildChecklist( data ) {
 	        const container = document.createElement( 'div' );
@@ -2609,6 +3105,11 @@
 	function buildSmartArt( data ) {
 	        const layout = data.layout || orientationToLayout( data.orientation );
 
+	        // Use specialized builder for NAVBAR layout
+	        if( layout === 'navbar' ) {
+	                return buildNavbar( data );
+	        }
+
 	        // Use specialized builder for HERO layout
 	        if( layout === 'hero' ) {
 	                return buildHero( data );
@@ -2632,6 +3133,11 @@
 	        // Use specialized builder for ROADMAP layout
 	        if( layout === 'roadmap' ) {
 	                return buildRoadmap( data );
+	        }
+
+	        // Use specialized builder for ACCORDION layout
+	        if( layout === 'accordion' ) {
+	                return buildAccordion( data );
 	        }
 
 	        const container = document.createElement( 'div' );
@@ -2709,12 +3215,89 @@
 	                const parsed = parseBlock( combinedText );
 	                if( !parsed ) return;
 
+
+	                // Build component
 	                const smartArt = buildSmartArt( parsed );
 
-	                // Replace the first element and remove the rest
+	                // Special handling for NAVBAR: insert at top of current section
+					if( parsed.layout === 'navbar' && smartArt ) {
+	                        // Find the top-most section ancestor within .slides
+	                        let section = element.closest('section');
+	                        let topSection = section;
+	                        while( topSection && topSection.parentElement && topSection.parentElement.tagName && topSection.parentElement.tagName.toLowerCase() === 'section' ) {
+	                                topSection = topSection.parentElement;
+	                        }
+
+	                        const targetSection = section || topSection || (root.closest && root.closest('section')) || root;
+
+	                        if( targetSection && targetSection.firstChild ) {
+	                                targetSection.insertBefore( smartArt, targetSection.firstChild );
+	                        }
+	                        else if( targetSection ) {
+	                                targetSection.appendChild( smartArt );
+	                        }
+	                        // Mark both the nearest and top section (if different) to offset content below navbar
+				if( targetSection && targetSection.setAttribute ) {
+	                                targetSection.setAttribute('data-has-navbar', 'true');
+					// Propagate custom navbar height to the section so padding matches
+					const h = smartArt.style.getPropertyValue('--smartart-navbar-height');
+					if( h ) targetSection.style.setProperty('--smartart-navbar-height', h);
+	                        }
+				if( topSection && topSection !== targetSection && topSection.setAttribute ) {
+	                                topSection.setAttribute('data-has-navbar', 'true');
+					const h = smartArt.style.getPropertyValue('--smartart-navbar-height');
+					if( h ) topSection.style.setProperty('--smartart-navbar-height', h);
+	                        }
+	                        // Remove the original placeholder elements
+	                        elementsToReplace.forEach( el => el.remove() );
+	                        return;
+	                }
+
+	                // Default: Replace the first element and remove the rest
 	                element.replaceWith( smartArt );
 	                elementsToReplace.slice( 1 ).forEach( el => el.remove() );
 	        } );
+
+	        // Post-process hero components to apply backgrounds to their parent sections
+	        setTimeout(() => {
+	                const heroComponents = root.querySelectorAll('.smartart--hero[data-background-url]');
+	                heroComponents.forEach(hero => {
+	                        const section = hero.closest('section');
+	                        if (section && hero.dataset.backgroundUrl) {
+	                                section.setAttribute('data-background-image', hero.dataset.backgroundUrl);
+	                                section.setAttribute('data-background-size', 'cover');
+	                                section.setAttribute('data-background-position', 'center');
+
+	                                if (hero.dataset.backgroundOpacity) {
+	                                        section.setAttribute('data-background-opacity', hero.dataset.backgroundOpacity);
+	                                }
+
+	                                // Clean up data attributes
+	                                delete hero.dataset.backgroundUrl;
+	                                delete hero.dataset.backgroundOpacity;
+	                        }
+	                });
+
+	                // Initialize accordion open states after DOM insertion
+	                const accordions = root.querySelectorAll('.smartart[data-layout="accordion"] .smartart__accordion');
+	                accordions.forEach(acc => {
+	                        acc.querySelectorAll('.smartart__accordion-button').forEach(btn => {
+	                                const expanded = btn.getAttribute('aria-expanded') === 'true';
+	                                const panelId = btn.getAttribute('aria-controls');
+	                                const panel = panelId ? acc.querySelector(`#${CSS && CSS.escape ? CSS.escape(panelId) : panelId}`) : null;
+	                                if( panel ) {
+	                                        if( expanded ) {
+	                                                const inner = panel.querySelector('.smartart__accordion-panel-inner');
+	                                                const h = (inner ? inner.scrollHeight : panel.scrollHeight) || 0;
+	                                                panel.style.maxHeight = h + 'px';
+	                                        }
+	                                        else {
+	                                                panel.style.maxHeight = '0px';
+	                                        }
+	                                }
+	                        });
+	                });
+	        }, 120);
 	}
 
 	const SmartArtPlugin = {
@@ -2722,7 +3305,16 @@
 	        init: function( reveal ) {
 	                injectStyles();
 
-	                const process = () => renderWithin( reveal.getSlidesElement() || reveal.getRevealElement() );
+	                const process = () => {
+	                        renderWithin( reveal.getSlidesElement() || reveal.getRevealElement() );
+
+	                        // After processing, sync reveal.js to update backgrounds
+	                        setTimeout(() => {
+	                                if (reveal && reveal.sync) {
+	                                        reveal.sync();
+	                                }
+	                        }, 150);
+	                };
 
 	                reveal.on( 'ready', event => {
 	                        process();
@@ -2733,8 +3325,7 @@
 	                        if( event && event.currentSlide ) renderWithin( event.currentSlide );
 	                } );
 
-	                // Process immediately in case the deck is already ready
-	                process();
+	                // Defer processing until reveal.js signals ready
 	        }
 	};
 

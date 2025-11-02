@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>reveal.js - SmartArt HERO Background Component Test</title>
+
+	<!-- Reveal.js core CSS -->
+	<link rel="stylesheet" href="../dist/reset.css">
+	<link rel="stylesheet" href="../dist/reveal.css">
+
+	<!-- Theme -->
+	<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+
+	<style>
+		.reveal section.title-slide {
+			text-align: center;
+		}
+		.reveal section.title-slide h1 {
+			font-size: 3em;
+			margin-bottom: 0.5em;
+		}
+		.reveal section.title-slide p {
+			font-size: 1.5em;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Title Slide -->
+			<section class="title-slide">
+				<h1>HERO Component Test</h1>
+				<p>Full-Viewport Background Image Variant</p>
+				<small>Navigate with arrow keys or swipe</small>
+			</section>
+
+			<!-- HERO Background Test 1 - Basic Example -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Transform Your Business HERO
+				background: https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=1080&fit=crop
+				heading: Transform Your Business
+				subtitle: Leverage cutting-edge technology to drive innovation and growth
+				cta: Get Started | https://example.com
+				:::
+				</script>
+			</section>
+
+			<!-- HERO Background Test 2 - With Different Image -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Innovation at Scale HERO
+				background: https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop
+				heading: Innovation at Scale
+				subtitle: Building the future with AI-powered solutions and data-driven insights
+				cta: Learn More | https://example.com/solutions
+				:::
+				</script>
+			</section>
+
+			<!-- HERO Background Test 3 - Alternative Syntax -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Join Our Team HERO
+				background: https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&h=1080&fit=crop
+				heading: Join Our Team
+				intro: Work with talented people on challenging problems
+				cta: View Openings | https://example.com/careers
+				:::
+				</script>
+			</section>
+
+			<!-- HERO Background Test 4 - Local Image Path -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Welcome HERO
+				background: ../test/assets/image1.png
+				heading: Welcome to RevealX
+				subtitle: Create stunning presentations with SmartArt components
+				cta: Explore Features | #/1
+				:::
+				</script>
+			</section>
+
+			<!-- Comparison: Original Two-Column HERO Layout -->
+			<section data-markdown>
+				<script type="text/template">
+				## Original HERO Layout (Two-Column)
+
+				::: smartart Digital Solutions HERO
+				intro: Transform your business with cutting-edge technology and expert guidance
+				image: https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop
+				cta: Get Started | https://example.com
+				cta2: Learn More | https://example.com/about
+				:::
+				</script>
+			</section>
+
+			<!-- End Slide -->
+			<section class="title-slide">
+				<h2>HERO Component Test Complete</h2>
+				<p>Both variants working:</p>
+				<ul style="font-size: 0.8em; text-align: left; max-width: 600px; margin: 2em auto;">
+					<li><strong>Background variant:</strong> Uses <code>background</code> parameter</li>
+					<li><strong>Two-column variant:</strong> Uses <code>image</code> parameter</li>
+				</ul>
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Reveal.js core scripts -->
+	<script src="../dist/reveal.js"></script>
+
+	<!-- Plugins -->
+	<script src="../plugin/markdown/markdown.js"></script>
+	<script src="../plugin/highlight/highlight.js"></script>
+	<script src="../plugin/notes/notes.js"></script>
+	<script src="../plugin/smartart/smartart.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			center: true,
+			controls: true,
+			progress: true,
+			slideNumber: true,
+			transition: 'slide',
+			margin: 0,        // Remove margins for full-bleed images
+			width: 1920,      // Full HD width
+			height: 1080,     // Full HD height
+			plugins: [
+				RevealMarkdown,
+				RevealHighlight,
+				RevealNotes,
+				RevealSmartArt
+			]
+		});
+	</script>
+</body>
+</html>

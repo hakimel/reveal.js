@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reveal.js - SmartArt Accordion Demo</title>
+
+  <link rel="stylesheet" href="../dist/reset.css">
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Basic accordion, single-open (default) with first item open -->
+      <section data-markdown>
+        <script type="text/template">
+  ::: smartart Product FAQ ACCORDION
+  intro: Common questions and answers about our product.
+        [*] What is AdaptiveX? | AdaptiveX is a set of SmartArt components for reveal.js to build common UI patterns.
+        What browsers are supported? | All modern browsers including Chromium, Firefox, and Safari.
+        Can I customize styles? | Yes. You can override CSS variables or extend the theme.
+        :::
+        </script>
+      </section>
+
+      <!-- Multi-open accordion -->
+      <section data-markdown>
+        <script type="text/template">
+  ::: smartart Developer Docs ACCORDION
+  intro: Technical details for developers.
+  multiple: true
+        [*] Installation | Include the SmartArt plugin and initialize Reveal with it in the plugins array.
+        Using Markdown | Define a block starting with `::: smartart` and ending with `:::` and list your items.
+        Accessibility | Buttons have aria-expanded and panels are labelled by their headers.
+        :::
+        </script>
+      </section>
+
+      <!-- Dark slide to preview contrast styles -->
+      <section data-background="#0f172a" data-markdown>
+        <script type="text/template">
+  ::: smartart Dark Mode ACCORDION
+  intro: Accordion adapts to dark backgrounds for better contrast.
+  multiple: false
+        [*] Theme | Works with any Reveal theme; dark backgrounds adjust borders and text.
+        Keyboard Support | Because buttons are real <button> elements, keyboard users can toggle them.
+        Styling | Customize via the .smartart[data-layout="accordion"] rules.
+        :::
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'slide',
+      plugins: [ RevealMarkdown, RevealSmartArt ]
+    });
+  </script>
+</body>
+</html>

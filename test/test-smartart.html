@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>reveal.js - SmartArt Plugin Tests</title>
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+  <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+<body style="overflow: auto;">
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <div class="reveal" style="display:none;">
+    <div class="slides">
+
+      <section data-id="no-intro" data-markdown>
+        <script type="text/template">
+        ## No Intro Slide
+
+        ::: smartart Items Without Intro GRID
+        Item One | First description
+        Item Two | Second description
+        :::
+        </script>
+      </section>
+
+      <section data-id="with-intro" data-markdown>
+        <script type="text/template">
+        ## With Intro Slide
+
+        ::: smartart Intro Then Items GRID
+        intro: Welcome to the grid
+        Item Alpha | Alpha description
+        :::
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    QUnit.config.testTimeout = 30000;
+    QUnit.module('SmartArt');
+
+    var reveal = new Reveal(document.querySelector('.reveal'), {
+      plugins: [ RevealMarkdown, RevealSmartArt ],
+      hash: false,
+      controls: false,
+      progress: false,
+      center: false
+    });
+
+    reveal.initialize();
+
+    var ready = new Promise(function(resolve) {
+      if (reveal.isReady && reveal.isReady()) resolve();
+      else reveal.on('ready', function() { resolve(); });
+    });
+
+    QUnit.test('Parses items when no intro on first line', function(assert) {
+      return ready.then(function() {
+        var slide = document.querySelector('section[data-id="no-intro"]');
+        assert.ok(slide, 'No-intro slide exists');
+        var container = slide.querySelector('.smartart');
+        assert.ok(container, 'SmartArt container rendered');
+        var cards = container.querySelectorAll('.smartart__grid .smartart__card');
+        assert.strictEqual(cards.length, 2, 'Two cards rendered when first line is an item');
+      });
+    });
+
+    QUnit.test('Parses intro when present on first line', function(assert) {
+      return ready.then(function() {
+        var slide = document.querySelector('section[data-id="with-intro"]');
+        assert.ok(slide, 'With-intro slide exists');
+        var container = slide.querySelector('.smartart');
+        assert.ok(container, 'SmartArt container rendered');
+        var intro = container.querySelector('.smartart__intro');
+        assert.ok(intro, 'Intro element rendered');
+        assert.strictEqual(intro.textContent.trim(), 'Welcome to the grid', 'Intro text matches');
+        var cards = container.querySelectorAll('.smartart__grid .smartart__card');
+        assert.strictEqual(cards.length, 1, 'One card rendered after intro');
+      });
+    });
+  </script>
+</body>
+</html>
