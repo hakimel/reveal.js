@@ -565,6 +565,14 @@
 	.reveal .smartart__drawer-close, .smartart__drawer-close { background: transparent; border:0; width:38px; height:38px; border-radius:10px; cursor:pointer; display:grid; place-items:center; }
 	.reveal .smartart__drawer-close:hover, .smartart__drawer-close:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 	.reveal .smartart__drawer-body, .smartart__drawer-body { padding: .25rem 1rem 1rem 1rem; display:flex; flex-direction:column; gap:.75rem; }
+
+	/* LLM Runner integration: make runner use available width in the drawer */
+	.smartart__drawer-panel .llm-runner-wrapper { max-width: none; width: 100%; margin: 0; }
+	.smartart__drawer-panel .llm-runner-actions { padding-left: 0; padding-right: 0; }
+	.smartart__drawer-panel .llm-runner-output { font-family: 'Montserrat', Arial, Helvetica, sans-serif; font-size: .95rem; line-height: 1.6; }
+
+	/* When a panel is marked wide, expand its logical width via CSS var */
+	.smartart__drawer-panel.smartart--wide { --smartart-drawer-size: clamp(420px, 60vw, 960px); }
 	.reveal .smartart__drawer-list, .smartart__drawer-list { list-style:none; margin:0; padding:0; }
 	.reveal .smartart__drawer-list li, .smartart__drawer-list li { padding: .5rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
 	.reveal .smartart__drawer-list li:last-child, .smartart__drawer-list li:last-child { border-bottom: 0; }
@@ -3536,6 +3544,15 @@ function buildDrawer( data ) {
 		lastFocused = document.activeElement;
 		panel.classList.add('is-open');
 		if( hasBackdrop ) backdrop.classList.add('is-visible');
+		// If LLM Runner is present and no explicit custom size was provided,
+		// expand the panel for better reading width.
+		try {
+			const hasRunner = !!panel.querySelector('.llm-runner-wrapper');
+			const usingDefaultSize = (size === '320px' || size === undefined || size === null);
+			if (hasRunner && usingDefaultSize) {
+				panel.classList.add('smartart--wide');
+			}
+		} catch(_) { /* non-fatal */ }
 		// focus first focusable in panel
 		requestAnimationFrame(()=>{
 			const focusable = panel.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
