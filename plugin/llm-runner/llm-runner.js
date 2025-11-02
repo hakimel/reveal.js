@@ -30,6 +30,8 @@
         let reconnectAttempts = 0;
         let maxReconnectAttempts = 5;
         let slideContexts = new Map(); // Store execution contexts per slide
+        // Streaming text buffer per runner to normalize line breaks
+        const streamBuffers = new Map();
         let customMessageHandlers = new Map(); // Store custom handlers for runPrompt calls
 
         /**
@@ -122,6 +124,8 @@
 
                 case 'complete':
                     setStatus(statusIndicator, 'ready', 'Ready');
+                        // Clear buffer for this runner
+                        streamBuffers.delete(message.runnerId);
                     break;
 
                 case 'streaming':

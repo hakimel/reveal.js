@@ -567,12 +567,12 @@
 	.reveal .smartart__drawer-body, .smartart__drawer-body { padding: .25rem 1rem 1rem 1rem; display:flex; flex-direction:column; gap:.75rem; }
 
 	/* LLM Runner integration: make runner use available width in the drawer */
-	.smartart__drawer-panel .llm-runner-wrapper { max-width: none; width: 100%; margin: 0; }
+	.smartart__drawer-panel .llm-runner-wrapper { max-width: none !important; width: 100% !important; margin: 0 !important; }
 	.smartart__drawer-panel .llm-runner-actions { padding-left: 0; padding-right: 0; }
-	.smartart__drawer-panel .llm-runner-output { font-family: 'Montserrat', Arial, Helvetica, sans-serif; font-size: .95rem; line-height: 1.6; }
+	.smartart__drawer-panel .llm-runner-output { font-family: 'Montserrat', Arial, Helvetica, sans-serif; font-size: 1rem; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
 
 	/* When a panel is marked wide, expand its logical width via CSS var */
-	.smartart__drawer-panel.smartart--wide { --smartart-drawer-size: clamp(420px, 60vw, 960px); }
+	.smartart__drawer-panel.smartart--wide { --smartart-drawer-size: clamp(520px, 70vw, 1100px); }
 	.reveal .smartart__drawer-list, .smartart__drawer-list { list-style:none; margin:0; padding:0; }
 	.reveal .smartart__drawer-list li, .smartart__drawer-list li { padding: .5rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
 	.reveal .smartart__drawer-list li:last-child, .smartart__drawer-list li:last-child { border-bottom: 0; }
@@ -1085,10 +1085,10 @@
 	.reveal .smartart__checklist-checkbox:checked {
 	        background: #137fec;
 	        border-color: #137fec;
-	        background-image: url('data:image/svg+xml,%3csvg viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg"%3e%3cpath d="M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z"/%3e%3c/svg%3e');
+	        background-image: url('data:image/svg+xml,%3csvg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"%3e%3cpolyline points="20 6 9 17 4 12"%3e%3c/polyline%3e%3c/svg%3e');
 	        background-repeat: no-repeat;
 	        background-position: center;
-	        background-size: 16px;
+	        background-size: 18px;
 	}
 
 	.reveal .smartart__checklist-checkbox:checked:hover {
@@ -3551,6 +3551,9 @@ function buildDrawer( data ) {
 			const usingDefaultSize = (size === '320px' || size === undefined || size === null);
 			if (hasRunner && usingDefaultSize) {
 				panel.classList.add('smartart--wide');
+				// Inline style for --smartart-drawer-size was set earlier; override it
+				// so the width actually expands even with inline precedence.
+				panel.style.setProperty('--smartart-drawer-size', 'clamp(520px, 70vw, 1100px)');
 			}
 		} catch(_) { /* non-fatal */ }
 		// focus first focusable in panel
