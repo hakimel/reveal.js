@@ -1643,22 +1643,19 @@
         [data-xbackground="aurora"] .smartart[data-layout="footer"] {
             display: none !important;
         }
+
+        /* Hide footer configuration slide completely (backup to JavaScript auto-skip) */
+        section[data-footer-config="true"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
     </style>
 </head>
 
 <body>
     <div class="reveal">
         <div class="slides">
-
-            <!-- Global Footer - AdaptiveX Logo -->
-            <section data-markdown>
-                <script type="text/template">
-                ::: smartart AdaptiveX FOOTER
-                image: ../images/adaptivex-logo-icon.svg
-                global: true
-                :::
-                </script>
-            </section>
 
             <!-- Slide 1: Title -->
             <section data-markdown data-xbackground="aurora" data-background-color="#000000">
@@ -2659,6 +2656,17 @@ icon=lucide:shield-alert | Bias Audit | **If** a discovery artifact (interview g
                 </div>
             </section>
 
+            <!-- Global Footer Configuration -->
+            <!-- This slide is processed by SmartArt to inject footer globally, but hidden from users via JS -->
+            <section data-markdown data-footer-config="true">
+                <script type="text/template">
+                ::: smartart AdaptiveX FOOTER
+                image: ../images/adaptivex-logo-icon.svg
+                global: true
+                :::
+                </script>
+            </section>
+
         </div>
     </div>
 
@@ -2731,6 +2739,35 @@ icon=lucide:shield-alert | Bias Audit | **If** a discovery artifact (interview g
             },
 
             plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealSmartArt, RevealLLMRunner, XBackground, XShadcn]
+        });
+
+        // Auto-skip footer configuration slide
+        // This ensures the global footer config slide is processed by SmartArt but never shown to users
+        Reveal.on('ready', function() {
+            const slides = Reveal.getSlides();
+            const currentSlide = Reveal.getCurrentSlide();
+
+            // If we start on the footer config slide (last slide), navigate to first content slide
+            if (currentSlide && currentSlide.hasAttribute('data-footer-config')) {
+                Reveal.slide(0, 0);
+            }
+        });
+
+        // Prevent navigating TO the footer config slide
+        Reveal.on('slidechanged', function(event) {
+            if (event.currentSlide && event.currentSlide.hasAttribute('data-footer-config')) {
+                // Skip forward or backward depending on direction
+                const indices = Reveal.getIndices();
+                const totalSlides = Reveal.getSlides().length;
+
+                if (indices.h >= totalSlides - 1) {
+                    // If at or past the footer slide, go back one
+                    Reveal.slide(indices.h - 1, 0);
+                } else {
+                    // Otherwise skip forward
+                    Reveal.slide(indices.h + 1, 0);
+                }
+            }
         });
     </script>
 
