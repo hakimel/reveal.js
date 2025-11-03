@@ -140,6 +140,38 @@
             padding: 0.3em 0.5em;
         }
 
+        /* Ensure content stays above footer - add bottom padding when footer is present */
+        /* Using :has() selector for modern browsers */
+        .reveal .slides section:has(.smartart[data-layout="footer"]) {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+        }
+
+        /* Fallback: Apply padding to all sections, then remove from special cases */
+        @supports not selector(:has(*)) {
+            .reveal .slides section {
+                padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+            }
+        }
+
+        /* Hide footer on title and section divider slides */
+        .reveal .slides section.title-slide .smartart[data-layout="footer"],
+        .reveal .slides section.section-divider .smartart[data-layout="footer"] {
+            display: none;
+        }
+
+        /* Remove bottom padding from title and section divider slides */
+        .reveal .slides section.title-slide,
+        .reveal .slides section.section-divider {
+            padding-bottom: 0.3em !important;
+        }
+
+        /* Also remove extra padding from compact slides if they're getting too cramped */
+        .reveal .slides section.compact,
+        .reveal .slides section.super-compact,
+        .reveal .slides section.ultra-compact {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(8px, 1.6vh, 16px));
+        }
+
         /* Responsive container system */
         .container {
             max-width: 100%;
@@ -502,12 +534,12 @@
             margin-bottom: 0.2em;
         }
 
-        /* Footer styling */
-        .reveal .slide-number {
+        /* Footer styling - slide numbers disabled */
+        /* .reveal .slide-number {
             color: var(--ax-purple);
             background: rgba(255, 255, 255, 0.9);
             padding: 0.5em;
-        }
+        } */
 
         /* Media Queries for Responsiveness */
         @media screen and (max-width: 1400px) {
@@ -810,6 +842,11 @@
         section:has(h2):not(.section-divider):not(.title-slide) .smartart {
             margin-top: 2.8em;
         }
+
+        /*
+         * Legacy .slide-footer CSS removed - now using SmartArt FOOTER layout
+         * Global footer defined with ::: smartart AdaptiveX FOOTER
+         */
 
         /* Override SmartArt LINED dark background to white */
         .reveal .smartart[data-layout="lined"] .smartart__list {
@@ -1600,12 +1637,28 @@
             height: 100%;
             display: block;
         }
+
+        /* Hide footer on title/cover and section divider slides */
+        .section-divider .smartart[data-layout="footer"],
+        [data-xbackground="aurora"] .smartart[data-layout="footer"] {
+            display: none !important;
+        }
     </style>
 </head>
 
 <body>
     <div class="reveal">
         <div class="slides">
+
+            <!-- Global Footer - AdaptiveX Logo -->
+            <section data-markdown>
+                <script type="text/template">
+                ::: smartart AdaptiveX FOOTER
+                image: ../images/adaptivex-logo-icon.svg
+                global: true
+                :::
+                </script>
+            </section>
 
             <!-- Slide 1: Title -->
             <section data-markdown data-xbackground="aurora" data-background-color="#000000">
@@ -1652,6 +1705,8 @@
             <!-- Slide 3: Learning Outcomes -->
             <section data-markdown>
                 <script type="text/template">
+                ## Learning Outcomes
+
                 ::: smartart Learning Outcomes LINED
                 intro: By the end of this workshop, you will be able to:
                 - Identify Problems | Surface 2+ customer problems from qualitative data with AI assistance | icon=lucide:search
@@ -1668,9 +1723,9 @@
                 <script type="text/template">
                 ## Course Flow & Activities
 
-                ::: smartart Course Activities ACCORDION
+                ::: smartart Course Flow & Activities ACCORDION
                 intro: Explore the five key parts of this workshop:
-                Part 1: Customer Problem Discovery | Mine pain points from data, prioritize problem statements
+                [*] Part 1: Customer Problem Discovery | Mine pain points from data, prioritize problem statements
                 Part 2: AI-Driven Idea Generation | Build diverse Idea Bank spanning MVPs to radical concepts
                 Part 3: Idea Refinement & Selection | Score, map, and select top ideas with rationale
                 Part 4: AI-Assisted Artifacts | Draft low-fi discovery tools with peer feedback
@@ -2607,7 +2662,24 @@ icon=lucide:shield-alert | Bias Audit | **If** a discovery artifact (interview g
         </div>
     </div>
 
-    <!-- React and ReactDOM for XBackground plugin -->
+    <!-- ES Module Shims for import map support in older browsers -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+    <!-- Import Map - Resolves React and dependencies for XShadcn plugin -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom": "https://esm.sh/react-dom@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "clsx": "https://esm.sh/clsx@2.0.0",
+            "tailwind-merge": "https://esm.sh/tailwind-merge@2.0.0",
+            "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime"
+        }
+    }
+    </script>
+
+    <!-- React and ReactDOM for XBackground plugin (UMD builds) -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
@@ -2620,12 +2692,14 @@ icon=lucide:shield-alert | Bias Audit | **If** a discovery artifact (interview g
 
     <script type="module">
         import XBackground from '../../plugin/xbackground/plugin/xbackground.js';
+        import XShadcn from '../../plugin/xshadcn/dist/xshadcn.js';
 
         Reveal.initialize({
             hash: true,
             center: false,
             transition: 'slide',
-            slideNumber: true,
+            slideNumber: false,
+            progress: true,
             width: 1280,
             height: 720,
             margin: 0.04,
@@ -2648,7 +2722,15 @@ icon=lucide:shield-alert | Bias Audit | **If** a discovery artifact (interview g
                 preload: 1
             },
 
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealSmartArt, RevealLLMRunner, XBackground]
+            // XShadcn configuration
+            xshadcn: {
+                theme: 'light',
+                interactive: true,
+                dataBinding: true,
+                debug: false
+            },
+
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealSmartArt, RevealLLMRunner, XBackground, XShadcn]
         });
     </script>
 

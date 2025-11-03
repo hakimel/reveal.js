@@ -45,6 +45,7 @@ export const ComponentRegistry = {
   Separator: Components.Separator,
   AspectRatio: Components.AspectRatio,
   ScrollArea: Components.ScrollArea,
+  Accordion: Components.Accordion,
   Collapsible: Components.Collapsible,
   
   // Typography

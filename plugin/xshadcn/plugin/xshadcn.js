@@ -189,11 +189,49 @@ const Plugin = () => {
           transform: scale(0.9);
           opacity: 0;
         }
-        
+
         .xshadcn-zoom-enter-active {
           transform: scale(1);
           opacity: 1;
           transition: all var(--animation-duration, 300ms) ease-out;
+        }
+
+        /* Accordion animations */
+        @keyframes accordion-down {
+          from {
+            height: 0;
+          }
+          to {
+            height: var(--radix-accordion-content-height);
+          }
+        }
+
+        @keyframes accordion-up {
+          from {
+            height: var(--radix-accordion-content-height);
+          }
+          to {
+            height: 0;
+          }
+        }
+
+        .animate-accordion-down {
+          animation: accordion-down 0.2s ease-out;
+        }
+
+        .animate-accordion-up {
+          animation: accordion-up 0.2s ease-out;
+        }
+
+        /* Data attribute based accordion animations */
+        [data-state="open"].animate-accordion-down,
+        .data-\\[state\\=open\\]\\:animate-accordion-down[data-state="open"] {
+          animation: accordion-down 0.2s ease-out;
+        }
+
+        [data-state="closed"].animate-accordion-up,
+        .data-\\[state\\=closed\\]\\:animate-accordion-up[data-state="closed"] {
+          animation: accordion-up 0.2s ease-out;
         }
       `;
       document.head.appendChild(style);

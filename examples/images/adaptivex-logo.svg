@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <!-- "adaptive" text in purple -->
+  <text x="0" y="42" font-family="'Averta', Arial, sans-serif" font-size="32" font-weight="700" fill="#6B3FA0">adaptive</text>
+
+  <!-- Stylized X logo -->
+  <g transform="translate(175, 10)">
+    <!-- Purple X stroke (left part) -->
+    <path d="M 5 5 L 30 40 M 5 40 L 30 5" stroke="#6B3FA0" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- Yellow/Orange X stroke (right part, offset slightly) -->
+    <path d="M 10 5 L 35 40 M 10 40 L 35 5" stroke="#F9C80E" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.9"/>
+  </g>
+</svg>

@@ -619,6 +619,108 @@ export const NavigationMenu = Card;
 export const Separator = () => <hr className="border-slate-200 dark:border-slate-800" />;
 export const AspectRatio = Card;
 export const ScrollArea = Card;
+// Accordion Component - Matching shadcn/ui design exactly
+export const Accordion = ({
+  items = [],
+  type = 'single',
+  defaultValue,
+  className,
+  componentId,
+  variant = 'default',
+  collapsible = true,
+  ...props
+}) => {
+  const [openItems, setOpenItems] = React.useState(() => {
+    if (defaultValue) {
+      return type === 'single' ? [defaultValue] : [defaultValue].flat();
+    }
+    return [];
+  });
+
+  const toggleItem = (value) => {
+    if (type === 'single') {
+      // In single mode with collapsible, clicking open item closes it
+      if (collapsible) {
+        setOpenItems(prev => prev.includes(value) ? [] : [value]);
+      } else {
+        setOpenItems([value]);
+      }
+    } else {
+      // Multiple mode
+      setOpenItems(prev =>
+        prev.includes(value)
+          ? prev.filter(v => v !== value)
+          : [...prev, value]
+      );
+    }
+  };
+
+  return (
+    <div
+      className={cn('w-full', className)}
+      {...props}
+    >
+      {items.map((item, index) => {
+        const value = item.value || `item-${index}`;
+        const isOpen = openItems.includes(value);
+
+        return (
+          <div
+            key={value}
+            className="border-b border-slate-200 dark:border-slate-800"
+          >
+            {/* AccordionHeader wrapper */}
+            <h3 className="flex">
+              <button
+                onClick={() => toggleItem(value)}
+                className={cn(
+                  'flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all text-left',
+                  'hover:underline',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2',
+                  'dark:focus-visible:ring-slate-300 dark:ring-offset-slate-950',
+                  '[&[data-state=open]>svg]:rotate-180'
+                )}
+                data-state={isOpen ? 'open' : 'closed'}
+                aria-expanded={isOpen}
+              >
+                {item.title}
+                {/* ChevronDown icon */}
+                <svg
+                  className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform duration-200"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </h3>
+            {/* AccordionContent wrapper */}
+            <div
+              className={cn(
+                'overflow-hidden text-sm transition-all duration-200 ease-out'
+              )}
+              data-state={isOpen ? 'open' : 'closed'}
+              style={{
+                maxHeight: isOpen ? '1000px' : '0',
+                opacity: isOpen ? 1 : 0
+              }}
+            >
+              <div className="pb-4 pt-0 text-slate-600 dark:text-slate-400">
+                {item.content}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export const Collapsible = Card;
 export const Heading = ({ level = 2, children, className, ...props }) => {
   const Tag = `h${level}`;

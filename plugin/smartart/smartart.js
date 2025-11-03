@@ -24,13 +24,16 @@
                 CHECKLIST: 'checklist',
                 ROADMAP: 'roadmap',
                 PRICING: 'pricing',
-		STATS: 'stats',
-		NAVBAR: 'navbar',
-			ACCORDION: 'accordion',
-			CAROUSEL: 'carousel',
-			OFFCANVAS: 'drawer',
-			SIDEDRAWER: 'drawer',
-			DRAWER: 'drawer'
+				STATS: 'stats',
+				NAVBAR: 'navbar',
+				FOOTER: 'footer',
+				ACCORDION: 'accordion',
+				CAROUSEL: 'carousel',
+				OFFCANVAS: 'drawer',
+				SIDEDRAWER: 'drawer',
+				DRAWER: 'drawer',
+				MODAL: 'modal',
+				DIALOG: 'modal'
         };
 
 	const DEFAULT_ICONS = [
@@ -41,6 +44,9 @@
 	        'lucide:headset',
 	        'lucide:network'
 	];
+
+	// Global footer configuration (when using ::: smartart ... FOOTER with global: true)
+	let GLOBAL_SMARTART_FOOTER = null;
 
 	const STYLE_ELEMENT_ID = 'reveal-smartart-styles';
 
@@ -372,6 +378,40 @@
 	/* Ensure slide content sits below the navbar when present */
 	.reveal section[data-has-navbar="true"] { 
 	        padding-top: calc(var(--smartart-navbar-height, 64px) + clamp(6px, 1vh, 12px));
+	}
+
+	/* ================================================
+	   FOOTER LAYOUT - SLIDE CORNER BRANDING
+	   ================================================ */
+	.reveal .smartart[data-layout="footer"] {
+	        --smartart-footer-height: clamp(20px, 4vh, 32px);
+	        position: absolute;
+	        left: clamp(8px, 1.6vw, 16px);
+	        bottom: clamp(6px, 1.2vh, 12px);
+	        padding: 0;
+	        margin: 0;
+	        background: transparent;
+	        box-shadow: none;
+	        width: auto;
+	        max-width: none;
+	        display: inline-flex;
+	        align-items: center;
+	        gap: .4rem;
+	        pointer-events: none; /* container ignores clicks */
+	        z-index: 5;
+	}
+
+	.reveal .smartart__footer { display: inline-flex; align-items: center; gap: .4rem; pointer-events: auto; }
+	.reveal .smartart__footer-logo { display: inline-flex; align-items: center; }
+	.reveal .smartart__footer-logo img { height: var(--smartart-footer-height); width: auto; display: block; }
+
+	/* Alignment options */
+	.reveal .smartart[data-layout="footer"][data-align="center"] { left: 50%; right: auto; transform: translateX(-50%); }
+	.reveal .smartart[data-layout="footer"][data-align="right"] { left: auto; right: clamp(8px, 1.6vw, 16px); transform: none; }
+
+	/* Dark background subtle lift */
+	.reveal .has-dark-background .smartart[data-layout="footer"] .smartart__footer-logo img {
+	        filter: drop-shadow(0 0 2px rgba(0,0,0,.6));
 	}
 
 	/* ================================================
@@ -719,6 +759,58 @@
 		--foreground: #f8fafc; 
 		--border: rgba(148,163,184,.25); 
 	}
+
+	/* ================================================
+	   MODAL - Bootstrap 5 style, AdaptiveX tinted
+	   ================================================ */
+	.reveal .smartart[data-layout="modal"] { width: 100%; max-width: min(96%, 1100px); margin: 0 auto; }
+	.reveal .smartart__modal-toggle { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; padding:.55rem 1rem; border-radius:.55rem; border:2px solid #137fec; background:#137fec; color:#fff !important; text-decoration:none; font-weight:600; cursor:pointer; }
+	.reveal .smartart__modal-toggle:hover { background:#0f6bd1; border-color:#0f6bd1; }
+
+	.reveal .smartart__modal-backdrop, .smartart__modal-backdrop { position:fixed; inset:0; background: rgba(0,0,0,.5); opacity:0; pointer-events:none; transition: opacity .2s ease; z-index: 1100; }
+	.reveal .smartart__modal-backdrop.is-visible, .smartart__modal-backdrop.is-visible { opacity:1; pointer-events:auto; }
+
+	.reveal .smartart__modal, .smartart__modal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:1101; pointer-events:none; }
+	.reveal .smartart__modal-dialog, .smartart__modal-dialog { width: var(--smartart-modal-width, clamp(320px, 60vw, 920px)); max-width: 96vw; max-height: 88vh; background: color-mix(in srgb, var(--r-background-color,#f8fafc) 85%, #fff 15%); color: var(--r-main-color, #111827); border:1px solid color-mix(in srgb, currentColor 12%, transparent); border-radius: 12px; box-shadow: 0 24px 48px rgba(0,0,0,0.35); transform: translateY(-10px) scale(.98); opacity: 0; transition: transform .22s ease, opacity .22s ease; overflow: hidden; pointer-events:auto; }
+	.reveal .smartart__modal.is-open .smartart__modal-dialog, .smartart__modal.is-open .smartart__modal-dialog { transform: translateY(0) scale(1); opacity: 1; }
+
+	.reveal .smartart__modal-header, .smartart__modal-header { display:flex; align-items:center; justify-content:space-between; gap:.75rem; padding: 1rem 1rem .5rem 1rem; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
+	.reveal .smartart__modal-title, .smartart__modal-title { margin:0; font-weight:700; font-size: clamp(1rem, 1.6vw, 1.25rem); }
+	.reveal .smartart__modal-close, .smartart__modal-close { background:transparent; border:0; width:38px; height:38px; border-radius:10px; cursor:pointer; display:grid; place-items:center; }
+	.reveal .smartart__modal-close:hover, .smartart__modal-close:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+
+	.reveal .smartart__modal-body, .smartart__modal-body { padding: 1rem; overflow:auto; max-height: calc(88vh - 3.25rem - 3.25rem); display:flex; flex-direction:column; gap:.75rem; }
+	.reveal .smartart__modal-footer, .smartart__modal-footer { padding: .75rem 1rem 1rem 1rem; display:flex; gap:.5rem; flex-wrap: wrap; justify-content:flex-end; border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
+
+	.reveal .smartart__modal-list, .smartart__modal-list { list-style:none; margin:0; padding:0; }
+	.reveal .smartart__modal-list li, .smartart__modal-list li { padding: .5rem 0; border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+	.reveal .smartart__modal-list li:last-child, .smartart__modal-list li:last-child { border-bottom:0; }
+	.smartart__modal-list li strong { display:block; font-size: clamp(.95rem, 1.2vw, 1.05rem); margin-bottom:.25rem; }
+	.smartart__modal-list li div { color: color-mix(in srgb, currentColor 70%, transparent); font-size:.95em; margin-bottom:.35rem; }
+
+	/* Dark adjustments */
+	.reveal .has-dark-background .smartart__modal-dialog { background: rgba(15,23,42,0.92); color:#f8fafc; border-color: rgba(148,163,184,0.25); }
+
+	/* xshadcn-lite comfort for forms inside modal as well */
+	.smartart__modal-dialog.smartart--xshadcn input[type="text"],
+	.smartart__modal-dialog.smartart--xshadcn input[type="email"],
+	.smartart__modal-dialog.smartart--xshadcn input[type="number"],
+	.smartart__modal-dialog.smartart--xshadcn input[type="search"],
+	.smartart__modal-dialog.smartart--xshadcn input[type="password"],
+	.smartart__modal-dialog.smartart--xshadcn select,
+	.smartart__modal-dialog.smartart--xshadcn textarea { width:100%; padding:.6rem .75rem; border:1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius:.6rem; background: color-mix(in srgb, var(--r-background-color, #ffffff) 85%, #fff 15%); color: inherit; font-size:1rem; line-height:1.4; min-height:42px; box-sizing:border-box; transition: border-color .15s ease, box-shadow .15s ease; }
+	.smartart__modal-dialog.smartart--xshadcn textarea { min-height: 120px; resize: vertical; }
+	.smartart__modal-dialog.smartart--xshadcn input:focus,
+	.smartart__modal-dialog.smartart--xshadcn select:focus,
+	.smartart__modal-dialog.smartart--xshadcn textarea:focus { outline:none; border-color:#137fec; box-shadow: 0 0 0 3px rgba(19,127,236,.15); }
+	.smartart__modal-dialog.smartart--xshadcn .smartart__btn { background:#137fec; border-color:#137fec; color:#fff !important; }
+	.smartart__modal-dialog.smartart--xshadcn .smartart__btn:hover { background:#0f6bd1; border-color:#0f6bd1; }
+
+	/* Utility: modal size variants similar to Bootstrap */
+	.smartart__modal-dialog[data-size="sm"] { --smartart-modal-width: clamp(280px, 40vw, 600px); }
+	.smartart__modal-dialog[data-size="lg"] { --smartart-modal-width: clamp(520px, 70vw, 1100px); }
+	.smartart__modal-dialog[data-size="xl"] { --smartart-modal-width: clamp(720px, 84vw, 1400px); }
+	.smartart__modal-dialog[data-size="fullscreen"] { --smartart-modal-width: 96vw; max-height: 96vh; border-radius: 0; }
 
 	/* Card variant for carousel */
 	.reveal .smartart[data-layout="carousel"][data-variant="cards"] .smartart__carousel-slide {
@@ -2238,6 +2330,8 @@
 	        const detailLines = lines.slice( 1 );
 	        let intro = '';
 	        let image = '';
+	        let link = '';
+	        let global = false;
 	        let background = '';
 	        let color = '';
 	        let height = '';
@@ -2267,6 +2361,7 @@
 	                const sanitizedFirst = firstItemCandidate.replace( /^[-*+]\s+/, '' );
 	                const introMatch = sanitizedFirst.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
 	                const imageMatch = sanitizedFirst.match( /^image\s*:\s*(.+)$/i );
+	                const logoMatch = sanitizedFirst.match( /^logo\s*:\s*(.+)$/i );
 	                const backgroundMatch = sanitizedFirst.match( /^background\s*:\s*(.+)$/i );
 	                const subtitleMatch = sanitizedFirst.match( /^subtitle\s*:\s*(.+)$/i );
 	                const colorMatch = sanitizedFirst.match( /^color\s*:\s*(.+)$/i );
@@ -2274,6 +2369,8 @@
 	                const alignMatch = sanitizedFirst.match( /^align\s*:\s*(left|center|right)\s*$/i );
 	                const ctaMatch = sanitizedFirst.match( /^cta\s*:\s*(.+)$/i );
 	                const cta2Match = sanitizedFirst.match( /^cta2\s*:\s*(.+)$/i );
+	                const linkMatch = sanitizedFirst.match( /^(?:link|href|url)\s*:\s*(.+)$/i );
+	                const globalMatch = sanitizedFirst.match( /^global\s*:\s*(true|false)\s*$/i );
 	                const multipleMatch = sanitizedFirst.match( /^multiple\s*:\s*(true|false)\s*$/i );
 	                const intervalMatch = sanitizedFirst.match( /^interval\s*:\s*(\d+)(ms|s)?\s*$/i );
 	                const autoplayMatch = sanitizedFirst.match( /^autoplay\s*:\s*(true|false)\s*$/i );
@@ -2295,6 +2392,9 @@
 	                else if( imageMatch ) {
 	                        image = imageMatch[ 1 ].trim();
 	                }
+	                else if( logoMatch ) {
+	                        image = logoMatch[ 1 ].trim();
+	                }
 	                else if( backgroundMatch ) {
 	                        background = backgroundMatch[ 1 ].trim();
 	                }
@@ -2315,6 +2415,12 @@
 	                }
 	                else if( cta2Match ) {
 	                        cta2 = cta2Match[ 1 ].trim();
+	                }
+	                else if( linkMatch ) {
+	                        link = linkMatch[ 1 ].trim();
+	                }
+	                else if( globalMatch ) {
+	                        global = globalMatch[1].toLowerCase() === 'true';
 	                }
 	                else if( multipleMatch ) {
 	                        multiple = multipleMatch[ 1 ].toLowerCase() === 'true';
@@ -2357,6 +2463,7 @@
 	                const sanitized = line.replace( /^[-*+]\s+/, '' );
 	                const introMatch = sanitized.match( /^(?:intro|summary|description)\s*:\s*(.+)$/i );
 	                const imageMatch = sanitized.match( /^image\s*:\s*(.+)$/i );
+	                const logoMatch = sanitized.match( /^logo\s*:\s*(.+)$/i );
 	                const backgroundMatch = sanitized.match( /^background\s*:\s*(.+)$/i );
 	                const subtitleMatch = sanitized.match( /^subtitle\s*:\s*(.+)$/i );
 	                const colorMatch = sanitized.match( /^color\s*:\s*(.+)$/i );
@@ -2364,6 +2471,8 @@
 	                const alignMatch = sanitized.match( /^align\s*:\s*(left|center|right)\s*$/i );
 	                const ctaMatch = sanitized.match( /^cta\s*:\s*(.+)$/i );
 	                const cta2Match = sanitized.match( /^cta2\s*:\s*(.+)$/i );
+	                const linkMatch = sanitized.match( /^(?:link|href|url)\s*:\s*(.+)$/i );
+	                const globalMatch = sanitized.match( /^global\s*:\s*(true|false)\s*$/i );
 	                const multipleMatch = sanitized.match( /^multiple\s*:\s*(true|false)\s*$/i );
 	                const intervalMatch = sanitized.match( /^interval\s*:\s*(\d+)(ms|s)?\s*$/i );
 	                const autoplayMatch = sanitized.match( /^autoplay\s*:\s*(true|false)\s*$/i );
@@ -2385,6 +2494,10 @@
 	                }
 	                if( imageMatch ) {
 	                        image = imageMatch[ 1 ].trim();
+	                        return;
+	                }
+	                if( logoMatch ) {
+	                        image = logoMatch[ 1 ].trim();
 	                        return;
 	                }
 	                if( backgroundMatch ) {
@@ -2415,6 +2528,8 @@
 	                        cta2 = cta2Match[ 1 ].trim();
 	                        return;
 	                }
+	                if( linkMatch ) { link = linkMatch[1].trim(); return; }
+	                if( globalMatch ) { global = globalMatch[1].toLowerCase()==='true'; return; }
 	                if( multipleMatch ) {
 	                        multiple = multipleMatch[ 1 ].toLowerCase() === 'true';
 	                        return;
@@ -2445,7 +2560,7 @@
 			const items = rawItems.map( ( raw, index ) => parseItem( raw, index, layout, { variant, cards } ) ).filter( Boolean );
 
 	        // Allow some layouts to have zero items
-	        const layoutsAllowingNoItems = new Set(['hero', 'navbar']);
+	        const layoutsAllowingNoItems = new Set(['hero', 'navbar', 'footer']);
 	        if( !layoutsAllowingNoItems.has( layout ) && items.length === 0 ) {
 	                return null;
 	        }
@@ -2463,6 +2578,7 @@
 	                layout,
 	                items,
 	                image,
+	                link,
 	                background,
 	                color,
 	                height,
@@ -2470,6 +2586,7 @@
 	                subtitle,
 	                cta,
 	                cta2,
+	                global,
 	                multiple,
 	                interval,
 	                autoplay,
@@ -2617,7 +2734,7 @@
 			return item.image ? item : null;
 		}
 	        // Handle drawer items: Title | Description | [CTA] | [URL]
-	        if( layout === 'drawer' ) {
+	        if( layout === 'drawer' || layout === 'modal' ) {
 	                const segments = raw.split(/\|/).map(p=>p.trim()).filter(Boolean);
 	                if( segments.length >= 1 ) item.title = segments[0];
 	                if( segments.length >= 2 ) item.description = segments[1];
@@ -3067,6 +3184,38 @@ function buildNavbar( data ) {
 	}
 
 	container.appendChild( inner );
+	return container;
+}
+
+function buildFooter( data ) {
+	const container = document.createElement('div');
+	container.className = 'smartart smartart--footer';
+	container.dataset.layout = 'footer';
+	container.dataset.smartartGenerated = 'true';
+	if( data.align ) container.dataset.align = data.align;
+	if( data.height ) container.style.setProperty('--smartart-footer-height', data.height);
+
+	const inner = document.createElement('div');
+	inner.className = 'smartart__footer';
+
+	const logoWrap = document.createElement( data.link ? 'a' : 'div' );
+	logoWrap.className = 'smartart__footer-logo';
+	if( data.link ) {
+		logoWrap.href = data.link;
+		logoWrap.target = /^https?:/i.test(data.link) ? '_blank' : '_self';
+		logoWrap.rel = 'noreferrer noopener';
+	}
+
+	if( data.image ) {
+		const img = document.createElement('img');
+		img.src = data.image;
+		img.alt = data.subtitle || data.heading || 'Logo';
+		img.loading = 'lazy';
+		logoWrap.appendChild(img);
+	}
+
+	inner.appendChild(logoWrap);
+	container.appendChild(inner);
 	return container;
 }
 
@@ -3582,6 +3731,175 @@ function buildDrawer( data ) {
 	return container;
 }
 
+function buildModal( data ) {
+	const container = document.createElement('div');
+	container.className = 'smartart';
+	container.dataset.layout = 'modal';
+	container.dataset.smartartGenerated = 'true';
+
+	if( data.heading ) {
+		const h = document.createElement('h2');
+		h.className = 'smartart__heading';
+		h.textContent = data.heading;
+		container.appendChild(h);
+	}
+	if( data.intro ) {
+		const p = document.createElement('p');
+		p.className = 'smartart__intro';
+		p.textContent = data.intro;
+		container.appendChild(p);
+	}
+
+	const toggleLabel = data.toggle || 'Open';
+	const size = (data.size || '').toLowerCase(); // supports sm|lg|xl|fullscreen or CSS width
+	const hasBackdrop = (data.backdrop !== '' ? !!data.backdrop : true);
+	const escEnabled = (data.keyboard !== '' ? !!data.keyboard : true);
+	const autoStart = !!data.autostart;
+
+	const btn = document.createElement('button');
+	btn.className = 'smartart__modal-toggle';
+	btn.type = 'button';
+	btn.textContent = toggleLabel;
+	container.appendChild(btn);
+
+	// Backdrop + modal container appended to body for correct stacking/positioning
+	const backdrop = document.createElement('div');
+	backdrop.className = 'smartart__modal-backdrop';
+
+	const modal = document.createElement('div');
+	modal.className = 'smartart__modal';
+	modal.setAttribute('role','dialog');
+	modal.setAttribute('aria-modal','true');
+
+	const dialog = document.createElement('div');
+	dialog.className = 'smartart__modal-dialog smartart--xshadcn';
+	// Tag as xshadcn container if plugin present
+	try {
+		if (window.Reveal && typeof window.Reveal.getPlugin === 'function' && window.Reveal.getPlugin('xshadcn')) {
+			dialog.classList.add('xshadcn-container');
+		}
+	} catch(_) { /* non-fatal */ }
+	if( size ) {
+		if( /(sm|lg|xl|fullscreen)/.test(size) ) dialog.dataset.size = size;
+		else dialog.style.setProperty('--smartart-modal-width', size);
+	}
+
+	const header = document.createElement('div');
+	header.className = 'smartart__modal-header';
+	if( data.heading ) {
+		const title = document.createElement('h3');
+		title.className = 'smartart__modal-title';
+		title.textContent = data.heading;
+		header.appendChild(title);
+	}
+	const closeBtn = document.createElement('button');
+	closeBtn.className = 'smartart__modal-close';
+	closeBtn.setAttribute('aria-label','Close');
+	closeBtn.innerHTML = '&#10005;';
+	header.appendChild(closeBtn);
+	dialog.appendChild(header);
+
+	const body = document.createElement('div');
+	body.className = 'smartart__modal-body';
+	if( data.items && data.items.length ) {
+		const list = document.createElement('ul');
+		list.className = 'smartart__modal-list';
+		data.items.forEach(raw => {
+			const li = document.createElement('li');
+			if( raw.title ) {
+				const t = document.createElement('strong');
+				t.textContent = raw.title;
+				li.appendChild(t);
+			}
+			if( raw.description ) {
+				const d = document.createElement('div');
+				d.textContent = raw.description;
+				li.appendChild(d);
+			}
+			if( raw.ctaLabel ) {
+				const a = document.createElement('a');
+				a.href = raw.ctaUrl || '#';
+				a.target = /^https?:/i.test(raw.ctaUrl) ? '_blank' : '_self';
+				a.rel = 'noreferrer noopener';
+				a.className = 'smartart__btn';
+				a.textContent = raw.ctaLabel;
+				li.appendChild(a);
+			}
+			list.appendChild(li);
+		});
+		body.appendChild(list);
+	}
+	dialog.appendChild(body);
+
+	// Optional footer actions if CTA/CTA2 were provided at block level
+	if( data.cta || data.cta2 ) {
+		const footer = document.createElement('div');
+		footer.className = 'smartart__modal-footer';
+		if( data.cta ) {
+			const [label, url] = data.cta.split('|').map(s=>s.trim());
+			const a = document.createElement('a');
+			a.href = url || '#';
+			a.target = /^https?:/i.test(url) ? '_blank' : '_self';
+			a.rel = 'noreferrer noopener';
+			a.className = 'smartart__btn';
+			a.textContent = label || 'OK';
+			footer.appendChild(a);
+		}
+		if( data.cta2 ) {
+			const [label2, url2] = data.cta2.split('|').map(s=>s.trim());
+			const a2 = document.createElement('a');
+			a2.href = url2 || '#';
+			a2.target = /^https?:/i.test(url2) ? '_blank' : '_self';
+			a2.rel = 'noreferrer noopener';
+			a2.className = 'smartart__btn smartart__btn--secondary';
+			a2.textContent = label2 || 'Cancel';
+			footer.appendChild(a2);
+		}
+		dialog.appendChild(footer);
+	}
+
+	modal.appendChild(dialog);
+	function attach() {
+		const host = document.body || container;
+		if (hasBackdrop && backdrop.parentNode !== host) host.appendChild(backdrop);
+		if (modal.parentNode !== host) host.appendChild(modal);
+	}
+
+	// Behavior
+	let lastFocused = null;
+	function open() {
+		attach();
+		lastFocused = document.activeElement;
+		modal.classList.add('is-open');
+		if( hasBackdrop ) backdrop.classList.add('is-visible');
+		// Focus first focusable
+		requestAnimationFrame(()=>{
+			const focusable = dialog.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			(focusable||closeBtn).focus();
+		});
+	}
+	function close() {
+		modal.classList.remove('is-open');
+		if( hasBackdrop ) backdrop.classList.remove('is-visible');
+		// Detach nodes to avoid any overlay stacking/pointer-events edge cases
+		try {
+			if (modal.parentNode) modal.parentNode.removeChild(modal);
+			if (hasBackdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+		} catch(_) { /* non-fatal */ }
+		if( lastFocused && lastFocused.focus ) lastFocused.focus();
+	}
+
+	btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); open(); });
+	closeBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); close(); });
+	if( hasBackdrop ) backdrop.addEventListener('click', e => { e.stopPropagation(); close(); });
+	dialog.addEventListener('click', e => e.stopPropagation());
+	dialog.addEventListener('keydown', e => { if( e.key === 'Escape' && escEnabled ) { e.preventDefault(); e.stopPropagation(); close(); }});
+
+	if( autoStart ) setTimeout(open, 120);
+
+	return container;
+}
+
 	function buildChecklist( data ) {
 	        const container = document.createElement( 'div' );
 	        container.className = 'smartart';
@@ -4087,6 +4405,16 @@ function buildDrawer( data ) {
 			return buildDrawer( data );
 		}
 
+		// Use specialized builder for MODAL layout
+		if( layout === 'modal' ) {
+			return buildModal( data );
+		}
+
+		// Use specialized builder for FOOTER layout
+		if( layout === 'footer' ) {
+			return buildFooter( data );
+		}
+
 	        // Use specialized builder for ACCORDION layout
 	        if( layout === 'accordion' ) {
 	                return buildAccordion( data );
@@ -4205,6 +4533,35 @@ function buildDrawer( data ) {
 	                        return;
 	                }
 
+	                // Special handling for FOOTER: anchor to slide corner; support global injection
+					if( parsed.layout === 'footer' && smartArt ) {
+	                        // If marked global, store config and attach to all sections
+			if( parsed.global ) {
+				GLOBAL_SMARTART_FOOTER = parsed;
+				// Attach across all sections, skipping those that already have a footer
+				const allSections = (root.getRootNode ? root.getRootNode() : document).querySelectorAll ? (document.querySelectorAll('.reveal .slides section')) : [];
+				allSections.forEach(sec => {
+					// Avoid adding to nested sections if they already contain a footer
+					if( sec.querySelector(':scope > .smartart[data-layout="footer"]') ) return;
+					const f = buildFooter( GLOBAL_SMARTART_FOOTER );
+					f.dataset.global = 'true';
+					sec.appendChild( f );
+				});
+				// Remove the original placeholder elements
+				elementsToReplace.forEach( el => el.remove() );
+				return;
+			}
+
+			// Local footer: attach to the nearest leaf section
+			const section = element.closest('section');
+			const targetSection = section || (root.closest && root.closest('section')) || root;
+			if( targetSection ) {
+				targetSection.appendChild( smartArt );
+			}
+			elementsToReplace.forEach( el => el.remove() );
+			return;
+		}
+
 	                // Default: Replace the first element and remove the rest
 	                element.replaceWith( smartArt );
 	                elementsToReplace.slice( 1 ).forEach( el => el.remove() );
@@ -4271,15 +4628,36 @@ function buildDrawer( data ) {
 	                reveal.on( 'ready', event => {
 	                        process();
 	                        if( event && event.currentSlide ) renderWithin( event.currentSlide );
+	                        // Ensure global footer (if configured) is attached across the deck
+	                        if( GLOBAL_SMARTART_FOOTER ) {
+	                                const allSections = (reveal.getSlidesElement() || document).querySelectorAll('section');
+	                                allSections.forEach(sec => {
+	                                        if( sec.querySelector(':scope > .smartart[data-layout="footer"]') ) return;
+	                                        const f = buildFooter( GLOBAL_SMARTART_FOOTER );
+	                                        f.dataset.global = 'true';
+	                                        sec.appendChild( f );
+	                                });
+	                        }
 	                } );
 
 	                reveal.on( 'slidechanged', event => {
 	                        if( event && event.currentSlide ) renderWithin( event.currentSlide );
+	                        // Ensure current slide has global footer if configured
+	                        if( GLOBAL_SMARTART_FOOTER && event && event.currentSlide && !event.currentSlide.querySelector(':scope > .smartart[data-layout="footer"]') ) {
+	                                const f = buildFooter( GLOBAL_SMARTART_FOOTER );
+	                                f.dataset.global = 'true';
+	                                event.currentSlide.appendChild( f );
+	                        }
 	                        // Close any open drawers when changing slides
 	                        const openPanels = document.querySelectorAll('.smartart__drawer-panel.is-open');
 	                        openPanels.forEach(p => p.classList.remove('is-open'));
 	                        const backdrops = document.querySelectorAll('.smartart__drawer-backdrop.is-visible');
 	                        backdrops.forEach(b => b.classList.remove('is-visible'));
+	                        // Close any open modals when changing slides
+	                        const openModals = document.querySelectorAll('.smartart__modal.is-open');
+	                        openModals.forEach(m => m.classList.remove('is-open'));
+	                        const modalBackdrops = document.querySelectorAll('.smartart__modal-backdrop.is-visible');
+	                        modalBackdrops.forEach(b => b.classList.remove('is-visible'));
 	                } );
 
 	                // Fragment event handler for checklist auto-check
