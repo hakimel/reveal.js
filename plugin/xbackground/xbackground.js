@@ -18,6 +18,7 @@ const Plugin = () => {
   let reactRoot = null;
   let activePortals = new Map();
   let backgroundInstances = new Map();
+  let layerEl = null; // global fullscreen layer for all xbackgrounds
 
   // Default configuration
   const defaultConfig = {
@@ -26,10 +27,15 @@ const Plugin = () => {
     transitionDuration: 1000,
     lazy: true, // Lazy load backgrounds
     preload: 1, // Number of slides to preload ahead
-    debug: false
+    debug: false,
+    baseColor: 'transparent', // fallback fill behind semi-transparent effects
+    // Automatically set Reveal margin=0 for slides that use xbackgrounds
+    // to remove letterboxing and ensure true full-bleed visuals.
+    autoMarginZero: true
   };
 
   let config = {};
+  let defaultMargin = 0.04;
 
   /**
    * Initialize the plugin
@@ -37,12 +43,17 @@ const Plugin = () => {
   function init(reveal) {
     deck = reveal;
     config = { ...defaultConfig, ...deck.getConfig().xbackground };
+    // Capture the deck's default margin so we can restore it when needed
+    const deckConfig = deck.getConfig();
+    defaultMargin = typeof deckConfig.margin === 'number' ? deckConfig.margin : defaultMargin;
 
     if (config.debug) {
       console.log('XBackground Plugin initialized with config:', config);
     }
 
-    // Create React root container
+  // Create global fullscreen layer and React root container
+  injectStyles();
+  createLayer();
     createReactContainer();
 
     // Process all slides with xbackground
@@ -58,6 +69,46 @@ const Plugin = () => {
   }
 
   /**
+   * Inject minimal CSS so backgrounds fill the viewport and content sits above
+   */
+  function injectStyles() {
+    if (document.getElementById('xbackground-style')) return;
+    const style = document.createElement('style');
+    style.id = 'xbackground-style';
+    style.textContent = `
+      /* Global layer already positioned via JS; ensure containers fill layer */
+      .xbackground-container { width: 100%; height: 100%; }
+      .xbackground-wrapper { width: 100%; height: 100%; }
+      /* Ensure slide content stays above backgrounds */
+      .reveal .slides { z-index: 2; }
+      #xbackground-layer { z-index: 1; }
+      .reveal .backgrounds { z-index: 0; }
+      .reveal section[data-xbackground] > * { position: relative; z-index: 2; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  /**
+   * Create a single, global fullscreen layer that sits outside transformed slides
+   * so fixed positioning remains relative to the viewport and fills the screen.
+   */
+  function createLayer() {
+    // Parent under the reveal root to stay within deck stacking context but outside .slides transforms
+    const parent = (deck && deck.getRevealElement && deck.getRevealElement()) || document.body;
+    layerEl = document.createElement('div');
+    layerEl.id = 'xbackground-layer';
+    Object.assign(layerEl.style, {
+      position: 'fixed',
+      // Inset to the viewport avoids rounding gaps and adapts to dynamic viewports
+      inset: '0',
+      zIndex: '1', // between reveal backgrounds (0) and slides (2)
+      pointerEvents: 'none',
+      overflow: 'hidden'
+    });
+    parent.appendChild(layerEl);
+  }
+
+  /**
    * Create the React root container
    */
   function createReactContainer() {
@@ -65,22 +116,22 @@ const Plugin = () => {
     const container = document.createElement('div');
     container.id = 'xbackground-react-root';
     container.style.display = 'none';
-    document.body.appendChild(container);
+    // Attach to DOM so it can be cleaned up on destroy
+    (document.body || document.documentElement).appendChild(container);
 
     // Create React root
     reactRoot = ReactDOM.createRoot(container);
     
     // Render the portal manager
     reactRoot.render(
-      <React.StrictMode>
-        <PortalManager />
-      </React.StrictMode>
+      React.createElement(
+        React.StrictMode,
+        null,
+        React.createElement(PortalManager, null)
+      )
     );
   }
 
-  /**
-   * Portal Manager Component
-   */
   function PortalManager() {
     const [portals, setPortals] = React.useState([]);
 
@@ -93,10 +144,10 @@ const Plugin = () => {
       };
     }, []);
 
-    return (
-      <>
-        {portals.map(portal => portal)}
-      </>
+    return React.createElement(
+      React.Fragment,
+      null,
+      portals
     );
   }
 
@@ -141,23 +192,25 @@ const Plugin = () => {
    * Prepare background for a slide
    */
   function prepareSlideBackground(slide, bgConfig, index) {
-    // Create background container
+    // Create background container attached to global layer (not inside transformed slides)
     const bgContainer = document.createElement('div');
     bgContainer.className = 'xbackground-container';
+    const slideBase = slide.getAttribute('data-background-color') || config.baseColor || 'transparent';
     bgContainer.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
       pointer-events: none;
+      background: ${slideBase};
       opacity: 0;
       transition: opacity ${config.transitionDuration}ms ${config.transition};
     `;
-    
-    // Insert as first child of slide
-    slide.insertBefore(bgContainer, slide.firstChild);
+    // Tag with slide index for debugging/inspection
+    bgContainer.setAttribute('data-slide-index', String(index));
+    // Append to global layer
+    if (layerEl) layerEl.appendChild(bgContainer);
     
     // Store background configuration
     backgroundInstances.set(slide, {
@@ -176,6 +229,8 @@ const Plugin = () => {
 
   /**
    * Mount a background component
+  /**
+   * Mount a background component
    */
   function mountBackground(slide) {
     const bgInstance = backgroundInstances.get(slide);
@@ -189,18 +244,16 @@ const Plugin = () => {
       return;
     }
 
-    // Create a unique key for this portal
-    const portalKey = `slide-${bgInstance.index}`;
+    const portalKey = `xbg-${bgInstance.index}`;
 
-    // Create the portal
     const portal = createPortal(
-      <BackgroundWrapper
-        component={BackgroundComponent}
-        config={bgConfig.config}
-        slideIndex={bgInstance.index}
-        onMount={() => handleBackgroundMount(slide)}
-        onUnmount={() => handleBackgroundUnmount(slide)}
-      />,
+      React.createElement(BackgroundWrapper, {
+        component: BackgroundComponent,
+        config: bgConfig.config,
+        slideIndex: bgInstance.index,
+        onMount: () => handleBackgroundMount(slide),
+        onUnmount: () => handleBackgroundUnmount(slide)
+      }),
       container,
       portalKey
     );
@@ -213,9 +266,6 @@ const Plugin = () => {
     updatePortals();
   }
 
-  /**
-   * Background Wrapper Component
-   */
   function BackgroundWrapper({ component: Component, config, slideIndex, onMount, onUnmount }) {
     const [isVisible, setIsVisible] = React.useState(false);
 
@@ -223,28 +273,33 @@ const Plugin = () => {
       onMount();
       
       // Fade in after mount
-      requestAnimationFrame(() => {
+      const id = requestAnimationFrame(() => {
         setIsVisible(true);
       });
 
       return () => {
+        cancelAnimationFrame(id);
         onUnmount();
       };
     }, []);
 
-    return (
-      <div
-        className="xbackground-wrapper"
-        style={{
+    return React.createElement(
+      'div',
+      {
+        className: 'xbackground-wrapper',
+        style: {
           width: '100%',
           height: '100%',
           position: 'relative',
           top: 0,
-          left: 0
-        }}
-      >
-        <Component {...config} isVisible={isVisible} slideIndex={slideIndex} />
-      </div>
+          left: 0,
+          pointerEvents: 'none'
+        }
+      },
+      React.createElement(
+        Component,
+        Object.assign({}, config, { isVisible: isVisible, slideIndex: slideIndex })
+      )
     );
   }
 
@@ -253,8 +308,7 @@ const Plugin = () => {
    */
   function unmountBackground(slide) {
     const bgInstance = backgroundInstances.get(slide);
-    if (!bgInstance || !bgInstance.mounted) return;
-
+    if (!bgInstance) return;
     activePortals.delete(slide);
     bgInstance.mounted = false;
     
@@ -304,6 +358,8 @@ const Plugin = () => {
     // Activate current slide background
     if (currentSlide) {
       activateBackground(currentSlide);
+      // Auto-manage margin for xbackground slides to eliminate letterboxing
+      applyMarginForSlide(currentSlide);
 
       // Preload upcoming slides if configured
       if (config.preload > 0) {
@@ -393,6 +449,8 @@ const Plugin = () => {
     const currentSlide = deck.getCurrentSlide();
     if (currentSlide) {
       activateBackground(currentSlide);
+      // Apply initial margin settings for current slide
+      applyMarginForSlide(currentSlide);
     }
   }
 
@@ -450,9 +508,35 @@ const Plugin = () => {
       document.getElementById('xbackground-react-root')?.remove();
     }
 
+    // Remove global layer
+    if (layerEl && layerEl.parentNode) {
+      layerEl.parentNode.removeChild(layerEl);
+      layerEl = null;
+    }
+
     // Clear maps
     backgroundInstances.clear();
     activePortals.clear();
+  }
+
+  /**
+   * Apply margin=0 for slides using xbackgrounds (or explicitly flagged),
+   * and restore the deck's default margin otherwise. Forces a layout refresh
+   * so Reveal recalculates sizes immediately.
+   */
+  function applyMarginForSlide(slide) {
+    if (!config.autoMarginZero) return;
+    const hasXBackground = slide && slide.hasAttribute('data-xbackground');
+    const explicitZero = slide && (slide.hasAttribute('data-margin-zero') || slide.getAttribute('data-margin-zero') === 'true');
+    const targetMargin = (hasXBackground || explicitZero) ? 0 : defaultMargin;
+    // Only reconfigure if different to avoid unnecessary layout churn
+    if (deck.getConfig().margin !== targetMargin) {
+      deck.configure({ margin: targetMargin });
+      if (typeof deck.layout === 'function') {
+        // Use rAF to ensure DOM has applied previous changes first
+        requestAnimationFrame(() => deck.layout());
+      }
+    }
   }
 
   return {
